@@ -1167,6 +1167,9 @@
     <Content Include="Templates\Web\NetSchool\Scripts\Knowledges.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\KnowledgesList.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Mask.js" />
+    <Content Include="Templates\Web\_Public\Module\Register\Register.css" />
+    <Content Include="Templates\Web\_Public\Module\Register\Register.htm" />
+    <Content Include="Templates\Web\_Public\Module\Register\Register.js" />
     <Content Include="Templates\Web\_Public\Notfound.htm" />
     <Content Include="Templates\Web\_Public\Scripts\CourseStudy.js" />
     <Content Include="Templates\Web\NetSchool\CoreScripts\Public.js" />
