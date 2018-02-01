@@ -1,0 +1,80 @@
+﻿body
+{
+}
+/*预载框*/
+#suggestLoadingBox
+{
+	background-color: #eeeeee;
+	border: 1px solid #CCCCCC;
+	line-height: 35px;
+	color: #339900;
+	height: 54px;
+	width: 200px;
+	text-align: right;
+	padding: 5px;
+}
+/*错误提示*/
+#suggestErrBox
+{
+	background-color: #FEE6E2;
+	border: 1px solid #CCCCCC;
+	line-height: 35px;
+	color: #FF0000;
+	height: 35px;
+	width: 200px;
+	line-height: 23px;
+	text-align: right;
+	padding: 5px;
+}
+/*数据列*/
+#suggestListBox
+{
+	background-color: #9DDFFF;
+	border: 1px solid #CCCCCC;
+	color: #000000;
+	width: 350px;
+	text-align: left;
+	padding: 0px;
+}
+#suggestListBox dl dd
+{
+	cursor:pointer;
+	line-height: 23px;
+	text-indent: 10px;
+}
+#suggestListBox .over
+{
+	background-color: #FFFF99;
+	background-image: url(../../Images/rightArrow.gif);
+	background-repeat: no-repeat;
+	background-position: right center;
+}
+/*导航*/
+#suggestNavBox
+{
+	height: 20px;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 0px;
+	margin-left: 5px;
+}
+#suggestNavBox #suggestCloseBtn
+{
+	float: left;
+	height: 14px;
+	width: 14px;
+	background-image: url(../../Images/close2.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	cursor:pointer;
+}
+#suggestNavBox #suggestNavBtn
+{
+	float: right;
+	
+}
+#suggestNavBox #suggestNavBtn span
+{
+	margin-right: 10px;
+	cursor:pointer;
+}

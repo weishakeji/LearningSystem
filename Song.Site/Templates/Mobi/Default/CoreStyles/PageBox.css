@@ -1,0 +1,89 @@
+﻿/*
+	弹出窗口
+*/
+#PageBox {
+	border: 10px solid rgba(100,100,100,0.3);
+	margin: 0px;
+	padding: 0px;
+	text-align: left;
+
+}
+#PageBox #PageBoxTitle {
+	background-color: #FFFFFF;
+	height: 40px;
+	font-size: 16px;
+	line-height: 40px;
+	text-indent: 10;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	
+}
+#PageBox #PageBoxTitle p{
+	display: block;
+	float: left;
+	width: 80%;
+	margin: 0px !important;
+	padding: 0px !important;
+	text-indent: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	height: 40px;
+	text-overflow: ellipsis;
+	color: #333;	
+}
+/*关闭窗口的按钮*/
+#PageBox #PageBoxTitle #btnPageBoxClose
+{
+	float: right;
+	height: 39px;
+	width: 40px;
+	font-family: iconfont !important;
+	font-size: 20px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+	color: #C60000;
+	cursor: pointer;
+	top: 0px;
+	background-color: #FFF;
+	text-align: center;
+}
+/*隐藏窗口的按钮*/
+#PageBox #PageBoxTitle #btnPageBoxBack
+{
+	float: left;
+	height: 20px;
+	width: 40px;
+	line-height:20px;
+	text-align:center;
+	text-indent:5px;
+	font-family: iconfont !important;
+	-moz-transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+	-o-transform: scaleX(-1);
+	transform: scaleX(-1);
+	/*IE*/
+	filter: FlipH;
+	color: #333;
+	font-size: 25px !important;
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: #999;
+	margin-top:10px;
+	margin-right:10px;
+}
+#PageBox #PageBoxContext
+{
+	margin: 0px;
+	padding: 0px;
+	background-color: #FFFFFF;
+	overflow-x:hidden;
+	overflow-y:hidden;
+	-webkit-overflow-scrolling: touch;  
+    overflow-y: scroll;  
+}

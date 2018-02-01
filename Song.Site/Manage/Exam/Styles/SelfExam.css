@@ -1,0 +1,42 @@
+﻿fieldset
+{
+	padding: 10px;
+}
+.examBox
+{
+	width: 350px;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 0px;
+	float: left;
+	border: 1px solid #CCCCCC;
+	padding: 10px;
+	height: 110px;
+	
+}
+.click
+{
+	cursor:pointer;
+}
+.examBox .examRow
+{
+	display: table;
+	line-height: 22px;
+	height: 22px;
+}
+
+.examBox .examRow .examTit
+{
+	float: left;
+	width: 80px;
+}
+
+.examBox .examRow .examCont
+{
+	float: left;
+	width: 250px;
+	white-space: nowrap;
+	overflow: hidden;
+	
+}

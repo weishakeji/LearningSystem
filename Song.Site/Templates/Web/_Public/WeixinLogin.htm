@@ -1,0 +1,110 @@
+﻿<!doctype html>
+<html>
+    <head>
+    <title></title>
+    <vt:if var="domain" value="" compare="!=">
+      <script type="text/javascript">
+        document.domain = '{$domain}';  
+    </script></vt:if>
+    <vt:include file="inc/meta.inc" />
+    <script type="text/javascript" src="Scripts/WeixinLogin.js"></script>
+    <link href="Styles/WeixinLogin.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+    <div class="bodyArea">
+<vt:if var="org.org_id" value="0" compare=">" remark="所属机构必须存在">
+      <vt:if var="openid" value="" compare="=" remark="">
+    <vt:if var="errcode" value="" compare="!=" remark="">
+          <div class="error-txt">错误：{$errmsg} ;<br/>errcode:{$errcode}</div>
+          <vt:if var="errcode" value="41004" compare="=" remark="">
+        <div class="error-txt">可能原因：AppSecret未填写</div>
+      </vt:if>
+      <vt:if var="errcode" value="40125" compare="=" remark="">
+        <div class="error-txt">可能原因：AppSecret参数不正确</div>
+      </vt:if>
+        </vt:if>
+    <vt:else />
+    <vt:if var="success" value="1" compare="=" remark="账户已经存在，且正常登录">
+          <div class="loading-txt">正在登录...</div>
+          <script>returl("{$domain2}");</script> 
+        </vt:if>
+    <vt:if var="success" value="-1" compare="=" remark="账户存在,但禁用或未通过审核">
+          <div class="error-txt">当前账户“{$acc.Ac_Name}”被禁用，或未通过审核，暂无法登录。</div>
+        </vt:if>
+  </vt:if>
+      <vt:if var="openid" value="" compare="!=" remark="通过openid获取微信账户信息">
+    <vt:if var="acctm.ac_id" value="" compare="=">
+      <div class="error-txt">登录时效过期！</div><vt:else />
+      
+          <div class="infoBox">
+        <div class="leftBox">
+              <div class="show-tit" id="name"> {$name} </div>
+              <div class="show-txt"> <img src="{$photo}" id="photo"/> </div>
+              <div class="sex" style="display:none;">{$gender}</div>
+              <div id="openid" style="display:none;">{$openid}</div>
+              <div id="token" style="display:none;">{$token}</div>
+            </div>
+        <div class="leftbox">
+              <dl class="titbox">
+            <dd> 我是新用户</dd>
+            <dd> 我是老用户</dd>
+          </dl>
+              <div class="regbox"> 
+            <!--新用户注册-->
+            <form id="formRegist" name="formRegist" method="post" sms="{$forsms}">
+                  <div class="loginRow">
+                <widget type="text" ico="&#xe600;" deftxt="手机号" name="tbNewAcc" class="textbox width" nullable="false"  star="false" group="Regist|getRegsms"> </widget>
+              </div>
+                  <vt:if var="forsms" value="true" compare="=">
+                <div class="loginRow">
+                      <widget type="text" ico="&#xe636;" deftxt="验证码" name="tbNewCode"  star="false"
+                class="textbox verify" nullable="false" lenlimit="4-4" datatype="number"   group="Regist|getRegsms"> </widget>
+                      <img src="/Utility/codeimg.aspx?name=accRegvcode" class="verifyCode right-btn"/> </div>
+                <div class="loginRow">
+                      <widget type="text" ico="&#xe71a; iconphone" deftxt="短信验证码"  group="Regist" name="tbNewSms" class="textbox verify" nullable="false"  star="false" lenlimit="6-6"> </widget>
+                      <div class="right-btn" id="getRegSms" type="getSms" group="getRegsms" waiting="{num}秒后再获取" smsname="sms_reg_weixin">获取短信</div>
+                    </div>
+              </vt:if>
+                  <div class="loginRow btnBar">
+                <input type="submit" name="btnRegister" id="btnRegister" value="手机号注册"  group="Regist" verify="true"  class="btnBind"/>
+              </div>
+               <vt:if var="IsWeixinDirect" value="true" compare="=">
+                  <div class="loginRow btnBar">
+                <input type="button" name="btnDirect" id="btnDirect" value="直接登录"  verify="true"  class="btnBind"/>
+              </div>
+              </vt:if>
+                </form>
+          </div>
+              <div class="regbox">
+            <form id="formBind" name="formBind" method="post" sms="{$forsms}">
+                  <div class="loginRow">
+                <widget type="text" ico="&#xe600;" deftxt="账号/手机号/身份证号" name="tbAcc" class="textbox width" nullable="false"  star="false" group="login|getBindsms"> </widget>
+              </div>
+                  <div class="loginRow">
+                <widget type="text" ico="&#xe636;" deftxt="验证码" name="tbCode"  group="login|getBindsms"
+                class="textbox verify" nullable="false"  star="false" lenlimit="4-4" datatype="number"   group="login"> </widget>
+                <img src="/Utility/codeimg.aspx?name=accbindvcode" class="verifyCode right-btn"/> </div>
+                  <vt:if var="forsms" value="true" compare="=">
+                <div class="loginRow">
+                      <widget type="text" ico="&#xe71a; iconphone" deftxt="短信验证码" name="tbSms" class="textbox verify" nullable="false"  star="false" lenlimit="6-6" group="login"> </widget>
+                      <div class="right-btn" id="getSms" group="getBindsms" type="getSms" waiting="{num}秒后再获取" smsname="sms_bind_weixin">获取短信</div>
+                    </div>
+              </vt:if>
+                  <div class="loginRow btnBar">
+                <input type="submit" name="btnBind" id="btnBind" value="绑定账户"  verify="true" group="login" class="btnBind"/>
+              </div>
+                </form>
+          </div>
+            </div>
+      </div>
+    
+        </vt:if>
+  </vt:if>
+      <vt:else />
+      <div class="error-txt">回调错误！</div>
+      <div class="error-txt">当前回调域：http://{$Returl}</div>
+    </vt:if>
+<script type="text/javascript" src="/Utility/CoreScripts/Widget.js"></script>
+</div>
+</body>
+</html>

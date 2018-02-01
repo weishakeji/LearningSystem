@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 该文件记录Excel数据导入时Excel的列名与数据库中字段的对应关系 -->
+
+<config>
+  <item Column="姓名" Field="Th_Name" />
+  <item Column="手机号" Field="Th_PhoneMobi" />
+  <item Column="初始密码" Field="Th_Pw" export="false" />
+  <item Column="性别" Field="Th_Sex" DefautValue="0=未知|1=男|2=女" />
+  <item Column="出生年月" Field="Th_Birthday"   DataType="date" Format="yyyy-MM-dd" />
+  <item Column="身份证号" Field="Th_IDCardNumber" />
+  <item Column="工作院校" Field="Th_Job" />
+  <item Column="教师分组" Field="Ths_Name" />
+  <item Column="专业" Field="Th_Major" />
+  <item Column="籍贯" Field="Th_Native" />
+  <item Column="民族" Field="Th_Nation" />
+  <item Column="电子邮箱" Field="Th_Email" />
+  <item Column="QQ号" Field="Th_Qq" />
+  <item Column="个人介绍" Field="Th_Intro" />
+</config>

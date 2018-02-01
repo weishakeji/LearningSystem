@@ -1,0 +1,121 @@
+﻿/*
+考试场次的界面处理
+*/
+.examBox{
+	margin-bottom: 15px;
+}
+.themeBox
+{
+	line-height: 35px;
+	height: 35px;
+	width: 100%;
+	background-color: #eee;
+}
+.themeBox .title {
+	font-size: 14px;
+	line-height: 35px;
+	font-weight: bold;
+	color: #000000;
+	margin-left: 5px;
+	float: left;
+	width: 650px;
+}
+.themeBox .viewScore {
+	font-size: 13px;
+	line-height: 25px;
+	font-weight: bold;
+	color: #000000;
+	background-color: #B0DFFF;
+	float: right;
+	height: 25px;
+	width: 80px;
+	margin-top: 4px;
+	margin-right: 10px;
+	border: 1px solid #0066FF;
+	text-align: center;
+	cursor:pointer;
+}
+.groupBox
+{
+	line-height: 25px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.itemHeader {
+	line-height: 25px;
+	height: 25px;
+	background-color: #FFFFCC;
+	width: 100%;
+}
+.itemHeader div{
+	float: left;
+	font-size: 14px;
+	line-height: 25px;
+	font-weight: bold;
+	text-align: center;
+	border-left-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: solid;
+	border-left-color: #FFFFFF;
+	height: 25px;
+	white-space: nowrap;
+}
+.itemRow {
+	line-height: 30px;
+	height: 30px;
+	width: 100%;
+}
+.itemRow:hover{
+	background-color: #E1E1E1;
+}
+.itemRow div{
+	float: left;
+	font-size: 14px;
+	line-height: 30px;
+	text-align: center;
+	border-left-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: solid;
+	border-left-color: #FFFFFF;
+	height: 30px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.name {
+	width: 300px;
+}
+.subject {
+	width: 200px;
+}
+.total {
+	width: 50px;
+}
+.span {
+	width: 60px;
+}
+.men {
+	width: 50px;
+}
+.btn
+{
+	width: 80px;
+}
+.button{
+font-size: 13px;
+	line-height: 20px;
+	color: #FF0000;
+	background-color: #FFFFCC;
+	text-align: center;
+	height: 20px;
+	width: 60px;
+	margin-top: 3px;
+	border: 1px solid #FF9900;
+	margin-right: 20px;
+	margin-left: 15px;
+	display: block;
+	cursor:pointer;
+}

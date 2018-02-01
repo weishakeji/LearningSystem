@@ -1,0 +1,2 @@
+2018-01-28 10:19:57.253 INFO ASP.pay_weixin_productpage_aspx: page load
+2018-01-28 10:19:57.310 DEBUG WxPayAPI.JsApiPay: Will Redirect to URL : https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe528b085737d1306&redirect_uri=http%3a%2f%2flocalhost%2fPay%2fWeixin%2fProductPage.aspx&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect

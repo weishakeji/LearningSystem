@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<script type="text/javascript" src="../Scripts/jquery.js"></script>
+<script type="text/javascript" src="../Scripts/Verify.js"></script>
+<link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1>正则表达式验证</h1>
+<h2>概述</h2>
+<div class="desc">
+  <p>正则表达式验证主要是为了满足一些自定义的验证需求，关于正则表达的相关知识，请自主学习。</p>
+  <p>默认为表达式增加^前缀和$后缀，也就是说，默认是要求全字匹配。</p>
+  <p>&lt;input name=&quot;&quot; type=&quot;text&quot; <strong>regex=&quot;\d+&quot;</strong>/&gt;（全部为数字）</p>
+</div>
+<h2>示例</h2>
+<h3>1、正则表达式验证</h3>
+<div class="desc">
+  <fieldset>
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot; place=&quot;right&quot;&gt;<br />      &lt;p&gt; 请输入纯数字：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; value=&quot;123a456&quot; <strong>regex=&quot;\d+&quot;</strong>/&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt; 请输入纯字母：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; value=&quot;123a456&quot; <strong>regex=&quot;[a-z]+&quot;</strong>/&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;" place="right">
+      <p> 请输入纯数字：
+        <input name="" type="text" value="123a456" regex="\d+"/>
+      </p>
+      <p> 请输入纯字母：
+        <input name="" type="text" value="123a456" regex="[a-z]+"/>
+      </p>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+  
+</div>
+
+</body>
+</html>

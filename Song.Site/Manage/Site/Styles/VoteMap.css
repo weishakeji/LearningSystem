@@ -1,0 +1,30 @@
+﻿body
+{
+	overflow-x:auto !important;
+}
+#picShowBox
+{
+	margin: 5px;
+	padding: 5px;
+	border: 1px solid #CCCCCC;
+	width: auto;
+}
+.box
+{
+	background-color: #FF3300;
+	border: thin outset #CCCCCC;
+	margin: 1px;
+	float: left;
+	width: auto;
+	height: 12px;
+	padding: 3px;
+	cursor:pointer;
+	font-size: 11px;
+	line-height: 12px;
+
+}
+/*地图*/
+.mapImg
+{
+	width: 100%;
+}

@@ -1,0 +1,10 @@
+﻿@charset "utf-8";
+#leftBox
+{
+	width:180px;
+	float:left;
+}
+#rightBox
+{
+	float:right;
+}

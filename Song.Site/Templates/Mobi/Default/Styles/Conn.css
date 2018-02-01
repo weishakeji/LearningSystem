@@ -1,0 +1,29 @@
+﻿body {
+	padding: 10px;
+}
+body,p,div,td,*{
+	color:#333 !important;
+}
+.infoBox{
+	display: table;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;	
+}
+dd{
+	width: 100%;	
+	height:30px;
+	margin: 0px;
+	padding: 0px;
+}
+.attr{
+	float: left;
+	width: 30%;
+	height: 30px;
+	text-align: right;
+}
+.info{
+	float: left;
+	width: 70%;
+	height:30px;
+}

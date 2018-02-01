@@ -1,0 +1,138 @@
+﻿@charset "utf-8";
+body {
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;  
+}   
+
+p{
+	line-height: 25px;
+}
+/*顶部的提示信息条*/
+#contTop
+{
+	color: #FF0000;
+	display: table;
+	height: 20px;
+	width: 100%;
+	z-index: 200;
+	top: 10px;
+}
+
+#contTop #loadingBar
+{
+	display: table;
+	float: right;
+	width: auto;
+}
+/*树形菜单区域*/
+#MenuTreePanel
+{
+	width: 30%;
+	border: medium inset #eeeeee;
+	padding: 5px;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 0px;
+	display: block;
+	float: left;
+	-moz-user-select: none;
+	background-color: #FFFFFF;
+	overflow: scroll;
+	min-height:500px;
+}
+
+/*锁定当前节点下的所有面板*/
+.lockPanel
+{
+	background-color: #eeeeee;	
+}
+/*被锁定的菜单节点样式*/
+.lockNode span
+{
+	color: #999999 !important;
+}
+/*右侧编辑区域*/
+#MenuEditPanel
+{
+	width: 65%;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 0px;
+	display: table;
+	float: right;
+}
+#MenuEditPanel #Panel
+{
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: none;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #CCCCCC;
+	border-right-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+	padding: 10px;
+	background-color: #FFFFFF;
+	overflow: auto;
+}
+#MenuEditPanel #EditPanelTitle
+{
+	background-image: url(../../Images/line1.jpg);
+	display: table;
+	background-repeat: repeat-x;
+	background-position: 0px bottom;
+	width: 100%;
+}
+/*右侧编辑区域的选项卡*/
+#MenuEditPanel #EditPanelTitle div
+{
+	display: table;
+	width: auto;
+	float: left;
+	line-height: 25px;
+	padding-right: 5px;
+	padding-left: 5px;
+	margin-left: 10px;
+	cursor: pointer;
+}
+#MenuEditPanel #EditPanelTitle .click
+{
+	background-color: #FFFFFF;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: none;
+	border-left-style: solid;
+	border-top-color: #CCCCCC;
+	border-right-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+}
+#MenuEditPanel .editpanel
+{
+	display: table;
+}
+/*页面底部的说明信息*/
+#show
+{
+	display: table;
+	width: 100%;
+}
+/*编辑区域的父级菜单项*/
+.nodeParent
+{
+	font-weight: bold;
+}
+#RootEditPanel,#EditPanel,AddPanel
+{
+	display:none;
+}

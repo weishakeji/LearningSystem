@@ -1,0 +1,173 @@
+﻿@charset "utf-8";
+html
+{
+	overflow:hidden;
+}
+body
+{
+	margin: 0px;
+	padding: 0px;
+	background-color: #93d0e7;
+	background-image: url(../Images/Index/login_bgX.jpg);
+	background-repeat: repeat-x;
+}
+body,div,td,p
+{
+	font-size:12px;
+}
+a{
+	color: #666;
+	text-decoration: underline;
+}
+td {
+	line-height: 42px;
+	height: 42px;
+}
+input
+{
+	height: 22px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	text-indent: 5px;
+	line-height: 22px;
+}
+#topShow {
+	background-image: url(../Images/Index/login_Top.jpg);
+	background-repeat: no-repeat;
+	background-position: center top;
+	height: 295px;
+	width: 1023px;
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: auto;
+	margin-bottom: 0px;
+	margin-left: auto;
+}
+
+form {
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-top: 0px;
+}
+
+#loginPanel
+{
+	background-repeat: no-repeat;
+	margin-right: auto;
+	margin-bottom: auto;
+	margin-left: auto;
+	width: 414px;
+	background-image: url(../Images/Index/loginboxbg2.jpg);
+	height: 235px;
+	margin-top: 0px;
+}
+/*鐧诲綍妗嗙殑鏍囬*/
+#loginPanel  #loginTitle  {
+	height: 30px;
+	margin-left: 15px;
+	padding-top: 10px;
+}
+
+#loginTitle .appName {
+	float: left;
+	font-family: "瀹嬩綋";
+	font-size: 16px;
+	line-height: 30px;
+	height: 30px;
+	font-weight: bold;
+	color: #333333;
+	text-indent: 10px;
+}
+#loginPanel  #loginTitle  img  {
+	float: left;	
+}
+
+#loginPanel #loginArea {
+	display: table;
+}
+
+#loginPanel #LoginBox {
+	float: none;
+	height: 175px;
+	width: 414px;
+	display: block;
+	margin-top: 20px;
+}
+.left {
+	padding-left: 10px;
+}
+
+
+.attr {
+	text-align: right;
+	color: #666666;
+}
+
+
+
+.imgBtn
+{
+	background-color: #0066CC;
+	background-repeat: no-repeat;
+	height: 61px;
+	width: 105px;
+	margin-top: 6px;
+}
+.accName {
+	font-size: 14px;
+	line-height: 22px;
+	height: 22px;
+	width: 120px;
+}
+.pw {
+	font-size: 14px;
+	line-height: 22px;
+	height: 22px;
+	width: 120px;
+}
+.veri {
+	font-size: 14px;
+	line-height: 22px;
+	height: 22px;
+	width: 50px;
+}
+#ShowPanel {
+	margin-top: 0px;
+	margin-left: 0px;
+}
+.codeInput {
+	float: left;
+}
+
+#codeImg {
+	cursor:pointer;
+	height: 22px;
+	width: 60px;
+	margin-top: 9px;
+	margin-right: auto;
+	margin-bottom: auto;
+	margin-left: auto;
+	line-height: 22px;
+	display: block;
+	float: left;
+}
+
+#copyright {
+	height: 30px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 20px;
+	font-size: 13px;
+	color: #666666;
+	text-align: left;
+	line-height: 18px;
+}
+.center{
+	text-align:center;
+}

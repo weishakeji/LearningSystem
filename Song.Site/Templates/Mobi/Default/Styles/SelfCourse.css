@@ -1,0 +1,86 @@
+@charset "utf-8";
+
+.mui-card{
+	border:0px !important;
+	padding: 0px !important;
+	margin:0px !important;
+}
+.mui-table-view-cell:after{
+	left:0px !important;
+}
+.mui-collapse-content{
+	background-color: #eee !important;
+}
+.mui-input-group{
+	margin-bottom: 10px !important;
+}
+.news-item {
+	padding-right: 20px !important;
+	color:#999;
+}
+.intro{
+	font-size: 14px;
+	color: #666;
+}
+/*我的课程*/
+.mycourse{
+	color: #060 !important;
+}
+.cou-ico{
+	font-size: 40px;
+	height: 50px !important;
+	float: left;
+	width: 30%;
+	text-align: center;
+	margin-top: 10px;
+	
+}
+.mycourse span{
+	color: #090 !important;
+}
+.currCourse{
+	margin-bottom:10px !important;
+}
+/*当前课程的主区域*/
+.couContext{
+	height:70px !important;
+	padding:10px;
+	padding-right:10px;
+}
+.couContext img{
+	height: 50px !important;
+	float: left;
+	width:25%;
+	margin-left: 4%;
+}
+.couName{
+	margin-left: 4%;
+	margin-right: 1%;
+	float: right;
+	width: 65%;
+	line-height: 25px;
+	height: 50px;
+	overflow: hidden;	
+}
+/*图标*/
+.ico {
+	line-height: 25px;
+	margin-top: -2px;
+	margin-right: 5px;
+	text-align: center;
+	width: 30px;
+	font-size: 25px !important;
+	display: block;
+	float: left;
+	color: #666;
+}
+.right-item{
+	float: right;
+	margin-right: -25px;
+	line-height: 20px;
+	color: #999;
+	text-align: right;
+	width: 60px;
+	white-space: nowrap;
+	overflow: hidden;
+}

@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>{$org.org_platformname}</title>
+<vt:include file="inc/icon-color.inc" />
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="CoreScripts/MsgBox.js"></script>
+<link href="CoreStyles/MsgBox.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="Styles/default.css?tick={$tick}"/>
+<script type="text/javascript" src="Scripts/default.js?tick={$tick}"></script>
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--侧滑菜单部分-->
+  <vt:include file="inc/Menu.html" />
+  <!--主界面部分-->
+  <div class="mui-inner-wrap">
+    <header class="mui-bar mui-bar-nav"> <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+      <vt:if var="Account.Ac_id" value="0" compare=">"> 
+        <!--如果已经登录--> 
+        <a class="mui-btn-link mui-pull-right right-logo" href="SelfInfo.ashx">
+        <vt:if var="Account.Ac_photo" value="" compare="="> <img src="images/nophoto.jpg"/>
+          <vt:else/>
+          <img src="{$stpath}{$:#.Account.Ac_photo}"/> </vt:if>
+        </a>
+        <vt:else/>
+        <!--如果未登录--> 
+        <script type="text/javascript">
+		//是否启用微信登录
+		var WeixinLoginIsUse="{$WeixinLoginIsUse}"=="True";
+		AutoLogin_forAjax(WeixinLoginIsUse);
+		</script> 
+        <a class="mui-btn mui-btn-link mui-pull-right" href="login.ashx"><span class="iconfont">&#xe684;</span></a> </vt:if>
+      <h1 class="mui-title">{$org.org_platformname}</h1>
+    </header>
+    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+      <div class="mui-scroll"> 
+        
+        <!--/*轮换图片*/-->
+        <div class="mui-slider">
+          <div class="mui-slider-group mui-slider-loop"> 
+          <vt:list type="showpic" var="show" site="mobi" item="sp" index="j">
+          <div class="mui-slider-item"><a href="{$:sp.shp_url}" type="link"  target="{$:sp.shp_target}"><img src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a></div>
+           <vt:listelse />
+            <!--支持循环，需要重复图片节点-->
+            <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="imagesShow/1.jpg" /></a></div>
+            <div class="mui-slider-item"><a href="#"><img src="imagesShow/2.jpg" /></a></div>
+            <div class="mui-slider-item"><a href="#"><img src="imagesShow/3.jpg" /></a></div>
+            </vt:list>
+             <vt:list type="showpic" from="$show" site="mobi" item="sp" index="j">
+             <div class="mui-slider-item"><a href="{$:sp.shp_url}" type="link"  target="{$:sp.shp_target}"><img src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a></div>
+           <vt:listelse />
+            <!--支持循环，需要重复图片节点-->
+            <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="imagesShow/1.jpg" /></a></div>
+            <div class="mui-slider-item"><a href="#"><img src="imagesShow/2.jpg" /></a></div>
+            <div class="mui-slider-item"><a href="#"><img src="imagesShow/3.jpg" /></a></div>
+            </vt:list>
+          </div>
+        </div>
+        <script>
+    //获得slider插件对象
+var gallery = mui('.mui-slider');
+gallery.slider({
+  interval:1000//自动轮播周期，若为0则不自动播放，默认为0；
+});
+  </script> 
+        <!--轮换图片结束--> 
+        <!--自定义菜单-->
+        <vt:function var="menu" method="Navi" args="main" args="0" />
+        <vt:if var="menu.length" value="0" compare=">">
+          <div style="height:10px"></div>
+          <vt:function var="path" method="Path" args="org"/>
+          <div class="menuBox">
+            <vt:foreach from="$#.menu" item="m" index="i"> <a class="mItem" type="link" href="{$:m.nav_url}" target="{$:m.nav_target}">
+             <vt:if var="#.m.nav_logo" value="" compare="!=">
+            <img alt="" src="{$:path}{$:m.nav_logo}" class="mitem-img"/>
+             <vt:else />
+             <svg class="icon mitem-img" aria-hidden="true">
+            <use xlink:href="#icon-set"></use>
+            </svg>
+              </vt:if>
+              <vt:if var="m.nav_isbold" value="true" compare="=">
+              <span style="color: {$:m.nav_color};font-family: {$:m.nav_font};font-weight: bold;">
+              <vt:else />
+              <span style="color: {$:m.nav_color};font-family: {$:m.nav_font};">
+              </vt:if>
+              {$:m.nav_name} </span> </a> </vt:foreach>
+          </div>
+         
+        </vt:if>
+        <vt:if var="#.currCourse.cou_name" value="" compare="!="> 
+          <!--当前课程-->
+          <ul class="mui-table-view">
+            <li class="mui-table-view-cell  curr-box"> <a class="mui-navigate-right" href="selfcourse.ashx" type="link">
+              <vt:if var="#.currCourse.cou_LogoSmall" value="" compare="=">
+              <svg class="icon cou-ico" aria-hidden="true">
+            <use xlink:href="#icon-objects-color_diamond"></use>
+            </svg>
+                <vt:else />
+                <img class="mui-media-object mui-pull-left curr-logo" src="{$currCourse.Cou_LogoSmall}"/> </vt:if>
+              《{$currCourse.cou_name}》 </a></li>
+          </ul>
+          <vt:else />
+          <ul class="mui-table-view">
+            <li class="mui-table-view-cell  curr-box"> <a class="mui-navigate-right" href="selfcourse.ashx" type="link">
+             
+              <svg class="icon cou-ico" aria-hidden="true">
+            <use xlink:href="#icon-blackboard-2"></use>
+            </svg>
+              请选择要学习的课程！ </a></li>
+          </ul>
+        </vt:if>
+        <!--主菜单区-->
+        <div class="mainmenuBox" couid="{$currCourse.cou_id}">
+          <div class="mm-item" href="CourseOutlines.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-luboxuexi"></use>
+            </svg><span>课程学习</span></div>
+          <div class="mm-item" href="QuesOutlines.ashx"> <svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-edit"></use>
+            </svg> <span>试题练习</span> </div>
+          <div class="mm-item" href="TestPapers.ashx"> <svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-iconset-09"></use>
+            </svg><span> 模拟考场 </span> </div>
+          <div class="mm-item" href="Guides.ashx"> <svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-gonggaoicon"></use>
+            </svg><span> 课程公告 </span> </div>
+          <div class="mm-item" href="QuesError.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-cuotitubiao"></use>
+            </svg> <span> 错题回顾 </span> </div>
+          <div class="mm-item" href="Collects.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-shoucang3"></use>
+            </svg> <span> 我的收藏 </span> </div>
+          <div class="mm-item" href="notes.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-blog"></use>
+            </svg> <span> 我的笔记 </span> </div>
+          <div class="mm-item" href="Statistics.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-dingdantongji--"></use>
+            </svg> <span> 成绩统计 </span> </div>
+          <div class="mm-item" href="Knowledges.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-business-color_briefcase-"></use>
+            </svg> <span> 知识库 </span> </div>
+            <div class="mm-item" href="MsgBoards.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-abc"></use>
+            </svg> <span> 交流咨询 </span> </div>
+            <div class="mm-item" href="Students.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-user-boy"></use>
+            </svg> <span> 我的同学 </span> </div>
+            <div class="mm-item" href="MyTeacher.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-objects-color_diamond"></use>
+            </svg> <span> 我的老师 </span> </div>
+           <!-- <div class="mm-item" href="exam.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-hegebiaozhun"></use>
+            </svg> <span> 在线考试 </span> </div>-->
+        </div>
+        <div style="height:10px"></div>
+        <!--热门课程-->
+        <div class="mui-content-padded" style="margin:0px;">
+          <ul class="mui-table-view" style="background-color:transparent">
+            <li class="mui-table-view-cell mui-collapse mui-active"> <a class="mui-navigate-right" href="#"> <svg class="icon mm-ico" aria-hidden="true" style="font-size:20px;">
+              <use xlink:href="#icon-book-2"></use>
+              </svg> 热门课程</a>
+              <div class="mui-collapse-content" style="margin:0px;background-color:transparent;">
+                <ul class="mui-table-view"  style="margin:0px;background-color:transparent;">
+                  <vt:list type="Course" item="c" index="i" count="10">
+                    <li class="mui-table-view-cell mui-media cou-item"  style="margin:0px;" couid="{$c.cou_id}" couname="{$c.cou_name}">
+                      <div class="mui-slider-handle mui-table" style="background-color:transparent">
+                        <div class="mui-table-cell"><a href="javascript:;" class="couname"><img class="mui-media-object mui-pull-left" src="{$c.Cou_LogoSmall}">
+                          <div class="mui-media-body mui-ellipsis">{$c.cou_name}
+                            <p class="mui-ellipsis">
+                              <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
+                                <vt:else/>
+                                <span class="price">{$c.Cou_PriceSpan}{$c.Cou_PriceUnit}{$c.Cou_Price}元 </span> </vt:if>
+                              {$c.Sbj_Name}</p>
+                          </div>
+                          </a></div>
+                      </div>
+                    </li>
+                  </vt:list>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="mui-table-view-cell mui-media" ><a class="link" href="courses.ashx" type="link">点击查看更多课程..</a></div>
+        <!--我的课程--> 
+      </div>
+    </div>
+    <!-- off-canvas backdrop -->
+    <div class="mui-off-canvas-backdrop"> </div>
+  </div>
+  <!--主界面结束--> 
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>{$column.Col_Name}</title>
+<vt:include file="inc/meta.inc" />
+<link rel="stylesheet" href="Styles/News.css" type="text/css"/>
+<script type="text/javascript" src="Scripts/News.js"></script>
+<meta charset="utf-8">
+</head>
+<body>
+<header class="mui-bar mui-bar-nav"> <a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe6c6;</a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+  <h1 class="mui-title">{$column.Col_Name}</h1>
+</header>
+<img src="Images/news-ico.png" style="display:none" id="def-img"/> 
+<!--下拉刷新容器-->
+<div class="mui-content">
+  <div class="mui-scroll">
+    <vt:foreach  from="$#.cols" item="c" remark="新闻栏目">
+      <vt:function var="isChildren" method="isColumns" args="$#.c.col_id"/>
+      <div class="mui-card"> 
+        <!--页眉，放置标题-->
+        <div class="mui-card-header">
+          <vt:if var="isChildren" value="false" compare="="> <a class="mui-navigate-right col-tit" href="newslist.ashx?colid={$:#.c.col_id}" type="link"><span class="triangle_border_right"></span>{$:#.c.col_Name}</a>
+            <vt:else />
+            <a class="mui-navigate-right col-tit" href="news.ashx?colid={$:#.c.col_id}" type="link"><span class="triangle_border_right"></span>{$:#.c.col_Name}</a> </vt:if>
+        </div>
+        <!--内容区-->
+        <div class="mui-card-content">
+          <vt:function var="arts" method="getArticle" args="$#.c.col_id" args="3"/>
+          <ul class="mui-table-view">
+            <vt:foreach  from="$#.arts" item="data" remark="新闻文章">
+              <li class="mui-table-view-cell"> <a href="article.ashx?id={$:#.data.art_id}" type="open" title="{$:#.data.art_title}">{$:#.data.art_title}</a> <span class="mui-badge">{$:#.data.art_pushTime  format="M-dd"}</span> </li>
+            </vt:foreach>
+          </ul>
+        </div>
+      </div>
+    </vt:foreach>
+  </div>
+</div>
+</body>
+</html>

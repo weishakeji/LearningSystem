@@ -1,0 +1,39 @@
+@charset "utf-8";
+.error-show{
+	color: #F00;
+}
+.success-show{
+	color: #060;
+}
+label{
+	width: 34% !important;
+	margin-left: 1%;
+}
+.mui-table-view-cell:after{
+	left:0px;
+}
+.mui-input-group{
+	margin-bottom: 10px !important;
+}
+/*输入框*/
+.textbox{
+	border: 1px solid #CCC !important;
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+	padding-left: 5px !important;
+	height: 36px !important;
+	margin-top: 2px;
+	width: 60% !important;
+	margin-right:10px;
+}
+/*确定按钮*/
+.enter{
+	float: right !important;
+	width: 60% !important;
+	margin-right:10px;
+}
+.enter:disabled
+{ 
+	background-color: #dddddd !important;
+	color:#666 !important;
+}

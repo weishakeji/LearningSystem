@@ -1,0 +1,208 @@
+html{
+	overflow: hidden;
+}
+*{
+	margin:0px;
+	padding:0px;
+	font-family: 'SimHei','Helvetica Neue', Helvetica, sans-serif;
+}
+.bodyArea{
+	width: 640px;
+	height: 480px;
+	margin-right: auto;
+	margin-left: auto;
+	overflow: hidden;
+}
+.loading-txt{
+	margin-top: 50px;
+	text-align: center;
+}
+.error-txt{
+	margin-top: 50px;
+	text-align: center;
+}
+#photo{
+	width:100px;
+}
+.topBox {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+/*头像*/
+.topBox .img-line{
+	border-radius: 110px;
+	height: 106px;
+	width: 106px;
+	border: 1px solid #eee;
+	margin-left:auto;
+	margin-right:auto;
+	box-shadow: 0 -2px 2px #ccc, 0 6px 1px rgba(0, 0, 0, 0.3);
+}
+.topRow{
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color: #CCC;
+	margin-bottom: 10px;
+}
+.topRow .logo{
+	background-image: url(../Images/weixin_logo.png);
+	min-height: 50px;
+	width: 60px;
+	background-size: cover;
+	background-repeat: no-repeat;
+	display: inline-block;
+}
+.topRow span{
+	display: inline-block;
+	font-size: 29px;
+	line-height: 44px;
+	height: 44px;
+	width: 150px;
+	vertical-align: top;
+	margin-top: 2px;
+}
+.topBox img{
+	border-radius:100px;
+	margin:3px;
+	
+}
+.infoBox .leftBox {
+	float: left;
+	width: 19%;
+	background-color: #FFC;
+	height: 1000px;
+	border-right-width: 1px;
+	border-top-style: none;
+	border-right-style: groove;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-right-color: #CCC;
+	box-shadow: 5px 0px 0px #ccc, 0 6px 3px rgba(0, 0, 0, 0.3);
+}
+.show-tit{
+	font-size: 16px;
+	line-height: 40px;
+	height: 40px;
+	font-weight: bold;
+	text-align: center;
+}
+.infoBox .leftbox {
+	float: left;
+	width: 80%;
+	margin-left:5px;
+}
+.titbox {
+	height: 40px;
+	width: 250px;
+	margin-left:auto;
+	margin-right:auto;
+}
+.titbox dd{
+	height: 40px;
+	width: 40%;
+	float: left;
+	background-color: #CCC;
+	font-size: 16px;
+	line-height: 40px;
+	cursor: pointer;
+	text-align: center;
+}
+.titbox dd.curr{
+	background-color: #FFF;
+	width: 60%;
+}
+.titbox dd.curr:before {
+	width: 0px;
+	height: 0px;
+	content: "";
+	border-top: 5px solid transparent;
+	border-left: 8px solid #333;
+	border-bottom: 5px solid transparent;
+	display: inline-block;
+}
+.regbox{
+	display: none;
+	width: 250px;
+	margin-top:10px;
+	margin-left:auto;
+	margin-right:auto;
+}
+.loginRow{
+	height: 40px;
+	margin-bottom: 10px;
+}
+.width {
+	width: 250px;
+}
+.textbox {
+	font-size: 16px;
+	line-height: 40px;
+	height: 40px;
+	border: 1px solid #CCCCCC;
+	text-indent: 10px;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+	float: left;
+}
+.verify {
+	float: left;
+	width: 155px;
+}
+.verifyCode {
+	    cursor: pointer;
+    height: 40px;
+    float: left;
+    margin-top: 0px;
+    margin-left: 5px;
+    width: 88px;
+    border: 1px solid #CCC;
+    text-align: center;
+    background-color: #FFF;
+}
+.right-btn{
+	cursor: pointer;
+	height: 40px;
+	float: left;
+	margin-top: 0px;
+	margin-left: 5px;
+	width: 88px;
+	border: 1px solid #CCC;
+	text-align: center;
+	background-color: #FFF;
+	font-size: 18px;
+	line-height: 40px;
+}
+.waiting{
+	font-size: 12px;
+}
+.btnBind {
+	line-height: 30px;
+	text-align: center;
+	display: block;
+	height: 30px;
+	width: 250px;
+	float: left;
+	margin-left: 0px;
+	background-color: #0387d9;
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-weight: bold;
+	color: #FFFFFF;
+	font-size: 16px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	cursor: pointer;
+	word-spacing: 1em;
+	letter-spacing: 0.5em;
+}
+#btnDirect{
+	background-color: #093;
+}
+.disabled{
+	background-color: #CCC;
+}

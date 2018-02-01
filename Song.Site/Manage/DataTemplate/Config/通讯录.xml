@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 该文件记录Excel数据导入时Excel的列名与数据库中字段的对应关系 -->
+
+<config>
+  <item Column="姓名" Field="Adl_Name" />
+  <item Column="性别" Field="Adl_Sex" />
+  <item Column="住宅电话" Field="Adl_Tel" />
+  <item Column="办公电话" Field="Adl_CoTel" />
+  <item Column="移动电话" Field="Adl_MobileTel" />
+  <item Column="就职公司" Field="Adl_Company" />
+  <item Column="分类" Field="Ads_Name" />
+  <item Column="家庭住址" Field="Adl_Address" />
+  <item Column="邮编" Field="Adl_Zip" />
+  <item Column="电子邮箱" Field="Adl_Email" />
+  <item Column="QQ" Field="Adl_QQ" />
+</config>

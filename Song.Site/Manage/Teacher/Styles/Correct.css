@@ -1,0 +1,35 @@
+﻿
+/*简答题的单个试题*/
+.shortQues
+{
+	border-collapse: collapse;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: dashed;
+	border-left-style: none;
+	margin-bottom: 5px;
+	border-bottom-width: 1px;
+	border-bottom-color: #CCCCCC;
+	margin-top: 3px;
+}
+.quesTitle
+{
+	line-height: 22px;
+	margin-bottom: 5px;
+}
+.quesTitle img{
+	max-width:60%;
+}
+.quText
+{
+	margin-bottom: 5px;
+}
+.quitem
+{
+	font-weight: bold;
+
+}
+.correct
+{
+	background-color: #00CC99;
+}

@@ -1,0 +1,10 @@
+﻿@charset "utf-8";
+body {
+}
+.name{
+	font-size: 16px;
+	line-height: 30px;
+	font-weight: bold;
+	text-align: center;
+	height: 30px;
+}

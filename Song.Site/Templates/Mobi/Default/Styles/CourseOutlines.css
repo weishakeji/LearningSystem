@@ -1,0 +1,13 @@
+.curr-logo{
+    width: 30px;
+    height: 30px !important;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-top: -5px;
+    border: 2px solid #CCC !important;
+    display: block;
+}
+.curr-box{
+	 overflow: hidden;
+	 display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}

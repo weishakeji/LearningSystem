@@ -1,0 +1,13 @@
+/*=========mF_sd_tab2========*/
+.mF_sd_tab2{position:relative;width:382px;height:231px;font:12px/20px Verdana, Geneva, sans-serif;}/*tab盒子*/
+.mF_sd_tab2 dl{float:left;margin-left:10px;display:inline;}/*标题之间的间隔*/
+.mF_sd_tab2 dl dt{float:left;padding:0 20px;height:28px;line-height:28px;border:1px solid #ccc;border-bottom:0;position:relative;cursor:pointer;background:#eee;}/*标题区*/
+.mF_sd_tab2 dl.current dt{height:29px;background:#fff;position:relative;z-index:1;}/*当前标题区*/
+.mF_sd_tab2 dl dd{position:absolute;top:29px;left:0;width:380px;height:200px;border:1px solid #ccc;overflow:hidden;}/*内容区的宽高及边框*/
+.mF_sd_tab2 dl dd .in-ul{position:absolute;top:0px;left:0px;padding:10px;}/*这里是设置内容区的padding*/
+.mF_sd_tab2 dl dd .in-ul .in-li{float:left;}/*真正的内容区从这里开始*/
+.mF_sd_tab2 dl dd .in-ul .in-li span{float:left;width:146px;height:100px;overflow:hidden;background:#f60;}/*左侧图片*/
+.mF_sd_tab2 dl dd .in-ul .in-li ul{float:left;padding-left:16px;width:210px;}/*右侧内容*/
+.mF_sd_tab2 dl dd .in-ul .in-li ul li{height:22px;line-height:22px;overflow:hidden;}
+.mF_sd_tab2 dl dd .in-ul .in-li ul .in-tab{height:122px;width:194px;position:relative;}
+.mF_sd_tab2 dl dd .in-ul .in-li ul .in-tab dd{height:80px;width:192px;}

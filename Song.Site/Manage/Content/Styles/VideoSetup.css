@@ -1,0 +1,21 @@
+﻿body
+{
+}
+/*水印所在位置*/
+.place td {
+	font-size: 12px;
+	line-height: 50px;
+	text-align: center;
+	vertical-align: middle;
+	height: 50px;
+	width: 50px;
+	cursor:pointer;
+}
+.place td.current
+{
+	background-color: #CCCCCC;
+}
+.place td.hover
+{
+	background-color: #FFFFCC;
+}

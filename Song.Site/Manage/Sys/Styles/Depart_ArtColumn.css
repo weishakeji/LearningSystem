@@ -1,0 +1,65 @@
+﻿@charset "utf-8";
+
+p{
+	line-height: 25px;
+}
+/*顶部的提示信息条*/
+#contTop
+{
+	color: #FF0000;
+	display: table;
+	height: 20px;
+	width: 100%;
+}
+#contTop #treeName
+{
+	display: table;
+	float: left;
+	width: auto;
+}
+#contTop #loadingBar
+{
+	display: table;
+	float: right;
+	width: auto;
+}
+/*树形菜单总区域*/
+#TreeAreaPanel
+{
+	padding: 5px;
+	overflow: auto;
+}
+.TreeBox
+{
+	float: left;
+	border: medium inset #eeeeee;
+	margin-right: 5px;
+	padding: 3px;
+	overflow: auto;
+}
+/*树形菜单的节点行，包括连线、图标、菜单名*/
+.TreeBox .nodeline
+{
+	height: 18px;
+}
+/*树形菜单的节点前的连线、图标*/
+.TreeBox .nodeline .nodeIco
+{
+	width: auto; 
+	float: left;
+}
+/*树形菜单的节点文本*/ 
+.TreeBox .nodeline .text
+{
+	line-height: 18px;
+	width: auto;
+	display: block;
+	cursor: default;
+	float: left;
+}
+/*页面底部的说明信息*/
+#show
+{
+	display: table;
+	width: 100%;
+}

@@ -1,0 +1,87 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>选课中心:{$sbj.Sbj_Name}  - {$:#.org.org_platformname}</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="Scripts/Courses.js"></script>
+<link href="Styles/Courses.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<vt:include file="inc/Header.html" />
+<div id="Context">
+<div class="navi-bar"> <a href="/" class="nav-txt">首页</a> &gt; <a href="/courses.ashx"  class="nav-txt">课程中心</a> &gt;
+    <vt:foreach from="$#.sbjs" item="data" index="i" remark="当前课程专业"> <a href="/courses.ashx?sbjid={$:#.data.sbj_id}"  class="nav-txt">{$:#.data.sbj_name}</a> &gt; </vt:foreach>
+    <span class="nav-txt">{$course.cou_name}</span> </div>
+   
+  <!--选择区域 -->
+  <div id="selectArea">
+    <div class="selectBar" id="SelectedBar">
+      <div class="selectLeft">已经选条件：</div>
+      <div class="selectRight" id="Selected"></div>
+    </div>
+    <div id="subject" class="selectBar">
+      <div class="selectLeft">学习方向：</div>
+      <div class="selectRight">
+        <vt:foreach id="subject" from="$#.subject" item="data" index="i" remark="当前专业的下级专业">
+           <div class="selectItem"><a href="#" attr="sbjid" clear="couid,olid,index" sbjid="{$:#.data.sbj_id}">{$:#.data.sbj_name} </a> </div>
+           <vt:foreachelse/>
+            <div class="selectItem">（没有下级专业） </div>
+        </vt:foreach>
+      </div>
+    </div>
+  </div>
+  <!-- 选择区结束 -->
+<!--  <div id="TitleBar"> 课程中心</div>-->
+  <div class="courseList">
+   <vt:if var="course.Length" value="0" compare="!="> 
+    <div class="courseListInner">
+      <vt:foreach id="course" from="$#.course" item="c" index="i" size="40" remark="课程列表">
+        <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
+                  <div class="cour-price">
+                    <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
+                      <vt:else/>
+                      <vt:function var="price" method="getCoursePrice" args="$#.c.cou_uid"/>
+                      <span class="money">
+                      <vt:foreach from="$price" item="p" index="i" count="1"  remark="当前课程价格"> <span class="moneyico money-ico">&#xe625;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </vt:foreach>
+                      </span> </vt:if>
+                    <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span> </div>
+                </div>
+      </vt:foreach>
+    </div>
+    <vt:else/>
+    您当前选择的当前专业还没有发布课程！
+    </vt:if>
+  </div>
+  <!--分页导航 -->
+  <vt:if var="pageAmount.Length" value="1" compare=">">
+    <div id="pagerBar">
+      <div class="pagerFirst pagerBtn"><a href="/courses.ashx?sbj={$sbjid}">首页</a></div>
+      <!--上一页 -->
+      <vt:expression var="pagerPrev" expression="{0}-1" args="$pageIndex" />
+      <vt:if var="#.pagerPrev" value="1" compare="<">
+        <div class="pagerPrev pagerBtn"><a href="#">上一页</a></div>
+        <vt:else />
+        <div class="pagerPrev pagerBtn"><a href="/courses.ashx?index={$:#.pagerPrev}&sbj={$sbjid}">上一页</a></div>
+      </vt:if>
+      <!--分页数字 -->
+      <vt:foreach id="pageAmount" from="$#.pageAmount" item="data" index="i" remark="分页数字">
+        <vt:if var="#.data" value="$pageIndex" compare="=">
+          <div class="pagerIndex pagerBtn pagerCurr"><a href="/courses.ashx?index={$:i}&sbj={$sbjid}">{$:i}</a></div>
+          <vt:else />
+          <div class="pagerIndex pagerBtn"><a href="/courses.ashx?index={$:i}&sbj={$sbjid}">{$:i}</a></div>
+        </vt:if>
+      </vt:foreach>
+      <!--下一页 -->
+      <vt:expression var="pagerNext" expression="{0}+1" args="$pageIndex" />
+      <vt:if var="#.pagerNext" value="$pageAmount.Length" compare=">">
+        <div class="pagerNext pagerBtn"><a href="#">下一页</a></div>
+        <vt:else />
+        <div class="pagerNext pagerBtn"><a href="/courses.ashx?index={$:#.pagerNext}&sbj={$sbjid}">下一页</a></div>
+      </vt:if>
+      <div class="pagerLast pagerBtn"><a href="/courses.ashx?index={$:pageAmount.length}&sbj={$sbjid}">末页</a></div>
+    </div>
+  </vt:if>
+</div>
+<vt:include file="inc/footer.html" />
+</body>
+</html>

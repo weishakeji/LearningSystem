@@ -1,0 +1,137 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using WeiSha.Common;
+using Song.Entities;
+using WeiSha.Data;
+using Song.ServiceInterfaces;
+using System.Data.Common;
+
+namespace Song.ServiceImpls
+{
+    public class AccessoryCom : IAccessory
+    {
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        public void Add(Accessory entity)
+        {
+            entity.As_CrtTime = DateTime.Now;
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            if (org != null)
+            {
+                entity.Org_ID = org.Org_ID;
+                entity.Org_Name = org.Org_Name;
+            }
+            Gateway.Default.Save<Accessory>(entity);            
+        }
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        public void Save(Accessory entity)
+        {
+            Gateway.Default.Save<Accessory>(entity);
+        }
+        /// <summary>
+        /// 删除，按主键ID；
+        /// </summary>
+        /// <param name="identify">实体的主键</param>
+        public void Delete(int identify)
+        {
+            Accessory ac = this.GetSingle(identify);
+            if (ac == null) return;
+            WeiSha.WebControl.FileUpload.Delete(ac.As_Type, ac.As_FileName);
+            string ext = ac.As_FileName.IndexOf(".") > -1 ? ac.As_FileName.Substring(ac.As_FileName.LastIndexOf(".")) : "";
+            if (ext.ToLower() == ".flv")
+            {
+                string name = ac.As_FileName.IndexOf(".") > -1 ? ac.As_FileName.Substring(0, ac.As_FileName.LastIndexOf(".")) : ac.As_FileName;
+                WeiSha.WebControl.FileUpload.Delete(ac.As_Type, name + ".mp4");
+            }
+            Gateway.Default.Delete<Accessory>(Accessory._.As_Id == identify);
+        }
+        /// <summary>
+        /// 删除，按系统唯一id
+        /// </summary>
+        /// <param name="uid">系统唯一id</param>
+        public void Delete(string uid)
+        {
+            Delete(uid, true);
+        }
+        /// <summary>
+        /// 删除，按系统唯一id
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="isDelfile">是否删除文件</param>
+        public void Delete(string uid, bool isDelfile)
+        {           
+            if (isDelfile)
+            {
+                List<Accessory> acs = this.GetAll(uid);
+                foreach (Accessory ac in acs)
+                {
+                    WeiSha.WebControl.FileUpload.Delete(ac.As_Type, ac.As_FileName);
+                    string ext = ac.As_FileName.IndexOf(".") > -1 ? ac.As_FileName.Substring(ac.As_FileName.LastIndexOf(".")) : "";
+                    if (ext.ToLower() == ".flv")
+                    {
+                        string name = ac.As_FileName.IndexOf(".") > -1 ? ac.As_FileName.Substring(0, ac.As_FileName.LastIndexOf(".")) : ac.As_FileName;
+                        WeiSha.WebControl.FileUpload.Delete(ac.As_Type, name + ".mp4");
+                    }
+                }
+            }
+            Gateway.Default.Delete<Accessory>(Accessory._.As_Uid == uid);
+        }
+        public void Delete(string uid, DbTransaction tran)
+        {
+            List<Accessory> acs = this.GetAll(uid);
+            if (acs == null) return;
+            foreach (Accessory ac in acs)
+            {
+                WeiSha.WebControl.FileUpload.Delete("news", ac.As_FileName);
+            }
+            Gateway.Default.Delete<Accessory>(Accessory._.As_Uid == uid);
+        }
+        /// <summary>
+        /// 获取单一实体对象，按主键ID；
+        /// </summary>
+        /// <param name="identify">实体的主键</param>
+        /// <returns></returns>
+        public Accessory GetSingle(int identify)
+        {
+            return Gateway.Default.From<Accessory>().Where(Accessory._.As_Id == identify).ToFirst<Accessory>();
+        }
+        public Accessory GetSingle(string uid)
+        {
+            return Gateway.Default.From<Accessory>().Where(Accessory._.As_Uid == uid).ToFirst<Accessory>();
+        }
+        /// <summary>
+        /// 获取某个院系的所有人员；
+        /// </summary>
+        /// <param name="isShow">是否显示</param>
+        /// <returns></returns>
+        public List<Accessory> GetAll(string uid)
+        {
+            if (uid == null || uid == string.Empty) return null;
+            return Gateway.Default.From<Accessory>().Where(Accessory._.As_Uid == uid).ToList<Accessory>();
+        }
+        public List<Accessory> GetAll(string uid, string type)
+        {
+            if (uid == null || uid == string.Empty) return null;
+            return Gateway.Default.From<Accessory>().Where(Accessory._.As_Uid == uid && Accessory._.As_Type == type).ToList<Accessory>();
+        }
+        /// <summary>
+        /// 共计多少个记录
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public int OfCount(string uid, string type)
+        {
+            WhereClip wc = Accessory._.As_Uid == uid && Accessory._.As_Type == type;
+            return Gateway.Default.Count<Accessory>(wc);
+        }
+    }
+}

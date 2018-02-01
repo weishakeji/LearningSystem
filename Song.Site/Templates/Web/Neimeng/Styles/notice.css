@@ -1,0 +1,122 @@
+@charset "utf-8";
+#Context #artArea {
+	margin-top: 20px;
+	margin-right: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+}
+
+#articleNavi {
+	line-height: 30px;
+	height: 30px;
+	font-size: 14px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+}
+#articleNavi, #articleNavi a
+{
+	height: 40px;
+	font-size: 14px;
+	color: #0066CC;
+	
+}#artArea #artBox {
+	margin-top: 20px;
+	min-height:400px;
+}
+#artArea #artBox .artTitle {
+	font-family: "宋体";
+	font-size: 20px;
+	line-height: 40px;
+	font-weight: bold;
+	color: #333333;
+	text-align: center;
+	height: 40px;
+}
+#artArea #artBox .artAttrBar {
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+#artBox .artAttrBar span {
+	font-size: 13px;
+	color: #666666;
+	margin-right: 10px;
+}
+
+#artIntro {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#artIntro .tit {
+	font-weight: bold;
+}
+
+#artIntro, #artIntro  span, #artIntro div ,#artIntro *{
+	font-size: 16px;
+	line-height: 25px;
+}
+#artBox #artImg {
+	text-align: center;
+}
+
+#artBox #artImg img {
+	max-width:980px;
+}
+
+#artContext, #artContext  span, #artContext div ,#artContext p,#artContext font{
+	font-size: 16px;
+	line-height: 25px;
+	background-color:transparent !important;
+}
+#artContext p{
+	text-indent: 2em;
+}
+#artAcc .accItem .filesize {
+	font-size: 13px;
+	color: #666666;
+	margin-left: 15px;
+}
+#artAcc {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#artAcc dt {
+	font-size: 15px;
+	font-weight: bold;
+}
+#artAcc dd, #artAcc dd a {
+	font-size: 15px;
+	line-height: 22px;
+}
+#artArea .artNavi {
+	line-height: 40px;
+	height: 40px;
+	margin-top: 20px;
+	margin-right: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #CCCCCC;
+	padding-top: 20px;
+}
+.artNavi *, .artNavi  a{
+	font-size: 15px;
+	line-height: 25px;
+	color: #333333;
+	
+}
+.artNavi .artPrev {
+	float: left;
+	width: 50%;
+}
+.artNavi .artNext {
+	float: right;
+	width: 50%;
+	text-align: right;
+}

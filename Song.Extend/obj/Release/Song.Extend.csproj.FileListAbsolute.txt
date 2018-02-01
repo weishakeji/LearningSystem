@@ -1,0 +1,16 @@
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\Song.Extend.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\Song.Extend.pdb
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\ICSharpCode.SharpZipLib.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\NPOI.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\Song.Entities.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\Song.ServiceInterfaces.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\WeiSha.Common.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\WeiSha.Data.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\WeiSha.Template.Engine.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\Spring.Core.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\Common.Logging.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\Song.Entities.pdb
+E:\源码\01.学习平台\培训考试系统\Song.Extend\bin\Release\Song.ServiceInterfaces.pdb
+E:\源码\01.学习平台\培训考试系统\Song.Extend\obj\Release\ResolveAssemblyReference.cache
+E:\源码\01.学习平台\培训考试系统\Song.Extend\obj\Release\Song.Extend.dll
+E:\源码\01.学习平台\培训考试系统\Song.Extend\obj\Release\Song.Extend.pdb

@@ -1,0 +1,53 @@
+﻿@charset "utf-8";
+.courseHeader
+{
+	background-color: #0099FF;
+}
+.title{
+	font-family: "Microsoft YaHei";
+	font-size: 18px;
+	line-height: 40px;
+	text-indent: 10;
+	font-weight: bold;
+	color:#fff;
+}
+.platename{
+	font-family: "Microsoft YaHei";
+	font-size: 18px;
+	line-height: 40px;
+	text-indent: 10;
+	text-align:right;
+}
+#editLeft
+{
+	width:40px;
+	float:left;
+	background-color: #71C6FF;
+}
+#editLeft a{
+	display: block;
+	float: right;
+	width: 30px;
+	font-family: "黑体", "微软雅黑";
+	font-size: 18px;
+	line-height: 25px;
+	font-weight: bold;
+	color: #71C6FF;
+	text-decoration: none;
+	background-color: #0099FF;
+	margin-top: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
+	margin-right: 5px;
+}
+#editLeft a.curr{
+	background-color: #FFFFFF;
+	width: 35px;
+	margin-right: 0px;
+	color: #333333;
+}
+#editRight
+{
+	
+}

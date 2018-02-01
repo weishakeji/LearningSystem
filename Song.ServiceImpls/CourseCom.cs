@@ -1,0 +1,1112 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using Song.Entities;
+using Song.ServiceInterfaces;
+using WeiSha.Common;
+using WeiSha.Data;
+
+namespace Song.ServiceImpls
+{
+    public class CourseCom : ICourse
+    {
+        #region 课程管理
+        /// <summary>
+        /// 添加课程
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        public void CourseAdd(Course entity)
+        {
+            entity.Cou_CrtTime = DateTime.Now;            
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            if (org != null)
+            {
+                entity.Org_ID = org.Org_ID;
+                entity.Org_Name = org.Org_Name;
+            }
+            //object obj = Gateway.Default.Max<Course>(Course._.Cou_Tax, Course._.Org_ID == entity.Org_ID && Course._.Sbj_ID == entity.Sbj_ID && Course._.Cou_PID == entity.Cou_PID);
+            object obj = Gateway.Default.Max<Course>(Course._.Cou_Tax, new WhereClip());
+            entity.Cou_Tax = obj is int ? (int)obj + 1 : 0;
+            //默认为免费课程
+            entity.Cou_IsFree = true;
+            //
+            if (string.IsNullOrWhiteSpace(entity.Cou_UID))
+                entity.Cou_UID = WeiSha.Common.Request.UniqueID();
+            entity.Cou_Level = _ClacLevel(entity);
+            entity.Cou_XPath = _ClacXPath(entity);
+            Gateway.Default.Save<Course>(entity);
+        }
+        /// <summary>
+        /// 批量添加课程，可用于导入时
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="names">名称，可以是用逗号分隔的多个名称</param>
+        /// <returns></returns>
+        public Course CourseBatchAdd(int orgid, int sbjid, string names)
+        {
+            //整理名称信息
+            names = names.Replace("，", ",");
+            List<string> listName = new List<string>();
+            foreach (string s in names.Split(','))
+                if (s.Trim() != "") listName.Add(s.Trim());
+            //
+            int pid = 0;
+            Song.Entities.Course last = null;
+            for (int i = 0; i < listName.Count; i++)
+            {
+                Song.Entities.Course current = CourseIsExist(orgid, sbjid, pid, listName[i]);
+                if (current == null)
+                {
+                    current = new Course();
+                    current.Cou_Name = listName[i];
+                    current.Cou_IsUse = true;
+                    current.Org_ID = orgid;
+                    current.Sbj_ID = sbjid;
+                    current.Cou_PID = pid;
+                    current.Cou_IsUse = true;
+                    current.Cou_IsFree = true;
+                    current.Cou_IsTry = true;
+                    //所属老师                    
+                    if (Extend.LoginState.Accounts.IsLogin)
+                    {
+                        Song.Entities.Teacher th = Extend.LoginState.Accounts.Teacher;
+                        if (th != null)
+                        {
+                            current.Th_ID = th.Th_ID;
+                            current.Th_Name = th.Th_Name;
+                        }
+                    }
+                    this.CourseAdd(current);
+                }
+                last = current;
+                pid = current.Cou_ID;
+            }
+            return last;
+        }
+        /// <summary>
+        /// 是否已经存在专业
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="pid"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Course CourseIsExist(int orgid, int sbjid, int pid, string name)
+        {
+            WhereClip wc = Course._.Org_ID == orgid;
+            if (sbjid > 0) wc &= Course._.Sbj_ID == sbjid;
+            if (pid >= 0) wc &= Course._.Cou_PID == pid;
+            return Gateway.Default.From<Course>().Where(wc && Course._.Cou_Name == name.Trim()).ToFirst<Course>();
+        }
+        /// <summary>
+        /// 修改课程
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        public void CourseSave(Course entity)
+        {
+            Course old = CourseSingle(entity.Cou_ID);
+            if (old.Cou_PID != entity.Cou_PID)
+            {
+                object obj = Gateway.Default.Max<Course>(Course._.Cou_Tax, Course._.Org_ID == entity.Org_ID && Course._.Cou_PID == entity.Cou_PID);
+                entity.Cou_Tax = obj is int ? (int)obj + 1 : 0;
+            }
+            entity.Cou_Level = _ClacLevel(entity);
+            entity.Cou_XPath = _ClacXPath(entity);
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    ////如果课程不再免费
+                    //if (!entity.Cou_IsFree)
+                    //{
+                    //    tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_IsFree }, new object[] { entity.Cou_IsFree }, Student_Course._.Cou_ID == entity.Cou_ID);
+                    //    tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_EndTime }, new object[] { DateTime.Now }, Student_Course._.Cou_ID == entity.Cou_ID);
+                    //}
+                    tran.Update<TestPaper>(new Field[] { TestPaper._.Cou_Name }, new object[] { entity.Cou_Name }, TestPaper._.Cou_ID == entity.Cou_ID);
+                    tran.Save<Course>(entity);
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// 删除课程
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        public void CourseDelete(Course entity)
+        {
+            if (entity == null) return;
+            //是否有下级
+            bool isExist = CourseIsChildren(entity.Org_ID, entity.Cou_ID, null);
+            if (isExist) throw new Exception("当前课程下还有子课程，请先删除子课程。");
+
+            Song.Entities.Outline[] oul = Business.Do<IOutline>().OutlineAll(entity.Cou_ID, null);
+            Song.Entities.GuideColumns[] gcs = Business.Do<IGuide>().GetColumnsAll(entity.Cou_ID, null);
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    this.CourseClear(entity.Cou_ID);
+                    tran.Delete<Course>(Course._.Cou_ID == entity.Cou_ID);
+                    foreach (Song.Entities.Outline ac in oul)
+                    {
+                        Business.Do<IOutline>().OutlineDelete(ac);
+                    }
+                    foreach (Song.Entities.GuideColumns gc in gcs)
+                    {
+                        Business.Do<IGuide>().ColumnsDelete(gc);
+                    }
+                    tran.Delete<CoursePrice>(CoursePrice._.Cou_UID == entity.Cou_UID);
+                    if (!string.IsNullOrWhiteSpace(entity.Cou_Logo))
+                    {
+                        WeiSha.WebControl.FileUpload.Delete("Course", entity.Cou_Logo);
+                    }
+                    tran.Commit();
+
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// 删除，按主键ID；
+        /// </summary>
+        /// <param name="identify">实体的主键</param>
+        public void CourseDelete(int identify)
+        {
+            Song.Entities.Course ol = this.CourseSingle(identify);
+            this.CourseDelete(ol);
+        }
+        /// <summary>
+        /// 获取单一实体对象，按主键ID；
+        /// </summary>
+        /// <param name="identify">实体的主键</param>
+        /// <returns></returns>
+        public Course CourseSingle(int identify)
+        {
+            return Gateway.Default.From<Course>().Where(Course._.Cou_ID == identify).ToFirst<Course>();
+        }
+        /// <summary>
+        /// 获取课程名称，如果为多级，则带上父级名称
+        /// </summary>
+        /// <param name="identify"></param>
+        /// <returns></returns>
+        public string CourseName(int identify)
+        {
+            Course entity = Gateway.Default.From<Course>().Where(Course._.Cou_ID == identify).ToFirst<Course>();
+            if (entity == null) return "";
+            string xpath = entity.Cou_Name;
+            Song.Entities.Course tm = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_PID).ToFirst<Course>();
+            while (tm != null)
+            {
+                xpath = tm.Cou_Name + "," + xpath;
+                if (tm.Cou_PID == 0) break;
+                if (tm.Cou_PID != 0)
+                {
+                    tm = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_PID).ToFirst<Course>();
+                }
+            }
+            return xpath;
+        }
+        /// <summary>
+        /// 学员是否购买了该课程
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stid">学员Id</param>
+        /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
+        /// <returns></returns>
+        public Course IsBuyCourse(int couid, int stid, int state)
+        {
+            WhereClip wc = Student_Course._.Cou_ID == couid && Student_Course._.Ac_ID == stid;
+            wc.And(Student_Course._.Stc_IsTry == false);
+            if (state == 1)
+                wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);
+            if (state == 2)
+                wc.And(Student_Course._.Stc_EndTime < DateTime.Now);
+            return Gateway.Default.From<Course>()
+                    .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                    .Where(wc).ToFirst<Course>();
+
+        }
+        /// <summary>
+        /// 学员是否购买了该课程
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="stid"></param>
+        /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
+        /// <returns></returns>
+        public bool IsBuy(int couid, int stid, int state)
+        {
+            WhereClip wc = Student_Course._.Cou_ID == couid && Student_Course._.Ac_ID == stid;
+            wc.And(Student_Course._.Stc_IsTry == false);
+            if (state == 1)
+                wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);
+            if (state == 2)
+                wc.And(Student_Course._.Stc_EndTime < DateTime.Now);
+            Student_Course sc = Gateway.Default.From<Student_Course>().Where(wc).ToFirst<Student_Course>();
+            return sc != null;
+        }
+        /// <summary>
+        /// 学员购买的该课程
+        /// </summary>
+        /// <param name="stid">学员Id</param>
+        /// <param name="sear">用于检索的字符</param>
+        /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
+        /// <returns></returns>
+        public List<Course> CourseForStudent(int stid, string sear, int state, bool? istry, int count)
+        {
+            WhereClip wc = Student_Course._.Ac_ID == stid;
+            //Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            //if (org != null)
+            //{
+            //    wc.And(Student_Course._.Org_ID == org.Org_ID);
+            //}
+            if (istry != null) wc.And(Student_Course._.Stc_IsTry == (bool)istry);
+            if (state == 1)
+                wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);
+            if (state == 2)
+                wc.And(Student_Course._.Stc_EndTime < DateTime.Now);
+            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+            return Gateway.Default.From<Course>()
+                    .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                    .Where(wc).OrderBy(Student_Course._.Stc_StartTime.Desc).ToList<Course>(count);
+        }
+        /// <summary>
+        /// 获取所有课程
+        /// </summary>
+        /// <param name="orgid">所在机构id</param>
+        /// <param name="thid">教师id</param>
+        /// <param name="isUse"></param>
+        /// <returns></returns>
+        public List<Course> CourseAll(int orgid, int sbjid, int thid, bool? isUse)
+        {
+            return CourseCount(orgid, sbjid, null, isUse, -1);
+        }
+        /// <summary>
+        /// 某个课程的学习人数
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="isAll">是否取全部值，如果为false，则仅取当前正在学习的</param>
+        /// <returns></returns>
+        public int CourseStudentSum(int couid, bool? isAll)
+        {
+            WhereClip wc = new WhereClip();
+            if (couid > 0) wc.And(Student_Course._.Cou_ID == couid);
+            if (isAll == null || isAll == false)
+            {
+                wc.And(Student_Course._.Stc_StartTime <= DateTime.Now);
+                wc.And(Student_Course._.Stc_EndTime > DateTime.Now);
+            }
+            return Gateway.Default.Count<Student_Course>(wc);
+        }
+        /// <summary>
+        /// 清除课程的内容
+        /// </summary>
+        /// <param name="identify"></param>
+        public void CourseClear(int identify)
+        {
+            //删除章节
+            List<Song.Entities.Outline> outline = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == identify).ToList<Outline>();
+            if (outline != null && outline.Count > 0)
+            {
+                foreach (Song.Entities.Outline ol in outline)
+                {
+                    Business.Do<IOutline>().OutlineClear(ol.Ol_ID);
+                    Business.Do<IOutline>().OutlineDelete(ol.Ol_ID);
+                }
+            }
+            //删除试卷
+            List<Song.Entities.TestPaper> tps = Gateway.Default.From<TestPaper>().Where(TestPaper._.Cou_ID == identify).ToList<TestPaper>();
+            if (tps != null && tps.Count > 0)
+            {
+                foreach (Song.Entities.TestPaper t in tps)
+                    Business.Do<ITestPaper>().PagerDelete(t.Tp_Id);
+            }
+            //考试指南
+            List<Song.Entities.GuideColumns> gcs = Gateway.Default.From<GuideColumns>().Where(GuideColumns._.Cou_ID == identify).ToList<GuideColumns>();
+            if (gcs != null && gcs.Count > 0)
+            {
+                foreach (Song.Entities.GuideColumns t in gcs)
+                    Business.Do<IGuide>().ColumnsDelete(t);
+            }
+            //清理试题
+            List<Song.Entities.Questions> ques = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == identify).ToList<Questions>();
+            if (ques != null && ques.Count > 0)
+            {
+                foreach (Song.Entities.Questions c in ques)
+                    Business.Do<IQuestions>().QuesDelete(c.Qus_ID);
+            }
+        }
+        public int CourseOfCount(int orgid, int sbjid, int thid)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Course._.Org_ID == orgid);
+            if (sbjid > 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (int l in list)
+                    wcSbjid.Or(Course._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
+            if (thid > 0) wc.And(Course._.Th_ID == thid);
+            return Gateway.Default.Count<Course>(wc);
+        }
+
+        /// <summary>
+        /// 获取指定个数的课程列表
+        /// </summary>
+        /// <param name="orgid">所在机构id</param>
+        /// <param name="thid">教师id</param>
+        /// <param name="isUse"></param>
+        /// <param name="count">取多少条记录，如果小于等于0，则取所有</param>
+        /// <returns></returns>
+        public List<Course> CourseCount(int orgid, int sbjid, int thid, int pid, string sear, bool? isUse, int count)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Course._.Org_ID == orgid);
+            if (sbjid > 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (int l in list)
+                    wcSbjid.Or(Course._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
+            if (thid > 0) wc.And(Course._.Th_ID == thid);
+            if (pid > 0) wc.And(Course._.Cou_ID == pid);
+            if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            return Gateway.Default.From<Course>().Where(wc)
+                .OrderBy(Course._.Cou_Tax.Asc).ToList<Course>(count);
+            //如果是采用多个教师对应一个课程，用下面的方法
+            //count = count < 1 ? int.MaxValue : count;
+            //if (thid < 1)
+            //{
+            //    WhereClip wc = Course._.Org_ID == orgid;
+            //    if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            //    return Gateway.Default.From<Course>().Where(wc).OrderBy(Course._.Cou_Tax.Asc).ToList<Course>();
+            //}
+            //return Gateway.Default.From<Course>()
+            //    .InnerJoin<Teacher_Course>(Teacher_Course._.Cou_ID == Course._.Cou_ID)
+            //    .Where(Teacher_Course._.Th_ID == thid)
+            //    .OrderBy(Course._.Cou_Tax.Asc).ToList<Course>();
+
+        }
+        public List<Course> CourseCount(int orgid, int sbjid, string sear, bool? isUse, int count)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Course._.Org_ID == orgid);
+            if (sbjid > 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (int l in list)
+                    wcSbjid.Or(Course._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
+            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+            if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            return Gateway.Default.From<Course>().Where(wc)
+               .OrderBy(Course._.Cou_Tax.Asc).ToList<Course>(count);
+        }
+        /// <summary>
+        /// 获取指定个数的课程列表
+        /// </summary>
+        /// <param name="orgid">所在机构id</param>
+        /// <param name="sbjid">专业id，等于0取所有</param>
+        /// <param name="sear"></param>
+        /// <param name="isUse"></param>
+        /// <param name="order">排序方式，默认null按排序顺序，flux流量最大优先,def推荐、流量，tax排序号，new最新,rec推荐</param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public List<Course> CourseCount(int orgid, int sbjid, string sear, bool? isUse, string order, int count)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Course._.Org_ID == orgid);
+            if (sbjid > 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (int l in list)
+                    wcSbjid.Or(Course._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
+            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+            if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            OrderByClip wcOrder = new OrderByClip();
+            if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
+            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_ViewNum.Asc;
+            if (order == "tax") wcOrder = Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
+            if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
+            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
+            return Gateway.Default.From<Course>().Where(wc)
+               .OrderBy(wcOrder).ToList<Course>(count);
+        }
+        public bool CourseIsChildren(int orgid, int couid, bool? isUse)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Course._.Org_ID == orgid);
+            if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            int count = Gateway.Default.Count<Course>(wc && Course._.Cou_PID == couid);
+            return count > 0;
+        }
+        /// <summary>
+        /// 分页取课程信息
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="thid"></param>
+        /// <param name="isUse"></param>
+        /// <param name="searTxt"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public List<Course> CoursePager(int orgid, int thid, bool? isUse, string searTxt, int size, int index, out int countSum)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Course._.Org_ID == orgid);
+            if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Like("%" + searTxt + "%"));
+            if (thid > 0) wc.And(Course._.Th_ID == thid);
+            countSum = Gateway.Default.Count<Course>(wc);
+            return Gateway.Default.From<Course>().Where(wc).OrderBy(Course._.Cou_Tax.Asc).ToList<Course>(size, (index - 1) * size);
+            //如果是采用多个教师对应一个课程，用下面的方法
+            //if (thid < 1)
+            //{
+            //    countSum = Gateway.Default.Count<Course>(wc);
+            //    return Gateway.Default.From<Course>().Where(wc).OrderBy(Course._.Cou_Tax.Asc).ToList<Course>(size, (index - 1) * size);
+            //}
+            //else
+            //{
+            //    countSum = Gateway.Default.From<Course>()
+            //        .InnerJoin<Teacher_Course>(Teacher_Course._.Cou_ID == Course._.Cou_ID)
+            //        .Where(Teacher_Course._.Th_ID == thid)
+            //        .OrderBy(Course._.Cou_Tax.Asc).Count();
+            //    return Gateway.Default.From<Course>()
+            //        .InnerJoin<Teacher_Course>(Teacher_Course._.Cou_ID == Course._.Cou_ID)
+            //        .Where(Teacher_Course._.Th_ID == thid)
+            //        .OrderBy(Course._.Cou_Tax.Asc).ToList<Course>(size, (index - 1) * size);
+            //}
+        }
+        public List<Course> CoursePager(int orgid, int sbjid, int thid, bool? isUse, string searTxt, string order, int size, int index, out int countSum)
+        {
+            WhereClip wc = Course._.Org_ID == orgid;
+            if (sbjid > 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (int l in list)
+                    wcSbjid.Or(Course._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
+            if (thid > 0) wc.And(Course._.Th_ID == thid);
+            if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Like("%" + searTxt + "%"));
+            countSum = Gateway.Default.Count<Course>(wc);
+            OrderByClip wcOrder = new OrderByClip();
+            if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
+            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_ViewNum.Asc;
+            if (order == "tax") wcOrder = Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
+            if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
+            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_Tax.Asc & Course._.Cou_CrtTime.Desc;
+            return Gateway.Default.From<Course>().Where(wc).OrderBy(wcOrder).ToList<Course>(size, (index - 1) * size);
+        }
+        /// <summary>
+        /// 分页获取
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid">专业id,多个id用逗号分隔</param>
+        /// <param name="isUse"></param>
+        /// <param name="searTxt"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public List<Course> CoursePager(int orgid, string sbjid, bool? isUse, string searTxt, string order, int size, int index, out int countSum)
+        {
+            WhereClip wc = Course._.Org_ID == orgid;
+            if (!string.IsNullOrWhiteSpace(sbjid))
+            {
+                WhereClip wcSbjid = new WhereClip();              
+                foreach (string tm in sbjid.Split(','))
+                {
+                    if (string.IsNullOrWhiteSpace(tm)) continue;
+                    int sbj = 0;
+                    int.TryParse(tm, out sbj);
+                    if (sbj == 0) continue;
+                    wcSbjid.Or(Course._.Sbj_ID == sbj);
+                }               
+                wc.And(wcSbjid);
+            }           
+            if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Like("%" + searTxt + "%"));
+            countSum = Gateway.Default.Count<Course>(wc);
+            OrderByClip wcOrder = new OrderByClip();
+            if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
+            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_ViewNum.Asc;
+            if (order == "tax") wcOrder = Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
+            if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
+            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
+            if (order == "free") wcOrder = Course._.Cou_IsFree.Desc & Course._.Cou_Tax.Desc;
+            return Gateway.Default.From<Course>().Where(wc).OrderBy(wcOrder).ToList<Course>(size, (index - 1) * size);
+        }
+        /// <summary>
+        /// 将当前项目向上移动；仅在当前对象的同层移动，即同一父节点下的对象向前移动；
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
+        public bool CourseUp(int id)
+        {
+            //当前对象
+            Course current = Gateway.Default.From<Course>().Where(Course._.Cou_ID == id).ToFirst<Course>();
+            int tax = (int)current.Cou_Tax;
+            //下一个对象，即弟弟对象；弟弟不存则直接返回false;
+            Course next = Gateway.Default.From<Course>()
+                .Where(Course._.Cou_Tax > tax)
+                .OrderBy(Course._.Cou_Tax.Asc).ToFirst<Course>();
+            if (next == null) return false;
+
+            //交换排序号
+            current.Cou_Tax = next.Cou_Tax;
+            next.Cou_Tax = tax;
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    tran.Save<Course>(current);
+                    tran.Save<Course>(next);
+                    tran.Commit();
+                    return true;
+                }
+                catch
+                {
+                    tran.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// 将当前项目向下移动；仅在当前对象的同层移动，即同一父节点下的对象向后移动；
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
+        public bool CourseDown(int id)
+        {
+            //当前对象
+            Course current = Gateway.Default.From<Course>().Where(Course._.Cou_ID == id).ToFirst<Course>();
+            int tax = (int)current.Cou_Tax;
+            //上一个对象，即兄长对象；兄长不存则直接返回false;
+            Course prev = Gateway.Default.From<Course>()
+                .Where(Course._.Cou_Tax < tax)
+                .OrderBy(Course._.Cou_Tax.Desc).ToFirst<Course>();
+            if (prev == null) return false;
+            //交换排序号
+            current.Cou_Tax = prev.Cou_Tax;
+            prev.Cou_Tax = tax;
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    tran.Save<Course>(current);
+                    tran.Save<Course>(prev);
+                    tran.Commit();
+                    return true;
+                }
+                catch
+                {
+                    tran.Rollback();
+                    throw;
+                }
+                finally
+                {
+
+                    tran.Close();
+                }
+            }
+        }        
+
+        #region 私有方法
+        /// <summary>
+        /// 计算当前对象在多级分类中的层深
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        private int _ClacLevel(Song.Entities.Course entity)
+        {
+            //if (entity.Cou_PID == 0) return 1;
+            int level = 1;
+            Song.Entities.Course tm = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_PID).ToFirst<Course>();
+            while (tm != null)
+            {
+                level++;
+                if (tm.Cou_PID == 0) break;
+                if (tm.Cou_PID != 0)
+                {
+                    tm = Gateway.Default.From<Course>().Where(Course._.Cou_ID == tm.Cou_PID).ToFirst<Course>();
+                }
+            }
+            entity.Cou_Level = level;
+            Gateway.Default.Save<Course>(entity);
+            List<Song.Entities.Course> childs = Gateway.Default.From<Course>().Where(Course._.Cou_PID == entity.Cou_ID).ToList<Course>();
+            foreach (Course s in childs)
+            {
+                _ClacLevel(s);
+            }
+            return level;
+        }
+        /// <summary>
+        /// 计算当前对象在多级分类中的路径
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        private string _ClacXPath(Song.Entities.Course entity)
+        {
+            //if (entity.Cou_PID == 0) return "";
+            string xpath = "";
+            Song.Entities.Course tm = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_PID).ToFirst<Course>();
+            while (tm != null)
+            {
+                xpath = tm.Cou_ID + "," + xpath;
+                if (tm.Cou_PID == 0) break;
+                if (tm.Cou_PID != 0)
+                {
+                    tm = Gateway.Default.From<Course>().Where(Course._.Cou_ID == tm.Cou_PID).ToFirst<Course>();
+                }
+            }
+            entity.Cou_XPath = xpath;
+            Gateway.Default.Save<Course>(entity);
+            List<Song.Entities.Course> childs = Gateway.Default.From<Course>().Where(Course._.Cou_PID == entity.Cou_ID).ToList<Course>();
+            foreach (Course s in childs)
+            {
+                _ClacXPath(s);
+            }
+            return xpath;
+        }
+        #endregion
+
+        #endregion
+
+        #region 课程关联管理（与学生或教师）
+        /// <summary>
+        /// 获取选学人数最多的课程列表，从多到少
+        /// </summary>
+        /// <param name="orgid">机构Id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="count">取多少条</param>
+        /// <returns></returns>
+        public DataSet CourseHot(int orgid, int sbjid, int count)
+        {
+            string sql = @"select top {count} ISNULL(b.count,0) as 'count', c.* from course as c left join 
+                            (SELECT cou_id, count(cou_id) as 'count'
+                              FROM [Student_Course]  group by cou_id ) as b
+                              on c.cou_id=b.cou_id where org_id={orgid} and {sbjid} order by [count] desc";
+            count = count <= 0 ? int.MaxValue : count;
+            sql = sql.Replace("{count}", count.ToString());
+            sql = sql.Replace("{orgid}", orgid.ToString());
+            //条件
+            sql = sql.Replace("{sbjid}", sbjid > 0 ? "sbjid=" + sbjid : "1=1");
+            
+            return Gateway.Default.FromSql(sql).ToDataSet();
+        }
+        /// <summary>
+        /// 某个学生是否正在学习某个课程
+        /// </summary>
+        /// <param name="stid"></param>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public bool StudyIsCourse(int stid, int couid)
+        {
+            Song.Entities.Student_Course sc = Gateway.Default.From<Student_Course>()
+                   .Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid
+                   && Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now)
+                   .ToFirst<Student_Course>();
+            return sc != null;
+        }
+        /// <summary>
+        /// 学生购买课程的记录项
+        /// </summary>
+        /// <param name="stid">学员Id</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public Student_Course StudyCourse(int stid, int couid)
+        {
+            return Gateway.Default.From<Student_Course>().Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid)
+                .ToFirst<Student_Course>();
+        }
+        /// <summary>
+        /// 课程学习
+        /// </summary>
+        /// <param name="stid">学生Id</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public void CourseBuy(int stid, int couid, float money, DateTime startTime, DateTime endTime)
+        {
+            Song.Entities.Student_Course sc = new Student_Course();
+            sc.Ac_ID = stid;
+            sc.Cou_ID = couid;
+            sc.Stc_Money = money;
+            sc.Stc_StartTime = startTime;
+            sc.Stc_EndTime = endTime;
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            sc.Org_ID = org.Org_ID;
+            sc.Stc_CrtTime = DateTime.Now;
+            Gateway.Default.Save<Student_Course>(sc);
+        }
+        /// <summary>
+        /// 购买课程
+        /// </summary>
+        /// <param name="stc">学生与课程的关联对象</param>
+        public Student_Course Buy(Student_Course stc)
+        {
+            Course course = Gateway.Default.From<Course>().Where(Course._.Cou_ID == stc.Cou_ID).ToFirst<Course>();
+            if (course == null) throw new Exception("要购买的课程不存在！");
+            Accounts st = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == stc.Ac_ID).ToFirst<Accounts>();
+            if (st == null) throw new Exception("当前学员不存在！");
+            //判断学员与课程是否在一个机构下，
+            //if (st.Org_ID != course.Org_ID) throw new Exception("当前员员与课程不隶属同一机构，不可选修！");
+            //
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            stc.Org_ID = org.Org_ID;
+            stc.Stc_CrtTime = DateTime.Now;
+            stc.Stc_IsTry = false;
+            Gateway.Default.Save<Student_Course>(stc);
+            return stc;
+        }
+        /// <summary>
+        /// 购买课程
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="price">价格项</param>
+        /// <returns></returns>
+        public Student_Course Buy(int stid, int couid, Song.Entities.CoursePrice price)
+        {
+            Course course = Gateway.Default.From<Course>().Where(Course._.Cou_ID == couid).ToFirst<Course>();
+            if (course == null) throw new Exception("要购买的课程不存在！");            
+            Accounts st = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == stid).ToFirst<Accounts>();
+            if (st == null) throw new Exception("当前学员不存在！");
+            //判断学员与课程是否在一个机构下，
+            //if (st.Org_ID != course.Org_ID) throw new Exception("当前员员与课程不隶属同一机构，不可选修！");
+            //*********************生成流水账的操作对象
+            Song.Entities.MoneyAccount ma = new Song.Entities.MoneyAccount();
+            ma.Ac_ID = stid;
+            ma.Ma_Monery = price.CP_Price;  //购买价格
+            //购买结束时间
+            DateTime end = DateTime.Now;
+            switch (price.CP_Unit)
+            {
+                case "日":
+                    end = DateTime.Now.AddDays(price.CP_Span);
+                    break;
+                case "周":
+                    end = DateTime.Now.AddDays(price.CP_Span * 7);
+                    break;
+                case "月":
+                    end = DateTime.Now.AddMonths(price.CP_Span);
+                    break;
+                case "年":
+                    end = DateTime.Now.AddYears(price.CP_Span);
+                    break;
+            }
+            ma.Ma_From = 4;
+            ma.Ma_Source = "购买课程";
+            ma.Ma_Info = "购买课程:" + course.Cou_Name + "；" + DateTime.Now.ToString("yyyy-MM-dd") + " 至 " + end.ToString("yyyy-MM-dd");
+
+            //***************
+            //生成学员与课程的关联
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(stid, couid);
+            if (sc == null) sc = new Entities.Student_Course();
+            sc.Cou_ID = couid;
+            sc.Ac_ID = stid;
+            sc.Stc_Money = price.CP_Price;
+            sc.Stc_StartTime = DateTime.Now;
+            sc.Stc_EndTime = end;
+            sc.Stc_IsFree = false;
+            sc.Stc_IsTry = false;
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            sc.Org_ID = org.Org_ID;
+            //
+            ma.Ma_IsSuccess = true;
+            Business.Do<IAccounts>().MoneyPay(ma);
+            Gateway.Default.Save<Student_Course>(sc);
+            return sc;
+        }
+        /// <summary>
+        /// 课程试用
+        /// </summary>
+        /// <param name="stid"></param>
+        /// <param name="couid"></param>
+        public Student_Course Tryout(int stid, int couid)
+        {
+            //生成学员与课程的关联
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(stid, couid);
+            if (sc == null) sc = new Entities.Student_Course();
+            sc.Cou_ID = couid;
+            sc.Ac_ID = stid;
+            sc.Stc_StartTime = DateTime.Now;
+            sc.Stc_EndTime = DateTime.Now.AddYears(100);
+            sc.Stc_IsFree = false;
+            sc.Stc_IsTry = true;
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            sc.Org_ID = org.Org_ID;
+            sc.Stc_CrtTime = DateTime.Now;
+            Gateway.Default.Save<Student_Course>(sc);
+            return sc;
+        }
+        /// <summary>
+        /// 是否试用该课程
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="stid"></param>
+        /// <returns></returns>
+        public bool IsTryout(int couid, int stid)
+        {
+            WhereClip wc = Student_Course._.Cou_ID == couid && Student_Course._.Ac_ID == stid;
+            wc &= Student_Course._.Stc_IsTry == true;
+            Student_Course sc = Gateway.Default.From<Student_Course>().Where(wc).ToFirst<Student_Course>();
+            return sc != null;
+        }
+        /// 取消课程学习
+        /// </summary>
+        /// <param name="stid"></param>
+        /// <param name="couid"></param>
+        public void DelteCourseBuy(int stid, int couid)
+        {
+            Gateway.Default.Delete<Student_Course>(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid);
+        }
+        /// <summary>
+        /// 获取某个教师关联的课程
+        /// </summary>
+        /// <param name="thid"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public List<Course> Course4Teacher(int thid, int count)
+        {
+            count = count < 1 ? int.MaxValue : count;
+            return Gateway.Default.From<Course>()
+                    .InnerJoin<Teacher_Course>(Teacher_Course._.Cou_ID == Course._.Cou_ID)
+                    .Where(Teacher_Course._.Th_ID == thid)
+                    .OrderBy(Course._.Cou_Tax.Asc).ToList<Course>(count);
+        }
+        /// <summary>
+        /// 学习某个课程的学员
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="stname"></param>
+        /// <param name="stmobi"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public Accounts[] Student4Course(int couid, string stname, string stmobi, int size, int index, out int countSum)
+        {
+            WhereClip wc = Student_Course._.Cou_ID == couid;
+            if (!string.IsNullOrWhiteSpace(stname) && stname.Trim() != "") wc.And(Accounts._.Ac_Name.Like("%" + stname + "%"));
+            if (!string.IsNullOrWhiteSpace(stmobi) && stmobi.Trim() != "") wc.And(Accounts._.Ac_AccName.Like("%" + stmobi + "%"));
+            countSum = Gateway.Default.From<Accounts>().InnerJoin<Student_Course>(Student_Course._.Ac_ID == Accounts._.Ac_ID)
+                   .Where(wc).OrderBy(Accounts._.Ac_LastTime.Desc).Count();
+            return Gateway.Default.From<Accounts>()
+                   .InnerJoin<Student_Course>(Student_Course._.Ac_ID == Accounts._.Ac_ID)
+                   .Where(wc).OrderBy(Accounts._.Ac_LastTime.Desc).ToArray<Accounts>(size, (index - 1) * size);
+
+        }
+        #endregion
+
+        #region 价格管理
+        /// <summary>
+        /// 添加价格记录
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        public void PriceAdd(CoursePrice entity)
+        {
+            object obj = Gateway.Default.Max<CoursePrice>(CoursePrice._.CP_Tax, CoursePrice._.Cou_UID == entity.Cou_UID);
+            entity.CP_Tax = obj is int ? (int)obj + 1 : 0;
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            if (org != null)
+            {
+                entity.Org_ID = org.Org_ID;
+            } 
+            Gateway.Default.Save<CoursePrice>(entity);
+            PriceSetCourse(entity.Cou_UID);
+        }
+        /// <summary>
+        ///  将产品价格写入到课程所在的表，取第一条价格
+        /// </summary>
+        /// <param name="uid">课程UID</param>
+        public void PriceSetCourse(string uid){           
+            CoursePrice[] prices = PriceCount(0, uid, true, 0);
+            if (prices.Length > 0)
+            {
+                CoursePrice p = prices[0];
+                Song.Entities.Course course = Gateway.Default.From<Course>().Where(Course._.Cou_UID == uid).ToFirst<Course>();
+                if (course != null)
+                {
+                    course.Cou_Price = p.CP_Price;
+                    course.Cou_PriceSpan = p.CP_Span;
+                    course.Cou_PriceUnit = p.CP_Unit;
+                    Gateway.Default.Save<Course>(course);
+                }
+            }
+        }
+        /// <summary>
+        /// 修改价格记录
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        public void PriceSave(CoursePrice entity)
+        {
+            Gateway.Default.Save<CoursePrice>(entity);
+            PriceSetCourse(entity.Cou_UID);
+        }
+        /// <summary>
+        /// 删除价格记录
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        public void PriceDelete(CoursePrice entity)
+        {
+            Gateway.Default.Delete<CoursePrice>(entity);
+            PriceSetCourse(entity.Cou_UID);
+        }
+        /// <summary>
+        /// 删除，按主键ID；
+        /// </summary>
+        /// <param name="identify">实体的主键</param>
+        public void PriceDelete(int identify)
+        {
+            CoursePrice p = Gateway.Default.From<CoursePrice>().Where(CoursePrice._.CP_ID == identify).ToFirst<CoursePrice>();
+            if (p != null) PriceDelete(p);
+        }
+        /// <summary>
+        /// 删除，按全局唯一标识
+        /// </summary>
+        /// <param name="uid"></param>
+        public void PriceDelete(string uid)
+        {
+            Gateway.Default.Delete<CoursePrice>(CoursePrice._.Cou_UID == uid);
+            PriceSetCourse(uid);
+        }
+        /// <summary>
+        /// 获取单一实体对象，按主键ID；
+        /// </summary>
+        /// <param name="identify">实体的主键</param>
+        /// <returns></returns>
+        public CoursePrice PriceSingle(int identify)
+        {
+            return Gateway.Default.From<CoursePrice>().Where(CoursePrice._.CP_ID == identify).ToFirst<CoursePrice>();
+        }
+        /// <summary>
+        /// 获取价格记录
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="uid"></param>
+        /// <param name="isUse"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public CoursePrice[] PriceCount(int couid, string uid, bool? isUse, int count)
+        {
+            WhereClip wc = new WhereClip();
+            if (isUse != null) wc &= CoursePrice._.CP_IsUse == (bool)isUse;
+            if (!string.IsNullOrWhiteSpace(uid))
+            {
+                wc &= CoursePrice._.Cou_UID == uid;
+            }
+            else
+            {
+                wc &= CoursePrice._.Cou_ID == couid;
+            }
+            return Gateway.Default.From<CoursePrice>().Where(wc).OrderBy(CoursePrice._.CP_Tax.Asc).ToArray<CoursePrice>(count);
+        }
+        /// <summary>
+        /// 将当前项目向上移动；仅在当前对象的同层移动，即同一父节点下的对象这前移动；
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
+        public bool PriceUp(int id)
+        {
+            //当前对象
+            CoursePrice current = Gateway.Default.From<CoursePrice>().Where(CoursePrice._.CP_ID == id).ToFirst<CoursePrice>();
+            int tax = (int)current.CP_Tax;
+            //上一个对象，即兄长对象；兄长不存则直接返回false;
+            CoursePrice prev = Gateway.Default.From<CoursePrice>().Where(CoursePrice._.CP_Tax < tax && CoursePrice._.Cou_UID == current.Cou_UID)
+                .OrderBy(CoursePrice._.CP_Tax.Desc).ToFirst<CoursePrice>();
+            if (prev == null) return false;
+            //交换排序号
+            current.CP_Tax = prev.CP_Tax;
+            prev.CP_Tax = tax;
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    tran.Save<CoursePrice>(current);
+                    tran.Save<CoursePrice>(prev);
+                    tran.Commit();
+                    return true;
+                }
+                catch
+                {
+                    tran.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// 将当前项目向下移动；仅在当前对象的同层移动，即同一父节点下的对象这前移动；
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
+        public bool PriceDown(int id)
+        {
+            //当前对象
+            CoursePrice current = Gateway.Default.From<CoursePrice>().Where(CoursePrice._.CP_ID == id).ToFirst<CoursePrice>();
+            int tax = (int)current.CP_Tax;
+            //下一个对象，即弟弟对象；弟弟不存则直接返回false;
+            CoursePrice next = Gateway.Default.From<CoursePrice>().Where(CoursePrice._.CP_Tax > tax && CoursePrice._.Cou_UID == current.Cou_UID)
+                .OrderBy(CoursePrice._.CP_Tax.Asc).ToFirst<CoursePrice>();
+            if (next == null) return false;
+            //交换排序号
+            current.CP_Tax = next.CP_Tax;
+            next.CP_Tax = tax;
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    tran.Save<CoursePrice>(current);
+                    tran.Save<CoursePrice>(next);
+                    tran.Commit();
+                    return true;
+                }
+                catch
+                {
+                    tran.Rollback();
+                    throw;
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
+        }
+        #endregion
+    }
+}

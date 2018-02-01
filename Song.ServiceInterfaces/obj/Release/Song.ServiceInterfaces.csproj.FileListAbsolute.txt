@@ -1,0 +1,11 @@
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\bin\Release\Song.ServiceInterfaces.dll
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\bin\Release\Song.ServiceInterfaces.pdb
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\bin\Release\Song.Entities.dll
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\bin\Release\WeiSha.Common.dll
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\bin\Release\WeiSha.Data.dll
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\bin\Release\Spring.Core.dll
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\bin\Release\Common.Logging.dll
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\bin\Release\Song.Entities.pdb
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\obj\Release\ResolveAssemblyReference.cache
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\obj\Release\Song.ServiceInterfaces.dll
+E:\源码\01.学习平台\培训考试系统\Song.ServiceInterfaces\obj\Release\Song.ServiceInterfaces.pdb

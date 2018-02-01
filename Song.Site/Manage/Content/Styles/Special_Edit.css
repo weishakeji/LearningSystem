@@ -1,0 +1,70 @@
+﻿@charset "utf-8";
+.showBox
+{
+	width:400px;
+	height:250px;
+}
+.videoError
+{
+	margin-right:auto;
+	margin-left:auto;
+	margin-top:20px;
+	width:300px;
+}
+/*图片*/
+.imgBox
+{
+	float: left;
+	margin-top: 5px;
+	margin-right: 0px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	width: auto;
+}
+/*相册封面*/
+.imgBox .picShow
+{
+	border: 1px solid #CCCCCC;
+	cursor:pointer;
+	overflow: hidden;
+}
+
+/*封面标识*/
+.cover
+{
+	background-color: #FF0000;
+	line-height: 20px;
+	height:20px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	filter:Alpha(Opacity=60);
+	-moz-opacity:0.6;
+	opacity:0.6;
+}
+.imgList
+{
+	float: none;
+	width: 100%;
+	display: table;
+}
+.piName
+{
+	line-height: 18px;
+	height: 18px;
+	text-align: center;
+}
+.control
+{
+	line-height: 18px;
+	height: 18px;
+	text-align: center;
+}
+.pager
+{
+	float: none;
+	width: 100%;
+	margin-top: 15px;
+	margin-bottom: 5px;
+	display: table;
+}

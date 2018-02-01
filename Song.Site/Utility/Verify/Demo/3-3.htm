@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<script type="text/javascript" src="../Scripts/jquery.js"></script>
+<script type="text/javascript" src="../Scripts/Verify.js"></script>
+<link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1>设置提示信息样式</h1>
+<h2>概述</h2>
+<div class="desc">
+  <p>提示信息默认显示在控件下方，红色背景，白色字体。可以根据需要，设置提示信息显示在右侧。</p>
+  <p>提示信息显示在右侧，&lt;input name=&quot;&quot; type=&quot;text&quot; nullable=&quot;false&quot; <strong>place=&quot;right&quot;</strong>/&gt;</p>
+  <p>设置提示信息的前景色（字体颜色）与背景色，&lt;input type=&quot;text&quot; datatype=&quot;email&quot; nullable=&quot;false&quot; <strong> bgcolor=&quot;#33f&quot; fgcolor=&quot;#FF9&quot;</strong>/&gt;</p>
+</div>
+<h2>示例</h2>
+<h3>1、提示信息位置</h3>
+<div class="desc">
+  <fieldset>
+    <legend>单个设置提示信息位置</legend>
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot;&gt;<br />   &lt;p&gt;<br />            姓名：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; size=&quot;6&quot; datatype=&quot;chinese&quot; lenlimit=&quot;2-4&quot; nullable=&quot;false&quot;
+ 		alt=&quot;限2至4个中文字/符&quot;&gt;&lt;span&gt;（默认显示在下方）&lt;/span&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />            年龄：<br />        &lt;input type=&quot;text&quot; size=&quot;4&quot; datatype=&quot;uint&quot; star=&quot;false&quot;
+			 nullable=&quot;false&quot; <strong>place=&quot;right&quot;</strong> /&gt;（显示在右侧）<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />            高身：<br />        &lt;input type=&quot;text&quot; size=&quot;4&quot; datatype=&quot;uint&quot; star=&quot;false&quot;
+			 nullable=&quot;false&quot; <strong>place=&quot;top&quot;</strong>/&gt;cm（显示在上方）<br />      &lt;/p&gt;<br />        &lt;p&gt;<br />            电话：<br />        &lt;input type=&quot;text&quot; size=&quot;13&quot; datatype=&quot;tel|mobile&quot; star=&quot;false&quot;
+		 nullable=&quot;false&quot; <strong>place=&quot;left&quot;</strong> /&gt;（显示在左则）<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;">
+   <p>
+            姓名：
+        <input name="" type="text" size="6" datatype="chinese" lenlimit="2-4" nullable="false" alt="限2至4个中文字/符"><span>（默认显示在下方）</span>
+      </p>
+      <p>
+            年龄：
+        <input type="text" size="4" datatype="uint" star="false" nullable="false" place="right" />（显示在右侧）
+      </p>
+      <p>
+            高身：
+        <input type="text" size="4" datatype="uint" star="false" nullable="false" place="top"/>cm（显示在上方）
+      </p>
+        <p>
+            电话：
+        <input type="text" size="13" datatype="tel|mobile" star="false" nullable="false" place="left" />（显示在左则）
+      </p>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+  <fieldset>
+    <legend>统一设置提示信息位置</legend>
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot; <strong>place=&quot;right&quot;</strong> &gt;<br />     &lt;p&gt;<br />            姓名：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; size=&quot;6&quot; datatype=&quot;chinese&quot;
+            lenlimit=&quot;2-4&quot; nullable=&quot;false&quot; alt=&quot;限2至4个中文字/符&quot;&gt;&lt;span&gt;&lt;/span&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />            年龄：<br />        &lt;input type=&quot;text&quot; size=&quot;4&quot; datatype=&quot;uint&quot;
+         star=&quot;false&quot; nullable=&quot;false&quot; /&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;" place="right" >
+     <p>
+            姓名：
+        <input name="" type="text" size="6" datatype="chinese" lenlimit="2-4" nullable="false" alt="限2至4个中文字/符"><span></span>
+      </p>
+      <p>
+            年龄：
+        <input type="text" size="4" datatype="uint" star="false" nullable="false" />
+      </p>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+</div>
+<h3>2、提示信息颜色</h3>
+<div class="desc">
+  <fieldset>
+    <legend>单个设置提示信息颜色</legend>
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot; place=&quot;right&quot; &gt;<br />   &lt;p&gt;<br />            电话：<br />            &lt;input type=&quot;text&quot; datatype=&quot;mobile|tel&quot; alt=&quot;请输入正确的电话号/码&quot;
+          nullable=&quot;false&quot; <strong> bgcolor=&quot;#333&quot; fgcolor=&quot;#ff3000&quot;</strong>&gt;<br />        &lt;/p&gt;<br />        &lt;p&gt;<br />            邮箱：<br />            &lt;input type=&quot;text&quot; datatype=&quot;email&quot; nullable=&quot;false&quot; <strong> bgcolor=&quot;#33f&quot; fgcolor=&quot;#FF9&quot;</strong>/&gt;<br />        &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;" place="right" >
+   <p>
+            电话：
+            <input type="text" datatype="mobile|tel" alt="请输入正确的电话号/码" nullable="false"  bgcolor="#333" fgcolor="#ff3000">
+        </p>
+        <p>
+            邮箱：
+            <input type="text" datatype="email" nullable="false"  bgcolor="#33f" fgcolor="#FF9"/>
+        </p>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+  <fieldset>
+    <legend>统一设置提示信息颜色</legend>
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot; place=&quot;right&quot; <strong> bgcolor=&quot;#333&quot; fgcolor=&quot;#ff3000&quot;</strong>&gt;<br />     &lt;p&gt;<br />            姓名：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; size=&quot;6&quot; datatype=&quot;chinese&quot;
+         lenlimit=&quot;2-4&quot; nullable=&quot;false&quot; alt=&quot;限2至4个中文字/符&quot;&gt;&lt;span&gt;&lt;/span&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />            年龄：<br />        &lt;input type=&quot;text&quot; size=&quot;4&quot; datatype=&quot;uint&quot; star=&quot;false&quot; nullable=&quot;false&quot; /&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;" place="right"  bgcolor="#333" fgcolor="#ff3000">
+     <p>
+            姓名：
+        <input name="" type="text" size="6" datatype="chinese" lenlimit="2-4" nullable="false" alt="限2至4个中文字/符"><span></span>
+      </p>
+      <p>
+            年龄：
+        <input type="text" size="4" datatype="uint" star="false" nullable="false" />
+      </p>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<script type="text/javascript" src="../Scripts/jquery.js"></script>
+<script type="text/javascript" src="../Scripts/Verify.js"></script>
+<link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1>验证方式</h1>
+<h2>概述</h2>
+<div class="desc">
+  <p>默认的验证方式是点击按钮后<b>按顺序逐个验证</b>所在form表单内的所有控件，如果验证全部通过则触发form的submit事件，不通过则中断。</p>
+  <p>在实际工作中，用户希望<b>录入后即验证</b>，即控件失去焦点后立即进行验证，不必统一提交时验证。</p>
+  <p>可以通过设置form表单的patter属性为focus（默认为submit），即焦点模式。</p>
+</div>
+<h2>示例</h2>
+<h3>1、提交表时验证</h3>
+<p>默认的提交验证方式， form不用做任何设置。下例中年龄录入框做了失去焦点的验证。</p>
+<fieldset>
+<pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot;&gt;<br />    &lt;p&gt; 账号：<br />      &lt;input name=&quot;&quot; type=&quot;text&quot; nullable=&quot;false&quot; datatype=&quot;user&quot; /&gt;<br />    &lt;/p&gt;<br />    &lt;p&gt; 年龄：<br />      &lt;input type=&quot;text&quot; size=&quot;4&quot; datatype=&quot;uint&quot; nullable=&quot;false&quot;
+       place=&quot;right&quot; <strong> patter=&quot;focus&quot;</strong>/&gt;<br />    &lt;/p&gt;<br />    &lt;p&gt; 电话：<br />            &lt;input type=&quot;text&quot; datatype=&quot;mobile|tel&quot; alt=&quot;请输入正确的电话号码&quot;&gt;<br />    &lt;/p&gt;<br />    &lt;p&gt;<br />      &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot; /&gt;<br />    &lt;/p&gt;<br />  &lt;/form&gt;</pre>
+  <form onsubmit="alert('验证成功');return false;">
+    <p> 账号：
+      <input name="" type="text" nullable="false" datatype="user" />
+    </p>
+    <p> 年龄：
+      <input type="text" size="4" datatype="uint" nullable="false" place="right"  patter="focus"/>
+    </p>
+    <p> 电话：
+      <input type="text" datatype="mobile|tel" alt="请输入正确的电话号码">
+    </p>
+    <p>
+      <input type="submit" name="button" class="button" value="验证表单" verify="true" />
+    </p>
+  </form>
+</fieldset>
+<h3>2、失去焦点即验证</h3>
+<p>当form设置了 patter="focus"，所有控件在失去焦点时都会进行验证。</p>
+<fieldset>
+<pre>&lt;form <strong>patter=&quot;focus&quot;</strong> place=&quot;right&quot;&gt;<br />    &lt;p&gt; 账号：<br />      &lt;input name=&quot;&quot; type=&quot;text&quot; nullable=&quot;false&quot; datatype=&quot;user&quot;/&gt;<br />    &lt;/p&gt;<br />    &lt;p&gt; 年龄：<br />      &lt;input type=&quot;text&quot; size=&quot;4&quot; datatype=&quot;uint&quot; nullable=&quot;false&quot; /&gt;<br />    &lt;/p&gt;<br />    &lt;p&gt; 电话：<br />      &lt;input type=&quot;text&quot; datatype=&quot;mobile|tel&quot; alt=&quot;请输入正确的电话号码&quot;&gt;<br />    &lt;/p&gt;<br />  &lt;/form&gt;</pre>
+  <form patter="focus" place="right">
+    <p> 账号：
+      <input name="" type="text" nullable="false" datatype="user"/>
+    </p>
+    <p> 年龄：
+      <input type="text" size="4" datatype="uint" nullable="false" />
+    </p>
+    <p> 电话：
+      <input type="text" datatype="mobile|tel" alt="请输入正确的电话号码">
+    </p>
+  </form>
+</fieldset>
+</body>
+</html>

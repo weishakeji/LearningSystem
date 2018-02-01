@@ -1,0 +1,18 @@
+@charset "utf-8";
+#bodyTop {
+	background-image: url(../Images/about.jpg);
+	background-repeat: no-repeat;
+	background-position: center 0px;
+	height: 200px;
+	width: 100%;
+}
+#Context {
+	min-height:300px;
+	font-size: 16px;
+	line-height: 30px;
+}
+#Context, #Context a, #Context p, #Context div
+{
+	font-size: 16px;
+	line-height: 30px;
+}

@@ -1,0 +1,81 @@
+﻿@charset "utf-8";
+/*选项卡的标题部分*/
+#tabTitleBox
+{
+	line-height: 30px;
+	height: 30px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	width:100%;
+}
+/*选项卡的标题*/
+#tabTitleBox .titItem
+{
+	float: left;
+	line-height: 25px;
+	height: 25px;
+	width: 100px;
+	margin-top:5px;
+	background-color: #CCCCCC;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: 1px;
+	border-left-width: thin;
+	border-top-style: outset;
+	border-right-style: outset;
+	border-left-style: outset;
+	border-top-color: #FFFFFF;
+	border-right-color: #FFFFFF;
+	border-bottom-color: #CCCCCC;
+	border-left-color: #FFFFFF;
+	text-align: center;
+	border-bottom-style: solid;
+	cursor:pointer;
+}
+/*当前选中的选项卡标题*/
+#tabTitleBox .curr
+{
+	line-height: 30px;
+	height: 30px;
+	width: 100px;
+	background-color: #ffffff;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: 0px;
+	border-left-width: thin;
+	border-top-style: outset;
+	border-right-style: outset;
+	border-left-style: outset;
+	border-top-color: #FFFFFF;
+	border-right-color: #FFFFFF;
+	border-bottom-color: #CCCCCC;
+	border-left-color: #FFFFFF;
+	text-align: center;
+	border-bottom-style: solid;
+	margin-top:0px;
+}
+/*选项卡的内容区*/
+#tabContextBox
+{
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: none;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #CCCCCC;
+	border-right-color: #CCCCCC;
+	border-bottom-color: #CCCCCC;
+	border-left-color: #CCCCCC;
+	overflow:auto;
+}
+#tabContextBox .contItem
+{
+	
+}

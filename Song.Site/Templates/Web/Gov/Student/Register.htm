@@ -1,0 +1,68 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>学员注册 - {$org.org_name}</title>
+<vt:include file="../inc/meta.inc" />
+<script type="text/javascript" src="Scripts/Register.js"></script>
+<link href="Styles/Register.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<vt:include file="../inc/header.html" />
+<div id="Context">
+  <div class="regTitle">学员注册</div>
+  <vt:if var="IsRegStudent" value="false" compare="=">
+    <div id="registerBox">
+      <form id="registerForm" name="registerForm" method="post">
+        <div class="loginRow">
+          <widget type="text" ico="&#xe622; iconphone" deftxt="手机号" name="tbPhone" class="textbox width" datatype="mobile" nullable="false"> </widget>
+        </div>
+        <div class="loginRow">
+          <widget type="password" ico="&#xe6ed;" deftxt="密码" name="tbPw" class="textbox width" nullable="false"> </widget>
+        </div>
+        <div class="loginRow">
+          <widget type="password" ico="&#xe6ed;" deftxt="确认密码" name="tbPw2" class="textbox width" nullable="false"  sametarget="tbPw"> </widget>
+        </div>
+        <div class="loginRow">
+          <widget type="text" ico="&#xe645;" deftxt="学员姓名" name="tbName" class="textbox width" nullable="false"  lenlimit="2-12"> </widget>
+        </div>
+        <div class="loginRow">
+          <widget type="text" ico="&#xe6ee;" deftxt="电子邮箱（非必填）" name="tbEmail" class="textbox width" datatype="email"> </widget>
+        </div>
+        <div class="loginRow">
+          <widget type="text" ico="&#xe6bc;" deftxt="推荐人电话（非必填）" name="tbRec" class="textbox width" datatype="mobile"> </widget>
+        </div>
+        <div class="loginRow">
+          <widget type="text" ico="&#xe636;" deftxt="验证码" name="tbCode" 
+                class="textbox verify" nullable="false" lenlimit="4-4" datatype="number"> </widget>
+          <input name="from" type="hidden" value="{$from}" />
+          <img src="/Utility/codeimg.aspx?name=mobivcode" class="verifyCode right-btn"/> </div>
+           <vt:if var="IsRegSms" value="true" compare="=">
+        <div class="loginRow">
+          <widget type="text" ico="&#xe71a; iconphone" deftxt="短信验证码" name="tbSms" class="textbox verify" nullable="false"  lenlimit="6-6"> </widget>
+          <div class="right-btn" id="getSms" waiting="{num}秒后再获取">获取短信</div>
+        </div>
+        </vt:if>
+        <div class="loginRow lbar">
+          <label>
+            <input name="cbAgree" type="checkbox" checked/>
+            我同意<a href="#" type="open" id="linkAgreement">《平台使用协议》</a> </label>
+        </div>
+        <div class="loginRow btnBar">
+          <input type="submit" name="btnSubmit" id="btnSubmit" value="同意协议并注册"  verify="true" disabled="disabled"  class="btnLogin disabled"/>
+        </div>
+        <dl class="OAuth">
+          <dd><a href="#"><b class="QQ-icon"></b> <span>QQ</span></a></dd>
+          <dd><a href="#"><b class="weixin-icon"></b> <span>微信</span></a></dd>
+        </dl>
+      </form>
+    </div>
+    <vt:else/>
+    <div class="noRegister"> 当前平台暂停注册。<br>
+    </div>
+  </vt:if>
+</div>
+<div class="Agreement" style="display:none;"> {$Agreement} </div>
+<vt:include file="../inc/footer.html" />
+</body>
+</html>

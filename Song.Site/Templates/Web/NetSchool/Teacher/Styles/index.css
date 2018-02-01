@@ -1,0 +1,87 @@
+@charset "utf-8";
+body{
+	text-align:left;
+}
+#bodyTop {
+	height: 520px;
+	background-image: url(../../Images/teacher-banner.jpg);
+	background-repeat: no-repeat;
+	background-position: center 0px;
+}
+/*用于固定登录框*/
+.fixedBox {
+	position: absolute;
+	top: 90px;
+	right: 0px;
+	width: 100%;
+	height: 1px;
+}
+.fixed-box {
+	width: 1200px;
+	margin-right: auto;
+	margin-left: auto;
+	height: 400px;
+	position: relative;
+}
+.title{
+	font-size: 55px;
+	margin-bottom: 10px;
+	top: 60px;
+	left: 60px;
+	position: absolute;
+	color: #FFF;
+}
+.btnbox{
+	margin-bottom: 10px;
+	top: 200px;
+	left: 60px;
+	position: absolute;     
+    background-color: #23a5f9;
+    background-color: rgba(35,165,249,.85);
+    border-radius: 3px;
+}
+.btnbox a{
+	display: block;
+	font-size: 22px;
+	color: #fff;
+	line-height: 60px;
+	text-decoration: none;
+	width:100%;
+	padding: 0 30px;
+}
+.bottom-tit{
+	font-size: 35px;
+	text-align: center;
+	color: #666;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+/*教师列表*/
+#teacher-list{
+	width: 1200px;
+	margin-right: auto;
+	margin-left: auto;
+	min-height:300px;
+	margin-bottom:50px;
+}
+#teacher-list .item{
+	float:left;
+	margin-left:45px;
+	margin-right:45px;
+}
+#teacher-list img{
+	border-radius: 50%;
+    border: 4px solid #7ec5ff;
+	width:200px;
+	height:200px;
+}
+#teacher-list .item .name{
+	font-size: 22px;
+	line-height: 60px;
+	text-align:center;
+}
+#teacher-list .item .ths{
+	font-size: 18px;
+	line-height: 40px;
+	text-align:center;
+}

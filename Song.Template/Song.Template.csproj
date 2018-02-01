@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{739180BB-2529-485F-867F-28774EB2ACC9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Song.Template</RootNamespace>
+    <AssemblyName>Song.Template</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeiSha.Common">
+      <HintPath>..\Lib\WeiSha.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="WeiSha.Data">
+      <HintPath>..\Lib\WeiSha.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="WeiSha.Template.Engine">
+      <HintPath>..\Lib\WeiSha.Template.Engine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Handler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegisterFunction.cs" />
+    <Compile Include="Tags\DetailTag\Article.cs" />
+    <Compile Include="Tags\ListTag\News.cs" />
+    <Compile Include="Tags\ListTag\Notice.cs" />
+    <Compile Include="Tags\ListTag\Showpic.cs" />
+    <Compile Include="Tags\ListTag\Teacher.cs" />
+    <Compile Include="Tags\ListTag\Course.cs" />
+    <Compile Include="Tags\ListTag\Links.cs" />
+    <Compile Include="Tags\ListTag\Linkssort.cs" />
+    <Compile Include="Tags\ListTag\Subject.cs" />
+    <Compile Include="Tags\ListTag\Columns.cs" />
+    <Compile Include="Tags\ListTag\Guide.cs" />
+    <Compile Include="Tags\RepeaterTag\Guidecolumns.cs" />
+    <Compile Include="Tags\RepeaterTag\Subject.cs" />
+    <Compile Include="Tags\RepeaterTag\ManageMenu.cs" />
+    <Compile Include="Tags\RepeaterTag\Knowledgesort.cs" />
+    <Compile Include="Tags\TagElement.cs" />
+    <Compile Include="Tags\TreeObject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
+      <Project>{985A8268-3A87-46B9-9744-650664719E67}</Project>
+      <Name>Song.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Song.ServiceInterfaces\Song.ServiceInterfaces.csproj">
+      <Project>{7CFB4DC1-8536-44A4-AF1D-2D7BDA8067C1}</Project>
+      <Name>Song.ServiceInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

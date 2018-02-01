@@ -1,0 +1,587 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WeiSha.WebControl</name>
+    </assembly>
+    <members>
+        <member name="M:WeiSha.WebControl.Tree.DataTableTree.BuilderTree(System.Data.DataTable)">
+            <summary>
+            将数据源将换成树形数据
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.DataTableTree.sortFunc(System.Data.DataTable,System.Data.DataTable,System.Int32)">
+            <summary>
+            处理数据源，生成树形数据
+            </summary>
+            <param name="dt">数据源</param>
+            <param name="sortDt"></param>
+            <param name="parentId"></param>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.DataTableTree.isChildren(System.Data.DataTable,System.Data.DataRow)">
+            <summary>
+            当前对象是否有子级
+            </summary>
+            <param name="dt">当前层（深度）集合</param>
+            <param name="dr">当前对象</param>
+            <returns>是否有子级，有返回true，否则返回false</returns>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.DataTableTree.isBottom(System.Data.DataTable,System.Data.DataRow,System.Int32)">
+            <summary>
+            是否为当前层深的最后一个；正序排
+            </summary>
+            <param name="dt">当前层（深度）集合</param>
+            <param name="dr">当前对象</param>
+            <returns>是最后一个，返回true，否则返回false</returns>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.DataTableTree.isTop(System.Data.DataTable,System.Data.DataRow,System.Int32)">
+            <summary>
+            是否为当前层深的第一个；正序排
+            </summary>
+            <param name="dt">当前层（深度）集合</param>
+            <param name="dr">当前对象</param>
+            <returns>是第一个，返回true，否则返回false</returns>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.DataTableTree.line(System.Data.DataTable,System.Data.DataRow)">
+            <summary>
+            节点前的空格或竖线
+            </summary>
+            <param name="dt"></param>
+            <param name="dr"></param>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.DataTableTree.DataSource">
+            <summary>
+            用于生成树的数据
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.DataTableTree.IdKeyName">
+            <summary>
+            数据列的主键id，字段名称
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.DataTableTree.ParentIdKeyName">
+            <summary>
+            数据列的父id，字段名称
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.DataTableTree.TaxKeyName">
+            <summary>
+            数据列的排序号，字段名称
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.DataTableTree.Root">
+            <summary>
+            树形根节点的id值
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.SaveAs">
+            <summary>
+            使用 System.Web.UI.WebControls.FileUpload 控件将上载的文件的内容保存到 Web 服务器上的指定路径。
+            </summary>
+            <param name="filename">一个字符串，指定服务器上保存上载文件的位置的完整路径。</param>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.SaveAndDeleteOld(System.String)">
+            <summary>
+            保存并删除原有旧文件
+            </summary>
+            <param name="oldFilename">要删除的旧文件</param>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.Delete(System.String,System.String)">
+            <summary>
+            删除指定的文件
+            </summary>
+            <param name="pathName">文件所在路径名，是web.config中Upload节点的key值</param>
+            <param name="fileName">文件名称</param>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UpPath">
+            <summary>
+            上传文件的路径（相对于根路径），在web.config有配置，注意：
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.IsConvertJpg">
+            <summary>
+            是否需要将上传的文件转成jpg图片。
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.IsChangeFileName">
+            <summary>
+            是否在上传文件后，更改文件名为随机（不更改后缀名）
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.NewName">
+            <summary>
+            上传文件时，手动设定新文件名；否则将返回随机文件名
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.IsMakeSmall">
+            <summary>
+            是否生成缩略图，如果文件不是图片文件，会出错；
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.SmallWidth">
+            <summary>
+            缩略图宽度，默认为100
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.SmallHeight">
+            <summary>
+            缩略图高度，默认为100
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.SmallRestrain">
+            <summary>
+            缩略图缩放类型（非变形缩放），1按宽缩放、2按高缩放、0自适应；
+            注意：多余部分被被裁切
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.FileUpload.FileInfo">
+            <summary>
+            文件的信息，包括文本在客户端的信息，以及到了服务端后的信息
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.FileInfo.#ctor(System.Web.UI.WebControls.FileUpload)">
+            <summary>
+            构造方法，用于上传之前
+            </summary>
+            <param name="upload"></param>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.FileInfo.#ctor(WeiSha.WebControl.FileUpload)">
+            <summary>
+            构造方法
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.FileInfo.Client">
+            <summary>
+            文件来自客户端的信息
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.FileInfo.Server">
+            <summary>
+            文件上传到服务器后的文件信息
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.FileUpload.UploadControlServerFile">
+            <summary>
+            服务器端文件与属性
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.UploadControlServerFile.#ctor(WeiSha.WebControl.FileUpload)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="upload">上传控件</param>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.UploadControlServerFile.ChangeImgFormate">
+            <summary>
+            转换图片格式
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.UploadControlServerFile.CreateSmallImage">
+            <summary>
+            创建缩略图
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.UploadControlServerFile.ChangeSize(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            设置图片宽高
+            </summary>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="isDeformation">是否允许变形，如果不允许，则会剪切图形；</param>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.UploadControlServerFile.SetFileInfo">
+            <summary>
+            设置图片或文件的信息，如果是图片需要设置宽高
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.UploadControlServerFile.Delete(System.String)">
+            <summary>
+            删除指定文件，包括其缩略图
+            </summary>
+            <param name="fileName"></param>
+            <returns>删除成功，返回0；否则返回-1</returns>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.FileName">
+            <summary>
+            文件名(包括名称与扩展名，如name.ext)，为上传后的文件名；
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.FileFullName">
+            <summary>
+            存放在服务器端的完整路径；
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.Size">
+            <summary>
+            文件的大小，以字节为单位
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.Name">
+            <summary>
+            文件名，为上传后的文件名；此处仅为文件名，不包括扩展名
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.Extension">
+            <summary>
+            文件的扩展名
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.VirtualPath">
+            <summary>
+            文件的全路径，为Url路径，
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.SmallFileName">
+            <summary>
+            缩图图的文件名(name.ext)，
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.SmallPhysicalName">
+            <summary>
+            文件缩略图的全路径，为物理路径，
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.SmallVirtualPath">
+            <summary>
+            文件缩略图的全路径，为Url路径，
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.Height">
+            <summary>
+            图片高度
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.Width">
+            <summary>
+            图片宽度
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.LastWriteTime">
+            <summary>
+            文件最后修改时间
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.CreateTime">
+            <summary>
+            文件创建时间
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlServerFile.Path">
+            <summary>
+            上传文件的根路径（物理路径）
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.FileUpload.UploadControlClientFile">
+            <summary>
+            客户端文件属性
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.FileUpload.UploadControlClientFile.#ctor(System.Web.UI.WebControls.FileUpload)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="upload">上传控件</param>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlClientFile.FileFullName">
+            <summary>
+            文件的全路径，为客户端路径，
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlClientFile.FileName">
+            <summary>
+            文件名(包括名称与扩展名，如name.ext)，为原文件（即待上传的文件）名；
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlClientFile.Size">
+            <summary>
+            文件的大小，以字节为单位
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlClientFile.Name">
+            <summary>
+            文件名，为原文件（即待上传的文件）名；此处仅为文件名，不包括扩展名
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.FileUpload.UploadControlClientFile.Extension">
+            <summary>
+            文件的扩展名
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.RowView">
+            <summary>
+            数据行内的查看按钮
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.Tree.ObjectArrayToDataTable">
+            <summary>
+            将对象数组转换为DataTable
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.RowVerify">
+            <summary>
+            数据行内的审核按钮
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.RowEdit">
+            <summary>
+            数据行内的编辑按钮
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.ComboBox.SelectedValue">
+            <summary>
+            当前选中的值
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.ComboBox.SelectedText">
+            <summary>
+            当前选中项的文本
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.Tree.MenuNode">
+            <summary>
+            为了生成树形菜单，对菜单中的节点进行处理的类
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.MenuNode.#ctor(System.Data.DataRow,System.Data.DataTable,WeiSha.WebControl.Tree.GeneralProperty)">
+            <summary>
+            构造方法
+            </summary>
+            <param name="item">自身节点对象</param>
+            <param name="fulldata">所有节点数组</param>
+            <param name="general">树形菜单的通用属性</param>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.MenuNode._getChilds">
+            <summary>
+            求当前节点的下级菜单
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.MenuNode.Sort(System.Data.DataRow[])">
+            <summary>
+            排序
+            </summary>
+            <param name="array"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.MenuNode._getIsLast">
+            <summary>
+            判断是否最当前层级的最后一个节点
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.MenuNode._getParent">
+            <summary>
+            获取当前节点的父节点
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.MenuNode.FullData">
+            <summary>
+            所部节点
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.MenuNode.Item">
+            <summary>
+            自身节点
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.MenuNode.Childs">
+            <summary>
+            所有子级节点
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.MenuNode.IsChilds">
+            <summary>
+            是否有子级节点
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.MenuNode.IsLast">
+            <summary>
+            是否为最后一个
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.MenuNode.Parent">
+            <summary>
+            当前节点的上级节点
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.MenuNode.IdKeyName">
+            <summary>
+            数据列的主键id，字段名称
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.MenuNode.ParentIdKeyName">
+            <summary>
+            数据列的父id，字段名称
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.MenuNode.TaxKeyName">
+            <summary>
+            数据列的排序号，字段名称
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.MenuTree.RenderContents(System.Web.UI.HtmlTextWriter)">
+            <summary>
+            向web页面呈现数据
+            </summary>
+            <param name="output"></param>
+        </member>
+        <member name="M:WeiSha.WebControl.MenuTree.OnInit(System.EventArgs)">
+            <summary>
+            当控件初始化的时候
+            </summary>
+            <param name="e"></param>
+        </member>
+        <member name="M:WeiSha.WebControl.MenuTree.DataBind">
+            <summary>
+            绑定数据源
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.MenuTree._buildMenu">
+            <summary>
+            生成菜单项，此处生成根节点与所有子级
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebControl.MenuTree._ConsLevel3Menu(System.Data.DataRow,System.Int32,System.Data.DataTable)">
+            <summary>
+            生成菜单的树形，也就是无限级
+            </summary>
+            <param name="single">当前菜单节点对象</param>
+            <param name="topid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebControl.MenuTree._BuildNode(System.Data.DataRow)">
+            <summary>
+            生成节点文件项
+            </summary>
+            <param name="m"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebControl.MenuTree.nodeLine(System.Data.DataRow,System.String,System.Data.DataTable)">
+            <summary>
+            生成菜单项前的链接线
+            </summary>
+            <param name="m">当前节点</param>
+            <param name="topid">当前节点上溯到最顶节点的id</param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebControl.MenuTree.nodeIco(System.Data.DataRow,System.Data.DataTable)">
+            <summary>
+            生成当前节点前的图标，包括连接线
+            </summary>
+            <param name="m"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebControl.MenuTree.javascript">
+            <summary>
+            生成执行脚本
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.WebControl.MenuTree.DataSource">
+            <summary>
+            数据源
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.MenuTree.HTML">
+            <summary>
+            树形的HTML代码
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.RowPrint">
+            <summary>
+            数据行内的编辑按钮
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.ListBoxTree.DataBind">
+            <summary>
+            重写绑定，处理数据源
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.ListBoxTree._TransctionDataSource">
+            <summary>
+            处理数据源，将它转换成树形
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebControl.ListBoxTree._GetPID(System.String,System.Data.DataTable)">
+            <summary>
+            根据当前项的id，取其父id
+            </summary>
+            <param name="id"></param>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.WebControl.GridView.GetKeyValues">
+            <summary>
+            获取选中数据行的主键值
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.GridView.HideColumn">
+            <summary>
+            要隐藏的列
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.CheckTemplate">
+            <summary>
+            用于载入复选框的类
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.DropDownTree.DataBind">
+            <summary>
+            重写绑定，处理数据源
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.DropDownTree._TransctionDataSource">
+            <summary>
+            处理数据源，将它转换成树形
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebControl.DropDownTree._GetPID(System.String,System.Data.DataTable)">
+            <summary>
+            根据当前项的id，取其父id
+            </summary>
+            <param name="id"></param>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WeiSha.WebControl.Tree.GeneralProperty">
+            <summary>
+            树形菜单的通用属性
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.GeneralProperty.IdKeyName">
+            <summary>
+            数据列的主键id，字段名称
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.GeneralProperty.ParentIdKeyName">
+            <summary>
+            数据列的父id，字段名称
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebControl.Tree.GeneralProperty.TaxKeyName">
+            <summary>
+            数据列的排序号，字段名称
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.RowDelete">
+            <summary>
+            数据行内的删除按钮
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebControl.RowRecover">
+            <summary>
+            数据行内的还原按钮
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebControl.Tree.Ico.#ctor(System.String,System.Int32)">
+            <summary>
+            在构造时，将各个属性转换成html图片标签，如:<img src="xx.gif"/>
+            </summary>
+            <param name="path">图片所处的路径</param>
+            <param name="nodeHeight">节点的高度</param>
+        </member>
+    </members>
+</doc>

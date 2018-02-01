@@ -1,0 +1,67 @@
+﻿body, p, div, td {
+	font-size: 14px;
+}
+.box {
+	height: 200px;
+	width: 100%;
+
+}
+.titBar {
+	height: 30px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #CCCCCC;
+}
+
+
+.titBar .title {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 15px;
+	line-height: 30px;
+	font-weight: bold;
+	color: #333333;
+	height: 30px;
+	margin-left: 30px;
+}
+ .listBox {
+	margin-left: 20px;
+}
+.item {
+	float: left;
+	height: 150px;
+	width: 200px;
+	margin-top: 20px;
+	margin-right: 20px;
+}
+.item img {
+	height: 123px;
+	width: 200px;
+}
+.item .itemName, .item .itemName a {
+	font-size: 14px;
+	line-height: 25px;
+	height: 25px;
+	color: #333333;
+}
+.testRow {
+	line-height: 30px;
+	height: 30px;
+}
+.testRow .score {
+	float: right;
+	height: 30px;
+	width: 100px;
+}
+.testRow .name {
+	float: left;
+	height: 30px;
+	width: 500px;
+}
+.testRow .time {
+	float: left;
+	height: 30px;
+}
+
+.testRow div {
+	float: left;	
+}

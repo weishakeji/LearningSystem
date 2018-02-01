@@ -1,0 +1,33 @@
+﻿.mui-card{
+	width:96% !important;
+	margin:0px !important;
+	margin-right:2% !important;
+	margin-left:2% !important;
+	margin-bottom:10px !important;
+	margin-top:5px !important;
+}
+.mui-content{
+	
+}
+/*我的考试前面的图标*/
+.examtitle{
+	font-weight: bold;
+	color: #F33;
+}
+.myexam:before{
+	 font-family:"examico" !important;
+	content:"\e61b";
+	font-size:26px;
+}
+.allexam:before{
+	 font-family:"examico" !important;
+	content:"\e60e";
+	font-size:18px;
+	margin-right:5px;
+}
+/*考试主题*/
+.examtheme{
+}
+.item{
+	line-height: 25px;
+}

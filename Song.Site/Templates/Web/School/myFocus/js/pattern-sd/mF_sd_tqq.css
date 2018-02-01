@@ -1,0 +1,8 @@
+/*=========mF_sd_tqq========*/
+.mF_sd_tqq{width:566px;height:288px;position:relative;overflow:hidden;border:2px solid #E7E7E7;border-left:0;border-right:0;}
+.mF_sd_tqq ul{padding:0 16px;width:534px;line-height:22px;float:left;position:absolute;}
+.mF_sd_tqq ul li{float:left;padding:14px 0;width:100%;border-bottom:1px dashed #D8D8D8;}
+.mF_sd_tqq ul li .img{float:left;width:50px;border:1px solid #D2D2D2;padding:1px;}
+.mF_sd_tqq ul li .msg{float:right;width:468px;}
+.mF_sd_tqq ul li .msg p{font-size:14px;}
+.mF_sd_tqq ul li .msg .from{font-size:12px;color:#999;}

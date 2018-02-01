@@ -1,0 +1,24 @@
+﻿body
+{
+}
+/*红色的字，用于显示超期*/
+.redTxt
+{
+	font-weight: bold;
+	color: #FF0000;
+}
+/*任务标题背景中显示的完成度*/
+.compBar
+{
+	float: right;
+}
+/*任务的标题*/
+.taskTitle
+{
+	position: absolute;
+}
+/*完成进度的数字*/
+.CompletePer
+{
+	font-weight: bold;
+}

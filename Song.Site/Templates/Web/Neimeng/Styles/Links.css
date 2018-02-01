@@ -1,0 +1,85 @@
+@charset "utf-8";
+#bodyTop {
+	background-image: url(../Images/test-banner.jpg);
+	background-repeat: no-repeat;
+	background-position: center 0px;
+	height: 200px;
+	width: 100%;
+}
+#Context {
+	min-height:300px;
+	font-size: 16px;
+	line-height: 30px;
+}
+#Context, #Context a, #Context p, #Context div
+{
+	font-size: 16px;
+	line-height: 30px;
+}
+.titile {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 16px;
+	line-height: 35px;
+	font-weight: bold;
+	color: #000000;
+	background-image: url(../Images/icon1.png);
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+	height: 40px;
+	margin-top: 25px;
+	text-indent: 45px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+}.infoBox {
+	display: table;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 30px;
+}
+
+.infoBox dd {
+	margin: 0px;
+	padding: 0px;
+	height: 30px;
+}
+.infoBox .attr {
+	text-align: right;
+	float: left;
+	height: 30px;
+	width: 100px;
+}
+.infoBox .info {
+	float: left;
+	height: 30px;
+	width: 800px;
+}
+.infoBox {
+	margin-left: 50px;
+	display: table;
+	margin-top: 20px;
+}
+.infoBox dt {
+	font-family: "黑体";
+	line-height: 30px;
+	font-weight: bold;
+	margin-top: 20px;
+	font-size: 16px;
+	color: #FF3300;
+}
+.infoBox dd {
+	line-height: 25px;
+	float: left;
+	height: 25px;
+	width: 220px;
+	white-space: nowrap;
+}
+.infoBox dd.orgitem {
+	width: 400px;
+}
+.infoBox dd a{
+	color: #333333;
+}

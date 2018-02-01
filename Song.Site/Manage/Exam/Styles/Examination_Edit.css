@@ -1,0 +1,42 @@
+﻿/*参考范围区域的样式*/
+.rblGroup
+{
+	width:80px;
+	float:left;
+	display:block;
+}
+
+
+.lbSort
+{
+	float:left;
+	width:100px;
+	margin-right:2px;
+}
+
+.lbSelected
+{
+	float:left;
+	width:100px;
+	margin-right:2px;
+}
+
+/*增加与移除的按钮*/
+.btnGo
+{
+	width:30px;
+	height:20px;
+	margin-bottom:5px;
+}
+
+#btnAddDepart, #btnAddTeam
+{
+	margin-top:40px;
+}
+.btnBox
+{
+	float: left;
+	width: 40px;
+	text-align: center;	
+	margin-top:20px;
+}

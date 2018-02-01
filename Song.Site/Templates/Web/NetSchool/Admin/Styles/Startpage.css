@@ -1,0 +1,48 @@
+﻿body, p, div, td {
+	font-size: 14px;
+}
+.box {
+	width: 100%;
+
+}
+.titBar {
+	height: 30px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #CCCCCC;
+}
+
+
+.titBar .title {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 15px;
+	line-height: 30px;
+	font-weight: bold;
+	color: #333333;
+	height: 30px;
+	margin-left: 10px;
+}
+.titInfo{
+	font-size: 12px;
+	font-weight: normal;
+}
+.limitItem{
+	line-height: 25px;
+	height: 25px;
+	width: 200px;
+	float: left;
+}
+ .listBox {
+	margin-left: 20px;
+	display:table;
+	min-height:50px;
+	margin-bottom:20px;
+}
+#infoBox .info {
+	line-height: 25px;
+	float: left;
+	height: 25px;
+	width: 120px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

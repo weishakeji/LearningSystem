@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{985A8268-3A87-46B9-9744-650664719E67}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Song.Entities</RootNamespace>
+    <AssemblyName>Song.Entities</AssemblyName>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Song.Entities.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Song.Entities.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Debug\Song.Entities.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Song.Entities.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeiSha.Data">
+      <HintPath>..\Lib\WeiSha.Data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accessory.cs" />
+    <Compile Include="Accounts.cs" />
+    <Compile Include="AddressList.cs" />
+    <Compile Include="AddressSort.cs" />
+    <Compile Include="Article.cs" />
+    <Compile Include="Columns.cs" />
+    <Compile Include="CouponAccount.cs" />
+    <Compile Include="Course.cs" />
+    <Compile Include="CoursePrice.cs" />
+    <Compile Include="DailyLog.cs" />
+    <Compile Include="Depart.cs" />
+    <Compile Include="Depart_Subject.cs" />
+    <Compile Include="Download.cs" />
+    <Compile Include="DownloadOS.cs" />
+    <Compile Include="DownloadType.cs" />
+    <Compile Include="EmpAccount.cs" />
+    <Compile Include="EmpAcc_Group.cs" />
+    <Compile Include="EmpGroup.cs" />
+    <Compile Include="EmpInfo.cs" />
+    <Compile Include="EmpTitle.cs" />
+    <Compile Include="ExamGroup.cs" />
+    <Compile Include="Examination.cs" />
+    <Compile Include="ExamResults.cs" />
+    <Compile Include="ExamResultsTemp.cs" />
+    <Compile Include="Forum.cs" />
+    <Compile Include="FuncPoint.cs" />
+    <Compile Include="Guide.cs" />
+    <Compile Include="GuideColumns.cs" />
+    <Compile Include="InnerEmail.cs" />
+    <Compile Include="InternalLink.cs" />
+    <Compile Include="Knowledge.cs" />
+    <Compile Include="KnowledgeSort.cs" />
+    <Compile Include="LimitDomain.cs" />
+    <Compile Include="Links.cs" />
+    <Compile Include="LinksSort.cs" />
+    <Compile Include="LogForStudentOnline.cs" />
+    <Compile Include="LogForStudentStudy.cs" />
+    <Compile Include="Logs.cs" />
+    <Compile Include="ManageMenu.cs" />
+    <Compile Include="ManageMenu_Point.cs" />
+    <Compile Include="Message.cs" />
+    <Compile Include="MessageBoard.cs" />
+    <Compile Include="MobileUser.cs" />
+    <Compile Include="MoneyAccount.cs" />
+    <Compile Include="Navigation.cs" />
+    <Compile Include="NewsNote.cs" />
+    <Compile Include="Notice.cs" />
+    <Compile Include="Organization.cs" />
+    <Compile Include="OrganLevel.cs" />
+    <Compile Include="Outline.cs" />
+    <Compile Include="OutlineEvent.cs" />
+    <Compile Include="PayInterface.cs" />
+    <Compile Include="PictMiniature.cs" />
+    <Compile Include="Picture.cs" />
+    <Compile Include="PointAccount.cs" />
+    <Compile Include="Position.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="ProductFactory.cs" />
+    <Compile Include="ProductMaterial.cs" />
+    <Compile Include="ProductMessage.cs" />
+    <Compile Include="ProductOrigin.cs" />
+    <Compile Include="ProductPackage.cs" />
+    <Compile Include="Product_Package.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Purview.cs" />
+    <Compile Include="QuesAnswer.cs" />
+    <Compile Include="Questions.cs" />
+    <Compile Include="QuesTypes.cs" />
+    <Compile Include="RechargeCode.cs" />
+    <Compile Include="RechargeSet.cs" />
+    <Compile Include="ShowPicture.cs" />
+    <Compile Include="SmsFault.cs" />
+    <Compile Include="SmsMessage.cs" />
+    <Compile Include="Special.cs" />
+    <Compile Include="Special_Article.cs" />
+    <Compile Include="Student.cs" />
+    <Compile Include="StudentSort.cs" />
+    <Compile Include="Student_Collect.cs" />
+    <Compile Include="Student_Course.cs" />
+    <Compile Include="Student_Notes.cs" />
+    <Compile Include="Student_Ques.cs" />
+    <Compile Include="Subject.cs" />
+    <Compile Include="SystemPara.cs" />
+    <Compile Include="Task.cs" />
+    <Compile Include="Teacher.cs" />
+    <Compile Include="TeacherComment.cs" />
+    <Compile Include="TeacherHistory.cs" />
+    <Compile Include="TeacherSort.cs" />
+    <Compile Include="Teacher_Course.cs" />
+    <Compile Include="Team.cs" />
+    <Compile Include="Test.cs" />
+    <Compile Include="TestPaper.cs" />
+    <Compile Include="TestPaperItem.cs" />
+    <Compile Include="TestPaperQues.cs" />
+    <Compile Include="TestResults.cs" />
+    <Compile Include="TrPlan.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UserGroup.cs" />
+    <Compile Include="Video.cs" />
+    <Compile Include="Vote.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

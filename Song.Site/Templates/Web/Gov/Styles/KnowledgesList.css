@@ -1,0 +1,83 @@
+@charset "utf-8";
+body{
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+.header {
+	height: 40px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+}
+.headTitle {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 18px;
+	line-height: 34px;
+	background-image: url(../Images/icon1.png);
+	background-repeat: no-repeat;
+	height: 34px;
+	text-indent: 45px;
+	margin-left: 0px;
+}
+dl {
+	padding: 0px;
+	margin-top: 20px;
+	margin-right: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+	height: auto;
+}
+
+.item {
+	height: 30px;
+
+	margin: 0px;
+	padding: 0px;
+}
+.item .tax {
+	text-align: center;
+	float: left;
+	height: 30px;
+	width: 40px;
+	line-height: 30px;
+	font-size: 15px;
+}
+.item .tax img {
+	margin-top: 5px;
+}
+
+
+.item .link {
+	line-height: 30px;
+	white-space: nowrap;
+	float: left;
+	height: 30px;
+
+}
+.link, .link  a
+{
+	font-size: 16px;
+	line-height: 30px;
+	color: #333333;
+	height: 30px;
+}
+.intro a {
+	font-size: 14px;
+	line-height: 22px;
+	color: #666666;
+}
+.intro {
+	margin-bottom: 10px;
+}
+
+.onContext {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 20px;
+	line-height: 300px;
+	height: 400px;
+
+	text-align: center;
+}

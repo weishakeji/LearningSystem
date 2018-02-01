@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html PUBddC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>测试页</title>
+    <script type="text/javascript" src="Manage/CoreScripts/jquery.js"></script>
+    <style type="text/css">
+        h1
+        {
+            font-size: 18px;
+            line-height: 25px;
+            font-weight: bold;
+            font-family: "黑体" , "微软雅黑";
+        }
+        a
+        {
+            font-size: 13px;
+            color: #03F;
+        }
+        .success
+        {
+            color: #060;
+        }
+        ul li
+        {
+            line-height:20px;
+            height:20px;
+            margin:0px;
+            padding:0px;
+            font-size:13px;
+            color:#333;
+        }
+    </style>
+</head>
+<body>
+    <h2>
+        《微厦在线学习云服务平台》部署测试</h2>
+    <hr />
+    <div>
+        <h1>
+            第一步，IIS测试</h1>
+        <div class="stepBox">
+            当您看到当前页面，说明web服务（即IIS)已经正常启用了！
+        </div>
+    </div>
+    <div>
+        <h1>
+            第二步，Asp.net测试</h1>
+        <div class="stepBox">
+            点击下面的链接，如果能正常查看授权信息，则说DotNet4.0已经正常启用！
+        </div>
+        <div class="stepBox">
+            <a href="license.aspx" target="_blank">授权信息查看</a>
+        </div>
+    </div>
+    <div>
+        <h1>
+            第三步，数据库链接测试</h1>
+        <div class="stepBox">
+            点击下面的链接，检测数据库链接！
+        </div>
+        <div class="stepBox">
+            <a href="check/db.aspx" target="_blank">数据库链接查看</a>
+        </div>
+    </div>
+    <div>
+        <h1>
+            第四步，写入权限测试</h1>
+        <div class="stepBox">
+            点击下面的链接，测试系统是否拥有写入权，如果没有写入权限，则无法正常上传文档！
+        </div>
+        <div class="stepBox">
+            <a href="check/writer.aspx" target="_blank">写入权限查看</a>
+        </div>
+    </div>
+    <div class="success">
+        <h1>
+            完成！</h1>
+        <div class="stepBox">
+            如果上述都没有问题，那程序就已经部署成功了。
+        </div>
+        <div class="stepBox">
+        </div>
+    </div>
+    <hr />
+    <br />
+    </div>
+    <a href="/pay/weixin/ProductPage.aspx" target="_blank">支付</a>
+<div>
+    <h1>
+            关于升级</h1>
+        <div class="stepBox">
+            我们会提供免费升级包，需您自主升级，升级包云盘地址：<a href="http://pan.baidu.com/s/1bppzM15#list/path=/" target="_blank">http://pan.baidu.com/s/1bppzM15#list/path=%2F
+            </a>
+        </div>
+        <div class="stepBox">
+            <dl>
+                <dt>升级分为三种情况：</dt>
+                <dd>
+                    1、仅程序升级，不涉及数据；用新版本程序覆盖原来的程序即可，<b>注意web.config覆盖后修改里面的数据库链接</b></dd>
+                <dd>
+                    2、升级涉及数据结构调整，需要执行SQL升级脚本（云盘中“数据库升级脚本”文件夹）；</dd>
+                <dd>
+                    3、升级涉及数据结构大副调整，不仅要执行SQL升级脚本，还要运行下面程序，请按时间倒序执行。
+                    <ul>
+                    <li>
+                        <a href="Check/Dbup_20170710.aspx" target="_blank">2017-07-10升级</a>（合并教师与学员的账号）</li>
+                    <li>
+                        <a href="Check/Dbup_20170323.aspx" target="_blank">2017-03-23升级</a>（修正了试卷题量为零的问题）</li>
+                    <li>
+                        <a href="Check/Dbup_20170301.aspx" target="_blank">2017-03-01升级</a>（此日期之前的版本，需要执行）</li>
+                    <li>
+                        <a href="Check/Dbup_20161024.aspx" target="_blank">2016-10-24升级</a>（此日期之前的版本，需要执行）</li></ul>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</body>
+</html>

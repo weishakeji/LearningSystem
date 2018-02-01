@@ -1,0 +1,85 @@
+﻿@charset "utf-8";
+div
+{
+	cursor: default;
+}
+/*顶部的提示信息条*/
+#contTop
+{
+	color: #FF0000;
+	display: table;
+	height: 20px;
+	width: 100%;
+	position: absolute;
+	z-index: 200;
+	top: 10px;
+}
+
+#contTop #loadingBar
+{
+	display: table;
+	float: right;
+	width: auto;
+}
+/*树形菜单区域*/
+#MenuTreePanel
+{
+	width: 40%;
+	border: medium inset #eeeeee;
+	padding: 5px;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 0px;
+	display: block;
+	float: left;
+	-moz-user-select: none;
+	background-color: #FFFFFF;
+	overflow: scroll;
+}
+/*右侧区域*/
+#EmplyeePanel
+{
+	float: left;
+	width: 50%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+/*员工列表区域*/
+#EmplyeeList
+{
+	border: 1px solid #FFCC66;
+	background-color: #FFFFCC;
+	width: 100%;
+	padding: 5px;
+}
+/*隶属于当前角色的员工列表样式*/
+#EmplyeeList .toPosi
+{
+	float: left;
+	width: 80px;
+	border: 1px solid #999999;
+	background-color: #eeeeee;
+	margin: 3px;
+	padding: 0px;
+	font-size: 13px;
+	line-height: 20px;
+	height: 20px;
+	text-indent: 3px;
+	white-space: nowrap;
+}
+#EmplyeeList .toPosi .EmpName
+{
+	float: left;
+}
+#EmplyeeList .toPosi img
+{
+	float: right;
+	cursor: pointer;
+}
+/*页面底部的说明信息*/
+#show
+{
+	display: table;
+	width: 100%;
+}

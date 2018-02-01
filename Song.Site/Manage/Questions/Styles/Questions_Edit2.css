@@ -1,0 +1,41 @@
+﻿body{
+	
+}
+.quesLeft
+{
+	float: left;
+	width: 590px;
+}
+.pageWinContext{
+	overflow: visible;	
+}
+.quesRight
+{
+	float: left;
+	width: 370px;
+	margin-left: 10px;
+	overflow: auto;
+}
+/*知识检索框*/
+.tbKnsName
+{
+	background-image: url(../../Images/search.JPG);
+	background-repeat: no-repeat;
+	background-position: left center;
+	text-indent: 30px;
+	border: 1px solid #999;
+	line-height: 22px;
+	height: 22px;
+}
+select{
+	line-height: 22px;
+	height: 22px;
+}
+.knTitle{
+	white-space: nowrap;
+}
+.knTitle a{
+	text-decoration: underline;
+	background-color: #690 !important;
+	color: #FFF !important;
+}

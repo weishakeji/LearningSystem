@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>知识库 - {$org.org_platformname}</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="CoreScripts/Tree.js"></script>
+<script type="text/javascript" src="CoreScripts/Node.js"></script>
+<script type="text/javascript" src="Scripts/Knowledges.js"></script>
+<link href="Styles/Knowledges.css" rel="stylesheet" type="text/css" />
+
+<link href="Styles/PageBox.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<vt:include file="inc/Header.html" />
+
+<div id="bodyTop">&nbsp;</div>
+<div id="Context">
+
+<div id="left">
+<div class="sortTitle">知识库分类</div>
+ <div id="leftInnert">{$tree}</div></div>
+<div id="right"><iframe id="frame" targetFile="/KnowledgesList.ashx" src="/KnowledgesList.ashx" width="720" height="1000" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe></div>
+</div>
+<vt:include file="inc/footer.html" />
+</body>
+</html>

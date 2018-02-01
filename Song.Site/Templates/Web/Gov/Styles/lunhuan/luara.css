@@ -1,0 +1,19 @@
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+ luara
+ version 0.1  2014-8-21
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+/*渐隐*/
+.luara-{position:relative;padding:0;overflow: hidden;}
+.luara- ul{padding: inherit;margin: 0;}
+.luara- ul li{display: none;padding: inherit;margin: inherit;list-style: none;}
+.luara- ul li:first-child{display:block;}
+.luara- ul li img{width: inherit;height: inherit;}
+
+
+
+
+
+
+
+
+

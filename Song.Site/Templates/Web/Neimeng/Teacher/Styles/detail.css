@@ -1,0 +1,288 @@
+@charset "utf-8";
+#Navi {
+	background-image: url(../../Images/icon1.png);
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+	height: 40px;
+	margin-top: 25px;
+	text-indent: 45px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+}
+#Navi, #Navi a {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 16px;
+	line-height: 35px;
+	font-weight: bold;
+	color: #000000;
+}
+#teacherTop {
+	background-image: url(../Images/bg1.jpg);
+	background-repeat: no-repeat;
+	height: 240px;
+	width: 980px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+#teacherTop .photo {
+	height: 204px;
+	width: 154px;
+	border: 1px solid #CCCCCC;
+	float: left;
+	margin-top: 18px;
+	margin-left: 20px;
+}
+#teacherTop .photo img {
+	margin-top: 2px;
+	margin-left: 2px;
+}
+#teacherTop .details {
+	height: 200px;
+	width: 700px;
+	float: left;
+	margin-top: 18px;
+	position: relative;
+	
+}
+#teacherTop .details .infoFirst {
+	line-height: 50px;
+	height: 50px;
+	width: 600px;
+	margin-left: 30px;
+}
+.infoFirst .name {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 30px;
+	line-height: 50px;
+	font-weight: bold;
+	color: #333333;
+	float: left;
+	height: 50px;
+	margin-right: 20px;
+}
+.infoFirst .title {
+	font-size: 16px;
+	line-height: 25px;
+	float: left;
+	height: 25px;
+	margin-top: 20px;
+	font-weight: bold;
+}
+.details .sign {
+	font-size: 15px;
+	height: 80px;
+	margin-top: 30px;
+	margin-left: 30px;
+	line-height: 20px;
+	position: absolute;
+	bottom: 0;
+}
+.teacherBox {
+	margin-top: 20px;
+	display: table;
+	width: 980px;
+}
+.teacherBox .teacherLeft {
+	display: table;
+	float: left;
+	width: 650px;
+}
+.teacherBox .teacherRight {
+	float: right;
+	width: 300px;
+	min-height:200px;
+}
+.intro, .intro p{
+	line-height: 26px;
+}
+.intro p{
+	text-indent: 2em;
+	margin-bottom: 20px;
+}
+#history {
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+}
+#history dt {
+	height: 40px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	margin-bottom: 10px;
+}
+#history .title {
+	line-height: 30px;
+	height: 38px;
+	border-bottom-width: 4px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #42a5ff;
+	float: left;
+	width: 150px;
+	margin-top: 1px;
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 22px;
+	text-align: center;
+}
+#history dd {
+	line-height: 20px;
+	height: 40px;
+	width: 650px;
+	margin: 0px;
+	padding: 0px;
+}
+#history dd div {
+	font-size: 14px;
+	line-height: 40px;
+}
+#history .time {
+	text-align: center;
+	float: left;
+	height: 40px;
+	width: 180px;
+}
+#history .type {
+	text-align: center;
+	float: left;
+	width: 60px;
+}
+#history .post {
+	float: left;
+	width: auto;
+}
+#history .post {
+	text-align: left;
+	float: right;
+	width: 160px;
+}
+#history .theme {
+	float: left;
+	width: auto;
+}
+.courseBox {
+	margin-bottom: 40px;
+	min-height:300px;
+}
+.courseBox .courseTitle {
+	height: 40px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	margin-bottom: 30px;
+}
+.courseBox .courseTitle .title {
+	line-height: 30px;
+	height: 38px;
+	border-bottom-width: 4px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #42a5ff;
+	float: left;
+	width: 150px;
+	margin-top: 1px;
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 22px;
+	text-align: center;
+}
+.courseItem {
+	float: left;
+	height: 250px;
+	width: 200px;
+	margin-right: 25px;
+}
+.courseBox .courses {
+	width: 645px;
+	overflow: hidden;
+}
+.courses .coursesInner {
+	width: 800px;
+}
+
+.courseBox .noCourse {
+	color: #999999;
+}
+.courseItem img {
+	height: 123px;
+	width: 200px;
+}
+.courseItem .courseName {
+	line-height: 25px;
+	white-space: nowrap;
+	height: 25px;
+	overflow: hidden;
+}
+.courseItem .courseName a {
+	color: #666666;
+	font-size: 15px;
+}
+/*相关教师*/
+.teacherRight .thlist dd {
+	height: 150px;
+	width: 300px;
+	background-color: #F0F0F0;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+}
+.thImg {
+	height: 150px;
+	width: 150px;
+	float: left;
+	margin-right: 10px;
+	background-position: center;
+}
+.thRight {
+	float: right;
+	width: 130px;
+	height: 150px;
+}
+.thRight .thTop {
+	font-size: 15px;
+	line-height: 20px;
+	height: 30px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.thRight .signature {
+	font-size: 13px;
+	line-height: 25px;
+	color: #999999;
+	width: 120px;
+	height:100px;
+	overflow: hidden;
+	margin-top: 10px;
+}
+
+.thTop .thName, .thTop .thName a {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 18px;
+	line-height: 25px;
+	color: #333333;
+	float: left;
+	width: auto;
+	margin-right: 5px;
+}
+.thTop .thTitle {
+	float: left;
+	width: auto;
+	font-size: 14px;
+	margin-top: 5px;
+}

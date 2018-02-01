@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WeiSha.WebEditor</name>
+    </assembly>
+    <members>
+        <member name="T:WeiSha.WebEditor.ConfigHandler">
+            <summary>
+            获取web.config中的KindEditor配置信息
+            作者：10522779@qq.com
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebEditor.ConfigHandler.ThemeType(System.String)">
+            <summary>
+            通过主题名称获取主题配置信息
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebEditor.ConfigHandler.Node(System.String)">
+            <summary>
+            获取参数节点
+            </summary>
+            <param name="xpath">节点名称</param>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.WebEditor.ConfigHandler.Items">
+            <summary>
+            当前页的Web控件
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebEditor.ConfigHandler.Item(System.String)">
+            <summary>
+            根据配置的key值，获取value值
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.WebEditor.ConfigHandler.Count">
+            <summary>
+            配置项目个数
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebEditor.ConfigHandler.ConfigHandlerParaNode">
+            <summary>
+            对编辑器配置的子项进行分析
+            </summary>
+        </member>
+        <member name="M:WeiSha.WebEditor.ConfigHandler.ConfigHandlerParaNode.#ctor(System.Xml.XmlNode)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="node">参数分类的节点，如：Upload节点</param>
+        </member>
+        <member name="M:WeiSha.WebEditor.ConfigHandler.ConfigHandlerParaNode._MapPath(System.String)">
+            <summary>
+            获取某路径的物理路径，路径末尾带有\符号
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.WebEditor.ConfigHandler.ConfigHandlerParaNode._VirtualPath(System.String)">
+            <summary>
+            获取某路径相对网站根目录的虚拟路径，路径末尾带有/符号
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.WebEditor.ConfigHandler.ConfigHandlerParaNode.Value">
+            <summary>
+            参数值的原始值
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebEditor.ConfigHandler.ConfigHandlerParaNode.PhysicsPath">
+            <summary>
+            物理路径
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebEditor.ConfigHandler.ConfigHandlerParaNode.VirtualPath">
+            <summary>
+            虚拟路径
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebEditor.ConfigHandler.ConfigHandlerParaNode.Boolean">
+            <summary>
+            参数的Boolean类型值，如果参数不存在或异常，则返回true;
+            </summary>
+        </member>
+        <member name="T:WeiSha.WebEditor.ConfigHandler.KindEditorThemeType">
+            <summary>
+            编辑器的主题
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebEditor.ConfigHandler.KindEditorThemeType.Name">
+            <summary>
+            主题的名称
+            </summary>
+        </member>
+        <member name="P:WeiSha.WebEditor.ConfigHandler.KindEditorThemeType.Items">
+            <summary>
+            模板要显示的项
+            </summary>
+        </member>
+    </members>
+</doc>

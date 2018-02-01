@@ -1,0 +1,40 @@
+﻿body
+{
+}
+
+
+#leftPanel
+{
+	float: left;
+	width: 100%;
+}
+/*显示输入了多少个字符的提示框*/
+#inputShow
+{
+	margin-top: 5px;
+}
+/*显示输入了多少个字符的样式*/
+#inputShow .showGreen
+{
+	font-weight: bold;
+	color: #006600;
+}
+#inputShow .showRed
+{
+	font-weight: bold;
+	color: #FF0000;
+}
+
+/*右侧菜单树*/
+#MenuTreePanel
+{
+	display:none;
+	width: 30%;
+	padding: 0px;
+	display: block;
+	-moz-user-select: none;
+	background-color: #FFFFFF;
+	z-index:100;
+	position: absolute;
+	margin: 0px;
+}

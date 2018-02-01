@@ -1,0 +1,51 @@
+﻿@charset "utf-8";
+body
+{
+}
+/*图片*/
+.imgBox
+{
+	float: left;
+	margin-top: 5px;
+	margin-right: 0px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	height: 160px;
+	width: 100px;
+}
+/*相册封面*/
+.imgBox .picShow
+{
+	border: 1px solid #CCCCCC;
+	padding: 3px;
+	cursor:pointer;
+}
+/*封面标识*/
+.coverMask
+{
+	background-color: #FF0000;
+	line-height: 20px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-align: center;
+	width: 20px;
+}
+.imgList
+{
+	float: none;
+	width: 100%;
+	display: table;
+}
+.piName
+{
+	line-height: 18px;
+	height: 18px;
+}
+.pager
+{
+	float: none;
+	width: 100%;
+	margin-top: 15px;
+	margin-bottom: 5px;
+	display: table;
+}

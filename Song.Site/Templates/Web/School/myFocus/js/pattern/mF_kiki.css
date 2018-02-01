@@ -1,0 +1,13 @@
+/*=========mF_kiki========*/
+.mF_kiki_wrap{padding:6px;border:1px solid #999;float:left;background:#fff;}/*背景边框*/
+.mF_kiki .pic li{position:absolute;top:0;left:0;width:100%;height:100%;overflow:hidden;}
+.mF_kiki .txt li{position:absolute;z-index:2;left:0;bottom:0;height:30px;line-height:30px;*line-height:32px;overflow:hidden;background:url(http://www.cosmissy.com/img/myfocus/tit-ar.gif) left 10px no-repeat;display:none;}
+.mF_kiki .txt li a{display:block;color:#333;padding-left:32px;font-size:12px;text-decoration:none;}
+.mF_kiki .btn{position:absolute;bottom:34px;right:2px;z-index:9;}
+.mF_kiki .btn li{float:left;margin-right:2px;width:20px;height:6px;overflow:hidden;border:1px solid #000;background:#ccc;cursor:pointer;}
+.mF_kiki .btn li.current,.mF_kiki .btn li.hover{background:#E92B00;}
+.mF_kiki .con{position:absolute;width:100px;height:30px;line-height:30px;z-index:3;bottom:0;right:0;}/*按钮样式*/
+.mF_kiki .con .prev{float:left;cursor:pointer;padding-left:10px;background:url(http://www.cosmissy.com/img/myfocus/ar-left.gif) left no-repeat;}
+.mF_kiki .con .next{float:left;cursor:pointer;padding:0 10px 0 4px;background:url(http://www.cosmissy.com/img/myfocus/ar-right.gif) right no-repeat;}
+.mF_kiki .con .prev a,.mF_kiki .con .next a{color:#333; text-decoration:none;}
+.mF_kiki .con .prev a:hover,.mF_kiki .con .next a:hover{color:#D91C00;}

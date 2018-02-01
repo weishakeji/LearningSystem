@@ -1,0 +1,15 @@
+/*=========mF_sd_qqyue========*/
+.mF_sd_qqyue{border:1px solid #999;}
+.mF_sd_qqyue .pic li{width:100%;height:100%;overflow:hidden;position:absolute;display:none;}
+.mF_sd_qqyue .txt{position:absolute;z-index:2;right:0;*right:-1px;top:0;height:100%;border-left:1px solid #999;overflow:hidden;}
+.mF_sd_qqyue .txt li{line-height:18px;border-bottom:1px solid #999;float:left;position:relative;background:#f4f4f4;cursor:pointer;}
+.mF_sd_qqyue .txt li a{position:relative;z-index:1;display:block;height:18px;overflow:hidden;margin-top:12px;font:bold 14px/18px '宋体';color:#666;padding:0 10px 0 30px;text-decoration:none;}/*标题*/
+.mF_sd_qqyue .txt li p{position:relative;z-index:1;color:#888;padding-left:30px;}
+.mF_sd_qqyue .txt li span{display:block;height:100%;width:100%;position:absolute;top:0;left:0;background:url(http://www.cosmissy.com/img/myfocus/1.gif) right bottom no-repeat;}
+.mF_sd_qqyue .txt li.current{background:url(http://www.cosmissy.com/img/myfocus/2.png) left center no-repeat;}
+.mF_sd_qqyue .txt li.current a{color:#f60;}
+.mF_sd_qqyue .txt li.current p{color:#333;}
+.mF_sd_qqyue .par{position:absolute;left:12px;bottom:10px;}
+.mF_sd_qqyue .par li{float:left;display:none;height:60px;position:relative;overflow:hidden;}
+.mF_sd_qqyue .par li p{position:relative;z-index:1;color:#fff;padding:10px;text-indent:2em;line-height:20px;}
+.mF_sd_qqyue .par li span{display:block;height:100%;width:100%;position:absolute;top:0;left:0;background:#000;filter:alpha(opacity=40);opacity:0.4;}

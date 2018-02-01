@@ -1,0 +1,40 @@
+﻿.thPhoto{
+	width: 50%;
+    border-radius: 55%;
+    overflow: hidden;    
+    border: 2px solid #eee !important;
+    display: block;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top: 10px;
+	margin-bottom:10px;
+	background-size:100% !important;
+	box-shadow: 0 -2px 2px #ccc, 0 6px 1px rgba(0, 0, 0, 0.3);
+}
+.name{
+	margin: 15px;
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+}
+.th-tel{
+	font-size: 18px;
+	font-weight: bold;
+	color: #333;
+	text-decoration: none;
+	display:inline-block;
+}
+.th-tel b:before {
+	content: "\e635";
+	font-family: iconphone;
+	font-size: 20px;
+	line-height: 40px;
+	font-weight: normal;
+	margin-right: 5px;
+}
+.intro{
+	margin: 15px;
+}
+.intro img{
+	max-width:100%;
+}

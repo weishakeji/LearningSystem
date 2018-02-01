@@ -1,0 +1,56 @@
+﻿
+/*页面编辑窗*/
+#PageBox {
+	background-color: #FFFFFF;
+	border: 4px solid #006699;
+	margin: 0px;
+	padding: 0px;
+}
+
+#PageBox #PageBoxTitle {
+	background-color: #006699;
+	height: 30px;
+	background-image: url(Images/winPageTitleBg.jpg);
+	background-repeat: repeat-x;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: outset;
+	border-right-style: outset;
+	border-bottom-style: none;
+	border-left-style: outset;
+	border-top-color: #FFFFFF;
+	border-right-color: #FFFFFF;
+	border-bottom-color: #FFFFFF;
+	border-left-color: #FFFFFF;
+	line-height: 20px;
+}
+#PageBox #PageBoxTitleTxt
+{
+	white-space: nowrap;
+	overflow: hidden;
+	line-height: 25px;
+}
+#PageBox #PageBoxTitle  a{
+	color: #FFFFFF;
+}
+#PageBox #PageBoxTitle #PageBoxTitleClose {
+	float: right;
+	margin-right: 8px;
+	margin-top: 0px;
+}
+#PageBox #PageBoxTitle #PageBoxTitleTxt
+{
+	line-height: 30px;
+	margin-left: 10px;
+}
+#PageBox iframe
+{
+	margin: 0px;
+	padding: 0px;
+}
+
