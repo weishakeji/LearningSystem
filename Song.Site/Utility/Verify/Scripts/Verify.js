@@ -9,7 +9,7 @@
 *
 * 作  者：微厦科技_宋雷鸣_10522779@qq.com
 * 开发时间: 2013年8月5日
-* 最后修订：2018年1月26日
+* 最后修订：2018年2月1日
 */
 (function () {
     var verify = {
@@ -312,7 +312,7 @@
                     number:{ exp:"^-?[0-9]{1,}$"}, //数字
                     float:{exp:"^(-?\d+)(\.\d+)?$"},     //浮点数
                     tel:{ exp:"^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$"},     //固定电话
-                    mobile:{ exp:"^[+]{0,1}(\d){1,1}[ ]?([-]?((\d)|[ ]){10,10})+$"},  //移动电话
+                    mobile:{ exp:"^1[0-9]{10}$"},  //移动电话
                     zip:{ exp:"^[0-9 ]{6,6}$"},         //邮政编码
                     user:{ exp:"^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){1,20}$"},  //账号
                     email:{ exp:"^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$"},    //电子邮箱
@@ -324,10 +324,11 @@
                 for (var t in typeArr) {
                     var type = $.trim(typeArr[t].toLowerCase());
                     for(var ex in regexp){
-                        if(type!=ex)continue;
-                        var t=regexp[ex].exp;
-                        ispass.pass = new RegExp(regexp[ex].exp).test(input);
-                        if (!ispass.pass) ispass.err = eval("verify.errmsg.datatype."+ex);
+                        if(type==ex){
+                            ispass.pass = new RegExp(String(regexp[ex].exp),"ig").test(input);
+                            if (!ispass.pass) ispass.err = eval("verify.errmsg.datatype."+ex);
+                            break;
+                        }
                     }            
                     if (attrval.indexOf("|") > -1 && ispass.pass) break;
                     if (attrval.indexOf("&") > -1 && !ispass.pass) break;
