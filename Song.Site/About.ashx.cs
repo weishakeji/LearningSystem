@@ -8,7 +8,7 @@ using VTemplate.Engine;
 namespace Song.Site
 {
     /// <summary>
-    /// About 的摘要说明
+    /// 关于
     /// </summary>
     public class About : BasePage
     {
