@@ -9,11 +9,11 @@
 *
 * 作  者：微厦科技_宋雷鸣_10522779@qq.com
 * 开发时间: 2013年8月5日
-* 最后修订：2018年2月1日
+* 最后修订：2018年2月4日
 */
 (function () {
     var verify = {
-        version:"1.2",  //版本号
+        version:"1.3",  //版本号
         //默认属性值
         attr:{
             place:"bottom",     //提示信息显示位置，默认为下方，可以设置right
@@ -60,8 +60,10 @@
             //提交按钮的事件
             $("*[verify='true']").click(function () {
                 if($(this).attr("disabled"))return;     //如果按钮是禁用的，则不验证
-                var group = $(this).attr("group");  //按钮的验证组，识标码                
-                return verify.IsPass($(this).parents("form"),group);
+                var group = $(this).attr("group");  //按钮的验证组，识标码  
+                var form=$(this).parents("form");
+                form=form.size()>0 ? form : $("body");
+                return verify.IsPass(form,group);
             }); 
             //失去焦点时的事件
             $("form[patter=focus] *[type!=submit][type!=button][type!=image]:visible").focusout(function () {
@@ -308,24 +310,24 @@
                 var typeArr = attrval.indexOf("&") > -1 ? attrval.split("&") : attrval.split("|");
                 //正则表达式
                 var regexp={
-                    uint:{ exp:"^[0-9]{1,}$"},     //正整数
-                    number:{ exp:"^-?[0-9]{1,}$"}, //数字
-                    float:{exp:"^(-?\d+)(\.\d+)?$"},     //浮点数
-                    tel:{ exp:"^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$"},     //固定电话
-                    mobile:{ exp:"^1[0-9]{10}$"},  //移动电话
-                    zip:{ exp:"^[0-9 ]{6,6}$"},         //邮政编码
-                    user:{ exp:"^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){1,20}$"},  //账号
-                    email:{ exp:"^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$"},    //电子邮箱
-                    idcard:{ exp:"(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)"},   //身份证
-                    url:{ exp:"^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$"},  //网址
-                    qq:{ exp:"^[1-9]\d{4,12}$"},     //qq号
-                    chinese:{ exp:"^[\u0391-\uFFE5]+$"}     //中文
+                    uint:{ exp:/^[0-9]{1,}$/gi},     //正整数
+                    number:{ exp:/(^-?[0-9]\d*\.\d*|-0\.\d*[0-9]\d*$)|(^-?[0-9]\d*$)/gi}, //数字
+                    float:{exp:/^(-?\d+)(\.\d+)?$/gi},     //浮点数
+                    tel:{ exp:/^[+]{0,1}(\d){1,3}[ ]?([-]?((\d)|[ ]){1,12})+$/gi},     //固定电话
+                    mobile:{ exp:/^1[0-9]{10}$/gi},  //移动电话
+                    zip:{ exp:/^[0-9]{6,6}$/gi},         //邮政编码
+                    user:{ exp:/^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){1,20}$/gi},  //账号
+                    email:{ exp:/^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$/gi},    //电子邮箱
+                    idcard:{ exp:/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/gi},   //身份证
+                    url:{ exp:/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/gi},  //网址
+                    qq:{ exp:/^[1-9]\d{4,12}$/gi},     //qq号
+                    chinese:{ exp:/^[\u0391-\uFFE5]+$/gi}     //中文
                 };  
                 for (var t in typeArr) {
                     var type = $.trim(typeArr[t].toLowerCase());
                     for(var ex in regexp){
                         if(type==ex){
-                            ispass.pass = new RegExp(String(regexp[ex].exp),"ig").test(input);
+                            ispass.pass = regexp[ex].exp.test(input);
                             if (!ispass.pass) ispass.err = eval("verify.errmsg.datatype."+ex);
                             break;
                         }
