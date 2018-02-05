@@ -38,5 +38,3 @@ E:\源码\01.学习平台\培训考试系统\Song.Site\bin\Microsoft.Web.Infrast
 E:\源码\01.学习平台\培训考试系统\Song.Site\bin\System.Web.WebPages.Deployment.dll
 E:\源码\01.学习平台\培训考试系统\Song.Site\bin\Newtonsoft.Json.dll
 E:\源码\01.学习平台\培训考试系统\Song.Site\bin\Newtonsoft.Json.xml
-E:\源码\01.学习平台\培训考试系统\Song.Site\bin\WeiSha.Template.Engine.pdb
-E:\源码\01.学习平台\培训考试系统\Song.Site\bin\WeiSha.Common.pdb

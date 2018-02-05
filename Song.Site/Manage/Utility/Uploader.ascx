@@ -46,7 +46,7 @@
             debug: false,
 
             // Button settings
-            button_image_url: "<%=uploaderPath %>images/TestImageNoText_65x29.png",
+            //button_image_url: "<%=uploaderPath %>images/TestImageNoText_65x29.png",
             button_width: "200",
             button_height: "29",
             button_placeholder_id: "spanButtonPlaceHolder",

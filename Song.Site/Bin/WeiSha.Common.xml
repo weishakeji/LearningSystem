@@ -1899,11 +1899,6 @@
             当前浏览器是否是手机浏览器
             </summary>
         </member>
-        <member name="P:WeiSha.Common.Browser.IsWeixin">
-            <summary>
-            当前浏览器是否是微信浏览器
-            </summary>
-        </member>
         <member name="P:WeiSha.Common.Browser.IsIPhone">
             <summary>
             当前浏览器是否来自苹果手机

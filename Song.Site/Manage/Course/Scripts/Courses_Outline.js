@@ -68,15 +68,16 @@ function playVideo() {
     });
 }
 function player(file) {
+    //alert(uploaderPath);
     var width = 500;
     var height = 400;
     var str = "<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-4445535411111'  codebase='http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0'";
     str += "  width=" + width + " height=" + height + " >";
-    str += "<param name='movie' value='" + uploadPath + "flvplayer.swf?vcastr_file=" + file + "' />";
+    str += "<param name='movie' value='" + uploaderPath + "flvplayer.swf?vcastr_file=" + file + "' />";
     str += "<param name='quality' value='high' />";
     str += "<param name='allowFullScreen' value='true' />";
     str += "<param name='FlashVars' value='vcastr_file=" + file + "&IsAutoPlay=1&IsContinue=1' />";
-    str += "<embed src='" + uploadPath + "flvplayer.swf?vcastr_file=" + file + "' allowfullscreen='true'";
+    str += "<embed src='" + uploaderPath + "flvplayer.swf?vcastr_file=" + file + "' allowfullscreen='true'";
     str += " flashvars='vcastr_file=" + file + "&IsAutoPlay=1&IsContinue=1' quality='high' pluginspage='http://www.macromedia.com/go/getflashplayer' ";
     str += " type='application/x-shockwave-flash'  width=" + width + " height=" + height + " />";
     str += "</object>";

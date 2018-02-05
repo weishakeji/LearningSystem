@@ -221,21 +221,21 @@ body {
 	line-height: 30px;
 }
 /* 视频事件中的试题窗口*/
-#MsgBoxContext .eventContext {
+.MsgBoxContext .eventContext {
 	font-size: 14px;
 	height: 22px;
 	margin-bottom: 10px;
 }
-#MsgBoxContext .quesBox {
+.MsgBoxContext .quesBox {
 	margin-left: 14px;
 }
-#MsgBoxContext .quesBox .ansItem {
+.MsgBoxContext .quesBox .ansItem {
 	font-size: 14px;
 	height: 22px;
 	cursor: pointer;
 	margin-top: 10px;
 }
-#MsgBoxContext .quesAns {
+.MsgBoxContext .quesAns {
 	font-size: 14px;
 	height: 22px;
 	margin-top: 10px;

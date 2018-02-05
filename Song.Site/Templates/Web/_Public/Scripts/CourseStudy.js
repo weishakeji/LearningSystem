@@ -1,4 +1,4 @@
-﻿$(function () {    
+﻿$(function () {
     setStyle();
     //分隔栏上的事件
     $("#median").click(function () {
@@ -13,7 +13,7 @@
             window.fullScreen = true;
         } else {
             $("#MainBox").animate({ width: $(window).width() * 0.79 }, 500);
-            $("#outlineBox").animate({ width: $(window).width() * 0.2}, 300,
+            $("#outlineBox").animate({ width: $(window).width() * 0.2 }, 300,
              function () {
                  $(this).slideDown(800);
              });
@@ -22,7 +22,7 @@
             window.fullScreen = false;
         }
     });
-	setInitTilte();
+    setInitTilte();
 });
 /*=====================================================================
 
@@ -42,17 +42,17 @@ function setInitTilte() {
         if (tmp = rs) state = tmp[2];
         if (stateCurr == state) {
             $(this).addClass("titCurr");
-			try{
-			 var func = eval("setInit_" + state);
-			 if ("undefined" != typeof (func) && func!=null) func();
-			}catch(e){}
+            try {
+                var func = eval("setInit_" + state);
+                if ("undefined" != typeof (func) && func != null) func();
+            } catch (e) { }
         }
     });
 }
 //习题界面的初始化
-function setInit_4(){
-	var frame=$("#Exercises");
-	frame.height($(window).height() - $(".mainTop").height());
+function setInit_4() {
+    var frame = $("#Exercises");
+    frame.height($(window).height() - $(".mainTop").height());
 }
 //设置样式
 function setStyle() {
@@ -79,17 +79,17 @@ function setStyle() {
         $("#MainBox").width($(window).width() * 0.79);
     }
     //内容区的大小
-    $("#details").height($("#MainBox").height() - $(".mainTop").height()-20);
+    $("#details").height($("#MainBox").height() - $(".mainTop").height() - 20);
 }
 //当窗口大小变化时
 $(window).resize(function () {
     setStyle();
 });
 //如果你不需要某项设置，可以直接删除，注意var flashvars的最后一个值后面不能有逗号
-function loadedHandler() {	
+function loadedHandler() {
     if (CKobject.getObjectById('ckplayer_videobox').getType()) {//说明使用html5播放器
         CKobject.getObjectById('ckplayer_videobox').addListener('paused', pausedHandler);
-		alert(CKobject.getObjectById('ckplayer_videobox').innerHTML);
+        alert(CKobject.getObjectById('ckplayer_videobox').innerHTML);
         CKobject.getObjectById('ckplayer_videobox').addListener('time', timeHandler);
     }
     else {
@@ -293,17 +293,17 @@ function activeEvent(time) {
             //如果是试题
             if (type == 3) {
                 new MsgBox(tit, $(this).html(), width, height, "null").Open();
-                $("#MsgBoxContext .eventTitle").remove();
-                $("#MsgBoxContext .quesBox .ansItem").click(function () {
+                $(".MsgBoxContext .eventTitle").remove();
+                $(".MsgBoxContext .quesBox .ansItem").click(function () {
                     if ($(this).attr("iscorrect") == "True") {
-                        var quesAnd = $("#MsgBoxContext .quesAns");
+                        var quesAnd = $(".MsgBoxContext .quesAns");
                         quesAnd.hide();
                         quesAnd.html("&radic; 回答正确！");
                         quesAnd.css("color", "green");
                         quesAnd.show(100);
                         setTimeout("MsgBox.Close()", 1000);
                     } else {
-                        var quesAnd = $("#MsgBoxContext .quesAns");
+                        var quesAnd = $(".MsgBoxContext .quesAns");
                         quesAnd.hide();
                         quesAnd.html("&times; 回答错误！");
                         quesAnd.css("color", "red");
@@ -314,8 +314,8 @@ function activeEvent(time) {
             //如果是实时反馈
             if (type == 4) {
                 new MsgBox(tit, $(this).html(), width, height, "null").Open();
-                $("#MsgBoxContext .eventTitle").remove();
-                $("#MsgBoxContext .quesBox .ansItem").click(function () {
+                $(".MsgBoxContext .eventTitle").remove();
+                $(".MsgBoxContext .quesBox .ansItem").click(function () {
                     var playPoint = Number($(this).attr("point"));
                     CKobject.getObjectById('ckplayer_videobox').videoSeek(playPoint);
                     MsgBox.Close(true);

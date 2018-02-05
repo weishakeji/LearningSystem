@@ -161,12 +161,18 @@
     <Reference Include="URLRewriter">
       <HintPath>..\Lib\URLRewriter.dll</HintPath>
     </Reference>
+    <Reference Include="WeiSha.Common">
+      <HintPath>..\Lib\WeiSha.Common.dll</HintPath>
+    </Reference>
     <Reference Include="WeiSha.Data">
       <HintPath>..\Lib\WeiSha.Data.dll</HintPath>
     </Reference>
     <Reference Include="WeiSha.SMS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.SMS.dll</HintPath>
+    </Reference>
+    <Reference Include="WeiSha.Template.Engine">
+      <HintPath>..\Lib\WeiSha.Template.Engine.dll</HintPath>
     </Reference>
     <Reference Include="WeiSha.WebControl">
       <HintPath>..\Lib\WeiSha.WebControl.dll</HintPath>
@@ -5024,14 +5030,6 @@
     <Content Include="Manage\Welcome.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\WeiSha.Common\WeiSha.Common.csproj">
-      <Project>{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}</Project>
-      <Name>WeiSha.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Framework\WeiSha.Template.Engine\WeiSha.Template.Engine.csproj">
-      <Project>{515F3508-E2B7-4188-940D-94452C3B2D20}</Project>
-      <Name>WeiSha.Template.Engine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
       <Project>{985A8268-3A87-46B9-9744-650664719E67}</Project>
       <Name>Song.Entities</Name>
