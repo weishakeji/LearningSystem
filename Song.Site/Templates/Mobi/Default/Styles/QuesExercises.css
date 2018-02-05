@@ -249,6 +249,8 @@ color: #0099FF;
 	border: 1px solid #CCC;
 	padding:10px;
 	display:none;
+	min-height:100px;
+	height:auto;
 }
 .quesAnswerBox .quesAnswerTitle{
 	line-height: 25px;
@@ -259,7 +261,7 @@ color: #0099FF;
 }
 .quesAnswerBox .quesAnswerContent{
 	line-height: 35px;
-	height: 35px;
+	min-height: 35px;
 
 }
 

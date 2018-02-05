@@ -1,0 +1,122 @@
+﻿        html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+html, 
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	font: 12px/1.4em Helvetica, Arial, sans-serif;
+}
+
+a { 
+	color:#0068B7;
+	text-decoration:none;
+}
+a:hover { text-decoration: underline; }
+
+div.fieldset {
+border:  1px solid #afe14c;
+margin: 10px 0;
+padding: 20px 10px;}
+
+div.fieldset span.legend {
+    position: relative;
+    background-color: #FFF;
+    padding: 3px;
+    top: -30px;
+    font: 700 14px Arial, Helvetica, sans-serif;
+    color: #73b304;
+}
+
+div.flash {
+    width: 375px;
+    margin: 10px 5px;
+    border-color: #D9E4FF;
+}
+
+.Ico {
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BACKGROUND-COLOR: transparent; WIDTH: 16px; HEIGHT: 16px; VERTICAL-ALIGN: middle; BORDER-TOP: 0px; BORDER-RIGHT: 0px
+}
+
+.IcoNormal
+{
+	float:left;
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BACKGROUND-COLOR: transparent; WIDTH: 16px; HEIGHT: 16px; VERTICAL-ALIGN: middle; BORDER-TOP: 0px; BORDER-RIGHT: 0px;
+	background-image:url(images/upload_normal.gif);background-repeat:no-repeat;
+}
+
+.IcoWaiting
+{
+	float:left;
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BACKGROUND-COLOR: transparent; WIDTH: 16px; HEIGHT: 16px; VERTICAL-ALIGN: middle; BORDER-TOP: 0px; BORDER-RIGHT: 0px;
+	background-image:url(images/upload_waiting.gif);background-repeat:no-repeat;
+}
+
+.IcoUpload 
+{
+	float:left;
+	BORDER-BOTTOM: 0px; BORDER-LEFT: 0px; BACKGROUND-COLOR: transparent; WIDTH: 16px; HEIGHT: 16px; VERTICAL-ALIGN: middle; BORDER-TOP: 0px; BORDER-RIGHT: 0px;
+	BACKGROUND-IMAGE: url(images/upload.gif); BACKGROUND-REPEAT: no-repeat
+}
+
+.theFont
+{
+	color:#0068B7;
+}
+
+.fle
+{float:left;}
+
+.statebarSmallDiv
+{
+	float:left;
+	width:50px;height:6px;background-color:#fafafa;border:solid 1px #ccc;VERTICAL-ALIGN: middle;
+	margin-left:5px;margin-top:10px; 
+}
+.statebarBigDiv
+{
+	float:left;
+	width:100px;height:6px;background-color:#fafafa;border:solid 1px #ccc;VERTICAL-ALIGN: middle;
+	margin-left:5px;margin-top:4px; 
+}
+.statebar
+{
+	background-color:#a5dd3d;width:30%;FONT-SIZE: 1px; OVERFLOW: hidden; LINE-HEIGHT: 6px;
+}  
+
+.ftt
+{
+	margin:5px;
+}
+
+.progressobj
+{
+	clear:both;
+	font-family:Verdana;
+	color:#A59A98;
+	margin:3px;	
+}
+
+.progressobj A {
+	COLOR: #0068B7; TEXT-DECORATION: underline
+}
+.progressobj A:hover {
+	COLOR: #0068B7
+}

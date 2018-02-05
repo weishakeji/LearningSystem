@@ -1,0 +1,28 @@
+﻿@charset "utf-8";
+.treeIco{
+	font-size:20px;
+	height:20px;
+	line-height:20px;
+}
+td a{
+	line-height:30px !important;
+}
+/*可编辑行的效果*/
+.editRow td
+{
+	background-color: #FFFF99 !important;
+}
+.editBtn, .backBtn {
+	margin-top: 3px;
+	padding-top: 2px;
+	padding-left: 2px;
+	width:34px;
+}
+.editBtn {
+	color: #FF0000;
+}
+
+fieldset
+{
+	width: 280px !important;
+}

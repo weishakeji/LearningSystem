@@ -1,0 +1,13 @@
+/*=========mF_classicHC --经典怀旧系列一--========*/
+.mF_classicHC .pic{border:1px solid #666;}
+.mF_classicHC .pic li{position:absolute;left:0;top:0;}
+.mF_classicHC .txt li{position:absolute;left:0;background:#dedede;overflow:hidden;height:26px;line-height:26px;}
+.mF_classicHC .txt li a{display:block;color:#333;text-align:center;font-size:12px;font-weight:bold;text-decoration:none;}/*文字样式*/
+.mF_classicHC .num,.mF_classicHC .num-bg{height:19px;position:absolute;z-index:3;right:0;bottom:31px;color:#fff;}/*按钮样式*/
+.mF_classicHC .num-bg{width:100%;background:url(http://pigimg.zhongso.com/space/gallery/infoimgs/gc/gcqzj/20100907/2010090722133279907.png) right bottom no-repeat;_height:16px;_background:0;_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='http://pigimg.zhongso.com/space/gallery/infoimgs/gc/gcqzj/20100907/2010090722133279907.png', sizingMethod='scale');}
+.mF_classicHC .num-bg li{position:absolute;}
+.mF_classicHC .num li{float:left;width:26px;height:16px;line-height:16px;padding-top:3px;text-align:center;cursor:pointer;position:relative;}
+.mF_classicHC .num li a{color:#fff;}
+.mF_classicHC .num li span{position:absolute;top:3px;left:0;width:1px;height:16px;overflow:hidden;background:#DADADA;}
+.mF_classicHC .num li.current,.mF_classicHC .num li.hover{background:url(http://pigimg.zhongso.com/space/gallery/infoimgs/gc/gcqzj/20100901/2010090111470535358.gif) left top no-repeat;}/*当前/悬停按钮样式*/
+.mF_classicHC .num li.hover{background-position:right bottom;}

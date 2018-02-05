@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<script type="text/javascript" src="../Scripts/jquery.js"></script>
+<script type="text/javascript" src="../Scripts/Verify.js"></script>
+<link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1>数值区间验证</h1>
+<h2>概述</h2>
+<div class="desc">
+  <p>在控件设置参数 <strong>numlimit</strong>即可实现对录入字符长度的限制。</p>
+  <p>&lt;input name=&quot;&quot; type=&quot;text&quot; <strong>numlimit=&quot;5&quot;</strong>/&gt;（数值不得大于5）</p>
+  <p>&lt;input name=&quot;&quot; type=&quot;text&quot; <strong>numlimit=&quot;5-10&quot;</strong>/&gt;（数值介于5-10之间）</p>
+</div>
+<h2>示例</h2>
+<h3>1、数值区间验证</h3>
+<div class="desc">
+  <fieldset>
+    
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot;&gt;<br />      &lt;p&gt; 测试1：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; value=&quot;8&quot; <strong>numlimit=&quot;5&quot;</strong>/&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt; 测试2：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; <strong>numlimit=&quot;5-10&quot;</strong>/&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;">
+      <p> 测试1：
+        <input name="" type="text" value="8" numlimit="5"/>
+      </p>
+      <p> 测试2：
+        <input name="" type="text" numlimit="5-10"/>
+      </p>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+  
+</div>
+
+</body>
+</html>

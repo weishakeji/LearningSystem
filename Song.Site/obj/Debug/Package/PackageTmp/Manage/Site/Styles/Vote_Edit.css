@@ -1,0 +1,25 @@
+﻿@charset "utf-8";
+body
+{
+}
+.compBar
+{
+	width: 1px;	
+}
+/*得票数的信息行*/
+.vtNumber
+{
+	position: absolute;
+	z-index: 1000;
+	font-size: 12px;
+}
+.vtNumber .num
+{
+	color: #FF0000;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.vtNumber .per
+{
+	color: #333333;
+}

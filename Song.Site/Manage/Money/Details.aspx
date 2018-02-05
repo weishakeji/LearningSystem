@@ -24,7 +24,7 @@
                 <asp:ListItem Value="1">支出</asp:ListItem>
                 <asp:ListItem Value="2">充值</asp:ListItem>
             </asp:DropDownList>
-            &nbsp;学员账号：<asp:TextBox ID="tbSear" runat="server" Width="120" MaxLength="10"></asp:TextBox>
+            &nbsp;学员账号：<asp:TextBox ID="tbSear" runat="server" Width="120" MaxLength="20"></asp:TextBox>
             <asp:Button ID="btnSear" runat="server" Width="60" Text="查询" OnClick="btnsear_Click" />
         </asp:Panel>
     </div>

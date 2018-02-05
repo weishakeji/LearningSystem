@@ -1,0 +1,25 @@
+﻿@charset "utf-8";
+body {
+}
+.item
+{
+	float: left;
+	height: 235px;
+	width: 200px;
+	margin-top: 20px;
+	margin-right: 20px;
+}
+.item img
+{
+	margin: 5px;
+	height: 123px;
+	width: 200px;
+	cursor:pointer;
+}
+.item .itemName{
+	line-height: 25px;
+	text-align: center;
+	white-space: nowrap;
+	height: 25px;
+	overflow: hidden;
+}

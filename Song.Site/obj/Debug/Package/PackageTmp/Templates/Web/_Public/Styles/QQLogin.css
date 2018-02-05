@@ -1,0 +1,127 @@
+html{
+	overflow: hidden;
+}
+.loading-txt{
+	margin-top: 50px;
+}
+.error-txt{
+	margin-top: 50px;
+}
+.infoBox .leftBox {
+	float: left;
+	width: 19%;
+	background-color: #FFC;
+	height: 1000px;
+	border-right-width: 1px;
+	border-top-style: none;
+	border-right-style: groove;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-right-color: #CCC;
+	box-shadow: 5px 0px 0px #ccc, 0 6px 3px rgba(0, 0, 0, 0.3);
+}
+.show-tit{
+	font-size: 16px;
+	line-height: 40px;
+	height:40px;
+}
+.infoBox .leftbox {
+	float: left;
+	width: 80%;
+	margin-left:5px;
+}
+.leftbox .titbox {
+	height: 40px;
+	width: 100%;
+}
+.leftbox .titbox dd{
+	height: 40px;
+	width: 50%;
+	float: left;
+	background-color: #CCC;
+	font-size: 16px;
+	line-height: 40px;
+	cursor:pointer;
+}
+.leftbox .titbox dd.curr{
+	background-color: #FFF;
+}
+.regbox{
+	display: none;
+	padding-left: 20px;
+	padding-top: 20px;
+}
+.loginRow{
+	height: 40px;
+	margin-bottom: 10px;
+}
+.width {
+	width: 250px;
+}
+.textbox {
+	font-size: 16px;
+	line-height: 40px;
+	height: 40px;
+	border: 1px solid #CCCCCC;
+	text-indent: 10px;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+	float: left;
+}
+.verify {
+	float: left;
+	width: 155px;
+}
+.verifyCode {
+	    cursor: pointer;
+    height: 40px;
+    float: left;
+    margin-top: 0px;
+    margin-left: 5px;
+    width: 88px;
+    border: 1px solid #CCC;
+    text-align: center;
+    background-color: #FFF;
+}
+.right-btn{
+	cursor: pointer;
+	height: 40px;
+	float: left;
+	margin-top: 0px;
+	margin-left: 5px;
+	width: 88px;
+	border: 1px solid #CCC;
+	text-align: center;
+	background-color: #FFF;
+	font-size: 18px;
+	line-height: 40px;
+}
+.waiting{
+	font-size: 12px;
+}
+.btnBind {
+	line-height: 30px;
+	text-align: center;
+	display: block;
+	height: 30px;
+	width: 250px;
+	float: left;
+	margin-left: 0px;
+	background-color: #0387d9;
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-weight: bold;
+	color: #FFFFFF;
+	font-size: 16px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	cursor: pointer;
+	letter-spacing: 0.5em;
+}
+#btnDirect{
+	background-color: #093;
+}
+.disabled{
+	background-color: #CCC;
+}

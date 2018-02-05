@@ -1,0 +1,9 @@
+﻿@charset "utf-8";
+body {
+}
+.copy {
+	background-color: #09F;
+	display: inline-block;
+	padding: 5px;
+	cursor:pointer;
+}

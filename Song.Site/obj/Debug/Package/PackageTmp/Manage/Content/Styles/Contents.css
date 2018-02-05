@@ -1,0 +1,19 @@
+﻿@charset "utf-8";
+#leftBox
+{
+	width:180px;
+	float:left;
+}
+#rightBox
+{
+	float:right;
+	width: 380px;
+}
+.noContext
+{
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 25px;
+	line-height: 60px;
+	text-align: center;
+	margin-top: 30px;
+}

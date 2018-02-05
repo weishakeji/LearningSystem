@@ -1,0 +1,75 @@
+@charset "utf-8";
+.note-item .mui-navigate-right{
+	color: #333 !important;	
+}
+.nRow{
+	height: 100px;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 0px;
+	margin-left: 5px;
+	line-height: 100px;
+	vertical-align: middle;
+	text-align: center;
+}
+/*主讲教师*/
+.teacher{
+	margin-bottom:10px;
+	display:table;
+	width:100%;
+}
+.thPhoto{
+	width: 30%;
+    border-radius: 55%;
+    overflow: hidden;
+    margin-top: 6px;
+    border: 2px solid #CCC !important;
+    float: left;
+    display: block;
+	margin-left:5%;
+	background-size:100% !important;
+}
+.thRight{
+	 float: left;
+	 margin-left:5%;
+	 width:55%;
+}
+.thName{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.thSign{
+	color: #666;
+	line-height: 25px;
+	height: 50px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	width:100%;
+}
+/*星标*/
+.star{
+}
+.star i{
+	background-image: url(../Images/sun_star.gif);
+	background-repeat: no-repeat;
+	background-position: -160px -158px;
+	display: inline-block;
+	height: 25px;
+	width: 28px;
+}
+.star .s1{
+	background-position: 0px -158px;	
+}
+.star .s0{	
+	background-position: 0px -186px;
+}
+.star b{
+	height: 25px;
+	width: 40px;
+	line-height: 25px;
+	display: inline-block;
+	text-align: center;
+	margin-top: -10px;
+	vertical-align: middle;
+	margin-left: 5px;
+}

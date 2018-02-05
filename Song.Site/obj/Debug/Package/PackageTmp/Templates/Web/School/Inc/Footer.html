@@ -1,0 +1,25 @@
+﻿<div id="footer">
+    <div class="footerMenu">
+        <vt:function var="menu" method="Navi" args="foot" args="0" />
+        <vt:foreach from="$#.menu" item="m" index="i">  <vt:if var="m.nav_isbold" value="true" compare="="> <a href="{$:m.nav_url}" target="{$:m.nav_target}" title="{$:m.nav_title}" style="color: {$:m.nav_color};font-family: {$:m.nav_font};font-weight: bold;"> <vt:else /><a href="{$:m.nav_url}" target="{$:m.nav_target}" title="{$:m.nav_title}" style="color: {$:m.nav_color};font-family: {$:m.nav_font};">
+</vt:if>  {$:m.nav_name} </a>  <vt:foreachelse /> <a href="/notices.ashx" target="" title="" style="color: ;font-family: ;"> 通知公告 </a>    <a href="/news.ashx" target="" title="" style="color: ;font-family: ;"> 新闻资讯 </a>     <a href="/admin/index.ashx" target="_blank" title="" style="color: #003562;font-family: ;font-weight: bold;">机构管理 </a>    <a href="/links.ashx" target="" title="" style="color: ;font-family: ;"> 友情链接 </a>    <a href="/about.ashx" target="" title="" style="color: ;font-family: ;"> 关于我们 </a>    <a href="/Contactus.ashx" target="" title="" style="color: ;font-family: ;"> 联系我们 </a>  
+ </vt:foreach>
+    </div>
+    <div id="footerConext">
+        {$:#.org.Org_Name} &nbsp; Tel：{$:#.org.Org_Phone}<br />
+        Copyright &copy; 2014 {$:#.org.Org_AbbrEnName} All rights reserved &nbsp;
+        <vt:if var="org.Org_ICP" value="" compare="!="> <a href="http://www.miibeian.gov.cn" target="_blank">{$:#.org.Org_ICP}</a> </vt:if>
+        <div>
+            <a href="http://www.weishakeji.net" target="_blank" title="微厦科技，专注在线教育系统开发！">Poweredby
+                Weisha100</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //当前登录的账号ID
+    var currLoginACID = Number("{$Account.Ac_id}");
+    ToAllLinkAddAccoutsID(currLoginACID);
+</script>
+
+<script type="text/javascript" src="/Utility/CoreScripts/Widget.js"></script>
+{$org.Org_Extracode}

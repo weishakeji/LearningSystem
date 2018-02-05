@@ -113,8 +113,9 @@
                 </div>
                
             </form>
-          </vt:if> <!--第三方登录-->
+          </vt:if><!--第三方登录-->
                <dl class="OAuth">
+               
                     <vt:if var="QQLoginIsUse" value="true" compare="=">
                     <dd><a href="#" tag="qqlogin" appid="{$QQAPPID}" returl="{$QQReturl}" orgid="{$org.Org_id}"><b class="QQ-icon"></b> <span id="qqLoginBtn">QQ</span></a></dd>
                     </vt:if>

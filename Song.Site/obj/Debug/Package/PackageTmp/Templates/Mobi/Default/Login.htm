@@ -1,0 +1,138 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>学员登录</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="CoreScripts/MsgBox.js"></script>
+<script type="text/javascript" src="CoreScripts/Verify.js"></script>
+<script type="text/javascript" src="CoreScripts/Extend.js"></script>
+<script type="text/javascript" src="Scripts/Login.js"></script>
+<link href="Styles/Login.css" rel="stylesheet" type="text/css" />
+<link href="CoreStyles/MsgBox.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--侧滑菜单部分-->
+  <vt:include file="inc/Menu.html" />
+  <!--主界面部分-->
+  <div class="mui-inner-wrap">
+    <header class="mui-bar mui-bar-nav mui-bar-transparent headerbar"> <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx"><span class="iconfont  top-ico">&#xe620;</span></a>
+      <h1 class="mui-title">
+        <vt:if var="loyout" value="" compare="="> 学员登录
+          <vt:else/>
+          手机验证登录 </vt:if>
+      </h1>
+    </header>
+    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+      <div class="mui-scroll"> 
+        <!--主内容区起始-->
+        <div class="loginArea">
+        <vt:if var="islogin" value="false" compare="=">
+          <vt:if var="loyout" value="" compare="=">
+            <form id="accLogin" name="accLogin" method="post">
+              <div class="loginRow">
+                <div class="loginRowRight examico">&#xe6b2;</div>
+                <div class="loginRowLeft">
+                  <input type="text" name="tbAcc" value="{$acc}"  class="mui-input-clear textbox width" nullable="false" star="false" group="login" placeholder="账号/手机号">
+                </div>
+              </div>
+              <div class="loginRow">
+                <div class="loginRowRight examico">&#xe602;</div>
+                <div class="loginRowLeft">
+                  <input type="password" name="tbPw" class="mui-input-password textbox width" nullable="false"  star="false"  group="login" placeholder="登录密码">
+                </div>
+              </div>
+              <div class="loginRow">
+                <div class="loginRowRight">
+                  <div class="loginRowRight examico">&#xe619;</div>
+                </div>
+                <div class="loginRowLeft">
+                  <input name="from" type="hidden" value="{$from}" />
+                  <input type="number" name="tbCode" class="mui-input-password textbox verify" nullable="false" star="false"   lenlimit="4-4"  group="login" placeholder="验证码">
+                  <img src="/Utility/codeimg.aspx?name=accmobilelogincode" class="verifyCode"/> </div>
+              </div>
+              <div class="loginRow ">
+                <div class="mui-switch mui-active mui-switch-blue cbSign" id="cbSign-switch">
+                  <div class="mui-switch-handle"></div>
+                </div>
+                <input name="cbSign" id="cbSign" type="checkbox" checked style="display:none"/>
+              </div>
+              <div class="loginRow btnBar">
+                <input type="submit" name="btnSubmit" id="btnSubmit" value="登 录" verify="true"  group="login" class="mui-btn mui-btn-primary btnLogin"/>
+                <button type="button" id="btnRegister" href="Register.ashx" class="mui-btn mui-btn-success btnRegister" >注 册</button>
+                <!--<div class="loginRow btnBar"> <a href="Login.ashx?istry=true" class="aTryout">暂时试用</a>--> </div>
+              <div class="loginRow" style="margin-top:20px;">
+              <a href="{$from}" id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left">返回</a>
+               <span class="mui-badge mui-badge-warning selfpw"><a href="SelfPwFind.ashx" type="link">忘记密码</a> </span>
+                &nbsp; 
+                 <vt:if var="forsms" value="true" compare="=">
+                 <a class="mui-badge mui-badge-primary selfpw" href="Login.ashx?loyout=mobile" type="link">手机验证登录</a></vt:if> </div>
+            </form>
+          </vt:if>
+          <vt:if var="loyout" value="mobile" compare="=">
+            <form id="mobiLogin" name="mobiLogin" method="post">
+              <div class="loginRow">
+                <div class="loginRowRight iconphone">&#xe610;</div>
+                <div class="loginRowLeft">
+                  <input type="text" name="tbPhone" value=""  class="mui-input-clear textbox width" nullable="false"  star="false"  group="login|loginsms" placeholder="手机号">
+                </div>
+              </div>              
+              <div class="loginRow">
+                <div class="loginRowRight">
+                  <div class="loginRowRight examico">&#xe619;</div>
+                </div>
+                <div class="loginRowLeft">
+                  <input name="from" type="hidden" value="{$from}" />
+                  <input type="number" name="tbCode" class="mui-input-password textbox verify" nullable="false"  star="false"  lenlimit="4-4"  group="login|loginsms" placeholder="验证码">
+                  <img src="/Utility/codeimg.aspx?name=accsmslogincode" class="verifyCode"/> </div>
+              </div>
+               <div class="loginRow">
+                <div class="loginRowRight">
+                  <div class="loginRowRight iconphone">&#xe71a;</div>
+                </div>
+                <div class="loginRowLeft">
+                  
+                  <input type="number" name="tbSms" class="mui-input-password textbox verify" nullable="false"  star="false"  lenlimit="6-6"  group="login" placeholder="短信验证码">
+                  <div class="right-btn" id="getSms" waiting="{num}秒" group="loginsms">获取短信</div></div>
+              </div>
+              <div class="loginRow ">
+                <div class="mui-switch mui-active mui-switch-blue cbSign" id="cbSign-switch">
+                  <div class="mui-switch-handle"></div>
+                </div>
+                <input name="cbSign" id="cbSign" type="checkbox" checked style="display:none"/>
+              </div>
+              <div class="loginRow btnBar">
+                <input type="submit" name="btnSubmit" id="btnSubmit" value="登 录" verify="true"  group="login" class="mui-btn mui-btn-primary btnLogin"/>
+                <button type="button" id="btnRegister" href="Register.ashx" class="mui-btn mui-btn-success btnRegister" >注 册</button>
+                <!--<div class="loginRow btnBar"> <a href="Login.ashx?istry=true" class="aTryout">暂时试用</a>--> </div>
+              <div class="loginRow" style="margin-top:20px;">
+              <a href="{$from}" id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left">返回</a>
+               <span class="mui-badge mui-badge-warning selfpw"><a href="SelfPwFind.ashx" type="link">忘记密码</a> </span> &nbsp; 
+                <vt:if var="forpw" value="true" compare="="><a class="mui-badge mui-badge-primary selfpw" href="Login.ashx" type="link">账号登录</a> 
+                </vt:if>
+                </div>
+               
+            </form>
+          </vt:if> <!--第三方登录-->
+               <dl class="OAuth">
+                    <vt:if var="QQLoginIsUse" value="true" compare="=">
+                    <dd><a href="#" tag="qqlogin" appid="{$QQAPPID}" returl="{$QQReturl}" orgid="{$org.Org_id}"><b class="QQ-icon"></b> <span id="qqLoginBtn">QQ</span></a></dd>
+                    </vt:if>
+                    <vt:if var="WeixinLoginIsUse" value="true" compare="=">
+                    <dd><a href="#" tag="weixinlogin" appid="{$WeixinAPPID}" returl="{$WeixinReturl}" orgid="{$org.Org_id}"><b class="weixin-icon"></b> <span>微信</span></a></dd>
+                    </vt:if>
+                  </dl>
+          <vt:else/>
+      <div class="noLogin"> 暂停登录</div>
+       </vt:if>
+        </div>
+        <!--主内容区结束--> 
+      </div>
+    </div>
+    <!-- off-canvas backdrop -->
+    <div class="mui-off-canvas-backdrop"> </div>
+  </div>
+  <!--主界面结束--> 
+</div>
+</body>
+</html>

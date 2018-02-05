@@ -1,0 +1,118 @@
+﻿@charset "utf-8";
+body {
+}
+.courseList {
+	width: 980px;
+	height: auto;
+	overflow: hidden;
+	margin-right: auto;
+	margin-left: auto;
+}
+.courseList .courseListInner {
+	width: 2000px;
+}
+.box {
+	float: left;
+	height: 153px;
+	width: 206px;
+	margin-right: 52px;
+	margin-bottom: 20px;
+	overflow: hidden;
+}
+.courseList  .item {
+	width: 200px;
+	text-align: center;
+	border: 3px solid #FFFFFF;
+	height: 123px;
+	overflow: hidden;
+}
+
+.courseList  .courseOver
+{
+	border: 3px solid #CCCCCC;
+}
+.courseList  .courseOver .itemName a
+{
+	color: #FFFFFF;
+}
+.courseList  .item a{
+	display: block;
+	color: #FFFFFF;
+	font-size: 15px;
+	line-height: 30px;
+}
+.courseList  .item img{
+	width: 200px;
+	height: 123px;
+}
+.courseList .item .itemMark {
+	font-size: 14px;
+	text-align: left;
+	line-height: 35px;
+	width: 200px;
+	font-family: "微软雅黑";
+	color: #FFFFFF;
+	POSITION: relative;
+	FILTER: alpha(opacity=50);
+	BACKGROUND: #000;
+	OVERFLOW: hidden;
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	top:-35px;
+	height:123px;
+}
+.courseList .item .itemInfo {
+	font-size: 14px;
+	text-align: left;
+	line-height: 35px;
+	width: 200px;
+	font-family: "微软雅黑";
+	color: #FFFFFF;
+	POSITION: relative;
+	OVERFLOW: hidden;
+	top:-158px;
+	height:123px;
+	z-index: 10;
+}
+.courseList .item .itemDetails
+{
+	line-height: 20px;
+	display: block;
+	height: 78px;
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 14px;
+	width: 190px;
+	margin-left: 10px;
+}
+.courseList  a
+{
+	line-height: 30px;
+	text-indent: 10px;
+	display: block;
+	height: 30px;
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 18px;
+}
+
+.btn {
+	line-height: 25px;
+	height: 25px;
+	POSITION: relative;
+	top:-05px;
+}
+.btn a{
+	display: block;
+	color: #FFFFFF;
+	font-size: 15px;
+	line-height: 30px;
+}
+/*取消课程学习的按钮样式*/
+.box a.selected{
+	color: #FF0000;
+	font-size: 14px;
+}
+/*添加课程学习的按钮样式*/
+.box a.noselect{
+	color: #0033FF;
+	font-size: 14px;
+}

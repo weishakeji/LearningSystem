@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 该文件记录Excel数据导入时Excel的列名与数据库中字段的对应关系 -->
+
+<config>
+  <item Column="ID" Field="TrP_Id" />
+  <item Column="日期" Field="TrP_Time" />
+  <item Column="开始时间" Field="Start" />
+  <item Column="结束时间" Field="End" />
+  <item Column="专业" Field="Sbj_Name" />
+  <item Column="人员类型" Field="TrP_GroupType" />
+  <item Column="培训人员" Field="TrP_Group" />
+  <item Column="人数" Field="TrP_Num" />
+  <item Column="培训内容" Field="TrP_Content" />
+  <item Column="地点" Field="TrP_Location" />
+  <item Column="培训教师" Field="TrP_Teacher" />
+  <item Column="培训方式" Field="TrP_Way" />
+  <item Column="责任院系" Field="Dep_CnName" />
+  <item Column="完成情况" Field="TrP_Result" />
+</config>

@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>moneyico</title>
+    <link rel="stylesheet" href="demo.css">
+    <link rel="stylesheet" href="moneyico.css">
+</head>
+<body>
+    <div class="main">
+        <h1>moneyico 图标</h1>
+        <ul class="icon_lists clear">
+            
+                <li>
+                <i class="icon moneyico">&#xe61d;</i>
+                    <div class="name">支出</div>
+                    <div class="code">&amp;#xe61d;</div>
+                    <div class="fontclass">.lose</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe637;</i>
+                    <div class="name">支出-40</div>
+                    <div class="code">&amp;#xe637;</div>
+                    <div class="fontclass">.zhichu40</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe66e;</i>
+                    <div class="name">收入</div>
+                    <div class="code">&amp;#xe66e;</div>
+                    <div class="fontclass">.shouru</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe83c;</i>
+                    <div class="name">资金</div>
+                    <div class="code">&amp;#xe83c;</div>
+                    <div class="fontclass">.svg22</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe601;</i>
+                    <div class="name">资金明细</div>
+                    <div class="code">&amp;#xe601;</div>
+                    <div class="fontclass">.zijinmingxi</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe63e;</i>
+                    <div class="name">充值</div>
+                    <div class="code">&amp;#xe63e;</div>
+                    <div class="fontclass">.chongzhi</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe693;</i>
+                    <div class="name">余额</div>
+                    <div class="code">&amp;#xe693;</div>
+                    <div class="fontclass">.yue</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe608;</i>
+                    <div class="name">查询余额</div>
+                    <div class="code">&amp;#xe608;</div>
+                    <div class="fontclass">.chaxunyue</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe644;</i>
+                    <div class="name">转账</div>
+                    <div class="code">&amp;#xe644;</div>
+                    <div class="fontclass">.zhuanzhang</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe61a;</i>
+                    <div class="name">转账</div>
+                    <div class="code">&amp;#xe61a;</div>
+                    <div class="fontclass">.zhuanzhang1</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe691;</i>
+                    <div class="name">我的账单</div>
+                    <div class="code">&amp;#xe691;</div>
+                    <div class="fontclass">.wodezhangdan</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe606;</i>
+                    <div class="name">账单付费</div>
+                    <div class="code">&amp;#xe606;</div>
+                    <div class="fontclass">.zhangdanfufei</div>
+                </li>
+            
+                <li>
+                <i class="icon moneyico">&#xe7e8;</i>
+                    <div class="name">上传对账单</div>
+                    <div class="code">&amp;#xe7e8;</div>
+                    <div class="fontclass">.shangchuanduizhangdan</div>
+                </li>
+            
+        </ul>
+
+
+        <div class="helps">
+            第一步：使用font-face声明字体
+            <pre>
+@font-face {font-family: 'moneyico';
+    src: url('moneyico.eot'); /* IE9*/
+    src: url('moneyico.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('moneyico.woff') format('woff'), /* chrome、firefox */
+    url('moneyico.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('moneyico.svg#moneyico') format('svg'); /* iOS 4.1- */
+}
+</pre>
+第二步：定义使用moneyico的样式
+            <pre>
+.moneyico{
+    font-family:"moneyico" !important;
+    font-size:16px;font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;}
+</pre>
+第三步：挑选相应图标并获取字体编码，应用于页面
+<pre>
+&lt;i class="moneyico"&gt;&amp;#x33;&lt;/i&gt;
+</pre>
+        </div>
+
+    </div>
+</body>
+</html>

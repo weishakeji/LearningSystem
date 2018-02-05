@@ -1,0 +1,12 @@
+﻿.boxArea
+{
+	display: table;
+	float: left;
+	width: 320px;	
+}
+.cureentConetxt
+{
+	display: table;
+	float: left;
+	width: 100%;	
+}

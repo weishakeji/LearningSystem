@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>教师操作管理 - {$org.org_platformname}</title>
+<vt:include file="../inc/meta.inc" />
+<script type="text/javascript" src="Scripts/panel.js"></script>
+<link href="Styles/Panel.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<vt:include file="../inc/header.html" />
+<!--菜单之下的内容 -->
+<div id="bodyTop">
+  <div id="bodyTopContext">
+    <div class="stPhoto">
+      <vt:if var="CurrUser.th_photo" value="" compare="="> <img src="../images/nophoto.jpg"  style="width:150px; height:200px"/>
+        <vt:else />
+        <img src="{$thPath}{$CurrUser.th_photo}"  style="width:150px; height:200px"/> </vt:if>
+      <div class="mark">&nbsp;</div>
+      <div class="info"> {$CurrUser.th_name} </div>
+    </div>
+  </div>
+</div>
+<div id="Context">
+  <!--内容区的顶部 -->
+  <div class="bar">
+     <a class="menuTitle" mmid="0" title="启始页" href="Startpage.ashx">教师管理</a>
+    <div class="menuBar">
+      <div class="menuNav"> 当前操作：<a id="menuPath" href="/Teacher/Startpage.ashx">启始页</a></div>
+      <div class="loginInfo"> <a href="/Teacher/logout.ashx">退出</a></div>
+    </div>
+  </div>
+  <!--左侧菜单 -->
+  <div id="menuBox">
+      <vt:repeat type="managemenu" item="data" marker="teacher">
+        <vt:repeat from="$data.Childs" item="m" index="i">
+          <div class="mmtop" title="{$:m.current.MM_Intro}" tax="{$:i}"> 
+            <!--图标 -->
+            <vt:if var="m.current.mm_icox" value="0" compare=">">
+              <div class="ico" style="background-position: -{$:m.current.mm_icox}px -{$:m.current.mm_icoy}px"></div>
+              <vt:else />
+              <div class="ico"></div>
+            </vt:if>
+            <div class="topTxt">{$:m.current.mm_name}</div>
+            <div class="rightIco">&nbsp;</div>
+          </div>
+          <div class="twoBox" style="display:none">
+            <vt:repeat from="$m.Childs" item="m2" index="j">
+              <div class="mmtwo" mmtype="{$:m2.current.mm_type}" title="{$:m2.current.MM_Intro}" tax="{$:i}.{$:j}"> 
+                <!--图标 -->
+                <vt:if var="m2.current.mm_icox" value="0" compare=">">
+                  <div class="ico" style="background-position: -{$:m2.current.mm_icox}px -{$:m2.current.mm_icoy}px"></div>
+                  <vt:else />
+                  <div class="ico"></div>
+                </vt:if>
+                <a href="{$:m2.current.MM_Link}" mmid="{$:m2.current.MM_ID}" title=" {$:m2.current.mm_name}" isBold="{$:m2.current.mm_isbold}"> {$:m2.current.mm_name}</a> </div>
+              <vt:repeat from="$m2.Childs" item="m3" index="n">
+                <div class="mmThree" mmtype="{$:m3.current.mm_type}" title="{$:m3.current.MM_Intro}" tax="{$:i}.{$:j}.{$:n}"> 
+                  <!--图标 -->
+                  <vt:if var="m3.current.mm_icox" value="0" compare=">">
+                    <div class="ico" style="background-position: -{$:m3.current.mm_icox}px -{$:m3.current.mm_icoy}px"></div>
+                    <vt:else />
+                    <div class="ico"></div>
+                  </vt:if>
+                  <a href="{$:m3.current.MM_Link}" mmid="{$:m3.current.MM_ID}" title=" {$:m2.current.mm_name}>>{$:m3.current.mm_name}" isBold="{$:m3.current.mm_isbold}"> {$:m3.current.mm_name}</a> </div>
+              </vt:repeat>
+            </vt:repeat>
+          </div>
+        </vt:repeat>
+         <vt:repeatelse/>
+          <p style="text-align:center">没有菜单项</p>
+      </vt:repeat>
+    </div>
+  <!--右侧管理区 -->
+  <div id="manageBox">
+    <iframe src="Startpage.ashx" name="adminPage" id="adminPage" style="min-height:500px;" class="frame"	marginwidth="0"  marginheight="0"
+   align="top" scrolling="auto" width="1002" frameborder="0" allowtransparency="true"></iframe>
+  </div>
+</div>
+<vt:include file="../inc/footer.html" />
+</body>
+</html>

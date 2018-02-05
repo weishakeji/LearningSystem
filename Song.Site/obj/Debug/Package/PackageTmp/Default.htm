@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="refresh" content="0;url=default.ashx">
+</head>
+<body>
+    <script type="text/javascript">
+    var href = window.location.href;
+    if(href.charAt(href.length – 1)=="/")href="default.ashx";
+    if (href.indexOf("htm") > -1)
+        href = href.replace("htm", "ashx");
+    window.location.href = href;
+//    if (href.indexOf("?")) {
+//        window.location.href = 'default.ashx' + href.substring(href.lastIndexOf("?"));
+//    } else {
+//        window.location.href = 'default.ashx';
+//    }
+    </script>
+</body>
+</html>

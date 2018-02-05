@@ -1,0 +1,13 @@
+﻿
+.explain
+{
+display: block;
+width:100%;/*对宽度的定义,根据情况修改*/
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+max-width:100%; 
+}
+.explain:after{
+content:"...";
+}

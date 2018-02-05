@@ -1,0 +1,419 @@
+@charset "utf-8";
+#bodyTop {
+	background-image: url(../Images/test-banner.jpg);
+	background-repeat: no-repeat;
+	background-position: center 0px;
+	height: 200px;
+	width: 100%;
+}
+#TitleBar {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 16px;
+	line-height: 35px;
+	font-weight: bold;
+	color: #000000;
+	background-image: url(../Images/icon1.png);
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+	height: 40px;
+	margin-top: 25px;
+	text-indent: 45px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	margin-bottom: 20px;
+}
+.selectBar {
+	height: 30px;
+}
+#Context #selectArea {
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+.selectBar {
+	display: table;
+}
+.selectLeft {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	line-height: 30px;
+	text-align: right;
+	float: left;
+	height: 30px;
+	width: 100px;
+	font-size: 15px;
+}
+.selectRight {
+	float: left;
+	width: 880px;
+}
+#subject .selectItem {
+	float: left;
+	height: 30px;
+	width: auto;
+	margin-right: 10px;
+	line-height: 30px;
+}
+#subject .selectItem a {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 14px;
+	color: #333333;
+}
+/*专业选中项*/
+#Selected .selectedItem {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 15px;
+	line-height: 24px;
+	height: 24px;
+	border: 1px solid #CCCCCC;
+	float: left;
+	padding-right: 5px;
+	padding-left: 8px;
+	margin-top: 3px;
+	white-space: nowrap;
+	width: auto;
+	margin-right: 10px;
+}
+#Selected .selectedItemOver {
+	border: 1px solid #FF0000;
+}
+#Selected .selectedItem .name {
+	float: left;
+	padding-right: 8px;
+	color: #FF0000;
+}
+#Selected .selectedItem .close {
+	background-image: url(../Images/icon-1.png);
+	background-repeat: no-repeat;
+	background-position: -209px -237px;
+	float: left;
+	height: 8px;
+	width: 8px;
+	cursor:pointer;
+	margin-top: 8px;
+}
+#Selected .selectedItem .closeOver {
+	background-image: url(../Images/icon-1.png);
+	background-repeat: no-repeat;
+	background-position: -217px -237px;
+	cursor:pointer;
+}
+/*试题*/
+.correct {
+	background-image: url(../Images/201101251551136230.png);
+	background-repeat: no-repeat;
+	background-position: right 50px;
+}
+#noQues {
+	font-family: "黑体";
+	font-size: 16px;
+	line-height: 80px;
+	font-weight: bold;
+	color: #FF0000;
+	text-align: center;
+	height:200px;
+	margin-top: 30px;
+}
+/*控制区*/
+#controlBox {
+	height: 40px;
+	z-index: 1;
+	width:980px;
+	border-bottom-width: 2px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+}
+#controlBox #titleBox {
+	float: left;
+	height: 40px;
+	width: 480px;
+}
+
+#controlBox #titleBox .title {
+	background-color: #CCCCCC;
+	font-size: 16px;
+	line-height: 40px;
+	font-weight: bold;
+	float: left;
+	height: 40px;
+	width: 140px;
+	text-align: center;
+}
+#controlBox #titleBox .number {
+	background-color: #eeeeee;
+	font-size: 13px;
+	line-height: 40px;
+	float: left;
+	height: 40px;
+	width: 340px;
+	text-align: center;
+}
+#controlBox #titleBox .number span{
+	margin-right: 5px;
+	margin-left: 5px;
+}
+#controlBox #titleBox .number span.succSpan{
+	color: #006600;	
+}
+#controlBox #titleBox .number span.failSpan{
+	color: #990000;
+}
+#controlBox #ctlBtn {
+	line-height: 40px;
+	float: right;
+	height: 40px;
+	width: 200px;
+}
+#controlBox #ctlBtn .btn {
+	line-height: 40px;
+	float: left;
+	height: 40px;
+	width: 100px;
+	text-align: center;
+	cursor:pointer;
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 16px;
+	font-weight: bold;
+}
+
+#controlBox .btnBox {
+	line-height: 40px;
+	text-align: center;
+	float: left;
+	height: 40px;
+	width: 300px;
+	color: #990000;
+}
+
+#controlBox .btnBox .btn {
+line-height: 40px;
+	text-align: center;
+	float: left;
+	height: 40px;
+	width: 100px;
+	color: #990000;
+	cursor:pointer;
+}
+/*上一题*/
+#controlBox #btnPrev {
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 183px;
+}
+/*下一题*/
+#controlBox #btnNext {
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 183px;
+}
+/*资料*/
+#controlBox #btnKnl {
+	background-repeat: no-repeat;
+
+
+}
+/*知识点讲解*/
+#controlBox #btnExplan {
+	background-repeat: no-repeat;
+
+
+}
+/*答案*/
+#controlBox #btnAnswer {
+	background-repeat: no-repeat;
+
+
+}
+
+/* 试题区域*/
+#quesArea {
+	margin-top: 10px;
+}
+.quesItem {
+	overflow: auto;	
+    position : relative; 
+	display:none;
+}
+
+.quesBox {
+	margin: 10px;	
+	height:auto;	
+	width:980px;
+	
+}
+
+.quesBox .quesTitle {
+	margin-bottom:10px;
+}
+#quesArea .quesTitle, #quesArea .quesTitle p {
+	font-size: 14px;
+	line-height: 25px;
+}
+.quesBox .quesTitle img{
+	max-width:90%;
+	margin-left:auto;
+	margin-right:auto;
+}
+.quesBox .quesAnswerBox {
+	font-size: 14px;
+	min-height:150px;
+}
+.quesBox .quesAnswerBox .answer {
+	font-size: 14px;
+	line-height: 25px;
+	overflow: auto;
+	padding-right: 10px;
+	padding-left: 10px;
+	min-height:30px;
+	cursor:pointer;
+}
+.answer .type{
+	color: #666666;
+	margin-right: 5px;	
+}
+.answerSel{
+color: #0099FF;
+}
+.answerSel .type{
+	color: #0099FF;
+	margin-right: 5px;
+}
+#quesType span {
+	font-size: 14px;
+}
+.ctlBtn .btn {
+	border: 2px solid #dedede;
+	-moz-border-radius: 15px;      /* Gecko browsers */
+	-webkit-border-radius: 15px;   /* Webkit browsers */
+	border-radius:18px;            /* W3C syntax */
+	font-family: "黑体";
+	font-size: 13px;
+	line-height: 30px;
+	color: #000000;
+	text-align: center;
+	height: 30px;
+
+}
+
+.ctlBtn .btn span {
+	font-family:"iconfont" !important;
+	font-size:14px;
+	font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+	margin-right: 3px;
+}
+.textbox4 {
+	font-family: "黑体";
+	font-size: 16px;
+	line-height: 25px;
+	height: 125px;
+	width: 100%;
+	border: 1px solid #999999;
+	margin-top: 3px;
+}
+.textbox5 {
+	font-family: "黑体";
+	font-size: 16px;
+	line-height: 25px;
+	height: 25px;
+	width: 80%;
+	border: 1px solid #999999;
+	margin-top: 3px;
+}
+.IsCollect
+{
+	color:#FF0000 !important;
+}
+
+/*回答正确*/
+.correct
+{
+	background-image: url(../Images/201101251551136230.png);
+	background-repeat: no-repeat;
+	background-position: right top;
+	
+}
+/*回答错误*/
+.error{
+	
+}
+
+/*答题卡*/
+#btnCard .examico{
+	font-size: 22px;
+	font-weight: normal;
+}
+#cardBox {
+	position: absolute;
+	background-color: #efefef;
+	z-index: 100;
+}
+#cardBoxTitleBar {
+	line-height: 37px;
+	height: 37px;
+	border-bottom-width: 2px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #FFFFFF;
+}
+#cardBoxTitle {
+	line-height: 37px;
+	float: left;
+	width: 80%;
+	text-indent: 10px;
+}
+#cardBoxColse {
+	line-height: 37px;
+	text-align: center;
+	float: right;
+	height: 37px;
+	width: 40px;
+	color: #990000;
+}
+
+#cardLittle {
+	position: absolute;
+	background-color: #efefef;
+	z-index: 100;
+}
+#cardBoxInner {
+	margin-top: 10px;
+	margin-left: 10px;
+	overflow: auto;
+}
+#cardBox .typeName {
+	margin-bottom: 10px;
+	margin-top: 20px;
+	width: 100%;
+}
+#cardBox dl {
+	width: 100%;
+	min-height: 20px;
+	display: table;
+}
+#cardBox dl dd{
+	line-height: 30px;
+	text-align: center;
+	float: left;
+	height: 30px;
+	width: 30px;
+	margin-top: 8px;
+	margin-right: 8px;
+	border: 1px solid #CCCCCC;
+	font-family: "黑体";
+	font-size: 16px;
+	background-color: #FFFFFF;
+}
+#cardBox dl dd.answer{
+	background-color: #0099FF;
+	color: #FFFFFF;
+}

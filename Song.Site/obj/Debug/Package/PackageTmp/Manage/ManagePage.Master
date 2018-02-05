@@ -1,0 +1,23 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" Codebehind="ManagePage.master.cs"
+    Inherits="Song.Site.Manage.ManagePage" %>
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store, must-revalidate">
+    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+    <meta http-equiv="expires" content="0">
+    <title>无标题页</title>
+    <link href="/manage/Styles/Jme.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<script type="text/javascript" src="/manage/scripts/public.js"></script>
+
+    <form id="form1" runat="server">
+        <div>
+            <asp:ContentPlaceHolder ID="cphMain" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+</body>
+</html>

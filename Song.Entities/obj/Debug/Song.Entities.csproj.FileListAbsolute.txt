@@ -8,3 +8,4 @@ E:\源码\01.学习平台\培训考试系统\Song.Entities\bin\Debug\WeiSha.Data
 E:\源码\01.学习平台\培训考试系统\Song.Entities\bin\Debug\WeiSha.Common.xml
 E:\源码\01.学习平台\培训考试系统\Song.Entities\obj\Debug\Song.Entities.dll
 E:\源码\01.学习平台\培训考试系统\Song.Entities\obj\Debug\Song.Entities.pdb
+E:\源码\01.学习平台\培训考试系统\Song.Entities\obj\Debug\Song.Entities.csprojResolveAssemblyReference.cache

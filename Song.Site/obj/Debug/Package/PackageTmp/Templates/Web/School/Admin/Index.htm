@@ -1,0 +1,37 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>管理操作 - {$org.org_name}</title>
+<vt:include file="../inc/meta.inc" />
+<script type="text/javascript" src="Scripts/index.js"></script>
+<link href="Styles/index.css" rel="stylesheet" type="text/css" />
+<body>
+<vt:include file="../inc/header.html" />
+<img class="cssfile" style="display:none" src="../inc/styles/depart.css"></img>
+<vt:include file="../inc/Depart.html" />
+<script type="text/javascript" src="../inc/Scripts/Depart.js"></script>
+<vt:include file="Module/Admin/login.htm" from="_public" remark="机构管理员登录，为公共模块" />
+<div id="bodyTop">
+</div>
+<div id="Context">
+  <div class="boxBar">
+    <div class="title"> 热门课程</div>
+    <div class="more"><em class="icoMore">&nbsp;</em> <a href="/Courses.ashx">更多课程</a></div>
+  </div>
+  <div class="courseList">
+    <div class="courseListInner">
+      <vt:foreach id="courseList" from="$#.courseList" item="data" index="i" count="8" remark="pagedata变量只接收当前页的数据列表集合">
+        <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}"><img src="{$:#.data.cou_logosmall}" /> </a>
+          <div class="itemMark"></div>
+          <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.cou_name} </a>
+            <div class="itemDetails">主讲：{$:#.data.th_name}<br />
+              <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.Cou_Intro}</a></div>
+          </div>
+        </div>
+      </vt:foreach>
+    </div>
+  </div>
+</div>
+<vt:include file="../inc/footer.html" />
+</body>
+</html>

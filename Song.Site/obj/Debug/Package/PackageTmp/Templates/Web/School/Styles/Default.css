@@ -1,0 +1,382 @@
+@charset "utf-8";
+#mainShow {
+	background-image: url(../Images/2.jpg);
+	background-repeat: no-repeat;
+	background-position: center 0px;
+	height: 300px;
+	width: 100%;
+}
+
+#SecondBox {
+	
+	margin-top: 0px;
+}
+#SecondBox .boxBar {
+	height: 80px;
+	margin-bottom: 20px;
+}
+#SecondBox .boxBar .more {
+	float: right;
+	height: 30px;
+	width: 100px;
+	line-height: 30px;
+	margin-top: 40px;
+	background-color: #0074cb;
+	text-align: center;
+
+}
+#SecondBox .boxBar .more em
+{
+	float: left;
+	margin-top: 6px;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+#SecondBox .boxBar .more a{
+	color: #ffffff;
+	text-indent: 40px;
+
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+}
+#SecondBox .title {
+	background-image: url(../Images/icon1.png);
+	background-repeat: no-repeat;
+	height: 35px;
+	width: 200px;
+	background-position: 0px 2px;
+	line-height: 35px;
+	text-indent: 50px;
+	font-size: 28px;
+	font-family: "微软雅黑";
+	padding-bottom: 12px;
+	margin-top: 34px;
+
+	float: left;
+}
+
+#SecondBox .courseList {
+	width: 980px;
+	overflow: hidden;	
+}
+/*首页轮换图片*/
+.flexslider {
+	position: relative;
+	width: 100%;
+	height: 400px;
+	overflow: hidden;
+	zoom: 1;
+	margin-top: 0px;
+	margin-right: auto;
+	margin-bottom: 0px;
+	margin-left: auto;
+}
+.flexslider .slides li {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+.flex-direction-nav a {
+	width: 70px;
+	height: 70px;
+	line-height: 99em;
+	overflow: hidden;
+	margin: -35px 0 0;
+	display: block;
+	background: url(../images/ad_ctr.png) no-repeat;
+	position: absolute;
+	top: 50%;
+	z-index: 10;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	-webkit-transition: all .3s ease;
+	border-radius: 35px;
+}
+.flex-direction-nav .flex-next {
+	background-position: 0 -70px;
+	right: 0;
+}
+.flex-direction-nav .flex-prev {
+	left: 0;
+}
+.flexslider:hover .flex-next {
+	opacity: 0.8;
+	filter: alpha(opacity=25);
+}
+.flexslider:hover .flex-prev {
+	opacity: 0.8;
+	filter: alpha(opacity=25);
+}
+.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover {
+	opacity: 1;
+	filter: alpha(opacity=50);
+}
+.flex-control-nav {
+	width: 100%;
+	position: absolute;
+	bottom: 10px;
+	text-align: center;
+}
+.flex-control-nav li {
+	margin: 0 2px;
+	display: inline-block;
+	zoom: 1;
+ *display: inline;
+}
+.flex-control-paging li a {
+	background: url(../images/dot.png) no-repeat 0 -16px;
+	display: block;
+	height: 16px;
+	overflow: hidden;
+	text-indent: -99em;
+	width: 16px;
+	cursor: pointer;
+}
+.flex-control-paging li a.flex-active, .flex-control-paging li.active a {
+	background-position: 0 0;
+}
+.flexslider .slides a img {
+	width: 100%;
+	height: 400px;
+	margin-top: -0px;
+}
+.courseList .courseListInner {
+	width: 1050px;
+}
+
+.courseList  .item {
+	float: left;
+	margin-right: 52px;
+	width: 200px;
+	text-align: center;
+	border: 3px solid #FFFFFF;
+	height: 123px;
+	position: relative;
+	overflow: visible;
+	margin-bottom: 52px;
+}
+.courseList  .courseOver
+{
+	border: 3px solid #CCCCCC;
+}
+.courseList  .courseOver .itemName a
+{
+	color: #FFFFFF;
+}
+.courseList  .item a{
+	display: block;
+	color: #FFFFFF;
+	font-size: 15px;
+	line-height: 25px;
+}
+.courseList  .item img{
+	width: 200px;
+	height: 123px;
+}
+.courseList .item .itemMark {
+	font-size: 14px;
+	text-align: left;
+	line-height: 35px;
+	width: 200px;
+	font-family: "微软雅黑";
+	color: #FFFFFF;
+	FILTER: alpha(opacity=50);
+	BACKGROUND: #000;
+	OVERFLOW: hidden;
+	opacity: 0.5;
+	-moz-opacity: 0.5;
+	top: 83px;
+	height: 40px;
+	position: absolute;
+}
+.courseList .item .itemInfo {
+	font-size: 14px;
+	text-align: left;
+	line-height: 35px;
+	width: 200px;
+	font-family: "微软雅黑";
+	color: #FFFFFF;
+	OVERFLOW: hidden;
+	top:83px;
+	height:40px;
+	z-index: 10;
+	position: absolute;
+}
+.courseList .item .itemInfo a
+{
+	line-height: 45px;
+	text-indent: 10px;
+	display: block;
+	height: 45px;
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 18px;
+	overflow: hidden;
+}
+.courseList .item .itemDetails
+{
+	line-height: 20px;
+	display: block;
+	height: 78px;
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 14px;
+	width: 190px;
+	margin-left: 10px;
+}
+.courseList .item .itemDetails a{
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 14px;
+}
+#ThirdBox {
+	margin-top: 20px;
+	width: 980px;
+	overflow: hidden;
+	height: 460px;
+}
+#ThirdBox .ThirdBoxInner {
+	width: 2000px;
+}
+
+#ThirdBox .box {
+	margin-right: 30px;
+	float: left;
+	width: 310px;
+}
+#ThirdBox .boxBar {
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	height: 60px;
+}
+
+#ThirdBox .box .title {
+	font-size: 28px;
+	font-family: "微软雅黑";
+	
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	float: left;
+	height: 42px;
+	text-align: left;
+	padding-bottom: 5px;
+	padding-top: 8px;
+	color: #333;
+	padding-left: 10px;
+	margin-bottom: 15px;
+	border-bottom-width: 5px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #0387d9;
+	width: 150px;
+	text-indent: 10px;
+}
+#ThirdBox .boxBar .more {
+	float: right;
+	height: 30px;
+	width: 60px;
+	line-height: 30px;
+	margin-top: 20px;
+}
+#ThirdBox .boxBar .more a{
+	color: #0387d9;
+}
+#ThirdBox .newslist {
+	display: table;
+	margin-top: 20px;
+}
+
+#newsBox .item {
+	width: 310px;
+	height: 35px;
+	display: table;
+}
+
+
+#newsBox .item img {
+	float: left;
+}
+#newsBox .item .newsItem {
+	line-height: 22px;
+	white-space: nowrap;
+	float: left;
+	height: 22px;
+	width: 250px;
+	overflow: hidden;
+	margin-left: 5px;
+	text-overflow: ellipsis;
+	background-image: url(../Images/icon3.png);
+	background-repeat: no-repeat;
+	background-position: 0px 8px;
+	text-indent: 15px;	
+}
+#ThirdBox .newsTime {
+	color: #999999;
+	float: right;
+}
+
+
+#newsBox .item .newsItem a{
+	font-size: 14px;
+	color: #333333;
+}
+#newsBox .item .newsItem a:hover{
+	font-size: 14px;
+	text-decoration: underline;
+}
+#teacherBox .thlist {
+	width: 310px;
+	overflow: hidden;
+
+}
+.thlist .thlistInner {
+	width: 350px;
+}
+
+
+.itemTeacher {
+	float: left;
+	height: 150px;
+	width: 150px;
+	margin-top: 1px;
+	margin-right: 1px;
+	display: table;
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	
+}
+.itemTeacherOver{
+}
+.itemth {
+	text-align: center;
+	padding: 10px;
+}
+.itemTeacher .mark {
+	background-color: #000000;
+	height: 150px;
+	width: 150px;
+	opacity:0.4;
+	filter:alpha(opacity=40);
+	position: absolute;
+	z-index: 1;
+	display:none;
+}
+.itemTeacher .thInfo {
+	position: absolute;
+	z-index: 2;
+	display:none;
+	text-align: center;
+	height: 150px;
+	width: 150px;
+}
+.thInfo .thName {
+	line-height: 25px;
+	height: 25px;
+	margin-top: 5px;
+	color: #FFFFFF;
+	background-color: #333333;
+}

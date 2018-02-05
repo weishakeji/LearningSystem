@@ -1,0 +1,47 @@
+﻿@charset "utf-8";
+#leftBox {
+	
+
+}
+.rightBox {
+	
+}
+.treeIco{
+	font-size:20px;
+	height:20px;
+	line-height:20px;
+}
+td a{
+	line-height:30px !important;
+}
+.contItem
+{
+	min-height:250px;
+}
+.rightBtnBox{
+	text-align: right;
+	margin-top: 10px;
+}
+.rightBtnBox input{
+	font-family: "黑体", "微软雅黑";
+	font-size: 15px;
+	line-height: 30px;
+	height: 30px;
+	width: 180px;
+	text-align: center;
+	color: #FF0000;
+	margin: 10px;
+}
+.olTitle{
+	font-size: 15px;
+	line-height: 30px;
+}
+fieldset{
+	border: 1px solid #F90 !important;
+	padding: 10px !important;
+	margin-bottom: 10px !important;
+}
+.btnButton
+{
+	color:red;
+}

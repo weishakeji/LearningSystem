@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+   <TITLE>{$org.org_platformname}</TITLE>
+<vt:include file="inc/meta.inc" />
+<LINK rel="stylesheet" type="text/css" href="styles/QuesExplain.css">
+
+</head>
+<body>
+<div id="Context">
+  <vt:if var="explain" value="" compare="="> <div class="noContext">（该试题没有解析）</div>
+    <vt:else />
+     <div class="title"> 以下是当前试题解析内容：</div>
+    <div class="details"> {$:#.explain} </div>
+     </vt:if>
+</div>
+</body>
+</html>

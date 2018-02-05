@@ -1,0 +1,25 @@
+@charset "utf-8";
+body
+{
+    background-image: none;
+}
+#area
+{
+	margin: 10px;
+	text-align:left;
+}
+.title
+{
+	font-size: 18px;
+	font-weight: bold;
+	height: 35px;
+	margin-top: 20px;
+}
+
+.noContext
+{
+	text-align: center;
+	margin-top: 30px;
+	font-family: "Microsoft YaHei", "Î¢ÈíÑÅºÚ", "MicrosoftJhengHei", "»ªÎÄÏ¸ºÚ", STHeiti, MingLiu;
+	font-size: 20px;
+}

@@ -1,0 +1,11 @@
+/*=========mF_taobaomall========*/
+.mF_taobaomall{border:1px solid #ccc;}
+.mF_taobaomall .cont{position:relative;overflow:hidden;border-bottom:0;}
+.mF_taobaomall .cont .pic{position:absolute;}
+.mF_taobaomall .cont .pic li{position:relative;overflow:hidden;}
+.mF_taobaomall .cont .left li{float:left;}
+.mF_taobaomall .cont .right li{float:right;}
+.mF_taobaomall .txt{line-height:28px;border-top:1px solid #ccc;overflow:hidden;}/*默认标题高度*/
+.mF_taobaomall .txt li{float:left;border-right:1px solid #dedede;overflow:hidden;}/*默认标题高度*/
+.mF_taobaomall .txt li a{display:block;color:#333;padding-left:10px;font-size:12px;text-decoration:none;background:url(http://www.cosmissy.com/img/myfocus/btn-bg2.gif) left -44px repeat-x;}/*标题样式*/
+.mF_taobaomall .txt li.current a{color:#fff;font-weight:bold;background-position:left top;}

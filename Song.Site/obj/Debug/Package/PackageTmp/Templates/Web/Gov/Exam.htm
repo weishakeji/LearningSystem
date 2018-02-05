@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>考试信息 -- {$org.org_platformname}</title>
+<vt:include file="inc/meta.inc" />
+<link href="Styles/exam.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="Scripts/exam.js"></script>
+</head>
+<body>
+<vt:include  file="inc/Header.html" />
+<div id="bodyTop">&nbsp;</div>
+
+<div id="Context"><!--最近的考试 -->
+  <vt:if var="todayExam.Count" value="0" compare=">">
+    <div id="myExam">
+      <dl class="list">
+        <dd class="themeItem" >
+          <div class="titleBar">
+            <div class="tax"> </div>
+            <div class="title">我的考试</div>
+            <div class="search"><input name="" id="search-myExam" placeholder="检索我的考试" type="text"></div>
+          </div>
+          
+          <!--考试场次 -->
+          <div class="examList">
+            <vt:foreach from="$#.todayExam" item="e" index="tax">
+             <div class="examItemBox">   
+              <vt:function var="paper" method="getTestPaper" args="$#.e.Tp_Id"/>
+              <div class="imgBox">
+              <vt:if var="paper.Tp_Logo" value="" compare="="> <img src="images/testpaper.jpg"/>
+                <vt:else />
+                 <vt:function var="path" method="Path" args="TestPaper"/>
+                <img src="{$path}{$:#.paper.Tp_Logo}"/> </vt:if>
+            </div>
+              <div class="itemTitle">
+                <div class="itemName">{$tax}.《<span>{$:e.Exam_name}</span>》</div>
+                <a class="itemBtn" href="examing.ashx?id={$:e.Exam_id}" target="_blank">参加考试</a> </div>
+              <div class="itemRow">
+                <div class="item">时间：
+                  <vt:if var="e.Exam_DateType" value="1" compare="="> 
+                    <!--准时开始--> 
+                    {$:e.Exam_Date  format="yyyy-M-dd HH:mm"} （准时开始）
+                    <vt:else />
+                    <!--区间时间--> 
+                    {$:e.Exam_Date  format="yyyy-M-dd HH:mm"} 到 
+                    {$:e.Exam_DateOver  format="yyyy-M-dd HH:mm"} 之间考试 </vt:if>
+                </div>
+                <div class="item">限时：{$:e.Exam_Span}分钟</div>
+                <div class="item">题量：{$:paper.Tp_count}道题</div>
+                <div class="item">总分：{$:e.exam_total}分（{$:paper.Tp_PassScore}分及格）</div>
+              </div>
+              <div class="itemRow">
+                 <vt:function var="sbj" method="getSubjectPath" args="$#.e.sbj_id"/>
+                    <div class="item"> 专业：{$:sbj} </div>
+              </div>
+              <div class="itemRow">
+                <div class="item"> 课程：{$:paper.cou_Name} </div>
+              </div>
+              </div>
+            </vt:foreach>
+          </div>
+          <!--场次结束 --> 
+          
+        </dd>
+      </dl>
+    </div>
+  </vt:if>
+  <!--所有考试 -->
+  <vt:if var="Exams.Length" value="0" compare=">">
+    <div class="allExamTitle">所有考试</div>
+    <div id="allExam">
+      <dl class="list">
+        <vt:foreach id="exams" from="$#.Exams" item="data" index="i" size="4" remark="考试主题列表">
+          <dd class="themeItem" >
+            <div class="titleBar">
+              <div class="tax"> 
+                <!--序号 -->
+                <vt:expression var="tax" expression="({0}-1)*{1}+{2}" args="$pageIndex" args="$pageSize" args="$i"/>
+                <vt:if var="#.tax" value="2" compare="<="> <img src="images/{$tax}.png"/>
+                  <vt:else />
+                  {$tax} </vt:if>
+              </div>
+              <div class="title">《 {$:#.data.Exam_Title} 》</div>
+            </div>
+            <div class="intro">{$:#.data.exam_intro}</div>
+            <vt:function var="group" method="getGroupType" args="$#.data.exam_grouptype" args="$#.data.exam_uid"/>
+            <div class="group">参考人员：{$:#.group}</div>
+            <!--考试场次 -->
+            <div class="examList">
+              <vt:function var="exam" method="setExamItem" args="$#.data.exam_uid"/>
+              <vt:foreach from="$#.exam" item="e" index="j">
+                <div class="examItemBox">                
+                  <vt:function var="paper" method="getTestPaper" args="$#.e.Tp_Id"/>
+                  <div class="imgBox">
+              <vt:if var="paper.Tp_Logo" value="" compare="="> <img src="images/testpaper.jpg"/>
+                <vt:else />
+                 <vt:function var="path" method="Path" args="TestPaper"/>
+                <img src="{$path}{$:#.paper.Tp_Logo}"/> </vt:if>
+            </div>
+                  <div class="itemTitle">
+                    <div class="itemTax">第（{$:j}）场</div>
+                    <div class="itemName">《{$:e.Exam_name}》</div>
+                    <a class="itemBtn" href="examing.ashx?id={$:e.Exam_id}" target="_blank">参加考试</a> </div>
+                  <div class="itemRow">
+                    <div class="item">时间：
+                      <vt:if var="e.Exam_DateType" value="1" compare="="> 
+                        <!--准时开始--> 
+                        {$:e.Exam_Date  format="yyyy-M-dd HH:mm"} （准时开始）
+                        <vt:else />
+                        <!--区间时间--> 
+                        {$:e.Exam_Date  format="yyyy-M-dd HH:mm"} 到 
+                        {$:e.Exam_DateOver  format="yyyy-M-dd HH:mm"} 之间考试 </vt:if>
+                    </div>
+                    <div class="item">限时：{$:e.Exam_Span}分钟</div>
+                    <div class="item">题量：{$:paper.Tp_count}道题</div>
+                    <div class="item">总分：{$:e.exam_total}分（{$:paper.Tp_PassScore}分及格）</div>
+                  </div>
+                  <div class="itemRow">
+                    <vt:function var="sbj" method="getSubjectPath" args="$#.e.sbj_id"/>
+                    <div class="item"> 专业：{$:sbj} </div>
+                  </div>
+                  <div class="itemRow">
+                    <div class="item"> 课程：{$:paper.cou_Name} </div>
+                  </div>
+                </div>
+              </vt:foreach>
+            </div>
+            <!--场次结束 --> 
+          </dd>
+        </vt:foreach>
+      </dl>
+    </div>
+    <!--分页导航 -->
+    <vt:if var="pageAmount.Length" value="1" compare=">">
+      <div id="pagerBar">
+        <div class="pagerFirst pagerBtn"><a href="/exam.ashx">首页</a></div>
+        <!--上一页 -->
+        <vt:expression var="pagerPrev" expression="{0}-1" args="$pageIndex" />
+        <vt:if var="#.pagerPrev" value="1" compare="<">
+          <div class="pagerPrev pagerBtn"><a href="#">上一页</a></div>
+          <vt:else />
+          <div class="pagerPrev pagerBtn"><a href="/exam.ashx?index={$:#.pagerPrev}">上一页</a></div>
+        </vt:if>
+        <!--分页数字 -->
+        <vt:foreach id="pageAmount" from="$#.pageAmount" item="data" index="i" remark="分页数字">
+          <vt:if var="#.data" value="$pageIndex" compare="=">
+            <div class="pagerIndex pagerBtn pagerCurr"><a href="/exam.ashx?index={$:i}">{$:i}</a></div>
+            <vt:else />
+            <div class="pagerIndex pagerBtn"><a href="/exam.ashx?index={$:i}">{$:i}</a></div>
+          </vt:if>
+        </vt:foreach>
+        <!--下一页 -->
+        <vt:expression var="pagerNext" expression="{0}+1" args="$pageIndex" />
+        <vt:if var="#.pagerNext" value="$pageAmount.Length" compare=">">
+          <div class="pagerNext pagerBtn"><a href="#">下一页</a></div>
+          <vt:else />
+          <div class="pagerNext pagerBtn"><a href="/exam.ashx?index={$:#.pagerNext}">下一页</a></div>
+        </vt:if>
+        <div class="pagerLast pagerBtn"><a href="/exam.ashx?index={$:pageAmount.length}">末页</a></div>
+      </div>
+    </vt:if>
+    <vt:else />
+    <div id="mainShow">&nbsp;</div>
+    <div class="onContext"> 尚未发布任何考试 </div>
+  </vt:if>
+</div>
+<vt:include file="inc/footer.html" />
+</body>
+</html>

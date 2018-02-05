@@ -109,5 +109,5 @@
         </Columns>
     </cc1:GridView>
     <br />
-    <uc2:Pager ID="Pager1" runat="server" Size="15" OnPageChanged="BindData" />
+    <uc2:Pager ID="Pager1" runat="server" Size="20" OnPageChanged="BindData" />
 </asp:Content>

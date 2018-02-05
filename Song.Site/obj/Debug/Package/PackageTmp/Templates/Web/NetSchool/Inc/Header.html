@@ -1,0 +1,71 @@
+﻿<div id="header">
+    <div id="headerTop">
+        <vt:if var="org.org_logo" value="" compare="!="><a href="/"> <img src="{$orgPath}{$org.org_logo}" class="logo" /></a> </vt:if>
+        <div class="menubBar">
+            <dl overclass="overMenu">
+             <!--   <dd class="rootmenu"   nid="0">
+                    <a href="/">首页</a>
+                </dd>-->
+                <vt:function var="menu" method="Navi" args="main" args="0" />
+                <!--主菜单输入-->
+                <vt:foreach from="$#.menu" item="m" index="i">
+        <dd class="rootmenu"  nid="{$:m.nav_id}">
+          <vt:if var="m.nav_isbold" value="true" compare="=">
+          <a href="{$:m.nav_url}" target="{$:m.nav_target}" title="{$:m.nav_title}" style="color: {$:m.nav_color};font-family: {$:m.nav_font};font-weight: bold;">
+          <vt:else />
+          <a href="{$:m.nav_url}" target="{$:m.nav_target}" title="{$:m.nav_title}" style="color: {$:m.nav_color};font-family: {$:m.nav_font};">
+          </vt:if>
+          {$:m.nav_name} </a> </dd>
+      </vt:foreach>
+            </dl>
+        </div>
+        <div class="topright">
+      <div class="phone right-div" type="phone"><a href="/mobi.cshtm" ><span class="iconphone" style="font-size:14px">&#xe610;</span>手机端</a></div>
+      <div id="qrcode" type="phone" style="display:none"> <a href="/mobi.cshtm" ><img src="data:image/JPG;base64,{$org.Org_Qrcode}"/></a>
+        <div>手机扫描二维码</div>
+        <em></em> </div>
+      <div class="right-div">|</div>
+      <div class="accoutbox right-div">
+        <vt:if var="Account.ac_id" value="1" compare="<"> <a href="/student/index.ashx" target="_blank">登录</a>&nbsp;<a href="/student/Register.ashx" target="_blank">注册</a>
+          <vt:else/>
+          <!--学员登录后的效果-->
+          <div class="accTarget" type="acc">
+            <div class="accPhoto"> <a href="/student/panel.ashx">
+              <vt:if var="Account.ac_photo" value="" compare="="> <img src="../images/nophoto.jpg" width="20"/>
+                <vt:else/>
+                <img src="{$stpath}{$:#.Account.Ac_photo}"/> </vt:if>
+              </a> </div>
+            <a href="/student/panel.ashx"> {$Account.Ac_name}</a><i class="icon-select-down"></i> </div>
+          <!--学员菜单-->
+          <dl class="accMenu" type="acc">
+            <dd><a href="../student/panel.ashx">个人管理中心</a></dd>
+             <vt:if var="Account.Ac_IsTeacher" value="true" compare="=">
+              <vt:if var="Teacher.Th_IsPass" value="true" compare="=">
+              <dd><a href="../teacher/panel.ashx">进入教学管理</a></dd>
+              <vt:else/>
+            <dd><a href="../teacher/Register.ashx?step=3">教师审核中...</a></dd>
+            </vt:if>
+            <vt:else/>
+            <dd><a href="../teacher/index.ashx">我要开课</a></dd>
+            </vt:if>
+            <dd><a href="../student/panel.ashx">余额：{$Account.Ac_money format="0.0"}元</a></dd>           
+            <dd><a href="../student/Logout.ashx">退出登录</a></dd>
+          </dl>
+        </vt:if>
+      </div>
+    </div>
+        <div class="headerCenter">
+            <form class="searchBox" action="/Courses.ashx" method="get">
+            <input name="search" type="text" class="seacInput" id="search" nullable='false' star='false' def="搜索课程" />
+            <div class="searbtn" verify='true'>
+                <span class="iconfont">&#xe62f;</span>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!--主菜单的下拉菜单-->
+<vt:function var="drop" method="NaviDrop" args="main" args="0" />
+{$drop} 

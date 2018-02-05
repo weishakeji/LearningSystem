@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="CoreScripts/jquery.js"></script>
+<script type="text/javascript" src="CoreScripts/MessageBox.js"></script>
+<link rel="stylesheet" type="text/css" href="CoreStyles/MessageBox.css"/>
+
+</head>
+<body>
+    <script type="text/javascript">
+	var txt="外部的关闭提示";
+	var ent="外部的确认提示";
+    var msg = new MsgBox("暂时试用", "ff", 90, 60, "confirm");
+            msg.OverEvent = function () {
+                alert(txt);
+            };
+			msg.EnterEvent =msg.OverEvent = function () {
+                alert(txt);
+            };
+			
+            msg.Open();
+			
+	/*MsgBox.events.add("key1",function(){
+	alert("key1的输出");
+});
+MsgBox.events.add("key2","value2");
+//alert(msgbox.methods.get("key1"));
+//msgbox.methods.remove("key1");
+//alert(msgbox.methods.isEmpty());
+var f=MsgBox.events.get("key1");
+f();*/
+    </script>
+</body>
+</html>

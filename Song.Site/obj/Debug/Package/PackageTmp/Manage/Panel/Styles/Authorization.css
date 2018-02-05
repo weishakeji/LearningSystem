@@ -1,0 +1,96 @@
+﻿@charset "utf-8";
+body {
+	margin: 0px;
+	padding: 0px;
+}
+*{
+	font-size:14px !important;
+}
+.header{
+	font-size: 14px;
+	line-height: 30px;
+	background-color: #CCC;
+	height: 30px;
+	text-indent: 10px;
+}
+.tit, .tit span{
+	font-family: "Microsoft Yahei", "微软雅黑", Tahoma, Arial, Helvetica, STHeiti;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: bold;
+	color: #333333;
+	height: 20px;
+	margin-left:0px;
+}
+.licInfo {
+	margin-left:10px;
+}
+.licInfo span {
+	margin-right:10px;
+}
+.context {
+	
+}
+.explain {
+	line-height: 20px;
+	text-align: left;
+}
+
+.licTable td{
+	padding: 10px;	
+}
+.infoBox {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.limitBox{
+	margin-top: 5px;
+	display:table;
+}
+.limitBox .context{
+	max-width:750px;
+}
+
+.limitItem{
+	line-height: 25px;
+	float: left;
+	height: 25px;
+	width: 100px;
+	margin-left: 10px;
+}
+.blue {
+	color: #0066FF;
+	font-weight: bold;
+	font-size: 15px;
+}
+.footer {
+	margin-top: 20px;
+}
+a {
+
+	text-decoration: underline;
+	float:right;
+}
+.right {
+	text-align: right;
+}
+.gv{
+	width:800px;
+	margin:10px;
+}
+.gv th{
+	background-color:#eee;
+}
+.gv td, .gv th{
+	text-align:center;
+	line-height:25px;
+}
+.footer a{
+	font-family: "Microsoft Yahei", "微软雅黑", Tahoma, Arial, Helvetica, STHeiti;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: bold;
+	color: #333333;
+	height: 20px;
+	margin-left:0px;
+}

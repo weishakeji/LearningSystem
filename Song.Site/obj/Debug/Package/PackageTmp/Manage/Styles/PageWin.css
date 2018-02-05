@@ -1,0 +1,54 @@
+﻿@charset "utf-8";
+html {
+	overflow-y:hidden;
+	overflow-x:hidden;
+}
+body
+{
+	margin: 0px;
+	padding: 0px !important;
+	background-color:#FFFFFF
+}
+form
+{
+	margin: 0px;
+	padding: 0px ;
+}
+.pageWinContext
+{
+}
+.pageWinBtn
+{
+	margin: 0px;
+	line-height: 50px;
+	height: 50px;
+	padding-top: 0px;
+	padding-right: 15px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	vertical-align: middle;
+	background-color: #f0f0f0;
+}
+.pageWinBtn input
+{
+	margin-top: 10px;
+	text-align: center;
+	text-indent: 10px;
+	font-weight: bold;
+	color: #FFFFFF;
+	font-size: 14px;
+	line-height: 35px;
+}
+.btnCloseWin
+{
+	background-image: url(/App_Themes/BluePanel/Images/btn_bg2.jpg);
+	background-repeat: no-repeat;
+	background-position: -102px 0px;
+	height: 30px;
+	width: 95px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	cursor:pointer;
+}

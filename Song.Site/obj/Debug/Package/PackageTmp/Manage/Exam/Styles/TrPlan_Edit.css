@@ -1,0 +1,53 @@
+﻿/*参考范围区域的样式*/
+.rblGroup
+{
+	width:80px;
+	float:left;
+	display:block;
+}
+
+/*按院系选择参考人员*/
+#selGroupDepart
+{
+	width:520px;
+	float:left;
+	display:block;
+	margin-top:3px;
+	margin-bottom:3px;
+}
+.lbDepart
+{
+	float:left;
+	width:150px;
+	margin-right:2px;
+}
+.lbTeam
+{
+	float:left;
+	width:150px;
+	margin-right:2px;
+}
+
+.lbSelected
+{
+	float:left;
+	width:150px;
+	margin-right:2px;
+}
+
+/*增加与移除的按钮*/
+.btnGo
+{
+	width:40px;
+	height:20px;
+}
+#btnAddDepart, #btnAddTeam
+{
+	margin-top:40px;
+}
+.btnBox
+{
+	float:left;
+	width:40px;
+	margin-right:2px;
+}

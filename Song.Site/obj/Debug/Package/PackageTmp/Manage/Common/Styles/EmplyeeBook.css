@@ -1,0 +1,19 @@
+﻿body
+{
+}
+/*通讯录中，员工所处的方块*/
+.emplyeeListBox
+{
+	float: left;
+	border: 1px solid #CCCCCC;
+	margin: 5px;
+	padding: 5px;	
+	width: 150px;
+	height:150px;
+	background-color: #FFFFFF;	
+}
+/*员工名称*/
+.emplyeeBox .empName
+{
+	font-weight: bold;
+}

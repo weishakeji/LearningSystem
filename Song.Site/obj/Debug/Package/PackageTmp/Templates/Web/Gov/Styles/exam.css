@@ -1,0 +1,247 @@
+@charset "utf-8";
+
+#bodyTop {
+	background-image: url(../Images/img01.jpg);
+	background-repeat: no-repeat;
+	background-position: center 0px;
+	height: 200px;
+	width: 100%;
+}
+.allExamTitle {
+	font-size: 22px;
+	line-height: 35px;
+	font-weight: bold;
+	height: 35px;
+	font-family: "黑体";
+	margin-top: 20px;
+	color: #0387d9;
+}
+
+dl, dd {
+	margin: 0px;
+	padding: 0px;
+}
+dl.list {
+	margin-bottom: 20px;
+}
+dl {
+	margin-bottom: 20px;
+	font-size: 16px;
+}
+.onContext{
+	font-size: 25px;
+	line-height: 150px;
+	text-align: center;
+	height: 150px;
+	width: 100%;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	font-family: "黑体", "微软雅黑";
+	color: #0387d9;
+}
+#myExam {
+	margin-top:30px;
+}
+#myExam  .title{
+	width:200px;
+	float:left;
+}
+#myExam  .search{
+	width:232px;
+	float:right;
+	margin-top: 5px;
+}
+#myExam .search:before{
+	content: "\e62f";
+	font-family: iconfont;
+	width: 30px;
+	font-size: 25px;
+	height: 30px;
+	float: right;
+	background-image: url(../Images/icon-1.png);
+	background-repeat: no-repeat;
+	background-position: 0px -126px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-top-color: #CCC;
+	border-right-color: #CCC;
+	border-bottom-color: #CCC;
+	border-left-color: #CCC;
+	line-height: 35px;
+	cursor: pointer;
+	text-indent: 5px;
+}
+#myExam  .search input{
+	width: 200px;
+	float: right;
+	line-height: 30px;
+	height: 30px;
+	text-indent: 10px;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #CCC;
+	border-right-color: #CCC;
+	border-bottom-color: #CCC;
+	border-left-color: #CCC;	
+	
+}
+.themeItem {
+	border: 1px solid #CCCCCC;
+	margin-bottom: 40px;
+}
+.themeItem .titleBar {
+	line-height: 40px;
+	height: 40px;
+	margin-right: 10px;
+	margin-bottom: 5px;
+	margin-left: 10px;
+	position: relative;
+}
+
+.themeItem .titleBar .tax {
+	line-height: 20px;
+	float: left;
+	height: 20px;
+	width: 20px;
+	margin-right: 10px;
+	text-align: center;
+	color: #FFFFFF;
+	background-color: #666666;
+	margin-top: 10px;
+	position: absolute;
+}
+.themeItem .titleBar .title {
+	font-size: 16px;
+	line-height: 40px;
+	color: #333333;
+	font-weight: bold;
+	margin-left: 30px;
+}
+.intro{
+	margin-left: 40px;
+}
+.themeItem .intro, .themeItem .intro * {
+	font-size: 14px;
+	line-height: 25px;
+	text-indent: 0px;
+}
+
+.themeItem .group {
+	font-size: 14px;
+	line-height: 25px;
+	font-weight: bold;
+	height: 25px;
+	margin-right: 10px;
+	margin-bottom: 5px;
+	margin-left: 40px;
+}
+
+
+.themeItem .examList {
+	
+
+}
+.examItemBox{
+	position: relative;
+	padding-left:40px;
+	border-top-width: 1px;
+	border-top-style: dashed;
+	border-top-color: #CCC;
+}
+.examItemBox:hover{
+	background-color: #FFC;
+}
+.examItemBox .imgBox{
+	height: 70px;
+	width: 70px;
+	top: 45px;
+	left: 40px;
+	position: absolute;
+	border-radius: 35px;
+	border: 1px solid #CCC;
+}
+.examItemBox .imgBox img{
+	height: 60px;
+	width: 60px;
+	margin-left:5px;
+	margin-top:5px;
+	border-radius:30px;
+}
+#myExam .imgBox{
+	height: 100px;
+	width: 100px;
+	top: 20px;
+	left: 15px;
+	position: absolute;
+	border-radius: 50px;
+	border: 1px solid #CCC;
+}
+#myExam .imgBox img{
+	height: 90px;
+	width: 90px;
+	margin-left:5px;
+	margin-top:5px;
+	border-radius:450px;
+}
+/*场次的标题行*/
+.itemTitle {
+	height: 30px;
+	position: relative;	
+	padding-top: 10px;
+}
+.itemTitle *{
+	font-size: 16px !important;
+}
+.itemTitle .itemTax {
+	position: absolute;
+	width:100px;
+}
+.itemTitle .itemName {
+	margin-left: 100px;
+}
+.itemTitle .itemBtn{
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 1;
+	display: block;
+	text-align: center;
+	height: 20px;
+	line-height:20px;
+	width: 120px;
+	border: 1px solid #FF9900;
+	margin-left: 10px;
+	box-shadow: 0 3px 0 #0880d7, 0 6px 3px rgba(0, 0, 0, 0.3);
+	border-radius: 4px;
+	background-color: #1B9AF7;
+	border-color: #1B9AF7;
+	font-weight: 300;
+	font-size: 14px !important;
+	color: #FFF;
+	text-decoration: none;
+}
+.itemTitle .itemBtn:hover{
+	box-shadow: 0 2px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
+	background-color: #36A6F8;
+	border-color: #36A6F8;
+}
+.itemRow {
+	height: 30px;
+	margin-left: 100px;
+}
+.itemRow  .item{
+	float:left;
+	margin-right:30px;
+}

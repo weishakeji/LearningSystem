@@ -1,0 +1,33 @@
+@charset "utf-8";
+
+#bodyTop {
+	background-image: url(../Images/knowledges-banner.jpg);
+	background-repeat: no-repeat;
+	background-position: center 0px;
+	height: 200px;
+	width: 100%;
+}
+.title
+{
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	height: 35px;
+	margin-top: 20px;
+}
+.ltIntro
+{
+}
+
+.ltDetails
+{
+}
+.plAcc
+{
+	margin-top: 20px;
+}
+pre{
+	background-color: #FFFFCC;
+	padding: 5px;
+	border: 1px solid #CCCCCC;
+}

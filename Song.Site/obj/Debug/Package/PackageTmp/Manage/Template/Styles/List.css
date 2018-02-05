@@ -1,0 +1,67 @@
+﻿@charset "utf-8";
+body {
+}
+.typeTitle{
+	font-family: "黑体", "微软雅黑";
+	font-size: 16px;
+	font-weight: bold;
+	text-indent: 10px;
+	margin-top: 10px;
+}
+.ListBox
+{
+	width: 98%;
+	overflow: hidden;
+	margin-left: 20px;
+}
+.ListBoxInner
+{
+	width: 101%;
+}
+.item
+{
+	float: left;
+	height: 230px;
+	width: 180px;
+	margin-top: 10px;
+	margin-right: 6px;
+	border: 3px solid #E1E1E1;
+}
+.itemOver{
+	border: 3px solid #0099FF;
+	background-color: #E1E1E1;
+}
+.itemCurrent{
+	float: left;
+	height: 260px;
+	width: 180px;
+	margin-top: 10px;
+	margin-right: 6px;
+	border: 3px solid #FF0000;
+	background-color: #FFFF99;
+}
+.item img, .itemCurrent img
+{
+	margin: 0px;
+	height: 180px;
+	width: 180px;
+	cursor:pointer;
+}
+.itemName{
+	line-height: 25px;
+	text-align: left;
+	white-space: nowrap;
+	height: 25px;
+	overflow: hidden;
+	text-indent: 10px;
+}
+.select{
+	line-height: 25px;
+	text-align: left;
+	white-space: nowrap;
+	height: 25px;
+	overflow: hidden;
+	text-indent: 10px;
+	font-weight: bold;
+	color: #FF0000;
+}

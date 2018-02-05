@@ -1,0 +1,40 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PageWin.Master.cs" Inherits="Song.Site.Manage.PageWin" %>
+
+<!DOCTYPE html>
+<html>
+<head runat="server">
+    <title>无标题页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-store, must-revalidate">
+    <meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT">
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="Content-Language" content="zh-cn">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+        name="viewport" />
+    <base target="_self"></base>
+    <link href="/manage/Styles/PageWin.css" rel="stylesheet" type="text/css" />
+    <link href="/manage/Styles/Jme.css" rel="stylesheet" type="text/css" />
+</head>
+<body style="padding:0px">
+    <form id="form1" runat="server" class="pageWinForm" style="margin:0px">
+    <div class="pageWinContext" loyout="row">
+        <div style="margin: 10px; margin-bottom:0px;">
+            <asp:ContentPlaceHolder ID="cphMain" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </div>
+    <div class="pageWinBtn" style="text-align: right" loyout="row" height="50">
+        <asp:ContentPlaceHolder ID="cphBtn" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+    <script type="text/javascript">
+        $(".pageWinContext").height(document.documentElement.clientHeight - $(".pageWinBtn").height());
+        //当窗口大小变化时
+        $(window).resize(function () {
+            $(".pageWinContext").height(document.documentElement.clientHeight - $(".pageWinBtn").height());
+        });
+    </script>
+</body>
+</html>

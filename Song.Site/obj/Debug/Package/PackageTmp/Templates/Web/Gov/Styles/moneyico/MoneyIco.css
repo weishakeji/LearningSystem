@@ -1,0 +1,17 @@
+
+@font-face {font-family: "money";
+  src: url('money.eot'); /* IE9*/
+  src: url('money.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('money.woff') format('woff'), /* chrome、firefox */
+  url('money.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('money.svg#money') format('svg'); /* iOS 4.1- */
+}
+
+.moneyico {
+  font-family:"money" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}

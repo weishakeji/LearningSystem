@@ -1,0 +1,115 @@
+﻿body
+{
+}
+body,div,p,td
+{
+	
+}
+/*员工选框择最外侧的Div*/
+#EmplyeeSelectBox
+{
+	border: 1px solid #666666;
+}
+/*员工选择框上方的bar*/
+#EmplyeeSelectBoxTitle
+{
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	line-height: 20px;
+	display: block;
+	background-color: #FFFF99;
+}
+#EmplyeeSelectBoxTitle dd
+{
+	margin: 0px;
+	float: left;
+	width: 23%;
+	font-size: 13px;
+	line-height: 20px;
+	color: #000000;
+	display: block;
+	text-align: center;
+	padding: 0px;
+	cursor: default;
+}
+#EmplyeeSelectBoxTitle dd.click
+{
+	background-color: #FFFFFF;
+	margin: 0px;
+	padding: 0px;
+}
+#EmplyeeSelectBoxTitle dd.out
+{
+	background-color: #FFFF99;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+#EmplyeeSelectBox .zone
+{
+	overflow: auto;	
+}
+/*树形菜单中的图标区域*/
+#EmplyeeSelectBox .ico
+{
+	float: left;
+	width: auto;
+}
+#EmplyeeSelectBox .ptext
+{
+	width: auto;
+	line-height: 18px;
+	display: block;
+	font-weight: bold;
+}
+#EmplyeeSelectBox .ctext
+{
+	width: auto;
+	line-height: 18px;
+	display: block;
+	cursor: default;
+}
+#EmplyeeSelectBox .panel
+{
+	float: none;
+}
+
+/*收件人区域*/
+.EmplyeeList
+{
+	border: 1px solid #FFCC66;
+	background-color: #FFFFCC;
+	width: 99%;
+	height:60px;
+	padding: 0px;
+	margin-bottom: 5px;
+}
+
+/*隶属于当前角色的员工列表样式*/
+.EmplyeeList .toPosi
+{
+	float: left;
+	width: 80px;
+	border: 1px solid #999999;
+	background-color: #eeeeee;
+	margin: 3px;
+	padding: 0px;
+	font-size: 13px;
+	line-height: 20px;
+	height: 20px;
+	text-indent: 3px;
+	white-space: nowrap;
+}
+.EmplyeeList .toPosi .EmpName
+{
+	float: left;
+}
+.EmplyeeList .toPosi img
+{
+	float: right;
+	cursor: pointer;
+}

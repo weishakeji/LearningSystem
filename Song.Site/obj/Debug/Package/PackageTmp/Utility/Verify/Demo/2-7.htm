@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<script type="text/javascript" src="../Scripts/jquery.js"></script>
+<script type="text/javascript" src="../Scripts/Verify.js"></script>
+<link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1>文件类型验证</h1>
+<h2>概述</h2>
+<div class="desc">
+  <p>最常见的应用场景是文件上传，在控件上设置 <strong>fileallow</strong>或<strong>filelimit</strong>实现允许上传的文件类型，或禁止上传的文件类型。</p>
+  <p>&lt;input name=&quot;&quot; type=&quot;file&quot; fileallow=&quot;jpg|png&quot;/&gt;，只允许上传jpg与png图片</p>
+  <p>&lt;input name=&quot;&quot; type=&quot;file&quot; filelimit=&quot;exe|com|bat|js&quot;/&gt;，禁止上传可执行文件</p>
+</div>
+<h2>示例</h2>
+<h3>1、允许上传的文件类型</h3>
+<div class="desc">
+  <fieldset>
+    
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot;  place=&quot;right&quot;&gt;<br />     &lt;input name=&quot;&quot; type=&quot;file&quot; <strong>fileallow=&quot;jpg|png&quot;</strong> class=&quot;fileinput&quot; nullable=&quot;false&quot; /&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;"  place="right">
+     <input name="" type="file" fileallow="jpg|png" class="fileinput" nullable="false" />
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+  
+</div>
+<h3>2、禁止上传的文件类型</h3>
+<div class="desc">
+  <fieldset>
+    
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot; place=&quot;right&quot;&gt;<br />     &lt;input name=&quot;&quot; type=&quot;file&quot; <strong>filelimit=&quot;exe|com|bat|js&quot;</strong> class=&quot;fileinput&quot; nullable=&quot;false&quot;/&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;" place="right">
+     <input name="" type="file" filelimit="exe|com|bat|js" class="fileinput" nullable="false"/>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+  
+</div>
+</body>
+</html>

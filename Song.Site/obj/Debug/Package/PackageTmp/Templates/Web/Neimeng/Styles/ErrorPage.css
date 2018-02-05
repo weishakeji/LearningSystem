@@ -1,0 +1,13 @@
+@charset "utf-8";
+#Context #errorBox {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 20px;
+	line-height: 30px;
+	font-weight: bold;
+	color: #FF0000;
+	text-align: center;
+	height: 30px;
+	margin-top: 100px;
+	margin-bottom: 100px;
+	min-height:300px;
+}

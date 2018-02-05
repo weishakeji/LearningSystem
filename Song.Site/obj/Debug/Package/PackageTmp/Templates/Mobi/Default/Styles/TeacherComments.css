@@ -1,0 +1,48 @@
+@charset "utf-8";
+.mui-card-header{
+	margin-right: 0px;
+	margin-left: 0px;
+	padding-right: 0px;
+	padding-left: 0px;
+}
+/*星标*/
+.star{
+	width:100%;
+}
+.star i{
+	background-image: url(../Images/sun_star.gif);
+	background-repeat: no-repeat;
+	background-position: -160px -158px;
+	display: inline-block;
+	height: 25px;
+	width: 28px;
+}
+.star .s1{
+	background-position: 0px -158px;	
+}
+.star .s0{	
+	background-position: 0px -186px;
+}
+.star b{
+	height: 25px;
+	width: 40px;
+	line-height: 25px;
+	display: inline-block;
+	text-align: center;
+	margin-top: -10px;
+	vertical-align: middle;
+	float: right;
+	margin-right: 5px;
+	margin-top: 5px;
+	white-space: nowrap;
+	overflow: visible;
+}
+/*内容*/
+.content{
+	padding: 10px;
+}
+.reply{
+	margin: 10px;
+	padding: 10px;
+	background-color: #FF9;
+}

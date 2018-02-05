@@ -1,0 +1,10 @@
+/*=========mF_peijianmall========*/
+.mF_peijianmall .pic{position:absolute;}
+.mF_peijianmall .pic li{overflow:hidden;}
+.mF_peijianmall .left li{float:left;}
+.mF_peijianmall .right li{float:right;}
+.mF_peijianmall .txt{position:absolute;z-index:2;left:18px;bottom:10px;}
+.mF_peijianmall .txt li{float:left;margin-right:10px;height:34px;width:62px;padding:3px;border:1px solid #f90;overflow:hidden;cursor:pointer;background:#FBF6DC;}
+.mF_peijianmall .txt li a{color:#D3520C; text-decoration:none;}
+.mF_peijianmall .txt li.current{border:1px solid #c00;background:#FB7917;}
+.mF_peijianmall .txt li.current a{color:#fff;}

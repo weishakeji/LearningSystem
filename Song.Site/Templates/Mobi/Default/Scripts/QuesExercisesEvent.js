@@ -18,7 +18,7 @@ function _quesSelectEvent() {
 //单选题的选择
 function quesEventType1(ansItem) {
     ansItem.find(".answer").click(function () {
-		var pat=$(this).parent();
+        var pat = $(this).parent();
         var isSel = $.trim($(this).attr("isSel")) == "true" ? true : false;
         if (isSel) {
             $(this).attr("isSel", false);
@@ -74,7 +74,7 @@ function quesEventType3(ansItem) {
         // 对选择项进行判断，并转到下一题
         if ($(this).parent().find(".answer[issel=true]").size() > 0) {
             //提交答题信息以验证对错
-            $("#btnSubmit").click();            
+            $("#btnSubmit").click();
         }
     });
 }
@@ -90,45 +90,25 @@ function quesEventType4(ansItem) {
 //填空题的事件
 function quesEventType5(ansItem) {
     ansItem.find(".answer input[type=text]").focusout(function () {
-        var iscorrect = true;
-        //遍历当前试题的所有填空项
-        $(this).parent().parent().find(".answer").each(function () {
+        var quesItem = $(this).parents(".quesItem");
+        var answer = $(this).parent().parent().find(".answer");
+        var count = 0;
+        answer.each(function () {
             var ansInput = $.trim($(this).find("input[type=text]").val());
-            if (ansInput == "") {
-                iscorrect = false;
-                return false;
-            }
-            var tm = false; 	//临时用判断当前试题对错的变量
-            var correct = $(this).attr("correct");
-            if (correct.indexOf(",") > -1) {
-                var arr = correct.split(",");
-                for (var s in arr) {
-                    if (ansInput == arr[s]) tm = true;
-                }
-            } else {
-                if (correct != ansInput) {
-                    iscorrect = false;
-                    return false;
-                } else {
-                    tm = true;
-                }
-            }
-            if (!tm) {
-                iscorrect = false;
-                return false;
+            if (ansInput != "") {
+                count++;
             }
         });
-        //是否答对
-        var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");
-        showResult(ques, iscorrect);
+        //提交答题信息以验证对错
+        if (count == answer.size()) $("#btnSubmit").click();
     });
 }
 //试题移动
 //quesitem:试题区域
 //dirt:方向，1为向右，-1为向左
-function _quesMove(quesitem, dirt) {	
+function _quesMove(quesitem, dirt) {
     var left = Number($("#quesArea").css("left").replace("px", ""));
-	left = isNaN(left) ? 0 : left;
+    left = isNaN(left) ? 0 : left;
     if (dirt == 1) {
         if (quesitem.attr("index") != $(".quesItem").size())
             left -= quesitem.width();
@@ -147,7 +127,8 @@ function _quesMove(quesitem, dirt) {
 function _btnEvent() {
     //试题提交
     $("#btnSubmit").click(function () {
-        var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");		
+        //当前试题所在区域的html对象
+        var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");
         var type = $.trim(ques.attr("type"));
         var func = eval("_decide" + type);
         if (func != null) func(ques);
@@ -213,13 +194,13 @@ function _btnEvent() {
 //ques:试题区域
 //isCorrect:是否正确
 function showResult(ques, isCorrect) {
-    var qitem = ques.find(".quesItemsBox");	
+    var qitem = ques.find(".quesItemsBox");
     if (isCorrect == null) {
         qitem.removeClass("error").removeClass("correct");
         return;
     }
     ques.attr("ansstate", isCorrect);
-	var qid= ques.attr("qid");
+    var qid = ques.attr("qid");
     //如果正确
     if (isCorrect) {
         qitem.addClass("correct").removeClass("error");
@@ -232,19 +213,20 @@ function showResult(ques, isCorrect) {
         $.get("AddQues.ashx", { "qid": qid }, function () { });
         //设置答题卡状态，并显示答案
         setCardState("error", qid);
-		$(".quesItem[qid=" + qid + "]").find(".quesAnswerBox").show();
+        $(".quesItem[qid=" + qid + "]").find(".quesAnswerBox").show();
     }
 }
 //单选题判断
+//ques: 当前试题所在区域的html对象，即class='quesItem'
 function _decide1(ques) {
-    var selitem = ques.find(".quesItemsBox .answer[issel=true]");	
-	//alert(selitem.size());
+    var selitem = ques.find(".quesItemsBox .answer[issel=true]");
+    //alert(selitem.size());
     if (selitem.size() < 1) {
         var msg = new MsgBox("提示", "您还没有答题！", 90, 40, "msg");
         msg.Open();
         showResult(ques, null);
         return;
-    }	
+    }
     showResult(ques, $.trim(selitem.attr("correct")).toLowerCase() == "true");
 }
 //多选题判断
@@ -277,4 +259,40 @@ function _decide3(ques) {
 //简答题判断
 function _decide4(ques) {
     new MsgBox("提示", "简答题不自动判题！无须提交。", 90, 40, "msg").Open();
+}
+//填空题
+//ques: 当前试题所在区域的html对象，即class='quesItem'
+function _decide5(ques) {
+    var iscorrect = true;
+    var answer = ques.find(".answer");
+    //遍历当前试题的所有填空项
+    answer.each(function () {
+        var ansInput = $.trim($(this).find("input[type=text]").val());
+        if (ansInput == "") {
+            iscorrect = false;
+            return false;
+        }
+        var tm = false; 	//临时用判断当前试题对错的变量
+        var correct = $(this).attr("correct");
+        if (correct.indexOf(",") > -1) {
+            var arr = correct.split(",");
+            for (var s in arr) {
+                if (ansInput == arr[s]) tm = true;
+            }
+        } else {
+            if (correct != ansInput) {
+                iscorrect = false;
+                return false;
+            } else {
+                tm = true;
+            }
+        }
+        if (!tm) {
+            iscorrect = false;
+            return false;
+        }
+    });
+    //是否答对
+    var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");
+    showResult(ques, iscorrect);
 }

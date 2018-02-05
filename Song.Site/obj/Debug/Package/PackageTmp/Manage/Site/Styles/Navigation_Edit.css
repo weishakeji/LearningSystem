@@ -1,0 +1,80 @@
+﻿#TmpBox
+{
+	width:450px;
+	height:435px;
+	z-index:1;
+	position:absolute;
+	top:10px;
+	left:300px;
+	filter:alpha(Opacity=90);
+	-moz-opacity:0.9;
+	opacity: 0.9;
+	display:none;
+	background-image: url(../../Images/sanjiao.jpg);
+	background-repeat: no-repeat;
+	background-position: left 300px;
+}
+/*棰樺ご锛氬綋鍓嶆ā鏉?/
+#TmpTitle
+{
+	color:red;
+	line-height: 25px;
+	background-color: #FFFFCC;
+	height: 25px;
+	border: 1px solid #CCCCCC;
+	text-indent: 10px;
+	margin-left: 10px;
+}
+#TmpTitle .tmpClose
+{
+	float: right;
+	margin-right: 10px;
+	cursor:pointer;
+}
+/*妯℃澘鎵€鍦ㄥ尯鍩?/
+.TmpPageContext
+{
+	margin-left: 10px;
+	width:440px;
+	height:400px;
+	overflow: auto;
+	background-color: #CCCCCC;
+}
+/*妯℃澘绫诲瀷鍖哄煙锛屽寘鎷ā鏉块〉鐨勭洅瀛?/
+.TmpPageItem
+{
+
+	margin-top: 10px;
+	margin-left: 10px;
+
+}
+/*妯℃澘绫诲瀷鏍囬*/
+.tmpTypeName
+{
+	line-height: 20px;
+	font-weight: bold;
+	height: 20px;
+	background-image: url(../../Images/arrow1.gif);
+	background-repeat: no-repeat;
+	background-position: 0px 3px;
+	text-indent: 15px;
+}
+.TmpPageItem dl
+{
+}
+.TmpPageItem dl dt
+{
+	margin-left: 15px;
+}
+.TmpPageItem dl dd
+{
+	line-height: 18px;
+	height: 18px;
+	cursor:pointer;
+	color: #0099FF;
+	text-decoration: underline;
+	width: 100px;
+	margin-right: 10px;
+	font-size: 14px;
+	margin-left: 30px;
+}

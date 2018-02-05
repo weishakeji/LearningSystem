@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<script type="text/javascript" src="../Scripts/jquery.js"></script>
+<script type="text/javascript" src="../Scripts/Verify.js"></script>
+<link href="../Styles/Public.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h1>数据类型验证</h1>
+<h2>概述</h2>
+<div class="desc">
+  <p>通过设置datatype属性，验证录入的数据是否符合要求的数据类型。</p>
+  <p>如&lt;input name=&quot;tm&quot; type=&quot;text&quot; <strong>datatype=&quot;uint&quot;</strong>/&gt; 设置datatype="uint"，要求录入正整数。</p>
+  <p>可以验证的数据类型包括：数字、整数、电话、手机号、邮编、用户账号（限字母开头）、电子邮箱、身份证、网址、qq号、中文录入。</p>
+  <p>满足任一条件：datatype=&quot;tel|mobile&quot;，只要是电话（固话或手机号）都通过验证</p>
+  <p>满足全部条件：datatype=&quot;uint&amp;zip&quot;，既是数字，且是邮编。</p>
+</div>
+<h2>示例</h2>
+<h3>1、简单数据类型验证</h3>
+<div class="desc">
+  <fieldset>
+     <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot;&gt;<br />      &lt;p&gt; 姓名：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; value=&quot;name&quot; datatype=&quot;chinese&quot; /&gt;<br />      (datatype=&quot;chinese&quot;，仅限中文字符)&lt;/p&gt;<br />      &lt;p&gt; 账号：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; datatype=&quot;user&quot; /&gt; (datatype=&quot;user&quot;，字符或数字，且字符开头)<br />      &lt;/p&gt;<br />      &lt;p&gt; 年龄：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; value=&quot;-1&quot; datatype=&quot;uint&quot; /&gt;(datatype=&quot;uint&quot;，整数)<br />      &lt;/p&gt;<br />      &lt;p&gt; 得分：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; datatype=&quot;number&quot; alt=&quot;请输入数字&quot; /&gt;
+	(datatype=&quot;number&quot;，可以带小数，或负数)<br />      &lt;/p&gt;<br />      &lt;p&gt; 电话：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; datatype=&quot;tel&quot; /&gt;(datatype=&quot;tel&quot;)<br />      &lt;/p&gt;<br />      &lt;p&gt; 手机：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; datatype=&quot;mobile&quot; /&gt;(datatype=&quot;mobile&quot;)<br />      &lt;/p&gt;<br />      &lt;p&gt; 邮编：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; datatype=&quot;zip&quot; /&gt;(datatype=&quot;zip&quot;)<br />      &lt;/p&gt;<br />      &lt;p&gt; 邮箱：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; datatype=&quot;email&quot; /&gt;(datatype=&quot;email&quot;)<br />      &lt;/p&gt;<br />      &lt;p&gt; 身份证：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; datatype=&quot;idcard&quot; /&gt;(datatype=&quot;idcard&quot;)<br />      &lt;/p&gt;<br />      &lt;p&gt; QQ号：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; datatype=&quot;qq&quot; /&gt;(datatype=&quot;qq&quot;)<br />      &lt;/p&gt;<br />      &lt;p&gt; 公司网址：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; datatype=&quot;url&quot; /&gt;(datatype=&quot;url&quot;)<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;">
+      <p> 姓名：
+        <input name="" type="text" value="name" datatype="chinese" />
+      (datatype="chinese"，仅限中文字符)</p>
+      <p> 账号：
+        <input name="" type="text" datatype="user" /> (datatype="user"，字符或数字，且字符开头)
+      </p>
+      <p> 年龄：
+        <input name="" type="text" value="-1" datatype="uint" />(datatype="uint"，整数)
+      </p>
+      <p> 得分：
+        <input name="" type="text" datatype="number" alt="请输入数字" />(datatype="number"，可以带小数，或负数)
+      </p>
+      <p> 电话：
+        <input name="" type="text" datatype="tel" />(datatype="tel")
+      </p>
+      <p> 手机：
+        <input name="" type="text" datatype="mobile" />(datatype="mobile")
+      </p>
+      <p> 邮编：
+        <input name="" type="text" datatype="zip" />(datatype="zip")
+      </p>
+      <p> 邮箱：
+        <input name="" type="text" datatype="email" />(datatype="email")
+      </p>
+      <p> 身份证：
+        <input name="" type="text" datatype="idcard" />(datatype="idcard")
+      </p>
+      <p> QQ号：
+        <input name="" type="text" datatype="qq" />(datatype="qq")
+      </p>
+      <p> 公司网址：
+        <input name="" type="text" datatype="url" />(datatype="url")
+      </p>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+</div>
+<h3>2、类型复合验证</h3>
+<div class="desc">
+  <fieldset>
+    <legend>满足任一条件</legend>
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot;&gt;<br />      &lt;p&gt; 电话：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; <strong>datatype=&quot;tel|mobile&quot;</strong> alt=&quot;请输入电话号码&quot; /&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;">
+      <p> 电话：
+        <input name="" type="text" datatype="tel|mobile" alt="请输入电话号码" />
+      </p>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+  <fieldset>
+    <legend>满足所有条件</legend>
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot;&gt;<br />      &lt;p&gt; 邮编：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; <strong>datatype=&quot;uint&amp;zip&quot;</strong> /&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;">
+      <p> 邮编：
+        <input name="" type="text" datatype="uint&zip" />
+      </p>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+    </form>
+  </fieldset>
+</div>
+</body>
+</html>

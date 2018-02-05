@@ -1,0 +1,16 @@
+﻿@charset "utf-8";
+#ShowPanel {
+	height: 20px;
+	line-height: 20px;
+	text-indent: 60px;
+	margin-top: 10px;
+	margin-left:35px;
+	text-align:left;
+}
+ #InputPanel {
+	margin-right: 20px;
+}
+#codeImg
+{
+	cursor:pointer;
+}

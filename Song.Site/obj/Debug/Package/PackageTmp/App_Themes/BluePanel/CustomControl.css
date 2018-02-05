@@ -1,0 +1,300 @@
+﻿@charset "utf-8";
+#header
+{
+	height: 25px;
+	width: 100%;
+	float: none;
+}
+#header .toolsBar
+{
+	margin-bottom: 6px;
+	width:auto;
+	float:left;
+}
+#header .searchBox
+{
+	text-align:right;
+	margin-right:5px;
+}
+#header .TextBox
+{
+	height:18px;
+}
+/*页面顶部按钮*/
+.toolsBtn
+{
+	LINE-HEIGHT: 26px;
+	text-indent: 0px;
+	margin-top: 0px;
+	height: 25px;
+	width: 65px;
+	cursor:pointer;
+	text-align: right;
+	border: 1px solid #CCCCCC;
+	margin-right: 2px;
+	padding-right: 4px;
+	margin-bottom: 5px;
+}
+.btnGeneral
+{
+	background-image: url(Images/btn_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: -14px -15px;
+}
+.btnAdd
+{
+	background-image: url(Images/btn_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: -16px -15px;
+}
+.btnModfiy
+{
+	background-image: url(Images/btn_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: -101px -15px;
+}
+.btnDelete
+{
+	background-image: url(Images/btn_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: -16px -60px;
+}
+.btnView
+{
+	background-image: url(Images/btn_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: -14px -15px;
+}
+.btnVerify
+{
+	background-image: url(Images/btn_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: -14px -15px;
+}
+.btnBack
+{
+	background-image: url(Images/btn_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: -102px -60px;
+}
+.btnReturn
+{
+	background-image: url(Images/btn_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: -12px -11px;
+}
+.btnButton
+{
+	height: 25px;
+	min-width: 120px;
+	position: relative;
+	top: 0;
+	-webkit-box-shadow: 0 3px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 3px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
+	letter-spacing: 0.5em;
+	-webkit-box-shadow: 0 3px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 3px 0 #bbbbbb, 0 3px 3px rgba(0, 0, 0, 0.2);
+	text-indent: 0.5em;
+}
+.btnButton:hover {
+	color:#F00; 
+
+}
+/*弹出窗体中的按钮*/
+.btnCloseWin
+{
+	background-image: url(Images/btn_bg2.jpg);
+	background-repeat: no-repeat;
+	background-position: -102px 0px;
+	height: 35px;
+	width: 95px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	cursor:pointer;
+}
+.btnEnterWin
+{
+	background-image: url(Images/btn_bg2.jpg);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	height: 35px;
+	width: 95px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	cursor:pointer;
+}
+/*下一步*/
+.btnNextWin
+{
+	background-image: url(Images/btn_bg2.jpg);
+	background-repeat: no-repeat;
+	background-position: -303px 0px;
+	height: 35px;
+	width: 95px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	cursor:pointer;
+}
+/*上一步*/
+.btnPrevWin
+{
+	background-image: url(Images/btn_bg2.jpg);
+	background-repeat: no-repeat;
+	background-position: -201px 0px;
+	height: 35px;
+	width: 95px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	cursor:pointer;
+}
+.btnEnterButton
+{
+	background-image: url(Images/btn_bg2.jpg);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	height: 35px;
+	width: 95px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	cursor:pointer;
+}
+
+/*分页控件*/
+.pager
+{
+	margin-top: 5px;
+	float: left;
+	height: auto;
+	width: auto;
+}
+.pager .TextBox
+{
+	height: 16px;
+	font-size: 12px;
+	line-height: 16px;
+}
+/*分页控件*/
+.pager2 {
+	width: 100%;
+	height: 35px;
+	line-height: 30px;
+	display: block;
+	overflow: hidden;
+}
+.pager2 a:hover{
+	color: #060;
+	text-decoration: none;
+}
+.pager2 span.curr{
+	color: #FFF;
+	text-decoration: none;
+	font-weight: bold;
+	height: 27px;
+	width: 24px;
+	border: 2px solid #000;
+	background-color: #333;
+	margin-top:3px;
+}
+.pager2 a, .pager2 span
+{
+	height: 25px;
+	font-size: 14px;
+	line-height: 25px;
+	display: inline-block;
+	width: 25px;
+	border: 1px solid #666;
+	text-align: center;
+	margin-left: 3px;
+	margin-top: 5px;
+	float: left;
+	background-color: #eee;
+}
+.pager2 .info{
+	width:auto;
+	padding-left:5px;
+	padding-right:5px;
+}
+.pager2 .TextBox
+{
+	height: 16px;
+	font-size: 12px;
+	line-height: 16px;
+	margin-left:3px;
+	margin-right:3px;
+}
+/*行业的按钮*/
+.RowEdit
+{
+	background-image: url(Images/ico_A1.gif);
+	background-repeat: no-repeat;
+	background-position: -175px -360px;
+	height: 22px;
+	width: 22px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	float: left;
+}
+.RowDelete
+{
+	background-image: url(Images/ico_A1.gif);
+	background-repeat: no-repeat;
+	background-position: -148px -126px;
+	height: 22px;
+	width: 22px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	float: left;
+}
+.RowRecover
+{
+	background-image: url(Images/ico_A1.gif);
+	background-repeat: no-repeat;
+	background-position: -152px -334px;
+	height: 22px;
+	width: 22px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	float: left;
+}
+.RowView
+{
+	background-image: url(Images/ico_A1.gif);
+	background-repeat: no-repeat;
+	background-position: -238px -204px;
+	height: 22px;
+	width: 22px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	float: left;
+}
+.RowVerify
+{
+	background-image: url(Images/ico_A1.gif);
+	background-repeat: no-repeat;
+	background-position: -150px -150px;
+	height: 22px;
+	width: 22px;
+	overflow: hidden;
+	margin: 0px;
+	padding: 0px;
+	float: left;
+}
+/*当行业按钮，鼠标滑过时*/
+.RowButtonOn
+{
+	background-image: url(Images/ico_B1.gif);
+}

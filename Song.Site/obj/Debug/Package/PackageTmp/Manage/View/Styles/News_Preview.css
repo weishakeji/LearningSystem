@@ -1,0 +1,45 @@
+﻿body
+{
+}
+/*标题*/
+#title
+{
+	font-size: 24px;
+	text-align: center;
+	line-height: 35px;
+}
+/*标题下方的属性条*/
+#attrBar
+{
+	font-size: 14px;
+	text-align: center;
+	line-height: 30px;
+	background-color: #F0F0F0;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#attrBar span
+{
+	margin-right: 10px;
+}
+/*文章内容区*/
+#Details
+{
+}
+#Details p
+{
+	text-indent: 2em;
+}
+#Details p,#Details div,#Details span
+{
+	font-size: 14px;
+}
+/*文章脚底*/
+#artFoot
+{
+	font-size: 14px;
+	text-align: left;
+	line-height: 20px;
+	text-indent: 2em;
+	margin-top: 20px;
+}
