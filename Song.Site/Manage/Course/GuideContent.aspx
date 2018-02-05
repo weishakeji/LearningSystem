@@ -34,7 +34,7 @@
             </tr>
         </table>
         <div class="contItem" tab="tab2">
-            <WebEditor:Editor ID="tbDetails" runat="server" Height="450px" Width="99%"> </WebEditor:Editor>
+            <WebEditor:Editor ID="tbDetails" runat="server" Height="300px" Width="99%"> </WebEditor:Editor>
         </div>
         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
             <tr>
