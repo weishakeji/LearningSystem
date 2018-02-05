@@ -69,6 +69,23 @@ body,p,div,td,*{
 {
 	margin-bottom: 1em;
 }
+#artAcc .accItem{
+	margin-left: 0px;
+}
+#artAcc {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#artAcc dt {
+	font-size: 15px;
+	font-weight: bold;
+}
+#artAcc dd, #artAcc dd a {
+	font-size: 15px;
+	line-height: 22px;
+	color: #069;
+}
 .filesize {
 	font-size: 14px;
 	color: #666666;
