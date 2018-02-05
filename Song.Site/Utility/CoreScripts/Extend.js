@@ -273,7 +273,7 @@ jQuery.fn.getFileName = function () {
 }
 //在线浏览pdf文件
 jQuery.fn.PdfViewer = function (file) {
-    var viewer = "/Utility/PdfViewer/web/viewer.html";
+    var viewer = "/Utility/PdfViewer/viewer.html";
     viewer += "?file=" + encodeURIComponent(file);
     //window.location.href = viewer;
     return viewer;

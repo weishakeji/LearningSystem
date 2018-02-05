@@ -7,3 +7,39 @@
 /Song.Site/Bin/WeiSha.Template.Engine.pdb
 /Song.Site/Bin/Song.Entities.pdb
 /Song.Site/Bin/Song.Extend.pdb
+/Song.Entities/bin/
+/Song.Entities/obj/
+/Song.*/bin/
+/Song.*/obj/
+/Song.Site/upload/
+#Ignore thumbnails created by Windows
+Thumbs.db
+#Ignore files built by Visual Studio
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+.vs/
+#Nuget packages folder
+packages/
