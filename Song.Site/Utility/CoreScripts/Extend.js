@@ -271,6 +271,13 @@ jQuery.fn.getFileName = function () {
     filename = filename.substr(0, filename.indexOf("."))
     return filename;
 }
+//在线浏览pdf文件
+jQuery.fn.PdfViewer = function (file) {
+    var viewer = "/Utility/PdfViewer/web/viewer.html";
+    viewer += "?file=" + encodeURIComponent(file);
+    //window.location.href = viewer;
+    return viewer;
+}
 //格式化日期
 Date.prototype.ToString = function () {
     var year = this.getFullYear();

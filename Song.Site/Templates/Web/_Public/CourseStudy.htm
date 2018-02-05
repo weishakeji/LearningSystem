@@ -5,6 +5,9 @@
 <vt:include file="inc/meta.inc" />
 <script type="text/javascript" src="/Utility/CoreScripts/Base64.js"></script>
 <link href="Styles/CourseStudy.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/Utility/CoreScripts/PageBox.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/easydrag.js"></script>
+<link href="/Utility/CoreStyles/PageBox.css" rel="stylesheet" type="text/css" />
 <!--播放器的引用-->
 <script type="text/javascript" src="/Utility/Ckplayer/js/offlights.js"></script>
 <script type="text/javascript" src="/Utility/Ckplayer/ckplayer/ckplayer.js" charset="utf-8"></script>
@@ -147,6 +150,24 @@ $(function(){
           <vt:foreach from="$#.access" item="acc" index="j"> <a class="accItem" target="_blank" href="{$acc.As_FileName}" download="{$acc.As_Name}">{$:j}、{$acc.As_Name} </a> </vt:foreach>
         </div>
       </div>
+      <script type="text/javascript">
+	   $("#access a.accItem").each(function(index, element) {
+         var href=$(element).attr("href");
+		 if(href.indexOf(".")>-1){
+			 var exist=href.substring(href.lastIndexOf(".")+1).toLowerCase();
+			 if(exist=="pdf"){
+				 $(element).click(function(){
+					 var href=$(element).attr("href");
+					 var tit=$.trim($(element).text());
+					 //$().PdfViewer(href);
+					 var box=new PageBox(tit,$().PdfViewer(href),100,100);
+					 box.Open();
+					 return false;
+				 });
+			 }			 
+		 }		
+    });
+	  </script>
     </vt:if>
     <!--习题-->
     <vt:if var="state" value="4" compare="=">
