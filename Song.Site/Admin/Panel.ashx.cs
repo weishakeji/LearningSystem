@@ -17,7 +17,9 @@ namespace Song.Site.Admin
         {
             //当前版本
             string version = WeiSha.Common.License.Value.VersionName;
-            this.Document.Variables.SetValue("version", version);
+            //如果是至尊版，则不再显示
+            if(WeiSha.Common.License.Value.VersionLevel<6)
+                this.Document.Variables.SetValue("version", version);
             //
             Song.Entities.EmpAccount acc = this.Admin;
             if (acc == null)

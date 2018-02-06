@@ -640,6 +640,7 @@
     <Content Include="Templates\Web\Neimeng\Teacher\Register.htm" />
     <Content Include="Templates\Web\Neimeng\Teacher\Scripts\Register.js" />
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\Register.css" />
+    <Content Include="Templates\Web\NetSchool\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\NetSchool\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\NetSchool\Images\submit-bg.gif" />
     <Content Include="Templates\Web\NetSchool\Images\submit2-bg.gif" />
@@ -824,7 +825,6 @@
     <Content Include="Templates\Web\Gov\Admin\Index.htm" />
     <Content Include="Templates\Web\Gov\Admin\Panel.htm" />
     <Content Include="Templates\Web\Gov\Admin\Scripts\Index.js" />
-    <Content Include="Templates\Web\Gov\Admin\Scripts\Panel.js" />
     <Content Include="Templates\Web\Gov\Admin\Startpage.htm" />
     <Content Include="Templates\Web\Gov\Admin\Styles\index.css" />
     <Content Include="Templates\Web\Gov\Admin\Styles\Panel.css" />
@@ -1061,10 +1061,8 @@
     <Content Include="Templates\Web\NetSchool\Admin\Index.htm" />
     <Content Include="Templates\Web\NetSchool\Admin\Panel.htm" />
     <Content Include="Templates\Web\NetSchool\Admin\Scripts\Index.js" />
-    <Content Include="Templates\Web\NetSchool\Admin\Scripts\Panel.js" />
     <Content Include="Templates\Web\NetSchool\Admin\Startpage.htm" />
     <Content Include="Templates\Web\NetSchool\Admin\Styles\index.css" />
-    <Content Include="Templates\Web\NetSchool\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\NetSchool\Admin\Styles\Startpage.css" />
     <Content Include="Templates\Web\NetSchool\Article.htm" />
     <Content Include="Templates\Web\NetSchool\Conn.htm" />
@@ -1144,6 +1142,10 @@
     <Content Include="Templates\Web\NetSchool\Notfound.htm" />
     <Content Include="Templates\Web\NetSchool\Notice.htm" />
     <Content Include="Templates\Web\NetSchool\Notices.htm" />
+    <Content Include="Templates\Web\_Public\Images\icon-1.png" />
+    <Content Include="Templates\Web\_Public\Module\Admin\Panel.css" />
+    <Content Include="Templates\Web\_Public\Module\Admin\Panel.htm" />
+    <Content Include="Templates\Web\_Public\Module\Admin\panel.js" />
     <Content Include="Templates\Web\_Public\QuesExplain.htm" />
     <Content Include="Templates\Web\_Public\QuesKnl.htm" />
     <Content Include="Templates\Web\_Public\QuestionAnswer.htm" />
@@ -1311,7 +1313,6 @@
     <Content Include="Templates\Web\Neimeng\Admin\Index.htm" />
     <Content Include="Templates\Web\Neimeng\Admin\Panel.htm" />
     <Content Include="Templates\Web\Neimeng\Admin\Scripts\Index.js" />
-    <Content Include="Templates\Web\Neimeng\Admin\Scripts\Panel.js" />
     <Content Include="Templates\Web\Neimeng\Admin\Startpage.htm" />
     <Content Include="Templates\Web\Neimeng\Admin\Styles\index.css" />
     <Content Include="Templates\Web\Neimeng\Admin\Styles\Panel.css" />
@@ -1479,7 +1480,6 @@
     <Content Include="Templates\Web\School\Admin\Index.htm" />
     <Content Include="Templates\Web\School\Admin\Panel.htm" />
     <Content Include="Templates\Web\School\Admin\Scripts\Index.js" />
-    <Content Include="Templates\Web\School\Admin\Scripts\Panel.js" />
     <Content Include="Templates\Web\School\Admin\Startpage.htm" />
     <Content Include="Templates\Web\School\Admin\Styles\index.css" />
     <Content Include="Templates\Web\School\Admin\Styles\Panel.css" />
