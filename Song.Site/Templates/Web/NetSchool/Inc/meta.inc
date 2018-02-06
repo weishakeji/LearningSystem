@@ -12,7 +12,7 @@
 <!--核心Css文件-->
 <link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css"/>
 <link rel="stylesheet" type="text/css" href="../CoreStyles/public.css?tick={$tick}"/>
-<link rel="stylesheet" type="text/css" href="../CoreStyles/PageBox.css?tick={$tick}"/>
+<link rel="stylesheet" type="text/css" href="../CoreStyles/PageBox.css"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/MessageBox.css"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/Jme.css"/>
 <!--公共的Js文件-->

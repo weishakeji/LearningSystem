@@ -6,9 +6,12 @@
 <script type="text/javascript" src="/Utility/CoreScripts/Verify.js"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/MessageBox.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/easydrag.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/PageBox.js"></script>
 <!--核心Css文件-->
 <link rel="stylesheet" type="text/css" href="../CoreStyles/public.css"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/MessageBox.css"/>
+<link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/PageBox.css"/>
 <link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css"/>
 <!--公共的Js文件-->
 <script type="text/javascript" src="../CoreScripts/loading.js"></script>

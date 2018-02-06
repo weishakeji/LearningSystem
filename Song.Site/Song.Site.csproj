@@ -1105,7 +1105,7 @@
     <Content Include="Templates\Web\NetSchool\Exam.htm" />
     <Content Include="Templates\Web\NetSchool\Examing.htm" />
     <Content Include="Templates\Web\NetSchool\ExamReview.htm" />
-    <Content Include="Templates\Web\NetSchool\Exercises.htm" />
+    <Content Include="Templates\Web\_Public\Exercises.htm" />
     <Content Include="Templates\Web\NetSchool\Images\1.png" />
     <Content Include="Templates\Web\NetSchool\Images\10.png" />
     <Content Include="Templates\Web\NetSchool\Images\2.png" />
@@ -1159,9 +1159,9 @@
     <Content Include="Templates\Web\NetSchool\Notfound.htm" />
     <Content Include="Templates\Web\NetSchool\Notice.htm" />
     <Content Include="Templates\Web\NetSchool\Notices.htm" />
-    <Content Include="Templates\Web\NetSchool\QuesExplain.htm" />
-    <Content Include="Templates\Web\NetSchool\QuesKnl.htm" />
-    <Content Include="Templates\Web\NetSchool\QuestionAnswer.htm" />
+    <Content Include="Templates\Web\_Public\QuesExplain.htm" />
+    <Content Include="Templates\Web\_Public\QuesKnl.htm" />
+    <Content Include="Templates\Web\_Public\QuestionAnswer.htm" />
     <Content Include="Templates\Web\NetSchool\Scripts\Course.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\CourseBuy.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Courses.js" />
@@ -1169,7 +1169,7 @@
     <Content Include="Templates\Web\NetSchool\Scripts\Exam.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Examing.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\ExamReview.js" />
-    <Content Include="Templates\Web\NetSchool\Scripts\Exercises.js" />
+    <Content Include="Templates\Web\_Public\Scripts\Exercises.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Knowledges.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\KnowledgesList.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Mask.js" />
@@ -1222,7 +1222,7 @@
     <Content Include="Templates\Web\NetSchool\Styles\exam.css" />
     <Content Include="Templates\Web\NetSchool\Styles\examing.css" />
     <Content Include="Templates\Web\NetSchool\Styles\ExamReview.css" />
-    <Content Include="Templates\Web\NetSchool\Styles\Exercises.css" />
+    <Content Include="Templates\Web\_Public\Styles\Exercises.css" />
     <Content Include="Templates\Web\NetSchool\Styles\Knowledge.css" />
     <Content Include="Templates\Web\NetSchool\Styles\Knowledges.css" />
     <Content Include="Templates\Web\NetSchool\Styles\KnowledgesList.css" />
@@ -1236,9 +1236,9 @@
     <Content Include="Templates\Web\NetSchool\Styles\notices.css" />
     <Content Include="Templates\Web\_Public\Styles\CourseStudy.css" />
     <Content Include="Templates\Web\NetSchool\CoreStyles\PageBox.css" />
-    <Content Include="Templates\Web\NetSchool\Styles\QuesExplain.css" />
-    <Content Include="Templates\Web\NetSchool\Styles\QuesKnl.css" />
-    <Content Include="Templates\Web\NetSchool\Styles\QuestionAnswer.css" />
+    <Content Include="Templates\Web\_Public\Styles\QuesExplain.css" />
+    <Content Include="Templates\Web\_Public\Styles\QuesKnl.css" />
+    <Content Include="Templates\Web\_Public\Styles\QuestionAnswer.css" />
     <Content Include="Templates\Web\NetSchool\Styles\test.css" />
     <Content Include="Templates\Web\NetSchool\Styles\TestScene.css" />
     <Content Include="Templates\Web\NetSchool\Styles\TestView.css" />
