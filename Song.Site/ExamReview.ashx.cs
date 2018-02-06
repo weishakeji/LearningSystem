@@ -304,18 +304,44 @@ namespace Song.Site
         /// <returns></returns>
         private string getSucessAnswer(object[] p)
         {
-            Song.Entities.Questions q = null;
-            if (p.Length > 0) q = (Song.Entities.Questions)p[0];
-            string ansStr = string.Empty;
-             //如果是填空题
-            if (q.Qus_Type == 5)
+            Song.Entities.Questions qus = null;
+            if (p.Length > 0) qus = (Song.Entities.Questions)p[0];
+            if (qus == null) return "";
+            string ansStr = "";
+            if (qus.Qus_Type == 1)
             {
                 //当前试题的答案
-                Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(q, null);               
+                Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
                 for (int i = 0; i < ans.Length; i++)
-                    ansStr += ans[i].Ans_Context + "、";
+                {
+                    if (ans[i].Ans_IsCorrect)
+                        ansStr += (char)(65 + i);
+                }
             }
-            if (ansStr.EndsWith("、")) ansStr = ansStr.Substring(0, ansStr.Length - 1);
+            if (qus.Qus_Type == 2)
+            {
+                Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
+                for (int i = 0; i < ans.Length; i++)
+                {
+                    if (ans[i].Ans_IsCorrect)
+                        ansStr += (char)(65 + i) + "、";
+                }
+                ansStr = ansStr.Substring(0, ansStr.LastIndexOf("、"));
+            }
+            if (qus.Qus_Type == 3)
+                ansStr = qus.Qus_IsCorrect ? "正确" : "错误";
+            if (qus.Qus_Type == 4)
+            {
+                if (qus != null && !string.IsNullOrEmpty(qus.Qus_Answer))
+                    ansStr = qus.Qus_Answer;
+            }
+            if (qus.Qus_Type == 5)
+            {
+                //当前试题的答案
+                Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
+                for (int i = 0; i < ans.Length; i++)
+                    ansStr += (char)(65 + i) + "、" + ans[i].Ans_Context + "&nbsp;&nbsp;";
+            }
             return ansStr;
         }
         #endregion

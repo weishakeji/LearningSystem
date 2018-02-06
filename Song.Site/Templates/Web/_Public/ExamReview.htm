@@ -121,17 +121,8 @@
               </div>
               <!-- 正确答案 -->
               <div class="sucessBox">
-                <vt:function var="ans" method="getSucessAnswer" args="$#.q" remark="正确答案"/>
-                正确答案：
-                <vt:if var="q.Qus_Type" value="4" compare="=" remark="简答题"> {$:q.Qus_Answer}
-                  <vt:else/>
-                  <vt:if var="q.Qus_Type" value="5" compare="=" remark="填空题"> {$:q.Qus_Answer}
-                    <vt:else/>
-                    <span class="selectedItem">
-                    <vt:if var="q.Qus_Type" value="3" compare="=" remark="判断题"> {$:q.Qus_IsCorrect} </vt:if>
-                    </span> </vt:if>
-                </vt:if>
-              </div>
+            <vt:function var="ans" method="getSucessAnswer" args="$#.q" remark="正确答案"/>
+            正确答案：<span class="selectedItem">{$ans}</span> </div>
               <!--试题解析 -->
               <div class="explainBox"> 试题解析：
                 <vt:if var="q.Qus_Explain" value="" compare="="> （无）

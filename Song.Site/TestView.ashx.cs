@@ -413,7 +413,7 @@ namespace Song.Site
                 //当前试题的答案
                 Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
                 for (int i = 0; i < ans.Length; i++)
-                    ansStr += (char)(65 + i) + "、" + ans[i].Ans_Context + "<br/>";
+                    ansStr += (char)(65 + i) + "、" + ans[i].Ans_Context + "&nbsp;&nbsp;";
             }
             return ansStr;
         }
