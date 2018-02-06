@@ -83,7 +83,7 @@ function quesEventType4(ansItem) {
     ansItem.find(".answer textarea").focusout(function () {
         var ansInput = $.trim($(this).val());
         if (ansInput != "") {
-            new MsgBox("提示", "简答题不自动判题！请自行查看答案。", 400, 200, "msg").Open();
+             $("#btnSubmit").click();
         }
     });
 }
@@ -258,7 +258,8 @@ function _decide3(ques) {
 }
 //简答题判断
 function _decide4(ques) {
-    new MsgBox("提示", "简答题不自动判题！无须提交。", 90, 40, "msg").Open();
+    //new MsgBox("提示", "简答题不自动判题！无须提交。", 90, 40, "msg").Open();
+	showResult(ques, false);
 }
 //填空题
 //ques: 当前试题所在区域的html对象，即class='quesItem'

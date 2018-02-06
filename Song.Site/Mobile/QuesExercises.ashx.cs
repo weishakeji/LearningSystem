@@ -71,6 +71,8 @@ namespace Song.Site.Mobile
                     ques[i].Qus_Title = ques[i].Qus_Title.Replace("&gt;", ">");
                     ques[i].Qus_Title = Extend.Html.ClearHTML(ques[i].Qus_Title, "p", "div", "font");
                     ques[i].Qus_Title = ques[i].Qus_Title.Replace("\n", "<br/>");
+                    if (!string.IsNullOrWhiteSpace(ques[i].Qus_Answer)) 
+                        ques[i].Qus_Answer = ques[i].Qus_Answer.Replace("&nbsp;", " ");
                 }
                 uid = Business.Do<IQuestions>().CacheAdd(ques, 60*24, uid);
             }
