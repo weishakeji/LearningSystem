@@ -175,7 +175,7 @@ namespace Song.ServiceImpls
             Organization curr = null;
             //从缓存中读取
             List<Organization> list = WeiSha.Common.Cache<Organization>.Data.List;
-            if (list == null || list.Count < 1) this.OrganBuildCache();            
+            if (list == null || list.Count < 1) list = this.OrganBuildCache();
             List<Organization> tm = (from l in list
                      where l.Org_IsUse == true && l.Org_IsPass == true && l.Org_IsShow == true && l.Org_TwoDomain == twoDomain
                       select l).ToList<Organization>();
@@ -388,12 +388,13 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 构建缓存
         /// </summary>
-        public void OrganBuildCache()
+        public List<Organization> OrganBuildCache()
         {
             WeiSha.Common.Cache<Song.Entities.Organization>.Data.Clear();
             Song.Entities.Organization[] org = this.OrganAll(null, -1);
             foreach (Song.Entities.Organization o in org)            
-                WeiSha.Common.Cache<Song.Entities.Organization>.Data.Add(o);            
+                WeiSha.Common.Cache<Song.Entities.Organization>.Data.Add(o);
+            return WeiSha.Common.Cache<Organization>.Data.List;
         }
         public Organization[] OrganPager(bool? isUse, int level, string searTxt, int size, int index, out int countSum)
         {

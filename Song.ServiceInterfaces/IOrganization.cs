@@ -86,7 +86,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 构建缓存
         /// </summary>
-        void OrganBuildCache();
+        List<Organization> OrganBuildCache();
         /// <summary>
         /// 分页获取机构
         /// </summary>

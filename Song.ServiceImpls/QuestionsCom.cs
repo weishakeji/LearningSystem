@@ -61,12 +61,12 @@ namespace Song.ServiceImpls
                     tran.Save<Questions>(entity);
                     tran.Update<QuesAnswer>(new Field[] { QuesAnswer._.Qus_ID }, new object[] { entity.Qus_ID }, QuesAnswer._.Qus_UID == entity.Qus_UID);
                     tran.Commit();
+                    QuestionsMethod.QuestionsCache.Singleton.UpdateSingle(entity);
                 }
                 catch (Exception ex)
                 {
                     tran.Rollback();
                     throw ex;
-
                 }
                 finally
                 {

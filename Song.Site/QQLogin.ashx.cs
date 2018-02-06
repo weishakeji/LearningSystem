@@ -129,8 +129,8 @@ namespace Song.Site
             string code = WeiSha.Common.Request.QueryString["code"].String;     //用户登录后，qq平台返回的代码
             string appid = Business.Do<ISystemPara>()["QQAPPID"].String;    //应用id
             string secret = Business.Do<ISystemPara>()["QQAPPKey"].String;  //密钥
-            string returl = Business.Do<ISystemPara>()["QQReturl"].Value ?? WeiSha.Common.Request.Domain.MainName;
-            string redirect = HttpUtility.HtmlEncode("http://" + returl + "/qqlogin.ashx");
+            string returl = Business.Do<ISystemPara>()["QQReturl"].Value ?? "http://" + WeiSha.Common.Request.Domain.MainName;
+            string redirect = HttpUtility.HtmlEncode(returl + "/qqlogin.ashx");
             //
             string url = "https://graph.qq.com/oauth2.0/token?client_id={0}&client_secret={1}&code={2}&grant_type=authorization_code&redirect_uri={3}";
             url = string.Format(url, appid, secret, code,redirect);

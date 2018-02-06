@@ -43,3 +43,4 @@ _ReSharper*/
 .vs/
 #Nuget packages folder
 packages/
+/Song.Site/Song.Site.Publish.xml

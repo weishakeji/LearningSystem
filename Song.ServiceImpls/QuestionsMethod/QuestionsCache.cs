@@ -179,6 +179,24 @@ namespace Song.ServiceImpls.QuestionsMethod
             return ques;
         }
         /// <summary>
+        /// 从缓存中更新试题
+        /// </summary>
+        /// <param name="qid"></param>
+        /// <returns></returns>
+        public void UpdateSingle(Song.Entities.Questions ques)
+        {            
+            for (int i = 0; i < list.Count; i++)
+            {
+                for (int j = 0; j < list[i].Questions.Count; j++)
+                {
+                    if (ques.Qus_ID == list[i].Questions[j].Qus_ID)
+                    {
+                        list[i].Questions[j] = ques;
+                    }
+                }
+            }
+        }
+        /// <summary>
         /// 获取缓存中的试题集
         /// </summary>
         /// <param name="uid"></param>

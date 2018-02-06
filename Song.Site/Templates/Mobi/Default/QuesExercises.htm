@@ -13,6 +13,10 @@
 <link href="/Utility/CoreStyles/Jme.css" rel="stylesheet" type="text/css" />
 </head>
 <body style="display:none;">
+<script>
+    document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
+    document.body.onpaste = document.body.oncopy = function () { return false; };
+</script>
 <script type="text/javascript">
         //是否购买，如果没有购买，则显示弹窗，提示试用题数
         var isBuy = "{$#.isBuy}" == "True" ? true : false;
