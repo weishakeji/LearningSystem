@@ -2,7 +2,6 @@
     _ClacInfo();
     _ClacTax();
     _ClacResult();
-    _ClacSucess();
     setEvent();
 });
 //设置按钮事件
@@ -106,27 +105,6 @@ function _ClacResult() {
             var result = $.trim($(this).find(".resultItem").text());
             var txt = result == "0" ? "正确" : "错误";
             $(this).find(".resultItem").html(txt);
-        }
-    });
-}
-//显示试题的正确答案
-function _ClacSucess() {
-    $(".qitemBox").each(function () {
-        var type = parseInt($(this).attr("type"));
-        if (type == 1 || type == 2) {
-            var item = $(this).find(".quesSelectBox div[IsCorrect=True]");
-            var word = "";
-            item.each(function () {
-                word += $(this).find(".order").text() + "、";
-            });
-            if (word.indexOf("、") > -1 && word.substring(word.length - 1) == "、")
-                word = word.substring(0, word.length - 1);
-            $(this).find(".selectedItem").html(word);
-        }
-        if (type == 3) {
-            var result = $.trim($(this).find(".selectedItem").text());
-            var txt = result == "True" ? "正确" : "错误";
-            $(this).find(".selectedItem").html(txt);
         }
     });
 }

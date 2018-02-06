@@ -46,6 +46,7 @@ namespace Song.Site.Mobile
             this.Document.RegisterGlobalFunction(this.getAnswerState);
             //获取学员答题内容与正确答案
             this.Document.RegisterGlobalFunction(this.getResult);
+            this.Document.RegisterGlobalFunction(this.getSucessAnswer);
             this.Document.RegisterGlobalFunction(this.getQuesScore);
         }
         /// <summary>
@@ -368,6 +369,52 @@ namespace Song.Site.Mobile
                 }
             }
             return score.ToString();
+        }
+        /// <summary>
+        /// 试题的答案
+        /// </summary>
+        /// <param name="objs"></param>
+        /// <returns></returns>
+        protected string getSucessAnswer(object[] obj)
+        {
+            Song.Entities.Questions qus = (Song.Entities.Questions)obj[0];
+            if (qus == null) return "";
+            string ansStr = "";
+            if (qus.Qus_Type == 1)
+            {
+                //当前试题的答案
+                Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
+                for (int i = 0; i < ans.Length; i++)
+                {
+                    if (ans[i].Ans_IsCorrect)
+                        ansStr += (char)(65 + i);
+                }
+            }
+            if (qus.Qus_Type == 2)
+            {
+                Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
+                for (int i = 0; i < ans.Length; i++)
+                {
+                    if (ans[i].Ans_IsCorrect)
+                        ansStr += (char)(65 + i) + "、";
+                }
+                ansStr = ansStr.Substring(0, ansStr.LastIndexOf("、"));
+            }
+            if (qus.Qus_Type == 3)
+                ansStr = qus.Qus_IsCorrect ? "正确" : "错误";
+            if (qus.Qus_Type == 4)
+            {
+                if (qus != null && !string.IsNullOrEmpty(qus.Qus_Answer))
+                    ansStr = qus.Qus_Answer;
+            }
+            if (qus.Qus_Type == 5)
+            {
+                //当前试题的答案
+                Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
+                for (int i = 0; i < ans.Length; i++)
+                    ansStr += (char)(65 + i) + "、" + ans[i].Ans_Context + "<br/>";
+            }
+            return ansStr;
         }
         #endregion
     }

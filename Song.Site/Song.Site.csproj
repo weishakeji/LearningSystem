@@ -855,7 +855,6 @@
     <Content Include="Templates\Web\Gov\Exam.htm" />
     <Content Include="Templates\Web\Gov\Examing.htm" />
     <Content Include="Templates\Web\Gov\ExamReview.htm" />
-    <Content Include="Templates\Web\Gov\Exercises.htm" />
     <Content Include="Templates\Web\Gov\Images\1.png" />
     <Content Include="Templates\Web\Gov\Images\10.png" />
     <Content Include="Templates\Web\Gov\Images\2.jpg" />
@@ -953,9 +952,6 @@
     <Content Include="Templates\Web\Gov\Notfound.htm" />
     <Content Include="Templates\Web\Gov\Notice.htm" />
     <Content Include="Templates\Web\Gov\Notices.htm" />
-    <Content Include="Templates\Web\Gov\QuesExplain.htm" />
-    <Content Include="Templates\Web\Gov\QuesKnl.htm" />
-    <Content Include="Templates\Web\Gov\QuestionAnswer.htm" />
     <Content Include="Templates\Web\Gov\Scripts\Course.js" />
     <Content Include="Templates\Web\Gov\Scripts\CourseBuy.js" />
     <Content Include="Templates\Web\Gov\Scripts\Courses.js" />
@@ -963,7 +959,6 @@
     <Content Include="Templates\Web\Gov\Scripts\Exam.js" />
     <Content Include="Templates\Web\Gov\Scripts\Examing.js" />
     <Content Include="Templates\Web\Gov\Scripts\ExamReview.js" />
-    <Content Include="Templates\Web\Gov\Scripts\Exercises.js" />
     <Content Include="Templates\Web\Gov\Scripts\jquery.luara.0.0.1.min.js" />
     <Content Include="Templates\Web\Gov\Scripts\Knowledges.js" />
     <Content Include="Templates\Web\Gov\Scripts\KnowledgesList.js" />
@@ -1035,12 +1030,8 @@
     <Content Include="Templates\Web\Gov\Styles\phone\iconphone.css" />
     <Content Include="Templates\Web\Gov\Styles\phone\iconphone.svg" />
     <Content Include="Templates\Web\Gov\CoreStyles\Public.css" />
-    <Content Include="Templates\Web\Gov\Styles\QuesExplain.css" />
-    <Content Include="Templates\Web\Gov\Styles\QuesKnl.css" />
-    <Content Include="Templates\Web\Gov\Styles\QuestionAnswer.css" />
     <Content Include="Templates\Web\Gov\Styles\test.css" />
     <Content Include="Templates\Web\Gov\Styles\TestScene.css" />
-    <Content Include="Templates\Web\Gov\Styles\TestView.css" />
     <Content Include="Templates\Web\Gov\Styles\Training.css" />
     <Content Include="Templates\Web\Gov\Teacher\Detail.htm" />
     <Content Include="Templates\Web\Gov\Teacher\Images\bg1.jpg" />
@@ -1060,14 +1051,11 @@
     <Content Include="Templates\Web\Gov\Teacher\Styles\Startpage.css" />
     <Content Include="Templates\Web\Gov\Test.htm" />
     <Content Include="Templates\Web\Gov\TestScene.htm" />
-    <Content Include="Templates\Web\Gov\TestView.htm" />
     <Content Include="Templates\Web\Gov\Training.htm" />
     <Content Include="Templates\Web\Gov\_self.xml" />
     <Content Include="Templates\Web\Neimeng\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Web\Neimeng\CourseBuy.htm" />
-    <Content Include="Templates\Web\Neimeng\Exercises.htm" />
     <Content Include="Templates\Web\Neimeng\Scripts\CourseBuy.js" />
-    <Content Include="Templates\Web\Neimeng\Scripts\Exercises.js" />
     <Content Include="Templates\Web\Neimeng\Styles\CourseBuy.css" />
     <Content Include="Templates\Web\Neimeng\Styles\Exercises.css" />
     <Content Include="Templates\Web\NetSchool\About.htm" />
@@ -1186,7 +1174,7 @@
     <Content Include="Templates\Web\NetSchool\Scripts\slider.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Test.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\TestScene.js" />
-    <Content Include="Templates\Web\NetSchool\Scripts\TestView.js" />
+    <Content Include="Templates\Web\_Public\Scripts\TestView.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Article.js" />
     <Content Include="Templates\Web\_Public\CoreScripts\Loading.js" />
     <Content Include="Templates\Web\_Public\CoreStyles\public.css" />
@@ -1229,6 +1217,9 @@
     <Content Include="Templates\Web\NetSchool\Styles\Links.css" />
     <Content Include="Templates\Web\NetSchool\Styles\MessageBoards.css" />
     <Content Include="Utility\CoreScripts\easydrag.js" />
+    <Content Include="Utility\CoreScripts\hanzi2pinyin.js" />
+    <Content Include="Utility\CoreScripts\highcharts-3d.js" />
+    <Content Include="Utility\CoreScripts\highcharts.js" />
     <Content Include="Utility\CoreScripts\PageBox.js" />
     <Content Include="Utility\CoreStyles\MessageBox.css" />
     <Content Include="Templates\Web\NetSchool\Styles\News.css" />
@@ -1241,7 +1232,7 @@
     <Content Include="Templates\Web\_Public\Styles\QuestionAnswer.css" />
     <Content Include="Templates\Web\NetSchool\Styles\test.css" />
     <Content Include="Templates\Web\NetSchool\Styles\TestScene.css" />
-    <Content Include="Templates\Web\NetSchool\Styles\TestView.css" />
+    <Content Include="Templates\Web\_Public\Styles\TestView.css" />
     <Content Include="Templates\Web\NetSchool\Styles\Guide.css" />
     <Content Include="Templates\Web\NetSchool\Styles\NewsList.css" />
     <Content Include="Templates\Web\_Public\Scripts\WeixinLogin.js" />
@@ -1267,7 +1258,7 @@
     <Content Include="Templates\Web\NetSchool\Teacher\Styles\Startpage.css" />
     <Content Include="Templates\Web\NetSchool\Test.htm" />
     <Content Include="Templates\Web\NetSchool\TestScene.htm" />
-    <Content Include="Templates\Web\NetSchool\TestView.htm" />
+    <Content Include="Templates\Web\_Public\TestView.htm" />
     <Content Include="Templates\Web\NetSchool\_self.xml" />
     <Content Include="Templates\Web\NetSchool\Guide.htm" />
     <Content Include="Templates\Web\NetSchool\NewsList.htm" />
@@ -1291,7 +1282,6 @@
     <Content Include="Templates\Web\School\NewsList.htm" />
     <Content Include="Templates\Web\School\Scripts\Article.js" />
     <Content Include="Templates\Web\School\Scripts\CourseBuy.js" />
-    <Content Include="Templates\Web\School\Scripts\Exercises.js" />
     <Content Include="Templates\Web\School\Scripts\slider.js" />
     <Content Include="Templates\Web\School\Student\PwFind.htm" />
     <Content Include="Templates\Web\School\Student\Register.htm" />
@@ -1300,7 +1290,6 @@
     <Content Include="Templates\Web\School\Student\Styles\PwFind.css" />
     <Content Include="Templates\Web\School\Student\Styles\Register.css" />
     <Content Include="Templates\Web\School\Styles\CourseBuy.css" />
-    <Content Include="Templates\Web\School\Exercises.htm" />
     <Content Include="Templates\Web\School\Styles\Exercises.css" />
     <Content Include="Templates\Web\School\Styles\NewsList.css" />
     <Content Include="Templates\Web\School\Teacher\Register.htm" />
@@ -1419,9 +1408,6 @@
     <Content Include="Templates\Web\Neimeng\Notfound.htm" />
     <Content Include="Templates\Web\Neimeng\Notice.htm" />
     <Content Include="Templates\Web\Neimeng\Notices.htm" />
-    <Content Include="Templates\Web\Neimeng\QuesExplain.htm" />
-    <Content Include="Templates\Web\Neimeng\QuesKnl.htm" />
-    <Content Include="Templates\Web\Neimeng\QuestionAnswer.htm" />
     <Content Include="Templates\Web\Neimeng\Scripts\Course.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Courses.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Default.js" />
@@ -1470,12 +1456,8 @@
     <Content Include="Templates\Web\Neimeng\Styles\notice.css" />
     <Content Include="Templates\Web\Neimeng\Styles\notices.css" />
     <Content Include="Templates\Web\Neimeng\CoreStyles\Public.css" />
-    <Content Include="Templates\Web\Neimeng\Styles\QuesExplain.css" />
-    <Content Include="Templates\Web\Neimeng\Styles\QuesKnl.css" />
-    <Content Include="Templates\Web\Neimeng\Styles\QuestionAnswer.css" />
     <Content Include="Templates\Web\Neimeng\Styles\test.css" />
     <Content Include="Templates\Web\Neimeng\Styles\TestScene.css" />
-    <Content Include="Templates\Web\Neimeng\Styles\TestView.css" />
     <Content Include="Templates\Web\Neimeng\Styles\Training.css" />
     <Content Include="Templates\Web\Neimeng\Teacher\Detail.htm" />
     <Content Include="Templates\Web\Neimeng\Teacher\Images\bg1.jpg" />
@@ -1496,7 +1478,6 @@
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\Startpage.css" />
     <Content Include="Templates\Web\Neimeng\Test.htm" />
     <Content Include="Templates\Web\Neimeng\TestScene.htm" />
-    <Content Include="Templates\Web\Neimeng\TestView.htm" />
     <Content Include="Templates\Web\Neimeng\Training.htm" />
     <Content Include="Templates\Web\School\About.htm" />
     <Content Include="Templates\Web\School\Admin\Images\login-banner.jpg" />
@@ -1659,9 +1640,6 @@
     <Content Include="Templates\Web\School\Notfound.htm" />
     <Content Include="Templates\Web\School\Notice.htm" />
     <Content Include="Templates\Web\School\Notices.htm" />
-    <Content Include="Templates\Web\School\QuesExplain.htm" />
-    <Content Include="Templates\Web\School\QuesKnl.htm" />
-    <Content Include="Templates\Web\School\QuestionAnswer.htm" />
     <Content Include="Templates\Web\School\Scripts\Course.js" />
     <Content Include="Templates\Web\School\Scripts\Courses.js" />
     <Content Include="Templates\Web\School\Scripts\Default.js" />
@@ -1713,12 +1691,8 @@
     <Content Include="Templates\Web\School\Styles\notices.css" />
     <Content Include="Templates\Web\School\Styles\PageBox.css" />
     <Content Include="Templates\Web\School\Styles\Public.css" />
-    <Content Include="Templates\Web\School\Styles\QuesExplain.css" />
-    <Content Include="Templates\Web\School\Styles\QuesKnl.css" />
-    <Content Include="Templates\Web\School\Styles\QuestionAnswer.css" />
     <Content Include="Templates\Web\School\Styles\test.css" />
     <Content Include="Templates\Web\School\Styles\TestScene.css" />
-    <Content Include="Templates\Web\School\Styles\TestView.css" />
     <Content Include="Templates\Web\School\Styles\Training.css" />
     <Content Include="Templates\Web\School\Teacher\Detail.htm" />
     <Content Include="Templates\Web\School\Teacher\Header.htm" />
@@ -1739,7 +1713,6 @@
     <Content Include="Templates\Web\School\Teacher\Styles\Startpage.css" />
     <Content Include="Templates\Web\School\Test.htm" />
     <Content Include="Templates\Web\School\TestScene.htm" />
-    <Content Include="Templates\Web\School\TestView.htm" />
     <Content Include="Templates\Web\School\Training.htm" />
     <Content Include="Templates\Web\School\_self.xml" />
     <Content Include="Utility\Ckplayer\ckplayer\ckplayer.js" />

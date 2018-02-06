@@ -7,9 +7,12 @@ td, th {
 	font-size: 14px;
 	line-height: 20px;
 }
-div, p, td {
-	font-size: 14px;
+div, p, td, * {
+	font-size: 14px !important;
 	line-height: 20px;
+}
+img{
+	max-width:100%;
 }
 .pagerTitle {
 	font-family: "黑体";
@@ -78,9 +81,22 @@ div, p, td {
 }
 .quesSelectBox {
 	margin-left: 15px;
+	margin-bottom: 20px;
 }
 .quesSelectBox p{
 	display:inline-block;
+}
+.quesSelectBox .item_False{
+	margin-top: 10px;
+	color: #666;
+}
+.quesSelectBox .item_True{
+	color: #000;
+	margin-top: 10px;
+	
+}
+.quesSelectBox .item_True .order{
+	font-weight: bold;
 }
 #quesTitle {
 	font-family: "黑体";
@@ -111,10 +127,13 @@ div, p, td {
 
 .qusTitle {
 	font-size: 14px;
-	line-height: 18px;
+	line-height: 22px;
 	display: table;
 	margin-bottom: 10px;
 	margin-top: 10px;
+}
+.qitemBox, .qitemBox *{
+	background-color:transparent !important;
 }
 #quesBtnBox {
 	float: right;
@@ -145,3 +164,4 @@ div, p, td {
 .ansState2 {
 	background-color: #CCCCCC;
 }
+
