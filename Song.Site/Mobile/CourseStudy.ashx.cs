@@ -58,6 +58,14 @@ namespace Song.Site.Mobile
                 this.Document.Variables.SetValue("vpath", Upload.Get["CourseVideo"].Virtual);
                 this.Document.Variables.SetValue("IsVideoNoload", config["IsVideoNoload"].Value.Boolean ?? false);
             }
+            //附件
+            List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(ol.Ol_UID, "Course");
+            if (access.Count > 0)
+            {
+                foreach (Accessory ac in access)
+                    ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
+                this.Document.Variables.SetValue("access", access);
+            }
             //章节事件
             OutlineEvent[] events = Business.Do<IOutline>().EventAll(-1, ol.Ol_ID, -1, true);
             this.Document.Variables.SetValue("events", events);

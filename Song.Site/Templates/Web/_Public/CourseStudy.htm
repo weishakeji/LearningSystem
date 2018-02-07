@@ -149,22 +149,23 @@ $(function(){
         </div>
       </div>
       <script type="text/javascript">
-	   $("#access a.accItem").each(function(index, element) {
-         var href=$(element).attr("href");
-		 if(href.indexOf(".")>-1){
-			 var exist=href.substring(href.lastIndexOf(".")+1).toLowerCase();
-			 if(exist=="pdf"){
-				 $(element).click(function(){
-					 var href=$(element).attr("href");
-					 var tit=$.trim($(element).text());
-					 //$().PdfViewer(href);
-					 var box=new PageBox(tit,$().PdfViewer(href),100,100);
-					 box.Open();
-					 return false;
-				 });
-			 }			 
-		 }		
-    });
+          $("#access a.accItem").each(function (index, element) {
+              var href = $(element).attr("href");
+              if (href.indexOf(".") > -1) {
+                  var exist = href.substring(href.lastIndexOf(".") + 1).toLowerCase();
+                  if (exist == "pdf") {
+                      $(element).click(function () {
+                          var href = $(element).attr("href");
+                          var tit = $.trim($(element).text());
+                          var tm = $().PdfViewer(href);
+                          alert(tm);
+                          var box = new PageBox(tit, $().PdfViewer(href), 100, 100);
+                          box.Open();
+                          return false;
+                      });
+                  }
+              }
+          });
 	  </script>
     </vt:if>
     <!--习题-->

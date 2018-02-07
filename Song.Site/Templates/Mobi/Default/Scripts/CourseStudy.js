@@ -1,6 +1,6 @@
 ﻿$(function () {
     setStyle();
-    setEvent();
+//    setEvent();
 });
 function setStyle() {
     $(".outline .olitem").each(function () {
@@ -9,15 +9,15 @@ function setStyle() {
         if (id == olid) $(this).addClass("current");
     });
 }
-function setEvent() {
-    //内容区的超链接事件
-    mui('body').on('tap', '#offCanvasContentScroll a', function () {
-        var href = this.href;
-        var txt = $(this).text();
-        new PageBox(txt, href, 100, 100, "url").Open();
-        return false;
-    });
-}
+//function setEvent() {
+//    //内容区的超链接事件
+//    mui('body').on('tap', '#offCanvasContentScroll a', function () {
+//        var href = this.href;
+//        var txt = $(this).text();
+//        new PageBox(txt, href, 100, 100, "url").Open();
+//        return false;
+//    });
+//}
 
 /* 获取观看的累计时间，单位：秒 */
 var watchTime = 0;

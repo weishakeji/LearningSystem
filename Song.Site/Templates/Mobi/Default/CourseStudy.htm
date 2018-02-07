@@ -100,13 +100,22 @@
         </vt:foreach>
       </div>
     </vt:if>
-                </vt:if> <vt:if var="outline.ol_intro" value="" compare="!=">
+                </vt:if>
+                    <vt:if var="outline.ol_intro" value="" compare="!=">
       <div id="details"> {$outline.ol_intro} </div>
       <vt:else/>
       <vt:if var="video.As_FileName" value="" compare="=">
         <div class="noVideo">没有上传课程内容！</div>
       </vt:if>
     </vt:if>
+                    <!--附件-->
+                    <dl id="access">
+                        <dt>相关附件：</dt>
+                        <vt:foreach from="$#.access" item="acc" index="j"><dd><a class="accItem" target="_blank" type="view" href="{$acc.As_FileName}" download="{$acc.As_Name}">{$:j}、{$acc.As_Name} </a> </dd> </vt:foreach>
+                        <dd>
+                        </dd>
+                    </dl>
+                  
                 </div>
                 <!-- off-canvas backdrop -->
                 <div class="mui-off-canvas-backdrop">
