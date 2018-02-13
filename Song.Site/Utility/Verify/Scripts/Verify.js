@@ -206,6 +206,18 @@
 	        }
 	        return primary;
         },
+        //获取控件，通过name属性
+        getctl:function(name){
+            var ctl = $("input[name='" + name + "']:visible");
+            if (ctl.size() < 1) ctl = $("input[name$='" + name + "']:visible");
+            return ctl;
+        },
+        //获取花括号中的值
+        getbrace:function(str){
+            var result = str.match(/\{(\w[^\}]+)\}/);
+            if(result!=null &&result.length>=2 )return result[1];
+            return null;
+        },
         //验证方法
         verifyfunc:{
             //不能为空,
@@ -233,19 +245,26 @@
             numlimit:function(control, attrval,input){
                 var num = Number(input);    //取录入的值
                 if (isNaN(num) || num == null) return verify.showBox(control, verify.errmsg.numlimit.def);
+                var min=0,max=0;
                 if (attrval.indexOf("-") < 0) {
-                    if (num > Number(attrval)) return verify.showBox(control, verify.format(verify.errmsg.numlimit.msg1,attrval));
+                    var target=verify.getbrace(attrval);
+                    min=target!=null ? Number(verify.getctl(target).val()): Number(attrval);
+                    if (num > min) return verify.showBox(control, verify.format(verify.errmsg.numlimit.msg1,min));
                 } else {
-                    var min = Number(attrval.substring(0, attrval.indexOf("-")));
-                    var max = Number(attrval.substring(attrval.indexOf("-") + 1));
+                    var pre = attrval.substring(0, attrval.indexOf("-"));
+                    var pos = attrval.substring(attrval.indexOf("-") + 1);
+                    var preCtl=verify.getbrace(pre);
+                    min=preCtl!=null ? Number(verify.getctl(preCtl).val()): Number(pre);
+                    var posCtl=verify.getbrace(pos);
+                    max=posCtl!=null ? Number(verify.getctl(posCtl).val()): Number(pos);
                     if (!(num >= min && num <= max))return verify.showBox(control, verify.format(verify.errmsg.numlimit.msg2,min,max));
                 }
                 return true;
             },
             //验证输入是否相同
             sametarget:function(control, attrval,input){
-                var same = $("input[name='" + attrval + "']:visible");
-                if (same.size() < 1) same = $("input[name$='" + attrval + "']:visible");
+                var same = verify.getctl(attrval);
+                if (same.size() < 1) return true;
                 if (input != $.trim(same.val())) return verify.showBox(control, verify.errmsg.sametarget.def);
                 return true;
             },

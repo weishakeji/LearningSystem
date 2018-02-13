@@ -14,11 +14,15 @@ namespace Song.Site.Manage.Student
 {
     public partial class PointDetails : Extend.CustomPage
     {
-        Song.Entities.Organization org = null;
+        Song.Entities.Accounts st = null;
         protected void Page_Load(object sender, EventArgs e)
         {
             this.Form.DefaultButton = this.btnSear.UniqueID;
-            org = Business.Do<IOrganization>().OrganCurrent();
+            st = this.Master.Account;
+            //获取总积分
+            int stid = st == null ? -1 : st.Ac_ID;
+            ltPointsum.Text= Business.Do<IAccounts>().PointClac(stid, -1, null, null).ToString();
+            //
             if (!IsPostBack)
             {
                 InitBind();
@@ -50,7 +54,6 @@ namespace Song.Site.Manage.Student
             //操作方向
             int type = Convert.ToInt16(this.ddlType.SelectedValue);
             //学员账号
-            Song.Entities.Accounts st = this.Master.Account;
             int stid = st == null ? -1 : st.Ac_ID;
             Song.Entities.PointAccount[] eas = null;
             eas = Business.Do<IAccounts>().PointPager(-1, stid, type, null, (DateTime?)start, (DateTime?)end, Pager1.Size, Pager1.Index, out count);

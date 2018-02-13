@@ -18,7 +18,7 @@
 <h3>1、数值区间验证</h3>
 <div class="desc">
   <fieldset>
-    
+    <legend>固定数值区间</legend>
     <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot;&gt;<br />      &lt;p&gt; 测试1：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; value=&quot;8&quot; <strong>numlimit=&quot;5&quot;</strong>/&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt; 测试2：<br />        &lt;input name=&quot;&quot; type=&quot;text&quot; <strong>numlimit=&quot;5-10&quot;</strong>/&gt;<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot; class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />    &lt;/form&gt;</pre>
     <form onsubmit="alert('验证成功');return false;">
       <p> 测试1：
@@ -32,8 +32,31 @@
       </p>
     </form>
   </fieldset>
-  
 </div>
+<div class="desc">
+  <fieldset>
+<legend>指定控件的值为数值区间</legend>
+    <pre>&lt;form onsubmit=&quot;alert('验证成功');return false;&quot;&gt;<br />      &lt;p&gt; 产品价格：<br />        &lt;input name=&quot;prise&quot; type=&quot;text&quot; value=&quot;10&quot; datatype=&quot;uint&quot;/&gt;<br />      元 &lt;/p&gt;<br />      &lt;p&gt;最低优惠：<br />        &lt;input name=&quot;min&quot; type=&quot;text&quot; value=&quot;12&quot;
+ 	datatype=&quot;uint&quot;<strong> numlimit=&quot;{prise}&quot;</strong>/&gt;(优惠价不可以超过产品价格)<br />      &lt;/p&gt;<br />      &lt;p&gt; 最大优惠：<br />        &lt;input name=&quot;max&quot; type=&quot;text&quot;
+	 <strong>numlimit=&quot;{min}-{prise}&quot;</strong>/&gt;(最大优惠大于最低优惠，但不可以超过产品价格)<br />      &lt;/p&gt;<br />      &lt;p&gt;<br />        &lt;input type=&quot;submit&quot; name=&quot;button&quot;
+ 	class=&quot;button&quot; value=&quot;验证表单&quot; verify=&quot;true&quot;/&gt;<br />      &lt;/p&gt;<br />&lt;/form&gt;</pre>
+    <form onsubmit="alert('验证成功');return false;">
+      <p> 产品价格：
+        <input name="prise" type="text" value="10" datatype="uint"/>
+      元 </p>
+      <p>最低优惠：
+        <input name="min" type="text" value="12" datatype="uint" numlimit="{prise}"/>(优惠价不可以超过产品价格)
+      </p>
+      <p> 最大优惠：
+        <input name="max" type="text" numlimit="{min}-{prise}"/>(最大优惠大于最低优惠，但不可以超过产品价格)
+      </p>
+      <p>
+        <input type="submit" name="button" class="button" value="验证表单" verify="true"/>
+      </p>
+</form>
+<script>
 
+  </fieldset>
+</div>
 </body>
 </html>

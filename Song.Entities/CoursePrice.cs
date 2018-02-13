@@ -28,6 +28,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Org_ID;
     		
+    		protected Int32 _CP_Coupon;
+    		
     		public Int32 CP_ID {
     			get {
     				return this._CP_ID;
@@ -128,6 +130,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 CP_Coupon {
+    			get {
+    				return this._CP_Coupon;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.CP_Coupon, _CP_Coupon, value);
+    				this._CP_Coupon = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -164,7 +176,8 @@ namespace Song.Entities {
     					_.CP_Group,
     					_.Cou_ID,
     					_.Cou_UID,
-    					_.Org_ID};
+    					_.Org_ID,
+    					_.CP_Coupon};
     		}
     		
     		/// <summary>
@@ -181,7 +194,8 @@ namespace Song.Entities {
     					this._CP_Group,
     					this._Cou_ID,
     					this._Cou_UID,
-    					this._Org_ID};
+    					this._Org_ID,
+    					this._CP_Coupon};
     		}
     		
     		/// <summary>
@@ -217,6 +231,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_ID))) {
     				this._Org_ID = reader.GetInt32(_.Org_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.CP_Coupon))) {
+    				this._CP_Coupon = reader.GetInt32(_.CP_Coupon);
     			}
     		}
     		
@@ -293,7 +310,11 @@ namespace Song.Entities {
     			/// 字段名：Org_ID - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<CoursePrice>("Org_ID");
+    			
+    			/// <summary>
+    			/// 字段名：CP_Coupon - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field CP_Coupon = new WeiSha.Data.Field<CoursePrice>("CP_Coupon");
     		}
     	}
     }
-    

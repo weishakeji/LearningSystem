@@ -8,6 +8,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMain" runat="server">
     <script language="javascript" src="../Utility/datepicker/WdatePicker.js" type="text/javascript"></script>
     <div id="header">
+    <span class="toolsBar">当前积分：<asp:Literal ID="ltPointsum" runat="server"></asp:Literal></span>
         <asp:Panel ID="searchBox" CssClass="searchBox" runat="server">
             时间：<asp:TextBox ID="tbStartTime" runat="server" Width="90" onfocus="WdatePicker()"
                 CssClass="Wdate" EnableTheming="false"></asp:TextBox>

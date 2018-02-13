@@ -40,15 +40,6 @@ namespace Song.Site.Manage.Course {
         protected global::System.Web.UI.UpdatePanel UpdatePanel2;
         
         /// <summary>
-        /// gvPrice 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvPrice;
-        
-        /// <summary>
         /// plAddPrice 控件。
         /// </summary>
         /// <remarks>
@@ -85,6 +76,15 @@ namespace Song.Site.Manage.Course {
         protected global::System.Web.UI.WebControls.TextBox tbPrice;
         
         /// <summary>
+        /// tbCoupon 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbCoupon;
+        
+        /// <summary>
         /// btnAAEnter 控件。
         /// </summary>
         /// <remarks>
@@ -92,6 +92,15 @@ namespace Song.Site.Manage.Course {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAAEnter;
+        
+        /// <summary>
+        /// gvPrice 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvPrice;
         
         /// <summary>
         /// UpdatePanel1 控件。

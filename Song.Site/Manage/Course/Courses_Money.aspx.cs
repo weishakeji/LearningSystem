@@ -125,6 +125,10 @@ namespace Song.Site.Manage.Course
             //单位
             cp.CP_Unit = ddlUnit.SelectedItem.Text;
             cp.CP_IsUse = true;
+            //卡券
+            int coupon = 0;
+            int.TryParse(tbCoupon.Text, out coupon);
+            cp.CP_Coupon = coupon;
             Business.Do<ICourse>().PriceAdd(cp);
             BindPriceData();
         }
@@ -191,6 +195,11 @@ namespace Song.Site.Manage.Course
                 int price;
                 int.TryParse(tbprice.Text, out price);
                 col.CP_Price = price;
+                //卡券
+                int coupon = 0;
+                TextBox tbcoupon = (TextBox)gvPrice.Rows[index].FindControl("tbCoupon");
+                int.TryParse(tbcoupon.Text, out coupon);
+                col.CP_Coupon = coupon;
                 //是否可用
                 CheckBox cb = (CheckBox)gvPrice.Rows[index].FindControl("cbIsUse");
                 col.CP_IsUse = cb.Checked;
