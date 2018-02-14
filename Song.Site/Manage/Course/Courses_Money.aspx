@@ -15,7 +15,18 @@
                 if (target == "btnEnter") {
                     alert("保存成功！");
                 };
-                window.Verify.init();
+                /*//刷新当前panel
+                var panel = sender._postBackSettings.panelsToUpdate[0];
+                if (panel.indexOf('$') > -1) panel = panel.substring(panel.lastIndexOf('$') + 1);
+                window.Verify.init($("div[id$=" + panel + "]"));
+                */
+                //刷新所有ajax updatepanel
+                var panels = sender._updatePanelClientIDs;
+                for (var p in panels) {
+                    var tm = panels[p];
+                    if (tm.indexOf('$') > -1) tm = tm.substring(tm.lastIndexOf('$') + 1);
+                    window.Verify.init($("div[id$=" + tm + "]"));
+                }
             }
             else {
                 alert("There was an error" + args.get_error().message);

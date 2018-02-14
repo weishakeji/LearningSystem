@@ -75,7 +75,7 @@ namespace Song.Site.Manage
             if (sysName != null)
             {
                 //consName.InnerText = sysName;
-                this.Title = sysName;
+                this.Title += sysName;
             }
             appState = App.Get["appState"].String;
         }

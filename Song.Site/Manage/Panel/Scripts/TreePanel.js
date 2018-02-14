@@ -17,9 +17,9 @@ function TreePanel() {
 }
 //三级菜单（树形菜单），是否全部展开
 //yes：全部展开；no:全部关闭；def:默认，打开第一个
-TreePanel.TreeIsShow = "def";
+TreePanel.TreeIsShow = "yes";
 //菜单条的打开方式，1：同时打开多个；2：同一时刻只打开一个
-TreePanel.TreeBarOpen = "2";
+TreePanel.TreeBarOpen = "1";
 //数据源
 TreePanel.DataSource = null;
 //载入数据

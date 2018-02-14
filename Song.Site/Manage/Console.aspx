@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
-<title>控制台</title>
+<title>系统管理-</title>
 <style type="text/css">
 <!--
 body {

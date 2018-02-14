@@ -374,11 +374,14 @@ namespace Song.Site.Manage.SOAP
             //生成左侧标题部分，也就是一级菜单
             string tm = "";
             foreach (Song.Entities.ManageMenu m in _allMM)
-                m.MM_IsShow = true;
+            {
+                if (m.MM_PatId != 0) m.MM_IsShow = true;
+            }
             Extend.MenuNode top = new Song.Extend.MenuNode(null, _allMM);
             //生成每个菜单树的外框
             foreach (Song.Entities.ManageMenu m in top.Childs)
             {
+                if (m.MM_PatId == 0 && m.MM_IsShow) continue;
                 tm += "<DIV class=\"TreeBox\">";
                 //生成菜单树
                 tm += this._PurBuidTree(m);

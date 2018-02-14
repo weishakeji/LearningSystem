@@ -351,7 +351,7 @@ namespace Song.ServiceImpls
             //先取所有机构权限，再取等级权限，二者为并集；
             string sql = @"select * from 
                          (select [mm].* from [ManageMenu] as mm inner join [Purview] as pur on mm.mm_id=pur.mm_id
-                         where pur.pur_type='organ' and mm.mm_isuse=1 ) as mm
+                         where pur.pur_type='organ' and mm.mm_isuse=1) as mm
                          order by mm_tax asc";
             //如果不是access，就是sqlserver
             if (WeiSha.Common.Server.DatabaseType != "access")
