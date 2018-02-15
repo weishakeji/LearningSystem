@@ -120,7 +120,7 @@ namespace Song.Site.Manage.Course
             cp.CP_Span = span;
             //价格
             int price;
-            int.TryParse(tbPrice.Text, out price);
+            int.TryParse(tbPriceAdd.Text, out price);
             cp.CP_Price = price;
             //单位
             cp.CP_Unit = ddlUnit.SelectedItem.Text;

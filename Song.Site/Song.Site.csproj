@@ -370,6 +370,8 @@
     <Content Include="Manage\Student\Subordinates.aspx" />
     <Content Include="Manage\Student\Share.aspx" />
     <Content Include="Manage\Student\PointDetails.aspx" />
+    <Content Include="Manage\Student\CouponDetails.aspx" />
+    <Content Include="Manage\Student\Profit.aspx" />
     <Content Include="Manage\Styles\Jme.css" />
     <Content Include="Manage\Sys\LimitDomain.aspx" />
     <Content Include="Manage\Sys\LimitDomain_Edit.aspx" />
@@ -2373,6 +2375,20 @@
     </Compile>
     <Compile Include="Manage\Student\PointDetails.aspx.designer.cs">
       <DependentUpon>PointDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\CouponDetails.aspx.cs">
+      <DependentUpon>CouponDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\CouponDetails.aspx.designer.cs">
+      <DependentUpon>CouponDetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\Profit.aspx.cs">
+      <DependentUpon>Profit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\Profit.aspx.designer.cs">
+      <DependentUpon>Profit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Sys\Accounts.aspx.cs">
       <DependentUpon>Accounts.aspx</DependentUpon>

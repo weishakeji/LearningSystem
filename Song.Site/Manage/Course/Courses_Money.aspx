@@ -63,8 +63,8 @@
                                     <asp:ListItem Selected="True">月</asp:ListItem>
                                     <asp:ListItem>年</asp:ListItem>
                                 </asp:DropDownList>
-                            <asp:TextBox ID="tbPrice" runat="server" nullable="false" datatype="number" group="add"
-                                Width="60"></asp:TextBox>元 （可以用<asp:TextBox ID="tbCoupon" runat="server" nullable="false"
+                            <asp:TextBox ID="tbPriceAdd" runat="server" nullable="false" datatype="number" group="add"
+                                Width="60"></asp:TextBox>元 （可以用<asp:TextBox ID="tbCoupon" runat="server" nullable="false" numlimit="{tbPriceAdd}"
                                     star="false" datatype="number" group="add" Width="60"></asp:TextBox>券抵用现金）
                             <asp:Button ID="btnAAEnter" runat="server" CssClass="editBtn" group="add" verify="true"
                                 Text="添加" OnClick="btnAAEnter_Click" />
@@ -89,10 +89,10 @@
                                                     <asp:ListItem>月</asp:ListItem>
                                                     <asp:ListItem>年</asp:ListItem>
                                                 </asp:DropDownList>
-                                            <asp:TextBox ID="tbPrice" runat="server" Text=' <%# Eval("CP_Price")%>' nullable="false"
+                                            <asp:TextBox ID="tbPrice" runat="server" Text=' <%# Eval("CP_Price")%>' nullable="false" 
                                                 datatype="number" group="edit" Width="60"></asp:TextBox>元&nbsp; （可以用<asp:TextBox
-                                                    ID="tbCoupon" runat="server" nullable="false" star="false" Text='<%# Eval("CP_Coupon", "{0}")%>'
-                                                    datatype="number" group="add" Width="60"></asp:TextBox>券抵用现金）
+                                                    ID="tbCoupon" runat="server" nullable="false" star="false"  numlimit="{tbPrice}" Text='<%# Eval("CP_Coupon", "{0}")%>'
+                                                    datatype="number" group="edit" Width="60"></asp:TextBox>券抵用现金）
                                         </EditItemTemplate>
                                         <FooterTemplate>
                                         </FooterTemplate>
