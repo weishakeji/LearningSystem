@@ -58,7 +58,7 @@ namespace Song.Site.Manage.Student
             Song.Entities.CouponAccount[] eas = null;
             eas = Business.Do<IAccounts>().CouponPager(-1, stid, type, (DateTime?)start, (DateTime?)end, Pager1.Size, Pager1.Index, out count);
             GridView1.DataSource = eas;
-            GridView1.DataKeyNames = new string[] { "Pa_ID" };
+            GridView1.DataKeyNames = new string[] { "Ca_ID" };
             GridView1.DataBind();
 
             Pager1.RecordAmount = count;

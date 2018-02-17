@@ -61,13 +61,13 @@ namespace Song.Site.Mobile
             //开始验证
             try
             {
-                Song.Entities.RechargeCode code = Business.Do<IRecharge>().MoneyCheckCode(card);
+                Song.Entities.RechargeCode code = Business.Do<IRecharge>().CouponCheckCode(card);
                 if (code != null)
                 {
                     Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
                     code.Ac_ID = st.Ac_ID;
                     code.Ac_AccName = st.Ac_AccName;
-                    Business.Do<IRecharge>().MoneyUseCode(code);
+                    Business.Do<IRecharge>().CouponUseCode(code);
                     this.Response.Write("1");
                 }
             }

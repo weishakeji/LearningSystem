@@ -3,9 +3,11 @@
     setPayInteFaceStyle();
 	//在线充值提交
 	$("input[id$=btnOnlinePay]").click(function(){
-		$("input[type=hidden][name=vpaycode]").val($("input[type=text][name$=tbVerCode]").val());
-		$("input[type=hidden][name=money]").val($("input[type=text][name$=tbMoney]").val());
-		submitPay();
+	    if (Verify.IsPass($("form"))) {
+	        $("input[type=hidden][name=vpaycode]").val($("input[type=text][name$=tbVerCode]").val());
+	        $("input[type=hidden][name=money]").val($("input[type=text][name$=tbMoney]").val());
+	        submitPay();
+	    };	
 	});
 	//当在线充值时，变换提交方式
 	$("input[name$=tbVerCode]").click(function(){

@@ -1004,10 +1004,13 @@ namespace Song.ServiceImpls
             entity.Ac_ID = entity.Ac_ID;
             //流水号
             entity.Ca_Serial = Business.Do<ISystemPara>().Serial();
-            //计算
-            entity.Ca_Total += entity.Ca_Value;
+            //计算总数
+            Song.Entities.Accounts acc=Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID==entity.Ac_ID).ToFirst<Accounts>();
+            if (acc == null) throw new Exception("当前账户不存在");
+            entity.Ca_Total = acc.Ac_Coupon + entity.Ca_Value;
             //最大券值
             object amount = Gateway.Default.Max<CouponAccount>(CouponAccount._.Ca_TotalAmount, CouponAccount._.Ac_ID == entity.Ac_ID);
+            if (amount == null) amount = 0;
             entity.Ca_TotalAmount = (int)amount + entity.Ca_Value;
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
@@ -1043,10 +1046,14 @@ namespace Song.ServiceImpls
             entity.Ac_ID = entity.Ac_ID;
             //流水号
             entity.Ca_Serial = Business.Do<ISystemPara>().Serial();
-            //计算
-            entity.Ca_Total -= entity.Ca_Value;
+            //计算总数
+            Song.Entities.Accounts acc = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == entity.Ac_ID).ToFirst<Accounts>();
+            if (acc == null) throw new Exception("当前账户不存在");
+            if (acc.Ac_Coupon < entity.Ca_Value) throw new Exception("当前账户卡券不足");
+            entity.Ca_Total = acc.Ac_Coupon - entity.Ca_Value;
             //最大券值
             object amount = Gateway.Default.Max<CouponAccount>(CouponAccount._.Ca_TotalAmount, CouponAccount._.Ac_ID == entity.Ac_ID);
+            if (amount == null) amount = 0;
             entity.Ca_TotalAmount = (int)amount;
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
@@ -1056,6 +1063,73 @@ namespace Song.ServiceImpls
                     tran.Update<Accounts>(new Field[] { Accounts._.Ac_Coupon }, new object[] { entity.Ca_Total }, Accounts._.Ac_ID == entity.Ac_ID);
                     tran.Commit();
                     return entity;
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// 积分兑换卡券
+        /// </summary>
+        /// <param name="accid">学员id</param>
+        /// <param name="coupon">要兑换的卡券数量</param>
+        /// <returns></returns>
+        public void CouponExchange(int accid, int coupon)
+        {
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            Song.Entities.Accounts acc = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == accid).ToFirst<Accounts>();
+            //计算是否满足兑换
+            int point = acc.Ac_Point;
+            int ratio = Business.Do<ISystemPara>()["PointConvert"].Int32 ?? 0;
+            if (ratio <= 0) throw new Exception("积分兑换比率不得小于等于零");
+            int result = point / ratio;
+            if (result < coupon) throw new Exception("可兑换数量不足");
+            //积分的扣除计算
+            PointAccount pa = new PointAccount();
+            pa.Pa_CrtTime = DateTime.Now;
+            pa.Ac_ID = accid;
+            if (org != null) pa.Org_ID = org.Org_ID;
+            pa.Pa_Type = 1;
+            pa.Pa_Serial = Business.Do<ISystemPara>().Serial(); //流水号
+            pa.Pa_Value = coupon * ratio;   //要扣除的积分；
+            pa.Pa_Total = acc.Ac_Point = acc.Ac_Point - pa.Pa_Value;
+            pa.Pa_TotalAmount = acc.Ac_PointAmount;
+            pa.Pa_Info = "积分兑换";
+            pa.Pa_Remark = string.Format("用{0}积分兑换{1}卡券", pa.Pa_Value, coupon);
+            pa.Pa_Source = WeiSha.Common.Browser.IsMobile ? "手机端" : "电脑网页";
+            //卡券的增加计算
+            CouponAccount ca = new CouponAccount();
+            ca.Ca_CrtTime = DateTime.Now;
+            ca.Ac_ID = accid;
+            if (org != null) ca.Org_ID = org.Org_ID;
+            ca.Ca_Serial = Business.Do<ISystemPara>().Serial();
+            ca.Ca_Value = coupon;
+            ca.Ca_Total = acc.Ac_Coupon + ca.Ca_Value;
+            //最大券值
+            object amount = Gateway.Default.Max<CouponAccount>(CouponAccount._.Ca_TotalAmount, CouponAccount._.Ac_ID == accid);
+            if (amount == null) amount = 0;
+            ca.Ca_TotalAmount = (int)amount + ca.Ca_Value;
+            //存入记录
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    //存储积分
+                    tran.Save<PointAccount>(pa);
+                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_Point }, new object[] { pa.Pa_Total }, Accounts._.Ac_ID == accid);
+                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_PointAmount }, new object[] { pa.Pa_TotalAmount }, Accounts._.Ac_ID == accid);
+                    //存储卡券
+                    tran.Save<CouponAccount>(ca);
+                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_Coupon }, new object[] { ca.Ca_Total }, Accounts._.Ac_ID == accid);
+                    tran.Commit();
                 }
                 catch (Exception ex)
                 {
@@ -1163,8 +1237,8 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc &= CouponAccount._.Org_ID == orgid;
             if (stid > 0) wc &= CouponAccount._.Ac_ID == stid;
             if (type > 0) wc &= CouponAccount._.Ca_Type == type;
-            if (start != null) wc &= PointAccount._.Pa_CrtTime >= (DateTime)start;
-            if (end != null) wc &= PointAccount._.Pa_CrtTime < (DateTime)end;
+            if (start != null) wc &= CouponAccount._.Ca_CrtTime >= (DateTime)start;
+            if (end != null) wc &= CouponAccount._.Ca_CrtTime < (DateTime)end;
             countSum = Gateway.Default.Count<CouponAccount>(wc);
             return Gateway.Default.From<CouponAccount>()
                 .Where(wc).OrderBy(CouponAccount._.Ca_CrtTime.Desc).ToArray<CouponAccount>(size, (index - 1) * size);

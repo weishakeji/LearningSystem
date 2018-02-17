@@ -299,7 +299,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        public RechargeCode MoneyCheckCode(string code)
+        public RechargeCode CouponCheckCode(string code)
         {
             code = Regex.Replace(code, @"[^\d-]", "", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace);
             if (code.IndexOf("-") < 0) throw new Exception("该充值码不正确！");
@@ -323,7 +323,7 @@ namespace Song.ServiceImpls
         /// 使用该充值码
         /// </summary>
         /// <param name="entity"></param>
-        public void MoneyUseCode(RechargeCode entity)
+        public void CouponUseCode(RechargeCode entity)
         {
             //是否被禁用
             Song.Entities.RechargeSet set = Gateway.Default.From<RechargeSet>().Where(RechargeSet._.Rs_ID == entity.Rs_ID).ToFirst<RechargeSet>();
@@ -337,18 +337,17 @@ namespace Song.ServiceImpls
             entity.Rc_IsUsed = true;
             entity.Rc_UsedTime = DateTime.Now;
             //产生流水
-            MoneyAccount ma = new MoneyAccount();
-            ma.Ma_Monery = entity.Rc_Price;
-            ma.Ac_ID = entity.Ac_ID;
-            ma.Ma_From = 2;
-            ma.Rc_Code = entity.Rc_Code + "-" + entity.Rc_Pw;
-            ma.Ma_Source = "充值码充值";
+            CouponAccount ca = new CouponAccount();
+            ca.Ca_Value = entity.Rc_Price;
+            ca.Ac_ID = entity.Ac_ID;
+            ca.Ca_From = 2;
+            ca.Rc_Code = entity.Rc_Code + "-" + entity.Rc_Pw;
+            ca.Ca_Source = "充值码充值";
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
                 {
-                    ma.Ma_IsSuccess = true;
-                    Business.Do<IAccounts>().MoneyIncome(ma);
+                    Business.Do<IAccounts>().CouponAdd(ca);
                     tran.Save<RechargeCode>(entity);
                     RechargeSet setEnity = tran.From<RechargeSet>().Where(RechargeSet._.Rs_ID == entity.Rs_ID).ToFirst<RechargeSet>();
                     if (setEnity != null)

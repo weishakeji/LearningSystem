@@ -349,6 +349,7 @@
     <Content Include="Manage\Exam\Scripts\Student_Edit.js" />
     <Content Include="Manage\Admin\Students.aspx" />
     <Content Include="Manage\Admin\Students_Edit.aspx" />
+    <Content Include="Manage\Student\Scripts\CouponExchange.js" />
     <Content Include="Manage\Student\SelfCourse.aspx" />
     <Content Include="Manage\Student\Styles\Course.css" />
     <Content Include="Manage\Student\Styles\MoneyDetails.css" />
@@ -367,11 +368,16 @@
     <Content Include="Manage\Student\Styles\MoneyRecharge.css" />
     <Content Include="Manage\Student\Styles\Subordinates.css" />
     <Content Include="Manage\Student\Styles\Share.css" />
+    <Content Include="Manage\Student\Styles\CouponDetails.css" />
+    <Content Include="Manage\Student\Styles\CouponRecharge.css" />
+    <Content Include="Manage\Student\Styles\CouponExchange.css" />
     <Content Include="Manage\Student\Subordinates.aspx" />
     <Content Include="Manage\Student\Share.aspx" />
     <Content Include="Manage\Student\PointDetails.aspx" />
     <Content Include="Manage\Student\CouponDetails.aspx" />
     <Content Include="Manage\Student\Profit.aspx" />
+    <Content Include="Manage\Student\CouponRecharge.aspx" />
+    <Content Include="Manage\Student\CouponExchange.aspx" />
     <Content Include="Manage\Styles\Jme.css" />
     <Content Include="Manage\Sys\LimitDomain.aspx" />
     <Content Include="Manage\Sys\LimitDomain_Edit.aspx" />
@@ -2389,6 +2395,20 @@
     </Compile>
     <Compile Include="Manage\Student\Profit.aspx.designer.cs">
       <DependentUpon>Profit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\CouponRecharge.aspx.cs">
+      <DependentUpon>CouponRecharge.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\CouponRecharge.aspx.designer.cs">
+      <DependentUpon>CouponRecharge.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\CouponExchange.aspx.cs">
+      <DependentUpon>CouponExchange.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\CouponExchange.aspx.designer.cs">
+      <DependentUpon>CouponExchange.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Sys\Accounts.aspx.cs">
       <DependentUpon>Accounts.aspx</DependentUpon>

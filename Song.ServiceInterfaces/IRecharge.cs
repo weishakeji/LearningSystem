@@ -95,12 +95,12 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        RechargeCode MoneyCheckCode(string code);
+        RechargeCode CouponCheckCode(string code);
         /// <summary>
         /// 使用该充值码
         /// </summary>
         /// <param name="entity"></param>
-        void MoneyUseCode(RechargeCode entity);
+        void CouponUseCode(RechargeCode entity);
         /// <summary>
         /// 获取所有设置项
         /// </summary>

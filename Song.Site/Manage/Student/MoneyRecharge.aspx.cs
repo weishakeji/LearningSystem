@@ -27,37 +27,7 @@ namespace Song.Site.Manage.Student
                 rptPi.DataBind();
                 onlinePay.Visible = pis.Length > 0;
             }
-        }
-        /// <summary>
-        /// 充值码充值
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnCode_Click(object sender, EventArgs e)
-        {
-            string moneyCode = tbCode.Text.Trim();
-            //没有传入充值码
-            if (string.IsNullOrWhiteSpace(moneyCode)) return;
-            try
-            {
-                Song.Entities.RechargeCode code = Business.Do<IRecharge>().MoneyCheckCode(moneyCode);
-                if (code != null)
-                {
-                    Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
-                    code.Ac_ID = st.Ac_ID;
-                    code.Ac_AccName = st.Ac_AccName;
-                    Business.Do<IRecharge>().MoneyUseCode(code);
-                    //当前学员的钱数
-                    ltMoney.Text = Extend.LoginState.Accounts.CurrentUser.Ac_Money.ToString();
-                    this.Alert("充值成功！成功充值" + code.Rc_Price + "元。");
-                }
-            }
-            catch (Exception ex)
-            {
-                this.cv3.ErrorMessage = ex.Message;
-                this.cv3.IsValid = false;
-            }
-        }
+        }        
         /// <summary>
         /// 在线充值的按钮事件
         /// </summary>

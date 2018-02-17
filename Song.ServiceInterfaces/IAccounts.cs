@@ -350,6 +350,13 @@ namespace Song.ServiceInterfaces
         /// <param name="entity">业务实体</param>
         CouponAccount CouponPay(CouponAccount entity);
         /// <summary>
+        /// 积分兑换卡券
+        /// </summary>
+        /// <param name="accid">学员id</param>
+        /// <param name="coupon">要兑换的卡券数量</param>
+        /// <returns></returns>
+        void CouponExchange(int accid,int coupon);
+        /// <summary>
         /// 删除流水
         /// </summary>
         /// <param name="entity">业务实体</param>

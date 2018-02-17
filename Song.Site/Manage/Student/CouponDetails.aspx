@@ -9,9 +9,9 @@
     <script language="javascript" src="../Utility/datepicker/WdatePicker.js" type="text/javascript"></script>
     <div id="header">
     <span class="toolsBar">
-    <uc1:toolsBar ID="ToolsBar1" runat="server" GvName="GridView1" WinWidth="640" WinHeight="480"
-            IsWinOpen="true" DelButtonVisible=false  />
-    卡券：<asp:Literal ID="ltPointsum" runat="server"></asp:Literal></span>
+    <a href="CouponRecharge.aspx" class="button" width="800" height="400" type="open">充值卡</a> 
+    <a href="CouponExchange.aspx" type="open"  width="800" height="400" class="button">积分兑换</a>
+    &nbsp;卡券：<asp:Literal ID="ltPointsum" runat="server"></asp:Literal></span>
         <asp:Panel ID="searchBox" CssClass="searchBox" runat="server">
             时间：<asp:TextBox ID="tbStartTime" runat="server" Width="90" onfocus="WdatePicker()"
                 CssClass="Wdate" EnableTheming="false"></asp:TextBox>
@@ -41,15 +41,15 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="详情">
                 <ItemTemplate>
-                    <%# Eval("Pa_Type", "{0}") == "1" ? "<span class='type1'>支出</span>" : "<span class='type2'>增加</span>"%>
+                    <%# Eval("Ca_Type", "{0}") == "1" ? "<span class='type1'>支出</span>" : "<span class='type2'>增加</span>"%>
                     <span>>> </span>
-                    <%# Eval("Pa_Value", "{0}")%>
+                    <%# Eval("Ca_Value", "{0}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="left" Width="120px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="积分">
+            <asp:TemplateField HeaderText="卡券">
                 <ItemTemplate>
-                    <%# Eval("Pa_Total", "{0}")%>
+                    <%# Eval("Ca_Total", "{0}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="60px" />
             </asp:TemplateField>
@@ -61,13 +61,13 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="说明">
                 <ItemTemplate>
-                    <%# Eval("Pa_Info", "{0}")%>
+                    <%# Eval("Ca_Info", "{0}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" />
             </asp:TemplateField>
             <asp:TemplateField HeaderText="时间">
                 <ItemTemplate>
-                    <%# Eval("Pa_CrtTime", "{0}")%>
+                    <%# Eval("Ca_CrtTime", "{0}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="160px" />
             </asp:TemplateField>

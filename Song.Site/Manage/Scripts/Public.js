@@ -1,6 +1,60 @@
 ﻿$(function () {
     verifyCode();
+    $("a").click(a_click);
 });
+//超链接的事件
+function a_click() {
+    var type = $.trim(this.getAttribute("type"));
+    var target = $.trim(this.getAttribute("target"));
+    if (type == "link" || type == null) {
+        if (target == null || target == "" || target == "_blank" || type == "_self")
+            document.location.href = this.href;
+        if (target == "_top" || type == "_parent") top.location.href = this.href;
+        if (target == "_open") {
+            var href = this.href;
+            var txt = $(this).text();
+            var width = $(this).attr("width");
+            var height = $(this).attr("height");
+            try {
+                new PageBox(txt, href, width, height, "url").Open();
+            } catch (err) {
+                new top.PageBox(txt, href, width, height, "url").Open();
+            }
+        }
+    }
+    if (type == "open" || target == "_open") {
+        var href = this.href;
+        var txt = $(this).text();
+        var width = $(this).attr("width");
+        var height = $(this).attr("height");
+        try {
+            new PageBox(txt, href, width, height, "url").Open();
+        } catch (err) {
+            new top.PageBox(txt, href, width, height, "url").Open();
+        }
+        return false;
+    }
+    if (type == "back") {
+        try {
+            mui.back();
+        } catch (ex) {
+            window.history.go(-1);
+        }
+    }
+    if (type == "view") {
+        var href = this.href;
+        if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
+        if (href.indexOf(".") > -1) {
+            var exist = href.substring(href.lastIndexOf(".") + 1).toLowerCase();
+            if (exist != "pdf") return false;
+        }
+        var tit = $.trim($(this).text());
+        var pdfview = $().PdfViewer(href);
+        var box = new PageBox(tit, pdfview, 100, 100);
+        box.Open();
+        return false;
+    }
+}
 /*
 学员在线浏览时间统计
 注：当网页处于焦点时（即最前面）才会记录时间

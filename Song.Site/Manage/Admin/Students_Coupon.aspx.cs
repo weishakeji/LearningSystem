@@ -81,6 +81,7 @@ namespace Song.Site.Manage.Admin
                     ma.Ca_Info = string.Format("管理员{0}（{1}{2}）扣除您{3}个卡券", emp.Acc_Name, emp.Acc_AccName, mobi, coupon);
                     Business.Do<IAccounts>().CouponPay(ma);
                 }
+                Extend.LoginState.Accounts.Refresh(st.Ac_ID);
                 Master.AlertCloseAndRefresh("操作成功！");
             }
             catch (Exception ex)

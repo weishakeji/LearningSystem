@@ -10,79 +10,61 @@
 namespace Song.Site.Manage.Student {
     
     
-    public partial class CouponDetails {
+    public partial class CouponExchange {
         
         /// <summary>
-        /// ltPointsum 控件。
+        /// ltCoupon 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltPointsum;
+        protected global::System.Web.UI.WebControls.Literal ltCoupon;
         
         /// <summary>
-        /// searchBox 控件。
+        /// lbPoint 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel searchBox;
+        protected global::System.Web.UI.WebControls.Literal lbPoint;
         
         /// <summary>
-        /// tbStartTime 控件。
+        /// ltPointConvert 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbStartTime;
+        protected global::System.Web.UI.WebControls.Literal ltPointConvert;
         
         /// <summary>
-        /// tbEndTime 控件。
+        /// tbNumber 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbEndTime;
+        protected global::System.Web.UI.WebControls.TextBox tbNumber;
         
         /// <summary>
-        /// ddlType 控件。
+        /// btnCode 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlType;
+        protected global::WeiSha.WebControl.Button btnCode;
         
         /// <summary>
-        /// btnSear 控件。
+        /// cv3 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSear;
-        
-        /// <summary>
-        /// GridView1 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::WeiSha.WebControl.GridView GridView1;
-        
-        /// <summary>
-        /// Pager1 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::Song.Site.Manage.Utility.Pager2 Pager1;
+        protected global::System.Web.UI.WebControls.CustomValidator cv3;
         
         /// <summary>
         /// Master 属性。
@@ -90,9 +72,9 @@ namespace Song.Site.Manage.Student {
         /// <remarks>
         /// 自动生成的属性。
         /// </remarks>
-        public new Song.Site.Manage.Student.Parents Master {
+        public new Song.Site.Manage.PageWin Master {
             get {
-                return ((Song.Site.Manage.Student.Parents)(base.Master));
+                return ((Song.Site.Manage.PageWin)(base.Master));
             }
         }
     }

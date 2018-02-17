@@ -34,6 +34,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Ca_From;
     		
+    		protected String _Rc_Code;
+    		
     		public Int32 Ca_ID {
     			get {
     				return this._Ca_ID;
@@ -164,6 +166,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Rc_Code {
+    			get {
+    				return this._Rc_Code;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Rc_Code, _Rc_Code, value);
+    				this._Rc_Code = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -203,7 +215,8 @@ namespace Song.Entities {
     					_.Ca_CrtTime,
     					_.Org_ID,
     					_.Ca_Serial,
-    					_.Ca_From};
+    					_.Ca_From,
+    					_.Rc_Code};
     		}
     		
     		/// <summary>
@@ -223,7 +236,8 @@ namespace Song.Entities {
     					this._Ca_CrtTime,
     					this._Org_ID,
     					this._Ca_Serial,
-    					this._Ca_From};
+    					this._Ca_From,
+    					this._Rc_Code};
     		}
     		
     		/// <summary>
@@ -268,6 +282,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ca_From))) {
     				this._Ca_From = reader.GetInt32(_.Ca_From);
+    			}
+    			if ((false == reader.IsDBNull(_.Rc_Code))) {
+    				this._Rc_Code = reader.GetString(_.Rc_Code);
     			}
     		}
     		
@@ -359,7 +376,11 @@ namespace Song.Entities {
     			/// 字段名：Ca_From - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Ca_From = new WeiSha.Data.Field<CouponAccount>("Ca_From");
+    			
+    			/// <summary>
+    			/// 字段名：Rc_Code - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Rc_Code = new WeiSha.Data.Field<CouponAccount>("Rc_Code");
     		}
     	}
     }
-    
