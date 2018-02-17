@@ -1006,14 +1006,15 @@ namespace Song.ServiceImpls
             entity.Ca_Serial = Business.Do<ISystemPara>().Serial();
             //计算
             entity.Ca_Total += entity.Ca_Value;
-            entity.Ca_TotalAmount += entity.Ca_Value;
+            //最大券值
+            object amount = Gateway.Default.Max<CouponAccount>(CouponAccount._.Ca_TotalAmount, CouponAccount._.Ac_ID == entity.Ac_ID);
+            entity.Ca_TotalAmount = (int)amount + entity.Ca_Value;
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
                 {
                     tran.Save<CouponAccount>(entity);
-                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_Point }, new object[] { entity.Ca_Total }, Accounts._.Ac_ID == entity.Ac_ID);
-                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_PointAmount }, new object[] { entity.Ca_TotalAmount }, Accounts._.Ac_ID == entity.Ac_ID);
+                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_Coupon }, new object[] { entity.Ca_Total }, Accounts._.Ac_ID == entity.Ac_ID);
                     tran.Commit();
                     return entity;
                 }
@@ -1044,12 +1045,15 @@ namespace Song.ServiceImpls
             entity.Ca_Serial = Business.Do<ISystemPara>().Serial();
             //计算
             entity.Ca_Total -= entity.Ca_Value;
+            //最大券值
+            object amount = Gateway.Default.Max<CouponAccount>(CouponAccount._.Ca_TotalAmount, CouponAccount._.Ac_ID == entity.Ac_ID);
+            entity.Ca_TotalAmount = (int)amount;
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
                 {
                     tran.Save<CouponAccount>(entity);
-                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_Point }, new object[] { entity.Ca_Total }, Accounts._.Ac_ID == entity.Ac_ID);
+                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_Coupon }, new object[] { entity.Ca_Total }, Accounts._.Ac_ID == entity.Ac_ID);
                     tran.Commit();
                     return entity;
                 }
@@ -1124,6 +1128,16 @@ namespace Song.ServiceImpls
             if (type > 0) wc &= CouponAccount._.Ca_Type == type;
             return Gateway.Default.From<CouponAccount>().Where(wc).OrderBy(CouponAccount._.Ca_CrtTime.Desc).ToArray<CouponAccount>(count);
         }
+        public int CouponClac(int acid, int formType, DateTime? start, DateTime? end)
+        {
+            WhereClip wc = new WhereClip();
+            if (acid > 0) wc &= CouponAccount._.Ac_ID == acid;
+            if (formType > 0) wc &= CouponAccount._.Ca_From == formType;
+            if (start != null) wc &= CouponAccount._.Ca_CrtTime >= (DateTime)start;
+            if (end != null) wc &= CouponAccount._.Ca_CrtTime < (DateTime)end;
+            object obj = Gateway.Default.Sum<CouponAccount>(CouponAccount._.Ca_Value, wc);
+            return Convert.ToInt32(obj);
+        }
         /// <summary>
         /// 分页获取所有的公告；
         /// </summary>
@@ -1140,6 +1154,17 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc &= CouponAccount._.Org_ID == orgid;
             if (stid > 0) wc &= CouponAccount._.Ac_ID == stid;
             if (type > 0) wc &= CouponAccount._.Ca_Type == type;
+            countSum = Gateway.Default.Count<CouponAccount>(wc);
+            return Gateway.Default.From<CouponAccount>()
+                .Where(wc).OrderBy(CouponAccount._.Ca_CrtTime.Desc).ToArray<CouponAccount>(size, (index - 1) * size);
+        }
+        public CouponAccount[] CouponPager(int orgid, int stid, int type, DateTime? start, DateTime? end,int size, int index, out int countSum){
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= CouponAccount._.Org_ID == orgid;
+            if (stid > 0) wc &= CouponAccount._.Ac_ID == stid;
+            if (type > 0) wc &= CouponAccount._.Ca_Type == type;
+            if (start != null) wc &= PointAccount._.Pa_CrtTime >= (DateTime)start;
+            if (end != null) wc &= PointAccount._.Pa_CrtTime < (DateTime)end;
             countSum = Gateway.Default.Count<CouponAccount>(wc);
             return Gateway.Default.From<CouponAccount>()
                 .Where(wc).OrderBy(CouponAccount._.Ca_CrtTime.Desc).ToArray<CouponAccount>(size, (index - 1) * size);

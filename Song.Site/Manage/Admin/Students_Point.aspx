@@ -36,7 +36,8 @@
             <td class="right">
             </td>
             <td>
-                <asp:RadioButtonList ID="rblOpera" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow">
+                <asp:RadioButtonList ID="rblOpera" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow"
+                    AutoPostBack="True" onselectedindexchanged="rblOpera_SelectedIndexChanged">
                     <asp:ListItem Selected="True" Value="2">充值</asp:ListItem>
                     <asp:ListItem Value="1">扣除</asp:ListItem>
                 </asp:RadioButtonList>
@@ -44,10 +45,11 @@
         </tr>
         <tr>
             <td class="right">
-                操作数量：
+                数量：
             </td>
             <td>
-                <asp:TextBox ID="tbPoint" runat="server" Width="80%" nullable="false" datatype="uint"
+                <asp:Label ID="lbOperator" runat="server" Text="+"></asp:Label>
+                <asp:TextBox ID="tbPoint" runat="server" Width="40%" nullable="false" datatype="uint"
                     group="acc"></asp:TextBox>分
             </td>
         </tr>

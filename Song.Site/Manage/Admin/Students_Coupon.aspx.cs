@@ -35,7 +35,7 @@ namespace Song.Site.Manage.Admin
             //员工名称
             this.lbName.Text = ea.Ac_Name;
             //账户余额
-            lbMoney.Text = ea.Ac_Money.ToString();
+            lbCoupon.Text = ea.Ac_Coupon.ToString();
 
         }
 
@@ -53,33 +53,33 @@ namespace Song.Site.Manage.Admin
             int type = 2;
             int.TryParse(rblOpera.SelectedItem.Value, out type);
             //操作金额
-            int money = 0;
-            int.TryParse(tbMoney.Text, out money);
+            int coupon = 0;
+            int.TryParse(tbCoupon.Text, out coupon);
             //操作对象
-            Song.Entities.MoneyAccount ma = new MoneyAccount();
-            ma.Ma_Monery = money;
-            ma.Ma_Remark = tbRemark.Text.Trim();
+            Song.Entities.CouponAccount ma = new CouponAccount();
+            ma.Ca_Value = coupon;
+            ma.Ca_Total = st.Ac_Coupon; //当前卡券总数
+            ma.Ca_Remark = tbRemark.Text.Trim();
             ma.Ac_ID = st.Ac_ID;
-            ma.Ma_Source = "管理员操作";
+            ma.Ca_Source = "管理员操作";
             //充值方式，管理员充值
-            ma.Ma_From = 1;
-            ma.Ma_IsSuccess = true;
+            ma.Ca_From = 1;
             //操作者
-            Song.Entities.EmpAccount emp=Extend.LoginState.Admin.CurrentUser;
+            Song.Entities.EmpAccount emp = Extend.LoginState.Admin.CurrentUser;
             try
             {
                 string mobi = !string.IsNullOrWhiteSpace(emp.Acc_MobileTel) && emp.Acc_AccName != emp.Acc_MobileTel ? emp.Acc_MobileTel : "";
                 //如果是充值
                 if (type == 2)
                 {                   
-                    ma.Ma_Info = string.Format("管理员{0}（{1}{2}）向您充值{3}元", emp.Acc_Name, emp.Acc_AccName, mobi, money);
-                    Business.Do<IAccounts>().MoneyIncome(ma);
+                    ma.Ca_Info = string.Format("管理员{0}（{1}{2}）向您充值{3}个卡券", emp.Acc_Name, emp.Acc_AccName, mobi, coupon);
+                    Business.Do<IAccounts>().CouponAdd(ma);
                 }
                 //如果是转出
                 if (type == 1)
                 {
-                    ma.Ma_Info = string.Format("管理员{0}（{1}{2}）扣除您{3}元", emp.Acc_Name, emp.Acc_AccName, mobi, money);
-                    Business.Do<IAccounts>().MoneyPay(ma);
+                    ma.Ca_Info = string.Format("管理员{0}（{1}{2}）扣除您{3}个卡券", emp.Acc_Name, emp.Acc_AccName, mobi, coupon);
+                    Business.Do<IAccounts>().CouponPay(ma);
                 }
                 Master.AlertCloseAndRefresh("操作成功！");
             }
@@ -87,7 +87,36 @@ namespace Song.Site.Manage.Admin
             {
                 this.Alert(ex.Message);
             }
-        }       
+        }
+
+        protected void rblOpera_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RadioButtonList rbl = (RadioButtonList)sender;
+            if (rbl.SelectedValue == "1")
+            {
+                lbOperator.Text = "-";
+                if (tbCoupon.Attributes["numlimit"] == null)
+                {
+                    tbCoupon.Attributes.Add("numlimit", lbCoupon.Text);
+                }
+                else
+                {
+                    tbCoupon.Attributes["numlimit"] = lbCoupon.Text;
+                }
+            }
+            if (rbl.SelectedValue == "2")
+            {
+                lbOperator.Text = "+";
+                if (tbCoupon.Attributes["numlimit"] == null)
+                {
+                    tbCoupon.Attributes.Add("numlimit", "0");
+                }
+                else
+                {
+                    tbCoupon.Attributes["numlimit"] = "0";
+                }
+            }
+        }
 
     }
 }

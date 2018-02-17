@@ -85,6 +85,35 @@ namespace Song.Site.Manage.Admin
             {
                 this.Alert(ex.Message);
             }
+        }
+
+        protected void rblOpera_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RadioButtonList rbl = (RadioButtonList)sender;
+            if (rbl.SelectedValue == "1")
+            {
+                lbOperator.Text = "-";
+                if (tbPoint.Attributes["numlimit"] == null)
+                {
+                    tbPoint.Attributes.Add("numlimit", lbPoint.Text);
+                }
+                else
+                {
+                    tbPoint.Attributes["numlimit"] = lbPoint.Text;
+                }
+            }
+            if (rbl.SelectedValue == "2")
+            {
+                lbOperator.Text = "+";
+                if (tbPoint.Attributes["numlimit"] == null)
+                {
+                    tbPoint.Attributes.Add("numlimit", "0");
+                }
+                else
+                {
+                    tbPoint.Attributes["numlimit"] = "0";
+                }
+            }
         }       
 
     }

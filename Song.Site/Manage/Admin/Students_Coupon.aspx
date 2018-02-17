@@ -19,8 +19,8 @@
                 余额：
             </td>
             <td>
-                <asp:Label ID="lbMoney" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
-                元
+                <asp:Label ID="lbCoupon" runat="server" Font-Bold="True" ForeColor="Red"></asp:Label>
+                个
             </td>
         </tr>
       <%--  <tr>
@@ -36,18 +36,19 @@
             
             <td>
                 <asp:RadioButtonList ID="rblOpera" runat="server" RepeatDirection="Horizontal" 
-                    RepeatLayout="Flow">
+                    RepeatLayout="Flow" AutoPostBack="True" 
+                    onselectedindexchanged="rblOpera_SelectedIndexChanged">
                     <asp:ListItem Selected="True" Value="2">充值</asp:ListItem>
-                    <asp:ListItem Value="1">扣款</asp:ListItem>
+                    <asp:ListItem Value="1">扣除</asp:ListItem>
             </asp:RadioButtonList>
             </td>
         </tr>
         <tr>
             <td class="right">
-                操作金额：
+                数量：
             </td>
-            <td>
-                <asp:TextBox ID="tbMoney" runat="server" Width="80%" nullable="false" datatype="uint"
+            <td><asp:Label ID="lbOperator" runat="server" Text="+"></asp:Label>
+                <asp:TextBox ID="tbCoupon" runat="server" Width="40%" nullable="false" datatype="uint"
                     group="acc"></asp:TextBox>
             </td>
         </tr>
@@ -64,6 +65,6 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">
     <cc1:EnterButton verify="true" ID="btnAddMoney" runat="server" Text="确定" group="acc"
-        OnClick="btnAddMoney_Click" ValidationGroup="enter" OnClientClick="return confirm('确定操作吗？')" />
+        OnClick="btnAddMoney_Click" ValidationGroup="enter"/>
     <cc1:CloseButton ID="CloseButton1" runat="server" />
 </asp:Content>

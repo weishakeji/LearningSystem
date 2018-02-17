@@ -22,13 +22,13 @@ namespace Song.Site.Manage.Admin {
         protected global::System.Web.UI.WebControls.Label lbName;
         
         /// <summary>
-        /// lbMoney 控件。
+        /// lbCoupon 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbMoney;
+        protected global::System.Web.UI.WebControls.Label lbCoupon;
         
         /// <summary>
         /// rblOpera 控件。
@@ -40,13 +40,22 @@ namespace Song.Site.Manage.Admin {
         protected global::System.Web.UI.WebControls.RadioButtonList rblOpera;
         
         /// <summary>
-        /// tbMoney 控件。
+        /// lbOperator 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbMoney;
+        protected global::System.Web.UI.WebControls.Label lbOperator;
+        
+        /// <summary>
+        /// tbCoupon 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbCoupon;
         
         /// <summary>
         /// tbRemark 控件。

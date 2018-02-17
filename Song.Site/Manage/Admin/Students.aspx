@@ -61,18 +61,16 @@
                 <ItemStyle CssClass="right" />
                 <HeaderStyle CssClass="right" />
                 <ItemTemplate>
-                    <a href="#" onclick="OpenWin('Students_Coupon.aspx?id=<%# Eval("Ac_id") %>','点券充扣',400,300);return false;">
-                        &spades;
-                        <%# Eval("Ac_money", "{0:C}")%></a>
+                    <%# Eval("Ac_money", "{0:C}")%>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="&spades; 点券">
+            <asp:TemplateField HeaderText="&spades; 卡券">
                 <ItemStyle CssClass="right" />
                 <HeaderStyle CssClass="right" />
                 <ItemTemplate>
-                    <%-- <a href="#" onclick="OpenWin('Students_Coupon.aspx?id=<%# Eval("Ac_id") %>','资金充扣',400,300);return false;">&spades; <%# Eval("Ac_Coupon", "{0:0}")%></a>--%>
-                    &spades;
-                    <%# Eval("Ac_Coupon", "{0:0}")%>
+                    <a href="#" onclick="OpenWin('Students_Coupon.aspx?id=<%# Eval("Ac_id") %>','卡券充扣',400,300);return false;">
+                        &spades;
+                        <%# Eval("Ac_Coupon", "{0:0}")%></a>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="&clubs; 积分">

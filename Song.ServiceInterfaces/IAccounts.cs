@@ -386,6 +386,15 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         CouponAccount[] CouponCount(int orgid, int stid, int type, int count);
         /// <summary>
+        /// 计算某一个时间区间的积分
+        /// </summary>
+        /// <param name="acid">学员账户</param>
+        /// <param name="formType">来源分类，1兑换，2消费支出；3分润；4管理员充值</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        int CouponClac(int acid, int formType, DateTime? start, DateTime? end);
+        /// <summary>
         /// 分页获取所有的公告；
         /// </summary>
         /// <param name="orgid">机构id</param>
@@ -396,6 +405,7 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         CouponAccount[] CouponPager(int orgid, int stid, int type, int size, int index, out int countSum);
+        CouponAccount[] CouponPager(int orgid, int stid, int type, DateTime? start, DateTime? end,int size, int index, out int countSum);
         /// <summary>
         /// 分页获取所有的公告；
         /// </summary>
