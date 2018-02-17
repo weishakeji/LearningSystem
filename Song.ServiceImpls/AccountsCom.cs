@@ -1113,6 +1113,9 @@ namespace Song.ServiceImpls
             ca.Ca_Serial = Business.Do<ISystemPara>().Serial();
             ca.Ca_Value = coupon;
             ca.Ca_Total = acc.Ac_Coupon + ca.Ca_Value;
+            ca.Ca_Info = "积分兑换";
+            ca.Ca_Remark = string.Format("用{0}积分兑换{1}卡券", pa.Pa_Value, coupon);
+            ca.Ca_Source = WeiSha.Common.Browser.IsMobile ? "手机端" : "电脑网页";
             //最大券值
             object amount = Gateway.Default.Max<CouponAccount>(CouponAccount._.Ca_TotalAmount, CouponAccount._.Ac_ID == accid);
             if (amount == null) amount = 0;
