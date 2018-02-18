@@ -29,13 +29,15 @@ a:hover{
 	_width: 100%;
 	_position: absolute;
 	_top: 0px;
-	top: 0px;
+	top: 0px;	
+	color: #333;
+	box-shadow: 3px 3px 3px #888888;
+}
+#header, #header span{
 	line-height: 60px;
 	text-indent: 20px;
 	font-size: 30px;
 	font-weight: bold;
-	color: #333;
-	box-shadow: 3px 3px 3px #888888;
 }
 .logo {
 	float: right;

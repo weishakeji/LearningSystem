@@ -1,4 +1,5 @@
 $(function () {
+	$(".version").text(Verify.version);
     //添加菜单序号
     $(".menubox dd").each(function (index, element) {
         //次菜单项索引
