@@ -25,6 +25,15 @@
         {$:#.intro} </div>
      
       <div class="couNum"> 关注次数：{$course.cou_viewNum} </div>
+      <div class="couMoney"><span>学习费用：</span>
+        <vt:if var="course.cou_isfree" value="true" compare="="> <span class="moneyfree"><span class="moneyico">&#xe746;</span> <span> 免费</span></span>
+          <vt:else/>
+          <vt:function var="price" method="getCoursePrice" args="$course.cou_uid"/>
+          <vt:foreach from="$price" item="p" index="i" remark="当前课程价格"> <span class="money" title="可以用券抵扣{$:#.p.CP_Coupon}元"><span class="moneyico money-ico">&#xe624;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </span>
+            <vt:foreachelse/>
+            <span class="money">未设置价格（非免费课程）</span> </vt:foreach>
+        </vt:if>
+      </div>
       <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
       <script type="text/javascript" language="javascript">window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)]; 
 	  </script>

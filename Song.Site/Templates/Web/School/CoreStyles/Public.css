@@ -548,17 +548,16 @@ img{
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
-.navi-bar .nav-txt{
+.navi-bar .nav-txt {
 	letter-spacing: 0.1cm;
 	margin-right: 5px;
 	margin-left: 5px;
 	font-size: 14px;
 	color: #333333;
- }
-.navi-bar a
-{
+}
+.navi-bar a {
 	height: 40px;
 	font-size: 14px;
 	color: #333333;
-	white-space: nowrap;	
+	white-space: nowrap;
 }

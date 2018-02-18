@@ -858,7 +858,7 @@ namespace Song.ServiceImpls
             sc.Org_ID = org.Org_ID;
             //
             ma.Ma_IsSuccess = true;
-            Business.Do<IAccounts>().MoneyPay(ma);
+            if (mprice > 0) Business.Do<IAccounts>().MoneyPay(ma);
             if (cprice > 0) Business.Do<IAccounts>().CouponPay(ca);
             Gateway.Default.Save<Student_Course>(sc);
             return sc;

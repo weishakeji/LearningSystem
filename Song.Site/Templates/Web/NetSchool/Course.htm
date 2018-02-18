@@ -19,20 +19,17 @@
     <div class="headRight">
       <div class="couName"> {$course.cou_name} </div>
       <div class="couNum"> <span>关注次数：</span>{$course.cou_viewNum} </div>
-      <div class="couIntro"><span>学习目标：</span><vt:function var="intro" method="ClearHtml" args="$course.Cou_Target"/> {$:#.intro} </div>
+      <div class="couIntro"><span>学习目标：</span>
+        <vt:function var="intro" method="ClearHtml" args="$course.Cou_Target"/>
+        {$:#.intro} </div>
       <div class="couTeacer"> <span>主讲老师： </span>{$course.th_name} </div>
       <div class="couMoney"><span>学习费用：</span>
         <vt:if var="course.cou_isfree" value="true" compare="="> <span class="moneyfree"><span class="moneyico">&#xe746;</span> <span> 免费</span></span>
           <vt:else/>
           <vt:function var="price" method="getCoursePrice" args="$course.cou_uid"/>
-          <vt:if var="price.length" value="1" compare="="> <span class="money">
-            <vt:foreach from="$price" item="p" index="i" count="2"  remark="当前课程价格"> <span class="moneyico money-ico">&#xe624;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </vt:foreach>
-            </span>
-            <vt:else/>
-            <vt:foreach from="$price" item="p" index="i" remark="当前课程价格"> <span class="money" title="可以用{$:#.p.CP_Coupon}个券抵扣"><span class="moneyico money-ico">&#xe624;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </span>
-              <vt:foreachelse/>
-              <span class="money">未设置价格（非免费课程）</span> </vt:foreach>
-          </vt:if>
+          <vt:foreach from="$price" item="p" index="i" remark="当前课程价格"> <span class="money" title="可以用券抵扣{$:#.p.CP_Coupon}元"><span class="moneyico money-ico">&#xe624;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </span>
+            <vt:foreachelse/>
+            <span class="money">未设置价格（非免费课程）</span> </vt:foreach>
         </vt:if>
       </div>
       <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
@@ -91,9 +88,8 @@
           <ul class="guides">
             <vt:foreach from="$#.guides" item="data" index="i" remark="课程公告">
               <li><a href="Guide.ashx?id={$:#.data.gu_id}" target="_blank">{$:#.data.gu_title}</a></li>
-               <vt:foreachelse>
-              暂无公告
-            </vt:foreach>
+              <vt:foreachelse>
+              暂无公告 </vt:foreach>
           </ul>
         </div>
         <!--咨询交流-->
@@ -133,9 +129,9 @@
           <div class="title"> 学员</div>
         </div>
         <ul class="studentbox">
-         <vt:foreach id="students" from="$#.students" item="data" count="20" index="i" remark="学员列表">
-              <li><span class="stPhoto" style="background:url({$stpath}{$:#.data.Ac_photo}) no-repeat center center"> &nbsp; </span>{$:#.data.Ac_Name}</li>
-            </vt:foreach>
+          <vt:foreach id="students" from="$#.students" item="data" count="20" index="i" remark="学员列表">
+            <li><span class="stPhoto" style="background:url({$stpath}{$:#.data.Ac_photo}) no-repeat center center"> &nbsp; </span>{$:#.data.Ac_Name}</li>
+          </vt:foreach>
         </ul>
       </div>
       <div class="box">

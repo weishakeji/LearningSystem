@@ -32,6 +32,15 @@
                 <div class="couNum">
                     关注次数：{$course.cou_viewNum}
                 </div>
+                <div class="couMoney"><span>学习费用：</span>
+        <vt:if var="course.cou_isfree" value="true" compare="="> <span class="moneyfree"><span class="moneyico">&#xe746;</span> <span> 免费</span></span>
+          <vt:else/>
+          <vt:function var="price" method="getCoursePrice" args="$course.cou_uid"/>
+          <vt:foreach from="$price" item="p" index="i" remark="当前课程价格"> <span class="money" title="可以用券抵扣{$:#.p.CP_Coupon}元"><span class="moneyico money-ico">&#xe624;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </span>
+            <vt:foreachelse/>
+            <span class="money">未设置价格（非免费课程）</span> </vt:foreach>
+        </vt:if>
+      </div>
                 <div class="couBtnBox"> 
         <!--按钮开始-->        
         <vt:if var="Account.Ac_id" value="0" compare=">">
