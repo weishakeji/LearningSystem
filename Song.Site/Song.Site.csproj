@@ -1152,6 +1152,10 @@
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.css" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.htm" />
     <Content Include="Templates\Web\_Public\Module\Admin\panel.js" />
+    <Content Include="Templates\Web\_Public\Module\Course\Buy.css" />
+    <Content Include="Templates\Web\_Public\Module\Course\Buy.htm" />
+    <Content Include="Templates\Web\_Public\Module\Course\Buy.js" />
+    <Content Include="Templates\Web\_Public\Module\Course\Images\alpha.png" />
     <Content Include="Templates\Web\_Public\QuesExplain.htm" />
     <Content Include="Templates\Web\_Public\QuesKnl.htm" />
     <Content Include="Templates\Web\_Public\QuestionAnswer.htm" />

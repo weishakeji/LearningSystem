@@ -1039,6 +1039,7 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public CouponAccount CouponPay(CouponAccount entity)
         {
+            if (entity.Ca_Value == 0) return entity;
             entity.Ca_CrtTime = DateTime.Now;
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) entity.Org_ID = org.Org_ID;

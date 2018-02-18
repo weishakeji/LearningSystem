@@ -803,12 +803,25 @@ namespace Song.ServiceImpls
             if (course == null) throw new Exception("要购买的课程不存在！");            
             Accounts st = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == stid).ToFirst<Accounts>();
             if (st == null) throw new Exception("当前学员不存在！");
+            //余额是否充足
+            decimal money = st.Ac_Money;    //资金余额
+            int coupon = st.Ac_Coupon;      //卡券余额
+            int mprice = price.CP_Price;    //价格，所需现金
+            int cprice = price.CP_Coupon;   //价格，可以用来抵扣的卡券
+            bool tm = money >= mprice || (money >= (mprice - cprice) && (coupon >= cprice));
+            if (!tm) throw new Exception("资金余额或卡券不足");
+            //计算需要扣除的金额，优先扣除券
+            cprice = cprice >= coupon ? coupon : cprice;    //减除的卡券数
+            mprice = mprice - cprice;   //减除的现金数
+
             //判断学员与课程是否在一个机构下，
             //if (st.Org_ID != course.Org_ID) throw new Exception("当前员员与课程不隶属同一机构，不可选修！");
             //*********************生成流水账的操作对象
             Song.Entities.MoneyAccount ma = new Song.Entities.MoneyAccount();
-            ma.Ac_ID = stid;
-            ma.Ma_Monery = price.CP_Price;  //购买价格
+            Song.Entities.CouponAccount ca = new Song.Entities.CouponAccount();
+            ma.Ac_ID = ca.Ac_ID = stid;
+            ma.Ma_Monery = mprice;  //购买价格
+            ca.Ca_Value = cprice;   //要扣除的卡券
             //购买结束时间
             DateTime end = DateTime.Now;
             switch (price.CP_Unit)
@@ -826,9 +839,9 @@ namespace Song.ServiceImpls
                     end = DateTime.Now.AddYears(price.CP_Span);
                     break;
             }
-            ma.Ma_From = 4;
-            ma.Ma_Source = "购买课程";
-            ma.Ma_Info = "购买课程:" + course.Cou_Name + "；" + DateTime.Now.ToString("yyyy-MM-dd") + " 至 " + end.ToString("yyyy-MM-dd");
+            ma.Ma_From = ca.Ca_From = 4;
+            ma.Ma_Source = ca.Ca_Source = "购买课程";
+            ma.Ma_Info = ca.Ca_Info = "购买课程:" + course.Cou_Name + "；" + DateTime.Now.ToString("yyyy-MM-dd") + " 至 " + end.ToString("yyyy-MM-dd");
 
             //***************
             //生成学员与课程的关联
@@ -846,6 +859,7 @@ namespace Song.ServiceImpls
             //
             ma.Ma_IsSuccess = true;
             Business.Do<IAccounts>().MoneyPay(ma);
+            if (cprice > 0) Business.Do<IAccounts>().CouponPay(ca);
             Gateway.Default.Save<Student_Course>(sc);
             return sc;
         }
@@ -940,10 +954,11 @@ namespace Song.ServiceImpls
             object obj = Gateway.Default.Max<CoursePrice>(CoursePrice._.CP_Tax, CoursePrice._.Cou_UID == entity.Cou_UID);
             entity.CP_Tax = obj is int ? (int)obj + 1 : 0;
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            if (org != null)
-            {
-                entity.Org_ID = org.Org_ID;
-            } 
+            if (org != null) entity.Org_ID = org.Org_ID;
+            //校验是否已经存在,同一个时间单位，只准设置一个
+            CoursePrice cp = Gateway.Default.From<CoursePrice>().Where(CoursePrice._.Cou_UID == entity.Cou_UID &&
+                CoursePrice._.CP_Span == entity.CP_Span && CoursePrice._.CP_Unit == entity.CP_Unit).ToFirst<CoursePrice>();
+            if (cp != null) throw new Exception(string.Format("{0}{1}的价格已经设置过，请修改之前设置", entity.CP_Span, entity.CP_Unit));            
             Gateway.Default.Save<CoursePrice>(entity);
             PriceSetCourse(entity.Cou_UID);
         }
@@ -972,6 +987,10 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void PriceSave(CoursePrice entity)
         {
+            //校验是否已经存在,同一个时间单位，只准设置一个
+            CoursePrice cp = Gateway.Default.From<CoursePrice>().Where(CoursePrice._.Cou_UID == entity.Cou_UID && CoursePrice._.CP_ID != entity.CP_ID &&
+                CoursePrice._.CP_Span == entity.CP_Span && CoursePrice._.CP_Unit == entity.CP_Unit).ToFirst<CoursePrice>();
+            if (cp != null) throw new Exception(string.Format("{0}{1}的价格已经设置过，请修改之前设置", entity.CP_Span, entity.CP_Unit));
             Gateway.Default.Save<CoursePrice>(entity);
             PriceSetCourse(entity.Cou_UID);
         }

@@ -29,7 +29,9 @@
                 }
             }
             else {
-                alert("There was an error" + args.get_error().message);
+                var msg = args.get_error().message;
+                if (msg.indexOf(":")) msg = msg.substring(msg.indexOf(":")+1);
+                alert(msg);
             }
         }
         function load() {

@@ -129,7 +129,7 @@ namespace Song.Site.Manage.Course
             int coupon = 0;
             int.TryParse(tbCoupon.Text, out coupon);
             cp.CP_Coupon = coupon;
-            Business.Do<ICourse>().PriceAdd(cp);
+            Business.Do<ICourse>().PriceAdd(cp);           
             BindPriceData();
         }
         /// <summary>
@@ -204,7 +204,7 @@ namespace Song.Site.Manage.Course
                 CheckBox cb = (CheckBox)gvPrice.Rows[index].FindControl("cbIsUse");
                 col.CP_IsUse = cb.Checked;
                 //
-                Business.Do<ICourse>().PriceSave(col);
+                Business.Do<ICourse>().PriceSave(col);                
             }
             gvPrice.EditIndex = -1;
             BindPriceData();

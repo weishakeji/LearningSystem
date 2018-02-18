@@ -29,7 +29,7 @@
             <vt:foreach from="$price" item="p" index="i" count="2"  remark="当前课程价格"> <span class="moneyico money-ico">&#xe624;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </vt:foreach>
             </span>
             <vt:else/>
-            <vt:foreach from="$price" item="p" index="i" remark="当前课程价格"> <span class="money"> <span class="moneyico money-ico">&#xe624;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </span>
+            <vt:foreach from="$price" item="p" index="i" remark="当前课程价格"> <span class="money" title="可以用{$:#.p.CP_Coupon}个券抵扣"><span class="moneyico money-ico">&#xe624;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </span>
               <vt:foreachelse/>
               <span class="money">未设置价格（非免费课程）</span> </vt:foreach>
           </vt:if>

@@ -144,8 +144,13 @@ namespace Song.Site.Ajax
                 Context.Response.Write(getBackJson(3, null));
                 return;
             }
-            //余额是否充足                
-            if (price.CP_Price > st.Ac_Money)
+            //余额是否充足
+            decimal money = st.Ac_Money;    //资金余额
+            int coupon = st.Ac_Coupon;      //卡券余额
+            int mprice = price.CP_Price;    //价格，所需现金
+            int cprice = price.CP_Coupon;   //价格，可以用来抵扣的卡券
+            bool tm = money >= mprice || (money >= (mprice - cprice) && (coupon >= cprice));
+            if (!tm)
             {
                 Context.Response.Write(getBackJson(5, null));
                 return;

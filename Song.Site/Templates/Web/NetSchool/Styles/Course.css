@@ -63,7 +63,10 @@
 }
 .money {
 	color: #e85308;
-	margin-right: 15px;
+	margin-right: 10px;
+	background-color: #ddd;
+	padding-right: 3px;
+	padding-left: 3px;
 }
 .moneyfree span {
 	color: #060;

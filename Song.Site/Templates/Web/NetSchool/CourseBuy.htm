@@ -10,77 +10,7 @@
 <body>
     <vt:include file="inc/Header.html" />
     <div id="Context">
-        <div class="navi-bar">
-            <a href="/" class="nav-txt">首页</a> &gt; <a href="/courses.ashx" class="nav-txt">课程中心</a>
-            &gt;
-            <vt:foreach id="course" from="$#.sbjs" item="data" index="i" remark="当前课程专业"> <a href="/courses.ashx?sbj={$:#.data.sbj_id}"  class="nav-txt">{$:#.data.sbj_name}</a> &gt; </vt:foreach>
-            <span class="nav-txt">{$course.cou_name}</span>
-        </div>
-        <div loyout="row" class="context">
-            <div class="infoTop">
-                <div class="course-name">
-                    《{$course.Cou_Name}》</div>
-                <div class="courseInfo">
-                    章节{$olCount}个/试题{$quesCount}道</div>
-            </div>
-            <div class="courseBox">
-                <!--左侧课程介绍-->
-                <div class="course-info">
-                    <div class="photo">
-                        <img style="background: url({$course.cou_logo}) no-repeat center" src="images/alpha.png" /></div>
-                    <div class="couIntro">
-                        <span>学习目标：<br />
-                        </span>{$course.Cou_Target}
-                    </div>
-                </div>
-                <!--右侧价格区域-->
-                <div class="money-area">
-                    <vt:if var="course.Cou_IsFree" value="True" compare="=">
-        <div class="freeBox"><span class="moneyico">&#xe746;</span>当前课程免费</div>
-        <vt:if var="Account.Ac_id" value="" compare="!="> 
-          <!-- 账户余额 -->
-          <div class="moneyBox">
-          
-            <div class="veriTxt">账户余额：</div>
-            <span class="money">{$Account.Ac_money format="0.00"}</span>元 <a class="btnRecharge" href="student/panel.ashx?mmid=635" target="_blank">充值</a></div>
-        </vt:if>
-        <div class="FreeBtnBox"> <a href="Tryout.ashx?from={$from}&couid={$course.Cou_ID}" id="btnStudy" class="btnStudy">开始学习</a> 
-          <!--     <input type="submit" name="btnSubmit" value="开始学习"  verify="true"  group="login" class="btnStudy"/> --> 
-          <a href="javascript:window.history.go(-1);" class="btnStudyBack">返回</a> </div>
-        <vt:else/>
-        <div class="priceTitle">学习费用：</div>
-        <div class="priceBox">
-          <vt:if var="#.prices.Length" value="0" compare=">">
-            <vt:foreach id="prices" from="$#.prices" item="data" remark="价格列表">
-              <div class="priceItem" cpid=" {$:#.data.CP_ID}" couid="{$course.Cou_id}"><span class="ico iconfont">&#xf00c6;</span> {$:#.data.CP_Span}{$:#.data.CP_Unit}<span class="price">{$:#.data.CP_Price}</span>元 </div>
-            </vt:foreach>
-            <vt:else />
-            <div class="noPrice">没有设置价格</div>
-          </vt:if>
-        </div>
-        <div class="verifyBox">
-          <div class="verifyInfo" style="display:none">
-            <div class="veriTxt">验证码：</div>
-            <input name="tbCode" type="number"  class="textbox verify" size="4" nullable="false" lenlimit="4-4" datatype="number"   group="login" />
-            <img src="/Utility/codeimg.aspx?name=buycode" class="verifyCode"/></div>
-        </div>
-        <vt:if var="Account.Ac_id" value="" compare="!="> 
-          <!-- 账户余额 -->
-          <div class="moneyBox">
-            <div class="veriTxt">账户余额：</div>
-            <span class="money">{$Account.Ac_money format="0.00"}</span>元 <a class="btnRecharge" href="student/panel.ashx?mmid=635" target="_blank">充值</a></div>
-        </vt:if>
-        <div class="StudyBtnBox">
-          <input type="submit" name="btnBuyStudy" id="btnBuyStudy" value="购买学习"  verify="true"  group="login" class="btnStudy"/>
-          <a href="javascript:window.history.go(-1);" class="btnStudyBack">返回</a> </div>
-        <vt:if var="course.Cou_IsTry" value="true" compare="=">
-          <div class="loginRow btnBar"> <a href="Tryout.ashx?from={$from}&couid={$course.Cou_ID}" course="{$course.Cou_Name}" IsTry="{$course.Cou_IsTry}" class="aTryout">暂时试用</a> </div>
-        </vt:if>
-      </vt:if>
-                </div>
-                <!--右侧价格区域结束-->
-            </div>
-        </div>
+        <vt:include file="Module/Course/buy.htm" from="_public" remark="课程购买，为公共模块" />
     </div>
     <vt:include file="inc/footer.html" />
 </body>
