@@ -30,55 +30,63 @@ function _btnEvent(){
     });
     //确定按钮
     $("#btnBuyStudy").click(function(){
-        var moneySpan=$(".money");
-        if(moneySpan.size()<1) {
-            var txt="您还没有登录，请登录后购买。";
-            var msg=new MsgBox("未登录",txt,90,160,"confirm");
-            msg.EnterEvent=function(){
-                top.location.href="login.ashx";
+        var moneySpan = $("#money"); //学员资金余额
+        var couponSpan = $("#coupon"); //学员卡券余额
+        if (moneySpan.size() < 1) {
+            var txt = "您还没有登录，请登录后购买。";
+            var msg = new MsgBox("未登录", txt, 80, 60, "confirm");
+            msg.EnterEvent = function () {
+                window.location.href = "Login.ashx";
             };
             msg.Open();
             return false
         }
         //是否选项费用项
-        var selected=$(".priceSelected");
-        if(selected.size()<1){
-            new MsgBox("提示","请选择学习费用的选项。",90,160,"alert").Open();
+        var selected = $(".priceSelected");
+        if (selected.size() < 1) {
+            new MsgBox("提示", "请选择学习费用的选项。", 80, 60, "alert").Open();
             return false;
         }
         //判断产品价格不得低于余额
-        var money=Number(moneySpan.html());
-        var price=Number(selected.find(".price").html());
-        if(money<price){
-            var msg=new MsgBox("提示","你的余额不足，是否充值？",90,200,"confirm");
-            msg.EnterEvent=function(){
-                top.location.href="Recharge.ashx";
+        var money = Number(moneySpan.html()); //余额
+        var coupon = Number(couponSpan.html()); //卡券余额
+        var mprice = Number($(this).attr("mprice"));    //价格，资金
+        var cprice = Number($(this).attr("cprice"));    //价格，卡券
+        //满足条件的判断
+        var tm = money >= mprice || (money >= (mprice - cprice) && (coupon >= cprice));
+        //资金余额不足
+        if (!tm) {
+            var msg = new MsgBox("提示", "你的余额不足，是否充值？", 80, 60, "confirm");
+            msg.EnterEvent = function () {
+                $(".btnRecharge").get(0).click();
             };
             msg.Open();
             return false
         }
-        //验证码
-        if($.trim($(".verify").val())==""){
-            new MsgBox("提示","请输入验证码！",80,160,"alert").Open();
-            return false;
-        }
+        if (!Verify.IsPass($("form"))) return false;
         BuySubmit(1, 0);
+		return false;
     });
 }
 //选择价格
 function _selectPrice(){
     //价格选项的点击事件
-    $(".priceItem").click(function(){
+    $(".priceItem").click(function () {
         $(this).parent().find(".priceItem").removeClass("priceSelected");
         $(this).parent().find(".priceItem span.ico").html("&#xf00c6;");
         //选中事件
         $(this).addClass("priceSelected");
         $(this).find("span.ico").html("&#xe667;");
         //如果登录，则显示验证码
-        var moneySpan=$(".money");
-        if(moneySpan.size()>0) {
+        var moneySpan = $("#money");
+        if (moneySpan.size() > 0) {
             $(".verifyInfo").show();
         }
+        //设置价格在购买按钮上，取值时方便
+        var selected = $(".priceSelected");
+        var mprice = Number(selected.find(".mprice").html()); //选中项的资金价格
+        var cprice = Number(selected.find(".cprice").html()); //选中项的卡券价格
+        $("#btnBuyStudy").attr("mprice", mprice).attr("cprice", (isNaN(cprice) ? 0 : cprice));
     });
 }
 
@@ -128,7 +136,13 @@ function BuySubmit(isfree, istry) {
                 if (result.status == 6) error = "数据异常！";
                 if (result.status == 7) error = "当前课程并不是免费的！";
                 if (result.status == 7) error = "当前课程不允许试用！";
-                if (result.status != 0) new MsgBox("错误", error, 90, 200, "alert").Open();
+                if (result.status != 0){					
+					 var msg=new MsgBox("错误", error, 90, 200, "alert");
+					 msg.OverEvent = function () {
+                        MsgBox.Close();
+                    };
+					 msg.Open();
+				}
                 window.isSubmit = false;
             } catch (e) {
                 alert(data);

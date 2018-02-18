@@ -133,7 +133,13 @@ function BuySubmit(isfree, istry) {
                 if (result.status == 6) error = "数据异常！";
                 if (result.status == 7) error = "当前课程并不是免费的！";
                 if (result.status == 7) error = "当前课程不允许试用！";
-                if (result.status != 0) new MsgBox("错误", error, 400, 300, "alert").Open();
+                if (result.status != 0){					
+					 var msg=new MsgBox("错误", error, 400, 300, "alert");
+					 msg.OverEvent = function () {
+                        MsgBox.Close();
+                    };
+					 msg.Open();
+				}
                 window.isSubmit = false;
             } catch (e) {
                 alert(data);

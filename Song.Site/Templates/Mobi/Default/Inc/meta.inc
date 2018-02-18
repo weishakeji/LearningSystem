@@ -10,6 +10,7 @@
 <!--核心Js文件-->
 <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/artTemplate.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/verify.js"></script>
 <script src="../CoreScripts/mui.js" type="text/javascript"></script>
 <script type="text/javascript" src="../CoreScripts/Extend.js"></script>
 <script type="text/javascript" src="../CoreScripts/Base64.js"></script>
