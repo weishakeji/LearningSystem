@@ -192,6 +192,7 @@
     <Compile Include="ProductOrigin.cs" />
     <Compile Include="ProductPackage.cs" />
     <Compile Include="Product_Package.cs" />
+    <Compile Include="ProfitSharing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Purview.cs" />
     <Compile Include="QuesAnswer.cs" />

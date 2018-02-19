@@ -179,6 +179,7 @@
     <Compile Include="LimitDomainCom.cs" />
     <Compile Include="TemplateCom.cs" />
     <Compile Include="AccountsCom.cs" />
+    <Compile Include="ProfitSharingCom.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">

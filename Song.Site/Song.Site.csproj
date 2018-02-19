@@ -396,6 +396,7 @@
     <Content Include="Manage\Sys\Agreement.aspx" />
     <Content Include="Manage\Sys\Styles\Agreement.css" />
     <Content Include="Manage\Sys\Styles\SysPara.css" />
+    <Content Include="Manage\Sys\ProfitSharing.aspx" />
     <Content Include="Manage\Teacher\Archives.aspx" />
     <Content Include="Manage\Teacher\Courses.aspx" />
     <Content Include="Manage\Teacher\List.aspx" />
@@ -2455,6 +2456,13 @@
     </Compile>
     <Compile Include="Manage\Sys\Accounts_Export.aspx.designer.cs">
       <DependentUpon>Accounts_Export.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Sys\ProfitSharing.aspx.cs">
+      <DependentUpon>ProfitSharing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Sys\ProfitSharing.aspx.designer.cs">
+      <DependentUpon>ProfitSharing.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Teacher\Courses.aspx.cs">
       <DependentUpon>Courses.aspx</DependentUpon>

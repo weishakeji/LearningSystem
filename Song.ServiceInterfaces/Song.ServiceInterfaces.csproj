@@ -180,6 +180,7 @@
     <Compile Include="ILimitDomain.cs" />
     <Compile Include="ITemplate.cs" />
     <Compile Include="IAccounts.cs" />
+    <Compile Include="IProfitSharing.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">

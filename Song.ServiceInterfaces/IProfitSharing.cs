@@ -1,0 +1,108 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using Song.Entities;
+
+namespace Song.ServiceInterfaces
+{
+    /// <summary>
+    /// 分润的管理
+    /// </summary>
+    public interface IProfitSharing: WeiSha.Common.IBusinessInterface
+    {
+        #region 分润方案的管理
+        /// <summary>
+        /// 添加分润主题
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        int ThemeAdd(ProfitSharing entity);
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        void ThemeSave(ProfitSharing entity);
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        void ThemeDelete(ProfitSharing entity);
+        /// <summary>
+        /// 删除，按主键ID；
+        /// </summary>
+        /// <param name="identify">实体的主键</param>
+        void ThemeDelete(int identify);
+        /// <summary>
+        /// 获取单一实体对象，按主键ID；
+        /// </summary>
+        /// <param name="identify">实体的主键</param>
+        /// <returns></returns>
+        ProfitSharing ThemeSingle(int identify);
+        /// <summary>
+        /// 获取对象；即所有分类；
+        /// </summary>
+        /// <returns></returns>
+        ProfitSharing[] ThemeAll(bool? isUse);
+        /// <summary>
+        /// 将当前项目向上移动；
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
+        bool ThemeRemoveUp(int id);
+        /// <summary>
+        /// 将当前项目向下移动；
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
+        bool ThemeRemoveDown(int id);
+        #endregion
+
+        #region 分润等级比例设置
+        /// <summary>
+        /// 添加分润项
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        int ProfitAdd(ProfitSharing entity);
+        /// <summary>
+        /// 修改
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        void ProfitSave(ProfitSharing entity);
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        void ProfitDelete(ProfitSharing entity);
+        /// <summary>
+        /// 删除，按主键ID；
+        /// </summary>
+        /// <param name="identify">实体的主键</param>
+        void ProfitDelete(int identify);
+        /// <summary>
+        /// 获取单一实体对象，按主键ID；
+        /// </summary>
+        /// <param name="identify">实体的主键</param>
+        /// <returns></returns>
+        ProfitSharing ProfitSingle(int identify);
+        /// <summary>
+        /// 获取对象；即所有分类；
+        /// </summary>
+        /// <param name="theme">方案主题的id</param>
+        /// <param name="isUse"></param>
+        /// <returns></returns>
+        ProfitSharing[] ProfitAll(int theme, bool? isUse);
+        /// <summary>
+        /// 将当前项目向上移动；
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
+        bool ProfitRemoveUp(int id);
+        /// <summary>
+        /// 将当前项目向下移动；
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
+        bool ProfitRemoveDown(int id);
+        #endregion
+    }
+}
