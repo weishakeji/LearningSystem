@@ -1751,6 +1751,7 @@
     <Content Include="Utility\CoreStyles\Jme.css" />
     <Content Include="Utility\CoreStyles\Jme\Symbola.svg" />
     <Content Include="Utility\CoreStyles\PageBox.css" />
+    <Content Include="Utility\Default.aspx" />
     <Content Include="Utility\echarts\chart\bar.js" />
     <Content Include="Utility\echarts\chart\chord.js" />
     <Content Include="Utility\echarts\chart\eventRiver.js" />
@@ -4928,6 +4929,13 @@
     <Compile Include="ExamReview.ashx.cs">
       <DependentUpon>ExamReview.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Utility\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Utility\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Utility\ExamFileLoad.ashx.cs">
       <DependentUpon>ExamFileLoad.ashx</DependentUpon>

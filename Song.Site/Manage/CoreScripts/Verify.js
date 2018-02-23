@@ -24,7 +24,7 @@
         errmsg:{
             nullable:{def:"不能为空"},
             lenlimit:{def:"限制{0}字符",msg1:"超出{0}个字符",msg2:"请录入{0}-{1}个字符"},
-            numlimit:{def:"请输入整数数字",msg1:"请输入小于{0}的数字",msg2:"请录入{0}-{1}之间的数字"},
+            numlimit:{def:"请输入数字",msg1:"请输入小于等于{0}的数字",msg2:"请录入{0}-{1}之间的数字"},
             sametarget:{def:"两次输入不相同"},
             novalue:{def:"值不合法"},
             datatype:{

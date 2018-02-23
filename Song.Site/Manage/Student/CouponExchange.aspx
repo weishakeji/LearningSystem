@@ -24,7 +24,7 @@
             <div class="infoRow">
                 积分兑换比率：
                  <span id="pointSum">0</span>&divide;<span id="ratio"><asp:Literal ID="ltPointConvert" runat="server"></asp:Literal></span>=
-                 <span id="result">0</span>
+                 <span id="result">0</span>个
                <span class="alt">（积分除以兑换率，向下取整）</span>
             </div>
             <div class="infoRow">
