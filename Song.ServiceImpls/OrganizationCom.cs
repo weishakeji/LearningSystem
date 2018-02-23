@@ -174,12 +174,19 @@ namespace Song.ServiceImpls
             //当前机构
             Organization curr = null;
             //从缓存中读取
-            List<Organization> list = WeiSha.Common.Cache<Organization>.Data.List;
-            if (list == null || list.Count < 1) list = this.OrganBuildCache();
-            List<Organization> tm = (from l in list
-                     where l.Org_IsUse == true && l.Org_IsPass == true && l.Org_IsShow == true && l.Org_TwoDomain == twoDomain
-                      select l).ToList<Organization>();
-            if (tm.Count > 0) curr = tm[0];
+            try
+            {
+                List<Organization> list = WeiSha.Common.Cache<Organization>.Data.List;
+                if (list == null || list.Count < 1) list = this.OrganBuildCache();
+                List<Organization> tm = (from l in list
+                                         where l.Org_IsUse == true && l.Org_IsPass == true && l.Org_IsShow == true && l.Org_TwoDomain == twoDomain
+                                         select l).ToList<Organization>();
+                if (tm.Count > 0) curr = tm[0];
+            }
+            catch
+            {
+                curr = Gateway.Default.From<Organization>().Where(Organization._.Org_TwoDomain == twoDomain).ToFirst<Organization>();
+            }
             if (curr == null) curr = this.OrganDefault();
             //如果缓存中没有，则读取数据库
             if (curr == null)
