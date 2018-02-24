@@ -1279,8 +1279,11 @@ namespace Song.ServiceImpls
         public MoneyAccount MoneyIncome(MoneyAccount entity)
         {
             entity.Ma_CrtTime = DateTime.Now;
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            if (org != null) entity.Org_ID = org.Org_ID;
+            if (entity.Org_ID < 1)
+            {
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                if (org != null) entity.Org_ID = org.Org_ID;
+            }
             entity.Ma_Type = 2;
             //流水号
             entity.Ma_Serial = Business.Do<ISystemPara>().Serial();
@@ -1564,5 +1567,34 @@ namespace Song.ServiceImpls
                 .Where(wc).OrderBy(MoneyAccount._.Ma_CrtTime.Desc).ToArray<MoneyAccount>(size, (index - 1) * size);
         }
         #endregion
+
+        /// <summary>
+        /// 当前账户的所有父级账户，依次向上
+        /// </summary>
+        /// <param name="accid">当前账户id</param>
+        /// <returns></returns>
+        public Accounts[] Parents(int accid)
+        {
+            Accounts acc = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == accid).ToFirst<Accounts>();
+            return Parents(acc);
+        }
+        public Accounts[] Parents(Accounts acc)
+        {
+            List<Accounts> list = new List<Accounts>();            
+            if (acc == null) return list.ToArray();
+            //取父级
+            Accounts parent = null;
+            do
+            {
+                parent = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acc.Ac_PID).ToFirst<Accounts>();
+                if (parent != null)
+                {
+                    list.Add(parent);
+                    acc = parent;
+                }
+            }
+            while (parent != null);
+            return list.ToArray();
+        }
     }
 }
