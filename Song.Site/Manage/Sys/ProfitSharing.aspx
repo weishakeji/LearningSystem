@@ -5,7 +5,7 @@
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
     <div id="header">
-        <uc1:toolsBar ID="ToolsBar1" runat="server" WinPath="Title_Edit.aspx" AddButtonOpen="true"
+        <uc1:toolsBar ID="ToolsBar1" runat="server" WinPath="ProfitSharing_Edit.aspx" AddButtonOpen="true"
             WinWidth="600" WinHeight="400" GvName="GridView1" OnDelete="DeleteEvent" DelShowMsg="注:\n超管角色无法删除！" />
     </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
@@ -37,6 +37,12 @@
 </itemtemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="分润方案">
+                <itemstyle cssclass="center" />
+                <itemtemplate>
+<%# Eval("Ps_Name")%>
+</itemtemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="说明">
                 <itemstyle cssclass="center" />
                 <itemtemplate>
 <%# Eval("Ps_Intro")%>

@@ -3,7 +3,7 @@ namespace Song.Entities {
     	
     	
     	/// <summary>
-    	/// 表名：ProfitSharing 主键列：
+    	/// 表名：ProfitSharing 主键列：Ps_ID
     	/// </summary>
     	[SerializableAttribute()]
     	public partial class ProfitSharing : WeiSha.Data.Entity {
@@ -27,6 +27,8 @@ namespace Song.Entities {
     		protected Int32 _Ps_CouponValue;
     		
     		protected Int32 _Ps_PID;
+    		
+    		protected String _Ps_Name;
     		
     		public Int32 Ps_ID {
     			get {
@@ -128,6 +130,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Ps_Name {
+    			get {
+    				return this._Ps_Name;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ps_Name, _Ps_Name, value);
+    				this._Ps_Name = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -140,6 +152,14 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field GetIdentityField() {
     			return _.Ps_ID;
+    		}
+    		
+    		/// <summary>
+    		/// 获取实体中的主键列
+    		/// </summary>
+    		protected override WeiSha.Data.Field[] GetPrimaryKeyFields() {
+    			return new WeiSha.Data.Field[] {
+    					_.Ps_ID};
     		}
     		
     		/// <summary>
@@ -156,7 +176,8 @@ namespace Song.Entities {
     					_.Ps_Couponratio,
     					_.Ps_MoneyValue,
     					_.Ps_CouponValue,
-    					_.Ps_PID};
+    					_.Ps_PID,
+    					_.Ps_Name};
     		}
     		
     		/// <summary>
@@ -173,7 +194,8 @@ namespace Song.Entities {
     					this._Ps_Couponratio,
     					this._Ps_MoneyValue,
     					this._Ps_CouponValue,
-    					this._Ps_PID};
+    					this._Ps_PID,
+    					this._Ps_Name};
     		}
     		
     		/// <summary>
@@ -209,6 +231,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ps_PID))) {
     				this._Ps_PID = reader.GetInt32(_.Ps_PID);
+    			}
+    			if ((false == reader.IsDBNull(_.Ps_Name))) {
+    				this._Ps_Name = reader.GetString(_.Ps_Name);
     			}
     		}
     		
@@ -285,6 +310,11 @@ namespace Song.Entities {
     			/// 字段名：Ps_PID - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Ps_PID = new WeiSha.Data.Field<ProfitSharing>("Ps_PID");
+    			
+    			/// <summary>
+    			/// 字段名：Ps_Name - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ps_Name = new WeiSha.Data.Field<ProfitSharing>("Ps_Name");
     		}
     	}
     }

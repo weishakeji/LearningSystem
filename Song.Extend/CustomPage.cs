@@ -198,18 +198,46 @@ namespace Song.Extend
         /// 增加地址的参数
         /// </summary>
         /// <param name="url"></param>
-        /// <param name="para"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        protected string AddPara(string url, params string[] para)
+        protected string AddPara(string url, string key, object value)
         {
-            string p = "";
-            for (int i = 0; i < para.Length; i++)
+            string query = string.Empty;
+            if (url.IndexOf('?') > -1)
             {
-                p += para[i];
-                if (i < para.Length - 1) p += "&";
+                query = url.Substring(url.IndexOf('?') + 1);
+                url = url.Substring(0, url.IndexOf('?'));
             }
-            url += (url.IndexOf("?") > -1 ? "&" : "?") + p;
-            return url;
+            if (string.IsNullOrWhiteSpace(query)) return string.Format("{0}?{1}={2}", url, key, value.ToString());
+            //参数组
+            string[] arr = query.Split('&');
+            string tmQuery = string.Empty;
+            bool isExist = false;
+            for (int i = 0; i < arr.Length;i++ )
+            {
+                string[] t = arr[i].Split('=');
+                if (t.Length < 2) continue;
+                if (key.ToLower() == t[0].ToLower())
+                {
+                    t[1] = value.ToString();
+                    isExist = true;
+                }
+                tmQuery += string.Format("{0}={1}&", t[0], t[1]);
+            }
+            if (!isExist) tmQuery += string.Format("{0}={1}&", key, value.ToString());
+            if (tmQuery.EndsWith("&")) tmQuery = tmQuery.Substring(0, tmQuery.Length - 1);          
+            return url + "?" + tmQuery;
+        }
+        /// <summary>
+        /// 用于拼接页面的查询字串
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        protected string AddPara(string key, object value)
+        {
+            return this.AddPara(this.Page.Request.RawUrl, key, value);            
         }
         /// <summary>
         /// 将查询字串绑定到查询控件上

@@ -71,7 +71,7 @@ namespace Song.Site.Manage.Utility
                 }
                 else
                 {
-                    fileName += "?" + getQuerry("index", 1);
+                    fileName += "?" + getQuery("index", 1);
                 }
                 Response.Redirect(fileName);
             }
@@ -130,7 +130,7 @@ namespace Song.Site.Manage.Utility
                 string url = "";
                 if (index - 1 <= display) return url;
                 string fileName = Path.GetFileName(this.Request.FilePath);
-                url = fileName + "?" + getQuerry("index", 1);
+                url = fileName + "?" + getQuery("index", 1);
                 url = "<a href=\"" + url + "\">|&lt;</a>";
                 return url;
             }
@@ -145,8 +145,8 @@ namespace Song.Site.Manage.Utility
                 string url = "";
                 if (index - 1 <= display) return url;
                 string fileName = Path.GetFileName(this.Request.FilePath);
-                if (index - 1 <= 0) url = fileName + "?" + getQuerry("index", index); 
-                if (index - 1 > 0) url = fileName + "?" + getQuerry("index", index - 1 - display * 2);                
+                if (index - 1 <= 0) url = fileName + "?" + getQuery("index", index); 
+                if (index - 1 > 0) url = fileName + "?" + getQuery("index", index - 1 - display * 2);                
                 url = "<a href=\"" + url + "\">...</a>";
                 return url;
             }
@@ -163,9 +163,9 @@ namespace Song.Site.Manage.Utility
                 if (index >= amount - display) return url;
                 string fileName = Path.GetFileName(this.Request.FilePath);
                 if (index + 1 < amount - display * 2)
-                    url = fileName + "?" + getQuerry("index", index + 1 + this.Display * 2);
+                    url = fileName + "?" + getQuery("index", index + 1 + this.Display * 2);
                 else
-                    url = fileName + "?" + getQuerry("index", amount);
+                    url = fileName + "?" + getQuery("index", amount);
                 return url = "<a href=\"" + url + "\">...</a>";
             }
         }
@@ -179,7 +179,7 @@ namespace Song.Site.Manage.Utility
                 string url = "";
                 if (index >= amount || index >= amount - display) return url;
                 string fileName = Path.GetFileName(this.Request.FilePath);
-                url = fileName + "?" + getQuerry("index", amount);
+                url = fileName + "?" + getQuery("index", amount);
                 return url = "<a href=\"" + url + "\">&gt;|</a>";
             }
         }
@@ -189,7 +189,7 @@ namespace Song.Site.Manage.Utility
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        private string getQuerry(string key, int value)
+        private string getQuery(string key, int value)
         {
             string query = this.Qurey;
             if (string.IsNullOrWhiteSpace(query)) return key + "=" + value;
@@ -225,7 +225,7 @@ namespace Song.Site.Manage.Utility
                     }
                     else
                     {
-                        nav += "<a href=\"" + fileName + "?" + getQuerry("index", i) + "\">" + i + "</a>";
+                        nav += "<a href=\"" + fileName + "?" + getQuery("index", i) + "\">" + i + "</a>";
                     }
                    
                 }
@@ -259,7 +259,7 @@ namespace Song.Site.Manage.Utility
             int goIndex = 1;
             int.TryParse(tbGoPagenum.Text, out goIndex);
             string fileName = Path.GetFileName(this.Request.FilePath);
-            string url = fileName + "?" + getQuerry("index", goIndex);
+            string url = fileName + "?" + getQuery("index", goIndex);
             this.Response.Redirect(url);
         }
   

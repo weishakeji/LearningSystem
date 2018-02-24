@@ -24,7 +24,7 @@
         errmsg:{
             nullable:{def:"不能为空"},
             lenlimit:{def:"限制{0}字符",msg1:"超出{0}个字符",msg2:"请录入{0}-{1}个字符"},
-            numlimit:{def:"请输入数字",msg1:"请输入小于等于{0}的数字",msg2:"请录入{0}-{1}之间的数字"},
+            numlimit:{def:"请输入数字",msg1:"请输入小于等于{0}的数字",msg2:"请录入{0}-{1}之间的数字",msg3:"只能录入{0}"},
             sametarget:{def:"两次输入不相同"},
             novalue:{def:"值不合法"},
             datatype:{
@@ -257,6 +257,7 @@
                     min=preCtl!=null ? Number(verify.getctl(preCtl).val()): Number(pre);
                     var posCtl=verify.getbrace(pos);
                     max=posCtl!=null ? Number(verify.getctl(posCtl).val()): Number(pos);
+                    if(min==max && num!=min)return verify.showBox(control, verify.format(verify.errmsg.numlimit.msg3,min,max));
                     if (!(num >= min && num <= max))return verify.showBox(control, verify.format(verify.errmsg.numlimit.msg2,min,max));
                 }
                 return true;

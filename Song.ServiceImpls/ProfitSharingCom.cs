@@ -25,6 +25,7 @@ namespace Song.ServiceImpls
             object obj = Gateway.Default.Max<ProfitSharing>(ProfitSharing._.Ps_Level, ProfitSharing._.Ps_IsTheme == true);
             int tax = obj is int ? (int)obj : 0;
             entity.Ps_Level = tax + 1;
+            entity.Ps_IsTheme = true;
             Gateway.Default.Save<ProfitSharing>(entity);
             return entity.Ps_ID;
         }
@@ -183,6 +184,15 @@ namespace Song.ServiceImpls
             object obj = Gateway.Default.Max<ProfitSharing>(ProfitSharing._.Ps_Level, ProfitSharing._.Ps_PID == entity.Ps_PID);
             int tax = obj is int ? (int)obj : 0;
             entity.Ps_Level = tax + 1;
+            entity.Ps_IsTheme = false;
+            //验证资金分润比例之合，是否大于100
+            object objm = Gateway.Default.Sum<ProfitSharing>(ProfitSharing._.Ps_Moneyratio, ProfitSharing._.Ps_PID == entity.Ps_PID);
+            int summ = objm is int ? (int)objm : 0;
+            if ((summ + entity.Ps_Moneyratio) > 100) throw new Exception("资金分润比例之合，不得大于100");
+            //验证卡券分润比例之合，是否大于100
+            object objc = Gateway.Default.Sum<ProfitSharing>(ProfitSharing._.Ps_Moneyratio, ProfitSharing._.Ps_PID == entity.Ps_PID);
+            int sumc = objc is int ? (int)objc : 0;
+            if ((sumc + entity.Ps_Couponratio) > 100) throw new Exception("卡券分润比例之合，不得大于100");
             Gateway.Default.Save<ProfitSharing>(entity);
             return entity.Ps_ID;
         }
@@ -192,6 +202,15 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void ProfitSave(ProfitSharing entity)
         {
+            //验证资金分润比例之合，是否大于100
+            object objm = Gateway.Default.Sum<ProfitSharing>(ProfitSharing._.Ps_Moneyratio, ProfitSharing._.Ps_PID == entity.Ps_PID && ProfitSharing._.Ps_ID != entity.Ps_ID);
+            int summ = objm is int ? (int)objm : 0;
+            if ((summ + entity.Ps_Moneyratio) > 100) throw new Exception("资金分润比例之合，不得大于100");
+            //验证卡券分润比例之合，是否大于100
+            object objc= Gateway.Default.Sum<ProfitSharing>(ProfitSharing._.Ps_Moneyratio, ProfitSharing._.Ps_PID == entity.Ps_PID && ProfitSharing._.Ps_ID != entity.Ps_ID);
+            int sumc = objc is int ? (int)objc : 0;
+            if ((sumc + entity.Ps_Couponratio) > 100) throw new Exception("卡券分润比例之合，不得大于100");
+            //保存
             Gateway.Default.Save<ProfitSharing>(entity);
         }
         /// <summary>
