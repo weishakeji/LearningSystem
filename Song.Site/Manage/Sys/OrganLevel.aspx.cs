@@ -55,19 +55,12 @@ namespace Song.Site.Manage.Sys
         /// <param name="e"></param>
         protected void DeleteEvent(object sender, EventArgs e)
         {
-            try
+            string keys = GridView1.GetKeyValues;
+            foreach (string id in keys.Split(','))
             {
-                string keys = GridView1.GetKeyValues;
-                foreach (string id in keys.Split(','))
-                {
-                    Business.Do<IOrganization>().LevelDelete(Convert.ToInt16(id));
-                }
-                BindData(null, null);
+                Business.Do<IOrganization>().LevelDelete(Convert.ToInt16(id));
             }
-            catch (Exception ex)
-            {
-                Message.ExceptionShow(ex);
-            }
+            BindData(null, null);
         }
         /// <summary>
         /// 单个删除
@@ -99,21 +92,15 @@ namespace Song.Site.Manage.Sys
         /// <param name="e"></param>
         protected void sbShow_Click(object sender, EventArgs e)
         {
-            try
-            {
-                StateButton ub = (StateButton)sender;
-                int index = ((GridViewRow)(ub.Parent.Parent)).RowIndex;
-                int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
-                //
-                Song.Entities.OrganLevel entity = Business.Do<IOrganization>().LevelSingle(id);
-                entity.Olv_IsUse = !entity.Olv_IsUse;
-                Business.Do<IOrganization>().LevelSave(entity);
-                BindData(null, null);
-            }
-            catch (Exception ex)
-            {
-                Message.ExceptionShow(ex);
-            }
+
+            StateButton ub = (StateButton)sender;
+            int index = ((GridViewRow)(ub.Parent.Parent)).RowIndex;
+            int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
+            //
+            Song.Entities.OrganLevel entity = Business.Do<IOrganization>().LevelSingle(id);
+            entity.Olv_IsUse = !entity.Olv_IsUse;
+            Business.Do<IOrganization>().LevelSave(entity);
+            BindData(null, null);
         }
         /// <summary>
         /// 修改是否为默认的状态
@@ -122,19 +109,26 @@ namespace Song.Site.Manage.Sys
         /// <param name="e"></param>
         protected void sbDef_Click(object sender, EventArgs e)
         {
-            try
-            {
-                StateButton ub = (StateButton)sender;
-                int index = ((GridViewRow)(ub.Parent.Parent)).RowIndex;
-                int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
-                Business.Do<IOrganization>().LevelSetDefault(id);
-                BindData(null, null);
-            }
-            catch (Exception ex)
-            {
-                Message.ExceptionShow(ex);
-            }
-        }  
+            StateButton ub = (StateButton)sender;
+            int index = ((GridViewRow)(ub.Parent.Parent)).RowIndex;
+            int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
+            Business.Do<IOrganization>().LevelSetDefault(id);
+            BindData(null, null);
+        }
         #endregion
+
+        /// <summary>
+        /// 获取分润方案名称
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        protected string GetProfit(object obj)
+        {
+            int psid = 0;
+            int.TryParse(obj.ToString(), out psid);
+            Song.Entities.ProfitSharing ps = Business.Do<IProfitSharing>().ThemeSingle(psid);
+            if (ps == null) return "";
+            return ps.Ps_Name;
+        }
     }
 }

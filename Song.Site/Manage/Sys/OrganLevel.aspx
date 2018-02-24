@@ -45,6 +45,12 @@
 <%# Eval("Olv_Tag")%>
 </itemtemplate>
             </asp:TemplateField>
+            <asp:TemplateField HeaderText="·ÖÈó·½°¸">
+                <itemstyle cssclass="center" />
+                <itemtemplate>
+<%# GetProfit(Eval("Ps_ID"))%>
+</itemtemplate>
+            </asp:TemplateField>
               <asp:TemplateField HeaderText="¼ò½é">
                 <itemstyle cssclass="center" />
                 <itemtemplate>

@@ -24,6 +24,12 @@ namespace Song.Site.Manage.Sys
         {
             if (!this.IsPostBack)
             {
+                //绑定分润方案
+                Song.Entities.ProfitSharing[] pss = Business.Do<IProfitSharing>().ThemeAll(null);
+                ddlProfit.DataSource = pss;
+                ddlProfit.DataBind();
+                ddlProfit.Items.Insert(0,new ListItem("--请选择--","-1"));
+                //
                 fill();
             }
         }
@@ -46,6 +52,13 @@ namespace Song.Site.Manage.Sys
             tbName.Text = mm.Olv_Name;
             tbTag.Text = mm.Olv_Tag;
             tbLevel.Text = mm.Olv_Level.ToString();
+            //分润方案
+            ListItem liProf = ddlProfit.Items.FindByValue(mm.Ps_ID.ToString());
+            if (liProf != null)
+            {
+                ddlProfit.SelectedIndex = -1;
+                liProf.Selected = true;
+            }
             //说明
             tbIntro.Text = mm.Olv_Intro;
             
@@ -75,6 +88,10 @@ namespace Song.Site.Manage.Sys
                 //说明
                 mm.Olv_Intro = tbIntro.Text.Trim();
                 mm.Olv_IsUse = cbIsUse.Checked;
+                //分润方案
+                int profitid = 0;
+                int.TryParse(ddlProfit.SelectedValue, out profitid);
+                mm.Ps_ID = profitid;
                 //确定操作
                 if (id == 0)
                 {

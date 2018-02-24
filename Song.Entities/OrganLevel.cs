@@ -24,6 +24,8 @@ namespace Song.Entities {
     		
     		protected Boolean _Olv_IsDefault;
     		
+    		protected Int32 _Ps_ID;
+    		
     		public Int32 Olv_ID {
     			get {
     				return this._Olv_ID;
@@ -104,6 +106,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Ps_ID {
+    			get {
+    				return this._Ps_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ps_ID, _Ps_ID, value);
+    				this._Ps_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -138,7 +150,8 @@ namespace Song.Entities {
     					_.Olv_IsUse,
     					_.Olv_Tag,
     					_.Olv_Tax,
-    					_.Olv_IsDefault};
+    					_.Olv_IsDefault,
+    					_.Ps_ID};
     		}
     		
     		/// <summary>
@@ -153,7 +166,8 @@ namespace Song.Entities {
     					this._Olv_IsUse,
     					this._Olv_Tag,
     					this._Olv_Tax,
-    					this._Olv_IsDefault};
+    					this._Olv_IsDefault,
+    					this._Ps_ID};
     		}
     		
     		/// <summary>
@@ -183,6 +197,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Olv_IsDefault))) {
     				this._Olv_IsDefault = reader.GetBoolean(_.Olv_IsDefault);
+    			}
+    			if ((false == reader.IsDBNull(_.Ps_ID))) {
+    				this._Ps_ID = reader.GetInt32(_.Ps_ID);
     			}
     		}
     		
@@ -249,7 +266,11 @@ namespace Song.Entities {
     			/// 字段名：Olv_IsDefault - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Olv_IsDefault = new WeiSha.Data.Field<OrganLevel>("Olv_IsDefault");
+    			
+    			/// <summary>
+    			/// 字段名：Ps_ID - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Ps_ID = new WeiSha.Data.Field<OrganLevel>("Ps_ID");
     		}
     	}
     }
-    
