@@ -1472,6 +1472,24 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<MoneyAccount>().Where(MoneyAccount._.Ma_Serial == serial.Trim()).ToFirst<MoneyAccount>();
         }
         /// <summary>
+        /// 计算资金收益
+        /// </summary>
+        /// <param name="accid">账号id</param>
+        /// <param name="type">1支出，2收入（包括充值、分润等）</param>
+        /// <param name="from">类型，来源，1为管理员操作，2为充值码充值；3这在线支付；4购买课程,5分润</param>
+        /// <returns></returns>
+        public decimal MoneySum(int accid, int type, int from)
+        {
+            WhereClip wc = MoneyAccount._.Ac_ID == accid;
+            wc &= MoneyAccount._.Ma_IsSuccess == true;
+            if (type > 0) wc &= MoneyAccount._.Ma_Type == type;
+            if (from > 0) wc &= MoneyAccount._.Ma_From == from;
+            object tm = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Monery, wc);
+            decimal sum = 0;
+            sum = tm is decimal ? (decimal)tm : 0;
+            return sum;
+        }
+        /// <summary>
         /// 修改流水信息
         /// </summary>
         /// <param name="entity"></param>

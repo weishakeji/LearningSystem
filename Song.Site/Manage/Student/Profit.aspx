@@ -8,7 +8,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMain" runat="server">
     <script language="javascript" src="../Utility/datepicker/WdatePicker.js" type="text/javascript"></script>
     <div id="header">
-    <span class="toolsBar">收益：<asp:Literal ID="ltPointsum" runat="server"></asp:Literal></span>
+    <span class="toolsBar">累计收益：<asp:Literal ID="ltPointsum" runat="server"></asp:Literal>元</span>
         <asp:Panel ID="searchBox" CssClass="searchBox" runat="server">
             时间：<asp:TextBox ID="tbStartTime" runat="server" Width="90" onfocus="WdatePicker()"
                 CssClass="Wdate" EnableTheming="false"></asp:TextBox>
@@ -38,33 +38,33 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="详情">
                 <ItemTemplate>
-                    <%# Eval("Pa_Type", "{0}") == "1" ? "<span class='type1'>支出</span>" : "<span class='type2'>增加</span>"%>
+                    <%# Eval("Ma_Type", "{0}") == "1" ? "<span class='type1'>支出</span>" : "<span class='type2'>增加</span>"%>
                     <span>>> </span>
-                    <%# Eval("Pa_Value", "{0}")%>
+                    <%# Eval("Ma_Monery", "{0:C}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="left" Width="120px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="积分">
+            <asp:TemplateField HeaderText="资金">
                 <ItemTemplate>
-                    <%# Eval("Pa_Total", "{0}")%>
+                 <%# Eval("Ma_Total", "{0:C}")%>
                 </ItemTemplate>
-                <ItemStyle CssClass="center" Width="60px" />
+                <ItemStyle CssClass="center" Width="100px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="学员">
+           <%-- <asp:TemplateField HeaderText="学员">
                 <ItemTemplate>
                     <%# GetStudent(Eval("Ac_ID", "{0}"))%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" />
-            </asp:TemplateField>
+            </asp:TemplateField>--%>
             <asp:TemplateField HeaderText="说明">
                 <ItemTemplate>
-                    <%# Eval("Pa_Info", "{0}")%>
+                    <%# Eval("Ma_Info", "{0}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" />
             </asp:TemplateField>
             <asp:TemplateField HeaderText="时间">
                 <ItemTemplate>
-                    <%# Eval("Pa_CrtTime", "{0}")%>
+                    <%# Eval("Ma_CrtTime", "{0}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="160px" />
             </asp:TemplateField>

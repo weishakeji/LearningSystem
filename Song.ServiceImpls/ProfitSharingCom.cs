@@ -356,14 +356,15 @@ namespace Song.ServiceImpls
             if (olevel == null) return null;
             //分润方案
             ProfitSharing psTheme = this.ThemeSingle(olevel.Ps_ID);
+            if (psTheme == null) return null;       //如果没有设置分润方案
             if (!psTheme.Ps_IsUse) return null;     //如果分润方案没有启用
             ProfitSharing[] profits = this.ProfitAll(olevel.Ps_ID, true);
             if (profits.Length < 1) return null;
             //计算
             for (int i = 0; i < profits.Length; i++)
             {
-                profits[i].Ps_MoneyValue = (decimal)profits[i].Ps_Moneyratio * (decimal)money;
-                profits[i].Ps_CouponValue = (int)Math.Floor(profits[i].Ps_Couponratio * (double)coupon);
+                profits[i].Ps_MoneyValue = (decimal)profits[i].Ps_Moneyratio * ((decimal)money / 100);
+                profits[i].Ps_CouponValue = (int)Math.Floor(profits[i].Ps_Couponratio * ((double)coupon) / 100);
             }
             return profits;
         }
@@ -384,24 +385,30 @@ namespace Song.ServiceImpls
             for (int i = 0; i < len; i++)
             {
                 //写入资金分润
-                MoneyAccount ma = new MoneyAccount();
-                ma.Ma_Monery = ps[i].Ps_MoneyValue;
-                ma.Ac_ID = parents[i].Ac_ID;
-                ma.Ma_Source = "分润";
-                ma.Ma_Info = string.Format("{0}（{1}）购买课程《{2}》,获取收益{3}", parents[i].Ac_Name, parents[i].Ac_AccName, cou.Cou_Name, ps[i].Ps_MoneyValue);
-                ma.Ma_From = 5; //
-                ma.Ma_IsSuccess = true;
-                ma.Org_ID = parents[i].Org_ID;
-                ma = Business.Do<IAccounts>().MoneyIncome(ma);
+                if (ps[i].Ps_MoneyValue > 0)
+                {
+                    MoneyAccount ma = new MoneyAccount();
+                    ma.Ma_Monery = ps[i].Ps_MoneyValue;
+                    ma.Ac_ID = parents[i].Ac_ID;
+                    ma.Ma_Source = "分润";
+                    ma.Ma_Info = string.Format("{0}（{1}）购买课程《{2}》,获取收益{3}", acc.Ac_Name, acc.Ac_AccName, cou.Cou_Name, ps[i].Ps_MoneyValue);
+                    ma.Ma_From = 5; //
+                    ma.Ma_IsSuccess = true;
+                    ma.Org_ID = parents[i].Org_ID;
+                    ma = Business.Do<IAccounts>().MoneyIncome(ma);
+                }
                 //写入卡券分润
-                Song.Entities.CouponAccount ca = new CouponAccount();
-                ca.Ac_ID = parents[i].Ac_ID;
-                ca.Ca_Source = "分润";
-                ca.Ca_Value = ps[i].Ps_CouponValue;
-                ca.Ca_Total = parents[i].Ac_Coupon; //当前卡券总数
-                ca.Ca_Info = string.Format("{0}（{1}）购买课程《{2}》,获取收益{3}", parents[i].Ac_Name, parents[i].Ac_AccName, cou.Cou_Name, ps[i].Ps_CouponValue);
-                ca.Ca_From = 5;
-                Business.Do<IAccounts>().CouponAdd(ca);
+                if (ps[i].Ps_CouponValue > 0)
+                {
+                    Song.Entities.CouponAccount ca = new CouponAccount();
+                    ca.Ac_ID = parents[i].Ac_ID;
+                    ca.Ca_Source = "分润";
+                    ca.Ca_Value = ps[i].Ps_CouponValue;
+                    ca.Ca_Total = parents[i].Ac_Coupon; //当前卡券总数
+                    ca.Ca_Info = string.Format("{0}（{1}）购买课程《{2}》,获取收益{3}", acc.Ac_Name, acc.Ac_AccName, cou.Cou_Name, ps[i].Ps_CouponValue);
+                    ca.Ca_From = 5;
+                    Business.Do<IAccounts>().CouponAdd(ca);
+                }
             }
         }
         #endregion
