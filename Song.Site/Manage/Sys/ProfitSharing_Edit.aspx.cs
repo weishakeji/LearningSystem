@@ -42,20 +42,6 @@ namespace Song.Site.Manage.Sys
         }
         protected void BindGridviewData()
         {
-            //Song.Entities.Course cou = couid < 1 ? new Song.Entities.Course() : Business.Do<ICourse>().CourseSingle(couid);
-            //if (cou == null) return;
-            ////课程名称
-            //lbName.Text = cou.Cou_Name;
-            ////是否免费
-            //cbIsFree.Checked = cou.Cou_IsFree;
-            //Cou_IsFree_CheckedChanged(null, null);
-            ////是否允许试用
-            //cbIsTry.Checked = cou.Cou_IsTry;
-            //Cou_IsTry_CheckedChanged(null, null);
-            ////每个章节，试用的试题数
-            //tbTryNum.Text = cou.Cou_TryNum > 0 ? cou.Cou_TryNum.ToString() : "";
-            //全局UID
-            //ViewState["UID"] = string.IsNullOrWhiteSpace(cou.Cou_UID) ? getUID() : cou.Cou_UID;
             Song.Entities.ProfitSharing[] profits = Business.Do<IProfitSharing>().ProfitAll(id, null);
             gvProfit.DataSource = profits;
             gvProfit.DataKeyNames = new string[] { "Ps_ID" };
@@ -259,6 +245,7 @@ namespace Song.Site.Manage.Sys
             else
             {
                 BindGridviewData();
+                this.tbCouponAdd.Text = this.tbMoneyAdd.Text = "";
             }
         }
     }

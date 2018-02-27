@@ -331,5 +331,79 @@ namespace Song.ServiceImpls
             }      
         }
         #endregion
+
+        #region 分润计算
+        /// <summary>
+        /// 计算分润
+        /// </summary>
+        /// <param name="couid">课程id,需要知道当前课程在哪个机构，哪个机构等级，从而获取分润方案</param>
+        /// <param name="money">消费的资金数</param>
+        /// <param name="coupon">消费的卡数</param>
+        /// <returns></returns>
+        public ProfitSharing[] Clac(int couid, double money, double coupon)
+        {
+            Course cou = Business.Do<ICourse>().CourseSingle(couid);
+            return Clac(cou, money, coupon);
+        }
+        public ProfitSharing[] Clac(Course cou, double money, double coupon)
+        {
+            if (cou == null) return null;
+            //课程所在机构
+            Organization org = Business.Do<IOrganization>().OrganSingle(cou.Org_ID);
+            if (org == null) return null;
+            //所属机构等级
+            OrganLevel olevel = Business.Do<IOrganization>().LevelSingle(org.Olv_ID);
+            if (olevel == null) return null;
+            //分润方案
+            ProfitSharing psTheme = this.ThemeSingle(olevel.Ps_ID);
+            if (!psTheme.Ps_IsUse) return null;     //如果分润方案没有启用
+            ProfitSharing[] profits = this.ProfitAll(olevel.Ps_ID, true);
+            if (profits.Length < 1) return null;
+            //计算
+            for (int i = 0; i < profits.Length; i++)
+            {
+                profits[i].Ps_MoneyValue = (decimal)profits[i].Ps_Moneyratio * (decimal)money;
+                profits[i].Ps_CouponValue = (int)Math.Floor(profits[i].Ps_Couponratio * (double)coupon);
+            }
+            return profits;
+        }
+        /// <summary>
+        /// 分配利润
+        /// </summary>
+        /// <param name="cou">当前课程</param>
+        /// <param name="acc">当前学员账户</param>
+        /// <param name="money">消费的资金数</param>
+        /// <param name="coupon">消费的卡数</param>
+        public void Distribution(Course cou, Accounts acc, double money, double coupon)
+        {
+            Accounts[] parents = Business.Do<IAccounts>().Parents(acc);
+            if (parents.Length < 1) return;
+            //计算分润
+            ProfitSharing[] ps = this.Clac(cou, money, coupon);
+            int len = ps.Length > parents.Length ? parents.Length : ps.Length;
+            for (int i = 0; i < len; i++)
+            {
+                //写入资金分润
+                MoneyAccount ma = new MoneyAccount();
+                ma.Ma_Monery = ps[i].Ps_MoneyValue;
+                ma.Ac_ID = parents[i].Ac_ID;
+                ma.Ma_Source = "分润";
+                ma.Ma_Info = string.Format("{0}（{1}）购买课程《{2}》,获取收益{3}", parents[i].Ac_Name, parents[i].Ac_AccName, cou.Cou_Name, ps[i].Ps_MoneyValue);
+                ma.Ma_From = 5; //
+                ma.Ma_IsSuccess = true;
+                ma.Org_ID = parents[i].Org_ID;
+                ma = Business.Do<IAccounts>().MoneyIncome(ma);
+                //写入卡券分润
+                Song.Entities.CouponAccount ca = new CouponAccount();
+                ca.Ac_ID = parents[i].Ac_ID;
+                ca.Ca_Source = "分润";
+                ca.Ca_Value = ps[i].Ps_CouponValue;
+                ca.Ca_Total = parents[i].Ac_Coupon; //当前卡券总数
+                ca.Ca_Info = string.Format("{0}（{1}）购买课程《{2}》,获取收益{3}", parents[i].Ac_Name, parents[i].Ac_AccName, cou.Cou_Name, ps[i].Ps_CouponValue);
+                ca.Ca_From = 5;
+                Business.Do<IAccounts>().CouponAdd(ca);
+            }
+        }
+        #endregion
     }
 }

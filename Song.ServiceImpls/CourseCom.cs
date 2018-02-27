@@ -860,6 +860,8 @@ namespace Song.ServiceImpls
             ma.Ma_IsSuccess = true;
             if (mprice > 0) Business.Do<IAccounts>().MoneyPay(ma);
             if (cprice > 0) Business.Do<IAccounts>().CouponPay(ca);
+            //分润
+            Business.Do<IProfitSharing>().Distribution(course, st, mprice, cprice);
             Gateway.Default.Save<Student_Course>(sc);
             return sc;
         }

@@ -37,7 +37,7 @@
 </itemtemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="分润方案">
-                <itemstyle cssclass="center" />
+                <itemstyle cssclass="center"  width="150px" />
                 <itemtemplate>
 <%# Eval("Ps_Name")%>
 </itemtemplate>

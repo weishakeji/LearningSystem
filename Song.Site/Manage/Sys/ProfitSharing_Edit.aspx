@@ -42,7 +42,8 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="级别">
                         <ItemTemplate>
-                            <%# Eval("Ps_Level","{0}")%>
+                            <span style="display:none"><%# Eval("Ps_Level","{0}")%></span>
+                             <%# Container.DataItemIndex   + 1 %>
                         </ItemTemplate>
                         <ItemStyle CssClass="center noprint" Width="60px" />
                     </asp:TemplateField>

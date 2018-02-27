@@ -527,5 +527,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         MoneyAccount[] MoneyPager(int orgid, int st, int type, int from, string searTxt, DateTime? start, DateTime? end, int size, int index, out int countSum);
         #endregion
+        /// <summary>
+        /// 当前账户的所有父级账户，依次向上
+        /// </summary>
+        /// <param name="accid">当前账户id</param>
+        /// <returns></returns>
+        Accounts[] Parents(int accid);
+        Accounts[] Parents(Accounts acc);
     }
 }

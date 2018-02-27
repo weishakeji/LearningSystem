@@ -104,5 +104,25 @@ namespace Song.ServiceInterfaces
         /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
         bool ProfitRemoveDown(int id);
         #endregion
+
+        #region 分润计算
+        /// <summary>
+        /// 计算分润
+        /// </summary>
+        /// <param name="couid">课程id,需要知道当前课程在哪个机构，哪个机构等级，从而获取分润方案</param>
+        /// <param name="money">消费的资金数</param>
+        /// <param name="coupon">消费的卡数</param>
+        /// <returns></returns>
+        ProfitSharing[] Clac(int couid, double money, double coupon);
+        ProfitSharing[] Clac(Course cou, double money, double coupon);
+        /// <summary>
+        /// 分配利润
+        /// </summary>
+        /// <param name="cou">当前课程</param>
+        /// <param name="acc">当前学员账户</param>
+        /// <param name="money">消费的资金数</param>
+        /// <param name="coupon">消费的卡数</param>
+        void Distribution(Course cou, Accounts acc, double money, double coupon);
+        #endregion
     }
 }

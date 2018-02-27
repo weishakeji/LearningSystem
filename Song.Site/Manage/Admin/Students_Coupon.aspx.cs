@@ -56,14 +56,14 @@ namespace Song.Site.Manage.Admin
             int coupon = 0;
             int.TryParse(tbCoupon.Text, out coupon);
             //操作对象
-            Song.Entities.CouponAccount ma = new CouponAccount();
-            ma.Ca_Value = coupon;
-            ma.Ca_Total = st.Ac_Coupon; //当前卡券总数
-            ma.Ca_Remark = tbRemark.Text.Trim();
-            ma.Ac_ID = st.Ac_ID;
-            ma.Ca_Source = "管理员操作";
+            Song.Entities.CouponAccount ca = new CouponAccount();
+            ca.Ca_Value = coupon;
+            ca.Ca_Total = st.Ac_Coupon; //当前卡券总数
+            ca.Ca_Remark = tbRemark.Text.Trim();
+            ca.Ac_ID = st.Ac_ID;
+            ca.Ca_Source = "管理员操作";
             //充值方式，管理员充值
-            ma.Ca_From = 1;
+            ca.Ca_From = 1;
             //操作者
             Song.Entities.EmpAccount emp = Extend.LoginState.Admin.CurrentUser;
             try
@@ -72,14 +72,14 @@ namespace Song.Site.Manage.Admin
                 //如果是充值
                 if (type == 2)
                 {                   
-                    ma.Ca_Info = string.Format("管理员{0}（{1}{2}）向您充值{3}个卡券", emp.Acc_Name, emp.Acc_AccName, mobi, coupon);
-                    Business.Do<IAccounts>().CouponAdd(ma);
+                    ca.Ca_Info = string.Format("管理员{0}（{1}{2}）向您充值{3}个卡券", emp.Acc_Name, emp.Acc_AccName, mobi, coupon);
+                    Business.Do<IAccounts>().CouponAdd(ca);
                 }
                 //如果是转出
                 if (type == 1)
                 {
-                    ma.Ca_Info = string.Format("管理员{0}（{1}{2}）扣除您{3}个卡券", emp.Acc_Name, emp.Acc_AccName, mobi, coupon);
-                    Business.Do<IAccounts>().CouponPay(ma);
+                    ca.Ca_Info = string.Format("管理员{0}（{1}{2}）扣除您{3}个卡券", emp.Acc_Name, emp.Acc_AccName, mobi, coupon);
+                    Business.Do<IAccounts>().CouponPay(ca);
                 }
                 Extend.LoginState.Accounts.Refresh(st.Ac_ID);
                 Master.AlertCloseAndRefresh("操作成功！");

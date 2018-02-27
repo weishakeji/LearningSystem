@@ -231,6 +231,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Accounts AccountsSingle(string phone, bool? isPass, bool? isUse)
         {
+            if (string.IsNullOrWhiteSpace(phone)) return null;
             WhereClip wc = new WhereClip();
             if (isPass != null) wc.And(Accounts._.Ac_IsPass == (bool)isPass);
             if (isUse != null) wc.And(Accounts._.Ac_IsUse == (bool)isUse);

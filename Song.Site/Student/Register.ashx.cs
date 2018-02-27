@@ -129,7 +129,8 @@ namespace Song.Site.Student
                 tmp.Ac_MobiTel1 = phone;
                 tmp.Ac_Email = email;
                 //获取推荐人
-                Song.Entities.Accounts accRec = Business.Do<IAccounts>().AccountsSingle(rec, true, true);
+                Song.Entities.Accounts accRec = null;
+                if (!string.IsNullOrWhiteSpace(rec)) accRec = Business.Do<IAccounts>().AccountsSingle(rec, true, true);
                 if (accRec == null && recid > 0) accRec = Business.Do<IAccounts>().AccountsSingle(recid);
                 if (accRec != null && accRec.Ac_ID != tmp.Ac_ID)
                 {
