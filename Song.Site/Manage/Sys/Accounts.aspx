@@ -57,6 +57,14 @@
                     <%# Eval("Ac_Sex", "{0}") == "2" ? "女" : ""%>
                 </ItemTemplate>
             </asp:TemplateField>
+            <asp:TemplateField HeaderText="&yen; 资金">
+                <ItemStyle CssClass="right" />
+                <HeaderStyle CssClass="right" Width="80px" />
+                <ItemTemplate>
+                    <a href="#" onclick="OpenWin('Accounts_Money.aspx?id=<%# Eval("Ac_id") %>','资金充扣',400,300);return false;"><%# Eval("Ac_money", "{0:C}")%>
+                    </a>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:TemplateField HeaderText="手机号1">
                 <ItemStyle CssClass="center" Width="80px" />
                 <ItemTemplate>

@@ -390,6 +390,7 @@
     <Content Include="Manage\Sys\Accounts_Export.aspx" />
     <Content Include="Manage\Sys\Scripts\OtherLogin.js" />
     <Content Include="Manage\Sys\Scripts\ProfitSharing_Edit.js" />
+    <Content Include="Manage\Sys\Accounts_Money.aspx" />
     <Content Include="Manage\Sys\Styles\Accounts_Export.css" />
     <Content Include="Manage\Sys\Styles\Subject.css" />
     <Content Include="Manage\Sys\Accounts.aspx" />
@@ -2474,6 +2475,13 @@
     </Compile>
     <Compile Include="Manage\Sys\ProfitSharing_Edit.aspx.designer.cs">
       <DependentUpon>ProfitSharing_Edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Sys\Accounts_Money.aspx.cs">
+      <DependentUpon>Accounts_Money.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Sys\Accounts_Money.aspx.designer.cs">
+      <DependentUpon>Accounts_Money.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Teacher\Courses.aspx.cs">
       <DependentUpon>Courses.aspx</DependentUpon>

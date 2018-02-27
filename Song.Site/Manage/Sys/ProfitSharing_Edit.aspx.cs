@@ -72,7 +72,7 @@ namespace Song.Site.Manage.Sys
             else
             {
                 Business.Do<IProfitSharing>().ThemeSave(theme);
-                this.Message.Alert("操作成功！");
+                Master.AlertCloseAndRefresh("操作成功");
             }
            
         }
