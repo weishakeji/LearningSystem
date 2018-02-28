@@ -70,12 +70,12 @@ namespace Com.Alipaywap
                     maccount.Ma_Buyer = Request.QueryString["buyer_email"];
                     maccount.Ma_Seller = Request.QueryString["seller_email"];
                     Business.Do<IAccounts>().MoneyConfirm(maccount);
-                    Response.Redirect(string.Format(return_url, true, maccount.Ma_Monery, maccount.Pai_ID));
+                    Response.Redirect(string.Format(return_url, true, maccount.Ma_Money, maccount.Pai_ID));
                     return;
                 }
                 else//验证失败
                 {
-                    Response.Redirect(string.Format(return_url, false, maccount.Ma_Monery, maccount.Pai_ID));
+                    Response.Redirect(string.Format(return_url, false, maccount.Ma_Money, maccount.Pai_ID));
                 }
             }
             else

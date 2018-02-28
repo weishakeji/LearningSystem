@@ -22,7 +22,7 @@
         <div class="account">
           <vt:if var="data.Ma_Type" value="1" compare="="> <span class='type1'>支出</span> </vt:if>
           <vt:if var="data.Ma_Type" value="2" compare="="> <span class='type2'>充值</span> </vt:if>
-          <span> >> </span> {$:#.data.Ma_Monery}元  {$:#.data.Ma_Source} {$:#.data.Ma_CrtTime format="yyyy-M-dd hh:mm:ss"} 
+          <span> >> </span> {$:#.data.Ma_Money}元  {$:#.data.Ma_Source} {$:#.data.Ma_CrtTime format="yyyy-M-dd hh:mm:ss"} 
           
           </div>
       </vt:foreach>

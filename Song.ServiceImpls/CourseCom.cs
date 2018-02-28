@@ -820,7 +820,7 @@ namespace Song.ServiceImpls
             Song.Entities.MoneyAccount ma = new Song.Entities.MoneyAccount();
             Song.Entities.CouponAccount ca = new Song.Entities.CouponAccount();
             ma.Ac_ID = ca.Ac_ID = stid;
-            ma.Ma_Monery = mprice;  //购买价格
+            ma.Ma_Money = mprice;  //购买价格
             ca.Ca_Value = cprice;   //要扣除的卡券
             //购买结束时间
             DateTime end = DateTime.Now;

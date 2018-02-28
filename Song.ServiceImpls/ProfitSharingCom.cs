@@ -388,7 +388,7 @@ namespace Song.ServiceImpls
                 if (ps[i].Ps_MoneyValue > 0)
                 {
                     MoneyAccount ma = new MoneyAccount();
-                    ma.Ma_Monery = ps[i].Ps_MoneyValue;
+                    ma.Ma_Money = ps[i].Ps_MoneyValue;
                     ma.Ac_ID = parents[i].Ac_ID;
                     ma.Ma_Source = "分润";
                     ma.Ma_Info = string.Format("{0}（{1}）购买课程《{2}》,获取收益{3}", acc.Ac_Name, acc.Ac_AccName, cou.Cou_Name, ps[i].Ps_MoneyValue);

@@ -70,7 +70,7 @@ function ajaxLoaddata() {
             html += '<div class="dates">' + date + '<br/>' + time + '</div>';
             html += '<div class="ico"><div class="moneyico type' + Number(d.Ma_Type) + '">' + ico + "</div></div>";
             html += '<div class="info">';
-            html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Ma_Monery) + '</div> <div class="state state' + Number(d.Ma_IsSuccess) + '">' + state + '</div></div>';
+            html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Ma_Money) + '</div> <div class="state state' + Number(d.Ma_IsSuccess) + '">' + state + '</div></div>';
             html += '<div class="row2">' + d.Ma_Source +remark+ '</div>';
             html += '</div>';
             //

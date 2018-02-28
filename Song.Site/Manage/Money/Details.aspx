@@ -42,7 +42,7 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="金额">
                 <ItemTemplate>
-                    <%# Eval("Ma_Type", "{0}") == "1" ? "<span class='type1'>支出</span>" : "<span class='type2'>充值</span>"%> <span> >> </span><%# Eval("Ma_Monery", "{0:0.00}元")%>
+                    <%# Eval("Ma_Type", "{0}") == "1" ? "<span class='type1'>支出</span>" : "<span class='type2'>充值</span>"%> <span> >> </span><%# Eval("Ma_Money", "{0:0.00}元")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="left" Width="120px" />
             </asp:TemplateField>

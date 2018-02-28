@@ -1402,7 +1402,7 @@ namespace Song.ServiceImpls
             if (entity.Ma_IsSuccess)
             {
                 //当前总金额等于，之前的总金额加上当前收入
-                entity.Ma_Total = deposit + entity.Ma_Monery;
+                entity.Ma_Total = deposit + entity.Ma_Money;
             }
             else
             {
@@ -1422,11 +1422,11 @@ namespace Song.ServiceImpls
             Decimal total = 0;
             Song.Entities.Accounts student = tran.From<Accounts>().Where(Accounts._.Ac_ID == entity.Ac_ID).ToFirst<Accounts>();
             total = student != null ? student.Ac_Money : first.Ma_Total;
-            if (total - entity.Ma_Monery < 0) throw new Exception("余额不足，无法支出！");
+            if (total - entity.Ma_Money < 0) throw new Exception("余额不足，无法支出！");
             if (entity.Ma_IsSuccess)
             {
                 //当前总金额等于，之前的总金额减去当前支出
-                entity.Ma_Total = total - (Decimal)entity.Ma_Monery;
+                entity.Ma_Total = total - (Decimal)entity.Ma_Money;
             }
             else
             {
@@ -1484,7 +1484,7 @@ namespace Song.ServiceImpls
             wc &= MoneyAccount._.Ma_IsSuccess == true;
             if (type > 0) wc &= MoneyAccount._.Ma_Type == type;
             if (from > 0) wc &= MoneyAccount._.Ma_From == from;
-            object tm = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Monery, wc);
+            object tm = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Money, wc);
             decimal sum = 0;
             sum = tm is decimal ? (decimal)tm : 0;
             return sum;

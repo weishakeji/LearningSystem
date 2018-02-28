@@ -40,7 +40,7 @@
                 <ItemTemplate>
                     <%# Eval("Ma_Type", "{0}") == "1" ? "<span class='type1'>支出</span>" : "<span class='type2'>增加</span>"%>
                     <span>>> </span>
-                    <%# Eval("Ma_Monery", "{0:C}")%>
+                    <%# Eval("Ma_Money", "{0:C}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="left" Width="120px" />
             </asp:TemplateField>

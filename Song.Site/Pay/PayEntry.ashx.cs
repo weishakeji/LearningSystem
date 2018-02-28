@@ -52,7 +52,7 @@ namespace Song.Site.Pay
             {
                 //产生流水号
                 MoneyAccount ma = new MoneyAccount();
-                ma.Ma_Monery = money;
+                ma.Ma_Money = money;
                 ma.Ac_ID = Extend.LoginState.Accounts.CurrentUser.Ac_ID;
                 ma.Ma_Source = pi.Pai_Pattern;
                 ma.Pai_ID = pi.Pai_ID;

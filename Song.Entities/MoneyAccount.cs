@@ -14,7 +14,7 @@ namespace Song.Entities {
     		
     		protected Decimal _Ma_Total;
     		
-    		protected Decimal _Ma_Monery;
+    		protected Decimal _Ma_Money;
     		
     		protected String _Ma_Source;
     		
@@ -74,13 +74,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Decimal Ma_Monery {
+    		public Decimal Ma_Money {
     			get {
-    				return this._Ma_Monery;
+    				return this._Ma_Money;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ma_Monery, _Ma_Monery, value);
-    				this._Ma_Monery = value;
+    				this.OnPropertyValueChange(_.Ma_Money, _Ma_Money, value);
+    				this._Ma_Money = value;
     			}
     		}
     		
@@ -254,7 +254,7 @@ namespace Song.Entities {
     					_.Ma_ID,
     					_.Ac_ID,
     					_.Ma_Total,
-    					_.Ma_Monery,
+    					_.Ma_Money,
     					_.Ma_Source,
     					_.Ma_Type,
     					_.Ma_Info,
@@ -279,7 +279,7 @@ namespace Song.Entities {
     					this._Ma_ID,
     					this._Ac_ID,
     					this._Ma_Total,
-    					this._Ma_Monery,
+    					this._Ma_Money,
     					this._Ma_Source,
     					this._Ma_Type,
     					this._Ma_Info,
@@ -309,8 +309,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ma_Total))) {
     				this._Ma_Total = reader.GetDecimal(_.Ma_Total);
     			}
-    			if ((false == reader.IsDBNull(_.Ma_Monery))) {
-    				this._Ma_Monery = reader.GetDecimal(_.Ma_Monery);
+    			if ((false == reader.IsDBNull(_.Ma_Money))) {
+    				this._Ma_Money = reader.GetDecimal(_.Ma_Money);
     			}
     			if ((false == reader.IsDBNull(_.Ma_Source))) {
     				this._Ma_Source = reader.GetString(_.Ma_Source);
@@ -396,9 +396,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ma_Total = new WeiSha.Data.Field<MoneyAccount>("Ma_Total");
     			
     			/// <summary>
-    			/// 字段名：Ma_Monery - 数据类型：Decimal
+    			/// 字段名：Ma_Money - 数据类型：Decimal
     			/// </summary>
-    			public static WeiSha.Data.Field Ma_Monery = new WeiSha.Data.Field<MoneyAccount>("Ma_Monery");
+    			public static WeiSha.Data.Field Ma_Money = new WeiSha.Data.Field<MoneyAccount>("Ma_Money");
     			
     			/// <summary>
     			/// 字段名：Ma_Source - 数据类型：String
@@ -472,4 +472,3 @@ namespace Song.Entities {
     		}
     	}
     }
-    

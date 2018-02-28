@@ -80,7 +80,7 @@ public partial class Alipayweb_return_url : System.Web.UI.Page
                 maccount.Ma_Buyer = Request.QueryString["buyer_email"];
                 maccount.Ma_Seller = Request.QueryString["seller_email"];
                 Business.Do<IAccounts>().MoneyConfirm(maccount);
-                Response.Redirect(string.Format(return_url, true, maccount.Ma_Monery, maccount.Pai_ID));
+                Response.Redirect(string.Format(return_url, true, maccount.Ma_Money, maccount.Pai_ID));
 
                 //——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 

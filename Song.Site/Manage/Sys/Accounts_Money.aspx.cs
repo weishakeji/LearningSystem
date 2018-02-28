@@ -57,7 +57,7 @@ namespace Song.Site.Manage.Sys
             int.TryParse(tbMoney.Text, out money);
             //操作对象
             Song.Entities.MoneyAccount ma = new MoneyAccount();
-            ma.Ma_Monery = money;
+            ma.Ma_Money = money;
             ma.Ma_Total = st.Ac_Money; //当前资金总数
             ma.Ma_Remark = tbRemark.Text.Trim();
             ma.Ac_ID = st.Ac_ID;
