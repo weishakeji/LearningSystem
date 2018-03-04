@@ -92,7 +92,8 @@ namespace Song.Site.Mobile
         #region 在线支付接口
         private void interFaceList()
         {
-            Song.Entities.PayInterface[] pis = Business.Do<IPayInterface>().PayAll(this.Organ.Org_ID, "mobi", true);
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganRoot();
+            Song.Entities.PayInterface[] pis = Business.Do<IPayInterface>().PayAll(org.Org_ID, "mobi", true);
             this.Document.Variables.SetValue("pis", pis);
         }
         #endregion

@@ -21,7 +21,7 @@ namespace Song.Site.Manage.Student
                 //当前学员的钱数
                 ltMoney.Text = Extend.LoginState.Accounts.CurrentUser.Ac_Money.ToString("0.00");
                 //在线充值接口
-                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganRoot();
                 Song.Entities.PayInterface[] pis = Business.Do<IPayInterface>().PayAll(org.Org_ID, "web", true);
                 rptPi.DataSource = pis;
                 rptPi.DataBind();

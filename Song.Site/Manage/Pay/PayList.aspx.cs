@@ -33,7 +33,7 @@ namespace Song.Site.Manage.Pay
         /// </summary>
         protected void BindData(object sender, EventArgs e)
         {
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganRoot();
             Song.Entities.PayInterface[] eas = Business.Do<IPayInterface>().PayAll(org.Org_ID, null, null);
             GridView1.DataSource = eas;
             GridView1.DataKeyNames = new string[] { "Pai_ID" };

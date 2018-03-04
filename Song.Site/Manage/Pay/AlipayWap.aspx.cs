@@ -56,6 +56,9 @@ namespace Song.Site.Manage.Pay
             pi.Pai_Config = config.XmlString;
             //所用的平台
             pi.Pai_Platform = "mobi";
+            //只能根机构才可以设置支付接口（也就是说，钱全到根机构账上）
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganRoot();
+            if (org != null) pi.Org_ID = org.Org_ID;
             try
             {
                 if (id <= 0)

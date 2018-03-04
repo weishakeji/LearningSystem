@@ -27,7 +27,8 @@
               <vt:if var="Account.Ac_name" value="" compare="="> （无名）
                 <vt:else/>
                 {$Account.Ac_name} </vt:if>
-                <span class="money-item">余额 <span class="moneyico">&#xe624;</span> {$:#.Account.Ac_money format="0.00"}元</span>
+                <span class="money-item">余额 <span class="moneyico">&#xe624;</span> {$:#.Account.Ac_money format="0.00"}元 (券{$:#.Account.Ac_Coupon}个)</span>
+               
               <p class='mui-ellipsis'>
                 <vt:if var="Student.Ac_PhoneMobi" value="" compare="!="> {$Student.Ac_PhoneMobi} </vt:if>
                 （账号：{$:#.Account.Ac_accname} ） </p>
