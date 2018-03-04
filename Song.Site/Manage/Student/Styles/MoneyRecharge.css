@@ -85,8 +85,9 @@ body {
 	font-size: 18px;
 	line-height: 36px;
 	height: 36px;
-	cursor:pointer;
+	cursor: pointer;
 	margin-bottom: 10px;
+	overflow: hidden;
 }
 .payInterface .piSelect {
 	border: 2px solid #5EBB00;
