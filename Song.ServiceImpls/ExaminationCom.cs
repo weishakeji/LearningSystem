@@ -171,6 +171,8 @@ namespace Song.ServiceImpls
                                 it.Exam_IsRightClick = theme.Exam_IsRightClick;
                                 it.Exam_IsShowBtn = theme.Exam_IsShowBtn;
                                 it.Exam_IsToggle = theme.Exam_IsToggle;
+                                tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Name },
+                                    new object[] { it.Exam_Name }, ExamResults._.Exam_ID == it.Exam_ID);
                                 tran.Save<Examination>(it);
                             }
                         }
@@ -788,11 +790,11 @@ namespace Song.ServiceImpls
             Examination[] exams = this.ExamItem(theme.Exam_UID);    //当前考试下的多场考试
             DataTable dt = new DataTable("DataBase");
             //人员id与姓名
-            dt.Columns.Add(new DataColumn("ID", Type.GetType("System.Int32")));            
-            dt.Columns.Add(new DataColumn("姓名", Type.GetType("System.String")));
-            dt.Columns.Add(new DataColumn("账号", Type.GetType("System.String")));
-            dt.Columns.Add(new DataColumn("性别", Type.GetType("System.String")));
-            dt.Columns.Add(new DataColumn("身份证", Type.GetType("System.String")));
+            dt.Columns.Add(new DataColumn("ID", typeof(int)));
+            dt.Columns.Add(new DataColumn("姓名", typeof(string)));
+            dt.Columns.Add(new DataColumn("账号", typeof(string)));
+            dt.Columns.Add(new DataColumn("性别", typeof(string)));
+            dt.Columns.Add(new DataColumn("身份证", typeof(string)));
             foreach (Examination ex in exams)
                 dt.Columns.Add(new DataColumn(ex.Exam_Name, Type.GetType("System.String")));
             //取出所有的成绩
@@ -867,13 +869,13 @@ namespace Song.ServiceImpls
             //构建表结构
             DataTable dt = new DataTable("DataBase");
             //人员id与姓名
-            dt.Columns.Add(new DataColumn("ID", Type.GetType("System.Int32")));
-            dt.Columns.Add(new DataColumn("姓名", Type.GetType("System.String")));
-            dt.Columns.Add(new DataColumn("账号", Type.GetType("System.String")));
-            dt.Columns.Add(new DataColumn("性别", Type.GetType("System.String")));
-            dt.Columns.Add(new DataColumn("身份证", Type.GetType("System.String")));
+            dt.Columns.Add(new DataColumn("ID", typeof(int)));
+            dt.Columns.Add(new DataColumn("姓名", typeof(string)));
+            dt.Columns.Add(new DataColumn("账号", typeof(string)));
+            dt.Columns.Add(new DataColumn("性别", typeof(string)));
+            dt.Columns.Add(new DataColumn("身份证", typeof(string)));
             foreach (Examination ex in exams)
-                dt.Columns.Add(new DataColumn(ex.Exam_Name, Type.GetType("System.String")));
+                dt.Columns.Add(new DataColumn(ex.Exam_Name, typeof(float)));
             //取学员
             WhereClip wcAcc = Accounts._.Org_ID == theme.Org_ID;
             if (stsid > 0) wcAcc.And(Accounts._.Sts_ID == stsid);   //取所有已分组的学员
@@ -906,13 +908,9 @@ namespace Song.ServiceImpls
                 int accid = Convert.ToInt32(dr["ID"]);
                 foreach (ExamResults er in results)
                 {
-                    if (er.Ac_ID == accid)
-                    {
-                        dr[er.Exam_Name] = er.Exr_ScoreFinal;
-                        break;
-                    }
+                    if (er.Ac_ID == accid) dr[er.Exam_Name] = er.Exr_ScoreFinal; 
                 }
-            }
+            }            
             //排序，优先显示已经考试的，成绩倒序显示
             string order = "";
             foreach (ExamResults er in results)
