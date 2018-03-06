@@ -95,8 +95,13 @@ namespace Song.Site.Manage.Teacher
             gvList.DataSource = dt;
             gvList.DataBind();
         }
-
-        protected void btnOutput_Click(object sender, EventArgs e)
+        #region 导出
+        /// <summary>
+        /// 导出成绩，仅参考考试的成员
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnOutput1_Click(object sender, EventArgs e)
         {
             //考试主题的平均成绩
             Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);            
@@ -106,6 +111,42 @@ namespace Song.Site.Manage.Teacher
 
             //创建文件
             string name = theme.Exam_Title + "-考试成绩" + ".xls";
+            string filePath = Upload.Get["Temp"].Physics + name;
+            FileStream file = new FileStream(filePath, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            if (System.IO.File.Exists(filePath))
+            {
+                FileInfo fileInfo = new FileInfo(filePath);
+                Response.Clear();
+                Response.ClearContent();
+                Response.ClearHeaders();
+                Response.AddHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileInfo.Name));
+                Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+                Response.AddHeader("Content-Transfer-Encoding", "binary");
+                Response.ContentType = "application/-excel";
+                Response.ContentEncoding = System.Text.Encoding.Default;
+                Response.WriteFile(fileInfo.FullName);
+                Response.Flush();
+                Response.End();
+                File.Delete(filePath);
+            }
+        }
+        /// <summary>
+        /// 导出应该参加参加考试的所有学员，含缺考学员
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnOutput2_Click(object sender, EventArgs e)
+        {
+            //考试主题的平均成绩
+            Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);
+
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            buildExcelSql_2(hssfworkbook);
+
+            //创建文件
+            string name = theme.Exam_Title + "-所有学员" + ".xls";
             string filePath = Upload.Get["Temp"].Physics + name;
             FileStream file = new FileStream(filePath, FileMode.Create);
             hssfworkbook.Write(file);
@@ -156,6 +197,36 @@ namespace Song.Site.Manage.Teacher
                 }
             }
         }
+        /// <summary>
+        /// 导出成绩
+        /// </summary>
+        /// <param name="hssfworkbook"></param>
+        private void buildExcelSql_2(HSSFWorkbook hssfworkbook)
+        {
+            //考试主题下的所有参考人员（分过组的），且含缺考人员
+            foreach (ListItem li in Sts_ID.Items)
+            {
+                int stsid = Convert.ToInt32(li.Value);
+                if (stsid < 0) continue;
+                DataTable dt = Business.Do<IExamination>().Result4Theme(examid, stsid, true);
+                if (dt.Rows.Count < 1) continue;
+                ISheet sheet = hssfworkbook.CreateSheet(li.Text);   //创建工作簿对象                
+                IRow rowHead = sheet.CreateRow(0);          //创建数据行对象                
+                for (int i = 0; i < dt.Columns.Count; i++)      //创建表头
+                    rowHead.CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+                ICellStyle style_size = hssfworkbook.CreateCellStyle();     //生成数据行
+                style_size.WrapText = true;
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    IRow row = sheet.CreateRow(i + 1);
+                    for (int j = 0; j < dt.Columns.Count; j++)
+                    {
+                        row.CreateCell(j).SetCellValue(dt.Rows[i][j].ToString());
+                    }
+                }
+            }
+        }
+        #endregion
         /// <summary>
         /// 删除考试成绩
         /// </summary>

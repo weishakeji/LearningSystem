@@ -232,6 +232,14 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         DataTable Result4Theme(int id, int stsid);
         /// <summary>
+        /// 考试主题下的所有参考人员成绩
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="stsid">学生分组的id，为0时取所有，为-1时取不在组的学员，大于0则取当前组学员</param>
+        /// <param name="isAll">是否取所有人员（含缺考人员）,false为仅参考人员</param>
+        /// <returns></returns>
+        DataTable Result4Theme(int id, int stsid, bool isAll);
+        /// <summary>
         /// 当前考试主题下的各学员分组成绩排行
         /// </summary>
         /// <param name="examid"></param>

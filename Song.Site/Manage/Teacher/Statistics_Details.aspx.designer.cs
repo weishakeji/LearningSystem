@@ -31,13 +31,22 @@ namespace Song.Site.Manage.Teacher {
         protected global::System.Web.UI.WebControls.DropDownList Sts_ID;
         
         /// <summary>
-        /// btnOutput 控件。
+        /// btnOutput1 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnOutput;
+        protected global::System.Web.UI.WebControls.Button btnOutput1;
+        
+        /// <summary>
+        /// btnOutput2 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnOutput2;
         
         /// <summary>
         /// gvList 控件。

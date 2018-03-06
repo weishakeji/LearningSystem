@@ -19,8 +19,10 @@
     学生组：<asp:DropDownList ID="Sts_ID" runat="server" DataTextField="Sts_Name" 
             DataValueField="Sts_ID" AutoPostBack="True" 
             onselectedindexchanged="Sts_ID_SelectedIndexChanged"></asp:DropDownList> 
-        <asp:Button ID="btnOutput" runat="server" Text="导出成绩列表" 
-            onclick="btnOutput_Click" />
+        <asp:Button ID="btnOutput1" runat="server" Text="导出成绩（仅参考人员）" 
+            onclick="btnOutput1_Click" />
+        <asp:Button ID="btnOutput2" runat="server" Text="导出学员（含缺考人员）" 
+            onclick="btnOutput2_Click" />
     </div>
     <asp:GridView ID="gvList" runat="server" CssClass="GridView">
      <EmptyDataTemplate>

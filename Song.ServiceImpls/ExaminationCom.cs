@@ -776,10 +776,16 @@ namespace Song.ServiceImpls
             sql=string.Format(sql,theme.Exam_UID);
             return Gateway.Default.FromSql(sql).ToArray<StudentSort>();
         }
+        /// <summary>
+        /// 考试主题下的所有参考人员成绩
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="stsid">学生分组的id，为0时取所有，为-1时取不在组的学员，大于0则取当前组学员</param>
+        /// <returns></returns>
         public DataTable Result4Theme(int id, int stsid)
         {
             Examination theme = this.ExamSingle(id);
-            Examination[] exams = this.ExamItem(theme.Exam_UID);
+            Examination[] exams = this.ExamItem(theme.Exam_UID);    //当前考试下的多场考试
             DataTable dt = new DataTable("DataBase");
             //人员id与姓名
             dt.Columns.Add(new DataColumn("ID", Type.GetType("System.Int32")));            
@@ -844,6 +850,76 @@ namespace Song.ServiceImpls
             }
             DataView dv = dt.DefaultView;
             dv.Sort = "姓名 Asc";
+            return dv.ToTable();
+        }
+        /// <summary>
+        /// 考试主题下的所有参考人员成绩
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="stsid">学生分组的id，为0时取所有，为-1时取不在组的学员，大于0则取当前组学员</param>
+        /// <param name="isAll">是否取所有人员（含缺考人员）,false为仅参考人员</param>
+        /// <returns></returns>
+        public DataTable Result4Theme(int id, int stsid, bool isAll)
+        {
+            if (!isAll) return Result4Theme(id, stsid);
+            Examination theme = this.ExamSingle(id);
+            Examination[] exams = this.ExamItem(theme.Exam_UID);    //当前考试下的多场考试
+            //构建表结构
+            DataTable dt = new DataTable("DataBase");
+            //人员id与姓名
+            dt.Columns.Add(new DataColumn("ID", Type.GetType("System.Int32")));
+            dt.Columns.Add(new DataColumn("姓名", Type.GetType("System.String")));
+            dt.Columns.Add(new DataColumn("账号", Type.GetType("System.String")));
+            dt.Columns.Add(new DataColumn("性别", Type.GetType("System.String")));
+            dt.Columns.Add(new DataColumn("身份证", Type.GetType("System.String")));
+            foreach (Examination ex in exams)
+                dt.Columns.Add(new DataColumn(ex.Exam_Name, Type.GetType("System.String")));
+            //取学员
+            WhereClip wcAcc = Accounts._.Org_ID == theme.Org_ID;
+            if (stsid > 0) wcAcc.And(Accounts._.Sts_ID == stsid);   //取所有已分组的学员
+            if (stsid < 0) wcAcc.And(Accounts._.Sts_ID <= 0);   //取所有未分组的学员
+            Accounts[] accs = Gateway.Default.From<Accounts>().Where(wcAcc).ToArray<Accounts>();
+            foreach (Accounts ac in accs)
+            {
+                DataRow dr = dt.NewRow();
+                dr["ID"] = ac.Ac_ID;
+                dr["姓名"] = ac.Ac_Name;
+                dr["账号"] = ac.Ac_AccName;
+                dr["性别"] = ac.Ac_Sex == 0 ? "未知" : (ac.Ac_Sex == 1 ? "男" : "女");
+                dr["身份证"] = ac.Ac_IDCardNumber;
+                dt.Rows.Add(dr);
+            }
+            //取出所有的成绩
+            WhereClip wcEr = ExamResults._.Exam_UID == theme.Exam_UID;
+            if (stsid > 0) wcEr.And(ExamResults._.Sts_ID == stsid);   //取所有已分组的学员
+            if (stsid < 0) wcEr.And(ExamResults._.Sts_ID <= 0);   //取所有未分组的学员
+            ExamResults[] results = Gateway.Default.From<ExamResults>().Where(wcEr).ToArray<ExamResults>();            
+            for (int i = 0; i < results.Length; i++)
+            {
+                //如果没有计算，则计算成绩
+                if (results[i].Exr_Score < 0 || results[i].Exr_IsCalc == false)
+                    results[i] = ClacScore(results[i]);
+            }
+            //遍历学员datatable，向其填充考试成绩
+            foreach (DataRow dr in dt.Rows)
+            {
+                int accid = Convert.ToInt32(dr["ID"]);
+                foreach (ExamResults er in results)
+                {
+                    if (er.Ac_ID == accid)
+                    {
+                        dr[er.Exam_Name] = er.Exr_ScoreFinal;
+                        break;
+                    }
+                }
+            }
+            //排序，优先显示已经考试的，成绩倒序显示
+            string order = "";
+            foreach (ExamResults er in results)
+                order += er.Exam_Name + " DESC,";
+            if (order.EndsWith(",")) order = order.Substring(0, order.Length - 1);
+            DataView dv = dt.DefaultView;
+            dv.Sort = order;
             return dv.ToTable();
         }
         /// <summary>
