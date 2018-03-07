@@ -1,8 +1,28 @@
 ﻿//登录成功后返回的地址
-var returl = function (domain) {
+var returl = function (domain, acid) {
+    //登录成功后的返回地址
     var prefix = window.location.href;
     if (prefix.indexOf("://") > -1) prefix = prefix.substring(0, prefix.indexOf("://"));
-    window.location.href = prefix + "://" + domain + "/mobile/default.ashx";
+    var returl = prefix + "://" + domain + "/mobile/";
+    //alert(acid);
+    //再次写入cookies
+    window.location.href = returl + "SetCookies.ashx?accid=" + acid + "&url=" + encodeURIComponent(returl + "default.ashx");
+    /*
+    $.get(returl + "SetCookies.ashx", { acid: Number(acid) }, function () {
+        window.location.href = returl + "default.ashx";
+    });
+    $.ajax({
+        url: returl + "SetCookies.ashx",
+        type: "get",
+        data: { acid: Number(acid) },
+        dataType: "jsonp",
+        jsonp: "callback",
+        success: function (data) {
+            alert(returl);
+            window.location.href = returl + "default.ashx";
+        }
+    })
+    */
 }
 
 //
@@ -38,7 +58,7 @@ function setBtnEvent() {
         ajax.post(url, { action: "Direct", openid: openid, sex: sex, name: name, photo: photo },
 			function (requestdata) {
 			    var data = eval("(" + requestdata + ")");
-			    if (Number(data.success) == 1) returl(data.domain);
+			    if (Number(data.success) == 1) returl(data.domain, data.acid);
 			});
 
     });
@@ -63,7 +83,7 @@ function setBtnEvent() {
                     if (data.state == 2) Verify.ShowBox($("form[name=formRegist] input[type=text][name=tbNewAcc]"), "该手机号已经注册！");
                 }
                 //注册成功
-                if (Number(data.success) == 1) returl(data.domain);
+                if (Number(data.success) == 1) returl(data.domain, data.acid);
             });
         }
         //如果需要短信验证
@@ -88,7 +108,7 @@ function setBtnEvent() {
                     if (data.state == 3) Verify.ShowBox($("form[name=formRegist] input[type=text][name=tbNewSms]"), "短信验证码错误！");
                 }
                 //注册成功
-                if (Number(data.success) == 1) returl(data.domain);
+                if (Number(data.success) == 1) returl(data.domain, data.acid);
             });
         }
         return false;
@@ -122,7 +142,7 @@ function setBtnEvent() {
                     if (data.state == 4) Verify.ShowBox(form.find("input[type=text][name=tbAcc]"), "该账号已经绑定微信！");
                 }
                 //绑定成功
-                if (Number(data.success) == 1) returl(data.domain);
+                if (Number(data.success) == 1) returl(data.domain, data.acid);
             });
         }
         //如果需要短信验证
@@ -144,7 +164,7 @@ function setBtnEvent() {
                     if (data.state == 4) Verify.ShowBox(form.find("input[type=text][name=tbAcc]"), "该账号已经绑定微信！");
                 }
                 //注册成功
-                if (Number(data.success) == 1) returl(data.domain);
+                if (Number(data.success) == 1) returl(data.domain, data.acid);
             });
         }
         return false;
@@ -154,7 +174,7 @@ function setBtnEvent() {
 function sendSmsEvent() {
     $("*[type=getSms]").click(function () {
         if (Number($(this).attr("num")) > 0) return;
-		var group=$(this).attr("group");
+        var group = $(this).attr("group");
         if (!Verify.IsPass($(this).parents("form"), group)) return;
         var vcode = $(this).parents("form").find("input[type=text][name$=Code]").val();
         //先验证验证码

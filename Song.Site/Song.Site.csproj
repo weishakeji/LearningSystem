@@ -1154,6 +1154,7 @@
     <Content Include="Templates\Web\NetSchool\Notice.htm" />
     <Content Include="Templates\Web\NetSchool\Notices.htm" />
     <Content Include="Templates\Web\_Public\Images\icon-1.png" />
+    <Content Include="Templates\Web\_Public\Images\success.png" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.css" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.htm" />
     <Content Include="Templates\Web\_Public\Module\Admin\panel.js" />
@@ -2717,6 +2718,9 @@
     <Compile Include="Mobile\Service.ashx.cs">
       <DependentUpon>Service.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\SetCookies.ashx.cs">
+      <DependentUpon>SetCookies.ashx</DependentUpon>
     </Compile>
     <Compile Include="Mobile\Statistics.ashx.cs">
       <DependentUpon>Statistics.ashx</DependentUpon>
@@ -5822,6 +5826,7 @@
     <Content Include="Mobile\QQLogin.ashx" />
     <Content Include="Mobile\WeixinLogin.ashx" />
     <Content Include="CourseStudy.ashx" />
+    <Content Include="Mobile\SetCookies.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

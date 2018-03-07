@@ -130,11 +130,20 @@ namespace Song.Extend.Login
 
         #region 登录与注销的方法
         /// <summary>
-        /// 将已经登录入的用户，写入seesion
+        /// 将已经登录入的用户，写入cookies或session
         /// </summary>
         /// <param name="acc"></param>
         public void Write(Song.Entities.Accounts acc)
         {
+            this.Write(acc, -1);
+        }
+        /// <summary>
+        /// 将已经登录入的用户，写入cookies或session
+        /// </summary>
+        /// <param name="accid"></param>
+        public void Write(int accid)
+        {
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(accid);
             this.Write(acc, -1);
         }
         /// <summary>
@@ -185,7 +194,7 @@ namespace Song.Extend.Login
             }
             //注册到内存，用于判断在线用户
             this._register(acc);
-        }
+        }         
         /// <summary>
         /// 获取当前登录用户的对象
         /// </summary>

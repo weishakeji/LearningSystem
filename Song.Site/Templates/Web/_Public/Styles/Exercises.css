@@ -102,11 +102,6 @@ body{
 	cursor:pointer;
 }
 /*试题*/
-.correct {
-	background-image: url(../Images/201101251551136230.png);
-	background-repeat: no-repeat;
-	background-position: right 50px;
-}
 #noQues {
 	font-family: "黑体";
 	font-size: 16px;
@@ -272,6 +267,9 @@ line-height: 40px;
 	color: #666666;
 	margin-right: 5px;	
 }
+.answer img{
+	max-width:90%;
+}
 .answerSel{
 color: #0099FF;
 }
@@ -331,10 +329,9 @@ color: #0099FF;
 /*回答正确*/
 .correct
 {
-	background-image: url(../Images/201101251551136230.png);
 	background-repeat: no-repeat;
 	background-position: right top;
-	
+	background-image: url(../Images/success.png);
 }
 /*回答错误*/
 .error{

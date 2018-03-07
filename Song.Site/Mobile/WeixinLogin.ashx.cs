@@ -113,7 +113,7 @@ namespace Song.Site.Mobile
             return org.Org_TwoDomain + "." + root;
         }
         /// <summary>
-        /// 获取当前登录QQ的详细信息
+        /// 获取当前登录微信账号的详细信息
         /// </summary>
         /// <param name="access_token"></param>
         /// <param name="openid"></param>
@@ -123,11 +123,11 @@ namespace Song.Site.Mobile
             string userUrl = "https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}";
             userUrl = string.Format(userUrl, access_token, openid);
             string retjson = WeiSha.Common.Request.WebResult(userUrl);
-            //解析QQ账户信息
+            //解析微信账户信息
             Song.Entities.Accounts acc = null;
             JObject jo = (JObject)JsonConvert.DeserializeObject(retjson);
             string errcode = jo["errcode"] != null ? jo["errcode"].ToString() : string.Empty;  //错误代码
-            if (!string.IsNullOrEmpty(errcode)) return acc;
+            if (!string.IsNullOrEmpty(errcode)) throw new Exception(errcode);
             if (string.IsNullOrEmpty(errcode))
             {
                 acc = new Entities.Accounts();
@@ -188,8 +188,16 @@ namespace Song.Site.Mobile
                 this.Document.SetValue("forpw", IsLoginForPw);
                 this.Document.SetValue("forsms", IsLoginForSms);
                 this.Document.SetValue("IsWeixinDirect", Business.Do<ISystemPara>()["WeixinDirectIs"].Boolean ?? true); //是否允许微信直接注册登录
-                //获取qq登录账户的信息
-                Song.Entities.Accounts acctm = getUserInfo(token, openid);
+                //获取微信登录账户的信息
+                Song.Entities.Accounts acctm = null;
+                try
+                {
+                    acctm = getUserInfo(token, openid);
+                }
+                catch(Exception ex)
+                {
+                    this.Document.Variables.SetValue("acctmex", ex.Message);
+                }
                 if (acctm != null)
                 {
                     this.Document.Variables.SetValue("name", acctm.Ac_Name);    //QQ昵称                    

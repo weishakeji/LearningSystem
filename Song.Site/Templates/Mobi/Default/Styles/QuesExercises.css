@@ -183,6 +183,9 @@ body{
 	color: #666666;
 	margin-right: 5px;	
 }
+.answer img{
+	max-width:90%;
+}
 .answerSel{
 color: #0099FF;
 }

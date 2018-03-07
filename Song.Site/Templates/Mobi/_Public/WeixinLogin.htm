@@ -27,7 +27,7 @@
           <vt:else />
           <vt:if var="success" value="1" compare="=" remark="账户已经存在，且正常登录">
             <div class="loading-txt">正在登录...</div>
-            <script>returl("{$domain2}");</script> 
+            <script>returl("{$domain2}","{$acc.ac_id}");</script> 
           </vt:if>
           <vt:if var="success" value="-1" compare="=" remark="账户存在,但禁用或未通过审核">
             <div class="error-txt">当前账户“{$acc.Ac_Name}”被禁用，或未通过审核，暂无法登录。</div>
@@ -35,7 +35,7 @@
         </vt:if>
         <vt:if var="openid" value="" compare="!=" remark="通过openid获取微信账户信息">
           <vt:if var="acctm.ac_id" value="" compare="=">
-            <div class="error-txt">登录时效过期！</div>
+            <div class="error-txt">{$acctmex}</div>
             <vt:else />
             <div class="topBox"> 
              <div class="topRow"><div class="logo"></div><span>微信登录</span></div><div class="show-tit" id="name"> {$name} </div>
