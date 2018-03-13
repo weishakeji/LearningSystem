@@ -207,7 +207,7 @@ function _mobiLogin_veri(form, url) {
 	        msg.ShowCloseBtn = false;
 	        MsgBox.OverEvent = function () {
 	            var href = form.find("input[name=from]").val();
-	            window.location.href = $().setPara(href, "sharekeyid", data.acid);
+	            window.location.href = $().setPara("default.ashx", "sharekeyid", data.acid);
 	        };
 	        msg.Open();
 	    }

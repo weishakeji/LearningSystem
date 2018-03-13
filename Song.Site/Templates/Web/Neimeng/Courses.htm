@@ -20,7 +20,7 @@
     <div id="subject" class="selectBar">
       <div class="selectLeft">按专业：</div>
       <div class="selectRight">
-        <vt:foreach id="subject" from="$#.subject" item="data" index="i" count="4"  remark="专业">
+        <vt:foreach id="subject" from="$#.subject" item="data" index="i" remark="专业">
           <div class="subjectItem" sbjid="{$:#.data.sbj_id}"><a href="#" sbjid="{$:#.data.sbj_id}">{$:#.data.sbj_name}</a> </div>
         </vt:foreach>
       </div>
