@@ -84,12 +84,13 @@ PageBox.LoadMaskRemove = function () {
 //生成窗体外框,包括标题
 PageBox.prototype.BuildFrame = function () {
     //屏幕的宽高
-    var hg = document.documentElement.clientHeight;
-    var wd = document.documentElement.clientWidth;
+    var hg = $(window).height();
+    var wd = $(window).width();
     $("body").append("<div id=\"PageBox\" type=\"PageBox\" winId=\"" + this.WinId + "\"></div>");
     var PageBox = $("#PageBox");
     this.WinBox = PageBox;
     var border = parseInt(PageBox.css("border-width")); //窗体边线宽度
+    border = !isNaN(border) ? border : 0;
     //设置窗口的位置
     PageBox.css("top", ((hg - this.Height) / 2 - border) <= 0 ? 0 : (hg - this.Height) / 2 - border);
     PageBox.css("left", ((wd - this.Width) / 2 - border) <= 0 ? 0 : (wd - this.Width) / 2 - border);
