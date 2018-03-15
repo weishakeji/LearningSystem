@@ -21,7 +21,7 @@
 function setBtnEvent() {
     //直接登录
     $("#btnDirect").click(function () {
-		$(this).addClass("disabled");
+        $(this).addClass("disabled");
         var openid = $.trim($("#openid").text());
         var url = window.location.href;
         ajax.post(url, { action: "Direct", openid: openid }, function (requestdata) {
@@ -55,17 +55,18 @@ function setBtnEvent() {
             var vname = $("form[name=formRegist] img.verifyCode").attr("src");
             var rs = new RegExp("(^|)name=([^\&]*)(\&|$)", "gi").exec(vname), tmp;
             vname = tmp = rs ? rs[2] : "";
-			var vcode = $(this).find("input[type=text][name=tbNewCode]").val();
+            var vcode = $(this).find("input[type=text][name=tbNewCode]").val();
             var sms = $(this).find("input[name=tbNewSms]").val(); //用户填写的短信验证码
-			var smsname=$(this).find("#getRegSms").attr("smsname");
-            ajax.post(window.location.href, { action: "register2", openid: openid, vname: vname,vcode: vcode,
-			 sms: sms, mobi: mobi, smsname:smsname}, function (requestdata) {
+            var smsname = $(this).find("#getRegSms").attr("smsname");
+            ajax.post(window.location.href, { action: "register2", openid: openid, vname: vname, vcode: vcode,
+                sms: sms, mobi: mobi, smsname: smsname
+            }, function (requestdata) {
                 var data = eval("(" + requestdata + ")");
                 if (Number(data.success) < 1) {
                     //不成功
                     if (data.state == 1) Verify.ShowBox($("form[name=formRegist] input[type=text][name=tbNewCode]"), "验证码不正确！");
                     if (data.state == 2) Verify.ShowBox($("form[name=formRegist] input[type=text][name=tbNewAcc]"), "该手机号已经注册！");
-                    if (data.state == 3)Verify.ShowBox($("form[name=formRegist] input[type=text][name=tbNewSms]"), "短信验证码错误！");
+                    if (data.state == 3) Verify.ShowBox($("form[name=formRegist] input[type=text][name=tbNewSms]"), "短信验证码错误！");
                 }
                 //注册成功
                 if (Number(data.success) == 1) closeWinBox(data.domain);
@@ -78,32 +79,35 @@ function setBtnEvent() {
         var isSms = $(this).attr("sms") == "True";
         var openid = $.trim($("#openid").text());
         var mobi = $(this).find("input[name=tbAcc]").val();
-		//先验证验证码
-            var vname = $("form[name=formBind] img.verifyCode").attr("src");
-            var rs = new RegExp("(^|)name=([^\&]*)(\&|$)", "gi").exec(vname), tmp;
-            vname = tmp = rs ? rs[2] : "";
-			var vcode = $("form[name=formBind]").find("input[type=text][name=tbCode]").val();
+        //先验证验证码
+        var vname = $("form[name=formBind] img.verifyCode").attr("src");
+        var rs = new RegExp("(^|)name=([^\&]*)(\&|$)", "gi").exec(vname), tmp;
+        vname = tmp = rs ? rs[2] : "";
+        var vcode = $("form[name=formBind]").find("input[type=text][name=tbCode]").val();
         //如果不需要短信验证
         if (!isSms) {
-            ajax.post(window.location.href, { action: "bind1", openid: openid,vname: vname,vcode: vcode, mobi: mobi }, function (requestdata) {
+            var pw = $(this).find("input[name=tbPw]").val();    //密码
+            ajax.post(window.location.href, { action: "bind1", openid: openid, vname: vname, vcode: vcode, mobi: mobi, pw: pw }, function (requestdata) {
                 var data = eval("(" + requestdata + ")");
-				var form=$("#"+data.btn).parents("form");
+                var form = $("#" + data.btn).parents("form");
                 if (Number(data.success) < 0) {
                     if (data.state == 1) Verify.ShowBox(form.find("input[type=text][name=tbCode]"), "验证码不正确！");
                     if (data.state == 2) Verify.ShowBox(form.find("input[type=text][name=tbAcc]"), "账号不存在！");
+                    if (data.state == 3) Verify.ShowBox(form.find("input[type=text][name=tbPw]"), "密码不正确！");
                 }
                 //绑定成功
                 if (Number(data.success) == 1) closeWinBox(data.domain);
             });
         }
-		//如果需要短信验证
+        //如果需要短信验证
         if (isSms) {
             var sms = $(this).find("input[name=tbSms]").val(); //用户填写的短信验证码
-			var smsname=$(this).find("#getSms").attr("smsname");
-            ajax.post(window.location.href, { action: "bind2", openid: openid, 
-			vcode: vcode,vname: vname, sms: sms, mobi: mobi, smsname:smsname }, function (requestdata) {
+            var smsname = $(this).find("#getSms").attr("smsname");
+            ajax.post(window.location.href, { action: "bind2", openid: openid,
+                vcode: vcode, vname: vname, sms: sms, mobi: mobi, smsname: smsname
+            }, function (requestdata) {
                 var data = eval("(" + requestdata + ")");
-				var form=$("#formBind");
+                var form = $("#formBind");
                 if (Number(data.success) < 1) {
                     //不成功
                     if (data.state == 1) Verify.ShowBox(form.find("input[type=text][name=tbCode]"), "验证码不正确！");
@@ -121,7 +125,7 @@ function setBtnEvent() {
 function sendSmsEvent() {
     $("*[type=getSms]").click(function () {
         if (Number($(this).attr("num")) > 0) return;
-		var group=$(this).attr("group");
+        var group = $(this).attr("group");
         if (!Verify.IsPass($(this).parents("form"), group)) return;
         var vcode = $(this).parents("form").find("input[type=text][name$=Code]").val();
         //先验证验证码
@@ -129,16 +133,16 @@ function sendSmsEvent() {
         var rs = new RegExp("(^|)name=([^\&]*)(\&|$)", "gi").exec(vname), tmp;
         vname = tmp = rs ? rs[2] : "";
         var phone = $(this).parents("form").find("input[type=text][name$=Acc]").val(); //手机号
-		//短信的cookie名称
-		var smsname=$(this).attr("smsname");
-		var smsbtn=$(this).attr("id");	//点击发送短信的按钮的ID
+        //短信的cookie名称
+        var smsname = $(this).attr("smsname");
+        var smsbtn = $(this).attr("id"); //点击发送短信的按钮的ID
         $(this).attr("state", "waiting").text("验证中...").css("cursor", "default");
         ajax.post(window.location.href, { action: "getRegSms", vcode: vcode, vname: vname, phone: phone,
-			smsname:smsname,smsbtn:smsbtn
-		 }, function (requestdata) {
+            smsname: smsname, smsbtn: smsbtn
+        }, function (requestdata) {
             var data = eval("(" + requestdata + ")");
             var state = Number(data.state); //状态值
-			var form=$("#"+data.btn).parents("form");
+            var form = $("#" + data.btn).parents("form");
             if (Number(data.success) < 1) {
                 //不成功
                 if (state == 1) Verify.ShowBox(form.find("input[type=text][name$=Code]"), "验证码不正确！");
@@ -160,9 +164,9 @@ function sendSmsEvent() {
 }
 //关闭窗口
 function closeWinBox(domain) {
-	var prefix=window.location.href;	
-	if(prefix.indexOf("://")>-1)prefix=prefix.substring(0,prefix.indexOf("://"));
-    window.location.href = prefix+"://"+domain+"/mobile/default.ashx";    
+    var prefix = window.location.href;
+    if (prefix.indexOf("://") > -1) prefix = prefix.substring(0, prefix.indexOf("://"));
+    window.location.href = prefix + "://" + domain + "/mobile/default.ashx";
 }
 //短信发送后的等待效果
 function _mobiLogin_smsSendWaiting() {

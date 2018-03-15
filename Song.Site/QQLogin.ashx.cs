@@ -248,7 +248,7 @@ namespace Song.Site
             return acc;
         }
         /// <summary>
-        /// 直接登录
+        /// 未存在账号，直接登录（创建新账号）
         /// </summary>
         private void _DirectLogin()
         {
@@ -394,6 +394,7 @@ namespace Song.Site
             string access_token = WeiSha.Common.Request.QueryString["token"].String;
             string openid = WeiSha.Common.Request.Form["openid"].String;
             string mobi = WeiSha.Common.Request.Form["mobi"].String;    //手机号
+            string pw = WeiSha.Common.Request.Form["pw"].MD5;    //登录密码
             string vname = WeiSha.Common.Request.Form["vname"].String;
             string imgCode = WeiSha.Common.Request.Cookies[vname].ParaValue;    //取图片验证码
             string userCode = WeiSha.Common.Request.Form["vcode"].MD5;  //取输入的验证码
@@ -413,6 +414,12 @@ namespace Song.Site
                     Response.Write("{\"success\":\"-1\",\"state\":\"2\"}");   //手机号不存在
                     return;
                 }
+                //验证密码
+                if (!string.Equals(acc.Ac_Pw, pw, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Response.Write("{\"success\":\"-1\",\"state\":\"3\"}");   //登录密码不正确
+                    return;
+                }                
             }
             //绑定
             if (acc != null)
