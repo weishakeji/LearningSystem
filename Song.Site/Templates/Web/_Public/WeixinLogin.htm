@@ -78,7 +78,7 @@
               <div class="regbox">
             <form id="formBind" name="formBind" method="post" sms="{$forsms}">
                   <div class="loginRow">
-                <widget type="text" ico="&#xe600;" deftxt="账号/手机号/身份证号" name="tbAcc" class="textbox width" nullable="false"  star="false" group="login|getBindsms"> </widget>
+                <widget type="text" ico="&#xe600;" deftxt="账号/手机号" name="tbAcc" class="textbox width" nullable="false"  star="false" group="login|getBindsms"> </widget>
               </div>
                   <div class="loginRow">
                 <widget type="text" ico="&#xe636;" deftxt="验证码" name="tbCode"  group="login|getBindsms"
@@ -89,7 +89,11 @@
                       <widget type="text" ico="&#xe71a; iconphone" deftxt="短信验证码" name="tbSms" class="textbox verify" nullable="false"  star="false" lenlimit="6-6" group="login"> </widget>
                       <div class="right-btn" id="getSms" group="getBindsms" type="getSms" waiting="{num}秒后再获取" smsname="sms_bind_weixin">获取短信</div>
                     </div>
-              </vt:if>
+               <vt:else />
+              <div class="loginRow">
+          <widget type="password" ico="&#xe6ed;" deftxt="密码" name="tbPw" class="textbox width" nullable="false"> </widget>
+        </div>
+                </vt:if>
                   <div class="loginRow btnBar">
                 <input type="submit" name="btnBind" id="btnBind" value="绑定账户"  verify="true" group="login" class="btnBind"/>
               </div>

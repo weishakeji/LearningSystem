@@ -268,7 +268,7 @@ namespace Song.Site
         {
             string access_token = WeiSha.Common.Request.QueryString["token"].String;
             string openid = WeiSha.Common.Request.QueryString["openid"].String;
-            string mobi = WeiSha.Common.Request.Form["mobi"].String;    //手机号
+            string mobi = WeiSha.Common.Request.Form["mobi"].String;    //手机号            
             int sex = WeiSha.Common.Request.Form["sex"].Int16 ?? 0;
             string name = WeiSha.Common.Request.Form["name"].String;
             string photo = WeiSha.Common.Request.Form["photo"].String;
@@ -280,7 +280,7 @@ namespace Song.Site
                 {
                     Response.Write("{\"success\":\"-1\",\"state\":\"2\"}");   //手机号已经存在
                     return;
-                }
+                }                
             }
             Song.Entities.Organization org = getOrgan();           
             //创建新账户
@@ -393,6 +393,7 @@ namespace Song.Site
             string access_token = WeiSha.Common.Request.QueryString["access_token"].String;
             string openid = WeiSha.Common.Request.Form["openid"].String;
             string mobi = WeiSha.Common.Request.Form["mobi"].String;    //手机号
+            string pw = WeiSha.Common.Request.Form["pw"].MD5;    //登录密码
             string vname = WeiSha.Common.Request.Form["vname"].String;
             string imgCode = WeiSha.Common.Request.Cookies[vname].ParaValue;    //取图片验证码
             string userCode = WeiSha.Common.Request.Form["vcode"].MD5;  //取输入的验证码
@@ -415,6 +416,18 @@ namespace Song.Site
                     Response.Write("{\"success\":\"-1\",\"state\":\"2\"}");   //手机号不存在
                     return;
                 }
+                //验证密码
+                if (!string.Equals(acc.Ac_Pw, pw, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Response.Write("{\"success\":\"-1\",\"state\":\"3\"}");   //登录密码不正确
+                    return;
+                }
+                //是否已经绑过微信的openid
+                if (!string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
+                {
+                    Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过openid
+                    return;
+                } 
             }
             //绑定
             if (acc != null)
@@ -425,7 +438,7 @@ namespace Song.Site
                     Business.Do<IAccounts>().AccountsSave(acc);
                     LoginState.Accounts.Write(acc);
                     //登录成功
-                    Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "QQ登录", "");   //增加登录积分
+                    Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
                     string domain = getOrganDomain(this.getOrgan());
                     Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"domain\":\"" + domain + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\"}");
                 }
@@ -474,6 +487,12 @@ namespace Song.Site
                     Response.Write("{\"success\":\"-1\",\"state\":\"2\",\"btn\":\"" + btnName + "\"}");   //手机号不存在
                     return;
                 }
+                //是否已经绑过微信的openid
+                if (!string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
+                {
+                    Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过openid
+                    return;
+                } 
             }
             //绑定
             if (acc != null)

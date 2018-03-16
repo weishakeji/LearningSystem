@@ -1,18 +1,17 @@
 ﻿<!doctype html>
 <html>
-    <head>
+<head>
     <title>微信登录</title>
     <vt:if var="domain" value="" compare="!=">
       <script type="text/javascript">
-        document.domain = '{$domain}';  
+          document.domain = '{$domain}';  
     </script></vt:if>
     <vt:include file="inc/meta.inc" />
     <script type="text/javascript" src="Scripts/WeixinLogin.js"></script>
     <link href="Styles/WeixinLogin.css" rel="stylesheet" type="text/css" />
-    </head>
-    <body>
-
-      <vt:if var="org.org_id" value="0" compare=">" remark="所属机构必须存在">
+</head>
+<body>
+    <vt:if var="org.org_id" value="0" compare=">" remark="所属机构必须存在">
         <vt:if var="openid" value="" compare="=" remark="">
           <vt:if var="errcode" value="" compare="!=" remark="">
             <div class="error-txt">错误：{$errmsg} ;<br/>
@@ -27,7 +26,7 @@
           <vt:else />
           <vt:if var="success" value="1" compare="=" remark="账户已经存在，且正常登录">
             <div class="loading-txt">正在登录...</div>
-            <script>returl("{$domain2}","{$acc.ac_id}");</script> 
+            <script>                returl("{$domain2}", "{$acc.ac_id}");</script> 
           </vt:if>
           <vt:if var="success" value="-1" compare="=" remark="账户存在,但禁用或未通过审核">
             <div class="error-txt">当前账户“{$acc.Ac_Name}”被禁用，或未通过审核，暂无法登录。</div>
@@ -91,7 +90,11 @@
                       <widget type="text" ico="&#xe71a; iconphone" deftxt="短信验证码" name="tbSms" class="textbox verify" nullable="false"  star="false" lenlimit="6-6" group="bind"> </widget>
                       <div class="right-btn" id="getSms"  type="getSms" waiting="{num}秒后再获取" group="bindsms"  smsname="sms_bind_weixin">获取短信</div>
                     </div>
-                  </vt:if>
+                   <vt:else />
+              <div class="loginRow">
+          <widget type="password" ico="&#xe6ed;" deftxt="密码" name="tbPw" class="textbox width" nullable="false"> </widget>
+        </div>
+                </vt:if>
                   <div class="loginRow btnBar">
                     <input type="submit" name="btnBind" id="btnBind" group="bind" value="绑定账户"  verify="true"  group="bind" class="btnBind"/>
                   </div>
@@ -104,7 +107,6 @@
         <div class="error-txt">回调错误！</div>
         <div class="error-txt">当前回调域：http://{$Returl}</div>
       </vt:if>
-      <script type="text/javascript" src="/Utility/CoreScripts/Widget.js"></script> 
-    
+    <script type="text/javascript" src="/Utility/CoreScripts/Widget.js"></script>
 </body>
 </html>
