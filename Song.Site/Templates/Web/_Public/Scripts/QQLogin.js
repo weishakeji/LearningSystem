@@ -94,6 +94,7 @@ function setBtnEvent() {
                     if (data.state == 1) Verify.ShowBox(form.find("input[type=text][name=tbCode]"), "验证码不正确！");
                     if (data.state == 2) Verify.ShowBox(form.find("input[type=text][name=tbAcc]"), "账号不存在！");
                     if (data.state == 3) Verify.ShowBox(form.find("input[type=text][name=tbPw]"), "密码不正确！");
+                    if (data.state == 4) Verify.ShowBox(form.find("input[type=text][name=tbAcc]"), "当前账号已经绑定QQ！");
                 }
                 //绑定成功
                 if (Number(data.success) == 1) closeWinBox();
@@ -113,6 +114,7 @@ function setBtnEvent() {
                     if (data.state == 1) Verify.ShowBox(form.find("input[type=text][name=tbCode]"), "验证码不正确！");
                     if (data.state == 2) Verify.ShowBox(form.find("input[type=text][name=tbAcc]"), "该手机号没有注册！");
                     if (data.state == 3) Verify.ShowBox(form.find("input[type=text][name=tbSms]"), "短信验证码错误！");
+                    if (data.state == 4) Verify.ShowBox(form.find("input[type=text][name=tbAcc]"), "当前账号已经绑定QQ！");
                 }
                 //注册成功
                 if (Number(data.success) == 1) closeWinBox();

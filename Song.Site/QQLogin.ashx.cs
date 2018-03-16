@@ -419,7 +419,13 @@ namespace Song.Site
                 {
                     Response.Write("{\"success\":\"-1\",\"state\":\"3\"}");   //登录密码不正确
                     return;
-                }                
+                }
+                //是否已经绑过QQ的openid
+                if (!string.IsNullOrWhiteSpace(acc.Ac_QqOpenID))
+                {
+                    Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过openid
+                    return;
+                } 
             }
             //绑定
             if (acc != null)
@@ -471,6 +477,12 @@ namespace Song.Site
                     Response.Write("{\"success\":\"-1\",\"state\":\"2\",\"btn\":\"" + btnName + "\"}");   //手机号不存在
                     return;
                 }
+                //是否已经绑过QQ的openid
+                if (!string.IsNullOrWhiteSpace(acc.Ac_QqOpenID))
+                {
+                    Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过openid
+                    return;
+                } 
             }
             //绑定
             if (acc != null)
