@@ -32,7 +32,6 @@ img {
 	_position: absolute;
 	_top: 0px;
 	top: 0px;
-	background-image: url(Images/logo.gif);
 	background-repeat: no-repeat;
 	background-position: 2px 2px;
 	text-align:right;
@@ -236,7 +235,6 @@ img {
 	margin: 0px;
 	display: none;
 	background-color: #FFFFFF;
-	background-image: url(Images/weixin.jpg);
 	background-repeat: no-repeat;
 	background-position: center bottom;
 }

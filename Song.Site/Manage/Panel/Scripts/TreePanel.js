@@ -57,14 +57,13 @@ TreePanel.prototype.load = function () {
         TreeEvent("#consTreePanel");
         tree.focus();
         //设置节点前的图标与连线样式
-        pl.find(".nodeIco").each(
-				function () {
-				    var num = Number($(this).find("img").size());
-				    $(this).width(num * 18);
-				    $(this).css("float", "left");
-				}
-			);
+        pl.find(".nodeIco").each(function () {
+            var num = Number($(this).find("img").size());
+            $(this).width(num * 18);
+            $(this).css("float", "left");
+        });
         $(".treepanel").height($("#consContextPanel").height());
+        $(".treepanel").css("background-image", "url(" + $("#consTreePanel").attr("bg") + ")");
         //如果不是超管，则进行权限判断；
         //emplyeeIsAdmin与emplyeeId参数，来自于console.aspx页面初始化
         if (emplyeeIsAdmin != 0) {

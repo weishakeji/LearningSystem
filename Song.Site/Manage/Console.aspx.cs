@@ -28,8 +28,10 @@ namespace Song.Site.Manage
         protected string appState = "";
         //是否为超级管理员，真为0
         protected int isAdmin = 1;
-
+        //当前账号
         Song.Entities.EmpAccount acc = null;
+        //版权信息
+        protected WeiSha.Common.Copyright<string, string> copyright = WeiSha.Common.Request.Copyright;
         protected void Page_Load(object sender, EventArgs e)
         {
             fill();

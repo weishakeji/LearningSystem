@@ -13,6 +13,7 @@ html {
  overflow-x:hidden;
  padding: 0px !important;
 }
+
 -->
 </style>
 <meta http-equiv="Pragma" content="no-cache" />
@@ -41,12 +42,12 @@ var appState="<%= appState %>";
 <script type="text/javascript" src="Panel/Scripts/DropMenu.js"></script>
 <script type="text/javascript" src="Panel/Scripts/Loyout.js"></script>
 <script type="text/javascript" src="Scripts/Console.js"></script>
-<div class="logoBox">
+<div class="logoBox" style="background-image: url(<%= copyright["logo"]%>)">
 <span class="consInfo">欢迎
         <asp:HyperLink ID="lbName" NavigateUrl="Personal/View.aspx" runat="server" ForeColor="Red">[lbName]</asp:HyperLink>
         登录</span>
 </div>
-<div class="consAppName">微厦在线学习云服务平台-<span id="consVersionName" runat="server"></span></div>
+<div class="consAppName"><%= copyright["product"]%>-<span id="consVersionName" runat="server"></span></div>
 <form id="Console" runat="server">
   <!--顶部区域 -->
   <div id="consPageTop">
@@ -66,7 +67,7 @@ var appState="<%= appState %>";
   </div>
   <!-- 主要内容区 -->
   <div id="consBody">
-    <div id="consTreePanel">&nbsp;
+    <div id="consTreePanel" bg="<%= copyright["weixinqr"]%>">&nbsp;
       <!-- 左侧树形菜单区域 -->
     </div>
     <dl id="consBoxTitleBar">

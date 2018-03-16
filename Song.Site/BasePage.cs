@@ -174,7 +174,8 @@ namespace Song.Site
             //导航菜单
             this.Document.RegisterGlobalFunction(this.Navi);
             this.Document.RegisterGlobalFunction(this.NaviDrop);
-
+            //版本信息‘
+            this.Document.SetValue("copyright", WeiSha.Common.Request.Copyright);
             //用本地模板引擎处理标签
             Song.Template.Handler.Start(this.Document);
             //

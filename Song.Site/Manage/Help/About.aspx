@@ -7,10 +7,16 @@
     <title>无标题页</title>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
-    
-    </div>
-    </form>
+    <div id="context">
+    <p>
+        <%= copyright["intro"]%></p>
+    <hr />
+    <p>
+        <%= copyright["compay"]%> 感谢您的支持！</p>
+    <!--  <p>创作人员：宋雷鸣（10522779@QQ.com）</p>-->
+    <p>
+        <a href="<%= copyright["url"]%>" target="_blank"><%= copyright["domain"]%></a> &nbsp;
+        Tel: <%= copyright["tel"]%></p>
+</div>
 </body>
 </html>

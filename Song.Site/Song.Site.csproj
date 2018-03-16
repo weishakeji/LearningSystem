@@ -290,6 +290,7 @@
     <Content Include="Manage\Exam\TestPaper_Statistics.aspx" />
     <Content Include="Manage\Exam\Test_Review.aspx" />
     <Content Include="Manage\Export\Operate.aspx" />
+    <Content Include="Manage\Help\Styles\About.css" />
     <Content Include="Manage\Images\4322.jpg" />
     <Content Include="Manage\Images\4323.jpg" />
     <Content Include="Manage\Images\bigIco2.jpg" />
@@ -1807,8 +1808,10 @@
     <Content Include="Utility\iconfont\phone\iconphone.css" />
     <Content Include="Utility\iconfont\phone\iconphone.svg" />
     <Content Include="Utility\iconfont\iconfont.css" />
+    <Content Include="Utility\Images\logo.gif" />
     <Content Include="Utility\Images\map_point.png" />
     <Content Include="Utility\Images\weishakeji_weixin.jpg" />
+    <Content Include="Utility\Images\weixin.jpg" />
     <Content Include="Utility\Images\winClose.gif" />
     <Content Include="Utility\Messagebox_demo.htm" />
     <Content Include="Utility\PdfViewer\debugger.js" />

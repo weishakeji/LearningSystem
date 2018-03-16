@@ -1,6 +1,6 @@
 ﻿<div id="footer">
-  <div class="linksBox" >
-    <vt:list type="linkssort" item="sort" index="i">     
+    <div class="linksBox">
+        <vt:list type="linkssort" item="sort" index="i">     
      <vt:function var="links" method="getLinks" args="$#.sort.ls_id"/>
       <select sortid="{$#.sort.ls_id}"
 				onchange="if(this.options[this.selectedIndex].value!='$'){window.open(this.options[this.selectedIndex].value,'_blank')}">
@@ -10,14 +10,20 @@
         </vt:foreach>
       </select>
     </vt:list>
-  </div>
-  <!--   ################  -->
-  <div id="footerConext"> 主办单位：{$:#.org.Org_Name} &nbsp; <br/>
-    地址：{$:#.org.Org_Address}&nbsp; &nbsp; 电话：{$:#.org.Org_Phone}<br/>
-    Copyright &copy; 2016-2018 {$:#.org.Org_AbbrEnName} All rights reserved &nbsp;
-    <vt:if var="org.Org_ICP" value="" compare="!="> <a href="http://www.miibeian.gov.cn" target="_blank">{$:#.org.Org_ICP}</a> </vt:if>
-    <div > <a href="http://www.weishakeji.net" target="_blank" title="微厦科技，专注在线教育系统开发！">Powered by Weishakeji.</a> <a href="/admin/index.ashx" target="_blank" title="" style="color: #003562;font-family: ;font-weight: bold;"> 管理登录 </a> </div>
-  </div>
+    </div>
+    <!--   ################  -->
+    <div id="footerConext">
+        主办单位：{$:#.org.Org_Name} &nbsp;
+        <br />
+        地址：{$:#.org.Org_Address}&nbsp; &nbsp; 电话：{$:#.org.Org_Phone}<br />
+        Copyright &copy; 2016-2018 {$:#.org.Org_AbbrEnName} All rights reserved &nbsp;
+        <vt:if var="org.Org_ICP" value="" compare="!="> <a href="http://www.miibeian.gov.cn" target="_blank">{$:#.org.Org_ICP}</a> </vt:if>
+        <div>
+            <a href="{$copyright.url}" target="_blank" title="{$copyright.title}">{$copyright.powerby}</a>
+            <a href="/admin/index.ashx" target="_blank" title="" style="color: #003562; font-family: ;
+                font-weight: bold;">管理登录 </a>
+        </div>
+    </div>
 </div>
 <script type="text/javascript">
     //当前登录的账号ID

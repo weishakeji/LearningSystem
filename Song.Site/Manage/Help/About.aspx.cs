@@ -13,6 +13,8 @@ namespace Song.Site.Manage.Help
 {
     public partial class About : Extend.CustomPage
     {
+        //∞Ê»®–≈œ¢
+        protected WeiSha.Common.Copyright<string, string> copyright = WeiSha.Common.Request.Copyright;
         protected void Page_Load(object sender, EventArgs e)
         {
 

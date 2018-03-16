@@ -16,6 +16,8 @@ namespace Song.Site
     {
         //根域名
         protected string mainname = WeiSha.Common.Server.MainName;
+        //版权信息
+        protected WeiSha.Common.Copyright<string, string> copyright = WeiSha.Common.Request.Copyright;
         protected void Page_Load(object sender, EventArgs e)
         {    
             //默认打开方式

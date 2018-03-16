@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using System.Text;
 using System.Net;
+using System.Xml;
 
 namespace Song.Site.Manage
 {
@@ -33,27 +34,26 @@ namespace Song.Site.Manage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string rssURL = "http://www.hnshxy.cn/system/resource/code/rss/rssfeed.jsp?type=list&treeid=1101&viewid=191797&mode=10&dbname=vsb&owner=1400990200&ownername=zzslxx&contentid=161543&number=20&httproot=";
-            //string rss = GetWebClient(rssURL);
-            string rss = WeiSha.Common.Request.WebResult(rssURL);
+
+            string xml = this.MapPath("/copyright.xml");
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(xml);
+            XmlNode first = xmlDoc.LastChild;
+            dynamic d = new System.Dynamic.ExpandoObject();
+            if (first != null)
+            {
+                XmlNodeList list = first.ChildNodes;
+                
+                //创建属性，并赋值。
+                foreach (XmlNode node in list)
+                {
+                    if (node.NodeType != XmlNodeType.Element) continue;
+                    (d as System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<string, object>>)
+                        .Add(new System.Collections.Generic.KeyValuePair<string, object>(node.Name, node.InnerText));
+                }
+            }            
             Response.End();
         }
-        private string GetWebClient(string url)
-        {
-            Uri uri = new Uri(url);
-            HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(uri);
-            myReq.UserAgent = "User-Agent:Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705";
-            myReq.Accept = "*/*";
-            myReq.KeepAlive = true;
-            myReq.Headers.Add("Accept-Language", "zh-cn,en-us;q=0.5");
-            HttpWebResponse result = (HttpWebResponse)myReq.GetResponse();
-            Stream receviceStream = result.GetResponseStream();
-            StreamReader readerOfStream = new StreamReader(receviceStream, System.Text.Encoding.GetEncoding("utf-8"));
-            string strHTML = readerOfStream.ReadToEnd();
-            readerOfStream.Close();
-            receviceStream.Close();
-            result.Close();
-            return strHTML;
-        }
+        
     }
 }

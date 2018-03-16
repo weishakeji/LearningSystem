@@ -121,7 +121,7 @@ body {
 .licInfoBox {
 	margin-left: 20px;
 	color: #930;
-	background-image: url(Utility/Images/weishakeji_weixin.jpg);
+	background-image: url(<%= copyright["weixinqr"] %>);
 	background-repeat: no-repeat;
 	background-position: right top;
 	min-height:260px;
@@ -253,7 +253,7 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
         <div class="explain">
             <ol>
                 说明：<br />
-                <li>如果上述版本的功能无法满足您的需求，升级请联系<a class="blue" href="http://shop35387540.taobao.com/"
+                <li>如果上述版本的功能无法满足您的需求，升级请联系<a class="blue" href="<%= copyright["taobao"]%>"
                     target="_blank">在线销售（淘宝店）</a> </li>
                 <li>升级方法：将下述激活码发给客服人员，客服将反馈给您授权文件，将其放置在系统根目录即可。</li>
                 <li>授权说明：主域名授权仅限<asp:Label ID="lbRootLimit" runat="server" ForeColor="green"></asp:Label>。</li>
@@ -308,7 +308,7 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
     </form>
     <div id="footer">
         <div class="copyright">
-            Copyright &copy; 2014-2020 <a href="http://www.weishakeji.net/" target="_blank">Weishakeji</a>
+            Copyright &copy; 2014-2020 <a href="<%= copyright["url"] %>" target="_blank"><%= copyright["en"]%></a>
             All rights reserved
         </div>
     </div>
