@@ -168,7 +168,7 @@ function sendSmsEvent() {
 function closeWinBox(domain) {
     var prefix = window.location.href;
     if (prefix.indexOf("://") > -1) prefix = prefix.substring(0, prefix.indexOf("://"));
-    window.location.href = prefix + "://" + domain + "/mobile/default.ashx";
+    window.top.location.href = prefix + "://" + domain + "/mobile/default.ashx";
 }
 //短信发送后的等待效果
 function _mobiLogin_smsSendWaiting() {

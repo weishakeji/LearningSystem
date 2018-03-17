@@ -127,7 +127,7 @@ function Event_mobiLogin(form, url) {
 //短信发送
 function _mobiLogin_smsSend() {
     if (Number($(this).attr("num")) > 0) return;
-	var group=$(this).attr("group");
+    var group = $(this).attr("group");
     if (!Verify.IsPass($(this).parents("form"), group)) return;
     var vcode = $("form[name=mobiLogin]").find("input[type=number][name=tbCode]").val();
     //先验证验证码
@@ -217,21 +217,32 @@ function _mobiLogin_veri(form, url) {
 /*第三方登录*/
 function OtherLogin() { }
 OtherLogin.init = function () {
+    //qq登录
     mui('body').on('tap', 'a[tag=qqlogin]', function () {
         var appid = $(this).attr("appid"); //appid
         var returl = OtherLogin.prefix($(this).attr("returl")) + "/qqlogin.ashx"; //回调域
         var orgid = $(this).attr("orgid"); 	//当前机构id
         var target = "https://graph.qq.com/oauth2.0/authorize?";
         target += "client_id=" + appid + "&response_type=code&scope=all&redirect_uri=" + returl + "&state=" + orgid;
-        window.location.href = target;
+        //window.location.href = target;
+        new PageBox("QQ登录", target, 100, 100, "url").Open();
     });
+    //微信登录
     mui('body').on('tap', 'a[tag=weixinlogin]', function () {
-        var appid = $(this).attr("appid"); //appid
-        var returl = OtherLogin.prefix($(this).attr("returl")) + "/weixinlogin.ashx"; //回调域
-        var orgid = $(this).attr("orgid"); 	//当前机构id
-        var target = "https://open.weixin.qq.com/connect/oauth2/authorize?";
-        target += "appid=" + appid + "&redirect_uri=" + encodeURIComponent(returl) + "&response_type=code&scope=snsapi_login&state=" + orgid + "&&style=black#wechat_redirect";
-        window.location.href = target;
+        //判断是否处于微信中
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) != 'micromessenger') {
+            var txt = "请在微信客户端打开,<second>5</second>秒后关闭";
+            var msg = new MsgBox("无法使用", txt, 90, 200, "alert");
+            msg.Open();
+        } else {
+            var appid = $(this).attr("appid"); //appid
+            var returl = OtherLogin.prefix($(this).attr("returl")) + "/weixinlogin.ashx"; //回调域
+            var orgid = $(this).attr("orgid"); 	//当前机构id
+            var target = "https://open.weixin.qq.com/connect/oauth2/authorize?";
+            target += "appid=" + appid + "&redirect_uri=" + encodeURIComponent(returl) + "&response_type=code&scope=snsapi_login&state=" + orgid + "&&style=black#wechat_redirect";
+            window.location.href = target;
+        }
     });
 }
 //获取前缀，主要用来判断是http还是https
