@@ -2008,6 +2008,9 @@
     <Compile Include="Ajax\InTestResult.ashx.cs">
       <DependentUpon>InTestResult.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Ajax\Copyright.ashx.cs">
+      <DependentUpon>Copyright.ashx</DependentUpon>
+    </Compile>
     <Compile Include="API\SSO\HangzhouZhengfang.aspx.cs">
       <DependentUpon>HangzhouZhengfang.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -5831,6 +5834,7 @@
     <Content Include="Mobile\WeixinLogin.ashx" />
     <Content Include="CourseStudy.ashx" />
     <Content Include="Mobile\SetCookies.ashx" />
+    <Content Include="Ajax\Copyright.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
