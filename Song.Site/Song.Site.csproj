@@ -1145,7 +1145,9 @@
     <Content Include="Templates\Web\NetSchool\Notices.htm" />
     <Content Include="Templates\Web\_Public\Images\icon-1.png" />
     <Content Include="Templates\Web\_Public\Images\load_024.gif" />
+    <Content Include="Templates\Web\_Public\Images\next.jpg" />
     <Content Include="Templates\Web\_Public\Images\ok.gif" />
+    <Content Include="Templates\Web\_Public\Images\previous.jpg" />
     <Content Include="Templates\Web\_Public\Images\submit-bg.gif" />
     <Content Include="Templates\Web\_Public\Images\submit.gif" />
     <Content Include="Templates\Web\_Public\Images\submit2-bg.gif" />
@@ -1159,6 +1161,9 @@
     <Content Include="Templates\Web\_Public\Module\Course\Buy.htm" />
     <Content Include="Templates\Web\_Public\Module\Course\Buy.js" />
     <Content Include="Templates\Web\_Public\Module\Course\Images\alpha.png" />
+    <Content Include="Templates\Web\_Public\Module\Test\TestScene.css" />
+    <Content Include="Templates\Web\_Public\Module\Test\TestScene.htm" />
+    <Content Include="Templates\Web\_Public\Module\Test\TestScene.js" />
     <Content Include="Templates\Web\_Public\QuesExplain.htm" />
     <Content Include="Templates\Web\_Public\QuesKnl.htm" />
     <Content Include="Templates\Web\_Public\QuestionAnswer.htm" />
@@ -1185,7 +1190,6 @@
     <Content Include="Templates\Web\NetSchool\Scripts\QuesLoad.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\slider.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Test.js" />
-    <Content Include="Templates\Web\NetSchool\Scripts\TestScene.js" />
     <Content Include="Templates\Web\_Public\Scripts\Mask.js" />
     <Content Include="Templates\Web\_Public\Scripts\TestView.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Article.js" />
@@ -1422,7 +1426,6 @@
     <Content Include="Templates\Web\Neimeng\CoreScripts\Public.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\QuesLoad.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Test.js" />
-    <Content Include="Templates\Web\Neimeng\Scripts\TestScene.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\TestView.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Training.js" />
     <Content Include="Templates\Web\Neimeng\Student\Images\login-banner.jpg" />
@@ -1643,7 +1646,6 @@
     <Content Include="Templates\Web\School\CoreScripts\Public.js" />
     <Content Include="Templates\Web\School\Scripts\QuesLoad.js" />
     <Content Include="Templates\Web\School\Scripts\Test.js" />
-    <Content Include="Templates\Web\School\Scripts\TestScene.js" />
     <Content Include="Templates\Web\School\Scripts\TestView.js" />
     <Content Include="Templates\Web\School\Scripts\Training.js" />
     <Content Include="Templates\Web\School\Student\Header.htm" />
@@ -1793,6 +1795,7 @@
     <Content Include="Utility\iconfont\phone\iconphone.css" />
     <Content Include="Utility\iconfont\phone\iconphone.svg" />
     <Content Include="Utility\iconfont\iconfont.css" />
+    <Content Include="Utility\Images\load_016.gif" />
     <Content Include="Utility\Images\logo.gif" />
     <Content Include="Utility\Images\map_point.png" />
     <Content Include="Utility\Images\weishakeji_weixin.jpg" />

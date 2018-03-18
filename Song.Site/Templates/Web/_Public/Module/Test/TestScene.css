@@ -1,0 +1,589 @@
+﻿@charset "utf-8";
+
+/*假如没有选择课程*/
+.noSelect td, .noSelect p
+{
+    line-height:45px;
+}
+.tit
+{
+	line-height: 45px;
+	text-align: center;
+	font-size: 18px;
+	font-weight: bold;
+	color: #F00;
+	margin-bottom: 20px;
+}
+#testListBox dl {
+	padding: 0px;
+	margin-top: 20px;
+	margin-right: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+	display: table;
+}
+#testListBox dd {
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+	height: 200px;
+	width: 980px;
+}
+.imgBox {
+	height: 200px;
+	width: 200px;
+	border: 1px solid #CCCCCC;
+	float: left;
+	margin-right:10px;
+}
+.imgBox img {
+	height: 196px;
+	width: 196px;
+	margin-top: 2px;
+	margin-left: 2px;
+}
+
+.testRight {
+	float: left;
+	height: 200px;
+	width: 525px;
+	margin-left: 30px;
+}
+.title {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 16px;
+	line-height: 50px;
+	height: 50px;
+	width: 920px;
+	font-weight: bold;
+	color: #333333;
+}
+.row {
+	font-size: 16px;
+	line-height: 25px;
+	color: #333333;
+	height: 25px;
+}
+.row div {
+	float: left;
+	width: 200px;
+}
+
+
+.row *{
+	font-size: 16px;
+	line-height: 25px;
+	color: #333333;
+	height: 25px;
+}
+.testRight .intro {
+	height: 60px;
+	overflow: hidden;
+	margin-bottom: 10px;
+}
+.intro, .intro p, .intro a, .intro div, .intro span{
+	font-size: 15px;
+	line-height: 20px;
+	color: #333333;
+}
+/*屏幕遮罩*/
+#screenMask
+{
+	position: absolute;
+	display:none;
+	z-index: 100;
+	mask-moz-opacity:0.8;
+	opacity:0.8;
+	filter: Alpha(Opacity=80);
+	background-color: #FFFFFF;
+}
+#loading
+{
+	position: absolute;
+	display:none;
+	z-index: 100;
+	background-color: #FFFFFF;
+	height: 35px;
+	width: 280px;
+	margin-right: auto;
+	margin-left: auto;
+}
+#loadingTitle
+{
+	font-size: 14px;
+	line-height: 35px;
+	text-align: center;
+}
+#submitBox
+{
+	position: absolute;
+	display:none;
+	z-index: 100;
+	background-color: #FFFFFF;
+	height: 35px;
+	width: 280px;
+	margin-right: auto;
+	margin-left: auto;
+}
+#submitTitle
+{
+	font-size: 18px;
+	line-height: 35px;
+	text-align: center;
+	font-weight: bold;
+}
+/*顶部*/
+#examHeader
+{
+	margin-top: 10px;
+	height: 160px;
+	overflow: hidden;
+	width: 100%;
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color:#666;
+	margin-bottom:10px;
+}
+fieldset
+{
+	margin:0px;
+	padding:0px;
+	width:33%;
+	float:left;
+}
+fieldset, fieldset div, fieldset td{
+	font-size: 14px;
+	line-height: 22px;
+}
+fieldset legend
+{
+	margin-right:5px;
+	font-size: 15px;
+	color: #FF6600;
+	font-weight: bold;
+}
+/*考试信息*/
+#examInfo
+{
+	height: 170px;
+	width: 550px;
+	float: left;
+	margin-right:5px;
+}
+#examInfo .infoBox {
+	height: 140px;
+	width: 550px;
+	margin-top: 2px;
+}
+#examInfo .infoBox .stPhoto {
+	float: left;
+	height: 120px;
+	width: 90px;
+}
+.infoBox .stPhoto .stName {
+	line-height: 30px;
+	background-color: #333333;
+	height: 30px;
+	position: relative;
+	z-index: 2;
+	color: #FFFFFF;
+	font-size: 15px;
+	font-weight: bold;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	top: 90px;
+	text-align:center;
+}
+
+#examInfo img
+{
+	float: left;
+	position: relative;
+	z-index: 1;
+	top: -30px;
+}
+
+#examInfo .empName
+{
+	float: left;
+	width: 400px;
+}
+#examInfo td{
+	height:30px;
+	line-height:30px;
+}
+/*提示信息*/
+#showBox
+{
+	width:150px;
+	height: 170px;
+	float:left;
+	margin-right:5px;
+}
+#showBox td{
+	height:30px;
+	line-height:30px;
+}
+/*时间信息*/
+#timeBox
+{
+	width:260px;
+	height: 170px;
+	float:right;
+}
+/*考试未开始*/
+#notTime
+{
+	color: #FF0000;
+}
+#timeBox .timeTitle
+{
+	line-height: 25px;
+	font-weight: bold;
+	text-align: center;
+	height: 25px;
+}
+#timeBox .timeArea
+{
+	font-size: 50px;
+	background-color: #CCFF66;
+	text-align: center;
+	height: 120px;
+	line-height: 120px;
+	font-family: "黑体", SimSun-ExtB;
+}
+.timeArea  .mm, .timeArea  .ss{
+	font-size: 50px;
+	background-color: #CCFF66;
+	text-align: center;
+	height: 120px;
+	line-height: 120px;
+	font-family: "黑体", SimSun-ExtB;
+}
+/*考试区域*/
+#TestArea
+{
+	display:table;
+	width:1200px;
+	min-height:500px;
+}
+/*试题区域*/
+#quesArea {
+	width: 920px;
+	min-height: 500px;
+	float: left;
+	overflow: hidden;
+	position: relative;
+}
+#quesArea #quesArea-context {
+	width: 999900%;
+	min-height: 500px;
+	position: absolute;
+}
+.quesItem {
+	float: left;
+	overflow: auto;
+	width:920px;
+	height:500px;
+}
+.quesBox {
+	margin: 10px;
+	position: relative;
+}
+.quesBox .quesInfo {
+	line-height: 30px;
+	height: 30px;
+}
+.quesBox .quesInfo .infoLeft {
+	float: right;
+	width: 70px;
+}
+.quesBox .quesInfo .info {
+	float: left;
+	width: 80%;
+	font-size:14px;
+}
+.quesBox .quesInfo .info span{
+	font-size:14px;
+}
+.btnFav, .btnError {
+	text-align: center;
+	width: 20px;
+	margin-left: 6px;
+}
+
+.quesBox .quesTitle {	
+	padding: 10px;
+
+}
+.quesTitle, .quesTitle *{
+	font-size: 16px;
+	line-height:25px;
+}
+.quesBox .quesAnswerBox {
+
+	font-size: 15px;
+
+}
+.quesBox .quesAnswerBox .ansItem {
+
+	font-size: 14px;
+	line-height: 25px;
+	cursor:pointer;
+	overflow: hidden;
+	padding-right: 10px;
+	padding-left: 10px;
+	min-height:30px;
+}
+.ansItem {
+	line-height: 30px;
+	overflow: hidden;
+	margin-bottom: 5px;
+	padding-right: 10px;
+	padding-left: 10px;
+	min-height: 30px;
+}
+.ansItem, .ansItem *{	
+	font-size: 14px !important;
+	line-height: 30px;
+	color: #333;
+}
+.ansItem p{
+	display: inline;
+}
+.answerSel, .answerSel * {
+	color: #0099FF !important;
+}
+.ansItem:before{
+	color: #666666;
+	margin-right: 5px;
+	font-size: 20px;
+    line-height: 17px;
+}
+.answerSel:before {
+	margin-right: 5px;
+	font-size: 20px;
+    line-height: 17px;
+	color: #0099FF;
+}
+.type1 .ansItem:before {
+	content: "\f00c6";
+	font-family: "iconfont" !important;
+	
+}
+.type1 .answerSel:before {
+	content: "\e667";
+	font-family: "iconfont" !important;
+}
+.type2 .ansItem:before {
+	content: "\e603";
+	font-family: "iconfont" !important;	
+}
+.type2 .answerSel:before {
+	content: "\e62a";
+	font-family: "iconfont" !important;
+}
+.type3 .ansItem:before {
+	content: "\e621";
+	font-family: "iconfont" !important;	
+}
+.type3 .answerSel:before {
+	content: "\e63b";
+	font-family: "iconfont" !important;
+	font-size: 25px;
+}
+.type4 .ansItem:before {
+	content: "\e657";
+	font-family: "iconfont" !important;	
+}
+.type5 .ansItem:before {
+	content: "\e657";
+	font-family: "iconfont" !important;	
+}
+#quesType span {
+	font-size: 14px;
+}
+.ctlBtn .btn {
+	border: 2px solid #dedede;
+	-moz-border-radius: 15px;      /* Gecko browsers */
+	-webkit-border-radius: 15px;   /* Webkit browsers */
+	border-radius:18px;            /* W3C syntax */
+	font-family: "黑体";
+	font-size: 13px;
+	line-height: 30px;
+	color: #000000;
+	text-align: center;
+	height: 30px;
+	background: -moz-linear-gradient(top, #cccccc 0%, #ffffff 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #cccccc), color-stop(100%, #ffffff));
+	background: -webkit-linear-gradient(top, #cccccc 0%, #ffffff 100%);
+	background: -o-linear-gradient(top, #cccccc 0%, #ffffff 100%);
+	background: -ms-linear-gradient(top, #cccccc 0%, #ffffff 100%);
+	background: linear-gradient(to bottom, #cccccc 0%, #ffffff 100%);
+	margin-bottom: 6px;
+}
+.ctlBtn .btn span {
+	font-family:"iconfont" !important;
+	font-size:14px;
+	font-style:normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+	margin-right: 3px;
+}
+.textbox4 {
+	font-family: "黑体";
+	font-size: 16px;
+	line-height: 25px;
+	height: 125px;
+	width: 100%;
+	border: 1px solid #999999;
+	margin-top: 3px;
+}
+.textbox5 {
+	font-family: "黑体";
+	font-size: 16px;
+	line-height: 25px;
+	height: 25px;
+	width: 80%;
+	border: 1px solid #999999;
+	margin-top: 3px;
+}
+.IsCollect {
+	color:#FF8080 !important;
+}
+/*控制区*/
+#controlBox
+{
+	height: 60px;
+	z-index: 4;
+	width:100%;
+	margin-top: 10px;
+	padding: 0px;
+
+}
+#controlBox .btn
+{
+	font-size: 25px;
+	line-height: 60px;
+	float: left;
+	margin-right: 10px;
+	font-family: "黑体", SimSun-ExtB;
+	font-weight: bold;
+	cursor:pointer;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	margin-left: 0px;
+}
+/*上一题*/
+#controlBox #btnPrev
+{
+	background-image: url(../../Images/previous.jpg);
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 183px;	
+}
+/*下一题*/
+#controlBox #btnNext
+{
+	background-image: url(../../Images/next.jpg);
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 183px;
+}
+/*资料*/
+#controlBox #btnKnl
+{
+	background-image: url(../../Images/Studydata.jpg);
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 202px;
+}
+/*知识点讲解*/
+#controlBox #btnExplan
+{
+	background-image: url(../../Images/explanation.jpg);
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 222px;
+}
+/*答案*/
+#controlBox #btnAnswer
+{
+	background-image: url(../../Images/answer.jpg);
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 169px;
+}
+/*确定并进入下一题*/
+#controlBox #btnEnterNext
+{
+	background-image: url(../../Images/confirmnext.jpg);
+	background-repeat: no-repeat;
+	height: 60px;
+	width: 308px;
+}
+/*交卷*/
+#controlBox #btnSubmint{
+	width: 260px;
+	float:right;
+	margin-top:5px;
+	cursor:pointer;	
+}
+#controlBox #btnSubmint img{
+	border:1px solid #666;
+	border-left:none;
+	border-right:none;
+}
+/*答题卡*/
+#cardBox
+{
+	width:260px;
+	float:right;
+	display:table;
+	background-color:#eee;
+}
+#cardBoxTitle
+{
+	height:40px;
+	line-height:40px;
+	text-align:center;
+	font-size:15px;
+	background-color:#ccc;
+}
+#cardBox #cardBoxInner{
+	min-height:440px;
+}
+#cardBox dl {
+	width: 100%;
+	min-height: 20px;
+	display: table;
+}
+#cardBox dl dd{
+	line-height: 30px;
+	text-align: center;
+	float: left;
+	height: 30px;
+	width: 30px;
+	margin-bottom:4px;
+	margin-right: 2px;
+	margin-left: 4px;
+	border: 1px solid #CCCCCC;
+	font-size: 14px;
+	cursor:pointer;
+	background-color: #FFFFFF;
+}
+#cardBox dl dd.answer{
+	background-color: #0099FF;
+	color: #FFFFFF;
+}
+#cardBox .typeName {
+	margin-top: 10px;
+	margin-bottom:5px;
+	margin-left:5px;
+	font-weight:bold;
+}
