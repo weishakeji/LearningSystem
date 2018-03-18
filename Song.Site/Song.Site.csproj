@@ -623,8 +623,6 @@
     <Content Include="Templates\Web\Gov\CoreStyles\PageBox.css" />
     <Content Include="Templates\Web\Gov\Images\Flvplayer.swf" />
     <Content Include="Templates\Web\Gov\Images\QQ-weixin.png" />
-    <Content Include="Templates\Web\Gov\Images\submit-bg.gif" />
-    <Content Include="Templates\Web\Gov\Images\submit2-bg.gif" />
     <Content Include="Templates\Web\Gov\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\Gov\Inc\meta.inc" />
     <Content Include="Templates\Web\Gov\mobi.htm" />
@@ -640,8 +638,6 @@
     <Content Include="Templates\Web\Neimeng\Images\alpha.png" />
     <Content Include="Templates\Web\Neimeng\Images\dot.png" />
     <Content Include="Templates\Web\Neimeng\Images\QQ-weixin.png" />
-    <Content Include="Templates\Web\Neimeng\Images\submit-bg.gif" />
-    <Content Include="Templates\Web\Neimeng\Images\submit2-bg.gif" />
     <Content Include="Templates\Web\Neimeng\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\Neimeng\Inc\meta.inc" />
     <Content Include="Templates\Web\Neimeng\mobi.htm" />
@@ -657,8 +653,6 @@
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\Register.css" />
     <Content Include="Templates\Web\NetSchool\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\NetSchool\Images\QQ-weixin.png" />
-    <Content Include="Templates\Web\NetSchool\Images\submit-bg.gif" />
-    <Content Include="Templates\Web\NetSchool\Images\submit2-bg.gif" />
     <Content Include="Templates\Web\NetSchool\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\testpaper.jpg" />
     <Content Include="Templates\Web\NetSchool\Inc\meta.inc" />
@@ -866,7 +860,6 @@
     <Content Include="Templates\Web\Gov\Default.htm" />
     <Content Include="Templates\Web\Gov\ErrorPage.htm" />
     <Content Include="Templates\Web\Gov\Exam.htm" />
-    <Content Include="Templates\Web\Gov\Examing.htm" />
     <Content Include="Templates\Web\Gov\Images\1.png" />
     <Content Include="Templates\Web\Gov\Images\10.png" />
     <Content Include="Templates\Web\Gov\Images\2.jpg" />
@@ -940,8 +933,6 @@
     <Content Include="Templates\Web\Gov\Images\search.jpg" />
     <Content Include="Templates\Web\Gov\Images\sl.gif" />
     <Content Include="Templates\Web\Gov\Images\Studydata.jpg" />
-    <Content Include="Templates\Web\Gov\Images\submit.gif" />
-    <Content Include="Templates\Web\Gov\Images\submit2.gif" />
     <Content Include="Templates\Web\Gov\Images\tab-bg01.jpg" />
     <Content Include="Templates\Web\Gov\Images\tab-bg02.jpg" />
     <Content Include="Templates\Web\Gov\Images\tab-bg03.jpg" />
@@ -969,7 +960,6 @@
     <Content Include="Templates\Web\Gov\Scripts\Courses.js" />
     <Content Include="Templates\Web\Gov\Scripts\Default.js" />
     <Content Include="Templates\Web\Gov\Scripts\Exam.js" />
-    <Content Include="Templates\Web\Gov\Scripts\Examing.js" />
     <Content Include="Templates\Web\Gov\Scripts\jquery.luara.0.0.1.min.js" />
     <Content Include="Templates\Web\Gov\Scripts\Knowledges.js" />
     <Content Include="Templates\Web\Gov\Scripts\KnowledgesList.js" />
@@ -1015,7 +1005,6 @@
     <Content Include="Templates\Web\Gov\Styles\examico\demo.html" />
     <Content Include="Templates\Web\Gov\Styles\examico\examico.css" />
     <Content Include="Templates\Web\Gov\Styles\examico\examico.svg" />
-    <Content Include="Templates\Web\Gov\Styles\examing.css" />
     <Content Include="Templates\Web\Gov\Styles\Exercises.css" />
     <Content Include="Templates\Web\Gov\Styles\Knowledge.css" />
     <Content Include="Templates\Web\Gov\Styles\Knowledges.css" />
@@ -1097,7 +1086,8 @@
     <Content Include="Templates\Web\NetSchool\Courses.htm" />
     <Content Include="Templates\Web\NetSchool\Default.htm" />
     <Content Include="Templates\Web\NetSchool\Exam.htm" />
-    <Content Include="Templates\Web\NetSchool\Examing.htm" />
+    <Content Include="Templates\Web\_Public\CoreScripts\ajaxfileupload.js" />
+    <Content Include="Templates\Web\_Public\Examing.htm" />
     <Content Include="Templates\Web\_Public\Admin\Startpage.htm" />
     <Content Include="Templates\Web\_Public\Admin\Styles\Startpage.css" />
     <Content Include="Templates\Web\_Public\ExamReview.htm" />
@@ -1136,8 +1126,6 @@
     <Content Include="Templates\Web\NetSchool\Images\ok.gif" />
     <Content Include="Templates\Web\NetSchool\Images\previous.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\sl.gif" />
-    <Content Include="Templates\Web\NetSchool\Images\submit.gif" />
-    <Content Include="Templates\Web\NetSchool\Images\submit2.gif" />
     <Content Include="Templates\Web\NetSchool\Images\test-banner.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\tk_exam.png" />
     <Content Include="Templates\Web\NetSchool\Images\usernophoto.png" />
@@ -1156,7 +1144,14 @@
     <Content Include="Templates\Web\NetSchool\Notice.htm" />
     <Content Include="Templates\Web\NetSchool\Notices.htm" />
     <Content Include="Templates\Web\_Public\Images\icon-1.png" />
+    <Content Include="Templates\Web\_Public\Images\load_024.gif" />
+    <Content Include="Templates\Web\_Public\Images\ok.gif" />
+    <Content Include="Templates\Web\_Public\Images\submit-bg.gif" />
+    <Content Include="Templates\Web\_Public\Images\submit.gif" />
+    <Content Include="Templates\Web\_Public\Images\submit2-bg.gif" />
+    <Content Include="Templates\Web\_Public\Images\submit2.gif" />
     <Content Include="Templates\Web\_Public\Images\success.png" />
+    <Content Include="Templates\Web\_Public\Images\tk_exam.png" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.css" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.htm" />
     <Content Include="Templates\Web\_Public\Module\Admin\panel.js" />
@@ -1172,7 +1167,7 @@
     <Content Include="Templates\Web\NetSchool\Scripts\Courses.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Default.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Exam.js" />
-    <Content Include="Templates\Web\NetSchool\Scripts\Examing.js" />
+    <Content Include="Templates\Web\_Public\Scripts\Examing.js" />
     <Content Include="Templates\Web\_Public\Scripts\ExamReview.js" />
     <Content Include="Templates\Web\_Public\Scripts\Exercises.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Knowledges.js" />
@@ -1191,6 +1186,7 @@
     <Content Include="Templates\Web\NetSchool\Scripts\slider.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Test.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\TestScene.js" />
+    <Content Include="Templates\Web\_Public\Scripts\Mask.js" />
     <Content Include="Templates\Web\_Public\Scripts\TestView.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Article.js" />
     <Content Include="Templates\Web\_Public\CoreScripts\Loading.js" />
@@ -1225,7 +1221,7 @@
     <Content Include="Templates\Web\NetSchool\Styles\Courses.css" />
     <Content Include="Templates\Web\NetSchool\Styles\Default.css" />
     <Content Include="Templates\Web\NetSchool\Styles\exam.css" />
-    <Content Include="Templates\Web\NetSchool\Styles\examing.css" />
+    <Content Include="Templates\Web\_Public\Styles\examing.css" />
     <Content Include="Templates\Web\_Public\Styles\ExamReview.css" />
     <Content Include="Templates\Web\_Public\Styles\Exercises.css" />
     <Content Include="Templates\Web\NetSchool\Styles\Knowledge.css" />
@@ -1291,8 +1287,6 @@
     <Content Include="Templates\Web\School\Images\banner3.jpg" />
     <Content Include="Templates\Web\School\Images\dot.png" />
     <Content Include="Templates\Web\School\Images\QQ-weixin.png" />
-    <Content Include="Templates\Web\School\Images\submit-bg.gif" />
-    <Content Include="Templates\Web\School\Images\submit2-bg.gif" />
     <Content Include="Templates\Web\School\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\School\Inc\meta.inc" />
     <Content Include="Templates\Web\School\mobi.htm" />
@@ -1355,7 +1349,6 @@
     <Content Include="Templates\Web\Neimeng\Default.htm" />
     <Content Include="Templates\Web\Neimeng\ErrorPage.htm" />
     <Content Include="Templates\Web\Neimeng\Exam.htm" />
-    <Content Include="Templates\Web\Neimeng\Examing.htm" />
     <Content Include="Templates\Web\Neimeng\Images\1.png" />
     <Content Include="Templates\Web\Neimeng\Images\10.png" />
     <Content Include="Templates\Web\Neimeng\Images\2.png" />
@@ -1397,8 +1390,6 @@
     <Content Include="Templates\Web\Neimeng\Images\rightArrow.gif" />
     <Content Include="Templates\Web\Neimeng\Images\sanjiao.jpg" />
     <Content Include="Templates\Web\Neimeng\Images\Studydata.jpg" />
-    <Content Include="Templates\Web\Neimeng\Images\submit.gif" />
-    <Content Include="Templates\Web\Neimeng\Images\submit2.gif" />
     <Content Include="Templates\Web\Neimeng\Images\test-banner.jpg" />
     <Content Include="Templates\Web\Neimeng\Images\testpaper.jpg" />
     <Content Include="Templates\Web\Neimeng\Images\tk_exam.png" />
@@ -1425,7 +1416,6 @@
     <Content Include="Templates\Web\Neimeng\Scripts\Courses.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Default.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Exam.js" />
-    <Content Include="Templates\Web\Neimeng\Scripts\Examing.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Knowledges.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\KnowledgesList.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Mask.js" />
@@ -1456,7 +1446,6 @@
     <Content Include="Templates\Web\Neimeng\Styles\demo.html" />
     <Content Include="Templates\Web\Neimeng\Styles\ErrorPage.css" />
     <Content Include="Templates\Web\Neimeng\Styles\exam.css" />
-    <Content Include="Templates\Web\Neimeng\Styles\examing.css" />
     <Content Include="Templates\Web\Neimeng\Styles\Knowledge.css" />
     <Content Include="Templates\Web\Neimeng\Styles\Knowledges.css" />
     <Content Include="Templates\Web\Neimeng\Styles\KnowledgesList.css" />
@@ -1520,7 +1509,6 @@
     <Content Include="Templates\Web\School\Default.htm" />
     <Content Include="Templates\Web\School\ErrorPage.htm" />
     <Content Include="Templates\Web\School\Exam.htm" />
-    <Content Include="Templates\Web\School\Examing.htm" />
     <Content Include="Templates\Web\School\Images\1.png" />
     <Content Include="Templates\Web\School\Images\10.png" />
     <Content Include="Templates\Web\School\Images\2.jpg" />
@@ -1564,8 +1552,6 @@
     <Content Include="Templates\Web\School\Images\rightArrow.gif" />
     <Content Include="Templates\Web\School\Images\sanjiao.jpg" />
     <Content Include="Templates\Web\School\Images\Studydata.jpg" />
-    <Content Include="Templates\Web\School\Images\submit.gif" />
-    <Content Include="Templates\Web\School\Images\submit2.gif" />
     <Content Include="Templates\Web\School\Images\test-banner.jpg" />
     <Content Include="Templates\Web\School\Images\testpaper.jpg" />
     <Content Include="Templates\Web\School\Images\tk_exam.png" />
@@ -1651,7 +1637,6 @@
     <Content Include="Templates\Web\School\Scripts\Courses.js" />
     <Content Include="Templates\Web\School\Scripts\Default.js" />
     <Content Include="Templates\Web\School\Scripts\Exam.js" />
-    <Content Include="Templates\Web\School\Scripts\Examing.js" />
     <Content Include="Templates\Web\School\Scripts\Knowledges.js" />
     <Content Include="Templates\Web\School\Scripts\KnowledgesList.js" />
     <Content Include="Templates\Web\School\Scripts\Mask.js" />
@@ -1683,7 +1668,6 @@
     <Content Include="Templates\Web\School\Styles\demo.html" />
     <Content Include="Templates\Web\School\Styles\ErrorPage.css" />
     <Content Include="Templates\Web\School\Styles\exam.css" />
-    <Content Include="Templates\Web\School\Styles\examing.css" />
     <Content Include="Templates\Web\School\Styles\Knowledge.css" />
     <Content Include="Templates\Web\School\Styles\Knowledges.css" />
     <Content Include="Templates\Web\School\Styles\KnowledgesList.css" />

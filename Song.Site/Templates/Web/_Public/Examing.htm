@@ -1,13 +1,19 @@
 ﻿<!doctype html>
 <html>
     <head>
-    <title>考试：《{$exam.exam_name}》 -- {$org.org_platformname}</title>
+    <title>
+     <vt:if var="state.state" value="0" compare="<=" mark="考试不存在">
+     {$org.org_platformname}
+     <vt:else/>
+     考试：《{$exam.exam_name}》 -- {$org.org_platformname}
+      </vt:if>
+    </title>
     <vt:include file="inc/meta.inc" />
     <link href="Styles/examing.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="CoreScripts/ajaxfileupload.js"></script>
     <script type="text/javascript" src="Scripts/examing.js"></script>
     <script type="text/javascript" src="Scripts/Mask.js"></script>
-   <vt:if var="state.IsEnable" value="true" compare="=" mark="允许考试时，才输出">
+    <vt:if var="state.IsEnable" value="true" compare="=" mark="允许考试时，才输出">
       <script language="javascript" type="text/javascript" path="">
           //当前服务器端时间
           var ServerTime = new Date("{$servertime}");
@@ -50,7 +56,7 @@
           exam.time.over = new Date(exam.time.begin.getTime() + exam.time.span * 60 * 1000);
           //是否交过卷
           exam.state.submit = Boolean(eval("{$isSubmit}"));
-		   //一些参数
+		  //一些参数
 		  exam.attr.isToggleWindows = "{$exam.Exam_IsToggle}"=="True";
 		  exam.attr.isRightClick = "{$exam.Exam_IsRightClick}"=="True";
 		  exam.attr.isShowBtn = "{$exam.Exam_IsShowBtn}"=="True";
@@ -62,7 +68,8 @@
     </vt:if>
     </head>
     <body>
-<vt:include file="inc/Header.html" />
+
+<!--是否允许考试：{$state.IsEnable} ；状态码：{$state.state}-->
 <div id="Context">
       <vt:if var="state.IsEnable" value="false" compare="=" mark="不能考试">
       <vt:if var="state.state" value="-2" compare="=" mark="状态异常">
@@ -129,7 +136,6 @@
         </div>
   </vt:if>
     </div>
-<vt:include file="inc/footer.html" />
 
 </body>
 </html>
