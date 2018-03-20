@@ -969,7 +969,6 @@
     <Content Include="Templates\Web\Gov\Scripts\QuesLoad.js" />
     <Content Include="Templates\Web\Gov\Scripts\slider.js" />
     <Content Include="Templates\Web\Gov\Scripts\Test.js" />
-    <Content Include="Templates\Web\Gov\Scripts\TestScene.js" />
     <Content Include="Templates\Web\Gov\Scripts\TestView.js" />
     <Content Include="Templates\Web\Gov\Scripts\Training.js" />
     <Content Include="Templates\Web\Gov\Student\Images\login-banner.jpg" />

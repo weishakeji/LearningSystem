@@ -372,9 +372,11 @@
 	margin-right: auto;
 	margin-left: auto;
 }
-.introBox *{
+.introBox, .introBox *{
 	font-size: 14px !important;
 	line-height: 25px !important;
+	word-wrap:break-word;
+	word-break:break-all;
 }
 .introBox p{
 	text-indent: 2em;
