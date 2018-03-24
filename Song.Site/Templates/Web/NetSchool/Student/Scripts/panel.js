@@ -1,5 +1,5 @@
 ﻿$(function () {
-    setMenuAccordion(null); 	//设置菜单展开与折叠
+    //setMenuAccordion(null); 	//设置菜单展开与折叠
     setMenuStyle(); 	//设置菜单样式
     setMenuEvent(); 	//设置菜单事件
     _setAdminPage(); //设置管理菜单项的内容

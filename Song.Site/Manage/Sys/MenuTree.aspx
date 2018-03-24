@@ -78,6 +78,8 @@
             <label>
             <input name="type" type="radio"  value="open" id="type_2" />
             弹出窗口</label>
+            <input name="type" type="radio"  value="node" id="type_3" />
+            节点</label>
           </p>
           <p> 链 接：
             <input name="link" type="text" id="link" size="55" />
