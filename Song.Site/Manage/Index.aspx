@@ -17,7 +17,7 @@
 <form id="form1" runat="server" defaultbutton="imgBtn">
   <div id="loginPanel">
     <div id="loginTitle"> <img src="Images/Index/lock.png" />
-      <div class="appName"><span id="consName" runat="server">管理平台</span> - 管理中心 </div>
+      <div class="appName"><span id="consName" runat="server">在线学习系统</span> - 管理中心 </div>
     </div>
     <div id="LoginBox">
       <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -30,8 +30,8 @@
               <asp:ImageButton ID="imgBtn" CssClass="imgBtn" ImageUrl="~/Manage/Images/index/loginbtn.jpg"
                             runat="server" TabIndex="4" OnClick="btnEnter_Click" validationgroup="enter" />
             </div>
-            <div id="copyright">技术支持：<br/>400 - 6015 615<br/>
-            <a href="http://www.weishakeji.net" target="_blank" title="郑州微厦计算机科技有限公司">微厦科技</a>
+            <div id="copyright">技术支持：<br/><%= copyright["tel"]%><br/>
+            <a href="<%= copyright["url"]%>" target="_blank" title="<%= copyright["compay"]%>"><%= copyright["abbr"]%></a>
             </div></td>
         </tr>
         <tr>

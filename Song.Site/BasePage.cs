@@ -117,23 +117,18 @@ namespace Song.Site
             this.Response = context.Response;
             this.Server = context.Server;
             this.Session = context.Session;
-            try
+
+            //机构信息
+            this.Organ = Business.Do<IOrganization>().OrganCurrent();
+            if (this.Organ == null) throw new Exception("机构不存在！");
+            //登录的信息
+            if (Extend.LoginState.Accounts.IsLogin)
             {
-                //机构信息
-                this.Organ = Business.Do<IOrganization>().OrganCurrent();
-                //登录的信息
-                if (Extend.LoginState.Accounts.IsLogin)
-                {
-                    this.Account = Song.Extend.LoginState.Accounts.CurrentUser;
-                    this.Teacher = Song.Extend.LoginState.Accounts.Teacher;
-                }
-                if (Extend.LoginState.Admin.IsLogin)
-                    this.Admin = Song.Extend.LoginState.Admin.CurrentUser;
+                this.Account = Song.Extend.LoginState.Accounts.CurrentUser;
+                this.Teacher = Song.Extend.LoginState.Accounts.Teacher;
             }
-            catch
-            {
-                throw;
-            }
+            if (Extend.LoginState.Admin.IsLogin)
+                this.Admin = Song.Extend.LoginState.Admin.CurrentUser;
         }
         public new bool IsReusable
         {

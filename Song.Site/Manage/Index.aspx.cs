@@ -20,6 +20,8 @@ namespace Song.Site.Manage
 {
     public partial class Index : System.Web.UI.Page
     {
+        //版权信息
+        protected WeiSha.Common.Copyright<string, string> copyright = WeiSha.Common.Request.Copyright;
         Song.Entities.Organization org;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,7 +32,7 @@ namespace Song.Site.Manage
                 Extend.LoginState.Admin.Logout();
             }
             //系统名称,即管理平台上方的名称
-            string sysName = Business.Do<ISystemPara>()["SystemName"].String;
+            string sysName = copyright["product"];
             if (sysName != null)
             {
                 consName.InnerText = sysName;
