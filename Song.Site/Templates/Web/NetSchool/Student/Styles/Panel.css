@@ -31,19 +31,108 @@ body, p, div, td {
 	background-color: #FFFFFF;
 	padding-bottom: 10px;
 }
-#bodyTop {
-	height: 250px;
-	background-image: url(../Images/main-banner.jpg);
-	background-repeat: no-repeat;
-	background-position: center 0px;
+.menuTitle {
+	background-color: #ff8e30;
+	text-align: center;
+	float: left;
+	width: 180px;
+	font-size: 16px;
+	height: 40px;
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	line-height: 40px;
+	font-weight: bold;
+	color: #FFFFFF;
+	display: block;
+	letter-spacing: 0.5ex;
 }
-#bodyTop #bodyTopContext {
-	height: 250px;
-	width: 1200px;
-	margin-right: auto;
-	margin-left: auto;
+.menuTitle:hover {
+	text-decoration: none;
+}
+/*左侧菜单列表*/
+#menuBox {
 	display: table;
+	width:180px;
 }
+#menuBox .mmitem {
+	height: 40px;
+	line-height: 40px;
+	cursor: pointer;
+	background-color: #FFFFFF;
+	font-size: 15px;
+	font-weight: bold;	
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: none;
+	border-left-style: solid;
+	border-top-color: #E1E1E1;
+	border-right-color: #E1E1E1;
+	border-bottom-color: #E1E1E1;
+	border-left-color: #E1E1E1;
+}
+.mmitem .ico {
+	height: 20px;
+	width: 20px;
+	margin-top: 8px;
+	margin-right: 10px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	float: left;
+	background-image: url(../../../../../Manage/Images/mmicons.png);
+	background-repeat: no-repeat;
+	background-position: -90px -101px;
+}
+.mmitem .rightIco {
+	float: right;
+	height: 18px;
+	width: 18px;
+	margin-right: 15px;
+	background-image: url(../../Images/icon-1.png);
+	background-repeat: no-repeat;
+	background-position: -206px -205px;
+	margin-top: 11px;
+}
+.mmitem .topTxt {
+	float: left;
+	width: auto;
+	height: 40px;
+	line-height: 40px;
+	cursor: pointer;
+	background-color: #FFFFFF;
+	font-size: 15px;
+	font-weight: bold;
+}
+.open a {
+	color: #000000 !important;
+}
+.open .rightIco {
+	float: right;
+	height: 18px;
+	width: 18px;
+	margin-right: 15px;
+	background-image: url(../../Images/icon-1.png);
+	background-repeat: no-repeat;
+	background-position: -206px -175px;
+	margin-top: 11px;
+}
+#menuBox .mmBox {
+
+}
+#menuBox a {
+	color: #333333;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 15px;
+}
+#menuBox a:hover {
+	color: #000000;
+	text-decoration: none;
+	font-weight: bold;
+}
+/*右侧内容区导航*/
 .bar {
 	height: 40px;
 	margin-bottom: 10px;
@@ -69,23 +158,6 @@ body, p, div, td {
 .bar a:hover {
 	text-decoration: underline;
 }
-.menuTitle {
-	background-color: #ff8e30;
-	text-align: center;
-	float: left;
-	width: 180px;
-	font-size: 16px;
-	height: 40px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	line-height: 40px;
-	font-weight: bold;
-	color: #FFFFFF;
-	display: block;
-	letter-spacing: 0.5ex;
-}
-.menuTitle:hover {
-	text-decoration: none;
-}
 .bar .menuNav #menuPath {
 	text-decoration: none;
 }
@@ -110,125 +182,16 @@ body, p, div, td {
 	text-align: center;
 	line-height: 40px;
 }
-/*左侧菜单列表*/
-#menuBox {
-	display: table;
-	width:180px;
+.lowest{
+	height:30px;
+	line-height:30px;
 }
-#menuBox .mmtop {
-	height: 40px;
-	line-height: 40px;
-	cursor: pointer;
-	background-color: #FFFFFF;
-	font-size: 15px;
-	font-weight: bold;
-	border-top-width: 1px;
-	border-right-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 1px;
-	border-top-style: solid;
-	border-right-style: solid;
-	border-bottom-style: none;
-	border-left-style: solid;
-	border-top-color: #E1E1E1;
-	border-right-color: #E1E1E1;
-	border-bottom-color: #E1E1E1;
-	border-left-color: #E1E1E1;
+.lowest .item{
+	float:left;
+	width:auto;
+	margin-left:10px;
 }
-.mmtop .ico {
-	height: 20px;
-	width: 20px;
-	margin-top: 8px;
-	margin-right: 10px;
-	margin-bottom: 0px;
-	margin-left: 10px;
-	float: left;
-	background-image: url(../../../../../Manage/Images/mmicons.png);
-	background-repeat: no-repeat;
-	background-position: -90px -101px;
-}
-.mmtop .rightIco {
-	float: right;
-	height: 18px;
-	width: 18px;
-	margin-right: 15px;
-	background-image: url(../../Images/icon-1.png);
-	background-repeat: no-repeat;
-	background-position: -206px -205px;
-	margin-top: 11px;
-}
-.mmtop .topTxt {
-	float: left;
-	width: auto;
-	height: 40px;
-	line-height: 40px;
-	cursor: pointer;
-	background-color: #FFFFFF;
-	font-size: 15px;
-	font-weight: bold;
-}
-#Context #menuBox .currTop {
-	color: #ff8e30;
-}
-.currTop .rightIco {
-	float: right;
-	height: 18px;
-	width: 18px;
-	margin-right: 15px;
-	background-image: url(../../Images/icon-1.png);
-	background-repeat: no-repeat;
-	background-position: -206px -175px;
-	margin-top: 11px;
-}
-#Context #menuBox .twoBox {
-	margin-right: 0px;
-	margin-left: 0px;
-	background-color: #FFFFFF;
-	border-right-width: 1px;
-	border-left-width: 1px;
-	border-top-style: solid;
-	border-right-style: solid;
-	border-bottom-style: none;
-	border-left-style: solid;
-	border-right-color: #E1E1E1;
-	border-left-color: #E1E1E1;
-	border-top-width: 1px;
-	border-bottom-width: 1px;
-	border-top-color: #E1E1E1;
-	border-bottom-color: #E1E1E1;
-}
-#Context #menuBox .twoBox .mmtwo {
-	height: 40px;
-	line-height: 40px;
-}
-.mmtwo .ico {
-	height: 20px;
-	width: 20px;
-	margin-top: 8px;
-	margin-right: 10px;
-	margin-bottom: 0px;
-	margin-left: 35px;
-	float: left;
-	background-image: url(../../../../../Manage/Images/mmicons.png);
-	background-repeat: no-repeat;
-	background-position: -90px -101px;
-}
-#Context #menuBox .twoBox .currTwo {
-	background-color: #FFFFCC;
-	font-weight: bold;
-}
-#Context #menuBox .twoBox .mmtwo a {
-	color: #333333;
-	text-decoration: none;
-	font-size: 15px;
-	line-height: 40px;
-	display: block;
-}
-#Context #menuBox .twoBox .mmtwo a:hover {
-	color: #000000;
-	text-decoration: none;
-	font-weight: bold;
-}
+/*内容区域*/
 #adminPage {
 	margin-top: 10px;
 	margin-right: 10px;

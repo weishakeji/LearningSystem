@@ -10,61 +10,52 @@
 <body>
 <vt:include file="../inc/header.html" />
 <!--菜单之下的内容 -->
-
 <div id="Context"> 
-  <!--内容区的顶部 -->
-  
   <!--左侧菜单 -->
-  <div id="leftArea"> 
-  
-  <a class="menuTitle" mmid="0" title="启始页" href="Startpage.ashx">
-   <vt:if var="CurrUser.Ac_name" value="" compare="=">（暂无姓名）
-          <vt:else />
-          {$CurrUser.Ac_name} </vt:if>
-  </a>
+  <div id="leftArea"> <a class="menuTitle" mmid="0" title="启始页" href="Startpage.ashx">
+    <vt:if var="CurrUser.Ac_name" value="" compare="=">（暂无姓名）
+      <vt:else />
+      {$CurrUser.Ac_name} </vt:if>
+    </a>
     <div id="menuBox">
       <vt:repeat type="managemenu" item="data" marker="student">
-     
-     
         <vt:repeat from="$data.Childs" item="m" index="i">
-          <div class="mmtop" title="{$:m.current.MM_Intro}" tax="{$:i}"> 
+          <div class="mmitem"   mmtype="{$:m.current.mm_type}" title="{$:m.current.MM_Intro}" tax="{$:i}"  mmid="{$:m.current.MM_ID}" > 
             <!--图标 -->
             <vt:if var="m.current.mm_icox" value="0" compare=">">
               <div class="ico" style="background-position: -{$:m.current.mm_icox}px -{$:m.current.mm_icoy}px"></div>
               <vt:else />
               <div class="ico"></div>
             </vt:if>
-            <div class="topTxt">{$:m.current.mm_name}</div>
-            <div class="rightIco">&nbsp;</div>
+            <a href="{$:m.current.MM_Link}" title=" {$:m.current.mm_name}" isBold="{$:m.current.mm_isbold}"> {$:m.current.mm_name}</a>           
+            
           </div>
-          
-          <div class="twoBox" style="display:none" mmtype="{$:m.current.mm_type}">
+          <div class="mmBox" style="display:none" mmtype="{$:m.current.mm_type}">
             <vt:repeat from="$m.Childs" item="m2" index="j">
-              <div class="mmtwo" mmtype="{$:m2.current.mm_type}" title="{$:m2.current.MM_Intro}" tax="{$:i}.{$:j}"> 
+              <div class="mmitem" mmtype="{$:m2.current.mm_type}"  mmid="{$:m2.current.MM_ID}" title="{$:m2.current.MM_Intro}" tax="{$:i}.{$:j}"> 
                 <!--图标 -->
                 <vt:if var="m2.current.mm_icox" value="0" compare=">">
                   <div class="ico" style="background-position: -{$:m2.current.mm_icox}px -{$:m2.current.mm_icoy}px"></div>
                   <vt:else />
                   <div class="ico"></div>
                 </vt:if>
-                <a href="{$:m2.current.MM_Link}" mmid="{$:m2.current.MM_ID}" title=" {$:m2.current.mm_name}" isBold="{$:m2.current.mm_isbold}"> {$:m2.current.mm_name}</a> </div>
+                <a href="{$:m2.current.MM_Link}" title=" {$:m2.current.mm_name}" isBold="{$:m2.current.mm_isbold}"> {$:m2.current.mm_name}</a> </div>
+                 <div class="mmBox" style="display:none" mmtype="{$:m2.current.mm_type}">
               <vt:repeat from="$m2.Childs" item="m3" index="n">
-                <div class="mmThree" mmtype="{$:m3.current.mm_type}" title="{$:m3.current.MM_Intro}" tax="{$:i}.{$:j}.{$:n}"> 
+                <div class="mmitem" mmtype="{$:m3.current.mm_type}" mmid="{$:m3.current.MM_ID}" title="{$:m3.current.MM_Intro}"  tax="{$:i}.{$:j}.{$:n}"> 
                   <!--图标 -->
                   <vt:if var="m3.current.mm_icox" value="0" compare=">">
                     <div class="ico" style="background-position: -{$:m3.current.mm_icox}px -{$:m3.current.mm_icoy}px"></div>
                     <vt:else />
                     <div class="ico"></div>
                   </vt:if>
-                  <a href="{$:m3.current.MM_Link}" mmid="{$:m3.current.MM_ID}" title=" {$:m2.current.mm_name}>>{$:m3.current.mm_name}" isBold="{$:m3.current.mm_isbold}"> {$:m3.current.mm_name}</a> </div>
+                  <a href="{$:m3.current.MM_Link}" title=" {$:m2.current.mm_name}>>{$:m3.current.mm_name}" isBold="{$:m3.current.mm_isbold}"> {$:m3.current.mm_name}</a> </div>
               </vt:repeat>
+              </div>
+              
             </vt:repeat>
           </div>
         </vt:repeat>
-        
-        
-        
-        
         <vt:repeatelse/>
         <p style="text-align:center">没有菜单项</p>
       </vt:repeat>
@@ -72,15 +63,17 @@
   </div>
   <!--右侧管理区 -->
   <div id="rightArea">
-  <div class="bar">
-   
+    <div class="bar">
       <div class="menuNav"> 当前操作：<a id="menuPath" href="/student/Startpage.ashx">启始页</a></div>
       <vt:if var="CurrUser.Ac_isPass" value="false" compare="=">
         <div class="versionBox" title="当前学员未通过审核">未经审核</div>
       </vt:if>
       <div class="loginInfo"> {$:#.st.Ac_name} <a href="/student/logout.ashx">退出</a></div>
-    
-  </div>
+    </div>
+    <div class="lowest" mark="最低一级导航菜单">
+    <div class="item">ddd</div>
+    <div class="item">444</div>
+    </div>
     <iframe src="/student/Startpage.ashx" name="adminPage" id="adminPage" style="min-height:500px;" class="frame"	marginwidth="0"  marginheight="0"
    align="top" scrolling="auto" width="988" frameborder="0" style="min-height:700px;" allowtransparency="true">
     </iframe>

@@ -1,18 +1,18 @@
-﻿$(function () {
-    //setMenuAccordion(null); 	//设置菜单展开与折叠
-    setMenuStyle(); 	//设置菜单样式
-    setMenuEvent(); 	//设置菜单事件
-    _setAdminPage(); //设置管理菜单项的内容
-    //主管理区加载完成事件
-    $("#adminPage").load(function () {
-        $("#IframLoadMask").remove();
-        var ifm = document.getElementById("adminPage");
-        var subWeb = document.frames ? document.frames["adminPage"].document : ifm.contentDocument;
-        if (ifm != null && subWeb != null) {
-            ifm.height = subWeb.body.scrollHeight;
-            ifm.focus();
+﻿//菜单树的状态，为1是展开首个，为2时全部打开，其它值为关闭树形
+var treestate = 24;
+$(function () {
+    _init($("#menuBox"), 1);
+    //树形菜单的初始展开状态
+    var mmitem = $("body");
+    if (treestate == 1) mmitem = $("#menuBox").find(">.mmitem:first");
+    if (treestate == 2) mmitem = $("#menuBox").find(".mmitem");
+    mmitem.each(function () {
+        var mmbox = $(this).next(".mmBox[mmtype!=node]");
+        if (mmbox.size() > 0 && mmbox.find(">.mmitem").size() > 0) {
+            $(this).click();
         }
     });
+    _setAdminPage($().getPara("mmid"));
     //学员中心(左上方）的点击事件
     $(".menuTitle").click(function () {
         var mmid = $(this).attr("mmid");
@@ -20,113 +20,52 @@
         return false;
     });
 });
+//mmbox:菜单区域
+//level:层级
+function _init(mmbox, level) {
+    if (mmbox.size() < 1) return;
+    //菜单项的处理
+    mmbox.find(">.mmitem").each(function () {
+        //禁用超链接，改为上级元素事件
+        $(this).find("a").click(function () {
+            $(this).parent().click();
+            return false;
+        });
+        //下级菜单区
+        var mmbox = $(this).next(".mmBox[mmtype!=node]");
+        if (mmbox.size() > 0 && mmbox.find(">.mmitem").size() > 0) {
+            //下级菜单缩进
+            mmbox.find(">.mmitem").css("padding-left", (15 * level) + "px");
+            //树形展开
+            $(this).click(function () {
+                mmbox.toggle();
+                if (mmbox.is(":hidden")) $(this).removeClass("open");
+                if (mmbox.is(":visible")) $(this).addClass("open");
+            }).append("<div class=\"rightIco\">&nbsp;</div>");
 
-//设置菜单展开与折叠
-function setMenuAccordion(curr) {
-    var first = $(".mmtop:first");
-    $("#menuBox div[mmtype]").removeClass("currTwo");
-    if (curr != null) {
-        first = curr.parent().prev();
-        curr.addClass("currTwo");
-    }
-    $(".mmtop").click(function () {
-        $(".mmtop").removeClass("currTop");
-        $(this).addClass("currTop");
-        $(".twoBox:visible").hide();
-        $(this).next().show();
-    });
-    first.click();
-}
-//设置菜单样式
-function setMenuStyle() {
-    $("#menuBox a").each(function () {
-        if ($(this).attr("isBold") == "True") {
-            $(this).css("font-weight", "bold");
+        } else {
+            //如果没有下级菜单，或当前菜单为”node"，则跳转
+            var link = $(this).find("a");
+            $(this).click(function () {
+                var mmid = $(this).attr("mmid");
+                var url = $().setPara(window.location.href, "mmid", mmid);
+                try {
+                    history.pushState({}, "", url); //更改地址栏信息
+                } catch (e) {
+                    window.location.href = url;
+                    return;
+                }
+                _setAdminPage(mmid);
+            });
         }
-        if ($(this).attr("href") == "") {
-            $(this).css("color", "#000000");
-        }
+        //递归
+        _init(mmbox, level + 1);
     });
 }
-//设置菜单事件
-function setMenuEvent() {
-    //左侧菜单的点击事件
-    $("#menuBox a").click(function () {
-        var p = $(this).parent();
-        if (p.attr("mmtype") == "item") {
-            var mmid = $(this).attr("mmid"); //菜单项id		
-            _setAdminPage(mmid);
-        }
-        if (p.attr("mmtype") == "link") {
-            $(this).attr("target", "_blank");
-            return true;
-        }
-        return false;
-    });
-    //上方的“当前操作”点击事件
-    $("#menuPath").click(function () {
-        _setAdminPage();
-        return false;
-    });
-}
-//设置管理页
+//设置右侧的内容区域
 function _setAdminPage(mmid) {
-    var isinit = false; //是否初次加载，初次加载时没有mmid值
-    if (mmid == null || mmid == undefined || mmid == '') {
-        mmid = $().getPara("mmid");
-        isinit = true;
-    }
-    if (mmid == '') mmid = 0;
-    var url = $().setPara(window.location.href, "mmid", mmid);
-    try {
-        history.pushState({}, "", url); //更改地址栏信息
-    } catch (e) {
-        if (!isinit) {
-            window.location.href = url;
-            return;
-        } 
-    }
-    var a = $("a[mmid=" + mmid + "]")
-    var href = $.trim(a.attr("href")); //导航链接
-    var title = $.trim(a.attr("title")); //导航标题
-    var ptit = ""; //上级标题
-    //上级菜单项
-    var p = a.parent("[mmtype]");
-    if (p.size() > 0) ptit = $.trim(p.parent().prev().text()) + ">>";
-    setMenuAccordion(p);
-    //开始设置管理内容
-    OpenLoadMask();
-    var ifm = document.getElementById("adminPage");
-    $("#adminPage").attr("src", href);
-    $("#menuPath").text(ptit + title);
-    var subWeb = document.frames ? document.frames["adminPage"].document : ifm.contentDocument;
-    if (ifm != null && subWeb != null) {
-        ifm.height = 0;
-        ifm.focus();
-    }
-}
-//iframe加载完成的事件
-function OpenLoadMask() {
-    $("body").append("<div id=\"IframLoadMask\"/>");
-    var mask = $("#IframLoadMask");
-    var iframe = $("#adminPage");
-    //屏幕的宽高
-    var off = iframe.offset();
-    mask.css({ "position": "absolute", "z-index": "10000",
-        "width": iframe.width(), "height": iframe.height(), top: off.top, left: off.left
-    });
-    var alpha = 50;
-    mask.css({ "background-color": "#ffffff", "filter": "Alpha(Opacity=" + alpha + ")",
-        "display": "block", "-moz-opacity": alpha / 100, "opacity": alpha / 100
-    });
-    mask.fadeIn("slow");
-}
-//设置学生照片
-function setPhoto(path) {
-    var img = $(".stPhoto img");
-    img.attr("src", path);
-}
-//获取管理菜单的标题
-function getAdminTitle() {
-    return $.trim($("#menuPath").text());
+    var id = Number(mmid);
+    if (id < 1) {return; }
+    var mm = $("#menuBox .mmitem[mmid=" + id + "]");
+    alert(mm.text());
 }
