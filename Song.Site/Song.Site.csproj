@@ -977,7 +977,6 @@
     <Content Include="Templates\Web\Gov\Student\Panel.htm" />
     <Content Include="Templates\Web\Gov\Student\PwFind.htm" />
     <Content Include="Templates\Web\Gov\Student\Scripts\Index.js" />
-    <Content Include="Templates\Web\Gov\Student\Scripts\panel.js" />
     <Content Include="Templates\Web\Gov\Student\Scripts\PwFind.js" />
     <Content Include="Templates\Web\Gov\Student\Startpage.htm" />
     <Content Include="Templates\Web\Gov\Student\Styles\index.css" />
@@ -1152,6 +1151,9 @@
     <Content Include="Templates\Web\_Public\Images\submit2.gif" />
     <Content Include="Templates\Web\_Public\Images\success.png" />
     <Content Include="Templates\Web\_Public\Images\tk_exam.png" />
+    <Content Include="Templates\Web\_Public\Module\Accounts\Panel.css" />
+    <Content Include="Templates\Web\_Public\Module\Accounts\Panel.htm" />
+    <Content Include="Templates\Web\_Public\Module\Accounts\panel.js" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.css" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.htm" />
     <Content Include="Templates\Web\_Public\Module\Admin\panel.js" />
@@ -1204,7 +1206,6 @@
     <Content Include="Templates\Web\NetSchool\Student\Index.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Panel.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Scripts\Index.js" />
-    <Content Include="Templates\Web\NetSchool\Student\Scripts\panel.js" />
     <Content Include="Templates\Web\NetSchool\Student\PwFind.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Scripts\PwFind.js" />
     <Content Include="Templates\Web\NetSchool\Student\Scripts\Register.js" />
@@ -1432,7 +1433,6 @@
     <Content Include="Templates\Web\Neimeng\Student\NoLogin.htm" />
     <Content Include="Templates\Web\Neimeng\Student\Panel.htm" />
     <Content Include="Templates\Web\Neimeng\Student\Scripts\Index.js" />
-    <Content Include="Templates\Web\Neimeng\Student\Scripts\Panel.js" />
     <Content Include="Templates\Web\Neimeng\Student\Startpage.htm" />
     <Content Include="Templates\Web\Neimeng\Student\Styles\index.css" />
     <Content Include="Templates\Web\Neimeng\Student\Styles\Panel.css" />
@@ -1653,7 +1653,6 @@
     <Content Include="Templates\Web\School\Student\NoLogin.htm" />
     <Content Include="Templates\Web\School\Student\Panel.htm" />
     <Content Include="Templates\Web\School\Student\Scripts\Index.js" />
-    <Content Include="Templates\Web\School\Student\Scripts\Panel.js" />
     <Content Include="Templates\Web\School\Student\Startpage.htm" />
     <Content Include="Templates\Web\School\Student\Styles\index.css" />
     <Content Include="Templates\Web\School\Student\Styles\Panel.css" />
