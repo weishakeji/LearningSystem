@@ -190,6 +190,13 @@ body, p, div, td {
 	float:left;
 	width:auto;
 	margin-left:10px;
+	cursor:pointer;
+	line-height:30px;
+}
+.lowest .curr{
+	font-weight: bold;
+	color: #F00;
+	font-size: 18px;
 }
 /*内容区域*/
 #adminPage {

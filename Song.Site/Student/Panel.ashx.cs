@@ -21,7 +21,8 @@ namespace Song.Site.Student
                 return;
             }
             this.Document.Variables.SetValue("CurrUser", student);
-         
-        }            
+            //菜单项
+            //Song.Entities.ManageMenu[] mms = Business.Do<IPurview>().GetAll4Org(this.Organ.Org_ID, "student");
+        }           
     }
 }
