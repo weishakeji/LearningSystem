@@ -186,6 +186,12 @@
 
 //初始代码
 $(function () {
+    //界面布局，自适应宽度
+    var left=$("#leftArea");
+    $("#rightArea").hide()
+        .width(left.parent().width()-left.width()-8)
+        .fadeIn(1000).find("iframe").width($("#rightArea").width()-20);
+    //初如化菜单项
     window.menutree.setAdminpage($().getPara("mmid"));
     //学员中心(左上方）的点击事件
     $(".menuTitle,#menuPath").click(function () {
