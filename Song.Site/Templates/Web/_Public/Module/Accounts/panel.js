@@ -126,7 +126,7 @@
             $("#adminPage").attr("src", url);
             //右侧管理界面上方的导航
             menupath=menupath==null ? menutree.getmenupath(mmid) : menupath;
-            $("#menuPath").attr({"href":url,"mmid":mmid}).text(menupath);
+            $("#menuPath").attr({"href":url,"mmid":mmid}).html(menupath);
             menutree.loading.open();
             var subWeb = document.frames ? document.frames["adminPage"].document : ifm.contentDocument;
             if (ifm != null && subWeb != null) {
@@ -158,7 +158,7 @@
             var path = "";
             var mm = $("#menuBox .mmitem[mmid=" + mmid + "]");
             while (mm != null && mm.size() > 0) {
-                path = $.trim(mm.text()) + " >> " + path;
+                path = $.trim(mm.text()) + " <i>&gt;&gt;</i> " + path;
                 var box = mm.parent(".mmBox");
                 mm = box.size() > 0 ? box.prev(".mmitem") : null;
                 if (mm == null || mm.size() < 0)mm = null;

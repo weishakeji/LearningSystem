@@ -72,46 +72,20 @@ namespace Song.Site.Manage.SOAP
         public string ManageMenuJson(int id)
         {
             Song.Entities.ManageMenu nc = Business.Do<IManageMenu>().GetSingle(id);
-            Type info = nc.GetType();
-            PropertyInfo[] properties = info.GetProperties();
-            string node = "var node={";
-            for (int i = 0; i < properties.Length; i++)
-            {
-                PropertyInfo pi = properties[i];
-                //当前属性的值
-                object obj = info.GetProperty(pi.Name).GetValue(nc, null);
-                node += pi.Name + ":";
-                obj = obj ?? "";
-                switch (obj.GetType().Name)
-                {
-                    case "Boolean":
-                        node += obj.ToString().ToLower();
-                        break;
-                    case "String":
-                        node += "\"" + obj.ToString() + "\"";
-                        break;
-                    default:
-                        node += obj.ToString();
-                        break;
-                }
-                if (i != properties.Length - 1) node += ",";
-                node += "\n";
-            }
-            node += "};";
-            return node;
+            return nc == null ? "" : nc.ToJson();
         }
         [WebMethod]
         //修改栏目，并返回共显示的所有栏目
         public string Update(string result, int pid, string type)
         {
-            this.UpdateTreeNode(Server.UrlDecode(result));
+            this._updateTreeNode(Server.UrlDecode(result));
             return _getTreeHtml(pid, type);
         }
         [WebMethod]
         //添加栏目，并返回共显示的所有栏目
         public string Add(string result, int pid, string type)
         {
-            this.UpdateTreeNode(Server.UrlDecode(result));
+            this._updateTreeNode(Server.UrlDecode(result));
             return _getTreeHtml(pid, type);
         }
         [WebMethod]
@@ -155,7 +129,7 @@ namespace Song.Site.Manage.SOAP
         {
             try
             {
-                UpdateTreeNode(Server.UrlDecode(nodexml));
+                _updateTreeNode(nodexml);
                 //获取菜单树的列表
                 return Business.Do<IManageMenu>().GetRoot(rootId);
             }
@@ -224,7 +198,7 @@ namespace Song.Site.Manage.SOAP
         /// 更改菜单项的信息
         /// </summary>
         /// <param name="nodexml"></param>
-        private void UpdateTreeNode(string nodexml)
+        private void _updateTreeNode(string nodexml)
         {
             if (nodexml == "" || nodexml == null) return;
             XmlDocument resXml = new XmlDocument();
@@ -234,17 +208,18 @@ namespace Song.Site.Manage.SOAP
             int id = Convert.ToInt32(((XmlElement)node).Attributes["id"].Value);
             int rootid = Convert.ToInt32(((XmlElement)node).Attributes["rootid"].Value);
             //当前对象
-            Song.Entities.ManageMenu mm = Business.Do<IManageMenu>().GetSingle(id);
-            if (mm == null) mm = new Song.Entities.ManageMenu();
+            Song.Entities.ManageMenu mm = null;
+            if (type == "edit") mm = Business.Do<IManageMenu>().GetSingle(id);
+            if (type == "add") mm = new Song.Entities.ManageMenu();
             //不管是新增还是修改（根节点、子节点），都需要用到的赋值
             mm.MM_Name = getNodeText(node, "name", "").ToString();
-            mm.MM_WinWidth = Convert.ToInt32(getNodeText(node, "winWidth", 400));
-            mm.MM_WinHeight = Convert.ToInt32(getNodeText(node, "winHeight", 300));
+            mm.MM_WinWidth = Convert.ToInt32(getNodeText(node, "winwidth", 400));
+            mm.MM_WinHeight = Convert.ToInt32(getNodeText(node, "winheight", 300));
             mm.MM_Func = getNodeText(node, "func", "").ToString();
-            mm.MM_IsBold = Convert.ToBoolean(getNodeText(node, "IsBold", false));
-            mm.MM_IsItalic = Convert.ToBoolean(getNodeText(node, "IsItalic", false));
-            mm.MM_IsShow = Convert.ToBoolean(getNodeText(node, "IsShow", true));
-            mm.MM_IsUse = Convert.ToBoolean(getNodeText(node, "IsUse", true));
+            mm.MM_IsBold = Convert.ToBoolean(getNodeText(node, "isbold", false));
+            mm.MM_IsItalic = Convert.ToBoolean(getNodeText(node, "isitalic", false));
+            mm.MM_IsShow = Convert.ToBoolean(getNodeText(node, "isshow", true));
+            mm.MM_IsUse = Convert.ToBoolean(getNodeText(node, "isuse", true));
             mm.MM_Intro = getNodeText(node, "intro", "").ToString();
             mm.MM_IcoX = (int)Convert.ToDouble(getNodeText(node, "icox", "0"));
             mm.MM_IcoY = (int)Convert.ToDouble(getNodeText(node, "icoy", "0"));
@@ -276,7 +251,7 @@ namespace Song.Site.Manage.SOAP
             if (type == "add")
             {
                 mm.MM_Root = rootid;
-                mm.MM_PatId = Convert.ToInt32(getNodeText(node, "pid", 0));
+                mm.MM_PatId = Convert.ToInt32(getNodeText(node, "patid", 0));
                 Business.Do<IManageMenu>().Add(mm);
             }
             if (type == "edit")
@@ -288,15 +263,15 @@ namespace Song.Site.Manage.SOAP
                 else
                 {
                     //移动到
-                    int mrootid = Convert.ToInt32(((XmlElement)node).Attributes["moveto"].Value);
+                    int mrootid = Convert.ToInt32(getNodeText(node, "moveto", 0));
                     //复制到
-                    int crootid = Convert.ToInt32(((XmlElement)node).Attributes["copyto"].Value);
+                    int crootid = Convert.ToInt32(getNodeText(node, "copyto", 0));
                     //如果既不移动与不复制
                     if (rootid == mrootid && rootid == crootid) Business.Do<IManageMenu>().Save(mm);
                     //如果移动
-                    if (rootid != mrootid) Business.Do<IManageMenu>().Move(mm, mrootid);
+                    if (rootid != 0 && rootid != mrootid) Business.Do<IManageMenu>().Move(mm, mrootid);
                     //如果拷贝
-                    if (rootid != crootid) Business.Do<IManageMenu>().Copy(mm, crootid);                      
+                    if (crootid != 0 && rootid != crootid) Business.Do<IManageMenu>().Copy(mm, crootid);             
                 }
             }
 
@@ -326,7 +301,7 @@ namespace Song.Site.Manage.SOAP
             XmlElement el = (XmlElement)node.SelectSingleNode(name);
             if (el == null)
                 return def;
-            return el.InnerText;
+            return this.Server.UrlDecode(el.InnerText);
         }
         #endregion
 

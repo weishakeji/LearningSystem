@@ -299,7 +299,14 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
-
+String.prototype.format = function (args) {
+    if (arguments.length < 1) return this;
+    var primary = this;
+    for (var i = 0; i < arguments.length; i++) {
+        primary = primary.replace(eval('/\\{' + i + '\\}/g'), arguments[i]);
+    }
+    return primary;
+}
 //获取信息
 //service:webservice请求页
 //sfunc:webservice服务中的方法

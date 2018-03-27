@@ -3,7 +3,7 @@
 });
 //分类的根节点
 var rootid = $().getPara("id");
-rootid = parseInt(rootid) < 0 ? 0 : parseInt(rootid);
+rootid = parseInt(rootid) <= 0 ? 0 : parseInt(rootid);
 //默认图标的坐标
 var icoX = 90; icoY = 101;
 //
@@ -80,35 +80,14 @@ function editroot() {
     root.show();
     edit.hide();
     $.get("/manage/soap/ManageMenu.asmx/ManageMenuJson", { id: rootid }, function (data) {
-        eval($(data).text());
-        var panel = $("#MenuEditPanel");
-        panel.find("input[name='rootname']").attr("value", node.MM_Name);
-        //样式
-        var cbbold = panel.find("input[type='checkbox'][name='rtcbIsBold']");
-        node.MM_IsBold ? cbbold.attr("checked", "checked") : cbbold.removeAttr("checked");
-        var cbitalic = panel.find("input[type='checkbox'][name='rtcbIsItalic']");
-        node.MM_IsItalic ? cbitalic.attr("checked", "checked") : cbitalic.removeAttr("checked");
-        var cbshow = panel.find("input[type='checkbox'][name='rtcbIsShow']");
-        node.MM_IsShow ? cbshow.attr("checked", "checked") : cbshow.removeAttr("checked");
-        var cbuse = panel.find("input[type='checkbox'][name='rtcbIsUse']");
-        node.MM_IsUse ? cbuse.attr("checked", "checked") : cbuse.removeAttr("checked");
-        panel.find("textarea[name='rtintro']").text(node.MM_Intro);
-        panel.find("#addNodeParent").text(node.MM_Name);
-        //图标
-        if (node.MM_IcoX <= 0) {
-            node.MM_IcoX = icoX;
-            node.MM_IcoY = icoY;
-        }
-        var ico = $(".ico:visible");
-        ico.attr("left", node.MM_IcoX).attr("top", node.MM_IcoY);
-        ico.css("background-position", (-node.MM_IcoX + "px ") + (-node.MM_IcoY + "px"));
+        var node=eval("("+$(data).text()+")");
+        update.setCtl( $("#RootEditPanel"),node);
+        update.setCtl( $("#patdata"),node);   //在新增界面的上级
     })
-    $("span[edit='id']").text(rootid);
+    //$("span[name='id']").text(rootid);
 }
 //进入编辑子节点
 function editNode(node) {
-    //alert(typeof(node));
-    //if(node==null)node=$(this);
     var root = $("#RootEditPanel");
     var edit = $("#EditPanel");
     setEditPanel("edit");
@@ -119,49 +98,16 @@ function editNode(node) {
     var id = node.attr("nodeId");
     //获取单个信息
     $.get("/manage/soap/ManageMenu.asmx/ManageMenuJson", { id: id }, function (data) {
-        //生成node节点对象
-        eval($(data).text());
-        //当前节点信息
-        panel.find("span[edit='id']").text(node.MM_Id);
-        panel.find("span[edit='pid']").text(node.MM_PatId);
-        panel.find("span[edit='tax']").text(node.MM_Tax);
-        panel.find("input[name='name']").attr("value", node.MM_Name);
-        panel.find("#addNodeParent").text(node.MM_Name);
-        //菜单项的“移动到”
-        var ddlMove = panel.find("select[name$='ddlMove']");
-        ddlMove.attr("value", rootid);
-        //节点类别
-        panel.find("input[name='type']").each(
-                    function () {
-                        var v = $(this).val();
-                        $(this).removeAttr("checked");
-                        if (v == node.MM_Type) $(this).attr("checked", "checked");
-                    }
-                );
-        panel.find("input[name='link']").attr("value", node.MM_Link);
-        panel.find("input[name='marker']").attr("value", node.MM_Marker);
-        panel.find("textarea[name='intro']").text(node.MM_Intro);
-        //样式
-        var cbbold = panel.find("input[type='checkbox'][name='cbIsBold']");
-        node.MM_IsBold ? cbbold.attr("checked", "checked") : cbbold.removeAttr("checked");
-        var cbitalic = panel.find("input[type='checkbox'][name='cbIsItalic']");
-        node.MM_IsItalic ? cbitalic.attr("checked", "checked") : cbitalic.removeAttr("checked");
-        var cbshow = panel.find("input[type='checkbox'][name='cbIsShow']");
-        node.MM_IsShow ? cbshow.attr("checked", "checked") : cbshow.removeAttr("checked");
-        var cbuse = panel.find("input[type='checkbox'][name='cbIsUse']");
-        node.MM_IsUse ? cbuse.attr("checked", "checked") : cbuse.removeAttr("checked");
-        //图标
-        if (node.MM_IcoX <= 0) {
-            node.MM_IcoX = icoX;
-            node.MM_IcoY = icoY;
-        }
-        var ico = $(".ico:visible");
-        ico.attr("left", node.MM_IcoX).attr("top", node.MM_IcoY);
-        ico.css("background-position", (-node.MM_IcoX + "px ") + (-node.MM_IcoY + "px"));
+        var node=eval("("+$(data).text()+")");
+        update.setCtl( $("#EditPanel"),node);   //填充数据
+        update.setCtl( $("#patdata"),node);   //在新增界面的上级
+       //菜单项的“移动到”
+        panel.find("select[name$='moveto']").attr("value", rootid);
+        panel.find("select[name$='copyto']").attr("value", rootid);
         //当前节点父节点信息
         $.get("/manage/soap/ManageMenu.asmx/ManageMenuJson", { id: node.MM_PatId }, function (data) {
-            eval($(data).text());
-            var panel = $("#MenuEditPanel");
+            var node=eval("("+$(data).text()+")");
+            var panel = $("#EditPanel");
             panel.find("#editNodeParent").text(node.MM_Name);
         })
     });
@@ -170,25 +116,15 @@ function editNode(node) {
 function loading() {
     $("#loadingBar").show();
     var mask = $("#screenMask");
-    mask.remove();
-    mask = null
-    delete mask;
-    var html = "<div id=\"screenMask\"/>";
-    $("body").append(html);
+    if (mask.size() > 0)mask.remove();
+    $("body").append("<div id=\"screenMask\"/>");
     mask = $("#screenMask");
-    mask.css("position", "absolute");
-    mask.css("z-index", "50000");
     var h = document.documentElement.clientHeight;
-    mask.css("width", "100%");
-    mask.css("height", h - 30);
-    mask.css("top", 30);
-    mask.css("left", 5);
-    mask.css("background-color", "#ffffff");
-    mask.css("filter", "Alpha(Opacity=60)");
-    mask.css("display", "block");
-    mask.css("-moz-opacity", 0.6);
-    mask.css("opacity", 0.6);
-    mask.fadeIn("slow");
+    mask.css({
+        "width": "100%", "height": h - 30, "top": 30, "left": 5, "display": "block",
+        "background-color": "#ffffff", "position": "absolute", "z-index": "50000",
+        "filter": "Alpha(Opacity=60)", "-moz-opacity": 0.6, "opacity": 0.6
+    }).fadeIn("slow");
 }
 //载入完成后，清除预载效果
 function unloading() {
@@ -219,110 +155,97 @@ function setEditPanel(pevent) {
             break;
     }
 }
-//修改节点信息
-function UpdateNode() {
-    var xml = "";
-    //如果是编辑状态
-    if ($("#RootEditPanel").parent().is(":visible") != false) {
-        if ($("#RootEditPanel").is(":visible") != false) {
-            if ($.trim($("#rootname").val()) == "")
-                alert("名称不得为空！");
-            else
-                xml = updateRoot();
-        } else {
-            if ($.trim($("#name").val()) == "")
-                alert("名称不得为空！");
-            else
-                xml = updateNode();
+
+//获取填写的数据
+var update= {
+    //根节点
+    rootxml: function () {
+        var panel = $("#RootEditPanel");
+        var tmp = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        tmp += "<node type=\"root\" id=\"" + $().getPara("id") + "\" rootid=\"" + $().getPara("id") + "\"  func=\"func\">";
+        tmp += update.getCtl(panel);
+        tmp += "</node>";
+        return tmp;
+    },
+    //修改子节点
+    nodexml: function () {
+        var panel = $("#MenuEditPanel");
+        var tmp = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        tmp += "<node type=\"edit\" id=\"" + $("span[name='id']").text() + "\" rootid=\"" + rootid + "\" func=\"func\">";
+        tmp += update.getCtl(panel);
+        tmp += "</node>";
+        return tmp;
+    },
+    //添加子菜点
+    addxml: function () {
+        var panel = $("#AddPanel");
+        //结果
+        var tmp = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        tmp += "<node type=\"add\" id=\"-1\" rootid=\"" + $().getPara("id") + "\">";
+        tmp += "<pid>" + $("span[name='id']").text() + "</pid>";
+        tmp += update.getCtl(panel);
+        return tmp;
+    },
+    //获取控件值
+    getCtl: function (panel) {
+        var ctls = panel.find("*[type!=submit][type!=button][name]");
+        var str = "<{0}>{1}</{0}>";
+        var tmp = "<func>func</func>";
+        ctls.each(function () {
+            var element = $(this).get(0).tagName.toLowerCase(); //控件html标签名
+            var name = $.trim($(this).attr("name")!=null ? $(this).attr("name").toLowerCase() : "");   //控件名称
+            if (element == "input") {
+                var type = $(this).attr("type").toLowerCase();  //控件类型
+                if (type == "text")tmp += str.format(name, encodeURIComponent($.trim($(this).val())));
+                if (type == "checkbox")tmp += str.format(name, $(this).attr('checked'));
+            }
+            if (element == "span") {
+                if(name!="")tmp += str.format(name, $(this).text());
+            }
+            if (element == "select") {
+                tmp += str.format(name, panel.find("select[name="+name+"] option:selected").val());
+            }
+        });
+        //类型
+        var type = panel.find("input[name=type][type=radio]:checked").val();
+        tmp += str.format("type", type);
+        tmp += "<icox>" + panel.find(".ico:visible").attr("left") + "</icox>";
+        tmp += "<icoy>" + panel.find(".ico:visible").attr("top") + "</icoy>";
+        return tmp;
+    },
+    //填充控件值
+    setCtl:function(panel,node) {
+        var ctls = panel.find("*[type!=submit][type!=button][name]");
+        ctls.each(function () {
+            var element = $(this).get(0).tagName.toLowerCase(); //控件html标签名
+            var name = $.trim($(this).attr("name").toLowerCase());   //控件名称
+            for (var n in node) {
+                var attr = n.substring(n.lastIndexOf("_") + 1).toLowerCase();
+                if (element == "input") {
+                    var type = $(this).attr("type").toLowerCase();  //控件类型
+                    if (attr == name && type == "text") $(this).val(node[n]);
+                    if (attr == name && type == "checkbox") $(this).attr('checked', node[n]);
+                }
+                if (element == "span" && attr == name) $(this).text(node[n]);
+            }
+        });
+        //节点类别
+        panel.find("input[name='type']").each(function () {
+            var v = $(this).val();
+            $(this).removeAttr("checked");
+            if (v == node.MM_Type) $(this).attr("checked", "checked");
+        });
+        //图标
+        if (node.MM_IcoX <= 0) {
+            node.MM_IcoX = icoX;
+            node.MM_IcoY = icoY;
         }
+        var ico = $(".ico:visible");
+        ico.attr("left", node.MM_IcoX).attr("top", node.MM_IcoY);
+        ico.css("background-position", (-node.MM_IcoX + "px ") + (-node.MM_IcoY + "px"));
     }
-    if ($("#AddPanel").is(":visible") != false) {
-        if ($.trim($("#addname").val()) == "")
-            alert("名称不得为空！");
-        else
-            xml = addNode();
-    }
-    if (xml == "") return;
-    var res = encodeURIComponent(xml);
-    $().SoapAjax("ManageMenu", "Update", { result: res, pid: Tree.RootId, type: "func" }, funcc, loading, unloading);
 }
-//递交根节点信息
-function updateRoot() {
-    var panel = $("#MenuEditPanel");
-    //结果
-    var tmp = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
-    tmp += "<node type=\"root\" id=\"" + $().getPara("id") + "\" rootid=\"" + $().getPara("id") + "\"  func=\"func\">";
-    tmp += "<name>" + $("#rootname").val() + "</name>";
-    tmp += "<func>func</func>";
-    tmp += "<IsItalic>" + panel.find("input[type='checkbox'][name='rtcbIsItalic']").attr("checked") + "</IsItalic>";
-    tmp += "<IsBold>" + panel.find("input[type='checkbox'][name='rtcbIsBold']").attr("checked") + "</IsBold>";
-    tmp += "<IsShow>" + panel.find("input[type='checkbox'][name='rtcbIsShow']").attr("checked") + "</IsShow>";
-    tmp += "<IsUse>" + panel.find("input[type='checkbox'][name='rtcbIsUse']").attr("checked") + "</IsUse>";
-    tmp += "<intro><![CDATA[" + panel.find("textarea[name='rtintro']").text() + "]]></intro>";
-    tmp += "<icox>" + panel.find(".ico:visible").attr("left") + "</icox>";
-    tmp += "<icoy>" + panel.find(".ico:visible").attr("top") + "</icoy>";
-    tmp += "</node>";
-    return tmp;
-}
-//递交子节点信息
-function updateNode() {
-    var panel = $("#MenuEditPanel");
-    //结果
-    var tmp = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
-    //移动到
-    var ddlMove = panel.find("select[name$='ddlMove']");
-    var mrootid = ddlMove.attr("value");
-    //复制到
-    var ddlCopy = panel.find("select[name$='ddlCopy']");
-    var crootid = ddlCopy.attr("value");
-    tmp += "<node type=\"edit\" id=\"" + $("span[edit='id']").text() + "\" rootid=\"" + rootid + "\" moveto=\"" + mrootid + "\" copyto=\"" + crootid + "\" func=\"func\">";
-    tmp += "<name>" + $("#name").val() + "</name>";
-    //判断类型
-    var type = "";
-    panel.find("input[name='type']").each(function () {
-        if ($(this).attr("checked")) type = $(this).val();
-    });
-    tmp += "<type>" + type + "</type>";
-    tmp += "<link><![CDATA[" + $("#link").val() + "]]></link>";
-    tmp += "<marker>" + $("#marker").val() + "</marker>";
-    tmp += "<func>func</func>";
-    tmp += "<IsItalic>" + panel.find("input[type='checkbox'][name='cbIsItalic']").attr("checked") + "</IsItalic>";
-    tmp += "<IsBold>" + panel.find("input[type='checkbox'][name='cbIsBold']").attr("checked") + "</IsBold>";
-    tmp += "<IsShow>" + panel.find("input[type='checkbox'][name='cbIsShow']").attr("checked") + "</IsShow>";
-    tmp += "<IsUse>" + panel.find("input[type='checkbox'][name='cbIsUse']").attr("checked") + "</IsUse>";
-    tmp += "<intro><![CDATA[" + panel.find("textarea[name='intro']").text() + "]]></intro>";
-    tmp += "<icox>" + panel.find(".ico:visible").attr("left") + "</icox>";
-    tmp += "<icoy>" + panel.find(".ico:visible").attr("top") + "</icoy>";
-    tmp += "</node>";
-    return tmp;
-}
-//递交新增子节点信息
-function addNode() {
-    var panel = $("#AddPanel");
-    //结果
-    var tmp = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
-    tmp += "<node type=\"add\" id=\"-1\" rootid=\"" + $().getPara("id") + "\">";
-    tmp += "<name>" + $("#addname").val() + "</name>";
-    tmp += "<pid>" + $("span[edit='id']").text() + "</pid>";
-    //判断类型
-    var type = "";
-    panel.find("input[name='addtype']").each(function () {
-        if ($(this).attr("checked")) type = $(this).val();
-    });
-    tmp += "<type>" + type + "</type>";
-    tmp += "<link><![CDATA[" + $("#addlink").val() + "]]></link>";
-    tmp += "<marker>" + $("#addmarker").val() + "</marker>";
-    tmp += "<func>func</func>";
-    tmp += "<IsItalic>" + panel.find("input[type='checkbox'][name='addcbIsItalic']").attr("checked") + "</IsItalic>";
-    tmp += "<IsBold>" + panel.find("input[type='checkbox'][name='addcbIsBold']").attr("checked") + "</IsBold>";
-    tmp += "<IsShow>" + panel.find("input[type='checkbox'][name='addcbIsShow']").attr("checked") + "</IsShow>";
-    tmp += "<IsUse>" + panel.find("input[type='checkbox'][name='addcbIsUse']").attr("checked") + "</IsUse>";
-    tmp += "<intro><![CDATA[" + panel.find("textarea[name='addintro']").text() + "]]></intro>";
-    tmp += "<icox>" + panel.find(".ico").attr("left") + "</icox>";
-    tmp += "<icoy>" + panel.find(".ico").attr("top") + "</icoy>";
-    tmp += "</node>";
-    return tmp;
-}
+
 //更改顺序
 function changeOrder(res) {
     $().SoapAjax("ManageMenu", "Order", { result: res, rootid: Tree.RootId, type: "func" }, funcc, loading, unloading);
@@ -335,4 +258,33 @@ function delNode(res) {
     var msg = "您是否确定要删除当前菜单项：" + name + " ？\n注：\n1、当前菜单项的所有下属菜单，也会同时删除\;\n2、删除后无法恢复。";
     if (!confirm(msg)) return;
     $().SoapAjax("ManageMenu", "Del", { result: res, pid: Tree.RootId, type: "func" }, funcc, loading, unloading);
+}
+//修改节点信息
+function UpdateNode() {
+    var xml = "";
+    //如果是编辑状态
+    if ($("#RootEditPanel").parent().is(":visible") != false) {
+        if ($("#RootEditPanel").is(":visible") != false) {
+            if ($.trim($("#RootEditPanel").find("input[name=name]").val()) == "")
+                alert("名称不得为空！");
+            else
+                xml = update.rootxml();
+        } else {
+            if ($.trim($("#EditPanel").find("#name").val()) == "")
+                alert("名称不得为空！");
+            else
+                xml = update.nodexml();
+        }
+    }
+    if ($("#AddPanel").is(":visible") != false) {
+        if ($.trim($("#AddPanel").find("#name").val()) == "")
+            alert("名称不得为空！");
+        else
+            xml = update.addxml();
+    }
+    if (xml == "") return;
+    $().SoapAjax("ManageMenu", "Update", { result: xml, pid: Tree.RootId, type: "func" }, function(data){
+        funcc(data);
+        alert("操作完成");
+    }, loading, unloading);
 }

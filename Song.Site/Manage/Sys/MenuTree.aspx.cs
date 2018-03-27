@@ -18,7 +18,9 @@ namespace Song.Site.Manage.Sys
     public partial class MenuTree : Extend.CustomPage
     {
         //要操作的对象主键
-        private int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
+        protected int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
+        //根菜单项，用于“移动”或“复制到”
+        protected Song.Entities.ManageMenu[] root = Business.Do<IManageMenu>().GetRoot("func");
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -33,24 +35,24 @@ namespace Song.Site.Manage.Sys
         /// </summary>
         protected void BindData()
         {            
-            Song.Entities.ManageMenu[] mm;
-            mm = Business.Do<IManageMenu>().GetRoot("func");
-            //移动到……
-            ddlMove.DataSource = mm;
-            ddlMove.DataTextField = "MM_Name";
-            ddlMove.DataValueField = "MM_Id";
-            ddlMove.DataBind();
-            ListItem li = ddlMove.Items.FindByValue(id.ToString());
-            if (li != null) li.Selected = true;
-            li.Attributes.Add("style", "background-color: #CCCCCC;");
-            //复制到
-            ddlCopy.DataSource = mm;
-            ddlCopy.DataTextField = "MM_Name";
-            ddlCopy.DataValueField = "MM_Id";
-            ddlCopy.DataBind();
-            ListItem li2 = ddlCopy.Items.FindByValue(id.ToString());
-            if (li2 != null) li2.Selected = true;
-            li2.Attributes.Add("style", "background-color: #CCCCCC;");           
+            //Song.Entities.ManageMenu[] mm;
+            //mm = Business.Do<IManageMenu>().GetRoot("func");
+            ////移动到……
+            //ddlMove.DataSource = mm;
+            //ddlMove.DataTextField = "MM_Name";
+            //ddlMove.DataValueField = "MM_Id";
+            //ddlMove.DataBind();
+            //ListItem li = ddlMove.Items.FindByValue(id.ToString());
+            //if (li != null) li.Selected = true;
+            //li.Attributes.Add("style", "background-color: #CCCCCC;");
+            ////复制到
+            //ddlCopy.DataSource = mm;
+            //ddlCopy.DataTextField = "MM_Name";
+            //ddlCopy.DataValueField = "MM_Id";
+            //ddlCopy.DataBind();
+            //ListItem li2 = ddlCopy.Items.FindByValue(id.ToString());
+            //if (li2 != null) li2.Selected = true;
+            //li2.Attributes.Add("style", "background-color: #CCCCCC;");           
         }
     }
 }

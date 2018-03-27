@@ -294,6 +294,7 @@
     <Content Include="Manage\Images\4322.jpg" />
     <Content Include="Manage\Images\4323.jpg" />
     <Content Include="Manage\Images\bigIco2.jpg" />
+    <Content Include="Manage\Images\empty.gif" />
     <Content Include="Manage\Images\mmicons.png" />
     <Content Include="Manage\Images\search.JPG" />
     <Content Include="Manage\Images\sun_star.gif" />

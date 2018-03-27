@@ -141,6 +141,13 @@
 .bar .menuNav, .bar .menuNav *{
 	font-size:15px;
 }
+.bar .menuNav i{
+
+	font-style: normal;
+	font-size: 12px;
+	letter-spacing: 30%;
+	line-height:15px;
+}
 .versionBox {
 	float: left;
 	width: 60px;
