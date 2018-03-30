@@ -1,18 +1,27 @@
-﻿$("#MenuTreePanel").select(function () {
-    //return false;
-});
+﻿//默认信息
+var defvalue= {
+    //根节点id
+    rootid: function () {
+        var def=0;
+        var root = $().getPara("id");
+        root = isNaN(root) ? -1 : Number(root);
+        root = parseInt(root) <= 0 ? def : parseInt(root);
+        return root;
+    },
+    //菜单类型,func为功能菜单,sys为系统菜单
+    type: "func",
+    //图标默认位置
+    ico: {x: 90, y: 101}
+}
+
 //分类的根节点
-var rootid = $().getPara("id");
-rootid = parseInt(rootid) <= 0 ? 0 : parseInt(rootid);
-//默认图标的坐标
-var icoX = 90; icoY = 101;
+var rootid = defvalue.rootid();
 //
 $(function () {
     setTimeout("initloyout()", 100);
     setEditPanel("root");
     icoEvent();
-    var id = $().getPara("id");
-    $().SoapAjax("ManageMenu", "Order", { result: "", rootid: rootid, type: "func" }, funcc, loading, unloading);
+    $().SoapAjax("ManageMenu", "Order", { result: "", rootid: rootid, type: defvalue.type }, funcc, loading, unloading);
 });
 //页面初始化布局
 function initloyout() {
@@ -154,7 +163,7 @@ function setEditPanel(pevent) {
             add.show();
             $("#EditPanelTitle div[type='add']").addClass("click");
             var ico = $(".ico:visible");
-            ico.attr("left", icoX).attr("top", icoY);
+            ico.attr("left", defvalue.ico.x).attr("top", defvalue.ico.y);
             break;
     }
 }
@@ -165,7 +174,7 @@ var update= {
     rootxml: function () {
         var panel = $("#RootEditPanel");
         var tmp = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
-        tmp += "<node type=\"root\" id=\"" + rootid + "\" rootid=\"" + rootid + "\"  func=\"func\">";
+        tmp += "<node type=\"root\" id=\"" + rootid + "\" rootid=\"" + rootid + "\">";
         tmp += update.getCtl(panel);
         tmp += "</node>";
         return tmp;
@@ -174,7 +183,7 @@ var update= {
     nodexml: function () {
         var panel = $("#EditPanel");
         var tmp = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
-        tmp += "<node type=\"edit\" id=\"" + panel.find("span[name='id']").text() + "\" rootid=\"" + rootid + "\" func=\"func\">";
+        tmp += "<node type=\"edit\" id=\"" + panel.find("span[name='id']").text() + "\" rootid=\"" + rootid + "\">";
         tmp += update.getCtl(panel);
         tmp += "</node>";
         return tmp;
@@ -194,7 +203,7 @@ var update= {
     getCtl: function (panel) {
         var ctls = panel.find("*[name]:visible");
         var str = "<{0}>{1}</{0}>";
-        var tmp = "<func>func</func>";
+        var tmp = "<func>"+defvalue.type+"</func>";
         ctls.each(function () {
             var element = $(this).get(0).tagName.toLowerCase(); //控件html标签名
             //var tm= $(this).attr("name");
@@ -246,8 +255,8 @@ var update= {
         });
         //图标
         if (node.MM_IcoX <= 0) {
-            node.MM_IcoX = icoX;
-            node.MM_IcoY = icoY;
+            node.MM_IcoX = defvalue.ico.x;
+            node.MM_IcoY = defvalue.ico.y;
         }
         var ico = $(".ico:visible");
         ico.attr("left", node.MM_IcoX).attr("top", node.MM_IcoY);
@@ -260,7 +269,7 @@ var update= {
         if ($("#EditPanel").is(":visible"))xml = update.nodexml();     //修改子节点
         if ($("#AddPanel").is(":visible")) xml = update.addxml();      //新增子节点
         if (xml == "") return;
-        $().SoapAjax("ManageMenu", "Update", {result: xml, pid: Tree.RootId, type: "func"}, function (data) {
+        $().SoapAjax("ManageMenu", "Update", {result: xml, pid: Tree.RootId, type: defvalue.type}, function (data) {
             funcc(data,"操作完成！");
         }, loading, unloading);
     },
@@ -272,13 +281,12 @@ var update= {
                 $(this).fadeOut(1000);
             });
         });
-
     }
 }
 
 //更改顺序
 function changeOrder(res) {
-    $().SoapAjax("ManageMenu", "Order", { result: res, rootid: Tree.RootId, type: "func" }, function(data){
+    $().SoapAjax("ManageMenu", "Order", { result: res, rootid: Tree.RootId, type: defvalue.type }, function(data){
         funcc(data,"更改菜单排序！");
     }, loading, unloading);
 }
@@ -289,7 +297,7 @@ function delNode(res) {
     var name = div.text();
     var msg = "您是否确定要删除当前菜单项：" + name + " ？\n注：\n1、当前菜单项的所有下属菜单，也会同时删除\;\n2、删除后无法恢复。";
     if (!confirm(msg)) return;
-    $().SoapAjax("ManageMenu", "Del", { result: res, pid: Tree.RootId, type: "func" }, function(data){
+    $().SoapAjax("ManageMenu", "Del", { result: res, pid: Tree.RootId, type: defvalue.type }, function(data){
         funcc(data,"完成删除操作！");
     }, loading, unloading);
 }

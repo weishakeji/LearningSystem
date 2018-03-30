@@ -73,7 +73,7 @@
           <!--子节点编辑区域 -->
           <form id="EditPanel" class="editpanel">
             <dt>上级菜单项： <span id="editNodeParent" class="nodeParent"></span></dt>
-            <dd style="display: noner"> <span name="id"></span>=<span name="patid"></span>-<span name="tax"></span> </dd>
+            <dd style="display: none"> <span name="id"></span>=<span name="patid"></span>-<span name="tax"></span> </dd>
             <dd class="namebar">
               <div class="name"> 名称：
                 <input name="name" type="text" width="200" nullable="false"/>
@@ -172,7 +172,7 @@
         <form id="AddPanel" class="editpanel">
         <div id="patdata">
           <dd>上级菜单项： <span id="addNodeParent" name="name" read="no" class="nodeParent"></span></dd>
-          <dd style="display: noner"> <span name="id"></span>-<span name="tax"></span> </dd>
+          <dd style="display: none"> <span name="id"></span>-<span name="tax"></span> </dd>
           </div>
           <dd class="namebar">
             <div class="name"> 名称：
