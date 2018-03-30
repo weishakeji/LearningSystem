@@ -209,7 +209,7 @@ namespace Song.Site.Manage.SOAP
             int rootid = Convert.ToInt32(((XmlElement)node).Attributes["rootid"].Value);
             //当前对象
             Song.Entities.ManageMenu mm = null;
-            if (type == "edit") mm = Business.Do<IManageMenu>().GetSingle(id);
+            if (type == "edit" || type == "root") mm = Business.Do<IManageMenu>().GetSingle(id);
             if (type == "add") mm = new Song.Entities.ManageMenu();
             //不管是新增还是修改（根节点、子节点），都需要用到的赋值
             mm.MM_Name = getNodeText(node, "name", "").ToString();

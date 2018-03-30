@@ -43,7 +43,7 @@
             <dt>上级菜单项： 无（根节点） </dt>
             <dd class="namebar">
               <div class="name"> 名称：
-                <input name="name" type="text" width="200" id="rootname" />
+                <input name="name" type="text" width="200" nullable="false"/>
               </div>
               <div class="icoslect">
                 <div class="txt"> 图标：</div>
@@ -76,7 +76,7 @@
             <dd style="display: noner"> <span name="id"></span>=<span name="patid"></span>-<span name="tax"></span> </dd>
             <dd class="namebar">
               <div class="name"> 名称：
-                <input name="name" type="text" width="200" id="name" />
+                <input name="name" type="text" width="200" nullable="false"/>
               </div>
               <div class="icoslect">
                 <div class="txt"> 图标：</div>
@@ -171,12 +171,12 @@
         <!-- 增加子节点的区域 -->
         <form id="AddPanel" class="editpanel">
         <div id="patdata">
-          <dd>上级菜单项： <span id="addNodeParent" name="name" class="nodeParent"></span></dd>
-          <dd style="display: noner"> <span name="id"></span>=<span name="patid"></span>-<span name="tax"></span> </dd>
+          <dd>上级菜单项： <span id="addNodeParent" name="name" read="no" class="nodeParent"></span></dd>
+          <dd style="display: noner"> <span name="id"></span>-<span name="tax"></span> </dd>
           </div>
           <dd class="namebar">
             <div class="name"> 名称：
-              <input name="name" type="text" width="200" id="addname" />
+              <input name="name" type="text" width="200" nullable="false"/>
             </div>
             <div class="icoslect">
               <div class="txt"> 图标：</div>
@@ -237,6 +237,7 @@
       </div>
     </div>
     <div id="show"> <font color="red">*</font>拖动即可改变顺序，拖出所在区域即删除。</div>
+    <div id="alert"> 操作成功 </div>
   </div>
 </div>
 
