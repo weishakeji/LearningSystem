@@ -270,7 +270,7 @@ var update= {
         if ($("#AddPanel").is(":visible")) xml = update.addxml();      //新增子节点
         if (xml == "") return;
         $().SoapAjax("ManageMenu", "Update", {result: xml, pid: Tree.RootId, type: defvalue.type}, function (data) {
-            funcc(data,"操作完成！");
+            funcc(data,"完成修改操作！");
         }, loading, unloading);
     },
     //提示信息
@@ -287,7 +287,7 @@ var update= {
 //更改顺序
 function changeOrder(res) {
     $().SoapAjax("ManageMenu", "Order", { result: res, rootid: Tree.RootId, type: defvalue.type }, function(data){
-        funcc(data,"更改菜单排序！");
+        funcc(data,"完成菜单排序更改！");
     }, loading, unloading);
 }
 //删除节点
