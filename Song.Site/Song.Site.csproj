@@ -1039,7 +1039,6 @@
     <Content Include="Templates\Web\Gov\Teacher\List.htm" />
     <Content Include="Templates\Web\Gov\Teacher\Panel.htm" />
     <Content Include="Templates\Web\Gov\Teacher\Scripts\Index.js" />
-    <Content Include="Templates\Web\Gov\Teacher\Scripts\Panel.js" />
     <Content Include="Templates\Web\Gov\Teacher\Startpage.htm" />
     <Content Include="Templates\Web\Gov\Teacher\Styles\detail.css" />
     <Content Include="Templates\Web\Gov\Teacher\Styles\index.css" />
@@ -1165,6 +1164,9 @@
     <Content Include="Templates\Web\_Public\Module\Test\TestScene.css" />
     <Content Include="Templates\Web\_Public\Module\Test\TestScene.htm" />
     <Content Include="Templates\Web\_Public\Module\Test\TestScene.js" />
+    <Content Include="Templates\Web\_Public\Module\Teacher\Panel.css" />
+    <Content Include="Templates\Web\_Public\Module\Teacher\Panel.htm" />
+    <Content Include="Templates\Web\_Public\Module\Teacher\panel.js" />
     <Content Include="Templates\Web\_Public\QuesExplain.htm" />
     <Content Include="Templates\Web\_Public\QuesKnl.htm" />
     <Content Include="Templates\Web\_Public\QuestionAnswer.htm" />
@@ -1264,7 +1266,6 @@
     <Content Include="Templates\Web\NetSchool\Teacher\Panel.htm" />
     <Content Include="Templates\Web\NetSchool\Teacher\Register.htm" />
     <Content Include="Templates\Web\NetSchool\Teacher\Scripts\Index.js" />
-    <Content Include="Templates\Web\NetSchool\Teacher\Scripts\Panel.js" />
     <Content Include="Templates\Web\NetSchool\Teacher\Scripts\Register.js" />
     <Content Include="Templates\Web\NetSchool\Teacher\Startpage.htm" />
     <Content Include="Templates\Web\NetSchool\Teacher\Styles\detail.css" />
@@ -1471,7 +1472,6 @@
     <Content Include="Templates\Web\Neimeng\Teacher\Panel.htm" />
     <Content Include="Templates\Web\Neimeng\Teacher\Scripts\Index.js" />
     <Content Include="Templates\Web\Neimeng\Teacher\Scripts\List.js" />
-    <Content Include="Templates\Web\Neimeng\Teacher\Scripts\Panel.js" />
     <Content Include="Templates\Web\Neimeng\Teacher\Startpage.htm" />
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\detail.css" />
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\index.css" />
@@ -1693,7 +1693,6 @@
     <Content Include="Templates\Web\School\Teacher\List.htm" />
     <Content Include="Templates\Web\School\Teacher\Panel.htm" />
     <Content Include="Templates\Web\School\Teacher\Scripts\Index.js" />
-    <Content Include="Templates\Web\School\Teacher\Scripts\Panel.js" />
     <Content Include="Templates\Web\School\Teacher\Startpage.htm" />
     <Content Include="Templates\Web\School\Teacher\Styles\detail.css" />
     <Content Include="Templates\Web\School\Teacher\Styles\index.css" />

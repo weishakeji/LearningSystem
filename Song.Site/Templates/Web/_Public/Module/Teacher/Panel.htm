@@ -2,9 +2,9 @@
 <link href="Panel.css" rel="stylesheet" type="text/css" />
 <!--左侧菜单 -->
 <div id="leftArea">
-    <a class="menuTitle" mmid="0" title="启始页" href="/Admin/Startpage.ashx">机构管理 </a>
+    <a class="menuTitle" mmid="0" title="启始页" href="/teacher/Startpage.ashx">教务管理 </a>
     <div id="menuBox">
-        <vt:repeat type="managemenu" item="data" marker="organAdmin">
+        <vt:repeat type="managemenu" item="data" marker="teacher">
         <vt:repeat from="$data.Childs" item="m" index="i">
           <div class="mmitem"  mmtype="{$:m.current.mm_type}" wd="{$:m.current.MM_WinWidth}" hg="{$:m.current.MM_WinHeight}" title="{$:m.current.MM_Intro}" tax="{$:i}"  mmid="{$:m.current.MM_ID}" > 
             <!--图标 -->
@@ -58,12 +58,12 @@
 <div id="rightArea">
     <div class="bar">
         <div class="menuNav">
-            当前操作：<a id="menuPath" href="/admin/Startpage.ashx">启始页</a></div>
+            当前操作：<a id="menuPath" href="/teacher/Startpage.ashx">启始页</a></div>
         <vt:if var="CurrUser.Ac_isPass" value="false" compare="=">
-        <div class="versionBox" title="当前学员未通过审核">未经审核</div>
+        <div class="versionBox" title="未通过审核">未经审核</div>
       </vt:if>
         <div class="loginInfo">
-            {$:#.st.Ac_name} <a href="/admin/logout.ashx">退出</a></div>
+            {$:#.st.Ac_name} <a href="/accout/Student.ashx">退出</a></div>
     </div>
     <div class="lowest" mark="最低一级导航菜单">
         <div class="item">
@@ -71,7 +71,7 @@
         <div class="item">
             </div>
     </div>
-    <iframe src="/admin/Startpage.ashx" name="adminPage" id="adminPage" style="min-height: 500px;"
+    <iframe src="Startpage.ashx" name="adminPage" id="adminPage" style="min-height: 500px;"
         class="frame" marginwidth="0" marginheight="0" align="top" scrolling="auto" width="988"
         frameborder="0" style="min-height: 700px;" allowtransparency="true"></iframe>
 </div>

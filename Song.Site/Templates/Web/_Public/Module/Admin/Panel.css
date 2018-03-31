@@ -1,85 +1,45 @@
-.bar {
-	height: 40px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.bar .menuBar {
-	float: right;
-	width: 1008px;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: 10px;
-	
-	height: 40px;
-	border: 1px solid #CCCCCC;
-	background-color: #FFFFFF;
-}
-.bar .menuBar, .bar .menuBar a
-{
-	font-size: 15px;
-	line-height: 40px;
-	color: #333333;
-}
-.menuBar a:hover{
-	text-decoration: underline;
-}
-.bar .menuTitle {
-	background-color: #375369;
-	text-align: center;
-	float: left;
-	width: 180px;
-	font-size: 16px;
-	height: 40px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	line-height: 40px;
-	font-weight: bold;
-	color: #FFFFFF;
-}
-.bar .menuBar .menuNav #menuPath {
-	text-decoration: none;
-}
-
-.bar .menuBar .menuNav {
-	float: left;
-	width: 820px;
-	text-indent: 10px;
-	line-height: 40px;
-	height: 40px;
-}
-.versionBox{
-	float: right;
-	width: 60px;
-	text-align: center;
-	color:#999;
-	line-height: 20px;
-	margin-top:10px;
-}
-.versionBox a{
-	color:#999 !important;
-	line-height: 20px !important;
-	font-size:13px !important;
-}
-.bar .menuBar .loginInfo {
-	float: right;
-	width: 80px;
-	text-align: center;
-	line-height: 40px;
-}
-#Context #menuBox {
+@charset "utf-8";
+#leftArea {
 	float: left;
 	width: 180px;
 	display: table;
-
 }
-#Context #menuBox .mmtop {
+#rightArea {
+	float: right;
+	width: 1008px;
+	min-height: 620px;
+	border: 1px solid #CCCCCC;
+	margin-right: 0px;
+	background-color: #FFFFFF;
+	padding-bottom: 10px;
+}
+.menuTitle {
+	background-color: #ff8e30;
+	text-align: center;
+	font-size: 16px;
 	height: 40px;
 	line-height: 40px;
-	cursor:pointer;
+	font-weight: bold;
+	color: #FFFFFF;
+	display: block;
+	letter-spacing: 0.5ex;
+}
+.menuTitle:hover {
+	text-decoration: none;
+}
+/*左侧菜单列表*/
+#menuBox {
+	display: table;
+	width:180px;
+	
+}
+#menuBox .mmitem {
+	height: 40px;
+	line-height: 40px;
+	cursor: pointer;
 	background-color: #FFFFFF;
 	font-size: 15px;
-	font-weight: bold;
+	font-weight: bold;	
 	border-top-width: 1px;
 	border-right-width: 1px;
 	border-bottom-width: 1px;
@@ -93,8 +53,19 @@
 	border-bottom-color: #E1E1E1;
 	border-left-color: #E1E1E1;
 }
-.mmtop .rightIco
-{
+.mmitem .ico {
+	height: 20px;
+	width: 20px;
+	margin-top: 8px;
+	margin-right: 10px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	float: left;
+	background-image: url(../../../../../Manage/Images/mmicons.png);
+	background-repeat: no-repeat;
+	background-position: -90px -101px;
+}
+.mmitem .rightIco {
 	float: right;
 	height: 18px;
 	width: 18px;
@@ -104,37 +75,20 @@
 	background-position: -206px -205px;
 	margin-top: 11px;
 }
-.mmtop .ico {
-	height: 20px;
-	width: 20px;
-	margin-top: 8px;
-	margin-right: 10px;
-	margin-bottom: 0px;
-	margin-left: 10px;
-	float: left;
-	background-image: url(../../../../../Manage/Images/mmicons.png);
-	background-repeat: no-repeat;
-	background-position: -90px -101px;
-}
-.mmtop .topTxt
-{
+.mmitem .topTxt {
 	float: left;
 	width: auto;
 	height: 40px;
 	line-height: 40px;
-	cursor:pointer;
+	cursor: pointer;
+	background-color: #FFFFFF;
 	font-size: 15px;
 	font-weight: bold;
-	margin-left: 0px;
-	color: #666666;
 }
-#Context #menuBox .currTop
-{
-	color: #375369;
-	background-color: #D9ECFF;
-} 
-.currTop .rightIco
-{
+.open a {
+	color: #000000 !important;
+}
+.open .rightIco {
 	float: right;
 	height: 18px;
 	width: 18px;
@@ -144,81 +98,115 @@
 	background-position: -206px -175px;
 	margin-top: 11px;
 }
+#menuBox .mmBox {
 
-.currTop .topTxt
-{
-	color: #375369;
+}
+#menuBox a {
+	color: #333333;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 15px;
+}
+#menuBox a:hover {
+	color: #000000;
+	text-decoration: none;
 	font-weight: bold;
 }
-#Context #menuBox .twoBox {
+/*右侧内容区导航*/
+.bar {
+	height: 40px;
+	width: 100%;
+	margin-top: 0px;
 	margin-right: 0px;
-	margin-left: 0px;
-	background-color: #FFFFFF;
+	height: 40px;
+	
+}
+.bar, .bar a {
+	font-size: 15px;
+	line-height: 40px;
+	color: #333333;
+}
+.bar a:hover {
+	text-decoration: underline;
+}
+.bar .menuNav #menuPath {
+	text-decoration: none;
+}
+.bar .menuNav {
+	float: left;
+	width: auto;
+	text-indent: 10px;
+	line-height: 40px;
+	height: 40px;
+}
+.bar .menuNav, .bar .menuNav *{
+	font-size:15px;
+}
+.bar .menuNav i{
+
+	font-style: normal;
+	font-size: 12px;
+	letter-spacing: 30%;
+	line-height:15px;
+}
+.versionBox {
+	float: left;
+	width: 60px;
+	text-align: center;
+	color: #999;
+	line-height: 20px;
+	margin-top: 10px;
+}
+.bar .loginInfo {
+	float: right;
+	width: 80px;
+	text-align: center;
+	line-height: 40px;
+}
+.lowest{
+	height: 30px;
+	line-height: 30px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCC;
+}
+.lowest .item{
+	float: left;
+	width: auto;
+	margin-left: 10px;
+	cursor: pointer;
+	line-height: 40px;	
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.lowest .curr{
+	font-weight: bold;
+	color: #000;
+	border-top-width: 2px;
 	border-right-width: 1px;
 	border-left-width: 1px;
 	border-top-style: solid;
 	border-right-style: solid;
 	border-bottom-style: none;
 	border-left-style: solid;
-	border-right-color: #E1E1E1;
-	border-left-color: #E1E1E1;
-	border-top-width: 1px;
-	border-bottom-width: 1px;
-	border-top-color: #E1E1E1;
-	border-bottom-color: #E1E1E1;
+	border-top-color: #F30;
+	border-right-color: #999;
+	border-bottom-color: #999;
+	border-left-color: #999;
+	background-color: #FFF;
+	height: 24px;
+	line-height: 25px;
+	margin-top: 5px;
+	padding-right: 15px;
+	padding-left: 15px;
 }
-#Context #menuBox .twoBox .mmtwo
-{
-	height: 40px;
-	line-height: 40px;
-}
-
-.twoBox .currTwo
-{
-	background-color: #FFFFCC;
-	font-weight: bold;
-}
-.mmThree{
-	margin-left:25px;
-	left:60px;
-}
-.ico {
-	height: 20px;
-	width: 20px;
-	margin-top: 8px;
-	margin-right: 5px;
-	margin-bottom: 0px;
-	margin-left: 25px;
-	float: left;
-	background-image: url(../../../../../Manage/Images/mmicons.png);
-	background-repeat: no-repeat;
-	background-position: -90px -101px;
-}
-.twoBox a {
-	color: #333333;
-	text-decoration: none;
-	font-size: 15px;
-	line-height: 40px;
-	display: block;
-}
-#Context #menuBox .twoBox a:hover {
-	color: #000000;
-	text-decoration: none;
-	font-weight: bold;
-}
-#Context #manageBox {
-	float: right;
-	width: 1008px;
-	min-height: 620px;
-	border: 1px solid #CCCCCC;
-	margin-right: 0px;
-	background-color: #FFFFFF;
-	display:table;
-}
+/*内容区域*/
 #adminPage {
 	margin-top: 10px;
 	margin-right: 10px;
 	margin-bottom: 0px;
 	margin-left: 10px;
-	width: 985px;
 }

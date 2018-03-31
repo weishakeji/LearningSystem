@@ -9,18 +9,6 @@
 </head>
 <body>
 <vt:include file="../inc/header.html" />
-<!--菜单之下的内容 -->
-<div id="bodyTop">
-  <div id="bodyTopContext">
-    <div class="stPhoto">
-      <vt:if var="CurrUser.acc_photo" value="" compare="="> <img src="../images/nophoto.jpg"  style="width:150px; height:200px"/>
-        <vt:else />
-        <img src="{$adminpath}{$CurrUser.acc_photo}"  style="width:150px; height:200px"/> </vt:if>
-      <div class="mark">&nbsp;</div>
-      <div class="info"> {$CurrUser.acc_name} </div>
-    </div>
-  </div>
-</div>
 <div id="Context"> 
 <vt:include file="Module/Admin/panel.htm" from="_public" remark="机构管理员管理面板，为公共模块" />
 </div>

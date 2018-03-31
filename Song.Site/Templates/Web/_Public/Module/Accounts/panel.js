@@ -12,7 +12,7 @@
             //菜单项的处理
             mmbox.find(">.mmitem").each(function () {
                 //禁用超链接，改为上级元素事件
-                $(this).find("a").click(function () {
+                $(this).filter("[mmtype!=link]").find("a").click(function () {
                     $(this).parent().click();
                     return false;
                 });
@@ -30,17 +30,34 @@
 
                 } else {
                     //如果没有下级菜单，或当前菜单为”node"，则跳转
-                    var link = $(this).find("a");
-                    $(this).click(function () {
-                        var mmid = $(this).attr("mmid");
-                        var url = $().setPara(window.location.href, "mmid", mmid);
-                        try {
-                            history.pushState({}, "", url); //更改地址栏信息
-                        } catch (e) {
-                            window.location.href = url;
+                    $(this).filter("[mmtype!=link]").click(function () {
+                        var type=$(this).attr("mmtype");
+                        var tit= $.trim($(this).text());
+                        var href=$(this).find("a").attr("href");
+                        //弹出窗口
+                        if(type=="open"){
+                            new PageBox(tit,href,Number($(this).attr("wd")),Number($(this).attr("hg"))).Open();
                             return;
                         }
-                        menutree.setAdminpage(mmid);
+                        //js事件
+                        if(type=="event"){
+                            var share="?sharekeyid";
+                            if(href.indexOf(share)>-1)href=href.substring(0,href.indexOf(share));
+                            try{
+                                eval(href)();
+                            }catch (e){}
+                        }
+                        if(type=="item"|| type=="node") {
+                            var mmid = $(this).attr("mmid");
+                            var url = $().setPara(window.location.href, "mmid", mmid);
+                            try {
+                                history.pushState({}, "", url); //更改地址栏信息
+                            } catch (e) {
+                                window.location.href = url;
+                                return;
+                            }
+                            menutree.setAdminpage(mmid);
+                        }
                     });
                 }
                 //递归
@@ -59,6 +76,7 @@
                     $(this).click();
                 }
             });
+			//$("#menuBox").show();
         },
         //设置右侧的内容区域
         setAdminpage:function(mmid){
@@ -87,7 +105,7 @@
                 } else {
                     //情况二：没有下级
                     $(".lowest").hide();
-                    menutree.setAdminurl(mm.find("a").attr("href"),mmid);
+                    menutree.setAdminurl(mm,mmid);
                 }
             }
         },
@@ -116,23 +134,28 @@
             //最低一级的选中样式
             lowest.find(">.item").removeClass("curr");
             lowest.find(">.item[mmid="+currid+"]").addClass("curr");
-            var url = curr.find("a").attr("href");
             //设置管理页面
-            menutree.setAdminurl(url,currid);
+            menutree.setAdminurl(curr,currid);
         },
         //设置右侧区域的页面
-        setAdminurl:function(url,mmid,menupath) {
+        //item:菜单项，如果是string，则为网址
+        //mmid:参数id
+        setAdminurl:function(item,mmid,menupath) {
+            var url="";
+            if(typeof(item) == 'string')url=item;
+            if(item instanceof jQuery) url=item.find("a").attr("href");
             var ifm = document.getElementById("adminPage");
             $("#adminPage").attr("src", url);
             //右侧管理界面上方的导航
             menupath=menupath==null ? menutree.getmenupath(mmid) : menupath;
             $("#menuPath").attr({"href":url,"mmid":mmid}).html(menupath);
             menutree.loading.open();
+			try{
             var subWeb = document.frames ? document.frames["adminPage"].document : ifm.contentDocument;
             if (ifm != null && subWeb != null) {
                 ifm.height = 0;
                 ifm.focus();
-            }
+            }}catch(e){}
         },
         //预载
         loading: {
@@ -175,22 +198,28 @@
         $("#adminPage").load(function () {
             window.menutree.loading.close();
             var ifm = document.getElementById("adminPage");
-            var subWeb = document.frames ? document.frames["adminPage"].document : ifm.contentDocument;
-            if (ifm != null && subWeb != null) {
-                ifm.height = subWeb.body.scrollHeight;
-                ifm.focus();
-            }
+			try{
+                var subWeb = document.frames ? document.frames["adminPage"].document : ifm.contentDocument;
+                if (ifm != null && subWeb != null) {
+                    ifm.height = subWeb.body.scrollHeight;
+                    ifm.focus();
+                }
+			}catch(e) {}
         });
     });
 })();
 
-//初始代码
-$(function () {
-    //界面布局，自适应宽度
+window.onload=function(){
+     //界面布局，自适应宽度
     var left=$("#leftArea");
+	//alert(left.parent().width()-left.width()-8);
     $("#rightArea").hide()
         .width(left.parent().width()-left.width()-8)
         .fadeIn(1000).find("iframe").width($("#rightArea").width()-20);
+	//$("#rightArea .bar").width($("#rightArea").width());
+}
+//初始代码
+$(function () {   
     //初如化菜单项
     window.menutree.setAdminpage($().getPara("mmid"));
     //学员中心(左上方）的点击事件

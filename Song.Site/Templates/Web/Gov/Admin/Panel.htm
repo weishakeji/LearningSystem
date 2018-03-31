@@ -3,29 +3,14 @@
 <head>
     <title>机构管理 - {$org.org_platformname}</title>
     <vt:include file="../inc/meta.inc" />
-   <!-- <script type="text/javascript" src="Scripts/panel.js"></script>-->
+    <!-- <script type="text/javascript" src="Scripts/panel.js"></script>-->
     <link href="Styles/Panel.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <vt:include file="../inc/header.html" />
-    <!--菜单之下的内容 -->
-    <div id="bodyTop">
-        <div id="bodyTopContext">
-            <div class="stPhoto">
-                <vt:if var="CurrUser.acc_photo" value="" compare="="> <img src="../images/nophoto.jpg"  style="width:150px; height:200px"/>
-        <vt:else />
-        <img src="{$adminpath}{$CurrUser.acc_photo}"  style="width:150px; height:200px"/> </vt:if>
-                <div class="mark">
-                    &nbsp;</div>
-                <div class="info">
-                    {$CurrUser.acc_name}
-                </div>
-            </div>
-        </div>
+    <div id="Context">
+        <vt:include file="Module/Admin/panel.htm" from="_public" remark="机构管理员管理面板，为公共模块" />
     </div>
-    <div id="Context"> 
-<vt:include file="Module/Admin/panel.htm" from="_public" remark="机构管理员管理面板，为公共模块" />
-</div>
     <vt:include file="../inc/footer.html" />
 </body>
 </html>
