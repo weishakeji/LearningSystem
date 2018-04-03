@@ -35,7 +35,6 @@ body {
 	float: right;	
 }
 #Context #selectArea {
-	margin-bottom: 20px;
 	border-bottom-width: 1px;
 	border-top-style: none;
 	border-right-style: none;
@@ -63,15 +62,17 @@ body {
 	float: left;
 	width: 880px;
 }
-#subject .subjectItem {
+#subject .selectItem {
 	float: left;
 	height: 30px;
 	width: auto;
 	margin-right: 10px;
 	line-height: 30px;
-	
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 14px;
+	color: #999999;
 }
-#subject .subjectItem a{
+#subject .selectItem a{
 	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-size: 14px;
 	color: #333333;
@@ -120,92 +121,92 @@ body {
 	height: 30px;
 }
 .courseList {
-	width: 980px;
-	overflow: hidden;	
+	width: 1200px;
+	height: auto;
+	overflow: hidden;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 30px;
+	min-height:800px;
 }
 .courseList .courseListInner {
-	width: 1050px;
+	width: 1250px;
 }
-
-.courseList  .item {
+.course-item{
 	float: left;
-	margin-right: 52px;
-	width: 200px;
+	height: 160px;
+	width: 220px;
+	margin-top: 20px;
+	margin-right: 25px;
+	margin-bottom: 30px;
+}
+.cour-img{
+	margin: 0px;
+	padding: 0px;
 	text-align: center;
-	border: 3px solid #FFFFFF;
-	height: 123px;
-	position: relative;
-	overflow: visible;
-	margin-bottom: 52px;
 }
-.courseList  .courseOver
-{
-	border: 3px solid #CCCCCC;
+.cour-img img{
+	width: 220px;
+	height:125px;
 }
-.courseList  .courseOver .itemName a
-{
-	color: #FFFFFF;
+.cour-img:hover{
+	
 }
-.courseList  .item a{
+.cour-img:hover img{
+	width: 216px;
+	height:121px;
+	border: 2px solid #fff;
+	filter: alpha(Opacity=85);
+	-moz-opacity: 0.85;
+	opacity: 0.85;
+}
+.cour-name{
+	line-height: 20px;
+	color: #333;
 	display: block;
-	color: #FFFFFF;
-	font-size: 15px;
-	line-height: 25px;
-}
-.courseList  .item img{
-	width: 200px;
-	height: 123px;
-}
-.courseList .item .itemMark {
-	font-size: 14px;
-	text-align: left;
-	line-height: 35px;
-	width: 200px;
-	font-family: "微软雅黑";
-	color: #FFFFFF;
-	FILTER: alpha(opacity=50);
-	BACKGROUND: #000;
-	OVERFLOW: hidden;
-	opacity: 0.5;
-	-moz-opacity: 0.5;
-	top: 83px;
 	height: 40px;
-	position: absolute;
-}
-.courseList .item .itemInfo {
-	font-size: 14px;
 	text-align: left;
-	line-height: 35px;
-	width: 200px;
-	font-family: "微软雅黑";
-	color: #FFFFFF;
-	OVERFLOW: hidden;
-	top:83px;
-	height:40px;
-	z-index: 10;
-	position: absolute;
-}
-.courseList .item .itemInfo a
-{
-	line-height: 45px;
-	text-indent: 10px;
-	display: block;
-	height: 45px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	font-size: 18px;
+	font-size: 15px;
 	overflow: hidden;
 }
-.courseList .item .itemDetails
-{
-	line-height: 20px;
-	display: block;
-	height: 78px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	font-size: 14px;
-	width: 190px;
+.cour-name:hover{
+	color: #188eee;
+}
+.cour-price{
+	font-size: 15px;
+	line-height: 30px;
+}
+.cour-price .free{
+	color: #090;
+	float: left;
+}
+.cour-price .cou-sbj{
+	color: #999;
+	float: right;
+	width: 85px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-align: right;
+}
+.cou-count{
+	padding-top: 1px;
+	padding-left: 20px;
+	background: url(../images/sl.gif) 0 8px no-repeat;
+	height: 25px;
+	color: #666;
+	float: left;
 	margin-left: 10px;
 }
-.courseList .item .itemDetails a{
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	font-size: 14px;
+/*课程价格*/
+.money{
+	color: #F60;
+	float: left;
+	font-size: 16px;
+}
+.money-ico{
+	font-size: 18px;
+	margin-right: 5px;
+}
+.p-num,.p-span,.p-unit{
+	font-size: 12px;
 }

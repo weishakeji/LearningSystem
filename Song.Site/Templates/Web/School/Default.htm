@@ -4,8 +4,8 @@
 <title>{$org.org_platformname}</title>
 <vt:include file="inc/meta.inc" />
 <link href="Styles/Default.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="Scripts/Default.js"></script>
 <script type="text/javascript" src="Scripts/slider.js"></script>
+<script type="text/javascript" src="Scripts/default.js"></script>
 </head>
 <body>
 <vt:include file="inc/Header.html" />
@@ -13,9 +13,10 @@
   <ul class="slides">
     <vt:list type="showpic" var="show" site="web" item="sp" index="j">
       <li style="background:{$:sp.shp_bgColor};"> <a title="" href="{$:sp.shp_url}"  target="{$:sp.shp_target}"> <img alt="{$:sp.shp_title}" background="{$:sp.shp_file}"  src="images/alpha.png"/> </a> </li>
-      <vt:listelse />     
-      <li style="background:#fff;"> <a title="" href="#"> <img alt="" background="images/banner2.jpg" src="images/alpha.png"/> </a> </li>
+      <vt:listelse />
       <li style="background:#e2f1f6;"> <a title="" href="#"> <img alt="" background="images/banner3.jpg"  src="images/alpha.png"/> </a> </li>
+      <li style="background:#f3d3c4;"> <a title="" href="#"> <img alt="" background="images/banner2.jpg" src="images/alpha.png"/> </a> </li>
+      <li style="background:#a2dcfd;"> <a title="" href="#"> <img alt="" background="images/banner1.jpg" src="images/alpha.png"/> </a> </li>
     </vt:list>
   </ul>
   <ul class="flex-direction-nav">
@@ -28,7 +29,7 @@
       <vt:foreachelse />
       <li><a>1</a></li>
       <li><a>2</a></li>
-    
+      <li><a>3</a></li>
     </vt:foreach>
   </ol>
 </div>
@@ -56,78 +57,79 @@
         })
     </script> 
 <!--轮换图片结束-->
-
-
-<vt:include file="inc/Depart.html" />
-<div id="Context">
+<div id="Context"> 
   <!--第二行 -->
   <div id="SecondBox">
-    <div class="boxBar">
-      <div class="title"> 热门课程</div>
-      <div class="more"> <a href="../../Courses.ashx">更多课程&gt;&gt;</a></div>
-    </div>
-    <div class="courseList">
-      <div class="courseListInner">
-         <vt:list type="course" item="data" index="i" count="8" order="flux"  remark="课程">
-          <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}"><img src="{$:#.data.cou_logosmall}" /> </a>
-            <div class="itemMark"></div>
-            <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.cou_name} </a>
-              <div class="itemDetails">主讲：{$:#.data.th_name}<br />
-               <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}"> {$:#.data.Cou_Intro}</a></div>
+    <div class="left">
+      <div class="tit"> 焦点要闻 <a class="more" href="news.ashx">&nbsp;</a> </div>
+      <div class="imgbox">
+        <dl>
+          <vt:list type="news" var="newsImg" item="data" order="img" index="i" count="2" remark="图片新闻">
+            <dd><a href="/article.ashx?id={$:#.data.art_id}" target="_blank"><img src="{$:#.data.art_logo}" alt="{$:i}"/> </a> <a href="/article.ashx?id={$:#.data.art_id}" target="_blank" class="art_tit">{$:#.data.art_title}{$:#.data.art_title}{$:#.data.art_title}</a> <a href="/article.ashx?id={$:#.data.art_id}" target="_blank" class="art_intro"> {$:#.data.art_intro}</a> </dd>
+          </vt:list>
+        </dl>
+      </div>
+      <div class="line"></div>
+      <div class="newsbox">
+        <div class="nlistbox">
+          <vt:list type="news" item="data" columns="-1" index="i" count="5" remark="新闻">
+            <div class="artItem" artid="{$:#.data.art_id}">
+              <div class="artlink"><a href="notice.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a> </div>
+              <div class="arttime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
             </div>
+          </vt:list>
+        </div>
+        <div class="nlistbox">
+          <vt:list type="news" item="data" columns="-1" index="i" count="10" remark="新闻">
+            <vt:if var="i" value="5" compare=">">
+              <div class="artItem" artid="{$:#.data.art_id}">
+                <div class="artlink"><a href="notice.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a> </div>
+                <div class="arttime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
+              </div>
+            </vt:if>
+          </vt:list>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="tit"> 通知公告 <a class="more" href="Notices.ashx">&nbsp;</a> </div>
+      <div class="noticebox">
+        <vt:list type="notice" item="data" index="i" count="4">
+          <div class="noItem" noid="{$:#.data.no_id}">
+            <div class="timebox">
+              <div class="noday">{$:#.data.no_startTime  format="dd"} </div>
+              <div class="nodate">{$:#.data.no_startTime  format="yyyy-MM"} </div>
+            </div>
+            <div class="nolink"><a href="notice.ashx?id={$:#.data.no_id}" title="{$:#.data.no_ttl}"> {$:#.data.no_ttl}</a> </div>
           </div>
+          <vt:if var="i" value="4" compare="<">
+            <div class="noline"></div>
+          </vt:if>
         </vt:list>
+      </div>
+      <!--友情链接-->
+      <div class="tit2">+ 快捷导航</div>
+      <div class="link-items">
+        <div class="link-items-inner">
+          <vt:list type="links" item="l" index="i" count="12">
+            <div class="link-item"><a href="{$:l.lk_url}" target="_blank">{$:l.lk_name}</a></div>
+          </vt:list>
+        </div>
       </div>
     </div>
   </div>
   <!-- 第三行 -->
   <div id="ThirdBox">
-    <div class="ThirdBoxInner">
-      <div id="newsBox" class="box">
-        <div class="boxBar">
-          <div class="title"> 新闻资讯</div>
-          <div class="more"> <a href="/news.ashx">更多&gt;&gt;</a></div>
-        </div>
-        <div class="newslist">
-           <vt:list type="news" var="newsImg" item="data"  index="i" count="10" remark="新闻">
-            <div class="item" artid="{$:#.data.art_id}">
-              <div class="newsItem"> <a href="../../article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}">{$:#.data.art_title}</a> </div>
-              <div class="newsTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
-            </div>
-          </vt:list>
-        </div>
-      </div>
-      <div id="newsBox" class="box">
-        <div class="boxBar">
-          <div class="title"> 通知公告</div>
-          <div class="more"> <a href="/Notices.ashx">更多&gt;&gt;</a></div>
-        </div>
-        <div class="newslist">
-          <vt:list type="notice" item="data" index="i" count="10">
-            <div class="item" noid="{$:#.data.no_id}">
-              <div class="newsItem"><a href="/notice.ashx?id={$:#.data.no_id}" title="{$:#.data.no_ttl}"> {$:#.data.no_ttl}</a> </div>
-              <div class="newsTime">{$:#.data.no_startTime  format="[MM-dd]"}</div>
-            </div>
-          </vt:list>
-        </div>
-      </div>
-      <div id="teacherBox" class="box">
-        <div class="boxBar">
-          <div class="title"> 教师风采</div>
-          <div class="more"> <a href="/teacher/list.ashx">更多&gt;&gt;</a></div>
-        </div>
-        <div class="thlist">
-          <div class="thlistInner">
-           <vt:list type="teacher" var="t" item="data"  index="i" count="4" remark="教师">
-              <div class="itemTeacher" style="background-image: url({$:#.data.th_photo})" href="/teacher/Detail.ashx?id={$:#.data.th_id}">
-                <div class="mark">&nbsp; </div>
-                <div class="thInfo">
-                  <div class="thName">{$:#.data.th_name}</div>
-                </div>
-              </div>
-            </vt:list>
+    <div class="tit"> 网络课程 <a class="more" href="courses.ashx">&nbsp;</a> </div>
+    <div class="coursebox">
+      <div class="coursebox-inner">
+        <vt:list type="course" item="c" index="i" order="rec"  remark="推荐课程">
+          <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
+            <div class="cour-price">
+              
+              <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span> </div>
           </div>
-        </div>
+        </vt:list>
       </div>
     </div>
   </div>

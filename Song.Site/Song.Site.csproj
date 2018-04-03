@@ -1083,6 +1083,18 @@
     <Content Include="Templates\Web\NetSchool\Courses.htm" />
     <Content Include="Templates\Web\NetSchool\Default.htm" />
     <Content Include="Templates\Web\NetSchool\Exam.htm" />
+    <Content Include="Templates\Web\School\Images\bar01.jpg" />
+    <Content Include="Templates\Web\School\Images\gonggao-bg.jpg" />
+    <Content Include="Templates\Web\School\Images\icon03.jpg" />
+    <Content Include="Templates\Web\School\Images\more.png" />
+    <Content Include="Templates\Web\School\Images\sl.gif" />
+    <Content Include="Templates\Web\School\News.htm" />
+    <Content Include="Templates\Web\School\Scripts\jquery.luara.0.0.1.min.js" />
+    <Content Include="Templates\Web\School\Styles\lunhuan\luara.css" />
+    <Content Include="Templates\Web\School\Styles\lunhuan\luara.left.css" />
+    <Content Include="Templates\Web\School\Styles\lunhuan\luara.top.css" />
+    <Content Include="Templates\Web\School\Styles\lunhuan\style.css" />
+    <Content Include="Templates\Web\School\Styles\News.css" />
     <Content Include="Templates\Web\_Public\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Web\_Public\Examing.htm" />
     <Content Include="Templates\Web\_Public\Admin\Startpage.htm" />
@@ -1631,7 +1643,6 @@
     <Content Include="Templates\Web\School\myFocus\js\pattern\mF_YSlider.css" />
     <Content Include="Templates\Web\School\myFocus\js\pattern\mF_YSlider.js" />
     <Content Include="Templates\Web\School\myFocus\loading.gif" />
-    <Content Include="Templates\Web\School\News.htm" />
     <Content Include="Templates\Web\School\Notfound.htm" />
     <Content Include="Templates\Web\School\Notice.htm" />
     <Content Include="Templates\Web\School\Notices.htm" />
@@ -1674,7 +1685,6 @@
     <Content Include="Templates\Web\School\Styles\Links.css" />
     <Content Include="Templates\Web\School\Styles\MessageBoards.css" />
     <Content Include="Templates\Web\School\Styles\MessageBox.css" />
-    <Content Include="Templates\Web\School\Styles\News.css" />
     <Content Include="Templates\Web\School\Styles\notfound.css" />
     <Content Include="Templates\Web\School\Styles\notice.css" />
     <Content Include="Templates\Web\School\Styles\notices.css" />
@@ -5001,6 +5011,10 @@
       <DependentUpon>WeixinLogin.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="CourseChannel.ashx.cs">
+      <DependentUpon>CourseChannel.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -6191,6 +6205,7 @@
     <None Include="Utility\PdfViewer\locale\zh-CN\viewer.properties" />
     <None Include="Utility\PdfViewer\locale\zh-TW\viewer.properties" />
     <None Include="Utility\PdfViewer\locale\zu\viewer.properties" />
+    <Content Include="CourseChannel.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />

@@ -127,6 +127,7 @@ body {
 	margin-right: auto;
 	margin-left: auto;
 	margin-bottom: 30px;
+	min-height:800px;
 }
 .courseList .courseListInner {
 	width: 1250px;

@@ -28,7 +28,7 @@ namespace Song.Template.Tags.ListTag
                 n.Art_Logo = Upload.Get["News"].Virtual + n.Art_Logo;
                 if (string.IsNullOrWhiteSpace(n.Art_Intro))
                 {
-
+                    n.Art_Intro = WeiSha.Common.HTML.ClearTag(n.Art_Details, 200);
                 }
             }
             //指定数据源

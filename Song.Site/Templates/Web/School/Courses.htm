@@ -1,30 +1,51 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html>
 <head>
-<title>选课中心 - {$:#.org.org_platformname}</title>
+<title>选课中心:{$sbj.Sbj_Name}  - {$:#.org.org_platformname}</title>
 <vt:include file="inc/meta.inc" />
 <script type="text/javascript" src="Scripts/Courses.js"></script>
 <link href="Styles/Courses.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <vt:include file="inc/Header.html" />
-<div id="mainShow">&nbsp;</div>
-<vt:include file="inc/Depart.html" />
 <div id="Context">
-  <div id="TitleBar"><span> 课程中心</span>
-    <vt:if var="sbj.Sbj_Name" value="" compare="!="> <span class="depart"> {$:#.sbj.Sbj_Name}专业</span> </vt:if>
+<div class="navi-bar"> <a href="/" class="nav-txt">首页</a> &gt; <a href="/courses.ashx"  class="nav-txt">课程中心</a> &gt;
+    <vt:foreach from="$#.sbjs" item="data" index="i" remark="当前课程专业"> <a href="/courses.ashx?sbjid={$:#.data.sbj_id}"  class="nav-txt">{$:#.data.sbj_name}</a> &gt; </vt:foreach>
+    <span class="nav-txt">{$course.cou_name}</span> </div>
+   
+  <!--选择区域 -->
+  <div id="selectArea">
+    <div class="selectBar" id="SelectedBar">
+      <div class="selectLeft">已经选条件：</div>
+      <div class="selectRight" id="Selected"></div>
+    </div>
+    <div id="subject" class="selectBar">
+      <div class="selectLeft">学习方向：</div>
+      <div class="selectRight">
+        <vt:foreach id="subject" from="$#.subject" item="data" index="i" remark="当前专业的下级专业">
+           <div class="selectItem"><a href="#" attr="sbjid" clear="couid,olid,index" sbjid="{$:#.data.sbj_id}">{$:#.data.sbj_name} </a> </div>
+           <vt:foreachelse/>
+            <div class="selectItem">（没有下级专业） </div>
+        </vt:foreach>
+      </div>
+    </div>
   </div>
+  <!-- 选择区结束 -->
+<!--  <div id="TitleBar"> 课程中心</div>-->
   <div class="courseList">
    <vt:if var="course.Length" value="0" compare="!="> 
     <div class="courseListInner">
-      <vt:foreach id="course" from="$#.course" item="data" index="i" size="36" remark="课程列表">
-        <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}"><img src="{$:#.data.cou_logosmall}" /> </a>
-          <div class="itemMark"></div>
-          <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.cou_name} </a>
-            <div class="itemDetails">主讲：{$:#.data.th_name}<br />
-               <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}"> {$:#.data.Cou_Intro}</a></div>
-          </div>
-        </div>
+      <vt:foreach id="course" from="$#.course" item="c" index="i" size="40" remark="课程列表">
+        <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
+                  <div class="cour-price">
+                    <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
+                      <vt:else/>
+                      <vt:function var="price" method="getCoursePrice" args="$#.c.cou_uid"/>
+                      <span class="money">
+                      <vt:foreach from="$price" item="p" index="i" count="1"  remark="当前课程价格"> <span class="moneyico money-ico">&#xe625;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </vt:foreach>
+                      </span> </vt:if>
+                    <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span> </div>
+                </div>
       </vt:foreach>
     </div>
     <vt:else/>

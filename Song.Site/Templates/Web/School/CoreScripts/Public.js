@@ -15,13 +15,14 @@ function RightMenuDrop() {
             var drop = $(".topright *[type=" + type + "]:hidden"); //下拉菜单
             if (drop.size() < 1) drop = $(".topright *[type=" + type + "][state=drop]");
             drop.attr("state", "drop");
-            drop.css({ left: off.left + $(this).width() + 10 - drop.outerWidth(),
-                top: off.top + $(this).height(), position: 'absolute'
+            drop.css({ left: 0,
+                top: off.top + $(this).height()-2, position: 'absolute'
             }).css("z-index", 999);
             $(".topright *[type]").removeClass("icon-hover");
             $(this).addClass("icon-hover");
             $(".topright *[state=drop]").hide();
             drop.show();
+            //alert(drop.html());
         }
     }, function () { });
     $(".topright *[type]").hover(function () {
@@ -42,7 +43,7 @@ function mobileEvent() {
         var btn = $(".phone");
         var off = $(".phone").offset();
         var qr = $("#qrcode");
-        qr.css({ left: off.left + btn.width() - qr.outerWidth(), top: off.top + btn.height() });
+        qr.css({ left: 0, top: off.top + btn.height() });
         qr.show();
         window.phoneHover = true;
     }, function () {
@@ -50,7 +51,7 @@ function mobileEvent() {
         window.setTimeout(function () {
             if (!window.phoneHover)
                 $("#qrcode").hide();
-        }, 100)
+        }, 1000)
     });
 }
 //主菜单的事件

@@ -41,30 +41,6 @@ namespace Song.Site
                     this.Document.SetValue("exrdt", dt);
                 }
             }
-            //string access_token = WeiSha.Common.Request.QueryString["access_token"].String;
-            //if (string.IsNullOrWhiteSpace(access_token)) access_token = WeiSha.Common.Request.QueryString["#access_token"].String;
-            //string url = "https://graph.qq.com/oauth2.0/me?format=xml&access_token=" + access_token;
-            //string openid = RequestUrl(url);
-            //context.Response.Write(access_token+"<br/>");
-            //context.Response.Write(openid);
-        }
-        /// <summary>
-        /// 请求指定url地址并返回结果
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        public static string RequestUrl(string url)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = "GET";
-            request.MaximumAutomaticRedirections = 3;
-            request.Timeout = 0x2710;
-            Stream responseStream = ((HttpWebResponse)request.GetResponse()).GetResponseStream();
-            StreamReader reader = new StreamReader(responseStream);
-            string str = reader.ReadToEnd();
-            reader.Close();
-            responseStream.Close();
-            return str;
         }
     }
 }

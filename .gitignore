@@ -32,6 +32,8 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
+*.zip
+*.rar
 [Bb]in
 [Dd]ebug*/
 *.lib
@@ -46,3 +48,5 @@ packages/
 /Song.Site/Song.Site.Publish.xml
 /文档/开发文档/~$学习平台-数据字典.doc
 /文档/开发文档/~$*.*
+/培训考试系统.zip
+/*.zip
