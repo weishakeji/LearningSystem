@@ -906,7 +906,26 @@ namespace Song.ServiceImpls
         /// <param name="couid"></param>
         public void DelteCourseBuy(int stid, int couid)
         {
-            Gateway.Default.Delete<Student_Course>(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid);
+            //Gateway.Default.Delete<Student_Course>(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid);
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    tran.Delete<Student_Course>(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid);
+                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_CurrCourse }, new object[] { -1 }, Accounts._.Ac_ID == stid && Accounts._.Ac_CurrCourse == couid);
+                    tran.Commit();
+                    Extend.LoginState.Accounts.Refresh(stid);
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
         }
         /// <summary>
         /// 获取某个教师关联的课程

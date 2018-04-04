@@ -344,19 +344,19 @@
     <Content Include="Manage\Student\Safe.aspx" />
     <Content Include="Manage\Student\Scripts\Course.js" />
     <Content Include="Manage\Student\Scripts\Moneyrecharge.js" />
-    <Content Include="Manage\Student\Scripts\SelfCourse.js" />
-    <Content Include="Manage\Student\Scripts\Course_Study.js" />
+    <Content Include="Manage\Student\Scripts\Course_Expire.js" />
     <Content Include="Manage\Admin\Students_Coupon.aspx" />
     <Content Include="Manage\Admin\Student_Password.aspx" />
     <Content Include="Manage\Exam\Scripts\Student_Edit.js" />
     <Content Include="Manage\Admin\Students.aspx" />
     <Content Include="Manage\Admin\Students_Edit.aspx" />
     <Content Include="Manage\Student\Scripts\CouponExchange.js" />
+    <Content Include="Manage\Student\Scripts\Course_Study.js" />
+    <Content Include="Manage\Student\Scripts\Course_Curr.js" />
     <Content Include="Manage\Student\SelfCourse.aspx" />
     <Content Include="Manage\Student\Styles\Course.css" />
     <Content Include="Manage\Student\Styles\MoneyDetails.css" />
-    <Content Include="Manage\Student\Styles\SelfCourse.css" />
-    <Content Include="Manage\Student\Styles\Course_Study.css" />
+    <Content Include="Manage\Student\Styles\Course_Expire.css" />
     <Content Include="Manage\Student\Styles\Course_Outline.css" />
     <Content Include="Manage\Admin\StudentSort.aspx" />
     <Content Include="Manage\Admin\StudentSort_Edit.aspx" />
@@ -373,6 +373,8 @@
     <Content Include="Manage\Student\Styles\CouponDetails.css" />
     <Content Include="Manage\Student\Styles\CouponRecharge.css" />
     <Content Include="Manage\Student\Styles\CouponExchange.css" />
+    <Content Include="Manage\Student\Styles\Course_Study.css" />
+    <Content Include="Manage\Student\Styles\Course_Curr.css" />
     <Content Include="Manage\Student\Subordinates.aspx" />
     <Content Include="Manage\Student\Share.aspx" />
     <Content Include="Manage\Student\PointDetails.aspx" />
@@ -380,6 +382,9 @@
     <Content Include="Manage\Student\Profit.aspx" />
     <Content Include="Manage\Student\CouponRecharge.aspx" />
     <Content Include="Manage\Student\CouponExchange.aspx" />
+    <Content Include="Manage\Student\Course_Curr.aspx" />
+    <Content Include="Manage\Student\Course_Study.aspx" />
+    <Content Include="Manage\Student\Course_Expire.aspx" />
     <Content Include="Manage\Styles\Jme.css" />
     <Content Include="Manage\Sys\LimitDomain.aspx" />
     <Content Include="Manage\Sys\LimitDomain_Edit.aspx" />
@@ -621,19 +626,23 @@
     <Content Include="Templates\Mobi\_Public\WeixinLogin.htm" />
     <Content Include="Templates\Mobi\_Public\_self.xml" />
     <Content Include="Templates\Web\Gov\CoreStyles\PageBox.css" />
+    <Content Include="Templates\Web\Gov\CourseChannel.htm" />
     <Content Include="Templates\Web\Gov\Images\Flvplayer.swf" />
     <Content Include="Templates\Web\Gov\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\Gov\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\Gov\Inc\meta.inc" />
     <Content Include="Templates\Web\Gov\mobi.htm" />
     <Content Include="Templates\Web\Gov\Scripts\Article.js" />
+    <Content Include="Templates\Web\Gov\Scripts\CourseChannel.js" />
     <Content Include="Templates\Web\Gov\Student\Register.htm" />
     <Content Include="Templates\Web\Gov\Student\Scripts\Register.js" />
     <Content Include="Templates\Web\Gov\Student\Styles\Register.css" />
+    <Content Include="Templates\Web\Gov\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\Gov\Teacher\Register.htm" />
     <Content Include="Templates\Web\Gov\Teacher\Scripts\Register.js" />
     <Content Include="Templates\Web\Gov\Teacher\Styles\Register.css" />
     <Content Include="Templates\Web\Neimeng\CoreStyles\PageBox.css" />
+    <Content Include="Templates\Web\Neimeng\CourseChannel.htm" />
     <Content Include="Templates\Web\Neimeng\Images\ad_ctr.png" />
     <Content Include="Templates\Web\Neimeng\Images\alpha.png" />
     <Content Include="Templates\Web\Neimeng\Images\dot.png" />
@@ -642,12 +651,14 @@
     <Content Include="Templates\Web\Neimeng\Inc\meta.inc" />
     <Content Include="Templates\Web\Neimeng\mobi.htm" />
     <Content Include="Templates\Web\Neimeng\Scripts\Article.js" />
+    <Content Include="Templates\Web\Neimeng\Scripts\CourseChannel.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\slider.js" />
     <Content Include="Templates\Web\Neimeng\Student\PwFind.htm" />
     <Content Include="Templates\Web\Neimeng\Student\Register.htm" />
     <Content Include="Templates\Web\Neimeng\Student\Scripts\Register.js" />
     <Content Include="Templates\Web\Neimeng\Student\Styles\PwFind.css" />
     <Content Include="Templates\Web\Neimeng\Student\Styles\Register.css" />
+    <Content Include="Templates\Web\Neimeng\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\Neimeng\Teacher\Register.htm" />
     <Content Include="Templates\Web\Neimeng\Teacher\Scripts\Register.js" />
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\Register.css" />
@@ -1083,6 +1094,8 @@
     <Content Include="Templates\Web\NetSchool\Courses.htm" />
     <Content Include="Templates\Web\NetSchool\Default.htm" />
     <Content Include="Templates\Web\NetSchool\Exam.htm" />
+    <Content Include="Templates\Web\NetSchool\Scripts\CourseChannel.js" />
+    <Content Include="Templates\Web\NetSchool\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\School\Images\bar01.jpg" />
     <Content Include="Templates\Web\School\Images\gonggao-bg.jpg" />
     <Content Include="Templates\Web\School\Images\icon03.jpg" />
@@ -1090,11 +1103,14 @@
     <Content Include="Templates\Web\School\Images\sl.gif" />
     <Content Include="Templates\Web\School\News.htm" />
     <Content Include="Templates\Web\School\Scripts\jquery.luara.0.0.1.min.js" />
+    <Content Include="Templates\Web\School\Scripts\CourseChannel.js" />
     <Content Include="Templates\Web\School\Styles\lunhuan\luara.css" />
     <Content Include="Templates\Web\School\Styles\lunhuan\luara.left.css" />
     <Content Include="Templates\Web\School\Styles\lunhuan\luara.top.css" />
     <Content Include="Templates\Web\School\Styles\lunhuan\style.css" />
     <Content Include="Templates\Web\School\Styles\News.css" />
+    <Content Include="Templates\Web\School\CourseChannel.htm" />
+    <Content Include="Templates\Web\School\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\_Public\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Web\_Public\Examing.htm" />
     <Content Include="Templates\Web\_Public\Admin\Startpage.htm" />
@@ -2436,6 +2452,27 @@
     </Compile>
     <Compile Include="Manage\Student\CouponExchange.aspx.designer.cs">
       <DependentUpon>CouponExchange.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\Course_Curr.aspx.cs">
+      <DependentUpon>Course_Curr.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\Course_Curr.aspx.designer.cs">
+      <DependentUpon>Course_Curr.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\Course_Study.aspx.cs">
+      <DependentUpon>Course_Study.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\Course_Study.aspx.designer.cs">
+      <DependentUpon>Course_Study.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\Course_Expire.aspx.cs">
+      <DependentUpon>Course_Expire.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\Course_Expire.aspx.designer.cs">
+      <DependentUpon>Course_Expire.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Sys\Accounts.aspx.cs">
       <DependentUpon>Accounts.aspx</DependentUpon>
