@@ -8,8 +8,7 @@
 
 /*课程列表*/
 #Context {
-	height: 350px;
-	width: 980px;
+	min-height: 350px;
 	overflow: visible;	
 }
 .boxBar {
