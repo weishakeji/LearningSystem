@@ -33,12 +33,16 @@ namespace Song.Site.Mobile
                 for (int i = 0; i < arts.Length; i++)
                 {
                     Song.Entities.Article art = arts[i];
-                    art.Art_Details = Regex.Replace(art.Art_Details, @"\s{1,}", " ", RegexOptions.Singleline); 
-                    art.Art_Logo = Upload.Get["News"].Virtual + art.Art_Logo;
-                    art.Art_Title = art.Art_Title.Replace("\"", "&quot;");
-                    if (string.IsNullOrWhiteSpace(art.Art_Intro))
-                        art.Art_Intro = ReplaceHtmlTag(art.Art_Details, 50);
+                    //处理详情
                     art.Art_Details = "";
+                    //art.Art_Details = Regex.Replace(art.Art_Details, @"\s{1,}", " ", RegexOptions.Singleline);
+                    //art.Art_Details = HttpUtility.UrlEncode(art.Art_Details);
+                    art.Art_Title = art.Art_Title.Replace("\"", "&quot;");
+                    art.Art_Title = HttpUtility.UrlEncode(art.Art_Title);
+                    //
+                    art.Art_Logo = Upload.Get["News"].Virtual + art.Art_Logo;                    
+                    if (string.IsNullOrWhiteSpace(art.Art_Intro))
+                        art.Art_Intro = ReplaceHtmlTag(art.Art_Details, 50);                   
                     json += art.ToJson() + ",";                   
                 }
                 if (json.EndsWith(",")) json = json.Substring(0, json.Length - 1);

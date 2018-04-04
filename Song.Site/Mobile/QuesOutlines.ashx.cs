@@ -82,9 +82,10 @@ namespace Song.Site.Mobile
         {
             //课程id,章节id
             int couid=0, olid = 0;
-            if (paras.Length > 0)
+            if (paras == null) return 0;
+            if (paras.Length > 0 && paras[0]!=null)
                 int.TryParse(paras[0].ToString(), out couid);
-            if (paras.Length > 0)
+            if (paras.Length > 1 && paras[1] != null)
                 int.TryParse(paras[1].ToString(), out olid);
             //是否取当前章节下子章节
             bool isAll = false;

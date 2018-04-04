@@ -19,6 +19,7 @@
     <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
       <div class="mui-scroll">
        <ul class="mui-table-view">
+        <vt:if var="course.cou_id" value="0" compare=">"> 
       <!--分页按钮 -->    
     <vt:foreach id="ques" from="$#.list" item="p" index="i" remark="分页">
     
@@ -29,6 +30,9 @@
       练习 第{$:#.p.start} - {$:#.p.end}道 </a>
       </li>
     </vt:foreach>
+    <vt:else />
+     <li class="mui-table-view-cell">当前课程不存在，或您还没有购买</li>
+    </vt:if>
         </ul>
       </div>
     </div>

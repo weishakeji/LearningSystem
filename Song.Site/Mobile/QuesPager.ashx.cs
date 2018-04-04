@@ -34,6 +34,7 @@ namespace Song.Site.Mobile
             if (outline != null) couid = outline.Cou_ID;
              //当前课程
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            if (course == null) return;
             this.Document.SetValue("course", course);
             //是否购买该课程
             Song.Entities.Course couBuy = Business.Do<ICourse>().IsBuyCourse(couid, Extend.LoginState.Accounts.CurrentUser.Ac_ID, 1);
