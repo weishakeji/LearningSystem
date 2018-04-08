@@ -663,6 +663,7 @@
     <Content Include="Templates\Web\Neimeng\Teacher\Scripts\Register.js" />
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\Register.css" />
     <Content Include="Templates\Web\NetSchool\Admin\Styles\Panel.css" />
+    <Content Include="Templates\Web\NetSchool\CourseChannel.htm" />
     <Content Include="Templates\Web\NetSchool\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\NetSchool\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\testpaper.jpg" />
