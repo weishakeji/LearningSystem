@@ -1899,6 +1899,11 @@
             当前浏览器是否是手机浏览器
             </summary>
         </member>
+        <member name="P:WeiSha.Common.Browser.IsWeixin">
+            <summary>
+            当前浏览器是否是微信浏览器
+            </summary>
+        </member>
         <member name="P:WeiSha.Common.Browser.IsIPhone">
             <summary>
             当前浏览器是否来自苹果手机
@@ -1985,9 +1990,25 @@
         </member>
         <member name="M:WeiSha.Common.Log.Write(System.String)">
             <summary>
-            写入
+            写入在根目录
             </summary>
             <param name="context"></param>
+        </member>
+        <member name="M:WeiSha.Common.Log.Write(System.String,System.String)">
+            <summary>
+            写入到指定目录
+            </summary>
+            <param name="key">来自Upload配置项的key</param>
+            <param name="context"></param>
+            <returns>返回日志文件的虚拟路径</returns>
+        </member>
+        <member name="M:WeiSha.Common.Log.Write(System.String,System.Exception)">
+            <summary>
+            写入到指定目录
+            </summary>
+            <param name="key">来自Upload配置项的key</param>
+            <param name="ex">错误信息</param>
+            <returns>返回日志文件的虚拟路径</returns>
         </member>
         <member name="T:com.google.zxing.qrcode.encoder.MaskUtil">
             <author>  satorux@google.com (Satoru Takabayashi) - creator
@@ -4018,11 +4039,12 @@
             </summary>
             <param name="di"></param>
         </member>
-        <member name="M:WeiSha.Common.Templates.TemplateBank._getPages(System.IO.DirectoryInfo)">
+        <member name="M:WeiSha.Common.Templates.TemplateBank._getPages(System.IO.DirectoryInfo,System.IO.DirectoryInfo)">
             <summary>
             获取模板库下的文件列表，仅文件名，不包括后缀名
             </summary>
-            <param name="di"></param>
+            <param name="root">模板根路径</param>
+            <param name="di">当前路径</param>
         </member>
         <member name="M:WeiSha.Common.Templates.TemplateBank._creatXML(System.String)">
             <summary>
@@ -4790,6 +4812,11 @@
             当访问的IP信息，包括其地理信息
             </summary>
         </member>
+        <member name="P:WeiSha.Common.Request.Copyright">
+            <summary>
+            获取版本信息
+            </summary>
+        </member>
         <member name="T:WeiSha.Common.Param.Method._Path">
             <summary>
             用于处理上传路径的类
@@ -5450,6 +5477,37 @@
             <summary>
             没有操作权限
             </summary>
+        </member>
+        <member name="T:WeiSha.Common.Copyright`2">
+            <summary>
+            系统的版权信息，来自copyright.xml，用于代理商更改产品版权信息
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TValue"></typeparam>
+        </member>
+        <member name="M:WeiSha.Common.Copyright`2.GetCopyright">
+            <summary>
+            获取版本信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.Common.Copyright`2.ToJson">
+            <summary>
+            转换为json
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.Common.Copyright`2.Items">
+            <summary>
+            信息集
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.Copyright`2.Item(`0)">
+            <summary>
+            如果获取不到，不要报错
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
         </member>
         <member name="T:WeiSha.Common.PageHelper">
             <summary>

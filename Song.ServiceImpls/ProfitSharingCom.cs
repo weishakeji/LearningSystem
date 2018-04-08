@@ -381,6 +381,7 @@ namespace Song.ServiceImpls
             if (parents.Length < 1) return;
             //计算分润
             ProfitSharing[] ps = this.Clac(cou, money, coupon);
+            if (ps == null) return;
             int len = ps.Length > parents.Length ? parents.Length : ps.Length;
             for (int i = 0; i < len; i++)
             {

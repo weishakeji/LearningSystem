@@ -34,7 +34,7 @@ namespace Song.Site.Ajax
             //如果未登录
             if (!Extend.LoginState.Accounts.IsLogin)
             {
-                Context.Response.Write(getBackJson(1, null));
+                Context.Response.Write(getBackJson(1, null, null));
                 return;
             }
             //当前学员
@@ -43,7 +43,7 @@ namespace Song.Site.Ajax
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null)
             {
-                Context.Response.Write(getBackJson(4, null));
+                Context.Response.Write(getBackJson(4, null, null));
                 return;
             }            
             //生成学员与课程的关联
@@ -64,7 +64,7 @@ namespace Song.Site.Ajax
             if (!course.Cou_IsFree && !course.Cou_IsTry)
             {
                 //当课程不可以试用，直接退出
-                Context.Response.Write(getBackJson(7, null));
+                Context.Response.Write(getBackJson(7, null, null));
                 return;
             }
             else
@@ -73,12 +73,12 @@ namespace Song.Site.Ajax
                 {
                     Song.Entities.Student_Course sc = Business.Do<ICourse>().Tryout(st.Ac_ID, couid);
                     Extend.LoginState.Accounts.Course(course);
-                    Context.Response.Write(getBackJson(0, sc));
+                    Context.Response.Write(getBackJson(0, sc, null));
                     return;
                 }
-                catch
+                catch(Exception ex)
                 {
-                    Context.Response.Write(getBackJson(6, null));
+                    Context.Response.Write(getBackJson(6, null, ex));
                     return;
                 }
             }
@@ -94,7 +94,7 @@ namespace Song.Site.Ajax
             if (!course.Cou_IsFree)
             {
                 //当课程不是免费的，直接退出
-                Context.Response.Write(getBackJson(7, null));
+                Context.Response.Write(getBackJson(7, null, null));
                 return;
             }
             else
@@ -112,12 +112,12 @@ namespace Song.Site.Ajax
                 {
                     Business.Do<ICourse>().Buy(sc);
                     Extend.LoginState.Accounts.Course(course);
-                    Context.Response.Write(getBackJson(0, sc));
+                    Context.Response.Write(getBackJson(0, sc, null));
                     return;
                 }
-                catch
+                catch(Exception ex)
                 {
-                    Context.Response.Write(getBackJson(6, null));
+                    Context.Response.Write(getBackJson(6, null, ex));
                     return;
                 }
             }
@@ -134,14 +134,14 @@ namespace Song.Site.Ajax
             //验证码不正确
             if (veriCode != imgCode)
             {
-                Context.Response.Write(getBackJson(2, null));
+                Context.Response.Write(getBackJson(2, null, null));
                 return;
             }
             //价格项
             Song.Entities.CoursePrice price = Business.Do<ICourse>().PriceSingle(cpid);
             if (price == null)
             {
-                Context.Response.Write(getBackJson(3, null));
+                Context.Response.Write(getBackJson(3, null,null));
                 return;
             }
             //余额是否充足
@@ -152,20 +152,21 @@ namespace Song.Site.Ajax
             bool tm = money >= mprice || (money >= (mprice - cprice) && (coupon >= cprice));
             if (!tm)
             {
-                Context.Response.Write(getBackJson(5, null));
+                Context.Response.Write(getBackJson(5, null, null));
                 return;
             }
+            //WeiSha.Common.Log.Write
             //开始实现购买
             try
             {
-                Song.Entities.Student_Course sc=Business.Do<ICourse>().Buy(st.Ac_ID, couid, price);
+                Song.Entities.Student_Course sc = Business.Do<ICourse>().Buy(st.Ac_ID, couid, price);
                 Extend.LoginState.Accounts.Course(course);
-                Context.Response.Write(getBackJson(0, sc));
+                Context.Response.Write(getBackJson(0, sc, null));
                 return;
             }
-            catch
+            catch (Exception ex)
             {
-                Context.Response.Write(getBackJson(6, null));
+                Context.Response.Write(getBackJson(6, null, ex));
                 return;
             }
         }       
@@ -174,8 +175,9 @@ namespace Song.Site.Ajax
         /// </summary>
         /// <param name="status"></param>
         /// <param name="sc"></param>
+        /// <param name="ex">如果报错，记录错误信息</param>
         /// <returns></returns>
-        private string getBackJson(int status, Song.Entities.Student_Course sc)
+        private string getBackJson(int status, Song.Entities.Student_Course sc, Exception ex)
         {
             string json = "{";
             json += "'status':'" + status + "',";
@@ -183,13 +185,21 @@ namespace Song.Site.Ajax
             //当前学员的剩余钱数
             Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
             json += "'money':'" + (st != null ? st.Ac_Money : -1) + "',";
+            //返回不为空
             if (sc != null)
             {
                 json += "'startTime':'" + new WeiSha.Common.Param.Method.ConvertToAnyValue(sc.Stc_StartTime.ToString()).JavascriptTime + "',";
                 json += "'endTime':'" + new WeiSha.Common.Param.Method.ConvertToAnyValue(sc.Stc_EndTime.ToString()).JavascriptTime + "',";
             }
+            if (ex != null)
+            {
+                //写入错误日志，并返回所在路径
+                string path = WeiSha.Common.Log.Write("Course", ex);
+                json += "'logfile':'" + path + "',";
+                json += "'errinfo':'" + ex.Message + "',";
+            }
             json += "'return_url':'" + return_url + "'";
-            return json+"}";
+            return json + "}";
         }
         public bool IsReusable
         {
