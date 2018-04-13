@@ -5335,7 +5335,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Ajax\ExamMenu.aspx" />
-    <Content Include="App_Data\AreaCodeInfo.xml" />
+    <Content Include="App_Data\AreaCodeInfo.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="App_Themes\BluePanel\Images\btn_bg.jpg" />
     <Content Include="App_Themes\BluePanel\Images\btn_bg2.jpg" />
     <Content Include="App_Themes\BluePanel\Images\empty.gif" />
