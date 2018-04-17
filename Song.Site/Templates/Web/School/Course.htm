@@ -11,7 +11,6 @@
 </head>
 <body>
 <vt:include file="inc/Header.html" />
-<vt:include file="inc/Depart.html" />
 <div id="Context">
   <div class="navi-bar"> <a href="/" class="nav-txt">首页</a> &gt; <a href="/courses.ashx"  class="nav-txt">课程中心</a> &gt;
     <vt:foreach from="$parentsbjs" item="s" remark="当前课程专业"> <a href="/courses.ashx?sbjid={$:#.s.sbj_id}"  class="nav-txt">{$:#.s.sbj_name}</a> &gt; </vt:foreach>

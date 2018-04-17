@@ -17,10 +17,6 @@ namespace Song.Site
     {
         protected override void InitPageTemplate(HttpContext context)
         {
-            if (WeiSha.Common.Browser.IsMobile)
-            {
-                context.Response.Redirect("/Mobile/default.ashx");
-            } 
             //是否允许注册
             WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
             this.Document.SetValue("IsRegStudent", config["IsRegStudent"].Value.Boolean ?? true);

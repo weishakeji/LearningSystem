@@ -21,14 +21,7 @@ namespace Song.Site.Mobile
         protected override void InitPageTemplate(HttpContext context)
         {
             //如果没有登录则跳转
-            if (this.Account == null)
-            {
-                if (WeiSha.Common.Browser.IsMobile)
-                    context.Response.Redirect("/Mobile/Login.ashx");
-                else
-                    context.Response.Redirect("/student/index.ashx");
-                return;
-            }
+            if (this.Account == null) context.Response.Redirect("/Mobile/Login.ashx");
             //当前章节
             Song.Entities.Outline ol = null;
             ol = id < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)

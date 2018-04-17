@@ -29,24 +29,6 @@ namespace Song.Site
 
         protected override void InitPageTemplate(HttpContext context)
         {
-            #region 一些跳转判断
-            //如果是手机端则跳转
-            if (WeiSha.Common.Browser.IsMobile)
-            {
-                context.Response.Redirect("Mobile/CourseStudy.ashx?" + this.Request.QueryString);
-                return;
-            }
-            //如果没有登录则跳转
-            if (this.Account == null)
-            {
-                if (WeiSha.Common.Browser.IsMobile)
-                    context.Response.Redirect("/Mobile/Login.ashx");
-                else
-                    context.Response.Redirect("/student/index.ashx");
-                return;
-            }
-            #endregion
-
             //自定义配置项
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);

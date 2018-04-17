@@ -111,6 +111,7 @@ namespace Song.Site
         /// <param name="context"></param>
         private void InitContext(HttpContext context)
         {
+            //初始化参数
             this.Context = context;
             this.Application = context.Application;
             this.Request = context.Request;
@@ -137,9 +138,15 @@ namespace Song.Site
 
         public new void ProcessRequest(HttpContext context)
         {
-            this.InitContext(context);
+            string gourl = WeiSha.Common.Skip.GetUrl();   //跳转
+            if (!string.IsNullOrWhiteSpace(gourl))
+            {
+                context.Response.Redirect(gourl);
+                return;
+            }
+            this.InitContext(context);  //初始化页面参数
             //输出数据
-            this.LoadCurrentTemplate();
+            this.LoadCurrentTemplate(); //装载当前页面的模板文档
             try
             {
                 //一些公共对象
