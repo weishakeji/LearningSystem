@@ -105,7 +105,7 @@ div, p, td, * {
 	font-size: 16px;
 	line-height: 30px;
 	font-weight: bold;
-	height: 30px;
+	height: 60px;
 	margin-top: 15px;
 }
 .typeName {
@@ -138,8 +138,11 @@ div, p, td, * {
 .qitemBox, .qitemBox *{
 	background-color:transparent !important;
 }
+.qitemBox, .qitemBox img{
+	max-width:100%;
+}
 #quesBtnBox {
-	height: 25px;
+	height: 35px;
 	width: 100%;
 }
 .btn {

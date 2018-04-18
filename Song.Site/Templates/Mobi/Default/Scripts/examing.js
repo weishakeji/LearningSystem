@@ -824,7 +824,7 @@ function getResult() {
             Mask.Loading();
         },
         //加载出错
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        error: function (XMLHttpRequest, textStatus, errorThrown) {           
             alert("错误：由于网络原因，没有获取之前的答题信息");
         },
         //加载成功！

@@ -498,13 +498,7 @@ function fileupEvent() {
                         box.find(".upfileArea").hide();
                         box.find(".filenameArea").show();
                         box.find(".accfile").html(data.filename);
-                        box.find(".delfile").click(function () {
-                            var bx = $(this).parents(".fileupBox");
-                            bx.find(".upfileArea").show();
-                            bx.find(".filenameArea").hide();
-                            var qid = $(this).parent().parent().attr("qid");
-                            $.get('/Utility/ExamFileDel.ashx?stid=' + stid + "&examid=" + examID + "&qid=" + qid);
-                        });
+                        $("#pagerArea dl[type=4] dd[qid="+data.qid+"] .itemBox textarea").focusout();
                     }
                 }
             },
@@ -516,21 +510,30 @@ function fileupEvent() {
     //附件加载
     $(".fileupBox").each(function () {
         var qid = $(this).attr("qid");
-        var url = '/Utility/ExamFileLoad.ashx?stid=' + stid + "&examid=" + examID + "&qid=" + qid;
+		var url="/Utility/ExamFileLoad.ashx?stid={0}&examid={1}&qid={2}".format(stid,examID,qid);
         $.get(url, function (data) {
             var d = eval("(" + data + ")");
             var box = $(".fileupBox[qid=" + d.qid + "]");
             if (d.filename != "") {
-                box.find(".upfileArea").hide();
-                box.find(".filenameArea").show();
-                box.find(".accfile").html(d.filename);
+                box.find(".upfileArea").hide();		//上传控件隐藏
+                box.find(".filenameArea").show();	//显示文件名称区域
+				if(d.filename!=""){
+					box.find(".accfile").html(d.filename);	//赋值文件名
+				}
             }
+            $("#pagerArea dl[type=4] dd[qid=" + d.qid+"] .itemBox textarea").focusout();
+			//删除已经上传的附件
             box.find(".delfile").click(function () {
                 var bx = $(this).parents(".fileupBox");
                 bx.find(".upfileArea").show();
                 bx.find(".filenameArea").hide();
                 var qid = $(this).parent().parent().attr("qid");
-                $.get('/Utility/ExamFileDel.ashx?stid=' + stid + "&examid=" + examID + "&qid=" + qid);
+				var url="/Utility/ExamFileDel.ashx?stid={0}&examid={1}&qid={2}".format(stid,examID,qid);
+                $.get(url,function(){
+                    var dd=$("#pagerArea dl[type=4] dd[qid="+qid+"]");
+                    dd.find(".accfile").text("");   //清除附件名称
+                    dd.find(".itemBox textarea").focusout();    //触发简答题答题事件
+				});
             });
         });
     });
@@ -600,14 +603,15 @@ function quesEvent() {
     $("#pagerArea dl[type=4] dd .itemBox textarea").focusout(function () {
         var dd = $(this).parents("dd[qid]");
         var qid = dd.attr("qid");
-        var ansid = $.trim($(this).val());
+        var ansid = $.trim($(this).val());  //答案
+        var file= $.trim(dd.find(".accfile").text());   //上传的附件
         //操作答题卡 
         var box = $("#cardBox dd[qid=" + qid + "]");
-        if (ansid.length > 0) {
-            box.attr("ans", ansid);
+        if (ansid.length > 0 || file!="") {
+            box.attr("ans", ansid).attr("file", file);
             dd.find(".btnBox .sure1").click();
         } else {
-            box.removeAttr("ans").removeAttr("class");
+            box.removeAttr("ans").removeAttr("file").removeAttr("class");
         }
         //计算完成的题数
         $("#CompleteNumber").text($("#cardBox dd[class]").size());
@@ -634,13 +638,13 @@ function quesEvent() {
         submitResult(1);
     });
     //把握度的按钮
-    $("#pagerArea .btnBox .btn").click(function () {
-        //试题id
-        var qid = $(this).parent().attr("qid");
-        var level = $(this).attr("level");
+    $("#pagerArea .btnBox .btn").click(function () {        
+        var qid = $(this).parent().attr("qid");	//试题id
+        var level = $(this).attr("level");	//把握试等级
+		var type=$(this).parents("dl").attr("type");	//试题类型
         //操作答题卡
         var dd = $("#cardBox dd[qid=" + qid + "]");
-        if (dd.attr("ans") != null) {
+        if (dd.attr("ans") != null || dd.attr("file") != null ) {
             dd.attr("class", "level" + level);
             if (level == 1) dd.attr("title", "该题非常有把握");
             if (level == 2) dd.attr("title", "对该题没有把握，请回顾");
@@ -697,10 +701,12 @@ function getResultXml(patter) {
             var type = Number($(this).parent().attr("type"));
             var ans = $(this).attr("ans") ? $(this).attr("ans") : "";
             if (type == 1 || type == 2 || type == 3) {
-                res += "<q id=\"" + $(this).attr("qid") + "\" class=\"" + $(this).attr("class") + "\" num=\"" + $(this).attr("num") + "\" ans=\"" + ans + "\"/>";
+                res += "<q id=\"" + $(this).attr("qid") + "\" class=\"" + $(this).attr("class") 
+					+ "\" num=\"" + $(this).attr("num") + "\" ans=\"" + ans + "\"/>";
             }
             if (type == 4 || type == 5) {
-                res += "<q id=\"" + $(this).attr("qid") + "\" class=\"" + $(this).attr("class") + "\" num=\"" + $(this).attr("num") + "\">";
+                res += "<q id=\"" + $(this).attr("qid") + "\" class=\"" + $(this).attr("class") 
+					+ "\" num=\"" + $(this).attr("num") + "\" file=\""+$(this).attr("file") +"\">";
                 res += "<![CDATA[" + ans + "]]>"
                 res += "</q>";
             }
@@ -727,6 +733,7 @@ function getResult() {
         },
         //加载出错
         error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
             alert("错误：由于网络原因，没有获取之前的答题信息");
         },
         //加载成功！
@@ -765,7 +772,7 @@ function setResultState(result) {
             $("#pagerArea dl dd[qid=" + q.id + "] .ansBtn[ansid=" + q.ans + "]").addClass("seleted");
         }
         if (q.type == 4) {
-            $("#pagerArea dl dd[qid=" + q.id + "] textarea").val(q.ans);
+            $("#pagerArea dl dd[qid=" + q.id + "] textarea").val(q.ans).attr("file", q.file);
         }
         if (q.type == 5) {
             var arr = q.ans.split(",");

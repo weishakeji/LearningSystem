@@ -508,6 +508,9 @@ namespace Song.ServiceImpls
             {
                 string uid = string.Format("ExamResults：{0}-{1}-{2}", examid, exam.Tp_Id, stid);    //缓存的uid
                 QuestionsMethod.QuestionsCache.Singleton.Delete(uid);
+                //删除上传的附件
+                string filepath = Upload.Get["Exam"].Physics + examid + "\\" + stid + "\\";
+                if (System.IO.Directory.Exists(filepath)) System.IO.Directory.Delete(filepath, true);
             }
             WhereClip wc = new WhereClip();
             if (stid > -1) wc.And(ExamResults._.Ac_ID == stid);

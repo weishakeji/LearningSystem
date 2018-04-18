@@ -53,12 +53,15 @@ namespace Song.Site.Ajax
                     XmlNode q = node.ChildNodes[n];
                     string id = q.Attributes["id"].Value;
                     string cls = q.Attributes["class"].Value;
-                    string ans = null;
+                    string ans = string.Empty, file = string.Empty;
                     //如果是单选、多选、判断
                     if (type == 1 || type == 2 || type == 3)
                         ans = q.Attributes["ans"].Value;                        
-                    if (type == 4 || type == 5) ans = q.InnerText; 
-                    jsonQues += "{'type':" + type + ",'id':" + id + ",'cls':'" + cls + "','ans':'" + ans + "'},";
+                    if (type == 4 || type == 5) ans = q.InnerText;
+                    if (type == 5) file = q.Attributes["file"] != null ? q.Attributes["file"].Value : "";
+                    jsonQues += "{";
+                    jsonQues += string.Format("'type':{0},'id':{1},'cls':'{2}','ans':'{3}','file':'{4}'", type, id, cls, ans, file);
+                    jsonQues += "},";
                 }
             }
             if (jsonQues.IndexOf(',') > -1) jsonQues = jsonQues.Substring(0,jsonQues.Length - 1);
