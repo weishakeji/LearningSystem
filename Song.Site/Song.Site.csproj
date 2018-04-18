@@ -310,6 +310,7 @@
     <Content Include="Manage\Panel\Dir.aspx" />
     <Content Include="Manage\Panel\Styles\Authorization.css" />
     <Content Include="Manage\Help\Prompt.htm" />
+    <Content Include="Manage\Panel\File.aspx" />
     <Content Include="Manage\Pay\AlipayWap.aspx" />
     <Content Include="Manage\Pay\PayInterfacerType.ascx" />
     <Content Include="Manage\Pay\PayList.aspx" />
