@@ -6,6 +6,17 @@
         openurl = BASE64.decoder(decodeURIComponent($.trim(openurl)));
         new PageBox("课程详情", openurl, 100, 100, "url").Open();
     }
+    //当手机端处在iframe中，不跳转
+    if (window.frames.length != parent.frames.length) {
+        $("*[href]").each(function (index, element) {
+            var href = $(this).attr("href");
+            if (href == undefined || href == null || href == "" || href == "#") return true;
+            if (href.length > 0 && href.substring(0, 1) == "#") return true;
+            if (href.indexOf("javascript:") > -1) return true;
+            href = $().setPara(href, "skip", "no");
+            $(this).attr("href", href);
+        });
+    }
 });
 //超链接的事件
 function a_click() {

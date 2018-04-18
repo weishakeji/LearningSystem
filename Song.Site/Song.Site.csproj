@@ -307,6 +307,7 @@
     <Content Include="Manage\Money\RechargeSet_Edit.aspx" />
     <Content Include="Manage\Money\Styles\Details.css" />
     <Content Include="Manage\Money\Styles\Details_View.css" />
+    <Content Include="Manage\Panel\Dir.aspx" />
     <Content Include="Manage\Panel\Styles\Authorization.css" />
     <Content Include="Manage\Help\Prompt.htm" />
     <Content Include="Manage\Pay\AlipayWap.aspx" />
