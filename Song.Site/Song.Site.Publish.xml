@@ -233,7 +233,7 @@
     <file relUrl="Utility/PdfViewer/images/toolbarButton-sidebarToggle.png" publishTime="08/14/2017 18:37:32" />
     <file relUrl="Manage/Utility/datepicker/My97DatePicker.htm" publishTime="11/13/2014 16:31:57" />
     <file relUrl="Manage/Utility/kindeditor/plugins/filemanager/images/file-16.gif" publishTime="10/16/2015 08:41:08" />
-    <file relUrl="bin/WeiSha.SMS.XmlSerializers.dll" publishTime="04/18/2018 14:44:15" />
+    <file relUrl="bin/WeiSha.SMS.XmlSerializers.dll" publishTime="04/19/2018 14:33:39" />
     <file relUrl="Templates/Web/Gov/Styles/MessageBoards.css" publishTime="06/27/2017 11:28:57" />
     <file relUrl="Manage/ErrorPage/NoPurview.aspx" publishTime="06/26/2017 10:01:07" />
     <file relUrl="Templates/Web/School/CoreScripts/mousewheel.js" publishTime="07/03/2012 20:40:34" />
@@ -370,7 +370,7 @@
     <file relUrl="Manage/Sys/Team_Edit.aspx" publishTime="02/04/2016 10:59:28" />
     <file relUrl="Templates/Web/School/Images/tk_exam.png" publishTime="08/30/2017 11:29:21" />
     <file relUrl="Templates/Web/_Public/Styles/TestView.css" publishTime="02/06/2018 15:23:08" />
-    <file relUrl="bin/WeiSha.WebEditor.dll" publishTime="04/19/2018 08:53:03" />
+    <file relUrl="bin/WeiSha.WebEditor.dll" publishTime="04/19/2018 14:33:36" />
     <file relUrl="Templates/Web/Neimeng/Images/tk_exam.png" publishTime="08/30/2017 11:29:21" />
     <file relUrl="Templates/Mobi/_Public/Styles/WeixinLogin.css" publishTime="12/15/2017 23:07:57" />
     <file relUrl="Manage/Pay/Scripts/PayList_Edit.js" publishTime="11/08/2015 17:05:29" />
@@ -382,7 +382,7 @@
     <file relUrl="Templates/Web/NetSchool/CoreScripts/Node.js" publishTime="12/28/2016 11:14:49" />
     <file relUrl="Templates/Mobi/Default/CoreScripts/Public.js" publishTime="04/18/2018 15:41:33" />
     <file relUrl="Utility/Verify/Demo/3-3.htm" publishTime="01/22/2018 10:46:57" />
-    <file relUrl="bin/Song.Entities.dll" publishTime="04/19/2018 09:02:55" />
+    <file relUrl="bin/Song.Entities.dll" publishTime="04/19/2018 15:07:03" />
     <file relUrl="Templates/Web/NetSchool/Courses.htm" publishTime="06/23/2017 12:24:41" />
     <file relUrl="Manage/Teacher/Info.aspx" publishTime="06/07/2016 18:23:43" />
     <file relUrl="Templates/Mobi/_Public/Scripts/Loading.js" publishTime="12/15/2017 22:24:08" />
@@ -469,7 +469,7 @@
     <file relUrl="Manage/Images/tree/musicfolder.gif" publishTime="10/19/2002 22:26:00" />
     <file relUrl="Manage/Admin/Departs_Edit.aspx" publishTime="09/23/2017 10:22:14" />
     <file relUrl="Check/Info.aspx" publishTime="06/26/2017 10:02:11" />
-    <file relUrl="bin/WeiSha.Common.dll" publishTime="04/19/2018 08:53:01" />
+    <file relUrl="bin/WeiSha.Common.dll" publishTime="04/19/2018 15:07:04" />
     <file relUrl="Manage/Images/tree/imgfolder.gif" publishTime="10/19/2002 22:26:00" />
     <file relUrl="Manage/DataTemplate/Config/培训计划.xml" publishTime="02/04/2016 10:59:31" />
     <file relUrl="Templates/Web/School/Scripts/Test.js" publishTime="04/17/2016 16:03:13" />
@@ -734,7 +734,7 @@
     <file relUrl="Manage/Teacher/History.aspx" publishTime="08/06/2015 20:35:20" />
     <file relUrl="Manage/Admin/ShowPicture_Edit.aspx" publishTime="08/29/2016 17:41:33" />
     <file relUrl="App_Themes/BluePanel/Images/winPageTitleBg.jpg" publishTime="02/05/2012 20:47:56" />
-    <file relUrl="bin/WeiSha.Common.xml" publishTime="04/08/2018 11:03:28" />
+    <file relUrl="bin/WeiSha.Common.xml" publishTime="04/19/2018 15:07:04" />
     <file relUrl="Utility/Taobao/2018_06.png" publishTime="03/21/2018 18:16:50" />
     <file relUrl="Utility/Taobao/2018_10.png" publishTime="03/21/2018 18:17:01" />
     <file relUrl="Templates/Web/School/Images/answer.jpg" publishTime="08/06/2015 20:41:14" />
@@ -773,6 +773,7 @@
     <file relUrl="Templates/Web/Neimeng/Student/NoLogin.htm" publishTime="06/26/2017 09:57:08" />
     <file relUrl="Manage/Images/sanjiao.jpg" publishTime="06/17/2014 15:09:41" />
     <file relUrl="Templates/Web/School/Images/4.png" publishTime="08/06/2015 20:41:13" />
+    <file relUrl="bin/WeiSha.Common.pdb" publishTime="04/19/2018 15:07:04" />
     <file relUrl="Manage/Exam/TestPaper_Edit.aspx" publishTime="09/20/2016 11:46:19" />
     <file relUrl="Templates/Web/School/Scripts/Default.js" publishTime="04/04/2018 15:17:36" />
     <file relUrl="Manage/Utility/kindeditor/lang/zh_TW.js" publishTime="10/16/2015 08:41:08" />
@@ -862,7 +863,7 @@
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/121.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/131.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Ajax/Copyright.ashx" publishTime="03/17/2018 09:30:06" />
-    <file relUrl="bin/WeiSha.WebControl.dll" publishTime="04/19/2018 08:53:02" />
+    <file relUrl="bin/WeiSha.WebControl.dll" publishTime="04/19/2018 14:33:36" />
     <file relUrl="Mobile/TestPapers.ashx" publishTime="02/22/2017 16:21:41" />
     <file relUrl="Templates/Web/Gov/Styles/Courses.css" publishTime="09/13/2016 00:06:40" />
     <file relUrl="Manage/Images/mmicons.png" publishTime="08/06/2015 20:41:10" />
@@ -877,7 +878,7 @@
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/97.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Manage/Panel/Scripts/Message.js" publishTime="11/13/2014 16:31:58" />
     <file relUrl="Manage/Template/Select.aspx" publishTime="04/05/2017 19:20:17" />
-    <file relUrl="bin/Song.ServiceInterfaces.dll" publishTime="04/19/2018 09:02:55" />
+    <file relUrl="bin/Song.ServiceInterfaces.dll" publishTime="04/19/2018 15:07:04" />
     <file relUrl="Templates/Web/NetSchool/Images/previous.jpg" publishTime="08/06/2015 20:41:13" />
     <file relUrl="Manage/Course/Courses_Questions.aspx" publishTime="10/25/2017 18:24:30" />
     <file relUrl="Templates/Web/Neimeng/Teacher/Images/bg1.jpg" publishTime="08/06/2015 20:41:16" />
@@ -1019,7 +1020,7 @@
     <file relUrl="Templates/Web/NetSchool/Styles/Guide.css" publishTime="03/02/2017 20:15:28" />
     <file relUrl="Manage/PageWin.Master" publishTime="06/26/2017 10:02:10" />
     <file relUrl="Templates/Web/Neimeng/CoreScripts/ajaxfileupload.js" publishTime="07/02/2016 22:01:23" />
-    <file relUrl="bin/Song.ServiceImpls.pdb" publishTime="04/19/2018 09:02:56" />
+    <file relUrl="bin/Song.ServiceImpls.pdb" publishTime="04/19/2018 15:07:06" />
     <file relUrl="Templates/Web/Gov/Styles/examico/examico.eot" publishTime="02/28/2016 17:36:38" />
     <file relUrl="Manage/Help/About.aspx" publishTime="03/16/2018 20:18:34" />
     <file relUrl="Templates/Web/School/mobi.htm" publishTime="04/18/2018 15:03:08" />
@@ -1064,7 +1065,7 @@
     <file relUrl="Templates/Web/School/Images/8.png" publishTime="08/06/2015 20:41:13" />
     <file relUrl="Templates/Mobi/Default/Scripts/Swipe.js" publishTime="10/19/2017 20:39:49" />
     <file relUrl="Manage/Course/Scripts/Courses_Knl.js" publishTime="03/18/2016 10:13:18" />
-    <file relUrl="bin/Song.Extend.pdb" publishTime="04/19/2018 09:02:55" />
+    <file relUrl="bin/Song.Extend.pdb" publishTime="04/19/2018 15:07:04" />
     <file relUrl="Manage/Template/List_View.aspx" publishTime="06/07/2016 18:22:05" />
     <file relUrl="Templates/Web/NetSchool/Scripts/Test.js" publishTime="04/17/2016 16:03:13" />
     <file relUrl="Templates/Web/School/Knowledge.htm" publishTime="04/17/2018 18:47:06" />
@@ -1097,7 +1098,7 @@
     <file relUrl="Manage/Panel/1.htm" publishTime="11/19/2014 18:05:41" />
     <file relUrl="App_Themes/BluePanel/Images/logo.gif" publishTime="04/25/2017 15:43:06" />
     <file relUrl="Templates/Web/Gov/Student/Panel.htm" publishTime="04/04/2018 15:17:36" />
-    <file relUrl="Web.config" publishTime="04/18/2018 08:44:41" />
+    <file relUrl="Web.config" publishTime="04/19/2018 15:04:25" />
     <file relUrl="Templates/Web/NetSchool/Admin/Index.htm" publishTime="02/02/2018 12:50:24" />
     <file relUrl="Mobile/QuesExercises.ashx" publishTime="02/21/2017 16:30:58" />
     <file relUrl="Manage/Content/ProductSetup.aspx" publishTime="06/08/2014 15:13:29" />
@@ -1577,7 +1578,7 @@
     <file relUrl="Manage/Student/Online.aspx" publishTime="05/23/2017 10:21:22" />
     <file relUrl="App_Themes/BluePanel/Images/topbg.jpg" publishTime="03/11/2014 16:41:09" />
     <file relUrl="Templates/Web/School/myFocus/js/pattern/mF_luluJQ.js" publishTime="08/06/2015 20:41:18" />
-    <file relUrl="bin/WeiSha.Data.dll" publishTime="04/19/2018 08:53:03" />
+    <file relUrl="bin/WeiSha.Data.dll" publishTime="04/19/2018 14:33:38" />
     <file relUrl="Utility/iconfont/iconfont.css" publishTime="12/11/2017 11:35:05" />
     <file relUrl="Utility/Default.aspx" publishTime="02/23/2018 10:12:50" />
     <file relUrl="Templates/Web/Gov/Scripts/Article.js" publishTime="10/11/2017 17:34:05" />
@@ -1845,10 +1846,10 @@
     <file relUrl="Utility/Ckplayer/ckplayer/share/sina.png" publishTime="03/15/2015 16:00:44" />
     <file relUrl="Templates/Web/School/Styles/CourseChannel.css" publishTime="04/04/2018 15:17:36" />
     <file relUrl="Manage/Content/Contents.aspx" publishTime="08/06/2015 20:41:10" />
-    <file relUrl="bin/Song.Template.pdb" publishTime="04/19/2018 09:02:56" />
+    <file relUrl="bin/Song.Template.pdb" publishTime="04/19/2018 15:07:05" />
     <file relUrl="App_Themes/BluePanel/Images/footBg.jpg" publishTime="02/05/2012 19:03:42" />
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/122.gif" publishTime="10/16/2015 08:41:08" />
-    <file relUrl="bin/Song.Extend.dll" publishTime="04/19/2018 09:02:55" />
+    <file relUrl="bin/Song.Extend.dll" publishTime="04/19/2018 15:07:04" />
     <file relUrl="Templates/Mobi/Default/Styles/TestPapers.css" publishTime="08/16/2017 10:30:49" />
     <file relUrl="Manage/Common/InnerEmail.aspx" publishTime="02/09/2015 00:17:34" />
     <file relUrl="Templates/Web/Neimeng/Images/btnBg.jpg" publishTime="08/06/2015 20:41:14" />
@@ -1857,7 +1858,7 @@
     <file relUrl="Templates/Web/Gov/Styles/News.css" publishTime="09/18/2016 20:37:40" />
     <file relUrl="Templates/Web/School/Images/bar01.jpg" publishTime="04/04/2018 15:17:36" />
     <file relUrl="Templates/Web/School/Styles/KnowledgesList.css" publishTime="12/22/2015 01:21:56" />
-    <file relUrl="bin/Song.ServiceInterfaces.pdb" publishTime="04/19/2018 09:02:55" />
+    <file relUrl="bin/Song.ServiceInterfaces.pdb" publishTime="04/19/2018 15:07:04" />
     <file relUrl="Templates/Web/Gov/Images/ranking02.jpg" publishTime="09/11/2016 09:44:30" />
     <file relUrl="Manage/Teacher/Sort.aspx" publishTime="08/06/2015 20:41:07" />
     <file relUrl="Templates/Web/Neimeng/mobi.htm" publishTime="04/18/2018 15:08:52" />
@@ -1895,7 +1896,7 @@
     <file relUrl="Utility/PdfViewer/images/toolbarButton-print.png" publishTime="08/14/2017 18:37:32" />
     <file relUrl="Manage/Teacher/Courses.aspx" publishTime="02/12/2017 12:16:03" />
     <file relUrl="Templates/Web/Gov/Student/Styles/Panel.css" publishTime="04/04/2018 15:17:36" />
-    <file relUrl="bin/WeiSha.SMS.dll" publishTime="04/19/2018 08:53:04" />
+    <file relUrl="bin/WeiSha.SMS.dll" publishTime="04/19/2018 14:33:39" />
     <file relUrl="App_Themes/BluePanel/Images/topBackgroup.jpg" publishTime="02/05/2012 17:13:20" />
     <file relUrl="Manage/Site/Styles/MessageBoard_Ans.css" publishTime="02/17/2017 17:55:11" />
     <file relUrl="Templates/Web/Gov/Links.htm" publishTime="06/26/2017 10:02:10" />
@@ -1999,7 +2000,7 @@
     <file relUrl="Manage/Admin/Styles/Students_Details.css" publishTime="09/29/2017 18:10:59" />
     <file relUrl="App_Themes/BluePanel/Console_Loyout.css" publishTime="03/16/2018 20:29:47" />
     <file relUrl="Utility/PdfViewer/images/toolbarButton-viewThumbnail.png" publishTime="08/14/2017 18:37:32" />
-    <file relUrl="bin/WeiSha.Template.Engine.dll" publishTime="04/19/2018 08:53:02" />
+    <file relUrl="bin/WeiSha.Template.Engine.dll" publishTime="04/19/2018 14:33:36" />
     <file relUrl="Mobile/SelfPw.ashx" publishTime="09/04/2015 11:12:21" />
     <file relUrl="Templates/Web/Neimeng/Images/ico.gif" publishTime="08/06/2015 20:41:14" />
     <file relUrl="Templates/Web/NetSchool/CourseBuy.htm" publishTime="02/18/2018 11:30:07" />
@@ -2018,7 +2019,7 @@
     <file relUrl="Manage/Utility/kindeditor/themes/common/anchor.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="VideoUrl.aspx" publishTime="03/14/2017 10:32:13" />
     <file relUrl="Templates/Web/School/Scripts/TestView.js" publishTime="04/08/2016 18:26:55" />
-    <file relUrl="bin/Song.ServiceImpls.dll" publishTime="04/19/2018 09:02:56" />
+    <file relUrl="bin/Song.ServiceImpls.dll" publishTime="04/19/2018 15:07:06" />
     <file relUrl="Manage/Student/Styles/Course_Outline.css" publishTime="08/06/2015 20:41:09" />
     <file relUrl="Utility/Verify/Demo/2-5.htm" publishTime="01/09/2018 19:52:23" />
     <file relUrl="Manage/Utility/UploadPath/OtherLink.aspx" publishTime="08/08/2017 19:02:39" />
@@ -2032,7 +2033,7 @@
     <file relUrl="Manage/Money/Details_View.aspx" publishTime="02/28/2018 10:43:30" />
     <file relUrl="Templates/Web/Neimeng/Images/knowledges-banner.jpg" publishTime="08/06/2015 20:41:13" />
     <file relUrl="Manage/Site/Styles/Navigation.css" publishTime="11/13/2014 16:31:58" />
-    <file relUrl="bin/Song.Site.pdb" publishTime="04/19/2018 09:02:58" />
+    <file relUrl="bin/Song.Site.pdb" publishTime="04/19/2018 15:07:08" />
     <file relUrl="Templates/Web/_Public/QuesExplain.htm" publishTime="06/08/2017 11:41:19" />
     <file relUrl="Templates/Web/Neimeng/Images/10.png" publishTime="08/06/2015 20:41:14" />
     <file relUrl="bin/WeiSha.WebControl.xml" publishTime="11/10/2016 21:10:20" />
@@ -2055,7 +2056,7 @@
     <file relUrl="Manage/Exam/Examination_Edit.aspx" publishTime="10/27/2017 20:59:37" />
     <file relUrl="Templates/Web/NetSchool/Images/icon01.jpg" publishTime="09/11/2016 09:52:07" />
     <file relUrl="Templates/Web/School/myFocus/js/myfocus-2.0.1.min.js" publishTime="08/06/2015 20:41:18" />
-    <file relUrl="bin/Song.Site.dll" publishTime="04/19/2018 09:02:58" />
+    <file relUrl="bin/Song.Site.dll" publishTime="04/19/2018 15:07:08" />
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/106.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/53.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Templates/Web/Gov/Inc/Login.html" publishTime="06/27/2017 10:57:00" />
@@ -2176,7 +2177,7 @@
     <file relUrl="Manage/Course/Scripts/CourseEditMaster.js" publishTime="06/30/2017 17:49:00" />
     <file relUrl="Manage/Images/30.png" publishTime="02/24/2011 20:08:18" />
     <file relUrl="Templates/Web/Gov/Student/PwFind.htm" publishTime="06/26/2017 17:17:53" />
-    <file relUrl="bin/Song.Template.dll" publishTime="04/19/2018 09:02:56" />
+    <file relUrl="bin/Song.Template.dll" publishTime="04/19/2018 15:07:05" />
     <file relUrl="App_Themes/BluePanel/PageBox.css" publishTime="07/23/2013 22:08:44" />
     <file relUrl="Templates/Web/Neimeng/Teacher/Scripts/Register.js" publishTime="12/29/2017 22:44:16" />
     <file relUrl="Manage/Student/Course_Expire.aspx" publishTime="04/04/2018 15:17:35" />
@@ -2388,7 +2389,7 @@
     <file relUrl="Templates/Web/School/Images/Flvplayer.swf" publishTime="06/11/2008 08:42:24" />
     <file relUrl="Manage/Images/noPhoto.jpg" publishTime="12/19/2013 16:20:47" />
     <file relUrl="Templates/Web/School/myFocus/js/pattern/mF_tbhuabao.css" publishTime="08/06/2015 20:41:18" />
-    <file relUrl="bin/Song.Entities.pdb" publishTime="04/19/2018 09:02:55" />
+    <file relUrl="bin/Song.Entities.pdb" publishTime="04/19/2018 15:07:03" />
     <file relUrl="Manage/Images/loading/load_016.gif" publishTime="01/22/2008 10:51:42" />
     <file relUrl="Manage/Course/Styles/Public.css" publishTime="05/12/2016 21:22:18" />
     <file relUrl="Templates/Web/Gov/Notice.htm" publishTime="06/26/2017 17:06:46" />

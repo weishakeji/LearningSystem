@@ -34,7 +34,6 @@ namespace Song.Site.Manage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
             string xml = this.MapPath("/copyright.xml");
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(xml);

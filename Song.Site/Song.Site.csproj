@@ -161,7 +161,7 @@
     <Reference Include="URLRewriter">
       <HintPath>..\Lib\URLRewriter.dll</HintPath>
     </Reference>
-    <Reference Include="WeiSha.Common, Version=1.1.6683.23281, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
+    <Reference Include="WeiSha.Common, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.Common.dll</HintPath>
     </Reference>
