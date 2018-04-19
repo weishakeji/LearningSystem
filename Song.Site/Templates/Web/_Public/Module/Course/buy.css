@@ -124,6 +124,20 @@
 	font-family: "黑体", "微软雅黑";
 	font-size: 16px;
 }
+.priceItem .mprice{
+	font-weight: bold;
+	color: #F00;
+}
+/*价格提醒，计算每天的钱数*/
+.alt{
+	font-family: "宋体";
+	font-size: 13px;
+	color: #333;
+}
+.alt b{
+	color: #F00;
+	font-weight: normal;
+}
 /*券*/
 .coupon{
 	font-family: "宋体";

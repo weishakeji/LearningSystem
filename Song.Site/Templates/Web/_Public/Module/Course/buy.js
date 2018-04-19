@@ -1,6 +1,19 @@
 ﻿$(function () {
     _btnEvent();
     _selectPrice();
+    //计算日均价格
+    $(".alt").each(function (index, element) {
+        var span = Number($(this).attr("span"));
+        var unit = $.trim($(this).attr("unit"));
+        var price = Number($(this).attr("price"));
+        var day = span;
+        if (unit == "日") day = span;
+        if (unit == "周") day = span * 7;
+        if (unit == "月") day = span * 30;
+        if (unit == "年") day = span * 365;
+        var result = Math.floor(price / day * 100) / 100;
+        $(this).find("b").text(result);
+    });
 });
 //按钮事件
 function _btnEvent() {
