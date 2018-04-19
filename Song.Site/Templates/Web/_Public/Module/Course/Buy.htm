@@ -42,7 +42,7 @@
         <div class="priceBox">
           <vt:if var="#.prices.Length" value="0" compare=">">
             <vt:foreach id="prices" from="$#.prices" item="data" remark="价格列表">
-              <div class="priceItem" cpid=" {$:#.data.CP_ID}" couid="{$course.Cou_id}"><span class="ico iconfont">&#xf00c6;</span> {$:#.data.CP_Span}{$:#.data.CP_Unit}<span class="mprice">{$:#.data.CP_Price}</span>元
+              <div class="priceItem" cpid=" {$:#.data.CP_ID}" couid="{$course.Cou_id}"><span class="ico iconfont">&#xf00c6;</span> &#165;<span class="mprice">{$:#.data.CP_Price}</span>/{$:#.data.CP_Span}{$:#.data.CP_Unit}
                <span class="alt" span="{$:#.data.CP_Span}" unit="{$:#.data.CP_Unit}" price="{$:#.data.CP_Price}">(日均<b>0.1</b>元)</span>
               <vt:if var="data.CP_Coupon" value="0" compare=">">
               <span class="coupon">(可以用券抵扣<span class="cprice">{$:#.data.CP_Coupon}</span>元)</span>
