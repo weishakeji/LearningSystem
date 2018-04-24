@@ -91,10 +91,12 @@
             "width": this.Width - 8,"height": this.Height - 8
         });
         //如果有父窗口
-        if(this.Parent!=null && this.Parent.size()>0 && !(this.Parent.attr("wdper")=="100" && this.Parent.attr("hgper")=="100")){
+        if(this.Parent!=null && this.Parent.size()>0 ){
             boxframe.attr({"parent":this.Parent.attr("winid")});
-            var off=this.Parent.offset();
-            boxframe.css({top:off.top+50,left:off.left+50});
+            if( !(this.Parent.attr("wdper")=="100" && this.Parent.attr("hgper")=="100")) {
+                var off = this.Parent.offset();
+                boxframe.css({top: off.top + 50, left: off.left + 50});
+            }
         }
         //设置层深
         var index= parseInt($(".screenMask[winid=" + this.WinId + "]").css("z-index"));
@@ -152,13 +154,23 @@
             });
         }
     }
+    //刷新窗体
+    pagebox.Refresh = function (winid) {
+        var box=$(".PageBox[winid='" + winid + "']");
+        var iframe=box.find("iframe");
+        if(iframe.size()>0) {
+            iframe.attr("src", iframe.get(0).contentWindow.location.href);
+        }
+    }
     //隐藏关闭按钮
     pagebox.prototype.HideClose = function () {
         $(".PageBoxTitleClose").hide();
     }
     //关闭窗口并刷新当前打开的页面
-    pagebox.prototype.CloseAndRefresh = function () {	//清除窗口
-        this.Close();
+    pagebox.CloseAndRefresh = function (winid) {
+        var box=$(".PageBox[winid='" + winid + "']");
+        pagebox.Refresh(box.attr("parent"));
+        pagebox.Close(winid);
         //管理页
         var frame = $("#adminPage");
         var url = document.getElementById("adminPage").contentWindow.location.href;

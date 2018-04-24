@@ -66,7 +66,7 @@ namespace Song.Site.Manage
             if (!string.IsNullOrWhiteSpace(say) && say.Trim() != "")
             {
                 say = say.Replace("\r", "\n");
-                say = "<script type=\"text/javascript\">alert(\"" + say + "\");new top.PageBox().CloseAndRefresh();</script>";
+                say = "<script type=\"text/javascript\">alert(\"" + say + "\"); window.top.PageBox.CloseAndRefresh(window.name);</script>";
                 //ScriptManager.RegisterClientScriptBlock(this.Page, typeof(UpdatePanel), "Alert", say, true);
                 Page.ClientScript.RegisterStartupScript(typeof(string), "alert", say);
             }

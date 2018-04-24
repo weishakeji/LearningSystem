@@ -19,7 +19,7 @@ $(function () {
 });
 //GridView中行的双击事件
 //id:参数id
-function OnRowDbClick(id, title,winname) {
+function OnRowDbClick(id, title, winname) {    
     //子页路径
     if (ChildPage == null || ChildPage == "") return false;
     if (GridViewId == "") return false;
@@ -178,7 +178,7 @@ function OnAnswer() {
 }
 
 //打开窗口的方法
-function OpenSysWin(id, title,winname) {
+function OpenSysWin(id, title, winname) {    
     var pid = $().getPara("pid");
     //当前焦点页面标题	
     var name = "";
