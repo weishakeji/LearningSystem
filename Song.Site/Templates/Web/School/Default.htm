@@ -74,7 +74,7 @@
         <div class="nlistbox">
           <vt:list type="news" item="data" columns="-1" index="i" count="5" remark="新闻">
             <div class="artItem" artid="{$:#.data.art_id}">
-              <div class="artlink"><a href="notice.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a> </div>
+              <div class="artlink"><a href="article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a> </div>
               <div class="arttime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
             </div>
           </vt:list>
@@ -83,7 +83,7 @@
           <vt:list type="news" item="data" columns="-1" index="i" count="10" remark="新闻">
             <vt:if var="i" value="5" compare=">">
               <div class="artItem" artid="{$:#.data.art_id}">
-                <div class="artlink"><a href="notice.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a> </div>
+                <div class="artlink"><a href="article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a> </div>
                 <div class="arttime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
               </div>
             </vt:if>

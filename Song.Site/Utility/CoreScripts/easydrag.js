@@ -110,15 +110,15 @@
 			// set current drag status
 			dragStatus[draggable.id] = "handler";
 			// change handle cursor type
-			$("#"+handlerId).css("cursor", "move");
+            $(this).find(handlerId).css("cursor", "move");
 			// bind event handler
-			$("#"+handlerId).mousedown(function(e){
+            $(this).find(handlerId).mousedown(function(e){
 				holdingHandler = true;
 				$(draggable).trigger('mousedown', e);
 				$(this).css("cursor", "move");
 			});
 			// bind event handler
-			$("#"+handlerId).mouseup(function(e){
+            $(this).find(handlerId).mouseup(function(e){
 				holdingHandler = false;
 			});
 		});
@@ -143,7 +143,7 @@
 				// set it as absolute positioned
 				$(this).css("position", "absolute");
 					// set z-index
-				$(this).css("z-index", parseInt( new Date().getTime()/1000 ));
+				//$(this).css("z-index", parseInt( new Date().getTime()/1000 ));
 				// update track variables
 				isMouseDown    = true;
 				currentElement = this;

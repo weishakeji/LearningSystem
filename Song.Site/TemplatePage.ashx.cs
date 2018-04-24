@@ -28,6 +28,10 @@ namespace Song.Site
                 WeiSha.Common.Template.ForMobile.SetCurrent(this.Organ.Org_TemplateMobi)
                 : WeiSha.Common.Template.ForWeb.SetCurrent(this.Organ.Org_Template);
             if (curr == null) throw new Exception("没有任何模板可用！");
+            //是否是公共页面
+            if (curr.Config.Public == null) throw new Exception("未找到公共模板库！");
+            bool isPublic = curr.Config.Public.PageExists(filePath);
+            if (isPublic) curr = curr.Config.Public;
             //当前模板的所在路径
             string tmFile = curr.Path.Physics + filePath + ".htm";
             //装载模板

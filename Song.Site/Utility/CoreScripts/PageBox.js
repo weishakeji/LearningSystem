@@ -10,233 +10,205 @@
 * 作  者：宋雷鸣 
 * 开发时间: 2012年12月28日
 */
-//窗体Jquery对象
-PageBox.prototype.WinBox = null;
-//是否允许拖动
-PageBox.prototype.IsDrag = true;
-//窗口关闭时的事件
-PageBox.prototype.CloseEvent = null;
-//弹出窗口的主类
-//title:窗口标题
-//page:打开的页面
-//width:窗口宽度
-//height:窗口高度
-//widId:窗口id
-function PageBox(title, page, width, height, winId) {
-    this.Init(title, page, width, height, winId);
-}
-//初始化参数
-PageBox.prototype.Init = function (title, page, width, height, winId) {
-    //屏幕的宽高
-    var hg = $(window).height();
-    var wd = $(window).width();
-    title = title != null && title != "" ? title : "newWinBox";
-    //如果为空，则为浏览器窗口一半宽高
-    width = width != null && width != 0 && width != "" ? Number(width) : wd / 2;
-    height = height != null && height != 0 && height != "" ? Number(height) : hg / 2;
-    //如果宽高小于100，则默认为浏览器窗口的百分比	
-    width = width > 100 ? Number(width) : $("body").width() * Number(width) / 100;
-    height = height > 100 ? Number(height) : hg * Number(height) / 100;
-    //alert(winId);
-    if (winId == null) {
-        winId = new Date().getTime() + "_" + Math.floor(Math.random() * 1000 + 1)
+(function () {
+    function pagebox(title, page, width, height, id,patwin) {
+        this.Init(title, page, width, height, id,patwin);
     }
-    //
-    this.Title = title;
-    this.Width = width;
-    this.Height = height;
-    this.Page = page;
-    this.WinId = winId;
-}
-//创建窗口，并打开
-PageBox.prototype.Open = function (title, page, width, height, winId) {
-    //判断是否已经存在窗口
-    var WinBox = $("#PageBox[winId='" + this.WinId + "']");
-    if (WinBox.size() > 0) return;
-    this.Close();
-    //生成窗口
-    this.Mask();
-    this.BuildFrame();
-    this.BuildTitle();
-    this.BuildIFrame();
-    if (this.CloseEvent != null) {
-        var str = String(this.CloseEvent).replace(/[\r\n]/g, "").replace(/\{2,}/g, "");
-        str = str.replace(/'/g, "&#39;").replace(/"/g, "&#34;");
-        this.WinBox.attr("closeevent",str);
+    pagebox.version="1.1";  //版本号
+    pagebox.prototype.Parent = null;    //上级窗体
+    pagebox.prototype.IsDrag = true;    //是否允许拖动
+    pagebox.prototype.CloseEvent = null;    //窗口关闭时的事件
+    //初始化参数
+    pagebox.prototype.Init = function (title, page, width, height, winid,patwin) {
+        //屏幕的宽高
+        var hg = $(window).height();
+        var wd = $(window).width();
+        this.Title = title != null && title != "" ? title : "&nbsp;";
+        //如果为空，则为浏览器窗口一半宽高
+        width = width != null && width != 0 && width != "" ? Number(width) : wd / 2;
+        height = height != null && height != 0 && height != "" ? Number(height) : hg / 2;
+        //如果宽高小于100，则默认为浏览器窗口的百分比
+        this.Width = width > 100 ? Number(width) : wd * Number(width) / 100;
+        this.Height = height > 100 ? Number(height) : hg * Number(height) / 100;
+        this.WinId=winid != null ? winid :new Date().getTime() + "_" + Math.floor(Math.random() * 1000 + 1);
+        this.Page = page;
+        //上级窗体
+        if(patwin!=null) this.Parent=pagebox.getParent(patwin);
     }
-    //设置拖动
-    if (this.IsDrag) {
-        $("#PageBox").easydrag();
-        $("#PageBox").setHandler("PageBoxTitle");
+    //获取父窗口
+    pagebox.getParent=function(winname){
+       var winbox=$(".PageBox[winid="+winname+"]", window.top.document);
+        return winbox;
     }
-    //开始拖动
-    $("#PageBox").ondrag(function () {
-        $("#PageBoxIframeMask").show();
-        var frame = $("#PageBoxIframeTemp");
-        if (frame.size() > 0) {
-            frame.hide();
+    //创建窗口，并打开
+    pagebox.prototype.Open = function (title, page, width, height, winId) {
+        //生成窗口
+        this.maskOpen();    //打开遮罩层
+        this.buildFrame();  //创建窗体
+        //设置拖动
+        if (this.IsDrag) {
+            $(".PageBox[winid='" + this.WinId + "']").easydrag().setHandler(".PageBoxTitle")
+                .ondrag(function () {
+                    $(".PageBoxIframeMask").show();
+            }).ondrop(function () {
+                    $(".PageBoxIframeMask").hide();
+           });
         }
-    });
-    //停止拖动
-    $("#PageBox").ondrop(function () {
-        $("#PageBoxIframeMask").hide();
-        var frame = $("#PageBoxIframeTemp");
-        if (frame.size() > 0) {
-            var PageBox = $("#PageBox");
-            var offset = PageBox.offset();
-            frame.css("top", offset.top);
-            frame.css("left", offset.left);
-            frame.show();
+        //关闭事件
+        if (this.CloseEvent != null) pagebox.events.add(this.WinId + "_CloseEvent", this.CloseEvent);
+    }
+    //生成窗体外框
+    pagebox.prototype.buildFrame = function () {
+        //屏幕的宽高
+        var hg = $(window).height();
+        var wd = $(window).width();
+        $("body").append("<div class=\"PageBox\" type=\"PageBox\" winid=\"" + this.WinId + "\"></div>");
+        var boxframe = $(".PageBox[winid="+this.WinId+"]");
+        var border = parseInt(boxframe.css("border-width")); //窗体边线宽度
+        border = !isNaN(border) ? border : 0;
+        //设置窗口的位置
+        boxframe.css({top: (hg - this.Height) / 2 - border + $(window).scrollTop(),
+            left:(wd - this.Width) / 2 - border,position:"absolute",
+            "width": this.Width - 8,"height": this.Height - 8
+        });
+        //如果有父窗口
+        if(this.Parent!=null && this.Parent.size()>0){
+            boxframe.attr({"parent":this.Parent.attr("winid")});
+            var off=this.Parent.offset();
+            boxframe.css({top:off.top+50,left:off.left+50});
         }
-    });
-    //完成后触发事件
-    this.OnComplete();
-}
-//生成窗体外框
-PageBox.prototype.BuildFrame = function () {
-    //屏幕的宽高
-    var hg = document.documentElement.clientHeight;
-    var wd = document.documentElement.clientWidth;
-    //
-    $("body").append("<div id=\"PageBox\" type=\"PageBox\" winId=\"" + this.WinId + "\"></div>");
-    var PageBox = $("#PageBox");
-    this.WinBox = PageBox;
-    var border = parseInt(PageBox.css("border-width")); //窗体边线宽度
-    border = !isNaN(border) ? border : 0;
-    //设置窗口的位置
-    PageBox.css("top", (hg - this.Height) / 2 - border + $(window).scrollTop());
-    PageBox.css("left", (wd - this.Width) / 2 - border);
-    PageBox.css("position", "absolute");
-    PageBox.css("z-index", "10001");
-    PageBox.css("width", this.Width - 8);
-    PageBox.css("height", this.Height - 8);
-    return PageBox;
-}
-//生成标题栏
-PageBox.prototype.BuildTitle = function () {
-    var box = this.WinBox;
-    box.append("<div id=\"PageBoxTitle\"></div>");
-    var titbox = $("#PageBoxTitle");
-    var tm = "<table width=\"100%\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">";
-    tm += "<tr>";
-    //tm+="<td width=\"25\" >&nbsp;</td>"
-    tm += "<td ><div id=\"PageBoxTitleTxt\">" + this.Title + "</div></td>";
-    tm += "<td width=\"15\" align=\"center\">";
-    tm += "<a id=\"PageBoxTitleClose\" href=\"#\"> </a></td>";
-    tm += "</tr></table>"
-    titbox.append(tm);
-    //关闭按钮
-    $("#PageBoxTitleClose").click(function () {
-        var box = $(this).parents("div[type=PageBox]");
-        var winid = box.attr("winid");
+        var index= parseInt($(".screenMask[winid=" + this.WinId + "]").css("z-index"));
+        boxframe.css({"z-index":index+1});
+        //设置标题
+        boxframe.append("<div class='PageBoxTitle'></div>");
+        var titbox = boxframe.find(".PageBoxTitle");
+        titbox.append("<div class=\"PageBoxTitleTxt\">" + this.Title + "</div>");
+        titbox.append("<a class=\"PageBoxTitleClose\" href=\"#\">&#215; </a>");
+        //标题栏上的关闭按钮，点击事件
+        titbox.find(".PageBoxTitleClose").click(function () {
+            var box = $(this).parents("div[type=PageBox]");
+            var winid = box.attr("winid");
+            PageBox.Close(winid);
+            return false;
+        });
+        //生成窗体内容区，即iframe
+        boxframe.append("<iframe name='"+this.WinId+"'></iframe>");
+        var frame = boxframe.find("iframe");
+        var titHg = boxframe.find(".PageBoxTitle").height();    //高度
+        var height = boxframe.height() - titHg;
+        frame.attr({src:this.Page,width:boxframe.width(),height:height,
+            marginwidth:0,marginheight:0,align:"top",scrolling:"auto",frameborder:0
+        });
+        //生成iframe上面的覆盖
+        boxframe.append("<div class='PageBoxIframeMask'></div>");
+        var mask = boxframe.find(".PageBoxIframeMask");
+        mask.css({ position: "absolute", "display": "block","background-color": "#ffffff",
+            left: "0px",top: boxframe.find(".PageBoxTitle").height(),opacity:.6,
+            width:boxframe.width(),height:height
+        }).fadeIn("slow");
+        mask.hide();
+        return boxframe;
+    }
+    //关闭窗口
+    pagebox.prototype.Close = function (winid) {	//清除窗口
         PageBox.Close(winid);
-        return false;
-    })
-}
-//生成页面frame区域
-PageBox.prototype.BuildIFrame = function () {
-    var box = this.WinBox;
-    var width = box.width();
-    //标题栏的高度
-    var titHg = $("#PageBoxTitle").height();
-    var height = box.height() - titHg;
-    var frame = "";
-    frame += "<iframe src=\"" + this.Page + "\" name=\"PageBoxIframe\" id=\"PageBoxIframe\" ";
-    frame += "width=\"" + width + "\"";
-    frame += "height=\"" + height + "\"";
-    frame += "marginwidth=\"0\"  marginheight=\"0\" align=\"top\" scrolling=\"auto\"";
-    //frame+="frameborder=\"0\" allowtransparency=\"false\">";
-    frame += "frameborder=\"0\" >";
-    frame += "</iframe>";
-    box.append(frame);
-    //生成iframe上面的覆盖	
-    box.append("<div id=\"PageBoxIframeMask\"></div>");
-    var mask = $("#PageBoxIframeMask");
-    mask.width(box.width());
-    mask.height(height);
-    mask.css({
-        position: "absolute",
-        left: "0px",
-        top: $("#PageBoxTitle").height()
-    });
-    var alpha = 60;
-    mask.css("background-color", "#ffffff");
-    mask.css("filter", "Alpha(Opacity=" + alpha + ")");
-    mask.css("display", "block");
-    mask.css("-moz-opacity", alpha / 100);
-    mask.css("opacity", alpha / 100);
-    mask.fadeIn("slow");
-    mask.hide();
-}
-//关闭窗口
-PageBox.prototype.Close = function (winid) {	//清除窗口
-    PageBox.Close(winid);
-}
-PageBox.Close = function (winid) {
-    if (winid == null) {
-        $("#PageBox").remove();
-        $("#screenMask").fadeOut(200);
-    } else {
-        var WinBox = $("#PageBox[winid='" + winid + "']");
-        if (WinBox.size() > 0) {
-            WinBox.remove();
-            $("#screenMask").fadeOut("slow");
-        }
-        //窗口关闭后的事件
-        var func = WinBox.attr("closeevent");
-        if (func != null && func != "") {
-            func = func.replace(/\&#39;/g, "'").replace(/\&#34;/g, "\"");
-            var event = eval("(" + func + ")");
-            event();
+    }
+    pagebox.Close = function (winid) {
+        if (winid == null) {
+            $(".PageBox").remove();
+            $(".screenMask").fadeOut(200);
+        } else {
+            //窗口关闭后的事件
+            var func = pagebox.events.get(winid + "_CloseEvent");
+            var box=$(".PageBox[winid='" + winid + "']");
+            var pbox=$(".PageBox[winid='" + box.attr("parent") + "']");
+            if (func != null) func(box,pbox);
+            $(".PageBox[winid='" + winid + "']").remove();
+            $(".screenMask[winid=" + winid + "]").fadeOut("slow",function(){
+                $(this).remove();
+            });
         }
     }
-}
-//隐藏关闭按钮
-PageBox.prototype.HideClose = function () {
-    $("#PageBoxTitleClose").hide();
-}
-//关闭窗口并刷新当前打开的页面
-PageBox.prototype.CloseAndRefresh = function () {	//清除窗口
-    this.Close();
-    //管理页
-    var frame = $("#adminPage");
-    var url = document.getElementById("adminPage").contentWindow.location.href;
-    frame.attr("src", url);
-}
-//生成遮罩层
-PageBox.prototype.Mask = function () {
-    $("body").append("<div id=\"screenMask\"/>");
-    var mask = $("#screenMask");
-    //屏幕的宽高
-    var hg = document.documentElement.clientHeight > document.body.scrollWidth ? document.documentElement.clientHeight : document.body.scrollWidth;
-    var wd = document.documentElement.clientWidth > document.body.scrollHeight ? document.documentElement.clientWidth : document.body.scrollHeight;
-    mask.css({ "position": "absolute", "z-index": "10000",
-        "width": wd, "height": hg, top: 0, left: 0
+    //隐藏关闭按钮
+    pagebox.prototype.HideClose = function () {
+        $(".PageBoxTitleClose").hide();
+    }
+    //关闭窗口并刷新当前打开的页面
+    pagebox.prototype.CloseAndRefresh = function () {	//清除窗口
+        this.Close();
+        //管理页
+        var frame = $("#adminPage");
+        var url = document.getElementById("adminPage").contentWindow.location.href;
+        frame.attr("src", url);
+    }
+    //生成遮罩层
+    pagebox.prototype.maskOpen= function () {
+        $("body").append("<div class=\"screenMask\" winid='" + this.WinId + "'/>");
+        var mask = $(".screenMask[winid=" + this.WinId + "]");
+        //屏幕的宽高
+        var hg = document.documentElement.clientHeight > document.body.scrollWidth ? document.documentElement.clientHeight : document.body.scrollWidth;
+        var wd = document.documentElement.clientWidth > document.body.scrollHeight ? document.documentElement.clientWidth : document.body.scrollHeight;
+        var alpha = 60;
+        var initIndex=1;
+        if (this.Parent != null && this.Parent.size() > 0) {
+            initIndex=parseInt(this.Parent.css("z-index"));
+        }
+        mask.css({ "position": "absolute", "z-index": initIndex+1000,"display": "block",
+            "width": wd, "height": hg, top: 0, left: 0,opacity:.6,"background-color": "#999"
+        }).fadeIn(1);
+    }
+    //当浏览器窗口变化时
+    pagebox.OnReSize = function () {
+        $(".screenMask").css({width:$(window).width(),height:$(window).height()});
+    }
+    /*  储存事件方法的键值对，用于保存窗体事件   */
+    pagebox.events = {
+        //添加
+        add: function (key, val) {
+            var i = pagebox.events.indexOf(key);
+            if (i > -1) {
+                pagebox.events.values[i] = val;
+            } else {
+                pagebox.events.keys.push(key);
+                pagebox.events.values.push(val);
+            }
+            return val;
+        },
+        //清除
+        remove: function (key) {
+            var i = pagebox.events.indexOf(key);
+            if (i > -1) {
+                pagebox.events.keys.splice(i, 1);
+                pagebox.events.values.splice(i, 1);
+            }
+        },
+        //通过key值，或取value
+        get: function (key) {
+            var i = pagebox.events.indexOf(key);
+            if (i > -1) return pagebox.events.values[i];
+            return null;
+        },
+        //是否为空
+        isempty: function () { return pagebox.events.size < 1; },
+        //长度
+        size: function () { return pagebox.events.keys.length; },
+        //通过key，获取索引值
+        indexOf: function (key) {
+            for (var i = 0; i < pagebox.events.keys.length; i++) {
+                if (pagebox.events.keys[i] == key) return i;
+            }
+            return -1;
+        },
+        //清空
+        clear: function () {
+            pagebox.events.keys.splice(0, pagebox.events.keys.length);
+            pagebox.events.values.splice(0, pagebox.events.values.length);
+        },
+        keys: new Array(),
+        values: new Array()
+    };
+    window.PageBox = pagebox;
+    $(window).resize(function() {
+        window.PageBox.OnReSize();
     });
-    var alpha = 60;
-    mask.css({ "background-color": "#999", "filter": "Alpha(Opacity=" + alpha + ")",
-        "display": "block", "-moz-opacity": alpha / 100, "opacity": alpha / 100
-    });
-    mask.fadeIn("slow");
-}
-//当浏览器窗口变化时
-PageBox.prototype.OnReSize = function () {
-    var box = $("#PageBox");
-    if (box.size() < 1) return;
-    //重新设置遮罩
-    this.Mask();
-    //屏幕的宽高
-    var hg = document.documentElement.clientHeight > document.body.scrollWidth ? document.documentElement.clientHeight : document.body.scrollWidth;
-    var wd = document.documentElement.clientWidth > document.body.scrollHeight ? document.documentElement.clientWidth : document.body.scrollHeight;
-    //设置窗口的位置
-    box.css("top", (hg - box.height()) / 2);
-    box.css("left", (wd - box.width()) / 2);
-}
-//当完成后，触发事件
-PageBox.prototype.OnComplete = function () {
-    var num = 50;
-    var p = $("#PageBox");
-    //谈入效果
-    p.hide();
-    p.fadeIn();
-}
+})();

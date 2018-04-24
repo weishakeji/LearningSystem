@@ -1268,6 +1268,7 @@
     <Content Include="Templates\Web\NetSchool\Styles\KnowledgesList.css" />
     <Content Include="Templates\Web\NetSchool\Styles\Links.css" />
     <Content Include="Templates\Web\NetSchool\Styles\MessageBoards.css" />
+    <Content Include="Templates\Web\_Public\Pagebox.htm" />
     <Content Include="Utility\CoreScripts\easydrag.js" />
     <Content Include="Utility\CoreScripts\hanzi2pinyin.js" />
     <Content Include="Utility\CoreScripts\highcharts-3d.js" />
