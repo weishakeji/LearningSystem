@@ -177,7 +177,7 @@
             initIndex=parseInt(this.Parent.css("z-index"));
         }
         mask.css({ "position": "absolute", "z-index": initIndex+1000,"display": "block",
-            "width": wd, "height": hg, top: 0, left: 0,opacity:.6,"background-color": "#999"
+            "width": wd, "height": hg, top: 0, left: 0,opacity:.3,"background-color": "#999"
         }).fadeIn(1);
     }
     //当浏览器窗口变化时

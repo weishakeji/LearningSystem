@@ -41,7 +41,7 @@ function OnAdd(winname) {
     //子页路径
     if (ChildPage == "") return false;
     if (isWinOpen) {
-        OpenSysWin(winname);
+        OpenSysWin(null,null,winname);
     } else {
         var url = AddPara(ChildPage, "from", SelfPage);
         window.location.href = url;
@@ -66,7 +66,7 @@ function OnEdit(id, winname) {
     //如果允许打开弹出窗口
     if (isWinOpen) {
         id = escape(id == null ? keys : id);
-        OpenSysWin(id, winname);
+        OpenSysWin(id, null,winname);
     } else {
         //如果不允许弹出，则页面转向
         var url = AddPara(ChildPage, "id", id);
@@ -107,7 +107,7 @@ function OnView() {
     //如果允许打开弹出窗口
     if (isWinOpen) {
         id = escape(id == null ? keys : id);
-        OpenSysWin(id);
+        OpenSysWin(id,null,window.name);
     } else {
         //如果不允许弹出，则页面转向
         var url = AddPara(ChildPage, "id", id);
@@ -167,7 +167,7 @@ function OnAnswer() {
     //如果允许打开弹出窗口
     if (isWinOpen) {
         id = escape(id == null ? keys : id);
-        OpenSysWin(id);
+        OpenSysWin(id,null,window.name);
     } else {
         //如果不允许弹出，则页面转向
         var url = AddPara(ChildPage, "id", id);
@@ -178,7 +178,7 @@ function OnAnswer() {
 }
 
 //打开窗口的方法
-function OpenSysWin(id, title) {
+function OpenSysWin(id, title,winname) {
     var pid = $().getPara("pid");
     //当前焦点页面标题	
     var name = "";
@@ -211,7 +211,8 @@ function OpenSysWin(id, title) {
         ext = id != null ? "修改" : "新增";
         if (ext == "修改" && btnMod.size() < 1) ext = "编辑";
     }
-    new top.PageBox(name + "---" + ext, path, ChildPageWd, ChildPageHg,null,window.name).Open();
+    winname = winname == null ? window.name : winname;
+    new top.PageBox(name + "---" + ext, path, ChildPageWd, ChildPageHg, null, winname).Open();
 }
 //打开窗口的方法，供其它方法调用
 function OpenWin(file, title, wd, hg,winname) {

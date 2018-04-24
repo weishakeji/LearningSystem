@@ -95,7 +95,7 @@
             </asp:TemplateField>
         </Columns>
     </cc1:GridView>
-    <div style="height:600px">&nbsp;</div>
+   
     <div class="pagerBar">
     <uc2:Pager ID="Pager1" runat="server" Size="20" OnPageChanged="BindData" />
     </div>

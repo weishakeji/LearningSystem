@@ -43,7 +43,7 @@
             <div loyout="column" width="10"></div>
             <div id="editRight" loyout="column">
             <div loyout="row" height="10"></div>
-            <div loyout="row" class="areabox" overflow="auto">
+            <div loyout="row" class="areabox" overflow="auto" style="position:relative">
                 <asp:ContentPlaceHolder ID="cphMain" runat="server">
                 </asp:ContentPlaceHolder></div>
             </div>
