@@ -30,7 +30,11 @@ $(".btn[name=open]").click(function(){
 	var win=new window.top.PageBox("测试",href,60,60,null,window.name);
 	win.CloseEvent=function(box,pbox){		
 		var iframe=pbox.find("iframe");
-		if(iframe.size()>0)iframe.attr("src",iframe.attr("src"));
+		if(iframe.size()>0){
+			iframe.attr("src",iframe.attr("src"));
+		}else{
+			window.location.href=window.location.href;
+		}
 	}
 	win.Open();
 	

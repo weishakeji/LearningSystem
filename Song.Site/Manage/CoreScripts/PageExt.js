@@ -19,7 +19,7 @@ $(function () {
 });
 //GridView中行的双击事件
 //id:参数id
-function OnRowDbClick(id, title) {
+function OnRowDbClick(id, title,winname) {
     //子页路径
     if (ChildPage == null || ChildPage == "") return false;
     if (GridViewId == "") return false;
@@ -27,7 +27,7 @@ function OnRowDbClick(id, title) {
     //如果允许打开弹出窗口
     if (isWinOpen) {
         id = escape(id == null ? keys : id);
-        OpenSysWin(id, title);
+        OpenSysWin(id, title, winname);
     } else {
         //如果不允许弹出，则页面转向
         var url = AddPara(ChildPage, "id", id);
@@ -37,11 +37,11 @@ function OnRowDbClick(id, title) {
     return false;
 }
 //新增按钮事件
-function OnAdd() {
+function OnAdd(winname) {
     //子页路径
     if (ChildPage == "") return false;
     if (isWinOpen) {
-        OpenSysWin();
+        OpenSysWin(winname);
     } else {
         var url = AddPara(ChildPage, "from", SelfPage);
         window.location.href = url;
@@ -50,7 +50,7 @@ function OnAdd() {
 }
 //修改按钮事件
 //id:参数id
-function OnEdit(id) {
+function OnEdit(id, winname) {
     //子页路径
     if (ChildPage == "") return false;
     if (GridViewId == "") return false;
@@ -66,7 +66,7 @@ function OnEdit(id) {
     //如果允许打开弹出窗口
     if (isWinOpen) {
         id = escape(id == null ? keys : id);
-        OpenSysWin(id);
+        OpenSysWin(id, winname);
     } else {
         //如果不允许弹出，则页面转向
         var url = AddPara(ChildPage, "id", id);
@@ -211,10 +211,10 @@ function OpenSysWin(id, title) {
         ext = id != null ? "修改" : "新增";
         if (ext == "修改" && btnMod.size() < 1) ext = "编辑";
     }
-    new top.PageBox(name + "---" + ext, path, ChildPageWd, ChildPageHg).Open();
+    new top.PageBox(name + "---" + ext, path, ChildPageWd, ChildPageHg,null,window.name).Open();
 }
 //打开窗口的方法，供其它方法调用
-function OpenWin(file, title, wd, hg) {
+function OpenWin(file, title, wd, hg,winname) {
     //当前页面的上级路径，因为子页面没有写路径，默认与本页面同路径
     var url = String(window.document.location.href);
     url = url.substring(0, url.lastIndexOf("/") + 1);
@@ -234,7 +234,8 @@ function OpenWin(file, title, wd, hg) {
         }
     }
     //
-    new top.PageBox(name + "---" + title, path, wd, hg).Open();
+    winname = winname == null ? window.name : winname;
+    new top.PageBox(name + "---" + title, path, wd, hg, null,winname).Open();
 }
 //为地址增加参数
 function AddPara(url, key, value) {

@@ -8,7 +8,7 @@
 *
 *
 * 作  者：宋雷鸣 
-* 开发时间: 2012年12月28日
+* 开发时间: 2016年12月28日
 */
 (function () {
     function pagebox(title, page, width, height, id,patwin) {
@@ -18,8 +18,18 @@
     pagebox.prototype.Parent = null;    //上级窗体
     pagebox.prototype.IsDrag = true;    //是否允许拖动
     pagebox.prototype.CloseEvent = null;    //窗口关闭时的事件
+    pagebox.prototype.FullScreenEvent = function(){
+        $("html").css("overflow","hidden");
+    };
+    pagebox.prototype.WinScreenEvent = function(box){
+        if(Number(box.attr("wdper"))==100 && Number(box.attr("hgper"))==100)
+            $("html").css("overflow","auto");
+    };
     //初始化参数
     pagebox.prototype.Init = function (title, page, width, height, winid,patwin) {
+        if(width==100& height==100){
+            if (this.FullScreenEvent != null)this.FullScreenEvent();
+        }
         //屏幕的宽高
         var hg = $(window).height();
         var wd = $(window).width();
@@ -28,6 +38,8 @@
         width = width != null && width != 0 && width != "" ? Number(width) : wd / 2;
         height = height != null && height != 0 && height != "" ? Number(height) : hg / 2;
         //如果宽高小于100，则默认为浏览器窗口的百分比
+        this.Wdper=width > 100 ? width/wd*100 : width;    //宽度百分比
+        this.Hgper=height > 100 ? height/hg*100 : height;    //宽度百分比
         this.Width = width > 100 ? Number(width) : wd * Number(width) / 100;
         this.Height = height > 100 ? Number(height) : hg * Number(height) / 100;
         this.WinId=winid != null ? winid :new Date().getTime() + "_" + Math.floor(Math.random() * 1000 + 1);
@@ -45,17 +57,23 @@
         //生成窗口
         this.maskOpen();    //打开遮罩层
         this.buildFrame();  //创建窗体
+        pagebox.coordinate(this.WinId);     //计算坐标相对窗体的比例
         //设置拖动
-        if (this.IsDrag) {
+        if (this.IsDrag && !(this.Wdper==100 && this.Hgper)) {
             $(".PageBox[winid='" + this.WinId + "']").easydrag().setHandler(".PageBoxTitle")
                 .ondrag(function () {
                     $(".PageBoxIframeMask").show();
-            }).ondrop(function () {
+            }).ondrop(function (d) {
                     $(".PageBoxIframeMask").hide();
+                    var winid=$(d.target).parents(".PageBox").attr("winid");
+                    pagebox.coordinate(winid);
            });
         }
-        //关闭事件
+        //关闭事件，全屏事件
         if (this.CloseEvent != null) pagebox.events.add(this.WinId + "_CloseEvent", this.CloseEvent);
+        if (this.FullScreenEvent != null) pagebox.events.add(this.WinId + "_FullScreenEvent", this.FullScreenEvent);
+        if (this.WinScreenEvent != null) pagebox.events.add(this.WinId + "_WinScreenEvent", this.WinScreenEvent);
+
     }
     //生成窗体外框
     pagebox.prototype.buildFrame = function () {
@@ -64,19 +82,21 @@
         var wd = $(window).width();
         $("body").append("<div class=\"PageBox\" type=\"PageBox\" winid=\"" + this.WinId + "\"></div>");
         var boxframe = $(".PageBox[winid="+this.WinId+"]");
+        boxframe.attr({"wdper":this.Wdper,"hgper":this.Hgper});
         var border = parseInt(boxframe.css("border-width")); //窗体边线宽度
         border = !isNaN(border) ? border : 0;
         //设置窗口的位置
-        boxframe.css({top: (hg - this.Height) / 2 - border + $(window).scrollTop(),
-            left:(wd - this.Width) / 2 - border,position:"absolute",
+        boxframe.css({top: (hg - this.Height) / 2  + $(window).scrollTop(),
+            left:(wd - this.Width) / 2 ,position:"absolute",
             "width": this.Width - 8,"height": this.Height - 8
         });
         //如果有父窗口
-        if(this.Parent!=null && this.Parent.size()>0){
+        if(this.Parent!=null && this.Parent.size()>0 && !(this.Parent.attr("wdper")=="100" && this.Parent.attr("hgper")=="100")){
             boxframe.attr({"parent":this.Parent.attr("winid")});
             var off=this.Parent.offset();
             boxframe.css({top:off.top+50,left:off.left+50});
         }
+        //设置层深
         var index= parseInt($(".screenMask[winid=" + this.WinId + "]").css("z-index"));
         boxframe.css({"z-index":index+1});
         //设置标题
@@ -87,8 +107,7 @@
         //标题栏上的关闭按钮，点击事件
         titbox.find(".PageBoxTitleClose").click(function () {
             var box = $(this).parents("div[type=PageBox]");
-            var winid = box.attr("winid");
-            PageBox.Close(winid);
+            PageBox.Close(box.attr("winid"));
             return false;
         });
         //生成窗体内容区，即iframe
@@ -119,10 +138,14 @@
             $(".screenMask").fadeOut(200);
         } else {
             //窗口关闭后的事件
-            var func = pagebox.events.get(winid + "_CloseEvent");
+            var funcClose = pagebox.events.get(winid + "_CloseEvent");
             var box=$(".PageBox[winid='" + winid + "']");
             var pbox=$(".PageBox[winid='" + box.attr("parent") + "']");
-            if (func != null) func(box,pbox);
+            if (funcClose != null) funcClose(box,pbox);   //关闭窗口的事件
+            //去除全屏事件
+            var funcWin = pagebox.events.get(winid + "_WinScreenEvent");
+            if (funcWin != null) funcWin(box);
+            //清除pagbox对象
             $(".PageBox[winid='" + winid + "']").remove();
             $(".screenMask[winid=" + winid + "]").fadeOut("slow",function(){
                 $(this).remove();
@@ -160,6 +183,27 @@
     //当浏览器窗口变化时
     pagebox.OnReSize = function () {
         $(".screenMask").css({width:$(window).width(),height:$(window).height()});
+        //屏幕的宽高
+        var winhg = $(window).height();
+        var winwd = $(window).width();
+        $(".PageBox").each(function(){
+            var border = parseInt($(this).css("border-width")); //窗体边线宽度
+            border = !isNaN(border) ? border : 0;
+            var wd=Number($(this).attr("wdper"))*winwd/100-border*2;
+            var hg=Number($(this).attr("hgper"))*winhg/100-border*2;
+            $(this).css({width:wd,height:hg}).find("iframe").css({width:wd,height:hg-30});
+            var left=Number($(this).attr("leftper"))*winwd;
+            var top=Number($(this).attr("topper"))*winhg;
+            $(this).css({left:left,top:top});
+        });
+    }
+    //计算坐标相对于窗体，并记录在pagebox上
+    pagebox.coordinate = function (winid) {
+        var box=$(".PageBox[winid='" + winid + "']");
+        var winhg = $(window).height();
+        var winwd = $(window).width();
+        var off=box.offset();
+        box.attr({"leftper":off.left/winwd,"topper":off.top/winhg});
     }
     /*  储存事件方法的键值对，用于保存窗体事件   */
     pagebox.events = {

@@ -5,6 +5,7 @@
 <%@ Register Src="../Utility/Pager.ascx" TagName="Pager" TagPrefix="uc2" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
+<% this.Title = "课程管理"; %>
     <div id="header">
         <uc1:toolsBar ID="ToolsBar1" runat="server" GvName="GridView1" WinWidth="980" WinHeight="90"
             OnDelete="DeleteEvent" DelShowMsg="" />       
@@ -48,9 +49,11 @@
             <asp:TemplateField HeaderText="名称">
                 <ItemTemplate>
                     <%--<span class="treeIco">
-                        <%# Eval("Tree")%></span>--%> <span title="点击进行编辑"><a href="../Course/Courses_Edit.aspx?couid=<%# Eval("Cou_ID", "{0}")%>"
+                        <%# Eval("Tree")%></span><span title="点击进行编辑"><a href="../Course/Courses_Edit.aspx?couid=<%# Eval("Cou_ID", "{0}")%>"
                             target="_blank" class="courname">
-                            <%# Eval("Cou_Name")%></a> </span>
+                            <%# Eval("Cou_Name")%></a> </span>--%> 
+                             <a href="#" onclick="OpenWin('../Course/Courses_Edit.aspx?couid=<%# Eval("Cou_ID", "{0}")%>','<%# Eval("Cou_Name")%>',100,100);return false;">
+                              <%# Eval("Cou_Name")%></a>
                 </ItemTemplate>
                 <ItemStyle CssClass="left" />
             </asp:TemplateField>

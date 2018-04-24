@@ -250,7 +250,7 @@ jQuery.fn.setPara = function (url, key, value) {
         var str = "";
         for (var i = 0; i < paras.length; i++) {
             if (paras[i].value == null) continue;
-            str += paras[i].key + "=" + paras[i].value+"&";
+            str += paras[i].key + "=" + paras[i].value + "&";
         }
         if (str.length > 0) {
             if (str.charAt(str.length - 1) == "&") {
@@ -270,13 +270,6 @@ jQuery.fn.getFileName = function () {
     var filename = url.substr(pos + 1);
     filename = filename.substr(0, filename.indexOf("."))
     return filename;
-}
-//在线浏览pdf文件
-jQuery.fn.PdfViewer = function (file) {
-    var viewer = "/Utility/PdfViewer/viewer.html";
-    viewer += "?file=" + encodeURIComponent(file);
-    //window.location.href = viewer;
-    return viewer;
 }
 //格式化日期
 Date.prototype.ToString = function () {

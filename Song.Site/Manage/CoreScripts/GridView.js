@@ -97,7 +97,7 @@ function setRowEvent(gv) {
             //var id = $(this).attr("DataKey");
             var id = $(this).attr("EncryptKey");
             if (id == null) return false;
-            OnRowDbClick(id);
+            OnRowDbClick(id, window.name);
             return false;
         });
         //行内的编辑按钮
@@ -106,13 +106,13 @@ function setRowEvent(gv) {
             if (isJsEvent == false) return true;
             var id = $(this).parents("tr").attr("EncryptKey");
             if (id == null) return false;
-            OnRowDbClick(id, "编辑");
+            OnRowDbClick(id, "编辑", window.name);
             return false;
         });
         gv.find(".RowView").click(function () {
             var id = $(this).parents("tr").attr("EncryptKey");
             if (id == null) return false;
-            OnRowDbClick(id, "查看");
+            OnRowDbClick(id, "查看",window.name);
             return false;
         });
     }

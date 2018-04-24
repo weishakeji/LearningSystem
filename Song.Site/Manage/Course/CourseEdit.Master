@@ -21,7 +21,7 @@
 
     <script type="text/javascript" src="/Manage/CoreScripts/AutoLoyout.js"></script>
     <form loyout="row" id="form1" runat="server" class="pageWinForm" style="margin: 0px">
-    <div class="courseHeader" loyout="row" height="40">
+    <div class="courseHeader" loyout="row" height="40" style="display:none">
         <div class="title" loyout="column">
             课程内容编辑&nbsp;
             <asp:Label ID="lbCouName" runat="server" Text=""></asp:Label></div>

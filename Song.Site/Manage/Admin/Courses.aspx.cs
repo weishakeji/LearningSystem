@@ -27,6 +27,7 @@ namespace Song.Site.Manage.Admin
         protected void Page_Load(object sender, EventArgs e)
         {
             this.Form.DefaultButton = this.btnSear.UniqueID;
+            this.Title = "øŒ≥Ãπ‹¿Ì";
             org = Business.Do<IOrganization>().OrganCurrent();
             if (!this.IsPostBack)
             {

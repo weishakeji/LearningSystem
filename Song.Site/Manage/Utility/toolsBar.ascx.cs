@@ -78,7 +78,7 @@ namespace Song.Site.Manage.Utility
                 //允许添加按钮弹出
                 if (_AddButtonOpen)
                 {
-                    this.btnAdd.Attributes.Add("onclick", "return OnAdd();");
+                    this.btnAdd.Attributes.Add("onclick", "return OnAdd(window.name);");
                 }
             }
             if (_gvName != "")
