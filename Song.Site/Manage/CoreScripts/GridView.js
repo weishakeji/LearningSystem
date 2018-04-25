@@ -97,7 +97,7 @@ function setRowEvent(gv) {
             //var id = $(this).attr("DataKey");
             var id = $(this).attr("EncryptKey");
             if (id == null) return false;
-            OnRowDbClick(id, window.name);
+            OnRowDbClick(id, null,window.name);
             return false;
         });
         //行内的编辑按钮
