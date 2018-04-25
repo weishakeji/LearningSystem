@@ -17,12 +17,12 @@
 </style>
 </head>
 <body>
-<div id="time"></div>
+<div id="time">测试刷新（关闭子窗体，刷新父窗体）：<span></span></div>
 <a class="btn" name="open" href="pagebox.cshtm">弹出窗口</a> <br/>
 <a class="btn" name="getname" href="pagebox.cshtm">当前窗口名称</a>
 </body>
 <script>
-$("#time").text(new Date().getTime());
+$("#time span").text(new Date().Format("yyyy年M月d日 hh:mm:ss"));
 </script>
 <script>
 $(".btn[name=open]").click(function(){
@@ -40,10 +40,8 @@ $(".btn[name=open]").click(function(){
 	
 	return false;
 });
-$(".btn[name=getname]").click(function(){
-	var win=window.top.PageBox.getPid(window.name);
-	//alert(win);
-	//alert(window.name);
+$(".btn[name=getname]").click(function(){	
+	alert(window.name);
 	return false;
 });
 </script>
