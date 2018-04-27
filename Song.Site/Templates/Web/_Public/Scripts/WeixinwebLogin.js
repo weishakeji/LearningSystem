@@ -4,6 +4,7 @@ var returl = function (domain) {
     if (prefix.indexOf("://") > -1) prefix = prefix.substring(0, prefix.indexOf("://"));
     window.location.href = prefix + "://" + domain + "/student/index.ashx";
 }
+
 //
 $(function () {
     //选项卡切换
@@ -29,12 +30,11 @@ function setBtnEvent() {
     //直接登录
     $("#btnDirect").click(function () {
         $(this).addClass("disabled");
-        var openid = $.trim($("#openid").text()); //微信账户唯一id
         var sex = $.trim($("#gender").text()); 	//性别
         var name = $.trim($("#name").text()); 	//姓名
         var photo = $.trim($("#photo").attr("src")); 	//头像
         var url = window.location.href;
-        ajax.post(url, { action: "Direct", openid: openid, sex: sex, name: name, photo: photo }, function (requestdata) {
+        ajax.post(url, { action: "Direct", sex: sex, name: name, photo: photo }, function (requestdata) {
             var data = eval("(" + requestdata + ")");
             if (Number(data.success) == 1) returl(data.domain);
         });
@@ -42,7 +42,6 @@ function setBtnEvent() {
     //新用户注册
     $("#formRegist").submit(function () {
         var isSms = $(this).attr("sms") == "True";
-        var openid = $.trim($("#openid").text()); //微信账户唯一id
         var sex = $.trim($("#gender").text()); 	//性别
         var name = $.trim($("#name").text()); 	//姓名
         var photo = $.trim($("#photo").attr("src")); 	//头像
@@ -50,7 +49,7 @@ function setBtnEvent() {
         //如果不需要短信验证
         if (!isSms) {
             var url = window.location.href;
-            ajax.post(url, { action: "register1", openid: openid,
+            ajax.post(url, { action: "register1",
 				sex: sex, name: name, photo: photo,
 				mobi: mobi }, function (requestdata) {
                 var data = eval("(" + requestdata + ")");
@@ -71,7 +70,7 @@ function setBtnEvent() {
             var vcode = $(this).find("input[type=text][name=tbNewCode]").val();
             var sms = $(this).find("input[name=tbNewSms]").val(); //用户填写的短信验证码
             var smsname = $(this).find("#getRegSms").attr("smsname");
-            ajax.post(window.location.href, { action: "register2", openid: openid,
+            ajax.post(window.location.href, { action: "register2", 
                 sex: sex, name: name, photo: photo,
                 vname: vname, vcode: vcode,
                 sms: sms, mobi: mobi, smsname: smsname
@@ -92,8 +91,7 @@ function setBtnEvent() {
     //绑定已经存在账户
     $("#formBind").submit(function () {
         var isSms = $(this).attr("sms") == "True";
-        var isSms = $(this).attr("sms") == "True";
-        var openid = $.trim($("#openid").text()); //微信账户唯一id
+        var isSms = $(this).attr("sms") == "True";       
         var sex = $.trim($("#gender").text()); 	//性别
         var name = $.trim($("#name").text()); 	//姓名
         var photo = $.trim($("#photo").attr("src")); 	//头像
@@ -106,7 +104,7 @@ function setBtnEvent() {
         //如果不需要短信验证
         if (!isSms) {
             var pw = $(this).find("input[name=tbPw]").val();    //密码
-            ajax.post(window.location.href, { action: "bind1", openid: openid,
+            ajax.post(window.location.href, { action: "bind1", 
 				sex: sex, name: name, photo: photo,
 				vname: vname, vcode: vcode, mobi: mobi,pw:pw }, function (requestdata) {
                 var data = eval("(" + requestdata + ")");
@@ -114,7 +112,7 @@ function setBtnEvent() {
                 if (Number(data.success) < 0) {
                     if (data.state == 1) Verify.ShowBox(form.find("input[type=text][name=tbCode]"), "验证码不正确！");
                     if (data.state == 2) Verify.ShowBox(form.find("input[type=text][name=tbAcc]"), "账号不存在！");
-                    if (data.state == 3) Verify.ShowBox(form.find("input[type=text][name=tbPw]"), "登录密码错误！");
+                    if (data.state == 3) Verify.ShowBox(form.find("input[type=password][name=tbPw]"), "登录密码错误！");
 					if (data.state == 4) Verify.ShowBox(form.find("input[type=text][name=tbAcc]"), "该账号已经绑定微信！");
                 }
                 //绑定成功
@@ -125,7 +123,7 @@ function setBtnEvent() {
         if (isSms) {
             var sms = $(this).find("input[name=tbSms]").val(); //用户填写的短信验证码
             var smsname = $(this).find("#getSms").attr("smsname");
-            ajax.post(window.location.href, { action: "bind2", openid: openid,
+            ajax.post(window.location.href, { action: "bind2", 
 				sex: sex, name: name, photo: photo,
                 vcode: vcode, vname: vname, sms: sms, mobi: mobi, smsname: smsname
             }, function (requestdata) {

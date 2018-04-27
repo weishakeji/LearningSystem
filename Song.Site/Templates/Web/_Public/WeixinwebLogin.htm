@@ -9,6 +9,19 @@
     <vt:include file="inc/meta.inc" />
     <script type="text/javascript" src="Scripts/WeixinwebLogin.js"></script>
     <link href="Styles/WeixinwebLogin.css" rel="stylesheet" type="text/css" />
+    <vt:if var="gourl" value="" compare="!=">
+     <script type="text/javascript">
+          //登录成功后返回的地址
+          var geturl = function (url) {
+              var prefix = window.location.href;
+              if (prefix.indexOf("://") > -1) prefix = prefix.substring(0, prefix.indexOf("://"));
+              return prefix + "://" + url;
+          }
+		  //var gourl = geturl("{$gourl}");
+          window.location.href=geturl("{$gourl}");
+          
+    </script>
+    </vt:if>
     </head>
     <body>
     <div class="bodyArea">
