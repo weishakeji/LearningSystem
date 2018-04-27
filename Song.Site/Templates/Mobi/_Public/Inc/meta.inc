@@ -11,6 +11,7 @@
 <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/Verify.js"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/artTemplate.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
 <script type="text/javascript" src="../scripts/loading.js"></script>
 <!--核心Css文件-->
 <link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css"/>

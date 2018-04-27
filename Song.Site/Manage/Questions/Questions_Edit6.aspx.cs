@@ -130,38 +130,9 @@ namespace Song.Site.Manage.Questions
             //题干
             tbTitle.Text = mm.Qus_Title;
             //讲解
-            tbExplan.Text = mm.Qus_Explain;
-            //试题答案
-            bindGrid(mm);
-           
+            tbExplan.Text = mm.Qus_Explain;            
         }
-        /// <summary>
-        /// 绑定选择题子项的列表
-        /// </summary>
-        private void bindGrid(Song.Entities.Questions q)
-        {            
-            //最多几项
-            int maxItem = 6;
-            Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(q, null);
-            List<Song.Entities.QuesAnswer> list = new List<QuesAnswer>();
-            for (int i = 0; i < maxItem; i++)
-            {
-                if (ans!=null && i < ans.Length)
-                {
-                    list.Add(ans[i]);
-                }
-                else
-                {
-                    Song.Entities.QuesAnswer t = new QuesAnswer();
-                    t.Ans_ID = -1;
-                    t.Qus_UID = getUID();
-                    list.Add(t);
-                }
-            }
-            gvAnswer.DataSource = list;
-            gvAnswer.DataKeyNames = new string[] { "Ans_ID" };
-            gvAnswer.DataBind();
-        }
+
         /// <summary>
         /// 保存
         /// </summary>
@@ -169,81 +140,43 @@ namespace Song.Site.Manage.Questions
         /// <param name="e"></param>
         protected void btnEnter_Click(object sender, EventArgs e)
         {
-            Song.Entities.Questions mm = id > 0 ? Business.Do<IQuestions>().QuesSingle(id) : mm = new Song.Entities.Questions();
-            //题型、学科、题干
-            mm.Qus_Type = this.type == 0 ? ddlType.SelectedIndex + 1 : this.type;
-            mm.Qus_IsUse = cbIsUse.Checked;
-            mm.Sbj_ID = SortSelect1.SbjID;
-            mm.Sbj_Name = SortSelect1.SbjName;
-            mm.Cou_ID = SortSelect1.CouID;
-            mm.Ol_ID = SortSelect1.OlID;
-            //
-            mm.Qus_Title = tbTitle.Text.Trim();
-            mm.Qus_Title = tranTxt(mm.Qus_Title);
-            //难度
-            mm.Qus_Diff = Convert.ToInt32(ddlDiff.SelectedItem.Value);
-            //资料、讲解
-            if (tbKnID.Text != string.Empty)
-            {
-                mm.Kn_ID = Convert.ToInt32(tbKnID.Text);
-            }
-            mm.Qus_Explain = tbExplan.Text.Trim();
-            //UID
-            mm.Qus_UID = getUID();
-            //是否处理报错信息
-            if (cbWrong.Checked) mm.Qus_IsWrong = false;
-            //选择项
-            List<Song.Entities.QuesAnswer> qans = new List<QuesAnswer>();
-            for (int i = 0; i < gvAnswer.Rows.Count; i++)
-            {              
-                //选项文本框
-                TextBox tb = (TextBox)gvAnswer.Rows[i].FindControl("itemTxt");
-                //主键
-                int ansid = 0;
-                string keyId = gvAnswer.DataKeys[gvAnswer.Rows[i].RowIndex].Value.ToString();
-                int.TryParse(keyId, out ansid);
-                //如果文本框为空，则跳过
-                if (tb.Text.Trim() == "") continue;
-                //创建选项的对象
-                Song.Entities.QuesAnswer ans = new Song.Entities.QuesAnswer();
-                ans.Ans_Context = tb.Text.Trim().Replace("，", ",");
-                ans.Qus_ID = id;
-                ans.Qus_UID = getUID();
-                ans.Ans_IsCorrect = true;   //因为是填空题，所以都是正确的
-                ans.Ans_ID = ansid;
-                if (ans.Ans_ID <= 0)
-                    ans.Ans_ID = new Random(i * DateTime.Now.Millisecond).Next(1, 1000) + i;
-                qans.Add(ans);
-            }
-            mm.Qus_Items = Business.Do<IQuestions>().AnswerToItems(qans.ToArray());
-            //确定操作
-            try
-            {
-                if (id == 0)
-                    id = Business.Do<IQuestions>().QuesAdd(mm);
-                else
-                    Business.Do<IQuestions>().QuesSave(mm);                 
-                Master.AlertCloseAndRefresh("操作成功！");
-            }
-            catch (Exception ex)
-            {
-                Master.Alert(ex.Message);
-            }
-        }
-        /// <summary>
-        /// 处理题干
-        /// </summary>
-        /// <param name="txt"></param>
-        /// <returns></returns>
-        private string tranTxt(string txt)
-        {
-            txt = txt.Replace("(", "（");
-            txt = txt.Replace(")", "）");
-            txt = txt.Replace("（", "（ ");
-            //txt = txt.Replace("&lt;", "<");
-            //txt = txt.Replace("&gt;", ">");
-            txt = Regex.Replace(txt, @"（[^）]_+）", "（______）");           
-            return txt;
+            //Song.Entities.Questions mm = id > 0 ? Business.Do<IQuestions>().QuesSingle(id) : mm = new Song.Entities.Questions();
+            ////题型、学科、题干
+            //mm.Qus_Type = this.type == 0 ? ddlType.SelectedIndex + 1 : this.type;
+            //mm.Qus_IsUse = cbIsUse.Checked;
+            //mm.Sbj_ID = SortSelect1.SbjID;
+            //mm.Sbj_Name = SortSelect1.SbjName;
+            //mm.Cou_ID = SortSelect1.CouID;
+            //mm.Ol_ID = SortSelect1.OlID;
+            ////
+            //mm.Qus_Title = tbTitle.Text.Trim();
+            //mm.Qus_Title = tranTxt(mm.Qus_Title);
+            ////难度
+            //mm.Qus_Diff = Convert.ToInt32(ddlDiff.SelectedItem.Value);
+            ////资料、讲解
+            //if (tbKnID.Text != string.Empty)
+            //{
+            //    mm.Kn_ID = Convert.ToInt32(tbKnID.Text);
+            //}
+            //mm.Qus_Explain = tbExplan.Text.Trim();
+            ////UID
+            //mm.Qus_UID = getUID();
+            ////是否处理报错信息
+            //if (cbWrong.Checked) mm.Qus_IsWrong = false;           
+            
+            ////确定操作
+            //try
+            //{
+            //    if (id == 0)
+            //        id = Business.Do<IQuestions>().QuesAdd(mm);
+            //    else
+            //        Business.Do<IQuestions>().QuesSave(mm);                 
+            //    Master.AlertCloseAndRefresh("操作成功！");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Master.Alert(ex.Message);
+            //}
         }
     }
 }

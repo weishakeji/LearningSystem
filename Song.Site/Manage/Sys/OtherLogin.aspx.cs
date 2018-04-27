@@ -34,9 +34,14 @@ namespace Song.Site.Manage.Sys
             //微信登录
             cbIsWeixinLogin.Checked = Business.Do<ISystemPara>()["WeixinLoginIsUse"].Boolean ?? false;
             cbIsWeixinDirect.Checked = Business.Do<ISystemPara>()["WeixinDirectIs"].Boolean ?? true;    //是否允许微信直接注册登录
+            //微信开放平台设置
             tbWeixinAppid.Text = Business.Do<ISystemPara>()["WeixinAPPID"].String;
             tbWeixinSecret.Text = Business.Do<ISystemPara>()["WeixinSecret"].String;
             tbWeixinReturl.Text = Business.Do<ISystemPara>()["WeixinReturl"].Value;
+            //微信公众号设置
+            tbWeixinpubAppid.Text = Business.Do<ISystemPara>()["WeixinpubAPPID"].String;
+            tbWeixinpubSecret.Text = Business.Do<ISystemPara>()["WeixinpubSecret"].String;
+            tbWeixinpubReturl.Text = Business.Do<ISystemPara>()["WeixinpubReturl"].Value;
             if (tbWeixinReturl.Text.Trim() == "") tbWeixinReturl.Text = "http://"+domain;
         }
         /// <summary>
@@ -75,6 +80,9 @@ namespace Song.Site.Manage.Sys
                 Business.Do<ISystemPara>().Save("WeixinAPPID", tbWeixinAppid.Text.Trim(), false);
                 Business.Do<ISystemPara>().Save("WeixinSecret", tbWeixinSecret.Text.Trim(), false);
                 Business.Do<ISystemPara>().Save("WeixinReturl", tbWeixinReturl.Text.Trim(), false);
+                Business.Do<ISystemPara>().Save("WeixinpubAPPID", tbWeixinpubAppid.Text.Trim(), false);
+                Business.Do<ISystemPara>().Save("WeixinpubSecret", tbWeixinpubSecret.Text.Trim(), false);
+                Business.Do<ISystemPara>().Save("WeixinpubReturl", tbWeixinpubReturl.Text.Trim(), false);
                 Business.Do<ISystemPara>().Refresh();
                 this.Alert("操作成功！");
             }

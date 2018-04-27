@@ -68,8 +68,8 @@ namespace Song.Site.Mobile
             this.Document.SetValue("QQReturl", Business.Do<ISystemPara>()["QQReturl"].Value ?? "http://" + WeiSha.Common.Request.Domain.MainName);
             //微信登录
             this.Document.SetValue("WeixinLoginIsUse", Business.Do<ISystemPara>()["WeixinLoginIsUse"].Boolean ?? false);
-            this.Document.SetValue("WeixinAPPID", Business.Do<ISystemPara>()["WeixinAPPID"].String);
-            this.Document.SetValue("WeixinReturl", Business.Do<ISystemPara>()["WeixinReturl"].Value ?? "http://" + WeiSha.Common.Request.Domain.MainName);
+            this.Document.SetValue("WeixinAPPID", Business.Do<ISystemPara>()["WeixinpubAPPID"].String);
+            this.Document.SetValue("WeixinReturl", Business.Do<ISystemPara>()["WeixinpubReturl"].Value ?? "http://" + WeiSha.Common.Request.Domain.MainName);
             //记录当前机构到本地，用于QQ或微信注册时的账户机构归属问题
             System.Web.HttpCookie cookie = new System.Web.HttpCookie("ORGID");
             cookie.Value = this.Organ.Org_ID.ToString();

@@ -88,40 +88,18 @@
                 </td>
             </tr>
         </table>
+        <input type="hidden" name="tbTitleHidden" id="tbTitleHidden" />
         <WebEditor:Editor ID="tbTitle" runat="server" Height="200px" ThemeType="simple" Width="99%"
-            afterChange="function(){K('.count').html(this.count('text'))}"></WebEditor:Editor>
-            <div>提示：填空项用（__）表示</div>
-        <div style="height: 25px; width: 80px; text-align: right; line-height: 25px">
-            填空答案：</div>
-        <asp:GridView ID="gvAnswer" runat="server" AutoGenerateColumns="False">
-            <Columns>
-                <asp:TemplateField HeaderText="序号">
-                    <ItemStyle CssClass="center" Width="40px" />
-                    <ItemTemplate>
-                        <%# Container.DataItemIndex   +   1 %>
-                    </ItemTemplate>
-                </asp:TemplateField>
-                <asp:TemplateField HeaderText="答案">
-                    <ItemStyle CssClass="left" />
-                    <ItemTemplate>
-                        <asp:TextBox ID="itemTxt" Width="98%" MaxLength="200" runat="server" Text='<%# Eval("Ans_Context")%>'></asp:TextBox>
-                    </ItemTemplate>
-                </asp:TemplateField>
-            </Columns>
-        </asp:GridView>
+            afterChange="function(){K('.count').html(this.count('text'));K('#tbTitleHidden').val(this.text());}"></WebEditor:Editor>
+            <h4>试题解析：</h4>
+            <input type="hidden" name="tbExplanHidden" id="tbExplanHidden" />
+         <WebEditor:Editor ID="tbExplan" runat="server" Height="200px" ThemeType="simple" 
+         afterChange="function(){K('#tbExplanHidden').val(this.text());}"> </WebEditor:Editor>
+        
     </div>
     <div class="quesRight">
-        <table cellspacing="0" cellpadding="0" width="100%" border="0">
-            
-            <tr>
-                <td class="left">
-                    试题解析：
-                </td>
-                <td colspan="2">
-                </td>
-            </tr>
-        </table>
-        <WebEditor:Editor ID="tbExplan" runat="server" Height="420px" ThemeType="simple"> </WebEditor:Editor>
+        <div type="addbar">新增：<a href="1">单选</a> <a href="2">多选</a> <a href="3">判断</a> <a href="4">简答</a> <a href="5">填空</a> </div>
+       
     </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">

@@ -10,12 +10,12 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
-namespace Song.Site
+namespace Song.Site.Mobile
 {
     /// <summary>
-    /// 微信登录
+    /// 微信公从号内的登录
     /// </summary>
-    public class WeixinLogin : BasePage
+    public class WeixinpubLogin : BasePage
     {
 
         protected override void InitPageTemplate(HttpContext context)
@@ -24,13 +24,15 @@ namespace Song.Site
             string code = WeiSha.Common.Request.QueryString["code"].String;
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET" && !string.IsNullOrWhiteSpace(code))
             {
-                string orgid = WeiSha.Common.Request.QueryString["state"].String;     //机构id                
+                string orgid = WeiSha.Common.Request.QueryString["state"].String;     //状码码是机构id                
                 string openid = string.Empty;
                 string access_token = getToken(out openid);
-                string uri = context.Request.FilePath + "?token={0}&openid={1}&orgid={2}";
-                uri = string.Format(uri, access_token, openid, orgid);
-                if (WeiSha.Common.Browser.IsMobile) uri = "/Mobile" + uri;
-                Response.Redirect(uri);
+                //二级域名
+                Song.Entities.Organization org = getOrgan(-1);
+                string domain = getOrganDomain(org);              
+                string uri = "{0}/mobile/{1}?token={2}&openid={3}&orgid={4}";
+                uri = string.Format(uri, domain, WeiSha.Common.Request.Page.FileName, access_token, openid, orgid);
+                this.Document.Variables.SetValue("gourl", uri); //传到客户端，进行跳转
                 return;
             }
             #endregion
@@ -76,8 +78,8 @@ namespace Song.Site
         protected string getToken(out string openid)
         {
             string code = WeiSha.Common.Request.QueryString["code"].String;     //用户登录后，微信平台返回的代码
-            string appid = Business.Do<ISystemPara>()["WeixinAPPID"].String;    //应用id
-            string secret = Business.Do<ISystemPara>()["WeixinSecret"].String;  //密钥
+            string appid = Business.Do<ISystemPara>()["WeixinpubAPPID"].String;    //应用id
+            string secret = Business.Do<ISystemPara>()["WeixinpubSecret"].String;  //密钥
             //
             string url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid={0}&secret={1}&code={2}&grant_type=authorization_code";
             url = string.Format(url, appid, secret, code);
@@ -108,10 +110,10 @@ namespace Song.Site
         /// <summary>
         /// 获取当前机构
         /// </summary>
-        protected Song.Entities.Organization getOrgan()
+        protected Song.Entities.Organization getOrgan(int orgid)
         {
             Song.Entities.Organization org = null;
-            int orgid = WeiSha.Common.Request.QueryString["orgid"].Int32 ?? 0;
+            if (orgid <= 0) orgid = WeiSha.Common.Request.QueryString["orgid"].Int32 ?? 0;
             if (orgid < 1) orgid = WeiSha.Common.Request.Cookies["ORGID"].Int32 ?? 0;
             if (orgid > 0) org = Business.Do<IOrganization>().OrganSingle(orgid);
             if (org == null) org = Business.Do<IOrganization>().OrganDefault();
@@ -129,17 +131,19 @@ namespace Song.Site
             return org.Org_TwoDomain + "." + root;
         }
         /// <summary>
-        /// 获取当前登录QQ的详细信息
+        /// 获取当前登录微信账号的详细信息
         /// </summary>
         /// <param name="access_token"></param>
         /// <param name="openid"></param>
         /// <returns>xml对象</returns>
-        private Song.Entities.Accounts getUserInfo(string access_token, string openid)
+        private Song.Entities.Accounts getUserInfo(string access_token, string openid,out string unionid)
         {
             string userUrl = "https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}";
+            //string userUrl = "https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang=zh_CN";
             userUrl = string.Format(userUrl, access_token, openid);
             string retjson = WeiSha.Common.Request.WebResult(userUrl);
-            //解析QQ账户信息
+            unionid = string.Empty;
+            //解析微信账户信息
             Song.Entities.Accounts acc = null;
             JObject jo = (JObject)JsonConvert.DeserializeObject(retjson);
             string errcode = jo["errcode"] != null ? jo["errcode"].ToString() : string.Empty;  //错误代码
@@ -152,13 +156,14 @@ namespace Song.Site
                 acc.Ac_Photo = jo["headimgurl"] != null ? jo["headimgurl"].ToString() : string.Empty;   //用户头像
                 //取132的头像
                 if (acc.Ac_Photo.IndexOf("/") > -1)
-                    acc.Ac_Photo = acc.Ac_Photo.Substring(0, acc.Ac_Photo.LastIndexOf("/")+1) + "132";                
-                acc.Ac_WeixinOpenID = openid;
+                    acc.Ac_Photo = acc.Ac_Photo.Substring(0, acc.Ac_Photo.LastIndexOf("/")+1) + "132";
+                unionid = jo["unionid"] != null ? jo["unionid"].ToString() : string.Empty;    //unionid
+                acc.Ac_WeixinOpenID = unionid;
             }
             return acc;
         }
         #endregion
-        #region 不同请求下的状态
+        #region 初始登录时，如果已经注册则直接进入
         /// <summary>
         /// get请求时
         /// </summary>
@@ -171,12 +176,18 @@ namespace Song.Site
             //设置主域，用于js跨根域
             if (!WeiSha.Common.Server.IsLocalIP) this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
             //当前机构
-            Song.Entities.Organization org = getOrgan();
+            Song.Entities.Organization org = getOrgan(-1);
             this.Document.Variables.SetValue("org", org);
             if (!WeiSha.Common.Server.IsLocalIP) this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
             this.Document.SetValue("domain2", getOrganDomain(org));
             //获取帐户，如果已经注册，则直接实现登录
-            Song.Entities.Accounts acc = Business.Do<IAccounts>().Account4Weixin(openid);
+            string unionid = string.Empty;
+            Song.Entities.Accounts acctm = getUserInfo(token, openid, out unionid);
+            Song.Entities.Accounts acc = null;
+            if (acctm != null && !string.IsNullOrWhiteSpace(unionid))
+            {
+                acc = Business.Do<IAccounts>().Account4Weixin(unionid);
+            }
             if (acc != null)
             {
                 this.Document.Variables.SetValue("acc", acc);
@@ -184,7 +195,7 @@ namespace Song.Site
                 if (acc.Ac_IsPass && acc.Ac_IsUse)
                 {
                     LoginState.Accounts.Write(acc);
-                    Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
+                    Business.Do<IAccounts>().PointAdd4Login(acc, "手机网页", "微信登录", "");   //增加登录积分
                     Business.Do<IStudent>().LogForLoginAdd(acc);
                     this.Document.Variables.SetValue("success", "1");   //登录成功
                 }
@@ -205,7 +216,6 @@ namespace Song.Site
                 this.Document.SetValue("forsms", IsLoginForSms);
                 this.Document.SetValue("IsWeixinDirect", Business.Do<ISystemPara>()["WeixinDirectIs"].Boolean ?? true); //是否允许微信直接注册登录
                 //获取qq登录账户的信息
-                Song.Entities.Accounts acctm = getUserInfo(token, openid);
                 if (acctm != null)
                 {
                     this.Document.Variables.SetValue("name", acctm.Ac_Name);    //QQ昵称                    
@@ -218,32 +228,30 @@ namespace Song.Site
         #endregion
         
 
-        #region 登录方法
+        #region 注册登录的方法
         /// <summary>
-        /// 直接登录
+        /// 没有注册，直接通过微信注册并登录
         /// </summary>
         private void _directLogin()
-        {           
-            string openid = WeiSha.Common.Request.Form["openid"].String;
+        {
+            string openid = WeiSha.Common.Request.QueryString["openid"].String;
+            string token = WeiSha.Common.Request.QueryString["token"].String;
             int sex = WeiSha.Common.Request.Form["sex"].Int16 ?? 0;
             string name = WeiSha.Common.Request.Form["name"].String;
             string photo = WeiSha.Common.Request.Form["photo"].String;
-            Song.Entities.Organization org = getOrgan();           
+            Song.Entities.Organization org = getOrgan(-1);           
             //创建新账户
-            //获取qq登录账户的信息
-            Song.Entities.Accounts tmp = Business.Do<IAccounts>().Account4Weixin(openid);
-            if (tmp == null)
+            //获取微信登录账户的信息
+            string unionid = string.Empty;
+            Song.Entities.Accounts tmp = getUserInfo(token, openid, out unionid);           
+            if (tmp != null)
             {
-                tmp = new Entities.Accounts();
-                tmp.Ac_AccName = openid;
-                tmp.Ac_WeixinOpenID = openid;
-                tmp.Ac_Name = name;
-                tmp.Ac_Sex = sex;
+                tmp.Ac_AccName = unionid;
                 tmp.Org_ID = org.Org_ID;
                 //头像图片           
-                string photoPath = Upload.Get["Accounts"].Physics + openid + ".jpg";
+                string photoPath = Upload.Get["Accounts"].Physics + unionid + ".jpg";
                 WeiSha.Common.Request.LoadFile(photo, photoPath);
-                tmp.Ac_Photo = openid + ".jpg";
+                tmp.Ac_Photo = unionid + ".jpg";
                 //获取推荐人
                 int recid = WeiSha.Common.Request.Cookies["sharekeyid"].Int32 ?? 0;
                 Song.Entities.Accounts accRec = null;
@@ -259,14 +267,14 @@ namespace Song.Site
                 LoginState.Accounts.Write(tmp);
             }
             string domain = getOrganDomain(org);
-            Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"domain\":\"" + domain + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\"}");
+            Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\"}");
         }
         /// <summary>
         /// 注册，但不验证手机号
         /// </summary>
         private void register1()
         {
-            string access_token = WeiSha.Common.Request.QueryString["token"].String;
+            string token = WeiSha.Common.Request.QueryString["token"].String;
             string openid = WeiSha.Common.Request.QueryString["openid"].String;
             string mobi = WeiSha.Common.Request.Form["mobi"].String;    //手机号            
             int sex = WeiSha.Common.Request.Form["sex"].Int16 ?? 0;
@@ -282,19 +290,17 @@ namespace Song.Site
                     return;
                 }                
             }
-            Song.Entities.Organization org = getOrgan();           
+            Song.Entities.Organization org = getOrgan(-1);           
             //创建新账户
-            Song.Entities.Accounts tmp = new Entities.Accounts();
+            string unionid = string.Empty;
+            Song.Entities.Accounts tmp = getUserInfo(token, openid, out unionid);    
             tmp.Ac_AccName = string.IsNullOrWhiteSpace(mobi) ? openid : mobi;
             tmp.Ac_MobiTel1 = tmp.Ac_MobiTel2 = mobi;   //手机号
-            tmp.Ac_WeixinOpenID = openid;
-            tmp.Ac_Name = name;
-            tmp.Ac_Sex = sex;
             tmp.Org_ID = org.Org_ID;
             //头像图片           
-            string photoPath = Upload.Get["Accounts"].Physics + openid + ".jpg";
+            string photoPath = Upload.Get["Accounts"].Physics + unionid + ".jpg";
             WeiSha.Common.Request.LoadFile(photo, photoPath);
-            tmp.Ac_Photo = openid + ".jpg"; 
+            tmp.Ac_Photo = unionid + ".jpg"; 
             //获取推荐人
             int recid = WeiSha.Common.Request.Cookies["sharekeyid"].Int32 ?? 0;
             Song.Entities.Accounts accRec = null;
@@ -309,7 +315,7 @@ namespace Song.Site
             int id = Business.Do<IAccounts>().AccountsAdd(tmp);
             LoginState.Accounts.Write(tmp);
             string domain = getOrganDomain(org);
-            Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"domain\":\"" + domain + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\"}");
+            Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\"}");
         }
         /// <summary>
         /// 手机号注册，需短信验证
@@ -319,8 +325,8 @@ namespace Song.Site
             string vname = WeiSha.Common.Request.Form["vname"].String;
             string imgCode = WeiSha.Common.Request.Cookies[vname].ParaValue;    //取图片验证码
             string userCode = WeiSha.Common.Request.Form["vcode"].MD5;  //取输入的验证码
-            string access_token = WeiSha.Common.Request.QueryString["access_token"].String;
-            string openid = WeiSha.Common.Request.Form["openid"].String;
+            string openid = WeiSha.Common.Request.QueryString["openid"].String;
+            string token = WeiSha.Common.Request.QueryString["token"].String;
             string mobi = WeiSha.Common.Request.Form["mobi"].String;    //手机号
             string sms = WeiSha.Common.Request.Form["sms"].MD5;  //输入的短信验证码  
             int sex = WeiSha.Common.Request.Form["sex"].Int16 ?? 0;
@@ -353,18 +359,16 @@ namespace Song.Site
             else
             {
                 //创建新账户
-                Song.Entities.Accounts tmp = new Entities.Accounts();
-                Song.Entities.Organization org = getOrgan(); 
-                tmp.Ac_AccName = string.IsNullOrWhiteSpace(mobi) ? openid : mobi;
+                string unionid = string.Empty;
+                Song.Entities.Accounts tmp = getUserInfo(token, openid,out unionid);
+                Song.Entities.Organization org = getOrgan(-1);
+                tmp.Ac_AccName = string.IsNullOrWhiteSpace(mobi) ? unionid : mobi;
                 tmp.Ac_MobiTel1 = tmp.Ac_MobiTel2 = mobi;   //手机号
-                tmp.Ac_WeixinOpenID = openid;
-                tmp.Ac_Name = name;
-                tmp.Ac_Sex = sex;
                 tmp.Org_ID = org.Org_ID;
                 //头像图片           
-                string photoPath = Upload.Get["Accounts"].Physics + openid + ".jpg";
+                string photoPath = Upload.Get["Accounts"].Physics + unionid + ".jpg";
                 WeiSha.Common.Request.LoadFile(photo, photoPath);
-                tmp.Ac_Photo = openid + ".jpg"; 
+                tmp.Ac_Photo = unionid + ".jpg"; 
                 //获取推荐人
                 int recid = WeiSha.Common.Request.Cookies["sharekeyid"].Int32 ?? 0;
                 Song.Entities.Accounts accRec = null;
@@ -379,7 +383,7 @@ namespace Song.Site
                 int id = Business.Do<IAccounts>().AccountsAdd(tmp);
                 LoginState.Accounts.Write(tmp);
                 string domain = getOrganDomain(org);
-                Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"domain\":\"" + domain + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
+                Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
             }
         }
         #endregion
@@ -390,8 +394,8 @@ namespace Song.Site
         /// </summary>
         private void bind1()
         {
-            string access_token = WeiSha.Common.Request.QueryString["access_token"].String;
-            string openid = WeiSha.Common.Request.Form["openid"].String;
+            string token = WeiSha.Common.Request.QueryString["token"].String;
+            string openid = WeiSha.Common.Request.QueryString["openid"].String;
             string mobi = WeiSha.Common.Request.Form["mobi"].String;    //手机号
             string pw = WeiSha.Common.Request.Form["pw"].MD5;    //登录密码
             string vname = WeiSha.Common.Request.Form["vname"].String;
@@ -406,6 +410,8 @@ namespace Song.Site
                 Response.Write("{\"success\":\"-1\",\"state\":\"1\"}");   //图片验证码不正确
                 return;
             }
+            string unionid = string.Empty;
+            Song.Entities.Accounts acctm = getUserInfo(token, openid, out unionid);
             Song.Entities.Accounts acc = null;
             //验证手机号是否存在
             if (!string.IsNullOrWhiteSpace(mobi))
@@ -434,13 +440,13 @@ namespace Song.Site
             {
                 if (string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
                 {
-                    acc.Ac_WeixinOpenID = openid;
+                    acc.Ac_WeixinOpenID = unionid;
                     Business.Do<IAccounts>().AccountsSave(acc);
                     LoginState.Accounts.Write(acc);
                     //登录成功
                     Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
-                    string domain = getOrganDomain(this.getOrgan());
-                    Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"domain\":\"" + domain + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\"}");
+                    string domain = getOrganDomain(this.getOrgan(-1));
+                    Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"acpw\":\"" + acc.Ac_Pw + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\"}");
                 }
                 else
                 {
@@ -453,8 +459,8 @@ namespace Song.Site
         /// </summary>
         private void bind2()
         {
-            string access_token = WeiSha.Common.Request.QueryString["access_token"].String;
-            string openid = WeiSha.Common.Request.Form["openid"].String;
+            string token = WeiSha.Common.Request.QueryString["token"].String;
+            string openid = WeiSha.Common.Request.QueryString["openid"].String;
             string mobi = WeiSha.Common.Request.Form["mobi"].String;    //手机号
             string vname = WeiSha.Common.Request.Form["vname"].String;
             string imgCode = WeiSha.Common.Request.Cookies[vname].ParaValue;    //取图片验证码
@@ -477,6 +483,8 @@ namespace Song.Site
                 Response.Write("{\"success\":\"-1\",\"state\":\"3\",\"btn\":\"" + btnName + "\"}");  //短信验证失败             
                 return;
             }
+            string unionid = string.Empty;
+            Song.Entities.Accounts acctm = getUserInfo(token, openid, out unionid);
             Song.Entities.Accounts acc = null;
             //验证手机号是否存在
             if (!string.IsNullOrWhiteSpace(mobi))
@@ -499,13 +507,13 @@ namespace Song.Site
             {
                 if (string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
                 {
-                    acc.Ac_WeixinOpenID = openid;
+                    acc.Ac_WeixinOpenID = unionid;
                     Business.Do<IAccounts>().AccountsSave(acc);
                     LoginState.Accounts.Write(acc);
                     //登录成功
-                    Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "QQ登录", "");   //增加登录积分
-                    string domain = getOrganDomain(getOrgan());
-                    Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"domain\":\"" + domain + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
+                    Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
+                    string domain = getOrganDomain(getOrgan(-1));
+                    Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"acpw\":\"" + acc.Ac_Pw + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
                 }
                 else
                 {

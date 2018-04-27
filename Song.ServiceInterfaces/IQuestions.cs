@@ -47,11 +47,11 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Questions QuesSingle(int identify);
         /// <summary>
-        /// 获取单一实体对象，按题目
+        /// 获取单一实体对象，按UID
         /// </summary>
-        /// <param name="titile"></param>
+        /// <param name="uid">全局唯一id</param>
         /// <returns></returns>
-        Questions QuesSingle(string title);
+        Questions QuesSingle(string uid);
         /// <summary>
         /// 获取单一实体对象，按题目
         /// </summary>
@@ -291,6 +291,12 @@ namespace Song.ServiceInterfaces
         /// <param name="qid"></param>
         /// <returns></returns>
         Questions QuesSingle4Cache(int qid);
+        /// <summary>
+        /// 从试题缓存中取试题
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        Questions QuesSingle4Cache(string uid);
         /// <summary>
         /// 从缓存中获取试题集
         /// </summary>

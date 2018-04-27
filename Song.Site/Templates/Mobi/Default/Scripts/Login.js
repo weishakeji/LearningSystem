@@ -240,7 +240,7 @@ OtherLogin.init = function () {
             var returl = OtherLogin.prefix($(this).attr("returl")) + "/weixinlogin.ashx"; //回调域
             var orgid = $(this).attr("orgid"); 	//当前机构id
             var target = "https://open.weixin.qq.com/connect/oauth2/authorize?";
-            target += "appid=" + appid + "&redirect_uri=" + encodeURIComponent(returl) + "&response_type=code&scope=snsapi_login&state=" + orgid + "&&style=black#wechat_redirect";
+            target += "appid=" + appid + "&redirect_uri=" + encodeURIComponent(returl) + "&response_type=code&scope=snsapi_base&state=" + orgid + "&&style=black#wechat_redirect";
             window.location.href = target;
         }
     });

@@ -190,10 +190,10 @@ namespace Song.ServiceImpls
 
         }
 
-        public Questions QuesSingle(string titile)
+        public Questions QuesSingle(string uid)
         {
-            if (titile == string.Empty) return null;
-            Song.Entities.Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_Title == titile.Trim()).ToFirst<Questions>();
+            if (uid == string.Empty) return null;
+            Song.Entities.Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_UID == uid.Trim() && Questions._.Qus_IsTitle==true).ToFirst<Questions>();
             if (qus == null) return qus;
             qus.Qus_Title = qus.Qus_Title.Replace("&lt;", "<");
             qus.Qus_Title = qus.Qus_Title.Replace("&gt;", ">");
@@ -1215,6 +1215,15 @@ namespace Song.ServiceImpls
         public Questions QuesSingle4Cache(int qid)
         {
             return QuestionsMethod.QuestionsCache.Singleton.GetSingle(qid);
+        }
+        /// <summary>
+        /// 从试题缓存中取试题
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public Questions QuesSingle4Cache(string uid)
+        {
+            return QuestionsMethod.QuestionsCache.Singleton.GetSingle(uid);
         }
         /// <summary>
         /// 从缓存中获取试题集

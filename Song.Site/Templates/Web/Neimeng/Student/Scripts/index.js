@@ -221,7 +221,7 @@ OtherLogin.init = function () {
     });
     $("a[tag=weixinlogin]").click(function () {
         var appid = $(this).attr("appid"); //appid
-        var returl = OtherLogin.prefix($(this).attr("returl")) + "/weixinlogin.ashx"; //回调域
+        var returl = OtherLogin.prefix($(this).attr("returl")) + "/weixinweblogin.ashx"; //回调域
         var orgid = $(this).attr("orgid"); 	//当前机构id
         var target = "https://open.weixin.qq.com/connect/qrconnect?";
         target += "appid=" + appid + "&redirect_uri=" + encodeURIComponent(returl) + "&response_type=code&scope=snsapi_login&state=" +

@@ -33,11 +33,11 @@ var emplyeeIsAdmin= <%= isAdmin %> ;
 //当前应用程序的状态
 var appState="<%= appState %>";
 </script>
-<script type="text/javascript" src="CoreScripts/jquery.js"></script>
-<script type="text/javascript" src="CoreScripts/easydrag.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/easydrag.js"></script>
 <script type="text/javascript" src="CoreScripts/Extend.js"></script>
 <script type="text/javascript" src="Panel/Scripts/PagePanel.js"></script>
-<script type="text/javascript" src="Panel/Scripts/PageBox.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/PageBox.js"></script>
 <script type="text/javascript" src="Panel/Scripts/TreePanel.js"></script>
 <script type="text/javascript" src="Panel/Scripts/DropMenu.js"></script>
 <script type="text/javascript" src="Panel/Scripts/Loyout.js"></script>

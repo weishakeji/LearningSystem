@@ -31,7 +31,7 @@
 <body>
     <p>
     </p>
-    <div id="loading" class="txt" appid="{$WeixinAPPID}" returl="{$WeixinReturl}" orgid="{$org.Org_id}">
+    <div id="loading" class="txt" appid="{$WeixinpubAPPID}" returl="{$WeixinpubReturl}" orgid="{$org.Org_id}">
         <a href="" id="url">正在登录...<br />
             无法正常跳转，请点击 </a>
     </div>
@@ -67,17 +67,19 @@
                         break;
                     }
                 }
-                return !ispass ? "http://" + returl : returl;
+                //return !ispass ? "http://" + returl : returl;
+				return returl;
             }
             var tag = $("#loading");
             var appid = tag.attr("appid"); //appid
-            var returl = prefix(tag.attr("returl")) + "/weixinlogin.ashx"; //回调域
+            var returl = prefix(tag.attr("returl")) + "/mobile/weixinpublogin.ashx"; //回调域			
             var orgid = tag.attr("orgid"); 	//当前机构id
-            var target = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_login&state={2}#wechat_redirect";
+            var target = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_base&state={2}#wechat_redirect";
             //target += "appid=" + appid + "&redirect_uri=" + encodeURIComponent(returl) + "&response_type=code&scope=snsapi_login&state=" + orgid + "&&style=black#wechat_redirect";
             //var target = "https://open.weixin.qq.com/connect/qrconnect?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_login&state={2}#wechat_redirect";
             target = target.format(appid, encodeURIComponent(returl), orgid);
             $("#url").attr("href", target);
+			//alert(target);
 
         })();
     

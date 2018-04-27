@@ -11,17 +11,18 @@
 //自动登录
 //WeixinLoginIsUse:微信登录是否启用
 function AutoLogin_forAjax(WeixinLoginIsUse) {
-    //判断是否处于微信中
-    var ua = window.navigator.userAgent.toLowerCase();
-    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-		if(WeixinLoginIsUse)document.location.href = "/weixin.ashx";
+    //取存储的学员id与密码（md5密文）
+    var accid = $.storage("accid");
+    var accpw = $.storage("accpw");
+    accid = typeof (accid) == "undefined" ? "" : accid;
+    accpw = typeof (accpw) == "undefined" ? "" : accpw;
+    if (accid == "" || accpw == "") {
+        //判断是否处于微信中
+        var ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+            if (WeixinLoginIsUse) document.location.href = "/mobile/weixin.ashx";
+        }
     } else {
-        //取存储的学员id与密码（md5密文）
-        var accid = $.storage("accid");
-        var accpw = $.storage("accpw");
-        accid = typeof (accid) == "undefined" ? "" : accid;
-        accpw = typeof (accpw) == "undefined" ? "" : accpw;
-        if (accid == "" || accpw == "") return;
         //异步登录
         $.get("login.ashx", { accid: accid, accpw: accpw }, function (data) {
             if (data == "1") {

@@ -34,23 +34,13 @@ namespace Song.Site.Manage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string xml = this.MapPath("/copyright.xml");
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(xml);
-            XmlNode first = xmlDoc.LastChild;
-            dynamic d = new System.Dynamic.ExpandoObject();
-            if (first != null)
-            {
-                XmlNodeList list = first.ChildNodes;
-                
-                //创建属性，并赋值。
-                foreach (XmlNode node in list)
-                {
-                    if (node.NodeType != XmlNodeType.Element) continue;
-                    (d as System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<string, object>>)
-                        .Add(new System.Collections.Generic.KeyValuePair<string, object>(node.Name, node.InnerText));
-                }
-            }            
+            string domain = "xx";
+            string access_token = "access_token";
+            string openid = "openid";
+            string orgid = "orgid";
+            //登录成功后的返回地址
+             string uri = "{0}/{1}?token={2}&openid={3}&orgid={4}";
+             uri = string.Format(uri, domain, WeiSha.Common.Request.Page.FileName, access_token, openid, orgid);
             Response.End();
         }
         

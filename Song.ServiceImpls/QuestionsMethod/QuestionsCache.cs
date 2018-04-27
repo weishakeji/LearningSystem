@@ -179,6 +179,27 @@ namespace Song.ServiceImpls.QuestionsMethod
             return ques;
         }
         /// <summary>
+        /// 从缓存中获取试题
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public Song.Entities.Questions GetSingle(string uid)
+        {
+            Questions ques = null;
+            for (int i = 0; i < list.Count; i++)
+            {
+                for (int j = 0; j < list[i].Questions.Count; j++)
+                {
+                    if (uid == list[i].Questions[j].Qus_UID)
+                    {
+                        ques = list[i].Questions[j];
+                        break;
+                    }
+                }
+            }
+            return ques;
+        }
+        /// <summary>
         /// 从缓存中更新试题
         /// </summary>
         /// <param name="qid"></param>

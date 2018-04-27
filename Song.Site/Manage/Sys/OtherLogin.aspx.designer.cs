@@ -112,6 +112,33 @@ namespace Song.Site.Manage.Sys {
         protected global::System.Web.UI.WebControls.TextBox tbWeixinReturl;
         
         /// <summary>
+        /// tbWeixinpubAppid 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbWeixinpubAppid;
+        
+        /// <summary>
+        /// tbWeixinpubSecret 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbWeixinpubSecret;
+        
+        /// <summary>
+        /// tbWeixinpubReturl 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbWeixinpubReturl;
+        
+        /// <summary>
         /// btnWeixnLogin 控件。
         /// </summary>
         /// <remarks>

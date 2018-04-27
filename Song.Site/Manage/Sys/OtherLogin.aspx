@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/ManagePage.Master" AutoEventWireup="true"
     CodeBehind="OtherLogin.aspx.cs" Inherits="Song.Site.Manage.Sys.OtherLogin" %>
-    <%@ MasterType VirtualPath="~/Manage/ManagePage.Master" %>
+
+<%@ MasterType VirtualPath="~/Manage/ManagePage.Master" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
     <fieldset>
@@ -19,7 +20,7 @@
                     AppID:
                 </td>
                 <td class="left">
-                    <asp:TextBox ID="tbQQAppid" runat="server" nullable="false"  group="qq" Width="100"></asp:TextBox>
+                    <asp:TextBox ID="tbQQAppid" runat="server" nullable="false" group="qq" Width="100"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -27,7 +28,7 @@
                     AppKey:
                 </td>
                 <td class="left">
-                    <asp:TextBox ID="tbQQAppkey" runat="server" nullable="false"  group="qq" Width="300"></asp:TextBox>
+                    <asp:TextBox ID="tbQQAppkey" runat="server" nullable="false" group="qq" Width="300"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -35,22 +36,24 @@
                     回调域:
                 </td>
                 <td class="left">
-                    <asp:TextBox ID="tbQQReturl" runat="server" begin="http://|https://" nullable="false"  group="qq" Width="200"></asp:TextBox>/qqlogin.ashx
+                    <asp:TextBox ID="tbQQReturl" runat="server" begin="http://|https://" nullable="false"
+                        group="qq" Width="200"></asp:TextBox>/qqlogin.ashx
                 </td>
             </tr>
             <tr>
                 <td class="right">
-                    说明:</td>
+                    说明:
+                </td>
                 <td class="left">
                     （回调域默认取自db.config中设置项）
                 </td>
             </tr>
             <tr>
                 <td class="right">
-                    </td>
+                </td>
                 <td class="left">
-                    <cc1:Button ID="btnQQlogin" runat="server" Text="确定" 
-                        onclick="btnQQlogin_Click" verify="true"  group="qq"/>
+                    <cc1:Button ID="btnQQlogin" runat="server" Text="确定" OnClick="btnQQlogin_Click" verify="true"
+                        group="qq" />
                 </td>
             </tr>
         </table>
@@ -67,6 +70,14 @@
                 </td>
             </tr>
             <tr>
+                <td>
+                </td>
+                <td>
+                    <h4>
+                        电脑端微信登录（请填写<b>微信开放平台</b>中的AppID与AppSecret）</h4>
+                </td>
+            </tr>
+            <tr>
                 <td class="right">
                     AppID:
                 </td>
@@ -79,7 +90,7 @@
                     AppSecret:
                 </td>
                 <td class="left">
-                    <asp:TextBox ID="tbWeixinSecret" runat="server"  nullable="false" group="weixin"  Width="300"></asp:TextBox>
+                    <asp:TextBox ID="tbWeixinSecret" runat="server" nullable="false" group="weixin" Width="300"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -87,21 +98,57 @@
                     回调域:
                 </td>
                 <td class="left">
-                 <asp:TextBox ID="tbWeixinReturl"  begin="http://|https://" runat="server" nullable="false"  group="weixin" Width="200"></asp:TextBox>/weixinlogin.ashx                 
+                    <asp:TextBox ID="tbWeixinReturl" begin="http://|https://" runat="server" nullable="false"
+                        group="weixin" Width="200"></asp:TextBox>/weixinweblogin.ashx
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <h4>
+                        在微信中登录（请填写<b>微信公众号</b>中的AppID与AppSecret）</h4>
                 </td>
             </tr>
             <tr>
                 <td class="right">
-                    说明:</td>
+                    AppID:
+                </td>
+                <td class="left">
+                    <asp:TextBox ID="tbWeixinpubAppid" runat="server" nullable="false" group="weixin" Width="180"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="right">
+                    AppSecret:
+                </td>
+                <td class="left">
+                    <asp:TextBox ID="tbWeixinpubSecret" runat="server" nullable="false" group="weixin" Width="300"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="right">
+                    回调域:
+                </td>
+                <td class="left">
+                    <asp:TextBox ID="tbWeixinpubReturl" begin="http://|https://" runat="server" nullable="false"
+                        group="weixin" Width="200"></asp:TextBox>/weixinpublogin.ashx
+                </td>
+            </tr>
+            <tr>
+                <td class="right">
+                    说明:
+                </td>
                 <td class="left">
                     （回调域默认取自db.config中设置项）
                 </td>
             </tr>
             <tr>
                 <td class="right">
-                    </td>
+                </td>
                 <td class="left">
-                    <cc1:Button ID="btnWeixnLogin" runat="server" Text="确定" onclick="btnWeixnLogin_Click" verify="true" group="weixin"  />
+                    <cc1:Button ID="btnWeixnLogin" runat="server" Text="确定" OnClick="btnWeixnLogin_Click"
+                        verify="true" group="weixin" />
                 </td>
             </tr>
         </table>
