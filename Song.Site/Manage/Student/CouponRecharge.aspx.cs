@@ -20,7 +20,7 @@ namespace Song.Site.Manage.Student
             {
                 //当前学员的卡券数量
                 int stid = st == null ? -1 : st.Ac_ID;
-                ltCoupon.Text = Business.Do<IAccounts>().CouponClac(stid, -1, null, null).ToString();
+                ltCoupon.Text = st.Ac_Coupon.ToString();
             }
         }
         /// <summary>
@@ -42,9 +42,10 @@ namespace Song.Site.Manage.Student
                     code.Ac_ID = st.Ac_ID;
                     code.Ac_AccName = st.Ac_AccName;
                     Business.Do<IRecharge>().CouponUseCode(code);
+                    Extend.LoginState.Accounts.Refresh(st.Ac_ID);
                     //当前学员的卡券
                     int stid = st == null ? -1 : st.Ac_ID;
-                    ltCoupon.Text = Business.Do<IAccounts>().CouponClac(stid, -1, null, null).ToString();
+                    ltCoupon.Text = st.Ac_Coupon.ToString();
                     this.Alert("充值成功！成功充值" + code.Rc_Price + "元。");
                 }
             }

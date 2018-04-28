@@ -21,7 +21,7 @@ namespace Song.Site.Manage.Student
             st = this.Master.Account;
             //获取总积分
             int stid = st == null ? -1 : st.Ac_ID;
-            ltPointsum.Text = Business.Do<IAccounts>().CouponClac(stid, -1, null, null).ToString();
+            ltPointsum.Text = st.Ac_Coupon.ToString();
             //
             if (!IsPostBack)
             {
