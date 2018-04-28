@@ -507,11 +507,11 @@ namespace Song.Site
             {
                 if (string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
                 {
-                    acc.Ac_WeixinOpenID = openid;
+                    acc.Ac_WeixinOpenID = unionid;
                     Business.Do<IAccounts>().AccountsSave(acc);
                     LoginState.Accounts.Write(acc);
                     //登录成功
-                    Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "QQ登录", "");   //增加登录积分
+                    Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
                     string domain = getOrganDomain(getOrgan(-1));
                     Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"domain\":\"" + domain + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
                 }
