@@ -16,15 +16,15 @@ function _contentsLoyout() {
     //弹出窗口
     $("a[btnType=openwin]").click(function () {
         var href = $(this).attr("href");
-        var title = $(this).attr("title");
-        new top.PageBox(title, href, 640, 480).Open();
+        var title = $(this).attr("title");        
+        new top.PageBox(title, href, 640, 480,null, window.name).Open();
         return false;
     });
     $("input[btnType=openwin]").click(function () {
-        var a = $(this).parent().parent().find("a[btnType=openwin]");
+        var a = $(this).parents("tr").find("a[btnType=openwin]");
         var href = a.attr("href");
         var title = a.attr("title");
-        new top.PageBox(title, href, 640, 480).Open();
+        new top.PageBox(title, href, 640, 480, null, window.name).Open();
         return false;
     });
 

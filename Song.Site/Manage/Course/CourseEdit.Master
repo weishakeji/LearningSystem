@@ -15,9 +15,7 @@
     <base target="_self"></base>
 </head>
 <body>
-<script type="text/javascript" src="../CoreScripts/easydrag.js"></script>
-<script type="text/javascript" src="../CoreScripts/Extend.js"></script>
-<script type="text/javascript" src="../Panel/Scripts/PageBox.js"></script>
+
 
     <script type="text/javascript" src="/Manage/CoreScripts/AutoLoyout.js"></script>
     <form loyout="row" id="form1" runat="server" class="pageWinForm" style="margin: 0px">
