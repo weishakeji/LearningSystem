@@ -68,6 +68,7 @@ namespace Song.Site.Mobile
                     code.Ac_ID = st.Ac_ID;
                     code.Ac_AccName = st.Ac_AccName;
                     Business.Do<IRecharge>().CouponUseCode(code);
+                    Extend.LoginState.Accounts.Refresh(st.Ac_ID);
                     this.Response.Write("1");
                 }
             }

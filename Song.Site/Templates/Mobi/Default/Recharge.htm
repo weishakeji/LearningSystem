@@ -3,7 +3,6 @@
 <head>
 <title>学员充值</title>
 <vt:include file="inc/meta.inc" />
-<script type="text/javascript" src="CoreScripts/Verify.js"></script>
 <link rel="stylesheet" href="Styles/Recharge.css?tick={$tick}"/>
 <script type="text/javascript" src="Scripts/Recharge.js?tick={$tick}"></script>
 </head>
@@ -39,10 +38,10 @@
           <div class="mui-card-header"><span class="card-tit"><span class="moneyico ico">&#xe60f;</span>充值卡</span><span id="card-error" class="error-show"></span> </div>
           <!--内容区-->
           <div class="mui-card-content">
-            <form class="mui-input-group">
+            <form class="mui-input-group" id="formPayCard" star="false">
               <div class="mui-input-row">
                 <label>充值码</label>
-                <input name="tbCard" id="tbCard" value="" type="text"  class="textbox" nullable="false" regex="^\w[^-]+\-\w+$"  group="code" />
+                <input name="tbCard" id="tbCard" value="" type="text"  class="textbox" nullable="false" regex="\d+(\s|)-(\s|)\d+"  group="code" />
               </div>
               <div class="mui-input-row txt"> 格式为“充值码-密码”，破折号不可缺少 </div>
               <div class="mui-button-row">

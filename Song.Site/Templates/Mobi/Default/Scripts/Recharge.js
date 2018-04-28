@@ -5,8 +5,8 @@
 
 //充值卡充值
 function pay_card() {
-    $("#btnPayCard").click(function () {
-        var form = $(this).parents("form");
+    $("form#formPayCard").submit(function () {
+        var form = $(this);
         var card = form.find("#tbCard").val();
         if ($.trim(card) == "") return false;
 		mui('#btnPayCard').button('loading');
