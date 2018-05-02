@@ -93,9 +93,9 @@ function APIClound_Event() {
 //当点击手机上返回键时
 function event_goback(ret) {
     //如果有弹出窗口，则选关闭窗口
-    if ($("#PageBox").size() > 0) {
+    if ($(".PageBox").size() > 0) {
         $("#screenMask").hide();
-        $("#PageBox").remove();
+        $(".PageBox").remove();
         return;
     }
     //如果有弹出窗口，则选关闭窗口

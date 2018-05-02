@@ -166,7 +166,7 @@ function sendSmsEvent() {
 }
 //关闭窗口
 function closeWinBox() {
-    var box = $("#PageBox", window.top.document);
+    var box = $(".PageBox", window.top.document);
     var winid = box.attr("winid");
     var orgid = winid.substring(winid.indexOf("-") + 1);
     //document.write(orgid);

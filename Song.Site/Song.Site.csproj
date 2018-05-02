@@ -633,7 +633,6 @@
     <Content Include="Templates\Mobi\_Public\Styles\WeixinpubLogin.css" />
     <Content Include="Templates\Mobi\_Public\WeixinpubLogin.htm" />
     <Content Include="Templates\Mobi\_Public\_self.xml" />
-    <Content Include="Templates\Web\Gov\CoreStyles\PageBox.css" />
     <Content Include="Templates\Web\Gov\CourseChannel.htm" />
     <Content Include="Templates\Web\Gov\Images\Flvplayer.swf" />
     <Content Include="Templates\Web\Gov\Images\QQ-weixin.png" />
@@ -712,12 +711,10 @@
     <Content Include="Templates\Mobi\Default\CoreScripts\mui.js" />
     <Content Include="Templates\Mobi\Default\CoreScripts\mui.min.js" />
     <Content Include="Templates\Mobi\Default\CoreScripts\mui.picker.min.js" />
-    <Content Include="Templates\Mobi\Default\CoreScripts\PageBox.js" />
     <Content Include="Templates\Mobi\Default\CoreScripts\Verify.js" />
     <Content Include="Templates\Mobi\Default\CoreStyles\mui.css" />
     <Content Include="Templates\Mobi\Default\CoreStyles\mui.min.css" />
     <Content Include="Templates\Mobi\Default\CoreStyles\mui.picker.min.css" />
-    <Content Include="Templates\Mobi\Default\CoreStyles\PageBox.css" />
     <Content Include="Templates\Mobi\Default\CoreStyles\public.css" />
     <Content Include="Templates\Mobi\Default\CoreStyles\MsgBox.css" />
     <Content Include="Templates\Mobi\Default\Course.htm" />
@@ -870,7 +867,6 @@
     <Content Include="Templates\Web\Gov\CoreScripts\iColorPicker.js" />
     <Content Include="Templates\Web\Gov\CoreScripts\mousewheel.js" />
     <Content Include="Templates\Web\Gov\CoreScripts\Node.js" />
-    <Content Include="Templates\Web\Gov\CoreScripts\PageBox.js" />
     <Content Include="Templates\Web\Gov\CoreScripts\PageExt.js" />
     <Content Include="Templates\Web\Gov\CoreScripts\Tree.js" />
     <Content Include="Templates\Web\Gov\CoreScripts\Verify.js" />
@@ -1094,7 +1090,6 @@
     <Content Include="Templates\Web\NetSchool\CoreScripts\iColorPicker.js" />
     <Content Include="Templates\Web\NetSchool\CoreScripts\mousewheel.js" />
     <Content Include="Templates\Web\NetSchool\CoreScripts\Node.js" />
-    <Content Include="Templates\Web\NetSchool\CoreScripts\PageBox.js" />
     <Content Include="Templates\Web\NetSchool\CoreScripts\PageExt.js" />
     <Content Include="Templates\Web\NetSchool\CoreScripts\Tree.js" />
     <Content Include="Templates\Web\NetSchool\CoreStyles\Public.css" />
@@ -1283,7 +1278,6 @@
     <Content Include="Templates\Web\NetSchool\Styles\notice.css" />
     <Content Include="Templates\Web\NetSchool\Styles\notices.css" />
     <Content Include="Templates\Web\_Public\Styles\CourseStudy.css" />
-    <Content Include="Templates\Web\NetSchool\CoreStyles\PageBox.css" />
     <Content Include="Templates\Web\_Public\Styles\QuesExplain.css" />
     <Content Include="Templates\Web\_Public\Styles\QuesKnl.css" />
     <Content Include="Templates\Web\_Public\Styles\QuestionAnswer.css" />
@@ -1320,7 +1314,6 @@
     <Content Include="Templates\Web\NetSchool\NewsList.htm" />
     <Content Include="Templates\Web\_Public\QQLogin.htm" />
     <Content Include="Templates\Web\School\CoreScripts\ajaxfileupload.js" />
-    <Content Include="Templates\Web\School\CoreStyles\PageBox.css" />
     <Content Include="Templates\Web\School\CoreStyles\Public.css" />
     <Content Include="Templates\Web\School\CourseBuy.htm" />
     <Content Include="Templates\Web\School\Images\ad_ctr.png" />
@@ -1540,7 +1533,6 @@
     <Content Include="Templates\Web\School\CoreScripts\iColorPicker.js" />
     <Content Include="Templates\Web\School\CoreScripts\mousewheel.js" />
     <Content Include="Templates\Web\School\CoreScripts\Node.js" />
-    <Content Include="Templates\Web\School\CoreScripts\PageBox.js" />
     <Content Include="Templates\Web\School\CoreScripts\PageExt.js" />
     <Content Include="Templates\Web\School\CoreScripts\Tree.js" />
     <Content Include="Templates\Web\School\CoreScripts\Verify.js" />
@@ -1714,7 +1706,6 @@
     <Content Include="Templates\Web\School\Styles\notfound.css" />
     <Content Include="Templates\Web\School\Styles\notice.css" />
     <Content Include="Templates\Web\School\Styles\notices.css" />
-    <Content Include="Templates\Web\School\Styles\PageBox.css" />
     <Content Include="Templates\Web\School\Styles\Public.css" />
     <Content Include="Templates\Web\School\Styles\test.css" />
     <Content Include="Templates\Web\School\Styles\TestScene.css" />

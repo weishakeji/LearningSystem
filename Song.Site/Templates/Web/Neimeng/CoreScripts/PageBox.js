@@ -51,7 +51,7 @@ PageBox.prototype.Init = function (title, page, width, height, winId) {
 //创建窗口，并打开
 PageBox.prototype.Open = function (title, page, width, height, winId) {
     //判断是否已经存在窗口
-    var WinBox = $("#PageBox[winId='" + this.WinId + "']");
+    var WinBox = $(".PageBox[winId='" + this.WinId + "']");
     if (WinBox.size() > 0) return;
     this.Close();
     //生成窗口
@@ -66,11 +66,11 @@ PageBox.prototype.Open = function (title, page, width, height, winId) {
     }
     //设置拖动
     if (this.IsDrag) {
-        $("#PageBox").easydrag();
-        $("#PageBox").setHandler("PageBoxTitle");
+        $(".PageBox").easydrag();
+        $(".PageBox").setHandler("PageBoxTitle");
     }
     //开始拖动
-    $("#PageBox").ondrag(function () {
+    $(".PageBox").ondrag(function () {
         $("#PageBoxIframeMask").show();
         var frame = $("#PageBoxIframeTemp");
         if (frame.size() > 0) {
@@ -78,11 +78,11 @@ PageBox.prototype.Open = function (title, page, width, height, winId) {
         }
     });
     //停止拖动
-    $("#PageBox").ondrop(function () {
+    $(".PageBox").ondrop(function () {
         $("#PageBoxIframeMask").hide();
         var frame = $("#PageBoxIframeTemp");
         if (frame.size() > 0) {
-            var PageBox = $("#PageBox");
+            var PageBox = $(".PageBox");
             var offset = PageBox.offset();
             frame.css("top", offset.top);
             frame.css("left", offset.left);
@@ -99,7 +99,7 @@ PageBox.prototype.BuildFrame = function () {
     var wd = document.documentElement.clientWidth;
     //
     $("body").append("<div id=\"PageBox\" type=\"PageBox\" winId=\"" + this.WinId + "\"></div>");
-    var PageBox = $("#PageBox");
+    var PageBox = $(".PageBox");
     this.WinBox = PageBox;
     var border = parseInt(PageBox.css("border-width")); //窗体边线宽度
     border = !isNaN(border) ? border : 0;
@@ -174,10 +174,10 @@ PageBox.prototype.Close = function (winid) {	//清除窗口
 }
 PageBox.Close = function (winid) {
     if (winid == null) {
-        $("#PageBox").remove();
+        $(".PageBox").remove();
         $("#screenMask").fadeOut(200);
     } else {
-        var WinBox = $("#PageBox[winid='" + winid + "']");
+        var WinBox = $(".PageBox[winid='" + winid + "']");
         if (WinBox.size() > 0) {
             WinBox.remove();
             $("#screenMask").fadeOut("slow");
@@ -221,7 +221,7 @@ PageBox.prototype.Mask = function () {
 }
 //当浏览器窗口变化时
 PageBox.prototype.OnReSize = function () {
-    var box = $("#PageBox");
+    var box = $(".PageBox");
     if (box.size() < 1) return;
     //重新设置遮罩
     this.Mask();
@@ -235,7 +235,7 @@ PageBox.prototype.OnReSize = function () {
 //当完成后，触发事件
 PageBox.prototype.OnComplete = function () {
     var num = 50;
-    var p = $("#PageBox");
+    var p = $(".PageBox");
     //谈入效果
     p.hide();
     p.fadeIn();

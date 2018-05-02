@@ -4,15 +4,15 @@
 <!--核心Js文件-->
 <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/artTemplate.js"></script>
-<script type="text/javascript" src="../CoreScripts/Extend.js?tick={$tick}"></script>
-<script type="text/javascript" src="../CoreScripts/easydrag.js"></script>
-<script type="text/javascript" src="../CoreScripts/PageBox.js?tick={$tick}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/easydrag.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/PageBox.js"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/MessageBox.js"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/Verify.js"></script>
 <!--核心Css文件-->
 <link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css"/>
 <link rel="stylesheet" type="text/css" href="../CoreStyles/public.css?tick={$tick}"/>
-<link rel="stylesheet" type="text/css" href="../CoreStyles/PageBox.css?tick={$tick}"/>
+<link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/PageBox.css"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/MessageBox.css"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/Jme.css"/>
 <!--公共的Js文件-->
