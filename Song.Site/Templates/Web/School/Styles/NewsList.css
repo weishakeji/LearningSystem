@@ -25,7 +25,7 @@ body {
 
 
 #LeftBox {
-	width: 600px;
+	width: 800px;
 	float: left;
 	border-right-width: 1px;
 	border-top-style: none;
@@ -86,7 +86,7 @@ body {
 	color: #000000;
 }
 #LeftBox .newsItem {
-	width: 580px;
+	width: 780px;
 	height:auto;
 	display:table;
 	max-heigh: 150px;
@@ -100,7 +100,6 @@ body {
 }
 #LeftBox .newsItem .newsTitleBar {
 	height: 40px;
-	width:580px;
 }
 #LeftBox .newsTitleBar .newsTitle {
 	line-height: 40px;

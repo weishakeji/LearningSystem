@@ -158,8 +158,8 @@ $(function(){
                           var href = $(element).attr("href");
                           var tit = $.trim($(element).text());
                           var tm = $().PdfViewer(href);
-                          alert(tm);
-                          var box = new PageBox(tit, $().PdfViewer(href), 100, 100);
+                          //alert(tm);
+                          var box = new PageBox(tit, $().PdfViewer(href), 100, 100,null,window.name);
                           box.Open();
                           return false;
                       });

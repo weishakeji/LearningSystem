@@ -5,6 +5,15 @@
         new MsgBox("找回密码", "请联系当前系统的管理员（即超级管理员）。<br/>由超级管理员进行密码重置。", 400, 250, "alert").Open();
 		return false;
     });
+	(function(){
+		var error=Number($().getPara("error"));	//错误代码
+		error=isNaN(error) ? 0 : error;
+		var acc=$().getPara("acc");	//账号
+		if(error==1)Verify.ShowBox($("input[type=text][name=tbAcc]"),"登录账号不得为空");
+		if(error==2)Verify.ShowBox($("input[type=text][name=tbCode]"),"验证码不正确");
+		if(error==3)Verify.ShowBox($("input[type=password][name=tbPw]"),"密码不正确");
+		if(acc!="")$("input[type=text][name=tbAcc]").val(acc);
+	})();
 });
 //设置登录框的布局
 function loginLoyoutSet() {
@@ -20,6 +29,7 @@ $(window).resize(function () {
     //if (window.windowResizeTemp % 2 == 0) setLoyout();
 });
 
+/*
 //设置登录框
 function setLoginBox(element, position, distance, top) {
     if (typeof (element) == "string") element = $(element);
@@ -41,3 +51,4 @@ function setLoginBox(element, position, distance, top) {
     });
     element.show();
 }
+*/
