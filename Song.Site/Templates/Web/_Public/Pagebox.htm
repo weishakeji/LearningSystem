@@ -19,7 +19,9 @@
 <body>
 <div id="time">测试刷新（关闭子窗体，刷新父窗体）：<span></span></div>
 <a class="btn" name="open" href="pagebox.cshtm">弹出窗口</a> <br/>
-<a class="btn" name="getname" href="pagebox.cshtm">当前窗口名称</a>
+<a class="btn" name="getname" href="pagebox.cshtm">当前窗口名称</a><br/>
+
+<a class="btn" name="getpath" href="pagebox.cshtm">测试路径获取</a>
 </body>
 <script>
 $("#time span").text(new Date().Format("yyyy年M月d日 hh:mm:ss"));
@@ -42,6 +44,11 @@ $(".btn[name=open]").click(function(){
 });
 $(".btn[name=getname]").click(function(){	
 	alert(window.name);
+	return false;
+});
+$(".btn[name=getpath]").click(function(){	
+	var path=window.top.PageBox.getCurrPath(window.name,$(this).attr("href"));
+	alert(path);
 	return false;
 });
 </script>

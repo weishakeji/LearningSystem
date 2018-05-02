@@ -43,7 +43,7 @@
         this.Width = width > 100 ? Number(width) : wd * Number(width) / 100;
         this.Height = height > 100 ? Number(height) : hg * Number(height) / 100;
         this.WinId = winid != null ? winid : new Date().getTime() + "_" + Math.floor(Math.random() * 1000 + 1);
-        this.Page = page;
+        this.Page = pagebox.getCurrPath(patwin,page);
         //上级窗体
         if (patwin != null) this.Parent = pagebox.getParent(patwin);
     }
@@ -51,6 +51,29 @@
     pagebox.getParent = function (winname) {
         var winbox = $(".PageBox[winid=" + winname + "]", window.top.document);
         return winbox;
+    }
+    //获取父路径
+    pagebox.getParentPath = function (winname) {
+        var winbox = $(".PageBox[winid=" + winname + "]", window.top.document);
+        if(winbox.size()<1)winbox=$("iframe[name=" + winname + "]", window.top.document);
+        var iframe=winbox.find("iframe");
+        var path="";
+        if (iframe.size() > 0) {
+            path= iframe.get(0).contentWindow.location.href;
+        }else {
+            path= window.top.location.href;
+        }
+        path= path.indexOf("/") ? path.substring(0,path.lastIndexOf("/")+1) : "";
+        return path;
+    }
+    //获取当前要打开的路径
+    pagebox.getCurrPath = function (winname,page) {
+        var patpath= pagebox.getParentPath(winname);
+        if($.trim(patpath)=="")return page;
+        var path=page;
+        if(new RegExp("[a-zA-z]+://[^\s]*").exec(page))return page;
+        if(new RegExp("^[{\\\/\#]").exec(page))return page;
+        return patpath+path;
     }
     //创建窗口，并打开
     pagebox.prototype.Open = function (title, page, width, height, winId) {

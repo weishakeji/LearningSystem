@@ -49,10 +49,12 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="名称">
                  <ItemTemplate>
-                    <span class="treeIco">
+                   <%-- <span class="treeIco">
                         <%# Eval("Tree")%></span> <span title="<%# Eval("Cou_Intro", "{0}")%>"><a href="../Course/Courses_Edit.aspx?couid=<%# Eval("Cou_ID", "{0}")%>"
                             target="_blank">
-                            <%# Eval("Cou_Name")%></a> </span>
+                            <%# Eval("Cou_Name")%></a> </span>--%>
+                             <a href="#" onclick="OpenWin('../Course/Courses_Edit.aspx?couid=<%# Eval("Cou_ID", "{0}")%>','《<%# Eval("Cou_Name")%>》',100,100);return false;">
+                              <%# Eval("Cou_Name")%></a>
                 </ItemTemplate>
                 <ItemStyle CssClass="left" />
             </asp:TemplateField>

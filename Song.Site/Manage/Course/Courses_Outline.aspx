@@ -116,7 +116,7 @@
         </asp:DataList>
         </fieldset>
         <fieldset>
-            <legend>视频事件-<a href="/manage/Course/OutlineEvent_Edit.aspx?couid=<%=couid %>&uid=<%= UID %>&olid=<%= olid %>"
+            <legend>视频事件-<a href="OutlineEvent_Edit.aspx?couid=<%=couid %>&uid=<%= UID %>&olid=<%= olid %>"
                 btntype="openwin" title="新增视频事件">添加</a></legend>
             <cc1:GridView ID="gvEventList" runat="server" AutoGenerateColumns="False">
                 <EmptyDataTemplate>
@@ -150,7 +150,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="事件主题">
                         <ItemTemplate>
-                            <a href="/manage/Course/OutlineEvent_Edit.aspx?id=<%# Eval("Oe_ID","{0}")%>&couid=<%=couid %>&uid=<%= UID %>&olid=<%= olid %>"
+                            <a href="OutlineEvent_Edit.aspx?id=<%# Eval("Oe_ID","{0}")%>&couid=<%=couid %>&uid=<%= UID %>&olid=<%= olid %>"
                                 btntype="openwin" title="编辑章节事件">
                                 <%# Eval("Oe_Title","{0}")%></a>
                         </ItemTemplate>
