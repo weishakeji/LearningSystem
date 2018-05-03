@@ -213,7 +213,14 @@ function _mobiLogin_veri(form, url) {
 	    }
 	});
 }
-
+//格式化字符串
+String.prototype.format = function (args) {
+    var result = this;
+    for (var i = 0; i < arguments.length; i++) {
+        result = result.replace(eval('/\\{' + i + '\\}/g'), arguments[i]);
+    }
+    return result;
+}
 /*第三方登录*/
 function OtherLogin() { }
 OtherLogin.init = function () {
@@ -237,10 +244,10 @@ OtherLogin.init = function () {
             msg.Open();
         } else {
             var appid = $(this).attr("appid"); //appid
-            var returl = OtherLogin.prefix($(this).attr("returl")) + "/weixinlogin.ashx"; //回调域
+            var returl = OtherLogin.prefix($(this).attr("returl")) + "/mobile/weixinpublogin.ashx"; //回调域	
             var orgid = $(this).attr("orgid"); 	//当前机构id
-            var target = "https://open.weixin.qq.com/connect/oauth2/authorize?";
-            target += "appid=" + appid + "&redirect_uri=" + encodeURIComponent(returl) + "&response_type=code&scope=snsapi_base&state=" + orgid + "&&style=black#wechat_redirect";
+            var target = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_base&state={2}#wechat_redirect";
+            target = target.format(appid, encodeURIComponent(returl), orgid);
             window.location.href = target;
         }
     });

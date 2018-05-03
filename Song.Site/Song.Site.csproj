@@ -576,6 +576,8 @@
     <Content Include="Templates\Mobi\Default\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Mobi\Default\CoreScripts\Base64.js" />
     <Content Include="Templates\Mobi\Default\CoreScripts\mui-fuction.js" />
+    <Content Include="Templates\Mobi\Default\CoreScripts\PageBox.js" />
+    <Content Include="Templates\Mobi\Default\CoreStyles\PageBox.css" />
     <Content Include="Templates\Mobi\Default\Exam.htm" />
     <Content Include="Templates\Mobi\Default\Examing.htm" />
     <Content Include="Templates\Mobi\Default\Images\1.png" />
