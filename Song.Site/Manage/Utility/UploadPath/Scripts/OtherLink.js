@@ -10,8 +10,8 @@
                 var data = eval("(" + requestdata + ")");
                 if (data.success == "1") {
                     //调用上级页面方法
-                    //alert(data.url);
-                    top.setOuterLink(data.name, data.url);
+                    var win = window.top.PageBox.parentWindow(window.name);
+                    win.setOuterLink(data.name, data.url,window.name);
                 }
             } catch (err) {
                 alert("错误：" + err);

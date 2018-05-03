@@ -122,14 +122,13 @@
         var title = $(this).text();
         var height = Number($(this).attr("hg"));
         var width = Number($(this).attr("wd"));
-        var box = new PageBox(title, src, height, width);
+        var box = new top.PageBox(title, src, height, width,null,window.name);
         box.Open();
         return false;
     });
     //设置选择的文件
-    function setSelectFile(file, path) {
-        var box = new PageBox();
-        box.Close();
+    function setSelectFile(file, path,winname) {
+        new top.PageBox().Close(winname);
         //alert(path + file);
         uploadSuccess(file, path + file);
         //
@@ -140,9 +139,8 @@
         });
     }
     //设置外部链接
-    function setOuterLink(file, path) {
-        var box = new PageBox();
-        box.Close();
+    function setOuterLink(file, path, winname) {
+        new top.PageBox().Close(winname);
         var video = $("a.video");
         if (video.size() > 1) {
             $("a.video").html(file + " <span style='color:red'>(外部链接)</span>");
