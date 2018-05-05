@@ -95,7 +95,6 @@ namespace Song.Site.Mobile
                 {
                     this.Document.Variables.SetValue("errcode", errcode);
                     this.Document.Variables.SetValue("errmsg", errmsg);
-                    //throw new Exception("错误：" + errmsg + ";errcode:" + errcode);
                 }
                 //返回正确
                 access_token = jo["access_token"] != null ? jo["access_token"].ToString() : string.Empty;  //接口调用凭证
@@ -138,7 +137,7 @@ namespace Song.Site.Mobile
         /// <returns>xml对象</returns>
         private Song.Entities.Accounts getUserInfo(string access_token, string openid,out string unionid)
         {
-            string userUrl = "https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}";
+            string userUrl = "https://api.weixin.qq.com/sns/userinfo?access_token={0}&openid={1}&lang=zh_CN";
             //string userUrl = "https://api.weixin.qq.com/cgi-bin/user/info?access_token={0}&openid={1}&lang=zh_CN";
             userUrl = string.Format(userUrl, access_token, openid);
             string retjson = WeiSha.Common.Request.WebResult(userUrl);
@@ -147,8 +146,14 @@ namespace Song.Site.Mobile
             Song.Entities.Accounts acc = null;
             JObject jo = (JObject)JsonConvert.DeserializeObject(retjson);
             string errcode = jo["errcode"] != null ? jo["errcode"].ToString() : string.Empty;  //错误代码
-            if (!string.IsNullOrEmpty(errcode)) return acc;
-            if (string.IsNullOrEmpty(errcode))
+            string errmsg = jo["errmsg"] != null ? jo["errmsg"].ToString() : string.Empty;
+            if (!string.IsNullOrWhiteSpace(errcode))
+            {
+                this.Document.Variables.SetValue("errcode", errcode);
+                this.Document.Variables.SetValue("errmsg", errmsg);
+                return acc;
+            }
+             if (string.IsNullOrEmpty(errcode))
             {
                 acc = new Entities.Accounts();
                 acc.Ac_Name = jo["nickname"] != null ? jo["nickname"].ToString() : string.Empty;    //昵称

@@ -734,6 +734,7 @@ namespace Song.ServiceImpls
                     tran.Update<Accounts>(new Field[] { Accounts._.Ac_Point }, new object[] { entity.Pa_Total }, Accounts._.Ac_ID == entity.Ac_ID);
                     tran.Update<Accounts>(new Field[] { Accounts._.Ac_PointAmount }, new object[] { entity.Pa_TotalAmount }, Accounts._.Ac_ID == entity.Ac_ID);
                     tran.Commit();
+                    Extend.LoginState.Accounts.Refresh(entity.Ac_ID);
                     return entity;
                 }
                 catch (Exception ex)
@@ -854,6 +855,7 @@ namespace Song.ServiceImpls
                     tran.Save<PointAccount>(entity);
                     tran.Update<Accounts>(new Field[] { Accounts._.Ac_Point }, new object[] { entity.Pa_Total }, Accounts._.Ac_ID == entity.Ac_ID);
                     tran.Commit();
+                    Extend.LoginState.Accounts.Refresh(entity.Ac_ID);
                     return entity;
                 }
                 catch (Exception ex)
@@ -1018,8 +1020,9 @@ namespace Song.ServiceImpls
                 try
                 {
                     tran.Save<CouponAccount>(entity);
-                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_Coupon }, new object[] { entity.Ca_Total }, Accounts._.Ac_ID == entity.Ac_ID);
+                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_Coupon }, new object[] { entity.Ca_Total }, Accounts._.Ac_ID == entity.Ac_ID);                    
                     tran.Commit();
+                    Extend.LoginState.Accounts.Refresh(entity.Ac_ID);
                     return entity;
                 }
                 catch (Exception ex)
@@ -1064,6 +1067,7 @@ namespace Song.ServiceImpls
                     tran.Save<CouponAccount>(entity);
                     tran.Update<Accounts>(new Field[] { Accounts._.Ac_Coupon }, new object[] { entity.Ca_Total }, Accounts._.Ac_ID == entity.Ac_ID);
                     tran.Commit();
+                    Extend.LoginState.Accounts.Refresh(entity.Ac_ID);
                     return entity;
                 }
                 catch (Exception ex)
@@ -1135,6 +1139,7 @@ namespace Song.ServiceImpls
                     tran.Save<CouponAccount>(ca);
                     tran.Update<Accounts>(new Field[] { Accounts._.Ac_Coupon }, new object[] { ca.Ca_Total }, Accounts._.Ac_ID == accid);
                     tran.Commit();
+                    Extend.LoginState.Accounts.Refresh(accid);
                 }
                 catch (Exception ex)
                 {

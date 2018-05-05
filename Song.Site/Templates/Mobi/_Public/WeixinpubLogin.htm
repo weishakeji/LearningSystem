@@ -29,16 +29,22 @@
     <vt:if var="org.org_id" value="0" compare=">" remark="所属机构必须存在">
       <vt:if var="openid" value="" compare="=" remark="">
     <vt:if var="errcode" value="" compare="!=" remark="">
-          <div class="error-txt">错误：{$errmsg} ;<br/>
-        errcode:{$errcode}</div>
+          <div class="error-txt">错误码:{$errcode}<br/>信息：{$errmsg} ;
+        </div>
           <vt:if var="errcode" value="41004" compare="=" remark="">
         <div class="error-txt">可能原因：AppSecret未填写</div>
       </vt:if>
           <vt:if var="errcode" value="40125" compare="=" remark="">
         <div class="error-txt">可能原因：AppSecret参数不正确</div>
       </vt:if>
+       
         </vt:if>
     <vt:else />
+    <vt:if var="errcode" value="" compare="!=" remark="">
+          <div class="error-txt">错误码:{$errcode}<br/>
+        信息：{$errmsg} ;</div>        
+       
+        </vt:if>
     <vt:if var="success" value="1" compare="=" remark="账户已经存在，且正常登录">
           <div class="loading-txt">正在登录...</div>
           <script>              returl("{$acc.ac_pw}", "{$acc.ac_id}");</script> 

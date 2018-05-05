@@ -132,7 +132,7 @@
                 </td>
                 <td class="left">
                     <asp:TextBox ID="tbWeixinpubReturl" begin="http://|https://" runat="server" nullable="false"
-                        group="weixin" Width="200"></asp:TextBox>/weixinpublogin.ashx
+                        group="weixin" Width="200"></asp:TextBox>/mobile/weixinpublogin.ashx
                 </td>
             </tr>
             <tr>

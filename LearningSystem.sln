@@ -44,7 +44,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{FDA0AAE6-47E
 		Lib\WeiSha.Data.XML = Lib\WeiSha.Data.XML
 		Lib\WeiSha.SMS.dll = Lib\WeiSha.SMS.dll
 		Lib\WeiSha.SMS.XML = Lib\WeiSha.SMS.XML
-		Lib\WeiSha.Template.Engine.dll = Lib\WeiSha.Template.Engine.dll
 		Lib\WeiSha.Template.Engine.XML = Lib\WeiSha.Template.Engine.XML
 		Lib\WeiSha.WebControl.dll = Lib\WeiSha.WebControl.dll
 		Lib\WeiSha.WebControl.XML = Lib\WeiSha.WebControl.XML
