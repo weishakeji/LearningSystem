@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using NPOI.HSSF.UserModel;
 using System.IO;
 using NPOI.SS.UserModel;
+using System.Text.RegularExpressions;
 
 namespace Song.Site.Manage.Teacher
 {
@@ -110,7 +111,7 @@ namespace Song.Site.Manage.Teacher
             buildExcelSql_1(hssfworkbook);           
 
             //创建文件
-            string name = theme.Exam_Title + "-考试成绩" + ".xls";
+            string name = WeiSha.Common.Server.LegalName(theme.Exam_Title) + "-考试成绩" + ".xls";
             string filePath = Upload.Get["Temp"].Physics + name;
             FileStream file = new FileStream(filePath, FileMode.Create);
             hssfworkbook.Write(file);
@@ -146,7 +147,7 @@ namespace Song.Site.Manage.Teacher
             buildExcelSql_2(hssfworkbook);
 
             //创建文件
-            string name = theme.Exam_Title + "-所有学员" + ".xls";
+            string name = WeiSha.Common.Server.LegalName(theme.Exam_Title) + "-所有学员" + ".xls";
             string filePath = Upload.Get["Temp"].Physics + name;
             FileStream file = new FileStream(filePath, FileMode.Create);
             hssfworkbook.Write(file);

@@ -227,7 +227,7 @@ namespace Song.Site.Manage.Course
             //创建文件
             string name = App.Get["QuesType"].Split(',')[type - 1];
             string filename = name.Trim() + "题_" + DateTime.Now.ToString("yyyy-MM-dd_hh-mm") + ".xls";
-            string filePath = Upload.Get["Temp"].Physics + filename;
+            string filePath = Upload.Get["Temp"].Physics + WeiSha.Common.Server.LegalName(filename);
             FileStream file = new FileStream(filePath, FileMode.Create);
             hssfworkbook.Write(file);
             file.Close();

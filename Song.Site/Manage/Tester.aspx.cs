@@ -34,14 +34,21 @@ namespace Song.Site.Manage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string domain = "xx";
-            string access_token = "access_token";
-            string openid = "openid";
-            string orgid = "orgid";
-            //登录成功后的返回地址
-             string uri = "{0}/{1}?token={2}&openid={3}&orgid={4}";
-             uri = string.Format(uri, domain, WeiSha.Common.Request.Page.FileName, access_token, openid, orgid);
+            string domain = "\\/:*?<>|\"";
+            domain = LegalName(domain);
             Response.End();
+        }
+        public static string LegalName(string filename)
+        {
+            string s1 = "\\/:*?<>|\"";
+            string s2 = "＼／：★？〖〗｜＂";
+            for (int i = 0; i < s1.Length; i++)
+            {
+                string t = s1.Substring(i, 1);
+                string s = s2.Substring(i, 1);
+                filename = filename.Replace(t, s);
+            }
+            return filename;
         }
         
     }

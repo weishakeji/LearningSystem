@@ -774,7 +774,7 @@ namespace Song.Site.Manage.Utility
 
             }
             //创建文件
-            string filePath = Upload.Get["Temp"].Physics + this.TemplateName + "-导入错误-" + DateTime.Now.ToLongDateString() + ".xls";
+            string filePath = Upload.Get["Temp"].Physics + WeiSha.Common.Server.LegalName(this.TemplateName + "-导入错误-" + DateTime.Now.ToLongDateString()) + ".xls";
             FileStream file = new FileStream(filePath, FileMode.Create);
             hssfworkbook.Write(file);
             file.Close();
