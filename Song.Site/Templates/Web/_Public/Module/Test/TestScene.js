@@ -287,13 +287,14 @@ function submitResult(patter) {
         //加载成功！
         success: function (data) {
             try {
+				MsgBox.Close();
                 //返回三个参数：
                 //score:得分;
                 //trid:考试成绩记录的id
                 //tpid:试卷Id
 				var obj = eval("(" + data + ")");
                 var url = "TestView.ashx?trid=" + obj.trid;
-                var box = new top.PageBox("成绩回顾", url, 980, 80);
+                var box = new top.PageBox("成绩回顾", url, 980, 80,null,window.name);
                 box.CloseEvent = function () {
                     window.location.href = "Test.ashx";					
                 }

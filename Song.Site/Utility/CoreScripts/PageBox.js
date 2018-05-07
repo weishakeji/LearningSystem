@@ -221,7 +221,7 @@
         if (this.Parent != null && this.Parent.size() > 0) {
             initIndex = parseInt(this.Parent.css("z-index"));
         }
-        mask.css({ "position": "absolute", "z-index": initIndex + 1000, "display": "block",
+        mask.css({ "position": "absolute", "z-index": initIndex + 10000, "display": "block",
             "width": wd, "height": hg, top: 0, left: 0, opacity: .3, "background-color": "#999"
         }).fadeIn(1);
     }
