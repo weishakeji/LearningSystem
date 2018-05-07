@@ -124,6 +124,7 @@ body {
 	margin: 20px;
 	padding: 20px;
 	border: 1px solid #ccc;
+	text-align:left;
 }
 /*章节列表*/
 .outline {
