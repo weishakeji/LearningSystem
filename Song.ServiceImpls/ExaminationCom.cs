@@ -120,6 +120,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Save<Examination>(entity);
                     tran.Update<Examination>(new Field[] { Examination._.Exam_IsUse }, new object[] { entity.Exam_IsUse }, Examination._.Exam_UID == entity.Exam_UID);
+                    tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Name }, new object[] { entity.Exam_Name }, Examination._.Exam_UID == entity.Exam_UID);
                     tran.Commit();
                 }
                 catch (Exception ex)
@@ -172,7 +173,7 @@ namespace Song.ServiceImpls
                                 it.Exam_IsShowBtn = theme.Exam_IsShowBtn;
                                 it.Exam_IsToggle = theme.Exam_IsToggle;
                                 tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Name },
-                                    new object[] { it.Exam_Name }, ExamResults._.Exam_ID == it.Exam_ID);
+                                    new object[] { it.Exam_Name }, ExamResults._.Exam_UID == it.Exam_UID);
                                 tran.Save<Examination>(it);
                             }
                         }
@@ -182,6 +183,7 @@ namespace Song.ServiceImpls
                             theme.Exam_DateOver = examDate;
                         }
                     }
+                    
                     tran.Save<Examination>(theme);
                     //参考人员范围
                     tran.Delete<ExamGroup>(ExamGroup._.Exam_UID == theme.Exam_UID);

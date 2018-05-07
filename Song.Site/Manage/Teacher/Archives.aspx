@@ -28,7 +28,7 @@
                     <%# Container.ItemIndex + Pager1.Size * (Pager1.Index - 1) + 1%>、
                 </span>
                     <asp:Label ID="lbTitle" CssClass='<%# Eval("Exam_UID")%>' runat="server" Text='<%# Eval("Exam_Title")%>'></asp:Label></div>
-                    <div class="viewScore" onclick="OpenWin('Statistics_Details.aspx?id=<%# Eval("Exam_ID") %>','《<%# Eval("Exam_Title")%>》-成绩详情',980,90);return false;">成绩详情</div>
+                    <div class="viewScore" onclick="OpenWin('Statistics_Details.aspx?id=<%# Eval("Exam_ID") %>','《<%# Eval("Exam_Title")%>》-成绩详情',980,90,window.name);return false;">成绩详情</div>
             </div>
             <div class="groupBox">
                 参考人员：<%# getGroupType(Eval("exam_grouptype").ToString(), Eval("exam_uid").ToString())%></div>
