@@ -32,11 +32,16 @@ namespace Song.Site.Manage.Pay
         private void fill()
         {
             Song.Entities.PayInterface pi = id <= 0 ? null : Business.Do<IPayInterface>().PaySingle(id);
-            if (pi == null) return;
-            this.EntityBind(pi);
-            //自定义配置项
-            WeiSha.Common.CustomConfig config = CustomConfig.Load(pi.Pai_Config);
-            tbPrivatekey.Text = config["Privatekey"].Value.String;           
+            if (pi != null)
+            {
+                this.EntityBind(pi);
+                //自定义配置项
+                WeiSha.Common.CustomConfig config = CustomConfig.Load(pi.Pai_Config);
+                tbPrivatekey.Text = config["Privatekey"].Value.String;
+            }
+            //回调域如果为空
+            if (Pai_Returl.Text.Trim() == "")
+                Pai_Returl.Text = "http://" + WeiSha.Common.Server.Domain + ":" + WeiSha.Common.Server.Port + "/";
         }
         /// <summary>
         /// 修改

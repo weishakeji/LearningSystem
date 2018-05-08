@@ -25,7 +25,7 @@
                        var addr4 = res.addressDetailInfo;
                        var tel = res.telNumber;
                        var addr = addr1 + addr2 + addr3 + addr4;
-                       alert(addr + ":" + tel);
+                       alert("回调信息-"+addr + ":" + tel);
                    }
                );
          }

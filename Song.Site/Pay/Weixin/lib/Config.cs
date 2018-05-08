@@ -19,7 +19,7 @@ namespace WxPayAPI
         public const string APPID = "wxe528b085737d1306";
         public const string MCHID = "1495321832";
         public const string KEY = "e10adc3849ba56abbe56e056f20f883e";
-        public const string APPSECRET = "45301946feca4bebb258040c4d51cda4";
+        public const string APPSECRET = "cbc3e73825880ddbc714dfbc69115e38";
 
         //=======【证书路径设置】===================================== 
         /* 证书路径,注意应该填写绝对路径（仅退款、撤销订单时需要）

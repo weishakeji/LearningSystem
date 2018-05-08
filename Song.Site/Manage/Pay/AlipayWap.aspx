@@ -19,7 +19,8 @@
                 支付方式名称：
             </td>
             <td>
-                <asp:TextBox ID="Pai_Name" runat="server" Width="200"></asp:TextBox>
+                <asp:TextBox ID="Pai_Name" runat="server" Width="200" nullable="false"></asp:TextBox>
+                <asp:CheckBox ID="Pai_IsEnable" Checked="true" runat="server" Text="是否启用" />
             </td>
         </tr>
         <tr>
@@ -29,7 +30,7 @@
                 （ParterID）
             </td>
             <td>
-                <asp:TextBox ID="Pai_ParterID" runat="server" Width="200"></asp:TextBox>
+                <asp:TextBox ID="Pai_ParterID" runat="server" Width="200" nullable="false"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -37,7 +38,15 @@
                 商户的私钥：
             </td>
             <td>
-                <asp:TextBox ID="tbPrivatekey" runat="server" TextMode="MultiLine" Width="98%" Height="180"></asp:TextBox>
+                <asp:TextBox ID="tbPrivatekey" runat="server" TextMode="MultiLine" Width="98%" Height="150"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="right">
+                回调域：
+            </td>
+            <td>
+             <asp:TextBox ID="Pai_Returl" runat="server" Width="50%" nullable="false" begin="http://|https://"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -54,13 +63,6 @@
             </td>
             <td>
                 <asp:TextBox ID="Pai_Intro" runat="server" Width="98%" Height="50"></asp:TextBox>
-            </td>
-        </tr>
-        <tr>
-            <td class="right">
-            </td>
-            <td>
-                <asp:CheckBox ID="Pai_IsEnable" Checked="true" runat="server" Text="是否启用" />
             </td>
         </tr>
     </table>

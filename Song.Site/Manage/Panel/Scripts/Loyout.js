@@ -117,8 +117,6 @@ function reLoyout(){
 	    		span.attr("h",right.height());	
 			}
 	});	
-	//弹出窗体
-	new PageBox().OnReSize();
 }
 //按钮事件
 function btnEvent(){

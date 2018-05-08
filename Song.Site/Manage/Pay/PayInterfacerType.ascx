@@ -34,4 +34,5 @@
     <asp:ListItem Value="" Selected="True">--选择支付接口--</asp:ListItem>
     <asp:ListItem Value="alipaywap.aspx">支付宝手机支付</asp:ListItem>
     <asp:ListItem Value="alipayweb.aspx">支付宝网页直付</asp:ListItem>
+    <asp:ListItem Value="weixinpubpay.aspx">微信公众号支付</asp:ListItem>
 </asp:DropDownList>

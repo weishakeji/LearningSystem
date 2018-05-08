@@ -18,7 +18,7 @@ using System.Text.RegularExpressions;
 
 namespace Song.Site.Manage.Pay
 {
-    public partial class AlipayWap : Extend.CustomPage
+    public partial class Weixinpubpay : Extend.CustomPage
     {
         private int id = WeiSha.Common.Request.QueryString["id"].Decrypt().Int32 ?? 0;
         protected void Page_Load(object sender, EventArgs e)
@@ -37,7 +37,8 @@ namespace Song.Site.Manage.Pay
                 this.EntityBind(pi);
                 //自定义配置项
                 WeiSha.Common.CustomConfig config = CustomConfig.Load(pi.Pai_Config);
-                tbPrivatekey.Text = config["Privatekey"].Value.String;
+                tbMCHID.Text = config["MCHID"].Value.String;    //商户id
+                tbPaykey.Text = config["Paykey"].Value.String;  //支付密钥
             }
             //回调域如果为空
             if (Pai_Returl.Text.Trim() == "")
@@ -56,8 +57,8 @@ namespace Song.Site.Manage.Pay
             pi.Pai_Pattern = Pai_Pattern.DdlInterFace.SelectedItem.Text;
             //自定义配置项
             WeiSha.Common.CustomConfig config = CustomConfig.Load(pi.Pai_Config);
-            string privateKey = Regex.Replace(tbPrivatekey.Text.Trim(), @"\r|\n|\s", "", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace);
-            config["Privatekey"].Text = privateKey;
+            config["MCHID"].Text = tbMCHID.Text.Trim();     //商户id
+            config["Paykey"].Text = tbPaykey.Text.Trim();   //支付密钥
             pi.Pai_Config = config.XmlString;
             //所用的平台
             pi.Pai_Platform = "mobi";

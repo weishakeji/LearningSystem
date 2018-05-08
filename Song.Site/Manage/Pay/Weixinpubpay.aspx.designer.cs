@@ -10,7 +10,7 @@
 namespace Song.Site.Manage.Pay {
     
     
-    public partial class AlipayWeb {
+    public partial class Weixinpubpay {
         
         /// <summary>
         /// Pai_Pattern 控件。
@@ -49,13 +49,13 @@ namespace Song.Site.Manage.Pay {
         protected global::System.Web.UI.WebControls.TextBox Pai_ParterID;
         
         /// <summary>
-        /// tbPrivatekey 控件。
+        /// Pai_Key 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbPrivatekey;
+        protected global::System.Web.UI.WebControls.TextBox Pai_Key;
         
         /// <summary>
         /// Pai_Returl 控件。
@@ -65,6 +65,24 @@ namespace Song.Site.Manage.Pay {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Pai_Returl;
+        
+        /// <summary>
+        /// tbMCHID 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbMCHID;
+        
+        /// <summary>
+        /// tbPaykey 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbPaykey;
         
         /// <summary>
         /// Pai_Feerate 控件。

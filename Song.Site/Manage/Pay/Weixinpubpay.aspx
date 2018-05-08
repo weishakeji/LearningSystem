@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Manage/PageWin.Master" AutoEventWireup="true"
-    CodeBehind="AlipayWeb.aspx.cs" Inherits="Song.Site.Manage.Pay.AlipayWeb" Title="无标题页" %>
+    CodeBehind="Weixinpubpay.aspx.cs" Inherits="Song.Site.Manage.Pay.Weixinpubpay" Title="无标题页" %>
 
 <%@ MasterType VirtualPath="~/Manage/PageWin.Master" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
@@ -22,22 +22,28 @@
                 <asp:TextBox ID="Pai_Name" runat="server" Width="200" nullable="false"></asp:TextBox> <asp:CheckBox ID="Pai_IsEnable" Checked="true" runat="server" Text="是否启用" />
             </td>
         </tr>
-        <tr>
+         <tr>
             <td class="right">
-                合作者身份：
-                <br />
-                （ParterID）
+               
             </td>
             <td>
-                <asp:TextBox ID="Pai_ParterID" runat="server" Width="200" nullable="false"></asp:TextBox>
+               以下信息来自微信公众号
             </td>
         </tr>
         <tr>
             <td class="right">
-                商户的私钥：
+                APPID：
             </td>
             <td>
-                <asp:TextBox ID="tbPrivatekey" runat="server" TextMode="MultiLine" Width="98%" Height="150"></asp:TextBox>
+                <asp:TextBox ID="Pai_ParterID" runat="server" Width="60%" nullable="false"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="right">
+                APPSECRET：
+            </td>
+            <td>
+               <asp:TextBox ID="Pai_Key" runat="server" Width="60%" nullable="false"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -45,7 +51,38 @@
                 回调域：
             </td>
             <td>
-             <asp:TextBox ID="Pai_Returl" runat="server" Width="50%" nullable="false" begin="http://|https://"></asp:TextBox>
+             <asp:TextBox ID="Pai_Returl" runat="server" Width="60%" nullable="false" begin="http://|https://"></asp:TextBox>
+            </td>
+        </tr>
+         <tr>
+            <td class="right">
+               
+            </td>
+            <td>
+               以下信息来自微信商户号
+            </td>
+        </tr>
+        <tr>
+            <td class="right">
+                商户ID：
+            </td>
+            <td>
+                <asp:TextBox ID="tbMCHID" runat="server" Width="300" nullable="false"></asp:TextBox>
+            </td>
+        </tr>
+        <tr>
+            <td class="right">
+                支付密钥：
+            </td>
+            <td>
+                <asp:TextBox ID="tbPaykey" runat="server" Width="300" nullable="false"></asp:TextBox>
+            </td>
+        </tr>
+          <tr>
+            <td class="right">
+            </td>
+            <td>
+               &nbsp;
             </td>
         </tr>
         <tr>
@@ -64,7 +101,7 @@
                 <asp:TextBox ID="Pai_Intro" runat="server" Width="98%" Height="50"></asp:TextBox>
             </td>
         </tr>
-       
+      
     </table>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">

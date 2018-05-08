@@ -54,7 +54,7 @@ namespace WxPayAPI
             if(ViewState["openid"] != null)
             {
                 string openid = ViewState["openid"].ToString();
-                string url = "http://paysdk.weixin.qq.com/example/JsApiPayPage.aspx?openid=" + openid + "&total_fee=" + total_fee;
+                string url = "JsApiPayPage.aspx?openid=" + openid + "&total_fee=" + total_fee;
                 Response.Redirect(url);
             }
             else
@@ -73,7 +73,7 @@ namespace WxPayAPI
             if (ViewState["openid"] != null)
             {
                 string openid = ViewState["openid"].ToString();
-                string url = "http://paysdk.weixin.qq.com/example/JsApiPayPage.aspx?openid=" + openid + "&total_fee=" + total_fee;
+                string url = "JsApiPayPage.aspx?openid=" + openid + "&total_fee=" + total_fee;
                 Response.Redirect(url);
             }
             else

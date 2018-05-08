@@ -67,16 +67,9 @@ namespace WxPayAPI
             else
             {
                 //构造网页授权获取code的URL
+                string host = page.Request.Url.Host;
                 string path = page.Request.Path;
-                //回调域
-                string domain = Business.Do<ISystemPara>()["WeixinReturl"].Value ?? WeiSha.Common.Request.Domain.MainName;
-                string prefix = HttpContext.Current.Request.Url.ToString();
-                if (prefix.IndexOf("://") > -1) prefix = prefix.Substring(0, prefix.IndexOf("://"));
-                prefix = prefix + "://";
-                //appid
-                string appi = Business.Do<ISystemPara>()["WeixinAPPID"].String;
-                //
-                string redirect_uri = HttpUtility.UrlEncode(prefix + domain + path);
+                string redirect_uri = HttpUtility.UrlEncode("http://" + host + path);
                 WxPayData data = new WxPayData();
                 data.SetValue("appid", WxPayConfig.APPID);
                 data.SetValue("redirect_uri", redirect_uri);
@@ -90,7 +83,7 @@ namespace WxPayAPI
                     //触发微信返回code码         
                     page.Response.Redirect(url);//Redirect函数会抛出ThreadAbortException异常，不用处理这个异常
                 }
-                catch(System.Threading.ThreadAbortException ex)
+                catch (System.Threading.ThreadAbortException ex)
                 {
                 }
             }
@@ -226,7 +219,8 @@ namespace WxPayAPI
                 string path = page.Request.Path;
                 string queryString = page.Request.Url.Query;
                 //这个地方要注意，参与签名的是网页授权获取用户信息时微信后台回传的完整url
-                string url = "http://" + host + path + queryString;
+                //string url = "http://" + host + path + queryString;
+                string url = host + path + queryString;
 
                 //构造需要用SHA1算法加密的数据
                 WxPayData signData = new WxPayData();

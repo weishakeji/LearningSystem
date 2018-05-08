@@ -318,6 +318,7 @@
     <Content Include="Manage\Pay\PayList_Edit.aspx" />
     <Content Include="Manage\Pay\Scripts\PayList_Edit.js" />
     <Content Include="Manage\Pay\AlipayWeb.aspx" />
+    <Content Include="Manage\Pay\Weixinpubpay.aspx" />
     <Content Include="Manage\Questions\Export.aspx" />
     <Content Include="Manage\Questions\Ques.aspx" />
     <Content Include="Manage\Questions\Scripts\KnowledgeAjax.js" />
@@ -560,6 +561,7 @@
     <Content Include="Manage\Utility\UploadPath\swfupload\swfupload.swf" />
     <Content Include="Manage\Utility\UploadPath\OuterLink.aspx" />
     <Content Include="Manage\Utility\UploadPath\OtherLink.aspx" />
+    <Content Include="Pay\Weixin\Default.aspx" />
     <Content Include="Pay\Weixin\DownloadBillpage.aspx" />
     <Content Include="Pay\Weixin\JsApiPayPage.aspx" />
     <Content Include="Pay\Weixin\MakeQRCode.aspx" />
@@ -2330,6 +2332,13 @@
     <Compile Include="Manage\Pay\AlipayWeb.aspx.designer.cs">
       <DependentUpon>AlipayWeb.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Manage\Pay\Weixinpubpay.aspx.cs">
+      <DependentUpon>Weixinpubpay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Pay\Weixinpubpay.aspx.designer.cs">
+      <DependentUpon>Weixinpubpay.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Manage\Questions\Export.aspx.cs">
       <DependentUpon>Export.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2911,6 +2920,13 @@
     <Compile Include="Pay\Weixin\business\Refund.cs" />
     <Compile Include="Pay\Weixin\business\RefundQuery.cs" />
     <Compile Include="Pay\Weixin\business\ResultNotify.cs" />
+    <Compile Include="Pay\Weixin\default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pay\Weixin\DownloadBillPage.aspx.cs">
       <DependentUpon>DownloadBillpage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

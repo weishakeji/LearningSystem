@@ -204,10 +204,13 @@
         var box = $(".PageBox[winid='" + winid + "']");
         pagebox.Refresh(box.attr("parent"));
         pagebox.Close(winid);
-        //管理页
+        //管理页刷新（如果是前端管理界面）
         var frame = $("#adminPage");
-        var url = document.getElementById("adminPage").contentWindow.location.href;
-        frame.attr("src", url);
+        if (frame.size() > 0) frame.attr("src", frame.get(0).contentWindow.location.href);
+        //超管页刷新
+        var frame = $(".consFramePanel:visible iframe");
+        if (frame.size() > 0) frame.attr("src", frame.get(0).contentWindow.location.href);
+
     }
     //生成遮罩层
     pagebox.prototype.maskOpen = function () {

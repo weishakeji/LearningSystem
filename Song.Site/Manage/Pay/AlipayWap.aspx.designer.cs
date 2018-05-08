@@ -31,6 +31,15 @@ namespace Song.Site.Manage.Pay {
         protected global::System.Web.UI.WebControls.TextBox Pai_Name;
         
         /// <summary>
+        /// Pai_IsEnable 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox Pai_IsEnable;
+        
+        /// <summary>
         /// Pai_ParterID 控件。
         /// </summary>
         /// <remarks>
@@ -49,6 +58,15 @@ namespace Song.Site.Manage.Pay {
         protected global::System.Web.UI.WebControls.TextBox tbPrivatekey;
         
         /// <summary>
+        /// Pai_Returl 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Pai_Returl;
+        
+        /// <summary>
         /// Pai_Feerate 控件。
         /// </summary>
         /// <remarks>
@@ -65,15 +83,6 @@ namespace Song.Site.Manage.Pay {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox Pai_Intro;
-        
-        /// <summary>
-        /// Pai_IsEnable 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox Pai_IsEnable;
         
         /// <summary>
         /// btnEnter 控件。

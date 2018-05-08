@@ -36,6 +36,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Org_ID;
     		
+    		protected String _Pai_Returl;
+    		
     		public Int32 Pai_ID {
     			get {
     				return this._Pai_ID;
@@ -176,6 +178,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Pai_Returl {
+    			get {
+    				return this._Pai_Returl;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Pai_Returl, _Pai_Returl, value);
+    				this._Pai_Returl = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -216,7 +228,8 @@ namespace Song.Entities {
     					_.Pai_Feerate,
     					_.Pai_Config,
     					_.Pai_IsEnable,
-    					_.Org_ID};
+    					_.Org_ID,
+    					_.Pai_Returl};
     		}
     		
     		/// <summary>
@@ -237,7 +250,8 @@ namespace Song.Entities {
     					this._Pai_Feerate,
     					this._Pai_Config,
     					this._Pai_IsEnable,
-    					this._Org_ID};
+    					this._Org_ID,
+    					this._Pai_Returl};
     		}
     		
     		/// <summary>
@@ -285,6 +299,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_ID))) {
     				this._Org_ID = reader.GetInt32(_.Org_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Pai_Returl))) {
+    				this._Pai_Returl = reader.GetString(_.Pai_Returl);
     			}
     		}
     		
@@ -381,7 +398,11 @@ namespace Song.Entities {
     			/// 字段名：Org_ID - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Org_ID = new WeiSha.Data.Field<PayInterface>("Org_ID");
+    			
+    			/// <summary>
+    			/// 字段名：Pai_Returl - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Pai_Returl = new WeiSha.Data.Field<PayInterface>("Pai_Returl");
     		}
     	}
     }
-    
