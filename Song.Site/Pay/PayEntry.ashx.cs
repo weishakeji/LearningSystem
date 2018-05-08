@@ -62,6 +62,7 @@ namespace Song.Site.Pay
                 //调用指定的支付接口
                 if (pi.Pai_Pattern == "支付宝手机支付") Alipaywap(pi, ma);
                 if (pi.Pai_Pattern == "支付宝网页直付") Alipayweb(pi, ma);
+                if (pi.Pai_Pattern == "微信公众号支付") Weixinpubpay(pi, ma);
             }
         }
         /// <summary>
@@ -177,6 +178,15 @@ namespace Song.Site.Pay
             Submit submit = new Submit(config);
             string sHtmlText = submit.BuildRequest(sParaTemp, "get", "确认");
             Response.Write(sHtmlText);
+        }
+        /// <summary>
+        /// 微信公众号支付
+        /// </summary>
+        /// <param name="pi"></param>
+        /// <param name="ma"></param>
+        private void Weixinpubpay(Song.Entities.PayInterface pi, Song.Entities.MoneyAccount ma)
+        {
+            
         }
         #region 其它
         /// <summary>

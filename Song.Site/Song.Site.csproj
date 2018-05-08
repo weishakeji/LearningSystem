@@ -561,6 +561,7 @@
     <Content Include="Manage\Utility\UploadPath\swfupload\swfupload.swf" />
     <Content Include="Manage\Utility\UploadPath\OuterLink.aspx" />
     <Content Include="Manage\Utility\UploadPath\OtherLink.aspx" />
+    <Content Include="Pay\Images\微信公众号支付.png" />
     <Content Include="Pay\Weixin\Default.aspx" />
     <Content Include="Pay\Weixin\DownloadBillpage.aspx" />
     <Content Include="Pay\Weixin\JsApiPayPage.aspx" />
