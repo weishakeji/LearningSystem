@@ -72,7 +72,32 @@ namespace Song.Site.Manage.Money
             Pager1.Qurey = this.SearchQuery(this.searchBox);
             Pager1.Index = 1;
         }
+        /// <summary>
+        /// 批量删除
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void DeleteEvent(object sender, EventArgs e)
+        {
+            string keys = GridView1.GetKeyValues;
+            foreach (string id in keys.Split(','))
+                Business.Do<IAccounts>().MoneyDelete(Convert.ToInt32(id));
+            BindData(null, null);
 
+        }
+        /// <summary>
+        /// 单个删除
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnDel_Click(object sender, ImageClickEventArgs e)
+        {
+            WeiSha.WebControl.RowDelete img = (WeiSha.WebControl.RowDelete)sender;
+            int index = ((GridViewRow)(img.Parent.Parent)).RowIndex;
+            int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
+            Business.Do<IAccounts>().MoneyDelete(id);
+            BindData(null, null);
+        }
         /// <summary>
         /// 获取学员名称
         /// </summary>

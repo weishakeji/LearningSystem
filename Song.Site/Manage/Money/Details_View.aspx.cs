@@ -21,7 +21,7 @@ namespace Song.Site.Manage.Money
 {
     public partial class Details_View : Extend.CustomPage
     {
-        private int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
+        private int id = WeiSha.Common.Request.QueryString["id"].Decrypt().Int32 ?? 0; 
         protected int type = 0;
         protected void Page_Load(object sender, EventArgs e)
         {

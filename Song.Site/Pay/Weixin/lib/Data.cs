@@ -203,12 +203,13 @@ namespace WxPayAPI
         * @生成签名，详见签名生成算法
         * @return 签名, sign字段不参加签名
         */
-        public string MakeSign()
+  
+        public string MakeSign(string key)
         {
             //转url格式
             string str = ToUrl();
             //在string后加入API KEY
-            str += "&key=" + WxPayConfig.KEY;
+            str += "&key=" + key;
             //MD5加密
             var md5 = MD5.Create();
             var bs = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
@@ -245,7 +246,7 @@ namespace WxPayAPI
             string return_sign = GetValue("sign").ToString();
 
             //在本地计算新的签名
-            string cal_sign = MakeSign();
+            string cal_sign = MakeSign(WxPayConfig.KEY);
 
             if (cal_sign == return_sign)
             {

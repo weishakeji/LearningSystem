@@ -38,8 +38,10 @@ namespace WxPayAPI
                 //JSAPI支付预处理
                 try
                 {
-                    WxPayData unifiedOrderResult = jsApiPay.GetUnifiedOrderResult();
-                    wxJsApiParam = jsApiPay.GetJsApiParameters();//获取H5调起JS API参数                    
+                    //统一下单
+                    WxPayData unifiedOrderResult = jsApiPay.GetUnifiedOrderResult(WxPayApi.GenerateOutTradeNo());
+                    //获取H5调起JS API参数  
+                    wxJsApiParam = jsApiPay.GetJsApiParameters(WxPayConfig.KEY);// 用于前端js调用
                     Log.Debug(this.GetType().ToString(), "wxJsApiParam : " + wxJsApiParam);
                     //在页面上显示订单信息
                     Response.Write("<span style='color:#00CD00;font-size:20px'>订单详情：</span><br/>");

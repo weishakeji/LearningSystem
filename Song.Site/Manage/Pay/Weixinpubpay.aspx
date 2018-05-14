@@ -51,7 +51,7 @@
                 回调域：
             </td>
             <td>
-             <asp:TextBox ID="Pai_Returl" runat="server" Width="60%" nullable="false" begin="http://|https://"></asp:TextBox>
+             <asp:TextBox ID="Pai_Returl" runat="server" Width="60%" nullable="false" begin="http://|https://"></asp:TextBox>/Pay/Weixin/
             </td>
         </tr>
          <tr>

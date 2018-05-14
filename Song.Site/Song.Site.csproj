@@ -571,6 +571,7 @@
     <Content Include="Pay\Weixin\NativePayPage.aspx" />
     <Content Include="Pay\Weixin\OrderQueryPage.aspx" />
     <Content Include="Pay\Weixin\ProductPage.aspx" />
+    <Content Include="Pay\Weixin\PublicPay.aspx" />
     <Content Include="Pay\Weixin\RefundPage.aspx" />
     <Content Include="Pay\Weixin\RefundQueryPage.aspx" />
     <Content Include="Pay\Weixin\ResultNotifyPage.aspx" />
@@ -2983,6 +2984,13 @@
     </Compile>
     <Compile Include="Pay\Weixin\ProductPage.aspx.designer.cs">
       <DependentUpon>ProductPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\PublicPay.aspx.cs">
+      <DependentUpon>PublicPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\PublicPay.aspx.designer.cs">
+      <DependentUpon>PublicPay.aspx</DependentUpon>
     </Compile>
     <Compile Include="Pay\Weixin\RefundPage.aspx.cs">
       <DependentUpon>RefundPage.aspx</DependentUpon>

@@ -16,10 +16,14 @@ namespace WxPayAPI
         * KEY：商户支付密钥，参考开户邮件设置（必须配置）
         * APPSECRET：公众帐号secert（仅JSAPI支付的时候需要配置）
         */
-        public const string APPID = "wxe528b085737d1306";
-        public const string MCHID = "1495321832";
-        public const string KEY = "e10adc3849ba56abbe56e056f20f883e";
-        public const string APPSECRET = "cbc3e73825880ddbc714dfbc69115e38";
+        //public const string APPID = "wxe528b085737d1306";
+        //public const string MCHID = "1495321832";
+        //public const string KEY = "e10adc3849ba56abbe56e056f20f883e";
+        //public const string APPSECRET = "cbc3e73825880ddbc714dfbc69115e38";
+        public const string APPID = "";
+        public const string MCHID = "";
+        public const string KEY = "";
+        public const string APPSECRET = "";
 
         //=======【证书路径设置】===================================== 
         /* 证书路径,注意应该填写绝对路径（仅退款、撤销订单时需要）
@@ -32,8 +36,8 @@ namespace WxPayAPI
         //=======【支付结果通知url】===================================== 
         /* 支付结果通知回调url，用于商户接收支付结果
         */
-        public const string NOTIFY_URL = "http://www.weisha100.cn/Pay/Weixin/ResultNotifyPage.aspx";
-
+        //public const string NOTIFY_URL = "http://weisha100.cn/Pay/Weixin/ResultNotifyPage.aspx";
+        public const string NOTIFY_URL = "";
         //=======【商户系统后台机器IP】===================================== 
         /* 此参数可手动配置也可在程序中自动获取
         */

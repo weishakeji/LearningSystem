@@ -248,7 +248,7 @@ namespace Song.ServiceImpls
             pre = pre.Replace(".", "");
             while (pre.Length < len) pre += "X";  //小于指定长度，则补位
             if (pre.Length > len) pre = pre.Substring(0, len);  //大于指定长度，则截取
-            //ID前缀
+            //机构ID前缀
             string id = "";
             if (org != null) id = org.Org_ID.ToString("000");
             while (id.Length < 4) id = "0" + id;

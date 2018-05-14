@@ -14,13 +14,18 @@
                //调用微信JS api 支付
                function jsApiCall()
                {
+               //getBrandWCPayRequest
+			   alert("开始支付");
                    WeixinJSBridge.invoke(
                    'getBrandWCPayRequest',
                    <%=wxJsApiParam%>,//josn串
                     function (res)
                     {
                         WeixinJSBridge.log(res.err_msg);
-                        alert(res.err_code + res.err_desc + res.err_msg);
+                        var msg="code:"+res.err_code+"\n";
+                        msg+="desc:"+res.err_desc+"\n";
+                        msg+="msg:"+res.err_msg+"\n";
+                        alert(msg);
                      }
                     );
                }
@@ -43,6 +48,7 @@
                    {
                        jsApiCall();
                    }
+                   return false;
                }
                
      </script>
@@ -52,7 +58,8 @@
         <br/>
 	    <div align="center">
 		    <br/><br/><br/>
-            <asp:Button ID="submit" runat="server" Text="立即支付" OnClientClick="callpay()" style="width:210px; height:50px; border-radius: 15px;background-color:#00CD00; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;" />
+          <asp:Button ID="submit" runat="server" Text="立即支付" OnClientClick="return callpay()" style="width:210px; height:50px; border-radius: 15px;background-color:#00CD00; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;" />
+
 	    </div>
     </form>
 </body>

@@ -71,7 +71,7 @@ namespace WxPayAPI
             data.SetValue("prepay_id", unifiedOrderResult.GetValue("prepay_id"));
             data.SetValue("result_code", "SUCCESS");
             data.SetValue("err_code_des", "OK");
-            data.SetValue("sign", data.MakeSign());
+            data.SetValue("sign", data.MakeSign(WxPayConfig.KEY));
 
             Log.Info(this.GetType().ToString(), "UnifiedOrder success , send data to WeChat : " + data.ToXml());
             page.Response.Write(data.ToXml());
@@ -87,7 +87,7 @@ namespace WxPayAPI
             req.SetValue("out_trade_no", WxPayApi.GenerateOutTradeNo());
             req.SetValue("total_fee", 1);
             req.SetValue("time_start", DateTime.Now.ToString("yyyyMMddHHmmss"));
-            req.SetValue("time_expire", DateTime.Now.AddMinutes(10).ToString("yyyyMMddHHmmss"));
+            //req.SetValue("time_expire", DateTime.Now.AddMinutes(10).ToString("yyyyMMddHHmmss"));
             req.SetValue("goods_tag", "test");
             req.SetValue("trade_type", "NATIVE");
             req.SetValue("openid", openId);

@@ -42,7 +42,16 @@ namespace Song.Site.Manage.Pay
             }
             //回调域如果为空
             if (Pai_Returl.Text.Trim() == "")
-                Pai_Returl.Text = "http://" + WeiSha.Common.Server.Domain + ":" + WeiSha.Common.Server.Port + "/";
+            {
+                if (WeiSha.Common.Server.Port == "80")
+                {
+                    Pai_Returl.Text = "http://" + WeiSha.Common.Server.Domain + "/";
+                }
+                else
+                {
+                    Pai_Returl.Text = "http://" + WeiSha.Common.Server.Domain + ":" + WeiSha.Common.Server.Port + "/";
+                }
+            }
         }
         /// <summary>
         /// 修改

@@ -31,7 +31,7 @@ namespace Song.Site.Pay
             if (context.Request.UrlReferrer != null) from = context.Request.UrlReferrer.ToString();            
             if (!Extend.LoginState.Accounts.IsLogin)
             {
-                context.Response.Redirect(addPara(from, "err=1", "money=" + money, "paiid=" + paiid));
+                context.Response.Redirect(WeiSha.Common.Request.Page.AddPara(from, "err=1", "money=" + money, "paiid=" + paiid));
                 return;
             }
             ////验证码不正确
@@ -45,12 +45,12 @@ namespace Song.Site.Pay
             if (pi == null)
             {
                 //设置项不存在
-                context.Response.Redirect(addPara(from, "err=2", "money=" + money, "paiid=" + paiid));
+                context.Response.Redirect(WeiSha.Common.Request.Page.AddPara(from, "err=2", "money=" + money, "paiid=" + paiid));
                 return;
             }
             else
             {
-                //产生流水号
+                //产生支付流水号
                 MoneyAccount ma = new MoneyAccount();
                 ma.Ma_Money = money;
                 ma.Ac_ID = Extend.LoginState.Accounts.CurrentUser.Ac_ID;
@@ -186,19 +186,26 @@ namespace Song.Site.Pay
         /// <param name="ma"></param>
         private void Weixinpubpay(Song.Entities.PayInterface pi, Song.Entities.MoneyAccount ma)
         {
-            
+            string host = System.Web.HttpContext.Current.Request.Url.Host + ":" + WeiSha.Common.Server.Port + "/";
+            if (!string.IsNullOrWhiteSpace(pi.Pai_Returl)) host = pi.Pai_Returl;
+            if (!host.EndsWith("/")) host += "/";
+            //构造网页授权获取code的URL          
+            string path = "Pay/Weixin/PublicPay.aspx";
+            //System.Web.HttpContext.Current.Response.Write(host + path);
+            string redirect_uri = HttpUtility.UrlEncode(host + path.ToLower());
+            WxPayAPI.WxPayData data = new WxPayAPI.WxPayData();
+            data.SetValue("appid", pi.Pai_ParterID);
+            data.SetValue("redirect_uri", redirect_uri);
+            data.SetValue("response_type", "code");
+            data.SetValue("scope", "snsapi_base");
+            //返回的状态值，接口id、流水号
+            string state = "pi:{0},serial:{1}";
+            state = string.Format(state, pi.Pai_ID, ma.Ma_Serial);
+            data.SetValue("state", state + "#wechat_redirect");
+            string url = "https://open.weixin.qq.com/connect/oauth2/authorize?" + data.ToUrl();
+            System.Web.HttpContext.Current.Response.Redirect(url);
         }
         #region 其它
-        /// <summary>
-        /// 增加地址的参数
-        /// </summary>
-        /// <param name="url"></param>
-        /// <param name="para"></param>
-        /// <returns></returns>
-        private string addPara(string url, params string[] para)
-        {
-            return WeiSha.Common.Request.Page.AddPara(url, para);
-        }
         /// <summary>
         /// 验证图片验证是否正确
         /// </summary>

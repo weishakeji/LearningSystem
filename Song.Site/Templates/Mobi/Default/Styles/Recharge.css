@@ -90,10 +90,7 @@ label{
 }
 
 /*一些控件，自己定义样式*/
-.mui-card{
-	margin-right: 0px;
-	margin-left: 0px;
-}
+
 .mui-numbox{
 	float:none !important;
 	width:160px !important;

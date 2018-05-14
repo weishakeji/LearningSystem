@@ -140,26 +140,47 @@ namespace WxPayAPI
             }
         }
 
-        /**
-         * 调用统一下单，获得下单结果
-         * @return 统一下单结果
-         * @失败时抛异常WxPayException
-         */
-        public WxPayData GetUnifiedOrderResult()
+        /// <summary>
+        /// 调用统一下单，获得下单结果
+        /// </summary>
+        /// <param name="out_trade_no">商户订单号</param>
+        /// <returns> 统一下单结果</returns>
+        public WxPayData GetUnifiedOrderResult(string out_trade_no)
+        {
+            return GetUnifiedOrderResult(out_trade_no, WxPayConfig.APPID, WxPayConfig.MCHID,WxPayConfig.KEY, WxPayConfig.NOTIFY_URL,"null");
+        }
+        /// <summary>
+        ///  调用统一下单，获得下单结果
+        /// </summary>
+        /// <param name="out_trade_no">商户订单号</param>
+        /// <param name="appid">公众号id</param>
+        /// <param name="mchid">商户id</param>
+        /// <param name="paykey">商户支付密钥</param>
+        /// <param name="notify_url">返回域</param>
+        /// <param name="buyer">付款方账号（学习系统账号，非微信账号）</param>
+        /// <returns></returns>
+        public WxPayData GetUnifiedOrderResult(string out_trade_no,string appid,string mchid,string paykey,string notify_url,string buyer)
         {
             //统一下单
             WxPayData data = new WxPayData();
-            data.SetValue("body", "test");
-            data.SetValue("attach", "test");
-            data.SetValue("out_trade_no", WxPayApi.GenerateOutTradeNo());
+            //商品简单描述，该字段请按照规范传递,(商家名称-销售商品类目)https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_2
+            data.SetValue("body", "recharge");
+            //附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
+            data.SetValue("attach", buyer);
+            //商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。 
+            //data.SetValue("out_trade_no", WxPayApi.GenerateOutTradeNo());
+            data.SetValue("out_trade_no", out_trade_no);
+            //资金数，以“分”为单位
             data.SetValue("total_fee", total_fee);
             data.SetValue("time_start", DateTime.Now.ToString("yyyyMMddHHmmss"));
-            data.SetValue("time_expire", DateTime.Now.AddMinutes(10).ToString("yyyyMMddHHmmss"));
-            data.SetValue("goods_tag", "test");
+            //data.SetValue("time_expire", DateTime.Now.AddMinutes(10).ToString("yyyyMMddHHmmss"));
+            //订单优惠标记，使用代金券或立减优惠功能时需要的参数
+            data.SetValue("goods_tag", "null");
+            //支付方式（JSAPI 公众号支付、NATIVE 扫码支付、APP APP支付）
             data.SetValue("trade_type", "JSAPI");
             data.SetValue("openid", openid);
 
-            WxPayData result = WxPayApi.UnifiedOrder(data);
+            WxPayData result = WxPayApi.UnifiedOrder(data, appid, mchid, paykey, WxPayConfig.IP, notify_url);
             if (!result.IsSet("appid") || !result.IsSet("prepay_id") || result.GetValue("prepay_id").ToString() == "")
             {
                 Log.Error(this.GetType().ToString(), "UnifiedOrder response error!");
@@ -169,7 +190,6 @@ namespace WxPayAPI
             unifiedOrderResult = result;
             return result;
         }
-
         /**
         *  
         * 从统一下单成功返回的数据中获取微信浏览器调起jsapi支付所需的参数，
@@ -186,7 +206,7 @@ namespace WxPayAPI
         * 更详细的说明请参考网页端调起支付API：http://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7
         * 
         */
-        public string GetJsApiParameters()
+        public string GetJsApiParameters(string key)
         {
             Log.Debug(this.GetType().ToString(), "JsApiPay::GetJsApiParam is processing...");
 
@@ -196,7 +216,7 @@ namespace WxPayAPI
             jsApiParam.SetValue("nonceStr", WxPayApi.GenerateNonceStr());
             jsApiParam.SetValue("package", "prepay_id=" + unifiedOrderResult.GetValue("prepay_id"));
             jsApiParam.SetValue("signType", "MD5");
-            jsApiParam.SetValue("paySign", jsApiParam.MakeSign());
+            jsApiParam.SetValue("paySign", jsApiParam.MakeSign(key));
 
             string parameters = jsApiParam.ToJson();
 

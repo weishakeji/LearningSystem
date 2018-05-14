@@ -21,7 +21,7 @@ namespace WxPayAPI
             data.SetValue("time_stamp", WxPayApi.GenerateTimeStamp());//时间戳
             data.SetValue("nonce_str", WxPayApi.GenerateNonceStr());//随机字符串
             data.SetValue("product_id", productId);//商品ID
-            data.SetValue("sign", data.MakeSign());//签名
+            data.SetValue("sign", data.MakeSign(WxPayConfig.KEY));//签名
             string str = ToUrlParams(data.GetValues());//转换为URL串
             string url = "weixin://wxpay/bizpayurl?" + str;
 

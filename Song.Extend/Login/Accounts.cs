@@ -348,8 +348,11 @@ namespace Song.Extend.Login
         {
             //记录到数据库
             Song.Entities.Accounts st = this.CurrentUser;
-            st.Ac_CurrCourse = cou.Cou_ID;
-            Business.Do<IAccounts>().AccountsSave(st);
+            if (st != null)
+            {
+                st.Ac_CurrCourse = cou.Cou_ID;
+                Business.Do<IAccounts>().AccountsSave(st);
+            }
 
         }
         /// <summary>

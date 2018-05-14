@@ -13,6 +13,15 @@ namespace Song.Site.Manage.Money {
     public partial class Details {
         
         /// <summary>
+        /// ToolsBar1 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Song.Site.Manage.Utility.toolsBar ToolsBar1;
+        
+        /// <summary>
         /// searchBox 控件。
         /// </summary>
         /// <remarks>

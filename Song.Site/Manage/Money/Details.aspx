@@ -7,6 +7,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMain" runat="server">
     <script language="javascript" src="../Utility/datepicker/WdatePicker.js" type="text/javascript"></script>
     <div id="header">
+    <uc1:toolsBar ID="ToolsBar1" runat="server" WinPath="Details_View.aspx" DelShowMsg="注：资金流水删除无法恢复。"
+            AddButtonOpen="false" GvName="GridView1" WinWidth="600" WinHeight="400" OnDelete="DeleteEvent" />
         <asp:Panel ID="searchBox" CssClass="searchBox" runat="server">
             时间：<asp:TextBox ID="tbStartTime" runat="server" Width="90" onfocus="WdatePicker()"
                 CssClass="Wdate" EnableTheming="false"></asp:TextBox>
@@ -39,6 +41,14 @@
                     <%# Container.DataItemIndex   + Pager1.Size*(Pager1.Index-1) + 1 %>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="40px" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="操作">
+                <ItemTemplate>
+                    <cc1:RowDelete ID="btnDel" OnClick="btnDel_Click" runat="server"></cc1:RowDelete>
+                    <cc1:RowEdit ID="btnEdit" runat="server"></cc1:RowEdit>
+                </ItemTemplate>
+                <ItemStyle CssClass="center noprint" Width="44px" />
+                <HeaderStyle CssClass="center noprint" />
             </asp:TemplateField>
             <asp:TemplateField HeaderText="金额">
                 <ItemTemplate>

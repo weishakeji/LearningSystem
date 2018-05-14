@@ -66,13 +66,7 @@
                 <ItemStyle CssClass="center noprint" />
                 <HeaderStyle CssClass="center noprint" Width="40px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="详情">
-                <ItemTemplate>
-                    <a href="#" onclick="OpenWin('RechargeSet_Code.aspx?id=<%# Eval("Rs_ID")%>','<%# Eval("Rs_Theme", "{0}")%>',980,80);return false;">
-                        查看</a>
-                </ItemTemplate>
-                <ItemStyle CssClass="center" Width="50px" />
-            </asp:TemplateField>
+            
             <asp:TemplateField HeaderText="导出">
                 <ItemTemplate>
                     <a href="RechargeCode_Output.aspx?id=<%# Eval("Rs_ID", "{0}")%>" target="_blank">导出</a>
