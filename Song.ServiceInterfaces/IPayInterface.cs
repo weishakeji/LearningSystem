@@ -55,12 +55,12 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
-        bool PayRemoveUp(int orgid, int id);
+        bool PayRemoveUp(int id);
         /// <summary>
         /// 将当前项目向下移动；仅在当前对象的同层移动，即同一父节点下的对象这前移动；
         /// </summary>
         /// <param name="id"></param>
         /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
-        bool PayRemoveDown(int orgid, int id);
+        bool PayRemoveDown(int id);
     }
 }

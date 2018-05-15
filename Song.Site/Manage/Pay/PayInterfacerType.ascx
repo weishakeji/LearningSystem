@@ -35,4 +35,5 @@
     <asp:ListItem Value="alipaywap.aspx">支付宝手机支付</asp:ListItem>
     <asp:ListItem Value="alipayweb.aspx">支付宝网页直付</asp:ListItem>
     <asp:ListItem Value="weixinpubpay.aspx">微信公众号支付</asp:ListItem>
+    <asp:ListItem Value="weixinnativepay.aspx">微信扫码支付</asp:ListItem>
 </asp:DropDownList>

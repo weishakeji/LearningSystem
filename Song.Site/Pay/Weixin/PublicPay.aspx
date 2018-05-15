@@ -44,7 +44,7 @@ body {
 	bottom: 0;
 	background: #eee;
 	width: 100%;
-	height: 30px;
+	height: 45px;
 	line-height: 30px;
 	z-index: 9999;
 	_bottom: auto;
@@ -55,7 +55,7 @@ body {
 	color: #333;
 	text-decoration: none;
 	display: block;
-	line-height:30px;	
+	line-height:45px;	
 }
 </style>
 </head>
@@ -66,14 +66,17 @@ body {
     <div class="img-line"> <img src="<%= path %><%= acc.Ac_Photo %>" id="photo" /></div>
     <div class="show-tit" id="Div1"> 正在支付... </div>
   </div>
-    <div class="footer">  <a href="#" onclick="self.location='/Mobile/recharge.ashx';">返回</a></div>
+    <div class="footer">  <a href="#" onclick="self.location='/Mobile/recharge.ashx';">如无法正常返回，请点击</a></div>
     </form>
 <script type="text/javascript">
 
                //调用微信JS api 支付
                function jsApiCall()
-               {              
-                   WeixinJSBridge.invoke('getBrandWCPayRequest',<%=wxJsApiParam%>, function (res){
+               {             
+			   		var apipara= '<%=wxJsApiParam%>';
+					if(apipara=="")return;
+					apipara= <%=wxJsApiParam%>;
+                   WeixinJSBridge.invoke('getBrandWCPayRequest',apipara, function (res){
                         //WeixinJSBridge.log(res.err_msg);
                         var msg="code:"+res.err_code+"\n";
                         msg+="desc:"+res.err_desc+"\n";

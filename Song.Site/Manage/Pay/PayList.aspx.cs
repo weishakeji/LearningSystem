@@ -96,8 +96,7 @@ namespace Song.Site.Manage.Pay
         {
             GridViewRow gr = (GridViewRow)((LinkButton)sender).Parent.Parent;
             int id = Convert.ToInt32(this.GridView1.DataKeys[gr.RowIndex].Value);
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            if (Business.Do<IPayInterface>().PayRemoveUp(org.Org_ID, id))
+            if (Business.Do<IPayInterface>().PayRemoveUp(id))
                 BindData(null, null);
         }
         /// <summary>
@@ -109,8 +108,7 @@ namespace Song.Site.Manage.Pay
         {
             GridViewRow gr = (GridViewRow)((LinkButton)sender).Parent.Parent;
             int id = Convert.ToInt32(this.GridView1.DataKeys[gr.RowIndex].Value);
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            if (Business.Do<IPayInterface>().PayRemoveDown(org.Org_ID, id))
+            if (Business.Do<IPayInterface>().PayRemoveDown(id))
                 BindData(null, null);
         }
         #endregion

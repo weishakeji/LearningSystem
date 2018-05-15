@@ -77,7 +77,7 @@ namespace Song.ServiceImpls
              if (orgid > -1) wc.And(PayInterface._.Org_ID == orgid);
              if (!string.IsNullOrWhiteSpace(platform)) wc &= PayInterface._.Pai_Platform == platform.ToLower();
              if (isEnable != null) wc.And(PayInterface._.Pai_IsEnable == (bool)isEnable);
-             return Gateway.Default.From<PayInterface>().Where(wc).OrderBy(PayInterface._.Pai_Platform.Desc && PayInterface._.Pai_Tax.Asc).ToArray<PayInterface>();
+             return Gateway.Default.From<PayInterface>().Where(wc).OrderBy(PayInterface._.Pai_Tax.Asc).ToArray<PayInterface>();
         }
         /// <summary>
         /// 当前对象名称是否重名
@@ -99,14 +99,14 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="id"></param>
         /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
-        public bool PayRemoveUp(int orgid, int id)
+        public bool PayRemoveUp(int id)
         {
             //当前对象
             PayInterface current = Gateway.Default.From<PayInterface>().Where(PayInterface._.Pai_ID == id).ToFirst<PayInterface>();
             //当前对象排序号
             int orderValue = (int)current.Pai_Tax; ;
             //上一个对象，即兄长对象；
-            PayInterface up = Gateway.Default.From<PayInterface>().Where(PayInterface._.Org_ID == orgid && PayInterface._.Pai_Tax < orderValue)
+            PayInterface up = Gateway.Default.From<PayInterface>().Where(PayInterface._.Pai_Tax < orderValue)
                 .OrderBy(PayInterface._.Pai_Tax.Desc).ToFirst<PayInterface>();
             if (up == null) return false;
             //交换排序号
@@ -137,14 +137,14 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="id"></param>
         /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
-        public bool PayRemoveDown(int orgid, int id)
+        public bool PayRemoveDown(int id)
         {
             //当前对象
             PayInterface current = Gateway.Default.From<PayInterface>().Where(PayInterface._.Pai_ID == id).ToFirst<PayInterface>();
             //当前对象排序号
             int orderValue = (int)current.Pai_Tax;
             //下一个对象，即弟弟对象；
-            PayInterface down = Gateway.Default.From<PayInterface>().Where(PayInterface._.Org_ID == orgid && PayInterface._.Pai_Tax > orderValue)
+            PayInterface down = Gateway.Default.From<PayInterface>().Where(PayInterface._.Pai_Tax > orderValue)
                 .OrderBy(PayInterface._.Pai_Tax.Asc).ToFirst<PayInterface>();
             if (down == null) return false;
             //交换排序号
