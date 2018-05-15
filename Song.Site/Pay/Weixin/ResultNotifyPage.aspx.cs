@@ -9,20 +9,13 @@ using Song.ServiceInterfaces;
 
 namespace WxPayAPI
 {
+    /// <summary>
+    /// 微信公众号支付的回调处理
+    /// </summary>
     public partial class ResultNotifyPage : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Log.Info(this.GetType().ToString(), "支付成功后返回的QueryString参数 : ");
-            //foreach (string s in this.Request.QueryString)
-            //{
-            //    Log.Info(this.GetType().ToString(), string.Format("参数：{0},值:{1}", s, Request.QueryString[s]));
-            //}
-            //Log.Info(this.GetType().ToString(), "支付成功后返回的Form参数 : ");
-            //foreach (string s in this.Request.Form)
-            //{
-            //    Log.Info(this.GetType().ToString(), string.Format("参数：{0},值:{1}", s, Request.Form[s]));
-            //}
             ResultNotify resultNotify = new ResultNotify(this);
             //resultNotify.ProcessNotify();
             //获取结果
@@ -40,7 +33,7 @@ namespace WxPayAPI
                     Business.Do<IAccounts>().MoneyConfirm(maccount);
                 }
             }
-            notifyData.ToPrintStr();
+            //notifyData.ToPrintStr();
         }       
     }
 }

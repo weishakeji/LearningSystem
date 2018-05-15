@@ -63,7 +63,7 @@ namespace Song.Site.Pay
                 if (pi.Pai_Pattern == "支付宝手机支付") Alipaywap(pi, ma);
                 if (pi.Pai_Pattern == "支付宝网页直付") Alipayweb(pi, ma);
                 if (pi.Pai_Pattern == "微信公众号支付") Weixinpubpay(pi, ma);
-                if (pi.Pai_Pattern == "微信扫码支付") Weixinpubpay(pi, ma);
+                if (pi.Pai_Pattern == "微信扫码支付") WeixinNativepay(pi, ma);
             }
         }
         /// <summary>
@@ -204,6 +204,21 @@ namespace Song.Site.Pay
             state = string.Format(state, pi.Pai_ID, ma.Ma_Serial);
             data.SetValue("state", state + "#wechat_redirect");
             string url = "https://open.weixin.qq.com/connect/oauth2/authorize?" + data.ToUrl();
+            System.Web.HttpContext.Current.Response.Redirect(url);
+        }
+        /// <summary>
+        /// 微信扫码支付
+        /// </summary>
+        /// <param name="pi"></param>
+        /// <param name="ma"></param>
+        private void WeixinNativepay(Song.Entities.PayInterface pi, Song.Entities.MoneyAccount ma)
+        {
+            string host = System.Web.HttpContext.Current.Request.Url.Host + ":" + WeiSha.Common.Server.Port + "/";
+            if (!string.IsNullOrWhiteSpace(pi.Pai_Returl)) host = pi.Pai_Returl;
+            if (!host.EndsWith("/")) host += "/";
+            //用于生成支付二维码的URL          
+            string url = "Pay/Weixin/NativePayPage.aspx?pi={0}&serial={1}";
+            url = host + string.Format(url.ToString(), pi.Pai_ID, ma.Ma_Serial);
             System.Web.HttpContext.Current.Response.Redirect(url);
         }
         #region 其它
