@@ -57,7 +57,7 @@ body {
 	height: 50px;
 	color:#06f;
 	text-align: center;
-	display:no7ne;
+	display:none;
 	width:200px;
 	margin-right:auto;
 	margin-left:auto;
