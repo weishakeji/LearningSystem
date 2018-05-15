@@ -31,7 +31,7 @@
         </asp:Panel>
     </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
-        ShowSelectBox="false">
+        ShowSelectBox="true">
         <EmptyDataTemplate>
             没有任何满足条件的信息！
         </EmptyDataTemplate>

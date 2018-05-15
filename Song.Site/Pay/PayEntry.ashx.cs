@@ -63,6 +63,7 @@ namespace Song.Site.Pay
                 if (pi.Pai_Pattern == "支付宝手机支付") Alipaywap(pi, ma);
                 if (pi.Pai_Pattern == "支付宝网页直付") Alipayweb(pi, ma);
                 if (pi.Pai_Pattern == "微信公众号支付") Weixinpubpay(pi, ma);
+                if (pi.Pai_Pattern == "微信扫码支付") Weixinpubpay(pi, ma);
             }
         }
         /// <summary>
