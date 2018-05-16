@@ -12,11 +12,19 @@
 <body>
 <vt:include file="inc/Header.html" />
 <div id="Context">
-  <div id="Navi"> <a href="/">首页</a> &gt; <a href="/courses.ashx">课程中心</a> &gt; 课程：《{$Course.cou_name} 》</div>
+  <div id="Navi"> <a href="/">首页</a> &gt; <a href="/courses.ashx">课程中心</a> &gt; 课程：<vt:if var="course.cou_name" value="" compare="!=">
+      《{$course.cou_name}》
+        <vt:else/>
+        (当前课程不存在，可能是参数引用错误)
+         </vt:if></div>
   <div id="couHead">
     <div class="photo"><img src="{$course.cou_logo}"/></div>
     <div class="headRight">
-      <div class="couName"> {$course.cou_name} </div>
+      <div class="couName"><vt:if var="course.cou_name" value="" compare="!=">
+      {$course.cou_name}
+        <vt:else/>
+        (当前课程不存在，可能是参数引用错误)
+         </vt:if></div>
       <div class="bvr_con">
         <p> 主讲教师：{$course.th_name}
           <!--<vt:if var="course.th_name" value="" compare="!="> ({$th.ths_name}) </vt:if>-->

@@ -12,16 +12,23 @@
     <vt:include file="inc/Header.html" />
    
     <div id="Context">
-        <div id="Navi">
-            <a href="/">首页</a> &gt; <a href="/courses.ashx">课程中心</a> &gt;
-            <vt:if var="subject.Sbj_Name" value="" compare="!="> <span class="depart"> {$:#.subject.Dep_CnName}：{$:#.subject.Sbj_Name}专业</span> </vt:if>
-        </div>
+        <div class="navi-bar"> <a href="/" class="nav-txt">首页</a> &gt; <a href="/courses.ashx"  class="nav-txt">课程中心</a> &gt;
+    <vt:foreach from="$parentsbjs" item="s" index="i" remark="当前课程专业"> <a href="/courses.ashx?sbjid={$:#.s.sbj_id}"  class="nav-txt">{$:#.s.sbj_name}</a> &gt; </vt:foreach>
+    <span class="nav-txt"><vt:if var="course.cou_name" value="" compare="!=">
+      {$course.cou_name}
+        <vt:else/>
+        (当前课程不存在，可能是参数引用错误)
+         </vt:if></span> </div>
         <div id="couHead">
             <div class="photo">
                 <img style="background:url({$course.cou_logo}) no-repeat center" src="images/alpha.png"/></div>
             <div class="headRight">
                 <div class="couName">
-                    {$course.cou_name}
+                    <vt:if var="course.cou_name" value="" compare="!=">
+      {$course.cou_name}
+        <vt:else/>
+        (当前课程不存在，可能是参数引用错误)
+         </vt:if>
                 </div>
                 <div class="couIntro">
                    <vt:function var="intro" method="ClearHtml" args="$course.cou_intro"/> {$:#.intro} 

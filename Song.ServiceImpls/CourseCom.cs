@@ -1068,7 +1068,7 @@ namespace Song.ServiceImpls
                 wc &= CoursePrice._.Cou_UID == uid;
             }
             else
-            {
+            {                
                 wc &= CoursePrice._.Cou_ID == couid;
             }
             return Gateway.Default.From<CoursePrice>().Where(wc).OrderBy(CoursePrice._.CP_Tax.Asc).ToArray<CoursePrice>(count);

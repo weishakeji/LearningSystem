@@ -92,6 +92,7 @@ namespace Song.Template
             //课程uid
             string couuid = null;
             if (para.Length > 0 && para[0] != null) couuid = para[0].ToString();
+            if (string.IsNullOrWhiteSpace(couuid)) return null;
             Song.Entities.CoursePrice[] prices = Business.Do<ICourse>().PriceCount(0, couuid, true, 0);
             return prices;
         }

@@ -1108,6 +1108,7 @@
     <Content Include="Templates\Web\NetSchool\Exam.htm" />
     <Content Include="Templates\Web\NetSchool\Scripts\CourseChannel.js" />
     <Content Include="Templates\Web\NetSchool\Styles\CourseChannel.css" />
+    <Content Include="Templates\Web\School\Conn.htm" />
     <Content Include="Templates\Web\School\Images\bar01.jpg" />
     <Content Include="Templates\Web\School\Images\gonggao-bg.jpg" />
     <Content Include="Templates\Web\School\Images\icon03.jpg" />
@@ -1116,6 +1117,7 @@
     <Content Include="Templates\Web\School\News.htm" />
     <Content Include="Templates\Web\School\Scripts\jquery.luara.0.0.1.min.js" />
     <Content Include="Templates\Web\School\Scripts\CourseChannel.js" />
+    <Content Include="Templates\Web\School\Styles\Conn.css" />
     <Content Include="Templates\Web\School\Styles\lunhuan\luara.css" />
     <Content Include="Templates\Web\School\Styles\lunhuan\luara.left.css" />
     <Content Include="Templates\Web\School\Styles\lunhuan\luara.top.css" />

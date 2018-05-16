@@ -14,11 +14,21 @@
 <div id="Context">
   <div class="navi-bar"> <a href="/" class="nav-txt">首页</a> &gt; <a href="/courses.ashx"  class="nav-txt">课程中心</a> &gt;
     <vt:foreach from="$parentsbjs" item="s" remark="当前课程专业"> <a href="/courses.ashx?sbjid={$:#.s.sbj_id}"  class="nav-txt">{$:#.s.sbj_name}</a> &gt; </vt:foreach>
-    <span class="nav-txt">{$course.cou_name}</span> </div>
+    <span class="nav-txt"><vt:if var="course.cou_name" value="" compare="!=">
+      {$course.cou_name}
+        <vt:else/>
+        (当前课程不存在，可能是参数引用错误)
+         </vt:if></span> </div>
   <div id="couHead">
     <div class="photo"> <img src="{$course.cou_logo}" /></div>
     <div class="headRight">
-      <div class="couName"> {$course.cou_name} </div>
+      <div class="couName"> 
+      <vt:if var="course.cou_name" value="" compare="!=">
+      {$course.cou_name}
+        <vt:else/>
+        (当前课程不存在，可能是参数引用错误)
+         </vt:if>
+         </div>
       <div class="couIntro">
         <vt:function var="intro" method="ClearHtml" args="$course.cou_intro"/>
         {$:#.intro} </div>
