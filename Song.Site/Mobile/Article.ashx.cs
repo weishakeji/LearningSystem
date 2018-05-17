@@ -18,6 +18,7 @@ namespace Song.Site.Mobile
             //新闻文章
             int artid = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
             Song.Entities.Article art = Business.Do<IContents>().ArticleSingle(artid);
+            if (art == null) return;
             if ((WeiSha.Common.Request.Cookies["article_" + art.Art_Id].Int32 ?? 0) == 0)
             {
                 art.Art_Number++;

@@ -17,6 +17,7 @@ namespace Song.Site.Mobile
         {
             //通知
             Song.Entities.Notice notice = Business.Do<INotice>().NoticeSingle(id);
+            if (notice == null) return;
             //notice.No_Context = ReplaceHtmlTag(notice.No_Context);
             if (notice.No_IsShow && ((DateTime)notice.No_StartTime) < DateTime.Now)
                 this.Document.Variables.SetValue("notice", notice);

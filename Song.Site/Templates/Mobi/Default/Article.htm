@@ -12,7 +12,11 @@
   <div class="contextbox">
     <div id="artArea">
       <div id="artBox">
-      <div class="artTitle">{$:#.art.art_title}</div>
+      <div class="artTitle">
+          <vt:if var="art.art_title" value="" compare="!="> {$art.art_title}
+            <vt:else/>
+            (当前资讯不存在，可能是参数引用错误) </vt:if>
+        </div>
       <div class="artAttrBar"> <span class="artTime">{$:#.art.art_pushTime  format="yyyy-M-dd hh:m:s"}</span> <span class="artflux">浏览{$art.Art_number}次 </span>
         <!--<span class="artSharp">分享
        </span>  -->
