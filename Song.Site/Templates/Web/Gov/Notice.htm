@@ -13,7 +13,11 @@
  <div id="artArea">
     <div id="articleNavi"> <a href="/">首页</a> &gt; <a href="/notices.ashx">通知公告</a> &gt; 正文 </div>
     <div id="artBox">
-      <div class="artTitle">{$notice.No_Ttl}</div>
+      <div class="artTitle">
+      <vt:if var="notice.No_Ttl" value="" compare="!="> {$notice.No_Ttl}
+            <vt:else/>
+            (当前资讯不存在，可能是参数引用错误) </vt:if>
+      </div>
       <div class="artAttrBar"> <span class="artTime">{$notice.no_StartTime  format="yyyy-M-dd hh:m:s"}</span></span> <!--<span class="artSharp">分享 </span>  --></div>
      
       <!--正文 -->

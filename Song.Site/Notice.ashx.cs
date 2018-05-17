@@ -17,6 +17,7 @@ namespace Song.Site
             //通知
             int noid = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
             Song.Entities.Notice notice = Business.Do<INotice>().NoticeSingle(noid);
+            if (notice == null) return;
             if (notice.No_IsShow && ((DateTime)notice.No_StartTime) < DateTime.Now) 
                 this.Document.Variables.SetValue("notice", notice);
             //当前通知的上一条
