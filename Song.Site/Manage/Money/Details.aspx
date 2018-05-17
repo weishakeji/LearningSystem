@@ -89,7 +89,7 @@
             
             <asp:TemplateField HeaderText="详情">
                 <ItemTemplate>
-                    <a href="#" onclick="OpenWin('Details_View.aspx?id=<%# Eval("Ma_ID")%>','<%# Eval("Ma_Source", "{0}")%>',600,400);return false;">
+                    <a href="#" onclick="OpenWin('Details_View.aspx?id=<%# WeiSha.Common.DataConvert.EncryptForBase64UrlEncode(Eval("Ma_ID").ToString())%>','<%# Eval("Ma_Source", "{0}")%>',600,400);return false;">
                         查看</a>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="50px" />

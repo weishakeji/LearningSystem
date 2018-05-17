@@ -85,10 +85,10 @@
 	display: block;
 }
 #Context #details {
-	width: 980px;
+	width: 1200px;
 }
 #LeftBox {
-	width: 680px;
+	width: 900px;
 	float: left;
 	border-right-width: 1px;
 	border-top-style: none;

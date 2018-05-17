@@ -327,7 +327,7 @@ namespace Song.Extend
                 }
                 WebControl wc = c as WebControl;
                 //格式化字符
-                string fmt = wc.Attributes["Formate"] == null ? null : wc.Attributes["Formate"];                    
+                string fmt = wc.Attributes["Format"] == null ? null : wc.Attributes["Format"];                    
                 if (fmt == null)
                 {
                     txt.Text = value.ToString();
@@ -341,6 +341,8 @@ namespace Song.Extend
                     txt.Text = System.Convert.ToSingle(value).ToString(fmt);
                 if (value is double)
                     txt.Text = System.Convert.ToDouble(value).ToString(fmt); 
+                if(value is decimal)
+                    txt.Text = System.Convert.ToDecimal(value).ToString(fmt); 
                 
             }            
             //单选与多选

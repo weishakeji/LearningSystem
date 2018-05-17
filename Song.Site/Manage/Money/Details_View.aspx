@@ -24,7 +24,7 @@
             <div class="type type<%=type %>">
                 <asp:Label ID="Ma_Type" runat="server" Text=""></asp:Label>
                 >>
-                <asp:Label ID="Ma_Money" runat="server" Text=""></asp:Label>元</div>
+                <asp:Label ID="Ma_Money" runat="server" Text="" Format="0.00"></asp:Label>元</div>
             </td>
         </tr>
         <tr>
