@@ -9,41 +9,47 @@
 <body>
 <vt:include file="inc/Header.html" />
 <div id="Context">
-  <div class="navi-bar"> <a href="/" class="nav-txt">首页</a> &gt; <a href="/news.ashx" class="nav-txt">新闻资讯</a> &gt; <span  class="nav-txt">《{$art.art_title}》</span> </div>
+  <div class="navi-bar"> <a href="/" class="nav-txt">首页</a> &gt; <a href="/news.ashx" class="nav-txt">新闻资讯</a> &gt; <span  class="nav-txt">{$art.art_title}</span> </div>
   <div id="artArea">
     <div id="artBox">
-      <div class="artTitle">{$art.art_title}</div>
-      <div class="artAttrBar"> <span class="artTime">{$:#.art.art_pushTime  format="yyyy-M-dd hh:m:s"}</span> <span class="artflux">浏览{$art.Art_number}次 </span> <!--<span class="artSharp">分享
+        <div class="artTitle">
+          <vt:if var="art.art_title" value="" compare="!="> {$art.art_title}
+            <vt:else/>
+            (当前资讯不存在，可能是参数引用错误) </vt:if>
+        </div>
+        <div class="artAttrBar"> <span class="artTime">{$:#.art.art_pushTime  format="yyyy-M-dd hh:m:s"}</span> <span class="artflux">
+          <vt:if var="art.Art_number" value="" compare="!="> 浏览{$art.Art_number}次 </vt:if>
+          </span> <!--<span class="artSharp">分享
        </span>  --></div>
-      <!--摘要 -->
-      <vt:if var="art.art_intro" value="" compare="!=">
-        <div id="artIntro"><span class="tit">摘要：</span>{$art.art_intro} </div>
-      </vt:if>
-      <!--图片 -->
-      <vt:if var="art.art_isImg" value="true" compare="=">
-       <!-- <div id="artImg"> <img src="{$art.Art_Logo}"/></div>-->
-      </vt:if>
-      <!--正文 -->
-      <div id="artContext">{$art.Art_Details} </div>
-      <!--附件 -->
-      <vt:if var="artAcc.count" value="0" compare=">">
-        <dl id="artAcc">
-          <dt>相关附件：</dt>
-          <vt:foreach from="$#.artAcc" item="data" index="i" remark="新闻的附件">
-            <dd class="accItem"> <span class="filename">{$:i}、<a href="{$:data.As_FileName}" target="_blank" download="{$:data.As_Name}">{$:data.As_Name}</a></span> <span class="filesize">{$:data.As_Size}</span> </dd>
-          </vt:foreach>
-          <script type="text/javascript">
-$(function() {
-	  $(".filesize").each(function(){
-		var n=Number($(this).text());
-		var tm=$().getSizeUnit(n);
-		$(this).text(tm);
-	});
-});
+        <!--摘要 -->
+        <vt:if var="art.art_intro" value="" compare="!=">
+          <div id="artIntro"><span class="tit">摘要：</span>{$art.art_intro} </div>
+        </vt:if>
+        <!--图片 -->
+        <vt:if var="art.art_isImg" value="true" compare="="> 
+          <!--<div id="artImg"> <img src="{$art.Art_Logo}"/></div>--> 
+        </vt:if>
+        <!--正文 -->
+        <div id="artContext">{$art.Art_Details} </div>
+        <!--附件 -->
+        <vt:if var="artAcc.count" value="0" compare=">">
+          <dl id="artAcc">
+            <dt>相关附件：</dt>
+            <vt:foreach from="$#.artAcc" item="data" index="i" remark="新闻的附件">
+              <dd class="accItem"> <span class="filename">{$:i}、<a href="{$:data.As_FileName}" target="_blank" download="{$:data.As_Name}">{$:data.As_Name}</a></span> <span class="filesize">{$:data.As_Size}</span> </dd>
+            </vt:foreach>
+            <script type="text/javascript">
+                $(function () {
+                    $(".filesize").each(function () {
+                        var n = Number($(this).text());
+                        var tm = $().getSizeUnit(n);
+                        $(this).text(tm);
+                    });
+                });
 </script>
-        </dl>
-      </vt:if>
-    </div>
+          </dl>
+        </vt:if>
+      </div>
     <div class="artRight">
      <vt:list type="course" item="c" index="i" count="5" order="flux"  remark="课程">
            <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>

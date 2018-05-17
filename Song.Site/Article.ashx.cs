@@ -20,6 +20,7 @@ namespace Song.Site
             this.Document.Variables.SetValue("loyout", WeiSha.Common.Request.QueryString["loyout"].String);
             //
             Song.Entities.Article art = Business.Do<IContents>().ArticleSingle(artid);
+            if (art == null) return;
             if ((WeiSha.Common.Request.Cookies["article_" + art.Art_Id].Int32 ?? 0) == 0)
             {
                 art.Art_Number++;
