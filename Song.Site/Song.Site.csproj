@@ -641,6 +641,7 @@
     <Content Include="Templates\Mobi\_Public\Styles\WeixinpubLogin.css" />
     <Content Include="Templates\Mobi\_Public\WeixinpubLogin.htm" />
     <Content Include="Templates\Mobi\_Public\_self.xml" />
+    <Content Include="Templates\Web\Gov\Conn.htm" />
     <Content Include="Templates\Web\Gov\CourseChannel.htm" />
     <Content Include="Templates\Web\Gov\Images\Flvplayer.swf" />
     <Content Include="Templates\Web\Gov\Images\QQ-weixin.png" />
@@ -652,10 +653,12 @@
     <Content Include="Templates\Web\Gov\Student\Register.htm" />
     <Content Include="Templates\Web\Gov\Student\Scripts\Register.js" />
     <Content Include="Templates\Web\Gov\Student\Styles\Register.css" />
+    <Content Include="Templates\Web\Gov\Styles\Conn.css" />
     <Content Include="Templates\Web\Gov\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\Gov\Teacher\Register.htm" />
     <Content Include="Templates\Web\Gov\Teacher\Scripts\Register.js" />
     <Content Include="Templates\Web\Gov\Teacher\Styles\Register.css" />
+    <Content Include="Templates\Web\Neimeng\Conn.htm" />
     <Content Include="Templates\Web\Neimeng\CoreStyles\PageBox.css" />
     <Content Include="Templates\Web\Neimeng\CourseChannel.htm" />
     <Content Include="Templates\Web\Neimeng\Images\ad_ctr.png" />
@@ -673,6 +676,7 @@
     <Content Include="Templates\Web\Neimeng\Student\Scripts\Register.js" />
     <Content Include="Templates\Web\Neimeng\Student\Styles\PwFind.css" />
     <Content Include="Templates\Web\Neimeng\Student\Styles\Register.css" />
+    <Content Include="Templates\Web\Neimeng\Styles\Conn.css" />
     <Content Include="Templates\Web\Neimeng\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\Neimeng\Teacher\Register.htm" />
     <Content Include="Templates\Web\Neimeng\Teacher\Scripts\Register.js" />

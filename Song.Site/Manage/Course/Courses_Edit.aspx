@@ -61,7 +61,7 @@
             访问人数：
             </td>
             <td>
-                <asp:Label ID="lbViewNum" runat="server" Text="0"></asp:Label>人
+                <asp:TextBox ID="tbViewNum" runat="server" Text="0" Width="100"></asp:TextBox>人
             </td>
         </tr>
           <tr>

@@ -109,7 +109,7 @@ namespace Song.Site.Manage.Course
                 this.imgShow.Src = Upload.Get[_uppath].Virtual + cou.Cou_LogoSmall;
             }         
             //访问人数
-            lbViewNum.Text = cou.Cou_ViewNum.ToString();
+            tbViewNum.Text = cou.Cou_ViewNum.ToString();
             //学习人数
             lbStudentSum.Text = Business.Do<ICourse>().CourseStudentSum(couid, false).ToString();
             ltStudentSum.Text = Business.Do<ICourse>().CourseStudentSum(couid, true).ToString();
@@ -145,6 +145,10 @@ namespace Song.Site.Manage.Course
             if (cou == null) return null;
             //名称
             cou.Cou_Name = Cou_Name.Text.Trim();
+            //访问人数
+            int viewnum = 0;
+            int.TryParse(tbViewNum.Text, out viewnum);
+            cou.Cou_ViewNum = viewnum;
             //所属专业
             cou.Sbj_ID = Convert.ToInt32(ddlSubject.SelectedValue);
             cou.Sbj_Name = ddlSubject.SelectedText;
