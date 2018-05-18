@@ -151,6 +151,7 @@ function _mobiRegister_veri(form, url) {
 	        msg.ShowCloseBtn = false;
 	        MsgBox.OverEvent = function () {
 	            var href = form.find("input[name=from]").val();
+	            if ($.trim(href) == "") href = "/default.ashx";
 	            window.location.href = $().setPara(href, "sharekeyid", data.acid);
 	        };
 	        msg.Open();
