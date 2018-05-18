@@ -39,6 +39,7 @@ namespace Song.Site
                        : ol = Business.Do<IOutline>().OutlineSingle(id);
             //当前课程            
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(ol == null ? couid : ol.Cou_ID);
+            if (course == null) return;
             this.Document.Variables.SetValue("course", course);
             Extend.LoginState.Accounts.Course(course);
             if (ol == null) return;

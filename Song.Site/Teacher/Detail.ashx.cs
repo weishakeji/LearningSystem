@@ -17,7 +17,8 @@ namespace Song.Site.Teacher
         {
             //教师
             int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
-            Song.Entities.Teacher th = Business.Do<ITeacher>().TeacherSingle(id);            
+            Song.Entities.Teacher th = Business.Do<ITeacher>().TeacherSingle(id);
+            if (th == null) return;
             if ((WeiSha.Common.Request.Cookies["Teacher_" + th.Th_ID].Int32 ?? 0) == 0)
             {
                 th.Th_ViewNum++;

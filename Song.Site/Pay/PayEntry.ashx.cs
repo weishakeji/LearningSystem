@@ -75,6 +75,7 @@ namespace Song.Site.Pay
             //回调域
             string domain = "http://" + WeiSha.Common.Server.Domain + ":" + WeiSha.Common.Server.Port + "/";
             domain = string.IsNullOrWhiteSpace(pi.Pai_Returl) ? domain : pi.Pai_Returl;
+            if (!domain.EndsWith("/")) domain += "/";
             //支付类型
             string payment_type = "1";
             //商户订单号
@@ -149,6 +150,7 @@ namespace Song.Site.Pay
             //服务器异步通知页面路径
             string domain = "http://" + WeiSha.Common.Server.Domain + ":" + WeiSha.Common.Server.Port + "/";
             domain = string.IsNullOrWhiteSpace(pi.Pai_Returl) ? domain : pi.Pai_Returl;
+            if (!domain.EndsWith("/")) domain += "/";
             string notify_url = domain + "Pay/Alipayweb/notify_url.aspx";
             //需http://格式的完整路径，不能加?id=123这类自定义参数
             //页面跳转同步通知页面路径

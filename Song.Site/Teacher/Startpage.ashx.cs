@@ -17,6 +17,7 @@ namespace Song.Site.Teacher
         {
             //所属教师
             Song.Entities.Teacher th = Extend.LoginState.Accounts.Teacher;
+            if (th == null) return;
             //所属机构
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             //当前教师负责的课程

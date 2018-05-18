@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 控制。更改这些属性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("微厦在线学习平台")]
-[assembly: AssemblyDescription("ReleaseDate 2018-5-7")]
+[assembly: AssemblyDescription("ReleaseDate 2018-5-18")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("微厦科技")]
 [assembly: AssemblyProduct("微厦在线学习平台")]
