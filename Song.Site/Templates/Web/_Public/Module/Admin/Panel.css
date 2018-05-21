@@ -150,12 +150,12 @@
 	line-height:15px;
 }
 .versionBox {
-	float: left;
+	float: right;
 	width: 60px;
 	text-align: center;
-	color: #999;
+	color: #666 !important;
 	line-height: 20px;
-	margin-top: 10px;
+	display: block;	
 }
 .bar .loginInfo {
 	float: right;

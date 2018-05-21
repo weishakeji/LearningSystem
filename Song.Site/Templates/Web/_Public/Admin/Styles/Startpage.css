@@ -5,11 +5,16 @@
 	width: 100%;
 
 }
+h1{
+	font-size: 16px;
+	color: #666;
+}
 .titBar {
 	height: 30px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
 	border-bottom-color: #CCCCCC;
+	text-align: left;
 }
 
 
@@ -45,4 +50,61 @@
 	width: 120px;
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+/*左右分栏*/
+.box-left{	
+	float:left;
+	width:610px;
+}
+.box-right{
+	float: right;
+	width: 374px;
+	height: 290px;
+	overflow: hidden;
+	display: block;
+}
+dl dt{
+	height: 30px;
+	text-align: left;
+	line-height: 30px;
+	text-indent: 10px;
+	font-size: 16px;
+	background-color: #ddd;
+}
+.box-left dl dd{
+	height:25px;
+	line-height:25px;
+	text-align:left;
+	text-indent:20px;
+}
+.box-left dl dd a{
+	margin-left:10px;
+}
+.box-right dl{
+	width:420px;
+	display:table;
+}
+.box-right dl dt{
+	height: 30px;
+	text-align: left;
+	line-height: 30px;
+	text-indent: 10px;
+	font-size: 16px;	
+}
+.box-right dl dd{
+	float: left;
+	width: 180px;
+	height:240px;
+	margin-top: 10px;
+	margin-right: 10px;
+	border: 1px solid #999;
+}
+.tmpname{
+	margin-top:5px;
+}
+.size{
+	font-size:12px;
+}
+.alert{
+	color:red;
 }
