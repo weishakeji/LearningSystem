@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // 控制。更改这些属性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("微厦在线学习平台")]
-[assembly: AssemblyDescription("ReleaseDate 2018-5-18")]
+[assembly: AssemblyDescription("ReleaseDate 2018-5-21")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("微厦科技")]
 [assembly: AssemblyProduct("微厦在线学习平台")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 //
 // 可以指定所有这些值，也可以使用“修订号”和“内部版本号”的默认值，
 // 方法是按如下所示使用“*”:
-[assembly: AssemblyVersion("1.5.*")]
+[assembly: AssemblyVersion("1.6.*")]
 //[assembly: AssemblyFileVersion("0.3.1")]
