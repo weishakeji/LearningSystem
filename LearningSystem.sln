@@ -38,7 +38,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{FDA0AAE6-47E
 		Lib\System.Web.WebPages.Razor.dll = Lib\System.Web.WebPages.Razor.dll
 		Lib\System.Web.WebPages.Razor.xml = Lib\System.Web.WebPages.Razor.xml
 		Lib\URLRewriter.dll = Lib\URLRewriter.dll
-		Lib\WeiSha.Common.dll = Lib\WeiSha.Common.dll
 		Lib\WeiSha.Common.XML = Lib\WeiSha.Common.XML
 		Lib\WeiSha.Data.Generete.exe = Lib\WeiSha.Data.Generete.exe
 		Lib\WeiSha.Data.XML = Lib\WeiSha.Data.XML

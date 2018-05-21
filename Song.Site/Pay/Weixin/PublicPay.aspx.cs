@@ -103,7 +103,7 @@ namespace Song.Site.Pay.Weixin
             catch (Exception ex)
             {
                 WxPayAPI.Log.Error(this.GetType().ToString(), ex.ToString());
-                throw new WxPayAPI.WxPayException(ex.ToString());
+                //throw new WxPayAPI.WxPayException(ex.ToString());
             }
         }
         /// <summary>

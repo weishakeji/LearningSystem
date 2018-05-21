@@ -21,6 +21,7 @@ namespace Song.Site.Mobile
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
                 Song.Entities.MoneyAccount money = Business.Do<IAccounts>().MoneySingle(id);
+                if (money == null) return;
                 this.Document.SetValue("money", money);
             }
             //此页面的ajax提交，全部采用了POST方式
