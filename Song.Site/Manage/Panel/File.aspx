@@ -18,7 +18,7 @@ body {
     <body>
     <%       
         //直接打开，例如图片等
-        string openfiles = "jpg,png,gif";        
+        string openfiles = "jpg,png,gif,flv,mp4";        
         //当前文件
         string file = this.Request.QueryString["file"];
         System.IO.FileInfo fi = new FileInfo(this.Server.MapPath(this.Server.UrlDecode(file)));
