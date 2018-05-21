@@ -13,10 +13,10 @@
   <div loyout="column" class="box">
     <div class="infoRow">
       <div class="RowRight">余额：</div>
-      <div class="RowLeft"> <span class="moneyico">&#xe746;</span> {$:#.Account.Ac_money format="0.00"}元</div>
+      <div class="RowLeft"> <span class="moneyico">&#xe746;</span> {$:#.money.Ma_Total format="0.00"}元</div>
     </div>
     <div class="infoRow">
-      <div class="RowRight">流水：</div>
+      <div class="RowRight">明细：</div>
       <div class="RowLeft">
         <vt:if var="money.Ma_Type" value="1" compare="="><span class="ico1">-{$:#.money.Ma_Money format="0.00"}</span> 元
           <vt:else />

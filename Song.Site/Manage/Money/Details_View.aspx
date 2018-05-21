@@ -25,6 +25,15 @@
                 <asp:Label ID="Ma_Type" runat="server" Text=""></asp:Label>
                 >>
                 <asp:Label ID="Ma_Money" runat="server" Text="" Format="0.00"></asp:Label>元</div>
+                
+            </td>
+        </tr>
+          <tr>
+            <td class="right">
+               余额：
+            </td>
+            <td>
+                <asp:Label ID="Ma_Total" runat="server" Text=""  Format="0.00"></asp:Label> 元
             </td>
         </tr>
         <tr>
