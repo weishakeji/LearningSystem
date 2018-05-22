@@ -46,12 +46,15 @@ namespace Song.Site.Manage.Site
             if (Extend.LoginState.Accounts.IsLogin)
             {
                 Song.Entities.Teacher th = Extend.LoginState.Accounts.Teacher;
-                ListItem li = ddlDepart.Items.FindByValue(th.Dep_Id.ToString());
-                if (li != null)
+                if (th != null)
                 {
-                    ddlDepart.SelectedIndex = -1;
-                    li.Selected = true;
-                    ddlDepart.Enabled = false;
+                    ListItem li = ddlDepart.Items.FindByValue(th.Dep_Id.ToString());
+                    if (li != null)
+                    {
+                        ddlDepart.SelectedIndex = -1;
+                        li.Selected = true;
+                        ddlDepart.Enabled = false;
+                    }
                 }
             }
             ddlDepart_SelectedIndexChanged(null, null);
