@@ -55,7 +55,7 @@ namespace WxPayAPI
             data.SetValue("time_start", DateTime.Now.ToString("yyyyMMddHHmmss"));//交易起始时间
             //data.SetValue("time_expire", DateTime.Now.AddMinutes(10).ToString("yyyyMMddHHmmss"));//交易结束时间
             data.SetValue("goods_tag", "null");//商品标记
-            data.SetValue("trade_type", "NATIVE");//交易类型
+            data.SetValue("trade_type", "NATIVE");//交易类型（JSAPI 公众号支付、NATIVE 扫码支付、APP APP支付）
             data.SetValue("product_id", productId);//商品ID
 
             WxPayData result = WxPayApi.UnifiedOrder(data, appid, mchid, paykey, WxPayConfig.IP, notify_url);
