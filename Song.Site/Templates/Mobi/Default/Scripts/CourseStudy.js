@@ -49,7 +49,7 @@ function pausedHandler(b) {
     if (setT) window.clearInterval(setT);
     if (!b) setT = window.setInterval(setFunction, 1000);
 }
-function setFunction() {
+function setFunction() {	
     watchTime += 1;
     //获取学习时间
     CKobject._K_('studyTime').innerHTML = watchTime;

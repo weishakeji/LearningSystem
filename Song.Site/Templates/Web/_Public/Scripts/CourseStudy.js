@@ -88,8 +88,15 @@ $(window).resize(function () {
 //如果你不需要某项设置，可以直接删除，注意var flashvars的最后一个值后面不能有逗号
 function loadedHandler() {
     if (CKobject.getObjectById('ckplayer_videobox').getType()) {//说明使用html5播放器
-        CKobject.getObjectById('ckplayer_videobox').addListener('paused', pausedHandler);
+        //CKobject.getObjectById('ckplayer_videobox').addListener('paused', pausedHandler);
         //alert(CKobject.getObjectById('ckplayer_videobox').innerHTML);
+        //CKobject.getObjectById('ckplayer_videobox').addListener('time', timeHandler);
+		CKobject.getObjectById('ckplayer_videobox').addListener('play', function (b) {
+            setT = window.setInterval(setFunction, 1000);
+        });
+        CKobject.getObjectById('ckplayer_videobox').addListener('pause', function (b) {
+            if (setT != null) window.clearInterval(setT);
+        });
         CKobject.getObjectById('ckplayer_videobox').addListener('time', timeHandler);
     }
     else {
@@ -122,7 +129,7 @@ function pausedHandler(b) {
 }
 function setFunction() {
     watchTime += 1;
-    //获取学习时间
+     //获取学习时间
     CKobject._K_('studyTime').innerHTML = watchTime;
 
     //获取视频时长
