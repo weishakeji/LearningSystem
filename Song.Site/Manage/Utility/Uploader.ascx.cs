@@ -49,7 +49,7 @@ namespace Song.Site.Manage.Utility
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            uploaderPath = WeiSha.Common.Server.DomainPath + uploaderPath;
+            //uploaderPath = WeiSha.Common.Server.DomainPath + uploaderPath;
             Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"" + uploaderPath + "css.css\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
         }
     }
