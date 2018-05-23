@@ -26,6 +26,7 @@ namespace Song.Site.Manage.Teacher
         private bool isAdmin = WeiSha.Common.Request.QueryString["admin"].Boolean ?? false;
         protected void Page_Load(object sender, EventArgs e)
         {
+            this.Title = "øŒ≥Ãπ‹¿Ì";
             this.Form.DefaultButton = this.btnSear.UniqueID;
             org = Business.Do<IOrganization>().OrganCurrent();
             if (!this.IsPostBack)
