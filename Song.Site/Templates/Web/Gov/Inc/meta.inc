@@ -11,7 +11,7 @@
 <script type="text/javascript" src="/Utility/CoreScripts/Verify.js"></script>
 <!--核心Css文件-->
 <link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css"/>
-<link rel="stylesheet" type="text/css" href="../CoreStyles/public.css?tick={$tick}"/>
+<link rel="stylesheet" type="text/css" href="../CoreStyles/public.css"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/PageBox.css"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/MessageBox.css"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/Jme.css"/>

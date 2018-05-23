@@ -29,10 +29,11 @@ namespace Song.Site
 
         protected override void InitPageTemplate(HttpContext context)
         {
+            if (!Extend.LoginState.Accounts.IsLogin) context.Response.Redirect(WeiSha.Common.Login.Get["Accounts"].NoLoginPath.String);
             //自定义配置项
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
-
+            
             #region 章节输出
             //取当前章节
             ol = id < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)

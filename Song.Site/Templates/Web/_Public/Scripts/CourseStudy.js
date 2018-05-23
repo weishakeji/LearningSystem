@@ -89,7 +89,7 @@ $(window).resize(function () {
 function loadedHandler() {
     if (CKobject.getObjectById('ckplayer_videobox').getType()) {//说明使用html5播放器
         CKobject.getObjectById('ckplayer_videobox').addListener('paused', pausedHandler);
-        alert(CKobject.getObjectById('ckplayer_videobox').innerHTML);
+        //alert(CKobject.getObjectById('ckplayer_videobox').innerHTML);
         CKobject.getObjectById('ckplayer_videobox').addListener('time', timeHandler);
     }
     else {
