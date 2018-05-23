@@ -308,6 +308,7 @@
     <Content Include="Manage\Money\RechargeSet_Edit.aspx" />
     <Content Include="Manage\Money\Styles\Details.css" />
     <Content Include="Manage\Money\Styles\Details_View.css" />
+    <Content Include="Manage\Money\Styles\RechargeSet_Code.css" />
     <Content Include="Manage\Panel\Dir.aspx" />
     <Content Include="Manage\Panel\Styles\Authorization.css" />
     <Content Include="Manage\Help\Prompt.htm" />
@@ -6301,6 +6302,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+    <Folder Include="Manage\Money\Scripts\" />
     <Folder Include="Manage\Utility\kindeditor\attached\" />
     <Folder Include="Upload\" />
     <Folder Include="Utility\Images\Mobi\" />
