@@ -65,17 +65,12 @@ $(function(){
         <div id="playerInfo"> 视频时长： <span id="totalTime">{$video.As_Duration}</span>秒 &nbsp; 播放进度： <span id="playTime">0</span>秒 &nbsp; 学习时间： <span id="studyTime">0</span>秒
           <vt:if var="studyLog" value="" compare="!="> <span class="historyInfo">上次学习到<span id="historyTime">{$historyPlay}</span>，点击此处接上次进度学习</span> </vt:if>
         </div>
-        <vt:if var="IsVideoNoload" value="true" compare="=">
-         <script type="text/javascript">
-		//视频地址
-        var videoPath="v/{$video.As_Uid}.aspx";		
-		</script> 
-        <vt:else/>
+       
         <script type="text/javascript">
 		//视频地址
 		videoPath="{$video.As_FileName}";
 		</script> 
-        </vt:if>
+       
        
 		<script type="text/javascript">
 		//课程ID,章节ID

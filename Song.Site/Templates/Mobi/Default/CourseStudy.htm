@@ -37,17 +37,12 @@
         已学<span id="studyTime">0</span>秒;
         <vt:if var="studyLog" value="" compare="!="> <span class="historyInfo">上次学习到<span id="historyTime">{$historyPlay}</span>，点击此处接上次进度学习</span> </vt:if>
       </div>
-      <vt:if var="IsVideoNoload" value="true" compare="=">
-         <script type="text/javascript">
-             //视频地址
-             var videoFile = "/v/{$video.As_Uid}.aspx";             
-		</script> 
-        <vt:else/>
+      
         <script type="text/javascript">
             //视频地址
             var videoFile = "{$video.As_FileName}";
 		</script> 
-        </vt:if>
+       
       <script type="text/javascript">
           //课程ID,章节ID
           var couid = '{$outline.cou_id}';

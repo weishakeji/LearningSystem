@@ -456,7 +456,7 @@
     <file relUrl="Mobile/QuesAnswer.ashx" publishTime="09/14/2015 14:31:02" />
     <file relUrl="Manage/Utility/UploadPath/images/upload_normal.gif" publishTime="10/15/2009 13:09:09" />
     <file relUrl="Manage/Utility/datepicker/skin/WdatePicker.css" publishTime="03/18/2016 17:32:02" />
-    <file relUrl="Templates/Mobi/Default/Styles/CourseStudy.css" publishTime="07/30/2017 11:58:32" />
+    <file relUrl="Templates/Mobi/Default/Styles/CourseStudy.css" publishTime="05/23/2018 11:48:09" />
     <file relUrl="Templates/Web/NetSchool/Images/bg-yellow.png" publishTime="12/27/2016 10:03:14" />
     <file relUrl="Templates/Web/Gov/Images/Login-bg.jpg" publishTime="09/11/2016 09:34:30" />
     <file relUrl="Manage/Images/tree/musicfolder.gif" publishTime="10/19/2002 22:26:00" />
@@ -587,7 +587,7 @@
     <file relUrl="Templates/Web/Neimeng/Styles/Links.css" publishTime="03/28/2016 15:26:29" />
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/117.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Templates/Web/School/myFocus/js/pattern/mF_pconline.js" publishTime="08/06/2015 20:41:18" />
-    <file relUrl="Templates/Web/_Public/Scripts/CourseStudy.js" publishTime="05/23/2018 11:23:13" />
+    <file relUrl="Templates/Web/_Public/Scripts/CourseStudy.js" publishTime="05/23/2018 12:07:09" />
     <file relUrl="Templates/Mobi/_Public/QQLogin.htm" publishTime="03/15/2018 19:51:55" />
     <file relUrl="Templates/Web/School/myFocus/js/pattern/mF_sohusports.css" publishTime="08/06/2015 20:41:18" />
     <file relUrl="Mobile/TeacherComments.ashx" publishTime="10/07/2017 16:30:16" />
@@ -669,7 +669,7 @@
     <file relUrl="Manage/Utility/kindeditor/lang/ko.js" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Templates/Web/NetSchool/Images/ad_ctr.png" publishTime="07/31/2015 11:11:15" />
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/111.gif" publishTime="10/16/2015 08:41:08" />
-    <file relUrl="Templates/Web/_Public/CourseStudy.htm" publishTime="05/07/2018 18:22:53" />
+    <file relUrl="Templates/Web/_Public/CourseStudy.htm" publishTime="05/23/2018 12:25:10" />
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/89.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Templates/Mobi/Default/Styles/TeacherComments.css" publishTime="10/10/2017 11:43:48" />
     <file relUrl="Manage/Utility/kindeditor/plugins/plainpaste/plainpaste.js" publishTime="10/16/2015 08:41:08" />
@@ -967,7 +967,7 @@
     <file relUrl="Manage/Utility/kindeditor/kindeditor-all-min.js" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/55.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Templates/Mobi/Default/Styles/News.css" publishTime="06/10/2017 22:18:44" />
-    <file relUrl="Templates/Mobi/Default/Scripts/CourseStudy.js" publishTime="02/07/2018 17:48:36" />
+    <file relUrl="Templates/Mobi/Default/Scripts/CourseStudy.js" publishTime="05/23/2018 12:01:07" />
     <file relUrl="Templates/Web/Neimeng/Images/pwd-icons-new.png" publishTime="08/06/2015 20:41:14" />
     <file relUrl="Templates/Web/School/Images/ico.gif" publishTime="08/06/2015 20:41:14" />
     <file relUrl="Manage/Content/DownloadRecycle.aspx" publishTime="02/09/2015 00:17:31" />
@@ -1382,7 +1382,7 @@
     <file relUrl="Manage/Exam/Scripts/SelfExam.js" publishTime="03/21/2016 12:32:02" />
     <file relUrl="Admin/Startpage.ashx" publishTime="08/06/2015 20:41:11" />
     <file relUrl="Ajax/StudentStudy.ashx" publishTime="05/07/2016 15:59:33" />
-    <file relUrl="Templates/Web/Gov/Inc/meta.inc" publishTime="05/03/2018 10:54:48" />
+    <file relUrl="Templates/Web/Gov/Inc/meta.inc" publishTime="05/23/2018 11:37:29" />
     <file relUrl="Templates/Web/School/Images/ICO/message1.gif" publishTime="08/06/2015 20:41:13" />
     <file relUrl="Manage/Sys/Scripts/Purview/Node.js" publishTime="02/04/2016 10:59:28" />
     <file relUrl="Manage/Utility/kindeditor/themes/default/default.css" publishTime="01/12/2016 12:48:35" />
@@ -1937,7 +1937,7 @@
     <file relUrl="Templates/Web/Neimeng/Scripts/QuesLoad.js" publishTime="10/19/2016 18:10:57" />
     <file relUrl="Mobile/Teachers.ashx" publishTime="06/21/2015 10:34:34" />
     <file relUrl="Utility/PdfViewer/images/secondaryToolbarButton-firstPage@2x.png" publishTime="08/14/2017 18:37:32" />
-    <file relUrl="Templates/Mobi/Default/CourseStudy.htm" publishTime="02/07/2018 17:31:58" />
+    <file relUrl="Templates/Mobi/Default/CourseStudy.htm" publishTime="05/23/2018 12:21:33" />
     <file relUrl="Templates/Web/Gov/Images/ranking04.jpg" publishTime="09/11/2016 09:45:18" />
     <file relUrl="Templates/Web/Gov/Styles/KnowledgesList.css" publishTime="12/22/2015 01:21:56" />
     <file relUrl="Utility/Ckplayer/help.htm" publishTime="06/26/2017 10:02:09" />
@@ -2035,7 +2035,7 @@
     <file relUrl="Manage/Money/Details_View.aspx" publishTime="05/21/2018 16:08:11" />
     <file relUrl="Templates/Web/School/Scripts/Courses.js" publishTime="04/04/2018 15:17:36" />
     <file relUrl="Manage/Site/Styles/Navigation.css" publishTime="11/13/2014 16:31:58" />
-    <file relUrl="bin/Song.Site.pdb" publishTime="05/23/2018 11:11:34" />
+    <file relUrl="bin/Song.Site.pdb" publishTime="05/23/2018 12:09:57" />
     <file relUrl="Templates/Web/_Public/QuesExplain.htm" publishTime="06/08/2017 11:41:19" />
     <file relUrl="Templates/Web/Neimeng/Images/10.png" publishTime="08/06/2015 20:41:14" />
     <file relUrl="Utility/iconfont/examico/examico.css" publishTime="12/09/2017 12:10:51" />
@@ -2058,7 +2058,7 @@
     <file relUrl="Manage/Exam/Examination_Edit.aspx" publishTime="10/27/2017 20:59:37" />
     <file relUrl="Templates/Web/NetSchool/Images/icon01.jpg" publishTime="09/11/2016 09:52:07" />
     <file relUrl="Templates/Web/School/myFocus/js/myfocus-2.0.1.min.js" publishTime="08/06/2015 20:41:18" />
-    <file relUrl="bin/Song.Site.dll" publishTime="05/23/2018 11:11:34" />
+    <file relUrl="bin/Song.Site.dll" publishTime="05/23/2018 12:09:57" />
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/106.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Manage/Utility/kindeditor/plugins/emoticons/images/53.gif" publishTime="10/16/2015 08:41:08" />
     <file relUrl="Templates/Web/Gov/Inc/Login.html" publishTime="06/27/2017 10:57:00" />
@@ -2568,7 +2568,7 @@
     <file relUrl="Manage/CoreScripts/PageExt.js" publishTime="04/24/2018 17:15:11" />
     <file relUrl="Templates/Web/School/Styles/Default.css" publishTime="04/04/2018 15:17:36" />
     <file relUrl="Manage/Utility/kindeditor/plugins/image/images/refresh.png" publishTime="10/16/2015 08:41:08" />
-    <file relUrl="Templates/Web/_Public/Styles/CourseStudy.css" publishTime="05/23/2018 11:29:46" />
+    <file relUrl="Templates/Web/_Public/Styles/CourseStudy.css" publishTime="05/23/2018 11:36:36" />
     <file relUrl="bin/Spring.Core.dll" publishTime="03/17/2016 23:26:07" />
     <file relUrl="Manage/Sys/Subject_Edit.aspx" publishTime="07/14/2017 09:58:10" />
     <file relUrl="Templates/Web/School/myFocus/js/pattern/mF_liuzg.css" publishTime="08/06/2015 20:41:18" />
