@@ -54,10 +54,11 @@ h1{
 /*左右分栏*/
 .box-left{	
 	float:left;
-	width:610px;
+	width:580px;
+	margin-right:10px;
 }
 .box-right{
-	float: right;
+	float: left;
 	width: 374px;
 	height: 290px;
 	overflow: hidden;
