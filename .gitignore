@@ -15,6 +15,7 @@
 #Ignore thumbnails created by Windows
 Thumbs.db
 #Ignore files built by Visual Studio
+*.pdb
 *.obj
 *.exe
 *.pdb
@@ -49,4 +50,4 @@ packages/
 /文档/开发文档/~$学习平台-数据字典.doc
 /文档/开发文档/~$*.*
 /培训考试系统.zip
-/*.zip
+/*.suo
