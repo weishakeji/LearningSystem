@@ -29,7 +29,8 @@ namespace Song.Site
 
         protected override void InitPageTemplate(HttpContext context)
         {
-            if (!Extend.LoginState.Accounts.IsLogin) context.Response.Redirect(WeiSha.Common.Login.Get["Accounts"].NoLoginPath.String);
+            if (!Extend.LoginState.Accounts.IsLogin || this.Account==null)
+                context.Response.Redirect(WeiSha.Common.Login.Get["Accounts"].NoLoginPath.String);
             //自定义配置项
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);

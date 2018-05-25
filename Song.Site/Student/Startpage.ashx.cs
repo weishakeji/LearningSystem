@@ -15,7 +15,7 @@ namespace Song.Site.Student
     {
         protected override void InitPageTemplate(HttpContext context)
         {
-            
+            if (!Extend.LoginState.Accounts.IsLogin || this.Account == null) return;
             //资金流水记录
             Tag maTag = this.Document.GetChildTagById("moneyAccount");
             if (maTag != null)

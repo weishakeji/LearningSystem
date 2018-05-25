@@ -24,7 +24,7 @@ namespace Song.Site
             this.Document.Variables.SetValue("result", result);
             //试卷
             Song.Entities.TestPaper tp = Business.Do<ITestPaper>().PagerSingle((int)result.Tp_Id);
-            if (tp == null) throw new Exception("当前试卷不存在，可能被删除了。");
+            if (tp == null) return;
             this.Document.Variables.SetValue("pager", tp);
             //考生
             Song.Entities.Accounts st = Business.Do<IAccounts>().AccountsSingle((int)result.Ac_ID);
