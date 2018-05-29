@@ -19,7 +19,8 @@
                 重置密码：
             </td>
             <td>
-                <asp:TextBox nullable="false" ID="tbPw1" runat="server" MaxLength="100"  group="pw" ></asp:TextBox>
+                <asp:TextBox nullable="false" ID="tbPw1" runat="server" MaxLength="100"  
+                    group="pw" TextMode="Password" ></asp:TextBox>
                
             </td>
         </tr>
@@ -28,7 +29,8 @@
                 再次输入：
             </td>
             <td>
-                <asp:TextBox ID="tbPw2" runat="server" MaxLength="100" sametarget="tbPw1" group="pw" ></asp:TextBox>
+                <asp:TextBox ID="tbPw2" runat="server" MaxLength="100" sametarget="tbPw1" 
+                    group="pw" TextMode="Password" ></asp:TextBox>
                 
             </td>
         </tr>
