@@ -6,6 +6,12 @@
         var id = $(this).attr("couid");
         new PageBox("课程详情", "Course.ashx?id=" + id, 100, 100, "url").Open();
     });
+//    var isweixin = $().isWeixin();
+//    var ismini = $().isWeixinApp();
+//    var ua = window.navigator.userAgent.toLowerCase();
+//    $("#test").append(ua);
+//    $("#test").append("是否处于微信：" + isweixin);
+//    $("#test").append("是否处于微信小程序：" + ismini);
 });
 
 //自动登录

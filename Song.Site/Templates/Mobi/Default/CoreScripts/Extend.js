@@ -303,7 +303,7 @@ jQuery.fn.getFileName = function () {
 //在线浏览pdf文件
 jQuery.fn.PdfViewer = function (file) {
     var viewer = "/Utility/PdfViewer/viewer.html";
-    if (file.indexOf("?") > -1) file = file.substring(0, file.indexOf("?"));    
+    if (file.indexOf("?") > -1) file = file.substring(0, file.indexOf("?"));
     viewer += "?file=" + encodeURIComponent(file);
     //window.location.href = viewer;
     return viewer;
@@ -345,10 +345,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
 jQuery.fn.SoapAjax = function (service, sfunc, para, successFunc, loadfunc, unloadfunc, errfunc) {
     var urlPath = "/manage/soap/" + service + ".asmx/" + sfunc;
     $.ajax({
-        type: "POST",
-        url: urlPath,
-        dataType: "xml",
-        data: para,
+        type: "POST", url: urlPath, dataType: "xml", data: para,
         //开始，进行预载
         beforeSend: function (XMLHttpRequest, textStatus) {
             if (loadfunc != null) loadfunc(XMLHttpRequest, textStatus);
@@ -364,4 +361,14 @@ jQuery.fn.SoapAjax = function (service, sfunc, para, successFunc, loadfunc, unlo
             if (unloadfunc != null) unloadfunc();
         }
     });
+}
+//网页是否处于微信内置浏览器
+jQuery.fn.isWeixin = function () {
+    var ua = window.navigator.userAgent.toLowerCase();
+    return ua.match(/MicroMessenger/i) == 'micromessenger';
+}
+//网页是否处于微信小程序内置浏览器
+jQuery.fn.isWeixinApp = function () {
+    var ua = window.navigator.userAgent.toLowerCase();
+    return ua.match(/miniProgram/i) == 'miniprogram';
 }

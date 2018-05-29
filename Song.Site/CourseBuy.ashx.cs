@@ -34,6 +34,7 @@ namespace Song.Site
                 course.Cou_LogoSmall = Upload.Get["Course"].Virtual + course.Cou_LogoSmall;
             }
             this.Document.Variables.SetValue("course", course);
+            if (course == null) return;
             //所属专业
             Song.Entities.Subject subject = Business.Do<ISubject>().SubjectSingle(course.Sbj_ID);
             this.Document.Variables.SetValue("subject", subject);

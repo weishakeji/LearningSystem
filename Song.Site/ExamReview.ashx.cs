@@ -267,6 +267,7 @@ namespace Song.Site
                     {
                         int qid = Convert.ToInt32(qnode[j].Attributes["id"].Value);
                         Song.Entities.Questions ques = Business.Do<IQuestions>().QuesSingle(qid);
+                        if (ques == null) continue;
                         ques = Extend.Questions.TranText(ques);
                         ques.Qus_Title = Extend.Html.ClearHTML(ques.Qus_Title, "pre", "p");
                         ques.Qus_Explain = Extend.Html.ClearHTML(ques.Qus_Explain, "pre", "p");

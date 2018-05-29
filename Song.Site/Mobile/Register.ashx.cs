@@ -25,7 +25,8 @@ namespace Song.Site.Mobile
                 this.Document.SetValue("IsRegSms", config["IsRegSms"].Value.Boolean ?? true);    //是否要短信验证
                 //来源
                 string from = WeiSha.Common.Request.Form["from"].String;
-                from = string.IsNullOrWhiteSpace(from) ? context.Request.UrlReferrer.ToString() : from;
+                string referrer = context.Request.UrlReferrer == null ? "" : context.Request.UrlReferrer.ToString();
+                from = string.IsNullOrWhiteSpace(from) ? referrer : from;
                 this.Document.SetValue("from", from);
             }
             //状态

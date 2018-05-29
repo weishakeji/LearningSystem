@@ -95,6 +95,7 @@ namespace Song.Site.Manage.Teacher
             int sbjid = Convert.ToInt32(ddlSubject.SelectedValue);
             //当前教师
             Song.Entities.Teacher th = Extend.LoginState.Accounts.Teacher;
+            if (th == null) return;
             eas = Business.Do<ICourse>().CourseCount(org.Org_ID, sbjid, th.Th_ID,-1, tbSear.Text, isUse, -1);
             foreach (Song.Entities.Course s in eas)
             {
