@@ -18,7 +18,7 @@ using System.Text.RegularExpressions;
 
 namespace Song.Site.Manage.Pay
 {
-    public partial class WeixinNativePay : Extend.CustomPage
+    public partial class WeixinAppPay : Extend.CustomPage
     {
         private int id = WeiSha.Common.Request.QueryString["id"].Decrypt().Int32 ?? 0;
         //支付的应用场景
@@ -72,7 +72,7 @@ namespace Song.Site.Manage.Pay
             config["Paykey"].Text = tbPaykey.Text.Trim();   //支付密钥
             pi.Pai_Config = config.XmlString;
             //所用的平台
-            pi.Pai_Platform = "web";
+            pi.Pai_Platform = "mobi";
             //支付的应用场景
             pi.Pai_Scene = scene;
             //只能根机构才可以设置支付接口（也就是说，钱全到根机构账上）

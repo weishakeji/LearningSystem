@@ -63,8 +63,8 @@ namespace Song.Site.Manage.Teacher
             {
                 if (!Extend.LoginState.Admin.IsAdmin) throw new Exception("非管理员无权此操作权限！");
                 if (id == 0) throw new Exception("当前信息不存在！");
-                Song.Entities.Teacher obj;
-                obj = Business.Do<ITeacher>().TeacherSingle(id);
+                Song.Entities.Teacher obj = Business.Do<ITeacher>().TeacherSingle(id);
+                if (obj == null) throw new Exception("当前信息不存在！");
                 Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(obj.Ac_ID);
                 //员工登录密码，为空
                 if (tbPw1.Text.Trim() != "")

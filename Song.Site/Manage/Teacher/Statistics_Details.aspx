@@ -16,7 +16,7 @@
         </asp:Repeater>
     </div>
     <div class="selectBox">
-    学生组：<asp:DropDownList ID="Sts_ID" runat="server" DataTextField="Sts_Name" 
+    学生组：<asp:DropDownList ID="Sts_ID" runat="server" DataTextField="Sts_Name" CssClass="Sts_ID" 
             DataValueField="Sts_ID" AutoPostBack="True" 
             onselectedindexchanged="Sts_ID_SelectedIndexChanged"></asp:DropDownList> 
         <asp:Button ID="btnOutput1" runat="server" Text="导出成绩（仅参考人员）" 

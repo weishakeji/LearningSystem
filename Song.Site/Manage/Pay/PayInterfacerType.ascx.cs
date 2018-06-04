@@ -34,7 +34,16 @@ namespace Song.Site.Manage.Pay
                 else
                 {
                     string pagename = WeiSha.Common.Request.Page.FileName;
-                    ListItem li = ddlInterFace.Items.FindByValue(pagename.ToLower());
+                    ListItem li = null;
+                    foreach (ListItem item in ddlInterFace.Items)
+                    {
+                        string page = item.Value;
+                        if (item.Value.Equals(pagename, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            li = item;
+                            break;
+                        }
+                    }
                     if (li != null)
                     {
                         ddlInterFace.SelectedIndex = -1;

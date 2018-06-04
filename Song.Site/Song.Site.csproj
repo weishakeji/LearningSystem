@@ -321,6 +321,7 @@
     <Content Include="Manage\Pay\AlipayWeb.aspx" />
     <Content Include="Manage\Pay\Weixinpubpay.aspx" />
     <Content Include="Manage\Pay\WeixinNativePay.aspx" />
+    <Content Include="Manage\Pay\WeixinAppPay.aspx" />
     <Content Include="Manage\Questions\Export.aspx" />
     <Content Include="Manage\Questions\Ques.aspx" />
     <Content Include="Manage\Questions\Scripts\KnowledgeAjax.js" />
@@ -2356,6 +2357,13 @@
     </Compile>
     <Compile Include="Manage\Pay\WeixinNativePay.aspx.designer.cs">
       <DependentUpon>WeixinNativePay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Pay\WeixinAppPay.aspx.cs">
+      <DependentUpon>WeixinAppPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Pay\WeixinAppPay.aspx.designer.cs">
+      <DependentUpon>WeixinAppPay.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Questions\Export.aspx.cs">
       <DependentUpon>Export.aspx</DependentUpon>

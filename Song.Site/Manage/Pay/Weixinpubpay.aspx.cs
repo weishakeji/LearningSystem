@@ -21,6 +21,8 @@ namespace Song.Site.Manage.Pay
     public partial class Weixinpubpay : Extend.CustomPage
     {
         private int id = WeiSha.Common.Request.QueryString["id"].Decrypt().Int32 ?? 0;
+        //支付的应用场景
+        private string scene = WeiSha.Common.Request.QueryString["scene"].String;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -71,6 +73,8 @@ namespace Song.Site.Manage.Pay
             pi.Pai_Config = config.XmlString;
             //所用的平台
             pi.Pai_Platform = "mobi";
+            //支付的应用场景
+            pi.Pai_Scene = scene;
             //只能根机构才可以设置支付接口（也就是说，钱全到根机构账上）
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganRoot();
             if (org != null) pi.Org_ID = org.Org_ID;
