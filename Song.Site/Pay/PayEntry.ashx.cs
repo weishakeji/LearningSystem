@@ -64,6 +64,7 @@ namespace Song.Site.Pay
                 if (pi.Pai_Pattern == "支付宝网页直付") Alipayweb(pi, ma);
                 if (pi.Pai_Pattern == "微信公众号支付") Weixinpubpay(pi, ma);
                 if (pi.Pai_Pattern == "微信扫码支付") WeixinNativepay(pi, ma);
+                if (pi.Pai_Pattern == "微信小程序支付") WeixinMiniProgramPay(pi, ma);
             }
         }
         /// <summary>
@@ -221,6 +222,33 @@ namespace Song.Site.Pay
             //用于生成支付二维码的URL          
             string url = "Pay/Weixin/NativePayPage.aspx?pi={0}&serial={1}";
             url = host + string.Format(url.ToString(), pi.Pai_ID, ma.Ma_Serial);
+            System.Web.HttpContext.Current.Response.Redirect(url);
+        }
+        /// <summary>
+        /// 微信小程序支付
+        /// </summary>
+        /// <param name="pi"></param>
+        /// <param name="ma"></param>
+        private void WeixinMiniProgramPay(Song.Entities.PayInterface pi, Song.Entities.MoneyAccount ma)
+        {
+            string host = System.Web.HttpContext.Current.Request.Url.Host + ":" + WeiSha.Common.Server.Port + "/";
+            if (!string.IsNullOrWhiteSpace(pi.Pai_Returl)) host = pi.Pai_Returl;
+            if (!host.EndsWith("/")) host += "/";
+            //构造网页授权获取code的URL          
+            string path = "Pay/Weixin/miniProgramPay.aspx";
+            //System.Web.HttpContext.Current.Response.Write(host + path);
+            string redirect_uri = HttpUtility.UrlEncode(host + path.ToLower());
+            WxPayAPI.WxPayData data = new WxPayAPI.WxPayData();
+            data.SetValue("appid", pi.Pai_ParterID);
+            data.SetValue("redirect_uri", redirect_uri);
+            data.SetValue("response_type", "code");
+            data.SetValue("scope", "snsapi_base");
+            //返回的状态值，接口id、流水号
+            string state = "pi:{0},serial:{1}";
+            state = string.Format(state, pi.Pai_ID, ma.Ma_Serial);
+            data.SetValue("state", state + "#wechat_redirect");
+            string url = "https://open.weixin.qq.com/connect/oauth2/authorize?" + data.ToUrl();
+            WxPayAPI.Log.Debug(this.GetType().ToString(), "获取Code: " + url);
             System.Web.HttpContext.Current.Response.Redirect(url);
         }
         #region 其它

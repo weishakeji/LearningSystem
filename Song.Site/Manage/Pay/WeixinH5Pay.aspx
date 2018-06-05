@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Manage/PageWin.Master" AutoEventWireup="true"
-    CodeBehind="WeixinNativePay.aspx.cs" Inherits="Song.Site.Manage.Pay.WeixinNativePay" Title="无标题页" %>
+    CodeBehind="WeixinH5Pay.aspx.cs" Inherits="Song.Site.Manage.Pay.WeixinH5Pay" Title="无标题页" %>
 
 <%@ MasterType VirtualPath="~/Manage/PageWin.Master" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <td class="right">
-                开发者ID(AppID)：
+                APPID：
             </td>
             <td>
                 <asp:TextBox ID="Pai_ParterID" runat="server" Width="60%" nullable="false"></asp:TextBox>
@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td class="right">
-                AppSecret：
+                APPSECRET：
             </td>
             <td>
                <asp:TextBox ID="Pai_Key" runat="server" Width="60%" nullable="false"></asp:TextBox>

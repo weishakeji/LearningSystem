@@ -1,9 +1,9 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PublicPay.aspx.cs" Inherits="Song.Site.Pay.Weixin.PublicPay" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="miniProgramPay.aspx.cs" Inherits="Song.Site.Pay.Weixin.miniProgramPay" %>
 
 <!doctype html>
 <html>
 <head runat="server">
-    <title>微信公众号支付</title>
+    <title>微信小程序支付</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />

@@ -42,7 +42,7 @@ function pay_onlineStyle() {
     mui('body').on('tap', '.payitem', function () {
 		$("input[name=paiid]").val($(this).attr("paiid"));
         $(".payitem").find(".ico").hide();
-        $(this).find(".ico").show();
+        $(this).find(".ico").show().focus();
         $("#pay-title #pay-api").text($(this).attr("painame"));
         $("#pay-title #pay-img").attr("src", $(this).find("img").attr("src"));
     });

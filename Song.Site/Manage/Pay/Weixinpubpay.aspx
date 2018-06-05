@@ -32,7 +32,7 @@
         </tr>
         <tr>
             <td class="right">
-                APPID：
+                开发者ID(AppID)：
             </td>
             <td>
                 <asp:TextBox ID="Pai_ParterID" runat="server" Width="60%" nullable="false"></asp:TextBox>
@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td class="right">
-                APPSECRET：
+                AppSecret：
             </td>
             <td>
                <asp:TextBox ID="Pai_Key" runat="server" Width="60%" nullable="false"></asp:TextBox>

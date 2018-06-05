@@ -27,12 +27,12 @@
                
             </td>
             <td>
-               以下信息来自微信公众号
+               以下信息来自微信小程序
             </td>
         </tr>
         <tr>
             <td class="right">
-                APPID：
+                AppID(小程序ID)：
             </td>
             <td>
                 <asp:TextBox ID="Pai_ParterID" runat="server" Width="60%" nullable="false"></asp:TextBox>
@@ -40,7 +40,7 @@
         </tr>
         <tr>
             <td class="right">
-                APPSECRET：
+                AppSecret：
             </td>
             <td>
                <asp:TextBox ID="Pai_Key" runat="server" Width="60%" nullable="false"></asp:TextBox>

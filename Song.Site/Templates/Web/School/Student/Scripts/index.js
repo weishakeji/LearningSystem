@@ -225,7 +225,7 @@ OtherLogin.init = function () {
         var orgid = $(this).attr("orgid"); 	//当前机构id
         var target = "https://open.weixin.qq.com/connect/qrconnect?";
         target += "appid=" + appid + "&redirect_uri=" + encodeURIComponent(returl) + "&response_type=code&scope=snsapi_login&state=" +
-			orgid + "&&style=black#wechat_redirect";
+			orgid + "&style=black#wechat_redirect";
         var msg = new PageBox("微信登录", target, 640, 480, "qqlogin-" + orgid);
         msg.Open();
     });

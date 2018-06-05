@@ -322,6 +322,7 @@
     <Content Include="Manage\Pay\Weixinpubpay.aspx" />
     <Content Include="Manage\Pay\WeixinNativePay.aspx" />
     <Content Include="Manage\Pay\WeixinAppPay.aspx" />
+    <Content Include="Manage\Pay\WeixinH5Pay.aspx" />
     <Content Include="Manage\Questions\Export.aspx" />
     <Content Include="Manage\Questions\Ques.aspx" />
     <Content Include="Manage\Questions\Scripts\KnowledgeAjax.js" />
@@ -564,7 +565,9 @@
     <Content Include="Manage\Utility\UploadPath\swfupload\swfupload.swf" />
     <Content Include="Manage\Utility\UploadPath\OuterLink.aspx" />
     <Content Include="Manage\Utility\UploadPath\OtherLink.aspx" />
+    <Content Include="Pay\Images\微信Html5支付.png" />
     <Content Include="Pay\Images\微信公众号支付.png" />
+    <Content Include="Pay\Images\微信小程序支付.png" />
     <Content Include="Pay\Images\微信扫码支付.png" />
     <Content Include="Pay\Weixin\Default.aspx" />
     <Content Include="Pay\Weixin\DownloadBillpage.aspx" />
@@ -579,6 +582,7 @@
     <Content Include="Pay\Weixin\RefundPage.aspx" />
     <Content Include="Pay\Weixin\RefundQueryPage.aspx" />
     <Content Include="Pay\Weixin\ResultNotifyPage.aspx" />
+    <Content Include="Pay\Weixin\miniProgramPay.aspx" />
     <Content Include="Readme.html" />
     <Content Include="Templates\Mobi\Default\CallPhone.htm" />
     <Content Include="Templates\Mobi\Default\CoreScripts\ajaxfileupload.js" />
@@ -2365,6 +2369,13 @@
     <Compile Include="Manage\Pay\WeixinAppPay.aspx.designer.cs">
       <DependentUpon>WeixinAppPay.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Manage\Pay\WeixinH5Pay.aspx.cs">
+      <DependentUpon>WeixinH5Pay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Pay\WeixinH5Pay.aspx.designer.cs">
+      <DependentUpon>WeixinH5Pay.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Manage\Questions\Export.aspx.cs">
       <DependentUpon>Export.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3044,6 +3055,13 @@
     <Compile Include="Pay\Weixin\lib\Log.cs" />
     <Compile Include="Pay\Weixin\lib\Notify.cs" />
     <Compile Include="Pay\Weixin\lib\WxPayApi.cs" />
+    <Compile Include="Pay\Weixin\miniProgramPay.aspx.cs">
+      <DependentUpon>miniProgramPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramPay.aspx.designer.cs">
+      <DependentUpon>miniProgramPay.aspx</DependentUpon>
+    </Compile>
     <Compile Include="QQLogin.ashx.cs">
       <DependentUpon>QQLogin.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

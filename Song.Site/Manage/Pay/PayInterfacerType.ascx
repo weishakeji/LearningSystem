@@ -32,9 +32,10 @@
 </script>
 <asp:DropDownList ID="ddlInterFace" runat="server">
     <asp:ListItem Value="" Selected="True">--选择支付接口--</asp:ListItem>
-    <asp:ListItem Value="alipaywap.aspx" scene="alipay">支付宝手机支付</asp:ListItem>
-    <asp:ListItem Value="alipayweb.aspx" scene="alipay">支付宝网页直付</asp:ListItem>
+    <asp:ListItem Value="alipaywap.aspx" scene="alipay,h5">支付宝手机支付</asp:ListItem>
+    <asp:ListItem Value="alipayweb.aspx" scene="alipay,native">支付宝网页直付</asp:ListItem>
     <asp:ListItem Value="weixinpubpay.aspx" scene="weixin,public">微信公众号支付</asp:ListItem>
     <asp:ListItem Value="weixinnativepay.aspx" scene="weixin,native">微信扫码支付</asp:ListItem>
-    <asp:ListItem Value="WeixinAppPay.aspx" scene="weixin,native">微信小程序支付</asp:ListItem>
+    <asp:ListItem Value="WeixinAppPay.aspx" scene="weixin,mini">微信小程序支付</asp:ListItem>
+    <asp:ListItem Value="WeixinH5Pay.aspx" scene="weixin,h5">微信Html5支付</asp:ListItem>
 </asp:DropDownList>
