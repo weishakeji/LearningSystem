@@ -69,7 +69,7 @@
                 <div class="mui-input-row" style="height:auto;">
                   <ul class="mui-table-view mui-table-view-chevron">
                     <vt:foreach id="pis" from="$#.pis" item="data" remark="支付接口">
-                      <li class="mui-table-view-cell payitem" select="false" pattern="{$:#.data.Pai_Pattern}" painame="{$:#.data.Pai_Name}" paiid="{$:#.data.Pai_ID}"> <a class="mui-navigate-right" href="#"><img src="/pay/images/{$:#.data.Pai_Pattern}.png"/>{$:#.data.Pai_Name} <span class="right-item iconfont ico" style="display:none">&#xe61a;</span> </a> </li>
+                      <li class="mui-table-view-cell payitem" select="false" pattern="{$:#.data.Pai_Pattern}" scene="{$:#.data.Pai_Scene}" painame="{$:#.data.Pai_Name}" paiid="{$:#.data.Pai_ID}"> <a class="mui-navigate-right" href="#"><img src="/pay/images/{$:#.data.Pai_Pattern}.png"/>{$:#.data.Pai_Name} <span class="right-item iconfont ico" style="display:none">&#xe61a;</span> </a> </li>
                     </vt:foreach>
                   </ul>
                 </div>
