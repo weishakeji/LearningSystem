@@ -39,7 +39,7 @@ namespace WxPayAPI
                 throw new WxPayException("提交被扫支付API接口中，缺少必填参数auth_code！");
             }
        
-            inputObj.SetValue("spbill_create_ip", WxPayConfig.IP);//终端ip
+            inputObj.SetValue("spbill_create_ip", WeiSha.Common.Server.IP);//终端ip
             inputObj.SetValue("appid", WxPayConfig.APPID);//公众账号ID
             inputObj.SetValue("mch_id", WxPayConfig.MCHID);//商户号
             inputObj.SetValue("nonce_str", Guid.NewGuid().ToString().Replace("-", ""));//随机字符串
@@ -349,7 +349,7 @@ namespace WxPayAPI
         */
         public static WxPayData UnifiedOrder(WxPayData inputObj, int timeOut = 6)
         {
-            return UnifiedOrder(inputObj, WxPayConfig.APPID, WxPayConfig.MCHID, WxPayConfig.KEY, WxPayConfig.IP, WxPayConfig.NOTIFY_URL, timeOut);
+            return UnifiedOrder(inputObj, WxPayConfig.APPID, WxPayConfig.MCHID, WxPayConfig.KEY, WeiSha.Common.Server.IP, WxPayConfig.NOTIFY_URL, timeOut);
         }
         public static WxPayData UnifiedOrder(WxPayData inputObj,string appid,string mchid,string paykey,string ip,string notify_url, int timeOut = 6)
         {

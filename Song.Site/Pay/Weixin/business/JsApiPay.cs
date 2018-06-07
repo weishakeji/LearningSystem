@@ -35,6 +35,10 @@ namespace WxPayAPI
         /// 商品金额，用于统一下单
         /// </summary>
         public int total_fee { get; set; }
+        /// <summary>
+        /// 浏览器指纹，用于H5支付
+        /// </summary>
+        public string fingerprint { get; set; }
 
         /// <summary>
         /// 统一下单接口返回结果
@@ -147,11 +151,12 @@ namespace WxPayAPI
         /// <returns> 统一下单结果</returns>
         public WxPayData GetUnifiedOrderResult(string out_trade_no)
         {
-            return GetUnifiedOrderResult(out_trade_no, WxPayConfig.APPID, WxPayConfig.MCHID,WxPayConfig.KEY, WxPayConfig.NOTIFY_URL,"null");
+            return GetUnifiedOrderResult("JSAPI", out_trade_no, WxPayConfig.APPID, WxPayConfig.MCHID, WxPayConfig.KEY, WxPayConfig.NOTIFY_URL, "null");
         }
         /// <summary>
         ///  调用统一下单，获得下单结果
         /// </summary>
+        /// <param name="tracetype">支付方式，（JSAPI 公众号支付、NATIVE 扫码支付、APP APP支付、MWEB H5支付）</param>
         /// <param name="out_trade_no">商户订单号</param>
         /// <param name="appid">公众号id</param>
         /// <param name="mchid">商户id</param>
@@ -159,7 +164,7 @@ namespace WxPayAPI
         /// <param name="notify_url">返回域</param>
         /// <param name="buyer">付款方账号（学习系统账号，非微信账号）</param>
         /// <returns></returns>
-        public WxPayData GetUnifiedOrderResult(string out_trade_no,string appid,string mchid,string paykey,string notify_url,string buyer)
+        public WxPayData GetUnifiedOrderResult(string tracetype, string out_trade_no, string appid, string mchid, string paykey, string notify_url, string buyer)
         {
             //统一下单
             WxPayData data = new WxPayData();
@@ -177,10 +182,13 @@ namespace WxPayAPI
             //订单优惠标记，使用代金券或立减优惠功能时需要的参数
             data.SetValue("goods_tag", "null");
             //支付方式（JSAPI 公众号支付、NATIVE 扫码支付、APP APP支付）
-            data.SetValue("trade_type", "JSAPI");
+            data.SetValue("trade_type", tracetype);
             data.SetValue("openid", openid);
+            if(!string.IsNullOrWhiteSpace(this.fingerprint)){
+                data.SetValue("fingerprint", fingerprint);
+            }
 
-            WxPayData result = WxPayApi.UnifiedOrder(data, appid, mchid, paykey, WxPayConfig.IP, notify_url);
+            WxPayData result = WxPayApi.UnifiedOrder(data, appid, mchid, paykey, WeiSha.Common.Server.IP, notify_url);
             if (!result.IsSet("appid") || !result.IsSet("prepay_id") || result.GetValue("prepay_id").ToString() == "")
             {
                 Log.Error(this.GetType().ToString(), "UnifiedOrder response error!");

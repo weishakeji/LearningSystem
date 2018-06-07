@@ -58,7 +58,7 @@ namespace WxPayAPI
             data.SetValue("trade_type", "NATIVE");//交易类型（JSAPI 公众号支付、NATIVE 扫码支付、APP APP支付）
             data.SetValue("product_id", productId);//商品ID
 
-            WxPayData result = WxPayApi.UnifiedOrder(data, appid, mchid, paykey, WxPayConfig.IP, notify_url);
+            WxPayData result = WxPayApi.UnifiedOrder(data, appid, mchid, paykey, WeiSha.Common.Server.IP, notify_url);
             string url = result.GetValue("code_url").ToString();//获得统一下单接口返回的二维码链接
 
             Log.Info(this.GetType().ToString(), "Get native pay mode 2 url : " + url);

@@ -65,6 +65,7 @@ namespace Song.Site.Pay
                 if (pi.Pai_Pattern == "微信公众号支付") Weixinpubpay(pi, ma);
                 if (pi.Pai_Pattern == "微信扫码支付") WeixinNativepay(pi, ma);
                 if (pi.Pai_Pattern == "微信小程序支付") WeixinMiniProgramPay(pi, ma);
+                if (pi.Pai_Pattern == "微信Html5支付") WeixinH5Pay(pi, ma);
             }
         }
         /// <summary>
@@ -249,6 +250,30 @@ namespace Song.Site.Pay
             data.SetValue("state", state + "#wechat_redirect");
             string url = "https://open.weixin.qq.com/connect/oauth2/authorize?" + data.ToUrl();
             WxPayAPI.Log.Debug(this.GetType().ToString(), "获取Code: " + url);
+            System.Web.HttpContext.Current.Response.Redirect(url);
+        }
+        /// <summary>
+        /// 微信html5支付，即手机网页支付
+        /// </summary>
+        /// <param name="pi"></param>
+        /// <param name="ma"></param>
+        private void WeixinH5Pay(Song.Entities.PayInterface pi, Song.Entities.MoneyAccount ma)
+        {
+            //string host = System.Web.HttpContext.Current.Request.Url.Host + ":" + WeiSha.Common.Server.Port + "/";
+            //if (!string.IsNullOrWhiteSpace(pi.Pai_Returl)) host = pi.Pai_Returl;
+            //if (!host.EndsWith("/")) host += "/";
+            //构造网页授权获取code的URL          
+            //string path = "Pay/Weixin/Html5Pay.aspx";
+            //string redirect_uri = HttpUtility.UrlEncode(host + path.ToLower());
+            ////返回的状态值，接口id、流水号
+            //string state = "pi:{0},serial:{1}";
+            //state = string.Format(state, pi.Pai_ID, ma.Ma_Serial);
+            ////string url = "https://open.weixin.qq.com/connect/qrconnect?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect";
+            //string url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_base&state={2}%23wechat_redirect&connect_redirect=1#wechat_redirect";
+            //url = string.Format(url, pi.Pai_ParterID.Trim(), redirect_uri, state);
+            //WxPayAPI.Log.Debug(this.GetType().ToString(), "html5支付，获取Code: " + url);
+            string url = "Weixin/Html5Pay.aspx?piid={0}&serial={1}&money={2}";
+            url = string.Format(url, pi.Pai_ID, ma.Ma_Serial, money*100);
             System.Web.HttpContext.Current.Response.Redirect(url);
         }
         #region 其它
