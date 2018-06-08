@@ -571,7 +571,6 @@
     <Content Include="Pay\Images\微信扫码支付.png" />
     <Content Include="Pay\Weixin\Default.aspx" />
     <Content Include="Pay\Weixin\DownloadBillpage.aspx" />
-    <Content Include="Pay\Weixin\Html5Pay_Json.aspx" />
     <Content Include="Pay\Weixin\JsApiPayPage.aspx" />
     <Content Include="Pay\Weixin\MakeQRCode.aspx" />
     <Content Include="Pay\Weixin\MicroPayPage.aspx" />
@@ -585,6 +584,7 @@
     <Content Include="Pay\Weixin\ResultNotifyPage.aspx" />
     <Content Include="Pay\Weixin\miniProgramPay.aspx" />
     <Content Include="Pay\Weixin\Html5Pay.aspx" />
+    <Content Include="Pay\Weixin\Html5PayResultNotify.aspx" />
     <Content Include="Readme.html" />
     <Content Include="Templates\Mobi\Default\CallPhone.htm" />
     <Content Include="Templates\Mobi\Default\CoreScripts\ajaxfileupload.js" />
@@ -2974,13 +2974,6 @@
     <Compile Include="Pay\Weixin\DownloadBillPage.aspx.designer.cs">
       <DependentUpon>DownloadBillpage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Pay\Weixin\Html5Pay_Json.aspx.cs">
-      <DependentUpon>Html5Pay_Json.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Pay\Weixin\Html5Pay_Json.aspx.designer.cs">
-      <DependentUpon>Html5Pay_Json.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Pay\Weixin\JsApiPayPage.aspx.cs">
       <DependentUpon>JsApiPayPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3078,6 +3071,13 @@
     </Compile>
     <Compile Include="Pay\Weixin\Html5Pay.aspx.designer.cs">
       <DependentUpon>Html5Pay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\Html5PayResultNotify.aspx.cs">
+      <DependentUpon>Html5PayResultNotify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\Html5PayResultNotify.aspx.designer.cs">
+      <DependentUpon>Html5PayResultNotify.aspx</DependentUpon>
     </Compile>
     <Compile Include="QQLogin.ashx.cs">
       <DependentUpon>QQLogin.ashx</DependentUpon>

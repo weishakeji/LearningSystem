@@ -141,9 +141,9 @@ namespace Song.Site.Pay.Weixin
                     //付款方信息
                     string buyer=string.Empty;
                     if (acc != null) buyer = string.IsNullOrWhiteSpace(acc.Ac_MobiTel1) ? acc.Ac_AccName : acc.Ac_MobiTel1;
-                   
+                    Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);
                     //统一下单
-                    WxPayData unifiedOrderResult = jsApiPay.GetUnifiedOrderResult("JSAPI", serial, appid, mchid, paykey, notify_url, buyer);
+                    WxPayData unifiedOrderResult = jsApiPay.GetUnifiedOrderResult("JSAPI", org.Org_PlatformName, serial, appid, mchid, paykey, notify_url, buyer);
                     //获取H5调起JS API参数  
                     wxJsApiParam = jsApiPay.GetJsApiParameters(paykey);// 用于前端js调用
                     WxPayAPI.Log.Debug(this.GetType().ToString(), "wxJsApiParam : " + wxJsApiParam);

@@ -75,6 +75,23 @@ namespace WxPayAPI
         */
         public static WxPayData OrderQuery(WxPayData inputObj, int timeOut = 6)
         {
+            return OrderQuery(inputObj, WxPayConfig.APPID, WxPayConfig.MCHID, WxPayConfig.KEY, timeOut);
+        }
+        /// <summary>
+        ///  查询订单
+        ///  @param WxPayData inputObj 提交给查询订单API的参数
+        ///  @param int timeOut 超时时间
+        ///  @throws WxPayException
+        ///  @return 成功时返回订单查询结果，其他抛异常
+        /// </summary>
+        /// <param name="inputObj"></param>
+        /// <param name="appid">绑定支付的appid，公众号id</param>
+        /// <param name="mchid">商户id</param>
+        /// <param name="key">商户支付密钥</param>
+        /// <param name="timeOut"></param>
+        /// <returns></returns>
+        public static WxPayData OrderQuery(WxPayData inputObj, string appid, string mchid, string key, int timeOut = 6)
+        {
             string url = "https://api.mch.weixin.qq.com/pay/orderquery";
             //检测必填参数
             if (!inputObj.IsSet("out_trade_no") && !inputObj.IsSet("transaction_id"))
@@ -82,31 +99,24 @@ namespace WxPayAPI
                 throw new WxPayException("订单查询接口中，out_trade_no、transaction_id至少填一个！");
             }
 
-            inputObj.SetValue("appid", WxPayConfig.APPID);//公众账号ID
-            inputObj.SetValue("mch_id", WxPayConfig.MCHID);//商户号
+            inputObj.SetValue("appid", appid);//公众账号ID
+            inputObj.SetValue("mch_id", mchid);//商户号
             inputObj.SetValue("nonce_str", WxPayApi.GenerateNonceStr());//随机字符串
-            inputObj.SetValue("sign", inputObj.MakeSign(WxPayConfig.KEY));//签名
+            inputObj.SetValue("sign", inputObj.MakeSign(key));//签名
 
             string xml = inputObj.ToXml();
-
             var start = DateTime.Now;
-
-            Log.Debug("WxPayApi", "OrderQuery request : " + xml);
+            //Log.Debug("WxPayApi", "OrderQuery request : " + xml);
             string response = HttpService.Post(xml, url, false, timeOut);//调用HTTP通信接口提交数据
-            Log.Debug("WxPayApi", "OrderQuery response : " + response);
-
+            //Log.Debug("WxPayApi", "OrderQuery response : " + response);
             var end = DateTime.Now;
             int timeCost = (int)((end - start).TotalMilliseconds);//获得接口耗时
-
             //将xml格式的数据转化为对象以返回
             WxPayData result = new WxPayData();
             result.FromXml(response);
-
             ReportCostTime(url, timeCost, result);//测速上报
-
             return result;
         }
-
 
         /**
         * 

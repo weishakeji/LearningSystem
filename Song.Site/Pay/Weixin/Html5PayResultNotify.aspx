@@ -1,9 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Html5Pay.aspx.cs" Inherits="Song.Site.Pay.Weixin.Html5Pay" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Html5PayResultNotify.aspx.cs"
+    Inherits="WxPayAPI.Html5PayResultNotify" %>
 
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>微信Html5支付</title>
+    <title>微信html5支付回调</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -82,56 +84,18 @@
     <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
 </head>
 <body>
-    <form id="form1" runat="server">
     <div class="accinfo">
         <div class="show-tit" id="name">
-            <%= acc.Ac_Name %>
+            <asp:Label ID="lbError" runat="server" Text="请稍候！" CssClass="lbError" Visible="false"></asp:Label>
+            <asp:Label ID="lbSucess" runat="server" Text="支付成功！" CssClass="lbSucess" Visible="false"></asp:Label>
         </div>
+        
         <div class="img-line">
-            <img src="<%= path %><%= acc.Ac_Photo %>" id="photo" def="/Utility/images/nophoto.jpg" /></div>
+            </div>
         <div class="show-tit" id="Div1">
             充值金额：&yen; <%= ((float)total_fee)/100%> 元
         </div>
     </div>
-    <div class="operation"><a class="btn-green" id="getBrandWCPayRequest" href="#">确认充值</a></div>
-    <div class="footer">
-        <a href="#" onclick="self.location='/Mobile/recharge.ashx';">如无法正常返回，请点击</a></div>
-    </form>
-    <script type="text/javascript">
-        String.prototype.format = function (args) {
-            if (arguments.length < 1) return this;
-            var primary = this;
-            for (var i = 0; i < arguments.length; i++) {
-                primary = primary.replace(eval('/\\{' + i + '\\}/g'), arguments[i]);
-            }
-            return primary;
-        }
-        $('img').error(function () {
-            $(this).attr('src', $(this).attr('def'));
-        });
-        var referrer = document.referrer;       
-    </script>
-    <script src="//wx.gtimg.com/wxpay_h5/fingerprint2.min.1.4.1.js"></script>
-    <script type="text/javascript">
-
-        var piid = "<%= piid %>";
-        var serial = "<%= serial %>";
-        var returl = encodeURIComponent("<%= notify_url%>");
-        var rawurl = encodeURIComponent("<%= notify_url%>?piid=" + piid + "&serial=" + serial);
-        //获取code
-        var fp = new Fingerprint2();
-        //result为浏览器指纹
-        fp.get(function (result) {
-            //alert(result);
-            $.post(window.location.href, { code: result, piid: piid, serial: serial, returl: returl }, 
-                function (d) {                
-                    if (Number(d) != 0) {
-                        $('#getBrandWCPayRequest').attr("href", d.mweb_url + '&redirect_url=' + rawurl);
-                    } else {
-                        alert("下单失败！");
-                    }
-                }, "json");
-        });
-    </script>
+    <div class="operation"><a class="btn-green" id="getBrandWCPayRequest" href="/Mobile/recharge.ashx">返 回</a></div>
 </body>
 </html>

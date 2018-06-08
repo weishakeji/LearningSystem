@@ -24,8 +24,12 @@ namespace WxPayAPI
         /// <summary>
         /// openid用于调用统一下单接口
         /// </summary>
-        public string openid { get; set; }
-
+        public string openid
+        {
+            get { return _openid; }
+            set { _openid = value; }
+        }
+        private string _openid = string.Empty;
         /// <summary>
         /// access_token用于获取收货地址js函数入口参数
         /// </summary>
@@ -151,12 +155,13 @@ namespace WxPayAPI
         /// <returns> 统一下单结果</returns>
         public WxPayData GetUnifiedOrderResult(string out_trade_no)
         {
-            return GetUnifiedOrderResult("JSAPI", out_trade_no, WxPayConfig.APPID, WxPayConfig.MCHID, WxPayConfig.KEY, WxPayConfig.NOTIFY_URL, "null");
+            return GetUnifiedOrderResult("JSAPI", "recharge", out_trade_no, WxPayConfig.APPID, WxPayConfig.MCHID, WxPayConfig.KEY, WxPayConfig.NOTIFY_URL, "null");
         }
         /// <summary>
         ///  调用统一下单，获得下单结果
         /// </summary>
         /// <param name="tracetype">支付方式，（JSAPI 公众号支付、NATIVE 扫码支付、APP APP支付、MWEB H5支付）</param>
+        /// <param name="body">平台名称</param>
         /// <param name="out_trade_no">商户订单号</param>
         /// <param name="appid">公众号id</param>
         /// <param name="mchid">商户id</param>
@@ -164,12 +169,12 @@ namespace WxPayAPI
         /// <param name="notify_url">返回域</param>
         /// <param name="buyer">付款方账号（学习系统账号，非微信账号）</param>
         /// <returns></returns>
-        public WxPayData GetUnifiedOrderResult(string tracetype, string out_trade_no, string appid, string mchid, string paykey, string notify_url, string buyer)
+        public WxPayData GetUnifiedOrderResult(string tracetype, string body, string out_trade_no, string appid, string mchid, string paykey, string notify_url, string buyer)
         {
             //统一下单
             WxPayData data = new WxPayData();
             //商品简单描述，该字段请按照规范传递,(商家名称-销售商品类目)https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_2
-            data.SetValue("body", "recharge");
+            data.SetValue("body", body);
             //附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
             data.SetValue("attach", buyer);
             //商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。 
