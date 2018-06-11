@@ -82,11 +82,12 @@
         }
     </style>
     <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
 </head>
 <body>
     <div class="accinfo">
         <div class="show-tit" id="name">
-            <asp:Label ID="lbError" runat="server" Text="请稍候！" CssClass="lbError" Visible="false"></asp:Label>
+            <asp:Label ID="lbError" runat="server" Text="如果不是主动取消支付，请稍候！" CssClass="lbError" Visible="false"></asp:Label>
             <asp:Label ID="lbSucess" runat="server" Text="支付成功！" CssClass="lbSucess" Visible="false"></asp:Label>
         </div>
         
@@ -97,5 +98,17 @@
         </div>
     </div>
     <div class="operation"><a class="btn-green" id="getBrandWCPayRequest" href="/Mobile/recharge.ashx">返 回</a></div>
+     <script type="text/javascript">
+         function gourl() {
+             window.location.href = $().setPara(window.location.href, "t", new Date().getTime());
+         }
+         $(function () {
+             var lbSucess = $(".lbSucess");
+             if (lbSucess.size() < 1) {
+                 setTimeout("gourl()", 1000);
+             }
+         });
+         
+     </script>
 </body>
 </html>
