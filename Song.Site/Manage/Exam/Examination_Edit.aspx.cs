@@ -23,8 +23,10 @@ namespace Song.Site.Manage.Exam
         private int id = WeiSha.Common.Request.QueryString["id"].Decrypt().Int32 ?? 0;
         //专业
         Song.Entities.Subject[] sbjs = null;
+        Song.Entities.Organization org = null;
         protected void Page_Load(object sender, EventArgs e)
         {
+            org = Business.Do<IOrganization>().OrganCurrent();
             if (!this.IsPostBack)
             {
                 InitBind();
@@ -36,12 +38,27 @@ namespace Song.Site.Manage.Exam
         /// </summary>
         private void InitBind()
         {
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             Song.Entities.StudentSort[] sts = Business.Do<IStudent>().SortCount(org.Org_ID, true, 0);
             this.lbSort.DataSource = sts;
             this.lbSort.DataTextField = "Sts_Name";
             this.lbSort.DataValueField = "Sts_ID";
             this.lbSort.DataBind();
+            //绑定专业
+            if (this.sbjs == null)
+            {
+                sbjs = Business.Do<ISubject>().SubjectCount(org.Org_ID, null, true, -1, 0);
+                //foreach (Song.Entities.Subject s in this.sbjs)
+                //{
+                //    int count = Business.Do<ITestPaper>().PagerOfCount(org.Org_ID, s.Sbj_ID, -1, -1, true);
+                //    s.Sbj_Name = s.Sbj_Name + "  (" + count + ")";
+                //}
+            }
+            ddlSubject.DataSource = sbjs;
+            ddlSubject.DataTextField = "Sbj_Name";
+            ddlSubject.DataValueField = "Sbj_ID";
+            ddlSubject.Root = 0;
+            ddlSubject.DataBind();
+            ddlSubject.Items.Insert(0, new ListItem(ddlSubject.Items.Count < 1 ? "--（没有专业）--" : "", "-1"));
 
         }
         void fill()
@@ -328,25 +345,13 @@ namespace Song.Site.Manage.Exam
             //当为数据行时
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                 //学科/专业
-                DropDownTree ddl = (DropDownTree)e.Row.FindControl("ddlSubject");
-                if (this.sbjs == null)
-                {
-                    sbjs = Business.Do<ISubject>().SubjectCount(org.Org_ID, null, true, -1, 0);
-                    foreach (Song.Entities.Subject s in this.sbjs)
-                    {
-                        int count = Business.Do<ITestPaper>().PagerOfCount(org.Org_ID, s.Sbj_ID, -1, -1, true);
-                        s.Sbj_Name = s.Sbj_Name + "  (" + count + ")";
-                    }
-                }
-                ddl.DataSource = sbjs;
+                DropDownList ddl = (DropDownList)e.Row.FindControl("ddlSubject");
+                ddl.DataSource = ddlSubject.DataSource;
                 ddl.DataTextField = "Sbj_Name";
                 ddl.DataValueField = "Sbj_ID";
-                ddl.Root = 0;
                 ddl.DataBind();
-                ddl.Items.Insert(0, new ListItem(ddl.Items.Count < 1 ? "--（没有专业）--" : "", "-1"));                
-               
+
                 //当前选中状态
                 Song.Entities.Examination exam = (Song.Entities.Examination)e.Row.DataItem;
                 ListItem liSubj = ddl.Items.FindByValue(exam.Sbj_ID.ToString());

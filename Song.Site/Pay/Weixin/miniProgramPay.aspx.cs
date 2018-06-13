@@ -15,7 +15,7 @@ namespace Song.Site.Pay.Weixin
     public partial class miniProgramPay : System.Web.UI.Page
     {
         //微信授权code，通过它获取access_token和openid
-        private string code = WeiSha.Common.Request.QueryString["code"].String;
+        private string code = WeiSha.Common.Request.QueryString["scode"].String;
         //自己传递的参数被回调回来了，面值、流水号、机构id(例如total_fee:{0},serial:{1},orgid:{2})
         private string state = WeiSha.Common.Request.QueryString["state"].String;
         int total_fee = 0;  //充值的钱数
@@ -35,27 +35,18 @@ namespace Song.Site.Pay.Weixin
         protected Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
         protected string path = WeiSha.Common.Upload.Get["Accounts"].Virtual;
         //H5调起JS API参数
-        public static string wxJsApiParam { get; set; } 
+        public static string wxJsApiParam { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
-            {
-                //初始化数据，主要是解析state
-                if (!string.IsNullOrWhiteSpace(state)) initData(state);
-                //获取token和openid
-                if (!string.IsNullOrWhiteSpace(code)) GetOpenidAndAccessTokenFromCode(code);
-                //当前登录账号
-                if (acc == null) Response.Redirect("/mobile/login.ashx");
-                //支付
-                JsApiPayPage();
-            }
-            //异步请求
-            if (Request.ServerVariables["REQUEST_METHOD"] == "POST")
-            {
-                code = WeiSha.Common.Request.Form["code"].String;
-                if (!string.IsNullOrWhiteSpace(code)) GetOpenidAndAccessTokenFromCode(code);
+            WxPayAPI.Log.Info(this.GetType().ToString(), "QueryString Code : " + WeiSha.Common.Request.QueryString["scode"].String);
 
-            }
+            WxPayAPI.Log.Info(this.GetType().ToString(), "来自小程序的Code : " + code);
+            if (!string.IsNullOrWhiteSpace(code)) GetOpenidAndAccessTokenFromCode(code);
+            WxPayAPI.Log.Info(this.GetType().ToString(), "小程序获取OpenID : " + openid);
+            JsonData jd = new JsonData();
+            jd["openid"] = openid;
+            Response.Write(jd.ToString());
+            Response.End();
 
         }
         /// <summary>

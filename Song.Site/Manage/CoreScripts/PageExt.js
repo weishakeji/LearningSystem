@@ -202,7 +202,7 @@ function OpenSysWin(id, title, winname) {
     }
 
     path = id != null ? AddPara(path, "id", id) : path;
-    path = pid != "-1" ? AddPara(path, "pid", pid) : path;
+    path = pid != "-1" || pid!="" ? AddPara(path, "pid", pid) : path;
     //
     var btnMod = $("input[name$='btnModify']");
     var ext = title;

@@ -102,7 +102,11 @@
                             场次：
                         </td>
                         <td>
-                            <asp:Label ID="lbMaxnum" runat="server" Text="6" Visible="false"></asp:Label>
+                            <div style="display:none"><asp:Label ID="lbMaxnum" runat="server" Text="6"></asp:Label>
+                            <cc1:DropDownTree ID="ddlSubject" runat="server" Width="120px" IdKeyName="Sbj_ID"
+                            ParentIdKeyName="Sbj_PID" TaxKeyName="Sbj_Tax">
+                        </cc1:DropDownTree>
+                            </div>
                         </td>
                     </tr>
                 </table>
@@ -126,9 +130,8 @@
                 <asp:TemplateField HeaderText="专业">
                     <ItemStyle Width="120px" />
                     <ItemTemplate>
-                        <cc1:DropDownTree ID="ddlSubject" runat="server" Width="120px" IdKeyName="Sbj_ID"
-                            ParentIdKeyName="Sbj_PID" TaxKeyName="Sbj_Tax">
-                        </cc1:DropDownTree>
+                        <asp:DropDownList ID="ddlSubject" runat="server" Width="120px">
+                        </asp:DropDownList>
                         <span style="display: none">
                             <asp:Label ID="lbID" runat="server" Text='<%# Eval("Exam_ID","{0}")%>'></asp:Label></span>
                     </ItemTemplate>
