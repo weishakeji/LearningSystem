@@ -11,15 +11,26 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telephone=yes" />
     <meta name="format-detection" content="email=no" />
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js" type="text/javascript"></script>
 </head>
 <body>
-<script type="text/javascript">
-    if (window.__wxjs_environment === 'miniprogram') {
-        wx.miniProgram.navigateTo({
-            url: '/pages/wxpay/wxpay?orderid=' + id
-        })
-    }
-</script>
+    <div>
+        wxjs:<span id="wxjs"></span></div>
+    <div id="btn">
+        按钮</div>
+    <script type="text/javascript">
+        $("#wxjs").text(window.__wxjs_environment);
+        $("#btn").click(function () {
+            //if (window.__wxjs_environment === 'miniprogram') {
+            wx.miniProgram.navigateBack();
+            wx.miniProgram.postMessage({ data: 'foo' })
+            wx.miniProgram.navigateTo({
+                url: '/pages/wxpay/pay'
+            });
+            //}
+        });
+    </script>
+    正在打开支付界面！
 </body>
 </html>

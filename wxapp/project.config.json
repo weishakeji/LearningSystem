@@ -13,7 +13,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.0.8",
 	"appid": "wxfb7305182fc86915",
-	"projectname": "im",
+	"projectname": "wxapp",
 	"isGameTourist": false,
 	"condition": {
 		"search": {

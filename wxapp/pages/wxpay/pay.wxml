@@ -1,0 +1,3 @@
+<view class="container">
+      <text class="label-1__text">{{tt}}</text>
+</view>

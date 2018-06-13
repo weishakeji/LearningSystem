@@ -7,14 +7,14 @@ Page({
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
-  },
+  },  
   //事件处理函数
   bindViewTap: function() {
     wx.navigateTo({
       url: '../logs/logs'
     })
   },
-  onLoad: function () {
+  onLoad: function () {   
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -46,7 +46,7 @@ Page({
       success: (res) => {   
         wx.request({
           method: "GET",
-          url: 'https://exam.weisha100.cn/pay/weixin/miniProgramPay.aspx', 
+          url: 'https://exam.weisha100.cn/pay/weixin/miniProgramOpenid.aspx', 
           data: {
             scode: res.code   // 使用wx.login得到的登陆凭证，用于换取openid  
           },
@@ -62,7 +62,7 @@ Page({
                 //url: 'https://xxxx.xxx.xxx/?openid=' + res.data
               });
             }
-            console.log("openid:"+d.sopenid)
+            console.log("openid:"+d.data)
           }
         })
         console.log("code:"+res.code) //这里只是为了在微信小程序客户端好查看结果，找寻问题  

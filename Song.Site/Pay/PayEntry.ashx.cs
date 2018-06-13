@@ -231,25 +231,9 @@ namespace Song.Site.Pay
         /// <param name="pi"></param>
         /// <param name="ma"></param>
         private void WeixinMiniProgramPay(Song.Entities.PayInterface pi, Song.Entities.MoneyAccount ma)
-        {
-            string host = System.Web.HttpContext.Current.Request.Url.Host + ":" + WeiSha.Common.Server.Port + "/";
-            if (!string.IsNullOrWhiteSpace(pi.Pai_Returl)) host = pi.Pai_Returl;
-            if (!host.EndsWith("/")) host += "/";
-            //构造网页授权获取code的URL          
-            string path = "Pay/Weixin/miniProgramPay.aspx";
-            //System.Web.HttpContext.Current.Response.Write(host + path);
-            string redirect_uri = HttpUtility.UrlEncode(host + path.ToLower());
-            WxPayAPI.WxPayData data = new WxPayAPI.WxPayData();
-            data.SetValue("appid", pi.Pai_ParterID);
-            data.SetValue("redirect_uri", redirect_uri);
-            data.SetValue("response_type", "code");
-            data.SetValue("scope", "snsapi_base");
-            //返回的状态值，接口id、流水号
-            string state = "pi:{0},serial:{1}";
-            state = string.Format(state, pi.Pai_ID, ma.Ma_Serial);
-            data.SetValue("state", state + "#wechat_redirect");
-            string url = "https://open.weixin.qq.com/connect/oauth2/authorize?" + data.ToUrl();
-            WxPayAPI.Log.Debug(this.GetType().ToString(), "获取Code: " + url);
+        {    
+            string url = "Weixin/miniProgramPay.aspx?piid={0}&serial={1}&money={2}";
+            url = string.Format(url, pi.Pai_ID, ma.Ma_Serial, money * 100);
             System.Web.HttpContext.Current.Response.Redirect(url);
         }
         /// <summary>
@@ -259,19 +243,6 @@ namespace Song.Site.Pay
         /// <param name="ma"></param>
         private void WeixinH5Pay(Song.Entities.PayInterface pi, Song.Entities.MoneyAccount ma)
         {
-            //string host = System.Web.HttpContext.Current.Request.Url.Host + ":" + WeiSha.Common.Server.Port + "/";
-            //if (!string.IsNullOrWhiteSpace(pi.Pai_Returl)) host = pi.Pai_Returl;
-            //if (!host.EndsWith("/")) host += "/";
-            //构造网页授权获取code的URL          
-            //string path = "Pay/Weixin/Html5Pay.aspx";
-            //string redirect_uri = HttpUtility.UrlEncode(host + path.ToLower());
-            ////返回的状态值，接口id、流水号
-            //string state = "pi:{0},serial:{1}";
-            //state = string.Format(state, pi.Pai_ID, ma.Ma_Serial);
-            ////string url = "https://open.weixin.qq.com/connect/qrconnect?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect";
-            //string url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_base&state={2}%23wechat_redirect&connect_redirect=1#wechat_redirect";
-            //url = string.Format(url, pi.Pai_ParterID.Trim(), redirect_uri, state);
-            //WxPayAPI.Log.Debug(this.GetType().ToString(), "html5支付，获取Code: " + url);
             string url = "Weixin/Html5Pay.aspx?piid={0}&serial={1}&money={2}";
             url = string.Format(url, pi.Pai_ID, ma.Ma_Serial, money*100);
             System.Web.HttpContext.Current.Response.Redirect(url);
