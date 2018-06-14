@@ -25,21 +25,17 @@ namespace Song.Site.Pay.Weixin
         protected string openid = WeiSha.Common.Request.QueryString["openid"].String;   
         //回调地址  
         protected string notify_url = WeiSha.Common.Request.QueryString["notify_url"].String;   
-        //支付接口id
-        Song.Entities.PayInterface payInterface = null;
+        ////支付接口id
+        //Song.Entities.PayInterface payInterface = null;
         protected void Page_Load(object sender, EventArgs e)
         {            
-            //支付下单
-            WxPayData result = JsApiPayPage();
-            WxPayAPI.Log.Debug(this.GetType().ToString(), "统一下单返回 : " + result.ToJson());
-            if (result != null) Response.Write(result.ToJson());
-            if (result == null) Response.Write("0");
+            Response.Write(JsApiPayPage());
             Response.End();
         }
         /// <summary>
         /// 生成js调用相关数据
         /// </summary>
-        public WxPayData JsApiPayPage()
+        public string JsApiPayPage()
         {
             //检测是否给当前页面传递了相关参数
             if (total_fee <= 0)
@@ -59,9 +55,13 @@ namespace Song.Site.Pay.Weixin
                 string buyer = string.Empty;
                 Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
                 if (acc != null) buyer = string.IsNullOrWhiteSpace(acc.Ac_MobiTel1) ? acc.Ac_AccName : acc.Ac_MobiTel1;
-                Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);
-                //统一下单
-                return jsApiPay.GetUnifiedOrderResult("JSAPI", org.Org_PlatformName, serial, appid, mchid, paykey, notify_url, buyer);
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);                
+                //统一下单                
+                WxPayData unifiedOrderResult = jsApiPay.GetUnifiedOrderResult("JSAPI", org.Org_PlatformName, serial, appid, mchid, paykey, notify_url, buyer);
+                //获取H5调起JS API参数  
+                string wxJsApiParam = jsApiPay.GetJsApiParameters(paykey);// 用于前端js调用
+                WxPayAPI.Log.Debug(this.GetType().ToString(), "获取H5调起JS API参数："+wxJsApiParam);
+                return wxJsApiParam;
 
             }
             catch (Exception ex)

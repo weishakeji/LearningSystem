@@ -38,6 +38,7 @@ Page({
   //  
   //发起统一定单
   getorder: function (openid, options) {
+    var that = this;
     console.log("openid:" + openid);
     console.log("options:" + options.appid);
     console.log("自定义测试成功:" + options.appid);
@@ -54,9 +55,43 @@ Page({
       },
       success: (d) => {
         //that.getorder(d.data, that.data.options)
-        console.log("json:" + d.data.result_code)
+        //console.log("json:" + d.data.package)
+        that.pay(d.data);
       }
     })
-    return 4;
-  }
+    //return 4;
+  },
+  //调取支付功能
+  pay:function(data){
+    console.log(data)
+    var that = this
+    wx.requestPayment({
+      timeStamp: data.timeStamp,
+      nonceStr: data.nonceStr,
+      package: data.package,
+      signType: 'MD5',
+      paySign: data.paySign,
+      success: function (res) {
+        // 支付成功  
+        that.navback()
+      },
+      fail: function (res) {
+        if (res.errMsg === "requestPayment:fail cancel") {
+          // 用户取消支付  
+          that.navback()
+          return
+        }
+        if (res.errMsg === "requestPayment:fail") {
+          console.log(res.err_desc) // 错误信息  
+          that.navback()
+          return
+        }
+      }
+    })  
+  }  ,
+  navback: () => {
+    setTimeout(function () {
+      wx.navigateBack({ delta: 1 })
+    }, 1000)
+  } 
 })
