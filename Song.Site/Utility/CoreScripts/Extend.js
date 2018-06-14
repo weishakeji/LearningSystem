@@ -343,3 +343,13 @@ jQuery.fn.SoapAjax = function (service, sfunc, para, successFunc, loadfunc, unlo
         }
     });
 }
+//网页是否处于微信内置浏览器
+jQuery.fn.isWeixin = function () {
+    var ua = window.navigator.userAgent.toLowerCase();
+    return ua.match(/MicroMessenger/i) == 'micromessenger';
+}
+//网页是否处于微信小程序内置浏览器
+jQuery.fn.isWeixinApp = function () {
+    var ua = window.navigator.userAgent.toLowerCase();
+    return ua.match(/miniProgram/i) == 'miniprogram';
+}

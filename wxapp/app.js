@@ -1,5 +1,9 @@
 //app.js
 App({
+  data: {
+    //服务器地址(末尾不要加斜杠/)
+    server: "https://exam.weisha100.cn"
+  },
   onLaunch: function () {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []

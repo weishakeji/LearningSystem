@@ -232,8 +232,8 @@ namespace Song.Site.Pay
         /// <param name="ma"></param>
         private void WeixinMiniProgramPay(Song.Entities.PayInterface pi, Song.Entities.MoneyAccount ma)
         {    
-            string url = "Weixin/miniProgramPay.aspx?piid={0}&serial={1}&money={2}";
-            url = string.Format(url, pi.Pai_ID, ma.Ma_Serial, money * 100);
+            string url = "Weixin/miniProgramPay.aspx?piid={0}&serial={1}&money={2}&org={3}";
+            url = string.Format(url, pi.Pai_ID, ma.Ma_Serial, money * 100, ma.Org_ID);
             System.Web.HttpContext.Current.Response.Redirect(url);
         }
         /// <summary>

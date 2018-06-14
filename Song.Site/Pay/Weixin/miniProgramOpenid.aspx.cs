@@ -20,7 +20,6 @@ namespace Song.Site.Pay.Weixin
         string paykey = string.Empty;   //商户支付密钥
         string appid = string.Empty;    //公众号appid
         string secret = string.Empty;   //公众号secret
-        string notify_url = string.Empty;   //回调地址
         string token = string.Empty;    
         string openid = string.Empty;        
         //支付接口id
@@ -64,13 +63,7 @@ namespace Song.Site.Pay.Weixin
                 secret = payInterface.Pai_Key;      //公众帐号secert（仅JSAPI支付的时候需要配置）
                 WeiSha.Common.CustomConfig config = CustomConfig.Load(payInterface.Pai_Config);
                 mchid = config["MCHID"].Value.String;    //商户id
-                paykey = config["Paykey"].Value.String;  //支付密钥
-                //回调地址
-                notify_url = this.payInterface.Pai_Returl;
-                if (string.IsNullOrWhiteSpace(notify_url)) notify_url = "http://" + WeiSha.Common.Server.Domain + "/";
-                if (!notify_url.EndsWith("/")) notify_url += "/";
-                notify_url += "Pay/Weixin/ResultNotifyPage.aspx";
-                WxPayAPI.Log.Debug(this.GetType().ToString(), "支付回调地址: " + notify_url);
+                paykey = config["Paykey"].Value.String;  //支付密钥                
             }
         }
         /// <summary>
@@ -81,13 +74,6 @@ namespace Song.Site.Pay.Weixin
         {
             try
             {
-                //构造获取openid及access_token的url
-                //WxPayAPI.WxPayData data = new WxPayAPI.WxPayData();
-                //data.SetValue("appid", appid);
-                //data.SetValue("secret", secret);
-                //data.SetValue("code", code);
-                //data.SetValue("grant_type", "authorization_code");
-                //string url = "https://api.weixin.qq.com/sns/oauth2/access_token?" + data.ToUrl();
                 string url = "https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code";
                 url = string.Format(url, appid, secret, code);
                 //请求url以获取数据

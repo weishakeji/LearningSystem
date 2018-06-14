@@ -1,5 +1,5 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="miniProgramPay.aspx.cs"
-    Inherits="Song.Site.Pay.Weixin.miniProgramPay" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="miniProgramCall.aspx.cs"
+    Inherits="Song.Site.Pay.Weixin.miniProgramCall" %>
 
 <!doctype html>
 <html>
@@ -113,13 +113,9 @@
         var total_fee = "<%= total_fee %>";
         var serial = "<%= serial %>";
         var org = "<%= orgid %>";
-        //回调域
-        var notify_url = encodeURIComponent("<%= notify_url %>");
-        //
-        //打开小程序页面的方法
         function goPaymini() {
-            var pageurl = "/pages/wxpay/pay?appid={0}&secret={1}&mchid={2}&paykey={3}&total_fee={4}&serial={5}&org={6}&notify_url={7}";
-            pageurl = pageurl.format(appid, secret, mchid, paykey, total_fee, serial, org, notify_url);
+            var pageurl = "/pages/wxpay/pay?appid={0}&secret={1}&mchid={2}&paykey={3}&total_fee={4}&serial={5}&org={6}";
+            pageurl = pageurl.format(appid, secret, mchid, paykey, total_fee, serial, org);
             wx.miniProgram.navigateTo({ url: pageurl });
         }
         $("#btn").click(goPaymini);
