@@ -31,12 +31,6 @@ namespace Song.Site.Pay.Weixin
         protected void Page_Load(object sender, EventArgs e)
         {            
             initData();
-            ////支付下单
-            //WxPayData result = JsApiPayPage();
-            //WxPayAPI.Log.Debug(this.GetType().ToString(), "统一下单返回 : " + result.ToJson());
-            //if (result != null) Response.Write(result.ToJson());
-            //if (result == null) Response.Write("0");
-            //Response.End();
         }
         /// <summary>
         /// 初始化数据
@@ -55,7 +49,7 @@ namespace Song.Site.Pay.Weixin
             string retdomain = this.payInterface.Pai_Returl;
             if (string.IsNullOrWhiteSpace(retdomain)) retdomain = "http://" + WeiSha.Common.Server.Domain + "/";
             if (!retdomain.EndsWith("/")) retdomain += "/";
-            notify_url = retdomain + "Pay/Weixin/Html5PayResultNotify.aspx";
+            notify_url = retdomain + "Pay/Weixin/miniProgramResult.aspx";
             notify_url = notify_url.ToLower();
         }
     }

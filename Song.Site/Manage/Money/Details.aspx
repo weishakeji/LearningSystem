@@ -17,7 +17,7 @@
                 EnableTheming="false"></asp:TextBox>
             &nbsp;<asp:DropDownList ID="ddlForm" runat="server" Width="90">
                 <asp:ListItem Value="-1">--所有来源--</asp:ListItem>
-                <asp:ListItem Value="2">充值码充值</asp:ListItem>
+                <%--<asp:ListItem Value="2">充值码充值</asp:ListItem>--%>
                 <asp:ListItem Value="3">在线支付</asp:ListItem>
                 <asp:ListItem Value="1">管理员操作</asp:ListItem>
             </asp:DropDownList>

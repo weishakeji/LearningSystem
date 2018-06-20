@@ -10,9 +10,9 @@ using Song.ServiceInterfaces;
 namespace WxPayAPI
 {
     /// <summary>
-    /// 微信Html5支付的回调处理
+    /// 小程序支付的回调处理
     /// </summary>
-    public partial class Html5PayResultNotify : System.Web.UI.Page
+    public partial class miniProgramResult : System.Web.UI.Page
     {
         protected int total_fee = 0;  //充值的钱数
         //int piid = WeiSha.Common.Request.QueryString["piid"].Int32 ?? 0;
@@ -35,7 +35,7 @@ namespace WxPayAPI
                 data.SetValue("out_trade_no", serial);  //商户订单号
                 WxPayData result = WxPayApi.OrderQuery(data, appid, mchid, paykey);//提交订单查询请求给API，接收返回数据
 
-                Log.Info("OrderQuery", "订单查询结果GET, result : " + result.ToXml());
+                Log.Info("OrderQuery", "小程序-订单查询结果GET, result : " + result.ToXml());
                 string state = result.GetValue("trade_state").ToString();
                 if (state == "SUCCESS")
                 {
@@ -60,7 +60,7 @@ namespace WxPayAPI
                 //获取结果
                 WxPayData notifyData = resultNotify.GetNotifyData();
                 string out_trade_no = notifyData.GetValue("out_trade_no").ToString();
-                Log.Info(this.GetType().ToString(), "商户流水号 : " + out_trade_no);
+                Log.Info(this.GetType().ToString(), "小程序支付-商户流水号 : " + out_trade_no);
                 if (!string.IsNullOrWhiteSpace(out_trade_no))
                 {
                     Song.Entities.MoneyAccount maccount = Business.Do<IAccounts>().MoneySingle(out_trade_no);

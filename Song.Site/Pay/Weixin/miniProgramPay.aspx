@@ -120,7 +120,11 @@
         function goPaymini() {
             var pageurl = "/pages/wxpay/pay?appid={0}&secret={1}&mchid={2}&paykey={3}&total_fee={4}&serial={5}&org={6}&notify_url={7}";
             pageurl = pageurl.format(appid, secret, mchid, paykey, total_fee, serial, org, notify_url);
-            wx.miniProgram.navigateTo({ url: pageurl });
+            wx.miniProgram.navigateTo({ url: pageurl, success: function () {
+                window.location.href = "Html5PayResultNotify.aspx?serial=" + serial;
+            } });
+            //setTimeout('clearWord( )', 3000);
+            
         }
         $("#btn").click(goPaymini);
         window.onload = goPaymini;

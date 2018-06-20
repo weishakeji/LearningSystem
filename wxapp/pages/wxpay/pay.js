@@ -10,7 +10,7 @@ Page({
       options: options
     })
     wx.showToast({
-      title: '正在获取Openid',
+      title: '拉取支付界面',
       icon: 'loading',
       duration: 2000,
       mask: true
@@ -92,6 +92,6 @@ Page({
   navback: () => {
     setTimeout(function () {
       wx.navigateBack({ delta: 1 })
-    }, 1000)
+    }, 100)
   } 
 })

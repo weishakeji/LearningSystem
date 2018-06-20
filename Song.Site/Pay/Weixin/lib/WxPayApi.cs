@@ -106,9 +106,9 @@ namespace WxPayAPI
 
             string xml = inputObj.ToXml();
             var start = DateTime.Now;
-            //Log.Debug("WxPayApi", "OrderQuery request : " + xml);
+            Log.Debug("WxPayApi", "OrderQuery request : " + xml);
             string response = HttpService.Post(xml, url, false, timeOut);//调用HTTP通信接口提交数据
-            //Log.Debug("WxPayApi", "OrderQuery response : " + response);
+            Log.Debug("WxPayApi", "OrderQuery response : " + response);
             var end = DateTime.Now;
             int timeCost = (int)((end - start).TotalMilliseconds);//获得接口耗时
             //将xml格式的数据转化为对象以返回

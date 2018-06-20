@@ -587,6 +587,7 @@
     <Content Include="Pay\Weixin\Html5PayResultNotify.aspx" />
     <Content Include="Pay\Weixin\miniProgramOpenid.aspx" />
     <Content Include="Pay\Weixin\miniProgramCall.aspx" />
+    <Content Include="Pay\Weixin\miniProgramResult.aspx" />
     <Content Include="Readme.html" />
     <Content Include="Templates\Mobi\Default\CallPhone.htm" />
     <Content Include="Templates\Mobi\Default\CoreScripts\ajaxfileupload.js" />
@@ -3094,6 +3095,13 @@
     </Compile>
     <Compile Include="Pay\Weixin\miniProgramCall.aspx.designer.cs">
       <DependentUpon>miniProgramCall.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramResult.aspx.cs">
+      <DependentUpon>miniProgramResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramResult.aspx.designer.cs">
+      <DependentUpon>miniProgramResult.aspx</DependentUpon>
     </Compile>
     <Compile Include="QQLogin.ashx.cs">
       <DependentUpon>QQLogin.ashx</DependentUpon>

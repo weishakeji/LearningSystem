@@ -43,7 +43,7 @@ namespace WxPayAPI
         {
             object o = null;
             m_values.TryGetValue(key, out o);
-            return o;
+            return o == null ? string.Empty : o;
         }
 
         /**

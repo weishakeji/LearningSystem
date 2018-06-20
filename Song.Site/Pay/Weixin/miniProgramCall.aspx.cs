@@ -55,7 +55,8 @@ namespace Song.Site.Pay.Weixin
                 string buyer = string.Empty;
                 Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
                 if (acc != null) buyer = string.IsNullOrWhiteSpace(acc.Ac_MobiTel1) ? acc.Ac_AccName : acc.Ac_MobiTel1;
-                Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);                
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);
+                WxPayAPI.Log.Debug(this.GetType().ToString(), "回调域：" + notify_url);
                 //统一下单                
                 WxPayData unifiedOrderResult = jsApiPay.GetUnifiedOrderResult("JSAPI", org.Org_PlatformName, serial, appid, mchid, paykey, notify_url, buyer);
                 //获取H5调起JS API参数  
