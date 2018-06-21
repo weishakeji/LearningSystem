@@ -307,6 +307,17 @@ Date.prototype.Format = function (fmt) { //author: meizz
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+//将时间转换为指定的时区
+Date.prototype.toLocal = function (timezone) {
+    //本地时间与格林威治时间的时间差，单位为小时
+    var gmtHours =  -new Date().getTimezoneOffset() / 60;
+    if(typeof(timezone)!="number")timezone=Number(timezone);
+    var minutes=(timezone-gmtHours)*60;
+    var local=this;
+    local.setMinutes (local.getMinutes () - minutes);
+
+    return local;
+}
 String.prototype.format = function (args) {
     if (arguments.length < 1) return this;
     var primary = this;

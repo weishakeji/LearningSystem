@@ -262,7 +262,8 @@ namespace Song.ServiceImpls
         }
         public Special[] Article4Special(int identify)
         {
-            return Gateway.Default.From<Special>().InnerJoin<Special_Article>(Special_Article._.Sp_Id == Special._.Sp_Id).Where(Special_Article._.Art_Id == identify).ToArray<Special>();
+            return Gateway.Default.From<Special>().InnerJoin<Special_Article>(Special_Article._.Sp_Id == Special._.Sp_Id)
+                .Where(Special_Article._.Art_Id == identify).ToArray<Special>();
         }
 
         public Article[] ArticleCount(int orgid, int colid, int topNum, string order)

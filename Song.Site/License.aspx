@@ -31,9 +31,12 @@ body {
 	margin-left: auto;
 	color: #CCC;
 }
+#header .top span{	
+	color: #CCFF66;
+}
 #header .verInfo {
 	background-color: #ccc;
-	height: 80px;
+	height: 80px;	
 }
 .title {
 	line-height: 50px;
@@ -51,7 +54,7 @@ body {
 	font-weight: bold;
 	color: #333333;
 	height: 50px;
-	margin-left: 10px;
+	margin-left: 0px;
 	min-width: 300px;
 	float: left;
 	margin-right:10px;
@@ -146,7 +149,7 @@ a {
 	cursor: pointer;
 }
 .gv {
-	width: 800px;
+	width: 780px;
 	margin: 10px;
 }
 .gv th {
@@ -169,7 +172,6 @@ a {
 	_bottom: auto;
 	_width: 100%;
 	_position: absolute;
-_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight- (parseInt(this.currentStyle.marginTop, 10)||0)-(parseInt(this.currentStyle.marginBottom, 10)||0)));
 }
 #footer a {
 	color: #fff;
@@ -193,9 +195,9 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
     <div id="header">
         <div class="top">
             系统于
-            <asp:Label ID="lbInitDate" runat="server" ForeColor="red" Text=""></asp:Label>
+            <asp:Label ID="lbInitDate" runat="server" CssClass="s" Text=""></asp:Label>
             开始运行，已经正常运行
-            <asp:Label ID="lbRunTime" runat="server" ForeColor="red" Text=""></asp:Label>
+            <asp:Label ID="lbRunTime" runat="server" CssClass="s"  Text=""></asp:Label>
         </div>
         <div class="verInfo">
             <div class="title">

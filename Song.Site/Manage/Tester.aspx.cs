@@ -32,11 +32,24 @@ namespace Song.Site.Manage
 {
     public partial class Tester : System.Web.UI.Page
     {
+        protected string servertime = string.Empty;
+        protected string timediff = string.Empty;
+        protected string timename = string.Empty;
+        protected string stamp = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
-            string domain = "\\/:*?<>|\"";
-            domain = LegalName(domain);
-            Response.End();
+            //基本参数，uid,服务器端时间           
+            servertime = new WeiSha.Common.Param.Method.ConvertToAnyValue(DateTime.Now.ToString()).JavascriptTime;
+            timediff = DateTimeOffset.Now.Offset.TotalHours.ToString();   //服务器端时间与格林威治时间（零时区）的时差，单位为小时
+
+            System.DateTime time = System.DateTime.Now;
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
+            long timeStamp = (long)(time - startTime).TotalMilliseconds; // 相差毫秒数
+            stamp = timeStamp.ToString();
+            //时区名称
+            timename = TimeZone.CurrentTimeZone.StandardName;
+
+            //Response.End();
         }
         public static string LegalName(string filename)
         {

@@ -123,6 +123,7 @@ namespace Song.Site
 
             //基本参数，uid,服务器端时间           
             this.Document.SetValue("servertime", new WeiSha.Common.Param.Method.ConvertToAnyValue(DateTime.Now.ToString()).JavascriptTime);
+            this.Document.SetValue("timediff", DateTimeOffset.Now.Offset.TotalHours);   //服务器端时间与格林威治时间（零时区）的时差，单位为小时
             this.Document.RegisterGlobalFunction(this.getSubjectPath);    //专业的上级专业等
         }
         /// <summary>
