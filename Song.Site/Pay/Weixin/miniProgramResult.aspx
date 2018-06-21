@@ -58,12 +58,13 @@
         {
             background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #43C750), color-stop(1, #31AB40));border:1px solid #2E993C;box-shadow:0 1px 0 0 #69D273 inset;
             margin-top:10px;
+            color: #FFFFFF;
             }
 
         .footer
         {
             position: fixed;
-            bottom: 0;
+            bottom: 50;
             background: #eee;
             width: 100%;
             height: 45px;
@@ -97,7 +98,7 @@
             充值金额：&yen; <%= ((float)total_fee)/100%> 元
         </div>
     </div>
-    <div class="operation"><a class="btn-green" id="getBrandWCPayRequest" href="/Mobile/recharge.ashx">返 回</a></div>
+    <div class="footer"><a class="btn-green" id="getBrandWCPayRequest" href="/Mobile/recharge.ashx">返 回</a></div>
      <script type="text/javascript">
          function gourl() {
              window.location.href = $().setPara(window.location.href, "t", new Date().getTime());

@@ -1,6 +1,7 @@
 Page({
   data: {
-    options:null  
+    options:null,
+    title:'正在调取支付模块'
   },  
   onLoad: function (options) {
     var that = this;

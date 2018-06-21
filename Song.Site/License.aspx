@@ -255,7 +255,7 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
                 说明：<br />
                 <li>如果上述版本的功能无法满足您的需求，升级请联系<a class="blue" href="<%= copyright["taobao"]%>"
                     target="_blank">在线销售（淘宝店）</a> </li>
-                <li>升级方法：将下述激活码发给客服人员，客服将反馈给您授权文件，将其放置在系统根目录即可。</li>
+                <li>升级方法：将下述激活码发给客服人员，客服将反馈给您授权文件，将其放置在站点根目录即可。</li>
                 <li>授权说明：主域名授权仅限<asp:Label ID="lbRootLimit" runat="server" ForeColor="green"></asp:Label>。</li>
             </ol>
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -266,8 +266,8 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
                     <td>
                         <asp:RadioButtonList ID="rblActivType" runat="server" RepeatDirection="Horizontal"
                             RepeatLayout="Flow">
-                            <asp:ListItem Value="1">CPU串号</asp:ListItem>
-                            <asp:ListItem Value="2">硬盘串号</asp:ListItem>
+                            <asp:ListItem Value="1" Enabled="false">CPU串号</asp:ListItem>
+                            <asp:ListItem Value="2" Enabled="false">硬盘串号</asp:ListItem>
                             <asp:ListItem Value="3">IP</asp:ListItem>
                             <asp:ListItem Value="4">域名</asp:ListItem>
                             <asp:ListItem Selected="True" Value="5">主域名</asp:ListItem>
