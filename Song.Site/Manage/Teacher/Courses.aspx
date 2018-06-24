@@ -6,7 +6,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
 <% this.Title = "课程管理"; %>
     <div id="header">
-        <uc1:toolsBar ID="ToolsBar1" runat="server" GvName="GridView1" WinPath="../Course/Courses_Edit.aspx"  WinWidth="100" WinHeight="100"
+        <uc1:toolsBar ID="ToolsBar1" runat="server" GvName="GridView1"  WinWidth="100" WinHeight="100"
             OnDelete="DeleteEvent" DelShowMsg="" />
         <div class="searchBox">
               <cc1:DropDownTree ID="ddlDepart" runat="server" Width="120" IdKeyName="dep_id" ParentIdKeyName="dep_PatId"
@@ -20,7 +20,7 @@
                 ID="btnSear" runat="server" Width="100" Text="查询" OnClick="btnsear_Click" />
         </div>
     </div>
-    <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
+    <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox" IsEncrypt="false"
         ShowSelectBox="True" ShowFooter="true">
         <EmptyDataTemplate>
             没有满足条件的信息！
@@ -54,7 +54,7 @@
                         <%# Eval("Tree")%></span> <span title="<%# Eval("Cou_Intro", "{0}")%>"><a href="../Course/Courses_Edit.aspx?couid=<%# Eval("Cou_ID", "{0}")%>"
                             target="_blank">
                             <%# Eval("Cou_Name")%></a> </span>--%>
-                             <a href="#" onclick="OpenWin('../Course/Courses_Edit.aspx?couid=<%# Eval("Cou_ID", "{0}")%>','《<%# Eval("Cou_Name")%>》',100,100);return false;">
+                             <a href="#" onclick="OpenWin('../Course/Courses_Edit.aspx?id=<%# Eval("Cou_ID", "{0}")%>','《<%# Eval("Cou_Name")%>》',100,100);return false;">
                               <%# Eval("Cou_Name")%></a>
                 </ItemTemplate>
                 <ItemStyle CssClass="left" />

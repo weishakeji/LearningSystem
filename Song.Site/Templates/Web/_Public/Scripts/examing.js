@@ -117,6 +117,10 @@ Examing.prototype.Init=function(){
     $(window).focus(function () {
 
     });
+	//
+	//alert(this.time.begin);
+	$(".startTime").text(this.time.begin.Format("yyyy-MM-dd hh:mm:ss"));
+	$(".overTime").text(this.time.over.Format("yyyy-MM-dd hh:mm:ss"));
 }
 //计算时间，
 Examing.prototype.TimeCalc = function () {
@@ -690,7 +694,7 @@ function getResultXml(patter) {
     var box = $("#cardBox");
     var res = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
     res += "<results examid=\"" + examID + "\" tpid=\"" + testPagerID
-     + "\" now=\"" + Examing.Obj.time.now.getTime() + "\"  begin=\"" + box.attr("beginTime") + "\"  overtime=\"" + box.attr("overTime")
+     + "\" now=\"" + Examing.Obj.time.now.getTime() + "\"  begin=\"" + Examing.Obj.time.begin.getTime() + "\"  overtime=\"" + Examing.Obj.time.over.getTime()
     + "\" stid=\"" + stid + "\"  stname=\"" + ($.trim(stname) == "" ? stacc : $.trim(stname)) + "\"  stsid=\"" + stsid
     + "\" stsex=\"" + stsex + "\"  stcardid=\"" + stcardid
     + "\" uid=\"" + uid + "\"  theme=\"" + theme

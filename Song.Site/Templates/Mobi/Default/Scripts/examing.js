@@ -102,6 +102,10 @@ function Examing() {
 }
 //当前考试对象，用于记录全局的值
 Examing.Obj = null;
+Examing.prototype.Init=function(){	
+	$(".startTime").text(this.time.begin.Format("yyyy-MM-dd hh:mm:ss"));
+	$(".overTime").text(this.time.over.Format("yyyy-MM-dd hh:mm:ss"));
+};
 //计算时间，
 Examing.prototype.TimeCalc = function () {
     //计算当前时间，经过服务器端时间的校正

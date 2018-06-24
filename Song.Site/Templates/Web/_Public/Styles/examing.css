@@ -169,7 +169,7 @@
 	border: 1px solid #999999;
 	width: 100%;
 }
-.pagerCard .topBox .startTime {
+.pagerCard .topBox #startTime {
 	line-height: 30px;
 	color: #333333;
 	text-align: center;

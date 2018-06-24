@@ -42,10 +42,12 @@ namespace Song.Site.Manage
             servertime = new WeiSha.Common.Param.Method.ConvertToAnyValue(DateTime.Now.ToString()).JavascriptTime;
             timediff = DateTimeOffset.Now.Offset.TotalHours.ToString();   //服务器端时间与格林威治时间（零时区）的时差，单位为小时
 
-            System.DateTime time = System.DateTime.Now;
-            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
-            long timeStamp = (long)(time - startTime).TotalMilliseconds; // 相差毫秒数
+            //System.DateTime time = System.DateTime.Now;
+            //System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
+            long timeStamp = WeiSha.Common.Server.getTime();  // 相差毫秒数
             stamp = timeStamp.ToString();
+
+            long l = WeiSha.Common.Server.getTime();
             //时区名称
             timename = TimeZone.CurrentTimeZone.StandardName;
 

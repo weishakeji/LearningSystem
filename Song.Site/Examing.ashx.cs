@@ -19,15 +19,7 @@ namespace Song.Site
         //考试的状态
         protected Examing_State state = null;
         protected override void InitPageTemplate(HttpContext context)
-        {
-            //删除考试成绩
-            if (WeiSha.Common.Request.QueryString["again"].Int16 != null)
-            {
-                //删除考试成绩记录，以及清除缓存
-                Business.Do<IExamination>().ResultDelete(Account.Ac_ID, examid);
-                this.Response.Redirect(string.Format("examing.ashx?id={0}&rnd={1}", examid, DateTime.Now.Ticks));
-                return;
-            }
+        {            
             #region 判断是否登录
             state = new Examing_State(this.Document);
             //如果未登录
@@ -110,8 +102,8 @@ namespace Song.Site
             }
             this.Document.SetValue("isStart", isStart.ToString().ToLower());
             this.Document.SetValue("isOver", isOver.ToString().ToLower());
-            this.Document.SetValue("startTime", startTime);
-            this.Document.SetValue("overTime", overTime);
+            this.Document.SetValue("startTime", WeiSha.Common.Server.getTime(startTime));
+            this.Document.SetValue("overTime", WeiSha.Common.Server.getTime(overTime));
             this.Document.SetValue("isSubmit", isSubmit.ToString().ToLower());
             if (!isStart) state.Set(true, 4);  //还没有开始
             if (isOver) state.Set(false, 1);    //考试已经结束，状态为1;
@@ -122,8 +114,7 @@ namespace Song.Site
             #endregion
 
             //基本参数，uid,服务器端时间           
-            this.Document.SetValue("servertime", new WeiSha.Common.Param.Method.ConvertToAnyValue(DateTime.Now.ToString()).JavascriptTime);
-            this.Document.SetValue("timediff", DateTimeOffset.Now.Offset.TotalHours);   //服务器端时间与格林威治时间（零时区）的时差，单位为小时
+            this.Document.SetValue("servertime", WeiSha.Common.Server.getTime());   //服务器端时间与格林威治时间（零时区）的时差，单位为小时
             this.Document.RegisterGlobalFunction(this.getSubjectPath);    //专业的上级专业等
         }
         /// <summary>
