@@ -521,9 +521,10 @@
 	color: #333;
 	width: 400px;
 	white-space: nowrap;
-	overflow: visible;
+	overflow: hidden;
 	line-height: 30px;
 	display: inline-block;
+	text-overflow:ellipsis;
 }
 .news-time{
 	line-height: 30px;
