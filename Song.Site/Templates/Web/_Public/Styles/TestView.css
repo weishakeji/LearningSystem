@@ -2,6 +2,9 @@
 body{
 	text-align:left;
 }
+*{
+	font-family: "Hiragino Sans GB","Microsoft Yahei",arial,\5b8b\4f53,"Helvetica Neue",Helvetica,STHeiTi,sans-serif  !important;
+}
 td, th {
 	text-align: center;
 	font-size: 14px;
@@ -15,7 +18,6 @@ img{
 	max-width:100%;
 }
 .pagerTitle {
-	font-family: "黑体";
 	font-size: 18px;
 	line-height: 25px;
 	color: #0066FF;
@@ -39,7 +41,6 @@ img{
 	margin-right: auto;
 }
 .scoreinfo .score {
-	font-family: "黑体";
 	font-size: 21px;
 	line-height: 35px;
 	font-weight: bold;
@@ -99,7 +100,6 @@ img{
 	font-weight: bold;
 }
 #quesTitle {
-	font-family: "黑体";
 	font-size: 16px;
 	line-height: 30px;
 	font-weight: bold;
@@ -130,10 +130,17 @@ img{
 	line-height: 22px;
 	display: table;
 	margin-bottom: 10px;
-	margin-top: 10px;
+	margin: 10px;
+	
+	
+}
+.qusTitle *{
+	font-size: 14px;
+	white-space: normal;
 }
 .qitemBox, .qitemBox *{
-	background-color:transparent !important;
+	background-color: transparent !important;
+		
 }
 #quesBtnBox {
 	float: right;

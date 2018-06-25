@@ -17,10 +17,7 @@ namespace Song.Site.Mobile
         //考试id
         protected int tpid = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
-        {
-            //服务器端时间
-            string time = new WeiSha.Common.Param.Method.ConvertToAnyValue(DateTime.Now.ToString()).JavascriptTime;
-            this.Document.Variables.SetValue("Time", time);
+        {           
             //当前试卷
             Song.Entities.TestPaper paper = null;            
             paper = Business.Do<ITestPaper>().PagerSingle(tpid);

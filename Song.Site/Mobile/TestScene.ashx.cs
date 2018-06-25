@@ -32,8 +32,7 @@ namespace Song.Site.Mobile
             string uid = WeiSha.Common.Request.UniqueID();
             this.Document.Variables.SetValue("uid", uid);
             //服务器端时间
-            string time = new WeiSha.Common.Param.Method.ConvertToAnyValue(DateTime.Now.ToString()).JavascriptTime;
-            this.Document.Variables.SetValue("Time", time);
+            this.Document.Variables.SetValue("Time", WeiSha.Common.Server.getTime());
             if (!Extend.LoginState.Accounts.IsLogin)
                 this.Response.Redirect("Login.ashx");
             //当前试卷

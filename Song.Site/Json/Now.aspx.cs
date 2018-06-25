@@ -22,8 +22,7 @@ namespace Song.Site.Json
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string str = new WeiSha.Common.Param.Method.ConvertToAnyValue(DateTime.Now.ToString()).JavascriptTime;
-            Response.Write(str);
+            Response.Write(WeiSha.Common.Server.getTime());
             Response.End();
         }
     }

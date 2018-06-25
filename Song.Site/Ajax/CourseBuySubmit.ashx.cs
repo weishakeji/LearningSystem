@@ -188,8 +188,8 @@ namespace Song.Site.Ajax
             //返回不为空
             if (sc != null)
             {
-                json += "'startTime':'" + new WeiSha.Common.Param.Method.ConvertToAnyValue(sc.Stc_StartTime.ToString()).JavascriptTime + "',";
-                json += "'endTime':'" + new WeiSha.Common.Param.Method.ConvertToAnyValue(sc.Stc_EndTime.ToString()).JavascriptTime + "',";
+                json += "'startTime':'" + WeiSha.Common.Server.getTime(sc.Stc_StartTime) + "',";
+                json += "'endTime':'" + WeiSha.Common.Server.getTime(sc.Stc_EndTime) + "',";
             }
             if (ex != null)
             {

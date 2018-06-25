@@ -1,7 +1,7 @@
 ﻿
      <vt:if var="pager" value="" compare="!=">
     <script language="javascript" type="text/javascript">
-        var ServerTime = new Date("{$Time}"); //当前服务器端时间
+        var ServerTime = eval('new ' + eval('/Date({$Time})/').source);  //当前服务器端时间
         var ClientTime = new Date(); //当前客户端时间
         //唯一ID
         var uid = "{$uid}";
@@ -203,7 +203,7 @@
                   <div class="subject" style="width:auto;">所属学科：{$pager.sbj_Name}</div>
                 </div>
             <div class="row">
-                  <div class="course" style="width:100%;">所属课程：<a href="course.ashx?id={$course.cou_id}" target="_blank">《{$course.cou_Name}》</a></div>
+                  <div class="course" style="width:100%;">所属课程：<a href="/course.ashx?id={$course.cou_id}" target="_blank">《{$course.cou_Name}》</a></div>
                 </div>
             <div class="row">
                   <div class="level">难度范围：{$pager.Tp_Diff}级 - {$pager.Tp_Diff2}级</div>

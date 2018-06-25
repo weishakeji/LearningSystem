@@ -19,8 +19,10 @@
 		  parent.PageBox.Close();
 	  });
 	  //最近可以评价的时间
-	  var lastTime=new Date("{$Last}");
-	  var currTime=new Date("{$time}");
+	  //var lastTime=new Date("{$Last}");
+	  //var currTime = new Date("{$time}");
+	  var lastTime = eval('new ' + eval('/Date({$Last})/').source);
+	  var currTime = eval('new ' + eval('/Date({$time})/').source);
 	  //需要多入才可以评价
 	  //计算离考试开始时间，还有多久,单位：秒
     window.commentWait = Math.ceil((lastTime.getTime() - currTime.getTime()) / 1000);

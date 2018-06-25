@@ -14,7 +14,7 @@
 </head>
 <body>
 <script language="javascript" type="text/javascript">
-var ServerTime=new Date("{$Time}");	//当前服务器端时间
+var ServerTime = eval('new ' + eval('/Date({$Time})/').source);  //当前服务器端时间
 var ClientTime=new Date();	//当前客户端时间
 //唯一ID
 var uid="{$uid}";

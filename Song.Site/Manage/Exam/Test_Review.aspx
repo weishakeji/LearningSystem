@@ -8,7 +8,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
   <script language="javascript" type="text/javascript">
 //当前服务器端时间
-var ServerTime=new Date("<%= new WeiSha.Common.Param.Method.ConvertToAnyValue(DateTime.Now.ToString()).JavascriptTime %>");
+var ServerTime = eval('new ' + eval('/Date(<%= WeiSha.Common.Server.getTime() %>)/').source);
 //当前客户端时间
 var ClientTime=new Date();
 //试卷ID

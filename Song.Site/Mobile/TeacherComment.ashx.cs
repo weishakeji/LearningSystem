@@ -27,10 +27,10 @@ namespace Song.Site.Mobile
                     if (cmt != null)
                     {
                         //服务器端时间
-                        string time = new WeiSha.Common.Param.Method.ConvertToAnyValue(DateTime.Now.ToString()).JavascriptTime;
-                        string last = new WeiSha.Common.Param.Method.ConvertToAnyValue(cmt.Thc_CrtTime.AddDays(day).ToString()).JavascriptTime;
-                        this.Document.Variables.SetValue("Time", time);
-                        this.Document.Variables.SetValue("Last", last);
+                        //string time = new WeiSha.Common.Param.Method.ConvertToAnyValue(DateTime.Now.ToString()).JavascriptTime;
+                        //string last = new WeiSha.Common.Param.Method.ConvertToAnyValue(cmt.Thc_CrtTime.AddDays(day).ToString()).JavascriptTime;
+                        this.Document.Variables.SetValue("Time", WeiSha.Common.Server.getTime());
+                        this.Document.Variables.SetValue("Last", WeiSha.Common.Server.getTime(cmt.Thc_CrtTime.AddDays(day)));
                         //最近一次评价
                         this.Document.SetValue("comment", cmt);
                     }
