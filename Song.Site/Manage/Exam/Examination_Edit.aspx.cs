@@ -58,8 +58,8 @@ namespace Song.Site.Manage.Exam
             ddlSubject.DataValueField = "Sbj_ID";
             ddlSubject.Root = 0;
             ddlSubject.DataBind();
-            ddlSubject.Items.Insert(0, new ListItem(ddlSubject.Items.Count < 1 ? "--（没有专业）--" : "", "-1"));
-
+            if (ddlSubject.Items.Count < 1) ddlSubject.Items.Insert(0, new ListItem("--（没有专业）--", "-1"));
+            if (ddlSubject.Items.Count > 0) ddlSubject.Items.Insert(0, new ListItem("", "-1"));
         }
         void fill()
         {
@@ -351,6 +351,8 @@ namespace Song.Site.Manage.Exam
                 ddl.DataTextField = "Sbj_Name";
                 ddl.DataValueField = "Sbj_ID";
                 ddl.DataBind();
+                if (ddl.Items.Count < 1) ddl.Items.Insert(0, new ListItem("--（没有专业）--", "-1"));
+                if (ddl.Items.Count > 0) ddl.Items.Insert(0, new ListItem("", "-1"));
 
                 //当前选中状态
                 Song.Entities.Examination exam = (Song.Entities.Examination)e.Row.DataItem;
