@@ -7,7 +7,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
 <% this.Title = "课程管理"; %>
     <div id="header">
-        <uc1:toolsBar ID="ToolsBar1" runat="server" GvName="GridView1"  WinWidth="100" WinHeight="100"
+        <uc1:toolsBar ID="ToolsBar1" runat="server" GvName="GridView1"  WinPath="../Course/Courses_Edit.aspx" WinWidth="100" WinHeight="100"
             OnDelete="DeleteEvent" DelShowMsg="" />       
         <div class="searchBox">
             <cc1:DropDownTree ID="ddlSubject" runat="server" IdKeyName="Sbj_ID" ParentIdKeyName="Sbj_PID"
@@ -17,7 +17,7 @@
                 ID="btnSear" runat="server" Width="100" Text="查询" OnClick="btnsear_Click" />
         </div>
     </div>
-    <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
+    <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"  PrimaryKey="couid"
         ShowSelectBox="True" ShowFooter="false" OnRowDataBound="GridView1_RowDataBound" IsEncrypt="False">
         <EmptyDataTemplate>
             没有满足条件的信息！
