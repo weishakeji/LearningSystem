@@ -95,24 +95,27 @@ function setRowEvent(gv) {
         //鼠标双击
         row.dblclick(function () {
             //var id = $(this).attr("DataKey");
-            var id = $(this).attr("EncryptKey");
-            if (id == null) return false;
-            OnRowDbClick(id, null,window.name);
+            var keyvalue = $(this).attr("EncryptKey");
+            var keyname = $(this).attr("PrimaryKey");
+            if (keyvalue == null) return false;
+            OnRowDbClick(keyname, keyvalue, null, window.name);
             return false;
         });
         //行内的编辑按钮
         gv.find(".RowEdit").click(function () {
             var isJsEvent = $(this).attr("IsJsEvent") == "false" ? false : true;
             if (isJsEvent == false) return true;
-            var id = $(this).parents("tr").attr("EncryptKey");
-            if (id == null) return false;
-            OnRowDbClick(id, "编辑", window.name);
+            var keyvalue = $(this).parents("tr").attr("EncryptKey");
+            var keyname = $(this).parents("tr").attr("PrimaryKey");
+            if (keyvalue == null) return false;
+            OnRowDbClick(keyname, keyvalue, "编辑", window.name);
             return false;
         });
         gv.find(".RowView").click(function () {
-            var id = $(this).parents("tr").attr("EncryptKey");
-            if (id == null) return false;
-            OnRowDbClick(id, "查看",window.name);
+            var keyvalue = $(this).parents("tr").attr("EncryptKey");
+            var keyname = $(this).parents("tr").attr("PrimaryKey");
+            if (keyvalue == null) return false;
+            OnRowDbClick(keyname, keyvalue, "查看", window.name);
             return false;
         });
     }

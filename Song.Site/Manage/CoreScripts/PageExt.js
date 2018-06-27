@@ -7,7 +7,7 @@
 * 2、页面公共的初化事件，如清除输入框内容的按钮
 *
 * 作  者：宋雷鸣 
-* 开发时间: 2012年12月29日
+* 开发时间: 2016年12月29日
 */
 
 //初始化事件
@@ -19,18 +19,18 @@ $(function () {
 });
 //GridView中行的双击事件
 //id:参数id
-function OnRowDbClick(id, title, winname) {    
+function OnRowDbClick(keyname, keyvalue, title, winname) {
     //子页路径
     if (ChildPage == null || ChildPage == "") return false;
     if (GridViewId == "") return false;
     var keys = GetKeyValues(GridViewId);
     //如果允许打开弹出窗口
     if (isWinOpen) {
-        id = escape(id == null ? keys : id);
-        OpenSysWin(id, title, winname);
+        keyvalue = escape(keyvalue == null ? keys : keyvalue);
+        OpenSysWin(keyname, keyvalue, title, winname);
     } else {
         //如果不允许弹出，则页面转向
-        var url = AddPara(ChildPage, "id", id);
+        var url = AddPara(ChildPage, keyname, keyvalue);
         url = AddPara(ChildPage, "from", SelfPage);
         this.location.href = url;
     }
@@ -178,7 +178,7 @@ function OnAnswer() {
 }
 
 //打开窗口的方法
-function OpenSysWin(id, title, winname) {    
+function OpenSysWin(keyname, keyvalue, title, winname) {    
     var pid = $().getPara("pid");
     //当前焦点页面标题	
     var name = "";
@@ -201,14 +201,14 @@ function OpenSysWin(id, title, winname) {
         path = url + ChildPage;
     }
 
-    path = id != null ? AddPara(path, "id", id) : path;
+    path = keyvalue != null ? AddPara(path, keyname, keyvalue) : path;
     path = pid != "-1" || pid!="" ? AddPara(path, "pid", pid) : path;
     //
     var btnMod = $("input[name$='btnModify']");
     var ext = title;
     //alert(btnMod.size());
     if (title == null) {
-        ext = id != null ? "修改" : "新增";
+        ext = keyvalue != null ? "修改" : "新增";
         if (ext == "修改" && btnMod.size() < 1) ext = "编辑";
     }
     winname = winname == null ? window.name : winname;

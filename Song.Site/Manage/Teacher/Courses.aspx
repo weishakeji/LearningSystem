@@ -6,13 +6,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
 <% this.Title = "课程管理"; %>
     <div id="header">
-        <uc1:toolsBar ID="ToolsBar1" runat="server" GvName="GridView1"  WinWidth="100" WinHeight="100"
+        <uc1:toolsBar ID="ToolsBar1" runat="server" GvName="GridView1" WinPath="../Course/Courses_Edit.aspx"  WinWidth="100" WinHeight="100"
             OnDelete="DeleteEvent" DelShowMsg="" />
         <div class="searchBox">
-              <cc1:DropDownTree ID="ddlDepart" runat="server" Width="120" IdKeyName="dep_id" ParentIdKeyName="dep_PatId"
-                TaxKeyName="dep_Tax" OnSelectedIndexChanged="ddlDepart_SelectedIndexChanged"
-                AutoPostBack="True">
-            </cc1:DropDownTree>
             <cc1:DropDownTree ID="ddlSubject" runat="server" IdKeyName="Sbj_ID" ParentIdKeyName="Sbj_PID"
                 TaxKeyName="Sbj_Tax" Width="120">
             </cc1:DropDownTree>
@@ -21,7 +17,7 @@
         </div>
     </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox" IsEncrypt="false"
-        ShowSelectBox="True" ShowFooter="true">
+        ShowSelectBox="True" ShowFooter="true" PrimaryKey="couid">
         <EmptyDataTemplate>
             没有满足条件的信息！
         </EmptyDataTemplate>

@@ -31,53 +31,17 @@ namespace Song.Site.Manage.Teacher
             org = Business.Do<IOrganization>().OrganCurrent();
             if (!this.IsPostBack)
             {
-                bindTree();
+                init();
                 BindData(null, null);
             }           
         }
         /// <summary>
-        /// 绑定导航
+        /// 初始化
         /// </summary>
-        private void bindTree()
+        protected void init()
         {
-            //院系
-            Song.Entities.Depart[] nc = Business.Do<IDepart>().GetAll(org.Org_ID, true,true);
-            this.ddlDepart.DataSource = nc;
-            this.ddlDepart.DataTextField = "dep_cnName";
-            this.ddlDepart.DataValueField = "dep_id";
-            this.ddlDepart.DataBind();
-            //
-            this.ddlDepart.Items.Insert(0, new ListItem(" -- 院系 -- ", "-1"));
-            //如果是教师登录，则只显示所在院系
-            if (Extend.LoginState.Accounts.IsLogin)
-            {
-                Song.Entities.Teacher th = Extend.LoginState.Accounts.Teacher;
-                ListItem li = ddlDepart.Items.FindByValue(th.Dep_Id.ToString());
-                if (li != null)
-                {
-                    ddlDepart.SelectedIndex = -1;
-                    li.Selected = true;
-                    ddlDepart.Enabled = false;
-                }
-            }
-            if (Extend.LoginState.Admin.IsAdmin && isAdmin)
-            {
-                ddlDepart.Enabled = true;
-                ddlDepart.SelectedIndex = 0;
-            }
-            ddlDepart_SelectedIndexChanged(null, null);
-        }
-        /// <summary>
-        /// 当院系的选择变动时
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void ddlDepart_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            ddlSubject.Items.Clear();
-            int depid = 0;
-            int.TryParse(ddlDepart.SelectedValue, out depid);            
-            Song.Entities.Subject[] sbjs = Business.Do<ISubject>().SubjectCount(org.Org_ID, depid, "", null, 0, 0);
+            ddlSubject.Items.Clear();               
+            Song.Entities.Subject[] sbjs = Business.Do<ISubject>().SubjectCount(org.Org_ID, -1, "", null, 0, 0);
             ddlSubject.DataSource = sbjs;
             ddlSubject.DataTextField = "Sbj_Name";
             ddlSubject.DataValueField = "Sbj_ID";
