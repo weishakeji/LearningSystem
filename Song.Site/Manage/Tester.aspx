@@ -21,7 +21,7 @@
         //当前服务器端时间
         //        var ServerTime = new Date("<%= servertime %>");
         var ServerTime = date;
-        alert(date);
+        //alert(date);
         $("#servertime").text(ServerTime.Format("yyyy-MM-dd hh:mm:ss"));
         //本地时间
         var Localtime = ServerTime.toLocal("<%= timediff%>");

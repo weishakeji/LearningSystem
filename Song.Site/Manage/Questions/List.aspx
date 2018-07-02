@@ -56,12 +56,12 @@
                 </ItemTemplate>
                 <ItemStyle CssClass="left" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="学科">
+            <%--<asp:TemplateField HeaderText="学科">
                 <ItemTemplate>
                     <%# Eval("Sbj_Name","{0}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="150px" />
-            </asp:TemplateField>
+            </asp:TemplateField>--%>
             <asp:TemplateField HeaderText="难度">
                 <ItemTemplate>
                     <%# Eval("Qus_Diff")%>

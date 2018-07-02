@@ -102,7 +102,7 @@
 
 }
 #menuBox a {
-	color: #333333;
+	color: #333333 !important;
 	text-decoration: none;
 	font-weight: bold;
 	font-size: 15px;

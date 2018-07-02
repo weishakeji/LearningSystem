@@ -27,6 +27,10 @@ namespace Song.Site
         /// </summary>
         protected TemplateDocument Document { get; set; }
         /// <summary>
+        /// 当前页面所在模板库
+        /// </summary>
+        protected WeiSha.Common.Templates.TemplateBank TmBank{ get; set; }
+        /// <summary>
         /// 当前页面的模板文档的配置参数
         /// </summary>
         protected virtual TemplateDocumentConfig DocumentConfig
@@ -48,22 +52,22 @@ namespace Song.Site
             if (isMobi && LoginState.Accounts.IsLogin)
                 LoginState.Accounts.Refresh(LoginState.Accounts.CurrentUser);            
             //取模板对象
-            WeiSha.Common.Templates.TemplateBank curr = isMobi ?
+            this.TmBank = isMobi ?
                 WeiSha.Common.Template.ForMobile.SetCurrent(this.Organ.Org_TemplateMobi)
                 : WeiSha.Common.Template.ForWeb.SetCurrent(this.Organ.Org_Template);
-            if (curr == null) throw new Exception("没有任何模板库可用！");
+            if (TmBank == null) throw new Exception("没有任何模板库可用！");
             //是否是公共页面
-            if (curr.Config.Public == null) throw new Exception("未找到公共模板库！");
-            bool isPublic = curr.Config.Public.PageExists(filePath);
-            if (isPublic) curr = curr.Config.Public;
+            if (TmBank.Config.Public == null) throw new Exception("未找到公共模板库！");
+            bool isPublic = TmBank.Config.Public.PageExists(filePath);
+            if (isPublic) TmBank = TmBank.Config.Public;
             //当前模板的所在路径
-            string tmFile = curr.Path.Physics + filePath + ".htm";
+            string tmFile = TmBank.Path.Physics + filePath + ".htm";
             //装载模板
             this.Document = null;
             if (!System.IO.File.Exists(tmFile))
             {
-                tmFile = curr.Config.Default.Path.Physics + filePath + ".htm";
-                if (!System.IO.File.Exists(tmFile)) tmFile = curr.Config.Public.Path.Physics + "Notfound.htm";                             
+                tmFile = TmBank.Config.Default.Path.Physics + filePath + ".htm";
+                if (!System.IO.File.Exists(tmFile)) tmFile = TmBank.Config.Public.Path.Physics + "Notfound.htm";                             
             }
             this.Document = TemplateDocument.FromFileCache(tmFile, Encoding.UTF8, this.DocumentConfig);
             //this.Document = new TemplateDocument(tmFile, Encoding.UTF8, this.DocumentConfig);   //不采用缓存 
@@ -165,7 +169,7 @@ namespace Song.Site
                 this.Document.SetValue("thpath", Upload.Get["Teacher"].Virtual);
                 this.Document.SetValue("adminpath", Upload.Get["Employee"].Virtual);
                 //当前模板的路径
-                this.Document.SetValue("TempPath", WeiSha.Common.Template.ForWeb.Current.Path.Virtual);
+                this.Document.SetValue("TempPath", this.TmBank.Path.Virtual);
 
             }
             catch { }

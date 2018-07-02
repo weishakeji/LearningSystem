@@ -188,7 +188,11 @@ function ajaxLoaddata() {
 		        html += '</div></div>';
 		        li.innerHTML = html;
 		        table.appendChild(li);
-		    }
+				$(li).find("img").error(function(){
+					$(this).attr("src",tmpath+"Images/cou-nophoto.png");
+				});
+			}
+			
 		    //长按弹出课程详情
 		    mui('body').off('tap', '.news-item');
 		    mui('body').on('tap', '.news-item', function () {

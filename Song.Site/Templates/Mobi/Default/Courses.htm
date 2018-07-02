@@ -4,7 +4,10 @@
 <title>选课中心 - {$:#.org.org_platformname}</title>
 <vt:include file="inc/meta.inc" />
 <link rel="stylesheet" href="Styles/Courses.css?tick={$tick}"/>
-<script type="text/javascript" src="Scripts/Courses.js?tick={$tick}"></script>
+<script type="text/javascript" src="Scripts/Courses.js?tick={$tick}" id="javascript"></script>
+<script type="text/javascript">
+var tmpath="{$TempPath}";
+</script>
 </head>
 <body>
 <div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 

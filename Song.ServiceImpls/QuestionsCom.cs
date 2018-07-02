@@ -31,11 +31,7 @@ namespace Song.ServiceImpls
             entity.Qus_Answer = _ClearString(entity.Qus_Answer);
             entity.Qus_Explain = _ClearString(entity.Qus_Explain);
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            if (org != null)
-            {
-                entity.Org_ID = org.Org_ID;
-            }
-            
+            if (org != null) entity.Org_ID = org.Org_ID;  
             return Gateway.Default.Save<Questions>(entity);
         }
         
