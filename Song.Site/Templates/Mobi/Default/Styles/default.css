@@ -3,6 +3,13 @@
 重新定义了一些MUI控件细
 节
 */
+.mui-content{
+	//padding-top:0px !important;
+}
+.headbar{
+	//opacity: 0.2;
+	
+}
 /*卡片*/
 .curr-logo{
     width: 30px;

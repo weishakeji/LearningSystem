@@ -1,0 +1,116 @@
+html,body{
+	background-color: #FFF !important
+}
+.nRow{
+	height: 100px;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 0px;
+	margin-left: 5px;
+	line-height: 100px;
+	vertical-align: middle;
+	text-align: center;
+}
+.btnDefaut{
+	height: 40px;
+	width: 117px;
+	font-size: 16px;	
+	margin-left:auto;
+	margin-right:auto;
+}
+.row{
+	height: 40px;
+	margin-top: 5px;
+	margin-right: 5px;
+	margin-bottom: 0px;
+	margin-left: 5px;
+	line-height: 40px;
+	vertical-align: middle;
+	overflow: hidden;
+}
+.star-bar{
+	height: 25px;
+	margin-top: -6px;
+}
+.show{
+	font-size: 14px;
+	font-weight: normal;
+	color: #666;
+}
+
+/*星标*/
+.star{
+}
+.star i{
+	background-image: url(../Images/sun_star.gif);
+	background-repeat: no-repeat;
+	background-position: -160px -158px;
+	display: inline-block;
+	height: 25px;
+	width: 28px;
+	
+}
+.star .s1{
+	background-position: 0px -158px;	
+}
+.star .s0{	
+	background-position: 0px -186px;
+}
+
+/*评价*/
+#comment{
+	line-height: 20px;
+	height: 100px;
+	margin-bottom: 5px !important;
+	width:92%;
+	margin-left:10px;
+}
+.loginRow .loginRowLeft {
+	float: left;
+	width: 200px;
+	height:40px;
+}
+.verify {
+	float: left;
+	width: 100px !important;
+	margin-left:10px;
+}
+.verifyCode{
+	cursor:pointer;
+	height: 38px;
+	float: left;
+	margin-top: 1px;
+	margin-left: 5px;
+	width: 75px;
+}
+.footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	line-height: 30px;
+	z-index: 9999;
+	opacity: .80;
+	filter: alpha(opacity=80);
+	_bottom: auto;
+	_width: 100%;
+	_position: absolute;
+
+_top:expression(eval(document.documentElement.scrollTop+document.documentElement.clientHeight-this.offsetHeight- (parseInt(this.currentStyle.marginTop, 10)||0)-(parseInt(this.currentStyle.marginBottom, 10)||0)));
+	text-align: center;
+}
+.btnSubmit {
+	height: 40px;
+	width: 117px;
+	font-size: 16px;	
+	float:right;
+	margin-right:10px;
+}
+#alert{
+	color: #F00;
+	text-indent: 10;
+	margin-left: 10px;
+}
+.alert:before{
+	content:"*";
+}

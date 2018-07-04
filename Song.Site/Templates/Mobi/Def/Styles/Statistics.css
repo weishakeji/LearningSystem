@@ -1,0 +1,22 @@
+@charset "utf-8";
+a{
+	color:#333 !important;
+}
+.score {
+	font-size: 12px;
+	line-height: 1;
+	display: inline-block;
+	border-radius: 100px;
+	float: right;
+	padding-top: 3px;
+	padding-right: 6px;
+	padding-bottom: 3px;
+	padding-left: 6px;
+	margin-right: 10px;
+	color: #009900;
+	background-color: #FFC;
+	margin-top: 3px;
+}
+.nopass{
+	color: #F00;
+}

@@ -1,0 +1,733 @@
+@charset "utf-8";
+*{
+	margin:0px;
+	padding:0px;
+}
+html,body{
+	overflow:hidden !important;
+}
+/*消息提示区域*/
+.infobox {
+	margin: 30px;
+	min-height: 400px;
+}
+.infobox .info {
+	font-size: 25px;
+	line-height: 40px;
+	height: 40px;
+	margin-top: 50px;
+	text-align: center;
+	font-weight: bold;
+	font-family: "Microsoft YaHei" ! important;
+}
+.text {
+	font-size: 16px;
+	margin: 20px;
+}
+.infobox .text {
+	line-height: 30px;
+	text-align: center;
+	height: 30px;
+}
+/*倒计时*/
+#distanceTime {
+	height: 200px;
+	width: 98%;
+	margin-top: 20px;
+	margin-right: auto;
+	margin-left: auto;
+}
+#distanceTime .timeTitle {
+	font-size: 18px;
+	line-height: 30px;
+	text-align: center;
+	height: 30px;
+	color: #0387d9;
+	font-weight: bold;
+	margin-top: 20px;
+}
+#distanceTime .currTime {
+	line-height: 30px;
+	text-align: center;
+	height: 30px;
+	margin-top: 10px;
+	margin: 10px;
+	padding: 0 20px;
+	text-align: center;
+	text-decoration: none;
+	font: bold 12px/25px Arial, sans-serif;
+	text-shadow: 1px 1px 1px rgba(255,255,255, .22);
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	-moz-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	-webkit-transition: all 0.15s ease;
+	-moz-transition: all 0.15s ease;
+	-o-transition: all 0.15s ease;
+	-ms-transition: all 0.15s ease;
+	transition: all 0.15s ease;
+}
+/*试卷区域 宽度设置*/
+#quesArea {
+	position: relative;
+}
+/*答题卡 宽高设置*/
+.pagerCard {
+	width: 30%;
+}
+#footer {
+	margin-top: 150px;
+}
+/*屏幕遮罩*/
+.loading {
+	position: absolute;
+	display: none;
+	z-index: 2000;
+	background-color: #FFFFFF;
+	height: 100px;
+	width: 340px;
+	margin-right: auto;
+	margin-left: auto;
+	border: 2px solid #666;
+	text-align: center;
+	line-height: 35px;
+}
+#loadingTitle {
+	line-height: 35px;
+	text-align: center;
+	margin-top: 20px;
+}
+/*消息提示区域*/
+.infobox {
+	margin: 30px;
+	min-height: 400px;
+}
+.infobox .info {
+	font-size: 25px;
+	line-height: 40px;
+	height: 40px;
+	margin-top: 50px;
+	text-align: center;
+	font-weight: bold;
+	font-family: "Microsoft YaHei" ! important;
+}
+/*考试已经结束*/
+#examOverBox {
+	background-color: #FFFFCC;
+	height: 300px;
+	width: 100%;
+	border: 1px solid #0387d9;
+	margin-top: 20px;
+}
+#examOverBox .title {
+	font-size: 25px;
+	line-height: 50px;
+	color: #0387d9;
+	text-align: center;
+	height: 50px;
+	margin-top: 20px;
+}
+#examOverBox .time {
+	line-height: 30px;
+	text-align: center;
+	height: 40px;
+}
+/*已经交卷*/
+#examSubmitBox {
+	background-color: #FFFFCC;
+	height: 300px;
+	width: 100%;
+	border: 1px solid #0387d9;
+	margin-top: 20px;
+}
+#examSubmitBox .title {
+	font-size: 25px;
+	line-height: 50px;
+	color: #0387d9;
+	text-align: center;
+	height: 50px;
+	margin-top: 20px;
+}
+#examSubmitBox .text {
+	line-height: 30px;
+	text-align: center;
+	height: 30px;
+}
+/*答题卡*/
+.quesCard {
+	width: 100%;
+	margin-top: 0px;
+	background-color: #FFFFFF;
+	display: none;
+}
+.quesCard .cardTit {
+	background-color: #FFFFCC;
+	height: 40px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+}
+.quesCard .cardTit .txt {
+	font-size: 16px;
+	line-height: 40px;
+	font-weight: bold;
+	color: #0387d9;
+	float: left;
+	height: 40px;
+	width: 35%;
+	margin-left: 3%;
+}
+.quesCard .cardTit .number {
+	line-height: 40px;
+	color: #0066FF;
+	float: right;
+	height: 40px;
+	width: 60%;
+	margin-right: 2%;
+	text-align: right;
+}
+#cardBox .quesType {
+	line-height: 25px;
+	height: 25px;
+	margin-bottom: 10px;
+	width: 100%;
+	cursor: pointer;
+}
+#cardBox .quesType .tit {
+	line-height: 25px;
+	float: left;
+	height: 25px;
+	width: 35%;
+	margin-top: 5px;
+	font-weight: bold;
+	margin-left: 3%;
+	text-indent: 20px;
+	background-image: url(../Images/tk_exam.png);
+	background-repeat: no-repeat;
+	background-position: -195px 6px;
+}
+#cardBox .quesType .num {
+	line-height: 25px;
+	float: right;
+	height: 25px;
+	font-size:14px;
+	width: 50%;
+	margin-top: 5px;
+	text-align: right;
+	margin-right: 2%;
+	color:#666;
+}
+#cardBox dl {
+	padding: 0px;
+	width: 96%;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 4%;
+	display:table;
+}
+#cardBox dl dd {
+	text-align: center;
+	white-space: nowrap;
+	padding: 0px;
+	height: 20px;
+	width: 20px;
+	margin-top: 0px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-left: 0px;
+	float: left;
+	font-size: 13px;
+	line-height: 20px;
+	color: #FFFFFF;
+	background-color: #999999;
+	font-weight: bold;
+	cursor: pointer;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 3px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #999999;
+	border-right-color: #999999;
+	border-bottom-color: #333333;
+	border-left-color: #999999;
+}
+#cardBox dl dd.level1 {
+	color: #0066CC;
+	border-top-color: #0066FF;
+	border-right-color: #0066FF;
+	border-bottom-color: #0066FF;
+	border-left-color: #0066FF;
+	background-color: #80FFFF;
+}
+#cardBox dl dd.level2 {
+	color: #0066CC;
+	border-top-color: #0066FF;
+	border-right-color: #0066FF;
+	border-bottom-color: #FF6600;
+	border-left-color: #0066FF;
+	background-color: #80FFFF;
+}
+#cardBox dl dd.level3 {
+	color: #0066CC;
+	border-top-color: #0066FF;
+	border-right-color: #0066FF;
+	border-bottom-color: #FF0000;
+	border-left-color: #0066FF;
+	background-color: #80FFFF;
+}
+/*试卷区域*/
+#quesArea {
+	width: 100%;
+}
+#distanceTime {
+	margin-top: 20px;
+	margin-right: auto;
+	margin-left: auto;
+}
+#distanceTime .timeTitle {
+	font-size: 18px;
+	line-height: 30px;
+	text-align: center;
+	height: 30px;
+	color: #0387d9;
+	font-weight: bold;
+	margin-top: 20px;
+}
+#distanceTime .currTime {
+	line-height: 30px;
+	text-align: center;
+	height: 30px;
+	margin-top: 10px;
+	margin: 10px;
+	padding: 0 20px;
+	text-align: center;
+	text-decoration: none;
+	font: bold 12px/25px Arial, sans-serif;
+	text-shadow: 1px 1px 1px rgba(255,255,255, .22);
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	-moz-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	-webkit-transition: all 0.15s ease;
+	-moz-transition: all 0.15s ease;
+	-o-transition: all 0.15s ease;
+	-ms-transition: all 0.15s ease;
+	transition: all 0.15s ease;
+}
+/*试卷中的试题*/
+#quesArea dl
+{
+	float:left;
+}
+/*大题的标题*/
+#quesArea dl dt {
+	display: none;
+}
+#quesArea dl dd {
+	background-color: #FFFFFF;
+	position: relative;
+	float: left;
+	overflow-x:hidden;
+	overflow-y:auto;
+	webkit-overflow-scrolling: touch;
+}
+#quesArea dl dd .quesBox{
+	margin:10px;
+}
+.quesBox .quesInfo {
+	line-height: 30px;
+	height: 30px;
+}
+.quesBox .quesInfo .infoLeft {
+	float: right;
+	width: 20%;
+}
+.quesBox .quesInfo .info {
+	float: left;
+	width: 80%;
+}
+/*试题的题干区域*/
+#quesArea dl dd .quesTitle {
+	background-color: #006699;
+	-moz-border-radius: 15px;      /* Gecko browsers */
+	-webkit-border-radius: 15px;   /* Webkit browsers */
+	border-radius: 10px 10px 0px 0px;
+	font-size: 15px;
+	color: #FFFFFF;
+	padding: 10px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: none;
+	border-left-style: solid;
+	border-top-color: #dedede;
+	border-right-color: #dedede;
+	border-bottom-color: #dedede;
+	border-left-color: #dedede;
+	width: 100%;
+	word-wrap: break-word;
+	word-break: normal;
+}
+
+#quesArea dl dd .quesTitle * {
+	font-size: 15px;
+	margin-top: 0px;
+	word-wrap: break-word;
+	word-break: normal;
+	background-color: transparent !important;
+}
+#quesArea dl dd .quesTitle img{
+	max-width:100%;
+	margin:auto;
+}
+#quesArea dl dd .itemBox {
+	-moz-border-radius: 15px;      /* Gecko browsers */
+	-webkit-border-radius: 15px;   /* Webkit browsers */
+	border-radius: 0px 0px 10px 10px;
+	font-size: 15px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: none;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #dedede;
+	border-right-color: #dedede;
+	border-bottom-color: #dedede;
+	border-left-color: #dedede;
+	min-height: 150px;
+}
+#quesArea dl dd .itemBox .ansItem {
+	line-height: 35px;
+	cursor: pointer;
+	min-height:35px;
+	width:100%;
+	display:table;
+}
+#quesArea dl dd .itemBox .ansItem .char {
+	line-height: 35px;
+	height: 35px;
+	width: 30px;
+	margin-left: 50px;
+	position: absolute;
+}
+.ansItemContext {
+	line-height: 35px;
+	float: left;
+	min-height: 35px;
+	margin-left: 80px;
+}
+.ansItemContext, .ansItemContext * {
+	line-height: 35px;
+	font-size: 14px !important;
+}
+/*选项的按钮*/
+#quesArea dl dd .itemBtnBox {
+	line-height: 35px;
+	min-height: 35px;	
+	margin-top:10px;
+}
+#quesArea dl dd .type1 .ansBtn {
+	font-size: 16px;
+	line-height: 40px;
+	background-image: url(../Images/tk_exam.png);
+	background-repeat: no-repeat;
+	background-position: 0px -82px;
+	text-indent: 40px;
+	height: 40px;
+	width: 92px;
+	float: left;
+	cursor: pointer;
+}
+#quesArea dl dd .type1 .seleted {
+	background-position: -94px -82px;
+	color: #fff;
+	
+}
+#quesArea dl dd .type2 .ansBtn {
+	font-size: 16px;
+	line-height: 40px;
+	background-image: url(../Images/tk_exam.png);
+	background-repeat: no-repeat;
+	background-position: 0px -130px;
+	text-indent: 40px;
+	height: 40px;
+	width: 92px;
+	float: left;
+	cursor: pointer;
+}
+#quesArea dl dd .type2 .seleted {
+	background-position: -94px -130px;
+	color: #fff;
+}
+.type3{
+	-moz-border-radius: 15px;      /* Gecko browsers */
+	-webkit-border-radius: 15px;   /* Webkit browsers */
+	border-radius: 0px 0px 10px 10px;
+	font-size: 15px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: none;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #dedede;
+	border-right-color: #dedede;
+	border-bottom-color: #dedede;
+	border-left-color: #dedede;
+	min-height: 80px !important;
+	margin-top:0px !important;
+}
+#quesArea dl dd .type3 .ansBtn {
+	font-size: 16px;
+	line-height: 40px;
+	margin-top:10px;
+	background-image: url(../Images/tk_exam.png);
+	background-repeat: no-repeat;
+	background-position: 0px -130px;
+	text-indent: 40px;
+	height: 40px;
+	width: 92px;
+	float: left;
+	margin-left: 20px;
+	cursor: pointer;
+}
+#quesArea dl dd .type3 .seleted {
+	background-position: -94px -130px;
+	color: #fff;
+}
+#quesArea dl dd .type5 .char {
+	margin-left: 10px !important;
+}
+#quesArea dl dd .type5 .ansItemContext {
+	margin-left: 50px !important;
+}
+/*填空题的输入框*/
+#quesArea dl dd .itemBox .textbox {
+	height: 30px;	
+	line-height: 30px;
+	border: 1px solid #CCCCCC;
+	margin-top:5px;
+}
+/*简答题的输入框*/
+#quesArea dl dd .itemBox textarea {
+	height: 80px;
+	width: 96%;
+	margin-bottom: 10px;
+	margin-top:10px;
+	margin-left: 2%;
+	border: 1px solid #CCCCCC;
+}
+/*简答题的上传区域*/
+#quesArea dl dd .fileupBox {
+	margin-left: 10px;
+	margin-top: 10px;
+	display:none;
+}
+#quesArea dl dd .fileupBox input.fileinput {
+	line-height: 22px;
+	height: 22px;
+	margin-top: 2px;
+	width: 400px;
+}
+#quesArea dl dd .fileupBox .btnUp {
+	width: 50px;
+	border: thin outset #FFFFFF;
+	margin-left: 10px;
+	line-height: 22px;
+	height: 22px;
+	margin-top: -2px;
+}
+#quesArea dl dd .fileupBox .delfile {
+	font-size: 12px;
+	line-height: 16px;
+	color: #FF0000;
+	margin-left: 10px;
+	font-family: consolas;
+	font-weight: 100;
+	cursor: pointer;
+}
+/*确认把握度的按钮区域*/
+#quesArea dl dd .btnBox {
+	height: 40px;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	background-color: #DDF1FF;
+	text-indent: 20px;
+	padding-top: 3px;
+}
+#quesArea dl dd .btnBox .tit {
+	line-height: 35px;
+	height: 35px;
+	float: left;
+	width: 150px;
+}
+#quesArea dl dd .btnBox .btn {
+	cursor: pointer;
+	text-indent: 0px;
+	display: inline-block;
+	position: relative;
+	margin: 5px;
+	padding: 0 20px;
+	text-align: center;
+	text-decoration: none;
+	font: bold 12px/25px Arial, sans-serif;
+	text-shadow: 1px 1px 1px rgba(255,255,255, .22);
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	-moz-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	-webkit-transition: all 0.15s ease;
+	-moz-transition: all 0.15s ease;
+	-o-transition: all 0.15s ease;
+	-ms-transition: all 0.15s ease;
+	transition: all 0.15s ease;
+}
+#quesArea dl dd .btnBox .sure1 {
+	border: 1px solid #0066FF;
+	background-color: #A8DEEE;
+	color: #0066FF;
+}
+#quesArea dl dd .btnBox .sure2 {
+	border: 1px solid #FF6600;
+	color: #FF6600;
+	background-color: #A8DEEE;
+}
+#quesArea dl dd .btnBox .sure3 {
+	border: 1px solid #FF0000;
+	color: #FF0000;
+	background-color: #A8DEEE;
+}
+/*单选、多选，鼠标滑过*/
+#quesArea dl dd .itemBox .type1Over {
+	background-image: url(../Images/ok.gif);
+	background-repeat: no-repeat;
+	background-position: 10px 5px;
+	background-color: #FFFFCC;
+}
+/*试卷头部*/
+#pagerHeader{
+	height: 40px;
+	position: fixed;
+	top: 0;
+	width: 320px;
+	background-color: #009cff;
+	color: #FFF;
+	display:none;
+	line-height:40px;
+	z-index:1;
+}
+#pagerHeader .examTitle{
+	float: left;
+	text-align: center;
+	line-height: 45px;
+	width: 80%;
+	white-space: nowrap;
+	height: 40px;
+	overflow: hidden;
+	text-overflow : ellipsis;
+}
+#pagerHeader .back{
+	display: block;
+	float: left;
+	top: 0;
+	margin-right: 10px;
+}
+#residueTime {
+	width: 20%;
+	line-height: 40px;
+	font-weight: bold;
+	color: #FFFFFF;
+	float: right;
+	text-align: center;
+	font-family: "Microsoft YaHei" ! important;
+}
+#residueTime span {
+	font-size: 16px;
+}
+/*试卷底部*/
+#pagerFooter{
+	height: 40px;
+	position: fixed;
+	bottom: 0;
+	width: 320px;
+	color: #FFF;
+	display:none;
+	line-height:40px;
+	z-index:2;
+}/*交卷按钮*/
+#pagerSubmitBox {
+	line-height: 40px;
+	text-align: center;
+	display: block;
+	height: 40px;
+	width: 70%;
+	margin-left: auto;
+	background-color: #009900;
+	font-weight: bold;
+	color: #FFFFFF;
+	font-size: 16px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	margin-right: auto;
+	letter-spacing: 0.2em;
+	float:right;
+}
+#pagerSubmitBox span {
+	font-size: 22px;
+	margin-right: 10px;
+	font-weight: normal;
+}
+#pagerSubmitBox.noStart {
+	background-color: #ccc;
+}
+#pagerSubmitBox.noStart:before {
+	
+}
+#btnCard {
+	line-height: 40px;
+	text-align: center;
+	display: block;
+	height: 40px;
+	float:left;
+	width: 30%;
+	margin-left: auto;
+	background-color: #efefef;
+	font-weight: bold;
+	color: #000000;
+	font-size: 14px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	margin-right: auto;
+	letter-spacing: 0.2em;
+}
+#btnCard .examico {
+	font-size: 22px;
+	font-weight: normal;
+}

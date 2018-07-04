@@ -1,0 +1,20 @@
+﻿.mui-table-view-cell{
+	padding-right:45px !important;
+}
+.col-tit
+{
+	color: #000;
+
+	font-weight: bold;
+}
+.triangle_border_right{
+    width:0;
+    height:0;
+    border-width:10px 0 10px 10px;
+    border-style:solid;
+    border-color:transparent transparent transparent #333;/*透明 透明 透明 灰*/
+    position:relative;
+	display:inline-block;
+	float:left;
+	margin-right:10px;
+}

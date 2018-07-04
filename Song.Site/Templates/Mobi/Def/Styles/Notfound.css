@@ -1,0 +1,22 @@
+﻿@charset "utf-8";
+body {
+}
+.notico {
+	font-size: 60px;
+	line-height: 80px;
+	color: #F00;
+	text-align: center;
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+.showtxt{
+	line-height: 40px;
+	text-align: center;
+	margin-bottom:30px;
+}
+.btn{
+	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
+}

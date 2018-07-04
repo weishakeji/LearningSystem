@@ -1,0 +1,138 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$pager.tp_name}</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="CoreScripts/AutoLoyout.js"></script>
+<script type="text/javascript" src="CoreScripts/jquery.touchSwipe.min.js"></script>
+<script type="text/javascript" src="CoreScripts/MsgBox.js"></script>
+<script type="text/javascript" src="Scripts/TestScene.js"></script>
+<script type="text/javascript" src="Scripts/TestSceneEvent.js"></script>
+<link href="CoreStyles/MsgBox.css" rel="stylesheet" type="text/css" />
+<link href="/Utility/CoreStyles/Jme.css" rel="stylesheet" type="text/css" />
+<link href="Styles/TestScene.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<script language="javascript" type="text/javascript">
+var ServerTime = eval('new ' + eval('/Date({$Time})/').source);  //当前服务器端时间
+var ClientTime=new Date();	//当前客户端时间
+//唯一ID
+var uid="{$uid}";
+//试卷ID与名称
+var testPagerID=Number("{$pager.Tp_Id}");
+var testPagerName="{$pager.Tp_Name}";
+//试卷所属课程的id与名称
+var courseid=Number("{$pager.Cou_ID}");
+var courseName="{$pager.Cou_Name}";
+//试卷所属专业
+var sbjid=Number("{$pager.sbj_Id}");
+var sbjName="{$pager.Sbj_Name}";
+//考生ID，分组id,考生姓名
+var stID=Number("{$Account.Ac_Id}");
+var stName = "{$Account.Ac_name}";
+var stAccName = "{$Account.Ac_AccName}";
+var stsID=Number("{$Account.Sts_ID}");	
+var stsName="{$Account.Sts_Name}";	
+    </script>
+<vt:if var="action" value="start" compare="="> 
+  
+  <!--头部 -->
+  <div id="header"  loyout="row" height="48">
+    <div loyout="column" width="45"><a href="TestPapers.ashx" type="link"> <img src="Images/btnBack.jpg" style="height:25px; margin-top:15px;"/></a></div>
+    <div loyout="column" width="6"> <img src="Images/line.jpg" style="height:22px; margin-top:15px"></div>
+    <!--    <div loyout="column" id="btnFav" >
+      <div class="examico">&#xe661;</div>
+      <div class="icotext">收藏</div>
+    </div> -->
+    <div loyout="column" class="text" title="{$pager.tp_name}">{$pager.tp_name} </div>
+    <div loyout="column" width="6"> <img src="Images/line.jpg" style="height:22px; margin-top:15px"></div>
+    <div class="icotext"  width="80" loyout="column" id="residueTime" span="{$pager.Tp_Span}"><span class="mm">0</span>:<span class="ss">0</span></div>
+  </div>
+  <!--答题卡 -->
+  <div id="cardPanel" style="display:none">
+    <div id="cardBox">
+      <div id="cardBoxTitleBar">
+        <div id="cardBoxTitle"> 答题卡</div>
+        <div id="cardBoxColse" class="iconfont"> &#xe63d;</div>
+      </div>
+      <div id="cardBoxInner"></div>
+    </div>
+    <div id="cardLittle"></div>
+  </div>
+  <!--试题区域 -->
+  <div loyout="row"  class="context" >
+    <div id="quesArea">
+      <vt:foreach id="ques" from="$#.ques" item="q" index="i" remark="试题">
+        <vt:function var="IsCollect" method="IsCollect" args="$#.q.qus_id"/>
+        <div class="quesItem" qid="{$q.qus_id}" index="{$:i}" IsCollect="{$:#.IsCollect}"  num="{$q.qus_number}" type="{$q.qus_type}">
+          <div class="quesBox">
+            <vt:function var="type" method="getQuesType" args="$#.q.qus_type"/>
+            <div class="quesInfo">
+              <div class="info">[{$:i}/{$ques.Count}] [<span class="type">{$:type}题</span>]（<span class="num">{$:#.q.qus_number}</span>分）</div>
+              <div class="infoLeft"> 
+                <!--收藏与报错 -->
+                <vt:if var="IsCollect" value="true" compare="="> <span class="examico btnFav IsCollect">&#xe662;</span>
+                  <vt:else/>
+                  <span class="examico btnFav">&#xe661;</span> </vt:if>
+                <span class="examico btnError">&#xe704;</span> </div>
+            </div>
+            <!--试题的题干 -->
+            <div class="quesTitle"> {$:#.q.qus_title} </div>
+            <!--试题答案选项 -->
+            <div class="quesAnswerBox type{$q.qus_type}">
+              <vt:if var="q.qus_type" value="1" compare="=" remark="单选题"> 
+                <vt:function var="items" method="AnswerItems" args="$#.q"/>
+                <vt:foreach from="$#.items" item="ans" index="j">
+                  <vt:function var="tax" method="GetOrder" args="$j"/>
+                  <div class="ansItem" correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}">{$:tax}、{$:ans.Ans_Context} </div>
+                </vt:foreach>
+              </vt:if>
+              <vt:if var="q.qus_type" value="2" compare="=" remark="多选题"> 
+                <vt:function var="items" method="AnswerItems" args="$#.q"/>
+                <vt:foreach from="$#.items" item="ans" index="j">
+                  <vt:function var="tax" method="GetOrder" args="$j"/>
+                  <div class="ansItem"  correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}">{$:tax}、{$:ans.Ans_Context} </div>
+                </vt:foreach>
+              </vt:if>
+              <vt:if var="q.qus_type" value="3" compare="=" remark="判断题"> 
+                <vt:if var="q.Qus_IsCorrect" value="true" compare="=">
+                  <div class="ansItem" correct="true" ansid="0">A、&nbsp;正确</div>
+                  <div class="ansItem" correct="false" ansid="1">B、&nbsp;错误</div>
+                  <vt:else/>
+                  <div class="ansItem" correct="false" ansid="0">A、&nbsp;正确</div>
+                  <div class="ansItem" correct="true" ansid="1">B、&nbsp;错误</div>
+                </vt:if>
+              </vt:if>
+              <vt:if var="q.qus_type" value="4" compare="=" remark="简答题">
+                <div class="ansItem">
+                  回答：<br/>
+                  <textarea name="" class="textbox4"></textarea>
+                </div>
+              </vt:if>
+              <vt:if var="q.qus_type" value="5" compare="=" remark="填空题"> 
+                <vt:function var="items" method="AnswerItems" args="$#.q"/>
+                <vt:foreach from="$#.items" item="ans" index="j">
+                  <vt:function var="tax" method="GetOrder" args="$j"/>
+                  <div class="ansItem" correct="{$:ans.Ans_Context}" >{$:tax}、
+                    <input name=""  class="textbox5" type="text"/>
+                  </div>
+                </vt:foreach>
+              </vt:if>
+            </div>
+          </div>
+        </div>
+      </vt:foreach>
+    </div>
+  </div>
+  <div loyout="row" height="10" ></div>
+  <div loyout="row" height="40" >
+    <div loyout="column" width="10"></div>
+    <div loyout="column" width="110" id="btnCard"><span class="examico">&#xe689;</span><span id="CompleteNumber">0</span>/<span id="QuesCount">{$ques.Count}</span></div>
+    <div loyout="column" width="10"></div>
+    <div loyout="column" id="SubmitExam"><span class="examico">&#xf0146;</span>交&nbsp;卷</div>
+    <div loyout="column" width="10"></div>
+  </div>
+  <div loyout="row" height="10" ></div>
+</vt:if>
+</body>
+</html>

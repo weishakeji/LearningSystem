@@ -1,0 +1,195 @@
+.infoTop {
+	background-color: #CAEAFF;
+	min-height: 90px;
+}
+.subjectBox {
+	font-size: 14px;
+	line-height: 25px;
+	color: #999999;
+	text-indent: 10px;
+	height: 25px;
+}
+.courseBox {
+	font-size: 18px;
+	line-height: 35px;
+	text-align: center;
+	min-height: 35px;
+	margin-top: 5px;
+}
+.courseInfo {
+	font-size: 14px;
+	line-height: 20px;
+	color: #999999;
+	text-align: center;
+}
+.freeBox {
+	line-height: 30px;
+	color: #FF6600;
+	height: 30px;
+	margin-top: 40px;
+	font-size: 18px;
+	text-align: center;
+	margin-bottom: 40px;
+}
+.FreeBtnBox {
+	margin-top: 10px;
+}
+
+
+.freeBox span{
+	font-size: 30px;
+}
+.btnStudy {
+	text-align: center;
+	height: 40px;
+	width: 43%;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	float: left;
+	margin-left: 5%;
+	background-color: #339900;
+	
+	font-weight: bold;
+	color: #FFFFFF;
+	font-size: 16px;
+}
+.btnStudyBack {
+	text-align: center;
+	display: block;
+	height: 40px;
+	width: 43%;
+	float: right;
+	background-color: #999999 !important;
+	font-weight: bold;
+	color: #FFFFFF !important;
+	font-size: 16px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	margin-right: 5%;
+}
+.priceTitle {
+	line-height: 30px;
+	text-indent: 30px;
+	width: 100%;
+	margin-top: 20px;
+}
+.context .moneyBox {
+}
+/*价格*/
+.priceItem {
+	line-height: 40px;
+	background-color: #FFFFCC;
+	text-indent: 30px;
+	height: 40px;
+	margin-bottom: 5px;
+	font-size: 16px;
+}
+.priceItem .mprice{
+	font-weight: bold;
+	color: #F00;
+}
+/*价格提醒，计算每天的钱数*/
+.alt{
+	font-family: "宋体";
+	font-size: 13px;
+	color: #333;
+}
+.alt b{
+	color: #F00;
+	font-weight: normal;
+}
+/*券*/
+.coupon{
+	font-family: "宋体";
+	font-size: 13px;
+	color: #333;
+}
+.priceSelected{
+	background-color: #CEFE94;
+}
+.aTryout {
+	line-height: 40px;
+	text-align: center;
+	display: block;
+	height: 40px;
+	width: 90%;
+	float: left;
+	margin-left: 5%;
+	background-color: #0099CC !important;	
+	font-weight: bold;
+	color: #FFFFFF;
+	font-size: 16px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	letter-spacing: 0.5em;
+	margin-right: auto;
+	margin-top: 15px;
+}
+.veriTxt {
+	text-align: right;
+	float: left;
+	height: 25px;
+	width: 80px;
+}
+.txt{
+	font-size: 12px;
+	line-height: 40px;
+	display: inline-block;
+	height: 40px;
+}
+.StudyBtnBox {
+	margin-top: 20px;
+}
+
+.verifyBox {
+	line-height: 35px;
+	height: 35px;
+	width: 100%;
+}
+
+.verify {
+
+	width: 102px !important;
+	padding:0px !important;
+	height:35px !important;
+	margin:0px !important;
+}
+
+.textbox {
+	font-size: 16px;
+	line-height: 25px;
+	height: 25px;
+	border: 1px solid #CCCCCC;
+	text-indent: 10px;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+	float: left;
+	color: #333333;
+}
+.verifyCode{
+	cursor:pointer;
+	height: 32px;
+	float: left;
+	margin-top: 0px;
+	margin-left: 5px;
+	width: 72px;
+}
+.context .moneyBox {
+	line-height: 41px;
+	height: 40px;
+	width: 100%;
+}
+.moneyBox a {
+	color: #0099FF;
+	margin-left: 10px;
+}
+.noPrice {
+	text-align: center;
+	color: #FF8080;
+}

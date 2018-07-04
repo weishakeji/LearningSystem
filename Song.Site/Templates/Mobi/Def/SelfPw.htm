@@ -1,0 +1,97 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>修改密码</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="CoreScripts/Verify.js"></script>
+<script type="text/javascript" src="Scripts/SelfPw.js"></script>
+<link href="Styles/SelfPw.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  
+  <!--主界面部分-->
+  <div class="mui-inner-wrap">
+    <header class="mui-bar mui-bar-nav"> <a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe6c6;</a> 
+    <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+      <h1 class="mui-title">修改密码</h1>
+    </header>
+    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+      <div class="mui-scroll">
+        <ul class="mui-table-view">
+          <li class="mui-table-view-cell mui-media"> <a href="javascript:;">
+            <vt:if var="Account.Ac_photo" value="" compare="="> <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/>
+              <vt:else/>
+              <img class="mui-media-object mui-pull-left" src="{$stpath}{$:#.Account.Ac_photo}"/></vt:if>
+            <div class="mui-media-body">
+              <vt:if var="Account.Ac_name" value="" compare="="> （无名）
+                <vt:else/>
+                {$Account.Ac_name} </vt:if>
+              <p class='mui-ellipsis'>
+                <vt:if var="Student.Ac_PhoneMobi" value="" compare="!="> {$Student.Ac_PhoneMobi} </vt:if>
+                （账号：{$:#.Account.Ac_accname} ） </p>
+            </div>
+            </a> </li>
+        </ul>
+        <div style="height:10px"></div>
+        <!--错误提示-->
+        <vt:if var="state" value="0" compare="<">
+          <ul class="mui-table-view">
+            <li class="mui-table-view-cell error-show"> <span class="iconfont">&#xf0003;</span> <span id="error-show">
+             <vt:if var="state" value="-3" compare="=">原密码不正确！</vt:if></span></li>
+          </ul>
+          <div style="height:10px"></div>
+        </vt:if>
+        <!--操作正确的提示-->
+         <vt:if var="state" value="1" compare="=">
+          <ul class="mui-table-view">
+            <li class="mui-table-view-cell success-show"> <span class="iconfont">&#xe621;</span> <span id="error-show">
+            修改密码完成！</span></li>
+          </ul>
+          <div style="height:10px"></div>
+          <script>			
+			//将登录信息写入本地
+			$.storage("accid","{$accid}");
+			$.storage("accpw","{$accpw}");		
+            </script>
+        </vt:if>
+        <!--开始密码修改-->
+        <vt:if var="Account.Ac_id" value="0" compare=">">
+        <vt:if var="state" value="1" compare="!=">
+          <form id="student" name="student" method="post" class="mui-input-group">
+            <div class="mui-input-row mui-plus-hidden">
+              <label>原密码</label>
+              <input name="tbPw" value="" type="password"  class="textbox width" nullable="false"  group="selfpw"  />
+            </div>
+            <div class="mui-input-row mui-plus-hidden">
+              <label>新密码</label>
+              <input name="tbNewPw" type="password"  class="textbox width" lenlimit="6-12" nullable="false"  group="selfpw"  />
+            </div>
+            <div class="mui-input-row mui-plus-hidden">
+              <label>密码确认</label>
+              <input name="tbPw2" type="password"  class="textbox width" nullable="false"  group="selfpw"  sametarget="tbNewPw"/>
+            </div>
+            <div class="mui-input-row mui-plus-hidden">
+              <button class="mui-btn mui-btn-primary enter" id="btnSubmit" type="submit"  verify="true"  group="selfpw"  >确 定</button>
+            </div>
+          </form>
+          </vt:if>
+          <vt:else/>
+          <ul class="mui-table-view">
+            <li class="mui-table-view-cell error-show"> <span class="iconfont">&#xf0003;</span> <span id="error-show">
+             未登录！</span></li>
+          </ul>
+          <div style="height:10px"></div>
+          </vt:if>
+      </div>
+      
+      <!--主内容区结束--> 
+    </div>
+  </div>
+  <!-- off-canvas backdrop -->
+  <div class="mui-off-canvas-backdrop"> </div>
+</div>
+<!--主界面结束-->
+
+</body>
+</html>
