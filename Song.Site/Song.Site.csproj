@@ -165,6 +165,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.Common.dll</HintPath>
     </Reference>
+    <Reference Include="WeiSha.Data">
+      <HintPath>..\Lib\WeiSha.Data.dll</HintPath>
+    </Reference>
     <Reference Include="WeiSha.SMS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.SMS.dll</HintPath>
@@ -5553,10 +5556,6 @@
     <Content Include="Manage\Welcome.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\WeiSha.Data\WeiSha.Data.csproj">
-      <Project>{7B603EE2-B9F0-445E-817F-F058F43E5F48}</Project>
-      <Name>WeiSha.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
       <Project>{985A8268-3A87-46B9-9744-650664719E67}</Project>
       <Name>Song.Entities</Name>
