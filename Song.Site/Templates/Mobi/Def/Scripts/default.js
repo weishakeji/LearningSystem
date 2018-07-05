@@ -50,8 +50,6 @@ function default_event() {
 		 var href=$(this).parent("form").attr("action");
 		 window.location.href=$().setPara(href,"sear",txt);
 	});
-	//图片加载错误时的图片
-	
 }
 //自定义菜单的自动布局
 function menuBox_Autoloyout() {

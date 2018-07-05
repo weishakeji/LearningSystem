@@ -113,6 +113,19 @@ gallery.slider({
              </div>
          
         </div>
+        <!--通知公告-->
+        <vt:list type="notice" var="$notices" item="data" index="i" count="6">        
+        </vt:list>
+        <ul class="mui-table-view">
+          
+        <vt:list type="notice" from="$notices" item="data" index="i">
+          <li class="mui-table-view-cell" noid="{$:#.data.no_id}">
+           <a href="notice.ashx?id={$:#.data.no_id}" class="notice" title="{$:#.data.no_ttl}" type="link"> {$:#.data.no_ttl}</a> 
+            <span class="mui-badge">{$:#.data.no_startTime  format="MM-dd"}</span>
+           </li>
+        </vt:list>
+       
+        </ul>
         <!--热门课程-->
         <div class="mui-content-padded" style="margin:0px;">
           <ul class="mui-table-view" style="background-color:transparent">

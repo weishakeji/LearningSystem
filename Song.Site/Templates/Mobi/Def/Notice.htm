@@ -1,0 +1,52 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$notice.No_Ttl}</title>
+<vt:include file="inc/meta.inc" />
+<link href="Styles/notice.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="Scripts/notice.js"></script>
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--侧滑菜单部分-->
+  <vt:include file="inc/Menu.html" />
+<!--主界面部分-->
+<div class="mui-inner-wrap">
+  <header class="mui-bar mui-bar-nav headbar">
+    <form action="notices.ashx" method="get" id="formSearch">
+    <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+       <a class="mui-btn mui-btn-link mui-pull-right btnSear" href="#"><span class="iconfont">&#xe62f;</span></a>
+      <h1 class="mui-title">
+        <input name="sear" type="search" id="tbSearch" placeholder="公告查询">
+      </h1>
+    </form>
+  </header>
+  <nav class="mui-bar mui-bar-tab"> 
+  <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"></a>
+
+           <a class="mui-btn mui-btn-link mui-pull-right right" href="notices.ashx" type="link">
+				查看更多...
+			</a>
+  </nav>
+  <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+    <div class="mui-scroll">
+      <div id="artBox">
+        <div class="artTitle">
+          <vt:if var="notice.No_Ttl" value="" compare="!="> {$notice.No_Ttl}
+            <vt:else/>
+            (当前资讯不存在，可能是参数引用错误) </vt:if>
+        </div>
+        <div class="artAttrBar"> <span class="artTime">{$notice.no_StartTime format="yyyy-M-dd hh:m:s"}</span></span> 
+          <!--<span class="artSharp">分享 </span>  --> 
+        </div>
+        <!--正文 -->
+        <div id="artContext"> {$notice.No_Context} </div>
+      </div>
+    </div>
+  </div>
+</div>
+ <!-- off-canvas backdrop -->
+    <div class="mui-off-canvas-backdrop"> </div>
+</div>
+</body>
+</html>

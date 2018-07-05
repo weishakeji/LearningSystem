@@ -165,10 +165,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.Common.dll</HintPath>
     </Reference>
-    <Reference Include="WeiSha.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\WeiSha.Data.dll</HintPath>
-    </Reference>
     <Reference Include="WeiSha.SMS, Version=1.0.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.SMS.dll</HintPath>
@@ -778,6 +774,8 @@
     <Content Include="Templates\Mobi\Def\Scripts\TestScene.js" />
     <Content Include="Templates\Mobi\Def\Scripts\TestSceneEvent.js" />
     <Content Include="Templates\Mobi\Def\Scripts\TestView.js" />
+    <Content Include="Templates\Mobi\Def\Scripts\Notice.js" />
+    <Content Include="Templates\Mobi\Def\Scripts\Notices.js" />
     <Content Include="Templates\Mobi\Def\SelfCourse.htm" />
     <Content Include="Templates\Mobi\Def\SelfInfo.htm" />
     <Content Include="Templates\Mobi\Def\SelfPw.htm" />
@@ -837,6 +835,8 @@
     <Content Include="Templates\Mobi\Def\Styles\TestPapers.css" />
     <Content Include="Templates\Mobi\Def\Styles\TestScene.css" />
     <Content Include="Templates\Mobi\Def\Styles\TestView.css" />
+    <Content Include="Templates\Mobi\Def\Styles\Notice.css" />
+    <Content Include="Templates\Mobi\Def\Styles\Notices.css" />
     <Content Include="Templates\Mobi\Def\Subordinates.htm" />
     <Content Include="Templates\Mobi\Def\Swipe.htm" />
     <Content Include="Templates\Mobi\Def\Teacher.htm" />
@@ -849,6 +849,8 @@
     <Content Include="Templates\Mobi\Def\TestScene.htm" />
     <Content Include="Templates\Mobi\Def\TestView.htm" />
     <Content Include="Templates\Mobi\Def\_self.xml" />
+    <Content Include="Templates\Mobi\Def\Notice.htm" />
+    <Content Include="Templates\Mobi\Def\Notices.htm" />
     <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
     <Content Include="Templates\Mobi\_Public\Images\load_023.gif" />
     <Content Include="Templates\Mobi\_Public\Images\load_027.gif" />
@@ -5551,6 +5553,10 @@
     <Content Include="Manage\Welcome.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\WeiSha.Data\WeiSha.Data.csproj">
+      <Project>{7B603EE2-B9F0-445E-817F-F058F43E5F48}</Project>
+      <Name>WeiSha.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
       <Project>{985A8268-3A87-46B9-9744-650664719E67}</Project>
       <Name>Song.Entities</Name>

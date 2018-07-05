@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>通知公告</title>
+<vt:include file="inc/meta.inc" />
+<link rel="stylesheet" href="Styles/Notices.css" type="text/css"/>
+<script type="text/javascript" src="Scripts/Notices.js"></script>
+<meta charset="utf-8">
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--侧滑菜单部分-->
+  <vt:include file="inc/Menu.html" />
+<!--主界面部分-->
+<div class="mui-inner-wrap">
+<header class="mui-bar mui-bar-nav headbar">
+    <form action="notices.ashx" method="get" id="formSearch">
+    <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+       <a class="mui-btn mui-btn-link mui-pull-right btnSear" href="#"><span class="iconfont">&#xe62f;</span></a>
+      <h1 class="mui-title">
+        <input name="sear" type="search" id="tbSearch" placeholder="公告查询">
+      </h1>
+    </form>
+  </header>
+<img src="Images/news-ico.png" style="display:none" id="def-img"/>
+<!--下拉刷新容器-->
+<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+  <div class="mui-scroll"> 
+    <!--数据列表-->
+    <ul class="mui-table-view mui-table-view-chevron">
+    </ul>
+  </div>
+</div>
+ <!-- off-canvas backdrop -->
+    <div class="mui-off-canvas-backdrop"> </div>
+</div>
+</body>
+</html>

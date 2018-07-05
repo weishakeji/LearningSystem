@@ -230,6 +230,7 @@ jQuery.fn.getPara = function (url, key) {
             }
         }
     }
+    if(value.indexOf("#")>-1)value=value.substring(0,value.indexOf("#"));
     return value;
 }
 

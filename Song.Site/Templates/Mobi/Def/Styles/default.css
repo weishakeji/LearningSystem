@@ -175,6 +175,11 @@ a.btnRow{
 	text-align:center;
 	width:100%;
 }
+/*公告*/
+a.notice{
+	font-size:14px;
+	width:90%;
+}
 /*课程列表*/
 .cou-item{
 	margin:0px !important;
