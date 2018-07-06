@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>{$org.org_platformname}</title>
-<vt:include file="inc/icon-color.inc" />
+
 <vt:include file="inc/meta.inc" />
 <script type="text/javascript" src="CoreScripts/MsgBox.js"></script>
 <link href="CoreStyles/MsgBox.css" rel="stylesheet" type="text/css" />
@@ -25,7 +25,7 @@
       </form>
     </header>
     <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
-      <div class="mui-scroll">         
+      <div class="mui-scroll"> 
         <!--/*轮换图片*/-->
         <div class="mui-slider">
           <div class="mui-slider-group mui-slider-loop">
@@ -82,7 +82,7 @@ gallery.slider({
         <vt:if var="#.currCourse.cou_name" value="" compare="!="> 
           <!--当前课程-->
           <ul class="mui-table-view">
-            <li class="mui-table-view-cell  curr-box"> <a class="mui-navigate-right" href="selfcourse.ashx" type="link">
+            <li class="mui-table-view-cell  curr-box"> <a class="mui-navigate-right" href="CoursePage.ashx" type="link">
               <vt:if var="#.currCourse.cou_LogoSmall" value="" compare="="> <svg class="icon cou-ico" aria-hidden="true">
                 <use xlink:href="#icon-objects-color_diamond"></use>
                 </svg>
@@ -98,63 +98,37 @@ gallery.slider({
           </ul>
         </vt:if>
         <!--主按钮区-->
-          <div class="btnArea">
-            <div class="btnLeft">
-            <a class="blue" href="courses.ashx" type="link">课程中心</a>
-             <a class="gray" href="exam.ashx" type="link">在线考试</a>
-              <a class="red" href="Teachers.ashx" type="link">教师风采</a>
-               <a class="yellow" href="selfcourse.ashx" type="link">我的课程</a>
-                <a class="btnRow green" href="recharge.ashx" type="link">充   值</a>
-            </div>
-             <div class="btnRight"> 
-            
-             <img src="Images/nophoto.jpg" class="accDefPhoto"/>
-             <div class="rightButtom"><a href="login.ashx" type="link">登录</a> &nbsp; <a href="Register.ashx" type="link">注册</a></div>
-             </div>
-         
+        <div class="btnArea">
+          <div class="btnLeft"> <a class="blue" href="courses.ashx" type="link">课程中心</a> <a class="gray" href="exam.ashx" type="link">在线考试</a> <a class="red" href="Teachers.ashx" type="link">教师风采</a> <a class="yellow" href="selfcourse.ashx" type="link">我的课程</a> <a class="btnRow green" href="recharge.ashx" type="link">充   值</a> </div>
+          <div class="btnRight"> <img src="Images/nophoto.jpg" class="accDefPhoto"/>
+            <div class="rightButtom"><a href="login.ashx" type="link">登录</a> &nbsp; <a href="Register.ashx" type="link">注册</a></div>
+          </div>
         </div>
         <!--通知公告-->
-        <vt:list type="notice" var="$notices" item="data" index="i" count="6">        
-        </vt:list>
+        <vt:list type="notice" var="$notices" item="data" index="i" count="6"> </vt:list>
         <ul class="mui-table-view">
-          
-        <vt:list type="notice" from="$notices" item="data" index="i">
-          <li class="mui-table-view-cell" noid="{$:#.data.no_id}">
-           <a href="notice.ashx?id={$:#.data.no_id}" class="notice" title="{$:#.data.no_ttl}" type="link"> {$:#.data.no_ttl}</a> 
-            <span class="mui-badge">{$:#.data.no_startTime  format="MM-dd"}</span>
-           </li>
-        </vt:list>
-       
+          <vt:list type="notice" from="$notices" item="data" index="i">
+            <li class="mui-table-view-cell" noid="{$:#.data.no_id}"> <a href="notice.ashx?id={$:#.data.no_id}" class="notice" title="{$:#.data.no_ttl}" type="link"> {$:#.data.no_ttl}</a> <span class="mui-badge">{$:#.data.no_startTime  format="MM-dd"}</span> </li>
+          </vt:list>
         </ul>
         <!--热门课程-->
-        <div class="mui-content-padded" style="margin:0px;">
-          <ul class="mui-table-view" style="background-color:transparent">
-            <li class="mui-table-view-cell mui-collapse mui-active"> <a class="mui-navigate-right" href="#"> <svg class="icon mm-ico" aria-hidden="true" style="font-size:20px;">
-              <use xlink:href="#icon-book-2"></use>
-              </svg> 热门课程</a>
-              <div class="mui-collapse-content" style="margin:0px;background-color:transparent;">
-                <ul class="mui-table-view"  style="margin:0px;background-color:transparent;">
-                  <vt:list type="Course" item="c" index="i" count="10">
-                    <li class="mui-table-view-cell mui-media cou-item"  style="margin:0px;" couid="{$c.cou_id}" couname="{$c.cou_name}">
-                      <div class="mui-slider-handle mui-table" style="background-color:transparent">
-                        <div class="mui-table-cell"><a href="javascript:;" class="couname"><img class="mui-media-object mui-pull-left" src="{$c.Cou_LogoSmall}"  error="images/cou-nophoto.png">
-                          <div class="mui-media-body mui-ellipsis">{$c.cou_name}
-                            <p class="mui-ellipsis">
-                              <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
-                                <vt:else/>
-                                <span class="price">{$c.Cou_PriceSpan}{$c.Cou_PriceUnit}{$c.Cou_Price}元 </span> </vt:if>
-                              {$c.Sbj_Name}</p>
-                          </div>
-                          </a></div>
-                      </div>
-                    </li>
-                  </vt:list>
-                </ul>
-              </div>
-            </li>
-          </ul>
-        </div>
+        <div class="mui-card">
+	
+	<div class="mui-card-content">
+        <vt:repeat type="subject" var="sbjs" item="data" index="i" count="4" remark="顶级专业分类">
+          <div class="sbj"> <span class="line"></span>
+            <div class="name"> <a href="Courses.ashx?sbjids={$#.data.current.Sbj_id}" type="link">{$#.data.current.Sbj_Name} </a></div>
+            </div>
+          <vt:function var="reccour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="rec"/>
+          <div class="coursebox"><vt:foreach from="$reccour" type="course" item="c" index="i" order="rec" count="4"  remark="推荐课程">
+          <div class="course-item"> <a href="course.ashx?id={$:#.c.cou_id}" type="open" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" error="images/cou-nophoto.png"/></a><a href="course.ashx?id={$:#.c.cou_id}" type="open" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a></div>
+            </vt:foreach>
+          </div>
+        </vt:repeat>
         <div class="mui-table-view-cell mui-media" ><a class="link" href="courses.ashx" type="link">点击查看更多课程..</a></div>
+        </div>
+	
+</div>
         <!--我的课程--> 
       </div>
     </div>

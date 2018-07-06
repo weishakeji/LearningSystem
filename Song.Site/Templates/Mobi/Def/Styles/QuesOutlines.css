@@ -1,3 +1,9 @@
+.mui-scroll{
+	padding-bottom:60px;
+}
+.right{
+	margin-right:20px;
+}
 .curr-logo{
     width: 30px;
     height: 30px !important;

@@ -2,6 +2,9 @@
 a {
 	color: #333;
 }
+.mui-bar .mui-title{
+	right:70px;
+}
 .mui-control-item {
 	width: 24% !important;
 	margin: 0px !important;
@@ -13,6 +16,9 @@ a {
 }
 .mui-btn-yellow{
 	color:#333 !important;
+}
+header .iconfont{
+	font-size:20px;
 }
 .free {
 	font-size: 12px;

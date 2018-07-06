@@ -1,0 +1,76 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$course.cou_name} - {$:#.org.org_platformname}</title>
+<vt:include file="inc/icon-color.inc" />
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="CoreScripts/MsgBox.js"></script>
+<link href="CoreStyles/MsgBox.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="Scripts/CoursePage.js"></script>
+<link href="Styles/CoursePage.css" rel="stylesheet" type="text/css" />
+<link href="/Utility/CoreStyles/Jme.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="mui-inner-wrap">
+  <div class="photo" > <img  src="{$coupath}{$course.cou_logo}"/> </div>
+<div id="Context">  <div class="couName">{$course.cou_name} </div>
+  <div class="info">{$course.cou_viewNum}次关注 / {$studyCount}人学习 /
+    <vt:if var="course.cou_isfree" value="true" compare="=">免费
+      <vt:else/>
+      {$course.Cou_PriceSpan}{$course.Cou_PriceUnit}{$course.Cou_Price}元 </vt:if>
+  </div>
+  <!--选项卡-->
+  <div class="mainmenuBox" isBuy="{$isBuy}">
+          <div class="mm-item" href="CourseOutlines.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-luboxuexi"></use>
+            </svg><span>课程学习</span></div>
+          <div class="mm-item" href="QuesOutlines.ashx"> <svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-edit"></use>
+            </svg> <span>试题练习</span> </div>
+          <div class="mm-item" href="TestPapers.ashx"> <svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-iconset-09"></use>
+            </svg><span> 模拟考场 </span> </div>
+          <div class="mm-item" href="Guides.ashx"> <svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-gonggaoicon"></use>
+            </svg><span> 课程公告 </span> </div>
+          <div class="mm-item" href="QuesError.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-cuotitubiao"></use>
+            </svg> <span> 错题回顾 </span> </div>
+          <div class="mm-item" href="Collects.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-shoucang3"></use>
+            </svg> <span> 我的收藏 </span> </div>
+          <div class="mm-item" href="notes.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-blog"></use>
+            </svg> <span> 我的笔记 </span> </div>
+          <div class="mm-item" href="Statistics.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-dingdantongji--"></use>
+            </svg> <span> 成绩统计 </span> </div>
+          <div class="mm-item" href="Knowledges.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-business-color_briefcase-"></use>
+            </svg> <span> 知识库 </span> </div>
+            <div class="mm-item" href="MsgBoards.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-abc"></use>
+            </svg> <span> 交流咨询 </span> </div>
+            <div class="mm-item" href="Students.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-user-boy"></use>
+            </svg> <span> 我的同学 </span> </div>
+            <div class="mm-item" href="MyTeacher.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-objects-color_diamond"></use>
+            </svg> <span> 我的老师 </span> </div>
+           <!-- <div class="mm-item" href="exam.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-hegebiaozhun"></use>
+            </svg> <span> 在线考试 </span> </div>-->
+        </div>
+  
+</div>
+ <nav class="mui-bar mui-bar-tab"> 
+  <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"></a>
+
+           <a class="mui-btn mui-btn-link mui-pull-right right" href="#" type="link">
+				交流咨询
+			</a>
+  </nav>
+</div>
+
+</body>
+</html>

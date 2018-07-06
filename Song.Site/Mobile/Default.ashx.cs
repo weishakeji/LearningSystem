@@ -13,15 +13,10 @@ namespace Song.Site.Mobile
     /// </summary>
     public class Default : BasePage
     {
-        //当前课程的id
-        private int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
+       
         protected override void InitPageTemplate(HttpContext context)
         {
-            if (couid > 0)
-            {
-                Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
-                Extend.LoginState.Accounts.Course(course);
-            }
+            
             //当前选中的课程
             Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
             this.Document.SetValue("currCourse", currCourse);

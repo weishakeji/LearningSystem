@@ -26,8 +26,8 @@
             <vt:if var="#.currCou.cou_id" value="0" compare=">">
               <vt:if var="#.currCou.cou_LogoSmall" value="" compare="="><span class="iconfont cou-ico">&#xe674;</span>
                 <vt:else />
-                <a href="default.ashx" type="link"><img class="mui-media-object mui-pull-left" src="{$currCou.Cou_LogoSmall}"/> </a> </vt:if>
-              <div class="couName"><a href="default.ashx" type="link">{$currCou.cou_name}</a> </div>
+                <a href="CoursePage.ashx" type="link"><img class="mui-media-object mui-pull-left" src="{$path}{$currCou.Cou_LogoSmall}"/> </a> </vt:if>
+              <div class="couName"><a href="CoursePage.ashx" type="link">{$currCou.cou_name}</a> </div>
               <vt:else />
               您还没有选择课程。请在下面“已经购买的课程”中选择您要学习的课程，或前往<a href="Courses.ashx" type="link">课程中心</a> </vt:if>
           </div>
@@ -45,14 +45,14 @@
           </vt:if>
         </div>
         <ul class="mui-table-view mui-table-view-chevron">
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"> <span class="moneyico ico">&#xe652;</span>已经购买的课程
+          <li class="mui-table-view-cell mui-collapse mui-active"> <a class="mui-navigate-right" href="#"> <span class="moneyico ico">&#xe652;</span>已经购买的课程
             <div class="right-item stname"><span class="count">0</span>个</div>
             </a>
             <ul class="mui-table-view mui-table-view-chevron">
               <vt:if var="buyCou.count" value="0" compare=">">
                 <vt:foreach from="$#.buyCou" item="c" remark="已经购买的课程">
-                  <li class="mui-table-view-cell mui-media news-item" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
-                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">学习该课程</a></div>
+                  <li class="mui-table-view-cell mui-media cou-item" buy="true" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
+                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
                     <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
                     <div class="mui-slider-handle mui-table">
                       <div class="mui-table-cell"><a href="javascript:;"><img class="mui-media-object mui-pull-left" src="{$c.Cou_LogoSmall}">
@@ -78,8 +78,8 @@
             <ul class="mui-table-view mui-table-view-chevron">
               <vt:if var="overCou.count" value="0" compare=">">
                 <vt:foreach from="$#.overCou" item="c" remark="过期的课程">
-                  <li class="mui-table-view-cell mui-media news-item" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
-                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">学习该课程</a></div>
+                  <li class="mui-table-view-cell mui-media cou-item" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
+                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
                     <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
                     <div class="mui-slider-handle mui-table">
                       <div class="mui-table-cell"><a href="javascript:;"><img class="mui-media-object mui-pull-left" src="{$c.Cou_LogoSmall}">
@@ -105,8 +105,8 @@
             <ul class="mui-table-view mui-table-view-chevron">
               <vt:if var="tryCou.count" value="0" compare=">">
                 <vt:foreach from="$#.tryCou" item="c" remark="试用中的课程">
-                  <li class="mui-table-view-cell mui-media news-item" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
-                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">学习该课程</a></div>
+                  <li class="mui-table-view-cell mui-media cou-item" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
+                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
                     <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
                     <div class="mui-slider-handle mui-table">
                       <div class="mui-table-cell"><a href="javascript:;"><img class="mui-media-object mui-pull-left" src="{$c.Cou_LogoSmall}">

@@ -779,6 +779,7 @@
     <Content Include="Templates\Mobi\Def\Scripts\TestView.js" />
     <Content Include="Templates\Mobi\Def\Scripts\Notice.js" />
     <Content Include="Templates\Mobi\Def\Scripts\Notices.js" />
+    <Content Include="Templates\Mobi\Def\Scripts\CoursePage.js" />
     <Content Include="Templates\Mobi\Def\SelfCourse.htm" />
     <Content Include="Templates\Mobi\Def\SelfInfo.htm" />
     <Content Include="Templates\Mobi\Def\SelfPw.htm" />
@@ -840,6 +841,7 @@
     <Content Include="Templates\Mobi\Def\Styles\TestView.css" />
     <Content Include="Templates\Mobi\Def\Styles\Notice.css" />
     <Content Include="Templates\Mobi\Def\Styles\Notices.css" />
+    <Content Include="Templates\Mobi\Def\Styles\CoursePage.css" />
     <Content Include="Templates\Mobi\Def\Subordinates.htm" />
     <Content Include="Templates\Mobi\Def\Swipe.htm" />
     <Content Include="Templates\Mobi\Def\Teacher.htm" />
@@ -854,6 +856,7 @@
     <Content Include="Templates\Mobi\Def\_self.xml" />
     <Content Include="Templates\Mobi\Def\Notice.htm" />
     <Content Include="Templates\Mobi\Def\Notices.htm" />
+    <Content Include="Templates\Mobi\Def\CoursePage.htm" />
     <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
     <Content Include="Templates\Mobi\_Public\Images\load_023.gif" />
     <Content Include="Templates\Mobi\_Public\Images\load_027.gif" />
@@ -3134,6 +3137,10 @@
     </Compile>
     <Compile Include="Mobile\Subordinates.ashx.cs">
       <DependentUpon>Subordinates.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\CoursePage.ashx.cs">
+      <DependentUpon>CoursePage.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewsList.ashx.cs">
@@ -6222,6 +6229,7 @@
     <Content Include="Mobile\QQLogin.ashx" />
     <Content Include="CourseStudy.ashx" />
     <Content Include="Ajax\Copyright.ashx" />
+    <Content Include="Mobile\CoursePage.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

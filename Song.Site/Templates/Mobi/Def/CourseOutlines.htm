@@ -7,44 +7,28 @@
 <link href="Styles/CourseOutlines.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
-  <!--侧滑菜单部分-->
-  <vt:include file="inc/Menu.html" />
-  <!--主界面部分-->
-  <div class="mui-inner-wrap">
-    <header class="mui-bar mui-bar-nav"> <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
-      <h1 class="mui-title">课程学习</h1>
-    </header>
-    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
-      <div class="mui-scroll">
+
+<!--主界面部分-->
+<div class="mui-inner-wrap">
+
+    <div class="mui-scroll">
+      
+      <!--章节输出-->
+      <vt:if var="outlines.Length" value="0" compare=">">
         <ul class="mui-table-view">
-          <li class="mui-table-view-cell  curr-box">
-            <vt:if var="#.currCourse.cou_LogoSmall" value="" compare="="><span class="iconfont cou-ico">&#xe674;</span>
-              <vt:else />
-              <img class="mui-media-object mui-pull-left curr-logo" src="{$currCourse.Cou_LogoSmall}"/> </vt:if>
-            {$currCourse.cou_name} </li>
+          <vt:foreach id="course" from="$dtOutlines" item="data" remark="章节列表">
+            <vt:expression var="r" args="$data.ol_level" args="15" expression="({0})*{1}" />
+            <li class="mui-table-view-cell outline" olid="{$:#.data.ol_id}" pid="{$:#.data.ol_pid}" style="margin-left:{$:r}px"> <a class="mui-navigate-right" href="CourseStudy.ashx?id={$:#.data.ol_id}&couid={$:#.data.cou_id}"><span class="iconfont">&#xe6fd;</span> <span class="tax">1.</span> {$:#.data.ol_name}</a></li>
+          </vt:foreach>
         </ul>
-        <div style="height:10px"></div>
-        <!--章节输出-->
-        <vt:if var="outlines.Length" value="0" compare=">">
-          <ul class="mui-table-view">
-            <vt:foreach id="course" from="$dtOutlines" item="data" remark="章节列表">
-              <vt:expression var="r" args="$data.ol_level" args="15" expression="({0}-1)*{1}" />
-              <li class="mui-table-view-cell outline" olid="{$:#.data.ol_id}" pid="{$:#.data.ol_pid}" style="margin-left:{$:r}px">
-              <a class="mui-navigate-right" href="CourseStudy.ashx?id={$:#.data.ol_id}&couid={$:#.data.cou_id}"><span class="iconfont">&#xe6fd;</span> 
-              <span class="tax">1.</span> {$:#.data.ol_name}</a></li>
-            </vt:foreach>
-          </ul>
-          <vt:else />
-          <ul class="mui-table-view">
-            <li class="mui-table-view-cell"> 当前课程没有章节 </li>
-          </ul>
-        </vt:if>
-      </div>
+        <vt:else />
+        <ul class="mui-table-view">
+          <li class="mui-table-view-cell"> 当前课程没有章节 </li>
+        </ul>
+      </vt:if>
     </div>
-    <!-- 隐藏侧滑菜单的层 -->
-    <div class="mui-off-canvas-backdrop"> </div>
-  </div>
+  
 </div>
+<nav class="mui-bar mui-bar-tab"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"></a> <a class="mui-btn mui-btn-link mui-pull-right right" href="CoursePage.ashx?couid={$currCourse.cou_id}" type="link"> {$currCourse.cou_name} </a> </nav>
 </body>
 </html>

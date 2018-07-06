@@ -43,6 +43,9 @@ namespace Song.Site.Mobile
                 dt = tree.BuilderTree(dt);
                 this.Document.Variables.SetValue("dtOutlines", dt);  
             }
+            //课程资源、课程视频资源的所在的路径
+            this.Document.SetValue("path", Upload.Get["Course"].Virtual);
+            this.Document.SetValue("vpath", Upload.Get["CourseVideo"].Virtual);
             //是否拥有子级
             this.Document.RegisterGlobalFunction(this.isChildren);
             this.Document.RegisterGlobalFunction(this.getChildren);

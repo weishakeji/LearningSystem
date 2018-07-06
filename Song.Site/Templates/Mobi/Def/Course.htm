@@ -57,10 +57,10 @@
     <vt:if var="Account.Ac_id" value="0" compare=">">
       <vt:if var="isStudy" value="True" compare="=" remark="如果已经在学习了">
         <vt:if var="isTry" value="True" compare="=" remark="试用状态">
-          <div class="couBtn btnStart"> <a href="default.ashx?couid={$course.cou_id}" target="_top" title="开始学习">开始学习（试用）</a></div>
+          <div class="couBtn btnStart"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" title="开始学习">开始学习（试用）</a></div>
           <div class="couBtn btnBuy"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" title="购买该课程">购买该课程</a> </div>
           <vt:else/>
-          <div class="couBtn"> <a href="default.ashx?couid={$course.cou_id}" target="_top" title="开始学习">开始学习</a></div>
+          <div class="couBtn"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" title="开始学习">开始学习</a></div>
         </vt:if>
         <vt:else/>
         <div class="couBtn"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" title="选修该课程">选修该课程</a> </div>

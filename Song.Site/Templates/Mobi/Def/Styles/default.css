@@ -1,78 +1,80 @@
-﻿a{
-	color:gray;
+﻿a {
+	color: gray;
 }
 /*
 
 重新定义了一些MUI控件细
 节
 */
-.mui-content{
+.mui-content {
 	padding-top:0px !important;
+
 }
-.headbar{
-	background-color:transparent !important;
+.headbar {
+	background-color: transparent !important;
 }
-.btnSear span{
-	font-size:25px;
+.btnSear span {
+	font-size: 25px;
 }
-#tbSearch{
-	text-align:left;
+#tbSearch {
+	text-align: left;
 }
 /*颜色*/
-.blue{
+.blue {
 	background-color: #80CCFF !important;
 	color: #FFF;
-	//background: -webkit-gradient(linear, 0 0, 0 150%, from(#09F), to(#fff));
+ //background: -webkit-gradient(linear, 0 0, 0 150%, from(#09F), to(#fff));
 }
-.red{
+.red {
 	background-color: #FF9595 !important;
 	color: #FFF;
-	//background: -webkit-gradient(linear, 0 0, 0 150%, from(#F66), to(#fff));
+ //background: -webkit-gradient(linear, 0 0, 0 150%, from(#F66), to(#fff));
 }
-.gray{
+.gray {
 	background-color: #CCC !important;
 	color: #666;
-	//background: -webkit-gradient(linear, 0 0, 0 150%, from(#999), to(#fff));
+ //background: -webkit-gradient(linear, 0 0, 0 150%, from(#999), to(#fff));
 }
-.yellow{
+.yellow {
 	background-color: #FF9 !important;
 	color: #666;
-	//background: -webkit-gradient(linear, 0 0, 0 150%, from(#FC0), to(#fff));
+ //background: -webkit-gradient(linear, 0 0, 0 150%, from(#FC0), to(#fff));
 }
-.green{
+.green {
 	background-color: #6C3 !important;
 	color: #FFC;
-	//background: -webkit-gradient(linear, 0 0, 0 150%, from(#6C3), to(#fff));
+ //background: -webkit-gradient(linear, 0 0, 0 150%, from(#6C3), to(#fff));
 }
-
 /*卡片*/
-.curr-logo{
-    width: 30px;
-    height: 30px !important;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-top: -5px;
-    border: 1px solid #CCC !important;
-    display: block;	
-	margin-left:-3px;
+.curr-logo {
+	width: 30px;
+	height: 30px !important;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-top: -5px;
+	border: 1px solid #CCC !important;
+	display: block;
+	margin-left: -3px;
 }
-.cou-ico{
-	font-size:25px;
+.cou-ico {
+	font-size: 25px;
 }
-.curr-box{
-	 overflow: hidden;
-	 display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+.curr-box {
+	overflow: hidden;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 /*自定义菜单*/
-.menuBox
-{
-	width: 104%;	
+.menuBox {
+	width: 104%;
 	margin-left: -2%;
 	display: table;
 	margin-bottom: 10px;
 	text-align: center;
 }
-.menuBox .mItem{
+.menuBox .mItem {
 	float: left;
 	width: 33%;
 	border-top-width: 1px;
@@ -89,24 +91,22 @@
 	border-bottom-width: 1px;
 	border-right-width: 1px;
 	background-color: #FFF;
-	display:block;
+	display: block;
 }
-.menuBox .mItem .mitem-img{
+.menuBox .mItem .mitem-img {
 	font-size: 45px;
 	line-height: 50px;
 	font-style: normal;
 	text-align: center;
 	display: block;
-	width:70%;
-	margin-left:auto;
-	margin-right:auto;
-	margin-top:5px;
-	margin-bottom:5px;
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 5px;
+	margin-bottom: 5px;
 	border-radius: 50%;
-	
 }
-
-.menuBox .mItem span{
+.menuBox .mItem span {
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
@@ -121,16 +121,16 @@
 	overflow: hidden;
 }
 /*主菜单区*/
-.btnArea{
-	margin:10px;
+.btnArea {
+	margin: 10px;
 	height: 160px;
 }
-.btnLeft{
-	float:left;
-	width:60%;
-	height:160px;
+.btnLeft {
+	float: left;
+	width: 60%;
+	height: 160px;
 }
-.btnLeft a{
+.btnLeft a {
 	display: block;
 	height: 50px;
 	text-align: center;
@@ -142,10 +142,10 @@
 	line-height: 50px;
 	letter-spacing: 0.2em;
 }
-a.btnRow{
-	width:98%;
+a.btnRow {
+	width: 98%;
 }
-.btnRight{
+.btnRight {
 	float: left;
 	width: 39%;
 	margin-left: 1%;
@@ -154,47 +154,81 @@ a.btnRow{
 	text-align: center;
 	position: relative;
 }
-.rightTop{
-	height:30px;
-	text-height:30px;
+.rightTop {
+	height: 30px;
+	text-height: 30px;
 }
-.accDefPhoto{
+.accDefPhoto {
 	width: 70%;
-	margin-left:auto;
-    border-radius: 50%;
-    overflow: hidden;
-	margin-top:15px;
-    border: 2px solid #fff;
-    margin-right: auto;
+	margin-left: auto;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-top: 15px;
+	border: 2px solid #fff;
+	margin-right: auto;
 }
-.rightButtom{
-	height:30px;
-	text-height:30px;
+.rightButtom {
+	height: 30px;
+	text-height: 30px;
 	bottom: 0;
 	position: absolute;
-	text-align:center;
-	width:100%;
+	text-align: center;
+	width: 100%;
 }
 /*公告*/
-a.notice{
-	font-size:14px;
-	width:90%;
+a.notice {
+	font-size: 14px;
+	width: 90%;
 }
 /*课程列表*/
-.cou-item{
-	margin:0px !important;
-	padding-left:0px !important;
-	padding-right:0px !important;
+
+.sbj {
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	width: 100%;
+	overflow: hidden;
 }
-.cou-item>div{
-	background-color:transparent !important;
+.sbj .line {
+	display: inline-block;
+	width: 80%;
+	border-top: 1px solid #ccc;
 }
-.cou-item:after{
-	left:1px !important;
+.sbj .name {
+	color: #686868;
+	vertical-align: middle;
+	margin-top: -55px;	
 }
-.mui-collapse-content{
-	margin:0px !important;
-	padding:0px !important;
+.sbj .name a{
+	background-color: #FFF !important;
+	padding-left:20px;
+	padding-right:20px;
+}
+.coursebox{
+	margin-left:20px;
+	margin-right:20px;
+	margin-top:10px;
+
+	display:table;
+}
+.course-item {
+	width:46%;
+	margin-right:2%;
+	margin-left:2%;
+	text-align:center;
+	float:left;
+	margin-bottom:20px;
+}
+.course-item img {
+	width:90%;
+	height:100px;
+}
+.course-item a {
+	font-size:14px;
+}
+.mui-collapse-content {
+	margin: 0px !important;
+	padding: 0px !important;
 }
 .free {
 	font-size: 12px;
@@ -226,13 +260,13 @@ a.notice{
 	margin-top: 3px;
 	background-color: #FFC;
 }
-.couname{
+.couname {
 	color: #333;
 }
-.link{
+.link {
 	height: 40px;
 	line-height: 40p;
 	text-align: center;
 	color: #666;
-	display:block;
+	display: block;
 }
