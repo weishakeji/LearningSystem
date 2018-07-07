@@ -34,13 +34,13 @@ function a_click() {
         if (target == "_top" || type == "_parent") top.location.href = this.href;
         if (target == "_open") {
             var href = this.href;
-            var txt = $(this).text();
+            var txt = $(this).html();
             new PageBox(txt, href, 100, 100, "url").Open();
         }
     }
     if (type == "open" || target == "_open") {
         var href = this.href;
-        var txt = $(this).text();
+        var txt = $(this).html();
         new PageBox(txt, href, 100, 100, "url").Open();
     }
     if (type == "back") {

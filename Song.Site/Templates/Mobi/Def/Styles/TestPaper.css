@@ -75,13 +75,27 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 	border-left-style: none;
 	border-top-color: #CCC;
 }
-.couBtnBox, .couBtnBox a{
-	text-align: center;
-	color: #FFF;
+.btnbox{
+	float:left;
 }
-.aStartExam{
-	background-color: #188eee;
+.btnbox, .btnbox a{
+	text-align: center;
+	color: #FFF;	
+
 	height:60px;
 	line-height:60px;	
 	display:block;
+}
+.exam{
+	width: 60%;
+	background-color: #F60;
+	background-color: #66CC33;
+}
+.result{
+	width: 40%;
+	color: #999;
+	background-color: #188eee;
+}
+.aStartExam{
+	
 }

@@ -13,9 +13,20 @@ namespace Song.Site.Mobile
     /// 统计分析
     /// </summary>
     public class Statistics : BasePage
-    {  
+    {
+        int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;    //当前模拟考试的id
         protected override void InitPageTemplate(HttpContext context)
-        {            
+        {
+            if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
+            {
+                //当前试卷
+                Song.Entities.TestPaper paper = null;
+                paper = Business.Do<ITestPaper>().PagerSingle(id);
+                if (paper != null)
+                {
+                    this.Document.SetValue("pager", paper);
+                }
+            }
             //此页面的ajax提交，全部采用了POST方式
             if (Request.ServerVariables["REQUEST_METHOD"] == "POST")
             {
@@ -37,7 +48,7 @@ namespace Song.Site.Mobile
         private void delete()
         {
             //成绩id
-            int trid = WeiSha.Common.Request.Form["id"].Int32 ?? 0;
+            int trid = WeiSha.Common.Request.Form["trid"].Int32 ?? 0;
             try
             {
                 Business.Do<ITestPaper>().ResultsDelete(trid);
@@ -54,6 +65,7 @@ namespace Song.Site.Mobile
         /// </summary>
         private void list()
         {
+            //int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;    //当前模拟考试的id
             int size = WeiSha.Common.Request.Form["size"].Int32 ?? 10;  //每页多少条
             int index = WeiSha.Common.Request.Form["index"].Int32 ?? 1;  //第几页            
             //仅限的输出字段
@@ -65,7 +77,7 @@ namespace Song.Site.Mobile
             Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
 
             int sumcount = 0;
-            Song.Entities.TestResults[] tps = Business.Do<ITestPaper>().ResultsPager(stid, 0, currCourse.Cou_ID, size, index, out sumcount);
+            Song.Entities.TestResults[] tps = Business.Do<ITestPaper>().ResultsPager(stid, id, size, index, out sumcount);
             string json = "{\"size\":" + size + ",\"index\":" + index + ",\"sumcount\":" + sumcount + ",";
             json += "\"items\":[";
             for (int n = 0; n < tps.Length; n++)

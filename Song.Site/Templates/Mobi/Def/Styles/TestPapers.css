@@ -1,8 +1,11 @@
 @charset "utf-8";
 .row .rowlogo .ico {
-	font-family:iconfont !important;
+	font-family:icondepart  !important;
 	font-size:45px;
+	position:absolute;
 	font-style:normal;
+	left:0px;
+	top:12px;
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
@@ -20,6 +23,7 @@
 }
 .row .rowlogo {
 	float: left;
+	position:relative;
 	height: 50px;
 	width: 50px;
 	margin-right: 10px;
@@ -142,4 +146,13 @@ content:"...";
 	color: #333333;
 	text-align: center;
 	margin-top: 50px;
+}
+.mui-inner-wrap{
+	padding-bottom:60px;
+}
+.right{
+	margin-right:20px;
+}
+.couname{
+	font-size:16px;
 }

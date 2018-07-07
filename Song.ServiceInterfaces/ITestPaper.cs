@@ -185,12 +185,13 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 按试卷分页返回测试成绩
         /// </summary>
-        /// <param name="tpid"></param>
+        /// <param name="stid">学员id</param>
+        /// <param name="tpid">试卷id</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        TestResults[] ResultsPager(int tpid, int size, int index, out int countSum);
+        TestResults[] ResultsPager(int stid, int tpid, int size, int index, out int countSum);
         #endregion
 
 

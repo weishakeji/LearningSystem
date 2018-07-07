@@ -620,14 +620,17 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 按试卷分页返回测试成绩
         /// </summary>
-        /// <param name="tpid"></param>
+        /// <param name="stid">学员id</param>
+        /// <param name="tpid">试卷id</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public TestResults[] ResultsPager(int tpid, int size, int index, out int countSum)
+        public TestResults[] ResultsPager(int stid, int tpid, int size, int index, out int countSum)
         {
-            WhereClip wc = TestResults._.Tp_Id == tpid;
+            WhereClip wc = new WhereClip();
+            if (stid > 0) wc &= TestResults._.Ac_ID == stid;
+            if (tpid > 0) wc &= TestResults._.Tp_Id == tpid;
             countSum = Gateway.Default.Count<TestResults>(wc);
             TestResults[] exr = Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_Score.Desc).ToArray<TestResults>(size, (index - 1) * size);
             return exr;

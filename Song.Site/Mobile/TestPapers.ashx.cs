@@ -23,6 +23,10 @@ namespace Song.Site.Mobile
             //当前选中的课程
             Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
             if (currCourse == null) this.Response.Redirect("subject.ashx");
+            if (currCourse != null)
+            {
+                this.Document.SetValue("currCourse", currCourse);
+            }
             //试卷列表
             Song.Entities.TestPaper[] tps = null;
             if (string.IsNullOrWhiteSpace(search))

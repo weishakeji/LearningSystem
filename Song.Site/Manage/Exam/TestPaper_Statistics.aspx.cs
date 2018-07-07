@@ -79,7 +79,7 @@ namespace Song.Site.Manage.Exam
             int count = 0;
             //
             Song.Entities.TestResults[] eas = null;
-            eas = Business.Do<ITestPaper>().ResultsPager(id, Pager1.Size, Pager1.Index, out count);
+            eas = Business.Do<ITestPaper>().ResultsPager(-1, id, Pager1.Size, Pager1.Index, out count);
             foreach (Song.Entities.TestResults r in eas)
             {
                 double score = r.Tr_Score ?? 0;
