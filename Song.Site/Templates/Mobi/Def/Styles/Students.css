@@ -20,3 +20,9 @@ li a{
 	margin-right:5px;
 	background-size:100% !important;
 }
+.mui-inner-wrap{
+	padding-bottom:60px;
+}
+.right{
+	margin-right:20px;
+}
