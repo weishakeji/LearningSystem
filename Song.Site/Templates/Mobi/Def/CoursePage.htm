@@ -63,6 +63,17 @@
         </div>
   
 </div>
+<!--课程通知-->
+<!--课程详情-->
+<div class="boxtit"> <span class="line"></span>
+            <div class="name"> <span>课程详情</span> </div>
+            </div>
+<div class="introBox">
+        <vt:if var="course.cou_intro" value="" compare="="> <div class="noinfo">当前课程没有相关信息</div>
+          <vt:else/>
+          {$course.cou_intro} </vt:if>
+      </div>
+</div>
  <nav class="mui-bar mui-bar-tab"> 
   <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"></a>
 
@@ -70,7 +81,5 @@
 				<span class="iconfont footer-ico">&#xe6ee;</span>交流咨询
 			</a>
   </nav>
-</div>
-
 </body>
 </html>

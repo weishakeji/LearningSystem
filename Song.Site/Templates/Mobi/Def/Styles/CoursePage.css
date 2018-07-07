@@ -91,6 +91,47 @@ body{
 	display: block;
 	font-size:14px;
 }
+.boxtit {
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	width: 100%;
+	overflow: hidden;
+}
+.boxtit .line {
+	display: inline-block;
+	width: 80%;
+	border-top: 1px solid #ccc;
+}
+.boxtit .name {
+	color: #686868;
+	vertical-align: middle;
+	margin-top: -55px;	
+}
+.boxtit .name span{
+	background-color: #efeff4 !important;
+	padding-left:20px;
+	padding-right:20px;
+}
+/*课程详情*/
+.noinfo{
+	text-align: center;
+	color: #CCC;
+}
+.introBox{
+	width:100% !important;
+	padding:20px;
+	padding-top:0px;
+}
+.introBox img{
+	width:100% !important;
+	height:100%;
+}
+.introBox, .introBox *{
+	font-size:16px !important;
+	line-height:25px !important;
+}
+/*底部*/
 .mui-inner-wrap{
 	padding-bottom:60px;
 }
