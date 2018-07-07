@@ -54,7 +54,6 @@ namespace Song.Site.Mobile
             int couid = 0;
             if (id.Length > 0 && id[0] is int)
                 int.TryParse(id[0].ToString(), out couid);
-
             return Business.Do<ICourse>().StudyCourse(Extend.LoginState.Accounts.CurrentUser.Ac_ID, couid);
         }
         /// <summary>

@@ -1,8 +1,7 @@
 @charset "utf-8";
-body{
+body {
 	margin: 0px;
 	padding: 0px;
-	
 }
 #main {
 	position: fixed;
@@ -13,32 +12,29 @@ body{
 }
 .photo img {
 	width: 100%;
-	min-height:120px;
-	max-height:160px;
-	height:auto;
+	min-height: 120px;
+	max-height: 160px;
+	height: auto;
 }
-#Context{
-	margin-top: 10px;
-	margin-right: 10px;
-	margin-bottom: 10px;
-	margin-left: 10px;
-	height:auto;
+#Context {
+	padding: 10px;
+	background-color: #fff;
+	height: auto;
 }
 /*课程名称*/
-.couName{
+.couName {
 	font-weight: bold;
 	line-height: 25px;
 	color: #333;
 }
-.info{
+.info {
 	color: #999;
 	margin-top: 10px;
 	margin-bottom: 10px;
 	font-size: 14px;
 }
 /*主菜单*/
-.mainmenuBox
-{
+.mainmenuBox {
 	width: 104%;
 	border-bottom-width: 1px;
 	border-top-style: none;
@@ -48,16 +44,16 @@ body{
 	border-bottom-color: #E6E6E6;
 	background-color: #FFF;
 	margin-left: -2%;
-	display:table;
+	display: table;
 }
 .mainmenuBox .mm-item {
 	float: left;
 	width: 25%;
 	border-top-width: 1px;
 	border-left-width: 1px;
-	border-top-style: none;
+	border-top-style: solid;
 	border-right-style: solid;
-	border-bottom-style: solid;
+	border-bottom-style: none;
 	border-left-style: none;
 	border-top-color: #E6E6E6;
 	border-right-color: #E6E6E6;
@@ -67,20 +63,19 @@ body{
 	border-bottom-width: 1px;
 	border-right-width: 1px;
 	background-color: #FFF;
-	display:table;
+	display: table;
 }
-.mainmenuBox .mm-ico{
+.mainmenuBox .mm-ico {
 	font-size: 45px;
 	line-height: 50px;
 	font-style: normal;
 	text-align: center;
 	display: block;
-	width:100%;
-	margin-top:10px;
-	margin-bottom:5px;
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 5px;
 }
-
-.mainmenuBox .mm-item span{
+.mainmenuBox .mm-item span {
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
@@ -89,7 +84,7 @@ body{
 	position: relative;
 	text-align: center;
 	display: block;
-	font-size:14px;
+	font-size: 14px;
 }
 .boxtit {
 	height: 60px;
@@ -106,39 +101,65 @@ body{
 .boxtit .name {
 	color: #686868;
 	vertical-align: middle;
-	margin-top: -55px;	
+	margin-top: -55px;
 }
-.boxtit .name span{
+.boxtit .name span, .boxtit .name a {
 	background-color: #efeff4 !important;
-	padding-left:20px;
-	padding-right:20px;
+	padding-left: 20px;
+	padding-right: 20px;
+	color: #686868;
+	font-size: 16px;
+}
+/*课程公告*/
+.guids {
+	width: 100% !important;
+	padding: 20px;
+	padding-top: 0px;
+}
+.guid {
+	height: 30px;
+	line-height: 30px;
+}
+.guid a {
+	display: block;
+	width: 80%;
+	white-space: nowrap;
+	overflow : hidden;
+	text-overflow: ellipsis;
+	float: left;
+	color: #666;
+}
+.guid span {
+	float: right;
+	color: #999;
+	display: block;
 }
 /*课程详情*/
-.noinfo{
+.noinfo {
 	text-align: center;
 	color: #CCC;
 }
-.introBox{
-	width:100% !important;
-	padding:20px;
-	padding-top:0px;
+.introBox {
+	width: 100% !important;
+	padding: 20px;
+	padding-top: 0px;
 }
-.introBox img{
-	width:100% !important;
-	height:100%;
+.introBox img {
+	width: 100% !important;
+	height: 100%;
 }
-.introBox, .introBox *{
-	font-size:16px !important;
-	line-height:25px !important;
+.introBox, .introBox * {
+	font-size: 16px !important;
+	line-height: 25px !important;
 }
 /*底部*/
-.mui-inner-wrap{
-	padding-bottom:60px;
+.mui-inner-wrap {
+	padding-bottom: 60px;
 }
-.right{
-	margin-right:20px;
+.right {
+	margin-right: 20px;
 }
-.footer-ico{
-	margin-right:8px;
-	font-size:20px;
+.footer-ico {
+	margin-right: 8px;
+	font-size: 20px;
 }

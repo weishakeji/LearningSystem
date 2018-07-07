@@ -42,6 +42,34 @@ namespace Song.Site.Mobile
                 isBuy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, course.Cou_ID);
                 this.Document.Variables.SetValue("isBuy", isBuy);                
             }
+            //课程公告
+            Tag guidTag = this.Document.GetChildTagById("guides");
+            int guidCount = 0;
+            if (guidTag != null)
+            {
+                string tm = guidTag.Attributes.GetValue("count", "10");
+                int.TryParse(tm, out guidCount);
+            }
+            Song.Entities.Guide[] guides = Business.Do<IGuide>().GuideCount(0, course.Cou_ID, 0, guidCount);
+            this.Document.Variables.SetValue("guides", guides);  
+            //购买课程的时间区间
+            this.Document.RegisterGlobalFunction(this.getBuyInfo);
+        }
+        /// <summary>
+        /// 获取课程的购买信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        protected object getBuyInfo(object[] id)
+        {
+            int couid = 0;
+            if (id.Length > 0 && id[0] is int)
+                int.TryParse(id[0].ToString(), out couid);
+            if (this.Account != null)
+            {
+                return Business.Do<ICourse>().StudyCourse(this.Account.Ac_ID, couid);
+            }
+            return null;
         }
     }
 }

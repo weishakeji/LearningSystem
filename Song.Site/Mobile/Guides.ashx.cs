@@ -12,6 +12,8 @@ namespace Song.Site.Mobile
     /// </summary>
     public class Guides : BasePage
     {
+        //当前公告所属课程的id
+        public int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
             //此页面的ajax提交，全部采用了POST方式
@@ -26,7 +28,7 @@ namespace Song.Site.Mobile
                 int sumcount = 0;
                 //信息列表
                 Song.Entities.Guide[] guides = null;
-                guides = Business.Do<IGuide>().GetGuidePager(0, currCourse.Cou_ID, sorts, search, true, size, index, out sumcount);    
+                guides = Business.Do<IGuide>().GetGuidePager(0, couid, sorts, search, true, size, index, out sumcount);    
                 string json = "{\"size\":" + size + ",\"index\":" + index + ",\"sumcount\":" + sumcount + ",";
                 json += "\"items\":[";
                 for (int n = 0; n < guides.Length; n++)

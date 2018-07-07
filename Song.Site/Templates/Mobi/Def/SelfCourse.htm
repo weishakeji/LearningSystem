@@ -60,8 +60,14 @@
                           <p class="mui-ellipsis">
                           
                           <div class="intro">
-                            <vt:function var="info" method="getBuyInfo" args="$#.c.cou_id"/>
-                            期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"}</div>
+                            <vt:if var="c.Cou_IsFree" value="true" compare="=">该课程免费
+                              <vt:else />
+                              <vt:function var="info" method="getBuyInfo" args="$#.c.cou_id"/>
+                              <vt:if var="#.info.stc_istry" value="true" compare=""> （该课程未购买，暂时试用中）
+                                <vt:else />
+                                学习期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"} </vt:if>
+                            </vt:if>
+                          </div>
                           </p>
                         </div>
                         </a></div>
@@ -74,7 +80,8 @@
             </ul>
           </li>
           <li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe671;</span>过期的课程
-          <div class="right-item stname"><span class="count">0</span>个</div></a>
+            <div class="right-item stname"><span class="count">0</span>个</div>
+            </a>
             <ul class="mui-table-view mui-table-view-chevron">
               <vt:if var="overCou.count" value="0" compare=">">
                 <vt:foreach from="$#.overCou" item="c" remark="过期的课程">
@@ -101,7 +108,8 @@
             </ul>
           </li>
           <li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe636;</span>试用中的课程
-          <div class="right-item stname"><span class="count">0</span>个</div></a>
+            <div class="right-item stname"><span class="count">0</span>个</div>
+            </a>
             <ul class="mui-table-view mui-table-view-chevron">
               <vt:if var="tryCou.count" value="0" compare=">">
                 <vt:foreach from="$#.tryCou" item="c" remark="试用中的课程">
