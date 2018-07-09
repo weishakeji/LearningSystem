@@ -100,8 +100,29 @@ gallery.slider({
         <!--主按钮区-->
         <div class="btnArea">
           <div class="btnLeft"> <a class="blue" href="courses.ashx" type="link">课程中心</a> <a class="gray" href="exam.ashx" type="link">在线考试</a> <a class="red" href="Teachers.ashx" type="link">教师风采</a> <a class="yellow" href="selfcourse.ashx" type="link">我的课程</a> <a class="btnRow green" href="recharge.ashx" type="link">充   值</a> </div>
-          <div class="btnRight"> <img src="Images/nophoto.jpg" class="accDefPhoto"/>
-            <div class="rightButtom"><a href="login.ashx" type="link">登录</a> &nbsp; <a href="Register.ashx" type="link">注册</a></div>
+          <div class="btnRight">
+            <vt:if var="Account.Ac_id" value="0" compare=">"> 
+              <!--如果已经登录-->
+              <div class="accDefPhoto" >
+                <vt:if var="Account.Ac_photo" value="" compare="="> <img src="../images/nophoto.jpg"/>
+                  <vt:else/>
+                  <a class="" href="SelfInfo.ashx" > <img src="{$stpath}{$:#.Account.Ac_photo}" error="images/nophoto.jpg"/></a> </vt:if>
+              </div>
+              
+              <div class="rightButtom"> <a href="SelfInfo.ashx" type="link">{$Account.Ac_name}</a></div>
+              <vt:else/>
+              <!--如果未登录--> 
+              <script type="text/javascript">
+		//是否启用微信登录
+		var WeixinLoginIsUse="{$WeixinLoginIsUse}"=="True";
+		AutoLogin_forAjax(WeixinLoginIsUse);
+		</script> 
+              <img src="Images/nophoto.jpg" class="accDefPhoto"/>
+              <div class="rightButtom"> <a href="login.ashx" type="link">登录</a> &nbsp; <a href="Register.ashx" type="link">注册</a></div>
+            </vt:if>
+             <script type="text/javascript">
+			 $(".accDefPhoto").height($(".accDefPhoto").width());
+			 </script>
           </div>
         </div>
         <!--通知公告-->
@@ -113,22 +134,21 @@ gallery.slider({
         </ul>
         <!--热门课程-->
         <div class="mui-card">
-	
-	<div class="mui-card-content">
-        <vt:repeat type="subject" var="sbjs" item="data" index="i" count="4" remark="顶级专业分类">
-          <div class="sbj"> <span class="line"></span>
-            <div class="name"> <a href="Courses.ashx?sbjids={$#.data.current.Sbj_id}" type="link">{$#.data.current.Sbj_Name} </a></div>
-            </div>
-          <vt:function var="reccour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="rec"/>
-          <div class="coursebox"><vt:foreach from="$reccour" type="course" item="c" index="i" order="rec" count="4"  remark="推荐课程">
-          <div class="course-item"> <a href="course.ashx?id={$:#.c.cou_id}" type="open" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" error="images/cou-nophoto.png"/></a><a href="course.ashx?id={$:#.c.cou_id}" type="open" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a></div>
-            </vt:foreach>
+          <div class="mui-card-content">
+            <vt:repeat type="subject" var="sbjs" item="data" index="i" count="4" remark="顶级专业分类">
+              <div class="sbj"> <span class="line"></span>
+                <div class="name"> <a href="Courses.ashx?sbjids={$#.data.current.Sbj_id}" type="link">{$#.data.current.Sbj_Name} </a></div>
+              </div>
+              <vt:function var="reccour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="rec"/>
+              <div class="coursebox">
+                <vt:foreach from="$reccour" type="course" item="c" index="i" order="rec" count="4"  remark="推荐课程">
+                  <div class="course-item"> <a href="course.ashx?id={$:#.c.cou_id}" type="open" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" error="images/cou-nophoto.png"/></a><a href="course.ashx?id={$:#.c.cou_id}" type="open" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a></div>
+                </vt:foreach>
+              </div>
+            </vt:repeat>
+            <div class="mui-table-view-cell mui-media" ><a class="link" href="courses.ashx" type="link">点击查看更多课程...</a></div>
           </div>
-        </vt:repeat>
-        <div class="mui-table-view-cell mui-media" ><a class="link" href="courses.ashx" type="link">点击查看更多课程...</a></div>
         </div>
-	
-</div>
         <!--我的课程--> 
       </div>
     </div>

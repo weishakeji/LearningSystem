@@ -159,13 +159,14 @@ a.btnRow {
 	text-height: 30px;
 }
 .accDefPhoto {
-	width: 70%;
+	width: 80%;
 	margin-left: auto;
 	border-radius: 50%;
 	overflow: hidden;
 	margin-top: 15px;
 	border: 2px solid #fff;
 	margin-right: auto;
+	display:block;
 }
 .rightButtom {
 	height: 30px;
