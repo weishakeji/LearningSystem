@@ -70,7 +70,7 @@ function _initTraning() {
     $("#quesType span[type=" + firstQitem.attr("type") + "]").show();
     $("#quesType span[type!=" + firstQitem.attr("type") + "]").hide();
     //试题是否收藏的显示切换
-    var isCollect = qitem.attr("IsCollect") == "True" ? true : false;
+    var isCollect = firstQitem.attr("IsCollect") == "True" ? true : false;
     if (isCollect) {
         $("#btnFav").addClass("IsCollect");
     } else {

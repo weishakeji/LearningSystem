@@ -32,7 +32,8 @@ namespace Song.ServiceImpls
             entity.Qus_Explain = _ClearString(entity.Qus_Explain);
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) entity.Org_ID = org.Org_ID;  
-            return Gateway.Default.Save<Questions>(entity);
+            Gateway.Default.Save<Questions>(entity);
+            return entity.Qus_ID;
         }
         
         public void QuesSave(Questions entity)
@@ -543,7 +544,8 @@ namespace Song.ServiceImpls
         private void _buildExcelSql_1(HSSFWorkbook hssfworkbook, WhereClip where)
         {
             WhereClip wc = (Questions._.Qus_Type == 1).And(where);
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Desc).ToArray<Questions>();
+            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>();
+            quesOlname(ques);
             //创建工作簿对象
             ISheet sheet = hssfworkbook.CreateSheet("单选题");
             //创建数据行对象
@@ -586,7 +588,8 @@ namespace Song.ServiceImpls
         private void _buildExcelSql_2(HSSFWorkbook hssfworkbook,WhereClip where)
         {
             WhereClip wc = (Questions._.Qus_Type == 2).And(where);
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Desc).ToArray<Questions>();
+            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>();
+            quesOlname(ques);
             //创建工作簿对象
             ISheet sheet = hssfworkbook.CreateSheet("多选题");
             //sheet.DefaultColumnWidth = 30;
@@ -636,7 +639,8 @@ namespace Song.ServiceImpls
         private void _buildExcelSql_3(HSSFWorkbook hssfworkbook, WhereClip where)
         {
             WhereClip wc = (Questions._.Qus_Type == 3).And(where);
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Desc).ToArray<Questions>();
+            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>();
+            quesOlname(ques);
             //创建工作簿对象
             ISheet sheet = hssfworkbook.CreateSheet("判断题");
             //sheet.DefaultColumnWidth = 30;
@@ -671,7 +675,8 @@ namespace Song.ServiceImpls
         private void _buildExcelSql_4(HSSFWorkbook hssfworkbook, WhereClip where)
         {
             WhereClip wc = (Questions._.Qus_Type == 4).And(where);
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Desc).ToArray<Questions>();
+            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>();
+            quesOlname(ques);
             //创建工作簿对象
             ISheet sheet = hssfworkbook.CreateSheet("简答题");
             //创建数据行对象
@@ -703,7 +708,8 @@ namespace Song.ServiceImpls
         private void _buildExcelSql_5(HSSFWorkbook hssfworkbook, WhereClip where)
         {
             WhereClip wc = (Questions._.Qus_Type == 5).And(where);
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Desc).ToArray<Questions>();
+            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Asc).ToArray<Questions>();
+            quesOlname(ques);
             //创建工作簿对象
             ISheet sheet = hssfworkbook.CreateSheet("填空题");
             //创建数据行对象
@@ -738,6 +744,25 @@ namespace Song.ServiceImpls
                 row.CreateCell(12).SetCellValue(q.Qus_Explain);
                 i++;
             }
+        }
+        /// <summary>
+        /// 设置试题的章节信息
+        /// </summary>
+        /// <param name="ques"></param>
+        /// <returns></returns>
+        private Song.Entities.Questions[] quesOlname(Song.Entities.Questions[] ques)
+        {
+            foreach (Song.Entities.Questions q in ques)
+            {
+                if(!string.IsNullOrWhiteSpace(q.Ol_Name))continue;
+                Outline ol = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == q.Ol_ID).ToFirst<Outline>();
+                if (ol != null)
+                {
+                    q.Ol_Name = ol.Ol_Name;
+                    this.QuesSave(q);
+                }
+            }
+            return ques;
         }
         #endregion
         

@@ -20,7 +20,6 @@
 <script type="text/javascript">
         //是否购买，如果没有购买，则显示弹窗，提示试用题数
         var isBuy = "{$#.isBuy}" == "True" ? true : false;
-
         //试用试题数与总试题数
         var tryNum = Number("{$#.tryNum}");
         var Total = Number("{$#.Total}");
@@ -41,7 +40,7 @@
     </div>
   </div>
   <div loyout="column">
-    <div class="item" id="btnCard"> <span class="examico">&#xe689;</span> 第<span id="indexNum" initIndex="{$start}" index="1">{$start}</span>/{$Total}题</div>
+    <div class="item" id="btnCard"> <span class="examico">&#xe689;</span> 第<span id="indexNum" initIndex="1" index="1">1</span>/{$Total}题</div>
   </div>
   <div loyout="column" width="70">
     <div class="submitError" id="btnError"> <span class="examico">&#xe704;</span>报错</div>
@@ -67,7 +66,7 @@
   <!--试题区 -->
   <div id="quesArea">
     <vt:foreach id="ques" from="$#.ques" item="q" index="i" remark="试题">
-      <vt:expression var="qindex" args="$i" args="$start" expression="{0}+{1}-1" />
+      <vt:expression var="qindex" args="$i" args="1" expression="{0}+{1}-1" />
       <vt:function var="IsCollect" method="IsCollect" args="$#.q.qus_id"/>
       <div class="quesItem" qid="{$:#.q.qus_id}" index="{$:i}" IsCollect="{$:#.IsCollect}" type="{$:#.q.qus_type}">
         <div class="quesBox"> 

@@ -37,4 +37,9 @@ form{
 	margin-left: 10px;
 	line-height: 20px;
 	height: 20px;
+	overflow: hidden;
+}
+.noinfo{
+	text-align: center;
+	padding-top: 30px;
 }

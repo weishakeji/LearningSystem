@@ -21,12 +21,14 @@ namespace Song.Site.Mobile
         string errinfo = WeiSha.Common.Request.Form["tbErrInfo"].String;
         protected override void InitPageTemplate(HttpContext context)
         {
+            Song.Entities.Questions ques = Business.Do<IQuestions>().QuesSingle(qid);
+            this.Document.SetValue("ques", ques);
+
             if (string.IsNullOrWhiteSpace(errtype) && string.IsNullOrWhiteSpace(errinfo))
             {
                 return;
-            }
 
-            Song.Entities.Questions ques = Business.Do<IQuestions>().QuesSingle(qid);
+            }
             if (string.IsNullOrWhiteSpace(ques.Qus_ErrorInfo))
             {
                 ques.Qus_WrongInfo = errtype + "\r" + errinfo;
@@ -35,7 +37,7 @@ namespace Song.Site.Mobile
             {
                 ques.Qus_WrongInfo += "\r" + errtype + "\r" + errinfo;
             }
-            
+
             try
             {
                 ques.Qus_IsWrong = true;
@@ -46,6 +48,7 @@ namespace Song.Site.Mobile
             {
                 this.Document.SetValue("isSuccess", false);
             }
+
 
         }
     }

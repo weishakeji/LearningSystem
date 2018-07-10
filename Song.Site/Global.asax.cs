@@ -14,6 +14,7 @@ using Song.Entities;
 using WeiSha.WebControl;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Threading;
 
 namespace Song.Site
 {
@@ -40,11 +41,21 @@ namespace Song.Site
             try
             {
                 //生成所有机构的二维码
-                //Business.Do<IOrganization>().OrganBuildQrCode();
+                Business.Do<IOrganization>().OrganBuildQrCode();
             }
             catch
             {
             }
+            //创建线程，将试题导入缓存
+            ThreadStart threadStart = new ThreadStart(SetQuestionsCache);
+            Thread thread = new Thread(threadStart);
+            thread.Start();
+        }
+        public static void SetQuestionsCache()
+        {
+            Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
+            Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
+            Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
         }
         private void RegisterRoutes(RouteCollection routes){
             //伪静态页面，自动转到ashx动态页（ashx又自动取了/tempates/中的模板用于展示）

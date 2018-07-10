@@ -116,6 +116,8 @@ function ToAllLinkAddAccoutsID(acid) {
     //给所有超链接增加当前登录账号的id
     if (!(acid == "" || acid == undefined || acid == null || acid == 0)) {
         $("*[href]").each(function (index, element) {
+            var name = $(this).get(0).tagName.toLowerCase();
+            if (name == "link") return true;
             var href = $(this).attr("href");
             if (href == undefined || href == null || href == "" || href == "#") return true;
             if (href.length > 0 && href.substring(0, 1) == "#") return true;

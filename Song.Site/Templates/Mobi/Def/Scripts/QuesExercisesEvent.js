@@ -173,7 +173,7 @@ function _btnEvent() {
         }
     });
     //报错
-    $("#btnError").click(function () {
+    $("#btnError").click(function () {		
         var qid = $(".quesItem[index=" + $("#indexNum").attr("index") + "]").attr("qid");
         new PageBox("错误试题提交", "QuesSubmitError.ashx?id=" + qid, 90, 80, null).Open();
     });

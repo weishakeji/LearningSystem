@@ -224,7 +224,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string OutlineName(int identify)
         {
-            Outline entity = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == identify).ToFirst<Outline>();
+            Outline entity = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == identify).ToFirst<Outline>();
             if (entity == null) return "";
             string xpath = entity.Ol_Name;
             Song.Entities.Outline tm = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == entity.Ol_PID).ToFirst<Outline>();

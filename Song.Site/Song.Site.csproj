@@ -2245,6 +2245,9 @@
     <Compile Include="Ajax\ExamPager.ashx.cs">
       <DependentUpon>ExamPager.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Ajax\GetQuestion.ashx.cs">
+      <DependentUpon>GetQuestion.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Ajax\GetResult.ashx.cs">
       <DependentUpon>GetResult.ashx</DependentUpon>
     </Compile>
@@ -6230,6 +6233,7 @@
     <Content Include="CourseStudy.ashx" />
     <Content Include="Ajax\Copyright.ashx" />
     <Content Include="Mobile\CoursePage.ashx" />
+    <Content Include="Ajax\GetQuestion.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

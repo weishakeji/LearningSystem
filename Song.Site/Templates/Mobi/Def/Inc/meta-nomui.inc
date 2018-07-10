@@ -10,14 +10,14 @@
 <!--核心Js文件-->
 <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/artTemplate.js"></script>
-<script type="text/javascript" src="../CoreScripts/Extend.js?tick={$tick}"></script>
-<script type="text/javascript" src="../CoreScripts/PageBox.js?tick={$tick}"></script>
+<script type="text/javascript" src="../CoreScripts/Extend.js"></script>
+<script type="text/javascript" src="../CoreScripts/PageBox.js"></script>
 <!--核心Css文件-->
 <link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css"/>
-<link rel="stylesheet" href="../CoreStyles/public.css?tick={$tick}"/>
-<link rel="stylesheet" href="../CoreStyles/PageBox.css?tick={$tick}"/>
+<link rel="stylesheet" href="../CoreStyles/public.css"/>
+<link rel="stylesheet" href="../CoreStyles/PageBox.css"/>
 <!--公共的Js文件-->
-<script type="text/javascript" src="../CoreScripts/public.js?tick={$tick}"></script>
+<script type="text/javascript" src="../CoreScripts/public.js"></script>
 <script type="text/javascript">
   //当前登录的账号ID
   var currLoginACID = Number("{$Account.Ac_id}");

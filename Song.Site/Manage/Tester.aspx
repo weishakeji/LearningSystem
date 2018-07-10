@@ -20,25 +20,6 @@
     <script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
 </head>
 <body>
-<input type="search"/>
-<div>时区：<span id="Span1"><%= timename%></span></div>
-<div>服务器时间：<span id="servertime"></span></div>
-<div>浏览器时间：<span id="localtime"></span></div>
-    <form id="form1" runat="server">
-    <script language="javascript" type="text/javascript">
-        var date = eval('new ' + eval('/Date(<%= stamp %>)/').source);
-        //当前服务器端时间
-        //        var ServerTime = new Date("<%= servertime %>");
-        var ServerTime = date;
-        //alert(date);
-        $("#servertime").text(ServerTime.Format("yyyy-MM-dd hh:mm:ss"));
-        //本地时间
-        var Localtime = ServerTime.toLocal("<%= timediff%>");
-        $("#localtime").text(Localtime.Format("yyyy-MM-dd hh:mm:ss"));
 
-        
-       // alert(date);
-    </script>
-    </form>
 </body>
 </html>
