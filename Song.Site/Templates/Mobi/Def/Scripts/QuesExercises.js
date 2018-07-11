@@ -13,7 +13,9 @@
 	
     //$("#quesArea").width(wd.width() * count);
     //设置初始的题型
-    var firstQitem = $(".quesItem:first");
+	var qid=$().getPara("qid");
+	var q= $(".quesItem[qid="+qid+"]");
+    var firstQitem =qid!="" ?  $(".quesItem[qid="+qid+"]"): $(".quesItem:first");
     $("#quesType span[type=" + firstQitem.attr("type") + "]").show();
     $("#quesType span[type!=" + firstQitem.attr("type") + "]").hide();
     //试题是否收藏的显示切换
@@ -24,12 +26,12 @@
         $("#btnFav").removeClass("IsCollect");
     }
     buildCard();
-    setCardState("curr");
+    setCardState("curr",Number(firstQitem.attr("qid")));
+	quesAreaMove((Number(firstQitem.attr("index"))-1)*$(".quesItem").width()) ;
     getAnswer(); //获取答案
 	
 }
 $(function () {
-    //_initTraning();
     //左右滑动切换试题
     $(".context").swipe({ fingers: 'all', swipeLeft: swipeFuc, swipeRight: swipeFuc,
         pinchIn: swipePinch, pinchOut: swipePinch
@@ -87,27 +89,6 @@ function quesAreaMove(fixLeft) {
     });
 }
 
-//初始化界面
-function _initTraning() {
-	
-	/*
-    //$("#quesArea").width(wd.width() * count);
-    //设置初始的题型
-    var firstQitem = $(".quesItem:first");
-    $("#quesType span[type=" + firstQitem.attr("type") + "]").show();
-    $("#quesType span[type!=" + firstQitem.attr("type") + "]").hide();
-    //试题是否收藏的显示切换
-    var isCollect = qitem.attr("IsCollect") == "True" ? true : false;
-    if (isCollect) {
-        $("#btnFav").addClass("IsCollect");
-    } else {
-        $("#btnFav").removeClass("IsCollect");
-    }
-    buildCard();
-    setCardState("curr");
-    getAnswer(); //获取答案
-	*/
-}
 //生成答题卡
 function buildCard() {
     //试题类型
@@ -152,9 +133,10 @@ function buildCard() {
 //state:curr当前试题，succ正确，error错误,null默认状态
 //qid:试题的id
 function setCardState(state, qid) {
+	var index=0;
     //如果没有指明试题id，则取当前显示的试题
     if (qid == null) {
-        var index = $("#indexNum").attr("index");
+        index = $("#indexNum").attr("index");
         var qitem = $(".quesItem[index=" + index + "]");
         qid = qitem.attr("qid");
     }
@@ -172,6 +154,15 @@ function setCardState(state, qid) {
     if (state == "error") {
         box.addClass("error");
     }
+	//记录学习进度
+	$.get("/ajax/LogForStudentQuestions.ashx",
+			{acid:acid,
+			couid:$().getPara("couid"),
+			olid:$().getPara("olid"),
+			qid:qid,
+			index:index
+			},function(){
+	});
 }
 //获取试题类型
 function getQuesType() {

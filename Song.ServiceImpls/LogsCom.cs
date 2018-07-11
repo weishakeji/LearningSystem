@@ -15,6 +15,7 @@ namespace Song.ServiceImpls
 {
     public class LogsCom :ILogs
     {
+        #region 登录日志的管理
         /// <summary>
         /// 增加登录日志
         /// </summary>
@@ -231,6 +232,80 @@ namespace Song.ServiceImpls
             
             return Gateway.Default.From<Logs>().Where(wc).OrderBy(Logs._.Log_Time.Desc).ToArray<Logs>(size, (index - 1) * size);
         }
-        
+        #endregion
+
+        #region 学员练习记录
+        /// <summary>
+        /// 添加练习记录
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="ques">试题id</param>
+        /// <param name="index">试题页面中的索引</param>
+        /// <returns></returns>
+        public LogForStudentQuestions QuestionAdd(int acid, int couid, int olid, int ques, int index)
+        {
+            LogForStudentQuestions entity = new LogForStudentQuestions();
+            entity.Ac_ID = acid;
+            entity.Cou_ID = couid;
+            entity.Ol_ID = olid;
+            entity.Qus_ID = ques;
+            entity.Lsq_Index = index;
+            entity.Lsq_CrtTime = DateTime.Now;
+            entity.Lsq_LastTime = entity.Lsq_CrtTime;
+            Gateway.Default.Save<LogForStudentQuestions>(entity);
+            return entity;
+        }
+        /// <summary>
+        /// 修改练习记录
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="ques">试题id</param>
+        /// <param name="index">试题页面中的索引</param>
+        /// <returns></returns>
+        public LogForStudentQuestions QuestionUpdate(int acid, int couid, int olid, int ques, int index)
+        {
+            LogForStudentQuestions entity = this.QuestionSingle(acid, couid, 0);
+            if (entity == null) entity = this.QuestionAdd(acid, couid, 0, ques, index);
+            entity.Qus_ID = ques;
+            entity.Lsq_Index = index;
+            entity.Lsq_LastTime = DateTime.Now;
+            entity.Ol_ID = olid;
+            Gateway.Default.Save<LogForStudentQuestions>(entity);
+            return entity;
+        }
+        /// <summary>
+        /// 获取练习记录
+        /// </summary>
+        /// <param name="acid"></param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        public LogForStudentQuestions QuestionSingle(int acid, int couid, int olid)
+        {
+            WhereClip wc = new WhereClip();
+            wc &= LogForStudentQuestions._.Ac_ID == acid;
+            wc &= LogForStudentQuestions._.Cou_ID == couid;
+            if (olid > 0) wc &= LogForStudentQuestions._.Ol_ID == olid;
+            return Gateway.Default.From<LogForStudentQuestions>().Where(wc).ToFirst<LogForStudentQuestions>();
+        }
+        /// <summary>
+        /// 删除学员的练习记录
+        /// </summary>
+        /// <param name="acid">学员Id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        public void QuestionDelete(int acid, int couid, int olid)
+        {
+            WhereClip wc = new WhereClip();
+            wc &= LogForStudentQuestions._.Ac_ID == acid;
+            wc &= LogForStudentQuestions._.Cou_ID == couid;
+            if (olid > 0) wc &= LogForStudentQuestions._.Ol_ID == olid;
+            Gateway.Default.Delete<LogForStudentQuestions>(wc);
+        }
+        #endregion
     }
 }

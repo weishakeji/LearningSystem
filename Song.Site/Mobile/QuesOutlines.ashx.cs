@@ -46,6 +46,9 @@ namespace Song.Site.Mobile
             //课程资源、课程视频资源的所在的路径
             this.Document.SetValue("path", Upload.Get["Course"].Virtual);
             this.Document.SetValue("vpath", Upload.Get["CourseVideo"].Virtual);
+            //试题练习记录
+            Song.Entities.LogForStudentQuestions log = Business.Do<ILogs>().QuestionSingle(this.Account.Ac_ID, couid, 0);
+            this.Document.SetValue("log", log);
             //是否拥有子级
             this.Document.RegisterGlobalFunction(this.isChildren);
             this.Document.RegisterGlobalFunction(this.getChildren);

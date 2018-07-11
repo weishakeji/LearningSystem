@@ -165,6 +165,7 @@
     <Compile Include="Links.cs" />
     <Compile Include="LinksSort.cs" />
     <Compile Include="LogForStudentOnline.cs" />
+    <Compile Include="LogForStudentQuestions.cs" />
     <Compile Include="LogForStudentStudy.cs" />
     <Compile Include="Logs.cs" />
     <Compile Include="ManageMenu.cs" />

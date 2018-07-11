@@ -13,8 +13,12 @@
   <div class="mui-scroll">
     <ul class="mui-table-view">
       <li class="mui-table-view-cell">
-        <vt:function var="count" method="getQuesCount" args="$couid" args="0" args="all" remark="当前章节的试题数，参数1为章节id,参数2指是否为当前章节下所有试题（包含子章节）"/>
-        <a href="QuesExercises.ashx?couid={$couid}&count={$count}" type="link"> 练习当前课程的全部试题 <span class="mui-badge  mui-badge-primary sumcount">{$count}</span></a> </li>
+         <vt:if var="log.Lsq_ID" value="0" compare=">"> 
+         <a href="QuesExercises.ashx?couid={$log.cou_id}&olid={$log.ol_id}&qid={$log.qus_id}" class="log" olid="{$log.ol_id}" type="link"> 继续练习 <span class="mui-pull-right logtime">{$log.lsq_lastTime}</span></a>
+          <vt:else />
+          按章节练习
+          </vt:if>
+        </li>
     </ul>
     <!--章节输出-->
     <vt:if var="outlines.Length" value="0" compare=">">
@@ -33,7 +37,8 @@
       </ul>
     </vt:if>
   </div>
-  <nav class="mui-bar mui-bar-tab"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"></a> <a class="mui-btn mui-btn-link mui-pull-right right" href="CoursePage.ashx?couid={$currCourse.cou_id}" type="link"> {$currCourse.cou_name} </a> </nav>
+  <vt:function var="count" method="getQuesCount" args="$couid" args="0" args="all" remark="当前章节的试题数，参数1为章节id,参数2指是否为当前章节下所有试题（包含子章节）"/>
+  <nav class="mui-bar mui-bar-tab"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"><span class="couname">{$currCourse.cou_name}</span></a> <a class="mui-btn mui-btn-link mui-pull-right right"> <span class="mui-badge count">共计：{$count} 道</span> </a> </nav>
 </div>
 </body>
 </html>

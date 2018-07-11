@@ -11,6 +11,7 @@ namespace Song.ServiceInterfaces
     /// </summary>
     public interface ILogs : WeiSha.Common.IBusinessInterface
     {
+        #region 管理登录日志
         /// <summary>
         /// 增加登录日志
         /// </summary>
@@ -96,6 +97,44 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         Logs[] GetPager(int accId, string mmSear,string type, DateTime start, DateTime end, int size, int index, out int countSum);
-        
+        #endregion
+
+        #region 学员练习记录
+        /// <summary>
+        /// 添加练习记录
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="ques">试题id</param>
+        /// <param name="index">试题页面中的索引</param>
+        /// <returns></returns>
+        LogForStudentQuestions QuestionAdd(int acid, int couid, int olid, int ques, int index);
+        /// <summary>
+        /// 修改练习记录
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="ques">试题id</param>
+        /// <param name="index">试题页面中的索引</param>
+        /// <returns></returns>
+        LogForStudentQuestions QuestionUpdate(int acid, int couid, int olid, int ques, int index);
+        /// <summary>
+        /// 获取练习记录
+        /// </summary>
+        /// <param name="acid"></param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        LogForStudentQuestions QuestionSingle(int acid, int couid, int olid);
+        /// <summary>
+        /// 删除学员的练习记录
+        /// </summary>
+        /// <param name="acid">学员Id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        void QuestionDelete(int acid, int couid, int olid);
+        #endregion
     }
 }

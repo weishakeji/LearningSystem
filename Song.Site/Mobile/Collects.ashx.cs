@@ -72,6 +72,7 @@ namespace Song.Site.Mobile
             {
                 ques[n].Qus_Title = ques[n].Qus_Title.Replace("\r", "").Replace("\n", "").Replace("\t", "");
                 ques[n].Qus_Title = Extend.Html.ClearHTML(ques[n].Qus_Title, "p", "img", "div", "span", "font");
+                ques[n].Qus_Items = ques[n].Qus_Answer = "";
                 json += ques[n].ToJson() + ",";
             }
             if (json.EndsWith(",")) json = json.Substring(0, json.Length - 1);
