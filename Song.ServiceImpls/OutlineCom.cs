@@ -696,7 +696,7 @@ namespace Song.ServiceImpls
         private int _ClacLevel(Song.Entities.Outline entity)
         {
             //if (entity.Ol_PID == 0) return 1;
-            int level = 1;
+            int level = 0;
             Song.Entities.Outline tm = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == entity.Ol_PID).ToFirst<Outline>();
             while (tm != null)
             {

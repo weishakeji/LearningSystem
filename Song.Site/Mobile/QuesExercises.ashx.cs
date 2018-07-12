@@ -57,14 +57,11 @@ namespace Song.Site.Mobile
             //按章节取题
             if (olid > 0)
             {
-                foreach (Song.Entities.Questions q in ques)
-                {
-                    if (q.Ol_ID != olid) continue;
-                    list.Add(q);
-                }
+                List<int> olids = Business.Do<IOutline>().TreeID(olid);
+                list = GetQues(olids, ques);              
             }
             else
-            {
+            {               
                 //按钮课程取题
                 foreach (Song.Entities.Questions q in ques)
                 {
@@ -97,9 +94,27 @@ namespace Song.Site.Mobile
             this.Document.SetValue("ques", list);
 
             this.Document.RegisterGlobalFunction(this.AnswerItems);
-            //this.Document.RegisterGlobalFunction(this.GetAnswer);
             this.Document.RegisterGlobalFunction(this.GetOrder);
             this.Document.RegisterGlobalFunction(this.IsCollect);
+        }
+
+        /// <summary>
+        /// 按章节输出试题
+        /// </summary>
+        /// <param name="olid">多个章节id</param>
+        /// <returns></returns>
+        private List<Song.Entities.Questions> GetQues(List<int> olid,Song.Entities.Questions[] ques)
+        {
+            List<Song.Entities.Questions> list = new List<Entities.Questions>();
+            foreach (int id in olid)
+            {
+                foreach (Song.Entities.Questions q in ques)
+                {
+                    if (q.Ol_ID != id) continue;
+                    list.Add(q);
+                }
+            }
+            return list;
         }
         /// <summary>
         /// 当前试题的选项，仅用于单选与多选
@@ -119,54 +134,7 @@ namespace Song.Site.Mobile
                 //ans[i].Ans_Context = ans[i].Ans_Context.Replace(">", "&gt;");
             }
             return ans;
-        }
-        ///// <summary>
-        ///// 试题的答案
-        ///// </summary>
-        ///// <param name="objs"></param>
-        ///// <returns></returns>
-        //protected object GetAnswer(object[] objs)
-        //{     
-        //    //当前试题
-        //    Song.Entities.Questions qus = (Song.Entities.Questions)objs[0];
-        //    string ansStr = "";
-        //    if (qus.Qus_Type == 1)
-        //    {
-        //        //当前试题的答案
-        //        Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
-        //        for (int i = 0; i < ans.Length; i++)
-        //        {
-        //            if (ans[i].Ans_IsCorrect)
-        //                ansStr += (char)(65 + i);
-        //        }
-        //    }
-        //    if (qus.Qus_Type == 2)
-        //    {
-        //        Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
-        //        for (int i = 0; i < ans.Length; i++)
-        //        {
-        //            if (ans[i].Ans_IsCorrect)
-        //                ansStr += (char)(65 + i) + "、";
-        //        }
-        //        ansStr = ansStr.Substring(0, ansStr.LastIndexOf("、"));
-        //    }
-        //    if (qus.Qus_Type == 3)
-        //        ansStr = qus.Qus_IsCorrect ? "正确" : "错误";
-        //    if (qus.Qus_Type == 4)
-        //    {
-        //        if (qus != null && !string.IsNullOrEmpty(qus.Qus_Answer))
-        //            ansStr = qus.Qus_Answer;
-        //    }
-        //    if (qus.Qus_Type == 5)
-        //    {
-        //        //当前试题的答案
-        //        Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
-        //        for (int i = 0; i < ans.Length; i++)
-        //             ansStr += (char)(65 + i) + "、" + ans[i].Ans_Context + "<br/>";
-        //    }
-        //    return ansStr;
-        //}
-
+        } 
         /// <summary>
         /// 试题是否被当前学员收藏
         /// </summary>

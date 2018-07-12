@@ -225,6 +225,16 @@ namespace Song.ServiceImpls.QuestionsMethod
         public List<Questions> GetQuestions(string uid)
         {
             QuestionsCache_Item qci = this.GetCache(uid);
+            if (uid == "all")
+            {
+                if (qci == null)
+                {
+                    Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
+                    this.Delete("all");
+                    this.Add(ques, int.MaxValue, "all");
+                }
+                qci = this.GetCache(uid);
+            }           
             if (qci == null) return null;
             return qci.Questions;
         }
