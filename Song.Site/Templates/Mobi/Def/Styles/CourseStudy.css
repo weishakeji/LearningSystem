@@ -9,6 +9,16 @@
 	webkit-box-shadow: 0 0px 0px #ccc !important;
     box-shadow: 0 0px 0px #ccc !important;
 	padding:0px !important;
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:1;
+}
+#videobox{
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:1;
 }
 .mui-scroll{
 	margin-top:260px;
@@ -57,6 +67,7 @@ video{
 	position:absolute;
 	top:0px;
 	left:0px;
+	object-fit: fill;
 }
 video::-internal-media-controls-download-button {
     display:none;

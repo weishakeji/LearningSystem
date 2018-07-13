@@ -1,6 +1,28 @@
 ﻿$(function () {
     setStyle();
     setEvent();
+    //附件下载,如果是pdf则预览
+    mui('body').on('tap', '#access a', function () {
+        var href = $(this).attr("href");
+        var exist = "";
+        if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
+        if (href.indexOf(".") > -1) exist = href.substring(href.lastIndexOf(".") + 1).toLowerCase();
+        if (exist != "pdf") {
+            document.location.href = this.href;
+        } else {
+            var tit = $.trim($(this).text());
+            var pdfview = $().PdfViewer(href);
+            var box = new PageBox(tit, pdfview, 100, 100);
+            $("#videobox").hide();
+            $('video').trigger('pause');
+            PageBox.OverEvent = function () {
+                $("#videobox").show();
+                //$('video').trigger('play');
+            }
+            box.Open();
+        }
+        return false;
+    });
 });
 $(function () {
     //章节的链接
@@ -20,7 +42,7 @@ function _clacTax(pid, prefix) {
         _clacTax(olid, tax.text());
     });
 }
-
+//设置章节样式
 function setStyle() {
     $(".outline .olitem").each(function () {
         var id = $().getPara("id");
@@ -28,6 +50,7 @@ function setStyle() {
         if (id == olid) $(this).addClass("current");
     });
 }
+//设置选项卡事件
 function setEvent() {
     //选项卡事件
     mui('body').on('tap', '.tabs .tab', function () {
@@ -48,7 +71,7 @@ function setEvent() {
         return false;
     }
     var btn = document.getElementById("tabfirst");
-    mui.trigger(btn, 'tap'); 
+    mui.trigger(btn, 'tap');
 }
 
 
