@@ -307,6 +307,7 @@ namespace Song.Site.Manage.Course
                     dd.As_Name = fuLoad.FileName;
                     dd.As_FileName = fuLoad.File.Server.FileName;
                     dd.As_Size = fuLoad.PostedFile.ContentLength;
+                    dd.As_Extension = fuLoad.File.Server.Extension;
                     dd.As_Uid = this.getUID();
                     dd.As_Type = _uppath;
                     Business.Do<IAccessory>().Add(dd);

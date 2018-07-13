@@ -22,6 +22,27 @@ namespace Song.Site.Mobile
         {
             //如果没有登录则跳转
             if (this.Account == null) context.Response.Redirect("/Mobile/Login.ashx");
+            //当前课程
+            Song.Entities.Course currCourse = Business.Do<ICourse>().CourseSingle(couid);
+            if (currCourse != null)
+            {
+                this.Document.SetValue("currCourse", currCourse);
+                couid = currCourse.Cou_ID;
+                this.Document.SetValue("couid", couid);
+                //当前课程下的章节
+                Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
+                foreach (Song.Entities.Outline c in outlines)
+                    c.Ol_Intro = Extend.Html.ClearHTML(c.Ol_Intro);
+                this.Document.SetValue("outlines", outlines);
+                 DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outlines);
+                WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
+                tree.IdKeyName = "OL_ID";
+                tree.ParentIdKeyName = "OL_PID";
+                tree.TaxKeyName = "Ol_Tax";
+                tree.Root = 0;
+                dt = tree.BuilderTree(dt);
+                this.Document.Variables.SetValue("dtOutlines", dt);
+            }
             //当前章节
             Song.Entities.Outline ol = null;
             ol = id < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)
@@ -65,6 +86,7 @@ namespace Song.Site.Mobile
             this.Document.RegisterGlobalFunction(this.getEventQues);
             this.Document.RegisterGlobalFunction(this.getEventFeedback);
             this.Document.RegisterGlobalFunction(this.GetOrder);
+            
         }
         /// <summary>
         /// 获取试题的选项内容

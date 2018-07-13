@@ -26,6 +26,13 @@ namespace Song.ServiceImpls
                 entity.Org_ID = org.Org_ID;
                 entity.Org_Name = org.Org_Name;
             }
+            //如果没有填写扩展名，则自动加上
+            if (string.IsNullOrWhiteSpace(entity.As_Extension))
+            {
+                string extension = System.IO.Path.GetExtension(entity.As_FileName);
+                if (entity.As_FileName.IndexOf(".") > -1) extension = extension.Replace(".", "");
+                entity.As_Extension = extension;
+            }
             Gateway.Default.Save<Accessory>(entity);            
         }
         /// <summary>
@@ -34,6 +41,13 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void Save(Accessory entity)
         {
+            //如果没有填写扩展名，则自动加上
+            if (string.IsNullOrWhiteSpace(entity.As_Extension))
+            {
+                string extension = System.IO.Path.GetExtension(entity.As_FileName);
+                if (entity.As_FileName.IndexOf(".") > -1) extension = extension.Replace(".", "");
+                entity.As_Extension = extension;
+            }
             Gateway.Default.Save<Accessory>(entity);
         }
         /// <summary>

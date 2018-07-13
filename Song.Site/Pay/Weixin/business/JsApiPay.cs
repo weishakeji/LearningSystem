@@ -193,7 +193,7 @@ namespace WxPayAPI
                 data.SetValue("fingerprint", fingerprint);
             }
 
-            WxPayData result = WxPayApi.UnifiedOrder(data, appid, mchid, paykey, WeiSha.Common.Server.IP, notify_url);
+            WxPayData result = WxPayApi.UnifiedOrder(data, appid, mchid, paykey, WeiSha.Common.Browser.IP, notify_url);
             if (!result.IsSet("appid") || !result.IsSet("prepay_id") || result.GetValue("prepay_id").ToString() == "")
             {
                 Log.Error(this.GetType().ToString(), "UnifiedOrder response error!");

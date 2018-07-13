@@ -62,6 +62,10 @@ function a_click() {
         var tit = $.trim($(this).text());
         var pdfview = $().PdfViewer(href);
         var box = new PageBox(tit, pdfview, 100, 100);
+        $("video").hide();
+        PageBox.OverEvent = function () {
+            $("video").show();
+        }
         box.Open();
         return false;
     }

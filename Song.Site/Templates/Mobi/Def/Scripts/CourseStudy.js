@@ -1,7 +1,26 @@
 ﻿$(function () {
     setStyle();
-//    setEvent();
+    setEvent();
 });
+$(function () {
+    //章节的链接
+    mui('body').on('tap', '.outline a', function () {
+        document.location.href = this.href;
+        return false;
+    });
+    _clacTax(0, "");
+});
+
+//计算章节序号
+function _clacTax(pid, prefix) {
+    $(".outline[pid=" + pid + "]").each(function (index, element) {
+        var tax = $(this).find(".tax");
+        tax.html(prefix + (index + 1) + ".");
+        var olid = $(this).attr("olid");
+        _clacTax(olid, tax.text());
+    });
+}
+
 function setStyle() {
     $(".outline .olitem").each(function () {
         var id = $().getPara("id");
@@ -9,15 +28,29 @@ function setStyle() {
         if (id == olid) $(this).addClass("current");
     });
 }
-//function setEvent() {
-//    //内容区的超链接事件
-//    mui('body').on('tap', '#offCanvasContentScroll a', function () {
-//        var href = this.href;
-//        var txt = $(this).text();
-//        new PageBox(txt, href, 100, 100, "url").Open();
-//        return false;
-//    });
-//}
+function setEvent() {
+    //选项卡事件
+    mui('body').on('tap', '.tabs .tab', function () {
+        return setTab($(this));
+    });
+    function setTab(tab) {
+        var txt = $.trim(tab.text());
+        var contexts = $("div[tab]");
+        contexts.hide();
+        contexts.each(function () {
+            var t = $.trim($(this).attr("tab"));
+            if (t == txt) {
+                $(this).show();
+            }
+        });
+        $(".tabs .tab").removeClass("curr");
+        tab.addClass("curr");
+        return false;
+    }
+    var btn = document.getElementById("tabfirst");
+    mui.trigger(btn, 'tap'); 
+}
+
 
 /* 获取观看的累计时间，单位：秒 */
 var watchTime = 0;
@@ -49,7 +82,7 @@ function pausedHandler(b) {
     if (setT) window.clearInterval(setT);
     if (!b) setT = window.setInterval(setFunction, 1000);
 }
-function setFunction() {	
+function setFunction() {
     watchTime += 1;
     //获取学习时间
     CKobject._K_('studyTime').innerHTML = watchTime;
@@ -105,7 +138,7 @@ var params = { bgcolor: '#FFF', allowFullScreen: false, allowScriptAccess: 'alwa
 try {
     var video = [playMp4(videoFile) + '->video/mp4'];
     //alert(video);
-    CKobject.embedHTML5('videobox', 'ckplayer_videobox', '100%', '100%', video, flashvars, ['all']);
+    CKobject.embedHTML5('videobox', 'ckplayer_videobox', '100%', '260', video, flashvars, ['all']);
 } catch (e) {
 }
 //播放flv格式的同名mp4视频

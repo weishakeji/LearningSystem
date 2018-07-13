@@ -17,8 +17,8 @@
 <script type="text/javascript" src="../CoreScripts/PageBox.js"></script>
 <!--核心Css文件-->
 <link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css"/>
-<link rel="stylesheet" href="../CoreStyles/public.css"/>
 <link rel="stylesheet" href="../CoreStyles/mui.css"/>
+<link rel="stylesheet" href="../CoreStyles/public.css"/>
 <link rel="stylesheet" href="../CoreStyles/PageBox.css"/>
 <!--APICloud的接口文件，当用apicloud打包app时，需要用到-->
 <script src="../APICloud/common.js"></script>
