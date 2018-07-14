@@ -25,7 +25,7 @@ namespace Song.Site.Manage.Student
             }
         }
         /// <summary>
-        /// 充值码充值
+        /// 积分兑换卡券
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

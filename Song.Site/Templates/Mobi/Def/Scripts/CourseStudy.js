@@ -24,6 +24,7 @@
         return false;
     });
 });
+//章节相关
 $(function () {
     //章节的链接
     mui('body').on('tap', '.outline a', function () {
@@ -31,6 +32,12 @@ $(function () {
         return false;
     });
     _clacTax(0, "");
+	//当前章节特殊显示
+	var curr_olid=$("ul[curr_olid]").attr("curr_olid");
+	$("ul[curr_olid] li[olid]").each(function(index, element) {
+        var olid=$(this).attr("olid");
+		if(olid==curr_olid)$(this).addClass("curr_ol");
+    });
 });
 
 //计算章节序号

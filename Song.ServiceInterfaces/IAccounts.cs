@@ -357,6 +357,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         void CouponExchange(int accid,int coupon);
         /// <summary>
+        /// 积分兑换卡券
+        /// </summary>
+        /// <param name="acc">学员</param>
+        /// <param name="coupon">要兑换的卡券数量</param>
+        void CouponExchange(Accounts acc, int coupon);
+        /// <summary>
         /// 删除流水
         /// </summary>
         /// <param name="entity">业务实体</param>

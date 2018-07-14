@@ -667,7 +667,6 @@
     <Content Include="Templates\Mobi\Def\CoreStyles\public.css" />
     <Content Include="Templates\Mobi\Def\Course.htm" />
     <Content Include="Templates\Mobi\Def\CourseBuy.htm" />
-    <Content Include="Templates\Mobi\Def\CourseOutlines.htm" />
     <Content Include="Templates\Mobi\Def\Courses.htm" />
     <Content Include="Templates\Mobi\Def\CourseStudy.htm" />
     <Content Include="Templates\Mobi\Def\Default.htm" />
@@ -735,7 +734,6 @@
     <Content Include="Templates\Mobi\Def\Scripts\Collects.js" />
     <Content Include="Templates\Mobi\Def\Scripts\Course.js" />
     <Content Include="Templates\Mobi\Def\Scripts\CourseBuy.js" />
-    <Content Include="Templates\Mobi\Def\Scripts\CourseOutlines.js" />
     <Content Include="Templates\Mobi\Def\Scripts\Courses.js" />
     <Content Include="Templates\Mobi\Def\Scripts\CourseStudy.js" />
     <Content Include="Templates\Mobi\Def\Scripts\default.js" />
@@ -780,6 +778,8 @@
     <Content Include="Templates\Mobi\Def\Scripts\Notice.js" />
     <Content Include="Templates\Mobi\Def\Scripts\Notices.js" />
     <Content Include="Templates\Mobi\Def\Scripts\CoursePage.js" />
+    <Content Include="Templates\Mobi\Def\Scripts\CouponExchange.js" />
+    <Content Include="Templates\Mobi\Def\Scripts\PointDetails.js" />
     <Content Include="Templates\Mobi\Def\SelfCourse.htm" />
     <Content Include="Templates\Mobi\Def\SelfInfo.htm" />
     <Content Include="Templates\Mobi\Def\SelfPw.htm" />
@@ -792,7 +792,6 @@
     <Content Include="Templates\Mobi\Def\Styles\Conn.css" />
     <Content Include="Templates\Mobi\Def\Styles\Course.css" />
     <Content Include="Templates\Mobi\Def\Styles\CourseBuy.css" />
-    <Content Include="Templates\Mobi\Def\Styles\CourseOutlines.css" />
     <Content Include="Templates\Mobi\Def\Styles\Courses.css" />
     <Content Include="Templates\Mobi\Def\Styles\CourseStudy.css" />
     <Content Include="Templates\Mobi\Def\Styles\default.css" />
@@ -842,6 +841,8 @@
     <Content Include="Templates\Mobi\Def\Styles\Notice.css" />
     <Content Include="Templates\Mobi\Def\Styles\Notices.css" />
     <Content Include="Templates\Mobi\Def\Styles\CoursePage.css" />
+    <Content Include="Templates\Mobi\Def\Styles\CouponExchange.css" />
+    <Content Include="Templates\Mobi\Def\Styles\PointDetails.css" />
     <Content Include="Templates\Mobi\Def\Subordinates.htm" />
     <Content Include="Templates\Mobi\Def\Swipe.htm" />
     <Content Include="Templates\Mobi\Def\Teacher.htm" />
@@ -857,6 +858,8 @@
     <Content Include="Templates\Mobi\Def\Notice.htm" />
     <Content Include="Templates\Mobi\Def\Notices.htm" />
     <Content Include="Templates\Mobi\Def\CoursePage.htm" />
+    <Content Include="Templates\Mobi\Def\CouponExchange.htm" />
+    <Content Include="Templates\Mobi\Def\PointDetails.htm" />
     <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
     <Content Include="Templates\Mobi\_Public\Images\load_023.gif" />
     <Content Include="Templates\Mobi\_Public\Images\load_027.gif" />
@@ -2914,12 +2917,20 @@
       <DependentUpon>CallPhone.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Mobile\CouponExchange.ashx.cs">
+      <DependentUpon>CouponExchange.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Mobile\Exam.ashx.cs">
       <DependentUpon>Exam.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mobile\Examing.ashx.cs">
       <DependentUpon>Examing.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\PointDetails.ashx.cs">
+      <DependentUpon>PointDetails.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mobile\QQLogin.ashx.cs">
@@ -3023,10 +3034,6 @@
     </Compile>
     <Compile Include="Mobile\Notices.ashx.cs">
       <DependentUpon>Notices.ashx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Mobile\CourseOutlines.ashx.cs">
-      <DependentUpon>CourseOutlines.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mobile\CourseStudy.ashx.cs">
@@ -6182,7 +6189,6 @@
     <Content Include="Mobile\Notes.ashx" />
     <Content Include="Mobile\Notice.ashx" />
     <Content Include="Mobile\Notices.ashx" />
-    <Content Include="Mobile\CourseOutlines.ashx" />
     <Content Include="Mobile\QuesAnswer.ashx" />
     <Content Include="Mobile\Questions.ashx" />
     <Content Include="Mobile\Register.ashx" />
@@ -6238,6 +6244,8 @@
     <Content Include="Mobile\CoursePage.ashx" />
     <Content Include="Ajax\GetQuestion.ashx" />
     <Content Include="Ajax\LogForStudentQuestions.ashx" />
+    <Content Include="Mobile\CouponExchange.ashx" />
+    <Content Include="Mobile\PointDetails.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

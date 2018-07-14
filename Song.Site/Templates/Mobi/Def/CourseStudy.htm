@@ -13,7 +13,7 @@
 <body>
 <!--主界面,头部视频部分-->
 
-<header class="mui-bar mui-bar-nav video">
+<header class="mui-bar mui-bar-nav video" style="z-index:2">
   <vt:if var="video.As_FileName" value="" compare="!=">
     <vt:if var="video.As_IsOther" value="true" compare="=">
       <iframe id="videoIframe" height="500px" width="100%" 
@@ -89,10 +89,12 @@
 <div class="mui-inner-wrap"> 
   <!--课程内容-->
   <div class="mui-scroll">
-    <div class="mui-card">
+    <!--<div class="mui-card">
       <div class="mui-card-header">{$outline.ol_name}</div>
-    </div>
-    <div class="tabs"> <a class="tab" id="tabfirst">章节列表</a>
+    </div>-->
+    <div class="tabs">
+    <a class="mui-icon mui-icon-left-nav mui-pull-left back" href="coursepage.ashx" type="link"></a>
+     <a class="tab" id="tabfirst">章节列表</a>
       <vt:if var="outline.ol_intro" value="" compare="!="> <a class="tab">学习内容</a> </vt:if>
       <vt:if var="access.count" value="0" compare=">"> <a class="tab">附件</a> </vt:if>
     </div>
@@ -120,7 +122,7 @@
     <!--章节输出-->
     <div  tab="章节列表">
       <vt:if var="outlines.Length" value="0" compare=">">
-        <ul class="mui-table-view">
+        <ul class="mui-table-view" curr_olid="{$outline.ol_id}">
           <vt:foreach id="course" from="$dtOutlines" item="data" remark="章节列表">
             <vt:expression var="r" args="$data.ol_level" args="15" expression="({0})*{1}" />
             <li class="mui-table-view-cell outline" olid="{$:#.data.ol_id}" pid="{$:#.data.ol_pid}" style="margin-left:{$:r}px"> <a class="mui-navigate-right" href="CourseStudy.ashx?id={$:#.data.ol_id}&couid={$:#.data.cou_id}"><span class="iconfont">&#xe6fd;</span> <span class="tax">1.</span> {$:#.data.ol_name}</a></li>

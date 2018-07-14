@@ -1090,8 +1090,18 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public void CouponExchange(int accid, int coupon)
         {
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             Song.Entities.Accounts acc = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == accid).ToFirst<Accounts>();
+            CouponExchange(acc, coupon);
+        }
+        /// <summary>
+        /// 积分兑换卡券
+        /// </summary>
+        /// <param name="acc">学员</param>
+        /// <param name="coupon">要兑换的卡券数量</param>
+        public void CouponExchange(Accounts acc, int coupon)
+        {
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            int accid = acc.Ac_ID;
             //计算是否满足兑换
             int point = acc.Ac_Point;
             int ratio = Business.Do<ISystemPara>()["PointConvert"].Int32 ?? 0;
