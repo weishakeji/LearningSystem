@@ -49,7 +49,8 @@ function a_click() {
         try {
             mui.back();
         } catch (ex) {
-            window.history.go(-1);
+            window.location.href = document.referrer;
+            //window.history.go(-1);
         }
     }
     if (type == "view") {
