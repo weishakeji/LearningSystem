@@ -106,7 +106,7 @@ function Event_accLogin(form, url) {
                     var msg = new MsgBox("登录成功", txt, 80, 40, "msg");
                     msg.ShowCloseBtn = false;
                     msg.ShowCloseBtn = false;
-                    MsgBox.OverEvent = function () {
+                    msg.OverEvent = function () {
                         var href = form.find("input[name=from]").val();
                         window.location.href = $().setPara(href, "sharekeyid", data.acid);
                     };
@@ -205,7 +205,7 @@ function _mobiLogin_veri(form, url) {
 	        var msg = new MsgBox("登录成功", txt, 400, 200, "msg");
 	        msg.ShowCloseBtn = false;
 	        msg.ShowCloseBtn = false;
-	        MsgBox.OverEvent = function () {
+	        msg.OverEvent = function () {
 	            var href = form.find("input[name=from]").val();
 	            window.location.href = $().setPara("default.ashx", "sharekeyid", data.acid);
 	        };
