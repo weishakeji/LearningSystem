@@ -18,17 +18,17 @@
         });
     }
     //图片加载错误时，显示默认图片
-    $("img").error(function(){
-        var errImg=$(this).attr("error");
-        if(errImg==null)return false;
-        $(this).attr("src",tmpath+errImg);
+    $("img").error(function () {
+        var errImg = $(this).attr("error");
+        if (errImg == null) return false;
+        $(this).attr("src", tmpath + errImg);
     });
 });
 //超链接的事件
 function a_click() {
     var type = $.trim(this.getAttribute("type"));
     var target = $.trim(this.getAttribute("target"));
-    if (type == "link" || type==null) {
+    if (type == "link" || type == null) {
         if (target == null || target == "" || target == "_blank" || type == "_self")
             document.location.href = this.href;
         if (target == "_top" || type == "_parent") top.location.href = this.href;
@@ -49,8 +49,13 @@ function a_click() {
         try {
             mui.back();
         } catch (ex) {
-            window.location.href = document.referrer;
-            //window.history.go(-1);
+            var ref = document.referrer;
+            if (ref == null || ref == window.location.href) {
+                window.location.href = "defaut.ashx";
+            } else {
+                window.location.href = document.referrer;
+                //window.history.go(-1);
+            }
         }
     }
     if (type == "view") {
