@@ -27,11 +27,21 @@ namespace Song.Site.Mobile
                 string orgid = WeiSha.Common.Request.QueryString["state"].String;     //状码码是机构id                
                 string openid = string.Empty;
                 string access_token = getToken(out openid);
-                //二级域名
-                Song.Entities.Organization org = getOrgan(-1);
-                string domain = getOrganDomain(org);              
+                //微信登录的回调域，（用途：如果回调域不是根域，则不再取当前机构二级域名)
+                string returl = Business.Do<ISystemPara>()["WeixinpubReturl"].Value ?? WeiSha.Common.Request.Domain.MainName;
+                if (!string.IsNullOrWhiteSpace(returl))
+                {
+                    if (returl.StartsWith("http://")) returl = returl.Substring(7);
+                    if (returl.StartsWith("https://")) returl = returl.Substring(8);
+                }               
+                //如果回调域与根域相同，则转到当前机构的二级域名
+                if (returl.Equals(WeiSha.Common.Request.Domain.MainName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    Song.Entities.Organization org = getOrgan(-1);
+                    returl = org.Org_TwoDomain + "." + WeiSha.Common.Request.Domain.MainName;
+                }                
                 string uri = "{0}/mobile/{1}?token={2}&openid={3}&orgid={4}";
-                uri = string.Format(uri, domain, WeiSha.Common.Request.Page.FileName, access_token, openid, orgid);
+                uri = string.Format(uri, returl, WeiSha.Common.Request.Page.FileName, access_token, openid, orgid);
                 this.Document.Variables.SetValue("gourl", uri); //传到客户端，进行跳转
                 return;
             }
@@ -120,16 +130,6 @@ namespace Song.Site.Mobile
             return org;
         }
         /// <summary>
-        /// 获取当前机构的二级域名
-        /// </summary>
-        /// <param name="org"></param>
-        /// <returns></returns>
-        protected string getOrganDomain(Song.Entities.Organization org)
-        {
-            string root = WeiSha.Common.Request.Domain.MainName;
-            return org.Org_TwoDomain + "." + root;
-        }
-        /// <summary>
         /// 获取当前登录微信账号的详细信息
         /// </summary>
         /// <param name="access_token"></param>
@@ -178,13 +178,15 @@ namespace Song.Site.Mobile
             string openid = WeiSha.Common.Request.QueryString["openid"].String;
             this.Document.Variables.SetValue("openid", openid);
             this.Document.Variables.SetValue("token", token);
+            //WeiSha.Common.Log.Write(string.Format("再次登录时，取token:{0},openid:{1}", token, openid));
             //设置主域，用于js跨根域
             if (!WeiSha.Common.Server.IsLocalIP) this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
             //当前机构
             Song.Entities.Organization org = getOrgan(-1);
             this.Document.Variables.SetValue("org", org);
+            //WeiSha.Common.Log.Write(string.Format("再次登录时，机构{0}",org.Org_Name));
             if (!WeiSha.Common.Server.IsLocalIP) this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
-            this.Document.SetValue("domain2", getOrganDomain(org));
+            this.Document.SetValue("domain2", org.Org_TwoDomain + "." + WeiSha.Common.Request.Domain.MainName);
             //获取帐户，如果已经注册，则直接实现登录
             string unionid = string.Empty;
             Song.Entities.Accounts acctm = getUserInfo(token, openid, out unionid);
@@ -271,7 +273,7 @@ namespace Song.Site.Mobile
                 int id = Business.Do<IAccounts>().AccountsAdd(tmp);
                 LoginState.Accounts.Write(tmp);
             }
-            string domain = getOrganDomain(org);
+            //string domain = getOrganDomain(org);
             Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\"}");
         }
         /// <summary>
@@ -319,7 +321,7 @@ namespace Song.Site.Mobile
             tmp.Ac_IsPass = tmp.Ac_IsUse = true;
             int id = Business.Do<IAccounts>().AccountsAdd(tmp);
             LoginState.Accounts.Write(tmp);
-            string domain = getOrganDomain(org);
+            //string domain = getOrganDomain(org);
             Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\"}");
         }
         /// <summary>
@@ -387,7 +389,7 @@ namespace Song.Site.Mobile
                 tmp.Ac_IsPass = tmp.Ac_IsUse = true;
                 int id = Business.Do<IAccounts>().AccountsAdd(tmp);
                 LoginState.Accounts.Write(tmp);
-                string domain = getOrganDomain(org);
+                //string domain = getOrganDomain(org);
                 Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
             }
         }
@@ -450,7 +452,7 @@ namespace Song.Site.Mobile
                     LoginState.Accounts.Write(acc);
                     //登录成功
                     Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
-                    string domain = getOrganDomain(this.getOrgan(-1));
+                    //string domain = getOrganDomain(this.getOrgan(-1));
                     Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"acpw\":\"" + acc.Ac_Pw + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\"}");
                 }
                 else
@@ -517,7 +519,7 @@ namespace Song.Site.Mobile
                     LoginState.Accounts.Write(acc);
                     //登录成功
                     Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
-                    string domain = getOrganDomain(getOrgan(-1));
+                    //string domain = getOrganDomain(getOrgan(-1));
                     Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"acpw\":\"" + acc.Ac_Pw + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
                 }
                 else

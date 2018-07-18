@@ -6,27 +6,30 @@
       <script type="text/javascript">
           document.domain = '{$domain}';
     </script></vt:if>
-   
-   
     <vt:include file="inc/meta.inc" />
     <script type="text/javascript" src="Scripts/WeixinpubLogin.js"></script>
-    <link href="Styles/WeixinpubLogin.css" rel="stylesheet" type="text/css" /> 
-     <vt:if var="gourl" value="" compare="!=">
+    <link href="Styles/WeixinpubLogin.css" rel="stylesheet" type="text/css" />
+    <vt:if var="gourl" value="" compare="!=">
      <script type="text/javascript">
-          //登录成功后返回的地址
-          var geturl = function (url) {
-              var prefix = window.location.href;
-              if (prefix.indexOf("://") > -1) prefix = prefix.substring(0, prefix.indexOf("://"));
-              return prefix + "://" + url;
-          }
-		  //var gourl = geturl("{$gourl}");
-          window.location.href=geturl("{$gourl}");
+         //登录成功后返回的地址
+         var geturl = function (url) {
+             var prefix = window.location.href;
+             if (prefix.indexOf("://") > -1) prefix = prefix.substring(0, prefix.indexOf("://"));
+             return prefix + "://" + url;
+         }
+         var gourl = geturl("{$gourl}");
+         //备注：
+         //如果转向后，出现白屏，最大可能性是原网址是https的，生成的带二级域名没有ssl证书
+         //如果回调域不是根域，则机构二级域请与回调域保持一致
+         //除非购买了ssl根域证收
+         window.location.href = geturl("{$gourl}");
           
     </script>
     </vt:if>
 </head>
 <body>
     <vt:if var="org.org_id" value="0" compare=">" remark="所属机构必须存在">
+   
       <vt:if var="openid" value="" compare="=" remark="">
     <vt:if var="errcode" value="" compare="!=" remark="">
           <div class="error-txt">错误码:{$errcode}<br/>信息：{$errmsg} ;
