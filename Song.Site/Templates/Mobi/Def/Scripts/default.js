@@ -25,7 +25,7 @@ function AutoLogin_forAjax(WeixinLoginIsUse) {
     if (accid == "" || accpw == "") {
         //判断是否处于微信中
         var ua = window.navigator.userAgent.toLowerCase();
-        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        if ($().isWeixin()) {
             if (WeixinLoginIsUse) document.location.href = "/mobile/weixin.ashx";
         }
     } else {

@@ -194,7 +194,7 @@ namespace Song.Site.Ajax
             if (ex != null)
             {
                 //写入错误日志，并返回所在路径
-                string path = WeiSha.Common.Log.Write("Course", ex);
+                string path = WeiSha.Common.Log.Error("Course", ex);
                 json += "'logfile':'" + path + "',";
                 json += "'errinfo':'" + ex.Message + "',";
             }
