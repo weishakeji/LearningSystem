@@ -25,7 +25,7 @@ function AutoLogin_forAjax(WeixinLoginIsUse) {
     if (accid == "" || accpw == "") {
         //判断是否处于微信中
         var ua = window.navigator.userAgent.toLowerCase();
-        if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        if ($().isWeixin()) {
             if (WeixinLoginIsUse) document.location.href = "/mobile/weixin.ashx";
         }
     } else {
@@ -39,19 +39,17 @@ function AutoLogin_forAjax(WeixinLoginIsUse) {
 }
 //首页的事件
 function default_event() {
-    //主菜单，即课程学习菜单的事件
-    mui('body').on('tap', '.mm-item', function () {
-        var couid = $(this).parent().attr("couid");
-        if (couid == "") {
-            var txt = "由此进入<a href='courses.ashx' type='link' target='_top'>课程中心</a>";
-            txt += "或<a href='selfcourse.ashx' type='link' target='_top'>我的课程</a>";
-            txt = "请选择当前要学习的课程！<br/>" + txt;
-            new MsgBox("提示", txt, 90, 200, "alert").Open();
-        } else {
-            document.location.href = $(this).attr("href");
-        }
-        return false;
-    });
+	//搜索框的提交事件
+	 $("#formSearch").submit(function(){
+	 	var txt=$("#tbSearch").val();
+		 if($.trim(txt)=="")return false;
+	 });
+	 mui('body').on('tap', '.btnSear', function () {
+		 var txt=$("#tbSearch").val();
+		 if($.trim(txt)=="")return false;
+		 var href=$(this).parent("form").attr("action");
+		 window.location.href=$().setPara(href,"sear",txt);
+	});
 }
 //自定义菜单的自动布局
 function menuBox_Autoloyout() {
@@ -59,8 +57,8 @@ function menuBox_Autoloyout() {
     var mitem = $(".menuBox .mItem");
     //如果菜单项可以被4整除，则每行四个，默认是每行三个
     if (mitem.size() % 4 == 0) mitem.css("width", (100 / 4) + "%");
-    if (mitem.size() == 2) mitem.css("width", (100 / 2) + "%");
-    if (mitem.size() == 1) mitem.css({ "width": "50%", "margin-left": "auto", "margin-right": "auto", "float": "none", "border-right-style": "none" });
+    //if (mitem.size() == 2) mitem.css("width", (100 / 2) + "%");
+    //if (mitem.size() == 1) mitem.css({ "width": "20%", "margin-left": "auto", "margin-right": "auto", "float": "none", "border-right-style": "none" });
     //自动计算图片宽高
     mitem.find(".mitem-img").each(function (index, element) {
         var wd = $(this).width();

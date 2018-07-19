@@ -17,31 +17,45 @@
             $(this).attr("href", href);
         });
     }
+    //图片加载错误时，显示默认图片
+    $("img").error(function () {
+        var errImg = $(this).attr("error");
+        if (errImg == null) return false;
+        $(this).attr("src", tmpath + errImg);
+    });
 });
 //超链接的事件
 function a_click() {
     var type = $.trim(this.getAttribute("type"));
     var target = $.trim(this.getAttribute("target"));
-    if (type == "link" || type==null) {
+    if (type == "link" || type == null) {
         if (target == null || target == "" || target == "_blank" || type == "_self")
             document.location.href = this.href;
         if (target == "_top" || type == "_parent") top.location.href = this.href;
         if (target == "_open") {
             var href = this.href;
-            var txt = $(this).text();
+            var txt = $.trim($(this).attr("title"));
+            if (txt == "") txt = $(this).html();
             new PageBox(txt, href, 100, 100, "url").Open();
         }
     }
     if (type == "open" || target == "_open") {
         var href = this.href;
-        var txt = $(this).text();
+        var txt = $.trim($(this).attr("title"));
+        if (txt == "") txt = $(this).html();
         new PageBox(txt, href, 100, 100, "url").Open();
     }
     if (type == "back") {
         try {
             mui.back();
         } catch (ex) {
-            window.history.go(-1);
+            var ref = document.referrer;
+            if (ref == null || ref == window.location.href) {
+                window.location.href = "defaut.ashx";
+            } else {
+                window.location.href = document.referrer;
+                //window.history.go(-1);
+            }
         }
     }
     if (type == "view") {
@@ -54,6 +68,10 @@ function a_click() {
         var tit = $.trim($(this).text());
         var pdfview = $().PdfViewer(href);
         var box = new PageBox(tit, pdfview, 100, 100);
+        $("video").hide();
+        PageBox.OverEvent = function () {
+            $("video").show();
+        }
         box.Open();
         return false;
     }
@@ -108,6 +126,8 @@ function ToAllLinkAddAccoutsID(acid) {
     //给所有超链接增加当前登录账号的id
     if (!(acid == "" || acid == undefined || acid == null || acid == 0)) {
         $("*[href]").each(function (index, element) {
+            var name = $(this).get(0).tagName.toLowerCase();
+            if (name == "link") return true;
             var href = $(this).attr("href");
             if (href == undefined || href == null || href == "" || href == "#") return true;
             if (href.length > 0 && href.substring(0, 1) == "#") return true;

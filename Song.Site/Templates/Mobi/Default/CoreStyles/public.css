@@ -10,7 +10,10 @@ header a{
 #offCanvasSide a{
 	color:#fff !important;
 }
-
+a
+{
+    color:#666;
+}
 span.mui-icon {
 	font-size: 14px;
 	color: #007aff;

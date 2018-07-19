@@ -1,3 +1,13 @@
+.mui-scroll{
+	padding-bottom:60px;
+}
+/*上次练习的时候*/
+.logtime{
+	font-size: 14px;
+}
+.right{
+	margin-right:20px;
+}
 .curr-logo{
     width: 30px;
     height: 30px !important;
@@ -30,4 +40,7 @@
 }
 .count{
 	margin-right:5px;
+}
+.couname{
+	font-size:16px;
 }

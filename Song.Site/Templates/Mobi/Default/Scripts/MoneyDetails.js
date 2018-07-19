@@ -9,7 +9,7 @@ mui.init({
         up: {
             callback: pullupRefresh,
             contentinit: '上拉显示更多',
-            contentdown: '上拉显示更多',
+            contentdown: '下拉显示更多',
             contentrefresh: '正在加载...',
             contentnomore: '没有更多数据了'
         }
@@ -20,6 +20,9 @@ mui.init({
 var size = 10; //每页取多少条
 var index = 1; //索引页
 var sumcount = 0; //总记录数
+window.onload=function(){	
+	size=Math.floor(($(window).height()-60)/50);
+}
 
 /**
 * 上拉加载具体业务，在尾部加载新内容
@@ -42,7 +45,7 @@ if (mui.os.plus) {
 //异步加载数据
 function ajaxLoaddata() {
     index = size * index < sumcount ? ++index : index;
-    $.post("MoneyDetails.ashx", { size: size, index: index }, function (requestdata) {
+    $.post(window.location.href, { size: size, index: index }, function (requestdata) {
         var data = eval("(" + requestdata + ")");
         sumcount = data.sumcount;
         mui('#pullrefresh').pullRefresh().endPullupToRefresh((size * index >= sumcount)); //参数为true代表没有更多数据了。
@@ -53,25 +56,24 @@ function ajaxLoaddata() {
             var d = data.items[i];
             var li = document.createElement('li');
             li.className = 'money-item mui-table-view-cell';
-            li.setAttribute("maid", d.Ma_ID);
+            li.setAttribute("maid", d.Pa_ID);
             //相关数据
-            var type = d.Ma_Type == 1 ? "-" : "+";
-            var ico = d.Ma_Type == 1 ? "&#xe62f;" : "&#xe62d;"; 	//支出图标，与收入图标
-            var state = d.Ma_IsSuccess ? "成功" : "失败";
-            var sourse = d.Ma_IsSuccess ? d.Ma_Source : "(失败)"; //资金来源			
-            var date = new Date(d.Ma_CrtTime).Format("MM-dd"); //资金流水的创建日期
-            var time = new Date(d.Ma_CrtTime).Format("hh:mm"); //资金流水的创建时时间
-			var remark=$.trim(d.Ma_Remark)!="" ? "(有备注)" : "";
+            var type = d.Pa_Type == 1 ? "-" : "+";
+            var ico = d.Pa_Type == 1 ? "&#xe680;" : "&#xf0094;"; 	//支出图标，与收入图标
+            var sourse = d.Pa_Value ; //资金来源			
+            var date = new Date(d.Pa_CrtTime).Format("MM-dd"); //资金流水的创建日期
+            var time = new Date(d.Pa_CrtTime).Format("hh:mm"); //资金流水的创建时时间
+			var remark=$.trim(d.Pa_Remark)!="" ? d.Pa_Remark : d.Pa_Info;
             //
             var html = '';
-            html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-red mui-icon mui-icon-trash" maid="' + d.Ma_ID + '"></a></div>';
+            html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-red mui-icon mui-icon-trash" maid="' + d.Pa_ID + '"></a></div>';
             html += '<div class="mui-slider-handle mui-table"><div class="mui-table-cell">';
             //
             html += '<div class="dates">' + date + '<br/>' + time + '</div>';
-            html += '<div class="ico"><div class="moneyico type' + Number(d.Ma_Type) + '">' + ico + "</div></div>";
+            html += '<div class="ico"><div class="examico type' + Number(d.Pa_Type) + '">' + ico + "</div></div>";
             html += '<div class="info">';
-            html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Ma_Money) + '</div> <div class="state state' + Number(d.Ma_IsSuccess) + '">' + state + '</div></div>';
-            html += '<div class="row2">' + d.Ma_Source +remark+ '</div>';
+            html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Pa_Value) + '</div> </div>';
+            html += '<div class="row2">' + remark+ '</div>';
             html += '</div>';
             //
             html += '</div></div>';

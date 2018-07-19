@@ -46,7 +46,7 @@ function ajaxLoaddata() {
     var only = "";
 	var wipe = "Tr_Results";
 	var url=window.location.href;
-	url=url.indexOf("?")>-1 ? url.substring(0,url.lastIndexOf("?")) : url;
+	//url=url.indexOf("?")>-1 ? url.substring(0,url.lastIndexOf("?")) : url;
 	$.post(url, { size: size, index: index, action: "list", only: only, wipe: wipe }, function (requestdata) {
 	    var data = eval("(" + requestdata + ")");
 	    sumcount = data.sumcount;
@@ -69,7 +69,11 @@ function ajaxLoaddata() {
 	        html += '<div class="mui-slider-handle mui-table"><div class="mui-table-cell">';
 	        //
 	        html += '<a href="javascript:;">';
+			if(d.Tp_Logo!=""){
 	        html += '<img class="mui-media-object mui-pull-left" src="' + d.Tp_Logo + '"/>';
+			}else{
+				html += '<div class="rowlogo"><span class="ico">&#xe647;</span></div>';
+			}
 	        html += '<div class="mui-media-body mui-ellipsis">' + d.Tp_Name;
 	        html += '<p class="mui-ellipsis">' + score + date + " " + time + '</p>';
 	        html += '</div>';
@@ -94,7 +98,7 @@ function ajaxLoaddata() {
 
 	        mui.confirm('确认删除测试成绩？', '删除', ['取消', '确认'], function (e) {
 	            if (e.index == 1) {
-	                $.post("Statistics.ashx", { action: "delete", id: trid }, function (data) {
+	                $.post("Statistics.ashx", { action: "delete", trid: trid }, function (data) {
 	                    if (data == "1") {
 	                        mui.toast('删除成功！', { duration: 1000, type: 'div' });
 	                        $(".note-item[trid=" + trid + "]").remove();

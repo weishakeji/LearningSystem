@@ -11,15 +11,16 @@
 * 开发时间: 2013年7月9日
 */
 $(function () {
-    mask_show();
-    initLoyout();
-    $("body").show();
-    mask_hide();
-    $("#bodyBox").css("visibility", "");
+   
 });
 $(window).load(function () {
     window.winWidth = typeof (window.winWidth) == "undefined" ? $(window).width() : window.winWidth;
     window.winHeight = typeof (window.winHeight) == "undefined" ? $(window).height() : window.winHeight;
+	 mask_show();
+    initLoyout();
+    $("body").show();
+    mask_hide();
+    $("#bodyBox").css("visibility", "");
 });
 //当窗口大小变化时
 $(window).resize(function () {

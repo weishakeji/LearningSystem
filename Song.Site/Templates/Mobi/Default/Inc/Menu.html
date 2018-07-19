@@ -6,7 +6,7 @@
           <div class="accPhoto">
             <vt:if var="Account.Ac_photo" value="" compare="="> <img src="../images/nophoto.jpg"/>
               <vt:else/>
-              <a class="" href="../SelfInfo.ashx"> <img src="{$stpath}{$:#.Account.Ac_photo}"/></a> </vt:if>
+              <a class="" href="../SelfInfo.ashx"> <img src="{$stpath}{$:#.Account.Ac_photo}" error="images/nophoto.jpg"/></a> </vt:if>
           </div>
           <div class="accInfo">
             <div class="acc-name">
@@ -56,7 +56,7 @@
      <!-- 上面的侧滑菜单-->
     
     </div> <nav class="mui-bar mui-bar-footer" style="background-color:#333">
-			 <a class="mui-tab-item btn-closeApp" type="close"> <span class="iconfont rowico">&#xe641;</span>退出 </a>
+			 <a class="mui-tab-item btn-closeApp" type="close" id="closeApp"> <span class="iconfont rowico">&#xe641;</span>退出 </a>
            
             <a class="mui-tab-item btn-about" type="open"  href="../about.cshtm">
              <span class="iconfont rowico">&#xe755;</span>关于
@@ -141,4 +141,8 @@
     mui('body').on('tap', 'header a', function () {
         document.location.href = this.href;
     });
+    //如果处于微信中，则不再显示“退出”按钮
+    if ($().isWeixin()) {
+        $("#closeApp").hide().css({ "float": "left", "margin-left": "5px" });
+    }
 </script>

@@ -3,6 +3,7 @@ var index = 1; //索引页
 var sumcount = 0; //总记录数
 
 $(function () {	
+	$("#search-top").val(decodeURIComponent($().getPara("sear")));
     //选项卡切换事件
     mui('body').on('tap', '.mui-control-item', function () {
         //下面三行，是为了防止重复点击选项卡
@@ -18,9 +19,20 @@ $(function () {
         mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 0);
     });
     //筛选相关
+	//当在顶部填写搜索内容时
+	$("#search-top").focus(function(){
+		 cou_select();
+		 $(this).blur();
+		 $("#tbSearch").focus();	
+	});
     //筛选按钮事件，弹出筛选选择框
     mui('body').on('tap', '#btnSelect', function () {
-        var txt = $("#select-box");
+         cou_select();
+    });
+    //
+});
+function cou_select(){
+	var txt = $("#select-box");
         var box = new PageBox("课程筛选", txt, 100, 100, "obj");
         box.IsBackbtn = true;
         box.Open(function () {
@@ -77,9 +89,7 @@ $(function () {
             });
             //窗体打开后的事件，到此结束
         });
-    });
-    //
-});
+}
 
 //当筛选框打开时，初始化之前选择的内容
 function select_init() {

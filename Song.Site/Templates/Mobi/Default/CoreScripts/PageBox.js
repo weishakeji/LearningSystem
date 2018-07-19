@@ -92,7 +92,8 @@ PageBox.prototype.BuildFrame = function () {
     var border = parseInt(PageBox.css("border-width")); //窗体边线宽度
     border = !isNaN(border) ? border : 0;
     //设置窗口的位置
-    PageBox.css("top", ((hg - this.Height) / 2 - border) <= 0 ? 0 : (hg - this.Height) / 2 - border);
+    var top=((hg - this.Height) / 2 - border) <= 0 ? 0 : (hg - this.Height) / 2 - border;
+    PageBox.css("top", top + $(document).scrollTop());
     PageBox.css("left", ((wd - this.Width) / 2 - border) <= 0 ? 0 : (wd - this.Width) / 2 - border);
     PageBox.css("position", "absolute").css("z-index", "10001");
     PageBox.css("width", this.Width);

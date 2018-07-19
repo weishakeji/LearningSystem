@@ -1,23 +1,5 @@
 @charset "utf-8";
-.headerbar *{
-	color: #FFF;
-}
-header a{
-	color:#FFF !important;
-}
-.top-ico{
-	color: #FFF !important;
-}
-/*内容区的背景*/
-.mui-content
-{
-    background-color: #efeff4;
-    background:url(../Images/app-bg.jpg);
-   filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
-   -moz-background-size:100% 100%;
-   background-size:auto 100%;
-   -webkit-overflow-scrolling: touch;
-}
+
 .width {
 	width: 218px;
 }

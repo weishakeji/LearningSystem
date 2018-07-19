@@ -111,7 +111,7 @@ function BuySubmit(isfree, istry) {
     var code = $.trim($(".verify").val());         //验证码
     var cpid = $(".priceSelected").attr("cpid");  //价格项的id
     var couid = $().getPara("couid");    //课程id
-    var return_url = "default.ashx";            //成功后，跳转的页面
+    var return_url = "CoursePage.ashx";            //成功后，跳转的页面
     $.ajax({
         type: "POST", url: urlPath, dataType: "text",
         data: { veriCode: code, cpid: cpid, couid: couid, return_url: return_url,

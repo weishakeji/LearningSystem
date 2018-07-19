@@ -7,55 +7,38 @@
 <link href="Styles/QuesOutlines.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
-  <!--侧滑菜单部分-->
-  <vt:include file="inc/Menu.html" />
-  <!--主界面部分-->
-  <div class="mui-inner-wrap">
-    <header class="mui-bar mui-bar-nav"> <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
-      <h1 class="mui-title">试题练习</h1>
-    </header>
-    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
-      <div class="mui-scroll">
-        <ul class="mui-table-view">
-          <li class="mui-table-view-cell curr-box">
-            <vt:if var="#.currCourse.cou_LogoSmall" value="" compare="="><span class="iconfont cou-ico">&#xe674;</span>
-              <vt:else />
-              <img class="mui-media-object mui-pull-left curr-logo" src="{$currCourse.Cou_LogoSmall}"/> </vt:if>
-            {$currCourse.cou_name} </li>
-        </ul>
-        <div style="height:10px"></div>
-          <ul class="mui-table-view">
-           <li class="mui-table-view-cell"> 
-            <vt:function var="count" method="getQuesCount" args="$couid" args="0" args="all" remark="当前章节的试题数，参数1为章节id,参数2指是否为当前章节下所有试题（包含子章节）"/>
-           <a href="QuesPager.ashx?couid={$couid}&size=100&onpager=80&url=QuesExercises.ashx" type="link">
-                练习当前课程的全部试题 <span class="mui-badge  mui-badge-primary sumcount">{$count}</span></a>
-           </li>
-          </ul>
-        <!--章节输出-->
-        <vt:if var="outlines.Length" value="0" compare=">">
-          <ul class="mui-table-view">
-            <vt:foreach id="course" from="$dtOutlines" item="data" remark="章节列表">
-              <vt:function var="count" method="getQuesCount" args="-1" args="$#.data.ol_id" args="all" remark="当前章节的试题数，参数1为章节id,参数2指是否为当前章节下所有试题（包含子章节）"/>
-              <vt:expression var="r" args="$data.ol_level" args="15" expression="({0}-1)*{1}" />
-              <li class="mui-table-view-cell outline" olid="{$:#.data.ol_id}" pid="{$:#.data.ol_pid}" style="margin-left:{$:r}px"> 
-                <!--链接指向试题分页，size每页多少条试题,onpager是多少条之内，不分页--> 
-                <a  type="link" count="{$count}" href="QuesPager.ashx?olid={$:#.data.ol_id}&couid={$:#.data.cou_id}&size=100&onpager=80&url=QuesExercises.ashx">
-                <span class="iconfont">&#xe636;</span>
-                <span class="tax">1.</span> {$:#.data.ol_name}  </a>
-                <span class="mui-badge count">{$count}</span> </li>
-            </vt:foreach>
-          </ul>
+
+<!--主界面部分-->
+<div class="mui-inner-wrap">
+  <div class="mui-scroll">
+    <ul class="mui-table-view">
+      <li class="mui-table-view-cell">
+         <vt:if var="log.Lsq_ID" value="0" compare=">"> 
+         <a href="QuesExercises.ashx?couid={$log.cou_id}&olid={$log.ol_id}&qid={$log.qus_id}" class="log" olid="{$log.ol_id}" type="link"> 继续练习 <span class="mui-pull-right logtime">{$log.lsq_lastTime}</span></a>
           <vt:else />
-          <ul class="mui-table-view">
-            <li class="mui-table-view-cell"> 当前课程没有章节 </li>
-          </ul>
-        </vt:if>
-      </div>
-    </div>
-    <!-- 隐藏侧滑菜单的层 -->
-    <div class="mui-off-canvas-backdrop"> </div>
+          按章节练习
+          </vt:if>
+        </li>
+    </ul>
+    <!--章节输出-->
+    <vt:if var="outlines.Length" value="0" compare=">">
+      <ul class="mui-table-view">
+        <vt:foreach id="course" from="$dtOutlines" item="data" remark="章节列表">
+          <vt:function var="count" method="getQuesCount" args="-1" args="$#.data.ol_id" args="all" remark="当前章节的试题数，参数1为章节id,参数2指是否为当前章节下所有试题（包含子章节）"/>
+          <vt:expression var="r" args="$data.ol_level" args="15" expression="({0})*{1}" />
+          <li class="mui-table-view-cell outline" olid="{$:#.data.ol_id}" pid="{$:#.data.ol_pid}" style="margin-left:{$:r}px"> 
+            <!--链接指向试题分页，size每页多少条试题,onpager是多少条之内，不分页--> 
+            <a  type="link" count="{$count}" href="QuesExercises.ashx?olid={$:#.data.ol_id}&couid={$:#.data.cou_id}&count={$count}"> <span class="iconfont">&#xe636;</span> <span class="tax">1.</span> {$:#.data.ol_name} </a> <span class="mui-badge count">{$count}</span> </li>
+        </vt:foreach>
+      </ul>
+      <vt:else />
+      <ul class="mui-table-view">
+        <li class="mui-table-view-cell"> 当前课程没有章节 </li>
+      </ul>
+    </vt:if>
   </div>
+  <vt:function var="count" method="getQuesCount" args="$couid" args="0" args="all" remark="当前章节的试题数，参数1为章节id,参数2指是否为当前章节下所有试题（包含子章节）"/>
+  <nav class="mui-bar mui-bar-tab"> <a class="mui-icon mui-icon-left-nav mui-pull-left left" href="CoursePage.ashx" type="link"><span class="couname">{$currCourse.cou_name}</span></a> <a class="mui-btn mui-btn-link mui-pull-right right"> <span class="mui-badge count">共计：{$count} 道</span> </a> </nav>
 </div>
 </body>
 </html>
