@@ -31,13 +31,31 @@
   //当前登录的账号ID
   var currLoginACID = Number("{$Account.Ac_id}");
   window.onload=function(){
-    ToAllLinkAddAccoutsID(currLoginACID);
+  ToAllLinkAddAccoutsID(currLoginACID);
   }
 </script>
-<script type="text/javascript">
-  //当前模板的路径
-  var tmpath="{$TempPath}";
-</script>
+    <script type="text/javascript">
+        //当前模板的路径
+        var tmpath = "{$TempPath}";
+        //如果是免费版，弹出广告
+        $(function () {
+            var license = $("html").attr("license");
+            if (license != null && license == "false") {
+                var initdate = $().cookie("initdate");
+                if (initdate == null) {
+                    $().cookie("initdate", new Date().getTime());
+                    return;
+                } else {
+                    initdate = new Date(Number(initdate));
+                    initdate.setDate(initdate.getDate() + 3);
+                    if (initdate < new Date()) {
+                        new PageBox("当前版本为免费版", "http://www.weishakeji.net/ad/lv0.html", 100, 100, "url").Open();
+                    }
+                }
+
+            }
+        });
+    </script>
 <!--后面就是各个页面自己的了-->
 
 
