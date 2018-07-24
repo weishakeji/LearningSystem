@@ -180,6 +180,7 @@ body{
 	line-height: 30px;
 }
 .answer .type{
+	font-family: "iconfont" !important;
 	color: #666666;
 	margin-right: 5px;	
 }
@@ -190,6 +191,7 @@ body{
 color: #0099FF;
 }
 .answerSel .type{
+	font-family: "iconfont" !important;
 	color: #0099FF;
 	margin-right: 5px;
 }

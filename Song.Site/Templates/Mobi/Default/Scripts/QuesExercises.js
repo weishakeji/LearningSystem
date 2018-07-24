@@ -5,10 +5,7 @@
     var wd = $(window).width();
     var hg = document.querySelector(".context").clientHeight;
 	var area = $("#quesArea");
-	area.width(wd * count);
-	for(var i=0;i<count;i++){
-		//area.append("<div class='quesItem'>"+i+"</div>");
-	}	
+	area.width(wd * count);	
     $(".quesItem").width(wd).height(hg);
 	
     //$("#quesArea").width(wd.width() * count);
@@ -24,12 +21,18 @@
         $("#btnFav").addClass("IsCollect");
     } else {
         $("#btnFav").removeClass("IsCollect");
-    }
+    }	
+	//选项的序号，数字转字母
+	$(".quesItemsBox").each(function() {
+        $(this).find(".answer").each(function(index, element) {
+            var char=String.fromCharCode(0x41+index);
+			$(this).find(">span").after(char);
+        });
+    });
+	//答题卡
     buildCard();
     setCardState("curr",Number(firstQitem.attr("qid")));
-	quesAreaMove((Number(firstQitem.attr("index"))-1)*$(".quesItem").width()) ;
-    getAnswer(); //获取答案
-	
+	quesAreaMove((Number(firstQitem.attr("index"))-1)*$(".quesItem").width()) ;	
 }
 $(function () {
     //左右滑动切换试题
@@ -183,13 +186,4 @@ function getQuesType() {
         }
     });
     return types;
-}
-//获取试题答案
-function getAnswer() {
-    $(".quesItem").each(function () {
-        var qid = $(this).attr("qid");
-        $.post("QuesAnswer.ashx?id=" + qid, function (data) {
-            $(".quesItem[qid=" + qid + "]").find(".quesAnswerContent").html(data);
-        });
-    });
 }

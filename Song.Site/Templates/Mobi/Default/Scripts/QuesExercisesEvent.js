@@ -138,8 +138,9 @@ function _btnEvent() {
     });
     //查看答案
     $("#btnAnswer").click(function () {
-        var qid = $(".quesItem[index=" + $("#indexNum").attr("index") + "]").attr("qid");
-        new PageBox("参考答案", "QuesAnswer.ashx?id=" + qid, 80, 60, null).Open();
+        var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");
+        var qid = ques.attr("qid");
+		ques.find(".quesAnswerBox").show();
     });
     //试题解析
     $("#btnExplain").click(function () {

@@ -16,7 +16,7 @@
 <script>
     document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
     document.body.onpaste = document.body.oncopy = function () { return false; };
-</script>
+</script> 
 <script type="text/javascript">
         //是否购买，如果没有购买，则显示弹窗，提示试用题数
         var isBuy = "{$#.isBuy}" == "True" ? true : false;
@@ -33,7 +33,7 @@
     </script>
 <div loyout="row" height="40" class="topBpx">
   <div loyout="column" width="5"> </div>
-  <div loyout="column" width="36"> <a class="iconfont item nav-left" type="back">&#xe6c6; </a> </div>
+  <div loyout="column" width="36"> <a class="item nav-left iconfont" type="back">&#xe6c6; </a> </div>
   <div loyout="column" width="70">
     <div class="item" id="quesType">
       <vt:foreach id="quesType" from="$#.quesType" item="data" index="i" remark="题型"> <span type="{$:i}"> {$:#.data}题</span> </vt:foreach>
@@ -78,16 +78,14 @@
               <!--单选题 -->
               <vt:function var="items" method="AnswerItems" args="$#.q"/>
               <vt:foreach from="$#.items" item="ans" index="j">
-                <vt:function var="tax" method="GetOrder" args="$j"/>
-                <div class="answer"  correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}"><span class="iconfont type">&#xf00c6;</span>{$:tax}、{$:ans.Ans_Context} </div>
+                <div class="answer"  correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}"><span class="type">&#xf00c6;</span>、{$:ans.Ans_Context} </div>
               </vt:foreach>
             </vt:if>
             <vt:if var="q.qus_type" value="2" compare="="> 
               <!--多选题 -->
               <vt:function var="items" method="AnswerItems" args="$#.q"/>
               <vt:foreach from="$#.items" item="ans" index="j">
-                <vt:function var="tax" method="GetOrder" args="$j"/>
-                <div class="answer"  correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}"><span class="iconfont type">&#xe603;</span>{$:tax}、{$:ans.Ans_Context} </div>
+                <div class="answer"  correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}"><span class="type">&#xe603;</span>、{$:ans.Ans_Context} </div>
               </vt:foreach>
             </vt:if>
             <vt:if var="q.qus_type" value="3" compare="="> 
@@ -95,16 +93,16 @@
               <!--判断题 -->
               <vt:function var="answer" method="GetAnswer" args="$#.q"/>
               <vt:if var="answer" value="正确" compare="=">
-                <div class="answer" correct="true" ansid="0"><span class="iconfont type">&#xe621;</span>A、&nbsp;正确</div>
-                <div class="answer" correct="false" ansid="1"><span class="iconfont type">&#xe621;</span>B、&nbsp;错误</div>
+                <div class="answer" correct="true" ansid="0"><span class="type">&#xe621;</span>A、&nbsp;正确</div>
+                <div class="answer" correct="false" ansid="1"><span class="type">&#xe621;</span>B、&nbsp;错误</div>
                 <vt:else/>
-                <div class="answer" correct="false" ansid="0"><span class="iconfont type">&#xe621;</span>A、&nbsp;正确</div>
-                <div class="answer" correct="true" ansid="1"><span class="iconfont type">&#xe621;</span>B、&nbsp;错误</div>
+                <div class="answer" correct="false" ansid="0"><span class="type">&#xe621;</span>A、&nbsp;正确</div>
+                <div class="answer" correct="true" ansid="1"><span class="type">&#xe621;</span>B、&nbsp;错误</div>
               </vt:if>
             </vt:if>
             <vt:if var="q.qus_type" value="4" compare="=">
               <div class="answer">
-                <div><span class="iconfont type1">&#xe657;</span> 回答：</div>
+                <div><span class="type1">&#xe657;</span> 回答：</div>
                 <textarea name="" class="textbox4"></textarea>
               </div>
             </vt:if>
@@ -112,8 +110,7 @@
               <!--填空题 -->
               <vt:function var="items" method="AnswerItems" args="$#.q"/>
               <vt:foreach from="$#.items" item="ans" index="j">
-                <vt:function var="tax" method="GetOrder" args="$j"/>
-                <div class="answer" correct="{$:ans.Ans_Context}" ><span class="iconfont type1">&#xe657;</span>{$:tax}、
+                <div class="answer" correct="{$:ans.Ans_Context}" ><span class="iconfont">&#xe657;</span>、
                   <input name=""  class="textbox5" type="text"/>
                 </div>
               </vt:foreach>
@@ -123,17 +120,15 @@
         <!--试题答案-->
         <div class="quesAnswerBox">
           <div class="quesAnswerTitle">正确答案：</div>
-          <div class="quesAnswerContent">正在加载...</div>
+          <div class="quesAnswerContent">
+          <vt:function var="answer" method="GetAnswer" args="$#.q"/>
+          {$answer}</div>
         </div>
       </div>
     </vt:foreach>
   </div>
 </div>
-<div loyout="row" height="20" class="showTxt"> &larr; 左右滑动切换上下题 &rarr; 
-<span id="addFont" class="fontoper">+</span>
-<span id="subFont" class="fontoper">-</span>
-<span style="float:right;">字体：</span>
-</div>
+<div loyout="row" height="20" class="showTxt"> &larr; 左右滑动切换上下题 &rarr; <span id="addFont" class="fontoper">+</span> <span id="subFont" class="fontoper">-</span> <span style="float:right;">字体：</span> </div>
 <!--底部按钮区 -->
 <div loyout="row" height="40" class="ctlBtn">
   <div loyout="column" width="5"> </div>

@@ -94,8 +94,8 @@ namespace Song.Site.Mobile
             this.Document.SetValue("ques", list);
 
             this.Document.RegisterGlobalFunction(this.AnswerItems);
-            this.Document.RegisterGlobalFunction(this.GetOrder);
             this.Document.RegisterGlobalFunction(this.IsCollect);
+            this.Document.RegisterGlobalFunction(this.GetAnswer);
         }
 
         /// <summary>
@@ -169,16 +169,52 @@ namespace Song.Site.Mobile
             return false;
         }
         /// <summary>
-        /// 获取序号
+        /// 试题的答案
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="objs"></param>
         /// <returns></returns>
-        protected object GetOrder(object[] index)
+        protected string GetAnswer(object[] objs)
         {
-            int tax = 0;
-            if (index.Length > 0)
-                tax = Convert.ToInt32(index[0]);
-            return (char)(tax - 1 + 65);
+            //当前试题
+            Song.Entities.Questions qus = null;
+            if (objs.Length > 0) qus = objs[0] as Song.Entities.Questions;            
+            if (qus == null) return "";
+            string ansStr = "";
+            if (qus.Qus_Type == 1)
+            {
+                //当前试题的答案
+                Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
+                for (int i = 0; i < ans.Length; i++)
+                {
+                    if (ans[i].Ans_IsCorrect)
+                        ansStr += (char)(65 + i);
+                }
+            }
+            if (qus.Qus_Type == 2)
+            {
+                Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
+                for (int i = 0; i < ans.Length; i++)
+                {
+                    if (ans[i].Ans_IsCorrect)
+                        ansStr += (char)(65 + i) + "、";
+                }
+                ansStr = ansStr.Substring(0, ansStr.LastIndexOf("、"));
+            }
+            if (qus.Qus_Type == 3)
+                ansStr = qus.Qus_IsCorrect ? "正确" : "错误";
+            if (qus.Qus_Type == 4)
+            {
+                if (qus != null && !string.IsNullOrEmpty(qus.Qus_Answer))
+                    ansStr = qus.Qus_Answer;
+            }
+            if (qus.Qus_Type == 5)
+            {
+                //当前试题的答案
+                Song.Entities.QuesAnswer[] ans = Business.Do<IQuestions>().QuestionsAnswer(qus, null);
+                for (int i = 0; i < ans.Length; i++)
+                    ansStr += (char)(65 + i) + "、" + ans[i].Ans_Context + "<br/>";
+            }
+            return ansStr;
         }
     }
 }
