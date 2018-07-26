@@ -78,7 +78,7 @@
               <!--单选题 -->
               <vt:function var="items" method="AnswerItems" args="$#.q"/>
               <vt:foreach from="$#.items" item="ans" index="j">
-                <div class="answer"  correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}"><span class="type">&#xf00c6;</span>、{$:ans.Ans_Context} </div>
+                <div correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}"><span class="type">&#xf00c6;</span>、{$:ans.Ans_Context} </div>
               </vt:foreach>
             </vt:if>
             <vt:if var="q.qus_type" value="2" compare="="> 

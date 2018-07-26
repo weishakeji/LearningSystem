@@ -3,6 +3,12 @@
     RightMenuDrop();
     MenuEvent();
     verifyCode();
+    //图片加载错误时，显示默认图片
+    $("img").error(function () {
+        var errImg = $(this).attr("background");
+        if (errImg == null) return false;
+        $(this).attr("src", errImg);
+    });
 });
 
 //顶部右上方的下拉菜单

@@ -26,8 +26,8 @@ namespace Song.Site.Manage.Sys
             this.Form.DefaultButton = "";
             if (!this.IsPostBack)
             {
-                this.SearchBind(this.searchBox);
                 ddlOrginBind();
+                this.SearchBind(this.searchBox);               
                 BindData(null, null);
             }
         }

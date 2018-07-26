@@ -1216,6 +1216,9 @@
     <Content Include="Templates\Web\_Public\Images\submit2.gif" />
     <Content Include="Templates\Web\_Public\Images\success.png" />
     <Content Include="Templates\Web\_Public\Images\tk_exam.png" />
+    <Content Include="Templates\Web\_Public\Module\Accounts\Login.css" />
+    <Content Include="Templates\Web\_Public\Module\Accounts\Login.htm" />
+    <Content Include="Templates\Web\_Public\Module\Accounts\Login.js" />
     <Content Include="Templates\Web\_Public\Module\Accounts\Panel.css" />
     <Content Include="Templates\Web\_Public\Module\Accounts\Panel.htm" />
     <Content Include="Templates\Web\_Public\Module\Accounts\panel.js" />

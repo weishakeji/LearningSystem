@@ -24,7 +24,7 @@
     }	
 	//选项的序号，数字转字母
 	$(".quesItemsBox").each(function() {
-        $(this).find(".answer").each(function(index, element) {
+        $(this).find(">div").each(function(index, element) {
             var char=String.fromCharCode(0x41+index);
 			$(this).find(">span").after(char);
         });

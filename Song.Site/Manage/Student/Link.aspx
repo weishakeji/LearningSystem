@@ -31,7 +31,7 @@
                 电子邮箱：
             </td>
             <td>
-                <asp:TextBox ID="TextBox1" runat="server" datatype="email"></asp:TextBox>
+                <asp:TextBox ID="Ac_Email" runat="server" datatype="email"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -39,7 +39,7 @@
                 QQ：
             </td>
             <td>
-                <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                <asp:TextBox ID="Ac_Qq" runat="server"></asp:TextBox>
             </td>
         </tr>
         <tr>
@@ -47,7 +47,7 @@
                 微信：
             </td>
             <td>
-                <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
+                <asp:TextBox ID="Ac_Weixin" runat="server"></asp:TextBox>
             </td>
         </tr>
          <tr>

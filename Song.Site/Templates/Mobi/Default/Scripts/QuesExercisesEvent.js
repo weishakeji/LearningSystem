@@ -17,7 +17,7 @@ function _quesSelectEvent() {
 }
 //单选题的选择
 function quesEventType1(ansItem) {
-    ansItem.find(".answer").click(function () {
+    ansItem.find(".quesItemsBox>div").click(function () {
         var pat = $(this).parent();
         var isSel = $.trim($(this).attr("isSel")) == "true" ? true : false;
         if (isSel) {
@@ -26,14 +26,14 @@ function quesEventType1(ansItem) {
             $(this).find("span.type").html("&#xf00c6;");
         } else {
             //如要没有选中			
-            pat.find(".answer").attr("isSel", false).removeClass("answerSel");
+            pat.find(">div").attr("isSel", false).removeClass("answerSel");
             pat.find("span.type").html("&#xf00c6;");
             $(this).attr("isSel", true);
             $(this).addClass("answerSel");
             $(this).find("span.type").html("&#xe667;");
         }
         // 对选择项进行判断，并转到下一题
-        if (pat.find(".answer[issel=true]").size() > 0) {
+        if (pat.find(">div[issel=true]").size() > 0) {
             //提交答题信息以验证对错
             $("#btnSubmit").click();
         }
@@ -220,7 +220,7 @@ function showResult(ques, isCorrect) {
 //单选题判断
 //ques: 当前试题所在区域的html对象，即class='quesItem'
 function _decide1(ques) {
-    var selitem = ques.find(".quesItemsBox .answer[issel=true]");
+    var selitem = ques.find(".quesItemsBox>[issel=true]");
     //alert(selitem.size());
     if (selitem.size() < 1) {
         var msg = new MsgBox("提示", "您还没有答题！", 90, 40, "msg");

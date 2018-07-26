@@ -49,31 +49,31 @@ namespace Song.Site.Manage.Student {
         protected global::System.Web.UI.WebControls.CheckBox Ac_IsOpenMobi;
         
         /// <summary>
-        /// TextBox1 控件。
+        /// Ac_Email 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox Ac_Email;
         
         /// <summary>
-        /// TextBox2 控件。
+        /// Ac_Qq 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        protected global::System.Web.UI.WebControls.TextBox Ac_Qq;
         
         /// <summary>
-        /// TextBox3 控件。
+        /// Ac_Weixin 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox3;
+        protected global::System.Web.UI.WebControls.TextBox Ac_Weixin;
         
         /// <summary>
         /// Ac_Address 控件。

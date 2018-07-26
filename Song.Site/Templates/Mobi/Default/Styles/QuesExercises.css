@@ -165,7 +165,7 @@ body{
 	border-left-color: #dedede;
 	min-height:150px;
 }
-.quesBox .quesItemsBox .answer {		
+.quesBox .quesItemsBox>div {		
 	border-top-width: 1px;
 	border-top-style: solid;
 	border-top-color: #CCCCCC;
@@ -175,16 +175,16 @@ body{
 	padding-left: 10px;
 	min-height:30px;
 }
-.quesBox .quesItemsBox .answer *{
+.quesBox .quesItemsBox>div *{
 	font-size: 16px !important;
 	line-height: 30px;
 }
-.answer .type{
+.quesBox .quesItemsBox>div  .type{
 	font-family: "iconfont" !important;
 	color: #666666;
 	margin-right: 5px;	
 }
-.answer img{
+.quesBox .quesItemsBox>div  img{
 	max-width:90%;
 }
 .answerSel{

@@ -5,7 +5,10 @@
 	background-repeat: no-repeat;
 	background-position: center 0px;
 }
-
+.fixedBox
+{
+    top:200px;
+}
 
 /*课程列表*/
 #Context {

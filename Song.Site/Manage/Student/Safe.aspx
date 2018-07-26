@@ -63,7 +63,7 @@
                 答案：
             </td>
             <td>
-                <asp:TextBox nullable="false" ID="Ac_Anwser" group="ques" runat="server"  Width="200" MaxLength="100"></asp:TextBox>
+                <asp:TextBox nullable="false" ID="Ac_Ans" group="ques" runat="server"  Width="200" MaxLength="100"></asp:TextBox>
             </td>
         </tr>
          
