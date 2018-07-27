@@ -21,11 +21,15 @@ function setExamingInitLoyout() {
     $(".quesItem:first").show();
     //上一题
     $("#btnPrev").click(function () {
-        ShowQues(null, -1);
+        if ($(this).attr("state") != "1") {
+            ShowQues(null, -1);
+        }
     });
     //下一题
     $("#btnNext").click(function () {
-        ShowQues(null, 1);
+        if ($(this).attr("state") != "1") {
+            ShowQues(null, 1);
+        }
     });
     //确定，并进入下一题
     $("#btnEnterNext").click(function () {
@@ -78,8 +82,10 @@ function ShowQues(index, action) {
         contxt.css("left", -left);
         $("#quesArea").attr("index", index);
     } else {
+        $("#btnPrev,#btnNext").attr("state", 1);
         contxt.animate({ left: left }, 1000, function () {
             $("#quesArea").attr("index", index);
+            $("#btnPrev,#btnNext").attr("state", 0);
         });
     }
 }
@@ -287,23 +293,23 @@ function submitResult(patter) {
         //加载成功！
         success: function (data) {
             try {
-				MsgBox.Close();
+                MsgBox.Close();
                 //返回三个参数：
                 //score:得分;
                 //trid:考试成绩记录的id
                 //tpid:试卷Id
-				var obj = eval("(" + data + ")");
+                var obj = eval("(" + data + ")");
                 var url = "TestView.ashx?trid=" + obj.trid;
-                var box = new top.PageBox("成绩回顾", url, 980, 80,null,window.name);
+                var box = new top.PageBox("成绩回顾", url, 980, 80, null, window.name);
                 box.CloseEvent = function () {
-                    window.location.href = "Test.ashx";					
+                    window.location.href = "Test.ashx";
                 }
                 box.Open();
-				//MsgBox.Close(true);
+                //MsgBox.Close(true);
                 window.isSubmit = false;
                 window.isSubmited = true;
             } catch (e) {
-                alert("错误提示："+e);
+                alert("错误提示：" + e);
             }
         }
     });
@@ -315,7 +321,7 @@ function getResultXml(patter) {
     patter = !isNaN(Number(patter)) ? Number(patter) : 2;
     var score = $("#cardBox").attr("score");
     var res = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
-    res += "<results uid=\"" + uid + "\" examid=\"" + 0 + "\" stid=\"" + stID + "\"  stname=\"" + ($.trim(stName)=="" ? stAccName : $.trim(stName))
+    res += "<results uid=\"" + uid + "\" examid=\"" + 0 + "\" stid=\"" + stID + "\"  stname=\"" + ($.trim(stName) == "" ? stAccName : $.trim(stName))
 		+ "\" couid=\"" + courseid + "\" couname=\"" + courseName + "\" stsid=\"" + stsID + "\" stsname=\"" + stsName
         + "\" sbjid=\"" + sbjid + "\" sbjname=\"" + sbjName + "\" patter=\"" + patter + "\" score=\"" + score + "\" isclac=\"true"
 		+ "\" tpid=\"" + testPagerID + "\" tpname=\"" + testPagerName + "\">";

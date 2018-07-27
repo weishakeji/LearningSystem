@@ -88,12 +88,27 @@
           </tr>
             </table>
       </fieldset>
-          <fieldset id="timeBox">
-        <legend>剩余时间</legend>
+          <div id="timeBox">
+       
         
         <!-- <div class="timeTitle"> 剩余时间</div>-->
         <div class="timeArea"> <span class="mm">0</span>:<span class="ss">0</span></div>
-      </fieldset>
+        <div id="btnSubmint"> <img src="../../images/submit.gif" width="260" height="45"/> &nbsp;</div>
+      </div>
+        </div>
+         <!--上下按钮控制区-->
+    
+    <div id="controlBox">
+          <div id="btnPrev" class="btn"> 
+        <!--上一题--> 
+        &nbsp;</div>
+          <div id="btnNext" class="btn"> 
+        <!--下一题--> 
+        &nbsp;</div>
+          <!--<div id="btnEnterNext" class="btn"> 
+          
+          &nbsp;</div>-->
+          
         </div>
     <div id="TestArea"> 
           <!--试题展示区-->
@@ -166,20 +181,7 @@
         <div id="cardBoxInner"> </div>
       </div>
         </div>
-    <!--上下按钮控制区-->
-    
-    <div id="controlBox">
-          <div id="btnPrev" class="btn"> 
-        <!--上一题--> 
-        &nbsp;</div>
-          <div id="btnNext" class="btn"> 
-        <!--下一题--> 
-        &nbsp;</div>
-          <!--<div id="btnEnterNext" class="btn"> 
-          
-          &nbsp;</div>-->
-          <div id="btnSubmint"> <img src="../../images/submit.gif" width="260" height="45"/> &nbsp;</div>
-        </div>
+   
     <vt:else/>
     <div class="noSelect">
       <vt:if var="pager" value="" compare="!=">

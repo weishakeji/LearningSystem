@@ -247,20 +247,21 @@ fieldset legend
 }
 #timeBox .timeArea
 {
-	font-size: 50px;
+	font-size: 80px;
 	background-color: #CCFF66;
 	text-align: center;
-	height: 120px;
-	line-height: 120px;
+	height: 100px;
+	line-height: 60px;
 	font-family: "黑体", SimSun-ExtB;
 }
 .timeArea  .mm, .timeArea  .ss{
-	font-size: 50px;
-	background-color: #CCFF66;
+	font-size: 70px;
+	background-color: #D7FF84;
 	text-align: center;
 	height: 120px;
 	line-height: 120px;
-	font-family: "黑体", SimSun-ExtB;
+	font-family: "Times New Roman", Times, serif;
+	;
 }
 /*考试区域*/
 #TestArea
@@ -528,14 +529,14 @@ fieldset legend
 	width: 308px;
 }
 /*交卷*/
-#controlBox #btnSubmint{
+#btnSubmint{
 	width: 260px;
 	float:right;
 	margin-top:5px;
 	cursor:pointer;	
 }
-#controlBox #btnSubmint img{
-	border:1px solid #666;
+#btnSubmint img{
+
 	border-left:none;
 	border-right:none;
 }
@@ -545,6 +546,7 @@ fieldset legend
 	width:260px;
 	float:right;
 	display:table;
+	margin-top:-60px;
 	background-color:#eee;
 }
 #cardBoxTitle
