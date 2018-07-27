@@ -42,7 +42,9 @@
           <li class="mui-table-view-cell"> <a href="MoneyDetails.ashx" type="link" class="mui-navigate-right"><span class="moneyico ico"  style="color:#F90">&#xe666;</span>资金明细
             <div class="right-item"><span class="moneyico">&#xe624;</span> {$:#.Account.Ac_money format="0.00"}元</div>
             </a> </li>
-          <li class="mui-table-view-cell"> <a href="Recharge.ashx" type="link" class="mui-navigate-right"><span class="moneyico ico" style="color:#060">&#xe62d;</span>充值</a> </li>
+          <li class="mui-table-view-cell"> <a href="Recharge.ashx" type="link" class="mui-navigate-right"><span class="moneyico ico" style="color:#060">&#xe62d;</span>充值
+          <div class="right-item"><span >券</span> {$:#.Account.Ac_Coupon}个</div>
+          </a> </li>
            <li class="mui-table-view-cell"> <a href="Subordinates.ashx" type="link" class="mui-navigate-right"><span class="iconfont ico" style="color: #06F">&#xe604;</span>下级会员</a> </li>
         </ul>
         <div style="height:10px"></div>
@@ -104,13 +106,13 @@
             </div>
           </li>
           <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconphone ico">&#xe63c;</span>联系方式
-            <div class="right-item" id="stmobi">{$Account.Ac_PhoneMobi}</div>
+            <div class="right-item" id="stmobi">{$Account.Ac_MobiTel1}</div>
             </a>
             <div class="mui-collapse-content">
               <form class="mui-input-group">
                 <div class="mui-input-row">
                   <label>手机</label>
-                  <input name="tbmobi" type="text" class="textbox" id="tbmobi" placeholder="" value="{$Account.Ac_PhoneMobi}" >
+                  <input name="tbmobi" type="text" class="textbox" id="tbmobi" placeholder="" value="{$Account.Ac_MobiTel1}" >
                 </div>
                 <div class="mui-input-row">
                   <label>QQ</label>

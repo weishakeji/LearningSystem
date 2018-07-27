@@ -1208,8 +1208,10 @@
     <Content Include="Templates\Web\_Public\Images\icon-1.png" />
     <Content Include="Templates\Web\_Public\Images\load_024.gif" />
     <Content Include="Templates\Web\_Public\Images\next.jpg" />
+    <Content Include="Templates\Web\_Public\Images\noPhoto.jpg" />
     <Content Include="Templates\Web\_Public\Images\ok.gif" />
     <Content Include="Templates\Web\_Public\Images\previous.jpg" />
+    <Content Include="Templates\Web\_Public\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\_Public\Images\submit-bg.gif" />
     <Content Include="Templates\Web\_Public\Images\submit.gif" />
     <Content Include="Templates\Web\_Public\Images\submit2-bg.gif" />

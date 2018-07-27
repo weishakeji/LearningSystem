@@ -33,6 +33,7 @@ namespace Song.ServiceImpls
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) entity.Org_ID = org.Org_ID;  
             Gateway.Default.Save<Questions>(entity);
+            this.Save(this, EventArgs.Empty);
             return entity.Qus_ID;
         }
         
@@ -59,6 +60,7 @@ namespace Song.ServiceImpls
                     tran.Update<QuesAnswer>(new Field[] { QuesAnswer._.Qus_ID }, new object[] { entity.Qus_ID }, QuesAnswer._.Qus_UID == entity.Qus_UID);
                     tran.Commit();
                     QuestionsMethod.QuestionsCache.Singleton.UpdateSingle(entity);
+                    this.Save(this, EventArgs.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -1263,6 +1265,38 @@ namespace Song.ServiceImpls
         public void CacheClear()
         {
             QuestionsMethod.QuestionsCache.Singleton.Clear();
+        }
+        /// <summary>
+        /// 刷新缓存
+        /// </summary>
+        /// <param name="key">缓存名称</param>
+        public void Refresh(string key)
+        {
+            if (string.IsNullOrWhiteSpace(key)) key = "all";
+            Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
+            Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete(key);
+            Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, key);
+        }
+        #endregion
+
+        #region 事件
+        public event EventHandler Save;
+        public event EventHandler Add;
+        public event EventHandler Delete;
+        public void OnSave(object sender, EventArgs e)
+        {
+            if (Save != null)
+                Save(this, EventArgs.Empty);             
+        }
+        public void OnAdd(object sender, EventArgs e)
+        {
+            if (Add != null)
+                Add(this, EventArgs.Empty);           
+        }
+        public void OnDelete(object sender, EventArgs e)
+        {
+            if (Delete != null)
+                Delete(this, EventArgs.Empty);
         }
         #endregion
     }

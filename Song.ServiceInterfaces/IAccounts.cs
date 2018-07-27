@@ -13,6 +13,18 @@ namespace Song.ServiceInterfaces
     /// </summary>
     public interface IAccounts : WeiSha.Common.IBusinessInterface
     {
+        #region 事件
+        /// <summary>
+        /// 账户信息变更时
+        /// </summary>
+        event EventHandler Save;
+        event EventHandler Add;
+        event EventHandler Delete;
+        void OnSave(object sender, EventArgs e);
+        void OnAdd(object sender, EventArgs e);
+        void OnDelete(object sender, EventArgs e);
+        #endregion
+
         #region 账户管理
         /// <summary>
         /// 注册协议

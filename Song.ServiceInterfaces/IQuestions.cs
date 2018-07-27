@@ -307,6 +307,22 @@ namespace Song.ServiceInterfaces
         /// 强制刷新，清除过期的缓存（默认每十分钟清理一次）
         /// </summary>
         void CacheClear();
+        /// <summary>
+        /// 刷新缓存
+        /// </summary>
+        /// <param name="key">缓存名称</param>
+        void Refresh(string key);
+        #endregion
+        #region 事件
+        /// <summary>
+        /// 当试题更改时
+        /// </summary>
+        event EventHandler Save;
+        event EventHandler Add;
+        event EventHandler Delete;
+        void OnSave(object sender, EventArgs e);
+        void OnAdd(object sender, EventArgs e);
+        void OnDelete(object sender, EventArgs e);
         #endregion
 
     }

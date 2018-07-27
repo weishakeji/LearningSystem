@@ -56,23 +56,23 @@ function ajaxLoaddata() {
             var d = data.items[i];
             var li = document.createElement('li');
             li.className = 'money-item mui-table-view-cell';
-            li.setAttribute("maid", d.Pa_ID);
+            li.setAttribute("maid", d.Ma_ID);
             //相关数据
-            var type = d.Pa_Type == 1 ? "-" : "+";
-            var ico = d.Pa_Type == 1 ? "&#xe680;" : "&#xf0094;"; 	//支出图标，与收入图标
-            var sourse = d.Pa_Value ; //资金来源			
-            var date = new Date(d.Pa_CrtTime).Format("MM-dd"); //资金流水的创建日期
-            var time = new Date(d.Pa_CrtTime).Format("hh:mm"); //资金流水的创建时时间
-			var remark=$.trim(d.Pa_Remark)!="" ? d.Pa_Remark : d.Pa_Info;
+            var type = d.Ma_Type == 1 ? "-" : "+";
+            var ico = d.Ma_Type == 1 ? "&#xe680;" : "&#xf0094;"; 	//支出图标，与收入图标
+            var sourse = d.Ma_Value ; //资金来源			
+            var date = new Date(d.Ma_CrtTime).Format("MM-dd"); //资金流水的创建日期
+            var time = new Date(d.Ma_CrtTime).Format("hh:mm"); //资金流水的创建时时间
+			var remark=$.trim(d.Ma_Remark)!="" ? d.Ma_Remark : d.Ma_Info;
             //
             var html = '';
-            html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-red mui-icon mui-icon-trash" maid="' + d.Pa_ID + '"></a></div>';
+            html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-red mui-icon mui-icon-trash" maid="' + d.Ma_ID + '"></a></div>';
             html += '<div class="mui-slider-handle mui-table"><div class="mui-table-cell">';
             //
             html += '<div class="dates">' + date + '<br/>' + time + '</div>';
-            html += '<div class="ico"><div class="examico type' + Number(d.Pa_Type) + '">' + ico + "</div></div>";
+            html += '<div class="ico"><div class="examico type' + Number(d.Ma_Type) + '">' + ico + "</div></div>";
             html += '<div class="info">';
-            html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Pa_Value) + '</div> </div>';
+            html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Ma_Money) + '</div> </div>';
             html += '<div class="row2">' + remark+ '</div>';
             html += '</div>';
             //

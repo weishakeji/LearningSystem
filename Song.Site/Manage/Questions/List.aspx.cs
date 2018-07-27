@@ -147,6 +147,7 @@ namespace Song.Site.Manage.Questions
         {
             string keys = GridView1.GetKeyValues;            
             Business.Do<IQuestions>().QuesDelete(keys);
+            Business.Do<IQuestions>().OnSave(this, EventArgs.Empty);
             BindData(null, null);           
         }
         /// <summary>
@@ -161,6 +162,7 @@ namespace Song.Site.Manage.Questions
             int id = 0;
             int.TryParse(this.GridView1.DataKeys[index].Value.ToString(), out  id);
             Business.Do<IQuestions>().QuesDelete(id);
+            Business.Do<IQuestions>().OnSave(this, EventArgs.Empty);
             BindData(null, null);            
         }
         /// <summary>

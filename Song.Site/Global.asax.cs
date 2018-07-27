@@ -38,25 +38,38 @@ namespace Song.Site
         {
             //创建路由
             RegisterRoutes(RouteTable.Routes);
-            try
+
+            //生成所有机构的二维码
+            new Thread(new ThreadStart(() =>
             {
-                //生成所有机构的二维码
                 Business.Do<IOrganization>().OrganBuildQrCode();
-            }
-            catch
+            })).Start();
+
+
+            //当试题内容变更时的事件
+            Business.Do<IQuestions>().Save += delegate(object s, EventArgs ev)
             {
-            }
-            //创建线程，将试题导入缓存
-            ThreadStart threadStart = new ThreadStart(SetQuestionsCache);
-            Thread thread = new Thread(threadStart);
-            thread.Start();
-        }
-        public static void SetQuestionsCache()
-        {
-            Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
-            Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
-            Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
-        }
+                new Thread(new ThreadStart(() =>
+                {
+                    Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
+                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
+                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
+                })).Start();
+            };
+            Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
+
+            //当账号内容变更时
+            Business.Do<IAccounts>().Save += delegate(object s, EventArgs ev)
+            {
+                Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+                if (acc != null)
+                {
+                    Extend.LoginState.Accounts.Refresh(acc.Ac_ID);
+                }
+            };
+
+        }    
+
         private void RegisterRoutes(RouteCollection routes){
             //伪静态页面，自动转到ashx动态页（ashx又自动取了/tempates/中的模板用于展示）
             routes.MapPageRoute(
@@ -105,5 +118,7 @@ namespace Song.Site
         {
 
         }
+
+        
     }
 }

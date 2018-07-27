@@ -12,11 +12,9 @@ namespace Song.Site
     /// </summary>
     public class ErrorPage : BasePage
     {
-
-
         protected override void InitPageTemplate(HttpContext context)
         {
-            
+
         }
     }
 }

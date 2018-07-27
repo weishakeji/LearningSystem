@@ -21,6 +21,26 @@ namespace Song.ServiceImpls
 {
     public class AccountsCom : IAccounts
     {
+        #region 事件
+        public event EventHandler Save;
+        public event EventHandler Add;
+        public event EventHandler Delete;
+        public void OnSave(object sender, EventArgs e)
+        {
+            if (Save != null)
+                Save(this, EventArgs.Empty);
+        }
+        public void OnAdd(object sender, EventArgs e)
+        {
+            if (Add != null)
+                Add(this, EventArgs.Empty);
+        }
+        public void OnDelete(object sender, EventArgs e)
+        {
+            if (Delete != null)
+                Delete(this, EventArgs.Empty);
+        }
+        #endregion
         /// <summary>
         /// 注册协议
         /// </summary>
@@ -100,6 +120,7 @@ namespace Song.ServiceImpls
                         new object[] { entity.Ac_Sex, entity.Ac_Birthday, entity.Ac_IDCardNumber, entity.Ac_Nation, entity.Ac_Native }, Teacher._.Ac_ID == entity.Ac_ID);
                     }
                     tran.Commit();
+                    this.OnSave(this, EventArgs.Empty);
                 }
                 catch
                 {
@@ -111,8 +132,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Close();
                 }
-            }
-            Extend.LoginState.Accounts.Refresh(entity);
+            }           
         }
         #region 私有方法
         /// <summary>
@@ -147,6 +167,7 @@ namespace Song.ServiceImpls
         public void AccountsUpdate(Accounts entity, Field[] fiels, object[] objs)
         {
             Gateway.Default.Update<Accounts>(fiels, objs, Accounts._.Ac_ID == entity.Ac_ID);
+            this.OnSave(this, EventArgs.Empty);
         }
         /// <summary>
         /// 删除，按主键ID；
