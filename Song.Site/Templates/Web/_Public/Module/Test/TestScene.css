@@ -309,6 +309,7 @@ fieldset legend
 .quesBox .quesInfo .info span{
 	font-size:14px;
 }
+
 .btnFav, .btnError {
 	text-align: center;
 	width: 20px;
@@ -322,6 +323,9 @@ fieldset legend
 .quesTitle, .quesTitle *{
 	font-size: 16px;
 	line-height:25px;
+}
+.quesBox .quesTitle img{
+	max-width:100%;
 }
 .quesBox .quesAnswerBox {
 
