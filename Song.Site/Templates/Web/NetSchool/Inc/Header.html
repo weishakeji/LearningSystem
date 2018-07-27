@@ -3,7 +3,7 @@
         <vt:if var="org.org_logo" value="" compare="!="><a href="/"> <img src="{$orgPath}{$org.org_logo}" class="logo" /></a> </vt:if>
         <div class="menubBar">
             <dl overclass="overMenu">
-             <!--   <dd class="rootmenu"   nid="0">
+                <!--   <dd class="rootmenu"   nid="0">
                     <a href="/">首页</a>
                 </dd>-->
                 <vt:function var="menu" method="Navi" args="main" args="0" />
@@ -20,13 +20,19 @@
             </dl>
         </div>
         <div class="topright">
-      <div class="phone right-div" type="phone"><a href="/mobi.cshtm" ><span class="iconphone" style="font-size:14px">&#xe610;</span>手机端</a></div>
-      <div id="qrcode" type="phone" style="display:none"> <a href="/mobi.cshtm" ><img src="data:image/JPG;base64,{$org.Org_Qrcode}"/></a>
-        <div>手机扫描二维码</div>
-        <em></em> </div>
-      <div class="right-div">|</div>
-      <div class="accoutbox right-div">
-        <vt:if var="Account.ac_id" value="1" compare="<"> <a href="/student/index.ashx" target="_blank">登录</a>&nbsp;<a href="/student/Register.ashx" target="_blank">注册</a>
+            <div class="phone right-div" type="phone">
+                <a href="/mobi.cshtm"><span class="iconphone" style="font-size: 14px">&#xe610;</span>手机端</a></div>
+            <div id="qrcode" type="phone" style="display: none">
+                <a href="/mobi.cshtm">
+                    <img src="data:image/JPG;base64,{$org.Org_Qrcode}" /></a>
+                <div>
+                    手机扫描二维码</div>
+                <em></em>
+            </div>
+            <div class="right-div">
+                |</div>
+            <div class="accoutbox right-div">
+                <vt:if var="Account.ac_id" value="1" compare="<"> <a href="/student/index.ashx" target="_blank">登录</a>&nbsp;<a href="/student/Register.ashx" target="_blank">注册</a>
           <vt:else/>
           <!--学员登录后的效果-->
           <div class="accTarget" type="acc">
@@ -52,11 +58,12 @@
             <dd><a href="../student/Logout.ashx">退出登录</a></dd>
           </dl>
         </vt:if>
-      </div>
-    </div>
+            </div>
+        </div>
         <div class="headerCenter">
             <form class="searchBox" action="/Courses.ashx" method="get">
-            <input name="search" type="text" class="seacInput" id="search" nullable='false' star='false' def="搜索课程" />
+            <input name="search" type="text" class="seacInput" id="search" nullable='false' star='false'
+                def="搜索课程" />
             <div class="searbtn" verify='true'>
                 <span class="iconfont">&#xe62f;</span>
             </div>
@@ -64,8 +71,13 @@
         </div>
     </div>
 </div>
-
-
 <!--主菜单的下拉菜单-->
 <vt:function var="drop" method="NaviDrop" args="main" args="0" />
-{$drop} 
+{$drop}
+<script>
+//主菜单效果
+    NavigationInit();
+    RightMenuDrop();
+    MenuEvent();
+    
+</script>

@@ -1,7 +1,6 @@
-﻿$(function () {
-    NavigationInit();
-    RightMenuDrop();
-    MenuEvent();
+﻿
+
+$(function () {
     verifyCode();
     //图片加载错误时，显示默认图片
     $("img").error(function () {
@@ -164,13 +163,15 @@ StudentOnlineLog.init();
 */
 //菜单项的初始化
 function NavigationInit() {
+    if ($(".menubBar").size() < 1) return;
     //菜单项宽度，按字数平均分配
-    var menutxt = $(".rootmenu").text().replace(/\s/g, "").length;
-    var per = $(".rootmenu").parent().width() / menutxt;
-	//$(".rootmenu").parent().css("visibility","hidden")
+    var sumcount = $(".menubBar dl").text().replace(/\s/g, "").length;
+    //alert("菜单总字数：" + sumcount + " 宽度：" + parseInt($(".menubBar dl").css("width")));
+    var per = parseInt($(".menubBar dl").css("width")) / sumcount;
+    //$(".rootmenu").parent().css("visibility","hidden")
     $(".rootmenu").each(function () {
         var n = $(this).text().replace(/\s/g, "").length;
-        $(this).show().css({ width: n * per });
+        $(this).css({ width: n * per+"px" }).show();        
     });
     $(".rootmenu").parent().hide().fadeIn(500);
     //当鼠标滑过主菜单
