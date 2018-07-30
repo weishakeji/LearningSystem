@@ -17,6 +17,8 @@ namespace Song.Extend.Login
     public class Accounts
     {
         private static readonly Accounts _singleton = new Accounts();
+        //用于记录uid的cookie名称
+        private readonly string _uid = "AccountsUID";
         /// <summary>
         /// 获取参数
         /// </summary>
@@ -29,7 +31,7 @@ namespace Song.Extend.Login
         /// </summary>
         public string UID
         {
-            get { return WeiSha.Common.Request.Cookies["AccountsUID"].String; }
+            get { return WeiSha.Common.Request.Cookies[_uid].String; }
         }
         #region 属性
 
@@ -64,7 +66,7 @@ namespace Song.Extend.Login
             {
                 int acid = this.CurrentUserId;  //当前用户的账号id
                 if (acid < 1) return null;
-                string uid = WeiSha.Common.Request.Cookies["AccountsUID"].String; //用于判断是否重复登录
+                string uid = WeiSha.Common.Request.Cookies[_uid].String; //用于判断是否重复登录
                 Song.Entities.Accounts curr = null; //当前用户
                 //首先从在线列表中取当前登录的用户
                 if (this._onlineUser.Count > 0)
@@ -84,7 +86,7 @@ namespace Song.Extend.Login
                 {
                     if (acid > 0) curr = Business.Do<IAccounts>().AccountsSingle(acid, uid);
                     if (curr != null) this._onlineUser.Add(curr);
-                    if (curr == null && acid > 0) this.Logout();    //如果没有用户但又有acid，则注销
+                    //if (curr == null && acid > 0) this.Logout();    //如果没有用户但又有acid，则注销
                 }
                 return curr;
             }
@@ -215,7 +217,7 @@ namespace Song.Extend.Login
             //写入唯一值，用于判断同一个账号是否多人登录
             string uid = WeiSha.Common.Request.UniqueID();
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            System.Web.HttpCookie cookie = new System.Web.HttpCookie("AccountsUID", uid);
+            System.Web.HttpCookie cookie = new System.Web.HttpCookie(_uid, uid);
             if (!WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Request.Domain.MainName;
             _context.Response.Cookies.Add(cookie);
             acc.Ac_CheckUID = uid;

@@ -51,10 +51,13 @@ namespace Song.Site.Manage.Admin
         /// <returns></returns>
         protected string getEdu(object val)
         {
-            ListItem li = ddlEducation.Items.FindByValue(val.ToString());
-            if (li != null)
+            if (val != null)
             {
-                return li.Text;
+                ListItem li = ddlEducation.Items.FindByValue(val.ToString());
+                if (li != null)
+                {
+                    return li.Text;
+                }
             }
             return "";
         }
