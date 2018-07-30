@@ -61,11 +61,7 @@ namespace Song.Site
             //当账号内容变更时
             Business.Do<IAccounts>().Save += delegate(object s, EventArgs ev)
             {
-                Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
-                if (acc != null)
-                {
-                    Extend.LoginState.Accounts.Refresh(acc.Ac_ID);
-                }
+                Extend.LoginState.Accounts.Refresh(Extend.LoginState.Accounts.CurrentUserId);                
             };
 
         }    

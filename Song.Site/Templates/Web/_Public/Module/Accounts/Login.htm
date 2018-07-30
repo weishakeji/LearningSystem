@@ -1,6 +1,9 @@
 ﻿<script type="text/javascript" src="Login.js"></script>
 <link href="Login.css" rel="stylesheet" type="text/css" />
-
+<vt:if var="domain" value="" compare="!=">
+      <script type="text/javascript">
+          document.domain = '{$domain}';  
+    </script></vt:if>
 <div id="loginArea">
 <div class="loginArea-inner">
   <div id="loginBoxBack" style="z-index:1000">&nbsp; </div>

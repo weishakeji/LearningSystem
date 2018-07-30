@@ -16,25 +16,28 @@ namespace Song.Site.Student
         //用于标识布局的值
         protected string loyout = WeiSha.Common.Request.QueryString["loyout"].String;        
         protected override void InitPageTemplate(HttpContext context)
-        {            
-            //来源页
-            string from = WeiSha.Common.Request.QueryString["from"].String;
-            if (string.IsNullOrWhiteSpace(from)) from = context.Request.UrlReferrer != null ? context.Request.UrlReferrer.PathAndQuery : "";            
-            this.Document.SetValue("from", from);
-            this.Document.SetValue("frompath", context.Request.UrlReferrer != null ? context.Request.UrlReferrer.ToString() : "");
-            //设置主域，用于js跨根域
-            if (!WeiSha.Common.Server.IsLocalIP) this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
-            //相关参数
-            WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
-            //登录方式
-            bool IsLoginForPw = config["IsLoginForPw"].Value.Boolean ?? true;    //启用账号密码登录
-            bool IsLoginForSms = config["IsLoginForSms"].Value.Boolean ?? true;  //启用手机短信验证登录
-            this.Document.SetValue("forpw", IsLoginForPw);  
-            this.Document.SetValue("forsms", IsLoginForSms);
-            this.Document.SetValue("islogin", !IsLoginForPw && !IsLoginForSms);
-            //界面状态
-            if (!IsLoginForPw && IsLoginForSms) loyout = "mobile";
-            this.Document.SetValue("loyout", loyout);
+        {
+            if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
+            {
+                //来源页
+                string from = WeiSha.Common.Request.QueryString["from"].String;
+                if (string.IsNullOrWhiteSpace(from)) from = context.Request.UrlReferrer != null ? context.Request.UrlReferrer.PathAndQuery : "";
+                this.Document.SetValue("from", from);
+                this.Document.SetValue("frompath", context.Request.UrlReferrer != null ? context.Request.UrlReferrer.ToString() : "");
+                //设置主域，用于js跨根域
+                if (!WeiSha.Common.Server.IsLocalIP) this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+                //相关参数
+                WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
+                //登录方式
+                bool IsLoginForPw = config["IsLoginForPw"].Value.Boolean ?? true;    //启用账号密码登录
+                bool IsLoginForSms = config["IsLoginForSms"].Value.Boolean ?? true;  //启用手机短信验证登录
+                this.Document.SetValue("forpw", IsLoginForPw);
+                this.Document.SetValue("forsms", IsLoginForSms);
+                this.Document.SetValue("islogin", !IsLoginForPw && !IsLoginForSms);
+                //界面状态
+                if (!IsLoginForPw && IsLoginForSms) loyout = "mobile";
+                this.Document.SetValue("loyout", loyout);
+            }
 
             //此页面的ajax提交，全部采用了POST方式
             if (Request.ServerVariables["REQUEST_METHOD"] == "POST")

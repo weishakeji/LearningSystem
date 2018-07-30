@@ -17,7 +17,6 @@ namespace Song.Extend.Login
     public class Accounts
     {
         private static readonly Accounts _singleton = new Accounts();
-        private HttpContext _context = null;
         /// <summary>
         /// 获取参数
         /// </summary>
