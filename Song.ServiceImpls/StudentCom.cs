@@ -874,13 +874,14 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 学员的学习记录
         /// </summary>
-        /// <param name="acid"></param>
-        /// <param name="acid"></param>
-        /// <returns>datatable中LastTime列为学习时间</returns>
+        /// <param name="orgid"></param>
+        /// <param name="acid">学员id</param>
+        /// <returns>datatable中,LastTime:最后学习时间； studyTime：累计学习时间，complete：完成度百分比</returns>
         public DataTable StudentStudyCourseLog(int orgid, int acid)
         {
             string sql = @"select * from course as c inner join 
-                    (SELECT top 90000 cou_id, MAX(Lss_LastTime) as 'lastTime', sum(Lss_StudyTime) as 'studyTime'
+                    (SELECT top 90000 cou_id, MAX(Lss_LastTime) as 'lastTime', sum(Lss_StudyTime) as 'studyTime', 
+                    cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/MAX(Lss_Duration)) as float)*100 as 'complete'
                       FROM [LogForStudentStudy] where {orgid} and {acid}
                     group by cou_id order by lastTime desc) as s
                     on c.cou_id=s.cou_id ";
@@ -894,12 +895,14 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="couid"></param>
         /// <param name="acid"></param>
-        /// <returns>datatable中，LastTime：最后学习时间；totalTime：视频时间长；playTime：播放进度；studyTime：学习时间</returns>
+        /// <returns>datatable中，LastTime：最后学习时间；totalTime：视频时间长；playTime：播放进度；studyTime：学习时间，complete：完成度百分比</returns>
         public DataTable StudentStudyOutlineLog(int couid, int acid)
         {
             string sql = @"select * from outline as c left join 
                         (SELECT top 90000 ol_id, MAX(Lss_LastTime) as 'lastTime', 
-	                        sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime'
+	                        sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
+                            cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100 as 'complete'
+
                           FROM [LogForStudentStudy] where {acid} 
                         group by ol_id ) as s
                         on c.ol_id=s.ol_id where {couid} order by ol_tax asc";

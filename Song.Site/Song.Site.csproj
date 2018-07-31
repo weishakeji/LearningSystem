@@ -365,6 +365,7 @@
     <Content Include="Manage\Student\Scripts\CouponExchange.js" />
     <Content Include="Manage\Student\Scripts\Course_Study.js" />
     <Content Include="Manage\Student\Scripts\Course_Curr.js" />
+    <Content Include="Manage\Student\Scripts\StudyLog.js" />
     <Content Include="Manage\Student\SelfCourse.aspx" />
     <Content Include="Manage\Student\Styles\Course.css" />
     <Content Include="Manage\Student\Styles\MoneyDetails.css" />

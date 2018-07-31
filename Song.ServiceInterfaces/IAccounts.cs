@@ -179,7 +179,7 @@ namespace Song.ServiceInterfaces
         /// <param name="sts">班组的id，多个id用逗号分隔</param>
         /// <param name="count">取多少条，小于1为所有</param>
         /// <returns></returns>
-        Accounts[] AccountsCount(int orgid, bool? isUse, string sts, int count);
+        List<Accounts> AccountsCount(int orgid, bool? isUse, string sts, int count);
         /// <summary>
         /// 计算有多少账户
         /// </summary>

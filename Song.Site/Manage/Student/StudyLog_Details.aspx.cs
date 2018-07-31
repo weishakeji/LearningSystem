@@ -85,23 +85,6 @@ namespace Song.Site.Manage.Student
             int mm = num % 60;
             return string.Format(tm, hh, mm, ss);
         }
-        /// <summary>
-        /// 计算学习时间
-        /// </summary>
-        /// <param name="studytime"></param>
-        /// <param name="totaltime"></param>
-        /// <returns></returns>
-        protected string CaleComplete(string studytime, string totaltime)
-        {
-            double study, total;
-            double.TryParse(studytime, out study);
-            double.TryParse(totaltime, out total);
-            if (total == 0 || study == 0) return "";
-            //计算完成的百分比
-            double per = study / (total/1000);
-            per = Math.Round(per * 10000) / 100;
-            per = per >= 100 ? 100 : per;
-            return per.ToString()+"%";
-        }
+       
     }
 }

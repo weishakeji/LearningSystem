@@ -467,7 +467,7 @@ namespace Song.ServiceImpls
         /// <param name="sts">班组的id，多个id用逗号分隔</param>
         /// <param name="count">取多少条，小于1为所有</param>
         /// <returns></returns>
-        public Accounts[] AccountsCount(int orgid, bool? isUse, string sts, int count)
+        public List<Accounts> AccountsCount(int orgid, bool? isUse, string sts, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
@@ -487,7 +487,7 @@ namespace Song.ServiceImpls
                 wc.And(wcsts);
             }
             count = count > 0 ? count : int.MaxValue;
-            Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>(count);
+            List<Accounts> accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToList<Accounts>(count);
             foreach (Song.Entities.Accounts ac in accs)
                 _acc_init(ac);
             return accs;

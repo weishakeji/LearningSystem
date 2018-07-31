@@ -1,12 +1,15 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Manage/Student/Parents.Master" AutoEventWireup="true"
     CodeBehind="StudyLog.aspx.cs" Inherits="Song.Site.Manage.Student.StudyLog" Title="我的学习记录" %>
+
 <%@ MasterType VirtualPath="~/Manage/Student/Parents.Master" %>
 <%@ Register Src="../Utility/toolsBar.ascx" TagName="toolsBar" TagPrefix="uc1" %>
 <%@ Register Src="../Utility/Pager.ascx" TagName="Pager" TagPrefix="uc2" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
- <script language="javascript" src="../Utility/datepicker/WdatePicker.js" type="text/javascript"></script>
-
+    <div id="header">
+        <uc1:toolsBar ID="ToolsBar1" runat="server" GvName="GridView1" AddButtonVisible="false"
+            DelButtonVisible="false" OutputButtonVisible="true" />
+    </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
         ShowSelectBox="false">
         <EmptyDataTemplate>
@@ -19,7 +22,7 @@
                     <%# Container.DataItemIndex   +  1 %>
                 </ItemTemplate>
             </asp:TemplateField>
-           <asp:TemplateField HeaderText="课程">
+            <asp:TemplateField HeaderText="课程">
                 <ItemStyle CssClass="center" />
                 <ItemTemplate>
                     <%# Eval("Cou_Name")%>
@@ -28,7 +31,7 @@
             <asp:TemplateField HeaderText="学习时间">
                 <ItemStyle CssClass="center" Width="150px" />
                 <ItemTemplate>
-                    <%# Eval("LastTime", "{0:yyyy-MM-dd HH:mm:ss}")%>
+                    <%# Eval("LastTime", "{0:yyyy-MM-dd}")%>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="累计学习">
@@ -37,13 +40,20 @@
                     <%# CaleStudyTime(Eval("studyTime", "{0}"))%>
                 </ItemTemplate>
             </asp:TemplateField>
+            <asp:TemplateField HeaderText="完成度">
+                <ItemStyle CssClass="center" Width="100px" />
+                <ItemTemplate>
+                    <%# Convert.ToDouble(Eval("complete", "{0}") == "" ? "0" : Eval("complete", "{0}")) >= 95 ? "100%" : Eval("complete", "{0}%")%>
+                </ItemTemplate>
+            </asp:TemplateField>
             <asp:TemplateField HeaderText="详情">
                 <ItemStyle CssClass="center" Width="60px" />
                 <ItemTemplate>
-                     <a href="#" onclick="OpenWin('StudyLog_Details.aspx?couid=<%# Eval("Cou_ID")%>',' 《<%# Eval("Cou_Name")%>》',980,80);return false;">详情</a>
+                    <a href="#" onclick="OpenWin('StudyLog_Details.aspx?couid=<%# Eval("Cou_ID")%>',' 《<%# Eval("Cou_Name")%>》',980,80);return false;">
+                        详情</a>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
     </cc1:GridView>
-    
+    <iframe src="" id="iframeExportDetails" link="../admin/Students_Details.aspx" scrolling="auto" style="display:none;" height="30" width="100%"></iframe>
 </asp:Content>

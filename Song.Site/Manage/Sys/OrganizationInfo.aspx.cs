@@ -68,7 +68,11 @@ namespace Song.Site.Manage.Sys
         protected void BtnEnter_Click(object sender, EventArgs e)
         {
 
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(Extend.LoginState.Admin.CurrentUser.Org_ID);
+            Song.Entities.Organization org = null;
+            if (Extend.LoginState.Admin.IsSuperAdmin)
+                org = Business.Do<IOrganization>().OrganSingle(Extend.LoginState.Admin.CurrentUser.Org_ID);
+            else
+                org = Business.Do<IOrganization>().OrganCurrent();
             if (org == null) return;
 
             //中文名称

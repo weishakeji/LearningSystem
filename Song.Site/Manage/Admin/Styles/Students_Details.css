@@ -7,15 +7,15 @@
 .page {
 	page-break-inside: avoid;
 }
-select{
-	display:none;
+select {
+	display: none;
 }
 /*主体表格*/
 table {
 	max-width: 100%;
 	margin-right: auto;
 	margin-left: auto;
-	page-break-before:auto;
+	page-break-before: auto;
 }
 table td {
 	height: 35px !important;
@@ -23,18 +23,17 @@ table td {
 	overflow: hidden;
 	background-color: #FFF;
 	font-size: 16px;
-	
 }
-.photo{
+.photo {
 	height: 200px;
 	width: 150px;
 	overflow: visible;
 }
-.photo img{
-	height:200px;
-	margin-top:2px;
-	margin-left:2px;
-	margin-right:2px;
+.photo img {
+	height: 200px;
+	margin-top: 2px;
+	margin-left: 2px;
+	margin-right: 2px;
 }
 table td.right {
 	font-weight: bold !important;
@@ -45,11 +44,34 @@ table td.center {
 table td.left {
 	text-indent: 10px;
 }
-.intro{
+.intro {
 	height: 400px;
 }
 /**/
 table.firtst {
 	page-break-after: avoid;
+}
+/*课程学习情况*/
+.rtpLearnInfo {
+	min-height:400px;
+	padding:10px;
+}
+.rtpLearnInfo dt, dd{
+	line-height:35px;	
+}
+.rtpLearnInfo div{
+	font-size:15px;
+}
+.rtpLearnInfo .cou{
+	width:70%;
+	float:left;
+}
+.rtpLearnInfo .date{
+	width:20%;
+	float:left;
+}
+.rtpLearnInfo .complete{
+	width:10%;
+	float:left;
 }
 }
