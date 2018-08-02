@@ -6,9 +6,31 @@
 @media all {
 .page {
 	page-break-inside: avoid;
+	position:relative;
 }
 select {
 	display: none;
+}
+/*公章*/
+.stamp{
+	position: absolute;
+}
+
+.left-top{
+	top:30px;
+	left:30px;
+}
+.left-bottom{
+	bottom:30px;
+	left:30px;
+}
+.right-top{
+	top:30px;
+	right:30px;
+}
+.right-bottom{
+	right:30px;
+	bottom:30px;
 }
 /*主体表格*/
 table {

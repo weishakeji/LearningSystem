@@ -203,6 +203,7 @@
     <Content Include="Manage\Admin\Courses.aspx" />
     <Content Include="Manage\Admin\Departs_Edit.aspx" />
     <Content Include="Manage\Admin\Scripts\Student_Export.js" />
+    <Content Include="Manage\Admin\Scripts\Setup_Stamp.js" />
     <Content Include="Manage\Admin\Students_Details.aspx" />
     <Content Include="Manage\Admin\Student_Export.aspx" />
     <Content Include="Manage\Admin\Navigation.aspx" />
@@ -221,7 +222,12 @@
     <Content Include="Manage\Admin\Styles\Students_Details.css" />
     <Content Include="Manage\Admin\Styles\Student_Export.css" />
     <Content Include="Manage\Admin\Students_Point.aspx" />
-    <Content Include="Manage\Admin\Setup_Study.aspx" />
+    <Content Include="Manage\Admin\Setup_Accounts.aspx" />
+    <Content Include="Manage\Admin\Setup_SEO.aspx" />
+    <Content Include="Manage\Admin\Setup_Stamp.aspx" />
+    <Content Include="Manage\Admin\Styles\Setup_Accounts.css" />
+    <Content Include="Manage\Admin\Setup_Qrcode.aspx" />
+    <Content Include="Manage\Admin\Styles\Setup_Stamp.css" />
     <Content Include="Manage\CoreScripts\AutoLoyout.js" />
     <Content Include="Manage\CoreScripts\clipboard.min.js" />
     <Content Include="Manage\CoreScripts\Extend.js" />
@@ -2256,12 +2262,33 @@
     <Compile Include="Manage\Admin\Students_Point.aspx.designer.cs">
       <DependentUpon>Students_Point.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Manage\Admin\Setup_Study.aspx.cs">
-      <DependentUpon>Setup_Study.aspx</DependentUpon>
+    <Compile Include="Manage\Admin\Setup_Accounts.aspx.cs">
+      <DependentUpon>Setup_Accounts.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Manage\Admin\Setup_Study.aspx.designer.cs">
-      <DependentUpon>Setup_Study.aspx</DependentUpon>
+    <Compile Include="Manage\Admin\Setup_Accounts.aspx.designer.cs">
+      <DependentUpon>Setup_Accounts.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Admin\Setup_SEO.aspx.cs">
+      <DependentUpon>Setup_SEO.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Admin\Setup_SEO.aspx.designer.cs">
+      <DependentUpon>Setup_SEO.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Admin\Setup_Stamp.aspx.cs">
+      <DependentUpon>Setup_Stamp.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Admin\Setup_Stamp.aspx.designer.cs">
+      <DependentUpon>Setup_Stamp.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Admin\Setup_Qrcode.aspx.cs">
+      <DependentUpon>Setup_Qrcode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Admin\Setup_Qrcode.aspx.designer.cs">
+      <DependentUpon>Setup_Qrcode.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Course\Courses_TestPaper.aspx.cs">
       <DependentUpon>Courses_TestPaper.aspx</DependentUpon>

@@ -10,34 +10,7 @@
 namespace Song.Site.Manage.Admin {
     
     
-    public partial class OrganSetup {
-        
-        /// <summary>
-        /// Org_PlatformName 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Org_PlatformName;
-        
-        /// <summary>
-        /// Org_TwoDomain 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Org_TwoDomain;
-        
-        /// <summary>
-        /// lbDomain 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbDomain;
+    public partial class Setup_Stamp {
         
         /// <summary>
         /// imgShow 控件。
@@ -58,21 +31,21 @@ namespace Song.Site.Manage.Admin {
         protected global::WeiSha.WebControl.FileUpload fuLoad;
         
         /// <summary>
-        /// Org_ICP 控件。
+        /// tbPosition 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Org_ICP;
+        protected global::System.Web.UI.WebControls.TextBox tbPosition;
         
         /// <summary>
-        /// btnBase 控件。
+        /// btnLogo 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::WeiSha.WebControl.Button btnBase;
+        protected global::WeiSha.WebControl.Button btnLogo;
     }
 }

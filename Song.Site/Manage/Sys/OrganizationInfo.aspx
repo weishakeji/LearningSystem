@@ -57,10 +57,6 @@
         联系人QQ：<asp:TextBox ID="tbLinkmanQQ" datatype="uint" runat="server" MaxLength="20" Width="100"></asp:TextBox></td>
     </tr>
 
-      <tr>
-      <td class="right">&nbsp;</td>
-      <td></td>
-    </tr>
       
        <tr>
       <td class="right">&nbsp;</td>

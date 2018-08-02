@@ -27,19 +27,31 @@ namespace Song.Site.Manage.Admin
         //学员列表集
         List<Song.Entities.Accounts> accounts = new List<Accounts>();
         Song.Entities.Organization org;
+        //公章路径，位置
+        string stamp = string.Empty;
+        string positon = string.Empty;
         protected void Page_Load(object sender, EventArgs e)
         {
             org = Business.Do<IOrganization>().OrganCurrent();
             if (!this.IsPostBack)
-            {                
-                if (!string.IsNullOrWhiteSpace(sts))
-                {
-                    accounts = Business.Do<IAccounts>().AccountsCount(org.Org_ID, true, sts, -1);
-                }
-                else
+            {
+                //关于公章
+                WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+                //机构的公章
+                stamp = config["Stamp"].Value.String;
+                stamp = System.IO.File.Exists(Upload.Get["Org"].Physics + stamp) ? Upload.Get["Org"].Virtual + stamp : string.Empty;
+                //公章显示位置
+                positon = config["StampPosition"].Value.String;
+                if (string.IsNullOrEmpty(positon)) positon = "right-bottom";
+                //取学员列表
+                if (sts == "-1")
                 {
                     Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
                     if (acc != null) accounts.Add(acc);
+                }
+                else
+                {
+                    accounts = Business.Do<IAccounts>().AccountsCount(org.Org_ID, true, sts, -1);
                 }
                 foreach (Accounts acc in accounts)
                 {
@@ -47,14 +59,14 @@ namespace Song.Site.Manage.Admin
                     //个人照片
                     if (!string.IsNullOrEmpty(acc.Ac_Photo) && acc.Ac_Photo.Trim() != "")
                     {
-                        acc.Ac_Photo= Upload.Get[_uppath].Virtual + acc.Ac_Photo;
+                        acc.Ac_Photo = Upload.Get[_uppath].Virtual + acc.Ac_Photo;
                     }
                 }
                 //绑定
                 rptAccounts.DataSource = accounts;
                 rptAccounts.DataBind();
             }
-           
+
         }
         /// <summary>
         /// 获取学历，数据库中记录的是学历编号
@@ -82,15 +94,19 @@ namespace Song.Site.Manage.Admin
         {
             if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
             {
+                //绑定学员的课程学习记录
                 Song.Entities.Accounts acc = this.accounts[e.Item.ItemIndex];
                 Repeater rtp = (Repeater)e.Item.FindControl("rtpLearnInfo");
                 DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(org.Org_ID, acc.Ac_ID);
                 rtp.DataSource = dt;
-                rtp.DataBind();   
+                rtp.DataBind();
+                //公章
+                Image img = (Image)e.Item.FindControl("imgStamp");
+                img.Visible = !string.IsNullOrWhiteSpace(stamp);
+                img.ImageUrl = stamp;
+                img.CssClass = "stamp " + positon;
             }
         }
-    
-       
-       
+
     }
 }

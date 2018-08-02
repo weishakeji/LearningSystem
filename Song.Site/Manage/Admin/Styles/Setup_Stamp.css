@@ -1,0 +1,15 @@
+.position
+{
+	width:100px;
+	height:100px;
+}
+.position td
+{
+	text-align:center;
+	line-height:50px;
+	cursor:pointer;
+}
+.position .curr
+{
+	background-color: #CCC !important;
+}

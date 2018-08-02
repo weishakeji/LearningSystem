@@ -3,7 +3,7 @@
     $("input[name$=btnOutput]").val("打印").click(function () {
         $(this).attr("disabled", "disabled");        
         var iframe = $("#iframeExportDetails");
-        iframe.attr("src", iframe.attr("link") + "?t=" + new Date().getTime());
+        iframe.attr("src", iframe.attr("link") + "&t=" + new Date().getTime());
         return false;
     });
     //主管理区加载完成事件

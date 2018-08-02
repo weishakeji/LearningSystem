@@ -10,61 +10,52 @@
 namespace Song.Site.Manage.Admin {
     
     
-    public partial class OrganSetup {
+    public partial class Setup_Qrcode {
         
         /// <summary>
-        /// Org_PlatformName 控件。
+        /// tbQrColor 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Org_PlatformName;
+        protected global::System.Web.UI.WebControls.TextBox tbQrColor;
         
         /// <summary>
-        /// Org_TwoDomain 控件。
+        /// cbQrCodeImg 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Org_TwoDomain;
+        protected global::System.Web.UI.WebControls.CheckBox cbQrCodeImg;
         
         /// <summary>
-        /// lbDomain 控件。
+        /// imgQrCenter 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbDomain;
+        protected global::System.Web.UI.HtmlControls.HtmlImage imgQrCenter;
         
         /// <summary>
-        /// imgShow 控件。
+        /// fuQrCenter 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlImage imgShow;
+        protected global::WeiSha.WebControl.FileUpload fuQrCenter;
         
         /// <summary>
-        /// fuLoad 控件。
+        /// Org_QrCodeUrl 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::WeiSha.WebControl.FileUpload fuLoad;
-        
-        /// <summary>
-        /// Org_ICP 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Org_ICP;
+        protected global::System.Web.UI.WebControls.TextBox Org_QrCodeUrl;
         
         /// <summary>
         /// btnBase 控件。

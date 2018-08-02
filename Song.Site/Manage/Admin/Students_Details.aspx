@@ -17,10 +17,10 @@
         <asp:ListItem Value="11">博士</asp:ListItem>
         <asp:ListItem Value="90">其它</asp:ListItem>
     </asp:DropDownList>
-    <asp:Repeater ID="rptAccounts" runat="server" 
-        onitemdatabound="rptAccounts_ItemDataBound">
+    <asp:Repeater ID="rptAccounts" runat="server" OnItemDataBound="rptAccounts_ItemDataBound">
         <ItemTemplate>
-            <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0" style="page-break-after: always">
+            <div class="page" style="page-break-after: always"><asp:Image ID="imgStamp" runat="server" />
+            <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0">
                 <tr>
                     <td class="right" width="100px">
                         姓名：
@@ -174,23 +174,35 @@
                 <tr>
                     <td colspan="5">
                         <dl class="rtpLearnInfo">
-                        <dt>
-                        <div class="cou">课程</div>
-                         <div class="date">学习时间</div>
-                          <div class="complete">完成度</div>
-                        </dt>
+                            <dt>
+                                <div class="cou">
+                                    课程</div>
+                                <div class="date">
+                                    学习时间</div>
+                                <div class="complete">
+                                    完成度</div>
+                            </dt>
                             <asp:Repeater ID="rtpLearnInfo" runat="server">
                                 <ItemTemplate>
-                                  <dd><div class="cou"><%# Container.ItemIndex + 1%>.《 <%# Eval("Cou_Name")%> 》 </div>
-                                  <div class="date"> <%# Eval("LastTime", "{0:yyyy-MM-dd}")%> </div>
-                                  <div class="complete"> <%# Convert.ToDouble(Eval("complete", "{0}") == "" ? "0" : Eval("complete", "{0}")) >= 95 ? "100%" : Eval("complete", "{0}%")%></div>
-                                   </dd> 
+                                    <dd>
+                                        <div class="cou">
+                                            <%# Container.ItemIndex + 1%>.《
+                                            <%# Eval("Cou_Name")%>
+                                            》
+                                        </div>
+                                        <div class="date">
+                                            <%# Eval("LastTime", "{0:yyyy-MM-dd}")%>
+                                        </div>
+                                        <div class="complete">
+                                            <%# Convert.ToDouble(Eval("complete", "{0}") == "" ? "0" : Eval("complete", "{0}")) >= 95 ? "100%" : Eval("complete", "{0}%")%></div>
+                                    </dd>
                                 </ItemTemplate>
                             </asp:Repeater>
                         </dl>
                     </td>
                 </tr>
             </table>
+            </div>
         </ItemTemplate>
     </asp:Repeater>
 </asp:Content>
