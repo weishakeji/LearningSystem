@@ -3,7 +3,6 @@
 <head>
 <title>找回密码</title>
 <vt:include file="../inc/meta.inc" />
-<script type="text/javascript" src="Scripts/PwFind.js"></script>
 <link href="Styles/PwFind.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -11,85 +10,7 @@
 <div loyout="row"  class="context">
   <div class="contextbox">
     <div class="infoBox">
-      <form id="student" name="student" method="post">
-        <vt:if var="step" value="1" compare="=">
-          <div class="topBar">
-            <div class="infoRow">请输录您的登录账号 </div>
-          </div>
-          <div class="infoRow">
-            <div class="RowRight">账&nbsp;&nbsp;号：</div>
-            <div class="RowLeft">
-              <input name="tbAcc" type="text"  class="textbox width" nullable="false"  group="login" />
-            </div>
-          </div>
-        </vt:if>
-        <vt:if var="step" value="2" compare="=">
-          <div class="infoRow">
-            <div class="RowRight">账&nbsp;&nbsp;号：</div>
-            <div class="RowLeft">
-              <vt:if var="st" value="" compare="!=">{$st.ac_accname}
-                <input name="tbAcc" type="hidden" value="{$:#.st.ac_accname}" />
-                <vt:else/>
-                (当前账号不存在) </vt:if>
-            </div>
-          </div>
-          <div class="infoRow">
-            <div class="RowRight">安全问题：</div>
-            <div class="RowLeft">
-              <vt:if var="st" value="" compare="!=">
-                <vt:if var="st.Ac_Qus" value="" compare="!="> {$st.Ac_Qus}
-                  <vt:else/>
-                  （没有安全问题） </vt:if>
-              </vt:if>
-            </div>
-          </div>
-          <div class="infoRow">
-            <div class="RowRight">答案：</div>
-            <div class="RowLeft">
-             <vt:if var="st" value="" compare="!=">
-                <vt:if var="st.Ac_Qus" value="" compare="!=">   <input name="tbAnswer" value="" type="text"  class="textbox width" nullable="false"  group="login" />
-                  <vt:else/>
-                  （无法通该方式找回密码） </vt:if>
-              </vt:if>
-            
-            </div>
-          </div>
-        </vt:if>
-        <vt:if var="step" value="3" compare="=">
-          <div class="infoRow">
-            <div class="RowRight">账&nbsp;&nbsp;号：</div>
-            <div class="RowLeft">
-              <vt:if var="st" value="" compare="!=">{$st.ac_accname}
-                <input name="tbAcc" type="hidden" value="{$:#.st.Ac_accname}" />
-                <vt:else/>
-                (当前账号不存在) </vt:if>
-            </div>
-          </div>
-          <div class="infoRow">
-            <div class="RowRight">新密码：</div>
-            <div class="RowLeft">
-              <input name="tbNewPw" type="password"  class="textbox width" lenlimit="6-12" nullable="false"  group="login" />
-            </div>
-          </div>
-          <div class="infoRow">
-            <div class="RowRight">密码确认：</div>
-            <div class="RowLeft">
-              <input name="tbPw2" type="password"  class="textbox width" nullable="false"  group="login" sametarget="tbNewPw"/>
-            </div>
-          </div>
-          <div class="infoRow">
-            <div class="RowRight"> 验证码：</div>
-            <div class="RowLeft">
-              <input name="from" type="hidden" value="{$from}" />
-              <input name="tbCode" type="number"  class="textbox verify" size="8" nullable="false" lenlimit="4-4" datatype="number"   group="login" />
-              <img src="/Utility/codeimg.aspx?name=stpwcode" class="verifyCode"/> </div>
-          </div>
-        </vt:if>
-        <div class="infoRow"></div>
-        <div class="infoRow">
-          <input type="submit" name="btnSubmit" id="btnSubmit" value="确&nbsp;&nbsp;定"  verify="true"  group="login" class="btnEdit"/>
-          <a href="index.ashx" class="btnChangePw">返&nbsp;&nbsp;回</a></div>
-      </form>
+       <vt:include file="Module/Accounts/PwFind.htm" from="_public" remark="找回密码模块，为公共模块" />
     </div>
   </div>
 </div>

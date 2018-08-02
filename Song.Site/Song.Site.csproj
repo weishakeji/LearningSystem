@@ -221,6 +221,7 @@
     <Content Include="Manage\Admin\Styles\Students_Details.css" />
     <Content Include="Manage\Admin\Styles\Student_Export.css" />
     <Content Include="Manage\Admin\Students_Point.aspx" />
+    <Content Include="Manage\Admin\Setup_Study.aspx" />
     <Content Include="Manage\CoreScripts\AutoLoyout.js" />
     <Content Include="Manage\CoreScripts\clipboard.min.js" />
     <Content Include="Manage\CoreScripts\Extend.js" />
@@ -1026,7 +1027,6 @@
     <Content Include="Templates\Web\Gov\Student\Panel.htm" />
     <Content Include="Templates\Web\Gov\Student\PwFind.htm" />
     <Content Include="Templates\Web\Gov\Student\Scripts\Index.js" />
-    <Content Include="Templates\Web\Gov\Student\Scripts\PwFind.js" />
     <Content Include="Templates\Web\Gov\Student\Startpage.htm" />
     <Content Include="Templates\Web\Gov\Student\Styles\index.css" />
     <Content Include="Templates\Web\Gov\Student\Styles\Panel.css" />
@@ -1225,6 +1225,9 @@
     <Content Include="Templates\Web\_Public\Module\Accounts\Panel.css" />
     <Content Include="Templates\Web\_Public\Module\Accounts\Panel.htm" />
     <Content Include="Templates\Web\_Public\Module\Accounts\panel.js" />
+    <Content Include="Templates\Web\_Public\Module\Accounts\PwFind.css" />
+    <Content Include="Templates\Web\_Public\Module\Accounts\PwFind.htm" />
+    <Content Include="Templates\Web\_Public\Module\Accounts\PwFind.js" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.css" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.htm" />
     <Content Include="Templates\Web\_Public\Module\Admin\panel.js" />
@@ -1281,7 +1284,6 @@
     <Content Include="Templates\Web\NetSchool\Student\Panel.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Scripts\Index.js" />
     <Content Include="Templates\Web\NetSchool\Student\PwFind.htm" />
-    <Content Include="Templates\Web\NetSchool\Student\Scripts\PwFind.js" />
     <Content Include="Templates\Web\NetSchool\Student\Scripts\Register.js" />
     <Content Include="Templates\Web\NetSchool\Student\Startpage.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Styles\index.css" />
@@ -1371,7 +1373,6 @@
     <Content Include="Templates\Web\School\Scripts\slider.js" />
     <Content Include="Templates\Web\School\Student\PwFind.htm" />
     <Content Include="Templates\Web\School\Student\Register.htm" />
-    <Content Include="Templates\Web\School\Student\Scripts\PwFind.js" />
     <Content Include="Templates\Web\School\Student\Scripts\Register.js" />
     <Content Include="Templates\Web\School\Student\Styles\PwFind.css" />
     <Content Include="Templates\Web\School\Student\Styles\Register.css" />
@@ -2254,6 +2255,13 @@
     </Compile>
     <Compile Include="Manage\Admin\Students_Point.aspx.designer.cs">
       <DependentUpon>Students_Point.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Admin\Setup_Study.aspx.cs">
+      <DependentUpon>Setup_Study.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Admin\Setup_Study.aspx.designer.cs">
+      <DependentUpon>Setup_Study.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Course\Courses_TestPaper.aspx.cs">
       <DependentUpon>Courses_TestPaper.aspx</DependentUpon>

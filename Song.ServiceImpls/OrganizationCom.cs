@@ -270,13 +270,13 @@ namespace Song.ServiceImpls
         }
         public void OrganBuildQrCode()
         {
+            this.OrganBuildCache();  //重新构建缓存  
             //批量生成二维码
             List<Organization> orgs = WeiSha.Common.Cache<Organization>.Data.List;           
             foreach(Song.Entities.Organization o in orgs)
             {                
                OrganBuildQrCode(o);                
-            }
-            this.OrganBuildCache();  //重新构建缓存    
+            }            
         }
         /// <summary>
         /// 生成当前机构的手机端二维码

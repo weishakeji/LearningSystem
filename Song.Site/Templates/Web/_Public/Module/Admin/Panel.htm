@@ -54,7 +54,7 @@
   <div class="bar">
     <div class="menuNav"> 当前操作：<a id="menuPath" href="/admin/Startpage.ashx">启始页</a></div>
     <div class="loginInfo"> {$:#.st.Ac_name} <a href="/admin/logout.ashx">退出</a></div>
-    <vt:if var="lic.VersionLevel" value="6" compare="<=">
+    <vt:if var="lic.VersionLevel" value="6" compare="<">
       <a class="versionBox" title="当前版本" href="/license.aspx" target="_blank">{$lic.VersionName}</a>
     </vt:if>
   </div>

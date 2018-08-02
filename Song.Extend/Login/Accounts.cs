@@ -266,6 +266,7 @@ namespace Song.Extend.Login
         /// <param name="accid">用户id</param>
         public void Refresh(int accid)
         {
+            if (accid < 1) return;
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(accid);
             Refresh(acc);
         }

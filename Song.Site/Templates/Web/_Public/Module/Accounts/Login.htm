@@ -23,10 +23,10 @@
         <!--登录框头部选项卡-->
         <div class="loginBar">
           <vt:if var="forpw" value="true" compare="=">
-            <div class="loginTitle" tag="login" style="border-radius:0px 0px 15px 0px;width:130px;"> <a href="index.ashx"><b></b>账号登录</a> </div>
+            <div class="loginTitle" tag="login" style="border-radius:0px 0px 15px 0px;width:130px;"> <a href="/Student/index.ashx"><b></b>账号登录</a> </div>
           </vt:if>
           <vt:if var="forsms" value="true" compare="=">
-            <div class="loginTitle" tag="mobile" style="border-radius:0px 0px 0px 15px;width:170px;"> <a href="index.ashx?loyout=mobile"><b></b>手机验证登录</a> </div>
+            <div class="loginTitle" tag="mobile" style="border-radius:0px 0px 0px 15px;width:170px;"> <a href="/Student/index.ashx?loyout=mobile"><b></b>手机验证登录</a> </div>
           </vt:if>
         </div>
         <div class="loginBody">
@@ -50,10 +50,10 @@
                       <input type="checkbox" name="cbSign"/>
                       <input name="signnum" type="hidden" value="30" />
                       一月内免登录 </label>
-                    &nbsp;&nbsp; <a href="PwFind.ashx">忘记密码</a> </div>
+                    &nbsp;&nbsp; <a href="/Student/PwFind.ashx">忘记密码</a> </div>
                   <div class="loginRow btnBar">
                     <input type="submit" name="btnSubmit" id="btnSubmit" value="登&nbsp;&nbsp;录"  verify="true"  group="login" class="btnLogin"/>
-                    <a href="Register.ashx" class="aRegister">注&nbsp;&nbsp;册</a> </div>
+                    <a href="/Student/Register.ashx" class="aRegister">注&nbsp;&nbsp;册</a> </div>
                   <dl class="OAuth">
                     <vt:if var="QQLoginIsUse" value="true" compare="=">
                       <dd><a href="#" tag="qqlogin" appid="{$QQAPPID}" returl="{$QQReturl}" orgid="{$org.Org_id}"><b class="QQ-icon"></b> <span id="qqLoginBtn">QQ</span></a></dd>
@@ -87,10 +87,10 @@
                       <input type="checkbox" name="cbSign"/>
                       <input name="signnum" type="hidden" value="30" />
                       一月内免登录 </label>
-                    &nbsp;&nbsp; <a href="PwFind.ashx">忘记密码</a> </div>
+                    &nbsp;&nbsp; <a href="/Student/PwFind.ashx">忘记密码</a> </div>
                   <div class="loginRow btnBar">
                     <input type="submit" name="btnSubmit" id="btnSubmit" group="smslogin"  value="登&nbsp;&nbsp;录"  verify="true"  class="btnLogin"/>
-                    <a href="Register.ashx" class="aRegister">注&nbsp;&nbsp;册</a> </div>
+                    <a href="/Student/Register.ashx" class="aRegister">注&nbsp;&nbsp;册</a> </div>
                   <dl class="OAuth">
                     <vt:if var="QQLoginIsUse" value="true" compare="=">
                       <dd><a href="#" tag="qqlogin" appid="{$QQAPPID}" returl="{$QQReturl}" orgid="{$org.Org_id}"><b class="QQ-icon"></b> <span id="qqLoginBtn">QQ</span></a></dd>

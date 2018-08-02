@@ -351,7 +351,7 @@ namespace Song.ServiceImpls
                     tran.Save<RechargeCode>(entity);
                     RechargeSet setEnity = tran.From<RechargeSet>().Where(RechargeSet._.Rs_ID == entity.Rs_ID).ToFirst<RechargeSet>();
                     if (setEnity != null)
-                    {
+                    {                      
                         setEnity.Rs_UsedCount++;
                         tran.Save<RechargeSet>(setEnity);
                     }
