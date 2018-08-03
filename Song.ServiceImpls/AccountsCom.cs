@@ -728,6 +728,28 @@ namespace Song.ServiceImpls
         }
         #endregion        
 
+        #region 下级账户
+        /// <summary>
+        /// 下级会员数据
+        /// </summary>
+        /// <param name="acid">当前账号ID</param>
+        /// <param name="isAll">是否包括所有下级，true是所有，false只取直接下级</param>
+        /// <returns></returns>
+        public int SubordinatesCount(int acid, bool isAll)
+        {
+            int count = Gateway.Default.Count<Accounts>(Accounts._.Ac_PID == acid);
+            if (isAll && count > 0)
+            {
+                Accounts[] accs = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_PID == acid)
+                    .Select(new Field[] { Accounts._.Ac_ID })
+                    .ToArray<Accounts>();
+                foreach(Accounts ac in accs)
+                    count += SubordinatesCount(ac.Ac_ID, isAll);
+            }
+            return count;
+        }
+        #endregion
+
         #region 积分管理
         /// <summary>
         /// 收入

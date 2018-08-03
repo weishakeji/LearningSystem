@@ -47,6 +47,7 @@ html{
 	border-bottom-style: dotted;
 	border-bottom-color: #CCC;
 	margin-bottom: 10px;
+	display:none;
 }
 .topRow .logo{
 	background-image: url(../Images/weixin_logo.png);
@@ -180,10 +181,10 @@ html{
 	font-size: 12px;
 }
 .btnBind {
-	line-height: 30px;
+	line-height: 45px;
 	text-align: center;
 	display: block;
-	height: 30px;
+	height: 45px;
 	width: 250px;
 	float: left;
 	margin-left: 0px;

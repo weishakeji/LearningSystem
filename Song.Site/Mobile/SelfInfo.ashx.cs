@@ -17,6 +17,12 @@ namespace Song.Site.Mobile
         {
             if (!Extend.LoginState.Accounts.IsLogin)
                 this.Response.Redirect("login.ashx");
+            if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
+            {
+                //下级会员数量
+                int subcount = Business.Do<IAccounts>().SubordinatesCount(this.Account.Ac_ID, true);
+                this.Document.Variables.SetValue("subcount", subcount);
+            }
             //此页面的ajax提交，全部采用了POST方式
             if (Request.ServerVariables["REQUEST_METHOD"] == "POST")
             {

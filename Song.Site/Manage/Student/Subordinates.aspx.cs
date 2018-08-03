@@ -30,10 +30,13 @@ namespace Song.Site.Manage.Student
         /// </summary>
         private void InitBind()
         {
-            //DateTime start = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            //tbStartTime.Text = start.ToString("yyyy-MM-dd");
-            //tbEndTime.Text = start.AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd");
-            //this.SearchBind(this.searchBox);
+            //抽有下级会员数量
+            int subsum = Business.Do<IAccounts>().SubordinatesCount(Master.Account.Ac_ID, true);
+            ltSubSum.Text = subsum.ToString();
+            //直接下级数量
+            int subcount = Business.Do<IAccounts>().SubordinatesCount(Master.Account.Ac_ID, false);
+            ltSubCount.Text = subcount.ToString();
+            
         }
         /// <summary>
         /// 绑定列表

@@ -39,7 +39,7 @@
                 <ItemStyle CssClass="center" Width="50px" />
             </asp:TemplateField>
             <asp:TemplateField HeaderText="ук╨е">
-                <ItemStyle CssClass="center" Width="150px" />
+                <ItemStyle CssClass="center"/>
                 <ItemTemplate>
                     <%# Eval("Ac_Accname")%>
                 </ItemTemplate>

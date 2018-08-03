@@ -65,6 +65,8 @@ namespace Song.Extend
             string name = WeiSha.Common.Request.Page.Name;
             if(System.IO.File.Exists(WeiSha.Common.Request.Page.PhysicsPath+"styles/public.css"))
                 Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"styles/public.css\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
+            //×ÖÌå¿â
+            Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"/Utility/iconfont/iconfont.csss\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
             if (System.IO.File.Exists(WeiSha.Common.Request.Page.PhysicsPath + "styles/"+ name+".css" ))
                 Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"styles/" + name + ".css\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
             if (System.IO.File.Exists(WeiSha.Common.Request.Page.PhysicsPath + "scripts/"+name+".js"))

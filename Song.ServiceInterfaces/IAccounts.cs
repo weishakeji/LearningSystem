@@ -241,6 +241,16 @@ namespace Song.ServiceInterfaces
         string AccountsExport4Excel(string path, string orgs);
         #endregion
 
+        #region 下级账户
+        /// <summary>
+        /// 下级会员数据
+        /// </summary>
+        /// <param name="acid">当前账号ID</param>
+        /// <param name="isAll">是否包括所有下级，true是所有，false只取直接下级</param>
+        /// <returns></returns>
+        int SubordinatesCount(int acid, bool isAll);
+        #endregion
+
         #region 积分管理
         /// <summary>
         /// 收入

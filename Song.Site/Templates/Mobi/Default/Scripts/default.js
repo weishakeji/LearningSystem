@@ -6,12 +6,12 @@
         var id = $(this).attr("couid");
         new PageBox("课程详情", "Course.ashx?id=" + id, 100, 100, "url").Open();
     });
-//    var isweixin = $().isWeixin();
-//    var ismini = $().isWeixinApp();
-//    var ua = window.navigator.userAgent.toLowerCase();
-//    $("#test").append(ua);
-//    $("#test").append("是否处于微信：" + isweixin);
-//    $("#test").append("是否处于微信小程序：" + ismini);
+    //    var isweixin = $().isWeixin();
+    //    var ismini = $().isWeixinApp();
+    //    var ua = window.navigator.userAgent.toLowerCase();
+    //    $("#test").append(ua);
+    //    $("#test").append("是否处于微信：" + isweixin);
+    //    $("#test").append("是否处于微信小程序：" + ismini);
 });
 
 //自动登录
@@ -23,33 +23,36 @@ function AutoLogin_forAjax(WeixinLoginIsUse) {
     accid = typeof (accid) == "undefined" ? "" : accid;
     accpw = typeof (accpw) == "undefined" ? "" : accpw;
     if (accid == "" || accpw == "") {
-        //判断是否处于微信中
-        var ua = window.navigator.userAgent.toLowerCase();
-        if ($().isWeixin()) {
-            if (WeixinLoginIsUse) document.location.href = "/mobile/weixin.ashx";
-        }
+        goWinxilogin();
     } else {
         //异步登录
         $.get("login.ashx", { accid: accid, accpw: accpw }, function (data) {
             if (data == "1") {
                 document.location.href = "default.ashx";
+            } else {
+                goWinxilogin();
             }
         });
+    }
+    function goWinxilogin() {
+        if ($().isWeixin()) {
+            if (WeixinLoginIsUse) document.location.href = "/mobile/weixin.ashx";
+        }
     }
 }
 //首页的事件
 function default_event() {
-	//搜索框的提交事件
-	 $("#formSearch").submit(function(){
-	 	var txt=$("#tbSearch").val();
-		 if($.trim(txt)=="")return false;
-	 });
-	 mui('body').on('tap', '.btnSear', function () {
-		 var txt=$("#tbSearch").val();
-		 if($.trim(txt)=="")return false;
-		 var href=$(this).parent("form").attr("action");
-		 window.location.href=$().setPara(href,"sear",txt);
-	});
+    //搜索框的提交事件
+    $("#formSearch").submit(function () {
+        var txt = $("#tbSearch").val();
+        if ($.trim(txt) == "") return false;
+    });
+    mui('body').on('tap', '.btnSear', function () {
+        var txt = $("#tbSearch").val();
+        if ($.trim(txt) == "") return false;
+        var href = $(this).parent("form").attr("action");
+        window.location.href = $().setPara(href, "sear", txt);
+    });
 }
 //自定义菜单的自动布局
 function menuBox_Autoloyout() {

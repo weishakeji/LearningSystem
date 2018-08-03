@@ -17,6 +17,9 @@ namespace Song.Site.Mobile
 
         protected override void InitPageTemplate(HttpContext context)
         {
+            //下级会员数量
+            int subcount = Business.Do<IAccounts>().SubordinatesCount(this.Account.Ac_ID, false);
+            this.Document.Variables.SetValue("subcount", subcount);
             //此页面的ajax提交，全部采用了POST方式
             if (Request.ServerVariables["REQUEST_METHOD"] == "POST")
             {
