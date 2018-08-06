@@ -153,6 +153,12 @@ content:"...";
 .right{
 	margin-right:20px;
 }
+.left{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width:65%;
+}
 .couname{
 	font-size:16px;
 }

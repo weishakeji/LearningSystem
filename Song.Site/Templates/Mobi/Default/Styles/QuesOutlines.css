@@ -1,34 +1,37 @@
-.mui-scroll{
-	padding-bottom:60px;
+.mui-scroll {
+	padding-bottom: 60px;
 }
 /*上次练习的时候*/
-.logtime{
+.logtime {
 	font-size: 14px;
 }
-.right{
-	margin-right:20px;
+.right {
+	margin-right: 20px;
 }
-.curr-logo{
-    width: 30px;
-    height: 30px !important;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-top: -6px;
-    border: 2px solid #CCC !important;
-    display: block;
+.curr-logo {
+	width: 30px;
+	height: 30px !important;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-top: -6px;
+	border: 2px solid #CCC !important;
+	display: block;
 }
-.curr-box{
-	 overflow: hidden;
-	 display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+.curr-box {
+	overflow: hidden;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
-.outline a{
-	 overflow: hidden;
-	 padding-right:50px !important;
+.outline a {
+	overflow: hidden;
+	padding-right: 50px !important;
 }
-.mui-badge{
-	right:8px !important;
+.mui-badge {
+	right: 8px !important;
 }
-.right-item{
+.right-item {
 	float: right;
 	margin-right: 25px;
 	line-height: 20px;
@@ -38,9 +41,16 @@
 	white-space: nowrap;
 	overflow: hidden;
 }
-.count{
-	margin-right:5px;
+.count {
+	margin-right: 5px;
 }
-.couname{
-	font-size:16px;
+.couname {
+	font-size: 16px;
+	
+}
+.left{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width:65%;
 }
