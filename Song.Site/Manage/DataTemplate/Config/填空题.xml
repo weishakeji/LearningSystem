@@ -3,11 +3,11 @@
 
 <config>
   <item Column="ID" Field="Qus_ID" />
-  <item Column="题干" Field="Qus_Title" />
-  <item Column="难度" Field="Qus_Diff" />
+  <item Column="题干" Field="Qus_Title" /> 
   <item Column="专业" Field="Sbj_Name" />
   <item Column="课程" Field="Cou_Name" />
   <item Column="章节" Field="Ol_Name" />
+  <item Column="难度" Field="Qus_Diff" />
   <item Column="答案选项1" Field="Ans_Context1" />
   <item Column="答案选项2" Field="Ans_Context2" />
   <item Column="答案选项3" Field="Ans_Context3" />

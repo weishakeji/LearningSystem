@@ -712,7 +712,8 @@ namespace Song.ServiceImpls
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
-            string[] cells = new string[] { "ID", "题目", "专业", "课程", "章节", "难度", "答案选项1", "答案选项2", "答案选项3", "答案选项4", "答案选项5", "答案选项6", "试题讲解" };
+            string[] cells = new string[] { "ID", "题目", "专业", "课程", "章节", "难度", 
+                "答案选项1", "答案选项2", "答案选项3", "答案选项4", "答案选项5", "答案选项6", "试题讲解" };
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);
             //生成数据行
@@ -737,7 +738,7 @@ namespace Song.ServiceImpls
                 row.CreateCell(2).SetCellValue(Business.Do<ISubject>().SubjectName(q.Sbj_ID));
                 row.CreateCell(3).SetCellValue(Business.Do<ICourse>().CourseName(q.Cou_ID));
                 row.CreateCell(4).SetCellValue(Business.Do<IOutline>().OutlineName(q.Ol_ID));
-                row.CreateCell(6).SetCellValue((int)q.Qus_Diff);
+                row.CreateCell(5).SetCellValue((int)q.Qus_Diff);
                 row.CreateCell(12).SetCellValue(q.Qus_Explain);
                 i++;
             }
