@@ -37,16 +37,18 @@ namespace Song.Site.Manage.Teacher
         protected void BindData(object sender, EventArgs e)
         {
             DataTable dt = Business.Do<IStudent>().StudentStudyOutlineLog(couid, stid);
-            //DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outline);
-            WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
-            tree.IdKeyName = "OL_ID";
-            tree.ParentIdKeyName = "OL_PID";
-            tree.TaxKeyName = "Ol_Tax";
-            tree.Root = 0;
-            dt = tree.BuilderTree(dt);
-            GridView1.DataSource = dt;
-            GridView1.DataKeyNames = new string[] { "Ol_ID" };
-            GridView1.DataBind();
+            if (dt != null)
+            {
+                WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
+                tree.IdKeyName = "OL_ID";
+                tree.ParentIdKeyName = "OL_PID";
+                tree.TaxKeyName = "Ol_Tax";
+                tree.Root = 0;
+                dt = tree.BuilderTree(dt);
+                GridView1.DataSource = dt;
+                GridView1.DataKeyNames = new string[] { "Ol_ID" };
+                GridView1.DataBind();
+            }
         }
         /// <summary>
         /// 计算累计学习时间

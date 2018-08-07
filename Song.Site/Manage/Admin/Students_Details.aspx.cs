@@ -98,8 +98,11 @@ namespace Song.Site.Manage.Admin
                 Song.Entities.Accounts acc = this.accounts[e.Item.ItemIndex];
                 Repeater rtp = (Repeater)e.Item.FindControl("rtpLearnInfo");
                 DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(org.Org_ID, acc.Ac_ID);
-                rtp.DataSource = dt;
-                rtp.DataBind();
+                if (dt != null)
+                {
+                    rtp.DataSource = dt;
+                    rtp.DataBind();
+                }
                 //¹«ÕÂ
                 Image img = (Image)e.Item.FindControl("imgStamp");
                 img.Visible = !string.IsNullOrWhiteSpace(stamp);

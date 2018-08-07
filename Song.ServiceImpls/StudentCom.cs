@@ -887,8 +887,15 @@ namespace Song.ServiceImpls
                     on c.cou_id=s.cou_id ";
             sql = sql.Replace("{orgid}", orgid > 0 ? "org_id=" + orgid : "1=1");
             sql = sql.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
-            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            return ds.Tables[0];
+            try
+            {
+                DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+                return ds.Tables[0];
+            }
+            catch
+            {
+                return null;
+            }
         }
         /// <summary>
         /// 学员学习章节的记录
@@ -908,8 +915,15 @@ namespace Song.ServiceImpls
                         on c.ol_id=s.ol_id where {couid} order by ol_tax asc";
             sql = sql.Replace("{couid}", "cou_id=" + couid);
             sql = sql.Replace("{acid}", "ac_id=" + acid);
-            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            return ds.Tables[0];
+            try
+            {
+                DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+                return ds.Tables[0];
+            }
+            catch
+            {
+                return null;
+            }
         }
         #endregion
 

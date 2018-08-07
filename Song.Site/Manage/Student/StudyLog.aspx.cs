@@ -35,9 +35,12 @@ namespace Song.Site.Manage.Student
         protected void BindData(object sender, EventArgs e)
         {
             DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(org.Org_ID, this.Master.Account.Ac_ID);
-            GridView1.DataSource = dt;
-            GridView1.DataKeyNames = new string[] { "Cou_ID" };
-            GridView1.DataBind();           
+            if (dt != null)
+            {
+                GridView1.DataSource = dt;
+                GridView1.DataKeyNames = new string[] { "Cou_ID" };
+                GridView1.DataBind();
+            }
         }
         /// <summary>
         /// 计算累计学习时间

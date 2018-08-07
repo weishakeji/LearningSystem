@@ -111,14 +111,22 @@ namespace Song.Site.Manage.Student
         protected string GetstudyTime(string couid)
         {
             string studyTime = "0";
-            foreach (DataRow dr in dtLog.Rows)
+            if (dtLog != null)
             {
-                if (dr["Cou_ID"].ToString() == couid)
+                foreach (DataRow dr in dtLog.Rows)
                 {
-                    studyTime = dr["studyTime"].ToString();
+                    if (dr["Cou_ID"].ToString() == couid)
+                    {
+                        studyTime = dr["studyTime"].ToString();
+                    }
                 }
+                return CaleStudyTime(studyTime);
             }
-            return CaleStudyTime(studyTime);
+            else
+            {
+                return "";
+            }
+
         }
         /// <summary>
         /// 获取最后学习时间
@@ -128,11 +136,14 @@ namespace Song.Site.Manage.Student
         protected string GetLastTime(string couid)
         {
             DateTime? lastTime = null;
-            foreach (DataRow dr in dtLog.Rows)
+            if (dtLog != null)
             {
-                if (dr["Cou_ID"].ToString() == couid)
+                foreach (DataRow dr in dtLog.Rows)
                 {
-                    lastTime = Convert.ToDateTime(dr["LastTime"]);
+                    if (dr["Cou_ID"].ToString() == couid)
+                    {
+                        lastTime = Convert.ToDateTime(dr["LastTime"]);
+                    }
                 }
             }
             if (lastTime == null) return "（还没有学习）";
