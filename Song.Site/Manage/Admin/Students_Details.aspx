@@ -172,7 +172,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="5">
+                    <td colspan="5" class="info-area">
                         <dl class="rtpLearnInfo">
                             <dt>
                                 <div class="cou">
@@ -199,6 +199,14 @@
                                 </ItemTemplate>
                             </asp:Repeater>
                         </dl>
+                        <%--机构信息--%>
+                        <div class="info-foot">
+                        <div class="plate-name">
+                        <%= org.Org_Name%>
+                        </div>
+                        <div class="output-date">
+                        <%= System.DateTime.Now.ToString("yyyy年M月d日") %>
+                        </div></div>
                     </td>
                 </tr>
             </table>

@@ -14,23 +14,26 @@ select {
 /*公章*/
 .stamp{
 	position: absolute;
+	z-index:1000;
+	opacity:0.8;
+	filter:alpha(opacity=80); 
 }
 
 .left-top{
-	top:30px;
-	left:30px;
+	top:-20px;
+	left:-0px;
 }
 .left-bottom{
 	bottom:30px;
 	left:30px;
 }
 .right-top{
-	top:30px;
-	right:30px;
+	top:0px;
+	right:0px;
 }
 .right-bottom{
-	right:30px;
-	bottom:30px;
+	right:0px;
+	bottom:0px;
 }
 /*主体表格*/
 table {
@@ -95,5 +98,25 @@ table.firtst {
 .rtpLearnInfo .complete{
 	width:10%;
 	float:left;
+}
+/*课程详情区域*/
+.info-area{
+	position:relative;
+}
+.info-foot{
+	position:absolute;
+	right:50px;
+	bottom:30px;
+	
+}
+.plate-name{
+	font-size:18px;
+	line-height:40px;
+	text-align:right;
+}
+.output-date{
+	font-size:16px;
+	line-height:40px;
+	text-align:right;
 }
 }

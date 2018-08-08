@@ -26,7 +26,7 @@ namespace Song.Site.Manage.Admin
         private string _uppath = "Student";
         //学员列表集
         List<Song.Entities.Accounts> accounts = new List<Accounts>();
-        Song.Entities.Organization org;
+        protected Song.Entities.Organization org;
         //公章路径，位置
         string stamp = string.Empty;
         string positon = string.Empty;
