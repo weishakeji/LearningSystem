@@ -5302,7 +5302,7 @@
     <Content Include="Manage\Site\Links\LinksSort.aspx" />
     <Content Include="Manage\Site\Links\LinksSort_Edit.aspx" />
     <Content Include="Manage\Site\Links\Scripts\LinksInfo_Edit.js" />
-    <Content Include="Manage\Site\Links\Style\LinksInfo_Edit.css" />
+    <Content Include="Manage\Site\Links\Styles\LinksInfo_Edit.css" />
     <Content Include="Manage\Site\MessageBoard.aspx" />
     <Content Include="Manage\Site\MessageBoard_Ans.aspx" />
     <Content Include="Manage\Site\Notice.aspx" />
@@ -5677,7 +5677,7 @@
     <Content Include="Manage\Images\sanjiao.jpg" />
     <Content Include="Manage\Images\w.gif" />
     <Content Include="Manage\Site\Links\LinksApply.aspx" />
-    <Content Include="Manage\Site\Links\Style\LinksApply.css" />
+    <Content Include="Manage\Site\Links\Styles\LinksApply.css" />
     <Content Include="Manage\Site\Scripts\Navigation_Edit.js" />
     <Content Include="Manage\Site\Styles\SiteInfo.css" />
     <Content Include="Manage\Site\InternalLink.aspx" />

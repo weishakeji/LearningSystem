@@ -8,15 +8,15 @@
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <td width="80" class="right">链接名称：</td>
-      <td><asp:TextBox ID="tbName" runat="server" nullable="false" Width="95%"></asp:TextBox></td>
-    <td rowspan="5" width="120"><div class="logoBox">
+      <td><asp:TextBox ID="tbName" runat="server" nullable="false" Width="90%"></asp:TextBox></td>
+    <td rowspan="5" width="200"><div class="logoBox">
           <div id="picShowBox"> <img src="../../Images/nophoto.gif" name="imgShow" style="width:100px" id="imgShow" runat=server /></div>
           网站Logo：
           <cc1:FileUpload ID="fuLoad" runat="server" width="100" fileallow="jpg|bmp|gif|png"  />
         </div></td> </tr>
         <tr>
       <td class="right">链接地址：</td>
-      <td><asp:TextBox ID="tbUrl" runat="server" nullable="false" Width="95%"></asp:TextBox></td>
+      <td><asp:TextBox ID="tbUrl" runat="server" nullable="false" Width="90%"></asp:TextBox></td>
     </tr>
     <tr>
       <td class="right"></td>
