@@ -49,19 +49,37 @@ namespace Song.Site
             //当试题内容变更时的事件
             Business.Do<IQuestions>().Save += delegate(object s, EventArgs ev)
             {
-                new Thread(new ThreadStart(() =>
+                if (s == null)
                 {
-                    Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
-                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
-                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
-                })).Start();
+                    //取所有试题进缓存
+                    new Thread(new ThreadStart(() =>
+                    {
+                        Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
+                        Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
+                        Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
+                    })).Start();
+                }
+                else
+                {
+                    //单个试题的缓存刷新
+                    if (!(s is Questions)) return;
+                    Questions ques = (Questions)s;
+                    if (ques == null) return;
+                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.UpdateSingle(ques);
+                }
+
             };
             Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
 
-            //当账号内容变更时
+            //当账号内容变更时，刷新当前登录对象
             Business.Do<IAccounts>().Save += delegate(object s, EventArgs ev)
             {
-                Extend.LoginState.Accounts.Refresh(Extend.LoginState.Accounts.CurrentUserId);                
+                if (!(s is Accounts)) return;
+                Accounts acc = (Accounts)s;
+                if (acc == null) return;
+                int currid = Extend.LoginState.Accounts.CurrentUserId;
+                if (currid != acc.Ac_ID) return;
+                Extend.LoginState.Accounts.Refresh(currid);                
             };
 
         }    

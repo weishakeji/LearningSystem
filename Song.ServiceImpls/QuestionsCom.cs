@@ -21,7 +21,7 @@ namespace Song.ServiceImpls
     public class QuestionsCom : IQuestions
     {
          
-        #region IQuestions 成员
+        #region 试题管理
 
         public int QuesAdd(Questions entity)
         {
@@ -33,7 +33,7 @@ namespace Song.ServiceImpls
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) entity.Org_ID = org.Org_ID;  
             Gateway.Default.Save<Questions>(entity);
-            this.Save(this, EventArgs.Empty);
+            this.Save(entity, EventArgs.Empty);
             return entity.Qus_ID;
         }
         
@@ -60,7 +60,7 @@ namespace Song.ServiceImpls
                     tran.Update<QuesAnswer>(new Field[] { QuesAnswer._.Qus_ID }, new object[] { entity.Qus_ID }, QuesAnswer._.Qus_UID == entity.Qus_UID);
                     tran.Commit();
                     QuestionsMethod.QuestionsCache.Singleton.UpdateSingle(entity);
-                    this.Save(this, EventArgs.Empty);
+                    this.Save(entity, EventArgs.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -1262,18 +1262,15 @@ namespace Song.ServiceImpls
         public event EventHandler Delete;
         public void OnSave(object sender, EventArgs e)
         {
-            if (Save != null)
-                Save(this, EventArgs.Empty);             
+            if (Save != null) Save(sender, e);
         }
         public void OnAdd(object sender, EventArgs e)
         {
-            if (Add != null)
-                Add(this, EventArgs.Empty);           
+            if (Add != null) Add(sender, e);
         }
         public void OnDelete(object sender, EventArgs e)
         {
-            if (Delete != null)
-                Delete(this, EventArgs.Empty);
+            if (Delete != null) Delete(sender, e);
         }
         #endregion
     }

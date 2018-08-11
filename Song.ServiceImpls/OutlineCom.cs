@@ -746,7 +746,7 @@ namespace Song.ServiceImpls
         }
         #endregion
 
-        #region 章节事件
+        #region 章节视频事件
         /// <summary>
         /// 添加章节中视频播放事件
         /// </summary>
@@ -872,6 +872,24 @@ namespace Song.ServiceImpls
             {
                 return null;
             }
+        }
+        #endregion
+
+        #region 事件
+        public event EventHandler Save;
+        public event EventHandler Add;
+        public event EventHandler Delete;
+        public void OnSave(object sender, EventArgs e)
+        {
+            if (Save != null) Save(sender, e);
+        }
+        public void OnAdd(object sender, EventArgs e)
+        {
+            if (Add != null) Add(sender, e);
+        }
+        public void OnDelete(object sender, EventArgs e)
+        {
+            if (Delete != null) Delete(sender, e);           
         }
         #endregion
     }

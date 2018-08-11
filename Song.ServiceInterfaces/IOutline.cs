@@ -267,5 +267,17 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         DataTable EventFeedback(int oeid);
         #endregion
+
+        #region 事件
+        /// <summary>
+        /// 当章节更改时
+        /// </summary>
+        event EventHandler Save;
+        event EventHandler Add;
+        event EventHandler Delete;
+        void OnSave(object sender, EventArgs e);
+        void OnAdd(object sender, EventArgs e);
+        void OnDelete(object sender, EventArgs e);
+        #endregion
     }
 }
