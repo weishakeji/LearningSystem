@@ -392,16 +392,20 @@ namespace Song.ServiceImpls
                 }
             }
         }
+        private static object lock_cache_build = new object();
         /// <summary>
         /// 构建缓存
         /// </summary>
         public List<Organization> OrganBuildCache()
         {
-            WeiSha.Common.Cache<Song.Entities.Organization>.Data.Clear();
-            Song.Entities.Organization[] org = this.OrganAll(null, -1);
-            foreach (Song.Entities.Organization o in org)            
-                WeiSha.Common.Cache<Song.Entities.Organization>.Data.Add(o);
-            return WeiSha.Common.Cache<Organization>.Data.List;
+            lock (lock_cache_build)
+            {
+                WeiSha.Common.Cache<Song.Entities.Organization>.Data.Clear();
+                Song.Entities.Organization[] org = this.OrganAll(null, -1);
+                foreach (Song.Entities.Organization o in org)
+                    WeiSha.Common.Cache<Song.Entities.Organization>.Data.Add(o);
+                return WeiSha.Common.Cache<Organization>.Data.List;
+            }
         }
         public Organization[] OrganPager(bool? isUse, int level, string searTxt, int size, int index, out int countSum)
         {

@@ -148,7 +148,7 @@ namespace Song.Site.Manage.Questions
             string keys = GridView1.GetKeyValues;            
             Business.Do<IQuestions>().QuesDelete(keys);
             Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
-            BindData(null, null);           
+            BindData(null, null); 
         }
         /// <summary>
         /// µ¥¸öÉ¾³ý

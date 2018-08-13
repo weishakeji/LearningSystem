@@ -4,7 +4,13 @@
 	var loglink=$("a.log");
 	var li=$("li[olid="+loglink.attr("olid")+"]");
 	var count=li.find("a").attr("count");	
-	loglink.attr("href",$().setPara(loglink.attr("href"),"count",count))
+	loglink.attr("href",$().setPara(loglink.attr("href"),"count",count));
+	//计算总题数
+	var sum=0;
+	$("li[pid=0]").each(function(index, element) {
+        sum+=Number($(this).find(".count").text());
+    });
+	$(".sum").text(sum+"道");
 });
 
 //计算序号

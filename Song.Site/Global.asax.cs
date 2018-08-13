@@ -45,7 +45,29 @@ namespace Song.Site
                 Business.Do<IOrganization>().OrganBuildQrCode();
             })).Start();
 
+            #region 章节事件
+            //章节
+            Business.Do<IOutline>().Save += delegate(object s, EventArgs ev)
+           {
+               if (s == null)
+               {
+                   WeiSha.Common.Cache<Song.Entities.Outline>.Data.Clear();
+                   Business.Do<IOutline>().OutlineBuildCache();
+               }
+               else
+               {
+                   if (!(s is Outline)) return;
+                   Outline ol = (Outline)s;
+                   if (ol == null) return;
+                   Song.Entities.Outline old = Business.Do<IOutline>().OutlineSingle(ol.Ol_ID);
+                   ol.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(ol.Ol_ID, -1, true, true);
+                   WeiSha.Common.Cache<Song.Entities.Outline>.Data.Update(old, ol);
+               }
+           };
+            Business.Do<IOutline>().OnSave(null, EventArgs.Empty);
+            #endregion
 
+            #region  试题的事件
             //当试题内容变更时的事件
             Business.Do<IQuestions>().Save += delegate(object s, EventArgs ev)
             {
@@ -69,7 +91,12 @@ namespace Song.Site
                 }
 
             };
+            Business.Do<IQuestions>().Add += delegate(object s, EventArgs ev)
+            {
+                Business.Do<IQuestions>().OnSave(s, ev);               
+            };
             Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
+            #endregion
 
             //当账号内容变更时，刷新当前登录对象
             Business.Do<IAccounts>().Save += delegate(object s, EventArgs ev)

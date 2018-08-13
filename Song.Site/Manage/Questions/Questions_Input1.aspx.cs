@@ -43,6 +43,7 @@ namespace Song.Site.Manage.Questions
                     //将数据逐行导入数据库
                     _inputData(dt.Rows[i]);
                     Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
+                    Business.Do<IOutline>().OnSave(null, EventArgs.Empty);
                 }
                 catch
                 {

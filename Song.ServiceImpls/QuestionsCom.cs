@@ -33,7 +33,7 @@ namespace Song.ServiceImpls
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) entity.Org_ID = org.Org_ID;  
             Gateway.Default.Save<Questions>(entity);
-            this.Save(entity, EventArgs.Empty);
+            this.Add(entity, EventArgs.Empty);
             return entity.Qus_ID;
         }
         

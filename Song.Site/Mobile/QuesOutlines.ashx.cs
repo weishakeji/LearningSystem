@@ -53,7 +53,7 @@ namespace Song.Site.Mobile
             this.Document.RegisterGlobalFunction(this.isChildren);
             this.Document.RegisterGlobalFunction(this.getChildren);
             //当前章节试题数
-            this.Document.RegisterGlobalFunction(this.getQuesCount);
+            //this.Document.RegisterGlobalFunction(this.getQuesCount);
         }
         /// <summary>
         /// 是否拥有子级
@@ -80,32 +80,32 @@ namespace Song.Site.Mobile
             return Business.Do<IOutline>().OutlineChildren(couid, pid, true, 0);
         }
         /// <summary>
-        /// 获取试题数量
-        /// </summary>
-        /// <param name="paras"></param>
-        /// <returns></returns>
-        protected object getQuesCount(object[] paras)
-        {
-            //课程id,章节id
-            int couid=0, olid = 0;
-            if (paras == null) return 0;
-            if (paras.Length > 0 && paras[0]!=null)
-                int.TryParse(paras[0].ToString(), out couid);
-            if (paras.Length > 1 && paras[1] != null)
-                int.TryParse(paras[1].ToString(), out olid);
-            //是否取当前章节下子章节
-            bool isAll = false;
-            if (paras.Length > 1) isAll = paras[2].ToString().ToLower() == "all";
-            int count = 0;
-            if (couid == -1)
-            {
-                count = Business.Do<IOutline>().QuesOfCount(olid, -1, true, isAll);
-            }
-            else
-            {
-                count = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, -1, -1, true);
-            }
-            return count;
-        }        
+        ///// 获取试题数量
+        ///// </summary>
+        ///// <param name="paras"></param>
+        ///// <returns></returns>
+        //protected object getQuesCount(object[] paras)
+        //{
+        //    //课程id,章节id
+        //    int couid=0, olid = 0;
+        //    if (paras == null) return 0;
+        //    if (paras.Length > 0 && paras[0]!=null)
+        //        int.TryParse(paras[0].ToString(), out couid);
+        //    if (paras.Length > 1 && paras[1] != null)
+        //        int.TryParse(paras[1].ToString(), out olid);
+        //    //是否取当前章节下子章节
+        //    bool isAll = false;
+        //    if (paras.Length > 1) isAll = paras[2].ToString().ToLower() == "all";
+        //    int count = 0;
+        //    if (couid == -1)
+        //    {
+        //        count = Business.Do<IOutline>().QuesOfCount(olid, -1, true, isAll);
+        //    }
+        //    else
+        //    {
+        //        count = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, -1, -1, true);
+        //    }
+        //    return count;
+        //}        
     }
 }
