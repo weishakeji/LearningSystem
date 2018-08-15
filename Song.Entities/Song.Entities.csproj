@@ -161,7 +161,7 @@
     <Compile Include="InternalLink.cs" />
     <Compile Include="Knowledge.cs" />
     <Compile Include="KnowledgeSort.cs" />
-    <Compile Include="LearningCardCode.cs" />
+    <Compile Include="LearningCard.cs" />
     <Compile Include="LearningCardSet.cs" />
     <Compile Include="LearningCardSet_Courses.cs" />
     <Compile Include="LimitDomain.cs" />

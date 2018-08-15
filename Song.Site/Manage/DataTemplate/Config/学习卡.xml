@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 该文件记录Excel数据导入时Excel的列名与数据库中字段的对应关系 -->
+<!--参数说明：
+Keys:主键字段
+output：为flase时，不导出数据，默认为true;
+DefautValue:默认值，例如描述性别时，0=未知|1=男|2=女
+DataType：数据类型，如 DataType="date"（日期型）
+Format：输出的格式字符-->
+<config>
+  <item Column="学习卡" Field="Lc_Code" />
+  <item Column="密码" Field="Lc_Pw" />
+  <item Column="面额" Field="Lc_Price"/>
+  <item Column="有效期-起始时间" Field="Lc_LimitStart"  DataType="date" Format="yyyy-MM-dd" />
+  <item Column="有效期-结束时间" Field="Lc_LimitEnd" DataType="date" Format="yyyy-MM-dd"  />
+  <item Column="使用时间" Field="Lc_UsedTime"  DataType="date" Format="yyyy-MM-dd" />
+  <item Column="是否使用" Field="Lc_IsUsed"  DefautValue="true=使用|false= "/>
+  <item Column="使用人" Field="Ac_AccName" />
+</config>

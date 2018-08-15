@@ -48,6 +48,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Lcs_PwLength;
     		
+    		protected String _Lcs_SecretKey;
+    		
     		public Int32 Lcs_ID {
     			get {
     				return this._Lcs_ID;
@@ -248,6 +250,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Lcs_SecretKey {
+    			get {
+    				return this._Lcs_SecretKey;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lcs_SecretKey, _Lcs_SecretKey, value);
+    				this._Lcs_SecretKey = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -294,7 +306,8 @@ namespace Song.Entities {
     					_.Lcs_LimitEnd,
     					_.Lcs_IsEnable,
     					_.Lcs_CodeLength,
-    					_.Lcs_PwLength};
+    					_.Lcs_PwLength,
+    					_.Lcs_SecretKey};
     		}
     		
     		/// <summary>
@@ -321,7 +334,8 @@ namespace Song.Entities {
     					this._Lcs_LimitEnd,
     					this._Lcs_IsEnable,
     					this._Lcs_CodeLength,
-    					this._Lcs_PwLength};
+    					this._Lcs_PwLength,
+    					this._Lcs_SecretKey};
     		}
     		
     		/// <summary>
@@ -387,6 +401,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Lcs_PwLength))) {
     				this._Lcs_PwLength = reader.GetInt32(_.Lcs_PwLength);
+    			}
+    			if ((false == reader.IsDBNull(_.Lcs_SecretKey))) {
+    				this._Lcs_SecretKey = reader.GetString(_.Lcs_SecretKey);
     			}
     		}
     		
@@ -513,7 +530,11 @@ namespace Song.Entities {
     			/// 字段名：Lcs_PwLength - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Lcs_PwLength = new WeiSha.Data.Field<LearningCardSet>("Lcs_PwLength");
+    			
+    			/// <summary>
+    			/// 字段名：Lcs_SecretKey - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lcs_SecretKey = new WeiSha.Data.Field<LearningCardSet>("Lcs_SecretKey");
     		}
     	}
     }
-    

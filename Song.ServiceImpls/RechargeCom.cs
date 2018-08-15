@@ -53,7 +53,8 @@ namespace Song.ServiceImpls
                             tran.Delete<RechargeCode>(r);
                     }
                     tran.Update<RechargeCode>(new Field[] { RechargeCode._.Rc_Price, RechargeCode._.Rc_LimitStart, RechargeCode._.Rc_LimitEnd },
-                        new object[] { entity.Rs_Price, entity.Rs_LimitStart, entity.Rs_LimitEnd }, RechargeCode._.Rs_ID == entity.Rs_ID && RechargeCode._.Rc_IsUsed == false);
+                        new object[] { entity.Rs_Price, entity.Rs_LimitStart, entity.Rs_LimitEnd }, 
+                        RechargeCode._.Rs_ID == entity.Rs_ID && RechargeCode._.Rc_IsUsed == false);
                     tran.Save<RechargeSet>(entity);
                     tran.Commit();
                 }

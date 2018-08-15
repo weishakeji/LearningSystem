@@ -281,6 +281,7 @@
     <Content Include="Manage\Course\Courses_Questions.aspx" />
     <Content Include="Manage\Course\Styles\Courses_Questions.css" />
     <Content Include="Manage\DataTemplate\Config\充值码.xml" />
+    <Content Include="Manage\DataTemplate\Config\学习卡.xml" />
     <Content Include="Manage\DataTemplate\Config\教师信息.xml">
       <SubType>Designer</SubType>
     </Content>
