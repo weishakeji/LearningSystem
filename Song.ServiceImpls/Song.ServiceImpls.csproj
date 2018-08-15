@@ -180,6 +180,7 @@
     <Compile Include="TemplateCom.cs" />
     <Compile Include="AccountsCom.cs" />
     <Compile Include="ProfitSharingCom.cs" />
+    <Compile Include="LearningCardCom.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">

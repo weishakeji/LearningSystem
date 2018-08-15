@@ -28,7 +28,7 @@
           <vt:expression var="r" args="$data.ol_level" args="15" expression="({0})*{1}" />
           <li class="mui-table-view-cell outline" olid="{$:#.data.ol_id}" pid="{$:#.data.ol_pid}" style="margin-left:{$:r}px"> 
             <!--链接指向试题分页，size每页多少条试题,onpager是多少条之内，不分页--> 
-            <a  type="link" count="{$count}" href="QuesExercises.ashx?olid={$:#.data.ol_id}&couid={$:#.data.cou_id}&count={$:#.data.ol_quescount}"> <span class="iconfont">&#xe636;</span> <span class="tax">1.</span> {$:#.data.ol_name} </a> <span class="mui-badge count">{$:#.data.ol_quescount}</span> </li>
+            <a  type="link" count="{$:#.data.ol_quescount}" href="QuesExercises.ashx?olid={$:#.data.ol_id}&couid={$:#.data.cou_id}&count={$:#.data.ol_quescount}"> <span class="iconfont">&#xe636;</span> <span class="tax">1.</span> {$:#.data.ol_name} </a> <span class="mui-badge count">{$:#.data.ol_quescount}</span> </li>
         </vt:foreach>
       </ul>
       <vt:else />

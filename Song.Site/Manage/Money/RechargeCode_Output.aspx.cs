@@ -17,8 +17,9 @@ namespace Song.Site.Manage.Money
         protected void Page_Load(object sender, EventArgs e)
         {
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            Song.Entities.RechargeSet mm = Business.Do<IRecharge>().RechargeSetSingle(id);
             //创建文件
-            string name = "充值码导出" + "_" + DateTime.Now.ToString("yyyy-MM-dd_hh-mm") + ".xls";
+            string name = string.Format("{0}-充值码（{1}）.xls", mm.Rs_Theme, DateTime.Now.ToString("yyyy-MM-dd hh-mm"));
             string filePath = Upload.Get["Temp"].Physics + name;
             filePath = Business.Do<IRecharge>().RechargeCode4Excel(filePath, org.Org_ID, id);
             if (System.IO.File.Exists(filePath))
