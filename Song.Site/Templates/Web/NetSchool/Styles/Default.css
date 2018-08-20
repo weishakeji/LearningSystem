@@ -586,7 +586,8 @@
 	border-right-style: none;
 	border-bottom-style: solid;
 	border-left-style: none;
-	border-bottom-color: #CCC;	
+	border-bottom-color: #CCC;
+	overflow: hidden;	
 }
 .row-right-tit .tititem, .tititem a{
 	float: left;

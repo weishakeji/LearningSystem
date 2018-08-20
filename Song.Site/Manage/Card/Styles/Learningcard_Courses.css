@@ -1,0 +1,29 @@
+﻿body
+{
+}
+dl.courses
+{
+}
+dl.courses dt{
+     line-height:25px;
+    margin-right:10px;
+    font-weight:bold;
+}
+
+dl.courses dt .clear
+{
+    float:right;
+    cursor:pointer;
+    color:Red;
+}
+dl.courses dd
+{
+    line-height:25px;
+    margin-right:10px;
+}
+dl.courses dd .remove
+{
+    float:right;
+    cursor:pointer;
+    color:Red;
+}

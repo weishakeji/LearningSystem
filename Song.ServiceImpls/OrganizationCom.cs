@@ -313,6 +313,16 @@ namespace Song.ServiceImpls
         }
         public Organization[] OrganAll(bool? isUse, int level)
         {
+            //从缓存中读取
+            List<Organization> list = WeiSha.Common.Cache<Organization>.Data.List;
+            if (list == null || list.Count < 1) list = this.OrganBuildCache();
+            //linq查询
+            var from = from l in list select l;
+            if (level > 0) from = from.Where<Organization>(p => p.Olv_ID == level);
+            if (isUse != null) from = from.Where<Organization>(p => p.Org_IsUse == (bool)isUse);
+            List<Organization> tm = from.ToList<Organization>();
+            if (tm.Count > 0) return tm.ToArray<Organization>();
+            //orm查询
             WhereClip wc = new WhereClip();
             if (isUse != null) wc.And(Organization._.Org_IsUse == (bool)isUse);
             if (level > -1) wc.And(Organization._.Olv_ID == level);
@@ -401,9 +411,9 @@ namespace Song.ServiceImpls
             lock (lock_cache_build)
             {
                 WeiSha.Common.Cache<Song.Entities.Organization>.Data.Clear();
-                Song.Entities.Organization[] org = this.OrganAll(null, -1);
-                foreach (Song.Entities.Organization o in org)
-                    WeiSha.Common.Cache<Song.Entities.Organization>.Data.Add(o);
+                Song.Entities.Organization[] org = Gateway.Default.From<Organization>()
+                    .OrderBy(Organization._.Org_RegTime.Desc).ToArray<Organization>();
+                WeiSha.Common.Cache<Song.Entities.Organization>.Data.Fill(org);
                 return WeiSha.Common.Cache<Organization>.Data.List;
             }
         }

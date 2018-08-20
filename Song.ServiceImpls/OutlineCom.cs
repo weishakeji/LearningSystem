@@ -275,15 +275,14 @@ namespace Song.ServiceImpls
             //从缓存中读取
             List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
             if (list == null || list.Count < 1) list = this.OutlineBuildCache();
-            
-            if (couid > 0)
-            {
-                List<Outline> tm = (from l in list
-                                    where l.Ol_IsUse == (bool)isUse && l.Cou_ID==couid
-                                    select l).ToList<Outline>();
-                return tm.ToArray<Outline>();
-            }
-            //
+            //linq查询
+            var from = from l in list select l;
+            if (couid > 0) from = from.Where<Outline>(p => p.Cou_ID == couid);
+            if (isUse != null) from = from.Where<Outline>(p => p.Ol_IsUse == (bool)isUse);
+            List<Outline> tm = from.ToList<Outline>();
+            if (tm.Count > 0) return tm.ToArray<Outline>();
+
+            //orm查询
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(Outline._.Cou_ID == couid);
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);

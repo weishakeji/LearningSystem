@@ -79,6 +79,7 @@
     //获取当前要打开的路径
     pagebox.getCurrPath = function (winname, page) {
         var patpath = pagebox.getParentPath(winname);
+        
         if ($.trim(patpath) == "") return page;
         var path = page;
         if (new RegExp("[a-zA-z]+://[^\s]*").exec(page)) return page;

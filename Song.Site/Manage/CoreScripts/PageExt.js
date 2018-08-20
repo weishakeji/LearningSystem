@@ -41,7 +41,7 @@ function OnAdd(winname) {
     //子页路径
     if (ChildPage == "") return false;
     if (isWinOpen) {
-        OpenSysWin(null,null,winname);
+        OpenSysWin(null,null,null,winname);
     } else {
         var url = AddPara(ChildPage, "from", SelfPage);
         window.location.href = url;
@@ -66,7 +66,7 @@ function OnEdit(id, winname) {
     //如果允许打开弹出窗口
     if (isWinOpen) {
         id = escape(id == null ? keys : id);
-        OpenSysWin(id, null,winname);
+        OpenSysWin(id, null,null,winname);
     } else {
         //如果不允许弹出，则页面转向
         var url = AddPara(ChildPage, "id", id);
@@ -107,7 +107,7 @@ function OnView() {
     //如果允许打开弹出窗口
     if (isWinOpen) {
         id = escape(id == null ? keys : id);
-        OpenSysWin(id,null,window.name);
+        OpenSysWin(id,null,null,window.name);
     } else {
         //如果不允许弹出，则页面转向
         var url = AddPara(ChildPage, "id", id);
@@ -167,7 +167,7 @@ function OnAnswer() {
     //如果允许打开弹出窗口
     if (isWinOpen) {
         id = escape(id == null ? keys : id);
-        OpenSysWin(id,null,window.name);
+        OpenSysWin(id,null,null,window.name);
     } else {
         //如果不允许弹出，则页面转向
         var url = AddPara(ChildPage, "id", id);
@@ -206,7 +206,6 @@ function OpenSysWin(keyname, keyvalue, title, winname) {
     //
     var btnMod = $("input[name$='btnModify']");
     var ext = title;
-    //alert(btnMod.size());
     if (title == null) {
         ext = keyvalue != null ? "修改" : "新增";
         if (ext == "修改" && btnMod.size() < 1) ext = "编辑";

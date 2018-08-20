@@ -80,39 +80,20 @@ namespace Song.ServiceImpls
             entity.Qus_Title = _ClearString(entity.Qus_Title);
             entity.Qus_Answer = _ClearString(entity.Qus_Answer);
             entity.Qus_Explain = _ClearString(entity.Qus_Explain);
-            //
-            using (DbTrans tran = Gateway.Default.BeginTrans())
+            //答题选项的处理
+            if (ansItem != null)
             {
-                try
+                for (int i = 0; i < ansItem.Count; i++)
                 {
-                    if (ansItem != null)
-                    {
-                        for (int i = 0; i < ansItem.Count; i++)
-                        {
-                            //添加随机的选择项id
-                            Random rd = new Random((i + 1) * DateTime.Now.Millisecond);
-                            ansItem[i].Ans_ID = rd.Next(1, 1000);
-                            //如果有试题id，则加上，好像也无所谓
-                            if (entity.Qus_ID > 0) ansItem[i].Qus_ID = entity.Qus_ID;
-                        }
-                        entity.Qus_Items = this.AnswerToItems(ansItem.ToArray());
-                    }
-                    tran.Update<QuesAnswer>(new Field[] { QuesAnswer._.Qus_ID }, 
-                        new object[] { entity.Qus_ID }, QuesAnswer._.Qus_UID == entity.Qus_UID);
-                    tran.Save<Questions>(entity);
-                    tran.Commit();
+                    //添加随机的选择项id
+                    Random rd = new Random((i + 1) * DateTime.Now.Millisecond);
+                    ansItem[i].Ans_ID = rd.Next(1, 1000);
+                    //如果有试题id，则加上，好像也无所谓
+                    if (entity.Qus_ID > 0) ansItem[i].Qus_ID = entity.Qus_ID;
                 }
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-                    throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                entity.Qus_Items = this.AnswerToItems(ansItem.ToArray());
             }
+            Gateway.Default.Save<Questions>(entity);
         }
         public void QuesDelete(int identify)
         {

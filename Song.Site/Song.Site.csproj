@@ -228,6 +228,13 @@
     <Content Include="Manage\Admin\Styles\Setup_Accounts.css" />
     <Content Include="Manage\Admin\Setup_Qrcode.aspx" />
     <Content Include="Manage\Admin\Styles\Setup_Stamp.css" />
+    <Content Include="Manage\Card\Learningcard.aspx" />
+    <Content Include="Manage\Card\Learningcard_Edit.aspx" />
+    <Content Include="Manage\Card\Scripts\Learningcard_Edit.js" />
+    <Content Include="Manage\Card\Scripts\Learningcard_Courses.js" />
+    <Content Include="Manage\Card\Styles\Learningcard_Edit.css" />
+    <Content Include="Manage\Card\Learningcard_Courses.aspx" />
+    <Content Include="Manage\Card\Styles\Learningcard_Courses.css" />
     <Content Include="Manage\CoreScripts\AutoLoyout.js" />
     <Content Include="Manage\CoreScripts\clipboard.min.js" />
     <Content Include="Manage\CoreScripts\Extend.js" />
@@ -2290,6 +2297,27 @@
     </Compile>
     <Compile Include="Manage\Admin\Setup_Qrcode.aspx.designer.cs">
       <DependentUpon>Setup_Qrcode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Card\Learningcard.aspx.cs">
+      <DependentUpon>Learningcard.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Card\Learningcard.aspx.designer.cs">
+      <DependentUpon>Learningcard.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Card\Learningcard_Edit.aspx.cs">
+      <DependentUpon>Learningcard_Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Card\Learningcard_Edit.aspx.designer.cs">
+      <DependentUpon>Learningcard_Edit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Card\Learningcard_Courses.aspx.cs">
+      <DependentUpon>Learningcard_Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Card\Learningcard_Courses.aspx.designer.cs">
+      <DependentUpon>Learningcard_Courses.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Course\Courses_TestPaper.aspx.cs">
       <DependentUpon>Courses_TestPaper.aspx</DependentUpon>
@@ -5340,7 +5368,7 @@
     <Content Include="Manage\Panel\Scripts\Loyout.js" />
     <Content Include="Manage\Panel\Scripts\PagePanel.js" />
     <Content Include="Manage\Panel\Scripts\TreePanel.js" />
-    <Content Include="Manage\Panel\Scripts\PageBox.js" />
+    <Content Include="Manage\Panel\Scripts\PageBox_.js" />
     <Content Include="Manage\SOAP\ManageMenu.asmx" />
     <Content Include="Manage\Styles\Index.css" />
     <Content Include="Manage\Sys\DataBaseBackup.aspx" />
