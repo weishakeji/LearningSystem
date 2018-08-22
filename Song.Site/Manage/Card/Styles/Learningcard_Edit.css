@@ -29,3 +29,9 @@ dl.courses dd .remove
     cursor:pointer;
     color:Red;
 }
+.noCourse
+{
+    margin:10px;
+    color:Red;
+    display:none;
+}

@@ -1,16 +1,30 @@
 ﻿$(function () {
+    //点击进入课程编辑
     $("#cour_add").click(function () {
         var href = $(this).attr("href");
         var width = Number($(this).attr("wd"));
         var height = Number($(this).attr("hg"));
         var box = new top.PageBox("编辑学习卡的课程", href, width, height, null, window.name);
         box.CloseEvent = function () {
-            
             //var courses = $.cookie("card_add");
             //alert(courses[0].id);
         }
         box.Open();
         return false;
+    });
+    //初始化课程列表
+    var courses = new Array();
+    $("b[couid]").each(function (index) {
+        var obj = { id: $(this).attr("couid"), name: $(this).text() };
+        courses[index] = obj;
+    });
+    setCourse(courses);
+    //确定按钮
+    $("input[name$=btnEnter]").click(function () {
+        if ($("dl.courses dd").size() < 1) {
+            window.Verify.ShowBox($(".noCourse"), "至少要有一个课程关联");
+            return false;
+        }
     });
 });
 
@@ -39,6 +53,7 @@ function setCourse(courses) {
         $(this).find("span:first").text(index + 1);
         couids += $(this).attr("couid")+",";
     });
+    dl.find("dd").size() < 1 ? $(".noCourse").show() : $(".noCourse").hide();
     $("input[name$=tbCourses]").val(couids);
     //添加课程
     function add(dl, couid, name) {

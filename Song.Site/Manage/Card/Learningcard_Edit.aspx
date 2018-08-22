@@ -54,11 +54,11 @@
                             有效期：
                         </td>
                         <td>
-                            <asp:TextBox ID="Lcs_LimitStart" runat="server" onfocus="WdatePicker()" Format="yyyy-MM-dd" CssClass="Wdate"
-                                EnableTheming="false" MaxLength="20" Width="100"></asp:TextBox>
+                            <asp:TextBox ID="Lcs_LimitStart" runat="server" onfocus="WdatePicker()" Format="yyyy-MM-dd"
+                                CssClass="Wdate" EnableTheming="false" MaxLength="20" Width="100"></asp:TextBox>
                             至
-                            <asp:TextBox ID="Lcs_LimitEnd" runat="server" onfocus="WdatePicker()"  Format="yyyy-MM-dd" CssClass="Wdate" EnableTheming="false"
-                                MaxLength="20" Width="100"></asp:TextBox>
+                            <asp:TextBox ID="Lcs_LimitEnd" runat="server" onfocus="WdatePicker()" Format="yyyy-MM-dd"
+                                CssClass="Wdate" EnableTheming="false" MaxLength="20" Width="100"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -66,14 +66,13 @@
                             学习时长：
                         </td>
                         <td>
-                            <asp:TextBox ID="Lcs_Span" runat="server" nullable="false" datatype="uint"
-                                Width="40"></asp:TextBox>
-                                <asp:DropDownList ID="Lcs_Unit" runat="server">
-                                    <asp:ListItem>日</asp:ListItem>
-                                    <asp:ListItem>周</asp:ListItem>
-                                    <asp:ListItem Selected="True">月</asp:ListItem>
-                                    <asp:ListItem>年</asp:ListItem>
-                                </asp:DropDownList>
+                            <asp:TextBox ID="Lcs_Span" runat="server" nullable="false" datatype="uint" Width="40"></asp:TextBox>
+                            <asp:DropDownList ID="Lcs_Unit" runat="server">
+                                <asp:ListItem>日</asp:ListItem>
+                                <asp:ListItem>周</asp:ListItem>
+                                <asp:ListItem Selected="True">月</asp:ListItem>
+                                <asp:ListItem>年</asp:ListItem>
+                            </asp:DropDownList>
                         </td>
                     </tr>
                     <tr>
@@ -104,8 +103,8 @@
                             密钥：
                         </td>
                         <td>
-                            <asp:TextBox ID="Lcs_SecretKey" runat="server" nullable="false" lenlimit="10-32" MaxLength="100"
-                                Width="95%"></asp:TextBox>
+                            <asp:TextBox ID="Lcs_SecretKey" runat="server" nullable="false" lenlimit="10-32"
+                                MaxLength="100" Width="95%"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -120,8 +119,8 @@
                             充值码长度：
                         </td>
                         <td>
-                            <asp:TextBox ID="Lcs_CodeLength" datatype="uint" nullable="false" numlimit="6-32" runat="server"
-                                MaxLength="2" Width="30" Text="12"></asp:TextBox>
+                            <asp:TextBox ID="Lcs_CodeLength" datatype="uint" nullable="false" numlimit="6-32"
+                                runat="server" MaxLength="2" Width="30" Text="12"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -136,20 +135,26 @@
                 </table>
             </td>
             <td width="50%" valign="top">
-            <span style="display:none"><asp:TextBox ID="tbCourses" runat="server"></asp:TextBox></span>
+                <span style="display: none">
+                    <asp:TextBox ID="tbCourses" runat="server"></asp:TextBox>
+                    <asp:Repeater ID="rtpCourses" runat="server">
+                        <ItemTemplate>
+                            <b couid='<%# Eval("Cou_ID") %>'>
+                                <%# Eval("Cou_Name")%></b>
+                        </ItemTemplate>
+                    </asp:Repeater>
+                </span>
                 <dl class="courses">
                     <dt>
                         <p>
-                            供选修的课程：
+                            关联的课程：
                             <input href="Learningcard_Courses.aspx" wd="800" hg="600" id="cour_add" type="button"
                                 value="编辑" /></p>
                     </dt>
-                    <asp:Repeater ID="rtpCourses" runat="server">
-                    <ItemTemplate>
-                    <dd couid='<%# Eval("Cou_ID") %>'><span><%# Container.ItemIndex + 1%></span>、<span class='name'><%# Eval("Cou_Name")%></span></dd>
-                    </ItemTemplate>
-                    </asp:Repeater>
                 </dl>
+                <div class="noCourse">
+                    当前学习卡没有关联任何课程 </br> 点击“编辑”按钮，添加课程
+                </div>
             </td>
         </tr>
     </table>
