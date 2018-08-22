@@ -29,6 +29,8 @@ namespace Song.ServiceImpls
         public void SetAdd(LearningCardSet entity)
         {
             entity.Lcs_CrtTime = DateTime.Now;
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            if (org != null) entity.Org_ID = org.Org_ID;
             Gateway.Default.Save<LearningCardSet>(entity);
             //生成学习卡
             LearningCard[] cards = CardGenerate(entity);
@@ -597,7 +599,12 @@ namespace Song.ServiceImpls
         /// <returns>LearningCardSet对象中的Lcs_RelatedCourses将记录关联信息</returns>
         public LearningCardSet CoursesSet(LearningCardSet set, Course[] courses)
         {
-            if (courses == null || courses.Length <= 0) return set;
+            if (courses == null || courses.Length <= 0)
+            {
+                set.Lcs_RelatedCourses = string.Empty;
+                set.Lcs_CoursesCount = 0;
+                return set;
+            }
             int[] couid = new int[courses.Length];
             for (int i = 0; i < courses.Length; i++)
                 couid[i] = courses[i].Cou_ID;
@@ -605,7 +612,12 @@ namespace Song.ServiceImpls
         }
         public LearningCardSet CoursesSet(LearningCardSet set, int[] couid)
         {
-            if (couid == null || couid.Length < 1) return null;
+            if (couid == null || couid.Length < 1)
+            {
+                set.Lcs_RelatedCourses = string.Empty;
+                set.Lcs_CoursesCount = 0;
+                return set;
+            }
             XmlDocument xmlDoc = new XmlDocument();
             //创建根节点  
             XmlNode root = xmlDoc.CreateElement("Items");
@@ -617,7 +629,28 @@ namespace Song.ServiceImpls
                 root.AppendChild(item);
             }
             set.Lcs_RelatedCourses = root.OuterXml;
+            set.Lcs_CoursesCount = couid.Length;
             return set;
+        }
+        /// <summary>
+        /// 设置关联的课程
+        /// </summary>
+        /// <param name="set"></param>
+        /// <param name="couids">课程id串，以逗号分隔</param>
+        /// <returns></returns>
+        public LearningCardSet CoursesSet(LearningCardSet set, string couids)
+        {
+            List<int> list = new List<int>();
+            foreach (string s in couids.Split(','))
+            {
+                if (string.IsNullOrWhiteSpace(s)) continue;
+                if (s.Trim() == "") continue;
+                int id = 0;
+                int.TryParse(s, out id);
+                if (id == 0) continue;
+                list.Add(id);
+            }
+            return CoursesSet(set, list.ToArray());
         }
         #endregion
     }

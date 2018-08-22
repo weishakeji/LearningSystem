@@ -8,11 +8,28 @@
 <%@ Register Assembly="WeiSha.WebEditor" Namespace="WeiSha.WebEditor" TagPrefix="Kind" %>
 <%@ Register Src="../Utility/SortSelect.ascx" TagName="SortSelect" TagPrefix="uc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
+<script type="text/javascript">
+    //此代码为UpdatePanel刷新完成后要执行的代码
+    function EndRequestHandler(sender, args) {
+        if (args.get_error() == undefined) {
+            _Event_Select();
+        }
+        else {
+            var msg = args.get_error().message;
+            if (msg.indexOf(":")) msg = msg.substring(msg.indexOf(":") + 1);
+            alert(msg);
+        }
+    }
+    function load() {
+        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+    }
+    $(load);
+    </script>
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <table width="100%"  height="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
-            <td width="60%">
+            <td width="60%" valign="top">
                 <asp:UpdatePanel ID="UpdatePanel2" runat="server">
                     <ContentTemplate>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom:10px;">

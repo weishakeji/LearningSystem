@@ -79,6 +79,13 @@ namespace Song.ServiceInterfaces
         /// <returns>LearningCardSet对象中的Lcs_RelatedCourses将记录关联信息</returns>
         LearningCardSet CoursesSet(LearningCardSet set, Course[] courses);
         LearningCardSet CoursesSet(LearningCardSet set, int[] couid);
+        /// <summary>
+        /// 设置关联的课程
+        /// </summary>
+        /// <param name="set"></param>
+        /// <param name="couids">课程id串，以逗号分隔</param>
+        /// <returns></returns>
+        LearningCardSet CoursesSet(LearningCardSet set, string  couids);
         #endregion
 
         #region 学习卡管理

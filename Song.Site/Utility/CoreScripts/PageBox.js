@@ -52,6 +52,12 @@
         var winbox = $(".PageBox[winid=" + winname + "]", window.top.document);
         return winbox;
     }
+    //获取当前窗体对象
+    //winname:当前iframe名称
+    pagebox.getPagebox = function (winname) {
+        var box = $(".PageBox[winid=" + winname + "]");
+        return box;
+    }
     //获取父窗口的window对象
     //winname:当前窗体的名称
     pagebox.parentWindow = function (winname) {
@@ -79,7 +85,7 @@
     //获取当前要打开的路径
     pagebox.getCurrPath = function (winname, page) {
         var patpath = pagebox.getParentPath(winname);
-        
+
         if ($.trim(patpath) == "") return page;
         var path = page;
         if (new RegExp("[a-zA-z]+://[^\s]*").exec(page)) return page;

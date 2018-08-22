@@ -30,6 +30,7 @@ namespace Song.Site.Manage.Card
                 ddlOrg.DataSource = orgs;
                 ddlOrg.DataBind();
                 ddlOrg_SelectedIndexChanged(null, null);
+                
             }
         }
         /// <summary>

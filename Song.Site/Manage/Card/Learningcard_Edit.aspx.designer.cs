@@ -13,121 +13,139 @@ namespace Song.Site.Manage.Card {
     public partial class Learningcard_Edit {
         
         /// <summary>
-        /// tbTheme 控件。
+        /// Lcs_Theme 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbTheme;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_Theme;
         
         /// <summary>
-        /// tbPrice 控件。
+        /// Lcs_Price 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbPrice;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_Price;
         
         /// <summary>
-        /// TextBox1 控件。
+        /// Lcs_Coupon 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_Coupon;
         
         /// <summary>
-        /// tbCount 控件。
+        /// Lcs_Count 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbCount;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_Count;
         
         /// <summary>
-        /// tbStart 控件。
+        /// Lcs_LimitStart 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbStart;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_LimitStart;
         
         /// <summary>
-        /// tbEnd 控件。
+        /// Lcs_LimitEnd 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbEnd;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_LimitEnd;
         
         /// <summary>
-        /// tbSpan 控件。
+        /// Lcs_Span 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbSpan;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_Span;
         
         /// <summary>
-        /// ddlUnit 控件。
+        /// Lcs_Unit 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlUnit;
+        protected global::System.Web.UI.WebControls.DropDownList Lcs_Unit;
         
         /// <summary>
-        /// tbIntro 控件。
+        /// Lcs_Intro 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbIntro;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_Intro;
         
         /// <summary>
-        /// cbIsEnable 控件。
+        /// Lcs_IsEnable 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbIsEnable;
+        protected global::System.Web.UI.WebControls.CheckBox Lcs_IsEnable;
         
         /// <summary>
-        /// tbPw 控件。
+        /// Lcs_SecretKey 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbPw;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_SecretKey;
         
         /// <summary>
-        /// tbCodeLength 控件。
+        /// Lcs_CodeLength 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbCodeLength;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_CodeLength;
         
         /// <summary>
-        /// tbPwLength 控件。
+        /// Lcs_PwLength 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbPwLength;
+        protected global::System.Web.UI.WebControls.TextBox Lcs_PwLength;
+        
+        /// <summary>
+        /// tbCourses 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbCourses;
+        
+        /// <summary>
+        /// rtpCourses 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rtpCourses;
         
         /// <summary>
         /// btnEnter 控件。

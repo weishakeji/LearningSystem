@@ -12,6 +12,8 @@ namespace Song.Entities {
     		
     		protected String _Lcs_RelatedCourses;
     		
+    		protected Int32 _Lcs_CoursesCount;
+    		
     		protected Int32 _Lcs_Count;
     		
     		protected Int32 _Lcs_MaxCount;
@@ -67,6 +69,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Lcs_RelatedCourses, _Lcs_RelatedCourses, value);
     				this._Lcs_RelatedCourses = value;
+    			}
+    		}
+    		
+    		public Int32 Lcs_CoursesCount {
+    			get {
+    				return this._Lcs_CoursesCount;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lcs_CoursesCount, _Lcs_CoursesCount, value);
+    				this._Lcs_CoursesCount = value;
     			}
     		}
     		
@@ -289,6 +301,7 @@ namespace Song.Entities {
     			return new WeiSha.Data.Field[] {
     					_.Lcs_ID,
     					_.Lcs_RelatedCourses,
+    					_.Lcs_CoursesCount,
     					_.Lcs_Count,
     					_.Lcs_MaxCount,
     					_.Lcs_BuildCount,
@@ -317,6 +330,7 @@ namespace Song.Entities {
     			return new object[] {
     					this._Lcs_ID,
     					this._Lcs_RelatedCourses,
+    					this._Lcs_CoursesCount,
     					this._Lcs_Count,
     					this._Lcs_MaxCount,
     					this._Lcs_BuildCount,
@@ -347,6 +361,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Lcs_RelatedCourses))) {
     				this._Lcs_RelatedCourses = reader.GetString(_.Lcs_RelatedCourses);
+    			}
+    			if ((false == reader.IsDBNull(_.Lcs_CoursesCount))) {
+    				this._Lcs_CoursesCount = reader.GetInt32(_.Lcs_CoursesCount);
     			}
     			if ((false == reader.IsDBNull(_.Lcs_Count))) {
     				this._Lcs_Count = reader.GetInt32(_.Lcs_Count);
@@ -440,6 +457,11 @@ namespace Song.Entities {
     			/// 字段名：Lcs_RelatedCourses - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Lcs_RelatedCourses = new WeiSha.Data.Field<LearningCardSet>("Lcs_RelatedCourses");
+    			
+    			/// <summary>
+    			/// 字段名：Lcs_CoursesCount - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Lcs_CoursesCount = new WeiSha.Data.Field<LearningCardSet>("Lcs_CoursesCount");
     			
     			/// <summary>
     			/// 字段名：Lcs_Count - 数据类型：Int32
@@ -538,3 +560,4 @@ namespace Song.Entities {
     		}
     	}
     }
+    

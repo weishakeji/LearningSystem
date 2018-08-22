@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Manage/ManagePage.Master" AutoEventWireup="true"
-    CodeBehind="Learningcard.aspx.cs" Inherits="Song.Site.Manage.Card.Learningcard" Title="学习卡" %>
+    CodeBehind="Learningcard.aspx.cs" Inherits="Song.Site.Manage.Card.Learningcard"
+    Title="学习卡" %>
 
 <%@ MasterType VirtualPath="~/Manage/ManagePage.Master" %>
 <%@ Register Src="../Utility/toolsBar.ascx" TagName="toolsBar" TagPrefix="uc1" %>
@@ -8,21 +9,19 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
     <div id="header">
         <uc1:toolsBar ID="ToolsBar1" runat="server" WinPath="Learningcard_Edit.aspx" GvName="GridView1"
-            WinWidth="800" WinHeight="600" OnDelete="DeleteEvent"/>
+            WinWidth="800" WinHeight="600" OnDelete="DeleteEvent" />
         <asp:Panel ID="searchBox" CssClass="searchBox" runat="server">
-            <asp:DropDownList ID="ddlSort" runat="server" Width="80" DataTextField="Sts_Name"
-                DataValueField="Sts_ID">
+            <asp:DropDownList ID="ddlOrg" runat="server" Width="200" DataTextField="Org_Name"
+                DataValueField="Org_ID">
             </asp:DropDownList>
-            账号：<asp:TextBox ID="tbAccName" runat="server" Width="60" MaxLength="10"></asp:TextBox>
-            姓名：<asp:TextBox ID="tbName" runat="server" Width="50" MaxLength="10"></asp:TextBox>
-            手机号：<asp:TextBox ID="tbPhone" runat="server" Width="80" MaxLength="11"></asp:TextBox><asp:Button
-                ID="btnSear" runat="server" Width="40" Text="查询" OnClick="btnsear_Click" />
+            名称：<asp:TextBox ID="tbSearch" runat="server" Width="60" MaxLength="10"></asp:TextBox>
+            <asp:Button ID="btnSear" runat="server" Width="40" Text="查询" OnClick="btnsear_Click" />
         </asp:Panel>
     </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
         ShowSelectBox="True">
         <EmptyDataTemplate>
-            没有满足条件的学生信息！
+            没有满足条件的信息！
         </EmptyDataTemplate>
         <Columns>
             <asp:TemplateField HeaderText="序号">
@@ -38,70 +37,57 @@
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="46px" />
             </asp:TemplateField>
-            <%-- <asp:TemplateField HeaderText="ID">
-                <ItemStyle CssClass="center" Width="60px" />
-                <ItemTemplate>
-                    <%# Eval("Ac_id","{0}")%>
-                </ItemTemplate>
-            </asp:TemplateField>--%>
-            <asp:TemplateField HeaderText="姓名/手机号">
+            <asp:TemplateField HeaderText="主题">
                 <ItemStyle CssClass="left" />
                 <ItemTemplate>
-                    <%# Eval("Ac_Name")%><span class="accname"><%# string.IsNullOrWhiteSpace(Eval("Ac_MobiTel1", "{0}")) ? Eval("Ac_MobiTel2", "{0}") : Eval("Ac_MobiTel1", "{0}")%></span>
+                    <%# Eval("Lcs_Theme")%>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="账号">
-                <ItemStyle CssClass="center" />
+            <asp:TemplateField HeaderText="课程">
                 <ItemTemplate>
-                    <%# Eval("Ac_accname", "{0}")%>
+                   <%# Eval("Lcs_CoursesCount")%>个
                 </ItemTemplate>
+                <ItemStyle CssClass="center" Width="60px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="&yen; 资金">
-                <ItemStyle CssClass="right" />
-                <HeaderStyle CssClass="right" />
+            <asp:TemplateField HeaderText="数量">
                 <ItemTemplate>
-                    <%# Eval("Ac_money", "{0:C}")%>
+                    <span title="已经消费">
+                        <%# Eval("Lsc_UsedCount")%></span>/<%# Eval("Lcs_Count")%>
                 </ItemTemplate>
+                <ItemStyle CssClass="center" Width="60px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="&spades; 卡券">
-                <ItemStyle CssClass="right" />
-                <HeaderStyle CssClass="right" />
+            <asp:TemplateField HeaderText="面额">
                 <ItemTemplate>
-                    <a href="#" onclick="OpenWin('Students_Coupon.aspx?id=<%# Eval("Ac_id") %>','卡券充扣',400,300);return false;">
-                        &spades;
-                        <%# Eval("Ac_Coupon", "{0:0}")%></a>
+                    <%# Eval("Lcs_Price", "{0}元")%>
                 </ItemTemplate>
+                <ItemStyle CssClass="center" Width="50px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="&clubs; 积分">
-                <ItemStyle CssClass="right" />
-                <HeaderStyle CssClass="right" />
+            <asp:TemplateField HeaderText="有效期">
                 <ItemTemplate>
-                    <a href="#" onclick="OpenWin('Students_Point.aspx?id=<%# Eval("Ac_id") %>','积分充扣',400,300);return false;">
-                        &clubs;
-                        <%# Eval("Ac_Point", "{0:0}")%></a>
+                    <%# Eval("Lcs_LimitStart","{0:yyyy/MM/dd}")%>至<%# Eval("Lcs_LimitEnd", "{0:yyyy/MM/dd}")%>
                 </ItemTemplate>
+                <ItemStyle CssClass="center" Width="160px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="组">
-                <ItemStyle CssClass="center" />
+            <asp:TemplateField HeaderText="使用">
                 <ItemTemplate>
-                    <%# Eval("sts_name", "{0}")%>
+                    <cc1:StateButton ID="sbEnable" OnClick="sbEnable_Click" runat="server" State='<%# Eval("Lcs_IsEnable","{0}")=="True"%>'
+                        FalseText="禁用" TrueText="使用"></cc1:StateButton>
                 </ItemTemplate>
+                <ItemStyle CssClass="center noprint" />
+                <HeaderStyle CssClass="center noprint" Width="40px" />
             </asp:TemplateField>
-            <%-- <asp:TemplateField HeaderText="最后登录">
-                <ItemStyle CssClass="center" Width="160" />
+            <asp:TemplateField HeaderText="详情">
                 <ItemTemplate>
-                    <%# Convert.ToDateTime(Eval("Ac_LastTime"))>DateTime.Now.AddYears(-100) ? Eval("Ac_LastTime") : "" %>
-                    
+                    <a href="#" onclick="OpenWin('RechargeSet_Code.aspx?id=<%# Eval("Lcs_ID")%>','<%# Eval("Lcs_Theme", "{0}")%>',980,80,null,window.name);return false;">
+                        查看</a>
                 </ItemTemplate>
-            </asp:TemplateField>--%>
-            <asp:TemplateField HeaderText="启用/审核/密码">
-                <ItemStyle CssClass="center" Width="120px" />
+                <ItemStyle CssClass="center" Width="50px" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="导出">
                 <ItemTemplate>
-                    <cc1:StateButton ID="sbUse" OnClick="sbUse_Click" runat="server" TrueText="启用" FalseText="禁用"
-                        State='<%# Eval("Ac_IsUse","{0}")=="True"%>'></cc1:StateButton>/<cc1:StateButton
-                            ID="sbPass" OnClick="sbPass_Click" runat="server" TrueText="通过" FalseText="未审"
-                            State='<%# Eval("Ac_IsPass","{0}")=="True"%>'></cc1:StateButton>/<a href="#" onclick="OpenWin('Student_Password.aspx?id=<%# Eval("Ac_id") %>','重置密码',400,300);return false;">修改</a>
+                    <a href="RechargeCode_Output.aspx?id=<%# Eval("Lcs_ID", "{0}")%>" target="_blank">导出</a>
                 </ItemTemplate>
+                <ItemStyle CssClass="center" Width="50px" />
             </asp:TemplateField>
         </Columns>
     </cc1:GridView>
