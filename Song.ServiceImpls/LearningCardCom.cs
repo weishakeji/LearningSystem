@@ -34,9 +34,10 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<LearningCardSet>(entity);
             //生成学习卡
             LearningCard[] cards = CardGenerate(entity);
-            foreach (LearningCard c in cards)
+            if (cards != null)
             {
-                Gateway.Default.Save<LearningCard>(c);
+                foreach (LearningCard c in cards)
+                    Gateway.Default.Save<LearningCard>(c);
             }
         }
         /// <summary>
@@ -50,15 +51,12 @@ namespace Song.ServiceImpls
                 try
                 {
                     Song.Entities.LearningCardSet rs = tran.From<LearningCardSet>().Where(LearningCardSet._.Lcs_ID == entity.Lcs_ID).ToFirst<LearningCardSet>();
-                    ////如果新增了充值码
-                    ////if (rs.Lcs_Count < entity.Lcs_Count) _RechargeCodeBuilds(entity, entity.Rs_Count - rs.Rs_Count);
-                    ////如果减少的充值码
-                    //if (rs.Lcs_Count > entity.Lcs_Count)
-                    //{
-                    //    Song.Entities.RechargeCode[] rcs = tran.From<RechargeCode>().Where(RechargeCode._.Rs_ID == entity.Rs_ID && RechargeCode._.Rc_IsUsed == false).ToArray<RechargeCode>(rs.Rs_Count - entity.Rs_Count);
-                    //    foreach (RechargeCode r in rcs)
-                    //        tran.Delete<RechargeCode>(r);
-                    //}
+                    LearningCard[] cards = CardGenerate(entity, tran);
+                    if (cards != null)
+                    {
+                        foreach (LearningCard c in cards)
+                            Gateway.Default.Save<LearningCard>(c);
+                    }
                     tran.Update<LearningCard>(new Field[] { LearningCard._.Lc_Price, LearningCard._.Lc_LimitStart, LearningCard._.Lc_LimitEnd },
                         new object[] { entity.Lcs_Price, entity.Lcs_LimitStart, entity.Lcs_LimitEnd },
                         LearningCard._.Lcs_ID == entity.Lcs_ID && LearningCard._.Lc_IsUsed == false);
@@ -206,11 +204,45 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public LearningCard[] CardGenerate(LearningCardSet set)
         {
-            int count = set.Lcs_Count;
+            return CardGenerate(set, null);
+        }
+        /// <summary>
+        /// <param name="tran">事务</param>
+        /// </summary>
+        /// <param name="set"></param>
+        /// <param name="tran"></param>
+        /// <returns></returns>
+        public LearningCard[] CardGenerate(LearningCardSet set, DbTrans tran)
+        {
+            int count = 0;  //要生成的数量
+            int realcount = Gateway.Default.Count<LearningCard>(LearningCard._.Lcs_ID == set.Lcs_ID);   //实际数量
+            //如果实际数量小于要生成的数量，则只生成差额
+            if (realcount < set.Lcs_Count) count = set.Lcs_Count - realcount;
+            //如果实际数量小于要生成的数量，则删除多余（如果已经使用的过的，不可删除）
+            if (realcount > set.Lcs_Count)
+            {
+                bool isNull = false;
+                if (tran == null)
+                {
+                    tran = Gateway.Default.BeginTrans();
+                    isNull = true;
+                }
+                Song.Entities.LearningCard[] rcs = tran.From<LearningCard>().Where(LearningCard._.Lcs_ID == set.Lcs_ID && LearningCard._.Lc_IsUsed == false)
+                    .ToArray<LearningCard>(realcount - set.Lcs_Count);
+                foreach (LearningCard r in rcs)
+                    tran.Delete<LearningCard>(r);
+                if (isNull)
+                {
+                    tran.Commit();
+                    tran.Dispose();
+                    tran.Close();
+                }
+                return null;
+            }
             //生成学习卡
             LearningCard[] cards = new LearningCard[count];
             for (int i = 0; i < count; i++)
-                cards[i] = CardGenerate(set, i); 
+                cards[i] = CardGenerate(set, i);
             //判断是否重复
             for (int i = 0; i < cards.Length; i++)
             {

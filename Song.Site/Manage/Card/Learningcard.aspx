@@ -14,7 +14,7 @@
             <asp:DropDownList ID="ddlOrg" runat="server" Width="200" DataTextField="Org_Name"
                 DataValueField="Org_ID">
             </asp:DropDownList>
-            名称：<asp:TextBox ID="tbSearch" runat="server" Width="60" MaxLength="10"></asp:TextBox>
+            <asp:TextBox ID="tbSearch" runat="server" Width="60" MaxLength="10"></asp:TextBox>
             <asp:Button ID="btnSear" runat="server" Width="40" Text="查询" OnClick="btnsear_Click" />
         </asp:Panel>
     </div>
@@ -78,17 +78,11 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="详情">
                 <ItemTemplate>
-                    <a href="#" onclick="OpenWin('RechargeSet_Code.aspx?id=<%# Eval("Lcs_ID")%>','<%# Eval("Lcs_Theme", "{0}")%>',980,80,null,window.name);return false;">
+                    <a href="#" onclick="OpenWin('Learningcard_Code.aspx?id=<%# Eval("Lcs_ID")%>','<%# Eval("Lcs_Theme", "{0}")%>',980,80,null,window.name);return false;">
                         查看</a>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="50px" />
-            </asp:TemplateField>
-            <asp:TemplateField HeaderText="导出">
-                <ItemTemplate>
-                    <a href="RechargeCode_Output.aspx?id=<%# Eval("Lcs_ID", "{0}")%>" target="_blank">导出</a>
-                </ItemTemplate>
-                <ItemStyle CssClass="center" Width="50px" />
-            </asp:TemplateField>
+            </asp:TemplateField>           
         </Columns>
     </cc1:GridView>
     <br />

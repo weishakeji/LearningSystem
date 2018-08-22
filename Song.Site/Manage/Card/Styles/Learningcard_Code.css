@@ -1,0 +1,19 @@
+﻿@charset "utf-8";
+.topbar
+{
+    height:30px;
+    line-height:30px;
+    width:98%;
+}
+.topbar a
+{
+    
+}
+.topbar .top-right
+{
+    float:right;
+}
+.pager2{
+	position: fixed;
+	bottom:45px;
+}

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Song.Entities;
+using WeiSha.Data;
 
 namespace Song.ServiceInterfaces
 {
@@ -99,9 +100,16 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 批量生成学习卡
         /// </summary>
-        /// <param name="set">学习卡的设置项</param>
+        /// <param name="set">学习卡的设置项</param>        
         /// <returns></returns>
         LearningCard[] CardGenerate(LearningCardSet set);
+        /// <summary>
+        /// <param name="tran">事务</param>
+        /// </summary>
+        /// <param name="set"></param>
+        /// <param name="tran"></param>
+        /// <returns></returns>
+        LearningCard[] CardGenerate(LearningCardSet set, DbTrans tran);
         /// <summary>
         /// 添加学习卡设置项
         /// </summary>
@@ -149,12 +157,12 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid">所在机构id</param>
         /// <param name="orgid">机构id</param>
-        /// <param name="rsid">充码设置项的id</param>
+        /// <param name="lcsid">学习卡设置项的id</param>
         /// <param name="isEnable">是否启用</param>
         /// <param name="isUsed">是否已经使用</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        LearningCard[] CardCount(int orgid, int rsid, bool? isEnable, bool? isUsed, int count);
+        LearningCard[] CardCount(int orgid, int lcsid, bool? isEnable, bool? isUsed, int count);
         /// <summary>
         /// 所有设置项数量
         /// </summary>
