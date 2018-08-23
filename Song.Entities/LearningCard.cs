@@ -40,6 +40,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Lc_State;
     		
+    		protected String _Lc_QrcodeBase64;
+    		
     		public Int32 Lc_ID {
     			get {
     				return this._Lc_ID;
@@ -200,6 +202,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Lc_QrcodeBase64 {
+    			get {
+    				return this._Lc_QrcodeBase64;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lc_QrcodeBase64, _Lc_QrcodeBase64, value);
+    				this._Lc_QrcodeBase64 = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -242,7 +254,8 @@ namespace Song.Entities {
     					_.Org_ID,
     					_.Lc_LimitStart,
     					_.Lc_LimitEnd,
-    					_.Lc_State};
+    					_.Lc_State,
+    					_.Lc_QrcodeBase64};
     		}
     		
     		/// <summary>
@@ -265,7 +278,8 @@ namespace Song.Entities {
     					this._Org_ID,
     					this._Lc_LimitStart,
     					this._Lc_LimitEnd,
-    					this._Lc_State};
+    					this._Lc_State,
+    					this._Lc_QrcodeBase64};
     		}
     		
     		/// <summary>
@@ -319,6 +333,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Lc_State))) {
     				this._Lc_State = reader.GetInt32(_.Lc_State);
+    			}
+    			if ((false == reader.IsDBNull(_.Lc_QrcodeBase64))) {
+    				this._Lc_QrcodeBase64 = reader.GetString(_.Lc_QrcodeBase64);
     			}
     		}
     		
@@ -425,7 +442,11 @@ namespace Song.Entities {
     			/// 字段名：Lc_State - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Lc_State = new WeiSha.Data.Field<LearningCard>("Lc_State");
+    			
+    			/// <summary>
+    			/// 字段名：Lc_QrcodeBase64 - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lc_QrcodeBase64 = new WeiSha.Data.Field<LearningCard>("Lc_QrcodeBase64");
     		}
     	}
     }
-    

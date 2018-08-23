@@ -39,36 +39,45 @@ namespace Song.Site.Manage.Card
             }
             //当前学习卡的编码
             Song.Entities.LearningCard[] cards = Business.Do<ILearningCard>().CardCount(-1, set.Lcs_ID, true, null, -1);
-            if (courses != null)
+            if (cards != null)
             {
+                //生成二维码的字符串
+                string[] qrcodes = new string[cards.Length];
+                string url = lbUrl.Text.Trim();
+                string domain = this.Request.Url.Scheme + "://" + this.Request.Url.Host + ":" + this.Request.Url.Port;
+                for (int i = 0; i < cards.Length; i++)
+                {
+                    if (cards[i].Lc_IsUsed) continue;
+                    qrcodes[i] = string.Format(url, domain, cards[i].Lc_Code, cards[i].Lc_Pw);
+                }
+                //批量生成二维码
+                System.Drawing.Image[] images = WeiSha.Common.QrcodeHepler.Encode(qrcodes, 200, centerImg, color, "#fff");
+                for (int i = 0; i < cards.Length; i++)
+                {
+                    if (images[i] == null)
+                    {
+                        cards[i].Lc_QrcodeBase64 = lbUsedImg.Text;
+                        continue;
+                    }
+                    cards[i].Lc_QrcodeBase64 = "data:image/JPG;base64," + WeiSha.Common.Images.ImageTo.ToBase64(images[i]);
+                }
                 rtpCode.DataSource = cards;
                 rtpCode.DataBind();
             }
            
         }
         /// <summary>
-        /// 生成二维码
+        /// 生成二维码的字符串（网址）
         /// </summary>
         /// <param name="code"></param>
         /// <param name="pw"></param>
         /// <returns></returns>
-        protected string build_Qrcode(string code, string pw, object isUsed)
+        protected string buildUrl(string code, string pw)
         {
-            bool isused = Convert.ToBoolean(isUsed);
-            if (isused) return lbUsedImg.Text;
-            string url = lbUrl.Text.Trim();            
+            string url = lbUrl.Text.Trim();
             string domain = this.Request.Url.Scheme + "://" + this.Request.Url.Host + ":" + this.Request.Url.Port;
             url = string.Format(url, domain, code, pw);
-            //二维码图片对象
-            System.Drawing.Image image = null;
-            if (System.IO.File.Exists(centerImg))
-                image = WeiSha.Common.QrcodeHepler.Encode(url, 200, centerImg, color, "#fff");
-            else
-                image = WeiSha.Common.QrcodeHepler.Encode(url, 200, color, "#fff");
-            //image = WeiSha.Common.Images.ImageTo.Rounded(image);
-            //将image转为base64
-            string base64 = WeiSha.Common.Images.ImageTo.ToBase64(image);
-            return "data:image/JPG;base64," + base64;
+            return url;
         }
     }
 }

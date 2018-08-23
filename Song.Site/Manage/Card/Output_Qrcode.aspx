@@ -39,7 +39,7 @@
                 <dd>
                     <div class="code">
                         <%# Eval("Lc_Code")%>-<%# Eval("Lc_Pw")%></div>
-                    <img src='<%# build_Qrcode(Eval("Lc_Code","{0}"),Eval("Lc_Pw","{0}"),Eval("Lc_IsUsed")) %>' />
+                    <img src='<%# Eval("Lc_QrcodeBase64","{0}") %>' />
                 </dd>
             </ItemTemplate>
         </asp:Repeater>
