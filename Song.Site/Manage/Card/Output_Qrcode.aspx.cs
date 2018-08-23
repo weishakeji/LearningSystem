@@ -52,9 +52,11 @@ namespace Song.Site.Manage.Card
         /// <param name="code"></param>
         /// <param name="pw"></param>
         /// <returns></returns>
-        protected string build_Qrcode(string code, string pw)
+        protected string build_Qrcode(string code, string pw, object isUsed)
         {
-            string url = lbUrl.Text.Trim();
+            bool isused = Convert.ToBoolean(isUsed);
+            if (isused) return lbUsedImg.Text;
+            string url = lbUrl.Text.Trim();            
             string domain = this.Request.Url.Scheme + "://" + this.Request.Url.Host + ":" + this.Request.Url.Port;
             url = string.Format(url, domain, code, pw);
             //二维码图片对象
@@ -65,7 +67,7 @@ namespace Song.Site.Manage.Card
                 image = WeiSha.Common.QrcodeHepler.Encode(url, 200, color, "#fff");
             //将image转为base64
             string base64 = WeiSha.Common.Images.ImageTo.ToBase64(image);
-            return base64;
+            return "data:image/JPG;base64," + base64;
         }
     }
 }

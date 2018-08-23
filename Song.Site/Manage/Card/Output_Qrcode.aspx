@@ -22,7 +22,7 @@
             <asp:Label ID="Lcs_LimitEnd" runat="server" Format="yyyy-MM-dd"></asp:Label></span>
     </div>
     <div class="row">
-    当前学习卡包含的课程：<input id="btnPrint" type="button" value="打印" onclick="window.print();" />
+        当前学习卡包含的课程：<input id="btnPrint" type="button" value="打印" onclick="window.print();" />
     </div>
     <asp:DataList ID="dlCourses" runat="server" RepeatColumns="2" CssClass="courses"
         RepeatDirection="Horizontal" Width="100%" CellSpacing="1">
@@ -31,14 +31,15 @@
         </ItemTemplate>
     </asp:DataList>
     <span style="display: none">
-        <asp:Label ID="lbUrl" runat="server" Text="{0}/mobile/Learningcard.ashx?code={1}&pw={2}"></asp:Label></span>
+        <asp:Label ID="lbUrl" runat="server" Text="{0}/mobile/Learningcard.ashx?code={1}&pw={2}"></asp:Label>
+        <asp:Label ID="lbUsedImg" runat="server" Text="../images/used.png"></asp:Label></span>
     <dl class="qrcode">
         <asp:Repeater ID="rtpCode" runat="server">
             <ItemTemplate>
                 <dd>
                     <div class="code">
                         <%# Eval("Lc_Code")%>-<%# Eval("Lc_Pw")%></div>
-                    <img src='data:image/JPG;base64,<%# build_Qrcode(Eval("Lc_Code","{0}"),Eval("Lc_Pw","{0}")) %>' />
+                    <img src='<%# build_Qrcode(Eval("Lc_Code","{0}"),Eval("Lc_Pw","{0}"),Eval("Lc_IsUsed")) %>' />
                 </dd>
             </ItemTemplate>
         </asp:Repeater>
