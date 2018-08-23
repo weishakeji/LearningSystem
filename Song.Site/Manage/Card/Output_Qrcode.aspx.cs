@@ -65,6 +65,7 @@ namespace Song.Site.Manage.Card
                 image = WeiSha.Common.QrcodeHepler.Encode(url, 200, centerImg, color, "#fff");
             else
                 image = WeiSha.Common.QrcodeHepler.Encode(url, 200, color, "#fff");
+            //image = WeiSha.Common.Images.ImageTo.Rounded(image);
             //将image转为base64
             string base64 = WeiSha.Common.Images.ImageTo.ToBase64(image);
             return "data:image/JPG;base64," + base64;

@@ -319,6 +319,7 @@
     <Content Include="Manage\Images\mmicons.png" />
     <Content Include="Manage\Images\search.JPG" />
     <Content Include="Manage\Images\sun_star.gif" />
+    <Content Include="Manage\Images\used.png" />
     <Content Include="Manage\Money\Details.aspx" />
     <Content Include="Manage\Money\Details_View.aspx" />
     <Content Include="Manage\Money\RechargeCode_Output.aspx" />
