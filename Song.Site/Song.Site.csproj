@@ -239,6 +239,7 @@
     <Content Include="Manage\Card\Styles\Learningcard_Courses.css" />
     <Content Include="Manage\Card\Styles\Learningcard_Code.css" />
     <Content Include="Manage\Card\Output_Qrcode.aspx" />
+    <Content Include="Manage\Card\Styles\Output_Qrcode.css" />
     <Content Include="Manage\CoreScripts\AutoLoyout.js" />
     <Content Include="Manage\CoreScripts\clipboard.min.js" />
     <Content Include="Manage\CoreScripts\Extend.js" />

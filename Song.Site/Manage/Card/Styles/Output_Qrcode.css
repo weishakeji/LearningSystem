@@ -1,0 +1,80 @@
+﻿@charset "utf-8";
+@page {
+ size: A4 portrait;
+ margin:2cm;
+}
+@media print
+{
+ #btnPrint{
+	 display:none;
+ }
+
+}
+@media all {
+body{
+	text-align:center;
+}
+body,div,td,p{
+	font-size:16px;
+}
+.page {
+	page-break-inside: avoid;
+	position:relative;
+}
+form{
+	margin-left: auto !important;
+	margin-right: auto !important;
+	size: A4 portrait;
+	width: 21cm;
+}
+.theme{
+	text-align:center;
+	font-size:18px;
+	line-height:40px;
+	margin-top:10px;
+}
+.row{
+	line-height:30px;
+}
+.price{
+	
+}
+.price span{
+	margin-right:30px;
+}
+#btnPrint{
+	padding-left:10px;
+	padding-right:10px;
+	line-height:20px;
+	float:right;
+}
+/*课程*/
+.courses{
+	border-collapse:collapse; 
+}
+.courses td{
+	line-height:25px;
+	background-color:#fff;
+	text-indent:10px;
+	border:1px solid #ccc;
+}
+/*二维码输出*/
+dl.qrcode{
+	width:100%;
+}
+dl.qrcode dd{
+	width:25%;
+	float:left;
+	margin-top:10px;	
+	text-align:center;
+}
+dl.qrcode dd img{
+	width:90%;
+	
+}
+dl.qrcode dd .code{
+	font-size: 12px;
+	white-space: nowrap;
+	text-align:center;
+}
+}

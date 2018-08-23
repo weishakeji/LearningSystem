@@ -116,10 +116,10 @@
                     </tr>
                     <tr>
                         <td class="right">
-                            充值码长度：
+                            学习码长度：
                         </td>
                         <td>
-                            <asp:TextBox ID="Lcs_CodeLength" datatype="uint" nullable="false" numlimit="6-32"
+                            <asp:TextBox ID="Lcs_CodeLength" datatype="uint" nullable="false" numlimit="10-15"
                                 runat="server" MaxLength="2" Width="30" Text="12"></asp:TextBox>
                         </td>
                     </tr>
@@ -128,7 +128,7 @@
                             密码长度：
                         </td>
                         <td>
-                            <asp:TextBox ID="Lcs_PwLength" datatype="uint" nullable="false" numlimit="3-8" runat="server"
+                            <asp:TextBox ID="Lcs_PwLength" datatype="uint" nullable="false" numlimit="3-6" runat="server"
                                 MaxLength="2" Width="30" Text="3"></asp:TextBox>
                         </td>
                     </tr>

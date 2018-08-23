@@ -1,42 +1,48 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Output_Qrcode.aspx.cs" Inherits="Song.Site.Manage.Card.Output_Qrcode" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Output_Qrcode.aspx.cs"
+    Inherits="Song.Site.Manage.Card.Output_Qrcode" %>
 
 <!DOCTYPE html>
-
 <html>
 <head runat="server">
-    <title></title>
+    <title>学习卡：</title>
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-        <asp:Label ID="Lcs_Theme" runat="server" Text=""></asp:Label>
+    <div class="theme">
+        <asp:Literal ID="Lcs_Theme" runat="server"></asp:Literal>
     </div>
-    <div>
-        面额：<asp:Label ID="Lcs_Price" runat="server" Text=""></asp:Label>
+    <div class="price row">
+        <span>面额：<asp:Literal ID="Lcs_Price" runat="server"></asp:Literal>元</span> <span>学习时间：<asp:Literal
+            ID="Lcs_Span" runat="server" Text=""></asp:Literal><asp:Literal ID="Lcs_Unit" runat="server"
+                Text=""></asp:Literal></span>
     </div>
-    <div>
-        有效期：<asp:Label ID="Lcs_LimitStart" runat="server" Format="yyyy-MM-dd"></asp:Label> 至 <asp:Label ID="Lcs_LimitEnd" runat="server" Format="yyyy-MM-dd"></asp:Label>
+    <div class="row">
+        <span>有效期：<asp:Label ID="Lcs_LimitStart" runat="server" Format="yyyy-MM-dd"></asp:Label>
+            至
+            <asp:Label ID="Lcs_LimitEnd" runat="server" Format="yyyy-MM-dd"></asp:Label></span>
     </div>
-    <div>
-        学习时间：<asp:Label ID="Lcs_Span" runat="server" Text=""></asp:Label><asp:Label ID="Lcs_Unit" runat="server" Text=""></asp:Label>
+    <div class="row">
+    当前学习卡包含的课程：<input id="btnPrint" type="button" value="打印" onclick="window.print();" />
     </div>
-    <asp:DataList ID="dlCourses" runat="server" RepeatColumns="2" 
-        RepeatDirection="Horizontal">
+    <asp:DataList ID="dlCourses" runat="server" RepeatColumns="2" CssClass="courses"
+        RepeatDirection="Horizontal" Width="100%" CellSpacing="1">
         <ItemTemplate>
-           <%# Container.ItemIndex + 1%>、<%# Eval("Cou_Name") %>
+            <%# Container.ItemIndex + 1%>、<%# Eval("Cou_Name") %>
         </ItemTemplate>
     </asp:DataList>
-    <asp:Label ID="lbUrl" runat="server" Text="{0}/mobile/Learningcard.ashx?code={1}&pw={2}"></asp:Label>
-     <dl>
-         <asp:Repeater ID="rtpCode" runat="server">
-         <ItemTemplate>
-         <dd><%# Eval("Lc_Code")%>- <%# Eval("Lc_Pw")%>
-         <br />
-         <img src='data:image/JPG;base64,<%# build_Qrcode(Eval("Lc_Code","{0}"),Eval("Lc_Pw","{0}")) %>' />
-         </dd>
-         </ItemTemplate>
-         </asp:Repeater>
-     </dl>
+    <span style="display: none">
+        <asp:Label ID="lbUrl" runat="server" Text="{0}/mobile/Learningcard.ashx?code={1}&pw={2}"></asp:Label></span>
+    <dl class="qrcode">
+        <asp:Repeater ID="rtpCode" runat="server">
+            <ItemTemplate>
+                <dd>
+                    <div class="code">
+                        <%# Eval("Lc_Code")%>-<%# Eval("Lc_Pw")%></div>
+                    <img src='data:image/JPG;base64,<%# build_Qrcode(Eval("Lc_Code","{0}"),Eval("Lc_Pw","{0}")) %>' />
+                </dd>
+            </ItemTemplate>
+        </asp:Repeater>
+    </dl>
     </form>
 </body>
 </html>

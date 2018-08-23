@@ -22,6 +22,7 @@ namespace Song.Site.Manage.Card
             org = Business.Do<IOrganization>().OrganCurrent();
             Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(id);
             this.EntityBind(set);
+            if (set != null) this.Title += set.Lcs_Theme;
             //生成二维码的配置
             //各项配置           
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);   //自定义配置项  

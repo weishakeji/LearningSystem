@@ -28,7 +28,7 @@ namespace Song.Site.Manage.Card {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Lcs_Theme;
+        protected global::System.Web.UI.WebControls.Literal Lcs_Theme;
         
         /// <summary>
         /// Lcs_Price 控件。
@@ -37,7 +37,25 @@ namespace Song.Site.Manage.Card {
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Lcs_Price;
+        protected global::System.Web.UI.WebControls.Literal Lcs_Price;
+        
+        /// <summary>
+        /// Lcs_Span 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Lcs_Span;
+        
+        /// <summary>
+        /// Lcs_Unit 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Lcs_Unit;
         
         /// <summary>
         /// Lcs_LimitStart 控件。
@@ -56,24 +74,6 @@ namespace Song.Site.Manage.Card {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Lcs_LimitEnd;
-        
-        /// <summary>
-        /// Lcs_Span 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Lcs_Span;
-        
-        /// <summary>
-        /// Lcs_Unit 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Lcs_Unit;
         
         /// <summary>
         /// dlCourses 控件。
