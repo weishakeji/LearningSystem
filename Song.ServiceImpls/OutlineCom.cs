@@ -936,15 +936,46 @@ namespace Song.ServiceImpls
         public event EventHandler Delete;
         public void OnSave(object sender, EventArgs e)
         {
-            if (Save != null) Save(sender, e);
+            if (sender != null)
+            {
+                if (!(sender is Outline)) return;
+                Outline ol = (Outline)sender;
+                Song.Entities.Outline old = Business.Do<IOutline>().OutlineSingle(ol.Ol_ID);
+                ol.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(ol.Ol_ID, -1, true, true);
+                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Update(old, ol);
+            }
+            else
+            {
+                //填充章节数据到缓存
+                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Clear();
+                Business.Do<IOutline>().OutlineBuildCache();
+            }
+            if (Save != null)
+                Save(sender, e);            
         }
         public void OnAdd(object sender, EventArgs e)
         {
-            if (Add != null) Add(sender, e);
+            //当前对象（即sender），写入到缓存
+            if (sender != null)
+            {
+                if (!(sender is Outline)) return;
+                Outline ol = (Outline)sender;
+                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Add(ol);
+            }
+            if (Add != null)
+                Add(sender, e);
         }
         public void OnDelete(object sender, EventArgs e)
         {
-            if (Delete != null) Delete(sender, e);           
+            //当前对象（即sender），写入到缓存
+            if (sender != null)
+            {
+                if (!(sender is Outline)) return;
+                Outline ol = (Outline)sender;
+                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Delete(ol);
+            }
+            if (Delete != null)
+                Delete(sender, e);
         }
         #endregion
     }

@@ -27,6 +27,13 @@ namespace Song.ServiceImpls
         public event EventHandler Delete;
         public void OnSave(object sender, EventArgs e)
         {
+            if (!(sender is Accounts)) return;
+            Accounts acc = (Accounts)sender;
+            if (acc == null) return;
+            int currid = Extend.LoginState.Accounts.CurrentUserId;
+            if (currid != acc.Ac_ID) return;
+            Extend.LoginState.Accounts.Refresh(currid);
+
             if (Save != null) Save(sender, e);
         }
         public void OnAdd(object sender, EventArgs e)
