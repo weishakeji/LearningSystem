@@ -29,6 +29,7 @@ namespace Song.Site.Manage.Card
             org = Business.Do<IOrganization>().OrganCurrent();
             if (!this.IsPostBack)
             {
+                this.SearchBind();
                 BindData(null, null);
             }
         }
@@ -40,12 +41,18 @@ namespace Song.Site.Manage.Card
             //总记录数
             int count = 0;
             Song.Entities.LearningCard[] eas = null;
-            eas = Business.Do<ILearningCard>().CardPager(org.Org_ID, id, null,null, Pager1.Size, Pager1.Index, out count);
+            eas = Business.Do<ILearningCard>().CardPager(org.Org_ID, id, tbCode.Text.Trim(), null, null, Pager1.Size, Pager1.Index, out count);
             GridView1.DataSource = eas;
             GridView1.DataKeyNames = new string[] { "Lc_ID" };
             GridView1.DataBind();
 
             Pager1.RecordAmount = count;
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            Pager1.Qurey = this.SearchQuery();
+            Pager1.Index = 1;
         }
        
     }

@@ -72,13 +72,7 @@
                         查看</a>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="50px" />
-            </asp:TemplateField>
-            <asp:TemplateField HeaderText="导出">
-                <ItemTemplate>
-                    <a href="RechargeCode_Output.aspx?id=<%# Eval("Rs_ID", "{0}")%>" target="_blank">导出</a>
-                </ItemTemplate>
-                <ItemStyle CssClass="center" Width="50px" />
-            </asp:TemplateField>
+            </asp:TemplateField>            
         </Columns>
     </cc1:GridView>
     <br />

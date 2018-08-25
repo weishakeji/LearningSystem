@@ -192,6 +192,7 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         LearningCard[] CardPager(int orgid, int lcsid, bool? isEnable, bool? isUsed, int size, int index, out int countSum);
+        LearningCard[] CardPager(int orgid, int lcsid, string code, bool? isEnable, bool? isUsed, int size, int index, out int countSum);
         #endregion
     }
 }

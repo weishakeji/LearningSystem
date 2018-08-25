@@ -17,3 +17,8 @@
 	position: fixed;
 	bottom:45px;
 }
+.code b
+{
+	font-weight: normal;
+	color: #F00;
+}

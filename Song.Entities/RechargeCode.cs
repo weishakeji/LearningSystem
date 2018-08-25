@@ -38,6 +38,8 @@ namespace Song.Entities {
     		
     		protected DateTime _Rc_LimitEnd;
     		
+    		protected String _Rc_QrcodeBase64;
+    		
     		public Int32 Rc_ID {
     			get {
     				return this._Rc_ID;
@@ -188,6 +190,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Rc_QrcodeBase64 {
+    			get {
+    				return this._Rc_QrcodeBase64;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Rc_QrcodeBase64, _Rc_QrcodeBase64, value);
+    				this._Rc_QrcodeBase64 = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -229,7 +241,8 @@ namespace Song.Entities {
     					_.Ac_ID,
     					_.Ac_AccName,
     					_.Rc_LimitStart,
-    					_.Rc_LimitEnd};
+    					_.Rc_LimitEnd,
+    					_.Rc_QrcodeBase64};
     		}
     		
     		/// <summary>
@@ -251,7 +264,8 @@ namespace Song.Entities {
     					this._Ac_ID,
     					this._Ac_AccName,
     					this._Rc_LimitStart,
-    					this._Rc_LimitEnd};
+    					this._Rc_LimitEnd,
+    					this._Rc_QrcodeBase64};
     		}
     		
     		/// <summary>
@@ -302,6 +316,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Rc_LimitEnd))) {
     				this._Rc_LimitEnd = reader.GetDateTime(_.Rc_LimitEnd);
+    			}
+    			if ((false == reader.IsDBNull(_.Rc_QrcodeBase64))) {
+    				this._Rc_QrcodeBase64 = reader.GetString(_.Rc_QrcodeBase64);
     			}
     		}
     		
@@ -403,7 +420,11 @@ namespace Song.Entities {
     			/// 字段名：Rc_LimitEnd - 数据类型：DateTime
     			/// </summary>
     			public static WeiSha.Data.Field Rc_LimitEnd = new WeiSha.Data.Field<RechargeCode>("Rc_LimitEnd");
+    			
+    			/// <summary>
+    			/// 字段名：Rc_QrcodeBase64 - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Rc_QrcodeBase64 = new WeiSha.Data.Field<RechargeCode>("Rc_QrcodeBase64");
     		}
     	}
     }
-    

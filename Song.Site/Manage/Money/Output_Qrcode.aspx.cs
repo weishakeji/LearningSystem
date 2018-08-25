@@ -8,30 +8,23 @@ using Song.ServiceInterfaces;
 using WeiSha.Common;
 using System.IO;
 
-namespace Song.Site.Manage.Card
+namespace Song.Site.Manage.Money
 {
     public partial class Output_Qrcode : Extend.CustomPage
     {
-        //学习卡设置项的id
+        //充值卡设置项的id
         private int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
         protected Song.Entities.Organization org;       
 
         protected void Page_Load(object sender, EventArgs e)
         {
             org = Business.Do<IOrganization>().OrganCurrent();
-            Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(id);
+            Song.Entities.RechargeSet set = Business.Do<IRecharge>().RechargeSetSingle(id);
             this.EntityBind(set);
-            if (set != null) this.Title += set.Lcs_Theme;            
-
-            //当前学习卡关联的课程
-            Song.Entities.Course[] courses = Business.Do<ILearningCard>().CoursesGet(set);
-            if (courses != null)
-            {
-                dlCourses.DataSource = courses;
-                dlCourses.DataBind();                
-            }
-            //当前学习卡的编码
-            Song.Entities.LearningCard[] cards = Business.Do<ILearningCard>().CardCount(-1, set.Lcs_ID, true, null, -1);
+            if (set != null) this.Title += set.Rs_Theme; 
+            
+            //当前充值卡的编码
+            Song.Entities.RechargeCode[] cards = Business.Do<IRecharge>().RechargeCodeCount(-1, set.Rs_ID, true, null, -1);
             if (cards != null)
             {
                 //生成二维码的配置
@@ -46,8 +39,8 @@ namespace Song.Site.Manage.Card
                 string domain = this.Request.Url.Scheme + "://" + this.Request.Url.Host + ":" + this.Request.Url.Port;
                 for (int i = 0; i < cards.Length; i++)
                 {
-                    if (cards[i].Lc_IsUsed) continue;
-                    qrcodes[i] = string.Format(url, domain, cards[i].Lc_Code, cards[i].Lc_Pw);
+                    if (cards[i].Rc_IsUsed) continue;
+                    qrcodes[i] = string.Format(url, domain, cards[i].Rc_Code, cards[i].Rc_Pw);
                 }
                 //批量生成二维码
                 System.Drawing.Image[] images = WeiSha.Common.QrcodeHepler.Encode(qrcodes, 200, centerImg, color, "#fff");
@@ -55,10 +48,10 @@ namespace Song.Site.Manage.Card
                 {
                     if (images[i] == null)
                     {
-                        cards[i].Lc_QrcodeBase64 = lbUsedImg.Text;
+                        cards[i].Rc_QrcodeBase64 = lbUsedImg.Text;
                         continue;
                     }
-                    cards[i].Lc_QrcodeBase64 = "data:image/JPG;base64," + WeiSha.Common.Images.ImageTo.ToBase64(images[i]);
+                    cards[i].Rc_QrcodeBase64 = "data:image/JPG;base64," + WeiSha.Common.Images.ImageTo.ToBase64(images[i]);
                 }
                 rtpCode.DataSource = cards;
                 rtpCode.DataBind();

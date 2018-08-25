@@ -33,6 +33,7 @@
     <span style="display: none">
         <asp:Label ID="lbUrl" runat="server" Text="{0}/mobile/Learningcard.ashx?code={1}&pw={2}"></asp:Label>
         <asp:Label ID="lbUsedImg" runat="server" Text="../images/used.png"></asp:Label></span>
+    <div class="qrcode-area">
     <dl class="qrcode">
         <asp:Repeater ID="rtpCode" runat="server">
             <ItemTemplate>
@@ -40,10 +41,11 @@
                     <div class="code">
                         <%# Eval("Lc_Code")%>-<%# Eval("Lc_Pw")%></div>
                     <img src='<%# Eval("Lc_QrcodeBase64","{0}") %>' />
+                    <div class="info">学习卡-<%= org.Org_Name %></div>
                 </dd>
             </ItemTemplate>
         </asp:Repeater>
-    </dl>
+    </dl></div>
     </form>
 </body>
 </html>

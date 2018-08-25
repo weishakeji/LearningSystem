@@ -10,63 +10,78 @@
 namespace Song.Site.Manage.Money {
     
     
-    public partial class RechargeSet_Code {
+    public partial class Output_Qrcode {
         
         /// <summary>
-        /// tbCode 控件。
+        /// form1 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tbCode;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// btnSearch 控件。
+        /// Rs_Theme 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSearch;
+        protected global::System.Web.UI.WebControls.Literal Rs_Theme;
         
         /// <summary>
-        /// GridView1 控件。
+        /// Rs_Price 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::WeiSha.WebControl.GridView GridView1;
+        protected global::System.Web.UI.WebControls.Literal Rs_Price;
         
         /// <summary>
-        /// Pager1 控件。
+        /// Rs_LimitStart 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::Song.Site.Manage.Utility.Pager2 Pager1;
+        protected global::System.Web.UI.WebControls.Label Rs_LimitStart;
         
         /// <summary>
-        /// CloseButton1 控件。
+        /// Rs_LimitEnd 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::WeiSha.WebControl.CloseButton CloseButton1;
+        protected global::System.Web.UI.WebControls.Label Rs_LimitEnd;
         
         /// <summary>
-        /// Master 属性。
+        /// lbUrl 控件。
         /// </summary>
         /// <remarks>
-        /// 自动生成的属性。
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        public new Song.Site.Manage.PageWin Master {
-            get {
-                return ((Song.Site.Manage.PageWin)(base.Master));
-            }
-        }
+        protected global::System.Web.UI.WebControls.Label lbUrl;
+        
+        /// <summary>
+        /// lbUsedImg 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbUsedImg;
+        
+        /// <summary>
+        /// rtpCode 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rtpCode;
     }
 }

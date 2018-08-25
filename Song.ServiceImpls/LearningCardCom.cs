@@ -537,6 +537,18 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<LearningCard>()
                 .Where(wc).OrderBy(LearningCard._.Lc_CrtTime.Desc).ToArray<LearningCard>(size, (index - 1) * size);
         }
+        public LearningCard[] CardPager(int orgid, int lcsid, string code, bool? isEnable, bool? isUsed, int size, int index, out int countSum)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= LearningCard._.Org_ID == orgid;
+            if (lcsid > 0) wc &= LearningCard._.Lcs_ID == lcsid;
+            if (!string.IsNullOrWhiteSpace(code)) wc &= LearningCard._.Lc_Code.Like("%" + code + "%");
+            if (isEnable != null) wc &= LearningCard._.Lc_IsEnable == isEnable;
+            if (isUsed != null) wc &= LearningCard._.Lc_IsUsed == isUsed;
+            countSum = Gateway.Default.Count<LearningCard>(wc);
+            return Gateway.Default.From<LearningCard>()
+                .Where(wc).OrderBy(LearningCard._.Lc_CrtTime.Desc).ToArray<LearningCard>(size, (index - 1) * size);
+        }
         #endregion
 
         #region 充值码生成

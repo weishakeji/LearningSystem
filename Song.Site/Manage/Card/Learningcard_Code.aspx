@@ -10,8 +10,8 @@
     <div class="topbar">
         <a href="output_excel.aspx?id=<%= id %>" target="_blank">导出Excel</a> <a href="output_qrcode.aspx?id=<%= id %>" target="_blank">导出二维码</a>
         <div class="top-right">
-            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
-            <asp:Button ID="Button1" runat="server" Text="查询" />
+            <asp:TextBox ID="tbCode" runat="server"></asp:TextBox>
+            <asp:Button ID="btnSearch" runat="server" Text="查询" onclick="btnSearch_Click" />
         </div>
     </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
@@ -26,9 +26,9 @@
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="40px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="充值码-密码">
+            <asp:TemplateField HeaderText="学习卡-密码">
                 <ItemTemplate>
-                    <%# Eval("Lc_Code", "{0}")%>
+                    <span class="code"><%# Eval("Lc_Code", "{0}")%></span>
                     -
                     <%# Eval("Lc_Pw", "{0}")%>
                 </ItemTemplate>

@@ -7,6 +7,13 @@
 <%@ Register Src="../Utility/Pager2.ascx" TagName="Pager" TagPrefix="uc2" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
+<div class="topbar">
+        <a href="RechargeCode_Output.aspx?id=<%= id %>"  target="_blank">导出Excel</a> <a href="output_qrcode.aspx?id=<%= id %>" target="_blank">导出二维码</a>
+        <div class="top-right">
+             <asp:TextBox ID="tbCode" runat="server"></asp:TextBox>
+            <asp:Button ID="btnSearch" runat="server" Text="查询" onclick="btnSearch_Click" />
+        </div>
+    </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
         ShowSelectBox="false">
         <EmptyDataTemplate>
@@ -21,7 +28,7 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="充值码-密码">
                 <ItemTemplate>
-                    <%# Eval("Rc_Code", "{0}")%> - <%# Eval("Rc_Pw", "{0}")%>
+                    <span class="code"><%# Eval("Rc_Code", "{0}")%></span> - <%# Eval("Rc_Pw", "{0}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" />
             </asp:TemplateField>

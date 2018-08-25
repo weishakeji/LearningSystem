@@ -142,6 +142,7 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         RechargeCode[] RechargeCodePager(int orgid, int rsid, bool? isEnable, bool? isUsed, int size, int index, out int countSum);
+        RechargeCode[] RechargeCodePager(int orgid, int rsid, string code, bool? isEnable, bool? isUsed, int size, int index, out int countSum);
         #endregion
     }
 }

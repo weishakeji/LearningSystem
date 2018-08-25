@@ -234,6 +234,7 @@
     <Content Include="Manage\Card\Output_Excel.aspx" />
     <Content Include="Manage\Card\Scripts\Learningcard_Edit.js" />
     <Content Include="Manage\Card\Scripts\Learningcard_Courses.js" />
+    <Content Include="Manage\Card\Scripts\Learningcard_Code.js" />
     <Content Include="Manage\Card\Styles\Learningcard_Edit.css" />
     <Content Include="Manage\Card\Learningcard_Courses.aspx" />
     <Content Include="Manage\Card\Styles\Learningcard_Courses.css" />
@@ -322,12 +323,15 @@
     <Content Include="Manage\Images\used.png" />
     <Content Include="Manage\Money\Details.aspx" />
     <Content Include="Manage\Money\Details_View.aspx" />
+    <Content Include="Manage\Money\Output_Qrcode.aspx" />
     <Content Include="Manage\Money\RechargeCode_Output.aspx" />
     <Content Include="Manage\Money\RechargeSet.aspx" />
     <Content Include="Manage\Money\RechargeSet_Code.aspx" />
     <Content Include="Manage\Money\RechargeSet_Edit.aspx" />
+    <Content Include="Manage\Money\Scripts\RechargeSet_Code.js" />
     <Content Include="Manage\Money\Styles\Details.css" />
     <Content Include="Manage\Money\Styles\Details_View.css" />
+    <Content Include="Manage\Money\Styles\Output_Qrcode.css" />
     <Content Include="Manage\Money\Styles\RechargeSet_Code.css" />
     <Content Include="Manage\Panel\Dir.aspx" />
     <Content Include="Manage\Panel\Styles\Authorization.css" />
@@ -2401,6 +2405,13 @@
     </Compile>
     <Compile Include="Manage\Money\Details_View.aspx.designer.cs">
       <DependentUpon>Details_View.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Money\Output_Qrcode.aspx.cs">
+      <DependentUpon>Output_Qrcode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Money\Output_Qrcode.aspx.designer.cs">
+      <DependentUpon>Output_Qrcode.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Money\RechargeCode_Output.aspx.cs">
       <DependentUpon>RechargeCode_Output.aspx</DependentUpon>
@@ -6494,7 +6505,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
-    <Folder Include="Manage\Money\Scripts\" />
     <Folder Include="Manage\Utility\kindeditor\attached\" />
     <Folder Include="Upload\" />
     <Folder Include="Utility\Images\Mobi\" />
