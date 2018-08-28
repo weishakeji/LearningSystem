@@ -46,8 +46,8 @@ form{
 .price{
 	
 }
-.price span{
-	margin-right:30px;
+span.box{
+	margin-right:50px;
 }
 #btnPrint{
 	padding-left:10px;

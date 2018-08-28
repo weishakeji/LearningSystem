@@ -40,22 +40,22 @@ namespace Song.Site.Manage.Card {
         protected global::System.Web.UI.WebControls.Literal Lcs_Price;
         
         /// <summary>
-        /// Lcs_Span 控件。
+        /// Lcs_Count 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal Lcs_Span;
+        protected global::System.Web.UI.WebControls.Literal Lcs_Count;
         
         /// <summary>
-        /// Lcs_Unit 控件。
+        /// Lsc_UsedCount 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal Lcs_Unit;
+        protected global::System.Web.UI.WebControls.Literal Lsc_UsedCount;
         
         /// <summary>
         /// Lcs_LimitStart 控件。
@@ -76,6 +76,24 @@ namespace Song.Site.Manage.Card {
         protected global::System.Web.UI.WebControls.Label Lcs_LimitEnd;
         
         /// <summary>
+        /// Lcs_Span 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Lcs_Span;
+        
+        /// <summary>
+        /// Lcs_Unit 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Lcs_Unit;
+        
+        /// <summary>
         /// dlCourses 控件。
         /// </summary>
         /// <remarks>
@@ -83,6 +101,15 @@ namespace Song.Site.Manage.Card {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.DataList dlCourses;
+        
+        /// <summary>
+        /// Lcs_Intro 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Lcs_Intro;
         
         /// <summary>
         /// lbUrl 控件。
