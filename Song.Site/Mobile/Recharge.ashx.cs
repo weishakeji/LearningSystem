@@ -5,6 +5,7 @@ using System.Web;
 using WeiSha.Common;
 using Song.ServiceInterfaces;
 using Song.Extend;
+using System.IO;
 namespace Song.Site.Mobile
 {
     /// <summary>
@@ -17,11 +18,6 @@ namespace Song.Site.Mobile
         {
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
-                if (!Extend.LoginState.Accounts.IsLogin)
-                {
-                    this.Response.Redirect("login.ashx");
-                    return;
-                }
                 //支付接口
                 interFaceList();   
             }
@@ -36,11 +32,48 @@ namespace Song.Site.Mobile
                     case "paycard":
                         veriMoneyCode(context);
                         break;
+                    case "decode_qrcode":
+                        decode_qrcode(context);
+                        break;
                 }
             }   
                 
            
         }
+        #region 解析二维码
+        /// <summary>
+        /// 解析二维码
+        /// </summary>
+        /// <param name="context"></param>
+        private void decode_qrcode(HttpContext context)
+        {
+            string ret = string.Empty;
+            if (context.Request.Files.Count > 0)
+            {
+                try
+                {
+                    HttpPostedFile file = context.Request.Files[0];
+                    //文件流转二进制
+                    Stream stream = file.InputStream;
+                    byte[] photo = new byte[file.ContentLength];
+                    stream.Read(photo, 0, file.ContentLength);
+                    stream.Close();
+                    //二进制转图片对象
+                    System.IO.MemoryStream ms = new System.IO.MemoryStream(photo);
+                    System.Drawing.Image img = System.Drawing.Image.FromStream(ms);
+                    //解析二维码
+                    ret = WeiSha.Common.QrcodeHepler.Decode(img);
+                }
+                catch
+                {
+                }
+            }
+            //
+            context.Response.Write(ret);
+            context.Response.End();
+
+        }
+        #endregion
 
         #region 验证充值码
         /// <summary>

@@ -17,6 +17,7 @@
     <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
       <div class="mui-scroll">
         <ul class="mui-table-view">
+        <vt:if var="Account.Ac_ID" value="0" compare=">"> 
           <li class="mui-table-view-cell mui-media"> <a href="javascript:;">
             <vt:if var="Account.Ac_photo" value="" compare="="> <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/>
               <vt:else/>
@@ -31,6 +32,12 @@
                 （账号：{$:#.Account.Ac_accname} ） </p>
             </div>
             </a> </li>
+             <vt:else/>
+              <li class="mui-table-view-cell mui-media">
+               <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/>未登录
+                <p class='mui-ellipsis' id="nologin"><a href="login.ashx" type="link">点击此处登录</a></p>
+              </li>
+            </vt:if>
         </ul>
         <!--学员个人信息（结束），如头像-->
         
@@ -46,7 +53,7 @@
               <div class="mui-input-row txt"> 格式为“充值码-密码”，破折号不可缺少 </div>
               <div class="mui-input-row txt"  style="display:none"> <input id="upload_qrcode" type="file" accept="image/*;" capture="user" > </div>
               <div class="mui-button-row">
-              <div id="btn_camera">二维码</div>  <button class="mui-btn mui-btn-primary enter" id="btnPayCard" type="submit"  verify="true"  data-loading-text="提交中"   group="code">充 值</button>
+              <div id="btn_camera"><img src="Images/qrcode.png">二维码</div>  <button class="mui-btn mui-btn-primary enter" id="btnPayCard" type="submit"  verify="true"  data-loading-text="提交中"   group="code">充 值</button>
               </div>
             </form>
           </div>

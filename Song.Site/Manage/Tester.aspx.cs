@@ -51,12 +51,12 @@ namespace Song.Site.Manage
         {
             //二维码图片对象
             System.Drawing.Image image = null;
-            string url = "{0}/mobile/Learningcard.ashx?code={1}&pw={2}";
+            string url = "微厦";
             string domain = this.Request.Url.Scheme + "://" + this.Request.Url.Host + ":" + this.Request.Url.Port;
             url = string.Format(url, domain, "", "");
-            image = WeiSha.Common.QrcodeHepler.Encode(url, 200, "#ccc", "#fff");
+            image = WeiSha.Common.QrcodeHepler.Encode(url, 15, "#000", "#fff");
 
-            image = Rounded(image, null);
+            //image = Rounded(image, null);
             //将image转为base64
             string base64 = WeiSha.Common.Images.ImageTo.ToBase64(image);
             return "data:image/JPG;base64," + base64;
