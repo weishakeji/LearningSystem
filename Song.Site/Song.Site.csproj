@@ -668,14 +668,17 @@
     <Content Include="Templates\Mobi\Default\Images\btnBack.jpg" />
     <Content Include="Templates\Mobi\Default\Images\cou-nophoto.png" />
     <Content Include="Templates\Mobi\Default\Images\line.jpg" />
+    <Content Include="Templates\Mobi\Default\Images\load_015.gif" />
     <Content Include="Templates\Mobi\Default\Images\load_016.gif" />
     <Content Include="Templates\Mobi\Default\Images\load_024.gif" />
     <Content Include="Templates\Mobi\Default\Images\news-ico.png" />
+    <Content Include="Templates\Mobi\Default\Images\nophoto.gif" />
     <Content Include="Templates\Mobi\Default\Images\nophoto.jpg" />
     <Content Include="Templates\Mobi\Default\Images\ok.gif" />
     <Content Include="Templates\Mobi\Default\Images\ok1.png" />
     <Content Include="Templates\Mobi\Default\Images\ok2.gif" />
     <Content Include="Templates\Mobi\Default\Images\QQ-weixin.png" />
+    <Content Include="Templates\Mobi\Default\Images\qrcode.png" />
     <Content Include="Templates\Mobi\Default\Images\sun_star.gif" />
     <Content Include="Templates\Mobi\Default\Images\testpaper.jpg" />
     <Content Include="Templates\Mobi\Default\Images\tk_exam.png" />
