@@ -96,3 +96,11 @@ label{
 	width:160px !important;
 	margin-left:0px !important;
 }
+#btn_camera{
+	margin-left: 30px;
+	color: #F00;
+	float:left;
+	line-height:40px;
+	display:block;
+	cursor:pointer;
+}

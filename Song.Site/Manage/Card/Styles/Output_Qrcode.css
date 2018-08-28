@@ -3,19 +3,26 @@
  size: A4 portrait;
  margin:2cm;
 }
-@media print
-{
- #btnPrint{
-	 display:none;
- }
-
+@media print {
+#btnPrint {
+	display: none;
+}
+body {
+	size: A4 portrait;
+	margin: 0px;
+}
+dl.qrcode dd {
+	orphans: 3;
+	widows: 2;
+	page-break-inside:avoid;
+}
 }
 @media all {
 body{
 	text-align:center;
 }
 body,div,td,p{
-	font-size:16px;
+	font-size: 18px;
 }
 .page {
 	page-break-inside: avoid;
@@ -29,8 +36,8 @@ form{
 }
 .theme{
 	text-align:center;
-	font-size:18px;
-	line-height:40px;
+	font-size:25px;
+	line-height:50px;
 	margin-top:10px;
 }
 .row{

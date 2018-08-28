@@ -40,6 +40,24 @@ namespace Song.Site.Manage.Money {
         protected global::System.Web.UI.WebControls.Literal Rs_Price;
         
         /// <summary>
+        /// Rs_Count 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Rs_Count;
+        
+        /// <summary>
+        /// Rs_UsedCount 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Rs_UsedCount;
+        
+        /// <summary>
         /// Rs_LimitStart 控件。
         /// </summary>
         /// <remarks>
@@ -56,6 +74,15 @@ namespace Song.Site.Manage.Money {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Rs_LimitEnd;
+        
+        /// <summary>
+        /// Rs_Intro 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal Rs_Intro;
         
         /// <summary>
         /// lbUrl 控件。

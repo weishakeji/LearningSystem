@@ -1,9 +1,18 @@
 ﻿$(function () {
-    pay_card();    
+    //充值码的二维码
+    var code = $().getPara("code");
+    var pw = $().getPara("pw");
+    if ($.trim(code) != "" && $.trim(pw) != "") {
+        $("$tbCard").val(code+"-"+pw);
+    }
+    $('#btn_camera').on('tap', function () {
+        $("#upload_qrcode").click();
+    });
+    pay_card();
 });
 window.onload = function () {
     pay_scene();
-	pay_onlineStyle();
+    pay_onlineStyle();
 };
 //充值卡充值
 function pay_card() {
@@ -60,7 +69,7 @@ function pay_scene() {
         //如果处在微信中
         if (isweixin) {
             if (arr[0] != "weixin" || arr[1] == "h5") $(this).remove();
-            if (ismini && arr[1] != "mini") $(this).remove();            
+            if (ismini && arr[1] != "mini") $(this).remove();
             if (!ismini && arr[1] == "mini") $(this).remove();
         } else {
             //如果不在微信中，且该接口仅限微信使用，则不显示

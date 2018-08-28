@@ -44,8 +44,9 @@
                 <input name="tbCard" id="tbCard" value="" type="text"  class="textbox" nullable="false" regex="\d+(\s|)-(\s|)\d+"  group="code" />
               </div>
               <div class="mui-input-row txt"> 格式为“充值码-密码”，破折号不可缺少 </div>
+              <div class="mui-input-row txt"  style="display:none"> <input id="upload_qrcode" type="file" accept="image/*;" capture="user" > </div>
               <div class="mui-button-row">
-                <button class="mui-btn mui-btn-primary enter" id="btnPayCard" type="submit"  verify="true"  data-loading-text="提交中"   group="code">充 值</button>
+              <div id="btn_camera">二维码</div>  <button class="mui-btn mui-btn-primary enter" id="btnPayCard" type="submit"  verify="true"  data-loading-text="提交中"   group="code">充 值</button>
               </div>
             </form>
           </div>

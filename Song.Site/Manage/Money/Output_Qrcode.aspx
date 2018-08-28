@@ -13,15 +13,20 @@
     </div>
     <div class="price row">
         <span>面额：<asp:Literal ID="Rs_Price" runat="server"></asp:Literal>元</span> 
+        <span>数量：<asp:Literal ID="Rs_Count" runat="server"></asp:Literal>张</span> 
+        <span>使用：<asp:Literal ID="Rs_UsedCount" runat="server"></asp:Literal>张</span> 
     </div>
     <div class="row">
         <span>有效期：<asp:Label ID="Rs_LimitStart" runat="server" Format="yyyy-MM-dd"></asp:Label>
             至
             <asp:Label ID="Rs_LimitEnd" runat="server" Format="yyyy-MM-dd"></asp:Label></span>
+            <input id="btnPrint" type="button" value="打印" onclick="window.print();" />
     </div>
-
+ <div class="row">
+ 简述：<asp:Literal ID="Rs_Intro" runat="server"></asp:Literal>
+ </div>
     <span style="display: none">
-        <asp:Label ID="lbUrl" runat="server" Text="{0}/mobile/Learningcard.ashx?code={1}&pw={2}"></asp:Label>
+        <asp:Label ID="lbUrl" runat="server" Text="{0}/mobile/recharge.ashx?code={1}&pw={2}"></asp:Label>
         <asp:Label ID="lbUsedImg" runat="server" Text="../images/used.png"></asp:Label></span>
     <div class="qrcode-area">
     <dl class="qrcode">
