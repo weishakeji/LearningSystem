@@ -51,6 +51,7 @@ function pay_card() {
 //二维码解析
 function qrcode_Decode() {
     $("#upload_qrcode").change(function (e) {
+		setLoading($("#btn_camera img"),"loading");
         var files = e.target.files;
         if (files && files.length > 0) {
             var form = new FormData();
@@ -73,12 +74,22 @@ function qrcode_Decode() {
                     }else{
 						mui.toast("无法解析二维码", { duration: 2000, type: 'div' });
 					}
+					setLoading($("#btn_camera img"),"normal");
                 }
             });
         }
     });
 }
-
+//设置图片预载状态
+//state: loading,或normal
+function setLoading(el,state){
+	var file=el.attr(state);
+	var path=el.attr("src");
+	if(path.indexOf("/")>-1){
+		path=path.substring(0,path.lastIndexOf("/")+1);
+	}
+	el.attr("src",path+file);
+}
 /*******
 支付接口
 */
