@@ -79,27 +79,41 @@ gallery.slider({
               {$:m.nav_name} </span> </a> </vt:foreach>
           </div>
         </vt:if>
-        <vt:if var="#.currCourse.cou_name" value="" compare="!="> 
-          <!--当前课程-->
-          <ul class="mui-table-view">
-            <li class="mui-table-view-cell  curr-box"> <a class="mui-navigate-right" href="CoursePage.ashx" type="link">
-              <vt:if var="#.currCourse.cou_LogoSmall" value="" compare="="> <svg class="icon cou-ico" aria-hidden="true">
-                <use xlink:href="#icon-objects-color_diamond"></use>
-                </svg>
-                <vt:else />
-                <img class="mui-media-object mui-pull-left curr-logo" error="images/cou-nophoto.png" src="{$currCourse.Cou_LogoSmall}"/> </vt:if>
-              《{$currCourse.cou_name}》 </a></li>
-          </ul>
-          <vt:else />
-          <ul class="mui-table-view">
-            <li class="mui-table-view-cell  curr-box"> <a class="mui-navigate-right" href="selfcourse.ashx" type="link"> <svg class="icon cou-ico" aria-hidden="true">
-              <use xlink:href="#icon-blackboard-2"></use>
-              </svg> 请选择要学习的课程！ </a></li>
-          </ul>
-        </vt:if>
+        <div class="mui-card"> 
+          <!--页眉，放置标题-->
+          <div class="mui-card-header"><a class="mui-navigate-right" href="selfcourse.ashx" type="link"> <svg class="icon cou-ico" aria-hidden="true">
+            <use xlink:href="#icon-blackboard-2"></use>
+            </svg> 我的课程 </a></div>
+          <!--内容区-->
+          <div class="mui-card-content">
+           <vt:function var="path" method="Path" args="Course"/>
+            <vt:if var="#.currCourse.cou_name" value="" compare="!=">
+              <li class="mui-table-view-cell  curr-box"> <a class="mui-navigate" href="CoursePage.ashx" type="link">
+                <vt:if var="#.currCourse.cou_LogoSmall" value="" compare="="> <svg class="icon cou-ico" aria-hidden="true">
+                  <use xlink:href="#icon-objects-color_diamond"></use>
+                  </svg>
+                  <vt:else />
+                  
+                  <img class="mui-media-object mui-pull-left curr-logo" error="images/cou-nophoto.png" src="{$path}{$currCourse.Cou_LogoSmall}"/> </vt:if>
+                《{$currCourse.cou_name}》 </a></li>
+            </vt:if>
+             <vt:foreach from="$#.buyCou" item="c" count="3" id="buyCou" remark="已经购买的课程">
+              <vt:if var="#.currCourse.Cou_ID" value="$c.Cou_ID" compare="!=">
+             <li class="mui-table-view-cell  curr-box"> <a class="mui-navigate" href="CoursePage.ashx?couid={$c.cou_id}" type="link">
+                <vt:if var="c.cou_LogoSmall" value="" compare="="> <svg class="icon cou-ico" aria-hidden="true">
+                  <use xlink:href="#icon-objects-color_diamond"></use>
+                  </svg>
+                  <vt:else />
+                  <img class="mui-media-object mui-pull-left curr-logo" error="images/cou-nophoto.png" src="{$path}{$c.Cou_LogoSmall}"/> </vt:if>
+                《{$c.cou_name}》 </a></li>
+                </vt:if>
+             </vt:foreach>
+          </div>
+        </div>
+        
         <!--主按钮区-->
         <div class="btnArea">
-          <div class="btnLeft"> <a class="blue" href="courses.ashx" type="link">课程中心</a> <a class="gray" href="exam.ashx" type="link">在线考试</a> <a class="red" href="CouponExchange.ashx" type="link">积分兑换</a> <a class="yellow" href="selfcourse.ashx" type="link">学习卡</a> <a class="btnRow green" href="recharge.ashx" type="link">充   值</a> </div>
+          <div class="btnLeft"> <a class="blue" href="courses.ashx" type="link">课程中心</a> <a class="gray" href="exam.ashx" type="link">在线考试</a> <a class="red" href="CouponExchange.ashx" type="link">积分兑换</a> <a class="yellow" href="LearningCard.ashx" type="link">学习卡</a> <a class="btnRow green" href="recharge.ashx" type="link">充   值</a> </div>
           <div class="btnRight">
             <vt:if var="Account.Ac_id" value="0" compare=">"> 
               <!--如果已经登录-->
@@ -108,7 +122,6 @@ gallery.slider({
                   <vt:else/>
                   <a class="" href="SelfInfo.ashx" > <img src="{$stpath}{$:#.Account.Ac_photo}" error="images/nophoto.jpg"/></a> </vt:if>
               </div>
-              
               <div class="rightButtom"> <a href="SelfInfo.ashx" type="link">{$Account.Ac_name}</a></div>
               <vt:else/>
               <!--如果未登录--> 
@@ -120,9 +133,9 @@ gallery.slider({
               <img src="Images/nophoto.jpg" class="accDefPhoto"/>
               <div class="rightButtom"> <a href="login.ashx" type="link">登录</a> &nbsp; <a href="Register.ashx" type="link">注册</a></div>
             </vt:if>
-             <script type="text/javascript">
+            <script type="text/javascript">
 			 $(".accDefPhoto").height($(".accDefPhoto").width());
-			 </script>
+			 </script> 
           </div>
         </div>
         <!--通知公告-->

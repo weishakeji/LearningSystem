@@ -185,7 +185,6 @@ namespace Song.Site.Mobile
                 var property = acc.GetType().GetProperty(pi.Name);
                 object tm = string.IsNullOrEmpty(value) ? null : WeiSha.Common.DataConvert.ChangeType(value, property.PropertyType);
                 property.SetValue(acc, tm, null);
-
             }
             return acc;
         }

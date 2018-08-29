@@ -759,6 +759,7 @@
     <Content Include="Templates\Mobi\Default\Scripts\CoursePage.js" />
     <Content Include="Templates\Mobi\Default\Scripts\CouponExchange.js" />
     <Content Include="Templates\Mobi\Default\Scripts\PointDetails.js" />
+    <Content Include="Templates\Mobi\Default\Scripts\LearningCard.js" />
     <Content Include="Templates\Mobi\Default\SelfCourse.htm" />
     <Content Include="Templates\Mobi\Default\SelfInfo.htm" />
     <Content Include="Templates\Mobi\Default\SelfPw.htm" />
@@ -822,6 +823,7 @@
     <Content Include="Templates\Mobi\Default\Styles\CoursePage.css" />
     <Content Include="Templates\Mobi\Default\Styles\CouponExchange.css" />
     <Content Include="Templates\Mobi\Default\Styles\PointDetails.css" />
+    <Content Include="Templates\Mobi\Default\Styles\LearningCard.css" />
     <Content Include="Templates\Mobi\Default\Subordinates.htm" />
     <Content Include="Templates\Mobi\Default\Swipe.htm" />
     <Content Include="Templates\Mobi\Default\Teacher.htm" />
@@ -839,6 +841,7 @@
     <Content Include="Templates\Mobi\Default\CoursePage.htm" />
     <Content Include="Templates\Mobi\Default\CouponExchange.htm" />
     <Content Include="Templates\Mobi\Default\PointDetails.htm" />
+    <Content Include="Templates\Mobi\Default\LearningCard.htm" />
     <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
     <Content Include="Templates\Mobi\_Public\Images\load_023.gif" />
     <Content Include="Templates\Mobi\_Public\Images\load_027.gif" />
@@ -3052,6 +3055,10 @@
     </Compile>
     <Compile Include="Mobile\CoursePage.ashx.cs">
       <DependentUpon>CoursePage.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\LearningCard.ashx.cs">
+      <DependentUpon>LearningCard.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewsList.ashx.cs">
@@ -6144,6 +6151,7 @@
     <Content Include="Ajax\LogForStudentQuestions.ashx" />
     <Content Include="Mobile\CouponExchange.ashx" />
     <Content Include="Mobile\PointDetails.ashx" />
+    <Content Include="Mobile\LearningCard.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
