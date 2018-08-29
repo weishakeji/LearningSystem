@@ -5,6 +5,7 @@ using System.Web;
 using WeiSha.Common;
 using Song.ServiceInterfaces;
 using Song.Extend;
+using System.Reflection;
 
 namespace Song.Site.Mobile
 {
@@ -103,12 +104,9 @@ namespace Song.Site.Mobile
         {
             string vname = WeiSha.Common.Request.Form["vname"].String;
             string imgCode = WeiSha.Common.Request.Cookies[vname].ParaValue;    //取图片验证码
-            string userCode = WeiSha.Common.Request.Form["vcode"].MD5;  //取输入的验证码
-            string phone = WeiSha.Common.Request.Form["phone"].String;  //输入的手机号
-            string sms = WeiSha.Common.Request.Form["sms"].MD5;  //输入的短信验证码
-            string pw = WeiSha.Common.Request.Form["pw"].MD5;    //密码
-            string name = WeiSha.Common.Request.Form["name"].String;     //姓名
-            string email = WeiSha.Common.Request.Form["email"].String;     //邮箱
+            string userCode = WeiSha.Common.Request.Form["tbCode"].MD5;  //取输入的验证码
+            string phone = WeiSha.Common.Request.Form["Ac_MobiTel1"].String;  //输入的手机号
+            string sms = WeiSha.Common.Request.Form["tbSms"].MD5;  //输入的短信验证码          
             string rec = WeiSha.Common.Request.Form["rec"].String;  //推荐人的电话
             int recid = WeiSha.Common.Request.Form["recid"].Int32 ?? 0;  //推荐人的账户id
             //验证图片验证码
@@ -138,11 +136,8 @@ namespace Song.Site.Mobile
             {
                 //创建新账户
                 Song.Entities.Accounts tmp = new Entities.Accounts();
-                tmp.Ac_AccName = phone;
-                tmp.Ac_Pw = pw;
-                tmp.Ac_Name = name;
-                tmp.Ac_MobiTel1 = phone;
-                tmp.Ac_Email = email;
+                tmp = fillData(tmp);
+                tmp.Ac_AccName = tmp.Ac_MobiTel1;
                 //获取推荐人
                 Song.Entities.Accounts accRec = null;
                 if (!string.IsNullOrWhiteSpace(rec)) accRec = Business.Do<IAccounts>().AccountsSingle(rec, true, true);
@@ -168,6 +163,31 @@ namespace Song.Site.Mobile
                     Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"state\":\"0\"}");
                 }
             }
-        }     
+        }
+
+        /// <summary>
+        /// 将注册信息填充到实体
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <returns></returns>
+        private Song.Entities.Accounts fillData(Song.Entities.Accounts acc)
+        {
+            //遍历实体属性
+            Type info = acc.GetType();
+            PropertyInfo[] properties = info.GetProperties();
+            for (int j = 0; j < properties.Length; j++)
+            {
+                PropertyInfo pi = properties[j];
+                string value = WeiSha.Common.Request.Form[pi.Name].String;
+                if (pi.Name == "Ac_Pw") value = WeiSha.Common.Request.Form[pi.Name].MD5;
+                if (string.IsNullOrWhiteSpace(value)) continue;
+                //获取值，转的成属性的数据类型，并赋值
+                var property = acc.GetType().GetProperty(pi.Name);
+                object tm = string.IsNullOrEmpty(value) ? null : WeiSha.Common.DataConvert.ChangeType(value, property.PropertyType);
+                property.SetValue(acc, tm, null);
+
+            }
+            return acc;
+        }
     }
 }

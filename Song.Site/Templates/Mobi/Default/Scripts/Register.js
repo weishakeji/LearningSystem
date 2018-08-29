@@ -65,15 +65,15 @@ function _mobi_smsSend() {
     var vname = $("form img.verifyCode").attr("src");
     var rs = new RegExp("(^|)name=([^\&]*)(\&|$)", "gi").exec(vname), tmp;
     vname = tmp = rs ? rs[2] : "";
-    var phone = $("form input[name=tbPhone]").val(); //手机号
+    var phone = $("form input[name=Ac_MobiTel1]").val(); //手机号
     $("#getSms").attr("state", "waiting").text("验证中...").css("cursor", "default");
-    $.post(window.location.href, { action: "getSms", vcode: vcode, vname: vname, phone: phone }, function (requestdata) {
+    $.post(window.location.href, { action: "getSms", vcode: vcode, vname: vname, Ac_MobiTel1: phone }, function (requestdata) {
         var data = eval("(" + requestdata + ")");
         var state = Number(data.state); //状态值
         if (Number(data.success) < 1) {
             //不成功
             if (state == 1) Verify.ShowBox($("form input[name=tbCode]"), "验证码不正确！");
-            if (state == 2) Verify.ShowBox($("form input[name=tbPhone]"), "该手机号已经注册！");
+            if (state == 2) Verify.ShowBox($("form input[name=Ac_MobiTel1]"), "该手机号已经注册！");
             if (state == 3) {
                 var txt = "短信发送失败，请与管理员联系。<br/><br/>可能原因：<br/>1、短信接口未开放，或设置不正确。<br/>2、短信账户余额不足。";
                 txt += "<br/><br/>详情：" + data.desc;
@@ -100,51 +100,55 @@ function _mobi_smsSendWaiting() {
         obj.text("获取短信");
     }
 }
+
 //注册验证
 function _mobiRegister_veri(form, url) {
+    //构建表单数据
+    var formData = new FormData(document.querySelector("form#registerForm"));
+    formData.append("action", "mobiregister");
     //先验证验证码
     var vname = form.find("img.verifyCode").attr("src");
     var rs = new RegExp("(^|)name=([^\&]*)(\&|$)", "gi").exec(vname), tmp;
     vname = tmp = rs ? rs[2] : "";
-    var phone = form.find("input[name=tbPhone]").val(); //手机号
-    var pw = form.find("input[name=tbPw]").val();  	//密码
-	var name = form.find("input[name=tbName]").val();  	//姓名
-    var email = form.find("input[name=tbEmail]").val();  	//邮箱
-    var rec = form.find("input[name=tbRec]").val();  	//推荐人的电话，由用户填写
-    var recid = $.cookie("sharekeyid"); 					//推荐人的账号id，由系统自动获取
+    formData.append("vname", vname);
+    //推荐人的账号id，由系统自动获取
+    var recid = $().cookie("sharekeyid");
     if (recid == "") recid = $.storage("sharekeyid");
-    var vcode = form.find("input[name=tbCode]").val();  	//图片验证码
-    var sms = form.find("input[name=tbSms]").val(); //用户填写的短信验证码
-    //提交到服务器
-    $.post(url, { action: "mobiregister",
-        vcode: vcode, vname: vname,
-        phone: phone, pw: pw,name:name,
-        email: email, rec: rec,recid:recid,
-        sms: sms
-    },
-	function (requestdata) {
-	    var data = eval("(" + requestdata + ")");
-	    var state = Number(data.state); //状态值
-	    if (Number(data.success) < 1) {
-	        if (state == 1) Verify.ShowBox($("form input[name=tbCode]"), "验证码不正确！");
-			if (state == 2) Verify.ShowBox($("form input[name=tbPhone]"), "该手机号已经被注册！");
-	        if (state == 3) Verify.ShowBox($("form input[name=tbSms]"), "短信证码错误！");
-	        form.find("img.verifyCode").click();
-	        var btn = form.find("input[type=submit][name=btnSubmit]");
-	        btn.val("同意协议并注册").removeAttr("disabled", "disabled").removeClass("disabled").attr("state","");
-	    } else {
-	        $().cookie("sharekeyid", data.acid);
-	        $.storage("sharekeyid", data.acid);
-			 var txt = "亲爱的 <b>" + data.name + "</b>，您已经成功注册。";
-			if (state == 0)txt+="请等待审核。";
-	        txt += "<br/><br/>将在<second>5</second>秒后将返回首页。";
-	        var msg = new MsgBox("注册成功", txt, 80, 60, "msg");
-	        msg.ShowCloseBtn = false;
-	        msg.ShowCloseBtn = false;
-	        MsgBox.OverEvent = function () {
-	            window.location.href = $().setPara("Register.ashx?state=1", "sharekeyid", data.acid);
-	        };
-	        msg.Open();
-	    }
-	});
+    formData.append("recid", recid);
+    //
+    $.ajax({
+        url: url,
+        type: 'POST',
+        data: formData,                    // 上传formdata封装的数据
+        dataType: 'Text',
+        cache: false,                      // 不缓存
+        processData: false,                // jQuery不要去处理发送的数据
+        contentType: false,                // jQuery不要去设置Content-Type请求头
+        success: function (requestdata) {
+            var data = eval("(" + requestdata + ")");
+            var state = Number(data.state); //状态值
+            if (Number(data.success) < 1) {
+                if (state == 1) Verify.ShowBox($("form input[name=tbCode]"), "验证码不正确！");
+                if (state == 2) Verify.ShowBox($("form input[name=Ac_MobiTel1]"), "该手机号已经被注册！");
+                if (state == 3) Verify.ShowBox($("form input[name=tbSms]"), "短信证码错误！");
+                form.find("img.verifyCode").click();
+                var btn = form.find("input[type=submit][name=btnSubmit]");
+                btn.val("同意协议并注册").removeAttr("disabled", "disabled").removeClass("disabled").attr("state", "");
+            } else {
+                $().cookie("sharekeyid", data.acid);
+                $.storage("sharekeyid", data.acid);
+                var txt = "亲爱的 <b>" + data.name + "</b>，您已经成功注册。";
+                if (state == 0) txt += "请等待审核。";
+                txt += "<br/><br/>将在<second>5</second>秒后将返回首页。";
+                var msg = new MsgBox("注册成功", txt, 80, 60, "msg");
+                msg.ShowCloseBtn = false;
+                msg.ShowCloseBtn = false;
+                MsgBox.OverEvent = function () {
+                    window.location.href = $().setPara("Register.ashx?state=1", "sharekeyid", data.acid);
+                };
+                msg.Open();
+            }
+        }
+    });
+
 }

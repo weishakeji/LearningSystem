@@ -136,7 +136,7 @@ function _mobiRegister_veri(form, url) {
             var state = Number(data.state); //状态值
             if (Number(data.success) < 1) {
                 if (state == 1) Verify.ShowBox($("form input[type=text][name=tbCode]"), "验证码不正确！");
-                if (state == 2) Verify.ShowBox($("form input[type=text][name=tbPhone]"), "该手机号已经被注册！");
+                if (state == 2) Verify.ShowBox($("form input[type=text][name=Ac_MobiTel1]"), "该手机号已经被注册！");
                 if (state == 3) Verify.ShowBox($("form input[type=text][name=tbSms]"), "短信证码错误！");
                 form.find("img.verifyCode").click();
                 var btn = form.find("input[type=submit][name=btnSubmit]");
