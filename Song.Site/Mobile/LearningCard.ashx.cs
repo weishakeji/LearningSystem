@@ -18,8 +18,7 @@ namespace Song.Site.Mobile
         {
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
-                //支付接口
-                interFaceList();   
+                  
             }
             //
             //此页面的ajax提交，全部采用了POST方式
@@ -29,8 +28,8 @@ namespace Song.Site.Mobile
                 switch (action)
                 {
                         //验证充值码
-                    case "paycard":
-                        veriMoneyCode(context);
+                    case "getcard":
+                        useCode(context);
                         break;
                     case "decode_qrcode":
                         decode_qrcode(context);
@@ -75,40 +74,86 @@ namespace Song.Site.Mobile
         }
         #endregion
 
-        #region 验证充值码
+        #region 学习卡
         /// <summary>
-        /// 校验充值码
+        /// 使用学习卡
         /// </summary>
         /// <param name="context"></param>
-        private void veriMoneyCode(HttpContext context)
+        private void useCode(HttpContext context)
         {            
-            //充值码
-            string card = WeiSha.Common.Request.Form["card"].String;
+            //学习卡的编码与密钥
+            string code = WeiSha.Common.Request.Form["card"].String;
+            string json = "{\"state\":{0},\"info\":\"{1}\",\"items\":[";
             //没有传入充值码
-            if (string.IsNullOrWhiteSpace(card))
-            {
-                this.Response.Write("0");
-                this.Response.End();
-                return;
-            }           
-            //开始验证
-            try
-            {
-                Song.Entities.RechargeCode code = Business.Do<IRecharge>().CouponCheckCode(card);
-                if (code != null)
+            if (!string.IsNullOrWhiteSpace(code))
+            {               
+                try
                 {
-                    Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
-                    code.Ac_ID = st.Ac_ID;
-                    code.Ac_AccName = st.Ac_AccName;
-                    Business.Do<IRecharge>().CouponUseCode(code);
-                    Extend.LoginState.Accounts.Refresh(st.Ac_ID);
-                    this.Response.Write("1");
+                    //开始验证
+                    Song.Entities.LearningCard card = Business.Do<ILearningCard>().CardCheck(code);
+                    if (card != null)
+                    {
+                        Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
+                        if (st != null)
+                        {
+                            Business.Do<ILearningCard>().CardUse(card, st);
+                            Extend.LoginState.Accounts.Refresh(st.Ac_ID);
+                            //输出关联的课程
+                            Song.Entities.Course[] courses = Business.Do<ILearningCard>().CoursesForCard(card.Lc_Code, card.Lc_Pw);
+                            for (int i = 0; i < courses.Length; i++)
+                            {
+                                Song.Entities.Course c = courses[i];
+                                json += c.ToJson("Cou_ID,Cou_Name", null, null) + ",";
+                            }
+                            if (json.EndsWith(",")) json = json.Substring(0, json.Length - 1);
+                        }                       
+                    }
+                    json = string.Format(json, 1, "成功");
+                }
+                catch (Exception ex)
+                {
+                    json = string.Format(json, 0, ex.Message);                   
                 }
             }
-            catch (Exception ex)
+            json += "]}";
+            Response.Write(json);
+            this.Response.End();
+        }
+        /// <summary>
+        /// 将学习卡暂存名下
+        /// </summary>
+        /// <param name="context"></param>
+        private void getCode(HttpContext context)
+        {
+            //学习卡的编码与密钥
+            string code = WeiSha.Common.Request.Form["card"].String;
+            string json = "{\"state\":{0},\"info\":\"{1}\",\"items\":[";
+            //没有传入充值码
+            if (!string.IsNullOrWhiteSpace(code))
             {
-                this.Response.Write(ex.Message);
+                //开始验证
+                try
+                {
+                    Song.Entities.LearningCard card = Business.Do<ILearningCard>().CardCheck(code);
+                    if (card != null)
+                    {
+                        Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
+                        if (st != null)
+                        {
+                            Business.Do<ILearningCard>().CardGet(card, st);
+                            Extend.LoginState.Accounts.Refresh(st.Ac_ID);
+                            json = string.Format(json, 1, "成功");
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    json = string.Format(json, 0, ex.Message);     
+                }
             }
+           json += "]}";
+            Response.Write(json);
             this.Response.End();
         }
         /// <summary>
@@ -122,14 +167,6 @@ namespace Song.Site.Mobile
             return WeiSha.Common.Request.Page.AddPara(url, para);
         }
         #endregion
-
-        #region 在线支付接口
-        private void interFaceList()
-        {
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganRoot();
-            Song.Entities.PayInterface[] pis = Business.Do<IPayInterface>().PayAll(org.Org_ID, "mobi", true);
-            this.Document.Variables.SetValue("pis", pis);
-        }
-        #endregion
+  
     }
 }

@@ -1,5 +1,5 @@
 ﻿$(function () {
-    //充值码的二维码
+    //学习卡的二维码
     var code = $().getPara("code");
     var pw = $().getPara("pw");
     if ($.trim(code) != "" && $.trim(pw) != "") {
@@ -9,17 +9,15 @@
         $("#upload_qrcode").click();
     });
     qrcode_Decode();
-
-    //充值卡充值 
-    pay_card();
+    //学习卡使用的按钮事件
+    use_card();
 });
 window.onload = function () {
-    pay_scene();
-    pay_onlineStyle();
+   
 };
-//充值卡充值
-function pay_card() {
-    $("form#formPayCard").submit(function () {
+//学习卡充值
+function use_card() {
+    $("form#formCard").submit(function () {
         //判断是否登录
         var nologin = $("#nologin");
         if (nologin.size() > 0) {
@@ -34,10 +32,10 @@ function pay_card() {
         $.post(window.location.href, { action: "paycard", card: card }, function (data) {
             //充值成功
             if (data == "1") {
-                mui.toast('充值成功！', { duration: 500, type: 'div' });
+                mui.toast('使用成功！', { duration: 500, type: 'div' });
                 //弹出确认框
-                mui.alert("充值成功", function (e) {
-                    document.location.href = "Recharge.ashx";
+                mui.alert("成功", function (e) {
+                    document.location.href = "LearningCard.ashx";
                 });
             } else {
                 mui.toast(data, { duration: 2000, type: 'div' });
@@ -89,44 +87,4 @@ function setLoading(el,state){
 		path=path.substring(0,path.lastIndexOf("/")+1);
 	}
 	el.attr("src",path+file);
-}
-/*******
-支付接口
-*/
-//设置接口的样式
-function pay_onlineStyle() {
-    //初始样式，默认取第一个
-    var pai = $(".payitem:visible").first();
-    $("input[name=paiid]").val(pai.attr("paiid"));
-    $(".payitem").find(".ico").hide();
-    pai.find(".ico").show();
-    $("#pay-title #pay-api").text(pai.attr("painame"));
-    $("#pay-title #pay-img").attr("src", pai.find("img").attr("src"));
-    //当点击接口时
-    mui('body').on('tap', '.payitem', function () {
-        $("input[name=paiid]").val($(this).attr("paiid"));
-        $(".payitem").find(".ico").hide();
-        $(this).find(".ico").show().focus();
-        $("#pay-title #pay-api").text($(this).attr("painame"));
-        $("#pay-title #pay-img").attr("src", $(this).find("img").attr("src"));
-    });
-}
-//支付接口在不同场景下的显示
-function pay_scene() {
-    var isweixin = $().isWeixin(); 	//是否处于微信
-    var ismini = $().isWeixinApp(); //是否处于微信小程序
-    $(".payitem").each(function (index, element) {
-        var scene = $(this).attr("scene");
-        if ($.trim(scene) == "") return true;
-        var arr = scene.split(",");
-        //如果处在微信中
-        if (isweixin) {
-            if (arr[0] != "weixin" || arr[1] == "h5") $(this).remove();
-            if (ismini && arr[1] != "mini") $(this).remove();
-            if (!ismini && arr[1] == "mini") $(this).remove();
-        } else {
-            //如果不在微信中，且该接口仅限微信使用，则不显示
-            if (arr[0] == "weixin" && arr[1] != "h5") $(this).remove();
-        }
-    });
 }

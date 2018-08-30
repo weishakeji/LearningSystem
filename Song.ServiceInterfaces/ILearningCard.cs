@@ -73,6 +73,13 @@ namespace Song.ServiceInterfaces
         Course[] CoursesGet(LearningCardSet set);
         Course[] CoursesGet(string xml);
         /// <summary>
+        /// 学习卡关联的课程
+        /// </summary>
+        /// <param name="code">学习卡编码</param>
+        /// <param name="pw">学习卡密码</param>
+        /// <returns></returns>
+        Course[] CoursesForCard(string code, string pw);
+        /// <summary>
         /// 设置关联的课程
         /// </summary>
         /// <param name="set"></param>
@@ -104,14 +111,14 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         LearningCard[] CardGenerate(LearningCardSet set);
         /// <summary>
-        /// <param name="tran">事务</param>
+        /// 批量生成学习卡
         /// </summary>
         /// <param name="set"></param>
-        /// <param name="tran"></param>
+        /// <param name="tran">事务</param>
         /// <returns></returns>
         LearningCard[] CardGenerate(LearningCardSet set, DbTrans tran);
         /// <summary>
-        /// 添加学习卡设置项
+        /// 新增学习卡
         /// </summary>
         /// <param name="entity">业务实体</param>
         void CardAdd(LearningCard entity);
@@ -137,6 +144,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         LearningCard CardSingle(int identify);
         /// <summary>
+        /// 获取单一实体对象，按主键ID；
+        /// </summary>
+        /// <param name="code">学习卡编码</param>
+        /// <param name="pw">学习卡密码</param>
+        /// <returns></returns>
+        LearningCard CardSingle(string code,string pw);
+        /// <summary>
         /// 校验学习卡是否存在，或过期
         /// </summary>
         /// <param name="code"></param>
@@ -146,7 +160,14 @@ namespace Song.ServiceInterfaces
         /// 使用该学习卡
         /// </summary>
         /// <param name="entity"></param>
-        void CardUse(LearningCard entity);
+        /// <param name="acc">学员账号</param>
+        void CardUse(LearningCard entity, Accounts acc);
+        /// <summary>
+        /// 获取该学习卡，只是暂存在学员账户名下，并不使用
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acc">学员账号</param>
+        void CardGet(LearningCard entity, Accounts acc);
         /// <summary>
         /// 学习卡使用后的回滚，将删除学员的关联课程
         /// </summary>
@@ -193,6 +214,34 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         LearningCard[] CardPager(int orgid, int lcsid, bool? isEnable, bool? isUsed, int size, int index, out int countSum);
         LearningCard[] CardPager(int orgid, int lcsid, string code, bool? isEnable, bool? isUsed, int size, int index, out int countSum);
+        #endregion
+
+        #region 学员的卡
+        /// <summary>
+        /// 学员名下学习卡的数量
+        /// </summary>
+        /// <param name="accid">学员账号id</param>
+        /// <returns></returns>
+        int AccountCardOfCount(int accid);
+        /// <summary>
+        /// 学员名下学习卡的数量
+        /// </summary>
+        /// <param name="accid"></param>
+        /// <param name="state">状态，0为初始，1为使用，-1为回滚</param>
+        /// <returns></returns>
+        int AccountCardOfCount(int accid,int state);
+        /// <summary>
+        /// 学员名下的学习卡
+        /// </summary>
+        /// <param name="accid">学员账号id</param>
+        /// <param name="state">状态，0为初始，1为使用，-1为回滚</param>
+        /// <returns></returns>
+        LearningCard[] AccountCards(int accid, int state);
+        /// <summary>
+        /// 学员名下的所有学习卡
+        /// </summary>
+        /// <returns></returns>
+        LearningCard[] AccountCards(int accid);
         #endregion
     }
 }

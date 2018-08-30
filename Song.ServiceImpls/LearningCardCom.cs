@@ -281,6 +281,7 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void CardDelete(LearningCard entity)
         {
+            CardRollback(entity);
             Gateway.Default.Delete<LearningCard>(LearningCard._.Lc_ID == entity.Lc_ID);
         }
         /// <summary>
@@ -289,7 +290,8 @@ namespace Song.ServiceImpls
         /// <param name="identify">实体的主键</param>
         public void CardDelete(int identify)
         {
-            Gateway.Default.Delete<LearningCard>(LearningCard._.Lc_ID == identify);
+            LearningCard card = this.CardSingle(identify);
+            this.CardDelete(card);
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；
@@ -299,6 +301,17 @@ namespace Song.ServiceImpls
         public LearningCard CardSingle(int identify)
         {
             return Gateway.Default.From<LearningCard>().Where(LearningCard._.Lc_ID == identify).ToFirst<LearningCard>();
+        }
+        /// <summary>
+        /// 获取单一实体对象，按主键ID；
+        /// </summary>
+        /// <param name="code">学习卡编码</param>
+        /// <param name="pw">学习卡密码</param>
+        /// <returns></returns>
+        public LearningCard CardSingle(string code, string pw)
+        {
+            return Gateway.Default.From<LearningCard>().Where(LearningCard._.Lc_Code == code && LearningCard._.Lc_Pw == pw)
+                .ToFirst<LearningCard>();
         }
         /// <summary>
         /// 校验学习卡是否存在，或过期
@@ -329,7 +342,7 @@ namespace Song.ServiceImpls
         /// 使用该学习卡
         /// </summary>
         /// <param name="entity"></param>
-        public void CardUse(LearningCard entity)
+        public void CardUse(LearningCard entity, Accounts acc)
         {
             if (entity.Lc_State != 0) throw new Exception("该学习卡已经使用");
             LearningCardSet set = this.SetSingle(entity.Lcs_ID);
@@ -341,6 +354,8 @@ namespace Song.ServiceImpls
             entity.Lc_IsUsed = true;
             entity.Lc_UsedTime = DateTime.Now;
             entity.Lc_State = 1;    //状态，0为初始，1为使用，-1为回滚
+            entity.Ac_ID = acc.Ac_ID;
+            entity.Ac_AccName = acc.Ac_AccName;
             //
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
@@ -373,6 +388,28 @@ namespace Song.ServiceImpls
                 }
             }
             
+        }
+        /// <summary>
+        /// 获取该学习卡，只是暂存在学员账户名下，并不使用
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="acc">学员账号</param>
+        public void CardGet(LearningCard entity, Accounts acc)
+        {
+            if (entity.Lc_State != 0) throw new Exception("该学习卡已经使用");
+            LearningCardSet set = this.SetSingle(entity.Lcs_ID);
+            if (set == null || set.Lcs_IsEnable == false) throw new Exception("该学习卡不可使用");
+            //是否过期
+            if (!(DateTime.Now > entity.Lc_LimitStart && DateTime.Now < entity.Lc_LimitEnd.Date.AddDays(1)))
+                throw new Exception("该学习卡已经过期");
+            //标注已经使用
+            entity.Lc_IsUsed = true;
+            entity.Lc_UsedTime = DateTime.Now;
+            entity.Lc_State = 0;    //状态，0为初始，1为使用，-1为回滚
+            entity.Ac_ID = acc.Ac_ID;
+            entity.Ac_AccName = acc.Ac_AccName;
+
+            Gateway.Default.Save<LearningCard>(entity);
         }
         /// <summary>
         /// 学习卡使用后的回滚，将删除学员的关联课程
@@ -636,6 +673,25 @@ namespace Song.ServiceImpls
             return list.ToArray();
         }
         /// <summary>
+        /// 学习卡关联的课程
+        /// </summary>
+        /// <param name="code">学习卡编码</param>
+        /// <param name="pw">学习卡密码</param>
+        /// <returns></returns>
+        public Course[] CoursesForCard(string code, string pw)
+        {
+            LearningCard card = this.CardSingle(code, pw);
+            if (card != null)
+            {
+                LearningCardSet set = this.SetSingle(card.Lcs_ID);
+                if (set != null)
+                {
+                    return this.CoursesGet(set);
+                }
+            }
+            return null;
+        }
+        /// <summary>
         /// 设置关联的课程
         /// </summary>
         /// <param name="set"></param>
@@ -654,6 +710,7 @@ namespace Song.ServiceImpls
                 couid[i] = courses[i].Cou_ID;
             return CoursesSet(set, couid);
         }
+
         public LearningCardSet CoursesSet(LearningCardSet set, int[] couid)
         {
             if (couid == null || couid.Length < 1)
@@ -695,6 +752,47 @@ namespace Song.ServiceImpls
                 list.Add(id);
             }
             return CoursesSet(set, list.ToArray());
+        }
+        #endregion
+
+        #region 学员的卡
+        /// <summary>
+        /// 学员名下学习卡的数量
+        /// </summary>
+        /// <param name="accid">学员账号id</param>
+        /// <returns></returns>
+        public int AccountCardOfCount(int accid)
+        {
+            return Gateway.Default.Count<LearningCard>(LearningCard._.Ac_ID == accid);
+        }
+        /// <summary>
+        /// 学员名下学习卡的数量
+        /// </summary>
+        /// <param name="accid"></param>
+        /// <param name="state">状态，0为初始，1为使用，-1为回滚</param>
+        /// <returns></returns>
+        public int AccountCardOfCount(int accid, int state)
+        {
+            return Gateway.Default.Count<LearningCard>(LearningCard._.Ac_ID == accid && LearningCard._.Lc_State == state);
+        }
+        /// <summary>
+        /// 学员名下的学习卡
+        /// </summary>
+        /// <param name="state">状态，0为初始，1为使用，-1为回滚</param>
+        /// <returns></returns>
+        public LearningCard[] AccountCards(int accid, int state)
+        {
+            return Gateway.Default.From<LearningCard>().Where(LearningCard._.Ac_ID == accid && LearningCard._.Lc_State == state)
+                .ToArray<LearningCard>();
+        }
+        /// <summary>
+        /// 学员名下的所有学习卡
+        /// </summary>
+        /// <returns></returns>
+        public LearningCard[] AccountCards(int accid)
+        {
+            return Gateway.Default.From<LearningCard>().Where(LearningCard._.Ac_ID == accid)
+                .ToArray<LearningCard>();
         }
         #endregion
     }

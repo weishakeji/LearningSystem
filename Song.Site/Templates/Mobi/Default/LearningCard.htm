@@ -44,7 +44,7 @@
           <div class="mui-card-header"><span class="card-tit"><span class="moneyico ico">&#xe60f;</span>学习卡</span><span id="card-error" class="error-show"></span> </div>
           <!--内容区-->
           <div class="mui-card-content">
-            <form class="mui-input-group" id="formPayCard" star="false">
+            <form class="mui-input-group" id="formCard" star="false">
               <div class="mui-input-row">
                 <label>学习卡</label>
                 <input name="tbCard" id="tbCard" value="" type="text"  class="textbox" nullable="false" regex="\d+(\s|)-(\s|)\d+"  group="code" />
@@ -55,8 +55,8 @@
               </div>
               <div class="mui-button-row">
                 <div id="btn_camera"><img src="Images/qrcode.png" loading="load_015.gif" normal="qrcode.png"/>二维码</div>
-                <button class="mui-btn mui-btn-primary enter" id="btnPayCard" type="submit"  verify="true"  data-loading-text="提交中"   group="code">使用</button>
-                <button class="mui-btn mui-btn-primary  mui-btn mui-btn-success enter" id="btnPayCard" type="submit"  verify="true"  data-loading-text="提交中"   group="code">暂存</button>
+                <button class="mui-btn mui-btn-primary enter" id="btnUseCard" type="submit"  verify="true"  data-loading-text="提交中"   group="code">使用</button>
+                <button class="mui-btn mui-btn-primary  mui-btn mui-btn-success enter" id="btnGetCard" type="submit"  verify="true"  data-loading-text="提交中"   group="code">暂存</button>
               </div>
             </form>
           </div>
