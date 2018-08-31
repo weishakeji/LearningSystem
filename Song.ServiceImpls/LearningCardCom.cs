@@ -368,6 +368,12 @@ namespace Song.ServiceImpls
             //
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
+                //学习时间的起始时间
+                DateTime start = DateTime.Now, end = DateTime.Now;
+                if (set.Lcs_Unit == "日" || set.Lcs_Unit == "天") end.AddDays(set.Lcs_Span);
+                if (set.Lcs_Unit == "周") end.AddDays(set.Lcs_Span * 7);
+                if (set.Lcs_Unit == "月") end.AddMonths(set.Lcs_Span);
+                if (set.Lcs_Unit == "年") end.AddYears(set.Lcs_Span);
                 try
                 {
                     Course[] courses = this.CoursesGet(set.Lcs_RelatedCourses);
@@ -381,13 +387,13 @@ namespace Song.ServiceImpls
                             //已经过期，则重新设置时间
                             if (sc.Stc_EndTime < DateTime.Now)
                             {
-                                sc.Stc_StartTime = entity.Lc_LimitStart;
-                                sc.Stc_EndTime = entity.Lc_LimitEnd;
+                                sc.Stc_StartTime = start;
+                                sc.Stc_EndTime = end;
                             }
                             else
                             {
                                 //如果未过期，则续期
-                                sc.Stc_EndTime += entity.Lc_LimitEnd - entity.Lc_LimitStart;
+                                sc.Stc_EndTime += start - end;
                             }
                         }
                         else
@@ -480,7 +486,7 @@ namespace Song.ServiceImpls
             }
         }
         /// <summary>
-        /// 获取所有设置项
+        /// 学习卡设置项下的所有学习卡
         /// </summary>
         /// <param name="orgid">所在机构id</param>
         /// <param name="lcsid">充码设置项的id</param>
@@ -825,6 +831,7 @@ namespace Song.ServiceImpls
         public LearningCard[] AccountCards(int accid)
         {
             return Gateway.Default.From<LearningCard>().Where(LearningCard._.Ac_ID == accid)
+                .OrderBy(LearningCard._.Lc_UsedTime.Desc)
                 .ToArray<LearningCard>();
         }
         #endregion

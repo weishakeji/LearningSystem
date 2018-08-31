@@ -28,7 +28,7 @@
                 <vt:if var="Account.Ac_name" value="" compare="="> （无名）
                   <vt:else/>
                   {$Account.Ac_name} </vt:if>
-                <span class="money-item">余额 <span class="moneyico">&#xe624;</span> {$:#.Account.Ac_money format="0.00"}元 (券{$:#.Account.Ac_Coupon}个)</span>
+                <span class="money-item">学习卡 {$:#.cardcount} 张</span>
                 <p class='mui-ellipsis'>
                   <vt:if var="Student.Ac_PhoneMobi" value="" compare="!="> {$Student.Ac_PhoneMobi} </vt:if>
                   （账号：{$:#.Account.Ac_accname} ） </p>
@@ -68,10 +68,22 @@
 	<div class="mui-card-header"><span class="card-tit"><span class="moneyico ico">&#xe60f;</span>我的学习卡</span></div>
 	<!--内容区-->
 	<div class="mui-card-content">
-    
+    <ul class="mui-table-view">
+     <vt:foreach id="cards" from="$#.cards" item="data" index="i" remark="我的学习卡">
+     <li class="mui-table-view-cell"  code="{$:#.data.Lc_Code}" pw="{$:#.data.Lc_pw}">
+     <a href="LearningCardView.ashx?code={$:#.data.Lc_Code}&pw= {$:#.data.Lc_pw}" class="view">{$:#.i}、{$:#.data.Lc_Code}- {$:#.data.Lc_pw}</a>
+      <vt:if var="data.Lc_State" value="0" compare="!=">
+      <span class="mui-badge">已使用</span>
+      <vt:else/>
+      <span class="mui-badge mui-badge-success badge-use">使用</span>
+      </vt:if>
+     </li>
+     <vt:foreachelse/>
      <li class="mui-table-view-cell">
      没有任何学习卡
      </li>
+      </vt:foreach>
+      </ul>
     </div>
 	
 </div>

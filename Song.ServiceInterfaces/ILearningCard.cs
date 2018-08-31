@@ -180,7 +180,7 @@ namespace Song.ServiceInterfaces
         /// <param name="entity"></param>
         void CardRollback(LearningCard entity);
         /// <summary>
-        /// 获取所有设置项
+        /// 学习卡设置项下的所有学习卡
         /// </summary>
         /// <param name="orgid">所在机构id</param>
         /// <param name="orgid">机构id</param>
@@ -191,7 +191,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         LearningCard[] CardCount(int orgid, int lcsid, bool? isEnable, bool? isUsed, int count);
         /// <summary>
-        /// 所有设置项数量
+        /// 学习卡设置项下的学习卡数量
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <param name="lcsid">充码设置项的id</param>

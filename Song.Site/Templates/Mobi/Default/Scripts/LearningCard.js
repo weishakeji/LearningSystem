@@ -13,6 +13,21 @@
     use_card();
 	//学习卡领用（暂存的个人名下）
 	get_card();
+	//当点击学习卡列表中的使用按钮时
+	badge_use();
+	//查看学习卡详情
+	mui('body').on('tap', '.view', function () {
+		 var href=$(this).attr("href"); 
+		  var code=$(this).parent().attr("code");
+		 var pw=$(this).parent().attr("pw");
+		 var box = new top.PageBox("学习卡："+code+"-"+pw, href, 100, 100, null, window.name);
+        box.CloseEvent = function () {
+            //var courses = $.cookie("card_add");
+            //alert(courses[0].id);
+        }
+        box.Open();
+	 });
+	
 });
 window.onload = function () {
 
@@ -92,6 +107,7 @@ function get_card() {
         return false;
     });
 }
+
 //二维码解析
 function qrcode_Decode() {
     $("#upload_qrcode").change(function (e) {
@@ -133,4 +149,13 @@ function setLoading(el, state) {
         path = path.substring(0, path.lastIndexOf("/") + 1);
     }
     el.attr("src", path + file);
+}
+
+//当点击学习列表中的使用时
+function badge_use(){	
+	 mui('body').on('tap', '.badge-use', function () {
+		 var code=$(this).parent().attr("code");
+		 var pw=$(this).parent().attr("pw");
+		 $("#tbCard").val(code+"-"+pw);		 
+	 });
 }

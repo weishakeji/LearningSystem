@@ -2,7 +2,7 @@
 App({
   data: {
     //服务器地址(末尾不要加斜杠/)
-    server: "https://www.dsgjonline.top"
+    server: "https://www.xuanshuijiao.com"
   },
   onLaunch: function () {
     // 展示本地存储能力

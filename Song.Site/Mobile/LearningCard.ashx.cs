@@ -18,7 +18,17 @@ namespace Song.Site.Mobile
         {
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
-                  
+                //当前学员的学习卡数量
+                int accid=Extend.LoginState.Accounts.CurrentUserId;
+                if (accid > 0)
+                {
+                    int cardcount = Business.Do<ILearningCard>().AccountCardOfCount(accid);
+                    this.Document.SetValue("cardcount", cardcount);
+                    //学习卡
+                    Song.Entities.LearningCard[] cards = Business.Do<ILearningCard>().AccountCards(accid);
+                    this.Document.SetValue("cards", cards);
+                }              
+
             }
             //
             //此页面的ajax提交，全部采用了POST方式

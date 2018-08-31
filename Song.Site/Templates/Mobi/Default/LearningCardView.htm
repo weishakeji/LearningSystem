@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>学习卡详情</title>
+<vt:include file="inc/meta.inc" />
+<link rel="stylesheet" href="Styles/LearningCardView.css"/>
+<script type="text/javascript" src="Scripts/LearningCardView.js"></script>
+</head>
+<body>
+<div class="mui-card">
+	<!--页眉，放置标题-->
+	<div class="mui-card-header"><span class="card-tit"><span class="moneyico ico">&#xe60f;</span>学习卡详情</span></div>
+	<!--内容区-->
+	<div class="mui-card-content">
+    <ul class="mui-table-view">
+      <li class="mui-table-view-cell">
+      <label>卡号：</label>{$card.Lc_code}-{$card.Lc_pw}
+      </li>
+      <li class="mui-table-view-cell">
+      <label>面额：</label>{$set.Lcs_price}元
+      </li>
+      <li class="mui-table-view-cell">
+      <label>学习时间：</label>{$set.Lcs_Span} {$set.Lcs_Unit}
+      </li>
+      <li class="mui-table-view-cell">
+      <label>有效期：</label>{$set.Lcs_LimitStart format="yyyy年M月d日"} - {$set.Lcs_LimitEnd format="yyyy年M月d日"}
+      </li>
+      </ul>
+    </div>
+	
+</div>
+
+<div class="mui-card">
+	<!--页眉，放置标题-->
+	<div class="mui-card-header"><span class="card-tit"><span class="moneyico ico">&#xe60f;</span>关联课程</span></div>
+	<!--内容区-->
+	<div class="mui-card-content">
+    <ul class="mui-table-view">
+     <vt:foreach id="cards" from="$#.courses" item="data" index="i" remark="关联课程">
+     <li class="mui-table-view-cell"  code="{$:#.data.Lc_Code}" pw="{$:#.data.Lc_pw}">
+     <a href="LearningCardView.ashx?code={$:#.data.Lc_Code}&pw= {$:#.data.Lc_pw}" class="view">{$:#.i}、{$:#.data.cou_name}</a>
+      
+     </li>
+     <vt:foreachelse/>
+     <li class="mui-table-view-cell">
+     没有任何课程
+     </li>
+      </vt:foreach>
+      </ul>
+    </div>
+	
+</div>
+</body>
+</html>
