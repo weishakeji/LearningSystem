@@ -20,6 +20,8 @@ namespace Song.Site.Manage.Card
         {
             org = Business.Do<IOrganization>().OrganCurrent();
             Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(id);
+            if(set!=null)
+                set.Lsc_UsedCount = Business.Do<ILearningCard>().CardUsedCount(set.Lcs_ID);
             this.EntityBind(set);
             if (set != null) this.Title += set.Lcs_Theme;            
 

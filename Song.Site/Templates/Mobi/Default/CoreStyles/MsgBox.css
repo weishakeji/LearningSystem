@@ -42,7 +42,7 @@
 	margin: 0px;
 	padding: 10px;
 	background-color: #FFFFFF;
-	overflow: hidden;
+	overflow: auto;
 }
 
 .MsgBox .msgBtnBox

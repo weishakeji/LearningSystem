@@ -146,7 +146,7 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc &= LearningCardSet._.Org_ID == orgid;
             if (isEnable != null) wc &= LearningCardSet._.Lcs_IsEnable == isEnable;
             return Gateway.Default.Count<LearningCardSet>(wc);
-        }
+        }        
         /// <summary>
         /// 分页获取学习卡设置项
         /// </summary>
@@ -339,6 +339,15 @@ namespace Song.ServiceImpls
             return single;
         }
         /// <summary>
+        /// 学习卡的使用数量
+        /// </summary>
+        /// <param name="lscid"></param>
+        /// <returns></returns>
+        public int CardUsedCount(int lscid)
+        {
+            return Gateway.Default.Count<LearningCard>(LearningCard._.Lcs_ID == lscid && LearningCard._.Lc_IsUsed == true);
+        }
+        /// <summary>
         /// 使用该学习卡
         /// </summary>
         /// <param name="entity"></param>
@@ -364,16 +373,40 @@ namespace Song.ServiceImpls
                     Course[] courses = this.CoursesGet(set.Lcs_RelatedCourses);
                     foreach (Course cou in courses)
                     {
-                        Song.Entities.Student_Course sc = new Student_Course();
+                        Song.Entities.Student_Course sc = null;
+                        sc = tran.From<Student_Course>().Where(Student_Course._.Ac_ID == entity.Ac_ID
+                            && Student_Course._.Cou_ID == cou.Cou_ID).ToFirst<Student_Course>();
+                        if (sc != null)
+                        {
+                            //已经过期，则重新设置时间
+                            if (sc.Stc_EndTime < DateTime.Now)
+                            {
+                                sc.Stc_StartTime = entity.Lc_LimitStart;
+                                sc.Stc_EndTime = entity.Lc_LimitEnd;
+                            }
+                            else
+                            {
+                                //如果未过期，则续期
+                                sc.Stc_EndTime += entity.Lc_LimitEnd - entity.Lc_LimitStart;
+                            }
+                        }
+                        else
+                        {
+                            sc = new Student_Course();
+                            sc.Stc_CrtTime = DateTime.Now;
+                        }
                         sc.Ac_ID = entity.Ac_ID;
                         sc.Cou_ID = cou.Cou_ID;
                         sc.Stc_Money = 0;
                         sc.Stc_StartTime = entity.Lc_LimitStart;
                         sc.Stc_EndTime = entity.Lc_LimitEnd;
-                        sc.Org_ID = entity.Org_ID;
-                        sc.Stc_CrtTime = DateTime.Now;
+                        sc.Org_ID = entity.Org_ID;                        
                         tran.Save<Student_Course>(sc);
-                    }                   
+                    }                    
+                    tran.Save<LearningCard>(entity);
+                    //使用数量加1
+                    set.Lsc_UsedCount = this.CardUsedCount(set.Lcs_ID) + 1;
+                    tran.Save<LearningCardSet>(set);
                     tran.Commit();
                 }
                 catch (Exception ex)

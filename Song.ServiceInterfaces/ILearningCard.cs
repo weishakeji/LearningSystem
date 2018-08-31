@@ -50,7 +50,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid">机构id</param>
         /// <returns></returns>
-        int SetOfCount(int orgid, bool? isEnable);
+        int SetOfCount(int orgid, bool? isEnable);        
         /// <summary>
         /// 分页获取学习卡设置项
         /// </summary>
@@ -156,6 +156,12 @@ namespace Song.ServiceInterfaces
         /// <param name="code"></param>
         /// <returns></returns>
         LearningCard CardCheck(string code);
+        /// <summary>
+        /// 学习卡的使用数量
+        /// </summary>
+        /// <param name="lscid">学习卡设置项的ID</param>
+        /// <returns></returns>
+        int CardUsedCount(int lscid);
         /// <summary>
         /// 使用该学习卡
         /// </summary>

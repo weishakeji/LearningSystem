@@ -27,9 +27,13 @@ namespace Song.Site.Mobile
                 string action = WeiSha.Common.Request.Form["action"].String;
                 switch (action)
                 {
-                        //验证充值码
-                    case "getcard":
+                        //使用学习卡
+                    case "useCode":
                         useCode(context);
+                        break;
+                        //领用学习卡
+                    case "getCode":
+                        getCode(context);
                         break;
                     case "decode_qrcode":
                         decode_qrcode(context);
@@ -83,7 +87,8 @@ namespace Song.Site.Mobile
         {            
             //学习卡的编码与密钥
             string code = WeiSha.Common.Request.Form["card"].String;
-            string json = "{\"state\":{0},\"info\":\"{1}\",\"items\":[";
+            string state = "\"state\":{0},\"info\":\"{1}\",";
+            string json = "\"items\":[";
             //没有传入充值码
             if (!string.IsNullOrWhiteSpace(code))
             {               
@@ -108,15 +113,15 @@ namespace Song.Site.Mobile
                             if (json.EndsWith(",")) json = json.Substring(0, json.Length - 1);
                         }                       
                     }
-                    json = string.Format(json, 1, "成功");
+                    state = string.Format(state, 1, "成功");
                 }
                 catch (Exception ex)
                 {
-                    json = string.Format(json, 0, ex.Message);                   
+                    state = string.Format(state, 0, ex.Message);                   
                 }
             }
-            json += "]}";
-            Response.Write(json);
+            json += "]";
+            Response.Write("({" + state + json + "})");
             this.Response.End();
         }
         /// <summary>
@@ -127,7 +132,8 @@ namespace Song.Site.Mobile
         {
             //学习卡的编码与密钥
             string code = WeiSha.Common.Request.Form["card"].String;
-            string json = "{\"state\":{0},\"info\":\"{1}\",\"items\":[";
+            string state = "\"state\":{0},\"info\":\"{1}\",";
+            string json = "\"items\":[";
             //没有传入充值码
             if (!string.IsNullOrWhiteSpace(code))
             {
@@ -142,19 +148,19 @@ namespace Song.Site.Mobile
                         {
                             Business.Do<ILearningCard>().CardGet(card, st);
                             Extend.LoginState.Accounts.Refresh(st.Ac_ID);
-                            json = string.Format(json, 1, "成功");
+                            state = string.Format(state, 1, "成功");
                         }
 
                     }
                 }
                 catch (Exception ex)
                 {
-                    json = string.Format(json, 0, ex.Message);     
+                    state = string.Format(state, 0, ex.Message);     
                 }
             }
-           json += "]}";
-            Response.Write(json);
-            this.Response.End();
+           json += "]";
+           Response.Write("({" + state + json + "})");
+           this.Response.End();
         }
         /// <summary>
         /// 增加地址的参数

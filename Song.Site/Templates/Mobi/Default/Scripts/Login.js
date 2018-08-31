@@ -105,7 +105,6 @@ function Event_accLogin(form, url) {
                     var txt = "亲爱的 <b>" + data.name + "</b>，您已经成功登录。<br/><br/>将在<second>5</second>秒后将返回来源页。";
                     var msg = new MsgBox("登录成功", txt, 80, 40, "msg");
                     msg.ShowCloseBtn = false;
-                    msg.ShowCloseBtn = false;
                     msg.OverEvent = function () {
                         var href = form.find("input[name=from]").val();
                         window.location.href = $().setPara(href, "sharekeyid", data.acid);
