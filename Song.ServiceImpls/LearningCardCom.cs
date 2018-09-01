@@ -830,6 +830,7 @@ namespace Song.ServiceImpls
         public LearningCard[] AccountCards(int accid, int state)
         {
             return Gateway.Default.From<LearningCard>().Where(LearningCard._.Ac_ID == accid && LearningCard._.Lc_State == state)
+                 .OrderBy(LearningCard._.Lc_UsedTime.Asc)
                 .ToArray<LearningCard>();
         }
         /// <summary>
@@ -839,7 +840,7 @@ namespace Song.ServiceImpls
         public LearningCard[] AccountCards(int accid)
         {
             return Gateway.Default.From<LearningCard>().Where(LearningCard._.Ac_ID == accid)
-                .OrderBy(LearningCard._.Lc_UsedTime.Desc)
+                .OrderBy(LearningCard._.Lc_UsedTime.Asc)
                 .ToArray<LearningCard>();
         }
         #endregion
