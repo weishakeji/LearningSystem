@@ -24,6 +24,8 @@ namespace Song.Site.Mobile
                 {
                     int cardcount = Business.Do<ILearningCard>().AccountCardOfCount(accid);
                     this.Document.SetValue("cardcount", cardcount);
+                    int usecount = cardcount - Business.Do<ILearningCard>().AccountCardOfCount(accid, 0);
+                    this.Document.SetValue("usecount", usecount);
                     //学习卡
                     Song.Entities.LearningCard[] cards = Business.Do<ILearningCard>().AccountCards(accid);
                     this.Document.SetValue("cards", cards);

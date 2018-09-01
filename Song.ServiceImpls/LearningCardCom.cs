@@ -335,7 +335,15 @@ namespace Song.ServiceImpls
             wc &= LearningCard._.Lc_LimitEnd > DateTime.Now;
             LearningCard single = Gateway.Default.From<LearningCard>().Where(wc).ToFirst<LearningCard>();
             if (single == null) throw new Exception("该学习卡不存在，或已经过期！");
-            if (single.Lc_IsUsed) throw new Exception("该学习卡已经使用过！");
+            //如果学习卡已经被领用
+            if (single.Ac_ID > 0)
+            {
+                if (single.Lc_IsUsed && single.Lc_State != 0) throw new Exception("该学习卡已经使用过！");
+            }
+            else
+            {
+                if (single.Lc_IsUsed) throw new Exception("该学习卡已经使用过！");
+            }           
             return single;
         }
         /// <summary>
@@ -357,7 +365,7 @@ namespace Song.ServiceImpls
             LearningCardSet set = this.SetSingle(entity.Lcs_ID);
             if (set == null || set.Lcs_IsEnable == false) throw new Exception("该学习卡不可使用");
             //是否过期
-            if (!(DateTime.Now > entity.Lc_LimitStart && DateTime.Now < entity.Lc_LimitEnd.Date.AddDays(1)))            
+            if (!(DateTime.Now > entity.Lc_LimitStart && DateTime.Now < entity.Lc_LimitEnd.Date.AddDays(1)))
                 throw new Exception("该学习卡已经过期");
             //标注已经使用
             entity.Lc_IsUsed = true;
@@ -370,10 +378,10 @@ namespace Song.ServiceImpls
             {
                 //学习时间的起始时间
                 DateTime start = DateTime.Now, end = DateTime.Now;
-                if (set.Lcs_Unit == "日" || set.Lcs_Unit == "天") end.AddDays(set.Lcs_Span);
-                if (set.Lcs_Unit == "周") end.AddDays(set.Lcs_Span * 7);
-                if (set.Lcs_Unit == "月") end.AddMonths(set.Lcs_Span);
-                if (set.Lcs_Unit == "年") end.AddYears(set.Lcs_Span);
+                if (set.Lcs_Unit == "日" || set.Lcs_Unit == "天") end = start.AddDays(set.Lcs_Span);
+                if (set.Lcs_Unit == "周") end = start.AddDays(set.Lcs_Span * 7);
+                if (set.Lcs_Unit == "月") end = start.AddMonths(set.Lcs_Span);
+                if (set.Lcs_Unit == "年") end = start.AddYears(set.Lcs_Span);
                 try
                 {
                     Course[] courses = this.CoursesGet(set.Lcs_RelatedCourses);
@@ -406,12 +414,13 @@ namespace Song.ServiceImpls
                         sc.Stc_Money = 0;
                         sc.Stc_StartTime = entity.Lc_LimitStart;
                         sc.Stc_EndTime = entity.Lc_LimitEnd;
-                        sc.Org_ID = entity.Org_ID;                        
+                        sc.Org_ID = entity.Org_ID;
                         tran.Save<Student_Course>(sc);
-                    }                    
+                    }
                     tran.Save<LearningCard>(entity);
                     //使用数量加1
-                    set.Lsc_UsedCount = this.CardUsedCount(set.Lcs_ID) + 1;
+                    int usecount = tran.Count<LearningCard>(LearningCard._.Lcs_ID == set.Lcs_ID && LearningCard._.Lc_IsUsed == true);
+                    set.Lsc_UsedCount = usecount + 1;
                     tran.Save<LearningCardSet>(set);
                     tran.Commit();
                 }
@@ -426,7 +435,6 @@ namespace Song.ServiceImpls
                     tran.Close();
                 }
             }
-            
         }
         /// <summary>
         /// 获取该学习卡，只是暂存在学员账户名下，并不使用
