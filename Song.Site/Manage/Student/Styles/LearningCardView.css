@@ -1,0 +1,11 @@
+﻿@charset "utf-8";
+body {
+}
+fieldset{
+	margin:20px;
+}
+dl{
+}
+dl dd{
+	line-height:20px;
+}

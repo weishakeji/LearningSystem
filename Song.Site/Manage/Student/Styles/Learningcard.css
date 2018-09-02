@@ -1,0 +1,30 @@
+﻿@charset "utf-8";
+body {
+}
+fieldset{
+	margin-top:20px;
+}
+dl.cards{
+}
+dl.cards dd{
+	line-height:30px;
+}
+.badge{
+	margin-right: 20px;
+	margin-left: 20px;
+	padding-left:10px;
+	padding-right:10px;
+	font-size: 12px;
+    line-height: 1;
+    display: inline-block;
+    padding: 3px 6px;
+    color: #333;
+    border-radius: 100px;
+    background-color: rgba(0, 0, 0, .15);
+	
+}
+.use{
+	background-color: #4cd964;
+	cursor: pointer;
+	color: #FFF;
+}

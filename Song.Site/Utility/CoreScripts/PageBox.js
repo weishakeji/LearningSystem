@@ -70,9 +70,14 @@
     }
     //获取父路径
     pagebox.getParentPath = function (winname) {
+        if (winname == null || winname == "") return "";
         var winbox = $(".PageBox[winid=" + winname + "]", window.top.document);
-        if (winbox.size() < 1) winbox = $("iframe[name=" + winname + "]", window.top.document);
-        var iframe = winbox.find("iframe");
+        var iframe = null;
+        if (winbox.size() > 0) {
+            iframe = winbox.find("iframe");            
+        } else {
+            iframe = $("iframe[name=" + winname + "]");
+        }
         var path = "";
         if (iframe.size() > 0) {
             path = iframe.get(0).contentWindow.location.href;
@@ -84,6 +89,7 @@
     }
     //获取当前要打开的路径
     pagebox.getCurrPath = function (winname, page) {
+        if (winname == null || winname == "") return page;
         var patpath = pagebox.getParentPath(winname);
 
         if ($.trim(patpath) == "") return page;

@@ -381,6 +381,7 @@
     <Content Include="Manage\Student\Notice_View.aspx" />
     <Content Include="Manage\Student\Safe.aspx" />
     <Content Include="Manage\Student\Scripts\Course.js" />
+    <Content Include="Manage\Student\Scripts\LearningCard.js" />
     <Content Include="Manage\Student\Scripts\Moneyrecharge.js" />
     <Content Include="Manage\Student\Scripts\Course_Expire.js" />
     <Content Include="Manage\Admin\Students_Coupon.aspx" />
@@ -414,6 +415,8 @@
     <Content Include="Manage\Student\Styles\CouponExchange.css" />
     <Content Include="Manage\Student\Styles\Course_Study.css" />
     <Content Include="Manage\Student\Styles\Course_Curr.css" />
+    <Content Include="Manage\Student\Styles\Learningcard.css" />
+    <Content Include="Manage\Student\Styles\LearningCardView.css" />
     <Content Include="Manage\Student\Subordinates.aspx" />
     <Content Include="Manage\Student\Share.aspx" />
     <Content Include="Manage\Student\PointDetails.aspx" />
@@ -424,6 +427,7 @@
     <Content Include="Manage\Student\Course_Curr.aspx" />
     <Content Include="Manage\Student\Course_Study.aspx" />
     <Content Include="Manage\Student\Course_Expire.aspx" />
+    <Content Include="Manage\Student\LearningCardView.aspx" />
     <Content Include="Manage\Styles\Jme.css" />
     <Content Include="Manage\Sys\LimitDomain.aspx" />
     <Content Include="Manage\Sys\LimitDomain_Edit.aspx" />
@@ -2681,6 +2685,13 @@
     </Compile>
     <Compile Include="Manage\Student\Course_Expire.aspx.designer.cs">
       <DependentUpon>Course_Expire.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\LearningCardView.aspx.cs">
+      <DependentUpon>LearningCardView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\LearningCardView.aspx.designer.cs">
+      <DependentUpon>LearningCardView.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Sys\Accounts.aspx.cs">
       <DependentUpon>Accounts.aspx</DependentUpon>
