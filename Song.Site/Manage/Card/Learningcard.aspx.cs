@@ -85,12 +85,19 @@ namespace Song.Site.Manage.Card
         /// <param name="e"></param>
         protected void DeleteEvent(object sender, EventArgs e)
         {
-            string keys = GridView1.GetKeyValues;
-            foreach (string id in keys.Split(','))
+            try
             {
-                Business.Do<ILearningCard>().SetDelete(Convert.ToInt32(id));
+                string keys = GridView1.GetKeyValues;
+                foreach (string id in keys.Split(','))
+                {
+                    Business.Do<ILearningCard>().SetDelete(Convert.ToInt32(id));
+                }
+                BindData(null, null);
             }
-            BindData(null, null);            
+            catch (Exception ex)
+            {
+                this.Alert("错误：" + ex.Message);
+            }
         }
         /// <summary>
         /// 单个删除
@@ -99,41 +106,19 @@ namespace Song.Site.Manage.Card
         /// <param name="e"></param>
         protected void btnDel_Click(object sender, ImageClickEventArgs e)
         {
-            WeiSha.WebControl.RowDelete img = (WeiSha.WebControl.RowDelete)sender;
-            int index = ((GridViewRow)(img.Parent.Parent)).RowIndex;
-            int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
-            Business.Do<ILearningCard>().SetDelete(id);
-            BindData(null, null);
-        }
-        /// <summary>
-        /// 导出学员信息
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void outputEvent(object sender, EventArgs e)
-        {
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            //创建文件
-            string name = "学生信息导出" + "_" + DateTime.Now.ToString("yyyy-MM-dd_hh-mm") + ".xls";
-            string filePath = Upload.Get["Temp"].Physics + name;
-            //filePath = Business.Do<IStudent>().StudentExport4Excel(filePath, org.Org_ID, -1);
-            if (System.IO.File.Exists(filePath))
+            try
             {
-                FileInfo fileInfo = new FileInfo(filePath);
-                Response.Clear();
-                Response.ClearContent();
-                Response.ClearHeaders();
-                Response.AddHeader("Content-Disposition", "attachment;filename=" + HttpUtility.UrlEncode(fileInfo.Name));
-                Response.AddHeader("Content-Length", fileInfo.Length.ToString());
-                Response.AddHeader("Content-Transfer-Encoding", "binary");
-                Response.ContentType = "application/-excel";
-                Response.ContentEncoding = System.Text.Encoding.Default;
-                Response.WriteFile(fileInfo.FullName);
-                Response.Flush();
-                Response.End();
-                File.Delete(filePath);
+                WeiSha.WebControl.RowDelete img = (WeiSha.WebControl.RowDelete)sender;
+                int index = ((GridViewRow)(img.Parent.Parent)).RowIndex;
+                int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
+                Business.Do<ILearningCard>().SetDelete(id);
+                BindData(null, null);
             }
-        }
+            catch (Exception ex)
+            {
+                this.Alert("错误：" + ex.Message);
+            }
+        }        
        
     }
 }

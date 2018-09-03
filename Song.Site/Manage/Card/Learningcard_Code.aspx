@@ -8,10 +8,11 @@
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
     <div class="topbar">
-        <a href="output_excel.aspx?id=<%= id %>" target="_blank">导出Excel</a> <a href="output_qrcode.aspx?id=<%= id %>" target="_blank">导出二维码</a>
+        <a href="output_excel.aspx?id=<%= id %>" target="_blank">导出Excel</a> <a href="output_qrcode.aspx?id=<%= id %>"
+            target="_blank">导出二维码</a>
         <div class="top-right">
             <asp:TextBox ID="tbCode" runat="server"></asp:TextBox>
-            <asp:Button ID="btnSearch" runat="server" Text="查询" onclick="btnSearch_Click" />
+            <asp:Button ID="btnSearch" runat="server" Text="查询" OnClick="btnSearch_Click" />
         </div>
     </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
@@ -28,8 +29,8 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="学习卡-密码">
                 <ItemTemplate>
-                    <span class="code"><%# Eval("Lc_Code", "{0}")%></span>
-                    -
+                    <span class="code">
+                        <%# Eval("Lc_Code", "{0}")%></span> -
                     <%# Eval("Lc_Pw", "{0}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" />
@@ -48,7 +49,7 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="是否使用">
                 <ItemTemplate>
-                    <%# Convert.ToBoolean(Eval("Lc_IsUsed")) ? "已使用" : ""%>
+                    <%# Convert.ToBoolean(Eval("Lc_IsUsed")) ? (Eval("Lc_State", "{0}") == "-1" ? "被回滚" : (Eval("Lc_State", "{0}") == "0" ? "暂存" : "已使用")) : ""%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="70px" />
             </asp:TemplateField>
@@ -60,7 +61,8 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="回滚">
                 <ItemTemplate>
-                    <%# !Convert.ToBoolean(Eval("Lc_IsUsed")) ? "" : "回滚"%>
+                    <asp:LinkButton ID="btnGoBack" runat="server" CommandArgument='<%# Eval("Lc_ID")%>' Visible='<%# Convert.ToBoolean(Eval("Lc_IsUsed")) && (Eval("Lc_State","{0}")!="-1")%>'
+                     OnClientClick="return confirm('是否确定要回滚该学习卡？')" OnClick="btnGoBack_Click">回滚</asp:LinkButton>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" />
             </asp:TemplateField>

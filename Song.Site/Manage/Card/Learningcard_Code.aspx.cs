@@ -54,6 +54,27 @@ namespace Song.Site.Manage.Card
             Pager1.Qurey = this.SearchQuery();
             Pager1.Index = 1;
         }
-       
+        /// <summary>
+        /// 回滚按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnGoBack_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            int id = Convert.ToInt32(btn.CommandArgument);
+            Song.Entities.LearningCard card = Business.Do<ILearningCard>().CardSingle(id);
+            if (card == null) return;
+            try
+            {
+                Business.Do<ILearningCard>().CardRollback(card);
+                this.Alert("回滚成功！");
+                BindData(null, null);
+            }
+            catch (Exception ex)
+            {
+                this.Alert("错误：" + ex.Message);
+            }
+        }
     }
 }

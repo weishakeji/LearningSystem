@@ -70,7 +70,12 @@
           <ul class="mui-table-view">
             <vt:foreach id="cards" from="$#.cards" item="data" index="i" remark="我的学习卡">
               <li class="mui-table-view-cell"  code="{$:#.data.Lc_Code}" pw="{$:#.data.Lc_pw}"> <a href="LearningCardView.ashx?code={$:#.data.Lc_Code}&pw={$:#.data.Lc_pw}" class="view">{$:#.i}、{$:#.data.Lc_Code}- {$:#.data.Lc_pw}</a>
-                <vt:if var="data.Lc_State" value="0" compare="!="> <span class="mui-badge">已使用</span>
+                <vt:if var="data.Lc_State" value="0" compare="!="> 
+                <vt:if var="data.Lc_State" value="1" compare="=">
+                <span class="mui-badge">已使用</span>
+                <vt:else/>
+                <span class="mui-badge">禁用</span>
+                 </vt:if>
                   <vt:else/>
                    <vt:function var="r" method="isExpire" args="$#.data.Lc_LimitEnd"/>
                     <vt:if var="r" value="1" compare="=="> 

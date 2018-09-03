@@ -463,8 +463,16 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="entity"></param>
         public void CardRollback(LearningCard entity)
-        {
-            if (entity.Lc_State == 1)
+        {            
+            //只是领用，但未使用
+            if (entity.Lc_IsUsed && entity.Lc_State == 0)
+            {
+                //标注状态为回滚
+                entity.Lc_State = -1;
+                Gateway.Default.Save<LearningCard>(entity);
+            }
+            //真正使用过，回滚较复杂
+            if (entity.Lc_IsUsed && entity.Lc_State == 1)
             {
                 LearningCardSet set = this.SetSingle(entity.Lcs_ID);
                 //学习时间的起始时间
@@ -484,18 +492,24 @@ namespace Song.ServiceImpls
                             Song.Entities.Student_Course sc = tran.From<Student_Course>().Where(Student_Course._.Ac_ID == entity.Ac_ID
                                 && Student_Course._.Cou_ID == cou.Cou_ID).ToFirst<Student_Course>();
                             if (sc == null) continue;
-                            if (sc.Stc_CrtTime < DateTime.Now.AddDays(-day))
+                            //扣除学习卡所增加的时间，计算出学习结束时间
+                            DateTime end = sc.Stc_EndTime.AddDays(-day);
+                            if (sc.Stc_StartTime < end)
                             {
-                                tran.Delete<Student_Course>(Student_Course._.Ac_ID == entity.Ac_ID && Student_Course._.Cou_ID == cou.Cou_ID);
-                                tran.Update<Accounts>(new Field[] { Accounts._.Ac_CurrCourse }, new object[] { -1 },
-                                Accounts._.Ac_ID == entity.Ac_ID && Accounts._.Ac_CurrCourse == cou.Cou_ID);  
+                                //如果扣除学习卡增加的时间后，仍然大于开始时间，则更改
+                                tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_EndTime }, new object[] { end },
+                                Student_Course._.Ac_ID == entity.Ac_ID && Student_Course._.Cou_ID == cou.Cou_ID);
                             }
                             else
                             {
-                                tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_EndTime }, new object[] { DateTime.Now.AddDays(-day) },
-                                Student_Course._.Ac_ID == entity.Ac_ID && Student_Course._.Cou_ID == cou.Cou_ID);   
-                            }                                                      
+                                //如果扣除学习卡增加的时间后，小于开始时间，则直接删除课程
+                                tran.Delete<Student_Course>(Student_Course._.Ac_ID == entity.Ac_ID && Student_Course._.Cou_ID == cou.Cou_ID);
+                                tran.Update<Accounts>(new Field[] { Accounts._.Ac_CurrCourse }, new object[] { -1 },
+                                    Accounts._.Ac_ID == entity.Ac_ID && Accounts._.Ac_CurrCourse == cou.Cou_ID);
+                            }
                         }
+                        entity.Lc_State = -1;
+                        tran.Save<LearningCard>(entity);
                         tran.Commit();
                         Extend.LoginState.Accounts.Refresh(entity.Ac_ID);
                     }
