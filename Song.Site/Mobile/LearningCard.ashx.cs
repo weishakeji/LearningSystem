@@ -13,13 +13,13 @@ namespace Song.Site.Mobile
     /// </summary>
     public class LearningCard : BasePage
     {
-        
+
         protected override void InitPageTemplate(HttpContext context)
         {
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
                 //当前学员的学习卡数量
-                int accid=Extend.LoginState.Accounts.CurrentUserId;
+                int accid = Extend.LoginState.Accounts.CurrentUserId;
                 if (accid > 0)
                 {
                     int cardcount = Business.Do<ILearningCard>().AccountCardOfCount(accid);
@@ -29,8 +29,8 @@ namespace Song.Site.Mobile
                     //学习卡
                     Song.Entities.LearningCard[] cards = Business.Do<ILearningCard>().AccountCards(accid);
                     this.Document.SetValue("cards", cards);
-                }              
-
+                }
+                this.Document.RegisterGlobalFunction(this.isExpire);    //是否过期
             }
             //
             //此页面的ajax提交，全部采用了POST方式
@@ -39,11 +39,11 @@ namespace Song.Site.Mobile
                 string action = WeiSha.Common.Request.Form["action"].String;
                 switch (action)
                 {
-                        //使用学习卡
+                    //使用学习卡
                     case "useCode":
                         useCode(context);
                         break;
-                        //领用学习卡
+                    //领用学习卡
                     case "getCode":
                         getCode(context);
                         break;
@@ -51,10 +51,24 @@ namespace Song.Site.Mobile
                         decode_qrcode(context);
                         break;
                 }
-            }   
-                
-           
+            }
         }
+        #region
+        /// <summary>
+        /// 是否快过期
+        /// </summary>
+        /// <param name="para"></param>
+        /// <returns></returns>
+        protected string isExpire(object[] para)
+        {
+            DateTime end = DateTime.Now.AddYears(-1);
+            if (para.Length > 0 && para[0] is DateTime)
+                DateTime.TryParse(para[0].ToString(), out end);
+            if (end < DateTime.Now.AddDays(-7)) return "1";
+            return "0";
+        }
+        #endregion
+
         #region 解析二维码
         /// <summary>
         /// 解析二维码

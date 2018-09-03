@@ -394,26 +394,26 @@ namespace Song.ServiceImpls
                         {
                             //已经过期，则重新设置时间
                             if (sc.Stc_EndTime < DateTime.Now)
-                            {
+                            {                               
                                 sc.Stc_StartTime = start;
                                 sc.Stc_EndTime = end;
                             }
                             else
                             {
                                 //如果未过期，则续期
-                                sc.Stc_EndTime += start - end;
+                                sc.Stc_EndTime += end - start;
                             }
                         }
                         else
                         {
                             sc = new Student_Course();
                             sc.Stc_CrtTime = DateTime.Now;
+                            sc.Stc_StartTime = start;
+                            sc.Stc_EndTime = end;
                         }
                         sc.Ac_ID = entity.Ac_ID;
                         sc.Cou_ID = cou.Cou_ID;
-                        sc.Stc_Money = 0;
-                        sc.Stc_StartTime = entity.Lc_LimitStart;
-                        sc.Stc_EndTime = entity.Lc_LimitEnd;
+                        sc.Stc_Money = entity.Lc_Price;                       
                         sc.Org_ID = entity.Org_ID;
                         tran.Save<Student_Course>(sc);
                     }
@@ -467,6 +467,13 @@ namespace Song.ServiceImpls
             if (entity.Lc_State == 1)
             {
                 LearningCardSet set = this.SetSingle(entity.Lcs_ID);
+                //学习时间的起始时间
+                int day = 0;
+                if (set.Lcs_Unit == "日" || set.Lcs_Unit == "天") day = set.Lcs_Span;
+                if (set.Lcs_Unit == "周") day = set.Lcs_Span * 7;
+                if (set.Lcs_Unit == "月") day = set.Lcs_Span*30;
+                if (set.Lcs_Unit == "年") day = set.Lcs_Span * 365;
+                //关联的课程
                 Course[] courses = this.CoursesGet(set.Lcs_RelatedCourses);
                 using (DbTrans tran = Gateway.Default.BeginTrans())
                 {
@@ -474,9 +481,20 @@ namespace Song.ServiceImpls
                     {
                         foreach (Course cou in courses)
                         {
-                            tran.Delete<Student_Course>(Student_Course._.Ac_ID == entity.Ac_ID && Student_Course._.Cou_ID == cou.Cou_ID);
-                            tran.Update<Accounts>(new Field[] { Accounts._.Ac_CurrCourse }, new object[] { -1 },
-                                Accounts._.Ac_ID == entity.Ac_ID && Accounts._.Ac_CurrCourse == cou.Cou_ID);                            
+                            Song.Entities.Student_Course sc = tran.From<Student_Course>().Where(Student_Course._.Ac_ID == entity.Ac_ID
+                                && Student_Course._.Cou_ID == cou.Cou_ID).ToFirst<Student_Course>();
+                            if (sc == null) continue;
+                            if (sc.Stc_CrtTime < DateTime.Now.AddDays(-day))
+                            {
+                                tran.Delete<Student_Course>(Student_Course._.Ac_ID == entity.Ac_ID && Student_Course._.Cou_ID == cou.Cou_ID);
+                                tran.Update<Accounts>(new Field[] { Accounts._.Ac_CurrCourse }, new object[] { -1 },
+                                Accounts._.Ac_ID == entity.Ac_ID && Accounts._.Ac_CurrCourse == cou.Cou_ID);  
+                            }
+                            else
+                            {
+                                tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_EndTime }, new object[] { DateTime.Now.AddDays(-day) },
+                                Student_Course._.Ac_ID == entity.Ac_ID && Student_Course._.Cou_ID == cou.Cou_ID);   
+                            }                                                      
                         }
                         tran.Commit();
                         Extend.LoginState.Accounts.Refresh(entity.Ac_ID);
