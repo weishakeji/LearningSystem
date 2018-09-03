@@ -43,6 +43,14 @@
                 <asp:TextBox ID="Org_ICP" runat="server" MaxLength="200" Width="50%"></asp:TextBox>
             </td>
         </tr>
+          <tr>
+            <td class="right">
+                手机端：
+            </td>
+            <td>
+                <asp:CheckBox ID="Org_IsOnlyWeixin" runat="server" Text="手机端是否仅限微信中使用" />
+            </td>
+        </tr>
         <tr>
             <td width="80" class="right">
             </td>

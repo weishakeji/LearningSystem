@@ -94,6 +94,15 @@ namespace Song.Site
             else
                 path = path.Substring(path.IndexOf("/") + 1);
             path = path.Replace("/", "\\");
+            //如果是手机端
+            if (ismobi)
+            {
+                //仅限在微信中使用
+                if (this.Organ.Org_IsOnlyWeixin && !WeiSha.Common.Browser.IsWeixin)
+                {
+                    path = "OnlyWeixin";
+                }
+            }
             return ismobi;
         }
         #region 初始化的操作

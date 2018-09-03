@@ -47,7 +47,7 @@
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="160px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="是否使用">
+            <asp:TemplateField HeaderText="状态">
                 <ItemTemplate>
                     <%# Convert.ToBoolean(Eval("Lc_IsUsed")) ? (Eval("Lc_State", "{0}") == "-1" ? "被回滚" : (Eval("Lc_State", "{0}") == "0" ? "暂存" : "已使用")) : ""%>
                 </ItemTemplate>

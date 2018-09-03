@@ -104,6 +104,8 @@ namespace Song.Entities {
     		
     		protected String _Org_QrCode;
     		
+    		protected Boolean _Org_IsOnlyWeixin;
+    		
     		/// <summary>
     		/// -1
     		/// </summary>
@@ -653,6 +655,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Org_IsOnlyWeixin {
+    			get {
+    				return this._Org_IsOnlyWeixin;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Org_IsOnlyWeixin, _Org_IsOnlyWeixin, value);
+    				this._Org_IsOnlyWeixin = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -727,7 +739,8 @@ namespace Song.Entities {
     					_.Org_TemplateMobi,
     					_.Org_IsShow,
     					_.Org_ICP,
-    					_.Org_QrCode};
+    					_.Org_QrCode,
+    					_.Org_IsOnlyWeixin};
     		}
     		
     		/// <summary>
@@ -782,7 +795,8 @@ namespace Song.Entities {
     					this._Org_TemplateMobi,
     					this._Org_IsShow,
     					this._Org_ICP,
-    					this._Org_QrCode};
+    					this._Org_QrCode,
+    					this._Org_IsOnlyWeixin};
     		}
     		
     		/// <summary>
@@ -932,6 +946,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_QrCode))) {
     				this._Org_QrCode = reader.GetString(_.Org_QrCode);
+    			}
+    			if ((false == reader.IsDBNull(_.Org_IsOnlyWeixin))) {
+    				this._Org_IsOnlyWeixin = reader.GetBoolean(_.Org_IsOnlyWeixin);
     			}
     		}
     		
@@ -1198,7 +1215,11 @@ namespace Song.Entities {
     			/// 字段名：Org_QrCode - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Org_QrCode = new WeiSha.Data.Field<Organization>("Org_QrCode");
+    			
+    			/// <summary>
+    			/// 字段名：Org_IsOnlyWeixin - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Org_IsOnlyWeixin = new WeiSha.Data.Field<Organization>("Org_IsOnlyWeixin");
     		}
     	}
     }
-    

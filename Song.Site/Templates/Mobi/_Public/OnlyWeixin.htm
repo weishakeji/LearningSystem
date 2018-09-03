@@ -1,0 +1,48 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>仅限在微信中使用</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="format-detection" content="email=no" />
+<style type="text/css">
+.txt {
+	text-align: center;
+	margin: 50px;
+}
+#footer {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 100px;
+	line-height: 30px;
+	text-align: center;
+	z-index: 9999;
+	opacity: .80;
+	filter: alpha(opacity=80);
+	color: #666;	
+}
+.line {
+	display: inline-block;
+	width: 80%;
+	border-top: 1px solid #ccc;
+	height:1px;
+	margin-left:10%;
+	margin-right:10%;
+	top:0px;
+	left:0px;
+	z-index:1;
+}
+</style>
+</head>
+    <body>
+    <div class="txt"> 仅限在微信中使用 </div>
+    <div id="footer">
+    <span class="line"></span>
+        {$:#.org.Org_PlatformName}
+        </div>
+</body>
+</html>

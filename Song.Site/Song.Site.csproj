@@ -863,6 +863,7 @@
     <Content Include="Templates\Mobi\_Public\Styles\WeixinpubLogin.css" />
     <Content Include="Templates\Mobi\_Public\WeixinpubLogin.htm" />
     <Content Include="Templates\Mobi\_Public\_self.xml" />
+    <Content Include="Templates\Mobi\_Public\OnlyWeixin.htm" />
     <Content Include="Templates\Web\Gov\Conn.htm" />
     <Content Include="Templates\Web\Gov\CourseChannel.htm" />
     <Content Include="Templates\Web\Gov\Images\Flvplayer.swf" />

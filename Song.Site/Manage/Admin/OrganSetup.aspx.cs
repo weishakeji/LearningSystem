@@ -48,6 +48,8 @@ namespace Song.Site.Manage.Admin
             {
                 this.imgShow.Src = Upload.Get[_uppath].Virtual + org.Org_Logo;
             }
+            //手机端是否仅限微信使用
+            Org_IsOnlyWeixin.Checked = org.Org_IsOnlyWeixin;
             
         }
         protected void btnBase_Click(object sender, EventArgs e)
@@ -56,6 +58,8 @@ namespace Song.Site.Manage.Admin
             org.Org_PlatformName = Org_PlatformName.Text.Trim();
             org.Org_TwoDomain = Org_TwoDomain.Text.Trim();
             org.Org_ICP = Org_ICP.Text.Trim();
+            //手机端是否仅限微信使用
+            org.Org_IsOnlyWeixin = Org_IsOnlyWeixin.Checked;
             //图片
             if (fuLoad.PostedFile.FileName != "")
             {

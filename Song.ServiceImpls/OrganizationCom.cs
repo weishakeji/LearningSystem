@@ -75,6 +75,7 @@ namespace Song.ServiceImpls
                     tran.Update<Teacher>(new Field[] { Teacher._.Org_Name }, new object[] { entity.Org_Name }, Teacher._.Org_ID == entity.Org_ID);
                     tran.Update<TeacherSort>(new Field[] { TeacherSort._.Org_Name }, new object[] { entity.Org_Name }, TeacherSort._.Org_ID == entity.Org_ID);
                     tran.Commit();
+                    this.OrganBuildCache();
                 }
                 catch
                 {
@@ -101,6 +102,7 @@ namespace Song.ServiceImpls
                     trans.Update<Organization>(new Field[] { Organization._.Org_IsDefault },
                         new object[] { false }, Organization._.Org_ID != identify);
                     trans.Commit();
+                    this.OrganBuildCache();
                 }
                 catch (Exception ex)
                 {
