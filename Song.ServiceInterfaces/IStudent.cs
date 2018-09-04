@@ -374,11 +374,11 @@ namespace Song.ServiceInterfaces
         /// <returns>datatable中LastTime列为学习时间；studyTime：学习时间</returns>
         DataTable StudentStudyCourseLog(int orgid, int stid);
         /// <summary>
-        /// 学员学习章节的记录
+        /// 学员学习某一课程下所有章节的记录
         /// </summary>
-        /// <param name="couid"></param>
-        /// <param name="stid"></param>
-        /// <returns>datatable中，LastTime：最后学习时间；totalTime：视频时间长；playTime：播放进度；studyTime：学习时间</returns>
+        /// <param name="couid">课程id</param>
+        /// <param name="acid">学员账户id</param>
+        /// <returns>datatable中，LastTime：最后学习时间；totalTime：视频时间长；playTime：播放进度；studyTime：学习时间，complete：完成度百分比</returns>
         DataTable StudentStudyOutlineLog(int couid, int stid);
         #endregion
 

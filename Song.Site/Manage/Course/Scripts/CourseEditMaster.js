@@ -14,15 +14,16 @@ function setMenuUrl() {
     $("#editLeft a").removeClass("curr");
     $("#editLeft a").each(function () {
         var href = $(this).attr("href");
-        if (href.toLowerCase() == strPage) {
-            $(this).addClass("curr");
+        if (href != null) {
+            if (href.toLowerCase() == strPage) {
+                $(this).addClass("curr");
+            }
+            //设置转换地址
+            var couid = $().getPara("couid");
+            if (Number(couid) > 0) {
+                $(this).attr("href", href + "?couid=" + couid);
+            }
         }
-        //设置转换地址
-        var couid = $().getPara("couid");
-        if (Number(couid) > 0) {
-            $(this).attr("href", href + "?couid=" + couid);
-        }
-
     });
 }
 //按钮事件
