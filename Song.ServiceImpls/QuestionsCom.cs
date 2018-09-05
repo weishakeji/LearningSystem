@@ -159,7 +159,8 @@ namespace Song.ServiceImpls
         }
         public Questions QuesSingle(int identify)
         {
-            Song.Entities.Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == identify).ToFirst<Questions>();
+            Song.Entities.Questions qus = QuestionsMethod.QuestionsCache.Singleton.GetSingle(identify);
+            if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == identify).ToFirst<Questions>();
             if (qus == null) return qus;
             if (!string.IsNullOrWhiteSpace(qus.Qus_Title))
             {
@@ -173,7 +174,8 @@ namespace Song.ServiceImpls
         public Questions QuesSingle(string uid)
         {
             if (uid == string.Empty) return null;
-            Song.Entities.Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_UID == uid.Trim() && Questions._.Qus_IsTitle==true).ToFirst<Questions>();
+            Song.Entities.Questions qus = QuestionsMethod.QuestionsCache.Singleton.GetSingle(uid);
+            if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_UID == uid.Trim() && Questions._.Qus_IsTitle == true).ToFirst<Questions>();
             if (qus == null) return qus;
             qus.Qus_Title = qus.Qus_Title.Replace("&lt;", "<");
             qus.Qus_Title = qus.Qus_Title.Replace("&gt;", ">");

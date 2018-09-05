@@ -382,6 +382,7 @@ namespace Song.ServiceImpls
                 if (set.Lcs_Unit == "周") end = start.AddDays(set.Lcs_Span * 7);
                 if (set.Lcs_Unit == "月") end = start.AddMonths(set.Lcs_Span);
                 if (set.Lcs_Unit == "年") end = start.AddYears(set.Lcs_Span);
+                int span = (end - start).Days;
                 try
                 {
                     Course[] courses = this.CoursesGet(set.Lcs_RelatedCourses);
@@ -401,7 +402,7 @@ namespace Song.ServiceImpls
                             else
                             {
                                 //如果未过期，则续期
-                                sc.Stc_EndTime += end - start;
+                                sc.Stc_EndTime = sc.Stc_EndTime.AddDays(span);
                             }
                         }
                         else
@@ -476,11 +477,14 @@ namespace Song.ServiceImpls
             {
                 LearningCardSet set = this.SetSingle(entity.Lcs_ID);
                 //学习时间的起始时间
-                int day = 0;
-                if (set.Lcs_Unit == "日" || set.Lcs_Unit == "天") day = set.Lcs_Span;
-                if (set.Lcs_Unit == "周") day = set.Lcs_Span * 7;
-                if (set.Lcs_Unit == "月") day = set.Lcs_Span*30;
-                if (set.Lcs_Unit == "年") day = set.Lcs_Span * 365;
+                int day = entity.Lc_Span;
+                if (day <= 0)
+                {
+                    if (set.Lcs_Unit == "日" || set.Lcs_Unit == "天") day = set.Lcs_Span;
+                    if (set.Lcs_Unit == "周") day = set.Lcs_Span * 7;
+                    if (set.Lcs_Unit == "月") day = set.Lcs_Span * 30;
+                    if (set.Lcs_Unit == "年") day = set.Lcs_Span * 365;
+                }
                 //关联的课程
                 Course[] courses = this.CoursesGet(set.Lcs_RelatedCourses);
                 using (DbTrans tran = Gateway.Default.BeginTrans())
