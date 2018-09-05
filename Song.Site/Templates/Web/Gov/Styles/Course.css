@@ -44,6 +44,7 @@
 	width: 634px;
 	margin-top: 5px;
 	margin-left: 5px;
+	background-size: 100% !important
 }
 #couHead .headRight .couName {
 	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";

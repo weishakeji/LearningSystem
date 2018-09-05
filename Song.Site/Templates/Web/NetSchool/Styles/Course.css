@@ -26,6 +26,7 @@
 	margin-top: 5px;
 	margin-left: 5px;
 	background-position: center top;
+	background-size: 100% !important
 }
 #couHead .headRight .couName {
 	font-family: "Microsoft YaHei", "微软雅黑", "MicrosoftJhengHei", "华文细黑", STHeiti, MingLiu;
