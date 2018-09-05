@@ -1,4 +1,5 @@
 ﻿$(function () {
+    $("a").click(a_click);
     //默认打开的窗口，显示课程
     var openurl = $().getPara("openurl");
     if (openurl.length > 0) {

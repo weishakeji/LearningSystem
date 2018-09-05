@@ -120,7 +120,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Save<Examination>(entity);
                     tran.Update<Examination>(new Field[] { Examination._.Exam_IsUse }, new object[] { entity.Exam_IsUse }, Examination._.Exam_UID == entity.Exam_UID);
-                    tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Name }, new object[] { entity.Exam_Name }, Examination._.Exam_UID == entity.Exam_UID);
+                    tran.Update<ExamResults>(new Field[] { ExamResults._.Exam_Name }, new object[] { entity.Exam_Name }, ExamResults._.Exam_UID == entity.Exam_UID);
                     tran.Commit();
                 }
                 catch (Exception ex)

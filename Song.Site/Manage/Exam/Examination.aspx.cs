@@ -141,7 +141,7 @@ namespace Song.Site.Manage.Exam
             }
             catch (Exception ex)
             {
-                Message.ExceptionShow(ex);
+                this.Alert(ex.Message);
             } 
         }
         /// <summary>
