@@ -209,21 +209,21 @@ function ajaxLoaddata() {
 		        var id = $.trim($(this).attr("couid"));
 		        var url = "Course.ashx?id=" + id;
 		        history.pushState({}, "", $().setPara(window.location.href, "openurl", BASE64.encoder(url))); //更改地址栏信息
-		        new PageBox("课程详情", url, 100, 100, "url").Open();
+		        new PageBox("课程详情", url, 100, 100, "url",window.name).Open();
 		    });
 		    mui('body').off('doubletap', '.news-item');
 		    mui('body').on('doubletap', '.news-item', function () {
 		        var id = $.trim($(this).attr("couid"));
 		        var url = "Course.ashx?id=" + id;
 		        history.pushState({}, "", $().setPara(window.location.href, "openurl", BASE64.encoder(url))); //更改地址栏信息
-		        new PageBox("课程详情", url, 100, 100, "url").Open();
+		        new PageBox("课程详情", url, 100, 100, "url",window.name).Open();
 		    });
 		    //向左滑动，弹出咨询交流
 		    mui('body').off('slideleft', '.mui-table-view-cell');
 		    mui('body').on('slideleft', '.mui-table-view-cell', function (event) {
 		        var id = $(this).attr("couid");
 		        var name = $(this).attr("couname");
-		        new PageBox("《" + name + "》", "MsgBoards.ashx?couid=" + id + "&state=nohead", 100, 100, "url").Open();
+		        new PageBox("《" + name + "》", "MsgBoards.ashx?couid=" + id + "&state=nohead", 100, 100, "url",window.name).Open();
 		        mui.swipeoutClose(this);
 		    });
 		    /*

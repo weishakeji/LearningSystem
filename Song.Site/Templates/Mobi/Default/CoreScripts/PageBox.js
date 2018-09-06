@@ -40,8 +40,8 @@
         //如果宽高小于100，则默认为浏览器窗口的百分比
         this.Wdper = width > 100 ? width / wd * 100 : width;    //宽度百分比
         this.Hgper = height > 100 ? height / hg * 100 : height;    //宽度百分比
-        this.Width = width > 100 ? Number(width) : wd * Number(width) / 100;
-        this.Height = height > 100 ? Number(height) : hg * Number(height) / 100;
+        this.Width = width > 100 ? Number(width) : Math.floor(wd * Number(width) / 100);
+        this.Height = height > 100 ? Number(height) : Math.floor(hg * Number(height) / 100);
         this.WinId = winid != null ? winid : new Date().getTime() + "_" + Math.floor(Math.random() * 1000 + 1);
         this.Page = pagebox.getCurrPath(patwin, page);
         //上级窗体
@@ -79,13 +79,13 @@
         } else {
             path = window.top.location.href;
         }
+        path = path.indexOf("?") ? path.substring(0, path.lastIndexOf("?") + 1) : "";
         path = path.indexOf("/") ? path.substring(0, path.lastIndexOf("/") + 1) : "";
         return path;
     }
     //获取当前要打开的路径
     pagebox.getCurrPath = function (winname, page) {
         var patpath = pagebox.getParentPath(winname);
-
         if ($.trim(patpath) == "") return page;
         var path = page;
         if (new RegExp("[a-zA-z]+://[^\s]*").exec(page)) return page;
@@ -100,7 +100,10 @@
         pagebox.coordinate(this.WinId);     //计算坐标相对窗体的比例
         //设置拖动
         if (this.IsDrag && !(this.Wdper == 100 && this.Hgper)) {
-            $(".PageBox[winid='" + this.WinId + "']").easydrag().setHandler(".PageBoxTitle")
+            var box = $(".PageBox[winid='" + this.WinId + "']");
+            if (box.size() > 0) {
+                try {
+                    box.easydrag().setHandler(".PageBoxTitle")
                 .ondrag(function () {
                     $(".PageBoxIframeMask").show();
                 }).ondrop(function (d) {
@@ -108,6 +111,9 @@
                     var winid = $(d.target).parents(".PageBox").attr("winid");
                     pagebox.coordinate(winid);
                 });
+                } catch (e) {
+                }
+            }
         }
         //关闭事件，全屏事件
         if (this.CloseEvent != null) pagebox.events.add(this.WinId + "_CloseEvent", this.CloseEvent);
@@ -128,7 +134,8 @@
         //设置窗口的位置
         boxframe.css({ top: (hg - this.Height) / 2 + $(window).scrollTop(),
             left: (wd - this.Width) / 2, position: "absolute",
-            "width": this.Width, "height": this.Height
+            "width": (this.Width == wd ? wd : this.Width - border * 2), 
+            "height": (this.Height == hg ? hg : this.Height - border * 2)
         });
         //如果有父窗口
         if (this.Parent != null && this.Parent.size() > 0) {
