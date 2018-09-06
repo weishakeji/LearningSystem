@@ -11,8 +11,9 @@
 * 开发时间: 2016年12月28日
 */
 (function () {
-    function pagebox(title, page, width, height, id, patwin) {
-        this.Init(title, page, width, height, id, patwin);
+    ////type:窗口类型，url为Iframe窗口（内嵌页面）,text为文本,obj为元素对象，默认为url
+    function pagebox(title, page, width, height, id, patwin, type) {
+        this.Init(title, page, width, height, id, patwin, type);
     }
     pagebox.version = "1.1";  //版本号
     pagebox.prototype.Parent = null;    //上级窗体
@@ -26,10 +27,11 @@
             $("html").css("overflow", "auto");
     };
     //初始化参数
-    pagebox.prototype.Init = function (title, page, width, height, winid, patwin) {
+    pagebox.prototype.Init = function (title, page, width, height, winid, patwin, type) {
         if (width == 100 & height == 100) {
             if (this.FullScreenEvent != null) this.FullScreenEvent();
         }
+        this.Info = page;
         //屏幕的宽高
         var hg = $(window).height();
         var wd = $(window).width();
@@ -43,6 +45,7 @@
         this.Width = width > 100 ? Number(width) : Math.floor(wd * Number(width) / 100);
         this.Height = height > 100 ? Number(height) : Math.floor(hg * Number(height) / 100);
         this.WinId = winid != null ? winid : new Date().getTime() + "_" + Math.floor(Math.random() * 1000 + 1);
+        this.Type = type == null ? "url" : type;
         this.Page = pagebox.getCurrPath(patwin, page);
         //上级窗体
         if (patwin != null) this.Parent = pagebox.getParent(patwin);
@@ -93,7 +96,7 @@
         return patpath + path;
     }
     //创建窗口，并打开
-    pagebox.prototype.Open = function (title, page, width, height, winId) {
+    pagebox.prototype.Open = function (func) {
         //生成窗口
         this.maskOpen();    //打开遮罩层
         this.buildFrame();  //创建窗体
@@ -115,6 +118,9 @@
                 }
             }
         }
+        if (arguments.length > 0) {
+            func();
+        }
         //关闭事件，全屏事件
         if (this.CloseEvent != null) pagebox.events.add(this.WinId + "_CloseEvent", this.CloseEvent);
         if (this.FullScreenEvent != null) pagebox.events.add(this.WinId + "_FullScreenEvent", this.FullScreenEvent);
@@ -134,7 +140,7 @@
         //设置窗口的位置
         boxframe.css({ top: (hg - this.Height) / 2 + $(window).scrollTop(),
             left: (wd - this.Width) / 2, position: "absolute",
-            "width": (this.Width == wd ? wd : this.Width - border * 2), 
+            "width": (this.Width == wd ? wd : this.Width - border * 2),
             "height": (this.Height == hg ? hg : this.Height - border * 2)
         });
         //如果有父窗口
@@ -159,14 +165,26 @@
             PageBox.Close(box.attr("winid"));
             return false;
         });
+        boxframe.append("<div class=\"PageBoxContext\"></div>");
         //生成窗体内容区，即iframe
-        boxframe.append("<iframe name='" + this.WinId + "'></iframe>");
-        var frame = boxframe.find("iframe");
-        var titHg = boxframe.find(".PageBoxTitle").height();    //高度
-        var height = boxframe.height() - titHg;
-        frame.attr({ src: this.Page, width: boxframe.width(), height: height,
-            marginwidth: 0, marginheight: 0, align: "top", scrolling: "auto", frameborder: 0
-        });
+        if (this.Type == "url") {
+            boxframe.append("<iframe name='" + this.WinId + "'></iframe>");
+            var frame = boxframe.find("iframe");
+            var titHg = boxframe.find(".PageBoxTitle").height();    //高度
+            var height = boxframe.height() - titHg;
+            frame.attr({ src: this.Page, width: boxframe.width(), height: height,
+                marginwidth: 0, marginheight: 0, align: "top", scrolling: "auto", frameborder: 0
+            });
+        }
+        var WinBox = $(".PageBox[winId='" + this.WinId + "']");
+        var box = WinBox.find(".PageBoxContext");
+        if (this.Type == "text") {
+            box.append(this.Info);
+        }
+        if (this.Type == "obj") {
+            if (this.Info.size() > 0)
+                box.html(this.Info.html());
+        }
         //生成iframe上面的覆盖
         boxframe.append("<div class='PageBoxIframeMask'></div>");
         var mask = boxframe.find(".PageBoxIframeMask");

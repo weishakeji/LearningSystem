@@ -33,12 +33,12 @@ $(function () {
 });
 function cou_select(){
 	var txt = $("#select-box");
-        var box = new PageBox("课程筛选", txt, 100, 100, "obj");
+        var box = new PageBox("课程筛选", txt, 100, 100, null, window.name, "obj");
         box.IsBackbtn = true;
         box.Open(function () {
             select_init();
             //设置内容区可以滚动
-            $(".pagebox-context").height($("#PageBoxContext").height() - 85);
+            $(".pagebox-context").height($(".PageBoxContext").height() - 85);
             //复选框事件，并阻止事件冒泡
             mui('body').off('tap', 'label');
             mui('body').on('tap', 'label', function (event) {
@@ -74,16 +74,17 @@ function cou_select(){
             mui('body').off('tap', '#btnSearch');
             mui('body').on('tap', '#btnSearch', function (event) {
                 var sbjids = "";
-                $("#PageBoxContext .checkbox").each(function () {
+				alert(3);
+                $(".PageBoxContext .checkbox").each(function () {
                     if ($(this).is(":checked")) sbjids += $(this).attr("sbjid") + ",";
                 });
                 var href = window.location.href;
                 if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
-                window.location.href = href.replace("#", "") + "?sear=" + encodeURI($("#PageBoxContext #tbSearch").val()) + "&sbjids=" + sbjids;
+                window.location.href = href.replace("#", "") + "?sear=" + encodeURI($(".PageBoxContext #tbSearch").val()) + "&sbjids=" + sbjids;
             });
             mui('body').off('tap', '.sbj-clear');
             mui('body').on('tap', '.sbj-clear', function (event) {
-                $("#PageBoxContext .checkbox").attr("checked", false);
+                $(".PageBoxContext .checkbox").attr("checked", false);
                 $("input[name=tbSearch]").val("");
                 checkbox_change();
             });
@@ -94,14 +95,14 @@ function cou_select(){
 //当筛选框打开时，初始化之前选择的内容
 function select_init() {
     //查询字符串
-    $("#PageBoxContext #tbSearch").val(decodeURI($().getPara("sear")));
+    $(".PageBoxContext #tbSearch").val(decodeURI($().getPara("sear")));
     var sbjids = $().getPara("sbjids").split(",");
-    for (s in sbjids) $("#PageBoxContext .checkbox[sbjid=" + sbjids[s] + "]").attr("checked", true);
+    for (s in sbjids) $(".PageBoxContext .checkbox[sbjid=" + sbjids[s] + "]").attr("checked", true);
     checkbox_change();
 }
 //当复选框变动时
 function checkbox_change() {
-    var n = $("#PageBoxContext .checkbox:checked").size();
+    var n = $(".PageBoxContext .checkbox:checked").size();
     if (n < 1) $(".sbj-num").hide();
     if (n > 0) {
         $(".sbj-num").html("-选中" + n + "个专业");
@@ -209,21 +210,21 @@ function ajaxLoaddata() {
 		        var id = $.trim($(this).attr("couid"));
 		        var url = "Course.ashx?id=" + id;
 		        history.pushState({}, "", $().setPara(window.location.href, "openurl", BASE64.encoder(url))); //更改地址栏信息
-		        new PageBox("课程详情", url, 100, 100, "url",window.name).Open();
+		        new PageBox("课程详情", url, 100, 100,window.name, "url").Open();
 		    });
 		    mui('body').off('doubletap', '.news-item');
 		    mui('body').on('doubletap', '.news-item', function () {
 		        var id = $.trim($(this).attr("couid"));
 		        var url = "Course.ashx?id=" + id;
 		        history.pushState({}, "", $().setPara(window.location.href, "openurl", BASE64.encoder(url))); //更改地址栏信息
-		        new PageBox("课程详情", url, 100, 100, "url",window.name).Open();
+		        new PageBox("课程详情", url, 100, 100,window.name, "url").Open();
 		    });
 		    //向左滑动，弹出咨询交流
 		    mui('body').off('slideleft', '.mui-table-view-cell');
 		    mui('body').on('slideleft', '.mui-table-view-cell', function (event) {
 		        var id = $(this).attr("couid");
 		        var name = $(this).attr("couname");
-		        new PageBox("《" + name + "》", "MsgBoards.ashx?couid=" + id + "&state=nohead", 100, 100, "url",window.name).Open();
+		        new PageBox("《" + name + "》", "MsgBoards.ashx?couid=" + id + "&state=nohead", 100, 100,window.name, "url").Open();
 		        mui.swipeoutClose(this);
 		    });
 		    /*

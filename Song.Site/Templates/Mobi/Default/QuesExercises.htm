@@ -93,11 +93,11 @@
               <!--判断题 -->
               <vt:function var="answer" method="GetAnswer" args="$#.q"/>
               <vt:if var="answer" value="正确" compare="=">
-                <div class="answer" correct="true" ansid="0"><span class="type">&#xe621;</span>A、&nbsp;正确</div>
-                <div class="answer" correct="false" ansid="1"><span class="type">&#xe621;</span>B、&nbsp;错误</div>
+                <div class="answer" correct="true" ansid="0"><span class="type">&#xe621;</span>、&nbsp;正确</div>
+                <div class="answer" correct="false" ansid="1"><span class="type">&#xe621;</span>、&nbsp;错误</div>
                 <vt:else/>
-                <div class="answer" correct="false" ansid="0"><span class="type">&#xe621;</span>A、&nbsp;正确</div>
-                <div class="answer" correct="true" ansid="1"><span class="type">&#xe621;</span>B、&nbsp;错误</div>
+                <div class="answer" correct="false" ansid="0"><span class="type">&#xe621;</span>、&nbsp;正确</div>
+                <div class="answer" correct="true" ansid="1"><span class="type">&#xe621;</span>、&nbsp;错误</div>
               </vt:if>
             </vt:if>
             <vt:if var="q.qus_type" value="4" compare="=">

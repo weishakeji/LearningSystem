@@ -5,7 +5,7 @@
 	margin: 0px;
 	padding: 0px;
 	text-align: left;
-
+background-color: #FFFFFF;
 }
 
 .PageBox .PageBoxTitle {
@@ -66,4 +66,14 @@
 {
 	margin: 0px;
 	padding: 0px;
+}
+.PageBox .PageBoxContext
+{
+	margin: 0px;
+	padding: 0px;
+	background-color: #FFFFFF;
+	overflow-x:hidden;
+	overflow-y:hidden;
+	-webkit-overflow-scrolling: touch;  
+    overflow-y: scroll;  
 }
