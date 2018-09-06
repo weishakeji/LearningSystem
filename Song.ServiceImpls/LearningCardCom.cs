@@ -367,13 +367,11 @@ namespace Song.ServiceImpls
             //是否过期
             if (!(DateTime.Now > entity.Lc_LimitStart && DateTime.Now < entity.Lc_LimitEnd.Date.AddDays(1)))
                 throw new Exception("该学习卡已经过期");
-            //标注已经使用
-            entity.Lc_IsUsed = true;
+            //设置学习卡的使用信息
             entity.Lc_UsedTime = DateTime.Now;
             entity.Lc_State = 1;    //状态，0为初始，1为使用，-1为回滚
             entity.Ac_ID = acc.Ac_ID;
             entity.Ac_AccName = acc.Ac_AccName;
-            //
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 //学习时间的起始时间
@@ -402,7 +400,7 @@ namespace Song.ServiceImpls
                             else
                             {
                                 //如果未过期，则续期
-                                sc.Stc_EndTime = sc.Stc_EndTime.AddDays(span);
+                                sc.Stc_EndTime = sc.Stc_EndTime.AddDays(span);                                
                             }
                         }
                         else
@@ -417,12 +415,15 @@ namespace Song.ServiceImpls
                         sc.Stc_Money = entity.Lc_Price;                       
                         sc.Org_ID = entity.Org_ID;
                         tran.Save<Student_Course>(sc);
-                    }
-                    tran.Save<LearningCard>(entity);
+                    }                    
                     //使用数量加1
-                    int usecount = tran.Count<LearningCard>(LearningCard._.Lcs_ID == set.Lcs_ID && LearningCard._.Lc_IsUsed == true);
-                    set.Lsc_UsedCount = usecount + 1;
+                    set.Lsc_UsedCount = tran.Count<LearningCard>(LearningCard._.Lcs_ID == set.Lcs_ID && LearningCard._.Lc_IsUsed == true);
+                    set.Lsc_UsedCount = entity.Lc_IsUsed ? set.Lsc_UsedCount : set.Lsc_UsedCount + 1;
                     tran.Save<LearningCardSet>(set);
+                    //标注学习卡已经使用
+                    entity.Lc_IsUsed = true;
+                    entity.Lc_Span = span;  //记录学习卡使后，增加的学习时间（单位：天），方便回滚扣除                    
+                    tran.Save<LearningCard>(entity);
                     tran.Commit();
                 }
                 catch (Exception ex)
@@ -456,7 +457,10 @@ namespace Song.ServiceImpls
             entity.Lc_State = 0;    //状态，0为初始，1为使用，-1为回滚
             entity.Ac_ID = acc.Ac_ID;
             entity.Ac_AccName = acc.Ac_AccName;
-
+            //使用数量加1
+            int usecount = Gateway.Default.Count<LearningCard>(LearningCard._.Lcs_ID == set.Lcs_ID && LearningCard._.Lc_IsUsed == true);
+            set.Lsc_UsedCount = usecount + 1;
+            Gateway.Default.Save<LearningCardSet>(set);
             Gateway.Default.Save<LearningCard>(entity);
         }
         /// <summary>
