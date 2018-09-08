@@ -32,12 +32,19 @@ form{
 	line-height: 40px;
 }
 
-#SubmitError label {
+#SubmitError p {
 	display: block;
 	margin-left: 10px;
-	line-height: 20px;
+	line-height: 30px;
 	height: 30px;
 	overflow: hidden;
+	width: 100%;
+	font-size: 16px;
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	color: #333;
 }
 .noinfo{
 	text-align: center;
