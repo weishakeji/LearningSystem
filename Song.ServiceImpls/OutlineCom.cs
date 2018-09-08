@@ -10,6 +10,7 @@ using WeiSha.Data;
 using Song.ServiceInterfaces;
 using System.Data.Common;
 using System.Xml.Serialization;
+using System.Threading;
 
 namespace Song.ServiceImpls
 {
@@ -119,14 +120,14 @@ namespace Song.ServiceImpls
             {
                 try
                 {
-                    this.OutlineClear(entity.Ol_ID);
-                    tran.Delete<Outline>(Outline._.Ol_ID == entity.Ol_ID);
-                    foreach (Song.Entities.Accessory ac in acs)
-                    {
+                    //删除附件
+                    foreach (Song.Entities.Accessory ac in acs)                   
                         Business.Do<IAccessory>().Delete(ac.As_Id);
-                    }                    
+                    //先清理试题
+                    tran.Delete<Questions>(Questions._.Ol_ID == entity.Ol_ID);
+                    tran.Delete<Outline>(Outline._.Ol_ID == entity.Ol_ID);                                    
                     tran.Commit();
-
+                    this.OnDelete(entity, null);
                 }
                 catch (Exception ex)
                 {
@@ -295,14 +296,7 @@ namespace Song.ServiceImpls
         public void OutlineClear(int identify)
         {
             //清理试题
-            Song.Entities.Questions[] ques = Gateway.Default.From<Questions>().Where(Questions._.Ol_ID == identify).ToArray<Questions>();
-            if (ques != null && ques.Length > 0)
-            {
-                foreach (Song.Entities.Questions q in ques)
-                {
-                    Business.Do<IQuestions>().QuesDelete(q.Qus_ID);
-                }
-            }
+            Gateway.Default.Delete<Questions>(Questions._.Ol_ID == identify);
             //清理附件
             Outline ol = this.OutlineSingle(identify);
             if (ol != null)
@@ -973,6 +967,13 @@ namespace Song.ServiceImpls
                 if (!(sender is Outline)) return;
                 Outline ol = (Outline)sender;
                 WeiSha.Common.Cache<Song.Entities.Outline>.Data.Delete(ol);
+                //重建试题缓存（取所有试题进缓存）
+                new Thread(new ThreadStart(() =>
+                {
+                    Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
+                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
+                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
+                })).Start();
             }
             if (Delete != null)
                 Delete(sender, e);

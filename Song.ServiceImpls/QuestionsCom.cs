@@ -1252,7 +1252,7 @@ namespace Song.ServiceImpls
             if (Add != null) Add(sender, e);
         }
         public void OnDelete(object sender, EventArgs e)
-        {
+        {           
             if (Delete != null) Delete(sender, e);
         }
         #endregion
