@@ -38,9 +38,7 @@ namespace Song.Site.Manage.Questions
                 {
                     //throw new Exception();
                     //将数据逐行导入数据库
-                    _inputData(dt.Rows[i]);
-                    Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
-                    Business.Do<IOutline>().OnSave(null, EventArgs.Empty);
+                    _inputData(dt.Rows[i]);                    
                 }
                 catch
                 {
@@ -48,6 +46,8 @@ namespace Song.Site.Manage.Questions
                     ExcelInput1.AddError(dt.Rows[i]);
                 }
             }
+            Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
+            Business.Do<IOutline>().OnSave(null, EventArgs.Empty);
         }
         /// <summary>
         /// 将某一行数据加入到数据库
