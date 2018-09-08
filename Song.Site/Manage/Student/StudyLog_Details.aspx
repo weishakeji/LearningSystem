@@ -50,7 +50,7 @@
             <asp:TemplateField HeaderText="完成度">
                 <ItemStyle CssClass="center" Width="100px" />
                 <ItemTemplate>
-                    <%# Convert.ToDouble(Eval("complete", "{0}") == "" ? "0" : Eval("complete", "{0}")) >= 100 ? "100%" : Eval("complete", "{0}%")%>
+                    <%# Convert.ToDouble(Eval("complete", "{0}") == "" ? "0" : Eval("complete", "{0}")) >= 100 ? "100%" : Eval("complete", "{0:0.00}%")%>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>

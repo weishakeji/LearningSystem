@@ -194,7 +194,7 @@
                                             <%# Eval("LastTime", "{0:yyyy-MM-dd}")%>
                                         </div>
                                         <div class="complete">
-                                            <%# Convert.ToDouble(Eval("complete", "{0}") == "" ? "0" : Eval("complete", "{0}")) >= 95 ? "100%" : Eval("complete", "{0:00.00}%")%></div>
+                                            <%# Convert.ToDouble(Eval("complete", "{0}") == "" ? "0" : Eval("complete", "{0}")) >= 95 ? "100%" : Eval("complete", "{0:0.00}%")%></div>
                                     </dd>
                                 </ItemTemplate>
                             </asp:Repeater>
