@@ -172,7 +172,7 @@
         $(".PageBoxTitle span").width($(".PageBoxTitle").innerWidth() - $(".btnPageBoxClose").outerWidth() - 10);
         //生成窗体内容区，即iframe
         if (this.Type == "url") {
-            boxframe.append("<iframe name='" + this.WinId + "'></iframe>");
+            box.append("<iframe name='" + this.WinId + "'></iframe>");
             var frame = boxframe.find("iframe");
             var titHg = boxframe.find(".PageBoxTitle").height();    //高度
             var height = boxframe.height() - titHg;
