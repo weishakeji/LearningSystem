@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace Song.Site.Manage.Admin {
+namespace Song.Site.Manage.Student {
     
     
     public partial class Students_Details {

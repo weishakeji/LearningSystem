@@ -16,7 +16,7 @@ using System.Collections.Generic;
 
 
 
-namespace Song.Site.Manage.Admin
+namespace Song.Site.Manage.Student
 {
     public partial class Students_Details : Extend.CustomPage
     {

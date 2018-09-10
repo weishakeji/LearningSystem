@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Manage/PageWin.Master" AutoEventWireup="true"
-    CodeBehind="Students_Details.aspx.cs" Inherits="Song.Site.Manage.Admin.Students_Details"
+    CodeBehind="Students_Details.aspx.cs" Inherits="Song.Site.Manage.Student.Students_Details"
     Title="学员信息详情" %>
 
 <%@ MasterType VirtualPath="~/Manage/PageWin.Master" %>
