@@ -166,6 +166,10 @@
             return false;
         });
         boxframe.append("<div class=\"PageBoxContext\"></div>");
+        var box = boxframe.find(".PageBoxContext");
+        box.width(boxframe.width());
+        box.height(boxframe.height() - $(".PageBoxTitle").height());
+        $(".PageBoxTitle span").width($(".PageBoxTitle").innerWidth() - $(".btnPageBoxClose").outerWidth() - 10);
         //生成窗体内容区，即iframe
         if (this.Type == "url") {
             boxframe.append("<iframe name='" + this.WinId + "'></iframe>");
