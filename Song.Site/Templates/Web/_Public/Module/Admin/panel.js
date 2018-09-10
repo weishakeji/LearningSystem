@@ -23,9 +23,11 @@
                     mmbox.find(">.mmitem").css("padding-left", (15 * level) + "px");
                     //树形展开的点击事件
                     $(this).click(function () {
-                        mmbox.toggle();
-                        if (mmbox.is(":hidden")) $(this).removeClass("open");
-                        if (mmbox.is(":visible")) $(this).addClass("open");
+                        mmbox.slideToggle("slow", function () {
+                            if ($(this).is(":hidden")) $(this).prev().removeClass("open");
+                            if ($(this).is(":visible")) $(this).prev().addClass("open");
+                        });
+
                     }).append("<div class=\"rightIco\">&nbsp;</div>");
 
                 } else {
@@ -155,7 +157,7 @@
                 if (ifm != null && subWeb != null) {
                     ifm.height = 0;
                     ifm.focus();
-                } 
+                }
             } catch (e) { }
         },
         //预载

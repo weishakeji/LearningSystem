@@ -204,7 +204,6 @@
     <Content Include="Manage\Admin\Departs_Edit.aspx" />
     <Content Include="Manage\Admin\Scripts\Student_Export.js" />
     <Content Include="Manage\Admin\Scripts\Setup_Stamp.js" />
-    <Content Include="Manage\Admin\Students_Details.aspx" />
     <Content Include="Manage\Admin\Student_Export.aspx" />
     <Content Include="Manage\Admin\Navigation.aspx" />
     <Content Include="Manage\Admin\Navigation_Edit.aspx" />
@@ -219,7 +218,6 @@
     <Content Include="Manage\Admin\Styles\Navigation_Edit.css" />
     <Content Include="Manage\Admin\ShowPicture.aspx" />
     <Content Include="Manage\Admin\ShowPicture_Edit.aspx" />
-    <Content Include="Manage\Admin\Styles\Students_Details.css" />
     <Content Include="Manage\Admin\Styles\Student_Export.css" />
     <Content Include="Manage\Admin\Students_Point.aspx" />
     <Content Include="Manage\Admin\Setup_Accounts.aspx" />
@@ -394,6 +392,7 @@
     <Content Include="Manage\Student\Scripts\Course_Curr.js" />
     <Content Include="Manage\Student\Scripts\StudyLog.js" />
     <Content Include="Manage\Student\SelfCourse.aspx" />
+    <Content Include="Manage\Student\Students_Details.aspx" />
     <Content Include="Manage\Student\Styles\Course.css" />
     <Content Include="Manage\Student\Styles\MoneyDetails.css" />
     <Content Include="Manage\Student\Styles\Course_Expire.css" />
@@ -408,6 +407,7 @@
     <Content Include="Manage\Admin\Styles\Students.css" />
     <Content Include="Manage\Student\MoneyDetails.aspx" />
     <Content Include="Manage\Student\Styles\MoneyRecharge.css" />
+    <Content Include="Manage\Student\Styles\Students_Details.css" />
     <Content Include="Manage\Student\Styles\Subordinates.css" />
     <Content Include="Manage\Student\Styles\Share.css" />
     <Content Include="Manage\Student\Styles\CouponDetails.css" />
@@ -2225,13 +2225,6 @@
     <Compile Include="Manage\Admin\Departs_Edit.aspx.designer.cs">
       <DependentUpon>Departs_Edit.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Manage\Admin\Students_Details.aspx.cs">
-      <DependentUpon>Students_Details.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Manage\Admin\Students_Details.aspx.designer.cs">
-      <DependentUpon>Students_Details.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Manage\Admin\Student_Export.aspx.cs">
       <DependentUpon>Student_Export.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2595,6 +2588,13 @@
     </Compile>
     <Compile Include="Manage\Admin\Students_Coupon.aspx.designer.cs">
       <DependentUpon>Students_Coupon.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\Students_Details.aspx.cs">
+      <DependentUpon>Students_Details.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\Students_Details.aspx.designer.cs">
+      <DependentUpon>Students_Details.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Student\StudyLog.aspx.cs">
       <DependentUpon>StudyLog.aspx</DependentUpon>

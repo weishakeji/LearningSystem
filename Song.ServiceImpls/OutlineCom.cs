@@ -280,7 +280,7 @@ namespace Song.ServiceImpls
             var from = from l in list select l;
             if (couid > 0) from = from.Where<Outline>(p => p.Cou_ID == couid);
             if (isUse != null) from = from.Where<Outline>(p => p.Ol_IsUse == (bool)isUse);
-            List<Outline> tm = from.ToList<Outline>();
+            List<Outline> tm = from.OrderBy(c => c.Ol_Tax).ToList<Outline>();
             if (tm.Count > 0) return tm.ToArray<Outline>();
 
             //orm查询
@@ -315,10 +315,11 @@ namespace Song.ServiceImpls
             {
                 WeiSha.Common.Cache<Song.Entities.Outline>.Data.Clear();
                 Song.Entities.Outline[] outls = Gateway.Default.From<Song.Entities.Outline>().ToArray<Outline>();
-                foreach (Outline o in outls)
-                {
-                    o.Ol_QuesCount = this.QuesOfCount(o.Ol_ID, -1, true, true);
-                }
+                ////计算每个章节下的试题数
+                //foreach (Outline o in outls)
+                //{
+                //    o.Ol_QuesCount = this.QuesOfCount(o.Ol_ID, -1, true, true);
+                //}
                 WeiSha.Common.Cache<Song.Entities.Outline>.Data.Fill(outls);
                 return WeiSha.Common.Cache<Outline>.Data.List;
             }
@@ -504,8 +505,7 @@ namespace Song.ServiceImpls
                     {
                         tran.Save<Outline>(current);
                         tran.Save<Outline>(prev);
-                        tran.Commit();
-                        return true;
+                        tran.Commit();                        
                     }
                     catch
                     {
@@ -517,6 +517,8 @@ namespace Song.ServiceImpls
                         tran.Close();
                     }
                 }
+                this.OnSave(null, EventArgs.Empty);
+                return true;
             }
             else
             {
@@ -535,6 +537,7 @@ namespace Song.ServiceImpls
                 current.Ol_PID = topPrev.Ol_ID;
                 current.Ol_Level = 1;
                 Gateway.Default.Save<Outline>(current);
+                this.OnSave(null, EventArgs.Empty);
                 return true;
             }
         }
@@ -562,8 +565,7 @@ namespace Song.ServiceImpls
                     {
                         tran.Save<Outline>(current);
                         tran.Save<Outline>(next);
-                        tran.Commit();
-                        return true;
+                        tran.Commit();                        
                     }
                     catch
                     {
@@ -575,6 +577,8 @@ namespace Song.ServiceImpls
                         tran.Close();
                     }
                 }
+                this.OnSave(null, EventArgs.Empty);
+                return true;
             }
             else
             {
@@ -600,7 +604,7 @@ namespace Song.ServiceImpls
                         for (int i = 0; i < child.Length; i++)
                             tran.Update<Outline>(Outline._.Ol_Tax, i + 2, Outline._.Ol_ID == child[i].Ol_ID);
                         tran.Commit();
-                        return true;
+                       
                     }
                     catch
                     {
@@ -613,6 +617,8 @@ namespace Song.ServiceImpls
                     }
                 }
             }
+            this.OnSave(null, EventArgs.Empty);
+            return true;
         }
         /// <summary>
         /// 将当前章节升级
@@ -660,7 +666,7 @@ namespace Song.ServiceImpls
                         tran.Save<Outline>(child[i]);
                     }
                     tran.Commit();
-                    return true;
+                    
                 }
                 catch
                 {
@@ -672,6 +678,8 @@ namespace Song.ServiceImpls
                     tran.Close();
                 }
             }
+            this.OnSave(null, EventArgs.Empty);
+            return true;
         }
         /// <summary>
         /// 将当前章节退级
@@ -721,7 +729,7 @@ namespace Song.ServiceImpls
                         tran.Save<Outline>(top[i]);
                     }
                     tran.Commit();
-                    return true;
+                    
                 }
                 catch
                 {
@@ -733,6 +741,8 @@ namespace Song.ServiceImpls
                     tran.Close();
                 }
             }
+            this.OnSave(null, EventArgs.Empty);
+            return true;
         }
         #endregion
 
@@ -934,15 +944,14 @@ namespace Song.ServiceImpls
             {
                 if (!(sender is Outline)) return;
                 Outline ol = (Outline)sender;
-                Song.Entities.Outline old = Business.Do<IOutline>().OutlineSingle(ol.Ol_ID);
+                Song.Entities.Outline old = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == ol.Ol_ID).ToFirst<Outline>();
                 ol.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(ol.Ol_ID, -1, true, true);
                 WeiSha.Common.Cache<Song.Entities.Outline>.Data.Update(old, ol);
             }
             else
             {
                 //填充章节数据到缓存
-                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Clear();
-                Business.Do<IOutline>().OutlineBuildCache();
+                this.OutlineBuildCache();
             }
             if (Save != null)
                 Save(sender, e);            

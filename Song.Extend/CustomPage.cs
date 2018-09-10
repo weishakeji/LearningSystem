@@ -99,6 +99,7 @@ namespace Song.Extend
                     string module = WeiSha.Common.Request.Page.Module;
                     if (module.ToLower() != "student")
                     {
+
                         Song.Entities.Teacher th = LoginState.Accounts.Teacher;
                         if (th == null)
                         {
