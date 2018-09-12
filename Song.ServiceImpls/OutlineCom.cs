@@ -61,7 +61,7 @@ namespace Song.ServiceImpls
                 if (current == null)
                 {
                     current = new Outline();
-                    current.Ol_Name = listName[i];
+                    current.Ol_Name = listName[i].Trim();
                     current.Ol_IsUse = true;
                     current.Org_ID = orgid;
                     current.Sbj_ID = sbjid;

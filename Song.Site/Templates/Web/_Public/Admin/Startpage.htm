@@ -26,7 +26,7 @@
 <dl>
 <dt>热门课程</dt>
 <vt:foreach from="$#.hotcourse" item="c" index="i" count="10" remark="热门课程">
-<dd>{$:#.i}. <a href="/course.ashx?id=84" target="_blank">{$:#.c.cou_name} </a></dd>
+<dd>{$:#.i}. <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank">{$:#.c.cou_name} </a></dd>
 </vt:foreach>
 </dl>
 </div>

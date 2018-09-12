@@ -58,7 +58,7 @@ namespace Song.ServiceImpls
                 if (current == null)
                 {
                     current = new Subject();
-                    current.Sbj_Name = listName[i];
+                    current.Sbj_Name = listName[i].Trim();
                     current.Sbj_IsUse = true;
                     current.Org_ID = orgid;
                     current.Sbj_PID = pid;

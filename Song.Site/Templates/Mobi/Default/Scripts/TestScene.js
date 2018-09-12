@@ -3,9 +3,11 @@
 window.isSubmited = false;
 //是否正在卷
 window.isSubmit = false;
-
+window.onload=function(){
+	_initTraning();
+}
 $(function () {
-    _initTraning();
+    
     setInterval("setExamCurrDateTime()", 1000);
 	//字体控件
     $().setFontSize($(".quesTitle, .quesAnswerBox"));
@@ -13,6 +15,7 @@ $(function () {
     $(".context").swipe({ fingers: 'all', swipeLeft: swipeFuc, swipeRight: swipeFuc,
 			pinchIn: swipePinch, pinchOut: swipePinch });
     buildCard();
+	
 });
 //放大与捏合事件
 function swipePinch(event, direction, distance, duration, fingerCount) {
@@ -60,6 +63,7 @@ function _initTraning() {
     //设置试题宽度
     var wd = $(window).width();
     var hg = $(".context").height();
+	hg=document.querySelector(".context").clientHeight;
     var qitem = $(".quesItem");
     qitem.width(wd).height(hg);
     $("#quesArea").width(qitem.width() * qitem.size());

@@ -58,7 +58,7 @@ namespace Song.ServiceImpls
                 if (current == null)
                 {
                     current = new Course();
-                    current.Cou_Name = listName[i];
+                    current.Cou_Name = listName[i].Trim();
                     current.Cou_IsUse = true;
                     current.Org_ID = orgid;
                     current.Sbj_ID = sbjid;
