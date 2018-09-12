@@ -1216,6 +1216,7 @@ namespace Song.ServiceImpls
         public Questions[] CacheQuestions(string uid)
         {
             List<Questions> ques= QuestionsMethod.QuestionsCache.Singleton.GetQuestions(uid);
+            ques = ques.OrderByDescending(x => x.Qus_ID).ToList<Questions>();
             if (ques == null) return null;
             return ques.ToArray<Questions>();
         }

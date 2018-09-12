@@ -6,6 +6,7 @@ using WeiSha.Common;
 using Song.ServiceInterfaces;
 using VTemplate.Engine;
 using Song.Entities;
+using System.Data;
 namespace Song.Site.Mobile
 {
     /// <summary>
@@ -13,8 +14,27 @@ namespace Song.Site.Mobile
     /// </summary>
     public class Knowledges : BasePage
     {
+        public int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
+            if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
+            {
+                //知识库栏目
+                Song.Entities.KnowledgeSort[] kns = Business.Do<IKnowledge>().GetSortAll(-1, couid, -1, true);
+                DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(kns);
+                WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
+                tree.IdKeyName = "Kns_ID";
+                tree.ParentIdKeyName = "Kns_PID";
+                tree.TaxKeyName = "Kns_Tax";
+                tree.Root = 0;
+                dt = tree.BuilderTree(dt);
+                this.Document.Variables.SetValue("kns", dt);
+                this.Document.Variables.SetValue("couid", couid);
+                //当前知识库栏目
+                int sorts = WeiSha.Common.Request.QueryString["sorts"].Int32 ?? 0;  //栏目分类id
+                Song.Entities.KnowledgeSort sort = Business.Do<IKnowledge>().SortSingle(sorts);
+                this.Document.Variables.SetValue("sort", sort);
+            }
             //此页面的ajax提交，全部采用了POST方式
             if (Request.ServerVariables["REQUEST_METHOD"] == "POST")
             {

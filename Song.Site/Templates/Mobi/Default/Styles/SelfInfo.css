@@ -16,8 +16,12 @@
 	color: #666;
 	
 }
-
-
+.left{
+	margin-left:20px;
+}
+.mui-pull-right{
+	margin-right:20px;
+}
 .mui-table-view-cell:after{
 	left:0px;
 }

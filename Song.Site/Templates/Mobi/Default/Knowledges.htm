@@ -7,7 +7,112 @@
 <link href="Styles/Knowledges.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--侧滑菜单部分-->
+ <aside id="offCanvasSide" class="mui-off-canvas-left">
+    <div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+      <div class="mui-scroll">
+        <div class="tit-box">
+         <span class="iconfont rowico">&#xf00cf;</span> 知识分类
+          
+        </div>
+        <ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
+            <vt:foreach from="$#.kns" item="data" index="i" remark="栏目">
+             
+               <li class="mui-table-view-cell"> <a class="mui-navigate-right" href="Knowledges.ashx?couid={$couid}&sorts={$:#.data.kns_id}"> <span class="rowico">{$:#.data.tree}</span>{$:#.data.kns_name} </a> </li>
+            </vt:foreach>
+            
+           
+        </ul>
+        
+      </div>
+     <!-- 上面的侧滑菜单-->
+    
+    </div> 
+  </aside>
+  <script>
+    mui.init();
+    //侧滑容器父节点
+    var offCanvasWrapper = mui('#offCanvasWrapper');
+    //主界面容器
+    var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+    //菜单容器
+    var offCanvasSide = document.getElementById("offCanvasSide");
+    if (!mui.os.android) {
+        var spans = document.querySelectorAll('.android-only');
+        for (var i = 0, len = spans.length; i < len; i++) {
+            spans[i].style.display = "none";
+        }
+    }	
+    //移动效果是否为整体移动
+    var moveTogether = false;
+    //侧滑容器的class列表，增加.mui-slide-in即可实现菜单移动、主界面不动的效果；
+    var classList = offCanvasWrapper[0].classList;
 
+    /* //主界面‘显示侧滑菜单’按钮的点击事件
+    document.getElementById('offCanvasShow').addEventListener('tap', function() {
+    offCanvasWrapper.offCanvas('show');
+    });
+    //菜单界面，‘关闭侧滑菜单’按钮的点击事件
+    document.getElementById('offCanvasHide').addEventListener('tap', function() {
+    offCanvasWrapper.offCanvas('close');
+    });*/
+    //主界面和侧滑菜单界面均支持区域滚动；
+    mui('#offCanvasSideScroll').scroll();
+    mui('#offCanvasContentScroll').scroll();
+	mui.ready(function(){
+		mui('.mui-scroll-wrapper').scroll({deceleration: 0.0005});
+	});
+	
+    //实现ios平台原生侧滑关闭页面；
+    if (mui.os.plus && mui.os.ios) {
+        mui.plusReady(function () { //5+ iOS暂时无法屏蔽popGesture时传递touch事件，故该demo直接屏蔽popGesture功能
+            plus.webview.currentWebview().setStyle({
+                'popGesture': 'none'
+            });
+        });
+    }
+	
+    //左侧滑菜单的链接事件
+    mui('body').on('tap', '#offCanvasSide a', function () {
+        var type = this.getAttribute("type");
+        //如果超链接，直接跳走
+        if (type == "link" || type == null) document.location.href = this.href;
+        //如果需要确认，则弹出确认界面，确定后仍然转向超链接
+        if (type == "confirm") {
+            var msg = this.getAttribute("msg");
+            var tit = this.getAttribute("title");
+            var href = this.getAttribute("href");
+            var cancel = this.getAttribute("cancel");
+            cancel = cancel == null ? "取消" : cancel;
+            var enter = this.getAttribute("enter");
+            enter = enter == null ? "确定" : enter;
+            //弹出确认框
+            mui.confirm(msg, tit, [cancel, enter], function (e) {
+                if (e.index == 1) document.location.href = href;
+            });
+        }
+        //关闭app（采用了apicloud的接口）
+        if (type == "close") {
+            try {
+                api.closeWin();
+            } catch (e) { }
+        }
+        if (type == "open") {
+            var href = this.getAttribute("href");
+            var info = this.innerHTML;
+            new PageBox(info, href, 80, 80, "url").Open();
+        }
+    });
+    //头部栏的超链接事件
+    mui('body').on('tap', 'header a', function () {
+        document.location.href = this.href;
+    });
+    //如果处于微信中，则不再显示“退出”按钮
+    if ($().isWeixin()) {
+        $("#closeApp").hide().css({ "float": "left", "margin-left": "5px" });
+    }
+</script>
   <!--主界面部分-->
   <div class="mui-inner-wrap">
     
@@ -20,42 +125,21 @@
       </div>
     </div>
    
+  <!-- off-canvas backdrop -->
+    <div class="mui-off-canvas-backdrop"> </div>
   </div>
-<nav class="mui-bar mui-bar-tab"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"></a> <a class="mui-btn mui-btn-link mui-pull-right right" href="" > 知识库 </a> </nav>
-<!--内容结束，下面是用于筛选的表单-->
-<div id="select-box" style="display:none">
-  <div class="sear-row">   
-    <input name="tbSearch" type="text" id="tbSearch" placeholder="请输入要检索的信息" value="">    
-    <button type="button" id="btnSearch" class="mui-btn mui-btn-primary">查询</button>
-  </div>
-  <div class="sbj-view">
-  课程公告栏目<span class="sbj-num">-已选0个</span>
-  <span class="sbj-clear">清空</span>
-  </div>
-  <div class="pagebox-context">
-    <vt:repeat type="Knowledgesort" var="sbjs" item="data" index="i" remark="顶级专业分类">
-      <div class="sbj-tit sbj-one"><span class="iconfont sbj-ico">&#xf0085;</span>
-      <input name="cb" type="checkbox" class="checkbox" sortid="{$#.data.current.Kns_ID}"/><label class="sbj-name">{$#.data.current.Kns_Name}</label>
-      </div>
-        <div class="sbj-area">         
-            <vt:repeat from="$data.Childs" type="Knowledgesort" item="d" index="i" remark="二级分类">
-           
-             <div class="sbj-tit sbj-two"><span class="iconfont sbj-ico">&#xf0085;</span>
-             <input name="cb" type="checkbox" class="checkbox" sortid="{$#.d.current.Kns_ID}"/>
-             <label class="sbj-name">{$#.d.current.Kns_Name}</label></div>
-                <div class="sbj-area" style="display:none">
-                    <vt:repeat from="$d.Childs" type="Knowledgesort" item="t" index="i"  remark="三级分类">
-                      <div class="sbj-three"><span class="iconfont sbj-ico">&#xf0085;</span>
-                      <input name="cb" type="checkbox" class="checkbox" sortid="{$#.t.current.Kns_ID}"/><label class="sbj-name">{$#.t.current.Kns_Name}</label></div>
-                    </vt:repeat>
-                 </div>
-             
-            </vt:repeat>
-          
-        </div>
-      
-    </vt:repeat>
-  </div>
+  <!--主界面结束--> 
 </div>
+<nav class="mui-bar mui-bar-tab"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left" href="coursepage.ashx" type="link"></a>
+
+<a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+ <a class="mui-btn mui-btn-link mui-pull-right right" href="" > 
+ <vt:if var="sort.kns_id" value="0" compare=">">
+  {$sort.kns_name}
+ <vt:else/>
+ 知识库
+ </vt:if>
+ </a> </nav>
+
 </body>
 </html>

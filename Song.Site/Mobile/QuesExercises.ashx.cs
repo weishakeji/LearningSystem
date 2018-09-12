@@ -90,8 +90,8 @@ namespace Song.Site.Mobile
             //{
             //    for (int i = 0; i < sumCount; i++) list.Add(ques[i]);   //如果还在试用
             //}
-            //this.Document.SetValue("uid", uid);
-            this.Document.SetValue("ques", list);
+            //this.Document.SetValue("uid", uid);           
+            this.Document.SetValue("ques", ques);
 
             this.Document.RegisterGlobalFunction(this.AnswerItems);
             this.Document.RegisterGlobalFunction(this.IsCollect);

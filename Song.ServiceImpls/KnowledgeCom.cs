@@ -252,7 +252,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(KnowledgeSort._.Org_ID == orgid);
-            if (couid >= 0) wc.And(KnowledgeSort._.Cou_ID == couid);
+            if (couid > 0) wc.And(KnowledgeSort._.Cou_ID == couid);
             if (pid >= 0) wc.And(KnowledgeSort._.Kns_PID == pid);
             if (isUse != null) wc.And(KnowledgeSort._.Kns_IsUse == (bool)isUse);
             return Gateway.Default.From<KnowledgeSort>().Where(wc).OrderBy(KnowledgeSort._.Kns_Tax.Asc).ToArray<KnowledgeSort>();
