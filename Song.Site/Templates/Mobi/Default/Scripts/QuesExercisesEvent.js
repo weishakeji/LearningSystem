@@ -134,7 +134,13 @@ function _btnEvent() {
         if (func != null) func(ques);
         //如果答题正确，则直接转到下一题
         if (ques.attr("ansstate") == "true") _quesMove(ques, 1);
-
+		//计算正确率
+		var sum=$("#cardBox").find("dd.error,dd.succ").size();
+		var suss=$("#cardBox dd.succ").size();
+		if(sum>0){
+		var per=Math.floor(suss/sum*10000)/100;
+		$(".correct-rate").text(per);
+		}
     });
     //查看答案
     $("#btnAnswer").click(function () {

@@ -6,10 +6,10 @@
 <script type="text/javascript" src="CoreScripts/AutoLoyout.js"></script>
 <script type="text/javascript" src="CoreScripts/jquery.touchSwipe.min.js"></script>
 <script type="text/javascript" src="CoreScripts/MsgBox.js"></script>
-<script type="text/javascript" src="Scripts/QuesExercises.js"></script>
-<script type="text/javascript" src="Scripts/QuesExercisesEvent.js"></script>
+<script type="text/javascript" src="Scripts/QuesExercises.js?tick={$tick}"></script>
+<script type="text/javascript" src="Scripts/QuesExercisesEvent.js?tick={$tick}"></script>
 <link href="CoreStyles/MsgBox.css" rel="stylesheet" type="text/css" />
-<link href="Styles/QuesExercises.css" rel="stylesheet" type="text/css" />
+<link href="Styles/QuesExercises.css?tick={$tick}" rel="stylesheet" type="text/css" />
 <link href="/Utility/CoreStyles/Jme.css" rel="stylesheet" type="text/css" />
 </head>
 <body style="display:none;" quesType="{$quesType}">
@@ -34,18 +34,13 @@
 <div loyout="row" height="40" class="topBpx">
   <div loyout="column" width="5"> </div>
   <div loyout="column" width="36"> <a class="item nav-left iconfont" type="back">&#xe6c6; </a> </div>
-  <div loyout="column" width="70">
-    <div class="item" id="quesType">
-      <vt:foreach id="quesType" from="$#.quesType" item="data" index="i" remark="题型"> <span type="{$:i}"> {$:#.data}题</span> </vt:foreach>
-    </div>
+  <div loyout="column" class="ol-name">
+    {$outline.ol_name} {$outline.ol_name} {$outline.ol_name}
   </div>
-  <div loyout="column">
-    <div class="item" id="btnCard"> <span class="examico">&#xe689;</span> 第<span id="indexNum" initIndex="1" index="1">1</span>/{$Total}题</div>
+  
+   <div loyout="column" width="40" style="text-align:center;">
+   <span class="iconfont">&#xe618;</span>
   </div>
-  <div loyout="column" width="70">
-    <div class="submitError" id="btnError"> <span class="examico">&#xe704;</span>报错</div>
-  </div>
-  <div loyout="column" width="5"> </div>
 </div>
 <!--答题卡 -->
 <div id="cardPanel" style="display: none">
@@ -128,26 +123,31 @@
     </vt:foreach>
   </div>
 </div>
-<div loyout="row" height="20" class="showTxt"> &larr; 左右滑动切换上下题 &rarr; <span id="addFont" class="fontoper">+</span> <span id="subFont" class="fontoper">-</span> <span style="float:right;">字体：</span> </div>
+<div loyout="row" height="20" class="showTxt">
+<div loyout="column">  &larr; 左右滑动切换上下题 &rarr; <span id="addFont" class="fontoper">+</span> <span id="subFont" class="fontoper">-</span> <span style="float:right;">字体：</span></div>
+<div loyout="column" width="10"> </div>
+</div>
 <!--底部按钮区 -->
 <div loyout="row" height="40" class="ctlBtn">
   <div loyout="column" width="5"> </div>
-  <div loyout="column">
+ <!-- <div loyout="column">
     <div id="btnAnswer" class="btn"> <span>&#xe610;</span>答案</div>
   </div>
   <div loyout="column">
     <div id="btnExplain" class="btn"> <span>&#xe66f;</span>解析</div>
-  </div>
-  <div loyout="column" width="100">
+  </div>-->
+  <div style="display:none">
     <div id="btnSubmit" class="btn"> <span>&#xe605;</span>提交</div>
   </div>
-  <div loyout="column">
-    <div id="btnFav" class="btn"> <span>&#xe60a;</span>收藏</div>
+  <div loyout="column" class="foot-txt">
+    <span>正确率：<span class="correct-rate">0</span>%</span>
   </div>
-  <div loyout="column">
-    <div id="btnNote" class="btn"> <span>&#xe60d;</span>笔记</div>
+  <div loyout="column" width="180" class="foot-ico">
+    <span class="examico" id="btnError">&#xe704;</span><span class="iconfont" id="btnFav" >&#xe60a;</span><span class="iconfont" id="btnNote">&#xe60d;</span> 
+
+    <span id="btnCard"> <span class="examico">&#xe689;</span> <span id="indexNum" initIndex="1" index="1">1</span>/{$Total}</span>
   </div>
-  <div loyout="column" width="5"> </div>
+
 </div>
 <!--<div loyout="row" height="2" class="showTxt" ></div> -->
 </body>

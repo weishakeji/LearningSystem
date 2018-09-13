@@ -118,7 +118,7 @@ Examing.prototype.Init=function(){
 
     });
 	//
-	//alert(this.time.begin);
+	//初始时间间和结束时间
 	$(".startTime").text(this.time.begin.Format("yyyy-MM-dd hh:mm:ss"));
 	$(".overTime").text(this.time.over.Format("yyyy-MM-dd hh:mm:ss"));
 }

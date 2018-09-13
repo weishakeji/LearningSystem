@@ -1,38 +1,44 @@
 ﻿@charset "utf-8";
-*{   
+* {
 	font-family: "Microsoft Yahei 微软雅黑";
-    -webkit-touch-callout:none;  /*系统默认菜单被禁用*/   
-    -webkit-user-select:none; /*webkit浏览器*/   
-    -khtml-user-select:none; /*早期浏览器*/   
-    -moz-user-select:none;/*火狐*/   
-    -ms-user-select:none; /*IE10*/   
-    user-select:none;   
-}  
-input, textarea {      
-     -webkit-user-select:auto; /*webkit浏览器*/     
-}  
-body{
-	margin:0px;
-	padding:0px;
+	-webkit-touch-callout: none;  /*系统默认菜单被禁用*/
+	-webkit-user-select: none; /*webkit浏览器*/
+	-khtml-user-select: none; /*早期浏览器*/
+	-moz-user-select: none;/*火狐*/
+	-ms-user-select: none; /*IE10*/
+	user-select: none;
 }
-.context
-{
+input, textarea {
+	-webkit-user-select: auto; /*webkit浏览器*/
+}
+body {
+	margin: 0px;
+	padding: 0px;
+}
+.context {
 	overflow-x: hidden !important;
 	overflow-y: auto !important;
 }
-#noQues{
+#noQues {
 	text-align: center;
 	margin-top: 30px;
 }
 .context .contextbox {
-
 	margin: 0px !important;
 }
+.topBpx * {
+	line-height: 40px;
+	font-size: 18px;
+}
+.topBpx .ol-name {
+	overflow : hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	white-space: nowrap;
+}
 .topBpx .item {
-	border: 2px solid #dedede;
-	-moz-border-radius: 15px;      /* Gecko browsers */
-	-webkit-border-radius: 15px;   /* Webkit browsers */
-	border-radius: 18px;            /* W3C syntax */	
 	font-size: 13px;
 	line-height: 30px;
 	color: #333333;
@@ -40,45 +46,41 @@ body{
 	height: 30px;
 	margin-top: 6px;
 	display: block;
-
 }
-.nav-left{
+.nav-left {
 	color: #999 !important;
-	line-height:30px !important;
-	width:30px;
+	line-height: 30px !important;
+	width: 30px;
 }
 .topBpx span.ico {
-	font-family:"iconfont" !important;
-	font-size:14px;
-	font-style:normal;
+	font-family: "iconfont" !important;
+	font-size: 14px;
+	font-style: normal;
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
 	margin-right: 3px;
 }
-
 .showTxt {
-	
 	font-size: 13px;
 	color: #666666;
 	text-align: center;
 }
 /*字体大小增减*/
-.fontoper{
+.fontoper {
 	font-size: 25px;
-	line-height:20px;
-	width:20px;
-	height:20px;
-	text-align:center;
-	cursor:pointer;
-	float:right;	
+	line-height: 20px;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	cursor: pointer;
+	float: right;
 }
 .submitError {
 	border: 2px solid #dedede;
 	-moz-border-radius: 15px;      /* Gecko browsers */
 	-webkit-border-radius: 15px;   /* Webkit browsers */
-	border-radius:18px;            /* W3C syntax */
-	
+	border-radius: 18px;            /* W3C syntax */
 	font-size: 13px;
 	line-height: 30px;
 	color: #000000;
@@ -89,10 +91,9 @@ body{
 #indexNum {
 	font-size: 14px;
 }
-
 /*提交按钮*/
 #btnSubmit {
-	background-color:#DFFFEF;
+	background-color: #DFFFEF;
 	color: #009cff;
 	border: 1px solid #009cff;
 }
@@ -101,94 +102,97 @@ body{
 }
 .quesItem {
 	float: left;
-	overflow-x:hidden;
-	overflow-y:auto;
-    position : relative; 
-	webkit-overflow-scrolling: touch;	
+	overflow-x: hidden;
+	overflow-y: auto;
+	position : relative;
+	webkit-overflow-scrolling: touch;
 }
-.quesItem img{
-	max-width:100%;
-	margin:auto;
+.quesItem img {
+	max-width: 100%;
+	margin: auto;
 }
 .quesBox {
 	margin: 10px;
 	position: relative;
-	height:auto;
+	height: auto;
 }
-
 .quesBox .quesTitle {
-	
 	padding: 10px;
-	
 }
-.quesBox .quesTitle *{
-	
+.quesBox .quesTitle * {
 	font-size: 20px;
-	line-height:36px;
+	line-height: 36px;
 	background-color: transparent !important;
 	word-wrap: break-word;
-    word-break: normal;
-	
+	word-break: normal;
 }
 .quesBox .quesItemsBox {
-
-	min-height:150px;
+	min-height: 150px;
 }
 .quesBox .quesItemsBox>div {
 	overflow: auto;
 	margin-bottom: 5px;
 	padding-right: 10px;
 	padding-left: 10px;
-	min-height:30px;
+	min-height: 30px;
 }
-.quesBox .quesItemsBox>div *{
+.quesBox .quesItemsBox>div * {
 	font-size: 16px !important;
 	line-height: 30px;
 }
-.quesBox .quesItemsBox>div  .type{
+.quesBox .quesItemsBox>div .type {
 	font-family: "iconfont" !important;
 	color: #666666;
-	margin-right: 5px;	
+	margin-right: 5px;
 }
-.quesBox .quesItemsBox>div  img{
-	max-width:90%;
+.quesBox .quesItemsBox>div img {
+	max-width: 90%;
 }
-.answerSel{
-color: #0099FF;
+.answerSel {
+	color: #0099FF;
 }
-.answerSel .type{
+.answerSel .type {
 	font-family: "iconfont" !important;
 	color: #0099FF;
 	margin-right: 5px;
 }
-#quesType span {
-	font-size: 14px;
-}
-.ctlBtn .btn {
-	border: 2px solid #dedede;
+.ctlBtn .msg-input {
+	border: 1px solid #dedede;
 	-moz-border-radius: 15px;      /* Gecko browsers */
 	-webkit-border-radius: 15px;   /* Webkit browsers */
-	border-radius:18px;            /* W3C syntax */
-	
+	border-radius: 18px;            /* W3C syntax */
 	font-size: 13px;
 	line-height: 30px;
-	color: #000000;
+	color: #CCCCCC;
 	text-align: center;
 	height: 30px;
-
+	margin-top: 5px;
+	width: 95%;
+	text-align: left;
+	padding-left: 10px;
+	padding-right: 10px;
 }
-
+.ctlBtn .foot-txt {
+	line-height: 40px;
+}
+.ctlBtn .foot-ico {
+	text-align: right;
+}
+.ctlBtn .foot-ico>span {
+	line-height: 30px;
+	text-align: center;
+	margin-right: 10px;
+	width: 30px;
+}
 .ctlBtn .btn span {
-	font-family:"iconfont" !important;
-	font-size:14px;
-	font-style:normal;
+	font-size: 14px;
+	font-style: normal;
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
 	margin-right: 3px;
 }
 .textbox4 {
-	
 	font-size: 16px;
 	line-height: 25px;
 	height: 125px;
@@ -197,7 +201,6 @@ color: #0099FF;
 	margin-top: 3px;
 }
 .textbox5 {
-	
 	font-size: 16px;
 	line-height: 25px;
 	height: 25px;
@@ -205,47 +208,46 @@ color: #0099FF;
 	border: 1px solid #999999;
 	margin-top: 3px;
 }
-.IsCollect
-{
-	color:#FF0000 !important;
+.IsCollect {
+	color: #FF0000 !important;
 }
-
 /*回答正确*/
-.correct
-{	
+.correct {
 	background-repeat: no-repeat;
 	background-position: right top;
-	
 }
 /*回答错误*/
-.error{
-	background-color: #CCCCCC;
+.error {
+	background-color: #ececec;
 }
 /*试题下方显示的正确答案*/
-.quesAnswerBox{
+.quesAnswerBox {
 	margin: 10px;
 	border-radius: 10px;
 	border: 1px solid #CCC;
-	padding:10px;
-	display:none;
-	min-height:100px;
-	height:auto;
+	padding: 10px;
+	display: none;
+	min-height: 100px;
+	height: auto;
 }
-.quesAnswerBox .quesAnswerTitle{
+.quesAnswerBox .quesAnswerTitle {
 	line-height: 25px;
 	height: 25px;
 	border-bottom-width: 1px;
 	border-bottom-style: solid;
-	border-bottom-color: #CCC;	
+	border-bottom-color: #CCC;
 }
-.quesAnswerBox .quesAnswerContent{
+.quesAnswerBox .quesAnswerContent {
 	line-height: 35px;
 	min-height: 35px;
-
 }
-
 /*答题卡*/
-#btnCard .examico{
+#btnCard {
+	line-height: 40px;
+	text-align: center;
+	font-size: 14px;
+}
+#btnCard .examico {
 	font-size: 22px;
 	font-weight: normal;
 }
@@ -278,7 +280,6 @@ color: #0099FF;
 	width: 40px;
 	color: #990000;
 }
-
 #cardLittle {
 	position: absolute;
 	background-color: #efefef;
@@ -298,9 +299,9 @@ color: #0099FF;
 	width: 100%;
 	min-height: 20px;
 	display: table;
-	margin:0px !important;
+	margin: 0px !important;
 }
-#cardBox dl dd{
+#cardBox dl dd {
 	line-height: 30px;
 	text-align: center;
 	float: left;
@@ -308,18 +309,17 @@ color: #0099FF;
 	width: 30px;
 	margin-top: 8px;
 	margin-right: 8px;
-	margin-left:0px;
+	margin-left: 0px;
 	border: 1px solid #CCCCCC;
 	font-size: 16px;
 	background-color: #FFFFFF;
 	border-radius: 50%;
-	
 }
-#cardBox dl dd.answer{
+#cardBox dl dd.answer {
 	background-color: #0099FF;
 	color: #FFFFFF;
 }
-#cardBox dl dd.curr{
+#cardBox dl dd.curr {
 	color: #060;
 	background-image: url(../Images/tk_exam.png);
 	background-repeat: no-repeat;
@@ -327,10 +327,10 @@ color: #0099FF;
 	background-color: #6F9;
 	box-shadow: 0 -1px 2px #ccc, 0 3px 1px rgba(0, 0, 0, 0.3);
 }
-#cardBox dl dd.succ{
+#cardBox dl dd.succ {
 	background-color: #0099FF;
 }
-#cardBox dl dd.error{
-	background-color:#F30;
+#cardBox dl dd.error {
+	background-color: #F30;
 	color: #FFFFFF;
 }
