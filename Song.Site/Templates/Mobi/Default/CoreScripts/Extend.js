@@ -123,7 +123,7 @@ jQuery.fn.setFontSize = function (element, opernum) {
     //设置大小
     setSize(element, setnum);
     function setSize(element, setnum) {
-        element.css("cssText", "font-size:" + setnum + "px !important");
+        element.css("cssText", "font-size:" + setnum + "px !important;line-height:" + (setnum * 1.8) + "px !important;");
         var child = element.children();
         if (child.size() > 0) {
             child.each(function () {

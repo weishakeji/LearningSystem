@@ -1,6 +1,6 @@
 ﻿@charset "utf-8";
 *{   
-	font-family: "黑体";
+	font-family: "Microsoft Yahei 微软雅黑";
     -webkit-touch-callout:none;  /*系统默认菜单被禁用*/   
     -webkit-user-select:none; /*webkit浏览器*/   
     -khtml-user-select:none; /*早期浏览器*/   
@@ -113,62 +113,28 @@ body{
 .quesBox {
 	margin: 10px;
 	position: relative;
-	height:auto;	
-	
+	height:auto;
 }
 
 .quesBox .quesTitle {
-	background-color: #009cff;
-	-moz-border-radius: 15px;      /* Gecko browsers */
-	-webkit-border-radius: 15px;   /* Webkit browsers */
-	border-radius:10px 10px 0px 0px;	
+	
 	padding: 10px;
-	border-top-width: 2px;
-	border-right-width: 2px;
-	border-bottom-width: 2px;
-	border-left-width: 2px;
-	border-top-style: solid;
-	border-right-style: solid;
-	border-bottom-style: none;
-	border-left-style: solid;
-	border-top-color: #dedede;
-	border-right-color: #dedede;
-	border-bottom-color: #dedede;
-	border-left-color: #dedede;
-	color: #FFFFFF;
+	
 }
 .quesBox .quesTitle *{
 	
-	font-size: 15px;
-	color: #FFFFFF;
+	font-size: 20px;
+	line-height:36px;
 	background-color: transparent !important;
 	word-wrap: break-word;
     word-break: normal;
 	
 }
 .quesBox .quesItemsBox {
-	-moz-border-radius: 15px;      /* Gecko browsers */
-	-webkit-border-radius: 15px;   /* Webkit browsers */
-	border-radius:0px 0px 10px 10px;	
-	font-size: 15px;
-	border-top-width: 2px;
-	border-right-width: 2px;
-	border-bottom-width: 2px;
-	border-left-width: 2px;
-	border-top-style: none;
-	border-right-style: solid;
-	border-bottom-style: solid;
-	border-left-style: solid;
-	border-top-color: #dedede;
-	border-right-color: #dedede;
-	border-bottom-color: #dedede;
-	border-left-color: #dedede;
+
 	min-height:150px;
 }
-.quesBox .quesItemsBox>div {		
-	border-top-width: 1px;
-	border-top-style: solid;
-	border-top-color: #CCCCCC;
+.quesBox .quesItemsBox>div {
 	overflow: auto;
 	margin-bottom: 5px;
 	padding-right: 10px;
@@ -246,15 +212,14 @@ color: #0099FF;
 
 /*回答正确*/
 .correct
-{
-	background-image: url(../Images/ok1.png);
+{	
 	background-repeat: no-repeat;
 	background-position: right top;
-	background-color: #CEFE94;
+	
 }
 /*回答错误*/
 .error{
-	background-color: #FFCECE;
+	background-color: #CCCCCC;
 }
 /*试题下方显示的正确答案*/
 .quesAnswerBox{

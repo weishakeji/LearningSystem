@@ -12,7 +12,7 @@
 <link href="Styles/QuesExercises.css" rel="stylesheet" type="text/css" />
 <link href="/Utility/CoreStyles/Jme.css" rel="stylesheet" type="text/css" />
 </head>
-<body style="display:none;">
+<body style="display:none;" quesType="{$quesType}">
 <script>
     document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
     document.body.onpaste = document.body.oncopy = function () { return false; };
@@ -71,7 +71,7 @@
       <div class="quesItem" qid="{$:#.q.qus_id}" index="{$:i}" IsCollect="{$:#.IsCollect}" type="{$:#.q.qus_type}">
         <div class="quesBox"> 
           <!--试题的题干 -->
-          <div class="quesTitle"><span class="index">{$:qindex}</span>、 {$:#.q.qus_title} </div>
+          <div class="quesTitle"><span class="index">{$:qindex}</span>.<span class="ques-type"></span> {$:#.q.qus_title} </div>
           <!--试题答案选项 -->
           <div class="quesItemsBox">
             <vt:if var="q.qus_type" value="1" compare="="> 

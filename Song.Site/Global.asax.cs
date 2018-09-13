@@ -50,34 +50,7 @@ namespace Song.Site
             Business.Do<IOutline>().OutlineBuildCache();
 
 
-            #region  试题的事件
-            //当试题内容变更时的事件
-            Business.Do<IQuestions>().Save += delegate(object s, EventArgs ev)
-            {
-                if (s == null)
-                {
-                    //取所有试题进缓存
-                    new Thread(new ThreadStart(() =>
-                    {
-                        Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
-                        Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
-                        Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
-                    })).Start();
-                }
-                else
-                {
-                    //单个试题的缓存刷新
-                    if (!(s is Questions)) return;
-                    Questions ques = (Questions)s;
-                    if (ques == null) return;
-                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.UpdateSingle(ques);
-                }
-
-            };
-            Business.Do<IQuestions>().Add += delegate(object s, EventArgs ev)
-            {
-                Business.Do<IQuestions>().OnSave(s, ev);               
-            };
+            #region  试题的事件            
             Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
             #endregion
 

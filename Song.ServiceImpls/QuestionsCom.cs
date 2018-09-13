@@ -13,6 +13,7 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using System.Xml;
 using System.Reflection;
+using System.Threading;
 
 
 
@@ -33,7 +34,7 @@ namespace Song.ServiceImpls
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) entity.Org_ID = org.Org_ID;  
             Gateway.Default.Save<Questions>(entity);
-            this.Add(entity, EventArgs.Empty);
+            this.OnAdd(entity, EventArgs.Empty);
             return entity.Qus_ID;
         }
         
@@ -60,7 +61,7 @@ namespace Song.ServiceImpls
                     tran.Update<QuesAnswer>(new Field[] { QuesAnswer._.Qus_ID }, new object[] { entity.Qus_ID }, QuesAnswer._.Qus_UID == entity.Qus_UID);
                     tran.Commit();
                     QuestionsMethod.QuestionsCache.Singleton.UpdateSingle(entity);
-                    this.Save(entity, EventArgs.Empty);
+                    this.OnSave(entity, EventArgs.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -1246,14 +1247,34 @@ namespace Song.ServiceImpls
         public event EventHandler Delete;
         public void OnSave(object sender, EventArgs e)
         {
+            if (sender == null)
+            {
+                //取所有试题进缓存
+                new Thread(new ThreadStart(() =>
+                {
+                    Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
+                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
+                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
+                })).Start();
+            }
+            else
+            {
+                //单个试题的缓存刷新
+                if (!(sender is Questions)) return;
+                Questions ques = (Questions)sender;
+                if (ques == null) return;
+                Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.UpdateSingle(ques);
+            }
             if (Save != null) Save(sender, e);
         }
         public void OnAdd(object sender, EventArgs e)
         {
+            this.OnSave(null, e);
             if (Add != null) Add(sender, e);
         }
         public void OnDelete(object sender, EventArgs e)
-        {           
+        {
+            this.OnSave(null, e);
             if (Delete != null) Delete(sender, e);
         }
         #endregion

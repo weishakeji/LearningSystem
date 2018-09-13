@@ -6,7 +6,11 @@
     var hg = document.querySelector(".context").clientHeight;
 	var area = $("#quesArea");
 	area.width(wd * count);	
-    $(".quesItem").width(wd).height(hg);
+	var quesTypes=$("body").attr("questype").split(",");
+    $(".quesItem").width(wd).height(hg).each(function(index, element) {
+        var type=Number($(this).attr("type"));
+		$(this).find(".ques-type").text("【"+$.trim(quesTypes[type-1])+"题】");
+    });
 	
     //$("#quesArea").width(wd.width() * count);
     //设置初始的题型
@@ -145,7 +149,7 @@ function setCardState(state, qid) {
     }
     //获取当前试题的答题卡选块
     var box = $("#cardBoxInner dd[qid=" + qid + "]");
-    if (box == null || box.size() < 1) return;
+    if (box == null || box.size() < 1) return;	
     //设置当前试题的答题卡选块状态
     if (state == "curr") {
         $("#cardBoxInner dd").removeClass("curr");
