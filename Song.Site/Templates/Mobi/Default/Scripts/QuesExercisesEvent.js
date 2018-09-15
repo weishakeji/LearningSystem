@@ -35,7 +35,7 @@ function quesEventType1(ansItem) {
         // 对选择项进行判断，并转到下一题
         if (pat.find(">div[issel=true]").size() > 0) {
             //提交答题信息以验证对错
-            $("#btnSubmit").click();
+            $(this).parents(".quesItem").find(".btnSubmit").click();
         }
     });
 }
@@ -74,7 +74,7 @@ function quesEventType3(ansItem) {
         // 对选择项进行判断，并转到下一题
         if ($(this).parent().find(".answer[issel=true]").size() > 0) {
             //提交答题信息以验证对错
-            $("#btnSubmit").click();
+            $(this).parents(".quesItem").find(".btnSubmit").click();
         }
     });
 }
@@ -83,7 +83,7 @@ function quesEventType4(ansItem) {
     ansItem.find(".answer textarea").focusout(function () {
         var ansInput = $.trim($(this).val());
         if (ansInput != "") {
-             $("#btnSubmit").click();
+            $(this).parents(".quesItem").find(".btnSubmit").click();
         }
     });
 }
@@ -100,7 +100,9 @@ function quesEventType5(ansItem) {
             }
         });
         //提交答题信息以验证对错
-        if (count == answer.size()) $("#btnSubmit").click();
+        if (count == answer.size()){
+			$(this).parents(".quesItem").find(".btnSubmit").click();
+		}
     });
 }
 //试题移动
@@ -126,7 +128,7 @@ function _quesMove(quesitem, dirt) {
 */
 function _btnEvent() {
     //试题提交
-    $("#btnSubmit").click(function () {
+    $(".btnSubmit").click(function () {
         //当前试题所在区域的html对象
         var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");
         var type = $.trim(ques.attr("type"));
@@ -134,19 +136,19 @@ function _btnEvent() {
         if (func != null) func(ques);
         //如果答题正确，则直接转到下一题
         if (ques.attr("ansstate") == "true") _quesMove(ques, 1);
-		//计算正确率
-		var sum=$("#cardBox").find("dd.error,dd.succ").size();
-		var suss=$("#cardBox dd.succ").size();
-		if(sum>0){
-		var per=Math.floor(suss/sum*10000)/100;
-		$(".correct-rate").text(per);
-		}
+        //计算正确率
+        var sum = $("#cardBox").find("dd.error,dd.succ").size();
+        var suss = $("#cardBox dd.succ").size();
+        if (sum > 0) {
+            var per = Math.floor(suss / sum * 10000) / 100;
+            $(".correct-rate").text(per);
+        }
     });
     //查看答案
     $("#btnAnswer").click(function () {
         var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");
         var qid = ques.attr("qid");
-		ques.find(".quesAnswerBox").show();
+        ques.find(".quesAnswerBox").show();
     });
     //试题解析
     $("#btnExplain").click(function () {
@@ -180,7 +182,7 @@ function _btnEvent() {
         }
     });
     //报错
-    $("#btnError").click(function () {		
+    $("#btnError").click(function () {
         var qid = $(".quesItem[index=" + $("#indexNum").attr("index") + "]").attr("qid");
         new PageBox("错误试题提交", "QuesSubmitError.ashx?id=" + qid, 90, 80, null).Open();
     });
@@ -266,7 +268,7 @@ function _decide3(ques) {
 //简答题判断
 function _decide4(ques) {
     //new MsgBox("提示", "简答题不自动判题！无须提交。", 90, 40, "msg").Open();
-	showResult(ques, false);
+    showResult(ques, false);
 }
 //填空题
 //ques: 当前试题所在区域的html对象，即class='quesItem'

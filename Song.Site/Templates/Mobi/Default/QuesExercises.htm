@@ -35,12 +35,14 @@
   <div loyout="column" width="5"> </div>
   <div loyout="column" width="36"> <a class="item nav-left iconfont" type="back">&#xe6c6; </a> </div>
   <div loyout="column" class="fontsize">
-      <div id="addFont" class="fontoper">+</div> <div id="subFont" class="fontoper">-</div> <div style="float:right;">字体：</div>
+    <div id="addFont" class="fontoper">+</div>
+    <div id="subFont" class="fontoper">-</div>
+    <div style="float:right;">字体：</div>
   </div>
   
-   <!--<div loyout="column" width="40" style="text-align:center;">
+  <!--<div loyout="column" width="40" style="text-align:center;">
    <span class="iconfont">&#xe618;</span>
-  </div>-->
+  </div>--> 
 </div>
 <!--答题卡 -->
 <div id="cardPanel" style="display: none">
@@ -110,27 +112,35 @@
                 </div>
               </vt:foreach>
             </vt:if>
-          </div>
+          </div> <!--提交按钮-->
+        
+        <div class="btnSubmit"> <span class="iconfont">&#xe605;</span>提交答题信息</div>
         </div>
+       
+        
         <!--试题答案-->
         <div class="quesAnswerBox">
           <div class="quesAnswerTitle">正确答案：</div>
           <div class="quesAnswerContent">
-          <vt:function var="answer" method="GetAnswer" args="$#.q"/>
-          {$answer}</div>
+            <vt:function var="answer" method="GetAnswer" args="$#.q"/>
+            {$answer}</div>
+          <vt:if var="q.Qus_Explain" value="" compare="!=">
+            <div class="quesAnswerTitle">试题解析：</div>
+            <div class="quesAnswerContent">{$:#.q.Qus_Explain} </div>
+          </vt:if>
         </div>
       </div>
     </vt:foreach>
   </div>
 </div>
 <div loyout="row" height="20" class="showTxt">
-<div loyout="column"></div>
-<div loyout="column" width="10"> </div>
+  <div loyout="column"></div>
+  <div loyout="column" width="10"> </div>
 </div>
 <!--底部按钮区 -->
 <div loyout="row" height="40" class="ctlBtn">
   <div loyout="column" width="5"> </div>
- <!-- <div loyout="column">
+  <!-- <div loyout="column">
     <div id="btnAnswer" class="btn"> <span>&#xe610;</span>答案</div>
   </div>
   <div loyout="column">
@@ -139,15 +149,8 @@
   <div style="display:none">
     <div id="btnSubmit" class="btn"> <span>&#xe605;</span>提交</div>
   </div>
-  <div loyout="column" class="foot-txt">
-  <span>正确率：<span class="correct-rate">0</span>%</span>
-  </div>
-  <div loyout="column" width="180" class="foot-ico">
-    <span class="examico" id="btnError">&#xe704;</span><span class="iconfont" id="btnFav" >&#xe60a;</span><span class="iconfont" id="btnNote">&#xe60d;</span> 
-
-    <span id="btnCard"> <span class="examico">&#xe689;</span> <span id="indexNum" initIndex="1" index="1">1</span>/{$Total}</span>
-  </div>
-
+  <div loyout="column"> <span class="foot-txt">正确率：<span class="correct-rate">0</span>%</span> </div>
+  <div loyout="column" width="180" class="foot-ico"> <span class="examico" id="btnError">&#xe704;</span><span class="iconfont" id="btnFav" >&#xe60a;</span><span class="iconfont" id="btnNote">&#xe60d;</span> <span id="btnCard"> <span class="examico">&#xe689;</span> <span id="indexNum" initIndex="1" index="1">1</span>/{$Total}</span> </div>
 </div>
 <!--<div loyout="row" height="2" class="showTxt" ></div> -->
 </body>

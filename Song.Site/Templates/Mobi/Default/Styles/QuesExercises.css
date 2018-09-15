@@ -99,10 +99,36 @@ body {
 	font-size: 14px;
 }
 /*提交按钮*/
-#btnSubmit {
-	background-color: #DFFFEF;
-	color: #009cff;
-	border: 1px solid #009cff;
+.btnSubmit {	
+    display: block;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    width: 80%;
+    border: 1px solid #FF9900;
+    margin-left: 10px;
+    box-shadow: 0 3px 0 #0880d7, 0 6px 3px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    background-color: #1B9AF7;
+    border-color: #1B9AF7;
+    font-size: 22px !important;
+    color: #FFF;
+    text-decoration: none;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:10px;
+}
+.btnSubmit:active{
+	box-shadow: 0 2px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
+	background-color: #36A6F8;
+	border-color: #36A6F8;
+}
+.btnSubmit>span.iconfont{
+	 height: 40px;
+    line-height: 40px;
+	font-weight: 300;
+	font-size:25px;
+	margin-right:20px;
 }
 #quesArea {
 	position: relative;
@@ -120,8 +146,15 @@ body {
 }
 .quesBox {
 	margin: 10px;
-	position: relative;
 	height: auto;
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    border-radius: 2px;
+    background-color: white;
+    background-clip: padding-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	padding:10px;
 }
 .quesBox .quesTitle {
 	padding: 10px;
@@ -134,7 +167,7 @@ body {
 	word-break: normal;
 }
 .quesBox .quesItemsBox {
-	min-height: 150px;
+	margin-bottom:20px;
 }
 .quesBox .quesItemsBox>div {
 	overflow: auto;
@@ -163,6 +196,10 @@ body {
 	color: #0099FF;
 	margin-right: 5px;
 }
+/*底部按钮条*/
+.ctlBtn{
+	background-color:#fff;
+}
 .ctlBtn .msg-input {
 	border: 1px solid #dedede;
 	-moz-border-radius: 15px;      /* Gecko browsers */
@@ -180,7 +217,9 @@ body {
 	padding-right: 10px;
 }
 .ctlBtn .foot-txt {
-	line-height:50px;
+	line-height:40px;
+	margin-left:10px;
+
 }
 .ctlBtn .foot-ico {
 	text-align: right;
@@ -225,24 +264,25 @@ body {
 }
 /*回答错误*/
 .error {
-	background-color: #ececec;
+	
 }
 /*试题下方显示的正确答案*/
 .quesAnswerBox {
-	margin: 10px;
-	border-radius: 10px;
-	border: 1px solid #CCC;
-	padding: 10px;
-	display: none;
-	min-height: 100px;
-	height: auto;
+	
+	display:none;
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    border-radius: 2px;
+    background-color: white;
+    background-clip: padding-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	padding:10px;
 }
 .quesAnswerBox .quesAnswerTitle {
-	line-height: 25px;
-	height: 25px;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-	border-bottom-color: #CCC;
+	line-height: 40px;
+	height: 40px;
+	font-weight: bold;
 }
 .quesAnswerBox .quesAnswerContent {
 	line-height: 35px;
@@ -252,8 +292,7 @@ body {
 #btnCard {
 	line-height: 40px;
 	text-align: center;
-	font-size: 14px;
-	background-color: #FFF;
+	font-size: 14px;	
 }
 #btnCard .examico {
 	font-size: 22px;

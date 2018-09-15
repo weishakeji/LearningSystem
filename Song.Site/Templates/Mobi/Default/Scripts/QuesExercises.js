@@ -5,11 +5,15 @@
     var wd = $(window).width();
     var hg = document.querySelector(".context").clientHeight;
     var area = $("#quesArea");
-    area.width(wd * count);
+    area.width(wd * (count + 10));
     var quesTypes = $("body").attr("questype").split(",");
+	//设置宽高，试题类型
     $(".quesItem").width(wd).height(hg).each(function (index, element) {
         var type = Number($(this).attr("type"));
         $(this).find(".ques-type").text("【" + $.trim(quesTypes[type - 1]) + "题】");
+		if(type==1 || type==3){
+			$(this).find(".btnSubmit").hide();
+		}
     });
 
     //$("#quesArea").width(wd.width() * count);
