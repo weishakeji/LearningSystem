@@ -1,4 +1,4 @@
-﻿window.onload = function () {
+window.onload = function () {
     //总题数
     var count = Total;
     //设置试题宽度
@@ -38,7 +38,7 @@ $(function () {
 			 new MsgBox("提示", "没有试题供操作！", 90, 180, "msg").Open();
 			 return;
 		}
-        var msg = new MsgBox("删除", "您是否确认删除当前错题？", 90, 180, "confirm");
+        var msg = new MsgBox("删除", "您是否确认删除当前收藏？", 90, 180, "confirm");
         msg.EnterEvent = function () {
             var qid = card.currid();
             //记录学习进度
@@ -58,18 +58,18 @@ $(function () {
         }
         msg.Open();
     });
-    //清空错题
+    //清空收藏
     $(".btnClear").click(function () {
 		if(card.size()<1){
 			 new MsgBox("提示", "没有试题供操作！", 90, 180, "msg").Open();
 			 return;
 		}
-        var msg = new MsgBox("清空", "您是否确认清空所有错题？", 90, 180, "confirm");
+        var msg = new MsgBox("清空", "您是否确认清空所有收藏？", 90, 180, "confirm");
         msg.EnterEvent = function () {
             //记录学习进度
             $.post(window.location.href, { action: "clear",couid:$().getPara("couid")}, function (data) {
                 if (data == "1") {
-                    var msg = new MsgBox("成功", "所有错题被清空。<br/>请退出当前界面！", 90, 180, "msg");
+                    var msg = new MsgBox("成功", "所有收藏被清空。<br/>请退出当前界面！", 90, 180, "msg");
 					msg.OverEvent=function(){
 						window.location.href="CoursePage.ashx";
 					}

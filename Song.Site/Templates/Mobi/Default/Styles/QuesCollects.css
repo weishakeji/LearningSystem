@@ -1,4 +1,4 @@
-﻿@charset "utf-8";
+@charset "utf-8";
 * {
 	font-family: "Microsoft Yahei 微软雅黑";
 	-webkit-touch-callout: none;  /*系统默认菜单被禁用*/
@@ -24,22 +24,22 @@ body {
 	margin-top: 30px;
 	margin: 10px;
 	height: auto;
-	position: relative;
-	overflow: hidden;
-	margin: 10px;
-	border-radius: 2px;
-	background-color: white;
-	background-clip: padding-box;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
-	padding: 10px;
-	height: 100px;
-	line-height: 100px;
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    border-radius: 2px;
+    background-color: white;
+    background-clip: padding-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	padding:10px;
+	height:100px;
+	line-height:100px;
 }
 .context .contextbox {
 	margin: 0px !important;
 }
-.topBpx {
-	background-color: #fff;
+.topBpx{
+	background-color:#fff;
 }
 .topBpx * {
 	line-height: 40px;
@@ -63,8 +63,13 @@ body {
 	float: right;
 	font-weight: bold;
 }
-#addFont {
-	margin-right: 10px;
+#addFont{
+	margin-right:10px;
+}
+/*删除试题的按钮*/
+.del{
+	line-height: 50px;
+	font-size:14px;
 }
 .topBpx .item {
 	font-size: 13px;
@@ -94,6 +99,7 @@ body {
 	color: #666666;
 	text-align: center;
 }
+
 .submitError {
 	border: 2px solid #dedede;
 	-moz-border-radius: 15px;      /* Gecko browsers */
@@ -110,36 +116,36 @@ body {
 	font-size: 14px;
 }
 /*提交按钮*/
-.btnSubmit {
-	display: block;
-	text-align: center;
-	height: 40px;
-	line-height: 40px;
-	width: 80%;
-	border: 1px solid #FF9900;
-	margin-left: 10px;
-	box-shadow: 0 3px 0 #0880d7, 0 6px 3px rgba(0, 0, 0, 0.3);
-	border-radius: 4px;
-	background-color: #1B9AF7;
-	border-color: #1B9AF7;
-	font-size: 22px !important;
-	color: #FFF;
-	text-decoration: none;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: 10px;
+.btnSubmit {	
+    display: block;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    width: 80%;
+    border: 1px solid #FF9900;
+    margin-left: 10px;
+    box-shadow: 0 3px 0 #0880d7, 0 6px 3px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    background-color: #1B9AF7;
+    border-color: #1B9AF7;
+    font-size: 22px !important;
+    color: #FFF;
+    text-decoration: none;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:10px;
 }
-.btnSubmit:active {
+.btnSubmit:active{
 	box-shadow: 0 2px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
 	background-color: #36A6F8;
 	border-color: #36A6F8;
 }
-.btnSubmit>span.iconfont {
-	height: 40px;
-	line-height: 40px;
+.btnSubmit>span.iconfont{
+	 height: 40px;
+    line-height: 40px;
 	font-weight: 300;
-	font-size: 25px;
-	margin-right: 20px;
+	font-size:25px;
+	margin-right:20px;
 }
 #quesArea {
 	position: relative;
@@ -158,14 +164,14 @@ body {
 .quesBox {
 	margin: 10px;
 	height: auto;
-	position: relative;
-	overflow: hidden;
-	margin: 10px;
-	border-radius: 2px;
-	background-color: white;
-	background-clip: padding-box;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
-	padding: 10px;
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    border-radius: 2px;
+    background-color: white;
+    background-clip: padding-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	padding:10px;
 }
 .quesBox .quesTitle {
 	padding: 10px;
@@ -178,7 +184,7 @@ body {
 	word-break: normal;
 }
 .quesBox .quesItemsBox {
-	margin-bottom: 20px;
+	margin-bottom:20px;
 }
 .quesBox .quesItemsBox>div {
 	overflow: auto;
@@ -199,8 +205,10 @@ body {
 .quesBox .quesItemsBox>div img {
 	max-width: 90%;
 }
+
+
 /*试题选择项*/
-.quesItemsBox>div>b:before {
+.quesItemsBox>div>b:before{
 	font-family: "iconfont" !important;
 	color: #666666;
 	margin-right: 5px;
@@ -208,87 +216,87 @@ body {
 .selected {
 	color: #0099FF;
 }
-.quesItemsBox>div.selected>b:before {
+.quesItemsBox>div.selected>b:before{
 	color: #0099FF;
 }
 /*单选题图标*/
-.t1>div>b:before {
+.t1>div>b:before{
 	content: "\f00c6";
 	font-family: "iconfont";
-	margin-right: 5px;
+	margin-right:5px;
 }
-.t1>div.selected>b:before {
+.t1>div.selected>b:before{
 	content: "\e667";
 	font-family: "iconfont";
-	margin-right: 5px;
+	margin-right:5px;
 }
 /*多选题图标*/
-.t2>div>b:before {
+.t2>div>b:before{
 	content: "\e603";
 	font-family: "iconfont";
-	margin-right: 5px;
+	margin-right:5px;
 }
-.t2>div.selected>b:before {
+.t2>div.selected>b:before{
 	content: "\e62a";
 	font-family: "iconfont";
-	margin-right: 5px;
+	margin-right:5px;
 }
 /*判断题图标*/
-.t3>div>b:before {
+.t3>div>b:before{
 	content: "\e603";
 	font-family: "iconfont";
-	margin-right: 5px;
+	margin-right:5px;
 }
-.t3>div.selected>b:before {
+.t3>div.selected>b:before{
 	content: "\e621";
 	font-family: "iconfont";
-	margin-right: 5px;
+	margin-right:5px;
 }
 /*简答题图标*/
-.t4>div>i:before {
+.t4>div>i:before{
 	content: "\e657";
 	font-family: iconfont;
 	margin-right: 5px;
 }
 /*填空题图标*/
-.t5>div>b:before {
+.t5>div>b:before{
 	content: "\e657";
 	font-family: "iconfont";
-	margin-right: 5px;
+	margin-right:5px;
 }
 /*底部按钮条*/
-.ctlBtn {
-	background-color: #fff;
+.ctlBtn{
+	background-color:#fff;
 }
-.ctlBtn>div {
-	line-height: 40px;
+.ctlBtn>div{
+	line-height:40px;
 }
 .ctlBtn .correct-rate:before {
-	content: "正确率：";
-	margin-left: 5px;
+	content:"正确率：";
+	margin-left:5px;
 }
 .ctlBtn .correct-rate:after {
-	content: "%";
+	content:"%";	
 }
 /*正确数*/
-.ctlBtn .correct-num {
-	text-align: center;
+.ctlBtn .correct-num{
+	text-align:center;
 }
 .ctlBtn .correct-num:before {
 	content: "\e61a";
 	font-family: "iconfont";
 	color: #0099FF;
-	margin-right: 5px;
+	margin-right:5px;
 }
 /*错误数*/
-.ctlBtn .error-num {
-	text-align: center;
+.ctlBtn .error-num{
+	text-align:center;
 }
 .ctlBtn .error-num:before {
-	content: "\e63d";
-	font-family: "iconfont";
+	content:"\e63d";
+	font-family: "iconfont";	
 	color: #FF0000;
-	margin-right: 5px;
+	margin-right:5px;
 }
 .textbox4 {
 	font-size: 16px;
@@ -306,6 +314,7 @@ body {
 	border: 1px solid #999999;
 	margin-top: 3px;
 }
+
 /*回答正确*/
 .correct {
 	background-repeat: no-repeat;
@@ -313,18 +322,18 @@ body {
 }
 /*回答错误*/
 .error {
+	
 }
 /*试题下方显示的正确答案*/
-.quesAnswerBox {
-	display: none;
-	position: relative;
-	overflow: hidden;
-	margin: 10px;
-	border-radius: 2px;
-	background-color: white;
-	background-clip: padding-box;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
-	padding: 10px;
+.quesAnswerBox {	
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+    border-radius: 2px;
+    background-color: white;
+    background-clip: padding-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	padding:10px;
 }
 .quesAnswerBox .quesAnswerTitle {
 	line-height: 40px;
@@ -336,52 +345,52 @@ body {
 	min-height: 35px;
 }
 /*报错、收藏、笔记*/
-.answerBtnbar {
+.answerBtnbar{
 	float: right;
-	font-weight: normal;
+	font-weight: normal;	
 }
-.answerBtnbar>span {
-	margin-right: 10px;
+.answerBtnbar>span{
+	margin-right:10px;
 }
-.answerBtnbar>span:before {
+.answerBtnbar>span:before{
 	font-size: 16px;
 	font-style: normal;
 	-webkit-font-smoothing: antialiased;
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
-	margin-right: 3px;
+	margin-right:3px;
 }
-.btnError:before {
-	content: "\e704";
+.btnError:before{
+	content:"\e704";
+	font-family: "examico";	
+}
+.btnFav:before{
+	content:"\e661";
 	font-family: "examico";
+	font-size: 16px;	
 }
-.btnFav:before {
-	content: "\e661";
-	font-family: "examico";
-	font-size: 16px;
+.btnNote:before{
+	content:"\e60d";
+	font-family: "iconfont";	
 }
-.btnNote:before {
-	content: "\e60d";
-	font-family: "iconfont";
-}
-.IsCollect {
+.IsCollect{
 	color: #FF0000;
 }
-.IsCollect:before {
-	content: "\e662";
-	font-family: "examico";
+.IsCollect:before{
+	content:"\e662";
+	font-family: "examico";	
 	color: #FF0000;
 }
 /*答题卡*/
 #btnCard {
 	line-height: 40px;
 	text-align: center;
-	font-size: 14px;
+	font-size: 14px;	
 }
-#btnCard:before {
-	content: "\e689";
+#btnCard:before{
+	content:"\e689";
 	font-family: "examico";
-	font-size: 22px;
+	font-size: 22px;	
 }
 #cardBox {
 	position: absolute;

@@ -625,7 +625,7 @@
     <Content Include="Templates\Mobi\Default\APICloud\dataSource.js" />
     <Content Include="Templates\Mobi\Default\Article.htm" />
     <Content Include="Templates\Mobi\Default\CallPhone.htm" />
-    <Content Include="Templates\Mobi\Default\Collects.htm" />
+    <Content Include="Templates\Mobi\Default\QuesCollects.htm" />
     <Content Include="Templates\Mobi\Default\Conn.htm" />
     <Content Include="Templates\Mobi\Default\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Mobi\Default\CoreScripts\AutoLoyout.js" />
@@ -699,7 +699,7 @@
     <Content Include="Templates\Mobi\Default\MyTeacher.htm" />
     <Content Include="Templates\Mobi\Default\News.htm" />
     <Content Include="Templates\Mobi\Default\NewsList.htm" />
-    <Content Include="Templates\Mobi\Default\Notes.htm" />
+    <Content Include="Templates\Mobi\Default\QuesNotes.htm" />
     <Content Include="Templates\Mobi\Default\Notfound.htm" />
     <Content Include="Templates\Mobi\Default\QuesAnswer.htm" />
     <Content Include="Templates\Mobi\Default\QuesError.htm" />
@@ -714,7 +714,7 @@
     <Content Include="Templates\Mobi\Default\Register.htm" />
     <Content Include="Templates\Mobi\Default\RegisterAgreement.htm" />
     <Content Include="Templates\Mobi\Default\Scripts\Article.js" />
-    <Content Include="Templates\Mobi\Default\Scripts\Collects.js" />
+    <Content Include="Templates\Mobi\Default\Scripts\QuesCollects.js" />
     <Content Include="Templates\Mobi\Default\Scripts\Course.js" />
     <Content Include="Templates\Mobi\Default\Scripts\CourseBuy.js" />
     <Content Include="Templates\Mobi\Default\Scripts\Courses.js" />
@@ -772,7 +772,7 @@
     <Content Include="Templates\Mobi\Default\Students.htm" />
     <Content Include="Templates\Mobi\Default\Styles\About.css" />
     <Content Include="Templates\Mobi\Default\Styles\Article.css" />
-    <Content Include="Templates\Mobi\Default\Styles\Collects.css" />
+    <Content Include="Templates\Mobi\Default\Styles\QuesCollects.css" />
     <Content Include="Templates\Mobi\Default\Styles\Conn.css" />
     <Content Include="Templates\Mobi\Default\Styles\Course.css" />
     <Content Include="Templates\Mobi\Default\Styles\CourseBuy.css" />
@@ -2876,8 +2876,8 @@
     <Compile Include="Ajax\CourseBuySubmit.ashx.cs">
       <DependentUpon>CourseBuySubmit.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Mobile\Collects.ashx.cs">
-      <DependentUpon>Collects.ashx</DependentUpon>
+    <Compile Include="Mobile\QuesCollects.ashx.cs">
+      <DependentUpon>QuesCollects.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mobile\Course.ashx.cs">
@@ -2941,8 +2941,8 @@
       <DependentUpon>News.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Mobile\Notes.ashx.cs">
-      <DependentUpon>Notes.ashx</DependentUpon>
+    <Compile Include="Mobile\QuesNotes.ashx.cs">
+      <DependentUpon>QuesNotes.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mobile\Notice.ashx.cs">
@@ -6096,7 +6096,7 @@
     <Content Include="Mobile\Article.ashx" />
     <Content Include="Mobile\CourseBuy.ashx" />
     <Content Include="Ajax\CourseBuySubmit.ashx" />
-    <Content Include="Mobile\Collects.ashx" />
+    <Content Include="Mobile\QuesCollects.ashx" />
     <Content Include="Mobile\Course.ashx" />
     <Content Include="Mobile\Courses.ashx" />
     <Content Include="Mobile\Default.ashx" />
@@ -6110,7 +6110,7 @@
     <Content Include="Mobile\MoneyDetails.ashx" />
     <Content Include="Mobile\Recharge.ashx" />
     <Content Include="Mobile\News.ashx" />
-    <Content Include="Mobile\Notes.ashx" />
+    <Content Include="Mobile\QuesNotes.ashx" />
     <Content Include="Mobile\Notice.ashx" />
     <Content Include="Mobile\Notices.ashx" />
     <Content Include="Mobile\QuesAnswer.ashx" />

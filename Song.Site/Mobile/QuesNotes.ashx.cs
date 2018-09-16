@@ -10,7 +10,7 @@ namespace Song.Site.Mobile
     /// <summary>
     /// 学员的笔记列表
     /// </summary>
-    public class Notes : BasePage
+    public class QuesNotes : BasePage
     {       
         
         protected override void InitPageTemplate(HttpContext context)

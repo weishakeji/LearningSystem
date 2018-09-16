@@ -1,16 +1,16 @@
 ﻿<!doctype html>
 <html>
 <head>
-<title>错题回顾</title>
+<title>我的收藏</title>
 <vt:include file="inc/meta.inc" />
 <script type="text/javascript" src="CoreScripts/AutoLoyout.js"></script>
 <script type="text/javascript" src="CoreScripts/jquery.touchSwipe.min.js"></script>
 <script type="text/javascript" src="CoreScripts/MsgBox.js"></script>
-<script type="text/javascript" src="Scripts/QuesError.js"></script>
 <script type="text/javascript" src="Scripts/QuesExercisesEvent.js?tick={$tick}"></script>
+<script type="text/javascript" src="Scripts/QuesCollects.js"></script>
 <link href="CoreStyles/MsgBox.css" rel="stylesheet" type="text/css" />
 <link href="/Utility/CoreStyles/Jme.css" rel="stylesheet" type="text/css" />
-<link href="Styles/QuesError.css" rel="stylesheet" type="text/css" />
+<link href="Styles/QuesCollects.css" rel="stylesheet" type="text/css" />
 </head>
 <body style="display:none;" quesType="{$quesType}">
 <script>
@@ -18,15 +18,9 @@
     document.body.onpaste = document.body.oncopy = function () { return false; };
 </script> 
 <script type="text/javascript">
-        //是否购买，如果没有购买，则显示弹窗，提示试用题数
-        var isBuy = "{$#.isBuy}" == "True" ? true : false;
         //试用试题数与总试题数
         var tryNum = Number("{$#.tryNum}");
         var Total = Number("{$#.Total}");
-        if (!isBuy) {
-            tryNum = tryNum < Total ? tryNum : Total;
-            //new MsgBox("提示", "该章节共有试题" + Total + "道；<br/>您可以试用" + tryNum + "道。", 90, 40, "alert").Open();
-        }
         //是否登录
         var isLogin = "{$#.Account.Ac_id}" != "";
 		var acid="{$#.Account.Ac_id}";
@@ -65,7 +59,7 @@
   <!-- <vt:if var="ques.Count" value="0" compare=">"> 试题 </vt:if> --> 
   <!--试题区 -->
   <div id="quesArea">
-    <vt:foreach id="ques" from="$#.ques" item="q" index="i" remark="试题">    
+    <vt:foreach id="ques" from="$#.ques" item="q" index="i" remark="试题">
       <vt:function var="IsCollect" method="IsCollect" args="$#.q.qus_id"/>
       <div class="quesItem" qid="{$:#.q.qus_id}" index="{$:i}" IsCollect="{$:#.IsCollect}" type="{$:#.q.qus_type}">
         <div class="quesBox"> 
@@ -134,7 +128,7 @@
           </vt:if>
         </div>
       </div>
-      <vt:foreachelse/>
+     <vt:foreachelse/>
      <div id="noQues">
      没有试题！
      </div>

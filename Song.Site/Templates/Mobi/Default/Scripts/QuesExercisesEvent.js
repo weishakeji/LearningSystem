@@ -200,8 +200,7 @@ var quesEvent = {
                 var isCollect = ques.attr("IsCollect") == "True" ? true : false;
                 $.get("AddCollect.ashx", { "qid": card.currid(), "isCollect": isCollect }, function () {
                     var ques = card.current();
-                    ques.attr("IsCollect", isCollect ? "False" : "True");
-                    //var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");
+                    ques.attr("IsCollect", isCollect ? "False" : "True");                   
                     ques.find(".btnFav").toggleClass("IsCollect");
                     var txt = isCollect ? "取消收藏成功" : "添加收藏成功";
                     var msg = new MsgBox("提示", txt + "！<br/><br/><second>2</second>秒关闭消息", 90, 200, "msg");
@@ -413,7 +412,11 @@ var card = {
         $(".context").remove();
         $("#cardBoxInner dd").remove();
         $(".ctlBtn").remove();  
-    }
+    },
+	//试题总个数
+	size:function(){
+		return $(".quesItem").size();
+	}
 }
 
 /* 
@@ -456,6 +459,7 @@ var finger = {
     qusmove: function (fixLeft) {
         $("#quesArea").animate({ left: fixLeft }, function () {
             var index = Math.round(Math.abs(fixLeft) / $(".quesItem").width());
+			index=isNaN(index) ? -1 : index;
             $("#indexNum").attr("index", index + 1);
             $("#indexNum").text(Number($("#indexNum").attr("initIndex")) + index);
             var qitem = $(".quesItem[index=" + (index + 1) + "]");

@@ -4,7 +4,7 @@
     //设置试题宽度
     var wd = $(window).width();
     var hg = document.querySelector(".context").clientHeight;
-    $("#quesArea").width(wd * (count + 10));
+     $("#quesArea").width(wd * (count==0 ? 1 : count + 10));
     //设置题型
     var quesTypes = $("body").attr("questype").split(",");
     //设置宽高，试题类型
