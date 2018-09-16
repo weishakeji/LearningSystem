@@ -302,8 +302,7 @@ body {
 	
 }
 /*试题下方显示的正确答案*/
-.quesAnswerBox {
-	
+.quesAnswerBox {	
 	display:none;
     position: relative;
     overflow: hidden;
