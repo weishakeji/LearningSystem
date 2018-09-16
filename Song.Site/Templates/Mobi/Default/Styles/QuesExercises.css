@@ -188,13 +188,64 @@ body {
 .quesBox .quesItemsBox>div img {
 	max-width: 90%;
 }
-.answerSel {
+
+
+/*试题选择项*/
+.quesItemsBox>div>b:before{
+	font-family: "iconfont" !important;
+	color: #666666;
+	margin-right: 5px;
+}
+.selected {
 	color: #0099FF;
 }
-.answerSel .type {
-	font-family: "iconfont" !important;
+.quesItemsBox>div.selected>b:before{
 	color: #0099FF;
+}
+/*单选题图标*/
+.t1>div>b:before{
+	content: "\f00c6";
+	font-family: "iconfont";
+	margin-right:5px;
+}
+.t1>div.selected>b:before{
+	content: "\e667";
+	font-family: "iconfont";
+	margin-right:5px;
+}
+/*多选题图标*/
+.t2>div>b:before{
+	content: "\e603";
+	font-family: "iconfont";
+	margin-right:5px;
+}
+.t2>div.selected>b:before{
+	content: "\e62a";
+	font-family: "iconfont";
+	margin-right:5px;
+}
+/*判断题图标*/
+.t3>div>b:before{
+	content: "\e603";
+	font-family: "iconfont";
+	margin-right:5px;
+}
+.t3>div.selected>b:before{
+	content: "\e621";
+	font-family: "iconfont";
+	margin-right:5px;
+}
+/*简答题图标*/
+.t4>div>i:before{
+	content: "\e657";
+	font-family: iconfont;
 	margin-right: 5px;
+}
+/*填空题图标*/
+.t5>div>b:before{
+	content: "\e657";
+	font-family: "iconfont";
+	margin-right:5px;
 }
 /*底部按钮条*/
 .ctlBtn{

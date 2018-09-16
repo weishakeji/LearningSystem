@@ -15,8 +15,6 @@
 			$(this).find(".btnSubmit").hide();
 		}
     });
-
-    //$("#quesArea").width(wd.width() * count);
     //设置初始的题型
     var qid = $().getPara("qid");
     var q = $(".quesItem[qid=" + qid + "]");
@@ -32,7 +30,7 @@
     $(".quesItemsBox").each(function () {
         $(this).find(">div").each(function (index, element) {
             var char = String.fromCharCode(0x41 + index);
-            $(this).find(">span").after(char);
+            $(this).find("b").after(char+"、");
         });
     });
     //答题卡
