@@ -732,7 +732,7 @@
     <Content Include="Templates\Mobi\Default\Scripts\MyTeacher.js" />
     <Content Include="Templates\Mobi\Default\Scripts\News.js" />
     <Content Include="Templates\Mobi\Default\Scripts\NewsList.js" />
-    <Content Include="Templates\Mobi\Default\Scripts\Notes.js" />
+    <Content Include="Templates\Mobi\Default\Scripts\QuesNotes.js" />
     <Content Include="Templates\Mobi\Default\Scripts\QuesError.js" />
     <Content Include="Templates\Mobi\Default\Scripts\QuesExercises.js" />
     <Content Include="Templates\Mobi\Default\Scripts\QuesExercisesEvent.js" />
@@ -792,7 +792,7 @@
     <Content Include="Templates\Mobi\Default\Styles\MyTeacher.css" />
     <Content Include="Templates\Mobi\Default\Styles\News.css" />
     <Content Include="Templates\Mobi\Default\Styles\NewsList.css" />
-    <Content Include="Templates\Mobi\Default\Styles\Notes.css" />
+    <Content Include="Templates\Mobi\Default\Styles\QuesNotes.css" />
     <Content Include="Templates\Mobi\Default\Styles\Notfound.css" />
     <Content Include="Templates\Mobi\Default\Styles\QuesAnswer.css" />
     <Content Include="Templates\Mobi\Default\Styles\QuesError.css" />

@@ -1330,20 +1330,38 @@ namespace Song.ServiceImpls
                 .Where(wc).OrderBy(Student_Notes._.Stn_CrtTime.Desc).ToArray<Student_Notes>();
         }
         /// <summary>
+        /// 取当前学员的笔记
+        /// </summary>
+        /// <param name="stid"></param>
+        /// <param name="couid"></param>
+        /// <param name="type"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public Questions[] NotesCount(int stid, int couid, int type, int count)
+        {
+            WhereClip wc = new WhereClip();
+            if (stid > 0) wc.And(Student_Notes._.Ac_ID == stid);          
+            if (couid > 0) wc.And(Student_Notes._.Cou_ID == couid);
+            if (type > 0) wc.And(Student_Notes._.Qus_Type == type);
+            return Gateway.Default.From<Questions>()
+                .InnerJoin<Student_Notes>(Questions._.Qus_ID == Student_Notes._.Qus_ID)
+                .Where(wc).OrderBy(Student_Notes._.Stn_CrtTime.Desc).ToArray<Questions>(count);
+        }
+        /// <summary>
         /// 获取指定个数的对象
         /// </summary>
         /// <param name="acid">学员id</param>
         /// <param name="quesid">试题id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Student_Notes[] NotesCount(int acid, int quesid, int type, int count)
+        public Questions[] NotesCount(int acid, int type, int count)
         {
             WhereClip wc = new WhereClip();
-            if (acid > 0) wc.And(Student_Notes._.Ac_ID == acid);
-            if (quesid > 0) wc.And(Student_Notes._.Qus_ID == quesid);
+            if (acid > 0) wc.And(Student_Notes._.Ac_ID == acid);           
             if (type > 0) wc.And(Student_Notes._.Qus_Type == type);
-            return Gateway.Default.From<Student_Notes>()
-                .Where(wc).OrderBy(Student_Notes._.Stn_CrtTime.Desc).ToArray<Student_Notes>(count);
+            return Gateway.Default.From<Questions>()
+                .InnerJoin<Student_Notes>(Questions._.Qus_ID == Student_Notes._.Qus_ID)
+                .Where(wc).OrderBy(Student_Notes._.Stn_CrtTime.Desc).ToArray<Questions>(count);
         }
         /// <summary>
         /// 分页获取学员的错误试题

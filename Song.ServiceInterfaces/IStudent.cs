@@ -559,20 +559,29 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Student_Notes NotesSingle(int quesid, int stid);
         /// <summary>
-        /// 当前学员的所有错题
+        /// 当前学员的所有笔记
         /// </summary>
         /// <param name="stid">学员id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
         Student_Notes[] NotesAll(int stid, int type);
         /// <summary>
+        /// 取当前学员的笔记
+        /// </summary>
+        /// <param name="stid"></param>
+        /// <param name="couid"></param>
+        /// <param name="type"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        Questions[] NotesCount(int stid, int couid, int type, int count);
+        /// <summary>
         /// 获取指定个数的对象
         /// </summary>
         /// <param name="stid">学员id</param>
-        /// <param name="quesid">试题id</param>
         /// <param name="type">试题类型</param>
+        /// <param name="count">数量</param>
         /// <returns></returns>
-        Student_Notes[] NotesCount(int stid, int quesid, int type, int count);
+        Questions[] NotesCount(int stid, int type, int count);
         /// <summary>
         /// 分页获取学员的错误试题
         /// </summary>
