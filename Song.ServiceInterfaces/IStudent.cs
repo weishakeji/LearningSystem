@@ -406,6 +406,12 @@ namespace Song.ServiceInterfaces
         /// <param name="stid">学员id</param>
         void QuesDelete(int quesid, int stid);
         /// <summary>
+        /// 清空错题
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stid">学员id</param>
+        void QuesClear(int couid, int stid);
+        /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
@@ -464,6 +470,12 @@ namespace Song.ServiceInterfaces
         /// <param name="quesid"></param>
         /// <param name="stid"></param>
         void CollectDelete(int quesid, int stid);
+        /// <summary>
+        /// 清空错题
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stid">学员id</param>
+        void CollectClear(int couid, int stid);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
@@ -527,6 +539,12 @@ namespace Song.ServiceInterfaces
         /// <param name="quesid"></param>
         /// <param name="stid"></param>
         void NotesDelete(int quesid, int stid);
+        /// <summary>
+        /// 清空试题
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stid">学员id</param>
+        void NotesClear(int couid, int stid);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>

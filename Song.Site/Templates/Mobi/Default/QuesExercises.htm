@@ -7,6 +7,7 @@
 <script type="text/javascript" src="CoreScripts/jquery.touchSwipe.min.js"></script>
 <script type="text/javascript" src="CoreScripts/MsgBox.js"></script>
 <script type="text/javascript" src="Scripts/QuesExercises.js?tick={$tick}"></script>
+<script type="text/javascript" src="Scripts/QuesExercisesEvent.js?tick={$tick}"></script>
 <link href="CoreStyles/MsgBox.css" rel="stylesheet" type="text/css" />
 <link href="Styles/QuesExercises.css?tick={$tick}" rel="stylesheet" type="text/css" />
 <link href="/Utility/CoreStyles/Jme.css" rel="stylesheet" type="text/css" />
@@ -24,7 +25,7 @@
         var Total = Number("{$#.Total}");
         if (!isBuy) {
             tryNum = tryNum < Total ? tryNum : Total;
-            new MsgBox("提示", "该章节共有试题" + Total + "道；<br/>您可以试用" + tryNum + "道。", 90, 40, "alert").Open();
+            //new MsgBox("提示", "该章节共有试题" + Total + "道；<br/>您可以试用" + tryNum + "道。", 90, 40, "alert").Open();
         }
         //是否登录
         var isLogin = "{$#.Account.Ac_id}" != "";
@@ -62,12 +63,11 @@
   <!--试题区 -->
   <div id="quesArea">
     <vt:foreach id="ques" from="$#.ques" item="q" index="i" remark="试题">
-      <vt:expression var="qindex" args="$i" args="1" expression="{0}+{1}-1" />
       <vt:function var="IsCollect" method="IsCollect" args="$#.q.qus_id"/>
       <div class="quesItem" qid="{$:#.q.qus_id}" index="{$:i}" IsCollect="{$:#.IsCollect}" type="{$:#.q.qus_type}">
         <div class="quesBox"> 
           <!--试题的题干 -->
-          <div class="quesTitle"><span class="index">{$:qindex}</span>.<span class="ques-type"></span> {$:#.q.qus_title} </div>
+          <div class="quesTitle"><span class="index">{$:i}</span>.<span class="ques-type"></span> {$:#.q.qus_title} </div>
           <!--试题答案选项 -->
           <div class="quesItemsBox t{$q.qus_type}">
             <vt:if var="q.qus_type" value="1" compare="="> 
@@ -144,7 +144,7 @@
   <div loyout="column"  class="correct-rate" width="140">0</div>
   <div loyout="column" class="correct-num"  width="60">0</div>
   <div loyout="column" class="error-num"  width="60">0</div>
-  <div loyout="column" class="foot-ico" id="btnCard"> <span id="indexNum" initIndex="1" index="1">1</span>/{$Total}</div>
+  <div loyout="column" class="foot-ico" id="btnCard"> <span id="indexNum" initIndex="1" index="1">1</span>/<span id="Total">{$Total}</span></div>
 </div>
 <!--<div loyout="row" height="2" class="showTxt" ></div> -->
 </body>

@@ -1005,6 +1005,15 @@ namespace Song.ServiceImpls
             Gateway.Default.Delete<Student_Ques>(Student_Ques._.Qus_ID == quesid && Student_Ques._.Ac_ID == acid);
         }
         /// <summary>
+        /// 清空错题
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stid">学员id</param>
+        public void QuesClear(int couid, int stid)
+        {
+            Gateway.Default.Delete<Student_Ques>(Student_Ques._.Cou_ID == couid && Student_Ques._.Ac_ID == stid);
+        }
+        /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
@@ -1087,6 +1096,8 @@ namespace Song.ServiceImpls
             entity.Qus_Type = qus.Qus_Type;
             entity.Qus_Title = qus.Qus_Title;
             entity.Qus_Diff = qus.Qus_Diff;
+            entity.Cou_ID = qus.Cou_ID;
+            entity.Sbj_ID = qus.Sbj_ID;
             //
             WhereClip wc = Student_Collect._.Qus_ID == entity.Qus_ID && Student_Collect._.Ac_ID == entity.Ac_ID;
             Student_Collect sc = Gateway.Default.From<Student_Collect>().Where(wc).ToFirst<Student_Collect>();
@@ -1126,6 +1137,15 @@ namespace Song.ServiceImpls
         public void CollectDelete(int quesid, int acid)
         {
             Gateway.Default.Delete<Student_Collect>(Student_Collect._.Qus_ID == quesid && Student_Collect._.Ac_ID == acid);
+        }
+        /// <summary>
+        /// 清空错题
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stid">学员id</param>
+        public void CollectClear(int couid, int stid)
+        {
+            Gateway.Default.Delete<Student_Collect>(Student_Collect._.Cou_ID == couid && Student_Collect._.Ac_ID == stid);
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；
@@ -1220,6 +1240,7 @@ namespace Song.ServiceImpls
             if (qus == null) return;
             entity.Qus_Type = qus.Qus_Type;
             entity.Qus_Title = qus.Qus_Title;
+            entity.Cou_ID = qus.Cou_ID;
             //
             WhereClip wc = Student_Notes._.Qus_ID == entity.Qus_ID && Student_Notes._.Ac_ID == entity.Ac_ID;
             Student_Notes sn = Gateway.Default.From<Student_Notes>().Where(wc).ToFirst<Student_Notes>();
@@ -1262,6 +1283,15 @@ namespace Song.ServiceImpls
         public void NotesDelete(int quesid, int acid)
         {
             Gateway.Default.Delete<Student_Notes>(Student_Notes._.Qus_ID == quesid && Student_Notes._.Ac_ID == acid);
+        }
+        /// <summary>
+        /// 清空试题
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stid">学员id</param>
+        public void NotesClear(int couid, int stid)
+        {
+            Gateway.Default.Delete<Student_Notes>(Student_Notes._.Cou_ID == couid && Student_Notes._.Ac_ID == stid);
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；

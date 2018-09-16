@@ -7,6 +7,8 @@
 	padding: 0px;
 	text-align: left;
 	box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+	position:relative;
+	background-color:#fff;
 
 }
 .MsgBox .MsgBoxTitle {
@@ -47,9 +49,11 @@
 
 .MsgBox .msgBtnBox
 {
+	position:absolute;
 	background-color: #EAEAEA;
 	width: 100%;
 	text-align: center;
+	bottom:0px;
 }
 
 .MsgBox .msgBtnBox .msgbtn {
@@ -68,8 +72,8 @@
 	border-right-style: none;
 	border-bottom-style: none;
 	border-left-style: none;
-	margin-top: 5px;
-	margin-right: 5px;
+	margin-top: 10px;
+	margin-right: 10px;
 }
 .MsgBox .msgBtnBox .msgBtnEnter{
 	background-color: #009966;

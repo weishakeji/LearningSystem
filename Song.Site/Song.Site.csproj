@@ -703,7 +703,6 @@
     <Content Include="Templates\Mobi\Default\Notfound.htm" />
     <Content Include="Templates\Mobi\Default\QuesAnswer.htm" />
     <Content Include="Templates\Mobi\Default\QuesError.htm" />
-    <Content Include="Templates\Mobi\Default\QuesErrorReview.htm" />
     <Content Include="Templates\Mobi\Default\QuesExercises.htm" />
     <Content Include="Templates\Mobi\Default\QuesExplain.htm" />
     <Content Include="Templates\Mobi\Default\QuesNoteAdd.htm" />
@@ -735,7 +734,6 @@
     <Content Include="Templates\Mobi\Default\Scripts\NewsList.js" />
     <Content Include="Templates\Mobi\Default\Scripts\Notes.js" />
     <Content Include="Templates\Mobi\Default\Scripts\QuesError.js" />
-    <Content Include="Templates\Mobi\Default\Scripts\QuesErrorReview.js" />
     <Content Include="Templates\Mobi\Default\Scripts\QuesExercises.js" />
     <Content Include="Templates\Mobi\Default\Scripts\QuesExercisesEvent.js" />
     <Content Include="Templates\Mobi\Default\Scripts\QuesOutlines.js" />
@@ -798,7 +796,6 @@
     <Content Include="Templates\Mobi\Default\Styles\Notfound.css" />
     <Content Include="Templates\Mobi\Default\Styles\QuesAnswer.css" />
     <Content Include="Templates\Mobi\Default\Styles\QuesError.css" />
-    <Content Include="Templates\Mobi\Default\Styles\QuesErrorReview.css" />
     <Content Include="Templates\Mobi\Default\Styles\QuesExercises.css" />
     <Content Include="Templates\Mobi\Default\Styles\QuesExplain.css" />
     <Content Include="Templates\Mobi\Default\Styles\QuesNoteAdd.css" />
@@ -2897,10 +2894,6 @@
     </Compile>
     <Compile Include="Mobile\QuesError.ashx.cs">
       <DependentUpon>QuesError.ashx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Mobile\QuesErrorReview.ashx.cs">
-      <DependentUpon>QuesErrorReview.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mobile\QuesExplain.ashx.cs">
@@ -6108,7 +6101,6 @@
     <Content Include="Mobile\Courses.ashx" />
     <Content Include="Mobile\Default.ashx" />
     <Content Include="Mobile\QuesError.ashx" />
-    <Content Include="Mobile\QuesErrorReview.ashx" />
     <Content Include="Mobile\QuesExplain.ashx" />
     <Content Include="Mobile\Guide.ashx" />
     <Content Include="Mobile\Guides.ashx" />

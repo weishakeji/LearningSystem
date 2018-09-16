@@ -59,6 +59,20 @@
                 }
             }, 1000);
         }
+    } 
+    //关闭当前窗口
+    msgbox.prototype.Close = function (winid) {
+        //关闭窗口的方法       
+        var func = MsgBox.events.get(winid + "_OverEvent");
+        if (func != null) func();
+        //关闭窗口
+        var msgbox = $(".MsgBox[winid='" + this.WinId + "']");
+        msgbox.fadeOut(100, function () {
+            $("#msgMask").remove();
+        });
+        msgbox.fadeOut(100, function () {
+            $(this).remove();
+        });
     }
     //生成窗体外框,包括标题
     msgbox.prototype.BuildFrame = function () {
@@ -75,7 +89,7 @@
         box.css("top", (hg - this.Height) / 2 + $(window).scrollTop());
         box.css("left", (wd - this.Width) / 2);
         box.css("position", "absolute").css("z-index", "10001");
-        box.css({ "width": this.Width - 20, "height": this.Height - 20 });
+        box.css({ "width": this.Width, "height": this.Height});
         box.attr("width", box.width()).attr("height", box.height());
         this.BuildTitle();
     }
@@ -92,11 +106,11 @@
         }
         box.append("<div class=\"MsgBoxContext\"></div>");
         var context = this.WinBox.find(".MsgBoxContext");
-        context.width(this.WinBox.width() - 20);
+        context.width(this.WinBox.width()-20);
         if (this.Type == "null") {
-            context.height(box.height() - box.find(".MsgBoxTitle").height() - 20);
+            context.height(box.height() - box.find(".MsgBoxTitle").height());
         } else {
-            context.height(box.height() - box.find(".MsgBoxTitle").height() - 50 - 20);
+            context.height(box.height() - box.find(".MsgBoxTitle").height() - 50);
         }
     }
     //生成页面区域
