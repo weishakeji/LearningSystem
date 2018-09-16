@@ -262,6 +262,9 @@ body {
 	content:"%";	
 }
 /*正确数*/
+.ctlBtn .correct-num{
+	text-align:center;
+}
 .ctlBtn .correct-num:before {
 	content: "\e61a";
 	font-family: "iconfont";
@@ -269,6 +272,9 @@ body {
 	margin-right:5px;
 }
 /*错误数*/
+.ctlBtn .error-num{
+	text-align:center;
+}
 .ctlBtn .error-num:before {
 	content:"\e63d";
 	font-family: "iconfont";	
@@ -343,17 +349,20 @@ body {
 	font-family: "examico";	
 }
 .btnFav:before{
-	content:"\e60a";
-	font-family: "iconfont";
+	content:"\e661";
+	font-family: "examico";
 	font-size: 16px;	
 }
 .btnNote:before{
 	content:"\e60d";
 	font-family: "iconfont";	
 }
+.IsCollect{
+	color: #FF0000;
+}
 .IsCollect:before{
-	content:"\e621";
-	font-family: "iconfont";	
+	content:"\e662";
+	font-family: "examico";	
 	color: #FF0000;
 }
 /*答题卡*/

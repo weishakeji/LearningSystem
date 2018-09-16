@@ -113,7 +113,7 @@ jQuery.fn.pagecookie = function (name, value, options) {
 //opernum：增减的数值
 jQuery.fn.setFontSize = function (element, opernum) {
     var fontsize = parseInt(element.css("font-size"));  //原始字体大小
-    var cookienum = $().cookie("FontSize");
+    var cookienum = $().cookie(getName("FontSize"));
     cookienum = cookienum == null ? fontsize : cookienum;   //cookie记录的字体设置
     //要设置的大小
     var setnum = opernum == null ? cookienum : fontsize + opernum;
@@ -125,7 +125,7 @@ jQuery.fn.setFontSize = function (element, opernum) {
     function setSize(element, setnum) {
         var font = element.attr("font");
         if (font == "no") return;   //如果该元素不允许设置字体
-        if (font == "icon") setnum*=1.2;   //如果是图标，则比字体要大1.2倍
+        if (font == "icon") setnum *= 1.2;   //如果是图标，则比字体要大1.2倍
         element.css({ "font-size": setnum + "px", "line-height": (setnum * 1.8) + "px" });
         var child = element.children();
         if (child.size() > 0) {
@@ -133,9 +133,17 @@ jQuery.fn.setFontSize = function (element, opernum) {
                 setSize($(this), setnum);
             });
         }
+    };
+    //获取cookie名称，限制到当前页面
+    function getName(name) {
+        //标页面的名称，不含后缀名
+        var url = String(window.document.location.href);
+        if (url.indexOf("/") >= 0) url = url.substring(url.lastIndexOf("/") + 1);
+        if (url.indexOf("?") >= 0) url = url.substring(0, url.indexOf("?"));
+        if (url.indexOf(".") >= 0) url = url.substring(0, url.indexOf("."));
+        return "(" + url + ")" + name;
     }
-
-    $().cookie("FontSize", setnum);
+    $().cookie(getName("FontSize"), setnum);
 }
 //打开模式窗口
 jQuery.fn.ModalWindow = function (page, width, height) {

@@ -421,6 +421,7 @@ var finger = {
         //设置初始的题型
         var qid = $().getPara("qid");
         var firstQitem = qid != "" ? $(".quesItem[qid=" + qid + "]") : $(".quesItem:first");
+        firstQitem = firstQitem.size() > 0 ? firstQitem : $(".quesItem:first");
         finger.qusmove((Number(firstQitem.attr("index")) - 1) * $(".quesItem").width());
     },
     //放大与捏合事件
