@@ -177,7 +177,7 @@ body {
 	min-height: 30px;
 }
 .quesBox .quesItemsBox>div * {
-	font-size: 16px !important;
+	font-size: 16px;
 	line-height: 30px;
 }
 .quesBox .quesItemsBox>div .type {
@@ -200,43 +200,29 @@ body {
 .ctlBtn{
 	background-color:#fff;
 }
-.ctlBtn .msg-input {
-	border: 1px solid #dedede;
-	-moz-border-radius: 15px;      /* Gecko browsers */
-	-webkit-border-radius: 15px;   /* Webkit browsers */
-	border-radius: 18px;            /* W3C syntax */
-	font-size: 13px;
-	line-height: 30px;
-	color: #CCCCCC;
-	text-align: center;
-	height: 30px;
-	margin-top: 5px;
-	width: 95%;
-	text-align: left;
-	padding-left: 10px;
-	padding-right: 10px;
-}
-.ctlBtn .foot-txt {
+.ctlBtn>div{
 	line-height:40px;
-	margin-left:10px;
-
 }
-.ctlBtn .foot-ico {
-	text-align: right;
+.ctlBtn .correct-rate:before {
+	content:"正确率：";
+	margin-left:5px;
 }
-.ctlBtn .foot-ico>span {
-	line-height: 30px;
-	text-align: center;
-	margin-right: 10px;
-	width: 30px;
+.ctlBtn .correct-rate:after {
+	content:"%";	
 }
-.ctlBtn .btn span {
-	font-size: 14px;
-	font-style: normal;
-	-webkit-font-smoothing: antialiased;
-	-webkit-text-stroke-width: 0.2px;
-	-moz-osx-font-smoothing: grayscale;
-	margin-right: 3px;
+/*正确数*/
+.ctlBtn .correct-num:before {
+	content: "\e61a";
+	font-family: "iconfont";
+	color: #0099FF;
+	margin-right:5px;
+}
+/*错误数*/
+.ctlBtn .error-num:before {
+	content:"\e63d";
+	font-family: "iconfont";	
+	color: #FF0000;
+	margin-right:5px;
 }
 .textbox4 {
 	font-size: 16px;
@@ -254,9 +240,7 @@ body {
 	border: 1px solid #999999;
 	margin-top: 3px;
 }
-.IsCollect {
-	color: #FF0000 !important;
-}
+
 /*回答正确*/
 .correct {
 	background-repeat: no-repeat;
@@ -288,15 +272,50 @@ body {
 	line-height: 35px;
 	min-height: 35px;
 }
+/*报错、收藏、笔记*/
+.answerBtnbar{
+	float: right;
+	font-weight: normal;	
+}
+.answerBtnbar>span{
+	margin-right:10px;
+}
+.answerBtnbar>span:before{
+	font-size: 16px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+	margin-right:3px;
+}
+.btnError:before{
+	content:"\e704";
+	font-family: "examico";	
+}
+.btnFav:before{
+	content:"\e60a";
+	font-family: "iconfont";
+	font-size: 16px;	
+}
+.btnNote:before{
+	content:"\e60d";
+	font-family: "iconfont";	
+}
+.IsCollect:before{
+	content:"\e621";
+	font-family: "iconfont";	
+	color: #FF0000;
+}
 /*答题卡*/
 #btnCard {
 	line-height: 40px;
 	text-align: center;
 	font-size: 14px;	
 }
-#btnCard .examico {
-	font-size: 22px;
-	font-weight: normal;
+#btnCard:before{
+	content:"\e689";
+	font-family: "examico";
+	font-size: 22px;	
 }
 #cardBox {
 	position: absolute;

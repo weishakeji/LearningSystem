@@ -75,14 +75,14 @@
               <!--单选题 -->
               <vt:function var="items" method="AnswerItems" args="$#.q"/>
               <vt:foreach from="$#.items" item="ans" index="j">
-                <div correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}"><span class="type">&#xf00c6;</span>、{$:ans.Ans_Context} </div>
+                <div correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}"><span class="type"  font="icon">&#xf00c6;</span>、{$:ans.Ans_Context} </div>
               </vt:foreach>
             </vt:if>
             <vt:if var="q.qus_type" value="2" compare="="> 
               <!--多选题 -->
               <vt:function var="items" method="AnswerItems" args="$#.q"/>
               <vt:foreach from="$#.items" item="ans" index="j">
-                <div class="answer"  correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}"><span class="type">&#xe603;</span>、{$:ans.Ans_Context} </div>
+                <div class="answer"  correct="{$:ans.Ans_IsCorrect}" ansid="{$:ans.Ans_id}"><span class="type"  font="icon">&#xe603;</span>、{$:ans.Ans_Context} </div>
               </vt:foreach>
             </vt:if>
             <vt:if var="q.qus_type" value="3" compare="="> 
@@ -90,16 +90,16 @@
               <!--判断题 -->
               <vt:function var="answer" method="GetAnswer" args="$#.q"/>
               <vt:if var="answer" value="正确" compare="=">
-                <div class="answer" correct="true" ansid="0"><span class="type">&#xe621;</span>、&nbsp;正确</div>
-                <div class="answer" correct="false" ansid="1"><span class="type">&#xe621;</span>、&nbsp;错误</div>
+                <div class="answer" correct="true" ansid="0"><span class="type"  font="icon">&#xe621;</span>、&nbsp;正确</div>
+                <div class="answer" correct="false" ansid="1"><span class="type"  font="icon">&#xe621;</span>、&nbsp;错误</div>
                 <vt:else/>
-                <div class="answer" correct="false" ansid="0"><span class="type">&#xe621;</span>、&nbsp;正确</div>
-                <div class="answer" correct="true" ansid="1"><span class="type">&#xe621;</span>、&nbsp;错误</div>
+                <div class="answer" correct="false" ansid="0"><span class="type"  font="icon">&#xe621;</span>、&nbsp;正确</div>
+                <div class="answer" correct="true" ansid="1"><span class="type"  font="icon">&#xe621;</span>、&nbsp;错误</div>
               </vt:if>
             </vt:if>
             <vt:if var="q.qus_type" value="4" compare="=">
               <div class="answer">
-                <div><span class="type">&#xe657;</span> 回答：</div>
+                <div><span class="type"  font="icon">&#xe657;</span> 回答：</div>
                 <textarea name="" class="textbox4"></textarea>
               </div>
             </vt:if>
@@ -107,20 +107,22 @@
               <!--填空题 -->
               <vt:function var="items" method="AnswerItems" args="$#.q"/>
               <vt:foreach from="$#.items" item="ans" index="j">
-                <div class="answer" correct="{$:ans.Ans_Context}" ><span class="iconfont">&#xe657;</span>、
+                <div class="answer" correct="{$:ans.Ans_Context}" ><span class="iconfont"  font="icon">&#xe657;</span>、
                   <input name=""  class="textbox5" type="text"/>
                 </div>
               </vt:foreach>
             </vt:if>
-          </div> <!--提交按钮-->
-        
-        <div class="btnSubmit"> <span class="iconfont">&#xe605;</span>提交答题信息</div>
+          </div>
+          <!--提交按钮-->
+          
+          <div class="btnSubmit" font="no"> <span class="iconfont">&#xe605;</span>提交答题信息</div>
         </div>
-       
         
         <!--试题答案-->
         <div class="quesAnswerBox">
-          <div class="quesAnswerTitle">正确答案：</div>
+          <div class="quesAnswerTitle">正确答案：
+            <div class="answerBtnbar"> <span class="btnError">报错</span> <span class="btnFav" >收藏</span> <span class="btnNote">笔记</span> </div>
+          </div>
           <div class="quesAnswerContent">
             <vt:function var="answer" method="GetAnswer" args="$#.q"/>
             {$answer}</div>
@@ -140,17 +142,10 @@
 <!--底部按钮区 -->
 <div loyout="row" height="40" class="ctlBtn">
   <div loyout="column" width="5"> </div>
-  <!-- <div loyout="column">
-    <div id="btnAnswer" class="btn"> <span>&#xe610;</span>答案</div>
-  </div>
-  <div loyout="column">
-    <div id="btnExplain" class="btn"> <span>&#xe66f;</span>解析</div>
-  </div>-->
-  <div style="display:none">
-    <div id="btnSubmit" class="btn"> <span>&#xe605;</span>提交</div>
-  </div>
-  <div loyout="column"> <span class="foot-txt">正确率：<span class="correct-rate">0</span>%</span> </div>
-  <div loyout="column" width="180" class="foot-ico"> <span class="examico" id="btnError">&#xe704;</span><span class="iconfont" id="btnFav" >&#xe60a;</span><span class="iconfont" id="btnNote">&#xe60d;</span> <span id="btnCard"> <span class="examico">&#xe689;</span> <span id="indexNum" initIndex="1" index="1">1</span>/{$Total}</span> </div>
+  <div loyout="column"  class="correct-rate" width="140">0</div>
+  <div loyout="column" class="correct-num"  width="60">0</div>
+  <div loyout="column" class="error-num"  width="60">0</div>
+  <div loyout="column" class="foot-ico" id="btnCard"> <span id="indexNum" initIndex="1" index="1">1</span>/{$Total}</div>
 </div>
 <!--<div loyout="row" height="2" class="showTxt" ></div> -->
 </body>

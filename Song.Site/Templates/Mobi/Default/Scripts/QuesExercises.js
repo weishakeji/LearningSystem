@@ -24,9 +24,9 @@
     //试题是否收藏的显示切换
     var isCollect = firstQitem.attr("IsCollect") == "True" ? true : false;
     if (isCollect) {
-        $("#btnFav").addClass("IsCollect");
+        firstQitem.find(".btnFav").addClass("IsCollect");
     } else {
-        $("#btnFav").removeClass("IsCollect");
+        firstQitem.find(".btnFav").removeClass("IsCollect");
     }
     //选项的序号，数字转字母
     $(".quesItemsBox").each(function () {
@@ -85,9 +85,9 @@ function quesAreaMove(fixLeft) {
         //试题是否收藏的显示切换
         var isCollect = qitem.attr("IsCollect") == "True" ? true : false;
         if (isCollect) {
-            $("#btnFav").addClass("IsCollect");
+            qitem.find(".btnFav").addClass("IsCollect");
         } else {
-            $("#btnFav").removeClass("IsCollect");
+            qitem.find(".btnFav").removeClass("IsCollect");
         }
         $("#quesArea").css("left", -index * $(".quesItem").width());
         //当前试题的答题卡选块
@@ -124,9 +124,9 @@ function buildCard() {
         //试题是否收藏的显示切换
         var isCollect = qitem.attr("IsCollect") == "True" ? true : false;
         if (isCollect) {
-            $("#btnFav").addClass("IsCollect");
+            qitem.find(".btnFav").addClass("IsCollect");
         } else {
-            $("#btnFav").removeClass("IsCollect");
+            qitem.find(".btnFav").removeClass("IsCollect");
         }
         $("#cardPanel").hide();
         setCardState("curr");

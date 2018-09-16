@@ -7,14 +7,16 @@
 function _quesSelectEvent() {
     $(".quesItem").each(function () {
         var type = Number($(this).attr("type"));
-        //单选题
-        if (type == 1) quesEventType1($(this));
-        if (type == 2) quesEventType2($(this));
-        if (type == 3) quesEventType3($(this));
-        if (type == 4) quesEventType4($(this));
-        if (type == 5) quesEventType5($(this));
+        var event_func = eval("quesEventType" + type);
+        if (event_func != null) event_func($(this));
     });
 }
+//试题的事件
+
+var quesEvent = {
+    Init: function () {
+    }
+};
 //单选题的选择
 function quesEventType1(ansItem) {
     ansItem.find(".quesItemsBox>div").click(function () {
@@ -100,9 +102,9 @@ function quesEventType5(ansItem) {
             }
         });
         //提交答题信息以验证对错
-        if (count == answer.size()){
-			$(this).parents(".quesItem").find(".btnSubmit").click();
-		}
+        if (count == answer.size()) {
+            $(this).parents(".quesItem").find(".btnSubmit").click();
+        }
     });
 }
 //试题移动
@@ -141,22 +143,13 @@ function _btnEvent() {
         var suss = $("#cardBox dd.succ").size();
         if (sum > 0) {
             var per = Math.floor(suss / sum * 10000) / 100;
-            $(".correct-rate").text(per);
+            $(".correct-rate").text(per); //正确率
         }
-    });
-    //查看答案
-    $("#btnAnswer").click(function () {
-        var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");
-        var qid = ques.attr("qid");
-        ques.find(".quesAnswerBox").show();
-    });
-    //试题解析
-    $("#btnExplain").click(function () {
-        var qid = $(".quesItem[index=" + $("#indexNum").attr("index") + "]").attr("qid");
-        new PageBox("试题解析", "QuesExplain.ashx?id=" + qid, 90, 90, null).Open();
+        $(".correct-num").text($("#cardBox").find("dd.succ").size());
+        $(".error-num").text($("#cardBox").find("dd.error").size());
     });
     //收藏
-    $("#btnFav").click(function () {
+    $(".btnFav").click(function () {
         if (!isLogin) {
             //如果没有登录
             new MsgBox("提示", "未登录状态，不可以收藏试题。", 90, 40, "alert").Open();
@@ -167,12 +160,13 @@ function _btnEvent() {
             $.get("AddCollect.ashx", { "qid": qid, "isCollect": isCollect }, function () {
                 var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");
                 ques.attr("IsCollect", isCollect ? "False" : "True");
-                $("#btnFav").toggleClass("IsCollect");
+                var ques = $(".quesItem[index=" + $("#indexNum").attr("index") + "]");
+                ques.find(".btnFav").toggleClass("IsCollect");
             });
         }
     });
     //笔记
-    $("#btnNote").click(function () {
+    $(".btnNote").click(function () {
         if (!isLogin) {
             //如果没有登录
             new MsgBox("提示", "未登录状态，不可以编写笔记。", 90, 40, "alert").Open();
@@ -182,7 +176,7 @@ function _btnEvent() {
         }
     });
     //报错
-    $("#btnError").click(function () {
+    $(".btnError").click(function () {
         var qid = $(".quesItem[index=" + $("#indexNum").attr("index") + "]").attr("qid");
         new PageBox("错误试题提交", "QuesSubmitError.ashx?id=" + qid, 90, 80, null).Open();
     });
@@ -242,7 +236,13 @@ function _decide1(ques) {
 function _decide2(ques) {
     var selitem = ques.find(".quesItemsBox .answer[issel=true]");
     if (selitem.size() < 1) {
-        var msg = new MsgBox("提示", "您还没有答题！", 90, 40, "msg");
+        var msg = new MsgBox("提示", "您还没有答题！<br/><second>2</second>秒关闭消息", 90, 40, "msg");
+        msg.Open();
+        showResult(ques, null);
+        return;
+    }
+    if (selitem.size() < 2) {
+        var msg = new MsgBox("提示", "多选题至少要选择两个选项！<br/><second>2</second>秒关闭消息", 90, 40, "msg");
         msg.Open();
         showResult(ques, null);
         return;

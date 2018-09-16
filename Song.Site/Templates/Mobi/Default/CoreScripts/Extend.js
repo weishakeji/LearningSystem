@@ -117,13 +117,16 @@ jQuery.fn.setFontSize = function (element, opernum) {
     cookienum = cookienum == null ? fontsize : cookienum;   //cookie记录的字体设置
     //要设置的大小
     var setnum = opernum == null ? cookienum : fontsize + opernum;
-    var min = 16, max = 30;
+    var min = 16, max = 40;
     setnum = setnum <= min ? min : setnum;
     setnum = setnum >= max ? max : setnum;
     //设置大小
     setSize(element, setnum);
     function setSize(element, setnum) {
-        element.css({"font-size": setnum + "px","line-height":(setnum * 1.8) + "px"});
+        var font = element.attr("font");
+        if (font == "no") return;   //如果该元素不允许设置字体
+        if (font == "icon") setnum*=1.2;   //如果是图标，则比字体要大1.2倍
+        element.css({ "font-size": setnum + "px", "line-height": (setnum * 1.8) + "px" });
         var child = element.children();
         if (child.size() > 0) {
             child.each(function () {
