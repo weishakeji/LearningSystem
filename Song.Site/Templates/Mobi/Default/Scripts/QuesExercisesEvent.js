@@ -200,7 +200,7 @@ var quesEvent = {
                 var isCollect = ques.attr("IsCollect") == "True" ? true : false;
                 $.get("AddCollect.ashx", { "qid": card.currid(), "isCollect": isCollect }, function () {
                     var ques = card.current();
-                    ques.attr("IsCollect", isCollect ? "False" : "True");                   
+                    ques.attr("IsCollect", isCollect ? "False" : "True");
                     ques.find(".btnFav").toggleClass("IsCollect");
                     var txt = isCollect ? "取消收藏成功" : "添加收藏成功";
                     var msg = new MsgBox("提示", txt + "！<br/><br/><second>2</second>秒关闭消息", 90, 200, "msg");
@@ -355,7 +355,7 @@ var card = {
     set: function (state, qid) {
         var index = 0;
         //如果没有指明试题id，则取当前显示的试题
-        if (qid == null) {           
+        if (qid == null) {
             var qitem = card.current();
             qid = qitem.attr("qid");
         }
@@ -402,21 +402,21 @@ var card = {
             var ques = card.current();
             var index = ques.attr("index");
             $("#indexNum").attr("index", index).text(index);
-            $("#Total").text($(".quesItem").size());     
-        });       
-       
-        
+            $("#Total").text($(".quesItem").size());
+        });
+
+
     },
     //清空所有试题
     clear: function () {
         $(".context").remove();
         $("#cardBoxInner dd").remove();
-        $(".ctlBtn").remove();  
+        $(".ctlBtn").remove();
     },
-	//试题总个数
-	size:function(){
-		return $(".quesItem").size();
-	}
+    //试题总个数
+    size: function () {
+        return $(".quesItem").size();
+    }
 }
 
 /* 
@@ -445,20 +445,19 @@ var finger = {
         var fixLeft = Number($("#quesArea").css("left").replace("px", ""));
         fixLeft = isNaN(fixLeft) ? 0 : fixLeft;
         var tm = $(".quesItem").width();
+        var second = "<br/><br/><second>3</second>秒后关闭消息";
         if (direction == "left") {
             if (Math.abs(fixLeft) < tm * ($(".quesItem").size() - 1)) {
                 fixLeft = fixLeft - tm;
             } else {
-                new MsgBox("提示",
-                "已经是最后一道试题，后面没有了！<br/><br/><second>2</second>秒关闭消息", 90, 200, "msg").Open();
+                new MsgBox("提示", "已经是最后一道试题，后面没有了！" + second, 90, 200, "msg").Open();
             }
         }
         if (direction == "right") {
             if (fixLeft < 0) {
                 fixLeft = fixLeft + tm;
             } else {
-                new MsgBox("提示",
-                "这是第一道试题，前面没有了！<br/><br/><second>2</second>秒关闭消息", 90, 200, "msg").Open();
+                new MsgBox("提示", "这是第一道试题，前面没有了！" + second, 90, 200, "msg").Open();
             }
         }
         finger.qusmove(fixLeft);
