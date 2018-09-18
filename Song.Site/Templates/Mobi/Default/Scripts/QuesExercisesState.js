@@ -13,8 +13,8 @@
 */
 var state = {
     init: function () {    //初始化
-        if (this.dataset.items.length < 1) this.dataset = this.read();
-        var data = this.dataset;
+        if (this.data.items.length < 1) this.data = this.read();
+        var data = this.data;
         if (data.items.length < 1) return;
         //如果有历史数据，则在界面上显示答题状态
         this.reconsitution();
@@ -31,7 +31,7 @@ var state = {
         }
     },
     //试题集
-    dataset: {
+    data: {
         items: new Array(),
         //            item: {
         //                qid: 0,
@@ -77,27 +77,27 @@ var state = {
         }
         //创建所有对象
         if (arguments.length == 0) {
-            state.dataset = new Object();
-            state.dataset.items = new Array();
-            state.dataset.current = null;
+            state.data = new Object();
+            state.data.items = new Array();
+            state.data.current = null;
             $(".quesItem").each(function () {
                 var item = state.create($(this));
                 if (item != null) {
-                    state.dataset.items.push(item);
+                    state.data.items.push(item);
                 }
             });
-            return state.dataset.items;
+            return state.data.items;
         }
     },
     //获取一个item项
     //qid: 试题id
     get: function (qid) {
         if (typeof qid != "number") return null;
-        if (state.dataset.items.length < 1) state.dataset.items = state.create();
+        if (state.data.items.length < 1) state.data.items = state.create();
         var item = null;
-        for (t in state.dataset.items) {
-            if (state.dataset.items[t].qid == qid) {
-                item = state.dataset.items[t];
+        for (t in state.data.items) {
+            if (state.data.items[t].qid == qid) {
+                item = state.data.items[t];
                 break;
             }
         }
@@ -110,27 +110,27 @@ var state = {
             if (typeof qitem == "number") qitem = $(".quesItem[qid=" + qitem + "]");
             var item = state.create(qitem);
             if (item == null) return;
-            if (state.dataset.items.length < 1)
-                state.dataset.items = state.create();
+            if (state.data.items.length < 1)
+                state.data.items = state.create();
             var isExist = false;
-            for (t in state.dataset.items) {
-                if (state.dataset.items[t].qid == item.qid) {
-                    state.dataset.items[t] = item;
+            for (t in state.data.items) {
+                if (state.data.items[t].qid == item.qid) {
+                    state.data.items[t] = item;
                     isExist = true;
                     break;
                 }
             }
-            if (!isExist) state.dataset.items.push(item);
-            state.dataset.current = item;
+            if (!isExist) state.data.items.push(item);
+            state.data.current = item;
         }
         if (arguments.length == 0) {
-            state.dataset.items = state.create();
-            if (state.dataset.items.length > 0) {
-                state.dataset.current = state.dataset.items[0];
+            state.data.items = state.create();
+            if (state.data.items.length > 0) {
+                state.data.current = state.data.items[0];
             }
         }
         var name = state.name.get();
-        var tm = state.dataset;
+        var tm = state.data;
         //alert(JSON.stringify(tm));
         window.storage(name, tm);
     },
@@ -138,20 +138,20 @@ var state = {
     clear: function () {
         var name = state.name.get();
         window.storage(name, null);
-        state.dataset = new Object();
-        state.dataset.items = new Array();
-        state.dataset.current = null;
+        state.data = new Object();
+        state.data.items = new Array();
+        state.data.current = null;
     },
     //读取本地记录
     read: function () {
         var name = state.name.get();
-        state.dataset = window.storage(name);
-        if (state.dataset == null) {
+        state.data = window.storage(name);
+        if (state.data == null) {
             state.clear();
         }
-        if (typeof state.dataset == "string") return null;
-        if (typeof state.dataset == "object") return state.dataset;
-        return state.dataset;
+        if (typeof state.data == "string") return null;
+        if (typeof state.data == "object") return state.data;
+        return state.data;
     },
     //重构
     reconsitution: function () {
