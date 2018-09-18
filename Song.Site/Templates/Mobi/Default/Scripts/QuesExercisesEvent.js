@@ -8,8 +8,7 @@
     $(".fontoper").click(function () {
         if ($(this).attr("id") == "addFont") $().setFontSize($(".quesBox"), 2);
         if ($(this).attr("id") == "subFont") $().setFontSize($(".quesBox"), -2);
-    });
-
+    });   
 });
 /*
 试题相关事件
@@ -104,12 +103,12 @@ var quesEvent = {
         type2: function (ques) {    //多选题
             var selitem = ques.find(".quesItemsBox .answer[issel=true]");
             if (selitem.size() < 1) {
-                var msg = new MsgBox("提示", "您还没有答题！<br/><br/><second>3</second>秒关闭消息", 90, 200, "msg");
+                var msg = new MsgBox("提示", "您还没有答题！<br/><br/><second>3</second>秒后关闭消息", 90, 200, "msg");
                 msg.Open();
                 return quesEvent.showResult(ques, null);
             }
             if (selitem.size() < 2) {
-                var msg = new MsgBox("提示", "多选题至少要选择两个选项！<br/><br/><second>3</second>秒关闭消息", 90, 200, "msg");
+                var msg = new MsgBox("提示", "多选题至少要选择两个选项！<br/><br/><second>3</second>秒后关闭消息", 90, 200, "msg");
                 msg.Open();
                 return quesEvent.showResult(ques, null);
             }
@@ -189,6 +188,10 @@ var quesEvent = {
             //正确的答题数，与错误的答题数
             $(".correct-num").text($("#cardBox").find("dd.succ").size());
             $(".error-num").text($("#cardBox").find("dd.error").size());
+            //记录答题状态到本地
+            if (typeof state != "undefined") {
+                state.update(ques);               
+            }
         });
         //收藏
         $(".btnFav").click(function () {
@@ -203,7 +206,7 @@ var quesEvent = {
                     ques.attr("IsCollect", isCollect ? "False" : "True");
                     ques.find(".btnFav").toggleClass("IsCollect");
                     var txt = isCollect ? "取消收藏成功" : "添加收藏成功";
-                    var msg = new MsgBox("提示", txt + "！<br/><br/><second>2</second>秒关闭消息", 90, 200, "msg");
+                    var msg = new MsgBox("提示", txt + "！<br/><br/><second>2</second>秒后关闭消息", 90, 200, "msg");
                     msg.Open();
                 });
             }
@@ -302,6 +305,9 @@ var card = {
             html += "</dl>";
             box.append(html);
         }
+        $("#cardBox").click(function () {
+            $("#cardPanel").hide();
+        });
         box.find("dl dd").click(function () {
             var index = $(this).attr("index");
             var fixLeft = (index - 1) * $(".quesItem").width();
@@ -312,6 +318,7 @@ var card = {
             $("#indexNum").text(Number($("#indexNum").attr("initIndex")) + index);
             var qitem = $(".quesItem[index=" + (index + 1) + "]");
             $("#cardPanel").hide();
+            card.set("curr");
         });
     },
     //获取试题类型
@@ -346,7 +353,7 @@ var card = {
     //获取当前试题的ID
     currid: function () {
         var ques = this.current();
-        if (ques.size() > 0) return ques.attr("qid");
+        if (ques.size() > 0) return Number(ques.attr("qid"));
         return 0;
     },
     //设置答题卡状态
@@ -472,7 +479,7 @@ var finger = {
             var qitem = $(".quesItem[index=" + (index + 1) + "]");
             $("#quesArea").css("left", -index * $(".quesItem").width());
             //当前试题的答题卡选块
-            card.set("curr")
+            card.set("curr");
         });
     }
 };

@@ -762,6 +762,7 @@
     <Content Include="Templates\Mobi\Default\Scripts\PointDetails.js" />
     <Content Include="Templates\Mobi\Default\Scripts\LearningCard.js" />
     <Content Include="Templates\Mobi\Default\Scripts\LearningCardView.js" />
+    <Content Include="Templates\Mobi\Default\Scripts\QuesExercisesState.js" />
     <Content Include="Templates\Mobi\Default\SelfCourse.htm" />
     <Content Include="Templates\Mobi\Default\SelfInfo.htm" />
     <Content Include="Templates\Mobi\Default\SelfPw.htm" />

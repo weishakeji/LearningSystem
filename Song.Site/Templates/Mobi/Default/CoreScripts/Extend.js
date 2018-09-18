@@ -1,95 +1,53 @@
 ﻿//两端去空格函数
-String.prototype.trim = function () { return this.replace(/(^\s*)|(\s*$)/g, ""); }
-// 记录cookie
-jQuery.cookie = function (name, value, options) {
-    if (typeof value != 'undefined') { // name and value given, set cookie 
-        options = options || {};
-        if (value === null) {
-            value = '';
-            options.expires = -1;
-        }
-        var expires = '';
-        if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
-            var date;
-            if (typeof options.expires == 'number') {
-                date = new Date();
-                date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
-            } else {
-                date = options.expires;
+String.prototype.trim = function () { return this.replace(/(^\s*)|(\s*$)/g, ""); };
+/*cookie的操作方法*/
+(function(){
+    var cookie = function (name, value, options) {
+        if (typeof value != 'undefined') { // name and value given, set cookie
+            options = options || {};
+            if (value === null) {
+                value = '';
+                options.expires = -1;
             }
-            expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE 
-        }
-        var path = options.path ? '; path=' + options.path : '; path=/';
-        var domain = options.domain ? '; domain=' + options.domain : '';
-        var secure = options.secure ? '; secure' : '';
-        document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
-    } else { // only name given, get cookie 
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want? 
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+            var expires = '';
+            if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
+                var date;
+                if (typeof options.expires == 'number') {
+                    date = new Date();
+                    date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
+                } else {
+                    date = options.expires;
+                }
+                expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE
+            }
+            var path = options.path ? '; path=' + options.path : '; path=/';
+            var domain = options.domain ? '; domain=' + options.domain : '';
+            var secure = options.secure ? '; secure' : '';
+            document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
+        } else { // only name given, get cookie
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                 }
             }
+            return cookieValue;
         }
-        return cookieValue;
-    }
+    };
+    window.cookie=cookie;
+})();
+jQuery.cookie = function (name, value, options) {
+    return window.cookie(name, value, options);
 };
 jQuery.fn.cookie = function (name, value, options) {
     return $.cookie(name, value, options);
-}
-jQuery.storage = function (key, value) {
-    var isAndroid = (/android/gi).test(navigator.appVersion);
-    var uzStorage = function () {
-        var ls = window.localStorage;
-        if (isAndroid) {
-            ls = window.localStorage;
-        }
-        return ls;
-    };
-    //如果只有一个参数，为读取
-    if (arguments.length === 1) {
-        var ls = uzStorage();
-        if (ls) {
-            var v = ls.getItem(key);
-            if (!v) { return; }
-            if (v.indexOf('obj-') === 0) {
-                v = v.slice(4);
-                return JSON.parse(v);
-            } else if (v.indexOf('str-') === 0) {
-                return v.slice(4);
-            }
-        }
-    }
-    //如果两个参数，为写入，第一个为键，第二个为值
-    if (arguments.length === 2) {
-        if (value != null) {
-            var v = value;
-            if (typeof v == 'object') {
-                v = JSON.stringify(v);
-                v = 'obj-' + v;
-            } else {
-                v = 'str-' + v;
-            }
-            var ls = uzStorage();
-            if (ls) {
-                ls.setItem(key, v);
-            }
-        } else {
-            var ls = uzStorage();
-            if (ls && key) {
-                ls.removeItem(key);
-            }
-        }
-    }
-}
-jQuery.fn.storage = function (name, value, options) {
-    return $.storage(name, value);
-}
+};
 //记录页面级cookie
 jQuery.fn.pagecookie = function (name, value, options) {
     //标页面的名称，不含后缀名
@@ -107,7 +65,33 @@ jQuery.fn.pagecookie = function (name, value, options) {
     } else {
         return $().cookie(name);
     }
-}
+};
+/*localStorage的操作方法*/
+(function () {
+    var storage = function (key, value) {
+        if (!window.localStorage) return;
+        var ls = window.localStorage;
+        //如果只有一个参数，为读取
+        if (arguments.length === 1) {
+            var value = ls.getItem(key);
+            if (!value) return;
+            return value.indexOf('obj-') === 0 ? JSON.parse(value.slice(4)) : value.slice(4);
+        }
+        //如果两个参数，为写入，第一个为键，第二个为值
+        if (arguments.length === 2) {
+            if (value == null && ls && key) return ls.removeItem(key);
+            ls.setItem(key, ((typeof value == "object") ? "obj-" + JSON.stringify(value) : "str-" + value));
+        }
+    };
+    window.storage = storage;
+})();
+jQuery.storage = function (key, value) {
+    return window.storage(key, value);
+};
+jQuery.fn.storage = function (name, value, options) {
+    return $.storage(name, value);
+};
+
 //设置字体大小
 //element:jquery对象
 //opernum：增减的数值
@@ -144,7 +128,7 @@ jQuery.fn.setFontSize = function (element, opernum) {
         return "(" + url + ")" + name;
     }
     $().cookie(getName("FontSize"), setnum);
-}
+};
 //打开模式窗口
 jQuery.fn.ModalWindow = function (page, width, height) {
     //屏幕宽高
@@ -162,7 +146,7 @@ jQuery.fn.ModalWindow = function (page, width, height) {
     var arr = showModalDialog(page, "", "dialogWidth:" + width + "px; dialogHeight:" + height + "px; dialogTop=" + top + "; dialogLeft=" + left + ";status:0;scroll:0;help:0");
     var url = window.location.href;
     if (arr == "refresh") window.location.href = url;
-}
+};
 //获取当前鼠标坐标
 jQuery.fn.Mouse = function (e) {
     var x = 0, y = 0;
@@ -207,7 +191,7 @@ jQuery.fn.getSizeUnit = function (fileSize) {
     }
     size = Math.round(size * 100) / 100;
     return size + " " + name[tm];
-}
+};
 //加入收藏
 jQuery.fn.addFav = function (title) {
     var url = window.location.href;
@@ -221,7 +205,7 @@ jQuery.fn.addFav = function (title) {
     }
     //未成功
     return false;
-}
+};
 //获取QueryString参数
 jQuery.fn.getPara = function (url, key) {
     if (arguments.length == 1) {
@@ -241,9 +225,9 @@ jQuery.fn.getPara = function (url, key) {
             }
         }
     }
-    if(value.indexOf("#")>-1)value=value.substring(0,value.indexOf("#"));
+    if (value.indexOf("#") > -1) value = value.substring(0, value.indexOf("#"));
     return value;
-}
+};
 
 //添加链接地址的参数
 //url:超链接
@@ -311,7 +295,7 @@ jQuery.fn.getFileName = function () {
     var filename = url.substr(pos + 1);
     filename = filename.substr(0, filename.indexOf("."))
     return filename;
-}
+};
 //在线浏览pdf文件
 jQuery.fn.PdfViewer = function (file) {
     var viewer = "/Utility/PdfViewer/viewer.html";
@@ -319,7 +303,7 @@ jQuery.fn.PdfViewer = function (file) {
     viewer += "?file=" + encodeURIComponent(file);
     //window.location.href = viewer;
     return viewer;
-}
+};
 //格式化日期
 Date.prototype.ToString = function () {
     var year = this.getFullYear();
@@ -331,7 +315,7 @@ Date.prototype.ToString = function () {
     var sec = this.getSeconds();
     //
     var str = year + "/" + month + "/" + date + " " + hour + ":" + minu + ":" + sec;
-    return str;
+    ;return str;
 }
 Date.prototype.Format = function (fmt) { //author: meizz 
     var o = {
@@ -347,7 +331,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
     for (var k in o)
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
-}
+};
 
 //获取信息
 //service:webservice请求页
@@ -373,14 +357,14 @@ jQuery.fn.SoapAjax = function (service, sfunc, para, successFunc, loadfunc, unlo
             if (unloadfunc != null) unloadfunc();
         }
     });
-}
+};
 //网页是否处于微信内置浏览器
 jQuery.fn.isWeixin = function () {
     var ua = window.navigator.userAgent.toLowerCase();
     return ua.match(/MicroMessenger/i) == 'micromessenger';
-}
+};
 //网页是否处于微信小程序内置浏览器
 jQuery.fn.isWeixinApp = function () {
     var ua = window.navigator.userAgent.toLowerCase();
     return ua.match(/miniProgram/i) == 'miniprogram';
-}
+};

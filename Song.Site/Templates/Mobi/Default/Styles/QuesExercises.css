@@ -89,11 +89,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	margin-right: 3px;
 }
-.showTxt {
-	font-size: 13px;
-	color: #666666;
-	text-align: center;
-}
+
 .submitError {
 	border: 2px solid #dedede;
 	-moz-border-radius: 15px;      /* Gecko browsers */
