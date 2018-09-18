@@ -709,7 +709,6 @@
     <Content Include="Templates\Mobi\Default\QuesOutlines.htm" />
     <Content Include="Templates\Mobi\Default\QuesPager.htm" />
     <Content Include="Templates\Mobi\Default\QuesSubmitError.htm" />
-    <Content Include="Templates\Mobi\Default\Questions.htm" />
     <Content Include="Templates\Mobi\Default\Recharge.htm" />
     <Content Include="Templates\Mobi\Default\Register.htm" />
     <Content Include="Templates\Mobi\Default\RegisterAgreement.htm" />
@@ -737,7 +736,6 @@
     <Content Include="Templates\Mobi\Default\Scripts\QuesExercises.js" />
     <Content Include="Templates\Mobi\Default\Scripts\QuesExercisesEvent.js" />
     <Content Include="Templates\Mobi\Default\Scripts\QuesOutlines.js" />
-    <Content Include="Templates\Mobi\Default\Scripts\Questions.js" />
     <Content Include="Templates\Mobi\Default\Scripts\Recharge.js" />
     <Content Include="Templates\Mobi\Default\Scripts\Register.js" />
     <Content Include="Templates\Mobi\Default\Scripts\SelfCourse.js" />
@@ -802,7 +800,6 @@
     <Content Include="Templates\Mobi\Default\Styles\QuesOutlines.css" />
     <Content Include="Templates\Mobi\Default\Styles\QuesPager.css" />
     <Content Include="Templates\Mobi\Default\Styles\QuesSubmitError.css" />
-    <Content Include="Templates\Mobi\Default\Styles\Questions.css" />
     <Content Include="Templates\Mobi\Default\Styles\Recharge.css" />
     <Content Include="Templates\Mobi\Default\Styles\Register.css" />
     <Content Include="Templates\Mobi\Default\Styles\SelfCourse.css" />
@@ -2959,10 +2956,6 @@
     </Compile>
     <Compile Include="Mobile\QuesAnswer.ashx.cs">
       <DependentUpon>QuesAnswer.ashx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Mobile\Questions.ashx.cs">
-      <DependentUpon>Questions.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mobile\Register.ashx.cs">
@@ -6114,7 +6107,6 @@
     <Content Include="Mobile\Notice.ashx" />
     <Content Include="Mobile\Notices.ashx" />
     <Content Include="Mobile\QuesAnswer.ashx" />
-    <Content Include="Mobile\Questions.ashx" />
     <Content Include="Mobile\Register.ashx" />
     <Content Include="Mobile\SelfCourse.ashx" />
     <Content Include="Mobile\SelfInfo.ashx" />

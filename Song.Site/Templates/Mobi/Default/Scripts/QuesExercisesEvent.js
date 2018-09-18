@@ -448,10 +448,18 @@ var finger = {
         if (direction == "left") {
             if (Math.abs(fixLeft) < tm * ($(".quesItem").size() - 1)) {
                 fixLeft = fixLeft - tm;
+            } else {
+                new MsgBox("提示",
+                "已经是最后一道试题，后面没有了！<br/><br/><second>2</second>秒关闭消息", 90, 200, "msg").Open();
             }
         }
         if (direction == "right") {
-            if (fixLeft < 0) fixLeft = fixLeft + tm;
+            if (fixLeft < 0) {
+                fixLeft = fixLeft + tm;
+            } else {
+                new MsgBox("提示",
+                "这是第一道试题，前面没有了！<br/><br/><second>2</second>秒关闭消息", 90, 200, "msg").Open();
+            }
         }
         finger.qusmove(fixLeft);
     },
@@ -459,7 +467,7 @@ var finger = {
     qusmove: function (fixLeft) {
         $("#quesArea").animate({ left: fixLeft }, function () {
             var index = Math.round(Math.abs(fixLeft) / $(".quesItem").width());
-			index=isNaN(index) ? -1 : index;
+            index = isNaN(index) ? -1 : index;
             $("#indexNum").attr("index", index + 1);
             $("#indexNum").text(Number($("#indexNum").attr("initIndex")) + index);
             var qitem = $(".quesItem[index=" + (index + 1) + "]");
