@@ -67,10 +67,10 @@
         if (func != null) func();
         //关闭窗口
         var msgbox = $(".MsgBox[winid='" + this.WinId + "']");
-        msgbox.fadeOut(100, function () {
+        msgbox.fadeOut(1000, function () {
             $("#msgMask").remove();
         });
-        msgbox.fadeOut(100, function () {
+        msgbox.fadeOut(1000, function () {
             $(this).remove();
         });
     }
@@ -152,10 +152,10 @@
     //关闭窗口
     //isquiet:是否安静，如果为true，则不执行事件
     msgbox.Close = function (isquiet) {
-        $("#msgMask").fadeOut(100, function () {
+        $("#msgMask").fadeOut(1000, function () {
             $("#msgMask").remove();
         });
-        $(".MsgBox").fadeOut(100, function () {
+        $(".MsgBox").fadeOut(1000, function () {
             $(".MsgBox").remove();
         });
         //$("#MsgBox").remove();
