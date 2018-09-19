@@ -199,15 +199,17 @@ var state = {
     },
     //计算正确率，正确数，错误数
     //data: 来自state对象的data.items属性
-    //return:返回对象，三个值,rate,correct,error
+    //return:返回对象，rate（正确率）,correct（正确数）,error（错误数）,sum(总数）,ansnum（答题数)
     clac: function (data) {
-        var ret = { rate: 0, correct: 0, error: 0 };
+        var ret = { rate: 0, correct: 0, error: 0, sum: 0, ansnum: 0 };
         if (data.length < 1) return ret;
+        ret.sum = data.length;
         for (i in data) {
             if (data[i].data.correct == "succ") ret.correct++;
             if (data[i].data.correct == "error") ret.error++;
         }
-        ret.rate = Math.floor(ret.correct / (ret.correct+ret.error) * 10000) / 100;
+        ret.ansnum = ret.correct + ret.error;
+        ret.rate = Math.floor(ret.correct / ret.ansnum * 10000) / 100;
         return ret;
     }
 };
