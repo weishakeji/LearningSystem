@@ -74,6 +74,7 @@ body {
 	height: 30px;
 	margin-top: 6px;
 	display: block;
+	text-decoration: none;
 }
 .nav-left {
 	color: #999 !important;
@@ -207,6 +208,14 @@ body {
 .quesItemsBox>div.selected>b:before {
 	color: #0099FF;
 }
+/*回答正确*/
+.quesItem .succ {
+	background-color: #E8FFE8;
+}
+/*回答错误*/
+.quesItem .error {
+	background-color: #FFECE8;
+}
 /*单选题图标*/
 .t1>div>b:before {
 	content: "\f00c6";
@@ -302,14 +311,7 @@ body {
 	border: 1px solid #999999;
 	margin-top: 3px;
 }
-/*回答正确*/
-.correct {
-	background-repeat: no-repeat;
-	background-position: right top;
-}
-/*回答错误*/
-.error {
-}
+
 /*试题下方显示的正确答案*/
 .quesAnswerBox {
 	display: none;

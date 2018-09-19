@@ -49,6 +49,7 @@ namespace Song.Site.Mobile
             //this.Document.SetValue("sumCount", sumCount);
             int total = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, olid, -1, true);
             this.Document.SetValue("Total", total);  //试题的总数
+            this.Document.SetValue("couid", WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0);
             //题型
             this.Document.SetValue("quesType", WeiSha.Common.App.Get["QuesType"].Split(','));
             //试题列表

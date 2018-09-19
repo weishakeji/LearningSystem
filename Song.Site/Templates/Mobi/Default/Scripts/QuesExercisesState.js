@@ -17,7 +17,7 @@ var state = {
         var data = this.data;
         if (data.items.length < 1) return;
         //如果有历史数据，则在界面上显示答题状态
-        this.reconsitution();
+        this.rebuild();
     },
     //存储项的名称
     name: {
@@ -30,15 +30,15 @@ var state = {
             file: $().getFileName()
         }
     },
-    //试题集
+    //试题集信息，作为存储在localstorage的数据
     data: {
         items: new Array(),
-        //            item: {
-        //                qid: 0,
-        //                info: { index: 0, olid: 0, couid: 0, file: null, name: null },
-        //                data: { ans: "", correct: "error|succ|null" }
-        //            }
-
+        //        //注释部分为数据项结构
+        //        item: {   //试题id,最后练习时间
+        //            qid: 0, last: new time(),
+        //            info: { index: 0, olid: 0, couid: 0, type: 0 },
+        //            data: { ans: "", correct: "error|succ|null" }
+        //        },
         //当前项，为items中的item项
         current: {}
     },
@@ -51,9 +51,10 @@ var state = {
             var item = new Object();
             //试题基础信息      
             item.qid = qid;
+            item.last = new Date();     //当前时间，即最后练习的时间
             item.info = { index: Number(qitem.attr("index")),
                 olid: state.name.items.olid, coiid: state.name.items.couid,
-                file: state.name.items.file, name: state.name.get()
+                type: Number(qitem.attr("type"))
             };
             //试题答题信息
             var type = Number(qitem.attr("type"));  //试题类型
@@ -91,7 +92,7 @@ var state = {
     },
     //获取一个item项
     //qid: 试题id
-    get: function (qid) {
+    getdata: function (qid) {
         if (typeof qid != "number") return null;
         if (state.data.items.length < 1) state.data.items = state.create();
         var item = null;
@@ -102,6 +103,13 @@ var state = {
             }
         }
         return item;
+    },
+    //获取最后一个练习对象
+    last: function () {
+        if (state.data.items.length < 1) state.data = this.read();
+        var data = this.data;
+        if (data.items.length > 0) return state.data.current;
+        return { qid: 0, last: new Date() };
     },
     //更新数据项，如果不存在则添加
     //qitem:试题项的jquery对象，如果为空，则更新所有
@@ -153,7 +161,53 @@ var state = {
         if (typeof state.data == "object") return state.data;
         return state.data;
     },
-    //重构
-    reconsitution: function () {
+    //将记录的答题信息，还原到界面
+    rebuild: function () {
+        if (state.data.items.length < 1) return;
+        for (i in state.data.items) {
+            var d = state.data.items[i];
+            //获取试题对象
+            var qitem = $(".quesItem[qid=" + d.qid + "]");
+            //设置是否答题正确
+            if (d.data.correct != "null") {
+                qitem.find(".quesBox").addClass(d.data.correct);
+                $("#cardBox dl dd[qid=" + d.qid + "]").addClass(d.data.correct);
+                //如果答题错误，则显示正确答案与解析
+                if (d.data.correct == "error") qitem.find(".quesAnswerBox").show();
+            }
+            //设置答题项
+            if (d.info.type == 1 || d.info.type == 2 || d.info.type == 3) {
+                for (j in d.data.ans) {
+                    var ans = $.trim(d.data.ans[j]);
+                    if (ans == "") continue;
+                    var itemsbox = qitem.find(".quesItemsBox>div[ansid=" + ans + "]");
+                    itemsbox.attr("issel", true).addClass("selected");
+                }
+            }
+            if (d.info.type == 4 || d.info.type == 5) {     //简答题、填空题
+                qitem.find(".quesItemsBox>div.answer").each(function (index) {
+                    $(this).find("input,textarea").val(d.data.ans[index]);
+                });
+            }
+        }
+        //正确率
+        var rate = state.clac(state.data.items);
+        $(".correct-rate").text(rate.rate); //正确率
+        //正确的答题数，与错误的答题数
+        $(".correct-num").text(rate.correct);
+        $(".error-num").text(rate.error);
+    },
+    //计算正确率，正确数，错误数
+    //data: 来自state对象的data.items属性
+    //return:返回对象，三个值,rate,correct,error
+    clac: function (data) {
+        var ret = { rate: 0, correct: 0, error: 0 };
+        if (data.length < 1) return ret;
+        for (i in data) {
+            if (data[i].data.correct == "succ") ret.correct++;
+            if (data[i].data.correct == "error") ret.error++;
+        }
+        ret.rate = Math.floor(ret.correct / (ret.correct+ret.error) * 10000) / 100;
+        return ret;
     }
 };

@@ -8,7 +8,7 @@
     $(".fontoper").click(function () {
         if ($(this).attr("id") == "addFont") $().setFontSize($(".quesBox"), 2);
         if ($(this).attr("id") == "subFont") $().setFontSize($(".quesBox"), -2);
-    });   
+    });
 });
 /*
 试题相关事件
@@ -189,9 +189,8 @@ var quesEvent = {
             $(".correct-num").text($("#cardBox").find("dd.succ").size());
             $(".error-num").text($("#cardBox").find("dd.error").size());
             //记录答题状态到本地
-            if (typeof state != "undefined") {
-                state.update(ques);               
-            }
+            if (typeof state != "undefined") state.update(ques);
+
         });
         //收藏
         $(".btnFav").click(function () {
@@ -243,7 +242,7 @@ var quesEvent = {
     //ques:试题区域
     //isCorrect:是否正确
     showResult: function (ques, isCorrect) {
-        var qitem = ques.find(".quesItemsBox");
+        var qitem = ques.find(".quesBox");
         if (isCorrect == null) {
             qitem.removeClass("error").removeClass("correct");
             return false;
@@ -252,12 +251,12 @@ var quesEvent = {
         var qid = ques.attr("qid");
         //如果正确
         if (isCorrect) {
-            qitem.addClass("correct").removeClass("error");
+            qitem.addClass("succ").removeClass("error");
             //设置答题卡状态
             card.set("succ", qid);
         } else {
             //如果错误
-            qitem.removeClass("correct").addClass("error");
+            qitem.removeClass("succ").addClass("error");
             //增加错题
             $.get("AddQues.ashx", { "qid": qid }, function () { });
             //设置答题卡状态，并显示答案
@@ -437,9 +436,13 @@ var finger = {
         });
         //设置初始的题型
         var qid = $().getPara("qid");
+        //获取记录在本地的答题信息
+        if (typeof state != "undefined") qid = state.last().qid;
+        //设置初始显示的试题
         var firstQitem = qid != "" ? $(".quesItem[qid=" + qid + "]") : $(".quesItem:first");
         firstQitem = firstQitem.size() > 0 ? firstQitem : $(".quesItem:first");
         finger.qusmove((Number(firstQitem.attr("index")) - 1) * $(".quesItem").width());
+        card.set("curr");
     },
     //放大与捏合事件
     pinch: function (event, direction, distance, duration, fingerCount) {
