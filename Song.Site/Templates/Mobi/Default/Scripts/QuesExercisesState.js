@@ -1,11 +1,6 @@
 ﻿$(function () {
-    //    $("body").click(function () {
-    //        //答题状态初始化
+    //答题状态初始化
     if (typeof state != "undefined") state.init();
-    //        var t = state.read();
-    //        //alert(JSON.stringify(t));
-    //    });
-
 });
 
 /*
@@ -21,13 +16,16 @@ var state = {
     },
     //存储项的名称
     name: {
-        get: function () {      //三个参数串连，文件名+课程ID+章节ID
+        get: function (file, couid, olid) {      //三个参数串连，文件名+课程ID+章节ID
+            if (arguments.length == 3) {
+                return (file + "_" + couid + "_" + olid).toLowerCase();
+            }
             return this.items.file + "_" + this.items.couid + "_" + this.items.olid;
         },
         items: {    //三个参数,olid,couid,文件名
             olid: Number($().getPara("olid")),
             couid: Number($().getPara("couid")),
-            file: $().getFileName()
+            file: $().getFileName().toLowerCase()
         }
     },
     //试题集信息，作为存储在localstorage的数据
@@ -106,9 +104,12 @@ var state = {
     },
     //获取最后一个练习对象
     last: function () {
-        if (state.data.items.length < 1) state.data = this.read();
-        var data = this.data;
-        if (data.items.length > 0) return state.data.current;
+        if (state.data == null) state.data = this.read();
+        if (state.data != null) {
+            if (state.data.items.length < 1) state.data = this.read();
+            var data = this.data;
+            if (data.items.length > 0) return state.data.current;
+        }
         return { qid: 0, last: new Date() };
     },
     //更新数据项，如果不存在则添加
@@ -118,7 +119,7 @@ var state = {
             if (typeof qitem == "number") qitem = $(".quesItem[qid=" + qitem + "]");
             var item = state.create(qitem);
             if (item == null) return;
-            if (state.data.items.length < 1)
+            if (state.data == null || state.data.items.length < 1)
                 state.data.items = state.create();
             var isExist = false;
             for (t in state.data.items) {
@@ -143,23 +144,28 @@ var state = {
         window.storage(name, tm);
     },
     //清除当前页面下的记录
-    clear: function () {
-        var name = state.name.get();
+    //name: localstorage的键值
+    clear: function (name) {
+        if (name == null) name = state.name.get();
         window.storage(name, null);
         state.data = new Object();
         state.data.items = new Array();
         state.data.current = null;
     },
     //读取本地记录
-    read: function () {
-        var name = state.name.get();
-        state.data = window.storage(name);
-        if (state.data == null) {
-            state.clear();
+    //name: localstorage的键值
+    read: function (name) {
+        if (name == null) name = state.name.get();
+        var data = window.storage(name);
+        if (data == null) {
+            state.clear(name);
+            data = new Object();
+            data.items = new Array();
+            data.current = null;
         }
-        if (typeof state.data == "string") return null;
-        if (typeof state.data == "object") return state.data;
-        return state.data;
+        if (typeof data == "string") return null;
+        if (typeof data == "object") return data;
+        return data;
     },
     //将记录的答题信息，还原到界面
     rebuild: function () {

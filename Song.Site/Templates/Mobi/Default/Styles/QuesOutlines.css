@@ -27,12 +27,55 @@
 .outline a {
 	overflow: hidden;
 	padding-right: 50px !important;
+	padding-left:60px !important;
+}
+/*正确率的百分比*/
+.outline b{
+	background-color: #FFF;
+	height: 40px;
+	width: 40px;
+	display: inline-block;
+	position: absolute;
+	bottom: 2px;
+	background-image: url(../Images/percent.gif);
+	background-repeat: no-repeat;
+	background-position: -4px -1px;
+}
+.outline b.per1{
+	background-position: -48px -1px;
+}
+.outline b.per2{
+	background-position: -91px -1px;
+}
+.outline b.per3{
+	background-position: -135px -1px;
+}
+.outline b.per4{
+	background-position: -4px -46px;
+}
+.outline b.per5{
+	background-position: -48px -46px;
+}
+.outline b.per6{
+	background-position: -90px -46px;
+}
+.outline b.per7{
+	background-position: -134px -46px;
+}
+.outline b.per8{
+	background-position: -3px -92px;
+}
+.outline b.per9{
+	background-position: -47px -92px;
+}
+.outline b.per10{
+	background-position: -89px -92px;
 }
 .mui-badge {
 	right: 8px !important;
 }
 .right-item {
-	float: right;
+	float: right;	
 	margin-right: 25px;
 	line-height: 20px;
 	color: #999;

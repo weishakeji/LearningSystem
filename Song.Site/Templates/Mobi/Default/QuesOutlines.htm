@@ -3,6 +3,7 @@
 <head>
 <title>试题练习-《{$currCourse.cou_name}》</title>
 <vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="Scripts/QuesExercisesState.js"></script>
 <script type="text/javascript" src="Scripts/QuesOutlines.js"></script>
 <link href="Styles/QuesOutlines.css" rel="stylesheet" type="text/css" />
 </head>
@@ -11,7 +12,7 @@
 <!--主界面部分-->
 <div class="mui-inner-wrap">
   <div class="mui-scroll">
-    <ul class="mui-table-view">
+    <ul class="mui-table-view" style="display:none">
       <li class="mui-table-view-cell">
          <vt:if var="log.Lsq_ID" value="0" compare=">"> 
          <a href="QuesExercises.ashx?couid={$log.cou_id}&olid={$log.ol_id}&qid={$log.qus_id}" class="log" olid="{$log.ol_id}" type="link"> 继续练习 <span class="mui-pull-right logtime">{$log.lsq_lastTime}</span></a>
@@ -28,7 +29,7 @@
           <vt:expression var="r" args="$data.ol_level" args="15" expression="({0})*{1}" />
           <li class="mui-table-view-cell outline" olid="{$:#.data.ol_id}" pid="{$:#.data.ol_pid}" style="margin-left:{$:r}px"> 
             <!--链接指向试题分页，size每页多少条试题,onpager是多少条之内，不分页--> 
-            <a  type="link" count="{$:#.data.ol_quescount}" href="QuesExercises.ashx?olid={$:#.data.ol_id}&couid={$:#.data.cou_id}&count={$:#.data.ol_quescount}"> <span class="iconfont">&#xe636;</span> <span class="tax">1.</span> {$:#.data.ol_name} </a> <span class="mui-badge count">{$:#.data.ol_quescount}</span> </li>
+           <b></b> <a  type="link" count="{$:#.data.ol_quescount}" href="QuesExercises.ashx?olid={$:#.data.ol_id}&couid={$:#.data.cou_id}&count={$:#.data.ol_quescount}">  <span class="tax">1.</span> {$:#.data.ol_name} </a> <span class="mui-badge count"><span class="ansnum">0</span>/<span class="num">{$:#.data.ol_quescount}</span></span> </li>
         </vt:foreach>
       </ul>
       <vt:else />
