@@ -450,22 +450,19 @@ body {
 	background-color: #FFFFFF;
 	border-radius: 50%;
 }
-#cardBox dl dd.answer {
-	background-color: #0099FF;
-	color: #FFFFFF;
-}
 #cardBox dl dd.curr {
-	color: #060;
+	color: #FFF;
 	background-image: url(../Images/tk_exam.png);
 	background-repeat: no-repeat;
 	background-position: -67px -225px;
-	background-color: #6F9;
+	background-color: #09F;
 	box-shadow: 0 -1px 2px #ccc, 0 3px 1px rgba(0, 0, 0, 0.3);
 }
 #cardBox dl dd.succ {
-	background-color: #0099FF;
+	background-color: #00CC66;
+	color: #FFFFFF;
 }
 #cardBox dl dd.error {
-	background-color: #F30;
+	background-color: #F60;
 	color: #FFFFFF;
 }
