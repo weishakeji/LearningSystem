@@ -1,7 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>试题练习-《{$currCourse.cou_name}》</title>
+<title>《{$currCourse.cou_name}》</title>
+<vt:include file="inc/icon-color.inc" />
 <vt:include file="inc/meta.inc" />
 <script type="text/javascript" src="Scripts/QuesExercisesState.js"></script>
 <script type="text/javascript" src="Scripts/QuesOutlines.js"></script>
@@ -10,26 +11,52 @@
 <body>
 
 <!--主界面部分-->
-<div class="mui-inner-wrap">
+<div class="mui-inner-wrap"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left back"></a>
   <div class="mui-scroll">
-    <ul class="mui-table-view" style="display:none">
+    <div class="chart-area">
+      <div class="chart-back">
+        <div class="y"> </div>
+      </div>
+      <div class="chart-txt"> <span>正确率</span> <span class="cou-rate" rate="81.2">81.2%</span></div>
+      <dl class="quesnumbox">
+        <dd>总题量：<span class="sum">{$count}</span>道</dd>
+        <dd>已练习：<span class="ansSum">0</span>道</dd>
+      </dl>
+    </div>
+    <div class="mainmenuBox">
+      <div class="mm-item" href="QuesError.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-cuotitubiao"></use>
+        </svg> <span> 错题回顾 </span> </div>
+      <div class="mm-item" href="QuesCollects.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-shoucang3"></use>
+        </svg> <span> 我的收藏 </span> </div>
+      <div class="mm-item" href="QuesNotes.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-blog"></use>
+        </svg> <span> 我的笔记 </span> </div>
+      <div class="mm-item" href="MsgBoards.ashx"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-bar-chart"></use>
+        </svg> <span> 高频错题 </span> </div>
+    </div>
+    <!--    <ul class="mui-table-view" style="display:none">
       <li class="mui-table-view-cell">
-         <vt:if var="log.Lsq_ID" value="0" compare=">"> 
-         <a href="QuesExercises.ashx?couid={$log.cou_id}&olid={$log.ol_id}&qid={$log.qus_id}" class="log" olid="{$log.ol_id}" type="link"> 继续练习 <span class="mui-pull-right logtime">{$log.lsq_lastTime}</span></a>
+        <vt:if var="log.Lsq_ID" value="0" compare=">"> <a href="QuesExercises.ashx?couid={$log.cou_id}&olid={$log.ol_id}&qid={$log.qus_id}" class="log" olid="{$log.ol_id}" type="link"> 继续练习 <span class="mui-pull-right logtime">{$log.lsq_lastTime}</span></a>
           <vt:else />
-          按章节练习
-          </vt:if>
-        </li>
-    </ul>
+          按章节练习 </vt:if>
+      </li>
+    </ul>--> 
     <!--章节输出-->
+    <ul class="mui-table-view" style="margin-top:10px">
+      <li class="mui-table-view-cell outline-tit"><b></b> 按章节练习 
+      <a href="QuesExercises.ashx?couid={$log.cou_id}&olid={$log.ol_id}&qid={$log.qus_id}" class="log" olid="{$log.ol_id}" type="link"> 继续练习</a>
+      </li>
+    </ul>
     <vt:if var="outlines.Length" value="0" compare=">">
       <ul class="mui-table-view">
         <vt:foreach id="course" from="$dtOutlines" item="data" remark="章节列表">
-          
           <vt:expression var="r" args="$data.ol_level" args="15" expression="({0})*{1}" />
           <li class="mui-table-view-cell outline" olid="{$:#.data.ol_id}" pid="{$:#.data.ol_pid}" style="margin-left:{$:r}px"> 
             <!--链接指向试题分页，size每页多少条试题,onpager是多少条之内，不分页--> 
-           <b></b> <a  type="link" count="{$:#.data.ol_quescount}" href="QuesExercises.ashx?olid={$:#.data.ol_id}&couid={$:#.data.cou_id}&count={$:#.data.ol_quescount}">  <span class="tax">1.</span> {$:#.data.ol_name} </a> <span class="mui-badge count"><span class="ansnum">0</span>/<span class="num">{$:#.data.ol_quescount}</span></span> </li>
+            <b></b> <a  type="link" count="{$:#.data.ol_quescount}" href="QuesExercises.ashx?olid={$:#.data.ol_id}&couid={$:#.data.cou_id}&count={$:#.data.ol_quescount}"> <span class="tax">1.</span> {$:#.data.ol_name} </a> <span class="mui-badge count"><span class="ansnum">0</span>/<span class="num">{$:#.data.ol_quescount}</span></span> </li>
         </vt:foreach>
       </ul>
       <vt:else />
@@ -38,8 +65,7 @@
       </ul>
     </vt:if>
   </div>
- 
-  <nav class="mui-bar mui-bar-tab"> <a class="mui-icon mui-icon-left-nav mui-pull-left left" href="CoursePage.ashx" type="link"><span class="couname">{$currCourse.cou_name}</span></a> <a class="mui-btn mui-btn-link mui-pull-right right"> <span class="mui-badge count sum">{$count} 道</span> </a> </nav>
+  
 </div>
 </body>
 </html>

@@ -625,6 +625,7 @@
     <Content Include="Templates\Mobi\Default\APICloud\dataSource.js" />
     <Content Include="Templates\Mobi\Default\Article.htm" />
     <Content Include="Templates\Mobi\Default\CallPhone.htm" />
+    <Content Include="Templates\Mobi\Default\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Mobi\Default\Images\percent.gif" />
     <Content Include="Templates\Mobi\Default\QuesCollects.htm" />
     <Content Include="Templates\Mobi\Default\Conn.htm" />

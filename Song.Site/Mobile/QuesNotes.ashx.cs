@@ -32,6 +32,7 @@ namespace Song.Site.Mobile
                     ques[i].Qus_Title = Extend.Html.ClearHTML(ques[i].Qus_Title, "p", "div", "font");
                 }
                 this.Document.SetValue("Total", ques.Length);  //试题的总数
+                this.Document.SetValue("couid", WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0);
                 this.Document.SetValue("ques", ques);
                 this.Document.RegisterGlobalFunction(this.AnswerItems);
                 this.Document.RegisterGlobalFunction(this.IsCollect);
