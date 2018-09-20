@@ -21,14 +21,14 @@ html{
 	text-align: center;
 	padding-top: 10px;
 	background-color: #FFF;
-	margin-bottom:10px;
+	margin-bottom: 8px;
 	border-bottom-width: 1px;
-    border-top-style: none;
-    border-right-style: none;
-    border-bottom-style: solid;
-    border-left-style: none;
-    border-bottom-color: #E6E6E6;
-    background-color: #FFF;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #E6E6E6;
+	background-color: #FFF;
 }
 .chart-area .chart-back {
 	background: linear-gradient(to bottom right, #b4d0e5, #fff); /* 标准的语法 */
