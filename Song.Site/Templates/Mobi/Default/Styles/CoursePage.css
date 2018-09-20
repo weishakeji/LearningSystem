@@ -3,12 +3,15 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
-#main {
-	position: fixed;
+.mui-inner-wrap{
+	position:relative;
+}
+.back {
 	top: 0px;
-	bottom: 60px;
-	width: 100%;
-	overflow: scroll;
+	display: block;
+	position: absolute;
+	margin-top:5px;
+	margin-left:5px;
 }
 .photo img {
 	width: 100%;
@@ -95,7 +98,7 @@ body {
 }
 .boxtit .line {
 	display: inline-block;
-	width: 80%;
+	width: 90%;
 	border-top: 1px solid #ccc;
 }
 .boxtit .name {
@@ -156,14 +159,44 @@ body {
 .mui-inner-wrap {
 	padding-bottom: 60px;
 }
-.left{
-	padding-right:20px;
-	padding-left:10px;
+.footer{
+	height:40px !important;
 }
-.right {
-	margin-right: 20px;
+.msg-box{
+	height: 30px;
+	margin-top: 5px;
+	margin-left: 10px;
+	background-color: #E6E6E6;
+	width: 60%;
+	border-radius: 15px;
+	position: relative;
+	float: left;
+	display:block;
 }
-.footer-ico {
-	margin-right: 8px;
-	font-size: 20px;
+.msg-ico
+{
+	height: 24px;
+	width:24px;
+	border-radius: 12px;
+	margin-left: 3px;
+	margin-top: 3px;
+	float:left;
+}
+
+.msg-txt{
+	padding-left: 40px;
+	font-size: 14px;
+	line-height: 30px;
+	color: #666;
+}
+.msg-txt:before{
+	content: "\e657";
+	font-family: "iconfont";
+	margin-right: 5px;
+}
+.info-box{
+	font-size:14px;
+	float:right;
+	line-height:40px;
+	margin-right:10px;
 }
