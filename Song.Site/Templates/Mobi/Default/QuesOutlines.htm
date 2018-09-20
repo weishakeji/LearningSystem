@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>《{$currCourse.cou_name}》</title>
+<title>试题练习-《{$currCourse.cou_name}》</title>
 <vt:include file="inc/icon-color.inc" />
 <vt:include file="inc/meta.inc" />
 <script type="text/javascript" src="Scripts/QuesExercisesState.js"></script>
@@ -33,7 +33,7 @@
       <div class="mm-item" href="QuesNotes.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
         <use xlink:href="#icon-blog"></use>
         </svg> <span> 我的笔记 </span> </div>
-      <div class="mm-item" href="MsgBoards.ashx"><svg class="icon mm-ico" aria-hidden="true">
+      <div class="mm-item" href="QuesOften.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
         <use xlink:href="#icon-bar-chart"></use>
         </svg> <span> 高频错题 </span> </div>
     </div>

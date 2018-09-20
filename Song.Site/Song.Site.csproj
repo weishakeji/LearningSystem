@@ -765,6 +765,7 @@
     <Content Include="Templates\Mobi\Default\Scripts\LearningCard.js" />
     <Content Include="Templates\Mobi\Default\Scripts\LearningCardView.js" />
     <Content Include="Templates\Mobi\Default\Scripts\QuesExercisesState.js" />
+    <Content Include="Templates\Mobi\Default\Scripts\QuesOften.js" />
     <Content Include="Templates\Mobi\Default\SelfCourse.htm" />
     <Content Include="Templates\Mobi\Default\SelfInfo.htm" />
     <Content Include="Templates\Mobi\Default\SelfPw.htm" />
@@ -828,6 +829,7 @@
     <Content Include="Templates\Mobi\Default\Styles\PointDetails.css" />
     <Content Include="Templates\Mobi\Default\Styles\LearningCard.css" />
     <Content Include="Templates\Mobi\Default\Styles\LearningCardView.css" />
+    <Content Include="Templates\Mobi\Default\Styles\QuesOften.css" />
     <Content Include="Templates\Mobi\Default\Subordinates.htm" />
     <Content Include="Templates\Mobi\Default\Swipe.htm" />
     <Content Include="Templates\Mobi\Default\Teacher.htm" />
@@ -847,6 +849,7 @@
     <Content Include="Templates\Mobi\Default\PointDetails.htm" />
     <Content Include="Templates\Mobi\Default\LearningCard.htm" />
     <Content Include="Templates\Mobi\Default\LearningCardView.htm" />
+    <Content Include="Templates\Mobi\Default\QuesOften.htm" />
     <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
     <Content Include="Templates\Mobi\_Public\Images\load_023.gif" />
     <Content Include="Templates\Mobi\_Public\Images\load_027.gif" />
@@ -3075,6 +3078,10 @@
     </Compile>
     <Compile Include="Mobile\LearningCardView.ashx.cs">
       <DependentUpon>LearningCardView.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\QuesOften.ashx.cs">
+      <DependentUpon>QuesOften.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewsList.ashx.cs">
@@ -6167,6 +6174,7 @@
     <Content Include="Mobile\PointDetails.ashx" />
     <Content Include="Mobile\LearningCard.ashx" />
     <Content Include="Mobile\LearningCardView.ashx" />
+    <Content Include="Mobile\QuesOften.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

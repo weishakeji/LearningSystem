@@ -1065,22 +1065,15 @@ namespace Song.ServiceImpls
         /// <param name="type">题型</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public DataTable QuesOftenwrong(int couid, int type, int count)
+        public Questions[] QuesOftenwrong(int couid, int type, int count)
         {
-            string sql = @"select c.*,sq.count from Questions as c inner join 
-(SELECT qus_id,COUNT(qus_id) as 'count'  FROM [Student_Ques] where {couid} and {acid} group by qus_id) as sq
+            string sql = @"select {top} sq.count as Qus_Tax,c.* from Questions as c inner join 
+(SELECT qus_id,COUNT(qus_id) as 'count'  FROM [Student_Ques] where {couid} and {type} group by qus_id) as sq
 on c.qus_id=sq.qus_id";
             sql = sql.Replace("{couid}", couid > 0 ? "cou_id=" + couid : "1=1");
-            sql = sql.Replace("{couid}", type > 0 ? "Qus_Type=" + type : "1=1");
-            try
-            {
-                DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();               
-                return ds.Tables[0];
-            }
-            catch
-            {
-                return null;
-            }
+            sql = sql.Replace("{type}", type > 0 ? "Qus_Type=" + type : "1=1");
+            sql = sql.Replace("{top}", count > 0 ? "top " + count : "");
+            return Gateway.Default.FromSql(sql).ToArray<Questions>();
         }
         /// <summary>
         /// 分页获取学员的错误试题

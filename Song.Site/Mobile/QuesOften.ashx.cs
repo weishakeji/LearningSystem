@@ -5,16 +5,20 @@ using System.Web;
 using WeiSha.Common;
 using Song.ServiceInterfaces;
 using VTemplate.Engine;
+using System.Text.RegularExpressions;
+using System.Data;
 
 namespace Song.Site.Mobile
 {
     /// <summary>
-    /// 试题收藏
+    /// 当前课程的高频错题
     /// </summary>
-    public class QuesCollects : BasePage
+    public class QuesOften : BasePage
     {
         //当前学员收藏的试题
         Song.Entities.Questions[] collectQues = null;
+        //课程id
+        int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
@@ -25,8 +29,14 @@ namespace Song.Site.Mobile
                 this.Document.SetValue("quesType", WeiSha.Common.App.Get["QuesType"].Split(','));
                 Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
                 Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
+                
+                //取多少条记录
+                Tag quesTag = this.Document.GetChildTagById("ques");
+                string strCount = quesTag.Attributes.GetValue("count", "100");
+                int count = 0;
+                int.TryParse(strCount, out count);
                 //错题列表
-                Song.Entities.Questions[] ques = Business.Do<IStudent>().CollectCount(st.Ac_ID, 0, currCourse.Cou_ID, -1, -1);
+                Song.Entities.Questions[] ques = Business.Do<IStudent>().QuesOftenwrong(couid, -1, count);
                 for (int i = 0; i < ques.Length; i++)
                 {
                     ques[i] = Extend.Questions.TranText(ques[i]);
@@ -35,75 +45,13 @@ namespace Song.Site.Mobile
                     ques[i].Qus_Title = Extend.Html.ClearHTML(ques[i].Qus_Title, "p", "div", "font");
                 }
                 this.Document.SetValue("Total", ques.Length);  //试题的总数
-                this.Document.SetValue("couid", WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0);
-                this.Document.SetValue("ques", ques);
+                this.Document.SetValue("couid", couid);
+                this.Document.SetValue("ques", ques);              
                 this.Document.RegisterGlobalFunction(this.AnswerItems);
                 this.Document.RegisterGlobalFunction(this.IsCollect);
                 this.Document.RegisterGlobalFunction(this.GetAnswer);
             }
-            //此页面的ajax提交，全部采用了POST方式
-            if (Request.ServerVariables["REQUEST_METHOD"] == "POST")
-            {
-                string action = WeiSha.Common.Request.Form["action"].String;
-                switch (action)
-                {
-                    case "delete":
-                        delete();
-                        break;
-                    case "clear":
-                        clear();
-                        break;
-                }
-            }
-        }
-        /// <summary>
-        /// 删除
-        /// </summary>
-        private void delete()
-        {
-            //记录的id
-            int id = WeiSha.Common.Request.Form["qid"].Int32 ?? 0;
-            try
-            {
-                if (id > 0)
-                {
-                    if (Extend.LoginState.Accounts.IsLogin)
-                    {
-                        Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
-                        Business.Do<IStudent>().CollectDelete(id, st.Ac_ID);
-                    }
-                }
-                Response.Write("1");
-            }
-            catch (Exception ex)
-            {
-                Response.Write(ex.Message);
-            }
-            Response.End();
-        }
-        /// <summary>
-        /// 清空
-        /// </summary>
-        private void clear()
-        {
-            int couid = WeiSha.Common.Request.Form["couid"].Int32 ?? 0;
-            try
-            {
-                if (couid > 0)
-                {
-                    if (Extend.LoginState.Accounts.IsLogin)
-                    {
-                        Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
-                        Business.Do<IStudent>().CollectClear(couid, st.Ac_ID);
-                    }
-                }
-                Response.Write("1");
-            }
-            catch (Exception ex)
-            {
-                Response.Write(ex.Message);
-            }
-            Response.End();
+
         }
 
         /// <summary>
@@ -205,6 +153,6 @@ namespace Song.Site.Mobile
                     ansStr += (char)(65 + i) + "、" + ans[i].Ans_Context + "<br/>";
             }
             return ansStr;
-        }  
+        }
     }
 }

@@ -18,6 +18,8 @@ namespace Song.Site.Mobile
         {
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
+                //传递过来的试题总记录数
+                if (!Extend.LoginState.Accounts.IsLogin) this.Response.Redirect("login.ashx");
                 //题型
                 this.Document.SetValue("quesType", WeiSha.Common.App.Get["QuesType"].Split(','));
                 Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;

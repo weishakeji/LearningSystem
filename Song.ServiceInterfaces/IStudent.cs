@@ -440,7 +440,7 @@ namespace Song.ServiceInterfaces
         /// <param name="type">题型</param>
         /// <param name="count">取多少条</param>
         /// <returns>试题的完整结构+count列，取试题的错误次数</returns>
-        DataTable QuesOftenwrong(int couid, int type, int count);
+        Questions[] QuesOftenwrong(int couid, int type, int count);
         /// <summary>
         /// 分页获取学员的错误试题
         /// </summary>
