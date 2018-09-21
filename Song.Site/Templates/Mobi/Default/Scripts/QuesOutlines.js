@@ -122,12 +122,15 @@ function clac_succper() {
     //计算同级
     function clac_samelevel(rows) {
         if (rows.size() < 1) return 0;
-        var sum = 0;
+        var sum = 0, count = 0;
         rows.each(function () {
             var per = Number($(this).find("b:first").attr("per"));
+            var c = Number($(this).find("a:first").attr("count"));
+            if (c > 0) count++;
             sum += per;
         });
-        return sum / rows.size();
+        if (count < 1) return 0;
+        return sum / count;
     }
     var average = clac_samelevel($(".outline[pid=0]"));
     $(".cou-rate").attr("rate", average).text(Math.floor(average*10)/10+"%");
