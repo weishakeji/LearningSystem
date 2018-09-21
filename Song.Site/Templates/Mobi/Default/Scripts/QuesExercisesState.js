@@ -51,7 +51,7 @@ var state = {
             item.qid = qid;
             item.last = new Date();     //当前时间，即最后练习的时间
             item.info = { index: Number(qitem.attr("index")),
-                olid: state.name.items.olid, coiid: state.name.items.couid,
+                olid: state.name.items.olid, couid: state.name.items.couid,
                 type: Number(qitem.attr("type"))
             };
             //试题答题信息
@@ -215,7 +215,7 @@ var state = {
             if (data[i].data.correct == "error") ret.error++;
         }
         ret.ansnum = ret.correct + ret.error;
-        ret.rate = Math.floor(ret.correct / ret.ansnum * 10000) / 100;
+        ret.rate = ret.ansnum>0 ? Math.floor(ret.correct / ret.ansnum * 10000) / 100 : 0;
         return ret;
     }
 };

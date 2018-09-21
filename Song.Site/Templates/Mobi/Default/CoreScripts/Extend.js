@@ -1,7 +1,7 @@
 ﻿//两端去空格函数
 String.prototype.trim = function () { return this.replace(/(^\s*)|(\s*$)/g, ""); };
 /*cookie的操作方法*/
-(function(){
+(function () {
     var cookie = function (name, value, options) {
         if (typeof value != 'undefined') { // name and value given, set cookie
             options = options || {};
@@ -40,7 +40,7 @@ String.prototype.trim = function () { return this.replace(/(^\s*)|(\s*$)/g, "");
             return cookieValue;
         }
     };
-    window.cookie=cookie;
+    window.cookie = cookie;
 })();
 jQuery.cookie = function (name, value, options) {
     return window.cookie(name, value, options);
@@ -315,7 +315,7 @@ Date.prototype.ToString = function () {
     var sec = this.getSeconds();
     //
     var str = year + "/" + month + "/" + date + " " + hour + ":" + minu + ":" + sec;
-    ;return str;
+    ; return str;
 }
 Date.prototype.Format = function (fmt) { //author: meizz 
     var o = {

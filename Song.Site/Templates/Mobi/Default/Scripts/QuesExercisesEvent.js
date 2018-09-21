@@ -182,7 +182,7 @@ var quesEvent = {
             var sum = $("#cardBox").find("dd.error,dd.succ").size();
             var suss = $("#cardBox dd.succ").size();
             if (sum > 0) {
-                var per = Math.floor(suss / sum * 10000) / 100;
+                var per = sum>0 ? Math.floor(suss / sum * 10000) / 100 : 0;
                 $(".correct-rate").text(per); //正确率
             }
             //正确的答题数，与错误的答题数
@@ -483,6 +483,8 @@ var finger = {
             $("#quesArea").css("left", -index * $(".quesItem").width());
             //当前试题的答题卡选块
             card.set("curr");
+			//记录答题状态到本地
+            if (typeof state != "undefined") state.update(qitem);
         });
     }
 };
