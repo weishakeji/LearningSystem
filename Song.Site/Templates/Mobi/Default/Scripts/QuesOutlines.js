@@ -26,7 +26,7 @@
     })();
     //
     clac();
-	clac_succper();
+    clac_succper();
 });
 
 //计算练习的题数
@@ -48,8 +48,9 @@ function clac() {
         var sum = Number($(this).find(".num").text());
         $(this).find(".ansnum").text(ret.ansnum > sum ? sum : ret.ansnum);   //已经做了多少题
         //正确率（除以整体数量）
-        var per = ret.sum > 0 ? Math.floor(ret.correct / ret.sum * 10) : 0;
-        $(this).find("b").attr("per", per).addClass("per" + (per > 0 ? per : 0));
+        var per = ret.sum > 0 ? Math.floor(ret.correct / ret.sum * 1000) / 10 : 0;
+        per = per > 0 ? per : 0;
+        $(this).find("b").attr("per", per).addClass("per" + Math.floor(per/10));
         //$(this).find("b").addClass("per" + index);
         count += ret.ansnum;
     });
@@ -67,6 +68,67 @@ function clac() {
         return href;
     });
 }
+//计算总的通过率
+function clac_succper() {
+    //var outline = { olid: 0, pid: 0, per: 0, level: 0, islast: true, childs: null };  
 
-function clac_succper(){
+    var tree = build_tree($(".outline"), null, 1);
+    //生成章节的树形结构
+    function build_tree(olitem, parent, level) {
+        var arr = new Array();
+        var pid = 0;
+        if (parent != null) pid = parent.olid;
+        var items = olitem.filter("[pid=" + pid + "]");
+        items.each(function (index) {
+            var obj = { olid: Number($(this).attr("olid")), name: $(this).find("a").text(),
+                pid: Number($(this).attr("pid")),
+                per: Number($(this).find("b:first").attr("per")), islast: false,
+                level: level, isclac: false, childs: null, parent: parent
+            };
+            var childs = olitem.filter("[pid=" + obj.olid + "]");
+            obj.islast = childs.size() <= 0;
+            if (childs.size() > 0) obj.childs = build_tree(olitem, obj, level + 1);
+            $(".outline[olid=" + obj.olid + "]").attr({ "islast": obj.islast, "level": level });
+            arr.push(obj);
+        });
+        return arr;
+    }
+    //取最大层深
+    //var level = getMaxlevel();    
+    //取最大层深
+    function getMaxlevel() {
+        var level = 0;
+        $(".outline").each(function () {
+            var lv = Number($(this).attr("level"));
+            level = lv > level ? lv : level;
+        });
+        return level;
+    }
+    for (var i = getMaxlevel(); i > 0; i--) {
+        $(".outline[level=" + i + "]").each(function () {
+            var pid = Number($(this).attr("pid"));
+            //父对象
+            var parent = $(".outline[olid=" + pid + "]");
+            if (parent.size() < 1) return true;
+            if (parent.attr("isclac") == "true") return true;
+            //同级同父对象
+            var samelevel = $(".outline[pid=" + pid + "]");
+            var per = clac_samelevel($(".outline[pid=" + pid + "]"));
+            var parentPer = Number(parent.find("b:first").attr("per"));
+            parentPer = parentPer < per ? per : parentPer;
+            parent.find("b:first").attr("per", parentPer).attr("isclac", "true");
+        });
+    }
+    //计算同级
+    function clac_samelevel(rows) {
+        if (rows.size() < 1) return 0;
+        var sum = 0;
+        rows.each(function () {
+            var per = Number($(this).find("b:first").attr("per"));
+            sum += per;
+        });
+        return sum / rows.size();
+    }
+    var average = clac_samelevel($(".outline[pid=0]"));
+    $(".cou-rate").attr("rate", average).text(Math.floor(average*10)/10+"%");
 }
