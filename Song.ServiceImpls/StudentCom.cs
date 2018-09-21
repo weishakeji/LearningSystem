@@ -1069,7 +1069,7 @@ namespace Song.ServiceImpls
         {
             string sql = @"select {top} sq.count as Qus_Tax,c.* from Questions as c inner join 
 (SELECT qus_id,COUNT(qus_id) as 'count'  FROM [Student_Ques] where {couid} and {type} group by qus_id) as sq
-on c.qus_id=sq.qus_id";
+on c.qus_id=sq.qus_id order by sq.count desc";
             sql = sql.Replace("{couid}", couid > 0 ? "cou_id=" + couid : "1=1");
             sql = sql.Replace("{type}", type > 0 ? "Qus_Type=" + type : "1=1");
             sql = sql.Replace("{top}", count > 0 ? "top " + count : "");

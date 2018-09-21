@@ -257,7 +257,7 @@ var quesEvent = {
         } else {
             //如果错误
             qitem.removeClass("succ").addClass("error");
-            //增加错题
+            //增加错题到个人记录
             $.get("AddQues.ashx", { "qid": qid }, function () { });
             //设置答题卡状态，并显示答案
             card.set("error", qid);

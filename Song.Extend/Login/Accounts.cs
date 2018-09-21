@@ -74,9 +74,10 @@ namespace Song.Extend.Login
                     foreach (Song.Entities.Accounts em in this.OnlineUser)
                     {
                         if (em == null) continue;
-                        if (em.Ac_ID == acid && em.Ac_CheckUID == uid)
+                        if (em.Ac_ID == acid)
                         {
-                            curr = em;
+                            if (!WeiSha.Common.Browser.IsWeixin && em.Ac_CheckUID == uid)
+                                curr = em;
                             break;
                         }
                     }
@@ -84,7 +85,17 @@ namespace Song.Extend.Login
                 //内存中没有的话就从数据库取
                 if (curr == null)
                 {
-                    if (acid > 0) curr = Business.Do<IAccounts>().AccountsSingle(acid, uid);
+                    if (acid > 0)
+                    {
+                        if (WeiSha.Common.Browser.IsWeixin)
+                        {
+                            curr = Business.Do<IAccounts>().AccountsSingle(acid);
+                        }
+                        else
+                        {
+                            curr = Business.Do<IAccounts>().AccountsSingle(acid, uid);
+                        }
+                    }
                     if (curr != null) this._onlineUser.Add(curr);
                     //if (curr == null && acid > 0) this.Logout();    //如果没有用户但又有acid，则注销
                 }

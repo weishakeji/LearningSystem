@@ -20,14 +20,14 @@ namespace Song.Site.Mobile
         protected override void InitPageTemplate(HttpContext context)
         {
             if (!Extend.LoginState.Accounts.IsLogin)
-                this.Response.Redirect("login.ashx");           
+                this.Response.Redirect("login.ashx");
+            
             //当前选中的课程
             Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();            
             if (currCourse != null)
             {                
                 this.Document.SetValue("currCourse", currCourse);
-                couid = currCourse.Cou_ID;
-                this.Document.SetValue("couid", couid);               
+                couid = currCourse.Cou_ID;                            
                 //当前课程下的章节
                 Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
                 foreach (Song.Entities.Outline c in outlines)
@@ -47,6 +47,7 @@ namespace Song.Site.Mobile
                 dt = tree.BuilderTree(dt);
                 this.Document.Variables.SetValue("dtOutlines", dt);  
             }
+            this.Document.SetValue("couid", couid);  
             //课程资源、课程视频资源的所在的路径
             this.Document.SetValue("path", Upload.Get["Course"].Virtual);
             this.Document.SetValue("vpath", Upload.Get["CourseVideo"].Virtual);
