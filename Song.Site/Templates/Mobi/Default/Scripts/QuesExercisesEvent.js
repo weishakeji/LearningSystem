@@ -10,6 +10,9 @@
         if ($(this).attr("id") == "subFont") $().setFontSize($(".quesBox"), -2);
     });
 });
+$(function () {
+    viewpatt.init();
+});
 /*
 试题相关事件
 */
@@ -483,6 +486,77 @@ var finger = {
             $("#quesArea").css("left", -index * $(".quesItem").width());
             //当前试题的答题卡选块
             card.set("curr");
+        });
+    }
+};
+
+/* 
+视图模式
+*/
+var viewpatt = {
+    init: function () {
+        this.loyout();
+        this.event();
+        //初始化视图模式按钮
+        var pattern = window.storage("view-pattern");
+        var first = $("#boxSetup dl.view-pattern dd[id=" + pattern + "]");
+        if (first.size() < 1) first = $("#boxSetup dl.view-pattern dd[default]");
+        first.addClass("view-selected");
+        viewpatt.set(first.attr("id"));
+    },
+    loyout: function () {
+        var html = "<div id='boxSetup' ><dl class='view-pattern'>";
+        html += "<dd id='patt1'><b></b>护眼模式</dd><dd id='patt2' default='true'><b></b>日间模式</dd><dd id='patt3'><b></b>夜间模式</dd>";
+        html += "</dl></div><div id='maskSetup'></div>";
+        $("body").append(html);
+    },
+    event: function () {
+        //打开设置项
+        $(".btnSetup").click(function () {
+            var mask = $("#maskSetup");
+            mask.css({ height: $(window).height() }).show();
+            //
+            var box = $("#boxSetup");
+            box.css({ left: $(window).width() }).show();
+            box.animate({ left: 0 });
+        });
+        //关闭设置项
+        $("#maskSetup").click(function () {
+            $("#boxSetup").animate({ left: $(window).width() }, function () {
+                $(this).hide();
+                $("#maskSetup").fadeOut(100);
+            });
+        });
+        /*视图模式的点击事件*/
+        $("#boxSetup dl.view-pattern dd").click(function () {
+            $(this).parent().find("dd").removeClass("view-selected");
+            $(this).addClass("view-selected");
+            window.storage("view-pattern", $(this).attr("id"));
+            //设置颜色风格
+            viewpatt.set($(this).attr("id"));
+        });
+    },
+    //设置风格
+    set: function (patt) {
+        //背景色：1.主景背,2.块级元素,3.输入框,4.按钮色
+        var color_patt1 = { bg: "#E8FFE8", box: "#C7EDCC", input: "#E8FFE8", font: "#000", btn: "#060", btntxt: "#E8FFE8" };
+        var color_patt2 = { bg: "#efeff4", box: "#fff", input: "#fff", font: "#999", btn: "#1B9AF7", btntxt: "#fff" };
+        var color_patt3 = { bg: "#333", box: "#999", input: "#ccc", font: "#000", btn: "#333", btntxt: "#ccc" };
+        var color = eval("color_" + patt);
+        //背景
+        $("body").attr("class", patt).css("background-color", color.bg);
+        $(".quesAnswerBox, .quesBox, .notebox").css("background-color", color.box);
+        $(".ctlBtn, .topBpx, #noQues").css("background-color", color.box);
+        $("#boxSetup, maskSetup").css("background-color", color.box);
+        $("#cardBox").css("background-color", color.box);
+        $(".quesItemsBox").find("input,textarea").css("background-color", color.input);
+        $(".MsgBox").css("background-color", color.box);
+        //字体
+        $(".topBpx *, .item").css("color", color.font);
+        //按钮
+        $(".btnSubmit").css({ "background-color": color.btn,
+            "border-color": color.btn,
+            "color": color.btntxt
         });
     }
 };

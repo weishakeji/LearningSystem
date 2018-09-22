@@ -627,6 +627,7 @@
     <Content Include="Templates\Mobi\Default\CallPhone.htm" />
     <Content Include="Templates\Mobi\Default\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Mobi\Default\Images\percent.gif" />
+    <Content Include="Templates\Mobi\Default\Images\view-pattern.png" />
     <Content Include="Templates\Mobi\Default\QuesCollects.htm" />
     <Content Include="Templates\Mobi\Default\Conn.htm" />
     <Content Include="Templates\Mobi\Default\CoreScripts\ajaxfileupload.js" />
