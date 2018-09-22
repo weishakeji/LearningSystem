@@ -24,9 +24,39 @@
         });
         $(".sum").text(sum);
     })();
-    //
+    //计算得分（正确率）
     clac();
     clac_succper();
+    //章节列表的点击事件
+    mui("li.outline").on('tap', 'a', function () {
+        //读取记录
+        var couid = $().getPara("couid");
+        var olid = $(this).parent().attr("olid");
+        var keyname = state.name.get("QuesExercises", couid, olid);
+        var data = state.read(keyname);
+        if (data.current == null) {
+            window.location.href = this.href;
+            return false;
+        }
+        //答题状态初始化
+        var txt = "是否继续上次练习？";
+        txt += "<br/><br/> 点击“确定”，继续练习。";
+        txt += "<br/> 点击“取消”，清空历史记录，重新开始练习。";
+        var msg = new MsgBox("提示", txt, 90, 220, "confirm");
+        msg.btn.cancel = "取消";
+        msg.ShowCloseBtn = false;
+        msg.href = this.href;
+        msg.EnterEvent = function () {           
+            window.location.href = msg.href;
+            msg.Close(msg.WinId);
+        }
+        msg.CancelEvent = function () {
+            if (typeof state != "undefined") state.clear(keyname);
+            window.location.href = msg.href;
+        }
+        msg.Open();
+        return false;
+    });
 });
 
 //计算练习的题数
@@ -50,7 +80,7 @@ function clac() {
         //正确率（除以整体数量）
         var per = ret.sum > 0 ? Math.floor(ret.correct / ret.sum * 1000) / 10 : 0;
         per = per > 0 ? per : 0;
-        $(this).find("b").attr("per", per).addClass("per" + Math.floor(per/10));
+        $(this).find("b").attr("per", per).addClass("per" + Math.floor(per / 10));
         //$(this).find("b").addClass("per" + index);
         count += ret.ansnum;
     });
@@ -135,5 +165,5 @@ function clac_succper() {
         return sum / count;
     }
     var average = clac_samelevel($(".outline[pid=0]"));
-    $(".cou-rate").attr("rate", average).text(Math.floor(average*10)/10+"%");
+    $(".cou-rate").attr("rate", average).text(Math.floor(average * 10) / 10 + "%");
 }
