@@ -41,10 +41,10 @@
         //答题状态初始化
         var txt = "是否继续上次练习？";
         txt += "<br/><br/> 点击“确定”，继续练习。";
-        txt += "<br/> 点击“取消”，清空历史记录，重新开始练习。";
+        txt += "<br/> 点击“重新练习”，清空历史记录，重新开始练习。";
         var msg = new MsgBox("提示", txt, 90, 220, "confirm");
-        msg.btn.cancel = "取消";
-        msg.ShowCloseBtn = false;
+        msg.btn.cancel = "重新练习";
+        //msg.ShowCloseBtn = false;
         msg.href = this.href;
         msg.EnterEvent = function () {           
             window.location.href = msg.href;
