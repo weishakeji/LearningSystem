@@ -57,16 +57,18 @@ function clac() {
     //已经练习的题数
     $(".ansSum").text(count);
     //"继续练习"按钮的设置
-    $(".log").attr("href", function () {
-        if (last == null) return "#";
-        var href = $(this).attr("href");
-        href = $().setPara(href, "couid", last.info.couid);
-        href = $().setPara(href, "olid", last.info.olid);
-        href = $().setPara(href, "qid", last.qid);
-        var li = $("li[olid=" + last.info.olid + "]");
-        href = $().setPara(href, "count", li.find("a").attr("count"));
-        return href;
-    });
+    if (last != null) {
+        $(".log").attr("href", function () {
+            if (last == null) return "#";
+            var href = $(this).attr("href");
+            href = $().setPara(href, "couid", last.info.couid);
+            href = $().setPara(href, "olid", last.info.olid);
+            href = $().setPara(href, "qid", last.qid);
+            var li = $("li[olid=" + last.info.olid + "]");
+            href = $().setPara(href, "count", li.find("a").attr("count"));
+            return href;
+        }).show();
+    }
 }
 //计算总的通过率
 function clac_succper() {

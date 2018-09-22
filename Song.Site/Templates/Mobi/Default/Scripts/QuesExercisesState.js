@@ -13,6 +13,16 @@ var state = {
         if (data.items.length < 1) return;
         //如果有历史数据，则在界面上显示答题状态
         this.rebuild();
+        //显示当前试题
+        var qid = state.last().qid;
+        //设置初始显示的试题
+        var firstQitem = qid != 0 ? $(".quesItem[qid=" + qid + "]") : $(".quesItem:first");
+        firstQitem = firstQitem.size() > 0 ? firstQitem : $(".quesItem:first");
+        if (typeof finger != "undefined") {
+            finger.qusmove((Number(firstQitem.attr("index")) - 1) * $(window).width());
+        }
+        if (typeof card != "undefined")
+            card.set("curr");
     },
     //存储项的名称
     name: {
@@ -215,7 +225,7 @@ var state = {
             if (data[i].data.correct == "error") ret.error++;
         }
         ret.ansnum = ret.correct + ret.error;
-        ret.rate = ret.ansnum>0 ? Math.floor(ret.correct / ret.ansnum * 10000) / 100 : 0;
+        ret.rate = ret.ansnum > 0 ? Math.floor(ret.correct / ret.ansnum * 10000) / 100 : 0;
         return ret;
     }
 };

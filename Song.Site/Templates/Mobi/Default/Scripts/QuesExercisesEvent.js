@@ -182,7 +182,7 @@ var quesEvent = {
             var sum = $("#cardBox").find("dd.error,dd.succ").size();
             var suss = $("#cardBox dd.succ").size();
             if (sum > 0) {
-                var per = sum>0 ? Math.floor(suss / sum * 10000) / 100 : 0;
+                var per = sum > 0 ? Math.floor(suss / sum * 10000) / 100 : 0;
                 $(".correct-rate").text(per); //正确率
             }
             //正确的答题数，与错误的答题数
@@ -381,15 +381,17 @@ var card = {
         if (state == "error") {
             box.removeAttr("class").addClass("error");
         }
+        //记录答题状态到本地
+        if (typeof window.state != "undefined") window.state.update($(".quesItem[qid=" + qid + "]"));
         //记录学习进度
-        $.get("/ajax/LogForStudentQuestions.ashx",
-            { acid: acid,
-                couid: $().getPara("couid"),
-                olid: $().getPara("olid"),
-                qid: qid,
-                index: index
-            }, function () {
-            });
+        //        $.get("/ajax/LogForStudentQuestions.ashx",
+        //            { acid: acid,
+        //                couid: $().getPara("couid"),
+        //                olid: $().getPara("olid"),
+        //                qid: qid,
+        //                index: index
+        //            }, function () {
+        //            });
     },
     //移除一个试题
     remove: function (qid) {
@@ -434,14 +436,12 @@ var finger = {
         $(".context").swipe({ fingers: 'all', swipeLeft: finger.slide, swipeRight: finger.slide,
             pinchIn: finger.pinch, pinchOut: finger.pinch
         });
-        //设置初始的题型
-        var qid = $().getPara("qid");
-        //获取记录在本地的答题信息
-        if (typeof state != "undefined") qid = state.last().qid;
-        //设置初始显示的试题
-        var firstQitem = qid != "" ? $(".quesItem[qid=" + qid + "]") : $(".quesItem:first");
-        firstQitem = firstQitem.size() > 0 ? firstQitem : $(".quesItem:first");
-        finger.qusmove((Number(firstQitem.attr("index")) - 1) * $(".quesItem").width());
+//        //设置初始的题型
+//        var qid = $().getPara("qid");
+//        //设置初始显示的试题
+//        var firstQitem = qid != "" ? $(".quesItem[qid=" + qid + "]") : $(".quesItem:first");
+//        firstQitem = firstQitem.size() > 0 ? firstQitem : $(".quesItem:first");
+//        finger.qusmove((Number(firstQitem.attr("index")) - 1) * $(".quesItem").width());
         card.set("curr");
     },
     //放大与捏合事件
@@ -483,8 +483,6 @@ var finger = {
             $("#quesArea").css("left", -index * $(".quesItem").width());
             //当前试题的答题卡选块
             card.set("curr");
-			//记录答题状态到本地
-            if (typeof state != "undefined") state.update(qitem);
         });
     }
 };

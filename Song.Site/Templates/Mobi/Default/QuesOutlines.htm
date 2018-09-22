@@ -47,7 +47,7 @@
     <!--章节输出-->
     <ul class="mui-table-view" style="margin-top:10px">
       <li class="mui-table-view-cell outline-tit"><b></b> 按章节练习 
-      <a href="QuesExercises.ashx?couid={$log.cou_id}&olid={$log.ol_id}&qid={$log.qus_id}" class="log" olid="{$log.ol_id}" type="link"> 继续练习</a>
+      <a href="QuesExercises.ashx?couid={$log.cou_id}&olid={$log.ol_id}&qid={$log.qus_id}" class="log" style="display:none" olid="{$log.ol_id}" type="link"> 继续练习</a>
       </li>
     </ul>
     <vt:if var="outlines.Length" value="0" compare=">">

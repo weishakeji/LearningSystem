@@ -137,8 +137,8 @@ html{
 	font-size: 14px;
 }
 /*上次练习的时候*/
-.logtime {
-	font-size: 14px;
+.log {
+	display:none;
 }
 .right {
 	margin-right: 20px;
