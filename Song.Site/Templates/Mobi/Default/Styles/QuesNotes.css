@@ -274,7 +274,6 @@ dl.view-pattern dd#patt3.view-selected b {
     width: 80%;
     border: 1px solid #FF9900;
     margin-left: 10px;
-    box-shadow: 0 3px 0 #0880d7, 0 6px 3px rgba(0, 0, 0, 0.3);
     border-radius: 4px;
     background-color: #1B9AF7;
     border-color: #1B9AF7;
@@ -286,7 +285,7 @@ dl.view-pattern dd#patt3.view-selected b {
 	margin-bottom:10px;
 }
 .btnSubmit:active{
-	box-shadow: 0 2px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 2px 0 #ccc, 0 3px 3px rgba(0, 0, 0, 0.3);
 	background-color: #36A6F8;
 	border-color: #36A6F8;
 }
@@ -306,6 +305,33 @@ dl.view-pattern dd#patt3.view-selected b {
 	overflow-y: auto;
 	position : relative;
 	webkit-overflow-scrolling: touch;
+}
+.quesBox .quesTitle * {
+	font-size: 20px;
+	line-height: 36px;
+	background-color: transparent !important;
+	word-wrap: break-word;
+	word-break: normal;
+}
+#cardBoxTitle span{
+	font-size: 14px;
+	margin-left:5px;
+}
+#cardBoxTitle span:before{
+	content: "\e627";
+	font-family: "iconfont";
+}
+#cardBoxTitle span.state0{
+	color: #CCCCCC;
+}
+#cardBoxTitle span.state1{
+	color: #00CC66;
+}
+#cardBoxTitle span.state2{
+	color: #F60;
+}
+#cardBoxTitle span.state3{
+	color: #09F;
 }
 .quesItem img {
 	max-width: 100%;

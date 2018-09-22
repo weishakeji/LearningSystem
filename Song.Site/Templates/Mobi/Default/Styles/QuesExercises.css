@@ -306,9 +306,31 @@ dl.view-pattern dd#patt3.view-selected b {
 	word-wrap: break-word;
 	word-break: normal;
 }
+#cardBoxTitle span{
+	font-size: 14px;
+	margin-left:5px;
+}
+#cardBoxTitle span:before{
+	content: "\e627";
+	font-family: "iconfont";
+}
+#cardBoxTitle span.state0{
+	color: #CCCCCC;
+}
+#cardBoxTitle span.state1{
+	color: #00CC66;
+}
+#cardBoxTitle span.state2{
+	color: #F60;
+}
+#cardBoxTitle span.state3{
+	color: #09F;
+}
+
 .quesBox .quesItemsBox {
 	margin-bottom: 20px;
 }
+
 .quesBox .quesItemsBox>div {
 	overflow: auto;
 	margin-bottom: 5px;
