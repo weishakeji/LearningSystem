@@ -3,7 +3,18 @@
        selectedInit();
     subjectEvent();
     }, 2000);
-    
+    //搜索以及分页导航
+	$("input[name=search]").val(decodeURI($().getPara("search")));
+	var paras=$().getPara();
+	if(paras!=null && paras.length>0){
+		$("#pagerBar a").each(function(index, element) {
+			var href=$(this).attr("href");
+            for(var i=0;i<paras.length;i++){
+				href=$().setPara(href,paras[i].key,paras[i].value);
+			}
+			$(this).attr("href",href);
+        });
+	}
 });
 
 

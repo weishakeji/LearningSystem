@@ -8,94 +8,82 @@
 </head>
 <body>
 <vt:include file="inc/Header.html" />
-
 <div id="Context" style="margin-top:8px; display:table">
-<div class="leftBox" >
- <div id="TitleBar"> 课程选择</div>
-<!--选择区域 -->
-  <div id="selectArea">
-    <div class="selectBar" id="SelectedBar">
-      <div class="selectLeft"> 已经选条件：</div>
-      <div class="selectRight" id="Selected"> </div>
-    </div>
-    <div id="subject">
-      <div class="selectBar">
-        <div class="selectLeft"> 专业：</div>
-        <div class="selectRight">
-          <vt:foreach id="subject" from="$#.subject" item="data" index="i" remark="专业">
-            <div class="selectItem"><a href="#" attr="sbjid" clear="couid,olid" sbjid="{$:#.data.sbj_id}">{$:#.data.sbj_name} </a> </div>
-          </vt:foreach>
-        </div>
+  <div class="leftBox" >
+    <div id="TitleBar"> 课程选择</div>
+    <!--选择区域 -->
+    <div id="selectArea">
+      <div class="selectBar" id="SelectedBar">
+        <div class="selectLeft"> 已经选条件：</div>
+        <div class="selectRight" id="Selected"> </div>
       </div>
-      <vt:if var="courses.Length" value="0" compare=">">
+      <div id="subject">
         <div class="selectBar">
-          <div class="selectLeft"> 课程：</div>
+          <div class="selectLeft"> 专业：</div>
           <div class="selectRight">
-            <vt:foreach id="courses" from="$#.courses" item="data" index="i" remark="课程">
-              <div class="selectItem"><a href="#" attr="couid" clear="olid" couid="{$:#.data.cou_id}">《{$:#.data.cou_name} 》</a> </div>
+            <vt:foreach id="subject" from="$#.subject" item="data" index="i" remark="专业">
+              <div class="selectItem"><a href="#" attr="sbjid" clear="couid,olid" sbjid="{$:#.data.sbj_id}">{$:#.data.sbj_name} </a> </div>
             </vt:foreach>
           </div>
         </div>
-      </vt:if>
-      
-      
-      
-      
-    </div>
-  </div>
-
-
-
-  <div id="TitleBar"><span> 课程中心</span>
-   
-  </div>
-  <div class="courseList">
-   <vt:if var="course.Length" value="0" compare="!="> 
-    <div class="courseListInner">
-      <vt:foreach id="course" from="$#.course" item="data" index="i" size="16" remark="课程列表">
-        <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}"><img src="{$:#.data.cou_logosmall}" /> </a>
-         
-          <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.cou_name} </a>
-            <div class="itemDetails"><span class="hot-left count">{$:#.data.cou_viewNum}</span> <span class="hot-right">{$:#.data.sbj_name}</span> </div>
+        <vt:if var="courses.Length" value="0" compare=">">
+          <div class="selectBar">
+            <div class="selectLeft"> 课程：</div>
+            <div class="selectRight">
+              <vt:foreach id="courses" from="$#.courses" item="data" index="i" remark="课程">
+                <div class="selectItem"><a href="#" attr="couid" clear="olid" couid="{$:#.data.cou_id}">《{$:#.data.cou_name} 》</a> </div>
+              </vt:foreach>
+            </div>
           </div>
-        </div>
-      </vt:foreach>
+        </vt:if>
+      </div>
     </div>
-    <vt:else/>
-    您当前选择的当前专业还没有发布课程！
+    <div id="TitleBar"><span> 课程中心</span> </div>
+    <div class="courseList">
+      <vt:if var="course.Length" value="0" compare="!=">
+        <div class="courseListInner">
+          <vt:foreach id="course" from="$#.course" item="data" index="i" size="16" remark="课程列表">
+            <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}"><img src="{$:#.data.cou_logosmall}" /> </a>
+              <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.cou_name} </a>
+                <div class="itemDetails"><span class="hot-left count">{$:#.data.cou_viewNum}</span> <span class="hot-right">{$:#.data.sbj_name}</span> </div>
+              </div>
+            </div>
+          </vt:foreach>
+        </div>
+        <vt:else/>
+        您当前选择的当前专业还没有发布课程！ </vt:if>
+    </div>
+    <!--分页导航 -->
+    <vt:if var="pageAmount.Length" value="1" compare=">">
+      <div id="pagerBar">
+        <div class="pagerFirst pagerBtn"><a href="/courses.ashx?sbj={$sbjid}">首页</a></div>
+        <!--上一页 -->
+        <vt:expression var="pagerPrev" expression="{0}-1" args="$pageIndex" />
+        <vt:if var="#.pagerPrev" value="1" compare="<">
+          <div class="pagerPrev pagerBtn"><a href="#">上一页</a></div>
+          <vt:else />
+          <div class="pagerPrev pagerBtn"><a href="/courses.ashx?index={$:#.pagerPrev}&sbj={$sbjid}">上一页</a></div>
+        </vt:if>
+        <!--分页数字 -->
+        <vt:foreach id="pageAmount" from="$#.pageAmount" item="data" index="i" remark="分页数字">
+          <vt:if var="#.data" value="$pageIndex" compare="=">
+            <div class="pagerIndex pagerBtn pagerCurr"><a href="/courses.ashx?index={$:i}&sbj={$sbjid}">{$:i}</a></div>
+            <vt:else />
+            <div class="pagerIndex pagerBtn"><a href="/courses.ashx?index={$:i}&sbj={$sbjid}">{$:i}</a></div>
+          </vt:if>
+        </vt:foreach>
+        <!--下一页 -->
+        <vt:expression var="pagerNext" expression="{0}+1" args="$pageIndex" />
+        <vt:if var="#.pagerNext" value="$pageAmount.Length" compare=">">
+          <div class="pagerNext pagerBtn"><a href="#">下一页</a></div>
+          <vt:else />
+          <div class="pagerNext pagerBtn"><a href="/courses.ashx?index={$:#.pagerNext}&sbj={$sbjid}">下一页</a></div>
+        </vt:if>
+        <div class="pagerLast pagerBtn"><a href="/courses.ashx?index={$:pageAmount.length}&sbj={$sbjid}">末页</a></div>
+      </div>
     </vt:if>
   </div>
-  <!--分页导航 -->
-  <vt:if var="pageAmount.Length" value="1" compare=">">
-    <div id="pagerBar">
-      <div class="pagerFirst pagerBtn"><a href="/courses.ashx?sbj={$sbjid}">首页</a></div>
-      <!--上一页 -->
-      <vt:expression var="pagerPrev" expression="{0}-1" args="$pageIndex" />
-      <vt:if var="#.pagerPrev" value="1" compare="<">
-        <div class="pagerPrev pagerBtn"><a href="#">上一页</a></div>
-        <vt:else />
-        <div class="pagerPrev pagerBtn"><a href="/courses.ashx?index={$:#.pagerPrev}&sbj={$sbjid}">上一页</a></div>
-      </vt:if>
-      <!--分页数字 -->
-      <vt:foreach id="pageAmount" from="$#.pageAmount" item="data" index="i" remark="分页数字">
-        <vt:if var="#.data" value="$pageIndex" compare="=">
-          <div class="pagerIndex pagerBtn pagerCurr"><a href="/courses.ashx?index={$:i}&sbj={$sbjid}">{$:i}</a></div>
-          <vt:else />
-          <div class="pagerIndex pagerBtn"><a href="/courses.ashx?index={$:i}&sbj={$sbjid}">{$:i}</a></div>
-        </vt:if>
-      </vt:foreach>
-      <!--下一页 -->
-      <vt:expression var="pagerNext" expression="{0}+1" args="$pageIndex" />
-      <vt:if var="#.pagerNext" value="$pageAmount.Length" compare=">">
-        <div class="pagerNext pagerBtn"><a href="#">下一页</a></div>
-        <vt:else />
-        <div class="pagerNext pagerBtn"><a href="/courses.ashx?index={$:#.pagerNext}&sbj={$sbjid}">下一页</a></div>
-      </vt:if>
-      <div class="pagerLast pagerBtn"><a href="/courses.ashx?index={$:pageAmount.length}&sbj={$sbjid}">末页</a></div>
-    </div>
-  </vt:if>
-</div>
-<div class="rightBox" >
+  <div class="rightBox" >
     <div class="login box" >
       <div class="boxTit"> <span class="txt">学员登录</span> </div>
       <div class="loginAreaBox">
@@ -103,12 +91,10 @@
           <div class="isLoginBox">
             <div class="loginRow">尊敬的：{$:#.Account.Ac_name} 您好！ </div>
             <div  class="stLoginPhoto">
-             <vt:if var="Account.Ac_photo" value="" compare="="> 
-              <img src="images/nophoto.jpg"/>
-              <vt:else/>
-             <img src="{$stpath}{$:#.Account.Ac_photo}"/>
-              </vt:if>
-              </div>
+              <vt:if var="Account.Ac_photo" value="" compare="="> <img src="images/nophoto.jpg"/>
+                <vt:else/>
+                <img src="{$stpath}{$:#.Account.Ac_photo}"/> </vt:if>
+            </div>
             <div class="loginRow"> <a href="/Student/panel.ashx" class="btnInManage">进入学习</a> <a href="/Student/logout.ashx" class="btnLogout">退出登录</a></div>
           </div>
           <vt:else/>
@@ -134,25 +120,20 @@
         </vt:if>
       </div>
     </div>
- 
- <div class="box newsBox">
+    <div class="box newsBox">
       <div class="boxBar">
         <div class="title"> 新闻资讯</div>
         <div class="more"> <a href="/news.ashx">更多&gt;&gt;</a></div>
       </div>
       <div class="nolist">
         <vt:list type="news" item="data" index="i" count="10" >
-          <div class="item" noid="{$:#.data.no_id}">
-             <img src="images/{$:i}.png"/><a href="/article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a> 
+          <div class="item" noid="{$:#.data.no_id}"> <img src="images/{$:i}.png"/><a href="/article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a>
             <div class="noTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
           </div>
         </vt:list>
       </div>
     </div>
-    
   </div>
-
-
 </div>
 <vt:include file="inc/footer.html" />
 </body>

@@ -25,7 +25,7 @@ namespace Song.Site.Mobile
             this.Document.SetValue("WeixinLoginIsUse", Business.Do<ISystemPara>()["WeixinLoginIsUse"].Boolean ?? false);
 
             //已经购买的课程
-            int stid = Extend.LoginState.Accounts.CurrentUserId;
+            int stid = this.Account != null ? this.Account.Ac_ID : 0;
             if (stid > 0)
             {
                 //新闻列表

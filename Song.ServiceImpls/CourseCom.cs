@@ -269,6 +269,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<Course> CourseForStudent(int stid, string sear, int state, bool? istry, int count)
         {
+            if (stid <= 0) return null;
             WhereClip wc = Student_Course._.Ac_ID == stid;
             //Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             //if (org != null)

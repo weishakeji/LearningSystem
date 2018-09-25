@@ -184,25 +184,33 @@ jQuery.fn.addFav = function (title) {
 }
 //获取QueryString参数
 jQuery.fn.getPara = function (url, key) {
+    //将参数转换成数组格式
+    function getParas(url) {
+        if (url.indexOf("?") > -1) url = url.substring(url.lastIndexOf("?") + 1);
+        var tm = url.split('&');
+        var paras = new Array();    //要返回的数组
+        for (var i = 0; i < tm.length; i++) {
+            var arr = tm[i].split('=');
+            if (arr.length < 2) continue;
+            paras.push({ key: arr[0].toLowerCase(), value: arr[1] });
+        }
+        return paras;
+    }
+    if (arguments.length == 0) return getParas(String(window.document.location.href));
     if (arguments.length == 1) {
         key = arguments[0];
         url = String(window.document.location.href);
     }
+    var arr = getParas(url);
     var value = "";
-    if (url.indexOf("?") > -1) {
-        var ques = url.substring(url.lastIndexOf("?") + 1);
-        var tm = ques.split('&');
-        for (var i = 0; i < tm.length; i++) {
-            var arr = tm[i].split('=');
-            if (arr.length < 2) continue;
-            if (key.toLowerCase() == arr[0].toLowerCase()) {
-                value = arr[1];
-                break;
-            }
+    for (var i = 0; i < arr.length; i++) {
+        if (key.toLowerCase() == arr[i].key) {
+            value = arr[i].value;
+            break;
         }
     }
     if (value.indexOf("#") > -1) value = value.substring(0, value.indexOf("#"));
-    return value;
+    return value;s
 }
 
 //添加链接地址的参数

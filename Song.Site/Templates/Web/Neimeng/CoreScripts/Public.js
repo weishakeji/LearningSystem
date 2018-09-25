@@ -165,6 +165,8 @@ function ToAllLinkAddAccoutsID(acid) {
             if (href == undefined || href == null || href == "" || href == "#") return true;
             if (href.length > 0 && href.substring(0, 1) == "#") return true;
             if (href.indexOf("javascript:") > -1) return true;
+            if (href.length >= 7 && href.substr(0, 7).toLowerCase() == "http://") return true;
+            if (href.length >= 8 && href.substr(0, 8).toLowerCase() == "https://") return true;
             href = $().setPara(href, "sharekeyid", acid);
             $(this).attr("href", href);
         });
