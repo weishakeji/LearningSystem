@@ -39,10 +39,10 @@
             return false;
         }
         //答题状态初始化
-        var txt = "是否继续上次练习？";
-        txt += "<br/><br/> 点击“确定”，继续练习。";
-        txt += "<br/> 点击“重新练习”，清空历史记录，重新开始练习。";
-        var msg = new MsgBox("提示", txt, 90, 220, "confirm");
+        var txt = "";       
+        txt += "点击“重新练习”，将清空本章节历史练习记录，重新计算正确率。";
+        var msg = new MsgBox("是否继续上次练习？", txt, 90, 220, "confirm");
+		msg.btn.enter = "继续练习";
         msg.btn.cancel = "重新练习";
         //msg.ShowCloseBtn = false;
         msg.href = this.href;

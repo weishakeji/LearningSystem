@@ -58,7 +58,7 @@ var state = {
             var item = new Object();
             //试题基础信息      
             item.qid = qid;
-            item.last = new Date();     //当前时间，即最后练习的时间
+            item.last = new Date().getTime();     //当前时间，即最后练习的时间
             item.info = { index: Number(qitem.attr("index")),
                 olid: state.name.items.olid, couid: state.name.items.couid,
                 type: Number(qitem.attr("type"))
@@ -171,7 +171,7 @@ var state = {
             data = new Object();
             data.items = new Array();
             data.current = null;
-        }
+        } 
         if (typeof data == "string") return null;
         if (typeof data == "object") return data;
         return data;
