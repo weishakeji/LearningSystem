@@ -128,6 +128,7 @@ namespace Song.ServiceImpls
             {
                 tran.Close();
             }
+            this.OnDelete(entity, null);
         }
         public void QuesDelete(string ids)
         {
@@ -156,7 +157,7 @@ namespace Song.ServiceImpls
                     tran.Close();
                 }
             }
-
+            this.OnDelete(null, null);
         }
         public Questions QuesSingle(int identify)
         {
@@ -1270,11 +1271,44 @@ namespace Song.ServiceImpls
         public void OnAdd(object sender, EventArgs e)
         {
             this.OnSave(null, e);
+            //更新章节试题数量
+            if (!(sender is Questions)) return;
+            Questions ques = (Questions)sender;
+            if (ques == null) return;
+            if (ques.Ol_ID > 0)
+            {
+                int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
+                Outline ol = Business.Do<IOutline>().OutlineSingle(ques.Ol_ID);
+                Outline olnew = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == ques.Ol_ID).ToFirst<Outline>();
+                olnew.Ol_QuesCount = count;
+                Gateway.Default.Save<Outline>(olnew);
+                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Update(ol, olnew);
+            }
             if (Add != null) Add(sender, e);
         }
         public void OnDelete(object sender, EventArgs e)
         {
             this.OnSave(null, e);
+            if (sender == null)
+            {
+                Business.Do<IOutline>().OutlineBuildCache();
+            }
+            else
+            {
+                //更新章节试题数量
+                if (!(sender is Questions)) return;
+                Questions ques = (Questions)sender;
+                if (ques == null) return;
+                if (ques.Ol_ID > 0)
+                {
+                    int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
+                    Outline ol = Business.Do<IOutline>().OutlineSingle(ques.Ol_ID);
+                    Outline olnew = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == ques.Ol_ID).ToFirst<Outline>();
+                    olnew.Ol_QuesCount = count;
+                    Gateway.Default.Save<Outline>(olnew);
+                    WeiSha.Common.Cache<Song.Entities.Outline>.Data.Update(ol, olnew);
+                }
+            }
             if (Delete != null) Delete(sender, e);
         }
         #endregion

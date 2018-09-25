@@ -45,9 +45,12 @@ namespace Song.Site
                 Business.Do<IOrganization>().OrganBuildQrCode();
             })).Start();
 
-
-            //章节缓存创建          
-            Business.Do<IOutline>().OutlineBuildCache();
+            //章节缓存创建      
+            new Thread(new ThreadStart(() =>
+            {                    
+                Business.Do<IOutline>().OutlineBuildCache();
+            })).Start();
+            
 
 
             #region  试题的事件            
