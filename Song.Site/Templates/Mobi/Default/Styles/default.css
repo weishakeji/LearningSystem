@@ -92,6 +92,7 @@
 	border-right-width: 1px;
 	background-color: #FFF;
 	display: block;
+	overflow: hidden;
 }
 .menuBox .mItem .mitem-img {
 	font-size: 45px;

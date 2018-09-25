@@ -65,14 +65,16 @@ function menuBox_Autoloyout() {
     //自动计算图片宽高
     mitem.find(".mitem-img").each(function (index, element) {
         var wd = $(this).width();
-        $(this).height(wd);
+        $(this).height(Math.floor(wd));
     });
     //计动计算菜单项高度
+    var maxheight = 0;
     $(".menuBox .mItem").each(function (index, element) {
         var imgHg = $(this).find(".mitem-img").outerHeight();
         var spanHg = $(this).find("span").outerHeight();
-        $(this).height(imgHg + spanHg + 10);
-    });
+        var height = imgHg + spanHg + 10;
+        maxheight = maxheight < height ? height : maxheight;
+    }).height(maxheight);
     /*
     //自定义菜单的事件
     mui('body').on('tap', '.mItem', function () { 
