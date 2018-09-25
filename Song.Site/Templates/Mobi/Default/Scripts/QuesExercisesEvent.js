@@ -439,12 +439,12 @@ var finger = {
         $(".context").swipe({ fingers: 'all', swipeLeft: finger.slide, swipeRight: finger.slide,
             pinchIn: finger.pinch, pinchOut: finger.pinch
         });
-//        //设置初始的题型
-//        var qid = $().getPara("qid");
-//        //设置初始显示的试题
-//        var firstQitem = qid != "" ? $(".quesItem[qid=" + qid + "]") : $(".quesItem:first");
-//        firstQitem = firstQitem.size() > 0 ? firstQitem : $(".quesItem:first");
-//        finger.qusmove((Number(firstQitem.attr("index")) - 1) * $(".quesItem").width());
+        //        //设置初始的题型
+        //        var qid = $().getPara("qid");
+        //        //设置初始显示的试题
+        //        var firstQitem = qid != "" ? $(".quesItem[qid=" + qid + "]") : $(".quesItem:first");
+        //        firstQitem = firstQitem.size() > 0 ? firstQitem : $(".quesItem:first");
+        //        finger.qusmove((Number(firstQitem.attr("index")) - 1) * $(".quesItem").width());
         card.set("curr");
     },
     //放大与捏合事件
@@ -498,11 +498,10 @@ var viewpatt = {
         this.loyout();
         this.event();
         //初始化视图模式按钮
-        var pattern = window.storage("view-pattern");
-        var first = $("#boxSetup dl.view-pattern dd[id=" + pattern + "]");
-        if (first.size() < 1) first = $("#boxSetup dl.view-pattern dd[default]");
+        var patter = viewpatt.storage.get();
+        var first = $("#boxSetup dl.view-pattern dd[id=" + patter.patter + "]");
         first.addClass("view-selected");
-        viewpatt.set(first.attr("id"));
+        viewpatt.style(first.attr("id"));
     },
     loyout: function () {
         var html = "<div id='boxSetup' ><dl class='view-pattern'>";
@@ -513,10 +512,9 @@ var viewpatt = {
     event: function () {
         //打开设置项
         $(".btnSetup").click(function () {
-            var mask = $("#maskSetup");
+            var mask = $("#maskSetup"); //遮罩层
             mask.css({ height: $(window).height() }).show();
-            //
-            var box = $("#boxSetup");
+            var box = $("#boxSetup");   //设置项的区域
             box.css({ left: $(window).width() }).show();
             box.animate({ left: 0 });
         });
@@ -531,13 +529,32 @@ var viewpatt = {
         $("#boxSetup dl.view-pattern dd").click(function () {
             $(this).parent().find("dd").removeClass("view-selected");
             $(this).addClass("view-selected");
-            window.storage("view-pattern", $(this).attr("id"));
+            viewpatt.storage.set($(this).attr("id"));
             //设置颜色风格
-            viewpatt.set($(this).attr("id"));
+            viewpatt.style($(this).attr("id"));
         });
     },
+    //将设置存储到本地
+    storage: {
+        set: function (patter) {
+            var obj = { patter: patter, time: new Date().getTime() };
+            window.storage("view-pattern", obj);
+        },
+        get: function () {
+            var first = $("#boxSetup dl.view-pattern dd[default]"); //默认值
+            var obj = window.storage("view-pattern");
+            //如果不存则，则取默认值
+            if (obj == null || obj instanceof String)
+                obj = { patter: first.attr("id"), time: new Date().getTime() };
+            //如果设置记录在六个小时之前，则取默认值
+            obj.time = new Date(obj.time);
+            var span = parseInt(new Date().getTime() - obj.time.getTime()) / 1000 / 3600;
+            if (span >= 6) obj = { patter: first.attr("id"), time: new Date().getTime() };
+            return obj;
+        }
+    },
     //设置风格
-    set: function (patt) {
+    style: function (patt) {
         //背景色：1.主景背,2.块级元素,3.输入框,4.按钮色
         var color_patt1 = { bg: "#E8FFE8", box: "#C7EDCC", input: "#E8FFE8", font: "#000", btn: "#060", btntxt: "#E8FFE8" };
         var color_patt2 = { bg: "#efeff4", box: "#fff", input: "#fff", font: "#999", btn: "#1B9AF7", btntxt: "#fff" };
