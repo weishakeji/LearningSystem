@@ -132,16 +132,7 @@
         if (this.Type == "null") return;
         this.WinBox.append("<div class='msgBtnBox' style='height:50px'></div>");
         var box = this.WinBox.find(".msgBtnBox");
-        box.width(this.WinBox.width());
-        if (this.Type == "msg" || this.Type == "alert" || this.Type == "confirm") {
-            box.append("<div class='msgBtnClose msgbtn'>" + this.btn.cancel + "</div>");
-            box.find(".msgBtnClose").click(function () {
-                var winid = $(this).parents(".MsgBox").attr("winid");
-                var func = msgbox.events.get(winid + "_CancelEvent");
-                if (func != null) func();
-                msgbox.CloseEvent($(this));
-            });
-        }
+        box.width(this.WinBox.width());       
         if (this.Type == "confirm") {
             box.append("<div class='msgBtnEnter msgbtn'>" + this.btn.enter + "</div>");
             if (this.EnterEvent != null) {
@@ -151,6 +142,15 @@
                     if (func != null) func();
                 });
             }
+        }
+        if (this.Type == "msg" || this.Type == "alert" || this.Type == "confirm") {
+            box.append("<div class='msgBtnClose msgbtn'>" + this.btn.cancel + "</div>");
+            box.find(".msgBtnClose").click(function () {
+                var winid = $(this).parents(".MsgBox").attr("winid");
+                var func = msgbox.events.get(winid + "_CancelEvent");
+                if (func != null) func();
+                msgbox.CloseEvent($(this));
+            });
         }
         if (this.Type == "loading") {
             box.addClass("msgLoading");

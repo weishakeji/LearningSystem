@@ -1,9 +1,5 @@
-﻿$(function () {
-    setMenuUrl();
-    btnEvent();
-});
-//设置菜单链接
-function setMenuUrl() {
+﻿//设置菜单链接
+window.onload = function () {    
     //获取当前网页
     var arrUrl = window.location.href.split("/");
     var strPage = arrUrl[arrUrl.length - 1].toLowerCase();
@@ -24,16 +20,5 @@ function setMenuUrl() {
                 $(this).attr("href", href + "?couid=" + couid);
             }
         }
-    });
-}
-//按钮事件
-function btnEvent() {
-    $("input.btnCloseWin").click(function () {
-        if (confirm("您确定要关闭本页吗？")) {
-            window.opener = null;
-            window.open('', '_self');
-            window.close();
-        }
-        return false;
     });
 }
