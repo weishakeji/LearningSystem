@@ -57,6 +57,17 @@ namespace Song.Extend.Login
             get { return _onlineUser; }
         }
         /// <summary>
+        /// 在线用户数
+        /// </summary>
+        public int OnlineCount
+        {
+            get
+            {
+                this.CleanOut();
+                return this._onlineUser.Count;
+            }
+        }
+        /// <summary>
         /// 返回当前登录用户的实体
         /// </summary>
         /// <returns></returns>
@@ -310,7 +321,7 @@ namespace Song.Extend.Login
         public void CleanOut()
         {
             //设置超时时间，单位分钟
-            int outTimeNumer = 3;
+            int outTimeNumer = 10;
             List<Song.Entities.Accounts> _tm = new List<Song.Entities.Accounts>();
             foreach (Song.Entities.Accounts em in this.OnlineUser)
             {
