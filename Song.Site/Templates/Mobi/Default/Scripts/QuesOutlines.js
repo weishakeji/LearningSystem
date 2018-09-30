@@ -39,20 +39,27 @@
             return false;
         }
         //答题状态初始化
-        var txt = "";       
+        var txt = "";
         txt += "点击“重新练习”，将清空本章节历史练习记录，重新计算正确率。";
         var msg = new MsgBox("是否继续上次练习？", txt, 90, 220, "confirm");
-		msg.btn.enter = "继续练习";
+        msg.btn.enter = "继续练习";
         msg.btn.cancel = "重新练习";
         //msg.ShowCloseBtn = false;
         msg.href = this.href;
-        msg.EnterEvent = function () {           
+        msg.EnterEvent = function () {
             window.location.href = msg.href;
             msg.Close(msg.WinId);
         }
         msg.CancelEvent = function () {
-            if (typeof state != "undefined") state.clear(keyname);
-            window.location.href = msg.href;
+            var msgclear = new MsgBox("是否确定？", "重新练习将清空本章节的学习记录，重新计算正确率。", 80, 160, "confirm");
+            msgclear.btn.enter = "确定";
+            msgclear.btn.cancel = "取消";
+            msgclear.EnterEvent = function () {
+                if (typeof state != "undefined") state.clear(keyname);
+                window.location.href = msg.href;
+                msgclear.Close(msgclear.WinId);
+            }
+            msgclear.Open();
         }
         msg.Open();
         return false;
