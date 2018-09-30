@@ -4,10 +4,10 @@
     //答题卡
     card.init();
     //字体大小的控制
-    $().setFontSize($(".quesBox"));
+    $().setFontSize($(".quesBox, .quesAnswerContent"));
     $(".fontoper").click(function () {
-        if ($(this).attr("id") == "addFont") $().setFontSize($(".quesBox"), 2);
-        if ($(this).attr("id") == "subFont") $().setFontSize($(".quesBox"), -2);
+        if ($(this).attr("id") == "addFont") $().setFontSize($(".quesBox, .quesAnswerContent"), 2);
+        if ($(this).attr("id") == "subFont") $().setFontSize($(".quesBox, .quesAnswerContent"), -2);
     });
 });
 $(function () {
@@ -449,8 +449,8 @@ var finger = {
     },
     //放大与捏合事件
     pinch: function (event, direction, distance, duration, fingerCount) {
-        if (direction == "in") $().setFontSize($(".quesBox"), 2);   //放大
-        if (direction == "out") $().setFontSize($(".quesBox"), -2);    //捏合
+        if (direction == "in") $().setFontSize($(".quesBox, .quesAnswerContent"), 2);   //放大
+        if (direction == "out") $().setFontSize($(".quesBox, .quesAnswerContent"), -2);    //捏合
     },
     //手式滑动
     slide: function (event, direction, distance, duration, fingerCount) {

@@ -21,7 +21,7 @@ namespace Song.Site.Mobile
         //当前学员收藏的试题
         Song.Entities.Questions[] collectQues = null;
         protected override void InitPageTemplate(HttpContext context)
-        {           
+        {
             //传递过来的试题总记录数
             if (!Extend.LoginState.Accounts.IsLogin) this.Response.Redirect("login.ashx");
             //当前章节
@@ -59,10 +59,10 @@ namespace Song.Site.Mobile
             if (olid > 0)
             {
                 List<int> olids = Business.Do<IOutline>().TreeID(olid);
-                list = GetQues(olids, ques);              
+                list = GetQues(olids, ques);
             }
             else
-            {               
+            {
                 //按钮课程取题
                 foreach (Song.Entities.Questions q in ques)
                 {
@@ -74,16 +74,16 @@ namespace Song.Site.Mobile
             if (ques == null)
             {
                 ques = Business.Do<IQuestions>().QuesCount(-1, -1, couid, olid, -1, -1, true, 0 - 1, count);
-                for (int i = 0; i < ques.Length; i++)
-                {
-                    ques[i] = Extend.Questions.TranText(ques[i]);
-                    ques[i].Qus_Title = ques[i].Qus_Title.Replace("&lt;", "<");
-                    ques[i].Qus_Title = ques[i].Qus_Title.Replace("&gt;", ">");
-                    ques[i].Qus_Title = Extend.Html.ClearHTML(ques[i].Qus_Title, "p", "div", "font");
-                    ques[i].Qus_Title = ques[i].Qus_Title.Replace("\n", "<br/>");
-                    if (!string.IsNullOrWhiteSpace(ques[i].Qus_Answer))
-                        ques[i].Qus_Answer = ques[i].Qus_Answer.Replace("&nbsp;", " ");
-                }               
+            }
+            for (int i = 0; i < ques.Length; i++)
+            {
+                ques[i] = Extend.Questions.TranText(ques[i]);
+                ques[i].Qus_Title = ques[i].Qus_Title.Replace("&lt;", "<");
+                ques[i].Qus_Title = ques[i].Qus_Title.Replace("&gt;", ">");
+                ques[i].Qus_Title = Extend.Html.ClearHTML(ques[i].Qus_Title, "p", "div", "font", "span");
+                ques[i].Qus_Title = ques[i].Qus_Title.Replace("\n", "<br/>");
+                if (!string.IsNullOrWhiteSpace(ques[i].Qus_Answer))
+                    ques[i].Qus_Answer = ques[i].Qus_Answer.Replace("&nbsp;", " ");
             }
             //List<Song.Entities.Questions> list = new List<Entities.Questions>();
             //if (isBuy || course.Cou_IsFree) list = ques.ToList<Song.Entities.Questions>();  //如果已经购买或免费；

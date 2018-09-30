@@ -33,7 +33,7 @@ namespace Song.Site.Mobile
                     ques[i] = Extend.Questions.TranText(ques[i]);
                     ques[i].Qus_Title = ques[i].Qus_Title.Replace("&lt;", "<");
                     ques[i].Qus_Title = ques[i].Qus_Title.Replace("&gt;", ">");
-                    ques[i].Qus_Title = Extend.Html.ClearHTML(ques[i].Qus_Title, "p", "div", "font");
+                    ques[i].Qus_Title = Extend.Html.ClearHTML(ques[i].Qus_Title, "p", "div", "font", "span");
                 }
                 this.Document.SetValue("Total", ques.Length);  //试题的总数
                 this.Document.SetValue("couid", WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0);

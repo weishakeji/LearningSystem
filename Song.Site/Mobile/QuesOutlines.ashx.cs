@@ -30,6 +30,16 @@ namespace Song.Site.Mobile
                 couid = currCourse.Cou_ID;                            
                 //当前课程下的章节
                 Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
+                foreach (Song.Entities.Outline c in outlines)
+                {
+                    c.Ol_Intro = Extend.Html.ClearHTML(c.Ol_Intro);
+                    //计算每个章节下的试题数
+                    if (c.Ol_QuesCount <= 0)
+                    {
+                        c.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(c.Ol_ID, -1, true, true);
+                        Business.Do<IOutline>().OutlineSave(c);
+                    }
+                }
                 this.Document.SetValue("outlines", outlines);
                 //
                 DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outlines);

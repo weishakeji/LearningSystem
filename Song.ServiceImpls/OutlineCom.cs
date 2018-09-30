@@ -318,11 +318,8 @@ namespace Song.ServiceImpls
                 //计算每个章节下的试题数
                 foreach (Outline o in outls)
                 {
-                    if (o.Ol_QuesCount <= 0)
-                    {
-                        o.Ol_QuesCount = this.QuesOfCount(o.Ol_ID, -1, true, true);
-                        Gateway.Default.Save<Outline>(o);
-                    }
+                    o.Ol_QuesCount = this.QuesOfCount(o.Ol_ID, -1, true, true);
+                    Gateway.Default.Save<Outline>(o);
                 }
                 WeiSha.Common.Cache<Song.Entities.Outline>.Data.Fill(outls);
                 return WeiSha.Common.Cache<Outline>.Data.List;
