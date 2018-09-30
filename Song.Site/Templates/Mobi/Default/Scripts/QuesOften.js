@@ -1,6 +1,6 @@
 ﻿window.onload = function () {
-    //总题数
-    var count = Total;
+   //总题数
+    var count = Number($("body").attr("quscount"));
     //设置试题宽度
     var wd = $(window).width();
     var hg = document.querySelector(".context").clientHeight;

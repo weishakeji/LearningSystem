@@ -154,11 +154,8 @@
                         试用：
                     </td>
                     <td>
-                        <asp:CheckBox ID="cbIsTry" runat="server" Text="允许免费试用" Checked="true" AutoPostBack="True"
-                            OnCheckedChanged="Cou_IsTry_CheckedChanged" />
-                        <span id="spanTryNum" runat="server" visible="false">（当前课程下，每章节允许试用的试题数：<asp:TextBox
-                            ID="tbTryNum" runat="server" Width="100px" datatype="uint" group="enter" nullable="false"></asp:TextBox>道）
-                        </span>
+                        <asp:CheckBox ID="cbIsTry" runat="server" Text="允许免费试用" Checked="true" />
+                       
                     </td>
                 </tr>
                 <tr>

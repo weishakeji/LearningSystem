@@ -63,17 +63,14 @@ namespace Song.Site.Manage.Course
             if (cou == null) return null;
             //是否免费，是否试用，以及试题数
             cou.Cou_IsFree = cbIsFree.Checked;
-            cou.Cou_IsTry = cbIsTry.Checked;
-            int tryNum = 0;
-            int.TryParse(tbTryNum.Text, out tryNum);
-            cou.Cou_TryNum = tryNum;
+            cou.Cou_IsTry = cbIsTry.Checked;           
             try
             {
                 Business.Do<ICourse>().CourseSave(cou);
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                throw ex;
             }
             return cou;
         }
@@ -94,10 +91,9 @@ namespace Song.Site.Manage.Course
             cbIsFree.Checked = cou.Cou_IsFree;
             Cou_IsFree_CheckedChanged(null, null);
             //是否允许试用
-            cbIsTry.Checked = cou.Cou_IsTry;
-            Cou_IsTry_CheckedChanged(null, null);
-            //每个章节，试用的试题数
-            tbTryNum.Text = cou.Cou_TryNum > 0 ? cou.Cou_TryNum.ToString() : "";
+            cbIsTry.Checked = cou.Cou_IsTry;           
+            ////每个章节，试用的试题数
+            //tbTryNum.Text = cou.Cou_TryNum > 0 ? cou.Cou_TryNum.ToString() : "";
             //全局UID
             ViewState["UID"] = string.IsNullOrWhiteSpace(cou.Cou_UID) ? getUID() : cou.Cou_UID;
             Song.Entities.CoursePrice[] prices = Business.Do<ICourse>().PriceCount(0, cou.Cou_UID, null, -1);
@@ -269,17 +265,7 @@ namespace Song.Site.Manage.Course
         protected void Cou_IsFree_CheckedChanged(object sender, EventArgs e)
         {
             cbIsTry.Enabled = !cbIsFree.Checked;
-            cbIsTry.Checked = !cbIsFree.Checked;
-            Cou_IsTry_CheckedChanged(null, null);
-        }
-        /// <summary>
-        /// 是否试用的单选框事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void Cou_IsTry_CheckedChanged(object sender, EventArgs e)
-        {
-            spanTryNum.Visible = cbIsTry.Checked;
+            cbIsTry.Checked = !cbIsFree.Checked;           
         }
     }
 }

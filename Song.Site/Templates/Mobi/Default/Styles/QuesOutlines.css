@@ -12,6 +12,15 @@ html{
 	margin-left: 5px;
 	z-index: 2;
 }
+.home {
+	top: 2px;
+	left:30px;
+	display: block;
+	position: absolute;
+	margin-top: 5px;
+	margin-left: 5px;
+	z-index: 2;
+}
 
 /*图片区*/
 .chart-area {
