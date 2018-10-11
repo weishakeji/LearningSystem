@@ -62,6 +62,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Qus_Tax;
     		
+    		protected Int32 _Qus_Errornum;
+    		
     		/// <summary>
     		/// -1
     		/// </summary>
@@ -377,6 +379,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 Qus_Errornum {
+    			get {
+    				return this._Qus_Errornum;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Qus_Errornum, _Qus_Errornum, value);
+    				this._Qus_Errornum = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -430,7 +442,8 @@ namespace Song.Entities {
     					_.Qus_IsTitle,
     					_.Ol_Name,
     					_.Sbj_Name,
-    					_.Qus_Tax};
+    					_.Qus_Tax,
+    					_.Qus_Errornum};
     		}
     		
     		/// <summary>
@@ -464,7 +477,8 @@ namespace Song.Entities {
     					this._Qus_IsTitle,
     					this._Ol_Name,
     					this._Sbj_Name,
-    					this._Qus_Tax};
+    					this._Qus_Tax,
+    					this._Qus_Errornum};
     		}
     		
     		/// <summary>
@@ -551,6 +565,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Qus_Tax))) {
     				this._Qus_Tax = reader.GetInt32(_.Qus_Tax);
+    			}
+    			if ((false == reader.IsDBNull(_.Qus_Errornum))) {
+    				this._Qus_Errornum = reader.GetInt32(_.Qus_Errornum);
     			}
     		}
     		
@@ -712,7 +729,11 @@ namespace Song.Entities {
     			/// 字段名：Qus_Tax - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Qus_Tax = new WeiSha.Data.Field<Questions>("Qus_Tax");
+    			
+    			/// <summary>
+    			/// 字段名：Qus_Errornum - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Qus_Errornum = new WeiSha.Data.Field<Questions>("Qus_Errornum");
     		}
     	}
     }
-    

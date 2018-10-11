@@ -130,7 +130,7 @@
             <vt:function var="answer" method="GetAnswer" args="$#.q"/>
             {$answer}</div>
              <div class="quesOftennum">
-             <span>累计答错<b>{$q.qus_tax}</b>人次</span>
+             <span>累计答错<b>{$q.Qus_Errornum}</b>人次</span>
            </div>
           <vt:if var="q.Qus_Explain" value="" compare="!=">
             <div class="quesAnswerTitle">试题解析：</div>

@@ -142,11 +142,16 @@
         <ContentTemplate>
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td class="right" width="100px">
+                    <td class="right" width="100px" valign="top">
                         是否免费：
                     </td>
                     <td>
-                        <asp:CheckBox ID="cbIsFree" runat="server" Text="该课程完全免费" AutoPostBack="True" OnCheckedChanged="Cou_IsFree_CheckedChanged" />
+                       <p> <asp:CheckBox ID="cbIsFree" runat="server" Text="完全免费" AutoPostBack="True" OnCheckedChanged="Cou_IsFree_CheckedChanged" /></p>
+                      
+                        <p> <asp:CheckBox ID="CheckBox1" runat="server" Text="限时免费" Checked="true" />
+                            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>-<asp:TextBox ID="TextBox2"
+                                runat="server"></asp:TextBox>
+                        </p>
                     </td>
                 </tr>
                 <tr>
@@ -155,7 +160,7 @@
                     </td>
                     <td>
                         <asp:CheckBox ID="cbIsTry" runat="server" Text="允许免费试用" Checked="true" />
-                       
+                      
                     </td>
                 </tr>
                 <tr>

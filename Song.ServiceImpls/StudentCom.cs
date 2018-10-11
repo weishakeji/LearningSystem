@@ -1067,7 +1067,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Questions[] QuesOftenwrong(int couid, int type, int count)
         {
-            string sql = @"select {top} sq.count as Qus_Tax,c.* from Questions as c inner join 
+            string sql = @"select {top} sq.count as Qus_Errornum,c.* from Questions as c inner join 
 (SELECT qus_id,COUNT(qus_id) as 'count'  FROM [Student_Ques] where {couid} and {type} group by qus_id) as sq
 on c.qus_id=sq.qus_id order by sq.count desc";
             sql = sql.Replace("{couid}", couid > 0 ? "cou_id=" + couid : "1=1");
