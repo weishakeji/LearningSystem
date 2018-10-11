@@ -41,6 +41,7 @@
                         <asp:ListItem Value="4">4</asp:ListItem>
                         <asp:ListItem Value="5">5</asp:ListItem>
                     </asp:DropDownList>
+                    &nbsp; 排序号：<asp:TextBox ID="tbTax" runat="server" Width="60"></asp:TextBox>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <asp:CheckBox ID="cbIsUse" runat="server" Text="是否使用" ToolTip="禁用后，不会被随机抽出" Checked="True">
                     </asp:CheckBox>

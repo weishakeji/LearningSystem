@@ -208,7 +208,9 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
-            return Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Asc).ToArray<Questions>(count);
+            return Gateway.Default.From<Questions>().Where(wc)
+                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc)
+                .ToArray<Questions>(count);
         }
         public Questions[] QuesCount(int orgid, int sbjid, int couid, int olid, int type, int diff, bool? isUse, int count)
         {
@@ -228,7 +230,9 @@ namespace Song.ServiceImpls
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
-            return Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Asc).ToArray<Questions>(count);
+            return Gateway.Default.From<Questions>().Where(wc)
+                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc)
+                .ToArray<Questions>(count);
         }
         /// <summary>
         /// 获取某个课程或章节试题
@@ -261,7 +265,9 @@ namespace Song.ServiceImpls
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             if (diff > 0) wc.And(Questions._.Qus_Diff == diff);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
-            return Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_ID.Asc).ToArray<Questions>(count, index);
+            return Gateway.Default.From<Questions>().Where(wc)
+                .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc)
+                .ToArray<Questions>(count, index);
         }
         /// <summary>
         /// 计算试题数量
@@ -418,7 +424,9 @@ namespace Song.ServiceImpls
                 wc.And(Questions._.Qus_Title.Like("%" + searTxt.Trim() + "%"));
             }
             countSum = Gateway.Default.Count<Questions>(wc);
-            return Gateway.Default.From<Questions>().Where(wc).OrderBy(Questions._.Qus_ID.Desc).ToArray<Questions>(size, (index - 1) * size);
+            return Gateway.Default.From<Questions>().Where(wc)
+                .OrderBy(Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Desc)
+                .ToArray<Questions>(size, (index - 1) * size);
         }
         /// <summary>
         /// 分页获取试题
@@ -443,7 +451,7 @@ namespace Song.ServiceImpls
                 wc.And(Questions._.Qus_Title.Like("%" + searTxt.Trim() + "%"));
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>()
-                .Where(wc).OrderBy(Questions._.Qus_ID.Desc)
+                .Where(wc).OrderBy(Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Desc)
                 .ToArray<Questions>(size, (index - 1) * size);
         }
 
@@ -475,7 +483,8 @@ namespace Song.ServiceImpls
             }
             countSum = Gateway.Default.Count<Questions>(wc);
             return Gateway.Default.From<Questions>().Where(wc)
-                .OrderBy(Questions._.Qus_ID.Desc).ToArray<Questions>(size, (index - 1) * size);
+                .OrderBy(Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Desc)
+                .ToArray<Questions>(size, (index - 1) * size);
         }
         #endregion
 
@@ -1220,6 +1229,7 @@ namespace Song.ServiceImpls
             List<Questions> ques= QuestionsMethod.QuestionsCache.Singleton.GetQuestions(uid);
             //试题倒序排列
             //ques = ques.OrderByDescending(x => x.Qus_ID).ToList<Questions>();
+            ques = ques.OrderBy(x => x.Qus_Tax).ToList<Questions>();
             if (ques == null) return null;
             return ques.ToArray<Questions>();
         }
