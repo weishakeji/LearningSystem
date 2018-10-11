@@ -204,7 +204,8 @@ var flashvars = {
 var params = { bgcolor: '#FFF', allowFullScreen: false, allowScriptAccess: 'always', wmode: 'transparent' }; //这里定义播放器的其它参数如背景色（跟flashvars中的b不同），是否支持全屏，是否支持交互
 var video = [playMp4("undefined" != typeof videoPath ? videoPath : "") + '->video/mp4'];
 if ($("#videobox").size() > 0) {
-    CKobject.embed('/Utility/Ckplayer/ckplayer/ckplayer.swf', 'videobox', 'ckplayer_videobox', '100%', '100%', false, flashvars, video, params);
+    //CKobject.embed('/Utility/Ckplayer/ckplayer/ckplayer.swf', 'videobox', 'ckplayer_videobox', '100%', '100%', false, flashvars, video, params);
+	CKobject.embedHTML5('videobox','ckplayer_videobox','100%', '100%',video,flashvars,['all']);
 }
 //播放flv格式的同名mp4视频
 function playMp4(vname) {
