@@ -129,6 +129,8 @@ namespace Song.Site.Manage.Questions
             tbTitle.Text = mm.Qus_Title;
             //讲解
             tbExplan.Text = mm.Qus_Explain;
+            //排序号
+            tbTax.Text = mm.Qus_Tax.ToString();
             //试题答案
             bindGrid(mm);
             
@@ -176,6 +178,10 @@ namespace Song.Site.Manage.Questions
             mm.Cou_ID = SortSelect1.CouID;
             mm.Ol_ID = SortSelect1.OlID;
             mm.Qus_Title = tranTxt(tbTitle.Text);
+            //排序号
+            int tax = 0;
+            int.TryParse(tbTax.Text, out tax);
+            mm.Qus_Tax = tax;
             //难度
             mm.Qus_Diff = Convert.ToInt32(ddlDiff.SelectedItem.Value);
             //资料、讲解
