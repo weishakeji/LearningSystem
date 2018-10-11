@@ -4,10 +4,28 @@
 <script type="text/javascript" src="<%=uploaderPath %>js/fileprogress.js"></script>
 <script type="text/javascript" src="<%=uploaderPath %>js/filegroupprogress.js"></script>
 <script type="text/javascript" src="<%=uploaderPath %>js/handlers.js"></script>
+
+<div class="uploadbar" style="height: 30px;">
+    <div class="swfPlace" style="height: 30px; width: 160px; line-height: 30px; float: left;">
+        <span id="spanButtonPlaceHolder"></span>
+    </div>
+    <div class="selectFileBtn" style="height: 30px; width: 160px; line-height: 20px;
+        float: left;">
+        <a href="<%=uploaderPath %>FileExplorer.aspx?path=<%=UploadPath %>" hg="640" wd="480"
+            target="_blank">选择服务器端文件</a></div>
+    <div class="selectFileBtn" style="height: 30px; width: 160px; line-height: 20px;
+        float: left;">
+        <a href="<%=uploaderPath %>OuterLink.aspx?path=<%=UploadPath %>&uid=<%=UID %>" hg="600"
+            wd="300" target="_blank">站外视频链接</a></div>
+    <div class="selectFileBtn" style="height: 30px; width: 160px; line-height: 20px;
+        float: left;">
+        <a href="<%=uploaderPath %>OtherLink.aspx?path=<%=UploadPath %>&uid=<%=UID %>" hg="600"
+            wd="300" target="_blank">视频平台链接</a></div>
+</div>
 <script type="text/javascript">
     var uploaderPath="<%=uploaderPath %>";
     var swfu;
-    window.onload = function () {
+    (function () {
         var settings = {
             flash_url: "<%=uploaderPath %>swfupload/swfupload.swf",
             upload_url: "<%=uploaderPath %>Uploading.ashx?path=<%=UploadPath %>&uid=<%=UID %>&count=<%= LimitCount %>",
@@ -67,7 +85,7 @@
             file_dialog_complete_handler: fileDialogComplete
         };
         swfu = new SWFUpload(settings);
-    };
+    })();
     function fileQueueError(fileobject, errorcode, message) {
         alert(errorcode);
     }
@@ -92,23 +110,6 @@
           $("#divPlayer").html(str);
     }
 </script>
-<div class="uploadbar" style="height: 30px;">
-    <div class="swfPlace" style="height: 30px; width: 160px; line-height: 30px; float: left;">
-        <span id="spanButtonPlaceHolder"></span>
-    </div>
-    <div class="selectFileBtn" style="height: 30px; width: 160px; line-height: 20px;
-        float: left;">
-        <a href="<%=uploaderPath %>FileExplorer.aspx?path=<%=UploadPath %>"  hg="640" wd="480" target="_blank">
-            选择服务器端文件</a></div>
-    <div class="selectFileBtn" style="height: 30px; width: 160px; line-height: 20px;
-        float: left;">
-        <a href="<%=uploaderPath %>OuterLink.aspx?path=<%=UploadPath %>&uid=<%=UID %>" hg="600" wd="300" target="_blank">
-            站外视频链接</a></div>
-             <div class="selectFileBtn" style="height: 30px; width: 160px; line-height: 20px;
-        float: left;">
-        <a href="<%=uploaderPath %>OtherLink.aspx?path=<%=UploadPath %>&uid=<%=UID %>" hg="600" wd="300" target="_blank">
-            视频平台链接</a></div>
-</div>
 <div id="divprogresscontainer">
 </div>
 <div id="divprogressGroup">
@@ -122,12 +123,12 @@
         var title = $(this).text();
         var height = Number($(this).attr("hg"));
         var width = Number($(this).attr("wd"));
-        var box = new top.PageBox(title, src, height, width,null,window.name);
+        var box = new top.PageBox(title, src, height, width, null, window.name);
         box.Open();
         return false;
     });
     //设置选择的文件
-    function setSelectFile(file, path,winname) {
+    function setSelectFile(file, path, winname) {
         new top.PageBox().Close(winname);
         //alert(path + file);
         uploadSuccess(file, path + file);
@@ -148,6 +149,6 @@
             alert("设置外部链接成功！");
         } else {
             window.location.reload();
-        } 
+        }
     }
 </script>

@@ -121,7 +121,10 @@ namespace Song.ServiceImpls
                     //    tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_IsFree }, new object[] { entity.Cou_IsFree }, Student_Course._.Cou_ID == entity.Cou_ID);
                     //    tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_EndTime }, new object[] { DateTime.Now }, Student_Course._.Cou_ID == entity.Cou_ID);
                     //}
-                    tran.Update<TestPaper>(new Field[] { TestPaper._.Cou_Name }, new object[] { entity.Cou_Name }, TestPaper._.Cou_ID == entity.Cou_ID);
+                    tran.Update<TestPaper>(
+                        new Field[] { TestPaper._.Cou_Name, TestPaper._.Sbj_ID, TestPaper._.Sbj_Name },
+                        new object[] { entity.Cou_Name, entity.Sbj_ID, entity.Sbj_Name },
+                        TestPaper._.Cou_ID == entity.Cou_ID);
                     tran.Save<Course>(entity);
                     tran.Commit();
                 }
