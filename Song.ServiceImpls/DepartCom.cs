@@ -84,6 +84,7 @@ namespace Song.ServiceImpls
                 try
                 {
                     XmlDocument resXml = new XmlDocument();
+                    resXml.XmlResolver = null; 
                     resXml.LoadXml(xml, false);
                     XmlNodeList nodeList = resXml.SelectSingleNode("nodes").ChildNodes;
                     //取rootid

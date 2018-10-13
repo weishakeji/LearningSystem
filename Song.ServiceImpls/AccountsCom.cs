@@ -587,7 +587,7 @@ namespace Song.ServiceImpls
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
-            XmlDocument xmldoc = new XmlDocument();
+            XmlDocument xmldoc = new XmlDocument();            
             string confing = WeiSha.Common.App.Get["ExcelInputConfig"].VirtualPath + "学生信息.xml";
             xmldoc.Load(WeiSha.Common.Server.MapPath(confing));
             XmlNodeList nodes = xmldoc.GetElementsByTagName("item");

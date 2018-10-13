@@ -743,6 +743,7 @@ namespace Song.ServiceImpls
         {
             if (string.IsNullOrWhiteSpace(xml)) return null;
             XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.XmlResolver = null; 
             xmlDoc.LoadXml(xml, false);
             XmlNodeList items = xmlDoc.SelectNodes("Items/item");
             List<Course> list = new List<Course>();

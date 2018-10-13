@@ -100,6 +100,7 @@ namespace Song.Site
                 //仅限在微信中使用
                 if (this.Organ.Org_IsOnlyWeixin && !WeiSha.Common.Browser.IsWeixin)
                 {
+                    //调取手机模板公共库中的OnlyWeixin.htm
                     path = "OnlyWeixin";
                 }
             }

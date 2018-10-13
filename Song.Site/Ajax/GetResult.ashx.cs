@@ -35,6 +35,7 @@ namespace Song.Site.Ajax
         private string getResult(string result)
         {
             XmlDocument resXml = new XmlDocument();
+            resXml.XmlResolver = null; 
             resXml.LoadXml(result, false);
             string json = "{";
             XmlNode root = resXml.LastChild;

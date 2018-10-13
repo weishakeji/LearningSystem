@@ -192,6 +192,7 @@ namespace Song.ServiceImpls
         public void SaveOrder(string xml)
         {
             XmlDocument resXml = new XmlDocument();
+            resXml.XmlResolver = null; 
             using (DbTrans tran = Gateway.Default.BeginTrans())
                 try
                 {

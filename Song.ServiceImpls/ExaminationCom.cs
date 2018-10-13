@@ -632,6 +632,7 @@ namespace Song.ServiceImpls
         public List<Questions> QuesForResults(string results)
         {
             XmlDocument resXml = new XmlDocument();
+            resXml.XmlResolver = null; 
             resXml.LoadXml(results, false);
             XmlNodeList nodeList = resXml.SelectSingleNode("results").ChildNodes;
             string ids = "";
@@ -698,6 +699,7 @@ namespace Song.ServiceImpls
         public static float _ClacScore(string resultXML,out string outXml)
         {
             XmlDocument resXml = new XmlDocument();
+            resXml.XmlResolver = null; 
             resXml.LoadXml(resultXML, false);
             XmlNode root = resXml.LastChild;           
             var info = new

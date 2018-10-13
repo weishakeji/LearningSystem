@@ -102,6 +102,7 @@ namespace Song.Site.Ajax
         private string resultJson(Song.Entities.ExamResults exr)
         {
             XmlDocument resXml = new XmlDocument();
+            resXml.XmlResolver = null; 
             resXml.LoadXml(exr.Exr_Results, false);
             string json = "[";
             XmlNodeList ques = resXml.GetElementsByTagName("ques");

@@ -84,6 +84,7 @@ namespace Song.Site
                 if (exr != null && !string.IsNullOrWhiteSpace(exr.Exr_Results))
                 {
                     XmlDocument resXml = new XmlDocument();
+                    resXml.XmlResolver = null; 
                     resXml.LoadXml(exr.Exr_Results, false);
                     XmlNode xn = resXml.LastChild;
                     //考试的开始与结束时间，防止学员刷新考试界面，导致时间重置
