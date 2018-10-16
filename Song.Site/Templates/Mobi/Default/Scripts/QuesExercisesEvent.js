@@ -463,7 +463,20 @@ var finger = {
             if (Math.abs(fixLeft) < tm * ($(".quesItem").size() - 1)) {
                 fixLeft = fixLeft - tm;
             } else {
-                new MsgBox("提示", "已经是最后一道试题，后面没有了！" + second, 90, 200, "msg").Open();
+				var num=Number($(".correct-num").text())+Number($(".error-num").text());
+				var per=$(".correct-rate").text();
+				var sum=Number($("#Total").text());
+				var txt="已经练习"+num+"道，正确率"+per+"%";
+				if((sum-num)>0){
+					txt+="，还有"+(sum-num)+"道没有练习";
+				}
+                var msg=new MsgBox("提示", "已经是最后一道试题，是否返回？</br/>"+txt+"。"
+						+"<br/><br/><second>10</second>秒后关闭消息", 90, 250, "confirm");
+				msg.EnterEvent=function(){
+					var couid=$().getPara("couid");
+					window.location.href="QuesOutlines.ashx?couid="+couid;
+				}
+				msg.Open();
             }
         }
         if (direction == "right") {
