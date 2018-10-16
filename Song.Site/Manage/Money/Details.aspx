@@ -8,7 +8,7 @@
     <script language="javascript" src="../Utility/datepicker/WdatePicker.js" type="text/javascript"></script>
     <div id="header">
     <uc1:toolsBar ID="ToolsBar1" runat="server" WinPath="Details_View.aspx" DelShowMsg="注：资金流水删除无法恢复。"
-            AddButtonOpen="false" GvName="GridView1" WinWidth="600" WinHeight="400" OnDelete="DeleteEvent" />
+            AddButtonOpen="false" GvName="GridView1" WinWidth="600" WinHeight="400" OnDelete="DeleteEvent" AddButtonVisible="false" />
         <asp:Panel ID="searchBox" CssClass="searchBox" runat="server">
             时间：<asp:TextBox ID="tbStartTime" runat="server" Width="90" onfocus="WdatePicker()"
                 CssClass="Wdate" EnableTheming="false"></asp:TextBox>

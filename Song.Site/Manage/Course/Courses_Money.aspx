@@ -41,6 +41,7 @@
     </script>
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
+     <script language="javascript" src="../Utility/datepicker/WdatePicker.js" type="text/javascript"></script>
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td class="right" width="100px">
@@ -148,9 +149,11 @@
                     <td>
                        <p> <asp:CheckBox ID="cbIsFree" runat="server" Text="完全免费" AutoPostBack="True" OnCheckedChanged="Cou_IsFree_CheckedChanged" /></p>
                       
-                        <p> <asp:CheckBox ID="CheckBox1" runat="server" Text="限时免费" Checked="true" />
-                            <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>-<asp:TextBox ID="TextBox2"
-                                runat="server"></asp:TextBox>
+                        <p runat="server" id="freelimit"> <asp:CheckBox ID="cbIsFreeCharge" runat="server" Text="限时免费" Checked="true" />
+                            （<asp:TextBox ID="TextBox1" runat="server" onfocus="WdatePicker()" Width="100" CssClass="Wdate" EnableTheming="false"></asp:TextBox>
+                            至
+                            <asp:TextBox ID="TextBox2" runat="server"  onfocus="WdatePicker()" Width="100" CssClass="Wdate" EnableTheming="false"></asp:TextBox>
+                            之间免费）
                         </p>
                     </td>
                 </tr>

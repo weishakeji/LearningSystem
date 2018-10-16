@@ -121,13 +121,22 @@ namespace Song.Site.Manage.Course {
         protected global::System.Web.UI.WebControls.CheckBox cbIsFree;
         
         /// <summary>
-        /// CheckBox1 控件。
+        /// freelimit 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl freelimit;
+        
+        /// <summary>
+        /// cbIsFreeCharge 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbIsFreeCharge;
         
         /// <summary>
         /// TextBox1 控件。

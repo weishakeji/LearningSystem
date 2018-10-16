@@ -166,7 +166,7 @@ PagePanel.prototype.addBar = function (name, path, page, id) {
     frameBox.append(top);
     //全屏事件
     frameBox.find(".topBar .pagePanelMaxHand").click(function () {
-        var thisId = $(this).parent().parent().attr("id");
+        var thisId = $(this).parents(".consFramePanel").attr("id");
         thisId = thisId.substring(thisId.indexOf("_") + 1);
         var tm = new PagePanel();
         var type = $(this).attr("type");

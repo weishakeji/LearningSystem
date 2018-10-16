@@ -265,7 +265,8 @@ namespace Song.Site.Manage.Course
         protected void Cou_IsFree_CheckedChanged(object sender, EventArgs e)
         {
             cbIsTry.Enabled = !cbIsFree.Checked;
-            cbIsTry.Checked = !cbIsFree.Checked;           
+            cbIsTry.Checked = !cbIsFree.Checked;
+            cbIsFreeCharge.Enabled = !cbIsFree.Checked;
         }
     }
 }
