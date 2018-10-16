@@ -3,8 +3,10 @@
 <head>
 <title>学员充值</title>
 <vt:include file="inc/meta.inc" />
-<link rel="stylesheet" href="Styles/Recharge.css?tick={$tick}"/>
-<script type="text/javascript" src="Scripts/Recharge.js?tick={$tick}"></script>
+<script type="text/javascript" src="CoreScripts/MsgBox.js"></script>
+<link href="CoreStyles/MsgBox.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="Styles/Recharge.css"/>
+<script type="text/javascript" src="Scripts/Recharge.js"></script>
 </head>
 <body>
 <div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
@@ -34,7 +36,7 @@
             </a> </li>
              <vt:else/>
               <li class="mui-table-view-cell mui-media">
-               <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/>未登录
+              <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/> <a href="login.ashx" type="link">未登录</a>
                 <p class='mui-ellipsis' id="nologin"><a href="login.ashx" type="link">点击此处登录</a></p>
               </li>
             </vt:if>

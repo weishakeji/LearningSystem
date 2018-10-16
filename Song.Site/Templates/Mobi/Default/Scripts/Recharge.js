@@ -24,6 +24,12 @@ function pay_card() {
         var nologin = $("#nologin");
         if (nologin.size() > 0) {
             window.Verify.ShowBox(nologin.find("a"), "请登录");
+			var msg=new MsgBox("提示", "未登录，点击“确定”进入登录界面。"
+						+"<br/><br/><second>6</second>秒后关闭消息", 90, 200, "confirm");
+				msg.EnterEvent=function(){					
+					window.location.href="login.ashx";
+				}
+				msg.Open();
             return false;
         }
         //开始充值
