@@ -46,13 +46,6 @@ namespace Song.Site.Manage.Course
                     }
                 }
             }
-            if (!IsPostBack)
-            {
-                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-                lbPlateName.Text = org.Org_PlatformName;
-                Song.Entities.Course cur = Business.Do<ICourse>().CourseSingle(couid);
-                if (cur != null) lbCouName.Text = " - 《" +cur.Cou_Name +"》";
-            }
         }
         #region 事件
         public event ImageClickEventHandler Prev_Click;
