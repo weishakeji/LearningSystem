@@ -34,7 +34,6 @@ namespace Song.Site.Manage.Course
                 BindData(null, null);                
             }
         }
-        #region 章节管理
         /// <summary>
         /// 绑定章节列表
         /// </summary>
@@ -52,6 +51,7 @@ namespace Song.Site.Manage.Course
             GridView1.DataKeyNames = new string[] { "Ol_ID" };
             GridView1.DataBind();
         }
+        #region 行内事件        
         /// <summary>
         /// 单个删除
         /// </summary>
@@ -63,19 +63,7 @@ namespace Song.Site.Manage.Course
             int index = ((GridViewRow)(img.Parent.Parent)).RowIndex;
             int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
             Business.Do<IOutline>().OutlineDelete(id);
-            BindData(null, null);
-            DataTable dt = (DataTable)GridView1.DataSource;
-
-            int tmid = 0;
-            if (dt != null && dt.Rows.Count > 0)
-            {
-                int.TryParse(dt.Rows[0]["Ol_ID"].ToString(), out tmid);
-                Response.Redirect("Courses_Outline.aspx?couid=" + couid + "&olid=" + tmid);
-            }
-            else
-            {
-                Response.Redirect("Courses_Outline.aspx?couid=" + couid + "&olid=" + tmid);
-            }
+            BindData(null, null);            
         }
         /// <summary>
         /// 上移
@@ -86,10 +74,8 @@ namespace Song.Site.Manage.Course
         {
             GridViewRow gr = (GridViewRow)((LinkButton)sender).Parent.Parent;
             int id = Convert.ToInt32(this.GridView1.DataKeys[gr.RowIndex].Value);
-            if (Business.Do<IOutline>().OutlineUp(couid, id))
-            {
-                BindData(null, null);
-            }
+            if (Business.Do<IOutline>().OutlineUp(couid, id))            
+                BindData(null, null);            
         }
         /// <summary>
         /// 下移
@@ -100,10 +86,38 @@ namespace Song.Site.Manage.Course
         {
             GridViewRow gr = (GridViewRow)((LinkButton)sender).Parent.Parent;
             int id = Convert.ToInt32(this.GridView1.DataKeys[gr.RowIndex].Value);
-            if (Business.Do<IOutline>().OutlineDown(couid, id))
-            {
+            if (Business.Do<IOutline>().OutlineDown(couid, id))          
+                BindData(null, null);            
+        }
+        /// <summary>
+        /// 进入编辑行
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnToEditor_Click(object sender, EventArgs e)
+        {
+            GridViewRow gr = (GridViewRow)((LinkButton)sender).Parent.Parent;
+            int index = gr.RowIndex;
+            GridView1.EditIndex = index;
                 BindData(null, null);
-            }
+        }
+        /// <summary>
+        /// 退出编辑状态
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnEditBack_Click(object sender, EventArgs e)
+        {
+            GridView1.EditIndex = -1;
+            BindData(null, null);
+        }
+        /// <summary>
+        /// 编辑当前数据项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnEditEnter_Click(object sender, EventArgs e)
+        {
         }
         #endregion
     }
