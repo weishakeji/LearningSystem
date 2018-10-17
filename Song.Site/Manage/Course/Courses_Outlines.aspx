@@ -32,25 +32,22 @@
                     <EditItemTemplate>
                         <span class="treeIco">
                             <%# Eval("Tree")%></span>
-                        <asp:TextBox ID="tbName" runat="server" Width="95%" Text='<%# Eval("Ol_Name", "{0}")%>' nullable="false" group="edit"></asp:TextBox>
+                        <asp:TextBox ID="tbName" runat="server" Width="95%" Text='<%# Eval("Ol_Name", "{0}")%>'
+                            nullable="false" group="edit"></asp:TextBox>
+                        <div style="display: none">
+                            <asp:Label ID="lbID" runat="server" Text='<%# Eval("Ol_ID", "{0}")%>'></asp:Label>
+                            <asp:Label ID="lbPID" runat="server" Text='<%# Eval("Ol_PID", "{0}")%>'></asp:Label>
+                            <asp:Label ID="lbTax" runat="server" Text='<%# Eval("Ol_Tax", "{0}")%>'></asp:Label></div>
                     </EditItemTemplate>
                     <HeaderTemplate>
                         课程章节
                     </HeaderTemplate>
                     <ItemStyle CssClass="left" />
                 </asp:TemplateField>
-                <asp:TemplateField HeaderText="试用">
-                    <ItemTemplate>
-                        试用
-                    </ItemTemplate>
-                    <EditItemTemplate>
-                    </EditItemTemplate>
-                    <ItemStyle CssClass="center" Width="50px" />
-                </asp:TemplateField>
                 <asp:TemplateField HeaderText="编辑">
                     <ItemTemplate>
-                        <asp:LinkButton ID="btnEdit" runat="server" OnClick="btnToEditor_Click">编辑</asp:LinkButton>
-                        新增下级
+                        <a href="#" olid="<%# Eval("Ol_ID", "{0}")%>">编辑</a>
+                        <asp:LinkButton ID="btnAddSub" runat="server" OnClick="btnAddSub_Click">新增下级</asp:LinkButton>
                     </ItemTemplate>
                     <EditItemTemplate>
                         <asp:Button ID="btnEditEnter" runat="server" CssClass="editBtn" group="edit" verify="true"
@@ -58,21 +55,41 @@
                         <asp:Button ID="btnEditBack" runat="server" CssClass="backBtn" OnClick="btnEditBack_Click"
                             Text="返回" />
                     </EditItemTemplate>
-                    <ItemStyle CssClass="center" Width="120px" />
+                    <ItemStyle CssClass="center" Width="100px" />
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="内容">
                     <ItemTemplate>
-                        简述 视频 附件
+                        视频 附件
                     </ItemTemplate>
                     <EditItemTemplate>
                     </EditItemTemplate>
-                    <ItemStyle CssClass="center" Width="120px" />
+                    <ItemStyle CssClass="center" Width="80px" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="试用">
+                    <ItemTemplate>
+                        <cc1:StateButton ID="sbTry" OnClick="sbTry_Click" runat="server" TrueText="[可试学]"
+                            FalseText="[禁试]" State='<%# Eval("Ol_IsTry","{0}")=="True"%>'></cc1:StateButton>
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                    </EditItemTemplate>
+                    <ItemStyle CssClass="center" Width="50px" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="启用">
+                    <ItemTemplate>
+                        <cc1:StateButton ID="sbUse" OnClick="sbUse_Click" runat="server" TrueText="[启用]"
+                            FalseText="[禁用]" State='<%# Eval("Ol_IsUse","{0}")=="True"%>'></cc1:StateButton>
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                    </EditItemTemplate>
+                    <ItemStyle CssClass="center" Width="50px" />
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="删除">
                     <ItemTemplate>
                         <cc1:RowDelete ID="btnDel" OnClick="btnDel_Click" runat="server"></cc1:RowDelete>
                         <%-- <cc1:RowEdit ID="btnEdit" runat="server"></cc1:RowEdit>--%>
                     </ItemTemplate>
+                    <EditItemTemplate>
+                    </EditItemTemplate>
                     <ItemStyle CssClass="center" Width="30px" />
                 </asp:TemplateField>
             </Columns>

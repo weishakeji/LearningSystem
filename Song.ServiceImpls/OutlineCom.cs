@@ -25,7 +25,12 @@ namespace Song.ServiceImpls
         {
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) entity.Org_ID = org.Org_ID;                
-
+            //所属专业
+            if (entity.Sbj_ID <= 0 && entity.Cou_ID>0)
+            {
+                Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(entity.Cou_ID);
+                entity.Sbj_ID = cou.Sbj_ID;
+            }
             //计算排序号
             object obj = Gateway.Default.Max<Outline>(Outline._.Ol_Tax, Outline._.Cou_ID == entity.Cou_ID && Outline._.Ol_PID == entity.Ol_PID);
             entity.Ol_Tax = obj is int ? (int)obj + 1 : 1;
@@ -97,7 +102,7 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void OutlineSave(Outline entity)
         {
-            Outline old = OutlineSingle(entity.Ol_ID);
+            Outline old = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == entity.Ol_ID).ToFirst<Outline>();
             if (old.Ol_PID != entity.Ol_PID)
             {
                 object obj = Gateway.Default.Max<Outline>(Outline._.Ol_Tax, Outline._.Org_ID == entity.Org_ID && Outline._.Ol_PID == entity.Ol_PID);

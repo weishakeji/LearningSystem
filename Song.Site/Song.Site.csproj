@@ -294,6 +294,7 @@
     <Content Include="Manage\Course\Styles\Courses_Questions.css" />
     <Content Include="Manage\Course\Courses_Outlines.aspx" />
     <Content Include="Manage\Course\Styles\Courses_Outlines.css" />
+    <Content Include="Manage\Course\Outline_Edit.aspx" />
     <Content Include="Manage\DataTemplate\Config\充值码.xml" />
     <Content Include="Manage\DataTemplate\Config\学习卡.xml" />
     <Content Include="Manage\DataTemplate\Config\教师信息.xml">
@@ -2389,6 +2390,13 @@
     </Compile>
     <Compile Include="Manage\Course\Courses_Outlines.aspx.designer.cs">
       <DependentUpon>Courses_Outlines.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Course\Outline_Edit.aspx.cs">
+      <DependentUpon>Outline_Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Course\Outline_Edit.aspx.designer.cs">
+      <DependentUpon>Outline_Edit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Exam\TestPaper_Edit1.aspx.cs">
       <DependentUpon>TestPaper_Edit1.aspx</DependentUpon>

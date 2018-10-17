@@ -44,6 +44,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Ol_QuesCount;
     		
+    		protected Boolean _Ol_IsTry;
+    		
     		public Int32 Ol_ID {
     			get {
     				return this._Ol_ID;
@@ -224,6 +226,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Ol_IsTry {
+    			get {
+    				return this._Ol_IsTry;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ol_IsTry, _Ol_IsTry, value);
+    				this._Ol_IsTry = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -268,7 +280,8 @@ namespace Song.Entities {
     					_.Ol_QusNumber,
     					_.Org_ID,
     					_.Sbj_ID,
-    					_.Ol_QuesCount};
+    					_.Ol_QuesCount,
+    					_.Ol_IsTry};
     		}
     		
     		/// <summary>
@@ -293,7 +306,8 @@ namespace Song.Entities {
     					this._Ol_QusNumber,
     					this._Org_ID,
     					this._Sbj_ID,
-    					this._Ol_QuesCount};
+    					this._Ol_QuesCount,
+    					this._Ol_IsTry};
     		}
     		
     		/// <summary>
@@ -353,6 +367,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ol_QuesCount))) {
     				this._Ol_QuesCount = reader.GetInt32(_.Ol_QuesCount);
+    			}
+    			if ((false == reader.IsDBNull(_.Ol_IsTry))) {
+    				this._Ol_IsTry = reader.GetBoolean(_.Ol_IsTry);
     			}
     		}
     		
@@ -469,7 +486,11 @@ namespace Song.Entities {
     			/// 字段名：Ol_QuesCount - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Ol_QuesCount = new WeiSha.Data.Field<Outline>("Ol_QuesCount");
+    			
+    			/// <summary>
+    			/// 字段名：Ol_IsTry - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Ol_IsTry = new WeiSha.Data.Field<Outline>("Ol_IsTry");
     		}
     	}
     }
-    

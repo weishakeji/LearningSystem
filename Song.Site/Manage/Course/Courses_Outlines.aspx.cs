@@ -15,9 +15,7 @@ namespace Song.Site.Manage.Course
     public partial class Courses_Outlines : Extend.CustomPage
     {
         //课程id
-        protected int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
-        //当前章节id
-        protected int olid = WeiSha.Common.Request.QueryString["olid"].Int32 ?? 0;
+        protected int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;      
         protected string UID
         {
             get { return this.getUID(); }
@@ -118,6 +116,125 @@ namespace Song.Site.Manage.Course
         /// <param name="e"></param>
         protected void btnEditEnter_Click(object sender, EventArgs e)
         {
+            //当前点击的按钮
+            System.Web.UI.WebControls.Button btn = (System.Web.UI.WebControls.Button)sender;
+            //当前输入框
+            GridViewRow gr = (GridViewRow)btn.Parent.Parent;
+            TextBox tb = (TextBox)gr.FindControl("tbName");
+            if (tb == null || tb.Text.Trim()=="") return;
+            //当前章节
+            int id = int.Parse(this.GridView1.DataKeys[gr.RowIndex].Value.ToString());
+            if (id > 0)
+            {
+                Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(id);
+                if (outline == null) return;
+                outline.Ol_Name = tb.Text.Trim();
+                Business.Do<IOutline>().OutlineSave(outline);
+            }
+            else
+            {
+                //新增
+                Song.Entities.Outline outline = new Song.Entities.Outline();
+                outline.Ol_Name = tb.Text.Trim();
+                //上级ID
+                Label lbPid = (Label)gr.FindControl("lbPID");
+                outline.Ol_PID = Convert.ToInt32(lbPid.Text);  
+                //序号
+                Label lbTax = (Label)gr.FindControl("lbTax");
+                outline.Ol_Tax = Convert.ToInt32(lbTax.Text); 
+                //所属课程
+                outline.Cou_ID = couid;
+                outline.Ol_IsUse = true;
+                Business.Do<IOutline>().OutlineAdd(outline);
+            }
+            //退出编辑状态
+            GridView1.EditIndex = -1;
+            BindData(null, null);
+        }
+        /// <summary>
+        /// 修改是否使用的状态
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void sbUse_Click(object sender, EventArgs e)
+        {
+            StateButton ub = (StateButton)sender;
+            int index = ((GridViewRow)(ub.Parent.Parent)).RowIndex;
+            int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
+            //
+            Song.Entities.Outline entity = Business.Do<IOutline>().OutlineSingle(id);
+            entity.Ol_IsUse = !entity.Ol_IsUse;
+            Business.Do<IOutline>().OutlineSave(entity);
+            BindData(null, null);
+        }
+        /// <summary>
+        /// 修改是否试用的状态
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void sbTry_Click(object sender, EventArgs e)
+        {
+            StateButton ub = (StateButton)sender;
+            int index = ((GridViewRow)(ub.Parent.Parent)).RowIndex;
+            int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
+            //
+            Song.Entities.Outline entity = Business.Do<IOutline>().OutlineSingle(id);
+            entity.Ol_IsTry = !entity.Ol_IsTry;
+            Business.Do<IOutline>().OutlineSave(entity);
+            BindData(null, null);
+        }
+        #endregion
+
+        #region 添加下级章节
+        /// <summary>
+        /// 添加下级章节的按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnAddSub_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            GridViewRow gr = (GridViewRow)btn.Parent.Parent;
+            int olid = int.Parse(this.GridView1.DataKeys[gr.RowIndex].Value.ToString());
+            //从数据库获取章节
+            Song.Entities.Outline[] outline = Business.Do<IOutline>().OutlineAll(couid, null);
+            DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outline);
+            //是否有下级，下级的最大tax
+            int tax = 0;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                int pid = Convert.ToInt32(dt.Rows[i]["Ol_PID"].ToString());
+                if (pid == olid)
+                {
+                    int currtax = Convert.ToInt32(dt.Rows[i]["Ol_Tax"].ToString());
+                    tax = tax < currtax ? currtax : tax;
+                }
+            }
+            DataRow dr = dt.NewRow();
+            dr["Ol_ID"] = -1;
+            dr["Ol_PID"] = olid;
+            dr["Ol_Tax"] = tax+1;
+            dt.Rows.Add(dr);
+            WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
+            tree.IdKeyName = "OL_ID";
+            tree.ParentIdKeyName = "OL_PID";
+            tree.TaxKeyName = "Ol_Tax";
+            tree.Root = 0;
+            dt = tree.BuilderTree(dt);
+            //取新增项索引
+            int index = -1;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                if (dt.Rows[i]["Ol_Name"].ToString() == "")
+                {
+                    index = i;
+                    break;
+                }
+            }
+            GridView1.DataSource = dt;
+            GridView1.DataKeyNames = new string[] { "Ol_ID" };
+            GridView1.EditIndex = index;
+            GridView1.DataBind();
         }
         #endregion
     }
