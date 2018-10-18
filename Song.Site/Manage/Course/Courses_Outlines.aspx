@@ -46,7 +46,7 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="编辑">
                     <ItemTemplate>
-                        <a href="#" olid="<%# Eval("Ol_ID", "{0}")%>">编辑</a>
+                        <a href="Outline_Edit.aspx?id=<%# Eval("Ol_ID", "{0}")%>&couid=<%=couid %>" type="open">编辑</a>
                         <asp:LinkButton ID="btnAddSub" runat="server" OnClick="btnAddSub_Click">新增下级</asp:LinkButton>
                     </ItemTemplate>
                     <EditItemTemplate>
@@ -59,7 +59,8 @@
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="内容">
                     <ItemTemplate>
-                        视频 附件
+                         <a href="Outline_Video.aspx?id=<%# Eval("Ol_ID", "{0}")%>&uid=<%# Eval("Ol_UID", "{0}")%>>&couid=<%=couid %>" type="open">视频</a>
+                        <a href="Outline_Accessory.aspx?id=<%# Eval("Ol_ID", "{0}")%>&uid=<%# Eval("Ol_UID", "{0}")%>" type="open">附件</a>
                     </ItemTemplate>
                     <EditItemTemplate>
                     </EditItemTemplate>

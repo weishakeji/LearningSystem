@@ -75,14 +75,20 @@ namespace Song.Site
                 {
                     //如果是内部链接
                     videos[0].As_FileName = Upload.Get[videos[0].As_Type].Virtual + videos[0].As_FileName;
-                    string fileHy = Server.MapPath(videos[0].As_FileName);
-                    if (!System.IO.File.Exists(fileHy))
+                    try
                     {
-                        string ext = System.IO.Path.GetExtension(fileHy).ToLower();
-                        if (ext == ".mp4") videos[0].As_FileName = Path.ChangeExtension(videos[0].As_FileName, ".flv");
-                        if (ext == ".flv") videos[0].As_FileName = Path.ChangeExtension(videos[0].As_FileName, ".mp4");
+                        string fileHy = Server.MapPath(videos[0].As_FileName);
+                        if (!System.IO.File.Exists(fileHy))
+                        {
+                            string ext = System.IO.Path.GetExtension(fileHy).ToLower();
+                            if (ext == ".mp4") videos[0].As_FileName = Path.ChangeExtension(videos[0].As_FileName, ".flv");
+                            if (ext == ".flv") videos[0].As_FileName = Path.ChangeExtension(videos[0].As_FileName, ".mp4");
+                        }
+                        this.Document.Variables.SetValue("video", videos[0]);
                     }
-                    this.Document.Variables.SetValue("video", videos[0]);
+                    catch
+                    {
+                    }
                 }
                 this.Document.Variables.SetValue("IsVideoNoload", config["IsVideoNoload"].Value.Boolean ?? false);
                 state = state < 1 ? 1 : state;

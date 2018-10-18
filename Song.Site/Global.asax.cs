@@ -109,7 +109,24 @@ namespace Song.Site
         {
 
         }
-
-        
+        /// <summary>
+        /// 隐藏 Response Header 中的Server节点（IIS版本信息）
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void Application_PreSendRequestHeaders(object sender, EventArgs e)
+        {
+            HttpApplication application = sender as HttpApplication;
+            if (application != null && application.Context != null)
+            {
+                try
+                {
+                    application.Context.Response.Headers.Remove("Server");
+                }
+                catch
+                {
+                }
+            }
+        }        
     }
 }

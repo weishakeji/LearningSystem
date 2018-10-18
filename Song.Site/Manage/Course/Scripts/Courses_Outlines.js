@@ -10,11 +10,11 @@
         box.Open();
         return false;
     });
-    //编辑按钮事件
-    $("a[olid]").click(function () {
-        var olid = $(this).attr("olid");
-        var url = $().setPara(editurl, "id", olid);
-        var box = new top.PageBox("编辑章节", url, 80, 80, null, window.name);
+    //打开窗口，用于编辑、视频、附件的弹窗
+    $("a[type=open]").click(function () {
+        var txt = $(this).text();
+        var url = $(this).attr("href");
+        var box = new top.PageBox("章节"+txt, url, 80, 80, null, window.name);
         box.CloseEvent = function () {
             //var href = window.location.href;
             //window.location.href = $().setPara(href, "tmpara", new Date().getTime());

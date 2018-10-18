@@ -11,7 +11,7 @@ function navLoyoutInit() {
     //下拉菜单的选项
     var option = ddlOutline.find("option");
     //当前id
-    var id = $().getPara("couid");
+    var id = $().getPara("id");
     //当前导航项的父级id
     var pid = ddlOutline.find("option[selected=selected]").attr("value");
     pid = typeof (pid) == "undefined" ? "0" : pid;
