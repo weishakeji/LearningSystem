@@ -7,7 +7,7 @@
             //var href = window.location.href;
             //window.location.href = $().setPara(href, "tmpara", new Date().getTime());
         };
-        box.Open();
+        //box.Open();
         return false;
     });
     //打开窗口，用于编辑、视频、附件的弹窗

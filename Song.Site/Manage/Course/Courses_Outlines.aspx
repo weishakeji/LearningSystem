@@ -5,11 +5,16 @@
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <%@ Register Assembly="WeiSha.WebEditor" Namespace="WeiSha.WebEditor" TagPrefix="WebEditor" %>
 <%@ Register Src="../Utility/Uploader.ascx" TagName="Uploader" TagPrefix="uc1" %>
+<%@ Register Src="../Utility/toolsBar.ascx" TagName="toolsBar" TagPrefix="uc2" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMain" runat="server">
     <div loyout="row" height="30">
-        <asp:Button ID="btnAdd" runat="server" Text="新增" CssClass="btnAdd toolsBtn outlineName" /></div>
+       <uc2:toolsBar ID="ToolsBar1" runat="server" WinPath="Outline_Edit.aspx"
+           AddButtonOpen="true" GvName="GridView1" WinWidth="80"  DelButtonVisible="false"
+            WinHeight="80" InputButtonVisible="true" OutputButtonVisible="false" />
+       <%-- <asp:Button ID="btnAdd" runat="server" Text="新增" CssClass="btnAdd toolsBtn outlineName" />--%></div>
     <div loyout="row" overflow="auto">
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False">
+        <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
+            ShowSelectBox="false" IsEncrypt="False">
             <EmptyDataTemplate>
                 <div style="text-align: center">
                     当前课程还没有添加章节</div>
@@ -94,6 +99,6 @@
                     <ItemStyle CssClass="center" Width="30px" />
                 </asp:TemplateField>
             </Columns>
-        </asp:GridView>
+        </cc1:GridView>
     </div>
 </asp:Content>
