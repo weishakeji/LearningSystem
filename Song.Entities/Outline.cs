@@ -44,7 +44,7 @@ namespace Song.Entities {
     		
     		protected Int32 _Ol_QuesCount;
     		
-    		protected Boolean _Ol_IsTry;
+    		protected Boolean _Ol_IsFinish;
     		
     		public Int32 Ol_ID {
     			get {
@@ -226,13 +226,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Boolean Ol_IsTry {
+    		public Boolean Ol_IsFinish {
     			get {
-    				return this._Ol_IsTry;
+    				return this._Ol_IsFinish;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ol_IsTry, _Ol_IsTry, value);
-    				this._Ol_IsTry = value;
+    				this.OnPropertyValueChange(_.Ol_IsFinish, _Ol_IsFinish, value);
+    				this._Ol_IsFinish = value;
     			}
     		}
     		
@@ -281,7 +281,7 @@ namespace Song.Entities {
     					_.Org_ID,
     					_.Sbj_ID,
     					_.Ol_QuesCount,
-    					_.Ol_IsTry};
+    					_.Ol_IsFinish};
     		}
     		
     		/// <summary>
@@ -307,7 +307,7 @@ namespace Song.Entities {
     					this._Org_ID,
     					this._Sbj_ID,
     					this._Ol_QuesCount,
-    					this._Ol_IsTry};
+    					this._Ol_IsFinish};
     		}
     		
     		/// <summary>
@@ -368,8 +368,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ol_QuesCount))) {
     				this._Ol_QuesCount = reader.GetInt32(_.Ol_QuesCount);
     			}
-    			if ((false == reader.IsDBNull(_.Ol_IsTry))) {
-    				this._Ol_IsTry = reader.GetBoolean(_.Ol_IsTry);
+    			if ((false == reader.IsDBNull(_.Ol_IsFinish))) {
+    				this._Ol_IsFinish = reader.GetBoolean(_.Ol_IsFinish);
     			}
     		}
     		
@@ -488,9 +488,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ol_QuesCount = new WeiSha.Data.Field<Outline>("Ol_QuesCount");
     			
     			/// <summary>
-    			/// 字段名：Ol_IsTry - 数据类型：Boolean
+    			/// 字段名：Ol_IsFinish - 数据类型：Boolean
     			/// </summary>
-    			public static WeiSha.Data.Field Ol_IsTry = new WeiSha.Data.Field<Outline>("Ol_IsTry");
+    			public static WeiSha.Data.Field Ol_IsFinish = new WeiSha.Data.Field<Outline>("Ol_IsFinish");
     		}
     	}
     }

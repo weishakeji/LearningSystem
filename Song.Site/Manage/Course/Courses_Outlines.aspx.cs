@@ -168,18 +168,34 @@ namespace Song.Site.Manage.Course
             BindData(null, null);
         }
         /// <summary>
-        /// 修改是否试用的状态
+        /// 修改是否收费的状态
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        protected void sbTry_Click(object sender, EventArgs e)
+        protected void sbFree_Click(object sender, EventArgs e)
         {
             StateButton ub = (StateButton)sender;
             int index = ((GridViewRow)(ub.Parent.Parent)).RowIndex;
             int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
             //
             Song.Entities.Outline entity = Business.Do<IOutline>().OutlineSingle(id);
-            entity.Ol_IsTry = !entity.Ol_IsTry;
+            entity.Ol_IsFree = !entity.Ol_IsFree;
+            Business.Do<IOutline>().OutlineSave(entity);
+            BindData(null, null);
+        }
+        /// <summary>
+        /// 修改是否完结的状态
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void sbFinish_Click(object sender, EventArgs e)
+        {
+            StateButton ub = (StateButton)sender;
+            int index = ((GridViewRow)(ub.Parent.Parent)).RowIndex;
+            int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
+            //
+            Song.Entities.Outline entity = Business.Do<IOutline>().OutlineSingle(id);
+            entity.Ol_IsFinish = !entity.Ol_IsFinish;
             Business.Do<IOutline>().OutlineSave(entity);
             BindData(null, null);
         }

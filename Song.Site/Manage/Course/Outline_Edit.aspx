@@ -15,7 +15,8 @@
                             <asp:TextBox ID="Ol_Name" group="ent" nullable="false" runat="server" Width="350"
                                 MaxLength="200"></asp:TextBox>
                             <asp:CheckBox ID="cbIsUse" runat="server" Text="启用" state="true" Checked="true" />
-                            <asp:CheckBox ID="cbIsTry" runat="server" Text="可以试用" state="true" Checked="true" />
+                            <asp:CheckBox ID="cbIsFree" runat="server" Text="免费" state="true" Checked="false" />
+                             <asp:CheckBox ID="cbIsFinish" runat="server" Text="完结" state="true" Checked="false" />
                         </td>
                     </tr>
                     <tr id="trOutline" runat="server">

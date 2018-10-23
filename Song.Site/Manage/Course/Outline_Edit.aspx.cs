@@ -62,7 +62,8 @@ namespace Song.Site.Manage.Course
                 mm = Business.Do<IOutline>().OutlineSingle(id);
                 //是否显示
                 cbIsUse.Checked = mm.Ol_IsUse;
-                cbIsTry.Checked = mm.Ol_IsTry;  //是否可以试用
+                cbIsFree.Checked = mm.Ol_IsFree;  //是否免费
+                cbIsFinish.Checked = mm.Ol_IsFinish;    //是否完结
                 //上级章节
                 ListItem li = ddlOutline.Items.FindByValue(mm.Ol_PID.ToString());
                 if (li != null)
@@ -98,7 +99,8 @@ namespace Song.Site.Manage.Course
             ol.Ol_PID = pid;
 
             ol.Ol_IsUse = cbIsUse.Checked;  //是否启用
-            ol.Ol_IsTry = cbIsTry.Checked;  //试用
+            ol.Ol_IsFree = cbIsFree.Checked;  //免费
+            ol.Ol_IsFinish = cbIsFinish.Checked;    //完结
             //所属课程
             ol.Cou_ID = couid;
             Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(couid);

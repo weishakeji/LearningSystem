@@ -71,10 +71,10 @@
                     </EditItemTemplate>
                     <ItemStyle CssClass="center" Width="80px" />
                 </asp:TemplateField>
-                <asp:TemplateField HeaderText="试用">
+                <asp:TemplateField HeaderText="免费">
                     <ItemTemplate>
-                        <cc1:StateButton ID="sbTry" OnClick="sbTry_Click" runat="server" TrueText="[可试学]"
-                            FalseText="[禁试]" State='<%# Eval("Ol_IsTry","{0}")=="True"%>'></cc1:StateButton>
+                        <cc1:StateButton ID="sbFree" OnClick="sbFree_Click" runat="server" TrueText="[免费]"
+                            FalseText="[收费]" State='<%# Eval("Ol_IsFree","{0}")=="True"%>'></cc1:StateButton>
                     </ItemTemplate>
                     <EditItemTemplate>
                     </EditItemTemplate>
@@ -84,6 +84,15 @@
                     <ItemTemplate>
                         <cc1:StateButton ID="sbUse" OnClick="sbUse_Click" runat="server" TrueText="[启用]"
                             FalseText="[禁用]" State='<%# Eval("Ol_IsUse","{0}")=="True"%>'></cc1:StateButton>
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                    </EditItemTemplate>
+                    <ItemStyle CssClass="center" Width="50px" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="完结">
+                    <ItemTemplate>
+                        <cc1:StateButton ID="sbFinish" OnClick="sbFinish_Click" runat="server" TrueText="[完结]"
+                            FalseText="[未完]" State='<%# Eval("Ol_IsFinish","{0}")=="True"%>'></cc1:StateButton>
                     </ItemTemplate>
                     <EditItemTemplate>
                     </EditItemTemplate>
