@@ -63,7 +63,16 @@ namespace Song.Site.Manage.Course
             if (cou == null) return null;
             //是否免费，是否试用，以及试题数
             cou.Cou_IsFree = cbIsFree.Checked;
-            cou.Cou_IsTry = cbIsTry.Checked;           
+            cou.Cou_IsTry = cbIsTry.Checked;   
+            //是否限时免费
+            cou.Cou_IsLimitFree = cbIsLimitFree.Checked;
+            DateTime freeStart = DateTime.Now, freeEnd = DateTime.Now;
+            if(!string.IsNullOrWhiteSpace(tbFreeStart.Text.Trim()))
+                freeStart = Convert.ToDateTime(tbFreeStart.Text);
+            if (!string.IsNullOrWhiteSpace(tbFreeEnd.Text.Trim()))
+                freeEnd = Convert.ToDateTime(tbFreeEnd.Text);
+            cou.Cou_FreeStart = freeStart;
+            cou.Cou_FreeEnd = freeEnd;
             try
             {
                 Business.Do<ICourse>().CourseSave(cou);
@@ -91,7 +100,14 @@ namespace Song.Site.Manage.Course
             cbIsFree.Checked = cou.Cou_IsFree;
             Cou_IsFree_CheckedChanged(null, null);
             //是否允许试用
-            cbIsTry.Checked = cou.Cou_IsTry;           
+            cbIsTry.Checked = cou.Cou_IsTry;
+            //是否限时免费
+            if (couid > 0)
+            {
+                cbIsLimitFree.Checked = cou.Cou_IsLimitFree;
+                tbFreeStart.Text = cou.Cou_FreeStart.ToString("yyyy-MM-dd");
+                tbFreeEnd.Text = cou.Cou_FreeEnd.ToString("yyyy-MM-dd");
+            }
             ////每个章节，试用的试题数
             //tbTryNum.Text = cou.Cou_TryNum > 0 ? cou.Cou_TryNum.ToString() : "";
             //全局UID
@@ -266,7 +282,7 @@ namespace Song.Site.Manage.Course
         {
             cbIsTry.Enabled = !cbIsFree.Checked;
             cbIsTry.Checked = !cbIsFree.Checked;
-            cbIsFreeCharge.Enabled = !cbIsFree.Checked;
+            this.cbIsLimitFree.Enabled = !cbIsFree.Checked;
         }
     }
 }

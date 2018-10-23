@@ -74,6 +74,12 @@ namespace Song.Entities {
     		
     		protected Int32 _Cou_PriceSpan;
     		
+    		protected Boolean _Cou_IsLimitFree;
+    		
+    		protected DateTime _Cou_FreeStart;
+    		
+    		protected DateTime _Cou_FreeEnd;
+    		
     		public Int32 Cou_ID {
     			get {
     				return this._Cou_ID;
@@ -404,6 +410,36 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Cou_IsLimitFree {
+    			get {
+    				return this._Cou_IsLimitFree;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_IsLimitFree, _Cou_IsLimitFree, value);
+    				this._Cou_IsLimitFree = value;
+    			}
+    		}
+    		
+    		public DateTime Cou_FreeStart {
+    			get {
+    				return this._Cou_FreeStart;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_FreeStart, _Cou_FreeStart, value);
+    				this._Cou_FreeStart = value;
+    			}
+    		}
+    		
+    		public DateTime Cou_FreeEnd {
+    			get {
+    				return this._Cou_FreeEnd;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_FreeEnd, _Cou_FreeEnd, value);
+    				this._Cou_FreeEnd = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -463,7 +499,10 @@ namespace Song.Entities {
     					_.Dep_CnName,
     					_.Cou_IsRec,
     					_.Cou_PriceUnit,
-    					_.Cou_PriceSpan};
+    					_.Cou_PriceSpan,
+    					_.Cou_IsLimitFree,
+    					_.Cou_FreeStart,
+    					_.Cou_FreeEnd};
     		}
     		
     		/// <summary>
@@ -503,7 +542,10 @@ namespace Song.Entities {
     					this._Dep_CnName,
     					this._Cou_IsRec,
     					this._Cou_PriceUnit,
-    					this._Cou_PriceSpan};
+    					this._Cou_PriceSpan,
+    					this._Cou_IsLimitFree,
+    					this._Cou_FreeStart,
+    					this._Cou_FreeEnd};
     		}
     		
     		/// <summary>
@@ -608,6 +650,15 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Cou_PriceSpan))) {
     				this._Cou_PriceSpan = reader.GetInt32(_.Cou_PriceSpan);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_IsLimitFree))) {
+    				this._Cou_IsLimitFree = reader.GetBoolean(_.Cou_IsLimitFree);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_FreeStart))) {
+    				this._Cou_FreeStart = reader.GetDateTime(_.Cou_FreeStart);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_FreeEnd))) {
+    				this._Cou_FreeEnd = reader.GetDateTime(_.Cou_FreeEnd);
     			}
     		}
     		
@@ -799,6 +850,21 @@ namespace Song.Entities {
     			/// 字段名：Cou_PriceSpan - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Cou_PriceSpan = new WeiSha.Data.Field<Course>("Cou_PriceSpan");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_IsLimitFree - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_IsLimitFree = new WeiSha.Data.Field<Course>("Cou_IsLimitFree");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_FreeStart - 数据类型：DateTime
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_FreeStart = new WeiSha.Data.Field<Course>("Cou_FreeStart");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_FreeEnd - 数据类型：DateTime
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_FreeEnd = new WeiSha.Data.Field<Course>("Cou_FreeEnd");
     		}
     	}
     }

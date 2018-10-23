@@ -149,10 +149,10 @@
                     <td>
                        <p> <asp:CheckBox ID="cbIsFree" runat="server" Text="完全免费" AutoPostBack="True" OnCheckedChanged="Cou_IsFree_CheckedChanged" /></p>
                       
-                        <p runat="server" id="freelimit"> <asp:CheckBox ID="cbIsFreeCharge" runat="server" Text="限时免费" Checked="true" />
-                            （<asp:TextBox ID="TextBox1" runat="server" onfocus="WdatePicker()" Width="100" CssClass="Wdate" EnableTheming="false"></asp:TextBox>
+                        <p runat="server" id="freelimit"> <asp:CheckBox ID="cbIsLimitFree" runat="server" Text="限时免费" Checked="true" />
+                            （<asp:TextBox ID="tbFreeStart" runat="server" onfocus="WdatePicker()" Width="100" CssClass="Wdate" EnableTheming="false"></asp:TextBox>
                             至
-                            <asp:TextBox ID="TextBox2" runat="server"  onfocus="WdatePicker()" Width="100" CssClass="Wdate" EnableTheming="false"></asp:TextBox>
+                            <asp:TextBox ID="tbFreeEnd" runat="server"  onfocus="WdatePicker()" Width="100" CssClass="Wdate" EnableTheming="false"></asp:TextBox>
                             之间免费）
                         </p>
                     </td>

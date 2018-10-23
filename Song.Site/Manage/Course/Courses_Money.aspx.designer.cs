@@ -130,31 +130,31 @@ namespace Song.Site.Manage.Course {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl freelimit;
         
         /// <summary>
-        /// cbIsFreeCharge 控件。
+        /// cbIsLimitFree 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbIsFreeCharge;
+        protected global::System.Web.UI.WebControls.CheckBox cbIsLimitFree;
         
         /// <summary>
-        /// TextBox1 控件。
+        /// tbFreeStart 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox tbFreeStart;
         
         /// <summary>
-        /// TextBox2 控件。
+        /// tbFreeEnd 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        protected global::System.Web.UI.WebControls.TextBox tbFreeEnd;
         
         /// <summary>
         /// cbIsTry 控件。
