@@ -278,6 +278,7 @@
     <Content Include="Manage\Course\Scripts\Courses_Guide.js" />
     <Content Include="Manage\Course\Scripts\OutlineEvent_Edit.js" />
     <Content Include="Manage\Course\Scripts\Courses_Outlines.js" />
+    <Content Include="Manage\Course\Scripts\Outline_Video.js" />
     <Content Include="Manage\Course\Styles\Courses.css" />
     <Content Include="Manage\Course\Styles\Courses_Edit.css" />
     <Content Include="Manage\Course\Styles\Courses_Guide.css" />

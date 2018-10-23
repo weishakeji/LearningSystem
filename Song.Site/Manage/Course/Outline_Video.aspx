@@ -10,7 +10,7 @@
     <fieldset>
         <legend>视频</legend>
         <%--视频文件上传--%>
-        <uc1:uploader id="Uploader1" runat="server" uploadpath="CourseVideo" limitcount="1" />
+        <uc1:Uploader ID="Uploader1" runat="server" UploadPath="CourseVideo" LimitCount="1" />
         <%--(如果需要在手机上播放，必须是H.264编码的MP4)--%><br />
         <asp:DataList ID="dlVideo" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow">
             <ItemTemplate>
@@ -95,6 +95,5 @@
     </fieldset>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">
-    
     <cc1:CloseButton ID="CloseButton1" runat="server" />
 </asp:Content>

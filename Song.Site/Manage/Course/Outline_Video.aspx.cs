@@ -32,14 +32,15 @@ namespace Song.Site.Manage.Course
         {
             if (!this.IsPostBack)
             {
-                //附件与视频
+                //上传控件
+                Uploader1.UID = uid;
                 VideoBind();
                 EventBindData(null, null);
             }
         }
         #region 视频操作
         /// <summary>
-        /// 附件绑定
+        /// 视频绑定
         /// </summary>
         protected void VideoBind()
         {
