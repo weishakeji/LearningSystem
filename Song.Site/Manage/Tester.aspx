@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/Utility/CoreScripts/Verify.js"></script>
     <script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
 </head>
-<body style="background-color:#000">
-  <img src='<%= build_Qrcode() %>' />
+<body>
+  
 </body>
 </html>

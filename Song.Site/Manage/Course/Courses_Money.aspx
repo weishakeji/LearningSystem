@@ -159,10 +159,10 @@
                 </tr>
                 <tr>
                     <td class="right">
-                        试用：
+                        试学：
                     </td>
                     <td>
-                        <asp:CheckBox ID="cbIsTry" runat="server" Text="允许免费试用" Checked="true" />
+                        <asp:CheckBox ID="cbIsTry" runat="server" Text="允许试学免费章节的内容" Checked="true" />
                       
                     </td>
                 </tr>
