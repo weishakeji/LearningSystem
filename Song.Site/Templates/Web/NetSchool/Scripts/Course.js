@@ -11,7 +11,8 @@ function tabEvent(){
 			var index = $(this).parent().find(">div").index(this); 
 			$(this).parent().parent().find(".tab-context>div:eq("+index+")").show();	
 		});
-		$(this).find(".tab-bar>div:eq(0)").click();
+		//默认第一个显示
+		//$(this).find(".tab-bar>div:eq(0)").click();
     });
 }
 

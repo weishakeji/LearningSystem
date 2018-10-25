@@ -31,8 +31,14 @@ namespace Song.Site
                     Business.Do<ICourse>().CourseSave(cou);
                     context.Response.Cookies["Course_" + cou.Cou_ID].Value = cou.Cou_ID.ToString();
                 }
+                //图片路径
                 cou.Cou_Logo = string.IsNullOrWhiteSpace(cou.Cou_Logo) ? "" : Upload.Get["Course"].Virtual + cou.Cou_Logo;
                 cou.Cou_LogoSmall = string.IsNullOrWhiteSpace(cou.Cou_LogoSmall) ? "" : Upload.Get["Course"].Virtual + cou.Cou_LogoSmall;
+                //是否免费，或是限时免费
+                if (cou.Cou_IsLimitFree && (cou.Cou_FreeStart <= DateTime.Now && cou.Cou_FreeEnd.AddDays(1) >= DateTime.Now))
+                {
+                    cou.Cou_IsFree = true;
+                }
                 this.Document.Variables.SetValue("course", cou);
             }
             //是否学习当前课程
@@ -49,7 +55,7 @@ namespace Song.Site
             outline = Business.Do<IOutline>().OutlineAll(cou.Cou_ID, true);
             this.Document.Variables.SetValue("Outline", outline);
             //树形章节输出
-            this.Document.Variables.SetValue("olTree", buildOutlineHtml(outline, 0, 0, ""));
+            this.Document.Variables.SetValue("olTree", buildOutlineTree(outline, 0, 0, ""));
             //课程公告
             Song.Entities.Guide[] guides = Business.Do<IGuide>().GuideCount(-1, cou.Cou_ID, -1, 20);
             this.Document.Variables.SetValue("guides", guides); 
@@ -88,40 +94,28 @@ namespace Song.Site
                 this.Document.SetValue("students", eas);
             }
         }
-         /// <summary>
-        /// 生成章节的多级结构html
+        /// <summary>
+        /// 生成章节的等级序号
         /// </summary>
-        /// <param name="outline"></param>
-        /// <param name="pid"></param>
-        /// <param name="level"></param>
-        /// <param name="prefix"></param>
+        /// <param name="outlines"></param>
+        /// <param name="pid">上级ID</param>
+        /// <param name="level">层深</param>
+        /// <param name="prefix">序号前缀</param>
         /// <returns></returns>
-        private string buildOutlineHtml(Song.Entities.Outline[] outline,int pid, int level,string prefix)
+        private Song.Entities.Outline[] buildOutlineTree(Song.Entities.Outline[] outlines, int pid, int level, string prefix)
         {
-            int index = 1;
-            string html = "";
-            html += "<div class=\"outline" + (level > 0 ? " indent" : "") + "\" level=\"" + level + "\">";
+            int index = 1;           
             foreach (Song.Entities.Outline ol in outline)
             {
                 if (ol.Ol_PID == pid)
-                {
-                    html += "<div class=\"olitem\" olid=\"" + ol.Ol_ID + "\">";
-                    html += prefix + index.ToString() + ".";
-                    if (isBuy)
-                    {
-                        html += "<a href=\"CourseStudy.ashx?id=" + ol.Ol_ID + "\">" + ol.Ol_Name + "</a>";
-                    }
-                    else
-                    {
-                        html += "<span>" + ol.Ol_Name + "</span>";
-                    }
-                    html += "</div>";
-                    html += buildOutlineHtml(outline, ol.Ol_ID, ++level, prefix + index.ToString() + ".");
+                {                   
+                    ol.Ol_XPath = prefix + index.ToString() + ".";
+                    ol.Ol_Level = level;
+                    buildOutlineTree(outline, ol.Ol_ID, level+1, ol.Ol_XPath);
                     index++;
                 }
             }
-            html += "</div>";
-            return html;
-        }        
+            return outlines;
+        }
     }
 }

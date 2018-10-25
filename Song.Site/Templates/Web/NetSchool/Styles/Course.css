@@ -1,5 +1,4 @@
 @charset "utf-8";
-
 #couHead {
 	height: 400px;
 	margin-top: 10px;
@@ -9,7 +8,7 @@
 	float: right;
 	height: 355px;
 	width: 540px;
-	position:relative;
+	position: relative;
 }
 #couHead .headRight span {
 	font-size: 16px;
@@ -51,8 +50,8 @@
 	font-size: 16px !important;
 	line-height: 25px;
 	color: #333333 !important;
-	word-wrap:break-word;
-	word-break:break-all;
+	word-wrap: break-word;
+	word-break: break-all;
 }
 #couHead .headRight .couTeacer {
 	font-size: 16px;
@@ -80,8 +79,8 @@
 .couBtnBox {
 	height: 50px;
 	width: 100%;
-	position:absolute;
-	bottom: 0;	
+	position: absolute;
+	bottom: 0;
 }
 #couHead .headRight .couBtn {
 	background-image: url(../Images/btnBg.jpg);
@@ -117,9 +116,6 @@
 	border-bottom-style: none;
 	border-left-style: none;
 	border-right-color: #CCCCCC;
-}
-.itemList {
-	display: table;
 }
 #LeftBox .boxBar {
 	width: 98%;
@@ -353,34 +349,60 @@
 	text-indent: 20px;
 }
 /*章节列表*/
+.itemList {
+	padding: 20px;
+}
 .outline {
 }
-.indent {
-	margin-left: 20px;
+.olitem {
+	position: relative;
 }
-.outline a, .outline span {
+.olitem:hover {
+	background-color: #CCC;
+}
+.olitem .obtn {
+	float: right;
+	display: inline-block;
+	margin-right: 20px;
+	margin-top:10px;
+	width:40px;
+	text-align:center;
+	font-size: 12px !important;
+	border-radius: 10px;
+	height: 10px;
+	padding:0px 10px 10px 10px;
+	line-height: 20px;
+	background-color: rgba(0, 0, 0, .15);
+}
+.enable{
+	background-color: #F93 !important;
+}
+.disable{
+	
+}
+.outline .ol_name{
 	margin-left: 8px;
-	line-height: 30px !important;
+	line-height: 40px !important;
 	color: #333;
-	font-size: 14px !important;
+	font-size: 16px !important;
 }
 /*课程介绍*/
-.introBox{
-	width:96%;
+.introBox {
+	width: 96%;
 	margin-right: auto;
 	margin-left: auto;
 }
-.introBox, .introBox *{
+.introBox, .introBox * {
 	font-size: 14px !important;
 	line-height: 25px !important;
-	word-wrap:break-word;
-	word-break:break-all;
+	word-wrap: break-word;
+	word-break: break-all;
 }
-.introBox p{
+.introBox p {
 	text-indent: 2em;
 	margin-bottom: 1em;
 }
-.introBox img{
+.introBox img {
 	max-width: 95%;
 	margin-right: auto;
 	margin-left: auto;

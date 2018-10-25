@@ -98,6 +98,7 @@ function _selectPrice() {
         var cprice = Number(selected.find(".cprice").html()); //选中项的卡券价格
         $("#btnBuyStudy").attr("mprice", mprice).attr("cprice", (isNaN(cprice) ? 0 : cprice));
     });
+	$(".priceItem:eq(0)").click();
 }
 
 //提交购买操作
