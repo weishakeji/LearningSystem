@@ -63,7 +63,7 @@ namespace Song.Site
             else
                 isStudy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, course.Cou_ID);
             this.Document.Variables.SetValue("isStudy", isStudy);
-            //是否可以学习
+            //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
             bool canStudy = isStudy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : (course.Cou_IsTry && ol.Ol_IsFree && ol.Ol_IsFinish);
             this.Document.Variables.SetValue("canStudy", canStudy);
             //课程章节列表

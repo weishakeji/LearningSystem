@@ -23,10 +23,12 @@ body {
 body,a,p,div,td{
 	font-size: 13px;
 }
-a{
+a {
 	text-decoration: none;
+	font-family: "Microsoft YaHei", "微软雅黑", "MicrosoftJhengHei", "华文细黑", STHeiti, MingLiu;
+	color: #333;
 }
-a:hover{
+a:hover {
 	text-decoration: underline;
 }
 img{

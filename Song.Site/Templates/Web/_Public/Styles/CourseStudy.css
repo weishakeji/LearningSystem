@@ -165,6 +165,11 @@ body {
 	background-color: rgba(0, 0, 0, .15);
 	color: #FC0;
 }
+.buy:before{
+	content: "\e625";
+	font-family: "moneyico";
+	margin-right:5px;
+}
 .indent {
 	padding-left: 15px;
 }
