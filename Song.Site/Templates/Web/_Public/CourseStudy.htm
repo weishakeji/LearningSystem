@@ -41,7 +41,7 @@
       <!-- <div class="titBox">作业</div>--> 
     </div>
   </div>
-  <vt:if var="isStudy" value="true" compare="=">
+  <vt:if var="canStudy" value="true" compare="=" remark="如果能够学习">
   <vt:if var="state" value="0" compare="="> 
   <div statebox="0"></div>
   </vt:if>
@@ -197,7 +197,39 @@ $(function(){
   <div class="boxBar">
     <div class="title"> 目录<a name="study" id="study">&nbsp;</a></div>
   </div>
-  <div class="itemList"> {$olTree} </div>
+  <div class="itemList">
+                        <div class="outline">
+                            <vt:foreach from="$#.olTree" item="d" index="i" remark="章节">
+              <vt:expression var="indent" args="$d.ol_level" args="20" expression="{0}*{1}" />
+              <div class="olitem" olid="{$:#.d.ol_id}" style="padding-left:{$:indent}px">
+                <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结">
+                 <span class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}{$:#.d.ol_name}{$:#.d.ol_name}</span><span class="nofinish">未完结</span>
+                  <vt:else />                  
+                <vt:if var="isStudy" value="true" compare="="  remark="是否已经选修">
+                 <span class="obtn enable"><a href="CourseStudy.ashx?id={$:#.d.ol_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} </a></span>
+                  <vt:else />
+                  <vt:if var="course.Cou_IsFree" value="true" compare="="  remark="如果未选修，但是课程免费"> 
+                  <span class="obtn enable"><a href="CourseStudy.ashx?id={$:#.d.ol_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} </a></span>
+                    <vt:else />
+                    <vt:if var="course.Cou_IsLimitFree" value="true" compare="="  remark="课程不免费，但处在限时免费中"> 
+                    <span class="obtn enable"><a href="CourseStudy.ashx?id={$:#.d.ol_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} </a></span>
+                     <vt:else />
+                     <vt:if var="course.Cou_IsTry" value="true" compare="="  remark="是否允许试学">                    
+                    <vt:if var="d.Ol_IsFree" value="true" compare="="  remark="可以试学">
+                     <span class="obtn enable"><a href="CourseStudy.ashx?id={$:#.d.ol_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} </a></span>
+                    <vt:else />
+                    <span class="ol_name"><a href="CourseBuy.ashx?couid={$course.cou_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} <span class="buy">购买</span></a></span>
+                  </vt:if> <vt:else />
+                   <span class="ol_name"><a href="CourseBuy.ashx?couid={$course.cou_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} <span class="buy">购买</span></a></span>
+                   </vt:if>
+                    </vt:if>
+                  </vt:if>
+                </vt:if>
+                 </vt:if>
+              </div>
+            </vt:foreach>
+                        </div>
+                    </div>
 </div>
 <script type="text/javascript" src="Scripts/CourseStudy.js?tick={$tick}"></script>
 </body>

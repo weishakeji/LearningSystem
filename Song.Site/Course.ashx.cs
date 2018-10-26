@@ -92,13 +92,13 @@ namespace Song.Site
         private Song.Entities.Outline[] buildOutlineTree(Song.Entities.Outline[] outlines, int pid, int level, string prefix)
         {
             int index = 1;           
-            foreach (Song.Entities.Outline ol in outline)
+            foreach (Song.Entities.Outline ol in outlines)
             {
                 if (ol.Ol_PID == pid)
                 {                   
                     ol.Ol_XPath = prefix + index.ToString() + ".";
                     ol.Ol_Level = level;
-                    buildOutlineTree(outline, ol.Ol_ID, level+1, ol.Ol_XPath);
+                    buildOutlineTree(outlines, ol.Ol_ID, level + 1, ol.Ol_XPath);
                     index++;
                 }
             }

@@ -42,10 +42,17 @@ namespace Song.Site
             //当前课程            
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(ol == null ? couid : ol.Cou_ID);
             if (course == null) return;
+            //是否免费，或是限时免费
+            if (course.Cou_IsLimitFree)
+            {
+                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                    course.Cou_IsLimitFree = false;
+            }
             this.Document.Variables.SetValue("course", course);
             Extend.LoginState.Accounts.Course(course);
             if (ol == null) return;
-            //            
+            // 
             couid = ol.Cou_ID;
             id = ol.Ol_ID;
             //入写章节id的cookie，当播放视频时会判断此处
@@ -56,10 +63,13 @@ namespace Song.Site
             else
                 isStudy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, course.Cou_ID);
             this.Document.Variables.SetValue("isStudy", isStudy);
+            //是否可以学习
+            bool canStudy = isStudy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : (course.Cou_IsTry && ol.Ol_IsFree && ol.Ol_IsFinish);
+            this.Document.Variables.SetValue("canStudy", canStudy);
             //课程章节列表
             this.Document.Variables.SetValue("outlines", outlines);
             //树形章节输出
-            this.Document.Variables.SetValue("olTree", buildOutlineHtml(outlines, 0, 0, ""));
+            this.Document.Variables.SetValue("olTree", buildOutlineTree(outlines, 0, 0, ""));
             this.Document.Variables.SetValue("outline", ol);
             #endregion
             //视频
@@ -119,7 +129,7 @@ namespace Song.Site
                 this.Document.Variables.SetValue("studyLog", studyLog);
             }
             //当前章节是否有试题
-            if (isStudy)
+            if (canStudy)
             {
                 bool isQues = Business.Do<IOutline>().OutlineIsQues(ol.Ol_ID, true);
                 this.Document.Variables.SetValue("isQues", isQues);
@@ -141,39 +151,27 @@ namespace Song.Site
             this.Document.Variables.SetValue("olid", id);
         }
         /// <summary>
-        /// 生成章节的多级结构html
+        /// 生成章节的等级序号
         /// </summary>
-        /// <param name="outline"></param>
-        /// <param name="pid"></param>
-        /// <param name="level"></param>
-        /// <param name="prefix"></param>
+        /// <param name="outlines"></param>
+        /// <param name="pid">上级ID</param>
+        /// <param name="level">层深</param>
+        /// <param name="prefix">序号前缀</param>
         /// <returns></returns>
-        private string buildOutlineHtml(Song.Entities.Outline[] outline, int pid, int level, string prefix)
+        private Song.Entities.Outline[] buildOutlineTree(Song.Entities.Outline[] outlines, int pid, int level, string prefix)
         {
             int index = 1;
-            string html = "";
-            html += "<div class=\"outline" + (level > 0 ? " indent" : "") + "\" level=\"" + level + "\">";
-            foreach (Song.Entities.Outline ol in outline)
+            foreach (Song.Entities.Outline ol in outlines)
             {
                 if (ol.Ol_PID == pid)
                 {
-                    html += "<div class=\"olitem\" olid=\"" + ol.Ol_ID + "\">";
-                    html += prefix + index.ToString() + ".";
-                    if (isStudy)
-                    {
-                        html += "<a href=\"CourseStudy.ashx?id=" + ol.Ol_ID + "\">" + ol.Ol_Name + "</a>";
-                    }
-                    else
-                    {
-                        html += "<span>" + ol.Ol_Name + "</span>";
-                    }
-                    html += "</div>";
-                    html += buildOutlineHtml(outline, ol.Ol_ID, ++level, prefix + index.ToString() + ".");
+                    ol.Ol_XPath = prefix + index.ToString() + ".";
+                    ol.Ol_Level = level;
+                    buildOutlineTree(outlines, ol.Ol_ID, level + 1, ol.Ol_XPath);
                     index++;
                 }
             }
-            html += "</div>";
-            return html;
+            return outlines;
         }
         #region 章节事件用到的方法
         /// <summary>

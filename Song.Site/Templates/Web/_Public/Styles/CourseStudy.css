@@ -137,10 +137,38 @@ body {
 	text-align:left;
 
 }
+/*未完结*/
+.nofinish{
+	margin-right: 20px;
+	margin-top: 10px;
+	width: 40px;
+	text-align: center;
+	font-size: 12px !important;
+	border-radius: 10px;
+	height: 10px;
+	padding: 0px 10px 10px 10px;
+	line-height: 20px;
+	background-color: rgba(0, 0, 0, .15);
+	color: #CCC;
+}
+/*购买图标*/
+.buy{
+	margin-right: 20px;
+	margin-top: 10px;
+	width: 40px;
+	text-align: center;
+	font-size: 12px !important;
+	border-radius: 10px;
+	height: 10px;
+	padding: 0px 10px 10px 10px;
+	line-height: 20px;
+	background-color: rgba(0, 0, 0, .15);
+	color: #FC0;
+}
 .indent {
 	padding-left: 15px;
 }
-.outline, .outline a, .outline span {
+.outline, .outline a, .ol_name{
 	margin-left: 8px;
 	line-height: 30px;
 	color: #666;

@@ -63,6 +63,7 @@ function setStyle() {
         var id = $().getPara("id");
         var olid = $(this).attr("olid");
         if (id == olid) $(this).addClass("current");
+		if(id=="")$(".outline .olitem:eq(0)").addClass("current");
     });
     $("#MainBox").height($(window).height());
     //设置视频播放高度
