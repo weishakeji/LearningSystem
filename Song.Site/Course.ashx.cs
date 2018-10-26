@@ -35,9 +35,11 @@ namespace Song.Site
                 cou.Cou_Logo = string.IsNullOrWhiteSpace(cou.Cou_Logo) ? "" : Upload.Get["Course"].Virtual + cou.Cou_Logo;
                 cou.Cou_LogoSmall = string.IsNullOrWhiteSpace(cou.Cou_LogoSmall) ? "" : Upload.Get["Course"].Virtual + cou.Cou_LogoSmall;
                 //是否免费，或是限时免费
-                if (cou.Cou_IsLimitFree && (cou.Cou_FreeStart <= DateTime.Now && cou.Cou_FreeEnd.AddDays(1) >= DateTime.Now))
+                if (cou.Cou_IsLimitFree)
                 {
-                    cou.Cou_IsFree = true;
+                    DateTime freeEnd = cou.Cou_FreeEnd.AddDays(1).Date;
+                    if (!(cou.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))                       
+                        cou.Cou_IsLimitFree = false;                   
                 }
                 this.Document.Variables.SetValue("course", cou);
             }
@@ -66,21 +68,6 @@ namespace Song.Site
                 teacher.Th_Photo = Upload.Get["Teacher"].Virtual + teacher.Th_Photo;
                 this.Document.Variables.SetValue("th", teacher);
             }
-            //所有资源库的分类
-            Song.Entities.KnowledgeSort[] ncs = Business.Do<IKnowledge>().GetSortAll(Organ.Org_ID, id, true);
-            WeiSha.WebControl.MenuTree mt = new WeiSha.WebControl.MenuTree();
-            mt.Title = "全部";
-            mt.DataTextField = "Kns_Name";
-            mt.IdKeyName = "Kns_Id";
-            mt.ParentIdKeyName = "Kns_PID";
-            mt.TaxKeyName = "Kns_Tax";
-            mt.SourcePath = "/manage/Images/tree";
-            //mt.TypeKeyName = "Kns_Type";
-            mt.IsUseKeyName = "Kns_IsUse";
-            //mt.IsShowKeyName = "Nc_IsShow";
-            mt.DataSource = ncs;
-            mt.DataBind();
-            this.Document.Variables.SetValue("tree", mt.HTML); 
             //上级专业
             List<Subject> sbjs = Business.Do<ISubject>().Parents(cou.Sbj_ID, true);
             this.Document.Variables.SetValue("parentsbjs", sbjs);

@@ -19,25 +19,9 @@
 function _btnEvent() {
     //免费课程的学习按钮
     $("#btnStudy").click(function () {
-        BuySubmit(0, 0);
-        return false;
-    });
-    //试用按钮
-    $(".aTryout").click(function () {
-        var isTry = $(this).attr("IsTry") == "True" ? true : false;
-        if (isTry) {
-            var txt = "您选择了试用《" + $(this).attr("course") + "》。<br/><br/>";
-            txt += "说明：在试用状态只能做“章节练习”和查阅一些资料。";
-            var msg = new MsgBox("暂时试用", txt, 400, 300, "confirm");
-            msg.EnterEvent = function () {
-                BuySubmit(1, 1);
-            };
-            msg.Open();
-        } else {
-            new MsgBox("提示", "该课程不允许试用，请登录购买。", 400, 300, "alert").Open();
-        }
-        return false;
-    });
+        //BuySubmit(0, 0);
+        //return false;
+    });    
     //确定按钮
     $("#btnBuyStudy").click(function () {
         var moneySpan = $("#money"); //学员资金余额

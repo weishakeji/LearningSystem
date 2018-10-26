@@ -33,8 +33,17 @@ namespace Song.Site
                 course.Cou_Logo = Upload.Get["Course"].Virtual + course.Cou_Logo;
                 course.Cou_LogoSmall = Upload.Get["Course"].Virtual + course.Cou_LogoSmall;
             }
-            this.Document.Variables.SetValue("course", course);
+            //是否免费，或是限时免费
+            if (course.Cou_IsLimitFree)
+            {
+                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                    course.Cou_IsLimitFree = false;
+            }
+            this.Document.Variables.SetValue("course", course);           
             if (course == null) return;
+            //是否免费，限时免费也算
+            this.Document.Variables.SetValue("isfree", course.Cou_IsFree || course.Cou_IsLimitFree);
             //所属专业
             Song.Entities.Subject subject = Business.Do<ISubject>().SubjectSingle(course.Sbj_ID);
             this.Document.Variables.SetValue("subject", subject);

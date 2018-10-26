@@ -25,8 +25,15 @@
         </div>
         <!--右侧价格区域-->
         <form class="money-area">
+         <vt:if var="isfree" value="True" compare="=">
             <vt:if var="course.Cou_IsFree" value="True" compare="=">
         <div class="freeBox"><span class="moneyico">&#xe746;</span>当前课程免费</div>
+        <vt:else/>
+         <vt:if var="course.Cou_IsLimitFree" value="True" compare="=">
+         <div class="freeBox"><span class="moneyico">&#xe746;</span>限时免费<br />
+（{$course.Cou_FreeStart format="yyyy/M/d"} - {$course.Cou_FreeEnd format="yyyy/M/d"}）</div>
+         </vt:if>
+        </vt:if>
         <vt:if var="Account.Ac_id" value="" compare="!="> 
           <!-- 账户余额 -->
           <div class="moneyBox">
@@ -34,10 +41,13 @@
             <div class="veriTxt">账户余额：</div>
             <span class="money">{$Account.Ac_money format="0.00"}</span>元 <a class="btnRecharge" href="student/panel.ashx?mmid=635" target="_blank">充值</a></div>
         </vt:if>
-        <div class="FreeBtnBox"> <a href="Tryout.ashx?from={$from}&couid={$course.Cou_ID}" id="btnStudy" class="btnStudy">开始学习</a> 
+        <div class="FreeBtnBox"> <a href="CourseStudy.ashx?couid={$course.cou_id}" id="btnStudy" class="btnStudy">开始学习</a> 
           <!--     <input type="submit" name="btnSubmit" value="开始学习"  verify="true"  group="login" class="btnStudy"/> --> 
-          <a href="javascript:window.history.go(-1);" class="btnStudyBack">返回</a> </div>
+          <a href="course.ashx?id={$course.cou_id}" class="btnStudyBack">返回</a> </div>
+           
         <vt:else/>
+        
+        
         <div class="priceTitle">学习费用：</div>
         <div class="priceBox">
           <vt:if var="#.prices.Length" value="0" compare=">">
@@ -70,7 +80,7 @@
         </vt:if>
         <div class="StudyBtnBox">
           <input type="submit" name="btnBuyStudy" id="btnBuyStudy" value="购买学习"  verify="true" class="btnStudy"/>
-          <a href="javascript:window.history.go(-1);" class="btnStudyBack">返回</a> </div>
+           <a href="course.ashx?id={$course.cou_id}" class="btnStudyBack">返回</a></div>
        <!-- <vt:if var="course.Cou_IsTry" value="true" compare="=">
           <div class="loginRow btnBar"> <a href="Tryout.ashx?from={$from}&couid={$course.Cou_ID}" course="{$course.Cou_Name}" IsTry="{$course.Cou_IsTry}" class="aTryout">暂时试用</a> </div>
         </vt:if>-->
