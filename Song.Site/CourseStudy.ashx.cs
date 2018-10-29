@@ -29,8 +29,8 @@ namespace Song.Site
 
         protected override void InitPageTemplate(HttpContext context)
         {
-            if (!Extend.LoginState.Accounts.IsLogin || this.Account==null)
-                context.Response.Redirect(WeiSha.Common.Login.Get["Accounts"].NoLoginPath.String);
+            //if (!Extend.LoginState.Accounts.IsLogin || this.Account==null)
+            //    context.Response.Redirect(WeiSha.Common.Login.Get["Accounts"].NoLoginPath.String);
             //自定义配置项
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
@@ -59,17 +59,18 @@ namespace Song.Site
             Response.Cookies.Add(new HttpCookie("olid", id.ToString()));
             outlines = Business.Do<IOutline>().OutlineAll(ol.Cou_ID, true);
             //是否学习当前课程
-            if (course == null) isStudy = false;
+            if (course == null || this.Account==null) isStudy = false;
             else
                 isStudy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, course.Cou_ID);
             this.Document.Variables.SetValue("isStudy", isStudy);
             //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
             bool canStudy = isStudy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : (course.Cou_IsTry && ol.Ol_IsFree && ol.Ol_IsFinish);
+            canStudy = canStudy && ol.Ol_IsFinish && this.Account != null;
             this.Document.Variables.SetValue("canStudy", canStudy);
             //课程章节列表
             this.Document.Variables.SetValue("outlines", outlines);
             //树形章节输出
-            this.Document.Variables.SetValue("olTree", buildOutlineTree(outlines, 0, 0, ""));
+            this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));
             this.Document.Variables.SetValue("outline", ol);
             #endregion
             //视频
@@ -121,12 +122,15 @@ namespace Song.Site
                 state = state < 1 ? 3 : state;
             }
             //视频的学习进度记录
-            LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, id);
-            if (studyLog != null)
+            if (this.Account != null)
             {
-                double historyPlay = (double)studyLog.Lss_PlayTime / 1000;
-                this.Document.Variables.SetValue("historyPlay", historyPlay);
-                this.Document.Variables.SetValue("studyLog", studyLog);
+                LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, id);
+                if (studyLog != null)
+                {
+                    double historyPlay = (double)studyLog.Lss_PlayTime / 1000;
+                    this.Document.Variables.SetValue("historyPlay", historyPlay);
+                    this.Document.Variables.SetValue("studyLog", studyLog);
+                }
             }
             //当前章节是否有试题
             if (canStudy)
@@ -149,29 +153,6 @@ namespace Song.Site
             //状态
             this.Document.Variables.SetValue("state", state);
             this.Document.Variables.SetValue("olid", id);
-        }
-        /// <summary>
-        /// 生成章节的等级序号
-        /// </summary>
-        /// <param name="outlines"></param>
-        /// <param name="pid">上级ID</param>
-        /// <param name="level">层深</param>
-        /// <param name="prefix">序号前缀</param>
-        /// <returns></returns>
-        private Song.Entities.Outline[] buildOutlineTree(Song.Entities.Outline[] outlines, int pid, int level, string prefix)
-        {
-            int index = 1;
-            foreach (Song.Entities.Outline ol in outlines)
-            {
-                if (ol.Ol_PID == pid)
-                {
-                    ol.Ol_XPath = prefix + index.ToString() + ".";
-                    ol.Ol_Level = level;
-                    buildOutlineTree(outlines, ol.Ol_ID, level + 1, ol.Ol_XPath);
-                    index++;
-                }
-            }
-            return outlines;
         }
         #region 章节事件用到的方法
         /// <summary>

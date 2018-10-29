@@ -155,6 +155,23 @@ body {
 	font-size: 16px !important;
 	line-height: 25px !important;
 }
+/*章节列表*/
+.outline {
+	padding:10px;
+}
+.olitem {
+	position: relative;
+	height:40px;
+	line-height:40px;
+	margin-left:10px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+	font-size:16px;
+}
+.olitem:hover {
+	
+}
 /*底部*/
 .mui-inner-wrap {
 	padding-bottom: 60px;

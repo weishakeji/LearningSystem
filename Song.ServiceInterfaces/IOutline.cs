@@ -90,6 +90,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Outline[] OutlineAll(int couid, bool? isUse);
         /// <summary>
+        /// 生成树形结构的章节列表
+        /// </summary>
+        /// <param name="outlines"></param>
+        /// <returns></returns>
+        DataTable OutlineTree(Song.Entities.Outline[] outlines);
+        /// <summary>
         /// 清除章节下试题
         /// </summary>
         /// <param name="identify"></param>

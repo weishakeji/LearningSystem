@@ -42,6 +42,9 @@ namespace Song.Site.Mobile
                 isBuy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, course.Cou_ID);
                 this.Document.Variables.SetValue("isBuy", isBuy);                
             }
+            //树形章节输出
+            Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(course.Cou_ID, true);
+            this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));
             //课程公告
             Tag guidTag = this.Document.GetChildTagById("guides");
             int guidCount = 0;
@@ -70,6 +73,6 @@ namespace Song.Site.Mobile
                 return Business.Do<ICourse>().StudyCourse(this.Account.Ac_ID, couid);
             }
             return null;
-        }
+        }   
     }
 }

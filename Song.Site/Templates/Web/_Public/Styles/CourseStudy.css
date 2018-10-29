@@ -248,6 +248,10 @@ video::-webkit-media-controls-panel {
 	margin-bottom: auto;
 	margin-left: auto;
 }
+.noSelect, .noSelect a{
+	color: #eee;
+	font-size: 16px;
+}
 /* 附件 */
 #access {
 	margin: 20px;

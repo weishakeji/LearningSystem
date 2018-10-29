@@ -294,6 +294,47 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
             return Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToArray<Outline>();
         }
+        #region 生成树形结构的章节列表
+        /// <summary>
+        /// 生成树形结构的章节列表
+        /// </summary>
+        /// <param name="outlines"></param>
+        /// <returns></returns>
+        public DataTable OutlineTree(Song.Entities.Outline[] outlines)
+        {
+            DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outlines);
+            WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
+            tree.IdKeyName = "OL_ID";
+            tree.ParentIdKeyName = "OL_PID";
+            tree.TaxKeyName = "Ol_Tax";
+            tree.Root = 0;
+            dt = tree.BuilderTree(dt);
+            return  buildOutlineTree(dt, 0, 0, "");
+        }
+        /// <summary>
+        /// 生成章节的等级序号
+        /// </summary>
+        /// <param name="outlines"></param>
+        /// <param name="pid">上级ID</param>
+        /// <param name="level">层深</param>
+        /// <param name="prefix">序号前缀</param>
+        /// <returns></returns>
+        private DataTable buildOutlineTree(DataTable outlines, int pid, int level, string prefix)
+        {
+            int index = 1;
+            foreach (DataRow ol in outlines.Rows)
+            {
+                if (Convert.ToInt32(ol["Ol_PID"]) == pid)
+                {
+                    ol["Ol_XPath"] = prefix + index.ToString() + ".";
+                    ol["Ol_Level"] = level;
+                    buildOutlineTree(outlines, Convert.ToInt32(ol["Ol_ID"]), level + 1, ol["Ol_XPath"].ToString());
+                    index++;
+                }
+            }
+            return outlines;
+        }
+        #endregion
         /// <summary>
         /// 清除章节下的试题、附件等
         /// </summary>

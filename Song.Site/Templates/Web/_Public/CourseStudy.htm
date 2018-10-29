@@ -3,9 +3,11 @@
 <head>
 <title>{$course.cou_Name}</title>
 <vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="/Utility/CoreScripts/MessageBox.js"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/Base64.js"></script>
 <link href="Styles/CourseStudy.css?tick={$tick}" rel="stylesheet" type="text/css" />
 <link href="/Utility/CoreStyles/PageBox.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/MessageBox.css"/>
 <!--播放器的引用-->
 <script type="text/javascript" src="/Utility/Ckplayer/js/offlights.js"></script>
 <script type="text/javascript" src="/Utility/Ckplayer/ckplayer/ckplayer.js" charset="utf-8"></script>
@@ -16,7 +18,7 @@
         var isOuter = "{$video.As_IsOuter}" == "True" ? true : false;    //	
 		</script> 
 </head>
-<body>
+<body accid="{$Account.Ac_id}">
 <script>
     document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
     document.body.onpaste = document.body.oncopy = function () { return false; };
@@ -176,17 +178,22 @@ $(function(){
     </vt:if>
     <vt:else/>
     <div class="noSelect"  statebox="0">
+    <vt:if var="Account.ac_id" value="0" compare=">">
       <vt:if var="course" value="" compare="!=">
         <vt:if var="outline" value="" compare="!="> 
         提示：<br>
 
         1、您没有选修此课程；<br>
         2、或者是购买该课程的时效已经过期；<br>
+        3、当前章节未完结；<br>
         <br>
           <vt:else/>
           当前章节不存在 </vt:if>
         <vt:else/>
         当前课程不存在 </vt:if>
+
+          <vt:else/>
+        学员未登录，<a href="student/index.ashx">请点击 此处 登录</a> </vt:if>
     </div>
   </vt:if>
 </div>
@@ -203,7 +210,7 @@ $(function(){
               <vt:expression var="indent" args="$d.ol_level" args="20" expression="{0}*{1}" />
               <div class="olitem" olid="{$:#.d.ol_id}" style="padding-left:{$:indent}px">
                 <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结">
-                 <span class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}{$:#.d.ol_name}{$:#.d.ol_name}</span><span class="nofinish">未完结</span>
+                 <span class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}</span><span class="nofinish">未完结</span>
                   <vt:else />                  
                 <vt:if var="isStudy" value="true" compare="="  remark="是否已经选修">
                  <span class="obtn enable"><a href="CourseStudy.ashx?id={$:#.d.ol_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} </a></span>

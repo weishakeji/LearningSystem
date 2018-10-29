@@ -47,7 +47,7 @@ namespace Song.Site.Mobile
             outline = Business.Do<IOutline>().OutlineAll(cou.Cou_ID, true);
             this.Document.Variables.SetValue("Outline", outline);
             //树形章节输出
-            this.Document.Variables.SetValue("olTree", buildOutlineHtml(outline, 0, 0, ""));
+            this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outline));
             //课程公告
             Song.Entities.Guide[] guides = Business.Do<IGuide>().GuideCount(-1, cou.Cou_ID, -1, 20);
             this.Document.Variables.SetValue("guides", guides); 
@@ -62,41 +62,6 @@ namespace Song.Site.Mobile
             //学习该课程的总人数，包括已经过期的
             int studyCount = Business.Do<ICourse>().CourseStudentSum(cou.Cou_ID, null);
             this.Document.Variables.SetValue("studyCount", studyCount);
-        }
-        /// <summary>
-        /// 生成章节的多级结构html
-        /// </summary>
-        /// <param name="outline"></param>
-        /// <param name="pid"></param>
-        /// <param name="level"></param>
-        /// <param name="prefix"></param>
-        /// <returns></returns>
-        private string buildOutlineHtml(Song.Entities.Outline[] outline, int pid, int level, string prefix)
-        {
-            int index = 1;
-            string html = "";
-            html += "<div class=\"outline" + (level > 0 ? " indent" : "") + "\" level=\"" + level + "\">";
-            foreach (Song.Entities.Outline ol in outline)
-            {
-                if (ol.Ol_PID == pid)
-                {
-                    html += "<div class=\"olitem\" olid=\"" + ol.Ol_ID + "\">";
-                    html += prefix + index.ToString() + ".";
-                    if (isBuy)
-                    {
-                        html += "<a href=\"CourseStudy.ashx?id=" + ol.Ol_ID + "\">" + ol.Ol_Name + "</a>";
-                    }
-                    else
-                    {
-                        html += "<span>" + ol.Ol_Name + "</span>";
-                    }
-                    html += "</div>";
-                    html += buildOutlineHtml(outline, ol.Ol_ID, ++level, prefix + index.ToString() + ".");
-                    index++;
-                }
-            }
-            html += "</div>";
-            return html;
-        }     
+        } 
     }
 }

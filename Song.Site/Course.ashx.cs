@@ -57,7 +57,7 @@ namespace Song.Site
             outline = Business.Do<IOutline>().OutlineAll(cou.Cou_ID, true);
             this.Document.Variables.SetValue("Outline", outline);
             //树形章节输出
-            this.Document.Variables.SetValue("olTree", buildOutlineTree(outline, 0, 0, ""));
+            this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outline));
             //课程公告
             Song.Entities.Guide[] guides = Business.Do<IGuide>().GuideCount(-1, cou.Cou_ID, -1, 20);
             this.Document.Variables.SetValue("guides", guides); 
@@ -80,29 +80,6 @@ namespace Song.Site
                 eas = Business.Do<ICourse>().Student4Course(cou.Cou_ID, null, null, count, 1, out count);
                 this.Document.SetValue("students", eas);
             }
-        }
-        /// <summary>
-        /// 生成章节的等级序号
-        /// </summary>
-        /// <param name="outlines"></param>
-        /// <param name="pid">上级ID</param>
-        /// <param name="level">层深</param>
-        /// <param name="prefix">序号前缀</param>
-        /// <returns></returns>
-        private Song.Entities.Outline[] buildOutlineTree(Song.Entities.Outline[] outlines, int pid, int level, string prefix)
-        {
-            int index = 1;           
-            foreach (Song.Entities.Outline ol in outlines)
-            {
-                if (ol.Ol_PID == pid)
-                {                   
-                    ol.Ol_XPath = prefix + index.ToString() + ".";
-                    ol.Ol_Level = level;
-                    buildOutlineTree(outlines, ol.Ol_ID, level + 1, ol.Ol_XPath);
-                    index++;
-                }
-            }
-            return outlines;
         }
     }
 }

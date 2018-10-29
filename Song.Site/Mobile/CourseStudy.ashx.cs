@@ -34,14 +34,7 @@ namespace Song.Site.Mobile
                 foreach (Song.Entities.Outline c in outlines)
                     c.Ol_Intro = Extend.Html.ClearHTML(c.Ol_Intro);
                 this.Document.SetValue("outlines", outlines);
-                 DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outlines);
-                WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
-                tree.IdKeyName = "OL_ID";
-                tree.ParentIdKeyName = "OL_PID";
-                tree.TaxKeyName = "Ol_Tax";
-                tree.Root = 0;
-                dt = tree.BuilderTree(dt);
-                this.Document.Variables.SetValue("dtOutlines", dt);
+                this.Document.Variables.SetValue("dtOutlines", Business.Do<IOutline>().OutlineTree(outlines));
             }
             //当前章节
             Song.Entities.Outline ol = null;

@@ -41,14 +41,8 @@ namespace Song.Site.Manage.Course
         /// </summary>
         protected void BindData(object sender, EventArgs e)
         {
-            Song.Entities.Outline[] outline = Business.Do<IOutline>().OutlineAll(couid, null);
-            DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outline);
-            WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
-            tree.IdKeyName = "OL_ID";
-            tree.ParentIdKeyName = "OL_PID";
-            tree.TaxKeyName = "Ol_Tax";
-            tree.Root = 0;
-            dt = tree.BuilderTree(dt);
+            Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, null);
+            DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
             GridView1.DataSource = dt;
             GridView1.DataKeyNames = new string[] { "Ol_ID" };
             GridView1.DataBind();

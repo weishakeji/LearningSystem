@@ -74,7 +74,6 @@ function cou_select(){
             mui('body').off('tap', '#btnSearch');
             mui('body').on('tap', '#btnSearch', function (event) {
                 var sbjids = "";
-				alert(3);
                 $(".PageBoxContext .checkbox").each(function () {
                     if ($(this).is(":checked")) sbjids += $(this).attr("sbjid") + ",";
                 });

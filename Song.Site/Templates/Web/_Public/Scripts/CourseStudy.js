@@ -1,4 +1,5 @@
 ﻿$(function () {
+	isLogin();
     setStyle();
     //分隔栏上的事件
     $("#median").click(function () {
@@ -24,6 +25,10 @@
     });
     setInitTilte();
 });
+//判断是否登录
+function isLogin(){
+	var accid=$("body").attr("accid");
+}
 /*=====================================================================
 
 */
