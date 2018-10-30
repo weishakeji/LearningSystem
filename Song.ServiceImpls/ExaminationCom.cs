@@ -851,7 +851,8 @@ namespace Song.ServiceImpls
                     {
                         if (er.Ac_ID == accid && er.Exam_ID == ex.Exam_ID)
                         {
-                            dt.Rows[i][ex.Exam_Name] = er.Exr_ScoreFinal;
+                            double score = Math.Floor(er.Exr_ScoreFinal * 1000) / 100;
+                            dt.Rows[i][ex.Exam_Name] = score.ToString();
                             break;
                         }
                     }
@@ -1146,7 +1147,10 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int Number4Exam(int examid)
         {
-            return Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == examid);
+            ExamResults[] erx = Gateway.Default.From<ExamResults>().Where(ExamResults._.Exam_ID == examid)
+                .SubQuery().Select(ExamResults._.Exr_ID.Sum()).GroupBy(ExamResults._.Ac_ID.Group).ToArray<ExamResults>();
+            //return Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == examid);
+            return erx.Length;
         }
         public ExamResults[] Results(int examid, int size, int index, out int countSum)
         {

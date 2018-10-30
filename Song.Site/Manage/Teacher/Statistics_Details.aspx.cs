@@ -175,6 +175,22 @@ namespace Song.Site.Manage.Teacher
         /// <param name="hssfworkbook"></param>
         private void buildExcelSql_1(HSSFWorkbook hssfworkbook)
         {
+            //防止学员组重名
+            for (int i = 0; i < Sts_ID.Items.Count; i++)
+            {
+                ListItem li1 = Sts_ID.Items[i];
+                for (int j = 0; j < Sts_ID.Items.Count; j++)
+                {
+                    if (i == j) continue;
+                    int index = 0;
+                    ListItem li2 = Sts_ID.Items[j];
+                    if (li1.Text == li2.Text)
+                    {
+                        index++;
+                        li2.Text += index;
+                    }
+                }
+            }
             //考试主题下的所有参考人员（分过组的）成绩
             foreach (ListItem li in Sts_ID.Items)
             {
