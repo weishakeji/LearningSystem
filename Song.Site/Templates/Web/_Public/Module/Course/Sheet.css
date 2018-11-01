@@ -83,13 +83,14 @@
 	bottom: 0;
 }
 #couHead .headRight .couBtn {
-	background-image: url(../../Images/btnBg.jpg);
+	
 	background-repeat: repeat-x;
 	height: 50px;
 	width: 45%;
 	text-align: center;
 	float: left;
 	margin-right: 5%;
+	background-color: #188eee;
 }
 .couBtn, .couBtn a {
 	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
@@ -98,11 +99,24 @@
 	color: #FFFFFF;
 	font-weight: bold;
 	display: block;
-	background-color: #188eee;
+background-color: transparent;
 	text-decoration: none;
 }
 .couBtn a:hover {
 	background-color: #50A9F1;
+}
+.btn1{
+	width:25% !important;
+	float:left;
+}
+.btn2{
+	width:30% !important;
+	float:left;
+}
+.study{
+	background-color: #093 !important;
+	margin-right:0px !important;
+	margin-top:0px !important;
 }
 #details {
 	width: 1200px;

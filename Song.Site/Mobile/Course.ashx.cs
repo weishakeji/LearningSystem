@@ -32,6 +32,13 @@ namespace Song.Site.Mobile
             }
             cou.Cou_Logo = Upload.Get["Course"].Virtual + cou.Cou_Logo;
             cou.Cou_LogoSmall = Upload.Get["Course"].Virtual + cou.Cou_LogoSmall;
+            //是否免费，或是限时免费
+            if (cou.Cou_IsLimitFree)
+            {
+                DateTime freeEnd = cou.Cou_FreeEnd.AddDays(1).Date;
+                if (!(cou.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                    cou.Cou_IsLimitFree = false;
+            }
             this.Document.Variables.SetValue("course", cou);
             //是否学习当前课程
             if (this.Account != null)
@@ -47,7 +54,8 @@ namespace Song.Site.Mobile
             outline = Business.Do<IOutline>().OutlineAll(cou.Cou_ID, true);
             this.Document.Variables.SetValue("Outline", outline);
             //树形章节输出
-            this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outline));
+            if (outline.Length > 0)
+                this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outline));
             //课程公告
             Song.Entities.Guide[] guides = Business.Do<IGuide>().GuideCount(-1, cou.Cou_ID, -1, 20);
             this.Document.Variables.SetValue("guides", guides); 

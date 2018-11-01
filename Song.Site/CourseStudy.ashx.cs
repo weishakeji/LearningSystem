@@ -70,7 +70,8 @@ namespace Song.Site
             //课程章节列表
             this.Document.Variables.SetValue("outlines", outlines);
             //树形章节输出
-            this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));
+            if (outlines.Length > 0)
+                this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));
             this.Document.Variables.SetValue("outline", ol);
             #endregion
             //视频

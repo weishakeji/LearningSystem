@@ -10,7 +10,7 @@
 <link href="Styles/CoursePage.css" rel="stylesheet" type="text/css" />
 <link href="/Utility/CoreStyles/Jme.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body couid="{$course.cou_id}">
 <div class="mui-inner-wrap">
 <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left back" type="link" href="default.ashx"></a>
   <div class="photo" > <img  src="{$coupath}{$course.cou_logo}" error="images/cou_nophoto.jpg"/> </div>
@@ -19,14 +19,18 @@
     <div class="info">{$studyCount}人学习 / 
       <vt:if var="course.Cou_IsFree" value="true" compare="=">免费
         <vt:else />
+         <vt:if var="course.Cou_IsLimitFree" value="true" compare="=" remark="限时免费">
+         <span class="moneyfree"><i class="free"> 限时免费</i>（{$course.Cou_FreeStart format="yyyy/M/d"} - {$course.Cou_FreeEnd format="yyyy/M/d"}）</span>
+         <vt:else />
         <vt:function var="info" method="getBuyInfo" args="$#.course.cou_id"/>
-        <vt:if var="#.info.stc_istry" value="true" compare=""> （该课程未购买，暂时试用中）
+        <vt:if var="isBuy" value="false" compare=""> （该课程未购买）
           <vt:else />
           期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"} </vt:if>
       </vt:if>
+      </vt:if>
     </div>
     <!--选项卡-->
-    <div class="mainmenuBox" isBuy="{$isBuy}">
+    <div class="mainmenuBox" canStudy="{$canStudy}">
       <div class="mm-item" href="CourseStudy.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
         <use xlink:href="#icon-luboxuexi"></use>
         </svg><span>课程学习</span></div>

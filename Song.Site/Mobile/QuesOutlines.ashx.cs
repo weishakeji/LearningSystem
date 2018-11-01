@@ -55,7 +55,8 @@ namespace Song.Site.Mobile
                 }
                 this.Document.SetValue("outlines", outlines);
                 //树形章节输出
-                this.Document.Variables.SetValue("dtOutlines", Business.Do<IOutline>().OutlineTree(outlines));  
+                if (outlines.Length > 0)
+                    this.Document.Variables.SetValue("dtOutlines", Business.Do<IOutline>().OutlineTree(outlines));  
             }
             this.Document.SetValue("couid", couid);  
             //课程资源、课程视频资源的所在的路径

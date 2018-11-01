@@ -36,6 +36,30 @@ body{
 	margin-bottom: 10px;
 	font-size: 14px;
 }
+.info i:before{
+	font-size: 10px;
+	margin-right:3px;
+}
+/*关注数*/
+.viewnum:before{
+	content: "\e60a";
+	font-family: "iconfont";
+}
+/*学习数*/
+.studynum:before{
+	content: "\e621";
+	font-family: "iconfont";
+}
+/*免费*/
+.free:before{
+	content: "\e697";
+	font-family: "moneyico";
+}
+/*收费图标*/
+.money-ico:before{
+	content: "\e625";
+	font-family: "moneyico";
+}
 /*选项卡*/
 .control{
 	height: 40px;
@@ -143,6 +167,17 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 	background-color: #188eee;
 	height:60px;
 	line-height:60px;	
+}
+.btn1{
+	width:40%;
+	float:left;
+}
+.btn2{
+	width:60%;
+	float:left;
+}
+.study{
+	background-color: #093;
 }
 /*当课程试用时，有两个按钮*/
 .btnStart{

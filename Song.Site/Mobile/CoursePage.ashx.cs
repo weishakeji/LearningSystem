@@ -29,6 +29,13 @@ namespace Song.Site.Mobile
                 course = Extend.LoginState.Accounts.Course();
             }
             if (course == null) return;
+            //是否免费，或是限时免费
+            if (course.Cou_IsLimitFree)
+            {
+                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                    course.Cou_IsLimitFree = false;
+            }
             this.Document.SetValue("course", course);
             //课程资源路径
             this.Document.SetValue("coupath", Upload.Get["Course"].Virtual);
@@ -40,11 +47,20 @@ namespace Song.Site.Mobile
             {
                 //是否购买
                 isBuy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, course.Cou_ID);
-                this.Document.Variables.SetValue("isBuy", isBuy);                
+                //没有购买，但处于限时免费中
+                if (!isBuy && course.Cou_IsLimitFree)
+                {
+
+                }
+                this.Document.Variables.SetValue("isBuy", isBuy);
+                //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
+                bool canStudy = isBuy || course.Cou_IsFree || course.Cou_IsLimitFree ;             
+                this.Document.Variables.SetValue("canStudy", canStudy);
             }
             //树形章节输出
             Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(course.Cou_ID, true);
-            this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));
+            if (outlines.Length > 0)
+                this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));
             //课程公告
             Tag guidTag = this.Document.GetChildTagById("guides");
             int guidCount = 0;

@@ -57,7 +57,8 @@ namespace Song.Site
             outline = Business.Do<IOutline>().OutlineAll(cou.Cou_ID, true);
             this.Document.Variables.SetValue("Outline", outline);
             //树形章节输出
-            this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outline));
+            if (outline.Length > 0)
+                this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outline));
             //课程公告
             Song.Entities.Guide[] guides = Business.Do<IGuide>().GuideCount(-1, cou.Cou_ID, -1, 20);
             this.Document.Variables.SetValue("guides", guides); 
