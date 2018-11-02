@@ -44,9 +44,6 @@ namespace Song.Site.Mobile
                     if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
                         course.Cou_IsLimitFree = false;
                 }
-                ////是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
-                //bool canStudy = isStudy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : course.Cou_IsTry;
-                //this.Document.Variables.SetValue("canStudy", canStudy);
                 this.Document.SetValue("course", course);
                 couid = course.Cou_ID;                            
                 //当前课程下的章节

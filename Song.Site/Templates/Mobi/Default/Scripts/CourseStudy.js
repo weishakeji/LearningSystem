@@ -28,27 +28,36 @@
 $(function () {
     //章节的链接
     mui('body').on('tap', '.outline a', function () {
-        document.location.href = this.href;
+        var type = $(this).attr("type");
+        //如果是未完结的，链接不可用
+        if (type == "nofinish") return false;
+		//如果是未购买，则提示购买
+        if (type == "buy") {
+            var msg = new MsgBox("购买课程", "当前章节需要购买后学习，点击“确定”进入课程购买。", 90, 220, "confirm");
+            msg.href = this.href;
+            msg.EnterEvent = function () {
+                window.location.href = msg.href;
+                msg.Close(msg.WinId);
+            }
+            msg.Open();
+            return false;
+        }
+		window.location.href = this.href;
         return false;
     });
-    _clacTax(0, "");
 	//当前章节特殊显示
 	var curr_olid=$("ul[curr_olid]").attr("curr_olid");
 	$("ul[curr_olid] li[olid]").each(function(index, element) {
         var olid=$(this).attr("olid");
 		if(olid==curr_olid)$(this).addClass("curr_ol");
     });
+	//计算章节序号（树形排序）
+    $(".outline").each(function () {
+        var xpath = $(this).attr("xpath");
+        $(this).find("a").html("<span class='tax'>" + xpath + "</span>" + $(this).find("a").html());
+    });
 });
 
-//计算章节序号
-function _clacTax(pid, prefix) {
-    $(".outline[pid=" + pid + "]").each(function (index, element) {
-        var tax = $(this).find(".tax");
-        tax.html(prefix + (index + 1) + ".");
-        var olid = $(this).attr("olid");
-        _clacTax(olid, tax.text());
-    });
-}
 //设置章节样式
 function setStyle() {
     $(".outline .olitem").each(function () {

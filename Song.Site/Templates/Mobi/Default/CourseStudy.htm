@@ -10,10 +10,11 @@
 <script type="text/javascript" src="/Utility/Ckplayer/ckplayer/ckplayer.js" charset="utf-8"></script>
 <link href="Styles/CourseStudy.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body canStudy="{$canStudy}">
 <!--主界面,头部视频部分-->
 
 <header class="mui-bar mui-bar-nav video" style="z-index:2">
+<vt:if var="canStudy" value="true" compare="=" remark="如果可以学习">
   <vt:if var="video.As_FileName" value="" compare="!=">
     <vt:if var="video.As_IsOther" value="true" compare="=">
       <iframe id="videoIframe" height="500px" width="100%" 
@@ -84,17 +85,22 @@
       </div>
     </vt:if>
   </vt:if>
+   </vt:if>
 </header>
-<header class="mui-bar mui-bar-nav headbar"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left" href="CoursePage.ashx" type="link"></a> </header>
+<header class="mui-bar mui-bar-nav headbar"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left" href="CoursePage.ashx?couid={$couid}" type="link"></a> </header>
 <div class="mui-inner-wrap"> 
-  <!--课程内容-->
-  <div class="mui-scroll">
+  <!--课程内容-->  
+
+    <vt:if var="canStudy" value="false" compare="=" remark="如果不能学习">
+      <div class="mui-scroll" style="margin-top:0px;">
+      <div id="noQues">当前内容禁止学习！</div>
+      <vt:else/>
+        <div class="mui-scroll">
+    </vt:if>
     <!--<div class="mui-card">
       <div class="mui-card-header">{$outline.ol_name}</div>
     </div>-->
-    <div class="tabs">
-    <a class="mui-icon mui-icon-left-nav mui-pull-left back" href="coursepage.ashx" type="link"></a>
-     <a class="tab" id="tabfirst">章节列表</a>
+    <div class="tabs"> <a class="mui-icon mui-icon-left-nav mui-pull-left back" href="coursepage.ashx?couid={$couid}" type="link"></a> <a class="tab" id="tabfirst">章节列表</a>
       <vt:if var="outline.ol_intro" value="" compare="!="> <a class="tab">学习内容</a> </vt:if>
       <vt:if var="access.count" value="0" compare=">"> <a class="tab">附件</a> </vt:if>
     </div>
@@ -122,10 +128,29 @@
     <!--章节输出-->
     <div  tab="章节列表">
       <vt:if var="outlines.Length" value="0" compare=">">
-        <ul class="mui-table-view" curr_olid="{$outline.ol_id}">
-          <vt:foreach id="course" from="$dtOutlines" item="data" remark="章节列表">
-            <vt:expression var="r" args="$data.ol_level" args="15" expression="({0})*{1}" />
-            <li class="mui-table-view-cell outline" olid="{$:#.data.ol_id}" pid="{$:#.data.ol_pid}" style="margin-left:{$:r}px"> <a class="mui-navigate-right" href="CourseStudy.ashx?id={$:#.data.ol_id}&couid={$:#.data.cou_id}"><span class="iconfont">&#xe6fd;</span> <span class="tax">1.</span> {$:#.data.ol_name}</a></li>
+        <ul class="mui-table-view">
+          <vt:foreach from="$dtOutlines" item="d" index="i" remark="章节">
+            <vt:expression var="r" args="$d.ol_level" args="20" expression="{0}*{1}" />
+            <li count="{$:#.d.ol_quescount}" class="mui-table-view-cell outline" olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
+              <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结"> <a type="nofinish" class="noselect">{$:#.d.ol_name}</a><span class="mui-badge">未完结</span>
+                <vt:else />
+                <vt:if var="isStudy" value="true" compare="="  remark="是否已经选修"> <a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a>
+                  <vt:else />
+                  <vt:if var="course.Cou_IsFree" value="true" compare="="  remark="如果未选修，但是课程免费"> <a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a>
+                    <vt:else />
+                    <vt:if var="course.Cou_IsLimitFree" value="true" compare="="  remark="课程不免费，但处在限时免费中"> <a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a>
+                      <vt:else />
+                      <vt:if var="course.Cou_IsTry" value="true" compare="="  remark="是否允许试学">
+                        <vt:if var="d.Ol_IsFree" value="true" compare="="  remark="可以试学"> <a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a>
+                          <vt:else />
+                          <a type="buy" href="CourseBuy.ashx?&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a> <span class="mui-badge">购买</span> </vt:if>
+                        <vt:else />
+                        <a type="buy" href="CourseBuy.ashx?&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a> <span class="mui-badge">购买</span> </vt:if>
+                    </vt:if>
+                  </vt:if>
+                </vt:if>
+              </vt:if>
+            </li>
           </vt:foreach>
         </ul>
         <vt:else />

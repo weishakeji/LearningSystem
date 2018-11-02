@@ -18,16 +18,7 @@ namespace Song.Site.Mobile
         bool isBuy = false;
         protected override void InitPageTemplate(HttpContext context)
         {
-            Song.Entities.Course course = null;
-            if (couid > 0)
-            {
-                course = Business.Do<ICourse>().CourseSingle(couid);
-                Extend.LoginState.Accounts.Course(course);
-            }
-            else
-            {
-                course = Extend.LoginState.Accounts.Course();
-            }
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) return;
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)

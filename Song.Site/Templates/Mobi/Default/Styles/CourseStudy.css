@@ -18,8 +18,7 @@
 	z-index:1;
 }
 .mui-scroll{
-	margin-top:260px;
-	
+	margin-top:260px;	
 }
 #playerInfo{
 	padding-left: 20px;
@@ -114,4 +113,27 @@ video::-webkit-media-controls-panel {
 /*当前章节*/
 .curr_ol{
 	color: #900;
+}
+.outline a:before{
+	content: "\e636";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 20px;
+	font-weight: normal;	
+}
+#noQues {
+	text-align: center;
+	margin-top: 30px;
+	margin: 10px;
+	margin-top:50px;
+	height: auto;
+	position: relative;
+	overflow: hidden;
+	border-radius: 2px;
+	background-color: white;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	padding: 10px;
+	height: 140px;
+	line-height: 100px;
 }

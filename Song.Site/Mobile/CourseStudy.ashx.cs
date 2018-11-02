@@ -20,15 +20,19 @@ namespace Song.Site.Mobile
         protected int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
-            //如果没有登录则跳转
-            if (this.Account == null) context.Response.Redirect("/Mobile/Login.ashx");
+            this.Document.SetValue("couid", couid);
             //当前课程
-            Song.Entities.Course currCourse = Business.Do<ICourse>().CourseSingle(couid);
-            if (currCourse != null)
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            if (course != null)
             {
-                this.Document.SetValue("currCourse", currCourse);
-                couid = currCourse.Cou_ID;
-                this.Document.SetValue("couid", couid);
+                //是否免费，或是限时免费
+                if (course.Cou_IsLimitFree)
+                {
+                    DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                    if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                        course.Cou_IsLimitFree = false;
+                }
+                this.Document.SetValue("course", course);                 
                 //当前课程下的章节
                 Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
                 foreach (Song.Entities.Outline c in outlines)
@@ -36,10 +40,18 @@ namespace Song.Site.Mobile
                 this.Document.SetValue("outlines", outlines);
                 this.Document.Variables.SetValue("dtOutlines", Business.Do<IOutline>().OutlineTree(outlines));
             }
+            //是否学习当前课程
+            bool isStudy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, couid);
+            this.Document.Variables.SetValue("isStudy", isStudy);
             //当前章节
             Song.Entities.Outline ol = null;
             ol = id < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)
-                       : ol = Business.Do<IOutline>().OutlineSingle(id);  
+                       : ol = Business.Do<IOutline>().OutlineSingle(id);
+            //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
+            bool canStudy = isStudy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : (course.Cou_IsTry && ol.Ol_IsFree);
+            canStudy = canStudy && ol.Ol_IsUse && ol.Ol_IsFinish && this.Account != null;
+            this.Document.Variables.SetValue("canStudy", canStudy);
+            if (!canStudy) return;
             this.Document.Variables.SetValue("outline", ol);
             if (ol == null) return;
             //入写章节id的cookie，当播放视频时会判断此处
