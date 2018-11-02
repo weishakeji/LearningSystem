@@ -15,14 +15,14 @@ namespace Song.Site.Mobile
     {
         //搜索字符
         protected string search = WeiSha.Common.Request.Form["search"].String;
+        protected int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
             this.Document.SetValue("search", search);
             if (!Extend.LoginState.Accounts.IsLogin)
                 this.Response.Redirect("login.ashx");           
             //当前选中的课程
-            Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
-            if (currCourse == null) this.Response.Redirect("subject.ashx");
+            Song.Entities.Course currCourse = Business.Do<ICourse>().CourseSingle(couid);
             if (currCourse != null)
             {
                 this.Document.SetValue("currCourse", currCourse);
