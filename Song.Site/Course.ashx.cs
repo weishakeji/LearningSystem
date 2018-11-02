@@ -48,10 +48,7 @@ namespace Song.Site
             {   
                 //是否购买
                 isBuy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, cou.Cou_ID);
-                this.Document.Variables.SetValue("isStudy", isBuy);
-                //是否在试用中
-                bool istry = Business.Do<ICourse>().IsTryout(cou.Cou_ID, this.Account.Ac_ID);
-                this.Document.Variables.SetValue("isTry", istry);
+                this.Document.Variables.SetValue("isStudy", isBuy);               
             }
             //课程章节列表
             outline = Business.Do<IOutline>().OutlineAll(cou.Cou_ID, true);

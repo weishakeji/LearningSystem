@@ -22,8 +22,7 @@ namespace Song.Site.Mobile
         Song.Entities.Questions[] collectQues = null;
         protected override void InitPageTemplate(HttpContext context)
         {
-            //传递过来的试题总记录数
-            if (!Extend.LoginState.Accounts.IsLogin) this.Response.Redirect("login.ashx");
+            this.Document.SetValue("couid", couid);
             //当前章节
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
             this.Document.SetValue("outline", outline);
@@ -43,9 +42,13 @@ namespace Song.Site.Mobile
             this.Document.SetValue("isBuy", isBuy || course.Cou_IsFree);
             if (couBuy == null) couBuy = course;
             this.Document.SetValue("couBuy", couBuy);
-            //试用的题数
-            this.Document.SetValue("tryNum", course.Cou_TryNum);
-            int sumCount = isBuy || course.Cou_IsFree ? Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, olid, -1, true) : course.Cou_TryNum;
+            //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
+            bool canStudy = isBuy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : (course.Cou_IsTry && outline.Ol_IsFree && outline.Ol_IsFinish);
+            canStudy = canStudy && outline.Ol_IsUse && outline.Ol_IsFinish && this.Account != null;
+            this.Document.Variables.SetValue("canStudy", canStudy);
+            if (!canStudy) return;
+            //总题数
+            int sumCount = canStudy  ? Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, olid, -1, true) : 0;
             //this.Document.SetValue("sumCount", sumCount);
             int total = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, olid, -1, true);
             this.Document.SetValue("Total", total);  //试题的总数
@@ -149,15 +152,14 @@ namespace Song.Site.Mobile
             //当前收藏            
             if (collectQues == null)
             {
-                Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
                 if (Extend.LoginState.Accounts.IsLogin)
                 {
                     Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
-                    collectQues = Business.Do<IStudent>().CollectAll4Ques(st.Ac_ID, 0, currCourse.Cou_ID, 0);
+                    collectQues = Business.Do<IStudent>().CollectAll4Ques(st.Ac_ID, 0, couid, 0);
                 }
                 else
                 {
-                    collectQues = Business.Do<IStudent>().CollectAll4Ques(0, 0, currCourse.Cou_ID, 0);
+                    collectQues = Business.Do<IStudent>().CollectAll4Ques(0, 0, couid, 0);
                 }
             }
             if (collectQues != null)

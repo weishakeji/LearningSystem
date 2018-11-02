@@ -7,20 +7,17 @@
     });
     //
     //计算章节序号（树形排序）
-    (function claxtax(pid, prefix) {
-        $(".outline[pid=" + pid + "]").each(function (index, element) {
-            var tax = $(this).find(".tax");
-            tax.html(prefix + (index + 1) + ".");
-            var olid = $(this).attr("olid");
-            claxtax(olid, tax.text());
-        });
-    })(0, "");
+    $(".outline").each(function () {
+        var xpath = $(this).attr("xpath");
+        $(this).find("a").html("<span class='tax'>" + xpath + "</span>" + $(this).find("a").html());
+    });
     //
     //计算总题数
     (function () {
         var sum = 0;
         $("li[pid=0]").each(function (index, element) {
-            sum += Number($(this).find("a").attr("count"));
+            var num = parseInt($(this).attr("count"));
+            if (!isNaN(num)) sum += num;
         });
         $(".sum").text(sum);
     })();
@@ -29,11 +26,26 @@
     clac_succper();
     //章节列表的点击事件
     mui("li.outline").on('tap', 'a', function () {
+		var type = $(this).attr("type");
+        //如果是未完结的，链接不可用
+        if (type == "nofinish") return false;
+        //如果是未购买，则提示购买
+        if (type == "buy") {
+            var msg = new MsgBox("购买课程", "当前章节需要购买后学习，点击“确定”进入课程购买。", 90, 220, "confirm");
+            msg.href = this.href;
+            msg.EnterEvent = function () {
+                window.location.href = msg.href;
+                msg.Close(msg.WinId);
+            }
+            msg.Open();
+            return false;
+        }
         //读取记录
         var couid = $().getPara("couid");
         var olid = $(this).parent().attr("olid");
         var keyname = state.name.get("QuesExercises", couid, olid);
         var data = state.read(keyname);
+        //如果没有storage记录，直接进入链接
         if (data.current == null) {
             window.location.href = this.href;
             return false;
@@ -164,7 +176,7 @@ function clac_succper() {
         var sum = 0, count = 0;
         rows.each(function () {
             var per = Number($(this).find("b:first").attr("per"));
-            var c = Number($(this).find("a:first").attr("count"));
+            var c = Number($(this).attr("count"));
             if (c > 0) count++;
             sum += per;
         });

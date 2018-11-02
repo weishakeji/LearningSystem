@@ -184,6 +184,9 @@ html{
 	padding-right: 50px !important;
 	padding-left: 60px !important;
 }
+a.noselect{
+	color: #666 !important;
+}
 /*正确率的百分比*/
 .outline b {
 	background-color: #FFF;

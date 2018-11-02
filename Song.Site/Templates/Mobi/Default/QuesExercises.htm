@@ -13,21 +13,12 @@
 <link href="Styles/QuesExercises.css" rel="stylesheet" type="text/css" />
 <link href="/Utility/CoreStyles/Jme.css" rel="stylesheet" type="text/css" />
 </head>
-<body style="display:none;" quesType="{$quesType}" quscount="{$ques.Length}">
+<body style="display:none;" quesType="{$quesType}" quscount="{$ques.Length}" canStudy="{$canStudy}">
 <script>
     document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
     document.body.onpaste = document.body.oncopy = function () { return false; };
 </script> 
-<script type="text/javascript">
-        //是否购买，如果没有购买，则显示弹窗，提示试用题数
-        var isBuy = "{$#.isBuy}" == "True" ? true : false;
-        //试用试题数与总试题数
-        var tryNum = Number("{$#.tryNum}");
-        var Total = Number("{$#.Total}");
-        if (!isBuy) {
-            tryNum = tryNum < Total ? tryNum : Total;
-            //new MsgBox("提示", "该章节共有试题" + Total + "道；<br/>您可以试用" + tryNum + "道。", 90, 40, "alert").Open();
-        }
+<script type="text/javascript">        
         //是否登录
         var isLogin = "{$#.Account.Ac_id}" != "";
 		var acid="{$#.Account.Ac_id}";
@@ -134,7 +125,12 @@
       </div>
      <vt:foreachelse/>
      <div id="noQues">
-     没有试题！
+      <vt:if var="canStudy" value="false" compare="=" remark="如果不同学习"> 
+      该章节试题禁止练习
+       <vt:else/>
+       没有试题！
+      </vt:if>
+     
      </div>
     </vt:foreach>
   </div>
