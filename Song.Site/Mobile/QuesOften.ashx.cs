@@ -86,15 +86,14 @@ namespace Song.Site.Mobile
             //当前收藏            
             if (collectQues == null)
             {
-                Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
                 if (Extend.LoginState.Accounts.IsLogin)
                 {
                     Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
-                    collectQues = Business.Do<IStudent>().CollectAll4Ques(st.Ac_ID, 0, currCourse.Cou_ID, 0);
+                    collectQues = Business.Do<IStudent>().CollectAll4Ques(st.Ac_ID, 0, couid, 0);
                 }
                 else
                 {
-                    collectQues = Business.Do<IStudent>().CollectAll4Ques(0, 0, currCourse.Cou_ID, 0);
+                    collectQues = Business.Do<IStudent>().CollectAll4Ques(0, 0, couid, 0);
                 }
             }
             if (collectQues != null)

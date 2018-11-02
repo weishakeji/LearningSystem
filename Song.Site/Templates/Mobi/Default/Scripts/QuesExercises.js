@@ -1,7 +1,4 @@
-﻿window.addEventListener('onload',window_onload,false);
-function window_onload(){
-	alert(3);
-}
+﻿
 window.onload = function () {
     //总题数
     var count = Number($("body").attr("quscount"));

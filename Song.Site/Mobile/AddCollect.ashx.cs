@@ -15,6 +15,7 @@ namespace Song.Site.Mobile
     {
         //试题id
         protected int qid = WeiSha.Common.Request.QueryString["qid"].Int32 ?? 0;
+        protected int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         //是否已经收藏，如果已经收藏，则删除
         protected bool IsCollect = WeiSha.Common.Request.QueryString["IsCollect"].Boolean ?? false;
         public void ProcessRequest(HttpContext context)
@@ -29,8 +30,7 @@ namespace Song.Site.Mobile
                 Song.Entities.Student_Collect stc = new Entities.Student_Collect();
                 stc.Ac_ID = Extend.LoginState.Accounts.CurrentUser.Ac_ID;
                 stc.Qus_ID = qid;
-                Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
-                stc.Cou_ID = currCourse.Cou_ID;
+                stc.Cou_ID = couid;
                 Business.Do<IStudent>().CollectAdd(stc);
             }
             else

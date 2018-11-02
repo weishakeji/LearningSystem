@@ -203,7 +203,7 @@ var quesEvent = {
             } else {
                 var ques = card.current();
                 var isCollect = ques.attr("IsCollect") == "True" ? true : false;
-                $.get("AddCollect.ashx", { "qid": card.currid(), "isCollect": isCollect }, function () {
+                $.get("AddCollect.ashx", { "qid": card.currid(), "couid": card.couid(), "isCollect": isCollect }, function () {
                     var ques = card.current();
                     ques.attr("IsCollect", isCollect ? "False" : "True");
                     ques.find(".btnFav").toggleClass("IsCollect");
@@ -261,7 +261,7 @@ var quesEvent = {
             //如果错误
             qitem.removeClass("succ").addClass("error");
             //增加错题到个人记录
-            $.get("AddQues.ashx", { "qid": qid }, function () { });
+            $.get("AddQues.ashx", { "qid": qid, "couid": card.couid() }, function () { });
             //设置答题卡状态，并显示答案
             card.set("error", qid);
             $(".quesItem[qid=" + qid + "]").find(".quesAnswerBox").show();
@@ -272,18 +272,8 @@ var quesEvent = {
     //quesitem:试题区域
     //dirt:方向，1为向右，-1为向左
     move: function (quesitem, dirt) {
-        var left = Number($("#quesArea").css("left").replace("px", ""));
-        left = isNaN(left) ? 0 : left;
-        if (dirt == 1) {
-            if (quesitem.attr("index") != $(".quesItem").size())
-                left -= quesitem.width();
-        }
-        //向左
-        if (dirt == -1) {
-            if (quesitem.attr("index") != "1")
-                left += quesitem.width();
-        }
-        finger.qusmove(left);
+        var direction = dirt == -1 ? "right" : "left";
+        finger.slide(null, direction, null, null, 1);
     }
 };
 
@@ -357,6 +347,10 @@ var card = {
         var ques = this.current();
         if (ques.size() > 0) return Number(ques.attr("qid"));
         return 0;
+    },
+    //当前课程id
+    couid: function () {
+        return $().getPara("couid");
     },
     //设置答题卡状态
     //state:curr当前试题，succ正确，error错误,null默认状态

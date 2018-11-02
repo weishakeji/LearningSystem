@@ -14,6 +14,8 @@ namespace Song.Site.Mobile
     /// </summary>
     public class QuesError : BasePage
     {
+        //课程id
+        protected int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         //当前学员收藏的试题
         Song.Entities.Questions[] collectQues = null;
         protected override void InitPageTemplate(HttpContext context)
@@ -25,9 +27,8 @@ namespace Song.Site.Mobile
                 //题型
                 this.Document.SetValue("quesType", WeiSha.Common.App.Get["QuesType"].Split(','));
                 Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
-                Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
                 //错题列表
-                Song.Entities.Questions[] ques = Business.Do<IStudent>().QuesAll(st.Ac_ID, 0, currCourse.Cou_ID, -1);
+                Song.Entities.Questions[] ques = Business.Do<IStudent>().QuesAll(st.Ac_ID, 0, couid, -1);
                 for (int i = 0; i < ques.Length; i++)
                 {
                     ques[i] = Extend.Questions.TranText(ques[i]);
@@ -139,15 +140,14 @@ namespace Song.Site.Mobile
             //当前收藏            
             if (collectQues == null)
             {
-                Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
                 if (Extend.LoginState.Accounts.IsLogin)
                 {
                     Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
-                    collectQues = Business.Do<IStudent>().CollectAll4Ques(st.Ac_ID, 0, currCourse.Cou_ID, 0);
+                    collectQues = Business.Do<IStudent>().CollectAll4Ques(st.Ac_ID, 0, couid, 0);
                 }
                 else
                 {
-                    collectQues = Business.Do<IStudent>().CollectAll4Ques(0, 0, currCourse.Cou_ID, 0);
+                    collectQues = Business.Do<IStudent>().CollectAll4Ques(0, 0, couid, 0);
                 }
             }
             if (collectQues != null)

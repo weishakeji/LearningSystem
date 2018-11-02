@@ -71,7 +71,7 @@ $(function () {
                 if (data == "1") {
                     var msg = new MsgBox("成功", "所有收藏被清空。<br/>请退出当前界面！", 90, 180, "msg");
 					msg.OverEvent=function(){
-						window.location.href="CoursePage.ashx";
+						window.location.href="QuesOutlines.ashx?couid="+$().getPara("couid");
 					}
                     msg.Open(); 
 					card.clear(); 

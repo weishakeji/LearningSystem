@@ -13,16 +13,16 @@ namespace Song.Site.Mobile
     /// </summary>
     public class AddQues : IHttpHandler
     {
-        //试题id
+        //试题id,课程id
         protected int qid = WeiSha.Common.Request.QueryString["qid"].Int32 ?? 0;
+        protected int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         public void ProcessRequest(HttpContext context)
         {
             //如果不存在收藏，则添加
             Song.Entities.Student_Ques stc = new Entities.Student_Ques();
             stc.Ac_ID = Extend.LoginState.Accounts.CurrentUser.Ac_ID;
             stc.Qus_ID = qid;
-            Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
-            stc.Cou_ID = currCourse.Cou_ID;
+            stc.Cou_ID = couid;
             Business.Do<IStudent>().QuesAdd(stc);
         }
 
