@@ -9,9 +9,6 @@
         <uc1:toolsBar ID="ToolsBar1" runat="server" WinPath="Employee_Edit.aspx" GvName="GridView1"
             WinWidth="800" WinHeight="600" OnDelete="DeleteEvent" DelShowMsg="注：\n管理员角色的员工，无法删除，需要先去除管理员身份。" InputButtonVisible="true" />
         <div class="searchBox">
-            <cc1:DropDownTree ID="ddlDepart" runat="server" Width="150" IdKeyName="dep_id"
-                ParentIdKeyName="dep_PatId" TaxKeyName="dep_Tax">
-            </cc1:DropDownTree>
             <asp:DropDownList ID="ddlIsUse" runat="server">
                 <asp:ListItem Value="null">--所有员工--</asp:ListItem>
                 <asp:ListItem Value="true">在职</asp:ListItem>
@@ -53,7 +50,7 @@
 </itemtemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="姓名/电话">
-                <itemstyle cssclass="left" width="160px" />
+                <itemstyle cssclass="left" width="200px" />
                 <itemtemplate>
                 <%# Eval("acc_Name")%><%# Eval("Posi_Id","{0}") == superid ? "<span style=\"color:Red\" title=\"超级管理员\">*</span>" : ""%>
                  <span class="mobileTel" title="员工移动电话"><%# Eval("acc_MobileTel")%></span>
@@ -75,13 +72,13 @@
 <%# Eval("Posi_Name", "{0}")%>
 </itemtemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="班组">
+            <%--<asp:TemplateField HeaderText="班组">
                 <itemstyle cssclass="center" />
                 <itemtemplate>
                
 <%# Eval("Team_Name", "{0}")%>
 </itemtemplate>
-            </asp:TemplateField>
+            </asp:TemplateField>--%>
             <asp:TemplateField HeaderText="公开手机">
                 <itemstyle cssclass="center" width="100px" />
                 <itemtemplate>

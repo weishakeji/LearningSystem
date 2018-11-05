@@ -26,24 +26,8 @@ namespace Song.Site.Manage.Sys
             superid = super.Posi_Id.ToString();
             if (!this.IsPostBack)
             {               
-                ddlDepartBind();
                 BindData(null, null);
             }
-        }
-        /// <summary>
-        /// 院系下拉绑定
-        /// </summary>
-        private void ddlDepartBind()
-        {
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            int orgid = org.Org_ID;
-            Song.Entities.Depart[] nc = Business.Do<IDepart>().GetAll(orgid, true, true);
-            this.ddlDepart.DataSource = nc;
-            this.ddlDepart.DataTextField = "dep_cnName";
-            this.ddlDepart.DataValueField = "dep_id";
-            this.ddlDepart.DataBind();
-            //
-            this.ddlDepart.Items.Insert(0, new ListItem(" -- 所有院系 -- ", "-1"));
         }
         /// <summary>
         /// 绑定列表
@@ -53,7 +37,7 @@ namespace Song.Site.Manage.Sys
             //总记录数
             int count = 0;
             //当前选择的院系id
-            int depId = Convert.ToInt16(ddlDepart.SelectedItem.Value);
+            int depId = -1;
             bool? isUse = null;
             if (ddlIsUse.SelectedValue != "null")
             {
