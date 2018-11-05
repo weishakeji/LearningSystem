@@ -33,30 +33,6 @@ namespace Song.Site.Manage.Site
         #region 初始化
         private void init()
         {
-            //院系
-            int orgid = org.Org_ID;
-            Song.Entities.Depart[] nc = Business.Do<IDepart>().GetAll(orgid, true, true);
-            this.ddlDepart.DataSource = nc;
-            this.ddlDepart.DataTextField = "dep_cnName";
-            this.ddlDepart.DataValueField = "dep_id";
-            this.ddlDepart.DataBind();
-            //
-            this.ddlDepart.Items.Insert(0, new ListItem(" -- 院系 -- ", "-1"));
-            //如果是教师登录，则只显示所在院系
-            if (Extend.LoginState.Accounts.IsLogin)
-            {
-                Song.Entities.Teacher th = Extend.LoginState.Accounts.Teacher;
-                if (th != null)
-                {
-                    ListItem li = ddlDepart.Items.FindByValue(th.Dep_Id.ToString());
-                    if (li != null)
-                    {
-                        ddlDepart.SelectedIndex = -1;
-                        li.Selected = true;
-                        ddlDepart.Enabled = false;
-                    }
-                }
-            }
             ddlDepart_SelectedIndexChanged(null, null);
         }
         /// <summary>
@@ -67,7 +43,7 @@ namespace Song.Site.Manage.Site
         protected void ddlDepart_SelectedIndexChanged(object sender, EventArgs e)
         {
             ddlSubject.Items.Clear();
-            Song.Entities.Subject[] sbjs = Business.Do<ISubject>().SubjectCount(org.Org_ID, Convert.ToInt32(ddlDepart.SelectedValue), "", null, 0, 0);
+            Song.Entities.Subject[] sbjs = Business.Do<ISubject>().SubjectCount(org.Org_ID, -1, "", null, 0, 0);
             ddlSubject.DataSource = sbjs;
             ddlSubject.DataTextField = "Sbj_Name";
             ddlSubject.DataValueField = "Sbj_ID";

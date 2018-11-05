@@ -8,13 +8,7 @@
       <div class="toolsBar">
       <uc1:toolsbar id="ToolsBar1" runat="server" winpath="MessageBoard_Ans.aspx" gvname="GridView1"
         winwidth="800" winheight="600" iswinopen="true" ModifyButtonVisible=false AddButtonVisible=false DelButtonVisible=false />
-    
-      
-        院系：<cc1:DropDownTree ID="ddlDepart" runat="server" Width="100" IdKeyName="dep_id" ParentIdKeyName="dep_PatId"
-            TaxKeyName="dep_Tax" OnSelectedIndexChanged="ddlDepart_SelectedIndexChanged"
-            AutoPostBack="True">
-        </cc1:DropDownTree>&nbsp;
-        专业：<asp:DropDownList ID="ddlSubject" runat="server" Width="100" 
+           专业：<asp:DropDownList ID="ddlSubject" runat="server" Width="100" 
             AutoPostBack="True" onselectedindexchanged="ddlSubject_SelectedIndexChanged">
         </asp:DropDownList>&nbsp;
        课程： <asp:DropDownList ID="ddlCourse" runat="server" Width="150" AutoPostBack="True" 
