@@ -23,8 +23,6 @@ namespace Song.Site.Mobile
                 int index = WeiSha.Common.Request.Form["index"].Int32 ?? 1;  //第几页    
                 string sorts = WeiSha.Common.Request.Form["sorts"].String;  //栏目分类id
                 string search = WeiSha.Common.Request.Form["sear"].String;  //要检索的字符
-                Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
-
                 int sumcount = 0;
                 //信息列表
                 Song.Entities.Guide[] guides = null;

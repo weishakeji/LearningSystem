@@ -28,7 +28,6 @@ namespace Song.Site.Mobile
                 //题型
                 this.Document.SetValue("quesType", WeiSha.Common.App.Get["QuesType"].Split(','));
                 Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
-                Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
                 
                 //取多少条记录
                 Tag quesTag = this.Document.GetChildTagById("ques");

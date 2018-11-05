@@ -23,7 +23,6 @@ namespace Song.Site.Mobile
         {
             //获取当前课程
             if (couid > 0) currCourse = Business.Do<ICourse>().CourseSingle(couid);
-            if (currCourse == null) currCourse = Extend.LoginState.Accounts.Course();
             if (currCourse != null) couid = currCourse.Cou_ID;
             this.Document.SetValue("state", state);  
             //此页面的ajax提交，全部采用了POST方式

@@ -74,7 +74,6 @@ namespace Song.Site.Mobile
             //
             Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
             int stid = st.Ac_ID;   //当前学员
-            Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
 
             int sumcount = 0;
             Song.Entities.TestResults[] tps = Business.Do<ITestPaper>().ResultsPager(stid, id, size, index, out sumcount);

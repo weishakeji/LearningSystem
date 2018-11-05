@@ -19,12 +19,11 @@ namespace Song.Site.Mobile
             Song.Entities.Knowledge kn = Business.Do<IKnowledge>().KnowledgeSingle(id);
             this.Document.Variables.SetValue("kn", kn);
 
-            Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
             //上一条
-            Song.Entities.Knowledge prev = Business.Do<IKnowledge>().KnowledgePrev(currCourse.Cou_ID, -1, id);
+            Song.Entities.Knowledge prev = Business.Do<IKnowledge>().KnowledgePrev(kn.Cou_ID, -1, id);
             this.Document.Variables.SetValue("prev", prev);
             //下一条
-            Song.Entities.Knowledge next = Business.Do<IKnowledge>().KnowledgeNext(currCourse.Cou_ID, -1, id);
+            Song.Entities.Knowledge next = Business.Do<IKnowledge>().KnowledgeNext(kn.Cou_ID, -1, id);
             this.Document.Variables.SetValue("next", next);
         }
     }

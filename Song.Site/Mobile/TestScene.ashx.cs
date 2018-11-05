@@ -55,8 +55,6 @@ namespace Song.Site.Mobile
                 //难度区间
                 int diff1 = paper.Tp_Diff > paper.Tp_Diff2 ? (int)paper.Tp_Diff2 : (int)paper.Tp_Diff;
                 int diff2 = paper.Tp_Diff > paper.Tp_Diff2 ? (int)paper.Tp_Diff : (int)paper.Tp_Diff2;
-                //当前选中的课程
-                Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
                 //开始抽题
                 List<Song.Entities.Questions> ques = new List<Entities.Questions>();
                 Dictionary<TestPaperItem, Song.Entities.Questions[]> dic = Business.Do<ITestPaper>().Putout(paper);
