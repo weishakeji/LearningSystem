@@ -17,7 +17,7 @@ namespace Song.Site.Mobile
     {
         //课程ID，章节id
         protected int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
-        protected int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
+        protected int olid = WeiSha.Common.Request.QueryString["olid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
             this.Document.SetValue("couid", couid);
@@ -45,14 +45,14 @@ namespace Song.Site.Mobile
             this.Document.Variables.SetValue("isStudy", isStudy);
             //当前章节
             Song.Entities.Outline ol = null;
-            ol = id < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)
-                       : ol = Business.Do<IOutline>().OutlineSingle(id);
+            ol = olid < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)
+                       : ol = Business.Do<IOutline>().OutlineSingle(olid);
             //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
             bool canStudy = isStudy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : (course.Cou_IsTry && ol.Ol_IsFree);
             canStudy = canStudy && ol.Ol_IsUse && ol.Ol_IsFinish && this.Account != null;
             this.Document.Variables.SetValue("canStudy", canStudy);
-            if (!canStudy) return;
             this.Document.Variables.SetValue("outline", ol);
+            if (!canStudy) return;            
             if (ol == null) return;
             //入写章节id的cookie，当播放视频时会判断此处
             Response.Cookies.Add(new HttpCookie("olid", ol.Ol_ID.ToString()));

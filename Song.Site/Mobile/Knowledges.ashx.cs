@@ -19,6 +19,17 @@ namespace Song.Site.Mobile
         {
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
+                Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+                //是否学习当前课程
+                if (this.Account != null)
+                {
+                    //是否购买当前课程
+                    bool isBuy =  Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, course.Cou_ID);
+                    this.Document.Variables.SetValue("isBuy", isBuy);
+                    //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
+                    bool canStudy = isBuy || course.Cou_IsFree || course.Cou_IsLimitFree;
+                    this.Document.Variables.SetValue("canStudy", canStudy);
+                }
                 //知识库栏目
                 Song.Entities.KnowledgeSort[] kns = Business.Do<IKnowledge>().GetSortAll(-1, couid, -1, true);
                 DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(kns);
@@ -42,12 +53,11 @@ namespace Song.Site.Mobile
                 int index = WeiSha.Common.Request.Form["index"].Int32 ?? 1;  //第几页    
                 string sorts = WeiSha.Common.Request.Form["sorts"].String;  //栏目分类id
                 string search = WeiSha.Common.Request.Form["sear"].String;  //要检索的字符
-                Song.Entities.Course currCourse = Extend.LoginState.Accounts.Course();
 
                 int sumcount = 0;
                 //信息列表
                 Song.Entities.Knowledge[] kls = null;
-                kls = Business.Do<IKnowledge>().KnowledgePager(currCourse.Cou_ID, sorts, search, size, index, out sumcount);
+                kls = Business.Do<IKnowledge>().KnowledgePager(couid, sorts, search, size, index, out sumcount);
                 string json = "{\"size\":" + size + ",\"index\":" + index + ",\"sumcount\":" + sumcount + ",";
                 json += "\"items\":[";
                 for (int n = 0; n < kls.Length; n++)

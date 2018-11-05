@@ -6,7 +6,7 @@
 <script type="text/javascript" src="Scripts/Knowledges.js"></script>
 <link href="Styles/Knowledges.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
+<body  canStudy="{$canStudy}">
 <div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
   <!--侧滑菜单部分-->
  <aside id="offCanvasSide" class="mui-off-canvas-left">
@@ -130,7 +130,7 @@
   </div>
   <!--主界面结束--> 
 </div>
-<nav class="mui-bar mui-bar-tab"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left" href="coursepage.ashx" type="link"></a>
+<nav class="mui-bar mui-bar-tab"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left" href="coursepage.ashx?couid={$couid}" type="link"></a>
 
 <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
  <a class="mui-btn mui-btn-link mui-pull-right right" href="" > 

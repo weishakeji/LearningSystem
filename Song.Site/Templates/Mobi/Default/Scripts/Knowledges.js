@@ -123,6 +123,11 @@ if (mui.os.plus) {
 }
 //异步加载数据
 function ajaxLoaddata() {
+	var canStudy=$("body").attr("canStudy");
+	if(canStudy!="True"){
+		$(".mui-pull").html("请购买当前课程");
+		return;
+	}
     index = size * index < sumcount ? ++index : index;
 	var sear = $().getPara("sear");
     var sorts = $().getPara("sorts");
