@@ -220,10 +220,11 @@ function submitResult(patter) {
                 //trid:考试成绩记录的id
                 //tpid:试卷Id
                 var obj = eval("(" + data + ")");
+				//MsgBox.Close();	//关闭所有消息窗
                 var msg = new MsgBox("成绩递交成功", "您的得分： " + obj.score+"分", 90, 40, "msg");
                 window.trid = obj.trid;
                 window.tpid = obj.tpid;
-                MsgBox.OverEvent = submitSuccess;
+                msg.OverEvent = submitSuccess;
                 msg.Open();
                 window.isSubmit = false;
                 window.isSubmited = true;
@@ -237,8 +238,8 @@ function submitResult(patter) {
 function submitSuccess(trid, tpid) {
     var href = "TestView.ashx?trid=" + window.trid + "&tpid=" + window.tpid;
     var box = new PageBox("成绩查看", href, 100, 100, "url");
-    PageBox.OverEvent = function () {
-        window.location.href = "TestPapers.ashx";
+    box.CloseEvent = function () {
+        window.location.href = "TestPapers.ashx?couid="+$().getPara("couid");
     }
     box.Open();
 }

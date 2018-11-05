@@ -18,6 +18,7 @@ namespace Song.Site.Mobile
         protected int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
+            this.Document.SetValue("couid", couid); 
             this.Document.SetValue("search", search);
             if (!Extend.LoginState.Accounts.IsLogin)
                 this.Response.Redirect("login.ashx");           

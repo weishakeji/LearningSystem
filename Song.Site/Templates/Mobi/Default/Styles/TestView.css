@@ -1,6 +1,5 @@
 @charset "utf-8";
 *{   
-	font-family: "黑体";
     -webkit-touch-callout:none;  /*系统默认菜单被禁用*/   
     -webkit-user-select:none; /*webkit浏览器*/   
     -khtml-user-select:none; /*早期浏览器*/   
@@ -13,12 +12,11 @@ input, textarea {
 }  
 td, th {
 	text-align: center;
-	font-size: 14px;
 	line-height: 20px;
 }
 div, p, td, * {
-	font-size: 14px !important;
-	line-height: 20px;
+	font-size: 16px !important;
+	line-height: 30px;
 }
 img{
 	max-width:100%;
@@ -110,9 +108,8 @@ img{
 	color: #666;
 }
 .quesSelectBox .item_True{
-	color: #000;
-	margin-top: 10px;
-	
+	color: #06C;
+	margin-top: 10px;	
 }
 .quesSelectBox .item_True .order{
 	font-weight: bold;
@@ -141,7 +138,6 @@ img{
 }
 
 .qusTitle {
-	line-height: 18px;
 	display: table;
 	margin-bottom: 10px;
 	margin-top: 10px;

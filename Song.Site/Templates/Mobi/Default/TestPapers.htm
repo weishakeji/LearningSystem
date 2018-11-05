@@ -38,7 +38,7 @@ var isLogin="{$#.Account.Ac_id}"!="";
         <!--试卷列表 -->
         <vt:if var="tps.Length" value="0" compare=">">
           <vt:foreach id="course" from="$#.tps" item="data" remark="试卷">
-            <div class="row" href="TestPaper.ashx?id={$:#.data.tp_id}"> 
+            <div class="row" href="TestPaper.ashx?id={$:#.data.tp_id}&couid={$couid}"> 
               <!--图标 -->
               <div class="rowlogo">
                 <vt:if var="#.data.Tp_Logo" value="" compare="="><span class="ico">&#xe801;</span>
@@ -72,7 +72,7 @@ var isLogin="{$#.Account.Ac_id}"!="";
 
 </div>
 <nav class="mui-bar mui-bar-tab"> 
-  <a class="mui-icon mui-icon-left-nav mui-pull-left left" href="CoursePage.ashx" type="link"><span class="couname">{$currCourse.cou_name}</span></a>
+  <a class="mui-icon mui-icon-left-nav mui-pull-left left" href="CoursePage.ashx?couid={$couid}" type="link"><span class="couname">{$currCourse.cou_name}</span></a>
 
            <a class="mui-btn mui-btn-link mui-pull-right right" href="" >
 				模拟考试

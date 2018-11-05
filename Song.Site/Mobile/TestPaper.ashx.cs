@@ -16,8 +16,11 @@ namespace Song.Site.Mobile
     {
         //考试id
         protected int tpid = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
+        //课程id
+        int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
-        {           
+        {
+            this.Document.SetValue("couid", couid); 
             //当前试卷
             Song.Entities.TestPaper paper = null;            
             paper = Business.Do<ITestPaper>().PagerSingle(tpid);

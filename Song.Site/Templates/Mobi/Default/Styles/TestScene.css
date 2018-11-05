@@ -1,6 +1,5 @@
 @charset "utf-8";
 *{   
-	font-family: "黑体";
     -webkit-touch-callout:none;  /*系统默认菜单被禁用*/   
     -webkit-user-select:none; /*webkit浏览器*/   
     -khtml-user-select:none; /*早期浏览器*/   
@@ -317,7 +316,6 @@ input, textarea {
 	border-left-color: #dedede;
 }
 .quesBox .quesTitle *{
-	font-family: "黑体";
 	font-size: 15px;
 	color: #FFFFFF;
 	background-color: transparent !important;
@@ -344,7 +342,6 @@ input, textarea {
 	min-height: 150px;
 }
 .ansItem {
-	font-size: 14px !important;
 	line-height: 30px;
 	border-top-width: 1px;
 	border-top-style: solid;
