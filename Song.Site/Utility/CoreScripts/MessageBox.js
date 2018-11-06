@@ -72,9 +72,9 @@
         //确定事件
         if (this.EnterEvent != null) msgbox.events.add(this.WinId + "_EnterEvent", this.EnterEvent);
         //设置窗口的位置
-        box.css("top", (hg - this.Height) / 2 + $(window).scrollTop());
+        box.css("top", (hg - this.Height) / 2);
         box.css("left", (wd - this.Width) / 2);
-        box.css("position", "absolute").css("z-index", "10001");
+        box.css("position", "fixed").css("z-index", "10001");
         box.css({ "width": this.Width - 20, "height": this.Height - 20 });
         box.attr("width", box.width()).attr("height", box.height());
         this.BuildTitle();

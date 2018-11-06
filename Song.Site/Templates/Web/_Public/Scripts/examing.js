@@ -5,6 +5,31 @@ $(document).ready(function () {
         var off = cardbox.offset();
         window.cardbox_top = off.top; //
     }
+    //重构提示框
+	window.alert=function(msg,title,width,height,closeEvent){
+        $('body').css('overflow','hidden');
+        if(title==null || title=="")title="警告";
+        if(width==null)width=400;
+        if(height==null)height=300;
+		var box=new MsgBox(title,msg,width,height,"alert",null,closeEvent);
+        box.OverEvent =function(){
+            if(closeEvent!=null)closeEvent();
+            window.MsgBox.Close();
+            $('body').css('overflow','auto');
+        }
+		box.Open();
+	};
+    window.confirm=function(title,msg,width,height,enterEvent,closeEvent) {
+        $('body').css('overflow','hidden');
+        var msg = new MsgBox(title, msg, width, height, "confirm");
+        if(enterEvent!=null)msg.EnterEvent =enterEvent;
+        msg.OverEvent =function(){
+            if(closeEvent!=null)closeEvent();
+            window.MsgBox.Close();
+            $('body').css('overflow','auto');
+        }
+        msg.Open();
+    };
     $(window).scroll();
 });
 $(window).scroll(function () {
@@ -102,6 +127,10 @@ Examing.prototype.Init=function(){
 	/*当窗体失去焦点提示交卷 */
     if (!this.attr.isToggleWindows) {
         $(window).blur(function () {
+            var exam=window.exam;
+            if(exam.state.submit)return;  //如果交过卷了，则不再提醒
+            if(!exam.state.begin)return;  //没有开始，则不再提醒
+            if(exam.state.over)return;  //没有已经结束，则不再提醒
             var n = $("#cardBox dd[class]").size();
             var sum = $("#cardBox dd").size();
             var show = "离开考试界面将自动交卷；\n";
@@ -109,9 +138,11 @@ Examing.prototype.Init=function(){
                 show += "\n您还有 " + (sum - n) + "道题没有做；\n";
             }
             show += "确定交卷吗？";
+            $(".MsgBox,#msgMask").remove();
+            window.confirm("请勿切换考试界面",show,400,300,function(){
+                submitResult(2);
+            },null);
 			window.focus();
-            if (confirm(show)) submitResult(2);
-            window.focus();
         });
     }
     $(window).focus(function () {
@@ -289,8 +320,8 @@ Examing.setExamQuesLayout = function (examobj) {
         var n = $("#cardBox dd[class]").size();
         var sum = $("#cardBox dd").size();
         if (n < sum) {
-            if (confirm("您还有" + (sum - n) + "道题没有做，确定交卷吗？"))
-                submitResult(2);
+            window.confirm("确定交卷吗？","您还有" + (sum - n) + "道题没有做，确定交卷吗？",400,300,
+                function(){ submitResult(2);},null);
         } else {
             submitResult(2);
         }
