@@ -93,7 +93,7 @@
     <div id="themeBox">
           <div class="theme"> {$theme.Exam_Title} </div>
           <div class="themesub"> 第{$exam.exam_tax}场 - 《{$exam.Exam_name}》 </div>
-          <div class="examInfo"> 本卷所属学科《{$exam.sbj_name}》，共<span class="tpcount" title="共计多少道题">{$pager.Tp_Count}</span>道题，考试限定{$exam.Exam_Span}分钟，总分 {$exam.Exam_Total}分，{$exam.Exam_PassScore}分及格。</div>
+          <div class="examInfo"> 本卷所属学科《{$exam.sbj_name}》，共<span class="tpcount" title="共计多少道题">{$pager.Tp_Count}</span>道题，限时{$exam.Exam_Span}分钟，{$exam.Exam_PassScore}分及格/总分 {$exam.Exam_Total}分。</div>
         </div>
   </vt:if>
       <vt:if var="state.state" value="1" compare="=" mark="考试已经结束">
@@ -127,10 +127,17 @@
     <!--答题信息的显示区域 -->
     <div class="pagerCard">
           <div class="topBox">
+          <div class="top-left"> <img src="{$stpath}{$:#.Account.Ac_photo}" style="height:120px;width:100%;" default="images/noPhoto.jpg"/>
+          <div class="acc-name">{$:#.Account.Ac_Name}</div>
+           </div>
+          <div class="top-right">
         <div id="startTime">开始时间：<span class="startTime">{$startTime  format="yyyy-MM-dd HH:mm:ss"} </span> </div>
         <div id="residueTime"> <span class="mm">0</span>:<span class="ss">0</span> </div>
+         <div id="pagerSubmitBox" class="noStart"> </div>
+        </div>
       </div>
-          <div id="pagerSubmitBox" class="noStart"> </div>
+      
+         
           <!--答题卡 -->
           <div class="quesCard">
         <div class="cardTit">

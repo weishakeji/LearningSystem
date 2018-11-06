@@ -168,6 +168,36 @@
 .pagerCard .topBox {
 	border: 1px solid #999999;
 	width: 100%;
+	height:160px;
+	margin-bottom:5px;
+}
+.top-left{
+	width:30%;
+	float:left;
+	height:160px;
+	position:relative;
+}
+.top-right{
+	width:69%;
+	float:right;
+	height:160px;
+	position:relative;
+}
+.acc-name{
+	position: absolute;
+	bottom: 0px;
+	text-align: center;
+	line-height: 40px;
+	height: 40px;
+	width: 100%;
+	background-image: url(../Images/submit-bg.gif);
+	background-position: center center;
+	background-repeat: repeat;
+	font-size: 20px;
+	font-weight: bold;
+	letter-spacing: 5px;
+	color: #000;
+	text-shadow: 3px 1px 3px #666;
 }
 .pagerCard .topBox #startTime {
 	line-height: 30px;
@@ -183,7 +213,7 @@
 	width: 100%;
 }
 .topBox #residueTime {
-	height: 80px;
+	height: 90px;
 	width: 100%;
 	background-color: #FFFFCC;
 	font-size: 55px;
@@ -208,11 +238,14 @@
 	text-align: center;
 	cursor: pointer;
 	background-image: url(../Images/submit-bg.gif);
-	margin-top: 5px;
-	margin-bottom: 5px;
-	margin-left: 1px;
 	background-position: center center;
 	background-repeat: repeat;
+	bottom:0px;
+	position: absolute;
+	
+}
+#pagerSubmitBox:hover{
+	-moz-box-shadow:2px 2px 5px #333333; -webkit-box-shadow:2px 2px 5px #333333; box-shadow:2px 2px 5px #333333;
 }
 #pagerSubmitBox:before {
 	content: " ";
@@ -222,10 +255,9 @@
 	color: #FFFFFF;
 	background-color: #009900;
 	height: 40px;
-	width:260px;
+
 	background-image: url(../Images/submit.gif);
-	margin-top: 5px;
-	margin-bottom: 5px;
+
 	margin-left: auto;
 	margin-right:auto;
 	background-position: center center;

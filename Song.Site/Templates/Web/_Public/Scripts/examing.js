@@ -369,8 +369,8 @@ function setCardQues() {
     $(".tpcount").text($("#pagerArea dl dd").size());
     $(".pagerCard").height($(window).height());
     var hg= $(".quesCard").parent().height();
-    $(".quesCard").height(hg-$(".quesCard").siblings().height()-80);
-    $("#cardBox").height( $(".quesCard").height()-40);
+    $(".quesCard").height(hg-$(".quesCard").siblings().height()-20);
+    $("#cardBox").height( $(".quesCard").height()-$(".cardTit").outerHeight());
 }
 
 /*
