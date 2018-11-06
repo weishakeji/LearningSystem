@@ -199,7 +199,7 @@
         $(".MsgBox").each(function () {
             var height = Number($(this).attr("height"));
             var width = Number($(this).attr("width"));
-            $(this).css({ top: (winHg - height) / 2 + $(window).scrollTop(),
+            $(this).css({ top: (winHg - height) / 2,
                 left: (winWd - width) / 2
             });
         });

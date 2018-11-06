@@ -278,6 +278,9 @@
 	margin-right: 2%;
 	text-align: right;
 }
+#cardBox{
+	overflow: auto;
+}
 #cardBox .quesType {
 	line-height: 25px;
 	height: 25px;

@@ -367,6 +367,10 @@ function setCardQues() {
     $(".quesCard").show();
     //显示多少道题
     $(".tpcount").text($("#pagerArea dl dd").size());
+    $(".pagerCard").height($(window).height());
+    var hg= $(".quesCard").parent().height();
+    $(".quesCard").height(hg-$(".quesCard").siblings().height()-80);
+    $("#cardBox").height( $(".quesCard").height()-40);
 }
 
 /*
