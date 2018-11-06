@@ -22,7 +22,6 @@
 	float: left;
 	width: 150px;
 	cursor:pointer;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	letter-spacing: 0.15em;
 	opacity:0.6;
 	filter:alpha(opacity=60);
@@ -37,7 +36,6 @@
 	float: left;
 	width: 150px;
 	cursor:pointer;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	letter-spacing: 0.15em;
 	opacity:1;
 	filter:alpha(opacity=100);

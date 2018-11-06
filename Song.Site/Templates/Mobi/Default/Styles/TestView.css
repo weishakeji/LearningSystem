@@ -22,7 +22,6 @@ img{
 	max-width:100%;
 }
 .pagerTitle {
-	font-family: "黑体", "微软雅黑";
 	font-size: 18px;
 	line-height: 25px;
 	color: #2d81ff;
@@ -48,7 +47,6 @@ img{
 	margin-bottom: 3px;
 }
 .scoreinfo .score {
-	font-family: "黑体";
 	line-height: 35px;
 	font-weight: bold;
 	color: #FF0000;
@@ -115,7 +113,6 @@ img{
 	font-weight: bold;
 }
 #quesTitle {
-	font-family: "黑体", "微软雅黑";
 	font-size: 16px;
 	line-height: 30px;
 	font-weight: bold;
@@ -163,7 +160,6 @@ img{
 	text-align: center;
 	color: #0066CC;
 	font-size: 14px;
-	font-family: "黑体", "微软雅黑";
 }
 #btnAll {
 	color: #000000;
@@ -208,7 +204,6 @@ img{
 	border-bottom-style: none;
 	border-left-style: none;
 	background-color: #009cff;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-weight: bold;
 	color: #FFFFFF;
 	font-size: 16px;
