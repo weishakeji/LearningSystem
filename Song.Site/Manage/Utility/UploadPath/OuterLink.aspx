@@ -14,7 +14,7 @@
                 视频链接：
             </td>
             <td>
-                 <asp:TextBox ID="tbUrl" runat="server" Width="98%" nullable="false" MaxLength="255"></asp:TextBox>
+                 <asp:TextBox ID="tbUrl" runat="server" Width="98%" nullable="false" MaxLength="3000"></asp:TextBox>
             </td>
         </tr>
          <tr>
@@ -22,7 +22,7 @@
                 宽：
             </td>
             <td >
-                <asp:TextBox ID="tbHeight" runat="server" Width="60" MaxLength="255"></asp:TextBox> px（像素）
+                <asp:TextBox ID="tbHeight" runat="server" Width="60" MaxLength="10"></asp:TextBox> px（像素）
             </td>
         </tr>
          <tr>
@@ -30,7 +30,7 @@
                 高：
             </td>
             <td >
-                <asp:TextBox ID="tbWidth" runat="server" Width="60" MaxLength="255"></asp:TextBox> px（像素）
+                <asp:TextBox ID="tbWidth" runat="server" Width="60" MaxLength="10"></asp:TextBox> px（像素）
             </td>
         </tr>
          <tr>
@@ -38,7 +38,7 @@
                 时长：
             </td>
             <td >
-                <asp:TextBox ID="tbSpan" runat="server" Width="80" MaxLength="255"></asp:TextBox> 分钟
+                <asp:TextBox ID="tbSpan" runat="server" Width="80" MaxLength="20"></asp:TextBox> 分钟
             </td>
         </tr>
            <tr>
