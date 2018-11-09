@@ -139,8 +139,8 @@
         var border = parseInt(boxframe.css("border-width")); //窗体边线宽度
         border = !isNaN(border) ? border : 0;
         //设置窗口的位置
-        boxframe.css({ top: (hg - this.Height) / 2 + $(window).scrollTop(),
-            left: (wd - this.Width) / 2, position: "absolute",
+        boxframe.css({ top: (hg - this.Height) / 2,
+            left: (wd - this.Width) / 2, position: "fixed",
             "width": this.Width - 8, "height": this.Height - 8
         });
         //如果有父窗口
