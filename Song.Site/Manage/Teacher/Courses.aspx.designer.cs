@@ -56,5 +56,14 @@ namespace Song.Site.Manage.Teacher {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::WeiSha.WebControl.GridView GridView1;
+        
+        /// <summary>
+        /// Pager1 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::Song.Site.Manage.Utility.Pager Pager1;
     }
 }

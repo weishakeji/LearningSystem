@@ -60,7 +60,8 @@ namespace Song.Site.Manage.Teacher
             //当前教师
             Song.Entities.Teacher th = Extend.LoginState.Accounts.Teacher;
             if (th == null) return;
-            eas = Business.Do<ICourse>().CourseCount(org.Org_ID, sbjid, th.Th_ID,-1, tbSear.Text, isUse, -1);
+            int count = 0;
+            eas = Business.Do<ICourse>().CoursePager(org.Org_ID, sbjid, th.Th_ID, isUse, tbSear.Text.Trim(), "tax", Pager1.Size, Pager1.Index, out count);
             foreach (Song.Entities.Course s in eas)
             {
                 if (string.IsNullOrEmpty(s.Cou_Intro) || s.Cou_Intro.Trim() == "") continue;
@@ -69,18 +70,11 @@ namespace Song.Site.Manage.Teacher
                     s.Cou_Intro = s.Cou_Intro.Substring(0, 20) + "...";
                 }
             }
-            DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(eas.ToArray());
-            WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
-            tree.IdKeyName = "Cou_ID";
-            tree.ParentIdKeyName = "Cou_PID";
-            tree.TaxKeyName = "Cou_Tax";
-            tree.Root = 0;
-            dt = tree.BuilderTree(dt);
 
-            
-            GridView1.DataSource = dt;
+            GridView1.DataSource = eas;
             GridView1.DataKeyNames = new string[] { "Cou_ID" };
             GridView1.DataBind();
+            Pager1.RecordAmount = count;    
             
         }
         /// <summary>

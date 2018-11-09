@@ -2,6 +2,7 @@
     CodeBehind="Courses.aspx.cs" Inherits="Song.Site.Manage.Teacher.Courses" %>
 
 <%@ Register Src="../Utility/toolsBar.ascx" TagName="toolsBar" TagPrefix="uc1" %>
+<%@ Register Src="../Utility/Pager.ascx" TagName="Pager" TagPrefix="uc2" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
 <% this.Title = "课程管理"; %>
@@ -17,7 +18,7 @@
         </div>
     </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox" IsEncrypt="false"
-        ShowSelectBox="True" ShowFooter="true" PrimaryKey="couid">
+        ShowSelectBox="True" ShowFooter="false" PrimaryKey="couid">
         <EmptyDataTemplate>
             没有满足条件的信息！
         </EmptyDataTemplate>
@@ -91,4 +92,5 @@
             </asp:TemplateField>
         </Columns>
     </cc1:GridView>
+    <uc2:Pager ID="Pager1" runat="server" Size="20" OnPageChanged="BindData" />
 </asp:Content>
