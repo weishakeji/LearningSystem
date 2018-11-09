@@ -1,0 +1,20 @@
+/*reset*/
+
+li{list-style: none;}
+
+
+/*example*/
+.example{}
+.example ol{position:relative;width: 80px;height: 20px;top:-30px;left:60px;}
+.example ol li{float:left;width: 10px;height: 10px;margin: 5px;background: #999;}
+.example ol li.seleted{background: #1AA4CA;}
+
+.example1{}
+.example1 ol{position:relative;width: 80px;height: 20px;top:-30px;left:60px;}
+.example1 ol li{float:left;width: 10px;height: 10px;margin: 5px;background: #999;}
+.example1 ol li.seleted{background: #1AA4CA;}
+
+.example2{}
+.example2 ol{position:relative;width: auto;height: 20px;top:-30px;left:60px;}
+.example2 ol li{float:left;width: 10px;height: 10px;margin: 5px;background: #999;}
+.example2 ol li.seleted{background: #1AA4CA;}

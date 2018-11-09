@@ -4,129 +4,105 @@
 <title>新闻资讯-{$:#.org.org_platformname}</title>
 <vt:include file="inc/meta.inc" />
 <link href="Styles/News.css" rel="stylesheet" type="text/css" />
+
+<!--<script type="text/javascript" src="Scripts/News.js"></script>-->
+<script type="text/javascript" src="Scripts/jquery.luara.0.0.1.min.js"></script>
+<link rel="stylesheet" href="Styles/lunhuan/style.css"/>
+<link rel="stylesheet" href="Styles/lunhuan/luara.left.css"/>
 </head>
 <body>
 <vt:include file="inc/Header.html" />
 <div id="Context">
-  <div id="LeftBox">
-    <div id="newsBar">新闻资讯</div>
-    <vt:if var="cols.Length" value="1" compare="<=">       
-      <!--新闻列表，如果只有一个栏目 -->
-      <div id="newsList">
-        <vt:if var="pageAmount.Length" value="1" compare="<">
-          <div class="noNews">没有新闻</div>
-          <vt:else />
-          <vt:foreach id="newslist" from="$#.newslist" item="data" columns="-1" index="i" size="6" introlen="150" remark="columns为新闻栏目Id,introlen为简介的长度"> 
-            <!--新闻项 -->
-            <div class="newsItem">
-              <div class="newsTitleBar">
-                <div class="newsTitle"> <a href="article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}">{$:#.data.art_title}</a></div>
-                <div class="newsTime">{$:#.data.art_pushTime  format="yyyy-M-dd"}</div>
-              </div>
-              <div class="newsContent">
-                <vt:if var="data.art_isImg" value="false" compare="=">
-                  <div class="newsIntro1"><a href="article.ashx?id={$:#.data.art_id}" >{$:#.data.art_Intro}</a></div>
-                  <vt:else />
-                  <div class="newsImg"><img src="{$:#.data.Art_Logo}"/></div>
-                  <div class="newsIntro2"> <a href="article.ashx?id={$:#.data.art_id}" >{$:#.data.art_Intro}</a></div>
-                </vt:if>
-              </div>
-            </div>
-          </vt:foreach>
-        </vt:if>
-      </div>
-      <vt:else />
-     <!--如果有多个顶级栏目-->
-     <div class="col-box">
-      <vt:foreach  from="$#.cols" item="c" remark="新闻栏目"> 
-      <div class="col-tit"><div class="triangle_border_right"><span></span></div>
-      
-      <a href="newslist.ashx?colid={$:#.c.col_id}">{$:#.c.col_Name}</a>
-      <a href="newslist.ashx?colid={$:#.c.col_id}" class="more">更多&gt;&gt;</a>
-      </div>
-      <div class="col-news">
-      <vt:function var="arts" method="getArticle" args="$#.c.col_id" args="3"/>
-       <vt:foreach  from="$#.arts" item="data" remark="新闻文章"> 
-      <div class="newsItem">
-              <div class="newsTitleBar">
-                <div class="newsTitle"> <a href="article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}">{$:#.data.art_title}</a></div>
-                <div class="newsTime">{$:#.data.art_pushTime  format="yyyy-M-dd"}</div>
-              </div>
-              <div class="newsContent">
-                <vt:if var="data.art_isImg" value="false" compare="=">
-                  <div class="newsIntro1"><a href="article.ashx?id={$:#.data.art_id}" >{$:#.data.art_Intro}</a></div>
-                  <vt:else />
-                  <div class="newsImg"><img src="{$:#.data.Art_Logo}"/></div>
-                  <div class="newsIntro2"> <a href="article.ashx?id={$:#.data.art_id}" >{$:#.data.art_Intro}</a></div>
-                </vt:if>
-              </div>
-            </div>
-       </vt:foreach>
-      </div>
-     </vt:foreach>
-     </div>
-    </vt:if>
-    <!--分页导航 -->
-    <vt:if var="pageAmount.Length" value="1" compare=">">
-      <div id="pagerBar">
-        <div class="pagerFirst pagerBtn"><a href="news.ashx">首页</a></div>
-        <!--上一页 -->
-        <vt:expression var="pagerPrev" expression="{0}-1" args="$pageIndex" />
-        <vt:if var="#.pagerPrev" value="1" compare="<">
-          <div class="pagerPrev pagerBtn"><a href="#">上一页</a></div>
-          <vt:else />
-          <div class="pagerPrev pagerBtn"><a href="news.ashx?index={$:#.pagerPrev}">上一页</a></div>
-        </vt:if>
-        <!--分页数字 -->
-        <vt:foreach id="pageAmount" from="$#.pageAmount" item="data" index="i" remark="分页数字">
-          <vt:if var="#.data" value="$pageIndex" compare="=">
-            <div class="pagerIndex pagerBtn pagerCurr"><a href="/news.ashx?index={$:i}">{$:i}</a></div>
-            <vt:else />
-            <div class="pagerIndex pagerBtn"><a href="news.ashx?index={$:i}">{$:i}</a></div>
-          </vt:if>
-        </vt:foreach>
-        <!--下一页 -->
-        <vt:expression var="pagerNext" expression="{0}+1" args="$pageIndex" />
-        <vt:if var="#.pagerNext" value="$pageAmount.Length" compare=">">
-          <div class="pagerNext pagerBtn"><a href="#">下一页</a></div>
-          <vt:else />
-          <div class="pagerNext pagerBtn"><a href="news.ashx?index={$:#.pagerNext}">下一页</a></div>
-        </vt:if>
-        <div class="pagerLast pagerBtn"><a href="news.ashx?index={$:pageAmount.length}">末页</a></div>
-      </div>
-    </vt:if>
-  </div>
-  <div id="RightBox">
-    <div class="box">
-      <div class="boxBar">
-        <div class="title"> 通知公告</div>
-        <div class="more"> <a href="Notices.ashx">更多&gt;&gt;</a></div>
-      </div>
-      <div class="nolist">
-        <vt:list type="notice" item="data" index="i" count="10">
+<div class="row" >
+    <div class="notice box" >
+      <div class="boxTit tit"> <span class="txt">通知公告</span> <a href="/notices.ashx">&nbsp;</a> </div>
+      <div class="newslist">
+         <vt:list type="notice" item="data" index="i" count="10">
           <div class="item" noid="{$:#.data.no_id}">
-            <div class="noItem"><a href="notice.ashx?id={$:#.data.no_id}" title="{$:#.data.no_ttl}"> {$:#.data.no_ttl}</a> </div>
-            <div class="noTime">{$:#.data.no_startTime  format="[MM-dd]"}</div>
+            <div class="newsItem"><a href="/notice.ashx?id={$:#.data.no_id}" title="{$:#.data.no_ttl}"> {$:#.data.no_ttl}</a> </div>
+            <div class="newsTime">{$:#.data.no_startTime  format="[MM-dd]"}</div>
           </div>
         </vt:list>
       </div>
     </div>
-    <div class="box">
-      <div class="boxBar">
-        <div class="title"> 热点资讯</div>
-        <div class="more"> <a href="/news.ashx">更多&gt;&gt;</a></div>
-      </div>
-      <div class="nolist">
-        <vt:list type="news" item="data" columns="-1" order="hot" index="i" count="10" remark="新闻">
+    <div class="imgshow box">
+                <div class="example2">
+                    <ul>
+                        <vt:list type="news" var="newsImg" item="data" order="img" index="i" count="4" remark="图片新闻">
+            <li><a href="/article.ashx?id={$:#.data.art_id}" target="_blank"><img src="{$:#.data.art_logo}" style="width:499px; height:317px" alt="{$:i}"/> </a></li>
+          </vt:list>
+                    </ul>
+                    <ol>
+                        <vt:list from="$newsImg">
+            <li></li>
+          </vt:list>
+                    </ol>
+                </div>
+                <!--Luara图片切换骨架end-->
+                <script>
+        $(function(){
+            <!--调用Luara示例-->
+            $(".example2").luara({width:"500",height:"317",interval:4500,selected:"seleted",deriction:"left"});
+
+        });
+                </script>
+            </div>
+    <div class="news box" >
+      <div class="tit boxTit">
+        <span class="txt">热点新闻</span>
+       <a href="/news.ashx">&nbsp;</a> </div>
+      <div class="newslist">
+        <vt:list type="news" item="data" columns="-1" index="i" count="10" remark="columns为新闻栏目Id">
           <div class="item" artid="{$:#.data.art_id}">
-            <div class="noItem"> <img src="images/{$:i}.png"/><a href="/article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a></div>
-            <div class="noTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
+            <div class="newsItem"> <a href="../../article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}">{$:#.data.art_title}</a> </div>
+            <div class="newsTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
           </div>
         </vt:list>
       </div>
     </div>
   </div>
 </div>
+
+
+<div id="Context">
+<img src="Images/bar01.jpg" width="1196" height="100" class="rowImg" />
+  
+   <vt:list type="columns" ctype="news" item="m" index="i">
+  <div class="order box" >
+      <div class="tit"> {$:m.col_name}<a href="/newslist.ashx?colid={$:m.col_id}">&nbsp;</a> </div>
+      <div class="orderAreaBox"> </div>
+    
+    <vt:function var="s" method="getArticle" args="$#.m.col_id" args="8"/>
+    <div class="newslist">
+        <vt:foreach from="$s" item="data" columns="-1" index="i" count="8" remark="columns为新闻栏目Id">
+          <div class="item" artid="{$:#.data.art_id}">
+            <div class="newsItem"> <a href="../../article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}">{$:#.data.art_title}</a> </div>
+            <div class="newsTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
+          </div>
+        </vt:foreach>
+      </div></div>
+  </vt:list>
+ 
+</div>
+
+<div id="Context">
+ <!--热门课程--> 
+  <div class="hotCour box" >
+      <div class="tit">热门课程<a href="/courses.ashx">&nbsp;</a> </div>
+      <div class="coursebox">
+      <div class="coursebox-inner">
+        <vt:list type="course" item="c" index="i" order="rec"  remark="推荐课程">
+          <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
+            <div class="cour-price">
+              
+              <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span> </div>
+          </div>
+        </vt:list>
+      </div>
+    </div>
+    </div>
+</div>
 <vt:include file="inc/footer.html" />
+
 </body>
 </html>

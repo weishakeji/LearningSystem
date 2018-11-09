@@ -1,17 +1,48 @@
 ﻿@charset "utf-8";
 body {
 }
-#bodyTop {
-	background-image: url(../Images/news-banner.jpg);
-	background-repeat: no-repeat;
-	background-position: center 0px;
-	height: 200px;
-	width: 100%;
-}
+
 #Context {
-	margin-top: 20px;
-	margin-bottom: 60px;
-	min-height:600px;
+	margin-top: 5px;
+	display:table;
+}
+/*标题*/
+.tit {
+	line-height: 60px;
+	font-size: 23px;
+	color: #393939;
+	width: 100%;
+	font-family: "microsoft yahei";
+	height: 50px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #999;
+	position: relative;
+	margin-bottom: 10px;
+}
+
+.tit a {
+	background-image: url(../Images/more.png);
+	background-repeat: no-repeat;
+	height: 19px;
+	width: 56px;
+	display: block;
+	float: right;
+	position: absolute;
+	right: 0px;
+	bottom: -1px;
+	background-position: -40px 0px;
+	text-decoration: none;
+}
+.rowImg{
+	padding: 3px;
+	height: 106px;
+	width: 1190px;
+	border: 1px solid #CCC;
+	margin-top: 5px;
 }
 .noNews {
 	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
@@ -23,6 +54,30 @@ body {
 	text-align: center;
 }
 
+.box{
+
+	float: left;
+}
+.notice{
+	height: 320px;
+	width: 320px;
+	margin-right: 3px;
+}
+.notice .boxTit{
+	background-image: url(../Images/gonggao-bg.jpg);
+	background-repeat: no-repeat;
+	line-height: 38px;
+	height: 38px;
+	margin-top: 2px;
+	margin-left: 2px;
+}
+.notice .txt {
+	color: #efefef;
+	margin-left: 20px;
+	font-family: "黑体", "微软雅黑";
+	font-size: 16px;
+	font-weight: bold;
+}
 
 #LeftBox {
 	width: 820px;
@@ -33,34 +88,6 @@ body {
 	border-bottom-style: none;
 	border-left-style: none;
 	border-right-color: #CCCCCC;
-}
-.col-tit
-{
-	background-color: #CCC;
-}
-.col-tit, .col-tit a{
-	font-size: 18px;
-	line-height: 40px;
-	color: #000;
-	height: 40px;
-	font-weight: bold;
-}
-.triangle_border_right{
-    width:0;
-    height:0;
-    border-width:20px 0 20px 20px;
-    border-style:solid;
-    border-color:transparent transparent transparent #333;/*透明 透明 透明 灰*/
-    position:relative;
-	display:inline-block;
-	float:left;
-	margin-right:20px;
-}
-
-.col-tit a.more{
-	float:right;
-	margin-right:20px;
-	font-size: 14px;
 }
 #LeftBox #newsBar {
 	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
@@ -86,7 +113,7 @@ body {
 #LeftBox .newsItem {
 	width: 800px;
 	display: table;
-	max-heigh: 150px;
+	height: 150px;
 	margin-bottom: 20px;
 	border-bottom-width: 1px;
 	border-top-style: none;
@@ -102,7 +129,7 @@ body {
 	line-height: 40px;
 	float: left;
 	height: 40px;
-	width: 720px;
+	width: 500px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	display: block;
@@ -186,6 +213,7 @@ body {
 	width: 60px;
 	line-height: 30px;
 	margin-top: 25px;
+	display:inline-block;
 }
 .boxBar .more a{
 	color: #0387d9;
@@ -209,14 +237,14 @@ body {
 	line-height: 25px;
 	float: right;
 	height: 100px;
-	width: 660px;
+	width: 440px;
 	overflow: hidden;
 	color: #666666;
 }
 .newsContent .newsIntro1 {
 	line-height: 25px;
 	float: right;
-	max-heigh: 100px;
+	height: 100px;
 	overflow: hidden;
 	color: #666666;
 }
@@ -239,6 +267,45 @@ body {
 	text-indent: 15px;
 }
 
+/*热点新闻*/
+.news{
+	height: 320px;
+	width: 360px;
+	margin-left: 3px;	
+}
+.news .boxTit{
+	line-height: 38px;
+	height: 38px;
+	margin-top: 2px;
+	margin-left: 2px;
+	border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-color: #CCC;
+	background-position: 0px 5px;
+	
+}
+.news .txt {
+	color: #333;
+	font-family: "黑体", "微软雅黑";
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 38px;
+	text-align: center;
+	width: 98px;
+	float: left;
+}
+.news .item{
+	width: 350px;
+}
+.news .item .newsItem{
+	width: 280px;
+}
+/*图片新闻轮换*/
+.imgshow{
+	height: 320px;
+	width: 503px;
+	
+}
 .noTime {
 	color: #999999;
 	float: right;
@@ -252,4 +319,152 @@ body {
 .item .noItem a:hover{
 	font-size: 14px;
 	text-decoration: underline;
+}
+.order{
+	height: 260px;
+	width: 375px;
+	margin-right: 23px;
+	margin-bottom:3px;
+}
+.order .boxTit{
+	background-image: url(../Images/icon03.jpg);
+	background-repeat: no-repeat;
+	line-height: 38px;
+	height: 38px;
+	margin-top: 2px;
+	margin-left: 2px;
+	background-position: 8px 10px;
+}
+.order .boxTit .txt {
+	color: #666666;
+	margin-left: 36px;
+	line-height: 38px;
+	font-family: "黑体", "微软雅黑";
+	font-size: 16px;
+	font-weight: bold;
+}
+.notice .item {
+	width: 300px !important;
+	height: 26px;
+	display: table;
+	margin-left:5px;
+}
+.notice .item .newsItem {
+
+	width: 230px !important;
+	
+}
+.news .item {
+	width: 350px !important;
+	height: 26px;
+	display: table;
+	margin-left:5px;
+}
+.news .item .newsItem {
+
+	width: 280px !important;
+	
+}
+.newslist .item {
+	width: 380px;
+	height: 26px;
+	display: table;
+	margin-left:5px;
+}
+.newslist .item .newsItem {
+	line-height: 22px;
+	white-space: nowrap;
+	float: left;
+	height: 26px;
+	width: 310px;
+	overflow: hidden;
+	margin-left: 5px;
+	text-overflow: ellipsis;
+	background-image: url(../Images/icon3.png);
+	background-repeat: no-repeat;
+	background-position: 0px 8px;
+	text-indent: 15px;	
+}
+/*热门课程*/
+.hotCour{
+	min-height: 260px;
+	width: 1200px;
+	margin-right: 3px;	
+}
+
+
+/*课程*/
+.coursebox{
+	width: 1200px;
+	height: 450px;
+	overflow: hidden;
+}
+.coursebox-inner{
+	width: 1230px;
+	height: 450px;
+}
+.course-item{
+	float: left;
+	height: 160px;
+	width: 220px;
+	margin-top: 20px;
+	margin-right: 25px;
+	margin-bottom: 30px;
+}
+.cour-img{
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+.cour-img img{
+	width: 220px;
+	height:125px;
+}
+.cour-img:hover{
+	
+}
+.cour-img:hover img{
+	width: 216px;
+	height:121px;
+	border: 2px solid #fff;
+	filter: alpha(Opacity=85);
+	-moz-opacity: 0.85;
+	opacity: 0.85;
+}
+.cour-name{
+	line-height: 20px;
+	color: #333;
+	display: block;
+	height: 40px;
+	text-align: left;
+	font-size: 15px;
+	overflow: hidden;
+}
+.cour-name:hover{
+	color: #188eee;
+}
+.cour-price{
+	font-size: 15px;
+	line-height: 30px;
+}
+.cour-price .free{
+	color: #090;
+	float: left;
+}
+.cour-price .cou-sbj{
+	color: #999;
+	float: right;
+	width: 85px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-align: right;
+}
+.cou-count{
+	padding-top: 1px;
+	padding-left: 20px;
+	background: url(../images/sl.gif) 0 8px no-repeat;
+	height: 25px;
+	color: #666;
+	float: left;
+	margin-left: 10px;
 }
