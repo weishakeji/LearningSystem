@@ -45,7 +45,7 @@ if (mui.os.plus) {
 //异步加载数据
 function ajaxLoaddata() {
     index = size * index < sumcount ? ++index : index;
-    $.post(window.location.href, { size: size, index: index }, function (requestdata) {
+    $.post(window.location.href, { size: size, index: index,action:"list" }, function (requestdata) {
         var data = eval("(" + requestdata + ")");
         sumcount = data.sumcount;
         mui('#pullrefresh').pullRefresh().endPullupToRefresh((size * index >= sumcount)); //参数为true代表没有更多数据了。
@@ -56,23 +56,23 @@ function ajaxLoaddata() {
             var d = data.items[i];
             var li = document.createElement('li');
             li.className = 'money-item mui-table-view-cell';
-            li.setAttribute("maid", d.Ma_ID);
+            li.setAttribute("maid", d.Pa_ID);
             //相关数据
-            var type = d.Ma_Type == 1 ? "-" : "+";
-            var ico = d.Ma_Type == 1 ? "&#xe680;" : "&#xf0094;"; 	//支出图标，与收入图标
-            var sourse = d.Ma_Value ; //资金来源			
-            var date = new Date(d.Ma_CrtTime).Format("MM-dd"); //资金流水的创建日期
-            var time = new Date(d.Ma_CrtTime).Format("hh:mm"); //资金流水的创建时时间
-			var remark=$.trim(d.Ma_Remark)!="" ? d.Ma_Remark : d.Ma_Info;
+            var type = d.Pa_Type == 1 ? "-" : "+";
+            var ico = d.Pa_Type == 1 ? "&#xe680;" : "&#xf0094;"; 	//支出图标，与收入图标
+            var sourse = d.Pa_Value ; //资金来源			
+            var date = new Date(d.Pa_CrtTime).Format("MM-dd"); //资金流水的创建日期
+            var time = new Date(d.Pa_CrtTime).Format("hh:mm"); //资金流水的创建时时间
+			var remark=$.trim(d.Pa_Remark)!="" ? d.Pa_Remark : d.Pa_Info;
             //
             var html = '';
-            html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-red mui-icon mui-icon-trash" maid="' + d.Ma_ID + '"></a></div>';
+            html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-red mui-icon mui-icon-trash" maid="' + d.Pa_ID + '"></a></div>';
             html += '<div class="mui-slider-handle mui-table"><div class="mui-table-cell">';
             //
             html += '<div class="dates">' + date + '<br/>' + time + '</div>';
-            html += '<div class="ico"><div class="examico type' + Number(d.Ma_Type) + '">' + ico + "</div></div>";
+            html += '<div class="ico"><div class="examico type' + Number(d.Pa_Type) + '">' + ico + "</div></div>";
             html += '<div class="info">';
-            html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Ma_Money) + '</div> </div>';
+            html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Pa_Value) + '</div> </div>';
             html += '<div class="row2">' + remark+ '</div>';
             html += '</div>';
             //
@@ -84,7 +84,7 @@ function ajaxLoaddata() {
         mui('body').off('tap', '.money-item');
         mui('body').on('tap', '.money-item', function () {
             var id = $(this).attr("maid");
-            new PageBox("账单详情", "MoneyDetail.ashx?id=" + id, 100, 100, "url").Open();
+            //new PageBox("账单详情", "MoneyDetail.ashx?id=" + id, 100, 100, "url").Open();
         });
         //删除记录
         mui('body').off('tap', '.mui-btn');
@@ -99,13 +99,14 @@ function ajaxLoaddata() {
             mui.confirm('确认删除该条记录？', '删除', ['取消', '确认'], function (e) {
                 if (e.index == 1) {
                     var maid = elem.getAttribute("maid");
-                    $.post("MoneyDetail.ashx?id=" + maid, { action: "delete", id: maid }, function (data) {
+                    $.post(window.location.href, { action: "delete", id: maid }, function (data) {
                         if (data == "1") {
                             mui.toast('删除成功！', { duration: 1000, type: 'div' });
+							$(".money-item[maid=" + maid + "]").remove();
                         } else {
                             mui.toast('系统错误！', { duration: 1000, type: 'div' });
                         }
-                        $(".money-item[maid=" + maid + "]").remove();
+                        
                     });
 
                 } else {

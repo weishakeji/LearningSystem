@@ -57,7 +57,6 @@ namespace Song.Site.Mobile
         /// </summary>
         private void modify_delete()
         {
-            string remark = WeiSha.Common.Request.Form["remark"].String;
             try
             {
                 Business.Do<IAccounts>().MoneyDelete(id);
