@@ -171,36 +171,40 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Organization OrganCurrent()
         {
-            //当前机构的二级域名
-            string twoDomain = WeiSha.Common.Request.Domain.TwoDomain;
             //当前机构
             Organization curr = null;
-            //从缓存中读取
-            try
+            WhereClip wc = new WhereClip();
+            wc &= Organization._.Org_IsUse == true;
+            wc &= Organization._.Org_IsPass == true;
+            wc &= Organization._.Org_IsShow == true;
+            List<Organization> list = WeiSha.Common.Cache<Organization>.Data.List;
+            if (list == null || list.Count < 1) list = this.OrganBuildCache();
+            //是否启用多机构，0为多机构，1为单机构
+            int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
+            if (multi == 1)
             {
-                List<Organization> list = WeiSha.Common.Cache<Organization>.Data.List;
-                if (list == null || list.Count < 1) list = this.OrganBuildCache();
+
+                List<Organization> tm = (from l in list
+                                         where l.Org_IsUse == true && l.Org_IsPass == true && l.Org_IsShow == true && l.Org_IsDefault == true
+                                         select l).ToList<Organization>();
+                if (tm.Count > 0) curr = tm[0];
+                //如果缓存中没有，则读取数据库
+                if (curr == null) curr = Gateway.Default.From<Organization>().Where(wc && Organization._.Org_IsDefault == true).ToFirst<Organization>();
+            }
+            else
+            {
+                //当前机构的二级域名
+                string twoDomain = WeiSha.Common.Request.Domain.TwoDomain;
                 List<Organization> tm = (from l in list
                                          where l.Org_IsUse == true && l.Org_IsPass == true && l.Org_IsShow == true && l.Org_TwoDomain == twoDomain
                                          select l).ToList<Organization>();
                 if (tm.Count > 0) curr = tm[0];
-            }
-            catch
-            {
-                curr = Gateway.Default.From<Organization>().Where(Organization._.Org_TwoDomain == twoDomain).ToFirst<Organization>();
-            }
-            if (curr == null) curr = this.OrganDefault();
-            //如果缓存中没有，则读取数据库
-            if (curr == null)
-            {
-                WhereClip wc = new WhereClip();
-                wc &= Organization._.Org_IsUse == true;
-                wc &= Organization._.Org_IsPass == true;
-                wc &= Organization._.Org_IsShow == true;               
-                curr = Gateway.Default.From<Organization>().Where(wc && Organization._.Org_TwoDomain == twoDomain).ToFirst<Organization>();
+                //如果缓存中没有，则读取数据库
+                if (curr == null) curr = Gateway.Default.From<Organization>().Where(wc && Organization._.Org_TwoDomain == twoDomain).ToFirst<Organization>();
+                if (curr == null) curr = this.OrganDefault();
             }
             return curr;
-        }     
+        }  
         public Organization OrganSingle(int identify)
         {
             //当前机构

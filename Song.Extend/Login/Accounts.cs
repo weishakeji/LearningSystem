@@ -183,8 +183,10 @@ namespace Song.Extend.Login
             {
                 System.Web.HttpCookie cookie = new System.Web.HttpCookie(key);
                 cookie.Value = acc.Ac_ID.ToString();
-                if (!WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Request.Domain.MainName;
-                string exp = WeiSha.Common.Login.Get["Accounts"].Expires.String;
+                //如果是多机构，有不用IP访问，则用根域写入cookie
+                int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
+                if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Request.Domain.MainName;
+                //设置过期时间
                 if (expiresDay <= 0)
                 {
                     //如果是在微信中，登录时效尽可能长一些
@@ -194,6 +196,7 @@ namespace Song.Extend.Login
                     }
                     else
                     {
+                        string exp = WeiSha.Common.Login.Get["Accounts"].Expires.String;
                         if (!exp.Equals("auto", StringComparison.CurrentCultureIgnoreCase))
                             cookie.Expires = DateTime.Now.AddMinutes(WeiSha.Common.Login.Get["Accounts"].Expires.Int32 ?? 10);
                     }
@@ -217,7 +220,7 @@ namespace Song.Extend.Login
             }
             //注册到内存，用于判断在线用户
             this._register(acc);
-        }         
+        }     
         /// <summary>
         /// 获取当前登录用户的对象
         /// </summary>
@@ -240,7 +243,9 @@ namespace Song.Extend.Login
             string uid = WeiSha.Common.Request.UniqueID();
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
             System.Web.HttpCookie cookie = new System.Web.HttpCookie(_uid, uid);
-            if (!WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Request.Domain.MainName;
+            //如果是多机构，有不用IP访问，则用根域写入cookie
+            int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
+            if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Request.Domain.MainName;
             _context.Response.Cookies.Add(cookie);
             acc.Ac_CheckUID = uid;
             //登录用户是否已经存在;
@@ -307,7 +312,9 @@ namespace Song.Extend.Login
                 System.Web.HttpCookie cookie = _context.Response.Cookies[key];
                 if (cookie != null)
                 {
-                    if (!WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Request.Domain.MainName;
+                    //如果是多机构，有不用IP访问，则用根域写入cookie
+                    int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
+                    if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Request.Domain.MainName;
                     cookie.Expires = DateTime.Now.AddYears(-1);
                     _context.Response.Cookies.Add(cookie);
                 }

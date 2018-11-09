@@ -36,7 +36,11 @@ namespace Song.Site.Manage.Sys
             this.tbLoginTimeSpan.Text = Business.Do<ISystemPara>()["SysLoginTimeSpan"].String;
             this.tbWorkTimeSpan.Text = Business.Do<ISystemPara>()["SysWorkTimeSpan"].String;
             //系统名称
-            this.tbSysName.Text = Business.Do<ISystemPara>()["SystemName"].String;        
+            this.tbSysName.Text = Business.Do<ISystemPara>()["SystemName"].String;
+            //是否启用多机构，默认启用
+            int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
+            ListItem li = rblMultiOrgan.Items.FindByValue(multi.ToString());
+            if (li != null) li.Selected = true;
             
         }
         /// <summary>
@@ -54,6 +58,8 @@ namespace Song.Site.Manage.Sys
             Business.Do<ISystemPara>().Save("SysWorkTimeSpan", tbWorkTimeSpan.Text, false);
             //管理平台的名称称称
             Business.Do<ISystemPara>().Save("SystemName", this.tbSysName.Text.Trim(), false);
+            //是否启用多机构
+            Business.Do<ISystemPara>().Save("MultiOrgan", this.rblMultiOrgan.SelectedValue, false);
             //刷新全局参数
             Business.Do<ISystemPara>().Refresh();            
         }
