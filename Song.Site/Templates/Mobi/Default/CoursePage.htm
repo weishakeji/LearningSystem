@@ -12,10 +12,10 @@
 </head>
 <body couid="{$course.cou_id}">
 <div class="mui-inner-wrap">
-<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left back" type="link" href="default.ashx"></a>
+
   <div class="photo" > <img  src="{$coupath}{$course.cou_logo}" error="images/cou_nophoto.jpg"/> </div>
   <div id="Context">
-    <div class="couName">{$course.cou_name} </div>
+    <div class="couName"><a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" type="link" href="default.ashx"></a>{$course.cou_name} </div>
     <div class="info">{$studyCount}人学习 / 
       <vt:if var="course.Cou_IsFree" value="true" compare="=">免费
         <vt:else />

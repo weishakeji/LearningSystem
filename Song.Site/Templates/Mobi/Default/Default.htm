@@ -88,7 +88,7 @@ gallery.slider({
           <div class="mui-card-content">
            <vt:function var="path" method="Path" args="Course"/>
             <vt:if var="#.currCourse.cou_name" value="" compare="!=">
-              <li class="mui-table-view-cell  curr-box"> <a class="mui-navigate" href="CoursePage.ashx" type="link">
+              <li class="mui-table-view-cell  curr-box"> <a class="mui-navigate" href="CoursePage.ashx?couid={$currCourse.cou_id}" type="link">
                 <vt:if var="#.currCourse.cou_LogoSmall" value="" compare="="> <svg class="icon cou-ico" aria-hidden="true">
                   <use xlink:href="#icon-objects-color_diamond"></use>
                   </svg>
