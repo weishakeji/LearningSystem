@@ -9,7 +9,7 @@
 </head>
 <body>
 <div id="main">
-  <div class="photo" > <img  src="{$course.cou_logo}"/> </div>
+  <div class="photo" > <img  src="{$course.cou_logo}" error="images/cou_nophoto.jpg"/> </div>
 <div id="Context">  <div class="couName">{$course.cou_name} </div>
   <div class="info"><i class="viewnum">{$course.cou_viewNum}</i> / <i class="studynum">{$studyCount}</i> /
     <vt:if var="course.cou_isfree" value="true" compare="=">
@@ -93,7 +93,7 @@
             
           </vt:if>
           <vt:else/>
-          <div class="couBtn"> <a href="student/index.ashx" title="请选登录">登录学习</a></div>
+          <div class="couBtn"> <a href="Login.ashx" target="_top" title="请选登录">登录学习</a></div>
         </vt:if>
     
     <!--按钮结束--> 

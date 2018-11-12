@@ -21,7 +21,7 @@
     $("img").error(function () {
         var errImg = $(this).attr("error");
         if (errImg == null) return false;
-        $(this).attr("src", tmpath + errImg);
+        $(this).attr("src", errImg);
     });
 });
 //超链接的事件
