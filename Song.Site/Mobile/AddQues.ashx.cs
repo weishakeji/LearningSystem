@@ -18,12 +18,15 @@ namespace Song.Site.Mobile
         protected int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         public void ProcessRequest(HttpContext context)
         {
-            //如果不存在收藏，则添加
-            Song.Entities.Student_Ques stc = new Entities.Student_Ques();
-            stc.Ac_ID = Extend.LoginState.Accounts.CurrentUser.Ac_ID;
-            stc.Qus_ID = qid;
-            stc.Cou_ID = couid;
-            Business.Do<IStudent>().QuesAdd(stc);
+            if (Extend.LoginState.Accounts.IsLogin)
+            {
+                //如果不存在收藏，则添加
+                Song.Entities.Student_Ques stc = new Entities.Student_Ques();
+                stc.Ac_ID = Extend.LoginState.Accounts.CurrentUser.Ac_ID;
+                stc.Qus_ID = qid;
+                stc.Cou_ID = couid;
+                Business.Do<IStudent>().QuesAdd(stc);
+            }
         }
 
         public bool IsReusable

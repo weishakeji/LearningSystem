@@ -30,8 +30,8 @@
               <asp:ImageButton ID="imgBtn" CssClass="imgBtn" ImageUrl="~/Manage/Images/index/loginbtn.jpg"
                             runat="server" TabIndex="4" OnClick="btnEnter_Click" validationgroup="enter" />
             </div>
-            <div id="copyright">技术支持：<br/><%= copyright["tel"]%><br/>
-            <a href="<%= copyright["url"]%>" target="_blank" title="<%= copyright["compay"]%>"><%= copyright["abbr"]%></a>
+            <div id="copyright"><a href="<%= copyright["url"]%>" target="_blank" title="<%= copyright["compay"]%>"><%= copyright["abbr"]%></a><br/><%= copyright["tel"]%><br/>
+            
             </div></td>
         </tr>
         <tr>

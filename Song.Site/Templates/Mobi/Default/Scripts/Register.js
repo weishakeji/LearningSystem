@@ -67,7 +67,7 @@ function _mobi_smsSend() {
     vname = tmp = rs ? rs[2] : "";
     var phone = $("form input[name=Ac_MobiTel1]").val(); //手机号
     $("#getSms").attr("state", "waiting").text("验证中...").css("cursor", "default");
-    $.post(window.location.href, { action: "getSms", vcode: vcode, vname: vname, Ac_MobiTel1: phone }, function (requestdata) {
+    $.post(window.location.href, { action: "getSms", vcode: vcode, vname: vname, phone: phone }, function (requestdata) {
         var data = eval("(" + requestdata + ")");
         var state = Number(data.state); //状态值
         if (Number(data.success) < 1) {

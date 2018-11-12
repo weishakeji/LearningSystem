@@ -6,6 +6,8 @@ using WeiSha.Common;
 using Song.ServiceInterfaces;
 using Song.Extend;
 using System.Reflection;
+using System.Collections;
+using LitJson;
 
 namespace Song.Site.Student
 {
@@ -75,7 +77,10 @@ namespace Song.Site.Student
             {
                 bool success = Business.Do<ISMS>().SendVcode(phone, "reg_mobi_" + vname);
                 //bool success = true;
-                if (success) Response.Write("{\"success\":\"1\",\"state\":\"0\"}");  //短信发送成功                
+                Hashtable hash = new Hashtable();
+                hash["success"] = 1;
+                hash["state"] = 0;
+                if (success) Response.Write(JsonMapper.ToJson(hash));  //短信发送成功                
             }
             catch (Exception ex)
             {
