@@ -41,7 +41,9 @@ namespace Song.Site.Mobile
                 this.Document.Variables.SetValue("dtOutlines", Business.Do<IOutline>().OutlineTree(outlines));
             }
             //是否学习当前课程
-            bool isStudy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, couid);
+            int accid = 0;
+            if (Extend.LoginState.Accounts.IsLogin) accid = this.Account.Ac_ID;
+            bool isStudy = Business.Do<ICourse>().StudyIsCourse(accid, couid);
             this.Document.Variables.SetValue("isStudy", isStudy);
             //当前章节
             Song.Entities.Outline ol = null;

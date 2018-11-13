@@ -328,12 +328,17 @@ namespace Song.Extend.Login
         public void CleanOut()
         {
             //设置超时时间，单位分钟
-            int outTimeNumer = 10;
+            int outTimeNumer = 100;
+            string exp = WeiSha.Common.Login.Get["Accounts"].Expires.String;
+            if (!exp.Equals("auto", StringComparison.CurrentCultureIgnoreCase))
+                outTimeNumer = WeiSha.Common.Login.Get["Accounts"].Expires.Int32 ?? 10;
+
+            
             List<Song.Entities.Accounts> _tm = new List<Song.Entities.Accounts>();
             foreach (Song.Entities.Accounts em in this.OnlineUser)
             {
                 if (em == null) continue;
-                if (DateTime.Now.AddMinutes(-outTimeNumer) > em.Ac_LastTime)
+                if (DateTime.Now < em.Ac_LastTime.AddMinutes(outTimeNumer))
                     _tm.Add(em);                
             }
             this._onlineUser = _tm;
