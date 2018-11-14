@@ -310,6 +310,7 @@
     <Content Include="Manage\Exam\Scripts\Public.js" />
     <Content Include="Manage\Exam\Scripts\TestPaper.js" />
     <Content Include="Manage\Exam\Scripts\TestPaper_Edit2.js" />
+    <Content Include="Manage\Exam\Scripts\TestPaper_Statistics.js" />
     <Content Include="Manage\Exam\Styles\TestPaper_Edit2.css" />
     <Content Include="Manage\Exam\Styles\TestPaper.css" />
     <Content Include="Manage\Exam\TestPaper_Edit1.aspx" />

@@ -87,6 +87,7 @@ img {
 }
 #consTop #consDropMenu a:hover {
 	text-decoration: underline;
+	
 }
 #consTop #consDropMenu .rootPanel {
 	display: table;
@@ -212,7 +213,7 @@ img {
 	padding-bottom: 10px;
 	padding-left: 10px;
 	font-weight: bold;
-	font-size: 13px;
+	font-size: 14px;
 }
 #consTreePanel .titlePanel div.current {
 	background-image: url(Images/leftbar_bg_hover.jpg);
@@ -245,7 +246,8 @@ img {
 	text-decoration: none;
 }
 #consTreePanel .treepanel a:hover {
-	text-decoration: underline;
+	
+	text-shadow:1px 1px 1px #666;
 }
 /*二级菜单，即菜单横栏*/
 #consTreePanel .menuBar {

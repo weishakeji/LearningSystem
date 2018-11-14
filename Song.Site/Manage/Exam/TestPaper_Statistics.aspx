@@ -64,11 +64,11 @@
             没有任何满足条件的信息！
         </EmptyDataTemplate>
         <Columns>
-        <asp:TemplateField HeaderText="删除">
+            <asp:TemplateField HeaderText="删除">
                 <ItemStyle CssClass="center" Width="40" />
                 <ItemTemplate>
-                    <asp:LinkButton ID="btnDel" runat="server" 
-                        CommandArgument=' <%# Eval("Tr_ID", "{0}")%>' OnClientClick="return confirm('是否确定删除该学员测试成绩？');" onclick="btnDel_Click">删除</asp:LinkButton>
+                    <asp:LinkButton ID="btnDel" runat="server" CommandArgument=' <%# Eval("Tr_ID", "{0}")%>'
+                        OnClientClick="return confirm('是否确定删除该学员测试成绩？');" OnClick="btnDel_Click">删除</asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="序号">
@@ -83,21 +83,26 @@
                     <%# Eval("Ac_Name")%>
                 </ItemTemplate>
             </asp:TemplateField>
-           <%-- <asp:TemplateField HeaderText="手机">
+            <%-- <asp:TemplateField HeaderText="手机">
                 <ItemStyle CssClass="center" />
                 <ItemTemplate>
                     <%# Eval("Ac_PhoneMobi")%>
                 </ItemTemplate>
             </asp:TemplateField>--%>
+            <asp:TemplateField HeaderText="测试时间">
+                <ItemStyle CssClass="center" Width="160px" />
+                <ItemTemplate>
+                    <%# Eval("Tr_CrtTime", "{0}")%></ItemTemplate>
+            </asp:TemplateField>
             <asp:TemplateField HeaderText="分数">
                 <ItemStyle CssClass="center" Width="80px" />
                 <ItemTemplate>
                     <%# Eval("Tr_Score","{0}")%></ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="测试时间">
-                <ItemStyle CssClass="center" Width="160px" />
+            <asp:TemplateField HeaderText="详情">
+                <ItemStyle CssClass="center" Width="80px" />
                 <ItemTemplate>
-                    <%# Eval("Tr_CrtTime", "{0}")%></ItemTemplate>
+                    <a href="/testview.ashx?trid=<%# Eval("Tr_ID","{0}")%>&tpid=<%# Eval("Tp_Id","{0}")%>" title=" 学员“<%# Eval("Ac_Name")%>”在<%# Eval("Tp_Name","《{0}》")%>的测试成绩" type="review">查看</a></ItemTemplate>
             </asp:TemplateField>
         </Columns>
     </cc1:GridView>

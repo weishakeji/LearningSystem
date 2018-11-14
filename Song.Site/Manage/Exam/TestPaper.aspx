@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="TestPaper.aspx.cs" MasterPageFile="~/Manage/ManagePage.Master"
-    Inherits="Song.Site.Manage.Exam.TestPaper" %>
+    Inherits="Song.Site.Manage.Exam.TestPaper" Title="模拟测试" %>
 
 <%@ Register Src="../Utility/toolsBar.ascx" TagName="toolsBar" TagPrefix="uc1" %>
 <%@ Register Src="../Utility/Pager.ascx" TagName="Pager" TagPrefix="uc2" %>
