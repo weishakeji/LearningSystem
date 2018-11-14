@@ -209,7 +209,13 @@ namespace Song.Site.Manage.Teacher
                     IRow row = sheet.CreateRow(i + 1);
                     for (int j = 0; j < dt.Columns.Count; j++)
                     {
-                        row.CreateCell(j).SetCellValue(dt.Rows[i][j].ToString());                        
+                        //此处是两个数值（用$分隔），前面是成绩，后面是成绩记的id
+                        string val = dt.Rows[i][j].ToString();
+                        if (!string.IsNullOrWhiteSpace(val) && val.IndexOf("$") > -1)
+                        {
+                            val = val.Substring(0, val.LastIndexOf("$"));
+                        }
+                        row.CreateCell(j).SetCellValue(val);                        
                     }
                 }
             }

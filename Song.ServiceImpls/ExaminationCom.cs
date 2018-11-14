@@ -803,7 +803,9 @@ namespace Song.ServiceImpls
             dt.Columns.Add(new DataColumn("性别", typeof(string)));
             dt.Columns.Add(new DataColumn("身份证", typeof(string)));
             foreach (Examination ex in exams)
-                dt.Columns.Add(new DataColumn(ex.Exam_Name, Type.GetType("System.String")));
+            {
+                dt.Columns.Add(new DataColumn(ex.Exam_Name, Type.GetType("System.String")));               
+            }
             //取出所有的成绩
             WhereClip wc = ExamResults._.Exam_UID == theme.Exam_UID;
             if (stsid > 0) wc.And(ExamResults._.Sts_ID == stsid);   //取所有已分组的学员
@@ -851,8 +853,9 @@ namespace Song.ServiceImpls
                     {
                         if (er.Ac_ID == accid && er.Exam_ID == ex.Exam_ID)
                         {
-                            double score = Math.Floor(er.Exr_ScoreFinal * 1000) / 100;
-                            dt.Rows[i][ex.Exam_Name] = score.ToString();
+                            double score = Math.Floor(er.Exr_ScoreFinal * 100) / 100;
+                            //此处是两个数值（用$分隔），前面是成绩，后面是成绩记的id
+                            dt.Rows[i][ex.Exam_Name] = score.ToString() + "$" + er.Exr_ID;
                             break;
                         }
                     }
@@ -883,7 +886,9 @@ namespace Song.ServiceImpls
             dt.Columns.Add(new DataColumn("性别", typeof(string)));
             dt.Columns.Add(new DataColumn("身份证", typeof(string)));
             foreach (Examination ex in exams)
-                dt.Columns.Add(new DataColumn(ex.Exam_Name, typeof(float)));
+            {
+                dt.Columns.Add(new DataColumn(ex.Exam_Name, typeof(string)));               
+            }
             //取学员
             WhereClip wcAcc = Accounts._.Org_ID == theme.Org_ID;
             if (stsid > 0) wcAcc.And(Accounts._.Sts_ID == stsid);   //取所有已分组的学员
