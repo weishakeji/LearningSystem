@@ -71,7 +71,7 @@ $(function () {
             type: 'column'
         },
         title: {
-            text: ''
+            text: '答题详情回顾'
         },
         subtitle: {
             text: ''
@@ -126,11 +126,13 @@ $(function () {
     });
 });							
 </script>
-  <div id="highchart" style="width:90%;height:300px; margin-left:auto; margin-right:auto"></div>
+  <!--<div id="highchart" style="width:90%;height:300px; margin-left:auto; margin-right:auto"></div>-->
 </div>
 <!--答题详情展示区 -->
 <div id="quesBox">
-  <div id="quesTitle">答题详情回顾
+  
+  <div id="highchart2" style="height:300px;margin-left:auto; margin-right:auto;"></div>
+  <div id="quesTitle">
     <div id="quesBtnBox">
       <div id="btnAll" class="btn">显示所有</div>
       <div id="btnSuccess" class="btn">只显示正确</div>
@@ -150,8 +152,11 @@ $(function () {
             }
         },
         title: {
-            text: ''
+            text: '答题详情回顾'
         },
+		tooltip: {
+			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+		},
         plotOptions: {
             pie: {
                 allowPointSelect: true,
@@ -159,24 +164,24 @@ $(function () {
                 depth: 35,
                 dataLabels: {
                     enabled: true,
-                    format: '{point.name}'
+                    format: '{point.name} '
                 }
             }
         },
         series: [{
             type: 'pie',
-            name: 'Browser share',
+            name: '所占百分比',
             data: [             
-			['答对的试题 '+$(".qitemBox[ansState=0]").size(),$(".qitemBox[ansState=0]").size()/$(".qitemBox").size()],
-			['答错的试题 '+$(".qitemBox[ansState=1]").size(),$(".qitemBox[ansState=1]").size()/$(".qitemBox").size()],
-			['未做的试题 '+$(".qitemBox[ansState=2]").size(),$(".qitemBox[ansState=2]").size()/$(".qitemBox").size()]
+			['答对 '+$(".qitemBox[ansState=0]").size()+' 道',Math.floor($(".qitemBox[ansState=0]").size()/$(".qitemBox").size()*100)],
+			['答错 '+$(".qitemBox[ansState=1]").size()+' 道',Math.floor($(".qitemBox[ansState=1]").size()/$(".qitemBox").size()*100)],
+			['未做 '+$(".qitemBox[ansState=2]").size()+' 道',Math.floor($(".qitemBox[ansState=2]").size()/$(".qitemBox").size()*100)]
             ]
         }]
 
     });
 });							
 </script>
-  <div id="highchart2" style="height:300px; margin-left:auto; margin-right:auto;"></div>
+  
   <vt:foreach id="tpItem" from="$#.tpi" item="data" index="i" remark="当前试卷的试题大项">
     <div class="typeBox" type="{$:#.data.TPI_Type}" >
       <vt:function var="typeName" method="getTypeName" args="$#.data.TPI_Type"/>
@@ -220,7 +225,7 @@ $(function () {
           <!-- 正确答案 -->
           <div class="sucessBox">
             <vt:function var="ans" method="getSucessAnswer" args="$#.q" remark="正确答案"/>
-            正确答案：<span class="selectedItem">{$ans}</span> </div>
+            正确答案：<span class="selectedItem"> {$ans}</span> </div>
           <!--试题解析 -->
           <div class="explainBox"> 试题解析：
             <vt:if var="q.Qus_Explain" value="" compare="="> （无）

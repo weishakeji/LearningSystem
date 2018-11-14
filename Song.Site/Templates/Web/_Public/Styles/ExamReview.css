@@ -13,11 +13,10 @@ td, th {
 	line-height: 20px;
 }
 div, p, td, * {
-	font-size: 14px !important;
+	font-size: 16px !important;
 	line-height: 20px;
 }
 .pagerTitle {
-	font-family: "黑体";
 	font-size: 18px;
 	line-height: 25px;
 	color: #0066FF;
@@ -41,7 +40,6 @@ div, p, td, * {
 	margin-right: auto;
 }
 .scoreinfo .score {
-	font-family: "黑体";
 	font-size: 21px;
 	line-height: 35px;
 	font-weight: bold;
@@ -90,18 +88,17 @@ div, p, td, * {
 }
 .quesSelectBox .item_False{
 	margin-top: 10px;
-	color: #666;
+	color: #333;
 }
 .quesSelectBox .item_True{
 	color: #000;
 	margin-top: 10px;
-	
+	text-shadow:3px 1px 3px #999;
 }
 .quesSelectBox .item_True .order{
 	font-weight: bold;
 }
 #quesTitle {
-	font-family: "黑体", "微软雅黑";
 	font-size: 16px;
 	line-height: 30px;
 	font-weight: bold;
@@ -141,6 +138,10 @@ div, p, td, * {
 .qitemBox, .qitemBox img{
 	max-width:100%;
 }
+/*正确答案的样式*/
+.sucessBox{
+	text-shadow:3px 1px 3px #999;
+}
 #quesBtnBox {
 	height: 35px;
 	width: 100%;
@@ -153,7 +154,6 @@ div, p, td, * {
 	text-align: center;
 	color: #0066CC;
 	font-size: 14px;
-	font-family: "黑体", "微软雅黑";
 }
 #btnAll {
 	color: #000000;

@@ -330,7 +330,9 @@ namespace Song.Site
                 ansStr = ansStr.Substring(0, ansStr.LastIndexOf("、"));
             }
             if (qus.Qus_Type == 3)
+            {
                 ansStr = qus.Qus_IsCorrect ? "正确" : "错误";
+            }
             if (qus.Qus_Type == 4)
             {
                 if (qus != null && !string.IsNullOrEmpty(qus.Qus_Answer))

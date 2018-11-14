@@ -114,9 +114,9 @@ function _ClacSucess() {
             $(this).find(".selectedItem").html(word);
         }
         if (type == 3) {
-            var result = $(this).find(".selectedItem").text();
-            var txt = $.trim(result) == "True" ? "正确" : "错误";
-            $(this).find(".selectedItem").html(txt);
+            //var result = $(this).find(".selectedItem").text();
+            //var txt = $.trim(result) == "True" ? "正确" : "错误";
+            //$(this).find(".selectedItem").html(txt);
         }
     });
 }
