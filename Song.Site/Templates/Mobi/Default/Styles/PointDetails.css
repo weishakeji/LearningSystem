@@ -27,7 +27,7 @@
 	width: 20%;
 	float:left;
 }
-.ico .moneyico{
+.ico .examico {
 	margin-right: auto;
 	margin-left: auto;
 	height: 50px;
@@ -67,7 +67,10 @@
 	text-align: left;
 	width: 100%;
 	float: left;
+	white-space: nowrap;
 	color: #999;
+	overflow:hidden;
+    text-overflow:ellipsis;	
 }
 .info .state{
 	font-size: 12px;
@@ -80,6 +83,7 @@
 	padding-bottom: 3px;
 	padding-left: 6px;
 	margin-right: 10px;
+	white-space: nowrap;
 }
 .state0{
 	background-color: #FFDDDD;
