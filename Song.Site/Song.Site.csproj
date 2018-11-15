@@ -845,7 +845,6 @@
     <Content Include="Templates\Mobi\Default\TeacherComment.htm" />
     <Content Include="Templates\Mobi\Default\TeacherComments.htm" />
     <Content Include="Templates\Mobi\Default\Teachers.htm" />
-    <Content Include="Templates\Mobi\Default\temp.htm" />
     <Content Include="Templates\Mobi\Default\TestPaper.htm" />
     <Content Include="Templates\Mobi\Default\TestPapers.htm" />
     <Content Include="Templates\Mobi\Default\TestScene.htm" />

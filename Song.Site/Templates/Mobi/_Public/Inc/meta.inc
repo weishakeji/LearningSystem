@@ -8,13 +8,13 @@
 <meta name="Keywords"  content="{$org.Org_Keywords},微厦科技" />
 <meta name="Description" content="{$org.Org_Description},微厦科技" />
 <!--核心Js文件-->
-<script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/Verify.js"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/artTemplate.js"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
-<script type="text/javascript" src="../scripts/loading.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/jquery.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/Verify.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/artTemplate.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/Extend.js?ver={$version}"></script>
+<script type="text/javascript" src="../scripts/loading.js?ver={$version}"></script>
 <!--核心Css文件-->
-<link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css"/>
+<link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css?ver={$version}"/>
 
 
 

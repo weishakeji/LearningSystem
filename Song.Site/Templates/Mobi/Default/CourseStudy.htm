@@ -3,12 +3,12 @@
 <head>
 <title>《{$outline.ol_name}》</title>
 <vt:include file="inc/meta.inc" />
-<script type="text/javascript" src="CoreScripts/MsgBox.js"></script>
-<link href="CoreStyles/MsgBox.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="CoreScripts/MsgBox.js?ver={$version}"></script>
+<link href="CoreStyles/MsgBox.css?ver={$version}" rel="stylesheet" type="text/css" />
 <!--播放器的引用-->
-<script type="text/javascript" src="/Utility/Ckplayer/js/offlights.js"></script>
-<script type="text/javascript" src="/Utility/Ckplayer/ckplayer/ckplayer.js" charset="utf-8"></script>
-<link href="Styles/CourseStudy.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/Utility/Ckplayer/js/offlights.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/Ckplayer/ckplayer/ckplayer.js?ver={$version}" charset="utf-8"></script>
+<link href="Styles/CourseStudy.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 <body canStudy="{$canStudy}">
 <!--主界面,头部视频部分-->
@@ -161,6 +161,6 @@
     </div>
   </div>
 </div>
-<script type="text/javascript" src="Scripts/CourseStudy.js?tick={$tick}"></script>
+<script type="text/javascript" src="Scripts/CourseStudy.js?ver={$version}"></script>
 </body>
 </html>

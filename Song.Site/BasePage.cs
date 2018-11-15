@@ -23,6 +23,10 @@ namespace Song.Site
     public abstract class BasePage : System.Web.UI.Page, IHttpHandler, IRequiresSessionState
     {
         /// <summary>
+        /// 系统版本号
+        /// </summary>
+        protected static string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        /// <summary>
         /// 当前页面的模板文档对象
         /// </summary>
         protected TemplateDocument Document { get; set; }
@@ -186,7 +190,8 @@ namespace Song.Site
             //时间
             string WeekStr = DateTime.Now.ToString("dddd", new System.Globalization.CultureInfo("zh-cn"));
             this.Document.SetValue("week", WeekStr);
-            this.Document.SetValue("tick", DateTime.Now.Ticks);
+            //系统版本号          
+            this.Document.SetValue("version", version);
             //导航菜单
             this.Document.RegisterGlobalFunction(this.Navi);
             this.Document.RegisterGlobalFunction(this.NaviDrop);

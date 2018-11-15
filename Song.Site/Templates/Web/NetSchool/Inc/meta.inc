@@ -2,21 +2,21 @@
 <meta name="Keywords"  content="{$org.Org_Keywords},微厦科技" />
 <meta name="Description" content="{$org.Org_Description},微厦科技" />
 <!--核心Js文件-->
-<script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/artTemplate.js"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/easydrag.js"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/PageBox.js"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/MessageBox.js"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/Verify.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/jquery.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/artTemplate.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/Extend.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/easydrag.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/PageBox.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/MessageBox.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/Verify.js?ver={$version}"></script>
 <!--核心Css文件-->
-<link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css"/>
-<link rel="stylesheet" type="text/css" href="../CoreStyles/public.css"/>
-<link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/PageBox.css"/>
-<link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/MessageBox.css"/>
-<link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/Jme.css"/>
+<link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css?ver={$version}"/>
+<link rel="stylesheet" type="text/css" href="../CoreStyles/public.css?ver={$version}"/>
+<link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/PageBox.css?ver={$version}"/>
+<link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/MessageBox.css?ver={$version}"/>
+<link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/Jme.css?ver={$version}"/>
 <!--公共的Js文件-->
-<script type="text/javascript" src="../CoreScripts/public.js"></script>
+<script type="text/javascript" src="../CoreScripts/public.js?ver={$version}"></script>
 <script type="text/javascript">
   //当前模板的路径
   var tmpath = "{$TempPath}";

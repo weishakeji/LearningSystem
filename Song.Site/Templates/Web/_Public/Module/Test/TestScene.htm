@@ -24,8 +24,8 @@
 		var isStudy = Boolean("{$isStudy}" == "False" ? 0 : 1);	
     </script>
        </vt:if>
-    <link href="TestScene.css" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="TestScene.js"></script>
+    <link href="TestScene.css?ver={$version}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="TestScene.js?ver={$version}"></script>
     
 <script>
     document.body.onselectstart = document.body.oncontextmenu = function () { return false; };

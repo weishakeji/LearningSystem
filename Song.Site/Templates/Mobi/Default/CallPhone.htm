@@ -2,15 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title></title>
-<script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
-<script type="text/javascript" src="CoreScripts/Extend.js"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/jquery.js?ver={$version}"></script>
+<script type="text/javascript" src="CoreScripts/Extend.js?ver={$version}"></script>
 <script type="text/javascript">
     $(function(){
 		var phone=$().getPara("phone");
 		$(".tel").attr("href","tel:"+phone).text(phone);
 	});
     </script>
-<link rel="stylesheet" href="CoreStyles/public.css?tick={$tick}"/>
+<link rel="stylesheet" href="CoreStyles/public.css?ver={$version}"/>
 <style type="text/css">
 body{
 	text-align: center;

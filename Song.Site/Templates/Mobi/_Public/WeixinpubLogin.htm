@@ -7,8 +7,8 @@
           document.domain = '{$domain}';
     </script></vt:if>
     <vt:include file="inc/meta.inc" />
-    <script type="text/javascript" src="Scripts/WeixinpubLogin.js"></script>
-    <link href="Styles/WeixinpubLogin.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="Scripts/WeixinpubLogin.js?ver={$version}"></script>
+    <link href="Styles/WeixinpubLogin.css?ver={$version}" rel="stylesheet" type="text/css" />
     <vt:if var="gourl" value="" compare="!=">
      <script type="text/javascript">
          //登录成功后返回的地址
@@ -133,6 +133,6 @@
       <div class="error-txt">回调错误！</div>
       <div class="error-txt">当前回调域：http://{$Returl}</div>
     </vt:if>
-    <script type="text/javascript" src="/Utility/CoreScripts/Widget.js"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/Widget.js?ver={$version}"></script>
 </body>
 </html>
