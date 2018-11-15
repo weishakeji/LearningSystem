@@ -20,6 +20,10 @@ namespace Song.Extend
     public class CustomPage : System.Web.UI.Page
     {
         /// <summary>
+        /// 系统版本号
+        /// </summary>
+        protected static string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        /// <summary>
         /// 常用脚本,如alert等
         /// </summary>
         public Extend.Scripts Scripts
@@ -59,18 +63,18 @@ namespace Song.Extend
             Page.Header.Controls.Add(new System.Web.UI.LiteralControl("\r\n"));
             foreach (string file in scriptFile)
             {
-                Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<script type=\"text/javascript\" src=\""+scriptPath+file+"\"></script>\r\n"));
+                Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<script type=\"text/javascript\" src=\""+scriptPath+file+"?ver=" + version + "\"></script>\r\n"));
             }
             //插入对应的css文件与js文件
             string name = WeiSha.Common.Request.Page.Name;
-            if(System.IO.File.Exists(WeiSha.Common.Request.Page.PhysicsPath+"styles/public.css"))
-                Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"styles/public.css\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
+            if (System.IO.File.Exists(WeiSha.Common.Request.Page.PhysicsPath + "styles/public.css"))
+                Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"styles/public.css?ver=" + version + "\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
             //字体库
-            Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"/Utility/iconfont/iconfont.css\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
+            Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"/Utility/iconfont/iconfont.css?ver=" + version + "\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
             if (System.IO.File.Exists(WeiSha.Common.Request.Page.PhysicsPath + "styles/"+ name+".css" ))
-                Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"styles/" + name + ".css\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
+                Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"styles/" + name + ".css?ver=" + version + "\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
             if (System.IO.File.Exists(WeiSha.Common.Request.Page.PhysicsPath + "scripts/"+name+".js"))
-                Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<script type=\"text/javascript\" src=\"scripts/" + name + ".js\"></script>\r\n"));
+                Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<script type=\"text/javascript\" src=\"scripts/" + name + ".js?ver=" + version + "\"></script>\r\n"));
             //Response.Write(Extend.ManageSession.Session.Name);
             #region 验证是否登录
 

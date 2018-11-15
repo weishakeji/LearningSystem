@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Song.ServiceInterfaces")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("微软中国")]
+[assembly: AssemblyCompany("微厦科技")]
 [assembly: AssemblyProduct("Song.ServiceInterfaces")]
-[assembly: AssemblyCopyright("版权所有 (C) 微软中国 2010")]
+[assembly: AssemblyCopyright("版权所有 (C) 微厦科技")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
