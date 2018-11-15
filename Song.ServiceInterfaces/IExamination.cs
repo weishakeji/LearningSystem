@@ -227,10 +227,17 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 考试主题下的所有参考人员成绩
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">当前考试主题的ID</param>
         /// <param name="stsid">学生分组的id，为0时取所有，为-1时取不在组的学员，大于0则取当前组学员</param>
         /// <returns></returns>
-        DataTable Result4Theme(int id, int stsid);
+        DataTable Result4Theme(int examid, int stsid);
+        /// <summary>
+        /// 考试主题下的所有参考人员成绩
+        /// </summary>
+        /// <param name="id">当前考试主题的ID</param>
+        /// <param name="stsid">学生分组的id，为0时取所有，为-1时取不在组的学员，大于0则取当前组学员</param>
+        /// <returns></returns>
+        DataTable Result4Theme(int examid, string stsid);
         /// <summary>
         /// 考试主题下的所有参考人员成绩
         /// </summary>

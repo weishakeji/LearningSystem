@@ -788,12 +788,12 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 考试主题下的所有参考人员成绩
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">当前考试主题的ID</param>
         /// <param name="stsid">学生分组的id，为0时取所有，为-1时取不在组的学员，大于0则取当前组学员</param>
         /// <returns></returns>
-        public DataTable Result4Theme(int id, int stsid)
+        public DataTable Result4Theme(int examid, int stsid)
         {
-            Examination theme = this.ExamSingle(id);
+            Examination theme = this.ExamSingle(examid);
             Examination[] exams = this.ExamItem(theme.Exam_UID);    //当前考试下的多场考试
             DataTable dt = new DataTable("DataBase");
             //人员id与姓名
@@ -864,6 +864,35 @@ namespace Song.ServiceImpls
             DataView dv = dt.DefaultView;
             dv.Sort = "姓名 Asc";
             return dv.ToTable();
+        }
+        /// <summary>
+        /// 考试主题下的所有参考人员成绩
+        /// </summary>
+        /// <param name="id">当前考试主题的ID</param>
+        /// <param name="stsid">学生分组的id，多个组用逗号分隔</param>
+        /// <returns></returns>
+        public DataTable Result4Theme(int examid, string stsid)
+        {
+            DataTable dt = null; 
+            foreach (string s in stsid.Split(','))
+            {
+                if (string.IsNullOrWhiteSpace(s)) continue;
+                int sid = 0;
+                int.TryParse(s, out sid);
+                if (sid <= 0) continue;
+                //取每个组的学员的考试成绩
+                DataTable dtTm = this.Result4Theme(examid, sid);
+                if (dtTm == null) continue;
+                if (dt == null)
+                {
+                    dt = dtTm;
+                }
+                else
+                {
+                    dt.Merge(dtTm, false, MissingSchemaAction.AddWithKey);
+                }
+            }
+            return dt;
         }
         /// <summary>
         /// 考试主题下的所有参考人员成绩

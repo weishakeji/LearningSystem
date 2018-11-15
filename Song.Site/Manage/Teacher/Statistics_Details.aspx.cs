@@ -37,7 +37,7 @@ namespace Song.Site.Manage.Teacher
             org = Business.Do<IOrganization>().OrganCurrent();
             if (!this.IsPostBack)
             {
-                dtResults = Business.Do<IExamination>().Result4Theme(examid, -1);
+                //dtResults = Business.Do<IExamination>().Result4Theme(examid, -1);
                 fill();
                 Sts_ID_SelectedIndexChanged(null, null);
             }
@@ -45,9 +45,12 @@ namespace Song.Site.Manage.Teacher
 
         void fill()
         {  
-            //学生分组
-            Song.Entities.StudentSort[] sort = Business.Do<IExamination>().StudentSort4Theme(examid);
-            Sts_ID.DataSource = sort;
+            //当前考试限定的学生分组
+            Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);  
+            Song.Entities.StudentSort[] sts = Business.Do<IExamination>().GroupForStudentSort(theme.Exam_UID);
+            //如果没有设定分组，则取当前参加考试的学员的分组
+            if (sts == null || sts.Length < 1) sts = Business.Do<IExamination>().StudentSort4Theme(examid);
+            Sts_ID.DataSource = sts;
             Sts_ID.DataBind();
             Sts_ID.Items.Insert(0, new ListItem("-- 所有学员 --", "0"));
             Sts_ID.Items.Add(new ListItem("-- 未分组学员 --", "-1"));
@@ -80,6 +83,7 @@ namespace Song.Site.Manage.Teacher
 
         protected void Sts_ID_SelectedIndexChanged(object sender, EventArgs e)
         {
+            DataTable dt = null;    //数据源
             //考试主题的平均成绩
             Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);
             if (theme == null) return;
@@ -88,10 +92,22 @@ namespace Song.Site.Manage.Teacher
             rptExamItem.DataSource = exams;
             rptExamItem.DataBind();
 
+            string stsid = "";
             //考试主题下的所有参考人员成绩
-            int stsid = Convert.ToInt32(Sts_ID.SelectedValue);
-            DataTable dt=null;
-            if (stsid == -1) dt = dtResults;
+            stsid =Sts_ID.SelectedValue;  //选中的组ID
+            //取所有组的组ID
+            if (stsid == "0")
+            {
+                //当前考试限定的学生分组
+                Song.Entities.StudentSort[] sts = Business.Do<IExamination>().GroupForStudentSort(theme.Exam_UID);
+                //如果没有设定分组，则取当前参加考试的学员的分组
+                if (sts == null || sts.Length < 1) sts = Business.Do<IExamination>().StudentSort4Theme(examid);                
+                foreach (Song.Entities.StudentSort ss in sts)
+                    stsid += ss.Sts_ID + ",";                
+            }
+            //未分组的学员
+            if (stsid == "-1")           
+                dt = Business.Do<IExamination>().Result4Theme(examid, -1);
             if (dt == null) dt = Business.Do<IExamination>().Result4Theme(examid, stsid);
             gvList.DataSource = dt;
             gvList.DataBind();
@@ -140,11 +156,10 @@ namespace Song.Site.Manage.Teacher
         /// <param name="e"></param>
         protected void btnOutput2_Click(object sender, EventArgs e)
         {
-            //考试主题的平均成绩
+            //获取所有学员（含缺考）的成绩
             Song.Entities.Examination theme = Business.Do<IExamination>().ExamSingle(examid);
-
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
-            buildExcelSql_2(hssfworkbook);
+            hssfworkbook = buildExcelSql_2(theme, hssfworkbook);
 
             //创建文件
             string name = WeiSha.Common.Server.LegalName(theme.Exam_Title) + "-所有学员" + ".xls";
@@ -224,28 +239,56 @@ namespace Song.Site.Manage.Teacher
         /// 导出成绩
         /// </summary>
         /// <param name="hssfworkbook"></param>
-        private void buildExcelSql_2(HSSFWorkbook hssfworkbook)
+        private HSSFWorkbook buildExcelSql_2(Song.Entities.Examination theme, HSSFWorkbook hssfworkbook)
         {
-            //考试主题下的所有参考人员（分过组的），且含缺考人员
-            foreach (ListItem li in Sts_ID.Items)
+            //当前考试限定的学生分组
+            string stsid = "";            
+            Song.Entities.StudentSort[] sts = Business.Do<IExamination>().GroupForStudentSort(theme.Exam_UID);
+            //如果没有设定分组，则取当前参加考试的学员的分组
+            if (sts == null || sts.Length < 1) sts = Business.Do<IExamination>().StudentSort4Theme(examid);
+            foreach (Song.Entities.StudentSort ss in sts)
+                stsid += ss.Sts_ID + ",";
+            DataTable dt = Business.Do<IExamination>().Result4Theme(examid, stsid);
+            dt.TableName = "--所有学员--";
+            buildExcelSql_2_fromData(dt, hssfworkbook);
+
+            //每个分组单独创建工作表
+            foreach (string s in stsid.Split(','))
             {
-                int stsid = Convert.ToInt32(li.Value);
-                if (stsid < 0) continue;
-                DataTable dt = Business.Do<IExamination>().Result4Theme(examid, stsid, true);
-                if (dt.Rows.Count < 1) continue;
-                ISheet sheet = hssfworkbook.CreateSheet(li.Text);   //创建工作簿对象                
-                IRow rowHead = sheet.CreateRow(0);          //创建数据行对象                
-                for (int i = 0; i < dt.Columns.Count; i++)      //创建表头
-                    rowHead.CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
-                ICellStyle style_size = hssfworkbook.CreateCellStyle();     //生成数据行
-                style_size.WrapText = true;
-                for (int i = 0; i < dt.Rows.Count; i++)
+                if (string.IsNullOrWhiteSpace(s)) continue;
+                int sid = 0;
+                int.TryParse(s, out sid);
+                if (sid <= 0) continue;
+                //取每个组的学员的考试成绩
+                DataTable dtTm = Business.Do<IExamination>().Result4Theme(examid, sid);
+                if (dtTm == null) continue;
+                Song.Entities.StudentSort sort = Business.Do<IStudent>().SortSingle(sid);
+                dtTm.TableName = sort.Sts_Name;
+                buildExcelSql_2_fromData(dtTm, hssfworkbook);
+            }
+            return hssfworkbook;
+        }
+        private void buildExcelSql_2_fromData(DataTable dt, HSSFWorkbook hssfworkbook)
+        {
+            //构建Excel表格结构
+            ISheet sheet = hssfworkbook.CreateSheet(dt.TableName);   //创建工作簿对象                
+            IRow rowHead = sheet.CreateRow(0);          //创建数据行对象                
+            for (int i = 0; i < dt.Columns.Count; i++)      //创建表头
+                rowHead.CreateCell(i).SetCellValue(dt.Columns[i].ColumnName);
+            ICellStyle style_size = hssfworkbook.CreateCellStyle();     //生成数据行
+            style_size.WrapText = true;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                IRow row = sheet.CreateRow(i + 1);
+                for (int j = 0; j < dt.Columns.Count; j++)
                 {
-                    IRow row = sheet.CreateRow(i + 1);
-                    for (int j = 0; j < dt.Columns.Count; j++)
+                    //此处是两个数值（用$分隔），前面是成绩，后面是成绩记的id
+                    string val = dt.Rows[i][j].ToString();
+                    if (!string.IsNullOrWhiteSpace(val) && val.IndexOf("$") > -1)
                     {
-                        row.CreateCell(j).SetCellValue(dt.Rows[i][j].ToString());
+                        val = val.Substring(0, val.LastIndexOf("$"));
                     }
+                    row.CreateCell(j).SetCellValue(val);
                 }
             }
         }
