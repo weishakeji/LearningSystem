@@ -45,7 +45,7 @@ namespace Song.Site.Mobile
                 }
                 this.Document.Variables.SetValue("isBuy", isBuy);
                 //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
-                bool canStudy = isBuy || course.Cou_IsFree || course.Cou_IsLimitFree ;             
+                bool canStudy = isBuy || course.Cou_IsFree || course.Cou_IsLimitFree || course.Cou_IsTry;             
                 this.Document.Variables.SetValue("canStudy", canStudy);
             }
             //树形章节输出

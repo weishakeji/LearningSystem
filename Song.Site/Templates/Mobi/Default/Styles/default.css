@@ -214,12 +214,14 @@ a.notice {
 	display:table;
 }
 .course-item {
-	width:46%;
-	margin-right:2%;
-	margin-left:2%;
-	text-align:center;
-	float:left;
-	margin-bottom:20px;
+	width: 46%;
+	margin-right: 2%;
+	height: 150px;
+	margin-left: 2%;
+	text-align: center;
+	float: left;
+	margin-bottom: 20px;
+	overflow: hidden;
 }
 .course-item img {
 	width:90%;

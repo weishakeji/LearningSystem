@@ -11,7 +11,7 @@
 <div id="main">
   <div class="photo" > <img  src="{$course.cou_logo}" error="images/cou_nophoto.jpg"/> </div>
 <div id="Context">  <div class="couName">{$course.cou_name} </div>
-  <div class="info"><i class="viewnum">{$course.cou_viewNum}</i> / <i class="studynum">{$studyCount}</i> /
+  <div class="info"><i class="viewnum">{$course.cou_viewNum}</i> / <i class="studynum">{$studyCount}</i>人学习 /
     <vt:if var="course.cou_isfree" value="true" compare="=">
                      <span class="moneyfree"> <i class="free"> 免费</i></span>
                     
@@ -20,7 +20,7 @@
                     <span class="moneyfree"><i class="free"> 限时免费</i>（{$course.Cou_FreeStart format="yyyy/M/d"} - {$course.Cou_FreeEnd format="yyyy/M/d"}）</span>
                     <vt:else/>
                       <vt:function var="price" method="getCoursePrice" args="$course.cou_uid"/>
-          <vt:foreach from="$price" item="p" index="i" remark="当前课程价格"> <span class="money" title="可以用券抵扣{$:#.p.CP_Coupon}元"><i class="p-span ">{$:#.p.CP_Span}</i> <i class="p-unit">{$:#.p.CP_Unit}</i><i class="p-num">{$:#.p.CP_Price}元</i>  </span>
+          <vt:foreach from="$price" item="p" index="i" remark="当前课程价格"> <span class="money" title="可以用券抵扣{$:#.p.CP_Coupon}元"><i class="p-span ">{$:#.p.CP_Span}</i> <i class="p-unit">{$:#.p.CP_Unit}</i><i class="p-num">{$:#.p.CP_Price}元</i>  </span>,
             <vt:foreachelse/>
             <span class="money">未设置价格（非免费课程）</span> </vt:foreach>
                       </vt:if>
@@ -87,7 +87,12 @@
                 <div class="couBtn btn1 study"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" class="bvr_mr" title="开始学习">开始学习</a></div>
                 <div class="couBtn btn2"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" target="_top" title="选修该课程">选修该课程</a> </div>
                 <vt:else/>
+                 <vt:if var="course.Cou_IsTry" value="true" compare="=" remark="可以试学">
+                 <div class="couBtn btn1 study"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" class="bvr_mr" title="开始学习">试学</a></div>
+                <div class="couBtn btn2"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" target="_top" title="选修该课程">选修该课程</a> </div>
+                 <vt:else/>
                 <div class="couBtn"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" target="_top" title="选修该课程">选修该课程</a> </div>
+                </vt:if>
                </vt:if>
              </vt:if>
             
