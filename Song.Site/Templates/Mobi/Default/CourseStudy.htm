@@ -7,7 +7,7 @@
 <link href="CoreStyles/MsgBox.css?ver={$version}" rel="stylesheet" type="text/css" />
 <!--播放器的引用-->
 <script type="text/javascript" src="/Utility/Ckplayer/js/offlights.js?ver={$version}"></script>
-<script type="text/javascript" src="/Utility/Ckplayer/ckplayer/ckplayer.js?ver={$version}" charset="utf-8"></script>
+<script type="text/javascript" src="/Utility/Ckplayer/ckplayer/ckplayer_h5.js?ver={$version}" charset="utf-8"></script>
 <link href="Styles/CourseStudy.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 <body canStudy="{$canStudy}">
@@ -22,8 +22,8 @@
         allowscriptaccess="always" allowfullscreen="true" wmode="opaque" allowtransparency="true" frameborder="0" type="application/x-shockwave-flash"></iframe>
       <vt:else/>
       <!--如果存在视频文件，则播放-->
-      <div id="videobox" style="100%; height:300px; position:relative;z-index: 100;"></div>
-      
+     <div id="videobox" style="100%; height:260px; position:relative;z-index: 100;"></div>
+     <!-- <video src="{$video.As_FileName}" x5-video-player-type="h5" width="100%"/>-->
       <!--播放器的各种信息-->
       <div id="playerInfo" style="display:none"> <span class="mui-badge time"> 时长<span id="totalTime">{$video.As_Duration}</span> 秒</span> <span class="mui-badge time"> 播放<span id="playTime">0</span>秒</span> <span class="mui-badge time"> 已学<span id="studyTime">0</span>秒</span>
         <vt:if var="studyLog" value="" compare="!="> <span class="historyInfo">上次学习到<span id="historyTime">{$historyPlay}</span>，点击此处接上次进度学习</span> </vt:if>
@@ -40,49 +40,7 @@
           var isOuter = "{$video.As_IsOuter}" == "True" ? true : false;    //	
         </script> 
       <!--视频播放事件-->
-      <div id="events" style="display:none">
-        <vt:foreach from="$events" item="event" index="i">
-          <div class="eventItem" eventid="{$event.Oe_ID}" type="{$event.Oe_EventType}" winWidth="{$event.Oe_Width}" winHeight="{$event.Oe_Height}" point="{$event.Oe_TriggerPoint}">
-            <div class="eventTitle" title="此为视频播放事件的窗口标题"> {$event.Oe_Title} </div>
-            <!--如果是“提醒”-->
-            <vt:if var="event.Oe_EventType" value="1" compare="=">
-              <div class="eventContext"> {$event.Oe_Context} </div>
-            </vt:if>
-            <!--如果是“知识展示”-->
-            <vt:if var="event.Oe_EventType" value="2" compare="=">
-              <div class="eventContext"> {$event.Oe_Context} </div>
-            </vt:if>
-            <!--如果是“课堂提问”-->
-            <vt:if var="event.Oe_EventType" value="3" compare="=">
-              <div class="eventContext"> {$event.Oe_Context} </div>
-              <vt:function var="ques" method="getEventQues" args="$#.event.Oe_ID"/>
-              <div class="quesBox">
-                <vt:foreach from="$ques" item="answer" index="i">
-                  <vt:if var="answer.item" value="" compare="!=">
-                    <vt:function var="tax" method="GetOrder" args="$i"/>
-                    <div class="ansItem" iscorrect="{$:answer.iscorrect}">{$:tax}、{$:answer.item}</div>
-                  </vt:if>
-                </vt:foreach>
-              </div>
-              <div class="quesAns"></div>
-            </vt:if>
-            <!--如果是“实时反馈”-->
-            <vt:if var="event.Oe_EventType" value="4" compare="=">
-              <div class="eventContext"> {$event.Oe_Context} </div>
-              <vt:function var="ques" method="getEventFeedback" args="$#.event.Oe_ID"/>
-              <div class="quesBox">
-                <vt:foreach from="$ques" item="answer" index="i">
-                  <vt:if var="answer.item" value="" compare="!=">
-                    <vt:function var="tax" method="GetOrder" args="$i"/>
-                    <div class="ansItem" point="{$:answer.point}">{$:tax}、{$:answer.item}（跳转到:{$:answer.point}秒）</div>
-                  </vt:if>
-                </vt:foreach>
-              </div>
-              <div class="quesAns"></div>
-            </vt:if>
-          </div>
-        </vt:foreach>
-      </div>
+      
     </vt:if>
   </vt:if>
    </vt:if>

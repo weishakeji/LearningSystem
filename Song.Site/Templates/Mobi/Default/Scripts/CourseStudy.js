@@ -1,6 +1,6 @@
 ﻿$(function () {
     setStyle();
-    setEvent();
+    //setEvent();
     //附件下载,如果是pdf则预览
     mui('body').on('tap', '#access a', function () {
         var href = $(this).attr("href");
@@ -127,7 +127,7 @@ function setFunction() {
     CKobject._K_('studyTime').innerHTML = watchTime;
 
     //播放时，触发播放事件
-    activeEvent($.trim($('#playTime').text()));
+    //activeEvent($.trim($('#playTime').text()));
     //提交数据
     //ajax提交在线时间
     var interval = 10;
@@ -208,63 +208,3 @@ $(function () {
     });
 });
 
-/*
-视频的播放事件
-*/
-MsgBox.OverEvent = function () {
-    CKobject.getObjectById('ckplayer_videobox').videoPlay();
-};
-//通过播放时间，激活视频事件
-function activeEvent(time) {
-    //实际播放的时间值，单位秒
-    var s = Math.floor(Number(time));
-    //
-    $("#events .eventItem").each(function () {
-        var point = Number($(this).attr("point"));
-        if (point == s) {
-            //暂停播放
-            CKobject.getObjectById('ckplayer_videobox').videoPause();
-            //激出弹出窗口
-            var tit = $(this).find(".eventTitle").html();
-            var width = Number($(this).attr("winWidth"));
-            var height = Number($(this).attr("winHeight"));
-            var contx = $(this).find(".eventContext").html();
-            var type = Number($(this).attr("type"));
-            //如果是提醒或知识展示
-            if (type == 1 || type == 2) {
-                new MsgBox(tit, contx, width, height, "alert").Open();
-            }
-            //如果是试题
-            if (type == 3) {
-                new MsgBox(tit, $(this).html(), width, height, "null").Open();
-                $("#MsgBoxContext .eventTitle").remove();
-                $("#MsgBoxContext .quesBox .ansItem").click(function () {
-                    if ($(this).attr("iscorrect") == "True") {
-                        var quesAnd = $("#MsgBoxContext .quesAns");
-                        quesAnd.hide();
-                        quesAnd.html("&radic; 回答正确！");
-                        quesAnd.css("color", "green");
-                        quesAnd.show(100);
-                        setTimeout("MsgBox.Close()", 1000);
-                    } else {
-                        var quesAnd = $("#MsgBoxContext .quesAns");
-                        quesAnd.hide();
-                        quesAnd.html("&times; 回答错误！");
-                        quesAnd.css("color", "red");
-                        quesAnd.show(100);
-                    }
-                });
-            }
-            //如果是实时反馈
-            if (type == 4) {
-                new MsgBox(tit, $(this).html(), width, height, "null").Open();
-                $("#MsgBoxContext .eventTitle").remove();
-                $("#MsgBoxContext .quesBox .ansItem").click(function () {
-                    var playPoint = Number($(this).attr("point"));
-                    CKobject.getObjectById('ckplayer_videobox').videoSeek(playPoint);
-                    MsgBox.Close(true);
-                });
-            }
-        }
-    });
-}

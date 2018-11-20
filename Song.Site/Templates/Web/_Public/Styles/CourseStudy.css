@@ -129,6 +129,9 @@ video::-webkit-media-controls-panel {
 	color: #333 !important;
 	background-color:transparent !important;
 }
+#details p{
+	margin-bottom:10px;	
+}
 #detailsArea{
 	margin: 20px;
 	padding: 20px;

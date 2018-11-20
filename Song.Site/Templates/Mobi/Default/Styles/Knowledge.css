@@ -1,9 +1,16 @@
-.context{
-	margin:10px;
-	margin-bottom:100px;
+* {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
-.artTitle
-{
+.context {
+	margin: 10px;
+	margin-bottom: 100px;
+}
+.artTitle {
 	font-size: 18px;
 	text-align: center;
 	margin-top: 10px;
@@ -11,8 +18,7 @@
 	margin-bottom: 10px;
 	margin-left: auto;
 }
-.artAttrBar
-{
+.artAttrBar {
 	font-size: 14px;
 	text-align: center;
 	margin-top: 10px;
@@ -21,37 +27,34 @@
 	margin-left: auto;
 	color: #666666;
 }
-#artImg{
+#artImg {
 	text-align: center;
 }
-#artImg img{
-	max-width:100% !important;
+#artImg img {
+	max-width: 100% !important;
 }
-#artContext{
+#artContext {
 	margin-bottom: 20px;
 }
-#artContext img{
-	width:100% !important;
+#artContext img {
+	width: 100% !important;
 	margin: auto;
 }
-#artIntro
-{
+#artIntro {
 	font-size: 16px !important;
 	line-height: 22px !important;
-	background-color:transparent !important;
+	background-color: transparent !important;
 	margin-bottom: 1em;
 }
-#artContext, #artContext p, #artContext font, #artContext div,#artContext span{
+#artContext, #artContext p, #artContext font, #artContext div, #artContext span {
 	font-size: 16px !important;
 	line-height: 25px !important;
-	background-color:transparent !important;	
+	background-color: transparent !important;
 }
-#artContext p
-{
+#artContext p {
 	margin-top: 0.5em;
 }
-#artAcc
-{
+#artAcc {
 	margin-bottom: 1em;
 }
 .filesize {
@@ -59,7 +62,6 @@
 	color: #666666;
 	margin-left: 10px;
 }
-
 /*底部*/
 .footer {
 	position: fixed;
@@ -82,7 +84,7 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 	border-left-style: none;
 	border-top-color: #CCC;
 }
-.artNext{
-	margin-left:10px;
-	margin-right:10px;
+.artNext {
+	margin-left: 10px;
+	margin-right: 10px;
 }

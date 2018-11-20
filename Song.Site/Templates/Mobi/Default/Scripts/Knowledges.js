@@ -131,7 +131,7 @@ function ajaxLoaddata() {
     index = size * index < sumcount ? ++index : index;
 	var sear = $().getPara("sear");
     var sorts = $().getPara("sorts");
-    $.post("Knowledges.ashx", { size: size, index: index, sear: sear, sorts: sorts  }, function (requestdata) {
+    $.post(window.location.href, { size: size, index: index, sear: sear, sorts: sorts  }, function (requestdata) {
         var data = eval("(" + requestdata + ")");
         sumcount = data.sumcount;
         mui('#pullrefresh').pullRefresh().endPullupToRefresh((size * index >= sumcount)); //参数为true代表没有更多数据了。

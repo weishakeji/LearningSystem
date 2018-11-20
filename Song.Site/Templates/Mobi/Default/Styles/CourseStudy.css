@@ -11,13 +11,16 @@
 	padding:0px !important;
 	
 }
+div{
+	background-color: transparent !important;
+}
 #videobox{
 	position:absolute;
 	top:0px;
 	left:0px;
 	z-index:1;
 }
-.mui-scroll{
+.mui-inner-wrap{
 	margin-top:260px;	
 }
 #playerInfo{
