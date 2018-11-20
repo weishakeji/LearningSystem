@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Manage/Course/CourseEdit.Master"
+﻿<%@ Page Language="C#" MasterPageFile="~/Manage/Course/CourseEdit.Master" Title="课程章节"
     AutoEventWireup="true" CodeBehind="Courses_Outlines.aspx.cs" Inherits="Song.Site.Manage.Course.Courses_Outlines" %>
 
 <%@ MasterType VirtualPath="~/Manage/Course/CourseEdit.Master" %>
@@ -10,7 +10,7 @@
     <div loyout="row" height="30">
        <uc2:toolsBar ID="ToolsBar1" runat="server" WinPath="Outline_Edit.aspx"
            AddButtonOpen="true" GvName="GridView1" WinWidth="80"  DelButtonVisible="false"
-            WinHeight="80" InputButtonVisible="true" OutputButtonVisible="false" />
+            WinHeight="80" InputButtonVisible="false" OutputButtonVisible="false" />
        <%-- <asp:Button ID="btnAdd" runat="server" Text="新增" CssClass="btnAdd toolsBtn outlineName" />--%></div>
     <div loyout="row" overflow="auto">
         <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"

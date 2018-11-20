@@ -190,6 +190,7 @@ namespace Song.Site
             //时间
             string WeekStr = DateTime.Now.ToString("dddd", new System.Globalization.CultureInfo("zh-cn"));
             this.Document.SetValue("week", WeekStr);
+            this.Document.SetValue("tick", DateTime.Now.Ticks);
             //系统版本号          
             this.Document.SetValue("version", version);
             //导航菜单

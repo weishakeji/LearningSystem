@@ -42,6 +42,18 @@ namespace Song.ServiceInterfaces
         /// <param name="entity">业务实体</param>
         void OutlineSave(Outline entity);
         /// <summary>
+        /// 导入章节，导入时不立即生成缓存
+        /// </summary>
+        /// <param name="entity"></param>
+        void OutlineInput(Outline entity);
+        /// <summary>
+        /// 导出课程章节到Excel
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="couid">课程ID</param>
+        /// <returns></returns>
+        string OutlineExport4Excel(string path, int couid);
+        /// <summary>
         /// 删除章节
         /// </summary>
         /// <param name="entity">业务实体</param>
@@ -63,6 +75,13 @@ namespace Song.ServiceInterfaces
         /// <param name="uid">全局唯一值</param>
         /// <returns></returns>
         Outline OutlineSingle(string uid);
+        /// <summary>
+        /// 获取某个课程内的章节，按级别取
+        /// </summary>
+        /// <param name="couid">课程ID</param>
+        /// <param name="names">多级名称</param>
+        /// <returns></returns>
+        Outline OutlineSingle(int couid, List<string> names);
         /// <summary>
         /// 当前章节下的所有子章节id
         /// </summary>

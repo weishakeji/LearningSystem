@@ -11,6 +11,10 @@ using Song.ServiceInterfaces;
 using System.Data.Common;
 using System.Xml.Serialization;
 using System.Threading;
+using System.Xml;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using System.IO;
 
 namespace Song.ServiceImpls
 {
@@ -114,6 +118,127 @@ namespace Song.ServiceImpls
             this.OnSave(entity, EventArgs.Empty);
         }
         /// <summary>
+        /// 导入章节，导入时不立即生成缓存
+        /// </summary>
+        /// <param name="entity"></param>
+        public void OutlineInput(Outline entity)
+        {
+            //计算排序号
+            object obj = Gateway.Default.Max<Outline>(Outline._.Ol_Tax, Outline._.Cou_ID == entity.Cou_ID && Outline._.Ol_PID == entity.Ol_PID);
+            entity.Ol_Tax = obj is int ? (int)obj + 1 : 1;
+            if (string.IsNullOrWhiteSpace(entity.Ol_UID))
+                entity.Ol_UID = WeiSha.Common.Request.UniqueID();
+            //层级
+            entity.Ol_Level = _ClacLevel(entity);
+            entity.Ol_XPath = _ClacXPath(entity);
+            Gateway.Default.Save<Outline>(entity);
+        }
+        /// <summary>
+        /// 导出课程章节到Excel
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="couid">课程ID</param>
+        /// <returns></returns>
+        public string OutlineExport4Excel(string path, int couid)
+        {
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            //xml配置文件
+            XmlDocument xmldoc = new XmlDocument();
+            string confing = WeiSha.Common.App.Get["ExcelInputConfig"].VirtualPath + "课程章节.xml";
+            xmldoc.Load(WeiSha.Common.Server.MapPath(confing));
+            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+            //当前课程的所有章节
+            Song.Entities.Outline[] outls = this.OutlineCount(couid, -1, null, -1);
+            DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outls);
+            WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
+            tree.IdKeyName = "OL_ID";
+            tree.ParentIdKeyName = "OL_PID";
+            tree.TaxKeyName = "Ol_Tax";
+            tree.Root = 0;
+            dt = tree.BuilderTree(dt);
+            //取最大深度
+            int level = 0;
+            foreach (Outline ol in outls)
+            {
+                if (ol.Ol_Level > level) level = ol.Ol_Level;
+            }
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            ISheet sheet = hssfworkbook.CreateSheet(course.Cou_Name);   //创建工作簿对象
+            //创建数据行对象
+            IRow rowHead = sheet.CreateRow(0);
+            int index = 0;
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                //是否导出
+                string exExport = nodes[i].Attributes["export"] != null ? nodes[i].Attributes["export"].Value : "";
+                if (exExport.ToLower() == "false") continue;
+                //如果是章节，可能存在多级
+                if (nodes[i].Attributes["Column"].Value == "章节名称" && level > 0)
+                {
+                    index = i;
+                    rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
+                    for (int l = 1; l <= level + 1; l++)
+                    {
+                        rowHead.CreateCell(i + l).SetCellValue(nodes[i].Attributes["Column"].Value + l.ToString());
+                    }
+                }
+                else
+                {
+                    if (i > index)
+                        rowHead.CreateCell(i + level).SetCellValue(nodes[i].Attributes["Column"].Value);
+                    else
+                        rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
+                }
+            }
+            //生成数据行
+            ICellStyle style_size = hssfworkbook.CreateCellStyle();
+            style_size.WrapText = true;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                IRow row = sheet.CreateRow(i + 1);  //创建Excel行
+                DataRow obj = dt.Rows[i];   //数据项
+                for (int j = 0; j < nodes.Count; j++)
+                {
+                    string exExport = nodes[j].Attributes["export"] != null ? nodes[j].Attributes["export"].Value : ""; //是否导出
+                    if (exExport.ToLower() == "false") continue;
+                    string column = nodes[j].Attributes["Column"] != null ? nodes[j].Attributes["Column"].Value : "";
+                    string field = nodes[j].Attributes["Field"] != null ? nodes[j].Attributes["Field"].Value : "";
+                    string format = nodes[j].Attributes["Format"] != null ? nodes[j].Attributes["Format"].Value : "";
+                    string datatype = nodes[j].Attributes["DataType"] != null ? nodes[j].Attributes["DataType"].Value : "";
+                    string defvalue = nodes[j].Attributes["DefautValue"] != null ? nodes[j].Attributes["DefautValue"].Value : "";
+                    
+
+
+                    string value = "";
+                    switch (datatype)
+                    {
+                        case "date":
+                            DateTime tm = Convert.ToDateTime(obj);
+                            value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                            break;
+                        default:
+                            value = obj.ToString();
+                            break;
+                    }
+                    if (defvalue.Trim() != "")
+                    {
+                        foreach (string s in defvalue.Split('|'))
+                        {
+                            string h = s.Substring(0, s.IndexOf("="));
+                            string f = s.Substring(s.LastIndexOf("=") + 1);
+                            if (value == h) value = f;
+                        }
+                    }
+                    row.CreateCell(j).SetCellValue(value);
+                }
+            }
+            //输出成Excel文件
+            FileStream file = new FileStream(path, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            return path;
+        }
+        /// <summary>
         /// 删除章节
         /// </summary>
         /// <param name="entity">业务实体</param>
@@ -192,6 +317,24 @@ namespace Song.ServiceImpls
                                 select l).ToList<Outline>();
             if (tm.Count > 0) curr = tm[0];
             if (curr == null) curr = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == uid).ToFirst<Outline>();
+            return curr;
+        }
+        /// <summary>
+        /// 获取某个课程内的章节，按级别取
+        /// </summary>
+        /// <param name="couid">课程ID</param>
+        /// <param name="names">多级名称</param>
+        /// <returns></returns>
+        public Outline OutlineSingle(int couid, List<string> names)
+        {
+            Outline curr = null;
+            int index = 0;
+            while (curr != null && index >= names.Count)
+            {
+                curr = Gateway.Default.From<Outline>().
+                    Where(Outline._.Cou_ID == couid && Outline._.Ol_Name == names[index])
+                    .ToFirst<Outline>();
+            }
             return curr;
         }
         /// <summary>

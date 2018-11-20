@@ -262,6 +262,7 @@
     </Content>
     <Content Include="Manage\Course\List.aspx" />
     <Content Include="Manage\Course\List_Edit.aspx" />
+    <Content Include="Manage\Course\Outline_Input.aspx" />
     <Content Include="Manage\Course\Scripts\CourseEditMaster.js" />
     <Content Include="Manage\Course\Scripts\Courses.js" />
     <Content Include="Manage\Course\Scripts\Courses_Edit.js" />
@@ -298,6 +299,8 @@
     <Content Include="Manage\Course\Outline_Edit.aspx" />
     <Content Include="Manage\Course\Outline_Accessory.aspx" />
     <Content Include="Manage\Course\Outline_Video.aspx" />
+    <Content Include="Manage\Course\Outline_Export.aspx" />
+    <Content Include="Manage\Course\Styles\Outline_Export.css" />
     <Content Include="Manage\DataTemplate\Config\充值码.xml" />
     <Content Include="Manage\DataTemplate\Config\学习卡.xml" />
     <Content Include="Manage\DataTemplate\Config\教师信息.xml">
@@ -306,6 +309,7 @@
     <Content Include="Manage\DataTemplate\Config\学生信息.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Manage\DataTemplate\Config\课程章节.xml" />
     <Content Include="Manage\DataTemplate\多选题.xls" />
     <Content Include="Manage\Exam\Scripts\Public.js" />
     <Content Include="Manage\Exam\Scripts\TestPaper.js" />
@@ -2429,6 +2433,20 @@
     </Compile>
     <Compile Include="Manage\Course\Outline_Video.aspx.designer.cs">
       <DependentUpon>Outline_Video.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Course\Outline_Input.aspx.cs">
+      <DependentUpon>Outline_Input.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Course\Outline_Input.aspx.designer.cs">
+      <DependentUpon>Outline_Input.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Course\Outline_Export.aspx.cs">
+      <DependentUpon>Outline_Export.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Course\Outline_Export.aspx.designer.cs">
+      <DependentUpon>Outline_Export.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Exam\TestPaper_Edit1.aspx.cs">
       <DependentUpon>TestPaper_Edit1.aspx</DependentUpon>
@@ -6226,6 +6244,7 @@
     <Content Include="Mobile\LearningCard.ashx" />
     <Content Include="Mobile\LearningCardView.ashx" />
     <Content Include="Mobile\QuesOften.ashx" />
+    <None Include="Manage\DataTemplate\课程章节.xls" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
