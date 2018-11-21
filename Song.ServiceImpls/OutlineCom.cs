@@ -537,6 +537,7 @@ namespace Song.ServiceImpls
             //linq查询
             var from = from l in list select l;
             if (couid > 0) from = from.Where<Outline>(p => p.Cou_ID == couid);
+            if (pid >= 0) from = from.Where<Outline>(p => p.Ol_PID == pid);
             if (isUse != null) from = from.Where<Outline>(p => p.Ol_IsUse == (bool)isUse);
             List<Outline> tm = null;
             if (count > 0)
