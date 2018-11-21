@@ -682,7 +682,7 @@ namespace Song.ServiceImpls
             {
                 wc &= LogForStudentOnline._.Lso_Platform == plat;
             }
-            return Gateway.Default.From<LogForStudentOnline>().Where(wc).ToFirst<LogForStudentOnline>();
+            return Gateway.Default.From<LogForStudentOnline>().Where(wc).OrderBy(LogForStudentOnline._.Lso_LoginTime.Desc).ToFirst<LogForStudentOnline>();
         }
         /// <summary>
         /// 返回记录
