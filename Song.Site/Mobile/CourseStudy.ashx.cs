@@ -38,7 +38,10 @@ namespace Song.Site.Mobile
                 foreach (Song.Entities.Outline c in outlines)
                     c.Ol_Intro = Extend.Html.ClearHTML(c.Ol_Intro);
                 this.Document.SetValue("outlines", outlines);
-                this.Document.Variables.SetValue("dtOutlines", Business.Do<IOutline>().OutlineTree(outlines));
+                if (outlines != null && outlines.Length > 0)
+                {
+                    this.Document.Variables.SetValue("dtOutlines", Business.Do<IOutline>().OutlineTree(outlines));
+                }
             }
             //是否学习当前课程
             int accid = 0;
@@ -49,6 +52,7 @@ namespace Song.Site.Mobile
             Song.Entities.Outline ol = null;
             ol = olid < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)
                        : ol = Business.Do<IOutline>().OutlineSingle(olid);
+            if (ol == null) return;
             //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
             bool canStudy = isStudy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : (course.Cou_IsTry && ol.Ol_IsFree);
             canStudy = canStudy && ol.Ol_IsUse && ol.Ol_IsFinish && this.Account != null;
