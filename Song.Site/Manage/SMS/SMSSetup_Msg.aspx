@@ -18,7 +18,7 @@
         </tr>
         <tr>
             <td class="right" valign="top" style="padding-top:5px;">
-              说明:
+              说明：
             </td>
             <td>
              <p>  1、结尾必须是【您的平台名称】，注意一定是中文的中括号结尾。
@@ -28,6 +28,15 @@
 </p>
 </td>
         </tr>
+        <tr>
+            <td class="right" valign="top" style="padding-top:5px;">
+              实际效果：
+            </td>
+            <td>
+                <asp:Label ID="lbMsg" runat="server" Text=""></asp:Label>
+
+            </td>
+            </tr>
     </table>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">

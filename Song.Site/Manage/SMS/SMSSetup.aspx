@@ -59,7 +59,7 @@
                 <ItemStyle CssClass="center" />
                 <ItemTemplate>
                 <%# Eval("User")%>
-                    <a href="SMSSetup_Msg.aspx?remarks=<%# Eval("Remarks", "{0}")%>" type="open" width="600" height="400" title="短信模板-<%# Eval("Remarks")%>">编辑</a>
+                    <a href="SMSSetup_Msg.aspx?remarks=<%# Eval("Remarks", "{0}")%>" class="open" width="600" height="400" title="短信模板-<%# Eval("Remarks")%>">编辑</a>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="注册/充值">

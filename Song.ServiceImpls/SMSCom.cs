@@ -98,7 +98,9 @@ namespace Song.ServiceImpls
                     HttpCookie cookie = new HttpCookie(keyname);
                     //将随机字符转用ＭＤ５加密
                     cookie.Value = new WeiSha.Common.Param.Method.ConvertToAnyValue(rnd).MD5;
-                    if (!WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Request.Domain.MainName;
+                    //如果是多机构，有不用IP访问，则用根域写入cookie
+                    int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
+                    if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Request.Domain.MainName;
                     cookie.Expires = DateTime.Now.AddMinutes(10);
                     context.Response.Cookies.Add(cookie);
                     return true;

@@ -180,12 +180,16 @@ namespace Song.Site.Mobile
             this.Document.Variables.SetValue("token", token);
             //WeiSha.Common.Log.Write(string.Format("再次登录时，取token:{0},openid:{1}", token, openid));
             //设置主域，用于js跨根域
-            if (!WeiSha.Common.Server.IsLocalIP) this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+            int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
+            if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) 
+                this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
             //当前机构
             Song.Entities.Organization org = getOrgan(-1);
             this.Document.Variables.SetValue("org", org);
             //WeiSha.Common.Log.Write(string.Format("再次登录时，机构{0}",org.Org_Name));
-            if (!WeiSha.Common.Server.IsLocalIP) this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+            //设置主域，用于js跨根域
+            if (multi == 0 && !WeiSha.Common.Server.IsLocalIP)
+                this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
             this.Document.SetValue("domain2", org.Org_TwoDomain + "." + WeiSha.Common.Request.Domain.MainName);
             //获取帐户，如果已经注册，则直接实现登录
             string unionid = string.Empty;

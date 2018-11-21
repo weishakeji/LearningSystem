@@ -35,7 +35,9 @@ namespace Song.Site.Manage.SMS
         private void fill()
         {
             //短信模板
-            tbSmsTemplate.Text = Business.Do<ISystemPara>().GetValue(remarks + "_SmsTemplate");        
+            tbSmsTemplate.Text = Business.Do<ISystemPara>().GetValue(remarks + "_SmsTemplate");    
+            //模板实际效果
+            lbMsg.Text = Business.Do<ISMS>().MessageFormat(tbSmsTemplate.Text, DateTime.Now.ToString("mmss")); 
         }
         /// <summary>
         /// 修改
@@ -46,7 +48,9 @@ namespace Song.Site.Manage.SMS
         {
             try
             {
-                Business.Do<ISystemPara>().Save(remarks + "_SmsTemplate", tbSmsTemplate.Text.Trim());  
+                Business.Do<ISystemPara>().Save(remarks + "_SmsTemplate", tbSmsTemplate.Text.Trim());
+                //模板实际效果
+                lbMsg.Text = Business.Do<ISMS>().MessageFormat(tbSmsTemplate.Text, DateTime.Now.ToString("mmss")); 
                 Master.AlertCloseAndRefresh("操作成功！");
             }
             catch (Exception ex)

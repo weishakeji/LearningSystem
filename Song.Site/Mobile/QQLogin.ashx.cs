@@ -30,7 +30,9 @@ namespace Song.Site.Mobile
                 this.Document.Variables.SetValue("token", access_token);
                 this.Document.Variables.SetValue("openid", openid);
                 //设置主域，用于js跨根域
-                if (!WeiSha.Common.Server.IsLocalIP) this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+                int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
+                if (multi == 0 && !WeiSha.Common.Server.IsLocalIP)
+                    this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
                 //QQ回调域
                 string qqreturl = Business.Do<ISystemPara>()["QQReturl"].Value;
                 if (string.IsNullOrWhiteSpace(qqreturl)) qqreturl = WeiSha.Common.Request.Domain.MainName;

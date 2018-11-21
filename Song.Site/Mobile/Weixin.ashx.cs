@@ -14,7 +14,10 @@ namespace Song.Site.Mobile
     {
         protected override void InitPageTemplate(HttpContext context)
         {
-            if (!WeiSha.Common.Server.IsLocalIP) this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+            //设置主域，用于js跨根域
+            int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
+            if (multi == 0 && !WeiSha.Common.Server.IsLocalIP)
+                this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
             //微信登录
             this.Document.SetValue("WeixinLoginIsUse", Business.Do<ISystemPara>()["WeixinLoginIsUse"].Boolean ?? false);
             this.Document.SetValue("WeixinpubAPPID", Business.Do<ISystemPara>()["WeixinpubAPPID"].String);
