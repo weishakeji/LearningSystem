@@ -1,12 +1,27 @@
-﻿//登录成功后返回的地址
+﻿//错误信息提示
+var errorMsg = {
+    msg: new Array({ code: 100, text: "公众号没有绑定到微信开放平台" }),
+    get: function (code) {
+        var text = "";
+        for (var i = 0; i < this.msg.length; i++) {
+            if (this.msg[i].code == Number(code)) {
+                text = this.msg[i].text;
+                break;
+            }
+        }
+        return text;
+    }
+};
+
+//登录成功后返回的地址
 var returl = function (acpw, acid) {
     //登录成功后的返回地址
-	$.storage("accid", acid);
-	$.storage("accpw", acpw);
-	setTimeout(gorurl(), 1000);
-	function gorurl(){
-		window.location.href="default.ashx";
-	}
+    $.storage("accid", acid);
+    $.storage("accpw", acpw);
+    setTimeout(gorurl(), 1000);
+    function gorurl() {
+        window.location.href = "default.ashx";
+    }
 }
 
 //
@@ -33,7 +48,7 @@ $(function () {
 function setBtnEvent() {
     //直接登录
     $("#btnDirect").click(function () {
-        $(this).addClass("disabled");       
+        $(this).addClass("disabled");
         var sex = $.trim($("#gender").text()); 	//性别
         var name = $.trim($("#name").text()); 	//姓名
         var photo = $.trim($("#photo").attr("src")); 	//头像
@@ -42,12 +57,13 @@ function setBtnEvent() {
 			function (requestdata) {
 			    var data = eval("(" + requestdata + ")");
 			    if (Number(data.success) == 1) returl(data.acpw, data.acid);
+			    if (Number(data.success) == -1) alert(errorMsg.get(data.state));
 			});
 
     });
     //新用户注册
     $("#formRegist").submit(function () {
-        var isSms = $(this).attr("sms") == "True";      
+        var isSms = $(this).attr("sms") == "True";
         var sex = $.trim($("#gender").text()); 	//性别
         var name = $.trim($("#name").text()); 	//姓名
         var photo = $.trim($("#photo").attr("src")); 	//头像
@@ -65,6 +81,7 @@ function setBtnEvent() {
                 }
                 //注册成功
                 if (Number(data.success) == 1) returl(data.acpw, data.acid);
+                if (Number(data.success) == -1) alert(errorMsg.get(data.state));
             });
         }
         //如果需要短信验证
@@ -76,7 +93,7 @@ function setBtnEvent() {
             var vcode = $(this).find("input[type=text][name=tbNewCode]").val();
             var sms = $(this).find("input[name=tbNewSms]").val(); //用户填写的短信验证码
             var smsname = $(this).find("#getRegSms").attr("smsname");
-            ajax.post(window.location.href, { action: "register2", 
+            ajax.post(window.location.href, { action: "register2",
                 sex: sex, name: name, photo: photo,
                 vname: vname, vcode: vcode,
                 sms: sms, mobi: mobi, smsname: smsname
@@ -90,6 +107,7 @@ function setBtnEvent() {
                 }
                 //注册成功
                 if (Number(data.success) == 1) returl(data.acpw, data.acid);
+                if (Number(data.success) == -1) alert(errorMsg.get(data.state));
             });
         }
         return false;
@@ -97,7 +115,7 @@ function setBtnEvent() {
     //绑定已经存在账户
     $("#formBind").submit(function () {
         var isSms = $(this).attr("sms") == "True";
-        var isSms = $(this).attr("sms") == "True";        
+        var isSms = $(this).attr("sms") == "True";
         var sex = $.trim($("#gender").text()); 	//性别
         var name = $.trim($("#name").text()); 	//姓名
         var photo = $.trim($("#photo").attr("src")); 	//头像
@@ -110,9 +128,9 @@ function setBtnEvent() {
         //如果不需要短信验证
         if (!isSms) {
             var pw = $(this).find("input[name=tbPw]").val();    //密码
-            ajax.post(window.location.href, { action: "bind1", 
+            ajax.post(window.location.href, { action: "bind1",
                 sex: sex, name: name, photo: photo,
-                vname: vname, vcode: vcode, mobi: mobi,pw:pw
+                vname: vname, vcode: vcode, mobi: mobi, pw: pw
             }, function (requestdata) {
                 var data = eval("(" + requestdata + ")");
                 var form = $("form[name=formBind]");
@@ -124,13 +142,14 @@ function setBtnEvent() {
                 }
                 //绑定成功
                 if (Number(data.success) == 1) returl(data.acpw, data.acid);
+                if (Number(data.success) == -1) alert(errorMsg.get(data.state));
             });
         }
         //如果需要短信验证
         if (isSms) {
             var sms = $(this).find("input[name=tbSms]").val(); //用户填写的短信验证码
             var smsname = $(this).find("#getSms").attr("smsname");
-            ajax.post(window.location.href, { action: "bind2", 
+            ajax.post(window.location.href, { action: "bind2",
                 sex: sex, name: name, photo: photo,
                 vcode: vcode, vname: vname, sms: sms, mobi: mobi, smsname: smsname
             }, function (requestdata) {
@@ -146,6 +165,7 @@ function setBtnEvent() {
                 }
                 //注册成功
                 if (Number(data.success) == 1) returl(data.acpw, data.acid);
+                if (Number(data.success) == -1) alert(errorMsg.get(data.state));
             });
         }
         return false;

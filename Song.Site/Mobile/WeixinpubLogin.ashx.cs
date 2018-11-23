@@ -162,7 +162,7 @@ namespace Song.Site.Mobile
                 //取132的头像
                 if (acc.Ac_Photo.IndexOf("/") > -1)
                     acc.Ac_Photo = acc.Ac_Photo.Substring(0, acc.Ac_Photo.LastIndexOf("/")+1) + "132";
-                unionid = jo["unionid"] != null ? jo["unionid"].ToString() : string.Empty;    //unionid
+                unionid = jo["unionid"] != null ? jo["unionid"].ToString() : string.Empty;    //unionid                
                 acc.Ac_WeixinOpenID = unionid;
             }
             return acc;
@@ -254,8 +254,8 @@ namespace Song.Site.Mobile
             //创建新账户
             //获取微信登录账户的信息
             string unionid = string.Empty;
-            Song.Entities.Accounts tmp = getUserInfo(token, openid, out unionid);           
-            if (tmp != null)
+            Song.Entities.Accounts tmp = getUserInfo(token, openid, out unionid);
+            if (tmp != null && !string.IsNullOrWhiteSpace(unionid))
             {
                 tmp.Ac_AccName = unionid;
                 tmp.Org_ID = org.Org_ID;
@@ -276,9 +276,14 @@ namespace Song.Site.Mobile
                 tmp.Ac_IsPass = tmp.Ac_IsUse = true;
                 int id = Business.Do<IAccounts>().AccountsAdd(tmp);
                 LoginState.Accounts.Write(tmp);
+                Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\"}");
             }
-            //string domain = getOrganDomain(org);
-            Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\"}");
+            else
+            {
+                //没有获取到unionid，可能是公众号没有绑定微信开放平台
+                Response.Write("{\"success\":\"-1\",\"state\":\"100\"}");
+            }
+           
         }
         /// <summary>
         /// 注册，但不验证手机号
@@ -304,29 +309,36 @@ namespace Song.Site.Mobile
             Song.Entities.Organization org = getOrgan(-1);           
             //创建新账户
             string unionid = string.Empty;
-            Song.Entities.Accounts tmp = getUserInfo(token, openid, out unionid);    
-            tmp.Ac_AccName = string.IsNullOrWhiteSpace(mobi) ? openid : mobi;
-            tmp.Ac_MobiTel1 = tmp.Ac_MobiTel2 = mobi;   //手机号
-            tmp.Org_ID = org.Org_ID;
-            //头像图片           
-            string photoPath = Upload.Get["Accounts"].Physics + unionid + ".jpg";
-            WeiSha.Common.Request.LoadFile(photo, photoPath);
-            tmp.Ac_Photo = unionid + ".jpg"; 
-            //获取推荐人
-            int recid = WeiSha.Common.Request.Cookies["sharekeyid"].Int32 ?? 0;
-            Song.Entities.Accounts accRec = null;
-            if (accRec == null && recid > 0) accRec = Business.Do<IAccounts>().AccountsSingle(recid);
-            if (accRec != null && accRec.Ac_ID != tmp.Ac_ID)
+            Song.Entities.Accounts tmp = getUserInfo(token, openid, out unionid);
+            if (tmp != null && !string.IsNullOrWhiteSpace(unionid))
             {
-                tmp.Ac_PID = accRec.Ac_ID;  //设置推荐人，即：当前注册账号为推荐人的下线                   
-                Business.Do<IAccounts>().PointAdd4Register(accRec);   //增加推荐人积分
+                tmp.Ac_AccName = string.IsNullOrWhiteSpace(mobi) ? openid : mobi;
+                tmp.Ac_MobiTel1 = tmp.Ac_MobiTel2 = mobi;   //手机号
+                tmp.Org_ID = org.Org_ID;
+                //头像图片           
+                string photoPath = Upload.Get["Accounts"].Physics + unionid + ".jpg";
+                WeiSha.Common.Request.LoadFile(photo, photoPath);
+                tmp.Ac_Photo = unionid + ".jpg";
+                //获取推荐人
+                int recid = WeiSha.Common.Request.Cookies["sharekeyid"].Int32 ?? 0;
+                Song.Entities.Accounts accRec = null;
+                if (accRec == null && recid > 0) accRec = Business.Do<IAccounts>().AccountsSingle(recid);
+                if (accRec != null && accRec.Ac_ID != tmp.Ac_ID)
+                {
+                    tmp.Ac_PID = accRec.Ac_ID;  //设置推荐人，即：当前注册账号为推荐人的下线                   
+                    Business.Do<IAccounts>().PointAdd4Register(accRec);   //增加推荐人积分
+                }
+                //如果需要审核通过                
+                tmp.Ac_IsPass = tmp.Ac_IsUse = true;
+                int id = Business.Do<IAccounts>().AccountsAdd(tmp);
+                LoginState.Accounts.Write(tmp);
+                Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\"}");
             }
-            //如果需要审核通过                
-            tmp.Ac_IsPass = tmp.Ac_IsUse = true;
-            int id = Business.Do<IAccounts>().AccountsAdd(tmp);
-            LoginState.Accounts.Write(tmp);
-            //string domain = getOrganDomain(org);
-            Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\"}");
+            else
+            {
+                //没有获取到unionid，可能是公众号没有绑定微信开放平台
+                Response.Write("{\"success\":\"-1\",\"state\":\"100\"}");
+            }
         }
         /// <summary>
         /// 手机号注册，需短信验证
@@ -372,29 +384,37 @@ namespace Song.Site.Mobile
                 //创建新账户
                 string unionid = string.Empty;
                 Song.Entities.Accounts tmp = getUserInfo(token, openid,out unionid);
-                Song.Entities.Organization org = getOrgan(-1);
-                tmp.Ac_AccName = string.IsNullOrWhiteSpace(mobi) ? unionid : mobi;
-                tmp.Ac_MobiTel1 = tmp.Ac_MobiTel2 = mobi;   //手机号
-                tmp.Org_ID = org.Org_ID;
-                //头像图片           
-                string photoPath = Upload.Get["Accounts"].Physics + unionid + ".jpg";
-                WeiSha.Common.Request.LoadFile(photo, photoPath);
-                tmp.Ac_Photo = unionid + ".jpg"; 
-                //获取推荐人
-                int recid = WeiSha.Common.Request.Cookies["sharekeyid"].Int32 ?? 0;
-                Song.Entities.Accounts accRec = null;
-                if (accRec == null && recid > 0) accRec = Business.Do<IAccounts>().AccountsSingle(recid);
-                if (accRec != null && accRec.Ac_ID != tmp.Ac_ID)
+                if (tmp != null && !string.IsNullOrWhiteSpace(unionid))
                 {
-                    tmp.Ac_PID = accRec.Ac_ID;  //设置推荐人，即：当前注册账号为推荐人的下线                   
-                    Business.Do<IAccounts>().PointAdd4Register(accRec);   //增加推荐人积分
+                    Song.Entities.Organization org = getOrgan(-1);
+                    tmp.Ac_AccName = string.IsNullOrWhiteSpace(unionid) ? mobi : unionid;
+                    tmp.Ac_MobiTel1 = tmp.Ac_MobiTel2 = mobi;   //手机号
+                    tmp.Org_ID = org.Org_ID;
+                    //头像图片           
+                    string photoPath = Upload.Get["Accounts"].Physics + unionid + ".jpg";
+                    WeiSha.Common.Request.LoadFile(photo, photoPath);
+                    tmp.Ac_Photo = unionid + ".jpg";
+                    //获取推荐人
+                    int recid = WeiSha.Common.Request.Cookies["sharekeyid"].Int32 ?? 0;
+                    Song.Entities.Accounts accRec = null;
+                    if (accRec == null && recid > 0) accRec = Business.Do<IAccounts>().AccountsSingle(recid);
+                    if (accRec != null && accRec.Ac_ID != tmp.Ac_ID)
+                    {
+                        tmp.Ac_PID = accRec.Ac_ID;  //设置推荐人，即：当前注册账号为推荐人的下线                   
+                        Business.Do<IAccounts>().PointAdd4Register(accRec);   //增加推荐人积分
+                    }
+                    //如果需要审核通过                
+                    tmp.Ac_IsPass = tmp.Ac_IsUse = true;
+                    int id = Business.Do<IAccounts>().AccountsAdd(tmp);
+                    LoginState.Accounts.Write(tmp);
+                    //string domain = getOrganDomain(org);
+                    Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
                 }
-                //如果需要审核通过                
-                tmp.Ac_IsPass = tmp.Ac_IsUse = true;
-                int id = Business.Do<IAccounts>().AccountsAdd(tmp);
-                LoginState.Accounts.Write(tmp);
-                //string domain = getOrganDomain(org);
-                Response.Write("{\"success\":\"1\",\"name\":\"" + tmp.Ac_Name + "\",\"acpw\":\"" + tmp.Ac_Pw + "\",\"acid\":\"" + tmp.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
+                else
+                {
+                    //没有获取到unionid，可能是公众号没有绑定微信开放平台
+                    Response.Write("{\"success\":\"-1\",\"state\":\"100\"}");
+                }
             }
         }
         #endregion
@@ -423,46 +443,54 @@ namespace Song.Site.Mobile
             }
             string unionid = string.Empty;
             Song.Entities.Accounts acctm = getUserInfo(token, openid, out unionid);
-            Song.Entities.Accounts acc = null;
-            //验证手机号是否存在
-            if (!string.IsNullOrWhiteSpace(mobi))
+            if (acctm != null && !string.IsNullOrWhiteSpace(unionid))
             {
-                acc = Business.Do<IAccounts>().IsAccountsExist(-1, mobi, 1);
-                if (acc == null)
+                Song.Entities.Accounts acc = null;
+                //验证手机号是否存在
+                if (!string.IsNullOrWhiteSpace(mobi))
                 {
-                    Response.Write("{\"success\":\"-1\",\"state\":\"2\"}");   //手机号不存在
-                    return;
+                    acc = Business.Do<IAccounts>().IsAccountsExist(-1, mobi, 1);
+                    if (acc == null)
+                    {
+                        Response.Write("{\"success\":\"-1\",\"state\":\"2\"}");   //手机号不存在
+                        return;
+                    }
+                    //验证密码
+                    if (!string.Equals(acc.Ac_Pw, pw, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        Response.Write("{\"success\":\"-1\",\"state\":\"3\"}");   //登录密码不正确
+                        return;
+                    }
+                    //是否已经绑过微信的openid
+                    if (!string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
+                    {
+                        Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过openid
+                        return;
+                    }
                 }
-                //验证密码
-                if (!string.Equals(acc.Ac_Pw, pw, StringComparison.CurrentCultureIgnoreCase))
+                //绑定
+                if (acc != null)
                 {
-                    Response.Write("{\"success\":\"-1\",\"state\":\"3\"}");   //登录密码不正确
-                    return;
+                    if (string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
+                    {
+                        acc.Ac_WeixinOpenID = unionid;
+                        Business.Do<IAccounts>().AccountsSave(acc);
+                        LoginState.Accounts.Write(acc);
+                        //登录成功
+                        Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
+                        //string domain = getOrganDomain(this.getOrgan(-1));
+                        Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"acpw\":\"" + acc.Ac_Pw + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\"}");
+                    }
+                    else
+                    {
+                        Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过微信号
+                    }
                 }
-                //是否已经绑过微信的openid
-                if (!string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
-                {
-                    Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过openid
-                    return;
-                } 
             }
-            //绑定
-            if (acc != null)
+            else
             {
-                if (string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
-                {
-                    acc.Ac_WeixinOpenID = unionid;
-                    Business.Do<IAccounts>().AccountsSave(acc);
-                    LoginState.Accounts.Write(acc);
-                    //登录成功
-                    Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
-                    //string domain = getOrganDomain(this.getOrgan(-1));
-                    Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"acpw\":\"" + acc.Ac_Pw + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\"}");
-                }
-                else
-                {
-                    Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过微信号
-                }
+                //没有获取到unionid，可能是公众号没有绑定微信开放平台
+                Response.Write("{\"success\":\"-1\",\"state\":\"100\"}");
             }
         }
         /// <summary>
@@ -496,40 +524,48 @@ namespace Song.Site.Mobile
             }
             string unionid = string.Empty;
             Song.Entities.Accounts acctm = getUserInfo(token, openid, out unionid);
-            Song.Entities.Accounts acc = null;
-            //验证手机号是否存在
-            if (!string.IsNullOrWhiteSpace(mobi))
+            if (acctm != null && !string.IsNullOrWhiteSpace(unionid))
             {
-                acc = Business.Do<IAccounts>().IsAccountsExist(-1, mobi, 1);
-                if (acc == null)
+                Song.Entities.Accounts acc = null;
+                //验证手机号是否存在
+                if (!string.IsNullOrWhiteSpace(mobi))
                 {
-                    Response.Write("{\"success\":\"-1\",\"state\":\"2\",\"btn\":\"" + btnName + "\"}");   //手机号不存在
-                    return;
+                    acc = Business.Do<IAccounts>().IsAccountsExist(-1, mobi, 1);
+                    if (acc == null)
+                    {
+                        Response.Write("{\"success\":\"-1\",\"state\":\"2\",\"btn\":\"" + btnName + "\"}");   //手机号不存在
+                        return;
+                    }
+                    //是否已经绑过微信的openid
+                    if (!string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
+                    {
+                        Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过openid
+                        return;
+                    }
                 }
-                //是否已经绑过微信的openid
-                if (!string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
+                //绑定
+                if (acc != null)
                 {
-                    Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过openid
-                    return;
-                } 
+                    if (string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
+                    {
+                        acc.Ac_WeixinOpenID = unionid;
+                        Business.Do<IAccounts>().AccountsSave(acc);
+                        LoginState.Accounts.Write(acc);
+                        //登录成功
+                        Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
+                        //string domain = getOrganDomain(getOrgan(-1));
+                        Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"acpw\":\"" + acc.Ac_Pw + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
+                    }
+                    else
+                    {
+                        Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过微信号
+                    }
+                }
             }
-            //绑定
-            if (acc != null)
+            else
             {
-                if (string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
-                {
-                    acc.Ac_WeixinOpenID = unionid;
-                    Business.Do<IAccounts>().AccountsSave(acc);
-                    LoginState.Accounts.Write(acc);
-                    //登录成功
-                    Business.Do<IAccounts>().PointAdd4Login(acc, "电脑网页", "微信登录", "");   //增加登录积分
-                    //string domain = getOrganDomain(getOrgan(-1));
-                    Response.Write("{\"success\":\"1\",\"name\":\"" + acc.Ac_Name + "\",\"acpw\":\"" + acc.Ac_Pw + "\",\"acid\":\"" + acc.Ac_ID + "\",\"state\":\"1\",\"btn\":\"" + btnName + "\"}");
-                }
-                else
-                {
-                    Response.Write("{\"success\":\"-1\",\"state\":\"4\"}");   //已经绑定过微信号
-                }
+                //没有获取到unionid，可能是公众号没有绑定微信开放平台
+                Response.Write("{\"success\":\"-1\",\"state\":\"100\"}");
             }
         }
         #endregion
