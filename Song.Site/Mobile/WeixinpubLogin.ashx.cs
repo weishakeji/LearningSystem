@@ -474,6 +474,13 @@ namespace Song.Site.Mobile
                     if (string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
                     {
                         acc.Ac_WeixinOpenID = unionid;
+                        //用户头像，如果没有上传，或图片不存在
+                        if (string.IsNullOrEmpty(acc.Ac_Photo) || acc.Ac_Photo.Trim() == "" || !System.IO.File.Exists(Upload.Get["Accounts"].Physics + acc.Ac_Photo))
+                        {
+                            string photoPath = Upload.Get["Accounts"].Physics + unionid + ".jpg";
+                            WeiSha.Common.Request.LoadFile(photo, photoPath);
+                            acc.Ac_Photo = unionid + ".jpg";
+                        }
                         Business.Do<IAccounts>().AccountsSave(acc);
                         LoginState.Accounts.Write(acc);
                         //登录成功
@@ -504,7 +511,8 @@ namespace Song.Site.Mobile
             string vname = WeiSha.Common.Request.Form["vname"].String;
             string imgCode = WeiSha.Common.Request.Cookies[vname].ParaValue;    //取图片验证码
             string userCode = WeiSha.Common.Request.Form["vcode"].MD5;  //取输入的验证码
-            string sms = WeiSha.Common.Request.Form["sms"].MD5;  //输入的短信验证码    
+            string sms = WeiSha.Common.Request.Form["sms"].MD5;  //输入的短信验证码  
+            string photo = WeiSha.Common.Request.Form["photo"].String;
             //短信验证码Cookie名称
             string smsName = WeiSha.Common.Request.Form["smsname"].String;
             string btnName = WeiSha.Common.Request.Form["smsbtn"].String;
@@ -549,6 +557,13 @@ namespace Song.Site.Mobile
                     if (string.IsNullOrWhiteSpace(acc.Ac_WeixinOpenID))
                     {
                         acc.Ac_WeixinOpenID = unionid;
+                        //用户头像，如果没有上传，或图片不存在
+                        if (string.IsNullOrEmpty(acc.Ac_Photo) || acc.Ac_Photo.Trim() == "" || !System.IO.File.Exists(Upload.Get["Accounts"].Physics + acc.Ac_Photo))
+                        {
+                            string photoPath = Upload.Get["Accounts"].Physics + unionid + ".jpg";
+                            WeiSha.Common.Request.LoadFile(photo, photoPath);
+                            acc.Ac_Photo = unionid + ".jpg";
+                        }
                         Business.Do<IAccounts>().AccountsSave(acc);
                         LoginState.Accounts.Write(acc);
                         //登录成功
