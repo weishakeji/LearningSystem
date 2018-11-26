@@ -8,6 +8,7 @@
 		$("#pagerBar a").each(function(index, element) {
 			var href=$(this).attr("href");
             for(var i=0;i<paras.length;i++){
+				if(paras[i].key=="index")continue;
 				href=$().setPara(href,paras[i].key,paras[i].value);
 			}
 			$(this).attr("href",href);
