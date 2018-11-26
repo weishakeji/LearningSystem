@@ -57,7 +57,7 @@ namespace Song.ServiceImpls
             if (string.IsNullOrWhiteSpace(agreement)) return agreement;
             agreement = Regex.Replace(agreement, "{platform}", org.Org_PlatformName, RegexOptions.IgnoreCase);
             agreement = Regex.Replace(agreement, "{org}", org.Org_AbbrName, RegexOptions.IgnoreCase);
-            agreement = Regex.Replace(agreement, "{domain}", WeiSha.Common.Request.Domain.MainName, RegexOptions.IgnoreCase);
+            agreement = Regex.Replace(agreement, "{domain}", WeiSha.Common.Server.MainName, RegexOptions.IgnoreCase);
             return agreement;
         }
         #region 账户管理

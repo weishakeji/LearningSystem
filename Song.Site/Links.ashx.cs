@@ -29,7 +29,7 @@ namespace Song.Site
             Song.Entities.Organization[] orgs = Business.Do<IOrganization>().OrganCount(true, true, -1, 0);
             this.Document.Variables.SetValue("orgs", orgs);
             //根域名
-            this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+            this.Document.Variables.SetValue("domain", WeiSha.Common.Server.MainName);
             
         }
         /// <summary>

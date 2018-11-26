@@ -32,10 +32,10 @@ namespace Song.Site.Mobile
                 //设置主域，用于js跨根域
                 int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
                 if (multi == 0 && !WeiSha.Common.Server.IsLocalIP)
-                    this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+                    this.Document.Variables.SetValue("domain", WeiSha.Common.Server.MainName);
                 //QQ回调域
                 string qqreturl = Business.Do<ISystemPara>()["QQReturl"].Value;
-                if (string.IsNullOrWhiteSpace(qqreturl)) qqreturl = WeiSha.Common.Request.Domain.MainName;
+                if (string.IsNullOrWhiteSpace(qqreturl)) qqreturl = WeiSha.Common.Server.MainName;
                 this.Document.SetValue("QQReturl", qqreturl + "/qqlogin.ashx");
                 //当前机构
                 Song.Entities.Organization org = getOrgan();
@@ -106,7 +106,7 @@ namespace Song.Site.Mobile
         /// <returns></returns>
         protected string getOrganDomain(Song.Entities.Organization org)
         {
-            string root = WeiSha.Common.Request.Domain.MainName;
+            string root = WeiSha.Common.Server.MainName;
             return org.Org_TwoDomain + "." + root;
         }
         /// <summary>

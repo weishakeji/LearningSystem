@@ -30,7 +30,7 @@ namespace Song.Site.Teacher
                 {
                     agreement = Regex.Replace(agreement, "{platform}", this.Organ.Org_PlatformName, RegexOptions.IgnoreCase);
                     agreement = Regex.Replace(agreement, "{org}", this.Organ.Org_AbbrName, RegexOptions.IgnoreCase);
-                    agreement = Regex.Replace(agreement, "{domain}", WeiSha.Common.Request.Domain.MainName, RegexOptions.IgnoreCase);
+                    agreement = Regex.Replace(agreement, "{domain}", WeiSha.Common.Server.MainName, RegexOptions.IgnoreCase);
                 }
                 this.Document.SetValue("Agreement", agreement);
             }

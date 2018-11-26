@@ -28,17 +28,17 @@ namespace Song.Site.Mobile
                 string openid = string.Empty;
                 string access_token = getToken(out openid);
                 //微信登录的回调域，（用途：如果回调域不是根域，则不再取当前机构二级域名)
-                string returl = Business.Do<ISystemPara>()["WeixinpubReturl"].Value ?? WeiSha.Common.Request.Domain.MainName;
+                string returl = Business.Do<ISystemPara>()["WeixinpubReturl"].Value ?? WeiSha.Common.Server.MainName;
                 if (!string.IsNullOrWhiteSpace(returl))
                 {
                     if (returl.StartsWith("http://")) returl = returl.Substring(7);
                     if (returl.StartsWith("https://")) returl = returl.Substring(8);
                 }               
                 //如果回调域与根域相同，则转到当前机构的二级域名
-                if (returl.Equals(WeiSha.Common.Request.Domain.MainName, StringComparison.CurrentCultureIgnoreCase))
+                if (returl.Equals(WeiSha.Common.Server.MainName, StringComparison.CurrentCultureIgnoreCase))
                 {
                     Song.Entities.Organization org = getOrgan(-1);
-                    returl = org.Org_TwoDomain + "." + WeiSha.Common.Request.Domain.MainName;
+                    returl = org.Org_TwoDomain + "." + WeiSha.Common.Server.MainName;
                 }                
                 string uri = "{0}/mobile/{1}?token={2}&openid={3}&orgid={4}";
                 uri = string.Format(uri, returl, WeiSha.Common.Request.Page.FileName, access_token, openid, orgid);
@@ -182,15 +182,15 @@ namespace Song.Site.Mobile
             //设置主域，用于js跨根域
             int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
             if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) 
-                this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+                this.Document.Variables.SetValue("domain", WeiSha.Common.Server.MainName);
             //当前机构
             Song.Entities.Organization org = getOrgan(-1);
             this.Document.Variables.SetValue("org", org);
             //WeiSha.Common.Log.Write(string.Format("再次登录时，机构{0}",org.Org_Name));
             //设置主域，用于js跨根域
             if (multi == 0 && !WeiSha.Common.Server.IsLocalIP)
-                this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
-            this.Document.SetValue("domain2", org.Org_TwoDomain + "." + WeiSha.Common.Request.Domain.MainName);
+                this.Document.Variables.SetValue("domain", WeiSha.Common.Server.MainName);
+            this.Document.SetValue("domain2", org.Org_TwoDomain + "." + WeiSha.Common.Server.MainName);
             //获取帐户，如果已经注册，则直接实现登录
             string unionid = string.Empty;
             Song.Entities.Accounts acctm = getUserInfo(token, openid, out unionid);

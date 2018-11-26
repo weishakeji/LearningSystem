@@ -40,7 +40,7 @@ namespace Song.Site.Manage.Sys
             ddlLevel.DataValueField = "olv_id";
             ddlLevel.DataBind();
             //根域名
-            lbDomain.Text = WeiSha.Common.Request.Domain.MainName;
+            lbDomain.Text = WeiSha.Common.Server.MainName;
         }
         /// <summary>
         /// 设置初始界面

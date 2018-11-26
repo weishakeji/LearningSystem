@@ -20,7 +20,7 @@ namespace Song.Site.Manage.Sys
     public partial class Organization : Extend.CustomPage
     {
         //根域名
-        protected string domain = WeiSha.Common.Request.Domain.MainName;
+        protected string domain = WeiSha.Common.Server.MainName;
         //端口
         protected string port = WeiSha.Common.Server.Port;
         protected void Page_Load(object sender, EventArgs e)

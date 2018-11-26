@@ -40,7 +40,7 @@ namespace Song.Site.Manage.Admin
             Org_PlatformName.Text =  org.Org_PlatformName;
             Org_TwoDomain.Text = org.Org_TwoDomain;
             //根域名
-            lbDomain.Text = WeiSha.Common.Request.Domain.MainName;
+            lbDomain.Text = WeiSha.Common.Server.MainName;
             //ICP备案
             Org_ICP.Text = org.Org_ICP;
             //机构的Logo

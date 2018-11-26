@@ -17,11 +17,11 @@ namespace Song.Site.Mobile
             //设置主域，用于js跨根域
             int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
             if (multi == 0 && !WeiSha.Common.Server.IsLocalIP)
-                this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+                this.Document.Variables.SetValue("domain", WeiSha.Common.Server.MainName);
             //微信登录
             this.Document.SetValue("WeixinLoginIsUse", Business.Do<ISystemPara>()["WeixinLoginIsUse"].Boolean ?? false);
             this.Document.SetValue("WeixinpubAPPID", Business.Do<ISystemPara>()["WeixinpubAPPID"].String);
-            this.Document.SetValue("WeixinpubReturl", Business.Do<ISystemPara>()["WeixinpubReturl"].Value ?? WeiSha.Common.Request.Domain.MainName);
+            this.Document.SetValue("WeixinpubReturl", Business.Do<ISystemPara>()["WeixinpubReturl"].Value ?? WeiSha.Common.Server.MainName);
         }
     }
 }

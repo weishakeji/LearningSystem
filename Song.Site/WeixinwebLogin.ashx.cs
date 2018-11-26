@@ -127,7 +127,7 @@ namespace Song.Site
         /// <returns></returns>
         protected string getOrganDomain(Song.Entities.Organization org)
         {
-            string root = WeiSha.Common.Request.Domain.MainName;
+            string root = WeiSha.Common.Server.MainName;
             return org.Org_TwoDomain + "." + root;
         }
         /// <summary>
@@ -175,12 +175,12 @@ namespace Song.Site
             //设置主域，用于js跨根域
             int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
             if (multi == 0 && !WeiSha.Common.Server.IsLocalIP)
-                this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+                this.Document.Variables.SetValue("domain", WeiSha.Common.Server.MainName);
             //当前机构
             Song.Entities.Organization org = getOrgan(-1);
             this.Document.Variables.SetValue("org", org);
             if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) 
-                this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+                this.Document.Variables.SetValue("domain", WeiSha.Common.Server.MainName);
             this.Document.SetValue("domain2", getOrganDomain(org));
             //获取帐户，如果已经注册，则直接实现登录
             string unionid = string.Empty;

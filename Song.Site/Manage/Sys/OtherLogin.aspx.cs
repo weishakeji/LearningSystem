@@ -13,7 +13,7 @@ namespace Song.Site.Manage.Sys
     public partial class OtherLogin : Extend.CustomPage
     {
         //根域
-        protected string domain = WeiSha.Common.Request.Domain.MainName;
+        protected string domain = WeiSha.Common.Server.MainName;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)

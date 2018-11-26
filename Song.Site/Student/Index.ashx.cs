@@ -28,7 +28,7 @@ namespace Song.Site.Student
                 this.Document.SetValue("frompath", context.Request.UrlReferrer != null ? context.Request.UrlReferrer.ToString() : "");
                 //设置主域，用于js跨根域                
                 if (multi == 0 && !WeiSha.Common.Server.IsLocalIP)
-                    this.Document.Variables.SetValue("domain", WeiSha.Common.Request.Domain.MainName);
+                    this.Document.Variables.SetValue("domain", WeiSha.Common.Server.MainName);
                 //相关参数
                 WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
                 //登录方式
@@ -69,25 +69,25 @@ namespace Song.Site.Student
             //QQ登录
             this.Document.SetValue("QQLoginIsUse", Business.Do<ISystemPara>()["QQLoginIsUse"].Boolean ?? true);
             this.Document.SetValue("QQAPPID", Business.Do<ISystemPara>()["QQAPPID"].String);
-            string returl = Business.Do<ISystemPara>()["QQReturl"].Value ?? "http://" + WeiSha.Common.Request.Domain.MainName;
+            string returl = Business.Do<ISystemPara>()["QQReturl"].Value ?? "http://" + WeiSha.Common.Server.MainName;
             this.Document.SetValue("QQReturl", returl);
             //微信登录
             this.Document.SetValue("WeixinLoginIsUse", Business.Do<ISystemPara>()["WeixinLoginIsUse"].Boolean ?? false);
             this.Document.SetValue("WeixinAPPID", Business.Do<ISystemPara>()["WeixinAPPID"].String);
-            this.Document.SetValue("WeixinReturl", Business.Do<ISystemPara>()["WeixinReturl"].Value ?? "http://" + WeiSha.Common.Request.Domain.MainName);
+            this.Document.SetValue("WeixinReturl", Business.Do<ISystemPara>()["WeixinReturl"].Value ?? "http://" + WeiSha.Common.Server.MainName);
             //记录当前机构到本地，用于QQ或微信注册时的账户机构归属问题
             System.Web.HttpCookie cookie = new System.Web.HttpCookie("ORGID");
             cookie.Value = this.Organ.Org_ID.ToString();
             //设置主域，用于js跨根域
             if (multi == 0 && !WeiSha.Common.Server.IsLocalIP)
-                cookie.Domain = WeiSha.Common.Request.Domain.MainName;
+                cookie.Domain = WeiSha.Common.Server.MainName;
             this.Response.Cookies.Add(cookie);
             //推荐人id
             string sharekeyid = WeiSha.Common.Request.QueryString["sharekeyid"].String;
             System.Web.HttpCookie cookieShare = new System.Web.HttpCookie("sharekeyid");
             cookieShare.Value = sharekeyid;
             if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) 
-                cookieShare.Domain = WeiSha.Common.Request.Domain.MainName;
+                cookieShare.Domain = WeiSha.Common.Server.MainName;
             this.Response.Cookies.Add(cookieShare);
         }
         #region 账号登录验证
