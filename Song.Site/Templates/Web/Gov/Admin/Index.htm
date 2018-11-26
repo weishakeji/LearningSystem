@@ -19,7 +19,7 @@
     <div class="courseListInner">
       <vt:foreach id="courseList" from="$#.courseList" item="data" index="i" count="10"
                     remark="pagedata变量只接收当前页的数据列表集合">
-        <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}"><img src="{$:#.data.cou_logosmall}" /> </a>
+        <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}"><img src="{$:#.data.cou_logosmall}"  default="../images/cou_nophoto.jpg"/> </a>
           <div class="itemMark"></div>
           <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.cou_name} </a>
             <div class="itemDetails">主讲：{$:#.data.th_name}<br />

@@ -65,7 +65,7 @@
         <div class="courses">
           <div class="coursesInner">
             <vt:foreach from="$#.courses" item="c" index="i">
-              <div class="courseItem"> <a href="/course.ashx?id={$:#.c.cou_id}"><img src="{$:#.c.cou_logosmall}" /> </a>
+              <div class="courseItem"> <a href="/course.ashx?id={$:#.c.cou_id}"><img src="{$:#.c.cou_logosmall}"  default="../images/cou_nophoto.jpg"/> </a>
                 <div class="courseName"> <a href="/course.ashx?id={$:#.c.cou_id}">{$:#.c.cou_name} </a></div>
               </div>
             </vt:foreach>

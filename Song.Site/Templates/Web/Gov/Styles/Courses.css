@@ -1,79 +1,9 @@
 ﻿@charset "utf-8";
 body {
 }
-.selectBar {
-	height: 30px;
-}
-#Context #selectArea {
-	margin-bottom: 10px;
-	padding-bottom: 10px;
-}
-.selectBar {
-	display: table;
-}
-.selectLeft {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	line-height: 30px;
-	text-align: right;
-	float: left;
-	height: 30px;
-	width: 100px;
-	font-size: 15px;
-}
 .selectRight {
 	float: left;
-	width: 880px;
-}
-#subject .selectItem {
-	float: left;
-	height: 30px;
-	width: auto;
-	margin-right: 10px;
-	line-height: 30px;
-}
-#subject .selectItem a {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	font-size: 14px;
-	color: #333333;
-}
-/*专业选中项*/
-#Selected .selectedItem {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	font-size: 15px;
-	line-height: 24px;
-	height: 24px;
-	border: 1px solid #CCCCCC;
-	float: left;
-	padding-right: 5px;
-	padding-left: 8px;
-	margin-top: 3px;
-	white-space: nowrap;
-	width: auto;
-	margin-right: 10px;
-}
-#Selected .selectedItemOver {
-	border: 1px solid #0387d9;
-}
-#Selected .selectedItem .name {
-	float: left;
-	padding-right: 8px;
-	color: #0387d9;
-}
-#Selected .selectedItem .close {
-	background-image: url(../Images/icon-1.png);
-	background-repeat: no-repeat;
-	background-position: -209px -237px;
-	float: left;
-	height: 8px;
-	width: 8px;
-	cursor:pointer;
-	margin-top: 8px;
-}
-#Selected .selectedItem .closeOver {
-	background-image: url(../Images/icon-1.png);
-	background-repeat: no-repeat;
-	background-position: -217px -237px;
-	cursor:pointer;
+	width: 720px !important;
 }
 #mainShow {
 	background-image: url(../Images/3.jpg);
@@ -83,7 +13,6 @@ body {
 	width: 100%;
 }
 #TitleBar {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-size: 16px;
 	line-height: 35px;
 	font-weight: bold;
@@ -101,118 +30,32 @@ body {
 	border-bottom-color: #CCCCCC;
 	margin-bottom: 20px;
 }
-#TitleBar span{
+#TitleBar span {
 	font-size: 16px;
 }
 .depart {
-	float: right;	
+	float: right;
 }
-#Context #selectArea {
-	margin-bottom: 20px;
-	border-bottom-width: 1px;
-	border-top-style: none;
-	border-right-style: none;
-	border-bottom-style: solid;
-	border-left-style: none;
-	border-bottom-color: #CCCCCC;
-	padding-bottom: 20px;
-}
-
-.selectBar {
-	display: table;
-
-}
-.selectLeft {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	line-height: 30px;
-	text-align: right;
+.leftBox {
+	width: 875px;
 	float: left;
-	height: 30px;
-	width: 100px;
-	font-size: 15px;
 }
-
-.selectRight {
-	float: left;
-	width: 700px;
-}
-#subject .subjectItem {
-	float: left;
-	height: 30px;
-	width: auto;
-	margin-right: 10px;
-	line-height: 30px;
-	
-}
-#subject .subjectItem a{
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	font-size: 14px;
-	color: #333333;
-}
-
-/*专业选中项*/
-#Selected .selectedItem {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
-	font-size: 15px;
-	line-height: 24px;
-	height: 24px;
-	border: 1px solid #CCCCCC;
-	float: left;
-	padding-right: 5px;
-	padding-left: 8px;
-	margin-top: 3px;
-	white-space: nowrap;
-	width: auto;
-}
-#Selected .selectedItemOver
-{
-	border: 1px solid #0387d9;
-}
-#Selected .selectedItem  .name{
-	float: left;
-	padding-right: 8px;
-	color: #0387d9;
-}
-#Selected .selectedItem  .close{
-	background-image: url(../Images/icon-1.png);
-	background-repeat: no-repeat;
-	background-position: -209px -237px;
-	float: left;
-	height: 8px;
-	width: 8px;
-	cursor:pointer;
-	margin-top: 8px;
-}
-#Selected .selectedItem  .closeOver{
-	background-image: url(../Images/icon-1.png);
-	background-repeat: no-repeat;
-	background-position: -217px -237px;
-	cursor:pointer;
-}
-#selectArea #SelectedBar {
-	height: 30px;
-}
-.leftBox
-{
-	width:875px;
-	float:left;
-}
-.rightBox{	
-	width:320px;
-	float:right;
+.rightBox {
+	width: 320px;
+	float: right;
 }
 /*盒模型*/
-.box{
+.box {
 	border: 1px solid #ccc;
 	float: left;
 }
 /*学员登录*/
-.login{
+.login {
 	height: 260px;
 	width: 320px;
-	margin-right: 3px;	
+	margin-right: 3px;
 }
-.login .boxTit{
+.login .boxTit {
 	background-image: url(../Images/Login-bg.jpg);
 	background-repeat: no-repeat;
 	line-height: 38px;
@@ -227,12 +70,11 @@ body {
 	font-weight: bold;
 	line-height: 38px;
 	width: 160px;
-	float:left;
-	text-indent:35px;
+	float: left;
+	text-indent: 35px;
 }
-
 /*学员登录*/
-.loginAreaBox{
+.loginAreaBox {
 	margin: 10px;
 }
 #loginBox .loginBar .loginTitle {
@@ -241,15 +83,14 @@ body {
 	text-align: center;
 	float: left;
 	width: 150px;
-	cursor:pointer;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	cursor: pointer;
 	letter-spacing: 0.15em;
-	opacity:0.6;
-	filter:alpha(opacity=60);
+	opacity: 0.6;
+	filter: alpha(opacity=60);
 	background-color: #666666;
 	color: #FFFFFF;
 }
-.loginTitle a{
+.loginTitle a {
 	font-size: 16px;
 	line-height: 50px;
 	text-align: center;
@@ -262,20 +103,19 @@ body {
 	text-align: center;
 	float: left;
 	width: 150px;
-	cursor:pointer;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	cursor: pointer;
 	letter-spacing: 0.15em;
-	opacity:1;
-	filter:alpha(opacity=100);
+	opacity: 1;
+	filter: alpha(opacity=100);
 	font-weight: bold;
 }
-.loginTitleCurr  a{
+.loginTitleCurr a {
 	color: #0387d9;
 	font-size: 18px;
 	line-height: 50px;
 }
 .loginAreaBox form {
-	margin: 0px;		
+	margin: 0px;
 }
 .textbox {
 	font-size: 16px;
@@ -283,10 +123,9 @@ body {
 	height: 40px;
 	border: 1px solid #CCCCCC;
 	text-indent: 10px;
-	opacity:0.8;
-	filter:alpha(opacity=80);
+	opacity: 0.8;
+	filter: alpha(opacity=80);
 	float: left;
-
 }
 .loginAreaBox .width {
 	width: 300px;
@@ -311,7 +150,7 @@ body {
 	float: left;
 	width: 205px;
 }
-.verifyCode{
+.verifyCode {
 	cursor: pointer;
 	height: 40px;
 	float: left;
@@ -319,7 +158,7 @@ body {
 	margin-left: 0px;
 	width: 86px;
 	border: 1px solid #CCC;
-	margin-left:5px;
+	margin-left: 5px;
 }
 .btnLogin {
 	line-height: 30px;
@@ -331,7 +170,6 @@ body {
 	border-bottom-style: none;
 	border-left-style: none;
 	float: left;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-weight: bold;
 	color: #FFFFFF;
 	font-size: 16px;
@@ -350,7 +188,6 @@ body {
 	border-bottom-style: none;
 	border-left-style: none;
 	float: left;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-weight: bold;
 	color: #FFFFFF;
 	font-size: 16px;
@@ -369,12 +206,11 @@ body {
 	float: left;
 	margin-left: 10px;
 	background-color: #0074cb;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-weight: bold;
 	color: #FFFFFF;
 	font-size: 16px;
 }
-.btnLogout{
+.btnLogout {
 	line-height: 30px;
 	text-align: center;
 	display: block;
@@ -383,13 +219,10 @@ body {
 	float: left;
 	margin-left: 20px;
 	background-color: #666666;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-weight: bold;
 	color: #FFFFFF;
 	font-size: 16px;
 }
-
-
 /* 课程*/
 .courseList {
 	width: 860px;
@@ -397,100 +230,85 @@ body {
 	overflow: hidden;
 	margin-right: auto;
 	margin-left: auto;
-	margin-top:15px;
-	margin-left:15px;
+	margin-top: 15px;
+	margin-left: 15px;
 }
 .courseList .courseListInner {
 	width: 900px;
 }
-
-.courseList  .item {
+.courseList .item {
 	float: left;
 	margin-right: 15px;
-	margin-bottom:15px;
+	margin-bottom: 15px;
 	width: 200px;
 	text-align: center;
 	height: 190px;
 	overflow: hidden;
 	border: 1px solid #CCC;
 }
-.courseList  .courseOver
-{
+.courseList .courseOver {
 	border: 3px solid #CCCCCC;
 }
-.courseList  .courseOver .itemName a
-{
+.courseList .courseOver .itemName a {
 	color: #FFFFFF;
 }
-.courseList  .item a{
+.courseList .item a {
 	display: block;
 	color: #FFFFFF;
 	font-size: 15px;
 	line-height: 25px;
 }
-.courseList  .item img{
+.courseList .item img {
 	width: 196px;
 	height: 119px;
-	margin: 2px;	
+	margin: 2px;
 }
 .courseList .item .itemMark {
 	font-size: 14px;
 	text-align: left;
 	line-height: 35px;
 	width: 200px;
-	font-family: "微软雅黑";
-	color: #333;	
+	color: #333;
 	FILTER: alpha(opacity=50);
 	BACKGROUND: #000;
 	OVERFLOW: hidden;
 	opacity: 0.5;
 	-moz-opacity: 0.5;
-	
-	height:35px;
+	height: 35px;
 }
 .courseList .item .itemInfo {
 	font-size: 14px;
 	text-align: left;
 	line-height: 25px;
 	width: 200px;
-	font-family: "微软雅黑";
 	color: #FFFFFF;
 	OVERFLOW: hidden;
-	
 	BACKGROUND: #eee;
 	OVERFLOW: hidden;
-	
-	height:123px;
+	height: 123px;
 	z-index: 10;
 	color: #333;
 }
-.courseList .item .itemInfo a
-{
+.courseList .item .itemInfo a {
 	line-height: 30px;
 	text-indent: 10px;
 	display: block;
 	height: 30px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-size: 18px;
 	overflow: hidden;
 	color: #06C;
 }
-.courseList .item .itemDetails
-{
+.courseList .item .itemDetails {
 	line-height: 20px;
 	display: block;
 	height: 78px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-size: 14px;
 	width: 190px;
 	margin-left: 10px;
 }
-.courseList .item .itemDetails a{
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+.courseList .item .itemDetails a {
 	font-size: 14px;
 }
-
-
 .boxBar {
 	border-bottom-width: 1px;
 	border-top-style: none;
@@ -500,16 +318,14 @@ body {
 	border-bottom-color: #CCCCCC;
 	height: 60px;
 }
-.box{
-	margin-bottom:12px;
+.box {
+	margin-bottom: 12px;
 }
-.newsBox{
-	width:320px;
+.newsBox {
+	width: 320px;
 }
 .newsBox .title {
 	font-size: 20px;
-	font-family: "微软雅黑";
-	
 	background-repeat: no-repeat;
 	background-position: left bottom;
 	float: left;
@@ -537,21 +353,19 @@ body {
 	line-height: 30px;
 	margin-top: 25px;
 }
-.newsBox .boxBar .more a{
+.newsBox .boxBar .more a {
 	color: #0387d9;
 }
 .newsBox .nolist {
 	display: table;
 	margin-top: 20px;
 }
-
 .newsBox .item {
 	width: 300px;
 	height: 35px;
 	display: table;
-	margin-left:5px;
+	margin-left: 5px;
 }
-
 .newsBox .item img {
 	float: left;
 	height: 20px;
@@ -574,10 +388,9 @@ body {
 	background-position: 0px 8px;
 	text-indent: 15px;
 }
-.newsBox .item .noItem
-{
-	width:285px;
-	float:left;
+.newsBox .item .noItem {
+	width: 285px;
+	float: left;
 }
 .newsBox .item a {
 	font-size: 14px;
@@ -591,4 +404,10 @@ body {
 	float: left;
 	text-overflow: ellipsis;
 }
-
+.nocourse {
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 18px;
+	line-height: 40px;
+	text-align: center;
+}

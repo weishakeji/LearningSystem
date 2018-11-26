@@ -1,0 +1,23 @@
+﻿<script type="text/javascript" src="Subject-bar.js?ver={$version}"></script>
+<link href="Subject-bar.css?ver={$version}" rel="stylesheet" type="text/css" />
+<div class="navi-bar"> <a href="/" class="nav-txt">首页</a> &gt; <a href="/courses.ashx"  class="nav-txt">课程中心</a> &gt;
+    <vt:foreach from="$#.sbjs" item="data" index="i" remark="当前课程专业"> <a href="/courses.ashx?sbjid={$:#.data.sbj_id}"  class="nav-txt">{$:#.data.sbj_name}</a> &gt; </vt:foreach>
+    <span class="nav-txt">{$course.cou_name}</span> </div>
+   
+  <!--选择区域 -->
+  <div id="selectArea">
+    <div class="selectBar" id="SelectedBar">
+      <div class="selectLeft">已经选条件：</div>
+      <div class="selectRight" id="Selected"></div>
+    </div>
+    <div id="subject" class="selectBar">
+      <div class="selectLeft">学习方向：</div>
+      <div class="selectRight">
+        <vt:foreach id="subject" from="$#.subject" item="data" index="i" remark="当前专业的下级专业">
+           <div class="selectItem"><a href="#" attr="sbjid" clear="couid,olid,index" sbjid="{$:#.data.sbj_id}">{$:#.data.sbj_name} </a> </div>
+           <vt:foreachelse/>
+            <div class="selectItem">（没有下级专业） </div>
+        </vt:foreach>
+      </div>
+    </div>
+  </div>

@@ -9,7 +9,6 @@ body {
 	width: 100%;
 }
 #TitleBar {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-size: 16px;
 	line-height: 35px;
 	font-weight: bold;
@@ -28,11 +27,11 @@ body {
 	border-bottom-color: #CCCCCC;
 	margin-bottom: 20px;
 }
-#TitleBar span{
+#TitleBar span {
 	font-size: 16px;
 }
 .depart {
-	float: right;	
+	float: right;
 }
 #Context #selectArea {
 	border-bottom-width: 1px;
@@ -43,13 +42,10 @@ body {
 	border-bottom-color: #CCCCCC;
 	padding-bottom: 20px;
 }
-
 .selectBar {
 	display: table;
-
 }
 .selectLeft {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	line-height: 30px;
 	text-align: right;
 	float: left;
@@ -57,7 +53,6 @@ body {
 	width: 100px;
 	font-size: 15px;
 }
-
 .selectRight {
 	float: left;
 	width: 880px;
@@ -68,19 +63,15 @@ body {
 	width: auto;
 	margin-right: 10px;
 	line-height: 30px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-size: 14px;
 	color: #999999;
 }
-#subject .selectItem a{
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+#subject .selectItem a {
 	font-size: 14px;
 	color: #333333;
 }
-
 /*专业选中项*/
 #Selected .selectedItem {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-size: 15px;
 	line-height: 24px;
 	height: 24px;
@@ -92,30 +83,29 @@ body {
 	white-space: nowrap;
 	width: auto;
 }
-#Selected .selectedItemOver
-{
+#Selected .selectedItemOver {
 	border: 1px solid #0387d9;
 }
-#Selected .selectedItem  .name{
+#Selected .selectedItem .name {
 	float: left;
 	padding-right: 8px;
 	color: #0387d9;
 }
-#Selected .selectedItem  .close{
+#Selected .selectedItem .close {
 	background-image: url(../Images/icon-1.png);
 	background-repeat: no-repeat;
 	background-position: -209px -237px;
 	float: left;
 	height: 8px;
 	width: 8px;
-	cursor:pointer;
+	cursor: pointer;
 	margin-top: 8px;
 }
-#Selected .selectedItem  .closeOver{
+#Selected .selectedItem .closeOver {
 	background-image: url(../Images/icon-1.png);
 	background-repeat: no-repeat;
 	background-position: -217px -237px;
-	cursor:pointer;
+	cursor: pointer;
 }
 #selectArea #SelectedBar {
 	height: 30px;
@@ -127,12 +117,12 @@ body {
 	margin-right: auto;
 	margin-left: auto;
 	margin-bottom: 30px;
-	min-height:800px;
+	min-height: 800px;
 }
 .courseList .courseListInner {
 	width: 1250px;
 }
-.course-item{
+.course-item {
 	float: left;
 	height: 160px;
 	width: 220px;
@@ -140,27 +130,26 @@ body {
 	margin-right: 25px;
 	margin-bottom: 30px;
 }
-.cour-img{
+.cour-img {
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
 }
-.cour-img img{
+.cour-img img {
 	width: 220px;
-	height:125px;
+	height: 125px;
 }
-.cour-img:hover{
-	
+.cour-img:hover {
 }
-.cour-img:hover img{
+.cour-img:hover img {
 	width: 216px;
-	height:121px;
+	height: 121px;
 	border: 2px solid #fff;
 	filter: alpha(Opacity=85);
 	-moz-opacity: 0.85;
 	opacity: 0.85;
 }
-.cour-name{
+.cour-name {
 	line-height: 20px;
 	color: #333;
 	display: block;
@@ -169,18 +158,18 @@ body {
 	font-size: 15px;
 	overflow: hidden;
 }
-.cour-name:hover{
+.cour-name:hover {
 	color: #188eee;
 }
-.cour-price{
+.cour-price {
 	font-size: 15px;
 	line-height: 30px;
 }
-.cour-price .free{
+.cour-price .free {
 	color: #090;
 	float: left;
 }
-.cour-price .cou-sbj{
+.cour-price .cou-sbj {
 	color: #999;
 	float: right;
 	width: 85px;
@@ -188,7 +177,7 @@ body {
 	overflow: hidden;
 	text-align: right;
 }
-.cou-count{
+.cou-count {
 	padding-top: 1px;
 	padding-left: 20px;
 	background: url(../images/sl.gif) 0 8px no-repeat;
@@ -198,15 +187,22 @@ body {
 	margin-left: 10px;
 }
 /*课程价格*/
-.money{
+.money {
 	color: #F60;
 	float: left;
 	font-size: 16px;
 }
-.money-ico{
+.money-ico {
 	font-size: 18px;
 	margin-right: 5px;
 }
-.p-num,.p-span,.p-unit{
+.p-num, .p-span, .p-unit {
 	font-size: 12px;
+}
+.nocourse {
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 18px;
+	line-height: 40px;
+	text-align: center;
 }

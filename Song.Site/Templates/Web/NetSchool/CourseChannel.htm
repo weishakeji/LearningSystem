@@ -16,7 +16,7 @@
     <div class="course-row">
       <div class="row-left">
         <div class="row-sbjname"><a href="/Courses.ashx?sbjid={$#.data.current.Sbj_id}" target="_blank">{$#.data.current.Sbj_name}</a></div>
-        <img src="{$#.data.current.Sbj_logo}" style="width:220px; height:420px" alt="专业的图片，在专业设置中编辑" /> </div>
+        <img src="{$#.data.current.Sbj_logo}"  default="images/nosubject.jpg" style="width:220px; height:420px" alt="专业的图片，在专业设置中编辑" /> </div>
       <div class="row-right" type="tab">
         <div class="row-right-tit">
           <div class="tititem" type="title" index="rec" ><a href="/Courses.ashx?sbjid={$#.data.current.Sbj_id}" target="_blank">推荐</a></div>
@@ -32,7 +32,7 @@
             <div class="cour-panel"  type="area" index="rec">
               <vt:function var="reccour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="rec"/>
               <vt:foreach from="$reccour" type="course" item="c" index="i" order="rec"  remark="推荐课程">
-                <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
+                <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
                   <div class="cour-price">
                     <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
                       <vt:else/>
@@ -48,7 +48,7 @@
               <div class="cour-panel"  type="area" index="{$:n}">
                 <vt:function var="listcours" method="getCourses" args="$#.d2.current.sbj_id" args="8" args="new"/>
                 <vt:list from="$listcours" type="course" item="c" index="i" order="rec"  remark="专业下的课程">
-                  <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">{$:#.c.cou_name}</a>
+                  <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">{$:#.c.cou_name}</a>
                     <div class="cour-price">
                       <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
                         <vt:else/>
@@ -65,7 +65,7 @@
             <div class="cour-panel"  type="area" index="new">
               <vt:function var="newcour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="new"/>
               <vt:foreach from="$newcour" type="course" item="c" index="i" order="rec"  remark="最新课程">
-                <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">{$:#.c.cou_name}</a>
+                <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">{$:#.c.cou_name}</a>
                   <div class="cour-price">
                     <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
                       <vt:else/>

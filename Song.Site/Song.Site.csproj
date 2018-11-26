@@ -878,7 +878,9 @@
     <Content Include="Templates\Mobi\_Public\OnlyWeixin.htm" />
     <Content Include="Templates\Web\Gov\Conn.htm" />
     <Content Include="Templates\Web\Gov\CourseChannel.htm" />
+    <Content Include="Templates\Web\Gov\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\Gov\Images\Flvplayer.swf" />
+    <Content Include="Templates\Web\Gov\Images\nosubject.jpg" />
     <Content Include="Templates\Web\Gov\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\Gov\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\Gov\Inc\meta.inc" />
@@ -898,7 +900,9 @@
     <Content Include="Templates\Web\Neimeng\CourseChannel.htm" />
     <Content Include="Templates\Web\Neimeng\Images\ad_ctr.png" />
     <Content Include="Templates\Web\Neimeng\Images\alpha.png" />
+    <Content Include="Templates\Web\Neimeng\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\Neimeng\Images\dot.png" />
+    <Content Include="Templates\Web\Neimeng\Images\nosubject.jpg" />
     <Content Include="Templates\Web\Neimeng\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\Neimeng\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\Neimeng\Inc\meta.inc" />
@@ -918,6 +922,11 @@
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\Register.css" />
     <Content Include="Templates\Web\NetSchool\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\NetSchool\CourseChannel.htm" />
+    <Content Include="Templates\Web\NetSchool\Images\bar01.jpg" />
+    <Content Include="Templates\Web\NetSchool\Images\cou_nophoto.jpg" />
+    <Content Include="Templates\Web\NetSchool\Images\gonggao-bg.jpg" />
+    <Content Include="Templates\Web\NetSchool\Images\more.png" />
+    <Content Include="Templates\Web\NetSchool\Images\nosubject.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\NetSchool\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\testpaper.jpg" />
@@ -1185,9 +1194,11 @@
     <Content Include="Templates\Web\NetSchool\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\School\Conn.htm" />
     <Content Include="Templates\Web\School\Images\bar01.jpg" />
+    <Content Include="Templates\Web\School\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\School\Images\gonggao-bg.jpg" />
     <Content Include="Templates\Web\School\Images\icon03.jpg" />
     <Content Include="Templates\Web\School\Images\more.png" />
+    <Content Include="Templates\Web\School\Images\nosubject.jpg" />
     <Content Include="Templates\Web\School\Images\sl.gif" />
     <Content Include="Templates\Web\School\News.htm" />
     <Content Include="Templates\Web\School\Scripts\jquery.luara.0.0.1.min.js" />
@@ -1269,6 +1280,7 @@
     <Content Include="Templates\Web\_Public\Images\9.png" />
     <Content Include="Templates\Web\_Public\Images\alpha.png" />
     <Content Include="Templates\Web\_Public\Images\btnBg.jpg" />
+    <Content Include="Templates\Web\_Public\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\_Public\Images\icon-1.png" />
     <Content Include="Templates\Web\_Public\Images\load_024.gif" />
     <Content Include="Templates\Web\_Public\Images\next.jpg" />
@@ -1301,6 +1313,9 @@
     <Content Include="Templates\Web\_Public\Module\Course\Images\alpha.png" />
     <Content Include="Templates\Web\_Public\Module\Course\Sheet.htm" />
     <Content Include="Templates\Web\_Public\Module\Course\Sheet.js" />
+    <Content Include="Templates\Web\_Public\Module\Course\Subject-bar.htm" />
+    <Content Include="Templates\Web\_Public\Module\Course\Subject-bar.css" />
+    <Content Include="Templates\Web\_Public\Module\Course\Subject-bar.js" />
     <Content Include="Templates\Web\_Public\Module\Test\TestScene.css" />
     <Content Include="Templates\Web\_Public\Module\Test\TestScene.htm" />
     <Content Include="Templates\Web\_Public\Module\Test\TestScene.js" />

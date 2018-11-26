@@ -12,38 +12,13 @@
   <div class="leftBox" >
     <div id="TitleBar"> 课程选择</div>
     <!--选择区域 -->
-    <div id="selectArea">
-      <div class="selectBar" id="SelectedBar">
-        <div class="selectLeft"> 已经选条件：</div>
-        <div class="selectRight" id="Selected"> </div>
-      </div>
-      <div id="subject">
-        <div class="selectBar">
-          <div class="selectLeft"> 专业：</div>
-          <div class="selectRight">
-            <vt:foreach id="subject" from="$#.subject" item="data" index="i" remark="专业">
-              <div class="selectItem"><a href="#" attr="sbjid" clear="couid,olid" sbjid="{$:#.data.sbj_id}">{$:#.data.sbj_name} </a> </div>
-            </vt:foreach>
-          </div>
-        </div>
-        <vt:if var="courses.Length" value="0" compare=">">
-          <div class="selectBar">
-            <div class="selectLeft"> 课程：</div>
-            <div class="selectRight">
-              <vt:foreach id="courses" from="$#.courses" item="data" index="i" remark="课程">
-                <div class="selectItem"><a href="#" attr="couid" clear="olid" couid="{$:#.data.cou_id}">《{$:#.data.cou_name} 》</a> </div>
-              </vt:foreach>
-            </div>
-          </div>
-        </vt:if>
-      </div>
-    </div>
+    <vt:include file="Module/Course/Subject-bar.htm" from="_public" remark="专业分类导航" />
     <div id="TitleBar"><span> 课程中心</span> </div>
     <div class="courseList">
-      <vt:if var="course.Length" value="0" compare="!=">
+      <vt:if var="course.Count" value="0" compare="!=">
         <div class="courseListInner">
           <vt:foreach id="course" from="$#.course" item="data" index="i" size="16" remark="课程列表">
-            <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}"><img src="{$:#.data.cou_logosmall}" /> </a>
+            <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}"><img src="{$:#.data.cou_logosmall}"  default="images/cou_nophoto.jpg"/> </a>
               <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.cou_name} </a>
                 <div class="itemDetails"><span class="hot-left count">{$:#.data.cou_viewNum}</span> <span class="hot-right">{$:#.data.sbj_name}</span> </div>
               </div>
@@ -51,7 +26,7 @@
           </vt:foreach>
         </div>
         <vt:else/>
-        您当前选择的当前专业还没有发布课程！ </vt:if>
+        <div class="nocourse">当前选择条件下没有课程！</div> </vt:if>
     </div>
     <!--分页导航 -->
     <vt:if var="pageAmount.Length" value="1" compare=">">
