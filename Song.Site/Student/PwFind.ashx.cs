@@ -22,7 +22,7 @@ namespace Song.Site.Student
         protected override void InitPageTemplate(HttpContext context)
         {
             if (Extend.LoginState.Accounts.IsLogin)
-                this.Response.Redirect("selfInfo.ashx");
+                this.Response.Redirect("/default.ashx");
             this.Document.Variables.SetValue("step", step);
             //第一步验证账号是否存在
             if (step == 1)
@@ -73,7 +73,7 @@ namespace Song.Site.Student
                     st.Ac_Pw = pw;
                     st.Ac_Pw = new WeiSha.Common.Param.Method.ConvertToAnyValue(st.Ac_Pw).MD5;  
                     Business.Do<IAccounts>().AccountsSave(st);
-                    this.Response.Redirect("SelfInfo.ashx");
+                    this.Response.Redirect("/default.ashx");
                 }
             }           
         }

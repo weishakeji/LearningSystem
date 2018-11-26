@@ -183,7 +183,7 @@ namespace Song.Extend.Login
             {
                 System.Web.HttpCookie cookie = new System.Web.HttpCookie(key);
                 cookie.Value = acc.Ac_ID.ToString();
-                //如果是多机构，有不用IP访问，则用根域写入cookie
+                //如果是多机构，又不用IP访问，则用根域写入cookie
                 int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
                 if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Server.MainName;
                 //设置过期时间
@@ -243,7 +243,7 @@ namespace Song.Extend.Login
             string uid = WeiSha.Common.Request.UniqueID();
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
             System.Web.HttpCookie cookie = new System.Web.HttpCookie(_uid, uid);
-            //如果是多机构，有不用IP访问，则用根域写入cookie
+            //如果是多机构，又不用IP访问，则用根域写入cookie
             int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
             if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Server.MainName;
             _context.Response.Cookies.Add(cookie);
@@ -309,18 +309,14 @@ namespace Song.Extend.Login
             string key = WeiSha.Common.Login.Get["Accounts"].KeyName.String;
             if (Accounts.LoginPattern == LoginPatternEnum.Cookies)
             {
+                //如果是多机构，又不用IP访问，则用根域写入cookie
+                int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
                 //清理当前域名下的cookie
                 System.Web.HttpCookie cookie = _context.Response.Cookies[key];
                 if (cookie != null)
-                {                  
-                    cookie.Expires = DateTime.Now.AddYears(-1);
-                    _context.Response.Cookies.Add(cookie);
-                }
-                //清理根域下的cookie
-                cookie = _context.Response.Cookies[key];
-                if (cookie != null)
                 {
-                    cookie.Domain = WeiSha.Common.Server.MainName;
+                    if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) 
+                        cookie.Domain = WeiSha.Common.Server.MainName;
                     cookie.Expires = DateTime.Now.AddYears(-1);
                     _context.Response.Cookies.Add(cookie);
                 }

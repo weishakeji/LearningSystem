@@ -73,7 +73,7 @@ namespace Song.Site.Mobile
             //记录当前机构到本地，用于QQ或微信注册时的账户机构归属问题
             System.Web.HttpCookie cookie = new System.Web.HttpCookie("ORGID");
             cookie.Value = this.Organ.Org_ID.ToString();
-            //如果是多机构，有不用IP访问，则用根域写入cookie
+            //如果是多机构，又不用IP访问，则用根域写入cookie
             int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
             if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Server.MainName;
             this.Response.Cookies.Add(cookie);
@@ -81,7 +81,7 @@ namespace Song.Site.Mobile
             string sharekeyid = WeiSha.Common.Request.QueryString["sharekeyid"].String;
             System.Web.HttpCookie cookieShare = new System.Web.HttpCookie("sharekeyid");
             cookieShare.Value = sharekeyid;
-            //如果是多机构，有不用IP访问，则用根域写入cookie
+            //如果是多机构，又不用IP访问，则用根域写入cookie
             if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookieShare.Domain = WeiSha.Common.Server.MainName;
             this.Response.Cookies.Add(cookieShare);
         }
