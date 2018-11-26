@@ -16,7 +16,7 @@
                                 MaxLength="200"></asp:TextBox>
                             <asp:CheckBox ID="cbIsUse" runat="server" Text="启用" state="true" Checked="true" />
                             <asp:CheckBox ID="cbIsFree" runat="server" Text="免费" state="true" Checked="false" />
-                             <asp:CheckBox ID="cbIsFinish" runat="server" Text="完结" state="true" Checked="false" />
+                             <asp:CheckBox ID="cbIsFinish" runat="server" Text="完结" state="true" Checked="true" />
                         </td>
                     </tr>
                     <tr id="trOutline" runat="server">
