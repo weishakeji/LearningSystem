@@ -132,7 +132,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// ≈–∂œ’À∫≈ «∑Ò¥Ê‘⁄
         /// </summary>
-        /// <param name="accname"></param>
+        /// <param name="accname">’À∫≈√˚</param>
         /// <returns></returns>
         Accounts IsAccountsExist(string accname);
         /// <summary>

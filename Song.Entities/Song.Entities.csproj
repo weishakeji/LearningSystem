@@ -204,6 +204,7 @@
     <Compile Include="RechargeCode.cs" />
     <Compile Include="RechargeSet.cs" />
     <Compile Include="ShowPicture.cs" />
+    <Compile Include="SingleSignOn.cs" />
     <Compile Include="SmsFault.cs" />
     <Compile Include="SmsMessage.cs" />
     <Compile Include="Special.cs" />

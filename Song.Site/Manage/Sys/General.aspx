@@ -33,6 +33,7 @@
                     <asp:ListItem Value="0" Text="启用多机构，当前系统支持多机构入驻，不同机构可以设置不同二级域名"></asp:ListItem>
                     <asp:ListItem Value="1" Text="采用单机构，只采用默认机构作为唯一机构，不再受跨域问题影响"></asp:ListItem>
                 </asp:RadioButtonList>
+                （此处勿轻易切换，会导致用户登录与注销的异常情况，需清空浏览器缓存）
             </td>
         </tr>
         <tr>

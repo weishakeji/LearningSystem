@@ -95,7 +95,7 @@ namespace Song.Site.Manage.Site
                 string keys = GridView1.GetKeyValues;
                 foreach (string id in keys.Split(','))
                 {
-                    Business.Do<IUser>().DeleteUser(Convert.ToInt16(id));
+                    Business.Do<IUser>().DeleteUser(Convert.ToInt32(id));
                 }
                 BindData(null, null);
             }

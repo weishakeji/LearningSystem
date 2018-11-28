@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="HangzhouZhengfang.aspx.cs" Inherits="Song.Site.API.SSO.HangzhouZhengfang" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="HangzhouZhengfang.aspx.cs" Inherits="Song.Site.API.HangzhouZhengfang" %>
 
 <!DOCTYPE html>
 

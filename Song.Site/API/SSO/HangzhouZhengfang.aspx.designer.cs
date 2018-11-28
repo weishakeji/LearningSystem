@@ -7,7 +7,7 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace Song.Site.API.SSO {
+namespace Song.Site.API {
     
     
     public partial class HangzhouZhengfang {

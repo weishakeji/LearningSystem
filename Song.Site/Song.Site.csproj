@@ -374,6 +374,8 @@
     <Content Include="Manage\Questions\Questions_Edit6.aspx" />
     <Content Include="Manage\Scripts\Public.js" />
     <Content Include="Manage\Scripts\Console.js" />
+    <Content Include="Manage\Site\SSOApi.aspx" />
+    <Content Include="Manage\Site\SSOApi_Edit.aspx" />
     <Content Include="Manage\SMS\Scripts\SMSSetup.js" />
     <Content Include="Manage\SMS\Scripts\SMSSetup_Edit.js" />
     <Content Include="Manage\SMS\SMSSetup_Edit.aspx" />
@@ -2166,6 +2168,9 @@
     <Compile Include="Ajax\Copyright.ashx.cs">
       <DependentUpon>Copyright.ashx</DependentUpon>
     </Compile>
+    <Compile Include="API\SSO.ashx.cs">
+      <DependentUpon>SSO.ashx</DependentUpon>
+    </Compile>
     <Compile Include="API\SSO\HangzhouZhengfang.aspx.cs">
       <DependentUpon>HangzhouZhengfang.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2624,6 +2629,20 @@
     </Compile>
     <Compile Include="Manage\Questions\Questions_Edit6.aspx.designer.cs">
       <DependentUpon>Questions_Edit6.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Site\SSOApi.aspx.cs">
+      <DependentUpon>SSOApi.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Site\SSOApi.aspx.designer.cs">
+      <DependentUpon>SSOApi.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Site\SSOApi_Edit.aspx.cs">
+      <DependentUpon>SSOApi_Edit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Site\SSOApi_Edit.aspx.designer.cs">
+      <DependentUpon>SSOApi_Edit.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\SMS\SMSSetup_Edit.aspx.cs">
       <DependentUpon>SMSSetup_Edit.aspx</DependentUpon>
@@ -6260,6 +6279,7 @@
     <Content Include="Mobile\LearningCard.ashx" />
     <Content Include="Mobile\LearningCardView.ashx" />
     <Content Include="Mobile\QuesOften.ashx" />
+    <Content Include="API\SSO.ashx" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

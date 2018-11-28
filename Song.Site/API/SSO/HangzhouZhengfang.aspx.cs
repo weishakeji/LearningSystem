@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using WeiSha.Common;
 using Song.ServiceInterfaces;
 using Song.Entities;
-namespace Song.Site.API.SSO
+namespace Song.Site.API
 {
     public partial class HangzhouZhengfang : System.Web.UI.Page
     {
