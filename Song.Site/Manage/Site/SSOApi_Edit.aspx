@@ -71,6 +71,22 @@
             return：返回值是xml还是json格式<br />
             </td>
         </tr>
+         <tr>
+            <td class="right">
+            </td>
+            <td>
+            </td>
+        </tr>
+         <tr>
+            <td class="right" valign="top">
+            返回值：
+            </td>
+            <td>
+            返回值为xml或json，但关键值相同：<br />
+            success：1为成功,0为失败<br />
+            msg：提示信息
+            </td>
+        </tr>
     </table>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">

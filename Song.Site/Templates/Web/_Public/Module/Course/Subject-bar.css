@@ -3,7 +3,7 @@
 
 }
 .selectLeft {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	line-height: 30px;
 	text-align: right;
 	float: left;
@@ -22,19 +22,19 @@
 	width: auto;
 	margin-right: 10px;
 	line-height: 30px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 14px;
 	color: #999999;
 }
 #subject .selectItem a{
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 14px;
 	color: #333333;
 }
 
 /*专业选中项*/
 #Selected .selectedItem {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 15px;
 	line-height: 24px;
 	height: 24px;

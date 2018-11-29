@@ -7,12 +7,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
     <div id="header">
         <uc1:toolsBar ID="ToolsBar1" runat="server" WinPath="SSOApi_Edit.aspx" GvName="GridView1"
-            WinWidth="640" WinHeight="480" OnDelete="DeleteEvent" />
+            WinWidth="640" WinHeight="80" OnDelete="DeleteEvent" />
         <div class="searchBox">
         </div>
     </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
-        ShowSelectBox="True">
+        ShowSelectBox="True"  IsEncrypt="False">
         <EmptyDataTemplate>
             没有满足条件的信息！
         </EmptyDataTemplate>

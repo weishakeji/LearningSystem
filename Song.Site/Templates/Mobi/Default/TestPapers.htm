@@ -17,7 +17,7 @@ $(function(){
 			window.location.href="CourseBuy.ashx?couid={$#.couBuy.Cou_ID}";
 		}
 		MsgBox.OverEvent=function(){
-			window.location.href="default.ashx";
+			window.location.href="coursepage.ashx?couid="+$().getPara("couid");
 		}
 		msg.Open();
 	}

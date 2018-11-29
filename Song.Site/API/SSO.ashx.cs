@@ -28,43 +28,49 @@ namespace Song.Site.API
             string reslut = string.Empty;
             try
             {
-
-                Song.Entities.SingleSignOn entity = Business.Do<ISSO>().GetSingle(appid);
-                if (entity == null) reslut = new SSO_State(0, 1, "接口对象不存在").ToReturn(ret);
-                if (entity != null)
+                if (string.IsNullOrWhiteSpace(user))
                 {
-                    if (entity.SSO_Domain != domain.ToLower())
+                    reslut = new SSO_State(0, 1, "账号不得为空").ToReturn(ret);
+                }
+                else
+                {
+                    Song.Entities.SingleSignOn entity = Business.Do<ISSO>().GetSingle(appid);
+                    if (entity == null) reslut = new SSO_State(0, 2, "接口对象不存在").ToReturn(ret);
+                    if (entity != null)
                     {
-                        reslut = new SSO_State(0, 2, "该请求来自的域不合法").ToReturn(ret);
-                    }
-                    else
-                    {
-                        //通过验证，进入登录状态            
-                        Song.Entities.Accounts emp = Business.Do<IAccounts>().IsAccountsExist(user);
-                        if (emp == null)
+                        if (entity.SSO_Domain != domain.ToLower())
                         {
-                            reslut = new SSO_State(0, 3, string.Format("当前账号({0})不存在", user)).ToReturn(ret);
+                            reslut = new SSO_State(0, 3, "该请求来自的域不合法").ToReturn(ret);
                         }
                         else
                         {
-                            if (!emp.Ac_IsPass || !emp.Ac_IsUse)
+                            //通过验证，进入登录状态            
+                            Song.Entities.Accounts emp = Business.Do<IAccounts>().IsAccountsExist(user);
+                            if (emp == null)
                             {
-                                reslut = new SSO_State(0, 4, string.Format("当前账号({0})被禁用或未通过审核", user)).ToReturn(ret);
+                                reslut = new SSO_State(0, 4, string.Format("当前账号({0})不存在", user)).ToReturn(ret);
                             }
                             else
                             {
-                                if (action == "login")
+                                if (!emp.Ac_IsPass || !emp.Ac_IsUse)
                                 {
-                                    LoginState.Accounts.Write(emp);
-                                    //登录成功
-                                    Business.Do<IAccounts>().PointAdd4Login(emp, "协同站点登录", domain, "");   //增加登录积分
-                                    Business.Do<IStudent>().LogForLoginAdd(emp);
-                                    reslut = new SSO_State(1, 5, string.Format("当前账号({0})登录成功", user)).ToReturn(ret);
+                                    reslut = new SSO_State(0, 5, string.Format("当前账号({0})被禁用或未通过审核", user)).ToReturn(ret);
                                 }
                                 else
                                 {
-                                    LoginState.Accounts.Logout();
-                                    reslut = new SSO_State(1, 6, string.Format("当前账号({0})退出登录", user)).ToReturn(ret);
+                                    if (action == "logout")
+                                    {
+                                        LoginState.Accounts.Logout();
+                                        reslut = new SSO_State(1, 7, string.Format("当前账号({0})退出登录", user)).ToReturn(ret);                                        
+                                    }
+                                    else
+                                    {
+                                        LoginState.Accounts.Write(emp);
+                                        //登录成功
+                                        Business.Do<IAccounts>().PointAdd4Login(emp, "协同站点登录", domain, "");   //增加登录积分
+                                        Business.Do<IStudent>().LogForLoginAdd(emp);
+                                        reslut = new SSO_State(1, 6, string.Format("当前账号({0})登录成功", user)).ToReturn(ret);
+                                    }
                                 }
                             }
                         }
