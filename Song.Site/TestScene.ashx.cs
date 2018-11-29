@@ -52,7 +52,7 @@ namespace Song.Site
                         if (cou != null)
                         {
                             isStudy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, cou.Cou_ID);
-                            this.Document.Variables.SetValue("isStudy", isStudy);
+                            this.Document.Variables.SetValue("isStudy", isStudy || cou.Cou_IsFree);
                         }
                     }
                 }
