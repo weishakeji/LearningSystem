@@ -46,13 +46,14 @@
    </vt:if>
 </header>
 
-<div class="mui-inner-wrap"> 
-  <!--课程内容-->  
 
+  <!--课程内容-->  
     <vt:if var="canStudy" value="false" compare="=" remark="如果不能学习">
+    <div class="mui-inner-wrap"  style="margin-top:0px;"> 
       <div class="mui-scroll" style="margin-top:0px;">
       <div id="noQues">当前内容未购买或不存在！</div>
       <vt:else/>
+      <div class="mui-inner-wrap"> 
         <div class="mui-scroll">
     </vt:if>
     <!--<div class="mui-card">
