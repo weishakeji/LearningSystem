@@ -29,6 +29,7 @@ namespace Song.Site.Mobile
         protected override void InitPageTemplate(HttpContext context)
         {
             this.Document.SetValue("action", action);
+            this.Document.SetValue("couid", couid);
             this.Document.SetValue("tpid", tpid);
             //唯一值
             string uid = WeiSha.Common.Request.UniqueID();

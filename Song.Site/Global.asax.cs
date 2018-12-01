@@ -74,7 +74,7 @@ namespace Song.Site
                 "{term}.cshtm",
                 "~/TemplatePage.ashx",
                 false
-             );
+             );            
             //************************************
             //同上，只是此为手机端的ashx动态页
             routes.MapPageRoute(

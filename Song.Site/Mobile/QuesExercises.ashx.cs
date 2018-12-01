@@ -201,7 +201,7 @@ namespace Song.Site.Mobile
                     if (ans[i].Ans_IsCorrect)
                         ansStr += (char)(65 + i) + "、";
                 }
-                ansStr = ansStr.Substring(0, ansStr.LastIndexOf("、"));
+                if (ansStr.EndsWith("、")) ansStr = ansStr.Substring(0, ansStr.Length - 1);                
             }
             if (qus.Qus_Type == 3)
                 ansStr = qus.Qus_IsCorrect ? "正确" : "错误";
