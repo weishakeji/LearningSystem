@@ -39,9 +39,13 @@ namespace Song.Site.Manage
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            string txt = System.IO.File.ReadAllText(this.MapPath("~/Templates/Web/NetSchool/Course.htm"));
+            //string txt = System.IO.File.ReadAllText(this.MapPath("~/Templates/Web/NetSchool/Course.htm"));
 
-            txt = _replacePath(txt, "body|link|script|img");
+            //txt = _replacePath(txt, "body|link|script|img");
+            string a = "s";
+            bool b=true;
+            bool.TryParse(a,out b);
+           
 
 
         }

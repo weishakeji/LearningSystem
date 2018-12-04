@@ -65,7 +65,7 @@
         <div class="stLoginPhoto">
           <vt:if var="Account.Ac_photo" value="" compare="="> <img src="images/usernophoto.png"/>
             <vt:else/>
-            <img src="{$stpath}{$:#.Account.Ac_photo}"/> </vt:if>
+            <img src="{$stpath}{$:#.Account.Ac_photo}" default="images/usernophoto.png"/> </vt:if>
         </div>
          <vt:if var="Account.Ac_id" value="1" compare="<">
         <a class="login-btn" href="/student/index.ashx" target="_blank">学员登录</a>

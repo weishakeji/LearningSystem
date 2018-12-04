@@ -58,7 +58,10 @@ namespace Song.Site.Check
                 }
                 catch (Exception ex)
                 {
-                    string json = "{'success':'0','msg':'" + ex.Message + "'}";
+                    string msg = ex.Message;
+                    msg = msg.Replace("'", "  ").Replace("\n", "").Replace("\r", "");
+                    
+                    string json = "{'success':'0','msg':'" + msg + "'}";
                     Response.Write(json);
                 }
                 Response.End();
@@ -171,15 +174,15 @@ namespace Song.Site.Check
             acc.Ac_IDCardNumber = st["St_IDCardNumber"].ToString();
             acc.Ac_Sex = Convert.ToInt32(st["St_Sex"].ToString());
             acc.Ac_Tel = st["St_Phone"].ToString();
-            acc.Ac_IsOpenTel = Convert.ToBoolean(st["St_IsOpenPhone"].ToString());
+            acc.Ac_IsOpenTel = _convert_bool(st["St_IsOpenPhone"].ToString(),false);
             acc.Ac_MobiTel1 = st["St_PhoneMobi"].ToString();
-            acc.Ac_IsOpenMobile = Convert.ToBoolean(st["St_IsOpenMobi"].ToString());
+            acc.Ac_IsOpenMobile = _convert_bool(st["St_IsOpenMobi"].ToString(), false);
             acc.Ac_Email = st["St_Email"].ToString();
             acc.Ac_Qq = st["St_Qq"].ToString();
             acc.Ac_Weixin = st["St_Weixin"].ToString();
             acc.Ac_RegTime = Convert.ToDateTime(st["St_RegTime"].ToString());
-            acc.Ac_IsUse = Convert.ToBoolean(st["St_IsUse"].ToString());
-            acc.Ac_IsPass = Convert.ToBoolean(st["St_IsPass"].ToString());
+            acc.Ac_IsUse = _convert_bool(st["St_IsUse"].ToString(), true);
+            acc.Ac_IsPass = _convert_bool(st["St_IsPass"].ToString(),true);
             acc.Org_ID = Convert.ToInt32(st["Org_ID"].ToString());
             acc.Ac_Signature = st["St_Signature"].ToString();
             acc.Ac_Photo = st["St_Photo"].ToString();
@@ -218,6 +221,23 @@ namespace Song.Site.Check
             {
                 if (string.IsNullOrWhiteSpace(t)) continue;
                 Business.Do<ISystemPara>().ExecuteSql(string.Format(update, t, stid, acc.Ac_ID));
+            }
+        }
+
+        /// <summary>
+        /// 字符串转布尔值
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        private bool _convert_bool(string s, bool def)
+        {
+            try
+            {
+                return Convert.ToBoolean(s);
+            }
+            catch
+            {
+                return def;
             }
         }
     }
