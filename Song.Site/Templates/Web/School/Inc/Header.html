@@ -15,7 +15,7 @@
             <div class="accPhoto"> <a href="/student/panel.ashx">
               <vt:if var="Account.ac_photo" value="" compare="="> <img src="../images/nophoto.jpg" width="20"/>
                 <vt:else/>
-                <img src="{$stpath}{$:#.Account.Ac_photo}"/> </vt:if>
+                <img src="{$stpath}{$:#.Account.Ac_photo}" default="../images/nophoto.jpg"/> </vt:if>
               </a> </div>
             <a href="/student/panel.ashx"> {$Account.Ac_name}</a><i class="icon-select-down"></i> </div>
           <!--学员菜单-->

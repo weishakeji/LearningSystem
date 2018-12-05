@@ -19,7 +19,7 @@ body{
 	display: table;
 }
 .selectLeft {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	line-height: 30px;
 	text-align: right;
 	float: left;
@@ -39,7 +39,7 @@ body{
 	line-height: 30px;
 }
 #subject .selectItem a {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 14px;
 	color: #666;
 }
@@ -50,7 +50,7 @@ body{
 }
 /*专业选中项*/
 #Selected .selectedItem {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 15px;
 	line-height: 24px;
 	height: 24px;
@@ -64,7 +64,7 @@ body{
 	margin-right: 10px;
 }
 #Selected .selectedNoItem {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 15px;
 	line-height: 24px;
 	height: 24px;
@@ -163,7 +163,7 @@ body{
 	width: 100px;
 	text-align: center;
 	cursor:pointer;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 16px;
 	font-weight: bold;
 }
@@ -254,7 +254,7 @@ line-height: 40px;
 }
 .quesBox .quesAnswerBox .answer {
 	
-	font-size: 14px;
+	font-size: 16px;
 	line-height: 25px;
 	
 	margin-bottom: 5px;
