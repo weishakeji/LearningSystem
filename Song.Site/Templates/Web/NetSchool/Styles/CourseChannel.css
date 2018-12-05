@@ -120,29 +120,31 @@
 .cour-name:hover{
 	color: #188eee;
 }
-.cour-price{
+.cour-price {
 	font-size: 15px;
 	line-height: 30px;
-}
-.cour-price .free{
-	color: #090;
-	float: left;
-}
-.cour-price .cou-sbj{
-	color: #999;
-	float: right;
-	white-space: nowrap;
+	height:30px;
+	position:relative;
 	overflow: hidden;
-	text-align: right;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	text-align:left;
 }
-.cou-count{
+.cour-price .free {
+	color: #090;	
+}
+.cour-price .cou-sbj {
+	color: #999;
+	float:right;	
+}
+.cou-count {
 	padding-top: 1px;
 	padding-left: 20px;
-	background: url(../images/sl.gif) 0 8px no-repeat;
+	background: url(../images/sl.gif) 0 2px no-repeat;
 	height: 25px;
 	color: #666;
-	float: left;
 	margin-left: 10px;
+	margin-top:0px;
 }
 /*课程价格*/
 .money{
