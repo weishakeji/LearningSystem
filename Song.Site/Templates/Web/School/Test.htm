@@ -38,7 +38,7 @@
             <div class="imgBox">
               <vt:if var="data.Tp_Logo" value="" compare="="> <img src="images/testpaper.jpg"/>
                 <vt:else />
-                <img src="{$path}{$:#.data.Tp_Logo}"/> </vt:if>
+                <img src="{$path}{$:#.data.Tp_Logo}" default="images/testpaper.jpg"/> </vt:if>
             </div>
             <div class="testRight">
               <div class="title">{$:#.data.tp_name}</div>
