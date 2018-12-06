@@ -33,7 +33,10 @@ namespace Song.ServiceImpls
                 if (entity.As_FileName.IndexOf(".") > -1) extension = extension.Replace(".", "");
                 entity.As_Extension = extension;
             }
-            Gateway.Default.Save<Accessory>(entity);            
+            Gateway.Default.Save<Accessory>(entity);  
+            //如果是视频,设置该视频所在的章节是否有视频
+            Song.Entities.Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == entity.As_Uid).ToFirst<Outline>();
+            if (outline != null) Business.Do<IOutline>().OutlineSave(outline);
         }
         /// <summary>
         /// 修改
@@ -49,6 +52,9 @@ namespace Song.ServiceImpls
                 entity.As_Extension = extension;
             }
             Gateway.Default.Save<Accessory>(entity);
+            //如果是视频,设置该视频所在的章节是否有视频
+            Song.Entities.Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == entity.As_Uid).ToFirst<Outline>();
+            if (outline != null) Business.Do<IOutline>().OutlineSave(outline);
         }
         /// <summary>
         /// 删除，按主键ID；
@@ -66,6 +72,9 @@ namespace Song.ServiceImpls
                 WeiSha.WebControl.FileUpload.Delete(ac.As_Type, name + ".mp4");
             }
             Gateway.Default.Delete<Accessory>(Accessory._.As_Id == identify);
+            //如果是视频,设置该视频所在的章节是否有视频
+            Song.Entities.Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == ac.As_Uid).ToFirst<Outline>();
+            if (outline != null) Business.Do<IOutline>().OutlineSave(outline);
         }
         /// <summary>
         /// 删除，按系统唯一id
@@ -97,6 +106,9 @@ namespace Song.ServiceImpls
                 }
             }
             Gateway.Default.Delete<Accessory>(Accessory._.As_Uid == uid);
+            //如果是视频,设置该视频所在的章节是否有视频
+            Song.Entities.Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == uid).ToFirst<Outline>();
+            if (outline != null) Business.Do<IOutline>().OutlineSave(outline);
         }
         public void Delete(string uid, DbTransaction tran)
         {

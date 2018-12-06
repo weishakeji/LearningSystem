@@ -112,6 +112,13 @@ namespace Song.ServiceImpls
                 object obj = Gateway.Default.Max<Outline>(Outline._.Ol_Tax, Outline._.Org_ID == entity.Org_ID && Outline._.Ol_PID == entity.Ol_PID);
                 entity.Ol_Tax = obj is int ? (int)obj + 1 : 0;
             }
+            //如果有下级，设置为章节节点
+            int childCount = Gateway.Default.Count<Outline>(Outline._.Ol_PID == entity.Ol_ID);
+            entity.Ol_IsNode = childCount > 0;
+            //如果有视频，设置视频节点
+            int videoCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "CourseVideo" && Accessory._.As_Uid==entity.Ol_UID);
+            entity.Ol_IsVideo = videoCount > 0;
+            //路径
             entity.Ol_Level = _ClacLevel(entity);
             entity.Ol_XPath = _ClacXPath(entity);
             Gateway.Default.Save<Outline>(entity);
@@ -1154,7 +1161,7 @@ namespace Song.ServiceImpls
             {
                 if (!(sender is Outline)) return;
                 Outline ol = (Outline)sender;
-                Song.Entities.Outline old = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == ol.Ol_ID).ToFirst<Outline>();
+                Song.Entities.Outline old = this.OutlineSingle(ol.Ol_ID);
                 ol.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(ol.Ol_ID, -1, true, true);
                 WeiSha.Common.Cache<Song.Entities.Outline>.Data.Update(old, ol);
             }

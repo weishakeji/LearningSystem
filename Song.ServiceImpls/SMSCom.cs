@@ -89,7 +89,7 @@ namespace Song.ServiceImpls
                 string smspw = Business.Do<ISystemPara>().GetValue(smsCurr + "SmsPw");
                 smspw = WeiSha.Common.DataConvert.DecryptForBase64(smspw);    //将密码解密
                 sms.Current.Password = smspw;
-
+                //发送短信，phone手机号,msg是短信内容
                 WeiSha.SMS.SmsState state = sms.Send(phone, msg);
                 HttpContext context = System.Web.HttpContext.Current;
                 if (state.Success)

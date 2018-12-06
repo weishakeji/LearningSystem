@@ -26,7 +26,7 @@ namespace Song.Entities {
     		
     		protected String _Ol_Courseware;
     		
-    		protected String _Ol_Vedio;
+    		protected String _Ol_Video;
     		
     		protected String _Ol_LessonPlan;
     		
@@ -45,6 +45,10 @@ namespace Song.Entities {
     		protected Int32 _Ol_QuesCount;
     		
     		protected Boolean _Ol_IsFinish;
+    		
+    		protected Boolean _Ol_IsNode;
+    		
+    		protected Boolean _Ol_IsVideo;
     		
     		public Int32 Ol_ID {
     			get {
@@ -136,13 +140,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public String Ol_Vedio {
+    		public String Ol_Video {
     			get {
-    				return this._Ol_Vedio;
+    				return this._Ol_Video;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ol_Vedio, _Ol_Vedio, value);
-    				this._Ol_Vedio = value;
+    				this.OnPropertyValueChange(_.Ol_Video, _Ol_Video, value);
+    				this._Ol_Video = value;
     			}
     		}
     		
@@ -236,6 +240,26 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Ol_IsNode {
+    			get {
+    				return this._Ol_IsNode;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ol_IsNode, _Ol_IsNode, value);
+    				this._Ol_IsNode = value;
+    			}
+    		}
+    		
+    		public Boolean Ol_IsVideo {
+    			get {
+    				return this._Ol_IsVideo;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ol_IsVideo, _Ol_IsVideo, value);
+    				this._Ol_IsVideo = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -272,7 +296,7 @@ namespace Song.Entities {
     					_.Ol_IsUse,
     					_.Ol_IsFree,
     					_.Ol_Courseware,
-    					_.Ol_Vedio,
+    					_.Ol_Video,
     					_.Ol_LessonPlan,
     					_.Cou_ID,
     					_.Ol_UID,
@@ -281,7 +305,9 @@ namespace Song.Entities {
     					_.Org_ID,
     					_.Sbj_ID,
     					_.Ol_QuesCount,
-    					_.Ol_IsFinish};
+    					_.Ol_IsFinish,
+    					_.Ol_IsNode,
+    					_.Ol_IsVideo};
     		}
     		
     		/// <summary>
@@ -298,7 +324,7 @@ namespace Song.Entities {
     					this._Ol_IsUse,
     					this._Ol_IsFree,
     					this._Ol_Courseware,
-    					this._Ol_Vedio,
+    					this._Ol_Video,
     					this._Ol_LessonPlan,
     					this._Cou_ID,
     					this._Ol_UID,
@@ -307,7 +333,9 @@ namespace Song.Entities {
     					this._Org_ID,
     					this._Sbj_ID,
     					this._Ol_QuesCount,
-    					this._Ol_IsFinish};
+    					this._Ol_IsFinish,
+    					this._Ol_IsNode,
+    					this._Ol_IsVideo};
     		}
     		
     		/// <summary>
@@ -341,8 +369,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ol_Courseware))) {
     				this._Ol_Courseware = reader.GetString(_.Ol_Courseware);
     			}
-    			if ((false == reader.IsDBNull(_.Ol_Vedio))) {
-    				this._Ol_Vedio = reader.GetString(_.Ol_Vedio);
+    			if ((false == reader.IsDBNull(_.Ol_Video))) {
+    				this._Ol_Video = reader.GetString(_.Ol_Video);
     			}
     			if ((false == reader.IsDBNull(_.Ol_LessonPlan))) {
     				this._Ol_LessonPlan = reader.GetString(_.Ol_LessonPlan);
@@ -370,6 +398,12 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ol_IsFinish))) {
     				this._Ol_IsFinish = reader.GetBoolean(_.Ol_IsFinish);
+    			}
+    			if ((false == reader.IsDBNull(_.Ol_IsNode))) {
+    				this._Ol_IsNode = reader.GetBoolean(_.Ol_IsNode);
+    			}
+    			if ((false == reader.IsDBNull(_.Ol_IsVideo))) {
+    				this._Ol_IsVideo = reader.GetBoolean(_.Ol_IsVideo);
     			}
     		}
     		
@@ -443,9 +477,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ol_Courseware = new WeiSha.Data.Field<Outline>("Ol_Courseware");
     			
     			/// <summary>
-    			/// 字段名：Ol_Vedio - 数据类型：String
+    			/// 字段名：Ol_Video - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Ol_Vedio = new WeiSha.Data.Field<Outline>("Ol_Vedio");
+    			public static WeiSha.Data.Field Ol_Video = new WeiSha.Data.Field<Outline>("Ol_Video");
     			
     			/// <summary>
     			/// 字段名：Ol_LessonPlan - 数据类型：String
@@ -491,6 +525,16 @@ namespace Song.Entities {
     			/// 字段名：Ol_IsFinish - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Ol_IsFinish = new WeiSha.Data.Field<Outline>("Ol_IsFinish");
+    			
+    			/// <summary>
+    			/// 字段名：Ol_IsNode - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Ol_IsNode = new WeiSha.Data.Field<Outline>("Ol_IsNode");
+    			
+    			/// <summary>
+    			/// 字段名：Ol_IsVideo - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Ol_IsVideo = new WeiSha.Data.Field<Outline>("Ol_IsVideo");
     		}
     	}
     }

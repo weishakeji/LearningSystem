@@ -6,7 +6,7 @@ using Song.Entities;
 namespace Song.ServiceInterfaces
 {
     /// <summary>
-    /// 院系职位的管理
+    /// 短信管理
     /// </summary>
     public interface ISMS : WeiSha.Common.IBusinessInterface
     {
