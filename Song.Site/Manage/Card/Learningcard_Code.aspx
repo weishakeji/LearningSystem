@@ -61,8 +61,8 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="回滚">
                 <ItemTemplate>
-                    <asp:LinkButton ID="btnGoBack" runat="server" CommandArgument='<%# Eval("Lc_ID")%>' Visible='<%# Convert.ToBoolean(Eval("Lc_IsUsed")) && (Eval("Lc_State","{0}")!="-1")%>'
-                     OnClientClick="return confirm('是否确定要回滚该学习卡？')" OnClick="btnGoBack_Click">回滚</asp:LinkButton>
+                    <asp:LinkButton ID="btnGoBack" tag="btnGoBack" runat="server" code='<%# Eval("Lc_Code", "{0}")%>' pw='<%# Eval("Lc_Pw", "{0}")%>'
+                        href="goBack.aspx" CommandArgument='<%# Eval("Lc_ID")%>' Visible='<%# Convert.ToBoolean(Eval("Lc_IsUsed")) && (Eval("Lc_State","{0}")!="-1")%>'>回滚</asp:LinkButton>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" />
             </asp:TemplateField>

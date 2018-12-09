@@ -128,7 +128,7 @@ LoyoutItem.prototype.Nodes = null;
 //初始化数据；
 LoyoutItem._init = function (element) {
     var nodes = new Array();
-    element.find(" > *[loyout]").each(function () {
+    element.find(">*[loyout]").each(function () {
         var wd = $(this).attr("width");
         var hg = $(this).attr("height");
         var loyout = $(this).attr("loyout");

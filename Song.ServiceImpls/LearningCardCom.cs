@@ -468,7 +468,17 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="entity"></param>
         public void CardRollback(LearningCard entity)
-        {            
+        {
+            CardRollback(entity,false);
+        }
+        /// <summary>
+        /// 学习卡使用后的回滚，将删除学员的关联课程
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="isclear">是否清理学习记录</param>
+        public void CardRollback(LearningCard entity, bool isclear)
+        {
+           
             //只是领用，但未使用
             if (entity.Lc_IsUsed && entity.Lc_State == 0)
             {
@@ -512,6 +522,7 @@ namespace Song.ServiceImpls
                             {
                                 //如果扣除学习卡增加的时间后，小于开始时间，则直接删除课程
                                 tran.Delete<Student_Course>(Student_Course._.Ac_ID == entity.Ac_ID && Student_Course._.Cou_ID == cou.Cou_ID);
+                                if (isclear) _cardRollback_clear(entity.Ac_ID, cou.Cou_ID);
                                 tran.Update<Accounts>(new Field[] { Accounts._.Ac_CurrCourse }, new object[] { -1 },
                                     Accounts._.Ac_ID == entity.Ac_ID && Accounts._.Ac_CurrCourse == cou.Cou_ID);
                             }
@@ -532,6 +543,18 @@ namespace Song.ServiceImpls
                     }
                 }
             }
+        }
+        private void _cardRollback_clear(int acc,int couid)
+        {
+            //学习记录
+            Gateway.Default.Delete<LogForStudentQuestions>(LogForStudentQuestions._.Ac_ID == acc && LogForStudentQuestions._.Cou_ID==couid);
+            Gateway.Default.Delete<LogForStudentStudy>(LogForStudentStudy._.Ac_ID == acc && LogForStudentStudy._.Cou_ID == couid);
+            //试题，收藏、笔记、错题
+            Gateway.Default.Delete<Student_Collect>(Student_Collect._.Ac_ID == acc && Student_Collect._.Cou_ID==couid);
+            Gateway.Default.Delete<Student_Notes>(Student_Notes._.Ac_ID == acc && Student_Notes._.Cou_ID == couid);
+            Gateway.Default.Delete<Student_Ques>(Student_Ques._.Ac_ID == acc && Student_Ques._.Cou_ID == couid);
+            //模拟测试
+            Gateway.Default.Delete<TestResults>(TestResults._.Ac_ID == acc && TestResults._.Cou_ID == couid);
         }
         /// <summary>
         /// 学习卡设置项下的所有学习卡

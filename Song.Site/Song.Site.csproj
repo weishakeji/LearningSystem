@@ -233,12 +233,15 @@
     <Content Include="Manage\Card\Scripts\Learningcard_Edit.js" />
     <Content Include="Manage\Card\Scripts\Learningcard_Courses.js" />
     <Content Include="Manage\Card\Scripts\Learningcard_Code.js" />
+    <Content Include="Manage\Card\Scripts\GoBack.js" />
     <Content Include="Manage\Card\Styles\Learningcard_Edit.css" />
     <Content Include="Manage\Card\Learningcard_Courses.aspx" />
     <Content Include="Manage\Card\Styles\Learningcard_Courses.css" />
     <Content Include="Manage\Card\Styles\Learningcard_Code.css" />
     <Content Include="Manage\Card\Output_Qrcode.aspx" />
     <Content Include="Manage\Card\Styles\Output_Qrcode.css" />
+    <Content Include="Manage\Card\GoBack.aspx" />
+    <Content Include="Manage\Card\Styles\GoBack.css" />
     <Content Include="Manage\CoreScripts\AutoLoyout.js" />
     <Content Include="Manage\CoreScripts\clipboard.min.js" />
     <Content Include="Manage\CoreScripts\Extend.js" />
@@ -2405,6 +2408,13 @@
     </Compile>
     <Compile Include="Manage\Card\Output_Qrcode.aspx.designer.cs">
       <DependentUpon>Output_Qrcode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Card\GoBack.aspx.cs">
+      <DependentUpon>GoBack.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Card\GoBack.aspx.designer.cs">
+      <DependentUpon>GoBack.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Course\Courses_TestPaper.aspx.cs">
       <DependentUpon>Courses_TestPaper.aspx</DependentUpon>

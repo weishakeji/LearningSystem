@@ -1,0 +1,21 @@
+﻿@charset "utf-8";
+.context
+{
+	margin:10px;
+	
+}
+.btn{
+	height:40px;
+	margin-top:10px;
+}
+.green{
+	background-color: #090;
+	color: #FFF;
+}
+.blue{
+	background-color: #09F;
+	color: #FFF;
+}
+.yellow{
+	background-color: #FF9;
+}

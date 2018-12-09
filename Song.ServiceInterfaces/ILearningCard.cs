@@ -180,6 +180,12 @@ namespace Song.ServiceInterfaces
         /// <param name="entity"></param>
         void CardRollback(LearningCard entity);
         /// <summary>
+        /// 学习卡使用后的回滚，将删除学员的关联课程
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="isclear">是否清理学习记录</param>
+        void CardRollback(LearningCard entity,bool isclear);
+        /// <summary>
         /// 学习卡设置项下的所有学习卡
         /// </summary>
         /// <param name="orgid">所在机构id</param>
