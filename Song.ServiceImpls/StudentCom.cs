@@ -774,6 +774,8 @@ namespace Song.ServiceImpls
             Song.Entities.Outline[] outs = Business.Do<IOutline>().OutlineCount(couid, -1, true, -1);
             foreach (Song.Entities.Outline o in outs)
             {
+                //如果不是视频章节，则跳出
+                if (!o.Ol_IsVideo) continue;
                 Song.Entities.LogForStudentStudy log = this.LogForStudySingle(st.Ac_ID, o.Ol_ID);
                 if (log != null) continue;
                 //如果某一章节没有记录，则创建
@@ -905,7 +907,7 @@ namespace Song.ServiceImpls
      else     0 end     ) as 'complete'
 
      FROM [LogForStudentStudy] where {acid} 
-                        group by ol_id ) as s group by s.cou_id) as tm on c.cou_id=tm.cou_id ";
+                        group by ol_id ) as s where s.totalTime>0 group by s.cou_id) as tm on c.cou_id=tm.cou_id ";
             sql = sql.Replace("{orgid}", orgid > 0 ? "org_id=" + orgid : "1=1");
             sql = sql.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
             try

@@ -68,8 +68,9 @@ namespace Song.Site.Manage.Student
         /// 计算时间总计
         /// </summary>
         /// <param name="time"></param>
+        /// <param name="format">格式</param>
         /// <returns></returns>
-        protected string CaleTotalTime(string time)
+        protected string CaleTotalTime(string time,string format)
         {
             int num = 0;
             int.TryParse(time, out num);
@@ -77,15 +78,16 @@ namespace Song.Site.Manage.Student
             num = num / 1000;
             //
             string tm = "{0}:{1}:{2}";
-            if (num < 60) return string.Format(tm, 0, 0, num);
+            if (num < 60) return string.Format(format,string.Format(tm, 0, 0, num));
             //计算分钟
             int ss = num % 60;
             num = num / 60;            
-            if (num < 60) return string.Format(tm, 0, num, ss);
+            if (num < 60) return string.Format(format,string.Format(tm, 0, num, ss));
             //计算小时
             int hh = num / 60;
             int mm = num % 60;
-            return string.Format(tm, hh, mm, ss);
+            //
+            return string.Format(format, string.Format(tm, hh, num, ss));
         }
        
     }
