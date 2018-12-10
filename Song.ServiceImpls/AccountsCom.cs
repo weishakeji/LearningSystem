@@ -108,21 +108,21 @@ namespace Song.ServiceImpls
             //    entity.Ac_Pw = new WeiSha.Common.Param.Method.ConvertToAnyValue(entity.Ac_Pw).MD5; 
            
             //获取原有数据
-            Accounts old = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == entity.Ac_ID).ToFirst<Accounts>();
+            //Accounts old = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == entity.Ac_ID).ToFirst<Accounts>();
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
-                {
-                    tran.Save<Accounts>(entity);
-                    if (old != null && old.Sts_ID != entity.Sts_ID)
-                    {
+                {                   
+                    //if (old != null && old.Sts_ID != entity.Sts_ID)
+                    //{
                         //同步考试成绩中的学员组
                         tran.Update<ExamResults>(new Field[] { ExamResults._.Sts_ID },
                         new object[] { entity.Sts_ID }, ExamResults._.Ac_ID == entity.Ac_ID);
                         //同步教师信息
                         tran.Update<Teacher>(new Field[] { Teacher._.Th_Sex, Teacher._.Th_Birthday, Teacher._.Th_IDCardNumber, Teacher._.Th_Nation, Teacher._.Th_Native },
                         new object[] { entity.Ac_Sex, entity.Ac_Birthday, entity.Ac_IDCardNumber, entity.Ac_Nation, entity.Ac_Native }, Teacher._.Ac_ID == entity.Ac_ID);
-                    }
+                    //}
+                    tran.Save<Accounts>(entity);
                     tran.Commit();
                     this.OnSave(entity, EventArgs.Empty);
                 }

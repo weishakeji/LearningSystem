@@ -31,7 +31,8 @@
 <body>
     <p>
     </p>
-    <div id="loading" class="txt" appid="{$WeixinpubAPPID}" returl="{$WeixinpubReturl}" orgid="{$org.Org_id}">
+    <div id="loading" class="txt" appid="{$WeixinpubAPPID}" returl="{$WeixinpubReturl}"
+        orgid="{$org.Org_id}">
         <a href="" id="url">正在登录...<br />
             无法正常跳转，请点击 </a>
     </div>
@@ -77,19 +78,29 @@
             var orgid = tag.attr("orgid"); 	//当前机构id
             var target = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect";
             target = target.format(appid, encodeURIComponent(returl), orgid);
-            $("#url").attr("href", target);            
+            $("#url").attr("href", target);
+            $("#url").click(function(){
+                var href=$(this).attr("href");
+                window.location.href = target;
+            });
         })();
     
     </script>
     <script type="text/javascript">
-        if (isWeiXin()) {
-            $("#loading").show();
-            //登录微信
-            //document.getElementById("url").click();
-            var target = $("#url").attr("href");
-            window.location.href = target;
-        }
-        if (!isWeiXin()) $("#error").show();
+        (function () {
+            if (isWeiXin()) {
+                $("#loading").show();
+                //登录微信
+                document.getElementById("url").click();
+                var target = $("#url").attr("href");
+                window.location.href = target;
+                setInterval(function () {
+                    var target = $("#url").attr("href");
+                    window.location.href = target;
+                }, 1000);
+            }
+            if (!isWeiXin()) $("#error").show();
+        })();
     </script>
 </body>
 </html>

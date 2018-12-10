@@ -95,20 +95,27 @@ namespace Song.Site.Manage.Teacher
             string stsid = "";
             //考试主题下的所有参考人员成绩
             stsid =Sts_ID.SelectedValue;  //选中的组ID
-            //取所有组的组ID
-            if (stsid == "0")
-            {
-                //当前考试限定的学生分组
-                Song.Entities.StudentSort[] sts = Business.Do<IExamination>().GroupForStudentSort(theme.Exam_UID);
-                //如果没有设定分组，则取当前参加考试的学员的分组
-                if (sts == null || sts.Length < 1) sts = Business.Do<IExamination>().StudentSort4Theme(examid);                
-                foreach (Song.Entities.StudentSort ss in sts)
-                    stsid += ss.Sts_ID + ",";                
+            switch(Sts_ID.SelectedValue){
+                //所有学员
+                case "0":
+                    //当前考试限定的学生分组
+                    Song.Entities.StudentSort[] sts = Business.Do<IExamination>().GroupForStudentSort(theme.Exam_UID);
+                    //如果没有设定分组，则取当前参加考试的学员的分组
+                    if (sts == null || sts.Length < 1) sts = Business.Do<IExamination>().StudentSort4Theme(examid);
+                    foreach (Song.Entities.StudentSort ss in sts)
+                        stsid += ss.Sts_ID + ",";
+                    stsid += "-1";
+                    dt = Business.Do<IExamination>().Result4Theme(examid, stsid);
+                    break;
+                //未分组学员
+                case "-1":
+                    dt = Business.Do<IExamination>().Result4Theme(examid, -1);
+                    break;
+                //当前分组学员
+                default:
+                    dt = Business.Do<IExamination>().Result4Theme(examid, Convert.ToInt32(Sts_ID.SelectedValue));
+                    break;
             }
-            //未分组的学员
-            if (stsid == "-1")           
-                dt = Business.Do<IExamination>().Result4Theme(examid, -1);
-            if (dt == null) dt = Business.Do<IExamination>().Result4Theme(examid, stsid);
             gvList.DataSource = dt;
             gvList.DataBind();
         }

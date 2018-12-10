@@ -854,8 +854,24 @@ namespace Song.ServiceImpls
                         if (er.Ac_ID == accid && er.Exam_ID == ex.Exam_ID)
                         {
                             double score = Math.Floor(er.Exr_ScoreFinal * 100) / 100;
-                            //此处是两个数值（用$分隔），前面是成绩，后面是成绩记的id
-                            dt.Rows[i][ex.Exam_Name] = score.ToString() + "$" + er.Exr_ID;
+                            //如果不等于空，说明已经有成绩的，按说不会出现这种情况，但不清楚为什么会有重复答题
+                            if (!string.IsNullOrWhiteSpace(dt.Rows[i][ex.Exam_Name].ToString()))
+                            {
+                                string strScore = dt.Rows[i][ex.Exam_Name].ToString();
+                                if (strScore.IndexOf("$") > -1)
+                                {
+                                    string t = strScore.Substring(0, strScore.IndexOf("$"));
+                                    if (score > Convert.ToDouble(t))
+                                    {
+                                        dt.Rows[i][ex.Exam_Name] = score.ToString() + "$" + er.Exr_ID;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //此处是两个数值（用$分隔），前面是成绩，后面是成绩记的id
+                                dt.Rows[i][ex.Exam_Name] = score.ToString() + "$" + er.Exr_ID;
+                            }
                             break;
                         }
                     }
@@ -879,7 +895,7 @@ namespace Song.ServiceImpls
                 if (string.IsNullOrWhiteSpace(s)) continue;
                 int sid = 0;
                 int.TryParse(s, out sid);
-                if (sid <= 0) continue;
+                //if (sid <= 0) continue;
                 //取每个组的学员的考试成绩
                 DataTable dtTm = this.Result4Theme(examid, sid);
                 if (dtTm == null) continue;
@@ -889,7 +905,20 @@ namespace Song.ServiceImpls
                 }
                 else
                 {
-                    dt.Merge(dtTm, false, MissingSchemaAction.AddWithKey);
+                    foreach (DataRow dr1 in dt.Rows)
+                    {
+                        foreach (DataRow dr2 in dtTm.Rows)
+                        {
+                            if (dr1["ID"].ToString() != dr2["ID"].ToString())
+                                continue;
+                            for (var i = 0; i < dr1.ItemArray.Length; i++)
+                            {
+                                if(!string.IsNullOrWhiteSpace(dr2[i].ToString()))
+                                    dr1[i] = dr2[i];
+                            }
+                        }
+                    }
+                    //dt.Merge(dtTm, false, MissingSchemaAction.AddWithKey);
                 }
             }
             return dt;
