@@ -36,12 +36,12 @@
             <div class="mrTitle">
                 充值金额：</div>
             <div class="mrInput">
-                <asp:TextBox ID="tbMoney" CssClass="tbMoney" nullable="false" datatype="uint" runat="server" Width="180px"></asp:TextBox><span
+                <asp:TextBox ID="tbMoney" CssClass="tbMoney" nullable="false" datatype="number" runat="server" Width="180px"></asp:TextBox><span
                     class="alert"><asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server"
                         ControlToValidate="tbMoney" Display="Dynamic" ErrorMessage="金额不得为空" ForeColor="Red"
                         ValidationGroup="o"></asp:RequiredFieldValidator><asp:RegularExpressionValidator
                             ID="RegularExpressionValidator1" runat="server" ControlToValidate="tbMoney" Display="Dynamic"
-                            ErrorMessage="输入正整数" ForeColor="Red" ValidationExpression="^\d+$" ValidationGroup="o"></asp:RegularExpressionValidator></span></div>
+                            ErrorMessage="输入正数" ForeColor="Red" ValidationExpression="^\d+(\.\d+)?$" ValidationGroup="o"></asp:RegularExpressionValidator></span></div>
             <input name="money" type="hidden" id="money" value="" />
         </div>
         <div class="mrRow">
