@@ -22,7 +22,7 @@
             <div class="page" style="page-break-after: always"><asp:Image ID="imgStamp" runat="server" />
             <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td class="right" width="100px">
+                    <td class="right" width="120px">
                         姓名：
                     </td>
                     <td class="left" width="100px">
@@ -49,7 +49,7 @@
                         出生年月：
                     </td>
                     <td class="left">
-                        <%# Convert.ToDateTime(Eval("Ac_Birthday")).AddYears(200) < DateTime.Now ? "" : Convert.ToDateTime(Eval("Ac_Birthday")).ToString("yyyy年MM月")%>
+                        <%# DateTime.Parse(Eval("Ac_Birthday", "{0}")).AddYears(200) < DateTime.Now ? "" : Eval("Ac_Birthday", "{0:yyyy年M月}")%>
                     </td>
                 </tr>
                 <tr>
@@ -60,24 +60,24 @@
                         <%# Eval("Ac_Native")%>
                     </td>
                     <td class="right">
-                        民 族：
+                         学号：
                     </td>
                     <td class="left">
-                        <%# Eval("Ac_Nation")%>
+                        <%# Eval("Ac_CodeNumber")%>
                     </td>
                 </tr>
                 <tr>
                     <td class="right">
-                        学号：
+                      民 族： 
                     </td>
-                    <td class="left">
-                        <%# Eval("Ac_CodeNumber")%>
+                    <td class="left"> <%# Eval("Ac_Nation")%>
+                       
                     </td>
                     <td class="right">
                         身份证：
                     </td>
                     <td class="left">
-                        <%# Eval("Ac_IDCardNumber")%>
+                       <span class="txtrow"> <%# Eval("Ac_IDCardNumber")%></span>
                     </td>
                 </tr>
                 <tr>
@@ -88,10 +88,10 @@
                         <%# getEdu(Eval("Ac_Education"))%>
                     </td>
                     <td class="right">
-                        专业：
+                        学号：
                     </td>
                     <td class="left">
-                        <%# Eval("Ac_Major")%>
+                        <span class="txtrow"> <%# Eval("Ac_accname")%></span>
                     </td>
                 </tr>
                 <tr>
@@ -104,10 +104,10 @@
                 </tr>
                 <tr>
                     <td class="right">
-                        住址：
+                        专业：
                     </td>
                     <td class="left" colspan="4">
-                        <%# Eval("Ac_Address")%>
+                         <%# Eval("Ac_Major")%>
                     </td>
                 </tr>
                 <tr>
@@ -138,32 +138,26 @@
                 </tr>
                 <tr>
                     <td class="right">
-                        电子邮箱：
+                        网路通讯：
                     </td>
-                    <td class="left">
-                        <%# Eval("Ac_Email")%>
-                    </td>
-                    <td class="right">
-                        即时通讯：
-                    </td>
-                    <td class="left" colspan="2">
+                    <td class="left" colspan="4">
+                      <span class="txtrow">  <%# Eval("Ac_Email", "{0}") != "" ? "Email：" + Eval("Ac_Email", "{0}") : ""%>
+              &nbsp;
                         <%# Eval("Ac_Weixin", "{0}") != "" ? "微信：" + Eval("Ac_Weixin", "{0}") : ""%>
                         &nbsp;
                         <%# Eval("Ac_Qq", "{0}") != "" ? "QQ：" + Eval("Ac_Qq", "{0}") : ""%>
+                        </span>
                     </td>
                 </tr>
                 <tr>
                     <td class="right">
                         紧急联系人：
                     </td>
-                    <td class="left">
+                    <td class="left" colspan="4">
                         <%# Eval("Ac_LinkMan")%>
-                    </td>
-                    <td class="right">
-                        紧急电话：
-                    </td>
-                    <td class="left" colspan="2">
-                        <%# Eval("Ac_LinkManPhone")%>
+                         &nbsp;
+                         <%# Eval("Ac_LinkManPhone", "{0}") != "" ? "联系电话：" + Eval("Ac_LinkManPhone", "{0}") : ""%>              
+                    
                     </td>
                 </tr>
                 <tr>

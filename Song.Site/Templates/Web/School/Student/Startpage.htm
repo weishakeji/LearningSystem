@@ -35,7 +35,7 @@
     <div class="title">我的课程</div>
   </div>
   <div class="listBox"> <vt:foreach id="Course" from="$#.Course" item="data" index="i" size="15" remark="选修的课程">
-      <div class="item" couid="{$:#.data.Cou_ID}"> <a href="/course.ashx?id={$:#.data.Cou_ID}" target="_blank"><img src="{$:#.data.Cou_LogoSmall}"  alt="{$:#.data.Cou_Name}" subject="{$:#.data.sbj_Name}"/></a>
+      <div class="item" couid="{$:#.data.Cou_ID}"> <a href="/course.ashx?id={$:#.data.Cou_ID}" target="_blank"><img src="{$:#.data.Cou_LogoSmall}"  default="../images/cou_nophoto.jpg" alt="{$:#.data.Cou_Name}" subject="{$:#.data.sbj_Name}"/></a>
         <div class="itemName"><a href="/course.ashx?id={$:#.data.Cou_ID}" target="_blank"> {$:#.data.Cou_Name}</a> </div>
       </div>
     </vt:foreach> </div>

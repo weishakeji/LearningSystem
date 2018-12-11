@@ -69,6 +69,10 @@ table td.center {
 table td.left {
 	text-indent: 10px;
 }
+.txtrow{
+	font-size: 13px;
+	white-space: nowrap;	
+}
 .intro {
 	height: 400px;
 }

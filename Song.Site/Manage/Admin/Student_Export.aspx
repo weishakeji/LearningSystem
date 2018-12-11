@@ -15,6 +15,15 @@
                 </asp:CheckBoxList>
             </td>
         </tr>
+         <tr>
+            <td class="right">
+                学员总数：
+            </td>
+            <td>
+
+             <asp:Label ID="lbSumcount" runat="server" Text=""></asp:Label>
+            </td>
+        </tr>
         <tr>
             <td class="right">
                 &nbsp;

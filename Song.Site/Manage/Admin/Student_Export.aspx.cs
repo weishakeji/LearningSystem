@@ -38,6 +38,9 @@ namespace Song.Site.Manage.Admin
             cblSort.DataTextField = "sts_name";
             cblSort.DataValueField = "sts_id";
             cblSort.DataBind();
+            //学员总数
+            int sumcount = Business.Do<IAccounts>().AccountsOfCount(org.Org_ID, true);
+            lbSumcount.Text = sumcount.ToString();
         }
         #endregion
 
