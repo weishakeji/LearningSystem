@@ -22,6 +22,8 @@ namespace Song.Site.Manage.Student
     {
         //学员组的id串
         private string sts = WeiSha.Common.Request.QueryString["sts"].String;
+        //学员ID
+        private int accid = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
         //员工上传资料的所在路径
         private string _uppath = "Student";
         //学员列表集
@@ -44,9 +46,9 @@ namespace Song.Site.Manage.Student
                 positon = config["StampPosition"].Value.String;
                 if (string.IsNullOrEmpty(positon)) positon = "right-bottom";
                 //取学员列表
-                if (sts == "-1")
+                if (string.IsNullOrWhiteSpace(sts) || sts == "-1")
                 {
-                    Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+                    Song.Entities.Accounts acc = accid > 0 ? Business.Do<IAccounts>().AccountsSingle(accid) : Extend.LoginState.Accounts.CurrentUser;
                     if (acc != null) accounts.Add(acc);
                 }
                 else
@@ -60,6 +62,10 @@ namespace Song.Site.Manage.Student
                     if (!string.IsNullOrEmpty(acc.Ac_Photo) && acc.Ac_Photo.Trim() != "")
                     {
                         acc.Ac_Photo = Upload.Get[_uppath].Virtual + acc.Ac_Photo;
+                    }
+                    if (!System.IO.File.Exists(acc.Ac_Photo))
+                    {
+                        acc.Ac_Photo = "";
                     }
                 }
                 //绑定

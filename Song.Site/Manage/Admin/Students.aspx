@@ -96,16 +96,19 @@
                 </ItemTemplate>
             </asp:TemplateField>--%>
             <asp:TemplateField HeaderText="启用/审核/密码">
-                <ItemStyle CssClass="center" Width="120px" />
+                <ItemStyle CssClass="center" Width="150px" />
                 <ItemTemplate>
                     <cc1:StateButton ID="sbUse" OnClick="sbUse_Click" runat="server" TrueText="启用" FalseText="禁用"
                         State='<%# Eval("Ac_IsUse","{0}")=="True"%>'></cc1:StateButton>/<cc1:StateButton
                             ID="sbPass" OnClick="sbPass_Click" runat="server" TrueText="通过" FalseText="未审"
-                            State='<%# Eval("Ac_IsPass","{0}")=="True"%>'></cc1:StateButton>/<a href="#" onclick="OpenWin('Student_Password.aspx?id=<%# Eval("Ac_id") %>','重置密码',400,300);return false;">修改</a>
+                            State='<%# Eval("Ac_IsPass","{0}")=="True"%>'></cc1:StateButton>/
+                            <a href="#" onclick="OpenWin('Student_Password.aspx?id=<%# Eval("Ac_id") %>','重置密码',400,300);return false;">修改</a>
+                            / <a href="../student/Students_Details.aspx?id=<%# Eval("Ac_id") %>" class="print_details" target="_blank">打印</a>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
     </cc1:GridView>
+     <iframe src="" id="iframeExportDetails" link="Students_Details.aspx?sts=-1" scrolling="auto" style="display:none;" height="30" width="100%"></iframe>
     <br />
     <uc2:Pager ID="Pager1" runat="server" Size="20" OnPageChanged="BindData" />
 </asp:Content>
