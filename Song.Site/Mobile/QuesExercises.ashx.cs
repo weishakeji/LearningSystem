@@ -36,7 +36,9 @@ namespace Song.Site.Mobile
             }
             if (course == null && couid > 0) course = Business.Do<ICourse>().CourseSingle(couid);
             //是否购买该课程
-            Song.Entities.Course couBuy = Business.Do<ICourse>().IsBuyCourse(couid, Extend.LoginState.Accounts.CurrentUser.Ac_ID, 1);
+            int accid = 0;
+            if (Extend.LoginState.Accounts.IsLogin) accid = Extend.LoginState.Accounts.CurrentUser.Ac_ID;
+            Song.Entities.Course couBuy = Business.Do<ICourse>().IsBuyCourse(couid, accid, 1);
             bool isBuy = couBuy != null;
             //是否购买，如果免费也算已经购买
             this.Document.SetValue("isBuy", isBuy || course.Cou_IsFree);

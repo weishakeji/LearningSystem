@@ -57,6 +57,13 @@ namespace Song.Extend.Login
             get { return _onlineUser; }
         }
         /// <summary>
+        /// 添加在线人数
+        /// </summary>
+        /// <param name="acc"></param>
+        public void OnlineUserAdd(Song.Entities.Accounts acc)
+        {
+        }
+        /// <summary>
         /// 在线用户数
         /// </summary>
         public int OnlineCount

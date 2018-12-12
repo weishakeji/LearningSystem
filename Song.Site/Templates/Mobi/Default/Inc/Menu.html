@@ -6,7 +6,7 @@
           <div class="accPhoto">
             <vt:if var="Account.Ac_photo" value="" compare="="> <img src="../images/nophoto.jpg"/>
               <vt:else/>
-              <a class="" href="../SelfInfo.ashx"> <img src="{$stpath}{$:#.Account.Ac_photo}" error="images/nophoto.jpg"/></a> </vt:if>
+              <a class="" href="../SelfInfo.ashx"> <img src="{$stpath}{$:#.Account.Ac_photo}" error="../images/nophoto.jpg"/></a> </vt:if>
           </div>
           <div class="accInfo">
             <div class="acc-name">

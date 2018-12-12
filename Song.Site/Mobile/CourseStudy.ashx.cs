@@ -23,6 +23,7 @@ namespace Song.Site.Mobile
             this.Document.SetValue("couid", couid);
             //当前课程
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            if (course == null) return;
             if (course != null)
             {
                 //是否免费，或是限时免费

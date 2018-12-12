@@ -161,10 +161,6 @@
     <Reference Include="URLRewriter">
       <HintPath>..\Lib\URLRewriter.dll</HintPath>
     </Reference>
-    <Reference Include="WeiSha.Common, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\WeiSha.Common.dll</HintPath>
-    </Reference>
     <Reference Include="WeiSha.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\WeiSha.Data.dll</HintPath>
@@ -5619,6 +5615,10 @@
     <Content Include="Manage\Welcome.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\WeiSha.Common\WeiSha.Common.csproj">
+      <Project>{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}</Project>
+      <Name>WeiSha.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
       <Project>{985A8268-3A87-46B9-9744-650664719E67}</Project>
       <Name>Song.Entities</Name>
