@@ -35,8 +35,8 @@ namespace Song.Site.Ajax
             Response.Expires = 0;
             Response.CacheControl = "no-cache";
             result =context. Server.UrlDecode(result);
-            this.Response.Write(initData());
-            Response.End();
+            this.Response.Write(initData());            
+            Response.Close();
         }
         /// <summary>
         /// 初始化常用数据

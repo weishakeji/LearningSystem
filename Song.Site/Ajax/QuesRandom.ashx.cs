@@ -32,7 +32,7 @@ namespace Song.Site.Ajax
             }
 
             context.Response.Write(tm);
-            context.Response.End();
+            context.Response.Close();
         }
         private string getAnserJson(Song.Entities.Questions q, string json)
         {

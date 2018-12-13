@@ -16,7 +16,8 @@ namespace Song.Extend.Login
 {
     public class Accounts
     {
-        private static readonly Accounts _singleton = new Accounts();
+        private static  Accounts _singleton = null;
+        private static readonly object _lockobj = new object();     
         //用于记录uid的cookie名称
         private readonly string _uid = "AccountsUID";
         /// <summary>
@@ -24,7 +25,20 @@ namespace Song.Extend.Login
         /// </summary>
         public static Accounts Singleton
         {
-            get { return _singleton; }
+            get
+            {
+                if (_singleton == null)
+                {
+                    lock (_lockobj)
+                    {
+                        if (_singleton == null)
+                        {
+                            _singleton = new Accounts();
+                        }
+                    }
+                }
+                return _singleton;
+            }
         }
         /// <summary>
         /// 登录时生成的随机字符串，用于区分学员每次不同的登录
@@ -49,19 +63,17 @@ namespace Song.Extend.Login
             }
         }
         private List<Song.Entities.Accounts> _onlineUser = new List<Song.Entities.Accounts>();
-        /// <summary>
-        /// 在线用户列表，用于缓存
-        /// </summary>
-        public List<Song.Entities.Accounts> OnlineUser
-        {
-            get { return _onlineUser; }
-        }
+        private static object _lock = new object();
         /// <summary>
         /// 添加在线人数
         /// </summary>
         /// <param name="acc"></param>
         public void OnlineUserAdd(Song.Entities.Accounts acc)
         {
+            lock (_lock)
+            {
+                this._onlineUser.Add(acc);
+            }
         }
         /// <summary>
         /// 在线用户数
@@ -89,16 +101,16 @@ namespace Song.Extend.Login
                 //首先从在线列表中取当前登录的用户
                 if (this._onlineUser.Count > 0)
                 {
-                    foreach (Song.Entities.Accounts em in this.OnlineUser)
+                    for (int i = this._onlineUser.Count - 1; i >= 0; i--)
                     {
-                        if (em == null) continue;
+                        Song.Entities.Accounts em = this._onlineUser[i];
                         if (em.Ac_ID == acid)
                         {
                             if (!WeiSha.Common.Browser.IsWeixin && em.Ac_CheckUID == uid)
                                 curr = em;
                             break;
                         }
-                    }
+                    }                    
                 }
                 //内存中没有的话就从数据库取
                 if (curr == null)
@@ -114,7 +126,7 @@ namespace Song.Extend.Login
                             curr = Business.Do<IAccounts>().AccountsSingle(acid, uid);
                         }
                     }
-                    if (curr != null) this._onlineUser.Add(curr);
+                    if (curr != null) this.OnlineUserAdd(curr);
                     //if (curr == null && acid > 0) this.Logout();    //如果没有用户但又有acid，则注销
                 }
                 return curr;
@@ -272,7 +284,7 @@ namespace Song.Extend.Login
                 new Field[] { Song.Entities.Accounts._.Ac_LastTime, Song.Entities.Accounts._.Ac_LastIP, Song.Entities.Accounts._.Ac_CheckUID },
                 new object[] { acc.Ac_LastTime, acc.Ac_LastIP, acc.Ac_CheckUID });
             //如果未登录，则注册进去
-            if (!isHav) this._onlineUser.Add(acc);
+            if (!isHav) this.OnlineUserAdd(acc);
         }
         /// <summary>
         /// 刷新某个登录账户的信息
@@ -281,16 +293,19 @@ namespace Song.Extend.Login
         public void Refresh(Song.Entities.Accounts st)
         {
             if (st == null) return;
-            //登录时间，该时间不入数据库，仅为临时使用
-            st.Ac_LastTime = DateTime.Now;
-            for (int i = 0; i < this._onlineUser.Count; i++)
+            lock (_lock)
             {
-                Song.Entities.Accounts e = this._onlineUser[i];
-                if (e == null) continue;
-                if (e.Ac_ID == st.Ac_ID)
+                //登录时间，该时间不入数据库，仅为临时使用
+                st.Ac_LastTime = DateTime.Now;
+                for (int i = 0; i < this._onlineUser.Count; i++)
                 {
-                    this._onlineUser[i] = st;
-                    break;
+                    Song.Entities.Accounts e = this._onlineUser[i];
+                    if (e == null) continue;
+                    if (e.Ac_ID == st.Ac_ID)
+                    {
+                        this._onlineUser[i] = st;
+                        break;
+                    }
                 }
             }
         }
@@ -330,6 +345,7 @@ namespace Song.Extend.Login
             }
             if (Accounts.LoginPattern == LoginPatternEnum.Session)
                 _context.Session.Abandon();
+            this.CleanOut(accid);
         }
         /// <summary>
         /// 清理超时用户
@@ -341,26 +357,34 @@ namespace Song.Extend.Login
             string exp = WeiSha.Common.Login.Get["Accounts"].Expires.String;
             if (!exp.Equals("auto", StringComparison.CurrentCultureIgnoreCase))
                 outTimeNumer = WeiSha.Common.Login.Get["Accounts"].Expires.Int32 ?? 10;
-
-            
-            List<Song.Entities.Accounts> _tm = new List<Song.Entities.Accounts>();
-            foreach (Song.Entities.Accounts em in this.OnlineUser)
+            lock (_lock)
             {
-                if (em == null) continue;
-                if (DateTime.Now < em.Ac_LastTime.AddMinutes(outTimeNumer))
-                    _tm.Add(em);                
+                for (int i = this._onlineUser.Count - 1; i >= 0; i--)
+                {
+                    Song.Entities.Accounts em = this._onlineUser[i];
+                    if (DateTime.Now < em.Ac_LastTime.AddMinutes(outTimeNumer))
+                    {
+                        this._onlineUser.RemoveAt(i);
+                    }
+                }
             }
-            this._onlineUser = _tm;
         }
         public void CleanOut(Song.Entities.Accounts acc)
         {
-            List<Song.Entities.Accounts> _tm = new List<Song.Entities.Accounts>();
-            foreach (Song.Entities.Accounts em in this.OnlineUser)
+            this.CleanOut(acc.Ac_ID);
+        }
+        public void CleanOut(int accid)
+        {
+            lock (_lock)
             {
-                if (em == null) continue;
-                if (em.Ac_ID != acc.Ac_ID) _tm.Add(em);
+                for (int i = this._onlineUser.Count - 1; i >= 0; i--)
+                {
+                    if (this._onlineUser[i].Ac_ID == accid)
+                    {
+                        this._onlineUser.RemoveAt(i);
+                    }
+                }              
             }
-            this._onlineUser = _tm;
         }
         /// <summary>
         /// 验证是否登录，没有登录，则跳转
