@@ -24,6 +24,7 @@ namespace Song.Site.Mobile
                 this.Response.Redirect("login.ashx");           
             //当前选中的课程
             Song.Entities.Course currCourse = Business.Do<ICourse>().CourseSingle(couid);
+            if (currCourse == null) return;
             if (currCourse != null)
             {
                 this.Document.SetValue("currCourse", currCourse);

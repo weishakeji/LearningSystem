@@ -37,7 +37,7 @@ namespace Song.Site.Json
             {
                 Response.Write(exr.Exr_Results);
             }  
-            Response.Close();
+            Response.End();
         }       
     }
 }

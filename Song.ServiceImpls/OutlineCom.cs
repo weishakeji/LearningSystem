@@ -436,15 +436,20 @@ namespace Song.ServiceImpls
         public Outline[] OutlineAll(int couid, bool? isUse)
         {
             //从缓存中读取
-            List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
-            if (list == null || list.Count < 1) list = this.OutlineBuildCache();
-            //linq查询
-            var from = from l in list select l;
-            if (couid > 0) from = from.Where<Outline>(p => p.Cou_ID == couid);
-            if (isUse != null) from = from.Where<Outline>(p => p.Ol_IsUse == (bool)isUse);
-            List<Outline> tm = from.OrderBy(c => c.Ol_Tax).ToList<Outline>();
-            if (tm.Count > 0) return tm.ToArray<Outline>();
-
+            try
+            {
+                List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
+                if (list == null || list.Count < 1) list = this.OutlineBuildCache();
+                //linq查询
+                var from = from l in list select l;
+                if (couid > 0) from = from.Where<Outline>(p => p.Cou_ID == couid);
+                if (isUse != null) from = from.Where<Outline>(p => p.Ol_IsUse == (bool)isUse);
+                List<Outline> tm = from.OrderBy(c => c.Ol_Tax).ToList<Outline>();
+                if (tm.Count > 0) return tm.ToArray<Outline>();
+            }
+            catch
+            {
+            }
             //orm查询
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(Outline._.Cou_ID == couid);

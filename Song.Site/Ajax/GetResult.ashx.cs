@@ -25,7 +25,7 @@ namespace Song.Site.Ajax
             Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingleForCache(examid, tpid, stid);
             if (exr == null) context.Response.Write("0");
             if (exr != null) context.Response.Write(getResult(exr.Exr_Results));
-            context.Response.Close();
+            context.Response.End();
         }
         /// <summary>
         /// 输出json

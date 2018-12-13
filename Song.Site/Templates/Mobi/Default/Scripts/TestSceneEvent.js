@@ -229,7 +229,7 @@ function submitResult(patter) {
                 window.isSubmit = false;
                 window.isSubmited = true;
             } catch (e) {
-                window.location.href = "TestPapers.ashx";
+                window.location.href = "TestPapers.ashx?couid=" + $().getPara("couid");
             }
         }
     });

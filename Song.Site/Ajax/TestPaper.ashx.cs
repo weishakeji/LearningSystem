@@ -19,7 +19,7 @@ namespace Song.Site.Ajax
             context.Response.ContentType = "text/plain";
             //Song.Entities.TestPaper tp = Business.Do<ITestPaper>().PagerSingle(tpid);
             context.Response.Write(randomJson());
-            context.Response.Close();
+            context.Response.End();
         }
         /// <summary>
         /// 随机出题

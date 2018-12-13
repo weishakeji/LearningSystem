@@ -20,7 +20,7 @@ namespace Song.Site.Ajax
             WeiSha.Common.Copyright<string, string> copyright = WeiSha.Common.Request.Copyright;
             string json = copyright.ToJson();
             context.Response.Write(json);
-            context.Response.Close();
+            context.Response.End();
         }
         public bool IsReusable
         {
