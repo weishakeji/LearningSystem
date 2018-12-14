@@ -20,7 +20,9 @@ namespace Song.Site.Manage
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            WeiSha.Common.PageCache cache = WeiSha.Common.PageCache.Get;
+            string path = this.Request.Url.PathAndQuery;
+
+            WeiSha.Common.PageCache cache = WeiSha.Common.PageCache.Get[path];
 
 
             //txt = _replacePath(txt, "body|link|script|img");

@@ -14,7 +14,7 @@
             <asp:DropDownList ID="ddlOrg" runat="server" Width="200" DataTextField="Org_Name"
                 DataValueField="Org_ID">
             </asp:DropDownList>
-            <asp:TextBox ID="tbSearch" runat="server" Width="60" MaxLength="10"></asp:TextBox>
+            <asp:TextBox ID="tbSearch" runat="server" Width="100" MaxLength="20"></asp:TextBox>
             <asp:Button ID="btnSear" runat="server" Width="40" Text="查询" OnClick="btnsear_Click" />
         </asp:Panel>
     </div>

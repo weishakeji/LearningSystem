@@ -23,6 +23,7 @@ namespace Song.Site.Manage.Student
             //学习卡设置项
             Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(card.Lcs_ID);
             this.EntityBind(set);
+
             //输出关联的课程
             Song.Entities.Course[] courses = Business.Do<ILearningCard>().CoursesGet(set);
             rptCourses.DataSource = courses;

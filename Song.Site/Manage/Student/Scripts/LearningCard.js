@@ -36,7 +36,7 @@ function use_card() {
                 for (var i = 0; i < data.items.length; i++) {
                     txt += (i + 1) + "、《" + data.items[i].Cou_Name + "》<br/>";
                 }
-                var msg = new top.MsgBox("学习卡使用成功", txt, 80, 40, "msg");
+                var msg = new top.MsgBox("学习卡使用成功", txt, 400, 300, "msg");
                 msg.ShowCloseBtn = false;
                 msg.OverEvent = function () {
                     top.document.location.href = top.document.location.href;
@@ -44,7 +44,7 @@ function use_card() {
                 msg.Open();
 
             } else {
-                var msg = new top.MsgBox("学习卡使用失败", data.info, 80, 40, "msg");
+                var msg = new top.MsgBox("学习卡使用失败", data.info, 400, 300, "msg");
                 msg.ShowCloseBtn = false;
                 msg.Open();                
                 $("#card-error").text(data.info);

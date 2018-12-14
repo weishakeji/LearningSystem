@@ -29,7 +29,7 @@
                         </div>
                         <div class="itemBtn">
                             <asp:LinkButton ID="lbSelected" CssClass='<%# Convert.ToBoolean(Eval("Cou_IsStudy")) ? "selected" : "noselect"%>'
-                                runat="server" CommandArgument='<%# Eval("Cou_ID") %>' OnClick="lbSelected_Click">
+                                runat="server" CommandArgument='<%# Eval("Cou_ID") %>' OnClick="lbSelected_Click" Visible="false">
                             
                             <%# Convert.ToBoolean(Eval("Cou_IsStudy")) ? "放弃学习" : "我要学习"%>
                             </asp:LinkButton>

@@ -18,6 +18,14 @@
         </tr>
         <tr>
             <td class="right">
+                名称：
+            </td>
+            <td>
+                <asp:Label ID="Lcs_Theme" runat="server" Text=""></asp:Label>
+            </td>
+        </tr>
+        <tr>
+            <td class="right">
                 面额：
             </td>
             <td>
