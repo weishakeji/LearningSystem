@@ -9,50 +9,66 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using WeiSha.Common;
+
 using Song.ServiceInterfaces;
 using Song.Entities;
-using WeiSha.WebControl;
 using System.Collections.Generic;
 
-namespace Song.Site.Manage.Student
+
+
+namespace Song.Site.Manage.Admin
 {
-    public partial class Course_Study : Extend.CustomPage
+    public partial class Students_Courses : Extend.CustomPage
     {
+        //学员id
+        protected int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
+        //员工上传资料的所在路径
         private string _uppath = "Course";
-        Song.Entities.Organization org;
         //学习记录的datatable
         DataTable dtLog = null;
+        Song.Entities.Organization org;
         protected void Page_Load(object sender, EventArgs e)
         {
-            Song.Entities.Accounts st = this.Master.Account;
-            if (st == null) return;
             org = Business.Do<IOrganization>().OrganCurrent();
-            dtLog = Business.Do<IStudent>().StudentStudyCourseLog(org.Org_ID, this.Master.Account.Ac_ID);
+            dtLog = Business.Do<IStudent>().StudentStudyCourseLog(org.Org_ID, id);
             if (!this.IsPostBack)
-            {  
-                BindData(null, null);
+            {
+                fill();
             }
+           
         }
-        /// <summary>
-        /// 绑定列表
-        /// </summary>
-        protected void BindData(object sender, EventArgs e)
+        private void fill()
         {
             //当前学生的课程
-            Song.Entities.Accounts st = this.Master.Account;
+            Song.Entities.Accounts st = Business.Do<IAccounts>().AccountsSingle(id);
             if (st == null) return;
             //购买的课程(含概试用的）
-            List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(st.Ac_ID, null, 1,null,-1);
+            List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(st.Ac_ID, null, 0, null, -1);
             foreach (Song.Entities.Course c in cous)
             {
                 //课程图片
                 if (!string.IsNullOrEmpty(c.Cou_LogoSmall) && c.Cou_LogoSmall.Trim() != "")
-                    c.Cou_LogoSmall = Upload.Get[_uppath].Virtual + c.Cou_LogoSmall;                    
+                    c.Cou_LogoSmall = Upload.Get[_uppath].Virtual + c.Cou_LogoSmall;
                 c.Cou_IsStudy = true;
             }
             rptCourse.DataSource = cous;
             rptCourse.DataBind();
-            plNoCourse.Visible = cous.Count < 1;           
+            plNoCourse.Visible = cous.Count < 1;     
+        }
+        #region 行内需要的方法
+        /// <summary>
+        /// 取消课程学习
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void lbSelected_Click(object sender, EventArgs e)
+        {
+            LinkButton lb = (LinkButton)sender;
+            int couid = Convert.ToInt32(lb.CommandArgument);    //课程id 
+            //取消课程
+            Business.Do<ICourse>().DelteCourseBuy(id, couid);
+            //重载当前面
+            this.fill();
         }
         /// <summary>
         /// 获取课程的购买信息
@@ -63,26 +79,11 @@ namespace Song.Site.Manage.Student
         {
             int couid = 0;
             int.TryParse(id.ToString(), out couid);
-            Student_Course sc= Business.Do<ICourse>().StudyCourse(Extend.LoginState.Accounts.CurrentUser.Ac_ID, couid);
+            Student_Course sc = Business.Do<ICourse>().StudyCourse(Extend.LoginState.Accounts.CurrentUser.Ac_ID, couid);
             if (sc == null) return "";
             if (sc.Stc_IsFree) return "免费（无限期）";
             if (sc.Stc_IsTry) return "试用";
             return sc.Stc_StartTime.ToString("yyyy年MM月dd日") + " - " + sc.Stc_EndTime.ToString("yyyy年MM月dd日");
-        }
-        /// <summary>
-        /// 取消课程学习
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void lbSelected_Click(object sender, EventArgs e)
-        {
-            LinkButton lb = (LinkButton)sender;            
-            int couid = Convert.ToInt32(lb.CommandArgument);    //课程id            
-            Song.Entities.Accounts st = this.Master.Account;     //当前学生       
-            //取消
-            Business.Do<ICourse>().DelteCourseBuy(st.Ac_ID, couid);
-            //重载当前面
-            this.BindData(null, null);
         }
         /// <summary>
         /// 计算累计学习时间
@@ -128,6 +129,30 @@ namespace Song.Site.Manage.Student
             }
         }
         /// <summary>
+        /// 课程完成度
+        /// </summary>
+        /// <param name="studyTime"></param>
+        /// <returns></returns>
+        protected string GetComplete(string couid)
+        {
+            string complete = "0";
+            if (dtLog != null)
+            {
+                foreach (DataRow dr in dtLog.Rows)
+                {
+                    if (dr["Cou_ID"].ToString() == couid)
+                    {
+                        complete = dr["complete"].ToString();
+                    }
+                }
+                return complete;
+            }
+            else
+            {
+                return "";
+            }
+        }
+        /// <summary>
         /// 获取最后学习时间
         /// </summary>
         /// <param name="couid"></param>
@@ -157,7 +182,8 @@ namespace Song.Site.Manage.Student
         {
             int couid = 0;
             int.TryParse(couidstr, out couid);
-            return Business.Do<ICourse>().StudyCourse(this.Master.Account.Ac_ID, couid);
+            return Business.Do<ICourse>().StudyCourse(id, couid);
         }
+        #endregion
     }
 }

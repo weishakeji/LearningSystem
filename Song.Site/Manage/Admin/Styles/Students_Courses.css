@@ -1,0 +1,134 @@
+﻿@charset "utf-8";
+body {
+}
+.itemTitle{
+	font-size: 16px;
+	line-height: 30px;
+	font-weight: bold;
+	background-color: #CCC;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	text-indent: 10px;
+	position:relative;
+}
+#btnPrint
+{
+    float:right;
+    margin-top:5px;
+    margin-right:5px;
+}
+.item
+{
+	height: 135px;
+	width: 98%;
+	margin-top: 5px;
+	margin-right: 5px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCC;
+}
+.isTry{
+	
+}
+.isFree{
+	
+}
+.item .logo{
+	height: 133px;
+	width: 210px;
+	float:left;
+}
+.item img
+{
+	margin: 5px;
+	height: 123px;
+	width: 200px;
+	cursor:pointer;
+}
+.courseName{
+	font-family: "黑体", "微软雅黑";
+	font-size: 15px;
+	line-height: 30px;
+	font-weight: bold;
+}
+.item .itemName{
+	line-height: 22px;
+	white-space: nowrap;
+	height: 22px;
+	overflow: hidden;
+}
+.item .itemName span
+{
+    margin-right:20px;	
+}
+/*取消课程学习的按钮样式*/
+.item a.selected{
+	color: #0033FF;
+	border: 1px solid #FF6600;
+	background-color: #FFFFCC;
+	color: #FF3300;
+}
+/*继续按钮*/
+.item a.btnStudy{
+	color: #0033FF;
+	border: 1px solid #0066FF;
+	background-color: #66FFFF;
+	color: #0033CC;
+}
+.itemBtn a{
+	line-height: 25px;
+	white-space: nowrap;
+	height: 25px;
+	cursor:pointer;
+	display: inline-block;
+	position: relative;
+	margin: 5px;
+	padding: 0 20px;
+	text-align: center;
+	text-decoration: none;
+	font: bold 12px/25px Arial, sans-serif;
+
+	text-shadow: 1px 1px 1px rgba(255,255,255, .22);
+
+	-webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+
+	-webkit-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	-moz-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+	box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+
+	-webkit-transition: all 0.15s ease;
+	-moz-transition: all 0.15s ease;
+	-o-transition: all 0.15s ease;
+	-ms-transition: all 0.15s ease;
+	transition: all 0.15s ease;
+	
+}
+.infoBox{
+	height: 133px;
+}
+/*
+学习记录详情按钮
+*/
+.logDetails{
+	cursor: pointer;
+	width:80px;
+	border: 1px solid #0066FF;
+	background-color: #A8DEEE;
+	color: #0066FF;
+	float:right;
+	height:20px;
+	text-align:center;
+}
+.noCourse{
+	font-size: 16px;
+	line-height: 30px;
+	font-weight: bold;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	text-align: center;
+}

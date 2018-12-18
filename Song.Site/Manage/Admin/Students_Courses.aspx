@@ -1,13 +1,16 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Manage/Student/Parents.Master" AutoEventWireup="true"
-    CodeBehind="Course_Study.aspx.cs" Inherits="Song.Site.Manage.Student.Course_Study"
-    Title="课程列表" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Manage/PageWin.Master" AutoEventWireup="true"
+    CodeBehind="Students_Courses.aspx.cs" Inherits="Song.Site.Manage.Admin.Students_Courses"
+    Title="学员课程" %>
 
-<%@ MasterType VirtualPath="~/Manage/Student/Parents.Master" %>
+<%@ MasterType VirtualPath="~/Manage/PageWin.Master" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
+<%@ Register Assembly="WeiSha.WebEditor" Namespace="WeiSha.WebEditor" TagPrefix="WebEditor" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
-    <div class="itemBox">
+<div class="itemBox">
         <div class="itemTitle">
-            已经选修的课程</div>
+            已经选修的课程
+            <input id="btnPrint" type="button" value=" 打 印 " href="../student/Students_Details.aspx?id=<%= id %>" />
+            </div>
         <asp:Repeater ID="rptCourse" runat="server">
             <ItemTemplate>
                 <div class="item" isfree="<%# GetStc(Eval("Cou_ID","{0}")).Stc_IsFree %>" istry="<%# GetStc(Eval("Cou_ID","{0}")).Stc_IsTry %>">
@@ -22,19 +25,19 @@
                         <div class="itemName">
                           课程期限：<%# getBuyInfo(Eval("Cou_ID"))%></div>
                         <div class="itemName">
-                            最近学习时间：<%# GetLastTime(Eval("Cou_ID", "{0}"))%>  
-                            &nbsp;&nbsp;累计学习时间：<%# GetstudyTime(Eval("Cou_ID", "{0}"))%>
-                            &nbsp; <a href="#" class="logDetails" onclick="OpenWin('../student/StudyLog_Details.aspx?couid=<%# Eval("Cou_ID")%>',' 《<%# Eval("Cou_Name")%>》的学习情况',980,80);return false;">
-                                详情</a>
+                            <span>最近学习时间：<%# GetLastTime(Eval("Cou_ID", "{0}"))%>  </span>
+                            <span>累计学习时间：<%# GetstudyTime(Eval("Cou_ID", "{0}"))%>  </span>
+                            <span>完成度：<%# GetComplete(Eval("Cou_ID", "{0}"))%>%  </span>
+                            <a href="#" class="logDetails" onclick="OpenWin('../student/StudyLog_Details.aspx?couid=<%# Eval("Cou_ID")%>',' 《<%# Eval("Cou_Name")%>》',980,80);return false;">
+                                查看详情</a>
                         </div>
                         <div class="itemBtn">
                             <asp:LinkButton ID="lbSelected" CssClass='<%# Convert.ToBoolean(Eval("Cou_IsStudy")) ? "selected" : "noselect"%>'
-                                runat="server" CommandArgument='<%# Eval("Cou_ID") %>' OnClick="lbSelected_Click" Visible="false">
+                                runat="server" CommandArgument='<%# Eval("Cou_ID") %>' OnClick="lbSelected_Click" Visible="true">
                             
-                            <%# Convert.ToBoolean(Eval("Cou_IsStudy")) ? "放弃学习" : "我要学习"%>
+                            <%# Convert.ToBoolean(Eval("Cou_IsStudy")) ? "放弃学习" : "没有学习"%>
                             </asp:LinkButton>
-                            <a href="/course.ashx?id=<%# Eval("Cou_ID") %>" target="_blank" class="btnStudy">继续学习
-                            </a>
+                           
                         </div>
                     </div>
                 </div>
@@ -42,8 +45,13 @@
             </ItemTemplate>
         </asp:Repeater>
         <asp:Panel ID="plNoCourse" runat="server" Visible="false">
-        <div class="noCourse">您还没有选修任何课程</div>
+        <div class="noCourse">该学员未选修任何课程</div>
         </asp:Panel>
     </div>
     
+       <iframe src="" id="iframeExportDetails" link="Students_Details.aspx?sts=-1" scrolling="auto" style="display:none;" height="30" width="100%"></iframe>  
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">
+    
+    <cc1:CloseButton ID="CloseButton1" runat="server" />
 </asp:Content>

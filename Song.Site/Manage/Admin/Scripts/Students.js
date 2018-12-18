@@ -1,25 +1,5 @@
 ﻿$(function () {
-    //打印详情的按钮事件
-    $("a.print_details").click(function () {
-        var href=$(this).attr("href");
-        var iframe = $("#iframeExportDetails");
-        iframe.attr("src", href);
-        return false;
-    });
-    //主管理区加载完成事件
-    $("#iframeExportDetails").load(function () {
-        var iframe = $(this)[0];
-        var bHeight = iframe.contentWindow.document.body.scrollHeight;
-        var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
-        var height = Math.max(bHeight, dHeight);
-        iframe.height = height;
-        //
-        var frameWindow = $(this)[0].contentWindow;
-        frameWindow.close();
-        frameWindow.focus();
-        frameWindow.print();
-        $("input[name$=btnOutput]").removeAttr("disabled");
-    });
+    
 });
 //导入
 function OnInput() {

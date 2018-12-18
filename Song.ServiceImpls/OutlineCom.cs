@@ -27,24 +27,44 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void OutlineAdd(Outline entity)
         {
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            if (org != null) entity.Org_ID = org.Org_ID;                
-            //所属专业
-            if (entity.Sbj_ID <= 0 && entity.Cou_ID>0)
+            using (DbTrans tran = Gateway.Default.BeginTrans())
             {
-                Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(entity.Cou_ID);
-                entity.Sbj_ID = cou.Sbj_ID;
+                try
+                {
+                    if (entity.Org_ID <= 0)
+                    {
+                        Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                        if (org != null) entity.Org_ID = org.Org_ID;
+                    }                    
+                    //所属专业
+                    if (entity.Sbj_ID <= 0 && entity.Cou_ID > 0)
+                    {
+                        Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(entity.Cou_ID);
+                        entity.Sbj_ID = cou.Sbj_ID;
+                    }
+                    //计算排序号
+                    object obj = tran.Max<Outline>(Outline._.Ol_Tax, Outline._.Cou_ID == entity.Cou_ID && Outline._.Ol_PID == entity.Ol_PID);
+                    entity.Ol_Tax = obj is int ? (int)obj + 1 : 1;
+                    if (string.IsNullOrWhiteSpace(entity.Ol_UID))
+                        entity.Ol_UID = WeiSha.Common.Request.UniqueID();
+                    ////层级
+                    //entity.Ol_Level = _ClacLevel(entity);
+                    //entity.Ol_XPath = _ClacXPath(entity);
+                    tran.Save<Outline>(entity);                   
+                    tran.Commit();
+                    this.OnSave(null, EventArgs.Empty);
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    tran.Close();
+                }
             }
-            //计算排序号
-            object obj = Gateway.Default.Max<Outline>(Outline._.Ol_Tax, Outline._.Cou_ID == entity.Cou_ID && Outline._.Ol_PID == entity.Ol_PID);
-            entity.Ol_Tax = obj is int ? (int)obj + 1 : 1;
-            if (string.IsNullOrWhiteSpace(entity.Ol_UID))
-                entity.Ol_UID = WeiSha.Common.Request.UniqueID();
-            //层级
-            entity.Ol_Level = _ClacLevel(entity);
-            entity.Ol_XPath = _ClacXPath(entity);
-            Gateway.Default.Save<Outline>(entity);
-            this.OnSave(null, EventArgs.Empty);
+            
         }
         /// <summary>
         /// 批量添加章节，可用于导入时

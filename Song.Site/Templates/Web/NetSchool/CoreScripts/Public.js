@@ -9,6 +9,9 @@ $(function () {
         $(this).attr("src", errImg);
     });
 });
+$(window).load(function () {
+    //alert(3);
+});   //
 
 //顶部右上方的下拉菜单
 function RightMenuDrop() {

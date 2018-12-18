@@ -199,6 +199,7 @@
     <Content Include="License.aspx" />
     <Content Include="Manage\Admin\Courses.aspx" />
     <Content Include="Manage\Admin\Departs_Edit.aspx" />
+    <Content Include="Manage\Admin\Scripts\Students_Courses.js" />
     <Content Include="Manage\Admin\Scripts\Student_Export.js" />
     <Content Include="Manage\Admin\Scripts\Setup_Stamp.js" />
     <Content Include="Manage\Admin\Student_Export.aspx" />
@@ -211,6 +212,7 @@
     <Content Include="Manage\Admin\Styles\Courses.css" />
     <Content Include="Manage\Admin\CourseHot.aspx" />
     <Content Include="Manage\Admin\Departs.aspx" />
+    <Content Include="Manage\Admin\Styles\Students_Courses.css" />
     <Content Include="Manage\Admin\Styles\Navigation.css" />
     <Content Include="Manage\Admin\Styles\Navigation_Edit.css" />
     <Content Include="Manage\Admin\ShowPicture.aspx" />
@@ -223,6 +225,7 @@
     <Content Include="Manage\Admin\Styles\Setup_Accounts.css" />
     <Content Include="Manage\Admin\Setup_Qrcode.aspx" />
     <Content Include="Manage\Admin\Styles\Setup_Stamp.css" />
+    <Content Include="Manage\Admin\Students_Courses.aspx" />
     <Content Include="Manage\Card\Learningcard.aspx" />
     <Content Include="Manage\Card\Learningcard_Edit.aspx" />
     <Content Include="Manage\Card\Learningcard_Code.aspx" />
@@ -2363,6 +2366,13 @@
     </Compile>
     <Compile Include="Manage\Admin\Setup_Qrcode.aspx.designer.cs">
       <DependentUpon>Setup_Qrcode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Admin\Students_Courses.aspx.cs">
+      <DependentUpon>Students_Courses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Admin\Students_Courses.aspx.designer.cs">
+      <DependentUpon>Students_Courses.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Card\Learningcard.aspx.cs">
       <DependentUpon>Learningcard.aspx</DependentUpon>
