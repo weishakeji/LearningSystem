@@ -78,7 +78,7 @@
     <!--按钮开始-->
     <vt:if var="Account.Ac_id" value="0" compare=">">
           <vt:if var="isStudy" value="True" compare="=" remark="如果已经在学习了">          
-              <div class="couBtn"> <a href="CourseStudy.ashx?couid={$course.cou_id}" target="_top" class="bvr_mr" title="开始学习">开始学习</a></div>         
+              <div class="couBtn"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" class="bvr_mr" title="开始学习">开始学习</a></div>         
             <vt:else/>
              <vt:if var="course.cou_isfree" value="true" compare="=" remark="课程免费">
              <div class="couBtn study"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" class="bvr_mr" title="开始学习">开始学习</a></div>
