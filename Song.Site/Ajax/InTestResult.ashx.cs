@@ -20,11 +20,7 @@ namespace Song.Site.Ajax
         //答题结果的xml对象
         private XmlDocument resXml = new XmlDocument();
         public HttpResponse Response;
-        public HttpRequest Request;
-        [DllImport("Iphlpapi.dll")]
-        private static extern int SendARP(Int32 dest, Int32 host, ref Int64 mac, ref Int32 length);
-        [DllImport("Ws2_32.dll")]
-        private static extern Int32 inet_addr(string ip);
+        public HttpRequest Request;       
         public void ProcessRequest (HttpContext context) {
             context.Response.ContentType = "text/plain";
             Response = context.Response;
@@ -86,7 +82,7 @@ namespace Song.Site.Ajax
             exr.Sts_ID = stid;
             exr.Sts_Name = stsname;
             exr.Tr_IP = WeiSha.Common.Browser.IP;
-            exr.Tr_Mac = getMac();
+            exr.Tr_Mac = "";
             exr.Tr_UID = uid;
             exr.Tr_Results = result;
             exr.Tr_Score = score;
@@ -101,36 +97,7 @@ namespace Song.Site.Ajax
             return json;
             
         }
-        /// <summary>
-        /// 获取Mac地址
-        /// </summary>
-        /// <returns></returns>
-        private string getMac()
-        {
-            try
-            {
-                string userip = Request.UserHostAddress;
-                string strClientIP = Request.UserHostAddress.ToString().Trim();
-                Int32 ldest = inet_addr(strClientIP); //目的地的ip 
-                Int32 lhost = inet_addr("");   //本地服务器的ip 
-                Int64 macinfo = new Int64();
-                Int32 len = 6;
-                int res = SendARP(ldest, 0, ref macinfo, ref len);
-                string mac_src = macinfo.ToString("X");
-                while (mac_src.Length < 12) mac_src = mac_src.Insert(0, "0");
-                string mac_dest = "";
-                for (int i = 0; i < 11; i++)
-                {
-                    if (0 == (i % 2))
-                        mac_dest = i == 10 ? mac_dest.Insert(0, mac_src.Substring(i, 2)) : "-" + mac_dest.Insert(0, mac_src.Substring(i, 2));
-                }
-                return mac_dest;
-            }
-            catch
-            {
-                return "";
-            }
-        }
+
         /// <summary>
         /// 获取属性
         /// </summary>
