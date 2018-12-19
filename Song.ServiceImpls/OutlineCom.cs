@@ -533,6 +533,46 @@ namespace Song.ServiceImpls
             }
 
         }
+        /// <summary>
+        /// 清理无效章节
+        /// </summary>
+        /// <param name="couid">课程ID</param>
+        /// <returns></returns>
+        public int OutlineCleanup(int couid)
+        {
+            WhereClip wc = new WhereClip();
+            if (couid > 0) wc &= Outline._.Cou_ID == couid;
+            List<Song.Entities.Outline> outs = Gateway.Default.From<Outline>().Where(wc && Outline._.Ol_PID != 0).ToList<Outline>();
+            int count = 0;
+            foreach (Outline o in outs)
+            {
+                using (DbTrans tran = Gateway.Default.BeginTrans())
+                {
+                    try
+                    {
+                        int num = tran.Count<Outline>(Outline._.Ol_ID == o.Ol_PID);
+                        if (num <= 0)
+                        {
+                            //先清理学习记录
+                            tran.Delete<LogForStudentStudy>(LogForStudentStudy._.Ol_ID == o.Ol_ID);
+                            tran.Delete<Outline>(Outline._.Ol_ID == o.Ol_ID);
+                            tran.Commit();
+                            count++;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        throw ex;
+                    }
+                    finally
+                    {
+                        tran.Close();
+                    }
+                }
+            }
+            return count;
+        }
         private static object lock_cache_build = new object();
         /// <summary>
         /// 构建缓存

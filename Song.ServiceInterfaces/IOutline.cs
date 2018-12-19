@@ -81,7 +81,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程ID</param>
         /// <param name="names">多级名称</param>
         /// <returns></returns>
-        Outline OutlineSingle(int couid, List<string> names);
+        Outline OutlineSingle(int couid, List<string> names);        
         /// <summary>
         /// 当前章节下的所有子章节id
         /// </summary>
@@ -115,10 +115,16 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         DataTable OutlineTree(Song.Entities.Outline[] outlines);
         /// <summary>
-        /// 清除章节下试题
+        /// 清空章节下试题和附件
         /// </summary>
         /// <param name="identify"></param>
         void OutlineClear(int identify);
+        /// <summary>
+        /// 清理无效章节
+        /// </summary>
+        /// <param name="couid">课程ID</param>
+        /// <returns></returns>
+        int OutlineCleanup(int couid);
         /// <summary>
         /// 构建缓存
         /// </summary>

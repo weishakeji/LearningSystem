@@ -41,6 +41,9 @@ namespace Song.Site.Manage.Course
         /// </summary>
         protected void BindData(object sender, EventArgs e)
         {
+            //绑定之前先清理
+            Business.Do<IOutline>().OutlineCleanup(couid);
+            //
             Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, null);
             DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
             GridView1.DataSource = dt;
