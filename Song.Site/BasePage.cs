@@ -162,6 +162,9 @@ namespace Song.Site
                 context.Response.Redirect(gourl);
                 return;
             }
+            //计算树形的运算时间
+            DateTime beforDT = System.DateTime.Now;
+
             this.InitContext(context);  //初始化页面参数
             //输出数据
             this.LoadCurrentTemplate(); //装载当前页面的模板文档
@@ -204,6 +207,13 @@ namespace Song.Site
             //开始输出
             this.InitPageTemplate(context);
             this.Document.Render(this.Response.Output);
+
+            DateTime afterDT = System.DateTime.Now;
+            TimeSpan ts = afterDT.Subtract(beforDT);
+            if (ts.TotalMilliseconds >= 100)
+            {
+                WeiSha.Common.Log.Debug(this.GetType().Name, string.Format("页面输出,耗时：{0}ms", ts.TotalMilliseconds));
+            }
         }
         #endregion
 

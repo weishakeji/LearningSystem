@@ -484,6 +484,10 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public DataTable OutlineTree(Song.Entities.Outline[] outlines)
         {
+            //计算树形的运算时间
+            DateTime beforDT = System.DateTime.Now;
+            //WeiSha.Common.Log.Debug(this.GetType().Name, "---开始计算章节树形：" + beforDT.ToString("yyyy年MM月dd日 hh:mm:ss"));
+
             DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outlines);
             WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
             tree.IdKeyName = "OL_ID";
@@ -491,6 +495,14 @@ namespace Song.ServiceImpls
             tree.TaxKeyName = "Ol_Tax";
             tree.Root = 0;
             dt = tree.BuilderTree(dt);
+
+            DateTime afterDT = System.DateTime.Now;
+            TimeSpan ts = afterDT.Subtract(beforDT);
+            if (ts.TotalMilliseconds >= 500)
+            {
+                WeiSha.Common.Log.Debug(this.GetType().Name, string.Format("计算章节树形,耗时：{0}ms", ts.TotalMilliseconds));
+            }
+
             return  buildOutlineTree(dt, 0, 0, "");
         }
         /// <summary>

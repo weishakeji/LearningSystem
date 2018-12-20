@@ -54,14 +54,21 @@ namespace Song.Site.Student
                 }
                 else
                 {
+                    int accid = t.Ac_ID;
+                    string encrypt = WeiSha.Common.DataConvert.EncryptForBase64(accid.ToString());
+                    encrypt = System.Web.HttpUtility.UrlEncode(encrypt);
+                    HttpCookie cookie = new HttpCookie("findpw-acid", encrypt);
+                    cookie.Expires = DateTime.Now.AddHours(10);
+                    this.Response.Cookies.Add(cookie);
                     this.Response.Redirect(addPara(context.Request.Url.PathAndQuery, "step=3", "acc=" + acc));
                 }
             }
             //第三步，设置新密码
             if (step == 3)
             {
-                string acc = WeiSha.Common.Request.QueryString["acc"].String;
-                Song.Entities.Accounts st = Business.Do<IAccounts>().AccountsSingle(acc, this.Organ.Org_ID);
+                //string acc = WeiSha.Common.Request.QueryString["acc"].String;
+                int accid = WeiSha.Common.Request.Cookies["findpw-acid"].Decrypt().Int32 ?? 0;
+                Song.Entities.Accounts st = Business.Do<IAccounts>().AccountsSingle(accid);
                 this.Document.Variables.SetValue("st", st);
                 if (string.IsNullOrWhiteSpace(pw)) return;
                 if (!isCodeImg())

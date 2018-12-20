@@ -26,7 +26,7 @@ namespace Song.Site.Ajax
                 Song.Entities.Teacher t = teachers[i];
                 t.Th_Photo = Upload.Get["Teacher"].Virtual + t.Th_Photo;
                 t.Th_Intro = "";
-                tm += "" + t.ToJson();
+                tm += "" + t.ToJson(null, "Th_Pw,Th_IDCardNumber,Th_Qus,Th_Anwser");
                 if (i < teachers.Length - 1) tm += ",";
             }
             tm += "]}";
