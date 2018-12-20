@@ -1,6 +1,17 @@
 ﻿$(function () {
     tabEvent();
+	//生成课程二维码
+	var couid=$().getPara("id");
+	jQuery('#course-qrcode').qrcode({
+		render: "canvas", //也可以替换为table
+		width: 75,
+		height: 75,
+		foreground: "#666",
+		background: "#FFF",
+		text: $().getHostPath()+"Mobile/Course.ashx?id="+couid
+	});
 });
+
 //选项卡切换
 function tabEvent() {
     $(".tabArea").each(function (index, element) {

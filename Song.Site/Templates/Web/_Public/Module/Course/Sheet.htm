@@ -1,6 +1,6 @@
 ﻿<script type="text/javascript" src="Sheet.js?ver={$version}"></script>
 <link href="Sheet.css?ver={$version}" rel="stylesheet" type="text/css" />
-
+<script type="text/javascript" src="/Utility/CoreScripts/jquery.qrcode.min.js?ver={$version}"></script>
         <div class="navi-bar">
             <a href="/" class="nav-txt">首页</a> &gt; <a href="/courses.ashx" class="nav-txt">课程中心</a>
             &gt;
@@ -21,18 +21,27 @@
           <vt:else/>
           (当前课程不存在，可能是参数引用错误) </vt:if>
                 </div>
-                <div class="couNum">
+                <div class="headinfo">
+                <div class="couNum headrow">
                     <span>关注次数：</span>{$course.cou_viewNum}
                 </div>
-                <div class="couIntro">
-                    <span>学习目标：</span>
-                    <vt:function var="intro" method="ClearHtml" args="$course.Cou_Target" />
-                    {$:#.intro}
-                </div>
-                <div class="couTeacer">
+               
+                    <div id="course-qrcode"></div>
+                
+                <div class="couTeacer headrow">
                     <span>主讲老师： </span>{$course.th_name}
                 </div>
-                <div class="couMoney">
+                <div class="bdsharebuttonbox">
+                    <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"
+                        title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">
+                    </a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren"
+                        data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin"
+                            title="分享到微信"></a>
+                </div>
+                <script type="text/javascript" language="javascript">                    window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)]; 
+                </script>
+                </div>
+                <div class="couMoney headrow">
                     <span>学习费用：</span>
                     <vt:if var="course.cou_isfree" value="true" compare="=">
                      <span class="moneyfree"><span class="moneyico">&#xe746;</span> <span> 免费</span></span>
@@ -49,15 +58,7 @@
          
         </vt:if>
                 </div>
-                <div class="bdsharebuttonbox">
-                    <a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"
-                        title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博">
-                    </a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren"
-                        data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin"
-                            title="分享到微信"></a>
-                </div>
-                <script type="text/javascript" language="javascript">                    window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "24" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)]; 
-                </script>
+                
                 <div class="couBtnBox">
                     <!--按钮开始-->
                     <vt:if var="Account.Ac_id" value="0" compare=">">
@@ -99,6 +100,11 @@
                 <div class="tab-context">
                     <!--课程介绍-->
                     <div class="introBox">
+                     <vt:if var="intro" value="" compare="!="  remark="学习目标">
+                    <span>学习目标：</span>
+                    <vt:function var="intro" method="ClearHtml" args="$course.Cou_Target" />
+                    <div class="couIntro">{$:#.intro}</div>
+                    </vt:if> 
                         {$course.cou_intro}
                     </div>
                     <!--章节列表-->

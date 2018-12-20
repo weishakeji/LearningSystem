@@ -1400,6 +1400,7 @@
     <Content Include="Utility\CoreScripts\hanzi2pinyin.js" />
     <Content Include="Utility\CoreScripts\highcharts-3d.js" />
     <Content Include="Utility\CoreScripts\highcharts.js" />
+    <Content Include="Utility\CoreScripts\jquery.qrcode.min.js" />
     <Content Include="Utility\CoreScripts\PageBox.js" />
     <Content Include="Utility\CoreStyles\MessageBox.css" />
     <Content Include="Templates\Web\NetSchool\Styles\News.css" />

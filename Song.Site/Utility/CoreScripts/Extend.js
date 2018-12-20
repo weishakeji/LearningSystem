@@ -279,7 +279,14 @@ jQuery.fn.getFileName = function () {
     var filename = url.substr(pos + 1);
     filename = filename.substr(0, filename.indexOf("."))
     return filename;
-}
+};
+//获取根路径
+jQuery.fn.getHostPath = function () {
+    var url = window.location.href;
+    var pathName = window.document.location.pathname;
+    var localhostPath = url.substring(0, url.indexOf(pathName)+1);
+    return localhostPath;
+};
 //在线浏览pdf文件
 jQuery.fn.PdfViewer = function (file) {
     var viewer = "/Utility/PdfViewer/viewer.html";

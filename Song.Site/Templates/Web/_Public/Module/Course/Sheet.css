@@ -34,17 +34,20 @@
 	font-weight: bolder;
 	color: #000000;
 	display: table;
+	margin-bottom:10px;
 }
-#couHead .headRight .couIntro {
+#couHead .headRight .headrow{
 	font-size: 16px;
-	line-height: 25px;
-	max-height: 75px;
-	margin-top: 10px;
-	overflow: hidden;
-	margin-bottom: 10px;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-line-clamp: 3;
+}
+.headinfo{
+	position: relative;
+	height:100px;
+	padding-left:90px;
+}
+#couHead .headRight #course-qrcode {
+	position: absolute;
+	top: 6px;
+	left: 0px;
 }
 .couIntro *, .couIntro a, .couIntro p, .couIntro div {
 	font-size: 16px !important;
