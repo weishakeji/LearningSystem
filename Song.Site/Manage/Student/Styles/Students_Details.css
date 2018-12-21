@@ -3,6 +3,7 @@
  size: A4 portrait;
  margin:2cm;
  margin-top:1cm;
+ margin-bottom:1cm;
 }
 @media all {
 .page {
