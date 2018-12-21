@@ -123,6 +123,7 @@ function pay_scene() {
     var ismini = $().isWeixinApp(); //是否处于微信小程序
     $(".payitem").each(function (index, element) {
         var scene = $(this).attr("scene");
+		scene = scene.replace(/\s+/g,"");
         if ($.trim(scene) == "") return true;
         var arr = scene.split(",");
         //如果处在微信中
