@@ -14,9 +14,9 @@
             <asp:DropDownList ID="ddlSort" runat="server" Width="80" DataTextField="Sts_Name"
                 DataValueField="Sts_ID">
             </asp:DropDownList>
-            账号：<asp:TextBox ID="tbAccName" runat="server" Width="60" MaxLength="10"></asp:TextBox>
+            账号：<asp:TextBox ID="tbAccName" runat="server" Width="80" MaxLength="100"></asp:TextBox>
             姓名：<asp:TextBox ID="tbName" runat="server" Width="50" MaxLength="10"></asp:TextBox>
-            手机号：<asp:TextBox ID="tbPhone" runat="server" Width="80" MaxLength="11"></asp:TextBox><asp:Button
+            手机号：<asp:TextBox ID="tbPhone" runat="server" Width="80" MaxLength="20"></asp:TextBox><asp:Button
                 ID="btnSear" runat="server" Width="40" Text="查询" OnClick="btnsear_Click" />
         </asp:Panel>
     </div>

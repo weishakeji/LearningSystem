@@ -17,7 +17,10 @@ namespace Song.Site.Manage.Student
 {
     public partial class StudyLog_Details : Extend.CustomPage
     {
+        //¿Î³Ìid
         private int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
+        //Ñ§Ô±id
+        private int acid = WeiSha.Common.Request.QueryString["acid"].Int32 ?? Extend.LoginState.Accounts.CurrentUserId;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -31,7 +34,7 @@ namespace Song.Site.Manage.Student
         /// </summary>
         protected void BindData(object sender, EventArgs e)
         {
-            DataTable dt = Business.Do<IStudent>().StudentStudyOutlineLog(couid, Extend.LoginState.Accounts.CurrentUser.Ac_ID);
+            DataTable dt = Business.Do<IStudent>().StudentStudyOutlineLog(couid, acid);
             if (dt != null)
             {
                 WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();

@@ -2,11 +2,19 @@
 @page {
  size: A4 portrait;
  margin:2cm;
+ margin-top:1cm;
 }
 @media all {
 .page {
-	page-break-inside: avoid;
+
 	position:relative;
+}
+.page-title{
+	height: 40px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 25px;
+	font-weight: bold;
 }
 select {
 	display: none;
@@ -17,6 +25,7 @@ select {
 	z-index:1000;
 	opacity:0.8;
 	filter:alpha(opacity=80); 
+	page-break-inside: avoid;
 }
 
 .left-top{
@@ -79,11 +88,13 @@ table td.left {
 /**/
 table.firtst {
 	page-break-after: avoid;
+	height:29cm;
 }
 /*课程学习情况*/
 .rtpLearnInfo {
 	min-height:400px;
 	padding:10px;
+	page-break-inside: avoid;
 }
 .rtpLearnInfo dt, dd{
 	line-height:35px;	
@@ -106,6 +117,7 @@ table.firtst {
 /*课程详情区域*/
 .info-area{
 	position:relative;
+	page-break-inside: avoid;
 }
 .info-foot{
 	position:absolute;

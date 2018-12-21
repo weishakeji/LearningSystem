@@ -8,7 +8,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
 <div class="itemBox">
         <div class="itemTitle">
-            已经选修的课程
+            
+    <asp:Label ID="lbAccName" runat="server" Text=""></asp:Label> 选修的课程
             <input id="btnPrint" type="button" value=" 打 印 " href="../student/Students_Details.aspx?id=<%= id %>" />
             </div>
         <asp:Repeater ID="rptCourse" runat="server">
@@ -23,12 +24,12 @@
                             <a href="/Courses.ashx?sbj=<%# Eval("Sbj_ID","{0}") %>" target="_blank">
                                 <%# Eval("sbj_Name","[专业：{0}]") %></a></div>
                         <div class="itemName">
-                          课程期限：<%# getBuyInfo(Eval("Cou_ID"))%></div>
+                          课程期限：<%# Eval("Cou_ID", "{0}")%><%# getBuyInfo(Eval("Cou_ID"))%></div>
                         <div class="itemName">
                             <span>最近学习时间：<%# GetLastTime(Eval("Cou_ID", "{0}"))%>  </span>
                             <span>累计学习时间：<%# GetstudyTime(Eval("Cou_ID", "{0}"))%>  </span>
                             <span>完成度：<%# GetComplete(Eval("Cou_ID", "{0}"))%>%  </span>
-                            <a href="#" class="logDetails" onclick="OpenWin('../student/StudyLog_Details.aspx?couid=<%# Eval("Cou_ID")%>',' 《<%# Eval("Cou_Name")%>》',980,80);return false;">
+                            <a href="#" class="logDetails" onclick="OpenWin('../student/StudyLog_Details.aspx?couid=<%# Eval("Cou_ID")%>&acid=<%= id %>',' 《<%# Eval("Cou_Name")%>》',980,80);return false;">
                                 查看详情</a>
                         </div>
                         <div class="itemBtn">

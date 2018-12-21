@@ -19,7 +19,9 @@
     </asp:DropDownList>
     <asp:Repeater ID="rptAccounts" runat="server" OnItemDataBound="rptAccounts_ItemDataBound">
         <ItemTemplate>
-            <div class="page" style="page-break-after: always"><asp:Image ID="imgStamp" runat="server" />
+            <div class="page"><asp:Image ID="imgStamp" runat="server" />
+            <div class="page-title">学习证明</div>
+            
             <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0">
                 <tr>
                     <td class="right" width="120px">
@@ -85,13 +87,13 @@
                         学历：
                     </td>
                     <td class="left">
-                        <%# getEdu(Eval("Ac_Education"))%>
+                         <%# getEdu(Eval("Ac_Education"))%>
                     </td>
                     <td class="right">
-                        学号：
+                        专业：
                     </td>
                     <td class="left">
-                        <span class="txtrow"> <%# Eval("Ac_accname")%></span>
+                      <%# Eval("Ac_Major")%>
                     </td>
                 </tr>
                 <tr>
@@ -101,15 +103,7 @@
                     <td class="left" colspan="4">
                         <%# Eval("Ac_School")%>
                     </td>
-                </tr>
-                <tr>
-                    <td class="right">
-                        专业：
-                    </td>
-                    <td class="left" colspan="4">
-                         <%# Eval("Ac_Major")%>
-                    </td>
-                </tr>
+                </tr>   
                 <tr>
                     <td class="right">
                         通讯地址：

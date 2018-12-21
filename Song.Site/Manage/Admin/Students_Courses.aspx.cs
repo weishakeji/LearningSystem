@@ -42,6 +42,9 @@ namespace Song.Site.Manage.Admin
             //当前学生的课程
             Song.Entities.Accounts st = Business.Do<IAccounts>().AccountsSingle(id);
             if (st == null) return;
+            //当前学员的名称
+            lbAccName.Text = st.Ac_Name;
+            Title = st.Ac_Name;
             //购买的课程(含概试用的）
             List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(st.Ac_ID, null, 0, null, -1);
             foreach (Song.Entities.Course c in cous)
@@ -73,13 +76,13 @@ namespace Song.Site.Manage.Admin
         /// <summary>
         /// 获取课程的购买信息
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="objid"></param>
         /// <returns></returns>
-        protected string getBuyInfo(object id)
+        protected string getBuyInfo(object objid)
         {
             int couid = 0;
-            int.TryParse(id.ToString(), out couid);
-            Student_Course sc = Business.Do<ICourse>().StudyCourse(Extend.LoginState.Accounts.CurrentUser.Ac_ID, couid);
+            int.TryParse(objid.ToString(), out couid);
+            Student_Course sc = Business.Do<ICourse>().StudyCourse(id, couid);
             if (sc == null) return "";
             if (sc.Stc_IsFree) return "免费（无限期）";
             if (sc.Stc_IsTry) return "试用";
