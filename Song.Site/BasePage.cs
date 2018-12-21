@@ -212,7 +212,7 @@ namespace Song.Site
             TimeSpan ts = afterDT.Subtract(beforDT);
             if (ts.TotalMilliseconds >= 100)
             {
-                WeiSha.Common.Log.Debug(this.GetType().Name, string.Format("页面输出,耗时：{0}ms", ts.TotalMilliseconds));
+                WeiSha.Common.Log.Debug(this.GetType().FullName, string.Format("页面输出,耗时：{0}ms", ts.TotalMilliseconds));
             }
         }
         #endregion
