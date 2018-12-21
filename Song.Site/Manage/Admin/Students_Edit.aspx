@@ -60,6 +60,14 @@
                 <asp:TextBox ID="Ac_AccName" runat="server" Width="200" nullable="false" MaxLength="20"></asp:TextBox>
             </td>
         </tr>
+          <tr>
+            <td class="right">
+                学号：
+            </td>
+            <td>
+                <asp:TextBox ID="Ac_CodeNumber" runat="server" Width="200" MaxLength="20"></asp:TextBox>
+            </td>
+        </tr>
         <tr>
             <td class="right">
                 签名：
