@@ -62,13 +62,15 @@
             </td>
             <td>
             1、示例：<br />
-            http://当前系统的域名/api/sso.ashx?appid=xx&user=xx&domain=xx&action=login|logout&return=xml|json
+            http://当前系统的域名/api/sso.ashx?appid=xx&domain=xx&user=xx&action=login|logout&return=xml|json&goto=(url)
             <br />
             2、参数说明：<br />
-            user:用户账号名<br />
-            domain:请求此调用的来源网站域名<br />
-            action：登录还是退出登录<br />
-            return：返回值是xml还是json格式<br />
+            appid：应用ID<br />
+            domain：请求域，请求此调用的来源网站域名,需Url编码<br />
+            user：用户账号名<br />            
+            action：登录还是退出登录（可以为空），默认为login<br />
+            return：返回值是xml还是json格式（可以为空），默认为xml格式<br />
+            goto：成功后的转向地址（可以为空）,转到首页用/,如果失败将不跳转
             </td>
         </tr>
          <tr>
@@ -83,7 +85,7 @@
             </td>
             <td>
             返回值为xml或json，但关键值相同：<br />
-            success：1为成功,0为失败<br />
+            success：true为成功,false为失败<br />
             msg：提示信息
             </td>
         </tr>

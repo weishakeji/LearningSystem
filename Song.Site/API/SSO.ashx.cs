@@ -20,27 +20,28 @@ namespace Song.Site.API
         string user = WeiSha.Common.Request.QueryString["user"].String;         //用户名        
         string domain = WeiSha.Common.Request.QueryString["domain"].UrlDecode;  //来自请求的域名     
         string action = WeiSha.Common.Request.QueryString["action"].String;     //动作，login登录，logout退出登录      
-        string ret = WeiSha.Common.Request.QueryString["return"].UrlDecode;     //返回类型,xml或json
-
+        string ret = WeiSha.Common.Request.QueryString["return"].String;     //返回类型,xml或json
+        string goto_url = WeiSha.Common.Request.QueryString["goto"].String;     //成功后的跳转地址
 
         public void ProcessRequest(HttpContext context)
         {
-            string reslut = string.Empty;
+            
+            SSO_State state = null;
             try
             {
                 if (string.IsNullOrWhiteSpace(user))
                 {
-                    reslut = new SSO_State(0, 1, "账号不得为空").ToReturn(ret);
+                    state = new SSO_State(false, 1, "账号不得为空");
                 }
                 else
                 {
                     Song.Entities.SingleSignOn entity = Business.Do<ISSO>().GetSingle(appid);
-                    if (entity == null) reslut = new SSO_State(0, 2, "接口对象不存在").ToReturn(ret);
+                    if (entity == null) state = new SSO_State(false, 2, "接口对象不存在");
                     if (entity != null)
                     {
                         if (entity.SSO_Domain != domain.ToLower())
                         {
-                            reslut = new SSO_State(0, 3, "该请求来自的域不合法").ToReturn(ret);
+                            state = new SSO_State(false, 3, "该请求来自的域不合法");
                         }
                         else
                         {
@@ -48,20 +49,20 @@ namespace Song.Site.API
                             Song.Entities.Accounts emp = Business.Do<IAccounts>().IsAccountsExist(user);
                             if (emp == null)
                             {
-                                reslut = new SSO_State(0, 4, string.Format("当前账号({0})不存在", user)).ToReturn(ret);
+                                state = new SSO_State(false, 4, string.Format("当前账号({0})不存在", user));
                             }
                             else
                             {
                                 if (!emp.Ac_IsPass || !emp.Ac_IsUse)
                                 {
-                                    reslut = new SSO_State(0, 5, string.Format("当前账号({0})被禁用或未通过审核", user)).ToReturn(ret);
+                                    state = new SSO_State(false, 5, string.Format("当前账号({0})被禁用或未通过审核", user));
                                 }
                                 else
                                 {
                                     if (action == "logout")
                                     {
                                         LoginState.Accounts.Logout();
-                                        reslut = new SSO_State(1, 7, string.Format("当前账号({0})退出登录", user)).ToReturn(ret);                                        
+                                        state = new SSO_State(true, 7, string.Format("当前账号({0})退出登录", user));                                      
                                     }
                                     else
                                     {
@@ -69,7 +70,7 @@ namespace Song.Site.API
                                         //登录成功
                                         Business.Do<IAccounts>().PointAdd4Login(emp, "协同站点登录", domain, "");   //增加登录积分
                                         Business.Do<IStudent>().LogForLoginAdd(emp);
-                                        reslut = new SSO_State(1, 6, string.Format("当前账号({0})登录成功", user)).ToReturn(ret);
+                                        state = new SSO_State(true, 6, string.Format("当前账号({0})登录成功", user));
                                     }
                                 }
                             }
@@ -79,10 +80,19 @@ namespace Song.Site.API
             }
             catch (Exception ex)
             {
-                reslut = new SSO_State(0, 0, ex.Message).ToReturn(ret);
+                state = new SSO_State(false, 0, ex.Message);
             }
-            context.Response.Write(reslut);
-            context.Response.End();
+            //如果成功，且转向地址不为空，则跳转
+            if (state.success && !string.IsNullOrWhiteSpace(goto_url))
+            {
+                context.Response.Redirect(goto_url);
+            }
+            else
+            {
+                string reslut = state.ToReturn(ret);
+                context.Response.Write(reslut);
+                context.Response.End();
+            }
         }
 
         public bool IsReusable
@@ -95,19 +105,29 @@ namespace Song.Site.API
     }
     public class SSO_State
     {
-        //成功success=1,失败为0
-        public int success { get; set; }
-        //状态码
+        /// <summary>
+        /// 是否成功
+        /// </summary>
+        public bool success { get; set; }
+        /// <summary>
+        /// 状态码
+        /// </summary>
         public int state { get; set; }
-        //提示信息
+        /// <summary>
+        /// 提示信息
+        /// </summary>
         public string msg { get; set; }
+        /// <summary>
+        /// 成功后需要转向的地址
+        /// </summary>
+        public string goto_url { get; set; }
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="succ"></param>
         /// <param name="state"></param>
         /// <param name="msg"></param>
-        public SSO_State(int succ, int state, string msg)
+        public SSO_State(bool succ, int state, string msg)
         {
             this.success = succ;
             this.state = state;
