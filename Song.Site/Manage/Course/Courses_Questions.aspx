@@ -30,7 +30,7 @@
             <asp:Button ID="btnSear" runat="server" Width="60" Text="查询" OnClick="btnsear_Click" />
         </asp:Panel>
     </div>
-    <div loyout="row">
+    <div loyout="row" overflow="auto">
         <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
             ShowSelectBox="true">
             <EmptyDataTemplate>
