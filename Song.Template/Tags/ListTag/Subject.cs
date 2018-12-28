@@ -24,7 +24,7 @@ namespace Song.Template.Tags.ListTag
             string search = this.Tag.Attributes.GetValue("search", "");         //检索字符
             //上级专业的id
             int pid = 0;
-            int.TryParse(this.Tag.Attributes.GetValue("pid", "0"), out pid);
+            int.TryParse(this.Tag.Attributes.GetValue("pid", "-1"), out pid);
             //排序方式，def默认排序（先推荐，后排序号），tax按排序号,rec按推荐
             string order = this.Tag.Attributes.GetValue("order", "def");
 

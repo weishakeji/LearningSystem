@@ -21,7 +21,7 @@
           <li class="mui-table-view-cell mui-media"> <a href="javascript:;">
             <vt:if var="Account.Ac_photo" value="" compare="="> <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/>
               <vt:else/>
-              <img class="mui-media-object mui-pull-left" src="{$stpath}{$:#.Account.Ac_photo}"  error="images/nophoto.jpg"/></vt:if>
+              <img class="mui-media-object mui-pull-left" src="{$stpath}{$:#.Account.Ac_photo}"  default="images/nophoto.jpg"/></vt:if>
             <div class="mui-media-body">
               <span class="stname"><vt:if var="Account.Ac_name" value="" compare="="> （无名）
                 <vt:else/>

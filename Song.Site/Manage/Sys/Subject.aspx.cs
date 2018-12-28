@@ -27,13 +27,9 @@ namespace Song.Site.Manage.Sys
             org = Business.Do<IOrganization>().OrganCurrent();
             if (!this.IsPostBack)
             {
-                init();
                 BindData(null, null);
             }           
         }
-        private void init()
-        {
-                    }
         /// <summary>
         /// 绑定列表
         /// </summary>
@@ -44,7 +40,7 @@ namespace Song.Site.Manage.Sys
             //bool? isUse = null;
             Song.Entities.Subject[] eas = null;
             //eas = Business.Do<ISubject>().SubjectPager(org.Org_ID, depid, isUse, this.tbSear.Text, Pager1.Size, Pager1.Index, out count);
-            eas = Business.Do<ISubject>().SubjectCount(org.Org_ID, null, null, -1, 0);
+            eas = Business.Do<ISubject>().SubjectCount(org.Org_ID, tbSear.Text.Trim(), null, -1, 0);
             foreach (Song.Entities.Subject s in eas)
             {
                 if (string.IsNullOrEmpty(s.Sbj_Intro) || s.Sbj_Intro.Trim() == "") continue;
@@ -52,22 +48,22 @@ namespace Song.Site.Manage.Sys
                 {
                     s.Sbj_Intro = s.Sbj_Intro.Substring(0, 20) + "...";
                 }
-                s.Sbj_IsRec = !s.Sbj_IsRec;
             }
             DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(eas);
-            WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
-            tree.IdKeyName = "Sbj_ID";
-            tree.ParentIdKeyName = "Sbj_PID";
-            tree.TaxKeyName = "Sbj_Tax";
-            tree.Root = 0;
-            dt = tree.BuilderTree(dt);
-
+            if (string.IsNullOrWhiteSpace(tbSear.Text.Trim()))
+            {
+                WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
+                tree.IdKeyName = "Sbj_ID";
+                tree.ParentIdKeyName = "Sbj_PID";
+                tree.TaxKeyName = "Sbj_Tax";
+                tree.Root = 0;
+                dt = tree.BuilderTree(dt);
+            }
             GridView1.DataSource = dt;
             GridView1.DataKeyNames = new string[] { "Sbj_ID" };
             GridView1.DataBind();
 
             //Pager1.RecordAmount = count;
-  
         }
         ///// <summary>
         ///// 获取当前专业的试题数量

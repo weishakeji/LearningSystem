@@ -9,7 +9,7 @@
 </head>
 <body>
 <div id="main">
-  <div class="photo" > <img  src="{$course.cou_logo}" error="images/cou_nophoto.jpg"/> </div>
+  <div class="photo" > <img  src="{$course.cou_logo}" default="images/cou_nophoto.jpg"/> </div>
 <div id="Context">  <div class="couName">{$course.cou_name} </div>
   <div class="info"><i class="viewnum">{$course.cou_viewNum}</i> / <i class="studynum">{$studyCount}</i>人学习 /
     <vt:if var="course.cou_isfree" value="true" compare="=">

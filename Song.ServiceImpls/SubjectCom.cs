@@ -264,7 +264,11 @@ namespace Song.ServiceImpls
             OrderByClip wcOrder = new OrderByClip();
             if (order == "def") wcOrder = Subject._.Sbj_IsRec.Desc & Subject._.Sbj_Tax.Asc;
             if (order == "tax") wcOrder = Subject._.Sbj_Tax.Asc;
-            if (order == "rec") wcOrder = Subject._.Sbj_IsRec.Desc & Subject._.Sbj_Tax.Asc;
+            if (order == "rec")
+            {
+                wc &= Subject._.Sbj_IsRec == true;
+                wcOrder = Subject._.Sbj_IsRec.Desc && Subject._.Sbj_Tax.Asc;
+            }
             return Gateway.Default.From<Subject>().Where(wc).OrderBy(wcOrder).ToArray<Subject>(count, index);
         }
         /// <summary>

@@ -94,7 +94,7 @@ gallery.slider({
                   </svg>
                   <vt:else />
                   
-                  <img class="mui-media-object mui-pull-left curr-logo" error="images/cou-nophoto.png" src="{$path}{$currCourse.Cou_LogoSmall}"/> </vt:if>
+                  <img class="mui-media-object mui-pull-left curr-logo" default="images/cou-nophoto.png" src="{$path}{$currCourse.Cou_LogoSmall}"/> </vt:if>
                 《{$currCourse.cou_name}》 </a></li>
             </vt:if>
              <vt:foreach from="$#.buyCou" item="c" count="3" id="buyCou" remark="已经购买的课程">
@@ -104,7 +104,7 @@ gallery.slider({
                   <use xlink:href="#icon-objects-color_diamond"></use>
                   </svg>
                   <vt:else />
-                  <img class="mui-media-object mui-pull-left curr-logo" error="images/cou-nophoto.png" src="{$path}{$c.Cou_LogoSmall}"/> </vt:if>
+                  <img class="mui-media-object mui-pull-left curr-logo" default="images/cou-nophoto.png" src="{$path}{$c.Cou_LogoSmall}"/> </vt:if>
                 《{$c.cou_name}》 </a></li>
                 </vt:if>
              </vt:foreach>
@@ -120,7 +120,7 @@ gallery.slider({
               <div class="accDefPhoto" >
                 <vt:if var="Account.Ac_photo" value="" compare="="> <img src="../images/nophoto.jpg"/>
                   <vt:else/>
-                  <a class="" href="SelfInfo.ashx" > <img src="{$stpath}{$:#.Account.Ac_photo}" error="images/nophoto.jpg"/></a> </vt:if>
+                  <a class="" href="SelfInfo.ashx" > <img src="{$stpath}{$:#.Account.Ac_photo}" default="images/nophoto.jpg"/></a> </vt:if>
               </div>
               <div class="rightButtom"> <a href="SelfInfo.ashx" type="link">{$Account.Ac_name}</a></div>
               <vt:else/>
@@ -155,7 +155,7 @@ gallery.slider({
               <vt:function var="reccour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="rec"/>
               <div class="coursebox">
                 <vt:foreach from="$reccour" type="course" item="c" index="i" order="rec" count="4"  remark="推荐课程">
-                  <div class="course-item"> <a href="course.ashx?id={$:#.c.cou_id}" type="open" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" error="images/cou-nophoto.png"/></a><a href="course.ashx?id={$:#.c.cou_id}" type="open" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a></div>
+                  <div class="course-item"> <a href="course.ashx?id={$:#.c.cou_id}" type="open" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" default="images/cou-nophoto.png"/></a><a href="course.ashx?id={$:#.c.cou_id}" type="open" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a></div>
                 </vt:foreach>
               </div>
             </vt:repeat>

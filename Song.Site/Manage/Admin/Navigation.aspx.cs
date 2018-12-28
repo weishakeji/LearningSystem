@@ -31,16 +31,16 @@ namespace Song.Site.Manage.Admin
             if (!this.IsPostBack)
             {
                 //如果是手机端导航，只留一个导航分类
-                if (site == "mobi")
-                {
-                    if (rblType.Items.Count > 0)
-                    {
-                        for (int i = 1; i < rblType.Items.Count; i++)
-                        {
-                            rblType.Items[i].Attributes.Add("style", "display:none");
-                        }
-                    }
-                }
+                //if (site == "mobi")
+                //{
+                //    if (rblType.Items.Count > 0)
+                //    {
+                //        for (int i = 1; i < rblType.Items.Count; i++)
+                //        {
+                //            rblType.Items[i].Attributes.Add("style", "display:none");
+                //        }
+                //    }
+                //}
                 init();
                 BindData(null, null);
             }

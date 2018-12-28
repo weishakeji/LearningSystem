@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Manage/ManagePage.Master" AutoEventWireup="true"
-    CodeBehind="Subject.aspx.cs" Inherits="Song.Site.Manage.Sys.Subject" Title="员工列表" %>
+    CodeBehind="Subject.aspx.cs" Inherits="Song.Site.Manage.Sys.Subject" Title="专业管理" %>
 
 <%@ Register Src="../Utility/toolsBar.ascx" TagName="toolsBar" TagPrefix="uc1" %>
 <%@ Register Src="../Utility/Pager.ascx" TagName="Pager" TagPrefix="uc2" %>
@@ -70,7 +70,7 @@
                 <ItemTemplate>
                     <cc1:StateButton ID="sbUse" OnClick="sbUse_Click" runat="server" TrueText="使用" FalseText="禁用"
                         State='<%# Eval("Sbj_IsUse","{0}")=="True"%>'></cc1:StateButton> /
-                        <cc1:StateButton ID="sbRec" OnClick="sbRec_Click" runat="server" TrueText="推荐" FalseText="推荐"
+                        <cc1:StateButton ID="sbRec" OnClick="sbRec_Click" runat="server" TrueText="推荐" FalseText="已荐"
                         State='<%# Eval("Sbj_IsRec","{0}")=="False"%>'></cc1:StateButton>
                 </ItemTemplate>
                 <HeaderStyle CssClass="center noprint" />

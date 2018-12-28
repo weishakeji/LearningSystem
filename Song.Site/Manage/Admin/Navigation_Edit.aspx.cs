@@ -151,7 +151,7 @@ namespace Song.Site.Manage.Admin
                     fuLoad.IsMakeSmall = false;
                     fuLoad.IsConvertJpg = true;
                     fuLoad.SaveAndDeleteOld(mm.Nav_Logo);
-                    //fuLoad.File.Server.ChangeSize(150, 200, false);
+                    fuLoad.File.Server.ChangeSize(200, 200, false);
                     mm.Nav_Logo = fuLoad.File.Server.FileName;
                     //
                     imgShow.Src = fuLoad.File.Server.VirtualPath;

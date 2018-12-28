@@ -13,7 +13,7 @@
 <body couid="{$course.cou_id}">
 <div class="mui-inner-wrap">
 
-  <div class="photo" > <img  src="{$coupath}{$course.cou_logo}" error="images/cou_nophoto.jpg"/> </div>
+  <div class="photo" > <img  src="{$coupath}{$course.cou_logo}" default="images/cou_nophoto.jpg"/> </div>
   <div id="Context">
     <div class="couName"><a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" type="link" href="default.ashx"></a>{$course.cou_name} </div>
     <div class="info">{$studyCount}人学习 / 
@@ -114,7 +114,7 @@
 </div>
 <nav class="mui-bar mui-bar-tab footer"> 
 <a class="msg-box" href="MsgBoards.ashx?couid={$course.Cou_ID}&state=nohead" type="open">
-<img src="{$stpath}{$:#.Account.Ac_photo}" error="images/cou_nophoto.jpg" class="msg-ico"/>
+<img src="{$stpath}{$:#.Account.Ac_photo}" default="images/cou_nophoto.jpg" class="msg-ico"/>
 <div class="msg-txt">交流咨询 </div>
 </a>
 <div class="info-box">
