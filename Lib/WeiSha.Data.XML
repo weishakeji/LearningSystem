@@ -1199,7 +1199,7 @@
         <member name="M:WeiSha.Data.DataHelper.ConvertType``2(``0)">
             <summary>
             从对象obj中获取值传给当前实体,TOutput必须为class或接口
-            TInput可以为class、NameValueCollection、IDictionary、IRowReader、DataRow
+            TInput可以为class、NameValueCollection、IDictionary、RowReader、DataRow
             </summary>
             <typeparam name="TInput"></typeparam>
             <typeparam name="TOutput"></typeparam>
@@ -2338,26 +2338,26 @@
             <param name="converter"></param>
             <returns></returns>
         </member>
-        <member name="T:WeiSha.Data.IRowReader">
+        <member name="T:WeiSha.Data.RowReader">
             <summary>
             行数据阅读器
             </summary>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.IsDBNull(System.Int32)">
+        <member name="M:WeiSha.Data.RowReader.IsDBNull(System.Int32)">
             <summary>
             判断数据是否为null
             </summary>
             <param name="index"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetValue(System.Int32)">
+        <member name="M:WeiSha.Data.RowReader.GetValue(System.Int32)">
             <summary>
             返回object
             </summary>
             <param name="index"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetValue``1(System.Int32)">
+        <member name="M:WeiSha.Data.RowReader.GetValue``1(System.Int32)">
             <summary>
             返回指定类型的数据
             </summary>
@@ -2365,21 +2365,21 @@
             <param name="index"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.IsDBNull(System.String)">
+        <member name="M:WeiSha.Data.RowReader.IsDBNull(System.String)">
             <summary>
             判断数据是否为null
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetValue(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetValue(System.String)">
             <summary>
             返回object
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetValue``1(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetValue``1(System.String)">
             <summary>
             返回指定类型的数据
             </summary>
@@ -2387,105 +2387,105 @@
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetString(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetString(System.String)">
             <summary>
             获取string
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetBytes(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetBytes(System.String)">
             <summary>
             获取byte[]
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetInt16(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetInt16(System.String)">
             <summary>
             获取short
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetInt32(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetInt32(System.String)">
             <summary>
             获取int
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetInt64(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetInt64(System.String)">
             <summary>
             获取long
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetDecimal(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetDecimal(System.String)">
             <summary>
             获取decimal
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetDouble(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetDouble(System.String)">
             <summary>
             获取double
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetFloat(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetFloat(System.String)">
             <summary>
             获取float
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetByte(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetByte(System.String)">
             <summary>
             获取byte
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetBoolean(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetBoolean(System.String)">
             <summary>
             获取bool
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetDateTime(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetDateTime(System.String)">
             <summary>
             获取DateTime
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetGuid(System.String)">
+        <member name="M:WeiSha.Data.RowReader.GetGuid(System.String)">
             <summary>
             获取Guid
             </summary>
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.IsDBNull(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.IsDBNull(WeiSha.Data.Field)">
             <summary>
             判断数据是否为null
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetValue(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetValue(WeiSha.Data.Field)">
             <summary>
             返回object
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetValue``1(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetValue``1(WeiSha.Data.Field)">
             <summary>
             返回指定类型的数据
             </summary>
@@ -2493,105 +2493,105 @@
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetString(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetString(WeiSha.Data.Field)">
             <summary>
             获取string
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetBytes(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetBytes(WeiSha.Data.Field)">
             <summary>
             获取byte[]
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetInt16(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetInt16(WeiSha.Data.Field)">
             <summary>
             获取short
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetInt32(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetInt32(WeiSha.Data.Field)">
             <summary>
             获取int
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetInt64(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetInt64(WeiSha.Data.Field)">
             <summary>
             获取long
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetDecimal(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetDecimal(WeiSha.Data.Field)">
             <summary>
             获取decimal
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetDouble(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetDouble(WeiSha.Data.Field)">
             <summary>
             获取double
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetFloat(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetFloat(WeiSha.Data.Field)">
             <summary>
             获取float
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetByte(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetByte(WeiSha.Data.Field)">
             <summary>
             获取byte
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetBoolean(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetBoolean(WeiSha.Data.Field)">
             <summary>
             获取bool
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetDateTime(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetDateTime(WeiSha.Data.Field)">
             <summary>
             获取DateTime
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.GetGuid(WeiSha.Data.Field)">
+        <member name="M:WeiSha.Data.RowReader.GetGuid(WeiSha.Data.Field)">
             <summary>
             获取Guid
             </summary>
             <param name="field"></param>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.IRowReader.ToEntity``1">
+        <member name="M:WeiSha.Data.RowReader.ToEntity``1">
             <summary>
             转换成指定对象
             </summary>
             <typeparam name="TOutput"></typeparam>
             <returns></returns>
         </member>
-        <member name="P:WeiSha.Data.IRowReader.Item(System.Int32)">
+        <member name="P:WeiSha.Data.RowReader.Item(System.Int32)">
             <summary>
             按索引获取值
             </summary>
             <param name="i"></param>
             <returns></returns>
         </member>
-        <member name="P:WeiSha.Data.IRowReader.Item(System.String)">
+        <member name="P:WeiSha.Data.RowReader.Item(System.String)">
             <summary>
             按名称获取值
             </summary>
@@ -2871,19 +2871,19 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.EntityBase.SetValues(WeiSha.Data.IRowReader)">
+        <member name="M:WeiSha.Data.EntityBase.SetValues(WeiSha.Data.RowReader)">
             <summary>
             设置属性值
             </summary>
             <param name="reader"></param>
         </member>
-        <member name="M:WeiSha.Data.EntityBase.SetExtValues(WeiSha.Data.IRowReader)">
+        <member name="M:WeiSha.Data.EntityBase.SetExtValues(WeiSha.Data.RowReader)">
             <summary>
             设置扩展属性值
             </summary>
             <param name="reader"></param>
         </member>
-        <member name="M:WeiSha.Data.EntityBase.SetDbValues(WeiSha.Data.IRowReader)">
+        <member name="M:WeiSha.Data.EntityBase.SetDbValues(WeiSha.Data.RowReader)">
             <summary>
             设置所有的值
             </summary>
@@ -6322,7 +6322,7 @@
             <typeparam name="IOutput"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.SourceTable.ConvertAll``1(System.Converter{WeiSha.Data.IRowReader,``0})">
+        <member name="M:WeiSha.Data.SourceTable.ConvertAll``1(System.Converter{WeiSha.Data.RowReader,``0})">
             <summary>
             返回指定类型的List
             </summary>
@@ -7090,7 +7090,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.Design.ViewEntity.SetValues(WeiSha.Data.IRowReader)">
+        <member name="M:WeiSha.Data.Design.ViewEntity.SetValues(WeiSha.Data.RowReader)">
             <summary>
             重载SetValues
             </summary>
@@ -12537,7 +12537,7 @@
             <typeparam name="IOutput"></typeparam>
             <returns></returns>
         </member>
-        <member name="M:WeiSha.Data.SourceReader.ConvertAll``1(System.Converter{WeiSha.Data.IRowReader,``0})">
+        <member name="M:WeiSha.Data.SourceReader.ConvertAll``1(System.Converter{WeiSha.Data.RowReader,``0})">
             <summary>
             通过委托来创建实体
             </summary>
@@ -15149,7 +15149,7 @@
         <member name="M:WeiSha.Data.CoreHelper.ConvertType``2(``0)">
             <summary>
             从对象obj中获取值传给当前实体,TOutput必须为class或接口
-            TInput可以为class、NameValueCollection、IDictionary、IRowReader、DataRow
+            TInput可以为class、NameValueCollection、IDictionary、RowReader、DataRow
             </summary>
             <typeparam name="TInput"></typeparam>
             <typeparam name="TOutput"></typeparam>

@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{FDA0AAE6-47E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Song.Template", "Song.Template\Song.Template.csproj", "{739180BB-2529-485F-867F-28774EB2ACC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeiSha.Common", "..\..\Framework\WeiSha.Common\WeiSha.Common.csproj", "{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug x64|Any CPU = Debug x64|Any CPU
@@ -192,6 +194,30 @@ Global
 		{739180BB-2529-485F-867F-28774EB2ACC9}.x64 Debug|Any CPU.Build.0 = Debug|Any CPU
 		{739180BB-2529-485F-867F-28774EB2ACC9}.x64 Debug|x64.ActiveCfg = Debug|Any CPU
 		{739180BB-2529-485F-867F-28774EB2ACC9}.x64 Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|Any CPU.ActiveCfg = Debug x64|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|Any CPU.Build.0 = Debug x64|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|x64.ActiveCfg = Debug x64|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|x64.Build.0 = Debug x64|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|x86.ActiveCfg = Debug x64|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|x86.Build.0 = Debug x64|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|x64.ActiveCfg = Debug|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|x64.Build.0 = Debug|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|x86.ActiveCfg = Debug|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|x86.Build.0 = Debug|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|x64.ActiveCfg = Release|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|x64.Build.0 = Release|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|x86.ActiveCfg = Release|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|x86.Build.0 = Release|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|Any CPU.ActiveCfg = x64 Debug|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|Any CPU.Build.0 = x64 Debug|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|x64.ActiveCfg = x64 Debug|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|x64.Build.0 = x64 Debug|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|x86.ActiveCfg = x64 Debug|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|x86.Build.0 = x64 Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -78,14 +78,14 @@ namespace Song.Site.Manage.Admin
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 //Song.Entities.Teacher[] eas = Business.Do<ITeacher>().TeacherCount(org.Org_ID, true, -1);
-                //DropDownList ddl = (DropDownList)e.Row.FindControl("ddlTeacher");
+                //DropDownList ddl = (DropDownList)e.IRow.FindControl("ddlTeacher");
                 //ddl.DataSource = eas;
                 //ddl.DataTextField = "th_Name";
                 //ddl.DataValueField = "th_ID";
                 //ddl.DataBind();
                 //ddl.Items.Insert(0, new ListItem("Œﬁ", "-1"));
                 ////ΩÃ ¶id
-                //Label lbThid = (Label)e.Row.FindControl("lbThID");
+                //Label lbThid = (Label)e.IRow.FindControl("lbThID");
                 //ListItem liThid = ddl.Items.FindByValue(lbThid.Text);
                 //if (liThid != null) liThid.Selected = true;
             }

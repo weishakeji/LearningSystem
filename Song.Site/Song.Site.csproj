@@ -111,6 +111,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\Common.Logging.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="LitJSON, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Manage\Utility\kindeditor\asp.net\bin\LitJSON.dll</HintPath>
@@ -124,6 +127,21 @@
     <Reference Include="NPOI, Version=2.1.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Lib\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\Lib\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\Lib\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\Lib\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.ScratchPad.HSSF">
+      <HintPath>..\Lib\NPOI.ScratchPad.HSSF.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.ScratchPad.HWPF">
+      <HintPath>..\Lib\NPOI.ScratchPad.HWPF.dll</HintPath>
     </Reference>
     <Reference Include="Spring.Core">
       <HintPath>..\Lib\Spring.Core.dll</HintPath>
@@ -160,10 +178,6 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="URLRewriter">
       <HintPath>..\Lib\URLRewriter.dll</HintPath>
-    </Reference>
-    <Reference Include="WeiSha.Common, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\WeiSha.Common.dll</HintPath>
     </Reference>
     <Reference Include="WeiSha.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -640,6 +654,246 @@
     <Content Include="Pay\Weixin\miniProgramCall.aspx" />
     <Content Include="Pay\Weixin\miniProgramResult.aspx" />
     <Content Include="Readme.html" />
+    <Content Include="Templates\Mobi\Default2019\About.htm" />
+    <Content Include="Templates\Mobi\Default2019\APICloud\api.js" />
+    <Content Include="Templates\Mobi\Default2019\APICloud\common.js" />
+    <Content Include="Templates\Mobi\Default2019\APICloud\dataSource.js" />
+    <Content Include="Templates\Mobi\Default2019\Article.htm" />
+    <Content Include="Templates\Mobi\Default2019\CallPhone.htm" />
+    <Content Include="Templates\Mobi\Default2019\Conn.htm" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\ajaxfileupload.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\AutoLoyout.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\Base64.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\Extend.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\jquery.touchSwipe.min.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\MsgBox.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\mui-fuction.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\mui.min.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\mui.picker.min.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\PageBox.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\Public.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\Verify.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\demo.css" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\demo_fontclass.html" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\demo_symbol.html" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\demo_unicode.html" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.css" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.svg" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\MsgBox.css" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\mui.min.css" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\mui.picker.min.css" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\PageBox.css" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\public.css" />
+    <Content Include="Templates\Mobi\Default2019\CouponExchange.htm" />
+    <Content Include="Templates\Mobi\Default2019\Course.htm" />
+    <Content Include="Templates\Mobi\Default2019\CourseBuy.htm" />
+    <Content Include="Templates\Mobi\Default2019\CoursePage.htm" />
+    <Content Include="Templates\Mobi\Default2019\Courses.htm" />
+    <Content Include="Templates\Mobi\Default2019\CourseStudy.htm" />
+    <Content Include="Templates\Mobi\Default2019\Default.htm" />
+    <Content Include="Templates\Mobi\Default2019\Exam.htm" />
+    <Content Include="Templates\Mobi\Default2019\Examing.htm" />
+    <Content Include="Templates\Mobi\Default2019\Guide.htm" />
+    <Content Include="Templates\Mobi\Default2019\Guides.htm" />
+    <Content Include="Templates\Mobi\Default2019\imagesShow\1.jpg" />
+    <Content Include="Templates\Mobi\Default2019\imagesShow\2.jpg" />
+    <Content Include="Templates\Mobi\Default2019\imagesShow\3.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Images\1.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\10.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\2.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\3.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\4.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\5.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\6.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\7.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\8.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\9.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\alpha.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\app-bg.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Images\btnBack.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Images\cou-nophoto.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\cou_nophoto.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Images\line.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Images\load_015.gif" />
+    <Content Include="Templates\Mobi\Default2019\Images\load_016.gif" />
+    <Content Include="Templates\Mobi\Default2019\Images\load_024.gif" />
+    <Content Include="Templates\Mobi\Default2019\Images\news-ico.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\nophoto.gif" />
+    <Content Include="Templates\Mobi\Default2019\Images\nophoto.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Images\ok.gif" />
+    <Content Include="Templates\Mobi\Default2019\Images\ok1.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\ok2.gif" />
+    <Content Include="Templates\Mobi\Default2019\Images\percent.gif" />
+    <Content Include="Templates\Mobi\Default2019\Images\QQ-weixin.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\qrcode.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\sun_star.gif" />
+    <Content Include="Templates\Mobi\Default2019\Images\testpaper.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Images\tk_exam.png" />
+    <Content Include="Templates\Mobi\Default2019\Images\view-pattern.png" />
+    <Content Include="Templates\Mobi\Default2019\Inc\icon-color.inc" />
+    <Content Include="Templates\Mobi\Default2019\Inc\Menu.html" />
+    <Content Include="Templates\Mobi\Default2019\Inc\meta-nomui.inc" />
+    <Content Include="Templates\Mobi\Default2019\Inc\meta.inc" />
+    <Content Include="Templates\Mobi\Default2019\Inc\Footer.html" />
+    <Content Include="Templates\Mobi\Default2019\Knowledge.htm" />
+    <Content Include="Templates\Mobi\Default2019\Knowledges.htm" />
+    <Content Include="Templates\Mobi\Default2019\LearningCard.htm" />
+    <Content Include="Templates\Mobi\Default2019\LearningCardView.htm" />
+    <Content Include="Templates\Mobi\Default2019\Login.htm" />
+    <Content Include="Templates\Mobi\Default2019\logo.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Logout.htm" />
+    <Content Include="Templates\Mobi\Default2019\MoneyDetail.htm" />
+    <Content Include="Templates\Mobi\Default2019\MoneyDetails.htm" />
+    <Content Include="Templates\Mobi\Default2019\MsgBoards.htm" />
+    <Content Include="Templates\Mobi\Default2019\MyTeacher.htm" />
+    <Content Include="Templates\Mobi\Default2019\News.htm" />
+    <Content Include="Templates\Mobi\Default2019\NewsList.htm" />
+    <Content Include="Templates\Mobi\Default2019\Notfound.htm" />
+    <Content Include="Templates\Mobi\Default2019\Notice.htm" />
+    <Content Include="Templates\Mobi\Default2019\Notices.htm" />
+    <Content Include="Templates\Mobi\Default2019\PointDetails.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesAnswer.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesCollects.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesError.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesExercises.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesExplain.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesNoteAdd.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesNotes.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesOften.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesOutlines.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesPager.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesSubmitError.htm" />
+    <Content Include="Templates\Mobi\Default2019\Recharge.htm" />
+    <Content Include="Templates\Mobi\Default2019\Register.htm" />
+    <Content Include="Templates\Mobi\Default2019\RegisterAgreement.htm" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Article.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\CouponExchange.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Course.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\CourseBuy.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\CoursePage.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Courses.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\CourseStudy.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\default.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\exam.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\examing.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Guides.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Knowledges.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\LearningCard.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\LearningCardView.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Login.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Mask.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\MoneyDetail.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\MoneyDetails.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\MsgBoards.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\MyTeacher.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\News.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\NewsList.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\notice.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Notices.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\PointDetails.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\QuesCollects.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\QuesError.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\QuesExercises.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\QuesExercisesEvent.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\QuesExercisesState.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\QuesNotes.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\QuesOften.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\QuesOutlines.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Recharge.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Register.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\SelfCourse.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\SelfInfo.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\SelfPw.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\SelfPwFind.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Statistics.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Students.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Subordinates.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Swipe.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Teacher.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\TeacherComment.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\TeacherComments.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Teachers.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\TestPaper.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\TestPapers.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\TestScene.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\TestSceneEvent.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\TestView.js" />
+    <Content Include="Templates\Mobi\Default2019\SelfCourse.htm" />
+    <Content Include="Templates\Mobi\Default2019\SelfInfo.htm" />
+    <Content Include="Templates\Mobi\Default2019\SelfPw.htm" />
+    <Content Include="Templates\Mobi\Default2019\SelfPwFind.htm" />
+    <Content Include="Templates\Mobi\Default2019\Statistics.htm" />
+    <Content Include="Templates\Mobi\Default2019\Students.htm" />
+    <Content Include="Templates\Mobi\Default2019\Styles\About.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Article.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Conn.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\CouponExchange.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Course.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\CourseBuy.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\CoursePage.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Courses.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\CourseStudy.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\default.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Exam.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\examing.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Guide.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Guides.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Knowledge.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Knowledges.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\LearningCard.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\LearningCardView.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Login.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\MoneyDetail.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\MoneyDetails.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\MsgBoards.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\MyTeacher.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\News.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\NewsList.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Notfound.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\notice.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Notices.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\PointDetails.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesAnswer.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesCollects.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesError.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesExercises.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesExplain.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesNoteAdd.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesNotes.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesOften.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesOutlines.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesPager.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\QuesSubmitError.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Recharge.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Register.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\SelfCourse.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\SelfInfo.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\SelfPw.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\SelfPwFind.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Statistics.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Students.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Subordinates.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Swipe.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Teacher.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\TeacherComment.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\TeacherComments.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\Teachers.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\TestPaper.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\TestPapers.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\TestScene.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\TestView.css" />
+    <Content Include="Templates\Mobi\Default2019\Subordinates.htm" />
+    <Content Include="Templates\Mobi\Default2019\Swipe.htm" />
+    <Content Include="Templates\Mobi\Default2019\Teacher.htm" />
+    <Content Include="Templates\Mobi\Default2019\TeacherComment.htm" />
+    <Content Include="Templates\Mobi\Default2019\TeacherComments.htm" />
+    <Content Include="Templates\Mobi\Default2019\Teachers.htm" />
+    <Content Include="Templates\Mobi\Default2019\TestPaper.htm" />
+    <Content Include="Templates\Mobi\Default2019\TestPapers.htm" />
+    <Content Include="Templates\Mobi\Default2019\TestScene.htm" />
+    <Content Include="Templates\Mobi\Default2019\TestView.htm" />
+    <Content Include="Templates\Mobi\Default2019\_self.xml" />
     <Content Include="Templates\Mobi\Default\About.htm" />
     <Content Include="Templates\Mobi\Default\APICloud\api.js" />
     <Content Include="Templates\Mobi\Default\APICloud\common.js" />
@@ -5630,6 +5884,10 @@
     <Content Include="Manage\Welcome.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\WeiSha.Common\WeiSha.Common.csproj">
+      <Project>{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}</Project>
+      <Name>WeiSha.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
       <Project>{985A8268-3A87-46B9-9744-650664719E67}</Project>
       <Name>Song.Entities</Name>
@@ -6360,6 +6618,10 @@
     <Content Include="Templates\Mobi\Default\Inc\icon-color.inc" />
     <Content Include="Templates\Mobi\Default\Inc\meta-nomui.inc" />
     <Content Include="Templates\Mobi\Default\Inc\meta.inc" />
+    <None Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.eot" />
+    <None Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.ttf" />
+    <None Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.woff" />
+    <None Include="Templates\Mobi\Default2019\fonts\mui.ttf" />
     <None Include="Utility\CoreStyles\Jme\Symbola.eot" />
     <None Include="Utility\CoreStyles\Jme\Symbola.otf" />
     <None Include="Utility\CoreStyles\Jme\Symbola.ttf" />

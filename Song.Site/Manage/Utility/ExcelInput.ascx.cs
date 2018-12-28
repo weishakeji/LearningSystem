@@ -11,6 +11,7 @@ using System.Web.UI.HtmlControls;
 using System.IO;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System.Xml;
 using System.Collections.Generic;
 using System.Data.OleDb;
@@ -283,103 +284,72 @@ namespace Song.Site.Manage.Utility
         private DataTable SheetToDatatable(string xlsFile, int sheetIndex)
         {
             DataTable dt = new DataTable();
-            //获取扩展名
-            string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
-            if (ext.ToLower() == "xls")
+
+            using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
             {
-                using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
+                //创建工作薄对象
+                IWorkbook hssfworkbook = null;
+                //根据扩展名判断excel版本
+                string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
+                if (ext.ToLower() == "xls") hssfworkbook = new HSSFWorkbook(file);
+                if (ext.ToLower() == "xlsx") hssfworkbook = new XSSFWorkbook(file);
+                ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
+                System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
+                try
                 {
-                    //创建工作薄对象
-                    HSSFWorkbook hssfworkbook = new HSSFWorkbook(file);
-                    ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
-                    System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
-                    try
+                    rows.MoveNext();
+                    //创建Datatable结构
+                    HSSFRow firsRow = (HSSFRow)rows.Current;
+                    for (int i = 0; i < firsRow.LastCellNum; i++)
                     {
-                        rows.MoveNext();
-                        //创建Datatable结构
-                        HSSFRow firsRow = (HSSFRow)rows.Current;
-                        for (int i = 0; i < firsRow.LastCellNum; i++)
-                        {
-                            ICell cell = firsRow.GetCell(i);
-                            if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
-                            dt.Columns.Add(new DataColumn(cell.ToString(), getColumnType(cell.ToString())));
-                        }
-                        //导入工作薄的数据
-                        while (rows.MoveNext())
-                        {
-                            HSSFRow row = (HSSFRow)rows.Current;
-                            DataRow dr = dt.NewRow();
-                            for (int i = 0; i < dt.Columns.Count; i++)
-                            {                                
-                                ICell cell = row.GetCell(i);
-                                if (cell == null) continue;
-                                string value = cell.ToString();                                
-                                //读取Excel格式，根据格式读取数据类型
-                                switch (dt.Columns[i].DataType.FullName)
-                                {
-                                    case "System.DateTime": //日期类型                                   
-                                        if (DateUtil.IsValidExcelDate(cell.NumericCellValue))
-                                        {
-                                            try
-                                            {
-                                                value = cell.DateCellValue.ToString();
-                                            }
-                                            catch
-                                            {
-                                                value = cell.ToString();
-                                            }
-                                        }
-                                        else
-                                        {
-                                            value = cell.NumericCellValue.ToString();
-                                        }
-                                        break;
-
-                                    default:
-                                        value = cell.ToString();
-                                        break;
-                                }
-                                dr[i] = WeiSha.Common.Param.Method.ConvertToAnyValue.Get(value).ChangeType(dt.Columns[i].DataType);
-
-                            }
-                            dt.Rows.Add(dr);
-                        }
+                        ICell cell = firsRow.GetCell(i);
+                        if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
+                        dt.Columns.Add(new DataColumn(cell.ToString(), getColumnType(cell.ToString())));
                     }
-                    catch
+                    //导入工作薄的数据
+                    while (rows.MoveNext())
                     {
-                        return dt;
-                    }
-                }
-            }
-            if (ext.ToLower() == "xlsx")
-            {
-                using (OleDbConnection conn = new OleDbConnection(string.Format(connStr, xlsFile)))
-                {
-                    conn.Open();
-                    //获取工作簿
-                    DataTable dtSheet = this.GetSheets(xlsFile);
-                    string table = dtSheet.Rows[sheetIndex]["Name"].ToString();
-                    //获取工作薄数据
-                    DataTable dtSheetData = new DataTable();
-                    new OleDbDataAdapter(string.Format("SELECT * FROM [{0}]", table + "$"), conn).Fill(dtSheetData);
-                    for (int i = 0; i < dtSheetData.Columns.Count; i++)
-                    {
-                        dt.Columns.Add(dtSheetData.Rows[0][i].ToString(), Type.GetType("System.String"));
-                    }
-
-                    for (int i = 1; i < dtSheetData.Rows.Count; i++)
-                    {
+                        HSSFRow row = (HSSFRow)rows.Current;
                         DataRow dr = dt.NewRow();
-                        for (int j = 0; j < dtSheetData.Columns.Count; j++)
+                        for (int i = 0; i < dt.Columns.Count; i++)
                         {
-                            dr[j] = dtSheetData.Rows[i][j].ToString();
+                            ICell cell = row.GetCell(i);
+                            if (cell == null) continue;
+                            string value = cell.ToString();
+                            //读取Excel格式，根据格式读取数据类型
+                            switch (dt.Columns[i].DataType.FullName)
+                            {
+                                case "System.DateTime": //日期类型                                   
+                                    if (DateUtil.IsValidExcelDate(cell.NumericCellValue))
+                                    {
+                                        try
+                                        {
+                                            value = cell.DateCellValue.ToString();
+                                        }
+                                        catch
+                                        {
+                                            value = cell.ToString();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        value = cell.NumericCellValue.ToString();
+                                    }
+                                    break;
+
+                                default:
+                                    value = cell.ToString();
+                                    break;
+                            }
+                            dr[i] = WeiSha.Common.Param.Method.ConvertToAnyValue.Get(value).ChangeType(dt.Columns[i].DataType);
+
                         }
                         dt.Rows.Add(dr);
                     }
-
-                    //
-                    if (conn.State == ConnectionState.Open)
-                        conn.Close();
+                }
+                catch
+                {
+                    return dt;
                 }
             }
             return dt;
@@ -413,52 +383,22 @@ namespace Song.Site.Manage.Utility
             DataTable dt = new DataTable();
             dt.Columns.Add(new DataColumn("Name"));
             dt.Columns.Add(new DataColumn("Count"));
-            //获取扩展名
-            string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
-            if (ext.ToLower() == "xls")
+           
+            using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
             {
-                using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
+                //创建工作薄对象
+                IWorkbook hssfworkbook = null;
+                //根据扩展名判断excel版本
+                string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
+                if (ext.ToLower() == "xls") hssfworkbook = new HSSFWorkbook(file);
+                if (ext.ToLower() == "xlsx") hssfworkbook = new XSSFWorkbook(file);
+                int sheetNum = hssfworkbook.NumberOfSheets;
+                for (int i = 0; i < sheetNum; i++)
                 {
-                    //创建工作薄对象
-                    HSSFWorkbook hssfworkbook = new HSSFWorkbook(file);
-                    for (int i = 0; i < hssfworkbook.Count; i++)
-                    {
-                        DataRow dr = dt.NewRow();
-                        dr["Name"] = hssfworkbook.GetSheetAt(i).SheetName;
-                        dr["Count"] = hssfworkbook.GetSheetAt(i).LastRowNum;
-                        dt.Rows.Add(dr);
-                    }
-
-                }
-            }
-            if (ext.ToLower() == "xlsx")
-            {
-
-                using (OleDbConnection conn = new OleDbConnection(string.Format(connStr, xlsFile)))
-                {
-                    conn.Open();
-                    DataTable schemaTable = conn.GetOleDbSchemaTable(System.Data.OleDb.OleDbSchemaGuid.Tables, null);
-                    for (int i = 0; i < schemaTable.Rows.Count; i++)
-                    {
-                        string name = schemaTable.Rows[i]["TABLE_NAME"].ToString();
-                        if (name.ToLower().IndexOf("print") > -1)
-                            schemaTable.Rows.RemoveAt(i);
-                    }
-                    foreach (DataRow drow in schemaTable.Rows)
-                    {
-                        string name = drow["TABLE_NAME"].ToString();
-                        name = name.Replace("\'", "");
-                        if (name.IndexOf("$") > -1)
-                            name = name.Substring(0, name.LastIndexOf("$"));
-                        //创建表
-                        DataRow dr = dt.NewRow();
-                        dr["Name"] = name;
-                        DataTable dtSheet = new DataTable();
-                        new OleDbDataAdapter(string.Format("SELECT * FROM [{0}]", drow["TABLE_NAME"].ToString()), conn).Fill(dtSheet);
-                        dr["Count"] = dtSheet.Rows.Count;
-                        dt.Rows.Add(dr);
-                    }
-                    conn.Close();
+                    DataRow dr = dt.NewRow();
+                    dr["Name"] = hssfworkbook.GetSheetAt(i).SheetName;
+                    dr["Count"] = hssfworkbook.GetSheetAt(i).LastRowNum;
+                    dt.Rows.Add(dr);
                 }
             }
             return dt;
@@ -473,40 +413,25 @@ namespace Song.Site.Manage.Utility
         {
             DataTable dtSch = new DataTable("SheetStructure");
             dtSch.Columns.Add(new DataColumn("Name", Type.GetType("System.String")));
-            //获取扩展名
-            string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
-            if (ext.ToLower() == "xls")
+            using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
             {
-                using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
+                //创建工作薄对象
+                IWorkbook hssfworkbook = null;
+                //根据扩展名判断excel版本
+                string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
+                if (ext.ToLower() == "xls") hssfworkbook = new HSSFWorkbook(file);
+                if (ext.ToLower() == "xlsx") hssfworkbook = new XSSFWorkbook(file);
+                ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
+                System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
+                rows.MoveNext();
+                //创建Datatable结构
+                IRow firsRow = (IRow)rows.Current;
+                for (int i = 0; i < firsRow.LastCellNum; i++)
                 {
-                    //创建工作薄对象
-                    HSSFWorkbook hssfworkbook = new HSSFWorkbook(file);
-                    ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
-                    System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
-                    rows.MoveNext();
-                    //创建Datatable结构
-                    HSSFRow firsRow = (HSSFRow)rows.Current;
-                    for (int i = 0; i < firsRow.LastCellNum; i++)
-                    {
-                        DataRow dr = dtSch.NewRow();
-                        ICell cell = firsRow.GetCell(i);
-                        dr["Name"] = cell == null ? "(null)" + i : cell.ToString();
-                        dtSch.Rows.Add(dr);
-                    }
-                }
-            }
-            if (ext.ToLower() == "xlsx")
-            {
-                using (OleDbConnection conn = new OleDbConnection(string.Format(connStr, xlsFile)))
-                {
-                    conn.Open();
-                    DataTable dtSheet = this.GetSheets(xlsFile);
-                    string table = dtSheet.Rows[sheetIndex]["Name"].ToString();
-                    DataTable dt = new DataTable();
-                    new OleDbDataAdapter(string.Format("SELECT top 1  * FROM [{0}]", table + "$"), conn).Fill(dt);
-                    foreach (DataColumn d in dt.Columns)
-                        dtSch.Rows.Add(dt.Rows[0][d.ColumnName].ToString());
-                    conn.Close();
+                    DataRow dr = dtSch.NewRow();
+                    ICell cell = firsRow.GetCell(i);
+                    dr["Name"] = cell == null ? "(null)" + i : cell.ToString();
+                    dtSch.Rows.Add(dr);
                 }
             }
             return dtSch;
@@ -728,6 +653,7 @@ namespace Song.Site.Manage.Utility
         }
         #endregion
 
+        #region 导出错误数据
         /// <summary>
         /// 导出错误数据
         /// </summary>
@@ -794,5 +720,6 @@ namespace Song.Site.Manage.Utility
                 Response.End();
             }
         }
+        #endregion
     }
 }

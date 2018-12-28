@@ -219,6 +219,7 @@ namespace Song.ServiceImpls
             }
             //生成数据行
             ICellStyle style_size = hssfworkbook.CreateCellStyle();
+
             style_size.WrapText = true;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
