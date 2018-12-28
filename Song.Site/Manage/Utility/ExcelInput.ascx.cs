@@ -276,6 +276,24 @@ namespace Song.Site.Manage.Utility
 
         #region 操作Excel的方法
         /// <summary>
+        /// 通过Excel文档，创建对应的处理对象
+        /// </summary>
+        /// <param name="xlsFile"></param>
+        /// <returns></returns>
+        private IWorkbook createWorkbook(string xlsFile)
+        {
+            //创建工作薄对象
+            IWorkbook workbook = null;
+            using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
+            {               
+                //根据扩展名判断excel版本
+                string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
+                if (ext.ToLower() == "xls") workbook = new HSSFWorkbook(file);
+                if (ext.ToLower() == "xlsx") workbook = new XSSFWorkbook(file);
+            }
+            return workbook;
+        }
+        /// <summary>
         /// 从Excel中读取一个工作薄，生成Datatable对象。
         /// </summary>
         /// <param name="xlsFile"></param>
@@ -284,73 +302,65 @@ namespace Song.Site.Manage.Utility
         private DataTable SheetToDatatable(string xlsFile, int sheetIndex)
         {
             DataTable dt = new DataTable();
-
-            using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
+            //创建工作薄对象
+            IWorkbook hssfworkbook = createWorkbook(xlsFile);
+            ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
+            System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
+            try
             {
-                //创建工作薄对象
-                IWorkbook hssfworkbook = null;
-                //根据扩展名判断excel版本
-                string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
-                if (ext.ToLower() == "xls") hssfworkbook = new HSSFWorkbook(file);
-                if (ext.ToLower() == "xlsx") hssfworkbook = new XSSFWorkbook(file);
-                ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
-                System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
-                try
+                rows.MoveNext();
+                //创建Datatable结构
+                HSSFRow firsRow = (HSSFRow)rows.Current;
+                for (int i = 0; i < firsRow.LastCellNum; i++)
                 {
-                    rows.MoveNext();
-                    //创建Datatable结构
-                    HSSFRow firsRow = (HSSFRow)rows.Current;
-                    for (int i = 0; i < firsRow.LastCellNum; i++)
+                    ICell cell = firsRow.GetCell(i);
+                    if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
+                    dt.Columns.Add(new DataColumn(cell.ToString(), getColumnType(cell.ToString())));
+                }
+                //导入工作薄的数据
+                while (rows.MoveNext())
+                {
+                    HSSFRow row = (HSSFRow)rows.Current;
+                    DataRow dr = dt.NewRow();
+                    for (int i = 0; i < dt.Columns.Count; i++)
                     {
-                        ICell cell = firsRow.GetCell(i);
-                        if (cell == null || string.IsNullOrWhiteSpace(cell.ToString())) continue;
-                        dt.Columns.Add(new DataColumn(cell.ToString(), getColumnType(cell.ToString())));
-                    }
-                    //导入工作薄的数据
-                    while (rows.MoveNext())
-                    {
-                        HSSFRow row = (HSSFRow)rows.Current;
-                        DataRow dr = dt.NewRow();
-                        for (int i = 0; i < dt.Columns.Count; i++)
+                        ICell cell = row.GetCell(i);
+                        if (cell == null) continue;
+                        string value = cell.ToString();
+                        //读取Excel格式，根据格式读取数据类型
+                        switch (dt.Columns[i].DataType.FullName)
                         {
-                            ICell cell = row.GetCell(i);
-                            if (cell == null) continue;
-                            string value = cell.ToString();
-                            //读取Excel格式，根据格式读取数据类型
-                            switch (dt.Columns[i].DataType.FullName)
-                            {
-                                case "System.DateTime": //日期类型                                   
-                                    if (DateUtil.IsValidExcelDate(cell.NumericCellValue))
+                            case "System.DateTime": //日期类型                                   
+                                if (DateUtil.IsValidExcelDate(cell.NumericCellValue))
+                                {
+                                    try
                                     {
-                                        try
-                                        {
-                                            value = cell.DateCellValue.ToString();
-                                        }
-                                        catch
-                                        {
-                                            value = cell.ToString();
-                                        }
+                                        value = cell.DateCellValue.ToString();
                                     }
-                                    else
+                                    catch
                                     {
-                                        value = cell.NumericCellValue.ToString();
+                                        value = cell.ToString();
                                     }
-                                    break;
+                                }
+                                else
+                                {
+                                    value = cell.NumericCellValue.ToString();
+                                }
+                                break;
 
-                                default:
-                                    value = cell.ToString();
-                                    break;
-                            }
-                            dr[i] = WeiSha.Common.Param.Method.ConvertToAnyValue.Get(value).ChangeType(dt.Columns[i].DataType);
-
+                            default:
+                                value = cell.ToString();
+                                break;
                         }
-                        dt.Rows.Add(dr);
+                        dr[i] = WeiSha.Common.Param.Method.ConvertToAnyValue.Get(value).ChangeType(dt.Columns[i].DataType);
+
                     }
+                    dt.Rows.Add(dr);
                 }
-                catch
-                {
-                    return dt;
-                }
+            }
+            catch
+            {
+                return dt;
             }
             return dt;
         }
@@ -383,23 +393,15 @@ namespace Song.Site.Manage.Utility
             DataTable dt = new DataTable();
             dt.Columns.Add(new DataColumn("Name"));
             dt.Columns.Add(new DataColumn("Count"));
-           
-            using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
+            //创建工作薄对象
+            IWorkbook hssfworkbook = createWorkbook(xlsFile);
+            int sheetNum = hssfworkbook.NumberOfSheets;
+            for (int i = 0; i < sheetNum; i++)
             {
-                //创建工作薄对象
-                IWorkbook hssfworkbook = null;
-                //根据扩展名判断excel版本
-                string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
-                if (ext.ToLower() == "xls") hssfworkbook = new HSSFWorkbook(file);
-                if (ext.ToLower() == "xlsx") hssfworkbook = new XSSFWorkbook(file);
-                int sheetNum = hssfworkbook.NumberOfSheets;
-                for (int i = 0; i < sheetNum; i++)
-                {
-                    DataRow dr = dt.NewRow();
-                    dr["Name"] = hssfworkbook.GetSheetAt(i).SheetName;
-                    dr["Count"] = hssfworkbook.GetSheetAt(i).LastRowNum;
-                    dt.Rows.Add(dr);
-                }
+                DataRow dr = dt.NewRow();
+                dr["Name"] = hssfworkbook.GetSheetAt(i).SheetName;
+                dr["Count"] = hssfworkbook.GetSheetAt(i).LastRowNum;
+                dt.Rows.Add(dr);
             }
             return dt;
         }
@@ -413,26 +415,19 @@ namespace Song.Site.Manage.Utility
         {
             DataTable dtSch = new DataTable("SheetStructure");
             dtSch.Columns.Add(new DataColumn("Name", Type.GetType("System.String")));
-            using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
+            //创建工作薄对象
+            IWorkbook hssfworkbook = createWorkbook(xlsFile);
+            ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
+            System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
+            rows.MoveNext();
+            //创建Datatable结构
+            IRow firsRow = (IRow)rows.Current;
+            for (int i = 0; i < firsRow.LastCellNum; i++)
             {
-                //创建工作薄对象
-                IWorkbook hssfworkbook = null;
-                //根据扩展名判断excel版本
-                string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
-                if (ext.ToLower() == "xls") hssfworkbook = new HSSFWorkbook(file);
-                if (ext.ToLower() == "xlsx") hssfworkbook = new XSSFWorkbook(file);
-                ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
-                System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
-                rows.MoveNext();
-                //创建Datatable结构
-                IRow firsRow = (IRow)rows.Current;
-                for (int i = 0; i < firsRow.LastCellNum; i++)
-                {
-                    DataRow dr = dtSch.NewRow();
-                    ICell cell = firsRow.GetCell(i);
-                    dr["Name"] = cell == null ? "(null)" + i : cell.ToString();
-                    dtSch.Rows.Add(dr);
-                }
+                DataRow dr = dtSch.NewRow();
+                ICell cell = firsRow.GetCell(i);
+                dr["Name"] = cell == null ? "(null)" + i : cell.ToString();
+                dtSch.Rows.Add(dr);
             }
             return dtSch;
         }
