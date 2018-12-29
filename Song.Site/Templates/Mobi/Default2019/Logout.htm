@@ -1,0 +1,18 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>注销登录</title>
+<vt:include file="inc/meta.inc" />
+
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+
+  <script type="text/javascript">
+  $.storage("accid",null);
+  $.storage("accpw",null);
+  document.location.href = "default.ashx";
+  </script>
+</div>
+</body>
+</html>

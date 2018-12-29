@@ -1,0 +1,59 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>专家讲师</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="Scripts/MyTeacher.js?ver={$version}"></script>
+<link href="Styles/MyTeacher.css?ver={$version}" rel="stylesheet" type="text/css" />
+<meta charset="utf-8">
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--侧滑菜单部分-->
+  <vt:include file="inc/Menu.html" />
+  <!--主界面部分-->
+  <div class="mui-inner-wrap">
+    <header class="mui-bar mui-bar-nav"> <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+      <h1 class="mui-title">我的老师</h1>
+    </header>
+    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+      <div class="mui-scroll">
+      <vt:if var="th.th_id" value="0" compare=">">
+       <div class="mui-card">
+	<!--页眉，放置标题-->
+	<div class="mui-card-header">主讲教师</div>
+	<!--内容区-->
+	<div class="mui-card-content">
+    <div class="teacher" thname="{$th.th_name}" thid="{$th.th_id}">
+        
+           <vt:if var="th.th_photo" value="" compare="=">
+    <img class="thPhoto" src="images/nophoto.jpg"/> 
+      <vt:else/>
+       <div class="thPhoto" style="background:url({$th.th_photo}) no-repeat center center"> &nbsp; </div>
+      </vt:if>
+          
+          <div class="thRight">
+          
+              <div class="thName"> {$th.th_name}</div>
+              <div class="thSign"> {$th.Th_Signature}</div>
+           
+          </div>
+        </div>
+    
+    </div>
+	<div class="mui-card-footer">
+             <vt:function var="score" method="getCommentScore" args="$th.th_id"/>
+            <a href="TeacherComments.ashx?thid={$th.th_id}" type="link">查看评价</a><span class="star" score="{$:score}" size="5" name="{$th.th_name}" thid="{$th.th_id}"></span></div>
+</div>
+  <vt:else/>
+  <!--当前课程没有教师参与-->
+   <div class="nRow">当前课程没有教师参与</div>
+  </vt:if>
+      </div>
+    </div>
+    <!-- 隐藏侧滑菜单的层 -->
+    <div class="mui-off-canvas-backdrop"> </div>
+  </div>
+</div>
+</body>
+</html>

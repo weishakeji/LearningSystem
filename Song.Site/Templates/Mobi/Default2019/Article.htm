@@ -1,0 +1,60 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$art.art_title}</title>
+<vt:include file="inc/meta.inc" />
+<link href="Styles/article.css?ver={$version}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="Scripts/article.js?ver={$version}"></script>
+</head>
+<body>
+
+<div class="context" loyout="row"  >
+  <div class="contextbox">
+    <div id="artArea">
+      <div id="artBox">
+      <div class="artTitle">
+          <vt:if var="art.art_title" value="" compare="!="> {$art.art_title}
+            <vt:else/>
+            (当前资讯不存在，可能是参数引用错误) </vt:if>
+        </div>
+      <div class="artAttrBar"> <span class="artTime">{$:#.art.art_pushTime  format="yyyy-M-dd hh:m:s"}</span> <span class="artflux">浏览{$art.Art_number}次 </span>
+        <!--<span class="artSharp">分享
+       </span>  -->
+      </div>
+        <!--摘要 -->
+        <vt:if var="art.art_intro" value="" compare="!=">
+          <div id="artIntro"><span class="tit">摘要：</span>{$art.art_intro} </div>
+        </vt:if>
+        <!--图片 -->
+        <vt:if var="art.art_isImg" value="true" compare="=">
+         <!-- <div id="artImg"> <img src="{$art.Art_Logo}"/></div>-->
+        </vt:if>
+        <!--正文 -->
+        <div id="artContext">{$art.Art_Details} </div>
+        <!--附件 -->
+        <vt:if var="artAcc.count" value="0" compare=">">
+        <dl id="artAcc">
+          <dt>相关附件：</dt>
+          <vt:foreach from="$#.artAcc" item="data" index="i" remark="新闻的附件">
+            <dd class="accItem"> <span class="filename">{$:i}、<a href="{$:data.As_FileName}" target="_blank" type="link" download="{$:data.As_Name}">{$:data.As_Name}</a></span> <span class="filesize">{$:data.As_Size}</span> </dd>
+          </vt:foreach>
+          <script type="text/javascript">
+              $(function () {
+                  $(".filesize").each(function () {
+                      var n = Number($(this).text());
+                      var tm = $().getSizeUnit(n);
+                      $(this).text(tm);
+                  });
+              });
+</script>
+        </dl>
+      </vt:if>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

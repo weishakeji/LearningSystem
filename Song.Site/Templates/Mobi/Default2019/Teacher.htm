@@ -1,0 +1,17 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$th.th_name}</title>
+<vt:include file="inc/meta.inc" />
+<link rel="stylesheet" href="Styles/Teacher.css?ver={$version}"/>
+<script type="text/javascript" src="Scripts/Teacher.js?ver={$version}"></script>
+</head>
+<body>
+<vt:if var="th.th_photo" value="" compare="="> <img class="thPhoto" src="images/nophoto.jpg"/>
+  <vt:else/>
+  <div class="thPhoto" style="background:url({$th.Th_Photo}) no-repeat center center"> &nbsp; </div>
+</vt:if>
+<div class="name"> {$th.Th_Name} / <a href="tel:{$th.Th_PhoneMobi}" type="tel" class="th-tel">{$th.Th_PhoneMobi}</a> </div>
+<div class="intro"> {$th.Th_Intro} </div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+@charset "utf-8";
+.money-item{
+	font-size: 14px;
+	position: relative;
+	overflow: hidden;
+	border-radius: 2px;
+	background-color: #fff;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0,0,0,.3);
+	height: 60px;
+	padding-top:0px !important;
+}
+/*日期*/
+.dates{
+	height: 60px;
+	width: 15%;
+	float: left;
+	font-size: 16px;
+	text-align: right;
+	line-height: 25px;
+	color: #666;
+	padding-top: 5px;
+}
+/*图标*/
+.ico{
+	height: 60px;
+	width: 20%;
+	float:left;
+}
+.ico .examico {
+	margin-right: auto;
+	margin-left: auto;
+	height: 50px;
+	width: 50px;
+	border-radius: 50%;
+	overflow: hidden;
+	font-size: 35px;
+	line-height: 40px;
+	text-align: center;
+	margin-top: 4px;
+	padding-top: 8px;
+	padding-left: 2px;
+}
+.ico .type1{
+	color: #F00;
+}
+.ico .type2{
+	color: #060;
+}
+/*右侧信息*/
+.info{
+	width: 65%;
+	float:left;
+}
+.info .money{
+	width: auto;
+	float: left;
+	font-weight: bold;
+}
+.info .row1{
+	height: 25px;
+	margin-top: 5px;
+	font-size: 18px;
+}
+.info .row2{
+	height: 30px;
+	text-align: left;
+	width: 100%;
+	float: left;
+	white-space: nowrap;
+	color: #999;
+	overflow:hidden;
+    text-overflow:ellipsis;	
+}
+.info .state{
+	font-size: 12px;
+	line-height: 1;
+	display: inline-block;
+	border-radius: 100px;
+	float: right;
+	padding-top: 3px;
+	padding-right: 6px;
+	padding-bottom: 3px;
+	padding-left: 6px;
+	margin-right: 10px;
+	white-space: nowrap;
+}
+.state0{
+	background-color: #FFDDDD;
+	color: #900;
+}
+.state1{
+	background-color: #D0FFD0;
+	color: #060;
+}

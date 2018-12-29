@@ -1,0 +1,31 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$teacher.th_name}</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="Scripts/TeacherComments.js?ver={$version}"></script>
+<link href="Styles/TeacherComments.css?ver={$version}" rel="stylesheet" type="text/css" />
+<meta charset="utf-8">
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--主界面部分-->
+  <div class="mui-inner-wrap">
+    <header class="mui-bar mui-bar-nav"><a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe6c6;</a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+    
+      <h1 class="mui-title">“{$teacher.th_name}”的评价</h1>
+    </header>
+    <div class="mui-content mui-scroll-wrapper" id="pullrefresh"> 
+      <!--下拉刷新容器-->
+      <div class="mui-scroll">
+          <ul id="detail-view" class="mui-table-view">
+       
+        </ul>
+      </div>
+    </div>
+    <!-- 隐藏侧滑菜单的层 -->
+    <div class="mui-off-canvas-backdrop"> </div>
+  </div>
+</div>
+</body>
+</html>

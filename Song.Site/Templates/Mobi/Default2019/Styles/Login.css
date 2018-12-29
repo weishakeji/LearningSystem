@@ -1,0 +1,217 @@
+@charset "utf-8";
+
+/*内容区的背景*/
+.mui-scroll
+{
+	margin-top:40px;
+   
+}
+.width {
+	width: 218px;
+}
+/*错误信息的提示框*/
+.errTextbox{
+	color: #F00;
+	text-align: center;	
+}
+.loginRow label {
+	margin-right: 20px;
+}
+.loginArea form {
+	width: 240px;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-bottom: 10px;
+	margin-left: auto;
+}
+.textbox {
+	font-size: 18px;
+	line-height: 40px;
+	height: 40px;
+	border: 1px solid #CCCCCC;
+	text-indent: 10px;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+	float: left;
+	color: #333333;
+	margin: 0px !important;
+	padding: 0px !important;
+}
+.loginRow {	
+	width: 100%;
+	height: 40px;
+	margin-bottom:10px;
+}
+.icondefault {
+	font-size: 25px;
+}
+
+.loginRow .loginRowRight {
+	text-align: center;
+	float: left;
+	width: 40px;
+	font-size: 20px;
+	line-height:43px;
+	color: #FFFFFF;
+	background-color: #999999;
+	height: 40px;
+}
+.loginRow .loginRowLeft {
+	float: left;
+	width: 200px;
+	height:40px;
+}
+.verify {
+	float: left;
+	width: 120px !important;
+}
+
+
+.verifyCode{
+	cursor:pointer;
+	height: 38px;
+	float: left;
+	margin-top: 1px;
+	margin-left: 5px;
+	width: 75px;
+}
+.right-btn {
+    cursor: pointer;
+    height: 40px;
+    float: left;
+    margin-top: 0px;
+    margin-left: 5px;
+    width: 75px;
+    border: 1px solid #CCC;
+    text-align: center;
+    background-color: #FFF;
+	font-size:14px;
+	line-height:40px;
+}
+.freelogin
+{
+	float: left;
+	width: 170px;
+	margin-left:-15px;
+}
+.btnBar
+{
+	margin-top: 20px;
+}
+.btnLogin {
+
+	height: 40px;
+	width: 117px;
+	font-size: 16px;
+}
+.btnRegister {
+	height: 40px;
+	width: 117px;
+	font-size: 16px;	
+}
+.loginArea
+{
+	padding-top: 10px;
+	width:240px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.loginArea .isLoginBox .loginRow{
+	text-align: center;
+}
+.cbSign{
+	float:left;
+	margin-right:10px;
+}
+.cbSign:after{
+	margin-left: 80px;
+	content: "自动登录";
+	line-height: 30px;
+	word-wrap: normal;
+	white-space: nowrap;
+}
+#back{
+	font-size: 16px;
+	margin-top:3px;
+}
+.selfpw{
+	float: right !important;
+	margin-left: 10px;
+}
+/*禁止登录的提示*/
+.noLogin{
+	font-size: 16px;
+	line-height: 200px;
+	text-align: center;
+}
+/*第三方登录*/
+.titbar {
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+	margin-top: 50px;
+}
+.titbar .line {
+	display: inline-block;
+	width: 100%;
+	border-top: 1px solid #ccc;
+	height:1px;
+	position:absolute;
+	margin-top:15px;
+	top:0px;
+	left:0px;
+	z-index:1;
+}
+.titbar .name {
+	color: #686868;
+	vertical-align: middle;		
+	position:absolute;
+	width: 100%;
+	top:0px;
+	z-index:2;
+}
+.titbar .name span{
+	background-color: #efeff4 !important;
+	padding-left:20px;
+	padding-right:20px;
+	font-size:14px;
+}
+dl.OAuth{
+	height: 50px;
+	line-height: 30px;
+    width: 100%;
+    margin: 0px;
+}
+dl.OAuth dd{
+	float:left;
+	margin-right:10px;
+}
+dl.OAuth dd a{
+	display: inline-block;
+    position: relative;
+    padding-left: 24px;
+}
+dl.OAuth dd b{
+	width: 19px;
+    height: 18px;
+    display: block;
+    background: url(../images/QQ-weixin.png) no-repeat;
+    margin: 0 auto;
+    position: absolute;
+    float: left;
+    left: 0;
+    top: 16px;
+}
+dl.OAuth dd span{
+	line-height: 50px;
+	color: #333;
+}
+.QQ-icon{
+	background-position: 0 0 !important;	
+}
+.weixin-icon{
+	background-position: -20px 0px !important;	
+}

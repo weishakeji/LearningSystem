@@ -153,11 +153,11 @@ namespace Song.Site.Check
             else
             {
                 //如果存在，但在当前机构不存在
-                acc = Business.Do<IAccounts>().IsAccountsExist(Convert.ToInt32(st["Org_ID"].ToString()), st["St_AccName"].ToString());
+                acc = Business.Do<IAccounts>().IsAccountsExist(this._convert_int(st["Org_ID"].ToString(), 0), st["St_AccName"].ToString());
                 isExist = acc != null;
                 if (!isExist)
                 {
-                    Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(Convert.ToInt32(st["Org_ID"].ToString()));
+                    Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(this._convert_int(st["Org_ID"].ToString(),0));
                     if (org == null) org = Business.Do<IOrganization>().OrganDefault();
                     acc = new Song.Entities.Accounts();
                     acc.Ac_AccName = st["St_AccName"].ToString() + "-" + org.Org_TwoDomain;
@@ -169,10 +169,10 @@ namespace Song.Site.Check
             acc.Ac_Ans = st["St_Anwser"].ToString();
             acc.Ac_Name = st["St_Name"].ToString();
             acc.Ac_Pinyin = st["St_Pinyin"].ToString();
-            acc.Ac_Age = Convert.ToInt32(st["St_Age"].ToString());
-            acc.Ac_Birthday = Convert.ToDateTime(st["St_Birthday"].ToString());
+            acc.Ac_Age = _convert_int(st["St_Age"].ToString(),0);
+            acc.Ac_Birthday = _convert_datetime(st["St_Birthday"].ToString(), DateTime.Now);
             acc.Ac_IDCardNumber = st["St_IDCardNumber"].ToString();
-            acc.Ac_Sex = Convert.ToInt32(st["St_Sex"].ToString());
+            acc.Ac_Sex = _convert_int(st["St_Sex"].ToString(),0);
             acc.Ac_Tel = st["St_Phone"].ToString();
             acc.Ac_IsOpenTel = _convert_bool(st["St_IsOpenPhone"].ToString(),false);
             acc.Ac_MobiTel1 = st["St_PhoneMobi"].ToString();
@@ -180,16 +180,16 @@ namespace Song.Site.Check
             acc.Ac_Email = st["St_Email"].ToString();
             acc.Ac_Qq = st["St_Qq"].ToString();
             acc.Ac_Weixin = st["St_Weixin"].ToString();
-            acc.Ac_RegTime = Convert.ToDateTime(st["St_RegTime"].ToString());
+            acc.Ac_RegTime = _convert_datetime(st["St_RegTime"].ToString(), DateTime.Now);
             acc.Ac_IsUse = _convert_bool(st["St_IsUse"].ToString(), true);
             acc.Ac_IsPass = _convert_bool(st["St_IsPass"].ToString(),true);
-            acc.Org_ID = Convert.ToInt32(st["Org_ID"].ToString());
+            acc.Org_ID = _convert_int(st["Org_ID"].ToString(),0);
             acc.Ac_Signature = st["St_Signature"].ToString();
             acc.Ac_Photo = st["St_Photo"].ToString();
-            acc.Ac_Money = Convert.ToDecimal(st["St_Money"].ToString());
+            acc.Ac_Money = _convert_decimal(st["St_Money"].ToString(), 0);
             acc.Ac_Coupon = 0;
             acc.Ac_Point = 0;
-            acc.Ac_LastTime = Convert.ToDateTime(st["St_LastTime"].ToString());
+            acc.Ac_LastTime = _convert_datetime(st["St_LastTime"].ToString(), DateTime.Now);
             acc.Ac_LastIP = st["St_LastIP"].ToString();           
             acc.Ac_Email = st["St_Email"].ToString();
             acc.Ac_CheckUID = st["St_CheckUID"].ToString();
@@ -205,10 +205,10 @@ namespace Song.Site.Check
             acc.Ac_Address = st["St_Address"].ToString();
             acc.Ac_AddrContact = st["St_AddrContact"].ToString();
 
-            acc.Dep_Id = Convert.ToInt32(st["Dep_Id"].ToString());
-            acc.Sts_ID = Convert.ToInt32(st["Sts_ID"].ToString());
+            acc.Dep_Id = _convert_int(st["Dep_Id"].ToString(),0);
+            acc.Sts_ID = _convert_int(st["Sts_ID"].ToString(),0);
             acc.Sts_Name = st["Sts_Name"].ToString();
-            acc.Ac_CurrCourse = Convert.ToInt32(st["St_CurrCourse"].ToString());
+            acc.Ac_CurrCourse = _convert_int(st["St_CurrCourse"].ToString(),0);
             //
             if (!isExist) Business.Do<IAccounts>().AccountsAdd(acc);
             else
@@ -216,7 +216,7 @@ namespace Song.Site.Check
             //修正相关表
             string tables = @"Forum,TestResults,Student_Ques,Student_Notes,Student_Course,Student_Collect,RechargeCode,MoneyAccount,MessageBoard,Message,LogForStudentStudy,LogForStudentOnline,ExamResults";
             string update = "update {0} set Ac_ID={2} where Ac_ID={1}";
-            int stid=Convert.ToInt32(Convert.ToInt32(st["St_ID"].ToString()));
+            int stid=_convert_int(st["St_ID"].ToString(),0);
             foreach (string t in tables.Split(','))
             {
                 if (string.IsNullOrWhiteSpace(t)) continue;
@@ -231,14 +231,27 @@ namespace Song.Site.Check
         /// <returns></returns>
         private bool _convert_bool(string s, bool def)
         {
-            try
-            {
-                return Convert.ToBoolean(s);
-            }
-            catch
-            {
-                return def;
-            }
+            bool b = def;
+            bool.TryParse(s, out b);
+            return b;           
+        }
+        private int _convert_int(string s, int def)
+        {
+            int b = def;
+            int.TryParse(s, out b);
+            return b;
+        }
+        private DateTime _convert_datetime(string s, DateTime def)
+        {
+            DateTime b = def;
+            DateTime.TryParse(s, out b);
+            return b;
+        }
+        private Decimal _convert_decimal(string s, Decimal def)
+        {
+            Decimal b = def;
+            Decimal.TryParse(s, out b);
+            return b;
         }
     }
 }

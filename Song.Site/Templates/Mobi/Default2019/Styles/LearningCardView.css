@@ -1,0 +1,21 @@
+.ico{
+	margin-right: 5px;
+}
+.txt{
+	line-height: 35px;
+	color: #666;
+	text-align: center;
+}
+.card-tit{
+	
+}
+label{
+
+	width: 23% !important;
+	margin-left: 6%;	
+}
+/*确定按钮*/
+.enter{
+	width: 120px;
+	float:right;
+}

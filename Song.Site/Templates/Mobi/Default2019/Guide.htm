@@ -1,0 +1,45 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$:#.guide.Gu_Title}</title>
+<vt:include file="inc/meta.inc" />
+<link href="Styles/guide.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="context" loyout="row"  >
+  <div class="contextbox">
+    <div id="artArea">
+      <div id="artBox">
+        <div class="artTitle">{$:#.guide.Gu_Title}</div>
+        <div class="artAttrBar"> <span class="artTime">{$:#.guide.gu_crtTime  format="yyyy-M-dd hh:m:s"}</span> <span class="artflux">浏览{$guide.Gu_number}次 </span> 
+          <!--<span class="artSharp">分享
+       </span>  --> 
+        </div>
+        
+        <!--正文 -->
+        <div id="artContext">{$guide.gu_Details} </div>
+        <!--附件 -->
+        <vt:if var="artAcc.length" value="0" compare=">">
+          <dl id="artAcc">
+            <dt>相关附件：</dt>
+            <vt:foreach id="artAcc" from="$#.artAcc" item="data" index="i" remark="新闻的附件">
+              <dd class="accItem"> <span class="filename">{$:i}、<a href="{$:data.As_FileName}" target="_blank">{$:data.As_Name}</a></span> <span class="filesize">{$:data.As_Size}</span> </dd>
+            </vt:foreach>
+            <script type="text/javascript">
+$(function() {
+	  $(".filesize").each(function(){
+		var n=Number($(this).text());
+		var tm=$().getSizeUnit(n);
+		$(this).text(tm);
+	});
+});
+</script>
+          </dl>
+        </vt:if>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

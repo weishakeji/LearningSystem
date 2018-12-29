@@ -1,0 +1,63 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>教师评价</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="Scripts/TeacherComment.js?ver={$version}"></script>
+<link href="Styles/TeacherComment.css?ver={$version}" rel="stylesheet" type="text/css" />
+<meta charset="utf-8">
+</head>
+<body>
+<vt:if var="Account.Ac_id" value="0" compare=">">
+  <vt:if var="comment.Thc_ID" value="0" compare=">"> <!--如果已经评价过-->
+    <div class="nRow">每天只能评价一次！</div>
+    <div class="nRow"><span id="last"></span> 后可以再次评价！</div>
+    <div class="footer">
+      <button type="button" id="btnClose" class="mui-btn mui-btn-success btnDefaut" >关闭评价</button>
+      <script type="text/javascript">
+	  $("#btnClose").click(function () {
+		  parent.PageBox.Close();
+	  });
+	  //最近可以评价的时间
+	  //var lastTime=new Date("{$Last}");
+	  //var currTime = new Date("{$time}");
+	  var lastTime = eval('new ' + eval('/Date({$Last})/').source);
+	  var currTime = eval('new ' + eval('/Date({$time})/').source);
+	  //需要多入才可以评价
+	  //计算离考试开始时间，还有多久,单位：秒
+    window.commentWait = Math.ceil((lastTime.getTime() - currTime.getTime()) / 1000);
+	function countdown(){
+		 window.commentWait--; 
+		 var ss=window.commentWait%60;	//秒数
+		 var mm=Math.floor(window.commentWait/60)%60;	//分数
+		 var hh=Math.floor(window.commentWait/3600);		//小时
+		 $("#last").text(hh+":"+mm+":"+ss);
+		 if(window.commentWait<1){
+			 window.location.href=window.location.href;
+		 }
+	}
+	countdown();
+	setInterval("countdown()",1000);
+	 
+      </script> 
+    </div>
+    <vt:else/>
+    <div class="row">评分：<b id="value" class="show">（点击星标进行评分）</b></div>
+    <div class="row star-bar"><span class="star" score="0" size="10"></span></div>
+    <div class="row">评价：</div>
+    <textarea name="" id="comment"></textarea>
+    <div class="row">
+      <input type="number" name="tbCode" id="tbCode" class="mui-input-password textbox verify" maxlength="4" placeholder="验证码">
+      <img src="/Utility/codeimg.aspx?name=teachercomment" class="verifyCode"/> </div>
+    <div class="row"><span id="alert"></span></div>
+    <div class="footer">
+      <button type="button" id="btnSubmit" data-loading-text="提交中" class="mui-btn mui-btn-success btnSubmit" >提交评价</button>
+    </div>
+  </vt:if>
+  <vt:else/>
+  <!--如果未登录-->
+  <div class="nRow">请登录后评价！</div>
+  <div class="footer"> <a type="link" target="_top" class="mui-btn mui-btn-success btnDefaut" href="login.ashx" >登录</a></div>
+</vt:if>
+</body>
+</html>

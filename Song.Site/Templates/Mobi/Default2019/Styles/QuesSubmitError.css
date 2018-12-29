@@ -1,0 +1,55 @@
+﻿@charset "utf-8";
+body{
+	background-color:#fff;
+}
+#btnSubmit {
+	text-align: center;
+	width: 120px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	float: right;
+	background-color: #339900;
+	
+	font-weight: bold;
+	color: #FFFFFF;
+	font-size: 16px;
+	margin-right: 10px;
+}
+form{
+	margin-top:10px;
+}
+.textbox {
+	border: 1px solid #999999;
+	margin:0px;
+	width:90% !important;
+	margin-left:5% !important;
+	margin-right:5% !important;
+	margin-bottom:10px;
+}
+
+#SubmitError .txt {
+
+	font-size: 14px;
+	line-height: 40px;
+}
+
+#SubmitError p {
+	display: block;
+	margin-left: 10px;
+	line-height: 30px;
+	height: 30px;
+	overflow: hidden;
+	width: 100%;
+	font-size: 16px;
+	padding: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	color: #333;
+}
+.noinfo{
+	text-align: center;
+	padding-top: 30px;
+}

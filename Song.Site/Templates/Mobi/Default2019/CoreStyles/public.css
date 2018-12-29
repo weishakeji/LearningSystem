@@ -1,0 +1,79 @@
+﻿@charset "utf-8";
+@font-face {
+	font-family: "iconfont";
+	src: url('iconfont/iconfont.eot'); /* IE9*/
+	src: url('iconfont/iconfont.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */  url('iconfont/iconfont.woff') format('woff'), /* chrome, firefox */  url('iconfont/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/  url('iconfont/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.icon {
+	font-family: "iconfont" !important;
+	font-size: 16px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+}
+html, body {
+	background-color: #efeff4;
+}
+a {
+	color: #555;
+}
+/*
+页底导航
+*/
+.footer{
+	padding-top:8px;
+	height:50px;
+	overflow: hidden;
+}
+.footer a{
+	float: left;
+	display: block;
+	overflow: hidden;
+	position: relative;
+	width: 25;
+	text-align:center;
+	height:50px;
+}
+.footer a .mitem
+{
+	text-align:center;
+	width:30px;
+	border-radius: 50%;
+	
+}
+.footer a b.mitem:before{
+	font-family: "iconfont";
+	line-height: 30px;
+	font-size: 30px;
+	text-align:center;
+	/* text-shadow: -1px -1px white, 2px 2px #999; */
+}
+/*首页*/
+.footer a.foot-home b:before{
+	content: "\e635";	
+}
+/*课程中心*/
+.footer a.foot-courses b:before{
+	content: "\e648";	
+}
+/*我的课程*/
+.footer a.foot-mycourse b:before{
+	content: "\e60b";	
+}
+/*个人中心*/
+.footer a.foot-mycenter b:before{
+	content: "\e62a";	
+}
+.footer a span
+{
+	display: block;
+	text-align: center;
+	font-size: 14px;
+	position:absolute;
+	bottom: 0px;
+	line-height: 22px;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 100%;
+}

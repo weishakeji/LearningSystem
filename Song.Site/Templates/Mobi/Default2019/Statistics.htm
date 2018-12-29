@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>成绩统计</title>
+<meta charset="utf-8" />
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="Scripts/Statistics.js?ver={$version}"></script>
+<link href="Styles/Statistics.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+  <!--主界面部分-->
+  <div class="mui-inner-wrap">
+   
+    <div class="mui-content mui-scroll-wrapper" id="pullrefresh"> 
+      <!--下拉刷新容器-->
+      <div class="mui-scroll">
+          <ul id="detail-view" class="mui-table-view">
+       
+        </ul>
+      </div>
+    </div>
+   
+  </div>
+<nav class="mui-bar mui-bar-tab"> 
+  <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"><span class="name">{$pager.Tp_Name}</span></a>
+
+           <a class="mui-btn mui-btn-link mui-pull-right right" href="" >
+				历史成绩
+			</a>
+  </nav>
+</body>
+</html>

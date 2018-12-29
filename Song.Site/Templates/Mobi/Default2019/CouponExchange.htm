@@ -1,0 +1,58 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>积分兑换</title>
+<vt:include file="inc/meta.inc" />
+<link rel="stylesheet" href="Styles/CouponExchange.css?ver={$version}"/>
+<script type="text/javascript" src="Scripts/CouponExchange.js?ver={$version}"></script>
+</head>
+<body>
+<nav class="mui-bar mui-bar-tab"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"></a> <a class="mui-btn mui-btn-link mui-pull-left left" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a> <a class="mui-btn mui-btn-link mui-pull-right right" href="PointDetails.ashx?accid={$Account.Ac_ID}&state=nohead" type="open"> <span class="footer-ico">&clubs;</span>积分详情 </a> </nav>
+<div class="mui-scroll">
+  <ul class="mui-table-view">
+    <li class="mui-table-view-cell mui-media"> <a href="javascript:;">
+      <vt:if var="Account.Ac_photo" value="" compare="="> <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/>
+        <vt:else/>
+        <img class="mui-media-object mui-pull-left" src="{$stpath}{$:#.Account.Ac_photo}"/></vt:if>
+      <div class="mui-media-body">
+        <vt:if var="Account.Ac_name" value="" compare="="> （无名）
+          <vt:else/>
+          {$Account.Ac_name} </vt:if>
+        <span class="money-item"> 积分：{$:#.Account.Ac_Point} &nbsp; (券{$:#.Account.Ac_Coupon}个)</span>
+        <p class='mui-ellipsis'>
+          <vt:if var="Student.Ac_PhoneMobi" value="" compare="!="> {$Student.Ac_PhoneMobi} </vt:if>
+          （账号：{$:#.Account.Ac_accname} ） </p>
+      </div>
+      </a> </li>
+  </ul>
+  <!--学员个人信息（结束），如头像-->
+  
+  <div class="mui-card">
+    <div class="mui-card-header"><span class="card-tit"><span class="moneyico ico">&#xe60f;</span>积分兑换卡券</span><span id="card-error" class="error-show"></span> </div>
+    <!--内容区-->
+    <div class="mui-card-content">
+      <form class="mui-input-group" star="false">
+        <div class="mui-input-row">
+          <label>兑换比率</label>
+         <div class="right-text"> {$ratio}：1</div>
+        </div>
+        <div class="mui-input-row">
+          <label>示例</label>
+          <div class="right-text"><span id="pointSum">{$:#.Account.Ac_Point}</span>&divide;<span id="ratio">{$ratio}</span>=<span id="result"></span>个</div>
+
+        </div> <div class="mui-input-row txt"> （积分除以兑换率，向下取整） </div>
+        <div class="mui-input-row">
+          <label>兑换数</label>
+          <input name="tbNumber" id="tbNumber" value="" type="text"  class="textbox" nullable="false" />
+        </div>
+       
+        <div class="mui-button-row">
+          <button class="mui-btn mui-btn-primary enter" id="btnCouponExchange" type="submit"  verify="true"  data-loading-text="提交中">兑 换</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- 主内容结束 --></div>
+</body>
+</html>

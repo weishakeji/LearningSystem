@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>课程交流</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="CoreScripts/Verify.js?ver={$version}"></script>
+<script type="text/javascript" src="Scripts/MsgBoards.js?ver={$version}"></script>
+<link href="Styles/MsgBoards.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<!--主界面部分-->
+<vt:if var="state" value="nohead" compare="!=">
+<header class="mui-bar mui-bar-nav"> <a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe6c6;</a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+  <h1 class="mui-title">课程交流</h1>
+</header>
+</vt:if>
+<div class="mui-content mui-scroll-wrapper" id="pullrefresh"> 
+  <!--下拉刷新容器-->
+  <div class="mui-scroll">
+    <div id="detail-view">
+      <div style="height:150px" class="space"></div>
+    </div>
+  </div>
+</div>
+<!--模板区域 --学员留言模板-->
+<div id="st_template" style="display:none">
+<div class="item stmsg" mbid="{{Mb_Id}}" style="display:none">
+  <div class="info_column">
+    <div class="photo" style="background:url({$stpath}{{Ac_Photo}}) no-repeat center"> &nbsp; </div>
+    <div class="accname"> {{Ac_Name}} </div>
+  </div>
+  <div class="msg_column">
+    <div class="msgContext">{{Mb_Content}} </div>
+  </div>
+</div>
+</div>
+<!--模板区域 --教师回复模板-->
+<div id="th_template" style="display:none">
+<div class="item thmsg" style="display:none">
+    <div class="info_column">
+  
+       <div class="photo" style="background:url({$thpath}{{Th_Photo}}) no-repeat center"> &nbsp; </div>
+    
+      <div class="accname"> {{Th_Name}}</div>
+    </div>
+    <div class="msg_column">
+       <div class="ans">
+      {{Mb_Answer}} </div>
+      
+    </div>
+  </div>
+  </div>
+<!--内容填写域-->
+<div class="footer">
+  <form method="post" class="msgBox" id="formAddmsg">
+    <vt:if var="Account" value="" compare="=">
+      <div class="noLogin"> 请登录后进行咨询。<br/>
+        <a href="login.ashx" target="_top" type="link">点此处登录</a></div>
+      <vt:else />
+      <div class="msgTitle"> 课程咨询： </div>
+      <div class="msginput">
+        <textarea name="msg" nullable="false" star='false' id="msg"></textarea>
+      </div>
+      <div class="loginRow">
+        <input type="number" name="tbCode" class="mui-input-password textbox verify" nullable="false" star='false' lenlimit="4-4"   placeholder="验证码">
+        <img src="/Utility/codeimg.aspx?name=accmsgcode" class="verifyCode"/>
+        <button type="submit" class="btnBox mui-btn mui-btn-primary" verify="true">提交</button>
+      </div>
+    </vt:if>
+  </form>
+</div>
+</body>
+</html>

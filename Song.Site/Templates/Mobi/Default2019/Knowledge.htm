@@ -1,0 +1,53 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$:#.kn.kn_title}</title>
+<vt:include file="inc/meta.inc" />
+<link href="Styles/Knowledge.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="context" loyout="row"  >
+  <div class="contextbox">
+    <div id="artArea">
+      <div id="artBox">
+        <div class="artTitle">{$:#.kn.kn_title}</div>
+        
+        <!--正文 -->
+        <div id="artContext">{$kn.kn_Details} </div>
+        <!--附件 -->
+        <vt:if var="artAcc.length" value="0" compare=">">
+          <dl id="artAcc">
+            <dt>相关附件：</dt>
+            <vt:foreach id="artAcc" from="$#.artAcc" item="data" index="i" remark="知识库的附件">
+              <dd class="accItem"> <span class="filename">{$:i}、<a href="{$:data.As_FileName}" target="_blank">{$:data.As_Name}</a></span> <span class="filesize">{$:data.As_Size}</span> </dd>
+            </vt:foreach>
+            <script type="text/javascript">
+$(function() {
+	  $(".filesize").each(function(){
+		var n=Number($(this).text());
+		var tm=$().getSizeUnit(n);
+		$(this).text(tm);
+	});
+});
+</script>
+          </dl>
+        </vt:if>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="artPrev"> 
+    
+   <!-- <vt:if var="prev.kn_id" value="1" compare="<"> 上则：无
+      <vt:else />
+      上则：<a href="Knowledge.ashx?id={$artPrev.Art_id}">{$artPrev.Art_Title}</a> </vt:if>
+  </div>-->
+  <div class="artNext">
+    <vt:if var="next.kn_title" value="" compare="="> 下则：无
+      <vt:else />
+      下则：<a href="Knowledge.ashx?id={$next.Kn_ID}" type="link">{$next.kn_title}</a> </vt:if>
+  </div>
+</div>
+</body>
+</html>

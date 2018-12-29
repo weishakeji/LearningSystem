@@ -1,0 +1,81 @@
+@charset "utf-8";
+.note-item .mui-navigate-right{
+	color: #333 !important;	
+}
+/*主讲教师*/
+.teacher{
+	margin-bottom:10px;
+	display:table;
+	width:100%;
+}
+.th-tel{
+	font-size: 18px;
+	font-weight: bold;
+	color: #333;
+	text-decoration: none;
+	display:inline-block;
+}
+.th-tel b:before {
+	content: "\e635";
+	font-family: iconphone;
+	font-size: 20px;
+	line-height: 40px;
+	font-weight: normal;
+	margin-right: 5px;
+}
+.thPhoto{
+	width: 30%;
+    border-radius: 55%;
+    overflow: hidden;
+    margin-top: 6px;
+    border: 2px solid #eee !important;
+    float: left;
+    display: block;
+	margin-left:5%;
+	background-size:100% !important;
+	box-shadow: 0 -2px 2px #ccc, 0 6px 1px rgba(0, 0, 0, 0.3);
+}
+.thRight{
+	 float: left;
+	 margin-left:5%;
+	 width:55%;
+}
+.thName{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.thSign{
+	color: #666;
+	line-height: 25px;
+	max-height: 78px;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	width:100%;
+}
+
+/*星标*/
+.star{
+}
+.star i{
+	background-image: url(../Images/sun_star.gif);
+	background-repeat: no-repeat;
+	background-position: -160px -158px;
+	display: inline-block;
+	height: 25px;
+	width: 28px;
+}
+.star .s1{
+	background-position: 0px -158px;	
+}
+.star .s0{	
+	background-position: 0px -186px;
+}
+.star b{
+	height: 25px;
+	width: 40px;
+	line-height: 25px;
+	display: inline-block;
+	text-align: center;
+	margin-top: -10px;
+	vertical-align: middle;
+}

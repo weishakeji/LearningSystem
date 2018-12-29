@@ -1,0 +1,18 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>试题答案</title>
+<vt:include file="inc/meta.inc" />
+<link href="Styles/QuesAnswer.css?ver={$version}" rel="stylesheet" type="text/css" />
+<link href="/Utility/CoreStyles/Jme.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="Context"> 
+<vt:if var="qid" value="0" compare="="> 
+（该试题不存在）   <vt:else />
+  <vt:if var="answer" value="" compare="="> （该试题答案未能正确显示）
+    <vt:else />
+    {$:#.answer} </vt:if></vt:if>
+ </div>
+</body>
+</html>

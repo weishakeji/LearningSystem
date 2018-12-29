@@ -1,0 +1,16 @@
+@charset "utf-8";
+html {
+	overflow-x:hidden;
+	overflow-y:auto;
+}
+body{
+	padding: 10px;
+}
+body,p,div,font,span{
+font-size: 15px !important;
+}
+img{
+	max-width:100%;
+	margin-left:auto;
+	margin-right:auto;
+}

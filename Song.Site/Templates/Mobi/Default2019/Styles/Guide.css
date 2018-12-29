@@ -1,0 +1,67 @@
+.context{
+	margin:10px;
+	margin-bottom:100px;
+}
+.artTitle
+{
+	font-size: 18px;
+	text-align: center;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-bottom: 10px;
+	margin-left: auto;
+}
+.artAttrBar
+{
+	font-size: 14px;
+	text-align: center;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-bottom: 10px;
+	margin-left: auto;
+	color: #666666;
+}
+#artImg{
+	text-align: center;
+}
+#artImg img{
+	max-width:100% !important;
+}
+#artContext{
+	margin-bottom: 20px;
+}
+#artContext img{
+	width:100% !important;
+	margin: auto;
+}
+#artIntro
+{
+	font-size: 16px !important;
+	line-height: 22px !important;
+	background-color:transparent !important;
+	margin-bottom: 1em;
+}
+#artContext, #artContext p, #artContext font, #artContext div,#artContext span{
+	font-size: 16px !important;
+	line-height: 25px !important;
+	background-color:transparent !important;	
+}
+#artContext p
+{
+	margin-top: 0.5em;
+}
+#artAcc
+{
+	margin-bottom: 1em;
+}
+.filesize {
+	font-size: 14px;
+	color: #666666;
+	margin-left: 10px;
+}
+.mui-inner-wrap{
+	padding-bottom:60px;
+}
+.right{
+	margin-right:20px;
+}

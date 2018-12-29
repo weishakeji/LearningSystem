@@ -1,0 +1,76 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>账单详情</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="Scripts/MoneyDetail.js?ver={$version}"></script>
+<link href="Styles/MoneyDetail.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div loyout="row" height="10"  > </div>
+<div class="context" loyout="row"  >
+  <div loyout="column" width="10"  > </div>
+  <div loyout="column" class="box">
+    <div class="infoRow">
+      <div class="RowRight">余额：</div>
+      <div class="RowLeft"> <span class="moneyico">&#xe746;</span> {$:#.money.Ma_Total format="0.00"}元</div>
+    </div>
+    <div class="infoRow">
+      <div class="RowRight">明细：</div>
+      <div class="RowLeft">
+        <vt:if var="money.Ma_Type" value="1" compare="="><span class="ico1">-{$:#.money.Ma_Money format="0.00"}</span> 元
+          <vt:else />
+          <span class="ico2">+{$:#.money.Ma_Money format="0.00"}</span> 元</vt:if>
+      </div>
+    </div>
+    <div class="infoRow">
+      <div class="RowRight">时间：</div>
+      <div class="RowLeft"> {$:#.money.Ma_CrtTime format="yyyy年MM月dd日 HH:mm:ss"} </div>
+    </div>
+    <div class="infoRow">
+      <div class="RowRight">类型：</div>
+      <div class="RowLeft">
+        <vt:if var="money.Ma_Type" value="1" compare="=">支出
+          <vt:else />
+          转入</vt:if>
+        <vt:if var="money.Ma_IsSuccess" value="true" compare="=">（正常）
+          <vt:else />
+          <span class="alert">（失败）</span></vt:if>
+      </div>
+    </div>
+    <div class="infoRow">
+      <div class="RowRight">交易号：</div>
+      <div class="RowLeft"> {$:#.money.Ma_Serial} </div>
+    </div>
+    <div class="infoRow">
+      <div class="RowRight">来源：</div>
+      <div class="RowLeft"> {$:#.money.Ma_Source} </div>
+    </div>
+    <div class="infoRow">
+      <div class="RowRight">&nbsp;</div>
+      <div class="RowLeft"> &nbsp; </div>
+    </div>
+    <div class="infoRow">
+      <div class="RowRight">附注：</div>
+      <div class="RowLeft"> {$:#.money.Ma_Info} </div>
+    </div>
+    <div class="infoRow">
+      <div class="RowRight">备注：</div>
+      
+    </div>
+     <div class="infoRow">
+     
+        <textarea name="tbRemark" rows="4" id="tbRemark" style="width:96%; margin-left:2%; margin-bottom:2px;" placeholder="备注信息">{$:#.money.Ma_Remark}</textarea>
+      
+    </div>
+    <div>
+      
+      <button class="mui-btn mui-btn-primary enter" id="btnRemark" type="button" data-loading-text="提交中" onclick="return false;">确认</button>
+     
+    </div>
+  </div>
+  <div loyout="column" width="10"  > </div>
+</div>
+<div loyout="row" height="10"  > </div>
+</body>
+</html>

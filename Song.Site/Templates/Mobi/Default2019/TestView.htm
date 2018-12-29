@@ -1,0 +1,133 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>考试成绩回顾</title>
+<vt:include file="inc/meta-nomui.inc" />
+<script type="text/javascript" src="CoreScripts/jquery.touchSwipe.min.js?ver={$version}"></script>
+<script type="text/javascript" src="CoreScripts/MsgBox.js?ver={$version}"></script>
+<link href="CoreStyles/MsgBox.css?ver={$version}" rel="stylesheet" type="text/css" />
+<link href="Styles/TestView.css?ver={$version}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="Scripts/TestView.js?ver={$version}"></script>
+</head>
+<body>
+
+  <div class="contextbox">
+    <div class="pagerTitle">《{$result.tp_name}》</div>
+    <div class="info">{$result.Tr_crtTime format="yyyy-MM-dd HH:mm"}的测试结果如下： </div>
+    <div class="scoreinfo"> 得分：<span class="score">{$result.Tr_Score}分</span>；总分<span class="total">{$pager.Tp_Total}分</span>（<span class="pass">{$pager.Tp_PassScore}分</span>及格） </div>
+    <div id="details">
+      <table width="90%" border="0" cellspacing="0" id="detailsTable" cellpadding="0">
+        <tr class="header">
+          <th>题型</th>
+          <th>题量</th>
+          <th>答题</th>
+          <th>答对</th>
+          <th>答错</th>
+          <th>总分</th>
+          <th class="thLast">得分</th>
+        </tr>
+        <vt:foreach id="tpItem" from="$#.tpi" item="data" index="i" remark="当前试卷的试题大项">
+          <tr class="itemrow">
+            <td><!--试题类型 -->
+              <vt:function var="typeName" method="getTypeName" args="$#.data.TPI_Type"/>
+              <!--{$:i}. -->
+              {$:#.typeName}</td>
+            <td><!--当前试题类型的试题数 -->
+              {$:#.data.TPI_Count}</td>
+            <td><!--答题数 -->
+              <vt:function var="typeCount" method="getAnswerCount" args="$#.data.TPI_Type"/>
+              {$:#.typeCount} </td>
+            <td><!--答对的数目 -->
+              <vt:function var="typeSuccessCount" method="getSucessCount" args="$#.data.TPI_Type"/>
+              {$:#.typeSuccessCount}</td>
+            <td><!--答错的数目 -->
+              <vt:function var="typeErrorCount" method="getErrorCount" args="$#.data.TPI_Type"/>
+              {$:#.typeErrorCount}</td>
+            <td>{$:#.data.TPI_Number}</td>
+            <td><!--得分 -->
+              <vt:function var="typeNumber" method="getTypeNumber" args="$#.data.TPI_Type"/>
+              {$:#.typeNumber} </td>
+          </tr>
+        </vt:foreach>
+        <tr class="sum">
+          <td>总计：</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td style="color:Red">&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </div>
+    <!--清除此次成绩 -->
+    <a class="btnDelResult" href="Statistics.ashx?state=del&id={$:#.result.tr_id}" style="display:none">清除此次成绩</a>
+   
+    <!--答题详情展示区 -->
+    <div id="quesBox">
+      <div id="quesTitle">答题详情回顾 </div>
+      <div id="quesBtnBox">
+        <div id="btnAll" class="btn">所有</div>
+        <div id="btnSuccess" class="btn">正确</div>
+        <div id="btnError" class="btn">错误</div>
+        <div id="btnNoans" class="btn">未做</div>
+      </div>
+      <vt:foreach id="tpItem" from="$#.tpi" item="data" index="i" remark="当前试卷的试题大项">
+        <div class="typeBox" type="{$:#.data.TPI_Type}" >
+          <vt:function var="typeName" method="getTypeName" args="$#.data.TPI_Type"/>
+          <div class="typeName">
+            <!--大题的标题 -->
+            <span class="typeTax"> {$:i}</span>、{$:#.typeName}</div>
+          <!--试题列表 -->
+          <vt:function var="ques" method="getQues" args="$#.data.TPI_Type"/>
+          <vt:foreach from="$#.ques" item="q" index="j">
+            <vt:function var="ansState" method="getAnswerState" args="$#.q.qus_id" remark="计算答题的状态，0为正确，1为错误，2为未答题"/>
+            <div class="qitemBox ansState{$:ansState}" ansState="{$:ansState}" qid="{$:q.qus_id}" type="{$#.data.TPI_Type}">
+              <div class="qusTitle"> <span class="qTax">0 </span>、{$:q.Qus_Title} </div>
+              <div class="quesSelectBox">
+                <!--单选题 -->
+                <vt:if var="q.Qus_Type" value="1" compare="=">
+                  <vt:function var="ans" method="getItems" args="$#.q" remark="获取当前试题的选项"/>
+                  <vt:foreach from="$#.ans" item="an" index="n">
+                    <div IsCorrect="{$:an.Ans_IsCorrect}" anid="{$:an.Ans_Id}" class="item_{$:an.Ans_IsCorrect}"> <span class="order">{$:n}</span>. <span>{$:an.Ans_Context}</span> </div>
+                  </vt:foreach>
+                </vt:if>
+                <!--多选题 -->
+                <vt:if var="q.Qus_Type" value="2" compare="=">
+                  <vt:function var="ans" method="getItems" args="$#.q" remark="获取当前试题的选项"/>
+                  <vt:foreach from="$#.ans" item="an" index="n">
+                    <div IsCorrect="{$:an.Ans_IsCorrect}" anid="{$:an.Ans_Id}" class="item_{$:an.Ans_IsCorrect}"> <span class="order">{$:n}</span>. <span>{$:an.Ans_Context}</span> </div>
+                  </vt:foreach>
+                </vt:if>
+              </div>
+              <!--得分 -->
+              <div class="resultBox">
+                <vt:function var="score" method="getQuesScore" args="$#.q.Qus_ID" remark="试题得分"/>
+                答题得分： <span class="ScoreItem">{$:score}</span> 分 </div>
+              <!-- 学员实际答题内容 -->
+              <div class="resultBox">
+                <vt:function var="reslut" method="getResult" args="$#.q.Qus_ID" remark="学员实际答题内容"/>
+                实际答题：
+                <vt:if var="reslut" value="" compare="="> （没有答题）
+                  <vt:else/>
+                  <span class="resultItem">{$:reslut}</span> </vt:if>
+              </div>
+              <!-- 正确答案 -->
+              <div class="sucessBox">
+            <vt:function var="ans" method="getSucessAnswer" args="$#.q" remark="正确答案"/>
+            正确答案：<span class="selectedItem">{$ans}</span> </div>
+              <!--试题解析 -->
+              <div class="explainBox"> 试题解析：
+                <vt:if var="q.Qus_Explain" value="" compare="="> （无）
+                  <vt:else/>
+                  {$:q.Qus_Explain} </vt:if>
+              </div>
+            </div>
+          </vt:foreach>
+        </div>
+      </vt:foreach>
+    </div>
+  </div>
+
+</body>
+</html>

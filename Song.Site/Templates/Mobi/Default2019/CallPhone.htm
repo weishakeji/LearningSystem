@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title></title>
+<script type="text/javascript" src="/Utility/CoreScripts/jquery.js?ver={$version}"></script>
+<script type="text/javascript" src="CoreScripts/Extend.js?ver={$version}"></script>
+<script type="text/javascript">
+    $(function(){
+		var phone=$().getPara("phone");
+		$(".tel").attr("href","tel:"+phone).text(phone);
+	});
+    </script>
+<link rel="stylesheet" href="CoreStyles/public.css?ver={$version}"/>
+<style type="text/css">
+body{
+	text-align: center;
+	vertical-align: middle;
+	font-family: 'Helvetica Neue', Helvetica, sans-serif;
+}
+.tel {
+	font-size: 25px;
+	font-weight: bold;
+	color: #333;
+	text-decoration: none;
+	line-height: 80px;
+}
+.tel:before {
+	content: "\e635";
+	font-family: iconphone;
+	font-size: 30px;
+	line-height: 40px;
+	font-weight: normal;
+	margin-right: 5px;
+}
+</style>
+</head>
+<body>
+<a href="tel:18037155753" type="tel" class="tel"><b></b>18037155753</a>
+</body>
+</html>

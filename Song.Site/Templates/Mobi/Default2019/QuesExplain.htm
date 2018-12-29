@@ -1,0 +1,16 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>试题解析</title>
+<vt:include file="inc/meta.inc" />
+<link href="Styles/QuesExplain.css?ver={$version}" rel="stylesheet" type="text/css" />
+<link href="/Utility/CoreStyles/Jme.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="Context">
+  <vt:if var="explain" value="" compare="="> （该试题没有解析）
+    <vt:else />
+    {$:#.explain} </vt:if>
+</div>
+</body>
+</html>

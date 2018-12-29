@@ -1,0 +1,25 @@
+﻿@charset "utf-8";
+body{
+	background-color:#fff;
+}
+#btnSubmit {
+	text-align: center;
+	width: 120px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	float: right;
+	background-color: #339900;
+	font-weight: bold;
+	color: #FFFFFF;
+	font-size: 16px;
+	margin-right: 5%;
+}
+.textbox {
+	border: 1px solid #999999;
+	margin:10px;
+	width:90% !important;
+	margin-left:5% !important;
+	margin-right:5% !important;
+}

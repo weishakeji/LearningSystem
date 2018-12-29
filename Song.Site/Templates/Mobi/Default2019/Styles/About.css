@@ -1,0 +1,12 @@
+﻿body {
+	padding: 10px;
+}
+body,p,div,td,*{
+	color:#333 !important;
+}
+.tit{
+	text-align: center;
+	margin-bottom: 10px;
+}
+.intro{
+}

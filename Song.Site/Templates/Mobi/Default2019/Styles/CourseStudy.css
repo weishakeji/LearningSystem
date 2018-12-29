@@ -1,0 +1,142 @@
+@charset "utf-8";
+.headbar {
+	background-color: transparent !important;
+	webkit-box-shadow: 0 0px 0px #ccc !important;
+    box-shadow: 0 0px 0px #ccc !important;
+}
+.video{
+	background-color: transparent !important;
+	webkit-box-shadow: 0 0px 0px #ccc !important;
+    box-shadow: 0 0px 0px #ccc !important;
+	padding:0px !important;
+	
+}
+div{
+	
+}
+#videobox{
+	position:absolute;
+	top:0px;
+	left:0px;
+	z-index:1;
+}
+.mui-inner-wrap{
+	margin-top:260px;	
+}
+#playerInfo{
+	padding-left: 20px;
+	padding-right: 20px;
+	height:40px;
+	line-height:40px;
+	background-color: #FFF;
+	webkit-box-shadow: 0 1px 6px #ccc;
+    box-shadow: 0 1px 6px #ccc ;
+}
+#playerInfo, #playerInfo *{
+	font-size: 16px;	
+}
+#playerInfo .time{
+	color: #333;
+	font-size: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-right:20px;
+}
+
+#videoIframe{
+	width:100% !important;
+}
+.noVideo{
+	text-align: center;
+	margin-top: 30px;
+}
+#details{
+	margin:20px;
+}
+#details, #details p, #details *{
+	font-size: 17px !important;
+	line-height: 30px !important;
+	background-color:transparent !important;	
+	color:#666 !important;
+}
+img{
+	max-width:100% !important;
+}
+video{
+	position:absolute;
+	top:0px;
+	left:0px;
+	object-fit: fill;
+}
+video::-internal-media-controls-download-button {
+    display:none;
+}
+
+video::-webkit-media-controls-enclosure {
+    overflow:hidden;
+}
+video::-webkit-media-controls-panel {
+    width: calc(100% + 30px); 
+}
+/*选项卡*/
+.tabs{
+	margin:10px;
+	padding-left: 10px;
+	padding-right: 20px;
+	height:40px;
+	line-height:40px;
+	background-color: #FFF;
+	webkit-box-shadow: 0 1px 6px #ccc;
+    box-shadow: 0 1px 6px #ccc ;
+}
+.back{
+	line-height: 40px;
+	padding-right: 10px;
+}
+.tabs .tab{
+	margin-right: 10px;
+	color: #666;
+}
+.tabs .curr{
+	color: #F30;
+}
+.mui-table-view{
+	margin:10px;
+}
+/*附件*/
+#access{
+	margin:10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+#access dd{
+	margin:0px;
+	line-height:35px;
+}
+/*当前章节*/
+.curr_ol{
+	color: #900;
+}
+.outline a:before{
+	content: "\e636";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 20px;
+	font-weight: normal;	
+}
+#noQues {
+	text-align: center;
+	margin-top: 30px;
+	margin: 10px;
+	margin-top:50px;
+	height: auto;
+	position: relative;
+	overflow: hidden;
+	border-radius: 2px;
+	background-color: white;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	padding: 10px;
+	height: 140px;
+	line-height: 100px;
+}

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>课程公告</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="Scripts/Guides.js?ver={$version}"></script>
+<link href="Styles/Guides.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--侧滑菜单部分-->
+  <vt:include file="inc/Menu.html" />
+  <!--主界面部分-->
+  <div class="mui-inner-wrap">
+    <header class="mui-bar mui-bar-nav"> <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+     <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+      <a class="mui-btn mui-btn-link mui-pull-right" href="#" id="btnSelect"><span class="iconfont top-ico">&#xf004c;</span></a>
+      <h1 class="mui-title">课程公告</h1>
+    </header>
+    <div class="mui-content mui-scroll-wrapper" id="pullrefresh"> 
+      <!--下拉刷新容器-->
+      <div class="mui-scroll">
+          <ul id="detail-view" class="mui-table-view">
+       
+        </ul>
+      </div>
+    </div>
+    <!-- 隐藏侧滑菜单的层 -->
+    <div class="mui-off-canvas-backdrop"> </div>
+  </div>
+</div>
+<!--内容结束，下面是用于筛选的表单-->
+<div id="select-box" style="display:none">
+  <div class="sear-row">   
+    <input name="tbSearch" type="text" id="tbSearch" placeholder="请输入要检索的信息" value="">    
+    <button type="button" id="btnSearch" class="mui-btn mui-btn-primary">查询</button>
+  </div>
+  <div class="sbj-view">
+  课程公告栏目<span class="sbj-num">-已选0个</span>
+  <span class="sbj-clear">清空</span>
+  </div>
+  <div class="pagebox-context">
+    <vt:repeat type="GuideColumns" var="sbjs" item="data" index="i" remark="顶级专业分类">
+      <div class="sbj-tit sbj-one"><span class="iconfont sbj-ico">&#xf0085;</span>
+      <input name="cb" type="checkbox" class="checkbox" sortid="{$#.data.current.gc_id}"/><label class="sbj-name">{$#.data.current.Gc_Title}</label>
+      </div>
+        <div class="sbj-area">         
+            <vt:repeat from="$data.Childs" type="GuideColumns" item="d" index="i" remark="二级分类">
+           
+             <div class="sbj-tit sbj-two"><span class="iconfont sbj-ico">&#xf0085;</span>
+             <input name="cb" type="checkbox" class="checkbox" sortid="{$#.d.current.gc_id}"/>
+             <label class="sbj-name">{$#.d.current.Gc_Title}</label></div>
+                <div class="sbj-area" style="display:none">
+                    <vt:repeat from="$d.Childs" type="GuideColumns" item="t" index="i"  remark="三级分类">
+                      <div class="sbj-three"><span class="iconfont sbj-ico">&#xf0085;</span>
+                      <input name="cb" type="checkbox" class="checkbox" sortid="{$#.t.current.gc_id}"/><label class="sbj-name">{$#.t.current.Gc_Title}</label></div>
+                    </vt:repeat>
+                 </div>
+             
+            </vt:repeat>
+          
+        </div>
+      
+    </vt:repeat>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,116 @@
+@charset "utf-8";
+
+.mui-scroll-wrapper{
+	overflow: auto !important;
+}
+.ico{
+	margin-right: 5px;
+}
+.txt{
+	line-height: 35px;
+	color: #666;
+	text-align: center;
+}
+.card-tit{
+	color: #06F;
+}
+.online-tit{
+	color: #060;
+}
+.nologin{
+	width:auto;
+}
+.error-show{
+	font-size: 14px;
+	color: #F00;
+}
+label{
+
+	width: 25% !important;
+	margin-left: 8%;	
+}
+/*输入框*/
+.textbox{
+	border: 1px solid #CCC !important;
+	padding-top: 0px !important;
+	padding-bottom: 0px !important;
+	height: 36px !important;
+	margin-top: 2px;
+	margin-left:0px !important;
+	margin-right:1% !important;
+	width:64% !important;
+	float:left !important;
+	text-indent:10px;
+}
+/*确定按钮*/
+.enter{
+	float: right !important;
+	width: 100px;
+	margin-right:10px;
+}
+
+/*支付平台的标题*/
+.paytit{
+	margin-left: 5% !important;
+	width:auto;
+}
+.paytit img{
+	float: left;
+	height: 35px;
+	margin-right:10px;
+}
+.paytit span{
+	float: left;
+	width: 80px;
+	height:35px;
+	line-height:35px;
+	color: #000;
+}
+.payitem{
+	line-height:35px !important;
+	margin-left:20px !important;
+}
+.payitem img{
+	float: left;
+	margin-right: 10px;
+	height:35px;
+	
+}
+.money-item{
+	color: #F60;
+	margin-left: 25px;
+	font-size: 14px;
+}
+.money-item .moneyico{
+	font-size:14px;
+}
+.right-item{
+	float: right;
+	line-height: 40px;
+	color: #060;
+	text-align: right;
+	width: 40px;
+	white-space: nowrap;
+	overflow: hidden;
+	font-size: 25px;
+}
+
+/*一些控件，自己定义样式*/
+
+.mui-numbox{
+	float:none !important;
+	width:160px !important;
+	margin-left:0px !important;
+}
+#btn_camera{
+	margin-left: 30px;
+	color: #F00;
+	float:left;
+	line-height:40px;
+	display:block;
+	cursor:pointer;
+}
+#btn_camera img{
+	height:16px;
+	margin-right:8px;
+}

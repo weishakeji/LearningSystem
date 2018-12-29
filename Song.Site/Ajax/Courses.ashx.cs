@@ -14,12 +14,15 @@ namespace Song.Site.Ajax
     {
         int index = WeiSha.Common.Request.QueryString["index"].Int32 ?? 1;
         int size = WeiSha.Common.Request.QueryString["size"].Int32 ?? 1;
+        int sbjid = WeiSha.Common.Request.QueryString["sbjid"].Int32 ?? -1;  //专业id
+        string search = WeiSha.Common.Request.QueryString["search"].String; 
+        string order = WeiSha.Common.Request.QueryString["order"].String;   //排序，flux流量最大优先,def推荐、流量，tax排序号，new最新,rec推荐
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             int sum = 0;
-            List<Song.Entities.Course> cour = Business.Do<ICourse>().CoursePager(org.Org_ID, -1, -1, true, "", "def", size, index, out sum);
+            List<Song.Entities.Course> cour = Business.Do<ICourse>().CoursePager(org.Org_ID, sbjid, -1, true, search, order, size, index, out sum);
             string tm = "{\"sum\":" + sum + ",\"index\":" + index + ",\"object\":[";
             for (int i = 0; i < cour.Count; i++)
             {

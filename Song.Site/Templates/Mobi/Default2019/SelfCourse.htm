@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>我的课程</title>
+<vt:include file="inc/meta.inc" />
+<meta charset="utf-8" />
+<script type="text/javascript" src="Scripts/SelfCourse.js?ver={$version}"></script>
+<link href="Styles/SelfCourse.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--侧滑菜单部分-->
+  <vt:include file="inc/Menu.html" />
+  <!--主界面部分-->
+  <div class="mui-inner-wrap">
+    <header class="mui-bar mui-bar-nav"> <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+      <h1 class="mui-title"><span class="iconfont">&#xf00cf;</span> 我的课程</h1>
+    </header>
+    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+      <div class="mui-scroll">
+        <div class="mui-card currCourse"> 
+          <!--页眉，放置标题-->
+          <div class="mui-card-header"><a class="mui-navigate-right mycourse" href="#"> <span class="iconfont ico">&#xf00cf;</span>当前课程</a></div>
+          <!--内容区-->
+          <div class="mui-card-content couContext">
+            <vt:if var="#.currCou.cou_id" value="0" compare=">">
+              <vt:if var="#.currCou.cou_LogoSmall" value="" compare="="><span class="iconfont cou-ico">&#xe674;</span>
+                <vt:else />
+                <a href="CoursePage.ashx?couid={$currCou.cou_id}" type="link"><img class="mui-media-object mui-pull-left" src="{$path}{$currCou.Cou_LogoSmall}"/> </a> </vt:if>
+              <div class="couName"><a href="CoursePage.ashx?couid={$currCou.cou_id}"" type="link">{$currCou.cou_name}</a> </div>
+              <vt:else />
+              您还没有选择课程。请在下面“已经购买的课程”中选择您要学习的课程，或前往<a href="Courses.ashx" type="link">课程中心</a> </vt:if>
+          </div>
+          <vt:if var="#.currCou.cou_id" value="0" compare=">"> 
+            <!--页脚，放置补充信息或支持的操作-->
+            <div class="mui-card-footer">
+              <vt:if var="currCou.Cou_IsFree" value="true" compare="=">该课程免费
+                <vt:else />
+                <vt:function var="info" method="getBuyInfo" args="$#.currCou.cou_id"/>
+                <vt:if var="#.info.stc_istry" value="true" compare=""> （该课程未购买，暂时试用中）
+                  <vt:else />
+                  学习期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"} </vt:if>
+              </vt:if>
+            </div>
+          </vt:if>
+        </div>
+        <ul class="mui-table-view mui-table-view-chevron">
+          <li class="mui-table-view-cell mui-collapse mui-active"> <a class="mui-navigate-right" href="#"> <span class="moneyico ico">&#xe652;</span>已经购买的课程
+            <div class="right-item stname"><span class="count">0</span>个</div>
+            </a>
+            <ul class="mui-table-view mui-table-view-chevron">
+              <vt:if var="buyCou.count" value="0" compare=">">
+                <vt:foreach from="$#.buyCou" item="c" remark="已经购买的课程">
+                  <li class="mui-table-view-cell mui-media cou-item" buy="true" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
+                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
+                    <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
+                    <div class="mui-slider-handle mui-table">
+                      <div class="mui-table-cell"><a href="javascript:;"><img class="mui-media-object mui-pull-left" src="{$c.Cou_LogoSmall}">
+                        <div class="mui-media-body mui-ellipsis">{$c.Cou_Name}
+                          <p class="mui-ellipsis">
+                          
+                          <div class="intro">
+                            <vt:if var="c.Cou_IsFree" value="true" compare="=">该课程免费
+                              <vt:else />
+                              <vt:function var="info" method="getBuyInfo" args="$#.c.cou_id"/>
+                              <vt:if var="#.info.stc_istry" value="true" compare=""> （该课程未购买，暂时试用中）
+                                <vt:else />
+                                学习期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"} </vt:if>
+                            </vt:if>
+                          </div>
+                          </p>
+                        </div>
+                        </a></div>
+                    </div>
+                  </li>
+                </vt:foreach>
+                <vt:else />
+                <li class="mui-table-view-cell mui-media">没有数据 </li>
+              </vt:if>
+            </ul>
+          </li>
+          <li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe671;</span>过期的课程
+            <div class="right-item stname"><span class="count">0</span>个</div>
+            </a>
+            <ul class="mui-table-view mui-table-view-chevron">
+              <vt:if var="overCou.count" value="0" compare=">">
+                <vt:foreach from="$#.overCou" item="c" remark="过期的课程">
+                  <li class="mui-table-view-cell mui-media cou-item" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
+                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
+                    <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
+                    <div class="mui-slider-handle mui-table">
+                      <div class="mui-table-cell"><a href="javascript:;"><img class="mui-media-object mui-pull-left" src="{$c.Cou_LogoSmall}">
+                        <div class="mui-media-body mui-ellipsis">{$c.Cou_Name}
+                          <p class="mui-ellipsis">
+                          
+                          <div class="intro">
+                            <vt:function var="info" method="getBuyInfo" args="$#.c.cou_id"/>
+                            期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"}</div>
+                          </p>
+                        </div>
+                        </a></div>
+                    </div>
+                  </li>
+                </vt:foreach>
+                <vt:else />
+                <li class="mui-table-view-cell mui-media">没有数据 </li>
+              </vt:if>
+            </ul>
+          </li>
+          <li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe636;</span>试用中的课程
+            <div class="right-item stname"><span class="count">0</span>个</div>
+            </a>
+            <ul class="mui-table-view mui-table-view-chevron">
+              <vt:if var="tryCou.count" value="0" compare=">">
+                <vt:foreach from="$#.tryCou" item="c" remark="试用中的课程">
+                  <li class="mui-table-view-cell mui-media cou-item" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
+                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
+                    <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
+                    <div class="mui-slider-handle mui-table">
+                      <div class="mui-table-cell"><a href="javascript:;"><img class="mui-media-object mui-pull-left" src="{$c.Cou_LogoSmall}">
+                        <div class="mui-media-body mui-ellipsis">{$c.Cou_Name}
+                          <p class="mui-ellipsis">
+                          
+                          <div class="intro">
+                            <vt:function var="info" method="getBuyInfo" args="$#.c.cou_id"/>
+                            期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"}</div>
+                          </p>
+                        </div>
+                        </a></div>
+                    </div>
+                  </li>
+                </vt:foreach>
+                <vt:else />
+                <li class="mui-table-view-cell mui-media">没有数据 </li>
+              </vt:if>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 隐藏侧滑菜单的层 -->
+    <div class="mui-off-canvas-backdrop"> </div>
+  </div>
+</div>
+</body>
+</html>

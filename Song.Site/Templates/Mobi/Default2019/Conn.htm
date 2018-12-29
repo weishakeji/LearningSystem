@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>联系客服</title>
+<vt:include file="inc/meta.inc" />
+<link rel="stylesheet" href="Styles/conn.css?ver={$version}"/>
+</head>
+<body>
+<dl class="infoBox">
+  <dd>
+    <div class="attr">电话：</div>
+    <div class="info">{$org.Org_Phone}</div>
+  </dd>
+  <dd>
+    <div class="attr">传真：</div>
+    <div class="info">{$org.Org_Fax}</div>
+  </dd>
+  <dd>
+    <div class="attr">Email：</div>
+    <div class="info">{$org.Org_Email}</div>
+  </dd>
+  <dd>
+    <div class="attr">邮编：</div>
+    <div class="info">{$org.Org_Zip}</div>
+  </dd>
+  <dd>
+    <div class="attr">地址：</div>
+    <div class="info">{$org.Org_Address}</div>
+  </dd>
+</dl>
+</body>
+</html>

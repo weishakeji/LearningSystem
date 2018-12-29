@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>试题练习-《{$course.cou_name}》</title>
+<vt:include file="inc/icon-color.inc" />
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="CoreScripts/MsgBox.js?ver={$version}"></script>
+<script type="text/javascript" src="Scripts/QuesExercisesState.js?ver={$version}"></script>
+<script type="text/javascript" src="Scripts/QuesOutlines.js?ver={$version}"></script>
+<link href="CoreStyles/MsgBox.css?ver={$version}" rel="stylesheet" type="text/css" />
+<link href="Styles/QuesOutlines.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<!--主界面部分-->
+<div class="mui-inner-wrap"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left back" type="link" href="CoursePage.ashx?couid={$course.cou_id}"></a>
+ <a class="iconfont home" href="default.ashx" type="link">&#xe63c;</a>
+  <div class="mui-scroll">
+    <div class="chart-area">
+      <div class="chart-back">
+        <div class="y"> </div>
+      </div>
+      <div class="chart-txt"> <span>正确率</span> <span class="cou-rate" rate="0">0%</span></div>
+      <dl class="quesnumbox">
+        <dd>总题量：<span class="sum">{$count}</span>道</dd>
+        <dd>已练习：<span class="ansSum">0</span>道</dd>
+      </dl>
+    </div>
+    <div class="mainmenuBox">
+      <div class="mm-item" href="QuesError.ashx?couid={$couid}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-cuotitubiao"></use>
+        </svg> <span> 错题回顾 </span> </div>
+      <div class="mm-item" href="QuesCollects.ashx?couid={$couid}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-shoucang3"></use>
+        </svg> <span> 我的收藏 </span> </div>
+      <div class="mm-item" href="QuesNotes.ashx?couid={$couid}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-blog"></use>
+        </svg> <span> 我的笔记 </span> </div>
+      <div class="mm-item" href="QuesOften.ashx?couid={$couid}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-bar-chart"></use>
+        </svg> <span> 高频错题 </span> </div>
+    </div>
+    <!--    <ul class="mui-table-view" style="display:none">
+      <li class="mui-table-view-cell">
+        <vt:if var="log.Lsq_ID" value="0" compare=">"> <a href="QuesExercises.ashx?couid={$log.cou_id}&olid={$log.ol_id}&qid={$log.qus_id}" class="log" olid="{$log.ol_id}" type="link"> 继续练习 <span class="mui-pull-right logtime">{$log.lsq_lastTime}</span></a>
+          <vt:else />
+          按章节练习 </vt:if>
+      </li>
+    </ul>--> 
+    <!--章节输出-->
+    <ul class="mui-table-view" style="margin-top:10px">
+      <li class="mui-table-view-cell outline-tit"><b></b> 按章节练习 
+      <a href="QuesExercises.ashx?couid={$log.cou_id}&olid={$log.ol_id}&qid={$log.qus_id}" class="log" style="display:none" olid="{$log.ol_id}" type="link"> 继续练习</a>
+      </li>
+    </ul>
+    <vt:if var="outlines.Length" value="0" compare=">">
+      <ul class="mui-table-view">        
+        <vt:foreach from="$dtOutlines" item="d" index="i" remark="章节">
+              <vt:expression var="r" args="$d.ol_level" args="20" expression="{0}*{1}" />
+              <li count="{$:#.d.ol_quescount}" class="mui-table-view-cell outline" olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px"> 
+              <b></b>             
+                <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结">
+                 <a type="nofinish" class="noselect">{$:#.d.ol_name}</a><span class="mui-badge">未完结</span>
+                  <vt:else />                  
+                <vt:if var="isStudy" value="true" compare="="  remark="是否已经选修">
+                <a href="QuesExercises.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a> <span class="mui-badge count"><span class="ansnum">0</span>/<span class="num">{$:#.d.ol_quescount}</span></span>
+                  <vt:else />
+                  <vt:if var="course.Cou_IsFree" value="true" compare="="  remark="如果未选修，但是课程免费"> 
+                  <a href="QuesExercises.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a> <span class="mui-badge count"><span class="ansnum">0</span>/<span class="num">{$:#.d.ol_quescount}</span></span>
+                    <vt:else />
+                    <vt:if var="course.Cou_IsLimitFree" value="true" compare="="  remark="课程不免费，但处在限时免费中"> 
+                   <a href="QuesExercises.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a> <span class="mui-badge count"><span class="ansnum">0</span>/<span class="num">{$:#.d.ol_quescount}</span></span>
+                     <vt:else />
+                     <vt:if var="course.Cou_IsTry" value="true" compare="="  remark="是否允许试学">                    
+                    <vt:if var="d.Ol_IsFree" value="true" compare="="  remark="可以试学">
+                     <a href="QuesExercises.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a> <span class="mui-badge count"><span class="ansnum">0</span>/<span class="num">{$:#.d.ol_quescount}</span></span>
+                    <vt:else />
+                    <a type="buy" href="CourseBuy.ashx?&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a> <span class="mui-badge">购买</span>
+                  </vt:if> <vt:else />
+                   <a type="buy" href="CourseBuy.ashx?&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a> <span class="mui-badge">购买</span>
+                   </vt:if>
+                    </vt:if>
+                  </vt:if>
+                </vt:if>
+                 </vt:if>
+              </li>
+            </vt:foreach>
+        
+        
+      </ul>
+      <vt:else />
+      <ul class="mui-table-view">
+        <li class="mui-table-view-cell"> 当前课程没有章节 </li>
+      </ul>
+    </vt:if>
+  </div>
+  
+</div>
+</body>
+</html>

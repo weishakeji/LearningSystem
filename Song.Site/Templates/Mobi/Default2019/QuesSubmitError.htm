@@ -1,0 +1,61 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>提交错误试题</title>
+<vt:include file="inc/meta.inc" />
+<link href="Styles/QuesSubmitError.css?ver={$version}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="CoreScripts/Verify.js?ver={$version}"></script>
+</head>
+<body>
+<vt:if var="isSuccess" value="true" compare="="> 
+  <script type="text/javascript">
+
+parent.PageBox.Close();
+</script>
+  <vt:else/>
+  <vt:if var="ques.Qus_ID" value="0" compare=">">
+    <form  loyout="row" id="SubmitError" name="SubmitError" method="post">
+      <div loyout="row" height="10"> </div>
+      <div loyout="row" height="165">
+       <p> <label>
+          <input type="checkbox" name="err3" value="试题没有答案" />
+          试题没有答案 </label></p>
+       <p> <label>
+          <input type="checkbox" name="err1" value="试题图片不显示" />
+          试题图片不显示 </label></p>
+        <p><label>
+          <input type="checkbox" name="err7"  value="试题有错别字" />
+          试题有错别字 </label></p>
+        <p><label>
+          <input type="checkbox" name="err5"  value="试题不属于本学科"/ >
+          试题不属于本学科 </label></p>
+        <p><label>
+          <input type="checkbox" name="err2"  value="解题思路与题干不符" />
+          解题思路与题干不符 </label></p>
+        <p><label>
+          <input type="checkbox" name="err4"  value="解题思路与答案矛盾"  />
+          解题思路与答案矛盾 </label></p>
+        <p><label>
+          <input type="checkbox" name="err6" value="解题思路有错别字"  />
+          解题思路有错别字 </label></p>
+       <p> <label>
+          <input type="checkbox" name="err8"  value="试题与其他试题有重复" />
+          试题与其他试题有重复 </label></p>
+      </div>
+      <div loyout="row" height="20" class="txt"> &nbsp;&nbsp;&nbsp;&nbsp;错误附加说明：</div>
+      <div loyout="row">
+        <div loyout="column" width="10"></div>
+        <textarea name="tbErrInfo" loyout="column"  class="textbox" star="false" nullable="false"></textarea>
+        <div loyout="column" width="10"></div>
+      </div>
+      <div loyout="row" height="10"> </div>
+      <div loyout="row" height="40">
+        <input type="submit" name="btnSubmit" id="btnSubmit" value="确&nbsp;&nbsp;定"  verify="true"  class="btnLogin"/>
+      </div>
+    </form>
+    <vt:else/>
+    <div class="noinfo">试题不存在！</div>
+  </vt:if>
+</vt:if>
+</body>
+</html>

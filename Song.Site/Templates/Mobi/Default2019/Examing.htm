@@ -1,0 +1,192 @@
+﻿<!doctype html>
+<html>
+    <head>
+    <title>
+    <vt:if var="state.state" value="0" compare="<=" mark="考试不存在">{$org.org_platformname}
+      <vt:else/>
+      考试：《{$exam.exam_name}》 -- {$org.org_platformname}</vt:if>
+    </title>
+    <vt:include file="inc/meta.inc" />
+    <link href="Styles/examing.css?ver={$version}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="CoreScripts/ajaxfileupload.js?ver={$version}"></script>
+    <script type="text/javascript" src="Scripts/examing.js?ver={$version}"></script>
+    <script type="text/javascript" src="Scripts/Mask.js?ver={$version}"></script>
+    <script type="text/javascript" src="CoreScripts/jquery.touchSwipe.min.js?ver={$version}"></script>
+    <script language="javascript" type="text/javascript" path="">
+          //当前服务器端时间
+          var ServerTime = eval('new ' + eval('/Date({$servertime})/').source);
+          //当前客户端时间
+          var ClientTime = new Date();
+          //试卷ID,学科id
+          var testPagerID = Number("{$pager.Tp_Id}");
+          var subjectID = Number("{$pager.sbj_id}");
+          var subjectName = "{$pager.sbj_name}";
+          //是否开始，是否结束
+          var isStart = "{$isStart}" == "true" ? true : false;
+          var isOver = "{$isOver}" == "true" ? true : false;
+          //考试ID
+          var examID = Number("{$exam.exam_id}");
+          //唯一ID,考试主题
+          var uid = "{$uid}";
+          var theme = "{$theme.Exam_Title}";
+          //考生ID，姓名，性别，分类Id,身份证号
+          var stid = Number("{$Account.Ac_id}");
+          var stname = "{$Account.Ac_name}";
+          var stacc = "{$Account.Ac_AccName}";
+          var stsex = "{$student.Ac_Sex}";
+          var stsid = "{$student.Sts_ID}";
+          var stcardid = "{$student.Ac_IDCardNumber}";
+		  //试题类型
+		  var quesTypes="{$types}";
+		  window.onload=function(){
+			  $(".startTime").text(ServerTime.Format("yyyy-MM-dd hh:mm:ss"));
+		  }
+    </script>
+    <vt:if var="state.IsEnable" value="true" compare="=" mark="允许考试时，才输出">
+      <script language="javascript" type="text/javascript">
+          var exam = new Examing();
+          //考试主题，uid
+          exam.attr.theme = "{$theme.Exam_Title}";
+          exam.attr.uid = "{$uid}";
+          //获取来自服务器端的时间，以保证所有客户端时间统一
+          exam.time.server = ServerTime;
+          //当前考试的时限，单位分钟
+          exam.time.span = Number("{$exam.Exam_Span}");
+          //考试开始时间         
+          exam.time.begin = eval('new ' + eval('/Date({$startTime})/').source); ;
+          //考试的结束时间
+          exam.time.over = new Date(exam.time.begin.getTime() + exam.time.span * 60 * 1000);
+          //是否交过卷
+          exam.state.submit = Boolean(eval("{$isSubmit}"));
+          //循环时间计算方法，一切事务从此开始
+          window.exam = exam;
+          window.onload = function () {
+              window.exam.Init();
+              //循环时间计算方法，一切事务从此开始
+              window.exam.TimeCalc();
+              setInterval("window.exam.TimeCalc()", 1000);
+          }
+    </script>
+    </vt:if>
+    </head>
+    <body>
+<vt:if var="state.IsEnable" value="false" compare="=" mark="不能考试">
+      <div class="mui-inner-wrap">
+    <header class="mui-bar mui-bar-nav"><a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe6c6;</a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+          <h1 class="mui-title">
+        <vt:if var="state.state" value="0" compare="<=" mark="考试不存在"> 在线考试
+              <vt:else/>
+              {$theme.Exam_Title} </vt:if>
+      </h1>
+        </header>
+    <div class="mui-content mui-scroll-wrapper" id="pullrefresh"> 
+          <!--下拉刷新容器-->
+          <div class="mui-scroll">
+        <vt:if var="state.state" value="-2" compare="=" mark="状态异常">
+              <div class="infobox">
+            <div class="info"> 状态异常！</div>
+          </div>
+            </vt:if>
+        <vt:if var="state.state" value="-1" compare="=" mark="未登录">
+              <div class="infobox">
+            <div class="info"> 未登录！</div>
+          </div>
+            </vt:if>
+        <vt:if var="state.state" value="0" compare="=" mark="考试不存在">
+              <div class="infobox">
+            <div class="info"> 当前考试不存在！</div>
+          </div>
+            </vt:if>
+        <vt:if var="state.state" value="0" compare=">" mark="考试详情">
+              <div class="mui-card"> 
+            <!--页眉，放置标题-->
+            <div class="mui-card-header">第{$exam.exam_tax}场 - 《{$exam.Exam_name}》</div>
+            <!--内容区-->
+            <div class="mui-card-content">
+                  <ul class="mui-table-view">
+                <li class="mui-table-view-cell">所属学科《{$exam.sbj_name}》</li>
+                <li class="mui-table-view-cell">共<span class="tpcount" title="共计多少道题">{$pager.Tp_Count}</span>道题</li>
+                <li class="mui-table-view-cell">限时：{$exam.Exam_Span}分钟</li>
+                <li class="mui-table-view-cell">总分 {$exam.Exam_Total}分，{$exam.Exam_PassScore}分及格</li>
+              </ul>
+                </div>
+            <!--页脚，放置补充信息或支持的操作-->
+            <div class="mui-card-footer">开始时间：<span class="startTime">{$startTime  format="yyyy-MM-dd HH:mm:ss"}</span></div>
+          </div>
+            </vt:if>
+        <vt:if var="state.state" value="1" compare="=" mark="考试已经结束">
+              <div class="mui-card"> 
+            <!--页眉，放置标题-->
+            <div class="mui-card-header">当前考试已经结束！</div>
+            <div class="mui-card-content">
+                  <div class="text"> 结束时间：<span class="overTime">{$overTime  format="yyyy-MM-dd HH:mm:ss"} </span></div>
+                </div>
+          </div>
+            </vt:if>
+        <vt:if var="state.state" value="2" compare="=" mark="不在参考人员范围内">
+              <div class="mui-card"> 
+            <!--页眉，放置标题-->
+            <div class="mui-card-header">您不需要参加此次考试！</div>
+            <div class="mui-card-content">
+                  <div class="text"> 当前考试所设定的参考人员范围中，并不包括您在内。</div>
+                </div>
+          </div>
+            </vt:if>
+        <vt:if var="state.state" value="3" compare="=" mark="已经交过卷了">
+              <div class="mui-card"> 
+            <!--页眉，放置标题-->
+            <div class="mui-card-header">您已经交过卷了！</div>
+          </div>
+            </vt:if>
+      </div>
+        </div>
+    <!-- 隐藏侧滑菜单的层 -->
+    <div class="mui-off-canvas-backdrop"> </div>
+  </div>
+    </vt:if>
+<vt:if var="state.IsEnable" value="true" compare="=" mark="允许考试时，才输出">
+      <div id="pagerHeader">
+    <div class="examTitle"><a href="exam.ashx" type="link" class="back"> <img src="Images/btnBack.jpg" style="height:25px; margin-top:8px;margin-left:8px;"/></a>{$exam.Exam_name}</div>
+    <div id="residueTime"> <span class="mm">0</span>:<span class="ss">0</span> </div>
+  </div>
+      <!--考试试卷答题区域 -->
+      <div id="quesArea"> </div>
+      <div id="pagerFooter">
+    <div id="btnCard"><span class="examico">&#xe689;</span><span class="CompleteNumber">0</span>/<span class="tpcount" title="共计多少道题">{$pager.Tp_Count}</span></div>
+    <div id="pagerSubmitBox"><span class="examico">&#xf0146;</span>交&nbsp;卷</div>
+  </div>
+      <!--上面是试卷输出-->
+      <div id="distanceTime">
+    <div class="mui-card"> 
+          <!--页眉，放置标题-->
+          <div class="mui-card-header">第{$exam.exam_tax}场 - 《{$exam.Exam_name}》</div>
+          <!--内容区-->
+          <div class="mui-card-content">
+        <ul class="mui-table-view">
+              <li class="mui-table-view-cell">所属学科《{$exam.sbj_name}》</li>
+              <li class="mui-table-view-cell">共<span class="tpcount" title="共计多少道题">{$pager.Tp_Count}</span>道题</li>
+              <li class="mui-table-view-cell">限时：{$exam.Exam_Span}分钟</li>
+              <li class="mui-table-view-cell">总分 {$exam.Exam_Total}分，{$exam.Exam_PassScore}分及格</li>
+            </ul>
+      </div>
+          <!--页脚，放置补充信息或支持的操作-->
+          <div class="mui-card-footer">开始时间：<span class="startTime">{$startTime  format="yyyy-MM-dd HH:mm:ss"}</span></div>
+        </div>
+    <div class="timeTitle"> 考试还未开始，请等待……</div>
+    <div class="currTime">当前时间：<span id="currTime"></span> </div>
+    <div class="currTime">还差 <span class="mm">0</span>分<span class="ss">0</span>秒</div>
+    <div class="timeArea"></div>
+  </div>
+      <!--答题信息的显示区域 --> 
+      
+      <!--答题卡 -->
+      <div class="quesCard">
+    <div class="cardTit">
+          <div class="txt">答题卡</div>
+          <div class="number">完成<span class="CompleteNumber">0</span>道 / 共<span class="tpcount" title="共计多少道题">{$pager.Tp_Count}</span>道</div>
+        </div>
+    <div id="cardBox"></div>
+  </div>
+    </vt:if>
+</body>
+</html>

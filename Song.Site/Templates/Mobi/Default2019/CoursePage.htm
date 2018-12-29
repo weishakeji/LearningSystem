@@ -1,0 +1,127 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$course.cou_name} - {$:#.org.org_platformname}</title>
+<vt:include file="inc/icon-color.inc" />
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="CoreScripts/MsgBox.js?ver={$version}"></script>
+<link href="CoreStyles/MsgBox.css?ver={$version}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="Scripts/CoursePage.js?ver={$version}"></script>
+<link href="Styles/CoursePage.css?ver={$version}" rel="stylesheet" type="text/css" />
+<link href="/Utility/CoreStyles/Jme.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body couid="{$course.cou_id}">
+<div class="mui-inner-wrap">
+
+  <div class="photo" > <img  src="{$coupath}{$course.cou_logo}" default="images/cou_nophoto.jpg"/> </div>
+  <div id="Context">
+    <div class="couName"><a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" type="link" href="default.ashx"></a>{$course.cou_name} </div>
+    <div class="info">{$studyCount}人学习 / 
+      <vt:if var="course.Cou_IsFree" value="true" compare="=">免费
+        <vt:else />
+         <vt:if var="course.Cou_IsLimitFree" value="true" compare="=" remark="限时免费">
+         <span class="moneyfree"><i class="free"> 限时免费</i>（{$course.Cou_FreeStart format="yyyy/M/d"} - {$course.Cou_FreeEnd format="yyyy/M/d"}）</span>
+         <vt:else />
+        <vt:function var="info" method="getBuyInfo" args="$#.course.cou_id"/>
+        <vt:if var="isBuy" value="false" compare=""> （该课程未购买）
+          <vt:else />
+          期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"} </vt:if>
+      </vt:if>
+      </vt:if>
+    </div>
+    <!--选项卡-->
+    <div class="mainmenuBox" canStudy="{$canStudy}">
+      <div class="mm-item" href="CourseStudy.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-luboxuexi"></use>
+        </svg><span>课程学习</span></div>
+      <div class="mm-item" href="QuesOutlines.ashx?couid={$course.cou_id}"> <svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-edit"></use>
+        </svg> <span>试题练习</span> </div>
+      <div class="mm-item" href="TestPapers.ashx?couid={$course.cou_id}"> <svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-iconset-09"></use>
+        </svg><span> 模拟考场 </span> </div>
+      <!--<div class="mm-item" href="Guides.ashx"> <svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-gonggaoicon"></use>
+            </svg><span> 课程公告 </span> </div>-->
+    <!--  <div class="mm-item" href="QuesError.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-cuotitubiao"></use>
+        </svg> <span> 错题回顾 </span> </div>-->
+     <!-- <div class="mm-item" href="QuesCollects.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-shoucang3"></use>
+        </svg> <span> 我的收藏 </span> </div>
+      <div class="mm-item" href="QuesNotes.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-blog"></use>
+        </svg> <span> 我的笔记 </span> </div>-->
+      <!--<div class="mm-item" href="Statistics.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-dingdantongji--"></use>
+            </svg> <span> 成绩统计 </span> </div>-->
+      <div class="mm-item" href="Knowledges.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-business-color_briefcase-"></use>
+        </svg> <span> 知识库 </span> </div>
+      <!--<div class="mm-item" href="MsgBoards.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-abc"></use>
+            </svg> <span> 交流咨询 </span> </div>-->
+     <!-- <div class="mm-item" href="Students.ashx?couid={$course.cou_id}"><svg class="icon mm-ico" aria-hidden="true">
+        <use xlink:href="#icon-user-boy"></use>
+        </svg> <span> 我的同学 </span> </div>-->
+      <!--<div class="mm-item" href="MyTeacher.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-objects-color_diamond"></use>
+            </svg> <span> 我的老师 </span> </div>--> 
+      <!-- <div class="mm-item" href="exam.ashx"><svg class="icon mm-ico" aria-hidden="true">
+            <use xlink:href="#icon-hegebiaozhun"></use>
+            </svg> <span> 在线考试 </span> </div>--> 
+    </div>
+  </div>
+  
+  <!--课程通知-->
+  <vt:if var="guides.length" value="0" compare=">">
+  <div class="boxtit"> <span class="line"></span>
+    <div class="name"> <a href="Guides.ashx?couid={$course.cou_id}" type="link">课程公告</a> </div>
+  </div>
+  <div class="guids">
+    <vt:foreach id="guides" from="$guides" item="g" index="i" count="10" remark="课程公告">
+      <div class="guid"><a href="Guide.ashx?id={$:#.g.Gu_Id}&couid={$course.cou_id}" type="open">{$#.i}. {$:#.g.Gu_Title}</a> <span>{$:#.g.Gu_CrtTime  format="MM-dd"}</span> </div>
+    </vt:foreach>
+  </div>
+  </vt:if>
+  <!--课程详情-->
+  <vt:if var="course.cou_intro" value="" compare="!=">
+  <div class="boxtit"> <span class="line"></span>
+    <div class="name"> <span>课程详情</span> </div>
+  </div>
+  <div class="introBox">
+   
+      {$course.cou_intro} 
+  </div>
+   </vt:if>
+   <!--章节-->
+  
+   <vt:if var="olTree.rows.count" value="0" compare=">">
+   <div class="outline"> <div class="boxtit"> <span class="line"></span>
+    <div class="name"> <span>课程章节</span> </div>
+  </div>
+                            <vt:foreach from="$#.olTree" item="d" index="i" remark="章节">
+              <vt:expression var="indent" args="$d.ol_level" args="20" expression="{0}*{1}" />
+              <div class="olitem" olid="{$:#.d.ol_id}" style="padding-left:{$:indent}px">
+                <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结">
+                 <span class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}</span><span class="nofinish">未完结</span>
+                  <vt:else />                  
+                 <span class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}</span>
+                 </vt:if>
+              </div>
+            </vt:foreach>
+                </div>  </vt:if>      
+</div>
+<nav class="mui-bar mui-bar-tab footer"> 
+<a class="msg-box" href="MsgBoards.ashx?couid={$course.Cou_ID}&state=nohead" type="open">
+<img src="{$stpath}{$:#.Account.Ac_photo}" default="images/cou_nophoto.jpg" class="msg-ico"/>
+<div class="msg-txt">交流咨询 </div>
+</a>
+<div class="info-box">
+{$course.cou_viewNum}次关注 
+</div>
+<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"></a>
+<a class="mui-btn mui-btn-link mui-pull-left left" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+ <a class="mui-btn mui-btn-link mui-pull-right right" href="MsgBoards.ashx?couid={$course.Cou_ID}&state=nohead" type="open"> <span class="iconfont footer-ico">&#xe6ee;</span>交流咨询 </a> --></nav>
+</body>
+</html>

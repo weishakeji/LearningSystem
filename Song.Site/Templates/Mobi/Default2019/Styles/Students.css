@@ -1,0 +1,28 @@
+@charset "utf-8";
+.note-item .mui-navigate-right{
+	color: #333 !important;	
+}
+li a{
+	color:#333 !important;
+	line-height:25px !important;
+}
+
+/*图标*/
+.stPhoto{
+	width: 25px;
+	height:25px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #CCC !important;
+    float: left;
+    display: inlineblock;
+	margin-left:1%;
+	margin-right:5px;
+	background-size:100% !important;
+}
+.mui-inner-wrap{
+	padding-bottom:60px;
+}
+.right{
+	margin-right:20px;
+}

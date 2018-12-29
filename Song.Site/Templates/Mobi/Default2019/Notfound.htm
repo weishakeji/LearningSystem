@@ -1,0 +1,48 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>页面不存在</title>
+<vt:include file="inc/meta.inc" />
+<link rel="stylesheet" href="Styles/notfound.css?ver={$version}"/>
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+<!--侧滑菜单部分-->
+  <vt:include file="inc/Menu.html" />
+  <!--主界面部分-->
+  <div class="mui-inner-wrap">
+    <header class="mui-bar mui-bar-nav">
+    <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
+    
+     <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx"><span class="iconfont  top-ico">&#xe620;</span></a>
+      <h1 class="mui-title">页面不存在！</h1>
+    </header>
+    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+      <div class="mui-scroll">
+      <div class="loginArea" tag="login">
+        <div class="notico examico">
+           &#xe704;
+           </div>
+          
+        <div class="showtxt">
+           您查看的页面不存在！
+           </div>
+           <div class="showtxt">
+           <button type="button" class="mui-btn mui-btn-warning btn">点击返回</button>
+           </div>
+      </div>
+
+ </div>
+    </div>
+    <!-- off-canvas backdrop -->
+    <div class="mui-off-canvas-backdrop"> </div>
+  </div>
+  <!--主界面结束-->
+  <script>
+  $("button").click(function(){
+	 window.history.go(-1);
+	});
+  </script>
+</div>
+</body>
+</html>

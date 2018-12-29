@@ -1,0 +1,108 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$course.cou_name} - {$:#.org.org_platformname}</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="Scripts/Course.js?ver={$version}"></script>
+<link href="Styles/Course.css?ver={$version}" rel="stylesheet" type="text/css" />
+<link href="/Utility/CoreStyles/Jme.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="main">
+  <div class="photo" > <img  src="{$course.cou_logo}" default="images/cou_nophoto.jpg"/> </div>
+<div id="Context">  <div class="couName">{$course.cou_name} </div>
+  <div class="info"><i class="viewnum">{$course.cou_viewNum}</i> / <i class="studynum">{$studyCount}</i>人学习 /
+    <vt:if var="course.cou_isfree" value="true" compare="=">
+                     <span class="moneyfree"> <i class="free"> 免费</i></span>
+                    
+          <vt:else/>
+          <vt:if var="course.Cou_IsLimitFree" value="true" compare="=" remark="限时免费">
+                    <span class="moneyfree"><i class="free"> 限时免费</i>（{$course.Cou_FreeStart format="yyyy/M/d"} - {$course.Cou_FreeEnd format="yyyy/M/d"}）</span>
+                    <vt:else/>
+                      <vt:function var="price" method="getCoursePrice" args="$course.cou_uid"/>
+          <vt:foreach from="$price" item="p" index="i" remark="当前课程价格"> <span class="money" title="可以用券抵扣{$:#.p.CP_Coupon}元"><i class="p-span ">{$:#.p.CP_Span}</i> <i class="p-unit">{$:#.p.CP_Unit}</i><i class="p-num">{$:#.p.CP_Price}元</i>  </span>,
+            <vt:foreachelse/>
+            <span class="money">未设置价格（非免费课程）</span> </vt:foreach>
+                      </vt:if>
+         
+        </vt:if>
+  </div>
+  <!--选项卡-->
+  <div class="control"> <a class="control-item active" href="#item1"> 详情 </a> <a class="control-item" href="#item1"> 章节 </a> <a class="control-item" href="#item1"> 公告 </a> </div>
+  <div class="control-content">
+    <div class="details" style="display:block">
+      <vt:if var="th.th_name" value="" compare="!=">
+        <div id="teacher">
+          <div class="teacher-tit">主讲教师：</div>
+          <vt:if var="th.th_photo" value="" compare="="> <img class="thPhoto" src="images/nophoto.jpg"/>
+            <vt:else/>
+            <div class="thPhoto" style="background:url({$th.th_photo}) no-repeat center"> &nbsp; </div>
+          </vt:if>
+          <div class="thRight">
+            <div class="thName"> {$th.th_name}</div>
+            <div class="thSign"> {$th.Th_Signature}</div>
+          </div>
+        </div>
+      </vt:if>
+      <!--主讲教师结束-->
+      <div class="introBox">
+        <vt:if var="course.cou_intro" value="" compare="="> 当前课程没有编辑详细资料。
+          <vt:else/>
+          {$course.cou_intro} </vt:if>
+      </div>
+    </div>
+    <div class="outlines">
+    <vt:foreach from="$#.olTree" item="d" index="i" remark="章节">
+              <vt:expression var="indent" args="$d.ol_level" args="20" expression="{0}*{1}" />
+              <div class="olitem" olid="{$:#.d.ol_id}" style="padding-left:{$:indent}px">
+                <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结">
+                 <span class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}</span><span class="nofinish">未完结</span>
+                  <vt:else />                  
+                 <span class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}</span>
+                 </vt:if>
+              </div>
+            </vt:foreach>
+    </div>
+    <div>
+      <ul>
+        <vt:foreach from="$#.guides" item="data" index="i" remark="课程公告">
+          <li><a href="Guide.ashx?id={$:#.data.gu_id}" target="_blank">{$:#.data.gu_title}</a></li>
+        </vt:foreach>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<div class="footer">
+  <div class="couBtnBox"> 
+    <!--按钮开始-->
+    <vt:if var="Account.Ac_id" value="0" compare=">">
+          <vt:if var="isStudy" value="True" compare="=" remark="如果已经在学习了">          
+              <div class="couBtn"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" class="bvr_mr" title="开始学习">开始学习</a></div>         
+            <vt:else/>
+             <vt:if var="course.cou_isfree" value="true" compare="=" remark="课程免费">
+             <div class="couBtn study"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" class="bvr_mr" title="开始学习">开始学习</a></div>
+              <vt:else/>
+               <vt:if var="course.Cou_IsLimitFree" value="true" compare="=" remark="限时免费">
+                <div class="couBtn btn1 study"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" class="bvr_mr" title="开始学习">开始学习</a></div>
+                <div class="couBtn btn2"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" target="_top" title="选修该课程">选修该课程</a> </div>
+                <vt:else/>
+                 <vt:if var="course.Cou_IsTry" value="true" compare="=" remark="可以试学">
+                 <div class="couBtn btn1 study"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" class="bvr_mr" title="开始学习">试学</a></div>
+                <div class="couBtn btn2"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" target="_top" title="选修该课程">选修该课程</a> </div>
+                 <vt:else/>
+                <div class="couBtn"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" target="_top" title="选修该课程">选修该课程</a> </div>
+                </vt:if>
+               </vt:if>
+             </vt:if>
+            
+          </vt:if>
+          <vt:else/>
+          <div class="couBtn"> <a href="Login.ashx" target="_top" title="请选登录">登录学习</a></div>
+        </vt:if>
+    
+    <!--按钮结束--> 
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>{$:#.outline.ol_name}</title>
+<vt:include file="inc/meta.inc" />
+<link href="Styles/QuesPager.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--侧滑菜单部分-->
+  <vt:include file="inc/Menu.html" />
+  <!--主界面部分-->
+  <div class="mui-inner-wrap">
+    <header class="mui-bar mui-bar-nav"> 
+    <a href="QuesOutlines.ashx" class="iconfont mui-pull-left nav-left" type="link">&#xe6c6;</a> 
+     <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+      <h1 class="mui-title">试题练习（共{$sumCount}道）</h1>
+    </header>
+    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+      <div class="mui-scroll">
+       <ul class="mui-table-view">
+        <vt:if var="course.cou_id" value="0" compare=">"> 
+      <!--分页按钮 -->    
+    <vt:foreach id="ques" from="$#.list" item="p" index="i" remark="分页">
+    
+      <li class="mui-table-view-cell">
+      <a href="{$url}?olid={$:outline.ol_id}&couid={$:couid}&index={$:p.index}&start={$:p.start}&size={$:#.p.size}&sumcount={$#.sumCount}"
+      class="mui-navigate-right" type="link">
+       <span class="iconfont">&#xe6b0;</span>
+      练习 第{$:#.p.start} - {$:#.p.end}道 </a>
+      </li>
+    </vt:foreach>
+    <vt:else />
+     <li class="mui-table-view-cell">当前课程不存在，或您还没有购买</li>
+    </vt:if>
+        </ul>
+      </div>
+    </div>
+    <!-- 隐藏侧滑菜单的层 -->
+    <div class="mui-off-canvas-backdrop"> </div>
+  </div>
+</div>
+</body>
+</html>

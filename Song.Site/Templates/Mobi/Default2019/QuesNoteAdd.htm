@@ -1,0 +1,29 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>添加笔记</title>
+<vt:include file="inc/meta.inc" />
+<script type="text/javascript" src="CoreScripts/AutoLoyout.js?ver={$version}"></script>
+<link href="Styles/QuesNoteAdd.css?ver={$version}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="CoreScripts/Verify.js?ver={$version}"></script>
+</head>
+<body>
+<vt:if var="isSuccess" value="true" compare="=">
+  <script type="text/javascript">
+parent.PageBox.Close();
+</script>
+  <vt:else/>
+  <form  loyout="row" id="addnote" name="addnote" method="post">
+  <div loyout="row">
+       
+        <textarea name="tbNote"  loyout="column" class="textbox">{$:#.note.Stn_Context}</textarea>
+        
+      </div>
+      <div loyout="row" height="100">
+        <input type="submit" name="btnSubmit" id="btnSubmit" value="确&nbsp;&nbsp;定" class="btnLogin"/>
+      </div>
+  
+  </form>
+</vt:if>
+</body>
+</html>

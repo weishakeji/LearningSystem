@@ -1,0 +1,79 @@
+﻿
+/*页面编辑窗*/
+.PageBox {
+	border: 10px solid rgba(100,100,100,0.6);
+	margin: 0px;
+	padding: 0px;
+	text-align: left;
+background-color: #FFFFFF;
+}
+
+.PageBox .PageBoxTitle {
+	background-color: #FFFFFF;
+	height: 40px;
+	font-size: 16px;
+	line-height: 40px;
+	text-indent: 10;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+
+}
+.PageBox .PageBoxTitleTxt
+{
+	white-space: nowrap;
+	overflow: hidden;
+	line-height: 25px;
+}
+.PageBox .PageBoxTitle  a{
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.PageBox .PageBoxTitle .PageBoxTitleClose {
+	height: 30px;
+	width: 30px;
+	top: 0px;
+	right: 0px;
+	position: absolute;
+	font-size: 25px;
+	color: #F00;
+	line-height: 28px;
+	text-align: center;
+	font-family: Verdana, Geneva, sans-serif;
+	font-weight: bold;
+	display:block;
+}
+.PageBox .PageBoxTitle .PageBoxTitleTxt
+{
+	display: block;
+	float: left;
+	width: 80%;
+	margin: 0px !important;
+	padding: 0px !important;
+	text-indent: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+	height: 40px;
+	line-height:40px;
+	text-overflow: ellipsis;
+	color: #333;	
+
+}
+.PageBox iframe
+{
+	margin: 0px;
+	padding: 0px;
+}
+.PageBox .PageBoxContext
+{
+	margin: 0px;
+	padding: 0px;
+	background-color: #FFFFFF;
+	overflow-x:hidden;
+	overflow-y:hidden;
+	-webkit-overflow-scrolling: touch;  
+    overflow-y: scroll;  
+}

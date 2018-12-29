@@ -1,0 +1,28 @@
+﻿@charset "utf-8";
+*{
+	margin:0px;
+	padding:0px;
+}
+body{
+	width:100%;
+}
+dl{
+	width: 300%;
+	height: 200px;
+	background-color: #930;
+	overflow: visible;
+	position: absolute;
+}
+dl dd{
+	width: 320px;
+	height: 200px;
+	float: left;
+	font-size: 18px;
+	font-weight: bold;
+	text-align: center;
+	border-top-style: dashed;
+	border-right-style: dashed;
+	border-bottom-style: dashed;
+	border-left-style: dashed;
+	overflow: scroll;
+}

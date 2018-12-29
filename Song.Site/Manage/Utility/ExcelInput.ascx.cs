@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Data.OleDb;
 using WeiSha.Common;
 
+
 namespace Song.Site.Manage.Utility
 {
     public partial class ExcelInput : System.Web.UI.UserControl
@@ -303,8 +304,8 @@ namespace Song.Site.Manage.Utility
         {
             DataTable dt = new DataTable();
             //创建工作薄对象
-            IWorkbook hssfworkbook = createWorkbook(xlsFile);
-            ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
+            IWorkbook workbook = createWorkbook(xlsFile);
+            ISheet sheet = workbook.GetSheetAt(sheetIndex);
             System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
             try
             {
@@ -394,13 +395,13 @@ namespace Song.Site.Manage.Utility
             dt.Columns.Add(new DataColumn("Name"));
             dt.Columns.Add(new DataColumn("Count"));
             //创建工作薄对象
-            IWorkbook hssfworkbook = createWorkbook(xlsFile);
-            int sheetNum = hssfworkbook.NumberOfSheets;
+            IWorkbook workbook = createWorkbook(xlsFile);
+            int sheetNum = workbook.NumberOfSheets;
             for (int i = 0; i < sheetNum; i++)
             {
                 DataRow dr = dt.NewRow();
-                dr["Name"] = hssfworkbook.GetSheetAt(i).SheetName;
-                dr["Count"] = hssfworkbook.GetSheetAt(i).LastRowNum;
+                dr["Name"] = workbook.GetSheetAt(i).SheetName;
+                dr["Count"] = workbook.GetSheetAt(i).LastRowNum;
                 dt.Rows.Add(dr);
             }
             return dt;
@@ -416,8 +417,8 @@ namespace Song.Site.Manage.Utility
             DataTable dtSch = new DataTable("SheetStructure");
             dtSch.Columns.Add(new DataColumn("Name", Type.GetType("System.String")));
             //创建工作薄对象
-            IWorkbook hssfworkbook = createWorkbook(xlsFile);
-            ISheet sheet = hssfworkbook.GetSheetAt(sheetIndex);
+            IWorkbook workbook = createWorkbook(xlsFile);   
+            ISheet sheet = workbook.GetSheetAt(sheetIndex);
             System.Collections.IEnumerator rows = sheet.GetRowEnumerator();
             rows.MoveNext();
             //创建Datatable结构
