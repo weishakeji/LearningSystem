@@ -23,28 +23,28 @@ namespace Song.Site.Manage
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            HSSFWorkbook workbook;
-            //the excel file to convert
-            string fileName = "学员导出.xlsx";
-            //fileName = WeiSha.Common.Server.MapPath("~/");
-            fileName = Path.Combine(WeiSha.Common.Server.MapPath("~/"), fileName);
-            workbook = ExcelToHtmlUtils.LoadXls(fileName);
+            //HSSFWorkbook workbook;
+            ////the excel file to convert
+            //string fileName = "学员导出.xlsx";
+            ////fileName = WeiSha.Common.Server.MapPath("~/");
+            //fileName = Path.Combine(WeiSha.Common.Server.MapPath("~/"), fileName);
+            //workbook = ExcelToHtmlUtils.LoadXls(fileName);
 
-            ExcelToHtmlConverter excelToHtmlConverter = new ExcelToHtmlConverter();
+            //ExcelToHtmlConverter excelToHtmlConverter = new ExcelToHtmlConverter();
 
-            //set output parameter
-            excelToHtmlConverter.OutputColumnHeaders = false;
-            excelToHtmlConverter.OutputHiddenColumns = true;
-            excelToHtmlConverter.OutputHiddenRows = true;
-            excelToHtmlConverter.OutputLeadingSpacesAsNonBreaking = false;
-            excelToHtmlConverter.OutputRowNumbers = true;
-            excelToHtmlConverter.UseDivsToSpan = true;
+            ////set output parameter
+            //excelToHtmlConverter.OutputColumnHeaders = false;
+            //excelToHtmlConverter.OutputHiddenColumns = true;
+            //excelToHtmlConverter.OutputHiddenRows = true;
+            //excelToHtmlConverter.OutputLeadingSpacesAsNonBreaking = false;
+            //excelToHtmlConverter.OutputRowNumbers = true;
+            //excelToHtmlConverter.UseDivsToSpan = true;
 
-            //process the excel file
-            excelToHtmlConverter.ProcessWorkbook(workbook);
+            ////process the excel file
+            //excelToHtmlConverter.ProcessWorkbook(workbook);
 
-            //output the html file
-            excelToHtmlConverter.Document.Save(Path.ChangeExtension(fileName, "html"));
+            ////output the html file
+            //excelToHtmlConverter.Document.Save(Path.ChangeExtension(fileName, "html"));
         //    string path = this.Request.Url.PathAndQuery;
 
         //    WeiSha.Common.PageCache cache = WeiSha.Common.PageCache.Get[path];

@@ -63,9 +63,18 @@ function default_event() {
     }).click(function () {
         var sbjid = $(this).attr("sbjid");
         var sbjname = $.trim($(this).text());   //专业名称
+        //切换样式
+        $(this).parent().find(".cour-tit").removeClass("current");
+        $(this).addClass("current");
         $(".cour-context .cour-list").hide();
+        //显示课程列表
         var list = $(".cour-context .cour-list[sbjid=" + sbjid + "]").show();
         list.html(list.html().replace("{0}", sbjname));
+        //课程点击事件
+        mui('body').off('tap', '.cour-box').on('tap', '.cour-box', function () {
+            var id = $(this).attr("couid");
+            new PageBox("课程详情", "Course.ashx?id=" + id, 100, 100, "url").Open();
+        });
         if (list.find(".loading").size() <= 0) return;
         //加载课程
         $.get("/ajax/courses.ashx", { size: 10, sbjid: sbjid, order: "rec" }, function (data) {
@@ -76,10 +85,25 @@ function default_event() {
                 var defimg = $(".default-img").attr("default"); //默认图片
                 for (var i = 0; i < d.object.length; i++) {
                     var cour = d.object[i];
-                    var html = "<div class='cour-box'><img src='{logo}' default='{defimg}'/><span>{name}</span></div>";
-                    html = html.replace("{logo}", cour.Cou_LogoSmall);
-                    html = html.replace("{name}", cour.Cou_Name);
-                    html = html.replace("{defimg}", defimg);
+                    var html = "<div class='cour-box' couid='{id}'>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/><name>{name}</name><price>{price}</price></div>";
+                    html = html.replace("{logo}", cour.Cou_LogoSmall).replace("{name}", cour.Cou_Name);
+                    html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
+					html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
+                    html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
+					html = html.replace("{limitfree}", (cour.Cou_IsLimitFree ? "<limitfree></limitfree>" : ""));
+                    //价格
+                    var price = "";
+                    if (cour.Cou_IsFree) {
+                        price = "<f>免费</f>";
+                    } else {
+                        if (cour.Cou_IsLimitFree) {
+                            var end = cour.Cou_FreeEnd.Format("M月d日");
+                            price = "<l>限时免费到  <t>"+end+"</t></l>";
+                        } else {
+                            price = "<m>" + cour.Cou_PriceSpan + cour.Cou_PriceUnit + cour.Cou_Price + "元</m>";
+                        }
+                    }
+                    html = html.replace("{price}", price);
                     list.append(html);
                     list.find("img:last").error(function () {
                         var errImg = $(this).attr("default");
@@ -87,6 +111,9 @@ function default_event() {
                         $(this).attr("src", errImg);
                     });
                 }
+				if(d.object.length<=0){
+					$(".cour-list[sbjid=" + sbjid + "]").html("<null>当前分类没有课程信息！</null>");
+				}
             }
             catch (err) {
                 $(".cour-context .cour-list:visible span").html("加载错误<br/>详情：" + err);
@@ -112,7 +139,7 @@ function menuBox_Autoloyout() {
     $(".custom-menu a").each(function (index, element) {
         var imgHg = $(this).find("img").outerHeight();
         var spanHg = $(this).find("span").outerHeight();
-        var height = imgHg + spanHg + 10;
+        var height = imgHg + spanHg;
         maxheight = maxheight < height ? height : maxheight;
     }).height(maxheight);
 }

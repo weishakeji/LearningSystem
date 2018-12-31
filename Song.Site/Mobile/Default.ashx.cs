@@ -30,10 +30,13 @@ namespace Song.Site.Mobile
             {
                 //新闻列表
                 Tag tag = this.Document.GetChildTagById("buyCou");
-                int count = int.Parse(tag.Attributes.GetValue("count", "3"));
-                List<Song.Entities.Course> buyCou = Business.Do<ICourse>().CourseForStudent(stid, null, 1, false, count);
-                for (int i = 0; i < buyCou.Count; i++) buyCou[i].Cou_Intro = string.Empty;
-                this.Document.SetValue("buyCou", buyCou);
+                if (tag != null)
+                {
+                    int count = int.Parse(tag.Attributes.GetValue("count", "3"));
+                    List<Song.Entities.Course> buyCou = Business.Do<ICourse>().CourseForStudent(stid, null, 1, false, count);
+                    for (int i = 0; i < buyCou.Count; i++) buyCou[i].Cou_Intro = string.Empty;
+                    this.Document.SetValue("buyCou", buyCou);
+                }
             }
         }
     }

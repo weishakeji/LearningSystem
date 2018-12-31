@@ -15,16 +15,43 @@
 html, body {
 	background-color: #efeff4;
 }
+body,a,p,div{
+	font-size:13px;
+}
 a {
 	color: #555;
+}
+space{
+	height:40px;
+	display:block;
+}
+line{
+	display: block;
+	text-align: center;
+	color: #aaa;
+	font-size:10px;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+line:before{
+	content: "————";
+	margin-right:20px;
+	color: #ccc;
+}
+line:after{
+	content: "————";
+	margin-left:20px;
+	color: #ccc;
 }
 /*
 页底导航
 */
 .footer{
-	padding-top:8px;
-	height:50px;
+	padding-top: 4px;
+	height: 40px;
 	overflow: hidden;
+	background-color: #FFF !important;
+	box-shadow: 0 -2px 3px -1px rgba(0, 0, 0, .3);
 }
 .footer a{
 	float: left;
@@ -32,21 +59,30 @@ a {
 	overflow: hidden;
 	position: relative;
 	width: 25;
+	font-size:13px;
 	text-align:center;
-	height:50px;
+	height:40px;
 }
 .footer a .mitem
 {
 	text-align:center;
-	width:30px;
+	width:20px;
+	height:20px;
 	border-radius: 50%;
 	
 }
+.footer b.mitem:before{
+	content: "\e610";
+	font-family: "iconfont";
+	line-height: 25px;
+	font-size: 20px;
+}
 .footer a b.mitem:before{
 	font-family: "iconfont";
-	line-height: 30px;
-	font-size: 30px;
+	line-height: 25px;
+	font-size: 20px;
 	text-align:center;
+	max-height:20px;
 	/* text-shadow: -1px -1px white, 2px 2px #999; */
 }
 /*首页*/
@@ -69,10 +105,11 @@ a {
 {
 	display: block;
 	text-align: center;
-	font-size: 14px;
+	font-size: 10px;
 	position:absolute;
-	bottom: 0px;
-	line-height: 22px;
+	bottom: 5px;
+	line-height: 20px;
+	height:15px;
 	white-space: nowrap;
 	overflow: hidden;
 	width: 100%;

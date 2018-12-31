@@ -45,11 +45,14 @@ namespace Song.Template.Tags.ListTag
             if (string.IsNullOrWhiteSpace(from))
             {
                 Song.Entities.Subject[] sbjs = Business.Do<ISubject>().SubjectCount(this.Organ.Org_ID, search, true, pid, order, start, count);
-                //sbjs[0].child = 3;
+                string path = Upload.Get["Subject"].Virtual;
                 foreach (Song.Entities.Subject c in sbjs)
                 {
-                    c.Sbj_Logo = Upload.Get["Subject"].Virtual + c.Sbj_Logo;
-                    c.Sbj_LogoSmall = Upload.Get["Subject"].Virtual + c.Sbj_LogoSmall;
+                    c.Sbj_Logo = path + c.Sbj_Logo;
+                    c.Sbj_LogoSmall = path + c.Sbj_LogoSmall;
+                    //如果别名为空，则别名等于专业名称
+                    if (string.IsNullOrWhiteSpace(c.Sbj_ByName) || c.Sbj_ByName.Trim() == "")
+                        c.Sbj_ByName = c.Sbj_Name;
                     c.Sbj_Intro = HTML.ClearTag(c.Sbj_Intro);
                 }
                 tag.DataSourse = sbjs;

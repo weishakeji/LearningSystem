@@ -8,9 +8,21 @@
 </head>
 <body>
 <header class="mui-bar mui-bar-nav headbar">
+<img src="{$orgPath}{$org.org_logo}" class="logo" />
   <form action="courses.ashx" method="get" id="formSearch">
-    <input name="sear" type="search" id="tbSearch" placeholder="搜索">
+    <input name="sear" type="search" id="tbSearch" class="sear" placeholder="搜索">
   </form>
+  <script language="javascript" type="text/javascript">
+	$(function(){
+		//设置搜索框的宽度
+		$("header img.logo").load(setFormSearchWidth);	
+		$(window).load(setFormSearchWidth);
+		function setFormSearchWidth(){
+			var searWidth=$("header").width()-$("header .logo").width()-10;
+			$("#formSearch").animate({width:searWidth});
+		}
+	});
+  </script>
 </header>
 <!--/*轮换图片*/-->
 <div class="mui-slider" style="margin-top:40px;">
@@ -49,7 +61,7 @@ gallery.slider({
 <!--通知公告-->
 <vt:list type="notice" var="$notices" item="data" index="i" count="1"> </vt:list>
 <vt:if var="notices.Length" value="0" compare=">">
-  <ul class="mui-table-view">
+  <ul class="mui-table-view notice-box">
     <vt:list type="notice" from="$notices" item="data" index="i">
       <li class="mui-table-view-cell" noid="{$:#.data.no_id}"> <a href="notice.ashx?id={$:#.data.no_id}" class="notice" title="{$:#.data.no_ttl}" type="link"> <i class="icon">&#xe67a;</i> {$:#.data.no_ttl}</a> <span class="mui-badge">{$:#.data.no_startTime  format="MM-dd"}</span> </li>
     </vt:list>
@@ -73,15 +85,20 @@ gallery.slider({
   </div>
 </vt:if>
 <!--课程区-->
+<div class="cour-area">
 <div class="cour-bar"> <span class="cour-tit current" sbjid="0">精选课程</span>
   <vt:list type="subject" var="$subject" item="data" index="i" count="5" order="rec"> </vt:list>
-  <vt:foreach from="$#.subject" item="m" index="i"> <span class="cour-tit" sbjid="{$:m.sbj_id}" count="10">{$:m.sbj_name}</span> </vt:foreach>
+  <vt:foreach from="$#.subject" item="m" index="i"> <span class="cour-tit" sbjid="{$:m.sbj_id}" count="10">{$:m.Sbj_ByName}</span> </vt:foreach>
   <a class="cour-more" href="courses.ashx" type="link"></a> </div>
 <div class="cour-context">
 <img class="default-img" default="images/cou_nophoto.jpg" style="display:none;"/>
   <div class="cour-list" sbjid="0"> <img src="images/load_016.gif" class="loading"/> <br/>
     <span class="loading">正在加载“{0}”...</span> </div>
 </div>
+</div>
+
+<line>我是有底线的</line>
+<space></space>
 <vt:include file="inc/footer.html" />
 </body>
 </html>

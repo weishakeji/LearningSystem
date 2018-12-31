@@ -6618,9 +6618,9 @@
     <Content Include="Templates\Mobi\Default\Inc\icon-color.inc" />
     <Content Include="Templates\Mobi\Default\Inc\meta-nomui.inc" />
     <Content Include="Templates\Mobi\Default\Inc\meta.inc" />
-    <None Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.eot" />
-    <None Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.ttf" />
-    <None Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.woff" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.eot" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.ttf" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.woff" />
     <None Include="Templates\Mobi\Default2019\fonts\mui.ttf" />
     <None Include="Utility\CoreStyles\Jme\Symbola.eot" />
     <None Include="Utility\CoreStyles\Jme\Symbola.otf" />

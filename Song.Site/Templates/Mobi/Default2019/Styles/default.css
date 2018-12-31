@@ -5,7 +5,27 @@
 a {
 	color: gray;
 }
+/*头部*/
+.headbar{
+	background-color:#fff;
+}
+.logo{
+	height:30px;
+	margin-top:6px;	
+	float:left;	
+}
+/*搜索框*/
+#formSearch{
+	width:40%;
+	float:right;
+}
+.sear{
+	font-size:12px !important;
+}
 /*通知公告*/
+.notice-box{
+	margin-top:8px;
+}
 .notice
 {
 	margin-right:40px !important;
@@ -24,32 +44,20 @@ a {
 }
 /*自定义菜单*/
 .custom-menu {
-	width: 102%;
-	margin-left: -1%;
+	width: 100%;
 	display: table;
-	margin-bottom: 10px;
 	text-align: center;
+	margin-top: 6px;
+	background-color: #FFF;
 }
 .custom-menu a {
 	float: left;
 	width: 33%;
-	border-top-width: 1px;
-	border-left-width: 1px;
-	border-top-style: none;
-	border-right-style: solid;
-	border-bottom-style: solid;
-	border-left-style: none;
-	border-top-color: #E6E6E6;
-	border-right-color: #E6E6E6;
-	border-bottom-color: #E6E6E6;
-	border-left-color: #E6E6E6;
-	height: 90px;
-	border-bottom-width: 1px;
-	border-right-width: 1px;
-	background-color: #FFF;
+	height: 80px;
 	display: block;
 	overflow: hidden;
 	position: relative;
+	margin-bottom: 5px;
 }
 .custom-menu a .mitem {
 	font-style: normal;
@@ -58,9 +66,7 @@ a {
 	height: 50px;
 	width: 50px;
 	margin-left: auto;
-	margin-right: auto;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-right: auto;	
 	border-radius: 50%;
 }
 .custom-menu a img {
@@ -69,7 +75,7 @@ a {
 	content: "\e610";
 	font-family: "iconfont";
 	line-height: 50px;
-	font-size: 40px;
+	font-size: 35px;
 }
 .custom-menu a span {
 	-webkit-font-smoothing: antialiased;
@@ -80,37 +86,48 @@ a {
 	position: absolute;
 	text-align: center;
 	display: block;
-	line-height: 30px;
+	line-height: 20px;
 	white-space: nowrap;
-	height: 30px;
+	height: 20px;
 	overflow: hidden;
 	bottom: 0px;
 	width: 100%;
 }
 
 /*课程展示区*/
+.cour-area{
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+	border-radius: 2px;
+	background-color: #FFF;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	display:table;	
+}
 .cour-bar{
 	margin-top:10px;
 	height: 45px;
 	position: relative;
 	line-height: 30px;
-	background-color: #efeff4;
 	padding-left: 10px;
 	white-space: nowrap;
 	overflow: hidden;
 }
-.cour-bar .current{
-	font-size: 22px;
-	line-height:40px;
-	font-weight: bold;
-	margin-top:3px !important;
-}
+
 .cour-bar .cour-tit{
 	display:block;
 	float:left;
-	margin-right:20px;
+	margin-right:10px;
 	margin-top:5px;
+	font-size: 15px;
 	line-height: 40px;
+}
+.cour-bar .current{
+	font-size: 18px;
+	line-height:40px;
+	font-weight: bold;
+	margin-top:3px !important;
 }
 .cour-bar .cour-more:before{
 	content: "\e684";
@@ -120,16 +137,22 @@ a {
 	color:#666;
 }
 .cour-bar .cour-more{
-	position:absolute;
-	right:0px;
-	top:3px;
-	padding-right:10px;
-	padding-left:10px;
-	background-color:#efeff4;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	padding-right: 10px;
+	padding-left: 10px;
+	background-color: #FFFFFF;
+}
+/*课程展示区域*/
+.cour-context{
+	display:table;	
+	width:100%;	
+	margin-bottom:10px;
 }
 .cour-list{
 	text-align: center;
-	
+	width:100%;	
 }
 .cour-list .loading{
 	margin-right:auto;
@@ -137,28 +160,136 @@ a {
 	margin-top:20px;
 	font-size:13px;
 }
+/*没有课程*/
+.cour-list null{
+	display:block;
+	margin-right:auto;
+	margin-left:auto;
+	margin-top:20px;
+	width:80%;
+	text-align:center;
+}
+.cour-list null:before{
+	content: "\e774";
+	font-family: iconfont;
+	font-size: 25px;
+	color: #F60;
+}
 .cour-list .cour-box{
-	width:50%;
+	width:44%;
+	height:170px;
 	float:left;
 	text-align:center;
+	position:relative;
+}
+.cour-list .cour-box:nth-of-type(odd){
+		
+	margin-left:4%;
+	margin-right:2%;
+}
+.cour-list .cour-box:nth-of-type(even){
+	
+	margin-right:4%;
+	margin-left:2%;
 }
 .cour-list .cour-box img{
 	display:block;
-	width:80%;
+	width:100%;
 	margin-right:auto;
 	margin-left:auto;
 	margin-top:10px;
 	margin-bottom:10px;
 	box-shadow: 1px 1px 2px #888888;
 }
-.cour-list .cour-box span{
+/*免费课程的角标*/
+.cour-list .cour-box free{
+	position:absolute;
+	top:12px;
+	right:-8px;
+}
+.cour-list .cour-box free:before{
+	content: "\e633";
+	font-family: iconfont;
+	font-size: 40px;
+	color: #090;
+}
+/*限时免费的角标*/
+.cour-list .cour-box limitfree{
+	position:absolute;
+	top:12px;
+	right:-8px;
+}
+.cour-list .cour-box limitfree:before{
+	content: "\e66f";
+	font-family: iconfont;
+	font-size: 40px;
+	color: #f60;
+}
+/*推荐的角标*/
+.cour-list .cour-box rec{
+	position:absolute;
+	top:18px;
+	left:-4px;
+}
+.cour-list .cour-box rec:before{
+	content: "\e66a";
+	font-family: iconfont;
+	font-size: 40px;
+	color: #f60;
+}
+.cour-list .cour-box name{
 	display:block;
 	text-align:left;
-	font-size:14px;
 	line-height: 20px;
-	height: 40px;
+	max-height: 40px;
 	overflow: hidden;
-	width:80%;
+	width:90%;
 	margin-right:auto;
 	margin-left:auto;
+}
+.cour-list .cour-box price{
+	height: 25px;
+	font-size: 12px;
+	text-align: left;
+	display: block;
+	width: 90%;
+	margin-right: auto;
+	margin-left: auto;
+	color: #F30;
+}
+/*免费*/
+.cour-list .cour-box price f{	
+	color: #090;
+	font-size:10px;
+}
+.cour-list .cour-box price f:before{
+	content: "\e61a";
+	font-family: iconfont;
+	font-size: 20px;
+	margin-right: 5px;
+}
+/*限时免费费*/
+.cour-list .cour-box price l{
+	color: #FF6600;
+	font-size: 10px;
+}
+.cour-list .cour-box price l:before{
+	content: "\e645";
+	font-family: iconfont;
+	font-size: 17px;	
+	margin-right:2px;	
+}
+.cour-list .cour-box price l t{
+	
+}
+/*收费*/
+.cour-list .cour-box price m{
+	color: #F60;
+	font-size:12px;
+}
+.cour-list .cour-box price m:before{
+	content: "\e622";
+	font-family: iconfont;
+	font-size: 16px;	
+	margin-right:5px;	
 }

@@ -29,10 +29,16 @@ namespace Song.Site.Ajax
                 Song.Entities.Course c = cour[i];
                 c.Cou_LogoSmall = Upload.Get["Course"].Virtual + c.Cou_LogoSmall;
                 c.Cou_Logo = Upload.Get["Course"].Virtual + c.Cou_Logo;
-                //c.Cou_Intro = HTML.ClearTag(c.Cou_Intro);
-                cour[i].Cou_Intro = "";
-                cour[i].Cou_Name = cour[i].Cou_Name.Replace("\"", "&quot;");
-                tm += "" + cour[i].ToJson();
+                //是否免费，或是限时免费
+                if (c.Cou_IsLimitFree)
+                {
+                    DateTime freeEnd = c.Cou_FreeEnd.AddDays(1).Date;
+                    if (!(c.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                        c.Cou_IsLimitFree = false;
+                }
+                c.Cou_Intro = c.Cou_Content = "";
+                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
+                tm += "" + c.ToJson();
                 if (i < cour.Count - 1) tm += ",";
             }
             tm += "]}";
