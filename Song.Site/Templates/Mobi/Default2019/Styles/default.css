@@ -42,12 +42,17 @@ a {
 	color:#fff;
 	margin-right:10px;
 }
+.notice-box .mui-badge{
+	background-color: rgba(0,0,0,.10);
+	color:#666;
+	font-size:10px;
+}
 /*自定义菜单*/
 .custom-menu {
 	width: 100%;
 	display: table;
 	text-align: center;
-	margin-top: 8px;
+	margin-top: 6px;
 	background-color: #FFF;
 }
 .custom-menu a {
