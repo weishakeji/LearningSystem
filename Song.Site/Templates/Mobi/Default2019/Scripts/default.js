@@ -1,4 +1,7 @@
-﻿$(function () {
+﻿$(window).load(function(){
+	menuBox_Autoloyout();
+});
+$(function () {
     menuBox_Autoloyout();
     default_event();
     //热门课程点击事件

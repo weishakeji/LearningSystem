@@ -16,7 +16,7 @@ a {
 }
 /*搜索框*/
 #formSearch{
-	width:40%;
+	width:20%;
 	float:right;
 }
 .sear{
@@ -47,7 +47,7 @@ a {
 	width: 100%;
 	display: table;
 	text-align: center;
-	margin-top: 6px;
+	margin-top: 8px;
 	background-color: #FFF;
 }
 .custom-menu a {
@@ -98,7 +98,7 @@ a {
 .cour-area{
 	position: relative;
 	overflow: hidden;
-	margin: 10px;
+	margin: 8px;
 	border-radius: 2px;
 	background-color: #FFF;
 	background-clip: padding-box;
