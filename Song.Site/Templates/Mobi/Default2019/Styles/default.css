@@ -293,7 +293,7 @@ a {
 	font-size:12px;
 }
 .cour-list .cour-box price m:before{
-	content: "\e622";
+	content: "\e619";
 	font-family: iconfont;
 	font-size: 16px;	
 	margin-right:5px;	

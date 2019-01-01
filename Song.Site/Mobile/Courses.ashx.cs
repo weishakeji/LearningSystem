@@ -48,7 +48,14 @@ namespace Song.Site.Mobile
                     Song.Entities.Course c = courses[i];
                     c.Cou_LogoSmall = string.IsNullOrWhiteSpace(c.Cou_LogoSmall) ? null : Upload.Get["Course"].Virtual + c.Cou_LogoSmall;
                     c.Cou_Logo = string.IsNullOrWhiteSpace(c.Cou_Logo) ? null : Upload.Get["Course"].Virtual + c.Cou_Logo;
-                    c.Cou_Intro = string.Empty;
+                    c.Cou_Intro = c.Cou_Content = string.Empty;
+                    //是否免费，或是限时免费
+                    if (c.Cou_IsLimitFree)
+                    {
+                        DateTime freeEnd = c.Cou_FreeEnd.AddDays(1).Date;
+                        if (!(c.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                            c.Cou_IsLimitFree = false;
+                    }
                     //增加输出项
                     Dictionary<string, object> addParas = new Dictionary<string, object>();
                     addParas.Add("olcount", Business.Do<IOutline>().OutlineOfCount(c.Cou_ID, -1, true));    //当前课程里的章节数

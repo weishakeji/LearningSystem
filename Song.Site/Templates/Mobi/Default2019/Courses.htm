@@ -8,37 +8,38 @@
 
 </head>
 <body>
-<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
-  <!--侧滑菜单部分-->
-  <vt:include file="inc/Menu.html" />
+
+  <img class="default-img" default="images/cou_nophoto.jpg" style="display:none;"/>
   <!--主界面部分-->
   <div class="mui-inner-wrap">
-    <header class="mui-bar mui-bar-nav"> <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>    
-    <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
-     <a class="mui-btn mui-btn-link mui-pull-right" href="#" id="btnSelect"><span class="iconfont top-ico">&#x3465;</span></a>
+    <header class="mui-bar mui-bar-nav"> 
+   
+     <a class="mui-btn mui-btn-link mui-pull-right btnSearch" href="#" id="btnSelect"></a>
       <h1 class="mui-title"><input name="sear" type="search" id="search-top" placeholder="搜索"></h1>
     </header>
     <div class="mui-content mui-scroll-wrapper">
       <div id="slider" class="mui-slider mui-fullscreen">
-        <div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
-          <div style="width:100%"> <a class="mui-control-item mui-active" href="#" order="rec"> <span class="iconfont">&#xe62b;</span> 推荐 </a> <a class="mui-control-item" href="#" order="new"> <span class="iconfont">&#xe671;</span> 最新 </a> <a class="mui-control-item" href="#" order="hot"> <span class="iconfont">&#xf0084;</span> 最热 </a> <a class="mui-control-item" href="#" order="free"> <span class="moneyico">&#xe60b;</span> 免费 </a> </div>
+        <div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted btnBar">
+          <div style="width:100%"> <a class="mui-control-item mui-active rec" href="#" order="rec">推荐</a> <a class="mui-control-item new" href="#" order="new">最新</a> <a class="mui-control-item hot" href="#" order="hot">最热</a> <a class="mui-control-item free" href="#" order="free">免费</a> </div>
         </div>
         <div class="mui-slider-group">
           <div class="mui-slider-item mui-control-content">
             <div class="mui-scroll-wrapper" id="pullrefresh">
-              <div class="mui-scroll">
+              <div class="mui-scroll cur-box">
                 <ul class="mui-table-view mui-table-view-chevron" id="context-area">
                 </ul>
               </div>
             </div>
           </div>
+          <space></space>
         </div>
+        
       </div>
     </div>
     <!-- 隐藏侧滑菜单的层 -->
     <div class="mui-off-canvas-backdrop"> </div>
   </div>
-</div>
+
 <!--内容结束，下面是用于筛选的表单-->
 <div id="select-box" style="display:none">
   <div class="sear-row">   
@@ -51,18 +52,18 @@
   </div>
   <div class="pagebox-context">
     <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">
-      <div class="sbj-tit sbj-one"><span class="iconfont sbj-ico">&#xe675;</span>
+      <div class="sbj-tit sbj-one">
       <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.data.current.Sbj_id}"/><label class="sbj-name">{$#.data.current.Sbj_name}</label>
       </div>
         <div class="sbj-area">         
             <vt:repeat from="$data.Childs" type="subject" item="d" index="i" remark="二级分类">
            
-             <div class="sbj-tit sbj-two"><span class="iconfont sbj-ico">&#xe675;</span>
+             <div class="sbj-tit sbj-two">
              <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.d.current.Sbj_id}"/>
              <label class="sbj-name">{$#.d.current.Sbj_name}</label></div>
                 <div class="sbj-area" style="display:none">
                     <vt:repeat from="$d.Childs" type="subject" item="t" index="i"  remark="三级分类">
-                      <div class="sbj-three"><span class="iconfont sbj-ico">&#xe675;</span>
+                      <div class="sbj-three">
                       <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.t.current.Sbj_id}"/><label class="sbj-name">{$#.t.current.Sbj_Name}</label></div>
                     </vt:repeat>
                  </div>
@@ -74,5 +75,21 @@
     </vt:repeat>
   </div>
 </div>
+<!--底部导航菜单-->
+<nav class="mui-bar mui-bar-tab footer">
+
+<a class="foot-courses" type="link" target="_blank" href="/mobile/courses.ashx"> <b class="mitem"></b><span> 课程分类</span></a>
+
+ 
+ <a class="foot-mycourse" type="link" target="_blank" href="/mobile/selfcourse.ashx"> <b class="mitem"></b><span>我的课程</span></a>
+ <a class="foot-mycenter" type="link" target="_blank" href="/mobile/selfinfo.ashx"> <b class="mitem"></b><span>个人中心</span></a>
+ <a class="foot-home" href="/mobile/default.ashx" type="link" target="_blank"> <b class="mitem"></b><span>首页</span></a>
+</nav>
+<script type="text/javascript">
+    var footer = document.querySelector("nav.footer");
+    footer.querySelectorAll("a").forEach(function (item) {
+        item.style.width = footer.offsetWidth / footer.querySelectorAll("a").length + "px";
+    });
+</script>
 </body>
 </html>

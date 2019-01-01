@@ -2,8 +2,11 @@
 a {
 	color: #333;
 }
-.mui-bar .mui-title{
-	right:70px;
+input{
+	font-size:13px !important;
+}
+.mui-title{
+	left:10px !important;
 }
 .mui-control-item {
 	width: 24% !important;
@@ -17,42 +20,44 @@ a {
 .mui-btn-yellow{
 	color:#333 !important;
 }
-header .iconfont{
-	font-size:20px;
+/*顶部图标*/
+.btnHome:before{
+	content: "\e635";
+	font-family: iconfont;
+	font-size: 25px;
+	color: #333;
 }
-.free {
-	font-size: 12px;
-	line-height: 1;
-	display: inline-block;
-	border-radius: 100px;
-	float: right;
-	padding-top: 3px;
-	padding-right: 6px;
-	padding-bottom: 3px;
-	padding-left: 6px;
-	margin-right: 10px;
-	color: #009900;
-	background-color: #FFC;
-	margin-top: 3px;
+.btnSearch:before{
+	content: "\e679";
+	font-family: iconfont;
+	font-size: 17px;	
+	margin-right:2px;	
+	color: #333;
 }
-.price {
-	font-size: 12px;
-	line-height: 1;
-	display: inline-block;
-	border-radius: 100px;
-	float: right;
-	padding-top: 3px;
-	padding-right: 6px;
-	padding-bottom: 3px;
-	padding-left: 6px;
-	margin-right: 10px;
-	color: #FF6600;
-	margin-top: 3px;
-	background-color: #FFC;
+/*顶部图标*/
+.btnBar a:before{
+	font-family: iconfont;
+	font-size: 17px;	
+	margin-right:5px;	
 }
-.icotxt{
-	font-size: 14px !important;	
+.btnBar .rec:before{
+	content: "\e620";	
 }
+.btnBar .new:before{
+	content: "\e61e";
+}
+.btnBar .hot:before{
+	content: "\e6be";	
+}
+.btnBar .free:before{
+	content: "\e633";
+}
+/*底部图标*/
+/*课程中心*/
+.footer a.foot-courses b:before{
+	content: "\e69a";	
+}
+
 /*检索输入框*/
 .sear-row {
 	border: 2px solid #CCC;
@@ -104,9 +109,11 @@ header .iconfont{
 	margin-top: 3px;
 	height: 30px;
 }
-.sbj-ico {
-	font-size: 22px;
-	margin-right: 3px;
+.sbj-tit:before {
+	content: "\e69a";
+	font-family: iconfont;
+	font-size: 17px;	
+	margin-right:2px;	
 }
 .sbj-tit{
 	line-height: 30px;
@@ -146,4 +153,129 @@ header .iconfont{
 }
 .checkbox{
 	margin-right: 3px;
+}
+
+
+/*课程展示区域*/
+.cour-row{
+	
+}
+.cour-box{
+	text-align:center;
+	position:relative;
+}
+.cour-box picture{
+	display:block;
+	float:left;
+	width:48% !important;
+	margin-right:2%;	
+	position:relative;
+}
+.cour-box picture img{
+	box-shadow: 1px 1px 2px #888888;
+}
+/*免费课程的角标*/
+.cour-box free{
+	position:absolute;
+	top:6px;
+	right:-8px;
+}
+.cour-box free:before{
+	content: "\e633";
+	font-family: iconfont;
+	font-size: 40px;
+	color: #090;
+}
+/*限时免费的角标*/
+.cour-box limitfree{
+	position:absolute;
+	top:6px;
+	right:-8px;
+}
+.cour-box limitfree:before{
+	content: "\e66f";
+	font-family: iconfont;
+	font-size: 40px;
+	color: #f60;
+}
+/*推荐的角标*/
+.cour-box rec{
+	position:absolute;
+	top:8px;
+	left:-3px;
+}
+.cour-box rec:before{
+	content: "\e66a";
+	font-family: iconfont;
+	font-size: 40px;
+	color: #f60;
+}
+.cour-box info{
+	float:right;
+	width:48%;
+}
+.cour-box name{
+	display:block;
+	text-align:left;
+	line-height: 20px;
+	max-height: 40px;
+	overflow: hidden;
+}
+.cour-box sbjname{
+	height: 25px;
+	font-size: 12px;
+	text-align: left;
+	display: block;
+	color: #999;
+}
+.cour-box sbjname:before{
+	content: "\e69a";
+	font-family: iconfont;
+	font-size: 16px;
+	margin-right: 2px;
+}
+.cour-box price{
+	height: 25px;
+	font-size: 12px;
+	text-align: left;
+	display: block;
+	color: #F30;
+	position:absolute;
+	bottom:0px;
+}
+/*免费*/
+.cour-box price f{	
+	color: #090;
+	font-size:10px;
+}
+.cour-box price f:before{
+	content: "\e61a";
+	font-family: iconfont;
+	font-size: 20px;
+	margin-right: 5px;
+}
+/*限时免费费*/
+.cour-box price l{
+	color: #FF6600;
+	font-size: 10px;
+}
+.cour-box price l:before{
+	content: "\e645";
+	font-family: iconfont;
+	font-size: 17px;	
+	margin-right:2px;	
+}
+.cour-box price l t{
+	
+}
+/*收费*/
+.cour-box price m{
+	color: #F60;
+	font-size:12px;
+}
+.cour-box price m:before{
+	content: "\e619";
+	font-family: iconfont;
+	font-size: 16px;	
+	margin-right:5px;	
 }
