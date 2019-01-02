@@ -63,7 +63,7 @@ gallery.slider({
 <vt:if var="notices.Length" value="0" compare=">">
   <ul class="mui-table-view notice-box">
     <vt:list type="notice" from="$notices" item="data" index="i">
-      <li class="mui-table-view-cell" noid="{$:#.data.no_id}"> <a href="notice.ashx?id={$:#.data.no_id}" class="notice" title="{$:#.data.no_ttl}" type="link"> <i class="icon">&#xe67a;</i> {$:#.data.no_ttl}</a> <span class="mui-badge">{$:#.data.no_startTime  format="MM-dd"}</span> </li>
+      <li class="mui-table-view-cell" noid="{$:#.data.no_id}"> <a href="notice.ashx?id={$:#.data.no_id}" class="notice" title="{$:#.data.no_ttl}" type="link"> <i></i> {$:#.data.no_ttl}</a> <span class="mui-badge">{$:#.data.no_startTime  format="MM-dd"}</span> </li>
     </vt:list>
   </ul>
 </vt:if>

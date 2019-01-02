@@ -17,11 +17,19 @@ html{
 	left:30px;
 	display: block;
 	position: absolute;
-	margin-top: 5px;
+	margin-top: 6px;
 	margin-left: 5px;
 	z-index: 2;
 }
-
+.home:before {
+	content: "\e678";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 20px;
+	margin-top:5px;
+	font-weight: normal;	
+	color:#666;
+}
 /*图片区*/
 .chart-area {
 	height: 200px;
@@ -169,11 +177,12 @@ html{
 	text-overflow: ellipsis;
 }
 .outline-tit b:before{
-	content: "\e636";
+	content: "\e79c";
 	font-family: iconfont;
 	margin-right: 5px;
-	font-size: 20px;
+	font-size: 16px;
 	font-weight: normal;	
+	color:#666;
 }
 .outline-tit a{
 	float:right;

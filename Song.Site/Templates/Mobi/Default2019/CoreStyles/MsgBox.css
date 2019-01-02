@@ -13,7 +13,7 @@
 }
 .MsgBox .MsgBoxTitle {
 	height: 40px;
-	font-size: 18px;
+	font-size: 15px;
 	line-height: 40px;
 	text-indent: 10px;
 	border-bottom-width: 1px;
@@ -43,6 +43,7 @@
 	margin: 0px;
 	padding: 10px;
 	overflow: auto;
+	font-size:14px;
 }
 
 .MsgBox .msgBtnBox
@@ -83,4 +84,12 @@
 }
 .MsgBox second {
 	color: #F00;
+}
+.blur {
+	filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
+	-webkit-filter: blur(2px); /* Chrome, Opera */
+	-moz-filter: blur(2px);
+	-ms-filter: blur(2px);
+	filter: blur(2px);
+ filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2, MakeShadow=false);
 }

@@ -61,6 +61,7 @@
                 }
             }, 1000);
         }
+        $("body>*[class!=MsgBox]").addClass("blur");
     }
     //关闭当前窗口
     msgbox.prototype.Close = function (winid) {
@@ -75,6 +76,7 @@
         msgbox.fadeOut(1000, function () {
             $(this).remove();
         });
+        $("body>*[class!=MsgBox]").removeClass("blur");
     }
     //生成窗体外框,包括标题
     msgbox.prototype.BuildFrame = function () {
@@ -132,7 +134,7 @@
         if (this.Type == "null") return;
         this.WinBox.append("<div class='msgBtnBox' style='height:50px'></div>");
         var box = this.WinBox.find(".msgBtnBox");
-        box.width(this.WinBox.width());       
+        box.width(this.WinBox.width());
         if (this.Type == "confirm") {
             box.append("<div class='msgBtnEnter msgbtn'>" + this.btn.enter + "</div>");
             if (this.EnterEvent != null) {
@@ -169,6 +171,7 @@
         if (isquiet == null || isquiet != true) {
             if (msgbox.OverEvent != null) msgbox.OverEvent();
         }
+        $("body>*[class!=MsgBox]").removeClass("blur");
     }
     //关闭窗口的事件
     msgbox.CloseEvent = function (obj) {
@@ -184,6 +187,7 @@
             $(this).remove();
         });
         if (MsgBox.OverEvent != null) MsgBox.OverEvent();
+        $("body>*[class!=MsgBox]").removeClass("blur");
     }
     //生成遮罩层
     msgbox.prototype.Mask = function () {
@@ -197,7 +201,7 @@
         mask.width(wd).height(hg);
         mask.css({ "position": "absolute", "z-index": "10000" });
         mask.css({ left: 0, top: 0 });
-        var alpha = 60;
+        var alpha = 10;
         mask.css("background-color", "#ffffff");
         mask.css("filter", "Alpha(Opacity=" + alpha + ")").css("display", "block");
         mask.css("-moz-opacity", alpha / 100).css("opacity", alpha / 100);

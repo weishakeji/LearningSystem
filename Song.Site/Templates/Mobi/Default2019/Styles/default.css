@@ -31,16 +31,23 @@ a {
 	margin-right:40px !important;
 }
 .notice i{
-	font-size:20px;
+	font-size: 20px;
 	border-radius: 50%;
-	display:inline-block;
-	height:30px;
-	width:30px;
-	line-height:30px;
-	text-align:center;
-	background-color:#ccc;
-	color:#fff;
-	margin-right:10px;
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+	line-height: 30px;
+	text-align: center;
+	background-color: #ccc;
+	color: #fff;
+	margin-right: 10px;
+	font-variant: normal;
+	font-style: normal;
+}
+.notice i:before{
+	content: "\e67a";
+	font-family: iconfont;
+	font-size: 25px;
 }
 .notice-box .mui-badge{
 	background-color: rgba(0,0,0,.10);

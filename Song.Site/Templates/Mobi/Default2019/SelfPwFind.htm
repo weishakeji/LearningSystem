@@ -7,13 +7,12 @@
 <link href="Styles/SelfPwFind.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable">
 
 <!--主界面部分-->
 <div class="mui-inner-wrap">
   <header class="mui-bar mui-bar-nav"> 
-  <a href="login.ashx" class="iconfont mui-pull-left nav-left" type="link">&#xe6c6;</a>
-   <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+  
+  <a href="login.ashx" class="iconfont mui-pull-left nav-left" type="link">&#xe6b0;</a>
     <h1 class="mui-title">找回密码</h1>
   </header>
   
@@ -47,7 +46,7 @@
           <div class="infoRow">
             <div class="RowRight">答案：</div>
             <div class="RowLeft">
-              <input name="tbAnswer" value="" type="text"  class="textbox width" nullable="false"  group="login" />
+              <input name="tbAnswer" value="" type="text"  class="textbox width" nullable="false" style="width:95%"  group="login" />
             </div>
           </div>
           </vt:if>
@@ -92,9 +91,8 @@
  <!--主内容区结束--> 
     </div>
   </div>
-  <!-- off-canvas backdrop -->
-  <div class="mui-off-canvas-backdrop"> </div>
-</div>
+
+<vt:include file="inc/footer.html" />
 <!--主界面结束-->
 </body>
 </html>

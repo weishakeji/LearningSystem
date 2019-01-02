@@ -524,6 +524,7 @@ var viewpatt = {
             var box = $("#boxSetup");   //设置项的区域
             box.css({ left: $(window).width() }).show();
             box.animate({ left: 0 });
+			$("body>*[id!=boxSetup]").addClass("blur");
         });
         //关闭设置项
         $("#maskSetup").click(function () {
@@ -531,6 +532,7 @@ var viewpatt = {
                 $(this).hide();
                 $("#maskSetup").fadeOut(100);
             });
+			$("body>*[class!=MsgBox]").removeClass("blur");
         });
         /*视图模式的点击事件*/
         $("#boxSetup dl.view-pattern dd").click(function () {
@@ -539,6 +541,7 @@ var viewpatt = {
             viewpatt.storage.set($(this).attr("id"));
             //设置颜色风格
             viewpatt.style($(this).attr("id"));
+			$("body>*[class!=MsgBox]").removeClass("blur");
         });
     },
     //将设置存储到本地

@@ -18,6 +18,33 @@ body {
 	padding: 0px;
 	background-color: var(--bg);
 }
+.blur {
+	filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
+	-webkit-filter: blur(2px); /* Chrome, Opera */
+	-moz-filter: blur(2px);
+	-ms-filter: blur(2px);
+	filter: blur(2px);
+ filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2, MakeShadow=false);
+}
+
+/*返回首页*/
+.home:before {
+	content: "\e678";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 20px;
+	margin-top: 5px;
+	color: #999;
+}
+/*返回*/
+.goback:before {
+	content: "\e6b0";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 22px;
+	color: #999;
+	padding-top: -5px;
+}
 .context {
 	overflow-x: hidden !important;
 	overflow-y: auto !important;
@@ -47,7 +74,7 @@ body {
 	line-height: 40px;
 	font-size: 18px;
 }
-.topBpx a{
+.topBpx a {
 	text-decoration: none;
 }
 /*字体大小增减*/
@@ -307,31 +334,30 @@ dl.view-pattern dd#patt3.view-selected b {
 	word-wrap: break-word;
 	word-break: normal;
 }
-#cardBoxTitle span{
+#cardBoxTitle span {
 	font-size: 14px;
-	margin-left:5px;
+	margin-left: 5px;
 }
-#cardBoxTitle span:before{
-	content: "\e627";
+#cardBoxTitle span:before {
+	content: "\e603";
 	font-family: "iconfont";
+	margin-right: 2px;
 }
-#cardBoxTitle span.state0{
+#cardBoxTitle span.state0 {
 	color: #CCCCCC;
 }
-#cardBoxTitle span.state1{
+#cardBoxTitle span.state1 {
 	color: #00CC66;
 }
-#cardBoxTitle span.state2{
+#cardBoxTitle span.state2 {
 	color: #F60;
 }
-#cardBoxTitle span.state3{
+#cardBoxTitle span.state3 {
 	color: #09F;
 }
-
 .quesBox .quesItemsBox {
 	margin-bottom: 20px;
 }
-
 .quesBox .quesItemsBox>div {
 	overflow: auto;
 	margin-bottom: 5px;
@@ -376,43 +402,45 @@ dl.view-pattern dd#patt3.view-selected b {
 	content: "\f00c6";
 	font-family: "iconfont";
 	margin-right: 5px;
+	font-size: 20px;
 }
 .t1>div.selected>b:before {
-	content: "\e667";
+	content: "\e682";
 	font-family: "iconfont";
 	margin-right: 5px;
+	font-size: 20px;
 }
 /*多选题图标*/
 .t2>div>b:before {
-	content: "\e603";
+	content: "\e628";
 	font-family: "iconfont";
 	margin-right: 5px;
 }
 .t2>div.selected>b:before {
-	content: "\e62a";
+	content: "\e7cc";
 	font-family: "iconfont";
 	margin-right: 5px;
 }
 /*判断题图标*/
 .t3>div>b:before {
-	content: "\e603";
+	content: "\e628";
 	font-family: "iconfont";
 	margin-right: 5px;
 }
 .t3>div.selected>b:before {
-	content: "\e621";
+	content: "\e7cc";
 	font-family: "iconfont";
 	margin-right: 5px;
 }
 /*简答题图标*/
 .t4>div>i:before {
-	content: "\e657";
+	content: "\e699";
 	font-family: iconfont;
 	margin-right: 5px;
 }
 /*填空题图标*/
 .t5>div>b:before {
-	content: "\e657";
+	content: "\e634";
 	font-family: "iconfont";
 	margin-right: 5px;
 }
@@ -435,20 +463,23 @@ dl.view-pattern dd#patt3.view-selected b {
 	text-align: center;
 }
 .ctlBtn .correct-num:before {
-	content: "\e61a";
+	content: "\e67f";
 	font-family: "iconfont";
 	color: #0099FF;
 	margin-right: 5px;
+	margin-top: 3px;
+	font-size: 18px;
 }
 /*错误数*/
 .ctlBtn .error-num {
 	text-align: center;
 }
 .ctlBtn .error-num:before {
-	content: "\e63d";
+	content: "\e664";
 	font-family: "iconfont";
 	color: #FF0000;
 	margin-right: 5px;
+	font-size: 17px;
 }
 .textbox4 {
 	font-size: 16px;
@@ -513,7 +544,7 @@ dl.view-pattern dd#patt3.view-selected b {
 	font-size: 16px;
 }
 .btnNote:before {
-	content: "\e60d";
+	content: "\e699";
 	font-family: "iconfont";
 }
 .IsCollect {
@@ -563,6 +594,10 @@ dl.view-pattern dd#patt3.view-selected b {
 	height: 37px;
 	width: 40px;
 	color: #990000;
+}
+#cardBoxColse:before {
+	content: "\e67b";
+	font-family: "iconfont";
 }
 #cardLittle {
 	position: absolute;

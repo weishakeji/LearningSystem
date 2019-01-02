@@ -9,9 +9,7 @@
 <script type="text/javascript" src="Scripts/SelfInfo.js?ver={$version}"></script>
 </head>
 <body>
-<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
-  <!--侧滑菜单部分-->
-  <vt:include file="inc/Menu.html" />
+
   <!--主界面部分-->
   <div class="mui-inner-wrap">
   
@@ -168,14 +166,9 @@
         <!--主内容区结束--> 
       </div>
     </div>
-    <!-- off-canvas backdrop -->
-    <div class="mui-off-canvas-backdrop"> </div>
+
   </div>
-  <!--主界面结束--> <nav class="mui-bar mui-bar-tab"> <a href="#offCanvasSide" class="mui-icon  left mui-action-menu mui-icon-bars mui-pull-left"></a>
-     <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
-      <h1 class="mui-title">个人中心</h1>
-    </nav>
-</div>
+  <!--主界面结束--><vt:include file="inc/footer.html" />
  
 </body>
 </html>

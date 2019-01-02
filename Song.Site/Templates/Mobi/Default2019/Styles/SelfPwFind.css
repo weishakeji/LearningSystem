@@ -1,5 +1,8 @@
 @charset "utf-8";
-
+.nav-left{
+	font-size:30px;
+	line-height:35px;
+}
 .msg {
 	line-height: 40px;
 	width: 100%;
