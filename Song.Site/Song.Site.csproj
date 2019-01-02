@@ -6621,7 +6621,7 @@
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.eot" />
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.ttf" />
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.woff" />
-    <None Include="Templates\Mobi\Default2019\fonts\mui.ttf" />
+    <Content Include="Templates\Mobi\Default2019\fonts\mui.ttf" />
     <None Include="Utility\CoreStyles\Jme\Symbola.eot" />
     <None Include="Utility\CoreStyles\Jme\Symbola.otf" />
     <None Include="Utility\CoreStyles\Jme\Symbola.ttf" />

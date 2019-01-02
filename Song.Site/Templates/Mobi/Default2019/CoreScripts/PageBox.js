@@ -104,18 +104,7 @@
         //设置拖动
         if (this.IsDrag && !(this.Wdper == 100 && this.Hgper)) {
             var box = $(".PageBox[winid='" + this.WinId + "']");
-            if (box.size() > 0) {
-                try {
-                    box.easydrag().setHandler(".PageBoxTitle")
-                .ondrag(function () {
-                    $(".PageBoxIframeMask").show();
-                }).ondrop(function (d) {
-                    $(".PageBoxIframeMask").hide();
-                    var winid = $(d.target).parents(".PageBox").attr("winid");
-                    pagebox.coordinate(winid);
-                });
-                } catch (e) {
-                }
+            if (box.size() > 0) {               
             }
         }
         if (arguments.length > 0) {

@@ -76,7 +76,8 @@ function default_event() {
         //课程点击事件
         mui('body').off('tap', '.cour-box').on('tap', '.cour-box', function () {
             var id = $(this).attr("couid");
-            new PageBox("课程详情", "Course.ashx?id=" + id, 100, 100, "url").Open();
+			var name=$(this).find("name").text();
+            new PageBox(name, "Course.ashx?id=" + id, 100, 100, "url").Open();
         });
         if (list.find(".loading").size() <= 0) return;
         //加载课程
@@ -100,8 +101,8 @@ function default_event() {
                         price = "<f>免费</f>";
                     } else {
                         if (cour.Cou_IsLimitFree) {
-                            var end = cour.Cou_FreeEnd.Format("M月d日");
-                            price = "<l>限时免费到  <t>"+end+"</t></l>";
+                            var end = cour.Cou_FreeEnd.Format("yyyy-M-d");
+                            price = "<l>免费至 <t>"+end+"</t></l>";
                         } else {
                             price = "<m>" + cour.Cou_PriceSpan + cour.Cou_PriceUnit + cour.Cou_Price + "元</m>";
                         }

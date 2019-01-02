@@ -180,13 +180,13 @@ function ajaxLoaddata() {
 		        html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" couid="' + d.Cou_ID + '"></a></div>';
 		        //向右滑
 		        html += '<div class="mui-slider-left mui-disabled">';
-		        html += '<a class="mui-btn mui-btn-blue mui-icon icotxt">' + d.Cou_ViewNum + '次关注</a>';
-		        html += '<a class="mui-btn mui-btn-yellow mui-icon icotxt">章节' + d.olcount + '个<br/>试题' + d.quscount + '道</a>';
+		        html += '<a class="mui-btn mui-btn-blue mui-icon muileft"><view>' + d.Cou_ViewNum + '次关注</view><outline>章节' + d.olcount + '个</outline><ques>试题' + d.quscount + '道</ques></a>';
+		        //html += '<a class="mui-btn mui-btn-yellow mui-icon"></a>';
 		        html += '</div>';
 		        //----课程信息展示开始
 		        html += '<div class="mui-slider-handle mui-table"><div class="mui-table-cell cour-box">';
 		        //
-		        html += buildCourse(d);		        ;
+		        html += buildCourse(d); ;
 		        //----课程信息展示结束
 		        html += '</div></div>';
 		        li.innerHTML = html;
@@ -199,19 +199,21 @@ function ajaxLoaddata() {
 		    }
 
 		    //长按弹出课程详情
-		    mui('body').off('tap', '.news-item');
-		    mui('body').on('tap', '.news-item', function () {
+		    mui('body').off('tap', '.cour-row');
+		    mui('body').on('tap', '.cour-row', function () {
 		        var id = $.trim($(this).attr("couid"));
 		        var url = "Course.ashx?id=" + id;
+		        var name = $(this).attr("couname");
 		        history.pushState({}, "", $().setPara(window.location.href, "openurl", BASE64.encoder(url))); //更改地址栏信息
-		        new PageBox("课程详情", url, 100, 100, window.name, "url").Open();
+		        new PageBox(name, url, 100, 100, window.name, "url").Open();
 		    });
-		    mui('body').off('doubletap', '.news-item');
-		    mui('body').on('doubletap', '.news-item', function () {
+		    mui('body').off('doubletap', '.cour-row');
+		    mui('body').on('doubletap', '.cour-row', function () {
 		        var id = $.trim($(this).attr("couid"));
 		        var url = "Course.ashx?id=" + id;
+		        var name = $(this).attr("couname");
 		        history.pushState({}, "", $().setPara(window.location.href, "openurl", BASE64.encoder(url))); //更改地址栏信息
-		        new PageBox("课程详情", url, 100, 100, window.name, "url").Open();
+		        new PageBox(name, url, 100, 100, window.name, "url").Open();
 		    });
 		    //向左滑动，弹出咨询交流
 		    mui('body').off('slideleft', '.mui-table-view-cell');
@@ -221,15 +223,6 @@ function ajaxLoaddata() {
 		        new PageBox("《" + name + "》", "MsgBoards.ashx?couid=" + id + "&state=nohead", 100, 100, window.name, "url").Open();
 		        mui.swipeoutClose(this);
 		    });
-		    /*
-		    //向右滑动，弹出咨询交流
-		    mui('body').off('slideright', '.mui-table-view-cell');
-		    mui('body').on('slideright', '.mui-table-view-cell', function (event) {
-		    var id = $(this).attr("couid");
-		    var name = $(this).attr("couname");
-		    new PageBox("《" + name + "》", "MsgBoards.ashx?couid=" + id + "&state=nohead", 100, 100, "url").Open();
-		    mui.swipeoutClose(this);
-		    });*/
 		});
 }
 //构建课程信息
@@ -237,7 +230,7 @@ function buildCourse(cour) {
     var defimg = $(".default-img").attr("default"); //默认图片
     var html = "<picture>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/></picture><info>{name}{sbjname}<price>{price}</price></info>";
     html = html.replace("{logo}", cour.Cou_LogoSmall);
-	html = html.replace("{name}", "<name>"+cour.Cou_Name+"</name>").replace("{sbjname}", "<sbjname>"+cour.Sbj_Name+"</sbjname>");
+    html = html.replace("{name}", "<name>" + cour.Cou_Name + "</name>").replace("{sbjname}", "<sbjname>" + cour.Sbj_Name + "</sbjname>");
     html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
     html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
     html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
@@ -249,7 +242,7 @@ function buildCourse(cour) {
     } else {
         if (cour.Cou_IsLimitFree) {
             var end = cour.Cou_FreeEnd.Format("yyyy年M月d日");
-            price = "<l>限时免费到  <t>" + end + "</t></l>";
+            price = "<l>免费至 <t>" + end + "</t></l>";
         } else {
             price = "<m>" + cour.Cou_PriceSpan + cour.Cou_PriceUnit + cour.Cou_Price + "元</m>";
         }
@@ -257,3 +250,22 @@ function buildCourse(cour) {
     html = html.replace("{price}", price);
     return html;
 }
+
+/*课程分类的弹出*/
+$(function () {
+    mui('body').on('tap', '.foot-courses', function () {
+        var state = $(this).attr("state");
+        var panel = $(".sbj-panel");
+        if (panel.size() > 0 && state != "open") {
+            panel.height($(window).height() - 40).width($(window).width());
+            panel.css("left", $(window).width()).show();
+            panel.animate({ left: 0 }, 200);
+            $(this).attr("state", "open");
+        }
+        if (panel.size() > 0 && state == "open") {
+            panel.animate({ left: $(window).width() }, 200);
+            $(this).attr("state", "close");
+        }
+        return false;
+    });
+});
