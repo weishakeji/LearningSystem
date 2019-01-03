@@ -419,10 +419,19 @@ namespace Song.ServiceImpls
         {
             lock (lock_cache_build)
             {
-                WeiSha.Common.Cache<Song.Entities.Organization>.Data.Clear();
-                Song.Entities.Organization[] org = Gateway.Default.From<Organization>()
-                    .OrderBy(Organization._.Org_RegTime.Desc).ToArray<Organization>();
-                WeiSha.Common.Cache<Song.Entities.Organization>.Data.Fill(org);
+                try
+                {
+                    WeiSha.Common.Cache<Song.Entities.Organization>.Data.Clear();
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    Song.Entities.Organization[] org = Gateway.Default.From<Organization>()
+                        .OrderBy(Organization._.Org_RegTime.Desc).ToArray<Organization>();
+                    WeiSha.Common.Cache<Song.Entities.Organization>.Data.Fill(org);
+                }
                 return WeiSha.Common.Cache<Organization>.Data.List;
             }
         }

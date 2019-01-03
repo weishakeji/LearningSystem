@@ -7,7 +7,7 @@
 <script type="text/javascript" src="Scripts/CouponExchange.js?ver={$version}"></script>
 </head>
 <body>
-<nav class="mui-bar mui-bar-tab"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"></a> <a class="mui-btn mui-btn-link mui-pull-left left" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a> <a class="mui-btn mui-btn-link mui-pull-right right" href="PointDetails.ashx?accid={$Account.Ac_ID}&state=nohead" type="open"> <span class="footer-ico">&clubs;</span>积分详情 </a> </nav>
+<!--<nav class="mui-bar mui-bar-tab"> <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left left"></a> <a class="mui-btn mui-btn-link mui-pull-left left" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a> <a class="mui-btn mui-btn-link mui-pull-right right" href="PointDetails.ashx?accid={$Account.Ac_ID}&state=nohead" type="open"> <span class="footer-ico">&clubs;</span>积分详情 </a> </nav>-->
 <div class="mui-scroll">
   <ul class="mui-table-view">
     <li class="mui-table-view-cell mui-media"> <a href="javascript:;">
@@ -28,7 +28,9 @@
   <!--学员个人信息（结束），如头像-->
   
   <div class="mui-card">
-    <div class="mui-card-header"><span class="card-tit"><span class="moneyico ico">&#xe60f;</span>积分兑换卡券</span><span id="card-error" class="error-show"></span> </div>
+    <div class="mui-card-header"><span class="card-tit"><span class="iconfont ico">&#xe88a;</span>积分兑换卡券</span>
+   <a class="mui-btn mui-btn-link mui-pull-right right" href="PointDetails.ashx?accid={$Account.Ac_ID}&state=nohead" type="open"> 查看积分详情 </a> 
+    </div>
     <!--内容区-->
     <div class="mui-card-content">
       <form class="mui-input-group" star="false">
@@ -51,8 +53,11 @@
         </div>
       </form>
     </div>
+    
   </div>
+  <span id="card-error" class="error-show"></span> 
   
   <!-- 主内容结束 --></div>
+   <vt:include file="inc/footer.html" />
 </body>
 </html>

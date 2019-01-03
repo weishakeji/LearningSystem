@@ -7,25 +7,24 @@
 <link rel="stylesheet" href="Styles/MoneyDetails.css?ver={$version}" />
 </head>
 <body>
-<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
-  <!--侧滑菜单部分-->
-  <vt:include file="inc/Menu.html" />
+
   <!--主界面部分-->
   <div class="mui-inner-wrap">
-    <header class="mui-bar mui-bar-nav"> <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
-      <h1 class="mui-title"><span class="moneyico">&#xe746;</span> 资金明细</h1>
+    <header class="mui-bar mui-bar-nav"><a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe646;</a> 
+      <h1 class="mui-title"><span class="iconfont">&#xe665;</span> 资金明细</h1>
     </header>
     <div class="mui-content mui-scroll-wrapper" id="pullrefresh"> 
       <!--下拉刷新容器-->
       <div class="mui-scroll">
         <ul id="detail-view" class="mui-table-view">
-       
         </ul>
       </div>
     </div>
     <!-- 隐藏侧滑菜单的层 -->
     <div class="mui-off-canvas-backdrop"> </div>
+    <space></space>
+    <vt:include file="inc/footer.html" />
   </div>
-</div>
+
 </body>
 </html>

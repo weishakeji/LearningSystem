@@ -594,9 +594,18 @@ namespace Song.ServiceImpls
         {
             lock (lock_cache_build)
             {
-                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Clear();
-                Song.Entities.Outline[] outls = Gateway.Default.From<Song.Entities.Outline>().ToArray<Outline>();
-                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Fill(outls);
+                try
+                {
+                    WeiSha.Common.Cache<Song.Entities.Outline>.Data.Clear();
+                }
+                catch
+                {
+                }
+                finally
+                {
+                    Song.Entities.Outline[] outls = Gateway.Default.From<Song.Entities.Outline>().ToArray<Outline>();
+                    WeiSha.Common.Cache<Song.Entities.Outline>.Data.Fill(outls);
+                }
                 ////计算每个章节下的试题数
                 //foreach (Outline o in outls)
                 //{

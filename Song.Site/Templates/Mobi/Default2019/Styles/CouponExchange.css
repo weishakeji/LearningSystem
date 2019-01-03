@@ -2,6 +2,7 @@
 
 .ico{
 	margin-right: 5px;
+	font-size:25px;
 }
 .txt{
 	line-height: 35px;
@@ -9,7 +10,7 @@
 	text-align: center;
 }
 .card-tit{
-	color: #06F;
+	
 }
 .online-tit{
 	color: #060;
@@ -107,19 +108,6 @@ label{
 	margin-left:0px !important;
 }
 
-
-/*底部*/
-.mui-inner-wrap {
-	padding-bottom: 60px;
-}
-.left{
-	padding-right:20px;
-	padding-left:10px;
-}
 .right {
-	margin-right: 20px;
-}
-.footer-ico {
-	margin-right: 8px;
-	font-size: 20px;
+	margin-right: 0px;
 }

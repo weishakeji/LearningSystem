@@ -1,7 +1,18 @@
 @charset "utf-8";
-
+.nav-left
+{
+	padding-top:5px;
+	font-size:20px;
+}
+.mui-scroll{
+	margin-bottom:40px;
+	padding-bottom:40px;
+}
 .ico{
 	margin-right: 5px;
+}
+.mui-card-header .ico{
+	font-size:25px;
 }
 .txt{
 	line-height: 35px;
@@ -78,12 +89,11 @@ label{
 	margin-left: 25px;
 	font-size: 14px;
 }
-.money-item .moneyico{
+.money-item .iconfont{
 	font-size:14px;
 }
 .right-item{
 	float: right;
-	line-height: 40px;
 	color: #060;
 	text-align: right;
 	width: 40px;

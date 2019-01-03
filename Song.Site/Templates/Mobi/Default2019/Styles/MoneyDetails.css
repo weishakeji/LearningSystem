@@ -1,4 +1,12 @@
 @charset "utf-8";
+.nav-left
+{
+	padding-top:5px;
+}
+.iconfont{
+	font-size:22px;
+	color:#333 !important;
+}
 .money-item{
 	font-size: 14px;
 	position: relative;
@@ -27,7 +35,7 @@
 	width: 20%;
 	float:left;
 }
-.ico .examico {
+.ico .iconfont {
 	margin-right: auto;
 	margin-left: auto;
 	height: 50px;
