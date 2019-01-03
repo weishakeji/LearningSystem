@@ -4,9 +4,12 @@
   <div id="offCanvasSideScroll" class="mui-scroll-wrapper">
     <div class="mui-scroll">
       <div class="accInfoBox">
-        <div class="accPhoto"> <img src="../images/nophoto.jpg" root="{$stpath}" default="../images/nophoto.jpg"/> </div>
+        <div class="accPhoto">
+        <a class="" href="../Login.ashx" state="logout"><img src="../images/nophoto.jpg" root="{$stpath}" default="../images/nophoto.jpg"/></a>
+        </div>
         <div class="accInfo">
-          <div class="acc-name"> <a class="" href="../Login.ashx">未登录 </a> </div>
+          <div class="acc-name"> <a class="" href="../Login.ashx" state="logout">未登录 </a> 
+          <a class="" href="../SelfInfo.ashx" state="login">(无名) </a></div>
           <span class="acc-money"> ... </span>
           <a class="mui-badge mui-badge-primary income" href="../recharge.ashx?sharekeyid=86"  type="link">充值 </a>
         </div>
@@ -141,6 +144,12 @@ $(function(){
 			//如果是非登录状态，
 			if(!data.login && state=="login")$(this).remove();
         });
+		//学员姓名
+		  $(".acc-name a").each(function(index, element) {
+			  var state=$(this).attr("state");
+			  if(data.login && state=="logout")$(this).remove();
+			  if(!data.login && state=="login")$(this).remove();
+		  });
 		//如果登录状态，更改头像等
 		if(data.login){
 			var acc=data.object;
@@ -158,6 +167,7 @@ $(function(){
 				if (errImg == null) return false;
 				$(this).attr("src", errImg);
 			});
+			$(".accPhoto a").attr("href",$(".acc-name a").attr("href"));
 		}
 	});
 });
