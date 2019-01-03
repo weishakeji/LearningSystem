@@ -736,6 +736,7 @@
     <Content Include="Templates\Mobi\Default2019\Inc\meta-nomui.inc" />
     <Content Include="Templates\Mobi\Default2019\Inc\meta.inc" />
     <Content Include="Templates\Mobi\Default2019\Inc\Footer.html" />
+    <Content Include="Templates\Mobi\Default2019\Inc\HomeFooter.html" />
     <Content Include="Templates\Mobi\Default2019\Knowledge.htm" />
     <Content Include="Templates\Mobi\Default2019\Knowledges.htm" />
     <Content Include="Templates\Mobi\Default2019\LearningCard.htm" />
@@ -2411,6 +2412,9 @@
     </Compile>
     <Compile Include="Ajax\Courses.ashx.cs">
       <DependentUpon>Courses.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Ajax\Self.ashx.cs">
+      <DependentUpon>Self.ashx</DependentUpon>
     </Compile>
     <Compile Include="Ajax\StudentOnline.ashx.cs">
       <DependentUpon>StudentOnline.ashx</DependentUpon>
@@ -6560,6 +6564,7 @@
     <Content Include="Mobile\LearningCardView.ashx" />
     <Content Include="Mobile\QuesOften.ashx" />
     <Content Include="API\SSO.ashx" />
+    <Content Include="Ajax\Self.ashx" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

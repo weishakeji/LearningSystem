@@ -5,6 +5,9 @@
 a {
 	color: gray;
 }
+.mui-bar-nav~.mui-content {
+    padding-top: 0px;
+}
 /*头部*/
 .headbar{
 	background-color:#fff;
@@ -72,7 +75,6 @@ a {
 	margin-bottom: 5px;
 }
 .custom-menu a .mitem {
-	font-style: normal;
 	text-align: center;
 	display: block;
 	height: 50px;
@@ -118,7 +120,6 @@ a {
 	display:table;	
 }
 .cour-bar{
-	margin-top:10px;
 	height: 45px;
 	position: relative;
 	line-height: 30px;

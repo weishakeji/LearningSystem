@@ -94,7 +94,7 @@ line:after{
 }
 /*课程中心*/
 .footer a.foot-courses b:before{
-	content: "\e648";	
+	content: "\e675";	
 }
 /*我的课程*/
 .footer a.foot-mycourse b:before{
@@ -106,7 +106,7 @@ line:after{
 }
 /*个人中心*/
 .footer a.foot-mycenter b:before{
-	content: "\e62a";	
+	content: "\e68c";	
 }
 .footer a span
 {

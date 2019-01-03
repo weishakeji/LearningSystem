@@ -141,7 +141,7 @@ function menuBox_Autoloyout() {
     //计动计算菜单项高度
     var maxheight = 0;
     $(".custom-menu a").each(function (index, element) {
-        var imgHg = $(this).find("img").outerHeight();
+        var imgHg = $(this).find(".mitem").outerHeight();
         var spanHg = $(this).find("span").outerHeight();
         var height = imgHg + spanHg;
         maxheight = maxheight < height ? height : maxheight;
