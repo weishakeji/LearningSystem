@@ -3,8 +3,13 @@
 .mui-scroll-wrapper{
 	overflow: auto !important;
 }
+.mui-scroll{
+	margin-bottom:40px;
+	padding-bottom:40px;
+}
 .ico{
 	margin-right: 5px;
+	font-size:20px;
 }
 .txt{
 	line-height: 35px;
@@ -12,7 +17,7 @@
 	text-align: center;
 }
 .card-tit{
-	color: #06F;
+	
 }
 .online-tit{
 	color: #060;

@@ -12,10 +12,6 @@
 
 <!--主界面部分-->
 
-  <header class="mui-bar mui-bar-nav"> <a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe6c6;</a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
-    <h1 class="mui-title"><span class="examico">&#xe619;</span> 学习卡</h1>
-  </header>
-  <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
     <div class="mui-scroll">
       <ul class="mui-table-view">
         <vt:if var="Account.Ac_ID" value="0" compare=">">
@@ -42,7 +38,7 @@
       <!--学员个人信息（结束），如头像-->
       
       <div class="mui-card">
-        <div class="mui-card-header"><span class="card-tit"><span class="moneyico ico">&#xe60f;</span>学习卡</span><span id="card-error" class="error-show"></span> </div>
+        <div class="mui-card-header"><span class="card-tit"><span class="iconfont ico">&#xe62c;</span>学习卡</span><span id="card-error" class="error-show"></span> </div>
         <!--内容区-->
         <div class="mui-card-content">
           <form class="mui-input-group" id="formCard" star="false">
@@ -64,7 +60,7 @@
       </div>
       <div class="mui-card"> 
         <!--页眉，放置标题-->
-        <div class="mui-card-header"><span class="card-tit"><span class="moneyico ico">&#xe60f;</span>我的学习卡</span></div>
+        <div class="mui-card-header"><span class="card-tit"><span class="iconfont ico">&#xe62c;</span>我的学习卡</span></div>
         <!--内容区-->
         <div class="mui-card-content">
           <ul class="mui-table-view">
@@ -92,7 +88,8 @@
         </div>
       </div>
       <!-- 主内容结束 --></div>
-  </div>
-
+ 
+   <space></space>
+<vt:include file="inc/footer.html" />
 </body>
 </html>
