@@ -23,7 +23,7 @@
         <!--如果处于登录状态-->
         <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../selfcourse.ashx"><span class="iconfont">&#xe60b;</span>我的课程 </a> </li>
         <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../MoneyDetails.ashx"><span class="iconfont">&#xe690;</span>资金明细 </a> </li>
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../CouponExchange.ashx"><span class="iconfont">&#xe88a;</span>积分 </a> </li>
+        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../CouponExchange.ashx"><span class="iconfont">&#xe88a;</span>积分兑换 </a> </li>
         <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../LearningCard.ashx"><span class="iconfont">&#xe62c;</span>学习卡</a> </li>
         <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../Subordinates.ashx"><span class="iconfont">&#xe62f;</span>我的朋友 </a> </li>
          <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" type="confirm" 
@@ -154,7 +154,7 @@ $(function(){
 		if(data.login){
 			var acc=data.object;
 			//学员姓名
-			$(".acc-name a").text(acc.Ac_Name);
+			$(".acc-name a").text(acc.Ac_Name == "" ? "(无名)" : acc.Ac_Name);
 			//学员资金
 			var money=String(acc.Ac_Money);
 			if(money.indexOf(".")>-1)money=money.substr(0,money.indexOf("."));

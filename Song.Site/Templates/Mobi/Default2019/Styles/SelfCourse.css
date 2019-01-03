@@ -5,6 +5,10 @@
 	padding: 0px !important;
 	margin:0px !important;
 }
+.mui-table-view-cell
+{
+	padding-left:10px !important;
+}
 .mui-table-view-cell:after{
 	left:0px !important;
 }
@@ -13,6 +17,16 @@
 }
 .mui-input-group{
 	margin-bottom: 10px !important;
+}
+.mui-scroll{
+	padding-bottom:40px;
+}
+.money-item
+{
+	color: #F60;
+}
+.money-item .iconfont{
+	font-size:13px;
 }
 .news-item {
 	padding-right: 20px !important;
@@ -47,10 +61,11 @@
 	padding:10px;
 	padding-right:10px;
 }
-.couContext img{
-	height: 50px !important;
+.cur-logo{
+	height: auto!important;
 	float: left;
-	width:25%;
+	width:48% !important;
+	max-width:48% !important;
 	margin-left: 4%;
 }
 .couName{
