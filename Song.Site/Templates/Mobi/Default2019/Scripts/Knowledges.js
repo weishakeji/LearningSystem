@@ -147,7 +147,7 @@ function ajaxLoaddata() {
             //
             var html = '';           
             html += '<div class="mui-slider-handle mui-table"><div class="mui-table-cell">';
-            html += '<a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe636;</span>' + d.Kn_Title + '</a>';
+            html += '<a class="mui-navigate-right" href="#"><span class="ico"></span>' + d.Kn_Title + '</a>';
             html += '</div></div>';
             li.innerHTML = html;
             table.appendChild(li);

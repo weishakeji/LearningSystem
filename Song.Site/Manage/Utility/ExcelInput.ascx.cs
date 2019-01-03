@@ -289,6 +289,7 @@ namespace Song.Site.Manage.Utility
             {               
                 //根据扩展名判断excel版本
                 string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
+                //WorkbookFactory.Create(file);
                 if (ext.ToLower() == "xls") workbook = new HSSFWorkbook(file);
                 if (ext.ToLower() == "xlsx") workbook = new XSSFWorkbook(file);
             }

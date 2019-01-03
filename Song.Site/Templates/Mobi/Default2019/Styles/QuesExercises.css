@@ -86,7 +86,7 @@ body {
 	display: block;
 }
 .fontoper {
-	font-size: 30px;
+	font-size: 18px !important;
 	line-height: 40px;
 	width: 20px;
 	height: 40px;
@@ -111,8 +111,8 @@ body {
 .topBpx .btnSetup {
 }
 .topBpx .btnSetup:before {
-	content: "\e620";
-	font-family: "examico";
+	content: "\e66d";
+	font-family: "iconfont";
 	line-height: 50px;
 }
 #boxSetup {
@@ -399,7 +399,7 @@ dl.view-pattern dd#patt3.view-selected b {
 }
 /*单选题图标*/
 .t1>div>b:before {
-	content: "\f00c6";
+	content: "\e650";
 	font-family: "iconfont";
 	margin-right: 5px;
 	font-size: 20px;
@@ -535,12 +535,12 @@ dl.view-pattern dd#patt3.view-selected b {
 	margin-right: 3px;
 }
 .btnError:before {
-	content: "\e704";
-	font-family: "examico";
+	content: "\e6d0";
+	font-family: "iconfont";
 }
 .btnFav:before {
-	content: "\e661";
-	font-family: "examico";
+	content: "\e689";
+	font-family: "iconfont";
 	font-size: 16px;
 }
 .btnNote:before {
@@ -551,8 +551,8 @@ dl.view-pattern dd#patt3.view-selected b {
 	color: #FF0000;
 }
 .IsCollect:before {
-	content: "\e662";
-	font-family: "examico";
+	content: "\e62b";
+	font-family: "iconfont";
 	color: #FF0000;
 }
 /*答题卡*/
@@ -562,9 +562,9 @@ dl.view-pattern dd#patt3.view-selected b {
 	font-size: 14px;
 }
 #btnCard:before {
-	content: "\e689";
-	font-family: "examico";
-	font-size: 22px;
+	content: "\e617";
+	font-family: "iconfont";
+	font-size: 20px;
 }
 #cardBox {
 	position: absolute;

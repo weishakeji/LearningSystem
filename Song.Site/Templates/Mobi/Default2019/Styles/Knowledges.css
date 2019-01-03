@@ -1,10 +1,11 @@
 ﻿@charset "utf-8";
-a{
-	color:#333 !important;
+#offCanvasSideScroll a{
+	color: #CCC !important;	
 }
 .tit-box{
 	margin: 20px;
 	margin-left: 10px;
+	color: #CCC;
 }
 .left{
 	margin-left:10px;
@@ -19,4 +20,10 @@ a{
 }
 .rowico{
 	font-size:25px;
+}
+.ico:before{
+	content: "\e674";
+	font-family: "iconfont";
+	margin-right: 5px;
+	font-size: 16px;
 }

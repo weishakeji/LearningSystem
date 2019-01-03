@@ -13,7 +13,6 @@
 <script type="text/javascript" src="../CoreScripts/Extend.js?ver={$version}"></script>
 <script type="text/javascript" src="../CoreScripts/PageBox.js?ver={$version}"></script>
 <!--核心Css文件-->
-<link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css?ver={$version}"/>
 <link rel="stylesheet" href="../CoreStyles/public.css?ver={$version}"/>
 <link rel="stylesheet" href="../CoreStyles/PageBox.css?ver={$version}"/>
 <!--公共的Js文件-->

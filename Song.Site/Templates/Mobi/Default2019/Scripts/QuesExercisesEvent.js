@@ -97,7 +97,7 @@ var quesEvent = {
         type1: function (ques) {   //单选题
             var selitem = ques.find(".quesItemsBox>[issel=true]");
             if (selitem.size() < 1) {
-                var msg = new MsgBox("提示", "您还没有答题！", 90, 40, "msg");
+                var msg = new MsgBox("提示", "您还没有答题！", 80, 40, "msg");
                 msg.Open();
                 return quesEvent.showResult(ques, null);
             }
@@ -106,12 +106,12 @@ var quesEvent = {
         type2: function (ques) {    //多选题
             var selitem = ques.find(".quesItemsBox .answer[issel=true]");
             if (selitem.size() < 1) {
-                var msg = new MsgBox("提示", "您还没有答题！<br/><br/><second>3</second>秒后关闭消息", 90, 200, "msg");
+                var msg = new MsgBox("提示", "您还没有答题！<br/><br/><second>3</second>秒后关闭消息", 80, 200, "msg");
                 msg.Open();
                 return quesEvent.showResult(ques, null);
             }
             if (selitem.size() < 2) {
-                var msg = new MsgBox("提示", "多选题至少要选择两个选项！<br/><br/><second>3</second>秒后关闭消息", 90, 200, "msg");
+                var msg = new MsgBox("提示", "多选题至少要选择两个选项！<br/><br/><second>3</second>秒后关闭消息", 80, 200, "msg");
                 msg.Open();
                 return quesEvent.showResult(ques, null);
             }
@@ -125,7 +125,7 @@ var quesEvent = {
         type3: function (ques) {    //判断题
             var selitem = ques.find(".quesItemsBox .answer[issel=true]");
             if (selitem.size() < 1) {
-                var msg = new MsgBox("提示", "您还没有答题！", 90, 40, "msg");
+                var msg = new MsgBox("提示", "您还没有答题！", 80, 40, "msg");
                 msg.Open();
                 return quesEvent.showResult(ques, null);
             }
@@ -199,7 +199,7 @@ var quesEvent = {
         $(".btnFav").click(function () {
             if (!isLogin) {
                 //如果没有登录
-                new MsgBox("提示", "未登录状态，不可以收藏试题。", 90, 40, "alert").Open();
+                new MsgBox("提示", "未登录状态，不可以收藏试题。", 70, 40, "alert").Open();
             } else {
                 var ques = card.current();
                 var isCollect = ques.attr("IsCollect") == "True" ? true : false;
@@ -208,7 +208,7 @@ var quesEvent = {
                     ques.attr("IsCollect", isCollect ? "False" : "True");
                     ques.find(".btnFav").toggleClass("IsCollect");
                     var txt = isCollect ? "取消收藏成功" : "添加收藏成功";
-                    var msg = new MsgBox("提示", txt + "！<br/><br/><second>2</second>秒后关闭消息", 90, 200, "msg");
+                    var msg = new MsgBox("提示", txt + "！<br/><br/><second>2</second>秒后关闭消息", 70, 200, "msg");
                     msg.Open();
                 });
             }
@@ -217,16 +217,16 @@ var quesEvent = {
         $(".btnNote").click(function () {
             if (!isLogin) {
                 //如果没有登录
-                new MsgBox("提示", "未登录状态，不可以编写笔记。", 90, 40, "alert").Open();
+                new MsgBox("提示", "未登录状态，不可以编写笔记。", 70, 40, "alert").Open();
             } else {
                 var qid = card.currid();
-                new PageBox("添加笔记", "QuesNoteAdd.ashx?qid=" + qid, 90, 50, null).Open();
+                new PageBox("添加笔记", "QuesNoteAdd.ashx?qid=" + qid, 70, 50, null).Open();
             }
         });
         //报错
         $(".btnError").click(function () {
             var qid = card.currid();
-            new PageBox("错误试题提交", "QuesSubmitError.ashx?id=" + qid, 90, 80, null).Open();
+            new PageBox("错误试题提交", "QuesSubmitError.ashx?id=" + qid, 70, 80, null).Open();
         });
         //答题卡
         $("#btnCard").click(function () {
@@ -465,7 +465,7 @@ var finger = {
 					txt+="，还有"+(sum-num)+"道没有练习";
 				}
                 var msg=new MsgBox("提示", "已经是最后一道试题，是否返回？</br/>"+txt+"。"
-						+"<br/><br/><second>10</second>秒后关闭消息", 90, 250, "confirm");
+						+"<br/><br/><second>10</second>秒后关闭消息", 70, 250, "confirm");
 				msg.EnterEvent=function(){
 					var couid=$().getPara("couid");
 					window.location.href="QuesOutlines.ashx?couid="+couid;
@@ -477,7 +477,7 @@ var finger = {
             if (fixLeft < 0) {
                 fixLeft = fixLeft + tm;
             } else {
-                new MsgBox("提示", "这是第一道试题，前面没有了！" + second, 90, 200, "msg").Open();
+                new MsgBox("提示", "这是第一道试题，前面没有了！" + second, 70, 200, "msg").Open();
             }
         }
         finger.qusmove(fixLeft);

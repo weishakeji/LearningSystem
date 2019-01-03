@@ -207,7 +207,7 @@ body {
 	color: #666;
 }
 .msg-txt:before{
-	content: "\e657";
+	content: "\e75a";
 	font-family: "iconfont";
 	margin-right: 5px;
 }
@@ -216,4 +216,8 @@ body {
 	float:right;
 	line-height:40px;
 	margin-right:10px;
+}
+.footer a
+{
+    height:30px;
 }
