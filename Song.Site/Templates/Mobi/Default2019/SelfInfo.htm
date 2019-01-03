@@ -34,10 +34,10 @@
         
         <!--资金相关内容-->
         <ul class="mui-table-view">
-          <li class="mui-table-view-cell"> <a href="MoneyDetails.ashx" type="link" class="mui-navigate-right"><span class="moneyico ico"  style="color:#F90">&#xe666;</span>资金明细
-            <div class="right-item"><span class="moneyico">&#xe624;</span> {$:#.Account.Ac_money format="0.00"}元</div>
+          <li class="mui-table-view-cell"> <a href="MoneyDetails.ashx" type="link" class="mui-navigate-right"><span class="iconfont ico"  style="color:#F90">&#xe690;</span>资金明细
+            <div class="right-item"><span class="iconfont">&#xe670;</span> {$:#.Account.Ac_money format="0.00"}元</div>
             </a> </li>
-          <li class="mui-table-view-cell"> <a href="Recharge.ashx" type="link" class="mui-navigate-right"><span class="moneyico ico" style="color:#060">&#xe62d;</span>充值
+          <li class="mui-table-view-cell"> <a href="Recharge.ashx" type="link" class="mui-navigate-right"><span class="iconfont ico" style="color:#060">&#xe640;</span>充值
           <div class="right-item"><span >券</span> {$:#.Account.Ac_Coupon}个</div>
           </a> </li>
            <li class="mui-table-view-cell"> <a href="Subordinates.ashx" type="link" class="mui-navigate-right"><span class="iconfont ico" style="color: #06F">&#xe604;</span>我的朋友
@@ -48,7 +48,7 @@
         
         <!--个人详细信息列表区-->
         <ul class="mui-table-view">
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe600;</span>姓名
+          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe623;</span>姓名
             <div class="right-item stname">{$:#.Account.Ac_name}</div>
             </a>
             <div class="mui-collapse-content">
@@ -63,7 +63,7 @@
               </form>
             </div>
           </li>
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe60b;</span>性别
+          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe75b;</span>性别
             <div class="right-item" id="stsex">
               <vt:if var="Account.Ac_sex" value="0" compare="=">未知
                 <vt:else />
@@ -94,7 +94,7 @@
               </form>
             </div>
           </li>
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe671;</span>年龄
+          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe64c;</span>年龄
             <div class="right-item age"><span id="age">{$Account.Ac_age}</span>岁</div>
             </a>
             <div class="mui-collapse-content">
@@ -102,7 +102,7 @@
               <button id='birthday_select' class="btn mui-btn mui-btn-block" default="{$Account.Ac_Birthday format='yyyy-MM-dd'}">选择出生日期 ...</button>
             </div>
           </li>
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconphone ico">&#xe63c;</span>联系方式
+          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe606;</span>联系方式
             <div class="right-item" id="stmobi">{$Account.Ac_MobiTel1}</div>
             </a>
             <div class="mui-collapse-content">
@@ -125,7 +125,7 @@
               </form>
             </div>
           </li>          
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe636;</span>个人签名
+          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe68b;</span>个人签名
             <div class="right-item" id="sign">{$:#.Account.Ac_Signature}</div>
             </a>
             <div class="mui-collapse-content">
@@ -143,7 +143,7 @@
         <!--个人详细信息结束--> 
          <div style="height:10px"></div>
           <ul class="mui-table-view">
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe60d;</span>安全问题</a>
+          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe673;</span>安全问题</a>
             <div class="mui-collapse-content">
               <form class="mui-input-group">
                 <div class="mui-input-row">
@@ -160,7 +160,7 @@
               </form>
             </div>
           </li>
-           <li class="mui-table-view-cell"> <a href="selfpw.ashx" class="mui-navigate-right" type="link"><span class="iconfont ico">&#xe6ed;</span>修改密码</a> </li>
+           <li class="mui-table-view-cell"> <a href="selfpw.ashx" class="mui-navigate-right" type="link"><span class="iconfont ico">&#xe629;</span>修改密码</a> </li>
           </ul>
            <div style="height:100px"></div>
         <!--主内容区结束--> 
