@@ -121,3 +121,114 @@ line:after{
 	overflow: hidden;
 	width: 100%;
 }
+
+/*
+----------左侧滑动菜单的事件
+
+*/
+.title {
+	margin: 35px 15px 10px;
+}
+.title+.content {
+	margin: 10px 15px 35px;
+	color: #bbb;
+	text-indent: 1em;
+	font-size: 14px;
+	line-height: 24px;
+}
+input {
+	color: #000;
+}
+/*账户信息区域*/
+.accInfoBox
+{
+	height: 60px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	margin-left: 10px;
+}
+/*学员头像*/
+.accPhoto{
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 2px solid #CCC;
+	margin-right: 10px;
+	float:left;
+}
+.accPhoto img{
+	width: 60px;
+	
+}
+/*学员右上角的头像*/
+.right-logo{
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-top: 6px;
+	border: 2px solid #CCC !important;
+	float: right;
+	display: block;
+}
+.right-logo img{
+	width: 30px;
+	
+}
+.stName{
+	color: #F00 !important;
+}
+.accInfo{
+	float: left;
+	height: 60px;
+	width: auto;
+	min-width:100px;
+}
+.acc-name{
+	line-height: 35px;
+	font-weight: bold;
+}
+.acc-name, .acc-name a{
+	color: #CCC;
+}
+.acc-money{
+	font-size: 13px;
+	color:#F90;
+	margin-right:5px;
+}
+.acc-money:before{
+	content: "\e670";
+	font-family: "iconfont";
+	font-size: 16px;
+	margin-right:2px;
+}
+.acc-money:after{
+	content: "元";	
+}
+.accico{
+	font-size: 14px;
+}
+/*充值链接*/
+.income{
+	float: right;
+	display:none;
+}
+/*联系我们的按钮*/
+.btn-link{
+	margin-left: 3px;
+	color: #FFF;
+}
+.btn-about{
+	float: right;
+	color: #FFF;
+	margin-right: 5px;
+}
+/*列表菜单项前面的图标*/
+.main-menu .mui-table-view-cell .iconfont{
+	margin-right: 10px;
+}
+.main-menu .mui-bar-footer .iconfont{
+	margin-right: 5px;
+}
+/*----------侧滑菜单结束*/
