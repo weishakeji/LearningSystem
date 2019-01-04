@@ -30,6 +30,40 @@ namespace Song.Site.Mobile
                 }
                 Response.End();
             }
+            if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
+            {
+                Dictionary<string, string> dic = new Dictionary<string, string>();
+                //初次注册，送积分
+                dic.Add("RegFirst", Business.Do<ISystemPara>()["RegFirst"].String);
+                //登录积分，每天最多多少分
+                dic.Add("LoginPoint", Business.Do<ISystemPara>()["LoginPoint"].String);
+                dic.Add("LoginPointMax", Business.Do<ISystemPara>()["LoginPointMax"].String);
+                //分享积分，每天最多多少分
+                dic.Add("SharePoint", Business.Do<ISystemPara>()["SharePoint"].String);
+                dic.Add("SharePointMax", Business.Do<ISystemPara>()["SharePointMax"].String);
+                //注册积分，每天最多多少分
+                dic.Add("RegPoint", Business.Do<ISystemPara>()["RegPoint"].String);
+                dic.Add("RegPointMax", Business.Do<ISystemPara>()["RegPointMax"].String);
+                //积分与卡券的兑换
+                dic.Add("PointConvert", Business.Do<ISystemPara>()["PointConvert"].String);
+                this.Document.Variables.SetValue("dic", dic);
+            }
+        }
+        private void fill()
+        {
+            ////初次注册，送积分
+            //tbRegFirst.Text = Business.Do<ISystemPara>()["RegFirst"].String;
+            ////登录积分，每天最多多少分
+            //tbLoginPoint.Text = Business.Do<ISystemPara>()["LoginPoint"].String;
+            //tbLoginPointMax.Text = Business.Do<ISystemPara>()["LoginPointMax"].String;
+            ////分享积分，每天最多多少分
+            //tbSharePoint.Text = Business.Do<ISystemPara>()["SharePoint"].String;
+            //tbSharePointMax.Text = Business.Do<ISystemPara>()["SharePointMax"].String;
+            ////注册积分，每天最多多少分
+            //tbRegPoint.Text = Business.Do<ISystemPara>()["RegPoint"].String;
+            //tbRegPointMax.Text = Business.Do<ISystemPara>()["RegPointMax"].String;
+            ////积分与卡券的兑换
+            //tbPointConvert.Text = Business.Do<ISystemPara>()["PointConvert"].String;
         }
         /// <summary>
         /// 积分兑换的具体方法

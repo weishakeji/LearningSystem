@@ -180,7 +180,7 @@ function ajaxLoaddata() {
 		        html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" couid="' + d.Cou_ID + '"></a></div>';
 		        //向右滑
 		        html += '<div class="mui-slider-left mui-disabled">';
-		        html += '<a class="mui-btn mui-btn-blue mui-icon muileft"><view>' + d.Cou_ViewNum + '次关注</view><outline>章节' + d.olcount + '个</outline><ques>试题' + d.quscount + '道</ques></a>';
+		        html += '<a class="mui-btn mui-btn-blue mui-icon muileft"><view>关注' + d.Cou_ViewNum + '次</view><outline>章节' + d.olcount + '个</outline><ques>试题' + d.quscount + '道</ques></a>';
 		        //html += '<a class="mui-btn mui-btn-yellow mui-icon"></a>';
 		        html += '</div>';
 		        //----课程信息展示开始
@@ -228,13 +228,16 @@ function ajaxLoaddata() {
 //构建课程信息
 function buildCourse(cour) {
     var defimg = $(".default-img").attr("default"); //默认图片
-    var html = "<picture>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/></picture><info>{name}{sbjname}<price>{price}</price></info>";
-    html = html.replace("{logo}", cour.Cou_LogoSmall);
+    var html = "<picture>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/></picture><info>{name}{number}{sbjname}<price>{price}</price></info>";
+    html = html.rep("{logo}", cour.Cou_LogoSmall);
     html = html.replace("{name}", "<name>" + cour.Cou_Name + "</name>").replace("{sbjname}", "<sbjname>" + cour.Sbj_Name + "</sbjname>");
     html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
     html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
     html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
     html = html.replace("{limitfree}", (cour.Cou_IsLimitFree ? "<limitfree></limitfree>" : ""));
+	//浏览数、章节数、试题数
+	var numstr='<view>' + cour.Cou_ViewNum + '</view><outline>' + cour.olcount + '</outline><ques>' + cour.quscount + '</ques>';
+	html = html.replace("{number}", "<number>"+numstr+"</number>");
     //价格
     var price = "";
     if (cour.Cou_IsFree) {

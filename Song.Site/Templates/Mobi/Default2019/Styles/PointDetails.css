@@ -35,22 +35,25 @@
 	width: 40px;
 	border-radius: 50%;
 	overflow: hidden;
-	font-size: 20px;
+	font-size: 35px;
 	line-height: 40px;
 	text-align: center;
 	font-family: "iconfont";
+	padding-top:10px;
 }
+/*收入*/
 .type2{
 	color: #060;
 }
 .type2:before{
-	content: "\e683";
+	content: "\e88a";
 }
+/*支出*/
 .type1{
 	color: #F00;
 }
 .type1:before{
-	content: "\e685";	
+	content: "\e60f";	
 }
 /*右侧信息*/
 .info{
@@ -90,10 +93,12 @@
 	margin-right: 10px;
 	white-space: nowrap;
 }
+/*支出*/
 .state0{
 	background-color: #FFDDDD;
 	color: #900;
 }
+/*收入*/
 .state1{
 	background-color: #D0FFD0;
 	color: #060;

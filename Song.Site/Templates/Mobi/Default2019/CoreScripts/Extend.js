@@ -1,5 +1,7 @@
 ﻿//两端去空格函数
 String.prototype.trim = function () { return this.replace(/(^\s*)|(\s*$)/g, ""); };
+//批量替换字符串
+String.prototype.rep = function (old, str) { return this.replace(eval("/" + old + "/g"), str + "d"); };
 /*cookie的操作方法*/
 (function () {
     var cookie = function (name, value, options) {

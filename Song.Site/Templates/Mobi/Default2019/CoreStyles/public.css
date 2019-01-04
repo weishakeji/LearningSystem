@@ -24,6 +24,16 @@ body,a,p,div,input{
 a {
 	color: #555;
 }
+#offCanvasSide .mui-table-view-cell{
+	padding-top: 10px;
+	padding-right: 65px;
+	padding-bottom: 10px;
+	padding-left: 15px;
+	
+}
+#offCanvasSide .mui-table-view-cell a{
+	font-size:14px !important;
+}
 space{
 	height:40px;
 	display:block;
@@ -74,12 +84,6 @@ line:after{
 	border-radius: 50%;
 	
 }
-.footer b.mitem:before{
-	content: "\e610";
-	font-family: "iconfont";
-	line-height: 25px;
-	font-size: 20px;
-}
 .footer a b.mitem:before{
 	font-family: "iconfont";
 	line-height: 25px;
@@ -95,6 +99,7 @@ line:after{
 /*课程中心*/
 .footer a.foot-courses b:before{
 	content: "\e675";	
+	font-size: 18px;
 }
 /*我的课程*/
 .footer a.foot-mycourse b:before{

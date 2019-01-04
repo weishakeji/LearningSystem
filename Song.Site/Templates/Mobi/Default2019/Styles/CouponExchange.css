@@ -17,7 +17,10 @@
 }
 .error-show{
 	font-size: 14px;
+	line-height:40px;
 	color: #F00;
+	float:left;
+	padding-left:20px;
 }
 label{
 
@@ -99,6 +102,9 @@ label{
 	overflow: hidden;
 	font-size: 25px;
 }
+.right-text .iconfont{
+	font-size:12px;
+}
 
 /*一些控件，自己定义样式*/
 
@@ -110,4 +116,47 @@ label{
 
 .right {
 	margin-right: 0px;
+}
+
+/*说明*/
+.explain{
+	width:100%;
+	padding:20px;
+	padding-top:0px;
+	margin-bottom:40px;
+}
+.explain tit{
+	font-size:16px;
+}
+.explain tit:before{
+	content: "\e658";
+	font-size:18px;
+	font-family: "iconfont";
+	margin-right:6px;
+}
+.explain *{
+	line-height:25px;
+	color:#666;
+}
+.explain dl{
+	margin:0px;
+	text-align:left;
+	margin-top:5px;
+}
+.explain dl dt{
+	margin:0px;
+	text-align:left;
+}
+.explain dl dd{
+	margin:0px;
+	margin-left:20px;
+	text-align:left;
+	line-height:20px;
+}
+.explain b{
+	font-weight: normal;
+	color: #F60;
+}
+.explain b:after{
+	content: "积分";
 }

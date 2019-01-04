@@ -221,11 +221,12 @@ input {
 	display: block;
 	text-align: left;
 	line-height: 20px;
+	font-size:14px;
 	max-height: 40px;
 	overflow: hidden;
 }
 .cour-box sbjname {
-	height: 25px;
+	height: 20px;
 	font-size: 12px;
 	text-align: left;
 	display: block;
@@ -245,6 +246,7 @@ input {
 	color: #F30;
 	position: absolute;
 	bottom: 0px;
+	width:100%;
 }
 /*免费*/
 .cour-box price f {
@@ -282,6 +284,19 @@ input {
 	font-size: 16px;
 	margin-right: 5px;
 }
+/*数量信息，包括浏览数，章节数，试题数*/
+number{	
+	text-align:left;
+	display:block;
+	height:16px;
+	line-height:20px;
+	color:#999;
+}
+number>*{
+	margin-right:10px;
+	font-size: 12px;
+	color::#ccc !important;
+}
 /*课程左右滑动效果*/
 .mui-icon {
 	
@@ -300,7 +315,7 @@ input {
 	width: 100%;
 	line-height: 25px;
 }
-.mui-icon view:before {
+view:before {
 	content: "\e627";
 	font-family: iconfont;
 	margin-right: 5px;
@@ -311,11 +326,13 @@ input {
 	width: 100%;
 	text-align: left;
 	line-height: 25px;
+	
 }
-.mui-icon outline:before {
-	content: "\e79c";
+outline:before {
+	content: "\e681";
 	font-family: iconfont;
 	margin-right: 5px;
+	color::#ccc !important;
 }
 /*试题数*/
 .mui-icon ques {
@@ -323,11 +340,12 @@ input {
 	width: 100%;
 	line-height: 25px;
 }
-.mui-icon ques:before {
+ques:before {
 	content: "\e621";
 	font-family: iconfont;
 	margin-right: 5px;
 }
+
 
 /*专业分类的面板*/
 .sbj-panel{
