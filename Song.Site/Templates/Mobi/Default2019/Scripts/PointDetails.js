@@ -61,7 +61,7 @@ function ajaxLoaddata() {
             var type = d.Pa_Type == 1 ? "-" : "+";
             //var ico = d.Pa_Type == 1 ? "&#xe680;" : "&#xf0094;"; 	//支出图标，与收入图标
             var sourse = d.Pa_Value; //资金来源			
-            var date = new Date(d.Pa_CrtTime).Format("MM-dd"); //资金流水的创建日期
+            var date = new Date(d.Pa_CrtTime).Format("yyyy-M-d"); //资金流水的创建日期
             var time = new Date(d.Pa_CrtTime).Format("hh:mm"); //资金流水的创建时时间
             var remark = $.trim(d.Pa_Remark) != "" ? d.Pa_Remark : d.Pa_Info;
             //
@@ -69,7 +69,7 @@ function ajaxLoaddata() {
             html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-red mui-icon mui-icon-trash" maid="' + d.Pa_ID + '"></a></div>';
             html += '<div class="mui-slider-handle mui-table"><div class="mui-table-cell">';
             //
-            html += '<div class="dates">' + date + '<br/>' + time + '</div>';
+            html += '<div class="dates">' + time + '<br/>' + date + '</div>';
             html += '<div class="ico type' + Number(d.Pa_Type) + '"></div>';
             html += '<div class="info">';
             html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Pa_Value) + '</div> </div>';

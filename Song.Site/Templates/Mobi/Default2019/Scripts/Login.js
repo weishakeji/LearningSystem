@@ -238,8 +238,8 @@ OtherLogin.init = function () {
         //判断是否处于微信中
         var ua = window.navigator.userAgent.toLowerCase();
         if (ua.match(/MicroMessenger/i) != 'micromessenger') {
-            var txt = "请在微信客户端打开,<second>5</second>秒后关闭";
-            var msg = new MsgBox("无法使用", txt, 90, 200, "alert");
+            var txt = "此功能仅在微信中使用<br/><second>5</second>秒后关闭";
+            var msg = new MsgBox("无法使用", txt, 60, 200, "alert");
             msg.Open();
         } else {
             var appid = $(this).attr("appid"); //appid
