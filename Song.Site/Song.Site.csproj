@@ -674,9 +674,7 @@
     <Content Include="Templates\Mobi\Default2019\CoreScripts\Public.js" />
     <Content Include="Templates\Mobi\Default2019\CoreScripts\Verify.js" />
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\demo.css" />
-    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\demo_fontclass.html" />
-    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\demo_symbol.html" />
-    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\demo_unicode.html" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\demo_index.html" />
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.css" />
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.js" />
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.svg" />
@@ -6627,6 +6625,7 @@
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.ttf" />
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.woff" />
     <Content Include="Templates\Mobi\Default2019\fonts\mui.ttf" />
+    <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.woff2" />
     <None Include="Utility\CoreStyles\Jme\Symbola.eot" />
     <None Include="Utility\CoreStyles\Jme\Symbola.otf" />
     <None Include="Utility\CoreStyles\Jme\Symbola.ttf" />

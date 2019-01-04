@@ -17,10 +17,9 @@
         <vt:if var="Account.Ac_name" value="" compare="="> （无名）
           <vt:else/>
           {$Account.Ac_name} </vt:if>
-        <span class="money-item"> 积分：{$:#.Account.Ac_Point} &nbsp; (券{$:#.Account.Ac_Coupon}个)</span>
-        <p class='mui-ellipsis'>
-          <vt:if var="Student.Ac_PhoneMobi" value="" compare="!="> {$Student.Ac_PhoneMobi} </vt:if>
-          （账号：{$:#.Account.Ac_accname} ） </p>
+       
+        <p class='mui-ellipsis'> <span class="money-item"> 积分{$:#.Account.Ac_Point}个 &nbsp; (券{$:#.Account.Ac_Coupon}个)</span>
+         </p>
       </div>
       </a> </li>
   </ul>
@@ -42,7 +41,7 @@
         <div class="mui-input-row txt"> （积分除以兑换率，向下取整） </div>
         <div class="mui-input-row">
           <label>兑换数</label>
-          <input name="tbNumber" id="tbNumber" value="" type="text"  class="textbox" nullable="false" />
+          <input name="tbNumber" id="tbNumber" placeholder="请输入要兑换的卡券数" value="" type="text"  class="textbox" nullable="false" />
         </div>
         <div class="mui-button-row"><span id="card-error" class="error-show"></span>
           <button class="mui-btn mui-btn-primary enter" id="btnCouponExchange" type="submit"  verify="true"  data-loading-text="提交中">兑 换</button>
@@ -58,15 +57,15 @@
         <dt>1、如何赚取积分？</dt>
         <dd>注册送<b>{$dic.RegFirst}</b>，每次登录送<b>{$dic.LoginPoint}</b>（每天最多<b>{$dic.LoginPointMax}</b>）。</dd>
         <dd>转发分享，每访问一次<b>{$dic.SharePoint}</b>（每天最多<b>{$dic.SharePointMax}</b>）。</dd>
-        <dd>从分享链接中注册一名学员您会得到<b>{$dic.RegPoint}</b>（每天最多<b>{$dic.RegPointMax}</b>）。</dd>
+        <dd>从分享链接中每注册一名学员您会得到<b>{$dic.RegPoint}</b>（每天最多<b>{$dic.RegPointMax}</b>）。</dd>
       </dl>
       <dl>
         <dt>2、积分兑换</dt>
-        <dd>每{$dic.PointConvert}积分兑换{$dic.PointConvert}卡券（1：{$dic.PointConvert}）。</dd>
+        <dd>每<b>{$dic.PointConvert}</b>兑换1个卡券（{$dic.PointConvert}:1）。</dd>
       </dl>
       <dl>
         <dt>3、卡券用途</dt>
-        <dd>卡券与现金1：1等价，可用于购买课程。</dd>
+        <dd>卡券与现金1:1等价，可用于购买课程。</dd>
       </dl>
     </div>
   </div>

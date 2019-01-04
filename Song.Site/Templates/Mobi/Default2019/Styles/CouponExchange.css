@@ -85,13 +85,15 @@ label{
 	
 }
 .money-item{
-	color: #F60;
-	margin-left: 25px;
 	font-size: 14px;
 }
-.money-item .moneyico{
-	font-size:14px;
+.money-item:before{
+	content: "\e88a";
+	font-size:18px;
+	font-family: "iconfont";
+	margin-right:6px;
 }
+
 .right-item{
 	float: right;
 	line-height: 40px;
