@@ -160,5 +160,25 @@ namespace Song.Site
             }
             return desc;
         }
+        /// <summary>
+        /// 获取系统AssemblyInfo中的文件名称
+        /// </summary>
+        /// <returns></returns>
+        protected string AssemblyTitle()
+        {
+            // 获取此程序集上的所有 Title 属性  
+            object[] attributes = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(System.Reflection.AssemblyTitleAttribute), false);
+            string title = string.Empty;
+            // 如果至少有一个 Title 属性  
+            if (attributes.Length > 0)
+            {
+                // 请选择第一个属性  
+                AssemblyTitleAttribute titleAttribute = (AssemblyTitleAttribute)attributes[0];
+                // 如果该属性为非空字符串，则将其返回  
+                if (titleAttribute.Title != "")
+                    title = titleAttribute.Title;
+            }
+            return title;
+        }
     }
 }

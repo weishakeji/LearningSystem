@@ -109,19 +109,19 @@ input {
 	margin-top: 3px;
 	height: 30px;
 }
-.sbj-tit:before {
+.PageBoxContext .sbj-tit:before {
 	content: "\e69a";
 	font-family: iconfont;
 	font-size: 17px;
 	margin-right: 2px;
 }
-.sbj-tit {
+.PageBoxContext .sbj-tit {
 	line-height: 30px;
 	height: 30px;
 	white-space: nowrap;
 	overflow: visible;
 }
-.sbj-tit:after {
+.PageBoxContext .sbj-tit:after {
 	content: '\e583';
 	font-family: Muiicons;
 	float: right;
@@ -130,7 +130,7 @@ input {
 	margin-right: 10px;
 	color: #999;
 }
-.open:after {
+.PageBoxContext .open:after {
 	content: '\e581';
 	font-family: Muiicons;
 	float: right;
@@ -139,19 +139,19 @@ input {
 	margin-right: 10px;
 	color: #999;
 }
-.sbj-area {
+.PageBoxContext .sbj-area {
 	display: none;
 }
-.sbj-two-area {
+.PageBoxContext .sbj-two-area {
 	padding: 0px !important;
 }
-.sbj-two {
+.PageBoxContext .sbj-two {
 	margin-left: 20px;
 }
-.sbj-three {
+.PageBoxContext .sbj-three {
 	margin-left: 40px;
 }
-.checkbox {
+.PageBoxContext .checkbox {
 	margin-right: 3px;
 }
 /*课程展示区域*/
@@ -355,6 +355,31 @@ ques:before {
 	background-color:rgba(255,255,255,0.8); 
 	z-index:1000;
 	width:100%;
-	display:none;
+	--display:none;
 	font-size:14px;	
+}
+.sbj-panel .sbj-area{
+	display:none;
+	float:left;
+	width:75%;
+}
+.sbj-panel .sbj-left{
+	width:25%;
+	float:left;
+	background-color:#09C;
+}
+.sbj-panel sbj-tit{
+	display: block;
+	line-height: 25px;
+	padding: 5px 10px;
+	
+}
+.sbj-panel sbj-tit.current{
+	border-left-width: 5px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: solid;
+	border-left-color: #06F;
+	background-color: #FFC;
 }

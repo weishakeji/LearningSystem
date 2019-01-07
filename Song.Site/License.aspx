@@ -211,7 +211,7 @@ a {
                         <asp:Literal ID="ltVersion" runat="server"></asp:Literal>
                     </div>
                     <div class="spanVersion">
-                        <%= Description() %></div>
+                        <%= AssemblyTitle()%></div>
                 </div>
             </div>
             <div class="licInfo" id="licInfo" runat="server" >
