@@ -256,7 +256,8 @@ function buildCourse(cour) {
 
 /*课程分类的弹出*/
 $(function () {
-	$(".sbj-panel, .sbj-left, .sbj-area").height($(window).height() - 40);
+	$(".sbj-panel").height($(window).height() - 40);
+	$(".sbj-left, .sbj-panel .sbj-area").height($(window).height() - 50);
 	$(".sbj-panel sbj-tit:first").addClass("current");
 	//课程专业分类面板的弹出与隐藏
     mui('body').on('tap', '.foot-courses', function () {
@@ -277,6 +278,26 @@ $(function () {
 	//专业分类的切换展示
 	mui('body').on('tap', '.sbj-panel sbj-tit', function () {
 		var sbjid=$(this).attr("sbjid");
-		alert(sbjid);
+		$(".sbj-panel sbj-tit[sbjid="+sbjid+"]").addClass("current")
+			.siblings("[sbjid!="+sbjid+"]").removeClass("current");			
+		$(".sbj-panel .sbj-area[sbjid="+sbjid+"]").show()
+			.siblings(".sbj-area[sbjid!="+sbjid+"]").hide();	
+	});
+	mui.trigger(document.querySelector('.sbj-panel sbj-tit.current'), 'tap');
+	//专业分类的点击事件
+	mui('body').on('tap', '.sbj-panel label', function () {
+		var sbjid=$(this).attr("sbjid");
+		var href = window.location.href;
+        if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
+        window.location.href = href.replace("#", "") + "?sbjids=" + sbjid;
+	});
+	mui('body').on('tap', '.sbj-panel .sbj-two-name', function () {
+		var sbjid=$(this).attr("sbjid");
+		$(this).next().find("label").each(function(index, element) {
+            sbjid+=","+$(this).attr("sbjid");
+        });
+		var href = window.location.href;
+        if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
+        window.location.href = href.replace("#", "") + "?sbjids=" + sbjid;
 	});
 });

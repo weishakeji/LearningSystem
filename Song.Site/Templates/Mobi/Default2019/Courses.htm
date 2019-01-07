@@ -62,13 +62,15 @@
              <div class="sbj-tit sbj-two">
              <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.d.current.Sbj_id}"/>
              <label class="sbj-name">{$#.d.current.Sbj_name}</label></div>
-                <div class="sbj-area" style="display:none">
+             <vt:if var="d.Childs.count" value="0" compare=">">
+                <div class="sbj-area">
                     <vt:repeat from="$d.Childs" type="subject" item="t" index="i"  remark="三级分类">
-                      <div class="sbj-three">
+                      <span class="sbj-three">
                       <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.t.current.Sbj_id}"/>
-                      <label class="sbj-name">{$#.t.current.Sbj_Name}</label></div>
+                      <label class="sbj-name">{$#.t.current.Sbj_Name}</label></span>
                     </vt:repeat>
-                 </div>             
+                 </div>    
+                </vt:if>         
             </vt:repeat>          
         </div>      
     </vt:repeat>
@@ -84,15 +86,14 @@
         <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">       
         <div class="sbj-area" sbjid="{$#.data.current.Sbj_ID}">         
             <vt:repeat from="$data.Childs" type="subject" item="d" index="i" remark="二级分类">           
-             <div class="sbj-tit sbj-two">            
-             <label class="sbj-name">{$#.d.current.Sbj_name}</label></div>
-                <div class="sbj-area" style="display:none">
-                    <vt:repeat from="$d.Childs" type="subject" item="t" index="i"  remark="三级分类">
-                      <div class="sbj-three">
-                      <label class="sbj-name">{$#.t.current.Sbj_Name}</label></div>
+             <div class="sbj-two-name" sbjid="{$#.d.current.Sbj_ID}">{$#.d.current.Sbj_name}</div>
+              <vt:if var="d.Childs.count" value="0" compare=">">
+                <div class="sbj-child">
+                    <vt:repeat from="$d.Childs" type="subject" item="t" index="i"  remark="三级分类">                      
+                      <label sbjid="{$#.t.current.Sbj_ID}">{$#.t.current.Sbj_Name}</label>
                     </vt:repeat>
                  </div>
-             
+             </vt:if>
             </vt:repeat>
           
         </div>
