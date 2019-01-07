@@ -85,7 +85,7 @@ label{
 	
 }
 .money-item{
-	font-size: 14px;
+	font-size: 12px;
 }
 .money-item:before{
 	content: "\e88a";

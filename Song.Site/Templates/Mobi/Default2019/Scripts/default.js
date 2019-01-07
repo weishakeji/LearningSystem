@@ -1,5 +1,5 @@
-﻿$(window).load(function(){
-	menuBox_Autoloyout();
+﻿$(window).load(function () {
+    menuBox_Autoloyout();
 });
 $(function () {
     menuBox_Autoloyout();
@@ -56,14 +56,15 @@ function default_event() {
         var href = $(this).parent("form").attr("action");
         window.location.href = $().setPara(href, "sear", txt);
     });
-    //课程展示
+    //课程选项卡方式展示
     $(".cour-bar .cour-tit").each(function (index) {
         if (index == 0) return true;
         var sbjid = $(this).attr("sbjid");  //专业id
         var html = $(".cour-context .cour-list:first").get(0).outerHTML;
         $(".cour-context").append(html);
         $(".cour-context .cour-list:last").attr("sbjid", sbjid).hide();
-    }).click(function () {
+    });
+    mui('body').on('tap', '.cour-bar .cour-tit', function () {
         var sbjid = $(this).attr("sbjid");
         var sbjname = $.trim($(this).text());   //专业名称
         //切换样式
@@ -76,7 +77,7 @@ function default_event() {
         //课程点击事件
         mui('body').off('tap', '.cour-box').on('tap', '.cour-box', function () {
             var id = $(this).attr("couid");
-			var name=$(this).find("name").text();
+            var name = $(this).find("name").text();
             new PageBox(name, "Course.ashx?id=" + id, 100, 100, "url").Open();
         });
         if (list.find(".loading").size() <= 0) return;
@@ -92,9 +93,9 @@ function default_event() {
                     var html = "<div class='cour-box' couid='{id}'>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/><name>{name}</name><price>{price}</price></div>";
                     html = html.replace("{logo}", cour.Cou_LogoSmall).replace("{name}", cour.Cou_Name);
                     html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
-					html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
+                    html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
                     html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
-					html = html.replace("{limitfree}", (cour.Cou_IsLimitFree ? "<limitfree></limitfree>" : ""));
+                    html = html.replace("{limitfree}", (cour.Cou_IsLimitFree ? "<limitfree></limitfree>" : ""));
                     //价格
                     var price = "";
                     if (cour.Cou_IsFree) {
@@ -102,7 +103,7 @@ function default_event() {
                     } else {
                         if (cour.Cou_IsLimitFree) {
                             var end = cour.Cou_FreeEnd.Format("yyyy-M-d");
-                            price = "<l>免费至 <t>"+end+"</t></l>";
+                            price = "<l>免费至 <t>" + end + "</t></l>";
                         } else {
                             price = "<m>" + cour.Cou_PriceSpan + cour.Cou_PriceUnit + cour.Cou_Price + "元</m>";
                         }
@@ -115,15 +116,17 @@ function default_event() {
                         $(this).attr("src", errImg);
                     });
                 }
-				if(d.object.length<=0){
-					$(".cour-list[sbjid=" + sbjid + "]").html("<null>当前分类没有课程信息！</null>");
-				}
+                if (d.object.length <= 0) {
+                    $(".cour-list[sbjid=" + sbjid + "]").html("<null>当前分类没有课程信息！</null>");
+                }
             }
             catch (err) {
                 $(".cour-context .cour-list:visible span").html("加载错误<br/>详情：" + err);
             }
         });
-    }).first().click();
+    });
+    //加载第一个课程选项卡
+    mui.trigger(document.querySelector('.current'), 'tap');
 }
 //自定义菜单的自动布局
 function menuBox_Autoloyout() {
