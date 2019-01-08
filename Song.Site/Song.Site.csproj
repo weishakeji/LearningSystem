@@ -2414,6 +2414,9 @@
     <Compile Include="Ajax\Self.ashx.cs">
       <DependentUpon>Self.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Ajax\SelfCourse.ashx.cs">
+      <DependentUpon>SelfCourse.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Ajax\StudentOnline.ashx.cs">
       <DependentUpon>StudentOnline.ashx</DependentUpon>
     </Compile>
@@ -6563,6 +6566,7 @@
     <Content Include="Mobile\QuesOften.ashx" />
     <Content Include="API\SSO.ashx" />
     <Content Include="Ajax\Self.ashx" />
+    <Content Include="Ajax\SelfCourse.ashx" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

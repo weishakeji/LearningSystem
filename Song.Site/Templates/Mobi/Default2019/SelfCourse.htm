@@ -7,157 +7,53 @@
 <script type="text/javascript" src="Scripts/SelfCourse.js?ver={$version}"></script>
 <link href="Styles/SelfCourse.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
-<body>
-
-  <!--主界面部分-->
-  <div class="mui-inner-wrap">
-  <ul class="mui-table-view">
-        <vt:if var="Account.Ac_ID" value="0" compare=">"> 
-          <li class="mui-table-view-cell mui-media"> <a href="javascript:;">
-            <vt:if var="Account.Ac_photo" value="" compare="="> <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/>
-              <vt:else/>
-              <img class="mui-media-object mui-pull-left" src="{$stpath}{$:#.Account.Ac_photo}"/></vt:if>
-            <div class="mui-media-body">
-              <vt:if var="Account.Ac_name" value="" compare="="> （无名）
-                <vt:else/>
-                {$Account.Ac_name} </vt:if>
-              <span class="money-item">余额 <span class="iconfont">&#xe691;</span> {$:#.Account.Ac_money format="0.00"}元 (券{$:#.Account.Ac_Coupon}个)</span>
-              <p class='mui-ellipsis'>
-                <vt:if var="Student.Ac_PhoneMobi" value="" compare="!="> {$Student.Ac_PhoneMobi} </vt:if>
-                （账号：{$:#.Account.Ac_accname} ） </p>
-            </div>
-            </a> </li>
-             <vt:else/>
-              <li class="mui-table-view-cell mui-media">
-              <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/> <a href="login.ashx" type="link">未登录</a>
-                <p class='mui-ellipsis' id="nologin"><a href="login.ashx" type="link">点击此处登录</a></p>
-              </li>
-            </vt:if>
-        </ul>
-
-      <div class="mui-scroll">
-        <div class="mui-card currCourse"> 
-          <!--页眉，放置标题-->
-          <div class="mui-card-header"><a class="mui-navigate-right mycourse" href="#"> <span class="iconfont ico">&#xe60b;</span>最近学习</a></div>
-          <!--内容区-->
-          <div class="mui-card-content couContext">
-            <vt:if var="#.currCou.cou_id" value="0" compare=">">
-              <vt:if var="#.currCou.cou_LogoSmall" value="" compare="="><span class="iconfont cou-ico">&#xe674;</span>
-                <vt:else />
-                <a href="CoursePage.ashx?couid={$currCou.cou_id}" type="link"><img class="mui-media-object mui-pull-left cur-logo" src="{$path}{$currCou.Cou_LogoSmall}" default="images/cou_nophoto.jpg"/> </a> </vt:if>
-              <div class="couName"><a href="CoursePage.ashx?couid={$currCou.cou_id}"" type="link">{$currCou.cou_name}</a> </div>
-              <vt:else />
-              您还没有选择课程。请在下面“已经购买的课程”中选择您要学习的课程，或前往<a href="Courses.ashx" type="link">课程中心</a> </vt:if>
-          </div>
-          <vt:if var="#.currCou.cou_id" value="0" compare=">"> 
-            <!--页脚，放置补充信息或支持的操作-->
-            <div class="mui-card-footer">
-              <vt:if var="currCou.Cou_IsFree" value="true" compare="=">该课程免费
-                <vt:else />
-                <vt:function var="info" method="getBuyInfo" args="$#.currCou.cou_id"/>
-                <vt:if var="#.info.stc_istry" value="true" compare=""> （该课程未购买，暂时试用中）
-                  <vt:else />
-                  学习期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"} </vt:if>
-              </vt:if>
-            </div>
-          </vt:if>
-        </div>
-        <ul class="mui-table-view mui-table-view-chevron">
-          <li class="mui-table-view-cell mui-collapse mui-active"> <a class="mui-navigate-right" href="#"> <span class="iconfont ico">&#xe674;</span>已经购买的课程
-            <div class="right-item stname"><span class="count">0</span>个</div>
-            </a>
-            <ul class="mui-table-view mui-table-view-chevron">
-              <vt:if var="buyCou.count" value="0" compare=">">
-                <vt:foreach from="$#.buyCou" item="c" remark="已经购买的课程">
-                  <li class="mui-table-view-cell mui-media cou-item" buy="true" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
-                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
-                    <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
-                    <div class="mui-slider-handle mui-table">
-                      <div class="mui-table-cell cour-box"><a href="javascript:;"><img class="mui-media-object mui-pull-left cur-logo" src="{$c.Cou_LogoSmall}"  default="images/cou_nophoto.jpg">
-                        <div class="mui-media-body mui-ellipsis">{$c.Cou_Name}
-                          <p class="mui-ellipsis">
-                          
-                          <div class="intro">
-                            <vt:if var="c.Cou_IsFree" value="true" compare="=">该课程免费
-                              <vt:else />
-                              <vt:function var="info" method="getBuyInfo" args="$#.c.cou_id"/>
-                              <vt:if var="#.info.stc_istry" value="true" compare=""> （该课程未购买，暂时试用中）
-                                <vt:else />
-                                学习期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"} </vt:if>
-                            </vt:if>
-                          </div>
-                          </p>
-                        </div>
-                        </a></div>
-                    </div>
-                  </li>
-                </vt:foreach>
-                <vt:else />
-                <li class="mui-table-view-cell mui-media">没有数据 </li>
-              </vt:if>
-            </ul>
-          </li>
-          <li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe618;</span>过期的课程
-            <div class="right-item stname"><span class="count">0</span>个</div>
-            </a>
-            <ul class="mui-table-view mui-table-view-chevron">
-              <vt:if var="overCou.count" value="0" compare=">">
-                <vt:foreach from="$#.overCou" item="c" remark="过期的课程">
-                  <li class="mui-table-view-cell mui-media cou-item" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
-                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
-                    <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
-                    <div class="mui-slider-handle mui-table">
-                      <div class="mui-table-cell"><a href="javascript:;"><img class="mui-media-object mui-pull-left cur-logo" src="{$c.Cou_LogoSmall}"  default="images/cou_nophoto.jpg">
-                        <div class="mui-media-body mui-ellipsis">{$c.Cou_Name}
-                          <p class="mui-ellipsis">
-                          
-                          <div class="intro">
-                            <vt:function var="info" method="getBuyInfo" args="$#.c.cou_id"/>
-                            期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"}</div>
-                          </p>
-                        </div>
-                        </a></div>
-                    </div>
-                  </li>
-                </vt:foreach>
-                <vt:else />
-                <li class="mui-table-view-cell mui-media">没有数据 </li>
-              </vt:if>
-            </ul>
-          </li>
-          <li class="mui-table-view-cell mui-collapse" style="display:none"><a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe73e;</span>试用中的课程
-            <div class="right-item stname"><span class="count">0</span>个</div>
-            </a>
-            <ul class="mui-table-view mui-table-view-chevron">
-              <vt:if var="tryCou.count" value="0" compare=">">
-                <vt:foreach from="$#.tryCou" item="c" remark="试用中的课程">
-                  <li class="mui-table-view-cell mui-media cou-item" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
-                    <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
-                    <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
-                    <div class="mui-slider-handle mui-table">
-                      <div class="mui-table-cell"><a href="javascript:;"><img class="mui-media-object mui-pull-left cur-logo" src="{$c.Cou_LogoSmall}"  default="images/cou_nophoto.jpg">
-                        <div class="mui-media-body mui-ellipsis">{$c.Cou_Name}
-                          <p class="mui-ellipsis">
-                          
-                          <div class="intro">
-                            <vt:function var="info" method="getBuyInfo" args="$#.c.cou_id"/>
-                            期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"}</div>
-                          </p>
-                        </div>
-                        </a></div>
-                    </div>
-                  </li>
-                </vt:foreach>
-                <vt:else />
-                <li class="mui-table-view-cell mui-media">没有数据 </li>
-              </vt:if>
-            </ul>
-          </li>
-        </ul>
-      </div>
-
+<body><div class="header-top"> <a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe646;</a>
+    <form action="courses.ashx" method="get" id="formSearch">
+      <input name="sear" type="search" id="tbSearch" class="sear" placeholder="搜索">
+    </form>
+    <a href="#" class="iconfont btnSearch">&#xe679;</a> </div>
+<div class="header">
   
+  <div class="accPhoto">
+    <vt:if var="Account.Ac_photo" value="" compare="="> <img src="../images/nophoto.jpg"/>
+      <vt:else/>
+      <a class="" href="SelfInfo.ashx" type="link"> <img src="{$stpath}{$:#.Account.Ac_photo}" default="../images/nophoto.jpg"/></a> </vt:if>
   </div>
+  <a class="recharge" href="Recharge.ashx" type="link">充值 </a> <a class="money" href="Recharge.ashx" type="link">{$:#.Account.Ac_money format="0.00"} </a> <a class="coupon"  href="CouponExchange.ashx" type="link">券{$:#.Account.Ac_Coupon}个</a> 
+  <!--当前课程-->
+  <div class="curr-course"> <div class="curr-course-inner">
+    <vt:if var="#.currCou.cou_id" value="0" compare=">">
+     <a href="CoursePage.ashx?couid={$currCou.cou_id}" type="link">
+     <img class="curr-logo" src="{$path}{$currCou.Cou_LogoSmall}" default="images/cou_nophoto.jpg"/> </a> 
+     <span class="couName"><a href="CoursePage.ashx?couid={$currCou.cou_id}" type="link">{$currCou.cou_name}{$currCou.cou_name}</a> </span>
+      <vt:else />
+      <img class="curr-logo" src="images/cou_nophoto.jpg"/>
+       <span class="couName"><a href="Courses.ashx" type="link">还没有学习，前往课程中心</a></span> 
+      </vt:if>
+  </div>
+  </div>
+</div>
+ <!--课程区-->
+        <div class="cour-area">
+          <div class="cour-bar"> <span class="cour-tit current" title="我的课程" action="buycou">我的课程</span>
+            <span class="cour-tit" title="过期的课程" action="overcou">过期的课程</span> 
+            <span class="cour-tit" title="搜索" style="display:none;" action="searcou">搜索</span>  </div>
+          <div class="cour-context" action="buycou"> 
+            g
+          </div>
+          <div class="cour-context" action="overcou"> 
+            n
+          </div>
+          <div class="cour-context" action="searcou"> 
+            
+          </div>
+          <!-- 隐藏的内容 --> 
+          <img class="default-img" default="images/cou_nophoto.jpg" style="display:none;"/>
+          <div class="loading" style="display:none;">
+           <img src="images/load_016.gif" class="loading"/> <br/>
+              <span class="loading-txt">正在加载"{0}"...</span> 
+          </div>
+        </div>
 <vt:include file="inc/footer.html" />
 </body>
 </html>

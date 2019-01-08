@@ -25,22 +25,29 @@ namespace Song.Site.Mobile
             Song.Entities.Course currCou = Extend.LoginState.Accounts.Course();
             if (currCou != null)
             {
-                //currCou = _trans(currCou);
                 this.Document.SetValue("currCou", currCou);
             }
             int stid=Extend.LoginState.Accounts.CurrentUser.Ac_ID;
             //已经购买的课程
-            List<Song.Entities.Course> buyCou = Business.Do<ICourse>().CourseForStudent(stid, null, 1, false, -1);
-            for (int i = 0; i < buyCou.Count; i++) buyCou[i] = _trans(buyCou[i]);
-            this.Document.SetValue("buyCou", buyCou);
+            Tag tagBuyCou = this.Document.GetChildTagById("buyCou");
+            if (tagBuyCou != null)
+            {
+                List<Song.Entities.Course> buyCou = Business.Do<ICourse>().CourseForStudent(stid, null, 1, false, -1);
+                for (int i = 0; i < buyCou.Count; i++) buyCou[i] = _trans(buyCou[i]);
+                this.Document.SetValue("buyCou", buyCou);
+            }
             //付费且过期的课程
-            List<Song.Entities.Course> overCou = Business.Do<ICourse>().CourseForStudent(stid, null, 2, false, -1);
-            for (int i = 0; i < overCou.Count; i++) overCou[i] = _trans(overCou[i]);
-            this.Document.SetValue("overCou", overCou);
-            //试学的课程
-            List<Song.Entities.Course> tryCou = Business.Do<ICourse>().CourseForStudent(stid, null, 0, true, -1);
-            for (int i = 0; i < tryCou.Count; i++) tryCou[i] = _trans(tryCou[i]);
-            this.Document.SetValue("tryCou", tryCou);
+            Tag tagOverCou = this.Document.GetChildTagById("overCou");
+            if (tagOverCou != null)
+            {
+                List<Song.Entities.Course> overCou = Business.Do<ICourse>().CourseForStudent(stid, null, 2, false, -1);
+                for (int i = 0; i < overCou.Count; i++) overCou[i] = _trans(overCou[i]);
+                this.Document.SetValue("overCou", overCou);
+            }
+            ////试学的课程
+            //List<Song.Entities.Course> tryCou = Business.Do<ICourse>().CourseForStudent(stid, null, 0, true, -1);
+            //for (int i = 0; i < tryCou.Count; i++) tryCou[i] = _trans(tryCou[i]);
+            //this.Document.SetValue("tryCou", tryCou);
             //购买课程的时间区间
             this.Document.RegisterGlobalFunction(this.getBuyInfo);
         }

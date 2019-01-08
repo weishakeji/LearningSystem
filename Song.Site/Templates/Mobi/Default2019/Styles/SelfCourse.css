@@ -1,106 +1,402 @@
 @charset "utf-8";
-
-.mui-card{
-	border:0px !important;
-	padding: 0px !important;
-	margin:0px !important;
+html, body {
+	background-color: #fff;
 }
-.mui-table-view-cell
-{
-	padding-left:10px !important;
+.header {
+	height: 180px;
+	background-color: #069;
+	position: relative;
+	padding-top: 50px;
+	background: -webkit-linear-gradient(red, blue); /* Safari 5.1 - 6.0 */
+	background: -o-linear-gradient(red, blue); /* Opera 11.1 - 12.0 */
+	background: -moz-linear-gradient(red, blue); /* Firefox 3.6 - 15 */
+	background: linear-gradient(rgba(0,153,255,1), rgba(255,255,255,1)); /* 标准的语法（必须放在最后） */
 }
-.mui-table-view-cell:after{
-	left:0px !important;
+.header-top {
+	height: 42px;
+	padding-top: 5px;
+	position: fixed;
+	margin-bottom: 10px;
+	top: 0px;
+	width: 100%;
+	z-index: 100;
+ --background-color: rgba(230,230,230,1);
 }
-.mui-collapse-content{
-	background-color: #eee !important;
+/*左上角返回*/
+.header-top .nav-left {
+	position: absolute;
+	font-size: 22px;
+	top: 8px;
+	left: 5px;
+	color: #ccc;
 }
-.mui-input-group{
-	margin-bottom: 10px !important;
+.header-top #formSearch {
+	margin-left: auto;
+	margin-right: auto;
+	width: 80%;
 }
-.mui-scroll{
-	padding-bottom:40px;
+.header-top #formSearch input {
+	font-size: 13px;
+	color: #fff !important;
 }
-.money-item
-{
-	font-size:12px;
-	color: #F60;
-	margin-left:20px;
+/*右上角搜索*/
+.header-top .btnSearch {
+	position: absolute;
+	font-size: 22px;
+	right: 5px;
+	top: 11px;
+	color: #ccc;
 }
-.money-item .iconfont{
-	font-size:10px;
+/*头像*/
+.header .accPhoto {
+	float: none;
+	margin-left: auto;
+	margin-right: auto;
+	width: 100px;
+	height: 100px;
+	box-shadow: 0 1px 0 rgba(0,0,0,.2) inset, 0 -1x 0 rgba(255,255,255,.2) inset;
+	border: 1px;
+	box-shadow: 0 0 25px rgba(255,255,255,1);
 }
-.mui-media-body p{
-	font-size:10px;
+.accPhoto img {
+	width: 100px;
 }
-.news-item {
-	padding-right: 20px !important;
-	color:#999;
-}
-.intro{
-	font-size: 14px;
-	color: #666;
-}
-/*我的课程*/
-.mycourse{
-	color: #060 !important;
-}
-.cou-ico{
-	font-size: 40px;
-	height: 50px !important;
-	float: left;
-	width: 30%;
-	text-align: center;
-	margin-top: 10px;
-	
-}
-.mycourse span{
-	color: #090 !important;
-}
-.currCourse{
-	margin-bottom:10px !important;
-}
-/*当前课程的主区域*/
-.couContext{
-	height:70px !important;
-	padding:10px;
-	padding-right:10px;
-}
-.cur-logo{
-	height: auto!important;
-	float: left;
-	width:48% !important;
-	max-width:48% !important;
-	margin-left: 4%;
-}
-.couName{
-	margin-left: 4%;
-	margin-right: 1%;
-	float: right;
-	width: 65%;
-	line-height: 25px;
-	height: 50px;
-	overflow: hidden;	
-}
-/*图标*/
-.ico {
-	line-height: 25px;
-	margin-top: -2px;
-	margin-right: 5px;
-	text-align: center;
-	width: 30px;
-	font-size: 25px !important;
+/*充值按钮*/
+.header .recharge {
+	color: #fff;
+	background-color: #009900;
+	position: absolute;
+	top: 60px;
+	left: 65%;
 	display: block;
-	float: left;
-	color: #666;
+	height: 22px;
+	width: auto;
+	padding: 0px 6px;
+	color: #fff;
+	border-radius: 100px;
+	border: 1px solid #FFF;
+	box-shadow: 0 0 25px rgba(255,255,255,1);
 }
-.right-item{
-	float: right;
-	margin-right: -25px;
-	line-height: 20px;
-	color: #999;
-	text-align: right;
-	width: 60px;
+/*资金数量*/
+.header .money {
+	color: #fff;
+	position: absolute;
+	top: 125px;
+	left: 65%;
+	display: block;
+	height: 22px;
+	padding: 0px 6px;
+	color: #fff;
+	border-radius: 100px;
+	background-color: rgba(255,102,0,0.61);
+	box-shadow: 0 0 25px rgba(255,255,255,1);
+}
+.header .money:before {
+	content: "\e691";
+	font-size: 13px;
+	font-family: "iconfont";
+	margin-right: 6px;
+}
+.header .money:after {
+	content: "元";
+}
+/*卡券数量*/
+.header .coupon {
+	color: #fff;
+	position: absolute;
+	top: 125px;
+	right: 65%;
+	display: block;
+	height: 22px;
+	padding: 0px 6px;
+	color: #fff;
+	border-radius: 100px;
+	background-color: rgba(0,153,204,0.61);
+	box-shadow: 0 0 25px rgba(255,255,255,1);
+}
+/*当前课程*/
+.curr-course {
+	width: 96%;
+	height: 34px;
+	line-height: 30px;
+	bottom: -17px;
+	margin-left: 2%;
+	margin-right: 2%;
+	background-color: #eee;
+	border-radius: 17px;
+	overflow: hidden;
+	margin-top: 14px;
+	box-shadow: 1px 1px 2px #888888;
+}
+.curr-course-inner {
+	position: relative;
+	height: 30px;
+	border-radius: 15px;
+	margin-top: 2px;
+	margin-left: 2px;
+	margin-right: 2px;
+	background-color: #FFFFFF;
+	padding-right: 20px;
+	text-align: left;
+	text-indent: 12px;
 	white-space: nowrap;
 	overflow: hidden;
+	text-overflow: ellipsis;
+	
+}
+.curr-logo {
+	width: 24px;
+	height: 24px;
+	float: left;
+	border-radius: 12px;
+	margin-left: 3px;
+	margin-top: 3px;
+}
+.curr-course-inner:after {
+	right: 5px;
+	content: '\e583';
+	font-family: Muiicons;
+	float: right;
+	position: absolute;
+	color: #999;
+}
+/*课程展示区*/
+.cour-area {
+	position: relative;
+	overflow: hidden;
+	margin: 8px;
+	border-radius: 2px;
+	background-color: #FFF;
+	background-clip: padding-box;
+ --box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	margin-top: 30px;
+	min-height: 800px;
+	margin-bottom:40px;
+}
+.cour-bar {
+	height: 45px;
+	position: relative;
+	line-height: 30px;
+	padding-left: 10px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.cour-bar .cour-tit {
+	display: block;
+	float: left;
+	margin-right: 10px;
+	margin-top: 5px;
+	font-size: 15px;
+	line-height: 40px;
+}
+.cour-bar .current {
+	font-size: 18px;
+	line-height: 40px;
+	font-weight: bold;
+	margin-top: 3px !important;
+}
+/*课程展示区域*/
+.cour-context {
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+	display: none;
+	text-align:center;
+}
+.cour-context>span {
+	margin: 20px;
+}
+.cour-context .loading {
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 20px;
+	font-size: 13px;
+}
+.cour-box {
+	text-align: center;
+	position: relative;
+	width: 100%;
+	height: 120px;
+	overflow: hidden;
+	padding-left: 5px;
+	padding-top: 5px;
+}
+.cour-box picture {
+	display: block;
+	float: left;
+	width: 50% !important;
+	margin-right: 2%;
+	padding-left: 5px;
+	padding-top: 5px;
+	position: relative;
+}
+.cour-box picture img {
+	box-shadow: 1px 1px 2px #888888;
+	width: 100%;
+}
+/*免费课程的角标*/
+.cour-box free {
+	position: absolute;
+	top: 8px;
+	right: -8px;
+}
+.cour-box free:before {
+	content: "\e633";
+	font-family: iconfont;
+	font-size: 40px;
+	color: #090;
+}
+/*限时免费的角标*/
+.cour-box limitfree {
+	position: absolute;
+	top: 8px;
+	right: -8px;
+}
+.cour-box limitfree:before {
+	content: "\e66f";
+	font-family: iconfont;
+	font-size: 40px;
+	color: #f60;
+}
+/*推荐的角标*/
+.cour-box rec {
+	position: absolute;
+	top: 13px;
+	left: 2px;
+}
+.cour-box rec:before {
+	content: "\e66a";
+	font-family: iconfont;
+	font-size: 40px;
+	color: #f60;
+}
+.cour-box info {
+	float: right;
+	width: 46%;
+}
+.cour-box name {
+	display: block;
+	text-align: left;
+	line-height: 20px;
+	font-size: 14px;
+	max-height: 40px;
+	overflow: hidden;
+}
+.cour-box sbjname {
+	height: 20px;
+	font-size: 12px;
+	text-align: left;
+	display: block;
+	color: #999;
+}
+.cour-box sbjname:before {
+	content: "\e69a";
+	font-family: iconfont;
+	font-size: 16px;
+	margin-right: 2px;
+}
+.cour-box price {
+	height: 25px;
+	font-size: 12px;
+	text-align: left;
+	display: block;
+	color: #F30;
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+}
+/*免费*/
+.cour-box price f {
+	color: #090;
+	font-size: 10px;
+}
+.cour-box price f:before {
+	content: "\e61a";
+	font-family: iconfont;
+	font-size: 20px;
+	margin-right: 5px;
+}
+/*限时免费费*/
+.cour-box price l {
+	color: #FF6600;
+	font-size: 10px;
+}
+.cour-box price l:before {
+	content: "\e645";
+	font-family: iconfont;
+	font-size: 17px;
+	margin-right: 2px;
+}
+.cour-box price l t {
+	white-space: nowrap;
+}
+/*收费*/
+.cour-box price m {
+	color: #F60;
+	font-size: 12px;
+}
+.cour-box price m:before {
+	content: "\e618";
+	font-family: iconfont;
+	font-size: 16px;
+	margin-right: 5px;
+}
+/*数量信息，包括浏览数，章节数，试题数*/
+number {
+	text-align: left;
+	display: block;
+	height: 16px;
+	line-height: 20px;
+	color: #999;
+}
+number>* {
+	margin-right: 10px;
+	font-size: 12px;
+ color::#ccc !important;
+}
+/*课程左右滑动效果*/
+.mui-icon {
+}
+.muileft {
+	font-size: 13px !important;
+	text-align: left;
+	display: block !important;
+	color: #333 !important;
+	background-color: #fff !important;
+}
+/*浏览次数*/
+.mui-icon view {
+	display: block;
+	margin-top: 15px;
+	width: 100%;
+	line-height: 25px;
+}
+view:before {
+	content: "\e627";
+	font-family: iconfont;
+	margin-right: 5px;
+}
+/*章节个数*/
+.mui-icon outline {
+	display: block;
+	width: 100%;
+	text-align: left;
+	line-height: 25px;
+}
+outline:before {
+	content: "\e681";
+	font-family: iconfont;
+	margin-right: 5px;
+ color::#ccc !important;
+}
+/*试题数*/
+.mui-icon ques {
+	display: block;
+	width: 100%;
+	line-height: 25px;
+}
+ques:before {
+	content: "\e621";
+	font-family: iconfont;
+	margin-right: 5px;
 }

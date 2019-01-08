@@ -50,7 +50,7 @@
             </a>
             <ul class="mui-table-view mui-table-view-chevron">
               <vt:if var="buyCou.count" value="0" compare=">">
-                <vt:foreach from="$#.buyCou" item="c" remark="已经购买的课程">
+                <vt:foreach id="buyCou" from="$#.buyCou" item="c" remark="已经购买的课程">
                   <li class="mui-table-view-cell mui-media cou-item" buy="true" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
                     <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
                     <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
@@ -84,7 +84,7 @@
             </a>
             <ul class="mui-table-view mui-table-view-chevron">
               <vt:if var="overCou.count" value="0" compare=">">
-                <vt:foreach from="$#.overCou" item="c" remark="过期的课程">
+                <vt:foreach id="overCou" from="$#.overCou" item="c" remark="过期的课程">
                   <li class="mui-table-view-cell mui-media cou-item" couid="{$c.Cou_ID}" couname="{$c.Cou_Name}">
                     <div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-blue" maid="undefined">课程详情</a></div>
                     <div class="mui-slider-left mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" maid="undefined"></a></div>
