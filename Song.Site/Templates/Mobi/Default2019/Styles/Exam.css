@@ -11,19 +11,25 @@
 }
 /*我的考试前面的图标*/
 .examtitle{
-	font-weight: bold;
-	color: #F33;
+	font-size:16px;
+}
+.examtitle:before{
+	content: "\e602";
+	font-size:18px;
+	font-family: "iconfont";
+	margin-right:6px;
 }
 .myexam:before{
-	 font-family:"examico" !important;
-	content:"\e61b";
-	font-size:26px;
+	content: "\e602";
+	font-size:18px;
+	font-family: "iconfont";
+	margin-right:6px;
 }
 .allexam:before{
-	 font-family:"examico" !important;
-	content:"\e60e";
+	content: "\e602";
 	font-size:18px;
-	margin-right:5px;
+	font-family: "iconfont";
+	margin-right:6px;
 }
 /*考试主题*/
 .examtheme{

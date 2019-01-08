@@ -12,10 +12,7 @@
   <!--侧滑菜单部分-->
   <vt:include file="inc/Menu.html" />
   <!--主界面部分-->
-  <div class="mui-inner-wrap">
-    <header class="mui-bar mui-bar-nav"> <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
-      <h1 class="mui-title">在线考试</h1>
-    </header>
+  <div class="mui-inner-wrap">    
     <div class="mui-content mui-scroll-wrapper" id="offCanvasContentScroll">
       <div class="mui-scroll">
         <vt:if var="todayExam.Count" value="0" compare=">"> 
@@ -133,5 +130,6 @@
     <div class="mui-off-canvas-backdrop"></div>
   </div>
 </div>
+<vt:include file="inc/footer.html" />
 </body>
 </html>

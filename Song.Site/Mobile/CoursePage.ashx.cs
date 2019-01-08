@@ -20,6 +20,7 @@ namespace Song.Site.Mobile
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) return;
+            Extend.LoginState.Accounts.Course(course);
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {

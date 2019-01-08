@@ -6,6 +6,10 @@
 html,body{
 	overflow:hidden !important;
 }
+.nav-left{
+	font-size:22px;
+	padding-top:10px;
+}
 /*消息提示区域*/
 .infobox {
 	margin: 30px;

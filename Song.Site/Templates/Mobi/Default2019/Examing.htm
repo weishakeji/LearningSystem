@@ -72,7 +72,7 @@
     <body>
 <vt:if var="state.IsEnable" value="false" compare="=" mark="不能考试">
       <div class="mui-inner-wrap">
-    <header class="mui-bar mui-bar-nav"><a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe6c6;</a> <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
+    <header class="mui-bar mui-bar-nav"><a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe646;</a> 
           <h1 class="mui-title">
         <vt:if var="state.state" value="0" compare="<=" mark="考试不存在"> 在线考试
               <vt:else/>
@@ -143,6 +143,7 @@
     <!-- 隐藏侧滑菜单的层 -->
     <div class="mui-off-canvas-backdrop"> </div>
   </div>
+  <vt:include file="inc/footer.html" />
     </vt:if>
 <vt:if var="state.IsEnable" value="true" compare="=" mark="允许考试时，才输出">
       <div id="pagerHeader">
