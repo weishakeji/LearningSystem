@@ -1,5 +1,11 @@
 $(function () {
     cour_tab();
+	//课程点击事件
+        mui('body').off('tap', '.cour-box').on('tap', '.cour-box', function () {
+            var id = $(this).attr("couid");
+            var url = "CoursePage.ashx?couid="+id;
+			window.location.href=url;
+        });
 });
 function cour_tab() {
     //课程选项卡方式展示
@@ -41,6 +47,9 @@ function cour_tab_post(action, sear) {
                         $(this).attr("src", errImg);
                     });
 				};
+				//显示课程数量
+				var tit=$(".cour-bar .cour-tit[action="+d.action+"]");
+				tit.html(tit.attr("title")+"("+d.object.length+")");
 			}
         }
         catch (err) {
@@ -51,7 +60,7 @@ function cour_tab_post(action, sear) {
 //构建课程信息
 function buildCourse(cour) {
     var defimg = $(".default-img").attr("default"); //默认图片
-	var html = "<div class=\"cour-box\">";
+	var html = "<div class=\"cour-box\" couid=\""+cour.Cou_ID+"\">";
     html += "<picture>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/></picture><info>{name}{number}{sbjname}<price>{price}</price></info>";
     html = html.rep("{logo}", cour.Cou_LogoSmall);
     html = html.replace("{name}", "<name>" + cour.Cou_Name + "</name>").replace("{sbjname}", "<sbjname>" + cour.Sbj_Name + "</sbjname>");

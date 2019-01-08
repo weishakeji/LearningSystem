@@ -21,16 +21,16 @@
   </div>
   <a class="recharge" href="Recharge.ashx" type="link">充值 </a> <a class="money" href="Recharge.ashx" type="link">{$:#.Account.Ac_money format="0.00"} </a> <a class="coupon"  href="CouponExchange.ashx" type="link">券{$:#.Account.Ac_Coupon}个</a> 
   <!--当前课程-->
-  <div class="curr-course"> <div class="curr-course-inner">
+  <div class="curr-course">
     <vt:if var="#.currCou.cou_id" value="0" compare=">">
      <a href="CoursePage.ashx?couid={$currCou.cou_id}" type="link">
      <img class="curr-logo" src="{$path}{$currCou.Cou_LogoSmall}" default="images/cou_nophoto.jpg"/> </a> 
-     <span class="couName"><a href="CoursePage.ashx?couid={$currCou.cou_id}" type="link">{$currCou.cou_name}{$currCou.cou_name}</a> </span>
+     <span class="couName"><a href="CoursePage.ashx?couid={$currCou.cou_id}" type="link">{$currCou.cou_name}</a> </span>
       <vt:else />
       <img class="curr-logo" src="images/cou_nophoto.jpg"/>
        <span class="couName"><a href="Courses.ashx" type="link">还没有学习，前往课程中心</a></span> 
       </vt:if>
-  </div>
+ 
   </div>
 </div>
  <!--课程区-->
@@ -39,10 +39,10 @@
             <span class="cour-tit" title="过期的课程" action="overcou">过期的课程</span> 
             <span class="cour-tit" title="搜索" style="display:none;" action="searcou">搜索</span>  </div>
           <div class="cour-context" action="buycou"> 
-            g
+           
           </div>
           <div class="cour-context" action="overcou"> 
-            n
+           
           </div>
           <div class="cour-context" action="searcou"> 
             

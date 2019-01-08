@@ -6,6 +6,7 @@
  <a class="foot-exam" type="link" target="_blank" href="/mobile/exam.ashx"> <b class="mitem"></b><span>考试</span></a>
  <!--<a class="foot-mycenter" type="link" target="_blank" href="/mobile/selfinfo.ashx"> <b class="mitem"></b><span>个人中心</span></a>-->
   <vt:function var="menu" method="Navi" args="foot" args="0" />
+  <vt:function var="path" method="Path" args="org"/>
   <vt:foreach from="$#.menu" item="m" index="i"> <a type="link" href="{$:m.nav_url}" target="{$:m.nav_target}">
     <vt:if var="#.m.nav_logo" value="" compare="!="> <img alt="" src="{$:path}{$:m.nav_logo}" class="mitem"/>
       <vt:else />

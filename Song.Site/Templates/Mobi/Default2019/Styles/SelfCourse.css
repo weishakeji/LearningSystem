@@ -67,7 +67,7 @@ html, body {
 	background-color: #009900;
 	position: absolute;
 	top: 60px;
-	left: 65%;
+	left: 70%;
 	display: block;
 	height: 22px;
 	width: auto;
@@ -82,7 +82,7 @@ html, body {
 	color: #fff;
 	position: absolute;
 	top: 125px;
-	left: 65%;
+	left: 70%;
 	display: block;
 	height: 22px;
 	padding: 0px 6px;
@@ -105,7 +105,7 @@ html, body {
 	color: #fff;
 	position: absolute;
 	top: 125px;
-	right: 65%;
+	right: 70%;
 	display: block;
 	height: 22px;
 	padding: 0px 6px;
@@ -117,32 +117,19 @@ html, body {
 /*当前课程*/
 .curr-course {
 	width: 96%;
-	height: 34px;
+	height: 30px;
 	line-height: 30px;
-	bottom: -17px;
+	bottom: -15px;
 	margin-left: 2%;
 	margin-right: 2%;
-	background-color: #eee;
-	border-radius: 17px;
+	background-color: #fff;
+	border-radius: 15px;
 	overflow: hidden;
 	margin-top: 14px;
-	box-shadow: 1px 1px 2px #888888;
+	box-shadow: 1px 1px 2px rgba(200,200,200,1);
 }
-.curr-course-inner {
-	position: relative;
-	height: 30px;
-	border-radius: 15px;
-	margin-top: 2px;
-	margin-left: 2px;
-	margin-right: 2px;
-	background-color: #FFFFFF;
-	padding-right: 20px;
-	text-align: left;
-	text-indent: 12px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	
+.curr-course .couName{
+	margin-left:10px;
 }
 .curr-logo {
 	width: 24px;
@@ -152,8 +139,8 @@ html, body {
 	margin-left: 3px;
 	margin-top: 3px;
 }
-.curr-course-inner:after {
-	right: 5px;
+.curr-course:after {
+	right: 10px;
 	content: '\e583';
 	font-family: Muiicons;
 	float: right;
@@ -190,7 +177,7 @@ html, body {
 	line-height: 40px;
 }
 .cour-bar .current {
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 40px;
 	font-weight: bold;
 	margin-top: 3px !important;
