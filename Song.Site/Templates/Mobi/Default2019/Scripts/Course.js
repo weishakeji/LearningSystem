@@ -26,7 +26,3 @@ window.onload=function(){
         $(this).height(wd*0.95);
     });
 }
-$(window).scroll(function () {
-    // 重点就是下面这一条语句的实现 
-    $("#footer").css({ top: window.innerHeight + window.scrollY - $("#fixnav").outerHeight() });
-}); 

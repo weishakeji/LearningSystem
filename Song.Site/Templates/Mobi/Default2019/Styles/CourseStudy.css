@@ -2,133 +2,110 @@
 .headbar {
 	background-color: transparent !important;
 	webkit-box-shadow: 0 0px 0px #ccc !important;
-    box-shadow: 0 0px 0px #ccc !important;
+	box-shadow: 0 0px 0px #ccc !important;
 }
-.video{
+.video {
 	background-color: transparent !important;
-	webkit-box-shadow: 0 0px 0px #ccc !important;
-    box-shadow: 0 0px 0px #ccc !important;
-	padding:0px !important;
-	
+	webkit-box-shadow: 0 1px 2px #ccc !important;
+	box-shadow: 0 0px 0px #ccc !important;
+	padding: 0px !important;
+	min-height: 260px;
 }
-div{
-	
+div {
 }
-#videobox{
-	position:absolute;
-	top:0px;
-	left:0px;
-	z-index:1;
+#videobox {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
 }
-.mui-inner-wrap{
-	margin-top:260px;	
+.mui-inner-wrap {
+	margin-top: 260px;
 }
-#playerInfo{
+#playerInfo {
 	padding-left: 20px;
 	padding-right: 20px;
-	height:40px;
-	line-height:40px;
+	height: 40px;
+	line-height: 40px;
 	background-color: #FFF;
 	webkit-box-shadow: 0 1px 6px #ccc;
-    box-shadow: 0 1px 6px #ccc ;
+	box-shadow: 0 1px 6px #ccc;
 }
-#playerInfo, #playerInfo *{
-	font-size: 16px;	
+#playerInfo, #playerInfo * {
+	font-size: 16px;
 }
-#playerInfo .time{
+#playerInfo .time {
 	color: #333;
 	font-size: 14px;
 	padding-left: 10px;
 	padding-right: 10px;
-	margin-right:20px;
+	margin-right: 20px;
 }
-
-#videoIframe{
-	width:100% !important;
+#videoIframe {
+	width: 100% !important;
 }
-.noVideo{
+.noVideo {
 	text-align: center;
 	margin-top: 30px;
 }
-#details{
-	margin:20px;
+#details {
+	margin: 20px;
 }
-#details, #details p, #details *{
+#details, #details p, #details * {
 	font-size: 17px !important;
 	line-height: 30px !important;
-	background-color:transparent !important;	
-	color:#666 !important;
+	background-color: transparent !important;
+	color: #666 !important;
 }
-img{
-	max-width:100% !important;
+img {
+	max-width: 100% !important;
 }
-video{
-	position:absolute;
-	top:0px;
-	left:0px;
+video {
+	position: absolute;
+	top: 0px;
+	left: 0px;
 	object-fit: fill;
 }
 video::-internal-media-controls-download-button {
-    display:none;
+ display:none;
 }
-
-video::-webkit-media-controls-enclosure {
-    overflow:hidden;
+ video::-webkit-media-controls-enclosure {
+ overflow:hidden;
 }
 video::-webkit-media-controls-panel {
-    width: calc(100% + 30px); 
+ width: calc(100% + 30px);
 }
-/*选项卡*/
-.tabs{
-	margin:10px;
-	padding-left: 10px;
-	padding-right: 20px;
-	height:40px;
-	line-height:40px;
-	background-color: #FFF;
-	webkit-box-shadow: 0 1px 6px #ccc;
-    box-shadow: 0 1px 6px #ccc ;
-}
-.back{
-	line-height: 40px;
-	padding-right: 10px;
-}
-.tabs .tab{
-	margin-right: 10px;
-	color: #666;
-}
-.tabs .curr{
-	color: #F30;
-}
-.mui-table-view{
-	margin:10px;
+
+.mui-table-view {
+	margin: 10px;
 }
 /*附件*/
-#access{
-	margin:10px;
+#access {
+	margin: 10px;
 	padding-left: 20px;
 	padding-right: 20px;
 }
-#access dd{
-	margin:0px;
-	line-height:35px;
+#access dd {
+	margin: 0px;
+	line-height: 35px;
 }
 /*当前章节*/
-.curr_ol{
+.curr_ol {
 	color: #900;
 }
-.outline a:before{
+.outline a:before {
 	content: "\e636";
 	font-family: iconfont;
 	margin-right: 5px;
 	font-size: 20px;
-	font-weight: normal;	
+	font-weight: normal;
 }
-#noQues {
+/*没有购买课程*/
+#noStudy {
 	text-align: center;
 	margin-top: 30px;
 	margin: 10px;
-	margin-top:50px;
+	margin-top: 50px;
 	height: auto;
 	position: relative;
 	overflow: hidden;
@@ -139,4 +116,23 @@ video::-webkit-media-controls-panel {
 	padding: 10px;
 	height: 140px;
 	line-height: 100px;
+}
+
+/*底部图标*/
+.footer a.foot-outline b:before {
+	content: "\e79c";
+	font-size:16px;
+}
+.footer a.foot-video b:before {
+	content: "\e615";
+}
+.footer a.foot-text b:before {
+	content: "\e65e";
+	font-size:22px;
+}
+.footer a.foot-acc b:before {
+	content: "\e651";
+}
+.footer a.foot-home b:before {
+	font-size:22px;
 }

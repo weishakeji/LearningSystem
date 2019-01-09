@@ -1035,7 +1035,7 @@ html5代码块的代码可以随意更改以适合你的应用，欢迎到论坛
 			if(C._E_['j']){
 				j=' controls="controls"';
 			}
-			var v = '<video'+j+r+' id="' + p + '" width="' + w + '" height="' + h + '"' + C.getParams() + ' controlsList="nodownload"  playsinline="true" preload="auto"  poster="">' + C.getVideo() + '</video>';
+			var v = '<video'+j+r+' id="' + p + '" width="' + w + '" height="' + h + '"' + C.getParams() + '  playsinline="true" preload="auto"  poster="">' + C.getVideo() + '</video>';
             C._K_(c).innerHTML = v;
             C._K_(c).style.backgroundColor = '#000';
             C._V_ = C._K_(p);

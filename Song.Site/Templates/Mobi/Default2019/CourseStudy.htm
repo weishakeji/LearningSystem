@@ -51,18 +51,13 @@
     <vt:if var="canStudy" value="false" compare="=" remark="如果不能学习">
     <div class="mui-inner-wrap"  style="margin-top:0px;"> 
       <div class="mui-scroll" style="margin-top:0px;">
-      <div id="noQues">当前内容未购买或不存在！</div>
+      <div id="noStudy">当前内容未购买或不存在！</div>
       <vt:else/>
       <div class="mui-inner-wrap"> 
         <div class="mui-scroll">
     </vt:if>
-    <!--<div class="mui-card">
-      <div class="mui-card-header">{$outline.ol_name}</div>
-    </div>-->
-    <div class="tabs"> <a class="mui-icon mui-icon-left-nav mui-pull-left back" href="coursepage.ashx?couid={$couid}" type="link"></a> <a class="tab" id="tabfirst">章节列表</a>
-      <vt:if var="outline.ol_intro" value="" compare="!="> <a class="tab">学习内容</a> </vt:if>
-      <vt:if var="access.count" value="0" compare=">"> <a class="tab">附件</a> </vt:if>
-    </div>
+  
+    
     <vt:if var="outline.ol_intro" value="" compare="!=">
       <div class="mui-card"  tab="学习内容">
         <div class="mui-card-content"  id="details"> {$outline.ol_intro} </div>
@@ -121,5 +116,21 @@
   </div>
 </div>
 <script type="text/javascript" src="Scripts/CourseStudy.js?ver={$version}"></script>
+
+ <!--底部导航菜单-->
+    <nav class="mui-bar mui-bar-tab footer">
+
+<a class="foot-outline" href="#"> <b class="mitem"></b><span>章节列表</span></a>
+<a class="foot-video" href="#"> <b class="mitem"></b><span>视频</span></a>
+<a class="foot-text" href="#"> <b class="mitem"></b><span>学习内容</span></a>
+<a class="foot-acc" href="#"> <b class="mitem"></b><span>附件</span></a>
+<a class="foot-home" href="#" type="link" target="_blank"> <b class="mitem"></b><span>返回首页</span></a>  
+</nav>
+    <script type="text/javascript">
+        var footer = document.querySelector("nav.footer");
+        footer.querySelectorAll("a").forEach(function (item) {
+            item.style.width = footer.offsetWidth / footer.querySelectorAll("a").length + "px";
+        });
+    </script>
 </body>
 </html>
