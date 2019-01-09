@@ -242,7 +242,7 @@ a {
 /*推荐的角标*/
 .cour-list .cour-box rec{
 	position:absolute;
-	top:18px;
+	top:17px;
 	left:-3px;
 }
 .cour-list .cour-box rec:before{

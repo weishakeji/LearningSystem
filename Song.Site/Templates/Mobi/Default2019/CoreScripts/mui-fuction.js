@@ -57,6 +57,10 @@ function APIClound_Event() {
                 //alert(JSON.stringify(err));
             }
         });
+        //长按返回键，关闭软件
+        api.addEventListener({ name: 'longpress' }, function (ret, err) {
+            api.closeWin();
+        });
         /*
         //监听音量调节
         api.addEventListener({ name: 'volumedown' }, function (ret, err) {
@@ -117,14 +121,15 @@ function event_goback(ret) {
     //
     window.history.go(-1);
 
-    
+    /*
     //如果快速双击返回键，关闭软件
     window.appback_num = typeof (window.appback_num) == "undefined" ? 0 : window.appback_num;
     window.appback_time = typeof (window.appback_time) == "undefined" ? new Date() : window.appback_time;
     if ((new Date().getTime() - window.appback_time.getTime()) < 200) { window.appback_num++; }
     else { window.appback_num = 0; }
-    window.appback_time = new Date();
-    if (window.appback_num == 1) api.closeWin();
-    
+    //window.appback_time = new Date();
+    if (window.appback_num % 2 == 1) api.closeWin();
+    */
+
 }
 

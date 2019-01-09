@@ -209,7 +209,7 @@ input {
 /*推荐的角标*/
 .cour-box rec {
 	position: absolute;
-	top: 8px;
+	top: 7px;
 	left: -3px;
 }
 .cour-box rec:before {

@@ -6,7 +6,7 @@
 }
 #couHead .headRight {
 	float: right;
-	height: 375px;
+	height: 342px;
 	width: 560px;
 	position: relative;
 }
@@ -16,11 +16,11 @@
 }
 #couHead .photo {
 	float: left;
-	height: 370px;
+	height: 337px;
 	width: 600px;
 }
 #couHead .photo img {
-	height: 370px;
+	height: 337px;
 	width: 600px;
 	margin-top: 5px;
 	margin-left: 5px;

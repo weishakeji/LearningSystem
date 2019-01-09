@@ -15,6 +15,7 @@ body{
 	width: 100%;
 	min-height:120px;	
 	height:auto;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
 }
 #Context{
 	margin-right: 10px;
@@ -158,14 +159,14 @@ body{
 	text-align: center;
 	color: #FFF;
 	display:block;
-	font-size:18px;
-	text-shadow: 1px 1px 2px rgba(200,200,200,1);
+	font-size:16px;
+	text-shadow: 0px 0px 20px rgba(255,255,255,1);
 	
 }
 .couBtn{
 	background-color: #188eee;
 	height:50px;
-	background: linear-gradient(rgba(0,153,255,0.8), rgba(0,153,255,1));
+	background: linear-gradient(rgba(17,142,234,0.9), rgba(17,142,234,1));
 }
 .btn1{
 	width:40%;
@@ -175,9 +176,11 @@ body{
 	width:60%;
 	float:left;
 }
-.study{
+/*开始学习的按钮*/
+.couBtnBox .study{
 	background-color:#093;
-	background: linear-gradient(rgba(0,153,51,0.8), rgba(0,153,51,1));
+	--background: linear-gradient(rgba(34,139,34,0.8), rgba(34,139,34,1));
+	background: linear-gradient(rgba(59,172,106,0.9), rgba(59,172,106,1));
 }
 /*当课程试用时，有两个按钮*/
 .btnStart{
