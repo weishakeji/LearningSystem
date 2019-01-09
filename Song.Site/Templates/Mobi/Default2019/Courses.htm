@@ -84,7 +84,8 @@
       </vt:repeat>
       </div>
         <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">       
-        <div class="sbj-area" sbjid="{$#.data.current.Sbj_ID}">         
+        <div class="sbj-area" sbjid="{$#.data.current.Sbj_ID}">   
+        	<vt:if var="data.Childs.count" value="0" compare=">">      
             <vt:repeat from="$data.Childs" type="subject" item="d" index="i" remark="二级分类">           
              <div class="sbj-two-name" sbjid="{$#.d.current.Sbj_ID}">{$#.d.current.Sbj_name}</div>
               <vt:if var="d.Childs.count" value="0" compare=">">
@@ -95,7 +96,9 @@
                  </div>
              </vt:if>
             </vt:repeat>
-          
+            <vt:else/>
+             <div class="sbj-child"><label>没有下级分类</label></div>
+          </vt:if>
         </div>
       
     </vt:repeat>
@@ -106,6 +109,17 @@
 <a class="foot-courses" href="#"> <b class="mitem"></b><span>专业分类</span></a>
 <a class="foot-mycourse" type="link" target="_blank" href="/mobile/selfcourse.ashx"> <b class="mitem"></b><span>我的课程</span></a>
 <a class="foot-exam" type="link" target="_blank" href="/mobile/exam.ashx"> <b class="mitem"></b><span>考试</span></a>
+ <vt:function var="menu" method="Navi" args="foot" args="0" />
+  <vt:foreach from="$#.menu" item="m" index="i"> <a type="link" href="{$:m.nav_url}" target="{$:m.nav_target}">
+    <vt:if var="#.m.nav_logo" value="" compare="!="> <img alt="" src="{$:path}{$:m.nav_logo}" class="mitem"/>
+      <vt:else />
+      <b class="mitem"></b> </vt:if>
+    <vt:if var="m.nav_isbold" value="true" compare="=">
+    <span style="color: {$:m.nav_color};font-family: {$:m.nav_font};font-weight: bold;">
+    <vt:else />
+    <span style="color: {$:m.nav_color};font-family: {$:m.nav_font};">
+    </vt:if>
+    {$:m.nav_name} </span> </a> </vt:foreach>
 </nav>
     <script type="text/javascript">
         var footer = document.querySelector("nav.footer");

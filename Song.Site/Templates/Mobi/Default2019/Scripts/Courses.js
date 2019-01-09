@@ -256,7 +256,9 @@ function buildCourse(cour) {
 
 /*课程分类的弹出*/
 $(function () {
-	$(".sbj-panel").height($(window).height() - 40);
+	$(".sbj-panel").height($(window).height() - 40).click(function(){
+		mui.trigger(document.querySelector('.foot-courses'), 'tap');
+	});
 	$(".sbj-left, .sbj-panel .sbj-area").height($(window).height() - 50);
 	$(".sbj-panel sbj-tit:first").addClass("current");
 	//课程专业分类面板的弹出与隐藏
@@ -287,6 +289,7 @@ $(function () {
 	//专业分类的点击事件
 	mui('body').on('tap', '.sbj-panel label', function () {
 		var sbjid=$(this).attr("sbjid");
+		if(sbjid==null)return;
 		var href = window.location.href;
         if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
         window.location.href = href.replace("#", "") + "?sbjids=" + sbjid;
