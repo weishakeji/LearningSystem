@@ -13,12 +13,10 @@ body{
 }
 .photo img {
 	width: 100%;
-	min-height:120px;
-	max-height:160px;
+	min-height:120px;	
 	height:auto;
 }
 #Context{
-	margin-top: 10px;
 	margin-right: 10px;
 	margin-bottom: 10px;
 	margin-left: 10px;
@@ -29,10 +27,10 @@ body{
 	font-weight: bold;
 	line-height: 25px;
 	color: #333;
+	font-size:14px;
 }
 .info{
 	color: #999;
-	margin-top: 10px;
 	margin-bottom: 10px;
 	font-size: 14px;
 }
@@ -90,7 +88,7 @@ body{
 	width:100%;
 }
 .thPhoto{
-	width: 40%;
+	width: 20%;
     border-radius: 50%;
     overflow: hidden;
     margin-top: 6px;
@@ -110,8 +108,7 @@ body{
 }
 .thSign{
 	color: #666;
-	line-height: 25px;
-	height: 78px;
+	line-height: 25px;	
 	overflow: hidden;
 	text-overflow:ellipsis;
 	width:100%;
@@ -125,12 +122,13 @@ body{
 	height:100%;
 }
 .introBox, .introBox *{
-	font-size:17px !important;
+	font-size:14px !important;
 }
 /*章节*/
 .olitem{
-	line-height: 40px;
-	min-height: 40px;
+	line-height: 30px;
+	min-height: 30px;
+	font-size:14px;
 }
 .olitem a{
 	color: #333;
@@ -140,8 +138,8 @@ body{
 	position: fixed;
 	bottom: 0px;
 	width: 100%;
-	height: 60px;
-	line-height: 60px;
+	height: 50px;
+	line-height: 50px;
 	z-index: 9999;
 	opacity: .9;
 	--filter: alpha(opacity=90);
@@ -166,9 +164,8 @@ body{
 }
 .couBtn{
 	background-color: #188eee;
-	height:60px;
-	line-height:60px;
-	background: linear-gradient(rgba(0,153,255,0.9), rgba(0,153,255,1));
+	height:50px;
+	background: linear-gradient(rgba(0,153,255,0.8), rgba(0,153,255,1));
 }
 .btn1{
 	width:40%;
@@ -180,7 +177,7 @@ body{
 }
 .study{
 	background-color:#093;
-	background: linear-gradient(rgba(0,153,51,0.9), rgba(0,153,51,1));
+	background: linear-gradient(rgba(0,153,51,0.8), rgba(0,153,51,1));
 }
 /*当课程试用时，有两个按钮*/
 .btnStart{

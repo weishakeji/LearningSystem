@@ -166,9 +166,12 @@ namespace Song.Site.Manage.Course
                     fuLoad.IsMakeSmall = true;
                     fuLoad.IsConvertJpg = true;
                     fuLoad.SmallWidth = 400;
-                    fuLoad.SmallHeight = 226;                   
+                    fuLoad.SmallHeight = 247;                   
                     fuLoad.SaveAndDeleteOld(cou.Cou_Logo);
-                    //fuLoad.File.Server.ChangeSize(640, 362, true);
+                    //截取图片宽高
+                    int width = fuLoad.File.Server.Width;
+                    int height = width * 618 / 1000;
+                    fuLoad.File.Server.ChangeSize(width, height, false);
                     cou.Cou_Logo = fuLoad.File.Server.FileName;
                     cou.Cou_LogoSmall = fuLoad.File.Server.SmallFileName;
                     //

@@ -16,7 +16,6 @@ body {
 .photo img {
 	width: 100%;
 	min-height: 120px;
-	max-height: 160px;
 	height: auto;
 }
 #Context {

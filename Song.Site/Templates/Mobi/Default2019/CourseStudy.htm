@@ -3,134 +3,64 @@
 <head>
 <title>《{$outline.ol_name}》</title>
 <vt:include file="inc/meta.inc" />
-<script type="text/javascript" src="CoreScripts/MsgBox.js?ver={$version}"></script>
-<link href="CoreStyles/MsgBox.css?ver={$version}" rel="stylesheet" type="text/css" />
 <!--播放器的引用-->
 <script type="text/javascript" src="/Utility/Ckplayer/js/offlights.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/Ckplayer/ckplayer/ckplayer_h5.js?ver={$version}" charset="utf-8"></script>
 <link href="Styles/CourseStudy.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 <body canStudy="{$canStudy}">
-<!--主界面,头部视频部分-->
-
-<header class="mui-bar mui-bar-nav video" style="z-index:2">
-<vt:if var="canStudy" value="true" compare="=" remark="如果可以学习">
-  <vt:if var="video.As_FileName" value="" compare="!=">
-    <vt:if var="video.As_IsOther" value="true" compare="=">
-      <iframe id="videoIframe" height="500px" width="100%" 
+<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
+  <!--侧滑菜单部分-->
+  <vt:include file="inc/CourseStudyMenu.html" />
+  <div class="mui-inner-wrap">
+    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"> 
+      <!--主界面,头部视频部分-->
+      <header class="mui-bar mui-bar-nav video" style="z-index:2">
+        <vt:if var="canStudy" value="true" compare="=" remark="如果可以学习">
+          <vt:if var="video.As_FileName" value="" compare="!=">
+            <vt:if var="video.As_IsOther" value="true" compare="=">
+              <iframe id="videoIframe" height="500px" width="100%" 
         src="{$video.As_FileName}"
         allowscriptaccess="always" allowfullscreen="true" wmode="opaque" allowtransparency="true" frameborder="0" type="application/x-shockwave-flash"></iframe>
-      <vt:else/>
-      <!--如果存在视频文件，则播放-->
-     <div id="videobox" style="100%; height:260px; position:relative;z-index: 100;"></div>
-     <!-- <video src="{$video.As_FileName}" x5-video-player-type="h5" width="100%"/>-->
-      <!--播放器的各种信息-->
-      <div id="playerInfo" style="display:none"> <span class="mui-badge time"> 时长<span id="totalTime">{$video.As_Duration}</span> 秒</span> <span class="mui-badge time"> 播放<span id="playTime">0</span>秒</span> <span class="mui-badge time"> 已学<span id="studyTime">0</span>秒</span>
-        <vt:if var="studyLog" value="" compare="!="> <span class="historyInfo">上次学习到<span id="historyTime">{$historyPlay}</span>，点击此处接上次进度学习</span> </vt:if>
-      </div>
-      <script type="text/javascript">
+              <vt:else/>
+              <!--如果存在视频文件，则播放-->
+              <div id="videobox" style="100%; height:260px; position:relative;z-index: 100;"></div>
+              <!-- <video src="{$video.As_FileName}" x5-video-player-type="h5" width="100%"/>--> 
+              <!--播放器的各种信息-->
+              <div id="playerInfo" style="display:none"> <span class="mui-badge time"> 时长<span id="totalTime">{$video.As_Duration}</span> 秒</span> <span class="mui-badge time"> 播放<span id="playTime">0</span>秒</span> <span class="mui-badge time"> 已学<span id="studyTime">0</span>秒</span>
+                <vt:if var="studyLog" value="" compare="!="> <span class="historyInfo">上次学习到<span id="historyTime">{$historyPlay}</span>，点击此处接上次进度学习</span> </vt:if>
+              </div>
+              <script type="text/javascript">
             //视频地址
             var videoFile = "{$video.As_FileName}";
 		</script> 
-      <script type="text/javascript">
+              <script type="text/javascript">
           //课程ID,章节ID
           var couid = '{$outline.cou_id}';
           var olid = '{$outline.ol_id}';
           //是否是外链接
           var isOuter = "{$video.As_IsOuter}" == "True" ? true : false;    //	
         </script> 
-      <!--视频播放事件-->
-      
-    </vt:if>
-  </vt:if>
-   </vt:if>
-</header>
-
-
-  <!--课程内容-->  
-    <vt:if var="canStudy" value="false" compare="=" remark="如果不能学习">
-    <div class="mui-inner-wrap"  style="margin-top:0px;"> 
-      <div class="mui-scroll" style="margin-top:0px;">
-      <div id="noStudy">当前内容未购买或不存在！</div>
-      <vt:else/>
-      <div class="mui-inner-wrap"> 
-        <div class="mui-scroll">
-    </vt:if>
-  
-    
-    <vt:if var="outline.ol_intro" value="" compare="!=">
-      <div class="mui-card"  tab="学习内容">
-        <div class="mui-card-content"  id="details"> {$outline.ol_intro} </div>
+              <!--视频播放事件--> 
+              
+            </vt:if>
+          </vt:if>
+        </vt:if>
+      </header>
+      <div class="mui-scroll">
+        <vt:if var="outline.ol_intro" value="" compare="!=" remark="学习内容">
+        
+          <div class="mui-card intro-box"  tab="学习内容">
+          <div class="mui-card-header">学习内容</div>
+            <div class="mui-card-content"  id="details"> {$outline.ol_intro} </div>
+          </div>
+        </vt:if>
       </div>
-      <vt:else/>
-      <vt:if var="video.As_FileName" value="" compare="="> 
-        <!-- <div class="noVideo">没有上传课程内容！</div>--> 
-      </vt:if>
-    </vt:if>
-    <!--附件-->
-    <vt:if var="access.count" value="0" compare=">">
-      <div tab="附件">
-        <dl id="access" >
-          <dt>相关附件：</dt>
-          <vt:foreach from="$#.access" item="acc" index="j">
-            <dd><a class="accItem" target="_blank"  href="{$acc.As_FileName}" download="{$acc.As_Name}">{$:j}、{$acc.As_Name} </a> </dd>
-          </vt:foreach>
-          <dd> </dd>
-        </dl>
-      </div>
-    </vt:if>
-    <!--章节输出-->
-    <div  tab="章节列表">
-      <vt:if var="outlines.Length" value="0" compare=">">
-        <ul class="mui-table-view">
-          <vt:foreach from="$dtOutlines" item="d" index="i" remark="章节">
-            <vt:expression var="r" args="$d.ol_level" args="20" expression="{0}*{1}" />
-            <li count="{$:#.d.ol_quescount}" class="mui-table-view-cell outline" olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
-              <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结"> <a type="nofinish" class="noselect">{$:#.d.ol_name}</a><span class="mui-badge">未完结</span>
-                <vt:else />
-                <vt:if var="isStudy" value="true" compare="="  remark="是否已经选修"> <a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a>
-                  <vt:else />
-                  <vt:if var="course.Cou_IsFree" value="true" compare="="  remark="如果未选修，但是课程免费"> <a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a>
-                    <vt:else />
-                    <vt:if var="course.Cou_IsLimitFree" value="true" compare="="  remark="课程不免费，但处在限时免费中"> <a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a>
-                      <vt:else />
-                      <vt:if var="course.Cou_IsTry" value="true" compare="="  remark="是否允许试学">
-                        <vt:if var="d.Ol_IsFree" value="true" compare="="  remark="可以试学"> <a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a>
-                          <vt:else />
-                          <a type="buy" href="CourseBuy.ashx?&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a> <span class="mui-badge">购买</span> </vt:if>
-                        <vt:else />
-                        <a type="buy" href="CourseBuy.ashx?&couid={$:#.d.cou_id}">{$:#.d.ol_name} </a> <span class="mui-badge">购买</span> </vt:if>
-                    </vt:if>
-                  </vt:if>
-                </vt:if>
-              </vt:if>
-            </li>
-          </vt:foreach>
-        </ul>
-        <vt:else />
-        <ul class="mui-table-view">
-          <li class="mui-table-view-cell"> 当前课程没有章节 </li>
-        </ul>
-      </vt:if>
     </div>
+    <script type="text/javascript" src="Scripts/CourseStudy.js?ver={$version}"></script>
+    <div class="mui-off-canvas-backdrop"> </div>
+    <vt:include file="inc/CourseStudyFooter.html" />
   </div>
 </div>
-<script type="text/javascript" src="Scripts/CourseStudy.js?ver={$version}"></script>
-
- <!--底部导航菜单-->
-    <nav class="mui-bar mui-bar-tab footer">
-
-<a class="foot-outline" href="#"> <b class="mitem"></b><span>章节列表</span></a>
-<a class="foot-video" href="#"> <b class="mitem"></b><span>视频</span></a>
-<a class="foot-text" href="#"> <b class="mitem"></b><span>学习内容</span></a>
-<a class="foot-acc" href="#"> <b class="mitem"></b><span>附件</span></a>
-<a class="foot-home" href="#" type="link" target="_blank"> <b class="mitem"></b><span>返回首页</span></a>  
-</nav>
-    <script type="text/javascript">
-        var footer = document.querySelector("nav.footer");
-        footer.querySelectorAll("a").forEach(function (item) {
-            item.style.width = footer.offsetWidth / footer.querySelectorAll("a").length + "px";
-        });
-    </script>
 </body>
 </html>

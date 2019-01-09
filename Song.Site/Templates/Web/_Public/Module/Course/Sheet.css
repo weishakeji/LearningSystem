@@ -6,8 +6,8 @@
 }
 #couHead .headRight {
 	float: right;
-	height: 355px;
-	width: 540px;
+	height: 375px;
+	width: 560px;
 	position: relative;
 }
 #couHead .headRight span {
@@ -16,19 +16,18 @@
 }
 #couHead .photo {
 	float: left;
-	height: 360px;
-	width: 644px;
+	height: 370px;
+	width: 600px;
 }
 #couHead .photo img {
-	height: 350px;
-	width: 616px;
+	height: 370px;
+	width: 600px;
 	margin-top: 5px;
 	margin-left: 5px;
 	background-position: center top;
 	background-size: 100% !important
 }
-#couHead .headRight .couName {
-	font-family: "Microsoft YaHei", "微软雅黑", "MicrosoftJhengHei", "华文细黑", STHeiti, MingLiu;
+#couHead .headRight .couName {	
 	font-size: 30px;
 	line-height: 50px;
 	font-weight: bolder;
@@ -96,7 +95,7 @@
 	background-color: #188eee;
 }
 .couBtn, .couBtn a {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 22px;
 	line-height: 50px;
 	color: #FFFFFF;
@@ -157,7 +156,6 @@ background-color: transparent;
 }
 .title {
 	font-size: 20px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	background-repeat: no-repeat;
 	background-position: left bottom;
 	float: left;
@@ -318,7 +316,6 @@ background-color: transparent;
 	overflow: hidden;
 }
 .thTop .thName, .thTop .thName a {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-size: 18px;
 	line-height: 25px;
 	color: #333333;

@@ -242,8 +242,8 @@
         $("body").append("<div class=\"screenMask\" winid='" + this.WinId + "'/>");
         var mask = $(".screenMask[winid=" + this.WinId + "]");
         //屏幕的宽高
-        var hg = document.documentElement.clientHeight > document.body.scrollWidth ? document.documentElement.clientHeight : document.body.scrollWidth;
-        var wd = document.documentElement.clientWidth > document.body.scrollHeight ? document.documentElement.clientWidth : document.body.scrollHeight;
+        var hg = document.documentElement.clientHeight > document.body.scrollHeight ? document.documentElement.clientHeight : document.body.scrollHeight;
+        var wd = document.documentElement.clientWidth > document.body.scrollWidth ? document.documentElement.clientWidth : document.body.scrollWidth;
         var alpha = 60;
         var initIndex = 1;
         if (this.Parent != null && this.Parent.size() > 0) {

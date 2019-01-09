@@ -81,7 +81,7 @@ function APIClound_Event() {
         api.addEventListener({ name: 'online' }, function (ret, err) {
             if (ret) {
                 var type = ret.connectionType;
-                alert("网络联通（" + type + "）,可以继续学习。");
+                //alert("网络联通（" + type + "）,可以继续学习。");
             } else {
                 alert(JSON.stringify(err));
             }
@@ -94,7 +94,7 @@ function APIClound_Event() {
 function event_goback(ret) {
     //如果有弹出窗口，则选关闭窗口
     if ($(".PageBox").size() > 0) {
-        $("#screenMask").hide();
+        $(".screenMask").hide();
         $(".PageBox").remove();
         return;
     }
@@ -117,7 +117,7 @@ function event_goback(ret) {
     //
     window.history.go(-1);
 
-    /*
+    
     //如果快速双击返回键，关闭软件
     window.appback_num = typeof (window.appback_num) == "undefined" ? 0 : window.appback_num;
     window.appback_time = typeof (window.appback_time) == "undefined" ? new Date() : window.appback_time;
@@ -125,6 +125,6 @@ function event_goback(ret) {
     else { window.appback_num = 0; }
     window.appback_time = new Date();
     if (window.appback_num == 1) api.closeWin();
-    */
+    
 }
 

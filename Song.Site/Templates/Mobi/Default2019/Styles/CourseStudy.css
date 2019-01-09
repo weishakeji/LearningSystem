@@ -1,4 +1,12 @@
 @charset "utf-8";
+/*设置侧滑菜单的宽度*/
+.mui-off-canvas-left, .mui-off-canvas-right {
+	width: 80% !important;
+}
+.mui-off-canvas-wrap.mui-right .mui-inner-wrap {
+	-webkit-transform: translate3d(80%, 0, 0) !important;
+	transform: translate3d(80%, 0, 0) !important;
+}
 .headbar {
 	background-color: transparent !important;
 	webkit-box-shadow: 0 0px 0px #ccc !important;
@@ -19,8 +27,9 @@ div {
 	left: 0px;
 	z-index: 1;
 }
-.mui-inner-wrap {
-	margin-top: 260px;
+.intro-box {
+	margin-top: 290px;
+	margin-bottom: 60px;
 }
 #playerInfo {
 	padding-left: 20px;
@@ -75,7 +84,6 @@ video::-internal-media-controls-download-button {
 video::-webkit-media-controls-panel {
  width: calc(100% + 30px);
 }
-
 .mui-table-view {
 	margin: 10px;
 }
@@ -117,22 +125,24 @@ video::-webkit-media-controls-panel {
 	height: 140px;
 	line-height: 100px;
 }
-
 /*底部图标*/
 .footer a.foot-outline b:before {
 	content: "\e79c";
-	font-size:16px;
+	font-size: 16px;
 }
 .footer a.foot-video b:before {
 	content: "\e615";
 }
+.footer a.foot-message b:before {
+	content: "\e75a";
+}
 .footer a.foot-text b:before {
 	content: "\e65e";
-	font-size:22px;
+	font-size: 22px;
 }
 .footer a.foot-acc b:before {
 	content: "\e651";
 }
 .footer a.foot-home b:before {
-	font-size:22px;
+	font-size: 22px;
 }
