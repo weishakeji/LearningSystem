@@ -1,6 +1,6 @@
 $(function () {
     //底部按钮的事件
-    mui('body').on('tap', '.footer a', function (event) {
+    mui('body').on('tap', '.cour-footer a', function (event) {
         var target = this.getAttribute("target");
         if (target == null) document.location.href = this.href;
         if (target == "_top") top.location.href = this.href;

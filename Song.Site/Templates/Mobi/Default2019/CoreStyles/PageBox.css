@@ -1,7 +1,7 @@
 ﻿
 /*页面编辑窗*/
 .PageBox {
-	border: 10px solid rgba(100,100,100,0.6);
+	border: 1px solid rgba(100,100,100,0.6);
 	margin: 0px;
 	padding: 0px;
 	text-align: left;
@@ -35,8 +35,8 @@ background-color: #FFFFFF;
 .PageBox .PageBoxTitle .PageBoxTitleClose {
 	height: 30px;
 	width: 30px;
-	top: 0px;
-	right: 0px;
+	top: 4px;
+	right: 3px;
 	position: absolute;
 	font-size: 25px;
 	color: #F00;
