@@ -28,8 +28,7 @@ div {
 	z-index: 1;
 }
 .intro-box {
-	margin-top: 290px;
-	margin-bottom: 60px;
+	
 }
 #playerInfo {
 	padding-left: 20px;
@@ -60,7 +59,7 @@ div {
 #details {
 	margin: 20px;
 }
-#details, #details p, #details * {
+#details, #access, #details p, #details * {
 	font-size: 17px !important;
 	line-height: 30px !important;
 	background-color: transparent !important;
@@ -69,7 +68,7 @@ div {
 img {
 	max-width: 100% !important;
 }
-video {
+video-box {
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -97,17 +96,7 @@ video::-webkit-media-controls-panel {
 	margin: 0px;
 	line-height: 35px;
 }
-/*当前章节*/
-.curr_ol {
-	color: #900;
-}
-.outline a:before {
-	content: "\e636";
-	font-family: iconfont;
-	margin-right: 5px;
-	font-size: 20px;
-	font-weight: normal;
-}
+
 /*没有购买课程*/
 #noStudy {
 	text-align: center;
@@ -125,7 +114,7 @@ video::-webkit-media-controls-panel {
 	height: 140px;
 	line-height: 100px;
 }
-/*底部图标*/
+/*+++++底部图标*/
 .footer a.foot-outline b:before {
 	content: "\e79c";
 	font-size: 16px;
@@ -145,4 +134,94 @@ video::-webkit-media-controls-panel {
 }
 .footer a.foot-home b:before {
 	font-size: 22px;
+}
+/*-----底部图标*/
+
+/*+++++++左侧侧滑菜单*/
+.study-menu .cour-info{
+	margin:10px;
+	display:table;
+	width:100%;
+}
+.study-menu .cour-info img{
+	width:30%;
+	margin-right:5%;
+	float:left;
+	box-shadow: 0 1px 2px #fff !important;
+}
+.study-menu .cour-info  .cour-info-right{
+	width:60%;
+	margin-right:5%;
+	float:left;
+}
+.cour-info-right cour-name{
+	display:block;
+	line-height:22px;
+	color:#eee;
+}
+.cour-info-right cour-name:before{
+	content: "\e60b";
+	font-size: 15px;
+	font-family: iconfont;
+	margin-right:8px;
+}
+.cour-info-right sbj-name{
+	display:block;
+	line-height:22px;
+	color:#999;
+	font-size:10px;
+}
+.cour-info-right sbj-name:before{
+	content: "\e675";
+	font-size: 10px;
+	margin-right:5px;
+	font-family: iconfont;
+}
+/*侧滑菜单的章节列表*/
+.study-menu .outline
+{
+	padding-right:40px !important;
+}
+.study-menu .outline a:before {
+	content: "\e681";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 15px;
+	font-weight: normal;
+}
+/*当前章节*/
+.study-menu .current{
+	color: #FF9;
+}
+.study-menu .current a:before {
+	content: "\e618";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 14px;
+	font-weight: normal;
+}
+.study-menu .mui-badge{
+	color:#999;
+	background-color:#555;
+}
+.study-menu .noselect{
+	color:#666 !important;
+}
+/*-------左侧侧滑菜单*/
+
+/*学习内容*/
+.intro-box .mui-card-header span:before
+{
+	content: "\e65e";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 20px;
+}
+/*附件*/
+.acc-box .mui-card-header span:before
+{
+	content: "\e651";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 20px;
 }

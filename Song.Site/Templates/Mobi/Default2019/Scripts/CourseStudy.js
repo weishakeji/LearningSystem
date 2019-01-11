@@ -1,6 +1,4 @@
 ﻿$(function () {
-    setStyle();
-    //setEvent();
     //附件下载,如果是pdf则预览
     mui('body').on('tap', '#access a', function () {
         var href = $(this).attr("href");
@@ -24,71 +22,9 @@
         return false;
     });
 });
-//章节相关
-$(function () {
-    //章节的链接
-    mui('body').on('tap', '.outline a', function () {
-        var type = $(this).attr("type");
-        //如果是未完结的，链接不可用
-        if (type == "nofinish") return false;
-		//如果是未购买，则提示购买
-        if (type == "buy") {
-            var msg = new MsgBox("购买课程", "当前章节需要购买后学习，点击“确定”进入课程购买。", 90, 220, "confirm");
-            msg.href = this.href;
-            msg.EnterEvent = function () {
-                window.location.href = msg.href;
-                msg.Close(msg.WinId);
-            }
-            msg.Open();
-            return false;
-        }
-		window.location.href = this.href;
-        return false;
-    });
-	//当前章节特殊显示
-	var curr_olid=$("ul[curr_olid]").attr("curr_olid");
-	$("ul[curr_olid] li[olid]").each(function(index, element) {
-        var olid=$(this).attr("olid");
-		if(olid==curr_olid)$(this).addClass("curr_ol");
-    });
-	//计算章节序号（树形排序）
-    $(".outline").each(function () {
-        var xpath = $(this).attr("xpath");
-        $(this).find("a").html("<span class='tax'>" + xpath + "</span>" + $(this).find("a").html());
-    });
-});
 
-//设置章节样式
-function setStyle() {
-    $(".outline .olitem").each(function () {
-        var id = $().getPara("id");
-        var olid = $(this).attr("olid");
-        if (id == olid) $(this).addClass("current");
-    });
-}
-//设置选项卡事件
-function setEvent() {
-    //选项卡事件
-    mui('body').on('tap', '.tabs .tab', function () {
-        return setTab($(this));
-    });
-    function setTab(tab) {
-        var txt = $.trim(tab.text());
-        var contexts = $("div[tab]");
-        contexts.hide();
-        contexts.each(function () {
-            var t = $.trim($(this).attr("tab"));
-            if (t == txt) {
-                $(this).show();
-            }
-        });
-        $(".tabs .tab").removeClass("curr");
-        tab.addClass("curr");
-        return false;
-    }
-    var btn = document.getElementById("tabfirst");
-    mui.trigger(btn, 'tap');
-}
+
+
 
 
 /* 获取观看的累计时间，单位：秒 */

@@ -85,11 +85,9 @@ function _btnEvent(){
 function _selectPrice(){
     //价格选项的点击事件
     $(".priceItem").click(function () {
-        $(this).parent().find(".priceItem").removeClass("priceSelected");
-        $(this).parent().find(".priceItem span.ico").html("&#xf00c6;");
+        $(this).parent().find(".priceItem").removeClass("priceSelected");        
         //选中事件
-        $(this).addClass("priceSelected");
-        $(this).find("span.ico").html("&#xe667;");
+        $(this).addClass("priceSelected");       
         //如果登录，则显示验证码
         var moneySpan = $("#money");
         if (moneySpan.size() > 0) {

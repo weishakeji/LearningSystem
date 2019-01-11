@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>《{$outline.ol_name}》</title>
+<title>{$outline.ol_name}-{$course.Cou_Name}</title>
 <vt:include file="inc/meta.inc" />
 <!--播放器的引用-->
 <script type="text/javascript" src="/Utility/Ckplayer/js/offlights.js?ver={$version}"></script>
@@ -15,7 +15,7 @@
   <div class="mui-inner-wrap">
     <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"> 
       <!--主界面,头部视频部分-->
-      <header class="mui-bar mui-bar-nav video" style="z-index:2">
+      <header class="video-box" style="z-index:2">
         <vt:if var="canStudy" value="true" compare="=" remark="如果可以学习">
           <vt:if var="video.As_FileName" value="" compare="!=">
             <vt:if var="video.As_IsOther" value="true" compare="=">
@@ -24,7 +24,7 @@
         allowscriptaccess="always" allowfullscreen="true" wmode="opaque" allowtransparency="true" frameborder="0" type="application/x-shockwave-flash"></iframe>
               <vt:else/>
               <!--如果存在视频文件，则播放-->
-              <div id="videobox" style="100%; height:260px; position:relative;z-index: 100;"></div>
+              <div id="videobox" style="100%; position:relative;z-index: 100;"></div>
               <!-- <video src="{$video.As_FileName}" x5-video-player-type="h5" width="100%"/>--> 
               <!--播放器的各种信息-->
               <div id="playerInfo" style="display:none"> <span class="mui-badge time"> 时长<span id="totalTime">{$video.As_Duration}</span> 秒</span> <span class="mui-badge time"> 播放<span id="playTime">0</span>秒</span> <span class="mui-badge time"> 已学<span id="studyTime">0</span>秒</span>
@@ -44,18 +44,33 @@
               <!--视频播放事件--> 
               
             </vt:if>
+            <vt:else/>
+            没有视频
           </vt:if>
         </vt:if>
       </header>
-      <div class="mui-scroll">
-        <vt:if var="outline.ol_intro" value="" compare="!=" remark="学习内容">
-        
-          <div class="mui-card intro-box"  tab="学习内容">
-          <div class="mui-card-header">学习内容</div>
-            <div class="mui-card-content"  id="details"> {$outline.ol_intro} </div>
-          </div>
-        </vt:if>
+      <div class="mui-card intro-box"  tab="学习内容">
+        <div class="mui-card-header"><span>学习内容</span></div>
+        <div class="mui-card-content"  id="details">
+          <vt:if var="outline.ol_intro" value="" compare="!=" remark="学习内容">{$outline.ol_intro}
+            <vt:else/>
+            没有学习内容 </vt:if>
+        </div>
       </div>
+      <div class="mui-card acc-box"  tab="附件">
+        <div class="mui-card-header"><span>附件</span></div>
+        <div class="mui-card-content" id="access"">
+          <vt:if var="access.count" value="0" compare=">">
+            <dl id="access" >
+              <vt:foreach from="$#.access" item="acc" index="j">
+                <dd><a class="accItem" target="_blank"  href="{$acc.As_FileName}" download="{$acc.As_Name}">{$:j}、{$acc.As_Name} </a> </dd>
+              </vt:foreach>
+            </dl>
+            <vt:else/>
+            没有附件 </vt:if>
+        </div>
+      </div>
+      <!-- ++ --> 
     </div>
     <script type="text/javascript" src="Scripts/CourseStudy.js?ver={$version}"></script>
     <div class="mui-off-canvas-backdrop"> </div>

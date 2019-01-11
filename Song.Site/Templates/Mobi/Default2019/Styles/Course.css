@@ -7,7 +7,7 @@ body{
 #main {
 	position: fixed;
 	top: 0px;
-	bottom: 60px;
+	bottom: 42px;
 	width: 100%;
 	overflow: scroll;
 }
@@ -139,21 +139,15 @@ body{
 	position: fixed;
 	bottom: 0px;
 	width: 100%;
-	height: 50px;
-	line-height: 50px;
+	height: 40px;
+	line-height: 40px;
 	z-index: 9999;
 	opacity: .9;
 	--filter: alpha(opacity=90);
 	_bottom: 0px;
 	_width: 100%;
 	_position: absolute;
-	background-color: #fff;
-	border-top-width: 1px;
-	border-top-style: solid;
-	border-right-style: none;
-	border-bottom-style: none;
-	border-left-style: none;
-	border-top-color: #CCC;
+	background-color: #fff;	
 }
 .couBtnBox, .couBtnBox a{
 	text-align: center;
@@ -165,7 +159,7 @@ body{
 }
 .couBtn{
 	background-color: #188eee;
-	height:50px;
+	height:40px;
 	background: linear-gradient(rgba(17,142,234,0.9), rgba(17,142,234,1));
 }
 .btn1{

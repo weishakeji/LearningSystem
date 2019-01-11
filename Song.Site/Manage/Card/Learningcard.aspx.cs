@@ -24,7 +24,7 @@ namespace Song.Site.Manage.Card
         Song.Entities.Organization org;
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.Form.DefaultButton = this.btnSear.UniqueID;
+            //this.Form.DefaultButton = this.btnSear.UniqueID;
             org = Business.Do<IOrganization>().OrganCurrent();
             if (!this.IsPostBack)
             {

@@ -1,49 +1,52 @@
 <!--侧滑菜单部分-->
 
-<aside id="offCanvasSide" class="mui-off-canvas-left main-menu">
+<aside id="offCanvasSide" class="mui-off-canvas-left study-menu">
   <div id="offCanvasSideScroll" class="mui-scroll-wrapper">
     <div class="mui-scroll">
-      <div class="accInfoBox">
-        <div class="accPhoto">
-        <a class="" href="../Login.ashx" state="logout"><img src="../images/nophoto.jpg" root="{$stpath}" default="../images/nophoto.jpg"/></a>
-        </div>
-        <div class="accInfo">
-          <div class="acc-name"> <a class="" href="../Login.ashx" state="logout">未登录 </a> 
-          <a class="" href="../SelfInfo.ashx" state="login">(无名) </a></div>
-          <span class="acc-money"> ... </span>
-          <a class="mui-badge mui-badge-primary income" href="../recharge.ashx?sharekeyid=86"  type="link">充值 </a>
+      <div class="cour-info">
+      <vt:function var="path" method="Path" args="Course"/>
+        <img class="default-img" src="{$path}{$course.Cou_LogoSmall}" default="images/cou_nophoto.jpg" />
+        <div class="cour-info-right">
+        <cour-name>{$course.Cou_Name}</cour-name>
+        <sbj-name>{$course.Sbj_Name}</sbj-name>
         </div>
       </div>
       <ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
-        
-        <!--如果学员没有登录-->
-        <li class="mui-table-view-cell" state="logout"> <a class="mui-navigate-right" type="link" href="../login.ashx"> <span class="iconfont">&#xe614;</span>登录 </a> </li>
-        <li class="mui-table-view-cell" state="logout"> <a class="mui-navigate-right" type="link" href="../Register.ashx"> <span class="iconfont">&#xe68f;</span>注册 </a> </li>
-         <li class="mui-table-view-cell" state="logout"> <a class="mui-navigate-right" href="../courses.ashx"> <span class="iconfont">&#xe674;</span>课程中心 </a> </li>     
-        <!--如果处于登录状态-->
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../selfcourse.ashx"><span class="iconfont">&#xe60b;</span>我的课程 </a> </li>
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../MoneyDetails.ashx"><span class="iconfont">&#xe690;</span>资金明细 </a> </li>
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../CouponExchange.ashx"><span class="iconfont">&#xe88a;</span>积分兑换 </a> </li>
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../LearningCard.ashx"><span class="iconfont">&#xe62c;</span>学习卡</a> </li>
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../Subordinates.ashx"><span class="iconfont">&#xe62f;</span>我的朋友 </a> </li>
-         <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" type="confirm" 
-              title="注销登录" msg="您是否要注销当前登录？" cancel="取消" enter="注销登录"  
-             href="../logout.ashx"> <span class="iconfont">&#xe61b;</span>注销登录 </a> </li>
-        <li class="mui-table-view-cell" state="login"> </li>
-         
-         <!--其它菜单，不管是否登录都出现-->   
-        <li class="mui-table-view-cell"> <a class="mui-navigate-right" type="link"  href="../news.ashx"> <span class="iconfont">&#xe60e;</span>新闻资讯 </a> </li>
-        <!--<li class="mui-table-view-cell"> <a class="mui-navigate-right"type="open"  href="Message.ashx"> <span class="iconfont rowico">&#xe636;</span>问题返馈 </a> </li>-->
-      <!--  <li class="mui-table-view-cell"> <a class="mui-navigate-right" type="open"  href="../Conn.cshtm"> <span class="iconfont">&#xe680;</span>联系我们</a> </li>-->
+        <vt:if var="outlines.Length" value="0" compare=">">
+      
+          <vt:foreach from="$dtOutlines" item="d" index="i" remark="章节">
+            <vt:expression var="r" args="$d.ol_level" args="10" expression="{0}*{1}" />
+            <li count="{$:#.d.ol_quescount}" class="mui-table-view-cell outline" olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
+              <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结"> <a type="nofinish" class="noselect">{$:#.d.ol_name}</a><span class="mui-badge">未完</span>
+                <vt:else />
+                <vt:if var="isStudy" value="true" compare="="  remark="是否已经选修"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
+                  <vt:else />
+                  <vt:if var="course.Cou_IsFree" value="true" compare="="  remark="如果未选修，但是课程免费"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
+                    <vt:else />
+                    <vt:if var="course.Cou_IsLimitFree" value="true" compare="="  remark="课程不免费，但处在限时免费中"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
+                      <vt:else />
+                      <vt:if var="course.Cou_IsTry" value="true" compare="="  remark="是否允许试学">
+                        <vt:if var="d.Ol_IsFree" value="true" compare="="  remark="可以试学"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
+                          <vt:else />
+                          <a type="buy" href="../CourseBuy.ashx?&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a> <span class="mui-badge">购买</span> </vt:if>
+                        <vt:else />
+                        <a type="buy" href="../CourseBuy.ashx?&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a> <span class="mui-badge">购买</span> </vt:if>
+                    </vt:if>
+                  </vt:if>
+                </vt:if>
+              </vt:if>
+            </li>
+          </vt:foreach>
+        <vt:else />
+       
+          <li class="mui-table-view-cell"> 当前课程没有章节 </li>
+      
+      </vt:if>
       </ul>
       
     </div>
-    <!-- 上面的侧滑菜单--> 
-    
+    <!-- 上面的侧滑菜单-->     
   </div>
-  <nav class="mui-bar mui-bar-footer" style="background-color:#333">
-   
-   </nav>
 </aside>
 <script type="text/javascript" language="javascript">
     mui.init();
@@ -64,14 +67,6 @@
     //侧滑容器的class列表，增加.mui-slide-in即可实现菜单移动、主界面不动的效果；
     var classList = offCanvasWrapper[0].classList;
 
-    /* //主界面‘显示侧滑菜单’按钮的点击事件
-    document.getElementById('offCanvasShow').addEventListener('tap', function() {
-    offCanvasWrapper.offCanvas('show');
-    });
-    //菜单界面，‘关闭侧滑菜单’按钮的点击事件
-    document.getElementById('offCanvasHide').addEventListener('tap', function() {
-    offCanvasWrapper.offCanvas('close');
-    });*/
     //主界面和侧滑菜单界面均支持区域滚动；
     mui('#offCanvasSideScroll').scroll();
     mui('#offCanvasContentScroll').scroll();
@@ -90,89 +85,24 @@
 
     //左侧滑菜单的链接事件
     mui('body').on('tap', '#offCanvasSide a', function () {
-        var type = this.getAttribute("type");
-        //如果超链接，直接跳走
-        if (type == "link" || type == null) document.location.href = this.href;
-        //如果需要确认，则弹出确认界面，确定后仍然转向超链接
-        if (type == "confirm") {
-            var msg = this.getAttribute("msg");
-            var tit = this.getAttribute("title");
-            var href = this.getAttribute("href");
-            var cancel = this.getAttribute("cancel");
-            cancel = cancel == null ? "取消" : cancel;
-            var enter = this.getAttribute("enter");
-            enter = enter == null ? "确定" : enter;
-            //弹出确认框
-            mui.confirm(msg, tit, [cancel, enter], function (e) {
-                if (e.index == 1) document.location.href = href;
-            });
-        }
-        //关闭app（采用了apicloud的接口）
-        if (type == "close") {
-            try {
-                api.closeWin();
-            } catch (e) { }
-        }
-        if (type == "open") {
-            var href = this.getAttribute("href");
-            var info = this.innerHTML;
-            new PageBox(info, href, 80, 80, "url").Open();
-        }
-    });
-    //头部栏的超链接事件
-    mui('body').on('tap', 'header a', function () {
         document.location.href = this.href;
     });
-    //如果处于微信中
-    if ($().isWeixin()) {        
-    }
-    //是否处在APICloud之间
-    var isapicloud = window.navigator.userAgent.toLowerCase().indexOf("apicloud") > -1;
-    $("nav.mui-bar-footer a").each(function () {
-        var state = $(this).attr("state");
-        if (state == "normal") return true;
-        if (isapicloud && state != "apicloud") $(this).remove();
-        if (!isapicloud && state == "apicloud") $(this).remove();
+	//计算章节序号（树形排序）
+    $(".outline").each(function () {
+        var xpath = $(this).attr("xpath");
+        $(this).find("a").html("<span class='tax'>" + xpath + "</span>" + $(this).find("a").html());
+    });
+	//当前章节
+	$(".outline").each(function () {
+		var olid=$().getPara("olid");	//当前章节id
+		if(olid==null || olid==""){
+			$(".outline:first").addClass("current");
+			return false;
+		}
+        var currid = $(this).attr("olid");
+		var current=currid == olid ? $(this) : null;
+		if(current==null)return true;		
+        current.addClass("current");		
     });
 </script> 
 
-<script type="text/javascript" language="javascript">
-$(function(){
-	$.get("/Ajax/Self.ashx", function(json){
-		var data=eval("("+json+")");
-		//处理侧滑菜单在是否登录状态的显示项目
-		$(".main-menu li.mui-table-view-cell").each(function(index, element) {
-            var state=$(this).attr("state");
-			//如果是登录状态，不用于登录的菜单项将删除
-			if(data.login && state=="logout")$(this).remove();
-			//如果是非登录状态，
-			if(!data.login && state=="login")$(this).remove();
-        });
-		//学员姓名
-		  $(".acc-name a").each(function(index, element) {
-			  var state=$(this).attr("state");
-			  if(data.login && state=="logout")$(this).remove();
-			  if(!data.login && state=="login")$(this).remove();
-		  });
-		//如果登录状态，更改头像等
-		if(data.login){
-			var acc=data.object;
-			//学员姓名
-			$(".acc-name a").text(acc.Ac_Name == "" ? "(无名)" : acc.Ac_Name);
-			//学员资金
-			var money=String(acc.Ac_Money);
-			if(money.indexOf(".")>-1)money=money.substr(0,money.indexOf("."));
-			$(".acc-money").text(money);
-			$(".income").show();
-			//头像
-			var root=$(".accPhoto img").attr("root");
-			$(".accPhoto img").attr("src",root+acc.Ac_Photo).error(function () {
-				var errImg = $(this).attr("default");
-				if (errImg == null) return false;
-				$(this).attr("src", errImg);
-			});
-			$(".accPhoto a").attr("href",$(".acc-name a").attr("href"));
-		}
-	});
-});
-</script>
