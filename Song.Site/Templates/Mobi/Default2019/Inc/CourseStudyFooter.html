@@ -1,6 +1,5 @@
 <!--底部导航菜单-->
 <nav class="mui-bar mui-bar-tab footer">
-
 <a class="foot-outline" href="#offCanvasSide"> <b class="mitem"></b><span>章节列表</span></a>
 <a class="foot-video" href="#"> <b class="mitem"></b><span>视频</span></a>
 <!--<a class="foot-message" href="#"> <b class="mitem"></b><span>交流</span></a>-->
@@ -9,8 +8,84 @@
 <a class="foot-home" href="/mobile/default.ashx" type="link" target="_blank"> <b class="mitem"></b><span>返回首页</span></a>  
 </nav>
 <script type="text/javascript">
+    //底部按钮平均分布
     var footer = document.querySelector("nav.footer");
     footer.querySelectorAll("a").forEach(function (item) {
         item.style.width = footer.offsetWidth / footer.querySelectorAll("a").length + "px";
     });
+</script>
+<script type="text/javascript">
+    //+++++++++++主界面初始化
+    window.interval_loyout = null;
+    $(function () {
+        //初始宽度
+        $(".context-box-inner").width($(window).width() * 2);
+        var muicard = $(".context-box .mui-card");
+        muicard.width($(window).width() - parseInt(muicard.css("margin")) * 2);
+        //初始高度
+        setLoyoutHeight($(".video-box").outerHeight());
+    });
+    //设计场景各元素高度
+    //videoHeight:视频区域高度
+    function setLoyoutHeight(videoHeight) {
+        //总高度
+        var maxHeight = $(window).height() - $(".footer").outerHeight();
+        //学习内容区域的高度
+        var contextHeight = maxHeight - videoHeight;
+        $(".context-box").height(contextHeight);
+        var muicard = $(".context-box .mui-card");
+        muicard.height(contextHeight - parseInt(muicard.css("margin")) * 2);
+        //学习内容文字区域的高度
+        var muicontent = $(".context-box .mui-card-content");
+        var muicontentHeight = muicard.height() - $(".mui-card .mui-card-header").outerHeight() - parseInt(muicontent.css("margin")) * 2;
+        muicontent.height(muicontentHeight);
+    }
+    //++++++++++++底部按的事件
+    //视频按钮
+    mui('body').on('tap', '.footer .foot-video', function () {
+        window.interval_loyout = window.setInterval(function () {
+            var mxhg = 300;
+            var hg = $(".video-box").height();
+            hg = hg >= mxhg ? mxhg : hg + 3;
+            $(".video-box").height(hg);
+            setLoyoutHeight($(".video-box").outerHeight());
+            if (hg >= mxhg) {
+                $(".video-box").height(hg).find(">*").show();
+                if (CKobject) {	//视频播放
+                    var videoObj = CKobject.getObjectById('ckplayer_videobox');
+                    if (videoObj) videoObj.videoPlay();
+                }
+				$(".context-box-inner").animate({ left: "0px" }, 500);
+                window.clearInterval(window.interval_loyout);
+            }
+        }, 5);
+
+    });
+    //学习资料的按钮
+    mui('body').on('tap', '.footer .foot-text', function () {
+        if (CKobject) {	//视频暂停
+            var videoObj = CKobject.getObjectById('ckplayer_videobox');
+            if (videoObj) videoObj.videoPause();
+        }
+        $(".context-box-inner").animate({ left: "0px" }, 500, function () {
+            window.interval_loyout = window.setInterval(function () {
+                var hg = $(".video-box").height();
+                hg = hg <= 0 ? 0 : hg - 3;
+                $(".video-box").height(hg).find(">*").hide();
+                setLoyoutHeight($(".video-box").outerHeight());
+                if (hg <= 0) {
+                    window.clearInterval(window.interval_loyout);
+                }
+            }, 5);
+        });
+
+    });
+    //附件的按钮
+    mui('body').on('tap', '.footer .foot-acc', function () {
+        var width = -$(window).width();
+        $(".context-box-inner").animate({ left: width + "px" }, 500, function () {
+
+        });
+    });
+
 </script>

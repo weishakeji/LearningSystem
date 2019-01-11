@@ -19,7 +19,7 @@
         <vt:if var="canStudy" value="true" compare="=" remark="如果可以学习">
           <vt:if var="video.As_FileName" value="" compare="!=">
             <vt:if var="video.As_IsOther" value="true" compare="=">
-              <iframe id="videoIframe" height="500px" width="100%" 
+              <iframe id="videoIframe" height="260px" width="100%" 
         src="{$video.As_FileName}"
         allowscriptaccess="always" allowfullscreen="true" wmode="opaque" allowtransparency="true" frameborder="0" type="application/x-shockwave-flash"></iframe>
               <vt:else/>
@@ -27,7 +27,7 @@
               <div id="videobox" style="100%; position:relative;z-index: 100;"></div>
               <!-- <video src="{$video.As_FileName}" x5-video-player-type="h5" width="100%"/>--> 
               <!--播放器的各种信息-->
-              <div id="playerInfo" style="display:none"> <span class="mui-badge time"> 时长<span id="totalTime">{$video.As_Duration}</span> 秒</span> <span class="mui-badge time"> 播放<span id="playTime">0</span>秒</span> <span class="mui-badge time"> 已学<span id="studyTime">0</span>秒</span>
+              <div id="playerInfo" > <span class="time"> 时长<span id="totalTime">{$video.As_Duration}</span> 秒</span> <span class="time"> 播放<span id="playTime">0</span>秒</span> <span class="time"> 已学<span id="studyTime">0</span>秒</span>
                 <vt:if var="studyLog" value="" compare="!="> <span class="historyInfo">上次学习到<span id="historyTime">{$historyPlay}</span>，点击此处接上次进度学习</span> </vt:if>
               </div>
               <script type="text/javascript">
@@ -45,10 +45,13 @@
               
             </vt:if>
             <vt:else/>
-            没有视频
+            <div class="noVideo">没有视频资源</div>
           </vt:if>
         </vt:if>
+        <div class="outline-name">{$outline.ol_name}</div>
       </header>
+      <div class="context-box">
+      <div class="context-box-inner">
       <div class="mui-card intro-box"  tab="学习内容">
         <div class="mui-card-header"><span>学习内容</span></div>
         <div class="mui-card-content"  id="details">
@@ -59,16 +62,18 @@
       </div>
       <div class="mui-card acc-box"  tab="附件">
         <div class="mui-card-header"><span>附件</span></div>
-        <div class="mui-card-content" id="access"">
+        <div class="mui-card-content">
           <vt:if var="access.count" value="0" compare=">">
-            <dl id="access" >
+            <dl id="access">
               <vt:foreach from="$#.access" item="acc" index="j">
                 <dd><a class="accItem" target="_blank"  href="{$acc.As_FileName}" download="{$acc.As_Name}">{$:j}、{$acc.As_Name} </a> </dd>
               </vt:foreach>
             </dl>
             <vt:else/>
-            没有附件 </vt:if>
+            <div class="noaccess">没有附件</div> </vt:if>
         </div>
+      </div>
+       </div>
       </div>
       <!-- ++ --> 
     </div>

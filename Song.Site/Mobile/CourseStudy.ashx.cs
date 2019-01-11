@@ -36,8 +36,8 @@ namespace Song.Site.Mobile
                 this.Document.SetValue("course", course);                 
                 //当前课程下的章节
                 Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
-                foreach (Song.Entities.Outline c in outlines)
-                    c.Ol_Intro = Extend.Html.ClearHTML(c.Ol_Intro);
+                //foreach (Song.Entities.Outline c in outlines)
+                //    c.Ol_Intro = Extend.Html.ClearHTML(c.Ol_Intro);
                 this.Document.SetValue("outlines", outlines);
                 if (outlines != null && outlines.Length > 0)
                 {

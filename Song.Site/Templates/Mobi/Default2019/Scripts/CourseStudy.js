@@ -21,6 +21,18 @@
         }
         return false;
     });
+	//学习资料内容中的超链接打开
+	 mui('body').on('tap', '#details a', function () {
+		 var href = $(this).attr("href");
+		  var tit = $.trim($(this).text());
+		  var box = new PageBox(tit, href, 100, 100);
+		  $("#videobox").hide();
+            $('video').trigger('pause');
+			PageBox.OverEvent = function () {
+                $("#videobox").show();
+            }
+            box.Open();
+	 });
 });
 
 

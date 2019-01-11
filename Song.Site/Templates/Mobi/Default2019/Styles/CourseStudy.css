@@ -12,6 +12,13 @@
 	webkit-box-shadow: 0 0px 0px #ccc !important;
 	box-shadow: 0 0px 0px #ccc !important;
 }
+.video-box {
+	background-color: #333;
+	width: 100%;
+	height: 300px;
+	color: #CCC;
+	position: relative;
+}
 .video {
 	background-color: transparent !important;
 	webkit-box-shadow: 0 1px 2px #ccc !important;
@@ -28,51 +35,91 @@ div {
 	z-index: 1;
 }
 .intro-box {
-	
 }
 #playerInfo {
-	padding-left: 20px;
-	padding-right: 20px;
-	height: 40px;
-	line-height: 40px;
-	background-color: #FFF;
-	webkit-box-shadow: 0 1px 6px #ccc;
-	box-shadow: 0 1px 6px #ccc;
+	height: 20px;
+	line-height: 20px;
+ --background-color: #FFF;
+ --webkit-box-shadow: 0 1px 6px #ccc;
+ --box-shadow: 0 1px 6px #ccc;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	z-index: 100;
 }
 #playerInfo, #playerInfo * {
-	font-size: 16px;
+	font-size: 8px;
 }
 #playerInfo .time {
-	color: #333;
-	font-size: 14px;
-	padding-left: 10px;
-	padding-right: 10px;
-	margin-right: 20px;
+	color: #999;
+	font-size: 8px;
+	margin-right: 5px;
+}
+#playerInfo .time * {
+	font-size: 10px;
 }
 #videoIframe {
 	width: 100% !important;
 }
 .noVideo {
 	text-align: center;
-	margin-top: 30px;
+	line-height: 260px;
+	font-size: 17px;
+	color: #ccc;
+}
+/*章节名称*/
+.outline-name {
+	background-color: #FFF;
+	webkit-box-shadow: 0 1px 6px #ccc;
+	box-shadow: 0 1px 6px #ccc;
+	position: absolute;
+	buttom: 0px;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 20px;
+	padding-right: 20px;
+	color: #333;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size:15px;
+}
+.outline-name:before {
+	content: "\e681";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 18px;
+	font-weight: normal;
+}
+/*学习内容与附件的区域*/
+.context-box {
+	width: 100%;
+	overflow: hidden;
+	position: relative;
+}
+.context-box-inner {
+	position: absolute;
+}
+.mui-card-content {
+	overflow: auto !important;
 }
 #details {
 	margin: 20px;
 }
-#details, #access, #details p, #details * {
-	font-size: 17px !important;
-	line-height: 30px !important;
+#details p, #details * {
+	font-size: 14px !important;
+	line-height: 16px !important;
 	background-color: transparent !important;
 	color: #666 !important;
+	padding:0px !important;
+	margin:0px !important;
 }
-img {
+#details a{
+	color:#09F !important;
+}
+#details img {
 	max-width: 100% !important;
-}
-video-box {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	object-fit: fill;
 }
 video::-internal-media-controls-download-button {
  display:none;
@@ -87,6 +134,7 @@ video::-webkit-media-controls-panel {
 	margin: 10px;
 }
 /*附件*/
+
 #access {
 	margin: 10px;
 	padding-left: 20px;
@@ -96,7 +144,12 @@ video::-webkit-media-controls-panel {
 	margin: 0px;
 	line-height: 35px;
 }
-
+.noaccess {
+	font-size: 16px;
+	line-height: 30px;
+	color: #666;
+	padding: 20px;
+}
 /*没有购买课程*/
 #noStudy {
 	text-align: center;
@@ -115,6 +168,19 @@ video::-webkit-media-controls-panel {
 	line-height: 100px;
 }
 /*+++++底部图标*/
+.footer span{
+	height:15px !important;
+	display:block;
+	width:100%;
+}
+.footer b{
+	height:20px !important;
+	display:block;
+	width:100% !important;
+}
+.footer b:before{
+	display:block;
+}
 .footer a.foot-outline b:before {
 	content: "\e79c";
 	font-size: 16px;
@@ -128,6 +194,7 @@ video::-webkit-media-controls-panel {
 .footer a.foot-text b:before {
 	content: "\e65e";
 	font-size: 22px;
+	margin-top:2px;
 }
 .footer a.foot-acc b:before {
 	content: "\e651";
@@ -138,49 +205,48 @@ video::-webkit-media-controls-panel {
 /*-----底部图标*/
 
 /*+++++++左侧侧滑菜单*/
-.study-menu .cour-info{
-	margin:10px;
-	display:table;
-	width:100%;
+.study-menu .cour-info {
+	margin: 10px;
+	display: table;
+	width: 100%;
 }
-.study-menu .cour-info img{
-	width:30%;
-	margin-right:5%;
-	float:left;
+.study-menu .cour-info img {
+	width: 30%;
+	margin-right: 5%;
+	float: left;
 	box-shadow: 0 1px 2px #fff !important;
 }
-.study-menu .cour-info  .cour-info-right{
-	width:60%;
-	margin-right:5%;
-	float:left;
+.study-menu .cour-info .cour-info-right {
+	width: 60%;
+	margin-right: 5%;
+	float: left;
 }
-.cour-info-right cour-name{
-	display:block;
-	line-height:22px;
-	color:#eee;
+.cour-info-right cour-name {
+	display: block;
+	line-height: 22px;
+	color: #eee;
 }
-.cour-info-right cour-name:before{
+.cour-info-right cour-name:before {
 	content: "\e60b";
 	font-size: 15px;
 	font-family: iconfont;
-	margin-right:8px;
+	margin-right: 8px;
 }
-.cour-info-right sbj-name{
-	display:block;
-	line-height:22px;
-	color:#999;
-	font-size:10px;
+.cour-info-right sbj-name {
+	display: block;
+	line-height: 22px;
+	color: #999;
+	font-size: 10px;
 }
-.cour-info-right sbj-name:before{
+.cour-info-right sbj-name:before {
 	content: "\e675";
 	font-size: 10px;
-	margin-right:5px;
+	margin-right: 5px;
 	font-family: iconfont;
 }
 /*侧滑菜单的章节列表*/
-.study-menu .outline
-{
-	padding-right:40px !important;
+.study-menu .outline {
+	padding-right: 40px !important;
 }
 .study-menu .outline a:before {
 	content: "\e681";
@@ -189,8 +255,16 @@ video::-webkit-media-controls-panel {
 	font-size: 15px;
 	font-weight: normal;
 }
+/*视频章节的图标*/
+.study-menu .li-video a:before {
+	content: "\e66c";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;
+}
 /*当前章节*/
-.study-menu .current{
+.study-menu .current {
 	color: #FF9;
 }
 .study-menu .current a:before {
@@ -200,28 +274,35 @@ video::-webkit-media-controls-panel {
 	font-size: 14px;
 	font-weight: normal;
 }
-.study-menu .mui-badge{
-	color:#999;
-	background-color:#555;
+.study-menu .mui-badge {
+	color: #999;
+	background-color: #555;
 }
-.study-menu .noselect{
-	color:#666 !important;
+.study-menu .noselect {
+	color: #666 !important;
 }
 /*-------左侧侧滑菜单*/
 
 /*学习内容*/
-.intro-box .mui-card-header span:before
-{
+.mui-card {
+	float: left;
+}
+.mui-card-header{
+	font-size:15px;
+}
+.intro-box .mui-card-header span:before {
 	content: "\e65e";
 	font-family: iconfont;
 	margin-right: 5px;
-	font-size: 20px;
+	font-size: 18px;
+	margin-top:2px;
+	display:block;
+	float:left;
 }
 /*附件*/
-.acc-box .mui-card-header span:before
-{
+.acc-box .mui-card-header span:before {
 	content: "\e651";
 	font-family: iconfont;
 	margin-right: 5px;
-	font-size: 20px;
+	font-size: 16px;
 }

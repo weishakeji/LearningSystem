@@ -16,7 +16,7 @@
       
           <vt:foreach from="$dtOutlines" item="d" index="i" remark="章节">
             <vt:expression var="r" args="$d.ol_level" args="10" expression="{0}*{1}" />
-            <li count="{$:#.d.ol_quescount}" class="mui-table-view-cell outline" olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
+            <li isvideo="{$:#.d.Ol_IsVideo}" class="mui-table-view-cell outline" olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
               <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结"> <a type="nofinish" class="noselect">{$:#.d.ol_name}</a><span class="mui-badge">未完</span>
                 <vt:else />
                 <vt:if var="isStudy" value="true" compare="="  remark="是否已经选修"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
@@ -92,10 +92,16 @@
         var xpath = $(this).attr("xpath");
         $(this).find("a").html("<span class='tax'>" + xpath + "</span>" + $(this).find("a").html());
     });
-	//当前章节
+	//是否有视频
+	$(".outline").each(function () {
+		var isvideo=$(this).attr("isvideo");
+		if(isvideo=="True")$(this).addClass("li-video");
+	});
+	//当前章节的样式
 	$(".outline").each(function () {
 		var olid=$().getPara("olid");	//当前章节id
-		if(olid==null || olid==""){
+		//如果没有olid参数，则第一个为当前章节
+		if(olid==null || olid==""){			
 			$(".outline:first").addClass("current");
 			return false;
 		}
@@ -104,5 +110,6 @@
 		if(current==null)return true;		
         current.addClass("current");		
     });
+	
 </script> 
 
