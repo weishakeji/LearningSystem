@@ -98,8 +98,8 @@ function APIClound_Event() {
 function event_goback(ret) {
     //如果有弹出窗口，则选关闭窗口
     if ($(".PageBox").size() > 0) {
-        $(".screenMask").hide();
-        $(".PageBox").remove();
+        var winid = $(".PageBox").attr("winid");
+        window.PageBox.Close(winid);
         return;
     }
     //如果有弹出窗口，则选关闭窗口

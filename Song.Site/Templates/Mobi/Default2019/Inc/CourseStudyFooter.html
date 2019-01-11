@@ -39,13 +39,14 @@
         var muicontent = $(".context-box .mui-card-content");
         var muicontentHeight = muicard.height() - $(".mui-card .mui-card-header").outerHeight() - parseInt(muicontent.css("margin")) * 2;
         muicontent.height(muicontentHeight);
+		//muicontent.find(">div").height(muicontentHeight);
     }
     //++++++++++++底部按的事件
     //视频按钮
     mui('body').on('tap', '.footer .foot-video', function () {
         window.interval_loyout = window.setInterval(function () {
             var mxhg = 300;
-            var hg = $(".video-box").height();
+            var hg = $(".video-box").show().height();
             hg = hg >= mxhg ? mxhg : hg + 3;
             $(".video-box").height(hg);
             setLoyoutHeight($(".video-box").outerHeight());

@@ -47,28 +47,39 @@
             <vt:else/>
             <div class="noVideo">没有视频资源</div>
           </vt:if>
+           <vt:else/>
+            <div class="noVideo">（章节不存在）</div>
         </vt:if>
-        <div class="outline-name">{$outline.ol_name}</div>
+        <div class="outline-name">
+         <vt:if var="outline.ol_name" value="" compare="!=" remark="学习内容">
+        {$outline.ol_name}
+         <vt:else/>
+            （没有章节名称） </vt:if>
+        </div>
       </header>
       <div class="context-box">
       <div class="context-box-inner">
       <div class="mui-card intro-box"  tab="学习内容">
         <div class="mui-card-header"><span>学习内容</span></div>
-        <div class="mui-card-content"  id="details">
+        <div class="mui-card-content mui-scroll-wrapper" >
+         <div class="mui-scroll" id="details"> 
           <vt:if var="outline.ol_intro" value="" compare="!=" remark="学习内容">{$outline.ol_intro}
             <vt:else/>
             没有学习内容 </vt:if>
+            </div>
         </div>
       </div>
       <div class="mui-card acc-box"  tab="附件">
         <div class="mui-card-header"><span>附件</span></div>
-        <div class="mui-card-content">
+        <div class="mui-card-content  mui-scroll-wrapper">
           <vt:if var="access.count" value="0" compare=">">
+           <div class="mui-scroll"> 
             <dl id="access">
               <vt:foreach from="$#.access" item="acc" index="j">
                 <dd><a class="accItem" target="_blank"  href="{$acc.As_FileName}" download="{$acc.As_Name}">{$:j}、{$acc.As_Name} </a> </dd>
               </vt:foreach>
             </dl>
+            </div>
             <vt:else/>
             <div class="noaccess">没有附件</div> </vt:if>
         </div>

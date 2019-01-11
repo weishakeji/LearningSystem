@@ -11,28 +11,40 @@
             var tit = $.trim($(this).text());
             var pdfview = $().PdfViewer(href);
             var box = new PageBox(tit, pdfview, 100, 100);
-            $("#videobox").hide();
+            if ($(".video-box").height() > 10) $(".video-box").hide();
             $('video').trigger('pause');
-            PageBox.OverEvent = function () {
-                $("#videobox").show();
+            box.CloseEvent = function () {
+                if ($(".video-box").height() > 10) {
+                    $(".video-box").show();
+                    if (CKobject) {	//视频播放
+                        var videoObj = CKobject.getObjectById('ckplayer_videobox');
+                        if (videoObj) videoObj.videoPlay();
+                    }
+                }
                 //$('video').trigger('play');
             }
             box.Open();
         }
         return false;
     });
-	//学习资料内容中的超链接打开
-	 mui('body').on('tap', '#details a', function () {
-		 var href = $(this).attr("href");
-		  var tit = $.trim($(this).text());
-		  var box = new PageBox(tit, href, 100, 100);
-		  $("#videobox").hide();
-            $('video').trigger('pause');
-			PageBox.OverEvent = function () {
-                $("#videobox").show();
+    //学习资料内容中的超链接打开
+    mui('body').on('tap', '#details a', function () {
+        var href = $(this).attr("href");
+        var tit = $.trim($(this).text());
+        var box = new PageBox(tit, href, 100, 100);
+        if ($(".video-box").height() > 10) $(".video-box").hide();
+        $('video').trigger('pause');
+        box.CloseEvent = function () {
+            if ($(".video-box").height() > 10) {
+                $(".video-box").show();
+                if (CKobject) {	//视频播放
+                    var videoObj = CKobject.getObjectById('ckplayer_videobox');
+                    if (videoObj) videoObj.videoPlay();
+                }
             }
-            box.Open();
-	 });
+        }
+        box.Open();
+    });
 });
 
 

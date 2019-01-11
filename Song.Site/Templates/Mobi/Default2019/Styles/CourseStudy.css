@@ -94,7 +94,6 @@ div {
 }
 /*学习内容与附件的区域*/
 .context-box {
-	width: 100%;
 	overflow: hidden;
 	position: relative;
 }
@@ -104,16 +103,24 @@ div {
 .mui-card-content {
 	overflow: auto !important;
 }
-#details {
-	margin: 20px;
+.mui-card-content {
+
+}
+#details{
+	width:100%;
+	padding:20px;
 }
 #details p, #details * {
-	font-size: 14px !important;
-	line-height: 16px !important;
+	font-size: 15px !important;
+	line-height: 22px !important;
 	background-color: transparent !important;
 	color: #666 !important;
 	padding:0px !important;
 	margin:0px !important;
+}
+#details p
+{
+	margin-buttom:10px !important;
 }
 #details a{
 	color:#09F !important;
@@ -193,8 +200,8 @@ video::-webkit-media-controls-panel {
 }
 .footer a.foot-text b:before {
 	content: "\e65e";
-	font-size: 22px;
-	margin-top:2px;
+	font-size: 23px;
+	margin-top:1px;
 }
 .footer a.foot-acc b:before {
 	content: "\e651";

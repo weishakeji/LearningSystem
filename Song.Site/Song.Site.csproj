@@ -322,6 +322,7 @@
     <Content Include="Manage\Course\Outline_Video.aspx" />
     <Content Include="Manage\Course\Outline_Export.aspx" />
     <Content Include="Manage\Course\Styles\Outline_Export.css" />
+    <Content Include="Manage\Course\Styles\Outline_Accessory.css" />
     <Content Include="Manage\DataTemplate\Config\充值码.xml" />
     <Content Include="Manage\DataTemplate\Config\学习卡.xml" />
     <Content Include="Manage\DataTemplate\Config\教师信息.xml">

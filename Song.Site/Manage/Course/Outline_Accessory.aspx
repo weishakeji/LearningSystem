@@ -14,14 +14,14 @@
             <br />
             <asp:DataList ID="dlAcc" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow">
                 <ItemTemplate>
-                    <%# Container.ItemIndex   + 1 %>
+                    <div class="acc-row"><%# Container.ItemIndex   + 1 %>
                     、
                     <asp:HyperLink ID="hl" runat="server" NavigateUrl='<%#Eval("As_FileName") %>' Target="_blank"><%#Eval("As_Name") %></asp:HyperLink>
                     &nbsp; <span class="sizeSpan">(<span class="size"><%#Eval("As_Size") %></span>)</span>&nbsp;
                     &nbsp;<asp:LinkButton ID="lb" runat="server" CommandArgument='<%#Eval("As_Id") %>'
                         ForeColor="Red" OnClick="lb_Click">删</asp:LinkButton>
                     &nbsp;
-                    <br />
+                    </div>
                 </ItemTemplate>
             </asp:DataList>
         </fieldset>
