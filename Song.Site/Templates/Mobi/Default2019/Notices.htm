@@ -8,33 +8,29 @@
 <meta charset="utf-8">
 </head>
 <body>
-<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
-  <!--侧滑菜单部分-->
-  <vt:include file="inc/Menu.html" />
+
+        <header class="header-top"> 
+   
+    <a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe646;</a>
+    <form action="notices.ashx" method="get" id="formSearch">
+      <input name="sear" type="search" id="tbSearch" class="sear" placeholder="搜索">
+    </form>
+    <a href="#" class="iconfont btnSearch">&#xe679;</a> 
+    </header>
+
+   
 <!--主界面部分-->
 <div class="mui-inner-wrap">
-<header class="mui-bar mui-bar-nav headbar">
-    <form action="notices.ashx" method="get" id="formSearch">
-    <a href="#offCanvasSide" class="mui-icon mui-action-menu mui-icon-bars mui-pull-left"></a>
-     <a class="mui-btn mui-btn-link mui-pull-right" href="default.ashx" type="link"><span class="iconfont top-ico">&#xe620;</span></a>
-       <a class="mui-btn mui-btn-link mui-pull-right btnSear" href="#"><span class="iconfont">&#xe62f;</span></a>
-       
-      <h1 class="mui-title">
-        <input name="sear" type="search" id="tbSearch" placeholder="公告查询">
-      </h1>
-    </form>
-  </header>
-<img src="Images/news-ico.png" style="display:none" id="def-img"/>
 <!--下拉刷新容器-->
 <div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+
   <div class="mui-scroll"> 
     <!--数据列表-->
     <ul class="mui-table-view mui-table-view-chevron">
     </ul>
   </div>
 </div>
- <!-- off-canvas backdrop -->
-    <div class="mui-off-canvas-backdrop"> </div>
-</div>
+
+<vt:include file="inc/footer.html" />
 </body>
 </html>

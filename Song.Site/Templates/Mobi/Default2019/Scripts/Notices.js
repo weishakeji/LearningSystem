@@ -6,11 +6,11 @@
 		var sear=$().getPara("sear");
 		if($.trim(txt)=="" && sear=="")return false;
 	 });
-	 mui('body').on('tap', '.btnSear', function () {
+	 mui('body').on('tap', '.btnSearch', function () {
 		 var txt=$("#tbSearch").val();
 		 var sear=$().getPara("sear");
 		if($.trim(txt)=="" && sear=="")return false;
-		 var href=$(this).parent("form").attr("action");
+		 var href=$(this).prev("form").attr("action");
 		 window.location.href=$().setPara(href,"sear",txt);
 	});
 });

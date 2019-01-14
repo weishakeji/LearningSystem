@@ -1,9 +1,50 @@
-#tbSearch{
-	text-align:left;
+.header-top {
+	height: 42px;
+	padding-top: 5px;
+	position: fixed;
+	margin-bottom: 10px;
+	top: 0px;
+	width: 100%;
+	z-index: 100;
+ --background-color: rgba(230,230,230,1);
+	background-color: #FFF;
 }
-.btnSear span{
-	font-size:25px;
+/*左上角返回*/
+.header-top .nav-left {
+	position: absolute;
+	font-size: 22px;
+	top: 8px;
+	left: 5px;
+	color: #ccc;
 }
+.header-top #formSearch {
+	margin-left: auto;
+	margin-right: auto;
+	width: 70%;
+	float:right;
+	margin-right:65px;
+}
+.header-top #formSearch input {
+	font-size: 13px;
+
+}
+/*右上角搜索*/
+.header-top .btnSearch {
+	position: absolute;
+	font-size: 22px;
+	right: 35px;
+	top: 11px;
+	color: #ccc;
+}
+.header-top .btnMore {
+	position: absolute;
+	font-size: 14px;
+	right: 5px;
+	top: 11px;
+	color: #ccc;
+}
+
+
 #artBox{
 	margin:20px;
 }
@@ -15,7 +56,7 @@ nav .right{
 }
 .artTitle
 {
-	font-size: 18px;
+	font-size: 15px;
 	text-align: center;
 	margin-top: 10px;
 	margin-right: auto;
@@ -24,7 +65,7 @@ nav .right{
 }
 .artAttrBar
 {
-	font-size: 14px;
+	font-size: 12px;
 	text-align: center;
 	margin-top: 10px;
 	margin-right: auto;
@@ -60,13 +101,13 @@ nav .right{
 }
 #artIntro
 {
-	font-size: 16px !important;
+	font-size: 14px !important;
 	line-height: 22px !important;
 	background-color:transparent !important;
 	margin-bottom: 1em;
 }
 #artContext, #artContext p, #artContext font, #artContext div,#artContext span{
-	font-size: 17px !important;
+	font-size: 15px !important;
 	line-height: 30px !important;
 	background-color:transparent !important;	
 }
