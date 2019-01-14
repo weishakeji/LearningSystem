@@ -392,7 +392,7 @@ function setCardQues() {
         $("#quesArea").css({ left: -index * dd.width() });
         $(".quesCard").hide();
     });
-    $(".quesCard").show();
+    //$(".quesCard").show();
     //显示多少道题
     $(".tpcount").text($("#quesArea dd").size());
     $("#btnCard").click(function () {

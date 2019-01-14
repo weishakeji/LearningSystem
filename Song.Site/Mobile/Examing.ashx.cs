@@ -111,7 +111,7 @@ namespace Song.Site.Mobile
             this.Document.SetValue("isStart", isStart.ToString().ToLower());
             this.Document.SetValue("isOver", isOver.ToString().ToLower());
             this.Document.SetValue("startTime", WeiSha.Common.Server.getTime(startTime));
-            this.Document.SetValue("overTime", WeiSha.Common.Server.getTime(overTime));
+            this.Document.SetValue("overTime", WeiSha.Common.Server.getTime(overTime)); //转成时间戳
             this.Document.SetValue("isSubmit", isSubmit.ToString().ToLower());
             if (!isStart) state.Set(true, 4);  //还没有开始
             if (isOver) state.Set(false, 1);    //考试已经结束，状态为1;

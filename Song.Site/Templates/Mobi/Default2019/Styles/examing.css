@@ -457,6 +457,8 @@ html,body{
 	text-indent: 40px;
 	height: 40px;
 	width: 92px;
+	margin-right:10px;
+	margin-bottom:10px;
 	float: left;
 	cursor: pointer;
 }
@@ -474,6 +476,8 @@ html,body{
 	text-indent: 40px;
 	height: 40px;
 	width: 92px;
+	margin-right:10px;
+	margin-bottom:10px;
 	float: left;
 	cursor: pointer;
 }
@@ -701,10 +705,13 @@ html,body{
 	letter-spacing: 0.2em;
 	float:right;
 }
-#pagerSubmitBox span {
-	font-size: 22px;
-	margin-right: 10px;
+#pagerSubmitBox i:before {
+	content: "\e6cf";
+	font-family: iconfont;
+	font-size: 20px;
+	margin-right:10px;
 	font-weight: normal;
+	font-style: normal;
 }
 #pagerSubmitBox.noStart {
 	background-color: #ccc;
@@ -731,7 +738,10 @@ html,body{
 	margin-right: auto;
 	letter-spacing: 0.2em;
 }
-#btnCard .examico {
-	font-size: 22px;
+#btnCard i:before {
+	content: "\e617";
+	font-family: iconfont;
+	font-size: 20px;
 	font-weight: normal;
+	font-style: normal;
 }
