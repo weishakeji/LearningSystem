@@ -17,9 +17,12 @@ namespace Song.Site.Mobile
         public int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
+            this.Document.Variables.SetValue("couid", couid);
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
                 Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+                if (course == null) return;
+                this.Document.Variables.SetValue("course", course);
                 //是否学习当前课程
                 if (this.Account != null)
                 {

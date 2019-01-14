@@ -12,6 +12,11 @@
 	webkit-box-shadow: 0 0px 0px #ccc !important;
 	box-shadow: 0 0px 0px #ccc !important;
 }
+.back{
+	display:block;
+	position:absolute;
+	z-index:101;
+}
 .video-box {
 	background-color: #333;
 	width: 100%;
