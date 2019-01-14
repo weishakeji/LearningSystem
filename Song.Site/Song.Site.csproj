@@ -733,7 +733,9 @@
     <Content Include="Templates\Mobi\Default2019\Inc\icon-color.inc" />
     <Content Include="Templates\Mobi\Default2019\Inc\Menu.html" />
     <Content Include="Templates\Mobi\Default2019\Inc\meta-nomui.inc" />
-    <Content Include="Templates\Mobi\Default2019\Inc\meta.inc" />
+    <Content Include="Templates\Mobi\Default2019\Inc\meta.inc">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Templates\Mobi\Default2019\Inc\Footer.html" />
     <Content Include="Templates\Mobi\Default2019\Inc\HomeFooter.html" />
     <Content Include="Templates\Mobi\Default2019\Inc\CourseStudyFooter.html" />
