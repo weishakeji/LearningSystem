@@ -1,6 +1,6 @@
 @charset "utf-8";
 a{
-	color:#333 !important;
+	
 }
 .score {
 	font-size: 12px;
@@ -27,8 +27,8 @@ a{
 	text-align: center;
 }
 .ico {
-	font-family:icondepart  !important;
-	font-size:45px;
+	font-family:iconfont  !important;
+	font-size:40px;
 	position:absolute;
 	font-style:normal;
 	left:0px;
@@ -43,8 +43,14 @@ a{
 .mui-inner-wrap{
 	padding-bottom:60px;
 }
-.right{
+nav.mui-bar-tab{
+	height:40px !important;
+}
+.right-btn{
 	margin-right:20px;
+	float:right;
+	font-size:16px;
+	line-height:40px;
 }
 .name{
 	font-size:16px;

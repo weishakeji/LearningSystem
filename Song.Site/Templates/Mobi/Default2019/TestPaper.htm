@@ -8,7 +8,7 @@
 <body>
 <div loyout="row"  class="context">
   <div class="logo">
-    <vt:if var="pager.Tp_Logo" value="" compare="="><span class="iconfont ico">&#xe601;</span>
+    <vt:if var="pager.Tp_Logo" value="" compare="="><span class="iconfont ico">&#xe68b;</span>
       <vt:else />
       <img src="{$pager.Tp_Logo}"/></vt:if>
   </div>
@@ -36,7 +36,7 @@
   </div>
 </div>
 <div loyout="row" style="min-height:60px"> </div>
-<div class="footer">
+<div class="footer-pager">
   <div class="btnbox result"> <a href="Statistics.ashx?id={$pager.tp_id}&couid={$couid}" target="_top" type="link">历史成绩</a> </div>
   <div class="btnbox exam"> <a class="aStartExam" href="TestScene.ashx?id={$pager.tp_id}&couid={$couid}&action=start" target="_top" type="link">开始考试</a> </div>
 </div>

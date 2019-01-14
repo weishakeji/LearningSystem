@@ -46,6 +46,12 @@ input, textarea {
 	line-height: 50px;
 	height: 50px;
 }
+#header #residueTime:before {
+	content: "\e69c";
+	font-family: iconfont;
+	margin-right:5px;
+	font-size:18px;
+}
 .row {
 	line-height: 40px;
 	width: 80%;
@@ -100,10 +106,13 @@ input, textarea {
 	margin-right: auto;
 	letter-spacing: 0.2em;
 }
-#SubmitExam span {
-	font-size: 22px;
-	margin-right: 10px;
+#SubmitExam i:before {
+	content: "\e6cf";
+	font-family: iconfont;
+	font-size: 20px;
+	margin-right:10px;
 	font-weight: normal;
+	font-style: normal;
 }
 #btnCard {
 	line-height: 40px;
@@ -123,9 +132,12 @@ input, textarea {
 	margin-right: auto;
 	letter-spacing: 0.2em;
 }
-#btnCard .examico {
-	font-size: 22px;
+#btnCard i:before {
+	content: "\e617";
+	font-family: iconfont;
+	font-size: 20px;
 	font-weight: normal;
+	font-style: normal;
 }
 #cardBox {
 	position: absolute;
@@ -294,6 +306,18 @@ input, textarea {
 	width: 20px;
 	margin-left: 6px;
 }
+.btnFav:before{
+	content: "\e689";
+	font-family: iconfont;
+}
+.IsCollect:before{
+	content: "\e62b";
+	font-family: iconfont;
+}
+.btnError:before{
+	content: "\e6d0";
+	font-family: iconfont;
+}
 .quesBox .quesTitle {
 	background-color: #006699;
 	-moz-border-radius: 15px;      /* Gecko browsers */
@@ -376,37 +400,37 @@ input, textarea {
 	color: #0099FF;
 }
 .type1 .ansItem:before {
-	content: "\f00c6";
+	content: "\e650";
 	font-family: "iconfont" !important;
 	
 }
 .type1 .answerSel:before {
-	content: "\e667";
+	content: "\e682";
 	font-family: "iconfont" !important;
 }
 .type2 .ansItem:before {
-	content: "\e603";
+	content: "\e628";
 	font-family: "iconfont" !important;	
 }
 .type2 .answerSel:before {
-	content: "\e62a";
+	content: "\e7cc";
 	font-family: "iconfont" !important;
 }
 .type3 .ansItem:before {
-	content: "\e621";
+	content: "\e628";
 	font-family: "iconfont" !important;	
 }
 .type3 .answerSel:before {
-	content: "\e63b";
+	content: "\e7cc";
 	font-family: "iconfont" !important;
 	font-size: 25px;
 }
 .type4 .ansItem:before {
-	content: "\e657";
+	content: "\e699";
 	font-family: "iconfont" !important;	
 }
 .type5 .ansItem:before {
-	content: "\e657";
+	content: "\e634";
 	font-family: "iconfont" !important;	
 }
 #quesType span {

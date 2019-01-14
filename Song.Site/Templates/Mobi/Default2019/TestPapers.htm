@@ -41,7 +41,7 @@ var isLogin="{$#.Account.Ac_id}"!="";
             <div class="row" href="TestPaper.ashx?id={$:#.data.tp_id}&couid={$couid}"> 
               <!--图标 -->
               <div class="rowlogo">
-                <vt:if var="#.data.Tp_Logo" value="" compare="="><span class="ico">&#xe801;</span>
+                <vt:if var="#.data.Tp_Logo" value="" compare="="><span class="ico">&#xe68b;</span>
                   <vt:else />
                   <img src="{$:#.data.Tp_Logo}"/> <span class="ico" style="display:none;">&#xe801;</span> </vt:if>
               </div>
@@ -52,12 +52,9 @@ var isLogin="{$#.Account.Ac_id}"!="";
               </div>
               <!--右侧标识 -->
               <div class="rightbox">
-                <div class="rightTop"> 考试 </div>
-                <div class="rightDow">
-                  <vt:function var="dow" method="isChildren" args="$#.data.sbj_id"/>
-                  <vt:if var="dow" value="0" compare="=">&#xe602;
-                    <vt:else />
-                    &#xe6c6;</vt:if>
+                <div class="rightTop"> 测试 </div>
+                <div class="rightDow">                 
+                    &#xe786;
                 </div>
               </div>
             </div>
@@ -71,12 +68,7 @@ var isLogin="{$#.Account.Ac_id}"!="";
     </vt:if>
 
 </div>
-<nav class="mui-bar mui-bar-tab"> 
-  <a class="mui-icon mui-icon-left-nav mui-pull-left left" href="CoursePage.ashx?couid={$couid}" type="link"><span class="couname">{$currCourse.cou_name}</span></a>
 
-           <a class="mui-btn mui-btn-link mui-pull-right right" href="" >
-				模拟考试
-			</a>
-  </nav>
+<vt:include file="inc/footer.html" />
 </body>
 </html>

@@ -72,7 +72,7 @@ function ajaxLoaddata() {
 			if(d.Tp_Logo!=""){
 	        html += '<img class="mui-media-object mui-pull-left" src="' + d.Tp_Logo + '"/>';
 			}else{
-				html += '<div class="rowlogo"><span class="ico">&#xe647;</span></div>';
+				html += '<div class="rowlogo"><span class="ico">&#xe73e;</span></div>';
 			}
 	        html += '<div class="mui-media-body mui-ellipsis">' + d.Tp_Name;
 	        html += '<p class="mui-ellipsis">' + score + date + " " + time + '</p>';

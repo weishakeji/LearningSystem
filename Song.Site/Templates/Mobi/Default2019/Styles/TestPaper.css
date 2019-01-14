@@ -19,7 +19,7 @@
 	height: 100px;
 }
 .ico{
-	font-size: 100px;
+	font-size: 60px;
 	width: 100%;
 	height: 100%;
 	line-height: 100px;
@@ -54,12 +54,12 @@
 	color: #060;
 }
 /*底部*/
-.footer {
+.footer-pager {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
-	height: 60px;
-	line-height: 60px;
+	height: 40px;
+	line-height: 40px;
 	z-index: 9999;
 	opacity: .9;
 	filter: alpha(opacity=90);
@@ -82,8 +82,8 @@ _top:expression(eval(document.documentElement.scrollTop+document.documentElement
 	text-align: center;
 	color: #FFF;	
 
-	height:60px;
-	line-height:60px;	
+	height:40px;
+	line-height:40px;	
 	display:block;
 }
 .exam{

@@ -35,8 +35,7 @@ function _btnEvent() {
         $.get("AddCollect.ashx", { "qid": qid, "isCollect": isCollect }, function () {
             var ques = $(".quesItem[qid=" + qid + "]");
             ques.attr("IsCollect", isCollect ? "False" : "True");
-            $(".btnFav").toggleClass("IsCollect");
-            $(".btnFav").html(!isCollect ? "&#xe662;" : "&#xe661;");
+            $(".btnFav").toggleClass("IsCollect");            
         });
     });
     //报错

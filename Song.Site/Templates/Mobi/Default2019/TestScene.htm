@@ -38,7 +38,7 @@ var stsName="{$Account.Sts_Name}";
   
   <!--头部 -->
   <div id="header"  loyout="row" height="48">
-    <div loyout="column" width="45"><a href="TestPapers.ashx?couid={$couid}" type="link"> <img src="Images/btnBack.jpg" style="height:25px; margin-top:15px;"/></a></div>
+    <div loyout="column" width="45"><a href="TestPapers.ashx?couid={$couid}" type="link"> <img src="Images/btnBack.jpg" style="height:25px; margin-top:12px;"/></a></div>
     <div loyout="column" width="6"> <img src="Images/line.jpg" style="height:22px; margin-top:15px"></div>
     <!--    <div loyout="column" id="btnFav" >
       <div class="examico">&#xe661;</div>
@@ -53,7 +53,7 @@ var stsName="{$Account.Sts_Name}";
     <div id="cardBox">
       <div id="cardBoxTitleBar">
         <div id="cardBoxTitle"> 答题卡</div>
-        <div id="cardBoxColse" class="iconfont"> &#xe63d;</div>
+        <div id="cardBoxColse" class="iconfont">&#xe67b;</div>
       </div>
       <div id="cardBoxInner"></div>
     </div>
@@ -71,10 +71,10 @@ var stsName="{$Account.Sts_Name}";
               <div class="info">[{$:i}/{$ques.Count}] [<span class="type">{$:type}题</span>]（<span class="num">{$:#.q.qus_number}</span>分）</div>
               <div class="infoLeft"> 
                 <!--收藏与报错 -->
-                <vt:if var="IsCollect" value="true" compare="="> <span class="examico btnFav IsCollect">&#xe662;</span>
+                <vt:if var="IsCollect" value="true" compare="="> <span class="btnFav IsCollect"></span>
                   <vt:else/>
-                  <span class="examico btnFav">&#xe661;</span> </vt:if>
-                <span class="examico btnError">&#xe704;</span> </div>
+                  <span class="btnFav"></span> </vt:if>
+                <span class="btnError"></span> </div>
             </div>
             <!--试题的题干 -->
             <div class="quesTitle"> {$:#.q.qus_title}</div>
@@ -127,9 +127,9 @@ var stsName="{$Account.Sts_Name}";
   <div loyout="row" height="10" ></div>
   <div loyout="row" height="40" >
     <div loyout="column" width="10"></div>
-    <div loyout="column" width="110" id="btnCard"><span class="examico">&#xe689;</span><span id="CompleteNumber">0</span>/<span id="QuesCount">{$ques.Count}</span></div>
+    <div loyout="column" width="110" id="btnCard"><i></i><span id="CompleteNumber">0</span>/<span id="QuesCount">{$ques.Count}</span></div>
     <div loyout="column" width="10"></div>
-    <div loyout="column" id="SubmitExam"><span class="examico">&#xf0146;</span>交&nbsp;卷</div>
+    <div loyout="column" id="SubmitExam"><i></i>交&nbsp;卷</div>
     <div loyout="column" width="10"></div>
   </div>
   <div loyout="row" height="10" ></div>

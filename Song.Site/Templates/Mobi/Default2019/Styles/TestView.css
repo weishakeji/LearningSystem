@@ -15,21 +15,19 @@ td, th {
 	line-height: 20px;
 }
 div, p, td, * {
-	font-size: 16px !important;
-	line-height: 30px;
+	line-height: 25px;
 }
 img{
 	max-width:100%;
 }
 .pagerTitle {
-	font-size: 18px;
+	font-size: 16px;
 	line-height: 25px;
 	color: #2d81ff;
 	text-align: center;
 	margin-top: 10px;
 }
 .info {
-	font-size: 14px;
 	line-height: 20px;
 	color: #000000;
 	margin-left: auto;
@@ -38,7 +36,6 @@ img{
 	margin-top: 3px;
 }
 .scoreinfo {
-	font-size: 14px;
 	line-height: 35px;
 	color: #000000;
 	margin-left: auto;
@@ -102,7 +99,7 @@ img{
 	display:inline-block;
 }
 .quesSelectBox .item_False{
-	margin-top: 10px;
+	margin-top: 3px;
 	color: #666;
 }
 .quesSelectBox .item_True{
@@ -120,7 +117,6 @@ img{
 	margin-top: 15px;
 }
 .typeName {
-	font-size: 14px;
 	line-height: 30px;
 	height: 30px;
 	margin-top: 10px;
@@ -140,7 +136,7 @@ img{
 	margin-top: 10px;
 }
 .qusTitle *{
-	font-size: 15px;
+	font-size: 14px;
 	background-color: transparent !important;
 	word-wrap: break-word;
     word-break: normal;
