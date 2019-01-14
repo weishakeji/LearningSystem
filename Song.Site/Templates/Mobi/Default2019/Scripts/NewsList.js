@@ -59,20 +59,27 @@ function ajaxLoaddata(){
 			var img=d.Art_IsImg ? d.Art_Logo : defimg.getAttribute("src");			
 			//
 			var html='<a href="javascript:;">';
-			html+='<img class="mui-media-object mui-pull-left" src="'+img+'"/>';
-			html+='<div class="mui-media-body mui-ellipsis">'+decodeURIComponent(d.Art_Title);
-			html+='<p class="mui-ellipsis">'+d.Art_Intro+'</p>';
+			if(d.Art_IsImg){
+				html+='<img class="mui-media-object mui-pull-left" src="'+img+'" default="'+defimg.getAttribute("src")+'"/>';
+				html+='<div class="mui-media-body mui-ellipsis havimg">'+decodeURIComponent(d.Art_Title);
+				//if(d.Art_Intro=="")d.Art_Intro=d.Art_Title;
+				html+='<p class="mui-ellipsis">'+decodeURIComponent(d.Art_Intro)+'</p>';
+			}else{
+				html+='<div class="mui-media-body mui-ellipsis noimg">'+decodeURIComponent(d.Art_Title);
+			}
 			html+='</div>';
 			html+='</a>';
             li.innerHTML = html;
-            table.appendChild(li);			
+            table.appendChild(li);	
+			$(li).find("img").error(function () {
+		            var errImg = $(this).attr("default");
+		            if (errImg == null) return false;
+		            $(this).attr("src", errImg);
+		        });		
         }
 		 mui('body').off('tap','.news-item');
 		 mui('body').on('tap', '.news-item', function () {
 				var id=$(this).attr("artid");
-				/*$.post("MoneyDetail.ashx?id="+id, function (data) {
-					new PageBox("账单详情",data, 100, 100, "text").Open();
-				});*/
 				new PageBox("新闻", "article.ashx?id="+id, 100, 100, "url").Open();
 		});
 	});	

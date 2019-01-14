@@ -1,3 +1,11 @@
 ﻿.mui-table-view-cell{
 	padding-right:45px !important;
 }
+.noimg:before{
+	content: "\e671";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 16px;
+	width: 20px;
+	color: #999;
+}
