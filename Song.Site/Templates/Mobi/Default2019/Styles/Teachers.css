@@ -16,8 +16,8 @@
 	display:inline-block;
 }
 .th-tel b:before {
-	content: "\e635";
-	font-family: iconphone;
+	content: "\e606";
+	font-family: iconfont;
 	font-size: 20px;
 	line-height: 40px;
 	font-weight: normal;
