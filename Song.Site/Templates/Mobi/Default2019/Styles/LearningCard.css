@@ -7,17 +7,29 @@
 	margin-bottom:40px;
 	padding-bottom:40px;
 }
-.ico{
-	margin-right: 5px;
-	font-size:20px;
-}
+
 .txt{
 	line-height: 35px;
 	color: #666;
 	text-align: center;
 }
 .card-tit{
-	
+	font-size:16px;
+	line-height:20px;	
+}
+.card-tit:before{
+	content: "\e62c";
+	font-family: "iconfont";
+	color: #333;
+	font-size:22px;
+	margin-right: 5px;
+}
+.btnHelp:before{
+	content: "\e658";
+	font-family: "iconfont";
+	color: #333;
+	font-size:22px;
+	margin-right: 5px;
 }
 .online-tit{
 	color: #060;
@@ -54,50 +66,11 @@ label{
 	margin-right:10px;
 }
 
-/*支付平台的标题*/
-.paytit{
-	margin-left: 5% !important;
-	width:auto;
-}
-.paytit img{
-	float: left;
-	height: 35px;
-	margin-right:10px;
-}
-.paytit span{
-	float: left;
-	width: 80px;
-	height:35px;
-	line-height:35px;
-	color: #000;
-}
-.payitem{
-	line-height:35px !important;
-	margin-left:20px !important;
-}
-.payitem img{
-	float: left;
-	margin-right: 10px;
-	height:35px;
-	
-}
-.money-item{
+
+.acc-item{
 	color: #F60;
 	margin-left: 25px;
 	font-size: 14px;
-}
-.money-item .moneyico{
-	font-size:14px;
-}
-.right-item{
-	float: right;
-	line-height: 40px;
-	color: #060;
-	text-align: right;
-	width: 40px;
-	white-space: nowrap;
-	overflow: hidden;
-	font-size: 25px;
 }
 
 /*一些控件，自己定义样式*/
@@ -118,4 +91,14 @@ label{
 #btn_camera img{
 	height:16px;
 	margin-right:8px;
+}
+/*帮助说明*/
+dl.help-txt{
+	margin:0px;	
+	margin-left:5px;
+}
+dl.help-txt dd{
+	margin: 0px 0px 10px 20px;
+	color: #666;
+	text-indent: -20px;
 }

@@ -27,7 +27,17 @@
         }
         box.Open();
     });
-
+	//帮助按钮
+	$(".btnHelp").click(function(){
+		var txt=document.querySelector(".boxHelp").innerHTML;
+		//var txt=$(".boxHelp")[0].outerHTML;
+		var msg = new MsgBox("帮助", txt, 80, 80, "msg");
+		msg.ShowCloseBtn = false;
+		msg.OverEvent = function () {
+			//document.location.href = "LearningCard.ashx";
+		};
+		msg.Open();
+	});
 });
 //填充学习到输入框，并使用
 function set_card_use(card){
