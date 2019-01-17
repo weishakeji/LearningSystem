@@ -89,17 +89,20 @@ gallery.slider({
               {$:m.nav_name} </span> </a> </vt:foreach>
           </div>
         </vt:if>
+        
         <!--课程区-->
-        <div class="cour-area">
-          <div class="cour-bar"> <span class="cour-tit current" sbjid="0">精选课程</span>
-            <vt:list type="subject" var="$subject" item="data" index="i" count="5" order="rec"> </vt:list>
-            <vt:foreach from="$#.subject" item="m" index="i"> <span class="cour-tit" sbjid="{$:m.sbj_id}" count="10">{$:m.Sbj_ByName}</span> </vt:foreach>
-            <a class="cour-more" href="courses.ashx" type="link"></a> </div>
+        <div class="cour-area"> <a class="cour-more" href="courses.ashx" type="link"></a>
+          <div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted cour-bar">
+            <div class="mui-scroll"> <a class="mui-control-item cour-tit current" sbjid="0">精选课程</a>
+              <vt:list type="subject" var="$subject" item="data" index="i" count="10" order="rec"> </vt:list>
+              <vt:foreach from="$#.subject" item="m" index="i"> <a class="mui-control-item cour-tit" sbjid="{$:m.sbj_id}" count="10">{$:m.Sbj_ByName}</a> </vt:foreach>
+            </div>
+          </div>
           <div class="cour-context"> <img class="default-img" default="images/cou_nophoto.jpg" style="display:none;"/>
             <div class="cour-list" sbjid="0"> <img src="images/load_016.gif" class="loading"/> <br/>
               <span class="loading">正在加载“{0}”...</span> </div>
           </div>
-          <!-- 隐藏侧滑菜单的层 --> 
+          <!-- 课程区结束 --> 
           
         </div>
         <line>我是有底线的</line>

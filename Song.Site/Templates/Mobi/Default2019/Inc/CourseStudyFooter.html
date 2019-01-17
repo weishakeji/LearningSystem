@@ -9,9 +9,9 @@
 </nav>
 <script type="text/javascript">
     //底部按钮平均分布
-    var footer = document.querySelector("nav.footer");
-    footer.querySelectorAll("a").forEach(function (item) {
-        item.style.width = footer.offsetWidth / footer.querySelectorAll("a").length + "px";
+    var footer = $("nav.footer");
+    footer.find("a").each(function (item) {
+        $(this).width(footer.width() / footer.find("a").size());
     });
 </script>
 <script type="text/javascript">

@@ -824,6 +824,7 @@
     <Content Include="Templates\Mobi\Default2019\Scripts\TestScene.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\TestSceneEvent.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\TestView.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\QuesExercisesGuide.js" />
     <Content Include="Templates\Mobi\Default2019\SelfCourse.htm" />
     <Content Include="Templates\Mobi\Default2019\SelfInfo.htm" />
     <Content Include="Templates\Mobi\Default2019\SelfPw.htm" />

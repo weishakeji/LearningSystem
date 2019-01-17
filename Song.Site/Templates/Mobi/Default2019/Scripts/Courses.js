@@ -168,7 +168,7 @@ function ajaxLoaddata() {
 		    var data = eval("(" + requestdata + ")");
 		    sumcount = data.sumcount;
 		    mui('#pullrefresh').pullRefresh().endPullupToRefresh((size * index >= sumcount)); //参数为true代表没有更多数据了。
-		    var table = document.body.querySelector('#context-area');
+		    var table = $('#context-area');
 		    for (var i = 0; i < data.items.length; i++) {
 		        var d = data.items[i];
 		        var li = document.createElement('li');
@@ -190,7 +190,7 @@ function ajaxLoaddata() {
 		        //----课程信息展示结束
 		        html += '</div></div>';
 		        li.innerHTML = html;
-		        table.appendChild(li);
+		        table.append(li);
 		        $(li).find("img").error(function () {
 		            var errImg = $(this).attr("default");
 		            if (errImg == null) return false;

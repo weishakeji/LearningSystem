@@ -23,7 +23,7 @@ namespace Song.Site.Ajax
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             int sum = 0;
             List<Song.Entities.Course> cour = Business.Do<ICourse>().CoursePager(org.Org_ID, sbjid, -1, true, search, order, size, index, out sum);
-            string tm = "{\"sum\":" + sum + ",\"index\":" + index + ",\"object\":[";
+            string tm = "{\"sum\":" + sum + ",\"index\":" + index + ",\"size\":" + size + ",\"sbjid\":" + sbjid + ",\"object\":[";
             for (int i = 0; i < cour.Count; i++)
             {
                 Song.Entities.Course c = cour[i];
