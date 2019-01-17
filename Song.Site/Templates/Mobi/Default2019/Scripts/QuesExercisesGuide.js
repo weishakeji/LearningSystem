@@ -37,7 +37,7 @@ var guide = {
             $(this).fadeOut(500);
         });
         window.setTimeout(function () {
-            //$("#guide-box").fadeOut(500);
-        }, 5000);
+            $("#guide-box").fadeOut(500);
+        }, 3000);
     }
 };
