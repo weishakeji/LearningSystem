@@ -34,7 +34,6 @@ body {
 	margin-right: 5px;
 	font-size: 20px;
 	margin-top: 5px;
-	color: #999;
 }
 /*返回*/
 .goback:before {
@@ -42,7 +41,6 @@ body {
 	font-family: iconfont;
 	margin-right: 5px;
 	font-size: 22px;
-	color: #999;
 	padding-top: -5px;
 }
 .context {
@@ -653,8 +651,8 @@ dl.view-pattern dd#patt3.view-selected b {
 
 /*指引*/
 #guide-box{
-	position:relative;
-	background-color:rgba(0,0,0,0.6); 
+	--position:relative;
+	--background-color:rgba(0,0,0,0.6); 
 }
 #guide-box *{
 	color:#fff;
@@ -663,29 +661,29 @@ dl.view-pattern dd#patt3.view-selected b {
 }
 #guide-box i{
 	font-family: "iconfont";
-	text-shadow: 0px 0px 20px #fff;
+	;
 }
 /*顶部*/
 #guide-box .slide-top-box{
-	margin-top:40px;
-	float:right;
-	width:160px;
-	margin-right:0px;
+	margin-top: 40px;
+	float: right;
+	width: 160px;
+	margin-right: 0px;
+	color: #F30;
 }
 #guide-box .slide-top-box i{
 	font-size:60px;
 	display:block;
 	text-align:center;	
+	color:#fff;
 }
 #guide-box .slide-top-box i{
 	font-size:60px;
 }
 /*中间，左右滑动的提示*/
 #guide-box .slide-chest-box{
-	position:absolute;
-	top:180px;
-	width:100%;
-	text-align:center;
+	
+	
 }
 #guide-box .slide-chest-box i{
 	font-size:60px;
@@ -697,17 +695,10 @@ dl.view-pattern dd#patt3.view-selected b {
 	position:absolute;
 	top:300px;
 	width:100%;
-}
-#guide-box .slide-waist-box row{
-	display:table;
-	line-height:60px;
-	width:auto;
-	margin-left:auto;
-	margin-right:auto;
-	height:80px;
+	font-size:14px;
 }
 #guide-box .slide-waist-box i{
-	font-size:60px;
+	font-size:40px;
 	margin-right:30px;
 	display:block;
 	float:left;
