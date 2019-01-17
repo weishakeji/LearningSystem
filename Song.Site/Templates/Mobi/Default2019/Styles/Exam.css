@@ -37,3 +37,30 @@
 .item{
 	line-height: 25px;
 }
+/*考试按钮所在行*/
+.btnRow{
+	position:relative;
+	height:40px;
+}
+.btnRow a{
+	line-height:20px;
+	display:block;
+	position:absolute;
+	bottom:0px;
+	color:#06C;
+}
+.btnRow a:before{
+	content: "\e6ef";
+	font-family: "iconfont";
+	margin-right: 5px;
+	font-size:16px;
+}
+.btnRow button{
+	float:right;
+}
+.btnRow button:before{
+	content: "\e68b";
+	font-family: "iconfont";
+	margin-right: 2px;
+	font-size:16px;
+}

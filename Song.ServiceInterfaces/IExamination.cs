@@ -198,6 +198,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         ExamResults ResultSingle(int exrid);
         /// <summary>
+        /// 通过学员ID与考试ID，获取成绩（最好成绩）
+        /// </summary>
+        /// <param name="accid"></param>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        ExamResults ResultSingle(int accid, int examid);
+        /// <summary>
         /// 计算当前考试结果的成绩
         /// </summary>
         /// <param name="resu"></param>
@@ -251,7 +258,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="examid"></param>
         /// <returns></returns>
-        DataTable Result4StudentSort(int examid);
+        DataTable Result4StudentSort(int examid);        
         /// <summary>
         /// 计算某个考试主题的及格率
         /// </summary>

@@ -1131,15 +1131,18 @@
     <Content Include="Templates\Mobi\Default\LearningCard.htm" />
     <Content Include="Templates\Mobi\Default\LearningCardView.htm" />
     <Content Include="Templates\Mobi\Default\QuesOften.htm" />
+    <Content Include="Templates\Mobi\_Public\ExamReview.htm" />
     <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
     <Content Include="Templates\Mobi\_Public\Images\load_023.gif" />
     <Content Include="Templates\Mobi\_Public\Images\load_027.gif" />
     <Content Include="Templates\Mobi\_Public\Images\weixin_logo.png" />
     <Content Include="Templates\Mobi\_Public\Notfound.htm" />
     <Content Include="Templates\Mobi\_Public\QQLogin.htm" />
+    <Content Include="Templates\Mobi\_Public\Scripts\ExamReview.js" />
     <Content Include="Templates\Mobi\_Public\Scripts\Loading.js" />
     <Content Include="Templates\Mobi\_Public\Scripts\QQLogin.js" />
     <Content Include="Templates\Mobi\_Public\Scripts\WeixinpubLogin.js" />
+    <Content Include="Templates\Mobi\_Public\Styles\ExamReview.css" />
     <Content Include="Templates\Mobi\_Public\Styles\QQLogin.css" />
     <Content Include="Templates\Mobi\_Public\Styles\WeixinpubLogin.css" />
     <Content Include="Templates\Mobi\_Public\WeixinpubLogin.htm" />
@@ -3243,6 +3246,10 @@
     </Compile>
     <Compile Include="Mobile\Examing.ashx.cs">
       <DependentUpon>Examing.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\ExamReview.ashx.cs">
+      <DependentUpon>ExamReview.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Mobile\PointDetails.ashx.cs">
@@ -6575,6 +6582,7 @@
     <Content Include="Ajax\Self.ashx" />
     <Content Include="Ajax\SelfCourse.ashx" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
+    <Content Include="Mobile\ExamReview.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

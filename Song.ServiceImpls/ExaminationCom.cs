@@ -237,7 +237,19 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.From<Examination>().Where(Examination._.Exam_ID == identify).ToFirst<Examination>();
         }
-
+        /// <summary>
+        /// 通过学员ID与考试ID，获取成绩（最好成绩）
+        /// </summary>
+        /// <param name="accid"></param>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public ExamResults ResultSingle(int accid, int examid)
+        {
+            WhereClip wc = new WhereClip();
+            wc.And(ExamResults._.Ac_ID == accid);
+            wc.And(ExamResults._.Exam_ID == examid);
+            return Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_Score.Desc).ToFirst<ExamResults>();
+        }
         public Examination ExamSingle(string uid)
         {
             return Gateway.Default.From<Examination>().Where(Examination._.Exam_UID == uid && Examination._.Exam_IsTheme == true).ToFirst<Examination>();
@@ -1040,7 +1052,7 @@ namespace Song.ServiceImpls
             dv.Sort = "平均分 Desc";
             DataTable dt2 = dv.ToTable();
             return dt2;
-        }
+        }        
         ///// <summary>
         ///// 统计各院系在某个考试中的平均分
         ///// </summary>

@@ -42,7 +42,8 @@
                       <vt:function var="sbj" method="getSubjectPath" args="$#.e.sbj_id"/>
                       <div class="item">专业：{$:sbj} </div>
                       <div class="item">课程：{$:paper.cou_Name}</div>
-                      <div class="itemRow" style="text-align:center">
+                      <div class="itemRow btnRow">
+                      <a href="ExamReview.ashx?examid={$:e.Exam_id}" title="{$:e.Exam_name}">查看成绩</a>
                         <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined btnStart" examid="{$:e.Exam_id}">参加考试</button>
                       </div>
                     </div>
@@ -109,7 +110,8 @@
                         <div class="itemRow">
                           <div class="item"> 课程：{$:paper.cou_Name} </div>
                         </div>
-                        <div class="itemRow" style="text-align:center">
+                        <div class="itemRow btnRow">
+                         <a href="ExamReview.ashx?examid={$:e.Exam_id}" title="{$:e.Exam_name}">查看成绩</a>
                           <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined btnStart" examid="{$:e.Exam_id}">参加考试</button>
                         </div>
                       </div>
