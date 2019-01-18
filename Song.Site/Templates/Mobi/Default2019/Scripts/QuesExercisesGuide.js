@@ -26,9 +26,12 @@ var guide = {
         box.show();
         //样式
         box.find(">div").each(function (index, element) {
-            $(this).css({ "position": "absolute", "width": "100%", "text-align": "center", "font-size": "20px", "top": (index + 1) * 160 });
-            $(this).find("i").css({ "font-family": "iconfont", "font-size": "60px", "margin": "0px 30px 0px 20px", "text-shadow": "0px 0px 20px #fff" });
+            $(this).css({ "position": "absolute", "width": "100%", "text-align": "center", "text-shadow": "0px 0px 20px #fff", 
+				"font-size": "20px", "top": (index + 1) * 160,"padding":"20px 0px"});
+            $(this).find("i").css({ "font-family": "iconfont", "font-size": "60px", "margin": "0px 30px 0px 20px",
+				"text-shadow": "0px 0px 20px #fff" });
         });
+		box.find(">div:first").css({ "background-color": "rgba(0,0,0,0.2)" });
         box.find(">div:last").css({ "font-size": "15px" }).find("i").css({ "font-size": "40px" });
         this.events(box);
     },
@@ -37,7 +40,7 @@ var guide = {
             $(this).fadeOut(500);
         });
         window.setTimeout(function () {
-            $("#guide-box").fadeOut(500);
+            //$("#guide-box").fadeOut(500);
         }, 3000);
     }
 };

@@ -36,7 +36,7 @@ namespace Song.Site.Ajax
                     if (!(c.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
                         c.Cou_IsLimitFree = false;
                 }
-                c.Cou_Intro = c.Cou_Content = "";
+                c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
                 c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
                 tm += "" + c.ToJson();
                 if (i < cour.Count - 1) tm += ",";

@@ -85,7 +85,7 @@ function default_event() {
         $.get("/ajax/courses.ashx", { size: 10, sbjid: sbjid, order: "rec" }, function (data) {
             try {
                 //throw "测试错误情况输出";
-                var d = eval("(" + data + ")");
+                var d = eval('(' + data + ')');
                 list.html("");
                 var defimg = $(".default-img").attr("default"); //默认图片
                 for (var i = 0; i < d.object.length; i++) {
@@ -151,3 +151,16 @@ function menuBox_Autoloyout() {
         maxheight = maxheight < height ? height : maxheight;
     }).height(maxheight);
 }
+
+//写着玩的
+(function(){
+	var obj={};
+	var api={
+		version:"1.1",
+		query:function(){
+			//alert(this.version);
+		}
+	};
+	window.$api=api;
+})();
+$api.query();
