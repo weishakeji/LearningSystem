@@ -34,7 +34,6 @@ namespace Song.Site.Mobile
                 if (result != null) exrid = result.Exr_ID;
             }
 
-            //Song.Entities.ExamResults result = Business.Do<IExamination>().ResultSingle(exrid);
             if (result == null) return;
             Song.Entities.Examination exam = Business.Do<IExamination>().ExamSingle(result.Exam_ID);
             if (exam == null) return;

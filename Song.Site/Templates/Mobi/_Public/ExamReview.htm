@@ -10,7 +10,7 @@
 <body>
 <vt:if var="result" value="" compare="=">
   <div class="noinfo" > 没有该成绩，无法回顾。 <br/><br/>
-    可能情况：<br/>未参加考试；<br/>考试未到结束时间；<br/>考试已经被清除。 </div>
+    <dl><dt>可能情况：</dt><dd>1.未参加考试</dd><dd>2.考试未到结束时间</dd><dd>3.考试已经被清除</dd></dl> </div>
   <vt:else/>
   <div class="pagerTitle">《{$result.Exam_Title}-({$result.Exam_Name})》考试结果！</div>
   <vt:if var="isOver" value="true" compare="="> 
