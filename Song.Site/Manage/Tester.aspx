@@ -20,7 +20,15 @@
 </head>
 <body>
     <script type="text/javascript">
-
+        alert(3);
+        $.ajax({
+            type: "xxx",
+            url: window.location.href,
+            dataType: "script",
+            success: function (msg) {
+                alert("Data Saved: " + msg);
+            }
+        });
     </script>
 </body>
 </html>
