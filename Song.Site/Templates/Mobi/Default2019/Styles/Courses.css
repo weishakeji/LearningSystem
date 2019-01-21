@@ -361,7 +361,7 @@ ques:before {
 	z-index:1000;
 	width:100%;
 	display:none;
-	font-size:14px;	
+	font-size:16px;	
 }
 .sbj-panel .sbj-area{
 	display: none;
@@ -384,7 +384,7 @@ ques:before {
 .sbj-panel sbj-tit{
 	display: block;
 	line-height: 25px;
-	font-size:13px;
+	font-size:16px;
 	padding: 5px 10px;
 	position:relative;	
 }
@@ -426,7 +426,7 @@ ques:before {
 }
 .sbj-panel  .sbj-area .sbj-two-name{
 	line-height: 25px;
-	font-size: 13px;
+	font-size: 16px;
 	padding: 5px 10px;
 	margin-left:20px;
 	border-bottom-width: 1px;
@@ -443,7 +443,7 @@ ques:before {
 }
 .sbj-panel  .sbj-area .sbj-child{
 	line-height: 25px;
-	font-size: 13px;
+	font-size: 15px;
 	margin-left:20px;
 	border-bottom-width: 1px;
 	border-bottom-style: dashed;

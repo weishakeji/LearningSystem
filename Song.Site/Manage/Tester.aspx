@@ -20,15 +20,25 @@
 </head>
 <body>
     <script type="text/javascript">
-        alert(3);
-        $.ajax({
-            type: "xxx",
-            url: window.location.href,
-            dataType: "script",
-            success: function (msg) {
-                alert("Data Saved: " + msg);
+        //写着玩的
+        (function () {
+            var vers = ["", "1", "2"];
+            var obj = function (version) {
+                this.version = version == null ? "1.1" : version;
+                this.query = function () {
+                    //alert(this.version);
+                }
+            };
+            for (var v in vers) {
+                var str = vers[v] == "" ?
+             "window.$api = new obj();" :
+             "window.$api.v" + vers[v] + "= new obj('" + vers[v] + "')";
+                eval(str);
             }
-        });
+        })();
+        $api.query();
+        $api.v1.query();
+        $api.v2.query();
     </script>
 </body>
 </html>

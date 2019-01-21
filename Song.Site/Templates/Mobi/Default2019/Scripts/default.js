@@ -115,7 +115,7 @@ function default_event() {
                         if (errImg == null) return false;
                         $(this).attr("src", errImg);
                     });
-					list.append("<a class='list-more' type='link' href='courses.ashx?sbjids="+d.sbjid+"'>更多课程点这里...</a>");
+                    list.append("<a class='list-more' type='link' href='courses.ashx?sbjids=" + d.sbjid + "'>更多课程点这里...</a>");
                 }
                 if (d.object.length <= 0) {
                     $(".cour-list[sbjid=" + sbjid + "]").html("<null>当前分类没有课程信息！</null>");
@@ -152,15 +152,3 @@ function menuBox_Autoloyout() {
     }).height(maxheight);
 }
 
-//写着玩的
-(function(){
-	var obj={};
-	var api={
-		version:"1.1",
-		query:function(){
-			//alert(this.version);
-		}
-	};
-	window.$api=api;
-})();
-$api.query();
