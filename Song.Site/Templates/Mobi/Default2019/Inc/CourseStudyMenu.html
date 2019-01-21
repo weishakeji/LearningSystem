@@ -87,6 +87,12 @@
     mui('body').on('tap', '#offCanvasSide a', function () {
         document.location.href = this.href;
     });
+    //图片加载错误时，显示默认图片
+    $("#offCanvasSide img").error(function () {
+        var errImg = $(this).attr("default");
+        if (errImg == null) return false;
+        $(this).attr("src", errImg);
+    });
 	//计算章节序号（树形排序）
     $(".outline").each(function () {
         var xpath = $(this).attr("xpath");

@@ -43,7 +43,7 @@ var isLogin="{$#.Account.Ac_id}"!="";
               <div class="rowlogo">
                 <vt:if var="#.data.Tp_Logo" value="" compare="="><span class="ico">&#xe68b;</span>
                   <vt:else />
-                  <img src="{$:#.data.Tp_Logo}"/> <span class="ico" style="display:none;">&#xe801;</span> </vt:if>
+                  <img src="{$:#.data.Tp_Logo}"/> <span class="ico" style="display:none;">&#xe68b;</span> </vt:if>
               </div>
               <!--标题 -->
               <div class="rowtxt">
@@ -69,6 +69,20 @@ var isLogin="{$#.Account.Ac_id}"!="";
 
 </div>
 
-<vt:include file="inc/footer.html" />
+<!--底部导航菜单-->
+<nav class="mui-bar mui-bar-tab footer">
+<a class="foot-video" href="CourseStudy.ashx?couid={$couid}" type="link"> <b class="mitem"></b><span>视频学习</span></a>
+<a class="foot-ques" href="QuesOutlines.ashx?couid={$couid}" type="link"> <b class="mitem"></b><span>试题练习</span></a>
+<a class="foot-knl" href="Knowledges.ashx?couid={$couid}" type="link"> <b class="mitem"></b><span>知识库</span></a>
+<a class="foot-course" href="CoursePage.ashx?couid={$couid}" type="link"> <b class="mitem"></b><span>返回课程</span></a>
+<!--<a class="foot-home" href="/mobile/default.ashx" type="link" target="_blank"> <b class="mitem"></b><span>返回首页</span></a>  -->
+</nav>
+<script type="text/javascript">
+    //底部按钮平均分布
+    var footer = $("nav.footer");
+    $("nav.footer a").each(function (item) {
+        $(this).width(footer.width() / footer.find("a").size());
+    });
+</script>
 </body>
 </html>

@@ -263,3 +263,35 @@ a.noselect{
 	white-space: nowrap;
 	width: 65%;
 }
+
+/*+++++底部图标*/
+.footer span{
+	height:15px !important;
+	display:block;
+	width:100%;
+}
+.footer b{
+	height:20px !important;
+	display:block;
+	width:100% !important;
+}
+.footer b:before{
+	display:block;
+}
+.footer a.foot-test b:before {
+	content: "\e600";
+}
+.footer a.foot-video b:before {
+	content: "\e615";
+}
+
+.footer a.foot-ques b:before {
+	content: "\e621";
+	font-size: 23px;
+}
+.footer a.foot-course b:before {
+	content: "\e60b";
+}
+.footer a.foot-home b:before {
+	font-size: 22px;
+}

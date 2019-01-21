@@ -17,6 +17,7 @@
       <!--主界面,头部视频部分-->
       <header class="video-box" style="z-index:2">
       <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left back" type="link" href="CoursePage.ashx?couid={$course.cou_id}"></a>
+      <a class="home" href="default.ashx" type="link"></a>
         <vt:if var="canStudy" value="true" compare="=" remark="如果可以学习">
           <vt:if var="video.As_FileName" value="" compare="!=">
             <vt:if var="video.As_IsOther" value="true" compare="=">

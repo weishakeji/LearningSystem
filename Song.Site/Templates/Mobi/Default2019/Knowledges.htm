@@ -62,7 +62,11 @@
             });
         });
     }
-	
+    $("#offCanvasSide img").error(function () {
+        var errImg = $(this).attr("default");
+        if (errImg == null) return false;
+        $(this).attr("src", errImg);
+    });
     //左侧滑菜单的链接事件
     mui('body').on('tap', '#offCanvasSide a', function () {
         var type = this.getAttribute("type");

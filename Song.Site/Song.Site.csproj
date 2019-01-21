@@ -745,6 +745,7 @@
     <Content Include="Templates\Mobi\Default2019\Inc\CourseStudyFooter.html" />
     <Content Include="Templates\Mobi\Default2019\Inc\CourseStudyMenu.html" />
     <Content Include="Templates\Mobi\Default2019\Inc\KnowledgesFooter.html" />
+    <Content Include="Templates\Mobi\Default2019\Inc\QuesFooter.html" />
     <Content Include="Templates\Mobi\Default2019\Knowledge.htm" />
     <Content Include="Templates\Mobi\Default2019\Knowledges.htm" />
     <Content Include="Templates\Mobi\Default2019\LearningCard.htm" />
