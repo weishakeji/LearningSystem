@@ -2450,6 +2450,9 @@
     <Compile Include="Ajax\Copyright.ashx.cs">
       <DependentUpon>Copyright.ashx</DependentUpon>
     </Compile>
+    <Compile Include="Ajax\SelfStudyLog.ashx.cs">
+      <DependentUpon>SelfStudyLog.ashx</DependentUpon>
+    </Compile>
     <Compile Include="API\SSO.ashx.cs">
       <DependentUpon>SSO.ashx</DependentUpon>
     </Compile>
@@ -6582,6 +6585,7 @@
     <Content Include="API\SSO.ashx" />
     <Content Include="Ajax\Self.ashx" />
     <Content Include="Ajax\SelfCourse.ashx" />
+    <Content Include="Ajax\SelfStudyLog.ashx" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <Content Include="Mobile\ExamReview.ashx" />
     <None Include="Properties\Settings.settings">

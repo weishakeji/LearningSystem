@@ -64,7 +64,7 @@ namespace Song.Site.Ajax
                     if (!(c.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
                         c.Cou_IsLimitFree = false;
                 }
-                c.Cou_Intro = c.Cou_Content = "";
+                c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
                 c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
                 //增加输出项
                 Dictionary<string, object> addParas = new Dictionary<string, object>();

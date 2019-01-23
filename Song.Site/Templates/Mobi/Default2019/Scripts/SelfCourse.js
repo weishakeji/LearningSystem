@@ -24,7 +24,9 @@ function cour_tab() {
         //异步加载课程
         cour_tab_post(action, "");
     });
-    mui.trigger(document.querySelector('.current'), 'tap');
+	mui.trigger(document.querySelector('.cour-bar .cour-tit[action=overcou]'), 'tap');
+	mui.trigger(document.querySelector('.cour-bar .cour-tit[action=buycou]'), 'tap');
+    //mui.trigger(document.querySelector('.current'), 'tap');
 
 }
 //异步取课程
@@ -50,6 +52,8 @@ function cour_tab_post(action, sear) {
 				//显示课程数量
 				var tit=$(".cour-bar .cour-tit[action="+d.action+"]");
 				tit.html(tit.attr("title")+"("+d.object.length+")");
+				//加载学习进度
+				getStudyLog();
 			}
         }
         catch (err) {
@@ -61,12 +65,13 @@ function cour_tab_post(action, sear) {
 function buildCourse(cour) {
     var defimg = $(".default-img").attr("default"); //默认图片
 	var html = "<div class=\"cour-box\" couid=\""+cour.Cou_ID+"\">";
-    html += "<picture>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/></picture><info>{name}{number}{sbjname}<price>{price}</price></info>";
+    html += "<picture>{rec}{free}{limitfree}{complete}<img src='{logo}' default='{defimg}'/></picture><info>{name}{number}{sbjname}<price>{price}</price></info>";
     html = html.rep("{logo}", cour.Cou_LogoSmall);
     html = html.replace("{name}", "<name>" + cour.Cou_Name + "</name>").replace("{sbjname}", "<sbjname>" + cour.Sbj_Name + "</sbjname>");
     html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
     html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
     html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
+	html = html.replace("{complete}", "<complete></complete>");
     html = html.replace("{limitfree}", (cour.Cou_IsLimitFree ? "<limitfree></limitfree>" : ""));
 	//浏览数、章节数、试题数
 	var numstr='<view>' + cour.Cou_ViewNum + '</view><outline>' + cour.olcount + '</outline><ques>' + cour.quscount + '</ques>';
@@ -86,4 +91,20 @@ function buildCourse(cour) {
     html = html.replace("{price}", price);
 	html+="</div>";
     return html;
+}
+//加载学习进度
+function getStudyLog(){
+	var acid=$("body").attr("accid");
+	//alert(acid);
+	 $.get("/ajax/SelfStudyLog.ashx?id="+acid, { id:acid }, function (data) {
+		 var obj=eval("("+data+")");
+		 for(var i in obj){
+			 var cou=obj[i];
+			 var box=$(".cour-box[couid="+cou.Cou_ID+"]");
+			 if(Number(cou.complete)>0){
+			 	box.find("complete").attr("class","complete").text("完成学习 "+cou.complete+"%");
+			 }
+		 }
+		 //alert(decodeURIComponent(obj[0].Cou_Name));
+	 });
 }
