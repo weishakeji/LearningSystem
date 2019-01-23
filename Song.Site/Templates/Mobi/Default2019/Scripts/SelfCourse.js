@@ -18,6 +18,7 @@ function cour_tab() {
         $(".cour-context .cour-list").hide();
         $(".cour-context").hide();
         var context = $(".cour-context[action=" + action + "]").show();
+		if(context.find(".cour-box").size()>0)return;
         //添加预载
         context.html($(".cour-area>.loading")[0].outerHTML.replace("{0}", title));
         var loading = context.find(".loading").show();
