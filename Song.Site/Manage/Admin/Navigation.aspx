@@ -1,5 +1,5 @@
-<%@ Page Language="C#" MasterPageFile="~/Manage/ManagePage.Master" AutoEventWireup="true"
-    Codebehind="Navigation.aspx.cs" Inherits="Song.Site.Manage.Admin.Navigation" Title="нч╠ЙлБрЁ" %>
+О╩©<%@ Page Language="C#" MasterPageFile="~/Manage/ManagePage.Master" AutoEventWireup="true"
+    Codebehind="Navigation.aspx.cs" Inherits="Song.Site.Manage.Admin.Navigation" Title="Ф≈═Ф═┤И╒≤И║╣" %>
 
 <%@ Register Src="../Utility/toolsBar.ascx" TagName="toolsBar" TagPrefix="uc1" %>
 <%@ Register Src="../Utility/Pager.ascx" TagName="Pager" TagPrefix="uc2" %>
@@ -12,30 +12,30 @@
             <asp:RadioButtonList ID="rblType" runat="server" AutoPostBack="True" 
                 onselectedindexchanged="rblType_SelectedIndexChanged" 
                 RepeatDirection="Horizontal" RepeatLayout="Flow">
-                <asp:ListItem Selected="True" Value="main">жВ╣╪╨╫╡к╣╔</asp:ListItem>
-                <asp:ListItem Value="foot">╣в╡©╣╪╨╫</asp:ListItem>
+                <asp:ListItem Selected="True" Value="main">Д╦╩Е╞╪Х┬╙Х▐°Е█∙</asp:ListItem>
+                <asp:ListItem Value="foot">Е╨∙И┐╗Е╞╪Х┬╙</asp:ListItem>
             </asp:RadioButtonList>
         </div>
     </div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
         ShowSelectBox="True">
         <EmptyDataTemplate>
-            ╣╠г╟╩З╧╧ц╩сп╢╢╫╗йж╩З╤к╣╪╨╫╡к╣╔║ё
+            Е╫⌠Е┴█Ф°╨Ф·└Ф╡║Ф°┴Е┬⌡Е╩╨Ф┴▀Ф°╨Г╚╞Е╞╪Х┬╙Х▐°Е█∙Ц─┌
         </EmptyDataTemplate>
         <Columns>
-            <asp:TemplateField HeaderText="╡ывВ">
+            <asp:TemplateField HeaderText="Ф⌠█Д╫°">
                 <itemtemplate>
 <cc1:RowDelete id="btnDel" onclick="btnDel_Click" runat="server"></cc1:RowDelete> 
 <cc1:RowEdit id="btnEdit" runat="server" ></cc1:RowEdit> 
 </itemtemplate>
                 <itemstyle cssclass="center" width="44px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="рф╤╞">
+            <asp:TemplateField HeaderText="Г╖╩Е┼╗">
                 <itemstyle cssclass="center" />
                 <headerstyle width="80px" />
                 <itemtemplate>
-<asp:LinkButton id="lbUp" onclick="lbUp_Click" runat="server"  Enabled='<%# Container.DataItemIndex!=0 %>'>иорф</asp:LinkButton> 
-<asp:LinkButton id="lbDown" onclick="lbDown_Click" runat="server"  Enabled='<%# Container.DataItemIndex+1< ((System.Data.DataTable)GridView1.DataSource).Rows.Count %>'>обрф</asp:LinkButton>
+<asp:LinkButton id="lbUp" onclick="lbUp_Click" runat="server"  Enabled='<%# Container.DataItemIndex!=0 %>'>Д╦┼Г╖╩</asp:LinkButton> 
+<asp:LinkButton id="lbDown" onclick="lbDown_Click" runat="server"  Enabled='<%# Container.DataItemIndex+1< ((System.Data.DataTable)GridView1.DataSource).Rows.Count %>'>Д╦▀Г╖╩</asp:LinkButton>
 
 </itemtemplate>
             </asp:TemplateField>
@@ -46,14 +46,14 @@
 <%# Eval("Nav_ID")%>
 </itemtemplate>
             </asp:TemplateField>--%>
-            <asp:TemplateField HeaderText="еепР">
+            <asp:TemplateField HeaderText="Ф▌▓Е╨▐">
                 <itemstyle cssclass="center" width="40px" />
                 <itemtemplate>
               
 <%# Eval("Nav_Tax")%>
 </itemtemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="╣╪╨╫цШЁф">
+            <asp:TemplateField HeaderText="Е╞╪Х┬╙Е░█Г╖╟">
                 <itemstyle cssclass="left"  />
                 <itemtemplate>
                <span class="treeIco"><%# Eval("Tree")%></span> 
@@ -61,7 +61,7 @@
 <span style="color:<%# Eval("Nav_Color")%>;<%# Convert.ToBoolean(Eval("Nav_IsBold")) ? "font-weight:bold;" : ""%>font-family:<%# Eval("Nav_Font","{0}")%>" title="<%# Eval("Nav_Title")%>"><%# Eval("Nav_Name")%></span>
 </itemtemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="а╢╫с">
+            <asp:TemplateField HeaderText="И⌠╬Ф▌╔">
                 <itemstyle cssclass="left"/>
                 <itemtemplate>
               
@@ -70,10 +70,10 @@
             </asp:TemplateField>
             
             
-            <asp:TemplateField HeaderText="отй╬">
+            <asp:TemplateField HeaderText="Ф≤╬Г╓╨">
                 <itemstyle cssclass="center" width="60px" />
                 <itemtemplate>
-<cc1:StateButton id="sbShow" onclick="sbShow_Click" runat="server" TrueText="отй╬" FalseText="рЧ╡ь" State='<%# Eval("Nav_IsShow","{0}")=="True"%>'></cc1:StateButton> 
+<cc1:StateButton id="sbShow" onclick="sbShow_Click" runat="server" TrueText="Ф≤╬Г╓╨" FalseText="И ░Х≈▐" State='<%# Eval("Nav_IsShow","{0}")=="True"%>'></cc1:StateButton> 
 </itemtemplate>
             </asp:TemplateField>
         </Columns>
