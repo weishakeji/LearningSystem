@@ -8,128 +8,125 @@
 <meta charset="utf-8">
 </head>
 <body>
-<div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable"> 
-  <!--侧滑菜单部分-->
-  <vt:include file="inc/Menu.html" />
-  <!--主界面部分-->
-  <div class="mui-inner-wrap">    
-    <div class="mui-content mui-scroll-wrapper" id="offCanvasContentScroll">
-      <div class="mui-scroll">
-        <vt:if var="todayExam.Count" value="0" compare=">"> 
-          <!--我的考试-->
-          <div class="mui-card"> 
-            <!--页眉，放置标题-->
-            <div class="mui-card-header"><span class="examtitle myexam">我的考试</span></div>
-            <!--内容区-->
-            <div class="mui-card-content">
-              <vt:foreach from="$#.todayExam" item="e" index="tax">
-                <vt:function var="paper" method="getTestPaper" args="$#.e.Tp_Id"/>
-                <ul class="mui-table-view">
-                  <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#">（{$tax}）.《{$:e.Exam_name}》</a>
-                    <div class="mui-collapse-content">
-                      <div class="item">时间：
-                        <vt:if var="e.Exam_DateType" value="1" compare="="> 
-                          <!--准时开始--> 
-                          {$:e.Exam_Date  format="yyyy-M-dd hh:mm"} （准时开始）
-                          <vt:else />
-                          <!--区间时间--> 
-                          {$:e.Exam_Date  format="yyyy-M-dd hh:mm"} 到 
-                          {$:e.Exam_DateOver  format="yyyy-M-dd hh:mm"} 之间考试 </vt:if>
-                      </div>
-                      <div class="item">限时：{$:e.Exam_Span}分钟 </div>
-                      <div class="item">题量：{$:paper.Tp_count}道</div>
-                      <div class="item">总分：{$:e.exam_total}分（{$:paper.Tp_PassScore}分及格）</div>
-                      <vt:function var="sbj" method="getSubjectPath" args="$#.e.sbj_id"/>
-                      <div class="item">专业：{$:sbj} </div>
-                      <div class="item">课程：{$:paper.cou_Name}</div>
-                      <div class="itemRow btnRow">
-                      <a href="ExamReview.ashx?examid={$:e.Exam_id}" title="{$:e.Exam_name}">查看成绩</a>
-                        <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined btnStart" examid="{$:e.Exam_id}">参加考试</button>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </vt:foreach>
-            </div>
-          </div>
-        </vt:if>
-        <!--所有考试 -->
-        <vt:if var="Exams.Length" value="0" compare=">">
-          <ul class="mui-table-view">
-            <li class="mui-table-view-cell"><span class="examtitle allexam">所有考试</span> </li>
-          </ul>
-          <vt:foreach id="exams" from="$#.Exams" item="data" index="i" size="4" remark="考试主题列表">
+<div class="header">
+  <div class="accPhoto">
+    <vt:if var="Account.Ac_photo" value="" compare="="> <img src="images/nophoto.jpg"/>
+      <vt:else/>
+      <a class="" href="SelfInfo.ashx" type="link"> <img src="{$stpath}{$:#.Account.Ac_photo}" default="../images/nophoto.jpg"/></a> </vt:if>
+  </div>
+  <div class="accname">{$Account.Ac_Name}</div>
+  <div class="menu-box">
+  <div class="my-exam">我的考试</div>
+  <div class="all-exam">所有考试</div>
+  <div class="score-exam">成绩查看</div>
+  </div>
+</div>
+<div class="mui-content">
+  <div class="mui-scroll">
+    <vt:if var="todayExam.Count" value="0" compare=">"> 
+      <!--我的考试-->
+      <div class="mui-card"> 
+        <!--页眉，放置标题-->
+        <div class="mui-card-header"><span class="examtitle myexam">我的考试</span></div>
+        <!--内容区-->
+        <div class="mui-card-content">
+          <vt:foreach from="$#.todayExam" item="e" index="tax">
             <vt:function var="paper" method="getTestPaper" args="$#.e.Tp_Id"/>
-            <div class="mui-card"> 
-              <!--页眉，放置考试主题-->
-              <div class="mui-card-header"> 
-                <!--序号 --> 
-                <span class="examtheme">
-                <vt:expression var="tax" expression="({0}-1)*{1}+{2}" args="$pageIndex" args="$pageSize" args="$i"/>
-                <vt:if var="#.tax" value="2" compare="<="> <img src="images/{$tax}.png"/>
-                  <vt:else />
-                  {$tax} </vt:if>
-                《 {$:#.data.Exam_Title} 》</span></div>
-              <ul class="mui-table-view">
-                <vt:if var="#.data.exam_intro" value="" compare="!=">
-                 <li class="mui-table-view-cell mui-collapse">
-            <a class="mui-navigate-right" href="#">简介：{$:#.data.exam_intro}</a>
-            <div class="mui-collapse-content">
-                {$:#.data.exam_intro}
-            </div>
-        </li>
-                 
-                 
-                </vt:if>
-                <vt:function var="group" method="getGroupType" args="$#.data.exam_grouptype" args="$#.data.exam_uid"/>
-                <li class="mui-table-view-cell">参考人员：{$:#.group}</li>
-                <vt:function var="exam" method="setExamItem" args="$#.data.exam_uid" remark="当前考试主题下的考试场次"/>
-                <vt:foreach from="$#.exam" item="e" index="j">
-                  <vt:function var="paper" method="getTestPaper" args="$#.e.Tp_Id"/>
-                  <ul class="mui-table-view">
-                    <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"> 第（{$:j}）场
-                      《{$:e.Exam_name}》</a>
-                      <div class="mui-collapse-content">
-                        <div class="item">试卷：{$:e.Exam_name}</div>
-                        <div class="item">时间：
-                          <vt:if var="e.Exam_DateType" value="1" compare="="> 
-                            <!--准时开始--> 
-                            {$:e.Exam_Date  format="yyyy-M-dd hh:mm"} （准时开始）
-                            <vt:else />
-                            <!--区间时间--> 
-                            {$:e.Exam_Date  format="yyyy-M-dd hh:mm"} 到 
-                            {$:e.Exam_DateOver  format="yyyy-M-dd hh:mm"} 之间考试 </vt:if>
-                        </div>
-                        <div class="item">限时：{$:e.Exam_Span}分钟</div>
-                        <div class="item">题量：{$:paper.Tp_count}道题</div>
-                        <div class="item">总分：{$:e.exam_total}分（{$:paper.Tp_PassScore}分及格）</div>
-                        <div class="itemRow">
-                          <vt:function var="sbj" method="getSubjectPath" args="$#.e.sbj_id"/>
-                          <div class="item"> 专业：{$:sbj} </div>
-                        </div>
-                        <div class="itemRow">
-                          <div class="item"> 课程：{$:paper.cou_Name} </div>
-                        </div>
-                        <div class="itemRow btnRow">
-                         <a href="ExamReview.ashx?examid={$:e.Exam_id}" title="{$:e.Exam_name}">查看成绩</a>
-                          <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined btnStart" examid="{$:e.Exam_id}">参加考试</button>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </vt:foreach>
-              </ul>
-            </div>
+            <ul class="mui-table-view">
+              <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#">（{$tax}）.《{$:e.Exam_name}》</a>
+                <div class="mui-collapse-content">
+                  <div class="item">时间：
+                    <vt:if var="e.Exam_DateType" value="1" compare="="> 
+                      <!--准时开始--> 
+                      {$:e.Exam_Date  format="yyyy-M-dd hh:mm"} （准时开始）
+                      <vt:else />
+                      <!--区间时间--> 
+                      {$:e.Exam_Date  format="yyyy-M-dd hh:mm"} 到 
+                      {$:e.Exam_DateOver  format="yyyy-M-dd hh:mm"} 之间考试 </vt:if>
+                  </div>
+                  <div class="item">限时：{$:e.Exam_Span}分钟 </div>
+                  <div class="item">题量：{$:paper.Tp_count}道</div>
+                  <div class="item">总分：{$:e.exam_total}分（{$:paper.Tp_PassScore}分及格）</div>
+                  <vt:function var="sbj" method="getSubjectPath" args="$#.e.sbj_id"/>
+                  <div class="item">专业：{$:sbj} </div>
+                  <div class="item">课程：{$:paper.cou_Name}</div>
+                  <div class="itemRow btnRow"> <a href="ExamReview.ashx?examid={$:e.Exam_id}" title="{$:e.Exam_name}">查看成绩</a>
+                    <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined btnStart" examid="{$:e.Exam_id}">参加考试</button>
+                  </div>
+                </div>
+              </li>
+            </ul>
           </vt:foreach>
-          <vt:else />
-          <ul class="mui-table-view">
-            <li class="mui-table-view-cell">没有考试！ </li>
-          </ul>
-        </vt:if>
+        </div>
       </div>
-    </div>
-    <!-- 隐藏侧滑菜单的层 -->
-    <div class="mui-off-canvas-backdrop"></div>
+    </vt:if>
+    <!--所有考试 -->
+    <vt:if var="Exams.Length" value="0" compare=">">
+      <ul class="mui-table-view">
+        <li class="mui-table-view-cell"><span class="examtitle allexam">所有考试</span> </li>
+      </ul>
+      <vt:foreach id="exams" from="$#.Exams" item="data" index="i" size="4" remark="考试主题列表">
+        <vt:function var="paper" method="getTestPaper" args="$#.e.Tp_Id"/>
+        <div class="mui-card"> 
+          <!--页眉，放置考试主题-->
+          <div class="mui-card-header"> 
+            <!--序号 --> 
+            <span class="examtheme">
+            <vt:expression var="tax" expression="({0}-1)*{1}+{2}" args="$pageIndex" args="$pageSize" args="$i"/>
+            <vt:if var="#.tax" value="2" compare="<="> <img src="images/{$tax}.png"/>
+              <vt:else />
+              {$tax} </vt:if>
+            《 {$:#.data.Exam_Title} 》</span></div>
+          <ul class="mui-table-view">
+            <vt:if var="#.data.exam_intro" value="" compare="!=">
+              <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#">简介：{$:#.data.exam_intro}</a>
+                <div class="mui-collapse-content"> {$:#.data.exam_intro} </div>
+              </li>
+            </vt:if>
+            <vt:function var="group" method="getGroupType" args="$#.data.exam_grouptype" args="$#.data.exam_uid"/>
+            <li class="mui-table-view-cell">参考人员：{$:#.group}</li>
+            <vt:function var="exam" method="setExamItem" args="$#.data.exam_uid" remark="当前考试主题下的考试场次"/>
+            <vt:foreach from="$#.exam" item="e" index="j">
+              <vt:function var="paper" method="getTestPaper" args="$#.e.Tp_Id"/>
+              <ul class="mui-table-view">
+                <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"> 第（{$:j}）场
+                  《{$:e.Exam_name}》</a>
+                  <div class="mui-collapse-content">
+                    <div class="item">试卷：{$:e.Exam_name}</div>
+                    <div class="item">时间：
+                      <vt:if var="e.Exam_DateType" value="1" compare="="> 
+                        <!--准时开始--> 
+                        {$:e.Exam_Date  format="yyyy-M-dd hh:mm"} （准时开始）
+                        <vt:else />
+                        <!--区间时间--> 
+                        {$:e.Exam_Date  format="yyyy-M-dd hh:mm"} 到 
+                        {$:e.Exam_DateOver  format="yyyy-M-dd hh:mm"} 之间考试 </vt:if>
+                    </div>
+                    <div class="item">限时：{$:e.Exam_Span}分钟</div>
+                    <div class="item">题量：{$:paper.Tp_count}道题</div>
+                    <div class="item">总分：{$:e.exam_total}分（{$:paper.Tp_PassScore}分及格）</div>
+                    <div class="itemRow">
+                      <vt:function var="sbj" method="getSubjectPath" args="$#.e.sbj_id"/>
+                      <div class="item"> 专业：{$:sbj} </div>
+                    </div>
+                    <div class="itemRow">
+                      <div class="item"> 课程：{$:paper.cou_Name} </div>
+                    </div>
+                    <div class="itemRow btnRow"> <a href="ExamReview.ashx?examid={$:e.Exam_id}" title="{$:e.Exam_name}">查看成绩</a>
+                      <button type="button" class="mui-btn mui-btn-primary mui-btn-outlined btnStart" examid="{$:e.Exam_id}">参加考试</button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </vt:foreach>
+          </ul>
+        </div>
+      </vt:foreach>
+      <vt:else />
+      <ul class="mui-table-view">
+        <li class="mui-table-view-cell">没有考试！ </li>
+      </ul>
+    </vt:if>
   </div>
 </div>
 <vt:include file="inc/footer.html" />
