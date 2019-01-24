@@ -7,7 +7,9 @@
 <script type="text/javascript" src="Scripts/SelfCourse.js?ver={$version}"></script>
 <link href="Styles/SelfCourse.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
-<body accid="{$Account.ac_id}"><div class="header-top"> <a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe646;</a>
+<body accid="{$Account.ac_id}">
+<vt:function var="path" method="Path" args="Course"/>
+<div class="header-top"> <a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe646;</a>
     <form action="courses.ashx" method="get" id="formSearch">
       <input name="sear" type="search" id="tbSearch" class="sear" placeholder="搜索">
     </form>
@@ -15,11 +17,21 @@
 <div class="header">
   
   <div class="accPhoto">
-    <vt:if var="Account.Ac_photo" value="" compare="="> <img src="../images/nophoto.jpg"/>
+    <vt:if var="Account.Ac_photo" value="" compare="="> <img src="images/nophoto.jpg"/>
       <vt:else/>
       <a class="" href="SelfInfo.ashx" type="link"> <img src="{$stpath}{$:#.Account.Ac_photo}" default="../images/nophoto.jpg"/></a> </vt:if>
   </div>
-  <a class="recharge" href="Recharge.ashx" type="link">充值 </a> <a class="money" href="Recharge.ashx" type="link">{$:#.Account.Ac_money format="0.00"} </a> <a class="coupon"  href="CouponExchange.ashx" type="link">券{$:#.Account.Ac_Coupon}个</a> 
+   <vt:if var="Account.Ac_id" value="" compare="!=">
+   <a class="recharge" href="Recharge.ashx" type="link">充值 </a> 
+    </vt:if>
+  <vt:if var="Account.Ac_id" value="" compare="!=">
+  <a class="money" href="Recharge.ashx" type="link">{$:#.Account.Ac_money format="0.00"} </a> 
+   <vt:else/>
+   <a class="login" href="login.ashx" type="link">未登录 </a> 
+   </vt:if>
+   <vt:if var="Account.Ac_id" value="" compare="!=">
+  <a class="coupon"  href="CouponExchange.ashx" type="link">券{$:#.Account.Ac_Coupon}个</a> 
+  </vt:if>
   <!--当前课程-->
   <div class="curr-course">
     <vt:if var="#.currCou.cou_id" value="0" compare=">">

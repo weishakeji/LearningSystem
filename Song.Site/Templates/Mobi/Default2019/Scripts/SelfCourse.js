@@ -17,8 +17,14 @@ function cour_tab() {
         $(this).addClass("current");
         $(".cour-context .cour-list").hide();
         $(".cour-context").hide();
+		//如果没有登录
+		var acid=$("body").attr("accid");
+		if(acid=="" || Number(acid)<1){
+			$(".cour-context").html("<a class='nocour-box' href='login.ashx' type='link'>未登录</a>");
+		}
+		//如果已经加载过，则不再加载
         var context = $(".cour-context[action=" + action + "]").show();
-		if(context.find(".cour-box").size()>0)return;
+		if(context.find(".cour-box,.nocour-box").size()>0)return;
         //添加预载
         context.html($(".cour-area>.loading")[0].outerHTML.replace("{0}", title));
         var loading = context.find(".loading").show();

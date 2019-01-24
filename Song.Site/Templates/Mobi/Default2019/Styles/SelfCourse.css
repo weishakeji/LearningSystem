@@ -100,6 +100,20 @@ html, body {
 .header .money:after {
 	content: "元";
 }
+/*登录*/
+.header .login {
+	color: #fff;
+	position: absolute;
+	top: 125px;
+	left: 70%;
+	display: block;
+	height: 22px;
+	padding: 0px 6px;
+	color: #fff;
+	border-radius: 100px;
+	background-color: rgba(255,102,0,0.61);
+	box-shadow: 0 0 25px rgba(255,255,255,1);
+}
 /*卡券数量*/
 .header .coupon {
 	color: #fff;
@@ -206,6 +220,11 @@ html, body {
 	overflow: hidden;
 	padding-left: 5px;
 	padding-top: 5px;
+}
+/*没有登录，所以没有课程*/
+.nocour-box{
+	display:block;
+	line-height:50px;
 }
 .cour-box picture {
 	display: block;
