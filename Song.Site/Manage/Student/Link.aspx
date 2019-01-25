@@ -13,7 +13,7 @@
                 电话：
             </td>
             <td>
-                <asp:TextBox ID="Ac_Phone" runat="server" datatype="tel"></asp:TextBox>&nbsp;<asp:CheckBox
+                <asp:TextBox ID="Ac_Tel" runat="server" datatype="tel"></asp:TextBox>&nbsp;<asp:CheckBox
                     ID="Ac_IsOpenPhone" runat="server" Text="公开" />
             </td>
         </tr>
@@ -22,7 +22,7 @@
                 移动电话：
             </td>
             <td>
-                <asp:TextBox ID="Ac_PhoneMobi" runat="server" datatype="mobile"></asp:TextBox>&nbsp;<asp:CheckBox
+                <asp:TextBox ID="Ac_MobiTel1" runat="server" datatype="mobile"></asp:TextBox>&nbsp;<asp:CheckBox
                     ID="Ac_IsOpenMobi" runat="server" Text="公开" />
             </td>
         </tr>

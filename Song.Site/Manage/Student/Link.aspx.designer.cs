@@ -13,13 +13,13 @@ namespace Song.Site.Manage.Student {
     public partial class Link {
         
         /// <summary>
-        /// Ac_Phone 控件。
+        /// Ac_Tel 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Ac_Phone;
+        protected global::System.Web.UI.WebControls.TextBox Ac_Tel;
         
         /// <summary>
         /// Ac_IsOpenPhone 控件。
@@ -31,13 +31,13 @@ namespace Song.Site.Manage.Student {
         protected global::System.Web.UI.WebControls.CheckBox Ac_IsOpenPhone;
         
         /// <summary>
-        /// Ac_PhoneMobi 控件。
+        /// Ac_MobiTel1 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Ac_PhoneMobi;
+        protected global::System.Web.UI.WebControls.TextBox Ac_MobiTel1;
         
         /// <summary>
         /// Ac_IsOpenMobi 控件。
