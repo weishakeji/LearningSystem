@@ -130,12 +130,12 @@ body {
 }
 .newsContent .newsImg {
 	float: left;
-	height: 84px;
+	height: 78px;
 	width: 124px;
 	border: 1px solid #CCCCCC;
 }
 .newsContent .newsImg img{
-	height: 80px;
+	height: 74px;
 	width: 120px;
 	margin-top: 2px;
 	margin-left: 2px;	

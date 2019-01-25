@@ -227,7 +227,14 @@ namespace Song.Site.Manage.Content
                         fuImg.UpPath = _uppath;
                         fuImg.IsMakeSmall = false;
                         fuImg.IsConvertJpg = true;
+                        fuImg.SmallWidth = 400;
+                        fuImg.SmallHeight = 247;  
                         fuImg.SaveAndDeleteOld(mm.Art_Logo);
+                        //截取图片宽高
+                        int width = fuImg.File.Server.Width;
+                        width = width > 1000 ? 1000 : width;
+                        int height = width * 618 / 1000;  //宽高比为1:0.618
+                        fuImg.File.Server.ChangeSize(width, height, false);
                         mm.Art_Logo = fuImg.File.Server.FileName;
                         imgFile.Src = Upload.Get[_uppath].Virtual + mm.Art_Logo;
                     }
