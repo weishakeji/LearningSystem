@@ -1468,6 +1468,7 @@
     <Content Include="Templates\Web\NetSchool\Default.htm" />
     <Content Include="Templates\Web\NetSchool\Exam.htm" />
     <Content Include="Templates\Web\NetSchool\Scripts\CourseChannel.js" />
+    <Content Include="Templates\Web\NetSchool\Scripts\jquery.luara.0.0.1.min.js" />
     <Content Include="Templates\Web\NetSchool\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\School\Conn.htm" />
     <Content Include="Templates\Web\School\Images\bar01.jpg" />

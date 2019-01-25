@@ -52,7 +52,7 @@
       </div>
     <div class="artRight">
      <vt:list type="course" item="c" index="i" count="5" order="flux"  remark="课程">
-           <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
+           <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
                   <div class="cour-price">
                     <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
                       <vt:else/>
