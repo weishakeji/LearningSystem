@@ -46,10 +46,9 @@
                     <vt:else />
                     <!--区间时间--> 
                     {$:e.Exam_Date  format="yyyy-M-dd hh:mm"} 到 
-                    {$:e.Exam_DateOver  format="M-dd hh:mm"} 之间考试 </vt:if>
+                    {$:e.Exam_DateOver  format="yyyy-M-dd hh:mm"} 之间考试 </vt:if>
                 </div>
-                <div class="item">限时：{$:e.Exam_Span}分钟 </div>
-                <div class="item">题量：{$:paper.Tp_count}道</div>
+                <div class="item">限时：{$:e.Exam_Span}分钟 &nbsp; 题量：{$:paper.Tp_count}道</div>
                 <div class="item">总分：{$:e.exam_total}分（{$:paper.Tp_PassScore}分及格）</div>
                 <vt:function var="sbj" method="getSubjectPath" args="$#.e.sbj_id"/>
                 <div class="item">专业：{$:sbj} </div>
@@ -117,8 +116,7 @@
                         {$:e.Exam_Date  format="yyyy-M-dd hh:mm"} 到 
                         {$:e.Exam_DateOver  format="yyyy-M-dd hh:mm"} 之间考试 </vt:if>
                     </div>
-                    <div class="item">限时：{$:e.Exam_Span}分钟</div>
-                    <div class="item">题量：{$:paper.Tp_count}道题</div>
+                   <div class="item">限时：{$:e.Exam_Span}分钟 &nbsp; 题量：{$:paper.Tp_count}道</div>
                     <div class="item">总分：{$:e.exam_total}分（{$:paper.Tp_PassScore}分及格）</div>
                     <div class="itemRow">
                       <vt:function var="sbj" method="getSubjectPath" args="$#.e.sbj_id"/>

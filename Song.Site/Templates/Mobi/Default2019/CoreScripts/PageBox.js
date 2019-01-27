@@ -148,7 +148,7 @@
         boxframe.append("<div class='PageBoxTitle'></div>");
         var titbox = boxframe.find(".PageBoxTitle");
         titbox.append("<div class=\"PageBoxTitleTxt\">" + this.Title + "</div>");
-        titbox.append("<a class=\"PageBoxTitleClose\" type=\"click\" href=\"#\">&#215; </a>");
+        titbox.append("<div class=\"PageBoxTitleClose\" type=\"click\" href=\"#\">&#215; </div>");
         //标题栏上的关闭按钮，点击事件
         titbox.find(".PageBoxTitleClose").click(function () {
             var box = $(this).parents("div[type=PageBox]");

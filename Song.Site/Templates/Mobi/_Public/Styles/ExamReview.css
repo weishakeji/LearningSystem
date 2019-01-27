@@ -34,7 +34,7 @@ div, p, td, * {
 	line-height: 20px;
 	color: #000000;
 	margin-left: auto;
-	width: 90%;
+	width: 96%;
 	margin-right: auto;
 }
 .scoreinfo {
@@ -42,7 +42,7 @@ div, p, td, * {
 	line-height: 35px;
 	color: #000000;
 	margin-left: auto;
-	width: 90%;
+	width: 96%;
 	margin-right: auto;
 }
 .scoreinfo .score {
@@ -72,7 +72,7 @@ div, p, td, * {
 /*试题详情*/
 #quesBox
 {
-	width: 90%;
+	width: 96%;
 	margin-right: auto;
 	margin-left: auto;
 
@@ -98,7 +98,7 @@ div, p, td, * {
 	font-weight: bold;
 }
 #quesTitle {
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 30px;
 	font-weight: bold;
 	height: 60px;
