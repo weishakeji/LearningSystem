@@ -16,11 +16,10 @@ body{
 }
 td, th {
 	text-align: center;
-	font-size: 14px;
+	font-size: 12px;
 	line-height: 20px;
 }
 div, p, td, * {
-	font-size: 16px !important;
 	line-height: 20px;
 }
 .pagerTitle {
@@ -64,15 +63,8 @@ div, p, td, * {
 	margin-left: auto;
 }
 #detailsTable th {
-	border-top-width: 1px;
-	border-right-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 1px;
-	border-top-style: solid;
-	border-right-style: solid;
-	border-bottom-style: solid;
-	border-left-style: solid;
 	background-color: #CCCCCC;
+	border: 1px solid #FFF;
 }
 .sum td {
 	background-color: #FFFFCC;
@@ -128,7 +120,7 @@ div, p, td, * {
 }
 
 .qusTitle {
-	line-height: 18px;
+	line-height: 22px;
 	display: table;
 	margin-bottom: 10px;
 	margin-top: 10px;
@@ -160,7 +152,7 @@ div, p, td, * {
 	cursor:pointer;
 	text-align: center;
 	color: #0066CC;
-	font-size: 14px;
+	font-size: 12px;
 }
 #btnAll {
 	color: #000000;

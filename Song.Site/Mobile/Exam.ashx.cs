@@ -56,7 +56,19 @@ namespace Song.Site.Mobile
             }
             #endregion
 
+            #region  考试成绩回顾
+            if (Extend.LoginState.Accounts.IsLogin)
+            {
+                Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
+                int count = 0;
+                Song.Entities.ExamResults[] results = null;
+                results = Business.Do<IExamination>().GetAttendPager(st.Ac_ID, -1, -1, null, int.MaxValue, 1, out count);
+                this.Document.SetValue("results", results);
+            }
+            #endregion
+
             this.Document.RegisterGlobalFunction(this.getTestPaper);    //试卷信息
+            this.Document.RegisterGlobalFunction(this.getExam);
             this.Document.RegisterGlobalFunction(this.getSubjectPath);    //专业的上级专业等
         }
         /// <summary>
@@ -116,6 +128,21 @@ namespace Song.Site.Mobile
             }
             Song.Entities.TestPaper tp = Business.Do<ITestPaper>().PagerSingle(tpid);
             return tp;
+        }
+        /// <summary>
+        /// 获取考试信息
+        /// </summary>
+        /// <param name="para"></param>
+        /// <returns></returns>
+        protected Song.Entities.Examination getExam(object[] para)
+        {
+            int examid = 0;
+            if (para.Length > 0 && para[0] is int)
+            {
+                int.TryParse(para[0].ToString(), out examid);
+            }
+            Song.Entities.Examination exam = Business.Do<IExamination>().ExamSingle(examid);
+            return exam;
         }
         /// <summary>
         /// 获取当前专业的上级专业

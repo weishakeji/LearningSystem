@@ -311,7 +311,7 @@ Examing.setExamQuesLayout_after = function (examobj) {
     });
     quesBox.find(".sum").text(quesBox.find("dd").size());   //设置试题总数
     //设置高度
-    quesBox.height(window.innerHeight - 80);
+    quesBox.height(window.innerHeight - 40);
     quesBox.find("dl,dd").height(quesBox.height());
     //设置宽度
     quesBox.find("dd").width(window.innerWidth).css("top", "40px");

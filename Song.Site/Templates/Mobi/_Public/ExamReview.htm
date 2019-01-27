@@ -21,7 +21,7 @@
       </b> ，您于<b>{$result.Exr_crtTime format="yyyy-MM-dd HH:mm"}</b>参考的考试《{$result.Exam_Name}》成绩详情如下： </div>
     <div class="scoreinfo"> 得分：<span class="score">{$result.Exr_ScoreFinal}分</span>；当前测试总分<span class="total">{$pager.Tp_Total}分</span>，及格分<span class="pass">{$pager.Tp_PassScore}分</span>； </div>
     <div id="details">
-      <table width="90%" border="1" cellspacing="0" id="detailsTable" cellpadding="0">
+      <table width="90%" border="0" cellspacing="0" id="detailsTable" cellpadding="0">
         <tr class="header">
           <th>题型</th>
           <th>试题数</th>
@@ -73,10 +73,10 @@
     <div id="quesBox">
       <div id="quesTitle">答题详情回顾
         <div id="quesBtnBox">
-          <div id="btnAll" class="btn">显示所有</div>
-          <div id="btnSuccess" class="btn">只显示正确</div>
-          <div id="btnError" class="btn">只显示错误</div>
-          <div id="btnNoans" class="btn">只显示未做</div>
+          <div id="btnAll" class="btn">所有</div>
+          <div id="btnSuccess" class="btn">正确</div>
+          <div id="btnError" class="btn">错误</div>
+          <div id="btnNoans" class="btn">未做</div>
         </div>
       </div>
       <vt:foreach id="tpItem" from="$#.tpi" item="data" index="i" remark="当前试卷的试题大项">
@@ -135,7 +135,7 @@
       </vt:foreach>
     </div>
     <vt:else/>
-    <div class="noinfo" >考试还未结束</div>
+    <div class="noinfo" >考试时间未结束，不能查看试卷回顾</div>
   </vt:if>
 </vt:if>
 </body>

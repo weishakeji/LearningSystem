@@ -110,6 +110,7 @@
         if (arguments.length > 0) {
             func();
         }
+        $("html").css("overflow", "hidden");
         //关闭事件，全屏事件
         if (this.CloseEvent != null) pagebox.events.add(this.WinId + "_CloseEvent", this.CloseEvent);
         if (this.FullScreenEvent != null) pagebox.events.add(this.WinId + "_FullScreenEvent", this.FullScreenEvent);
@@ -211,6 +212,7 @@
                 $(this).remove();
             });
         }
+        $("html").css("overflow-y", "auto");
     }
     //刷新窗体
     pagebox.Refresh = function (winid) {

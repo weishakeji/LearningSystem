@@ -3,18 +3,28 @@
 	background-color: #069;
 	position: relative;
 	padding-top: 20px;
-	padding-left:20px;
-	margin-bottom:20px;
+	padding-left: 20px;
+	margin-bottom: 3px;
+	position: fixed;
+	width: 100%;
+	z-index: 200;
 	background: -webkit-linear-gradient(red, blue); /* Safari 5.1 - 6.0 */
 	background: -o-linear-gradient(red, blue); /* Opera 11.1 - 12.0 */
 	background: -moz-linear-gradient(red, blue); /* Firefox 3.6 - 15 */
 	background: linear-gradient(rgba(0,153,255,1), rgba(255,255,255,1)); /* 标准的语法（必须放在最后） */
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #efeff4;
+	box-shadow: 0 2px 5px rgba(239,239,244,1);
 }
 .accname{
 	float: left;
 	font-size:16px;
 	color:#fff;
-	margin-top:20px;
+	margin-top:10px;
 	margin-left:20px;
 }
 /*头像*/
@@ -27,17 +37,17 @@
 	box-shadow: 0 0 25px rgba(255,255,255,1);
 }
 .accPhoto img {
-	width: 100px;
+	width: 80px;
 }
 /*主菜单*/
 .menu-box{
 	margin-top:60px;
 	padding:10px;	
 	position:absolute;
-	bottom:-30px;	
+	bottom:0px;	
 	left:110px;
-	height:80px;
-	background-color:#fff;
+	height:60px;
+	background: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.6) 95%, rgba(255,255,255,0.1)); 
 	border-radius: 10px 10px 0px 0px;
 }
 .menu-box>div{
@@ -45,7 +55,7 @@
 	float:left;
 	margin-right:10px;
 	text-align:center;
-	font-size:14px;
+	font-size:12px;
 }
 .menu-box>div:before{
 	font-family: iconfont;
@@ -72,7 +82,10 @@
 	margin-top:5px !important;
 }
 .mui-content{
-	
+	padding-top:123px;
+}
+.mui-active{
+	background-color:#fff !important;
 }
 /*我的考试前面的图标*/
 .examtitle{
@@ -85,7 +98,7 @@
 	margin-right:6px;
 }
 .myexam:before{
-	content: "\e602";
+	content: "\e75b";
 	font-size:18px;
 	font-family: "iconfont";
 	margin-right:6px;
@@ -96,11 +109,26 @@
 	font-family: "iconfont";
 	margin-right:6px;
 }
+.score-tit:before{
+	content: "\e6ef";
+	font-size:18px;
+	font-family: "iconfont";
+	margin-right:6px;
+}
 /*考试主题*/
 .examtheme{
+	font-size:15px;
+}
+.examtheme img{
+	margin-top:0px;
+	display:inline-block;
+	float:left;
 }
 .item{
-	line-height: 25px;
+	line-height: 30px;
+}
+.msg{
+	color:#666;
 }
 /*考试按钮所在行*/
 .btnRow{
@@ -122,9 +150,54 @@
 }
 .btnRow button{
 	float:right;
+	box-shadow: 1px 1px 5px #888888;
 }
 .btnRow button:before{
 	content: "\e68b";
+	font-family: "iconfont";
+	margin-right: 2px;
+	font-size:16px;
+}
+/*考试成绩*/
+.score{
+	font-weight: bold;
+}
+.btnReview{
+	float:right;
+	color:#09F;
+}
+.btnReview:before{
+	content: "\e6ef";
+	font-family: "iconfont";
+	margin-right: 2px;
+	font-size:16px;
+}
+/*不极格*/
+.nopass{
+	color:#F00;
+}
+.nopass:before{
+	content: "\e6ad";
+	font-family: "iconfont";
+	margin-right: 2px;
+	font-size:16px;
+}
+/*及格*/
+.yespass{
+	color:#090;
+}
+.yespass:before{
+	content: "\e641";
+	font-family: "iconfont";
+	margin-right: 2px;
+	font-size:16px;
+}
+/*优秀*/
+.excellent{
+	color:#09F;
+}
+.excellent:before{
+	content: "\e75c";
 	font-family: "iconfont";
 	margin-right: 2px;
 	font-size:16px;
