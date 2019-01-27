@@ -97,6 +97,9 @@
     }
     //创建窗口，并打开
     pagebox.prototype.Open = function (func) {
+        //防止窗体滑动
+        $("html").css("overflow", "hidden").attr("scrolltop", $("html").scrollTop()).scrollTop(0);
+        $("body").find(">*[type!=PageBox]:visible").attr("visible-set", "true").hide();
         //生成窗口
         this.maskOpen();    //打开遮罩层
         this.buildFrame();  //创建窗体
@@ -104,13 +107,12 @@
         //设置拖动
         if (this.IsDrag && !(this.Wdper == 100 && this.Hgper)) {
             var box = $(".PageBox[winid='" + this.WinId + "']");
-            if (box.size() > 0) {               
+            if (box.size() > 0) {
             }
         }
         if (arguments.length > 0) {
             func();
-        }
-        $("body").find(">*[type!=PageBox]:visible").attr("visible-set", "true").hide();
+        }        
         //关闭事件，全屏事件
         if (this.CloseEvent != null) pagebox.events.add(this.WinId + "_CloseEvent", this.CloseEvent);
         if (this.FullScreenEvent != null) pagebox.events.add(this.WinId + "_FullScreenEvent", this.FullScreenEvent);
@@ -212,7 +214,10 @@
                 $(this).remove();
             });
         }
+        //去除禁止窗体滑动
+        $("html").css("overflow", "auto");
         $("body").find(">*[type!=PageBox][visible-set=true]").show();
+        $("html").scrollTop(Number($("html").attr("scrolltop")));
     }
     //刷新窗体
     pagebox.Refresh = function (winid) {

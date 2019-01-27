@@ -15,7 +15,7 @@ $(function () {
     mui('body').on('tap', 'a.btnReview', function (event) {
         var href = $(this).attr("href");
         var name = $(this).attr("title");
-        new PageBox("成绩：《" + name + "》", href, 100, 100, window.name, "url").Open();
+        new PageBox("成绩：《" + name+ "》", href, 100, 100, window.name, "url").Open();
     });
 	//得分计算是否极格
 	$(".score").each(function () {

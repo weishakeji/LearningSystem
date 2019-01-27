@@ -20,6 +20,7 @@ background-color: #FFFFFF;
 	border-bottom-style: solid;
 	border-left-style: none;
 	border-bottom-color: #CCCCCC;
+	position:relative;
 
 }
 .PageBox .PageBoxTitleTxt
@@ -27,6 +28,8 @@ background-color: #FFFFFF;
 	white-space: nowrap;
 	overflow: hidden;
 	line-height: 25px;
+	padding-right:35px;
+	text-overflow:ellipsis;
 }
 .PageBox .PageBoxTitle  a{
 	color: #FFFFFF;
@@ -40,6 +43,7 @@ background-color: #FFFFFF;
 	position: absolute;
 	font-size: 35px;
 	color: #F00;
+	background-color:#fff;
 	line-height: 28px;
 	text-align: center;
 	font-family: Verdana, Geneva, sans-serif;
@@ -50,7 +54,7 @@ background-color: #FFFFFF;
 {
 	display: block;
 	float: left;
-	width: 80%;
+	width: 100%;
 	margin: 0px !important;
 	padding: 0px !important;
 	text-indent: 10px;
