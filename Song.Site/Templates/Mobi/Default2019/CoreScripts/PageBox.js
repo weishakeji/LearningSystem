@@ -110,7 +110,7 @@
         if (arguments.length > 0) {
             func();
         }
-        $("html").css("overflow", "hidden");
+        $("body").find(">*[type!=PageBox]:visible").attr("visible-set", "true").hide();
         //关闭事件，全屏事件
         if (this.CloseEvent != null) pagebox.events.add(this.WinId + "_CloseEvent", this.CloseEvent);
         if (this.FullScreenEvent != null) pagebox.events.add(this.WinId + "_FullScreenEvent", this.FullScreenEvent);
@@ -212,7 +212,7 @@
                 $(this).remove();
             });
         }
-        $("html").css("overflow-y", "auto");
+        $("body").find(">*[type!=PageBox][visible-set=true]").show();
     }
     //刷新窗体
     pagebox.Refresh = function (winid) {

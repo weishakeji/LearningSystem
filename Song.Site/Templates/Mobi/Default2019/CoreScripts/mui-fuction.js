@@ -123,13 +123,12 @@ function event_goback(ret) {
 
    
     //如果快速双击返回键，关闭软件
-    //window.appback_num = typeof (window.appback_num) == "undefined" ? 0 : window.appback_num;
+    window.appback_num = typeof (window.appback_num) == "undefined" ? 0 : window.appback_num;
     window.appback_time = typeof (window.appback_time) == "undefined" ? new Date() : window.appback_time;
-    if ((new Date().getTime() - window.appback_time.getTime()) < 500) api.closeWin();
-    //{ window.appback_num++; }
-    //else { window.appback_num = 0; }
-    //window.appback_time = new Date();
-    //if (window.appback_num % 2 == 1) api.closeWin();    
+    if ((new Date().getTime() - window.appback_time.getTime()) < 300) { window.appback_num++; }
+    else { window.appback_num = 0; }
+    window.appback_time = new Date();
+    if (window.appback_num % 2 == 1) api.closeWin();    
 
 }
 

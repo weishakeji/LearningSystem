@@ -91,7 +91,9 @@ gallery.slider({
         </vt:if>
         
         <!--课程区-->
-        <div class="cour-area"> <a class="cour-more" href="courses.ashx" type="link"></a>
+        <div class="cour-area">
+         <div class="cour-left-line"></div>
+        <a class="cour-more" href="courses.ashx" type="link"></a>
           <div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted cour-bar">
             <div class="mui-scroll"> <a class="mui-control-item cour-tit current" sbjid="0">精选课程</a>
               <vt:list type="subject" var="$subject" item="data" index="i" count="10" order="rec"> </vt:list>
