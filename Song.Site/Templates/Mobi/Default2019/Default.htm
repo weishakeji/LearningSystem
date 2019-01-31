@@ -96,7 +96,7 @@ gallery.slider({
         <a class="cour-more" href="courses.ashx" type="link"></a>
           <div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted cour-bar">
             <div class="mui-scroll"> <a class="mui-control-item cour-tit current" sbjid="0">精选课程</a>
-              <vt:list type="subject" var="$subject" item="data" index="i" count="10" order="rec"> </vt:list>
+              <vt:list type="subject" var="$subject" item="data" index="i" count="10" pid="0" order="rec"> </vt:list>
               <vt:foreach from="$#.subject" item="m" index="i"> <a class="mui-control-item cour-tit" sbjid="{$:m.sbj_id}" count="10">{$:m.Sbj_ByName}</a> </vt:foreach>
             </div>
           </div>
