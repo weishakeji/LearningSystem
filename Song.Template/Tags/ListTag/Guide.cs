@@ -23,8 +23,12 @@ namespace Song.Template.Tags.ListTag
             //
             int couid = int.Parse(this.Tag.Attributes.GetValue("couid", "-1"));     //所属课程的id
             int noCount = int.Parse(this.Tag.Attributes.GetValue("count", "10"));
-            Song.Entities.Guide[] entities = Business.Do<IGuide>().GetGuidePager(Organ.Org_ID, couid, -1, null, true, size, index, out sumcount);
-            tag.DataSourse = entities;    
+            object from = this.Tag.Attributes.GetValue("from", null);
+            if (from == null)
+            {
+                Song.Entities.Guide[] entities = Business.Do<IGuide>().GetGuidePager(Organ.Org_ID, couid, -1, null, true, size, index, out sumcount);
+                tag.DataSourse = entities;
+            }
         }
     }
 }

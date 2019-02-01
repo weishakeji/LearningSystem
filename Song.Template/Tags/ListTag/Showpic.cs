@@ -20,10 +20,14 @@ namespace Song.Template.Tags.ListTag
             if (tag == null) return;
             //
             string site = this.Tag.Attributes.GetValue("site", "web");
-            Song.Entities.ShowPicture[] shp = Business.Do<IStyle>().ShowPicAll(true, site, Organ.Org_ID);
-            foreach (Song.Entities.ShowPicture s in shp)
-                s.Shp_File = Upload.Get["ShowPic"].Virtual + s.Shp_File;
-            tag.DataSourse = shp;    
+            object from = this.Tag.Attributes.GetValue("from", null);
+            if (from == null)
+            {
+                Song.Entities.ShowPicture[] shp = Business.Do<IStyle>().ShowPicAll(true, site, Organ.Org_ID);
+                foreach (Song.Entities.ShowPicture s in shp)
+                    s.Shp_File = Upload.Get["ShowPic"].Virtual + s.Shp_File;
+                tag.DataSourse = shp;
+            }
         }
     }
 }

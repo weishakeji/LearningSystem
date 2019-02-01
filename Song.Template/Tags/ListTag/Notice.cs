@@ -20,8 +20,12 @@ namespace Song.Template.Tags.ListTag
             if (tag == null) return;
             //
             int noCount = int.Parse(this.Tag.Attributes.GetValue("count", "10"));
-            Song.Entities.Notice[] notice = Business.Do<INotice>().GetCount(Organ.Org_ID, true, noCount);
-            tag.DataSourse = notice;    
+            object from = this.Tag.Attributes.GetValue("from", null);
+            if (from == null)
+            {
+                Song.Entities.Notice[] notice = Business.Do<INotice>().GetCount(Organ.Org_ID, true, noCount);
+                tag.DataSourse = notice;
+            }
         }
     }
 }

@@ -25,14 +25,18 @@ namespace Song.Template.Tags.ListTag
             //int pid = int.Parse(this.ListTag.Attributes.GetValue("pid", "-1"));     //上级课程
             string search = this.Tag.Attributes.GetValue("search", "");         //按课程名检索
             string order = this.Tag.Attributes.GetValue("order", "");         //排序方式，flux流量最大优先,def推荐、流量，tax排序号，new最新,rec推荐
-            List<Song.Entities.Course> cours = Business.Do<ICourse>().CourseCount(this.Organ.Org_ID, sbjid, search, true, order, count);
-            foreach (Song.Entities.Course c in cours)
-            {
-                c.Cou_LogoSmall = string.IsNullOrWhiteSpace(c.Cou_LogoSmall) ? "" : Upload.Get["Course"].Virtual + c.Cou_LogoSmall;
-                c.Cou_Logo = string.IsNullOrWhiteSpace(c.Cou_Logo) ? "" : Upload.Get["Course"].Virtual + c.Cou_Logo;
-                c.Cou_Intro = HTML.ClearTag(c.Cou_Intro);
-            }
-            tag.DataSourse = cours;    
+             object from = this.Tag.Attributes.GetValue("from", null);
+             if (from == null)
+             {
+                 List<Song.Entities.Course> cours = Business.Do<ICourse>().CourseCount(this.Organ.Org_ID, sbjid, search, true, order, count);
+                 foreach (Song.Entities.Course c in cours)
+                 {
+                     c.Cou_LogoSmall = string.IsNullOrWhiteSpace(c.Cou_LogoSmall) ? "" : Upload.Get["Course"].Virtual + c.Cou_LogoSmall;
+                     c.Cou_Logo = string.IsNullOrWhiteSpace(c.Cou_Logo) ? "" : Upload.Get["Course"].Virtual + c.Cou_Logo;
+                     c.Cou_Intro = HTML.ClearTag(c.Cou_Intro);
+                 }
+                 tag.DataSourse = cours;
+             }
         }
     }
 }
