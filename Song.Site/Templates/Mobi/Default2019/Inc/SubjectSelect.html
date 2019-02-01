@@ -1,0 +1,160 @@
+<img src="" class="getpath" style="display: none" />
+<div id="select-box" style="display: none">
+    <div class="sear-row">
+        <input name="tbSearch" type="text" id="tbSearch" placeholder="请输入要检索的信息" value="">
+        <button type="button" id="btnSearch" class="mui-btn mui-btn-primary">
+            查询</button>
+    </div>
+    <div class="sbj-view">
+        专业选择<span class="sbj-num">-已选0个</span> <span class="sbj-clear">清空</span>
+    </div>
+    <div class="pagebox-context">
+        <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">
+      <div class="sbj-tit sbj-one">
+        <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.data.current.Sbj_id}"/>
+        <label class="sbj-name">{$#.data.current.Sbj_name}</label>
+      </div>
+      <div class="sbj-area">
+        <vt:repeat from="$data.Childs" type="subject" item="d" index="i" remark="二级分类">
+          <div class="sbj-tit sbj-two">
+            <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.d.current.Sbj_id}"/>
+            <label class="sbj-name">{$#.d.current.Sbj_name}</label>
+          </div>
+          <vt:if var="d.Childs.count" value="0" compare=">">
+            <div class="sbj-area">
+              <vt:repeat from="$d.Childs" type="subject" item="t" index="i"  remark="三级分类"> <span class="sbj-three">
+                <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.t.current.Sbj_id}"/>
+                <label class="sbj-name">{$#.t.current.Sbj_Name}</label>
+                </span> </vt:repeat>
+            </div>
+          </vt:if>
+        </vt:repeat>
+      </div>
+    </vt:repeat>
+    </div>
+</div>
+<!--专业分类-->
+<div class="sbj-panel" style="display: none">
+    <div class="sbj-left">
+        <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">
+      <sbj-tit sbjid="{$#.data.current.Sbj_ID}">{$#.data.current.Sbj_name}</sbj-tit>
+    </vt:repeat>
+    </div>
+    <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">
+    <div class="sbj-area" sbjid="{$#.data.current.Sbj_ID}">
+      <vt:if var="data.Childs.count" value="0" compare=">">
+        <vt:repeat from="$data.Childs" type="subject" item="d" index="i" remark="二级分类">
+          <div class="sbj-two-name" sbjid="{$#.d.current.Sbj_ID}">{$#.d.current.Sbj_name}</div>
+          <vt:if var="d.Childs.count" value="0" compare=">">
+            <div class="sbj-child">
+              <vt:repeat from="$d.Childs" type="subject" item="t" index="i"  remark="三级分类">
+                <label sbjid="{$#.t.current.Sbj_ID}">{$#.t.current.Sbj_Name}</label>
+              </vt:repeat>
+            </div>
+          </vt:if>
+        </vt:repeat>
+        <vt:else/>
+        <div class="sbj-child">
+          <label>没有下级分类</label>
+        </div>
+      </vt:if>
+    </div>
+  </vt:repeat>
+</div>
+<script type="text/javascript">
+    $(function () {
+        //加载css
+        var cssfile = $("img.getpath").attr("src") + "SubjectSelect.css";
+        $("<link>").attr({ rel: "stylesheet", type: "text/css", href: cssfile }).appendTo("head");
+        //输入赋值
+        $(".txtSearch").val(decodeURIComponent($().getPara("sear")));
+        //筛选按钮事件，弹出筛选选择框
+        mui('body').on('tap', '.btnSearch, .txtSearch', function () {
+            subjectSelect.open();
+        });
+    });
+    //课程筛选的弹出窗体
+    function subjectSelect() { };
+    //弹出窗体
+    subjectSelect.open = function () {
+        var txt = $("#select-box");
+        var box = new PageBox("查询", txt, 100, 100, null, window.name, "obj");
+        box.IsBackbtn = true;
+        box.Open(function () {
+            subjectSelect.init();
+            //设置内容区可以滚动
+            $(".pagebox-context").height($(".PageBoxContext").height() - 85);
+            subjectSelect.event();
+        });
+    }
+    //各种事件
+    subjectSelect.event = function () {
+        //复选框事件，并阻止事件冒泡
+        mui('body').off('tap', 'label');
+        mui('body').on('tap', 'label', function (event) {
+            var cb = $(this).prev("input");
+            cb.attr("checked", !cb.is(":checked"));
+            cb.parent().next(".sbj-area").find(".checkbox").attr("checked", cb.is(":checked"));
+            subjectSelect.change();
+            event.stopPropagation();
+        });
+        //展开与折叠下级菜单
+        $(".sbj-tit").click(function (event) {
+            var area = $(this).next(".sbj-area");
+            if (area.size() < 1) return;
+            //alert($(this).html());
+            //判断是否显示  显示：true 隐藏：false
+            if (area.is(':visible')) {
+                $(this).next(".sbj-area").hide();
+                $(this).removeClass("open");
+            } else {
+                $(this).parent().find(">.sbj-area").hide();
+                $(this).parent().find(">.sbj-tit").removeClass("open");
+                $(this).next(".sbj-area").show();
+                $(this).addClass("open");
+            }
+            event.stopPropagation();
+        });
+        //当复选框变更状态时
+        $(".checkbox").change(function () {
+            $(this).parent().next(".sbj-area").find(".checkbox").attr("checked", $(this).is(":checked"));
+            subjectSelect.change();
+        });
+        //弹出后的查询按钮事件
+        mui('body').off('tap', '#btnSearch');
+        mui('body').on('tap', '#btnSearch', function (event) {
+            var sbjids = "";
+            $(".PageBoxContext .checkbox").each(function () {
+                if ($(this).is(":checked")) sbjids += $(this).attr("sbjid") + ",";
+            });
+            var href = "courses.ashx";
+            if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
+            window.location.href = href.replace("#", "") + "?sear=" + encodeURI($(".PageBoxContext #tbSearch").val()) + "&sbjids=" + sbjids;
+        });
+        mui('body').off('tap', '.sbj-clear');
+        mui('body').on('tap', '.sbj-clear', function (event) {
+            $(".PageBoxContext .checkbox").attr("checked", false);
+            $("input[name=tbSearch]").val("");
+            subjectSelect.change();
+        });
+    };
+    //当筛选框打开时，初始化之前选择的内容
+    subjectSelect.init = function () {
+        //查询字符串
+        $(".PageBoxContext #tbSearch").val(decodeURI($().getPara("sear")));
+        var sbjids = $().getPara("sbjids").split(",");
+        for (s in sbjids) {
+            $(".PageBoxContext .checkbox[sbjid=" + sbjids[s] + "]").attr("checked", true);
+        }
+        subjectSelect.change();
+    };
+    //当复选框变动时
+    subjectSelect.change = function () {
+        var n = $(".PageBoxContext .checkbox:checked").size();
+        if (n < 1) $(".sbj-num").hide();
+        if (n > 0) {
+            $(".sbj-num").html("-选中" + n + "个专业");
+            $(".sbj-num").show();
+        }
+    };
+</script>

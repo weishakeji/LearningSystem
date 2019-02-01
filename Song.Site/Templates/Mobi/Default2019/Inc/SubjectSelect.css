@@ -1,0 +1,105 @@
+﻿@charset "utf-8";
+body {
+}
+/*检索输入框*/
+.sear-row {
+	border: 2px solid #CCC;
+	height: 40px;
+	width: 98%;
+	margin-top: 5px;
+	margin-right: auto;
+	margin-bottom: 5px;
+	margin-left: auto;
+}
+#tbSearch {
+	height: 30px;
+	margin-top: 3px;
+	margin-left: 1%;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	width: 70%;
+	float: left;
+	margin-right: 0px;
+	margin-bottom: 0px;
+}
+
+/*选择范围提示*/
+.sbj-view {
+	height: 40px;
+	line-height: 40px;
+	text-indent: 10px;
+}
+.sbj-num {
+	color: #090;
+}
+.sbj-clear {
+	line-height: 40px;
+	float: right;
+	height: 40px;
+	margin-right: 10px;
+	color: #F30;
+}
+.pagebox-context {
+	overflow-y: auto;
+	margin-left: 10px;
+	margin-right: 2px;
+}
+#btnSearch {
+	width: 28% !important;
+	float: right;
+	margin-right: 1%;
+	margin-top: 3px;
+	height: 30px;
+}
+.PageBoxContext .sbj-tit:before {
+	content: "\e69a";
+	font-family: iconfont;
+	font-size: 17px;
+	margin-right: 2px;
+}
+.PageBoxContext .sbj-tit {
+	line-height: 30px;
+	height: 30px;
+	white-space: nowrap;
+	overflow: visible;
+}
+.PageBoxContext .sbj-tit:after {
+	content: '\e583';
+	font-family: Muiicons;
+	float: right;
+	line-height: 30px;
+	display: inline-block;
+	margin-right: 10px;
+	color: #999;
+}
+.PageBoxContext .open:after {
+	content: '\e581';
+	font-family: Muiicons;
+	float: right;
+	line-height: 30px;
+	display: inline-block;
+	margin-right: 10px;
+	color: #999;
+}
+.PageBoxContext .sbj-area {
+ --display: none;
+}
+.PageBoxContext .sbj-two-area {
+	padding: 0px !important;
+}
+.PageBoxContext .sbj-two {
+	margin-left: 20px;
+}
+.PageBoxContext .sbj-three {
+	margin-left: 43px;
+	white-space: nowrap;
+	min-width: 30%;
+	display: inline-block;
+}
+.PageBoxContext .sbj-three label {
+}
+.PageBoxContext .checkbox {
+	margin-right: 3px;
+}

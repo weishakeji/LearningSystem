@@ -11,7 +11,7 @@
 <vt:function var="path" method="Path" args="Course"/>
 <div class="header-top"> <a href="#" class="iconfont mui-pull-left nav-left" type="back">&#xe646;</a>
     <form action="courses.ashx" method="get" id="formSearch">
-      <input name="sear" type="search" id="tbSearch" class="sear" placeholder="搜索">
+      <input name="sear" type="search" class="sear txtSearch" placeholder="搜索">
     </form>
     <a href="#" class="iconfont btnSearch">&#xe679;</a> </div>
 <div class="header">
@@ -67,6 +67,8 @@
           </div>
         </div>
          <space></space>
+          <!--内容结束，下面是用于筛选的表单-->
+    <vt:include file="inc/SubjectSelect.html" />
 <vt:include file="inc/footer.html" />
 </body>
 </html>

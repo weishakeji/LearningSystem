@@ -1,9 +1,7 @@
 ﻿var size = Math.ceil((window.screen.height - 88) / 64); //每页取多少条
 var index = 1; //索引页
 var sumcount = 0; //总记录数
-
 $(function () {
-    $("#search-top").val(decodeURIComponent($().getPara("sear")));
     //选项卡切换事件
     mui('body').on('tap', '.mui-control-item', function () {
         //下面三行，是为了防止重复点击选项卡
@@ -18,96 +16,7 @@ $(function () {
         mui('#pullrefresh').pullRefresh().pullupLoading();
         mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 0);
     });
-    //筛选相关
-    //当在顶部填写搜索内容时
-    $("#search-top").focus(function () {
-        cou_select();
-        $(this).blur();
-        $("#tbSearch").focus();
-    });
-    //筛选按钮事件，弹出筛选选择框
-    mui('body').on('tap', '#btnSelect', function () {
-        cou_select();
-    });
-    //
 });
-function cou_select() {
-    var txt = $("#select-box");
-    var box = new PageBox("课程筛选", txt, 100, 100, null, window.name, "obj");
-    box.IsBackbtn = true;
-    box.Open(function () {
-        select_init();
-        //设置内容区可以滚动
-        $(".pagebox-context").height($(".PageBoxContext").height() - 85);
-        //复选框事件，并阻止事件冒泡
-        mui('body').off('tap', 'label');
-        mui('body').on('tap', 'label', function (event) {
-            var cb = $(this).prev("input");
-            cb.attr("checked", !cb.is(":checked"));
-            cb.parent().next(".sbj-area").find(".checkbox").attr("checked", cb.is(":checked"));
-            checkbox_change();
-            event.stopPropagation();
-        });
-        //展开与折叠下级菜单
-        $(".sbj-tit").click(function (event) {
-            var area = $(this).next(".sbj-area");
-            if (area.size() < 1) return;
-            //alert($(this).html());
-            //判断是否显示  显示：true 隐藏：false
-            if (area.is(':visible')) {
-                $(this).next(".sbj-area").hide();
-                $(this).removeClass("open");
-            } else {
-                $(this).parent().find(">.sbj-area").hide();
-                $(this).parent().find(">.sbj-tit").removeClass("open");
-                $(this).next(".sbj-area").show();
-                $(this).addClass("open");
-            }
-            event.stopPropagation();
-        });
-        //当复选框变更状态时
-        $(".checkbox").change(function () {
-            $(this).parent().next(".sbj-area").find(".checkbox").attr("checked", $(this).is(":checked"));
-            checkbox_change();
-        });
-        //弹出后的查询按钮事件
-        mui('body').off('tap', '#btnSearch');
-        mui('body').on('tap', '#btnSearch', function (event) {
-            var sbjids = "";
-            $(".PageBoxContext .checkbox").each(function () {
-                if ($(this).is(":checked")) sbjids += $(this).attr("sbjid") + ",";
-            });
-            var href = window.location.href;
-            if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
-            window.location.href = href.replace("#", "") + "?sear=" + encodeURI($(".PageBoxContext #tbSearch").val()) + "&sbjids=" + sbjids;
-        });
-        mui('body').off('tap', '.sbj-clear');
-        mui('body').on('tap', '.sbj-clear', function (event) {
-            $(".PageBoxContext .checkbox").attr("checked", false);
-            $("input[name=tbSearch]").val("");
-            checkbox_change();
-        });
-        //窗体打开后的事件，到此结束
-    });
-}
-
-//当筛选框打开时，初始化之前选择的内容
-function select_init() {
-    //查询字符串
-    $(".PageBoxContext #tbSearch").val(decodeURI($().getPara("sear")));
-    var sbjids = $().getPara("sbjids").split(",");
-    for (s in sbjids) $(".PageBoxContext .checkbox[sbjid=" + sbjids[s] + "]").attr("checked", true);
-    checkbox_change();
-}
-//当复选框变动时
-function checkbox_change() {
-    var n = $(".PageBoxContext .checkbox:checked").size();
-    if (n < 1) $(".sbj-num").hide();
-    if (n > 0) {
-        $(".sbj-num").html("-选中" + n + "个专业");
-        $(".sbj-num").show();
-    }
-}
 /*
 下拉刷新事件
 说明：第一次加载会先执行上拉事件
@@ -235,9 +144,9 @@ function buildCourse(cour) {
     html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
     html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
     html = html.replace("{limitfree}", (cour.Cou_IsLimitFree ? "<limitfree></limitfree>" : ""));
-	//浏览数、章节数、试题数
-	var numstr='<view>' + cour.Cou_ViewNum + '</view><outline>' + cour.olcount + '</outline><ques>' + cour.quscount + '</ques>';
-	html = html.replace("{number}", "<number>"+numstr+"</number>");
+    //浏览数、章节数、试题数
+    var numstr = '<view>' + cour.Cou_ViewNum + '</view><outline>' + cour.olcount + '</outline><ques>' + cour.quscount + '</ques>';
+    html = html.replace("{number}", "<number>" + numstr + "</number>");
     //价格
     var price = "";
     if (cour.Cou_IsFree) {
@@ -256,12 +165,12 @@ function buildCourse(cour) {
 
 /*课程分类的弹出*/
 $(function () {
-	$(".sbj-panel").height($(window).height() - 40).click(function(){
-		mui.trigger(document.querySelector('.foot-courses'), 'tap');
-	});
-	$(".sbj-left, .sbj-panel .sbj-area").height($(window).height() - 50);
-	$(".sbj-panel sbj-tit:first").addClass("current");
-	//课程专业分类面板的弹出与隐藏
+    $(".sbj-panel").height($(window).height() - 40).click(function () {
+        mui.trigger(document.querySelector('.foot-courses'), 'tap');
+    });
+    $(".sbj-left, .sbj-panel .sbj-area").height($(window).height() - 50);
+    $(".sbj-panel sbj-tit:first").addClass("current");
+    //课程专业分类面板的弹出与隐藏
     mui('body').on('tap', '.foot-courses', function () {
         var state = $(this).attr("state");
         var panel = $(".sbj-panel");
@@ -277,30 +186,30 @@ $(function () {
         }
         return false;
     });
-	//专业分类的切换展示
-	mui('body').on('tap', '.sbj-panel sbj-tit', function () {
-		var sbjid=$(this).attr("sbjid");
-		$(".sbj-panel sbj-tit[sbjid="+sbjid+"]").addClass("current")
-			.siblings("[sbjid!="+sbjid+"]").removeClass("current");			
-		$(".sbj-panel .sbj-area[sbjid="+sbjid+"]").show()
-			.siblings(".sbj-area[sbjid!="+sbjid+"]").hide();	
-	});
-	mui.trigger(document.querySelector('.sbj-panel sbj-tit.current'), 'tap');
-	//专业分类的点击事件
-	mui('body').on('tap', '.sbj-panel label', function () {
-		var sbjid=$(this).attr("sbjid");
-		if(sbjid==null)return;
-		var href = window.location.href;
+    //专业分类的切换展示
+    mui('body').on('tap', '.sbj-panel sbj-tit', function () {
+        var sbjid = $(this).attr("sbjid");
+        $(".sbj-panel sbj-tit[sbjid=" + sbjid + "]").addClass("current")
+			.siblings("[sbjid!=" + sbjid + "]").removeClass("current");
+        $(".sbj-panel .sbj-area[sbjid=" + sbjid + "]").show()
+			.siblings(".sbj-area[sbjid!=" + sbjid + "]").hide();
+    });
+    mui.trigger(document.querySelector('.sbj-panel sbj-tit.current'), 'tap');
+    //专业分类的点击事件
+    mui('body').on('tap', '.sbj-panel label', function () {
+        var sbjid = $(this).attr("sbjid");
+        if (sbjid == null) return;
+        var href = window.location.href;
         if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
         window.location.href = href.replace("#", "") + "?sbjids=" + sbjid;
-	});
-	mui('body').on('tap', '.sbj-panel .sbj-two-name', function () {
-		var sbjid=$(this).attr("sbjid");
-		$(this).next().find("label").each(function(index, element) {
-            sbjid+=","+$(this).attr("sbjid");
+    });
+    mui('body').on('tap', '.sbj-panel .sbj-two-name', function () {
+        var sbjid = $(this).attr("sbjid");
+        $(this).next().find("label").each(function (index, element) {
+            sbjid += "," + $(this).attr("sbjid");
         });
-		var href = window.location.href;
+        var href = window.location.href;
         if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
         window.location.href = href.replace("#", "") + "?sbjids=" + sbjid;
-	});
+    });
 });

@@ -13,7 +13,7 @@
         <header class="mui-bar mui-bar-nav"> 
    
      <a class="mui-btn mui-btn-link mui-pull-right btnSearch" href="#" id="btnSelect"></a>
-      <h1 class="mui-title"><input name="sear" type="search" id="search-top" placeholder="搜索"></h1>
+      <h1 class="mui-title"><input name="sear" type="search" id="search-top" class="txtSearch" placeholder="搜索"></h1>
     </header>
         <div class="mui-content mui-scroll-wrapper">
             <div id="slider" class="mui-slider mui-fullscreen">
@@ -42,67 +42,7 @@
         </div>
     </div>
     <!--内容结束，下面是用于筛选的表单-->
-    <div id="select-box" style="display: none">
-        <div class="sear-row">
-            <input name="tbSearch" type="text" id="tbSearch" placeholder="请输入要检索的信息" value="">
-            <button type="button" id="btnSearch" class="mui-btn mui-btn-primary">
-                查询</button>
-        </div>
-        <div class="sbj-view">
-            专业选择<span class="sbj-num">-已选0个</span> <span class="sbj-clear">清空</span>
-        </div>
-        <div class="pagebox-context">
-            <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">
-      <div class="sbj-tit sbj-one">
-      <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.data.current.Sbj_id}"/>
-      <label class="sbj-name">{$#.data.current.Sbj_name}</label>
-      </div>
-        <div class="sbj-area">         
-            <vt:repeat from="$data.Childs" type="subject" item="d" index="i" remark="二级分类">           
-             <div class="sbj-tit sbj-two">
-             <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.d.current.Sbj_id}"/>
-             <label class="sbj-name">{$#.d.current.Sbj_name}</label></div>
-             <vt:if var="d.Childs.count" value="0" compare=">">
-                <div class="sbj-area">
-                    <vt:repeat from="$d.Childs" type="subject" item="t" index="i"  remark="三级分类">
-                      <span class="sbj-three">
-                      <input name="cb" type="checkbox" class="checkbox" sbjid="{$#.t.current.Sbj_id}"/>
-                      <label class="sbj-name">{$#.t.current.Sbj_Name}</label></span>
-                    </vt:repeat>
-                 </div>    
-                </vt:if>         
-            </vt:repeat>          
-        </div>      
-    </vt:repeat>
-        </div>
-    </div>
-    <!--专业分类-->
-    <div class="sbj-panel">
-    <div class="sbj-left">
-     <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">
-      <sbj-tit sbjid="{$#.data.current.Sbj_ID}">{$#.data.current.Sbj_name}</sbj-tit>
-      </vt:repeat>
-      </div>
-        <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">       
-        <div class="sbj-area" sbjid="{$#.data.current.Sbj_ID}">   
-        	<vt:if var="data.Childs.count" value="0" compare=">">      
-            <vt:repeat from="$data.Childs" type="subject" item="d" index="i" remark="二级分类">           
-             <div class="sbj-two-name" sbjid="{$#.d.current.Sbj_ID}">{$#.d.current.Sbj_name}</div>
-              <vt:if var="d.Childs.count" value="0" compare=">">
-                <div class="sbj-child">
-                    <vt:repeat from="$d.Childs" type="subject" item="t" index="i"  remark="三级分类">                      
-                      <label sbjid="{$#.t.current.Sbj_ID}">{$#.t.current.Sbj_Name}</label>
-                    </vt:repeat>
-                 </div>
-             </vt:if>
-            </vt:repeat>
-            <vt:else/>
-             <div class="sbj-child"><label>没有下级分类</label></div>
-          </vt:if>
-        </div>
-      
-    </vt:repeat>
-    </div>
+    <vt:include file="inc/SubjectSelect.html" />
     <!--底部导航菜单-->
     <nav class="mui-bar mui-bar-tab footer">
 <a class="foot-home" href="/mobile/default.ashx" type="link" target="_blank"> <b class="mitem"></b><span>首页</span></a>

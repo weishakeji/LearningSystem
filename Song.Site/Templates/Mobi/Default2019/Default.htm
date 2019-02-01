@@ -13,7 +13,7 @@
   <div class="mui-inner-wrap">
     <header class="mui-bar mui-bar-nav headbar"><img src="{$orgPath}{$org.org_logo}" class="logo" />
       <form action="courses.ashx" method="get" id="formSearch">
-        <input name="sear" type="search" id="tbSearch" class="sear" placeholder="搜索">
+        <input name="sear" type="search" class="sear txtSearch" placeholder="搜索">
       </form>
       <script language="javascript" type="text/javascript">
 	$(function(){
@@ -112,8 +112,10 @@ gallery.slider({
     </div>
     <div class="mui-off-canvas-backdrop"> </div>
     <space></space>
+    
     <vt:include file="inc/homefooter.html" />
   </div>
 </div>
+<vt:include file="inc/SubjectSelect.html" />
 </body>
 </html>
