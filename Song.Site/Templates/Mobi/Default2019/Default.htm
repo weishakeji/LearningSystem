@@ -64,7 +64,7 @@ gallery.slider({
         <!--轮换图片结束--> 
         
         <!--通知公告-->
-        <vt:list type="notice" var="$notices" item="data" index="i" count="1"> </vt:list>
+        <vt:list type="notice" var="$notices" item="data" index="i" count="5"> </vt:list>
         <vt:if var="notices.Length" value="0" compare=">">
           <ul class="mui-table-view notice-box">
             <vt:list type="notice" from="$notices" item="data" index="i">

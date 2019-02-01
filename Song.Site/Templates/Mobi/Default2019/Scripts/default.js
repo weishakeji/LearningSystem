@@ -17,6 +17,28 @@ $(function () {
     //    $("#test").append("是否处于微信小程序：" + ismini);
 });
 
+//通知公告
+$(function () {
+    if ($(".notice-box li").size() > 1) {
+        $(".notice-box li").hide();
+        $(".notice-box li:first").show();
+        window.setInterval("notice_alternate()", 5000);
+    }   
+});
+function notice_alternate() {
+    var curr = $(".notice-box li:visible");
+    var next = curr.next();
+    if (next.size() <= 0) {
+        var first = $(".notice-box li:first");
+		//alert(first.get(0).outerHTML);
+        $(".notice-box").append(first.get(0).outerHTML);
+        first.remove();
+		next = curr.next();
+    }
+    curr.slideUp(500);
+	next.slideDown(500);
+}
+
 //自动登录
 //WeixinLoginIsUse:微信登录是否启用
 function AutoLogin_forAjax(WeixinLoginIsUse) {
