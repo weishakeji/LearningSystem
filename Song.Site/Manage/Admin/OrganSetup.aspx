@@ -48,7 +48,8 @@
                 手机端：
             </td>
             <td>
-                <asp:CheckBox ID="Org_IsOnlyWeixin" runat="server" Text="手机端是否仅限微信中使用" />
+                <asp:CheckBox ID="Org_IsOnlyWeixin" runat="server" Text="手机端是否仅限微信中使用" /><br />
+                <asp:CheckBox ID="cbIsMobileRemoveMoney" runat="server" Text="手机端隐藏关于“充值收费”等资费相关信息" />
             </td>
         </tr>
         <tr>

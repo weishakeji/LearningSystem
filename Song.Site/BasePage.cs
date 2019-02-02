@@ -187,6 +187,11 @@ namespace Song.Site
                 this.Document.SetValue("adminpath", Upload.Get["Employee"].Virtual);
                 //当前模板的路径
                 this.Document.SetValue("TempPath", this.TmBank.Path.Virtual);
+                //自定义配置项
+                WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
+                //手机端隐藏关于“充值收费”等资费相关信息
+                bool IsMobileRemoveMoney = config["IsMobileRemoveMoney"].Value.Boolean ?? false;
+                this.Document.SetValue("mremove", IsMobileRemoveMoney);
 
             }
             catch { }

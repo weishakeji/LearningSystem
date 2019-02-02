@@ -22,7 +22,7 @@ $(function () {
     if ($(".notice-box li").size() > 1) {
         $(".notice-box li").hide();
         $(".notice-box li:first").show();
-        window.setInterval("notice_alternate()", 5000);
+        window.setInterval("notice_alternate()", 3000);
     }   
 });
 function notice_alternate() {
@@ -122,6 +122,11 @@ function default_event() {
                     }
                     html = html.replace("{price}", price);
                     list.append(html);
+					//是否隐藏收费信息
+					var mremove=$("body").attr("mremove")=="True" ? true : false;
+					if(mremove){
+						list.find("price,free,limitfree").hide();
+					}
                     list.find("img:last").error(function () {
                         var errImg = $(this).attr("default");
                         if (errImg == null) return false;

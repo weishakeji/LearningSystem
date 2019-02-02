@@ -16,7 +16,8 @@
   <div class="photo" > <img  src="{$coupath}{$course.cou_logo}" default="images/cou_nophoto.jpg"/> </div>
   <div id="Context">
     <div class="couName"><a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" type="link" href="default.ashx"></a>{$course.cou_name} </div>
-    <div class="info">{$studyCount}人学习 / 
+    <div class="info">{$studyCount}人学习 
+     <vt:if var="mremove" value="false" compare="=">/ 
       <vt:if var="course.Cou_IsFree" value="true" compare="=">免费
         <vt:else />
          <vt:if var="course.Cou_IsLimitFree" value="true" compare="=" remark="限时免费">
@@ -26,6 +27,7 @@
         <vt:if var="isBuy" value="false" compare=""> （该课程未购买）
           <vt:else />
           期限： {$:#.info.Stc_StartTime format="yyyy/M/d"}-{$:#.info.Stc_EndTime format="yyyy/M/d"} </vt:if>
+      </vt:if>
       </vt:if>
       </vt:if>
     </div>

@@ -29,7 +29,7 @@ a {
 /*通知公告*/
 .notice-box {
 	margin-top: 8px;
-		
+	height:52px;
 }
 .notice {
 	margin-right: 40px !important;

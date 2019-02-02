@@ -10,166 +10,164 @@
 </head>
 <body>
 
-  <!--主界面部分-->
-  <div class="mui-inner-wrap">
-  
-  
-        <ul class="mui-table-view">
-          <li class="mui-table-view-cell mui-media"> <a href="javascript:;">
-            <vt:if var="Account.Ac_photo" value="" compare="="> <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/>
-              <vt:else/>
-              <img class="mui-media-object mui-pull-left" src="{$stpath}{$:#.Account.Ac_photo}"  default="images/nophoto.jpg"/></vt:if>
-            <div class="mui-media-body">
-              <span class="stname"><vt:if var="Account.Ac_name" value="" compare="="> （无名）
-                <vt:else/>
-                {$Account.Ac_name} </vt:if></span>
-              <p class='mui-ellipsis'>
-                <vt:if var="Student.Ac_PhoneMobi" value="" compare="!="> {$Student.Ac_PhoneMobi} </vt:if>
-                （账号：{$:#.Account.Ac_accname} ） </p>
-            </div>
-            </a> </li>
-        </ul>
-        <div style="height:10px"></div>
-        
-        <!--资金相关内容-->
-        <ul class="mui-table-view">
-          <li class="mui-table-view-cell"> <a href="MoneyDetails.ashx" type="link" class="mui-navigate-right"><span class="iconfont ico"  style="color:#F90">&#xe690;</span>资金明细
-            <div class="right-item"><span class="iconfont">&#xe670;</span> {$:#.Account.Ac_money format="0.00"}元</div>
-            </a> </li>
-          <li class="mui-table-view-cell"> <a href="Recharge.ashx" type="link" class="mui-navigate-right"><span class="iconfont ico" style="color:#060">&#xe640;</span>充值
-          <div class="right-item"><span >券</span> {$:#.Account.Ac_Coupon}个</div>
-          </a> </li>
-           <li class="mui-table-view-cell"> <a href="Subordinates.ashx" type="link" class="mui-navigate-right"><span class="iconfont ico" style="color: #06F">&#xe604;</span>我的朋友
-           <div class="right-item">累计{$subcount}个</div>
-           </a> </li>
-        </ul>
-        <div style="height:10px"></div>
-        
-        <!--个人详细信息列表区-->
-        <ul class="mui-table-view">
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe623;</span>姓名
-            <div class="right-item stname">{$:#.Account.Ac_name}</div>
-            </a>
-            <div class="mui-collapse-content">
-              <form class="mui-input-group">
-                <div class="mui-input-row">
-                  <label>姓名</label>
-                  <input name="tbname" type="text" class="textbox" id="tbname" placeholder="" value="{$:#.Account.Ac_name}">
-                </div>
-                <div class="mui-button-row">
-                  <button class="mui-btn mui-btn-primary enter" id="btn_stname" type="button" data-loading-text="提交中" onclick="return false;">确认</button>
-                </div>
-              </form>
-            </div>
-          </li>
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe75b;</span>性别
-            <div class="right-item" id="stsex">
-              <vt:if var="Account.Ac_sex" value="0" compare="=">未知
-                <vt:else />
-                <vt:if var="Account.Ac_sex" value="1" compare="=">男
-                  <vt:else />
-                  女</vt:if>
-              </vt:if>
-            </div>
-            </a>
-            <div class="mui-collapse-content">
-              <form class="mui-input-group">
-                <div class="mui-input-row mui-radio mui-left sexrow">
-                  <label>女</label>
-                  <vt:if var="Account.Ac_sex" value="2" compare="=">
-                    <input name="radiosex" type="radio" value="2" checked>
-                    <vt:else />
-                    <input name="radiosex" type="radio" value="2">
-                  </vt:if>
-                </div>
-                <div class="mui-input-row mui-radio mui-left sexrow">
-                  <label>男</label>
-                  <vt:if var="Account.Ac_sex" value="1" compare="=">
-                    <input name="radiosex" type="radio" value="1" checked>
-                    <vt:else />
-                    <input name="radiosex" type="radio" value="1">
-                  </vt:if>
-                </div>
-              </form>
-            </div>
-          </li>
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe64c;</span>年龄
-            <div class="right-item age"><span id="age">{$Account.Ac_age}</span>岁</div>
-            </a>
-            <div class="mui-collapse-content">
-              <div style="height:20px;width:100%" class="right-item">生日：<span id="birthday">{$:#.Account.Ac_Birthday format="yyyy-MM-dd"}</span></div>
-              <button id='birthday_select' class="btn mui-btn mui-btn-block" default="{$Account.Ac_Birthday format='yyyy-MM-dd'}">选择出生日期 ...</button>
-            </div>
-          </li>
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe606;</span>联系方式
-            <div class="right-item" id="stmobi">{$Account.Ac_MobiTel1}</div>
-            </a>
-            <div class="mui-collapse-content">
-              <form class="mui-input-group">
-                <div class="mui-input-row">
-                  <label>手机</label>
-                  <input name="tbmobi" type="text" class="textbox" id="tbmobi" placeholder="" value="{$Account.Ac_MobiTel1}" >
-                </div>
-                <div class="mui-input-row">
-                  <label>QQ</label>
-                  <input name="tbqq" type="text" class="textbox" id="tbqq" placeholder=""  value="{$Account.Ac_Qq}">
-                </div>
-                <div class="mui-input-row mui-plus-hidden">
-                  <label>邮箱</label>
-                  <input name="tbemail" type="text" class="textbox" id="tbemail" placeholder="Email"  value="{$Account.Ac_Email}">
-                </div>
-                <div class="mui-button-row">
-                  <button class="mui-btn mui-btn-primary enter" id="btn-link" type="button" data-loading-text="提交中" onclick="return false;">确认</button>
-                </div>
-              </form>
-            </div>
-          </li>          
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe68b;</span>个人签名
-            <div class="right-item" id="sign">{$:#.Account.Ac_Signature}</div>
-            </a>
-            <div class="mui-collapse-content">
-              <form class="mui-input-group">
-                <div class="mui-input-row">
-                  <textarea name="tbSign" class="textbox" id="tbSign" placeholder="" >{$:#.Account.Ac_Signature}</textarea>
-                </div>
-                <div class="mui-button-row">
-                  <button class="mui-btn mui-btn-primary enter" id="btn-sign" type="button" data-loading-text="提交中" onclick="return false;">确认</button>
-                </div>
-              </form>
-            </div>
-          </li>
-        </ul>
-        <!--个人详细信息结束--> 
-         <div style="height:10px"></div>
-          <ul class="mui-table-view">
-          <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe673;</span>安全问题</a>
-            <div class="mui-collapse-content">
-              <form class="mui-input-group">
-                <div class="mui-input-row">
-                  <label>问题</label>
-                  <input name="tbQues" type="text" class="textbox" id="tbQues" placeholder="安全问题" value="{$Account.Ac_Qus}">
-                </div>
-                <div class="mui-input-row">
-                  <label>答案</label>
-                  <input name="tbAnswer" type="text" class="textbox" id="tbAnswer" placeholder="答案"  value="{$Account.Ac_Anwser}">
-                </div>
-                <div class="mui-button-row">
-                  <button class="mui-btn mui-btn-primary enter" id="btn-Safe" type="button" data-loading-text="提交中" onclick="return false;">确认</button>
-                </div>
-              </form>
-            </div>
-          </li>
-           <li class="mui-table-view-cell"> <a href="selfpw.ashx" class="mui-navigate-right" type="link"><span class="iconfont ico">&#xe629;</span>修改密码</a> </li>
-          </ul>
-           <div style="height:100px"></div>
-        <!--主内容区结束--> 
+<!--主界面部分-->
+<div class="mui-inner-wrap">
+  <ul class="mui-table-view">
+    <li class="mui-table-view-cell mui-media"> <a href="javascript:;">
+      <vt:if var="Account.Ac_photo" value="" compare="="> <img class="mui-media-object mui-pull-left" src="images/nophoto.jpg"/>
+        <vt:else/>
+        <img class="mui-media-object mui-pull-left" src="{$stpath}{$:#.Account.Ac_photo}"  default="images/nophoto.jpg"/></vt:if>
+      <div class="mui-media-body"> <span class="stname">
+        <vt:if var="Account.Ac_name" value="" compare="="> （无名）
+          <vt:else/>
+          {$Account.Ac_name} </vt:if>
+        </span>
+        <p class='mui-ellipsis'>
+          <vt:if var="Student.Ac_PhoneMobi" value="" compare="!="> {$Student.Ac_PhoneMobi} </vt:if>
+          （账号：{$:#.Account.Ac_accname} ） </p>
       </div>
- 
-
-  </div>
-  <!--主界面结束-->
-    <space></space>
-  <vt:include file="inc/footer.html" />
- 
+      </a> </li>
+  </ul>
+  <div style="height:10px"></div>
+  
+  <!--资金相关内容-->
+  <ul class="mui-table-view">
+   <vt:if var="mremove" value="false" compare="=">
+    <li class="mui-table-view-cell"> <a href="MoneyDetails.ashx" type="link" class="mui-navigate-right"><span class="iconfont ico"  style="color:#F90">&#xe690;</span>资金明细
+      <div class="right-item"><span class="iconfont">&#xe670;</span> {$:#.Account.Ac_money format="0.00"}元</div>
+      </a> </li>
+    <li class="mui-table-view-cell"> <a href="Recharge.ashx" type="link" class="mui-navigate-right"><span class="iconfont ico" style="color:#060">&#xe640;</span>充值
+      <div class="right-item"><span >券</span> {$:#.Account.Ac_Coupon}个</div>
+      </a> </li>
+       </vt:if>
+    <li class="mui-table-view-cell"> <a href="Subordinates.ashx" type="link" class="mui-navigate-right"><span class="iconfont ico" style="color: #06F">&#xe604;</span>我的朋友
+      <div class="right-item">累计{$subcount}个</div>
+      </a> </li>
+  </ul>
+  <div style="height:10px"></div>
+  
+  <!--个人详细信息列表区-->
+  <ul class="mui-table-view">
+    <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe623;</span>姓名
+      <div class="right-item stname">{$:#.Account.Ac_name}</div>
+      </a>
+      <div class="mui-collapse-content">
+        <form class="mui-input-group">
+          <div class="mui-input-row">
+            <label>姓名</label>
+            <input name="tbname" type="text" class="textbox" id="tbname" placeholder="" value="{$:#.Account.Ac_name}">
+          </div>
+          <div class="mui-button-row">
+            <button class="mui-btn mui-btn-primary enter" id="btn_stname" type="button" data-loading-text="提交中" onclick="return false;">确认</button>
+          </div>
+        </form>
+      </div>
+    </li>
+    <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe75b;</span>性别
+      <div class="right-item" id="stsex">
+        <vt:if var="Account.Ac_sex" value="0" compare="=">未知
+          <vt:else />
+          <vt:if var="Account.Ac_sex" value="1" compare="=">男
+            <vt:else />
+            女</vt:if>
+        </vt:if>
+      </div>
+      </a>
+      <div class="mui-collapse-content">
+        <form class="mui-input-group">
+          <div class="mui-input-row mui-radio mui-left sexrow">
+            <label>女</label>
+            <vt:if var="Account.Ac_sex" value="2" compare="=">
+              <input name="radiosex" type="radio" value="2" checked>
+              <vt:else />
+              <input name="radiosex" type="radio" value="2">
+            </vt:if>
+          </div>
+          <div class="mui-input-row mui-radio mui-left sexrow">
+            <label>男</label>
+            <vt:if var="Account.Ac_sex" value="1" compare="=">
+              <input name="radiosex" type="radio" value="1" checked>
+              <vt:else />
+              <input name="radiosex" type="radio" value="1">
+            </vt:if>
+          </div>
+        </form>
+      </div>
+    </li>
+    <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe64c;</span>年龄
+      <div class="right-item age"><span id="age">{$Account.Ac_age}</span>岁</div>
+      </a>
+      <div class="mui-collapse-content">
+        <div style="height:20px;width:100%" class="right-item">生日：<span id="birthday">{$:#.Account.Ac_Birthday format="yyyy-MM-dd"}</span></div>
+        <button id='birthday_select' class="btn mui-btn mui-btn-block" default="{$Account.Ac_Birthday format='yyyy-MM-dd'}">选择出生日期 ...</button>
+      </div>
+    </li>
+    <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe606;</span>联系方式
+      <div class="right-item" id="stmobi">{$Account.Ac_MobiTel1}</div>
+      </a>
+      <div class="mui-collapse-content">
+        <form class="mui-input-group">
+          <div class="mui-input-row">
+            <label>手机</label>
+            <input name="tbmobi" type="text" class="textbox" id="tbmobi" placeholder="" value="{$Account.Ac_MobiTel1}" >
+          </div>
+          <div class="mui-input-row">
+            <label>QQ</label>
+            <input name="tbqq" type="text" class="textbox" id="tbqq" placeholder=""  value="{$Account.Ac_Qq}">
+          </div>
+          <div class="mui-input-row mui-plus-hidden">
+            <label>邮箱</label>
+            <input name="tbemail" type="text" class="textbox" id="tbemail" placeholder="Email"  value="{$Account.Ac_Email}">
+          </div>
+          <div class="mui-button-row">
+            <button class="mui-btn mui-btn-primary enter" id="btn-link" type="button" data-loading-text="提交中" onclick="return false;">确认</button>
+          </div>
+        </form>
+      </div>
+    </li>
+    <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe68b;</span>个人签名
+      <div class="right-item" id="sign">{$:#.Account.Ac_Signature}</div>
+      </a>
+      <div class="mui-collapse-content">
+        <form class="mui-input-group">
+          <div class="mui-input-row">
+            <textarea name="tbSign" class="textbox" id="tbSign" placeholder="" >{$:#.Account.Ac_Signature}</textarea>
+          </div>
+          <div class="mui-button-row">
+            <button class="mui-btn mui-btn-primary enter" id="btn-sign" type="button" data-loading-text="提交中" onclick="return false;">确认</button>
+          </div>
+        </form>
+      </div>
+    </li>
+  </ul>
+  <!--个人详细信息结束-->
+  <div style="height:10px"></div>
+  <ul class="mui-table-view">
+    <li class="mui-table-view-cell mui-collapse"> <a class="mui-navigate-right" href="#"><span class="iconfont ico">&#xe673;</span>安全问题</a>
+      <div class="mui-collapse-content">
+        <form class="mui-input-group">
+          <div class="mui-input-row">
+            <label>问题</label>
+            <input name="tbQues" type="text" class="textbox" id="tbQues" placeholder="安全问题" value="{$Account.Ac_Qus}">
+          </div>
+          <div class="mui-input-row">
+            <label>答案</label>
+            <input name="tbAnswer" type="text" class="textbox" id="tbAnswer" placeholder="答案"  value="{$Account.Ac_Anwser}">
+          </div>
+          <div class="mui-button-row">
+            <button class="mui-btn mui-btn-primary enter" id="btn-Safe" type="button" data-loading-text="提交中" onclick="return false;">确认</button>
+          </div>
+        </form>
+      </div>
+    </li>
+    <li class="mui-table-view-cell"> <a href="selfpw.ashx" class="mui-navigate-right" type="link"><span class="iconfont ico">&#xe629;</span>修改密码</a> </li>
+  </ul>
+  <div style="height:100px"></div>
+  <!--主内容区结束--> 
+</div>
+</div>
+<!--主界面结束-->
+<space></space>
+<vt:include file="inc/footer.html" />
 </body>
 </html>

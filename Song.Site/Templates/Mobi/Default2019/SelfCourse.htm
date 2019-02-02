@@ -22,10 +22,16 @@
       <a class="" href="SelfInfo.ashx" type="link"> <img src="{$stpath}{$:#.Account.Ac_photo}" default="../images/nophoto.jpg"/></a> </vt:if>
   </div>
    <vt:if var="Account.Ac_id" value="" compare="!=">
+   <vt:if var="mremove" value="false" compare="=">
    <a class="recharge" href="Recharge.ashx" type="link">充值 </a> 
+   </vt:if>
     </vt:if>
   <vt:if var="Account.Ac_id" value="" compare="!=">
+   <vt:if var="mremove" value="false" compare="=">
   <a class="money" href="Recharge.ashx" type="link">{$:#.Account.Ac_money format="0.00"} </a> 
+  <vt:else/>
+   <a class="point" href="couponexchange.ashx" type="link">{$:#.Account.Ac_Point} 积分</a> 
+  </vt:if>
    <vt:else/>
    <a class="login" href="login.ashx" type="link">未登录 </a> 
    </vt:if>

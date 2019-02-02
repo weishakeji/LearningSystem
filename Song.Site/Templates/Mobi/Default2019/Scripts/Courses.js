@@ -100,6 +100,11 @@ function ajaxLoaddata() {
 		        html += '</div></div>';
 		        li.innerHTML = html;
 		        table.append(li);
+				//是否隐藏收费信息
+				var mremove=$("body").attr("mremove")=="True" ? true : false;
+				if(mremove){
+					$(li).find("price,free,limitfree").hide();
+				}
 		        $(li).find("img").error(function () {
 		            var errImg = $(this).attr("default");
 		            if (errImg == null) return false;

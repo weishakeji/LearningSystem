@@ -50,6 +50,11 @@ namespace Song.Site.Manage.Admin
             }
             //手机端是否仅限微信使用
             Org_IsOnlyWeixin.Checked = org.Org_IsOnlyWeixin;
+            //自定义配置项
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //手机端隐藏关于“充值收费”等资费相关信息
+            bool IsMobileRemoveMoney = config["IsMobileRemoveMoney"].Value.Boolean ?? false;
+            this.cbIsMobileRemoveMoney.Checked = IsMobileRemoveMoney;
             
         }
         protected void btnBase_Click(object sender, EventArgs e)
@@ -60,6 +65,9 @@ namespace Song.Site.Manage.Admin
             org.Org_ICP = Org_ICP.Text.Trim();
             //手机端是否仅限微信使用
             org.Org_IsOnlyWeixin = Org_IsOnlyWeixin.Checked;
+            //自定义配置项
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            config["IsMobileRemoveMoney"].Text = this.cbIsMobileRemoveMoney.Checked.ToString();
             //图片
             if (fuLoad.PostedFile.FileName != "")
             {
@@ -82,6 +90,7 @@ namespace Song.Site.Manage.Admin
             try
             {
 
+                org.Org_Config = config.XmlString;
                 Business.Do<IOrganization>().OrganSave(org);                
                 this.Alert("操作成功！");
             }

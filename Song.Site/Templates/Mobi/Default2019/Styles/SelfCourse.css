@@ -100,6 +100,26 @@ html, body {
 .header .money:after {
 	content: "元";
 }
+/*积分*/
+.header .point{
+	color: #fff;
+	position: absolute;
+	top: 125px;
+	left: 65%;
+	display: block;
+	height: 22px;
+	padding: 0px 6px;
+	color: #fff;
+	border-radius: 100px;
+	background-color: rgba(255,102,0,0.61);
+	box-shadow: 0 0 25px rgba(255,255,255,1);
+}
+.header .point:before {
+	content: "\e88a";
+	font-size: 13px;
+	font-family: "iconfont";
+	margin-right: 6px;
+}
 /*登录*/
 .header .login {
 	color: #fff;

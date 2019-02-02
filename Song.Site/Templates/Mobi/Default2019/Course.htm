@@ -11,7 +11,10 @@
 <div id="main">
   <div class="photo" > <img  src="{$course.cou_logo}" default="images/cou_nophoto.jpg"/> </div>
 <div id="Context">  <div class="couName">{$course.cou_name} </div>
-  <div class="info"><i class="viewnum">{$course.cou_viewNum}</i> / <i class="studynum">{$studyCount}</i>人学习 /
+  <div class="info"><i class="viewnum">{$course.cou_viewNum}</i> / <i class="studynum">{$studyCount}</i>人学习
+  
+    <vt:if var="mremove" value="false" compare="=">
+     /
     <vt:if var="course.cou_isfree" value="true" compare="=">
                      <span class="moneyfree"> <i class="free"> 免费</i></span>
                     
@@ -25,7 +28,7 @@
             <span class="money">未设置价格（非免费课程）</span> </vt:foreach>
                       </vt:if>
          
-        </vt:if>
+        </vt:if> </vt:if>
   </div>
   <!--选项卡-->
   <div class="control"> <a class="control-item active" href="#item1"> 详情 </a> <a class="control-item" href="#item1"> 章节 </a> <a class="control-item" href="#item1"> 公告 </a> </div>
