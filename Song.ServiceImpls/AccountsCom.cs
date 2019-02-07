@@ -801,22 +801,22 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="acc">学员账户</param>
         /// <returns></returns>
-        public void PointAdd4Login(Accounts acc)
+        public int PointAdd4Login(Accounts acc)
         {
-            PointAdd4Login(acc, null, null, null);
+            return PointAdd4Login(acc, null, null, null);
         }
-        public void PointAdd4Login(Accounts acc, string source, string info, string remark)
+        public int PointAdd4Login(Accounts acc, string source, string info, string remark)
         {
             //每次登录增加的积分；
             int loginPoint = Business.Do<ISystemPara>()["LoginPoint"].Int32 ?? 0;
-            if (loginPoint <= 0) return;
+            if (loginPoint <= 0) return 0;
             //每天最多的登录积分；
             int maxPoint = Business.Do<ISystemPara>()["LoginPointMax"].Int32 ?? 0;
-            if (loginPoint > maxPoint) return;
+            if (loginPoint > maxPoint) return 0;
             //当前学员今天的登录积分；            
             int todaySum = PointClac(acc.Ac_ID, 1, DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
             int surplus = maxPoint - todaySum;  //每天最多积分，减去已经得到的积分，获取剩余的加分空间
-            if (surplus <= 0) return;
+            if (surplus <= 0) return 0;
 
             //开始增加积分
             PointAccount pa = new PointAccount();
@@ -827,6 +827,7 @@ namespace Song.ServiceImpls
             pa.Pa_Info = info;
             pa.Pa_Remark = remark;
             this.PointAdd(pa);
+            return pa.Pa_Value;
         }
         /// <summary>
         /// 增加分享链接的访问积分
