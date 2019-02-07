@@ -278,13 +278,13 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="acc"></param>
         /// <returns></returns>
-        void PointAdd4Share(Accounts acc);
+        int PointAdd4Share(Accounts acc);
         /// <summary>
         /// 增加分享链接的注册积分
         /// </summary>
         /// <param name="acc"></param>
         /// <returns></returns>
-        void PointAdd4Register(Accounts acc);
+        int PointAdd4Register(Accounts acc);
         /// <summary>
         /// 支出
         /// </summary>

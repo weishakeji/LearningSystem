@@ -834,18 +834,18 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="acc"></param>
         /// <returns></returns>
-        public void PointAdd4Share(Accounts acc)
+        public int PointAdd4Share(Accounts acc)
         {
             //每次访问增加的积分；
             int loginPoint = Business.Do<ISystemPara>()["SharePoint"].Int32 ?? 0;
-            if (loginPoint <= 0) return;
+            if (loginPoint <= 0) return 0;
             //每天最多的登录积分；
             int maxPoint = Business.Do<ISystemPara>()["SharePointMax"].Int32 ?? 0;
-            if (loginPoint > maxPoint) return;
+            if (loginPoint > maxPoint) return 0;
             //当前学员今天的访问积分；            
             int todaySum = PointClac(acc.Ac_ID, 2, DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
             int surplus = maxPoint - todaySum;  //每天最多积分，减去已经得到的积分，获取剩余的加分空间
-            if (surplus <= 0) return;
+            if (surplus <= 0) return 0;
 
             //开始增加积分
             PointAccount pa = new PointAccount();
@@ -854,24 +854,25 @@ namespace Song.ServiceImpls
             pa.Pa_From = 2;     //分享积分
             pa.Pa_Info = "分享链接";
             this.PointAdd(pa);
+            return pa.Pa_Value;
         }
         /// <summary>
         /// 增加分享链接的注册积分
         /// </summary>
         /// <param name="acc"></param>
         /// <returns></returns>
-        public void PointAdd4Register(Accounts acc)
+        public int PointAdd4Register(Accounts acc)
         {
             //每次分享注册增加的积分；
             int loginPoint = Business.Do<ISystemPara>()["RegPoint"].Int32 ?? 0;
-            if (loginPoint <= 0) return;
+            if (loginPoint <= 0) return 0;
             //每天最多的登录积分；
             int maxPoint = Business.Do<ISystemPara>()["RegPointMax"].Int32 ?? 0;
-            if (loginPoint > maxPoint) return;
+            if (loginPoint > maxPoint) return 0;
             //当前学员今天的分享注册积分；            
             int todaySum = PointClac(acc.Ac_ID, 3, DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
             int surplus = maxPoint - todaySum;  //每天最多积分，减去已经得到的积分，获取剩余的加分空间
-            if (surplus <= 0) return;
+            if (surplus <= 0) return 0;
 
             //开始增加积分
             PointAccount pa = new PointAccount();
@@ -880,6 +881,7 @@ namespace Song.ServiceImpls
             pa.Pa_From = 3;     //分享注册
             pa.Pa_Info = "新增下级会员";
             this.PointAdd(pa);
+            return pa.Pa_Value;
         }
         /// <summary>
         /// 支出
