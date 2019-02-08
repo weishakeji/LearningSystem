@@ -281,9 +281,15 @@ namespace Song.ServiceImpls
             //}
             if (istry != null) wc.And(Student_Course._.Stc_IsTry == (bool)istry);
             if (state == 1)
+            {
+                wc.Or(Student_Course._.Stc_IsFree == true);
                 wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);
+            }
             if (state == 2)
+            {
+                wc.And(Student_Course._.Stc_IsFree == false);
                 wc.And(Student_Course._.Stc_EndTime < DateTime.Now);
+            }
             if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
             return Gateway.Default.From<Course>()
                     .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
@@ -739,7 +745,7 @@ namespace Song.ServiceImpls
         public bool StudyIsCourse(int stid, int couid)
         {
             Song.Entities.Student_Course sc = Gateway.Default.From<Student_Course>()
-                   .Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid
+                   .Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid && Student_Course._.Stc_IsTry==false
                    && Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now)
                    .ToFirst<Student_Course>();
             return sc != null;

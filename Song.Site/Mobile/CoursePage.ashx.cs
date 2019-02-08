@@ -30,11 +30,23 @@ namespace Song.Site.Mobile
                 if (sc == null)
                 {
                     //限时免费
-                    if (course.Cou_IsLimitFree) sc = Business.Do<ICourse>().FreeStudy(accid, couid, course.Cou_FreeStart, course.Cou_FreeEnd.AddDays(1).Date);
-                    //免费
-                    if (course.Cou_IsFree) sc = Business.Do<ICourse>().FreeStudy(accid, couid);
-                    //试学
-                    if (course.Cou_IsTry) sc = Business.Do<ICourse>().Tryout(accid, couid);
+                    if (course.Cou_IsLimitFree)
+                    {
+                        sc = Business.Do<ICourse>().FreeStudy(accid, couid, course.Cou_FreeStart, course.Cou_FreeEnd.AddDays(1).Date);
+                    }
+                    else
+                    {
+                        //免费
+                        if (course.Cou_IsFree)
+                        {
+                            sc = Business.Do<ICourse>().FreeStudy(accid, couid);
+                        }
+                        else
+                        {
+                            //试学
+                            if (course.Cou_IsTry) sc = Business.Do<ICourse>().Tryout(accid, couid);
+                        }
+                    }
                 }
             }
             #endregion

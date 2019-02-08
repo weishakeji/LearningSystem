@@ -75,8 +75,11 @@ namespace Song.Site.Ajax
                 addParas.Add("quscount", Business.Do<IQuestions>().QuesOfCount(c.Org_ID, c.Sbj_ID, c.Cou_ID, -1, 0, true));   //当前课程的试题    
                 //获取课程的购买信息
                 Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(stid, c.Cou_ID);
-                addParas.Add("starttime", sc.Stc_StartTime);
-                addParas.Add("endtime", sc.Stc_EndTime);
+                if (sc != null)
+                {
+                    addParas.Add("starttime", sc.Stc_StartTime);
+                    addParas.Add("endtime", sc.Stc_EndTime);
+                }
                 tm += "" + c.ToJson(null, null, addParas);
                 if (i < courses.Count - 1) tm += ",";
             }
