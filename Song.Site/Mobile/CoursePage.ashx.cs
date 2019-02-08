@@ -20,7 +20,25 @@ namespace Song.Site.Mobile
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) return;
+            //记录当前学习的课程
             Extend.LoginState.Accounts.Course(course);
+            #region 创建与学员的关联
+            if (this.Account != null)
+            {
+                int accid = this.Account.Ac_ID;
+                Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(accid, couid);
+                if (sc == null)
+                {
+                    //限时免费
+                    if (course.Cou_IsLimitFree) sc = Business.Do<ICourse>().FreeStudy(accid, couid, course.Cou_FreeStart, course.Cou_FreeEnd.AddDays(1).Date);
+                    //免费
+                    if (course.Cou_IsFree) sc = Business.Do<ICourse>().FreeStudy(accid, couid);
+                    //试学
+                    if (course.Cou_IsTry) sc = Business.Do<ICourse>().Tryout(accid, couid);
+                }
+            }
+            #endregion
+
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {

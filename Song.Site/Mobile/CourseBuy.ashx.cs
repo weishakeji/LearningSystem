@@ -19,7 +19,8 @@ namespace Song.Site.Mobile
             //判断，如果已经购买，则直接跳转
             if (Extend.LoginState.Accounts.IsLogin)
             {
-                Song.Entities.Course buyCou = Business.Do<ICourse>().IsBuyCourse(couid, Extend.LoginState.Accounts.CurrentUser.Ac_ID, 1);
+                int accid=Extend.LoginState.Accounts.CurrentUser.Ac_ID;
+                Song.Entities.Course buyCou = Business.Do<ICourse>().IsBuyCourse(couid, accid, 1);
                 if (buyCou != null)
                 {
                     Extend.LoginState.Accounts.Course(buyCou);

@@ -31,8 +31,10 @@ function cour_tab() {
         //异步加载课程
         cour_tab_post(action, "");
     });
+	mui.trigger(document.querySelector('.cour-bar .cour-tit[action=trycou]'), 'tap');
 	mui.trigger(document.querySelector('.cour-bar .cour-tit[action=overcou]'), 'tap');
 	mui.trigger(document.querySelector('.cour-bar .cour-tit[action=buycou]'), 'tap');
+	
     //mui.trigger(document.querySelector('.current'), 'tap');
 
 }

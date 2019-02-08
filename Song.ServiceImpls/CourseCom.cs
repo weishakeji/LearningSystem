@@ -870,6 +870,40 @@ namespace Song.ServiceImpls
             return sc;
         }
         /// <summary>
+        /// 免费学习
+        /// </summary>
+        /// <param name="stid">学习ID</param>
+        /// <param name="couid">课程ID</param>
+        /// <returns></returns>
+        public Student_Course FreeStudy(int stid, int couid)
+        {
+            return FreeStudy(stid, couid, DateTime.Now, DateTime.Now.AddYears(101));
+        }
+        /// <summary>
+        /// 免费学习
+        /// </summary>
+        /// <param name="stid">学习ID</param>
+        /// <param name="couid">课程ID</param>
+        /// <param name="start">免费时效的开始时间</param>
+        /// <param name="end">免费时效的结束时间</param>
+        /// <returns></returns>
+        public Student_Course FreeStudy(int stid, int couid, DateTime start, DateTime end)
+        {
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(stid, couid);
+            if (sc == null) sc = new Entities.Student_Course();
+            sc.Stc_CrtTime = DateTime.Now;
+            sc.Cou_ID = couid;
+            sc.Ac_ID = stid;
+            sc.Stc_StartTime = start;
+            sc.Stc_EndTime = end;
+            sc.Stc_IsFree = true;
+            sc.Stc_IsTry = false;
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            if (org != null) sc.Org_ID = org.Org_ID;
+            Gateway.Default.Save<Student_Course>(sc);
+            return sc;
+        }
+        /// <summary>
         /// 课程试用
         /// </summary>
         /// <param name="stid"></param>

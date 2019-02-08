@@ -98,19 +98,11 @@ namespace Song.Site.Ajax
                 return;
             }
             else
-            {
-                //生成学员与课程的关联
-                Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(st.Ac_ID, couid);
-                if (sc == null) sc = new Entities.Student_Course();
-                sc.Cou_ID = couid;
-                sc.Ac_ID = st.Ac_ID;
-                sc.Stc_StartTime = DateTime.Now;
-                sc.Stc_EndTime = DateTime.Now.AddYears(101);
-                sc.Stc_IsFree = true;
-                sc.Stc_IsTry = false;
+            {                
                 try
                 {
-                    Business.Do<ICourse>().Buy(sc);
+                    //生成学员与课程的关联
+                    Song.Entities.Student_Course sc = Business.Do<ICourse>().FreeStudy(st.Ac_ID, couid);
                     Extend.LoginState.Accounts.Course(course);
                     Context.Response.Write(getBackJson(0, sc, null));
                     return;

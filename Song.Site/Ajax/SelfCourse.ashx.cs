@@ -40,7 +40,10 @@ namespace Song.Site.Ajax
                             List<Song.Entities.Course> overCou = Business.Do<ICourse>().CourseForStudent(stid, null, 2, false, -1);
                             context.Response.Write(_toJosn(overCou, action, stid));
                             break;
-
+                        case "trycou":
+                            List<Song.Entities.Course> trycou = Business.Do<ICourse>().CourseForStudent(stid, null, -1, true, -1);
+                            context.Response.Write(_toJosn(trycou, action, stid));
+                            break;
                     }
                 }
                 context.Response.End();
