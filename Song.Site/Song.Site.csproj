@@ -832,6 +832,7 @@
     <Content Include="Templates\Mobi\Default2019\Scripts\TestSceneEvent.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\TestView.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\QuesExercisesGuide.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\MyFriends.js" />
     <Content Include="Templates\Mobi\Default2019\SelfCourse.htm" />
     <Content Include="Templates\Mobi\Default2019\SelfInfo.htm" />
     <Content Include="Templates\Mobi\Default2019\SelfPw.htm" />
@@ -896,6 +897,7 @@
     <Content Include="Templates\Mobi\Default2019\Styles\TestPapers.css" />
     <Content Include="Templates\Mobi\Default2019\Styles\TestScene.css" />
     <Content Include="Templates\Mobi\Default2019\Styles\TestView.css" />
+    <Content Include="Templates\Mobi\Default2019\Styles\MyFriends.css" />
     <Content Include="Templates\Mobi\Default2019\Subordinates.htm" />
     <Content Include="Templates\Mobi\Default2019\Swipe.htm" />
     <Content Include="Templates\Mobi\Default2019\Teacher.htm" />
@@ -907,6 +909,7 @@
     <Content Include="Templates\Mobi\Default2019\TestScene.htm" />
     <Content Include="Templates\Mobi\Default2019\TestView.htm" />
     <Content Include="Templates\Mobi\Default2019\_self.xml" />
+    <Content Include="Templates\Mobi\Default2019\MyFriends.htm" />
     <Content Include="Templates\Mobi\Default\About.htm" />
     <Content Include="Templates\Mobi\Default\APICloud\api.js" />
     <Content Include="Templates\Mobi\Default\APICloud\common.js" />
@@ -3492,6 +3495,10 @@
     </Compile>
     <Compile Include="Mobile\QuesOften.ashx.cs">
       <DependentUpon>QuesOften.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\MyFriends.ashx.cs">
+      <DependentUpon>MyFriends.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewsList.ashx.cs">
@@ -6591,6 +6598,7 @@
     <Content Include="Ajax\SelfStudyLog.ashx" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <Content Include="Mobile\ExamReview.ashx" />
+    <Content Include="Mobile\MyFriends.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
