@@ -10,7 +10,7 @@ $(function () {
     });
 });
 $(window).load(function () {
-    //alert(3);
+
 });   //
 
 //顶部右上方的下拉菜单

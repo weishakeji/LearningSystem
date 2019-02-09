@@ -23,6 +23,17 @@ namespace Song.ServiceInterfaces
         /// <param name="entity">业务实体</param>
         void ThemeSave(ProfitSharing entity);
         /// <summary>
+        /// 当前分润方案
+        /// </summary>
+        /// <returns></returns>
+        ProfitSharing ThemeCurrent();
+        /// <summary>
+        /// 机构的分润方案
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <returns></returns>
+        ProfitSharing ThemeCurrent(int orgid);
+        /// <summary>
         /// 删除
         /// </summary>
         /// <param name="entity">业务实体</param>
@@ -85,7 +96,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         ProfitSharing ProfitSingle(int identify);
         /// <summary>
-        /// 获取对象；即所有分类；
+        /// 分润方案的分润项；
         /// </summary>
         /// <param name="theme">方案主题的id</param>
         /// <param name="isUse"></param>

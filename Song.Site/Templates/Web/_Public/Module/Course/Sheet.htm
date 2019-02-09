@@ -1,4 +1,4 @@
-﻿<script type="text/javascript" src="Sheet.js?ver={$version}"></script>
+﻿
 <link href="Sheet.css?ver={$version}" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="/Utility/CoreScripts/jquery.qrcode.min.js?ver={$version}"></script>
         <div class="navi-bar">
@@ -13,8 +13,8 @@
         </div>
         <div id="couHead">
             <div class="photo">
-                <img style="background: url({$course.cou_logo}) no-repeat center; background-size: 100%;"
-                    src="{$course.cou_logo}"  default="../../images/cou_nophoto.jpg"/></div>
+                <img src="{$course.cou_logo}" default="../../images/cou_nophoto.jpg" 
+                style="background: url({$course.cou_logo}) no-repeat center; background-size: 100%;"/></div>
             <div class="headRight">
                 <div class="couName">
                     <vt:if var="course.cou_name" value="" compare="!="> {$course.cou_name}
@@ -219,4 +219,4 @@
             </div>
         </div>
 
-
+<script type="text/javascript" src="Sheet.js?ver={$version}"></script>

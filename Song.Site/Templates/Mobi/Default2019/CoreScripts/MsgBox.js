@@ -62,6 +62,7 @@
             }, 1000);
         }
         $("body>*[class!=MsgBox]").addClass("blur");
+        $("html").css("overflow", "hidden");
     }
     //关闭当前窗口
     msgbox.prototype.Close = function (winid) {
@@ -77,6 +78,7 @@
             $(this).remove();
         });
         $("body>*[class!=MsgBox]").removeClass("blur");
+        $("html").css("overflow", "auto");
     }
     //生成窗体外框,包括标题
     msgbox.prototype.BuildFrame = function () {
@@ -172,6 +174,7 @@
             if (msgbox.OverEvent != null) msgbox.OverEvent();
         }
         $("body>*[class!=MsgBox]").removeClass("blur");
+        $("html").css("overflow", "auto");
     }
     //关闭窗口的事件
     msgbox.CloseEvent = function (obj) {
@@ -188,6 +191,7 @@
         });
         if (MsgBox.OverEvent != null) MsgBox.OverEvent();
         $("body>*[class!=MsgBox]").removeClass("blur");
+        $("html").css("overflow", "auto");
     }
     //生成遮罩层
     msgbox.prototype.Mask = function () {

@@ -3,16 +3,18 @@
 <head>
 <title>我的朋友</title>
 <vt:include file="inc/meta.inc" />
-<link rel="stylesheet" href="Styles/MyFriends.css?ver={$version}" />
+<script type="text/javascript" src="CoreScripts/MsgBox.js?ver={$version}"></script>
 <script type="text/javascript" src="Scripts/MyFriends.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/jquery.qrcode.min.js?ver={$version}"></script>
+<link href="CoreStyles/MsgBox.css?ver={$version}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="Styles/MyFriends.css?ver={$version}" />
 </head>
-<body>
+<body acid="{$:#.Account.Ac_id}">
 <div class="header">
   <div class="btnHelp">说明</div>
   <div class="btnShare">分享</div>
   <div class="btnFriend">好朋友<span>{$friends}</span>位，所有朋友<span>{$friendsAll}</span>位</div>
 </div>
-
 <div class="context-box">
   <div class="context-tit">积分收益</div>
   <div class="context-info">分享访问与分享注册的积分奖励</div>
@@ -28,7 +30,53 @@
   <div class="context-info">朋友以及朋友的朋友，在购买课程后给予的奖励</div>
   <div class="context-number coupon">{$sumCoupon}</div>
 </div>
- <space></space> <space></space>
+<div class="share-box">
+<div class="share-tit">分享二维码</div>
+ <div id="qrcode" class="qrcode"></div>
+  <div class="share-txt">
+  您可以将二维码或当前页面的地址分享给您的朋友
+  </div>
+ </div>
+<div class="help-box">
+  <div class="help-tit">说明</div>
+  <div class="explain">
+    <dl>
+      <dt>1、如何增加朋友？</dt>
+      <dd>登录后分享链接或二维码，从分享链接中访问并注册的学员将作为您的朋友。</dd>
+    </dl>
+    <dl>
+      <dt>2、如何分享？</dt>
+      <dd>登录后分享任意链接，或从此界面获取分享二维码，分享到微信或其它任意平台。</dd>
+    </dl>
+    <dl>
+      <dt>3、分享能赢取多少积分？</dt>
+      <dd>转发分享，每访问一次<b>{$dic.SharePoint}</b>（每天最多<b>{$dic.SharePointMax}</b>）。</dd>
+      <dd>从分享链接中每注册一名学员您会得到<b>{$dic.RegPoint}</b>（每天最多<b>{$dic.RegPointMax}</b>）。</dd>
+    </dl>
+    <dl>
+      <dt>4、现金收益的计算</dt>
+      <dd>
+        <vt:if var="profits" value="" compare="="> 没有设置分润方案，您任何朋友在购买课程时，都不对给予现金奖励。
+          <vt:else />
+          当您的朋友在购买课程时，他所消费的现金会有一部分给予您作为奖励，
+          <vt:foreach from="$#.profits" item="p" index="i"> <s>{$:i}级</s>关系的朋友奖励 <s>{$:p.Ps_Moneyratio}%</s>现金， </vt:foreach>
+          该现金可以用来继续购买课程。 </vt:if>
+      </dd>
+    </dl>
+    <dl>
+      <dt>5、卡券收益的计算</dt>
+      <dd>
+        <vt:if var="profits" value="" compare="="> 没有设置分润方案，您任何朋友在购买课程时，都不对给予奖励。
+          <vt:else />
+          当您的朋友在购买课程时，他所消费的卡券会有一部分给予您作为奖励，
+          <vt:foreach from="$#.profits" item="p" index="i"> <s>{$:i}级</s>关系的朋友奖励 <s>{$:p.Ps_Couponratio}%</s>卡券， </vt:foreach>
+          该卡券可以用来继续购买课程。 </vt:if>
+      </dd>
+    </dl>
+  </div>
+</div>
+<space></space>
+<space></space>
 <vt:include file="inc/Footer.html" />
 </body>
 </html>

@@ -38,6 +38,35 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<ProfitSharing>(entity);
         }
         /// <summary>
+        /// 当前分润方案
+        /// </summary>
+        /// <returns></returns>
+        public ProfitSharing ThemeCurrent()
+        {
+            Organization org = Business.Do<IOrganization>().OrganCurrent();
+            if (org == null) return null;
+            return ThemeCurrent(org.Org_ID);
+        }
+        /// <summary>
+        /// 机构的分润方案
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <returns></returns>
+        public ProfitSharing ThemeCurrent(int orgid)
+        {
+            //课程所在机构
+            Organization org = Business.Do<IOrganization>().OrganSingle(orgid);
+            if (org == null) return null;
+            //所属机构等级
+            OrganLevel olevel = Business.Do<IOrganization>().LevelSingle(org.Olv_ID);
+            if (olevel == null) return null;
+            //分润方案
+            ProfitSharing psTheme = this.ThemeSingle(olevel.Ps_ID);
+            if (psTheme == null) return null;       //如果没有设置分润方案
+            if (!psTheme.Ps_IsUse) return null;     //如果分润方案没有启用
+            return psTheme;
+        }
+        /// <summary>
         /// 删除
         /// </summary>
         /// <param name="entity">业务实体</param>
@@ -348,17 +377,11 @@ namespace Song.ServiceImpls
         public ProfitSharing[] Clac(Course cou, double money, double coupon)
         {
             if (cou == null) return null;
-            //课程所在机构
-            Organization org = Business.Do<IOrganization>().OrganSingle(cou.Org_ID);
-            if (org == null) return null;
-            //所属机构等级
-            OrganLevel olevel = Business.Do<IOrganization>().LevelSingle(org.Olv_ID);
-            if (olevel == null) return null;
             //分润方案
-            ProfitSharing psTheme = this.ThemeSingle(olevel.Ps_ID);
+            ProfitSharing psTheme = this.ThemeCurrent(cou.Org_ID);
             if (psTheme == null) return null;       //如果没有设置分润方案
             if (!psTheme.Ps_IsUse) return null;     //如果分润方案没有启用
-            ProfitSharing[] profits = this.ProfitAll(olevel.Ps_ID, true);
+            ProfitSharing[] profits = this.ProfitAll(psTheme.Ps_ID, true);
             if (profits.Length < 1) return null;
             //计算
             for (int i = 0; i < profits.Length; i++)
