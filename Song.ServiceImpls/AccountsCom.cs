@@ -1581,6 +1581,24 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<MoneyAccount>().Where(wc).OrderBy(MoneyAccount._.Ma_CrtTime.Desc).ToArray<MoneyAccount>(count);
         }
         /// <summary>
+        /// 计算某一个时间区间的现金
+        /// </summary>
+        /// <param name="acid">学员账户</param>
+        /// <param name="formType">1为管理员操作，2为充值码充值；3在线支付；4购买课程,5分润</param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public int MoneyClac(int acid, int formType, DateTime? start, DateTime? end)
+        {
+            WhereClip wc = new WhereClip();
+            if (acid > 0) wc &= MoneyAccount._.Ac_ID == acid;
+            if (formType > 0) wc &= MoneyAccount._.Ma_From == formType;
+            if (start != null) wc &= MoneyAccount._.Ma_CrtTime >= (DateTime)start;
+            if (end != null) wc &= MoneyAccount._.Ma_CrtTime < (DateTime)end;
+            object obj = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Money, wc);
+            return Convert.ToInt32(obj);
+        }
+        /// <summary>
         /// 分页获取所有资金流水；
         /// </summary>
         /// <param name="orgid">机构id</param>

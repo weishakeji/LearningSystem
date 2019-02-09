@@ -1,14 +1,34 @@
 ﻿<!doctype html>
 <html>
 <head>
-    <title>关于我们</title>
-    <vt:include file="inc/meta.inc" />
-    <link rel="stylesheet" href="Styles/MyFriends.css?ver={$version}" />
+<title>我的朋友</title>
+<vt:include file="inc/meta.inc" />
+<link rel="stylesheet" href="Styles/MyFriends.css?ver={$version}" />
+<script type="text/javascript" src="Scripts/MyFriends.js?ver={$version}"></script>
 </head>
 <body>
-    <div class="tit">
-        我的朋友
-    </div>
-   
+<div class="header">
+  <div class="btnHelp">说明</div>
+  <div class="btnShare">分享</div>
+  <div class="btnFriend">好朋友<span>{$friends}</span>位，所有朋友<span>{$friendsAll}</span>位</div>
+</div>
+
+<div class="context-box">
+  <div class="context-tit">积分收益</div>
+  <div class="context-info">分享访问与分享注册的积分奖励</div>
+  <div class="context-number point">{$sumPoint}</div>
+</div>
+<div class="context-box">
+  <div class="context-tit">现金收益</div>
+  <div class="context-info">朋友以及朋友的朋友，在购买课程后给予的奖励</div>
+  <div class="context-number money">{$sumMoney}</div>
+</div>
+<div class="context-box">
+  <div class="context-tit">卡券收益</div>
+  <div class="context-info">朋友以及朋友的朋友，在购买课程后给予的奖励</div>
+  <div class="context-number coupon">{$sumCoupon}</div>
+</div>
+ <space></space> <space></space>
+<vt:include file="inc/Footer.html" />
 </body>
 </html>

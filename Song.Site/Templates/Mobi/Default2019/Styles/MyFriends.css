@@ -1,4 +1,103 @@
 ﻿@charset "utf-8";
 body {
-	
+}
+.header {
+	height: 180px;
+	width: 100%;
+	background-color: #069;
+	position: relative;
+	padding-top: 50px;
+	background-attachment: fixed;
+	background-image: url(../Images/MyFriends.jpg);
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+.header>div{
+	color:#fff;
+	text-shadow:0px 0px 5px #fff;
+}
+/*帮助说明按钮*/
+.header .btnHelp{
+	position:absolute;
+	right:10px;
+	top:5px;
+}
+.header .btnHelp:before{
+	content: "\e658";
+	font-size: 16px;
+	font-family: "iconfont";
+	margin-right: 6px;
+}
+/*分享按钮*/
+.header .btnShare{
+	position:absolute;
+	right:10px;
+	bottom:5px;
+}
+.header .btnShare:before{
+	content: "\e64e";
+	font-size: 16px;
+	font-family: "iconfont";
+	margin-right: 6px;
+}
+/*我的朋友*/
+.header .btnFriend{
+	position: absolute;
+	left: 10px;
+	bottom: 0px;
+	background-color: #efeff4;
+	color: #333;
+	padding: 5px 30px 5px 15px ;
+	background: linear-gradient(rgba(239,239,244,0.2), rgba(239,239,244,1));
+}
+.header .btnFriend:before{
+	content: "\e62f";
+	font-size: 14px;
+	font-family: "iconfont";
+	margin-right: 6px;
+}
+.header .btnFriend span{
+	margin-left:5px;
+	margin-right:5px;
+	color:#060;
+}
+
+/*内容区*/
+.context-box{
+	margin: 12px 10px 0px 10px;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);	
+	background-color: #FFF;
+	padding:10px;
+	position:relative;
+	height:90px;
+}
+.context-box .context-tit{
+	height:30px;
+	margin-top:2px;
+	font-size:16px;
+}
+.context-box .context-info{
+	height:20px;
+	font-size:12px;
+	color:#999;
+}
+.context-box .context-number{
+	position:absolute;
+	right:15px;
+	top:15px;
+	font-size:18px;
+}
+.context-box .context-number:before{
+	font-family: "iconfont";
+	margin-right: 6px;
+}
+.context-box .point:before{
+	content: "\e88a";
+}
+.context-box .money:before{
+	content: "\e670";
+}
+.context-box .coupon:before{
+	content: "\e6a1";
 }

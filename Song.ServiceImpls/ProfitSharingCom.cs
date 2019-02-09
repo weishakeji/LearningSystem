@@ -396,7 +396,8 @@ namespace Song.ServiceImpls
                     ma.Ma_From = 5; //
                     ma.Ma_IsSuccess = true;
                     ma.Org_ID = parents[i].Org_ID;
-                    ma = Business.Do<IAccounts>().MoneyIncome(ma);
+                    if (ma.Ma_Money > 0)
+                        ma = Business.Do<IAccounts>().MoneyIncome(ma);
                 }
                 //写入卡券分润
                 if (ps[i].Ps_CouponValue > 0)
@@ -404,11 +405,11 @@ namespace Song.ServiceImpls
                     Song.Entities.CouponAccount ca = new CouponAccount();
                     ca.Ac_ID = parents[i].Ac_ID;
                     ca.Ca_Source = "分润";
-                    ca.Ca_Value = ps[i].Ps_CouponValue;
+                    ca.Ca_Value = ps[i].Ps_CouponValue;                    
                     ca.Ca_Total = parents[i].Ac_Coupon; //当前卡券总数
                     ca.Ca_Info = string.Format("{0}（{1}）购买课程《{2}》,获取收益{3}", acc.Ac_Name, acc.Ac_AccName, cou.Cou_Name, ps[i].Ps_CouponValue);
                     ca.Ca_From = 5;
-                    Business.Do<IAccounts>().CouponAdd(ca);
+                    if (ca.Ca_Value > 0) Business.Do<IAccounts>().CouponAdd(ca);
                 }
             }
         }

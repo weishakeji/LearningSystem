@@ -721,6 +721,7 @@
     <Content Include="Templates\Mobi\Default2019\Images\load_015.gif" />
     <Content Include="Templates\Mobi\Default2019\Images\load_016.gif" />
     <Content Include="Templates\Mobi\Default2019\Images\load_024.gif" />
+    <Content Include="Templates\Mobi\Default2019\Images\MyFriends.jpg" />
     <Content Include="Templates\Mobi\Default2019\Images\news-ico.png" />
     <Content Include="Templates\Mobi\Default2019\Images\nophoto.gif" />
     <Content Include="Templates\Mobi\Default2019\Images\nophoto.jpg" />
