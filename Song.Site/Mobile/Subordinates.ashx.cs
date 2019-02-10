@@ -29,7 +29,7 @@ namespace Song.Site.Mobile
                 int index = WeiSha.Common.Request.Form["index"].Int32 ?? 1;  //第几页
                 int sumcount = 0;
                 Song.Entities.Accounts[] eas = null;
-                eas = Business.Do<IAccounts>().AccountsPager(this.Organ.Org_ID, st.Ac_ID, null, "", "", "", size, index, out sumcount);               
+                eas = Business.Do<IAccounts>().AccountsPager(this.Organ.Org_ID, -1, st.Ac_ID, null, "", "", "", size, index, out sumcount);          
                 string json = "{\"size\":" + size + ",\"index\":" + index + ",\"sumcount\":" + sumcount + ",";
                 json += "\"items\":[";
                 for (int i = 0; i < eas.Length; i++)

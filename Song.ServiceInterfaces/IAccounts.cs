@@ -250,6 +250,19 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int SubordinatesCount(int acid, bool isAll);
         /// <summary>
+        /// 下级会员分页获取
+        /// </summary>
+        /// <param name="acid">当前账号id</param>
+        /// <param name="isUse">是否启用</param>
+        /// <param name="acc"></param>
+        /// <param name="name"></param>
+        /// <param name="phone"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        Accounts[] SubordinatesPager(int acid, bool? isUse, string acc, string name, string phone, int size, int index, out int countSum);
+        /// <summary>
         /// 当前账户的所有父级账户，依次向上
         /// </summary>
         /// <param name="accid">当前账户id</param>

@@ -752,6 +752,39 @@ namespace Song.ServiceImpls
             }
             return count;
         }
+        /// <summary>
+        /// 下级会员分页获取
+        /// </summary>
+        /// <param name="acid">当前账号id</param>
+        /// <param name="isUse">是否启用</param>
+        /// <param name="acc"></param>
+        /// <param name="name"></param>
+        /// <param name="phone"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public Accounts[] SubordinatesPager(int acid, bool? isUse, string acc, string name, string phone, int size, int index, out int countSum)
+        {
+            WhereClip wc = new WhereClip();
+            if (acid > 0) wc.And(Accounts._.Ac_PID == acid);
+            if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
+            if (!string.IsNullOrWhiteSpace(acc) && acc.Trim() != "") wc.And(Accounts._.Ac_AccName.Like("%" + acc.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(Accounts._.Ac_Name.Like("%" + name.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(phone) && phone.Trim() != "")
+            {
+                WhereClip wc2 = new WhereClip();
+                wc2.Or(Accounts._.Ac_MobiTel1.Like("%" + phone.Trim() + "%"));
+                wc2.Or(Accounts._.Ac_MobiTel2.Like("%" + phone.Trim() + "%"));
+                wc2.Or(Accounts._.Ac_AccName.Like("%" + phone.Trim() + "%"));
+                wc.And(wc2);
+            }
+            countSum = Gateway.Default.Count<Accounts>(wc);
+            Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>(size, (index - 1) * size);
+            foreach (Song.Entities.Accounts ac in accs)
+                _acc_init(ac);
+            return accs;
+        }
         #endregion
 
         #region 积分管理

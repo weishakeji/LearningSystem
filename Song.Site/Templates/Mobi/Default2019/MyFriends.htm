@@ -60,7 +60,7 @@
     <dl>
       <dt>4、现金收益的计算</dt>
       <dd>
-        <vt:if var="profits" value="" compare="="> 没有设置分润方案，您任何朋友在购买课程时，都不对给予现金奖励。
+        <vt:if var="profits" value="" compare="="> 没有设置分润方案，您的任何朋友在购买课程时，都不对您给予现金奖励。
           <vt:else />
           当您的朋友在购买课程时，他所消费的现金会有一部分给予您作为奖励，
           <vt:foreach from="$#.profits" item="p" index="i"> <s>{$:i}级</s>关系的朋友奖励 <s>{$:p.Ps_Moneyratio}%</s>现金， </vt:foreach>
@@ -70,7 +70,7 @@
     <dl>
       <dt>5、卡券收益的计算</dt>
       <dd>
-        <vt:if var="profits" value="" compare="="> 没有设置分润方案，您任何朋友在购买课程时，都不对给予奖励。
+        <vt:if var="profits" value="" compare="="> 没有设置分润方案，您的任何朋友在购买课程时，都不对您给予奖励。
           <vt:else />
           当您的朋友在购买课程时，他所消费的卡券会有一部分给予您作为奖励，
           <vt:foreach from="$#.profits" item="p" index="i"> <s>{$:i}级</s>关系的朋友奖励 <s>{$:p.Ps_Couponratio}%</s>卡券， </vt:foreach>
