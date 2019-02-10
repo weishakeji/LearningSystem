@@ -109,7 +109,7 @@ body {
 	padding:20px;
 	padding-top:0px;
 	margin-bottom:10px;
-	height:140px;
+	height:180px;
 }
 .share-box .share-tit{
 	height:40px;
@@ -125,11 +125,27 @@ body {
 }
 .share-box .share-txt{
 	float:left;
+	margin-top:20px;
 	max-width:160px;
 	margin-left:20px;
 }
-.qrcode{
+.share-box .qrcode{
 	float:left;
+	width:120px;
+}
+.MsgBoxContext .share{
+	text-align:center;
+}
+.MsgBoxContext .qrcode{
+	float:none;
+	margin-left:auto;
+	margin-right:auto;
+	width:120px;
+}
+.MsgBoxContext .share-txt{
+	width:80%;
+	margin-left:auto;
+	margin-right:auto;
 }
 /*说明*/
 .help-box{

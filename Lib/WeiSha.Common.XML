@@ -444,6 +444,11 @@
             获取参数
             </summary>
         </member>
+        <member name="P:WeiSha.Common.App.Version">
+            <summary>
+            应用程序版本号
+            </summary>
+        </member>
         <member name="T:WeiSha.Common.VideoHandler">
             <summary>
             视频操作方法，此为入口类
@@ -858,6 +863,16 @@
             <param name="bgcolor">二维码背景色</param>
             <returns></returns>
         </member>
+        <member name="M:WeiSha.Common.QrcodeHepler.Encode(System.String[],System.Int32,System.String,System.String)">
+            <summary>
+            批量生成二维码，默认是高容错图像
+            </summary>
+            <param name="content"></param>
+            <param name="wh"></param>
+            <param name="color"></param>
+            <param name="bgcolor"></param>
+            <returns></returns>
+        </member>
         <member name="M:WeiSha.Common.QrcodeHepler.Encode(System.String,System.String,System.Int32,System.String,System.String)">
             <summary>
             生成二维码，可以设置容错级别
@@ -880,6 +895,17 @@
             <param name="bgcolor">背景色</param>
             <returns></returns>
         </member>
+        <member name="M:WeiSha.Common.QrcodeHepler.Encode(System.String[],System.Int32,System.String,System.String,System.String)">
+            <summary>
+            批量生成带中心图片的二维码，默认是高容错图像
+            </summary>
+            <param name="content"></param>
+            <param name="wh"></param>
+            <param name="centerImgPath"></param>
+            <param name="color"></param>
+            <param name="bgcolor"></param>
+            <returns></returns>
+        </member>
         <member name="M:WeiSha.Common.QrcodeHepler.Encode(System.String,System.Int32,System.Drawing.Image,System.String,System.String)">
             <summary>
             生成带中心图片的二维码，默认是高容错图像
@@ -889,6 +915,17 @@
             <param name="centerImg">二维码中心图片对象</param>
             <param name="color">前景色</param>
             <param name="bgcolor">背景色</param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.Common.QrcodeHepler.Encode(System.String[],System.Int32,System.Drawing.Image,System.String,System.String)">
+            <summary>
+            批量生成带中心图片的二维码，默认是高容错图像
+            </summary>
+            <param name="content"></param>
+            <param name="wh"></param>
+            <param name="centerImg"></param>
+            <param name="color"></param>
+            <param name="bgcolor"></param>
             <returns></returns>
         </member>
         <member name="M:WeiSha.Common.QrcodeHepler.toBitmap(com.google.zxing.common.ByteMatrix,System.String,System.String)">
@@ -933,11 +970,30 @@
             <param name="path"></param>
             <returns></returns>
         </member>
+        <member name="M:WeiSha.Common.Server.LegalName(System.String)">
+            <summary>
+            将文件名转换为合法的文件名
+            </summary>
+            <param name="filename">文件名</param>
+            <returns></returns>
+        </member>
         <member name="M:WeiSha.Common.Server.Rewriter(System.String)">
             <summary>
             页面重定向
             </summary>
             <param name="path"></param>
+        </member>
+        <member name="M:WeiSha.Common.Server.getTime">
+            <summary>
+            JavaScript时间戳：是指格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总毫秒数。
+            </summary>
+        </member>
+        <member name="M:WeiSha.Common.Server.getTime(System.DateTime)">
+            <summary>
+             JavaScript时间戳：是指格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总毫秒数。
+            </summary>
+            <param name="time"></param>
+            <returns></returns>
         </member>
         <member name="P:WeiSha.Common.Server.IP">
             <summary>
@@ -1039,6 +1095,11 @@
         <member name="P:WeiSha.Common.Server.DatabasePath">
             <summary>
             数据库所在的物理路径，不包括文件名；如果是Access数据库，则返回路径，如果是其它数据库则不返回
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.Server.InitDate">
+            <summary>
+            系统部署运行的初始时间
             </summary>
         </member>
         <member name="M:WeiSha.Common.VideoConverter.IVideoHanlder.ToFlv">
@@ -1988,27 +2049,46 @@
             用于记录日志
             </summary>
         </member>
-        <member name="M:WeiSha.Common.Log.Write(System.String)">
+        <member name="M:WeiSha.Common.Log.Debug(System.String,System.String)">
             <summary>
-            写入在根目录
+            向日志文件写入调试信息
             </summary>
-            <param name="context"></param>
+            <param name="className">类名</param>
+            <param name="content">要写入的内容</param>
         </member>
-        <member name="M:WeiSha.Common.Log.Write(System.String,System.String)">
+        <member name="M:WeiSha.Common.Log.Info(System.String,System.String)">
             <summary>
-            写入到指定目录
+            向日志文件写入信息
             </summary>
-            <param name="key">来自Upload配置项的key</param>
-            <param name="context"></param>
-            <returns>返回日志文件的虚拟路径</returns>
+            <param name="className">类名</param>
+            <param name="content">要写入的内容</param>
         </member>
-        <member name="M:WeiSha.Common.Log.Write(System.String,System.Exception)">
+        <member name="M:WeiSha.Common.Log.Error(System.String,System.String)">
             <summary>
-            写入到指定目录
+            向日志文件出错信息
             </summary>
-            <param name="key">来自Upload配置项的key</param>
+            <param name="className">类名</param>
+            <param name="content">要写入的内容</param>
+        </member>
+        <member name="M:WeiSha.Common.Log.Error(System.String,System.Exception)">
+            <summary>
+            向日志文件出错信息
+            </summary>
+            <param name="className">类名</param>
             <param name="ex">错误信息</param>
-            <returns>返回日志文件的虚拟路径</returns>
+        </member>
+        <member name="M:WeiSha.Common.Log.WriteLog(System.String,System.String,System.String)">
+            <summary>
+            实际写日志的方法
+            </summary>
+            <param name="logtype">日志类型</param>
+            <param name="className">类名称</param>
+            <param name="content">实际内容</param>
+        </member>
+        <member name="P:WeiSha.Common.Log.LOG_LEVEL">
+            <summary>
+            日志等级，0.不输出日志；1.只输出错误信息; 2.输出错误和正常信息; 3.输出错误信息、正常信息和调试信息
+            </summary>
         </member>
         <member name="T:com.google.zxing.qrcode.encoder.MaskUtil">
             <author>  satorux@google.com (Satoru Takabayashi) - creator
@@ -2221,6 +2301,12 @@
             <summary>
             授权的许可的验证处理类
             </summary>
+        </member>
+        <member name="M:WeiSha.Common.License.#ctor(System.Boolean)">
+            <summary>
+            构建对象
+            </summary>
+            <param name="isinit">是否初始化</param>
         </member>
         <member name="M:WeiSha.Common.License.Init">
             <summary>
@@ -2461,6 +2547,13 @@
             <param name="encryptStr"></param>
             <returns></returns>
         </member>
+        <member name="M:WeiSha.Common.DataConvert.EncryptForBase64UrlEncode(System.String)">
+            <summary>
+            加密字符为base64，并进行url编码
+            </summary>
+            <param name="encryptStr"></param>
+            <returns></returns>
+        </member>
         <member name="M:WeiSha.Common.DataConvert.DecryptForBase64(System.String)">
             <summary>
             解密base64字符
@@ -2694,7 +2787,7 @@
             <param name="img">叠加的图片对象</param>
             <param name="x"></param>
             <param name="y"></param>
-            <param name="opacity">透明度，大于100时，默认等100；小于0时，默认等于0</param>
+            <param name="opacity">透明度，0为完全透明，100为不透明</param>
             <returns></returns>
         </member>
         <member name="M:WeiSha.Common.Images.ImageTo.Overlay(System.Drawing.Image,System.Drawing.Image,System.String,System.Int32)">
@@ -2704,7 +2797,7 @@
             <param name="source">原图片对象</param>
             <param name="img">要叠加的图片对象</param>
             <param name="overType">叠加的类型，分为左left、右right、上top、下down、中cengter；另分为左上、左下、右上、右下;</param>
-            <param name="opacity">透明度</param>
+            <param name="opacity">透明度，0为完全透明，100为不透明</param>
             <returns></returns>
         </member>
         <member name="M:WeiSha.Common.Images.ImageTo.Overlay(System.Drawing.Image,System.String,System.String,System.Int32)">
@@ -2714,7 +2807,7 @@
             <param name="source">原图片对象</param>
             <param name="text">在叠加的字符串</param>
             <param name="overType">叠加的类型，分为左left、右right、上top、下down、中cengter；另分为左上、左下、右上、右下;</param>
-            <param name="opacity"></param>
+            <param name="opacity">透明度，0为完全透明，100为不透明</param>
             <returns></returns>
         </member>
         <member name="M:WeiSha.Common.Images.ImageTo.Overlay(System.Drawing.Image,System.String,System.String,System.Int32,System.Int32,System.String,System.String)">
@@ -2723,8 +2816,8 @@
             </summary>
             <param name="source"></param>
             <param name="text"></param>
-            <param name="overType"></param>
-            <param name="opacity"></param>
+            <param name="overType">叠加的类型，分为左left、右right、上top、下down、中cengter；另分为左上、左下、右上、右下;</param>
+            <param name="opacity">透明度，0为完全透明，100为不透明</param>
             <param name="size">字符大小</param>
             <param name="font">字体</param>
             <param name="color">文字颜色</param>
@@ -2752,7 +2845,7 @@
             设置图片透明度
             </summary>
             <param name="img">要操作的图片对象</param>
-            <param name="opacity">透明度</param>
+            <param name="opacity">透明度,0为完全透明，100为不透明</param>
             <returns></returns>
         </member>
         <member name="M:WeiSha.Common.Images.ImageTo.Border(System.Drawing.Image)">
@@ -2774,6 +2867,29 @@
             Base64字符串转图片对象
             </summary>
             <param name="base64string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.Common.Images.ImageTo.Rounded(System.Drawing.Image)">
+            <summary>
+            图片生成圆角
+            </summary>
+            <param name="image"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.Common.Images.ImageTo.Rounded(System.Drawing.Image,System.String)">
+            <summary>
+            图片生成圆角
+            </summary>
+            <param name="image"></param>
+            <param name="cornerLocation">圆角位置，参数：TopLeft,TopRight,BottomLeft,BottomRight</param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.Common.Images.ImageTo.BitmapCrop(System.Drawing.Bitmap,System.Drawing.Drawing2D.GraphicsPath)">
+            <summary>
+            图片不规则截图
+            </summary>
+            <param name="bitmap">原图</param>
+            <param name="path">裁剪路径</param>
             <returns></returns>
         </member>
         <member name="M:WeiSha.Common.Images.FileTo.Thumbnail(System.String,System.String,System.Int32,System.Int32,System.Int32)">
@@ -4021,6 +4137,23 @@
             生成Javascript对象；
             </summary>
         </member>
+        <member name="F:WeiSha.Common.Business.Version">
+            <summary>
+            当前程序集版本号
+            </summary>
+        </member>
+        <member name="F:WeiSha.Common.Business.AppVersion">
+            <summary>
+            应用层的程序集版本号
+            </summary>
+        </member>
+        <member name="M:WeiSha.Common.Business.Do``1">
+            <summary>
+            IOC的入口
+            </summary>
+            <typeparam name="IBusinessDo"></typeparam>
+            <returns></returns>
+        </member>
         <member name="T:WeiSha.Common.Templates.TemplateBank">
             <summary>
             模板库对象
@@ -4440,10 +4573,29 @@
             </summary>
             <param name="t"></param>
         </member>
+        <member name="M:WeiSha.Common.CacheDataCollection`1.Update(`0,`0)">
+            <summary>
+            更新
+            </summary>
+            <param name="old"></param>
+            <param name="_new"></param>
+        </member>
         <member name="M:WeiSha.Common.CacheDataCollection`1.Clear">
             <summary>
             清理所有缓存对象
             </summary>
+        </member>
+        <member name="M:WeiSha.Common.CacheDataCollection`1.Fill(`0[])">
+            <summary>
+            填充缓存数据
+            </summary>
+            <param name="list"></param>
+        </member>
+        <member name="M:WeiSha.Common.CacheDataCollection`1.Fresh(`0[])">
+            <summary>
+            刷新数据
+            </summary>
+            <param name="list"></param>
         </member>
         <member name="P:WeiSha.Common.CacheDataCollection`1.List">
             <summary>
@@ -5328,6 +5480,52 @@
             <author>www.Redivivus.in (suraj.supekar@redivivus.in) - Ported from ZXING Java Source 
             </author>
         </member>
+        <member name="T:WeiSha.Common.Skip">
+            <summary>
+            页面跳转，如果是手机端访问电脑端，则跳转到指定手机端，通过web.config中的skip配置项
+            </summary>
+        </member>
+        <member name="M:WeiSha.Common.Skip._init">
+            <summary>
+            初始化
+            </summary>
+        </member>
+        <member name="M:WeiSha.Common.Skip.forWeb(System.String)">
+            <summary>
+            通过web页，获取对应的mobile
+            </summary>
+            <param name="path">web页</param>
+            <returns>mobile页</returns>
+        </member>
+        <member name="M:WeiSha.Common.Skip.forMoible(System.String)">
+            <summary>
+            通过mobile页，获取对应的web页
+            </summary>
+            <param name="path">mobile页</param>
+            <returns>web页</returns>
+        </member>
+        <member name="M:WeiSha.Common.Skip.GetUrl">
+            <summary>
+            返回跳转的页面
+            </summary>
+            <returns>返回跳转的页面</returns>
+        </member>
+        <member name="M:WeiSha.Common.Skip.isMobilePage">
+            <summary>
+            是否是手机端
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.Common.Skip.Get">
+            <summary>
+            获取参数
+            </summary>
+        </member>
+        <member name="T:WeiSha.Common.Skip.SkipItem">
+            <summary>
+            配置项
+            </summary>
+        </member>
         <member name="T:WeiSha.Common.Param.Method.ConvertToAnyValue">
             <summary>
             将某个值转换为任意数据类型
@@ -5446,6 +5644,11 @@
         <member name="P:WeiSha.Common.Param.Method.ConvertToAnyValue.JavascriptTime">
             <summary>
             将C#时间转换成Javascript的时间
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.Param.Method.ConvertToAnyValue.TimeStamp">
+            <summary>
+            JavaScript时间戳：是指格林威治时间1970年01月01日00时00分00秒(北京时间1970年01月01日08时00分00秒)起至现在的总毫秒数。
             </summary>
         </member>
         <member name="T:WeiSha.Common.ExceptionForPrompt">
@@ -6041,6 +6244,98 @@
             <returns> Whether this bitmap supports counter-clockwise rotation.
             </returns>
         </member>
+        <member name="T:WeiSha.Common.PageCache">
+            <summary>
+            管理页面缓存
+            </summary>
+        </member>
+        <member name="M:WeiSha.Common.PageCache.setVale">
+            <summary>
+            设置当前对象的值（来自config文件）
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.Get">
+            <summary>
+            获取参数
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.Items">
+            <summary>
+            缓存项的集合
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.Path">
+            <summary>
+            写入静态化文件到硬盘的所在路径
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.StaticPath">
+            <summary>
+            静态文件路径
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.TimeSpan">
+            <summary>
+            缓存的时间，单位：分钟
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.Write">
+            <summary>
+            是否写入到硬盘
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.Enable">
+            <summary>
+            是否启用缓存
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.Key">
+            <summary>
+            缓存项的Key值
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.Value">
+            <summary>
+            缓存项的Value值
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.Parent">
+            <summary>
+            当前节点的父节点
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.Item(System.String)">
+            <summary>
+            通过网址来获取缓存像
+            </summary>
+            <param name="key">来自Request.Url.PathAndQuery，即网址+参数</param>
+            <returns></returns>
+        </member>
+        <member name="T:WeiSha.Common.PageCache.PageCache_StaticItem">
+            <summary>
+            缓存项
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.PageCache_StaticItem.Key">
+            <summary>
+            缓存项的键值
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.PageCache_StaticItem.Value">
+            <summary>
+            缓存项的value，即参数项
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.PageCache_StaticItem.CreateTime">
+            <summary>
+            缓存创建时间
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.PageCache.PageCache_StaticItem.Context">
+            <summary>
+            缓存项的内容
+            </summary>
+        </member>
         <member name="T:WeiSha.Common.Platform">
             <summary>
             系统平台的信息
@@ -6147,6 +6442,11 @@
         <member name="P:WeiSha.Common.Param.Method.PageInfo.PhysicsPath">
             <summary>
             当前页面的物理路径，不包括文件名
+            </summary>
+        </member>
+        <member name="P:WeiSha.Common.Param.Method.PageInfo.Authority">
+            <summary>
+            根域，例如http://xxx:82/
             </summary>
         </member>
     </members>

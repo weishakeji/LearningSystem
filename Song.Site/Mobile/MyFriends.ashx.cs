@@ -15,6 +15,14 @@ namespace Song.Site.Mobile
 
         protected override void InitPageTemplate(HttpContext context)
         {
+            if (this.Account == null)
+            {
+                //如果未登录，则跳转到首页
+                int sharekeyid = WeiSha.Common.Request.QueryString["sharekeyid"].Int32 ?? 0;
+                string gourl = "default.ashx" + (sharekeyid < 0 ? "" : "?sharekeyid=" + sharekeyid);
+                context.Response.Redirect(gourl);
+                return;
+            }
             int accid = this.Account.Ac_ID;
 
             //好朋友（即直接分享注册的账户）
@@ -55,6 +63,24 @@ namespace Song.Site.Mobile
                 Song.Entities.ProfitSharing[] profits = Business.Do<IProfitSharing>().ProfitAll(pstheme.Ps_ID, true);
                 this.Document.Variables.SetValue("profits", profits);
             }
+
+            //分享二维码       
+            string qrurl =WeiSha.Common.Request.Page.Authority+ "default.ashx?sharekeyid=" + accid;
+            //各项配置           
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);   //自定义配置项           
+            string color = config["QrColor"].Value.String;  //二维码前景色 
+            string centerImg = Upload.Get["Accounts"].Virtual + this.Account.Ac_Photo;     //中心图片
+            centerImg = WeiSha.Common.Server.MapPath(centerImg);
+            //二维码图片对象
+            System.Drawing.Image image = null;
+            if (System.IO.File.Exists(centerImg))
+                image = WeiSha.Common.QrcodeHepler.Encode(qrurl, 200, centerImg, color, "#fff");
+            else
+                image = WeiSha.Common.QrcodeHepler.Encode(qrurl, 200, color, "#fff");
+            WeiSha.Common.Images.ImageTo.Overlay(image, this.Organ.Org_PlatformName, "down", 100,10,"","#000");
+            //将image转为base64
+            string base64 = WeiSha.Common.Images.ImageTo.ToBase64(image);
+            this.Document.Variables.SetValue("qrcode", base64);
         }
     }
 }

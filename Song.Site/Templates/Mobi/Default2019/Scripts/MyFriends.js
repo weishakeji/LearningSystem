@@ -8,20 +8,19 @@
         var txt = $(".help-box .explain").get(0).outerHTML;
         var msg = new MsgBox("说明", txt, 80, 80, "msg");
         msg.ShowCloseBtn = false;
-        msg.OverEvent = function () {
-            //var href = form.find("input[name=from]").val();
-            //window.location.href = $().setPara(href, "sharekeyid", data.acid);
+        msg.OverEvent = function () {            
         };
         msg.Open();
     });
-	//生成分享二维码
-	var sharekeyid=$().getPara("sharekeyid");
-	jQuery('#qrcode').qrcode({
-		render: "canvas", //也可以替换为table
-		width: 75,
-		height: 75,
-		foreground: "#333",
-		background: "#FFF",
-		text: $().getHostPath()+"default.ashx?sharekeyid="+sharekeyid
-	});
+	//分享
+    mui('body').on('tap', '.btnShare', function () {
+        var txt = $(".share-box .share").get(0).outerHTML;
+        var msg = new MsgBox("分享", txt, 80, 60, "msg");
+        msg.ShowCloseBtn = false;
+        msg.OverEvent = function () {            
+        };
+        msg.Open();
+    });
+	
 });
+
