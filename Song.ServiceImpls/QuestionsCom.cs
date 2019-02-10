@@ -205,7 +205,7 @@ namespace Song.ServiceImpls
 
         public Questions[] QuesCount(int type, bool? isUse, int count)
         {
-            WhereClip wc = new WhereClip();
+            WhereClip wc = Questions._.Qus_IsError == false && Questions._.Qus_IsWrong == false;
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             return Gateway.Default.From<Questions>().Where(wc)

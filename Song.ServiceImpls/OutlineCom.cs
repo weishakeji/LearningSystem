@@ -783,7 +783,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int QuesOfCount(int olid, int type, bool? isUse, bool isAll)
         {
-            WhereClip wc = new WhereClip();            
+            WhereClip wc = Questions._.Qus_IsError == false && Questions._.Qus_IsWrong == false;      
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             if (olid > 0 && isAll)

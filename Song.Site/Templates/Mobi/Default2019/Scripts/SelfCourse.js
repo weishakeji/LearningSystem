@@ -109,10 +109,16 @@ function buildCourse(cour, action) {
 }
 //加载学习进度
 function getStudyLog() {
-    var acid = $("body").attr("accid");
-    //alert(acid);
-    $.get("/ajax/SelfStudyLog.ashx?id=" + acid, { id: acid }, function (data) {
-        var obj = eval("(" + data + ")");
+    if (!window.SelfStudyLog && !window.SelfStudyLogLoad) {
+        var acid = $("body").attr("accid");
+        window.SelfStudyLogLoad = true;
+        $.get("/ajax/SelfStudyLog.ashx?id=" + acid, { id: acid }, function (data) {
+            if (data == "") return;
+            window.SelfStudyLog = eval("(" + data + ")");
+            getStudyLog();
+        });
+    } else {
+        var obj = window.SelfStudyLog;
         for (var i in obj) {
             var cou = obj[i];
             var box = $(".cour-box[couid=" + cou.Cou_ID + "]");
@@ -120,6 +126,5 @@ function getStudyLog() {
                 box.find("complete").attr("class", "complete").text("完成学习 " + cou.complete + "%");
             }
         }
-        //alert(decodeURIComponent(obj[0].Cou_Name));
-    });
+    }
 }

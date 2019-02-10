@@ -116,7 +116,7 @@ namespace Song.Site.Mobile
             {
                 foreach (Song.Entities.Questions q in ques)
                 {
-                    if (q.Ol_ID != id) continue;
+                    if (q.Ol_ID != id || q.Qus_IsUse == false || q.Qus_IsError == true || q.Qus_IsWrong == true) continue;
                     list.Add(q);
                 }
             }

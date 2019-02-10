@@ -229,7 +229,7 @@ namespace Song.ServiceImpls.QuestionsMethod
             {
                 if (qci == null)
                 {
-                    Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
+                    Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, true, -1);
                     this.Delete("all");
                     this.Add(ques, int.MaxValue, "all");
                 }
