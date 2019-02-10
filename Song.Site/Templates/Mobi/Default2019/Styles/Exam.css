@@ -46,7 +46,7 @@
 	position:absolute;
 	bottom:0px;	
 	left:110px;
-	height:60px;
+	height:55px;
 	background: linear-gradient(to bottom, rgba(255,255,255,0.6) 0%,rgba(255,255,255,0.6) 95%, rgba(255,255,255,0.1)); 
 	border-radius: 10px 10px 0px 0px;
 }
