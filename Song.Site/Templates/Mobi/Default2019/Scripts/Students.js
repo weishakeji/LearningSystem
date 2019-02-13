@@ -58,7 +58,7 @@ function ajaxLoaddata() {
             //html += '<a class="mui-btn mui-btn-red mui-icon mui-icon-trash" action="del"></a>';
             //html += '<a class="mui-btn mui-btn-blue mui-icon mui-icon mui-icon-compose"  action="edit"></a>';
             //html += '</div><div class="mui-slider-handle mui-table"><div class="mui-table-cell">';
-            html += '<a class="mui-navigate-right" href="#"><span class="stPhoto" style="background:url(' + d.Ac_Photo + ') no-repeat center center"> &nbsp; </span>' + d.Ac_Name + '</a>';
+            html += '<a class="mui-navigate-right" href="#"><span class="stPhoto" style="background:url(' + d.Ac_Photo + ') no-repeat center center"> &nbsp; </span>' + decodeURIComponent(d.Ac_Name) + '</a>';
             //html += '</div></div>';
             li.innerHTML = html;
             table.appendChild(li);

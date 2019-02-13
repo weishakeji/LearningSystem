@@ -397,14 +397,14 @@ function setQuestionLayout1(qitem, typeIndex, indexHanzi) {
     for (var i = 0; i < qitem.ques.length; i++) {
         var q = qitem.ques[i];
         html += "<dd qid='" + q.Qus_ID + "' number='" + q.Qus_Number + "'>";
-        html += "<div class='titleBox'><div class='order'></div><div class='title'>" + q.Qus_Title + "（" + q.Qus_Number + "分）</div></div>";
+        html += "<div class='titleBox'><div class='order'></div><div class='title'>" + decodeURIComponent(q.Qus_Title) + "（" + q.Qus_Number + "分）</div></div>";
         //选择项
         html += "<div class='itemBox type1'>";
         var answer = q.Answer;
         for (var j = 0; j < answer.length; j++) {
             html += "<div class=\"ansItem\" ansid=\"" + answer[j].Ans_ID + "\">";
             html += "<div class='char' >" + String.fromCharCode(65 + j) + "、</div>"
-            html += "<div class=\"ansItemContext\">" + answer[j].Ans_Context + "</div></div>";
+            html += "<div class=\"ansItemContext\">" + decodeURIComponent(answer[j].Ans_Context) + "</div></div>";
         }
         html += "</div>";
         //选择按钮
@@ -426,14 +426,14 @@ function setQuestionLayout2(qitem, typeIndex, indexHanzi) {
     for (var i = 0; i < qitem.ques.length; i++) {
         var q = qitem.ques[i];
         html += "<dd qid='" + q.Qus_ID + "' number='" + q.Qus_Number + "'>";
-        html += "<div class='titleBox'><div class='order'></div><div class='title'>" + q.Qus_Title + "（" + q.Qus_Number + "分）</div></div>";
+        html += "<div class='titleBox'><div class='order'></div><div class='title'>" + decodeURIComponent(q.Qus_Title) + "（" + q.Qus_Number + "分）</div></div>";
         //选项
         html += "<div class='itemBox type2'>";
         var answer = q.Answer;
         for (var j = 0; j < answer.length; j++) {
             html += "<div class=\"ansItem\" ansid=\"" + answer[j].Ans_ID + "\">";
             html += "<div class='char'>" + String.fromCharCode(65 + j) + "、</div>"
-            html += "<div class=\"ansItemContext\">" + answer[j].Ans_Context + "</div></div>";
+            html += "<div class=\"ansItemContext\">" + decodeURIComponent(answer[j].Ans_Context) + "</div></div>";
         }
         html += "</div>";
         //选择按钮
@@ -454,7 +454,7 @@ function setQuestionLayout3(qitem, typeIndex, indexHanzi) {
     for (var i = 0; i < qitem.ques.length; i++) {
         var q = qitem.ques[i];
         html += "<dd qid='" + q.Qus_ID + "' number='" + q.Qus_Number + "'>";
-        html += "<div class='titleBox'><div class='order'></div><div class='title'>" + q.Qus_Title + "（" + q.Qus_Number + "分）</div></div>";
+        html += "<div class='titleBox'><div class='order'></div><div class='title'>" + decodeURIComponent(q.Qus_Title) + "（" + q.Qus_Number + "分）</div></div>";
         //按钮
         html += "<div class='itemBtnBox type3'>";
         html += "<div class='ansBtn' ansid=\"0\">正确</div>";
@@ -472,7 +472,7 @@ function setQuestionLayout4(qitem, typeIndex, indexHanzi) {
     for (var i = 0; i < qitem.ques.length; i++) {
         var q = qitem.ques[i];
         html += "<dd qid='" + q.Qus_ID + "' number='" + q.Qus_Number + "'>";
-        html += "<div class='titleBox'><div class='order'></div><div class='title'>" + q.Qus_Title + "（" + q.Qus_Number + "分）</div></div>";
+        html += "<div class='titleBox'><div class='order'></div><div class='title'>" + decodeURIComponent(q.Qus_Title) + "（" + q.Qus_Number + "分）</div></div>";
         //选项
         html += "<div class='itemBox'>";
         html += "<textarea name=''></textarea>";
@@ -492,7 +492,7 @@ function setQuestionLayout5(qitem, typeIndex, indexHanzi) {
     for (var i = 0; i < qitem.ques.length; i++) {
         var q = qitem.ques[i];
         html += "<dd qid='" + q.Qus_ID + "' number='" + q.Qus_Number + "'>";
-        html += "<div class='titleBox'><div class='order'></div><div class='title'>" + q.Qus_Title + "（" + q.Qus_Number + "分）</div></div>";
+        html += "<div class='titleBox'><div class='order'></div><div class='title'>" + decodeURIComponent(q.Qus_Title) + "（" + q.Qus_Number + "分）</div></div>";
         //选项
         html += "<div class='itemBox'>";
         var answer = q.Answer;

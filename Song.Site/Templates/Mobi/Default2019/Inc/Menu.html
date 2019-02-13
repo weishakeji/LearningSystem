@@ -168,7 +168,7 @@ $(function(){
 		if(data.login){
 			var acc=data.object;
 			//学员姓名
-			$(".acc-name a").text(acc.Ac_Name == "" ? "(无名)" : acc.Ac_Name);
+			$(".acc-name a").text(acc.Ac_Name == "" ? "(无名)" : decodeURIComponent(acc.Ac_Name));
 			//学员资金
 			var money=String(acc.Ac_Money);
 			if(money.indexOf(".")>-1)money=money.substr(0,money.indexOf("."));

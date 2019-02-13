@@ -446,14 +446,14 @@ function setQuestionLayout1(qitem, typeIndex, indexHanzi) {
         html += "<dd qid='" + q.Qus_ID + "' type='" + qitem.type + "' number='" + q.Qus_Number + "'>";
         html += "<div class='quesBox'>";
         html += quesInfo(qitem);
-        html += "<div class='quesTitle'>" + q.Qus_Title + "</div>";
+        html += "<div class='quesTitle'>" + decodeURIComponent(q.Qus_Title) + "</div>";
         //选择项
         html += "<div class='itemBox type1'>";
         var answer = q.Answer;
         for (var j = 0; j < answer.length; j++) {
             html += "<div class=\"ansItem\" ansid=\"" + answer[j].Ans_ID + "\">";
             html += "<div class='char' >" + String.fromCharCode(65 + j) + "、</div>"
-            html += "<div class=\"ansItemContext\">" + answer[j].Ans_Context + "</div></div>";
+            html += "<div class=\"ansItemContext\">" + decodeURIComponent(answer[j].Ans_Context) + "</div></div>";
         }
         html += "</div>";
         //选择按钮
@@ -478,14 +478,14 @@ function setQuestionLayout2(qitem, typeIndex, indexHanzi) {
         html += "<dd qid='" + q.Qus_ID + "' type='" + qitem.type + "' number='" + q.Qus_Number + "'>";
         html += "<div class='quesBox'>";
         html += quesInfo(qitem);
-        html += "<div class='quesTitle'>" + q.Qus_Title + "</div>";
+        html += "<div class='quesTitle'>" + decodeURIComponent(q.Qus_Title) + "</div>";
         //选项
         html += "<div class='itemBox type2'>";
         var answer = q.Answer;
         for (var j = 0; j < answer.length; j++) {
             html += "<div class=\"ansItem\" ansid=\"" + answer[j].Ans_ID + "\">";
             html += "<div class='char'>" + String.fromCharCode(65 + j) + "、</div>"
-            html += "<div class=\"ansItemContext\">" + answer[j].Ans_Context + "</div></div>";
+            html += "<div class=\"ansItemContext\">" + decodeURIComponent(answer[j].Ans_Context) + "</div></div>";
         }
         html += "</div>";
         //选择按钮
@@ -509,7 +509,7 @@ function setQuestionLayout3(qitem, typeIndex, indexHanzi) {
         html += "<dd qid='" + q.Qus_ID + "' type='" + qitem.type + "' number='" + q.Qus_Number + "'>";
         html += "<div class='quesBox'>";
         html += quesInfo(qitem);
-        html += "<div class='quesTitle'>" + q.Qus_Title + "</div>";
+        html += "<div class='quesTitle'>" + decodeURIComponent(q.Qus_Title) + "</div>";
         //按钮
         html += "<div class='itemBtnBox type3'>";
         html += "<div class='ansBtn' ansid=\"0\">正确</div>";
@@ -530,7 +530,7 @@ function setQuestionLayout4(qitem, typeIndex, indexHanzi) {
         html += "<dd qid='" + q.Qus_ID + "' type='" + qitem.type + "' number='" + q.Qus_Number + "'>";
         html += "<div class='quesBox'>";
         html += quesInfo(qitem);
-        html += "<div class='quesTitle'>" + q.Qus_Title + "</div>";
+        html += "<div class='quesTitle'>" + decodeURIComponent(q.Qus_Title) + "</div>";
         //选项
         html += "<div class='itemBox type4'>";
         html += "<textarea name=''></textarea>";
@@ -553,7 +553,7 @@ function setQuestionLayout5(qitem, typeIndex, indexHanzi) {
         html += "<dd qid='" + q.Qus_ID + "' type='" + qitem.type + "' number='" + q.Qus_Number + "'>";
         html += "<div class='quesBox'>";
         html += quesInfo(qitem);
-        html += "<div class='quesTitle'>" + q.Qus_Title + "</div>";
+        html += "<div class='quesTitle'>" + decodeURIComponent(q.Qus_Title) + "</div>";
         //选项
         html += "<div class='itemBox type5'>";
         var answer = q.Answer;
