@@ -36,6 +36,16 @@ body {
 	margin-bottom: 10px;
 	font-size: 14px;
 }
+.info span:before{
+	font-family: "iconfont";
+	font-size:14px;
+}
+.info .study:before{
+	content: "\e68c";	
+}
+.info .view:before{
+	content: "\e60c";
+}
 /*主菜单*/
 .mainmenuBox {
 	width: 104%;
@@ -216,6 +226,11 @@ body {
 	float:right;
 	line-height:40px;
 	margin-right:10px;
+}
+.info-box a:before{
+	content: "\e678";
+	font-family: "iconfont";
+	font-size:20px;
 }
 .footer a
 {
