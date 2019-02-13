@@ -77,7 +77,7 @@ function buildCourse(cour, action) {
     var defimg = $(".default-img").attr("default"); //默认图片
     var html = "<div class=\"cour-box\" couid=\"" + cour.Cou_ID + "\">";
     html += "<picture>{rec}{free}{limitfree}{complete}<img src='{logo}' default='{defimg}'/></picture><info>{name}{number}{sbjname}<price>{price}</price></info>";
-    html = html.rep("{logo}", cour.Cou_LogoSmall);
+    html = html.rep("{logo}", decodeURIComponent(cour.Cou_LogoSmall));
     html = html.replace("{name}", "<name>" + decodeURIComponent(cour.Cou_Name) + "</name>").replace("{sbjname}", "<sbjname>" + decodeURIComponent(cour.Sbj_Name) + "</sbjname>");
     html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
     html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
