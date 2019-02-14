@@ -8,37 +8,33 @@
 <meta charset="utf-8">
 </head>
 <body>
-
-
-    <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
-      <div class="mui-scroll">
-        <vt:list type="teacher" item="data" index="i" remark="教师列表">
-          <div class="mui-card"> 
-            <!--页眉，放置标题-->
-            <div class="mui-card-header">{$:#.data.th_name}<a href="tel:{$:#.data.Th_PhoneMobi}" type="tel" class="th-tel"><b></b>{$:#.data.Th_PhoneMobi}</a></div>
-            <!--内容区-->
-            <div class="mui-card-content">
-              <div class="teacher" thname="{$:#.data.th_name}" thid="{$:#.data.th_id}">
-                <vt:if var="data.th_photo" value="" compare="="> <img class="thPhoto" src="images/nophoto.jpg"/>
-                  <vt:else/>
-                  <div class="thPhoto" style="background:url({$:#.data.Th_Photo}) no-repeat center center"> &nbsp; </div>
-                </vt:if>
-                <div class="thRight">
-                  <div class="thName"> {$:#.data.Ths_Name}</div>
-                  <div class="thSign"> {$:#.data.Th_Signature}</div>
-                </div>
-              </div>
+ <div class="mui-scroll-wrapper">
+  <div class="mui-scroll">
+    <vt:list type="teacher" item="data" index="i" remark="教师列表">
+      <div class="mui-card"> 
+        <!--页眉，放置标题-->
+        <div class="mui-card-header">{$:#.data.th_name}<a href="tel:{$:#.data.Th_PhoneMobi}" type="tel" class="th-tel"><b></b>{$:#.data.Th_PhoneMobi}</a></div>
+        <!--内容区-->
+        <div class="mui-card-content">
+          <div class="teacher" thname="{$:#.data.th_name}" thid="{$:#.data.th_id}">
+            <vt:if var="data.th_photo" value="" compare="="> <img class="thPhoto" src="images/nophoto.jpg"/>
+              <vt:else/>
+              <div class="thPhoto" style="background:url({$:#.data.Th_Photo}) no-repeat center center"> &nbsp; </div>
+            </vt:if>
+            <div class="thRight">
+              <div class="thName"> {$:#.data.Ths_Name}</div>
+              <div class="thSign"> {$:#.data.Th_Signature}</div>
             </div>
-            <div class="mui-card-footer">
-             <vt:function var="score" method="getCommentScore" args="$#.data.th_id"/>
-            <a href="TeacherComments.ashx?thid={$:#.data.th_id}" type="link">查看评价</a><span class="star" score="{$:score}" size="5" name="{$:#.data.th_name}" thid="{$:#.data.th_id}"></span></div>
           </div>
-        </vt:list>
+        </div>
+        <div class="mui-card-footer">
+          <vt:function var="score" method="getCommentScore" args="$#.data.th_id"/>
+          <a href="TeacherComments.ashx?thid={$:#.data.th_id}" type="link">查看评价</a><span class="star" score="{$:score}" size="5" name="{$:#.data.th_name}" thid="{$:#.data.th_id}"></span></div>
       </div>
-    </div>
-  
+    </vt:list>
+  </div><space></space>
+</div>
 
-<space></space>
 <vt:include file="inc/footer.html" />
 </body>
 </html>
