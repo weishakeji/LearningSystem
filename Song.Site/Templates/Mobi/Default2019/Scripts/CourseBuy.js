@@ -65,8 +65,11 @@ function _btnEvent(){
         var coupon = Number(couponSpan.html()); //卡券余额
         var mprice = Number($(this).attr("mprice"));    //价格，资金
         var cprice = Number($(this).attr("cprice"));    //价格，卡券
-        //满足条件的判断
-        var tm = money >= mprice || (money >= (mprice - cprice) && (coupon >= cprice));
+        //满足条件的判断(剩余资金大于价格，
+        //var tm = money >= mprice || (money >= (mprice - cprice) && (coupon >= cprice));
+		var tm=money >= mprice || money>=(mprice-(coupon>cprice ? cprice: coupon) );
+		//alert(tm);
+		//return false;
         //资金余额不足
         if (!tm) {
             var msg = new MsgBox("提示", "你的余额不足，是否充值？", 80, 60, "confirm");

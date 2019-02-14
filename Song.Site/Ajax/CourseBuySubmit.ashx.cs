@@ -141,7 +141,7 @@ namespace Song.Site.Ajax
             int coupon = st.Ac_Coupon;      //卡券余额
             int mprice = price.CP_Price;    //价格，所需现金
             int cprice = price.CP_Coupon;   //价格，可以用来抵扣的卡券
-            bool tm = money >= mprice || (money >= (mprice - cprice) && (coupon >= cprice));
+            bool tm = money >= mprice || money >= (mprice - (coupon > cprice ? cprice : coupon));
             if (!tm)
             {
                 Context.Response.Write(getBackJson(5, null, null));
