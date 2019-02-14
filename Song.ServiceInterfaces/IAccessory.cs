@@ -38,7 +38,8 @@ namespace Song.ServiceInterfaces
         /// <param name="uid"></param>
         /// <param name="isDelfile">是否删除文件</param>
         void Delete(string uid, bool isDelfile);
-        void Delete(string uid, DbTransaction tran);
+        void Delete(string uid, WeiSha.Data.DbTrans tran);
+        //void DeleteBatch(string uid);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>

@@ -929,7 +929,8 @@ select * from course as c inner join
             try
             {
                 DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-                return ds.Tables[0];
+                DataTable dt = ds.Tables[0];
+                return dt;
             }
             catch
             {

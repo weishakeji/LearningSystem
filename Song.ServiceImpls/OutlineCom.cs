@@ -279,11 +279,14 @@ namespace Song.ServiceImpls
                 try
                 {
                     //删除附件
-                    foreach (Song.Entities.Accessory ac in acs)                   
-                        Business.Do<IAccessory>().Delete(ac.As_Id);
+                    Business.Do<IAccessory>().Delete(entity.Ol_UID,tran);
                     //先清理试题
-                    tran.Delete<Questions>(Questions._.Ol_ID == entity.Ol_ID);
-                    tran.Delete<Outline>(Outline._.Ol_ID == entity.Ol_ID);                                    
+                    tran.Delete<Questions>(Questions._.Ol_ID == entity.Ol_ID);                   
+                    //清除学习记录
+                    tran.Delete<LogForStudentStudy>(LogForStudentStudy._.Ol_ID == entity.Ol_ID);
+                    tran.Delete<LogForStudentQuestions>(LogForStudentQuestions._.Ol_ID == entity.Ol_ID);
+                    //删除章节
+                    tran.Delete<Outline>(Outline._.Ol_ID == entity.Ol_ID);
                     tran.Commit();
                     this.OnDelete(entity, null);
                 }

@@ -1,6 +1,9 @@
 $(function () {
     SubjectPanelInit();   
 	courseTabs(); 
+	//
+	//var ua = window.navigator.userAgent.toLowerCase();
+	//document.write(ua);
 });
 /*
 	首页专业展示面板

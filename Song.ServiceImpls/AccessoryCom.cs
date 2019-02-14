@@ -110,15 +110,27 @@ namespace Song.ServiceImpls
             Song.Entities.Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == uid).ToFirst<Outline>();
             if (outline != null) Business.Do<IOutline>().OutlineSave(outline);
         }
-        public void Delete(string uid, DbTransaction tran)
+        public void Delete(string uid, WeiSha.Data.DbTrans tran)
         {
             List<Accessory> acs = this.GetAll(uid);
             if (acs == null) return;
             foreach (Accessory ac in acs)
             {
-                WeiSha.WebControl.FileUpload.Delete("news", ac.As_FileName);
+                try
+                {
+                    WeiSha.WebControl.FileUpload.Delete(ac.As_Type, ac.As_FileName);
+                    string ext = ac.As_FileName.IndexOf(".") > -1 ? ac.As_FileName.Substring(ac.As_FileName.LastIndexOf(".")) : "";
+                    if (ext.ToLower() == ".flv")
+                    {
+                        string name = ac.As_FileName.IndexOf(".") > -1 ? ac.As_FileName.Substring(0, ac.As_FileName.LastIndexOf(".")) : ac.As_FileName;
+                        WeiSha.WebControl.FileUpload.Delete(ac.As_Type, name + ".mp4");
+                    }
+                }
+                catch
+                {
+                }
             }
-            Gateway.Default.Delete<Accessory>(Accessory._.As_Uid == uid);
+            tran.Delete<Accessory>(Accessory._.As_Uid == uid);
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；
