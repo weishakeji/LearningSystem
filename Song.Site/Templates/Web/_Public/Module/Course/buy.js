@@ -30,7 +30,7 @@ function _btnEvent() {
             var txt = "您还没有登录，请登录后购买。";
             var msg = new MsgBox("未登录", txt, 400, 300, "confirm");
             msg.EnterEvent = function () {
-                window.location.href = "Login.ashx";
+                window.location.href = "/student/index.ashx";
             };
             msg.Open();
             return false
@@ -47,7 +47,7 @@ function _btnEvent() {
         var mprice = Number($(this).attr("mprice"));    //价格，资金
         var cprice = Number($(this).attr("cprice"));    //价格，卡券
         //满足条件的判断
-        var tm = money >= mprice || (money >= (mprice - cprice) && (coupon >= cprice));
+        var tm=money >= mprice || money>=(mprice-(coupon>cprice ? cprice: coupon) );
         //资金余额不足
         if (!tm) {
             var msg = new MsgBox("提示", "你的余额不足，是否充值？", 400, 300, "confirm");
