@@ -818,7 +818,7 @@ namespace Song.ServiceImpls
             int coupon = st.Ac_Coupon;      //卡券余额
             int mprice = price.CP_Price;    //价格，所需现金
             int cprice = price.CP_Coupon;   //价格，可以用来抵扣的卡券
-            bool tm = money >= mprice || (money >= (mprice - cprice) && (coupon >= cprice));
+            bool tm = money >= mprice || money >= (mprice - (coupon > cprice ? cprice : coupon));
             if (!tm) throw new Exception("资金余额或卡券不足");
             //计算需要扣除的金额，优先扣除券
             cprice = cprice >= coupon ? coupon : cprice;    //减除的卡券数

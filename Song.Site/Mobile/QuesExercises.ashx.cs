@@ -112,8 +112,9 @@ namespace Song.Site.Mobile
         /// </summary>
         /// <param name="olid">多个章节id</param>
         /// <returns></returns>
-        private List<Song.Entities.Questions> GetQues(List<int> olid,Song.Entities.Questions[] ques)
+        private List<Song.Entities.Questions> GetQues(List<int> olid, Song.Entities.Questions[] ques)
         {
+
             List<Song.Entities.Questions> list = new List<Entities.Questions>();
             foreach (int id in olid)
             {

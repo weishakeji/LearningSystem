@@ -32,6 +32,29 @@ namespace Song.Site.Manage.Student
             {  
                 BindData(null, null);
             }
+            //此页面的ajax提交，全部采用了POST方式
+            if (Request.ServerVariables["REQUEST_METHOD"] == "POST")
+            {
+                string action = WeiSha.Common.Request.Form["action"].String.ToLower();
+                string couid = WeiSha.Common.Request.Form["couid"].String.ToLower();
+                string json = string.Empty;
+                switch (action)
+                {
+                    case "getstc":
+                        Song.Entities.Student_Course stc = GetStc(couid);
+                        if (stc == null)
+                        {
+                            json = "{\"success\":\"0\"}";
+                        }
+                        else
+                        {
+                            json = "{\"success\":\"1\",data:"+stc.ToJson()+"}";
+                        }
+                        break;
+                }
+                Response.Write(json);
+                Response.End();
+            }
         }
         /// <summary>
         /// 绑定列表

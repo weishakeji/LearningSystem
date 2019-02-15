@@ -10,7 +10,7 @@
             已经选修的课程</div>
         <asp:Repeater ID="rptCourse" runat="server">
             <ItemTemplate>
-                <div class="item" isfree="<%# GetStc(Eval("Cou_ID","{0}")).Stc_IsFree %>" istry="<%# GetStc(Eval("Cou_ID","{0}")).Stc_IsTry %>">
+                <div class="item" couid="<%# Eval("Cou_ID") %>" isfree="" istry="">
                     <a class="logo" href="/course.ashx?id=<%# Eval("Cou_ID") %>" target="_blank">
                         <img src="<%# Eval("Cou_LogoSmall") %>" alt="<%# Eval("Cou_Name","{0}") %>" subject="<%# Eval("sbj_Name","[{0}]") %>" /></a>
                     <div class="infoBox">
