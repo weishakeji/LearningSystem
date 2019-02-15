@@ -54,7 +54,8 @@ namespace Song.Site.Mobile
                 Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
                 foreach (Song.Entities.Outline c in outlines)
                 {
-                    c.Ol_Intro = Extend.Html.ClearHTML(c.Ol_Intro);               
+                    c.Ol_Intro = Extend.Html.ClearHTML(c.Ol_Intro);
+                    c.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(c.Ol_ID, -1, true, true);
                 }
                 //计算章节试题数量
                 if (QuesOfCountClacTime.AddMinutes(QuesOfCountClacTimeSpan) < DateTime.Now)

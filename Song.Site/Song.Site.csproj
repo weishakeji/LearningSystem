@@ -216,6 +216,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="crossdomain.xml" />
+    <Content Include="Debug.htm" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="License.aspx" />

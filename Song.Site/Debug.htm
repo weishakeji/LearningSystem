@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
+</head>
+<body>
+调试页面
+<hr/>
+当前电脑机器码：<span class="machineCode"></span><br />
+
+userAgent:<span class="userAgent"></span>
+<hr/>
+<input name="window_max" type="button" value="最大化窗口" />
+<input name="window_min" type="button" value="最小化窗口" />
+<input name="window_full" type="button" value="全屏/返回窗体" />
+<script type="text/javascript">
+//当前设备机构码
+//var mcode=window.HTMLPackHelper.machineCode;
+//$(".machineCode").text(mcode);
+//
+$(".userAgent").text(window.navigator.userAgent);
+alert(3);
+
+//最大化窗口
+$("input[name=window_max]").click(function(){
+	//window.HTMLPackHelper.maximize();
+});
+$("input[name=window_min]").click(function(){
+	//window.HTMLPackHelper.minimize();
+});
+$("input[name=window_full]").click(function(){
+	//window.HTMLPackHelper.toggleFullscreen();
+	//$(this).val("");
+});
+</script>
+
+</body>
+</html>
