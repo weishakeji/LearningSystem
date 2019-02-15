@@ -123,7 +123,8 @@ function getStudyLog() {
             var cou = obj[i];
             var box = $(".cour-box[couid=" + cou.Cou_ID + "]");
             if (Number(cou.complete) > 0) {
-                box.find("complete").attr("class", "complete").text("完成学习 " + cou.complete + "%");
+				var complete=Math.floor(Number(cou.complete)*100)/100;
+                box.find("complete").attr("class", "complete").text("完成学习 " + complete + "%");
             }
         }
     }

@@ -293,7 +293,7 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
             return Gateway.Default.From<Course>()
                     .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
-                    .Where(wc).OrderBy(Student_Course._.Stc_StartTime.Desc).ToList<Course>(count);
+                    .Where(wc).OrderBy(Student_Course._.Stc_StartTime.Desc).Distinct().ToList<Course>(count);
         }
         /// <summary>
         /// 获取所有课程
