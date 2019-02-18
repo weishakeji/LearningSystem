@@ -216,6 +216,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="crossdomain.xml" />
+    <Content Include="Debug.aspx" />
     <Content Include="Debug.htm" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
@@ -2538,6 +2539,13 @@
     <Compile Include="CourseStudy.ashx.cs">
       <DependentUpon>CourseStudy.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Debug.aspx.cs">
+      <DependentUpon>Debug.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Debug.aspx.designer.cs">
+      <DependentUpon>Debug.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.ashx.cs">
       <DependentUpon>Default.ashx</DependentUpon>

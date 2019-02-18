@@ -213,7 +213,7 @@ a {
 }
 .cour-list .cour-box {
 	width: 44%;
-	height: 170px;
+	min-height: 170px;
 	float: left;
 	text-align: center;
 	position: relative;
