@@ -282,8 +282,10 @@ namespace Song.ServiceImpls
             if (istry != null) wc.And(Student_Course._.Stc_IsTry == (bool)istry);
             if (state == 1)
             {
-                wc.Or(Student_Course._.Stc_IsFree == true);
-                wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);
+                WhereClip wc2 = new WhereClip();
+                wc2.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);
+                wc2.Or(Student_Course._.Stc_IsFree == true);                
+                wc.And(wc2);
             }
             if (state == 2)
             {
@@ -293,7 +295,7 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
             return Gateway.Default.From<Course>()
                     .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
-                    .Where(wc).OrderBy(Student_Course._.Stc_StartTime.Desc).Distinct().ToList<Course>(count);
+                    .Where(wc).OrderBy(Student_Course._.Stc_StartTime.Desc).ToList<Course>(count);
         }
         /// <summary>
         /// 获取所有课程

@@ -2368,11 +2368,6 @@
     <Content Include="Utility\Verify\Index.htm" />
     <Content Include="Utility\Verify\Styles\Index.css" />
     <Content Include="Utility\Verify\Styles\Public.css" />
-    <Content Include="Utility\VideoHandler\ffmpeg.exe" />
-    <Content Include="Utility\VideoHandler\ffprobe.exe" />
-    <Content Include="Utility\VideoHandler\mencoder.exe" />
-    <Content Include="Utility\VideoHandler\pthreadGC2.dll" />
-    <Content Include="Utility\VideoHandler\qt-faststart.exe" />
     <Content Include="VideoUrl.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -6977,6 +6972,7 @@
     <Folder Include="Manage\Utility\kindeditor\attached\" />
     <Folder Include="Upload\" />
     <Folder Include="Utility\Images\Mobi\" />
+    <Folder Include="Utility\VideoHandler\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -30,7 +30,7 @@
             flash_url: "<%=uploaderPath %>swfupload/swfupload.swf",
             upload_url: "<%=uploaderPath %>Uploading.ashx?path=<%=UploadPath %>&uid=<%=UID %>&count=<%= LimitCount %>",
             file_size_limit: "0",
-            file_types: "*.*",
+            file_types: "*.mp4",
             file_types_description: "视频文件",
             file_upload_limit: <%= LimitCount %>,
             file_queue_limit: 0,
