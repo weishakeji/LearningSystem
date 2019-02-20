@@ -46,59 +46,61 @@ namespace Song.Site.Mobile
             }
             //是否学习当前课程
             int accid = 0;
-            if (Extend.LoginState.Accounts.IsLogin) accid = this.Account.Ac_ID;
-            bool isStudy = Business.Do<ICourse>().StudyIsCourse(accid, couid);
-            this.Document.Variables.SetValue("isStudy", isStudy);
-            //当前章节
-            Song.Entities.Outline ol = null;
-            ol = olid < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)
-                       : ol = Business.Do<IOutline>().OutlineSingle(olid);
-            if (ol == null) return;
-            //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
-            bool canStudy = isStudy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : (course.Cou_IsTry && ol.Ol_IsFree);
-            canStudy = canStudy && ol.Ol_IsUse && ol.Ol_IsFinish && this.Account != null;
-            this.Document.Variables.SetValue("canStudy", canStudy);
-            this.Document.Variables.SetValue("outline", ol);
-            if (!canStudy) return;            
-            if (ol == null) return;
-            //入写章节id的cookie，当播放视频时会判断此处
-            Response.Cookies.Add(new HttpCookie("olid", ol.Ol_ID.ToString()));
-            //自定义配置项
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
-            //视频
-            List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(ol.Ol_UID, "CourseVideo");
-            if (videos.Count > 0)
+            if (Extend.LoginState.Accounts.IsLogin)
             {
-                if (videos[0].As_IsOuter)
+                accid = this.Account.Ac_ID;
+                bool isStudy = Business.Do<ICourse>().StudyIsCourse(accid, couid);
+                this.Document.Variables.SetValue("isStudy", isStudy);
+                //当前章节
+                Song.Entities.Outline ol = null;
+                ol = olid < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)
+                           : ol = Business.Do<IOutline>().OutlineSingle(olid);
+                if (ol == null) return;
+                //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
+                bool canStudy = isStudy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : (course.Cou_IsTry && ol.Ol_IsFree);
+                canStudy = canStudy && ol.Ol_IsUse && ol.Ol_IsFinish && this.Account != null;
+                this.Document.Variables.SetValue("canStudy", canStudy);
+                this.Document.Variables.SetValue("outline", ol);
+                if (!canStudy) return;
+                if (ol == null) return;
+                //入写章节id的cookie，当播放视频时会判断此处
+                Response.Cookies.Add(new HttpCookie("olid", ol.Ol_ID.ToString()));
+                //自定义配置项
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+                //视频
+                List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(ol.Ol_UID, "CourseVideo");
+                if (videos.Count > 0)
                 {
-                    //如果是外部链接
-                    this.Document.Variables.SetValue("video", videos[0]);
+                    if (videos[0].As_IsOuter)
+                    {
+                        //如果是外部链接
+                        this.Document.Variables.SetValue("video", videos[0]);
+                    }
+                    else
+                    {
+                        //如果是内部链接
+                        videos[0].As_FileName = Upload.Get[videos[0].As_Type].Virtual + videos[0].As_FileName;
+                        this.Document.Variables.SetValue("video", videos[0]);
+                    }
+                    this.Document.Variables.SetValue("vpath", Upload.Get["CourseVideo"].Virtual);
+                    this.Document.Variables.SetValue("IsVideoNoload", config["IsVideoNoload"].Value.Boolean ?? false);
                 }
-                else
+                //附件
+                List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(ol.Ol_UID, "Course");
+                if (access.Count > 0)
                 {
-                    //如果是内部链接
-                    videos[0].As_FileName = Upload.Get[videos[0].As_Type].Virtual + videos[0].As_FileName;
-                    this.Document.Variables.SetValue("video", videos[0]);
+                    foreach (Accessory ac in access)
+                        ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
+                    this.Document.Variables.SetValue("access", access);
                 }
-                this.Document.Variables.SetValue("vpath", Upload.Get["CourseVideo"].Virtual);
-                this.Document.Variables.SetValue("IsVideoNoload", config["IsVideoNoload"].Value.Boolean ?? false);
+                //章节事件
+                OutlineEvent[] events = Business.Do<IOutline>().EventAll(-1, ol.Ol_ID, -1, true);
+                this.Document.Variables.SetValue("events", events);
+                this.Document.RegisterGlobalFunction(this.getEventQues);
+                this.Document.RegisterGlobalFunction(this.getEventFeedback);
+                this.Document.RegisterGlobalFunction(this.GetOrder);
             }
-            //附件
-            List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(ol.Ol_UID, "Course");
-            if (access.Count > 0)
-            {
-                foreach (Accessory ac in access)
-                    ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
-                this.Document.Variables.SetValue("access", access);
-            }
-            //章节事件
-            OutlineEvent[] events = Business.Do<IOutline>().EventAll(-1, ol.Ol_ID, -1, true);
-            this.Document.Variables.SetValue("events", events);
-            this.Document.RegisterGlobalFunction(this.getEventQues);
-            this.Document.RegisterGlobalFunction(this.getEventFeedback);
-            this.Document.RegisterGlobalFunction(this.GetOrder);
-            
         }
         /// <summary>
         /// 获取试题的选项内容
