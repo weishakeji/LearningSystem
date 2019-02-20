@@ -726,6 +726,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public DataSet CourseHot(int orgid, int sbjid, int count)
         {
+           
             string sql = @"select top {count} ISNULL(b.count,0) as 'count', c.* from course as c left join 
                             (SELECT cou_id, count(cou_id) as 'count'
                               FROM [Student_Course]  group by cou_id ) as b
@@ -733,8 +734,19 @@ namespace Song.ServiceImpls
             count = count <= 0 ? int.MaxValue : count;
             sql = sql.Replace("{count}", count.ToString());
             sql = sql.Replace("{orgid}", orgid.ToString());
-            //条件
-            sql = sql.Replace("{sbjid}", sbjid > 0 ? "sbjid=" + sbjid : "1=1");
+            //按专业选取（包括专业的下级专业）
+            string sbjWhere = string.Empty;
+            if (sbjid > 0)
+            {
+                List<int> sbjids = Business.Do<ISubject>().TreeID(sbjid);
+                
+                for (int i = 0; i < sbjids.Count; i++)
+                {
+                    sbjWhere += "sbj_id=" + sbjids[i] + " ";
+                    if (i < sbjids.Count - 1) sbjWhere += " or ";
+                }                
+            }
+            sql = sql.Replace("{sbjid}", sbjid > 0 ? "(" + sbjWhere + ")" : "1=1");
             
             return Gateway.Default.FromSql(sql).ToDataSet();
         }

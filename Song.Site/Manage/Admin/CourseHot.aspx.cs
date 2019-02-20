@@ -52,7 +52,7 @@ namespace Song.Site.Manage.Admin
         /// </summary>
         protected void BindData(object sender, EventArgs e)
         {
-            int depid, sbjid;          
+            int sbjid;          
             int.TryParse(ddlSubject.SelectedValue, out sbjid);
             //
             DataSet ds = Business.Do<ICourse>().CourseHot(org.Org_ID, sbjid, 20);  
