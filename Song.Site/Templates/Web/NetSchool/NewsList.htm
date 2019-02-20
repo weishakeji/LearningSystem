@@ -20,7 +20,7 @@
         <vt:if var="pageAmount.Length" value="1" compare="<">
           <div class="noNews">没有新闻</div>
           <vt:else />
-          <vt:foreach id="newslist" from="$#.newslist" item="data" columns="-1" index="i" size="6" introlen="150" remark="columns为新闻栏目Id,introlen为简介的长度"> 
+          <vt:foreach id="newslist" from="$#.newslist" item="data" columns="-1" index="i" size="20" introlen="150" remark="columns为新闻栏目Id,introlen为简介的长度"> 
             <!--新闻项 -->
             <div class="newsItem">
               <div class="newsTitleBar">
@@ -71,20 +71,20 @@
     <!--分页导航 -->
     <vt:if var="pageAmount.Length" value="1" compare=">">
       <div id="pagerBar">
-        <div class="pagerFirst pagerBtn"><a href="news.ashx">首页</a></div>
+        <div class="pagerFirst pagerBtn"><a href="newslist.ashx">首页</a></div>
         <!--上一页 -->
         <vt:expression var="pagerPrev" expression="{0}-1" args="$pageIndex" />
         <vt:if var="#.pagerPrev" value="1" compare="<">
           <div class="pagerPrev pagerBtn"><a href="#">上一页</a></div>
           <vt:else />
-          <div class="pagerPrev pagerBtn"><a href="news.ashx?index={$:#.pagerPrev}">上一页</a></div>
+          <div class="pagerPrev pagerBtn"><a href="newslist.ashx?index={$:#.pagerPrev}">上一页</a></div>
         </vt:if>
         <!--分页数字 -->
         <vt:foreach id="pageAmount" from="$#.pageAmount" item="data" index="i" remark="分页数字">
           <vt:if var="#.data" value="$pageIndex" compare="=">
-            <div class="pagerIndex pagerBtn pagerCurr"><a href="/news.ashx?index={$:i}">{$:i}</a></div>
+            <div class="pagerIndex pagerBtn pagerCurr"><a href="/newslist.ashx?index={$:i}">{$:i}</a></div>
             <vt:else />
-            <div class="pagerIndex pagerBtn"><a href="news.ashx?index={$:i}">{$:i}</a></div>
+            <div class="pagerIndex pagerBtn"><a href="newslist.ashx?index={$:i}">{$:i}</a></div>
           </vt:if>
         </vt:foreach>
         <!--下一页 -->
@@ -92,9 +92,9 @@
         <vt:if var="#.pagerNext" value="$pageAmount.Length" compare=">">
           <div class="pagerNext pagerBtn"><a href="#">下一页</a></div>
           <vt:else />
-          <div class="pagerNext pagerBtn"><a href="news.ashx?index={$:#.pagerNext}">下一页</a></div>
+          <div class="pagerNext pagerBtn"><a href="newslist.ashx?index={$:#.pagerNext}">下一页</a></div>
         </vt:if>
-        <div class="pagerLast pagerBtn"><a href="news.ashx?index={$:pageAmount.length}">末页</a></div>
+        <div class="pagerLast pagerBtn"><a href="newslist.ashx?index={$:pageAmount.length}">末页</a></div>
       </div>
     </vt:if>
   </div>
