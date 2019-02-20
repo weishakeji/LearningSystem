@@ -174,9 +174,9 @@ function ajaxLoaddata() {
 		        var li = document.createElement('li');
 		        li.className = 'mui-table-view-cell mui-media news-item';
 		        li.setAttribute("couid", d.Cou_ID);
-		        li.setAttribute("couname", d.Cou_Name);
+		        li.setAttribute("couname", decodeURIComponent(d.Cou_Name));
 		        //相关数据
-		        var price = d.Cou_IsFree ? "<span class='free'>免费</span>" : "<span class='price'>" + d.Cou_PriceSpan + d.Cou_PriceUnit + d.Cou_Price + "元</span>";
+		        var price = d.Cou_IsFree ? "<span class='free'>免费</span>" : "<span class='price'>" + d.Cou_PriceSpan + decodeURIComponent(d.Cou_PriceUnit) + d.Cou_Price + "元</span>";
 		        var html = '';
 		        //向左滑
 		        html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" couid="' + d.Cou_ID + '"></a></div>';
@@ -190,8 +190,8 @@ function ajaxLoaddata() {
 		        //
 		        html += '<a href="javascript:;">';
 		        html += '<img class="mui-media-object mui-pull-left" src="' + d.Cou_LogoSmall + '"/>';
-		        html += '<div class="mui-media-body mui-ellipsis">' + d.Cou_Name;
-		        html += '<p class="mui-ellipsis">' + price + d.Sbj_Name + '</p>';
+		        html += '<div class="mui-media-body mui-ellipsis">' + decodeURIComponent(d.Cou_Name);
+		        html += '<p class="mui-ellipsis">' + price + decodeURIComponent(d.Sbj_Name) + '</p>';
 		        html += '</div>';
 		        html += '</a>';
 		        //
