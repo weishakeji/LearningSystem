@@ -120,7 +120,7 @@ function editNode(node) {
         $.get("/manage/soap/ManageMenu.asmx/ManageMenuJson", { id: node.MM_PatId }, function (data) {
             var node=eval("("+$(data).text()+")");
             var panel = $("#EditPanel");
-            panel.find("#editNodeParent").text(node.MM_Name);
+            panel.find("#editNodeParent").text(decodeURIComponent(node.MM_Name));
         })
     });
 }
@@ -239,12 +239,13 @@ var update= {
             var name = $.trim($(this).attr("name").toLowerCase());   //控件名称
             for (var n in node) {
                 var attr = n.substring(n.lastIndexOf("_") + 1).toLowerCase();
+				var val=decodeURIComponent(node[n]);
                 if (element == "input") {
                     var type = $(this).attr("type").toLowerCase();  //控件类型
-                    if (attr == name && type == "text") $(this).val(node[n]);
-                    if (attr == name && type == "checkbox") $(this).attr('checked', node[n]);
+                    if (attr == name && type == "text") $(this).val(val);
+                    if (attr == name && type == "checkbox") $(this).attr('checked', val);
                 }
-                if (element == "span" && attr == name) $(this).text(node[n]);
+                if (element == "span" && attr == name) $(this).text(val);
             }
         });
         //节点类别
