@@ -176,7 +176,7 @@ namespace Song.Site.Manage.Exam
                 //时长，总分，及格分
                 tbSpan.Text = mm.Tp_Span.ToString();
                 tbTotal.Text = mm.Tp_Total.ToString();
-                tbPassScore_.Text = mm.Tp_PassScore.ToString(); 
+                tbPassScore.Text = mm.Tp_PassScore.ToString(); 
             }
             else
             {
@@ -322,7 +322,7 @@ namespace Song.Site.Manage.Exam
             mm.Tp_Diff = mm.Tp_Diff2 = Convert.ToInt32(ddlDiff.SelectedValue);    //难易度
             mm.Tp_Span = Convert.ToInt32(tbSpan.Text);  //考试限时时长
             mm.Tp_Total = Convert.ToInt32(tbTotal.Text);    //考试总分
-            mm.Tp_PassScore = Convert.ToInt32(tbPassScore_.Text);   //及极分            
+            mm.Tp_PassScore = Convert.ToInt32(tbPassScore.Text);   //及极分            
             mm.Tp_Intro = tbIntro.Text.Trim();      //简介
             mm.Tp_Remind = tbRemind.Text.Trim();    //注意事项       
             mm.Tp_FromType = Convert.ToInt16(rblFromType.SelectedValue);    //抽题范围，0为当前课程，1为按章节

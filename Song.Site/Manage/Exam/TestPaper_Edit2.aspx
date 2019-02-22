@@ -56,7 +56,7 @@
           <asp:TextBox ID="tbTotal" runat="server" nullable="false" datatype="uint" MaxLength="6"
                         Width="60px">100</asp:TextBox>
           &nbsp;&nbsp;及格分：
-          <asp:TextBox ID="tbPassScore_" runat="server" nullable="false" datatype="uint"
+          <asp:TextBox ID="tbPassScore" runat="server" nullable="false" datatype="uint"
                         MaxLength="6" Width="60px"></asp:TextBox>
           &nbsp;&nbsp;难易度：
           <asp:DropDownList ID="ddlDiff" runat="server">
