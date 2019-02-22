@@ -74,7 +74,7 @@ function ajaxLoaddata() {
 			}else{
 				html += '<div class="rowlogo"><span class="ico">&#xe73e;</span></div>';
 			}
-	        html += '<div class="mui-media-body mui-ellipsis">' + d.Tp_Name;
+	        html += '<div class="mui-media-body mui-ellipsis">' + decodeURIComponent(d.Tp_Name);
 	        html += '<p class="mui-ellipsis">' + score + date + " " + time + '</p>';
 	        html += '</div>';
 	        html += '</a>';
