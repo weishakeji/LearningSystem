@@ -60,6 +60,7 @@ function ajaxLoaddata() {
             //相关数据
             var type = d.Ma_Type == 1 ? "-" : "+";
             var ico = d.Ma_Type == 1 ? "&#xe694;" : "&#xe695;"; 	//支出图标，与收入图标
+			var success=d.Ma_IsSuccess;		//操作是否成功
             var sourse = d.Ma_Value; //资金来源			
             var date = new Date(d.Ma_CrtTime).Format("MM-dd"); //资金流水的创建日期
             var time = new Date(d.Ma_CrtTime).Format("hh:mm"); //资金流水的创建时时间
@@ -70,9 +71,9 @@ function ajaxLoaddata() {
             html += '<div class="mui-slider-handle mui-table"><div class="mui-table-cell">';
             //
             html += '<div class="dates">' + date + '<br/>' + time + '</div>';
-            html += '<div class="ico"><div class="iconfont type' + Number(d.Ma_Type) + '">' + ico + "</div></div>";
+            html += '<div class="ico"><div class="iconfont type' + Number(d.Ma_Type) + (success ? '' : ' fail')+'">' + ico + "</div></div>";
             html += '<div class="info">';
-            html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Ma_Money) + '</div> </div>';
+            html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Ma_Money) + '</div><fail>'+(success ? '' : '失败')+'</fail></div>';
             html += '<div class="row2">' + decodeURIComponent(remark) + '</div>';
             html += '</div>';
             //

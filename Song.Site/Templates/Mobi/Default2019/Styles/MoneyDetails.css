@@ -55,6 +55,9 @@
 .ico .type2{
 	color: #060;
 }
+.ico .fail{
+	color: #999;
+}
 /*右侧信息*/
 .info{
 	width: 65%;
@@ -64,11 +67,17 @@
 	width: auto;
 	float: left;
 	font-weight: bold;
+	font-size:18px;
 }
 .info .row1{
 	height: 25px;
 	margin-top: 5px;
 	font-size: 18px;
+}
+.info .row1 fail{
+	display:block;
+	float:right;
+	font-size:12px;
 }
 .info .row2{
 	height: 30px;
