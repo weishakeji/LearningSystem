@@ -163,7 +163,7 @@ function subjectEvent() {
                     + "' passScore='" + arr[i].Tp_PassScore + "'>" + decodeURIComponent(arr[i].Tp_Name) + "</option>");
                 if (arr.length > 0) {
                     sel.val(arr[0].Tp_Id);
-                    setExamItem(tr, arr[0].Tp_Name, arr[0].Tp_Total, arr[0].Tp_PassScore, arr[0].Tp_Span);
+                    setExamItem(tr, decodeURIComponent(arr[0].Tp_Name), arr[0].Tp_Total, arr[0].Tp_PassScore, arr[0].Tp_Span);
                     var myDate = new Date()
                     tr.find("input[name$=tbDate]").val(myDate.Format("yyyy-MM-dd hh:mm"));
                 } else {
