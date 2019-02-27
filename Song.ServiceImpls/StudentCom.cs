@@ -767,9 +767,33 @@ namespace Song.ServiceImpls
         public void LogForStudyFresh(int couid, int olid, Accounts st, int playTime, int studyInterval, int totalTime)
         {
             if (st == null) return;
+            //当前章节的学习记录
+            Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
+            if (entity == null)
+            {
+                LogForStudyUpdate(couid, olid, st, playTime, studyInterval, totalTime);
+            }
+            else
+            {
+                LogForStudyUpdate(couid, olid, st, playTime, entity.Lss_StudyTime + studyInterval, totalTime);
+            }
+        }
+        /// <summary>
+        /// 记录学员学习时间
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="olid">章节id</param>
+        /// <param name="st">学员账户</param>
+        /// <param name="playTime">播放进度</param>
+        /// <param name="studyTime">学习时间，此为累计时间</param>
+        /// <param name="totalTime">视频总长度</param>
+        /// <returns>学习进度百分比（相对于总时长）</returns>
+        public double LogForStudyUpdate(int couid, int olid, Accounts st, int playTime, int studyTime, int totalTime)
+        {
+            if (st == null) return -1;
             //当前机构
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            
+
             //当前课程的所有章节
             Song.Entities.Outline[] outs = Business.Do<IOutline>().OutlineCount(couid, -1, true, -1);
             foreach (Song.Entities.Outline o in outs)
@@ -791,7 +815,7 @@ namespace Song.ServiceImpls
                 log.Ac_Name = st.Ac_Name;
                 //视频长度
                 List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(o.Ol_UID, "CourseVideo");
-                if (videos.Count > 0)                
+                if (videos.Count > 0)
                     log.Lss_Duration = videos[0].As_Duration;
                 //
                 Gateway.Default.Save<LogForStudentStudy>(log);
@@ -801,21 +825,25 @@ namespace Song.ServiceImpls
             //登录相关时间
             entity.Lss_LastTime = DateTime.Now;
             entity.Lss_PlayTime = playTime;
-            entity.Lss_StudyTime += studyInterval;
+            entity.Lss_StudyTime = studyTime;
             entity.Lss_Duration = totalTime;
             //登录信息
             entity.Lss_IP = WeiSha.Common.Browser.IP;
             entity.Lss_OS = WeiSha.Common.Browser.OS;
             entity.Lss_Browser = WeiSha.Common.Browser.Name + " " + WeiSha.Common.Browser.Version;
             entity.Lss_Platform = WeiSha.Common.Browser.IsMobile ? "Mobi" : "PC";
-            //
+            //保存到数据库
             Gateway.Default.Save<LogForStudentStudy>(entity);
+            //计算完成度的百分比
+            double per = (double)studyTime*1000 / (double)totalTime;
+            per = Math.Floor(per * 10000) / 100;
+            return per;
         }
         /// <summary>
         /// 根据学员id与登录时生成的Uid返回实体
         /// </summary>
         /// <param name="acid">学员Id</param>
-        /// <param name="stuid">登录时生成的随机字符串，全局唯一</param>
+        /// <param name="olid">章节id</param>
         /// <returns></returns>
         public LogForStudentStudy LogForStudySingle(int acid, int olid)
         {

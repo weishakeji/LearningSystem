@@ -34,7 +34,7 @@
             <asp:TemplateField HeaderText="学习时间">
                 <ItemStyle CssClass="center" Width="150px" />
                 <ItemTemplate>
-                    <%# Eval("LastTime", "{0:yyyy-MM-dd HH:mm:ss}")%>
+                    <%# Eval("playTime","{0}")=="0" ? "" : Eval("LastTime", "{0:yyyy-MM-dd HH:mm:ss}")%>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="进度/视频时长">

@@ -98,7 +98,7 @@ function loadedHandler() {
         //alert(CKobject.getObjectById('ckplayer_videobox').innerHTML);
         //CKobject.getObjectById('ckplayer_videobox').addListener('time', timeHandler);
         CKobject.getObjectById('ckplayer_videobox').addListener('play', function (b) {
-            setT = window.setInterval(setFunction, 1000);
+            //setT = window.setInterval(setIntervalFunction, 1000);
         });
         CKobject.getObjectById('ckplayer_videobox').addListener('pause', function (b) {
             if (setT != null) window.clearInterval(setT);
@@ -127,17 +127,18 @@ $(window).focus(function () {
 
 });
 /* 获取观看的累计时间，单位：秒 */
-var watchTime = 0;
+var watchTime = Number($("#studyTime").attr("num"));
+watchTime=isNaN(watchTime) ? 0 : watchTime;
+//历史递交记录
+var historyLog=0;
 var setT = null;
 function pausedHandler(b) {
     if (setT) window.clearInterval(setT);
-    if (!b) setT = window.setInterval(setFunction, 1000);
+    //if (!b) setT = window.setInterval(setIntervalFunction, 1000);
 }
-function setFunction() {
-    watchTime += 1;
+function setIntervalFunction() {
     //获取学习时间
-    CKobject._K_('studyTime').innerHTML = watchTime;
-
+    CKobject._K_('studyTime').innerHTML = Math.floor(watchTime);
     //获取视频时长
     var dura = CKobject._K_('totalTime').innerHTML;
     if (Number(dura) < 1) {
@@ -149,21 +150,23 @@ function setFunction() {
         }
         CKobject._K_('totalTime').innerHTML = total;
     }
-    //播放时，触发播放事件
-    activeEvent($.trim($('#playTime').text()));
     //提交数据
-    //ajax提交在线时间
-    var interval = 5;
-    if (Number(watchTime) % interval == 0) {
+	//完成度的百分比
+    var percent = Math.floor(Number($("#per").text()));
+	var interval=2;		//间隔百分比多少递交一次记录
+    if (percent % interval == 0 && (percent > 0 && percent<=100)&& percent>Math.floor(historyLog)) {
+        //alert(watchTime);
         $.get("/Ajax/StudentStudy.ashx", {
             couid: couid,
             olid: olid,
-            studyTime: interval,
-            playTime: Number($("#playTime").html().trim()) * 1000,
-            totalTime: Number($("#totalTime").html().trim()) * 1000
+            studyTime: watchTime,
+            playTime: Number($("#playTime").html().trim())*1000,
+            totalTime: Number($("#totalTime").html().trim())*1000
         }, function (data) {
-            if (data == "0") {
-                $(".StudentStudyLog").text("学习记录提交成功!").removeClass("error").show(1000, function () {
+			var d=Number(data);
+            if (data >0) {
+				historyLog=data;
+                $(".StudentStudyLog").text("学习记录（"+d+"%）提交成功!").removeClass("error").show(1000, function () {
                     window.setTimeout(function () {
                         $(".StudentStudyLog").hide(500);
                     }, 3000);
@@ -181,9 +184,17 @@ function setFunction() {
 function timeHandler(t) {
     //播放进度
     if (t > -1) {
-        CKobject._K_('playTime').innerHTML = Math.floor(t);
-        var id = $().getPara('id');
-        $().cookie("outlineVideo_" + id, t);
+        var history = Number($.trim($("#playTime").text()));
+        var time = Math.floor(t);
+        if (history != time) {
+            $("#playTime").text(time);
+            activeEvent(time);  //触发播放事件
+            watchTime++;    //观看时间加-
+			//完成度的百分比
+			var p=Math.floor(watchTime/Number($("#totalTime").text())*10000)/100;
+			$("#per").text(p);
+			setIntervalFunction();
+        }
     }
 }
 //加载视频播放器

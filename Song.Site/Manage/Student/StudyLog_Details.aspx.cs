@@ -77,7 +77,7 @@ namespace Song.Site.Manage.Student
         {
             int num = 0;
             int.TryParse(time, out num);
-            if (num == 0) return time;
+            if (num == 0) return "";
             num = num / 1000;
             //
             string tm = "{0}:{1}:{2}";

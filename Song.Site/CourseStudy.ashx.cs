@@ -97,6 +97,11 @@ namespace Song.Site
                             if (ext == ".flv") videos[0].As_FileName = Path.ChangeExtension(videos[0].As_FileName, ".mp4");
                         }
                         this.Document.Variables.SetValue("video", videos[0]);
+                        if (Extend.LoginState.Accounts.IsLogin)
+                        {
+                            Song.Entities.LogForStudentStudy lfs = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, ol.Ol_ID);
+                            if (lfs != null) this.Document.Variables.SetValue("log", lfs);
+                         }
                     }
                     catch
                     {
@@ -128,7 +133,7 @@ namespace Song.Site
                 LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, id);
                 if (studyLog != null)
                 {
-                    double historyPlay = (double)studyLog.Lss_PlayTime / 1000;
+                    double historyPlay = (double)studyLog.Lss_PlayTime;
                     this.Document.Variables.SetValue("historyPlay", historyPlay);
                     this.Document.Variables.SetValue("studyLog", studyLog);
                 }

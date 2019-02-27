@@ -324,17 +324,28 @@ namespace Song.ServiceInterfaces
         /// 记录学员学习时间
         /// </summary>
         /// <param name="couid"></param>
-        /// <param name="olid"></param>
-        /// <param name="st"></param>
+        /// <param name="olid">章节id</param>
+        /// <param name="st">学员账户</param>
         /// <param name="playTime">播放进度</param>
         /// <param name="studyInterval">学习时间，此为时间间隔，每次提交学习时间加这个数</param>
         /// <param name="totalTime">视频总长度</param>
         void LogForStudyFresh(int couid, int olid, Accounts st, int playTime, int studyInterval, int totalTime);
         /// <summary>
+        /// 记录学员学习时间
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="olid">章节id</param>
+        /// <param name="st">学员账户</param>
+        /// <param name="playTime">播放进度</param>
+        /// <param name="studyTime">学习时间，此为累计时间</param>
+        /// <param name="totalTime">视频总长度</param>
+        /// <returns>学习进度百分比（相对于总时长），如果为-1，则表示失败</returns>
+        double LogForStudyUpdate(int couid, int olid, Accounts st, int playTime, int studyTime, int totalTime);
+        /// <summary>
         /// 根据学员id与登录时生成的Uid返回实体
         /// </summary>
         /// <param name="stid">学员Id</param>
-        /// <param name="stuid">登录时生成的随机字符串，全局唯一</param>
+        /// <param name="olid">章节id</param>
         /// <returns></returns>
         LogForStudentStudy LogForStudySingle(int stid, int olid);
         /// <summary>
