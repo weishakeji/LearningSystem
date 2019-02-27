@@ -34,7 +34,7 @@
                         性别：
                     </td>
                     <td class="left">
-                        <%# Eval("Ac_sex","{0}")=="0" ? "女" : "男" %>
+                        <%# Eval("Ac_sex", "{0}") == "0" ? "未知" : (Eval("Ac_sex", "{0}") == "1" ? "男" : "女")%>
                     </td>
                     <td rowspan="5" valign="middle" class="photo">
                         <img src='<%# Eval("Ac_photo", "{0}") =="" ? "/manage/images/nophoto.gif" : Eval("Ac_photo", "{0}")%>' width="150px" height="200px" />
