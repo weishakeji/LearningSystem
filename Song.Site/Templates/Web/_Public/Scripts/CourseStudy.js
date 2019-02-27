@@ -1,103 +1,103 @@
 ﻿$(function () {
-	isLogin();
-    setStyle();
-    //分隔栏上的事件
-    $("#median").click(function () {
-        if ("undefined" == typeof window.fullScreen) {
-            window.fullScreen = false;
-        }
-        if (!window.fullScreen) {
-            $("#outlineBox").animate({ width: 100 }, 500, function () { $(this).hide(); });
-            $("#MainBox").animate({ width: $(window).width() * 0.99 }, 500);
-            $("#btnClose").hide();
-            $("#btnOpen").show();
-            window.fullScreen = true;
-        } else {
-            $("#MainBox").animate({ width: $(window).width() * 0.79 }, 500);
-            $("#outlineBox").animate({ width: $(window).width() * 0.2 }, 300,
-             function () {
-                 $(this).slideDown(800);
-             });
-            $("#btnOpen").hide();
-            $("#btnClose").show();
-            window.fullScreen = false;
-        }
-    });
-    setInitTilte();
+    //界面初始化
+    window.loyout.load();
 });
-//判断是否登录
-function isLogin(){
-	var accid=$("body").attr("accid");
-}
-/*=====================================================================
-
-*/
-//设置标题栏的事件
-function setInitTilte() {
-    //取当前状态值
-    var box = $("div[statebox]").first();
-    var stateCurr = box.attr("statebox");
-    //标题栏的项
-    var tit = $("a.titBox");
-    tit.removeClass("titCurr");
-    tit.each(function () {
-        var href = $(this).attr("href");
-        var rs = new RegExp("(^|)state=([^\&]*)(\&|$)", "gi").exec(href), tmp;
-        var state = 0;
-        if (tmp = rs) state = tmp[2];
-        if (stateCurr == state) {
-            $(this).addClass("titCurr");
-            try {
-                var func = eval("setInit_" + state);
-                if ("undefined" != typeof (func) && func != null) func();
-            } catch (e) { }
+//布局
+(function () {
+    var loyout = {
+        //是否视频全屏，即章节列表是否折叠
+        fullScreen: false,
+        load: function () {
+            this.init();
+            this.event();
+        },
+        //初始化页面布局
+        init: function () {
+            $("#MainBox").height($(window).height());
+            //设置视频播放高度
+            var hg = $(window).height() - $("#mainTop").height() - $("#playerInfo").height();
+            $("#videobox").height(hg - 70);
+            //中间分隔线的高度设置
+            $("#median").height($(window).height()).css("line-height", $(window).height() + "px");
+            //章节区域高度设置
+            $(".itemList").height($(window).height() - $(".boxBar").height() - 30);
+            //习题的高度
+            $("#Exercises").height($(window).height() - $(".mainTop").height());
+            //
+            if (loyout.fullScreen) {
+                $("#MainBox,#videobox").width($(window).width() * 0.99);
+                $("#outlineBox,.itemList").width($(window).width() * 0.1);
+            } else {
+                $("#MainBox,#videobox").width($(window).width() * 0.79);
+                $("#outlineBox,.itemList").width($(window).width() * 0.19);
+            }
+            //内容区的大小
+            $("#details").height($("#MainBox").height() - $(".mainTop").height() - 20);
+            //当前章节高亮显示
+            $(".outline .olitem").each(function () {
+                var id = $().getPara("id");
+                var olid = $(this).attr("olid");
+                if (id == olid) $(this).addClass("current");
+                if (id == "") $(".outline .olitem:eq(0)").addClass("current");
+            });
+        },
+        //事件    
+        event: function () {
+            //分隔栏事件
+            $("#median").click(function () {
+                if (!window.loyout.fullScreen) {
+                    $("#outlineBox").animate({ width: 100 }, 500, function () { $(this).hide(); });
+                    $("#MainBox,#videobox").animate({ width: $(window).width() * 0.99 }, 500);
+                    $("#btnClose, #btnOpen").toggle();
+                } else {
+                    $("#MainBox, #videobox").animate({ width: $(window).width() * 0.79 }, 500);
+                    $("#outlineBox").animate({ width: $(window).width() * 0.2 }, 300, function () { $(this).slideDown(200); });
+                    $("#btnClose, #btnOpen").toggle();
+                }
+                window.loyout.fullScreen = !window.loyout.fullScreen;
+            });
+            //设置标题栏的事件
+            (function setInitTilte() {
+                //取当前状态值
+                var box = $("div[statebox]").first();
+                var stateCurr = box.attr("statebox");
+                //标题栏的项
+                var tit = $("a.titBox");
+                tit.removeClass("titCurr");
+                tit.each(function () {
+                    var href = $(this).attr("href");
+                    var rs = new RegExp("(^|)state=([^\&]*)(\&|$)", "gi").exec(href), tmp;
+                    var state = 0;
+                    if (tmp = rs) state = tmp[2];
+                    if (stateCurr == state) {
+                        $(this).addClass("titCurr");
+                        try {
+                            var func = eval("setInit_" + state);
+                            if ("undefined" != typeof (func) && func != null) func();
+                        } catch (e) { }
+                    }
+                });
+            })();
         }
+    };
+    window.loyout = loyout;
+    $(window).resize(function () {
+        window.loyout.init();
     });
-}
+})();
 //习题界面的初始化
 function setInit_4() {
     var frame = $("#Exercises");
     frame.height($(window).height() - $(".mainTop").height());
 }
-//设置样式
-function setStyle() {
-    if ("undefined" == typeof window.fullScreen) {
-        window.fullScreen = false;
-    }
-    $(".outline .olitem").each(function () {
-        var id = $().getPara("id");
-        var olid = $(this).attr("olid");
-        if (id == olid) $(this).addClass("current");
-		if(id=="")$(".outline .olitem:eq(0)").addClass("current");
-    });
-    $("#MainBox").height($(window).height());
-    //设置视频播放高度
-    var hg = $(window).height() - $("#mainTop").height() - $("#playerInfo").height();
-    $("#videobox").height(hg - 70);
-    //中间分隔线的高度设置
-    $("#median").height($(window).height()).css("line-height", $(window).height() + "px");
-    //章节区域高度设置
-    $(".itemList").height($(window).height() - $(".boxBar").height() - 30);
-    //
-    if (window.fullScreen) {
-        $("#MainBox").width($(window).width() * 0.99);
-    } else {
-        $("#MainBox").width($(window).width() * 0.79);
-    }
-    //内容区的大小
-    $("#details").height($("#MainBox").height() - $(".mainTop").height() - 20);
-}
-//当窗口大小变化时
-$(window).resize(function () {
-    setStyle();
-});
+
 //如果你不需要某项设置，可以直接删除，注意var flashvars的最后一个值后面不能有逗号
 function loadedHandler() {
     if (CKobject.getObjectById('ckplayer_videobox').getType()) {//说明使用html5播放器
         //CKobject.getObjectById('ckplayer_videobox').addListener('paused', pausedHandler);
         //alert(CKobject.getObjectById('ckplayer_videobox').innerHTML);
         //CKobject.getObjectById('ckplayer_videobox').addListener('time', timeHandler);
-		CKobject.getObjectById('ckplayer_videobox').addListener('play', function (b) {
+        CKobject.getObjectById('ckplayer_videobox').addListener('play', function (b) {
             setT = window.setInterval(setFunction, 1000);
         });
         CKobject.getObjectById('ckplayer_videobox').addListener('pause', function (b) {
@@ -135,7 +135,7 @@ function pausedHandler(b) {
 }
 function setFunction() {
     watchTime += 1;
-     //获取学习时间
+    //获取学习时间
     CKobject._K_('studyTime').innerHTML = watchTime;
 
     //获取视频时长
@@ -153,7 +153,7 @@ function setFunction() {
     activeEvent($.trim($('#playTime').text()));
     //提交数据
     //ajax提交在线时间
-    var interval = 10;
+    var interval = 5;
     if (Number(watchTime) % interval == 0) {
         $.get("/Ajax/StudentStudy.ashx", {
             couid: couid,
@@ -161,21 +161,21 @@ function setFunction() {
             studyTime: interval,
             playTime: Number($("#playTime").html().trim()) * 1000,
             totalTime: Number($("#totalTime").html().trim()) * 1000
-        },function(data){
-			if(data=="0"){
-				$(".StudentStudyLog").text("学习记录提交成功!").removeClass("error").show(1000,function(){
-					window.setTimeout(function(){
-						$(".StudentStudyLog").hide(500);
-					},1000);
-				});
-			}else{
-				$(".StudentStudyLog").text("学习记录记录失败!").addClass("error").show(1000,function(){
-					window.setTimeout(function(){
-						$(".StudentStudyLog").hide(500);
-					},1000);
-				});
-			}
-		});
+        }, function (data) {
+            if (data == "0") {
+                $(".StudentStudyLog").text("学习记录提交成功!").removeClass("error").show(1000, function () {
+                    window.setTimeout(function () {
+                        $(".StudentStudyLog").hide(500);
+                    }, 3000);
+                });
+            } else {
+                $(".StudentStudyLog").text("学习记录记录失败!").addClass("error").show(1000, function () {
+                    window.setTimeout(function () {
+                        $(".StudentStudyLog").hide(500);
+                    }, 3000);
+                });
+            }
+        });
     }
 }
 function timeHandler(t) {
@@ -225,7 +225,7 @@ var params = { bgcolor: '#FFF', allowFullScreen: false, allowScriptAccess: 'alwa
 var video = [playMp4("undefined" != typeof videoPath ? videoPath : "") + '->video/mp4'];
 if ($("#videobox").size() > 0) {
     //CKobject.embed('/Utility/Ckplayer/ckplayer/ckplayer.swf', 'videobox', 'ckplayer_videobox', '100%', '100%', false, flashvars, video, params);
-	CKobject.embedHTML5('videobox','ckplayer_videobox','100%', '100%',video,flashvars,['all']);
+    CKobject.embedHTML5('videobox', 'ckplayer_videobox', '100%', '100%', video, flashvars, ['all']);
 }
 //播放flv格式的同名mp4视频
 function playMp4(vname) {

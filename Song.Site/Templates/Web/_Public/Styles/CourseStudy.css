@@ -204,6 +204,14 @@ video::-webkit-media-controls-panel {
 	height: 30px;
 	color: #CCC;
 	text-indent: 20px;
+	position:relative;
+	text-align:left;
+}
+/*学习记录递交是否成功的提示信息*/
+.StudentStudyLog{
+	position:absolute;
+	right:10px;
+	top:3px;
 }
 .error{
 	color:red;
