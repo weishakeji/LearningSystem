@@ -701,6 +701,24 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<Outline>(wc);
         }
         /// <summary>
+        /// 当前课程下的章节数
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="pid">父id</param>
+        /// <param name="isUse">是否启用</param>
+        /// <param name="isVideo">是否有视频</param>
+        /// <returns></returns>
+        public int OutlineOfCount(int couid, int pid, bool? isUse, bool? isVideo, bool? isFinish)
+        {
+            WhereClip wc = new WhereClip();
+            if (couid > 0) wc &= Outline._.Cou_ID == couid;
+            if (pid > -1) wc &= Outline._.Ol_PID == pid;
+            if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
+            if (isVideo != null) wc.And(Outline._.Ol_IsVideo == (bool)isVideo);
+            if (isFinish != null) wc.And(Outline._.Ol_IsFinish == (bool)isFinish);
+            return Gateway.Default.Count<Outline>(wc);
+        }
+        /// <summary>
         /// 是否有子级章节
         /// </summary>
         /// <param name="couid">课程id</param>

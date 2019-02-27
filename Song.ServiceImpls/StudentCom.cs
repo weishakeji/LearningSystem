@@ -791,37 +791,60 @@ namespace Song.ServiceImpls
         public double LogForStudyUpdate(int couid, int olid, Accounts st, int playTime, int studyTime, int totalTime)
         {
             if (st == null) return -1;
-            //当前机构
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            ////当前机构
+            //Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
 
-            //当前课程的所有章节
+            ////当前课程的所有章节
             Song.Entities.Outline[] outs = Business.Do<IOutline>().OutlineCount(couid, -1, true, -1);
-            foreach (Song.Entities.Outline o in outs)
-            {
-                //如果不是视频章节，则跳出
-                if (!o.Ol_IsVideo) continue;
-                Song.Entities.LogForStudentStudy log = this.LogForStudySingle(st.Ac_ID, o.Ol_ID);
-                if (log != null) continue;
-                //如果某一章节没有记录，则创建
-                log = new LogForStudentStudy();
-                log.Lss_UID = WeiSha.Common.Request.UniqueID();
-                log.Lss_CrtTime = DateTime.Now;
-                log.Cou_ID = couid;
-                log.Ol_ID = o.Ol_ID;
-                if (org != null) log.Org_ID = org.Org_ID;
-                //学员信息
-                log.Ac_ID = st.Ac_ID;
-                log.Ac_AccName = st.Ac_AccName;
-                log.Ac_Name = st.Ac_Name;
-                //视频长度
-                List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(o.Ol_UID, "CourseVideo");
-                if (videos.Count > 0)
-                    log.Lss_Duration = videos[0].As_Duration;
-                //
-                Gateway.Default.Save<LogForStudentStudy>(log);
-            }
+            //using (DbTrans tran = Gateway.Default.BeginTrans())
+            //{
+            //    foreach (Song.Entities.Outline o in outs)
+            //    {
+            //        //如果不是视频章节，则跳出
+            //        if (!o.Ol_IsVideo) continue;
+            //        Song.Entities.LogForStudentStudy log = this.LogForStudySingle(st.Ac_ID, o.Ol_ID);
+            //        if (log != null) continue;
+            //        //如果某一章节没有记录，则创建
+            //        log = new LogForStudentStudy();
+            //        log.Lss_UID = WeiSha.Common.Request.UniqueID();
+            //        log.Lss_CrtTime = DateTime.Now;
+            //        log.Cou_ID = couid;
+            //        log.Ol_ID = o.Ol_ID;
+            //        if (org != null) log.Org_ID = org.Org_ID;
+            //        //学员信息
+            //        log.Ac_ID = st.Ac_ID;
+            //        log.Ac_AccName = st.Ac_AccName;
+            //        log.Ac_Name = st.Ac_Name;
+            //        //视频长度
+            //        List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(o.Ol_UID, "CourseVideo");
+            //        if (videos.Count > 0)
+            //            log.Lss_Duration = videos[0].As_Duration;
+            //        //
+            //        Gateway.Default.Save<LogForStudentStudy>(log);
+            //    }
+            //}
             //当前章节的学习记录
-            Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
+            //Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
+            string sql = "SELECT *  FROM [LogForStudentStudy] where Ol_ID={0} and Ac_ID={1}";
+            sql = string.Format(sql, olid, st.Ac_ID);
+            Song.Entities.LogForStudentStudy entity = Gateway.Default.FromSql(sql).ToFirst<LogForStudentStudy>();
+            if (entity == null)
+            {
+                //当前机构
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                entity = new LogForStudentStudy();
+                entity.Lss_UID = WeiSha.Common.Request.UniqueID();
+                entity.Lss_CrtTime = DateTime.Now;
+                entity.Cou_ID = couid;
+                entity.Ol_ID = olid;
+                if (org != null) entity.Org_ID = org.Org_ID;
+                //学员信息
+                entity.Ac_ID = st.Ac_ID;
+                entity.Ac_AccName = st.Ac_AccName;
+                entity.Ac_Name = st.Ac_Name;
+                //视频长度
+                entity.Lss_Duration = totalTime;
+            }
             //登录相关时间
             entity.Lss_LastTime = DateTime.Now;
             entity.Lss_PlayTime = playTime;
@@ -941,7 +964,7 @@ namespace Song.ServiceImpls
             string sql = @"
 select * from course as c inner join 
 	(select cou_id, max(lastTime) as 'lastTime',sum(studyTime) as 'studyTime',		
-		sum(case when complete>=100 then 100 else complete end)/COUNT(cou_id) as 'complete'
+		sum(case when complete>=100 then 100 else complete end) as 'complete'
 		from 
 			(SELECT top 90000 ol_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
 				 sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
@@ -958,6 +981,20 @@ select * from course as c inner join
             {
                 DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
                 DataTable dt = ds.Tables[0];
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        //课程的累计完成度
+                        double complete = Convert.ToDouble(dr["complete"].ToString());
+                        //课程id
+                        int couid = Convert.ToInt32(dr["Cou_ID"].ToString());
+                        int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true);
+                        //完成度
+                        double peracent = Math.Floor(complete / olnum * 100) / 100;
+                        dr["complete"] = peracent;
+                    }
+                }
                 return dt;
             }
             catch

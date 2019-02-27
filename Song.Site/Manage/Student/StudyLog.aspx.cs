@@ -51,15 +51,16 @@ namespace Song.Site.Manage.Student
         {
             int num = 0;
             int.TryParse(studyTime, out num);
+            if (num == 0) return "";
             if (num < 60) return num + "秒钟";
             //计算分钟
-            num = num / 60;
-            int ss = num % 60;
-            if (num < 60) return num + "分钟";
+            int ss = num / 60;
+            if (ss < 60 && num % 60 > 0) return string.Format("{0}分{1}秒", ss, num % 60);
+            if (ss < 60 && num % 60 == 0) return string.Format("{0}分", ss);
             //计算小时
-            int hh = num / 60;
-            int mm = num % 60;
-            return string.Format("{0}小时{1}分钟", hh, mm);
+            int hh = ss / 60;
+            int mm = ss % 60;
+            return string.Format("{0}小时{1}分", hh, mm);
         }
      
     }

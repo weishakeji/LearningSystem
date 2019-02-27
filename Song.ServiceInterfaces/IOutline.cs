@@ -168,6 +168,16 @@ namespace Song.ServiceInterfaces
         int OutlineOfCount(int couid, int pid, bool? isUse);
         int OutlineOfCount(int orgid, int sbjid, int couid, int pid, bool? isUse);
         /// <summary>
+        /// 当前课程下的章节数
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="pid">父id</param>
+        /// <param name="isUse">是否启用</param>
+        /// <param name="isVideo">是否有视频</param>
+        /// <param name="isFinish">章节是否完节</param>
+        /// <returns></returns>
+        int OutlineOfCount(int couid, int pid, bool? isUse, bool? isVideo, bool? isFinish);
+        /// <summary>
         /// 是否有子级章节
         /// </summary>
         /// <param name="couid">课程id</param>
