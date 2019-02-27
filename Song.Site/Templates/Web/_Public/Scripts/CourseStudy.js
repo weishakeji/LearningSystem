@@ -96,6 +96,7 @@ function loadedHandler() {
 	//上次播放进度
 	var history=$().cookie("outlineVideo_" + $().getPara('id'));
 	$("#historyTime").text(history);
+	if(history==null)$(".historyInfo").hide();
     if (CKobject.getObjectById('ckplayer_videobox').getType()) {//说明使用html5播放器
         //CKobject.getObjectById('ckplayer_videobox').addListener('paused', pausedHandler);
         //alert(CKobject.getObjectById('ckplayer_videobox').innerHTML);
@@ -157,6 +158,9 @@ function setIntervalFunction() {
 	//完成度的百分比
     var percent = Math.floor(Number($("#per").text()));
 	var interval=2;		//间隔百分比多少递交一次记录
+	if(Number(dura)<=5*60)interval=10;	//5分钟内
+	else if(Number(dura)<=10*60)interval=5;
+	
     if (percent % interval == 0 && (percent > 0 && percent<=100)&& percent>Math.floor(historyLog)) {
         //alert(watchTime);
         $.get("/Ajax/StudentStudy.ashx", {
@@ -166,9 +170,9 @@ function setIntervalFunction() {
             playTime: Number($("#playTime").html().trim())*1000,
             totalTime: Number($("#totalTime").html().trim())*1000
         }, function (data) {
+			historyLog+=interval;
 			var d=Number(data);
-            if (data >0) {
-				historyLog=data;
+            if (data >0) {				
                 $(".StudentStudyLog").text("学习记录（"+d+"%）提交成功!").removeClass("error").show(1000, function () {
                     window.setTimeout(function () {
                         $(".StudentStudyLog").hide(500);
