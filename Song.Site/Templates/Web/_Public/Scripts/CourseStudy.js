@@ -161,7 +161,21 @@ function setFunction() {
             studyTime: interval,
             playTime: Number($("#playTime").html().trim()) * 1000,
             totalTime: Number($("#totalTime").html().trim()) * 1000
-        });
+        },function(data){
+			if(data=="0"){
+				$(".StudentStudyLog").text("学习记录提交成功!").removeClass("error").show(1000,function(){
+					window.setTimeout(function(){
+						$(".StudentStudyLog").hide(500);
+					},1000);
+				});
+			}else{
+				$(".StudentStudyLog").text("学习记录记录失败!").addClass("error").show(1000,function(){
+					window.setTimeout(function(){
+						$(".StudentStudyLog").hide(500);
+					},1000);
+				});
+			}
+		});
     }
 }
 function timeHandler(t) {

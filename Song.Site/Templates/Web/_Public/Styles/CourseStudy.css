@@ -205,6 +205,9 @@ video::-webkit-media-controls-panel {
 	color: #CCC;
 	text-indent: 20px;
 }
+.error{
+	color:red;
+}
 video::-webkit-media-controls-enclosure {
     overflow:hidden;
 }
