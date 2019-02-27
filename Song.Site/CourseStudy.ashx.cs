@@ -133,8 +133,6 @@ namespace Song.Site
                 LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, id);
                 if (studyLog != null)
                 {
-                    double historyPlay = (double)studyLog.Lss_PlayTime;
-                    this.Document.Variables.SetValue("historyPlay", historyPlay);
                     this.Document.Variables.SetValue("studyLog", studyLog);
                 }
             }

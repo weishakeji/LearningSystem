@@ -93,6 +93,9 @@ function setInit_4() {
 
 //如果你不需要某项设置，可以直接删除，注意var flashvars的最后一个值后面不能有逗号
 function loadedHandler() {
+	//上次播放进度
+	var history=$().cookie("outlineVideo_" + $().getPara('id'));
+	$("#historyTime").text(history);
     if (CKobject.getObjectById('ckplayer_videobox').getType()) {//说明使用html5播放器
         //CKobject.getObjectById('ckplayer_videobox').addListener('paused', pausedHandler);
         //alert(CKobject.getObjectById('ckplayer_videobox').innerHTML);
@@ -193,7 +196,10 @@ function timeHandler(t) {
 			//完成度的百分比
 			var p=Math.floor(watchTime/Number($("#totalTime").text())*10000)/100;
 			$("#per").text(p);
-			setIntervalFunction();
+			setIntervalFunction();	//向服务器提交学习记录
+			//记录本地播放进度
+			var id = $().getPara('id');
+			$().cookie("outlineVideo_" + id, time);
         }
     }
 }
