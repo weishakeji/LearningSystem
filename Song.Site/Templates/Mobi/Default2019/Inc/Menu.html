@@ -2,7 +2,7 @@
 
 <aside id="offCanvasSide" class="mui-off-canvas-left main-menu">
   <div id="offCanvasSideScroll" class="mui-scroll-wrapper">
-    <div class="mui-scroll">
+    <div class="mui-scroll" id="menu-area" style="display:none">
       <div class="accInfoBox">
         <div class="accPhoto">
         <a class="" href="../Login.ashx" state="logout"><img src="../images/nophoto.jpg" root="{$stpath}" default="../images/nophoto.jpg"/></a>
@@ -32,7 +32,7 @@
 
         <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../CouponExchange.ashx"><span class="iconfont">&#xe88a;</span>积分兑换 </a> </li>
         <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../LearningCard.ashx"><span class="iconfont">&#xe62c;</span>学习卡</a> </li>
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../MyFriends.ashx><span class="iconfont">&#xe62f;</span>我的朋友 </a> </li>
+        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../MyFriends.ashx"><span class="iconfont">&#xe62f;</span>我的朋友 </a> </li>
          <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" type="confirm" 
               title="注销登录" msg="您是否要注销当前登录？" cancel="取消" enter="注销登录"  
              href="../logout.ashx"> <span class="iconfont">&#xe61b;</span>注销登录 </a> </li>
@@ -148,8 +148,10 @@
 
 <script type="text/javascript" language="javascript">
 $(function(){
+	//$(".main-menu li.mui-table-view-cell[state=login]").hide();
 	$.get("/Ajax/Self.ashx", function(json){
 		var data=eval("("+json+")");
+		$("#menu-area").show();
 		//处理侧滑菜单在是否登录状态的显示项目
 		$(".main-menu li.mui-table-view-cell").each(function(index, element) {
             var state=$(this).attr("state");
