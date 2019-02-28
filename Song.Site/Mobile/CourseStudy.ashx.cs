@@ -82,6 +82,16 @@ namespace Song.Site.Mobile
                         //如果是内部链接
                         videos[0].As_FileName = Upload.Get[videos[0].As_Type].Virtual + videos[0].As_FileName;
                         this.Document.Variables.SetValue("video", videos[0]);
+                        if (Extend.LoginState.Accounts.IsLogin)
+                        {
+                            Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, ol.Ol_ID);
+                            if (studyLog != null)
+                            {
+                                this.Document.Variables.SetValue("studyLog", studyLog);
+                                double historyPlay = (double)studyLog.Lss_PlayTime / 1000;
+                                this.Document.Variables.SetValue("historyPlay", historyPlay);
+                            }
+                        }
                     }
                     this.Document.Variables.SetValue("vpath", Upload.Get["CourseVideo"].Virtual);
                     this.Document.Variables.SetValue("IsVideoNoload", config["IsVideoNoload"].Value.Boolean ?? false);

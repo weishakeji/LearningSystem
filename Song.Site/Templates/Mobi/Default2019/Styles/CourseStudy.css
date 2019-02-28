@@ -64,7 +64,7 @@ div {
  --webkit-box-shadow: 0 1px 6px #ccc;
  --box-shadow: 0 1px 6px #ccc;
 	position: absolute;
-	top: 0px;
+	top: 2px;
 	right: 0px;
 	z-index: 100;
 }
@@ -78,6 +78,27 @@ div {
 }
 #playerInfo .time * {
 	font-size: 10px;
+}
+/*上次观看播放进度*/
+.historyInfo{
+	display:block;
+	bottom:40px;
+	left:20px;
+	position: absolute;
+	z-index:200;
+	font-size:10px;
+}
+/*学习记录递交成功的提示*/
+.StudentStudyLog{
+	display:block;
+	bottom:40px;
+	right:20px;
+	position: absolute;
+	z-index:200;
+	font-size:10px;
+}
+.error{
+	color:red;
 }
 #videoIframe {
 	width: 100% !important;

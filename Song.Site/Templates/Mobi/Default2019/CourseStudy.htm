@@ -29,9 +29,10 @@
               <div id="videobox" style="100%; position:relative;z-index: 100;"></div>
               <!-- <video src="{$video.As_FileName}" x5-video-player-type="h5" width="100%"/>--> 
               <!--播放器的各种信息-->
-              <div id="playerInfo" > <span class="time"> 时长<span id="totalTime">{$video.As_Duration}</span> 秒</span> <span class="time"> 播放<span id="playTime">0</span>秒</span> <span class="time"> 已学<span id="studyTime">0</span>秒</span>
-                <vt:if var="studyLog" value="" compare="!="> <span class="historyInfo">上次学习到<span id="historyTime">{$historyPlay}</span>，点击此处接上次进度学习</span> </vt:if>
-              </div>
+              <div id="playerInfo" > <span class="time"> 时长<span id="totalTime">{$video.As_Duration}</span> 秒</span> <span class="time"> 播放<span id="playTime">0</span>秒</span> <span class="time"> 已学<span id="studyTime" num="{$studyLog.Lss_StudyTime}">0</span>秒，完成<span id="per">0</span>%</span>
+                 
+              </div><span class="historyInfo">上次播放到<span id="historyTime">{$historyPlay}</span>秒，点击继续学习</span>
+              <span class="StudentStudyLog" style="display:nonje"></span>
               <script type="text/javascript">
             //视频地址
             var videoFile = "{$video.As_FileName}";

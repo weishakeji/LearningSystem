@@ -56,12 +56,19 @@ var watchTime = 0;
 var setT = null;
 //如果你不需要某项设置，可以直接删除，注意var flashvars的最后一个值后面不能有逗号
 function loadedHandler() {
+	//上次播放进度
+    var history = $().cookie("outlineVideo_" + $().getPara('id'));
+    $("#historyTime").text(history);
+    if (history == null) $(".historyInfo").hide();
+	window.setTimeout(function () {
+                    $(".historyInfo").fadeOut(500);
+                }, 3000);
     if (CKobject.getObjectById('ckplayer_videobox').getType()) {//说明使用html5播放器
         CKobject.getObjectById('ckplayer_videobox').addListener('play', function (b) {
-            setT = window.setInterval(setFunction, 1000);
+            //setT = window.setInterval(setFunction, 1000);
         });
         CKobject.getObjectById('ckplayer_videobox').addListener('pause', function (b) {
-            if (setT != null) window.clearInterval(setT);
+            //if (setT != null) window.clearInterval(setT);
         });
         CKobject.getObjectById('ckplayer_videobox').addListener('time', timeHandler);
     }
@@ -72,52 +79,91 @@ function loadedHandler() {
 }
 
 function pausedHandler(b) {
-    if (setT != null) window.clearInterval(setT);
+    //if (setT != null) window.clearInterval(setT);
 }
 function playedHandler(b) {
     setT = window.setInterval(setFunction, 1000);
 }
 function pausedHandler(b) {
-    if (setT) window.clearInterval(setT);
-    if (!b) setT = window.setInterval(setFunction, 1000);
+    //if (setT) window.clearInterval(setT);
+    //if (!b) setT = window.setInterval(setFunction, 1000);
 }
-function setFunction() {
-    watchTime += 1;
-    //获取学习时间
-    CKobject._K_('studyTime').innerHTML = watchTime;
-
-    //播放时，触发播放事件
-    //activeEvent($.trim($('#playTime').text()));
+//获取视频总时长
+function getTotal() {
+    //获取视频时长
+    var dura = CKobject._K_('totalTime').innerHTML;
+    if (Number(dura) < 1) {
+        var a = CKobject.getObjectById('ckplayer_videobox').getStatus();
+        var total = '';
+        for (var k in a) {
+            if (k == 'totalTime') total = a[k];
+        }
+        CKobject._K_('totalTime').innerHTML = total;
+    }
+    return Number(dura);
+}
+/* 获取观看的累计时间，单位：秒 */
+var watchTime = Number($("#studyTime").attr("num"));
+watchTime = isNaN(watchTime) ? 0 : watchTime;
+//历史递交记录
+var historyLog = 0;
+function setIntervalFunction() {
+    //设置学习时间数值显示
+    CKobject._K_('studyTime').innerHTML = Math.floor(watchTime);
+    var total = getTotal(); //总时长
     //提交数据
-    //ajax提交在线时间
-    var interval = 10;
-    if (Number(watchTime) % interval == 0) {
-        $.get("/Ajax/StudentStudy.ashx", {
-            couid: couid,
-            olid: olid,
-            studyTime: interval,
+    //完成度的百分比
+    var percent = Math.floor(Number($("#per").text()));
+    var interval = 2; 	//间隔百分比多少递交一次记录
+    if (Number(total) <= 5 * 60) interval = 10; //5分钟内
+    else if (Number(total) <= 10 * 60) interval = 5;
+    if (!(percent % interval == 0 && (percent > 0 && percent <= 100) && percent > Math.floor(historyLog))) {
+        return;
+    }
+    $.ajax({
+        url: "/Ajax/StudentStudy.ashx",
+        data: { couid: couid, olid: olid, studyTime: watchTime,
             playTime: Number($("#playTime").html().trim()) * 1000,
             totalTime: Number($("#totalTime").html().trim()) * 1000
-        });
-    }
+        },
+        success: function (data) {
+            historyLog += interval;
+            var d = Number(data);
+            var show = $(".StudentStudyLog");
+            if (d > 0) show.text("学习进度（" + d + "%）提交成功!").removeClass("error");
+            if (d == -1) show.text("学员未登录，或登录失效").addClass("error");
+            show.show(1000, function () {
+                window.setTimeout(function () {
+                    $(".StudentStudyLog").fadeOut(1000);
+                }, 3000);
+            });
+        },
+        error: function () {
+            $(".StudentStudyLog").text("学习进度保存失败！ 稍后会再次提交..").addClass("error").show(1000, function () {
+                window.setTimeout(function () {
+                    $(".StudentStudyLog").fadeOut(1000);
+                }, 5000);
+            });
+        }
+    });
+
 }
 function timeHandler(t) {
     //播放进度
     if (t > -1) {
-        CKobject._K_('playTime').innerHTML = Math.floor(Number(t));
-        var id = $().getPara('id');
-        $.cookie("outlineVideo_" + id, t);
-        //
-        //获取视频时长
-        var dura = CKobject._K_('totalTime').innerHTML;
-        if (Number(dura) < 1) {
-            var a = CKobject.getObjectById('ckplayer_videobox').getStatus();
-            var total = '';
-            for (var k in a) {
-                if (k == 'totalTime')
-                    total = a[k];
-            }
-            CKobject._K_('totalTime').innerHTML = total;
+        var history = Number($.trim($("#playTime").text()));
+        var time = Math.floor(t);
+        if (history != time) {
+            $("#playTime").text(time);
+            //activeEvent(time);  //触发播放事件
+            watchTime++;    //观看时间加-
+            //完成度的百分比
+            var p = Math.floor(watchTime / Number($("#totalTime").text()) * 10000) / 100;
+            $("#per").text(p);
+            setIntervalFunction(); //向服务器提交学习记录
+            //记录本地播放进度
+            var id = $().getPara('id');
+            $().cookie("outlineVideo_" + id, time);
         }
     }
 }

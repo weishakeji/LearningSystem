@@ -64,9 +64,9 @@ $(function(){
          <vt:else/>
         <div id="videobox" style="width:100%; height:400px; margin-left:0%;position:relative;z-index: 100;"></div>
         <!--播放器的各种信息-->
-        <div id="playerInfo"> 视频时长： <span id="totalTime">{$video.As_Duration}</span>秒 &nbsp; 播放进度： <span id="playTime">0</span>秒 &nbsp; 累计学习 <span id="studyTime" num="{$log.Lss_StudyTime}">0</span>秒，完成<span id="per">0</span>%
+        <div id="playerInfo"> 视频时长： <span id="totalTime">{$video.As_Duration}</span>秒 &nbsp; 播放进度： <span id="playTime">0</span>秒 &nbsp; 累计学习 <span id="studyTime" num="{$studyLog.Lss_StudyTime}">0</span>秒，完成<span id="per">0</span>%
         
-          <vt:if var="studyLog" value="" compare="!="> <span class="historyInfo">上次播放到<span id="historyTime">0</span>秒，点击继续学习</span> </vt:if>
+          <span class="historyInfo">上次播放到<span id="historyTime">0</span>秒，点击继续学习</span> 
           
           <span class="StudentStudyLog" style="display:none"></span>
         </div>

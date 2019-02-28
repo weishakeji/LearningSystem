@@ -99,8 +99,13 @@ namespace Song.Site
                         this.Document.Variables.SetValue("video", videos[0]);
                         if (Extend.LoginState.Accounts.IsLogin)
                         {
-                            Song.Entities.LogForStudentStudy lfs = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, ol.Ol_ID);
-                            if (lfs != null) this.Document.Variables.SetValue("log", lfs);
+                            Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, ol.Ol_ID);                           
+                            if (studyLog != null)
+                            {
+                                this.Document.Variables.SetValue("studyLog", studyLog);
+                                double historyPlay = (double)studyLog.Lss_PlayTime / 1000;
+                                this.Document.Variables.SetValue("historyPlay", historyPlay);
+                            }
                          }
                     }
                     catch
@@ -126,15 +131,6 @@ namespace Song.Site
                     ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
                 this.Document.Variables.SetValue("access", access);
                 state = state < 1 ? 3 : state;
-            }
-            //视频的学习进度记录
-            if (this.Account != null)
-            {
-                LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, id);
-                if (studyLog != null)
-                {
-                    this.Document.Variables.SetValue("studyLog", studyLog);
-                }
             }
             //当前章节是否有试题
             if (canStudy)
