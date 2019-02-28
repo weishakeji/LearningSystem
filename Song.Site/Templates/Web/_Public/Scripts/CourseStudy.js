@@ -134,7 +134,8 @@ $(window).focus(function () {
 var watchTime = Number($("#studyTime").attr("num"));
 watchTime = isNaN(watchTime) ? 0 : watchTime;
 //历史递交记录
-var historyLog = 0;
+var p = Math.floor(watchTime / Number($("#totalTime").text()) * 10000) / 100;
+var historyLog = p;
 //var setT = null;
 function pausedHandler(b) {
     //if (setT) window.clearInterval(setT);
@@ -164,17 +165,17 @@ function setIntervalFunction() {
     var interval = 2; 	//间隔百分比多少递交一次记录
     if (Number(total) <= 5 * 60) interval = 10; //5分钟内
     else if (Number(total) <= 10 * 60) interval = 5;
-    if (!(percent % interval == 0 && (percent > 0 && percent <= 100) && percent > Math.floor(historyLog))) {
-        return;
-    }
+    if (percent % interval == 0 && (percent > 0 && percent <= 100) && percent > Math.floor(historyLog)) {
+        
+    
+	historyLog += interval;
     $.ajax({
         url: "/Ajax/StudentStudy.ashx",
         data: { couid: couid, olid: olid, studyTime: watchTime,
             playTime: Number($("#playTime").html().trim()) * 1000,
             totalTime: Number($("#totalTime").html().trim()) * 1000
         },
-        success: function (data) {
-            historyLog += interval;
+        success: function (data) {            
             var d = Number(data);
             var show = $(".StudentStudyLog");
             if (d > 0) show.text("学习进度（" + d + "%）提交成功!").removeClass("error");
@@ -193,7 +194,7 @@ function setIntervalFunction() {
             });
         }
     });
-
+}
 }
 function timeHandler(t) {
     //播放进度

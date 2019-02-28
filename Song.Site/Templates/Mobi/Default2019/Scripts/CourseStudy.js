@@ -106,7 +106,8 @@ function getTotal() {
 var watchTime = Number($("#studyTime").attr("num"));
 watchTime = isNaN(watchTime) ? 0 : watchTime;
 //历史递交记录
-var historyLog = 0;
+var p = Math.floor(watchTime / Number($("#totalTime").text()) * 10000) / 100;
+var historyLog = p;
 function setIntervalFunction() {
     //设置学习时间数值显示
     CKobject._K_('studyTime').innerHTML = Math.floor(watchTime);
@@ -120,14 +121,14 @@ function setIntervalFunction() {
     if (!(percent % interval == 0 && (percent > 0 && percent <= 100) && percent > Math.floor(historyLog))) {
         return;
     }
+	historyLog += interval;
     $.ajax({
         url: "/Ajax/StudentStudy.ashx",
         data: { couid: couid, olid: olid, studyTime: watchTime,
             playTime: Number($("#playTime").html().trim()) * 1000,
             totalTime: Number($("#totalTime").html().trim()) * 1000
         },
-        success: function (data) {
-            historyLog += interval;
+        success: function (data) {            
             var d = Number(data);
             var show = $(".StudentStudyLog");
             if (d > 0) show.text("学习进度（" + d + "%）提交成功!").removeClass("error");
