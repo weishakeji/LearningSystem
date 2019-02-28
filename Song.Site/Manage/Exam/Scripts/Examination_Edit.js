@@ -160,10 +160,10 @@ function subjectEvent() {
                 for (var i = 0; i < arr.length; i++)
                     testpager.append("<option value='" + arr[i].Tp_Id
                     + "' span='" + arr[i].Tp_Span + "' total='" + arr[i].Tp_Total
-                    + "' passScore='" + arr[i].Tp_PassScore + "'>" + decodeURIComponent(arr[i].Tp_Name) + "</option>");
+                    + "' passScore='" + arr[i].Tp_PassScore + "'>" + unescape(arr[i].Tp_Name) + "</option>");
                 if (arr.length > 0) {
                     sel.val(arr[0].Tp_Id);
-                    setExamItem(tr, decodeURIComponent(arr[0].Tp_Name), arr[0].Tp_Total, arr[0].Tp_PassScore, arr[0].Tp_Span);
+                    setExamItem(tr, unescape(arr[0].Tp_Name), arr[0].Tp_Total, arr[0].Tp_PassScore, arr[0].Tp_Span);
                     var myDate = new Date()
                     tr.find("input[name$=tbDate]").val(myDate.Format("yyyy-MM-dd hh:mm"));
                 } else {

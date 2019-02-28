@@ -41,7 +41,7 @@ function selectedInit() {
         for (var i = 0; i < strs.length; i++) {
 			if(strs[i][0]=="search"){
 				 var tm = "<div class=\"selectedItem\" clear=\"" + clear + "\">";
-				tm += "<div class='name'>查询-" +  decodeURIComponent(strs[i][1]) + "</div><div class='close' attr='" + strs[i][0] + "'>&nbsp;</div>";
+				tm += "<div class='name'>查询-" +  unescape(strs[i][1]) + "</div><div class='close' attr='" + strs[i][0] + "'>&nbsp;</div>";
 				tm += "</div> ";
 				$("#Selected").append(tm);
 				break;

@@ -83,7 +83,7 @@ function ajaxLoaddata() {
 		        var li = document.createElement('li');
 		        li.className = 'mui-table-view-cell mui-media cour-row';
 		        li.setAttribute("couid", d.Cou_ID);
-		        li.setAttribute("couname", decodeURIComponent(d.Cou_Name));
+		        li.setAttribute("couname", unescape(d.Cou_Name));
 		        var html = '';
 		        //向左滑
 		        html += '<div class="mui-slider-right mui-disabled"><a class="mui-btn mui-btn-yellow mui-icon mui-icon-chat" couid="' + d.Cou_ID + '"></a></div>';
@@ -143,8 +143,8 @@ function ajaxLoaddata() {
 function buildCourse(cour) {
     var defimg = $(".default-img").attr("default"); //默认图片
     var html = "<picture>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/></picture><info>{name}{number}{sbjname}<price>{price}</price></info>";
-    html = html.rep("{logo}", decodeURIComponent(cour.Cou_LogoSmall));
-    html = html.replace("{name}", "<name>" + decodeURIComponent(cour.Cou_Name) + "</name>").replace("{sbjname}", "<sbjname>" + decodeURIComponent(cour.Sbj_Name) + "</sbjname>");
+    html = html.rep("{logo}", unescape(cour.Cou_LogoSmall));
+    html = html.replace("{name}", "<name>" + unescape(cour.Cou_Name) + "</name>").replace("{sbjname}", "<sbjname>" + unescape(cour.Sbj_Name) + "</sbjname>");
     html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
     html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
     html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
@@ -161,7 +161,7 @@ function buildCourse(cour) {
             var end = cour.Cou_FreeEnd.Format("yyyy年M月d日");
             price = "<l>免费至 <t>" + end + "</t></l>";
         } else {
-            price = "<m>" + cour.Cou_PriceSpan + decodeURIComponent(cour.Cou_PriceUnit) + cour.Cou_Price + "元</m>";
+            price = "<m>" + cour.Cou_PriceSpan + unescape(cour.Cou_PriceUnit) + cour.Cou_Price + "元</m>";
         }
     }
     html = html.replace("{price}", price);

@@ -60,7 +60,7 @@ function ajaxLoaddata(){
 			//
 			var html='<a href="javascript:;">';
 			html+='<img class="mui-media-object mui-pull-left" src="'+img+'"/>';
-			html+='<div class="mui-media-body mui-ellipsis">'+decodeURIComponent(d.Art_Title);
+			html+='<div class="mui-media-body mui-ellipsis">'+unescape(d.Art_Title);
 			html+='<p class="mui-ellipsis">'+d.Art_Intro+'</p>';
 			html+='</div>';
 			html+='</a>';

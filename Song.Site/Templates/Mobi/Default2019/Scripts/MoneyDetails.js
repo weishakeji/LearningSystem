@@ -74,7 +74,7 @@ function ajaxLoaddata() {
             html += '<div class="ico"><div class="iconfont type' + Number(d.Ma_Type) + (success ? '' : ' fail')+'">' + ico + "</div></div>";
             html += '<div class="info">';
             html += '<div class="row1"><div class="money">' + type + ' ' + Number(d.Ma_Money) + '</div><fail>'+(success ? '' : '失败')+'</fail></div>';
-            html += '<div class="row2">' + decodeURIComponent(remark) + '</div>';
+            html += '<div class="row2">' + unescape(remark) + '</div>';
             html += '</div>';
             //
             html += '</div></div>';

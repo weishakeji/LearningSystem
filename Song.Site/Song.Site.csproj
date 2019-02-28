@@ -1504,6 +1504,7 @@
     <Content Include="Templates\Web\School\CourseChannel.htm" />
     <Content Include="Templates\Web\School\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\_Public\CoreScripts\ajaxfileupload.js" />
+    <Content Include="Templates\Web\_Public\CoreScripts\Public.js" />
     <Content Include="Templates\Web\_Public\Examing.htm" />
     <Content Include="Templates\Web\_Public\Admin\Startpage.htm" />
     <Content Include="Templates\Web\_Public\Admin\Styles\Startpage.css" />

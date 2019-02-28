@@ -61,11 +61,11 @@ function ajaxLoaddata(){
 			var html='<a href="javascript:;">';
 			if(d.Art_IsImg){
 				html+='<img class="mui-media-object mui-pull-left" src="'+img+'" default="'+defimg.getAttribute("src")+'"/>';
-				html+='<div class="mui-media-body mui-ellipsis havimg">'+decodeURIComponent(d.Art_Title);
+				html+='<div class="mui-media-body mui-ellipsis havimg">'+unescape(d.Art_Title);
 				//if(d.Art_Intro=="")d.Art_Intro=d.Art_Title;
-				html+='<p class="mui-ellipsis">'+decodeURIComponent(d.Art_Intro)+'</p>';
+				html+='<p class="mui-ellipsis">'+unescape(d.Art_Intro)+'</p>';
 			}else{
-				html+='<div class="mui-media-body mui-ellipsis noimg">'+decodeURIComponent(d.Art_Title);
+				html+='<div class="mui-media-body mui-ellipsis noimg">'+unescape(d.Art_Title);
 			}
 			html+='</div>';
 			html+='</a>';

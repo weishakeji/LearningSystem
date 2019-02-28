@@ -163,12 +163,7 @@ namespace Song.ServiceImpls
         {
             Song.Entities.Questions qus = QuestionsMethod.QuestionsCache.Singleton.GetSingle(identify);
             if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == identify).ToFirst<Questions>();
-            if (qus == null) return qus;
-            if (!string.IsNullOrWhiteSpace(qus.Qus_Title))
-            {
-                qus.Qus_Title = qus.Qus_Title.Replace("&lt;", "<");
-                qus.Qus_Title = qus.Qus_Title.Replace("&gt;", ">");
-            }
+            if (qus == null) return qus;            
             return qus;
 
         }
@@ -179,8 +174,7 @@ namespace Song.ServiceImpls
             Song.Entities.Questions qus = QuestionsMethod.QuestionsCache.Singleton.GetSingle(uid);
             if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_UID == uid.Trim() && Questions._.Qus_IsTitle == true).ToFirst<Questions>();
             if (qus == null) return qus;
-            qus.Qus_Title = qus.Qus_Title.Replace("&lt;", "<");
-            qus.Qus_Title = qus.Qus_Title.Replace("&gt;", ">");
+           
             return qus;
         }
 
@@ -191,9 +185,7 @@ namespace Song.ServiceImpls
             if (type > 0) wc.And(Questions._.Qus_Type == type);
             if (titile.Trim() != "") wc.And(Questions._.Qus_Title.Like(titile.Trim()));
             Song.Entities.Questions qus = Gateway.Default.From<Questions>().Where(wc).ToFirst<Questions>();
-            if (qus == null) return qus;
-            qus.Qus_Title = qus.Qus_Title.Replace("&lt;", "<");
-            qus.Qus_Title = qus.Qus_Title.Replace("&gt;", ">");
+            if (qus == null) return qus;           
             return qus;
         }
 

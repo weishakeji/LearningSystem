@@ -1,5 +1,5 @@
 ﻿$(function () {
-	$("#tbSearch").val(decodeURIComponent($().getPara("sear")));
+	$("#tbSearch").val(unescape($().getPara("sear")));
 	//搜索框的提交事件
 	 $("#formSearch").submit(function(){
 	 	var txt=$("#tbSearch").val();
@@ -68,7 +68,7 @@ function ajaxLoaddata(){
             var li = document.createElement('div');
             li.className = 'mui-table-view-cell mui-media news-item';
             li.setAttribute("artid", d.No_Id);			
-			var html='<a href="notice.ashx?id='+d.No_Id+'" type="link">'+ decodeURIComponent(d.No_Ttl);	
+			var html='<a href="notice.ashx?id='+d.No_Id+'" type="link">'+ unescape(d.No_Ttl);	
 			//alert(d.No_StartTime);	
 			html+="<span class='mui-badge'>"+d.No_StartTime.Format("MM-dd")+"</span>";
 			html+='</a>';

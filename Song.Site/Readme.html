@@ -483,14 +483,14 @@ F、如果IIS7以上版本，还要设置应用程序池。（选择当前站点
         var copyright = eval("(" + data + ")");
         //页面标题
         var title = $("title").text();
-        if (title.indexOf("-") > -1) $("title").text(title.substring(0, title.indexOf("-") + 1) + decodeURIComponent(copyright.product));
+        if (title.indexOf("-") > -1) $("title").text(title.substring(0, title.indexOf("-") + 1) + unescape(copyright.product));
         //处理页面内容，将copyright.xml中的信息填充到页面
         $("*[copyright]").each(function (index, element) {
             var name = $(this).get(0).tagName.toLowerCase(); //html元素的标签名
             var val = $(this).attr("copyright"); 	//copyright的值，对应json的属性
             for (var attr in copyright) {
                 if (attr == val) {
-                    var txt = decodeURIComponent(copyright[attr]);
+                    var txt = unescape(copyright[attr]);
                     if (name == "span") $(this).text(txt);
                     if (name == "a") $(this).attr("href", txt);
                     if (name == "img") $(this).attr("src", txt);

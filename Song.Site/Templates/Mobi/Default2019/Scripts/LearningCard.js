@@ -65,7 +65,7 @@ function use_card() {
                 mui.toast('使用成功！', { duration: 500, type: 'div' });
                 var txt = "选修课程" + data.items.length + "个，如下：<br/>";
                 for (var i = 0; i < data.items.length; i++) {
-                    txt += (i + 1) + "、《" + decodeURIComponent(data.items[i].Cou_Name) + "》<br/>";
+                    txt += (i + 1) + "、《" + unescape(data.items[i].Cou_Name) + "》<br/>";
                 }
                 var msg = new MsgBox("学习卡使用成功", txt, 80, 40, "msg");
                 msg.ShowCloseBtn = false;

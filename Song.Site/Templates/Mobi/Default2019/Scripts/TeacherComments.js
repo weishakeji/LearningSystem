@@ -61,9 +61,9 @@ function ajaxLoaddata() {
             //内容
             var cont = document.createElement('div');
             cont.className = 'mui-card-content';
-            cont.innerHTML = "<div class='content'>" + decodeURIComponent(d.Thc_Comment) + "</div>";
+            cont.innerHTML = "<div class='content'>" + unescape(d.Thc_Comment) + "</div>";
 			if(d.Thc_Reply!=null && d.Thc_Reply.length>0){
-				cont.innerHTML += "<div class='reply'>回复：" + decodeURIComponent(d.Thc_Reply) + "</div>";
+				cont.innerHTML += "<div class='reply'>回复：" + unescape(d.Thc_Reply) + "</div>";
 			}
             li.appendChild(cont);
             //页脚
