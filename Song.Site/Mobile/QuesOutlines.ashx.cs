@@ -56,7 +56,7 @@ namespace Song.Site.Mobile
                 {
                     c.Ol_Intro = Extend.Html.ClearHTML(c.Ol_Intro);
                     c.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(c.Ol_ID, -1, true, true);
-                    Business.Do<IOutline>().OutlineSave(c);
+                    //Business.Do<IOutline>().OutlineSave(c);
                 }
                 ////计算章节试题数量
                 //if (QuesOfCountClacTime.AddMinutes(QuesOfCountClacTimeSpan) < DateTime.Now)
