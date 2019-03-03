@@ -135,7 +135,7 @@ var watchTime = Number($("#studyTime").attr("num"));
 watchTime = isNaN(watchTime) ? 0 : watchTime;
 //历史递交记录
 var p = Math.floor(watchTime / Number($("#totalTime").text()) * 10000) / 100;
-var historyLog = p;
+var historyLog = isNaN(p) ? 0 : p;
 //var setT = null;
 function pausedHandler(b) {
     //if (setT) window.clearInterval(setT);
