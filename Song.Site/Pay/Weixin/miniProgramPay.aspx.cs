@@ -51,6 +51,10 @@ namespace Song.Site.Pay.Weixin
             if (!retdomain.EndsWith("/")) retdomain += "/";
             notify_url = retdomain + "Pay/Weixin/miniProgramResult.aspx";
             notify_url = notify_url.ToLower();
+
+            //调试
+            string msg = string.Format("小程序支付，第二步（调用小程序）：\r\n商户ID：{0}，商户密钥：{1}，商户订单号：{2},回调：{3}", mchid, paykey, serial, notify_url);
+            WxPayAPI.Log.Info(this.GetType().FullName, msg);
         }
     }
 }

@@ -61,8 +61,11 @@
             var pageurl = "/pages/wxpay/pay?appid={0}&secret={1}&mchid={2}&paykey={3}&total_fee={4}&serial={5}&org={6}&notify_url={7}";
             pageurl = pageurl.format(appid, secret, mchid, paykey, total_fee, serial, org, notify_url);
             wx.miniProgram.navigateTo({ url: pageurl, success: function () {
-                window.location.href = "miniProgramResult.aspx?serial=" + serial;
-            } });
+                    window.setTimeout(function () {
+                        window.location.href = "miniProgramResult.aspx?serial=" + serial;
+                    },1000); 
+                }
+            });
             //setTimeout('clearWord( )', 3000);
             
         }

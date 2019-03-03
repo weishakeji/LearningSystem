@@ -69,7 +69,7 @@ namespace WxPayAPI
             {
                 //获取code码，以获取openid和access_token
                 string code = page.Request.QueryString["code"];
-                Log.Debug(this.GetType().ToString(), "Get code : " + code);
+                Log.Debug(this, "Get code : " + code);
                 GetOpenidAndAccessTokenFromCode(code);
             }
             else
@@ -85,7 +85,7 @@ namespace WxPayAPI
                 data.SetValue("scope", "snsapi_base");
                 data.SetValue("state", "STATE" + "#wechat_redirect");
                 string url = "https://open.weixin.qq.com/connect/oauth2/authorize?" + data.ToUrl();
-                Log.Debug(this.GetType().ToString(), "Will Redirect to URL : " + url);
+                Log.Debug(this, "Will Redirect to URL : " + url);
                 try
                 {
                     //触发微信返回code码         
@@ -129,7 +129,7 @@ namespace WxPayAPI
                 //请求url以获取数据
                 string result = HttpService.Get(url);
 
-                Log.Debug(this.GetType().ToString(), "GetOpenidAndAccessTokenFromCode response : " + result);
+                Log.Debug(this, "GetOpenidAndAccessTokenFromCode response : " + result);
 
                 //保存access_token，用于收货地址获取
                 JsonData jd = JsonMapper.ToObject(result);
@@ -138,12 +138,12 @@ namespace WxPayAPI
                 //获取用户openid
                 openid = (string)jd["openid"];
 
-                Log.Debug(this.GetType().ToString(), "Get openid : " + openid);
-                Log.Debug(this.GetType().ToString(), "Get access_token : " + access_token);
+                Log.Debug(this, "Get openid : " + openid);
+                Log.Debug(this, "Get access_token : " + access_token);
             }
             catch (Exception ex)
             {
-                Log.Error(this.GetType().ToString(), ex.ToString());
+                Log.Error(this, ex.ToString());
                 throw new WxPayException(ex.ToString());
             }
         }
@@ -196,7 +196,7 @@ namespace WxPayAPI
             WxPayData result = WxPayApi.UnifiedOrder(data, appid, mchid, paykey, WeiSha.Common.Browser.IP, notify_url);
             if (!result.IsSet("appid") || !result.IsSet("prepay_id") || result.GetValue("prepay_id").ToString() == "")
             {
-                Log.Error(this.GetType().ToString(), "UnifiedOrder response error!");
+                Log.Error(this, "UnifiedOrder response error!");
                 throw new WxPayException("UnifiedOrder response error!");
             }
 
@@ -221,7 +221,7 @@ namespace WxPayAPI
         */
         public string GetJsApiParameters(string key)
         {
-            Log.Debug(this.GetType().ToString(), "JsApiPay::GetJsApiParam is processing...");
+            Log.Debug(this, "JsApiPay::GetJsApiParam is processing...");
 
             WxPayData jsApiParam = new WxPayData();
             jsApiParam.SetValue("appId", unifiedOrderResult.GetValue("appid"));
@@ -233,7 +233,7 @@ namespace WxPayAPI
 
             string parameters = jsApiParam.ToJson();
 
-            Log.Debug(this.GetType().ToString(), "Get jsApiParam : " + parameters);
+            Log.Debug(this, "Get jsApiParam : " + parameters);
             return parameters;
         }
 
@@ -264,10 +264,10 @@ namespace WxPayAPI
                 signData.SetValue("accesstoken",access_token);
                 string param = signData.ToUrl();
 
-                Log.Debug(this.GetType().ToString(), "SHA1 encrypt param : " + param);
+                Log.Debug(this, "SHA1 encrypt param : " + param);
                 //SHA1加密
                 string addrSign = FormsAuthentication.HashPasswordForStoringInConfigFile(param, "SHA1");
-                Log.Debug(this.GetType().ToString(), "SHA1 encrypt result : " + addrSign);
+                Log.Debug(this, "SHA1 encrypt result : " + addrSign);
 
                 //获取收货地址js函数入口参数
                 WxPayData afterData = new WxPayData();
@@ -280,11 +280,11 @@ namespace WxPayAPI
 
                 //转为json格式
                 parameter = afterData.ToJson();
-                Log.Debug(this.GetType().ToString(), "Get EditAddressParam : " + parameter);
+                Log.Debug(this, "Get EditAddressParam : " + parameter);
             }
             catch (Exception ex)
             {
-                Log.Error(this.GetType().ToString(), ex.ToString());
+                Log.Error(this, ex.ToString());
                 throw new WxPayException(ex.ToString());
             }
 

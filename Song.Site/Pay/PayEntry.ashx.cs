@@ -234,6 +234,10 @@ namespace Song.Site.Pay
         {    
             string url = "Weixin/miniProgramPay.aspx?piid={0}&serial={1}&money={2}&org={3}";
             url = string.Format(url, pi.Pai_ID, ma.Ma_Serial, money * 100, ma.Org_ID);
+            //调试
+            string msg = string.Format("小程序支付，第一步（启动）：\r\n接口ID：{0}，流水号：{1}，金额：{2}元", pi.Pai_ID, ma.Ma_Serial, money);
+            WxPayAPI.Log.Info(this.GetType().FullName, msg);
+
             System.Web.HttpContext.Current.Response.Redirect(url);
         }
         /// <summary>

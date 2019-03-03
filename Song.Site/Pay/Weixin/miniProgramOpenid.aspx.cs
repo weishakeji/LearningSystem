@@ -15,7 +15,7 @@ namespace Song.Site.Pay.Weixin
     public partial class miniProgramOpenid : System.Web.UI.Page
     {
         //微信授权code，通过它获取access_token和openid
-        private string code = WeiSha.Common.Request.QueryString["scode"].String;   
+        private string code = WeiSha.Common.Request.Form["scode"].String;   
         string mchid = string.Empty;   //商户ID（微信支付中心的商户ID)
         string paykey = string.Empty;   //商户支付密钥
         string appid = string.Empty;    //公众号appid
@@ -32,15 +32,23 @@ namespace Song.Site.Pay.Weixin
         protected void Page_Load(object sender, EventArgs e)
         {
             initData();
-            WxPayAPI.Log.Info(this.GetType().ToString(), "来自小程序的Code : " + code);
+
+            //调试
+            string msg = string.Format("小程序支付，第三步（获取Openid）：\r\n微信授权（来自小程序）Code：{0}", code);
+            WxPayAPI.Log.Info(this.GetType().FullName, msg);
+
             if (!string.IsNullOrWhiteSpace(code)) GetOpenidAndAccessTokenFromCode(code);
-            WxPayAPI.Log.Info(this.GetType().ToString(), "小程序获取OpenID : " + openid);
+            WxPayAPI.Log.Info(this, "小程序获取OpenID : " + openid);
+            if (string.IsNullOrWhiteSpace(openid))
+            {
+                WxPayAPI.Log.Error(this, "小程序获取OpenID获取异常 : " + openid);
+            }
             Response.Write(openid);
             Response.End();
 
         }
         /// <summary>
-        /// 初始化数据
+        /// 初始化接口
         /// </summary>
         private void initData()
         {
@@ -55,7 +63,7 @@ namespace Song.Site.Pay.Weixin
             }
             if (this.payInterface == null)
             {
-                WxPayAPI.Log.Error(this.GetType().ToString(), "小程序支付接口不存在！");
+                WxPayAPI.Log.Error(this, "小程序支付接口不存在！");
             }
             if (this.payInterface != null)
             {
@@ -78,7 +86,7 @@ namespace Song.Site.Pay.Weixin
                 url = string.Format(url, appid, secret, code);
                 //请求url以获取数据
                 string result = WxPayAPI.HttpService.Get(url);
-                WxPayAPI.Log.Debug(this.GetType().ToString(), "GetOpenidAndAccessTokenFromCode response : " + result);
+                WxPayAPI.Log.Debug(this, "GetOpenidAndAccessTokenFromCode response : " + result);
                 //保存access_token，用于收货地址获取
                 LitJson.JsonData jd = JsonMapper.ToObject(result);
                 //token = (string)jd["access_token"];
@@ -87,7 +95,7 @@ namespace Song.Site.Pay.Weixin
             }
             catch (Exception ex)
             {
-                WxPayAPI.Log.Error(this.GetType().ToString(), ex.ToString());
+                WxPayAPI.Log.Error(this, ex.ToString());
                 //throw new WxPayAPI.WxPayException(ex.ToString());
             }
         }

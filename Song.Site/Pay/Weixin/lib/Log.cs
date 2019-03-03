@@ -10,6 +10,7 @@ namespace WxPayAPI
         //在网站根目录下创建日志目录
         public static string path = HttpContext.Current.Request.PhysicalApplicationPath + "logs/weixin";
 
+        #region 写入日志
         /**
          * 向日志文件写入调试信息
          * @param className 类名
@@ -48,7 +49,39 @@ namespace WxPayAPI
                 WriteLog("ERROR", className, content);
             }
         }
+        #endregion
 
+        #region 写入日志
+        /**
+         * 向日志文件写入调试信息
+         * @param className 类名
+         * @param content 写入内容
+         */
+        public static void Debug(object obj, string content)
+        {
+            Debug(obj.GetType().FullName, content);
+        }
+
+        /**
+        * 向日志文件写入运行时信息
+        * @param className 类名
+        * @param content 写入内容
+        */
+        public static void Info(object obj, string content)
+        {
+            Info(obj.GetType().FullName, content);
+        }
+
+        /**
+        * 向日志文件写入出错信息
+        * @param className 类名
+        * @param content 写入内容
+        */
+        public static void Error(object obj, string content)
+        {
+            Error(obj.GetType().FullName, content);
+        }
+        #endregion
         /**
         * 实际的写日志操作
         * @param type 日志记录类型
@@ -71,6 +104,7 @@ namespace WxPayAPI
             //向日志文件写入内容
             string write_content = time + " " + type + " " + className + ": " + content;
             mySw.WriteLine(write_content);
+            mySw.WriteLine();
 
             //关闭日志文件
             mySw.Close();

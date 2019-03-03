@@ -41,7 +41,7 @@ namespace Song.Site.Pay.Weixin
             if (total_fee <= 0)
             {
                 Response.Write("<span style='color:#FF0000;font-size:20px'>" + "页面传参出错,请返回重试" + "</span>");
-                WxPayAPI.Log.Error(this.GetType().ToString(), "交易资金小于等于0");
+                WxPayAPI.Log.Error(this, "交易资金小于等于0");
                 return null;
             }
             //若传递了相关参数，则调统一下单接口，获得后续相关接口的入口参数
@@ -56,19 +56,19 @@ namespace Song.Site.Pay.Weixin
                 Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
                 if (acc != null) buyer = string.IsNullOrWhiteSpace(acc.Ac_MobiTel1) ? acc.Ac_AccName : acc.Ac_MobiTel1;
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganSingle(orgid);
-                WxPayAPI.Log.Debug(this.GetType().ToString(), "回调域：" + notify_url);
+                WxPayAPI.Log.Debug(this, "回调域：" + notify_url);
                 //统一下单                
                 WxPayData unifiedOrderResult = jsApiPay.GetUnifiedOrderResult("JSAPI", org.Org_PlatformName, serial, appid, mchid, paykey, notify_url, buyer);
                 //获取H5调起JS API参数  
                 string wxJsApiParam = jsApiPay.GetJsApiParameters(paykey);// 用于前端js调用
-                WxPayAPI.Log.Debug(this.GetType().ToString(), "获取H5调起JS API参数："+wxJsApiParam);
+                WxPayAPI.Log.Debug(this, "获取H5调起JS API参数："+wxJsApiParam);
                 return wxJsApiParam;
 
             }
             catch (Exception ex)
             {
-                WxPayAPI.Log.Error(this.GetType().ToString(), "支付下单失败 : " + ex.Message);
-                WxPayAPI.Log.Error(this.GetType().ToString(), "支付下单失败 : " + ex.StackTrace);
+                WxPayAPI.Log.Error(this, "支付下单失败 : " + ex.Message);
+                WxPayAPI.Log.Error(this, "支付下单失败 : " + ex.StackTrace);
                 return null;
             }
 
