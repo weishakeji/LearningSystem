@@ -2,7 +2,7 @@
 App({
   data: {
     //服务器地址(末尾不要加斜杠/)
-    server: "https://www.linzixx.com"
+    server: "https://www.168fff.cn"
   },
   onLaunch: function () {
     // 展示本地存储能力
