@@ -31,11 +31,11 @@
 配置微信登录，微信登录可以与公众号共用同一个APPID和AppSecret，前提是当前小程序和公众号必须都绑定于同一个微信开放平台。
 * 2、配置小程序中的服务器域名（request合法域名）<br/>
 在小程序后台管理中，找到“设置”->“开发设置”->“服务器域名（request合法域名）”，填写为自己的网站域名，注意必须是https前缀，即你的网站需要购买安装SSL或TLS证书。
-重要提示：
-TLS必须是1.2版本以上
-相关资源：
-https://bbs.wosign.com/thread-1284-1-1.html
-http://www.371cloud.net/?id=112
+重要提示：<br/>
+TLS必须是1.2版本以上<br/>
+相关资源：<br/>
+https://bbs.wosign.com/thread-1284-1-1.html<br/>
+http://www.371cloud.net/?id=112<br/>
 
 其它注意事项
 ----
