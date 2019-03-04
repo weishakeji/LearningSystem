@@ -106,7 +106,7 @@
          $(function () {
              var lbSucess = $(".lbSucess");
              if (lbSucess.size() < 1) {
-                 setTimeout("gourl()", 1000);
+                 setTimeout("gourl()", 2000);
              }
          });
          
