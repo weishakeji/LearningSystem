@@ -12,6 +12,7 @@
 /Song.*/bin/
 /Song.*/obj/
 /Song.Site/upload/
+/wxapp/miniprogram/
 #Ignore thumbnails created by Windows
 Thumbs.db
 #Ignore files built by Visual Studio
