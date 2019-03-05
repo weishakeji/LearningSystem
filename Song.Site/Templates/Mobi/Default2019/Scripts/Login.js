@@ -245,7 +245,7 @@ OtherLogin.init = function () {
             var appid = $(this).attr("appid"); //appid
             var returl = OtherLogin.prefix($(this).attr("returl")) + "/mobile/weixinpublogin.ashx"; //回调域	
             var orgid = $(this).attr("orgid"); 	//当前机构id
-            var target = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_base&state={2}#wechat_redirect";
+            var target = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect";
             target = target.format(appid, encodeURIComponent(returl), orgid);
             window.location.href = target;
         }
