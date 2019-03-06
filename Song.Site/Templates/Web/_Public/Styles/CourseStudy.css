@@ -123,14 +123,17 @@ video::-webkit-media-controls-panel {
 #details img {
 	max-width: 100%;
 }
-#details *{
-	font-size: 16px;
-	line-height: 20px;
-	color: #333 !important;
-	background-color:transparent !important;
+#details {
+	
+}
+#details p, #details *{
+	font-size: 17px !important;
+	line-height: 30px !important;
+	background-color:transparent !important;	
+	color:#666 !important;
 }
 #details p{
-	margin-bottom:10px;	
+	margin-bottom:20px;	
 }
 #detailsArea{
 	margin: 20px;

@@ -154,15 +154,14 @@ div {
 }
 #details p, #details * {
 	font-size: 15px !important;
-	line-height: 22px !important;
+	line-height: 1.6em;
 	background-color: transparent !important;
 	color: #666 !important;
-	padding:0px !important;
-	margin:0px !important;
+	padding: 0px !important;
 }
 #details p
 {
-	margin-buttom:10px !important;
+	margin-buttom:20px !important;
 }
 #details a{
 	color:#09F !important;

@@ -38,7 +38,7 @@
                     <tr>
                         <td colspan="2">
                             <WebEditor:Editor ID="Ol_Intro" runat="server" ThemeType="default" 
-                                Height="150px" FilterMode="false"></WebEditor:Editor>
+                                Height="400px" FilterMode="false"></WebEditor:Editor>
                         </td>
                     </tr>
                 </table>
