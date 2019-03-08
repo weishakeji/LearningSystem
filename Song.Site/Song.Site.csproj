@@ -1149,6 +1149,7 @@
     <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
     <Content Include="Templates\Mobi\_Public\Images\load_023.gif" />
     <Content Include="Templates\Mobi\_Public\Images\load_027.gif" />
+    <Content Include="Templates\Mobi\_Public\Images\nophoto.jpg" />
     <Content Include="Templates\Mobi\_Public\Images\weixin_logo.png" />
     <Content Include="Templates\Mobi\_Public\Notfound.htm" />
     <Content Include="Templates\Mobi\_Public\QQLogin.htm" />
