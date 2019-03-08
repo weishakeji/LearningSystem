@@ -306,7 +306,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<Course> CourseAll(int orgid, int sbjid, int thid, bool? isUse)
         {
-            return CourseCount(orgid, sbjid, null, isUse, -1);
+            return CourseCount(orgid, sbjid, thid, -1, null, isUse, -1);
         }
         /// <summary>
         /// 某个课程的学习人数

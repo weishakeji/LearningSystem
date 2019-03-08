@@ -1,0 +1,54 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>{$acc.ac_name}</title>
+<vt:include file="inc/meta.inc" />
+<link href="Styles/Certify.css?ver={$version}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="Scripts/Certify.js?ver={$version}"></script>
+</head>
+<body>
+<div class="ws-box">
+  <vt:if var="acc.Ac_photo" value="" compare="="> <img class="ws-left photo" src="images/nophoto.jpg"/>
+    <vt:else/>
+    <img class="ws-left photo" src="{$stpath}{$:#.acc.Ac_photo}"  default="images/nophoto.jpg"/></vt:if>
+  <div class="ws-right"> <span class="name">{$acc.ac_name}</span> <span class="tel">
+    <vt:if var="acc.Ac_MobiTel1" value="" compare="!="> <a href="tel:{$acc.Ac_MobiTel1}">{$acc.Ac_MobiTel1}</a>
+      <vt:else/>
+      <vt:if var="acc.Ac_MobiTel2" value="" compare="!="> <a href="tel:{$acc.Ac_MobiTel2}">{$acc.Ac_MobiTel2}</a> </vt:if>
+    </vt:if>
+    </span> <span class="text major">{$acc.Ac_Major}</span> </div>
+</div>
+<div class="ws-box">
+  <div class="ws-row">学号：{$acc.Ac_CodeNumber} </div>
+  <div class="ws-row">性别：
+    <vt:if var="acc.Ac_sex" value="0" compare="="> 未知 </vt:if>
+    <vt:if var="acc.Ac_sex" value="1" compare="="> 男 </vt:if>
+    <vt:if var="acc.Ac_sex" value="2" compare="="> 女 </vt:if>
+  </div>
+  <div class="ws-row">年龄：
+    <vt:if var="acc.Ac_Age" value="200" compare=">"> 未知
+      <vt:else/>
+      {$acc.Ac_Age} </vt:if>
+  </div>
+  <div class="ws-row">身份证：{$acc.Ac_IDCardNumber}</div>
+</div>
+<div class="ws-box">
+  <div class="ws-row">学历：{$acc.Ac_Education}</div>
+  <div class="ws-row">专业：{$acc.Ac_Major}</div>
+  <div class="ws-row">院校：{$acc.Ac_School} </div>
+</div>
+<div class="ws-box">
+  <div class="ws-title">学习情况 </div>
+  <vt:foreach from="$#.logs" item="log" index="i" remark="学习记录">
+    <div class="ws-row logitem"> {$:i}、{$:log.cou_name}
+      <div class="time">学习时间：{$:log.LastTime format="yyyy-M-d"}</div>
+      <div class="percent">完成度：<b>
+        <vt:if var="log.complete" value="95" compare=">"> 100
+          <vt:else/>
+          {$:log.complete}</vt:if>
+        %</b></div>
+    </div>
+  </vt:foreach>
+</div>
+</body>
+</html>

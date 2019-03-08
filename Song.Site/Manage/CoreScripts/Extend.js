@@ -271,6 +271,13 @@ jQuery.fn.getFileName = function () {
     filename = filename.substr(0, filename.indexOf("."))
     return filename;
 }
+//获取根路径
+jQuery.fn.getHostPath = function () {
+    var url = window.location.href;
+    var pathName = window.document.location.pathname;
+    var localhostPath = url.substring(0, url.indexOf(pathName) + 1);
+    return localhostPath;
+};
 //格式化日期
 Date.prototype.ToString = function () {
     var year = this.getFullYear();

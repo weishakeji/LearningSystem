@@ -1,0 +1,70 @@
+﻿.ws-box {
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+	border-radius: 2px;
+	background-color: #fff;
+	background-clip: padding-box;
+	padding:10px;
+	box-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+.photo{
+	width:100px;
+	
+	margin-right:20px;
+}
+.ws-left{
+	float:left;
+}
+.ws-right{
+	float:left;
+	width:auto;
+}
+.major{
+	display:block;
+	position:absolute;
+	bottom:10px;
+}
+.name{
+	display:block;
+	font-size:16px;
+	margin-bottom:10px;
+}
+.tel a{
+	color: #666;
+	text-decoration: none;
+}
+.text{
+	font-size:12px;
+	color:#999;
+}
+.ws-row{
+	position: relative;
+    overflow: hidden;
+    padding: 11px 15px;
+	transform-style: preserve-3d;
+}
+.ws-title{
+	font-weight: bold;
+}
+/*课程列表*/
+.logitem{
+	padding-bottom:40px;
+}
+.time{
+	position:absolute;
+	font-size:10px;
+	color:#666;
+	bottom:5px;
+}
+.percent{
+	position:absolute;
+	bottom:10px;
+	font-size:10px;
+	color:#666;
+	right:5px;
+}
+.percent b{
+	font-size:16px;
+	margin-left:3px;
+}
