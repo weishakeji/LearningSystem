@@ -50,7 +50,18 @@ table {
 	max-width: 100%;
 	margin-right: auto;
 	margin-left: auto;
-	page-break-before: auto;
+	--page-break-before: auto;	
+}
+table.first{
+	border-bottom-style: none;
+}
+table.second{
+	border-bottom-style: none;
+	border-top-style: none;
+}
+table.three{
+	border-top-style: none;
+	page-break-after:always;
 }
 table td {
 	height: 35px !important;
@@ -93,9 +104,9 @@ table.firtst {
 }
 /*课程学习情况*/
 .rtpLearnInfo {
-	min-height:400px;
+	min-height:360px;
 	padding:10px;
-	page-break-inside: avoid;
+	margin-bottom:120px;	
 }
 .rtpLearnInfo dt, dd{
 	line-height:35px;	
@@ -135,5 +146,11 @@ table.firtst {
 	font-size:16px;
 	line-height:40px;
 	text-align:right;
+}
+/*二维码*/
+.qrcode{
+	position:absolute;
+	left:20px;
+	bottom:15px;
 }
 }

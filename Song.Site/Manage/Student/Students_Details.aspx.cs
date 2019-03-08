@@ -45,16 +45,23 @@ namespace Song.Site.Manage.Student
                 //公章显示位置
                 positon = config["StampPosition"].Value.String;
                 if (string.IsNullOrEmpty(positon)) positon = "right-bottom";
-                //取学员列表
-                if (string.IsNullOrWhiteSpace(sts) || sts == "-1")
+                //当前登录学员
+                if (sts == "-1")
                 {
                     Song.Entities.Accounts acc = accid > 0 ? Business.Do<IAccounts>().AccountsSingle(accid) : Extend.LoginState.Accounts.CurrentUser;
                     if (acc != null) accounts.Add(acc);
                 }
-                else
+                //所有学员
+                if (string.IsNullOrWhiteSpace(sts))
+                {
+                    accounts = Business.Do<IAccounts>().AccountsCount(org.Org_ID, true, null, -1);
+                }
+                //分组学员
+                if (!string.IsNullOrWhiteSpace(sts) && sts != "-1")
                 {
                     accounts = Business.Do<IAccounts>().AccountsCount(org.Org_ID, true, sts, -1);
                 }
+
                 foreach (Accounts acc in accounts)
                 {
                     acc.Ac_Age = DateTime.Now.Year - acc.Ac_Age;
