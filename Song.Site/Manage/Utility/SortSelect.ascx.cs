@@ -135,7 +135,7 @@ namespace Song.Site.Manage.Utility
             {
                 org = Business.Do<IOrganization>().OrganCurrent();
                 //上级
-                List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseCount(org.Org_ID, sbjid, null, true, -1);
+                List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseCount(org.Org_ID, sbjid, null, null, -1);
                 ddlCourse.DataSource = cous;
                 this.ddlCourse.DataTextField = "Cou_Name";
                 this.ddlCourse.DataValueField = "Cou_ID";

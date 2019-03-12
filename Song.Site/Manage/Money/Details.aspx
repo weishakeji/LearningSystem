@@ -20,6 +20,7 @@
                 <%--<asp:ListItem Value="2">充值码充值</asp:ListItem>--%>
                 <asp:ListItem Value="3">在线支付</asp:ListItem>
                 <asp:ListItem Value="1">管理员操作</asp:ListItem>
+                <asp:ListItem Value="4">购买课程</asp:ListItem>
             </asp:DropDownList>
             <asp:DropDownList ID="ddlType" runat="server" Width="90">
                 <asp:ListItem Value="-1">--所有操作--</asp:ListItem>
@@ -76,7 +77,7 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="说明">
                 <ItemTemplate>
-                    <%# Eval("Ma_Source", "{0}")%>
+                    <%# Eval("Ma_Info", "{0}")%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" />
             </asp:TemplateField>
