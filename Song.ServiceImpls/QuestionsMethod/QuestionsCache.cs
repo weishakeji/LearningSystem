@@ -256,7 +256,8 @@ namespace Song.ServiceImpls.QuestionsMethod
         {
             for (int i = 0; i < list.Count; i++)
             {
-                if (list[i].Deadline <= DateTime.Now)
+                if (list[i].Result == null) continue;
+                if (list[i].Result.Exr_OverTime >= DateTime.Now)
                 {
                     //如果有答题信息，在清除前计算成功，并存储
                     if (list[i].Result != null && list[i].IsProcessing==false && !list[i].Result.Exr_IsCalc)
@@ -267,9 +268,21 @@ namespace Song.ServiceImpls.QuestionsMethod
                 }
             }
         }
+        /// <summary>
+        /// 保存到数据库
+        /// </summary>
+        public void Save()
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].Result == null) continue;
+                Business.Do<IExamination>().ResultAdd(list[i].Result);
+            }
+        }
         private void myTimer_Elapsed(object source, ElapsedEventArgs e)
         {
-            this.Clear();
+            this.Save();
+            this.Clear();            
         }
        
     }

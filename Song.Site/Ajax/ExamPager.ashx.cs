@@ -142,25 +142,6 @@ namespace Song.Site.Ajax
             json += "]";
             return json;
         }
-        /// <summary>
-        /// 处理试题内容
-        /// </summary>
-        /// <param name="ques"></param>
-        /// <returns></returns>
-        private Song.Entities.Questions quesClear(Song.Entities.Questions ques)
-        {
-            if (ques == null) return ques;
-            ques.Qus_Title = ques.Qus_Title.Replace("&lt;", "<");
-            ques.Qus_Title = ques.Qus_Title.Replace("&gt;", ">");
-            ques.Qus_Title = ques.Qus_Title.Replace("{", "｛");
-            ques.Qus_Title = ques.Qus_Title.Replace("}", "｝");
-            ques.Qus_Title = ques.Qus_Title.Replace("\n", "<br/>");
-            ques.Qus_Title = ques.Qus_Title.Replace("\r", "<br/>");
-            //ques.Qus_Title = ques.Qus_Title.Replace(" ", "　");
-            ques.Qus_Title = Extend.Html.ClearHTML(ques.Qus_Title, "p", "div", "font", "pre");
-           
-            return ques;
-        }
         #endregion
 
         /// <summary>

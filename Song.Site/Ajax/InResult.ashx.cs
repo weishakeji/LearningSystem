@@ -11,7 +11,7 @@ using WeiSha.Common;
 namespace Song.Site.Ajax
 {
     /// <summary>
-    /// InResult._ 的摘要说明
+    /// 在线考试时，接收学员时实答题信息
     /// </summary>
     public class InResult : IHttpHandler {
         //获取答题结果

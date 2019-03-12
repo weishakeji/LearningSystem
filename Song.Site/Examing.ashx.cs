@@ -63,6 +63,7 @@ namespace Song.Site
             DateTime startTime, overTime;
             //答题记录
             Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingleForCache(examid, exam.Tp_Id, Account.Ac_ID);
+            this.Document.SetValue("result", exr);
             //判断是否已经开始、是否已经结束
             if (exam.Exam_DateType == 1)
             {
