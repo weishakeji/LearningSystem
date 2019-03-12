@@ -34,14 +34,23 @@ namespace Song.Site
             //自定义配置项
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
-            
-            #region 章节输出
+            //
             //取当前章节
             ol = id < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)
                        : ol = Business.Do<IOutline>().OutlineSingle(id);
             //当前课程            
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(ol == null ? couid : ol.Cou_ID);
             if (course == null) return;
+            #region 创建与学员的关联
+            if (this.Account != null)
+            {
+                int accid = this.Account.Ac_ID;
+                bool istudy = Business.Do<ICourse>().Study(course.Cou_ID, accid);
+            }
+            #endregion
+            
+            #region 章节输出
+            
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {

@@ -233,6 +233,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         bool IsTryout(int couid, int stid);
         /// <summary>
+        /// 直接学习该课程
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stid">学员id</param>
+        /// <returns>如果是免费或限时免费、或试学的课程，可以学习并返回true，不可学习返回false</returns>
+        bool Study(int couid, int stid);
+        /// <summary>
         /// 学生购买课程的记录项
         /// </summary>
         /// <param name="stid">学员Id</param>

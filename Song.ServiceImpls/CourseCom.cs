@@ -958,6 +958,41 @@ namespace Song.ServiceImpls
             Student_Course sc = Gateway.Default.From<Student_Course>().Where(wc).ToFirst<Student_Course>();
             return sc != null;
         }
+        /// <summary>
+        /// 直接学习该课程
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stid">学员id</param>
+        /// <returns>如果是免费或限时免费、或试学的课程，可以学习并返回true，不可学习返回false</returns>
+        public bool Study(int couid, int stid)
+        {
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            if (course == null) return false;
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(stid, couid);
+            if (sc == null)
+            {
+                //限时免费
+                if (course.Cou_IsLimitFree)
+                {
+                    sc = this.FreeStudy(stid, couid, course.Cou_FreeStart, course.Cou_FreeEnd.AddDays(1).Date);
+                }
+                //免费
+                if (course.Cou_IsFree)
+                {
+                    sc = this.FreeStudy(stid, couid);
+                }
+                else
+                {
+                    //试学
+                    if (course.Cou_IsTry) sc = this.Tryout(stid, couid);
+                }
+                return course.Cou_IsLimitFree || course.Cou_IsFree || course.Cou_IsTry;
+            }
+            else
+            {
+                return true;
+            }
+        }
         /// 取消课程学习
         /// </summary>
         /// <param name="stid"></param>

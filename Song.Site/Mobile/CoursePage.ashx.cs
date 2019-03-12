@@ -26,28 +26,7 @@ namespace Song.Site.Mobile
             if (this.Account != null)
             {
                 int accid = this.Account.Ac_ID;
-                Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(accid, couid);
-                if (sc == null)
-                {
-                    //限时免费
-                    if (course.Cou_IsLimitFree)
-                    {
-                        sc = Business.Do<ICourse>().FreeStudy(accid, couid, course.Cou_FreeStart, course.Cou_FreeEnd.AddDays(1).Date);
-                    }
-                    else
-                    {
-                        //免费
-                        if (course.Cou_IsFree)
-                        {
-                            sc = Business.Do<ICourse>().FreeStudy(accid, couid);
-                        }
-                        else
-                        {
-                            //试学
-                            if (course.Cou_IsTry) sc = Business.Do<ICourse>().Tryout(accid, couid);
-                        }
-                    }
-                }
+                bool istudy = Business.Do<ICourse>().Study(couid,accid);              
             }
             #endregion
 
