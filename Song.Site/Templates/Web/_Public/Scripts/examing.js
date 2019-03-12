@@ -705,6 +705,9 @@ function submitResult(patter) {
     //提交
     var xml = encodeURIComponent(getResultXml(patter));
     var urlPath = "/ajax/InResult.ashx?timestamp=" + new Date().getTime();
+	if (patter == 1){
+		$.storage("exam_"+examID,xml);
+	}
     $.ajax({
         type: "POST", url: urlPath, dataType: "text", data: { result: xml },
         //开始，进行预载
@@ -763,6 +766,14 @@ function getResultXml(patter) {
 实现断电不丢答题信息
 */
 function getResult() {
+	//var result=$("#result").text();
+//	if(result!=""){
+//		var result = eval("(" + result + ")");
+//        setResultState(result);
+//		submitResult(1);
+//		 Mask.LoadingClose();
+//		return;
+//	}
     var urlPath = "/ajax/GetResult.ashx?timestamp=" + new Date().getTime();
     $.ajax({
         type: "GET", url: urlPath, dataType: "text",

@@ -34,7 +34,6 @@
 	font-weight: bold;
 	color: #333333;
 	text-align: center;
-	height: 40px;
 }
 
 #artArea #artBox .artAttrBar {
@@ -73,7 +72,7 @@
 	max-width:980px;
 }
 
-#artContext, #artContext  span, #artContext div ,#artContext p,#artContext font{
+#artContext, #artContext  span, #artContext div ,#artContext p,#artContext font,#artContext strong{
 	font-size: 16px;
 	line-height: 25px;
 	background-color:transparent !important;
