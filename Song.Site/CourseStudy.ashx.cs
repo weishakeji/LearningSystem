@@ -18,83 +18,70 @@ namespace Song.Site
         //章节id,课程id
         int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
         int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
-        //状态
-        int state = WeiSha.Common.Request.QueryString["state"].Int32 ?? 0;
+        //状态值（来自地址栏），1为视频，2为内容，3为附件，4为试题
+        int stateVal = WeiSha.Common.Request.QueryString["state"].Int32 ?? 0;
         //课程的所有章节
         Song.Entities.Outline[] outlines;
         //当前章节
         Song.Entities.Outline ol = null;
-        //是否选学的当前课程
-        bool isStudy = false;
+        //是否选学的当前课程，是否购买
+        bool isStudy = false, isBuy = false;
 
         protected override void InitPageTemplate(HttpContext context)
         {
-            //if (!Extend.LoginState.Accounts.IsLogin || this.Account==null)
-            //    context.Response.Redirect(WeiSha.Common.Login.Get["Accounts"].NoLoginPath.String);
-            //自定义配置项
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
-            //
-            //取当前章节
+            //当前章节
             ol = id < 1 ? Business.Do<IOutline>().OutlineFirst(couid, true)
                        : ol = Business.Do<IOutline>().OutlineSingle(id);
+            if (ol == null) return;
+            this.Document.Variables.SetValue("outline", ol);
+            this.Document.Variables.SetValue("olid", ol.Ol_ID.ToString());
+            //上级章节
+            this.Document.Variables.SetValue("pat", Business.Do<IOutline>().OutlineSingle(ol.Ol_PID));            
+            Response.Cookies.Add(new HttpCookie("olid", ol.Ol_ID.ToString()));
             //当前课程            
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(ol == null ? couid : ol.Cou_ID);
             if (course == null) return;
-            #region 创建与学员的关联
+            this.Document.Variables.SetValue("course", course);
+            //是否学习当前课程，如果没有学习且课程处于免费，则创建关联
             if (this.Account != null)
             {
-                int accid = this.Account.Ac_ID;
-                bool istudy = Business.Do<ICourse>().Study(course.Cou_ID, accid);
+                isStudy = Business.Do<ICourse>().Study(course.Cou_ID, this.Account.Ac_ID);
+                isBuy = Business.Do<ICourse>().IsBuy(course.Cou_ID, this.Account.Ac_ID, 1);
             }
-            #endregion
+            this.Document.Variables.SetValue("isStudy", isStudy);
+            this.Document.Variables.SetValue("isBuy", isBuy);
+            //记录学员当前学习的课程
+            if (isStudy) Extend.LoginState.Accounts.Course(course);  
             
             #region 章节输出
-            
-            //是否免费，或是限时免费
-            if (course.Cou_IsLimitFree)
-            {
-                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
-                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
-                    course.Cou_IsLimitFree = false;
-            }
-            this.Document.Variables.SetValue("course", course);
-            Extend.LoginState.Accounts.Course(course);
-            if (ol == null) return;
-            // 
-            couid = ol.Cou_ID;
-            id = ol.Ol_ID;
-            //入写章节id的cookie，当播放视频时会判断此处
-            Response.Cookies.Add(new HttpCookie("olid", id.ToString()));
+            // 当前课程的所有章节            
             outlines = Business.Do<IOutline>().OutlineAll(ol.Cou_ID, true);
-            //是否学习当前课程
-            if (course == null || this.Account==null) isStudy = false;
-            else
-                isStudy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, course.Cou_ID);
-            this.Document.Variables.SetValue("isStudy", isStudy);
             //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
-            bool canStudy = isStudy || course.Cou_IsFree || course.Cou_IsLimitFree ? true : (course.Cou_IsTry && ol.Ol_IsFree);
-            canStudy = canStudy && ol.Ol_IsUse && ol.Ol_IsFinish && this.Account != null;
+
+            //bool canStudy = this.Account != null && isStudy || (ol.Ol_IsUse && ol.Ol_IsFinish && course.Cou_IsTry && ol.Ol_IsFree);
+            bool canStudy = isBuy || (isStudy && ol.Ol_IsUse && ol.Ol_IsFinish && course.Cou_IsTry && ol.Ol_IsFree);
             this.Document.Variables.SetValue("canStudy", canStudy);
             //课程章节列表
             this.Document.Variables.SetValue("outlines", outlines);
             //树形章节输出
             if (outlines.Length > 0)
-                this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));
-            this.Document.Variables.SetValue("outline", ol);
+                this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));            
             #endregion
+
+            #region 内容输出
+            CourseContext_State state = new CourseContext_State();            
             //视频
             List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(ol.Ol_UID, "CourseVideo");
             if (videos.Count > 0)
             {
+                //如果是外部链接
                 if (videos[0].As_IsOuter)
-                {
-                    //如果是外部链接
+                {                   
                     this.Document.Variables.SetValue("video", videos[0]);
                 }
-                else
-                {
-                    //如果是内部链接
+                //如果是内部链接
+                if (!videos[0].As_IsOuter)
+                {                    
                     videos[0].As_FileName = Upload.Get[videos[0].As_Type].Virtual + videos[0].As_FileName;
                     try
                     {
@@ -108,30 +95,23 @@ namespace Song.Site
                         this.Document.Variables.SetValue("video", videos[0]);
                         if (Extend.LoginState.Accounts.IsLogin)
                         {
-                            Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, ol.Ol_ID);                           
+                            Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, ol.Ol_ID);
                             if (studyLog != null)
                             {
                                 this.Document.Variables.SetValue("studyLog", studyLog);
                                 double historyPlay = (double)studyLog.Lss_PlayTime / 1000;
                                 this.Document.Variables.SetValue("historyPlay", historyPlay);
                             }
-                         }
+                        }
                     }
                     catch
                     {
                     }
                 }
-                this.Document.Variables.SetValue("IsVideoNoload", config["IsVideoNoload"].Value.Boolean ?? false);
-                state = state < 1 ? 1 : state;
+                state.Video = canStudy ? true : false;
             }
             //内容
-            if (!string.IsNullOrWhiteSpace(ol.Ol_Intro)) state = state < 1 ? 2 : state;
-            //上级章节
-            if (ol != null)
-            {
-                Song.Entities.Outline pat = Business.Do<IOutline>().OutlineSingle(ol.Ol_PID);
-                this.Document.Variables.SetValue("pat", pat);
-            }
+            if (!string.IsNullOrWhiteSpace(ol.Ol_Intro)) state.Context = canStudy ? true : false;             
             //附件
             List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(ol.Ol_UID, "Course");
             if (access.Count > 0)
@@ -139,19 +119,19 @@ namespace Song.Site
                 foreach (Accessory ac in access)
                     ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
                 this.Document.Variables.SetValue("access", access);
-                state = state < 1 ? 3 : state;
+                state.Attachment = canStudy ? true : false; 
             }
             //当前章节是否有试题
             if (canStudy)
             {
                 bool isQues = Business.Do<IOutline>().OutlineIsQues(ol.Ol_ID, true);
-                this.Document.Variables.SetValue("isQues", isQues);
-                if (isQues) state = state < 1 ? 4 : state;
+                //this.Document.Variables.SetValue("isQues", isQues);
+                if (isQues) state.Questions = canStudy ? true : false; ;
             }
-            else
-            {
-                state = 0;
-            }
+            state.JudgeNull(stateVal);
+            this.Document.Variables.SetValue("state", state);
+            //this.Document.Variables.SetValue("stateVal", stateVal);
+            #endregion
 
             //章节事件
             OutlineEvent[] events = Business.Do<IOutline>().EventAll(-1, ol.Ol_ID, -1, true);
@@ -159,9 +139,6 @@ namespace Song.Site
             this.Document.RegisterGlobalFunction(this.getEventQues);
             this.Document.RegisterGlobalFunction(this.getEventFeedback);
             this.Document.RegisterGlobalFunction(this.GetOrder);
-            //状态
-            this.Document.Variables.SetValue("state", state);
-            this.Document.Variables.SetValue("olid", id);
         }
         #region 章节事件用到的方法
         /// <summary>
@@ -201,5 +178,48 @@ namespace Song.Site
             return (char)(tax - 1 + 65);
         }
         #endregion
+
     }
+    /// <summary>
+    /// 课程内容状态，例如有没有视频，有没有试题
+    /// </summary>
+    public class CourseContext_State
+    {
+        //视频,第一个指是否有内容，第二为状态是否该显示
+        public bool Video { get; set; }
+        public bool VideoState { get; set; }
+        //内容
+        public bool Context { get; set; }
+        public bool ContextState { get; set; }
+        //附件
+        public bool Attachment { get; set; }
+        public bool AttachmentState { get; set; }
+        //试题
+        public bool Questions { get; set; }
+        public bool QuestionsState { get; set; }
+        //没有任何内容
+        public bool Null { get; set; }
+        /// <summary>
+        /// 判断是否是全没有内容
+        /// </summary>
+        /// <returns></returns>
+        public bool JudgeNull(int stateVal)
+        {
+            this.VideoState = this.Video && stateVal == 1;
+            this.ContextState = this.Context && stateVal == 2;
+            this.AttachmentState = this.Attachment && stateVal == 3;
+            this.QuestionsState = this.Questions && stateVal == 4;
+            if (stateVal == 0)
+            {
+                if (this.Video) this.VideoState = true;
+                if (this.Context) this.ContextState = true;
+                if (this.Attachment) this.AttachmentState = true;
+                if (this.Questions) this.QuestionsState = true;
+            }
+            //如果有一个不空，则不空
+            this.Null = !(this.Video || this.Context || this.Attachment || this.Questions);
+            return this.Null;
+        }
+    };
+
 }

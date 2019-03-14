@@ -75,6 +75,12 @@
                 </ItemTemplate>
                 <ItemStyle CssClass="center"/>
             </asp:TemplateField>
+             <asp:TemplateField HeaderText="流水号">
+                <ItemTemplate>
+                    <%# Eval("Ma_Serial", "{0}")%>
+                </ItemTemplate>
+                <ItemStyle CssClass="center" />
+            </asp:TemplateField>
             <asp:TemplateField HeaderText="说明">
                 <ItemTemplate>
                     <%# Eval("Ma_Info", "{0}")%>

@@ -5,8 +5,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BLL", "BLL", "{33D53385-4C4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4F7FBC48-34CE-428C-B4AD-6A10E7646985}"
 	ProjectSection(SolutionItems) = preProject
-		localtestrun.testrunconfig = localtestrun.testrunconfig
-		Song.Site.vsmdi = Song.Site.vsmdi
 		..\..\Framework\WeiSha.Common\WeiSha.Common.csproj.user = ..\..\Framework\WeiSha.Common\WeiSha.Common.csproj.user
 	EndProjectSection
 EndProject

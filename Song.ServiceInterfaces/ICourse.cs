@@ -199,10 +199,10 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="stid">学习ID</param>
         /// <param name="couid">课程ID</param>
-        /// <param name="start">免费时效的开始时间</param>
+        /// <param name="start">免费时效的开始时间，如果为空，则不记录开始时间</param>
         /// <param name="end">免费时效的结束时间</param>
         /// <returns></returns>
-        Student_Course FreeStudy(int stid, int couid, DateTime start, DateTime end);
+        Student_Course FreeStudy(int stid, int couid, DateTime? start, DateTime end);
         /// <summary>
         /// 学员是否购买了该课程
         /// </summary>
@@ -245,7 +245,7 @@ namespace Song.ServiceInterfaces
         /// <param name="stid">学员Id</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        Student_Course StudyCourse(int stid, int couid);
+        Student_Course StudentCourse(int stid, int couid);
         /// <summary>
         /// 取消课程学习，直接删除购买记录
         /// </summary>

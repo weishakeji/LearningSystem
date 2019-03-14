@@ -115,12 +115,13 @@ namespace Song.ServiceImpls
             {
                 try
                 {
-                    ////如果课程不再免费
-                    //if (!entity.Cou_IsFree)
-                    //{
-                    //    tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_IsFree }, new object[] { entity.Cou_IsFree }, Student_Course._.Cou_ID == entity.Cou_ID);
-                    //    tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_EndTime }, new object[] { DateTime.Now }, Student_Course._.Cou_ID == entity.Cou_ID);
-                    //}
+                    //如果课程不再免费
+                    if (!entity.Cou_IsFree)
+                    {
+                        tran.Update<Student_Course>(
+                            new Field[] { Student_Course._.Stc_IsFree, Student_Course._.Stc_EndTime },
+                            new object[] { entity.Cou_IsFree, DateTime.Now }, Student_Course._.Cou_ID == entity.Cou_ID);
+                    }
                     tran.Update<TestPaper>(
                         new Field[] { TestPaper._.Cou_Name, TestPaper._.Sbj_ID, TestPaper._.Sbj_Name },
                         new object[] { entity.Cou_Name, entity.Sbj_ID, entity.Sbj_Name },
@@ -770,7 +771,7 @@ namespace Song.ServiceImpls
         /// <param name="stid">学员Id</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public Student_Course StudyCourse(int stid, int couid)
+        public Student_Course StudentCourse(int stid, int couid)
         {
             return Gateway.Default.From<Student_Course>().Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid)
                 .ToFirst<Student_Course>();
@@ -869,7 +870,7 @@ namespace Song.ServiceImpls
 
             //***************
             //生成学员与课程的关联
-            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(stid, couid);
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
             if (sc == null) sc = new Entities.Student_Course();
             sc.Cou_ID = couid;
             sc.Ac_ID = stid;
@@ -907,14 +908,18 @@ namespace Song.ServiceImpls
         /// <param name="start">免费时效的开始时间</param>
         /// <param name="end">免费时效的结束时间</param>
         /// <returns></returns>
-        public Student_Course FreeStudy(int stid, int couid, DateTime start, DateTime end)
+        public Student_Course FreeStudy(int stid, int couid, DateTime? start, DateTime end)
         {
-            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(stid, couid);
-            if (sc == null) sc = new Entities.Student_Course();
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
+            if (sc == null)
+            {
+                sc = new Entities.Student_Course();
+                sc.Stc_StartTime = start == null ? DateTime.Now : (DateTime)start;
+            }
             sc.Stc_CrtTime = DateTime.Now;
             sc.Cou_ID = couid;
             sc.Ac_ID = stid;
-            sc.Stc_StartTime = start;
+            sc.Stc_StartTime = start == null ? sc.Stc_StartTime : (DateTime)start;
             sc.Stc_EndTime = end;
             sc.Stc_IsFree = true;
             sc.Stc_IsTry = false;
@@ -931,7 +936,7 @@ namespace Song.ServiceImpls
         public Student_Course Tryout(int stid, int couid)
         {
             //生成学员与课程的关联
-            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(stid, couid);
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
             if (sc == null) sc = new Entities.Student_Course();
             sc.Cou_ID = couid;
             sc.Ac_ID = stid;
@@ -968,14 +973,10 @@ namespace Song.ServiceImpls
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) return false;
-            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(stid, couid);
+            //获取学员与课程的关联
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
             if (sc == null)
             {
-                //限时免费
-                if (course.Cou_IsLimitFree)
-                {
-                    sc = this.FreeStudy(stid, couid, course.Cou_FreeStart, course.Cou_FreeEnd.AddDays(1).Date);
-                }
                 //免费
                 if (course.Cou_IsFree)
                 {
@@ -983,14 +984,57 @@ namespace Song.ServiceImpls
                 }
                 else
                 {
-                    //试学
-                    if (course.Cou_IsTry) sc = this.Tryout(stid, couid);
+                    //限时免费
+                    if (course.Cou_IsLimitFree)
+                    {
+                        DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                        if (course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now)
+                        {
+                            sc = this.FreeStudy(stid, couid, DateTime.Now, course.Cou_FreeEnd.AddDays(1).Date);
+                            course.Cou_IsFree = true;
+                        }
+                    }
+                    else
+                    {
+                        //试学
+                        if (course.Cou_IsTry) sc = this.Tryout(stid, couid);
+                    }
                 }
-                return course.Cou_IsLimitFree || course.Cou_IsFree || course.Cou_IsTry;
+                return course.Cou_IsFree || course.Cou_IsTry;
             }
             else
             {
-                return true;
+                bool isbuy = this.IsBuy(couid, stid, 1);
+                if (isbuy) return true;
+                //课程免费
+                if (course.Cou_IsFree)
+                {
+                    sc = this.FreeStudy(stid, couid, null, DateTime.Now.AddYears(101));
+                    return true;
+                }
+                else
+                {
+                    //限时免费
+                    if (course.Cou_IsLimitFree)
+                    {
+                        DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                        if (course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now)
+                        {
+                            sc = this.FreeStudy(stid, couid, null, course.Cou_FreeEnd.AddDays(1).Date);
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        //试学
+                        if (course.Cou_IsTry)
+                        {
+                            sc = this.Tryout(stid, couid);
+                            return true;
+                        }
+                    }
+                }
+                return false;
             }
         }
         /// 取消课程学习

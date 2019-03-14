@@ -161,7 +161,7 @@ video::-webkit-media-controls-panel {
 	font-size: 12px !important;
 	border-radius: 10px;
 	height: 10px;
-	padding: 0px 10px 10px 10px;
+	padding: 3px 10px 3px 10px;
 	line-height: 20px;
 	background-color: rgba(0, 0, 0, .15);
 	color: #CCC;
@@ -175,9 +175,9 @@ video::-webkit-media-controls-panel {
 	font-size: 12px !important;
 	border-radius: 10px;
 	height: 10px;
-	padding: 0px 10px 10px 10px;
+	padding: 3px 10px 3px 10px;
 	line-height: 20px;
-	background-color: rgba(0, 0, 0, .15);
+	background-color: rgba(102,102,102,0.15);
 	color: #FC0;
 }
 .buy:before{
@@ -263,7 +263,6 @@ video::-webkit-media-controls-panel {
 	background-color:#999999;
 }
 .noSelect {
-	min-height: 300px;
 	text-align: left;
 	line-height: 35px;
 	color: #eee;

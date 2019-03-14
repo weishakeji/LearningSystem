@@ -87,7 +87,7 @@ namespace Song.Site.Mobile
                 int.TryParse(id[0].ToString(), out couid);
             if (this.Account != null)
             {
-                return Business.Do<ICourse>().StudyCourse(this.Account.Ac_ID, couid);
+                return Business.Do<ICourse>().StudentCourse(this.Account.Ac_ID, couid);
             }
             return null;
         }   

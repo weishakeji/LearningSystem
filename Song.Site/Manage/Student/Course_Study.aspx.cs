@@ -86,9 +86,10 @@ namespace Song.Site.Manage.Student
         {
             int couid = 0;
             int.TryParse(id.ToString(), out couid);
-            Student_Course sc= Business.Do<ICourse>().StudyCourse(Extend.LoginState.Accounts.CurrentUser.Ac_ID, couid);
+            Student_Course sc= Business.Do<ICourse>().StudentCourse(Extend.LoginState.Accounts.CurrentUser.Ac_ID, couid);
             if (sc == null) return "";
-            if (sc.Stc_IsFree) return "免费（无限期）";
+            if (sc.Stc_IsFree && sc.Stc_EndTime > sc.Stc_StartTime.AddYears(100)) return "免费（无限期）";
+            if (sc.Stc_IsFree && sc.Stc_EndTime < sc.Stc_StartTime.AddYears(100)) return string.Format("免费到{0}",sc.Stc_EndTime.ToString("yyyy年M月d日"));
             if (sc.Stc_IsTry) return "试用";
             return sc.Stc_StartTime.ToString("yyyy年MM月dd日") + " - " + sc.Stc_EndTime.ToString("yyyy年MM月dd日");
         }
@@ -180,7 +181,7 @@ namespace Song.Site.Manage.Student
         {
             int couid = 0;
             int.TryParse(couidstr, out couid);
-            return Business.Do<ICourse>().StudyCourse(this.Master.Account.Ac_ID, couid);
+            return Business.Do<ICourse>().StudentCourse(this.Master.Account.Ac_ID, couid);
         }
     }
 }

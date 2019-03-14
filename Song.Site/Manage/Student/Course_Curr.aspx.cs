@@ -69,7 +69,7 @@ namespace Song.Site.Manage.Student
         {
             int couid = 0;
             int.TryParse(id.ToString(), out couid);
-            Student_Course sc= Business.Do<ICourse>().StudyCourse(Extend.LoginState.Accounts.CurrentUser.Ac_ID, couid);
+            Student_Course sc= Business.Do<ICourse>().StudentCourse(Extend.LoginState.Accounts.CurrentUser.Ac_ID, couid);
             if (sc == null) return "";
             if (sc.Stc_IsFree) return "免费（无限期）";
             if (sc.Stc_IsTry) return "试用";
@@ -159,7 +159,7 @@ namespace Song.Site.Manage.Student
         {
             int couid = 0;
             int.TryParse(couidstr, out couid);
-            return Business.Do<ICourse>().StudyCourse(this.Master.Account.Ac_ID, couid);
+            return Business.Do<ICourse>().StudentCourse(this.Master.Account.Ac_ID, couid);
         }
     }
 }

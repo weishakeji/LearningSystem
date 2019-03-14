@@ -58,25 +58,25 @@
             });
             //设置标题栏的事件
             (function setInitTilte() {
-                //取当前状态值
-                var box = $("div[statebox]").first();
-                var stateCurr = box.attr("statebox");
-                //标题栏的项
-                var tit = $("a.titBox");
-                tit.removeClass("titCurr");
-                tit.each(function () {
-                    var href = $(this).attr("href");
-                    var rs = new RegExp("(^|)state=([^\&]*)(\&|$)", "gi").exec(href), tmp;
-                    var state = 0;
-                    if (tmp = rs) state = tmp[2];
-                    if (stateCurr == state) {
-                        $(this).addClass("titCurr");
-                        try {
-                            var func = eval("setInit_" + state);
-                            if ("undefined" != typeof (func) && func != null) func();
-                        } catch (e) { }
-                    }
-                });
+                //取当前状态值               
+                var stateCurr = $().getPara("state");				
+                //当前标题栏
+                var currtit = $("a.titBox:first");
+                if (stateCurr != "") {
+                    $("a.titBox").each(function (index, element) {
+                        var href = $(this).attr("href");
+                        var rs = new RegExp("(^|)state=([^\&]*)(\&|$)", "gi").exec(href), tmp;
+                        var state = 0;
+                        if (tmp = rs) state = tmp[2];
+                        if (stateCurr == state) currtit = $(this);
+                    }).removeClass("titCurr");
+                }
+                currtit.addClass("titCurr");
+                try {
+                    var func = eval("setInit_" + state);
+                    if ("undefined" != typeof (func) && func != null) func();
+                } catch (e) { }
+
             })();
         }
     };
@@ -166,35 +166,35 @@ function setIntervalFunction() {
     if (Number(total) <= 5 * 60) interval = 10; //5分钟内
     else if (Number(total) <= 10 * 60) interval = 5;
     if (percent % interval == 0 && (percent > 0 && percent <= 100) && percent > Math.floor(historyLog)) {
-        
-    
-	historyLog += interval;
-    $.ajax({
-        url: "/Ajax/StudentStudy.ashx",
-        data: { couid: couid, olid: olid, studyTime: watchTime,
-            playTime: Number($("#playTime").html().trim()) * 1000,
-            totalTime: Number($("#totalTime").html().trim()) * 1000
-        },
-        success: function (data) {            
-            var d = Number(data);
-            var show = $(".StudentStudyLog");
-            if (d > 0) show.text("学习进度（" + d + "%）提交成功!").removeClass("error");
-            if (d == -1) show.text("学员未登录，或登录失效").addClass("error");
-            show.show(1000, function () {
-                window.setTimeout(function () {
-                    $(".StudentStudyLog").hide(500);
-                }, 3000);
-            });
-        },
-        error: function () {
-            $(".StudentStudyLog").text("学习进度保存失败！ 稍后会再次提交..").addClass("error").show(1000, function () {
-                window.setTimeout(function () {
-                    $(".StudentStudyLog").hide(500);
-                }, 5000);
-            });
-        }
-    });
-}
+
+
+        historyLog += interval;
+        $.ajax({
+            url: "/Ajax/StudentStudy.ashx",
+            data: { couid: couid, olid: olid, studyTime: watchTime,
+                playTime: Number($("#playTime").html().trim()) * 1000,
+                totalTime: Number($("#totalTime").html().trim()) * 1000
+            },
+            success: function (data) {
+                var d = Number(data);
+                var show = $(".StudentStudyLog");
+                if (d > 0) show.text("学习进度（" + d + "%）提交成功!").removeClass("error");
+                if (d == -1) show.text("学员未登录，或登录失效").addClass("error");
+                show.show(1000, function () {
+                    window.setTimeout(function () {
+                        $(".StudentStudyLog").hide(500);
+                    }, 3000);
+                });
+            },
+            error: function () {
+                $(".StudentStudyLog").text("学习进度保存失败！ 稍后会再次提交..").addClass("error").show(1000, function () {
+                    window.setTimeout(function () {
+                        $(".StudentStudyLog").hide(500);
+                    }, 5000);
+                });
+            }
+        });
+    }
 }
 function timeHandler(t) {
     //播放进度

@@ -74,7 +74,7 @@ namespace Song.Site.Ajax
                 addParas.Add("olcount", Business.Do<IOutline>().OutlineOfCount(c.Cou_ID, -1, true));    //当前课程里的章节数
                 addParas.Add("quscount", Business.Do<IQuestions>().QuesOfCount(c.Org_ID, c.Sbj_ID, c.Cou_ID, -1, 0, true));   //当前课程的试题    
                 //获取课程的购买信息
-                Song.Entities.Student_Course sc = Business.Do<ICourse>().StudyCourse(stid, c.Cou_ID);
+                Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, c.Cou_ID);
                 if (sc != null)
                 {
                     addParas.Add("starttime", sc.Stc_StartTime);

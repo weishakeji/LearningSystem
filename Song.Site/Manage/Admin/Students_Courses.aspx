@@ -24,7 +24,7 @@
                             <a href="/Courses.ashx?sbj=<%# Eval("Sbj_ID","{0}") %>" target="_blank">
                                 <%# Eval("sbj_Name","[专业：{0}]") %></a></div>
                         <div class="itemName">
-                          课程期限：<%# Eval("Cou_ID", "{0}")%><%# getBuyInfo(Eval("Cou_ID"))%></div>
+                          课程期限：<%--<%# Eval("Cou_ID", "{0}")%>--%><%# getBuyInfo(Eval("Cou_ID"))%></div>
                         <div class="itemName">
                             <span>最近学习时间：<%# GetLastTime(Eval("Cou_ID", "{0}"))%>  </span>
                             <span>累计学习时间：<%# GetstudyTime(Eval("Cou_ID", "{0}"))%>  </span>
