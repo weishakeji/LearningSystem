@@ -277,7 +277,7 @@ namespace Song.ServiceImpls
             //{
             //    wc.And(Student_Course._.Org_ID == org.Org_ID);
             //}
-            //if (istry != null) wc.And(Student_Course._.Stc_IsTry == (bool)istry);
+            if (istry != null) wc.And(Student_Course._.Stc_IsTry == (bool)istry);
             if (state == 1)
             {
                 WhereClip wc2 = new WhereClip();
@@ -287,7 +287,7 @@ namespace Song.ServiceImpls
             }
             if (state == 2)
             {
-                //wc.And(Student_Course._.Stc_IsFree == false);
+                wc.And(Student_Course._.Stc_IsFree == false);
                 wc.And(Student_Course._.Stc_EndTime < DateTime.Now);
             }
             if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));

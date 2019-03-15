@@ -125,11 +125,11 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程ID</param>
         /// <returns></returns>
         int OutlineCleanup(int couid);
-        /// <summary>
-        /// 构建缓存
-        /// </summary>
-        /// <returns></returns>
-        List<Outline> OutlineBuildCache();
+        ///// <summary>
+        ///// 构建缓存
+        ///// </summary>
+        ///// <returns></returns>
+        //List<Outline> OutlineBuildCache();
         /// <summary>
         /// 获取指定个数的课程列表
         /// </summary>

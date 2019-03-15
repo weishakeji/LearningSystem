@@ -1294,7 +1294,7 @@ namespace Song.ServiceImpls
             this.OnSave(null, e);
             if (sender == null)
             {
-                Business.Do<IOutline>().OutlineBuildCache();
+                //Business.Do<IOutline>().OutlineBuildCache();
             }
             else
             {

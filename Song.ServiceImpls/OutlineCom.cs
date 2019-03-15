@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
-using System.Linq;
+//using System.Linq;
 using WeiSha.Common;
 using Song.Entities;
 
@@ -234,8 +234,6 @@ namespace Song.ServiceImpls
                     string format = nodes[j].Attributes["Format"] != null ? nodes[j].Attributes["Format"].Value : "";
                     string datatype = nodes[j].Attributes["DataType"] != null ? nodes[j].Attributes["DataType"].Value : "";
                     string defvalue = nodes[j].Attributes["DefautValue"] != null ? nodes[j].Attributes["DefautValue"].Value : "";
-                    
-
 
                     string value = "";
                     switch (datatype)
@@ -308,8 +306,7 @@ namespace Song.ServiceImpls
         public void OutlineDelete(int identify)
         {
             Song.Entities.Outline ol = this.OutlineSingle(identify);
-            this.OutlineDelete(ol);
-            
+            this.OutlineDelete(ol);            
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；
@@ -320,19 +317,19 @@ namespace Song.ServiceImpls
         {
             //当前章节
             Outline curr = null;
-            try
-            {
-                //从缓存中读取
-                List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
-                if (list == null || list.Count < 1) list = this.OutlineBuildCache();
-                List<Outline> tm = (from l in list
-                                    where l.Ol_ID == identify
-                                    select l).ToList<Outline>();
-                if (tm.Count > 0) curr = tm[0];
-            }
-            catch
-            {
-            }
+            //try
+            //{
+            //    //从缓存中读取
+            //    List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
+            //    if (list == null || list.Count < 1) list = this.OutlineBuildCache();
+            //    List<Outline> tm = (from l in list
+            //                        where l.Ol_ID == identify
+            //                        select l).ToList<Outline>();
+            //    if (tm.Count > 0) curr = tm[0];
+            //}
+            //catch
+            //{
+            //}
             if (curr == null) curr = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == identify).ToFirst<Outline>();
             return curr;
            
@@ -346,13 +343,13 @@ namespace Song.ServiceImpls
         {
             //当前章节
             Outline curr = null;
-            //从缓存中读取
-            List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
-            if (list == null || list.Count < 1) list = this.OutlineBuildCache();
-            List<Outline> tm = (from l in list
-                                where l.Ol_UID == uid
-                                select l).ToList<Outline>();
-            if (tm.Count > 0) curr = tm[0];
+            ////从缓存中读取
+            //List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
+            //if (list == null || list.Count < 1) list = this.OutlineBuildCache();
+            //List<Outline> tm = (from l in list
+            //                    where l.Ol_UID == uid
+            //                    select l).ToList<Outline>();
+            //if (tm.Count > 0) curr = tm[0];
             if (curr == null) curr = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == uid).ToFirst<Outline>();
             return curr;
         }
@@ -459,21 +456,21 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Outline[] OutlineAll(int couid, bool? isUse)
         {
-            //从缓存中读取
-            try
-            {
-                List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
-                if (list == null || list.Count < 1) list = this.OutlineBuildCache();
-                //linq查询
-                var from = from l in list select l;
-                if (couid > 0) from = from.Where<Outline>(p => p.Cou_ID == couid);
-                if (isUse != null) from = from.Where<Outline>(p => p.Ol_IsUse == (bool)isUse);
-                List<Outline> tm = from.OrderBy(c => c.Ol_Tax).ToList<Outline>();
-                if (tm.Count > 0) return tm.ToArray<Outline>();
-            }
-            catch
-            {
-            }
+            ////从缓存中读取
+            //try
+            //{
+            //    List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
+            //    if (list == null || list.Count < 1) list = this.OutlineBuildCache();
+            //    //linq查询
+            //    var from = from l in list select l;
+            //    if (couid > 0) from = from.Where<Outline>(p => p.Cou_ID == couid);
+            //    if (isUse != null) from = from.Where<Outline>(p => p.Ol_IsUse == (bool)isUse);
+            //    List<Outline> tm = from.OrderBy(c => c.Ol_Tax).ToList<Outline>();
+            //    if (tm.Count > 0) return tm.ToArray<Outline>();
+            //}
+            //catch
+            //{
+            //}
             //orm查询
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(Outline._.Cou_ID == couid);
@@ -589,35 +586,35 @@ namespace Song.ServiceImpls
             }
             return count;
         }
-        private static object lock_cache_build = new object();
-        /// <summary>
-        /// 构建缓存
-        /// </summary>
-        public List<Outline> OutlineBuildCache()
-        {
-            lock (lock_cache_build)
-            {
-                try
-                {
-                    WeiSha.Common.Cache<Song.Entities.Outline>.Data.Clear();
-                }
-                catch
-                {
-                }
-                finally
-                {
-                    Song.Entities.Outline[] outls = Gateway.Default.From<Song.Entities.Outline>().ToArray<Outline>();
-                    WeiSha.Common.Cache<Song.Entities.Outline>.Data.Fill(outls);
-                }
-                ////计算每个章节下的试题数
-                //foreach (Outline o in outls)
-                //{
-                //    o.Ol_QuesCount = this.QuesOfCount(o.Ol_ID, -1, true, true);
-                //    Gateway.Default.Save<Outline>(o);
-                //}                
-                return WeiSha.Common.Cache<Outline>.Data.List;
-            }
-        }
+        //private static object lock_cache_build = new object();
+        ///// <summary>
+        ///// 构建缓存
+        ///// </summary>
+        //public List<Outline> OutlineBuildCache()
+        //{
+        //    lock (lock_cache_build)
+        //    {
+        //        try
+        //        {
+        //            WeiSha.Common.Cache<Song.Entities.Outline>.Data.Clear();
+        //        }
+        //        catch
+        //        {
+        //        }
+        //        finally
+        //        {
+        //            Song.Entities.Outline[] outls = Gateway.Default.From<Song.Entities.Outline>().ToArray<Outline>();
+        //            WeiSha.Common.Cache<Song.Entities.Outline>.Data.Fill(outls);
+        //        }
+        //        ////计算每个章节下的试题数
+        //        //foreach (Outline o in outls)
+        //        //{
+        //        //    o.Ol_QuesCount = this.QuesOfCount(o.Ol_ID, -1, true, true);
+        //        //    Gateway.Default.Save<Outline>(o);
+        //        //}                
+        //        return WeiSha.Common.Cache<Outline>.Data.List;
+        //    }
+        //}
         /// <summary>
         /// 获取指定个数的课程列表
         /// </summary>
@@ -634,32 +631,31 @@ namespace Song.ServiceImpls
         }
         public Outline[] OutlineCount(int couid, int pid, bool? isUse, int count)
         {
+            //List<Outline> tm = null;
+            //try
+            //{
+            //    //从缓存中读取
+            //    List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
+            //    if (list == null || list.Count < 1) list = this.OutlineBuildCache();
+            //    //linq查询
+            //    var from = from l in list select l;
+            //    if (couid > 0) from = from.Where<Outline>(p => p.Cou_ID == couid);
+            //    if (pid >= 0) from = from.Where<Outline>(p => p.Ol_PID == pid);
+            //    if (isUse != null) from = from.Where<Outline>(p => p.Ol_IsUse == (bool)isUse);
 
-            List<Outline> tm = null;
-            try
-            {
-                //从缓存中读取
-                List<Outline> list = WeiSha.Common.Cache<Outline>.Data.List;
-                if (list == null || list.Count < 1) list = this.OutlineBuildCache();
-                //linq查询
-                var from = from l in list select l;
-                if (couid > 0) from = from.Where<Outline>(p => p.Cou_ID == couid);
-                if (pid >= 0) from = from.Where<Outline>(p => p.Ol_PID == pid);
-                if (isUse != null) from = from.Where<Outline>(p => p.Ol_IsUse == (bool)isUse);
-
-                if (count > 0)
-                {
-                    tm = from.OrderBy(c => c.Ol_Tax).Take<Outline>(count).ToList<Outline>();
-                }
-                else
-                {
-                    tm = from.OrderBy(c => c.Ol_Tax).ToList<Outline>();
-                }
-            }
-            catch
-            {
-            }
-            if (tm != null && tm.Count > 0) return tm.ToArray<Outline>();
+            //    if (count > 0)
+            //    {
+            //        tm = from.OrderBy(c => c.Ol_Tax).Take<Outline>(count).ToList<Outline>();
+            //    }
+            //    else
+            //    {
+            //        tm = from.OrderBy(c => c.Ol_Tax).ToList<Outline>();
+            //    }
+            //}
+            //catch
+            //{
+            //}
+            //if (tm != null && tm.Count > 0) return tm.ToArray<Outline>();
             //从数据库读取
             WhereClip wc = Outline._.Cou_ID == couid;
             if (pid >= 0) wc.And(Outline._.Ol_PID == pid);
@@ -1281,16 +1277,16 @@ namespace Song.ServiceImpls
         {
             if (sender != null)
             {
-                if (!(sender is Outline)) return;
-                Outline ol = (Outline)sender;
-                Song.Entities.Outline old = this.OutlineSingle(ol.Ol_ID);
-                ol.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(ol.Ol_ID, -1, true, true);
-                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Update(old, ol);
+                //if (!(sender is Outline)) return;
+                //Outline ol = (Outline)sender;
+                //Song.Entities.Outline old = this.OutlineSingle(ol.Ol_ID);
+                //ol.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(ol.Ol_ID, -1, true, true);
+                //WeiSha.Common.Cache<Song.Entities.Outline>.Data.Update(old, ol);
             }
             else
             {
                 //填充章节数据到缓存
-                this.OutlineBuildCache();
+                //this.OutlineBuildCache();
             }
             if (Save != null)
                 Save(sender, e);            
@@ -1300,9 +1296,9 @@ namespace Song.ServiceImpls
             //当前对象（即sender），写入到缓存
             if (sender != null)
             {
-                if (!(sender is Outline)) return;
-                Outline ol = (Outline)sender;
-                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Add(ol);
+                //if (!(sender is Outline)) return;
+                //Outline ol = (Outline)sender;
+                //WeiSha.Common.Cache<Song.Entities.Outline>.Data.Add(ol);
             }
             if (Add != null)
                 Add(sender, e);
@@ -1312,16 +1308,16 @@ namespace Song.ServiceImpls
             //当前对象（即sender），写入到缓存
             if (sender != null)
             {
-                if (!(sender is Outline)) return;
-                Outline ol = (Outline)sender;
-                WeiSha.Common.Cache<Song.Entities.Outline>.Data.Delete(ol);
-                //重建试题缓存（取所有试题进缓存）
-                new Thread(new ThreadStart(() =>
-                {
-                    Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
-                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
-                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
-                })).Start();
+                //if (!(sender is Outline)) return;
+                //Outline ol = (Outline)sender;
+                //WeiSha.Common.Cache<Song.Entities.Outline>.Data.Delete(ol);
+                ////重建试题缓存（取所有试题进缓存）
+                //new Thread(new ThreadStart(() =>
+                //{
+                //    Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
+                //    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
+                //    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
+                //})).Start();
             }
             if (Delete != null)
                 Delete(sender, e);

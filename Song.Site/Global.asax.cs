@@ -50,7 +50,7 @@ namespace Song.Site
             //{                    
                 
             //})).Start();
-            Business.Do<IOutline>().OutlineBuildCache();
+            //Business.Do<IOutline>().OutlineBuildCache();
 
 
             #region  试题的事件            
