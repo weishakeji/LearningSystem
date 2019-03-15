@@ -14,10 +14,6 @@ namespace Song.Site.Mobile
     /// </summary>
     public class QuesOutlines : BasePage
     {
-        //章节试题数量的记录时间
-        //public static DateTime QuesOfCountClacTime = DateTime.Now.AddYears(1);
-        //public static int QuesOfCountClacTimeSpan = 60;    //隔多少分钟计算一次
-
         //课程ID，章节id
         protected int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         //是否选学的当前课程
@@ -52,22 +48,6 @@ namespace Song.Site.Mobile
                 couid = course.Cou_ID;                            
                 //当前课程下的章节
                 Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
-                foreach (Song.Entities.Outline c in outlines)
-                {
-                    c.Ol_Intro = Extend.Html.ClearHTML(c.Ol_Intro);
-                    c.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(c.Ol_ID, -1, true, true);
-                    //Business.Do<IOutline>().OutlineSave(c);
-                }
-                ////计算章节试题数量
-                //if (QuesOfCountClacTime.AddMinutes(QuesOfCountClacTimeSpan) < DateTime.Now)
-                //{
-                //    foreach (Song.Entities.Outline c in outlines)
-                //    {
-                //        c.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(c.Ol_ID, -1, true, true);
-                //        Business.Do<IOutline>().OutlineSave(c);
-                //    }
-                //    QuesOfCountClacTime = DateTime.Now;
-                //}
                 this.Document.SetValue("outlines", outlines);
                 //树形章节输出
                 if (outlines.Length > 0)

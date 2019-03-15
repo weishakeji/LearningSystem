@@ -20,8 +20,6 @@ namespace Song.Site.Manage.Course
         {
             get { return this.getUID(); }
         }
-        //上传资料的所有路径
-        private string _uppath = "Course";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -37,14 +35,15 @@ namespace Song.Site.Manage.Course
         /// </summary>
         protected void BindData(object sender, EventArgs e)
         {
-            Song.Entities.Outline[] outline = Business.Do<IOutline>().OutlineAll(couid, null);
-            DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outline);
-            WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
-            tree.IdKeyName = "OL_ID";
-            tree.ParentIdKeyName = "OL_PID";
-            tree.TaxKeyName = "Ol_Tax";
-            tree.Root = 0;
-            dt = tree.BuilderTree(dt);
+            Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, null);
+            //计算试题数
+            foreach (Song.Entities.Outline c in outlines)
+            {
+                c.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(c.Ol_ID, -1, true, true);
+                Business.Do<IOutline>().OutlineSave(c);
+            }
+            //生成树形
+            DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
             GridView1.DataSource = dt;
             GridView1.DataKeyNames = new string[] { "Ol_ID" };
             GridView1.DataBind();

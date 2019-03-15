@@ -49,6 +49,12 @@
                     </HeaderTemplate>
                     <ItemStyle CssClass="left" />
                 </asp:TemplateField>
+                <asp:TemplateField HeaderText="试题数">
+                    <ItemTemplate>
+                      <%# Eval("Ol_QuesCount", "{0}")%>
+                    </ItemTemplate>                   
+                    <ItemStyle CssClass="center" Width="60px" />
+                </asp:TemplateField>
                 <asp:TemplateField HeaderText="编辑">
                     <ItemTemplate>
                         <a href="Outline_Edit.aspx?id=<%# Eval("Ol_ID", "{0}")%>&couid=<%=couid %>" type="open">编辑</a>
