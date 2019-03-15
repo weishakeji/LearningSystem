@@ -401,7 +401,7 @@ namespace Song.ServiceImpls
                             {
                                 //如果未过期，则续期
                                 sc.Stc_EndTime = sc.Stc_EndTime.AddDays(span);                                
-                            }
+                            }                            
                         }
                         else
                         {
@@ -414,6 +414,7 @@ namespace Song.ServiceImpls
                         sc.Cou_ID = cou.Cou_ID;
                         sc.Stc_Money = entity.Lc_Price;                       
                         sc.Org_ID = entity.Org_ID;
+                        sc.Stc_IsFree = sc.Stc_IsTry = false;
                         tran.Save<Student_Course>(sc);
                     }                    
                     //使用数量加1
@@ -698,7 +699,7 @@ namespace Song.ServiceImpls
         }
         #endregion
 
-        #region 充值码生成
+        #region 生成
         /// <summary>
         /// 生成单个学习卡的编码
         /// </summary>
