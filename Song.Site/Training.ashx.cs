@@ -108,7 +108,7 @@ namespace Song.Site
                 bool isBuy = false, istry = false;
                 if (Extend.LoginState.Accounts.IsLogin)
                 {
-                    isBuy = Business.Do<ICourse>().IsBuy(this.Account.Ac_ID, couid, 1);
+                    isBuy = Business.Do<ICourse>().IsBuy(this.Account.Ac_ID, couid);
                     istry = Business.Do<ICourse>().IsTryout(couid, this.Account.Ac_ID);
                 }
                 this.Document.Variables.SetValue("isBuy", isBuy);               

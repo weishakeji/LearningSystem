@@ -391,17 +391,26 @@ namespace Song.ServiceImpls
                             && Student_Course._.Cou_ID == cou.Cou_ID).ToFirst<Student_Course>();
                         if (sc != null)
                         {
-                            //已经过期，则重新设置时间
-                            if (sc.Stc_EndTime < DateTime.Now)
-                            {                               
+                            //如果是免费或试用
+                            if (sc.Stc_IsFree || sc.Stc_IsTry)
+                            {
                                 sc.Stc_StartTime = start;
                                 sc.Stc_EndTime = end;
                             }
                             else
                             {
-                                //如果未过期，则续期
-                                sc.Stc_EndTime = sc.Stc_EndTime.AddDays(span);                                
-                            }                            
+                                //已经过期，则重新设置时间
+                                if (sc.Stc_EndTime < DateTime.Now)
+                                {
+                                    sc.Stc_StartTime = start;
+                                    sc.Stc_EndTime = end;
+                                }
+                                else
+                                {
+                                    //如果未过期，则续期                                
+                                    sc.Stc_EndTime = sc.Stc_EndTime.AddDays(span);
+                                }
+                            }                           
                         }
                         else
                         {

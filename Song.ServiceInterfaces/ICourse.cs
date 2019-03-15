@@ -214,11 +214,10 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 学员是否购买了该课程
         /// </summary>
-        /// <param name="couid"></param>
-        /// <param name="stid"></param>
-        /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="stid">学员id</param>
         /// <returns></returns>
-        bool IsBuy(int couid, int stid, int state);
+        bool IsBuy(int couid, int stid);
         /// <summary>
         /// 课程试用，默认试用一百年
         /// </summary>

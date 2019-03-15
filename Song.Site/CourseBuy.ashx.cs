@@ -19,7 +19,7 @@ namespace Song.Site
             //判断，如果已经购买，则直接跳转
             if (Extend.LoginState.Accounts.IsLogin)
             {
-                bool isBuy = Business.Do<ICourse>().IsBuy(couid, Extend.LoginState.Accounts.CurrentUser.Ac_ID, 1);
+                bool isBuy = Business.Do<ICourse>().IsBuy(couid, Extend.LoginState.Accounts.CurrentUser.Ac_ID);
                 if (isBuy)
                 {                                    
                     this.Response.Redirect("/CourseStudy.ashx?couid=" + couid);

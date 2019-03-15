@@ -33,6 +33,7 @@ namespace Song.Site.Ajax
             }
             else
             {
+                //throw new Exception("自定义错误");
                 //记录学习进度，返回完成度的百分比
                 double per = Business.Do<IStudent>().LogForStudyUpdate(couid, olid, student, playTime, studyTime, totalTime);
                 context.Response.Write(per);

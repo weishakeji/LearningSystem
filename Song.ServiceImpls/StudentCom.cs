@@ -791,38 +791,6 @@ namespace Song.ServiceImpls
         public double LogForStudyUpdate(int couid, int olid, Accounts st, int playTime, int studyTime, int totalTime)
         {
             if (st == null) return -1;
-            ////当前机构
-            //Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-
-            ////当前课程的所有章节
-            Song.Entities.Outline[] outs = Business.Do<IOutline>().OutlineCount(couid, -1, true, -1);
-            //using (DbTrans tran = Gateway.Default.BeginTrans())
-            //{
-            //    foreach (Song.Entities.Outline o in outs)
-            //    {
-            //        //如果不是视频章节，则跳出
-            //        if (!o.Ol_IsVideo) continue;
-            //        Song.Entities.LogForStudentStudy log = this.LogForStudySingle(st.Ac_ID, o.Ol_ID);
-            //        if (log != null) continue;
-            //        //如果某一章节没有记录，则创建
-            //        log = new LogForStudentStudy();
-            //        log.Lss_UID = WeiSha.Common.Request.UniqueID();
-            //        log.Lss_CrtTime = DateTime.Now;
-            //        log.Cou_ID = couid;
-            //        log.Ol_ID = o.Ol_ID;
-            //        if (org != null) log.Org_ID = org.Org_ID;
-            //        //学员信息
-            //        log.Ac_ID = st.Ac_ID;
-            //        log.Ac_AccName = st.Ac_AccName;
-            //        log.Ac_Name = st.Ac_Name;
-            //        //视频长度
-            //        List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(o.Ol_UID, "CourseVideo");
-            //        if (videos.Count > 0)
-            //            log.Lss_Duration = videos[0].As_Duration;
-            //        //
-            //        Gateway.Default.Save<LogForStudentStudy>(log);
-            //    }
-            //}
             //当前章节的学习记录
             //Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
             string sql = "SELECT *  FROM [LogForStudentStudy] where Ol_ID={0} and Ac_ID={1}";
@@ -849,7 +817,7 @@ namespace Song.ServiceImpls
             entity.Lss_LastTime = DateTime.Now;
             entity.Lss_PlayTime = playTime;
             entity.Lss_StudyTime = studyTime;
-            entity.Lss_Duration = totalTime;
+            if (entity.Lss_Duration < totalTime) entity.Lss_Duration = totalTime;
             //登录信息
             entity.Lss_IP = WeiSha.Common.Browser.IP;
             entity.Lss_OS = WeiSha.Common.Browser.OS;

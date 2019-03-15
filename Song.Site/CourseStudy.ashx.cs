@@ -42,7 +42,7 @@ namespace Song.Site
             if (this.Account != null)
             {
                 isStudy = Business.Do<ICourse>().Study(course.Cou_ID, this.Account.Ac_ID);
-                isBuy = Business.Do<ICourse>().IsBuy(course.Cou_ID, this.Account.Ac_ID, 1);
+                isBuy = Business.Do<ICourse>().IsBuy(course.Cou_ID, this.Account.Ac_ID);
             }
             this.Document.Variables.SetValue("isStudy", isStudy);
             this.Document.Variables.SetValue("isBuy", isBuy);

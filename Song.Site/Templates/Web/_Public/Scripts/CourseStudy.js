@@ -172,8 +172,8 @@ function setIntervalFunction() {
         $.ajax({
             url: "/Ajax/StudentStudy.ashx",
             data: { couid: couid, olid: olid, studyTime: watchTime,
-                playTime: Number($("#playTime").html().trim()) * 1000,
-                totalTime: Number($("#totalTime").html().trim()) * 1000
+                playTime: Number($("#playTime").text().trim()) * 1000,
+                totalTime: Number($("#totalTime").text().trim()) * 1000
             },
             success: function (data) {
                 var d = Number(data);
@@ -186,7 +186,8 @@ function setIntervalFunction() {
                     }, 3000);
                 });
             },
-            error: function () {
+            error: function (e) {
+				var ex=e.responseText;
                 $(".StudentStudyLog").text("学习进度保存失败！ 稍后会再次提交..").addClass("error").show(1000, function () {
                     window.setTimeout(function () {
                         $(".StudentStudyLog").hide(500);

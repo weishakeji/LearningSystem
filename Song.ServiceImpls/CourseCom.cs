@@ -253,14 +253,11 @@ namespace Song.ServiceImpls
         /// <param name="stid"></param>
         /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
         /// <returns></returns>
-        public bool IsBuy(int couid, int stid, int state)
+        public bool IsBuy(int couid, int stid)
         {
             WhereClip wc = Student_Course._.Cou_ID == couid && Student_Course._.Ac_ID == stid;
-            wc.And(Student_Course._.Stc_IsTry == false);
-            if (state == 1)
-                wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);
-            if (state == 2)
-                wc.And(Student_Course._.Stc_EndTime < DateTime.Now);
+            wc.And(Student_Course._.Stc_IsTry == false && Student_Course._.Stc_IsFree == false);
+            wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);              
             Student_Course sc = Gateway.Default.From<Student_Course>().Where(wc).ToFirst<Student_Course>();
             return sc != null;
         }
@@ -280,7 +277,7 @@ namespace Song.ServiceImpls
             //{
             //    wc.And(Student_Course._.Org_ID == org.Org_ID);
             //}
-            if (istry != null) wc.And(Student_Course._.Stc_IsTry == (bool)istry);
+            //if (istry != null) wc.And(Student_Course._.Stc_IsTry == (bool)istry);
             if (state == 1)
             {
                 WhereClip wc2 = new WhereClip();
@@ -290,7 +287,7 @@ namespace Song.ServiceImpls
             }
             if (state == 2)
             {
-                wc.And(Student_Course._.Stc_IsFree == false);
+                //wc.And(Student_Course._.Stc_IsFree == false);
                 wc.And(Student_Course._.Stc_EndTime < DateTime.Now);
             }
             if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
@@ -1004,7 +1001,7 @@ namespace Song.ServiceImpls
             }
             else
             {
-                bool isbuy = this.IsBuy(couid, stid, 1);
+                bool isbuy = this.IsBuy(couid, stid);
                 if (isbuy) return true;
                 //课程免费
                 if (course.Cou_IsFree)
