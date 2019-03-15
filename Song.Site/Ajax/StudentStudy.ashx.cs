@@ -33,7 +33,7 @@ namespace Song.Site.Ajax
             }
             else
             {
-                //throw new Exception("自定义错误");
+                if (totalTime <= 0) throw new Exception("视频总时长为零");
                 //记录学习进度，返回完成度的百分比
                 double per = Business.Do<IStudent>().LogForStudyUpdate(couid, olid, student, playTime, studyTime, totalTime);
                 context.Response.Write(per);
