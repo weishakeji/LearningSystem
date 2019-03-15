@@ -35,7 +35,7 @@
             $("#details").height($("#MainBox").height() - $(".mainTop").height() - 20);
             //当前章节高亮显示
             $(".outline .olitem").each(function () {
-                var id = $().getPara("id");
+                var id = $("body").attr("olid");
                 var olid = $(this).attr("olid");
                 if (id == olid) $(this).addClass("current");
                 if (id == "") $(".outline .olitem:eq(0)").addClass("current");

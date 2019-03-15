@@ -4,48 +4,36 @@
   <div id="offCanvasSideScroll" class="mui-scroll-wrapper">
     <div class="mui-scroll">
       <div class="cour-info">
-      <vt:function var="path" method="Path" args="Course"/>
+        <vt:function var="path" method="Path" args="Course"/>
         <img class="default-img" src="{$path}{$course.Cou_LogoSmall}" default="../images/cou_nophoto.jpg" />
         <div class="cour-info-right">
-        <cour-name>{$course.Cou_Name}</cour-name>
-        <sbj-name>{$course.Sbj_Name}</sbj-name>
+          <cour-name>{$course.Cou_Name}</cour-name>
+          <sbj-name>{$course.Sbj_Name}</sbj-name>
         </div>
       </div>
       <ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
         <vt:if var="outlines.Length" value="0" compare=">">
-      
-          <vt:foreach from="$dtOutlines" item="d" index="i" remark="章节">
+          <vt:foreach from="$olTree" item="d" index="i" remark="章节">
             <vt:expression var="r" args="$d.ol_level" args="10" expression="{0}*{1}" />
             <li isvideo="{$:#.d.Ol_IsVideo}" class="mui-table-view-cell outline" olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
               <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结"> <a type="nofinish" class="noselect">{$:#.d.ol_name}</a><span class="mui-badge">未完</span>
                 <vt:else />
-                <vt:if var="isStudy" value="true" compare="="  remark="是否已经选修"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
+                <vt:if var="isBuy" value="true" compare="="  remark="是否购买"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
                   <vt:else />
-                  <vt:if var="course.Cou_IsFree" value="true" compare="="  remark="如果未选修，但是课程免费"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
+                  <vt:if var="d.Ol_IsFree" value="true" compare="="  remark="如果未选修，但是课程免费"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name}</a>
+                  <span class="mui-badge try">试学</span>
                     <vt:else />
-                    <vt:if var="course.Cou_IsLimitFree" value="true" compare="="  remark="课程不免费，但处在限时免费中"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
-                      <vt:else />
-                      <vt:if var="course.Cou_IsTry" value="true" compare="="  remark="是否允许试学">
-                        <vt:if var="d.Ol_IsFree" value="true" compare="="  remark="可以试学"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
-                          <vt:else />
-                          <a type="buy" href="../CourseBuy.ashx?&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a> <span class="mui-badge">购买</span> </vt:if>
-                        <vt:else />
-                        <a type="buy" href="../CourseBuy.ashx?&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a> <span class="mui-badge">购买</span> </vt:if>
-                    </vt:if>
-                  </vt:if>
+                    <a type="buy" href="../CourseBuy.ashx?&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a> <span class="mui-badge buy">购买</span> </vt:if>
                 </vt:if>
               </vt:if>
             </li>
           </vt:foreach>
-        <vt:else />
-       
+          <vt:else />
           <li class="mui-table-view-cell"> 当前课程没有章节 </li>
-      
-      </vt:if>
+        </vt:if>
       </ul>
-      
     </div>
-    <!-- 上面的侧滑菜单-->     
+    <!-- 上面的侧滑菜单--> 
   </div>
 </aside>
 <script type="text/javascript" language="javascript">
@@ -105,7 +93,7 @@
 	});
 	//当前章节的样式
 	$(".outline").each(function () {
-		var olid=$().getPara("olid");	//当前章节id
+		var olid = $("body").attr("olid");	//当前章节id
 		//如果没有olid参数，则第一个为当前章节
 		if(olid==null || olid==""){			
 			$(".outline:first").addClass("current");
@@ -118,4 +106,3 @@
     });
 	
 </script> 
-

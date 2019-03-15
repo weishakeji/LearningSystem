@@ -338,6 +338,14 @@ video::-webkit-media-controls-panel {
 .study-menu .noselect {
 	color: #666 !important;
 }
+.try{
+	color: #eee !important;
+}
+.buy{	
+	background-color: rgba(102,102,102,0.15);
+	color: #FC0 !important;
+}
+
 /*-------左侧侧滑菜单*/
 
 /*学习内容*/

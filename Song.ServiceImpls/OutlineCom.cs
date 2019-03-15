@@ -412,7 +412,7 @@ namespace Song.ServiceImpls
         public Outline OutlineFirst(int couid, bool? isUse)
         {
             Song.Entities.Outline[] outlines = null;
-            WhereClip wc = Outline._.Cou_ID == couid;
+            WhereClip wc = Outline._.Cou_ID == couid && Outline._.Ol_IsFinish == true;
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
             outlines = Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToArray<Outline>();
             Song.Entities.Outline ol = null;
