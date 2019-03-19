@@ -368,7 +368,7 @@ namespace Song.Extend.Login
         public int CleanOut()
         {
             //设置超时时间，单位分钟
-            int outTimeNumer = this.Expires;
+            int outTimeNumer = this.Expires > 720 ? 720 : this.Expires;
             List<Song.Entities.Accounts> list = this.OnlineUser;
             lock (_lock)
             {
@@ -446,8 +446,7 @@ namespace Song.Extend.Login
         /// </summary>
         /// <returns></returns>
         public Song.Entities.Course Course()
-        {
-            if (!this.IsLogin) return null;
+        {          
             Song.Entities.Course c = null;
             Song.Entities.Accounts st = this.CurrentUser;
             if (st != null && st.Ac_CurrCourse > 0)
