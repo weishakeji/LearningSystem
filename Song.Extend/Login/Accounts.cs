@@ -291,9 +291,7 @@ namespace Song.Extend.Login
             List<Song.Entities.Accounts> list = this.OnlineUser;
             for (int i = 0; i < list.Count; i++)
             {
-                Song.Entities.Accounts e = list[i];
-                if (e == null) continue;
-                if (e.Ac_ID == acc.Ac_ID)
+                if (list[i].Ac_ID == acc.Ac_ID)
                 {
                     list[i] = acc;
                     isHav = true;
@@ -303,7 +301,7 @@ namespace Song.Extend.Login
             Business.Do<IAccounts>().AccountsUpdate(acc,
                 new Field[] { Song.Entities.Accounts._.Ac_LastTime, Song.Entities.Accounts._.Ac_LastIP, Song.Entities.Accounts._.Ac_CheckUID },
                 new object[] { acc.Ac_LastTime, acc.Ac_LastIP, acc.Ac_CheckUID });
-            //如果未登录，则注册进去
+            //如果没有在缓存中记录，则注册进去
             if (!isHav) this.OnlineUserAdd(acc);
         }
         /// <summary>
