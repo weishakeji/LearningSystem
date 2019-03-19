@@ -37,11 +37,16 @@ namespace Song.Extend.Login
         /// <summary>
         /// 过期时间
         /// </summary>
-        public int Expires { get; set; }     
+        public int Expires { get; set; }
+        /// <summary>
+        ///  登录标识名
+        /// </summary>
+        public string KeyName { get; set; } 
         /// <summary>
         /// 后台管理登录的状态管理方式，值为Cookies或Session
         /// </summary>
         public LoginPatternEnum LoginPattern { get; set; } 
+
         private Accounts(){
             //计算过期时间（单位分钟），当登录多少分钟后失效
             string exp = WeiSha.Common.Login.Get["Accounts"].Expires.String;
@@ -51,6 +56,8 @@ namespace Song.Extend.Login
             string tm = WeiSha.Common.Login.Get["Accounts"].Pattern.String;
             if (tm.Equals("Session", StringComparison.CurrentCultureIgnoreCase)) LoginPattern = LoginPatternEnum.Session;
             if (tm.Equals("Cookies", StringComparison.CurrentCultureIgnoreCase)) LoginPattern = LoginPatternEnum.Cookies;
+            //登录标识名
+            this.KeyName = WeiSha.Common.Login.Get["Accounts"].KeyName.String;   
         }
         #endregion
 
@@ -184,11 +191,10 @@ namespace Song.Extend.Login
             get
             {
                 int accid = 0;
-                string key = WeiSha.Common.Login.Get["Accounts"].KeyName.String;    //登录标识名
                 if (this.LoginPattern == LoginPatternEnum.Cookies)
-                    accid = WeiSha.Common.Request.Cookies[key].Int32 ?? 0;
+                    accid = WeiSha.Common.Request.Cookies[KeyName].Int32 ?? 0;
                 if (this.LoginPattern == LoginPatternEnum.Session)
-                    accid = WeiSha.Common.Request.Session[key].Int32 ?? 0;
+                    accid = WeiSha.Common.Request.Session[KeyName].Int32 ?? 0;
                 return accid;
             }
         }
@@ -227,11 +233,9 @@ namespace Song.Extend.Login
         public void Write(Song.Entities.Accounts acc, int expiresDay)
         {
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            //登录标识名
-            string key = WeiSha.Common.Login.Get["Accounts"].KeyName.String;
             if (this.LoginPattern == LoginPatternEnum.Cookies)
             {
-                System.Web.HttpCookie cookie = new System.Web.HttpCookie(key);
+                System.Web.HttpCookie cookie = new System.Web.HttpCookie(KeyName);
                 cookie.Value = acc.Ac_ID.ToString();
                 //如果是多机构，又不用IP访问，则用根域写入cookie
                 int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
@@ -257,13 +261,13 @@ namespace Song.Extend.Login
             }
             if (this.LoginPattern == LoginPatternEnum.Session)
             {
-                if (_context.Session[key] == null)
+                if (_context.Session[KeyName] == null)
                 {
-                    _context.Session.Add(key, acc.Ac_ID);
+                    _context.Session.Add(KeyName, acc.Ac_ID);
                 }
                 else
                 {
-                    _context.Session[key] = acc.Ac_ID;
+                    _context.Session[KeyName] = acc.Ac_ID;
                 }
             }
             //注册到内存，用于判断在线用户
@@ -342,14 +346,12 @@ namespace Song.Extend.Login
             int accid = this.UserID;
             if (accid < 1) return;
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            //登录标识名
-            string key = WeiSha.Common.Login.Get["Accounts"].KeyName.String;
             if (this.LoginPattern == LoginPatternEnum.Cookies)
             {
                 //如果是多机构，又不用IP访问，则用根域写入cookie
                 int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
                 //清理当前域名下的cookie
-                System.Web.HttpCookie cookie = _context.Response.Cookies[key];
+                System.Web.HttpCookie cookie = _context.Response.Cookies[KeyName];
                 if (cookie != null)
                 {
                     if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) 
