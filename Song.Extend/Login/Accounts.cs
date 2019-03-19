@@ -461,11 +461,6 @@ namespace Song.Extend.Login
                 if (isBuy || istry)
                 {
                     c = Business.Do<ICourse>().CourseSingle(st.Ac_CurrCourse);
-                    //if (c != null)
-                    //{
-                    //    c.Cou_LogoSmall = Upload.Get["Course"].Virtual + c.Cou_LogoSmall;
-                    //    c.Cou_Logo = Upload.Get["Course"].Virtual + c.Cou_Logo;
-                    //}
                 }
             }
             return c;
