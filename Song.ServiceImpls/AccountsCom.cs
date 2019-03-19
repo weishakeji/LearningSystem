@@ -30,7 +30,7 @@ namespace Song.ServiceImpls
             if (!(sender is Accounts)) return;
             Accounts acc = (Accounts)sender;
             if (acc == null) return;
-            int currid = Extend.LoginState.Accounts.CurrentUserId;
+            int currid = Extend.LoginState.Accounts.UserID;
             if (currid != acc.Ac_ID) return;
             Extend.LoginState.Accounts.Refresh(currid);
 

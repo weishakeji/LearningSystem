@@ -20,7 +20,7 @@ namespace Song.Site.Manage.Student
         //¿Î³Ìid
         private int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         //Ñ§Ô±id
-        private int acid = WeiSha.Common.Request.QueryString["acid"].Int32 ?? Extend.LoginState.Accounts.CurrentUserId;
+        private int acid = WeiSha.Common.Request.QueryString["acid"].Int32 ?? Extend.LoginState.Accounts.UserID;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)

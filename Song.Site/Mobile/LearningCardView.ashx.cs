@@ -29,7 +29,7 @@ namespace Song.Site.Mobile
             this.Document.SetValue("set", set);
             this.Document.SetValue("courses", courses);
             //是否已经领用
-            int accid = Extend.LoginState.Accounts.CurrentUserId;
+            int accid = Extend.LoginState.Accounts.UserID;
             if (accid > 0)
             {
                 //如果当前学员账号id，与学习卡的归属一致，表示已经领用

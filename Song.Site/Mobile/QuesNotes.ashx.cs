@@ -219,7 +219,7 @@ namespace Song.Site.Mobile
             if (qus == null) return "";
             //
             Song.Entities.Student_Notes note = null;
-            int acid = Extend.LoginState.Accounts.CurrentUserId;
+            int acid = Extend.LoginState.Accounts.UserID;
             note = Business.Do<IStudent>().NotesSingle(qus.Qus_ID, acid);
             if (note == null) return "";
             return note.Stn_Context;

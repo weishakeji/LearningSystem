@@ -22,7 +22,7 @@ namespace Song.Site.Mobile
             {
                 if (Extend.LoginState.Accounts.IsLogin)
                 {                   
-                    int accid = Extend.LoginState.Accounts.CurrentUserId;
+                    int accid = Extend.LoginState.Accounts.UserID;
                     Song.Entities.TeacherComment cmt = Business.Do<ITeacher>().CommentSingle(thid, accid, day);
                     if (cmt != null)
                     {
@@ -83,7 +83,7 @@ namespace Song.Site.Mobile
             }
             else
             {
-                int accid=Extend.LoginState.Accounts.CurrentUserId;
+                int accid=Extend.LoginState.Accounts.UserID;
                 //每天只允许评价一次
                 int count = Business.Do<ITeacher>().CommentOfCount(thid, accid, day);
                 if (count > 0)

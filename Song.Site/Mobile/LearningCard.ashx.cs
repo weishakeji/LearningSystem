@@ -19,7 +19,7 @@ namespace Song.Site.Mobile
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
                 //当前学员的学习卡数量
-                int accid = Extend.LoginState.Accounts.CurrentUserId;
+                int accid = Extend.LoginState.Accounts.UserID;
                 if (accid > 0)
                 {
                     int cardcount = Business.Do<ILearningCard>().AccountCardOfCount(accid);

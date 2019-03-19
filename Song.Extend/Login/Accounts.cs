@@ -16,10 +16,9 @@ namespace Song.Extend.Login
 {
     public class Accounts
     {
-        private static  Accounts _singleton = null;
-        private static readonly object _lockobj = new object();     
-        //用于记录uid的cookie名称
-        private readonly string _uid = "AccountsUID";
+        #region 单例
+        private static Accounts _singleton = null;
+        private static readonly object _lockobj = new object();
         /// <summary>
         /// 获取参数
         /// </summary>
@@ -27,17 +26,56 @@ namespace Song.Extend.Login
         {
             get
             {
-                if (_singleton == null)
+                lock (_lockobj)
                 {
-                    lock (_lockobj)
-                    {
-                        if (_singleton == null)
-                        {
-                            _singleton = new Accounts();
-                        }
-                    }
+                    if (_singleton == null)
+                        _singleton = new Accounts();
+                    return _singleton;
                 }
-                return _singleton;
+            }
+        }
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public int Expires { get; set; }     
+        /// <summary>
+        /// 后台管理登录的状态管理方式，值为Cookies或Session
+        /// </summary>
+        public LoginPatternEnum LoginPattern { get; set; } 
+        private Accounts(){
+            //计算过期时间（单位分钟），当登录多少分钟后失效
+            string exp = WeiSha.Common.Login.Get["Accounts"].Expires.String;
+            if (!exp.Equals("auto", StringComparison.CurrentCultureIgnoreCase))
+                Expires = WeiSha.Common.Login.Get["Accounts"].Expires.Int32 ?? 10;
+            // 后台管理登录的状态管理方式，值为Cookies或Session
+            string tm = WeiSha.Common.Login.Get["Accounts"].Pattern.String;
+            if (tm.Equals("Session", StringComparison.CurrentCultureIgnoreCase)) LoginPattern = LoginPatternEnum.Session;
+            if (tm.Equals("Cookies", StringComparison.CurrentCultureIgnoreCase)) LoginPattern = LoginPatternEnum.Cookies;
+        }
+        #endregion
+
+        #region 在线学员
+        private static object _lock = new object();          
+        /// <summary>
+        /// 在线学员
+        /// </summary>
+        public List<Song.Entities.Accounts> OnlineUser
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    List<Song.Entities.Accounts> list = HttpRuntime.Cache.Get("AccountsCache") as List<Song.Entities.Accounts>;
+                    if (list == null) list = new List<Entities.Accounts>();
+                    return list;
+                }
+            }
+            set
+            {
+                lock (_lock)
+                {
+                    HttpRuntime.Cache.Insert("AccountsCache", value);
+                }
             }
         }
         /// <summary>
@@ -45,35 +83,27 @@ namespace Song.Extend.Login
         /// </summary>
         public string UID
         {
-            get { return WeiSha.Common.Request.Cookies[_uid].String; }
-        }
-        #region 属性
+            get { return WeiSha.Common.Request.Cookies["AccountsUID"].String; }
+            set
+            {
+                System.Web.HttpContext _context = System.Web.HttpContext.Current;
+                System.Web.HttpCookie cookie = new System.Web.HttpCookie("AccountsUID", value);
+                //如果是多机构，又不用IP访问，则用根域写入cookie
+                int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
+                if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Server.MainName;
+                _context.Response.Cookies.Add(cookie);
+            }
+        }        
 
         /// <summary>
-        /// 后台管理登录的状态管理方式，值为Cookies或Session
-        /// </summary>
-        public static LoginPatternEnum LoginPattern
-        {
-            get
-            {
-                string tm = WeiSha.Common.Login.Get["Accounts"].Pattern.String;
-                if (tm.Equals("Session", StringComparison.CurrentCultureIgnoreCase)) return LoginPatternEnum.Session;
-                if (tm.Equals("Cookies", StringComparison.CurrentCultureIgnoreCase)) return LoginPatternEnum.Cookies;
-                return LoginPatternEnum.Cookies;
-            }
-        }
-        private List<Song.Entities.Accounts> _onlineUser = new List<Song.Entities.Accounts>();
-        private static object _lock = new object();
-        /// <summary>
-        /// 添加在线人数
+        /// 添加在线学员
         /// </summary>
         /// <param name="acc"></param>
         public void OnlineUserAdd(Song.Entities.Accounts acc)
         {
-            lock (_lock)
-            {
-                this._onlineUser.Add(acc);
-            }
+            List<Song.Entities.Accounts> list = this.OnlineUser;
+            list.Add(acc);
+            this.OnlineUser = list;
         }
         /// <summary>
         /// 在线用户数
@@ -83,7 +113,7 @@ namespace Song.Extend.Login
             get
             {
                 this.CleanOut();
-                return this._onlineUser.Count;
+                return this.OnlineUser.Count;
             }
         }
         /// <summary>
@@ -94,18 +124,20 @@ namespace Song.Extend.Login
         {
             get
             {
-                int acid = this.CurrentUserId;  //当前用户的账号id
+                int acid = this.UserID;  //当前用户的账号id
                 if (acid < 1) return null;
-                string uid = WeiSha.Common.Request.Cookies[_uid].String; //用于判断是否重复登录
+                string uid =this.UID; //用于判断是否重复登录
                 Song.Entities.Accounts curr = null; //当前用户
                 //首先从在线列表中取当前登录的用户
-                if (this._onlineUser.Count > 0)
+                List<Song.Entities.Accounts> list = this.OnlineUser;
+                if (list.Count > 0)
                 {
-                    for (int i = this._onlineUser.Count - 1; i >= 0; i--)
+                    for (int i = list.Count - 1; i >= 0; i--)
                     {
-                        Song.Entities.Accounts em = this._onlineUser[i];
+                        Song.Entities.Accounts em = list[i];
                         if (em.Ac_ID == acid)
                         {
+                            //如果不是在微信中，同一账号不能同时登录
                             if (!WeiSha.Common.Browser.IsWeixin && em.Ac_CheckUID == uid)
                                 curr = em;
                             break;
@@ -139,24 +171,24 @@ namespace Song.Extend.Login
         {
             get
             {
-                int acid = this.CurrentUserId;  //当前用户的账号id
+                int acid = this.UserID;  //当前用户的账号id
                 if (acid <= 0) return null;
                 Song.Entities.Teacher th = Business.Do<IAccounts>().GetTeacher(acid, true);
                 return th;
             }
         }
         /// <summary>
-        /// 当前登录用户的id
+        /// 当前登录用户的ID
         /// </summary>
-        public int CurrentUserId
+        public int UserID
         {
             get
             {
                 int accid = 0;
                 string key = WeiSha.Common.Login.Get["Accounts"].KeyName.String;    //登录标识名
-                if (Accounts.LoginPattern == LoginPatternEnum.Cookies)
+                if (this.LoginPattern == LoginPatternEnum.Cookies)
                     accid = WeiSha.Common.Request.Cookies[key].Int32 ?? 0;
-                if (Accounts.LoginPattern == LoginPatternEnum.Session)
+                if (this.LoginPattern == LoginPatternEnum.Session)
                     accid = WeiSha.Common.Request.Session[key].Int32 ?? 0;
                 return accid;
             }
@@ -198,7 +230,7 @@ namespace Song.Extend.Login
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
             //登录标识名
             string key = WeiSha.Common.Login.Get["Accounts"].KeyName.String;
-            if (Accounts.LoginPattern == LoginPatternEnum.Cookies)
+            if (this.LoginPattern == LoginPatternEnum.Cookies)
             {
                 System.Web.HttpCookie cookie = new System.Web.HttpCookie(key);
                 cookie.Value = acc.Ac_ID.ToString();
@@ -215,9 +247,7 @@ namespace Song.Extend.Login
                     }
                     else
                     {
-                        string exp = WeiSha.Common.Login.Get["Accounts"].Expires.String;
-                        if (!exp.Equals("auto", StringComparison.CurrentCultureIgnoreCase))
-                            cookie.Expires = DateTime.Now.AddMinutes(WeiSha.Common.Login.Get["Accounts"].Expires.Int32 ?? 10);
+                       cookie.Expires = DateTime.Now.AddMinutes(this.Expires);
                     }
                 }
                 else
@@ -226,7 +256,7 @@ namespace Song.Extend.Login
                 }
                 _context.Response.Cookies.Add(cookie);
             }
-            if (Accounts.LoginPattern == LoginPatternEnum.Session)
+            if (this.LoginPattern == LoginPatternEnum.Session)
             {
                 if (_context.Session[key] == null)
                 {
@@ -241,14 +271,6 @@ namespace Song.Extend.Login
             this._register(acc);
         }     
         /// <summary>
-        /// 获取当前登录用户的对象
-        /// </summary>
-        /// <returns></returns>
-        public Song.Entities.Accounts Read()
-        {
-            return this.CurrentUser;
-        }
-        /// <summary>
         /// 注册某个用户到在线列表中
         /// </summary>
         /// <param name="acc"></param>
@@ -259,23 +281,18 @@ namespace Song.Extend.Login
             acc.Ac_LastTime = DateTime.Now;
             acc.Ac_LastIP = WeiSha.Common.Browser.IP;   //写入登录时的IP
             //写入唯一值，用于判断同一个账号是否多人登录
-            string uid = WeiSha.Common.Request.UniqueID();
-            System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            System.Web.HttpCookie cookie = new System.Web.HttpCookie(_uid, uid);
-            //如果是多机构，又不用IP访问，则用根域写入cookie
-            int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
-            if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Server.MainName;
-            _context.Response.Cookies.Add(cookie);
-            acc.Ac_CheckUID = uid;
+            acc.Ac_CheckUID = WeiSha.Common.Request.UniqueID();
+            this.UID = acc.Ac_CheckUID;
             //登录用户是否已经存在;
             bool isHav = false;
-            for (int i = 0; i < this._onlineUser.Count; i++)
+            List<Song.Entities.Accounts> list = this.OnlineUser;
+            for (int i = 0; i < list.Count; i++)
             {
-                Song.Entities.Accounts e = this._onlineUser[i];
+                Song.Entities.Accounts e = list[i];
                 if (e == null) continue;
                 if (e.Ac_ID == acc.Ac_ID)
                 {
-                    this._onlineUser[i] = acc;
+                    list[i] = acc;
                     isHav = true;
                     break;
                 }
@@ -293,17 +310,16 @@ namespace Song.Extend.Login
         public void Refresh(Song.Entities.Accounts st)
         {
             if (st == null) return;
+            List<Song.Entities.Accounts> list = this.OnlineUser;
             lock (_lock)
-            {
-                //登录时间，该时间不入数据库，仅为临时使用
-                st.Ac_LastTime = DateTime.Now;
-                for (int i = 0; i < this._onlineUser.Count; i++)
+            {               
+                for (int i = 0; i < list.Count; i++)
                 {
-                    Song.Entities.Accounts e = this._onlineUser[i];
-                    if (e == null) continue;
-                    if (e.Ac_ID == st.Ac_ID)
+                    if (list[i].Ac_ID == st.Ac_ID)
                     {
-                        this._onlineUser[i] = st;
+                        //登录时间，该时间不入数据库，仅为临时使用
+                        st.Ac_LastTime = DateTime.Now;
+                        list[i] = st;
                         break;
                     }
                 }
@@ -324,12 +340,12 @@ namespace Song.Extend.Login
         /// </summary>
         public void Logout()
         {
-            int accid = this.CurrentUserId;
+            int accid = this.UserID;
             if (accid < 1) return;
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
             //登录标识名
             string key = WeiSha.Common.Login.Get["Accounts"].KeyName.String;
-            if (Accounts.LoginPattern == LoginPatternEnum.Cookies)
+            if (this.LoginPattern == LoginPatternEnum.Cookies)
             {
                 //如果是多机构，又不用IP访问，则用根域写入cookie
                 int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
@@ -343,7 +359,7 @@ namespace Song.Extend.Login
                     _context.Response.Cookies.Add(cookie);
                 }
             }
-            if (Accounts.LoginPattern == LoginPatternEnum.Session)
+            if (this.LoginPattern == LoginPatternEnum.Session)
                 _context.Session.Abandon();
             this.CleanOut(accid);
         }
@@ -353,21 +369,20 @@ namespace Song.Extend.Login
         public void CleanOut()
         {
             //设置超时时间，单位分钟
-            int outTimeNumer = 100;
-            string exp = WeiSha.Common.Login.Get["Accounts"].Expires.String;
-            if (!exp.Equals("auto", StringComparison.CurrentCultureIgnoreCase))
-                outTimeNumer = WeiSha.Common.Login.Get["Accounts"].Expires.Int32 ?? 10;
+            int outTimeNumer = this.Expires;
+            List<Song.Entities.Accounts> list = this.OnlineUser;
             lock (_lock)
             {
-                for (int i = this._onlineUser.Count - 1; i >= 0; i--)
+                for (int i = list.Count - 1; i >= 0; i--)
                 {
-                    Song.Entities.Accounts em = this._onlineUser[i];
-                    if (DateTime.Now < em.Ac_LastTime.AddMinutes(outTimeNumer))
+                    Song.Entities.Accounts em = list[i];
+                    if (DateTime.Now > em.Ac_LastTime.AddMinutes(outTimeNumer))
                     {
-                        this._onlineUser.RemoveAt(i);
+                        list.RemoveAt(i);
                     }
                 }
             }
+            this.OnlineUser = list;
         }
         public void CleanOut(Song.Entities.Accounts acc)
         {
@@ -375,16 +390,18 @@ namespace Song.Extend.Login
         }
         public void CleanOut(int accid)
         {
+            List<Song.Entities.Accounts> list = this.OnlineUser;
             lock (_lock)
             {
-                for (int i = this._onlineUser.Count - 1; i >= 0; i--)
+                for (int i = list.Count - 1; i >= 0; i--)
                 {
-                    if (this._onlineUser[i].Ac_ID == accid)
+                    if (list[i].Ac_ID == accid)
                     {
-                        this._onlineUser.RemoveAt(i);
+                        list.RemoveAt(i);
                     }
                 }              
             }
+            this.OnlineUser = list;
         }
         /// <summary>
         /// 验证是否登录，没有登录，则跳转
@@ -453,14 +470,5 @@ namespace Song.Extend.Login
         }
         #endregion
 
-        #region 权限判断
-        /// <summary>
-        /// 验证是否拥操作当前页面的权限
-        /// </summary>
-        public void VerifyPurview()
-        {
-
-        }
-        #endregion
     }
 }

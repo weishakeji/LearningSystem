@@ -34,7 +34,7 @@ namespace Song.Site.Manage.Student
                 if (!this.IsPostBack)
                 {
                     //当前学员的学习卡数量
-                    int accid = Extend.LoginState.Accounts.CurrentUserId;
+                    int accid = Extend.LoginState.Accounts.UserID;
                     if (accid > 0)
                     {
                         cardcount = Business.Do<ILearningCard>().AccountCardOfCount(accid);

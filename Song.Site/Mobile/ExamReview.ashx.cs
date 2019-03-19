@@ -22,7 +22,7 @@ namespace Song.Site.Mobile
         XmlDocument resXml = new XmlDocument();
         protected override void InitPageTemplate(HttpContext context)
         {
-            accid = Extend.LoginState.Accounts.CurrentUserId;
+            accid = Extend.LoginState.Accounts.UserID;
             Song.Entities.ExamResults result = null;
             if (exrid != 0)
             {

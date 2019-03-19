@@ -29,7 +29,7 @@ namespace Song.Site.Ajax
                 else
                 {
                     //学员登录id
-                    int stid = Extend.LoginState.Accounts.CurrentUserId;
+                    int stid = Extend.LoginState.Accounts.UserID;
                     switch (action)
                     {
                         case "buycou":
