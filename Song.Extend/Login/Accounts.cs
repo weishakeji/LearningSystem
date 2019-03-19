@@ -112,8 +112,7 @@ namespace Song.Extend.Login
         {
             get
             {
-                this.CleanOut();
-                return this.OnlineUser.Count;
+                return this.CleanOut();
             }
         }
         /// <summary>
@@ -366,7 +365,7 @@ namespace Song.Extend.Login
         /// <summary>
         /// 清理超时用户
         /// </summary>
-        public void CleanOut()
+        public int CleanOut()
         {
             //设置超时时间，单位分钟
             int outTimeNumer = this.Expires;
@@ -383,6 +382,7 @@ namespace Song.Extend.Login
                 }
             }
             this.OnlineUser = list;
+            return list.Count;
         }
         public void CleanOut(Song.Entities.Accounts acc)
         {
