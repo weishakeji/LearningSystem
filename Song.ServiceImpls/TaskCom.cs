@@ -16,8 +16,6 @@ namespace Song.ServiceImpls
 {
     public class TaskCom : ITask
     {
-
-
         public int Add(Task entity)
         {
             //添加对象，并设置排序号

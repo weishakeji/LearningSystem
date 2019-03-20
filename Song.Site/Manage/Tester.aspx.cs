@@ -26,6 +26,10 @@ namespace Song.Site.Manage
             string x = Request.ServerVariables["REQUEST_METHOD"];
             string b = x;
 
+            Song.ServiceInterfaces.ITask task = Business.Do<Song.ServiceInterfaces.ITask>();
+
+            
+
         }
 
     }
