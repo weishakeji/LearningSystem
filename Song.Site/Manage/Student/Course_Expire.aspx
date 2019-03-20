@@ -4,7 +4,7 @@
 
 <%@ MasterType VirtualPath="~/Manage/Student/Parents.Master" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">    
+<asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
     <div class="itemBox" id="divCourseExpire" runat="server">
         <div class="itemTitle">
             过期课程</div>
@@ -38,4 +38,8 @@
             </ItemTemplate>
         </asp:Repeater>
     </div>
+    <asp:Panel ID="plNoCourse" runat="server" Visible="false">
+        <div class="noCourse">
+            没有过期的课程</div>
+    </asp:Panel>
 </asp:Content>

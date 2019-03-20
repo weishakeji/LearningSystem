@@ -72,7 +72,12 @@
                 <div class="couBtn btn1 study"> <a href="CourseStudy.ashx?couid={$course.cou_id}" target="_blank" class="bvr_mr" title="开始学习">开始学习</a></div>
                  <div class="couBtn btn2"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" target="_blank" title="选修该课程">选修该课程</a> </div>
                 <vt:else/>
+                <vt:if var="course.Cou_IsTry" value="true" compare="=" remark="可以试学">
+                <div class="couBtn btn1 study"> <a href="CourseStudy.ashx?couid={$course.cou_id}" target="_blank" class="bvr_mr" title="试学">试学</a></div>
+                 <div class="couBtn btn2"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" target="_blank" title="选修该课程">选修该课程</a> </div>
+                 <vt:else/>
                 <div class="couBtn"> <a href="CourseBuy.ashx?couid={$course.cou_id}" isPass="{$Account.Ac_isPass}" state="noSelected" target="_blank" title="选修该课程">选修该课程</a> </div>
+                </vt:if>
                </vt:if>
              </vt:if>
             

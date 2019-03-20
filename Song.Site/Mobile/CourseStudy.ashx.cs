@@ -25,12 +25,19 @@ namespace Song.Site.Mobile
             //当前课程
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) return;
+            //是否免费，或是限时免费
+            if (course.Cou_IsLimitFree)
+            {
+                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                    course.Cou_IsLimitFree = false;
+            }
             this.Document.Variables.SetValue("course", course);
             //是否学习当前课程，如果没有学习且课程处于免费，则创建关联
             if (this.Account != null)
             {
                 isStudy = Business.Do<ICourse>().Study(course.Cou_ID, this.Account.Ac_ID);
-                isBuy = Business.Do<ICourse>().IsBuy(course.Cou_ID, this.Account.Ac_ID);
+                isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, this.Account.Ac_ID);
             }
             this.Document.Variables.SetValue("isStudy", isStudy);
             this.Document.Variables.SetValue("isBuy", isBuy);

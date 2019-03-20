@@ -53,6 +53,7 @@ namespace Song.Site.Manage.Student
             rptCourseExpire.DataSource = cousexp;
             rptCourseExpire.DataBind();
             divCourseExpire.Visible = cousexp.Count > 0;
+            plNoCourse.Visible = cousexp.Count < 1;    
         }
         /// <summary>
         /// 获取课程的购买信息
