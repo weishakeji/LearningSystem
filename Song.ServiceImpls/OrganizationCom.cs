@@ -281,9 +281,9 @@ namespace Song.ServiceImpls
             List<Organization> orgs = WeiSha.Common.Cache<Organization>.Data.List;
             if (orgs != null)
             {
-                foreach (Song.Entities.Organization o in orgs)
+                for (int i = 0; i < orgs.Count; i++)
                 {
-                    OrganBuildQrCode(o);
+                    OrganBuildQrCode(orgs[i]);
                 }
             }
         }
