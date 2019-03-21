@@ -845,22 +845,12 @@ namespace Song.ServiceImpls
             ma.Ma_Money = mprice;  //购买价格
             ca.Ca_Value = cprice;   //要扣除的卡券
             //购买结束时间
-            DateTime end = DateTime.Now;
-            switch (price.CP_Unit)
-            {
-                case "日":
-                    end = DateTime.Now.AddDays(price.CP_Span);
-                    break;
-                case "周":
-                    end = DateTime.Now.AddDays(price.CP_Span * 7);
-                    break;
-                case "月":
-                    end = DateTime.Now.AddMonths(price.CP_Span);
-                    break;
-                case "年":
-                    end = DateTime.Now.AddYears(price.CP_Span);
-                    break;
-            }
+            DateTime start = DateTime.Now, end = DateTime.Now;
+            if (price.CP_Unit == "日" || price.CP_Unit == "天") end = start.AddDays(price.CP_Span);
+            if (price.CP_Unit == "周") end = start.AddDays(price.CP_Span * 7);
+            if (price.CP_Unit == "月") end = start.AddMonths(price.CP_Span);
+            if (price.CP_Unit == "年") end = start.AddYears(price.CP_Span);
+            //int span = (end - start).Days;
             ma.Ma_From = ca.Ca_From = 4;
             ma.Ma_Source = ca.Ca_Source = "购买课程";
             ma.Ma_Info = ca.Ca_Info = "购买课程:" + course.Cou_Name + "；" + DateTime.Now.ToString("yyyy-MM-dd") + " 至 " + end.ToString("yyyy-MM-dd");
