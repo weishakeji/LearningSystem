@@ -916,18 +916,18 @@ namespace Song.ServiceImpls
         /// <returns>datatable中,LastTime:最后学习时间； studyTime：累计学习时间，complete：完成度百分比</returns>
         public DataTable StudentStudyCourseLog(int orgid, int acid)
         {
-            //清理掉不需要的数据，包括：“章节不存在，章节没有视频，章节禁用或未完成”的学习记录，全部删除
-            WhereClip wc = LogForStudentStudy._.Ac_ID == acid;
-            SourceReader lfs = Gateway.Default.FromSql(string.Format("select Ol_ID from [LogForStudentStudy] where Ac_ID={0} group by Ol_ID",acid)).ToReader();
-            while (lfs.Read())
-            {
-                long olid = lfs.GetInt64("Ol_ID");
-                Outline ol = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == olid).ToFirst<Outline>();
-                if (ol == null || ol.Ol_IsVideo == false || ol.Ol_IsUse == false || ol.Ol_IsFinish == false)
-                {
-                    Gateway.Default.Delete<LogForStudentStudy>(LogForStudentStudy._.Ol_ID == olid);
-                }
-            } ;
+            ////清理掉不需要的数据，包括：“章节不存在，章节没有视频，章节禁用或未完成”的学习记录，全部删除
+            //WhereClip wc = LogForStudentStudy._.Ac_ID == acid;
+            //SourceReader lfs = Gateway.Default.FromSql(string.Format("select Ol_ID from [LogForStudentStudy] where Ac_ID={0} group by Ol_ID",acid)).ToReader();
+            //while (lfs.Read())
+            //{
+            //    long olid = lfs.GetInt64("Ol_ID");
+            //    Outline ol = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == olid).ToFirst<Outline>();
+            //    if (ol == null || ol.Ol_IsVideo == false || ol.Ol_IsUse == false || ol.Ol_IsFinish == false)
+            //    {
+            //        Gateway.Default.Delete<LogForStudentStudy>(LogForStudentStudy._.Ol_ID == olid);
+            //    }
+            //} ;
             //开始计算
             string sql = @"
 select * from course as c inner join 
