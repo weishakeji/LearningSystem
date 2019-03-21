@@ -355,6 +355,16 @@ namespace Song.ServiceImpls
             return Gateway.Default.FromSql(sql).ToScalar();
         }
         /// <summary>
+        /// 执行sql语句，返回第一行
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        public T ScalarSql<T>(string sql) where T : WeiSha.Data.Entity
+        {
+            return Gateway.Default.FromSql(sql).ToFirst<T>();
+        }
+        /// <summary>
         /// 执行sql语句
         /// </summary>
         /// <param name="sql"></param>

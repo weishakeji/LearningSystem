@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -7,141 +7,148 @@ using Song.Entities;
 namespace Song.ServiceInterfaces
 {
     /// <summary>
-    /// ÔºÏµÖ°Î»µÄ¹ÜÀí
+    /// ç³»ç»Ÿå‚æ•°ç®¡ç†
     /// </summary>
     public interface ISystemPara : WeiSha.Common.IBusinessInterface, System.Collections.IEnumerable
     {
-
         /// <summary>
-        /// Ìí¼Ó
+        /// æ·»åŠ 
         /// </summary>
-        /// <param name="entity">ÒµÎñÊµÌå</param>
+        /// <param name="entity">ä¸šåŠ¡å®ä½“</param>
         void Add(SystemPara entity);
         /// <summary>
-        /// ĞŞ¸Ä£¬ÇÒÁ¢¼´Ë¢ĞÂÈ«¾Ö²ÎÊı
+        /// ä¿®æ”¹ï¼Œä¸”ç«‹å³åˆ·æ–°å…¨å±€å‚æ•°
         /// </summary>
-        /// <param name="key">²ÎÊı¼ü</param>
-        /// <param name="value">²ÎÊıÖµ</param>
+        /// <param name="key">å‚æ•°é”®</param>
+        /// <param name="value">å‚æ•°å€¼</param>
         void Save(string key, string value);
         /// <summary>
-        /// ĞŞ¸Ä£¬ÇÒÊÇ·ñÖ±½ÓË¢ĞÂÈ«¾Ö²ÎÊı
+        /// ä¿®æ”¹ï¼Œä¸”æ˜¯å¦ç›´æ¥åˆ·æ–°å…¨å±€å‚æ•°
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <param name="isRefresh"></param>
         void Save(string key, string value, bool isRefresh);
         /// <summary>
-        /// ĞŞ¸Ä
+        /// ä¿®æ”¹
         /// </summary>
-        /// <param name="key">²ÎÊı¼ü</param>
-        /// <param name="value">²ÎÊıÖµ</param>
-        /// <param name="unit">²ÎÊıµÄµ¥Î»</param>
+        /// <param name="key">å‚æ•°é”®</param>
+        /// <param name="value">å‚æ•°å€¼</param>
+        /// <param name="unit">å‚æ•°çš„å•ä½</param>
         void Save(string key, string value, string unit);
         /// <summary>
-        /// ÓÃÊµÀı±£´æ
+        /// ç”¨å®ä¾‹ä¿å­˜
         /// </summary>
         /// <param name="entity"></param>
         void Save(SystemPara entity);
         /// <summary>
-        /// µ±Ç°²ÎÊıÊÇ·ñ´æÔÚ£¨Í¨¹ı²ÎÊıÃûÅĞ¶Ï£©
+        /// å½“å‰å‚æ•°æ˜¯å¦å­˜åœ¨ï¼ˆé€šè¿‡å‚æ•°ååˆ¤æ–­ï¼‰
         /// </summary>
         /// <param name="entity"></param>
-        /// <returns>Èç¹ûÒÑ¾­´æÔÚ£¬Ôò·µ»Øtrue</returns>
+        /// <returns>å¦‚æœå·²ç»å­˜åœ¨ï¼Œåˆ™è¿”å›true</returns>
         bool IsExists(SystemPara entity);
         /// <summary>
-        /// Ë¢ĞÂÈ«¾Ö²ÎÊı
+        /// åˆ·æ–°å…¨å±€å‚æ•°
         /// </summary>
         List<SystemPara> Refresh();
         /// <summary>
-        /// É¾³ı
+        /// åˆ é™¤
         /// </summary>
-        /// <param name="entity">ÒµÎñÊµÌå</param>
+        /// <param name="entity">ä¸šåŠ¡å®ä½“</param>
         void Delete(SystemPara entity);
         /// <summary>
-        /// É¾³ı£¬°´Ö÷¼üID£»
+        /// åˆ é™¤ï¼ŒæŒ‰ä¸»é”®IDï¼›
         /// </summary>
-        /// <param name="identify">ÊµÌåµÄÖ÷¼ü</param>
+        /// <param name="identify">å®ä½“çš„ä¸»é”®</param>
         void Delete(int identify);
         /// <summary>
-        /// É¾³ı£¬°´¼üÖµ
+        /// åˆ é™¤ï¼ŒæŒ‰é”®å€¼
         /// </summary>
         /// <param name="key"></param>
         void Delete(string key);
         /// <summary>
-        /// ¸ù¾İ¼ü£¬»ñÈ¡Öµ
+        /// æ ¹æ®é”®ï¼Œè·å–å€¼
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
         string GetValue(string key);
         /// <summary>
-        /// ¸ù¾İ¼ü£¬»ñÈ¡Öµ
+        /// æ ¹æ®é”®ï¼Œè·å–å€¼
         /// </summary>
-        /// <param name="key">¼üÖµ</param>
+        /// <param name="key">é”®å€¼</param>
         /// <returns></returns>
         WeiSha.Common.Param.Method.ConvertToAnyValue this[string key] { get;}        
         /// <summary>
-        /// »ñÈ¡µ¥¸öÊµÀı
+        /// è·å–å•ä¸ªå®ä¾‹
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         SystemPara GetSingle(int id);
         /// <summary>
-        /// »ñÈ¡µ¥¸öÊµÀı£¬Í¨¹ı¼üÖµ»ñÈ¡
+        /// è·å–å•ä¸ªå®ä¾‹ï¼Œé€šè¿‡é”®å€¼è·å–
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
         SystemPara GetSingle(string key);
         /// <summary>
-        /// »ñÈ¡ËùÓĞ²ÎÊı
+        /// è·å–æ‰€æœ‰å‚æ•°
         /// </summary>
         /// <returns></returns>
         DataTable GetAll();
         /// <summary>
-        /// ²éÑ¯»ñÈ¡²ÎÊı
+        /// æŸ¥è¯¢è·å–å‚æ•°
         /// </summary>
-        /// <param name="searKey">¼üÃû</param>
-        /// <param name="searIntro">²ÎÊıËµÃ÷</param>
+        /// <param name="searKey">é”®å</param>
+        /// <param name="searIntro">å‚æ•°è¯´æ˜</param>
         /// <returns></returns>
         DataTable GetAll(string searKey, string searIntro);
         /// <summary>
-        /// Éú³ÉÁ÷Ë®ºÅ
+        /// ç”Ÿæˆæµæ°´å·
         /// </summary>
         /// <returns></returns>
         string Serial();
         /// <summary>
-        /// ²âÊÔÊÇ·ñÍê³ÉÊÚÈ¨
+        /// æµ‹è¯•æ˜¯å¦å®Œæˆæˆæƒ
         /// </summary>
         bool IsLicense();
         /// <summary>
-        /// Êı¾İ¿âÍêÕûĞÔ²âÊÔ
+        /// æ•°æ®åº“å®Œæ•´æ€§æµ‹è¯•
         /// </summary>
-        /// <returns>·µ»ØÈ±ÉÙµÄ±íÓë×Ö¶Î</returns>
+        /// <returns>è¿”å›ç¼ºå°‘çš„è¡¨ä¸å­—æ®µ</returns>
         List<string> DatabaseCompleteTest();
         /// <summary>
-        /// Êı¾İ¿âÁ´½Ó²âÊÔ
+        /// æ•°æ®åº“é“¾æ¥æµ‹è¯•
         /// </summary>
-        /// <returns>Á´½ÓÕıÈ·Îªtrue£¬·ñÔòÎªfalse</returns>
+        /// <returns>é“¾æ¥æ­£ç¡®ä¸ºtrueï¼Œå¦åˆ™ä¸ºfalse</returns>
         bool DatabaseLinkTest();
         /// <summary>
-        /// Ö´ĞĞsqlÓï¾ä,·µ»ØÓ°ÏìµÄĞĞÊı
+        /// æ‰§è¡Œsqlè¯­å¥,è¿”å›å½±å“çš„è¡Œæ•°
         /// </summary>
         /// <param name="sql"></param>
-        /// <returns>·µ»ØÓ°ÏìµÄĞĞÊı</returns>
+        /// <returns>è¿”å›å½±å“çš„è¡Œæ•°</returns>
         int ExecuteSql(string sql);
         /// <summary>
-        /// Ö´ĞĞsqlÓï¾ä£¬·µ»ØµÚÒ»ĞĞµÚÒ»ÁĞµÄÊı¾İ
+        /// æ‰§è¡Œsqlè¯­å¥ï¼Œè¿”å›ç¬¬ä¸€è¡Œç¬¬ä¸€åˆ—çš„æ•°æ®
         /// </summary>
         /// <param name="sql"></param>
-        /// <returns>·µ»ØµÚÒ»ĞĞµÚÒ»ÁĞµÄÊı¾İ</returns>
+        /// <returns>è¿”å›ç¬¬ä¸€è¡Œç¬¬ä¸€åˆ—çš„æ•°æ®</returns>
         object ScalarSql(string sql);
         /// <summary>
-        /// Ö´ĞĞsqlÓï¾ä
+        /// æ‰§è¡Œsqlè¯­å¥ï¼Œè¿”å›ç¬¬ä¸€è¡Œ
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="sql"></param>
+        /// <returns></returns>
+        T ScalarSql<T>(string sql) where T : WeiSha.Data.Entity;
+        /// <summary>
+        /// æ‰§è¡Œsqlè¯­å¥
         /// </summary>
         /// <param name="sql"></param>
-        /// <returns>·µ»ØÊı¾İ¼¯</returns>
+        /// <returns>è¿”å›æ•°æ®é›†</returns>
         List<T> ForSql<T>(string sql) where T : WeiSha.Data.Entity;
+        
         /// <summary>
-        /// ·µ»ØÖ¸¶¨µÄÊı¾İ¼¯
+        /// è¿”å›æŒ‡å®šçš„æ•°æ®é›†
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
