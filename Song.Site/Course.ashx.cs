@@ -27,8 +27,7 @@ namespace Song.Site
             {
                 if ((WeiSha.Common.Request.Cookies["Course_" + cou.Cou_ID].Int32 ?? 0) == 0)
                 {
-                    cou.Cou_ViewNum++;
-                    Business.Do<ICourse>().CourseSave(cou);
+                    Business.Do<ICourse>().CourseViewNum(cou, 1);
                     context.Response.Cookies["Course_" + cou.Cou_ID].Value = cou.Cou_ID.ToString();
                 }
                 //图片路径
