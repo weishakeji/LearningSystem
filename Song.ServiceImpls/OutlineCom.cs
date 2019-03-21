@@ -409,7 +409,7 @@ namespace Song.ServiceImpls
         public Outline OutlineFirst(int couid, bool? isUse)
         {
             Song.Entities.Outline[] outlines = null;
-            WhereClip wc = Outline._.Cou_ID == couid && Outline._.Ol_IsFinish == true;
+            WhereClip wc = Outline._.Cou_ID == couid;
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
             outlines = Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToArray<Outline>();
             Song.Entities.Outline ol = null;
@@ -486,7 +486,7 @@ namespace Song.ServiceImpls
         public DataTable OutlineTree(Song.Entities.Outline[] outlines)
         {
             //计算树形的运算时间
-            DateTime beforDT = System.DateTime.Now;
+            //DateTime beforDT = System.DateTime.Now;
             //WeiSha.Common.Log.Debug(this.GetType().Name, "---开始计算章节树形：" + beforDT.ToString("yyyy年MM月dd日 hh:mm:ss"));
 
             DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outlines);
@@ -497,12 +497,12 @@ namespace Song.ServiceImpls
             tree.Root = 0;
             dt = tree.BuilderTree(dt);
 
-            DateTime afterDT = System.DateTime.Now;
-            TimeSpan ts = afterDT.Subtract(beforDT);
-            if (ts.TotalMilliseconds >= 500)
-            {
-                WeiSha.Common.Log.Debug(this.GetType().Name, string.Format("计算章节树形,耗时：{0}ms", ts.TotalMilliseconds));
-            }
+            //DateTime afterDT = System.DateTime.Now;
+            //TimeSpan ts = afterDT.Subtract(beforDT);
+            //if (ts.TotalMilliseconds >= 500)
+            //{
+            //    //WeiSha.Common.Log.Debug(this.GetType().Name, string.Format("计算章节树形,耗时：{0}ms", ts.TotalMilliseconds));
+            //}
 
             return  buildOutlineTree(dt, 0, 0, "");
         }
@@ -516,6 +516,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         private DataTable buildOutlineTree(DataTable outlines, int pid, int level, string prefix)
         {
+            if (outlines == null) return null;
             int index = 1;
             foreach (DataRow ol in outlines.Rows)
             {
