@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
@@ -7,113 +7,126 @@ using Song.Entities;
 namespace Song.ServiceInterfaces
 {
     /// <summary>
-    /// ¿Î³Ì¹ÜÀí
+    /// è¯¾ç¨‹ç®¡ç†
     /// </summary>
     public interface ICourse : WeiSha.Common.IBusinessInterface
     {
-        #region ¿Î³Ì¹ÜÀí
+        #region è¯¾ç¨‹ç®¡ç†
         /// <summary>
-        /// Ìí¼Ó¿Î³Ì
+        /// æ·»åŠ è¯¾ç¨‹
         /// </summary>
-        /// <param name="entity">ÒµÎñÊµÌå</param>
+        /// <param name="entity">ä¸šåŠ¡å®ä½“</param>
         void CourseAdd(Course entity);
         /// <summary>
-        /// ÅúÁ¿Ìí¼Ó¿Î³Ì£¬¿ÉÓÃÓÚµ¼ÈëÊ±
+        /// æ‰¹é‡æ·»åŠ è¯¾ç¨‹ï¼Œå¯ç”¨äºå¯¼å…¥æ—¶
         /// </summary>
-        /// <param name="orgid">»ú¹¹id</param>
-        /// <param name="sbjid">×¨Òµid</param>
-        /// <param name="names">Ãû³Æ£¬¿ÉÒÔÊÇÓÃ¶ººÅ·Ö¸ôµÄ¶à¸öÃû³Æ</param>
+        /// <param name="orgid">æœºæ„id</param>
+        /// <param name="sbjid">ä¸“ä¸šid</param>
+        /// <param name="names">åç§°ï¼Œå¯ä»¥æ˜¯ç”¨é€—å·åˆ†éš”çš„å¤šä¸ªåç§°</param>
         /// <returns></returns>
         Course CourseBatchAdd(int orgid, int sbjid, string names);
         /// <summary>
-        /// ÊÇ·ñÒÑ¾­´æÔÚ¿Î³Ì
+        /// æ˜¯å¦å·²ç»å­˜åœ¨è¯¾ç¨‹
         /// </summary>
-        /// <param name="orgid">»ú¹¹id</param>
-        /// <param name="sbjid">×¨Òµid</param>
-        /// <param name="pid">ÉÏ¼¶id</param>
+        /// <param name="orgid">æœºæ„id</param>
+        /// <param name="sbjid">ä¸“ä¸šid</param>
+        /// <param name="pid">ä¸Šçº§id</param>
         /// <param name="name"></param>
         /// <returns></returns>
         Course CourseIsExist(int orgid, int sbjid, int pid, string name);
         /// <summary>
-        /// ĞŞ¸Ä¿Î³Ì
+        /// ä¿®æ”¹è¯¾ç¨‹
         /// </summary>
-        /// <param name="entity">ÒµÎñÊµÌå</param>
+        /// <param name="entity">ä¸šåŠ¡å®ä½“</param>
         void CourseSave(Course entity);
         /// <summary>
-        /// É¾³ı¿Î³Ì
+        /// å¢åŠ è¯¾ç¨‹æµè§ˆæ•°
         /// </summary>
-        /// <param name="entity">ÒµÎñÊµÌå</param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        int CourseViewNum(Course entity, int num);
+        /// <summary>
+        /// å¢åŠ è¯¾ç¨‹æµè§ˆæ•°
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        int CourseViewNum(int couid, int num);
+        /// <summary>
+        /// åˆ é™¤è¯¾ç¨‹
+        /// </summary>
+        /// <param name="entity">ä¸šåŠ¡å®ä½“</param>
         void CourseDelete(Course entity);
         /// <summary>
-        /// É¾³ı£¬°´Ö÷¼üID£»
+        /// åˆ é™¤ï¼ŒæŒ‰ä¸»é”®IDï¼›
         /// </summary>
-        /// <param name="identify">ÊµÌåµÄÖ÷¼ü</param>
+        /// <param name="identify">å®ä½“çš„ä¸»é”®</param>
         void CourseDelete(int identify);
         /// <summary>
-        /// »ñÈ¡µ¥Ò»ÊµÌå¶ÔÏó£¬°´Ö÷¼üID£»
+        /// è·å–å•ä¸€å®ä½“å¯¹è±¡ï¼ŒæŒ‰ä¸»é”®IDï¼›
         /// </summary>
-        /// <param name="identify">ÊµÌåµÄÖ÷¼ü</param>
+        /// <param name="identify">å®ä½“çš„ä¸»é”®</param>
         /// <returns></returns>
         Course CourseSingle(int identify);
         /// <summary>
-        /// »ñÈ¡¿Î³ÌÃû³Æ£¬Èç¹ûÎª¶à¼¶£¬Ôò´øÉÏ¸¸¼¶Ãû³Æ
+        /// è·å–è¯¾ç¨‹åç§°ï¼Œå¦‚æœä¸ºå¤šçº§ï¼Œåˆ™å¸¦ä¸Šçˆ¶çº§åç§°
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
         string CourseName(int identify);       
         /// <summary>
-        /// »ñÈ¡ËùÓĞ¿Î³Ì
+        /// è·å–æ‰€æœ‰è¯¾ç¨‹
         /// </summary>
-        /// <param name="orgid">ËùÔÚ»ú¹¹id</param>
-        /// <param name="thid">½ÌÊ¦id</param>
+        /// <param name="orgid">æ‰€åœ¨æœºæ„id</param>
+        /// <param name="thid">æ•™å¸ˆid</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
         List<Course> CourseAll(int orgid, int sbjid, int thid, bool? isUse);
         /// <summary>
-        /// Ä³¸ö¿Î³ÌµÄÑ§Ï°ÈËÊı
+        /// æŸä¸ªè¯¾ç¨‹çš„å­¦ä¹ äººæ•°
         /// </summary>
-        /// <param name="couid">¿Î³Ìid</param>
-        /// <param name="isAll">ÊÇ·ñÈ¡È«²¿Öµ£¬Èç¹ûÎªfalse£¬Ôò½öÈ¡µ±Ç°ÕıÔÚÑ§Ï°µÄ</param>
+        /// <param name="couid">è¯¾ç¨‹id</param>
+        /// <param name="isAll">æ˜¯å¦å–å…¨éƒ¨å€¼ï¼Œå¦‚æœä¸ºfalseï¼Œåˆ™ä»…å–å½“å‰æ­£åœ¨å­¦ä¹ çš„</param>
         /// <returns></returns>
         int CourseStudentSum(int couid, bool? isAll);
         /// <summary>
-        /// Çå³ı¿Î³ÌµÄÄÚÈİ
+        /// æ¸…é™¤è¯¾ç¨‹çš„å†…å®¹
         /// </summary>
         /// <param name="identify"></param>
         void CourseClear(int identify);
         /// <summary>
-        /// »ñÈ¡Ö¸¶¨¸öÊıµÄ¿Î³ÌÁĞ±í
+        /// è·å–æŒ‡å®šä¸ªæ•°çš„è¯¾ç¨‹åˆ—è¡¨
         /// </summary>
-        /// <param name="orgid">ËùÔÚ»ú¹¹id</param>
-        /// <param name="sbjid">×¨Òµid£¬µÈÓÚ0È¡ËùÓĞ</param>
-        /// <param name="thid">½ÌÊ¦id</param>
-        /// <param name="pid">ÉÏ¼¶¿Î³ÌID</param>
+        /// <param name="orgid">æ‰€åœ¨æœºæ„id</param>
+        /// <param name="sbjid">ä¸“ä¸šidï¼Œç­‰äº0å–æ‰€æœ‰</param>
+        /// <param name="thid">æ•™å¸ˆid</param>
+        /// <param name="pid">ä¸Šçº§è¯¾ç¨‹ID</param>
         /// <param name="isUse"></param>
-        /// <param name="count">È¡¶àÉÙÌõ¼ÇÂ¼£¬Èç¹ûĞ¡ÓÚµÈÓÚ0£¬ÔòÈ¡ËùÓĞ</param>
+        /// <param name="count">å–å¤šå°‘æ¡è®°å½•ï¼Œå¦‚æœå°äºç­‰äº0ï¼Œåˆ™å–æ‰€æœ‰</param>
         /// <returns></returns>
         List<Course> CourseCount(int orgid, int sbjid, int thid, int pid, string sear, bool? isUse, int count);
         List<Course> CourseCount(int orgid, int sbjid, string sear, bool? isUse, int count);
         /// <summary>
-        /// »ñÈ¡Ö¸¶¨¸öÊıµÄ¿Î³ÌÁĞ±í
+        /// è·å–æŒ‡å®šä¸ªæ•°çš„è¯¾ç¨‹åˆ—è¡¨
         /// </summary>
-        /// <param name="orgid">ËùÔÚ»ú¹¹id</param>
-        /// <param name="sbjid">×¨Òµid£¬µÈÓÚ0È¡ËùÓĞ</param>
+        /// <param name="orgid">æ‰€åœ¨æœºæ„id</param>
+        /// <param name="sbjid">ä¸“ä¸šidï¼Œç­‰äº0å–æ‰€æœ‰</param>
         /// <param name="sear"></param>
         /// <param name="isUse"></param>
-        /// <param name="order">ÅÅĞò·½Ê½£¬def:Ä¬ÈÏ£¬ÏÈÍÆ¼ö£¬È»ºó°´·ÃÎÊÁ¿µ¹Ğò;flux£º°´·ÃÎÊÁ¿µ¹Ğò;tax£º°´×Ô¶¨ÒåÅÅĞòÒªÇó;new:°´´´½¨Ê±¼ä£¬×îĞÂ·¢²¼ÔÚÇ°Ãæ;rec:°´ÍÆ¼ö£¬ÏÈÍÆ¼ö£¬È»ºó°´taxÅÅĞò</param>
+        /// <param name="order">æ’åºæ–¹å¼ï¼Œdef:é»˜è®¤ï¼Œå…ˆæ¨èï¼Œç„¶åæŒ‰è®¿é—®é‡å€’åº;fluxï¼šæŒ‰è®¿é—®é‡å€’åº;taxï¼šæŒ‰è‡ªå®šä¹‰æ’åºè¦æ±‚;new:æŒ‰åˆ›å»ºæ—¶é—´ï¼Œæœ€æ–°å‘å¸ƒåœ¨å‰é¢;rec:æŒ‰æ¨èï¼Œå…ˆæ¨èï¼Œç„¶åæŒ‰taxæ’åº</param>
         /// <param name="count"></param>
         /// <returns></returns>
         List<Course> CourseCount(int orgid, int sbjid, string sear, bool? isUse, string order, int count);
         /// <summary>
-        /// ¿Î³ÌÊıÁ¿
+        /// è¯¾ç¨‹æ•°é‡
         /// </summary>
-        /// <param name="orgid">»ú¹¹id</param>
-        /// <param name="sbjid">×¨Òµid</param>
-        /// <param name="thid">½ÌÊ¦id</param>
+        /// <param name="orgid">æœºæ„id</param>
+        /// <param name="sbjid">ä¸“ä¸šid</param>
+        /// <param name="thid">æ•™å¸ˆid</param>
         /// <returns></returns>
         int CourseOfCount(int orgid, int sbjid, int thid);
         /// <summary>
-        /// µ±Ç°¿Î³ÌÏÂÊÇ·ñÓĞ×Ó¼¶
+        /// å½“å‰è¯¾ç¨‹ä¸‹æ˜¯å¦æœ‰å­çº§
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="couid"></param>
@@ -121,7 +134,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         bool CourseIsChildren(int orgid, int couid, bool? isUse);
         /// <summary>
-        /// ·ÖÒ³»ñÈ¡
+        /// åˆ†é¡µè·å–
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="thid"></param>
@@ -133,168 +146,168 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         List<Course> CoursePager(int orgid, int thid, bool? isUse, string searTxt, int size, int index, out int countSum);
         /// <summary>
-        /// ·ÖÒ³»ñÈ¡
+        /// åˆ†é¡µè·å–
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="sbjid"></param>
         /// <param name="thid"></param>
         /// <param name="isUse"></param>
         /// <param name="searTxt"></param>
-        /// <param name="order">ÅÅĞò·½Ê½£¬Ä¬ÈÏnull°´ÅÅĞòË³Ğò£¬fluxÁ÷Á¿×î´óÓÅÏÈ</param>
+        /// <param name="order">æ’åºæ–¹å¼ï¼Œé»˜è®¤nullæŒ‰æ’åºé¡ºåºï¼Œfluxæµé‡æœ€å¤§ä¼˜å…ˆ</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
         List<Course> CoursePager(int orgid, int sbjid, int thid, bool? isUse, string searTxt, string order, int size, int index, out int countSum);
         /// <summary>
-        /// ·ÖÒ³»ñÈ¡
+        /// åˆ†é¡µè·å–
         /// </summary>
         /// <param name="orgid"></param>
-        /// <param name="sbjid">×¨Òµid,¶à¸öidÓÃ¶ººÅ·Ö¸ô</param>
+        /// <param name="sbjid">ä¸“ä¸šid,å¤šä¸ªidç”¨é€—å·åˆ†éš”</param>
         /// <param name="isUse"></param>
         /// <param name="searTxt"></param>
-        /// <param name="order">ÅÅĞò·½Ê½£¬def:Ä¬ÈÏ£¬ÏÈÍÆ¼ö£¬È»ºó°´·ÃÎÊÁ¿µ¹Ğò;flux£º°´·ÃÎÊÁ¿µ¹Ğò;tax£º°´×Ô¶¨ÒåÅÅĞòÒªÇó;new:°´´´½¨Ê±¼ä£¬×îĞÂ·¢²¼ÔÚÇ°Ãæ;rec:°´ÍÆ¼ö£¬ÏÈÍÆ¼ö£¬È»ºó°´taxÅÅĞò</param>
+        /// <param name="order">æ’åºæ–¹å¼ï¼Œdef:é»˜è®¤ï¼Œå…ˆæ¨èï¼Œç„¶åæŒ‰è®¿é—®é‡å€’åº;fluxï¼šæŒ‰è®¿é—®é‡å€’åº;taxï¼šæŒ‰è‡ªå®šä¹‰æ’åºè¦æ±‚;new:æŒ‰åˆ›å»ºæ—¶é—´ï¼Œæœ€æ–°å‘å¸ƒåœ¨å‰é¢;rec:æŒ‰æ¨èï¼Œå…ˆæ¨èï¼Œç„¶åæŒ‰taxæ’åº</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
         List<Course> CoursePager(int orgid, string sbjid, bool? isUse, string searTxt, string order, int size, int index, out int countSum);
         /// <summary>
-        /// ½«µ±Ç°ÏîÄ¿ÏòÉÏÒÆ¶¯£»½öÔÚµ±Ç°¶ÔÏóµÄÍ¬²ãÒÆ¶¯£¬¼´Í¬Ò»¸¸½ÚµãÏÂµÄ¶ÔÏóÕâÇ°ÒÆ¶¯£»
+        /// å°†å½“å‰é¡¹ç›®å‘ä¸Šç§»åŠ¨ï¼›ä»…åœ¨å½“å‰å¯¹è±¡çš„åŒå±‚ç§»åŠ¨ï¼Œå³åŒä¸€çˆ¶èŠ‚ç‚¹ä¸‹çš„å¯¹è±¡è¿™å‰ç§»åŠ¨ï¼›
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Èç¹ûÒÑ¾­´¦ÓÚ¶¥¶Ë£¬Ôò·µ»Øfalse£»ÒÆ¶¯³É¹¦£¬·µ»Øtrue</returns>
+        /// <returns>å¦‚æœå·²ç»å¤„äºé¡¶ç«¯ï¼Œåˆ™è¿”å›falseï¼›ç§»åŠ¨æˆåŠŸï¼Œè¿”å›true</returns>
         bool CourseUp(int id);
         /// <summary>
-        /// ½«µ±Ç°ÏîÄ¿ÏòÏÂÒÆ¶¯£»½öÔÚµ±Ç°¶ÔÏóµÄÍ¬²ãÒÆ¶¯£¬¼´Í¬Ò»¸¸½ÚµãÏÂµÄ¶ÔÏóÕâÇ°ÒÆ¶¯£»
+        /// å°†å½“å‰é¡¹ç›®å‘ä¸‹ç§»åŠ¨ï¼›ä»…åœ¨å½“å‰å¯¹è±¡çš„åŒå±‚ç§»åŠ¨ï¼Œå³åŒä¸€çˆ¶èŠ‚ç‚¹ä¸‹çš„å¯¹è±¡è¿™å‰ç§»åŠ¨ï¼›
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Èç¹ûÒÑ¾­´¦ÓÚ¶¥¶Ë£¬Ôò·µ»Øfalse£»ÒÆ¶¯³É¹¦£¬·µ»Øtrue</returns>
+        /// <returns>å¦‚æœå·²ç»å¤„äºé¡¶ç«¯ï¼Œåˆ™è¿”å›falseï¼›ç§»åŠ¨æˆåŠŸï¼Œè¿”å›true</returns>
         bool CourseDown(int id);
         #endregion
 
-        #region ¿Î³Ì¹ºÂò        
+        #region è¯¾ç¨‹è´­ä¹°        
         /// <summary>
-        /// ¹ºÂò¿Î³Ì
+        /// è´­ä¹°è¯¾ç¨‹
         /// </summary>
-        /// <param name="stc">Ñ§ÉúÓë¿Î³ÌµÄ¹ØÁª¶ÔÏó</param>
+        /// <param name="stc">å­¦ç”Ÿä¸è¯¾ç¨‹çš„å…³è”å¯¹è±¡</param>
         Student_Course Buy(Student_Course stc);
         /// <summary>
-        /// ¹ºÂò¿Î³Ì
+        /// è´­ä¹°è¯¾ç¨‹
         /// </summary>
-        /// <param name="stid">Ñ§Ô±id</param>
-        /// <param name="couid">¿Î³Ìid</param>
-        /// <param name="price">¼Û¸ñÏî</param>
+        /// <param name="stid">å­¦å‘˜id</param>
+        /// <param name="couid">è¯¾ç¨‹id</param>
+        /// <param name="price">ä»·æ ¼é¡¹</param>
         /// <returns></returns>
         Student_Course Buy(int stid, int couid, Song.Entities.CoursePrice price);
         /// <summary>
-        /// Ãâ·ÑÑ§Ï°
+        /// å…è´¹å­¦ä¹ 
         /// </summary>
-        /// <param name="stid">Ñ§Ï°ID</param>
-        /// <param name="couid">¿Î³ÌID</param>
+        /// <param name="stid">å­¦ä¹ ID</param>
+        /// <param name="couid">è¯¾ç¨‹ID</param>
         /// <returns></returns>
         Student_Course FreeStudy(int stid, int couid);
         /// <summary>
-        /// Ãâ·ÑÑ§Ï°
+        /// å…è´¹å­¦ä¹ 
         /// </summary>
-        /// <param name="stid">Ñ§Ï°ID</param>
-        /// <param name="couid">¿Î³ÌID</param>
-        /// <param name="start">Ãâ·ÑÊ±Ğ§µÄ¿ªÊ¼Ê±¼ä£¬Èç¹ûÎª¿Õ£¬Ôò²»¼ÇÂ¼¿ªÊ¼Ê±¼ä</param>
-        /// <param name="end">Ãâ·ÑÊ±Ğ§µÄ½áÊøÊ±¼ä</param>
+        /// <param name="stid">å­¦ä¹ ID</param>
+        /// <param name="couid">è¯¾ç¨‹ID</param>
+        /// <param name="start">å…è´¹æ—¶æ•ˆçš„å¼€å§‹æ—¶é—´ï¼Œå¦‚æœä¸ºç©ºï¼Œåˆ™ä¸è®°å½•å¼€å§‹æ—¶é—´</param>
+        /// <param name="end">å…è´¹æ—¶æ•ˆçš„ç»“æŸæ—¶é—´</param>
         /// <returns></returns>
         Student_Course FreeStudy(int stid, int couid, DateTime? start, DateTime end);
         /// <summary>
-        /// Ñ§Ô±ÊÇ·ñ¹ºÂòÁË¸Ã¿Î³Ì
+        /// å­¦å‘˜æ˜¯å¦è´­ä¹°äº†è¯¥è¯¾ç¨‹
         /// </summary>
-        /// <param name="couid">¿Î³Ìid</param>
-        /// <param name="stid">Ñ§Ô±Id</param>
-        /// <param name="state">0²»¹ÜÊÇ·ñ¹ıÆÚ£¬1±ØĞëÊÇ¹ºÂòÊ±Ğ§ÄÚµÄ£¬2±ØĞëÊÇ¹ºÂòÊ±Ğ§ÍâµÄ</param>
-        /// <returns>·µ»Ø¿Î³Ì</returns>
+        /// <param name="couid">è¯¾ç¨‹id</param>
+        /// <param name="stid">å­¦å‘˜Id</param>
+        /// <param name="state">0ä¸ç®¡æ˜¯å¦è¿‡æœŸï¼Œ1å¿…é¡»æ˜¯è´­ä¹°æ—¶æ•ˆå†…çš„ï¼Œ2å¿…é¡»æ˜¯è´­ä¹°æ—¶æ•ˆå¤–çš„</param>
+        /// <returns>è¿”å›è¯¾ç¨‹</returns>
         Course IsBuyCourse(int couid, int stid, int state);
         /// <summary>
-        /// Ñ§Ô±ÊÇ·ñ¹ºÂòÁË¸Ã¿Î³Ì
+        /// å­¦å‘˜æ˜¯å¦è´­ä¹°äº†è¯¥è¯¾ç¨‹
         /// </summary>
-        /// <param name="couid">¿Î³Ìid</param>
-        /// <param name="stid">Ñ§Ô±id</param>
+        /// <param name="couid">è¯¾ç¨‹id</param>
+        /// <param name="stid">å­¦å‘˜id</param>
         /// <returns></returns>
         bool IsBuy(int couid, int stid);
         /// <summary>
-        /// ¿Î³ÌÊÔÓÃ£¬Ä¬ÈÏÊÔÓÃÒ»°ÙÄê
+        /// è¯¾ç¨‹è¯•ç”¨ï¼Œé»˜è®¤è¯•ç”¨ä¸€ç™¾å¹´
         /// </summary>
-        /// <param name="stid">Ñ§Ô±id</param>
-        /// <param name="couid">¿Î³Ìid</param>
+        /// <param name="stid">å­¦å‘˜id</param>
+        /// <param name="couid">è¯¾ç¨‹id</param>
         Student_Course Tryout(int stid, int couid);
         /// <summary>
-        /// ÊÇ·ñÊÔÓÃ¸Ã¿Î³Ì
+        /// æ˜¯å¦è¯•ç”¨è¯¥è¯¾ç¨‹
         /// </summary>
         /// <param name="couid"></param>
         /// <param name="stid"></param>
         /// <returns></returns>
         bool IsTryout(int couid, int stid);
         /// <summary>
-        /// Ö±½ÓÑ§Ï°¸Ã¿Î³Ì
+        /// ç›´æ¥å­¦ä¹ è¯¥è¯¾ç¨‹
         /// </summary>
-        /// <param name="couid">¿Î³Ìid</param>
-        /// <param name="stid">Ñ§Ô±id</param>
-        /// <returns>Èç¹ûÊÇÃâ·Ñ»òÏŞÊ±Ãâ·Ñ¡¢»òÊÔÑ§µÄ¿Î³Ì£¬¿ÉÒÔÑ§Ï°²¢·µ»Øtrue£¬²»¿ÉÑ§Ï°·µ»Øfalse</returns>
+        /// <param name="couid">è¯¾ç¨‹id</param>
+        /// <param name="stid">å­¦å‘˜id</param>
+        /// <returns>å¦‚æœæ˜¯å…è´¹æˆ–é™æ—¶å…è´¹ã€æˆ–è¯•å­¦çš„è¯¾ç¨‹ï¼Œå¯ä»¥å­¦ä¹ å¹¶è¿”å›trueï¼Œä¸å¯å­¦ä¹ è¿”å›false</returns>
         bool Study(int couid, int stid);
         /// <summary>
-        /// Ñ§Éú¹ºÂò¿Î³ÌµÄ¼ÇÂ¼Ïî
+        /// å­¦ç”Ÿè´­ä¹°è¯¾ç¨‹çš„è®°å½•é¡¹
         /// </summary>
-        /// <param name="stid">Ñ§Ô±Id</param>
-        /// <param name="couid">¿Î³Ìid</param>
+        /// <param name="stid">å­¦å‘˜Id</param>
+        /// <param name="couid">è¯¾ç¨‹id</param>
         /// <returns></returns>
         Student_Course StudentCourse(int stid, int couid);
         /// <summary>
-        /// È¡Ïû¿Î³ÌÑ§Ï°£¬Ö±½ÓÉ¾³ı¹ºÂò¼ÇÂ¼
+        /// å–æ¶ˆè¯¾ç¨‹å­¦ä¹ ï¼Œç›´æ¥åˆ é™¤è´­ä¹°è®°å½•
         /// </summary>
         /// <param name="stid"></param>
         /// <param name="couid"></param>
         void DelteCourseBuy(int stid, int couid);        
         /// <summary>
-        /// Ñ§Ô±¹ºÂòµÄ¸Ã¿Î³Ì
+        /// å­¦å‘˜è´­ä¹°çš„è¯¥è¯¾ç¨‹
         /// </summary>
-        /// <param name="stid">Ñ§Ô±Id</param>
-        /// <param name="sear">ÓÃÓÚ¼ìË÷µÄ×Ö·û</param>
-        /// <param name="state">0²»¹ÜÊÇ·ñ¹ıÆÚ£¬1±ØĞëÊÇ¹ºÂòÊ±Ğ§ÄÚµÄ£¬2±ØĞëÊÇ¹ºÂòÊ±Ğ§ÍâµÄ</param>
-        /// <param name="istry">ÊÇ·ñÊÔÓÃ£¬ÎªnullÊ±È¡ËùÓĞ</param>
-        /// <param name="count">È¡¶àÉÙÌõ</param>
+        /// <param name="stid">å­¦å‘˜Id</param>
+        /// <param name="sear">ç”¨äºæ£€ç´¢çš„å­—ç¬¦</param>
+        /// <param name="state">0ä¸ç®¡æ˜¯å¦è¿‡æœŸï¼Œ1å¿…é¡»æ˜¯è´­ä¹°æ—¶æ•ˆå†…çš„ï¼Œ2å¿…é¡»æ˜¯è´­ä¹°æ—¶æ•ˆå¤–çš„</param>
+        /// <param name="istry">æ˜¯å¦è¯•ç”¨ï¼Œä¸ºnullæ—¶å–æ‰€æœ‰</param>
+        /// <param name="count">å–å¤šå°‘æ¡</param>
         /// <returns></returns>
         List<Course> CourseForStudent(int stid, string sear, int state, bool? istry, int count);
         #endregion
 
-        #region ¿Î³Ì¹ØÁª¹ÜÀí£¨ÓëÑ§Éú»ò½ÌÊ¦£©        
+        #region è¯¾ç¨‹å…³è”ç®¡ç†ï¼ˆä¸å­¦ç”Ÿæˆ–æ•™å¸ˆï¼‰        
         /// <summary>
-        /// »ñÈ¡Ñ¡Ñ§ÈËÊı×î¶àµÄ¿Î³ÌÁĞ±í£¬´Ó¶àµ½ÉÙ
+        /// è·å–é€‰å­¦äººæ•°æœ€å¤šçš„è¯¾ç¨‹åˆ—è¡¨ï¼Œä»å¤šåˆ°å°‘
         /// </summary>
-        /// <param name="orgid">»ú¹¹Id</param>
-        /// <param name="sbjid">×¨Òµid</param>
-        /// <param name="count">È¡¶àÉÙÌõ</param>
+        /// <param name="orgid">æœºæ„Id</param>
+        /// <param name="sbjid">ä¸“ä¸šid</param>
+        /// <param name="count">å–å¤šå°‘æ¡</param>
         /// <returns></returns>
         DataSet CourseHot(int orgid, int sbjid, int count);
         /// <summary>
-        /// Ä³¸öÑ§ÉúÊÇ·ñÕıÔÚÑ§Ï°Ä³¸ö¿Î³Ì
+        /// æŸä¸ªå­¦ç”Ÿæ˜¯å¦æ­£åœ¨å­¦ä¹ æŸä¸ªè¯¾ç¨‹
         /// </summary>
         /// <param name="stid"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
         bool StudyIsCourse(int stid, int couid);        
         /// <summary>
-        /// ¹ºÂò
+        /// è´­ä¹°
         /// </summary>
-        /// <param name="stid">Ñ§ÉúId</param>
-        /// <param name="couid">¿Î³Ìid</param>
+        /// <param name="stid">å­¦ç”ŸId</param>
+        /// <param name="couid">è¯¾ç¨‹id</param>
         /// <returns></returns>
         void CourseBuy(int stid, int couid, float money, DateTime startTime, DateTime endTime); 
         /// <summary>
-        /// »ñÈ¡Ä³¸ö½ÌÊ¦¹ØÁªµÄ¿Î³Ì
+        /// è·å–æŸä¸ªæ•™å¸ˆå…³è”çš„è¯¾ç¨‹
         /// </summary>
         /// <param name="thid"></param>
         /// <param name="count"></param>
         /// <returns></returns>
         List<Course> Course4Teacher(int thid, int count);
         /// <summary>
-        /// Ñ§Ï°Ä³¸ö¿Î³ÌµÄÑ§Ô±
+        /// å­¦ä¹ æŸä¸ªè¯¾ç¨‹çš„å­¦å‘˜
         /// </summary>
         /// <param name="couid"></param>
         /// <param name="stname"></param>
@@ -306,45 +319,45 @@ namespace Song.ServiceInterfaces
         Accounts[] Student4Course(int couid, string stname, string stmobi, int size, int index, out int countSum);
         #endregion
 
-        #region ¼Û¸ñ¹ÜÀí
+        #region ä»·æ ¼ç®¡ç†
         /// <summary>
-        /// Ìí¼Ó¼Û¸ñ¼ÇÂ¼
+        /// æ·»åŠ ä»·æ ¼è®°å½•
         /// </summary>
-        /// <param name="entity">ÒµÎñÊµÌå</param>
+        /// <param name="entity">ä¸šåŠ¡å®ä½“</param>
         void PriceAdd(CoursePrice entity);
         /// <summary>
-        /// ĞŞ¸Ä¼Û¸ñ¼ÇÂ¼
+        /// ä¿®æ”¹ä»·æ ¼è®°å½•
         /// </summary>
-        /// <param name="entity">ÒµÎñÊµÌå</param>
+        /// <param name="entity">ä¸šåŠ¡å®ä½“</param>
         void PriceSave(CoursePrice entity);
         /// <summary>
-        /// É¾³ı¼Û¸ñ¼ÇÂ¼
+        /// åˆ é™¤ä»·æ ¼è®°å½•
         /// </summary>
-        /// <param name="entity">ÒµÎñÊµÌå</param>
+        /// <param name="entity">ä¸šåŠ¡å®ä½“</param>
         void PriceDelete(CoursePrice entity);
         /// <summary>
-        /// É¾³ı£¬°´Ö÷¼üID£»
+        /// åˆ é™¤ï¼ŒæŒ‰ä¸»é”®IDï¼›
         /// </summary>
-        /// <param name="identify">ÊµÌåµÄÖ÷¼ü</param>
+        /// <param name="identify">å®ä½“çš„ä¸»é”®</param>
         void PriceDelete(int identify);
         /// <summary>
-        /// É¾³ı£¬°´È«¾ÖÎ¨Ò»±êÊ¶
+        /// åˆ é™¤ï¼ŒæŒ‰å…¨å±€å”¯ä¸€æ ‡è¯†
         /// </summary>
         /// <param name="uid"></param>
         void PriceDelete(string uid);
         /// <summary>
-        /// ½«²úÆ·¼Û¸ñĞ´Èëµ½¿Î³ÌËùÔÚµÄ±í£¬È¡µÚÒ»Ìõ¼Û¸ñ
+        /// å°†äº§å“ä»·æ ¼å†™å…¥åˆ°è¯¾ç¨‹æ‰€åœ¨çš„è¡¨ï¼Œå–ç¬¬ä¸€æ¡ä»·æ ¼
         /// </summary>
-        /// <param name="uid">¿Î³ÌUID</param>
+        /// <param name="uid">è¯¾ç¨‹UID</param>
         void PriceSetCourse(string uid);
         /// <summary>
-        /// »ñÈ¡µ¥Ò»ÊµÌå¶ÔÏó£¬°´Ö÷¼üID£»
+        /// è·å–å•ä¸€å®ä½“å¯¹è±¡ï¼ŒæŒ‰ä¸»é”®IDï¼›
         /// </summary>
-        /// <param name="identify">ÊµÌåµÄÖ÷¼ü</param>
+        /// <param name="identify">å®ä½“çš„ä¸»é”®</param>
         /// <returns></returns>
         CoursePrice PriceSingle(int identify);
         /// <summary>
-        /// »ñÈ¡¼Û¸ñ¼ÇÂ¼
+        /// è·å–ä»·æ ¼è®°å½•
         /// </summary>
         /// <param name="couid"></param>
         /// <param name="uid"></param>
@@ -353,16 +366,16 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         CoursePrice[] PriceCount(int couid, string uid, bool? isUse, int count);
         /// <summary>
-        /// ½«µ±Ç°ÏîÄ¿ÏòÉÏÒÆ¶¯£»½öÔÚµ±Ç°¶ÔÏóµÄÍ¬²ãÒÆ¶¯£¬¼´Í¬Ò»¸¸½ÚµãÏÂµÄ¶ÔÏóÕâÇ°ÒÆ¶¯£»
+        /// å°†å½“å‰é¡¹ç›®å‘ä¸Šç§»åŠ¨ï¼›ä»…åœ¨å½“å‰å¯¹è±¡çš„åŒå±‚ç§»åŠ¨ï¼Œå³åŒä¸€çˆ¶èŠ‚ç‚¹ä¸‹çš„å¯¹è±¡è¿™å‰ç§»åŠ¨ï¼›
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Èç¹ûÒÑ¾­´¦ÓÚ¶¥¶Ë£¬Ôò·µ»Øfalse£»ÒÆ¶¯³É¹¦£¬·µ»Øtrue</returns>
+        /// <returns>å¦‚æœå·²ç»å¤„äºé¡¶ç«¯ï¼Œåˆ™è¿”å›falseï¼›ç§»åŠ¨æˆåŠŸï¼Œè¿”å›true</returns>
         bool PriceUp(int id);
         /// <summary>
-        /// ½«µ±Ç°ÏîÄ¿ÏòÏÂÒÆ¶¯£»½öÔÚµ±Ç°¶ÔÏóµÄÍ¬²ãÒÆ¶¯£¬¼´Í¬Ò»¸¸½ÚµãÏÂµÄ¶ÔÏóÕâÇ°ÒÆ¶¯£»
+        /// å°†å½“å‰é¡¹ç›®å‘ä¸‹ç§»åŠ¨ï¼›ä»…åœ¨å½“å‰å¯¹è±¡çš„åŒå±‚ç§»åŠ¨ï¼Œå³åŒä¸€çˆ¶èŠ‚ç‚¹ä¸‹çš„å¯¹è±¡è¿™å‰ç§»åŠ¨ï¼›
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Èç¹ûÒÑ¾­´¦ÓÚ¶¥¶Ë£¬Ôò·µ»Øfalse£»ÒÆ¶¯³É¹¦£¬·µ»Øtrue</returns>
+        /// <returns>å¦‚æœå·²ç»å¤„äºé¡¶ç«¯ï¼Œåˆ™è¿”å›falseï¼›ç§»åŠ¨æˆåŠŸï¼Œè¿”å›true</returns>
         bool PriceDown(int id);
         #endregion
     }
