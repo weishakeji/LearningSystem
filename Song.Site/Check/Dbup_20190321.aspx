@@ -48,11 +48,16 @@
     <div>
         说明：<br />
         修正课程过期的问题。<br />
+        <br />
         <hr />
       
 
-        <asp:Button ID="Button1" runat="server" Text="开始处理" onclick="Button1_Click" />
-      
+        <asp:Button ID="Button1" runat="server" Text="按学员购买课程的记录修正课程学习时效" onclick="Button1_Click" />
+         <br />
+          <br />
+       <asp:Button ID="Button2" runat="server" Text="按学习卡使用记录修正课程学习时效" onclick="Button2_Click" />
+        <br />
+        <br />
 
     </div>
     </form>

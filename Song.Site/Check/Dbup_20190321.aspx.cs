@@ -58,7 +58,36 @@ namespace Song.Site.Check
                 }
             }
             //
-            this.Response.Write("操作完成！");
+            this.Response.Write(this.Button1.Text + "---操作完成！");
+        }
+
+        protected void Button2_Click(object sender, EventArgs e)
+        {
+            List<Song.Entities.LearningCard> lcs = Business.Do<ISystemPara>().ForSql<Song.Entities.LearningCard>("select * from LearningCard where Lc_State=1");
+            foreach (LearningCard lc in lcs)
+            {
+                int acid =lc.Ac_ID; //学员Id
+                int span = lc.Lc_Span; //要增加的学习时间
+                //获取学习卡关联的课程
+                Song.Entities.LearningCardSet lset = Business.Do<ILearningCard>().SetSingle(lc.Lcs_ID);
+                Song.Entities.Course[] cours = Business.Do<ILearningCard>().CoursesGet(lset);
+                foreach (Song.Entities.Course c in cours)
+                {
+                    Student_Course sc = Business.Do<ISystemPara>()
+                        .ScalarSql<Student_Course>(string.Format("select * from student_course where ac_id={0} and cou_id={1}", acid, c.Cou_ID));
+                    if (sc != null)
+                    {
+                        DateTime end = sc.Stc_StartTime.AddDays(span);  //应该结束的学习时效
+                        if (end > sc.Stc_EndTime)
+                        {
+                            sc.Stc_EndTime = end;
+                            Business.Do<ISystemPara>().ExecuteSql(string.Format("update student_course set stc_endtime='{0}' where ac_id={1} and cou_id={2}",
+                                end.ToString("yyyy-MM-dd"), acid, c.Cou_ID));
+                        }
+                    }
+                }
+            }
+            this.Response.Write(this.Button2.Text + "---操作完成！");
         }        
     }
 }
