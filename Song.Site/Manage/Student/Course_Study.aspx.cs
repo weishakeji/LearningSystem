@@ -89,9 +89,9 @@ namespace Song.Site.Manage.Student
             Student_Course sc= Business.Do<ICourse>().StudentCourse(Extend.LoginState.Accounts.CurrentUser.Ac_ID, couid);
             if (sc == null) return "";
             if (sc.Stc_IsFree && sc.Stc_EndTime > sc.Stc_StartTime.AddYears(100)) return "免费（无限期）";
-            if (sc.Stc_IsFree && sc.Stc_EndTime < sc.Stc_StartTime.AddYears(100)) return string.Format("免费到{0}",sc.Stc_EndTime.ToString("yyyy年M月d日"));
+            if (sc.Stc_IsFree && sc.Stc_EndTime < sc.Stc_StartTime.AddYears(100)) return string.Format("免费到{0}", sc.Stc_EndTime.ToString("yyyy年M月d日 HH:mm:ss"));
             if (sc.Stc_IsTry) return "试用";
-            return sc.Stc_StartTime.ToString("yyyy年MM月dd日") + " - " + sc.Stc_EndTime.ToString("yyyy年MM月dd日");
+            return sc.Stc_StartTime.ToString("yyyy年MM月dd日") + " - " + sc.Stc_EndTime.ToString("yyyy年MM月dd日 HH:mm:ss");
         }
         /// <summary>
         /// 取消课程学习

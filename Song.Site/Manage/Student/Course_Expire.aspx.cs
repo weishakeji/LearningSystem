@@ -68,7 +68,7 @@ namespace Song.Site.Manage.Student
             if (sc == null) return "";
             if (sc.Stc_IsFree) return "免费（无限期）";
             if (sc.Stc_IsTry) return "试用";
-            return sc.Stc_StartTime.ToString("yyyy年MM月dd日") + " - " + sc.Stc_EndTime.ToString("yyyy年MM月dd日");
+            return sc.Stc_StartTime.ToString("yyyy年MM月dd日") + " - " + sc.Stc_EndTime.ToString("yyyy年MM月dd日 HH:mm:ss");
         }
         /// <summary>
         /// 取消课程学习

@@ -409,6 +409,7 @@
     <Content Include="Manage\SMS\SMSSetup_Edit.aspx" />
     <Content Include="Manage\SMS\Styles\SMSSetup.css" />
     <Content Include="Manage\SMS\SMSSetup_Msg.aspx" />
+    <Content Include="Manage\Student\Details_View.aspx" />
     <Content Include="Manage\Student\Learningcard.aspx" />
     <Content Include="Manage\Student\MoneyRecharge.aspx" />
     <Content Include="Manage\Student\Online.aspx" />
@@ -2748,6 +2749,13 @@
     </Compile>
     <Compile Include="Manage\SMS\SMSSetup_Msg.aspx.designer.cs">
       <DependentUpon>SMSSetup_Msg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\Details_View.aspx.cs">
+      <DependentUpon>Details_View.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\Details_View.aspx.designer.cs">
+      <DependentUpon>Details_View.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Student\Learningcard.aspx.cs">
       <DependentUpon>Learningcard.aspx</DependentUpon>

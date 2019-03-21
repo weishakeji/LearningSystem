@@ -43,13 +43,15 @@
                 <asp:TextBox ID="Org_ICP" runat="server" MaxLength="200" Width="50%"></asp:TextBox>
             </td>
         </tr>
-          <tr>
+        <tr>
             <td class="right">
-                手机端：
+                移动端：
             </td>
             <td>
-                <asp:CheckBox ID="Org_IsOnlyWeixin" runat="server" Text="手机端是否仅限微信中使用" /><br />
-                <asp:CheckBox ID="cbIsMobileRemoveMoney" runat="server" Text="手机端隐藏关于“充值收费”等资费相关信息" />
+                <p>
+                    <asp:CheckBox ID="Org_IsOnlyWeixin" runat="server" Text="手机端是否仅限微信中使用" /></p>
+                <p>
+                    <asp:CheckBox ID="cbIsMobileRemoveMoney" runat="server" Text="手机端隐藏关于“充值收费”等资费相关信息" /></p>
             </td>
         </tr>
         <tr>

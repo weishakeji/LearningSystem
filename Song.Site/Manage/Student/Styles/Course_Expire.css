@@ -22,6 +22,7 @@ body {
 	border-bottom-style: solid;
 	border-left-style: none;
 	border-bottom-color: #CCC;
+	position:relative;
 }
 .isTry{
 	
@@ -66,6 +67,11 @@ body {
 	border: 1px solid #0066FF;
 	background-color: #66FFFF;
 	color: #0033CC;
+}
+.itemBtn{
+	position:absolute;
+	right:0px;
+	top:0px;
 }
 .itemBtn a{
 	line-height: 25px;
