@@ -19,7 +19,7 @@
                 <div class="couName">
                     <vt:if var="course.cou_name" value="" compare="!="> {$course.cou_name}
           <vt:else/>
-          (当前课程不存在，可能是参数引用错误) </vt:if>
+          (当前课程不存在，或课程被暂停学习) </vt:if>
                 </div>
                 <div class="headinfo">
                 <div class="couNum headrow">
@@ -62,6 +62,7 @@
                 <div class="couBtnBox">
                     <!--按钮开始-->
                     <vt:if var="Account.Ac_id" value="0" compare=">">
+                     <vt:if var="course.cou_name" value="" compare="!=">
           <vt:if var="isStudy" value="True" compare="=" remark="如果已经在学习了">          
               <div class="couBtn"> <a href="CourseStudy.ashx?couid={$course.cou_id}" target="_blank" class="bvr_mr" title="开始学习">开始学习</a></div>         
             <vt:else/>
@@ -80,7 +81,7 @@
                 </vt:if>
                </vt:if>
              </vt:if>
-            
+            </vt:if>
           </vt:if>
           <vt:else/>
           <div class="couBtn"> <a href="student/index.ashx" title="请选登录">登录学习</a></div>

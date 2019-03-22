@@ -9,7 +9,9 @@
 <div loyout="row" class="context">
     <div class="infoTop">
         <div class="course-name">
-            《{$course.Cou_Name}》</div>
+            <vt:if var="course.cou_name" value="" compare="!="> 《{$course.cou_name}》
+          <vt:else/>
+          (当前课程不存在，或课程被暂停学习) </vt:if></div>
         <div class="courseInfo">
             章节{$olCount}个/试题{$quesCount}道</div>
     </div>

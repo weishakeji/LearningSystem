@@ -23,7 +23,7 @@ namespace Song.Site.Mobile
             //当前课程信息
             int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
             Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(id);
-            if (cou == null) return;
+            if (cou == null || !cou.Cou_IsUse) return;
             if ((WeiSha.Common.Request.Cookies["Course_" + cou.Cou_ID].Int32 ?? 0) == 0)
             {
                 Business.Do<ICourse>().CourseViewNum(cou, 1);

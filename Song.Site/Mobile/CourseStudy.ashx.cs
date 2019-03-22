@@ -24,7 +24,7 @@ namespace Song.Site.Mobile
         {
             //当前课程
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
-            if (course == null) return;
+            if (course == null || !course.Cou_IsUse) return;
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {

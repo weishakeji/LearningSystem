@@ -10,7 +10,9 @@
 <body>
 <div id="main">
   <div class="photo" > <img  src="{$course.cou_logo}" default="images/cou_nophoto.jpg"/> </div>
-<div id="Context">  <div class="couName">{$course.cou_name} </div>
+<div id="Context">  <div class="couName"><vt:if var="course.cou_name" value="" compare="!="> {$course.cou_name}
+          <vt:else/>
+          (当前课程不存在，或课程被暂停学习) </vt:if></div>
   <div class="info"><i class="viewnum">{$course.cou_viewNum}</i> / <i class="studynum">{$studyCount}</i>人学习
   
     <vt:if var="mremove" value="false" compare="=">
@@ -80,6 +82,7 @@
   <div class="couBtnBox"> 
     <!--按钮开始-->
     <vt:if var="Account.Ac_id" value="0" compare=">">
+    <vt:if var="course.cou_name" value="" compare="!=">
           <vt:if var="isStudy" value="True" compare="=" remark="如果已经在学习了">          
               <div class="couBtn"> <a href="CoursePage.ashx?couid={$course.cou_id}" target="_top" class="bvr_mr" title="开始学习">开始学习</a></div>         
             <vt:else/>
@@ -98,7 +101,9 @@
                 </vt:if>
                </vt:if>
              </vt:if>
-            
+            </vt:if>
+            <vt:else/>
+             <div class="couBtn"> 课程不存在或被禁用</div>
           </vt:if>
           <vt:else/>
           <div class="couBtn"> <a href="Login.ashx" target="_top" title="请选登录">登录学习</a></div>

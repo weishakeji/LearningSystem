@@ -36,7 +36,7 @@ namespace Song.Site
             Response.Cookies.Add(new HttpCookie("olid", ol.Ol_ID.ToString()));
             //当前课程            
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(ol == null ? couid : ol.Cou_ID);
-            if (course == null) return;
+            if (course == null || !course.Cou_IsUse) return;
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {

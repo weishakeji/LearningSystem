@@ -40,8 +40,9 @@ namespace Song.Site
                 if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
                     course.Cou_IsLimitFree = false;
             }
-            this.Document.Variables.SetValue("course", course);           
-            if (course == null) return;
+            if (course == null || !course.Cou_IsUse) return;
+            this.Document.Variables.SetValue("course", course);
+            
             //是否免费，限时免费也算
             this.Document.Variables.SetValue("isfree", course.Cou_IsFree || course.Cou_IsLimitFree);
             //所属专业

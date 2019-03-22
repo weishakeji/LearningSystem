@@ -30,6 +30,7 @@ namespace Song.Site.Mobile
             }
             //当前课程
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            if (course == null || !course.Cou_IsUse) return;
             this.Document.Variables.SetValue("course", course);
             //所属专业
             Song.Entities.Subject subject = Business.Do<ISubject>().SubjectSingle(course.Sbj_ID);

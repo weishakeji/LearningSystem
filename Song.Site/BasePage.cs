@@ -102,7 +102,7 @@ namespace Song.Site
             if (ismobi)
             {
                 //仅限在微信中使用
-                if (this.Organ.Org_IsOnlyWeixin && !WeiSha.Common.Browser.IsWeixin)
+                if (this.Organ.Org_IsOnlyWeixin && (!WeiSha.Common.Browser.IsWeixin && !WeiSha.Common.Browser.IsAPICloud))
                 {
                     //调取手机模板公共库中的OnlyWeixin.htm
                     path = "OnlyWeixin";

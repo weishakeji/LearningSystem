@@ -269,10 +269,11 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="couid"></param>
         /// <param name="stid"></param>
-        /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
         /// <returns></returns>
         public bool IsBuy(int couid, int stid)
         {
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            if (course == null || !course.Cou_IsUse) return false;
             WhereClip wc = Student_Course._.Cou_ID == couid && Student_Course._.Ac_ID == stid;
             wc.And(Student_Course._.Stc_IsTry == false && Student_Course._.Stc_IsFree == false);
             wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);              
@@ -981,7 +982,7 @@ namespace Song.ServiceImpls
         public bool Study(int couid, int stid)
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
-            if (course == null) return false;
+            if (course == null || !course.Cou_IsUse) return false;
             //获取学员与课程的关联
             Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
             if (sc == null)
