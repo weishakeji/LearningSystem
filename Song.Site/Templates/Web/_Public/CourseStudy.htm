@@ -35,11 +35,11 @@
         当前章节不存在 </vt:if>
             </div>
     <div class="oltitle">
-              <vt:if var="state.Null" value="true" compare="="><a class="titBox" href="CourseStudy.ashx?id={$olid}&state=0">提示</a> </vt:if>
-              <vt:if var="state.Video" value="true" compare="="> <a class="titBox" href="CourseStudy.ashx?id={$olid}&state=1">视频</a></vt:if>
-              <vt:if var="state.Context" value="true" compare="="> <a class="titBox" href="CourseStudy.ashx?id={$olid}&state=2">内容</a> </vt:if>
-              <vt:if var="state.Attachment" value="true" compare=">"><a class="titBox" href="CourseStudy.ashx?id={$olid}&state=3">附件</a> </vt:if>
-              <vt:if var="state.Questions" value="true" compare="="><a class="titBox" href="CourseStudy.ashx?id={$olid}&state=4">习题</a> </vt:if>
+              <vt:if var="state.Null" value="true" compare="="><a class="titBox" href="CourseStudy.ashx?olid={$olid}&couid={$course.cou_id}&state=0">提示</a> </vt:if>
+              <vt:if var="state.Video" value="true" compare="="> <a class="titBox" href="CourseStudy.ashx?olid={$olid}&couid={$course.cou_id}&state=1">视频</a></vt:if>
+              <vt:if var="state.Context" value="true" compare="="> <a class="titBox" href="CourseStudy.ashx?olid={$olid}&couid={$course.cou_id}&state=2">内容</a> </vt:if>
+              <vt:if var="state.Attachment" value="true" compare="="><a class="titBox" href="CourseStudy.ashx?olid={$olid}&couid={$course.cou_id}&state=3">附件</a> </vt:if>
+              <vt:if var="state.Questions" value="true" compare="="><a class="titBox" href="CourseStudy.ashx?olid={$olid}&couid={$course.cou_id}&state=4">习题</a> </vt:if>
               <!-- <div class="titBox">作业</div>--> 
             </div>
   </div>
@@ -190,9 +190,9 @@ $(function(){
         <div class="olitem" olid="{$:#.d.ol_id}" style="padding-left:{$:indent}px">
                   <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结"> <span class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}</span><span class="nofinish">未完结</span>
             <vt:else />
-            <vt:if var="isBuy" value="true" compare="="  remark="是否购买"> <span class="obtn enable"><a href="CourseStudy.ashx?id={$:#.d.ol_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} </a></span>
+            <vt:if var="isBuy" value="true" compare="="  remark="是否购买"> <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$course.cou_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} </a></span>
                       <vt:else />
-                      <vt:if var="d.Ol_IsFree" value="true" compare="="  remark="可以试学"> <span class="obtn enable"><a href="CourseStudy.ashx?id={$:#.d.ol_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} <span class="nofinish">试学</span></a></span>
+                      <vt:if var="d.Ol_IsFree" value="true" compare="="  remark="可以试学"> <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$course.cou_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} <span class="nofinish">试学</span></a></span>
                 <vt:else />
                 <span class="ol_name"><a href="CourseBuy.ashx?couid={$course.cou_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} <span class="buy">购买</span></a></span> </vt:if>
                     </vt:if>

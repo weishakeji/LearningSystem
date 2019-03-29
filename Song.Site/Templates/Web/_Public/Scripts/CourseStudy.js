@@ -94,7 +94,7 @@ function setInit_4() {
 //如果你不需要某项设置，可以直接删除，注意var flashvars的最后一个值后面不能有逗号
 function loadedHandler() {
     //上次播放进度
-    var history = $().cookie("outlineVideo_" + $().getPara('id'));
+    var history = $().cookie("outlineVideo_" + $().getPara('olid'));
     $("#historyTime").text(history);
     if (history == null) $(".historyInfo").hide();
     if (CKobject.getObjectById('ckplayer_videobox').getType()) {//说明使用html5播放器
@@ -125,7 +125,7 @@ $(window).focus(function () {
     //如果视频事件的弹窗存在，则不做其它动作。
     if (MsgBox.IsExist) return;
     try {
-        var id = $().getPara('id');
+        var id = $().getPara('olid');
         CKobject.getObjectById('ckplayer_videobox').videoSeek(Number($().cookie("outlineVideo_" + id)));
     } catch (e) { }
 

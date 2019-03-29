@@ -16,7 +16,7 @@ namespace Song.Site
     public class CourseStudy : BasePage
     {
         //章节id,课程id
-        int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
+        int id = WeiSha.Common.Request.QueryString["olid"].Int32 ?? 0;
         int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         //状态值（来自地址栏），1为视频，2为内容，3为附件，4为试题
         int stateVal = WeiSha.Common.Request.QueryString["state"].Int32 ?? 0;
