@@ -68,6 +68,13 @@ namespace Song.ServiceImpls
         /// <returns>如果已经存在该账户，则返回-1</returns>
         public int AccountsAdd(Accounts entity)
         {
+            if(!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
+                entity.Ac_IDCardNumber = entity.Ac_IDCardNumber.Trim();
+            //如果账号为空
+            if (string.IsNullOrWhiteSpace(entity.Ac_AccName))
+                throw new Exception("账号不得为空！");    
+            else
+                entity.Ac_AccName = entity.Ac_AccName.Trim();
             entity.Ac_RegTime = entity.Ac_LastTime = DateTime.Now;
             entity.Ac_IsUse = true;
             if (entity.Org_ID < 1)
@@ -80,9 +87,7 @@ namespace Song.ServiceImpls
             //计算年龄，如果设置了生日，则自动计算出生年月
             if (entity.Ac_Birthday > DateTime.Now.AddYears(-100))
                 entity.Ac_Age = entity.Ac_Birthday.Year;
-            //如果账号为空
-            if (string.IsNullOrWhiteSpace(entity.Ac_AccName))            
-                throw new Exception("账号不得为空！");           
+                  
             //如果密码为空
             if (string.IsNullOrWhiteSpace(entity.Ac_Pw))
                 entity.Ac_Pw = WeiSha.Common.Login.Get["Accounts"].DefaultPw.MD5;
@@ -116,8 +121,8 @@ namespace Song.ServiceImpls
                     //if (old != null && old.Sts_ID != entity.Sts_ID)
                     //{
                         //同步考试成绩中的学员组
-                        tran.Update<ExamResults>(new Field[] { ExamResults._.Sts_ID },
-                        new object[] { entity.Sts_ID }, ExamResults._.Ac_ID == entity.Ac_ID);
+                    tran.Update<ExamResults>(new Field[] { ExamResults._.Sts_ID, ExamResults._.Ac_Sex, ExamResults._.Ac_Name, ExamResults._.Ac_IDCardNumber },
+                        new object[] { entity.Sts_ID, entity.Ac_Sex, entity.Ac_Name, entity.Ac_IDCardNumber }, ExamResults._.Ac_ID == entity.Ac_ID);
                         //同步教师信息
                         tran.Update<Teacher>(new Field[] { Teacher._.Th_Sex, Teacher._.Th_Birthday, Teacher._.Th_IDCardNumber, Teacher._.Th_Nation, Teacher._.Th_Native },
                         new object[] { entity.Ac_Sex, entity.Ac_Birthday, entity.Ac_IDCardNumber, entity.Ac_Nation, entity.Ac_Native }, Teacher._.Ac_ID == entity.Ac_ID);

@@ -851,7 +851,7 @@ namespace Song.ServiceImpls
                     {
                         dr["账号"] = student.Ac_AccName;
                     }
-                    dr["性别"] = er.Ac_Sex==0 ? "未知" :(er.Ac_Sex==1 ? "男" : "女") ;
+                    dr["性别"] = er.Ac_Sex == 0 ? "未知" : (er.Ac_Sex == 1 ? "男" : "女");
                     dr["身份证"] = er.Ac_IDCardNumber;
                     dt.Rows.Add(dr);
                 }

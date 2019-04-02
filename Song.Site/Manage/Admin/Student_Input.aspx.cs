@@ -86,7 +86,7 @@ namespace Song.Site.Manage.Admin
                 string field = rel.Value;
                 if (field == "Ac_Sex")
                 {
-                    obj.Ac_Sex = (short)(column == "ÄÐ" ? 1 : 2);
+                    obj.Ac_Sex = (short)(column == "ÄÐ" ? 1 : (column == "Å®" ? 2 : 0));
                     continue;
                 }
                 PropertyInfo[] properties = obj.GetType().GetProperties();
