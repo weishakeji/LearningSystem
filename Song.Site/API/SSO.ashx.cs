@@ -17,9 +17,10 @@ namespace Song.Site.API
     {
 
         string appid = WeiSha.Common.Request.QueryString["appid"].String;       //appid  
-        string user = WeiSha.Common.Request.QueryString["user"].String;         //用户名        
+        string user = WeiSha.Common.Request.QueryString["user"].String;         //用户名    
+        string pw = WeiSha.Common.Request.QueryString["pw"].String;         //密码,md5加密
         string domain = WeiSha.Common.Request.QueryString["domain"].UrlDecode;  //来自请求的域名     
-        string action = WeiSha.Common.Request.QueryString["action"].String;     //动作，login登录，logout退出登录      
+        string action = WeiSha.Common.Request.QueryString["action"].String;     //动作，login登录，logout退出登录,verify校验密码是否正确   
         string ret = WeiSha.Common.Request.QueryString["return"].String;     //返回类型,xml或json
         string goto_url = WeiSha.Common.Request.QueryString["goto"].String;     //成功后的跳转地址
 
@@ -59,18 +60,25 @@ namespace Song.Site.API
                                 }
                                 else
                                 {
-                                    if (action == "logout")
+                                    if ("logout".Equals(action, StringComparison.CurrentCultureIgnoreCase))
                                     {
                                         LoginState.Accounts.Logout();
                                         state = new SSO_State(true, 7, string.Format("当前账号({0})退出登录", user));                                      
                                     }
-                                    else
+                                    if ("login".Equals(action,StringComparison.CurrentCultureIgnoreCase))
                                     {
                                         LoginState.Accounts.Write(emp);
                                         //登录成功
                                         Business.Do<IAccounts>().PointAdd4Login(emp, "协同站点登录", domain, "");   //增加登录积分
                                         Business.Do<IStudent>().LogForLoginAdd(emp);
                                         state = new SSO_State(true, 6, string.Format("当前账号({0})登录成功", user));
+                                    }
+                                    if ("verify".Equals(action, StringComparison.CurrentCultureIgnoreCase))
+                                    {
+                                        Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsLogin(emp.Ac_ID, pw, true);
+                                        if (acc == null) state = new SSO_State(false, 8, string.Format("当前账号({0})与密码不匹配", user));
+                                        else
+                                            state = new SSO_State(true, 9, string.Format("当前账号({0})与密码校验成功", user));
                                     }
                                 }
                             }
