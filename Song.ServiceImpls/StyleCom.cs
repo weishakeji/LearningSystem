@@ -41,6 +41,18 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void NaviSave(Navigation entity)
         {
+            //验证父级节点是否正常
+            if (entity.Nav_ID == entity.Nav_PID) throw new Exception("请勿将自身设置为父级");
+            if (entity.Nav_PID > 0)
+            {
+                Navigation parent = this.NaviSingle(entity.Nav_PID);
+                while (parent.Nav_PID != 0)
+                {
+                    if (entity.Nav_ID == parent.Nav_PID) throw new Exception("请勿将自身的下级设置为父级");
+                    parent = this.NaviSingle(parent.Nav_PID);
+                }
+            }
+            
             //假如当前导航的所在父级变化了，排序号重新生成
             Navigation old = this.NaviSingle(entity.Nav_ID);
             if (old != null && old.Nav_PID != entity.Nav_PID)
@@ -99,7 +111,7 @@ namespace Song.ServiceImpls
         }
         public Navigation[] NaviAll(bool? isShow, string site, string type, int orgid, int pid)
         {
-            WhereClip wc = Navigation._.Org_ID == orgid;
+            WhereClip wc = Navigation._.Org_ID == orgid && Navigation._.Nav_ID != Navigation._.Nav_PID;
             if (pid >= 0) wc.And(Navigation._.Nav_PID == pid);
             if (isShow != null) wc.And(Navigation._.Nav_IsShow == (bool)isShow);
             //所属站点

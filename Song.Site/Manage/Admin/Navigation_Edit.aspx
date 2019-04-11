@@ -14,7 +14,9 @@
             <td width="80" class="right">
                 名称：</td>
             <td width="200">
-                <asp:TextBox ID="tbName" Width="180" MaxLength="100" runat="server" nullable="false"></asp:TextBox></td>
+                <asp:TextBox ID="tbName" Width="180" MaxLength="100" runat="server" nullable="false"></asp:TextBox>
+                <span style="display:none"><asp:Label ID="lbID" runat="server" Text=""></asp:Label></span>
+                </td>
             <td width="80" class="right">
                 </td>
             <td>

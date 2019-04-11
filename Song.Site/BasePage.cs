@@ -138,8 +138,15 @@ namespace Song.Site
             this.Session = context.Session;
 
             //机构信息
-            this.Organ = Business.Do<IOrganization>().OrganCurrent();
-            if (this.Organ == null) throw new Exception("机构不存在！");
+            try
+            {
+                this.Organ = Business.Do<IOrganization>().OrganCurrent();
+                if (this.Organ == null) throw new Exception("机构不存在！");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
             //登录的信息
             if (Extend.LoginState.Accounts.IsLogin)
             {

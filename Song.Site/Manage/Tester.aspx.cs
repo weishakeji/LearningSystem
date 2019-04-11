@@ -13,6 +13,7 @@ using System.IO;
 using WeiSha.Common;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.Converter;
+using Song.ServiceInterfaces;
 
 
 namespace Song.Site.Manage
@@ -23,11 +24,9 @@ namespace Song.Site.Manage
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            string x = Request.ServerVariables["REQUEST_METHOD"];
-            string b = x;
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
 
-            Song.ServiceInterfaces.ITask task = Business.Do<Song.ServiceInterfaces.ITask>();
-
+            this.Title = org.Org_Name;
             
 
         }

@@ -22,7 +22,7 @@ namespace Song.Site.API
         string domain = WeiSha.Common.Request.QueryString["domain"].UrlDecode;  //来自请求的域名     
         string action = WeiSha.Common.Request.QueryString["action"].String;     //动作，login登录，logout退出登录,verify校验密码是否正确   
         string ret = WeiSha.Common.Request.QueryString["return"].String;     //返回类型,xml或json
-        string goto_url = WeiSha.Common.Request.QueryString["goto"].String;     //成功后的跳转地址
+        string goto_url = WeiSha.Common.Request.QueryString["goto"].UrlDecode;     //成功后的跳转地址
 
         public void ProcessRequest(HttpContext context)
         {

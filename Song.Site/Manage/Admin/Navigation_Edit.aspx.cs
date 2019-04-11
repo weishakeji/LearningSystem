@@ -67,6 +67,7 @@ namespace Song.Site.Manage.Admin
                 mm = new Song.Entities.Navigation();               
             }
             tbName.Text = mm.Nav_Name;
+            lbID.Text = mm.Nav_ID.ToString();
             //tbEnName.Text = mm.Nav_EnName;
             //上级导航
             ListItem liNav = ddlTree.Items.FindByValue(mm.Nav_PID.ToString());
@@ -105,16 +106,7 @@ namespace Song.Site.Manage.Admin
         /// <param name="e"></param>
         protected void btnEnter_Click(object sender, EventArgs e)
         {
-            Song.Entities.Navigation mm;
-            if (id != 0)
-            {
-                mm = Business.Do<IStyle>().NaviSingle(id);
-            }
-            else
-            {
-                //如果是新增
-                mm = new Song.Entities.Navigation();
-            }
+            Song.Entities.Navigation mm = id != 0 ? Business.Do<IStyle>().NaviSingle(id) : new Song.Entities.Navigation();
             //类型与名称
             mm.Nav_Type = type;
             mm.Nav_Site = site;
@@ -123,12 +115,7 @@ namespace Song.Site.Manage.Admin
             //上级导航
             mm.Nav_PID = Convert.ToInt32(ddlTree.SelectedValue);
             //导航地址
-            string url = tbUrl.Text.Trim();
-            //if (url.Length > 0 && url.Substring(0,1)!="/")
-            //{
-            //    url = "/" + url;
-            //}
-            mm.Nav_Url = url;
+            mm.Nav_Url = tbUrl.Text.Trim();
             //链接打开方式
             mm.Nav_Target = ddlTarget.SelectedItem.Text;
             //字体，颜色

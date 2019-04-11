@@ -44,7 +44,7 @@
             </td>
         </tr>
         <tr>
-            <td class="right">
+            <td class="right" valign="top">
                 移动端：
             </td>
             <td>

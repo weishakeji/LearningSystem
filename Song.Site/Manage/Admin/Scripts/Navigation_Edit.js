@@ -5,14 +5,14 @@ $(function(){
 });
 
 //初始化
-function navLoyoutInit()
-{
+function navLoyoutInit() {
+   
 	//树形下拉菜单
 	var ddlTree=$("select[id$=ddlTree]");
 	//下拉菜单的选项
 	var option=ddlTree.find("option");
 	//当前id
-	var id=$().getPara("id");	
+	var id = $.trim($("span[id$=lbID]").text());	
 	//当前导航项的父级id
 	var pid=ddlTree.find("option[selected=selected]").attr("value");
 	pid= typeof(pid)=="undefined" ? "0" : pid;
@@ -21,8 +21,7 @@ function navLoyoutInit()
 	_setChild(id,option);	
 }
 //设置当前导航以及下级导航不可以选择
-function _setChild(currid,option)
-{
+function _setChild(currid,option) {
 	option.each(function(index, element) {
         if($(this).val()==currid)
 		{
