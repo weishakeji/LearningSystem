@@ -101,12 +101,17 @@ namespace Song.Site
             //如果是手机端
             if (ismobi)
             {
-                ////仅限在微信中使用
-                //if (this.Organ.Org_IsOnlyWeixin && (!WeiSha.Common.Browser.IsWeixin && !WeiSha.Common.Browser.IsAPICloud))
-                //{
-                //    //调取手机模板公共库中的OnlyWeixin.htm
-                //    path = "OnlyWeixin";
-                //}
+                //自定义配置项
+                WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
+                bool isNoaccess = false;    //是否禁止访问
+                //如果禁止微信中使用，且又处于微信中时
+                if ((config["DisenableWeixin"].Value.Boolean ?? false) && WeiSha.Common.Browser.IsWeixin) isNoaccess = true;
+                if ((config["DisenableMini"].Value.Boolean ?? false) && WeiSha.Common.Browser.IsWeixinApp) isNoaccess = true;
+                if ((config["DisenableMweb"].Value.Boolean ?? false) && (!WeiSha.Common.Browser.IsAPICloud && !WeiSha.Common.Browser.IsWeixin))
+                    isNoaccess = true;
+                if ((config["DisenableAPP"].Value.Boolean ?? false) && WeiSha.Common.Browser.IsAPICloud) isNoaccess = true;
+                //如果被限制访问
+                if (isNoaccess) path = "Noaccess";
             }
             return ismobi;
         }
