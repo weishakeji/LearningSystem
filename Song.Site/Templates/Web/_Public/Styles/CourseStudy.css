@@ -111,6 +111,9 @@ video::-webkit-media-controls-panel {
 .item2 .itemName {
 	text-indent: 30px;
 }
+#WebForDeskapp{
+	color:#fff;
+}
 /* 课程内容
 ------------------------*/
 #details {

@@ -14,6 +14,7 @@ using WeiSha.Common;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.Converter;
 using Song.ServiceInterfaces;
+using System.Text.RegularExpressions;
 
 
 namespace Song.Site.Manage
@@ -26,10 +27,23 @@ namespace Song.Site.Manage
 
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
 
-            this.Title = org.Org_Name;
+            this.Title = IsDestopApp.ToString();
             
 
         }
-
+        /// <summary>
+        /// 前端浏览器是否是桌面应用
+        /// </summary>
+        public static bool IsDestopApp
+        {
+            get
+            {
+                System.Web.HttpContext _context = System.Web.HttpContext.Current;
+                string userAgent = _context.Request.ServerVariables["HTTP_USER_AGENT"];
+                Regex b = new Regex(@"DeskApp\(.[^\)]*\)");
+                if (b.IsMatch(userAgent)) return true;
+                return false;
+            }
+        }
     }
 }

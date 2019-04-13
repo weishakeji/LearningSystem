@@ -24,6 +24,10 @@ namespace Song.Site
         bool isStudy = false, isBuy = false;
         protected override void InitPageTemplate(HttpContext context)
         {
+            //自定义配置项
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
+            //是否限制在桌面应用中学习
+            this.Document.Variables.SetValue("WebForDeskapp", (config["WebForDeskapp"].Value.Boolean ?? false) && !WeiSha.Common.Browser.IsDestopApp);
             //当前章节
             Song.Entities.Outline ol = id < 1 ? 
                 Business.Do<IOutline>().OutlineFirst(couid, true)

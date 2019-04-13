@@ -43,6 +43,9 @@
               <!-- <div class="titBox">作业</div>--> 
             </div>
   </div>
+  <vt:if var="WebForDeskapp" value="true" compare="=" remark="如果必须在桌面应用中学习">
+  <div id="WebForDeskapp">请下载客户端进行学习</div>
+  <vt:else/>
           <vt:if var="canStudy" value="true" compare="=" remark="如果能够学习">
     <vt:if var="state.VideoState" value="true" compare="="> 
               <!--如果存在视频文件，则播放-->
@@ -174,6 +177,7 @@ $(function(){
         <vt:else/>
         学员未登录，<a href="student/index.ashx">请点击 此处 登录</a> </vt:if>
             </div>
+  </vt:if>
   </vt:if>
         </div>
 <!--左侧内容结束，此为分隔线-->

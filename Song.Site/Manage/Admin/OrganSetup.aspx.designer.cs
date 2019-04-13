@@ -76,13 +76,40 @@ namespace Song.Site.Manage.Admin {
         protected global::System.Web.UI.WebControls.TextBox Org_GonganBeian;
         
         /// <summary>
-        /// Org_IsOnlyWeixin 控件。
+        /// cbDisenableWeixin 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox Org_IsOnlyWeixin;
+        protected global::System.Web.UI.WebControls.CheckBox cbDisenableWeixin;
+        
+        /// <summary>
+        /// cbDisenableMini 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbDisenableMini;
+        
+        /// <summary>
+        /// cbDisenableMweb 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbDisenableMweb;
+        
+        /// <summary>
+        /// cbDisenableAPP 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbDisenableAPP;
         
         /// <summary>
         /// cbIsMobileRemoveMoney 控件。
@@ -92,6 +119,15 @@ namespace Song.Site.Manage.Admin {
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox cbIsMobileRemoveMoney;
+        
+        /// <summary>
+        /// cbWebForDeskapp 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbWebForDeskapp;
         
         /// <summary>
         /// btnBase 控件。

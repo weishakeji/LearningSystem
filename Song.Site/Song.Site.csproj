@@ -935,7 +935,7 @@
     <Content Include="Templates\Mobi\_Public\Styles\Certify.css" />
     <Content Include="Templates\Mobi\_Public\WeixinpubLogin.htm" />
     <Content Include="Templates\Mobi\_Public\_self.xml" />
-    <Content Include="Templates\Mobi\_Public\OnlyWeixin.htm" />
+    <Content Include="Templates\Mobi\_Public\Noaccess.htm" />
     <Content Include="Templates\Mobi\_Public\Certify.htm" />
     <Content Include="Templates\Web\Gov\Conn.htm" />
     <Content Include="Templates\Web\Gov\CourseChannel.htm" />

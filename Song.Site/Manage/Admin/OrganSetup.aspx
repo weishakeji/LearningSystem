@@ -43,7 +43,7 @@
                 <asp:TextBox ID="Org_ICP" runat="server" MaxLength="200" Width="50%"></asp:TextBox>
             </td>
         </tr>
-         <tr>
+        <tr>
             <td class="right">
                 公案备案号：
             </td>
@@ -57,9 +57,24 @@
             </td>
             <td>
                 <p>
-                    <asp:CheckBox ID="Org_IsOnlyWeixin" runat="server" Text="手机端是否仅限微信中使用" /></p>
+                    <asp:CheckBox ID="cbDisenableWeixin" runat="server" Text="禁止在微信中使用" /></p>
+                <p>
+                    <asp:CheckBox ID="cbDisenableMini" runat="server" Text="禁止在微信小程序中使用" /></p>
+                <p>
+                    <asp:CheckBox ID="cbDisenableMweb" runat="server" Text="禁止在手机网页中使用" /></p>
+                <p>
+                    <asp:CheckBox ID="cbDisenableAPP" runat="server" Text="禁止在手机APP中使用" /></p>
                 <p>
                     <asp:CheckBox ID="cbIsMobileRemoveMoney" runat="server" Text="手机端隐藏关于“充值收费”等资费相关信息" /></p>
+            </td>
+        </tr>
+        <tr>
+            <td class="right" valign="top">
+                电脑端：
+            </td>
+            <td>
+             <p>
+                    <asp:CheckBox ID="cbWebForDeskapp" runat="server" Text="课程学习必须使用桌面应用" />（请将DesktopApp.exe文件手工上传至/DesktopApp/文件夹下）</p>
             </td>
         </tr>
         <tr>

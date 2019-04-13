@@ -48,14 +48,18 @@ namespace Song.Site.Manage.Admin
             if (!string.IsNullOrEmpty(org.Org_Logo) && org.Org_Logo.Trim() != "")
             {
                 this.imgShow.Src = Upload.Get[_uppath].Virtual + org.Org_Logo;
-            }
-            //手机端是否仅限微信使用
-            //Org_IsOnlyWeixin.Checked = org.Org_IsOnlyWeixin;
+            }           
             //自定义配置项
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //手机端
+            this.cbDisenableWeixin.Checked = config["DisenableWeixin"].Value.Boolean ?? false;  //禁止在微信中使用
+            this.cbDisenableMini.Checked = config["DisenableMini"].Value.Boolean ?? false;    //禁止在微信小程序中使用
+            this.cbDisenableMweb.Checked = config["DisenableMweb"].Value.Boolean ?? false;    //禁止在手机网页中使用
+            this.cbDisenableAPP.Checked = config["DisenableAPP"].Value.Boolean ?? false;     //禁止在手机APP中使用
             //手机端隐藏关于“充值收费”等资费相关信息
-            bool IsMobileRemoveMoney = config["IsMobileRemoveMoney"].Value.Boolean ?? false;
-            this.cbIsMobileRemoveMoney.Checked = IsMobileRemoveMoney;
+            this.cbIsMobileRemoveMoney.Checked = config["IsMobileRemoveMoney"].Value.Boolean ?? false; 
+            //桌面端
+            this.cbWebForDeskapp.Checked = config["WebForDeskapp"].Value.Boolean ?? false;  //课程学习必须使用桌面应用
             
         }
         protected void btnBase_Click(object sender, EventArgs e)
@@ -64,13 +68,19 @@ namespace Song.Site.Manage.Admin
             org.Org_PlatformName = Org_PlatformName.Text.Trim();
             org.Org_TwoDomain = Org_TwoDomain.Text.Trim();
             org.Org_ICP = Org_ICP.Text.Trim();
-            org.Org_GonganBeian = Org_GonganBeian.Text.Trim();
-            //手机端是否仅限微信使用
-            //org.Org_IsOnlyWeixin = Org_IsOnlyWeixin.Checked;
+            org.Org_GonganBeian = Org_GonganBeian.Text.Trim();            
             //自定义配置项
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //手机端
+            config["DisenableWeixin"].Text = this.cbDisenableWeixin.Checked.ToString();      //禁止在微信中使用
+            config["DisenableMini"].Text = this.cbDisenableMini.Checked.ToString();    //禁止在微信小程序中使用
+            config["DisenableMweb"].Text = this.cbDisenableMweb.Checked.ToString();    //禁止在手机网页中使用
+            config["DisenableAPP"].Text = this.cbDisenableAPP.Checked.ToString();     //禁止在手机APP中使用
             config["IsMobileRemoveMoney"].Text = this.cbIsMobileRemoveMoney.Checked.ToString();
+            //桌面端
+            config["WebForDeskapp"].Text = this.cbWebForDeskapp.Checked.ToString();  //课程学习必须使用桌面应用
             //图片
+
             if (fuLoad.PostedFile.FileName != "")
             {
                 try
