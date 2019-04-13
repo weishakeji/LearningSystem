@@ -43,6 +43,14 @@
                 <asp:TextBox ID="Org_ICP" runat="server" MaxLength="200" Width="50%"></asp:TextBox>
             </td>
         </tr>
+         <tr>
+            <td class="right">
+                公案备案号：
+            </td>
+            <td>
+                <asp:TextBox ID="Org_GonganBeian" runat="server" MaxLength="200" Width="50%"></asp:TextBox>
+            </td>
+        </tr>
         <tr>
             <td class="right" valign="top">
                 移动端：

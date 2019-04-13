@@ -49,32 +49,6 @@
             </td>
         </tr>
         <tr>
-            <td class="right" valign="top">
-                视频质量：
-            </td>
-            <td>
-                <asp:DropDownList ID="ddlQscale" runat="server">
-                    <asp:ListItem>2</asp:ListItem>
-                    <asp:ListItem>3</asp:ListItem>
-                    <asp:ListItem>4</asp:ListItem>
-                    <asp:ListItem>5</asp:ListItem>
-                    <asp:ListItem>6</asp:ListItem>
-                    <asp:ListItem>7</asp:ListItem>
-                    <asp:ListItem>8</asp:ListItem>
-                    <asp:ListItem>9</asp:ListItem>
-                    <asp:ListItem>10</asp:ListItem>
-                </asp:DropDownList>
-                （视频上传后转码清晰度，数值越小视频越清晰，当然视频文件也越大）
-            </td>
-        </tr>
-        <tr>
-            <td class="right">
-            </td>
-            <td>
-                <asp:CheckBox ID="cbIsVideoNoload" runat="server" Text="开启视频防下载" />
-            </td>
-        </tr>
-        <tr>
             <td width="80" class="right">
             </td>
             <td>

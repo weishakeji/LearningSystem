@@ -43,13 +43,14 @@ namespace Song.Site.Manage.Admin
             lbDomain.Text = WeiSha.Common.Server.MainName;
             //ICP备案
             Org_ICP.Text = org.Org_ICP;
+            Org_GonganBeian.Text = org.Org_GonganBeian;
             //机构的Logo
             if (!string.IsNullOrEmpty(org.Org_Logo) && org.Org_Logo.Trim() != "")
             {
                 this.imgShow.Src = Upload.Get[_uppath].Virtual + org.Org_Logo;
             }
             //手机端是否仅限微信使用
-            Org_IsOnlyWeixin.Checked = org.Org_IsOnlyWeixin;
+            //Org_IsOnlyWeixin.Checked = org.Org_IsOnlyWeixin;
             //自定义配置项
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
             //手机端隐藏关于“充值收费”等资费相关信息
@@ -63,8 +64,9 @@ namespace Song.Site.Manage.Admin
             org.Org_PlatformName = Org_PlatformName.Text.Trim();
             org.Org_TwoDomain = Org_TwoDomain.Text.Trim();
             org.Org_ICP = Org_ICP.Text.Trim();
+            org.Org_GonganBeian = Org_GonganBeian.Text.Trim();
             //手机端是否仅限微信使用
-            org.Org_IsOnlyWeixin = Org_IsOnlyWeixin.Checked;
+            //org.Org_IsOnlyWeixin = Org_IsOnlyWeixin.Checked;
             //自定义配置项
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
             config["IsMobileRemoveMoney"].Text = this.cbIsMobileRemoveMoney.Checked.ToString();

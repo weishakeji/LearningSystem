@@ -941,6 +941,7 @@
     <Content Include="Templates\Web\Gov\CourseChannel.htm" />
     <Content Include="Templates\Web\Gov\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\Gov\Images\Flvplayer.swf" />
+    <Content Include="Templates\Web\Gov\Images\ghs.png" />
     <Content Include="Templates\Web\Gov\Images\nosubject.jpg" />
     <Content Include="Templates\Web\Gov\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\Gov\Images\teacher-banner.jpg" />
@@ -963,6 +964,7 @@
     <Content Include="Templates\Web\Neimeng\Images\alpha.png" />
     <Content Include="Templates\Web\Neimeng\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\Neimeng\Images\dot.png" />
+    <Content Include="Templates\Web\Neimeng\Images\ghs.png" />
     <Content Include="Templates\Web\Neimeng\Images\nosubject.jpg" />
     <Content Include="Templates\Web\Neimeng\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\Neimeng\Images\teacher-banner.jpg" />
@@ -985,6 +987,7 @@
     <Content Include="Templates\Web\NetSchool\CourseChannel.htm" />
     <Content Include="Templates\Web\NetSchool\Images\bar01.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\cou_nophoto.jpg" />
+    <Content Include="Templates\Web\NetSchool\Images\ghs.png" />
     <Content Include="Templates\Web\NetSchool\Images\gonggao-bg.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\more.png" />
     <Content Include="Templates\Web\NetSchool\Images\nosubject.jpg" />
@@ -1263,6 +1266,7 @@
     <Content Include="Templates\Web\School\Conn.htm" />
     <Content Include="Templates\Web\School\Images\bar01.jpg" />
     <Content Include="Templates\Web\School\Images\cou_nophoto.jpg" />
+    <Content Include="Templates\Web\School\Images\ghs.png" />
     <Content Include="Templates\Web\School\Images\gonggao-bg.jpg" />
     <Content Include="Templates\Web\School\Images\icon03.jpg" />
     <Content Include="Templates\Web\School\Images\more.png" />

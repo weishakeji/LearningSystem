@@ -51,17 +51,7 @@ namespace Song.Site.Manage.Admin
             cbIsLoginForPw.Checked = config["IsLoginForPw"].Value.Boolean ?? true;    //启用账号密码登录
             cbIsLoginForSms.Checked = config["IsLoginForSms"].Value.Boolean ?? true;  //启用手机短信验证登录
             //在线练习，是否学员登录后才能用
-            cbIsTraningLogin.Checked = config["IsTraningLogin"].Value.Boolean ?? false;
-            //视频质量
-            int qscale = config["VideoConvertQscale"].Value.Int32 ?? 4;
-            ListItem qsli = ddlQscale.Items.FindByText(qscale.ToString());
-            if (qsli != null)
-            {
-                ddlQscale.SelectedIndex = -1;
-                qsli.Selected = true;
-            }
-            //开始视频防下载
-            cbIsVideoNoload.Checked = config["IsVideoNoload"].Value.Boolean ?? false;
+            cbIsTraningLogin.Checked = config["IsTraningLogin"].Value.Boolean ?? false;            
         }
         protected void btnLogin_Click(object sender, EventArgs e)
         {
@@ -77,11 +67,7 @@ namespace Song.Site.Manage.Admin
             config["IsLoginForPw"].Text = cbIsLoginForPw.Checked.ToString();    //启用账号密码登录
             config["IsLoginForSms"].Text = cbIsLoginForSms.Checked.ToString();  //启用手机短信验证登录
             //在线练习，是否学员登录后才能用
-            config["IsTraningLogin"].Text = cbIsTraningLogin.Checked.ToString();
-            //视频质量
-            config["VideoConvertQscale"].Text = ddlQscale.SelectedItem.Text;
-            //开始视频防下载
-            config["IsVideoNoload"].Text = cbIsVideoNoload.Checked.ToString();
+            config["IsTraningLogin"].Text = cbIsTraningLogin.Checked.ToString();         
             //保存
             org.Org_Config = config.XmlString;
             try
