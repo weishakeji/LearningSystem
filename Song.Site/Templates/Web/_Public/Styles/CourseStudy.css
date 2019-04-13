@@ -113,6 +113,16 @@ video::-webkit-media-controls-panel {
 }
 #WebForDeskapp{
 	color:#fff;
+	margin-top:60px;
+	width:320px;
+	height:90px;
+	line-height:90px;
+	background:#999;
+	margin-left:auto;
+	margin-right:auto;
+}
+#WebForDeskapp, #WebForDeskapp a{
+	font-size:16px;
 }
 /* 课程内容
 ------------------------*/
