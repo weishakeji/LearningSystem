@@ -1369,6 +1369,7 @@
     <Content Include="Templates\Web\_Public\Images\submit2.gif" />
     <Content Include="Templates\Web\_Public\Images\success.png" />
     <Content Include="Templates\Web\_Public\Images\tk_exam.png" />
+    <Content Include="Templates\Web\_Public\Inc\Footer.html" />
     <Content Include="Templates\Web\_Public\Module\Accounts\Login.css" />
     <Content Include="Templates\Web\_Public\Module\Accounts\Login.htm" />
     <Content Include="Templates\Web\_Public\Module\Accounts\Login.js" />
@@ -1465,6 +1466,8 @@
     <Content Include="Templates\Web\NetSchool\Styles\Links.css" />
     <Content Include="Templates\Web\NetSchool\Styles\MessageBoards.css" />
     <Content Include="Templates\Web\_Public\Pagebox.htm" />
+    <Content Include="Templates\Web\_Public\Noaccess.htm" />
+    <Content Include="Templates\Web\_Public\Styles\Noaccess.css" />
     <Content Include="Utility\Ckplayer\ckplayer\ckplayer_h5.js" />
     <Content Include="Utility\CoreScripts\easydrag.js" />
     <Content Include="Utility\CoreScripts\hanzi2pinyin.js" />

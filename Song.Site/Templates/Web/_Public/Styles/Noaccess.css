@@ -1,0 +1,64 @@
+@charset "utf-8";
+/*限制只能在桌面应用中打开*/
+#StudyForDeskapp{
+	color:#fff;
+	margin-top:60px;
+	width:640px;
+	height:180px;
+	line-height:90px;
+	background:#999;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	box-shadow: 1px 1px 2px #888888;
+}
+#StudyForDeskapp, #StudyForDeskapp a{
+	font-size:16px;
+}
+
+/*底部*/
+#footer {
+	background-color: #333;
+	height: 120px;
+	position:absolute;
+	bottom:0px;
+	left:1%;
+	text-align: center;
+	display: table;
+	width: 98%;
+	color: #CCCCCC;
+	margin-top: 50px;
+}
+.footerMenu {
+	padding: 0px;
+	height: 30px;
+	margin-right: auto;
+	margin-left: auto;
+	background-color: #CCCCCC;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	text-align: center;
+}
+.footerMenu a {
+	font-size: 13px;
+	line-height: 30px;
+	color: #333333;
+	text-decoration: none;
+	margin-right: 20px;
+}
+#footer #footerConext {
+	height: 60px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	line-height: 25px;
+	text-align: center;
+	width: 980px;
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 14px;
+	color: #CCCCCC;
+	font-family: arial;
+}
+#footer #footerConext a {
+	color: #fff;
+}

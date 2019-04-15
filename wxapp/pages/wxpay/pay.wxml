@@ -1,4 +1,0 @@
-<view class="container">
-      <text class="label-1__text">{{title}}</text>
-      
-</view>

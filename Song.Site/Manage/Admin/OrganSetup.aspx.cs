@@ -59,7 +59,9 @@ namespace Song.Site.Manage.Admin
             //手机端隐藏关于“充值收费”等资费相关信息
             this.cbIsMobileRemoveMoney.Checked = config["IsMobileRemoveMoney"].Value.Boolean ?? false; 
             //桌面端
-            this.cbWebForDeskapp.Checked = config["WebForDeskapp"].Value.Boolean ?? false;  //课程学习必须使用桌面应用
+            this.cbWebForDeskapp.Checked = config["WebForDeskapp"].Value.Boolean ?? false;  //当前系统必须运行于桌面应用之中
+            this.cbStudyForDeskapp.Checked = config["StudyForDeskapp"].Value.Boolean ?? false;  //课程学习需要在桌面应用打开
+            this.cbFreeForDeskapp.Checked = config["FreeForDeskapp"].Value.Boolean ?? false;    //免费课程和试用章节除外
             
         }
         protected void btnBase_Click(object sender, EventArgs e)
@@ -78,9 +80,10 @@ namespace Song.Site.Manage.Admin
             config["DisenableAPP"].Text = this.cbDisenableAPP.Checked.ToString();     //禁止在手机APP中使用
             config["IsMobileRemoveMoney"].Text = this.cbIsMobileRemoveMoney.Checked.ToString();
             //桌面端
-            config["WebForDeskapp"].Text = this.cbWebForDeskapp.Checked.ToString();  //课程学习必须使用桌面应用
+            config["WebForDeskapp"].Text = this.cbWebForDeskapp.Checked.ToString();  //当前系统必须运行于桌面应用之中
+            config["StudyForDeskapp"].Text = this.cbStudyForDeskapp.Checked.ToString();     //课程学习需要在桌面应用打开
+            config["FreeForDeskapp"].Text = this.cbFreeForDeskapp.Checked.ToString();    //免费课程和试用章节除外
             //图片
-
             if (fuLoad.PostedFile.FileName != "")
             {
                 try

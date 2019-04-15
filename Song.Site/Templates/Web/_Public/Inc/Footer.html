@@ -1,0 +1,24 @@
+﻿<div id="footer">
+  
+  <div id="footerConext"> {$:#.org.Org_Name}  &nbsp; Tel：{$:#.org.Org_Phone}<br/>
+    Copyright &copy; {$:#.org.Org_AbbrEnName} All rights reserved &nbsp; 
+    <vt:if var="org.Org_ICP" value="" compare="!=">
+     <a href="http://www.miibeian.gov.cn" target="_blank">{$:#.org.Org_ICP}</a>
+     </vt:if>
+     <vt:if var="org.Org_GonganBeian" value="" compare="!=">
+     <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode={$:#.org.Org_GonganBeian}" target="_blank">
+     <img src="../Images/ghs.png" />&nbsp;{$:#.org.Org_GonganBeian}</a>
+     </vt:if>
+     <div>
+            <a href="{$copyright.url}" target="_blank" title="{$copyright.title}"> {$copyright.powerby}</a>
+        </div>
+    </div>
+</div>
+{$org.Org_Extracode}
+<script type="text/javascript">
+    //当前登录的账号ID
+    var currLoginACID = Number("{$Account.Ac_id}");
+    ToAllLinkAddAccoutsID(currLoginACID);
+</script>
+
+<script type="text/javascript" src="/Utility/CoreScripts/Widget.js?ver={$version}"></script>
