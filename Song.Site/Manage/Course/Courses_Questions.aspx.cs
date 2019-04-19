@@ -85,8 +85,14 @@ namespace Song.Site.Manage.Course
             int diff = Convert.ToInt32(ddlDiff.SelectedItem.Value);
             //试题类型
             int.TryParse(ddlType.SelectedValue, out type);
+            //是否错误
+            bool? isError = ddlErrorState.SelectedItem.Value == "-1" ? null : (bool?)(ddlErrorState.SelectedItem.Value == "2" ? true : false);
+            //是否有人反馈错误
+            bool? isWroing = ddlWrongState.SelectedItem.Value == "-1" ? null : (bool?)(ddlWrongState.SelectedItem.Value == "2" ? true : false);
+            //是否启用
+            bool? isUse = ddlUseState.SelectedItem.Value == "-1" ? null : (bool?)(ddlUseState.SelectedItem.Value == "1" ? true : false);
             Song.Entities.Questions[] eas = null;
-            eas = Business.Do<IQuestions>().QuesPager(org.Org_ID, type, -1, couid, olid, null, null, null, diff, this.tbSear.Text, Pager1.Size, Pager1.Index, out count);
+            eas = Business.Do<IQuestions>().QuesPager(-1, type, -1, couid, olid, isUse, isError, isWroing, diff, this.tbSear.Text, Pager1.Size, Pager1.Index, out count);
             GridView1.DataSource = eas;
             //去除题干中的html标签
             string regexstr = @"(<[^>]*>)|\r|\n|\s";

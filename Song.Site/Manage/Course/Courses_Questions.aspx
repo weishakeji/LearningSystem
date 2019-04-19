@@ -19,12 +19,27 @@
                 <asp:ListItem Value="-1">-题型-</asp:ListItem>
             </asp:DropDownList>
             <asp:DropDownList ID="ddlDiff" runat="server" Width="60">
-                <asp:ListItem Value="-1">难度</asp:ListItem>
+                <asp:ListItem Value="-1">-难度-</asp:ListItem>
                 <asp:ListItem Value="1">1</asp:ListItem>
                 <asp:ListItem Value="2">2</asp:ListItem>
                 <asp:ListItem Value="3">3</asp:ListItem>
                 <asp:ListItem Value="4">4</asp:ListItem>
                 <asp:ListItem Value="5">5</asp:ListItem>
+            </asp:DropDownList>
+            <asp:DropDownList ID="ddlErrorState" runat="server" Width="60">
+                <asp:ListItem Value="-1">-状态-</asp:ListItem>
+                <asp:ListItem Value="1">正常</asp:ListItem>
+                <asp:ListItem Value="2">存在错误</asp:ListItem>
+            </asp:DropDownList>
+             <asp:DropDownList ID="ddlWrongState" runat="server" Width="60">
+                <asp:ListItem Value="-1">-反馈-</asp:ListItem>
+                <asp:ListItem Value="1">正常</asp:ListItem>
+                <asp:ListItem Value="2">报错</asp:ListItem>
+            </asp:DropDownList>
+            <asp:DropDownList ID="ddlUseState" runat="server" Width="60">
+                <asp:ListItem Value="-1">-显示-</asp:ListItem>
+                <asp:ListItem Value="1">启用</asp:ListItem>
+                <asp:ListItem Value="2">禁用</asp:ListItem>
             </asp:DropDownList>
             <asp:TextBox ID="tbSear" runat="server" Width="80" MaxLength="10"></asp:TextBox>
             <asp:Button ID="btnSear" runat="server" Width="60" Text="查询" OnClick="btnsear_Click" />
