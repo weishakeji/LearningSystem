@@ -15,7 +15,10 @@
 <link href="CoreStyles/MsgBox.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<a class="goback" type="link" href="{$from}"></a> 
+<a class="home" href="default.ashx" type="link"></a>
 <div class="mui-scroll"> 
+
   <!--主内容区起始-->
   <div class="loginArea">
     <vt:if var="islogin" value="false" compare="=">
@@ -52,7 +55,7 @@
             <input type="submit" name="btnSubmit" id="btnSubmit" value="登 录" verify="true"  group="login" class="mui-btn mui-btn-primary btnLogin"/>
             <button type="button" id="btnRegister" href="Register.ashx" class="mui-btn mui-btn-success btnRegister" >注 册</button>
             <!--<div class="loginRow btnBar"> <a href="Login.ashx?istry=true" class="aTryout">暂时试用</a>--> </div>
-          <div class="loginRow" style="margin-top:20px;"> <a href="{$from}" id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left">返回</a> <span class="mui-badge mui-badge-warning selfpw"><a href="SelfPwFind.ashx" type="link">忘记密码</a> </span> &nbsp;
+          <div class="loginRow" style="margin-top:20px;"> <span class="mui-badge mui-badge-warning selfpw"><a href="SelfPwFind.ashx" type="link">忘记密码</a> </span> &nbsp;
             <vt:if var="forsms" value="true" compare="="> <a class="mui-badge mui-badge-primary selfpw" href="Login.ashx?loyout=mobile" type="link">手机验证登录</a></vt:if>
           </div>
         </form>
@@ -93,7 +96,7 @@
             <input type="submit" name="btnSubmit" id="btnSubmit" value="登 录" verify="true"  group="login" class="mui-btn mui-btn-primary btnLogin"/>
             <button type="button" id="btnRegister" href="Register.ashx" class="mui-btn mui-btn-success btnRegister" >注 册</button>
             <!--<div class="loginRow btnBar"> <a href="Login.ashx?istry=true" class="aTryout">暂时试用</a>--> </div>
-          <div class="loginRow" style="margin-top:20px;"> <a href="{$from}" id="back" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left">返回</a> <span class="mui-badge mui-badge-warning selfpw"><a href="SelfPwFind.ashx" type="link">忘记密码</a> </span> &nbsp;
+          <div class="loginRow" style="margin-top:20px;"> <span class="mui-badge mui-badge-warning selfpw"><a href="SelfPwFind.ashx" type="link">忘记密码</a> </span> &nbsp;
             <vt:if var="forpw" value="true" compare="="><a class="mui-badge mui-badge-primary selfpw" href="Login.ashx" type="link">账号登录</a> </vt:if>
           </div>
         </form>

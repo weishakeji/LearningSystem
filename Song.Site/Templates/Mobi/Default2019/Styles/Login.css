@@ -6,6 +6,28 @@
 	margin-top:40px;
    
 }
+/*返回首页*/
+.home:before {
+	content: "\e678";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 20px;
+	margin-top: 5px;
+	position:absolute;
+	left:50px;
+	top:3px;
+}
+/*返回*/
+.goback:before {
+	content: "\e6b0";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 22px;
+	padding-top: -5px;
+	position:absolute;
+	left:10px;
+	top:5px;
+}
 .width {
 	width: 218px;
 }
