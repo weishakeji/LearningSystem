@@ -1,6 +1,8 @@
-﻿$(function () {
-    if (typeof state != "undefined") state.init();
-});
+﻿if (window.loadEvent != null) {
+	window.loadEvent.push(function () {
+		if (typeof state != "undefined") state.init();
+	});
+}
 
 /*
 保持试题答题状态，包括每一道题的状态

@@ -104,7 +104,7 @@
     //生成标题栏
     msgbox.prototype.BuildTitle = function () {
         var box = this.WinBox;
-        if (this.ShowCloseBtn && this.Type != "null") {
+        if (this.ShowCloseBtn && this.Type != "null" && this.Type != "loading") {
             box.append("<div class=\"MsgBoxTitle\">" + this.Title + "<div class=\"MsgClose\">&#215;</div></div>");
             box.find(".MsgClose").click(function () {
                 msgbox.CloseEvent($(this));

@@ -1,10 +1,17 @@
-﻿window.onload = function () {
+﻿window.loadEvent = new Array();
+$(function () {
+	window.setTimeout(function(){
+    for (s in window.loadEvent) {
+        window.loadEvent[s]();
+    }},500);
+});
+window.loadEvent.push(function () {
     //总题数
-    var count = Number($("body").attr("quscount"));
+    var count = $("#quesArea .quesItem").size();
     //设置试题宽度
     var wd = $(window).width();
-    var hg = document.querySelector(".context").clientHeight;
-    $("#quesArea").width(wd * (count==0 ? 1 : count + 10));
+    var hg = $(".context").height();
+    $("#quesArea").width(wd * (count == 0 ? 1 : count + 10)).height(hg);
     //设置题型
     var quesTypes = $("body").attr("questype").split(",");
     //设置宽高，试题类型
@@ -29,15 +36,15 @@
     });
     //左右滑动切换试题
     finger.init();
-}
+});
 
 $(function () {
     //删除试题
     $(".btnDel").click(function () {
-		if(card.size()<1){
-			 new MsgBox("提示", "没有试题供操作！", 90, 180, "msg").Open();
-			 return;
-		}
+        if (card.size() < 1) {
+            new MsgBox("提示", "没有试题供操作！", 90, 180, "msg").Open();
+            return;
+        }
         var msg = new MsgBox("删除", "您是否确认删除当前错题？", 90, 180, "confirm");
         msg.EnterEvent = function () {
             var qid = card.currid();
@@ -47,7 +54,7 @@ $(function () {
                     var msg = new MsgBox("成功", "删除成功！！<br/><br/><second>2</second>秒关闭消息", 90, 180, "msg");
                     msg.Open();
                     //移动试题
-                    card.remove(card.currid());                   
+                    card.remove(card.currid());
 
                 } else {
                     var msg = new MsgBox("失败", data, 90, 180, "msg");
@@ -60,22 +67,22 @@ $(function () {
     });
     //清空错题
     $(".btnClear").click(function () {
-		if(card.size()<1){
-			 new MsgBox("提示", "没有试题供操作！", 90, 180, "msg").Open();
-			 return;
-		}
+        if (card.size() < 1) {
+            new MsgBox("提示", "没有试题供操作！", 90, 180, "msg").Open();
+            return;
+        }
         var msg = new MsgBox("清空", "您是否确认清空所有错题？", 90, 180, "confirm");
         msg.EnterEvent = function () {
             //记录学习进度
-            $.post(window.location.href, { action: "clear",couid:$().getPara("couid")}, function (data) {
+            $.post(window.location.href, { action: "clear", couid: $().getPara("couid") }, function (data) {
                 if (data == "1") {
                     var msg = new MsgBox("成功", "所有错题被清空。<br/>请退出当前界面！", 90, 180, "msg");
-					msg.OverEvent=function(){
-						window.location.href="CoursePage.ashx";
-					}
-                    msg.Open(); 
-					card.clear(); 
-					           
+                    msg.OverEvent = function () {
+                        window.location.href = "CoursePage.ashx";
+                    }
+                    msg.Open();
+                    card.clear();
+
 
                 } else {
                     var msg = new MsgBox("失败", data, 90, 180, "msg");

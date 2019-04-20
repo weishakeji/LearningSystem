@@ -1,18 +1,20 @@
-﻿$(function () {
-    //试题事件的初始化
-    quesEvent.init();
-    //答题卡
-    card.init();
-    //字体大小的控制
-    $().setFontSize($(".quesBox, .quesAnswerContent"));
-    $(".fontoper").click(function () {
-        if ($(this).attr("id") == "addFont") $().setFontSize($(".quesBox, .quesAnswerContent"), 2);
-        if ($(this).attr("id") == "subFont") $().setFontSize($(".quesBox, .quesAnswerContent"), -2);
+﻿if (window.loadEvent != null) {
+    window.loadEvent.push(function () {
+        //试题事件的初始化
+        quesEvent.init();
+        //答题卡
+        card.init();
+        //字体大小的控制
+        $().setFontSize($(".quesBox, .quesAnswerContent"));
+        $(".fontoper").click(function () {
+            if ($(this).attr("id") == "addFont") $().setFontSize($(".quesBox, .quesAnswerContent"), 2);
+            if ($(this).attr("id") == "subFont") $().setFontSize($(".quesBox, .quesAnswerContent"), -2);
+        });
     });
-});
-$(function () {
-    viewpatt.init();
-});
+    window.loadEvent.push(function () {
+        viewpatt.init();
+    });
+}
 /*
 试题相关事件
 */
@@ -23,6 +25,7 @@ var quesEvent = {
             var event_func = eval("quesEvent.itemsEvent.type" + type);
             if (event_func != null) event_func($(this));
         });
+        $("#Total").text($(".quesItem").size());
         this.btnEvent();
     },
     //答题项的点击事件，或填写事件（填空或简答题）
@@ -457,20 +460,20 @@ var finger = {
             if (Math.abs(fixLeft) < tm * ($(".quesItem").size() - 1)) {
                 fixLeft = fixLeft - tm;
             } else {
-				var num=Number($(".correct-num").text())+Number($(".error-num").text());
-				var per=$(".correct-rate").text();
-				var sum=Number($("#Total").text());
-				var txt="已经练习"+num+"道，正确率"+per+"%";
-				if((sum-num)>0){
-					txt+="，还有"+(sum-num)+"道没有练习";
-				}
-                var msg=new MsgBox("提示", "已经是最后一道试题，是否返回？</br/>"+txt+"。"
-						+"<br/><br/><second>10</second>秒后关闭消息", 70, 250, "confirm");
-				msg.EnterEvent=function(){
-					var couid=$().getPara("couid");
-					window.location.href="QuesOutlines.ashx?couid="+couid;
-				}
-				msg.Open();
+                var num = Number($(".correct-num").text()) + Number($(".error-num").text());
+                var per = $(".correct-rate").text();
+                var sum = Number($("#Total").text());
+                var txt = "已经练习" + num + "道，正确率" + per + "%";
+                if ((sum - num) > 0) {
+                    txt += "，还有" + (sum - num) + "道没有练习";
+                }
+                var msg = new MsgBox("提示", "已经是最后一道试题，是否返回？</br/>" + txt + "。"
+						+ "<br/><br/><second>10</second>秒后关闭消息", 70, 250, "confirm");
+                msg.EnterEvent = function () {
+                    var couid = $().getPara("couid");
+                    window.location.href = "QuesOutlines.ashx?couid=" + couid;
+                }
+                msg.Open();
             }
         }
         if (direction == "right") {
@@ -524,7 +527,7 @@ var viewpatt = {
             var box = $("#boxSetup");   //设置项的区域
             box.css({ left: $(window).width() }).show();
             box.animate({ left: 0 });
-			$("body>*[id!=boxSetup]").addClass("blur");
+            $("body>*[id!=boxSetup]").addClass("blur");
         });
         //关闭设置项
         $("#maskSetup").click(function () {
@@ -532,7 +535,7 @@ var viewpatt = {
                 $(this).hide();
                 $("#maskSetup").fadeOut(100);
             });
-			$("body>*[class!=MsgBox]").removeClass("blur");
+            $("body>*[class!=MsgBox]").removeClass("blur");
         });
         /*视图模式的点击事件*/
         $("#boxSetup dl.view-pattern dd").click(function () {
@@ -541,7 +544,7 @@ var viewpatt = {
             viewpatt.storage.set($(this).attr("id"));
             //设置颜色风格
             viewpatt.style($(this).attr("id"));
-			$("body>*[class!=MsgBox]").removeClass("blur");
+            $("body>*[class!=MsgBox]").removeClass("blur");
         });
     },
     //将设置存储到本地

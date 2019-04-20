@@ -918,6 +918,7 @@
     <Content Include="Templates\Mobi\Default2019\TestView.htm" />
     <Content Include="Templates\Mobi\Default2019\_self.xml" />
     <Content Include="Templates\Mobi\Default2019\MyFriends.htm" />
+    <Content Include="Templates\Mobi\Default2019\QuesExercisesItems.htm" />
     <Content Include="Templates\Mobi\_Public\ExamReview.htm" />
     <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
     <Content Include="Templates\Mobi\_Public\Images\load_023.gif" />
@@ -1286,6 +1287,7 @@
     <Content Include="Templates\Web\School\CourseChannel.htm" />
     <Content Include="Templates\Web\School\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\_Public\CoreScripts\ajaxfileupload.js" />
+    <Content Include="Templates\Web\_Public\CoreScripts\dexie.js" />
     <Content Include="Templates\Web\_Public\CoreScripts\Public.js" />
     <Content Include="Templates\Web\_Public\Examing.htm" />
     <Content Include="Templates\Web\_Public\Admin\Startpage.htm" />
@@ -1370,6 +1372,7 @@
     <Content Include="Templates\Web\_Public\Images\success.png" />
     <Content Include="Templates\Web\_Public\Images\tk_exam.png" />
     <Content Include="Templates\Web\_Public\Inc\Footer.html" />
+    <Content Include="Templates\Web\_Public\indexDb.htm" />
     <Content Include="Templates\Web\_Public\Module\Accounts\Login.css" />
     <Content Include="Templates\Web\_Public\Module\Accounts\Login.htm" />
     <Content Include="Templates\Web\_Public\Module\Accounts\Login.js" />
@@ -3321,6 +3324,10 @@
     </Compile>
     <Compile Include="Mobile\Certify.ashx.cs">
       <DependentUpon>Certify.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\QuesExercisesItems.ashx.cs">
+      <DependentUpon>QuesExercisesItems.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewsList.ashx.cs">
@@ -6422,6 +6429,7 @@
     <Content Include="Mobile\ExamReview.ashx" />
     <Content Include="Mobile\MyFriends.ashx" />
     <Content Include="Mobile\Certify.ashx" />
+    <Content Include="Mobile\QuesExercisesItems.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

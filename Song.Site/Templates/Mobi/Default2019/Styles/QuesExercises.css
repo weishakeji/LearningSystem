@@ -326,8 +326,8 @@ dl.view-pattern dd#patt3.view-selected b {
 	padding: 10px;
 }
 .quesBox .quesTitle * {
-	font-size: 20px;
-	line-height: 36px;
+	font-size: 16px;
+	line-height: 25px;
 	background-color: transparent !important;
 	word-wrap: break-word;
 	word-break: normal;

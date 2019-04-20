@@ -87,9 +87,9 @@
 }
 .blur {
 	filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
-	-webkit-filter: blur(2px); /* Chrome, Opera */
-	-moz-filter: blur(2px);
-	-ms-filter: blur(2px);
-	filter: blur(2px);
- filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=2, MakeShadow=false);
+	-webkit-filter: blur(1px); /* Chrome, Opera */
+	-moz-filter: blur(1px);
+	-ms-filter: blur(1px);
+	filter: blur(1px);
+ filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=1, MakeShadow=false);
 }

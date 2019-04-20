@@ -1,11 +1,38 @@
-﻿
-window.onload = function () {
+﻿window.loadEvent = new Array();
+$(function () {
+    //加载试题
+    var loadbox = new MsgBox("正在加载试题...", "", 70, 101, "loading");
+    $.ajax({
+        url: "QuesExercisesItems.ashx",
+        data: { couid: $().getPara("couid"), olid: $().getPara("olid") },
+        type: "get",
+        cache: true,
+        beforeSend: function (result) {
+            loadbox.Open();
+        },
+        error: function (msg) { },
+        complete: function (msg) {
+            loadbox.Close(false);
+        },
+        success: function (data) {
+            $("#quesArea").html(data);
+            var count = $("#quesArea .quesItem").size();
+            console.log(count);
+            for (s in window.loadEvent) {
+                window.loadEvent[s]();
+            }
+        }
+    });
+});
+
+//页面实始化
+window.loadEvent.push(function () {
     //总题数
-    var count = Number($("body").attr("quscount"));
+    var count = $("#quesArea .quesItem").size();
     //设置试题宽度
     var wd = $(window).width();
     var hg = document.querySelector(".context").clientHeight;
-    $("#quesArea").width(wd * (count == 0 ? 1 : count + 10));
+    $("#quesArea").width(wd * (count == 0 ? 1 : count + 10)).height(hg);
     //设置题型
     var quesTypes = $("body").attr("questype").split(",");
     //设置宽高，试题类型
@@ -30,7 +57,7 @@ window.onload = function () {
     });
     //左右滑动切换试题
     finger.init();
-};
+});
 
 
 

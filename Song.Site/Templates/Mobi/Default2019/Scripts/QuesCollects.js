@@ -1,6 +1,13 @@
-window.onload = function () {
+window.loadEvent = new Array();
+$(function () {
+	window.setTimeout(function(){
+    for (s in window.loadEvent) {
+        window.loadEvent[s]();
+    }},500);
+});
+window.loadEvent.push(function () {
     //总题数
-    var count = Number($("body").attr("quscount"));
+    var count =  $("#quesArea .quesItem").size();
     //设置试题宽度
     var wd = $(window).width();
     var hg = document.querySelector(".context").clientHeight;
@@ -29,7 +36,7 @@ window.onload = function () {
     });
     //左右滑动切换试题
     finger.init();
-}
+});
 
 $(function () {
     //删除试题

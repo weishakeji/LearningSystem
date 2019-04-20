@@ -1,7 +1,8 @@
-﻿$(function () {
+﻿if (window.loadEvent != null) {
+	window.loadEvent.push(function () {
     if (typeof guide != "undefined") guide.init();
 });
-
+}
 var guide = {
     init: function () {
         this.builder();
@@ -31,7 +32,7 @@ var guide = {
             $(this).find("i").css({ "font-family": "iconfont", "font-size": "60px", "margin": "0px 30px 0px 20px",
 				"text-shadow": "0px 0px 20px #fff" });
         });
-		box.find(">div:first").css({ "background-color": "rgba(0,0,0,0.2)" });
+		box.find(">div:first").css({ "background-color": "rgba(0,0,0,0.0)" });
         box.find(">div:last").css({ "font-size": "15px" }).find("i").css({ "font-size": "40px" });
         this.events(box);
     },
