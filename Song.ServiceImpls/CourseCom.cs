@@ -578,6 +578,10 @@ namespace Song.ServiceImpls
                     int.TryParse(tm, out sbj);
                     if (sbj == 0) continue;
                     wcSbjid.Or(Course._.Sbj_ID == sbj);
+                    //当前专业的下级专业也包括
+                    List<int> list = Business.Do<ISubject>().TreeID(sbj);
+                    foreach (int l in list)
+                        wcSbjid.Or(Course._.Sbj_ID == l);
                 }               
                 wc.And(wcSbjid);
             }           

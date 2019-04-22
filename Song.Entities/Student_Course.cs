@@ -30,6 +30,12 @@ namespace Song.Entities {
     		
     		protected Boolean _Stc_IsTry;
     		
+    		protected Double _Stc_QuesScore;
+    		
+    		protected Double _Stc_StudyScore;
+    		
+    		protected Double _Stc_ExamScore;
+    		
     		public Int32 Stc_ID {
     			get {
     				return this._Stc_ID;
@@ -140,6 +146,36 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Double Stc_QuesScore {
+    			get {
+    				return this._Stc_QuesScore;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Stc_QuesScore, _Stc_QuesScore, value);
+    				this._Stc_QuesScore = value;
+    			}
+    		}
+    		
+    		public Double Stc_StudyScore {
+    			get {
+    				return this._Stc_StudyScore;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Stc_StudyScore, _Stc_StudyScore, value);
+    				this._Stc_StudyScore = value;
+    			}
+    		}
+    		
+    		public Double Stc_ExamScore {
+    			get {
+    				return this._Stc_ExamScore;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Stc_ExamScore, _Stc_ExamScore, value);
+    				this._Stc_ExamScore = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -177,7 +213,10 @@ namespace Song.Entities {
     					_.Org_ID,
     					_.Rc_Code,
     					_.Stc_IsFree,
-    					_.Stc_IsTry};
+    					_.Stc_IsTry,
+    					_.Stc_QuesScore,
+    					_.Stc_StudyScore,
+    					_.Stc_ExamScore};
     		}
     		
     		/// <summary>
@@ -195,7 +234,10 @@ namespace Song.Entities {
     					this._Org_ID,
     					this._Rc_Code,
     					this._Stc_IsFree,
-    					this._Stc_IsTry};
+    					this._Stc_IsTry,
+    					this._Stc_QuesScore,
+    					this._Stc_StudyScore,
+    					this._Stc_ExamScore};
     		}
     		
     		/// <summary>
@@ -234,6 +276,15 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Stc_IsTry))) {
     				this._Stc_IsTry = reader.GetBoolean(_.Stc_IsTry);
+    			}
+    			if ((false == reader.IsDBNull(_.Stc_QuesScore))) {
+    				this._Stc_QuesScore = reader.GetDouble(_.Stc_QuesScore);
+    			}
+    			if ((false == reader.IsDBNull(_.Stc_StudyScore))) {
+    				this._Stc_StudyScore = reader.GetDouble(_.Stc_StudyScore);
+    			}
+    			if ((false == reader.IsDBNull(_.Stc_ExamScore))) {
+    				this._Stc_ExamScore = reader.GetDouble(_.Stc_ExamScore);
     			}
     		}
     		
@@ -315,6 +366,21 @@ namespace Song.Entities {
     			/// 字段名：Stc_IsTry - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Stc_IsTry = new WeiSha.Data.Field<Student_Course>("Stc_IsTry");
+    			
+    			/// <summary>
+    			/// 字段名：Stc_QuesScore - 数据类型：Double
+    			/// </summary>
+    			public static WeiSha.Data.Field Stc_QuesScore = new WeiSha.Data.Field<Student_Course>("Stc_QuesScore");
+    			
+    			/// <summary>
+    			/// 字段名：Stc_StudyScore - 数据类型：Double
+    			/// </summary>
+    			public static WeiSha.Data.Field Stc_StudyScore = new WeiSha.Data.Field<Student_Course>("Stc_StudyScore");
+    			
+    			/// <summary>
+    			/// 字段名：Stc_ExamScore - 数据类型：Double
+    			/// </summary>
+    			public static WeiSha.Data.Field Stc_ExamScore = new WeiSha.Data.Field<Student_Course>("Stc_ExamScore");
     		}
     	}
     }
