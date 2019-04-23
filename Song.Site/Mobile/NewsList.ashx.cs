@@ -38,7 +38,7 @@ namespace Song.Site.Mobile
                     //art.Art_Details = Regex.Replace(art.Art_Details, @"\s{1,}", " ", RegexOptions.Singleline);
                     //art.Art_Details = HttpUtility.UrlEncode(art.Art_Details);
                     art.Art_Title = art.Art_Title.Replace("\"", "&quot;");
-                    art.Art_Title = HttpUtility.UrlEncode(art.Art_Title);
+                    art.Art_Title = art.Art_Title;
                     //
                     art.Art_Logo = Upload.Get["News"].Virtual + art.Art_Logo;                    
                     if (string.IsNullOrWhiteSpace(art.Art_Intro))

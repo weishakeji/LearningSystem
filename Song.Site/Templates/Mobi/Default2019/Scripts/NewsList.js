@@ -56,7 +56,7 @@ function ajaxLoaddata(){
 			li.setAttribute("artid",d.Art_Id);
 			//相关数据
 			var defimg=document.getElementById("def-img");
-			var img=d.Art_IsImg ? d.Art_Logo : defimg.getAttribute("src");			
+			var img=d.Art_IsImg ? d.Art_Logo : defimg.getAttribute("src");	
 			//
 			var html='<a href="javascript:;">';
 			if(d.Art_IsImg){
