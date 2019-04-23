@@ -32,7 +32,7 @@ namespace Song.Site.Mobile
                     //处理详情
                     not.No_Context = "";
                     not.No_Ttl = not.No_Ttl.Replace("\"", "&quot;");
-                    not.No_Ttl = HttpUtility.UrlEncode(not.No_Ttl);                  
+                    not.No_Ttl = not.No_Ttl;                  
                     json += not.ToJson() + ",";
                 }
                 if (json.EndsWith(",")) json = json.Substring(0, json.Length - 1);
