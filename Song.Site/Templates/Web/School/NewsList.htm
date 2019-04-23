@@ -77,14 +77,14 @@
         <vt:if var="#.pagerPrev" value="1" compare="<">
           <div class="pagerPrev pagerBtn"><a href="#">上一页</a></div>
           <vt:else />
-          <div class="pagerPrev pagerBtn"><a href="newslist.ashx?index={$:#.pagerPrev}">上一页</a></div>
+          <div class="pagerPrev pagerBtn"><a href="newslist.ashx?colid={$colid}&index={$:#.pagerPrev}">上一页</a></div>
         </vt:if>
         <!--分页数字 -->
         <vt:foreach id="pageAmount" from="$#.pageAmount" item="data" index="i" remark="分页数字">
           <vt:if var="#.data" value="$pageIndex" compare="=">
-            <div class="pagerIndex pagerBtn pagerCurr"><a href="/newslist.ashx?index={$:i}">{$:i}</a></div>
+            <div class="pagerIndex pagerBtn pagerCurr"><a href="/newslist.ashx?colid={$colid}&index={$:i}">{$:i}</a></div>
             <vt:else />
-            <div class="pagerIndex pagerBtn"><a href="newslist.ashx?index={$:i}">{$:i}</a></div>
+            <div class="pagerIndex pagerBtn"><a href="newslist.ashx?colid={$colid}&index={$:i}">{$:i}</a></div>
           </vt:if>
         </vt:foreach>
         <!--下一页 -->
@@ -92,9 +92,9 @@
         <vt:if var="#.pagerNext" value="$pageAmount.Length" compare=">">
           <div class="pagerNext pagerBtn"><a href="#">下一页</a></div>
           <vt:else />
-          <div class="pagerNext pagerBtn"><a href="newslist.ashx?index={$:#.pagerNext}">下一页</a></div>
+          <div class="pagerNext pagerBtn"><a href="newslist.ashx?colid={$colid}&index={$:#.pagerNext}">下一页</a></div>
         </vt:if>
-        <div class="pagerLast pagerBtn"><a href="newslist.ashx?index={$:pageAmount.length}">末页</a></div>
+        <div class="pagerLast pagerBtn"><a href="newslist.ashx?colid={$colid}&index={$:pageAmount.length}">末页</a></div>
       </div>
     </vt:if>
   </div>
