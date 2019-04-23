@@ -248,6 +248,7 @@ namespace Song.Site.Manage.Questions
             txt = txt.Replace("（", "（ ");
             //txt = txt.Replace("&lt;", "<");
             //txt = txt.Replace("&gt;", ">");
+            //只要是括号，都默认为填空面
             //txt = Regex.Replace(txt, @"（[^）]_+）", "（______）");           
             return txt;
         }
