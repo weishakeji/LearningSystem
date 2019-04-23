@@ -248,7 +248,7 @@ namespace Song.Site.Manage.Questions
             txt = txt.Replace("（", "（ ");
             //txt = txt.Replace("&lt;", "<");
             //txt = txt.Replace("&gt;", ">");
-            txt = Regex.Replace(txt, @"（[^）]_+）", "（______）");           
+            //txt = Regex.Replace(txt, @"（[^）]_+）", "（______）");           
             return txt;
         }
     }
