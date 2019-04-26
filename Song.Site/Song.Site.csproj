@@ -220,8 +220,8 @@
     <Content Include="Debug.aspx" />
     <Content Include="Debug.htm" />
     <Content Include="Default.aspx" />
-    <Content Include="DesktopApp.aspx" />
-    <Content Include="DesktopApp\readme.txt" />
+    <Content Include="Download\App.aspx" />
+    <Content Include="Download\DesktopApp\readme.txt" />
     <Content Include="favicon.ico" />
     <Content Include="License.aspx" />
     <Content Include="Manage\Admin\Courses.aspx" />
@@ -2350,13 +2350,7 @@
       <DependentUpon>Default.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="DesktopApp.aspx.cs">
-      <DependentUpon>DesktopApp.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DesktopApp.aspx.designer.cs">
-      <DependentUpon>DesktopApp.aspx</DependentUpon>
-    </Compile>
+    <Compile Include="Download\GetExecFile.cs" />
     <Compile Include="ErrorPage.ashx.cs">
       <DependentUpon>ErrorPage.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

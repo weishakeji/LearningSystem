@@ -59,7 +59,7 @@ namespace Song.Site.Manage.Admin
             //手机端隐藏关于“充值收费”等资费相关信息
             this.cbIsMobileRemoveMoney.Checked = config["IsMobileRemoveMoney"].Value.Boolean ?? false; 
             //桌面端
-            this.cbWebForDeskapp.Checked = config["WebForDeskapp"].Value.Boolean ?? false;  //当前系统必须运行于桌面应用之中
+            this.cbWebForDeskapp.Checked = config["WebForDeskapp"].Value.Boolean ?? false;  //当前系统必须运行于桌面应用之中            
             this.cbStudyForDeskapp.Checked = config["StudyForDeskapp"].Value.Boolean ?? false;  //课程学习需要在桌面应用打开
             this.cbFreeForDeskapp.Checked = config["FreeForDeskapp"].Value.Boolean ?? false;    //免费课程和试用章节除外
             
@@ -81,6 +81,7 @@ namespace Song.Site.Manage.Admin
             config["IsMobileRemoveMoney"].Text = this.cbIsMobileRemoveMoney.Checked.ToString();
             //桌面端
             config["WebForDeskapp"].Text = this.cbWebForDeskapp.Checked.ToString();  //当前系统必须运行于桌面应用之中
+            if (string.IsNullOrWhiteSpace(GetDesktopAppFile())) config["WebForDeskapp"].Text = false.ToString();            
             config["StudyForDeskapp"].Text = this.cbStudyForDeskapp.Checked.ToString();     //课程学习需要在桌面应用打开
             config["FreeForDeskapp"].Text = this.cbFreeForDeskapp.Checked.ToString();    //免费课程和试用章节除外
             //图片
@@ -116,6 +117,21 @@ namespace Song.Site.Manage.Admin
         }
         #endregion
 
-        
+        #region 
+        /// <summary>
+        /// 获取esktopApp文件
+        /// </summary>
+        /// <returns></returns>
+        public string GetDesktopAppFile()
+        {
+            HttpContext context = System.Web.HttpContext.Current;
+            string path = context.Server.MapPath("~/Download/desktopApp/");
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(path);
+            string file = string.Empty;
+            System.IO.FileInfo[] files = di.GetFiles("*.exe");
+            if (files.Length > 0) file = files[0].FullName;
+            return file;
+        }
+        #endregion
     }
 }

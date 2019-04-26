@@ -74,7 +74,7 @@
             </td>
             <td>
              <p>
-                    <asp:CheckBox ID="cbWebForDeskapp" runat="server" Text="当前系统必须运行于桌面应用之中" /></p>
+                    <asp:CheckBox ID="cbWebForDeskapp" runat="server" Text="当前系统必须运行于桌面应用之中（如果本地未安装桌面应用，请勿轻易勾选）"  /></p>
                 <p>
                     <asp:CheckBox ID="cbStudyForDeskapp" runat="server" Text="课程学习需要在桌面应用打开" />
                     &nbsp;<asp:CheckBox

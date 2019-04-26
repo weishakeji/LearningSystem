@@ -88,11 +88,11 @@ namespace Song.Site
                 "mobile/{term}.cshtm",
                 "~/TemplatePage.ashx"
                 );
-            //视频播放的防下载处理
+            //软件下载
             routes.MapPageRoute(
-                "video",
-                "v/{term}.aspx",
-                "~/VideoUrl.aspx"
+                "download",
+                "download/{term}.aspx",
+                "~/download/App.aspx"
                 );
         }
 
