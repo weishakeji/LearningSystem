@@ -415,7 +415,7 @@ namespace Song.ServiceImpls
         }
         public ExamResults[] GetAttendPager(int stid, int sbjid, int orgid, string sear, int size, int index, out int countSum)
         {
-            WhereClip wc = new WhereClip();
+            WhereClip wc = ExamResults._.Exr_SubmitTime > DateTime.Now.AddYears(-100);
             if (stid > 0) wc.And(ExamResults._.Ac_ID == stid);
             if (sbjid > 0) wc.And(ExamResults._.Sbj_ID == sbjid);
             if (orgid > 0) wc.And(ExamResults._.Org_ID == orgid);
