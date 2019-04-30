@@ -25,7 +25,7 @@ namespace Song.Site.Manage.Student
         //学员ID
         private int accid = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
         //员工上传资料的所在路径
-        private string _uppath = "Student";
+        public string uppath = Upload.Get["Student"].Virtual;
         //学员列表集
         List<Song.Entities.Accounts> accounts = new List<Accounts>();
         protected Song.Entities.Organization org;
@@ -65,15 +65,11 @@ namespace Song.Site.Manage.Student
                 foreach (Accounts acc in accounts)
                 {
                     acc.Ac_Age = DateTime.Now.Year - acc.Ac_Age;
-                    //个人照片
-                    if (!string.IsNullOrEmpty(acc.Ac_Photo) && acc.Ac_Photo.Trim() != "")
-                    {
-                        acc.Ac_Photo = Upload.Get[_uppath].Virtual + acc.Ac_Photo;
-                    }
-                    if (!System.IO.File.Exists(acc.Ac_Photo))
-                    {
-                        acc.Ac_Photo = "";
-                    }
+                    ////个人照片
+                    //if (!string.IsNullOrEmpty(acc.Ac_Photo) && acc.Ac_Photo.Trim() != "")
+                    //{
+                    //    acc.Ac_Photo = Upload.Get[_uppath].Virtual + acc.Ac_Photo;
+                    //}                    
                 }
                 //绑定
                 rptAccounts.DataSource = accounts;
