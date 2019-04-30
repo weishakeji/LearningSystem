@@ -151,8 +151,7 @@ dl {
 .themeItem .group {
 	font-size: 14px;
 	line-height: 25px;
-	font-weight: bold;
-	height: 25px;
+	min-height: 25px;
 	margin-right: 10px;
 	margin-bottom: 5px;
 	margin-left: 40px;
