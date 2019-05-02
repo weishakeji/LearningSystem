@@ -1,5 +1,5 @@
 ﻿$(function () {
-    OtherLogin.init(); //第三方登录
+    //OtherLogin.init(); //第三方登录
     //返回按钮
     mui('body').on('tap', '#back', function () {
         if (this.href == "") {

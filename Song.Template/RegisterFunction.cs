@@ -21,6 +21,7 @@ namespace Song.Template
             doc.RegisterGlobalFunction(getCourses);
             doc.RegisterGlobalFunction(getCoursePrice);//产品价格
             doc.RegisterGlobalFunction(getArticle);
+            doc.RegisterGlobalFunction(getConfig);  //当前机构的参数
             doc.RegisterGlobalFunction(getLinks);//友情链接
             doc.RegisterGlobalFunction(ClearHtml);//清理html标签
         }
@@ -53,6 +54,21 @@ namespace Song.Template
             string key = null;
             if (p.Length > 0 && p[0] != null) key = p[0].ToString();
             return Upload.Get[key].Virtual;
+        }
+        /// <summary>
+        /// 获取当前机构的参数
+        /// </summary>
+        /// <param name="p">参数名称</param>
+        /// <returns></returns>
+        protected static string getConfig(object[] p)
+        {
+            string key = null;
+            if (p.Length > 0 && p[0] != null) key = p[0].ToString();
+            if (string.IsNullOrWhiteSpace(key)) return string.Empty;
+            //获取当前机构的配置参数
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            return config[key].Value.String;
         }
 
         /// <summary>

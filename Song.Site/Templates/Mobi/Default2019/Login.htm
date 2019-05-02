@@ -15,10 +15,9 @@
 <link href="CoreStyles/MsgBox.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<a class="goback" type="link" href="{$from}"></a> 
-<a class="home" href="default.ashx" type="link"></a>
+<a class="goback" type="link" href="{$from}"></a> <a class="home" href="default.ashx" type="link"></a>
 <div class="mui-scroll"> 
-
+  
   <!--主内容区起始-->
   <div class="loginArea">
     <vt:if var="islogin" value="false" compare="=">
@@ -110,7 +109,8 @@
           <dd><a href="#" tag="qqlogin" appid="{$QQAPPID}" returl="{$QQReturl}" orgid="{$org.Org_id}"><b class="QQ-icon"></b> <span id="qqLoginBtn">QQ</span></a></dd>
         </vt:if>
         <vt:if var="WeixinLoginIsUse" value="true" compare="=">
-          <dd><a href="#" tag="weixinlogin" appid="{$WeixinAPPID}" returl="{$WeixinReturl}" orgid="{$org.Org_id}"><b class="weixin-icon"></b> <span>微信</span></a></dd>
+          <dd><a href="#" tag="weixinlogin" id="weixinlogin" appid="{$WeixinAPPID}" returl="{$WeixinReturl}" orgid="{$org.Org_id}"><b class="weixin-icon"></b> <span>微信</span></a></dd>
+          
         </vt:if>
       </dl>
       <script type="text/javascript">
@@ -118,7 +118,17 @@
 	  if($(".OAuth").children().size()<1){
 		  $(".titbar").hide();
 	  }
+	  OtherLogin.init(); //第三方登录
 	  </script>
+      <vt:if var="isWeixin" value="true" compare="=" remark="当处在微信中时">
+            <vt:function var="loginweixin" method="getConfig" args="IsLoginForWeixin"/>
+            <vt:if var="loginweixin" value="True" compare="=" remark="微信直接登录"> 
+              <script type="text/javascript">
+			  //alert('微信直接登录');
+mui.trigger(document.getElementById("weixinlogin"),'tap');
+	  </script> 
+            </vt:if>
+          </vt:if>
       <vt:else/>
       <div class="noLogin"> 暂停登录</div>
     </vt:if>

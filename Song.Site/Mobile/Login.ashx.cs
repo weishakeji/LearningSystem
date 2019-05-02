@@ -28,6 +28,7 @@ namespace Song.Site.Mobile
             this.Document.SetValue("forpw", IsLoginForPw);
             this.Document.SetValue("forsms", IsLoginForSms);
             this.Document.SetValue("islogin", !IsLoginForPw && !IsLoginForSms);
+            this.Document.SetValue("isWeixin", WeiSha.Common.Browser.IsWeixin); //是否在微信中
             //界面状态
             if (!IsLoginForPw && IsLoginForSms) loyout = "mobile";
             this.Document.SetValue("loyout", loyout);

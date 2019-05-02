@@ -50,6 +50,7 @@ namespace Song.Site.Manage.Admin
             //登录方式
             cbIsLoginForPw.Checked = config["IsLoginForPw"].Value.Boolean ?? true;    //启用账号密码登录
             cbIsLoginForSms.Checked = config["IsLoginForSms"].Value.Boolean ?? true;  //启用手机短信验证登录
+            cbIsLoginForWeixin.Checked = config["IsLoginForWeixin"].Value.Boolean ?? true;  //微信中仅限微信登录
             //在线练习，是否学员登录后才能用
             cbIsTraningLogin.Checked = config["IsTraningLogin"].Value.Boolean ?? false;            
         }
@@ -66,6 +67,7 @@ namespace Song.Site.Manage.Admin
             //登录方式
             config["IsLoginForPw"].Text = cbIsLoginForPw.Checked.ToString();    //启用账号密码登录
             config["IsLoginForSms"].Text = cbIsLoginForSms.Checked.ToString();  //启用手机短信验证登录
+            config["IsLoginForWeixin"].Text = cbIsLoginForWeixin.Checked.ToString();     //微信中仅限微信登录
             //在线练习，是否学员登录后才能用
             config["IsTraningLogin"].Text = cbIsTraningLogin.Checked.ToString();         
             //保存
