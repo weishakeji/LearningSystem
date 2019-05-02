@@ -11,7 +11,11 @@
 */
 (function () {
     $(function () {
-        Widget.Initialize();
+        //Widget.Initialize();
+        window.setTimeout(function () {
+            //alert(3);
+            Widget.Initialize();
+        }, 1000);
     });
     //初始化
     function Widget() { };
@@ -72,7 +76,7 @@
         wid.prepend("<div class='WidgetICO " + icoClass + "'>" + ico + "</div>");
         var icobox = wid.find(".WidgetICO");
         icobox.css({ width: width, height: ctl.height(),
-            float: 'left', "line-height": height + "px","font-size": "28px",
+            float: 'left', "line-height": height + "px", "font-size": "28px",
             'border-style': 'solid', 'border-width': '1px 1px 1px 1px',
             'border-right-style': 'none', 'border-color': ctl.css('border-left-color')
         });
@@ -99,7 +103,7 @@
             //设置消息的位置
             var offset = ctl.offset();
             txt.css({ "position": "absolute", "z-index": 2000, "text-align": "left",
-                top: 0, left: 40, width: ctl.width(), height: ctl.height(), color:"#666",
+                top: 0, left: 40, width: ctl.width(), height: ctl.height(), color: "#666",
                 "line-height": ctl.height() + "px", "font-size": ctl.css("font-size"), "text-indent": ctl.css("text-indent")
             }).unbind("click").html(deftxt).click(function () {
                 var name = $(this).attr("id");

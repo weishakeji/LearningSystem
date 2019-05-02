@@ -1395,6 +1395,9 @@
     <Content Include="Templates\Web\_Public\Module\Course\Subject-bar.htm" />
     <Content Include="Templates\Web\_Public\Module\Course\Subject-bar.css" />
     <Content Include="Templates\Web\_Public\Module\Course\Subject-bar.js" />
+    <Content Include="Templates\Web\_Public\Module\Teacher\Register.css" />
+    <Content Include="Templates\Web\_Public\Module\Teacher\Register.htm" />
+    <Content Include="Templates\Web\_Public\Module\Teacher\Register.js" />
     <Content Include="Templates\Web\_Public\Module\Test\TestScene.css" />
     <Content Include="Templates\Web\_Public\Module\Test\TestScene.htm" />
     <Content Include="Templates\Web\_Public\Module\Test\TestScene.js" />

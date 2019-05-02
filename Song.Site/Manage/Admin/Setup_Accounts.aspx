@@ -45,6 +45,9 @@
                     <asp:CheckBox ID="cbIsLoginForSms" runat="server" Text="启用手机短信验证登录" />
                 </p>
                 <p>
+                    <asp:CheckBox ID="cbIsLoginForWeixin" runat="server" Text="微信中仅限微信登录（禁用账号、手机验证等方式登录）" />
+                </p>
+                <p style="display:none">
                     <asp:CheckBox ID="cbIsTraningLogin" runat="server" Text="试题练习需要学员登录后才能操作" /></p>
             </td>
         </tr>

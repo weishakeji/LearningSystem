@@ -80,7 +80,7 @@
                     &nbsp;<asp:CheckBox
                         ID="cbFreeForDeskapp" runat="server" Text="免费课程和试用章节除外" /><br />
 
-                    （请将DesktopApp.exe文件手工上传至/DesktopApp/文件夹下）
+                    （请将DesktopApp.exe文件手工上传至/Download/DesktopApp/文件夹下）
                 </p>
             </td>
         </tr>

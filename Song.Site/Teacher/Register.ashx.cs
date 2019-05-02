@@ -20,6 +20,7 @@ namespace Song.Site.Teacher
             //是否允许注册
             WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
             this.Document.SetValue("IsRegTeacher", config["IsRegTeacher"].Value.Boolean ?? true);
+            this.Document.SetValue("IsRegSms", config["IsRegSms"].Value.Boolean ?? true);    //是否要短信验证
             //操作步骤
             this.Document.SetValue("step", step);
             //注册协议

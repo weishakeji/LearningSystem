@@ -68,6 +68,12 @@ namespace Song.Site
                 "{term}.htm",
                 "~/{term}.ashx"
             );
+            //伪静态页面，自动转到ashx动态页（ashx又自动取了/tempates/中的模板用于展示）
+            routes.MapPageRoute(
+                "wcutom",
+                "{term}",
+                "~/{term}.ashx"
+            );
             //自定义页面（.cs为custom缩写，不是csharp哟），系统自动取/tempates/中的模板用于展示
             routes.MapPageRoute(
                 "custom",
