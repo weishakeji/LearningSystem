@@ -676,6 +676,7 @@
     <Content Include="Templates\Mobi\Default2019\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Mobi\Default2019\CoreScripts\AutoLoyout.js" />
     <Content Include="Templates\Mobi\Default2019\CoreScripts\Base64.js" />
+    <Content Include="Templates\Mobi\Default2019\CoreScripts\dexie.min.js" />
     <Content Include="Templates\Mobi\Default2019\CoreScripts\Extend.js" />
     <Content Include="Templates\Mobi\Default2019\CoreScripts\jquery.touchSwipe.min.js" />
     <Content Include="Templates\Mobi\Default2019\CoreScripts\MsgBox.js" />
