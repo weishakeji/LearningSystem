@@ -1,6 +1,6 @@
 ﻿window.loadEvent = new Array();
-$(function () {
-    //加载试题
+$(window).load(function () {
+	//加载试题
     var loadbox = new MsgBox("正在加载试题...", "", 70, 101, "loading");
     $.ajax({
         url: "QuesExercisesItems.ashx",
@@ -17,7 +17,7 @@ $(function () {
         success: function (data) {
             $("#quesArea").html(data);
             var count = $("#quesArea .quesItem").size();
-            console.log(count);
+            //console.log(count);
             for (s in window.loadEvent) {
                 window.loadEvent[s]();
             }
@@ -31,8 +31,9 @@ window.loadEvent.push(function () {
     var count = $("#quesArea .quesItem").size();
     //设置试题宽度
     var wd = $(window).width();
-    var hg = document.querySelector(".context").clientHeight;
-    $("#quesArea").width(wd * (count == 0 ? 1 : count + 10)).height(hg);
+    var hg = document.querySelector(".context").clientHeight;	
+    $("#quesArea").width(wd * (count == 0 ? 1 : count + 10))
+		.css("height",hg==0 ? "auto" : hg);
     //设置题型
     var quesTypes = $("body").attr("questype").split(",");
     //设置宽高，试题类型
