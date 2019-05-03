@@ -5,6 +5,7 @@
 <vt:include file="inc/meta-nomui.inc" />
 <script type="text/javascript" src="CoreScripts/AutoLoyout.js?ver={$version}"></script>
 <script type="text/javascript" src="CoreScripts/jquery.touchSwipe.min.js?ver={$version}"></script>
+<script type="text/javascript" src="CoreScripts/dexie.min.js?ver={$version}"></script>
 <script type="text/javascript" src="CoreScripts/MsgBox.js?ver={$version}"></script>
 <script type="text/javascript" src="Scripts/QuesExercises.js?ver={$version}"></script>
 <script type="text/javascript" src="Scripts/QuesExercisesEvent.js?ver={$version}"></script>
@@ -28,6 +29,8 @@
   <div loyout="column" width="5"> </div>
   <div loyout="column" width="36"> <a class="goback" type="link" href="QuesOutlines.ashx?couid={$couid}"></a> </div>
   <div loyout="column" width="36"> <a class="home" href="default.ashx" type="link"></a> </div>
+   
+   <div loyout="column" width="120" class="btnRefresh"> 更新试题</div>
   <div loyout="column" class="fontsize">
     <div id="addFont" class="fontoper">+</div>
     <div id="subFont" class="fontoper">-</div>

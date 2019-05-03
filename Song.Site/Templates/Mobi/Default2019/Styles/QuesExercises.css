@@ -43,6 +43,7 @@ body {
 	font-size: 22px;
 	padding-top: -5px;
 }
+
 .context {
 	overflow-x: hidden !important;
 	overflow-y: auto !important;
@@ -69,11 +70,16 @@ body {
 	background-color: #fff;
 }
 .topBpx * {
-	line-height: 40px;
+	line-height: 50px;
 	font-size: 18px;
 }
 .topBpx a {
 	text-decoration: none;
+}
+/*刷新本地试题*/
+.btnRefresh{
+	line-height: 50px;
+	font-size:14px;
 }
 /*字体大小增减*/
 .topBpx .fontsize>div {
