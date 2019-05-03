@@ -79,6 +79,7 @@ window.loadEvent.push(function () {
         var msg = new MsgBox("更新试题", "将当前练习的试题与服务器端保持同步。", 80, 220, "confirm");
         //msg.href = this.href;
         msg.EnterEvent = function () {
+            msg.Close(msg.WinId);
             var loadbox = new MsgBox("正在加载试题...", "", 70, 101, "loading");
             $.ajax({
                 url: "QuesExercisesItems.ashx",
@@ -94,14 +95,15 @@ window.loadEvent.push(function () {
                 success: function (data) {
                     indexDatabase(data).then(text => {
                         $("#quesArea").html(text);
-                        for (s in window.loadEvent) {
-                            window.loadEvent[s]();
-                        }
+                        //for (s in window.loadEvent) {
+                        //window.loadEvent[s]();
+                        //}
+                        window.location.reload();
                     });
 
                 }
             });
-            msg.Close(msg.WinId);
+
         }
         msg.Open();
     });
@@ -109,30 +111,38 @@ window.loadEvent.push(function () {
 //本地数据库读写
 function indexDatabase(text) {
     var couid = $().getPara("couid");
-    var olid = $().getPara("olid");
-    var dbname = "QuesExercises_" + couid + "_" + olid;
+    var dbname = "QuesExercises_" + couid;
     return new Promise(((resolve, reject) => {
         Dexie.exists(dbname).then(function (exists) {
             var db = new Dexie(dbname);
             db.version(1).stores({
-                questions: "++id,html"
+                questions: "++id,olid,html"
             });
             db.open();
             if (!exists) {
-                db.questions.put({ html: text }).then(function (d) {
+                db.questions.put({ olid: $().getPara("olid"), html: text }).then(function (d) {
                     resolve(text);
                 }).catch(function (error) {
                     alert("error: " + error);
                 });
             }
             if (text == null) {
-                db.questions.where({ id: 1 }).first(d => {
-                    resolve(d.html);
+                db.questions.where({ olid: $().getPara("olid") }).first(d => {
+                    resolve(d != null ? d.html : d);
                 });
             } else {
-                db.questions.update(1, { html: text }).then(function (d) {
-                    resolve(text);
+                db.questions.where({ olid: $().getPara("olid") }).first(d => {
+                    if (d != null) {
+                        db.questions.update(d.id, { html: text }).then(function () {
+                            resolve(text);
+                        });
+                    } else {
+                        db.questions.put({ olid: $().getPara("olid"), html: text }).then(function (d) {
+                            resolve(text);
+                        })
+                    }
                 });
+
             }
             //db.close();
         })
