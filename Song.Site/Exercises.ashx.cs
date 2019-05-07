@@ -63,7 +63,7 @@ namespace Song.Site
                     if (course.Cou_IsTry)
                     {
                         sumCount = Business.Do<IQuestions>().QuesOfCount(Organ.Org_ID, 0, 0, olid, type, diff, true);
-                        sumCount = sumCount > course.Cou_TryNum ? course.Cou_TryNum : sumCount;
+                        //sumCount = sumCount > course.Cou_TryNum ? course.Cou_TryNum : sumCount;
                     }
                     this.Document.Variables.SetValue("isTry", istry);
                 }

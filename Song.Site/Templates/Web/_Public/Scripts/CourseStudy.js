@@ -134,8 +134,9 @@ $(window).focus(function () {
 var watchTime = Number($("#studyTime").attr("num"));
 watchTime = isNaN(watchTime) ? 0 : watchTime;
 //历史递交记录
-var p = Math.floor(watchTime / Number($("#totalTime").text()) * 10000) / 100;
-var historyLog = isNaN(p) ? 0 : p;
+var totalTime=Number($("#totalTime").text());
+var p = Math.floor(watchTime / totalTime * 10000) / 100;
+var historyLog = isNaN(p)|| p==Number.POSITIVE_INFINITY ? 0 : p;
 //var setT = null;
 function pausedHandler(b) {
     //if (setT) window.clearInterval(setT);
