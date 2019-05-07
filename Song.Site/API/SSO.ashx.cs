@@ -17,10 +17,11 @@ namespace Song.Site.API
     {
 
         string appid = WeiSha.Common.Request.QueryString["appid"].String;       //appid  
-        string user = WeiSha.Common.Request.QueryString["user"].String;         //用户名    
+        string user = WeiSha.Common.Request.QueryString["user"].String;         //账号
+        string name = WeiSha.Common.Request.QueryString["name"].UrlDecode;         //用户名称  
         string pw = WeiSha.Common.Request.QueryString["pw"].String;         //密码,md5加密
         string domain = WeiSha.Common.Request.QueryString["domain"].UrlDecode;  //来自请求的域名     
-        string action = WeiSha.Common.Request.QueryString["action"].String;     //动作，login登录，logout退出登录,verify校验密码是否正确   
+        string action = WeiSha.Common.Request.QueryString["action"].String.ToLower();     //动作，login登录，logout退出登录,verify校验密码是否正确,add新增用户
         string ret = WeiSha.Common.Request.QueryString["return"].String;     //返回类型,xml或json
         string goto_url = WeiSha.Common.Request.QueryString["goto"].UrlDecode;     //成功后的跳转地址
 
@@ -30,68 +31,71 @@ namespace Song.Site.API
             SSO_State state = null;
             try
             {
-                if (string.IsNullOrWhiteSpace(user))
+                if (string.IsNullOrWhiteSpace(user)) throw new Exception("1.账号不得为空");
+                if (string.IsNullOrWhiteSpace(appid)) throw new Exception("2.APPID不得为空");
+                if (string.IsNullOrWhiteSpace(domain)) throw new Exception("3.请求域不得为空");
+                //接口是否存在或正确
+                Song.Entities.SingleSignOn entity = Business.Do<ISSO>().GetSingle(appid);
+                if (entity == null) throw new Exception("2.接口对象不存在");
+                if (!entity.SSO_Domain.Equals(domain, StringComparison.CurrentCultureIgnoreCase))
+                    throw new Exception("3.该请求来自的域不合法");
+                //通过验证，进入登录状态            
+                Song.Entities.Accounts emp = Business.Do<IAccounts>().IsAccountsExist(user);
+                if (emp == null)
                 {
-                    state = new SSO_State(false, 1, "账号不得为空");
+                    if (!"add".Equals(action, StringComparison.CurrentCultureIgnoreCase))
+                        throw new Exception(string.Format("4.当前账号({0})不存在", user));
+                    Song.Entities.Accounts tmp = new Entities.Accounts();
+                    tmp.Ac_AccName = user;
+                    tmp.Ac_Name = name;
+                    tmp.Ac_IsPass = tmp.Ac_IsUse = true;
+                    Business.Do<IAccounts>().AccountsAdd(tmp);
+                    LoginState.Accounts.Write(tmp);
+                    state = new SSO_State(true, 10, string.Format("新建账号({0})", user));
                 }
                 else
                 {
-                    Song.Entities.SingleSignOn entity = Business.Do<ISSO>().GetSingle(appid);
-                    if (entity == null) state = new SSO_State(false, 2, "接口对象不存在");
-                    if (entity != null)
+                    if (!emp.Ac_IsPass || !emp.Ac_IsUse)
+                        throw new Exception(string.Format("5.当前账号({0})被禁用或未通过审核", user));
+                    switch (action)
                     {
-                        if (entity.SSO_Domain != domain.ToLower())
-                        {
-                            state = new SSO_State(false, 3, "该请求来自的域不合法");
-                        }
-                        else
-                        {
-                            //通过验证，进入登录状态            
-                            Song.Entities.Accounts emp = Business.Do<IAccounts>().IsAccountsExist(user);
-                            if (emp == null)
-                            {
-                                state = new SSO_State(false, 4, string.Format("当前账号({0})不存在", user));
-                            }
-                            else
-                            {
-                                if (!emp.Ac_IsPass || !emp.Ac_IsUse)
-                                {
-                                    state = new SSO_State(false, 5, string.Format("当前账号({0})被禁用或未通过审核", user));
-                                }
-                                else
-                                {
-                                    if ("logout".Equals(action, StringComparison.CurrentCultureIgnoreCase))
-                                    {
-                                        LoginState.Accounts.Logout();
-                                        state = new SSO_State(true, 7, string.Format("当前账号({0})退出登录", user));                                      
-                                    }
-                                    if ("login".Equals(action,StringComparison.CurrentCultureIgnoreCase))
-                                    {
-                                        LoginState.Accounts.Write(emp);
-                                        //登录成功
-                                        Business.Do<IAccounts>().PointAdd4Login(emp, "协同站点登录", domain, "");   //增加登录积分
-                                        Business.Do<IStudent>().LogForLoginAdd(emp);
-                                        state = new SSO_State(true, 6, string.Format("当前账号({0})登录成功", user));
-                                    }
-                                    if ("verify".Equals(action, StringComparison.CurrentCultureIgnoreCase))
-                                    {
-                                        Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsLogin(emp.Ac_ID, pw, true);
-                                        if (acc == null) state = new SSO_State(false, 8, string.Format("当前账号({0})与密码不匹配", user));
-                                        else
-                                            state = new SSO_State(true, 9, string.Format("当前账号({0})与密码校验成功", user));
-                                    }
-                                }
-                            }
-                        }
+                        //退出登录
+                        case "logout":
+                            LoginState.Accounts.Logout();
+                            state = new SSO_State(true, 7, string.Format("当前账号({0})退出登录", user));
+                            break;
+                        //验证密码
+                        case "verify":
+                            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsLogin(emp.Ac_ID, pw, true);
+                            if (acc == null) throw new Exception(string.Format("8.当前账号({0})与密码不匹配", user));
+                            state = new SSO_State(true, 9, string.Format("当前账号({0})与密码校验成功", user));
+                            break;
+                        //登录
+                        case "login":
+                        default:
+                            LoginState.Accounts.Write(emp);
+                            //登录成功
+                            Business.Do<IAccounts>().PointAdd4Login(emp, "协同站点登录", domain, "");   //增加登录积分
+                            Business.Do<IStudent>().LogForLoginAdd(emp);
+                            state = new SSO_State(true, 6, string.Format("当前账号({0})登录成功", user));
+                            break;
                     }
                 }
             }
             catch (Exception ex)
             {
-                state = new SSO_State(false, 0, ex.Message);
+                int s = 0;
+                string msg = string.Empty;
+                if (ex.Message.IndexOf(".") > 0)
+                {
+                    string str = ex.Message.Substring(0, ex.Message.IndexOf("."));
+                    int.TryParse(str, out s);
+                    msg = ex.Message.Substring(ex.Message.IndexOf(".")+1);
+                }
+                state = new SSO_State(false, s, msg);
             }
             //如果成功，且转向地址不为空，则跳转
-            if (state.success && !string.IsNullOrWhiteSpace(goto_url))
+            if (state != null && state.success && !string.IsNullOrWhiteSpace(goto_url))
             {
                 context.Response.Redirect(goto_url);
             }

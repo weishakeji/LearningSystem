@@ -67,8 +67,9 @@
             2、参数说明：<br />
             appid：应用ID<br />
             domain：请求域，请求此调用的来源网站域名,需Url编码<br />
+            action：登录还是退出登录（可以为空），默认为login，如果为add，则账号不存在时将自动创建<br />
             user：用户账号名<br />            
-            action：登录还是退出登录（可以为空），默认为login<br />
+            name:用户名称（当action为add时才有用）,需Url编码<br />  
             return：返回值是xml还是json格式（可以为空），默认为xml格式<br />
             goto：成功后的转向地址（可以为空）,转到首页用/,如果失败将不跳转
             </td>

@@ -1157,11 +1157,9 @@
     <Content Include="Templates\Web\Gov\Student\Panel.htm" />
     <Content Include="Templates\Web\Gov\Student\PwFind.htm" />
     <Content Include="Templates\Web\Gov\Student\Scripts\Index.js" />
-    <Content Include="Templates\Web\Gov\Student\Startpage.htm" />
     <Content Include="Templates\Web\Gov\Student\Styles\index.css" />
     <Content Include="Templates\Web\Gov\Student\Styles\Panel.css" />
     <Content Include="Templates\Web\Gov\Student\Styles\PwFind.css" />
-    <Content Include="Templates\Web\Gov\Student\Styles\Startpage.css" />
     <Content Include="Templates\Web\Gov\Styles\about.css" />
     <Content Include="Templates\Web\Gov\Styles\article.css" />
     <Content Include="Templates\Web\Gov\Styles\Contactus.css" />
@@ -1449,11 +1447,11 @@
     <Content Include="Templates\Web\NetSchool\Student\Scripts\Index.js" />
     <Content Include="Templates\Web\NetSchool\Student\PwFind.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Scripts\Register.js" />
-    <Content Include="Templates\Web\NetSchool\Student\Startpage.htm" />
+    <Content Include="Templates\Web\_Public\Student\Startpage.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Styles\index.css" />
     <Content Include="Templates\Web\NetSchool\Student\Styles\Panel.css" />
     <Content Include="Templates\Web\NetSchool\Student\Styles\PwFind.css" />
-    <Content Include="Templates\Web\NetSchool\Student\Styles\Startpage.css" />
+    <Content Include="Templates\Web\_Public\Student\Styles\Startpage.css" />
     <Content Include="Templates\Web\NetSchool\Student\Register.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Styles\Register.css" />
     <Content Include="Templates\Web\NetSchool\Styles\About.css" />
@@ -1675,10 +1673,8 @@
     <Content Include="Templates\Web\Neimeng\Student\NoLogin.htm" />
     <Content Include="Templates\Web\Neimeng\Student\Panel.htm" />
     <Content Include="Templates\Web\Neimeng\Student\Scripts\Index.js" />
-    <Content Include="Templates\Web\Neimeng\Student\Startpage.htm" />
     <Content Include="Templates\Web\Neimeng\Student\Styles\index.css" />
     <Content Include="Templates\Web\Neimeng\Student\Styles\Panel.css" />
-    <Content Include="Templates\Web\Neimeng\Student\Styles\Startpage.css" />
     <Content Include="Templates\Web\Neimeng\Styles\about.css" />
     <Content Include="Templates\Web\Neimeng\Styles\article.css" />
     <Content Include="Templates\Web\Neimeng\Styles\Contactus.css" />
@@ -1892,10 +1888,8 @@
     <Content Include="Templates\Web\School\Student\NoLogin.htm" />
     <Content Include="Templates\Web\School\Student\Panel.htm" />
     <Content Include="Templates\Web\School\Student\Scripts\Index.js" />
-    <Content Include="Templates\Web\School\Student\Startpage.htm" />
     <Content Include="Templates\Web\School\Student\Styles\index.css" />
     <Content Include="Templates\Web\School\Student\Styles\Panel.css" />
-    <Content Include="Templates\Web\School\Student\Styles\Startpage.css" />
     <Content Include="Templates\Web\School\Styles\about.css" />
     <Content Include="Templates\Web\School\Styles\article.css" />
     <Content Include="Templates\Web\School\Styles\Contactus.css" />
