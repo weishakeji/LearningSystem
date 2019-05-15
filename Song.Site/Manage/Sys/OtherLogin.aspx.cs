@@ -43,6 +43,11 @@ namespace Song.Site.Manage.Sys
             tbWeixinpubSecret.Text = Business.Do<ISystemPara>()["WeixinpubSecret"].String;
             tbWeixinpubReturl.Text = Business.Do<ISystemPara>()["WeixinpubReturl"].Value;
             if (tbWeixinReturl.Text.Trim() == "") tbWeixinReturl.Text = "http://"+domain;
+            //金碟云之家轻应用，设置项
+            cbIsYunzhijiaLogin.Checked = Business.Do<ISystemPara>()["YunzhijiaLoginIsuse"].Boolean ?? true;
+            tbYunzhijiaAppid.Text = Business.Do<ISystemPara>()["YunzhijiaAppid"].String;
+            tbYunzhijiaAppSecret.Text = Business.Do<ISystemPara>()["YunzhijiaAppSecret"].String;
+            tbYunzhijiaDomain.Text = Business.Do<ISystemPara>()["YunzhijiaDomain"].Value;
         }
         /// <summary>
         /// QQ登录
@@ -83,6 +88,27 @@ namespace Song.Site.Manage.Sys
                 Business.Do<ISystemPara>().Save("WeixinpubAPPID", tbWeixinpubAppid.Text.Trim(), false);
                 Business.Do<ISystemPara>().Save("WeixinpubSecret", tbWeixinpubSecret.Text.Trim(), false);
                 Business.Do<ISystemPara>().Save("WeixinpubReturl", tbWeixinpubReturl.Text.Trim(), false);
+                Business.Do<ISystemPara>().Refresh();
+                this.Alert("操作成功！");
+            }
+            catch (Exception ex)
+            {
+                this.Alert(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 云之家.轻应用，用户登录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnYunzhijiaLogin_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Business.Do<ISystemPara>().Save("YunzhijiaLoginIsuse", cbIsYunzhijiaLogin.Checked.ToString(), false);
+                Business.Do<ISystemPara>().Save("YunzhijiaAppid", tbYunzhijiaAppid.Text.Trim(), false);
+                Business.Do<ISystemPara>().Save("YunzhijiaAppSecret", tbYunzhijiaAppSecret.Text.Trim(), false);
+                Business.Do<ISystemPara>().Save("YunzhijiaDomain", tbYunzhijiaDomain.Text.Trim(), false);
                 Business.Do<ISystemPara>().Refresh();
                 this.Alert("操作成功！");
             }

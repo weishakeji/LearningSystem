@@ -61,33 +61,34 @@ namespace Song.Site
 
         }    
 
+
         private void RegisterRoutes(RouteCollection routes){
-            //伪静态页面，自动转到ashx动态页（ashx又自动取了/tempates/中的模板用于展示）
+            //自定义页面（.cs为custom缩写，不是csharp哟），系统自动取/tempates/中的模板用于展示
             routes.MapPageRoute(
-                "web",
-                "{term}.htm",
-                "~/{term}.ashx"
-            );
+                "custom",
+                "{term}.cshtm",
+                "~/templatePage.ashx",
+                false
+             );
+            ////伪静态页面，自动转到ashx动态页（ashx又自动取了/tempates/中的模板用于展示）
+            //routes.MapPageRoute(
+            //    "web",
+            //    "{term}.htm",
+            //    "~/{term}.ashx"
+            //);
             //伪静态页面，自动转到ashx动态页（ashx又自动取了/tempates/中的模板用于展示）
             routes.MapPageRoute(
                 "wcutom",
                 "{term}",
                 "~/{term}.ashx"
-            );
-            //自定义页面（.cs为custom缩写，不是csharp哟），系统自动取/tempates/中的模板用于展示
-            routes.MapPageRoute(
-                "custom",
-                "{term}.cshtm",
-                "~/TemplatePage.ashx",
-                false
-             );            
+            );                        
             //************************************
-            //同上，只是此为手机端的ashx动态页
-            routes.MapPageRoute(
-                "mobile",
-                "mobile/{term}.htm",
-                "~/mobile/{term}.ashx"
-                );
+            ////同上，只是此为手机端的ashx动态页
+            //routes.MapPageRoute(
+            //    "mobile",
+            //    "mobile/{term}.htm",
+            //    "~/mobile/{term}.ashx"
+            //    );
             //同上，此为手机端自定义页面
             routes.MapPageRoute(
                 "mcustom",

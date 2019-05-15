@@ -37,6 +37,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -498,6 +499,7 @@
     <Content Include="Manage\Sys\ProfitSharing.aspx" />
     <Content Include="Manage\Sys\ProfitSharing_Edit.aspx" />
     <Content Include="Manage\Sys\Styles\ProfitSharing_Edit.css" />
+    <Content Include="Manage\Sys\Styles\OtherLogin.css" />
     <Content Include="Manage\Teacher\Archives.aspx" />
     <Content Include="Manage\Teacher\Courses.aspx" />
     <Content Include="Manage\Teacher\List.aspx" />
@@ -941,6 +943,7 @@
     <Content Include="Templates\Mobi\_Public\_self.xml" />
     <Content Include="Templates\Mobi\_Public\Noaccess.htm" />
     <Content Include="Templates\Mobi\_Public\Certify.htm" />
+    <Content Include="Templates\Mobi\_Public\Yunzhijia.htm" />
     <Content Include="Templates\Web\Gov\Conn.htm" />
     <Content Include="Templates\Web\Gov\CourseChannel.htm" />
     <Content Include="Templates\Web\Gov\Images\cou_nophoto.jpg" />
@@ -3321,6 +3324,10 @@
     </Compile>
     <Compile Include="Mobile\QuesExercisesItems.ashx.cs">
       <DependentUpon>QuesExercisesItems.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mobile\Yunzhijia.ashx.cs">
+      <DependentUpon>Yunzhijia.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="NewsList.ashx.cs">
@@ -6423,6 +6430,7 @@
     <Content Include="Mobile\MyFriends.ashx" />
     <Content Include="Mobile\Certify.ashx" />
     <Content Include="Mobile\QuesExercisesItems.ashx" />
+    <Content Include="Mobile\Yunzhijia.ashx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

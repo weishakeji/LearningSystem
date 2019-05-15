@@ -1,5 +1,6 @@
 ﻿<!doctype html>
 <html>
+
 <head>
     <title></title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
@@ -10,29 +11,29 @@
     <meta name="format-detection" content="email=no" />
     <script type="text/javascript" src="/Utility/CoreScripts/jquery.js?ver={$version}"></script>
     <vt:if var="domain" value="" compare="!=">
-      <script type="text/javascript">
-          document.domain = '{$domain}';          
-    </script></vt:if>
+        <script type="text/javascript">
+            document.domain = '{$domain}';          
+        </script>
+    </vt:if>
     <style type="text/css">
-        .txt
-        {
+        .txt {
             text-align: center;
             margin: 30px;
             display: none;
         }
-        a
-        {
+
+        a {
             color: #333;
             text-decoration: none;
             line-height: 35px;
         }
     </style>
 </head>
+
 <body>
     <p>
     </p>
-    <div id="loading" class="txt" appid="{$WeixinpubAPPID}" returl="{$WeixinpubReturl}"
-        orgid="{$org.Org_id}">
+    <div id="loading" class="txt" appid="{$WeixinpubAPPID}" returl="{$WeixinpubReturl}" orgid="{$org.Org_id}">
         <a href="" id="url">正在登录...<br />
             无法正常跳转，请点击 </a>
     </div>
@@ -69,22 +70,22 @@
                     }
                 }
                 //return !ispass ? "http://" + returl : returl;
-				return returl;
+                return returl;
             }
             var tag = $("#loading");
             var appid = tag.attr("appid"); //appid
             var returl = prefix(tag.attr("returl")) + "/mobile/weixinpublogin.ashx"; //回调域	
-            		
+
             var orgid = tag.attr("orgid"); 	//当前机构id
             var target = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect";
             target = target.format(appid, encodeURIComponent(returl), orgid);
             $("#url").attr("href", target);
-            $("#url").click(function(){
-                var href=$(this).attr("href");
+            $("#url").click(function () {
+                var href = $(this).attr("href");
                 window.location.href = target;
             });
         })();
-    
+
     </script>
     <script type="text/javascript">
         (function () {
@@ -103,4 +104,5 @@
         })();
     </script>
 </body>
+
 </html>

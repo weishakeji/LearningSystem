@@ -59,6 +59,60 @@
         </table>
     </fieldset>
     <fieldset>
+        <legend>金碟.云之家轻应用</legend>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="80">
+                </td>
+                <td>
+                    <asp:CheckBox ID="cbIsYunzhijiaLogin" runat="server" Text="是否启用云之家登录" Checked="True" />
+                   
+                </td>
+            </tr>
+            <tr>
+                <td class="right">
+                    AppID:
+                </td>
+                <td class="left">
+                    <asp:TextBox ID="tbYunzhijiaAppid" runat="server" nullable="false" group="yunzhijia" Width="100"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="right">
+                    AppSecret:
+                </td>
+                <td class="left">
+                    <asp:TextBox ID="tbYunzhijiaAppSecret" runat="server" nullable="false" group="yunzhijia" Width="300"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="right">
+                    域名:
+                </td>
+                <td class="left">
+                    <asp:TextBox ID="tbYunzhijiaDomain" runat="server" begin="http://|https://" nullable="false"
+                        group="yunzhijia" Width="200"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="right">
+                   说明:
+                </td>
+                <td class="left">
+                    “域名”为云之家平台的域名，如果为私有云，请自主填写
+                </td>
+            </tr>
+            <tr>
+                <td class="right">
+                </td>
+                <td class="left">
+                    <cc1:Button ID="btnYunzhijiaLogin" runat="server" Text="确定" OnClick="btnYunzhijiaLogin_Click" verify="true"
+                        group="yunzhijia" />
+                </td>
+            </tr>
+        </table>
+        </fieldset>
+    <fieldset>
         <legend>微信登录</legend>
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
@@ -153,4 +207,5 @@
             </tr>
         </table>
     </fieldset>
+     
 </asp:Content>

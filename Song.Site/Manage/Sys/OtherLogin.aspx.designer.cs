@@ -67,6 +67,51 @@ namespace Song.Site.Manage.Sys {
         protected global::WeiSha.WebControl.Button btnQQlogin;
         
         /// <summary>
+        /// cbIsYunzhijiaLogin 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbIsYunzhijiaLogin;
+        
+        /// <summary>
+        /// tbYunzhijiaAppid 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbYunzhijiaAppid;
+        
+        /// <summary>
+        /// tbYunzhijiaAppSecret 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbYunzhijiaAppSecret;
+        
+        /// <summary>
+        /// tbYunzhijiaDomain 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbYunzhijiaDomain;
+        
+        /// <summary>
+        /// btnYunzhijiaLogin 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::WeiSha.WebControl.Button btnYunzhijiaLogin;
+        
+        /// <summary>
         /// cbIsWeixinLogin 控件。
         /// </summary>
         /// <remarks>

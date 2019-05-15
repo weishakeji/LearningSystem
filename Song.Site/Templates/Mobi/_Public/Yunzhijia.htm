@@ -1,0 +1,104 @@
+﻿<!doctype html>
+<html>
+
+<head>
+	<title>云之家测试</title>
+	<vt:include file="inc/meta.inc" />
+	<style type="text/css">
+
+		#footer {
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			height: 100px;
+			line-height: 30px;
+			text-align: center;
+			z-index: 9999;
+			opacity: .80;
+			filter: alpha(opacity=80);
+			color: #666;
+		}
+
+		.line {
+			display: inline-block;
+			width: 80%;
+			border-top: 1px solid #ccc;
+			height: 1px;
+			margin-left: 10%;
+			margin-right: 10%;
+			top: 0px;
+			left: 0px;
+			z-index: 1;
+		}
+		.row{
+			margin-top: 20px;
+			word-wrap:break-word;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="txt"> 当前设备限制访问 </div>
+	<div class="ticket"></div>
+	<div class="state"></div>
+	<div class="url"></div>
+	<div class="row">获取Token：{$token}	
+	</div>
+	<div class="row">获取用户信息：{$user}</div>
+
+	<script language="javascript">
+		$(function () {
+			$body = $(".txt");
+
+			//判断是否运行于云之家App中
+			function isYzjApp() {
+				var isYzjApp = navigator.userAgent.match(/Qing\/.*;(iPhone|Android).*/) ? true : false;
+				$(".state").text("是否处于云之家：" + isYzjApp);
+				return isYzjApp;
+			}
+
+			function getOS() {  //获取操作系统平台，IOS或安卓
+				return (navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+					? 'ios' : navigator.userAgent.match(/Android/i)
+						? 'android' : '');
+			}
+			//获取url中的参数
+			function getUrlParam(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+				var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+				if (r != null) return unescape(r[2]); return null; //返回参数值
+			}
+			function isMobile() {
+				var os = getOS();
+				return os == 'ios' || os == 'android';
+			}
+
+			var ticket = getUrlParam('ticket');
+			//获取url中的参数
+			function getUrlParam(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+				var r = window.location.search.substr(1).match(reg); //匹配目标参数
+				if (r != null)
+					return unescape(r[2]);
+				return null; //返回参数值
+			}
+			//如果不在云之家中的话
+			if (!isYzjApp()) {
+				$body.html("Hello！当前不在云之家App中！开启您的轻应用之旅吧！");
+				if (!isMobile()) {
+					$body.html("Hello！当前不在手机端上！开启您的轻应用之旅吧！");
+				} else {
+					$body.html("当前是手机端！，但没有在云之家");
+				}
+			} else {
+				$body.html("云之家");
+				var ticket = getUrlParam('ticket');
+				$(".ticket").html("ticket：" + ticket);
+				$(".url").text(window.location.href);
+			}
+
+		});
+	</script>
+</body>
+
+</html>
