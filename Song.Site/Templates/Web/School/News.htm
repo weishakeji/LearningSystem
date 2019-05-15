@@ -67,7 +67,7 @@
 <div id="Context">
 <img src="Images/bar01.jpg" width="1196" height="100" class="rowImg" />
   
-   <vt:list type="columns" ctype="news" item="m" index="i">
+   <vt:list type="columns" ctype="news" item="m" count="12"  index="i">
   <div class="order box" >
       <div class="tit"> {$:m.col_name}<a href="/newslist.ashx?colid={$:m.col_id}">&nbsp;</a> </div>
       <div class="orderAreaBox"> </div>
@@ -91,7 +91,7 @@
       <div class="tit">热门课程<a href="/CourseChannel.ashx">&nbsp;</a> </div>
       <div class="coursebox">
       <div class="coursebox-inner">
-        <vt:list type="course" item="c" index="i" order="rec"  remark="推荐课程">
+        <vt:list type="course" item="c" index="i" order="rec" count="10"  remark="推荐课程">
           <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
             <div class="cour-price">
               
