@@ -14,7 +14,7 @@
 			<div class="title" v-html="title"></div>
 			<div class="message">
 				<span v-if='!isYzjApp'>当前应用没有处于云之家APP中，无法使用云之家账号进行登录学习</span>
-				<div v-if='isDebug&error' class="error">错误：{{message}}</div>
+				<div v-if='error' class="error">错误：{{message}}</div>
 				<template v-if="isYzjApp">
 					<div v-if='!error' class="userinfo" style="margin-bottom:40px;">
 						<img :src="user.photoUrl" />
@@ -127,7 +127,7 @@
 				}
 			}).catch(function (error) {
 				view.error = true;
-				view.message = error;
+				//view.message = error;
 				window.location.reload();
 			});
 
