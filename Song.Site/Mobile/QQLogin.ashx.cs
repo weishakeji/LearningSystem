@@ -124,7 +124,7 @@ namespace Song.Site.Mobile
             Song.Entities.Accounts acc = new Entities.Accounts();
             try
             {
-                string infoJson = WeiSha.Common.Request.WebResult(userUrl);
+                string infoJson = WeiSha.Common.Request.HttpGet(userUrl);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(infoJson);
                 string ret = jo["ret"] != null ? jo["ret"].ToString() : string.Empty;  //返回码
                 string msg = jo["msg"] != null ? jo["msg"].ToString() : string.Empty;  //返回的提示信息

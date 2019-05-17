@@ -112,7 +112,9 @@
           <dd><a href="#" tag="weixinlogin" id="weixinlogin" appid="{$WeixinAPPID}" returl="{$WeixinReturl}" orgid="{$org.Org_id}"><b class="weixin-icon"></b> <span>微信</span></a></dd>
           
         </vt:if>
-          <dd><a href="yunzhijia.ashx" tag="yunzhijia" id="yunzhijia" type="link" appid="{$WeixinAPPID}" returl="{$WeixinReturl}" orgid="{$org.Org_id}"><b class="weixin-icon"></b> <span>云之家</span></a></dd>
+        <vt:if var="YunzhijiaLoginIsuse" value="true" compare="=">
+          <dd><a href="yunzhijia.ashx" tag="yunzhijia" id="yunzhijia"><b class="yunzhijia-icon"></b> <span>云之家</span></a></dd>
+           </vt:if>
       </dl>
       <script type="text/javascript">
 	  //如果第三方登录没有启用，则不显示相关信息

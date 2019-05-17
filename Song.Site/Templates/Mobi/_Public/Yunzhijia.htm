@@ -4,101 +4,142 @@
 <head>
 	<title>云之家测试</title>
 	<vt:include file="inc/meta.inc" />
-	<style type="text/css">
+	<link rel="stylesheet" href="Styles/Yunzhijia.css?ver={$version}" type="text/css" />
 
-		#footer {
-			position: fixed;
-			bottom: 0;
-			width: 100%;
-			height: 100px;
-			line-height: 30px;
-			text-align: center;
-			z-index: 9999;
-			opacity: .80;
-			filter: alpha(opacity=80);
-			color: #666;
-		}
-
-		.line {
-			display: inline-block;
-			width: 80%;
-			border-top: 1px solid #ccc;
-			height: 1px;
-			margin-left: 10%;
-			margin-right: 10%;
-			top: 0px;
-			left: 0px;
-			z-index: 1;
-		}
-		.row{
-			margin-top: 20px;
-			word-wrap:break-word;
-		}
-	</style>
 </head>
 
 <body>
-	<div class="txt"> 当前设备限制访问 </div>
-	<div class="ticket"></div>
-	<div class="state"></div>
-	<div class="url"></div>
-	<div class="row">获取Token：{$token}	
+	<div id="view">
+		<div id="limitMsg" class="box">
+			<div class="title" v-html="title"></div>
+			<div class="message">
+				<span v-if='!isYzjApp'>当前应用没有处于云之家APP中，无法使用云之家账号进行登录学习</span>
+				<div v-if='error' class="error">错误：{{message}}</div>
+				<template v-if="isYzjApp">
+					<div v-if='!error' class="userinfo" style="margin-bottom:40px;">
+						<img :src="user.photoUrl" />
+						<div>姓名：{{user.username}}</div>
+						<div>账号：{{user.mobile}}</div>
+
+					</div>
+					<div v-if='!error' class="box-foot">
+						正在登录... <span>{{second}}</span>后转到首页
+					</div>
+				</template>
+			</div>
+
+		</div>
+		<div class="box" v-if="isDebug">
+			<div class="title">调试信息</div>
+			<div class="message">
+				<div class="txt"> 是否处于云之家：{{isYzjApp}} </div>
+				<div class="ticket">ticket:{{getParam('ticket')}}</div>
+				<div class="state">详细信息：{{details}}</div>
+				<div class="url">{{url}}</div>
+			</div>
+		</div>
 	</div>
-	<div class="row">获取用户信息：{$user}</div>
-
-	<script language="javascript">
-		$(function () {
-			$body = $(".txt");
-
-			//判断是否运行于云之家App中
-			function isYzjApp() {
-				var isYzjApp = navigator.userAgent.match(/Qing\/.*;(iPhone|Android).*/) ? true : false;
-				$(".state").text("是否处于云之家：" + isYzjApp);
-				return isYzjApp;
-			}
-
-			function getOS() {  //获取操作系统平台，IOS或安卓
-				return (navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
-					? 'ios' : navigator.userAgent.match(/Android/i)
-						? 'android' : '');
-			}
-			//获取url中的参数
-			function getUrlParam(name) {
-				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-				var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-				if (r != null) return unescape(r[2]); return null; //返回参数值
-			}
-			function isMobile() {
-				var os = getOS();
-				return os == 'ios' || os == 'android';
-			}
-
-			var ticket = getUrlParam('ticket');
-			//获取url中的参数
-			function getUrlParam(name) {
-				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-				var r = window.location.search.substr(1).match(reg); //匹配目标参数
-				if (r != null)
-					return unescape(r[2]);
-				return null; //返回参数值
-			}
-			//如果不在云之家中的话
-			if (!isYzjApp()) {
-				$body.html("Hello！当前不在云之家App中！开启您的轻应用之旅吧！");
-				if (!isMobile()) {
-					$body.html("Hello！当前不在手机端上！开启您的轻应用之旅吧！");
-				} else {
-					$body.html("当前是手机端！，但没有在云之家");
+	<script>
+		var view = new Vue({
+			el: '#view',
+			data: {
+				isDebug: true,
+				error: false,
+				title: '云之家.登录学习',
+				message: 'null',
+				details: '',	//详细错误信息
+				url: window.location.href,
+				user: null,
+				second: 5
+			},
+			computed: {
+				//判断是否运行于云之家App中
+				isYzjApp: function () {
+					return navigator.userAgent.match(/Qing\/.*;(iPhone|Android).*/) ? true : false;
+				},
+				isMobile: function () {
+					var os = navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+						? 'ios' : navigator.userAgent.match(/Android/i)
+							? 'android' : '';
+					return os == 'ios' || os == 'android';
 				}
-			} else {
-				$body.html("云之家");
-				var ticket = getUrlParam('ticket');
-				$(".ticket").html("ticket：" + ticket);
-				$(".url").text(window.location.href);
-			}
 
+			},
+			methods: {
+				getParam: function (name) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+					var r = window.location.search.substr(1).match(reg); //匹配目标参数
+					if (r != null)
+						return unescape(r[2]);
+					return null; //返回参数值
+				}
+			}
 		});
+		//处在云之家app中时，才执行
+		if (view.isYzjApp) {
+			var instance = axios.create({
+				timeout: 1000,
+				headers: { 'X-Custom-Header': 'weishakeji' }
+			});
+			//POST传参序列化(添加请求拦截器)
+			instance.interceptors.request.use((config) => {
+				//在发送请求之前做某件事
+				if (config.method === 'post' || config.method == 'put') {
+					var formData = new FormData();
+					for (var d in config.data) {
+						formData.append(d, config.data[d]);
+					}
+					config.data = formData;
+				}
+				if (config.method === 'get') {
+					var url = config.url;
+					for (var d in config.data) {
+						url += "&" + d + "=" + config.data[d];
+					}
+					alert(url);
+					config.url = url;
+				}
+				return config;
+			}, (error) => {
+				console.log('错误的传参')
+				return Promise.reject(error);
+			});
+			var tm = instance.post(window.location.href, {
+				'action': 'getuser'
+			});
+			tm.then(function (data) {
+				view.user = data.data;
+				view.details = data;
+				//appid==0，表示有错误
+				if (view.user.appid == "0") {
+					view.error = true;
+					view.message = view.user.message;
+					view.details = data;
+				} else {
+					//alert(3);
+					//view.message = view.user.username;
+					setInterval(() => {
+						view.second--;
+						if (view.second <= 0) {
+							window.location.href = '/';
+						}
+					}, 1000);
+				}
+			}).catch(function (error) {
+				view.error = true;
+				view.message = error;
+				window.location.reload();
+			});
+
+		}
 	</script>
+
+
+
+	<div id="footer">
+		<span class="line"></span>
+		{$:#.org.Org_PlatformName}
+	</div>
 </body>
 
 </html>

@@ -178,39 +178,40 @@ function _mobiLogin_veri(form, url) {
     var phone = form.find("input[name=tbPhone]").val(); //手机号
     var sms = form.find("input[name=tbSms]").val(); //用户填写的短信验证码
     var sign = form.find("input[name=cbSign]").is(':checked'); 	//是否免登录
-    $.post(url, { action: "mobilogin",
+    $.post(url, {
+        action: "mobilogin",
         vcode: form.find("input[name=tbCode]").val(),
         vname: vname,
         phone: phone,
         sms: sms,
         sign: sign
     },
-	function (requestdata) {
-	    var data = eval("(" + requestdata + ")");
-	    var state = Number(data.state); //状态值
-	    if (Number(data.success) < 1) {
-	        if (state == 1) Verify.ShowBox($("form[name=mobiLogin]").find("input[name=tbCode]"), "验证码不正确！");
-	        if (state == 3) Verify.ShowBox($("form[name=mobiLogin]").find("input[name=tbSms]"), "短信验证失败！");
-	        form.find("img.verifyCode").click();
-	        var btn = form.find("input[type=submit][name=btnSubmit]");
-	        btn.val("登录").removeAttr("disabled", "disabled").removeClass("disabled");
+        function (requestdata) {
+            var data = eval("(" + requestdata + ")");
+            var state = Number(data.state); //状态值
+            if (Number(data.success) < 1) {
+                if (state == 1) Verify.ShowBox($("form[name=mobiLogin]").find("input[name=tbCode]"), "验证码不正确！");
+                if (state == 3) Verify.ShowBox($("form[name=mobiLogin]").find("input[name=tbSms]"), "短信验证失败！");
+                form.find("img.verifyCode").click();
+                var btn = form.find("input[type=submit][name=btnSubmit]");
+                btn.val("登录").removeAttr("disabled", "disabled").removeClass("disabled");
 
-	    } else {
-	        if (Boolean(data.sign)) {
-	            $.storage("accid", data.acid);
-	            $.storage("accpw", data.pw);
-	        }
-	        var txt = "亲爱的 <b>" + data.name + "</b>，您已经成功登录。<br/><br/>将在<second>5</second>秒后将返回来源页。";
-	        var msg = new MsgBox("登录成功", txt, 400, 200, "msg");
-	        msg.ShowCloseBtn = false;
-	        msg.ShowCloseBtn = false;
-	        msg.OverEvent = function () {
-	            var href = form.find("input[name=from]").val();
-	            window.location.href = $().setPara("default.ashx", "sharekeyid", data.acid);
-	        };
-	        msg.Open();
-	    }
-	});
+            } else {
+                if (Boolean(data.sign)) {
+                    $.storage("accid", data.acid);
+                    $.storage("accpw", data.pw);
+                }
+                var txt = "亲爱的 <b>" + data.name + "</b>，您已经成功登录。<br/><br/>将在<second>5</second>秒后将返回来源页。";
+                var msg = new MsgBox("登录成功", txt, 400, 200, "msg");
+                msg.ShowCloseBtn = false;
+                msg.ShowCloseBtn = false;
+                msg.OverEvent = function () {
+                    var href = form.find("input[name=from]").val();
+                    window.location.href = $().setPara("default.ashx", "sharekeyid", data.acid);
+                };
+                msg.Open();
+            }
+        });
 }
 //格式化字符串
 String.prototype.format = function (args) {
@@ -247,6 +248,24 @@ OtherLogin.init = function () {
             var orgid = $(this).attr("orgid"); 	//当前机构id
             var target = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={0}&redirect_uri={1}&response_type=code&scope=snsapi_userinfo&state={2}#wechat_redirect";
             target = target.format(appid, encodeURIComponent(returl), orgid);
+            window.location.href = target;
+        }
+    });
+    //金碟云之家登录
+    mui('body').on('tap', 'a[tag=yunzhijia]', function () {
+        //是否处在云之家平台中
+        var isYzjApp = navigator.userAgent.match(/Qing\/.*;(iPhone|Android).*/) ? true : false;
+        if (!isYzjApp) {
+            var txt = "当前应用不在云之家App中<br/><second>5</second>秒后关闭";
+            var msg = new MsgBox("无法使用", txt, 60, 200, "alert");
+            msg.Open();
+        } else {
+            var href = $(this).attr("href");
+            var localhref = window.location.href;
+            if(localhref.indexOf("?")>-1){
+                var param=localhref.substring(localhref.indexOf("?")+1);
+                href+="?"+param;
+            }            
             window.location.href = target;
         }
     });

@@ -82,7 +82,7 @@
                     AppSecret:
                 </td>
                 <td class="left">
-                    <asp:TextBox ID="tbYunzhijiaAppSecret" runat="server" nullable="false" group="yunzhijia" Width="300"></asp:TextBox>
+                    <asp:TextBox ID="tbYunzhijiaAppSecret" runat="server" nullable="false" group="yunzhijia" Width="200"></asp:TextBox>
                 </td>
             </tr>
             <tr>
@@ -92,6 +92,15 @@
                 <td class="left">
                     <asp:TextBox ID="tbYunzhijiaDomain" runat="server" begin="http://|https://" nullable="false"
                         group="yunzhijia" Width="200"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td class="right">
+                    账号字段:
+                </td>
+                <td class="left">
+                    <asp:TextBox ID="tbYunzhijiaAcc" runat="server" nullable="false"
+                        group="yunzhijia" Width="100"></asp:TextBox> （指定云之家用户信息的某个字段作为当前系统的账号字段）
                 </td>
             </tr>
             <tr>

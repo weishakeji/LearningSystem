@@ -939,6 +939,7 @@
     <Content Include="Templates\Mobi\_Public\Styles\QQLogin.css" />
     <Content Include="Templates\Mobi\_Public\Styles\WeixinpubLogin.css" />
     <Content Include="Templates\Mobi\_Public\Styles\Certify.css" />
+    <Content Include="Templates\Mobi\_Public\Styles\Yunzhijia.css" />
     <Content Include="Templates\Mobi\_Public\WeixinpubLogin.htm" />
     <Content Include="Templates\Mobi\_Public\_self.xml" />
     <Content Include="Templates\Mobi\_Public\Noaccess.htm" />
@@ -1477,6 +1478,7 @@
     <Content Include="Templates\Web\_Public\Noaccess.htm" />
     <Content Include="Templates\Web\_Public\Styles\Noaccess.css" />
     <Content Include="Utility\Ckplayer\ckplayer\ckplayer_h5.js" />
+    <Content Include="Utility\CoreScripts\axios.min.js" />
     <Content Include="Utility\CoreScripts\easydrag.js" />
     <Content Include="Utility\CoreScripts\hanzi2pinyin.js" />
     <Content Include="Utility\CoreScripts\highcharts-3d.js" />
@@ -1484,6 +1486,7 @@
     <Content Include="Utility\CoreScripts\jquery-3.0.0.min.js" />
     <Content Include="Utility\CoreScripts\jquery.qrcode.min.js" />
     <Content Include="Utility\CoreScripts\PageBox.js" />
+    <Content Include="Utility\CoreScripts\vue.min.js" />
     <Content Include="Utility\CoreStyles\MessageBox.css" />
     <Content Include="Templates\Web\NetSchool\Styles\News.css" />
     <Content Include="Templates\Web\NetSchool\Styles\notice.css" />

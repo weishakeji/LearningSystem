@@ -48,6 +48,7 @@ namespace Song.Site.Manage.Sys
             tbYunzhijiaAppid.Text = Business.Do<ISystemPara>()["YunzhijiaAppid"].String;
             tbYunzhijiaAppSecret.Text = Business.Do<ISystemPara>()["YunzhijiaAppSecret"].String;
             tbYunzhijiaDomain.Text = Business.Do<ISystemPara>()["YunzhijiaDomain"].Value;
+            tbYunzhijiaAcc.Text = Business.Do<ISystemPara>()["YunzhijiaAcc"].Value;
         }
         /// <summary>
         /// QQ登录
@@ -109,6 +110,7 @@ namespace Song.Site.Manage.Sys
                 Business.Do<ISystemPara>().Save("YunzhijiaAppid", tbYunzhijiaAppid.Text.Trim(), false);
                 Business.Do<ISystemPara>().Save("YunzhijiaAppSecret", tbYunzhijiaAppSecret.Text.Trim(), false);
                 Business.Do<ISystemPara>().Save("YunzhijiaDomain", tbYunzhijiaDomain.Text.Trim(), false);
+                Business.Do<ISystemPara>().Save("YunzhijiaAcc", tbYunzhijiaAcc.Text.Trim(), false);
                 Business.Do<ISystemPara>().Refresh();
                 this.Alert("操作成功！");
             }

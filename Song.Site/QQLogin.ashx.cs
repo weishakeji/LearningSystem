@@ -139,7 +139,7 @@ namespace Song.Site
             string error = string.Empty;
             try
             {
-                string retjson = WeiSha.Common.Request.WebResult(url);
+                string retjson = WeiSha.Common.Request.HttpGet(url);
                 Regex r = new Regex(@"(?<=access_token=)\S[^&]+(?=&)");
                 Match macth = r.Match(retjson);
                 if (macth.Success)
@@ -168,7 +168,7 @@ namespace Song.Site
             //获取当前QQ登录账户的Opeinid
             string openid = string.Empty;
             string url = "https://graph.qq.com/oauth2.0/me?access_token=" + access_token;
-            string retjson = WeiSha.Common.Request.WebResult(url);
+            string retjson = WeiSha.Common.Request.HttpGet(url);
             Regex r = new Regex(@"(?<=""openid"":"")\S[^""]+(?=""})");
             Match macth = r.Match(retjson);
             if (macth.Success)
@@ -193,7 +193,7 @@ namespace Song.Site
             Song.Entities.Accounts acc = new Entities.Accounts();
             try
             {
-                string infoJson = WeiSha.Common.Request.WebResult(userUrl);
+                string infoJson = WeiSha.Common.Request.HttpGet(userUrl);
                 JObject jo = (JObject)JsonConvert.DeserializeObject(infoJson);
                 string ret = jo["ret"] != null ? jo["ret"].ToString() : string.Empty;  //返回码
                 string msg = jo["msg"] != null ? jo["msg"].ToString() : string.Empty;  //返回的提示信息
