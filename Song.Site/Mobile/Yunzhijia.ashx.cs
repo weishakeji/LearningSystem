@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using WeiSha.Common;
 using Song.ServiceInterfaces;
+using Song.Extend;
 
 
 namespace Song.Site.Mobile
@@ -36,6 +37,10 @@ namespace Song.Site.Mobile
                 context.Response.End();
             }
         }
+        /// <summary>
+        /// 获取云之家账号信息
+        /// </summary>
+        /// <returns></returns>
         private string getUser()
         {
             bool isUse = Business.Do<ISystemPara>()["YunzhijiaLoginIsuse"].Boolean ?? true;
@@ -64,8 +69,11 @@ namespace Song.Site.Mobile
                     string urlUser = string.Format("{0}/openauth2/api/getcontext?ticket={1}&access_token={2}", domain, ticket, token);
                     string resultUser = WeiSha.Common.Request.HttpGet(urlUser);
                     jo = (JObject)JsonConvert.DeserializeObject(resultUser);
+                    //云之家的账号，用来对应学习系统的账号
                     string accout = jo[accname] != null ? jo[accname].ToString() : string.Empty; //获取账号信息
                     if (string.IsNullOrWhiteSpace(accout)) throw new Exception("未获取到账号信息");
+                    //登录学习系统
+                    loginUser(accout, jo);
                     json = resultUser;
                 }
             }
@@ -77,6 +85,38 @@ namespace Song.Site.Mobile
                 json = joUser.ToString(Newtonsoft.Json.Formatting.None, null);
             }
             return json;
+        }
+        /// <summary>
+        /// 登录，如果没有账号，则创建
+        /// </summary>
+        /// <param name="accout"></param>
+        /// <param name="user"></param>
+        private void loginUser(string accout, JObject user)
+        {
+            //判断是否存在
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().IsAccountsExist(accout);
+            if (acc == null)
+            {
+                acc = new Entities.Accounts();
+                acc.Ac_AccName = accout;    //账号
+                acc.Ac_Name = user["username"] != null ? user["username"].ToString() : string.Empty;
+                acc.Ac_IsPass = acc.Ac_IsUse = true;
+                Business.Do<IAccounts>().AccountsAdd(acc);
+            }
+            //用户头像，如果没有上传，或图片不存在
+            if (string.IsNullOrEmpty(acc.Ac_Photo) || acc.Ac_Photo.Trim() == "" || !System.IO.File.Exists(Upload.Get["Accounts"].Physics + acc.Ac_Photo))
+            {
+                acc = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
+                string photo = user["photoUrl"].ToString();
+                string photoPath = Upload.Get["Accounts"].Physics + accout + ".jpg";
+                WeiSha.Common.Request.LoadFile(photo, photoPath);
+                acc.Ac_Photo = accout + ".jpg";
+                Business.Do<IAccounts>().AccountsSave(acc);
+            }
+            LoginState.Accounts.Write(acc);
+            //登录成功
+            Business.Do<IAccounts>().PointAdd4Login(acc, "手机网页", "云之家登录", "");   //增加登录积分
+            Business.Do<IStudent>().LogForLoginAdd(acc);
         }
     }
 }
