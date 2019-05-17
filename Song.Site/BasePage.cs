@@ -208,6 +208,9 @@ namespace Song.Site
                 //手机端隐藏关于“充值收费”等资费相关信息
                 bool IsMobileRemoveMoney = config["IsMobileRemoveMoney"].Value.Boolean ?? false;
                 this.Document.SetValue("mremove", IsMobileRemoveMoney);
+                //电脑端隐藏资费
+                bool IsWebRemoveMoney = config["IsWebRemoveMoney"].Value.Boolean ?? false;
+                this.Document.SetValue("wremove", IsWebRemoveMoney);
 
             }
             catch { }

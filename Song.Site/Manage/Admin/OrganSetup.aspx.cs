@@ -62,6 +62,7 @@ namespace Song.Site.Manage.Admin
             this.cbWebForDeskapp.Checked = config["WebForDeskapp"].Value.Boolean ?? false;  //当前系统必须运行于桌面应用之中            
             this.cbStudyForDeskapp.Checked = config["StudyForDeskapp"].Value.Boolean ?? false;  //课程学习需要在桌面应用打开
             this.cbFreeForDeskapp.Checked = config["FreeForDeskapp"].Value.Boolean ?? false;    //免费课程和试用章节除外
+            this.cbIsWebRemoveMoney.Checked = config["IsWebRemoveMoney"].Value.Boolean ?? false;    //电脑端隐藏资费
             
         }
         protected void btnBase_Click(object sender, EventArgs e)
@@ -84,6 +85,7 @@ namespace Song.Site.Manage.Admin
             if (string.IsNullOrWhiteSpace(GetDesktopAppFile())) config["WebForDeskapp"].Text = false.ToString();            
             config["StudyForDeskapp"].Text = this.cbStudyForDeskapp.Checked.ToString();     //课程学习需要在桌面应用打开
             config["FreeForDeskapp"].Text = this.cbFreeForDeskapp.Checked.ToString();    //免费课程和试用章节除外
+            config["IsWebRemoveMoney"].Text = this.cbIsWebRemoveMoney.Checked.ToString();       //电脑端隐藏资费
             //图片
             if (fuLoad.PostedFile.FileName != "")
             {

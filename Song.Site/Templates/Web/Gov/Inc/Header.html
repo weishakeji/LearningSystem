@@ -27,7 +27,9 @@
             <vt:else/>
             <dd><a href="../teacher/index.ashx">我要开课</a></dd>
             </vt:if>
-            <dd><a href="../student/panel.ashx">余额：{$Account.Ac_money format="0.0"}元</a></dd>           
+              <vt:if var="wremove" value="false" compare="=">
+            <dd><a href="../student/panel.ashx">余额：{$Account.Ac_money format="0.0"}元</a></dd>   
+            </vt:if>        
             <dd><a href="../student/Logout.ashx">退出登录</a></dd>
           </dl>
         </vt:if>
