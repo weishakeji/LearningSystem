@@ -203,7 +203,12 @@
                     </div>
                     <ul class="studentbox">
                         <vt:foreach id="students" from="$#.students" item="data" count="20" index="i" remark="学员列表">
-            <li><span class="stPhoto" style="background:url({$stpath}{$:#.data.Ac_photo}) no-repeat center center"> &nbsp; </span>{$:#.data.Ac_Name}</li>
+            <li><img class="stPhoto" src="{$stpath}{$:#.data.Ac_photo}" default="/Utility/images/head1.jpg"/> &nbsp; </span>
+             <vt:if var="data.Ac_Name" value="" compare="="  remark="没有学员姓名">
+            (无名)
+            <vt:else />
+             {$:#.data.Ac_Name}
+             </vt:if></li>
           </vt:foreach>
                     </ul>
                 </div>

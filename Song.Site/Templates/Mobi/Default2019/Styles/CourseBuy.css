@@ -1,26 +1,44 @@
+html, body,form{
+	height: 100%;
+}
+body {
+	
+	overflow-y: scroll;
+}
+form{
+	margin-bottom: 80px;
+	
+}
+/*头部课程信息*/
 .infoTop {
-	background-color: #CAEAFF;
+	background-color: #fff;
 	min-height: 90px;
+	position:relative;
 }
-.subjectBox {
-	font-size: 14px;
-	line-height: 25px;
-	color: #999999;
-	text-indent: 10px;
-	height: 25px;
+.photo {
+	padding: 10px;
+	max-width: 40%;
+	float: left;
 }
-.courseBox {
-	font-size: 18px;
-	line-height: 35px;
-	text-align: center;
-	min-height: 35px;
-	margin-top: 5px;
+.photo img {
+	width: 100%;
+	height: auto;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
 }
-.courseInfo {
-	font-size: 14px;
-	line-height: 20px;
-	color: #999999;
-	text-align: center;
+.couname{
+	width:58%;
+	margin-right:2%;
+	float:right;
+	margin-top:10px;
+	line-height:25px;
+	max-height:50px;
+}
+.couinfo{
+	position:absolute;
+	bottom:5px;
+	left:40%;
+	font-size:12px;
+	color:#999;
 }
 .freeBox {
 	line-height: 30px;
@@ -34,9 +52,7 @@
 .FreeBtnBox {
 	margin-top: 10px;
 }
-
-
-.freeBox span{
+.freeBox span {
 	font-size: 30px;
 }
 .btnStudy {
@@ -47,20 +63,20 @@
 	border-right-style: none;
 	border-bottom-style: none;
 	border-left-style: none;
-	float: left;
-	margin-left: 5%;
-	background-color: #339900;
+	float: right;
 	
+	background-color: #339900;
 	font-weight: bold;
 	color: #FFFFFF;
 	font-size: 16px;
+	margin-right: 5%;
 }
 .btnStudyBack {
 	text-align: center;
 	display: block;
 	height: 40px;
 	width: 43%;
-	float: right;
+	float: left;
 	background-color: #999999 !important;
 	font-weight: bold;
 	color: #FFFFFF !important;
@@ -69,63 +85,58 @@
 	border-right-style: none;
 	border-bottom-style: none;
 	border-left-style: none;
-	margin-right: 5%;
-}
-.priceTitle {
-	line-height: 30px;
-	text-indent: 30px;
-	width: 100%;
-	margin-top: 20px;
+	margin-left: 5%;
 }
 .context .moneyBox {
 }
 /*价格*/
 .priceItem {
-	line-height: 40px;
-	background-color: #FFFFCC;
-	text-indent: 30px;
+	line-height: 30px;
+	background-color: #fff;
+	text-indent: 20px;
 	height: 40px;
-	margin-bottom: 5px;
+	padding:5px;	
 	font-size: 16px;
 }
-.priceItem .ico:before{
+.priceItem .ico:before {
 	content: "\e691";
 	font-family: iconfont;
 	margin-right: 5px;
 	font-size: 15px;
-	width:20px;
+	width: 20px;
 	font-weight: normal;
 }
-.priceItem .mprice{
+.priceItem .mprice {
 	font-weight: bold;
 	color: #F00;
 }
 /*价格提醒，计算每天的钱数*/
-.alt{
+.alt {
 	font-family: "宋体";
 	font-size: 13px;
 	color: #333;
 }
-.alt b{
-	color: #F00;
+.alt b {
+	color: #090;
 	font-weight: normal;
+	margin-left: 5px;
 }
 /*券*/
-.coupon{
+.coupon {
 	font-family: "宋体";
 	font-size: 13px;
-	color: #333;
+	color: #8f8f94;
 }
 /*价格列表的选中行*/
-.priceSelected{
-	background-color: #CEFE94;
+.priceSelected {
+	background-color: #efc;
 }
-.priceSelected .ico:before{
+.priceSelected .ico:before {
 	content: "\e670";
 	font-family: iconfont;
 	margin-right: 2px;
 	font-size: 22px;
-	width:20px;
+	width: 20px;
 	font-weight: normal;
 }
 .aTryout {
@@ -136,7 +147,7 @@
 	width: 90%;
 	float: left;
 	margin-left: 5%;
-	background-color: #0099CC !important;	
+	background-color: #0099CC !important;
 	font-weight: bold;
 	color: #FFFFFF;
 	font-size: 16px;
@@ -150,47 +161,53 @@
 }
 .veriTxt {
 	text-align: right;
-	float: left;
 	height: 25px;
 	width: 80px;
 }
-.txt{
+.txt-row {
 	font-size: 12px;
 	line-height: 40px;
 	display: inline-block;
 	height: 40px;
+	padding-left: 20px;
+	width: 100%;
+	color: #999;
+}
+.needRecharge {
+	color: #F00;
 }
 .StudyBtnBox {
-	margin-top: 20px;
+	padding-top: 10px;
+	height: 60px;
+	position: fixed;
+	background-color:#fff;
+	bottom: 0px;
+	width: 100%;
 }
-
 .verifyBox {
 	line-height: 35px;
 	height: 35px;
 	width: 100%;
 }
-
 .verify {
-
 	width: 102px !important;
-	padding:0px !important;
-	height:35px !important;
-	margin:0px !important;
+	padding: 0px !important;
+	height: 35px !important;
+	margin: 0px !important;
 }
-
 .textbox {
 	font-size: 16px;
 	line-height: 25px;
 	height: 25px;
 	border: 1px solid #CCCCCC;
 	text-indent: 10px;
-	opacity:0.8;
-	filter:alpha(opacity=80);
+	opacity: 0.8;
+	filter: alpha(opacity=80);
 	float: left;
 	color: #333333;
 }
-.verifyCode{
-	cursor:pointer;
+.verifyCode {
+	cursor: pointer;
 	height: 32px;
 	float: left;
 	margin-top: 0px;
@@ -201,6 +218,7 @@
 	line-height: 41px;
 	height: 40px;
 	width: 100%;
+	font-size: 16px;
 }
 .moneyBox a {
 	color: #0099FF;
@@ -209,4 +227,58 @@
 .noPrice {
 	text-align: center;
 	color: #FF8080;
+	line-height: 40px;
+	margin-left: 20px !important;
+}
+/*支付平台的标题*/
+.paytit {
+	margin-left: 5% !important;
+	width: auto;
+}
+#needRecharge{
+	color:#F00;
+}
+#needRecharge:before{
+	content:"充值 ";
+}
+#needRecharge:after{
+	content:" 元";
+}
+.paytit img {
+	float: left;
+	height: 35px;
+	margin-right: 10px;
+}
+.paytit span {
+	float: left;
+	width: 80px;
+	height: 35px;
+	line-height: 35px;
+	color: #000;
+}
+.payitem {
+	line-height: 35px !important;
+	
+}
+.payitem img {
+	float: left;
+	margin-right: 10px;
+	height: 35px;
+}
+.money-item {
+	color: #F60;
+	margin-left: 25px;
+	font-size: 14px;
+}
+.money-item .iconfont {
+	font-size: 14px;
+}
+.right-item {
+	float: right;
+	color: #060;
+	text-align: right;
+	width: 40px;
+	white-space: nowrap;
+	overflow: hidden;
+	font-size: 25px;
 }

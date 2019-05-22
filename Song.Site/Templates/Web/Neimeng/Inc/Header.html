@@ -13,9 +13,9 @@
           <!--学员登录后的效果-->
           <div class="accTarget" type="acc">
             <div class="accPhoto"> <a href="/student/panel.ashx">
-              <vt:if var="Account.ac_photo" value="" compare="="> <img src="../images/nophoto.jpg" width="20"/>
+               <vt:if var="Account.ac_photo" value="" compare="="> <img src="/Utility/images/head1.jpg" width="20"/>
                 <vt:else/>
-                <img src="{$stpath}{$:#.Account.Ac_photo}"  default="../images/nophoto.jpg"/> </vt:if>
+                <img src="{$stpath}{$:#.Account.Ac_photo}" default="/Utility/images/head1.jpg"/> </vt:if>
               </a> </div>
             <a href="/student/panel.ashx"> {$Account.Ac_name}</a><i class="icon-select-down"></i> </div>
           <!--学员菜单-->

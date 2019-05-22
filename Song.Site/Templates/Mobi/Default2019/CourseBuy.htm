@@ -9,66 +9,71 @@
 <link href="Styles/CourseBuy.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-<form loyout="row"  class="context">
+<form loyout="row"  class="context"  action="/pay/PayEntry.ashx" method="post">
   <div class="infoTop">
-    <div class="subjectBox">所属专业：{$subject.Sbj_Name}</div>
-    <div class="courseBox">《{$course.Cou_Name}》</div>
-    <div class="courseInfo">章节{$olCount}个/试题{$quesCount}道</div>
+    <vt:function var="path" method="Path" args="course"/>
+    <div class="photo" > <img  src="{$path}{$course.cou_logo}" default="images/cou_nophoto.jpg"/> </div>
+    <div class="couname">{$course.Cou_Name}</div>
+    <div class="couinfo">章节{$olCount}个/试题{$quesCount}道</div>
   </div>
-  <vt:if var="course.Cou_IsFree" value="True" compare="=">
-    <div class="freeBox"><span class="moneyico">&#xe746;</span>当前课程免费</div>
-    <vt:if var="Account.Ac_id" value="" compare="!=">
-      <!-- 账户余额 -->
-      <div class="moneyBox">
-        <div class="veriTxt">账户余额：</div>
-        <span class="money">{$Account.Ac_money format="0.00"}</span>元 <a href="MoneyIncom.ashx">充值</a></div>
-    </vt:if>
-    <div class="FreeBtnBox">
-     <button type="button" id="btnStudy" class="mui-btn mui-btn-success btnStudy" >开始学习</button>
-     
-      <button type="button" id="btnStudy" class="mui-btn mui-btn-success btnStudyBack" >返回</button>
-     </div>
-    <vt:else/>
-    <div class="priceTitle">学习费用：</div>
-    <div class="priceBox">
-      <vt:if var="#.prices.Length" value="0" compare=">">
-        <vt:foreach id="prices" from="$#.prices" item="data" remark="价格列表">
-          <div class="priceItem" cpid=" {$:#.data.CP_ID}" couid="{$course.Cou_id}">
-          <span class="ico"></span><span class="mprice">{$:#.data.CP_Price}</span>/{$:#.data.CP_Span}{$:#.data.CP_Unit}
-           <span class="alt" span="{$:#.data.CP_Span}" unit="{$:#.data.CP_Unit}" price="{$:#.data.CP_Price}">(日均<b>0.1</b>元)</span>
-              <vt:if var="data.CP_Coupon" value="0" compare=">">
-              <span class="coupon">(可用券抵扣<span class="cprice">{$:#.data.CP_Coupon}</span>元)</span>
-              </vt:if>
-               </div>
-        </vt:foreach>
-        <vt:else />
-        <div class="noPrice">没有设置价格</div>
+  <div class="mui-card"> 
+    <!--页眉，放置标题-->
+   
+    <!--内容区-->
+    <div class="mui-card-content">
+      <div class="priceBox">
+        <vt:if var="#.prices.Length" value="0" compare=">">
+          <vt:foreach id="prices" from="$#.prices" item="data" remark="价格列表">
+            <div class="priceItem" cpid=" {$:#.data.CP_ID}" couid="{$course.Cou_id}"> <span class="ico"></span><span class="mprice">{$:#.data.CP_Price}</span>/{$:#.data.CP_Span}{$:#.data.CP_Unit} <span class="alt" span="{$:#.data.CP_Span}" unit="{$:#.data.CP_Unit}" price="{$:#.data.CP_Price}">(日均<b>0.1</b>)</span>
+              <vt:if var="data.CP_Coupon" value="0" compare=">"> <span class="coupon">可用券抵扣<span class="cprice">{$:#.data.CP_Coupon}</span>元</span> </vt:if>
+            </div>
+          </vt:foreach>
+          <vt:else />
+          
+          <div class="noPrice">没有设置价格</div>
+        </vt:if>
+      </div>
+    </div>
+    <!--页脚，放置补充信息或支持的操作-->
+    <div class="mui-card-footer">
+      <vt:if var="Account.Ac_id" value="" compare="!="> 
+        <!-- 账户余额 -->
+        <div class="moneyBox"> <span class="veriTxt">余额：</span> <span id="money">{$Account.Ac_money format="0.00"}</span>元
+          &nbsp; <span class="veriTxt">卡券：</span> <span id="coupon">{$Account.Ac_Coupon format="0"}</span>个</div>
       </vt:if>
     </div>
-    <div class="verifyBox">
-      <div class="verifyInfo" style="display:none">
-        <div class="veriTxt">验证码：</div>
-        <input name="tbCode" type="number"  class="textbox verify" size="4" nullable="false" lenlimit="4-4" datatype="uint" />
-        <img src="/Utility/codeimg.aspx?name=buycode" class="verifyCode"/></div>
+  </div>
+  <div class="txt-row">（与现金等值，优先扣除卡券）</div>
+  <div class="mui-card" id="payInterface"> 
+    <!--页眉，放置标题-->
+    <div class="mui-card-header" id="paytitle"> 
+      <input name="paiid" type="hidden" id="paiid" value=""/>
+       <input name="money" type="hidden" id="money" value="0" />
+       <span id="needRecharge" remark="需要充值的钱数"></span>
     </div>
-    <vt:if var="Account.Ac_id" value="" compare="!=">
-      <!-- 账户余额 -->
-      <div class="moneyBox">
-            <div class="veriTxt">余额：</div>
-            <span id="money">{$Account.Ac_money format="0.00"}</span>元 <a class="btnRecharge" href="recharge.ashx" type="link" target="_blank">充值</a></div>
-            <div class="moneyBox">
-            <div class="veriTxt">卡券：</div>
-            <span id="coupon">{$Account.Ac_Coupon format="0"}</span>个 <span class="txt">（与现金等值，优先扣除卡券）</span></div>
-    </vt:if>
-    <div class="StudyBtnBox">
-      <input type="submit" name="btnBuyStudy" id="btnBuyStudy" value="购买学习"  verify="true"  class="btnStudy"/>
-       <input type="button" value="返回"  class="btnStudyBack"/>
-       </div>
-   <!-- <div class="loginRow btnBar">
+    <!--内容区-->
+    <div class="mui-card-content">
+      <vt:if var="pis.Length" value="0" compare=">">
+        <div class="mui-card-content">
+          <div class="mui-input-row" style="height:auto;">
+            <ul class="mui-table-view mui-table-view-chevron">
+              <vt:foreach id="pis" from="$#.pis" item="data" remark="支付接口">
+                <li class="mui-table-view-cell payitem" select="false" pattern="{$:#.data.Pai_Pattern}" scene="{$:#.data.Pai_Scene}" painame="{$:#.data.Pai_Name}" paiid="{$:#.data.Pai_ID}"> <a class="mui-navigate-right" href="#"><img src="/pay/images/{$:#.data.Pai_Pattern}.png"/>{$:#.data.Pai_Name} <span class="right-item iconfont ico" style="display:none">&#xe6fd;</span> </a> </li>
+              </vt:foreach>
+            </ul>
+          </div>
+        </div>
+      </vt:if>
+    </div>
+  </div>
+  <div class="StudyBtnBox">
+    <input type="button" value="返回"  class="btnStudyBack"/>
+    <input type="submit" name="btnBuyStudy" id="btnBuyStudy" value="购买课程"  verify="true"  class="btnStudy"/>
+  </div>
+  <!-- <div class="loginRow btnBar">
      <input type="button" value="暂时试用"  course="{$course.Cou_Name}" IsTry="{$course.Cou_IsTry}" class="aTryout"/>
     </div>-->
-  </vt:if>
+  
 </form>
-
 </body>
 </html>

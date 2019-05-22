@@ -727,6 +727,8 @@
     <Content Include="Templates\Mobi\Default2019\Images\btnBack.jpg" />
     <Content Include="Templates\Mobi\Default2019\Images\cou-nophoto.png" />
     <Content Include="Templates\Mobi\Default2019\Images\cou_nophoto.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Images\head1.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Images\head2.jpg" />
     <Content Include="Templates\Mobi\Default2019\Images\line.jpg" />
     <Content Include="Templates\Mobi\Default2019\Images\load_015.gif" />
     <Content Include="Templates\Mobi\Default2019\Images\load_016.gif" />
@@ -2028,6 +2030,8 @@
     <Content Include="Utility\iconfont\phone\iconphone.css" />
     <Content Include="Utility\iconfont\phone\iconphone.svg" />
     <Content Include="Utility\iconfont\iconfont.css" />
+    <Content Include="Utility\Images\head1.jpg" />
+    <Content Include="Utility\Images\head2.jpg" />
     <Content Include="Utility\Images\load_016.gif" />
     <Content Include="Utility\Images\logo.gif" />
     <Content Include="Utility\Images\map_point.png" />

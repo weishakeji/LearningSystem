@@ -415,6 +415,8 @@ background-color: transparent;
 	float: left;
 	width: 48%;
 	margin-bottom: 5px;
+	height: 30px;
+    overflow: hidden;
 }
 .stPhoto {
 	width: 25px;

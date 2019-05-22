@@ -9,7 +9,8 @@
 </head>
 <body>
 <div id="main">
-  <div class="photo" > <img  src="{$course.cou_logo}" default="images/cou_nophoto.jpg"/> </div>
+ <vt:function var="path" method="Path" args="course"/>
+  <div class="photo" > <img  src="{$path}{$course.cou_logo}" default="images/cou_nophoto.jpg"/> </div>
 <div id="Context">  <div class="couName"><vt:if var="course.cou_name" value="" compare="!="> {$course.cou_name}
           <vt:else/>
           (当前课程不存在，或课程被暂停学习) </vt:if></div>

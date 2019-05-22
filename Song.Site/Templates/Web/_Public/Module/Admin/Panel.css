@@ -31,7 +31,9 @@
 #menuBox {
 	display: table;
 	width:180px;
-	
+	border-bottom-style: solid;
+	border-bottom-color: #E1E1E1;
+	border-bottom-width: 1px;
 }
 #menuBox .mmitem {
 	height: 40px;
