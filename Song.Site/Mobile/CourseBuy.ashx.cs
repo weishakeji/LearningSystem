@@ -16,10 +16,19 @@ namespace Song.Site.Mobile
         private int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
+            //当前课程id写入cookies
+            if (couid > 0)
+            {
+                context.Response.Cookies.Add(new HttpCookie("couid", couid.ToString()));
+            }
+            else
+            {
+                couid = WeiSha.Common.Request.Cookies["couid"].Int32 ?? 0;
+            }
             //判断，如果已经购买，则直接跳转
             if (Extend.LoginState.Accounts.IsLogin)
             {
-                int accid=Extend.LoginState.Accounts.CurrentUser.Ac_ID;
+                int accid = Extend.LoginState.Accounts.CurrentUser.Ac_ID;
                 Song.Entities.Course buyCou = Business.Do<ICourse>().IsBuyCourse(couid, accid, 1);
                 if (buyCou != null)
                 {
@@ -44,6 +53,10 @@ namespace Song.Site.Mobile
             //价格
             Song.Entities.CoursePrice[] prices = Business.Do<ICourse>().PriceCount(-1, course.Cou_UID, true, 0);
             this.Document.Variables.SetValue("prices", prices);
+            //支付接口
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganRoot();
+            Song.Entities.PayInterface[] pis = Business.Do<IPayInterface>().PayAll(org.Org_ID, "mobi", true);
+            this.Document.Variables.SetValue("pis", pis);
         }
     }
 }

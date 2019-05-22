@@ -121,14 +121,14 @@ namespace Song.Site.Ajax
         /// <param name="st"></param>
         private void Buy(Song.Entities.Course course, Song.Entities.Accounts st)
         {
-            //取图片验证码
-            string imgCode = WeiSha.Common.Request.Cookies["buycode"].ParaValue;
-            //验证码不正确
-            if (veriCode != imgCode)
-            {
-                Context.Response.Write(getBackJson(2, null, null));
-                return;
-            }
+            ////取图片验证码
+            //string imgCode = WeiSha.Common.Request.Cookies["buycode"].ParaValue;
+            ////验证码不正确
+            //if (veriCode != imgCode)
+            //{
+            //    Context.Response.Write(getBackJson(2, null, null));
+            //    return;
+            //}
             //价格项
             Song.Entities.CoursePrice price = Business.Do<ICourse>().PriceSingle(cpid);
             if (price == null)

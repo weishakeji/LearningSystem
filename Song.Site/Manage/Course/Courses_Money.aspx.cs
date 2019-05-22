@@ -141,8 +141,15 @@ namespace Song.Site.Manage.Course
             int coupon = 0;
             int.TryParse(tbCoupon.Text, out coupon);
             cp.CP_Coupon = coupon;
-            Business.Do<ICourse>().PriceAdd(cp);           
-            BindPriceData();
+            try
+            {
+                Business.Do<ICourse>().PriceAdd(cp);
+                BindPriceData();
+            }
+            catch (Exception ex)
+            {
+                Alert(ex.Message);
+            }
         }
         /// <summary>
         /// 单个删除
@@ -187,39 +194,46 @@ namespace Song.Site.Manage.Course
         /// <param name="e"></param>
         protected void btnEditEnter_Click(object sender, EventArgs e)
         {
-            System.Web.UI.WebControls.Button btn = (System.Web.UI.WebControls.Button)sender;
-            int index = ((GridViewRow)(btn.Parent.Parent)).RowIndex;
-            int id = int.Parse(this.gvPrice.DataKeys[index].Value.ToString());
-            //
-            Song.Entities.CoursePrice col = Business.Do<ICourse>().PriceSingle(id);
-            if (col != null)
+            try
             {
-                //区间
-                TextBox tb = (TextBox)gvPrice.Rows[index].FindControl("tbSpan");
-                int span;
-                int.TryParse(tb.Text, out span);
-                col.CP_Span = span;
-                //单位
-                DropDownList ddlUnit = (DropDownList)gvPrice.Rows[index].FindControl("ddlUnit");
-                col.CP_Unit = ddlUnit.SelectedItem.Text;
-                //价格
-                TextBox tbprice = (TextBox)gvPrice.Rows[index].FindControl("tbPrice");
-                int price;
-                int.TryParse(tbprice.Text, out price);
-                col.CP_Price = price;
-                //卡券
-                int coupon = 0;
-                TextBox tbcoupon = (TextBox)gvPrice.Rows[index].FindControl("tbCoupon");
-                int.TryParse(tbcoupon.Text, out coupon);
-                col.CP_Coupon = coupon;
-                //是否可用
-                CheckBox cb = (CheckBox)gvPrice.Rows[index].FindControl("cbIsUse");
-                col.CP_IsUse = cb.Checked;
+                System.Web.UI.WebControls.Button btn = (System.Web.UI.WebControls.Button)sender;
+                int index = ((GridViewRow)(btn.Parent.Parent)).RowIndex;
+                int id = int.Parse(this.gvPrice.DataKeys[index].Value.ToString());
                 //
-                Business.Do<ICourse>().PriceSave(col);                
+                Song.Entities.CoursePrice col = Business.Do<ICourse>().PriceSingle(id);
+                if (col != null)
+                {
+                    //区间
+                    TextBox tb = (TextBox)gvPrice.Rows[index].FindControl("tbSpan");
+                    int span;
+                    int.TryParse(tb.Text, out span);
+                    col.CP_Span = span;
+                    //单位
+                    DropDownList ddlUnit = (DropDownList)gvPrice.Rows[index].FindControl("ddlUnit");
+                    col.CP_Unit = ddlUnit.SelectedItem.Text;
+                    //价格
+                    TextBox tbprice = (TextBox)gvPrice.Rows[index].FindControl("tbPrice");
+                    int price;
+                    int.TryParse(tbprice.Text, out price);
+                    col.CP_Price = price;
+                    //卡券
+                    int coupon = 0;
+                    TextBox tbcoupon = (TextBox)gvPrice.Rows[index].FindControl("tbCoupon");
+                    int.TryParse(tbcoupon.Text, out coupon);
+                    col.CP_Coupon = coupon;
+                    //是否可用
+                    CheckBox cb = (CheckBox)gvPrice.Rows[index].FindControl("cbIsUse");
+                    col.CP_IsUse = cb.Checked;
+                    //
+                    Business.Do<ICourse>().PriceSave(col);
+                }
+                gvPrice.EditIndex = -1;
+                BindPriceData();
             }
-            gvPrice.EditIndex = -1;
-            BindPriceData();
+            catch (Exception ex)
+            {
+                Alert(ex.Message);
+            }
         }
         /// <summary>
         /// 退出编辑

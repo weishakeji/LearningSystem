@@ -46,6 +46,10 @@ namespace Song.Site.Pay.Weixin
             if (acc == null) Response.Redirect("/mobile/login.ashx");
             //支付
             JsApiPayPage();
+            if (string.IsNullOrWhiteSpace(wxJsApiParam))
+            {
+                wxJsApiParam = "''";
+            }
 
         }
         /// <summary>
