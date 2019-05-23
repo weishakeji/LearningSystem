@@ -101,13 +101,6 @@ function setLoading(el,state){
 */
 //设置接口的样式
 function pay_onlineStyle() {
-    //初始样式，默认取第一个
-    var pai = $(".payitem:visible").first();
-    $("input[name=paiid]").val(pai.attr("paiid"));
-    $(".payitem").find(".ico").hide();
-    pai.find(".ico").show();
-    $("#pay-title #pay-api").text(pai.attr("painame"));
-    $("#pay-title #pay-img").attr("src", pai.find("img").attr("src"));
     //当点击接口时
     mui('body').on('tap', '.payitem', function () {
         $("input[name=paiid]").val($(this).attr("paiid"));
@@ -115,6 +108,14 @@ function pay_onlineStyle() {
         $(this).find(".ico").show().focus();
         $("#pay-title #pay-api").text($(this).attr("painame"));
         $("#pay-title #pay-img").attr("src", $(this).find("img").attr("src"));
+    });
+    //初始样式，默认取第一个
+    var pai = $(".payitem:visible").first();
+    if (pai.size() > 0) mui.trigger(pai.get(0), 'tap');
+    //充值按钮事件
+    $("#btnSubmit").click(function(){
+        $.cookie('recharge_returl', '/Mobile/recharge.ashx');
+        return true;
     });
 }
 //支付接口在不同场景下的显示

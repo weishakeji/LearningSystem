@@ -45,21 +45,24 @@
             border-radius: 106px;
             margin: 3px;
         }
-        a[class*="btn"] {
-	display: block;
-	height: 42px;
-	line-height: 42px;
-	color: #FFFFFF;
-	text-align: center;
-	border-radius: 5px;
-	text-decoration: none;
-}
+        a[class*="btn"]
+        {
+            display: block;
+            height: 42px;
+            line-height: 42px;
+            color: #FFFFFF;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+        }
         .btn-green
         {
-            background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #43C750), color-stop(1, #31AB40));border:1px solid #2E993C;box-shadow:0 1px 0 0 #69D273 inset;
-            margin-top:10px;
-            }
-
+            background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #43C750), color-stop(1, #31AB40));
+            border: 1px solid #2E993C;
+            box-shadow: 0 1px 0 0 #69D273 inset;
+            margin-top: 10px;
+        }
+        
         .footer
         {
             position: fixed;
@@ -87,28 +90,38 @@
 <body>
     <div class="accinfo">
         <div class="show-tit" id="name">
-            <asp:Label ID="lbError" runat="server" Text="如果不是主动取消支付，请稍候！" CssClass="lbError" Visible="false"></asp:Label>
+            <asp:Label ID="lbError" runat="server" Text="如果不是主动取消支付，请稍候！" CssClass="lbError"
+                Visible="false"></asp:Label>
             <asp:Label ID="lbSucess" runat="server" Text="支付成功！" CssClass="lbSucess" Visible="false"></asp:Label>
         </div>
-        
         <div class="img-line">
-            </div>
+        </div>
         <div class="show-tit" id="Div1">
-            充值金额：&yen; <%= ((float)total_fee)/100%> 元
+            充值金额：&yen;
+            <%= ((float)total_fee)/100%>
+            元
         </div>
     </div>
-    <div class="operation"><a class="btn-green" id="getBrandWCPayRequest" href="/Mobile/recharge.ashx">返 回</a></div>
-     <script type="text/javascript">
-         function gourl() {
-             window.location.href = $().setPara(window.location.href, "t", new Date().getTime());
-         }
-         $(function () {
-             var lbSucess = $(".lbSucess");
-             if (lbSucess.size() < 1) {
-                 setTimeout("gourl()", 1000);
-             }
-         });
+    <div class="operation">
+        <a class="btn-green" id="getBrandWCPayRequest" href="/Mobile/recharge.ashx">返 回</a></div>
+    <script type="text/javascript">
+        $(function () {
+            var default_returl = '/Mobile/recharge.ashx';
+            var returl = $.cookie('recharge_returl');  //充值后的返回
+            if (returl == '' || returl == null) returl = default_returl;
+            $("#getBrandWCPayRequest").attr("href", returl);
+        });
+        function gourl() {
+            window.location.href = $().setPara(window.location.href, "t", new Date().getTime());
+        }
+        $(function () {
+            var lbSucess = $(".lbSucess");
+            //如果没有显示成功，可能是微信那边没有响应过来，程序自己刷新
+            if (lbSucess.size() < 1) {
+                setTimeout("gourl()", 2000);
+            }
+        });
          
-     </script>
+    </script>
 </body>
 </html>

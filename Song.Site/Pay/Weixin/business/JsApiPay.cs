@@ -174,6 +174,7 @@ namespace WxPayAPI
             //统一下单
             WxPayData data = new WxPayData();
             //商品简单描述，该字段请按照规范传递,(商家名称-销售商品类目)https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=4_2
+            body = !string.IsNullOrWhiteSpace(body) && body.Length > 100 ? body.Substring(0, 100) : body;
             data.SetValue("body", body);
             //附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据
             data.SetValue("attach", buyer);

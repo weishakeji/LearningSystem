@@ -35,7 +35,7 @@ namespace Song.Site.Pay.Weixin
         protected Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
         protected string path = WeiSha.Common.Upload.Get["Accounts"].Virtual;
         //H5调起JS API参数
-        public static string wxJsApiParam { get; set; } 
+        public static string wxJsApiParam { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
             //初始化数据，主要是解析state
@@ -46,11 +46,7 @@ namespace Song.Site.Pay.Weixin
             if (acc == null) Response.Redirect("/mobile/login.ashx");
             //支付
             JsApiPayPage();
-            if (string.IsNullOrWhiteSpace(wxJsApiParam))
-            {
-                wxJsApiParam = "''";
-            }
-
+            if (string.IsNullOrWhiteSpace(wxJsApiParam)) wxJsApiParam = "\"\"";
         }
         /// <summary>
         /// 初始化数据
@@ -148,7 +144,7 @@ namespace Song.Site.Pay.Weixin
                 }
                 catch (Exception ex)
                 {
-                    Response.Write("<span style='color:#FF0000;font-size:20px'>" + "下单失败，请返回重试。请情：" + ex.Message + "</span>");                   
+                    Response.Write("<span style='color:#FF0000;font-size:20px;'>" + "下单失败，请返回重试。请情：" + ex.Message + "</span>");                   
                 }
             }
         }

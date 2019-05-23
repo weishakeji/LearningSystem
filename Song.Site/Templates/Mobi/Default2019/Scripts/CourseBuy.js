@@ -4,7 +4,11 @@
 $(function () {
     _btnEvent();
     _selectPrice();
-
+    //如果充值成功后的返回
+    var recharge = $.cookie('courseBuy_state');
+    if (recharge == 'recharge') {
+        BuySubmit(1, 0);
+    }
 });
 
 //选择价格
@@ -13,6 +17,8 @@ function _selectPrice() {
     $(".priceItem").click(function () {
         $(this).parent().find(".priceItem").removeClass("priceSelected");
         $(this).addClass("priceSelected");
+        //记录当前选中的购买项
+        $.cookie('cpid', $.trim($(this).attr("cpid")));
         //购买的计算
         var buyclac = clacMoney();
         $(".txt-row").text('购买需要：卡券' + buyclac.need.coupon + '个，资金' + buyclac.need.money + '元');
@@ -21,11 +27,16 @@ function _selectPrice() {
             $("#payInterface").show();
             $("input[name=money]").val(buyclac.recharge);
             $("#needRecharge").text(buyclac.recharge);
+
         } else {
             $(".txt-row").removeClass('needRecharge');
             $("#payInterface").hide();
         }
-    }).first().click();
+    });
+    //取之前点击的项目（如果没有取第一个）
+    var first = $(".priceItem[cpid=" + $.cookie('cpid') + "]");
+    if (first.size() < 1) first = $(".priceItem").first();
+    first.click();
     //计算日均价格
     (function averageday() {
         $(".alt").each(function (index, element) {
@@ -55,8 +66,8 @@ function _selectPrice() {
 function clacMoney() {
     var selected = $(".priceSelected");
     var obj = {
-        span: $(".priceSelected .alt").attr("span"),
-        unit: $(".priceSelected .alt").attr("unit"),
+        span: $(".priceSelected .alt").attr("span"),        //当前选中的购买项的数量
+        unit: $(".priceSelected .alt").attr("unit"),        //当前选中的购买项的日期单位
         mprice: Number(selected.find(".mprice").html()),      //选中项的资金价格
         cprice: Number(selected.find(".cprice").html()),      //选中项的卡券价格
         money: Number($("#money").html()),       //余额
@@ -125,13 +136,18 @@ function _btnEvent() {
         var buyclac = clacMoney();
         //资金余额不足
         if (!buyclac.pass) {
-            var txt = "当前课程"+buyclac.span + buyclac.unit + "的学习需要<b>"+buyclac.money+"元</b>，";
-            txt+="经过卡券抵扣，仍需<b>"+buyclac.need.money+"元</b>。<br/>您的余额不足，需要充值<b>{0}元</b>，是否立即充值，并购买课程？";
+            var txt = "当前课程" + buyclac.span + buyclac.unit + "的学习需要<b>" + buyclac.mprice + "元</b>，";
+            txt += "使用卡券抵扣以后仍需要<b>" + buyclac.need.money + "元</b>。<br/>您的余额不足，需要充值<b>{0}元</b>，是否立即充值，并购买课程？";
             if ($(".payitem").size() > 0) {
                 var msg = new MsgBox("提示", txt.replace("{0}", buyclac.recharge), 80, 220, "confirm");
                 msg.EnterEvent = function () {
-                    //window.location.href = 'recharge.ashx';
-                    $('form').submit();
+                    $.cookie('courseBuy_state', 'recharge');    //购买状态（进入支付环节）
+                    $.cookie('recharge_returl', '/Mobile/CourseBuy.ashx');  //支付成功后跳转到的页面
+                    $('form').submit()
+                };
+                msg.OverEvent = function () {
+                    $.cookie('courseBuy_state', '');
+                    $.cookie('recharge_returl', '');
                 };
                 msg.Open();
             } else {
@@ -162,7 +178,10 @@ function _btnEvent() {
 function BuySubmit(isfree, istry) {
     var urlPath = "/Ajax/CourseBuySubmit.ashx?timestamp=" + new Date().getTime();
     var cpid = $(".priceSelected").attr("cpid");  //价格项的id
-    var couid = $().getPara("couid");    //课程id
+    var couid = Number($().getPara("couid"));    //课程id
+    if (couid == null || isNaN(couid) || couid <= 0) {
+        couid = $('body').attr('couid');
+    }
     var return_url = "CoursePage.ashx";            //成功后，跳转的页面
     $.ajax({
         type: "POST", url: urlPath, dataType: "text",
@@ -192,6 +211,8 @@ function BuySubmit(isfree, istry) {
                         top.location.href = result.return_url + "?couid=" + result.couid;
                     };
                     msg.Open();
+                    $.cookie('courseBuy_state', '');    //清除购买状态
+                    $.cookie('recharge_returl', '');
                 }
                 var error = "";
                 if (result.status == 1) error = "您还未登录！";

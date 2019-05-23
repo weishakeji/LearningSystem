@@ -25,6 +25,7 @@ namespace Song.Site.Mobile
             {
                 couid = WeiSha.Common.Request.Cookies["couid"].Int32 ?? 0;
             }
+            this.Document.Variables.SetValue("couid", couid);
             //判断，如果已经购买，则直接跳转
             if (Extend.LoginState.Accounts.IsLogin)
             {

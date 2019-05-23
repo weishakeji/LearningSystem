@@ -12,6 +12,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telephone=yes" />
     <meta name="format-detection" content="email=no" />
+    <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/extend.js"></script>
     <style type="text/css">
         .accinfo
         {
@@ -100,11 +102,18 @@
     </div>
     <div class="footer"><a class="btn-green" id="getBrandWCPayRequest" href="/Mobile/recharge.ashx">返 回</a></div>
      <script type="text/javascript">
+         $(function () {
+             var default_returl = '/Mobile/recharge.ashx';
+             var returl = $.cookie('recharge_returl');  //充值后的返回
+             if (returl == '' || returl == null) returl = default_returl;
+             $("#getBrandWCPayRequest").attr("href", returl);
+         });
          function gourl() {
              window.location.href = $().setPara(window.location.href, "t", new Date().getTime());
          }
          $(function () {
              var lbSucess = $(".lbSucess");
+             //如果没有显示成功，可能是微信那边没有响应过来，程序自己刷新
              if (lbSucess.size() < 1) {
                  setTimeout("gourl()", 2000);
              }
