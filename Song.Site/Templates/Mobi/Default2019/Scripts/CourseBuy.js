@@ -26,7 +26,7 @@ function _selectPrice() {
             $(".txt-row").append('，还需充值' + buyclac.recharge + '元').addClass('needRecharge');
             $("#payInterface").show();
             $("input[name=money]").val(buyclac.recharge);
-            $("#needRecharge").text(buyclac.recharge);
+            $("#needRecharge b").text(buyclac.recharge);
 
         } else {
             $(".txt-row").removeClass('needRecharge');
@@ -275,7 +275,7 @@ function pay_onlineStyle() {
         $("#pay-title #pay-img").attr("src", $(this).find("img").attr("src"));
     });
     //初始样式，默认取第一个
-    var pai = $(".payitem:visible").first();
+    var pai = $(".payitem").first();
     if (pai.size() > 0) mui.trigger(pai.get(0), 'tap');
 }
 

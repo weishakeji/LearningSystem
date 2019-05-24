@@ -100,6 +100,9 @@ form{
     padding: 10px 15px;
     font-size: 16px;
 }
+.priceItem:last-child {
+	border-bottom: #eee 0px solid;
+}
 .priceItem .ico:before {
 	content: "\e691";
 	font-family: iconfont;
@@ -238,10 +241,15 @@ form{
 	width: auto;
 }
 #needRecharge{
-	color:#F00;
+	color: #060;
 }
 #needRecharge:before{
-	content:"充值 ";
+	content: "\e695";
+	font-family: iconfont;
+	font-size: 20px;
+	margin-right:10px;
+	font-weight: normal;
+	font-style: normal;
 }
 #needRecharge:after{
 	content:" 元";
