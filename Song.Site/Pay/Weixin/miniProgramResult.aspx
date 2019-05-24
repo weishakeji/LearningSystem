@@ -13,7 +13,8 @@
     <meta name="format-detection" content="telephone=yes" />
     <meta name="format-detection" content="email=no" />
     <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
-    <script type="text/javascript" src="/Utility/CoreScripts/extend.js"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/extend.js"></script>
+
     <style type="text/css">
         .accinfo
         {

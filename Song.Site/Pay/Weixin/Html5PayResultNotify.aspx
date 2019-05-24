@@ -13,6 +13,11 @@
     <meta name="format-detection" content="telephone=yes" />
     <meta name="format-detection" content="email=no" />
     <style type="text/css">
+        html
+        {
+            background-color:#fff;
+        }
+        
         .accinfo
         {
             margin-right: auto;
@@ -21,7 +26,9 @@
         }
         body
         {
-            text-align: center;
+           text-align: center;
+            margin: 0px;
+            padding-top: 20px;
         }
         .show-tit
         {

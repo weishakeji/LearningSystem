@@ -11,6 +11,11 @@
     <meta name="format-detection" content="telephone=yes" />
     <meta name="format-detection" content="email=no" />
     <style type="text/css">
+        html
+        {
+            background-color:#fff;
+        }
+        
         .accinfo
         {
             margin-right: auto;
@@ -20,6 +25,9 @@
         body
         {
             text-align: center;
+             text-align: center;
+            margin: 0px;
+            padding-top: 20px;
         }
         .show-tit
         {
@@ -88,7 +96,7 @@
             <%= acc.Ac_Name %>
         </div>
         <div class="img-line">
-            <img src="<%= path %><%= acc.Ac_Photo %>" id="photo" def="/Utility/images/nophoto.jpg" /></div>
+            <img src="<%= path %><%= acc.Ac_Photo %>" id="photo" default="/Utility/images/head1.jpg"/></div>
         <div class="show-tit" id="Div1">
             充值金额：&yen; <%= ((float)total_fee)/100%> 元
         </div>
@@ -107,7 +115,7 @@
             return primary;
         }
         $('img').error(function () {
-            $(this).attr('src', $(this).attr('def'));
+            $(this).attr('src', $(this).attr('default'));
         });
         var referrer = document.referrer;       
     </script>
