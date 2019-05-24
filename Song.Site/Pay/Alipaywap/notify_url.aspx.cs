@@ -35,6 +35,15 @@ namespace Com.Alipaywap
         private int paiid = WeiSha.Common.Request.QueryString["paiid"].Int32 ?? 0;
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Log记录获取的参数
+            string query = string.Empty;
+            for (int i = 0; i < Request.Form.Count; i++)
+            {
+                query += Request.Form.Keys[i].ToString() + " = " + Request.Form[i].ToString() + ";";
+            }
+            WeiSha.Common.Log.Debug("Alipay.wap_notify_url", query);
+
+
             SortedDictionary<string, string> sPara = GetRequestPost();
 
             if (sPara.Count > 0)//判断是否有带返回参数

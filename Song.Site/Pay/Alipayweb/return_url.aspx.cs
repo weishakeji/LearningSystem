@@ -31,6 +31,15 @@ public partial class Alipayweb_return_url : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        //输出获取的参数
+        string query = string.Empty;
+        for (int i = 0; i < Request.QueryString.Count; i++)
+        {
+            query += Request.QueryString.Keys[i].ToString() + " = " + Request.QueryString[i].ToString() + ";";
+        }
+        WeiSha.Common.Log.Debug("Alipay.web_return_url", query);
+
+
         string return_url = "/default.ashx";
         SortedDictionary<string, string> sPara = GetRequestGet();
 

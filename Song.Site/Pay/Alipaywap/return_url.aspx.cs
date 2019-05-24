@@ -31,9 +31,18 @@ namespace Com.Alipaywap
     /// </summary>
     public partial class return_url : System.Web.UI.Page
     {
+        //返回的参数
+        public string return_para = "type=2&sccess={0}&money={1}&paiid={2}";
         protected void Page_Load(object sender, EventArgs e)
         {
-            string return_url = "/mobile/Recharge.ashx?type=2&sccess={0}&money={1}&paiid={2}";
+            ////Log记录获取的参数
+            //string query = string.Empty;
+            //for (int i = 0; i < Request.QueryString.Count; i++)
+            //{
+            //    query += Request.QueryString.Keys[i].ToString() + " = " + Request.QueryString[i].ToString() + ";";
+            //}
+            //WeiSha.Common.Log.Debug("Alipay.wap_return_url", query);
+
             SortedDictionary<string, string> sPara = GetRequestGet();
             if (sPara.Count > 0)//判断是否有带返回参数
             {
@@ -42,7 +51,7 @@ namespace Com.Alipaywap
                 Song.Entities.MoneyAccount maccount = Business.Do<IAccounts>().MoneySingle(out_trade_no);
                 if (maccount == null)
                 {
-                    Response.Redirect(string.Format(return_url, false, "", ""));
+                    return_para = string.Format(return_para, false, "", "");
                     return;
                 }
                 Notify aliNotify = new Notify(maccount.Pai_ID);
@@ -70,12 +79,12 @@ namespace Com.Alipaywap
                     maccount.Ma_Buyer = Request.QueryString["buyer_email"];
                     maccount.Ma_Seller = Request.QueryString["seller_email"];
                     Business.Do<IAccounts>().MoneyConfirm(maccount);
-                    Response.Redirect(string.Format(return_url, true, maccount.Ma_Money, maccount.Pai_ID));
+                    return_para = string.Format(return_para, true, maccount.Ma_Money, maccount.Pai_ID);
                     return;
                 }
                 else//验证失败
                 {
-                    Response.Redirect(string.Format(return_url, false, maccount.Ma_Money, maccount.Pai_ID));
+                    return_para = string.Format(return_para, false, maccount.Ma_Money, maccount.Pai_ID);
                 }
             }
             else
