@@ -151,7 +151,8 @@ function _btnEvent() {
                 };
                 msg.Open();
             } else {
-                new MsgBox("提示", $("#paytitle").text(), 80, 200, "alert").Open();
+				//如果没有支付接口
+                new MsgBox("提示", $("#nopay").text(), 80, 200, "alert").Open();
             }
             return false
         }
@@ -262,8 +263,8 @@ function pay_onlineStyle() {
                 if (arr[0] == "weixin" && arr[1] != "h5") $(this).remove();
             }
         });
-        if ($(".payitem").size() < 1)
-            $("#paytitle").text('没有可供使用的支持接口');
+        //如果没有可供使用的支付接口
+         $("#nopay").css("display",$(".payitem").size() < 1 ? "block" : "none");
     })();
     //当点击接口时
     mui('body').on('tap', '.payitem', function () {

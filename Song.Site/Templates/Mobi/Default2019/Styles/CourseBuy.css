@@ -92,12 +92,13 @@ form{
 }
 /*价格*/
 .priceItem {
-	line-height: 30px;
-	background-color: #fff;
-	text-indent: 20px;
-	height: 40px;
-	padding:5px;	
-	font-size: 16px;
+	border-bottom: #eee 1px solid;
+    line-height: 40px;
+    background-color: #fff;
+    text-indent: 20px;
+    height: 60px;
+    padding: 10px 15px;
+    font-size: 16px;
 }
 .priceItem .ico:before {
 	content: "\e691";
@@ -164,9 +165,9 @@ form{
 	text-align: right;
 	height: 25px;
 	width: 80px;
+
 }
 .txt-row {
-	font-size: 12px;
 	line-height: 40px;
 	display: inline-block;
 	height: 40px;

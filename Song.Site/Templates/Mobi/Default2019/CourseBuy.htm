@@ -17,8 +17,8 @@
     <div class="couinfo">章节{$olCount}个/试题{$quesCount}道</div>
   </div>
   <div class="mui-card"> 
-    <!--页眉，放置标题-->
-   
+    <!--页眉，放置标题--> 
+    
     <!--内容区-->
     <div class="mui-card-content">
       <div class="priceBox">
@@ -29,7 +29,6 @@
             </div>
           </vt:foreach>
           <vt:else />
-          
           <div class="noPrice">没有设置价格</div>
         </vt:if>
       </div>
@@ -46,24 +45,23 @@
   <div class="txt-row">（与现金等值，优先扣除卡券）</div>
   <div class="mui-card" id="payInterface"> 
     <!--页眉，放置标题-->
-    <div class="mui-card-header" id="paytitle"> 
+    <div class="mui-card-header" id="paytitle">
       <input name="paiid" type="hidden" id="paiid" value=""/>
-       <input name="money" type="hidden" id="money" value="0" />
-       <span id="needRecharge" remark="需要充值的钱数"></span>
-    </div>
+      <input name="money" type="hidden" id="money" value="0" />
+      <span id="needRecharge" remark="需要充值的钱数"></span> </div>
     <!--内容区-->
     <div class="mui-card-content">
-      <vt:if var="pis.Length" value="0" compare=">">
-        <div class="mui-card-content">
-          <div class="mui-input-row" style="height:auto;">
-            <ul class="mui-table-view mui-table-view-chevron">
-              <vt:foreach id="pis" from="$#.pis" item="data" remark="支付接口">
-                <li class="mui-table-view-cell payitem" select="false" pattern="{$:#.data.Pai_Pattern}" scene="{$:#.data.Pai_Scene}" painame="{$:#.data.Pai_Name}" paiid="{$:#.data.Pai_ID}"> <a class="mui-navigate-right" href="#"><img src="/pay/images/{$:#.data.Pai_Pattern}.png"/>{$:#.data.Pai_Name} <span class="right-item iconfont ico" style="display:none">&#xe6fd;</span> </a> </li>
-              </vt:foreach>
-            </ul>
-          </div>
+      <div class="mui-card-content">
+        <div class="mui-input-row" style="height:auto;">
+          <ul class="mui-table-view mui-table-view-chevron">
+            <vt:foreach id="pis" from="$#.pis" item="data" remark="支付接口">
+              <li class="mui-table-view-cell payitem" select="false" pattern="{$:#.data.Pai_Pattern}" scene="{$:#.data.Pai_Scene}" painame="{$:#.data.Pai_Name}" paiid="{$:#.data.Pai_ID}"> <a class="mui-navigate-right" href="#"><img src="/pay/images/{$:#.data.Pai_Pattern}.png"/>{$:#.data.Pai_Name} <span class="right-item iconfont ico" style="display:none">&#xe6fd;</span> </a> </li>
+            </vt:foreach>
+             <li class="mui-table-view-cell" id="nopay" style="display:none">没有可供使用的支持接口</li>
+          </ul>
+           
         </div>
-      </vt:if>
+      </div>
     </div>
   </div>
   <div class="StudyBtnBox">
