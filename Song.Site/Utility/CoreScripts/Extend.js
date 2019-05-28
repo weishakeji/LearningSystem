@@ -144,14 +144,14 @@ jQuery.fn.isMouseArea = function (element, e) {
     var mouse = $().Mouse(e);
     var tmp = false;
     element.each(
-		function () {
-		    var offset = $(this).offset();
-		    var pxx = mouse.x > offset.left && mouse.x < (offset.left + $(this).width());
-		    var pyy = mouse.y > offset.top && mouse.y < (offset.top + $(this).height());
-		    tmp = pxx && pyy;
-		    if (tmp) return false;
-		}
-	);
+        function () {
+            var offset = $(this).offset();
+            var pxx = mouse.x > offset.left && mouse.x < (offset.left + $(this).width());
+            var pyy = mouse.y > offset.top && mouse.y < (offset.top + $(this).height());
+            tmp = pxx && pyy;
+            if (tmp) return false;
+        }
+    );
     return tmp;
 };
 //获取文件大小，带单位，如kb,mb；
@@ -210,7 +210,7 @@ jQuery.fn.getPara = function (url, key) {
         }
     }
     if (value.indexOf("#") > -1) value = value.substring(0, value.indexOf("#"));
-    return value;s
+    return value; s
 }
 
 //添加链接地址的参数
@@ -284,7 +284,7 @@ jQuery.fn.getFileName = function () {
 jQuery.fn.getHostPath = function () {
     var url = window.location.href;
     var pathName = window.document.location.pathname;
-    var localhostPath = url.substring(0, url.indexOf(pathName)+1);
+    var localhostPath = url.substring(0, url.indexOf(pathName) + 1);
     return localhostPath;
 };
 //在线浏览pdf文件
@@ -326,11 +326,11 @@ Date.prototype.Format = function (fmt) { //author: meizz
 //将时间转换为指定的时区
 Date.prototype.toLocal = function (timezone) {
     //本地时间与格林威治时间的时间差，单位为小时
-    var gmtHours =  -new Date().getTimezoneOffset() / 60;
-    if(typeof(timezone)!="number")timezone=Number(timezone);
-    var minutes=(timezone-gmtHours)*60;
-    var local=this;
-    local.setMinutes (local.getMinutes () - minutes);
+    var gmtHours = -new Date().getTimezoneOffset() / 60;
+    if (typeof (timezone) != "number") timezone = Number(timezone);
+    var minutes = (timezone - gmtHours) * 60;
+    var local = this;
+    local.setMinutes(local.getMinutes() - minutes);
 
     return local;
 }
@@ -379,4 +379,13 @@ jQuery.fn.isWeixin = function () {
 jQuery.fn.isWeixinApp = function () {
     var ua = window.navigator.userAgent.toLowerCase();
     return ua.match(/miniProgram/i) == 'miniprogram';
+}
+//加载css
+jQuery.fn.loadcss = function (url, callback) {
+    var head = document.getElementsByTagName('head')[0];
+    var link = document.createElement('link');
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.href = url;
+    head.appendChild(link);
 }

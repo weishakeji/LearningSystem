@@ -1,20 +1,96 @@
 ﻿$(function () {
+    var css = $("script[href]").attr("href");
+    $().loadcss(css);
+});
+window.onload = function () {
+    pay_onlineStyle();
+};
+$(function () {
     _btnEvent();
     _selectPrice();
-    //计算日均价格
-    $(".alt").each(function (index, element) {
-        var span = Number($(this).attr("span"));
-        var unit = $.trim($(this).attr("unit"));
-        var price = Number($(this).attr("price"));
-        var day = span;
-        if (unit == "日") day = span;
-        if (unit == "周") day = span * 7;
-        if (unit == "月") day = span * 30;
-        if (unit == "年") day = span * 365;
-        var result = Math.floor(price / day * 100) / 100;
-        $(this).find("b").text(result);
-    });
 });
+//选择价格
+function _selectPrice() {
+    //价格选项的点击事件
+    $(".priceItem").click(function () {
+        $(this).parent().find(".priceItem").removeClass("priceSelected");
+        $(this).addClass("priceSelected");
+        //记录当前选中的购买项
+        $.cookie('cpid', $.trim($(this).attr("cpid")));
+        //购买的计算
+        var buyclac = clacMoney();
+        $(this).parent().find('.txt-row').hide();
+        $(this).find(".txt-row").text('购买需要：卡券' + buyclac.need.coupon + '个，资金' + buyclac.need.money + '元');
+        if (buyclac.money < buyclac.need.money) {
+            $(this).find(".txt-row").append('，还需充值' + buyclac.recharge + '元').addClass('needRecharge');
+            $(this).after($("#payInterface").show());
+            $("#payInterface .rechargeValue span").text(buyclac.recharge);
+            $("input[name=money]").val(buyclac.recharge);
+            $("#needRecharge b").text(buyclac.recharge);
+
+        } else {
+            $(this).find(".txt-row").removeClass('needRecharge');
+            $("#payInterface").hide();
+        }
+        $(this).find(".txt-row").show();
+    });
+    //取之前点击的项目（如果没有取第一个）
+    var first = $(".priceItem[cpid=" + $.cookie('cpid') + "]");
+    if (first.size() < 1) first = $(".priceItem").first();
+    first.click();
+    //计算日均价格
+    (function averageday() {
+        $(".alt").each(function (index, element) {
+            var span = Number($(this).attr("span"));    //时间数
+            var unit = $.trim($(this).attr("unit"));    //时间单位
+            var price = Number($(this).attr("price"));      //价格
+            //平均每天多少钱
+            var average = price / getday(span, unit);
+            if (average > 0.01)
+                average = Math.floor(average * 100) / 100 + "元";
+            else
+                average = Math.floor(average * 10000) / 100 + "分";
+            $(this).find("b").text(average);
+        });
+        //计算课程计算项的天数
+        function getday(span, unit) {
+            var day = span;
+            if (unit == "日") day = span;
+            if (unit == "周") day = span * 7;
+            if (unit == "月") day = span * 30;
+            if (unit == "年") day = span * 365;
+            return day;
+        }
+    })();
+}
+//计算购买课程时所需的资金
+function clacMoney() {
+    var selected = $(".priceSelected");
+    var obj = {
+        span: $(".priceSelected .alt").attr("span"),        //当前选中的购买项的数量
+        unit: $(".priceSelected .alt").attr("unit"),        //当前选中的购买项的日期单位
+        mprice: Number(selected.find(".mprice").html()),      //选中项的资金价格
+        cprice: Number(selected.find(".cprice").html()),      //选中项的卡券价格
+        money: Number($("#money").text()),       //余额
+        coupon: Number($("#coupon").text()),        //卡券
+        need: {
+            money: 0,   //如果购买，需要的资金数
+            coupon: 0   //需要的卡券数
+        },
+        recharge: 0,     //需要充值的数钱
+        //是否能够买得起
+        pass: false,
+        passclac: function () {
+            var t = this;
+            return t.money >= t.mprice || t.money >= (t.mprice - (t.coupon > t.cprice ? t.cprice : t.coupon));
+        }
+    };
+    obj.need.coupon = obj.coupon > obj.cprice ? obj.cprice : obj.coupon;   //消耗的卡券数
+    obj.need.money = obj.mprice - obj.need.coupon;
+    obj.recharge = obj.need.money - obj.money;
+    obj.pass = obj.passclac();
+    return obj;
+}
 //按钮事件
 function _btnEvent() {
     //免费课程的学习按钮
@@ -47,7 +123,7 @@ function _btnEvent() {
         var mprice = Number($(this).attr("mprice"));    //价格，资金
         var cprice = Number($(this).attr("cprice"));    //价格，卡券
         //满足条件的判断
-        var tm=money >= mprice || money>=(mprice-(coupon>cprice ? cprice: coupon) );
+        var tm = money >= mprice || money >= (mprice - (coupon > cprice ? cprice : coupon));
         //资金余额不足
         if (!tm) {
             var msg = new MsgBox("提示", "你的余额不足，是否充值？", 400, 300, "confirm");
@@ -62,28 +138,7 @@ function _btnEvent() {
         return false;
     });
 }
-//选择价格
-function _selectPrice() {
-    //价格选项的点击事件
-    $(".priceItem").click(function () {
-        $(this).parent().find(".priceItem").removeClass("priceSelected");
-        $(this).parent().find(".priceItem span.ico").html("&#xf00c6;");
-        //选中事件
-        $(this).addClass("priceSelected");
-        $(this).find("span.ico").html("&#xe667;");
-        //如果登录，则显示验证码
-        var moneySpan = $("#money");
-        if (moneySpan.size() > 0) {
-            $(".verifyInfo").show();
-        }
-        //设置价格在购买按钮上，取值时方便
-        var selected = $(".priceSelected");
-        var mprice = Number(selected.find(".mprice").html()); //选中项的资金价格
-        var cprice = Number(selected.find(".cprice").html()); //选中项的卡券价格
-        $("#btnBuyStudy").attr("mprice", mprice).attr("cprice", (isNaN(cprice) ? 0 : cprice));
-    });
-    $(".priceItem:eq(0)").click();
-}
+
 
 //提交购买操作
 //isfree:是否免费购买，免费请写0
@@ -96,7 +151,8 @@ function BuySubmit(isfree, istry) {
     var return_url = "CourseStudy.ashx";            //成功后，跳转的页面
     $.ajax({
         type: "POST", url: urlPath, dataType: "text",
-        data: { veriCode: code, cpid: cpid, couid: couid, return_url: return_url,
+        data: {
+            veriCode: code, cpid: cpid, couid: couid, return_url: return_url,
             isfree: isfree, istry: istry
         },
         //开始，进行预载
@@ -147,4 +203,44 @@ function BuySubmit(isfree, istry) {
             }
         }
     });
+}
+
+/*******
+支付接口
+*/
+//设置接口的样式
+function pay_onlineStyle() {
+    //支付接口在不同场景下的显示
+    (function pay_scene() {
+        var isweixin = $().isWeixin(); 	//是否处于微信
+        var ismini = $().isWeixinApp(); //是否处于微信小程序
+        /*$(".payitem").each(function (index, element) {
+            var scene = $(this).attr("scene");
+            scene = scene.replace(/\s+/g, "");
+            if ($.trim(scene) == "") return true;
+            var arr = scene.split(",");
+            //如果处在微信中
+            if (isweixin) {
+                if (arr[0] != "weixin" || arr[1] == "h5") $(this).remove();
+                if (ismini && arr[1] != "mini") $(this).remove();
+                if (!ismini && arr[1] == "mini") $(this).remove();
+            } else {
+                //如果不在微信中，且该接口仅限微信使用，则不显示
+                if (arr[0] == "weixin" && arr[1] != "h5") $(this).remove();
+            }
+        });*/
+        //如果没有可供使用的支付接口
+        $("#nopay").css("display", $(".payitem").size() < 1 ? "block" : "none");
+    })();
+    //当点击接口时
+    $(".payitem").click(function () {
+        $("input[name=paiid]").val($(this).attr("paiid"));
+        $(".payitem").removeClass("paySelected").find(".rechargeValue").hide();
+        $(this).addClass("paySelected").find(".rechargeValue").show();
+        $("#pay-title #pay-api").text($(this).attr("painame"));
+        $("#pay-title #pay-img").attr("src", $(this).find("img").attr("src"));
+    });
+    //初始样式，默认取第一个
+    var pai = $(".payitem").first();
+    if (pai.size() > 0) pai.click();
 }

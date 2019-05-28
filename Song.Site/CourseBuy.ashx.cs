@@ -60,6 +60,10 @@ namespace Song.Site
             //上级专业
             List<Song.Entities.Subject> sbjs = Business.Do<ISubject>().Parents(course.Sbj_ID, true);
             this.Document.Variables.SetValue("sbjs", sbjs);
+            //支付接口
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganRoot();
+            Song.Entities.PayInterface[] pis = Business.Do<IPayInterface>().PayAll(org.Org_ID, "mobi", true);
+            this.Document.Variables.SetValue("pis", pis);
         }
               
     }

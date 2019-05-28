@@ -106,9 +106,9 @@
                 <div class="tab-context">
                     <!--课程介绍-->
                     <div class="introBox">
+                     <vt:function var="intro" method="ClearHtml" args="$course.Cou_Target" />
                      <vt:if var="intro" value="" compare="!="  remark="学习目标">
-                    <span>学习目标：</span>
-                    <vt:function var="intro" method="ClearHtml" args="$course.Cou_Target" />
+                    <span>学习目标：</span>                   
                     <div class="couIntro">{$:#.intro}</div>
                     </vt:if> 
                         {$course.cou_intro}
