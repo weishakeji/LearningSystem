@@ -12,9 +12,9 @@
       <div class="isLoginBox">
         <div class="login-show">欢迎光临！</div>
         <div class="stLoginPhoto">
-          <vt:if var="Account.Ac_photo" value="" compare="="> <img src="../../images/noPhoto.jpg"/>
+          <vt:if var="Account.Ac_photo" value="" compare="="> <img src="/Utility/images/head1.jpg"/>
             <vt:else/>
-            <img src="{$stpath}{$:#.Account.Ac_photo}" background="../../images/noPhoto.jpg"/> </vt:if>
+            <img src="{$stpath}{$:#.Account.Ac_photo}" background="/Utility/images/head1.jpg" default="/Utility/images/head1.jpg"/> </vt:if>
         </div>
         <div class="loginRow"> <a href="/Student/panel.ashx" class="btnInManage">个人中心</a> <a href="/Student/logout.ashx" class="btnLogout">退出登录</a></div>
       </div>

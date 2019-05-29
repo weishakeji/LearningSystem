@@ -96,6 +96,20 @@
     </style>
 </head>
 <body>
-    
+     <div class="show-tit" id="name">
+ 正在返回，稍候...
+ </div>
+    <script type="text/javascript">
+        $(function () {
+            var return_para = "<%= return_para %>";
+            var default_returl = '/default.ashx';
+            var returl = $.cookie('recharge_returl');  //充值后的返回
+            if (returl == '' || returl == null) returl = default_returl;
+            //转向
+            returl += "?" + return_para;
+            window.location.href = returl;
+
+        });         
+    </script>
 </body>
 </html>

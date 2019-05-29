@@ -943,6 +943,7 @@ namespace Song.ServiceImpls
         {
             if (string.IsNullOrWhiteSpace(xml)) return new QuesAnswer[0];
             XmlDocument xmlDoc = new XmlDocument();
+            if (!string.IsNullOrWhiteSpace(xml)) xml = xml.Trim();
             xmlDoc.LoadXml(xml, false);
             XmlNodeList list = xmlDoc.SelectNodes("Items/item");
             List<Song.Entities.QuesAnswer> anslist =new List<QuesAnswer>();

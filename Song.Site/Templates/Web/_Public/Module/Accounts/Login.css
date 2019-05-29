@@ -286,6 +286,10 @@
 	margin-left: auto;
 	margin-bottom: 10px;
 }
+.stLoginPhoto img
+{
+    width:140px;
+}
 .isLoginBox .loginRow {
 	text-align: center;
 	margin-left: 0px;

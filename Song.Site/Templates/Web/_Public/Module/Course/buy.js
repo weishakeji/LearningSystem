@@ -1,4 +1,5 @@
 ﻿$(function () {
+    //加载css样式
     var css = $("script[href]").attr("href");
     $().loadcss(css);
 });
@@ -8,6 +9,11 @@ window.onload = function () {
 $(function () {
     _btnEvent();
     _selectPrice();
+    //如果充值成功后的返回
+    var recharge = $.cookie('courseBuy_state');
+    if (recharge == 'recharge') {
+        BuySubmit(1, 0);
+    }
 });
 //选择价格
 function _selectPrice() {
@@ -93,20 +99,15 @@ function clacMoney() {
 }
 //按钮事件
 function _btnEvent() {
-    //免费课程的学习按钮
-    $("#btnStudy").click(function () {
-        //BuySubmit(0, 0);
-        //return false;
-    });
     //确定按钮
     $("#btnBuyStudy").click(function () {
         var moneySpan = $("#money"); //学员资金余额
         var couponSpan = $("#coupon"); //学员卡券余额
         if (moneySpan.size() < 1) {
             var txt = "您还没有登录，请登录后购买。";
-            var msg = new MsgBox("未登录", txt, 400, 300, "confirm");
+            var msg = new MsgBox("未登录", txt, 400, 200, "confirm");
             msg.EnterEvent = function () {
-                window.location.href = "/student/index.ashx";
+                window.location.href = "Login.ashx";
             };
             msg.Open();
             return false
@@ -114,27 +115,42 @@ function _btnEvent() {
         //是否选项费用项
         var selected = $(".priceSelected");
         if (selected.size() < 1) {
-            new MsgBox("提示", "请选择学习费用的选项。", 400, 300, "alert").Open();
+            new MsgBox("提示", "请选择学习费用的选项。", 400, 200, "alert").Open();
             return false;
         }
         //判断产品价格不得低于余额
-        var money = Number(moneySpan.html()); //余额
-        var coupon = Number(couponSpan.html()); //卡券余额
-        var mprice = Number($(this).attr("mprice"));    //价格，资金
-        var cprice = Number($(this).attr("cprice"));    //价格，卡券
-        //满足条件的判断
-        var tm = money >= mprice || money >= (mprice - (coupon > cprice ? cprice : coupon));
+        var buyclac = clacMoney();
         //资金余额不足
-        if (!tm) {
-            var msg = new MsgBox("提示", "你的余额不足，是否充值？", 400, 300, "confirm");
-            msg.EnterEvent = function () {
-                $(".btnRecharge").get(0).click();
-            };
-            msg.Open();
+        if (!buyclac.pass) {
+            var txt = "当前课程" + buyclac.span + buyclac.unit + "的学习需要<b>" + buyclac.mprice + "元</b>，";
+            txt += "使用卡券抵扣以后仍需要<b>" + buyclac.need.money + "元</b>。<br/>您的余额不足，需要充值<b>{0}元</b>，是否立即充值，并购买课程？";
+            if ($(".payitem").size() > 0) {
+                var msg = new MsgBox("提示", txt.replace("{0}", buyclac.recharge), 400, 220, "confirm");
+                msg.EnterEvent = function () {
+                    $.cookie('courseBuy_state', 'recharge');    //购买状态（进入支付环节）
+                    $.cookie('recharge_returl', '/CourseBuy.ashx?couid=' + $().getPara("couid"));  //支付成功后跳转到的页面
+                    $('form').submit()
+                };
+                msg.OverEvent = function () {
+                    $.cookie('courseBuy_state', '');
+                    $.cookie('recharge_returl', '');
+                };
+                msg.Open();
+            } else {
+                //如果没有支付接口
+                new MsgBox("提示", $("#nopay").text(), 400, 200, "alert").Open();
+            }
             return false
         }
-        if (!Verify.IsPass($("form.money-area"))) return false;
-        BuySubmit(1, 0);
+        if (!Verify.IsPass($("form"))) return false;
+        //如果资金充足，则提示是否购买
+        var couname = $.trim($(".couname").text());
+        var msg = new MsgBox("确认", "是否确定购买该课程《" + couname + "》" + buyclac.span + buyclac.unit + "的学习时间？", 80, 300, "confirm");
+        msg.EnterEvent = function () {
+            BuySubmit(1, 0);
+        };
+        msg.Open();
+
         return false;
     });
 }
@@ -145,14 +161,17 @@ function _btnEvent() {
 //istry:是否试用，不试用请写0
 function BuySubmit(isfree, istry) {
     var urlPath = "/Ajax/CourseBuySubmit.ashx?timestamp=" + new Date().getTime();
-    var code = $.trim($(".verify").val());         //验证码
     var cpid = $(".priceSelected").attr("cpid");  //价格项的id
     var couid = $().getPara("couid");    //课程id
+    var couid = Number($().getPara("couid"));    //课程id
+    if (couid == null || isNaN(couid) || couid <= 0) {
+        couid = $('form[couid]').attr('couid');
+    }
     var return_url = "CourseStudy.ashx";            //成功后，跳转的页面
     $.ajax({
         type: "POST", url: urlPath, dataType: "text",
         data: {
-            veriCode: code, cpid: cpid, couid: couid, return_url: return_url,
+            cpid: cpid, couid: couid, return_url: return_url,
             isfree: isfree, istry: istry
         },
         //开始，进行预载
@@ -172,15 +191,17 @@ function BuySubmit(isfree, istry) {
             try {
                 var result = eval("(" + data + ")");
                 if (result.status == 0) {
-                    var msg = new MsgBox("操作成功", "操作成功，点击确定开始学习", 400, 300, "confirm");
-                    msg.EnterEvent = function () {
+                    var msg = new MsgBox("操作成功", "课程购买成功，立即开始学习", 400, 300, "msg");
+                    msg.OverEvent = function () {
                         window.location.href = result.return_url + "?couid=" + result.couid;
                     };
                     msg.Open();
+                    $.cookie('courseBuy_state', '');    //清除购买状态
+                    $.cookie('recharge_returl', '');
                 }
                 var error = "";
                 if (result.status == 1) error = "您还未登录！";
-                if (result.status == 2) error = "验证码不正确！";
+                //if (result.status == 2) error = "验证码不正确！";
                 if (result.status == 3) error = "价格数据不存在，请刷新界面再提交！";
                 if (result.status == 4) error = "当前课程不存在，请刷新界面再提交！";
                 if (result.status == 5) error = "余额不足，请充值！";
@@ -189,8 +210,8 @@ function BuySubmit(isfree, istry) {
                 if (result.status == 7) error = "当前课程不允许试用！";
                 if (result.status != 0) {
                     var errinfo = "原因：" + error;
-                    errinfo += "<br/>说明：" + result.errinfo;
-                    errinfo += "<br/>详情：<a href=\'" + result.logfile + "' target='_blank'>点击查看</a>";
+                    if (result.errinfo) errinfo += "<br/>说明：" + result.errinfo;
+                    if (result.logfile) errinfo += "<br/>详情：<a href=\'" + result.logfile + "' target='_blank'>点击查看</a>";
                     var msg = new MsgBox("发生错误", errinfo, 400, 300, "alert");
                     msg.OverEvent = function () {
                         MsgBox.Close();
@@ -210,28 +231,8 @@ function BuySubmit(isfree, istry) {
 */
 //设置接口的样式
 function pay_onlineStyle() {
-    //支付接口在不同场景下的显示
-    (function pay_scene() {
-        var isweixin = $().isWeixin(); 	//是否处于微信
-        var ismini = $().isWeixinApp(); //是否处于微信小程序
-        /*$(".payitem").each(function (index, element) {
-            var scene = $(this).attr("scene");
-            scene = scene.replace(/\s+/g, "");
-            if ($.trim(scene) == "") return true;
-            var arr = scene.split(",");
-            //如果处在微信中
-            if (isweixin) {
-                if (arr[0] != "weixin" || arr[1] == "h5") $(this).remove();
-                if (ismini && arr[1] != "mini") $(this).remove();
-                if (!ismini && arr[1] == "mini") $(this).remove();
-            } else {
-                //如果不在微信中，且该接口仅限微信使用，则不显示
-                if (arr[0] == "weixin" && arr[1] != "h5") $(this).remove();
-            }
-        });*/
-        //如果没有可供使用的支付接口
-        $("#nopay").css("display", $(".payitem").size() < 1 ? "block" : "none");
-    })();
+    //如果没有可供使用的支付接口
+    $("#nopay").css("display", $(".payitem").size() < 1 ? "block" : "none");
     //当点击接口时
     $(".payitem").click(function () {
         $("input[name=paiid]").val($(this).attr("paiid"));

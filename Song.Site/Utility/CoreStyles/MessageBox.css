@@ -11,10 +11,9 @@
 }
 .MsgBox .MsgBoxTitle {
 	background-color: #FFFFFF;
-	height: 30px;
+	height: 40px;
 	font-size: 15px;
-	font-family: "黑体";
-	line-height: 30px;
+	line-height: 40px;
 	text-indent: 10px;
 	border-bottom-width: 1px;
 	border-top-style: none;
@@ -45,8 +44,14 @@
 	background-color: #FFFFFF;
 	overflow-x: hidden;
 	overflow-y: auto;
+	font-size:16px;
+	line-height:22px;
 }
-
+.MsgBox .MsgBoxContext, .MsgBox .MsgBoxContext *
+{
+    font-size:16px;
+	line-height:22px;
+}
 .MsgBox .msgBtnBox
 {
 	background-color: #EAEAEA;

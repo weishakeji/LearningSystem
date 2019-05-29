@@ -208,6 +208,9 @@
 	font-size: 16px;
 	line-height: 45px;
 	font-weight: normal;
+	left:300px;
+	position:absolute;
+	top:0px;
 }
 .paySelected {
 	background-color: #DDFEB6;
@@ -227,6 +230,7 @@
 }
 .paySelected b{
 	font-weight: bold;
+	
 }
 .aTryout {
 	line-height: 40px;

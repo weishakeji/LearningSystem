@@ -24,7 +24,7 @@
   <div class="courseBox"> 
     
     <!--右侧价格区域-->
-    <form class="money-area">
+    <form class="money-area"  action="/pay/PayEntry.ashx" method="post"  couid="{$couid}">
       <vt:if var="isfree" value="True" compare="=">
         <vt:if var="course.Cou_IsFree" value="True" compare="=">
           <div class="freeBox"><span class="moneyico">&#xe746;</span>当前课程免费</div>
