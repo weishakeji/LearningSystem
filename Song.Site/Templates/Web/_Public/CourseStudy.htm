@@ -34,6 +34,7 @@
         <vt:else/>
         当前章节不存在 </vt:if>
             </div>
+            <div id="btnKnowledge">知识库</div>
     <div class="oltitle">
               <vt:if var="state.Null" value="true" compare="="><a class="titBox" href="CourseStudy.ashx?olid={$olid}&couid={$course.cou_id}&state=0">提示</a> </vt:if>
               <vt:if var="state.Video" value="true" compare="="> <a class="titBox" href="CourseStudy.ashx?olid={$olid}&couid={$course.cou_id}&state=1">视频</a></vt:if>

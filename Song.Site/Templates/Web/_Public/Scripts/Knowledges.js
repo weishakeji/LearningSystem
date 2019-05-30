@@ -1,6 +1,9 @@
 ﻿$(function(){
-		initloyout();
+	initloyout();
     TreeEvent();
+	//设置iframe链接，加上窗体名称
+	var src=$("iframe").attr("targetFile");
+	$("iframe").attr("src",src+"?window_name="+window.name);
 });
 //页面初始化布局
 function initloyout(){
@@ -38,13 +41,13 @@ function TreeEvent(){
     $("div[type='rootText']").click(function(){
         var frame=$("#frame");
         var file=frame.attr("targetFile");
-        frame.attr("src",file);
+        frame.attr("src",file+"?window_name="+window.name);
     });
     //其余节点的点击事件
     $("div[type='text']").click(function(){
         var id=$(this).attr("nodeId");
         var frame=$("#frame");
         var file=frame.attr("targetFile")+"?sort="+id;
-        frame.attr("src",file);
+        frame.attr("src",file+"?window_name="+window.name);
     });
 }

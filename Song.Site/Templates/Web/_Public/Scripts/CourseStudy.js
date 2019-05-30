@@ -18,7 +18,7 @@
             var hg = $(window).height() - $("#mainTop").height() - $("#playerInfo").height();
             $("#videobox").height(hg - 70);
             //中间分隔线的高度设置
-            $("#median").height($(window).height()).css("line-height", $(window).height() + "px");
+            $("#median").height($(window).height()).find("span").width($("#median").width()+2);
             //章节区域高度设置
             $(".itemList").height($(window).height() - $(".boxBar").height() - 30);
             //习题的高度
@@ -56,6 +56,11 @@
                 }
                 window.loyout.fullScreen = !window.loyout.fullScreen;
             });
+			//知识库的按钮
+			$("#btnKnowledge").click(function(){				
+				new top.PageBox('课程知识库','Knowledges.ashx?couid='+$().getPara("couid"),100,100,null,window.name).Open();
+				return false;
+			});
             //设置标题栏的事件
             (function setInitTilte() {
                 //取当前状态值               

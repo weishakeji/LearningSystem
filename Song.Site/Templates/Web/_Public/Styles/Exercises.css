@@ -4,7 +4,7 @@ html{
 }
 body{
 	color: #000;
-	background-color: #BFFFFF;
+	background-color: #eee;
 	text-align: left;
 }
 
@@ -132,7 +132,7 @@ body{
 
 
 #controlBox #titleBox .number {
-	background-color: #999;
+	background-color: #ccc;
 	font-size: 13px;
 	line-height: 40px;
 	float: left;

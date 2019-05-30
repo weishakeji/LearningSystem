@@ -1129,9 +1129,6 @@
     <Content Include="Templates\Web\Gov\Inc\Footer.html" />
     <Content Include="Templates\Web\Gov\Inc\Header.html" />
     <Content Include="Templates\Web\Gov\Inc\Login.html" />
-    <Content Include="Templates\Web\Gov\Knowledge.htm" />
-    <Content Include="Templates\Web\Gov\Knowledges.htm" />
-    <Content Include="Templates\Web\Gov\KnowledgesList.htm" />
     <Content Include="Templates\Web\Gov\Links.htm" />
     <Content Include="Templates\Web\Gov\logo.jpg" />
     <Content Include="Templates\Web\Gov\MessageBoards.htm" />
@@ -1146,8 +1143,6 @@
     <Content Include="Templates\Web\Gov\Scripts\Default.js" />
     <Content Include="Templates\Web\Gov\Scripts\Exam.js" />
     <Content Include="Templates\Web\Gov\Scripts\jquery.luara.0.0.1.min.js" />
-    <Content Include="Templates\Web\Gov\Scripts\Knowledges.js" />
-    <Content Include="Templates\Web\Gov\Scripts\KnowledgesList.js" />
     <Content Include="Templates\Web\Gov\Scripts\lrtk.js" />
     <Content Include="Templates\Web\Gov\Scripts\Mask.js" />
     <Content Include="Templates\Web\Gov\CoreScripts\Public.js" />
@@ -1186,9 +1181,6 @@
     <Content Include="Templates\Web\Gov\Styles\examico\examico.css" />
     <Content Include="Templates\Web\Gov\Styles\examico\examico.svg" />
     <Content Include="Templates\Web\Gov\Styles\Exercises.css" />
-    <Content Include="Templates\Web\Gov\Styles\Knowledge.css" />
-    <Content Include="Templates\Web\Gov\Styles\Knowledges.css" />
-    <Content Include="Templates\Web\Gov\Styles\KnowledgesList.css" />
     <Content Include="Templates\Web\Gov\Styles\Links.css" />
     <Content Include="Templates\Web\Gov\Styles\lunhuan\luara.css" />
     <Content Include="Templates\Web\Gov\Styles\lunhuan\luara.left.css" />
@@ -1293,7 +1285,9 @@
     <Content Include="Templates\Web\School\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\_Public\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Web\_Public\CoreScripts\dexie.js" />
+    <Content Include="Templates\Web\_Public\CoreScripts\Node.js" />
     <Content Include="Templates\Web\_Public\CoreScripts\Public.js" />
+    <Content Include="Templates\Web\_Public\CoreScripts\Tree.js" />
     <Content Include="Templates\Web\_Public\Examing.htm" />
     <Content Include="Templates\Web\_Public\Admin\Startpage.htm" />
     <Content Include="Templates\Web\_Public\Admin\Styles\Startpage.css" />
@@ -1340,9 +1334,9 @@
     <Content Include="Templates\Web\NetSchool\Inc\Footer.html" />
     <Content Include="Templates\Web\NetSchool\Inc\Header.html" />
     <Content Include="Templates\Web\NetSchool\Inc\Header-home.html" />
-    <Content Include="Templates\Web\NetSchool\Knowledge.htm" />
-    <Content Include="Templates\Web\NetSchool\Knowledges.htm" />
-    <Content Include="Templates\Web\NetSchool\KnowledgesList.htm" />
+    <Content Include="Templates\Web\_Public\Knowledge.htm" />
+    <Content Include="Templates\Web\_Public\Knowledges.htm" />
+    <Content Include="Templates\Web\_Public\KnowledgesList.htm" />
     <Content Include="Templates\Web\NetSchool\Links.htm" />
     <Content Include="Templates\Web\NetSchool\logo.jpg" />
     <Content Include="Templates\Web\NetSchool\MessageBoards.htm" />
@@ -1420,8 +1414,8 @@
     <Content Include="Templates\Web\_Public\Scripts\Examing.js" />
     <Content Include="Templates\Web\_Public\Scripts\ExamReview.js" />
     <Content Include="Templates\Web\_Public\Scripts\Exercises.js" />
-    <Content Include="Templates\Web\NetSchool\Scripts\Knowledges.js" />
-    <Content Include="Templates\Web\NetSchool\Scripts\KnowledgesList.js" />
+    <Content Include="Templates\Web\_Public\Scripts\Knowledges.js" />
+    <Content Include="Templates\Web\_Public\Scripts\KnowledgesList.js" />
     <Content Include="Templates\Web\NetSchool\Scripts\Mask.js" />
     <Content Include="Templates\Web\_Public\Module\Admin\Login.htm" />
     <Content Include="Templates\Web\_Public\Module\Admin\Login.css" />
@@ -1471,9 +1465,9 @@
     <Content Include="Templates\Web\_Public\Styles\examing.css" />
     <Content Include="Templates\Web\_Public\Styles\ExamReview.css" />
     <Content Include="Templates\Web\_Public\Styles\Exercises.css" />
-    <Content Include="Templates\Web\NetSchool\Styles\Knowledge.css" />
-    <Content Include="Templates\Web\NetSchool\Styles\Knowledges.css" />
-    <Content Include="Templates\Web\NetSchool\Styles\KnowledgesList.css" />
+    <Content Include="Templates\Web\_Public\Styles\Knowledge.css" />
+    <Content Include="Templates\Web\_Public\Styles\Knowledges.css" />
+    <Content Include="Templates\Web\_Public\Styles\KnowledgesList.css" />
     <Content Include="Templates\Web\NetSchool\Styles\Links.css" />
     <Content Include="Templates\Web\NetSchool\Styles\MessageBoards.css" />
     <Content Include="Templates\Web\_Public\Pagebox.htm" />
@@ -1648,9 +1642,6 @@
     <Content Include="Templates\Web\Neimeng\Inc\Footer.html" />
     <Content Include="Templates\Web\Neimeng\Inc\Header.html" />
     <Content Include="Templates\Web\Neimeng\Inc\Login.html" />
-    <Content Include="Templates\Web\Neimeng\Knowledge.htm" />
-    <Content Include="Templates\Web\Neimeng\Knowledges.htm" />
-    <Content Include="Templates\Web\Neimeng\KnowledgesList.htm" />
     <Content Include="Templates\Web\Neimeng\Links.htm" />
     <Content Include="Templates\Web\Neimeng\logo.jpg" />
     <Content Include="Templates\Web\Neimeng\MessageBoards.htm" />
@@ -1667,8 +1658,6 @@
     <Content Include="Templates\Web\Neimeng\Scripts\Courses.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Default.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Exam.js" />
-    <Content Include="Templates\Web\Neimeng\Scripts\Knowledges.js" />
-    <Content Include="Templates\Web\Neimeng\Scripts\KnowledgesList.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\Mask.js" />
     <Content Include="Templates\Web\Neimeng\CoreScripts\Public.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\QuesLoad.js" />
@@ -1693,9 +1682,6 @@
     <Content Include="Templates\Web\Neimeng\Styles\demo.html" />
     <Content Include="Templates\Web\Neimeng\Styles\ErrorPage.css" />
     <Content Include="Templates\Web\Neimeng\Styles\exam.css" />
-    <Content Include="Templates\Web\Neimeng\Styles\Knowledge.css" />
-    <Content Include="Templates\Web\Neimeng\Styles\Knowledges.css" />
-    <Content Include="Templates\Web\Neimeng\Styles\KnowledgesList.css" />
     <Content Include="Templates\Web\Neimeng\Styles\Links.css" />
     <Content Include="Templates\Web\Neimeng\Styles\MessageBoards.css" />
     <Content Include="Templates\Web\Neimeng\Styles\News.css" />
@@ -1807,9 +1793,6 @@
     <Content Include="Templates\Web\School\Inc\Login.html" />
     <Content Include="Templates\Web\School\Inc\Scripts\Depart.js" />
     <Content Include="Templates\Web\School\Inc\Styles\Depart.css" />
-    <Content Include="Templates\Web\School\Knowledge.htm" />
-    <Content Include="Templates\Web\School\Knowledges.htm" />
-    <Content Include="Templates\Web\School\KnowledgesList.htm" />
     <Content Include="Templates\Web\School\Links.htm" />
     <Content Include="Templates\Web\School\logo.jpg" />
     <Content Include="Templates\Web\School\MessageBoards.htm" />
@@ -1881,8 +1864,6 @@
     <Content Include="Templates\Web\School\Scripts\Courses.js" />
     <Content Include="Templates\Web\School\Scripts\Default.js" />
     <Content Include="Templates\Web\School\Scripts\Exam.js" />
-    <Content Include="Templates\Web\School\Scripts\Knowledges.js" />
-    <Content Include="Templates\Web\School\Scripts\KnowledgesList.js" />
     <Content Include="Templates\Web\School\Scripts\Mask.js" />
     <Content Include="Templates\Web\School\CoreScripts\Public.js" />
     <Content Include="Templates\Web\School\Scripts\QuesLoad.js" />
@@ -1908,9 +1889,6 @@
     <Content Include="Templates\Web\School\Styles\demo.html" />
     <Content Include="Templates\Web\School\Styles\ErrorPage.css" />
     <Content Include="Templates\Web\School\Styles\exam.css" />
-    <Content Include="Templates\Web\School\Styles\Knowledge.css" />
-    <Content Include="Templates\Web\School\Styles\Knowledges.css" />
-    <Content Include="Templates\Web\School\Styles\KnowledgesList.css" />
     <Content Include="Templates\Web\School\Styles\Links.css" />
     <Content Include="Templates\Web\School\Styles\MessageBoards.css" />
     <Content Include="Templates\Web\School\Styles\MessageBox.css" />

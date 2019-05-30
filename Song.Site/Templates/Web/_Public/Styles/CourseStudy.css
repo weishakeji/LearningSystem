@@ -32,6 +32,33 @@ video::-webkit-media-controls-panel {
 #MainBox {
 	width: 79%;
 	float: left;
+	position:relative;
+}
+#MainBox #btnKnowledge{
+	position:absolute;
+	right:10px;
+	top:0px;
+	color:#fff;
+	font-size: 20px;
+    font-family: "微软雅黑";
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    float: left;
+    height: 30px;
+    text-align: left;
+    padding-bottom: 5px;
+    padding-top: 0px;
+    color: #eee;
+    width: 100px;
+    text-align: center;
+    margin-top: 25px;	
+	cursor:pointer;
+}
+#MainBox #btnKnowledge:before{
+	content: "\e675";
+	font-size: 22px;
+	margin-right:5px;
+	font-family: iconfont;
 }
 /*分隔符*/
 #median {
@@ -39,15 +66,28 @@ video::-webkit-media-controls-panel {
 	width: 5px;
 	float: left;
 	background-color: #999999;
-	overflow: hidden;
+	
 	cursor: pointer;
+	position:relative;
 }
 #median span {
 	font-size: 12px;
 	font-weight: 900;
-	color: #FFF;
+	color: #666;
 	font-family: "黑体";
 	cursor: pointer;
+	position:absolute;
+	top:50%;
+	left:-1px;
+	display:block;
+	width:12px;
+	height:60px;
+	line-height:60px;
+	z-index:100;
+	background-color:#fff;
+	box-shadow: 0px 1px 1px #eee;
+	background: linear-gradient(to right, #fff , #eee,#fff);
+	border-radius:2px
 }
 /*章节显示区，即左侧*/
 #outlineBox {
@@ -256,25 +296,29 @@ video::-webkit-media-controls-panel {
 	border-bottom-color: #999999;
 }
 .oltitle .titBox{
-	font-size: 20px;
-	font-family: "黑体", "微软雅黑";
+	font-size: 18px;
 	background-repeat: no-repeat;
 	background-position: left bottom;
 	height: 30px;
-	text-align:center;
+	text-align: center;
 	color: #999;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	font-weight: bold;
-	float:left;
-	background-color:#000;
-	width:100px;
-	line-height:35px;
+	float: left;
+	box-shadow: 1px -1px 3px #888888;
+	width: 100px;
+	line-height: 30px;
+	letter-spacing: 0.3em;
+	text-decoration: none;
 }
+
 .oltitle .titCurr{
 	color: #000;
-	background-color:#999999;
+	background-color: #999999;
+	text-shadow: 0 0 10px #fff;
+	
 }
 .noSelect {
 	text-align: left;

@@ -1,12 +1,5 @@
 @charset "utf-8";
 
-#bodyTop {
-	background-image: url(../Images/knowledges-banner.jpg);
-	background-repeat: no-repeat;
-	background-position: center 0px;
-	height: 200px;
-	width: 100%;
-}
 .title
 {
 	font-size: 18px;
@@ -18,9 +11,22 @@
 .ltIntro
 {
 }
-
-.ltDetails
+.contextbox{
+	
+	
+	max-width:980px;
+}
+.details{
+	text-align:left;
+	padding:50px;
+}
+.details *
 {
+	line-height: 25px;
+}
+.details p{
+	text-indent: 20px;
+	margin-bottom: 10px;
 }
 .plAcc
 {

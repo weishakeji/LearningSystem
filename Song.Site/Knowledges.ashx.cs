@@ -9,14 +9,16 @@ using Song.Entities;
 namespace Song.Site
 {
     /// <summary>
-    /// Knowledges 的摘要说明
+    /// 课程资源库
     /// </summary>
     public class Knowledges : BasePage
     {
+        //课程id
+        private int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {           
             //所有资源库的分类
-            Song.Entities.KnowledgeSort[] ncs = Business.Do<IKnowledge>().GetSortAll(Organ.Org_ID, -1, true);
+            Song.Entities.KnowledgeSort[] ncs = Business.Do<IKnowledge>().GetSortAll(Organ.Org_ID, couid, true);
             WeiSha.WebControl.MenuTree mt = new WeiSha.WebControl.MenuTree();
             mt.Title = "全部";
             mt.DataTextField = "Kns_Name";
