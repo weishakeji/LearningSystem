@@ -53,3 +53,4 @@ packages/
 /培训考试系统.zip
 /*.suo
 /Song.Site/Song.Site.Publish.xml
+*.baiduyun.uploading.cfg
