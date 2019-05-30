@@ -66,10 +66,10 @@ function _selectPrice() {
 function clacMoney() {
     var selected = $(".priceSelected");
     var obj = {
-        span: $(".priceSelected .alt").attr("span"),        //当前选中的购买项的数量
-        unit: $(".priceSelected .alt").attr("unit"),        //当前选中的购买项的日期单位
+        span: selected.find(".alt").attr("span"),        //当前选中的购买项的数量
+        unit: selected.find(".alt").attr("unit"),        //当前选中的购买项的日期单位
         mprice: Number(selected.find(".mprice").html()),      //选中项的资金价格
-        cprice: Number(selected.find(".cprice").html()),      //选中项的卡券价格
+        cprice: Number(selected.find(".cprice").size() > 0 ? selected.find(".cprice").html() : 0),      //选中项的卡券价格
         money: Number($("#money").html()),       //余额
         coupon: Number($("#coupon").html()),        //卡券
         need: {
@@ -84,6 +84,7 @@ function clacMoney() {
             return t.money >= t.mprice || t.money >= (t.mprice - (t.coupon > t.cprice ? t.cprice : t.coupon));
         }
     };
+    obj.cprice=isNaN(obj.cprice) ? 0 : obj.cprice;  //如果没有设置卡券抵扣
     obj.need.coupon = obj.coupon > obj.cprice ? obj.cprice : obj.coupon;   //消耗的卡券数
     obj.need.money = obj.mprice - obj.need.coupon;
     obj.recharge = obj.need.money - obj.money;

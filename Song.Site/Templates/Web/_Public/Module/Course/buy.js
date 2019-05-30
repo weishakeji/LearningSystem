@@ -73,10 +73,10 @@ function _selectPrice() {
 function clacMoney() {
     var selected = $(".priceSelected");
     var obj = {
-        span: $(".priceSelected .alt").attr("span"),        //当前选中的购买项的数量
-        unit: $(".priceSelected .alt").attr("unit"),        //当前选中的购买项的日期单位
+        span: selected.find(".alt").attr("span"),        //当前选中的购买项的数量
+        unit: selected.find(".alt").attr("unit"),        //当前选中的购买项的日期单位
         mprice: Number(selected.find(".mprice").html()),      //选中项的资金价格
-        cprice: Number(selected.find(".cprice").html()),      //选中项的卡券价格
+        cprice: Number(selected.find(".cprice").size() > 0 ? selected.find(".cprice").html() : 0),      //选中项的卡券价格
         money: Number($("#money").text()),       //余额
         coupon: Number($("#coupon").text()),        //卡券
         need: {
