@@ -84,7 +84,6 @@ function clacMoney() {
             return t.money >= t.mprice || t.money >= (t.mprice - (t.coupon > t.cprice ? t.cprice : t.coupon));
         }
     };
-    obj.cprice=isNaN(obj.cprice) ? 0 : obj.cprice;  //如果没有设置卡券抵扣
     obj.need.coupon = obj.coupon > obj.cprice ? obj.cprice : obj.coupon;   //消耗的卡券数
     obj.need.money = obj.mprice - obj.need.coupon;
     obj.recharge = obj.need.money - obj.money;
@@ -160,7 +159,10 @@ function _btnEvent() {
         if (!Verify.IsPass($("form"))) return false;
         //如果资金充足，则提示是否购买
         var couname = $.trim($(".couname").text());
-        var msg = new MsgBox("确认", "是否确定购买该课程《" + couname + "》" + buyclac.span + buyclac.unit + "的学习时间？", 80, 300, "confirm");
+        var unit = buyclac.unit;
+        if (buyclac.unit == "日") unit = '天';
+        if (buyclac.unit == "月") unit = '个月';
+        var msg = new MsgBox("确认", "是否确定购买该课程《" + couname + "》" + buyclac.span + unit + "的学习时间？", 80, 300, "confirm");
         msg.EnterEvent = function () {
             BuySubmit(1, 0);
         };
