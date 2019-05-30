@@ -57,7 +57,7 @@ body {
 #LeftBox .newsItem {
 	width: 800px;
 	display: table;
-	height: 150px;
+	max-height: 150px;
 	margin-bottom: 20px;
 	border-bottom-width: 1px;
 	border-top-style: none;
@@ -187,7 +187,7 @@ body {
 .newsContent .newsIntro1 {
 	line-height: 25px;
 	float: right;
-	height: 100px;
+	max-height: 100px;
 	overflow: hidden;
 	color: #666666;
 }

@@ -24,10 +24,16 @@ namespace Song.Site
         bool isStudy = false, isBuy = false;
         protected override void InitPageTemplate(HttpContext context)
         {            
-            //当前章节
+            //当前章节，如果章节id，则取课程第一个章节
             Song.Entities.Outline ol = id < 1 ? 
                 Business.Do<IOutline>().OutlineFirst(couid, true)
                 : Business.Do<IOutline>().OutlineSingle(id);
+            couid = couid > 0 ? couid : (ol != null ? ol.Cou_ID : 0);
+            //当前课程            
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            if (course == null || !course.Cou_IsUse) return;
+            this.Document.Variables.SetValue("course", course);
+            //如果章节为空，则不再后面的了
             if (ol == null) return;
             this.Document.Variables.SetValue("outline", ol);
             this.Document.Variables.SetValue("olid", ol.Ol_ID.ToString());
@@ -35,8 +41,8 @@ namespace Song.Site
             this.Document.Variables.SetValue("pat", Business.Do<IOutline>().OutlineSingle(ol.Ol_PID));            
             Response.Cookies.Add(new HttpCookie("olid", ol.Ol_ID.ToString()));
             //当前课程            
-            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(ol == null ? couid : ol.Cou_ID);
-            if (course == null || !course.Cou_IsUse) return;           
+            //Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid >0 ? couid : ol.Cou_ID);
+            //if (course == null || !course.Cou_IsUse) return;           
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {

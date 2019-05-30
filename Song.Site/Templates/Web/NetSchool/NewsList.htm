@@ -20,7 +20,7 @@
         <vt:if var="pageAmount.Length" value="1" compare="<">
           <div class="noNews">没有新闻</div>
           <vt:else />
-          <vt:foreach id="newslist" from="$#.newslist" item="data" columns="-1" index="i" size="3" introlen="150" remark="columns为新闻栏目Id,introlen为简介的长度"> 
+          <vt:foreach id="newslist" from="$#.newslist" item="data" columns="-1" index="i" size="12" introlen="150" remark="columns为新闻栏目Id,introlen为简介的长度"> 
             <!--新闻项 -->
             <div class="newsItem">
               <div class="newsTitleBar">

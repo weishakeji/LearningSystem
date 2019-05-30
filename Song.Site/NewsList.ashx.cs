@@ -41,7 +41,7 @@ namespace Song.Site
                 foreach (Song.Entities.Article art in news)
                 {
                     art.Art_Logo = Upload.Get["News"].Virtual + art.Art_Logo;
-                    if (!string.IsNullOrWhiteSpace(art.Art_Intro))
+                    if (string.IsNullOrWhiteSpace(art.Art_Intro))
                     {
                         art.Art_Intro = ReplaceHtmlTag(art.Art_Details, introlen);
                     }
