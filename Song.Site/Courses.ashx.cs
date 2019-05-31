@@ -44,7 +44,7 @@ namespace Song.Site
                 int size = int.Parse(couTag.Attributes.GetValue("size", "12"));
                 int index = WeiSha.Common.Request.QueryString["index"].Int32 ?? 1;
                 int sum = 0;
-                List<Song.Entities.Course> cour = Business.Do<ICourse>().CoursePager(Organ.Org_ID, sbjid, -1, true, search, "tax", size, index, out sum);
+                List<Song.Entities.Course> cour = Business.Do<ICourse>().CoursePager(Organ.Org_ID, sbjid, -1, true, search, "rec", size, index, out sum);
                 foreach (Song.Entities.Course c in cour)
                 {
                     c.Cou_LogoSmall = Upload.Get["Course"].Virtual + c.Cou_LogoSmall;

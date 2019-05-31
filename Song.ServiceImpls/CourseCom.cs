@@ -479,9 +479,9 @@ namespace Song.ServiceImpls
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
             if (order == "def") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_ViewNum.Asc;
-            if (order == "tax") wcOrder = Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
+            if (order == "tax") wcOrder = Course._.Cou_Tax.Asc & Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
-            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
+            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_Tax.Asc & Course._.Cou_CrtTime.Desc;
             return Gateway.Default.From<Course>().Where(wc)
                .OrderBy(wcOrder).ToList<Course>(count);
         }
@@ -548,10 +548,10 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Course>(wc);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
-            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_ViewNum.Asc;
-            if (order == "tax") wcOrder = Course._.Cou_Tax.Asc & Course._.Cou_CrtTime.Desc;
+            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_ViewNum.Asc;
+            if (order == "tax") wcOrder = Course._.Cou_Tax.Asc && Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
-            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_Tax.Asc & Course._.Cou_CrtTime.Desc;
+            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Asc && Course._.Cou_CrtTime.Desc;
             return Gateway.Default.From<Course>().Where(wc).OrderBy(wcOrder).ToList<Course>(size, (index - 1) * size);
         }
         /// <summary>
@@ -590,14 +590,14 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Course>(wc);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;
-            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_ViewNum.Asc;
-            if (order == "tax") wcOrder = Course._.Cou_Tax.Desc & Course._.Cou_CrtTime.Desc;
+            if (order == "def") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_ViewNum.Asc;
+            if (order == "tax") wcOrder = Course._.Cou_Tax.Asc && Course._.Cou_CrtTime.Desc;
             if (order == "new") wcOrder = Course._.Cou_CrtTime.Desc;    //最新发布
-            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc & Course._.Cou_Tax.Asc & Course._.Cou_CrtTime.Desc;
+            if (order == "rec") wcOrder = Course._.Cou_IsRec.Desc && Course._.Cou_Tax.Asc && Course._.Cou_CrtTime.Desc;
             if (order == "free")
             {
                 wc.And(Course._.Cou_IsFree == true);
-                wcOrder = Course._.Cou_IsFree.Desc & Course._.Cou_Tax.Desc;
+                wcOrder = Course._.Cou_IsFree.Desc & Course._.Cou_Tax.Asc;
             }
             return Gateway.Default.From<Course>().Where(wc).OrderBy(wcOrder).ToList<Course>(size, (index - 1) * size);
         }
@@ -607,45 +607,6 @@ namespace Song.ServiceImpls
         /// <param name="id"></param>
         /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
         public bool CourseUp(int id)
-        {
-            //当前对象
-            Course current = Gateway.Default.From<Course>().Where(Course._.Cou_ID == id).ToFirst<Course>();
-            int tax = (int)current.Cou_Tax;
-            //下一个对象，即弟弟对象；弟弟不存则直接返回false;
-            Course next = Gateway.Default.From<Course>()
-                .Where(Course._.Cou_Tax > tax)
-                .OrderBy(Course._.Cou_Tax.Asc).ToFirst<Course>();
-            if (next == null) return false;
-
-            //交换排序号
-            current.Cou_Tax = next.Cou_Tax;
-            next.Cou_Tax = tax;
-            using (DbTrans tran = Gateway.Default.BeginTrans())
-            {
-                try
-                {
-                    tran.Save<Course>(current);
-                    tran.Save<Course>(next);
-                    tran.Commit();
-                    return true;
-                }
-                catch
-                {
-                    tran.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    tran.Close();
-                }
-            }
-        }
-        /// <summary>
-        /// 将当前项目向下移动；仅在当前对象的同层移动，即同一父节点下的对象向后移动；
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
-        public bool CourseDown(int id)
         {
             //当前对象
             Course current = Gateway.Default.From<Course>().Where(Course._.Cou_ID == id).ToFirst<Course>();
@@ -675,6 +636,46 @@ namespace Song.ServiceImpls
                 finally
                 {
 
+                    tran.Close();
+                }
+            }
+           
+        }
+        /// <summary>
+        /// 将当前项目向下移动；仅在当前对象的同层移动，即同一父节点下的对象向后移动；
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
+        public bool CourseDown(int id)
+        {
+            //当前对象
+            Course current = Gateway.Default.From<Course>().Where(Course._.Cou_ID == id).ToFirst<Course>();
+            int tax = (int)current.Cou_Tax;
+            //下一个对象，即弟弟对象；弟弟不存则直接返回false;
+            Course next = Gateway.Default.From<Course>()
+                .Where(Course._.Cou_Tax > tax)
+                .OrderBy(Course._.Cou_Tax.Asc).ToFirst<Course>();
+            if (next == null) return false;
+
+            //交换排序号
+            current.Cou_Tax = next.Cou_Tax;
+            next.Cou_Tax = tax;
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    tran.Save<Course>(current);
+                    tran.Save<Course>(next);
+                    tran.Commit();
+                    return true;
+                }
+                catch
+                {
+                    tran.Rollback();
+                    throw;
+                }
+                finally
+                {
                     tran.Close();
                 }
             }

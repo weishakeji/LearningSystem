@@ -22,7 +22,7 @@
   </div>
   <div class="courseList">
     <div class="courseListInner">
-      <vt:list type="course" item="data" index="i" count="10" remark="课程">
+      <vt:list type="course" item="data" index="i" count="10" order="flux" remark="课程">
         <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}"><img src="{$:#.data.cou_logosmall}"  default="../images/cou_nophoto.jpg"/> </a>
           <div class="itemMark"></div>
           <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.cou_name} </a>

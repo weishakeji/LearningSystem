@@ -16,20 +16,6 @@ namespace Song.Site.Admin
 
         protected override void InitPageTemplate(HttpContext context)
         {           
-            //课程列表           
-            Tag couTag = this.Document.GetChildTagById("courseList");
-            if (couTag != null)
-            {
-                int count = int.Parse(couTag.Attributes.GetValue("count", "10"));
-                List<Song.Entities.Course> cour = Business.Do<ICourse>().CourseCount(this.Organ.Org_ID, -1, -1, -1, null, true, count);
-                foreach (Song.Entities.Course c in cour)
-                {
-                    c.Cou_LogoSmall = Upload.Get["Course"].Virtual + c.Cou_LogoSmall;
-                    c.Cou_Logo = Upload.Get["Course"].Virtual + c.Cou_Logo;
-                    c.Cou_Intro = HTML.ClearTag(c.Cou_Intro);
-                }
-                this.Document.SetValue("courseList", cour);
-            }
             //各种数据
             if (Extend.LoginState.Admin.IsLogin)
             {

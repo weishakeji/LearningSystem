@@ -41,7 +41,7 @@
 .boxBar .more a{
 	color: #666666;
 	text-indent: 40px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 }
 .title {
 	background-image: url(../../Images/icon1.png);
@@ -51,8 +51,7 @@
 	background-position: 0px 25px;
 	line-height: 80px;
 	text-indent: 50px;
-	font-size: 28px;
-	font-family: "Microsoft YaHei", "微软雅黑", "MicrosoftJhengHei", "华文细黑", STHeiti, MingLiu;
+	font-size: 28px;	
 	padding-bottom: 12px;
 	color: #0387d9;
 	float: left;
@@ -119,7 +118,6 @@
 	text-align: left;
 	line-height: 35px;
 	width: 220px;
-	font-family: "微软雅黑";
 	color: #FFFFFF;
 	POSITION: relative;
 	OVERFLOW: hidden;
@@ -133,7 +131,7 @@
 	text-indent: 10px;
 	display: block;
 	height: 45px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 18px;
 	overflow: hidden;
 }
@@ -142,12 +140,12 @@
 	line-height: 20px;
 	display: block;
 	height: 78px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 14px;
 	width: 190px;
 	margin-left: 10px;
 }
 .courseList .item .itemDetails a{
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 14px;
 }

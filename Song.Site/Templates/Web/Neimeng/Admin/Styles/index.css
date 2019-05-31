@@ -11,13 +11,12 @@
 }
 /*课程列表*/
 #Context {
-	height: 350px;
-	width: 980px;
+	height: 450px;
+	width: 1200px;
 	overflow: visible;	
 }
 .boxBar {
-	height: 80px;
-	width: 980px;
+	height: 80px;	
 	margin-right: auto;
 	margin-left: auto;
 	overflow: hidden;
@@ -28,23 +27,21 @@
 	height: 30px;
 	width: 100px;
 	line-height: 30px;
-	margin-top: 40px;
-	
+	margin-top: 40px;	
 	background-color: #fbac4e;
-
+	margin-right:0px;
 }
 .boxBar .more em
 {
 	float: left;
 	margin-top: 6px;
-	margin-right: 10px;
+	margin-right: 2px;
 	margin-left: 10px;
 }
 .boxBar .more a{
 	color: #666666;
 	text-indent: 40px;
-
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 }
 .title {
 	background-image: url(../../Images/icon1.png);
@@ -54,33 +51,33 @@
 	background-position: 0px 25px;
 	line-height: 80px;
 	text-indent: 50px;
-	font-size: 28px;
-	font-family: "微软雅黑";
+	font-size: 28px;	
 	padding-bottom: 12px;
-	color: #FF5842;
+	color: #0387d9;
 	float: left;
 }
 
 .courseList {
-	width: 980px;
-	height: 270px;
+	height: 350px;
 	overflow: hidden;
 	margin-right: auto;
 	margin-left: auto;
+	display:block;
+	width:1200px;
 }
 .courseList .courseListInner {
-	width: 1100px;
+	width: 1250px;
 }
 
 .courseList  .item {
 	float: left;
-	margin-right: 52px;
-	margin-bottom:20px;
-	width: 200px;
+	margin-right: 18px;
+	width: 220px;
 	text-align: center;
 	border: 3px solid #FFFFFF;
-	height: 123px;
+	height: 135px;
 	overflow: hidden;
+	margin-bottom:20px;
 }
 .courseList  .courseOver
 {
@@ -97,14 +94,14 @@
 	line-height: 25px;
 }
 .courseList  .item img{
-	width: 200px;
-	height: 123px;
+	width: 220px;
+	height: 135px;
 }
 .courseList .item .itemMark {
 	font-size: 14px;
 	text-align: left;
 	line-height: 35px;
-	width: 200px;
+	width: 220px;
 	font-family: "微软雅黑";
 	color: #FFFFFF;
 	POSITION: relative;
@@ -114,19 +111,18 @@
 	opacity: 0.5;
 	-moz-opacity: 0.5;
 	top:-45px;
-	height:123px;
+	height:135px;
 }
 .courseList .item .itemInfo {
 	font-size: 14px;
 	text-align: left;
 	line-height: 35px;
-	width: 200px;
-	font-family: "微软雅黑";
+	width: 220px;
 	color: #FFFFFF;
 	POSITION: relative;
 	OVERFLOW: hidden;
-	top:-168px;
-	height:123px;
+	top:-180px;
+	height:135px;
 	z-index: 10;
 }
 .courseList .item .itemInfo a
@@ -135,7 +131,7 @@
 	text-indent: 10px;
 	display: block;
 	height: 45px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 18px;
 	overflow: hidden;
 }
@@ -144,8 +140,12 @@
 	line-height: 20px;
 	display: block;
 	height: 78px;
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	
 	font-size: 14px;
 	width: 190px;
 	margin-left: 10px;
+}
+.courseList .item .itemDetails a{
+	
+	font-size: 14px;
 }
