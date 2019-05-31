@@ -7,10 +7,10 @@
 >适用行业：企业培训、教育机构、高等教育、基础教育
 
 <b>开发环境：</b>
-*1、采用C#；基于.Net 4.0
-*2、数据库采用Sqlserver2005或更高版本
-*3、开发工具是Microsoft Visual Studio 2010
-*[升级日志](http://www.weishakeji.net/download.html) 
+* 1、采用C#；基于.Net 4.0
+* 2、数据库采用Sqlserver2005或更高版本
+* 3、开发工具是Microsoft Visual Studio 2010
+* [升级日志](http://www.weishakeji.net/download.html) 
 
 ![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_07.png?raw=true)
 ![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_08.png?raw=true)
