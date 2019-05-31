@@ -52,6 +52,11 @@
       </vt:if>
       <!--主讲教师结束-->
       <div class="introBox">
+       <vt:function var="intro" method="ClearHtml" args="$course.Cou_Target" />
+                     <vt:if var="intro" value="" compare="!="  remark="学习目标">
+                    <span>学习目标：</span>                   
+                    <div class="couTarget">{$:#.intro}</div>
+                    </vt:if> 
         <vt:if var="course.cou_intro" value="" compare="="> 当前课程没有编辑详细资料。
           <vt:else/>
           {$course.cou_intro} </vt:if>

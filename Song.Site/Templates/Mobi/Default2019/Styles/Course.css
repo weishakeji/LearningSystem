@@ -118,12 +118,14 @@ body{
 .introBox{
 	width:100% !important;
 }
+
 .introBox img{
 	width:100% !important;
 	height:100%;
 }
 .introBox, .introBox *{
-	font-size:14px !important;
+	font-size:16px !important;
+	line-height:22px  !important;
 }
 /*章节*/
 .olitem{

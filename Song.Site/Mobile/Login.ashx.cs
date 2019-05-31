@@ -20,6 +20,8 @@ namespace Song.Site.Mobile
         protected string loyout = WeiSha.Common.Request.QueryString["loyout"].String;
         protected override void InitPageTemplate(HttpContext context)
         {
+            if (Extend.LoginState.Accounts.IsLogin)
+                this.Response.Redirect("default.ashx");
             //相关参数
             WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
             //登录方式

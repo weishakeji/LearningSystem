@@ -123,6 +123,17 @@ body {
 	color: #686868;
 	font-size: 16px;
 }
+/*学习目标*/
+.couTarget{
+	width: 100% !important;
+	padding: 20px;
+	padding-top: 0px;
+	word-wrap:break-word;
+}
+.couTarget, .couTarget *{
+	font-size:16px !important;
+	line-height:22px  !important;
+}
 /*课程公告*/
 .guids {
 	width: 100% !important;
@@ -162,7 +173,7 @@ body {
 	height: 100%;
 }
 .introBox, .introBox * {
-	font-size: 14px !important;
+	font-size: 16px !important;
 	line-height: 25px !important;
 }
 /*章节列表*/
@@ -177,7 +188,7 @@ body {
 	white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-	font-size:14px;
+	font-size:16px;
 }
 .olitem:hover {
 	
