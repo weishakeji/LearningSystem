@@ -1232,7 +1232,7 @@ namespace Song.ServiceImpls
         }
         public ExamResults[] Results(int examid, int size, int index, out int countSum)
         {
-            WhereClip wc = ExamResults._.Exam_ID == examid;          
+            WhereClip wc = ExamResults._.Exam_ID == examid && ExamResults._.Exr_SubmitTime > DateTime.Now.AddYears(-100);          
             countSum = Gateway.Default.Count<ExamResults>(wc);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToArray<ExamResults>(size, (index - 1) * size);
             for (int i = 0; i < exr.Length; i++)
@@ -1245,7 +1245,7 @@ namespace Song.ServiceImpls
 
         public ExamResults[] Results(string examuid, int size, int index, out int countSum)
         {
-            WhereClip wc = ExamResults._.Exam_UID == examuid;
+            WhereClip wc = ExamResults._.Exam_UID == examuid && ExamResults._.Exr_SubmitTime > DateTime.Now.AddYears(-100);
             countSum = Gateway.Default.Count<ExamResults>(wc);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToArray<ExamResults>(size, (index - 1) * size);
             for (int i = 0; i < exr.Length; i++)
@@ -1263,7 +1263,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public ExamResults[] Results(int examid, int count)
         {
-            WhereClip wc = ExamResults._.Exam_ID == examid;
+            WhereClip wc = ExamResults._.Exam_ID == examid && ExamResults._.Exr_SubmitTime > DateTime.Now.AddYears(-100);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_CrtTime.Desc).ToArray<ExamResults>();
             for (int i = 0; i < exr.Length; i++)
             {
