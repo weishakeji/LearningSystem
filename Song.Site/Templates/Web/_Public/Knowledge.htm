@@ -6,13 +6,13 @@
 <link href="Styles/Knowledge.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 <body>
-
-
 <div class="contextbox">
-<div class="title">知识库： {$knl.kn_title} </div>
-<div class="details"> {$knl.kn_details} </div>
-
+  <div class="title">知识库： {$knl.kn_title} </div>
+  <div class="details">
+    <vt:if var="isBuy" value="true" compare="=" remark="如果可以学习"> {$knl.kn_details}
+      <vt:else/>
+      未购买当前课程，知识库禁止阅读 </vt:if>
+  </div>
 </div>
-
 </body>
 </html>
