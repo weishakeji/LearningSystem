@@ -6,6 +6,8 @@
 
 适用行业：企业培训、教育机构、高等教育、基础教育
 
+[升级日志](http://www.weishakeji.net/download.html)
+
 ![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_07.png?raw=true)
 ![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_08.png?raw=true)
 ![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_09.png?raw=true)
