@@ -18,6 +18,20 @@ namespace Song.Site.Mobile
             int id = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
             Song.Entities.Knowledge kn = Business.Do<IKnowledge>().KnowledgeSingle(id);
             this.Document.Variables.SetValue("kn", kn);
+            if (kn != null)
+            {
+                Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(kn.Cou_ID);
+                //是否免费，或是限时免费
+                if (course.Cou_IsLimitFree)
+                {
+                    DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                    if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                        course.Cou_IsLimitFree = false;
+                }
+                this.Document.Variables.SetValue("course", course);
+                //是否购买课程（免费的也可以学习）
+                bool isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, this.Account.Ac_ID);
+            }
 
             //上一条
             Song.Entities.Knowledge prev = Business.Do<IKnowledge>().KnowledgePrev(kn.Cou_ID, -1, id);

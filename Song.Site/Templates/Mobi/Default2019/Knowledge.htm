@@ -13,7 +13,12 @@
         <div class="artTitle">{$:#.kn.kn_title}</div>
         
         <!--正文 -->
-        <div id="artContext">{$kn.kn_Details} </div>
+        <div id="artContext">
+        
+        <vt:if var="isBuy" value="true" compare="=" remark="如果可以学习"> {$kn.kn_Details} 
+      <vt:else/>
+      未购买当前课程，知识库禁止阅读 </vt:if>
+        </div>
         <!--附件 -->
         <vt:if var="artAcc.length" value="0" compare=">">
           <dl id="artAcc">
