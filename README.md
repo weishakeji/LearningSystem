@@ -10,7 +10,9 @@
 * 1、采用C#；基于.Net 4.0
 * 2、数据库采用Sqlserver2005或更高版本
 * 3、开发工具是Microsoft Visual Studio 2010
-* [升级日志](http://www.weishakeji.net/download.html) 
+
+<b>升级日志：</b>
+<a href="http://www.weishakeji.net/download.html" target="_blank">http://www.weishakeji.net/download.html</a> 
 
 ![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_07.png?raw=true)
 ![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_08.png?raw=true)
