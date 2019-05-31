@@ -56,12 +56,20 @@
                 <asp:CheckBox ID="cbIsRec" runat="server" Text="是否推荐（推荐后优先展示）" />
             </td>
         </tr>
-         <tr>
+          <tr>
             <td class="right">
-            访问人数：
+            排序号：
             </td>
             <td>
-                <asp:TextBox ID="tbViewNum" runat="server" Text="0" Width="100"></asp:TextBox>人
+                <asp:TextBox ID="tbTax" runat="server" Text="0" Width="60" MaxLength="6"></asp:TextBox>（数值越大越靠前）
+            </td>
+        </tr>
+         <tr>
+            <td class="right">
+            访问数：
+            </td>
+            <td>
+                <asp:TextBox ID="tbViewNum" runat="server" Text="0" Width="100"></asp:TextBox>人次
             </td>
         </tr>
           <tr>

@@ -107,7 +107,8 @@ namespace Song.Site.Manage.Course
             if (!string.IsNullOrEmpty(cou.Cou_LogoSmall) && cou.Cou_LogoSmall.Trim() != "")
             {
                 this.imgShow.Src = Upload.Get[_uppath].Virtual + cou.Cou_LogoSmall;
-            }         
+            }
+            tbTax.Text = cou.Cou_Tax.ToString();    //排序号
             //访问人数
             tbViewNum.Text = cou.Cou_ViewNum.ToString();
             //学习人数
@@ -145,6 +146,10 @@ namespace Song.Site.Manage.Course
             if (cou == null) return null;
             //名称
             cou.Cou_Name = Cou_Name.Text.Trim();
+            //排序号
+            int tax = cou.Cou_Tax;
+            int.TryParse(tbTax.Text, out tax);
+            cou.Cou_Tax = tax;
             //访问人数
             int viewnum = 0;
             int.TryParse(tbViewNum.Text, out viewnum);
