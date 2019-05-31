@@ -192,7 +192,7 @@ $(function(){
     <div class="outline">
               <vt:foreach from="$#.olTree" item="d" index="i" remark="章节">
         <vt:expression var="indent" args="$d.ol_level" args="20" expression="{0}*{1}" />
-        <div class="olitem" olid="{$:#.d.ol_id}" style="padding-left:{$:indent}px">
+        <div class="olitem" isvideo="{$:#.d.Ol_IsVideo}" olid="{$:#.d.ol_id}" style="padding-left:{$:indent}px">
                   <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结"> <span class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}</span><span class="nofinish">未完结</span>
             <vt:else />
             <vt:if var="isBuy" value="true" compare="="  remark="是否购买"> <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$course.cou_id}">{$:#.d.ol_xpath}{$:#.d.ol_name} </a></span>

@@ -40,6 +40,11 @@
                 if (id == olid) $(this).addClass("current");
                 if (id == "") $(".outline .olitem:eq(0)").addClass("current");
             });
+			//是否有视频
+			$(".olitem").each(function () {
+				var isvideo=$(this).attr("isvideo");
+				if(isvideo=="True")$(this).addClass("li-video");
+			});
         },
         //事件    
         event: function () {

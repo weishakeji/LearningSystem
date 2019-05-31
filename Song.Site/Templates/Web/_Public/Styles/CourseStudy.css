@@ -204,7 +204,29 @@ video::-webkit-media-controls-panel {
 .olitem {
 	padding-left: 10px;
 	text-align:left;
-
+}
+.olitem span a:before{
+	content: "\e65f";
+    font-family: iconfont;
+    margin-right: 5px;
+    font-size: 15px;
+    font-weight: normal;
+}
+/*视频章节的图标*/
+.li-video span a:before {
+    content: "\e606";
+    font-family: iconfont;
+    margin-right: 5px;
+    font-size: 16px;
+    font-weight: normal;
+}
+/*当前章节的图标*/
+.current span  a:before {
+    content: "\e621";
+    font-family: iconfont;
+    margin-right: 5px;
+    font-size: 14px;
+    font-weight: normal;
 }
 /*未完结*/
 .nofinish{
@@ -242,11 +264,14 @@ video::-webkit-media-controls-panel {
 .indent {
 	padding-left: 15px;
 }
-.outline, .outline a, .ol_name{
+.outline,  .ol_name{
 	margin-left: 8px;
 	line-height: 30px;
-	color: #666;
+	color: #444;
 	font-size: 14px;
+}
+.outline a{
+	color: #999;
 }
 .current {
 	background-color: #666;
