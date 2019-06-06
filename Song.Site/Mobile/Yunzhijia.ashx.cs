@@ -99,7 +99,7 @@ namespace Song.Site.Mobile
             {
                 acc = new Entities.Accounts();
                 acc.Ac_AccName = accout;    //账号
-                acc.Ac_Name = user["username"] != null ? user["username"].ToString() : string.Empty;
+                acc.Ac_Name = user["username"] != null ? user["username"].ToString() : string.Empty;    //姓名
                 acc.Ac_IsPass = acc.Ac_IsUse = true;
                 Business.Do<IAccounts>().AccountsAdd(acc);
             }
@@ -107,10 +107,16 @@ namespace Song.Site.Mobile
             if (string.IsNullOrEmpty(acc.Ac_Photo) || acc.Ac_Photo.Trim() == "" || !System.IO.File.Exists(Upload.Get["Accounts"].Physics + acc.Ac_Photo))
             {
                 acc = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
+                //头像
                 string photo = user["photoUrl"].ToString();
                 string photoPath = Upload.Get["Accounts"].Physics + accout + ".jpg";
                 WeiSha.Common.Request.LoadFile(photo, photoPath);
                 acc.Ac_Photo = accout + ".jpg";
+                //名称
+                if (string.IsNullOrWhiteSpace(acc.Ac_Name))
+                {
+                    acc.Ac_Name = user["username"] != null ? user["username"].ToString() : string.Empty;    //姓名
+                }
                 Business.Do<IAccounts>().AccountsSave(acc);
             }
             LoginState.Accounts.Write(acc);

@@ -1474,6 +1474,7 @@
     <Content Include="Templates\Web\_Public\Noaccess.htm" />
     <Content Include="Templates\Web\_Public\Styles\Noaccess.css" />
     <Content Include="Utility\Ckplayer\ckplayer\ckplayer_h5.js" />
+    <Content Include="Utility\Copyright.xsl" />
     <Content Include="Utility\CoreScripts\axios.min.js" />
     <Content Include="Utility\CoreScripts\easydrag.js" />
     <Content Include="Utility\CoreScripts\hanzi2pinyin.js" />

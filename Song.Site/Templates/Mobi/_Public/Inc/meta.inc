@@ -9,8 +9,7 @@
 <meta name="Description" content="{$org.Org_Description},微厦科技" />
 <!--核心Js文件-->
 <script type="text/javascript" src="/Utility/CoreScripts/jquery.js?ver={$version}"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/vue.min.js?ver={$version}"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/axios.min.js?ver={$version}"></script>
+
 <script type="text/javascript" src="/Utility/CoreScripts/Verify.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/artTemplate.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/Extend.js?ver={$version}"></script>
