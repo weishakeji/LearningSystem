@@ -43,7 +43,7 @@
 
 		//常用参数
 		window.view = {
-			isDebug: true,
+			isDebug: false,
 			error: false,
 			message: 'null',
 			url: window.location.href,
@@ -83,7 +83,7 @@
 				$(".noyunzhijia").show();
 				return;
 			}
-			$.post(window.location.href, { 'action': 'getuser' }, function (data) {				
+			$.post(window.location.href, { 'action': 'getuser' }, function (data) {
 				try {
 					view.user = eval("(" + data + ")");
 					$("#Debuginfo .state span").text(data);
@@ -91,10 +91,12 @@
 						$(".error").show().find("span").text(view.user.message);
 					} else {
 						//姓名和账号
+						var user = view.user;
 						$(".name span").text(user.username);
 						$(".mobile span").text(user.mobile);
 						$("#photo").attr("src", user.photoUrl);
-						$(".userinfo").show();
+						$(".userinfo,.box-foot").show();
+
 						//成功后返回首页
 						setInterval(function () {
 							view.second--;
@@ -106,7 +108,8 @@
 					}
 				}
 				catch (err) {
-					window.location.reload();
+					alert(err);
+					//window.location.reload();
 				}
 			});
 		});
