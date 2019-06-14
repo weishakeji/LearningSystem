@@ -82,13 +82,14 @@
                 <HeaderStyle CssClass="center noprint" />
                 <ItemStyle CssClass="center noprint" Width="60px" />
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="使用">
+            <asp:TemplateField HeaderText="信息">
                 <ItemTemplate>
                     <cc1:StateButton ID="sbUse" OnClick="sbUse_Click" runat="server" TrueText="使用" FalseText="禁用"
                         State='<%# Eval("Cou_IsUse","{0}")=="True"%>'></cc1:StateButton>
+                         /<a href="#" onclick="OpenWin('../admin/Courses_Students.aspx?id=<%# Eval("Cou_id") %>','<%# Eval("Cou_Name","《{0}》的学员")%>',1000,80);return false;">学员</a>
                 </ItemTemplate>
                 <HeaderStyle CssClass="center noprint" />
-                <ItemStyle CssClass="center noprint" Width="60px" />
+                <ItemStyle CssClass="center noprint" Width="120px" />
             </asp:TemplateField>
         </Columns>
     </cc1:GridView>
