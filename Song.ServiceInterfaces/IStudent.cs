@@ -378,12 +378,19 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         LogForStudentStudy[] LogForStudyPager(int orgid, int couid, int olid, int stid, string platform, int size, int index, out int countSum);
         /// <summary>
-        /// 学员学习课程的记录
+        /// 学员所有学习课程的记录
         /// </summary>
         /// <param name="stid"></param>
         /// <param name="stid"></param>
         /// <returns>datatable中LastTime列为学习时间；studyTime：学习时间</returns>
-        DataTable StudentStudyCourseLog(int orgid, int stid);
+        DataTable StudentStudyCourseLog(int stid);
+        /// <summary>
+        /// 学员所有学习某一课程的记录
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        DataTable StudentStudyCourseLog(int stid,int couid);
         /// <summary>
         /// 学员学习某一课程下所有章节的记录
         /// </summary>

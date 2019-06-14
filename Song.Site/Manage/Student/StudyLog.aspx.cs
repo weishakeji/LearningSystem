@@ -34,7 +34,7 @@ namespace Song.Site.Manage.Student
         /// </summary>
         protected void BindData(object sender, EventArgs e)
         {
-            DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(org.Org_ID, this.Master.Account.Ac_ID);
+            DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(this.Master.Account.Ac_ID);
             if (dt != null)
             {
                 GridView1.DataSource = dt;

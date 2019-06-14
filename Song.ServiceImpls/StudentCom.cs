@@ -914,7 +914,7 @@ namespace Song.ServiceImpls
         /// <param name="orgid"></param>
         /// <param name="acid">学员id</param>
         /// <returns>datatable中,LastTime:最后学习时间； studyTime：累计学习时间，complete：完成度百分比</returns>
-        public DataTable StudentStudyCourseLog(int orgid, int acid)
+        public DataTable StudentStudyCourseLog(int acid)
         {
             ////清理掉不需要的数据，包括：“章节不存在，章节没有视频，章节禁用或未完成”的学习记录，全部删除
             //WhereClip wc = LogForStudentStudy._.Ac_ID == acid;
@@ -943,7 +943,7 @@ select * from course as c inner join
 			 FROM [LogForStudentStudy]  where {acid}  group by ol_id 
 			 ) as s where s.totalTime>0 group by s.cou_id
 	) as tm on c.cou_id=tm.cou_id  ";
-            sql = sql.Replace("{orgid}", orgid > 0 ? "org_id=" + orgid : "1=1");
+            //sql = sql.Replace("{orgid}", orgid > 0 ? "org_id=" + orgid : "1=1");
             sql = sql.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
             try
             {
@@ -957,6 +957,58 @@ select * from course as c inner join
                         double complete = Convert.ToDouble(dr["complete"].ToString());
                         //课程id
                         int couid = Convert.ToInt32(dr["Cou_ID"].ToString());
+                        int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true);
+                        //完成度
+                        double peracent = Math.Floor(complete / olnum * 100) / 100;
+                        dr["complete"] = peracent;
+                    }
+                }
+                return dt;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 学员学习某一门课程的完成度
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public DataTable StudentStudyCourseLog(int acid,int couid)
+        {
+            //开始计算
+            string sql = @"
+select * from course as c inner join 
+	(select cou_id, max(lastTime) as 'lastTime',sum(studyTime) as 'studyTime',		
+		sum(case when complete>=100 then 100 else complete end) as 'complete'
+		from 
+			(SELECT top 90000 ol_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
+				 sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
+				 (case  when max(Lss_Duration)>0 then
+					 cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100
+					 else 0 end
+				  ) as 'complete'
+			 FROM [LogForStudentStudy]  where {couid} and {acid}  group by ol_id 
+			 ) as s where s.totalTime>0 group by s.cou_id
+	) as tm on c.cou_id=tm.cou_id  ";
+            //sql = sql.Replace("{orgid}", orgid > 0 ? "org_id=" + orgid : "1=1");
+            sql = sql.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
+            sql = sql.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
+            try
+            {
+                DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+                DataTable dt = ds.Tables[0];
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        //课程的累计完成度
+                        double complete = Convert.ToDouble(dr["complete"].ToString());
+                        //课程id
+                        couid = Convert.ToInt32(dr["Cou_ID"].ToString());
                         int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true);
                         //完成度
                         double peracent = Math.Floor(complete / olnum * 100) / 100;

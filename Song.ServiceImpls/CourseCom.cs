@@ -1110,8 +1110,15 @@ namespace Song.ServiceImpls
         public Accounts[] Student4Course(int couid, string stname, string stmobi, int size, int index, out int countSum)
         {
             WhereClip wc = Student_Course._.Cou_ID == couid;
+
             if (!string.IsNullOrWhiteSpace(stname) && stname.Trim() != "") wc.And(Accounts._.Ac_Name.Like("%" + stname + "%"));
-            if (!string.IsNullOrWhiteSpace(stmobi) && stmobi.Trim() != "") wc.And(Accounts._.Ac_AccName.Like("%" + stmobi + "%"));
+            if (!string.IsNullOrWhiteSpace(stmobi) && stmobi.Trim() != "")
+            {
+                WhereClip wcOr = new WhereClip();              
+                wcOr.Or(Accounts._.Ac_MobiTel1.Like("%" + stmobi + "%"));
+                wcOr.Or(Accounts._.Ac_MobiTel2.Like("%" + stmobi + "%"));
+                wc.And(wcOr);
+            }            
             countSum = Gateway.Default.From<Accounts>().InnerJoin<Student_Course>(Student_Course._.Ac_ID == Accounts._.Ac_ID)
                    .Where(wc).OrderBy(Accounts._.Ac_LastTime.Desc).Count();
 

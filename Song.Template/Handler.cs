@@ -39,6 +39,7 @@ namespace Song.Template
                     string classFullName = "Song.Template.Tags.{0}.{1}";
                     classFullName = String.Format(classFullName, tagSpace, tag.Type);
                     Type info = System.Type.GetType(classFullName); //创建反射
+                    
                     if (info == null) continue;
                     object obj = System.Activator.CreateInstance(info);     //实例化标签对象
                     Song.Template.Tags.TagElement el = (Song.Template.Tags.TagElement)obj;

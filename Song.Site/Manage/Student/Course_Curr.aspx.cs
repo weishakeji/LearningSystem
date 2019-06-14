@@ -27,7 +27,7 @@ namespace Song.Site.Manage.Student
             Song.Entities.Accounts st = this.Master.Account;
             if (st == null) return;
             org = Business.Do<IOrganization>().OrganCurrent();
-            dtLog = Business.Do<IStudent>().StudentStudyCourseLog(org.Org_ID, this.Master.Account.Ac_ID);
+            dtLog = Business.Do<IStudent>().StudentStudyCourseLog(this.Master.Account.Ac_ID);
             if (!this.IsPostBack)
             {  
                 BindData(null, null);

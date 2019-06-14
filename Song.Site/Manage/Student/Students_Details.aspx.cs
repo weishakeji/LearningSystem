@@ -106,7 +106,7 @@ namespace Song.Site.Manage.Student
                 //绑定学员的课程学习记录
                 Song.Entities.Accounts acc = this.accounts[e.Item.ItemIndex];
                 Repeater rtp = (Repeater)e.Item.FindControl("rtpLearnInfo");
-                DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(org.Org_ID, acc.Ac_ID);
+                DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(acc.Ac_ID);
                 if (dt != null)
                 {
                     rtp.DataSource = dt;

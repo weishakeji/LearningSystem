@@ -19,7 +19,7 @@ namespace Song.Site.Ajax
         int stid = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
         public void ProcessRequest(HttpContext context)
         {
-            DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(-1, stid);
+            DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(stid);
             string json = DataTableToJson(dt);
             context.Response.Write(json);
         }

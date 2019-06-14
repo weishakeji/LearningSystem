@@ -30,7 +30,7 @@ namespace Song.Site.Manage.Admin
         protected void Page_Load(object sender, EventArgs e)
         {
             org = Business.Do<IOrganization>().OrganCurrent();
-            dtLog = Business.Do<IStudent>().StudentStudyCourseLog(org.Org_ID, id);
+            dtLog = Business.Do<IStudent>().StudentStudyCourseLog(id);
             if (!this.IsPostBack)
             {
                 fill();

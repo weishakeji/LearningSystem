@@ -22,7 +22,7 @@ namespace Song.Site.Mobile
             //当前学员
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(accid);
             //学员的学习情况记录
-            DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(0, acc.Ac_ID);
+            DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(acc.Ac_ID);
             //
             this.Document.Variables.SetValue("acc", acc);
             this.Document.Variables.SetValue("logs", dt);

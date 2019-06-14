@@ -254,6 +254,7 @@
     <Content Include="Manage\Admin\Setup_Qrcode.aspx" />
     <Content Include="Manage\Admin\Styles\Setup_Stamp.css" />
     <Content Include="Manage\Admin\Students_Courses.aspx" />
+    <Content Include="Manage\Admin\Courses_Students.aspx" />
     <Content Include="Manage\Card\Learningcard.aspx" />
     <Content Include="Manage\Card\Learningcard_Edit.aspx" />
     <Content Include="Manage\Card\Learningcard_Code.aspx" />
@@ -2457,6 +2458,13 @@
     </Compile>
     <Compile Include="Manage\Admin\Students_Courses.aspx.designer.cs">
       <DependentUpon>Students_Courses.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Admin\Courses_Students.aspx.cs">
+      <DependentUpon>Courses_Students.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Admin\Courses_Students.aspx.designer.cs">
+      <DependentUpon>Courses_Students.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Card\Learningcard.aspx.cs">
       <DependentUpon>Learningcard.aspx</DependentUpon>
