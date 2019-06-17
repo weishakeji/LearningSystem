@@ -102,9 +102,9 @@ function Examing() {
 }
 //当前考试对象，用于记录全局的值
 Examing.Obj = null;
-Examing.prototype.Init=function(){	
-	$(".startTime").text(this.time.begin.Format("yyyy-MM-dd hh:mm:ss"));
-	$(".overTime").text(this.time.over.Format("yyyy-MM-dd hh:mm:ss"));
+Examing.prototype.Init = function () {
+    $(".startTime").text(this.time.begin.Format("yyyy-MM-dd hh:mm:ss"));
+    $(".overTime").text(this.time.over.Format("yyyy-MM-dd hh:mm:ss"));
 };
 //计算时间，
 Examing.prototype.TimeCalc = function () {
@@ -224,16 +224,27 @@ Examing.getExamQues = function (examobj) {
                 examobj.state.submit = true;
                 alert("您已经交过卷了！");
             } else {
-                var ques = eval("(" + data + ")");
-                examobj.data.ques = ques;
-                $(".currTime").css("color", "#f00");
-                //如果开始考试了，才进行布局
-                if (examobj.state.begin) {
-                    $("#distanceTime").hide(); //显示开始倒计时的一些信息隐藏掉
-                    if (!examobj.state.layouted && !examobj.state.layouting) {
-                        examobj.event.layout(examobj); //进行试题展现                       
+                try {
+                    var ques = eval("(" + data + ")");
+                    examobj.data.ques = ques;
+                }
+                catch (err) {
+                    alert(err);
+                }
+                try {
+                    $(".currTime").css("color", "#f00");
+                    //如果开始考试了，才进行布局
+                    if (examobj.state.begin) {
+                        $("#distanceTime").hide(); //显示开始倒计时的一些信息隐藏掉
+                        if (!examobj.state.layouted && !examobj.state.layouting) {
+                            examobj.event.layout(examobj); //进行试题展现                       
+                        }
                     }
                 }
+                catch (err) {
+                    alert(err);
+                }
+                
             }
         }
     });
@@ -322,19 +333,21 @@ Examing.setExamQuesLayout_after = function (examobj) {
     quesBox.width(quesBox.find("dd").size() * window.innerWidth);
     $("#pagerHeader").hide().show().width(window.innerWidth);
     $("#pagerFooter").hide().show().width(window.innerWidth);
-	//字体控件
+    //字体控件
     $().setFontSize($(".quesTitle, .quesAnswerBox"));
     //左右滑动切换试题
-    $("body").swipe({ fingers: 'all', swipeLeft: swipeFuc, swipeRight: swipeFuc,
-				pinchIn: swipePinch, pinchOut: swipePinch });
-	//放大与捏合事件
-	function swipePinch(event, direction, distance, duration, fingerCount) {
-		if (direction == "in") $().setFontSize($(".quesTitle, .quesAnswerBox"), 2);   //放大
-		if (direction == "out") $().setFontSize($(".quesTitle, .quesAnswerBox"), -2);    //捏合	
-	}
-//滑动事件
+    $("body").swipe({
+        fingers: 'all', swipeLeft: swipeFuc, swipeRight: swipeFuc,
+        pinchIn: swipePinch, pinchOut: swipePinch
+    });
+    //放大与捏合事件
+    function swipePinch(event, direction, distance, duration, fingerCount) {
+        if (direction == "in") $().setFontSize($(".quesTitle, .quesAnswerBox"), 2);   //放大
+        if (direction == "out") $().setFontSize($(".quesTitle, .quesAnswerBox"), -2);    //捏合	
+    }
+    //滑动事件
     function swipeFuc(event, direction, distance, duration, fingerCount) {
-		if(fingerCount>1)return;
+        if (fingerCount > 1) return;
         var fixLeft = Number($("#quesArea").css("left").replace("px", ""));
         fixLeft = isNaN(fixLeft) ? 0 : fixLeft;
         var tm = $("#quesArea dd:first").width();
@@ -367,7 +380,7 @@ function setCardQues() {
         var name = $(this).find("dt b").text();
         var num = $(this).find("dt span").text();
         tit.append("<div class=\"quesType\" type='" + $(this).attr("type") + "'>"
-        + "<div class='tit'>" + name + "</div><div class='num'>" + num + "</div></div>");
+            + "<div class='tit'>" + name + "</div><div class='num'>" + num + "</div></div>");
         var tm = "<dl type='" + $(this).attr("type") + "' count='" + $(this).attr("count") + "' number='" + $(this).attr("number") + "'>";
         $(this).find("dd").each(function () {
             var order = $(this).find(".order").text();
@@ -396,7 +409,8 @@ function setCardQues() {
     //显示多少道题
     $(".tpcount").text($("#quesArea dd").size());
     $("#btnCard").click(function () {
-        $(".quesCard").css({ "position": "absolute",
+        $(".quesCard").css({
+            "position": "absolute",
             top: 40, left: 0
         }).height(window.innerHeight - 80).fadeToggle();
     });
@@ -439,8 +453,8 @@ function setQuestionLayout1(qitem, typeIndex, indexHanzi) {
     //每题的分数
     var num = qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0;
     var html = "<dl type='" + qitem.type + "' count='" + qitem.count + "' number='" + qitem.number + "'><dt>"
-    + indexHanzi + "、<b>单选题</b>（本大题共" + qitem.count + "道小题，<span>每题"
-    + (qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0) + "分/共" + qitem.number + "分</span>）</dt>";
+        + indexHanzi + "、<b>单选题</b>（本大题共" + qitem.count + "道小题，<span>每题"
+        + (qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0) + "分/共" + qitem.number + "分</span>）</dt>";
     for (var i = 0; i < qitem.ques.length; i++) {
         var q = qitem.ques[i];
         html += "<dd qid='" + q.Qus_ID + "' type='" + qitem.type + "' number='" + q.Qus_Number + "'>";
@@ -471,8 +485,8 @@ function setQuestionLayout1(qitem, typeIndex, indexHanzi) {
 }
 function setQuestionLayout2(qitem, typeIndex, indexHanzi) {
     var html = "<dl type='" + qitem.type + "' count='" + qitem.count + "' number='" + qitem.number + "'><dt>"
-    + indexHanzi + "、<b>多选题</b>（本大题共"
-    + qitem.count + "道小题，<span>每题" + (qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0) + "分/共" + qitem.number + "分</span>）</dt>";
+        + indexHanzi + "、<b>多选题</b>（本大题共"
+        + qitem.count + "道小题，<span>每题" + (qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0) + "分/共" + qitem.number + "分</span>）</dt>";
     for (var i = 0; i < qitem.ques.length; i++) {
         var q = qitem.ques[i];
         html += "<dd qid='" + q.Qus_ID + "' type='" + qitem.type + "' number='" + q.Qus_Number + "'>";
@@ -502,8 +516,8 @@ function setQuestionLayout2(qitem, typeIndex, indexHanzi) {
 }
 function setQuestionLayout3(qitem, typeIndex, indexHanzi) {
     var html = "<dl type='" + qitem.type + "' count='" + qitem.count + "' number='" + qitem.number + "'><dt>"
-    + indexHanzi + "、<b>判断题</b>（本大题共"
-    + qitem.count + "道小题，<span>每题" + (qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0) + "分/共" + qitem.number + "分</span>）</dt>";
+        + indexHanzi + "、<b>判断题</b>（本大题共"
+        + qitem.count + "道小题，<span>每题" + (qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0) + "分/共" + qitem.number + "分</span>）</dt>";
     for (var i = 0; i < qitem.ques.length; i++) {
         var q = qitem.ques[i];
         html += "<dd qid='" + q.Qus_ID + "' type='" + qitem.type + "' number='" + q.Qus_Number + "'>";
@@ -523,8 +537,8 @@ function setQuestionLayout3(qitem, typeIndex, indexHanzi) {
 }
 function setQuestionLayout4(qitem, typeIndex, indexHanzi) {
     var html = "<dl type='" + qitem.type + "' count='" + qitem.count + "' number='" + qitem.number + "'><dt>"
-    + indexHanzi + "、<b>简答题</b>（本大题共"
-    + qitem.count + "道小题，<span>每题" + (qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0) + "分/共" + qitem.number + "分</span>）</dt>";
+        + indexHanzi + "、<b>简答题</b>（本大题共"
+        + qitem.count + "道小题，<span>每题" + (qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0) + "分/共" + qitem.number + "分</span>）</dt>";
     for (var i = 0; i < qitem.ques.length; i++) {
         var q = qitem.ques[i];
         html += "<dd qid='" + q.Qus_ID + "' type='" + qitem.type + "' number='" + q.Qus_Number + "'>";
@@ -546,8 +560,8 @@ function setQuestionLayout4(qitem, typeIndex, indexHanzi) {
 }
 function setQuestionLayout5(qitem, typeIndex, indexHanzi) {
     var html = "<dl type='" + qitem.type + "' count='" + qitem.count + "' number='" + qitem.number + "'><dt>"
-    + indexHanzi + "、<b>填空题</b>（本大题共"
-    + qitem.count + "道小题，<span>每题" + (qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0) + "分/共" + qitem.number + "分</span>）</dt>";
+        + indexHanzi + "、<b>填空题</b>（本大题共"
+        + qitem.count + "道小题，<span>每题" + (qitem.count > 0 ? Math.floor(qitem.number / qitem.count * 10) / 10 : 0) + "分/共" + qitem.number + "分</span>）</dt>";
     for (var i = 0; i < qitem.ques.length; i++) {
         var q = qitem.ques[i];
         html += "<dd qid='" + q.Qus_ID + "' type='" + qitem.type + "' number='" + q.Qus_Number + "'>";
@@ -788,11 +802,11 @@ function getResultXml(patter) {
     var box = $("#cardBox");
     var res = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
     res += "<results examid=\"" + examID + "\" tpid=\"" + testPagerID
-     + "\" now=\"" + Examing.Obj.time.now.getTime() + "\"  begin=\"" + box.attr("beginTime") + "\"  overtime=\"" + box.attr("overTime")
-    + "\" stid=\"" + stid + "\"  stname=\"" + ($.trim(stname) == "" ? stacc : $.trim(stname)) + "\"  stsid=\"" + stsid
-    + "\" stsex=\"" + stsex + "\"  stcardid=\"" + stcardid
-    + "\" uid=\"" + uid + "\"  theme=\"" + theme
-    + "\" sbjid=\"" + subjectID + "\" sbjname=\"" + subjectName + "\" patter=\"" + patter + "\">";
+        + "\" now=\"" + Examing.Obj.time.now.getTime() + "\"  begin=\"" + box.attr("beginTime") + "\"  overtime=\"" + box.attr("overTime")
+        + "\" stid=\"" + stid + "\"  stname=\"" + ($.trim(stname) == "" ? stacc : $.trim(stname)) + "\"  stsid=\"" + stsid
+        + "\" stsex=\"" + stsex + "\"  stcardid=\"" + stcardid
+        + "\" uid=\"" + uid + "\"  theme=\"" + theme
+        + "\" sbjid=\"" + subjectID + "\" sbjname=\"" + subjectName + "\" patter=\"" + patter + "\">";
     box.find("dl").each(function () {
         res += "<ques type='" + $(this).attr("type") + "' count='" + $(this).attr("count") + "' number='" + $(this).attr("number") + "'>";
         $(this).find("dd").each(function () {
@@ -828,7 +842,7 @@ function getResult() {
             Mask.Loading();
         },
         //加载出错
-        error: function (XMLHttpRequest, textStatus, errorThrown) {           
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert("错误：由于网络原因，没有获取之前的答题信息");
         },
         //加载成功！
