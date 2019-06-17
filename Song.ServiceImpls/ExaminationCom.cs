@@ -438,30 +438,28 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = ExamResults._.Exam_ID == result.Exam_ID && ExamResults._.Tp_Id == result.Tp_Id && ExamResults._.Ac_ID == result.Ac_ID;
             Song.Entities.ExamResults exr = Gateway.Default.From<ExamResults>().Where(wc).ToFirst<ExamResults>();
-            if (exr == null)
-                exr = result;
-            else
-                if (exr.Exr_Results == result.Exr_Results) return;
-
-            exr.Exr_Results = result.Exr_Results;
-            exr.Exr_IP = result.Exr_IP;
-            exr.Exr_Mac = result.Exr_Mac;
-            exr.Exam_ID = result.Exam_ID;
-            exr.Sbj_ID = result.Sbj_ID;
-            exr.Tp_Id = result.Tp_Id;
-            exr.Ac_ID = result.Ac_ID;
-            exr.Exr_CrtTime = DateTime.Now;
-            exr.Exr_Score = -1;
-            //考试主题
-            Examination tm = this.ExamSingle((int)exr.Exam_ID);
-            if (tm != null)
+            if (exr != null)
             {
-                exr.Exam_Title = tm.Exam_Title;
-                exr.Exam_UID = tm.Exam_UID;
-                exr.Exam_Name = tm.Exam_Name;
-            }     
-            Gateway.Default.Save<ExamResults>(exr);
-
+                if (exr.Exr_Results == result.Exr_Results) return;
+                Gateway.Default.Update<ExamResults>(
+                    new Field[] { ExamResults._.Exr_Results },
+                    new object[] { result.Exr_Results },
+                    ExamResults._.Exr_ID == exr.Exr_ID);
+            }
+            else
+            {
+                result.Exr_CrtTime = DateTime.Now;
+                result.Exr_Score = -1;
+                //考试主题
+                Examination tm = this.ExamSingle((int)result.Exam_ID);
+                if (tm != null)
+                {
+                    result.Exam_Title = tm.Exam_Title;
+                    result.Exam_UID = tm.Exam_UID;
+                    result.Exam_Name = tm.Exam_Name;
+                }
+                Gateway.Default.Save<ExamResults>(result);
+            }            
         }
         /// <summary>
         /// 保存考试答题信息

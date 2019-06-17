@@ -268,15 +268,19 @@ namespace Song.ServiceImpls.QuestionsMethod
                 }
             }
         }
+        private static readonly object savelock = new object();
         /// <summary>
         /// 保存到数据库
         /// </summary>
         public void Save()
         {
-            for (int i = 0; i < list.Count; i++)
+            lock (savelock)
             {
-                if (list[i].Result == null) continue;
-                Business.Do<IExamination>().ResultAdd(list[i].Result);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i].Result == null) continue;
+                    Business.Do<IExamination>().ResultAdd(list[i].Result);
+                }
             }
         }
         private void myTimer_Elapsed(object source, ElapsedEventArgs e)

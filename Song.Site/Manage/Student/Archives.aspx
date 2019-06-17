@@ -50,12 +50,12 @@
                         回顾</a>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="模拟测试">
+           <%-- <asp:TemplateField HeaderText="模拟测试">
                 <ItemStyle CssClass="center" Width="100px" />
                 <ItemTemplate>
                     <a href="/testscene.ashx?id=<%# Eval("Tp_ID")%>" target="_blank">进入测试</a>
                 </ItemTemplate>
-            </asp:TemplateField>
+            </asp:TemplateField>--%>
             <asp:TemplateField HeaderText="成绩">
                 <ItemStyle CssClass="center" Width="60" />
                 <ItemTemplate>

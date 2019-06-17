@@ -425,12 +425,14 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Accounts IsAccountsExist(int orgid, Accounts enity)
         {
-            WhereClip wc = new WhereClip();
+            WhereClip wc = Accounts._.Ac_ID != enity.Ac_ID;
             if (orgid > 0) wc &= Accounts._.Org_ID == orgid;
-            wc |= Accounts._.Ac_AccName == enity.Ac_AccName;
-            wc |= Accounts._.Ac_MobiTel1 == enity.Ac_MobiTel1;
+            WhereClip orWc = new WhereClip();
+            orWc |= Accounts._.Ac_AccName == enity.Ac_AccName;
+            orWc |= Accounts._.Ac_IDCardNumber == enity.Ac_IDCardNumber;
+            orWc |= Accounts._.Ac_MobiTel1 == enity.Ac_MobiTel1;
             Accounts mm = Gateway.Default.From<Accounts>()
-                .Where(wc && Accounts._.Ac_ID != enity.Ac_ID).ToFirst<Accounts>();
+                .Where(wc && orWc).ToFirst<Accounts>();
             return _acc_init(mm);
         }
         /// <summary>
