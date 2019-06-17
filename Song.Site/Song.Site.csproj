@@ -478,6 +478,7 @@
     <Content Include="Manage\Student\Course_Expire.aspx" />
     <Content Include="Manage\Student\LearningCardView.aspx" />
     <Content Include="Manage\Styles\Jme.css" />
+    <Content Include="Manage\Styles\Jme\Symbola.svg" />
     <Content Include="Manage\Sys\LimitDomain.aspx" />
     <Content Include="Manage\Sys\LimitDomain_Edit.aspx" />
     <Content Include="Manage\Admin\StOnline.aspx" />
@@ -6425,6 +6426,10 @@
     <Content Include="Mobile\Certify.ashx" />
     <Content Include="Mobile\QuesExercisesItems.ashx" />
     <Content Include="Mobile\Yunzhijia.ashx" />
+    <Content Include="Manage\Styles\Jme\Symbola.eot" />
+    <Content Include="Manage\Styles\Jme\Symbola.otf" />
+    <Content Include="Manage\Styles\Jme\Symbola.ttf" />
+    <Content Include="Manage\Styles\Jme\Symbola.woff" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
