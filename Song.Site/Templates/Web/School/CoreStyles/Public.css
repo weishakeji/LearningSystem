@@ -468,6 +468,7 @@ img {
 	text-align: center;
 	float: left;
 	height: 40px;
+	margin-bottom:6px;
 }
 .pagerBtn a {
 	color: #333333;
