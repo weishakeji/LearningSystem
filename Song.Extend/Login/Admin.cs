@@ -8,10 +8,11 @@ using WeiSha.Common;
 
 using Song.ServiceInterfaces;
 using Song.Entities;
+using System.Web.SessionState;
 
 namespace Song.Extend.Login
 {
-    public class Admin
+    public class Admin : IRequiresSessionState 
     {
         private static readonly Admin _singleton = new Admin();
         /// <summary>
@@ -206,7 +207,10 @@ namespace Song.Extend.Login
             }
             if (Admin.LoginPattern == LoginPatternEnum.Session)
             {
-                _context.Session[key] = acc.Acc_Id;
+                if (_context.Session[key] != null)
+                    _context.Session[key] = acc.Acc_Id;
+                else
+                    _context.Session.Add(key, acc.Acc_Id);
             }
             this._register(acc);
         }

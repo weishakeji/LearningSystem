@@ -5,12 +5,13 @@ using System.Web;
 using WeiSha.Common;
 using Song.ServiceInterfaces;
 using Song.Extend;
+using System.Web.SessionState;
 namespace Song.Site.Admin
 {
     /// <summary>
     /// Login1 的摘要说明
     /// </summary>
-    public class Login : IHttpHandler
+    public class Login : IHttpHandler, IRequiresSessionState
     {
         //账号，密码，验证码
         string acc = WeiSha.Common.Request.Form["tbAcc"].String;
