@@ -237,3 +237,7 @@ $(function () {
     });
 });
 
+//获取弹出窗的标题
+function getAdminTitle() {
+    return $(".menuNav").text();
+}

@@ -112,7 +112,7 @@
                 try {
                     box.easydrag().setHandler(".PageBoxTitle")
                 .ondrag(function () {
-                    $(".PageBoxIframeMask").show();
+                    $(".PageBoxIframeMask").show().width(box.width()).height(box.height());
                 }).ondrop(function (d) {
                     $(".PageBoxIframeMask").hide();
                     var winid = $(d.target).parents(".PageBox").attr("winid");
@@ -268,6 +268,7 @@
     //计算坐标相对于窗体，并记录在pagebox上
     pagebox.coordinate = function (winid) {
         var box = $(".PageBox[winid='" + winid + "']");
+        if(box.size()<1)return;
         var winhg = $(window).height();
         var winwd = $(window).width();
         var off = box.offset();
