@@ -124,7 +124,7 @@ namespace Song.ServiceInterfaces
         /// 添加考试答题信息
         /// </summary>
         /// <param name="result"></param>
-        void ResultAdd(ExamResults result);
+        ExamResults ResultAdd(ExamResults result);
         /// <summary>
         /// 保存考试答题信息
         /// </summary>

@@ -434,16 +434,17 @@ namespace Song.ServiceImpls
         /// 添加考试答题信息
         /// </summary>
         /// <param name="result"></param>
-        public void ResultAdd(ExamResults result)
+        public ExamResults ResultAdd(ExamResults result)
         {
             WhereClip wc = ExamResults._.Exam_ID == result.Exam_ID && ExamResults._.Tp_Id == result.Tp_Id && ExamResults._.Ac_ID == result.Ac_ID;
             Song.Entities.ExamResults exr = Gateway.Default.From<ExamResults>().Where(wc).ToFirst<ExamResults>();
             if (exr != null)
             {
-                if (exr.Exr_Results == result.Exr_Results) return;
+                if (exr.Exr_Results == result.Exr_Results) return exr;   //如果答案与记录的相同
+                if (exr.Exr_IsSubmit) return exr;        //如果已经交卷
                 Gateway.Default.Update<ExamResults>(
-                    new Field[] { ExamResults._.Exr_Results },
-                    new object[] { result.Exr_Results },
+                    new Field[] { ExamResults._.Exr_Results, ExamResults._.Exr_IsSubmit, ExamResults._.Exr_IP, ExamResults._.Exr_Mac, ExamResults._.Exr_SubmitTime, ExamResults._.Exr_LastTime },
+                    new object[] { result.Exr_Results, result.Exr_IsSubmit, result.Exr_IP, result.Exr_Mac, DateTime.Now, DateTime.Now },
                     ExamResults._.Exr_ID == exr.Exr_ID);
             }
             else
@@ -459,7 +460,8 @@ namespace Song.ServiceImpls
                     result.Exam_Name = tm.Exam_Name;
                 }
                 Gateway.Default.Save<ExamResults>(result);
-            }            
+            }
+            return result;
         }
         /// <summary>
         /// 保存考试答题信息
@@ -698,7 +700,11 @@ namespace Song.ServiceImpls
             result.Exr_ScoreFinal = result.Exr_Score + result.Exr_Draw + result.Exr_Colligate;
             result.Exr_IsCalc = true;
             result.Exr_CalcTime = DateTime.Now;
-            Gateway.Default.Save<ExamResults>(result);
+            //记录成绩
+            Field[] fields = new Field[] { ExamResults._.Exr_Score, ExamResults._.Exr_ScoreFinal, ExamResults._.Exr_IsCalc, ExamResults._.Exr_CalcTime };
+            object[] objs = new object[] { result.Exr_Score, result.Exr_ScoreFinal, result.Exr_IsCalc, result.Exr_CalcTime };
+            if (result.Exr_ID <= 0) result = ResultAdd(result);    
+            Gateway.Default.Update<ExamResults>(fields, objs, ExamResults._.Exr_ID == result.Exr_ID);
             return result;
         }
         /// <summary>
