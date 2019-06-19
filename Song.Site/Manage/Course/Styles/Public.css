@@ -94,7 +94,7 @@ td,p,div{
 }
 /**/
 select, input[type=text]{
-	height:25px !important;
+	height:25px;
 }
 select{
 }

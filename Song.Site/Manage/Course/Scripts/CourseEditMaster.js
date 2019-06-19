@@ -1,5 +1,6 @@
 ﻿//设置菜单链接
-(function () {
+
+$(window).load(function () {
     //获取当前网页
     var arrUrl = window.location.href.split("/");
     var strPage = arrUrl[arrUrl.length - 1].toLowerCase();
@@ -21,4 +22,4 @@
             }
         }
     });
-})();
+});

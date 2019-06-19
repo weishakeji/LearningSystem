@@ -41,7 +41,7 @@
                 <asp:ListItem Value="1">启用</asp:ListItem>
                 <asp:ListItem Value="2">禁用</asp:ListItem>
             </asp:DropDownList>
-            <asp:TextBox ID="tbSear" runat="server" Width="80" MaxLength="10"></asp:TextBox>
+            <asp:TextBox ID="tbSear" runat="server" Width="80" MaxLength="10" EnableTheming=false></asp:TextBox>
             <asp:Button ID="btnSear" runat="server" Width="60" Text="查询" OnClick="btnsear_Click" />
         </asp:Panel>
     </div>

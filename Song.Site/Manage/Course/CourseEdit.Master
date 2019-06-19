@@ -3,7 +3,7 @@
 
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <!DOCTYPE html">
-<html style="overflow:hidden;">
+<html style="overflow: hidden;">
 <head runat="server">
     <title>课程内容编辑</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -15,7 +15,6 @@
     <base target="_self"></base>
 </head>
 <body id="bodyBox">
-
     <form loyout="row" id="form1" runat="server" class="pageWinForm" style="margin: 0px">
     <div class="pageWinContext">
         <div id="editLeft" width="40">
@@ -25,16 +24,11 @@
                 </ItemTemplate>
             </asp:Repeater>
         </div>
-      
         <div id="editRight">
-            
-          
-                <asp:ContentPlaceHolder ID="cphMain" runat="server">
-                </asp:ContentPlaceHolder>
-           
+            <asp:ContentPlaceHolder ID="cphMain" runat="server">
+            </asp:ContentPlaceHolder>
         </div>
     </div>
-  
     <div class="pageWinBtn" loyout="row" height="45">
         <div loyout="column" style="text-align: right">
             <cc1:PrevButton ID="btnPrev" runat="server" text="上一步" OnClick="btnPrev_Click" />
@@ -47,7 +41,7 @@
         <div loyout="column" width="20">
         </div>
     </div>
-    <script type="text/javascript" src="scripts/CourseEditMaster.js"></script>
     </form>
+    <script type="text/javascript" src="scripts/CourseEditMaster.js"></script>
 </body>
 </html>
