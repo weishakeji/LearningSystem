@@ -1,6 +1,10 @@
 ﻿@charset "utf-8";
 html,body{
 	height:100%;
+	
+}
+td,p,div{
+	font-size:15px;
 }
 .courseHeader
 {
@@ -87,4 +91,16 @@ html,body{
 	height: 45px;
 	width:auto;
 	z-index:20;
+}
+/**/
+select, input[type=text]{
+	height:25px !important;
+}
+select{
+}
+input[type=text]{
+	text-indent:5px;	
+}
+.right{
+	font-size:15px;
 }
