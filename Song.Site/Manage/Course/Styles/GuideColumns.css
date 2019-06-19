@@ -1,4 +1,7 @@
 ﻿@charset "utf-8";
+body{
+	overflow: auto;
+}
 .treeIco{
 	font-size:20px;
 	height:20px;

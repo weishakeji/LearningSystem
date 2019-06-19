@@ -15,29 +15,26 @@
     <base target="_self"></base>
 </head>
 <body id="bodyBox">
-    <script type="text/javascript" src="/Manage/CoreScripts/AutoLoyout.js"></script>
+
     <form loyout="row" id="form1" runat="server" class="pageWinForm" style="margin: 0px">
-    <div class="pageWinContext" loyout="row">
-        <div id="editLeft" loyout="column" width="40">
+    <div class="pageWinContext">
+        <div id="editLeft" width="40">
             <asp:Repeater ID="rptLeftMenu" runat="server">
                 <ItemTemplate>
                     <asp:HyperLink ID="link" NavigateUrl='<%# Eval("href") %>' CssClass="curr" runat="server"> <%# Eval("name") %></asp:HyperLink>
                 </ItemTemplate>
             </asp:Repeater>
         </div>
-        <div loyout="column" width="10">
-        </div>
-        <div id="editRight" loyout="column">
-            <div loyout="row" height="10">
-            </div>
-            <div loyout="row" class="areabox" overflow="auto" style="position: relative">
+      
+        <div id="editRight">
+            
+          
                 <asp:ContentPlaceHolder ID="cphMain" runat="server">
                 </asp:ContentPlaceHolder>
-            </div>
+           
         </div>
     </div>
-    <div loyout="row" height="20">
-    </div>
+  
     <div class="pageWinBtn" loyout="row" height="45">
         <div loyout="column" style="text-align: right">
             <cc1:PrevButton ID="btnPrev" runat="server" text="上一步" OnClick="btnPrev_Click" />

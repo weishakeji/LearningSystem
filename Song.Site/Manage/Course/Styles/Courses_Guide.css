@@ -1,11 +1,17 @@
 ﻿@charset "utf-8";
-#leftBox {
-	width:300px;
-	float:left;
-	overflow:hidden;
+#guide{
+	position:relative;
+	height:100%;
 }
-#rightBox {
-	float:right;
-	width: 610px;
-	overflow:hidden;
+#leftIframe {
+	position:absolute;
+	height:100%;
+	top:0px;
+	left:0px;
+
+}
+#rightIframe {
+	margin-left:310px;
+	width:calc(100vw - 360px);    
+
 }

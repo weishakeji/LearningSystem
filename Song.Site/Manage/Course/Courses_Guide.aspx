@@ -5,13 +5,13 @@
 <%@ Register Src="../Utility/toolsBar.ascx" TagName="toolsBar" TagPrefix="uc1" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMain" runat="server">
-    <div loyout="column" width="300">
+    <div id="guide">
         <iframe id="leftIframe" src="GuideColumns.aspx?couid=<%=couid %>" width="300" height="550"
             marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
-    </div>
+   
     <%--右侧区域--%>
-    <div id="rightBox" loyout="column" >
+  
         <iframe id="rightIframe" src="GuideContent.aspx?couid=<%=couid %>" width="100%" height="550"
             marginwidth="0" marginheight="0" scrolling="auto" frameborder="0"></iframe>
-    </div>
+   </div>
 </asp:Content>

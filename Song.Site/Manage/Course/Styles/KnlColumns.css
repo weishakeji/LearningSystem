@@ -1,4 +1,7 @@
 ﻿@charset "utf-8";
+body{
+	overflow: auto;
+}
 .nocourse
 {
 	color: #FF0000;
