@@ -1,4 +1,31 @@
-﻿
+﻿.card{
+	font-size: 14px;
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+	border-radius: 2px;
+	background-color: #fff;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0,0,0,.3);
+	border: 1px solid #CCC;
+}
+.card-header{
+	 position: relative;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    min-height: 30px;
+    padding: 0px 10px 0px 10px;
+	font-size:16px;
+    -webkit-box-pack: justify;
+
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+#top-box{
+	margin:10px 0px 10px 0px;
+}
 /*平均分的项*/
 .rptExamItem{
 	display: table;
@@ -6,9 +33,9 @@
 }
 .examItem
 {
+	font-size:14px;
 	line-height: 25px;
-	float: left;
-	width: 45%;
+	width: 98%;
 	margin-left: 1%;
 }
 .selectBox
@@ -18,4 +45,8 @@
 .Sts_ID
 {
     max-width:300px;
+}
+input[type=text]{
+	width:60px;
+	margin-right:5px;
 }

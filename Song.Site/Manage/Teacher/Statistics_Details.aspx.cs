@@ -26,7 +26,7 @@ namespace Song.Site.Manage.Teacher
     {
         //考试主题的id
         private int examid = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
-        private string time = WeiSha.Common.Request.QueryString["time"].ToString();
+        //private string time = WeiSha.Common.Request.QueryString["time"].ToString();
         Song.Entities.Organization org;
         //各场次
         Song.Entities.Examination[] exams = null;

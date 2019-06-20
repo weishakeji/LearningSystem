@@ -12,7 +12,7 @@
   <div class="accPhoto">
     <vt:if var="Account.Ac_photo" value="" compare="="> <img src="images/nophoto.jpg"/>
       <vt:else/>
-      <a class="" href="SelfInfo.ashx" type="link"> <img src="{$stpath}{$:#.Account.Ac_photo}" default="../images/nophoto.jpg"/></a> </vt:if>
+      <a class="" href="SelfInfo.ashx" type="link"> <img src="{$stpath}{$:#.Account.Ac_photo}"  default="/Utility/images/head1.jpg"/></a> </vt:if>
   </div>
   <div class="accname">
     <vt:if var="Account.Ac_id" value="" compare="!="> {$Account.Ac_Name}

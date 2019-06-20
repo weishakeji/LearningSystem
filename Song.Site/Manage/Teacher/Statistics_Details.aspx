@@ -6,34 +6,37 @@
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <%@ Register Assembly="WeiSha.WebEditor" Namespace="WeiSha.WebEditor" TagPrefix="WebEditor" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
-    当前考试的所有场次综合平均分：<span class="examAvg"></span>分
-    <div class="rptExamItem">
-        <asp:Repeater ID="rptExamItem" runat="server">
-            <ItemTemplate>
-                <div class="examItem">
-                    <%# Container.ItemIndex + 1%>、 《<%# Eval("Exam_Name", "{0}")%><%# Eval("Sbj_Name", "（{0}）")%>》：平均<span><%# GetAvg(Eval("Exam_ID", "{0}"))%></span>分</div>
-            </ItemTemplate>
-        </asp:Repeater>
+    <div class="card" id="top-box">
+        <div class="card-header">
+            当前考试的所有场次综合平均分：<span class="examAvg"></span>分</div>
+        <div class="card-content">
+            <asp:Repeater ID="rptExamItem" runat="server">
+                <ItemTemplate>
+                    <div class="examItem">
+                        <%# Container.ItemIndex + 1%>、 《<%# Eval("Exam_Name", "{0}")%><%# Eval("Sbj_Name", "（{0}）")%>》：平均<span><%# GetAvg(Eval("Exam_ID", "{0}"))%></span>分</div>
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
     </div>
     <div class="selectBox">
-    学生组：<asp:DropDownList ID="Sts_ID" runat="server" DataTextField="Sts_Name" CssClass="Sts_ID" 
-            DataValueField="Sts_ID" AutoPostBack="True" 
-            onselectedindexchanged="Sts_ID_SelectedIndexChanged"></asp:DropDownList> 
-        <asp:Button ID="btnOutput1" runat="server" Text="导出成绩（仅参考人员）" 
-            onclick="btnOutput1_Click" />
-        <asp:Button ID="btnOutput2" runat="server" Text="导出学员（含缺考人员）" 
-            onclick="btnOutput2_Click" />
+        学生组：<asp:DropDownList ID="Sts_ID" runat="server" DataTextField="Sts_Name" CssClass="Sts_ID"
+            DataValueField="Sts_ID" AutoPostBack="True" OnSelectedIndexChanged="Sts_ID_SelectedIndexChanged">
+        </asp:DropDownList>
+        <asp:Button ID="btnOutput1" runat="server" Text="导出成绩（仅参考人员）" OnClick="btnOutput1_Click" />
+        <asp:Button ID="btnOutput2" runat="server" Text="导出学员（含缺考人员）" OnClick="btnOutput2_Click" />
+        &nbsp;
+        姓名：<input name="" type="text" id="seach_name" />账号：<input name="" type="text" id="seach_acc" />
     </div>
     <asp:GridView ID="gvList" runat="server" CssClass="GridView">
-     <EmptyDataTemplate>
+        <EmptyDataTemplate>
             当前学生分组下的学生没有参加该考试！
         </EmptyDataTemplate>
         <Columns>
-        <asp:TemplateField HeaderText="删除">
+            <asp:TemplateField HeaderText="删除">
                 <ItemStyle CssClass="center" Width="40" />
                 <ItemTemplate>
-                    <asp:LinkButton ID="btnDel" runat="server" 
-                        CommandArgument=' <%# Eval("ID", "{0}")%>' OnClientClick="return confirm('是否确定删除该学员考试成绩？');" onclick="btnDel_Click">删除</asp:LinkButton>
+                    <asp:LinkButton ID="btnDel" runat="server" CommandArgument=' <%# Eval("ID", "{0}")%>'
+                        OnClientClick="return confirm('是否确定删除该学员考试成绩？');" OnClick="btnDel_Click">删除</asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="序号">
