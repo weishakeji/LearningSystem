@@ -6,12 +6,13 @@ using WeiSha.Common;
 using Song.ServiceInterfaces;
 using Song.Extend;
 using VTemplate.Engine;
+using System.Web.SessionState;
 namespace Song.Site.Student
 {
     /// <summary>
     /// 学员登录
     /// </summary>
-    public class Index : BasePage
+    public class Index : BasePage, IRequiresSessionState
     {
         //用于标识布局的值
         protected string loyout = WeiSha.Common.Request.QueryString["loyout"].String;        

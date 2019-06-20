@@ -1,0 +1,96 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <title></title>
+    <vt:include file="inc/meta.inc" />
+    <vt:include file="inc/meta_api.inc" />
+    <style type="text/css">
+        .btn {
+            font-size: 16px;
+            line-height: 30px;
+            height: 30px;
+            width: 100px;
+            background-color: #FFC;
+            text-align: center;
+            border: 1px solid #6C0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app" style="margin-top:50px;">
+        <table>
+            <thead>
+                <th>序号</th>
+                <th>账号/姓名</th>
+                <th>手机</th>
+                <th>卡券</th>
+                <th>积分</th>
+                <th>资金</th>
+            </thead>
+            <tr v-for="(item,i) in accounts" :page="item.page">
+                <td>{{i+1+(size*(index-1))}}</td>
+                <td>{{item.Ac_AccName}}/{{item.Ac_Name}}</td>
+                <td>{{item.Ac_MobiTel1}}</td>
+                <td>{{item.Ac_Coupon}}</td>
+                <td>{{item.Ac_Point}}</td>
+                <td>￥{{item.Ac_Money}}</td>
+            </tr>
+        </table>
+        <div>
+            当前{{index}}页,每页{{size}}条，共{{total}}条、{{pager}}页
+            <button @click="index-=1" :disabled="index <= 1">上一页</button>
+            <button @click="index+=1" :disabled="index >= pager">下一页</button>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                index: 1,
+                size: 6,
+                total: 0,
+                pager:0,
+                accounts: []
+            },
+            methods: {
+                getdata: function () {
+                    $api.get('account/pager', { index: vm.index, size: vm.size }, function (config, error) {
+                        //alert('第一个加载');
+                    }, function () {
+                        //alert('第一个加载完成');
+                    }).then(function (response) {
+                        //vm.text1 = unescape(response.data);
+                        //var data = eval("("+response.data+")");
+                        var data = response.data;
+                        if (data.Success) {
+                            vm.accounts = data.Data;
+                            vm.total = data.Total;
+                            vm.pager=data.Pager;
+                        } else {
+
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                next: function () {
+                    vm.index++;
+                    getdata();
+                }
+            },
+            watch: {
+                index: function (val) {
+                    vm.index=val;
+                    vm.getdata();
+                }
+            }
+        });
+        vm.getdata();
+
+
+    </script>
+
+</html>

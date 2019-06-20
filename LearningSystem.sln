@@ -24,8 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{FDA0AAE6-47E
 	ProjectSection(SolutionItems) = preProject
 		Lib\Common.Logging.dll = Lib\Common.Logging.dll
 		Lib\ICSharpCode.SharpZipLib.dll = Lib\ICSharpCode.SharpZipLib.dll
+		Lib\LitJSON.dll = Lib\LitJSON.dll
 		Lib\Microsoft.Web.Infrastructure.dll = Lib\Microsoft.Web.Infrastructure.dll
-		Lib\Newtonsoft.Json.dll = Lib\Newtonsoft.Json.dll
 		Lib\Newtonsoft.Json.xml = Lib\Newtonsoft.Json.xml
 		Lib\NPOI.dll = Lib\NPOI.dll
 		Lib\NPOI.OOXML.dll = Lib\NPOI.OOXML.dll
@@ -51,6 +51,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{FDA0AAE6-47E
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Song.Template", "Song.Template\Song.Template.csproj", "{739180BB-2529-485F-867F-28774EB2ACC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Song.ViewData", "Song.ViewData\Song.ViewData.csproj", "{41D99603-4C27-4075-81D5-F56C553ACDC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -194,6 +196,22 @@ Global
 		{739180BB-2529-485F-867F-28774EB2ACC9}.x64 Debug|Any CPU.Build.0 = Debug|Any CPU
 		{739180BB-2529-485F-867F-28774EB2ACC9}.x64 Debug|x64.ActiveCfg = Debug|Any CPU
 		{739180BB-2529-485F-867F-28774EB2ACC9}.x64 Debug|x86.ActiveCfg = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug x64|Any CPU.ActiveCfg = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug x64|Any CPU.Build.0 = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug x64|x64.ActiveCfg = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug x64|x86.ActiveCfg = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Release|x64.ActiveCfg = Release|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Release|x86.ActiveCfg = Release|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.x64 Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.x64 Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.x64 Debug|x64.ActiveCfg = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.x64 Debug|x86.ActiveCfg = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -204,6 +222,7 @@ Global
 		{985A8268-3A87-46B9-9744-650664719E67} = {9E1AA0BC-6525-4FBD-940A-93AEF86188FB}
 		{ED063AD3-3B5F-426F-8D6D-5417FF317FFB} = {9E1AA0BC-6525-4FBD-940A-93AEF86188FB}
 		{739180BB-2529-485F-867F-28774EB2ACC9} = {9E1AA0BC-6525-4FBD-940A-93AEF86188FB}
+		{41D99603-4C27-4075-81D5-F56C553ACDC8} = {9E1AA0BC-6525-4FBD-940A-93AEF86188FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		VisualSVNWorkingCopyRoot = .

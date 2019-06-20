@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using WeiSha.Common;
 using Song.ServiceInterfaces;
 using Song.Entities;
-using LitJson;
+//using LitJson;
 using WxPayAPI;
 
 namespace Song.Site.Pay.Weixin

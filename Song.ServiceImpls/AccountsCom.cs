@@ -525,7 +525,8 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Accounts[] AccountsPager(int orgid, int size, int index, out int countSum)
         {
-            WhereClip wc = Accounts._.Org_ID == orgid;
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
             countSum = Gateway.Default.Count<Accounts>(wc);
             Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>(size, (index - 1) * size);
             foreach (Song.Entities.Accounts ac in accs)

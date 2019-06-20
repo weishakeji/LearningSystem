@@ -1336,6 +1336,7 @@
     <Content Include="Templates\Web\NetSchool\Inc\Footer.html" />
     <Content Include="Templates\Web\NetSchool\Inc\Header.html" />
     <Content Include="Templates\Web\NetSchool\Inc\Header-home.html" />
+    <Content Include="Templates\Web\_Public\Inc\meta_api.inc" />
     <Content Include="Templates\Web\_Public\Knowledge.htm" />
     <Content Include="Templates\Web\_Public\Knowledges.htm" />
     <Content Include="Templates\Web\_Public\KnowledgesList.htm" />
@@ -1475,9 +1476,12 @@
     <Content Include="Templates\Web\_Public\Pagebox.htm" />
     <Content Include="Templates\Web\_Public\Noaccess.htm" />
     <Content Include="Templates\Web\_Public\Styles\Noaccess.css" />
+    <Content Include="Templates\Web\_Public\Debug.htm" />
     <Content Include="Utility\Ckplayer\ckplayer\ckplayer_h5.js" />
     <Content Include="Utility\Copyright.xsl" />
+    <Content Include="Utility\CoreScripts\api.js" />
     <Content Include="Utility\CoreScripts\axios.min.js" />
+    <Content Include="Utility\CoreScripts\axios_min.js" />
     <Content Include="Utility\CoreScripts\easydrag.js" />
     <Content Include="Utility\CoreScripts\hanzi2pinyin.js" />
     <Content Include="Utility\CoreScripts\highcharts-3d.js" />
@@ -1485,7 +1489,9 @@
     <Content Include="Utility\CoreScripts\jquery-3.0.0.min.js" />
     <Content Include="Utility\CoreScripts\jquery.qrcode.min.js" />
     <Content Include="Utility\CoreScripts\PageBox.js" />
+    <Content Include="Utility\CoreScripts\vue-router.js" />
     <Content Include="Utility\CoreScripts\vue.min.js" />
+    <Content Include="Utility\CoreScripts\vue_min.js" />
     <Content Include="Utility\CoreStyles\MessageBox.css" />
     <Content Include="Templates\Web\NetSchool\Styles\News.css" />
     <Content Include="Templates\Web\NetSchool\Styles\notice.css" />
@@ -2241,6 +2247,10 @@
     </Compile>
     <Compile Include="Ajax\SelfStudyLog.ashx.cs">
       <DependentUpon>SelfStudyLog.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="API\API.ashx.cs">
+      <DependentUpon>API.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="API\SSO.ashx.cs">
       <DependentUpon>SSO.ashx</DependentUpon>
@@ -5765,6 +5775,10 @@
       <Project>{739180BB-2529-485F-867F-28774EB2ACC9}</Project>
       <Name>Song.Template</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Song.ViewData\Song.ViewData.csproj">
+      <Project>{41D99603-4C27-4075-81D5-F56C553ACDC8}</Project>
+      <Name>Song.ViewData</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Themes\BluePanel\Images\footBg.jpg" />
@@ -6420,6 +6434,7 @@
     <Content Include="Ajax\Self.ashx" />
     <Content Include="Ajax\SelfCourse.ashx" />
     <Content Include="Ajax\SelfStudyLog.ashx" />
+    <Content Include="API\API.ashx" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <Content Include="Mobile\ExamReview.ashx" />
     <Content Include="Mobile\MyFriends.ashx" />

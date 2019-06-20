@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Song.Extend;
+using System.Web.SessionState;
 
 namespace Song.Site.Student
 {
     /// <summary>
     ///退出登录
     /// </summary>
-    public class Logout : IHttpHandler
+    public class Logout : IHttpHandler, IRequiresSessionState
     {
 
         public void ProcessRequest(HttpContext context)

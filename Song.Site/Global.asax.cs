@@ -70,6 +70,11 @@ namespace Song.Site
                 "~/templatePage.ashx",
                 false
              );
+            routes.MapPageRoute(
+               "api_url",
+               "api/{t1}/{t2}/{t3}",
+               "~/api/api.ashx"
+           ); 
             ////伪静态页面，自动转到ashx动态页（ashx又自动取了/tempates/中的模板用于展示）
             //routes.MapPageRoute(
             //    "web",
