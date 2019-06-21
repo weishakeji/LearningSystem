@@ -96,11 +96,17 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Accounts AccountsSingle(int id, string uid);
         /// <summary>
+        /// 通过姓名获取账号
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        Accounts[] Account4Name(string name);
+        /// <summary>
         /// 通过QQ的openid获取账户
         /// </summary>
         /// <param name="openid"></param>
         /// <returns></returns>
-        Accounts Account4QQ(string openid);
+        Accounts Account4QQ(string openid);        
         /// <summary>
         /// 通过微信的openid获取账户
         /// </summary>

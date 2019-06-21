@@ -62,6 +62,7 @@
     <Compile Include="Letter.cs" />
     <Compile Include="ListResult.cs" />
     <Compile Include="Methods\Account.cs" />
+    <Compile Include="Methods\Course.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

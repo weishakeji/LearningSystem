@@ -863,7 +863,8 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public LogForStudentStudy[] LogForStudyCount(int orgid, int couid, int olid, int acid, string platform, int count)
         {
-            WhereClip wc = LogForStudentStudy._.Org_ID == orgid;
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(LogForStudentStudy._.Org_ID == orgid);
             if (couid > 0) wc.And(LogForStudentStudy._.Cou_ID == couid);
             if (olid > 0) wc.And(LogForStudentStudy._.Ol_ID == olid);
             if (acid > 0) wc.And(LogForStudentStudy._.Ac_ID == acid);

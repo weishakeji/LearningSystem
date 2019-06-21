@@ -70,39 +70,7 @@ namespace Song.ViewData
             return obj;
         }
         #endregion
-        ///// <summary>
-        ///// 执行
-        ///// </summary>
-        ///// <param name="letter"></param>
-        ///// <returns></returns>
-        //public static object Exec(Letter letter)
-        //{
-        //    //如果是Get方式请求，优先从缓存中读取，不执行方法
-        //    if (letter.REQUEST_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase))
-        //    {
-
-        //    }
-        //    //1.创建对象,即$api.get("account/single")中的account
-        //    object execObj = ExecuteMethod.CreateInstance(letter);
-        //    //2.获取要执行的方法，即$api.get("account/single")中的single
-        //    MethodInfo method = getMethod(execObj.GetType(), letter);
-        //    //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限
-        //    //--------------还没有写
-        //    //object[] attrs = type.GetCustomAttributes(typeof(HttpGetAttribute),true);
-        //    //if (attrs.Length > 0)
-        //    //{
-        //    //    HttpGetAttribute attr = attrs[0] as HttpGetAttribute;
-        //    //    if (attr != null)
-        //    //    {
-        //    //        string say = attr.Say();
-        //    //    }
-        //    //}           
-        //    //4.构建执行该方法所需要的参数
-        //    object[] parameters = getInvokeParam(method, letter);            
-        //    //5.执行方法，返回结果
-        //    object res = method.Invoke(execObj, parameters);
-        //    return res;
-        //}
+        
         /// <summary>
         /// 执行，按实际结果返回
         /// </summary>
@@ -114,7 +82,8 @@ namespace Song.ViewData
             object execObj = ExecuteMethod.CreateInstance(letter);
             //2.获取要执行的方法，即$api.get("account/single")中的single
             MethodInfo method = getMethod(execObj.GetType(), letter);
-            //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限    
+            //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限   
+ 
             //4.构建执行该方法所需要的参数
             object[] parameters = getInvokeParam(method, letter);
             //5.执行方法

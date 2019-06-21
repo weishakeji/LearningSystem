@@ -357,10 +357,11 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 返回学习记录
         /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="couid"></param>
-        /// <param name="olid"></param>
-        /// <param name="stid"></param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
+        /// <param name="stid">学员id</param>
+        /// <param name="platform">平台，PC或Mobi</param>
         /// <param name="count"></param>
         /// <returns></returns>
         LogForStudentStudy[] LogForStudyCount(int orgid, int couid, int olid, int stid, string platform, int count);   

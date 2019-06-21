@@ -46,9 +46,10 @@ namespace Song.ViewData
         public DataResult(object obj)
         {
             this.Data = obj;
-            Success = true;
+            Success = obj != null;
             State = 1;
             DateTime = DateTime.Now;
+            Message = obj != null ? "" : "未查询到数据";
         }
         public DataResult(Exception exc)
         {
@@ -61,7 +62,7 @@ namespace Song.ViewData
         public DataResult(object obj, Exception exc)
         {
             this.Data = obj;
-            Success = false;
+            Success = obj != null;
             DateTime = DateTime.Now;
             Exception = exc;
             Message = exc.Message;

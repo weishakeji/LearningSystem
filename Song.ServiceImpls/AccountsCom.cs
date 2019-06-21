@@ -299,6 +299,21 @@ namespace Song.ServiceImpls
             return _acc_init(ac);
         }
         /// <summary>
+        /// 通过姓名获取账号
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Accounts[] Account4Name(string name)
+        {
+            WhereClip wc = new WhereClip();
+            if (string.IsNullOrWhiteSpace(name)) return null;
+            wc.And(Accounts._.Ac_Name.Like("%" + name + "%"));
+            Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>();
+            foreach (Song.Entities.Accounts ac in accs)
+                _acc_init(ac);
+            return accs;
+        }
+        /// <summary>
         /// 通过QQ的openid获取账户
         /// </summary>
         /// <param name="qqopenid"></param>
@@ -429,8 +444,10 @@ namespace Song.ServiceImpls
             if (orgid > 0) wc &= Accounts._.Org_ID == orgid;
             WhereClip orWc = new WhereClip();
             orWc |= Accounts._.Ac_AccName == enity.Ac_AccName;
-            orWc |= Accounts._.Ac_IDCardNumber == enity.Ac_IDCardNumber;
-            orWc |= Accounts._.Ac_MobiTel1 == enity.Ac_MobiTel1;
+            if(!string.IsNullOrWhiteSpace(enity.Ac_IDCardNumber))
+                orWc |= Accounts._.Ac_IDCardNumber == enity.Ac_IDCardNumber;
+            if (!string.IsNullOrWhiteSpace(enity.Ac_MobiTel1))
+                orWc |= Accounts._.Ac_MobiTel1 == enity.Ac_MobiTel1;
             Accounts mm = Gateway.Default.From<Accounts>()
                 .Where(wc && orWc).ToFirst<Accounts>();
             return _acc_init(mm);
