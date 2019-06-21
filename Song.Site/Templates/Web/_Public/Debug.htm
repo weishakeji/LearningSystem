@@ -89,7 +89,7 @@
             <div slot="header" class="clearfix">
                 <span><b>{{log.name}}</b> 的学习记录</span>
                 <template>
-                    <el-select v-model="log.curr_Course" style="float: right" placeholder="课程" @change="getCourse">
+                    <el-select style="display: none" v-model="log.curr_Course" style="float: right" placeholder="课程" @change="getCourse">
                         <el-option v-for="item in courses" :key="item.Cou_ID" :label="item.Cou_Name"
                             :value="item.Cou_ID">
                         </el-option>
@@ -105,11 +105,13 @@
                 </el-table-column>
                 <el-table-column prop="Cou_ID" label="课程" :filters="coursesFilter"  :filter-method="filterHandler">
                         <template slot-scope="scope">
-                               {{scope.row.Lss_OS}}
+                               {{scope.row.Org_ID}}
                             </template>
                 </el-table-column>
-                <el-table-column prop="Ol_ID" label="章节">
+                <el-table-column prop="Ol_ID" label="章节" width="60">
                 </el-table-column>
+                <el-table-column prop="Lss_IP" label="IP" >
+                    </el-table-column>
                 <el-table-column prop="Lss_LastTime" label="时间">
                 </el-table-column>
             </el-table>
@@ -121,7 +123,7 @@
 <script>
     var vm = new Vue({
         data: {
-            name: '张',    //学员姓名
+            name: '',    //学员姓名
             acc: '',     //学员账号
             loading: false,
             result: {
@@ -187,6 +189,7 @@
                             courses.push(data.Data[i].Cou_ID);
                         }
                         vm.courses = [];
+                        vm.coursesFilter=[];
                         for (var j = 0; j < courses.length; j++) {
                             $api.get('Course/ForID', { id: courses[j] }).then(function (response) {
                                 var data = response.data;
@@ -233,7 +236,7 @@
                 for (var i = 0; i < vm.courses.length; i++) {
                     for (var j = 0; j < vm.log.logs.length; j++) {
                         if (vm.courses[i].Cou_ID == vm.log.logs[j].Cou_ID) {
-                            vm.log.logs[j].Lss_OS = vm.courses[i].Cou_Name;
+                            vm.log.logs[j].Org_ID = vm.courses[i].Cou_Name;
                         }
                     }
                 }
