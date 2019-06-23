@@ -46,7 +46,8 @@
         <el-card class="box-card">
             <div slot="header" class="clearfix">
                 <span>按名称或账号查询</span>
-                <el-button style="float: right; padding: 8px 20px;margin-top: -5px;" type="primary" @click="getAccount">
+                <el-button style="float: right; padding: 8px 20px;margin-top: -5px;" type="primary"
+                    @click="getAccountLogs">
                     查询
                 </el-button>
             </div>
@@ -59,23 +60,18 @@
                 <el-input placeholder="请输入内容" v-model="acc" class="textbox"></el-input>
             </div>
         </el-card>
-        <!--学员信息-->
+        <!--学习记录的查询结果-->
         <el-card class="box-card" v-show="result.showBox">
             <div slot="header" class="clearfix">
-                <span>查询结果</span>
+                <span>来自学习记录（LogForStudentStudy)的查询结果</span>
 
             </div>
-            <div class="item" v-show="result.showNull">
-                没有查询到任何账号信息
-            </div>
-            <el-table :data="result.accounts" v-loading="loading" stripe style="width: 100%" v-show="!result.showNull">
-                <el-table-column prop="Ac_ID" label="ID" width="60">
+            <el-table :data="result.logs" v-loading="loading" stripe style="width: 100%">
+                <el-table-column prop="Ac_ID" label="ID" width="100">
                 </el-table-column>
-                <el-table-column prop="Ac_Name" label="姓名" width="80">
+                <el-table-column prop="Ac_Name" label="姓名" width="100">
                 </el-table-column>
                 <el-table-column prop="Ac_AccName" label="账号" width="120">
-                </el-table-column>
-                <el-table-column prop="Ac_MobiTel1" label="身份证">
                 </el-table-column>
                 <el-table-column label="学习记录" width="80" fixed="right">
                     <template slot-scope="scope">
@@ -84,12 +80,48 @@
                 </el-table-column>
             </el-table>
         </el-card>
+        <!--账户表的学员信息-->
+        <el-card class="box-card" v-show="result.showBox">
+            <div slot="header" class="clearfix">
+                <span>通过学习记录，反查账户（Accounts)</span>
+
+            </div>
+            <el-table :data="result.accounts" v-loading="loading" stripe style="width: 100%">
+                <el-table-column prop="Ac_ID" label="ID" width="100">
+                </el-table-column>
+                <el-table-column prop="Ac_Name" label="姓名" width="100">
+                </el-table-column>
+                <el-table-column prop="Ac_AccName" label="账号" width="120">
+                </el-table-column>
+                <el-table-column prop="Ac_LastTime" label="最后登录">
+                </el-table-column>
+
+            </el-table>
+        </el-card>
+        <el-card class="box-card" v-show="result.showBox">
+            <div slot="header" class="clearfix">
+                <span>通过学员姓名，反查账户（Accounts)</span>
+
+            </div>
+            <el-table :data="result.acc4name" v-loading="loading" stripe style="width: 100%">
+                <el-table-column prop="Ac_ID" label="ID" width="100">
+                </el-table-column>
+                <el-table-column prop="Ac_Name" label="姓名" width="100">
+                </el-table-column>
+                <el-table-column prop="Ac_AccName" label="账号" width="120">
+                </el-table-column>
+                <el-table-column prop="Ac_LastTime" label="最后登录">
+                </el-table-column>
+
+            </el-table>
+        </el-card>
         <!-- 学习记录-->
         <el-card class="box-card" id="log-box" v-show="log.showBox">
             <div slot="header" class="clearfix">
                 <span><b>{{log.name}}</b> 的学习记录</span>
                 <template>
-                    <el-select style="display: none" v-model="log.curr_Course" style="float: right" placeholder="课程" @change="getCourse">
+                    <el-select style="display: none" v-model="log.curr_Course" style="float: right" placeholder="课程"
+                        @change="getCourse">
                         <el-option v-for="item in courses" :key="item.Cou_ID" :label="item.Cou_Name"
                             :value="item.Cou_ID">
                         </el-option>
@@ -97,21 +129,21 @@
                 </template>
             </div>
             <el-table :data="log.logs" stripe style="width: 100%">
-                <el-table-column prop="Ac_ID" label="ID" width="60">
+                <el-table-column prop="Ac_ID" label="ID" width="100">
                 </el-table-column>
-                <el-table-column prop="Ac_Name" label="姓名" width="80">
+                <el-table-column prop="Ac_Name" label="姓名" width="100">
                 </el-table-column>
                 <el-table-column prop="Ac_AccName" label="账号" width="120">
                 </el-table-column>
-                <el-table-column prop="Cou_ID" label="课程" :filters="coursesFilter"  :filter-method="filterHandler">
-                        <template slot-scope="scope">
-                               {{scope.row.Org_ID}}
-                            </template>
+                <el-table-column prop="Cou_ID" label="课程" :filters="coursesFilter" :filter-method="filterHandler">
+                    <template slot-scope="scope">
+                        {{scope.row.Org_ID}}
+                    </template>
                 </el-table-column>
                 <el-table-column prop="Ol_ID" label="章节" width="60">
                 </el-table-column>
-                <el-table-column prop="Lss_IP" label="IP" >
-                    </el-table-column>
+                <el-table-column prop="Lss_IP" label="IP">
+                </el-table-column>
                 <el-table-column prop="Lss_LastTime" label="时间">
                 </el-table-column>
             </el-table>
@@ -125,12 +157,13 @@
         data: {
             name: '',    //学员姓名
             acc: '',     //学员账号
-            loading: false,
+            loading: true,
             result: {
                 accounts: new Array(), //查询到学员信息
+                logs: new Array(), //查询到学员信息
+                acc4name: new Array(),   //通过姓名查询来的账号
                 success: false,
                 showBox: false,
-                showNull: true,
                 showError: false
             },
             //学习记录
@@ -148,28 +181,38 @@
         },
         methods: {
             //获取学员账户信息
-            getAccount: function () {
-                vm.result.accounts = [];
-                $api.get('Account/ForAcc', { acc: this.acc }).then(function (response) {
+            getAccountLogs: function () {
+                $api.get('Account/ForLogs', { acc: this.acc, name: this.name }, function () {
+                    vm.result.accounts = [];
                     vm.result.showBox = true;
+                    vm.loading = true;
+                }, function () {
+                    vm.loading = false;
+                }).then(function (response) {
                     var data = response.data;
                     if (data.Success) {
-                        vm.result.accounts.push(data.Data);
+                        vm.result.logs = data.Data;
                     }
-                    vm.result.showNull = vm.result.accounts.length <= 0;
-                }).catch(function (error) {
-                    console.log(error);
-                });
-                $api.get('Account/ForName', { name: this.name }).then(function (response) {
-                    vm.result.showBox = true;
-                    var data = response.data;
-                    if (data.Success) {
-                        vm.result.showNull = false;
-                        data.Data.forEach(element => {
-                            vm.result.accounts.push(element);
+                    vm.result.acc4name = [];
+                    for (var i = 0; i < vm.result.logs.length; i++) {
+                        var acid = vm.result.logs[i].Ac_ID;
+                        $api.get('Account/ForID', { id: acid }).then(function (d) {
+                            var data = d.data;
+                            if (data.Success) {
+                                vm.result.accounts.push(data.Data);
+                                var acname = data.Data.Ac_Name;
+                                $api.get('Account/ForName', { name: acname }).then(function (d) {
+                                    var data = d.data;
+                                    if (data.Success) {
+                                        for (var j = 0; j < data.Data.length; j++) {
+                                            vm.result.acc4name.push(data.Data[j]);
+                                        }
+                                    }
+                                });
+                            }
                         });
                     }
-                    vm.result.showNull = vm.result.accounts.length <= 0;
+
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -189,7 +232,7 @@
                             courses.push(data.Data[i].Cou_ID);
                         }
                         vm.courses = [];
-                        vm.coursesFilter=[];
+                        vm.coursesFilter = [];
                         for (var j = 0; j < courses.length; j++) {
                             $api.get('Course/ForID', { id: courses[j] }).then(function (response) {
                                 var data = response.data;
@@ -227,7 +270,7 @@
             },
             filterHandler(value, row, column) {
                 const property = column['property'];
-                var rowid=row[property];
+                var rowid = row[property];
                 return row[property] === value;
             }
         },
