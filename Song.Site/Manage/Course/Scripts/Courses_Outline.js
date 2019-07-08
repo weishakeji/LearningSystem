@@ -86,6 +86,7 @@ function player(file) {
 
 //设置当前导航以及下级导航不可以选择
 function _setChild(currid, option) {
+    if (currid <= 0) return;
     option.each(function (index, element) {
         if ($(this).val() == currid) {
             $(this).attr("style", "background-color: #cccccc;");

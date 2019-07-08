@@ -19,7 +19,7 @@ namespace Song.Site.Manage.Sys
     public partial class Subject_Edit : Extend.CustomPage
     {
         //要操作的对象主键
-        private int id = WeiSha.Common.Request.QueryString["id"].Decrypt().Int32 ?? 0;
+        public int id = WeiSha.Common.Request.QueryString["id"].Decrypt().Int32 ?? 0;
         //上传资料的所有路径
         private string _uppath = "Subject";
         Song.Entities.Organization org;
@@ -44,6 +44,8 @@ namespace Song.Site.Manage.Sys
             this.ddlTree.DataBind();
             //
             ddlTree.Items.Insert(0, new ListItem("   -- 顶级 --", "0"));
+            //当前Id
+            ddlTree.Attributes.Add("currid", this.id.ToString());
         }
         /// <summary>
         /// 设置初始界面

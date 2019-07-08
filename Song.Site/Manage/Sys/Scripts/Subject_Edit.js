@@ -9,18 +9,19 @@ function navLoyoutInit() {
     //树形下拉菜单
     var ddlTree = $("select[id$=ddlTree]");
     //下拉菜单的选项
-    var option = ddlTree.find("option");
-    //当前id
-    var id = $().getPara("id");
+    var option = ddlTree.find("option");   
     //当前导航项的父级id
     var pid = ddlTree.find("option[selected=selected]").attr("value");
     pid = typeof (pid) == "undefined" ? "0" : pid;
     ddlTree.attr("defPid", pid);
     //
+    //当前id
+    var id = Number(ddlTree.attr("currid"));
     _setChild(id, option);
 }
 //设置当前导航以及下级导航不可以选择
 function _setChild(currid, option) {
+    if (currid <= 0) return;
     option.each(function (index, element) {
         if ($(this).val() == currid) {
             $(this).attr("style", "background-color: #cccccc;");
