@@ -34,6 +34,7 @@ namespace Song.Site.Json
                 //资源的路径
                 string resPath = Upload.Get["Employee"].Virtual;
                 emp.Acc_Photo = resPath + emp.Acc_Photo;
+                emp.Acc_Pw = "";
                 str = emp.ToJson(null, "Acc_Pw,Acc_Qus,Acc_Ans,Dep_CnName,Acc_IDCardNumber");
             }
             Response.Write(str);
