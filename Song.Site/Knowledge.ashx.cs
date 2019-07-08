@@ -33,7 +33,7 @@ namespace Song.Site
                 this.Document.Variables.SetValue("course", course);
                 //是否购买课程（免费的也可以学习）
                 bool isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, this.Account.Ac_ID);
-
+                this.Document.Variables.SetValue("isBuy", isBuy);
                 //上级专业
                 if (course != null)
                 {
