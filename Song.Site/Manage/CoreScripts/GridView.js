@@ -53,14 +53,14 @@ function setSelectEvent(gv) {
     var handler = gv.find("#selectBox");
     //全选、反选消
     handler.click(function () {
-        var state = $(this).attr("checked");
+        var state = $(this).prop("checked");
         //选择操作的名称
         var name = $.trim($(this).text());
         var td = gv.find("tr[RowType='DataRow'] td[ItemType='SelectBox']");
         //复选框的集合
         var box = td.find("span[ControlType='SelectBox'] input[type='checkbox']");
         if (state)
-            box.attr("checked", "checked");
+            box.prop("checked", "checked");
         else
             box.removeAttr("checked");
         //对行状态进行操作
@@ -130,7 +130,7 @@ function ChangeRowState(tr, eventSource) {
         //如果是行点击来的事件
         if (eventSource == "click") {
             //当前复选框是否选中
-            var val = box.attr("checked");
+            var val = box.prop("checked");
             //当前行，是否处于点中状态
             var isClick = $(this).attr("isClick");
             if (isClick == "true") {
@@ -141,13 +141,13 @@ function ChangeRowState(tr, eventSource) {
             } else {
                 $(this).attr("class", "onClick");
                 $(this).attr("isClick", "true");
-                box.attr("checked", "checked");
+                box.prop("checked", "checked");
             }
         }
         //如果来自于选择操作
         if (eventSource == "select") {
             //当前复选框是否选中
-            var val = box.attr("checked");
+            var val = box.prop("checked");
             //当前行，是否处于点中状态
             var isClick = $(this).attr("isClick");
             if (val == true) {
@@ -158,7 +158,7 @@ function ChangeRowState(tr, eventSource) {
                     $(this).attr("oldCss", oldCss);
                     $(this).attr("class", "onClick");
                     $(this).attr("isClick", "true");
-                    //box.attr("checked","checked");
+                    //box.prop("checked","checked");
                 }
             } else {
                 if (isClick == "true") {
@@ -185,7 +185,7 @@ function GetKeyValues(gvName) {
         if (key == null || key == "") return -1;
         //复选框
         var cb = $(this).find("td:first span[ControlType='SelectBox'] input[type='checkbox']");
-        if (cb.attr("checked")) {
+        if (cb.prop("checked")) {
             keys += key + ",";
         }
     });

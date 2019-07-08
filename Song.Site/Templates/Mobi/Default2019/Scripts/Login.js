@@ -16,7 +16,7 @@
     try {
         document.getElementById("cbSign-switch").addEventListener("toggle", function (event) {
             if (event.detail.isActive) {
-                $("#cbSign").attr("checked", "checked");
+                $("#cbSign").prop("checked", "checked");
                 //console.log("你启动了开关");
             } else {
                 $("#cbSign").removeAttr("checked", "checked");

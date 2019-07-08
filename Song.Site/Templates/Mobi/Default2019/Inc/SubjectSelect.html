@@ -93,8 +93,8 @@
         mui('body').off('tap', 'label');
         mui('body').on('tap', 'label', function (event) {
             var cb = $(this).prev("input");
-            cb.attr("checked", !cb.is(":checked"));
-            cb.parent().next(".sbj-area").find(".checkbox").attr("checked", cb.is(":checked"));
+            cb.prop("checked", !cb.is(":checked"));
+            cb.parent().next(".sbj-area").find(".checkbox").prop("checked", cb.is(":checked"));
             subjectSelect.change();
             event.stopPropagation();
         });
@@ -117,7 +117,7 @@
         });
         //当复选框变更状态时
         $(".checkbox").change(function () {
-            $(this).parent().next(".sbj-area").find(".checkbox").attr("checked", $(this).is(":checked"));
+            $(this).parent().next(".sbj-area").find(".checkbox").prop("checked", $(this).is(":checked"));
             subjectSelect.change();
         });
         //弹出后的查询按钮事件
@@ -133,7 +133,7 @@
         });
         mui('body').off('tap', '.sbj-clear');
         mui('body').on('tap', '.sbj-clear', function (event) {
-            $(".PageBoxContext .checkbox").attr("checked", false);
+            $(".PageBoxContext .checkbox").prop("checked", false);
             $("input[name=tbSearch]").val("");
             subjectSelect.change();
         });
@@ -144,7 +144,7 @@
         $(".PageBoxContext #tbSearch").val(decodeURI($().getPara("sear")));
         var sbjids = $().getPara("sbjids").split(",");
         for (s in sbjids) {
-            $(".PageBoxContext .checkbox[sbjid=" + sbjids[s] + "]").attr("checked", true);
+            $(".PageBoxContext .checkbox[sbjid=" + sbjids[s] + "]").prop("checked", true);
         }
         subjectSelect.change();
     };

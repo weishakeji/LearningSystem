@@ -83,7 +83,7 @@ function checkwrite()
 			{
 				id=id.substring(id.lastIndexOf("_")+1);
 			}
-			var vl=$(this).attr("checked");
+			var vl=$(this).prop("checked");
 			$().pagecookie(id,vl);
 		}
 	);
@@ -148,7 +148,7 @@ function checkread()
 			//alert(typeof(vl));
 			if(vl!=null)
 			{
-				if(vl=="true")$(this).attr("checked","checked");
+				if(vl=="true")$(this).prop("checked","checked");
 				if(vl=="false")$(this).removeAttr("checked");
 			}
 		}

@@ -68,7 +68,7 @@ function tmpInit()
 	var list=$("#trTmpList");
 	var detl=$("#trTmpDetails");
 	cbIsTmp.change(function(){
-		var isTmp=Boolean($(this).attr("checked"));
+		var isTmp=Boolean($(this).prop("checked"));
 		if(!isTmp)
 		{
 			type.hide();

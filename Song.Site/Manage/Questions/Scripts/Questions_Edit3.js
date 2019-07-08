@@ -8,7 +8,7 @@
 			return false;
 		}
 		$("input[name$=cbAns]").removeAttr("checked");
-		$(this).attr("checked","checked");
+		$(this).prop("checked","checked");
 	});
 	//提交按钮
 	$("input[name$=btnEnter]").click(function(){

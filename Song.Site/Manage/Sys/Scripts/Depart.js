@@ -106,9 +106,9 @@ function editNode(node){
 	panel.find("input[name='code']").val(node.Code);
 	panel.find("textarea[name='func']").text(node.Intro);	
 	var cbshow=panel.find("input[type='checkbox'][name='cbIsShow']");
-	node.IsShow ? cbshow.attr("checked","checked") : cbshow.removeAttr("checked");
+	node.IsShow ? cbshow.prop("checked","checked") : cbshow.removeAttr("checked");
 	var cbuse=panel.find("input[type='checkbox'][name='cbIsUse']");
-	node.IsUse ? cbuse.attr("checked","checked") : cbuse.removeAttr("checked");
+	node.IsUse ? cbuse.prop("checked","checked") : cbuse.removeAttr("checked");
 	panel.find("input[name='phone']").val(node.Phone);
 	panel.find("input[name='fax']").val(node.Fax);
 	panel.find("input[name='email']").val(node.Email);
@@ -203,8 +203,8 @@ function updateNode(){
 	tmp+="<enname>"+$("#enname").val()+"</enname>";
 	tmp+="<EnAbbr>"+$("#EnAbbr").val()+"</EnAbbr>";
 	tmp+="<code>"+$("#code").val()+"</code>";	
-	tmp+="<IsShow>"+panel.find("input[type='checkbox'][name='cbIsShow']").attr("checked")+"</IsShow>";
-	tmp+="<IsUse>"+panel.find("input[type='checkbox'][name='cbIsUse']").attr("checked")+"</IsUse>";
+	tmp+="<IsShow>"+panel.find("input[type='checkbox'][name='cbIsShow']").prop("checked")+"</IsShow>";
+	tmp+="<IsUse>"+panel.find("input[type='checkbox'][name='cbIsUse']").prop("checked")+"</IsUse>";
 	tmp+="<func><![CDATA["+panel.find("textarea[name='func']").text()+"]]></func>";
 	tmp+="<phone>"+$("#phone").val()+"</phone>";	
 	tmp+="<fax>"+$("#fax").val()+"</fax>";	
@@ -226,8 +226,8 @@ function addNode(){
 	tmp+="<enname>"+$("#addenname").val()+"</enname>";
 	tmp+="<EnAbbr>"+$("#addEnAbbr").val()+"</EnAbbr>";
 	tmp+="<code>"+$("#addcode").val()+"</code>";	
-	tmp+="<IsShow>"+panel.find("input[type='checkbox'][name='addcbIsShow']").attr("checked")+"</IsShow>";
-	tmp+="<IsUse>"+panel.find("input[type='checkbox'][name='addcbIsUse']").attr("checked")+"</IsUse>";
+	tmp+="<IsShow>"+panel.find("input[type='checkbox'][name='addcbIsShow']").prop("checked")+"</IsShow>";
+	tmp+="<IsUse>"+panel.find("input[type='checkbox'][name='addcbIsUse']").prop("checked")+"</IsUse>";
 	tmp+="<func><![CDATA["+panel.find("textarea[name='addfunc']").text()+"]]></func>";
 	tmp+="<phone>"+$("#addphone").val()+"</phone>";	
 	tmp+="<fax>"+$("#addfax").val()+"</fax>";	

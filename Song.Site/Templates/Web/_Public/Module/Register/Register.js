@@ -46,7 +46,7 @@
 function Event_init() {
     //注册事件
     $("form").submit(function () {
-        $("input[name=cbAgree]").attr("checked", "checked");
+        $("input[name=cbAgree]").prop("checked", "checked");
         try {
             var btn = $(this).find("input[type=submit][name=btnSubmit]");
             btn.attr("loading-txt", "正在注册").attr("disabled", "disabled").addClass("disabled").attr("state", "submit");

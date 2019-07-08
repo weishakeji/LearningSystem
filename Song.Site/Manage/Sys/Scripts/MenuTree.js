@@ -252,7 +252,7 @@ var update= {
         panel.find("input[name='type']").each(function () {
             var v = $(this).val();
             $(this).removeAttr("checked");
-            if (v == node.MM_Type) $(this).attr("checked", "checked");
+            if (v == node.MM_Type) $(this).prop("checked", "checked");
         });
         //图标
         if (node.MM_IcoX <= 0) {

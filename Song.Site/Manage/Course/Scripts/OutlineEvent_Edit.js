@@ -8,6 +8,6 @@
             return false;
         }
         $("input[value=rbAns]").removeAttr("checked");
-        $(this).attr("checked", "checked");
+        $(this).prop("checked", "checked");
     });
 });

@@ -17,8 +17,8 @@ $(function () {
             mui('body').off('tap', 'label');
             mui('body').on('tap', 'label', function (event) {
                 var cb = $(this).prev("input");
-                cb.attr("checked", !cb.is(":checked"));
-                cb.parent().next(".sbj-area").find(".checkbox").attr("checked", cb.is(":checked"));
+                cb.prop("checked", !cb.is(":checked"));
+                cb.parent().next(".sbj-area").find(".checkbox").prop("checked", cb.is(":checked"));
                 checkbox_change();
                 event.stopPropagation();
             });
@@ -41,7 +41,7 @@ $(function () {
             });
             //当复选框变更状态时
             $(".checkbox").change(function () {
-                $(this).parent().next(".sbj-area").find(".checkbox").attr("checked", $(this).is(":checked"));
+                $(this).parent().next(".sbj-area").find(".checkbox").prop("checked", $(this).is(":checked"));
                 checkbox_change();
             });
             //弹出后的查询按钮事件
@@ -57,7 +57,7 @@ $(function () {
             });
             mui('body').off('tap', '.sbj-clear');
             mui('body').on('tap', '.sbj-clear', function (event) {
-                $("#PageBoxContext .checkbox").attr("checked", false);
+                $("#PageBoxContext .checkbox").prop("checked", false);
                 checkbox_change();
             });
             //窗体打开后的事件，到此结束
@@ -70,7 +70,7 @@ function select_init() {
     //查询字符串
     $("#PageBoxContext #tbSearch").val(decodeURI($().getPara("sear")));
     var sorts = $().getPara("sorts").split(",");
-    for (s in sorts) $("#PageBoxContext .checkbox[sortid=" + sorts[s] + "]").attr("checked", true);
+    for (s in sorts) $("#PageBoxContext .checkbox[sortid=" + sorts[s] + "]").prop("checked", true);
     checkbox_change();
 }
 //当复选框变动时

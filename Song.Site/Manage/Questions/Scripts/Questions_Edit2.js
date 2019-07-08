@@ -8,7 +8,7 @@
             return false;
         }
         //$("input[value=rbAns]").removeAttr("checked");
-        //$(this).attr("checked", "checked");
+        //$(this).prop("checked", "checked");
     });
     //提交按钮
     $("input[id$=btnEnter]").click(function () {
