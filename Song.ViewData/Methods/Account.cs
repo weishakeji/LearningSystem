@@ -89,11 +89,11 @@ namespace Song.ViewData.Methods
         public Song.Entities.LogForStudentStudy[] ForLogs(string acc, string name)
         {
             string sql = @"select Ac_ID,Ac_AccName, Ac_Name from (
-select logs.* from Accounts right join 
-(select * from LogForStudentStudy where 
-{name} and {acc}) as logs
-on Accounts.Ac_ID=Logs.Ac_ID) as tm
- group by Ac_ID,Ac_AccName,Ac_Name";
+                    select logs.* from Accounts right join 
+                    (select * from LogForStudentStudy where 
+                    {name} and {acc}) as logs
+                    on Accounts.Ac_ID=Logs.Ac_ID) as tm
+                     group by Ac_ID,Ac_AccName,Ac_Name";
             sql = sql.Replace("{name}", string.IsNullOrWhiteSpace(name) ? "1=1" : "Ac_Name like '%" + name + "%'");
             sql = sql.Replace("{acc}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "Ac_AccName='" + acc + "'");
 
