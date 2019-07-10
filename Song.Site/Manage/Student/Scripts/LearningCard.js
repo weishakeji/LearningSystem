@@ -24,8 +24,7 @@ function set_card_use(card) {
 function use_card() {
     $("input[name$=btnUse]").click(function () {
         //开始充值
-        var form = $(this).parents("form");
-        var card = form.find("input[name$=tbCode").val();
+        var card = $("input[name$=tbCode").val();
         if ($.trim(card) == "") return false;
         $('input[name$=btnUse]').attr({"disabled":"disabled"});
         $.post(window.location.href, { action: "useCode", card: card }, function (result_data) {
@@ -63,8 +62,7 @@ function set_card_get(card) {
 function get_card() {
     $("input[name$=btnGet]").click(function () {
         //开始充值
-        var form = $(this).parents("form");
-        var card = form.find("input[name$=tbCode").val();
+        var card = $("input[name$=tbCode").val();
         if ($.trim(card) == "") return false;
         $('input[name$=btnGet]').attr({"disabled":"disabled"});
         $.post(window.location.href, { action: "getCode", card: card }, function (result_data) {
