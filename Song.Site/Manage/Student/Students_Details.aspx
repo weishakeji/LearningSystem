@@ -7,7 +7,7 @@
 <%@ Register Assembly="WeiSha.WebEditor" Namespace="WeiSha.WebEditor" TagPrefix="WebEditor" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
 <script type="text/javascript" src="/Utility/CoreScripts/jquery.qrcode.min.js"></script>
-
+<script type="text/javascript" src="/Manage/CoreScripts/jquery.jqprint-0.3.js"></script>
     <asp:DropDownList ID="ddlEducation" runat="server">
         <asp:ListItem Value="81">小学</asp:ListItem>
         <asp:ListItem Value="71">初中</asp:ListItem>
@@ -214,4 +214,5 @@
     </asp:Repeater>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">
+<input type="button" name="btnPrint" value="打印" id="btnPrint"/>
 </asp:Content>

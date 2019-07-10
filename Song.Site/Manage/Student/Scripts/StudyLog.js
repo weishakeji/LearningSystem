@@ -1,9 +1,11 @@
 ﻿$(function () {  
     //	导出详情的按钮
     $("input[name$=btnOutput]").val("打印").click(function () {
-        $(this).attr("disabled", "disabled");        
+        //$(this).attr("disabled", "disabled");        
         var iframe = $("#iframeExportDetails");
-        iframe.attr("src", iframe.attr("link") + "&t=" + new Date().getTime());
+        var link=iframe.attr("link") + "&t=" + new Date().getTime();
+        //iframe.attr("src", iframe.attr("link") + "&t=" + new Date().getTime());
+        new top.PageBox("学习证明打印", link, 980, 90, null, window.name).Open();
         return false;
     });
     //主管理区加载完成事件

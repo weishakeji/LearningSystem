@@ -12,7 +12,7 @@
     });
     //	导出详情的按钮
     $("input[name$=btnExportDetails]").click(function () {
-        $(this).attr("disabled", "disabled");
+        //$(this).attr("disabled", "disabled");
         var cbl = $("span[id$=cblSort]");
         //选择的学员班组（或叫组）
         var ids = "";
@@ -22,7 +22,9 @@
             }
         });
         var iframe = $("#iframeExportDetails");
-        iframe.attr("src", iframe.attr("link") + "?sts=" + ids);
+        var link=iframe.attr("link") + "?sts=" + ids;
+        new top.PageBox("学习证明打印", link, 980, 60, null, window.name).Open();
+        //iframe.attr("src", iframe.attr("link") + "?sts=" + ids);
         return false;
     });
     //主管理区加载完成事件

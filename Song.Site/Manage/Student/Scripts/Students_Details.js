@@ -12,5 +12,8 @@
             //text:acid
         });
     });
-
+    //打印按钮事件
+    $("input#btnPrint").click(function(){
+        $("body .page").jqprint();
+    });
 });
