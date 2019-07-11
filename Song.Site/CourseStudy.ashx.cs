@@ -144,7 +144,7 @@ namespace Song.Site
                     if (ol.Ol_IsFree) return false;
                 }
             }
-            return false;
+            return true;
         }
         #region 章节事件用到的方法
         /// <summary>
