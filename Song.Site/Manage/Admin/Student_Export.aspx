@@ -57,5 +57,5 @@
             </td>
         </tr>
     </table>
-    <iframe src="" id="iframeExportDetails" link="../student/Students_Details.aspx" scrolling="auto" style="display:none;" height="30" width="100%"></iframe>
+  
 </asp:Content>

@@ -275,6 +275,7 @@
     <Content Include="Manage\CoreScripts\clipboard.min.js" />
     <Content Include="Manage\CoreScripts\Extend.js" />
     <Content Include="Manage\CoreScripts\GridView.js" />
+    <Content Include="Manage\CoreScripts\jquery.jqprint-0.3.js" />
     <Content Include="Manage\CoreScripts\jquery.js" />
     <Content Include="Manage\CoreScripts\MessageBox.js" />
     <Content Include="Manage\Course\Courses.aspx" />

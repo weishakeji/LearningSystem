@@ -168,4 +168,14 @@
 	.pageWinBtn input {
 		display: none;
 	}
+	.page {
+		PAGE-BREAK-AFTER: always;
+	}
+	table td {
+		height: 35px !important;
+		line-height: 20px;
+		overflow: hidden;
+		background-color: #FFF;
+		font-size: 16px;
+	}
 }

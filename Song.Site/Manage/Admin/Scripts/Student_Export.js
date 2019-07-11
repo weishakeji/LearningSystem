@@ -22,7 +22,7 @@
             }
         });
         var iframe = $("#iframeExportDetails");
-        var link=iframe.attr("link") + "?sts=" + ids;
+        var link = "/manage/student/Students_Details.aspx?sts=" + ids;
         new top.PageBox("学习证明打印", link, 980, 60, null, window.name).Open();
         //iframe.attr("src", iframe.attr("link") + "?sts=" + ids);
         return false;
