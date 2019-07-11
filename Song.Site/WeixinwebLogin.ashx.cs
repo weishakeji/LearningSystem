@@ -36,6 +36,9 @@ namespace Song.Site
                 return;
             }
             #endregion
+            //一些设置项
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
+            this.Document.SetValue("IsRegStudent", config["IsRegStudent"].Value.Boolean ?? true);   //是否允许注册   
 
             #region 具体操作代码
             string token = WeiSha.Common.Request.QueryString["token"].String;

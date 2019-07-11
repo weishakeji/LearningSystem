@@ -30,9 +30,11 @@
       </div>
           <div class="leftbox">
         <dl class="titbox">
-              <dd> 我是新用户</dd>
+              <vt:if var="IsRegStudent" value="false" compare="="> <dd> 我是新用户</dd>
+            </vt:if>
               <dd> 我是老用户</dd>
             </dl>
+            <vt:if var="IsRegStudent" value="false" compare="="> 
         <div class="regbox"> 
               <!--新用户注册-->
               <form id="formRegist" name="formRegist" method="post" sms="{$forsms}">
@@ -59,6 +61,7 @@
                 </vt:if>
           </form>
             </div>
+             </vt:if>
         <div class="regbox">
               <form id="formBind" name="formBind" method="post" sms="{$forsms}">
             <div class="loginRow">

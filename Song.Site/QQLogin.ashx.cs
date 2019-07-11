@@ -22,6 +22,10 @@ namespace Song.Site
 
         protected override void InitPageTemplate(HttpContext context)
         {
+            //一些设置项
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
+            this.Document.SetValue("IsRegStudent", config["IsRegStudent"].Value.Boolean ?? true);   //是否允许注册   
+
             #region 此段代码用于取token与openid
             string code = WeiSha.Common.Request.QueryString["code"].String;     //验证用的code，只用一次即失效
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET" && !string.IsNullOrWhiteSpace(code))
@@ -57,7 +61,7 @@ namespace Song.Site
                 if (acc == null)
                 {                    
                     //账户不存在，以下用于注册
-                    WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+                    //WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
                     this.Document.SetValue("forpw", config["IsLoginForPw"].Value.Boolean ?? true);  //启用账号密码登录
                     this.Document.SetValue("forsms", config["IsLoginForSms"].Value.Boolean ?? true);     //启用手机短信验证登录
                     this.Document.SetValue("IsQQDirect", Business.Do<ISystemPara>()["QQDirectIs"].Boolean ?? true);    //是否允许qq直接注册登录

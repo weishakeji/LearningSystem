@@ -20,6 +20,10 @@ namespace Song.Site.Mobile
 
         protected override void InitPageTemplate(HttpContext context)
         {
+            //一些设置项
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
+            this.Document.SetValue("IsRegStudent", config["IsRegStudent"].Value.Boolean ?? true);   //是否允许注册   
+
             #region 此段代码用于取token与openid
             string code = WeiSha.Common.Request.QueryString["code"].String;
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET" && !string.IsNullOrWhiteSpace(code))
