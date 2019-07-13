@@ -23,6 +23,7 @@
         <ItemTemplate>
             <div class="page">
                 <asp:Image ID="imgStamp" runat="server" />
+                <div class="qrcode" acid="<%# Eval("Ac_id") %>"></div>
                 <div class="page-title">
                     学习证明</div>
                 <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0">
@@ -205,7 +206,7 @@
                                     <%= System.DateTime.Now.ToString("yyyy年M月d日") %>
                                 </div>
                             </div>
-                            <div class="qrcode" acid="<%# Eval("Ac_id") %>"></div>
+                            
                         </td>
                     </tr>
                 </table>
