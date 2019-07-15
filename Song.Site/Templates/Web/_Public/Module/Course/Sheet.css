@@ -68,7 +68,6 @@
 .money {
 	color: #e85308;
 	margin-right: 10px;
-	background-color: #ddd;
 	padding-right: 3px;
 	padding-left: 3px;
 }
@@ -379,6 +378,7 @@ background-color: transparent;
 	width: 96%;
 	margin-right: auto;
 	margin-left: auto;
+	min-height:300px;
 }
 .introBox, .introBox * {
 	font-size: 14px !important;

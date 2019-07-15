@@ -20,6 +20,7 @@
 	height: 270px;
 	width: 480px;
 	background-position: center top;
+	background-size: 100% !important;
 }
 .course-name {
 	font-size: 30px;

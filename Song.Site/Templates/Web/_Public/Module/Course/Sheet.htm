@@ -177,6 +177,7 @@
                 </div>
             </div>
             <div id="RightBox">
+            <vt:if var="th.th_name" value="" compare="!=">
                 <div class="box">
                     <div class="boxBar">
                         <div class="title">
@@ -196,6 +197,9 @@
                     <div class="signature">
                         {$th.th_signature}</div>
                 </div>
+                 </vt:if>
+                
+                
                 <div class="box">
                     <div class="boxBar">
                         <div class="title">
@@ -209,6 +213,8 @@
             <vt:else />
              {$:#.data.Ac_Name}
              </vt:if></li>
+             <vt:foreachelse/>
+             (没有学员)
           </vt:foreach>
                     </ul>
                 </div>
