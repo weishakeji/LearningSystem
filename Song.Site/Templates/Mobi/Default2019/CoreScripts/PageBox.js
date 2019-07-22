@@ -52,13 +52,13 @@
     }
     //获取父窗口(iframe对象）
     pagebox.getParent = function (winname) {
-        var winbox = $(".PageBox[winid=" + winname + "]", window.top.document);
+        var winbox = $(".PageBox[winid='" + winname + "']", window.top.document);
         return winbox;
     }
     //获取当前窗体对象
     //winname:当前iframe名称
     pagebox.getPagebox = function (winname) {
-        var box = $(".PageBox[winid=" + winname + "]");
+        var box = $(".PageBox[winid='" + winname + "']");
         return box;
     }
     //获取父窗口的window对象
@@ -73,7 +73,7 @@
     }
     //获取父路径
     pagebox.getParentPath = function (winname) {
-        var winbox = $(".PageBox[winid=" + winname + "]", window.top.document);
+        var winbox = $(".PageBox[winid='" + winname + "']", window.top.document);
         if (winbox.size() < 1) winbox = $("iframe[name=" + winname + "]", window.top.document);
         var iframe = winbox.find("iframe");
         var path = "";
@@ -125,7 +125,7 @@
         var hg = $(window).height();
         var wd = $(window).width();
         $("body").append("<div class=\"PageBox\" type=\"PageBox\" winid=\"" + this.WinId + "\"></div>");
-        var boxframe = $(".PageBox[winid=" + this.WinId + "]");
+        var boxframe = $(".PageBox[winid='" + this.WinId + "']");
         boxframe.attr({ "wdper": this.Wdper, "hgper": this.Hgper });
         var border = parseInt(boxframe.css("border-width")); //窗体边线宽度
         border = !isNaN(border) ? border : 0;
@@ -144,7 +144,7 @@
             }
         }
         //设置层深
-        var index = parseInt($(".screenMask[winid=" + this.WinId + "]").css("z-index"));
+        var index = parseInt($(".screenMask[winid='" + this.WinId + "']").css("z-index"));
         boxframe.css({ "z-index": index + 1 });
         //设置标题
         boxframe.append("<div class='PageBoxTitle'></div>");
@@ -210,7 +210,7 @@
             if (funcWin != null) funcWin(box);
             //清除pagbox对象
             $(".PageBox[winid='" + winid + "']").remove();
-            $(".screenMask[winid=" + winid + "]").fadeOut("slow", function () {
+            $(".screenMask[winid='" + winid + "']").fadeOut("slow", function () {
                 $(this).remove();
             });
         }
@@ -247,7 +247,7 @@
     //生成遮罩层
     pagebox.prototype.maskOpen = function () {
         $("body").append("<div class=\"screenMask\" winid='" + this.WinId + "'/>");
-        var mask = $(".screenMask[winid=" + this.WinId + "]");
+        var mask = $(".screenMask[winid='" + this.WinId + "']");
         //屏幕的宽高
         var hg = document.documentElement.clientHeight > document.body.scrollHeight ? document.documentElement.clientHeight : document.body.scrollHeight;
         var wd = document.documentElement.clientWidth > document.body.scrollWidth ? document.documentElement.clientWidth : document.body.scrollWidth;

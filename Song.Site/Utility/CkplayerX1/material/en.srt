@@ -1,0 +1,16 @@
+1
+00:00:01,210 --> 00:00:10,400
+= subtitle effect = -
+Support multiple rows
+
+2
+00:00:11,210 --> 00:00:30,400
+Encoding requires UTF-8
+
+3
+00:00:31,210 --> 00:01:00,400
+The format is .Srt  or .vtt.
+
+4
+00:01:01,210 --> 00:01:55,400
+Thank you for your support for ckplayer

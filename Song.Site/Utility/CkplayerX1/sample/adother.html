@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>ckplayer</title>
+		
+		<style type="text/css">body{margin:0;padding:0px;font-family:"Microsoft YaHei",YaHei,"微软雅黑",SimHei,"黑体";font-size:14px}</style>
+
+	</head>
+
+	<body>
+		<div id="video" style="width: 600px; height: 400px;"></div>
+		<script type="text/javascript" src="../ckplayer/ckplayer.js"></script>
+		<script type="text/javascript">
+			var videoObject = {
+				container: '#video', //容器的ID或className
+				variable: 'player',//播放函数名称
+				poster:'../material/poster.jpg',//封面图片
+				advertisements:'website:ad.json',//单独用一个json文件来配置广告
+				video: [//视频地址列表形式
+					['http://img.ksbbs.com/asset/Mon_1703/05cacb4e02f9d9e.mp4', 'video/mp4', '中文标清', 0],
+					['http://img.ksbbs.com/asset/Mon_1703/d0897b4e9ddd9a5.mp4', 'video/mp4', '中文高清', 0],
+					['http://img.ksbbs.com/asset/Mon_1703/eb048d7839442d0.mp4', 'video/mp4', '英文高清', 10],
+					['http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4', 'video/mp4', '英文超清', 0],
+				]
+			};
+			var player = new ckplayer(videoObject);
+		</script>
+		<p>本页观看需要在支持h5环境的浏览器上，视频格式需要是h5支持的mp4</p>
+	</body>
+
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>ckplayer</title>
+		<script type="text/javascript" src="../ckplayer/ckplayer.js" charset="UTF-8"></script>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0px;
+				font-family: "Microsoft YaHei", YaHei, "微软雅黑", SimHei, "黑体";
+				font-size: 14px
+			}
+			#video{
+				padding-bottom: 20px;
+				background-color: #0000FF;
+				z-index: 0px;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<div id="video" style="width: 600px; height: 400px;"></div>
+		<script type="text/javascript">
+			var videoObject = {
+				playerID:'ckplayer01',//播放器ID，第一个字符不能是数字，用来在使用多个播放器时监听到的函数将在所有参数最后添加一个参数用来获取播放器的内容
+				container: '#video', //容器的ID或className
+				variable: 'player', //播放函数名称
+				loaded: 'loadedHandler', //当播放器加载后执行的函数
+				autoplay:true,
+				html5m3u8:true,
+				video: 'http://img.ksbbs.com/asset/Mon_1703/d30e02a5626c066.mp4'
+			};
+			var player = new ckplayer(videoObject);
+			function loadedHandler() {}
+			var y=0;
+			var DArr=[];//弹幕数组
+			var YArr=[];//元件数组
+			function newDanmu() {
+				//弹幕说明
+				y+=20;
+				if(y>300)y=0;
+				var danmuObj = {
+					list: [{
+						type: 'image', //定义元素类型：只有二种类型，image=使用图片，text=文本
+						file: '../material/logo.png', //图片地址
+						radius: 30, //图片圆角弧度
+						width: 30, //定义图片宽，必需要定义
+						height: 30, //定义图片高，必需要定义
+						alpha: 0.9, //图片透明度(0-1)
+						marginLeft: 10, //图片离左边的距离
+						marginRight: 10, //图片离右边的距离
+						marginTop: 10, //图片离上边的距离
+						marginBottom: 10, //图片离下边的距离
+						clickEvent: "link->http://"
+					}, {
+						type: 'text', //说明是文本
+						text: '演示弹幕内容，弹幕只支持普通文本，不支持HTML', //文本内容
+						color: '0xFFDD00', //文本颜色
+						size: 14, //文本字体大小，单位：px
+						font: '"Microsoft YaHei", YaHei, "微软雅黑", SimHei,"\5FAE\8F6F\96C5\9ED1", "黑体",Arial', //文本字体
+						leading: 30, //文字行距
+						alpha: 1, //文本透明度(0-1)
+						paddingLeft: 10, //文本内左边距离
+						paddingRight: 10, //文本内右边距离
+						paddingTop: 0, //文本内上边的距离
+						paddingBottom: 0, //文本内下边的距离
+						marginLeft: 0, //文本离左边的距离
+						marginRight: 10, //文本离右边的距离
+						marginTop: 10, //文本离上边的距离
+						marginBottom: 0, //文本离下边的距离
+						backgroundColor: '0xFF0000', //文本的背景颜色
+						backAlpha: 0.5, //文本的背景透明度(0-1)
+						backRadius: 30, //文本的背景圆角弧度
+						clickEvent: "actionScript->videoPlay"
+					}],
+					x: '100%', //x轴坐标
+					y: y, //y轴坐标
+					//position:[2,1,0],//位置[x轴对齐方式（0=左，1=中，2=右），y轴对齐方式（0=上，1=中，2=下），x轴偏移量（不填写或null则自动判断，第一个值为0=紧贴左边，1=中间对齐，2=贴合右边），y轴偏移量（不填写或null则自动判断，0=紧贴上方，1=中间对齐，2=紧贴下方）]
+					alpha: 1,
+					//backgroundColor:'#FFFFFF',
+					backAlpha: 0.8,
+					backRadius: 30 //背景圆角弧度
+				}
+				var danmu = player.addElement(danmuObj);
+				var danmuS = player.getElement(danmu);
+				var obj = {
+					element: danmu,
+					parameter: 'x',
+					static: true, //是否禁止其它属性，true=是，即当x(y)(alpha)变化时，y(x)(x,y)在播放器尺寸变化时不允许变化
+					effect: 'None.easeOut',
+					start: null,
+					end: -danmuS['width']+300,
+					speed: 10,
+					overStop: true,
+					pauseStop: true,
+					callBack: 'deleteChild'
+				};
+				var danmuAnimate = player.animate(obj);
+				DArr.push(danmuAnimate);
+				console.log(danmu);
+				YArr.push(danmu);
+			}
+
+			function deleteChild(ele) {
+				if(player) {
+					player.deleteElement(ele);
+					if(YArr.indexOf(ele)>-1){//在YArr也就是保存弹幕的全局变量里搜索该弹幕，然后删除
+						var n=YArr.indexOf(ele);
+						console.log(n)
+						YArr.splice(n,1);
+					}
+				}
+			}
+			function delDanmu(){
+				for(var i=0;i<DArr.length;i++){
+					console.log(DArr[i])
+					if(player) {
+						try{
+							player.deleteAnimate(DArr[i]);
+							//player.deleteElement(YArr[i]);
+						}
+						catch(error){
+							console.log(error);
+						}
+					}
+				}
+			}
+			function getCoor(){
+				for(var i=0;i<YArr.length;i++){
+					console.log(player.getElement(YArr[i]));
+					//这里可以直接输出所有的弹幕，不能获取到的会返回null
+				}
+			}
+		</script>
+		<p>
+			<button type="button" onclick="newDanmu()">添加弹幕</button>
+			<button type="button" onclick="delDanmu()">删除所有弹幕</button>
+			<button type="button" onclick="getCoor()">获取所有弹幕的座标，请调出浏览器的开发者工具查看</button>
+		</p>
+	</body>
+
+</html>

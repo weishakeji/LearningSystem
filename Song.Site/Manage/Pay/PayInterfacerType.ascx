@@ -23,7 +23,7 @@
             if (page == "") return;
             var href = window.location.href;
             var path = href.substring(0, href.lastIndexOf("/") + 1);
-            var option = $(this).find("option[value=" + page + "]");
+            var option = $(this).find("option[value='" + page + "']");
             var scene = option.attr("scene");  //支付应用场景
             window.location.href = path + $(this).val() + "?id=" + $().getPara("id") + "&scene=" + scene;
         });

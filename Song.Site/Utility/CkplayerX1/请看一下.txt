@@ -1,0 +1,3 @@
+软件名称：ckplayer
+版本：X1
+请将ckplayer放在网站环境中运行

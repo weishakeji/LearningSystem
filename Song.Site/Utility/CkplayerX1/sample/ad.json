@@ -1,0 +1,118 @@
+{
+    "front": [
+        {
+            "file": "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/ckplayer-ad/front01.mp4",
+            "type": "mp4",
+            "link":"https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=8hiawluh",
+            "time": 5,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php"
+        },
+        {
+            "file": "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/ckplayer-ad/front02.mp4",
+            "type": "mp4",
+            "link": "",
+            "time": 5,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php"
+        }
+    ],
+    "pause": [
+        {
+            "file": "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/ckplayer-ad/pause01.jpg",
+            "type": "jpg",
+            "link": "",
+            "time": 5,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php"
+        },
+        {
+            "file": "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/ckplayer-ad/pause02.jpg",
+            "type": "jpg",
+            "link":"https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=8hiawluh",
+            "time": 5,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php"
+        }
+    ],
+    "insert": [
+        {
+            "file": "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/ckplayer-ad/insert01.mp4",
+            "type": "mp4",
+            "link": "",
+            "time": 5,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php"
+        },
+        {
+            "file": "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/ckplayer-ad/insert02.mp4",
+            "type": "swf",
+            "link":"https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=8hiawluh",
+            "time": 5,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php"
+        }
+    ],
+    "inserttime": "10,40",
+    "end": [
+        {
+            "file": "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/ckplayer-ad/end01.mp4",
+            "type": "mp4",
+            "link": "",
+            "time": 5,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php"
+        },
+        {
+            "file": "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/ckplayer-ad/end02.mp4",
+            "type": "mp4",
+            "link":"https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=8hiawluh",
+            "time": 5,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php"
+        }
+    ],
+    "other": [
+        {
+            "file": "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/ckplayer-ad/other-485-60.jpg",
+            "type": "gif",
+            "link":"https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=8hiawluh",
+            "startTime": 3,
+            "time": 8,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php",
+            "align": "center",
+            "vAlign": "bottom",
+            "offsetX": -243,
+            "offsetY": -110,
+            "about": "这是一个gif广告（宽400，高60），当播放器播放startTime=3秒时显示，time=10秒后结束，水平中间对齐align=center,并且在水平轴上向左边偏移200像素，垂直方向是底部对齐并且向上偏移110个像素"
+        },
+        {
+            "file": "https://ckplayer-video.oss-cn-shanghai.aliyuncs.com/ckplayer-ad/other-120-120.gif",
+            "type": "gif",
+            "link":"https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=8hiawluh",
+            "startTime": 6,
+            "time": 8,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php",
+            "align": "right",
+            "vAlign": "top",
+            "offsetX": -130,
+            "offsetY": 10,
+            "about": "这是一个gif广告（宽400，高60），当播放器播放startTime=3秒时显示，time=10秒后结束，水平中间对齐align=center,并且在水平轴上向左边偏移200像素，垂直方向是底部对齐并且向上偏移110个像素"
+        },
+        {
+            "file": "adv.swf",
+            "type": "swf",
+            "link":"https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=8hiawluh",
+            "startTime": 3,
+            "time": 10,
+            "exhibitionMonitor": "exhibitionMonitor.php",
+            "clickMonitor": "clickMonitor.php",
+            "align": "right",
+            "vAlign": "right",
+            "offsetX": -60,
+            "offsetY": -60
+        }
+    ]
+}
