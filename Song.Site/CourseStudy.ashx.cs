@@ -136,7 +136,7 @@ namespace Song.Site
             {
                 if (!freeFordesk)
                 {
-                    return studyFordesk;                    
+                    return studyFordesk && !WeiSha.Common.Browser.IsDestopApp;                  
                 }
                 else
                 {
@@ -144,7 +144,7 @@ namespace Song.Site
                     if (ol.Ol_IsFree) return false;
                 }
             }
-            return true;
+            return true && !WeiSha.Common.Browser.IsDestopApp;
         }
         #region 章节事件用到的方法
         /// <summary>
