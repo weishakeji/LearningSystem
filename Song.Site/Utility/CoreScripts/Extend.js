@@ -192,7 +192,8 @@ jQuery.fn.getPara = function (url, key) {
         for (var i = 0; i < tm.length; i++) {
             var arr = tm[i].split('=');
             if (arr.length < 2) continue;
-            paras.push({ key: arr[0].toLowerCase(), value: arr[1] });
+            var val = decodeURI(arr[1]).replace(/<[^>]+>/g, "");
+            paras.push({ key: arr[0].toLowerCase(), value: val });
         }
         return paras;
     }
@@ -210,7 +211,7 @@ jQuery.fn.getPara = function (url, key) {
         }
     }
     if (value.indexOf("#") > -1) value = value.substring(0, value.indexOf("#"));
-    return value; s
+    return value;
 }
 
 //添加链接地址的参数
