@@ -15,6 +15,7 @@ using NPOI.HSSF.UserModel;
 using NPOI.SS.Converter;
 using Song.ServiceInterfaces;
 using System.Text.RegularExpressions;
+using pili_sdk_csharp.pili;
 
 
 namespace Song.Site.Manage
@@ -24,6 +25,8 @@ namespace Song.Site.Manage
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            Hub hub = Hub.Create("", "", "");
 
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
 

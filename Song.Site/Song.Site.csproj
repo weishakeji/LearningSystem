@@ -144,6 +144,9 @@
     <Reference Include="NPOI.ScratchPad.HWPF">
       <HintPath>..\Lib\NPOI.ScratchPad.HWPF.dll</HintPath>
     </Reference>
+    <Reference Include="pili-sdk-csharp">
+      <HintPath>..\Lib\pili-sdk-csharp.dll</HintPath>
+    </Reference>
     <Reference Include="Spring.Core">
       <HintPath>..\Lib\Spring.Core.dll</HintPath>
     </Reference>

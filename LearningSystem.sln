@@ -33,6 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{FDA0AAE6-47E
 		Lib\NPOI.OpenXmlFormats.dll = Lib\NPOI.OpenXmlFormats.dll
 		Lib\NPOI.ScratchPad.HSSF.dll = Lib\NPOI.ScratchPad.HSSF.dll
 		Lib\NPOI.ScratchPad.HWPF.dll = Lib\NPOI.ScratchPad.HWPF.dll
+		Lib\pili-sdk-csharp.dll = Lib\pili-sdk-csharp.dll
 		Lib\Spring.Core.dll = Lib\Spring.Core.dll
 		Lib\Spring.Data.dll = Lib\Spring.Data.dll
 		Lib\System.Web.Mvc.dll = Lib\System.Web.Mvc.dll
