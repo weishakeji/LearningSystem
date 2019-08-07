@@ -273,7 +273,7 @@
                 //处理数据，服务器端返回的数据是经过Url编码的，此处进行解码
                 if (response.data.result != null) {
                     if (typeof (response.data.result) == 'string') {
-                        //response.data.result = eval("(" + response.data.result + ")");
+                        response.data.result = eval("(" + response.data.result + ")");
                     }
                     response.data.result = methods.unescape(response.data.result);
                 }

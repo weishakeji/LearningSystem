@@ -184,6 +184,7 @@
     <Compile Include="IProfitSharing.cs" />
     <Compile Include="ILearningCard.cs" />
     <Compile Include="ISSO.cs" />
+    <Compile Include="ILive.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">

@@ -185,6 +185,7 @@
     <Compile Include="ProfitSharingCom.cs" />
     <Compile Include="LearningCardCom.cs" />
     <Compile Include="SSOCom.cs" />
+    <Compile Include="LiveCom.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
