@@ -57,12 +57,12 @@ namespace Song.ViewData.Methods
             Dictionary<string, string> dic = new Dictionary<string, string>();
             object obj = Business.Do<ILive>();
             Type type = obj.GetType();
-            foreach (MethodInfo mi in type.GetMethods())
+            foreach (PropertyInfo pi in type.GetProperties())
             {
-                if (mi.Name.StartsWith("Get"))
+                if (pi.Name.StartsWith("Get"))
                 {
-                    string key = mi.Name.Substring(3);
-                    object objResult = mi.Invoke(obj, null);
+                    string key = pi.Name.Substring(3);
+                    object objResult = pi.GetValue(obj, null);
                     dic.Add(key, objResult == null ? "" : objResult.ToString());
                 }
             }

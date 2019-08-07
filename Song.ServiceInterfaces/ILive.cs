@@ -51,39 +51,52 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 直播平台的密钥
         /// </summary>
-        string GetAccessKey();
+        string GetAccessKey{ get; }
         /// <summary>
         /// 直播平台的密钥
         /// </summary>
-        string GetSecretKey();
+        string GetSecretKey { get; }
         /// <summary>
         /// 直播空间名称
         /// </summary>
-        string GetLiveSpace();
+        string GetLiveSpace { get; }
         /// <summary>
         /// rtmp播放域
         /// </summary>
-        string GetRTMP();
+        string GetRTMP { get; }
         /// <summary>
         /// hls播放域名
         /// </summary>
-        string GetHLS();
+        string GetHLS { get; }
         /// <summary>
         /// hdl播放域名
         /// </summary>
-        string GetHDL();
+        string GetHDL { get; }
         /// <summary>
         /// 推流的域名
         /// </summary>
-        string GetPublish();
+        string GetPublish { get; }
         /// <summary>
         /// 直播时实截图的域名
         /// </summary>
-        string GetSnapshot();
+        string GetSnapshot { get; }
         /// <summary>
         /// 点播的域名
         /// </summary>
-        string GetVod();
+        string GetVod { get; }
+        #endregion
+
+        #region 管理直播流
+        ///// <summary>
+        ///// 创建直播流
+        ///// </summary>
+        ///// <param name="name"></param>
+        //string StreamCreat(string name);
+        ///// <summary>
+        ///// 直播流列表
+        ///// </summary>
+        ///// <returns></returns>
+        //string StreamList();
         #endregion
     }
 }

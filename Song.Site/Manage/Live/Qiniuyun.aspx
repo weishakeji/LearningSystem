@@ -4,7 +4,7 @@
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
  <div id="app-form">
-  <el-form ref="form" :model="form"  :rules="rules" label-width="160px" size="mini">
+  <el-form ref="form" :model="form"  :rules="rules" label-width="160px" size="small">
 
   <el-form-item label="AccessKey£º" prop="AccessKey">
     <el-input v-model="form.AccessKey" style="width: 400px"></el-input>

@@ -87,65 +87,92 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 直播平台的密钥
         /// </summary>
-        public string GetAccessKey()
+        public string GetAccessKey
         {
-            return Business.Do<ISystemPara>().GetValue(prefix + "AccessKey");
+            get
+            {
+                return Business.Do<ISystemPara>().GetValue(prefix + "AccessKey");
+            }
         }
         /// <summary>
         /// 直播平台的密钥
         /// </summary>
-        public string GetSecretKey()
+        public string GetSecretKey
         {
-            return Business.Do<ISystemPara>().GetValue(prefix + "SecretKey");
+            get
+            {
+                return Business.Do<ISystemPara>().GetValue(prefix + "SecretKey");
+            }
         }
         /// <summary>
         /// 直播空间名称
         /// </summary>
-        public string GetLiveSpace()
+        public string GetLiveSpace
         {
-            return Business.Do<ISystemPara>().GetValue(prefix + "pace");
+            get
+            {
+                return Business.Do<ISystemPara>().GetValue(prefix + "pace");
+            }
         }
         /// <summary>
         /// rtmp播放域
         /// </summary>
-        public string GetRTMP()
+        public string GetRTMP
         {
-            return Business.Do<ISystemPara>().GetValue(prefix + "RTMP");
+            get
+            {
+                return Business.Do<ISystemPara>().GetValue(prefix + "RTMP");
+            }
         }
         /// <summary>
         /// hls播放域名
         /// </summary>
-        public string GetHLS()
+        public string GetHLS
         {
-            return Business.Do<ISystemPara>().GetValue(prefix + "HLS");
+            get
+            {
+                return Business.Do<ISystemPara>().GetValue(prefix + "HLS");
+            }
         }
         /// <summary>
         /// hdl播放域名
         /// </summary>
-        public string GetHDL()
+        public string GetHDL
         {
-            return Business.Do<ISystemPara>().GetValue(prefix + "HDL");
+            get
+            {
+                return Business.Do<ISystemPara>().GetValue(prefix + "HDL");
+            }
         }
         /// <summary>
         /// 推流的域名
         /// </summary>
-        public string GetPublish()
+        public string GetPublish
         {
-            return Business.Do<ISystemPara>().GetValue(prefix + "Publish");
+            get
+            {
+                return Business.Do<ISystemPara>().GetValue(prefix + "Publish");
+            }
         }
         /// <summary>
         /// 直播时实截图的域名
         /// </summary>
-        public string GetSnapshot()
+        public string GetSnapshot
         {
-            return Business.Do<ISystemPara>().GetValue(prefix + "Snapshot");
+            get
+            {
+                return Business.Do<ISystemPara>().GetValue(prefix + "Snapshot");
+            }
         }
         /// <summary>
         /// 点播的域名
         /// </summary>
-        public string GetVod()
+        public string GetVod
         {
-            return Business.Do<ISystemPara>().GetValue(prefix + "Vod");
+            get
+            {
+                return Business.Do<ISystemPara>().GetValue(prefix + "Vod");
+            }
         }
         #endregion
     }
