@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -85,11 +87,6 @@ namespace Song.ViewData
         #endregion
 
         #region 构造方法
-        /// <summary>
-        /// 构造函数，来自MVC控制器的调用，客户端采用$api时会经过MVC控制器
-        /// 通过此种方式，会获取get、post参数，并从当前线程获取cookies集合
-        /// </summary>
-        /// <param name="httprequest">api控制器的访问对象</param>
         public Letter(HttpContext context)
         {
             HttpRequest request = context.Request;//定义传统request对象
@@ -105,7 +102,59 @@ namespace Song.ViewData
             this.ClassName = clasname;
             this.MethodName = action;
             //获取参数         
-            
+
+            //获取get参数
+            for (int i = 0; i < context.Request.QueryString.Count; i++)
+            {
+                string key = context.Request.QueryString.Keys[i].ToString().Trim();
+                string val = Microsoft.JScript.GlobalObject.unescape(context.Request.QueryString[i].ToString().Trim());
+                if (_params.ContainsKey(key))
+                    _params[key] = val;
+                else
+                    _params.Add(key, val);
+            }
+            //获取post参数，put,delete,patch,options都从这里获取
+            for (int i = 0; i < context.Request.Form.Count; i++)
+            {
+                string key = context.Request.Form.Keys[i].ToString().Trim();
+                string val = Microsoft.JScript.GlobalObject.unescape(context.Request.Form[i].ToString().Trim());
+                if (_params.ContainsKey(key))
+                    _params[key] = val;
+                else
+                    _params.Add(key, val);
+            }
+            this.ID = this["id"].Int32 ?? 0;
+            //获取cookies
+            for (int i = 0; i < context.Request.Cookies.Count; i++)
+            {
+                string key = context.Request.Cookies.Keys[i].ToString();
+                string val = context.Request.Cookies[i].Value.ToString();
+                if (_cookies.ContainsKey(key))
+                    _cookies[key] = val;
+                else
+                    _cookies.Add(key, val);
+            }
+        }
+        /// <summary>
+        /// 构造函数，来自MVC控制器的调用，客户端采用$api时会经过MVC控制器
+        /// 通过此种方式，会获取get、post参数，并从当前线程获取cookies集合
+        /// </summary>
+        /// <param name="httprequest">api控制器的访问对象</param>
+        public Letter(HttpRequestMessage httprequest)
+        {
+            REQUEST_METHOD = httprequest.Method.Method; //请求方法
+            //从请求地址中，分析类名与方法名
+            string[] arr = httprequest.RequestUri.Segments;
+            //获取类名与方法名
+            string clasname = arr[3];
+            string action = arr[4];
+            if (clasname.EndsWith("/")) clasname = clasname.Substring(0, clasname.LastIndexOf("/"));
+            if (action.EndsWith("/")) action = action.Substring(0, action.LastIndexOf("/"));
+            this.ClassName = clasname;
+            this.MethodName = action;
+            //获取参数
+            HttpContextBase context = (HttpContextBase)httprequest.Properties["MS_HttpContext"];//获取传统context
+            HttpRequestBase request = context.Request;//定义传统request对象
             //获取get参数
             for (int i = 0; i < context.Request.QueryString.Count; i++)
             {
@@ -248,6 +297,8 @@ namespace Song.ViewData
             return new ConvertToAnyValue(val);
         }
         #endregion
+
+        #region 重构的一些方法或接口实现
         /// <summary>
         /// 重写ToString方法，将参数串连成字符串
         /// </summary>
@@ -271,6 +322,52 @@ namespace Song.ViewData
             {
                 yield return kv;
             }
+        }
+        #endregion
+
+        /// <summary>
+        /// 将参数转换为其它类型，常见转换成实体
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T Convert<T>() where T : new()
+        {
+            T t = new T();
+            Type type = t.GetType();
+            PropertyInfo[] properties = type.GetProperties();
+            for (int j = 0; j < properties.Length; j++)
+            {
+                PropertyInfo pi = properties[j];
+                object piValue = new object();
+                foreach (KeyValuePair<string, string> kv in _params)
+                {
+                    string val = kv.Value;
+                    if (string.IsNullOrWhiteSpace(val) || val == "undefined") continue;
+                    if (kv.Key.Equals(pi.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        switch (pi.PropertyType.Name)
+                        {
+                            case "DateTime":
+                                if (val == null || string.IsNullOrWhiteSpace(val.ToString()))
+                                {
+                                    piValue = DateTime.Now;
+                                    break;
+                                }
+                                DateTime dt = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+                                long lTime = long.Parse(val + "0000");
+                                TimeSpan toNow = new TimeSpan(lTime);
+                                piValue = dt.Add(toNow);
+                                break;
+                            default:
+                                piValue = System.Convert.ChangeType(val, pi.PropertyType);
+                                break;
+                        }
+                        pi.SetValue(t, piValue, null);
+                        break;
+                    }
+                }               
+            }
+            return t;
         }
     }
 }

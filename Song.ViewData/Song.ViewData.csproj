@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -52,12 +53,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attri\AdminAttribute.cs" />
     <Compile Include="Attri\HttpGetAttribute.cs" />
     <Compile Include="DataResult.cs" />
     <Compile Include="ExecuteMethod.cs" />
     <Compile Include="Helper\Browser.cs" />
     <Compile Include="Helper\Cache.cs" />
     <Compile Include="Helper\ConvertToAnyValue.cs" />
+    <Compile Include="Helper\Login\Admin.cs" />
+    <Compile Include="Helper\Login\LoginPatternEnum.cs" />
     <Compile Include="Helper\Server.cs" />
     <Compile Include="Letter.cs" />
     <Compile Include="ListResult.cs" />
@@ -69,6 +73,10 @@
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
       <Project>{985A8268-3A87-46B9-9744-650664719E67}</Project>
       <Name>Song.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Song.Extend\Song.Extend.csproj">
+      <Project>{ED063AD3-3B5F-426F-8D6D-5417FF317FFB}</Project>
+      <Name>Song.Extend</Name>
     </ProjectReference>
     <ProjectReference Include="..\Song.ServiceInterfaces\Song.ServiceInterfaces.csproj">
       <Project>{7CFB4DC1-8536-44A4-AF1D-2D7BDA8067C1}</Project>

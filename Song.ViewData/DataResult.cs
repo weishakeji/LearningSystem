@@ -37,7 +37,10 @@ namespace Song.ViewData
         /// <summary>
         /// 实际返回的数据
         /// </summary>
-        public object Data { get; set; }
+        public object Result { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public DataResult() { }
         /// <summary>
         /// 构造方法
@@ -45,27 +48,50 @@ namespace Song.ViewData
         /// <param name="obj"></param>
         public DataResult(object obj)
         {
-            this.Data = obj;
+            this.Result = obj;
             Success = obj != null;
             State = 1;
             DateTime = DateTime.Now;
             Message = obj != null ? "" : "未查询到数据";
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="exc"></param>
         public DataResult(Exception exc)
         {
             Success = false;
             DateTime = DateTime.Now;
             Exception = exc;
-            Message = exc.Message;
+            if (exc.InnerException != null)
+            {
+                Message = exc.InnerException.Message;
+            }
+            else
+            {
+                Message = exc.Message;
+            }
             State = 0;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="exc"></param>
         public DataResult(object obj, Exception exc)
         {
-            this.Data = obj;
+            this.Result = obj;
             Success = obj != null;
             DateTime = DateTime.Now;
             Exception = exc;
-            Message = exc.Message;
+            if (exc.InnerException != null)
+            {
+                Message = exc.InnerException.Message;
+            }
+            else
+            {
+                Message = exc.Message;
+            }
             State = 0;
         }
         /// <summary>
@@ -85,7 +111,7 @@ namespace Song.ViewData
                 //属性名（包括泛型名称）
                 var nullableType = Nullable.GetUnderlyingType(pi.PropertyType);
                 string typename = nullableType != null ? nullableType.Name : pi.PropertyType.Name;
-                str += string.Format("\"{0}\":{1},", pi.Name, _to_property(typename, value));
+                str += string.Format("\"{0}\":{1},", pi.Name.ToLower(), _to_property(typename, value));
             }
             if (str.EndsWith(",")) str = str.Substring(0, str.Length - 1);
             str += "}";
@@ -114,13 +140,36 @@ namespace Song.ViewData
                     break;
                 case "String":
                     str = value == null ? "" : value.ToString();
+                    str = str.Replace(Environment.NewLine, "");
                     str = string.Format("\"{0}\"", str);
+                    break;
+                case "Int32":
+                    str = value.ToString().ToLower();
                     break;
                 case "Boolean":
                     str = value.ToString().ToLower();
                     break;
                 case "Object":
-                    str = JsonConvert.SerializeObject(value);
+                    if (value is WeiSha.Data.Entity)
+                    {
+                        str = ((WeiSha.Data.Entity)value).ToJson();
+                    }
+                    else
+                    {
+                        if (value is WeiSha.Data.Entity[])
+                        {
+                            WeiSha.Data.Entity[] entitis = (WeiSha.Data.Entity[])value;
+                            str += "[";
+                            foreach (WeiSha.Data.Entity en in entitis)
+                                str += en.ToJson() + ",";
+                            if (str.EndsWith(",")) str = str.Substring(0, str.Length - 1);
+                            str += "]";
+                        }
+                        else
+                        {
+                            str = JsonConvert.SerializeObject(value);
+                        }
+                    }
                     break;
                 case "Exception":
                     Exception ex = (Exception)value;

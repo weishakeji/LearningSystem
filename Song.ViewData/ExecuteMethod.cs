@@ -54,7 +54,7 @@ namespace Song.ViewData
             //如果之前未创建，则重新创建
             Type type = null;
             Assembly assembly = Assembly.Load(assemblyName);
-            foreach (Type info in assembly.GetTypes())
+            foreach (Type info in assembly.GetExportedTypes())
             {
                 if (info.FullName.Equals(classFullName, StringComparison.CurrentCultureIgnoreCase))
                 {
@@ -82,12 +82,25 @@ namespace Song.ViewData
             object execObj = ExecuteMethod.CreateInstance(letter);
             //2.获取要执行的方法，即$api.get("account/single")中的single
             MethodInfo method = getMethod(execObj.GetType(), letter);
-            //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限   
- 
+            //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限    
+            //验证是否登录
+            AdminAttribute adminAttr = authenticateLoginControl(execObj, method);
+            if(adminAttr!=null && !adminAttr.Ignore)
+            {
+                if (!adminAttr.Logged())
+                {
+                    //如果没有登录
+                    throw new Exception("当前方法需要管理员登录后操作");
+                }                
+            }
             //4.构建执行该方法所需要的参数
             object[] parameters = getInvokeParam(method, letter);
-            //5.执行方法
-            return method.Invoke(execObj, parameters);
+            //5.执行方法，返回结果
+            object objResult= method.Invoke(execObj, parameters);
+            //将执行结果写入日志
+            if (adminAttr != null && adminAttr.Logged()) adminAttr.LogWrite(objResult);
+
+            return objResult;
         }
         /// <summary>
         /// 执行，返回结构封装到DataResult对象中
@@ -108,32 +121,56 @@ namespace Song.ViewData
             }
         }
         /// <summary>
-        /// 根据方法名、参数数量，获取具体要执行的方法
+        /// 要执行的方法，根据方法名、参数数量
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">要调用的对象的类型</param>
         /// <param name="p"></param>
         /// <returns></returns>
         private static MethodInfo getMethod(Type type, Letter p)
         {
-            //1、先将名称匹配的方法收集起来
-            List<MethodInfo> list = new List<MethodInfo>();
-            MethodInfo[] methods = type.GetMethods();   
-            for (int i = 0; i < methods.Length; i++)
+            //1、先判断方法是否存在
+            List<MethodInfo> methods = new List<MethodInfo>(); 
+            foreach(MethodInfo mi in  type.GetMethods())
             {
-                if (p.MethodName.Equals(methods[i].Name, StringComparison.CurrentCultureIgnoreCase))
+                if (p.MethodName.Equals(mi.Name, StringComparison.CurrentCultureIgnoreCase))               
+                    methods.Add(mi);                
+            }
+            if (methods.Count < 1)
+                throw new Exception(string.Format("调用方法'{0}.{1}'不存在", p.ClassName, p.MethodName));
+            //2、判断方法的参数名称，是否与传递来的参数名称匹配，参数数量必须匹配  
+            //只有一个参数，且类型是Letter
+            MethodInfo mbLetter = null;
+            for (int i = 0; i < methods.Count; i++)
+            {
+                ParameterInfo[] pis = methods[i].GetParameters();
+                if (pis.Length == 1 && p.GetType().FullName.Equals(pis[0].ParameterType.FullName))
                 {
-                    list.Add(methods[i]);
+                    mbLetter = methods[i];
+                    methods.Remove(methods[i]);
+                    break;
                 }
             }
-            if (list.Count < 1) throw new Exception(string.Format("调用方法'{0}.{1}'不存在", p.ClassName, p.MethodName));
-            //2、判断方法的参数名称，是否与传递来的参数名称匹配
-            //并不要求两者的参数数量相同，也不要求数据类型相同
             MethodInfo method = null;
-            foreach (MethodInfo mi in list)
+            foreach (MethodInfo mi in methods)
             {
-                //ParameterInfo[] paramInfos = mi.GetParameters();
-                bool ismatch = true;    //是否匹配
+                //2-1、判断参数个数是否相同
+                int paraCount = 0;
                 foreach (ParameterInfo pi in mi.GetParameters())
+                {                   
+                    if (!pi.IsOut) paraCount++;
+                }
+                //方法的参数个数，和传参的参数个数，必须相等
+                if (paraCount == p.Params.Count)
+                {
+                    method = mi;
+                    break;
+                }
+            }
+            //2-2、判断参数名称与传递来的参数名称是否一致
+            if (method != null)
+            {
+                bool ismatch = true;    //是否匹配
+                foreach (ParameterInfo pi in method.GetParameters())
                 {
                     //如果参数是Parameter类型，则跳过匹配
                     if (p.GetType().FullName.Equals(pi.ParameterType.FullName)) continue;
@@ -144,8 +181,9 @@ namespace Song.ViewData
                         break;
                     }
                 }
-                if (ismatch) method = mi;
+                if (!ismatch) method = null;
             }
+            if (method == null) method = mbLetter;
             if (method == null) throw new Exception(
                 string.Format("所调用方法'{0}.{1}'的参数名称与实际传参不匹配；实际传参：{2}",
                 type.FullName, p.MethodName,
@@ -156,27 +194,51 @@ namespace Song.ViewData
         /// 返回方法执行所需要的参数
         /// </summary>
         /// <param name="method">要执行的方法</param>
-        /// <param name="p">传递来的参数</param>
+        /// <param name="letter">传递来的参数</param>
         /// <returns></returns>
-        private static object[] getInvokeParam(MethodInfo method, Letter p)
+        private static object[] getInvokeParam(MethodInfo method, Letter letter)
         {
             ParameterInfo[] paramInfos = method.GetParameters();
             object[] objs = new object[paramInfos.Length];
             for (int i = 0; i < objs.Length; i++)
             {
                 ParameterInfo pi = paramInfos[i];
-                //如果参数是Parameter类型，则直接赋值
-                if (p.GetType().FullName.Equals(pi.ParameterType.FullName))
+                //如果参数是Letter类型，则直接赋值
+                if (letter.GetType().FullName.Equals(pi.ParameterType.FullName))
                 {
-                    objs[i] = p;
+                    objs[i] = letter;
                 }
                 else
                 {
                     //普通参数，不是输出参数
                     if (!pi.IsOut)
-                    {                       
-                        object val = p[pi.Name].String;
-                        objs[i] = Convert.ChangeType(val, pi.ParameterType);
+                    {
+                        object val = letter[pi.Name].String;
+                        try
+                        {
+                            switch (pi.ParameterType.Name)
+                            {
+                                case "DateTime":
+                                    if (val == null || string.IsNullOrWhiteSpace(val.ToString()))
+                                    {
+                                        objs[i] = DateTime.Now;
+                                        break;
+                                    }
+                                    DateTime dt = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+                                     long lTime = long.Parse(val + "0000");  
+                                    TimeSpan toNow = new TimeSpan(lTime);
+                                    objs[i] = dt.Add(toNow); 
+                                    break;
+                                default:
+                                    objs[i] = Convert.ChangeType(val, pi.ParameterType);
+                                    break;
+                            }
+                            //objs[i] = Convert.ChangeType(val, pi.ParameterType);
+                        }
+                        catch
+                        {
+                            throw new Exception("参数 " + pi.Name + "的值，数据格式不正确");
+                        }
                     }
                     else
                     {
@@ -185,6 +247,28 @@ namespace Song.ViewData
                 }
             }
             return objs;
+        }
+        /// <summary>
+        /// 验证登录
+        /// </summary>
+        /// <param name="obj">要执行的对象，先验证它是否需要登录</param>
+        /// <param name="member">要验证的方法</param>
+        /// <returns></returns>
+        private static AdminAttribute authenticateLoginControl(object obj,MemberInfo method)
+        {
+            AdminAttribute attr = null;
+            //先验证对象，如果对象需验证，则下面方法全部需要验证登录，除非方法设置了[Admin(Ignore = true)]
+            object[] attrsObj = obj.GetType().GetCustomAttributes(typeof(AdminAttribute), true);
+            if (attrsObj.Length > 0) attr = attrsObj[0] as AdminAttribute;
+            //再验证方法
+            object[] attrsMethod = method.GetCustomAttributes(typeof(AdminAttribute), true);
+            if (attrsMethod.Length > 0)
+            {
+                AdminAttribute admin = attrsMethod[0] as AdminAttribute;                
+                if (attr == null) attr = admin;
+                if (attr != null && admin.Ignore) attr.Ignore = admin.Ignore;
+            }
+            return attr;
         }
     }
 }

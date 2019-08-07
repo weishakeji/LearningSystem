@@ -154,6 +154,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.DataVisualization" />
@@ -368,6 +369,8 @@
     <Content Include="Manage\Images\search.JPG" />
     <Content Include="Manage\Images\sun_star.gif" />
     <Content Include="Manage\Images\used.png" />
+    <Content Include="Manage\Live\Qiniuyun.aspx" />
+    <Content Include="Manage\Live\Scripts\Qiniuyun.js" />
     <Content Include="Manage\Money\Details.aspx" />
     <Content Include="Manage\Money\Details_View.aspx" />
     <Content Include="Manage\Money\Output_Qrcode.aspx" />
@@ -2642,6 +2645,13 @@
     <Compile Include="Manage\Exam\TestPaper_Statistics.aspx.designer.cs">
       <DependentUpon>TestPaper_Statistics.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Manage\Live\Qiniuyun.aspx.cs">
+      <DependentUpon>Qiniuyun.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Live\Qiniuyun.aspx.designer.cs">
+      <DependentUpon>Qiniuyun.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Manage\Money\Details.aspx.cs">
       <DependentUpon>Details.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -3092,6 +3102,13 @@
     </Compile>
     <Compile Include="Manage\Utility\UploadPath\OtherLink.aspx.designer.cs">
       <DependentUpon>OtherLink.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\ElementUI.Master.cs">
+      <DependentUpon>ElementUI.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\ElementUI.Master.designer.cs">
+      <DependentUpon>ElementUI.Master</DependentUpon>
     </Compile>
     <Compile Include="Mobile\About.ashx.cs">
       <DependentUpon>About.ashx</DependentUpon>
@@ -6477,6 +6494,7 @@
     <Content Include="Manage\Styles\Jme\Symbola.otf" />
     <Content Include="Manage\Styles\Jme\Symbola.ttf" />
     <Content Include="Manage\Styles\Jme\Symbola.woff" />
+    <Content Include="Manage\ElementUI.Master" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

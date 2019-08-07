@@ -23,7 +23,7 @@ namespace Song.ViewData
         /// <summary>
         /// 总页数
         /// </summary>
-        public int Pager
+        public int TotalPages
         {
             get
             {
@@ -43,7 +43,7 @@ namespace Song.ViewData
         /// <param name="obj"></param>
         public ListResult(object obj)
         {
-            this.Data = obj;
+            this.Result = obj;
             Success = true;
             State = 1;
             DateTime = DateTime.Now;

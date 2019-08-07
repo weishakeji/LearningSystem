@@ -213,7 +213,7 @@ var update= {
             if (element == "input") {
                 var type = $(this).attr("type").toLowerCase();  //控件类型
                 if (type == "text")tmp += str.format(name, encodeURIComponent($.trim($(this).val())));
-                if (type == "checkbox")tmp += str.format(name, $(this).attr('checked'));
+                if (type == "checkbox")tmp += str.format(name, $(this).prop('checked'));
             }
             if (element == "span") {
                 var read = $(this).attr("read");
@@ -243,7 +243,7 @@ var update= {
                 if (element == "input") {
                     var type = $(this).attr("type").toLowerCase();  //控件类型
                     if (attr == name && type == "text") $(this).val(val);
-                    if (attr == name && type == "checkbox") $(this).attr('checked', val);
+                    if (attr == name && type == "checkbox") $(this).prop(val);
                 }
                 if (element == "span" && attr == name) $(this).text(val);
             }
