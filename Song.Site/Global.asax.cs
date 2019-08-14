@@ -45,6 +45,8 @@ namespace Song.Site
                 Business.Do<IOrganization>().OrganBuildQrCode();
             })).Start();
 
+            //初始化七牛云直播的值
+            Business.Do<ILive>().Initialization();
             ////章节缓存创建      
             //new Thread(new ThreadStart(() =>
             //{                    

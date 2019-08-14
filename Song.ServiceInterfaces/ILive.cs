@@ -11,6 +11,10 @@ namespace Song.ServiceInterfaces
     /// </summary>
     public interface ILive : WeiSha.Common.IBusinessInterface
     {
+        /// <summary>
+        /// 初始化相关参数
+        /// </summary>
+        void Initialization();
         #region 设置
         /// <summary>
         /// 设置直接平台的密钥
@@ -87,16 +91,30 @@ namespace Song.ServiceInterfaces
         #endregion
 
         #region 管理直播流
-        ///// <summary>
-        ///// 创建直播流
-        ///// </summary>
-        ///// <param name="name"></param>
-        //string StreamCreat(string name);
-        ///// <summary>
-        ///// 直播流列表
-        ///// </summary>
-        ///// <returns></returns>
-        //string StreamList();
+        /// <summary>
+        /// 创建直播流
+        /// </summary>
+        /// <param name="name"></param>
+        pili_sdk.pili.Stream StreamCreat(string name);
+        /// <summary>
+        /// 直播流列表
+        /// </summary>
+        /// <param name="prefix">直播流名称前缀</param>
+        /// <param name="count">取几条记录</param>
+        /// <returns></returns>
+        pili_sdk.pili.StreamList StreamList(string prefix, long count);
+        /// <summary>
+        /// 获取直播流
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        pili_sdk.pili.Stream StreamGet(string name);
+        /// <summary>
+        /// 删除直播流
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        bool StreamDelete(string name);
         #endregion
     }
 }

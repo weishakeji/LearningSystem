@@ -50,6 +50,14 @@ namespace Song.Entities {
     		
     		protected Boolean _Ol_IsVideo;
     		
+    		protected Boolean _Cou_IsLive;
+    		
+    		protected DateTime? _Cou_LiveTime;
+    		
+    		protected Int32 _Cou_LiveSpan;
+    		
+    		protected String _Cou_LiveID;
+    		
     		public Int32 Ol_ID {
     			get {
     				return this._Ol_ID;
@@ -260,6 +268,46 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Cou_IsLive {
+    			get {
+    				return this._Cou_IsLive;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_IsLive, _Cou_IsLive, value);
+    				this._Cou_IsLive = value;
+    			}
+    		}
+    		
+    		public DateTime? Cou_LiveTime {
+    			get {
+    				return this._Cou_LiveTime;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_LiveTime, _Cou_LiveTime, value);
+    				this._Cou_LiveTime = value;
+    			}
+    		}
+    		
+    		public Int32 Cou_LiveSpan {
+    			get {
+    				return this._Cou_LiveSpan;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_LiveSpan, _Cou_LiveSpan, value);
+    				this._Cou_LiveSpan = value;
+    			}
+    		}
+    		
+    		public String Cou_LiveID {
+    			get {
+    				return this._Cou_LiveID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_LiveID, _Cou_LiveID, value);
+    				this._Cou_LiveID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -307,7 +355,11 @@ namespace Song.Entities {
     					_.Ol_QuesCount,
     					_.Ol_IsFinish,
     					_.Ol_IsNode,
-    					_.Ol_IsVideo};
+    					_.Ol_IsVideo,
+    					_.Cou_IsLive,
+    					_.Cou_LiveTime,
+    					_.Cou_LiveSpan,
+    					_.Cou_LiveID};
     		}
     		
     		/// <summary>
@@ -335,7 +387,11 @@ namespace Song.Entities {
     					this._Ol_QuesCount,
     					this._Ol_IsFinish,
     					this._Ol_IsNode,
-    					this._Ol_IsVideo};
+    					this._Ol_IsVideo,
+    					this._Cou_IsLive,
+    					this._Cou_LiveTime,
+    					this._Cou_LiveSpan,
+    					this._Cou_LiveID};
     		}
     		
     		/// <summary>
@@ -404,6 +460,18 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ol_IsVideo))) {
     				this._Ol_IsVideo = reader.GetBoolean(_.Ol_IsVideo);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_IsLive))) {
+    				this._Cou_IsLive = reader.GetBoolean(_.Cou_IsLive);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_LiveTime))) {
+    				this._Cou_LiveTime = reader.GetDateTime(_.Cou_LiveTime);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_LiveSpan))) {
+    				this._Cou_LiveSpan = reader.GetInt32(_.Cou_LiveSpan);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_LiveID))) {
+    				this._Cou_LiveID = reader.GetString(_.Cou_LiveID);
     			}
     		}
     		
@@ -535,7 +603,26 @@ namespace Song.Entities {
     			/// 字段名：Ol_IsVideo - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Ol_IsVideo = new WeiSha.Data.Field<Outline>("Ol_IsVideo");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_IsLive - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_IsLive = new WeiSha.Data.Field<Outline>("Cou_IsLive");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_LiveTime - 数据类型：DateTime(可空)
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_LiveTime = new WeiSha.Data.Field<Outline>("Cou_LiveTime");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_LiveSpan - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_LiveSpan = new WeiSha.Data.Field<Outline>("Cou_LiveSpan");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_LiveID - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_LiveID = new WeiSha.Data.Field<Outline>("Cou_LiveID");
     		}
     	}
     }
-    

@@ -9,6 +9,8 @@ using Song.Entities;
 using WeiSha.Data;
 using Song.ServiceInterfaces;
 using System.Data.Common;
+using pili_sdk.pili;
+using pili_sdk;
 
 
 
@@ -18,6 +20,14 @@ namespace Song.ServiceImpls
     {
         //设置项的前缀
         string prefix = "Qiniuyun_";
+
+        /// <summary>
+        /// 初始化相关参数
+        /// </summary>
+        public void Initialization()
+        {
+            pili_sdk.Pili.Initialization(this.GetAccessKey, this.GetSecretKey, this.GetLiveSpace, "v1");
+        }
 
         #region 设置
         /// <summary>
@@ -172,6 +182,113 @@ namespace Song.ServiceImpls
             get
             {
                 return Business.Do<ISystemPara>().GetValue(prefix + "Vod");
+            }
+        }
+        #endregion
+
+        #region 管理直播流
+        /// <summary>
+        /// 创建直播流
+        /// </summary>
+        /// <param name="name"></param>
+        public pili_sdk.pili.Stream StreamCreat(string name)
+        {           
+
+            Stream stream = null;
+            try
+            {
+                stream = Pili.API<IStream>().Create(name);
+                return stream;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        /// <summary>
+        /// 直播流列表
+        /// </summary>
+        /// <returns></returns>
+        public pili_sdk.pili.StreamList StreamList(string prefix, long count)
+        {
+            string marker = null; // optional
+            long limit = count; // optional
+            string titlePrefix = prefix; // optional
+            try
+            {
+                StreamList streamList = Pili.API<IStream>().List(marker, limit, titlePrefix);
+                IList<Stream> list = streamList.Streams;
+                foreach (Stream s in list)
+                {
+                    // access the stream
+                }
+                return streamList;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// 获取直播流
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public pili_sdk.pili.Stream StreamGet(string name)
+        {
+            Stream stream = null;
+            try
+            {
+                string marker = null; // optional
+                long limit = 50; // optional
+                string titlePrefix = prefix; // optional
+                StreamList streamList = Pili.API<IStream>().List(marker, limit, titlePrefix);
+                while (stream == null && streamList.Streams.Count > 0)
+                {
+                    //streamList = hub.listStreams(marker, limit, titlePrefix);
+                    IList<Stream> list = streamList.Streams;
+                    foreach (Stream s in list)
+                    {
+                        if (s.StreamID.EndsWith("." + s.HubName + "." + name))
+                        {
+                            stream = s;
+                            break;
+                        }
+                    }
+                    if (stream == null)
+                    {
+                        streamList = Pili.API<IStream>().List(marker, limit, titlePrefix); ;
+                    }
+                }
+                return stream;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// 删除直播流
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool StreamDelete(string name)
+        {
+            Stream stream = this.StreamGet(name);
+            if (stream == null) return false;
+            //
+            try
+            {
+                string res = Pili.API<IStream>().Delete(stream);
+                if ("No Content".Equals(res))
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
         #endregion

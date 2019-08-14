@@ -8,6 +8,7 @@ using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
 using WeiSha.Common;
 using System.Reflection;
+using pili_sdk;
 
 namespace Song.ViewData.Methods
 {
@@ -41,6 +42,7 @@ namespace Song.ViewData.Methods
                 Business.Do<ILive>().SetupVod(letter.GetParameter("Vod").String);
 
                 Business.Do<ISystemPara>().Refresh();
+                Business.Do<ILive>().Initialization();
                 return 1;
             }
             catch (Exception ex)

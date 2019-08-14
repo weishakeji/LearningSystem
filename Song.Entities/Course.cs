@@ -80,6 +80,12 @@ namespace Song.Entities {
     		
     		protected DateTime _Cou_FreeEnd;
     		
+    		protected Boolean _Cou_ExistLive;
+    		
+    		protected Boolean _Cou_ExistQues;
+    		
+    		protected Boolean _Cou_ExistExam;
+    		
     		public Int32 Cou_ID {
     			get {
     				return this._Cou_ID;
@@ -440,6 +446,36 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Cou_ExistLive {
+    			get {
+    				return this._Cou_ExistLive;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_ExistLive, _Cou_ExistLive, value);
+    				this._Cou_ExistLive = value;
+    			}
+    		}
+    		
+    		public Boolean Cou_ExistQues {
+    			get {
+    				return this._Cou_ExistQues;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_ExistQues, _Cou_ExistQues, value);
+    				this._Cou_ExistQues = value;
+    			}
+    		}
+    		
+    		public Boolean Cou_ExistExam {
+    			get {
+    				return this._Cou_ExistExam;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_ExistExam, _Cou_ExistExam, value);
+    				this._Cou_ExistExam = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -502,7 +538,10 @@ namespace Song.Entities {
     					_.Cou_PriceSpan,
     					_.Cou_IsLimitFree,
     					_.Cou_FreeStart,
-    					_.Cou_FreeEnd};
+    					_.Cou_FreeEnd,
+    					_.Cou_ExistLive,
+    					_.Cou_ExistQues,
+    					_.Cou_ExistExam};
     		}
     		
     		/// <summary>
@@ -545,7 +584,10 @@ namespace Song.Entities {
     					this._Cou_PriceSpan,
     					this._Cou_IsLimitFree,
     					this._Cou_FreeStart,
-    					this._Cou_FreeEnd};
+    					this._Cou_FreeEnd,
+    					this._Cou_ExistLive,
+    					this._Cou_ExistQues,
+    					this._Cou_ExistExam};
     		}
     		
     		/// <summary>
@@ -659,6 +701,15 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Cou_FreeEnd))) {
     				this._Cou_FreeEnd = reader.GetDateTime(_.Cou_FreeEnd);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_ExistLive))) {
+    				this._Cou_ExistLive = reader.GetBoolean(_.Cou_ExistLive);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_ExistQues))) {
+    				this._Cou_ExistQues = reader.GetBoolean(_.Cou_ExistQues);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_ExistExam))) {
+    				this._Cou_ExistExam = reader.GetBoolean(_.Cou_ExistExam);
     			}
     		}
     		
@@ -865,6 +916,21 @@ namespace Song.Entities {
     			/// 字段名：Cou_FreeEnd - 数据类型：DateTime
     			/// </summary>
     			public static WeiSha.Data.Field Cou_FreeEnd = new WeiSha.Data.Field<Course>("Cou_FreeEnd");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_ExistLive - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_ExistLive = new WeiSha.Data.Field<Course>("Cou_ExistLive");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_ExistQues - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_ExistQues = new WeiSha.Data.Field<Course>("Cou_ExistQues");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_ExistExam - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_ExistExam = new WeiSha.Data.Field<Course>("Cou_ExistExam");
     		}
     	}
     }
