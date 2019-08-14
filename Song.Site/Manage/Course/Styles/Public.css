@@ -33,7 +33,7 @@ td,p,div{
 	position:absolute;
 	top:0px;
 	left:0px;
-	background-color: #71C6FF;
+	background-color:rgb(179, 216, 255);
 }
 #editLeft a{
 	display: block;
@@ -42,9 +42,9 @@ td,p,div{
 	font-size: 18px;
 	line-height: 25px;
 	font-weight: bold;
-	color: #71C6FF;
+	color: #409EFF;
 	text-decoration: none;
-	background-color: #0099FF;
+	background-color: rgb(217, 236, 255);
 	margin-top: 5px;
 	padding-top: 5px;
 	padding-bottom: 5px;
@@ -55,7 +55,8 @@ td,p,div{
 	background-color: #FFFFFF;
 	width: 35px;
 	margin-right: 0px;
-	color: #333333;
+	color: #666;
+	text-shadow:0px 2px 2px #999; 
 }
 /*右侧*/
 #editRight
