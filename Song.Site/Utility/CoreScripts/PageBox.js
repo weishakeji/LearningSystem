@@ -150,7 +150,8 @@
                             var winid = $(d.target).parents(".PageBox").attr("winid");
                             var position = pagebox.coordinate(winid);
                             //当窗体移出可视化区域，设置到屏幕中央
-                            if (position.left > position.winwd || position.top > position.winhg) {
+                            if ((position.left > position.winwd || position.left + box.width() <= 0) ||
+                                (position.top > position.winhg || position.top <= 0)) {
                                 pagebox.setPostion(position.box);
                             }
                             //alert("top:" + position.top + ",left:" + position.left+",win_wd:"+position.winwd)
@@ -194,9 +195,10 @@
         titbox.append("<div class=\"PageBoxTitleTxt\">" + this.Title + "</div>");
         titbox.append("<a class=\"PageBoxTitleClose\" href=\"#\">&#215; </a>");
         //标题栏上的关闭按钮，点击事件
-        titbox.find(".PageBoxTitleClose").click(function () {
+        titbox.find(".PageBoxTitleClose").click(function (e) {
             var box = $(this).parents("div[type=PageBox]");
             PageBox.Close(box.attr("winid"));
+            e.stopPropagation();
             return false;
         });
         //生成窗体内容区，即iframe
