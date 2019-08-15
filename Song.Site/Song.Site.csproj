@@ -339,6 +339,7 @@
     <Content Include="Manage\Course\Outline_Export.aspx" />
     <Content Include="Manage\Course\Styles\Outline_Export.css" />
     <Content Include="Manage\Course\Styles\Outline_Accessory.css" />
+    <Content Include="Manage\Course\Outline_Live.aspx" />
     <Content Include="Manage\DataTemplate\Config\充值码.xml" />
     <Content Include="Manage\DataTemplate\Config\学习卡.xml" />
     <Content Include="Manage\DataTemplate\Config\教师信息.xml">
@@ -365,6 +366,7 @@
     <Content Include="Manage\Images\4323.jpg" />
     <Content Include="Manage\Images\bigIco2.jpg" />
     <Content Include="Manage\Images\empty.gif" />
+    <Content Include="Manage\Images\live-icon.gif" />
     <Content Include="Manage\Images\mmicons.png" />
     <Content Include="Manage\Images\search.JPG" />
     <Content Include="Manage\Images\sun_star.gif" />
@@ -2623,6 +2625,13 @@
     </Compile>
     <Compile Include="Manage\Course\Outline_Export.aspx.designer.cs">
       <DependentUpon>Outline_Export.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Course\Outline_Live.aspx.cs">
+      <DependentUpon>Outline_Live.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Course\Outline_Live.aspx.designer.cs">
+      <DependentUpon>Outline_Live.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Exam\TestPaper_Edit1.aspx.cs">
       <DependentUpon>TestPaper_Edit1.aspx</DependentUpon>

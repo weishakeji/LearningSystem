@@ -15,6 +15,7 @@ using System.Xml;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using System.IO;
+using pili_sdk;
 
 namespace Song.ServiceImpls
 {
@@ -49,7 +50,7 @@ namespace Song.ServiceImpls
                         entity.Ol_UID = WeiSha.Common.Request.UniqueID();
                     ////层级
                     //entity.Ol_Level = _ClacLevel(entity);
-                    //entity.Ol_XPath = _ClacXPath(entity);
+                    //entity.Ol_XPath = _ClacXPath(entity);                   
                     tran.Save<Outline>(entity);                   
                     tran.Commit();
                     this.OnSave(null, EventArgs.Empty);
@@ -62,6 +63,14 @@ namespace Song.ServiceImpls
                 finally
                 {
                     tran.Close();
+                }
+                //如果是直播章节
+                if (entity.Ol_IsLive)
+                {
+                    string liveid = string.Format("{0}_{1}_{2}", entity.Cou_ID, entity.Ol_ID, entity.Ol_UID);
+                    pili_sdk.pili.Stream stream = Business.Do<ILive>().StreamCreat(liveid);
+                    entity.Ol_LiveID = stream.Title;
+                    Gateway.Default.Save<Outline>(entity);
                 }
             }
             
@@ -141,6 +150,32 @@ namespace Song.ServiceImpls
             //路径
             entity.Ol_Level = _ClacLevel(entity);
             entity.Ol_XPath = _ClacXPath(entity);
+            //如果是直播章节
+            if (entity.Ol_IsLive)
+            {
+                pili_sdk.pili.Stream stream = null;
+                if (string.IsNullOrWhiteSpace(entity.Ol_LiveID))
+                {
+                    stream = Business.Do<ILive>().StreamCreat();
+                    if(stream!=null)
+                        entity.Ol_LiveID = stream.Title;
+                }
+                else
+                {
+                    stream = pili_sdk.Pili.API<pili_sdk.IStream>().GetForTitle(entity.Ol_LiveID);
+                    if (stream != null) pili_sdk.Pili.API<pili_sdk.IStream>().Enable(stream);
+                }
+                
+            }
+            else
+            {
+                //禁用直播
+                if (!string.IsNullOrWhiteSpace(entity.Ol_LiveID))
+                {
+                    pili_sdk.pili.Stream stream = pili_sdk.Pili.API<pili_sdk.IStream>().GetForTitle(entity.Ol_LiveID);
+                    if (stream != null) pili_sdk.Pili.API<pili_sdk.IStream>().Disable(stream);
+                }                
+            }
             Gateway.Default.Save<Outline>(entity);
             this.OnSave(entity, EventArgs.Empty);
         }
@@ -277,15 +312,20 @@ namespace Song.ServiceImpls
                 try
                 {
                     //删除附件
-                    Business.Do<IAccessory>().Delete(entity.Ol_UID,tran);
+                    Business.Do<IAccessory>().Delete(entity.Ol_UID, tran);
                     //先清理试题
-                    tran.Delete<Questions>(Questions._.Ol_ID == entity.Ol_ID);                   
+                    tran.Delete<Questions>(Questions._.Ol_ID == entity.Ol_ID);
                     //清除学习记录
                     tran.Delete<LogForStudentStudy>(LogForStudentStudy._.Ol_ID == entity.Ol_ID);
                     tran.Delete<LogForStudentQuestions>(LogForStudentQuestions._.Ol_ID == entity.Ol_ID);
                     //删除章节
                     tran.Delete<Outline>(Outline._.Ol_ID == entity.Ol_ID);
                     tran.Commit();
+                    //删除直播流
+                    if (!string.IsNullOrWhiteSpace(entity.Ol_LiveID))
+                    {
+                        Pili.API<pili_sdk.IStream>().Delete(entity.Ol_LiveID);
+                    }
                     this.OnDelete(entity, null);
                 }
                 catch (Exception ex)

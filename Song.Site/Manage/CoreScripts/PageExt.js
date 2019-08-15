@@ -211,7 +211,7 @@ function OpenSysWin(keyname, keyvalue, title, winname) {
         if (ext == "修改" && btnMod.size() < 1) ext = "编辑";
     }
     winname = winname == null ? window.name : winname;
-    new top.PageBox(name + "---" + ext, path, ChildPageWd, ChildPageHg, null, winname).Open();
+    new top.PageBox(name + "" + ext, path, ChildPageWd, ChildPageHg, null, winname).Open();
 }
 //打开窗口的方法，供其它方法调用
 function OpenWin(file, title, wd, hg,winname) {
@@ -235,7 +235,7 @@ function OpenWin(file, title, wd, hg,winname) {
     }
     //
     winname = winname == null ? window.name : winname;
-    new top.PageBox(name + "---" + title, path, wd, hg, null,winname).Open();
+    new top.PageBox(name + "" + title, path, wd, hg, null,winname).Open();
 }
 //为地址增加参数
 function AddPara(url, key, value) {

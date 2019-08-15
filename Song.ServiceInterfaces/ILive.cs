@@ -77,9 +77,10 @@ namespace Song.ServiceInterfaces
         /// </summary>
         string GetHDL { get; }
         /// <summary>
-        /// 推流的域名
+        /// 推流的地址
         /// </summary>
-        string GetPublish { get; }
+        /// <param name="streamname">直播流的名称</param>
+        string GetPublish(string streamname);
         /// <summary>
         /// 直播时实截图的域名
         /// </summary>
@@ -96,6 +97,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="name"></param>
         pili_sdk.pili.Stream StreamCreat(string name);
+        pili_sdk.pili.Stream StreamCreat();
         /// <summary>
         /// 直播流列表
         /// </summary>
@@ -115,6 +117,7 @@ namespace Song.ServiceInterfaces
         /// <param name="name"></param>
         /// <returns></returns>
         bool StreamDelete(string name);
+        //bool Stream
         #endregion
     }
 }

@@ -72,7 +72,11 @@ namespace Song.Site.Manage.Course
                     li.Selected = true;
                 }
                 //唯一标识
-                ViewState["UID"] = mm.Ol_UID;              
+                ViewState["UID"] = mm.Ol_UID;
+                //是否为直播课
+                cbIsLive.Checked = mm.Ol_IsLive;
+                tbLiveTime.Text = mm.Ol_LiveTime < DateTime.Now.AddYears(-100) ? "" : mm.Ol_LiveTime.ToString("yyyy-MM-dd HH:mm");
+                tbLiveSpan.Text = mm.Ol_LiveSpan == 0 ? "" : mm.Ol_LiveSpan.ToString();
             }
             else
             {
@@ -88,41 +92,57 @@ namespace Song.Site.Manage.Course
         protected void btnEnter_Click(object sender, EventArgs e)
         {
             Song.Entities.Outline ol = id < 1 ? new Song.Entities.Outline() : Business.Do<IOutline>().OutlineSingle(id);
-            if (ol == null) return;
-            //名称
-            ol.Ol_Name = Ol_Name.Text.Trim();
-            //简介
-            ol.Ol_Intro = Ol_Intro.Text;
-            //上级章节
-            int pid = 0;
-            int.TryParse(ddlOutline.SelectedValue, out pid);
-            ol.Ol_PID = pid;
-
-            ol.Ol_IsUse = cbIsUse.Checked;  //是否启用
-            ol.Ol_IsFree = cbIsFree.Checked;  //免费
-            ol.Ol_IsFinish = cbIsFinish.Checked;    //完结
-            //所属课程
-            ol.Cou_ID = couid;
-            Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(couid);
-            if (cou != null) ol.Sbj_ID = cou.Sbj_ID;
-            //全局唯一ID
-            ol.Ol_UID = getUID();
             try
             {
-                if (id < 1)
+                if (ol == null) return;
+                //名称
+                if (string.IsNullOrWhiteSpace(Ol_Name.Text.Trim())) throw new Exception("名称不可以为空");
+                ol.Ol_Name = Ol_Name.Text.Trim();
+                //简介
+                ol.Ol_Intro = Ol_Intro.Text;
+                //上级章节
+                int pid = 0;
+                int.TryParse(ddlOutline.SelectedValue, out pid);                
+                ol.Ol_PID = pid;
+
+                ol.Ol_IsUse = cbIsUse.Checked;  //是否启用
+                ol.Ol_IsFree = cbIsFree.Checked;  //免费
+                ol.Ol_IsFinish = cbIsFinish.Checked;    //完结
+                //所属课程
+                ol.Cou_ID = couid;
+                Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(couid);
+                if (cou != null) ol.Sbj_ID = cou.Sbj_ID;
+                //是否为直播
+                ol.Ol_IsLive = cbIsLive.Checked;
+                DateTime timeLive = DateTime.Now;   //直播开始时间
+                DateTime.TryParse(tbLiveTime.Text, out timeLive);
+                ol.Ol_LiveTime = timeLive;  //
+                int liveSpan = 0;       //直播计划时长
+                int.TryParse(tbLiveSpan.Text, out liveSpan);
+                ol.Ol_LiveSpan = liveSpan;
+                //全局唯一ID
+                ol.Ol_UID = getUID();
+                try
                 {
-                    //新增
-                    Business.Do<IOutline>().OutlineAdd(ol);
+                    if (id < 1)
+                    {
+                        //新增
+                        Business.Do<IOutline>().OutlineAdd(ol);
+                    }
+                    else
+                    {
+                        Business.Do<IOutline>().OutlineSave(ol);
+                    }
+                    Master.AlertCloseAndRefresh("操作完成");
                 }
-                else
+                catch
                 {
-                    Business.Do<IOutline>().OutlineSave(ol);
+                    throw;
                 }
-                Master.AlertCloseAndRefresh("操作完成");
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                Alert(ex.Message);
             }
         }
     }

@@ -50,13 +50,13 @@ namespace Song.Entities {
     		
     		protected Boolean _Ol_IsVideo;
     		
-    		protected Boolean _Cou_IsLive;
+    		protected Boolean _Ol_IsLive;
     		
-    		protected DateTime? _Cou_LiveTime;
+    		protected DateTime _Ol_LiveTime;
     		
-    		protected Int32 _Cou_LiveSpan;
+    		protected Int32 _Ol_LiveSpan;
     		
-    		protected String _Cou_LiveID;
+    		protected String _Ol_LiveID;
     		
     		public Int32 Ol_ID {
     			get {
@@ -268,43 +268,43 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Boolean Cou_IsLive {
+    		public Boolean Ol_IsLive {
     			get {
-    				return this._Cou_IsLive;
+    				return this._Ol_IsLive;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Cou_IsLive, _Cou_IsLive, value);
-    				this._Cou_IsLive = value;
+    				this.OnPropertyValueChange(_.Ol_IsLive, _Ol_IsLive, value);
+    				this._Ol_IsLive = value;
     			}
     		}
     		
-    		public DateTime? Cou_LiveTime {
+    		public DateTime Ol_LiveTime {
     			get {
-    				return this._Cou_LiveTime;
+    				return this._Ol_LiveTime;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Cou_LiveTime, _Cou_LiveTime, value);
-    				this._Cou_LiveTime = value;
+    				this.OnPropertyValueChange(_.Ol_LiveTime, _Ol_LiveTime, value);
+    				this._Ol_LiveTime = value;
     			}
     		}
     		
-    		public Int32 Cou_LiveSpan {
+    		public Int32 Ol_LiveSpan {
     			get {
-    				return this._Cou_LiveSpan;
+    				return this._Ol_LiveSpan;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Cou_LiveSpan, _Cou_LiveSpan, value);
-    				this._Cou_LiveSpan = value;
+    				this.OnPropertyValueChange(_.Ol_LiveSpan, _Ol_LiveSpan, value);
+    				this._Ol_LiveSpan = value;
     			}
     		}
     		
-    		public String Cou_LiveID {
+    		public String Ol_LiveID {
     			get {
-    				return this._Cou_LiveID;
+    				return this._Ol_LiveID;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Cou_LiveID, _Cou_LiveID, value);
-    				this._Cou_LiveID = value;
+    				this.OnPropertyValueChange(_.Ol_LiveID, _Ol_LiveID, value);
+    				this._Ol_LiveID = value;
     			}
     		}
     		
@@ -356,10 +356,10 @@ namespace Song.Entities {
     					_.Ol_IsFinish,
     					_.Ol_IsNode,
     					_.Ol_IsVideo,
-    					_.Cou_IsLive,
-    					_.Cou_LiveTime,
-    					_.Cou_LiveSpan,
-    					_.Cou_LiveID};
+    					_.Ol_IsLive,
+    					_.Ol_LiveTime,
+    					_.Ol_LiveSpan,
+    					_.Ol_LiveID};
     		}
     		
     		/// <summary>
@@ -388,10 +388,10 @@ namespace Song.Entities {
     					this._Ol_IsFinish,
     					this._Ol_IsNode,
     					this._Ol_IsVideo,
-    					this._Cou_IsLive,
-    					this._Cou_LiveTime,
-    					this._Cou_LiveSpan,
-    					this._Cou_LiveID};
+    					this._Ol_IsLive,
+    					this._Ol_LiveTime,
+    					this._Ol_LiveSpan,
+    					this._Ol_LiveID};
     		}
     		
     		/// <summary>
@@ -461,17 +461,17 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ol_IsVideo))) {
     				this._Ol_IsVideo = reader.GetBoolean(_.Ol_IsVideo);
     			}
-    			if ((false == reader.IsDBNull(_.Cou_IsLive))) {
-    				this._Cou_IsLive = reader.GetBoolean(_.Cou_IsLive);
+    			if ((false == reader.IsDBNull(_.Ol_IsLive))) {
+    				this._Ol_IsLive = reader.GetBoolean(_.Ol_IsLive);
     			}
-    			if ((false == reader.IsDBNull(_.Cou_LiveTime))) {
-    				this._Cou_LiveTime = reader.GetDateTime(_.Cou_LiveTime);
+    			if ((false == reader.IsDBNull(_.Ol_LiveTime))) {
+    				this._Ol_LiveTime = reader.GetDateTime(_.Ol_LiveTime);
     			}
-    			if ((false == reader.IsDBNull(_.Cou_LiveSpan))) {
-    				this._Cou_LiveSpan = reader.GetInt32(_.Cou_LiveSpan);
+    			if ((false == reader.IsDBNull(_.Ol_LiveSpan))) {
+    				this._Ol_LiveSpan = reader.GetInt32(_.Ol_LiveSpan);
     			}
-    			if ((false == reader.IsDBNull(_.Cou_LiveID))) {
-    				this._Cou_LiveID = reader.GetString(_.Cou_LiveID);
+    			if ((false == reader.IsDBNull(_.Ol_LiveID))) {
+    				this._Ol_LiveID = reader.GetString(_.Ol_LiveID);
     			}
     		}
     		
@@ -605,24 +605,24 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ol_IsVideo = new WeiSha.Data.Field<Outline>("Ol_IsVideo");
     			
     			/// <summary>
-    			/// 字段名：Cou_IsLive - 数据类型：Boolean
+    			/// 字段名：Ol_IsLive - 数据类型：Boolean
     			/// </summary>
-    			public static WeiSha.Data.Field Cou_IsLive = new WeiSha.Data.Field<Outline>("Cou_IsLive");
+    			public static WeiSha.Data.Field Ol_IsLive = new WeiSha.Data.Field<Outline>("Ol_IsLive");
     			
     			/// <summary>
-    			/// 字段名：Cou_LiveTime - 数据类型：DateTime(可空)
+    			/// 字段名：Ol_LiveTime - 数据类型：DateTime
     			/// </summary>
-    			public static WeiSha.Data.Field Cou_LiveTime = new WeiSha.Data.Field<Outline>("Cou_LiveTime");
+    			public static WeiSha.Data.Field Ol_LiveTime = new WeiSha.Data.Field<Outline>("Ol_LiveTime");
     			
     			/// <summary>
-    			/// 字段名：Cou_LiveSpan - 数据类型：Int32
+    			/// 字段名：Ol_LiveSpan - 数据类型：Int32
     			/// </summary>
-    			public static WeiSha.Data.Field Cou_LiveSpan = new WeiSha.Data.Field<Outline>("Cou_LiveSpan");
+    			public static WeiSha.Data.Field Ol_LiveSpan = new WeiSha.Data.Field<Outline>("Ol_LiveSpan");
     			
     			/// <summary>
-    			/// 字段名：Cou_LiveID - 数据类型：String
+    			/// 字段名：Ol_LiveID - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field Cou_LiveID = new WeiSha.Data.Field<Outline>("Cou_LiveID");
+    			public static WeiSha.Data.Field Ol_LiveID = new WeiSha.Data.Field<Outline>("Ol_LiveID");
     		}
     	}
     }

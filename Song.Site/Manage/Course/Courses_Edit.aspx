@@ -26,7 +26,7 @@
             </td>
             <td>
                 <cc1:DropDownTree ID="ddlSubject" runat="server" Width="300px" IdKeyName="Sbj_ID" ParentIdKeyName="Sbj_PID"
-                    TaxKeyName="Sbj_Tax" AutoPostBack="True" OnSelectedIndexChanged="ddlSubject_SelectedIndexChanged" novalue="-1" group="enter" >
+                    TaxKeyName="Sbj_Tax" AutoPostBack="True" OnSelectedIndexChanged="ddlSubject_SelectedIndexChanged" novalue="-1" group="enter" alt="请选择专业" >
                 </cc1:DropDownTree>
             </td>
         </tr>

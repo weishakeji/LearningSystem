@@ -16,7 +16,7 @@
     }
     pagebox.version = "1.1";  //版本号
     pagebox.prototype.Parent = null;    //上级窗体
-    pagebox.prototype.IsDrag = true;    //是否允许拖动
+    pagebox.prototype.IsDrag = false;    //是否允许拖动
     pagebox.prototype.CloseEvent = null;    //窗口关闭时的事件
     pagebox.prototype.FullScreenEvent = function () {
         $("html").css("overflow", "hidden");

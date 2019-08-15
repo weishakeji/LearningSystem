@@ -144,55 +144,57 @@ namespace Song.Site.Manage.Course
         {
             Song.Entities.Course cou = couid < 1 ? new Song.Entities.Course() : Business.Do<ICourse>().CourseSingle(couid);
             if (cou == null) return null;
-            //名称
-            cou.Cou_Name = Cou_Name.Text.Trim();
-            //排序号
-            int tax = cou.Cou_Tax;
-            int.TryParse(tbTax.Text, out tax);
-            cou.Cou_Tax = tax;
-            //访问人数
-            int viewnum = 0;
-            int.TryParse(tbViewNum.Text, out viewnum);
-            cou.Cou_ViewNum = viewnum;
-            //所属专业
-            cou.Sbj_ID = Convert.ToInt32(ddlSubject.SelectedValue);
-            cou.Sbj_Name = ddlSubject.SelectedText;
-            //上级
-            cou.Cou_PID = Convert.ToInt32(ddlTree.SelectedValue);
-            //简介，学习目标
-            cou.Cou_Intro = tbIntro.Text;
-            cou.Cou_Target = tbTarget.Text;
-            //主图片
-            if (fuLoad.PostedFile.FileName != "")
-            {
-                try
-                {
-                    fuLoad.UpPath = _uppath;
-                    fuLoad.IsMakeSmall = true;
-                    fuLoad.IsConvertJpg = true;
-                    fuLoad.SmallWidth = 400;
-                    fuLoad.SmallHeight = fuLoad.SmallWidth * 9 / 16;                   
-                    fuLoad.SaveAndDeleteOld(cou.Cou_Logo);
-                    //截取图片宽高
-                    int width = fuLoad.File.Server.Width;
-                    width = width > 1000 ? 1000 : width;
-                    int height = width * 9 / 16;  //宽高比为16:9
-                    fuLoad.File.Server.ChangeSize(width, height, false);
-                    cou.Cou_Logo = fuLoad.File.Server.FileName;
-                    cou.Cou_LogoSmall = fuLoad.File.Server.SmallFileName;
-                    //
-                    imgShow.Src = fuLoad.File.Server.VirtualPath;
-                }
-                catch (Exception ex)
-                {
-                    this.Alert(ex.Message);
-                }
-            }
-            cou.Cou_IsUse = cbIsUse.Checked;    //启用
-            cou.Cou_IsRec = cbIsRec.Checked;    //推荐
-            cou.Cou_UID = getUID();            
             try
             {
+                //名称
+                if (string.IsNullOrWhiteSpace(Cou_Name.Text.Trim())) throw new Exception("课程名称不可以为空");
+                cou.Cou_Name = Cou_Name.Text.Trim();
+                //排序号
+                int tax = cou.Cou_Tax;
+                int.TryParse(tbTax.Text, out tax);
+                cou.Cou_Tax = tax;
+                //访问人数
+                int viewnum = 0;
+                int.TryParse(tbViewNum.Text, out viewnum);
+                cou.Cou_ViewNum = viewnum;
+                //所属专业
+                cou.Sbj_ID = Convert.ToInt32(ddlSubject.SelectedValue);
+                if (cou.Sbj_ID <= 0) throw new Exception("课程必须隶属于某个专业");
+                cou.Sbj_Name = ddlSubject.SelectedText;
+                //上级
+                cou.Cou_PID = Convert.ToInt32(ddlTree.SelectedValue);
+                //简介，学习目标
+                cou.Cou_Intro = tbIntro.Text;
+                cou.Cou_Target = tbTarget.Text;
+                //主图片
+                if (fuLoad.PostedFile.FileName != "")
+                {
+                    try
+                    {
+                        fuLoad.UpPath = _uppath;
+                        fuLoad.IsMakeSmall = true;
+                        fuLoad.IsConvertJpg = true;
+                        fuLoad.SmallWidth = 400;
+                        fuLoad.SmallHeight = fuLoad.SmallWidth * 9 / 16;
+                        fuLoad.SaveAndDeleteOld(cou.Cou_Logo);
+                        //截取图片宽高
+                        int width = fuLoad.File.Server.Width;
+                        width = width > 1000 ? 1000 : width;
+                        int height = width * 9 / 16;  //宽高比为16:9
+                        fuLoad.File.Server.ChangeSize(width, height, false);
+                        cou.Cou_Logo = fuLoad.File.Server.FileName;
+                        cou.Cou_LogoSmall = fuLoad.File.Server.SmallFileName;
+                        //
+                        imgShow.Src = fuLoad.File.Server.VirtualPath;
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+                cou.Cou_IsUse = cbIsUse.Checked;    //启用
+                cou.Cou_IsRec = cbIsRec.Checked;    //推荐
+                cou.Cou_UID = getUID();
                 if (couid < 1)
                 {
                     //所属老师                    
@@ -213,9 +215,9 @@ namespace Song.Site.Manage.Course
                 }
                 this.Alert("操作成功");
             }
-            catch
+            catch (Exception ex)
             {
-                throw;
+                this.Alert(ex.Message);
             }
             return cou;
         }

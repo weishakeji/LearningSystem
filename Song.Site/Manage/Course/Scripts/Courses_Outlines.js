@@ -14,7 +14,7 @@
     $("a[type=open]").click(function () {
         var txt = $(this).text();
         var url = $(this).attr("href");
-        var box = new top.PageBox("章节" + txt, url, 80, 80, null, window.name);
+        var box = new top.PageBox("章节管理->" + txt, url, 80, 80, null, window.name);
         box.CloseEvent = function () {
             //var href = window.location.href;
             //window.location.href = $().setPara(href, "tmpara", new Date().getTime());

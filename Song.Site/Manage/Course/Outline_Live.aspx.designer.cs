@@ -10,61 +10,7 @@
 namespace Song.Site.Manage.Course {
     
     
-    public partial class Outline_Edit {
-        
-        /// <summary>
-        /// Ol_Name 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox Ol_Name;
-        
-        /// <summary>
-        /// cbIsUse 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbIsUse;
-        
-        /// <summary>
-        /// cbIsFree 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbIsFree;
-        
-        /// <summary>
-        /// cbIsFinish 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox cbIsFinish;
-        
-        /// <summary>
-        /// trOutline 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableRow trOutline;
-        
-        /// <summary>
-        /// ddlOutline 控件。
-        /// </summary>
-        /// <remarks>
-        /// 自动生成的字段。
-        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
-        /// </remarks>
-        protected global::WeiSha.WebControl.DropDownTree ddlOutline;
+    public partial class Outline_Live {
         
         /// <summary>
         /// cbIsLive 控件。
@@ -94,13 +40,31 @@ namespace Song.Site.Manage.Course {
         protected global::System.Web.UI.WebControls.TextBox tbLiveSpan;
         
         /// <summary>
-        /// Ol_Intro 控件。
+        /// ltPublish 控件。
         /// </summary>
         /// <remarks>
         /// 自动生成的字段。
         /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
         /// </remarks>
-        protected global::WeiSha.WebEditor.Editor Ol_Intro;
+        protected global::System.Web.UI.WebControls.Literal ltPublish;
+        
+        /// <summary>
+        /// ltPlayHls 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltPlayHls;
+        
+        /// <summary>
+        /// ltPlayRtmp 控件。
+        /// </summary>
+        /// <remarks>
+        /// 自动生成的字段。
+        /// 若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltPlayRtmp;
         
         /// <summary>
         /// btnEnter 控件。

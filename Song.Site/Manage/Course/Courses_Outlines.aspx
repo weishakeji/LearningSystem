@@ -32,11 +32,12 @@
                     <ItemTemplate>
                         <span class="treeIco">
                             <%# Eval("Tree")%></span>
+                            <%# Eval("Ol_IsLive", "{0}") == "True" ? "<l title='直播'></l>" : ""%>
                         <asp:LinkButton ID="btnName" runat="server" OnClick="btnToEditor_Click"><%# Eval("Ol_Name", "{0}")%></asp:LinkButton>
                     </ItemTemplate>
                     <EditItemTemplate>
                         <span class="treeIco">
-                            <%# Eval("Tree")%></span>
+                            <%# Eval("Tree")%></span>                            
                         <asp:TextBox ID="tbName" runat="server" Width="95%" Text='<%# Eval("Ol_Name", "{0}")%>'
                             nullable="false" group="edit"></asp:TextBox>
                         <div style="display: none">
@@ -73,11 +74,14 @@
                          <a href="Outline_Video.aspx?id=<%# Eval("Ol_ID", "{0}")%>&uid=<%# Eval("Ol_UID", "{0}")%>&couid=<%=couid %>" type="open">
                          <%# Eval("Ol_IsVideo", "{0}") == "True" ? "<b>视频</b>" : "视频"%>
                          </a>
+                          <a href="Outline_Live.aspx?id=<%# Eval("Ol_ID", "{0}")%>" type="open">
+                          <%# Eval("Ol_IsLive", "{0}") == "True" ? "<b>直播</b>" : "直播"%>
+                          </a>
                         <a href="Outline_Accessory.aspx?id=<%# Eval("Ol_ID", "{0}")%>&uid=<%# Eval("Ol_UID", "{0}")%>" type="open">附件</a>
                     </ItemTemplate>
                     <EditItemTemplate>
                     </EditItemTemplate>
-                    <ItemStyle CssClass="center" Width="80px" />
+                    <ItemStyle CssClass="center" Width="120px" />
                 </asp:TemplateField>
                 <asp:TemplateField HeaderText="免费">
                     <ItemTemplate>

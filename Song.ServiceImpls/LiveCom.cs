@@ -154,16 +154,19 @@ namespace Song.ServiceImpls
                 return Business.Do<ISystemPara>().GetValue(prefix + "HDL");
             }
         }
+
         /// <summary>
-        /// 推流的域名
+        /// 推流的地址
         /// </summary>
-        public string GetPublish
+        /// <param name="streamname">直播流的名称</param>
+        public string GetPublish(string streamname)
         {
-            get
-            {
-                return Business.Do<ISystemPara>().GetValue(prefix + "Publish");
-            }
+            pili_sdk.pili.Stream stream = Pili.API<IStream>().GetForTitle(streamname);
+            if (stream == null) return string.Empty;
+            string url = string.Format("https://{0}/{1}/{2}",stream.PublishRtmpHost,stream.HubName,stream.Title);
+            return url;
         }
+        
         /// <summary>
         /// 直播时实截图的域名
         /// </summary>
@@ -205,6 +208,10 @@ namespace Song.ServiceImpls
                 throw e;
             }
         }
+        public pili_sdk.pili.Stream StreamCreat()
+        {
+            return this.StreamCreat(string.Empty);
+        }
         /// <summary>
         /// 直播流列表
         /// </summary>
@@ -236,36 +243,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public pili_sdk.pili.Stream StreamGet(string name)
         {
-            Stream stream = null;
-            try
-            {
-                string marker = null; // optional
-                long limit = 50; // optional
-                string titlePrefix = prefix; // optional
-                StreamList streamList = Pili.API<IStream>().List(marker, limit, titlePrefix);
-                while (stream == null && streamList.Streams.Count > 0)
-                {
-                    //streamList = hub.listStreams(marker, limit, titlePrefix);
-                    IList<Stream> list = streamList.Streams;
-                    foreach (Stream s in list)
-                    {
-                        if (s.StreamID.EndsWith("." + s.HubName + "." + name))
-                        {
-                            stream = s;
-                            break;
-                        }
-                    }
-                    if (stream == null)
-                    {
-                        streamList = Pili.API<IStream>().List(marker, limit, titlePrefix); ;
-                    }
-                }
-                return stream;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return Pili.API<IStream>().GetForTitle(name);            
         }
         /// <summary>
         /// 删除直播流
