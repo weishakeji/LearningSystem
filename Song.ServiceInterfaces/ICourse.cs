@@ -40,6 +40,19 @@ namespace Song.ServiceInterfaces
         /// <param name="entity">业务实体</param>
         void CourseSave(Course entity);
         /// <summary>
+        /// 是否为直播课
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        bool IsLiveCourse(int couid);
+        /// <summary>
+        /// 是否为直播课
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="check">校验，如果为true，则检索课程下所有章节，有直播章节，则课程为直播课程</param>
+        /// <returns></returns>
+        bool IsLiveCourse(int couid, bool check);
+        /// <summary>
         /// 增加课程浏览数
         /// </summary>
         /// <param name="num"></param>

@@ -29,13 +29,13 @@ namespace Song.ViewData.Methods
                 //直播空间
                 string space = letter.GetParameter("LiveSpace").String;
                 Business.Do<ILive>().SetupLiveSpace(space);
-                //播放域名
-                string rtmp = letter.GetParameter("rtmp").String;
-                string hls = letter.GetParameter("hls").String;
-                string hdl = letter.GetParameter("hdl").String;
-                Business.Do<ILive>().SetupLive(rtmp, hls, hdl);
-                //推流域名
-                Business.Do<ILive>().SetupPublish(letter.GetParameter("Publish").String);
+                ////播放域名
+                //string rtmp = letter.GetParameter("rtmp").String;
+                //string hls = letter.GetParameter("hls").String;
+                //string hdl = letter.GetParameter("hdl").String;
+                //Business.Do<ILive>().SetupLive(rtmp, hls, hdl);
+                ////推流域名
+                //Business.Do<ILive>().SetupPublish(letter.GetParameter("Publish").String);
                 //直播截图的域名
                 Business.Do<ILive>().SetupSnapshot(letter.GetParameter("Snapshot").String);
                 //点播域名

@@ -141,6 +141,41 @@ namespace Song.ServiceImpls
             }
         }
         /// <summary>
+        /// 是否为直播课
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public bool IsLiveCourse(int couid)
+        {
+            Course cou = this.CourseSingle(couid);
+            if (cou == null) return false;
+            return cou.Cou_ExistLive;
+        }
+        /// <summary>
+        /// 是否为直播课
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="check">校验，如果为true，则检索课程下所有章节，有直播章节，则课程为直播课程</param>
+        /// <returns></returns>
+        public bool IsLiveCourse(int couid, bool check)
+        {
+            if (!check) return this.IsLiveCourse(couid);
+            Outline[] outs = Business.Do<IOutline>().OutlineCount(couid, -1, null, 0);
+            bool isExist = false;
+            foreach (Outline o in outs)
+            {
+                if (o.Ol_IsLive)
+                {
+                    isExist = true;
+                    break;
+                }
+            }
+            Gateway.Default.Update<Course>(
+               new Field[] { Course._.Cou_ExistLive },
+               new object[] { true }, Course._.Cou_ID == couid);
+            return isExist;
+        }
+        /// <summary>
         /// 增加课程浏览数
         /// </summary>
         /// <param name="num"></param>

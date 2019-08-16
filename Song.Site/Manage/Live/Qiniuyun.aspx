@@ -17,25 +17,13 @@
   </el-form-item>
    <el-divider></el-divider>
    
-    <el-form-item label="直播推流域名：">
-    <el-input v-model="form.Publish" style="width: 400px"></el-input>
-  </el-form-item>
    <el-form-item label="直播封面域名：">
     <el-input v-model="form.Snapshot" style="width: 400px"></el-input>
   </el-form-item>
    <el-form-item label="点播域名：">
     <el-input v-model="form.Vod" style="width: 400px"></el-input>
   </el-form-item>
-   <el-divider></el-divider>
- <el-form-item label="RTMP播放域名：">
-    <el-input v-model="form.RTMP" style="width: 400px"></el-input>
-  </el-form-item>
-  <el-form-item label="HLS播放域名：">
-    <el-input v-model="form.HLS" style="width: 400px"></el-input>
-  </el-form-item>
-  <el-form-item label="HDL播放域名：">
-    <el-input v-model="form.HDL" style="width: 400px"></el-input>
-  </el-form-item>
+
   <el-form-item>
     <el-button type="primary" v-on:click="btnEnter"  v-loading="loading" >确 定</el-button>
    

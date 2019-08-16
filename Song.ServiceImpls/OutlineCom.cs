@@ -71,6 +71,7 @@ namespace Song.ServiceImpls
                     pili_sdk.pili.Stream stream = Business.Do<ILive>().StreamCreat(liveid);
                     entity.Ol_LiveID = stream.Title;
                     Gateway.Default.Save<Outline>(entity);
+                    Business.Do<ICourse>().IsLiveCourse(entity.Cou_ID, true);
                 }
             }
             
@@ -177,6 +178,7 @@ namespace Song.ServiceImpls
                 }                
             }
             Gateway.Default.Save<Outline>(entity);
+            Business.Do<ICourse>().IsLiveCourse(entity.Cou_ID, true);
             this.OnSave(entity, EventArgs.Empty);
         }
         /// <summary>
