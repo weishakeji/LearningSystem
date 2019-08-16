@@ -246,6 +246,13 @@ body {
 	overflow: hidden;
 	border: 1px solid #CCC;
 }
+.live{
+	background-image: url(../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display:inline-block;	
+}
 .courseList .courseOver {
 	border: 3px solid #CCCCCC;
 }

@@ -16,7 +16,9 @@
    <vt:if var="course.Count" value="0" compare="!="> 
     <div class="courseListInner">
       <vt:foreach id="course" from="$#.course" item="c" index="i" size="40" remark="课程列表">
-        <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" default="images/cou_nophoto.jpg" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
+        <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" default="images/cou_nophoto.jpg" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"><vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
+                 <div class="live" title="直播课"></div>
+                 </vt:if> {$:#.c.cou_name} </a>
                   <div class="cour-price">
                     <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
                       <vt:else/>

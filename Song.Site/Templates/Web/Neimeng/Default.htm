@@ -76,7 +76,11 @@
           <div class="item" couid="{$:#.data.cou_id}"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}"><img src="{$:#.data.cou_logosmall}"  default="images/cou_nophoto.jpg"/> </a>
            <div class="itemMark"></div>
             <div class="itemInfo">
-               <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.cou_name}</a>
+               <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">
+               <vt:if var="data.Cou_ExistLive" value="true" compare="=" remark="直播">
+                 <div class="live" title="直播课"></div>
+                 </vt:if>
+               {$:#.data.cou_name}</a>
               <div class="itemDetails">主讲：{$:#.data.th_name}<br />
 {$:#.data.Cou_Intro}</div>
             </div>

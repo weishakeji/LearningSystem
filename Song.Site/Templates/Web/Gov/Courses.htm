@@ -19,7 +19,11 @@
         <div class="courseListInner">
           <vt:foreach id="course" from="$#.course" item="data" index="i" size="16" remark="课程列表">
             <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}"><img src="{$:#.data.cou_logosmall}"  default="images/cou_nophoto.jpg"/> </a>
-              <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">{$:#.data.cou_name} </a>
+              <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">
+              <vt:if var="data.Cou_ExistLive" value="true" compare="=" remark="直播">
+                 <div class="live" title="直播课"></div>
+                 </vt:if>
+              {$:#.data.cou_name} </a>
                 <div class="itemDetails"><span class="hot-left count">{$:#.data.cou_viewNum}</span> <span class="hot-right">{$:#.data.sbj_name}</span> </div>
               </div>
             </div>

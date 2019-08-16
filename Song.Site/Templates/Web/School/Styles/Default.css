@@ -337,6 +337,13 @@
 	margin-right: 25px;
 	margin-bottom: 30px;
 }
+.live{
+	background-image: url(../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display:inline-block;	
+}
 .cour-img{
 	margin: 0px;
 	padding: 0px;

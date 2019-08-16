@@ -88,6 +88,13 @@
 	margin-left: 25px;
 	margin-bottom: 30px;
 }
+.live{
+	background-image: url(../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display:inline-block;	
+}
 .cour-img{
 	margin: 0px;
 	padding: 0px;
@@ -95,17 +102,13 @@
 }
 .cour-img img{
 	width: 220px;
-	height:125px;
+
 }
 .cour-img:hover{
 	
 }
 .cour-img:hover img{
-	width: 216px;
-	height:121px;
-	border: 2px solid #fff;
-	filter: alpha(Opacity=85);
-	-moz-opacity: 0.85;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .8);
 	opacity: 0.85;
 }
 .cour-name{
@@ -120,29 +123,31 @@
 .cour-name:hover{
 	color: #188eee;
 }
-.cour-price{
+.cour-price {
 	font-size: 15px;
 	line-height: 30px;
-}
-.cour-price .free{
-	color: #090;
-	float: left;
-}
-.cour-price .cou-sbj{
-	color: #999;
-	float: right;
-	white-space: nowrap;
+	height:30px;
+	position:relative;
 	overflow: hidden;
-	text-align: right;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	text-align:left;
 }
-.cou-count{
+.cour-price .free {
+	color: #090;	
+}
+.cour-price .cou-sbj {
+	color: #999;
+	float:right;	
+}
+.cou-count {
 	padding-top: 1px;
 	padding-left: 20px;
-	background: url(../images/sl.gif) 0 8px no-repeat;
+	background: url(../images/sl.gif) 0 2px no-repeat;
 	height: 25px;
 	color: #666;
-	float: left;
 	margin-left: 10px;
+	margin-top:0px;
 }
 /*课程价格*/
 .money{

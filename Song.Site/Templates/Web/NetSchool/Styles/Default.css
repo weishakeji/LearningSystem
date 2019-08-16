@@ -628,6 +628,14 @@
 	margin-top: 20px;
 	margin-left: 25px;
 	margin-bottom: 30px;
+	position:relative;
+}
+.live{
+	background-image: url(../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display:inline-block;	
 }
 .cour-img{
 	margin: 0px;
@@ -648,7 +656,7 @@
 	line-height: 20px;
 	color: #333;
 	display: block;
-	height: 40px;
+	height: 48px;
 	text-align: left;
 	font-size: 15px;
 	overflow: hidden;

@@ -118,7 +118,11 @@
                         <div class="outline">
                             <vt:foreach from="$#.olTree" item="d" index="i" remark="章节">
               <vt:expression var="indent" args="$d.ol_level" args="20" expression="{0}*{1}" />
-              <div class="olitem" olid="{$:#.d.ol_id}" style="padding-left:{$:indent}px"><span class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}</span>
+              <div class="olitem" olid="{$:#.d.ol_id}" style="padding-left:{$:indent}px"><span class="ol_name">{$:#.d.ol_xpath}
+              <vt:if var="d.ol_islive" value="true" compare="=" remark="直播">
+                 <div class="live" title="直播课"></div>
+                 </vt:if>
+              {$:#.d.ol_name}</span>
                 <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结">
                  <span class="obtn disable">未完结</span>
                   <vt:else />                  

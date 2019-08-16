@@ -124,7 +124,9 @@
     <div class="coursebox">
       <div class="coursebox-inner">
         <vt:list type="course" item="c" index="i" order="rec"  remark="推荐课程">
-          <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
+          <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> <vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
+                 <div class="live" title="直播课"></div>
+                 </vt:if>{$:#.c.cou_name} </a>
             <div class="cour-price">
               
               <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span> </div>

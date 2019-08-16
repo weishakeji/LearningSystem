@@ -32,7 +32,11 @@
             <div class="cour-panel"  type="area" index="rec">
               <vt:function var="reccour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="rec"/>
               <vt:foreach from="$reccour" type="course" item="c" index="i" order="rec"  remark="推荐课程">
-                <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> {$:#.c.cou_name} </a>
+                <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">
+                  <vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
+                    <div class="live" title="直播课"></div>
+                  </vt:if>
+                  {$:#.c.cou_name} </a>
                   <div class="cour-price">
                     <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
                       <vt:else/>
@@ -48,7 +52,11 @@
               <div class="cour-panel"  type="area" index="{$:n}">
                 <vt:function var="listcours" method="getCourses" args="$#.d2.current.sbj_id" args="8" args="new"/>
                 <vt:list from="$listcours" type="course" item="c" index="i" order="rec"  remark="专业下的课程">
-                  <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">{$:#.c.cou_name}</a>
+                  <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">
+                    <vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
+                      <div class="live" title="直播课"></div>
+                    </vt:if>
+                    {$:#.c.cou_name}</a>
                     <div class="cour-price">
                       <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
                         <vt:else/>
@@ -65,7 +73,11 @@
             <div class="cour-panel"  type="area" index="new">
               <vt:function var="newcour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="new"/>
               <vt:foreach from="$newcour" type="course" item="c" index="i" order="rec"  remark="最新课程">
-                <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">{$:#.c.cou_name}</a>
+                <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">
+                  <vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
+                    <div class="live" title="直播课"></div>
+                  </vt:if>
+                  {$:#.c.cou_name}</a>
                   <div class="cour-price">
                     <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
                       <vt:else/>

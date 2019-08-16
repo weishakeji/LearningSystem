@@ -1010,6 +1010,7 @@
     <Content Include="Templates\Web\NetSchool\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\ghs.png" />
     <Content Include="Templates\Web\NetSchool\Images\gonggao-bg.jpg" />
+    <Content Include="Templates\Web\NetSchool\Images\live-icon.gif" />
     <Content Include="Templates\Web\NetSchool\Images\more.png" />
     <Content Include="Templates\Web\NetSchool\Images\nosubject.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\QQ-weixin.png" />

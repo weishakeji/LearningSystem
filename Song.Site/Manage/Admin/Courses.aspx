@@ -52,6 +52,7 @@
                         <%# Eval("Tree")%></span><span title="点击进行编辑"><a href="../Course/Courses_Edit.aspx?couid=<%# Eval("Cou_ID", "{0}")%>"
                             target="_blank" class="courname">
                             <%# Eval("Cou_Name")%></a> </span>--%> 
+                               <%# Eval("Cou_ExistLive", "{0}") == "True" ? "<l title='直播'></l>" : ""%>
                              <a href="#" onclick="OpenWin('../Course/Courses_Edit.aspx?couid=<%# Eval("Cou_ID", "{0}")%>','《<%# Eval("Cou_Name")%>》',100,100);return false;">
                               <%# Eval("Cou_Name")%></a>
                 </ItemTemplate>
