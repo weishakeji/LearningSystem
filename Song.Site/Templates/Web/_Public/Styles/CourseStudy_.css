@@ -90,7 +90,7 @@ video::-webkit-media-controls-panel {
 	border-radius:2px
 }
 /*章节显示区，即左侧*/
-#rightBox {
+#outlineBox {
 	width: 20%;
 	float: left;
 	border-right-width: 1px;

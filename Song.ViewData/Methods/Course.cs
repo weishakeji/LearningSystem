@@ -19,5 +19,6 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<ICourse>().CourseSingle(id);
         }
+
     }
 }

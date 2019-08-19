@@ -168,6 +168,10 @@ namespace Song.ViewData
                         else
                         {
                             str = JsonConvert.SerializeObject(value);
+                            if (value is System.Data.DataTable)
+                            {
+                                str = str.Replace(":\"True\"", ":true").Replace(":\"False\"", ":false");
+                            }
                         }
                     }
                     break;

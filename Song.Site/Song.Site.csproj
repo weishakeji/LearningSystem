@@ -1467,6 +1467,7 @@
     <Content Include="Templates\Web\NetSchool\Student\Scripts\Index.js" />
     <Content Include="Templates\Web\NetSchool\Student\PwFind.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Scripts\Register.js" />
+    <Content Include="Templates\Web\_Public\Scripts\CourseStudy_.js" />
     <Content Include="Templates\Web\_Public\Student\Startpage.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Styles\index.css" />
     <Content Include="Templates\Web\NetSchool\Student\Styles\Panel.css" />
@@ -1494,6 +1495,8 @@
     <Content Include="Templates\Web\_Public\Noaccess.htm" />
     <Content Include="Templates\Web\_Public\Styles\Noaccess.css" />
     <Content Include="Templates\Web\_Public\Debug.htm" />
+    <Content Include="Templates\Web\_Public\CourseStudy_.htm" />
+    <Content Include="Templates\Web\_Public\Styles\CourseStudy_.css" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.js" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.min.js" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.swf" />
