@@ -229,7 +229,7 @@
                                           <a :href="'CourseStudy.ashx?olid='+d.Ol_ID+'&couid='+couid"
                                                 v-if="d.Ol_IsFinish">{{d.Ol_XPath}}{{d.Ol_Name}}
                                           </a>
-                                          <template v-if="d.Ol_IsFinish=='False'" remark="章节未完结">
+                                          <template v-if="!d.Ol_IsFinish" remark="章节未完结">
                                                 {{d.Ol_XPath}}{{d.Ol_Name}}
                                           </template>
                                     </span>
