@@ -78,10 +78,11 @@ function buildCourse(cour, action) {
     var html = "<div class=\"cour-box\" couid=\"" + cour.Cou_ID + "\">";
     html += "<picture>{rec}{free}{limitfree}{complete}<img src='{logo}' default='{defimg}'/></picture><info>{name}{number}{sbjname}<price>{price}</price></info>";
     html = html.rep("{logo}", unescape(cour.Cou_LogoSmall));
-    html = html.replace("{name}", "<name>" + unescape(cour.Cou_Name) + "</name>").replace("{sbjname}", "<sbjname>" + unescape(cour.Sbj_Name) + "</sbjname>");
+    html = html.replace("{name}", "<name>{live}" + unescape(cour.Cou_Name) + "</name>").replace("{sbjname}", "<sbjname>" + unescape(cour.Sbj_Name) + "</sbjname>");
     html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
     html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
     html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
+	html = html.replace("{live}", (cour.Cou_ExistLive ? "<live></live>" : ""));
     html = html.replace("{complete}", "<complete></complete>");
     html = html.replace("{limitfree}", (cour.Cou_IsLimitFree ? "<limitfree></limitfree>" : ""));
     //浏览数、章节数、试题数

@@ -102,11 +102,12 @@ function default_event() {
                 var defimg = $(".default-img").attr("default"); //默认图片
                 for (var i = 0; i < d.object.length; i++) {
                     var cour = d.object[i];
-                    var html = "<div class='cour-box' couid='{id}'>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/><name>{name}</name><price>{price}</price></div>";
+                    var html = "<div class='cour-box' couid='{id}'>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/><name>{live}{name}</name><price>{price}</price></div>";
                     html = html.replace("{logo}", unescape(cour.Cou_LogoSmall)).replace("{name}", unescape(cour.Cou_Name));
-                    html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
+                    html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);					
                     html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
                     html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
+					html = html.replace("{live}", (cour.Cou_ExistLive ? "<live></live>" : ""));
                     html = html.replace("{limitfree}", (cour.Cou_IsLimitFree ? "<limitfree></limitfree>" : ""));
                     //价格
                     var price = "";

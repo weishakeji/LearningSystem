@@ -531,6 +531,7 @@
     <Content Include="Manage\Teacher\Styles\Statistics_Details.css" />
     <Content Include="Manage\Teacher\Styles\Order.css" />
     <Content Include="Manage\Teacher\Styles\Comments_Edit.css" />
+    <Content Include="Manage\Teacher\Styles\Courses.css" />
     <Content Include="Manage\Teacher\Teacher_Password.aspx" />
     <Content Include="Manage\Images\loading\load_001.gif" />
     <Content Include="Manage\Images\loading\load_002.gif" />
@@ -741,6 +742,7 @@
     <Content Include="Templates\Mobi\Default2019\Images\head1.jpg" />
     <Content Include="Templates\Mobi\Default2019\Images\head2.jpg" />
     <Content Include="Templates\Mobi\Default2019\Images\line.jpg" />
+    <Content Include="Templates\Mobi\Default2019\Images\live-icon.gif" />
     <Content Include="Templates\Mobi\Default2019\Images\load_015.gif" />
     <Content Include="Templates\Mobi\Default2019\Images\load_016.gif" />
     <Content Include="Templates\Mobi\Default2019\Images\load_024.gif" />
@@ -937,6 +939,7 @@
     <Content Include="Templates\Mobi\Default2019\QuesExercisesItems.htm" />
     <Content Include="Templates\Mobi\_Public\ExamReview.htm" />
     <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
+    <Content Include="Templates\Mobi\_Public\Images\live-icon.gif" />
     <Content Include="Templates\Mobi\_Public\Images\load_023.gif" />
     <Content Include="Templates\Mobi\_Public\Images\load_027.gif" />
     <Content Include="Templates\Mobi\_Public\Images\nophoto.jpg" />
@@ -963,6 +966,7 @@
     <Content Include="Templates\Web\Gov\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\Gov\Images\Flvplayer.swf" />
     <Content Include="Templates\Web\Gov\Images\ghs.png" />
+    <Content Include="Templates\Web\Gov\Images\live-icon.gif" />
     <Content Include="Templates\Web\Gov\Images\nosubject.jpg" />
     <Content Include="Templates\Web\Gov\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\Gov\Images\teacher-banner.jpg" />
@@ -986,6 +990,7 @@
     <Content Include="Templates\Web\Neimeng\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\Neimeng\Images\dot.png" />
     <Content Include="Templates\Web\Neimeng\Images\ghs.png" />
+    <Content Include="Templates\Web\Neimeng\Images\live-icon.gif" />
     <Content Include="Templates\Web\Neimeng\Images\nosubject.jpg" />
     <Content Include="Templates\Web\Neimeng\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\Neimeng\Images\teacher-banner.jpg" />
@@ -1281,6 +1286,7 @@
     <Content Include="Templates\Web\School\Images\ghs.png" />
     <Content Include="Templates\Web\School\Images\gonggao-bg.jpg" />
     <Content Include="Templates\Web\School\Images\icon03.jpg" />
+    <Content Include="Templates\Web\School\Images\live-icon.gif" />
     <Content Include="Templates\Web\School\Images\more.png" />
     <Content Include="Templates\Web\School\Images\nosubject.jpg" />
     <Content Include="Templates\Web\School\Images\sl.gif" />
@@ -1346,6 +1352,7 @@
     <Content Include="Templates\Web\NetSchool\Inc\Footer.html" />
     <Content Include="Templates\Web\NetSchool\Inc\Header.html" />
     <Content Include="Templates\Web\NetSchool\Inc\Header-home.html" />
+    <Content Include="Templates\Web\_Public\Images\live-icon.gif" />
     <Content Include="Templates\Web\_Public\Inc\meta_api.inc" />
     <Content Include="Templates\Web\_Public\Knowledge.htm" />
     <Content Include="Templates\Web\_Public\Knowledges.htm" />

@@ -68,7 +68,7 @@ function ajaxLoaddata() {
     var sear = $().getPara("sear");
     var sbjids = $().getPara("sbjids");
     //限制输出字段，Only为只输出某些字段,wipe表示不输出某些字段
-    var only = "Cou_ID,Cou_Name,Cou_PriceSpan,Cou_PriceUnit,Cou_Price,Cou_LogoSmall,Sbj_Name,Cou_IsFree,Cou_IsLimitFree,Cou_FreeEnd,Cou_IsRec,Cou_ViewNum";
+    var only = "Cou_ID,Cou_Name,Cou_PriceSpan,Cou_PriceUnit,Cou_Price,Cou_LogoSmall,Sbj_Name,Cou_IsFree,Cou_IsLimitFree,Cou_FreeEnd,Cou_IsRec,Cou_ViewNum,Cou_ExistLive";
     var wipe = "";
     var url = window.location.href;
     url = url.indexOf("?") > -1 ? url.substring(0, url.lastIndexOf("?")) : url;
@@ -144,10 +144,11 @@ function buildCourse(cour) {
     var defimg = $(".default-img").attr("default"); //默认图片
     var html = "<picture>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/></picture><info>{name}{number}{sbjname}<price>{price}</price></info>";
     html = html.rep("{logo}", unescape(cour.Cou_LogoSmall));
-    html = html.replace("{name}", "<name>" + unescape(cour.Cou_Name) + "</name>").replace("{sbjname}", "<sbjname>" + unescape(cour.Sbj_Name) + "</sbjname>");
+    html = html.replace("{name}", "<name>{live}" + unescape(cour.Cou_Name) + "</name>").replace("{sbjname}", "<sbjname>" + unescape(cour.Sbj_Name) + "</sbjname>");
     html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
     html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
     html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
+	html = html.replace("{live}", (cour.Cou_ExistLive ? "<live></live>" : ""));
     html = html.replace("{limitfree}", (cour.Cou_IsLimitFree ? "<limitfree></limitfree>" : ""));
     //浏览数、章节数、试题数
     var numstr = '<view>' + cour.Cou_ViewNum + '</view><outline>' + cour.olcount + '</outline><ques>' + cour.quscount + '</ques>';
