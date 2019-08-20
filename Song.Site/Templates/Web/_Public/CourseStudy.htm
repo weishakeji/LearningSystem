@@ -225,22 +225,19 @@
                         <template v-for="d in outlines" remark="章节列表">
                               <div :class="'olitem '+(d.Ol_IsVideo ? 'li-video ' : '')+(d.Ol_ID==olid ? 'current ' : '')"
                                     :isvideo="d.Ol_IsVideo" :olid="d.Ol_ID" :style="'padding-left:'+d.Ol_Level*15+'px'">
-                                   
-                                          <template v-if="state.isBuy || d.Ol_IsFree" remark="如果购买，或可以试学">
-                                                <a :href="'CourseStudy.ashx?olid='+d.Ol_ID+'&couid='+couid"
-                                                      v-if="d.Ol_IsFinish">{{d.Ol_XPath}}{{d.Ol_Name}}
-                                                </a>
-                                                <template v-else>
-                                                      {{d.Ol_XPath}}{{d.Ol_Name}}
-                                                </template>
-                                                <span class="nofinish" v-show="d.Ol_IsFree && d.Ol_IsFinish && !state.isBuy ">试学</span>
-                                          </template>
-                                          <template v-else>
-                                                <a :href="'CourseBuy.ashx?couid='+d.Cou_ID">
-                                                      {{d.Ol_XPath}}{{d.Ol_Name}}
-                                                      <span v-show="d.Ol_IsFinish" class="buy">购买</span></a>
-                                          </template>
-                                    
+                                    <template v-if="state.isBuy || d.Ol_IsFree" remark="如果购买，或可以试学">
+                                          <a :href="'CourseStudy.ashx?olid='+d.Ol_ID+'&couid='+couid"
+                                                v-if="d.Ol_IsFinish">{{d.Ol_XPath}}{{d.Ol_Name}}
+                                          </a>
+                                          <template v-else> {{d.Ol_XPath}}{{d.Ol_Name}} </template>
+                                          <span class="nofinish"
+                                                v-show="d.Ol_IsFree && d.Ol_IsFinish && !state.isBuy ">试学</span>
+                                    </template>
+                                    <template v-else>
+                                          <a :href="'CourseBuy.ashx?couid='+d.Cou_ID">
+                                                {{d.Ol_XPath}}{{d.Ol_Name}}
+                                                <span v-show="d.Ol_IsFinish" class="buy">购买</span></a>
+                                    </template>
                                     <span class="nofinish" v-show="!d.Ol_IsFinish">未完结</span>
                               </div>
                         </template>
