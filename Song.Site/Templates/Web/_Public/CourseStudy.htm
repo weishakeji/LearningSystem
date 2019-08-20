@@ -225,45 +225,26 @@
                         <template v-for="d in outlines" remark="章节列表">
                               <div :class="'olitem '+(d.Ol_IsVideo ? 'li-video ' : '')+(d.Ol_ID==olid ? 'current ' : '')"
                                     :isvideo="d.Ol_IsVideo" :olid="d.Ol_ID" :style="'padding-left:'+d.Ol_Level*15+'px'">
-                                    <span class="ol_name ">
-                                          <a :href="'CourseStudy.ashx?olid='+d.Ol_ID+'&couid='+couid"
-                                                v-if="d.Ol_IsFinish">{{d.Ol_XPath}}{{d.Ol_Name}}
-                                          </a>
-                                          <template v-if="!d.Ol_IsFinish" remark="章节未完结">
-                                                {{d.Ol_XPath}}{{d.Ol_Name}}
+                                   
+                                          <template v-if="state.isBuy || d.Ol_IsFree" remark="如果购买，或可以试学">
+                                                <a :href="'CourseStudy.ashx?olid='+d.Ol_ID+'&couid='+couid"
+                                                      v-if="d.Ol_IsFinish">{{d.Ol_XPath}}{{d.Ol_Name}}
+                                                </a>
+                                                <template v-else>
+                                                      {{d.Ol_XPath}}{{d.Ol_Name}}
+                                                </template>
+                                                <span class="nofinish" v-show="d.Ol_IsFree && d.Ol_IsFinish && !state.isBuy ">试学</span>
                                           </template>
-                                    </span>
-
+                                          <template v-else>
+                                                <a :href="'CourseBuy.ashx?couid='+d.Cou_ID">
+                                                      {{d.Ol_XPath}}{{d.Ol_Name}}
+                                                      <span v-show="d.Ol_IsFinish" class="buy">购买</span></a>
+                                          </template>
+                                    
                                     <span class="nofinish" v-show="!d.Ol_IsFinish">未完结</span>
-                                    <span class="nofinish" v-show="d.Ol_IsFree">试学</span>
                               </div>
                         </template>
 
-                        <vt:foreach from="$#.olTree" item="d" index="i" remark="章节">
-                              <vt:expression var="indent" args="$d.ol_level" args="20" expression="{0}*{1}" />
-                              <div class="olitem" isvideo="{$:#.d.Ol_IsVideo}" olid="{$:#.d.ol_id}"
-                                    style="padding-left:{$:indent}px">
-                                    <vt:if var="d.ol_isfinish" value="false" compare="=" remark="是否完结"> <span
-                                                class="ol_name">{$:#.d.ol_xpath}{$:#.d.ol_name}</span><span
-                                                class="nofinish">未完结</span>
-                                          <vt:else />
-                                          <vt:if var="isBuy" value="true" compare="=" remark="是否购买"> <span
-                                                      class="obtn enable"><a
-                                                            href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$course.cou_id}">{$:#.d.ol_xpath}{$:#.d.ol_name}
-                                                      </a></span>
-                                                <vt:else />
-                                                <vt:if var="d.Ol_IsFree" value="true" compare="=" remark="可以试学"> <span
-                                                            class="obtn enable"><a
-                                                                  href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$course.cou_id}">{$:#.d.ol_xpath}{$:#.d.ol_name}
-                                                                  <span class="nofinish">试学</span></a></span>
-                                                      <vt:else />
-                                                      <span class="ol_name"><a
-                                                                  href="CourseBuy.ashx?couid={$course.cou_id}">{$:#.d.ol_xpath}{$:#.d.ol_name}
-                                                                  <span class="buy">购买</span></a></span> </vt:if>
-                                          </vt:if>
-                                    </vt:if>
-                              </div>
-                        </vt:foreach>
                   </div>
             </div>
 

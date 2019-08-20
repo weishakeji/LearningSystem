@@ -37,9 +37,9 @@ namespace Song.Site
             if (ol == null) return;
             this.Document.Variables.SetValue("outline", ol);
             this.Document.Variables.SetValue("olid", ol.Ol_ID.ToString());
-            //上级章节
-            this.Document.Variables.SetValue("pat", Business.Do<IOutline>().OutlineSingle(ol.Ol_PID));            
-            Response.Cookies.Add(new HttpCookie("olid", ol.Ol_ID.ToString()));
+            ////上级章节
+            //this.Document.Variables.SetValue("pat", Business.Do<IOutline>().OutlineSingle(ol.Ol_PID));            
+            //Response.Cookies.Add(new HttpCookie("olid", ol.Ol_ID.ToString()));
             //当前课程            
             //Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid >0 ? couid : ol.Cou_ID);
             //if (course == null || !course.Cou_IsUse) return;           

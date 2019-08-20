@@ -223,9 +223,9 @@
                     'Access-Control-Allow-Methods': 'POST,GET,DELETE,PUT,PATCH,HEAD,OPTIONS'
                 },
                 auth: {
-                    username: window.location.href,
-                    password: 'weishakeji'
-                  },
+                    username: 'weishakeji ' + method + ' json ' + window.location,
+                    password: 'token'
+                },
                 timeout: 60 * 1000
             });
             //添加请求拦截器（即请求之前）
@@ -293,6 +293,12 @@
                 return instance.request({ data: parameters });
             }
         }
+        //一次获取多个数据
+        this.all = function (queryArr) {
+            if (arguments.length == 0) return null;
+            if (arguments.length == 1) return queryArr;
+            return axios.all(arguments);
+        }
         //常用方法加到$api根，方便调用
         for (var m in methods) {
             eval("this." + m + "=" + methods[m] + ";");
@@ -306,8 +312,20 @@
         eval(str);
     }
 })();
+
+//异步获取数据的示例
 //$api.get("/dd/xx");
-//$api.v1.post();
-//$api.v2.delete();
-//var t=$api.cookie("localhost_ExamAcc");
-//alert(t);
+/* $api.v1.post("/dd/xx",{id:1}).then(function(req){
+.....
+});*/
+
+/*一次获取多个数据
+$api.all(
+    $api.get("Outline/tree", { couid: $api.querystring("couid") }),
+    $api.get("Course/ForID", { id: $api.querystring("couid") })
+).then(axios.spread(function (req, cur) {
+    if (req.data.success) {
+        var outlines = req.data.result;
+    }
+}));
+*/

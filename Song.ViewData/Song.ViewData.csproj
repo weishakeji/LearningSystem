@@ -57,8 +57,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attri\AdminAttribute.cs" />
-    <Compile Include="Attri\HttpGetAttribute.cs" />
+    <Compile Include="Attri\Domain\DomainAttribute.cs" />
+    <Compile Include="Attri\Login\AdminAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpGetAttribute.cs" />
+    <Compile Include="Attri\Purview\PurviewAttribute.cs" />
     <Compile Include="DataResult.cs" />
     <Compile Include="ExecuteMethod.cs" />
     <Compile Include="Helper\Browser.cs" />
@@ -89,6 +91,7 @@
       <Name>Song.ServiceInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

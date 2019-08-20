@@ -96,30 +96,44 @@
     });
 })();
 
-var vrigth = new Vue({
+var vdata = new Vue({
     data: {
-        outlines: [],     //章节列表
-        couid:$api.querystring("couid"),
+        course: {},      //当前课程
+        outline: {},     //当前课程章节
+        outlines: [],     //当前课程的章节列表（树形）
+        state: {},           //课程状态
+        couid: $api.querystring("couid"),
         olid: $api.querystring("olid")
     },
     created: function () {
-        $api.get("Outline/tree", { couid: $api.querystring("couid") }).then(function (req) {
-            if (req.data.success) {
-                vrigth.outlines = req.data.result;
-                if(vrigth.olid==''){
-                    vrigth.olid=vrigth.outlines[0].Ol_ID;
-                }
-            }
-        });
-
+        var couid = $api.querystring("couid");
+        $api.all(
+            $api.get("Outline/tree", { couid: couid }),
+            $api.get("Course/ForID", { id: couid })).then(axios.spread(
+                function (ol, cur) {
+                    if (ol.data.success) {
+                        vdata.outlines = ol.data.result;
+                        if (vdata.olid == '')
+                            vdata.olid = ol.data.result[0].Ol_ID;
+                        $api.get("course/state", { couid: vdata.couid, olid: vdata.olid }).then(function (req) {
+                            if (req.data.success) {
+                                vdata.state = req.data.result;
+                            }
+                        });
+                    }
+                    if (cur.data.success) {
+                        vdata.course = cur.data.result;
+                    }
+                })
+            );
     },
     mounted: function () {
         //alert(3);
     },
 
 });
-vrigth.$mount('#rightBox');
-//vrigth.created(3);
+vdata.$mount('#rightBox');
+
 /*===========================================================================================
 
 视频的播放事件

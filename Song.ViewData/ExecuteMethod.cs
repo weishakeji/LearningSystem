@@ -85,13 +85,13 @@ namespace Song.ViewData
             //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限    
             //验证是否登录
             AdminAttribute adminAttr = authenticateLoginControl(execObj, method);
-            if(adminAttr!=null && !adminAttr.Ignore)
+            if (adminAttr != null && !adminAttr.Ignore)
             {
                 if (!adminAttr.Logged())
                 {
                     //如果没有登录
                     throw new Exception("当前方法需要管理员登录后操作");
-                }                
+                }
             }
             //4.构建执行该方法所需要的参数
             object[] parameters = getInvokeParam(method, letter);
