@@ -8,7 +8,8 @@
         state: {},           //课程状态
         titState: 'none',        //选项卡的状态
         couid: $api.querystring("couid"),
-        olid: $api.querystring("olid")
+        olid: $api.querystring("olid"),
+        median: false     //分隔线折叠状态
     },
     watch: {
         //课程状态
@@ -21,8 +22,16 @@
         }
     },
     methods: {
-        //附件的击事件
-        accessClick: function (file, tit, event) {            
+        //分隔线点击事件
+        medianClick: function () {
+            vdata.median = !vdata.median;
+        },
+        //知识库的点击事件
+        knlClick:function(){
+            new top.PageBox('课程知识库','Knowledges.ashx?couid='+vdata.couid,100,100,null,window.name).Open();
+        },
+        //附件的点击事件
+        accessClick: function (file, tit, event) {
             var exist = file.substring(file.lastIndexOf(".") + 1).toLowerCase();
             if (exist == "pdf") {
                 event.preventDefault();
@@ -30,6 +39,10 @@
                 box.Open();
             }
             return false;
+        },
+        //章节列表的点击事件
+        outlineClick:function(){
+
         }
     },
     created: function () {

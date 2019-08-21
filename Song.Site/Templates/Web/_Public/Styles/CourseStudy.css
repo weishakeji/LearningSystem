@@ -14,14 +14,7 @@ html,body,#body{
 	height:100%;
 	float: left;
 	position:relative;
-}
-/*主要显示区，即右侧*/
-#MainBox {
-	width: calc(80% - 5px); 
-}
-/*章节显示区，即左侧*/
-#rightBox {
-	width: 20%;
+	transition: width .3s;
 }
 /*分隔符*/
 #median {
@@ -45,6 +38,12 @@ html,body,#body{
 	box-shadow: 0px 1px 1px #eee;
 	background: linear-gradient(to right, #fff , #eee,#fff);
 	border-radius:2px
+}
+#median span.close:before{
+	 content: "<";
+}
+#median span.open:before{
+	 content: ">";
 }
 .mainTop{
 	height:65px;

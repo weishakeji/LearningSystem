@@ -23,7 +23,7 @@
                   document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
                   document.body.onpaste = document.body.oncopy = function () { return false; };
             </script>
-            <div id="MainBox">
+            <div id="MainBox" :style="!median ? 'width: calc(80% - 5px);' : 'width: calc(99.5% - 5px);'">
                   <div class="mainTop">
                         <div class="courseBox">
                               <template v-if="JSON.stringify(course) != '{}' && course.Cou_Name!=''" remark="课程名称">
@@ -37,7 +37,7 @@
                               </template>
                         </div>
 
-                        <div id="btnKnowledge" v-if="state.isKnl">知识库</div>
+                        <div id="btnKnowledge" v-if="state.isKnl" v-on:click="knlClick">知识库</div>
                         <div class="oltitle">
                               <a v-if="JSON.stringify(state) == '{}'" class="titCurr">加载中...</a>
                               <a v-if="state.isNull" v-on:click="titState='isNull'"
@@ -50,7 +50,7 @@
                                     :class="titState=='isAccess' ? 'titCurr':''">附 件</a>
                               <a v-if="state.isQues" v-on:click="titState='isQues'"
                                     :class="titState=='isQues' ? 'titCurr':''">习 题</a>
-                                  
+
                               <!-- <div class="titBox">作业</div>-->
                         </div>
                   </div>
@@ -80,10 +80,10 @@
                         </div>
                   </div>
             </div>
-            <div id="median" remark="此为分隔线"><span id="btnOpen" style="display:none">&lt;</span><span
-                        id="btnClose">&gt;</span></div>
+            <div id="median" remark="此为分隔线"><span v-on:click="medianClick"
+                        :class="!median ? 'open' : 'close'"></span></div>
             <!--开始右侧菜单区域-->
-            <div id="rightBox">
+            <div id="rightBox" :style="!median ? 'width: 20%;' : 'width: 0%'">
                   <div class="boxBar">
                         <div class="title"> 目录</div>
                   </div>
