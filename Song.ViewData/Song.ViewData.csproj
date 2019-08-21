@@ -75,6 +75,7 @@
     <Compile Include="Methods\Course.cs" />
     <Compile Include="Methods\Live.cs" />
     <Compile Include="Methods\Outline.cs" />
+    <Compile Include="Methods\Subject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

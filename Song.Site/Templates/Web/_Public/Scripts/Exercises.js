@@ -21,7 +21,7 @@ function subjectEvent() {
 //初始化
 function selectedInit() {
     //试题区域的高度
-    $("#quesArea").height(document.documentElement.clientHeight - 180);
+    //$("#quesArea").height(document.documentElement.clientHeight - 180);
     //参数数组
     var strs = GetRequest();
     $("#Selected").html("");

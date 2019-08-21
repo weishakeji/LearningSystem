@@ -1,11 +1,13 @@
 @charset "utf-8";
 html{
 	overflow: scroll !important;
+	height:100%;
 }
 body{
 	color: #000;
 	background-color: #eee;
 	text-align: left;
+	height:100%;
 }
 
 .selectBar {
@@ -222,6 +224,7 @@ line-height: 40px;
 	margin-top: 10px;
 	margin-right:5px;
 	overflow: auto;	
+	height:calc(100% - 180px);
 }
 .quesItem {
     position : relative; 

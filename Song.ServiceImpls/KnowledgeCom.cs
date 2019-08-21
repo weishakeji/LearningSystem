@@ -91,7 +91,15 @@ namespace Song.ServiceImpls
             if (kns > -1) wc.And(Knowledge._.Kns_ID == kns);
             return Gateway.Default.Count<Knowledge>(wc);
         }
-
+        public int KnowledgeOfCount(int orgid, int couid, int kns, bool? isUse)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Knowledge._.Org_ID == orgid);
+            if (couid > 0) wc.And(Knowledge._.Cou_ID == couid);
+            if (isUse != null) wc.And(Knowledge._.Kn_IsUse == (bool)isUse);
+            if (kns > -1) wc.And(Knowledge._.Kns_ID == kns);
+            return Gateway.Default.Count<Knowledge>(wc);
+        }
         public Knowledge[] KnowledgePager(int orgid, bool? isUse, int kns, string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = Knowledge._.Org_ID == orgid;

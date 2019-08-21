@@ -14,6 +14,7 @@
 	float: left;
 	width: 370px;
 	margin-left: 10px;
+	height:calc(100% - 10px);
 	overflow: auto;
 }
 /*知识检索框*/

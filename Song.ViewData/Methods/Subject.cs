@@ -12,12 +12,12 @@ using WeiSha.Common;
 
 namespace Song.ViewData.Methods
 {
-    public class Course
+    public class Subject
     {
         [HttpGet(IsAllow = false)]
-        public Song.Entities.Course ForID(int id)
+        public Song.Entities.Subject ForID(int id)
         {
-            return Business.Do<ICourse>().CourseSingle(id);
+            return Business.Do<ISubject>().SubjectSingle(id);
         }
         
     }

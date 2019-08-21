@@ -76,6 +76,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <returns></returns>
         int KnowledgeOfCount(int orgid, int kns, bool? isUse);
+        int KnowledgeOfCount(int orgid, int couid, int kns, bool? isUse);
         /// <summary>
         /// ∑÷“≥ªÒ»°
         /// </summary>

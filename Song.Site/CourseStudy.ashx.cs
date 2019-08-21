@@ -67,15 +67,6 @@ namespace Song.Site
             //记录学员当前学习的课程
             if (isStudy) Extend.LoginState.Accounts.Course(course);  
             
-            #region 章节输出
-            // 当前课程的所有章节            
-            Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(ol.Cou_ID, true);          
-            //课程章节列表
-            this.Document.Variables.SetValue("outlines", outlines);
-            //树形章节输出
-            if (outlines.Length > 0)
-                this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));            
-            #endregion
 
             #region 内容输出
             CourseContext_State state = new CourseContext_State();            

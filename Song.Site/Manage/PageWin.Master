@@ -19,12 +19,12 @@
 <body style="padding:0px">
     <form id="form1" runat="server" class="pageWinForm" style="margin:0px">
     <div class="pageWinContext" loyout="row">
-        <div style="margin: 10px; margin-bottom:0px;">
+        <div style="margin: 10px; margin-bottom:0px;height:100%">
             <asp:ContentPlaceHolder ID="cphMain" runat="server">
             </asp:ContentPlaceHolder>
         </div>
     </div>
-    <div class="pageWinBtn" style="text-align: right" loyout="row" height="50">
+    <div class="pageWinBtn" style="text-align: right;position:fixed;bottom:0px;width:100%;margin-right:10px;" loyout="row" height="50">
         <asp:ContentPlaceHolder ID="cphBtn" runat="server">
         </asp:ContentPlaceHolder>
     </div>
