@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Song.ViewData.Attri
 {
     /// <summary>
-    /// 设置方法是否需要管理员登录后执行
+    /// 学员是否学习某个课程
     /// </summary>
-    public class AdminAttribute : Attribute
+    public class StudyAttribute : Attribute
     {
         private bool _ignore = false;
         /// <summary>
@@ -21,11 +21,11 @@ namespace Song.ViewData.Attri
             get { return _ignore; }
             set { _ignore = value; }
         }
-        public AdminAttribute()
+        public StudyAttribute()
         {
 
         }
-        public AdminAttribute(bool ignore)
+        public StudyAttribute(bool ignore)
         {
             _ignore = ignore;
         }

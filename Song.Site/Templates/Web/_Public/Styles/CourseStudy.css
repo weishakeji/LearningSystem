@@ -111,52 +111,6 @@ video::-webkit-media-controls-panel {
 #contextArea>div{
 	height:100%;
 }
-.boxBar {
-	border-bottom-width: 1px;
-	border-top-style: none;
-	border-right-style: none;
-	border-bottom-style: solid;
-	border-left-style: none;
-	border-bottom-color: #CCCCCC;
-	height: 62px;
-	margin-bottom: 20px;
-}
-.title {
-	font-size: 20px;
-	font-family: "微软雅黑";
-	background-repeat: no-repeat;
-	background-position: left bottom;
-	float: left;
-	height: 30px;
-	text-align: left;
-	padding-bottom: 5px;
-	padding-top: 0px;
-	color: #666;
-	margin-bottom: 15px;
-	border-bottom-width: 5px;
-	border-top-style: none;
-	border-right-style: none;
-	border-bottom-style: solid;
-	border-left-style: none;
-	border-bottom-color: #0387d9;
-	width: 100px;
-	text-align:center;
-	margin-top: 25px;
-}
-/*限制只能在桌面应用中打开*/
-#StudyForDeskapp{
-	color:#fff;
-	margin-top:60px;
-	width:320px;
-	height:90px;
-	line-height:90px;
-	background:#999;
-	margin-left:auto;
-	margin-right:auto;
-}
-#StudyForDeskapp, #StudyForDeskapp a{
-	font-size:16px;
-}
 /* 课程内容
 ------------------------*/
 #details {
@@ -183,8 +137,47 @@ video::-webkit-media-controls-panel {
 	border: 1px solid #ccc;
 	text-align:left;
 }
+#rightBox .boxBar {
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	height: 62px;
+	margin-bottom: 20px;
+}
+#rightBox  .title {
+	font-size: 18px;
+	float: left;
+	overflow: hidden;
+	height: 30px;
+	padding-bottom: 5px;
+	padding-top: 0px;
+	color: #666;
+	width: 50%;
+	text-align: center;
+	margin-top: 25px;
+	line-height: 40px;
+	cursor: pointer;
+	transition: font-size .6s;
+	transition: line-height .5s;
+	white-space: nowrap;
+}
+#rightBox  .titleCurr{
+	color: #FFF;	
+	font-size: 20px;
+	border-bottom-width: 5px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #0387d9;
+	margin-bottom: 15px;
+	line-height:26px;
+}
 /*章节列表*/
-.outline {
+.rightArea {
 	color: #333;
 	line-height: 30px;
 	font-size: 14px;
@@ -305,7 +298,7 @@ video::-webkit-media-controls-panel {
 }
 /* 章节的主标题下的选项卡
 */
-.oltitle {
+#MainBox .oltitle {
 	height: 30px;
 	border-bottom-width: 5px;
 	border-top-style: none;
@@ -316,8 +309,8 @@ video::-webkit-media-controls-panel {
 	
 	
 }
-.oltitle a{
-	font-size: 16px;
+#MainBox .oltitle a{
+	font-size: 14px;
 	background-repeat: no-repeat;
 	background-position: left bottom;
 	height: 25px;
@@ -335,6 +328,8 @@ video::-webkit-media-controls-panel {
 	display:block;
 	cursor:pointer;
 	margin-top:5px;
+	transition: font-size .6s;
+	transition: background-color 0.6s;
 }
 /*
 .oltitle>a:first-child{
@@ -342,7 +337,7 @@ video::-webkit-media-controls-panel {
 	background-color: #999999;
 	text-shadow: 0 0 10px #fff;
 }*/
-.oltitle .titCurr{
+#MainBox .oltitle .titCurr{
 	color: #000;
 	background-color: #999999;
 	text-shadow: 1px 1px 2px #fff;	
@@ -405,4 +400,18 @@ video::-webkit-media-controls-panel {
 }
 #footer {
 	margin-top: 10px !important;
+}
+/*限制只能在桌面应用中打开*/
+#StudyForDeskapp{
+	color:#fff;
+	margin-top:60px;
+	width:320px;
+	height:90px;
+	line-height:90px;
+	background:#999;
+	margin-left:auto;
+	margin-right:auto;
+}
+#StudyForDeskapp, #StudyForDeskapp a{
+	font-size:16px;
 }

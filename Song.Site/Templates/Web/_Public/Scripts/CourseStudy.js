@@ -4,12 +4,15 @@
         outline: {},     //当前课程章节
         subject: {},     //当前专业
         outlines: [],     //当前课程的章节列表（树形）
-        access: {},          //附件列表
-        state: {},           //课程状态
-        titState: 'none',        //选项卡的状态
+        access: [],          //附件列表
+        video: {},             //当前章节的视频
+        //
+        state: {},           //课程状态       
         couid: $api.querystring("couid"),
         olid: $api.querystring("olid"),
-        median: false     //分隔线折叠状态
+        median: false,     //分隔线折叠状态
+        titState: 'loading',        //左侧选项卡的状态
+        rightState: 'outline'       //右侧选项卡状态，章节outline,交流chat
     },
     watch: {
         //课程状态
@@ -22,13 +25,9 @@
         }
     },
     methods: {
-        //分隔线点击事件
-        medianClick: function () {
-            vdata.median = !vdata.median;
-        },
         //知识库的点击事件
-        knlClick:function(){
-            new top.PageBox('课程知识库','Knowledges.ashx?couid='+vdata.couid,100,100,null,window.name).Open();
+        knlClick: function () {
+            new top.PageBox('课程知识库', 'Knowledges.ashx?couid=' + vdata.couid, 100, 100, null, window.name).Open();
         },
         //附件的点击事件
         accessClick: function (file, tit, event) {
@@ -41,8 +40,33 @@
             return false;
         },
         //章节列表的点击事件
-        outlineClick:function(){
-
+        outlineClick: function (olid, event) {
+            var url = $api.setpara("olid", olid);
+            history.pushState({}, null, url);
+            vdata.olid = olid;
+            vdata.titState = 'loading';
+            if (event != null) event.preventDefault();
+            //获取当前章节状态，和专业信息
+            $api.all(
+                $api.get("Outline/ForID", { id: olid }),
+                $api.get("Outline/state", { olid: olid })
+            ).then(axios.spread(function (ol, state) {
+                if (ol.data.success && state.data.success) {
+                    vdata.outline = ol.data.result;
+                    vdata.state = state.data.result;
+                    //获取附件
+                    $api.get("Outline/Accessory", { uid: vdata.outline.Ol_UID }).then(function (acc) {
+                        if (acc.data.success) {
+                            vdata.access = acc.data.result;
+                        } else {
+                            alert("附件列表加载错误");
+                        }
+                    });
+                } else {
+                    if (!ol.data.success) alert("章节信息加载错误");
+                    if (!state.data.success) alert("章节状态加载错误");
+                }
+            }));
         }
     },
     created: function () {
@@ -53,33 +77,18 @@
                 if (ol.data.success && cur.data.success) {
                     vdata.outlines = ol.data.result;
                     if (vdata.olid == '') vdata.olid = ol.data.result[0].Ol_ID;
+                    vdata.outlineClick(vdata.olid, null);
                     vdata.course = cur.data.result;
-                    //获取当前章节状态，和专业信息
-                    $api.all(
-                        $api.get("Outline/ForID", { id: vdata.olid }),
-                        $api.get("Outline/state", { olid: vdata.olid }),
-                        $api.get("Subject/ForID", { id: vdata.course.Sbj_ID })
-                    ).then(axios.spread(function (ol, state, subject) {
-                        if (ol.data.success && state.data.success && subject.data.success) {
-                            vdata.outline = ol.data.result;
-                            vdata.state = state.data.result;
+                    $api.get("Subject/ForID", { id: vdata.course.Sbj_ID }).then(function (subject) {
+                        if (subject.data.success) {
                             vdata.subject = subject.data.result;
-                            //获取附件
-                            $api.get("Outline/Accessory", { uid: vdata.outline.Ol_UID }).then(function (acc) {
-                                if (acc.data.success) {
-                                    vdata.access = acc.data.result;
-                                } else {
-                                    if (!acc.data.success) alert("附件列表加载错误");
-                                }
-                            });
                         } else {
-                            if (!ol.data.success) alert("章节信息加载错误");
-                            if (!state.data.success) alert("章节状态加载错误");
                             if (!subject.data.success) alert("课程所属专业加载错误");
                         }
-                    }));
+                    });
                 } else {
-                    alert("章节列表加载错误");
+                    if (!ol.data.success)alert("章节列表加载错误");
+                    if (!cur.data.success)alert("课程信息加载错误");
                 }
             }));
     },

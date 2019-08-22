@@ -9,6 +9,7 @@ using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
 using WeiSha.Common;
 using System.Data;
+using System.IO;
 
 
 namespace Song.ViewData.Methods
@@ -45,9 +46,13 @@ namespace Song.ViewData.Methods
         {
             // 当前课程的所有章节            
             Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
+            foreach (Song.Entities.Outline ol in outlines)
+            {
+                ol.Ol_Intro = string.Empty;
+            }
             //树形章节输出
             DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
-            return dt;      
+            return dt;
         }
         /// <summary>
         /// 章节附件
@@ -56,6 +61,21 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public List<Song.Entities.Accessory> Accessory(string uid)
         {
+            //先判断是否购买课程
+            Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+            if (acc == null) return new List<Accessory>();
+            Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(uid);
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
+            //是否免费，或是限时免费
+            if (course.Cou_IsLimitFree)
+            {
+                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                    course.Cou_IsLimitFree = false;
+            }
+            bool isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, acc.Ac_ID);
+            if (!isBuy) return new List<Accessory>();
+            //获取附件
             List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(uid, "Course");
             foreach (Accessory ac in access)
                 ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
@@ -68,10 +88,10 @@ namespace Song.ViewData.Methods
         /// <returns></returns>        
         public Dictionary<string, object> State(int olid)
         {
+            Dictionary<string, object> dic = new Dictionary<string, object>();   
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
-            //
-            Dictionary<string, object> dic = new Dictionary<string, object>();           
+             
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {
@@ -80,6 +100,7 @@ namespace Song.ViewData.Methods
                     course.Cou_IsLimitFree = false;
             }
             Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+            dic.Add("isLogin", acc != null);    //学员是否登录
             //是否可以学习，是否购买
             bool isStudy = false, isBuy = false, canStudy = false;
             if (acc != null)
@@ -101,6 +122,20 @@ namespace Song.ViewData.Methods
             bool existVideo = videos.Count > 0;
             dic.Add("existVideo", existVideo);
             dic.Add("outerVideo", existVideo && videos[0].As_IsOuter);
+            string videoUrl = existVideo ? videos[0].As_FileName : string.Empty; //视频地址
+            //如果是内部链接
+            if (existVideo && !videos[0].As_IsOuter)
+            {
+                videoUrl = Upload.Get[videos[0].As_Type].Virtual + videoUrl;
+                string fileHy = WeiSha.Common.Server.MapPath(videoUrl);
+                if (!System.IO.File.Exists(fileHy))
+                {
+                    string ext = System.IO.Path.GetExtension(fileHy).ToLower();
+                    if (ext == ".mp4") videoUrl = Path.ChangeExtension(videoUrl, ".flv");
+                    if (ext == ".flv") videoUrl = Path.ChangeExtension(videoUrl, ".mp4");
+                }
+            }
+            dic.Add("urlVideo", videoUrl);
             //是否有课程内容
             bool isContext=!string.IsNullOrWhiteSpace(outline.Ol_Intro);
             dic.Add("isContext", isContext);
@@ -111,7 +146,7 @@ namespace Song.ViewData.Methods
             int accessCount = Business.Do<IAccessory>().OfCount(outline.Ol_UID, "Course");
             dic.Add("isAccess", accessCount > 0);
             //啥都没有（视频，内容，附件，试题，都没有）
-            dic.Add("isNull", !(existVideo || isContext || isQues || isQues));
+            dic.Add("isNull", !(existVideo || isContext || isQues || isQues || accessCount > 0));
             return dic;
         }
     }

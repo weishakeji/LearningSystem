@@ -1533,6 +1533,7 @@
     <Content Include="Utility\CoreScripts\jquery-3.0.0.min.js" />
     <Content Include="Utility\CoreScripts\jquery.qrcode.min.js" />
     <Content Include="Utility\CoreScripts\PageBox.js" />
+    <Content Include="Utility\CoreScripts\polyfill.min.js" />
     <Content Include="Utility\CoreScripts\vue-router.js" />
     <Content Include="Utility\CoreScripts\vue.min.js" />
     <Content Include="Utility\CoreScripts\vue_min.js" />

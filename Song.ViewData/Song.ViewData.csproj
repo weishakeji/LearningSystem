@@ -60,7 +60,10 @@
     <Compile Include="Attri\Domain\DomainAttribute.cs" />
     <Compile Include="Attri\Login\AdminAttribute.cs" />
     <Compile Include="Attri\HttpVerb\HttpGetAttribute.cs" />
+    <Compile Include="Attri\Login\StudentAttribute.cs" />
+    <Compile Include="Attri\Login\TeacherAttribute.cs" />
     <Compile Include="Attri\Purview\PurviewAttribute.cs" />
+    <Compile Include="Attri\Purview\StudyAttribute.cs" />
     <Compile Include="DataResult.cs" />
     <Compile Include="ExecuteMethod.cs" />
     <Compile Include="Helper\Browser.cs" />

@@ -4,6 +4,7 @@
 <head>
       <title>{$course.cou_Name}</title>
       <vt:include file="inc/meta.inc" />
+      <script type="text/javascript" src="/Utility/CoreScripts/polyfill.min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/vue_min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/api.js?ver={$version}"></script>
@@ -39,7 +40,7 @@
 
                         <div id="btnKnowledge" v-if="state.isKnl" v-on:click="knlClick">知识库</div>
                         <div class="oltitle">
-                              <a v-if="JSON.stringify(state) == '{}'" class="titCurr">加载中...</a>
+                              <a v-if="titState== 'loading'" class="titCurr">加载中...</a>
                               <a v-if="state.isNull" v-on:click="titState='isNull'"
                                     :class="titState=='isNull' ? 'titCurr':''">提 示</a>
                               <a v-if="state.existVideo" v-on:click="titState='existVideo'"
@@ -60,7 +61,7 @@
                               <div class="noSelect">当前章节没有任何内容！</div>
                         </div>
                         <div remark="视频" v-show="titState=='existVideo'">
-                              视频
+                              视频路径：{{state.urlVideo}}
                         </div>
                         <div remark="内容" v-show="titState=='isContext'" id="details">
                               <div id="detailsArea" v-html="outline.Ol_Intro"> </div>
@@ -72,6 +73,9 @@
                                           :download="item.As_Name">{{index+1}}、{{item.As_Name}}
                                     </a>
                               </div>
+                              <div class="noInfo" v-if="access.length<1">
+                                    没有附件
+                              </div>
                         </div>
                         <div remark="习题" v-show="titState=='isQues'">
                               <iframe :src="'Exercises.ashx?olid='+outline.Ol_ID" style="height: 100%" marginwidth="0"
@@ -80,21 +84,25 @@
                         </div>
                   </div>
             </div>
-            <div id="median" remark="此为分隔线"><span v-on:click="medianClick"
+            <div id="median" remark="此为分隔线"><span v-on:click="median = !median"
                         :class="!median ? 'open' : 'close'"></span></div>
             <!--开始右侧菜单区域-->
-            <div id="rightBox" :style="!median ? 'width: 20%;' : 'width: 0%'">
+            <div id="rightBox" :style="!median ? 'width: 20%;' : 'width: 0%'" v-show="!median">
                   <div class="boxBar">
-                        <div class="title"> 目录</div>
+                        <div class="title" v-on:click="rightState = 'outline'"
+                              :class="rightState=='outline' ? 'titleCurr' : ''"> 章节目录</div>
+                        <div class="title" v-on:click="rightState = 'chat'"
+                              :class="rightState=='chat' ? 'titleCurr' : ''"> 交流咨询</div>
                   </div>
-                  <div class="outline">
+                  <div class="outline rightArea" v-show="rightState=='outline'">
                         <template v-for="d in outlines" remark="章节列表">
                               <div :class="'olitem '+(d.Ol_IsVideo ? 'li-video ' : '')+(d.Ol_ID==olid ? 'current ' : '')+(d.Ol_IsLive ? 'li-live ' : '')"
                                     :isvideo="d.Ol_IsVideo" :olid="d.Ol_ID"
                                     :style="'padding-left:'+(d.Ol_Level*15+5)+'px'">
                                     <template v-if="state.isBuy || d.Ol_IsFree" remark="如果购买，或可以试学">
                                           <a :href="'CourseStudy.ashx?olid='+d.Ol_ID+'&couid='+couid"
-                                                v-if="d.Ol_IsFinish">{{d.Ol_XPath}}{{d.Ol_Name}}
+                                                v-if="d.Ol_IsFinish"
+                                                v-on:click="outlineClick(d.Ol_ID,$event)">{{d.Ol_XPath}}{{d.Ol_Name}}
                                           </a>
                                           <template v-else> {{d.Ol_XPath}}{{d.Ol_Name}} </template>
                                           <span class="nofinish"
@@ -108,6 +116,9 @@
                                     <span class="nofinish" v-show="!d.Ol_IsFinish">未完结</span>
                               </div>
                         </template>
+                  </div>
+                  <div class="chat rightArea" v-show="rightState=='chat'">
+                        交流
                   </div>
             </div>
       </div>
