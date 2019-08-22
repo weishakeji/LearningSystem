@@ -35,26 +35,49 @@
         },
         //获取url中的参数
         querystring: function (url, key) {
-            if (arguments.length == 1) {
-                key = arguments[0];
-                url = String(window.document.location.href);
+            if (arguments.length == 1) key = arguments[0];
+            if (arguments.length <= 1) url = String(window.document.location.href);
+            if (url.indexOf("?") < 0) return "";
+            //取所有参数
+            var values = new Array();
+            var query = url.substring(url.lastIndexOf("?") + 1).split('&');
+            for (var q in query) {
+                var arr = query[q].split('=');
+                if (arr.length < 2) continue;
+                if (arr[1].indexOf("#") > -1) arr[1] = arr[1].substring(0, arr[1].indexOf("#"));
+                arr[1] = decodeURI(arr[1]).replace(/<[^>]+>/g, "");
+                values.push({ key: arr[0], val: arr[1] });
             }
-            var value = "";
-            if (url.indexOf("?") > -1) {
-                var ques = url.substring(url.lastIndexOf("?") + 1);
-                var tm = ques.split('&');
-                for (var i = 0; i < tm.length; i++) {
-                    var arr = tm[i].split('=');
-                    if (arr.length < 2) continue;
-                    if (key.toLowerCase() == arr[0].toLowerCase()) {
-                        value = arr[1];
-                        break;
-                    }
+            //返回
+            if (arguments.length == 0) return values;
+            if (arguments.length == 1) {
+                for (var q in values) {
+                    if (values[q].key.toLowerCase() == key.toLowerCase())
+                        return values[q].val;
                 }
             }
-            if (value.indexOf("#") > -1) value = value.substring(0, value.indexOf("#"));
-            value = decodeURI(value).replace(/<[^>]+>/g, "");
-            return value;
+            return "";
+        },
+        setpara: function (key, value) {
+            //获取所有参数
+            var values = methods.querystring();
+            var isExist = false;
+            for (var q in values) {
+                if (values[q].key.toLowerCase() == key.toLowerCase()) {
+                    values[q].val = value;
+                    isExist = true;
+                }
+            }
+            if (!isExist) values.push({ key: key, val: value });
+            //拼接Url      
+            var url = String(window.document.location.href);
+            if (url.indexOf("?") > -1) url = url.substring(0, url.lastIndexOf("?"));
+            var parastr = "";
+            for (var i = 0; i < values.length; i++) {
+                parastr += values[i].key + "=" + values[i].val;
+                if (i < values.length - 1) parastr += "&";
+            }
+            return url + "?" + parastr;
         },
         //去除两端空格
         trim: function (str) {
