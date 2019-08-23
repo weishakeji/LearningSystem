@@ -14,13 +14,14 @@
         median: false,     //分隔线折叠状态
         titState: 'loading',        //左侧选项卡的状态
         rightState: 'outline',       //右侧选项卡状态，章节outline,交流chat
+        outlineLoaded: false,         //右侧章节列表加载中
         //控件
         player: null             //播放器
     },
     watch: {
         //课程状态
         state: function (val) {
-            if (vdata.state.isNull) vdata.titState = 'isNull';            
+            if (vdata.state.isNull) vdata.titState = 'isNull';
             if (vdata.state.isAccess) vdata.titState = 'isAccess';
             if (vdata.state.isQues) vdata.titState = 'isQues';
             if (vdata.state.isContext) vdata.titState = 'isContext';
@@ -46,7 +47,7 @@
             return false;
         },
         //章节列表的点击事件
-        outlineClick: function (olid, event) {
+        outlineClick: function (olid, event) {            
             var url = $api.setpara("olid", olid);
             history.pushState({}, null, url);
             vdata.olid = olid;
@@ -60,6 +61,9 @@
                 if (ol.data.success && state.data.success) {
                     vdata.outline = ol.data.result;
                     vdata.state = state.data.result;
+                    window.setTimeout(function () {
+                        vdata.outlineLoaded = true;
+                    }, 100);
                     //获取附件
                     $api.get("Outline/Accessory", { uid: vdata.outline.Ol_UID }).then(function (acc) {
                         if (acc.data.success) {

@@ -1,25 +1,27 @@
 @charset "utf-8";
-html { overflow: hidden;}
+html {
+	overflow: hidden;
+}
 body {
 	background-color: #222326;
 	background: #222326;
 }
-html,body,#body{
-	width:100%;
-	height:100%;
+html, body, #body {
+	width: 100%;
+	height: 100%;
 	overflow: hidden;
 }
 /*布局*/
-#MainBox ,#median,#rightBox{
-	height:100%;
+#MainBox, #median, #rightBox {
+	height: 100%;
 	float: left;
-	position:relative;
+	position: relative;
 	transition: width .3s;
 }
 /*分隔符*/
 #median {
 	width: 5px;
-	background-color: #999999;	
+	background-color: #999999;
 }
 #median span {
 	font-size: 12px;
@@ -27,35 +29,35 @@ html,body,#body{
 	color: #666;
 	font-family: "黑体";
 	cursor: pointer;
-	position:absolute;
-	top:48%;
-	left:-1px;
-	display:block;
-	width:7px;
-	height:60px;
-	line-height:60px;
-	z-index:100;
+	position: absolute;
+	top: 48%;
+	left: -1px;
+	display: block;
+	width: 7px;
+	height: 60px;
+	line-height: 60px;
+	z-index: 100;
 	box-shadow: 0px 1px 1px #eee;
-	background: linear-gradient(to right, #fff , #eee,#fff);
-	border-radius:2px
+	background: linear-gradient(to right, #fff, #eee, #fff);
+	border-radius: 2px
 }
-#median span.close:before{
-	 content: "<";
+#median span.close:before {
+	content: "<";
 }
-#median span.open:before{
-	 content: ">";
+#median span.open:before {
+	content: ">";
 }
-.mainTop{
-	height:65px;
+.mainTop {
+	height: 65px;
 }
 video::-internal-media-controls-download-button {
-    display:none;
+ display:none;
 }
 video::-webkit-media-controls-enclosure {
-    overflow:hidden;
+ overflow:hidden;
 }
 video::-webkit-media-controls-panel {
-    width: calc(100% + 30px); 
+ width: calc(100% + 30px);
 }
 .courseBox {
 	height: 30px;
@@ -65,51 +67,51 @@ video::-webkit-media-controls-panel {
 	text-indent: 10;
 	text-align: left;
 }
-.courseBox:before{
+.courseBox:before {
 	content: "\e636";
-    font-family: iconfont;
-    margin-left: 5px;
-    font-size: 16px;
-    font-weight: normal;
+	font-family: iconfont;
+	margin-left: 5px;
+	font-size: 16px;
+	font-weight: normal;
 }
 .courseBox a {
 	color: #999;
 	font-size: 14px;
 }
-#MainBox #btnKnowledge{
-	position:absolute;
-	right:10px;
-	top:0px;
-	color:#fff;
+#MainBox #btnKnowledge {
+	position: absolute;
+	right: 10px;
+	top: 0px;
+	color: #fff;
 	font-size: 20px;
-    font-family: "微软雅黑";
-    background-repeat: no-repeat;
-    background-position: left bottom;
-    float: left;
-    height: 30px;
-    text-align: left;
-    padding-bottom: 5px;
-    padding-top: 0px;
-    color: #eee;
-    width: 100px;
-    text-align: center;
-    margin-top: 25px;	
-	cursor:pointer;
+	font-family: "微软雅黑";
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	float: left;
+	height: 30px;
+	text-align: left;
+	padding-bottom: 5px;
+	padding-top: 0px;
+	color: #eee;
+	width: 100px;
+	text-align: center;
+	margin-top: 25px;
+	cursor: pointer;
 }
-#MainBox #btnKnowledge:before{
+#MainBox #btnKnowledge:before {
 	content: "\e675";
 	font-size: 22px;
-	margin-right:5px;
+	margin-right: 5px;
 	font-family: iconfont;
 }
 /*左侧内容区*/
-#contextArea{
-	height:calc(100% - 65px);
-	width:100%;
-	color:#ddd;
+#contextArea {
+	height: calc(100% - 65px);
+	width: 100%;
+	color: #ddd;
 }
-#contextArea>div{
-	height:100%;
+#contextArea>div {
+	height: 100%;
 }
 /* 课程内容
 ------------------------*/
@@ -122,20 +124,20 @@ video::-webkit-media-controls-panel {
 #details img {
 	max-width: 100%;
 }
-#details p, #details *{
+#details p, #details * {
 	font-size: 17px !important;
 	line-height: 30px !important;
-	background-color:transparent !important;	
-	color:#666 !important;
+	background-color: transparent !important;
+	color: #666 !important;
 }
-#details p{
-	margin-bottom:20px;	
+#details p {
+	margin-bottom: 20px;
 }
-#detailsArea{
+#detailsArea {
 	margin: 20px;
 	padding: 20px;
 	border: 1px solid #ccc;
-	text-align:left;
+	text-align: left;
 }
 #rightBox .boxBar {
 	border-bottom-width: 1px;
@@ -147,7 +149,7 @@ video::-webkit-media-controls-panel {
 	height: 62px;
 	margin-bottom: 20px;
 }
-#rightBox  .title {
+#rightBox .title {
 	font-size: 18px;
 	float: left;
 	overflow: hidden;
@@ -164,8 +166,8 @@ video::-webkit-media-controls-panel {
 	transition: line-height .5s;
 	white-space: nowrap;
 }
-#rightBox  .titleCurr{
-	color: #FFF;	
+#rightBox .titleCurr {
+	color: #FFF;
 	font-size: 20px;
 	border-bottom-width: 5px;
 	border-top-style: none;
@@ -174,7 +176,30 @@ video::-webkit-media-controls-panel {
 	border-left-style: none;
 	border-bottom-color: #0387d9;
 	margin-bottom: 15px;
-	line-height:26px;
+	line-height: 26px;
+}
+/*右侧遮罩层*/
+#rightMask {
+	width: 20%;
+	height: calc(100% - 65px);
+	background-color: #222326;
+	position: absolute;
+	top: 65px;
+	right: 0px;
+	transition: width .3s;
+	transition: opacity 2s;
+}
+.fade-enter {
+	opacity: 0;
+}
+.fade-enter-active {
+	transition: opacity 3s;
+}
+.fade-leave-to {
+	opacity: 0;
+}
+.fade-leave-active {
+	transition: opacity 3s;
 }
 /*章节列表*/
 .rightArea {
@@ -182,49 +207,49 @@ video::-webkit-media-controls-panel {
 	line-height: 30px;
 	font-size: 14px;
 	overflow: auto;
-	height:calc(100% - 85px);
+	height: calc(100% - 85px);
 }
 .olitem {
-	text-align:left;
-	color:#666;
+	text-align: left;
+	color: #666;
 }
-.olitem:before{
+.olitem:before {
 	content: "\e65f";
-    font-family: iconfont;
-    margin-right: 5px;
-    font-size: 15px;
-    font-weight: normal;
-	margin-left:8px;
-	color:#999;
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 15px;
+	font-weight: normal;
+	margin-left: 8px;
+	color: #999;
 }
 /*视频章节的图标*/
 .li-video:before {
-    content: "\e606";
-    font-family: iconfont;
-    margin-right: 5px;
-    font-size: 16px;
-    font-weight: normal;
+	content: "\e606";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;
 }
 /*当前章节的图标*/
 .current:before {
-    content: "\e621";
-    font-family: iconfont;
-    margin-right: 5px;
-    font-size: 14px;
-    font-weight: normal;
-	color:#fff;
+	content: "\e621";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 14px;
+	font-weight: normal;
+	color: #fff;
 }
 /*直播章节的图标*/
 .li-live:before {
-    content: "";
-    background-image: url(../Images/live-icon.gif);
+	content: "";
+	background-image: url(../Images/live-icon.gif);
 	background-repeat: no-repeat;
 	width: 24px;
 	height: 24px;
-	display:inline-block;	
+	display: inline-block;
 }
 /*未完结*/
-.nofinish{
+.nofinish {
 	margin-right: 20px;
 	margin-top: 10px;
 	width: 40px;
@@ -238,7 +263,7 @@ video::-webkit-media-controls-panel {
 	color: #CCC;
 }
 /*购买图标*/
-.buy{
+.buy {
 	margin-right: 20px;
 	margin-top: 10px;
 	width: 40px;
@@ -251,13 +276,12 @@ video::-webkit-media-controls-panel {
 	background-color: rgba(102,102,102,0.15);
 	color: #FC0;
 }
-.buy:before{
+.buy:before {
 	content: "\e625";
 	font-family: "moneyico";
-	margin-right:5px;
+	margin-right: 5px;
 }
-
-.outline a{
+.outline a {
 	color: #999;
 }
 .current {
@@ -267,29 +291,28 @@ video::-webkit-media-controls-panel {
 	font-weight: bold;
 	color: #FFFFFF;
 }
-
 #playerInfo {
 	line-height: 30px;
 	height: 30px;
 	color: #CCC;
 	text-indent: 20px;
-	position:relative;
-	text-align:left;
+	position: relative;
+	text-align: left;
 }
 /*学习记录递交是否成功的提示信息*/
-.StudentStudyLog{
-	position:absolute;
-	right:10px;
-	top:3px;
+.StudentStudyLog {
+	position: absolute;
+	right: 10px;
+	top: 3px;
 }
-.error{
-	color:red;
+.error {
+	color: red;
 }
 video::-webkit-media-controls-enclosure {
-    overflow:hidden;
+ overflow:hidden;
 }
 video::-webkit-media-controls-panel {
-     width: calc(100% + 30px); 
+ width: calc(100% + 30px);
 }
 .historyInfo {
 	margin-left: 20px;
@@ -306,10 +329,8 @@ video::-webkit-media-controls-panel {
 	border-bottom-style: solid;
 	border-left-style: none;
 	border-bottom-color: #999999;
-	
-	
 }
-#MainBox .oltitle a{
+#MainBox .oltitle a {
 	font-size: 14px;
 	background-repeat: no-repeat;
 	background-position: left bottom;
@@ -325,9 +346,9 @@ video::-webkit-media-controls-panel {
 	width: 100px;
 	line-height: 25px;
 	text-decoration: none;
-	display:block;
-	cursor:pointer;
-	margin-top:5px;
+	display: block;
+	cursor: pointer;
+	margin-top: 5px;
 	transition: font-size .6s;
 	transition: background-color 0.6s;
 }
@@ -337,14 +358,14 @@ video::-webkit-media-controls-panel {
 	background-color: #999999;
 	text-shadow: 0 0 10px #fff;
 }*/
-#MainBox .oltitle .titCurr{
+#MainBox .oltitle .titCurr {
 	color: #000;
 	background-color: #999999;
-	text-shadow: 1px 1px 2px #fff;	
+	text-shadow: 1px 1px 2px #fff;
 	height: 30px;
-	margin-top:0px;
+	margin-top: 0px;
 	font-size: 16px;
-	padding-top:2px;
+	padding-top: 2px;
 }
 .noSelect {
 	text-align: left;
@@ -357,14 +378,14 @@ video::-webkit-media-controls-panel {
 	margin-bottom: auto;
 	margin-left: auto;
 }
-.noSelect, .noSelect a{
+.noSelect, .noSelect a {
 	color: #eee;
 	font-size: 16px;
 }
 /* 附件 */
 #access {
 	margin: 20px;
-	text-align:left;
+	text-align: left;
 }
 #access a {
 	font-size: 16px;
@@ -372,10 +393,10 @@ video::-webkit-media-controls-panel {
 	display: block;
 	color: #CCC;
 	line-height: 30px;
-	width:auto;
+	width: auto;
 }
-#access a:hover{
-	background-color:#333;
+#access a:hover {
+	background-color: #333;
 }
 /* 视频事件中的试题窗口*/
 .MsgBoxContext .eventContext {
@@ -402,16 +423,16 @@ video::-webkit-media-controls-panel {
 	margin-top: 10px !important;
 }
 /*限制只能在桌面应用中打开*/
-#StudyForDeskapp{
-	color:#fff;
-	margin-top:60px;
-	width:320px;
-	height:90px;
-	line-height:90px;
-	background:#999;
-	margin-left:auto;
-	margin-right:auto;
+#StudyForDeskapp {
+	color: #fff;
+	margin-top: 60px;
+	width: 320px;
+	height: 90px;
+	line-height: 90px;
+	background: #999;
+	margin-left: auto;
+	margin-right: auto;
 }
-#StudyForDeskapp, #StudyForDeskapp a{
-	font-size:16px;
+#StudyForDeskapp, #StudyForDeskapp a {
+	font-size: 16px;
 }
