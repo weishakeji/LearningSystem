@@ -8,6 +8,7 @@
       <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/vue_min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/api.js?ver={$version}"></script>
+      <script type="text/javascript" src="/Utility/CkplayerX1/ckplayer/ckplayer.js"></script>
       <link href="Styles/CourseStudy.css?ver={$version}" rel="stylesheet" type="text/css" />
       <!--播放器的引用-->
       <script type="text/javascript">
@@ -62,6 +63,10 @@
                         </div>
                         <div remark="视频" v-show="titState=='existVideo'">
                               视频路径：{{state.urlVideo}}
+                              <div class="videosamplex">
+                                    <video id="videoplayer" :src="state.urlVideo"></video>
+                                </div>
+
                         </div>
                         <div remark="内容" v-show="titState=='isContext'" id="details">
                               <div id="detailsArea" v-html="outline.Ol_Intro"> </div>
