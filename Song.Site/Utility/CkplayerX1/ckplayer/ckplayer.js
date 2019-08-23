@@ -31,7 +31,7 @@ function ckplayerConfig() {
 			bufferTime: 200,//缓存区的长度，单位：毫秒,不要小于10
 			rtmpBufferTime:0,//rtmp视频缓存区长度，单位：毫秒
 			click: true,//是否支持屏幕单击暂停
-			doubleClick: true,//是否支持屏幕双击全屏
+			doubleClick: false,//是否支持屏幕双击全屏
 			doubleClickInterval: 200,//判断双击的标准，即二次单击间隔的时间差之内判断为是双击，单位：毫秒
 			keyDown: {
 				space: true,//是否启用空格键切换播放/暂停
@@ -86,7 +86,7 @@ function ckplayerConfig() {
 				offsetY: -40
 			},
 			logo: { //显示在右上角的logo图片，如果不需要可以删除该属性
-				file: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFcAAAAUCAYAAAD4BKGuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAVTSURBVHja1Fl/aJVVGP4cw/mH5tUWi3I53cA0WbeIzMgaq6lQoVawm0S6glHhIKM/TELICotqCxMSGWQRdFfRLEhc9mMxqA0rbdS2wsV0GkZXuaKUWlHvgeeNh7f3u1du3Ft74eGcnXu+c873vD/Pt0nZbDZyZL2gWZAQTBH8IjggeEjgPZASPIB+g/P7EsGT6J/BfHfjHFIv2Jpjj/+dlDskvCm42Jk7X3C7YJOgw/z2oOBGwdEYRW0RVAjOCZ4ugNggqwU3CTLRBJFyQ+xuwVRY14igB78tE9QKpgmeEHwkGKRnq9AeMesHRWwEsYGUxwSdBZ51ecweE4Lct0DsOVjaZvptA8jfC4JfghWpXIJ2jMY+EDShf1pwh6DvX5x1GtpDE43cNFlfhyFWpQ9xd5FgFo3fRi++C+2nCBNBRgU3O6RsEyyEQv4QLMb4CcE9RlFBLqS1WZ6BZ83A35ofVhuvfE5QJrjWebdgCJOx51qM1QgewbMzsO57MDQrB9DeC8ObHd5Xyb2eiNiQQxmtgkZBr+OuZwV7BIcF1RgbF1wTE2MbEccX48VY9sMzBilhTke/m+b1Q9lefpgruI7OsYhIGzPJuAnn3+6EM7vu1YKl5vkrYRSfCGZivCxoMklk7M5j6eFlXyRNRSAvAoFf0Fo/CC7LkbwuQjsZsf0qwbuI9wlYgIqGl6NEzDYibJ/gbmAfxpKoMDRcaSK8xZzjZbK+NMhSYoNSngV5e+ksKXp+JdqZwDDmdpSbsqa9gNAyi5JalSGv3iQ+dtNK9HvI+sNBh2AhvNYVaH+msRtAdsa4ehoKCuQsoP2PY8+kCSkJ5IRWjD2FZ4/BOFSWYv9KhI40eUKQ31CqdnLM1c1OOnHufKSS+iEZvgHNhji8g1yT5VZKdCnHO+ajvrYK/I7GkuSWjwvq8Mzl5M79NF89aCHaBNXmWv0sQVUUZEDwsDnbr2i9s31lKyGuFs7kITEBC+snJaToRYIFrRN0CeYgoSUxJ23WUm85eB41b4IUuIvGtyIMVMY8lzHGMoYworF7J/onKYk10/wVQL6zXYr+Zq9aOEhuXZPDel8Q3If+HMzTeHPKlForEK+mws3SMfH2UMxNLIJbasKsoIQZwVLbKFkN4T1C3HxUMM+EkCAfgjwNV40Y304KriOP+jIHqa+jvYsqnH/kqzKaGCFZxWnoTqooxky8+dHUsOGwr6Jfi9jmlVVTHGLnot9L3qGWqCToWYYRF5fDa96mtb93yI2g8B0IWxlTHWmi/hOG00D4mEJfJ5WhQX7ySCsDUaNkJeud6+sgXCgs3OLEG2/xdZSh10JBeiB1zQU0HuQdSib60rOdm9kFToIL8hmFiRHzm1YM0ylet5k579OFpcUk4I0oD0/QuJ7tcBy5ERY6ixdrh5uNwN3bUV7pd4E+J958HmPxbRRydqK/in6vxj5aH9din/udEPKtuU1GqBL24xJwBInQWiHLcbQVKBXTzkVpHP0tWHsIpZUqPeWcrScXuX2ImRkqlufBhdQl15ig3WLKH0/SeAmtD+uprBqGx1ThhlWN5LKG4lcNKbDblFDjVDU0wWK7yLLqnPNk6cKzKsfXt1GQmQQXSuwymhd3tr9lkvPJMUV152kc2PsmUEMxtzdPRk2SNX2DQ3Vhr02Is18LXjHVAz/bG0NEK8johus3UBiwyfkYlDkQUyLaWrwZBrbHMaB8Z3PJLaYk8IIVKKPSJdxbv3ecynNzLNr33GKLV1YVW4IyfycXfq0UxP4X5HJdXCqX4Wv0AKqYkkipw4LG6WxMNi+GhAtH+M/K8wVe7wuWvwQYAFT+UsGCXmX3AAAAAElFTkSuQmCC',
+				//file: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFcAAAAUCAYAAAD4BKGuAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAVTSURBVHja1Fl/aJVVGP4cw/mH5tUWi3I53cA0WbeIzMgaq6lQoVawm0S6glHhIKM/TELICotqCxMSGWQRdFfRLEhc9mMxqA0rbdS2wsV0GkZXuaKUWlHvgeeNh7f3u1du3Ft74eGcnXu+c873vD/Pt0nZbDZyZL2gWZAQTBH8IjggeEjgPZASPIB+g/P7EsGT6J/BfHfjHFIv2Jpjj/+dlDskvCm42Jk7X3C7YJOgw/z2oOBGwdEYRW0RVAjOCZ4ugNggqwU3CTLRBJFyQ+xuwVRY14igB78tE9QKpgmeEHwkGKRnq9AeMesHRWwEsYGUxwSdBZ51ecweE4Lct0DsOVjaZvptA8jfC4JfghWpXIJ2jMY+EDShf1pwh6DvX5x1GtpDE43cNFlfhyFWpQ9xd5FgFo3fRi++C+2nCBNBRgU3O6RsEyyEQv4QLMb4CcE9RlFBLqS1WZ6BZ83A35ofVhuvfE5QJrjWebdgCJOx51qM1QgewbMzsO57MDQrB9DeC8ObHd5Xyb2eiNiQQxmtgkZBr+OuZwV7BIcF1RgbF1wTE2MbEccX48VY9sMzBilhTke/m+b1Q9lefpgruI7OsYhIGzPJuAnn3+6EM7vu1YKl5vkrYRSfCGZivCxoMklk7M5j6eFlXyRNRSAvAoFf0Fo/CC7LkbwuQjsZsf0qwbuI9wlYgIqGl6NEzDYibJ/gbmAfxpKoMDRcaSK8xZzjZbK+NMhSYoNSngV5e+ksKXp+JdqZwDDmdpSbsqa9gNAyi5JalSGv3iQ+dtNK9HvI+sNBh2AhvNYVaH+msRtAdsa4ehoKCuQsoP2PY8+kCSkJ5IRWjD2FZ4/BOFSWYv9KhI40eUKQ31CqdnLM1c1OOnHufKSS+iEZvgHNhji8g1yT5VZKdCnHO+ajvrYK/I7GkuSWjwvq8Mzl5M79NF89aCHaBNXmWv0sQVUUZEDwsDnbr2i9s31lKyGuFs7kITEBC+snJaToRYIFrRN0CeYgoSUxJ23WUm85eB41b4IUuIvGtyIMVMY8lzHGMoYworF7J/onKYk10/wVQL6zXYr+Zq9aOEhuXZPDel8Q3If+HMzTeHPKlForEK+mws3SMfH2UMxNLIJbasKsoIQZwVLbKFkN4T1C3HxUMM+EkCAfgjwNV40Y304KriOP+jIHqa+jvYsqnH/kqzKaGCFZxWnoTqooxky8+dHUsOGwr6Jfi9jmlVVTHGLnot9L3qGWqCToWYYRF5fDa96mtb93yI2g8B0IWxlTHWmi/hOG00D4mEJfJ5WhQX7ySCsDUaNkJeud6+sgXCgs3OLEG2/xdZSh10JBeiB1zQU0HuQdSib60rOdm9kFToIL8hmFiRHzm1YM0ylet5k579OFpcUk4I0oD0/QuJ7tcBy5ERY6ixdrh5uNwN3bUV7pd4E+J958HmPxbRRydqK/in6vxj5aH9din/udEPKtuU1GqBL24xJwBInQWiHLcbQVKBXTzkVpHP0tWHsIpZUqPeWcrScXuX2ImRkqlufBhdQl15ig3WLKH0/SeAmtD+uprBqGx1ThhlWN5LKG4lcNKbDblFDjVDU0wWK7yLLqnPNk6cKzKsfXt1GQmQQXSuwymhd3tr9lkvPJMUV152kc2PsmUEMxtzdPRk2SNX2DQ3Vhr02Is18LXjHVAz/bG0NEK8johus3UBiwyfkYlDkQUyLaWrwZBrbHMaB8Z3PJLaYk8IIVKKPSJdxbv3ecynNzLNr33GKLV1YVW4IyfycXfq0UxP4X5HJdXCqX4Wv0AKqYkkipw4LG6WxMNi+GhAtH+M/K8wVe7wuWvwQYAFT+UsGCXmX3AAAAAElFTkSuQmCC',
 				align: 'right',
 				vAlign: 'top',
 				offsetX: -100,
@@ -149,7 +149,7 @@ function ckplayerConfig() {
 			config：全局变量定义一些基本配置
 		*/
 		this.config = {
-			videoDbClick: true,//是否支持双击全屏/退出全屏动作
+			videoDbClick: false,//是否支持双击全屏/退出全屏动作
 			errorTime: 100,//延迟判断失败的时间，单位：毫秒
 			videoDrawImage: false,//是否使用视频drawImage功能，注意，该功能在移动端表现不了
 			adSkipClick: 'javaScript->adjump' //h5环境中点击跳过广告按钮触发的功能
@@ -204,7 +204,7 @@ function ckplayerConfig() {
 			adend: '',
 			adendtime: '',
 			adendlink: '',
-			advertisements: ''
+			advertisements: ''			
 		};
 		this.vars = {};//全局变量：语言配置
 		this.language = {
@@ -229,11 +229,11 @@ function ckplayerConfig() {
 			downLoadShockwaveFlash:'点击下载FlashPlayer插件'
 		};
 		//全局变量：右键菜单：[菜单标题,类型(link:链接，default:灰色，function：调用函数，javascript:调用js函数),执行内容(包含链接地址，函数名称),[line(间隔线)]]
-		this.contextMenu = [['ckplayer', 'link', 'http://www.ckplayer.com', '_blank'], ['version:X1', 'default', 'line']];
+		//this.contextMenu = [['微厦科技', 'link', 'http://www.weishakeji.net', '_blank']];		
 		//全局变量：错误提示列表
 		this.errorList = [['000', 'Object does not exist'], ['001', 'Variables type is not a object'], ['002', 'Video object does not exist'], ['003', 'Video object format error'], ['004', 'Video object format error'], ['005', 'Video object format error'], ['006', '[error] does not exist '], ['007', 'Ajax error'], ['008', 'Ajax error'], ['009', 'Ajax object format error'], ['010', 'Ajax.status:[error]']];
 		//全局变量：HTML5变速播放的值数组/如果不需要可以设置成null
-		this.playbackRateArr = [[0.5, '0.5倍'], [1, '正常'], [1.25, '1.25倍'], [1.5, '1.5倍'], [2, '2倍速'], [4, '4倍速']];
+		//this.playbackRateArr = [[0.5, '0.5倍'], [1, '正常'], [1.25, '1.25倍'], [1.5, '1.5倍'], [2, '2倍速'], [4, '4倍速']];
 		//全局变量：保存倍速
 		this.playbackRateTemp=1;
 		//全局变量：HTML5默认变速播放的值
@@ -1161,6 +1161,7 @@ function ckplayerConfig() {
 			};
 			this.addListenerInside('volumechange', eventVolumeChange);
 			//监听全屏事件
+			/*
 			var eventFullChange = function(event) {
 				var fullState = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
 				thisTemp.sendJS('full', fullState);
@@ -1168,6 +1169,7 @@ function ckplayerConfig() {
 			this.addListenerInside('fullscreenchange', eventFullChange);
 			this.addListenerInside('webkitfullscreenchange', eventFullChange);
 			this.addListenerInside('mozfullscreenchange', eventFullChange);
+			*/
 			//建立界面
 			if (this.showFace) {
 				this.interFace();
@@ -1337,8 +1339,8 @@ function ckplayerConfig() {
 			html += '<div class="' + nextID + '" data-title="' + thisTemp.language['next'] + '">' + this.newCanvas(nextID, bWidth, bHeight) + '</div>'; //下一集按钮
 			html += '<div class="' + dlineID + '-lc"></div>'; //分隔线
 			html += '<div class="' + timeTextID + '">' + timeInto + '</div>'; //时间文本
-			html += '<div class="' + fullID + '" data-title="' + thisTemp.language['full'] + '">' + this.newCanvas(fullID, bWidth, bHeight) + '</div>'; //全屏按钮
-			html += '<div class="' + escFullID + '" data-title="' + thisTemp.language['escFull'] + '">' + this.newCanvas(escFullID, bWidth, bHeight) + '</div>'; //退出全屏按钮
+			//html += '<div class="' + fullID + '" data-title="' + thisTemp.language['full'] + '">' + this.newCanvas(fullID, bWidth, bHeight) + '</div>'; //全屏按钮
+			//html += '<div class="' + escFullID + '" data-title="' + thisTemp.language['escFull'] + '">' + this.newCanvas(escFullID, bWidth, bHeight) + '</div>'; //退出全屏按钮
 			html += '<div class="' + dlineID + '-ra"></div>'; //分隔线
 			html += '<div class="' + definitionID + '" data-title="' + thisTemp.language['definition'] + '"></div>'; //清晰度容器
 			html += '<div class="' + dlineID + '-rb"></div>'; //分隔线
@@ -1755,6 +1757,7 @@ function ckplayerConfig() {
 				cursor: 'pointer',
 				display: 'none'
 			});
+			/*
 			//设置全屏/退出全屏按钮样式
 			this.css([fullID, escFullID], {
 				width: bWidth + 'px',
@@ -1764,6 +1767,7 @@ function ckplayerConfig() {
 				cursor: 'pointer'
 			});
 			this.css(escFullID, 'display', 'none');
+			*/
 			//设置广告背景层样式
 			this.css(adBackgroundID, {
 				width: '100%',
@@ -1929,6 +1933,7 @@ function ckplayerConfig() {
 			this.addListenerInside('mouseover', cNextOver, this.getByElement(nextID + '-canvas'));
 			this.addListenerInside('mouseout', cNextOut, this.getByElement(nextID + '-canvas'));
 			//全屏按钮
+			/*
 			var cFull = this.getByElement(fullID + '-canvas').getContext('2d');
 			var cFullFillRect = function() {
 				thisTemp.canvasFillRect(cFull, [[19, 10, 9, 3], [25, 13, 3, 6], [10, 19, 3, 9], [13, 25, 6, 3]]);
@@ -1966,6 +1971,7 @@ function ckplayerConfig() {
 			};
 			this.addListenerInside('mouseover', cEscFullOver, this.getByElement(escFullID + '-canvas'));
 			this.addListenerInside('mouseout', cEscFullOut, this.getByElement(escFullID + '-canvas'));
+			*/
 			//定义静音按钮的样式
 			var cMute = this.getByElement(muteID + '-canvas').getContext('2d');
 			var cMuteFillRect = function() {
@@ -1986,6 +1992,7 @@ function ckplayerConfig() {
 			};
 			this.addListenerInside('mouseover', cMuteOver, this.getByElement(muteID + '-canvas'));
 			this.addListenerInside('mouseout', cMuteOut, this.getByElement(muteID + '-canvas'));
+			
 			//定义取消广告静音按钮样式
 			var cEscMute = this.getByElement(escMuteID + '-canvas').getContext('2d');
 			var cEscMuteFillRect = function() {
@@ -2917,7 +2924,7 @@ function ckplayerConfig() {
 			内部函数
 			判断是否是全屏
 		*/
-		isFullScreen: function() {
+		isFullScreen: function() {			
 			if (!this.showFace) {
 				return;
 			}
@@ -2956,6 +2963,7 @@ function ckplayerConfig() {
 			构建右键内容及注册相关动作事件
 		*/
 		newMenu: function() {
+			if(!this.contextMenu || this.contextMenu.length<1)return;
 			var thisTemp = this;
 			var i = 0;
 			this.css(this.CB['menu'], {
@@ -4183,7 +4191,8 @@ function ckplayerConfig() {
 			}
 			var controlBarW = this.CB['controlBar'].offsetWidth;
 			var ele = [];
-			ele.push([[this.CB['full'], this.CB['escFull'], this.CB['fullLine']], this.buttonWidth['full'] + 2, 'full']);
+			//全屏按钮
+			//ele.push([[this.CB['full'], this.CB['escFull'], this.CB['fullLine']], this.buttonWidth['full'] + 2, 'full']);
 			if (this.vars['front'] != '') {
 				ele.push([[this.CB['front'], this.CB['frontLine']], this.buttonWidth['front'] + 2]);
 			}

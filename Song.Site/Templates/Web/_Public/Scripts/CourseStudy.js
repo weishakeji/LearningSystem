@@ -83,8 +83,9 @@
                 contextMenu: [['微厦科技', 'link', 'http://www.ckplayer.com', '_blank'], ['version:X1', 'default', 'line']],
                 video:state.urlVideo//视频地址
               };
+              //window.ckplayer.playbackRateArr=[[0.5, '0.5倍'], [1, '正常'], [1.25, '1.25倍'], [1.5, '1.5倍'], [2, '2倍速'], [4, '4倍速']];
               var player=new ckplayer(videoObject);
-              player.contextMenu= [['微厦科技', 'link', 'http://www.ckplayer.com', '_blank'], ['version:X1', 'default', 'line']];;
+              
         }
     },
     created: function () {
