@@ -74,10 +74,6 @@
                 }
             }));
         },
-        showtime: function (date,fmt) {
-            if ($api.getType(date) != 'Date') return date;
-            return date.Format(fmt);
-        },
         //视频播放
         videoPlay: function (state) {
             if (vdata.player != null) vdata.player.videoPause();
