@@ -10,6 +10,7 @@ using Song.ViewData.Attri;
 using WeiSha.Common;
 using System.Data;
 using System.IO;
+using pili_sdk;
 
 
 namespace Song.ViewData.Methods
@@ -119,23 +120,44 @@ namespace Song.ViewData.Methods
 
             //是否有视频，是否为外链视频
             List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(outline.Ol_UID, "CourseVideo");
-            bool existVideo = videos.Count > 0;
-            dic.Add("existVideo", existVideo);
-            dic.Add("outerVideo", existVideo && videos[0].As_IsOuter);
-            string videoUrl = existVideo ? videos[0].As_FileName : string.Empty; //视频地址
-            //如果是内部链接
-            if (existVideo && !videos[0].As_IsOuter)
+            bool existVideo = videos.Count > 0;                   
+            dic.Add("outerVideo", existVideo && (videos.Count > 0 && videos[0].As_IsOuter));
+            if (videos.Count > 0)
             {
-                videoUrl = Upload.Get[videos[0].As_Type].Virtual + videoUrl;
-                string fileHy = WeiSha.Common.Server.MapPath(videoUrl);
-                if (!System.IO.File.Exists(fileHy))
+                string videoUrl = existVideo ? videos[0].As_FileName : string.Empty; //视频地址
+                //如果是内部链接
+                if (existVideo && !videos[0].As_IsOuter)
                 {
-                    string ext = System.IO.Path.GetExtension(fileHy).ToLower();
-                    if (ext == ".mp4") videoUrl = Path.ChangeExtension(videoUrl, ".flv");
-                    if (ext == ".flv") videoUrl = Path.ChangeExtension(videoUrl, ".mp4");
+                    videoUrl = Upload.Get[videos[0].As_Type].Virtual + videoUrl;
+                    string fileHy = WeiSha.Common.Server.MapPath(videoUrl);
+                    if (!System.IO.File.Exists(fileHy))
+                    {
+                        string ext = System.IO.Path.GetExtension(fileHy).ToLower();
+                        if (ext == ".mp4") videoUrl = Path.ChangeExtension(videoUrl, ".flv");
+                        if (ext == ".flv") videoUrl = Path.ChangeExtension(videoUrl, ".mp4");
+                    }
                 }
+                dic.Add("urlVideo", videoUrl);
             }
-            dic.Add("urlVideo", videoUrl);
+            //直播       
+            bool isLive = false;
+            if (outline.Ol_IsLive)
+            {
+                //查询直播状态
+                pili_sdk.pili.StreamStatus status = Pili.API<IStream>().Status(outline.Ol_LiveID);
+                if (status != null)
+                {
+                    pili_sdk.pili.Stream stream = status.Stream;
+                    dic.Add("urlVideo", string.Format("http://{0}/{1}/{2}.m3u8", stream.LiveHlsHost, stream.HubName, stream.Title));
+                    isLive = status.Status == "connected";  //正在直播
+                    existVideo = isLive ? false : existVideo;
+                }
+                //直播开始或结束
+                dic.Add("LiveStart", DateTime.Now > outline.Ol_LiveTime);
+                dic.Add("LiveOver",  outline.Ol_LiveTime.AddMinutes(outline.Ol_LiveSpan) > DateTime.Now);
+            }
+            dic.Add("isLive", isLive);
+            dic.Add("existVideo", existVideo);
             //是否有课程内容
             bool isContext=!string.IsNullOrWhiteSpace(outline.Ol_Intro);
             dic.Add("isContext", isContext);
@@ -146,7 +168,7 @@ namespace Song.ViewData.Methods
             int accessCount = Business.Do<IAccessory>().OfCount(outline.Ol_UID, "Course");
             dic.Add("isAccess", accessCount > 0);
             //啥都没有（视频，内容，附件，试题，都没有）
-            dic.Add("isNull", !(existVideo || isContext || isQues || isQues || accessCount > 0));
+            dic.Add("isNull", !(existVideo || isLive || isContext || isQues || isQues || accessCount > 0));
             return dic;
         }
     }

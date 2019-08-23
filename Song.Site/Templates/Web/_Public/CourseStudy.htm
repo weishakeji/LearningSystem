@@ -46,6 +46,8 @@
                                     :class="titState=='isNull' ? 'titCurr':''">提 示</a>
                               <a v-if="state.existVideo" v-on:click="titState='existVideo'"
                                     :class="titState=='existVideo' ? 'titCurr':''">视 频</a>
+                                    <a v-if="state.isLive" v-on:click="titState='isLive'"
+                                    :class="titState=='isLive' ? 'titCurr':''">直播</a>
                               <a v-if="state.isContext" v-on:click="titState='isContext'"
                                     :class="titState=='isContext' ? 'titCurr':''">内 容</a>
                               <a v-if="state.isAccess" v-on:click="titState='isAccess'"
@@ -59,14 +61,24 @@
                   <!--左侧顶部结束-->
                   <div id="contextArea">
                         <div remark="提示" v-show="titState=='isNull'">
-                              <div class="noSelect">当前章节没有任何内容！</div>
+                              <div class="noSelect">当前章节没有内容！</div>
+                              <div class="noSelect" v-if="state.LiveStart && state.LiveOver">直播已经结束</div>                              
                         </div>
-                        <div remark="视频" v-show="titState=='existVideo'">
-                              视频路径：{{state.urlVideo}}
-                              <div class="videosamplex">
+                        <div remark="视频" v-show="titState=='existVideo'" :video="state.urlVideo">
+                              <div class="videobox" v-show="!state.outerVideo && !state.isLive"
+                                    style="height: 100%;width:100%;" remark="点播">
                                     <video id="videoplayer" :src="state.urlVideo"></video>
-                                </div>
-
+                              </div>
+                              <iframe id="vedioiframe" height="100%" width="100%"
+                                    v-if="state.outerVideo && !state.isLive" :src="state.urlVideo"
+                                    allowscriptaccess="always" allowfullscreen="true" wmode="opaque"
+                                    allowtransparency="true" frameborder="0" remark="外部视频链接"
+                                    type="application/x-shockwave-flash"></iframe>
+                            
+                        </div>
+                        <div remark="直播" v-show="titState=='isLive'" :video="state.urlVideo">
+                                    <div class="livebox" v-show="state.isLive" style="height: 100%;width:100%;" remark="直播">
+                                          </div>
                         </div>
                         <div remark="内容" v-show="titState=='isContext'" id="details">
                               <div id="detailsArea" v-html="outline.Ol_Intro"> </div>
@@ -119,6 +131,7 @@
                                                 <span v-show="d.Ol_IsFinish" class="buy">购买</span></a>
                                     </template>
                                     <span class="nofinish" v-show="!d.Ol_IsFinish">未完结</span>
+                                    <span  v-show="d.Ol_IsLive">[{{d.Ol_LiveTime}}开始,直播{{d.Ol_LiveSpan}}分钟]</span>
                               </div>
                         </template>
                   </div>

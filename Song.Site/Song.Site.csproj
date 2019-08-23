@@ -1499,10 +1499,11 @@
     <Content Include="Templates\Web\_Public\Styles\CourseStudy_.css" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.js" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.min.js" />
-    <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.swf" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.xml" />
+    <Content Include="Utility\CkplayerX1\ckplayer\ckplayer_3.swf" />
     <Content Include="Utility\CkplayerX1\ckplayer\hls\hls.js" />
     <Content Include="Utility\CkplayerX1\ckplayer\hls\hls.min.js" />
+    <Content Include="Utility\CkplayerX1\ckplayer\imgtest.html" />
     <Content Include="Utility\CkplayerX1\ckplayer\language.xml" />
     <Content Include="Utility\CkplayerX1\ckplayer\style.xml" />
     <Content Include="Utility\CkplayerX1\crossdomain.xml" />

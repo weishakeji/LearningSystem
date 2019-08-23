@@ -1,26 +1,30 @@
 ﻿var vdata = new Vue({
     data: {
+        //数据实体
         course: {},      //当前课程
         outline: {},     //当前课程章节
         subject: {},     //当前专业
         outlines: [],     //当前课程的章节列表（树形）
         access: [],          //附件列表
         video: {},             //当前章节的视频
-        //
+        //状态
         state: {},           //课程状态       
         couid: $api.querystring("couid"),
         olid: $api.querystring("olid"),
         median: false,     //分隔线折叠状态
         titState: 'loading',        //左侧选项卡的状态
-        rightState: 'outline'       //右侧选项卡状态，章节outline,交流chat
+        rightState: 'outline',       //右侧选项卡状态，章节outline,交流chat
+        //控件
+        player: null             //播放器
     },
     watch: {
         //课程状态
         state: function (val) {
-            if (vdata.state.isNull) vdata.titState = 'isNull';
-            if (vdata.state.isContext) vdata.titState = 'isContext';
+            if (vdata.state.isNull) vdata.titState = 'isNull';            
             if (vdata.state.isAccess) vdata.titState = 'isAccess';
             if (vdata.state.isQues) vdata.titState = 'isQues';
+            if (vdata.state.isContext) vdata.titState = 'isContext';
+            if (vdata.state.isLive) vdata.titState = 'isLive';
             if (vdata.state.existVideo) vdata.titState = 'existVideo';
             //视频播放
             vdata.videoPlay(vdata.state);
@@ -70,22 +74,41 @@
                 }
             }));
         },
+        showtime: function (date,fmt) {
+            if ($api.getType(date) != 'Date') return date;
+            return date.Format(fmt);
+        },
         //视频播放
-        videoPlay:function(state){
-            var videoObject = {
-                container: '.videosamplex',//“#”代表容器的ID，“.”或“”代表容器的class
-                variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
-                mobileCkControls:true,//是否在移动端（包括ios）环境中显示控制栏
-                mobileAutoFull:false,//在移动端播放后是否按系统设置的全屏播放
-                h5container:'#videoplayer',//h5环境中使用自定义容器
-                videoDbClick:false,     //禁止双击全屏
-                autoplay:true,          //自动播放
-                contextMenu: [['微厦科技', 'link', 'http://www.ckplayer.com', '_blank'], ['version:X1', 'default', 'line']],
-                video:state.urlVideo//视频地址
-              };
-              //window.ckplayer.playbackRateArr=[[0.5, '0.5倍'], [1, '正常'], [1.25, '1.25倍'], [1.5, '1.5倍'], [2, '2倍速'], [4, '4倍速']];
-              var player=new ckplayer(videoObject);
-              
+        videoPlay: function (state) {
+            if (vdata.player != null) vdata.player.videoPause();
+            //if (vdata.state.existVideo && !vdata.state.outerVideo) {
+            if (!vdata.state.isLive) {  //点播
+                window.setTimeout(function () {
+                    var videoObject = {
+                        container: '.videobox',//“#”代表容器的ID，“.”或“”代表容器的class
+                        variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+                        mobileCkControls: true,//是否在移动端（包括ios）环境中显示控制栏
+                        mobileAutoFull: false,//在移动端播放后是否按系统设置的全屏播放
+                        h5container: '#videoplayer',//h5环境中使用自定义容器
+                        videoDbClick: false,     //禁止双击全屏
+                        autoplay: true,          //自动播放             
+                        video: state.urlVideo//视频地址
+                    };
+                    vdata.player = new ckplayer(videoObject);
+                }, 100)
+            } else {
+                //直播
+                window.setTimeout(function () {
+                    var videoObject = {
+                        container: '.livebox', //“#”代表容器的ID，“.”或“”代表容器的class
+                        variable: 'liveplayer', //该属性必需设置，值等于下面的new chplayer()的对象
+                        autoplay: true,
+                        html5m3u8: true,
+                        video: state.urlVideo   //视频地址
+                    };
+                    vdata.player = new ckplayer(videoObject);
+                }, 100);
+            }
         }
     },
     created: function () {
@@ -106,8 +129,8 @@
                         }
                     });
                 } else {
-                    if (!ol.data.success)alert("章节列表加载错误");
-                    if (!cur.data.success)alert("课程信息加载错误");
+                    if (!ol.data.success) alert("章节列表加载错误");
+                    if (!cur.data.success) alert("课程信息加载错误");
                 }
             }));
     },
