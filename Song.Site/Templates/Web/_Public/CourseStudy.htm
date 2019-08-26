@@ -3,12 +3,14 @@
 
 <head>
       <title>{$course.cou_Name}</title>
+   
       <vt:include file="inc/meta.inc" />
       <script type="text/javascript" src="/Utility/CoreScripts/polyfill.min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/vue_min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/api.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CkplayerX1/ckplayer/ckplayer.js"></script>
+      <script type="text/javascript" src="/Utility/Qiniuyun/qiniu-web-player-1.2.2.js"></script>
       <link href="Styles/CourseStudy.css?ver={$version}" rel="stylesheet" type="text/css" />
       <!--播放器的引用-->
       <script type="text/javascript">
@@ -65,10 +67,10 @@
                               <div class="noSelect" v-if="state.LiveStart && state.LiveOver">直播已经结束</div>
                         </div>
                         <div remark="视频" v-show="titState=='existVideo'" :video="state.urlVideo">
-                              <div class="videobox" v-show="!state.outerVideo && !state.isLive"
+                              <div id="videoplayer" v-show="!state.outerVideo && !state.isLive"
                                     style="height: 100%;width:100%;" remark="点播">
-                                    <video id="videoplayer" :src="state.urlVideo"></video>
-                              </div>
+                                    
+                              </div>                             
                               <iframe id="vedioiframe" height="100%" width="100%"
                                     v-if="state.outerVideo && !state.isLive" :src="state.urlVideo"
                                     allowscriptaccess="always" allowfullscreen="true" wmode="opaque"
@@ -77,7 +79,7 @@
 
                         </div>
                         <div remark="直播" v-show="titState=='isLive'" :video="state.urlVideo">
-                              <div class="livebox" v-show="state.isLive" style="height: 100%;width:100%;" remark="直播">
+                              <div id="livebox" v-show="state.isLive" style="height: 100%;width:100%;" remark="直播">
                               </div>
                         </div>
                         <div remark="内容" v-show="titState=='isContext'" id="details">

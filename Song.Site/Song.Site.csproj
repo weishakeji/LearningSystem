@@ -2169,6 +2169,10 @@
     <Content Include="Utility\PdfViewer\viewer.css" />
     <Content Include="Utility\PdfViewer\viewer.html" />
     <Content Include="Utility\PdfViewer\viewer.js" />
+    <Content Include="Utility\Qiniuyun\crossdomain.xml" />
+    <Content Include="Utility\Qiniuyun\demo.html" />
+    <Content Include="Utility\Qiniuyun\demo1.html" />
+    <Content Include="Utility\Qiniuyun\qiniu-web-player-1.2.2.js" />
     <Content Include="Utility\Taobao\2018_01.png" />
     <Content Include="Utility\Taobao\2018_02.png" />
     <Content Include="Utility\Taobao\2018_03.png" />
@@ -6906,7 +6910,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
-          <DevelopmentServerPort>85</DevelopmentServerPort>
+          <DevelopmentServerPort>80</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>

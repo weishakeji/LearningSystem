@@ -80,31 +80,41 @@
         },
         //视频播放
         videoPlay: function (state) {
-            if (vdata.player != null) vdata.player.videoPause();
-            //if (vdata.state.existVideo && !vdata.state.outerVideo) {
+            if (vdata.player != null) vdata.player.destroy();
+
+
             if (!vdata.state.isLive) {  //点播
-                window.setTimeout(function () {
-                    var videoObject = {
-                        container: '.videobox',//“#”代表容器的ID，“.”或“”代表容器的class
-                        variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象                       
-                        h5container: '#videoplayer',//h5环境中使用自定义容器
-                        videoDbClick: false,     //禁止双击全屏
-                        autoplay: true,          //自动播放             
-                        video: state.urlVideo//视频地址
-                    };
-                    vdata.player = new ckplayer(videoObject);
-                }, 100)
+                vdata.player = new QPlayer({
+                    url: state.urlVideo,
+                    container: document.getElementById("videoplayer"),
+                    autoplay: true,
+                });
+
             } else {
                 //直播
-                window.setTimeout(function () {
-                    vdata.player = new ckplayer({
-                        container: '.livebox', //“#”代表容器的ID，“.”或“”代表容器的class
-                        variable: 'player', //该属性必需设置，值等于下面的new chplayer()的对象
-                        autoplay: true,
-                        html5m3u8: true,
-                        video: state.urlVideo   //视频地址
-                    });
-                }, 100);
+                vdata.player = new QPlayer({
+                    url: state.urlVideo,
+                    container: document.getElementById("livebox"),
+                    isLive: true,
+                    autoplay: true
+                });
+            }
+            if (vdata.player != null) {
+                vdata.player.on("loading",vdata.videoready);
+                vdata.player.on("ready",vdata.videoready);
+            }
+
+        },
+        videoready: function () {
+            //隐藏全屏按钮
+            var fullbtn = document.getElementsByClassName("qplayer-fullscreen");
+            for (var i = 0; i < fullbtn.length; i++) {
+                fullbtn[i].style.display = "none";
+            }
+            //隐藏设置按钮(播放倍速也禁用了)
+            var setbtn = document.getElementsByClassName("qplayer-settings-btn");
+            for (var i = 0; i < setbtn.length; i++) {
+                setbtn[i].style.display = "none";
             }
         }
     },
