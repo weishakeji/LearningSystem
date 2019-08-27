@@ -52,7 +52,7 @@
                     <label>
                         <b>类型：</b>
                         <input type="radio" name="type" checked="checked" value="News" id="type_0" />
-                        新闻</label>
+                        资讯</label>
                     <label>
                         <input type="radio" name="type" value="Product" id="type_1" />
                         产品</label>
@@ -138,7 +138,7 @@
                     <label>
                         <b>类型：</b>
                         <input type="radio" name="addtype" checked="checked" value="News" id="addtype_0" />
-                        新闻</label>
+                        资讯</label>
                     <label>
                         <input type="radio" name="addtype" value="Product" id="addtype_1" />
                         产品</label>

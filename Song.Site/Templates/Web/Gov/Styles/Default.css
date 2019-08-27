@@ -126,7 +126,7 @@
 	font-weight: bold;
 }
 
-/*热点新闻*/
+/*热点资讯*/
 .news{
 	height: 320px;
 	width: 360px;
@@ -162,7 +162,7 @@
 .news .item .newsItem{
 	width: 280px;
 }
-/*图片新闻轮换*/
+/*图片资讯轮换*/
 .imgshow{
 	height: 320px;
 	width: 503px;

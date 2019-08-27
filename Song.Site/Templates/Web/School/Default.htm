@@ -64,7 +64,7 @@
       <div class="tit"> 焦点要闻 <a class="more" href="news.ashx">&nbsp;</a> </div>
       <div class="imgbox">
         <dl>
-          <vt:list type="news" var="newsImg" item="data" order="img" index="i" count="2" remark="图片新闻">
+          <vt:list type="news" var="newsImg" item="data" order="img" index="i" count="2" remark="图片资讯">
             <dd><a href="/article.ashx?id={$:#.data.art_id}" target="_blank"><img src="{$:#.data.art_logo}" alt="{$:i}"/> </a> <a href="/article.ashx?id={$:#.data.art_id}" target="_blank" class="art_tit">{$:#.data.art_title}</a> <a href="/article.ashx?id={$:#.data.art_id}" target="_blank" class="art_intro"> {$:#.data.art_intro}</a> </dd>
           </vt:list>
         </dl>
@@ -72,7 +72,7 @@
       <div class="line"></div>
       <div class="newsbox">
         <div class="nlistbox">
-          <vt:list type="news" item="data" columns="-1" index="i" count="5" remark="新闻">
+          <vt:list type="news" item="data" columns="-1" index="i" count="5" remark="资讯">
             <div class="artItem" artid="{$:#.data.art_id}">
               <div class="artlink"><a href="article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a> </div>
               <div class="arttime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
@@ -80,7 +80,7 @@
           </vt:list>
         </div>
         <div class="nlistbox">
-          <vt:list type="news" item="data" columns="-1" index="i" count="10" remark="新闻">
+          <vt:list type="news" item="data" columns="-1" index="i" count="10" remark="资讯">
             <vt:if var="i" value="5" compare=">">
               <div class="artItem" artid="{$:#.data.art_id}">
                 <div class="artlink"><a href="article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a> </div>

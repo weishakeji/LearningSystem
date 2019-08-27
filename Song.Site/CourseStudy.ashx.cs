@@ -79,7 +79,7 @@ namespace Song.Site
                 Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, ol.Ol_ID);
                 if (studyLog != null)
                 {
-                    this.Document.Variables.SetValue("studyLog", studyLog);
+                    this.Document.Variables.SetValue("studyLog", studyLog.Lss_StudyTime);
                     double historyPlay = (double)studyLog.Lss_PlayTime / 1000;
                     this.Document.Variables.SetValue("historyPlay", historyPlay);
                 }

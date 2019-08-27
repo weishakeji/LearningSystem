@@ -35,10 +35,10 @@
             <asp:TemplateField HeaderText="标题">
                 <itemstyle cssclass="left" />
                 <itemtemplate>
-                <span title="图片新闻" style="color:Blue"><%# Eval("Art_IsImg","{0}")=="True" ? "[图]" : ""%></span>
-                <span title="热点新闻" style="color:Red"><%# Eval("Art_IsHot", "{0}") == "True" ? "[热]" : ""%></span>
-                <span title="推荐新闻" style="color:Green"><%# Eval("Art_IsRec", "{0}") == "True" ? "[荐]" : ""%></span>
-                <span title="置顶新闻" style="color:Red"><%# Eval("Art_IsTop", "{0}") == "True" ? "[顶]" : ""%></span>
+                <span title="图片资讯" style="color:Blue"><%# Eval("Art_IsImg","{0}")=="True" ? "[图]" : ""%></span>
+                <span title="热点资讯" style="color:Red"><%# Eval("Art_IsHot", "{0}") == "True" ? "[热]" : ""%></span>
+                <span title="推荐资讯" style="color:Green"><%# Eval("Art_IsRec", "{0}") == "True" ? "[荐]" : ""%></span>
+                <span title="置顶资讯" style="color:Red"><%# Eval("Art_IsTop", "{0}") == "True" ? "[顶]" : ""%></span>
 <a href="News_Preview.aspx?id=<%# Eval("Art_Id")%>" target="_blank"><%# Eval("Art_Title", "{0}")%> 
 </a>
 </itemtemplate>

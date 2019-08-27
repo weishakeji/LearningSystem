@@ -78,7 +78,7 @@
             <div class="imgshow box">
                 <div class="example2">
                     <ul>
-                        <vt:list type="news" var="newsImg" item="data" order="img" index="i" count="4" remark="图片新闻">
+                        <vt:list type="news" var="newsImg" item="data" order="img" index="i" count="4" remark="图片资讯">
             <li><a href="/article.ashx?id={$:#.data.art_id}" target="_blank"><img src="{$:#.data.art_logo}" style="width:499px; height:317px" alt="{$:i}"/> </a></li>
           </vt:list>
                     </ul>
@@ -100,11 +100,11 @@
             <div class="news box">
                 <div class="boxTit">
                     <div class="txt">
-                        热点新闻</div>
+                        热点资讯</div>
                     <span class="more"><a href="/news.ashx">更多&gt;&gt;</a></span>
                 </div>
                 <div class="newslist">
-                    <vt:list type="news" item="data" columns="-1" index="i" count="10" remark="columns为新闻栏目Id">
+                    <vt:list type="news" item="data" columns="-1" index="i" count="10" remark="columns为资讯栏目Id">
           <div class="item" artid="{$:#.data.art_id}">
             <div class="newsItem"> <a href="../../article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}" target="_blank">{$:#.data.art_title}</a> </div>
             <div class="newsTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>

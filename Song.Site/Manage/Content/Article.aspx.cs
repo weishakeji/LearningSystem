@@ -107,7 +107,7 @@ namespace Song.Site.Manage.Content
                 tbAuthor.Text = mm.Art_Author;
                 tbSource.Text = mm.Art_Source;
                 tbLabel.Text = mm.Art_Label;
-                //是否是图片新闻，是否是热点新闻
+                //是否是图片资讯，是否是热点资讯
                 cbIsImg.Checked = mm.Art_IsImg;
                 fuImg.Visible = this.panelImg.Visible = cbIsImg.Checked;
                 imgFile.Src = Upload.Get[_uppath].Virtual + mm.Art_Logo;
@@ -184,7 +184,7 @@ namespace Song.Site.Manage.Content
                 mm.Art_Title = tbTitle.Text.Trim();
                 mm.Art_TitleAbbr = tbTitleAbbr.Text.Trim();
                 mm.Art_TitleFull = tbTitleFull.Text.Trim();
-                //是否是图片新闻，是否是热点新闻
+                //是否是图片资讯，是否是热点资讯
                 mm.Art_IsImg = cbIsImg.Checked;
                 mm.Art_IsHot = cbIsHot.Checked;
                 //是否显示
@@ -351,7 +351,7 @@ namespace Song.Site.Manage.Content
         #endregion
 
         /// <summary>
-        /// 是否是图片新闻的选择，
+        /// 是否是图片资讯的选择，
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

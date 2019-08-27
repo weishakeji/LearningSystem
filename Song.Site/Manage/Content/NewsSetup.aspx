@@ -22,7 +22,7 @@
   <legend>二维码</legend>
   <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <td><strong>新闻文章的二维码</strong><br />
+      <td><strong>资讯文章的二维码</strong><br />
         图片宽高：
         <asp:TextBox ID="tbArtQrWH" runat="server" MaxLength="3"
             Width="50px"></asp:TextBox>
@@ -32,7 +32,7 @@
 <asp:Button ID="btnArtEnter" runat="server" Text="保 存" OnClick="btnArtEnter_Click" />
 <asp:Button ID="btnArtBuild" runat="server" Text="保存并批量生成" OnClick="btnArtBuild_Click" />
 </td>
-      <td><strong>新闻专题的二维码</strong><br />
+      <td><strong>资讯专题的二维码</strong><br />
         图片宽高：
         <asp:TextBox ID="tbSpecQrWH" runat="server" MaxLength="3"
             Width="50px"></asp:TextBox>

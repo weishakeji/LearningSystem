@@ -28,7 +28,7 @@ namespace Song.Site.Mobile
             int stid = this.Account != null ? this.Account.Ac_ID : 0;
             if (stid > 0)
             {
-                //新闻列表
+                //资讯列表
                 Tag tag = this.Document.GetChildTagById("buyCou");
                 if (tag != null)
                 {

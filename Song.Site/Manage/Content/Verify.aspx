@@ -8,7 +8,7 @@
     <div id="header">
         <uc1:toolsBar ID="ToolsBar1" runat="server" WinPath="News_Preview.aspx" GvName="GridView1"
             ModifyButtonVisible="false" VerifyButtonVisible="true" WinWidth="80" WinHeight="80"
-            IsWinOpen="true" OnDelete="DeleteEvent" OnVerify="VerifyEvent" DelShowMsg="注：\n新闻删除后，网站上并不会同步删除，需要重新静态化生成。" />
+            IsWinOpen="true" OnDelete="DeleteEvent" OnVerify="VerifyEvent" DelShowMsg="注：\n资讯删除后，网站上并不会同步删除，需要重新静态化生成。" />
         <div class="searchBox">
             标题：<asp:TextBox ID="tbSear" runat="server" Width="115" MaxLength="10"></asp:TextBox>&nbsp;<cc1:DropDownTree
                 ID="ddlColumn" runat="server" Width="150" IdKeyName="Nc_Id" ParentIdKeyName="Nc_PatId"
@@ -39,10 +39,10 @@
             <asp:TemplateField HeaderText="标题">
                 <itemstyle cssclass="left" />
                 <itemtemplate>
-  <span title="图片新闻" style="color:Blue"><%# Eval("Na_IsImg","{0}")=="True" ? "[图]" : ""%></span>
-                <span title="热点新闻" style="color:Red"><%# Eval("Na_IsHot", "{0}") == "True" ? "[热]" : ""%></span>
-                <span title="推荐新闻" style="color:Green"><%# Eval("Na_IsRec", "{0}") == "True" ? "[荐]" : ""%></span>
-                <span title="置顶新闻" style="color:Red"><%# Eval("Na_IsTop", "{0}") == "True" ? "[顶]" : ""%></span>
+  <span title="图片资讯" style="color:Blue"><%# Eval("Na_IsImg","{0}")=="True" ? "[图]" : ""%></span>
+                <span title="热点资讯" style="color:Red"><%# Eval("Na_IsHot", "{0}") == "True" ? "[热]" : ""%></span>
+                <span title="推荐资讯" style="color:Green"><%# Eval("Na_IsRec", "{0}") == "True" ? "[荐]" : ""%></span>
+                <span title="置顶资讯" style="color:Red"><%# Eval("Na_IsTop", "{0}") == "True" ? "[顶]" : ""%></span>
 <a href="#" onclick="OpenWin('News_Preview.aspx?id=<%# Eval("Na_Id")%>','预览',80,80);return false;"><%# Eval("Na_Title", "{0}")%> 
 </a>
 </itemtemplate>

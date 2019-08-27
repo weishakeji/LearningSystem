@@ -8,14 +8,14 @@ using Song.ServiceInterfaces;
 namespace Song.Site.Mobile
 {
     /// <summary>
-    /// 新闻文章页
+    /// 资讯文章页
     /// </summary>
     public class Article : BasePage
     {
 
         protected override void InitPageTemplate(HttpContext context)
         {           
-            //新闻文章
+            //资讯文章
             int artid = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
             Song.Entities.Article art = Business.Do<IContents>().ArticleSingle(artid);
             if (art == null) return;
@@ -32,10 +32,10 @@ namespace Song.Site.Mobile
             foreach (Song.Entities.Accessory ac in acs)
                 ac.As_FileName = Upload.Get["News"].Virtual + ac.As_FileName;
             this.Document.Variables.SetValue("artAcc", acs);
-            ////当前新闻的上一条
+            ////当前资讯的上一条
             //Song.Entities.Article artPrev = Business.Do<IContents>().ArticlePrev(artid);
             //this.Document.Variables.SetValue("artPrev", artPrev);
-            ////当前新闻的下一条
+            ////当前资讯的下一条
             //Song.Entities.Article artNext = Business.Do<IContents>().ArticleNext(artid);
             //this.Document.Variables.SetValue("artNext", artNext);
         }

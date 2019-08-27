@@ -80,7 +80,7 @@ function ajaxLoaddata(){
 		 mui('body').off('tap','.news-item');
 		 mui('body').on('tap', '.news-item', function () {
 				var id=$(this).attr("artid");
-				new PageBox("新闻", "article.ashx?id="+id, 100, 100, "url").Open();
+				new PageBox("资讯", "article.ashx?id="+id, 100, 100, "url").Open();
 		});
 	});	
 }

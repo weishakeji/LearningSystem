@@ -144,7 +144,7 @@ namespace Song.Site.Manage.Content
             }
         }
         /// <summary>
-        /// 生成新闻专题的二维码
+        /// 生成资讯专题的二维码
         /// </summary>
         /// <param name="pd"></param>
         /// <returns></returns>

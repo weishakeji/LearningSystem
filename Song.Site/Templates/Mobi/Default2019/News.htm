@@ -12,7 +12,7 @@
 <!--下拉刷新容器-->
 <div class="mui-content mui-scroll-wrapper">
   <div class="mui-scroll">
-    <vt:foreach  from="$#.cols" item="c" remark="新闻栏目">
+    <vt:foreach  from="$#.cols" item="c" remark="资讯栏目">
       <vt:function var="isChildren" method="isColumns" args="$#.c.col_id"/>
       <div class="mui-card"> 
         <!--页眉，放置标题-->
@@ -25,7 +25,7 @@
         <div class="mui-card-content">
           <vt:function var="arts" method="getArticle" args="$#.c.col_id" args="6"/>
           <ul class="mui-table-view">
-            <vt:foreach  from="$#.arts" item="data" remark="新闻文章">
+            <vt:foreach  from="$#.arts" item="data" remark="资讯文章">
               <li class="mui-table-view-cell"> <a href="article.ashx?id={$:#.data.art_id}" type="open" title="{$:#.data.art_title}">{$:#.data.art_title}</a> <span class="mui-badge">{$:#.data.art_pushTime  format="M-dd"}</span> </li>
             </vt:foreach>
           </ul>

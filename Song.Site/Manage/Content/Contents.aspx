@@ -6,7 +6,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
 <asp:Panel ID="plNoContent" runat="server">
 <div class="noContext">
-请先添加“新闻栏目”！
+请先添加“资讯栏目”！
 </div>
 </asp:Panel>
     <asp:Panel ID="plEditor" runat="server">

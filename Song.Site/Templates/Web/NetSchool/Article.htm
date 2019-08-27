@@ -9,7 +9,7 @@
 <body>
 <vt:include file="inc/Header.html" />
 <div id="Context">
-  <div class="navi-bar"> <a href="/" class="nav-txt">首页</a> &gt; <a href="/news.ashx" class="nav-txt">新闻资讯</a> &gt; <span  class="nav-txt">{$art.art_title}</span> </div>
+  <div class="navi-bar"> <a href="/" class="nav-txt">首页</a> &gt; <a href="/news.ashx" class="nav-txt">资讯</a> &gt; <span  class="nav-txt">{$art.art_title}</span> </div>
   <div id="artArea">
     <div id="artBox">
         <div class="artTitle">
@@ -35,7 +35,7 @@
         <vt:if var="artAcc.count" value="0" compare=">">
           <dl id="artAcc">
             <dt>相关附件：</dt>
-            <vt:foreach from="$#.artAcc" item="data" index="i" remark="新闻的附件">
+            <vt:foreach from="$#.artAcc" item="data" index="i" remark="资讯的附件">
               <dd class="accItem"> <span class="filename">{$:i}、<a href="{$:data.As_FileName}" target="_blank" download="{$:data.As_Name}">{$:data.As_Name}</a></span> <span class="filesize">{$:data.As_Size}</span> </dd>
             </vt:foreach>
             <script type="text/javascript">
@@ -67,15 +67,15 @@
   </div>
   <div class="artNavi">
     <div class="artPrev"> 
-      <!--上一条新闻 -->
-      <vt:if var="artPrev.art_id" value="1" compare="<"> 上则新闻：无
+      <!--上一条资讯 -->
+      <vt:if var="artPrev.art_id" value="1" compare="<"> 上则资讯：无
         <vt:else />
-        上则新闻：<a href="/article.ashx?id={$artPrev.Art_id}">{$artPrev.Art_Title}</a> </vt:if>
+        上则资讯：<a href="/article.ashx?id={$artPrev.Art_id}">{$artPrev.Art_Title}</a> </vt:if>
     </div>
     <div class="artNext">
-      <vt:if var="artNext.art_id" value="1" compare="<"> 下则新闻：无
+      <vt:if var="artNext.art_id" value="1" compare="<"> 下则资讯：无
         <vt:else />
-        下则新闻：<a href="/article.ashx?id={$artNext.Art_id}">{$artNext.Art_Title}</a> </vt:if>
+        下则资讯：<a href="/article.ashx?id={$artNext.Art_id}">{$artNext.Art_Title}</a> </vt:if>
     </div>
   </div>
 </div>

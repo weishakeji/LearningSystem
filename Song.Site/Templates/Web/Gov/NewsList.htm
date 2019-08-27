@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>新闻资讯-{$:#.org.org_platformname}</title>
+<title>资讯-{$:#.org.org_platformname}</title>
 <vt:include file="inc/meta.inc" />
 <link href="Styles/NewsList.css?ver={$version}" rel="stylesheet" type="text/css" />
 <!--<script type="text/javascript" src="Scripts/NewsList.js?ver={$version}"></script>-->
@@ -12,13 +12,13 @@
 <div id="Context">
   <div id="LeftBox">
     <div id="newsBar">当前栏目=>{$:#.col.col_name}</div>
-    <!--新闻列表 -->
+    <!--资讯列表 -->
     <div id="newsList">
     <vt:if var="pageAmount.Length" value="1" compare="<">
     <div class="noNews">当前栏目没有资讯！</div>
     <vt:else />
-      <vt:foreach id="newslist" from="$#.newslist" item="data" columns="-1" index="i" size="20" introlen="150" remark="columns为新闻栏目Id,introlen为简介的长度">
-        <!--新闻项 -->
+      <vt:foreach id="newslist" from="$#.newslist" item="data" columns="-1" index="i" size="20" introlen="150" remark="columns为资讯栏目Id,introlen为简介的长度">
+        <!--资讯项 -->
         <div class="newsItem">
           <div class="newsTitleBar">
             <div class="newsTitle"> <a href="article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}">{$:#.data.art_title}</a></div>
@@ -69,7 +69,7 @@
   <div id="RightBox">
   <div class="box">
       <div class="boxBar">
-        <div class="title"> 新闻栏目</div>
+        <div class="title"> 资讯栏目</div>
         <div class="more"> </div>
       </div>
       <div class="nolist">

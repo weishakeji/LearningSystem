@@ -103,13 +103,13 @@
                     <td class="right">
                     </td>
                     <td>
-                        <asp:CheckBox ID="cbIsImg" runat="server" Text="图片新闻" AutoPostBack="True" OnCheckedChanged="cbIsImg_CheckedChanged" />
+                        <asp:CheckBox ID="cbIsImg" runat="server" Text="图片资讯" AutoPostBack="True" OnCheckedChanged="cbIsImg_CheckedChanged" />
                         <cc1:FileUpload ID="fuImg" runat="server" fileallow="png|jpg|gif|bmp" />
                         <br />
-                        <%-- 图片新闻的图片--%>
+                        <%-- 图片资讯的图片--%>
                         <asp:Panel ID="panelImg" runat="server">
                             <div class="imgShow" style="display: none">
-                                图片新闻主图</div>
+                                图片资讯主图</div>
                             <img width="100" height="100" runat="server" id="imgFile" class="imgFile" />
                         </asp:Panel>
                     </td>

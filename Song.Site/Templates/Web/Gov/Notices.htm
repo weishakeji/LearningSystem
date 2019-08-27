@@ -17,8 +17,8 @@
     <vt:if var="pageAmount.Length" value="1" compare="<">
     <div class="noNews">没有通知公告</div>
     <vt:else />
-      <vt:foreach id="notice" from="$#.notice" item="data" index="i" size="4" introlen="150" remark="columns为新闻栏目Id,introlen为简介的长度">
-        <!--新闻项 -->
+      <vt:foreach id="notice" from="$#.notice" item="data" index="i" size="4" introlen="150" remark="columns为资讯栏目Id,introlen为简介的长度">
+        <!--资讯项 -->
         <div class="newsItem">
           <div class="newsTitleBar">
             <div class="newsTitle"> <a href="/notice.ashx?id={$:#.data.no_id}" title="{$:#.data.no_ttl}">{$:#.data.no_ttl}</a></div>
@@ -66,7 +66,7 @@
   <div id="RightBox">
     <div class="box">
       <div class="boxBar">
-        <div class="title"> 新闻资讯</div>
+        <div class="title"> 资讯</div>
         <div class="more"> <a href="/news.ashx">更多&gt;&gt;</a></div>
       </div>
       <div class="nolist">

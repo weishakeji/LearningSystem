@@ -40,7 +40,7 @@ namespace Song.Site
                 this.Document.SetValue("pageAmount", pageAmount);
                 this.Document.SetValue("pageIndex", index);
             }
-            //新闻列表
+            //资讯列表
             Tag newsTag = this.Document.GetChildTagById("newslist");
             if (newsTag != null)
             {

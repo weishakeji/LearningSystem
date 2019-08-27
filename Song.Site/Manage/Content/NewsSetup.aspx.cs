@@ -28,15 +28,15 @@ namespace Song.Site.Manage.Content
         }
         private void fill()
         {
-            //新闻最大置顶数
+            //资讯最大置顶数
             tbMaxTop.Text = Business.Do<ISystemPara>()["NewsMaxTop"].String;
-            //新闻最大推荐数
+            //资讯最大推荐数
             tbMaxRec.Text = Business.Do<ISystemPara>()["NewsMaxRec"].String; 
             //是否需要审核
             cbIsVerify.Checked = Business.Do<ISystemPara>()["NewsIsVerify"].Boolean ?? true; 
             //修改后，是否需要重新审核
             this.cbIsReVeri.Checked = Business.Do<ISystemPara>()["NewsIsReVeri"].Boolean ?? false; 
-            //新闻的常用来源
+            //资讯的常用来源
             tbSource.Text = Business.Do<ISystemPara>()["NewsSourceItem"].String; 
 
             //文章二维码
@@ -69,7 +69,7 @@ namespace Song.Site.Manage.Content
             }
         }
         /// <summary>
-        /// 保存新闻文章的二维码配置信息
+        /// 保存资讯文章的二维码配置信息
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -88,7 +88,7 @@ namespace Song.Site.Manage.Content
         }
         #region 文章二维码
         /// <summary>
-        /// 批量生成新闻文章二维码
+        /// 批量生成资讯文章二维码
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -114,7 +114,7 @@ namespace Song.Site.Manage.Content
             //} while (size * index++ < sum);
         }
         /// <summary>
-        /// 生成新闻文章的二维码
+        /// 生成资讯文章的二维码
         /// </summary>
         /// <param name="pd"></param>
         /// <returns></returns>

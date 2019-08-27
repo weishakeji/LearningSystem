@@ -21,7 +21,7 @@ namespace Song.Site.SOAP
     public class News1 : System.Web.Services.WebService {
 
         [WebMethod]
-        //检索新闻文章
+        //检索资讯文章
         public Song.Entities.Article[] GetNewsArt(int nc,string searTxt)
         {
             //所属机构的所有课程

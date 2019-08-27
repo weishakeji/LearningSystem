@@ -8,11 +8,11 @@ using VTemplate.Engine;
 namespace Song.Site
 {
     /// <summary>
-    /// 新闻频道页
+    /// 资讯频道页
     /// </summary>
     public class News : BasePage
     {
-        //新闻栏目Id
+        //资讯栏目Id
         private int colid = WeiSha.Common.Request.QueryString["colid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
@@ -24,13 +24,13 @@ namespace Song.Site
             //当前栏目
             Song.Entities.Columns col = Business.Do<IColumns>().Single(colid);
             this.Document.SetValue("col", col);
-            //新闻列表
+            //资讯列表
             Tag newsTag = this.Document.GetChildTagById("newslist");
             if (newsTag != null)
             {
                 //每页多少条记录
                 int newsSize = int.Parse(newsTag.Attributes.GetValue("size", "10"));
-                //新闻栏目
+                //资讯栏目
                 int columns = int.Parse(newsTag.Attributes.GetValue("columns", "-1"));
                 columns = columns <= 0 ? colid : columns;
                 //简介的输出长度
@@ -74,7 +74,7 @@ namespace Song.Site
             return strText;
         }
         /// <summary>
-        /// 获取新闻栏目
+        /// 获取资讯栏目
         /// </summary>
         /// <param name="para">参数一个，取几个栏目</param>
         /// <returns></returns>

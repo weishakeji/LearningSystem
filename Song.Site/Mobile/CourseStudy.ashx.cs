@@ -66,19 +66,19 @@ namespace Song.Site.Mobile
                 this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));
             #endregion
 
-            //视频
-            Song.Entities.Accessory video = Song.Site.CourseStudy.getVideo(ol.Ol_UID);
-            this.Document.Variables.SetValue("video", video);            
-            if (Extend.LoginState.Accounts.IsLogin)
-            {
-                Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, ol.Ol_ID);
-                if (studyLog != null)
-                {
-                    this.Document.Variables.SetValue("studyLog", studyLog);
-                    double historyPlay = (double)studyLog.Lss_PlayTime / 1000;
-                    this.Document.Variables.SetValue("historyPlay", historyPlay);
-                }
-            }
+            ////视频
+            //Song.Entities.Accessory video = Song.Site.CourseStudy.getVideo(ol.Ol_UID);
+            //this.Document.Variables.SetValue("video", video);            
+            //if (Extend.LoginState.Accounts.IsLogin)
+            //{
+            //    Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, ol.Ol_ID);
+            //    if (studyLog != null)
+            //    {
+            //        this.Document.Variables.SetValue("studyLog", studyLog);
+            //        double historyPlay = (double)studyLog.Lss_PlayTime / 1000;
+            //        this.Document.Variables.SetValue("historyPlay", historyPlay);
+            //    }
+            //}
             //附件
             List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(ol.Ol_UID, "Course");
             if (access.Count > 0)

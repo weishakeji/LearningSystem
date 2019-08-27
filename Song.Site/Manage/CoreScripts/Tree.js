@@ -42,7 +42,7 @@ Tree.IsDrag=true;
 Tree.prototype.BuildMenu=function(data)
 {
 	var html=data.find("string").text();
-	html=html.replace(/\[News\]/gi,"（新闻）");
+	html=html.replace(/\[News\]/gi,"（资讯）");
 	html=html.replace(/\[Product\]/gi,"（产品）");
 	html=html.replace(/\[Picture\]/gi,"（图片）");
 	html=html.replace(/\[Video\]/gi,"（视频）");

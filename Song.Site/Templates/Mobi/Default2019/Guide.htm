@@ -22,7 +22,7 @@
         <vt:if var="artAcc.length" value="0" compare=">">
           <dl id="artAcc">
             <dt>相关附件：</dt>
-            <vt:foreach id="artAcc" from="$#.artAcc" item="data" index="i" remark="新闻的附件">
+            <vt:foreach id="artAcc" from="$#.artAcc" item="data" index="i" remark="资讯的附件">
               <dd class="accItem"> <span class="filename">{$:i}、<a href="{$:data.As_FileName}" target="_blank">{$:data.As_Name}</a></span> <span class="filesize">{$:data.As_Size}</span> </dd>
             </vt:foreach>
             <script type="text/javascript">

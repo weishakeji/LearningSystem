@@ -25,7 +25,7 @@ namespace Song.Site.Manage.Sys
         }
         #region 内容管理部分的清理
         /// <summary>
-        /// 删除新闻文章
+        /// 删除资讯文章
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -34,7 +34,7 @@ namespace Song.Site.Manage.Sys
             try
             {
                 Business.Do<IContents>().ArticleDeleteAll(-1, -1);
-                new Extend.Scripts(this).Alert("成功清空新闻文章");
+                new Extend.Scripts(this).Alert("成功清空资讯文章");
             }
             catch (Exception ex)
             {

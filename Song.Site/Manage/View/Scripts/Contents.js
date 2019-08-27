@@ -86,7 +86,7 @@ function _goIframeFile(option){
 //根据类型标识，返回类型名
 function _getTypeName(type)
 {
-	type=type.replace(/news/gi,"新闻");
+	type=type.replace(/news/gi,"资讯");
 	type=type.replace(/product/gi,"产品");
 	type=type.replace(/picture/gi,"图片");
 	type=type.replace(/video/gi,"视频");

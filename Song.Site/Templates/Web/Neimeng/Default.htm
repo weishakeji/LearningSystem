@@ -94,11 +94,11 @@
     <div class="ThirdBoxInner">
       <div id="newsBox" class="box">
         <div class="boxBar">
-          <div class="title"> 新闻资讯</div>
+          <div class="title"> 资讯</div>
           <div class="more"> <a href="/news.ashx">更多&gt;&gt;</a></div>
         </div>
         <div class="newslist">
-            <vt:list type="news" var="newsImg" item="data"  index="i" count="10" remark="新闻">
+            <vt:list type="news" var="newsImg" item="data"  index="i" count="10" remark="资讯">
             <div class="item" artid="{$:#.data.art_id}">
               <div class="newsItem"> <a href="../../article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}">{$:#.data.art_title}</a> </div>
               <div class="newsTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>

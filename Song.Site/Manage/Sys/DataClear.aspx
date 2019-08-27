@@ -7,13 +7,13 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
                 <td width="80" class="right">
-                    新闻：</td>
+                    资讯：</td>
                 <td width="250">
-                    <asp:LinkButton ID="lbtnNewsArticle" runat="server" OnClick="lbtnNewsArticle_Click">新闻内容</asp:LinkButton>
+                    <asp:LinkButton ID="lbtnNewsArticle" runat="server" OnClick="lbtnNewsArticle_Click">资讯内容</asp:LinkButton>
                     &nbsp;
-                    <asp:LinkButton ID="lbtnNewsSort" runat="server">新闻分类</asp:LinkButton>
+                    <asp:LinkButton ID="lbtnNewsSort" runat="server">资讯分类</asp:LinkButton>
                     &nbsp;
-                    <asp:LinkButton ID="lbtnSpec" runat="server">新闻专题</asp:LinkButton></td>
+                    <asp:LinkButton ID="lbtnSpec" runat="server">资讯专题</asp:LinkButton></td>
                 <td width="80" class="right">
                     文章：
                 </td>

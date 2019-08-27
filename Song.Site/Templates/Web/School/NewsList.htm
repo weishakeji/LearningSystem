@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>新闻资讯-{$:#.org.org_platformname}</title>
+<title>资讯-{$:#.org.org_platformname}</title>
 <vt:include file="inc/meta.inc" />
 <link href="Styles/NewsList.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
@@ -9,19 +9,19 @@
 <vt:include file="inc/Header.html" />
 <div id="Context">
   <div id="LeftBox">
-    <div id="newsBar"><a href="news.ashx">新闻资讯</a>
+    <div id="newsBar"><a href="news.ashx">资讯</a>
     <vt:if var="col.col_id" value="0" compare="!=">  
     -> {$:#.col.col_name}
      </vt:if> 
     </div>
     <vt:if var="cols.Length" value="1" compare="<">       
-      <!--新闻列表，如果只有一个栏目 -->
+      <!--资讯列表，如果只有一个栏目 -->
       <div id="newsList">
         <vt:if var="pageAmount.Length" value="1" compare="<">
-          <div class="noNews">没有新闻</div>
+          <div class="noNews">没有资讯</div>
           <vt:else />
-          <vt:foreach id="newslist" from="$#.newslist" item="data" columns="-1" index="i" size="20" introlen="150" remark="columns为新闻栏目Id,introlen为简介的长度"> 
-            <!--新闻项 -->
+          <vt:foreach id="newslist" from="$#.newslist" item="data" columns="-1" index="i" size="20" introlen="150" remark="columns为资讯栏目Id,introlen为简介的长度"> 
+            <!--资讯项 -->
             <div class="newsItem">
               <div class="newsTitleBar">
                 <div class="newsTitle"> <a href="article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}">{$:#.data.art_title}</a></div>
@@ -42,13 +42,13 @@
       <vt:else />
      <!--如果有多个顶级栏目-->
      <div class="col-box">
-      <vt:foreach  from="$#.cols" item="c" remark="新闻栏目"> 
+      <vt:foreach  from="$#.cols" item="c" remark="资讯栏目"> 
       <div class="col-tit"><div class="triangle_border_right"><span></span></div><a href="newslist.ashx?colid={$:#.c.col_id}">{$:#.c.col_Name}</a>
       <a href="newslist.ashx?colid={$:#.c.col_id}" class="more">更多&gt;&gt;</a>
       </div>
       <div class="col-news">
       <vt:function var="arts" method="getArticle" args="$#.c.col_id" args="6"/>
-       <vt:foreach  from="$#.arts" item="data" remark="新闻栏目"> 
+       <vt:foreach  from="$#.arts" item="data" remark="资讯栏目"> 
       <div class="newsItem">
               <div class="newsTitleBar">
                 <div class="newsTitle"> <a href="article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}">{$:#.data.art_title}</a></div>
@@ -119,7 +119,7 @@
         <div class="more"> <a href="/news.ashx">更多&gt;&gt;</a></div>
       </div>
       <div class="nolist">
-        <vt:list type="news" item="data" columns="-1" order="hot" index="i" count="10" remark="新闻">
+        <vt:list type="news" item="data" columns="-1" order="hot" index="i" count="10" remark="资讯">
           <div class="item" artid="{$:#.data.art_id}">
             <div class="noItem"> <img src="images/{$:i}.png"/><a href="/article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}"> {$:#.data.art_title}</a></div>
             <div class="noTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>

@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 namespace Song.Site.Mobile
 {
     /// <summary>
-    /// 新闻频道页
+    /// 资讯频道页
     /// </summary>
     public class News : BasePage
     {
