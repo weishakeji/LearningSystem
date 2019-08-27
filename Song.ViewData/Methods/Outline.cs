@@ -108,6 +108,13 @@ namespace Song.ViewData.Methods
             {
                 isStudy = Business.Do<ICourse>().Study(course.Cou_ID, acc.Ac_ID);
                 isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, acc.Ac_ID);
+                //学习记录
+                Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(acc.Ac_ID, outline.Ol_ID);
+                if (studyLog != null)
+                {
+                    dic.Add("StudyTime", studyLog.Lss_StudyTime);
+                    dic.Add("PlayTime", studyLog.Lss_PlayTime);
+                }
             }
             dic.Add("isStudy", isStudy);
             dic.Add("isBuy", isBuy);

@@ -9,6 +9,7 @@ namespace Song.Site.Ajax
     /// <summary>
     /// 记录学员学习视频的时间
     /// </summary>
+    [Obsolete]
     public class StudentStudy : IHttpHandler
     {
         //课程id，章节id

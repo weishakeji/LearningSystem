@@ -127,17 +127,17 @@
                  <span class="obtn disable">未完结</span>
                   <vt:else />                  
                 <vt:if var="isStudy" value="true" compare="="  remark="是否已经选修">
-                 <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}">学习 </a></span>
+                 <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$course.cou_id}">学习 </a></span>
                   <vt:else />
                   <vt:if var="course.Cou_IsFree" value="true" compare="="  remark="如果未选修，但是课程免费"> 
-                  <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}">免费 </a></span>
+                  <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$course.cou_id}">免费 </a></span>
                     <vt:else />
                     <vt:if var="course.Cou_IsLimitFree" value="true" compare="="  remark="课程不免费，但处在限时免费中"> 
-                    <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}">免费 </a></span>
+                    <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$course.cou_id}">免费 </a></span>
                      <vt:else />
                      <vt:if var="course.Cou_IsTry" value="true" compare="="  remark="是否允许试学">                    
                     <vt:if var="d.Ol_IsFree" value="true" compare="="  remark="可以试学">
-                     <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}">试学 </a></span>
+                     <span class="obtn enable"><a href="CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$course.cou_id}">试学 </a></span>
                     <vt:else />
                     <span class="obtn buy"><a href="CourseBuy.ashx?couid={$course.cou_id}">购买</a></span>
                   </vt:if> <vt:else />
@@ -225,7 +225,7 @@
                 <div class="box">
                     <div class="boxBar">
                         <div class="title">
-                            新闻资讯</div>
+                            资讯</div>
                         <div class="more">
                             <a href="/news.ashx">更多&gt;&gt;</a></div>
                     </div>

@@ -3,22 +3,14 @@
 
 <head>
       <title>{$course.cou_Name}</title>
-   
+
       <vt:include file="inc/meta.inc" />
       <script type="text/javascript" src="/Utility/CoreScripts/polyfill.min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/vue_min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/api.js?ver={$version}"></script>
-      <script type="text/javascript" src="/Utility/CkplayerX1/ckplayer/ckplayer.js"></script>
       <script type="text/javascript" src="/Utility/Qiniuyun/qiniu-web-player-1.2.2.js"></script>
       <link href="Styles/CourseStudy.css?ver={$version}" rel="stylesheet" type="text/css" />
-      <!--播放器的引用-->
-      <script type="text/javascript">
-            //视频地址
-            var videoPath = "{$video.As_FileName}";
-            //是否是外链接
-            var isOuter = "{$video.As_IsOuter}" == "True" ? true : false;    //	
-      </script>
 </head>
 
 <body accid="{$Account.Ac_id}" olid="{$olid}">
@@ -69,8 +61,15 @@
                         <div remark="视频" v-show="titState=='existVideo'" :video="state.urlVideo">
                               <div id="videoplayer" v-show="!state.outerVideo && !state.isLive"
                                     style="height: 100%;width:100%;" remark="点播">
-                                    
-                              </div>                             
+                              </div>
+                              <div id="videoinfo" v-show="!state.outerVideo && !state.isLive">
+                                    <span style="display: none">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
+                                    <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
+                                    <span style="cursor: pointer"
+                                         v-on:click="videoSeek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>
+                                    <span class="videolog info" v-show="studylogState==1">学习进度提交成功!</span>
+                                    <span class="videolog error" v-show="studylogState==-1">学习进度提交失败!</span>
+                              </div>
                               <iframe id="vedioiframe" height="100%" width="100%"
                                     v-if="state.outerVideo && !state.isLive" :src="state.urlVideo"
                                     allowscriptaccess="always" allowfullscreen="true" wmode="opaque"

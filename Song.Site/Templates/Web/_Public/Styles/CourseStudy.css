@@ -112,6 +112,24 @@ video::-webkit-media-controls-panel {
 }
 #contextArea>div {
 	height: 100%;
+	position:relative;
+}
+/*视频播放器*/
+#videoplayer{
+	z-index:10;
+}
+/*视频播放信息栏*/
+#videoinfo{
+	position:absolute;
+	z-index:11;
+	color:#fff;
+	width:100%;
+	height:30px;
+	font-size:12px;
+	line-height:30px;
+	bottom:0px;
+	padding-left:160px;
+	text-align:left;
 }
 /* 课程内容
 ------------------------*/
@@ -300,10 +318,11 @@ video::-webkit-media-controls-panel {
 	text-align: left;
 }
 /*学习记录递交是否成功的提示信息*/
-.StudentStudyLog {
-	position: absolute;
-	right: 10px;
-	top: 3px;
+.videolog {
+	
+}
+.info{
+	color:#3F6;
 }
 .error {
 	color: red;

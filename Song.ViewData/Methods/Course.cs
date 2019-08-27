@@ -19,6 +19,23 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<ICourse>().CourseSingle(id);
         }
-        
+        /// <summary>
+        /// 记录当前学员的视频学习进度
+        /// </summary>
+        /// <param name="couid">课程ID</param>
+        /// <param name="olid">章节ID</param>
+        /// <param name="playTime">观看进度，单位：毫秒</param>
+        /// <param name="studyTime">学习时间，单位：秒</param>
+        /// <param name="totalTime">视频总时长，单位：秒</param>
+        /// <returns></returns>
+        [Student]
+        public double StudyLog(int couid, int olid, int playTime, int studyTime, int totalTime)
+        {
+            //当前学员
+            Song.Entities.Accounts student = Extend.LoginState.Accounts.CurrentUser;
+            if (student == null) return -1;
+            double per = Business.Do<IStudent>().LogForStudyUpdate(couid, olid, student, playTime*1000, studyTime, totalTime*1000);
+            return per;
+        }
     }
 }

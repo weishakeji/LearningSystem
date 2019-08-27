@@ -6,7 +6,17 @@
         subject: {},     //当前专业
         outlines: [],     //当前课程的章节列表（树形）
         access: [],          //附件列表
-        video: {},             //当前章节的视频
+        events: {},          //视频事件
+        //当前章节的视频信息
+        video: {
+            url: '',         //视频路径
+            total: 0,        //总时长      
+            playTime: 0,         //当前播放时间，单位：毫秒     
+            playhistime: 0,    //历史播放时间
+            studytime: 0,    //累计学习时间
+            percent: 0       //完成度（百分比）
+        },
+        playtime: 0,         //当前播放时间，单位：秒
         //状态
         state: {},           //课程状态       
         couid: $api.querystring("couid"),
@@ -15,6 +25,8 @@
         titState: 'loading',        //左侧选项卡的状态
         rightState: 'outline',       //右侧选项卡状态，章节outline,交流chat
         outlineLoaded: false,         //右侧章节列表加载中
+        studylogUpdate: false,           //学习记录是否在递交中
+        studylogState: 0,            //学习记录提交状态，1为成功，-1为失败
         //控件
         player: null             //播放器
     },
@@ -28,7 +40,32 @@
             if (vdata.state.isLive) vdata.titState = 'isLive';
             if (vdata.state.existVideo) vdata.titState = 'existVideo';
             //视频播放
-            vdata.videoPlay(vdata.state);
+            if (vdata.state.existVideo) {
+                if (vdata.player != null) vdata.player.play();
+                else
+                    vdata.videoPlay(vdata.state);
+            } else {
+                if (vdata.player != null) vdata.player.pause();
+            }
+        },
+        //左侧选项卡切换
+        titState: function (val) {
+            if (vdata.player != null) {
+                vdata.titState == 'existVideo' ? vdata.player.play() : vdata.player.pause();
+            }
+        },
+        'video': {
+            handler: function (val, old) {
+
+            },
+            deep: true
+            //immediate: true
+        },
+        //播放进度变化
+        playtime: function (val) {
+            vdata.video.studytime++;
+            //学习记录提交
+            vdata.videoLog();
         }
     },
     methods: {
@@ -61,6 +98,10 @@
                 if (ol.data.success && state.data.success) {
                     vdata.outline = ol.data.result;
                     vdata.state = state.data.result;
+                    //视频播放记录
+                    var result = state.data.result;
+                    vdata.video.studytime = isNaN(result.StudyTime) ? 0 : result.StudyTime;
+                    vdata.video.playhistime = isNaN(result.PlayTime) ? 0 : result.PlayTime / 1000;
                     window.setTimeout(function () {
                         vdata.outlineLoaded = true;
                     }, 100);
@@ -81,15 +122,12 @@
         //视频播放
         videoPlay: function (state) {
             if (vdata.player != null) vdata.player.destroy();
-
-
             if (!vdata.state.isLive) {  //点播
                 vdata.player = new QPlayer({
                     url: state.urlVideo,
                     container: document.getElementById("videoplayer"),
                     autoplay: true,
                 });
-
             } else {
                 //直播
                 vdata.player = new QPlayer({
@@ -100,11 +138,20 @@
                 });
             }
             if (vdata.player != null) {
-                vdata.player.on("loading",vdata.videoready);
-                vdata.player.on("ready",vdata.videoready);
+                vdata.player.on("loading", vdata.videoready);
+                vdata.player.on("ready", vdata.videoready);
+                vdata.player.on("timeupdate", function (currentTime, totalTime) {
+                    vdata.video.total = parseInt(totalTime);
+                    vdata.video.playTime = currentTime;   //详细时间，精确到毫秒
+                    vdata.playtime = parseInt(currentTime);
+                    //学习完成度，最大为百分百
+                    vdata.video.percent = Math.floor(vdata.video.studytime <= 0 ? 0 : vdata.video.studytime / vdata.video.total * 1000) / 10;
+                    vdata.video.percent = vdata.video.percent > 100 ? 100 : vdata.video.percent;
+                });
             }
 
         },
+        //播放器加载后的事件
         videoready: function () {
             //隐藏全屏按钮
             var fullbtn = document.getElementsByClassName("qplayer-fullscreen");
@@ -115,6 +162,41 @@
             var setbtn = document.getElementsByClassName("qplayer-settings-btn");
             for (var i = 0; i < setbtn.length; i++) {
                 setbtn[i].style.display = "none";
+            }
+        },
+        //视频播放跳转
+        videoSeek: function (second) {
+            if (vdata.player != null) vdata.player.seek(second);
+        },
+        //学习记录
+        videoLog: function () {
+            if (vdata.studylogUpdate) return;
+            var interval = 1; 	//间隔百分比多少递交一次记录
+            if (vdata.video.total <= 5 * 60) interval = 10; //5分钟内
+            else if (vdata.video.total <= 10 * 60) interval = 5;
+            var per = Math.floor(vdata.video.studytime <= 0 ? 0 : vdata.video.studytime / vdata.video.total * 1000) / 10;
+            if (per > 0 && per < (100 + interval) && per % interval == 0) {
+                $api.post("Course/StudyLog", {
+                    couid: vdata.course.Cou_ID,
+                    olid: vdata.outline.Ol_ID,
+                    playTime: vdata.playtime,
+                    studyTime: vdata.video.studytime,
+                    totalTime: vdata.video.total
+                }, function () {
+                    vdata.studylogUpdate = true;
+                }, function () {
+                    vdata.studylogUpdate = false;
+                }).then(function (req) {
+                    vdata.studylogState = 1;
+                    window.setTimeout(function () {
+                        vdata.studylogState = 0;
+                    }, 2000);
+                }).catch(function (err) {
+                    vdata.studylogState = -1;
+                    window.setTimeout(function () {
+                        vdata.studylogState = 0;
+                    }, 2000);
+                });
             }
         }
     },
@@ -147,7 +229,18 @@
 
 });
 vdata.$mount('#body');
-
+/*
+window.onblur = function () {
+    if (vdata.player != null) {
+        vdata.player.pause();
+    }
+}
+window.onfocus = function () {
+    if (vdata.player != null) {
+        vdata.titState == 'existVideo' ? vdata.player.play() : vdata.player.pause();
+    }
+}
+*/
 /*===========================================================================================
 
 视频的播放事件
