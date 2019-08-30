@@ -11,6 +11,8 @@ using WeiSha.Common;
 using System.Data;
 using System.IO;
 using pili_sdk;
+using Newtonsoft.Json;
+using System.Xml.Serialization;
 
 
 namespace Song.ViewData.Methods
@@ -81,6 +83,21 @@ namespace Song.ViewData.Methods
             foreach (Accessory ac in access)
                 ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
             return access;
+        }
+
+        public OutlineEvent[] VideoEvents(int olid)
+        {
+            OutlineEvent[] events = Business.Do<IOutline>().EventAll(-1, olid, -1, true);
+            foreach (OutlineEvent ev in events)
+            {
+                if (ev.Oe_EventType == 1 || ev.Oe_EventType == 2) continue;
+                if (string.IsNullOrWhiteSpace(ev.Oe_Datatable) || ev.Oe_Datatable.Trim() == "") continue;
+                //如果是问答
+                XmlSerializer xmlSerial = new XmlSerializer(typeof(DataTable));
+                DataTable dt = (DataTable)xmlSerial.Deserialize(new System.IO.StringReader(ev.Oe_Datatable));
+                ev.Oe_Datatable = JsonConvert.SerializeObject(dt);
+            }
+            return events;
         }
         /// <summary>
         /// 章节的状态

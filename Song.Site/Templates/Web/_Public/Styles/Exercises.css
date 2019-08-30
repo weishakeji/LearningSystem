@@ -124,14 +124,15 @@ body{
 	border-bottom-style: solid;
 	border-left-style: none;
 	border-bottom-color: #999;
+	overflow: hidden;
+	position:relative;
 }
 #controlBox #titleBox {
 	float: left;
 	height: 40px;
-	min-width: 400px;
+	min-width: 350px;
 	max-width:480px;
 }
-
 
 #controlBox #titleBox .number {
 	background-color: #ccc;
@@ -153,10 +154,12 @@ body{
 	color: #990000;
 }
 #controlBox #ctlBtn {
-	line-height: 40px;
-	float: right;
+	line-height: 40px;	
 	height: 40px;
 	width: 200px;
+	position:absolute;
+	right:0px;
+	background-color:#eee;
 }
 #controlBox #ctlBtn .btn {
 	line-height: 40px;
@@ -164,8 +167,7 @@ body{
 	height: 40px;
 	width: 100px;
 	text-align: center;
-	cursor:pointer;
-	
+	cursor:pointer;	
 	font-size: 16px;
 	font-weight: bold;
 }
@@ -175,18 +177,20 @@ body{
 	text-align: center;
 	float: left;
 	height: 40px;
-	width: 300px;
+	max-width: calc(100% - 550px);
 	color: #990000;
 }
 
 #controlBox .btnBox .btn {
-line-height: 40px;
+	line-height: 40px;
 	text-align: center;
 	float: left;
 	height: 40px;
-	width: 100px;
+	width: 80px;
 	color: #990000;
-	cursor:pointer;
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
 }
 /*上一题*/
 #controlBox #btnPrev {

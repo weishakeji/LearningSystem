@@ -6,7 +6,7 @@
         subject: {},     //当前专业
         outlines: [],     //当前课程的章节列表（树形）
         access: [],          //附件列表
-        events: {},          //视频事件
+        events: [],          //视频事件
         //当前章节的视频信息
         video: {
             url: '',         //视频路径
@@ -40,17 +40,11 @@
             if (vdata.state.isLive) vdata.titState = 'isLive';
             if (vdata.state.existVideo) vdata.titState = 'existVideo';
             //视频播放
-            if (vdata.state.existVideo) {
-                if (vdata.player != null) vdata.player.play();
-                else
-                    vdata.videoPlay(vdata.state);
-            } else {
-                if (vdata.player != null) vdata.player.pause();
-            }
+            vdata.videoPlay(vdata.state);
         },
         //左侧选项卡切换
         titState: function (val) {
-            if (vdata.player != null) {
+            if (vdata.playready()) {
                 vdata.titState == 'existVideo' ? vdata.player.play() : vdata.player.pause();
             }
         },
@@ -66,6 +60,8 @@
             vdata.video.studytime++;
             //学习记录提交
             vdata.videoLog();
+            //触发视频事件
+            vdata.videoEvent(vdata.playtime);
         }
     },
     methods: {
@@ -106,22 +102,44 @@
                         vdata.outlineLoaded = true;
                     }, 100);
                     //获取附件
-                    $api.get("Outline/Accessory", { uid: vdata.outline.Ol_UID }).then(function (acc) {
-                        if (acc.data.success) {
-                            vdata.access = acc.data.result;
-                        } else {
-                            alert("附件列表加载错误");
-                        }
-                    });
+                    if (state.data.result.isAccess) {
+                        $api.get("Outline/Accessory", { uid: vdata.outline.Ol_UID }).then(function (acc) {
+                            if (acc.data.success) {
+                                vdata.access = acc.data.result;
+                            } else {
+                                alert("附件信息加载错误");
+                            }
+                        });
+                    }
+                    //获取视频事件
+                    if (state.data.result.existVideo) {
+                        $api.get("Outline/VideoEvents", { olid: vdata.outline.Ol_ID }).then(function (req) {
+                            if (req.data.success) {
+                                vdata.events = req.data.result;
+                            } else {
+                                alert("视频事件加载失败");
+                            }
+                        });
+                    }
                 } else {
                     if (!ol.data.success) alert("章节信息加载错误");
                     if (!state.data.success) alert("章节状态加载错误");
                 }
             }));
         },
+        //播放器是否准备好
+        playready: function () {
+            if (vdata.player != null) {
+                return vdata.player._isReady && vdata.player.engine;
+            }
+            return false;
+        },
         //视频播放
         videoPlay: function (state) {
-            if (vdata.player != null) vdata.player.destroy();
+            if (vdata.playready()) {
+                vdata.player.destroy();
+                vdata.player = null;
+            }
             if (!vdata.state.isLive) {  //点播
                 vdata.player = new QPlayer({
                     url: state.urlVideo,
@@ -148,6 +166,15 @@
                     vdata.video.percent = Math.floor(vdata.video.studytime <= 0 ? 0 : vdata.video.studytime / vdata.video.total * 1000) / 10;
                     vdata.video.percent = vdata.video.percent > 100 ? 100 : vdata.video.percent;
                 });
+                vdata.player.on("seeked", function () {
+                    var playtime = vdata.playready() ? vdata.player.currentTime : vdata.playtime;
+                    //alert(playtime);
+                    vdata.playtime = playtime;
+                    window.setTimeout(function () {
+                        if (vdata.playready()) vdata.player.pause();
+                    }, 50);
+
+                });
             }
 
         },
@@ -166,9 +193,9 @@
         },
         //视频播放跳转
         videoSeek: function (second) {
-            if (vdata.player != null) vdata.player.seek(second);
+            if (vdata.playready()) vdata.player.seek(second);
         },
-        //学习记录
+        //学习记录记录
         videoLog: function () {
             if (vdata.studylogUpdate) return;
             var interval = 1; 	//间隔百分比多少递交一次记录
@@ -177,11 +204,8 @@
             var per = Math.floor(vdata.video.studytime <= 0 ? 0 : vdata.video.studytime / vdata.video.total * 1000) / 10;
             if (per > 0 && per < (100 + interval) && per % interval == 0) {
                 $api.post("Course/StudyLog", {
-                    couid: vdata.course.Cou_ID,
-                    olid: vdata.outline.Ol_ID,
-                    playTime: vdata.playtime,
-                    studyTime: vdata.video.studytime,
-                    totalTime: vdata.video.total
+                    couid: vdata.course.Cou_ID, olid: vdata.outline.Ol_ID,
+                    playTime: vdata.playtime, studyTime: vdata.video.studytime, totalTime: vdata.video.total
                 }, function () {
                     vdata.studylogUpdate = true;
                 }, function () {
@@ -197,6 +221,63 @@
                         vdata.studylogState = 0;
                     }, 2000);
                 });
+            }
+        },
+        //视频事件的触发
+        videoEvent: function (playtime) {
+            if (vdata.events.length < 1) return;
+            var curr = null;
+            for (var ev in vdata.events) {
+                if (vdata.events[ev].Oe_TriggerPoint == playtime) {
+                    curr = vdata.events[ev];
+                    break;
+                }
+            }
+            if (curr == null) return;
+            //视频暂停
+            if (vdata.playready()) vdata.player.pause();
+            var box = new MsgBox();
+            box.OverEvent = function () {
+                if (vdata.playready()) vdata.player.play();
+            }
+            if (curr.Oe_EventType == 1)
+                box.Init("提示：" + curr.Oe_Title, curr.Oe_Context, curr.Oe_Width, curr.Oe_Height, "alert").Open();
+            if (curr.Oe_EventType == 2)
+                box.Init("知识点：" + curr.Oe_Title, curr.Oe_Context, curr.Oe_Width, curr.Oe_Height, "alert").Open();
+            if (curr.Oe_EventType == 3) {
+                var items = eval(curr.Oe_Datatable);
+                var context = curr.Oe_Context + "<div class='quesBox'>";
+                for (var i in items) {
+                    if (items[i].item == "") continue;
+                    context += "<div onclick='vdata.videoEventClick(" + items[i].iscorrect + ",-1)'>" +
+                        (Number(i) + 1) + "、" + items[i].item + "</div>";
+                }
+                context += "</div>";
+                box.Init("提问" + curr.Oe_Title, context, curr.Oe_Width, curr.Oe_Height, "null").Open();
+            }
+            if (curr.Oe_EventType == 4) {
+                var items = eval(curr.Oe_Datatable);
+                var context = curr.Oe_Context + "<div class='quesBox'>";
+                for (var i in items) {
+                    if (items[i].item == "") continue;
+                    context += "<div onclick='vdata.videoEventClick(null," + items[i].point + ")'>" +
+                        (Number(i) + 1) + "、" + items[i].item + " - （跳转到：" + items[i].point + "秒）</div>";
+                }
+                context += "</div>";
+                box.Init("实时反馈：" + curr.Oe_Title, context, curr.Oe_Width, curr.Oe_Height, "alert").Open();
+            }
+        },
+        //视频事件的点击操作
+        videoEventClick: function (iscorrect, seek) {
+            //视频事件的问题
+            if (iscorrect != null && iscorrect) {
+                MsgBox.Close();
+            }
+            //视频跳转
+            if (iscorrect == null && seek > 0) {
+                if (!vdata.playready()) return;
+                vdata.player.seek(seek);
+                MsgBox.Close();
             }
         }
     },
@@ -231,12 +312,12 @@
 vdata.$mount('#body');
 /*
 window.onblur = function () {
-    if (vdata.player != null) {
+    if (vdata.playready()) {
         vdata.player.pause();
     }
 }
 window.onfocus = function () {
-    if (vdata.player != null) {
+    if (vdata.playready()) {
         vdata.titState == 'existVideo' ? vdata.player.play() : vdata.player.pause();
     }
 }
@@ -246,6 +327,7 @@ window.onfocus = function () {
 视频的播放事件
 
 */
+/*
 MsgBox.OverEvent = function () {
     CKobject.getObjectById('ckplayer_videobox').videoPlay();
 };
@@ -302,4 +384,4 @@ function activeEvent(time) {
             }
         }
     });
-}
+}*/

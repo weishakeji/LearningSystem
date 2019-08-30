@@ -1497,6 +1497,7 @@
     <Content Include="Templates\Web\_Public\Debug.htm" />
     <Content Include="Templates\Web\_Public\CourseStudy_.htm" />
     <Content Include="Templates\Web\_Public\Styles\CourseStudy_.css" />
+    <Content Include="Templates\Web\_Public\Vue.htm" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.js" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.min.js" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.xml" />

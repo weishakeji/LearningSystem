@@ -426,7 +426,7 @@ video::-webkit-media-controls-panel {
 .MsgBoxContext .quesBox {
 	margin-left: 14px;
 }
-.MsgBoxContext .quesBox .ansItem {
+.MsgBoxContext .quesBox>div {
 	font-size: 14px;
 	height: 22px;
 	cursor: pointer;

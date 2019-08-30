@@ -38,9 +38,10 @@
         this.Height = this.Height > 100 ? this.Height : $(window).height() * this.Height / 100;
         this.WinId = new Date().getTime() + "_" + Math.floor(Math.random() * 1000 + 1);
         this.Type = type == null ? "null" : type;
+        return this;
     }
     //创建窗口，并打开
-    msgbox.prototype.Open = function () {
+    msgbox.prototype.Open = function (title, info, width, height, type) {
         //生成窗口
         this.Mask();
         this.BuildFrame();
@@ -138,16 +139,22 @@
     //关闭窗口
     //isquiet:是否安静，如果为true，则不执行事件
     msgbox.Close = function (isquiet) {
-        $("#msgMask").fadeOut(100, function () {
-            $("#msgMask").remove();
-        });
-        $(".MsgBox").fadeOut(100, function () {
-            $(".MsgBox").remove();
-        });
-        //$("#MsgBox").remove();
+        //执行窗口关闭事件
         if (isquiet == null || isquiet != true) {
-            if (msgbox.OverEvent != null) msgbox.OverEvent();
+            //if (msgbox.OverEvent != null) msgbox.OverEvent();
+            $(".MsgBox").each(function (index) {
+                var winid = $(this).attr("winid");
+                var func = msgbox.events.get(winid + "_OverEvent");
+                if (func != null) func();
+            });
         }
+        //$("#msgMask").fadeOut(100, function () {
+            $("#msgMask").remove();
+        //});
+        //$(".MsgBox").fadeOut(100, function () {
+            $(".MsgBox").remove();
+        //});
+
     }
     //关闭窗口的事件
     msgbox.CloseEvent = function (obj) {
@@ -156,12 +163,12 @@
         var func = msgbox.events.get(winid + "_OverEvent");
         if (func != null) func();
         //关闭窗口
-        $("#msgMask").fadeOut(100, function () {
+        //$("#msgMask").fadeOut(1, function () {
             $("#msgMask").remove();
-        });
-        obj.parents(".MsgBox").fadeOut(100, function () {
-            $(this).remove();
-        });
+        //});
+        //obj.parents(".MsgBox").fadeOut(1, function () {
+            $(".MsgBox").remove();
+        //});
         if (MsgBox.OverEvent != null) MsgBox.OverEvent();
     }
     //生成遮罩层
@@ -199,7 +206,8 @@
         $(".MsgBox").each(function () {
             var height = Number($(this).attr("height"));
             var width = Number($(this).attr("width"));
-            $(this).css({ top: (winHg - height) / 2,
+            $(this).css({
+                top: (winHg - height) / 2,
                 left: (winWd - width) / 2
             });
         });
