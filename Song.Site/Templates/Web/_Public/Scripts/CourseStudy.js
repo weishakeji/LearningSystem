@@ -23,10 +23,11 @@
         olid: $api.querystring("olid"),
         median: false,     //分隔线折叠状态
         titState: 'loading',        //左侧选项卡的状态
-        rightState: 'outline',       //右侧选项卡状态，章节outline,交流chat
+        rightState: 'chat',       //右侧选项卡状态，章节outline,交流chat
         outlineLoaded: false,         //右侧章节列表加载中
         studylogUpdate: false,           //学习记录是否在递交中
         studylogState: 0,            //学习记录提交状态，1为成功，-1为失败
+        switchSubtitle:false,               //弹幕开关
         //控件
         player: null             //播放器
     },

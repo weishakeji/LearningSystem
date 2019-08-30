@@ -66,7 +66,7 @@
                                     <span style="display: non6e">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
                                     <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
                                     <span style="cursor: pointer"
-                                         v-on:click="videoSeek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>
+                                          v-on:click="videoSeek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>
                                     <span class="videolog info" v-show="studylogState==1">学习进度提交成功!</span>
                                     <span class="videolog error" v-show="studylogState==-1">学习进度提交失败!</span>
                               </div>
@@ -137,7 +137,15 @@
                         </template>
                   </div>
                   <div class="chat rightArea" v-show="rightState=='chat'">
-                        交流
+
+                        <div class="chatlist"></div>
+                        <div class="chatbox">
+                              <div :class="['switch',switchSubtitle ? 'switch-on' : '']" v-on:click="switchSubtitle=!switchSubtitle"></div>
+                              <div class="msgbox">
+                                    <input type="text" name="fname" />
+                                    <div id="btnMessage">发送</div>
+                              </div>
+                        </div>
                   </div>
             </div>
             <transition name="fade" remark="右侧的遮罩层">

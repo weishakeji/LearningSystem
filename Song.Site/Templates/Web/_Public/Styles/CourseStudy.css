@@ -112,24 +112,24 @@ video::-webkit-media-controls-panel {
 }
 #contextArea>div {
 	height: 100%;
-	position:relative;
+	position: relative;
 }
 /*视频播放器*/
-#videoplayer{
-	z-index:10;
+#videoplayer {
+	z-index: 10;
 }
 /*视频播放信息栏*/
-#videoinfo{
-	position:absolute;
-	z-index:11;
-	color:#fff;
-	width:100%;
-	height:30px;
-	font-size:12px;
-	line-height:30px;
-	bottom:0px;
-	padding-left:160px;
-	text-align:left;
+#videoinfo {
+	position: absolute;
+	z-index: 11;
+	color: #fff;
+	width: 100%;
+	height: 30px;
+	font-size: 12px;
+	line-height: 30px;
+	bottom: 0px;
+	padding-left: 160px;
+	text-align: left;
 }
 /* 课程内容
 ------------------------*/
@@ -165,7 +165,7 @@ video::-webkit-media-controls-panel {
 	border-left-style: none;
 	border-bottom-color: #CCCCCC;
 	height: 62px;
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 #rightBox .title {
 	font-size: 18px;
@@ -193,7 +193,6 @@ video::-webkit-media-controls-panel {
 	border-bottom-style: solid;
 	border-left-style: none;
 	border-bottom-color: #0387d9;
-	margin-bottom: 15px;
 	line-height: 26px;
 }
 /*右侧遮罩层*/
@@ -225,7 +224,7 @@ video::-webkit-media-controls-panel {
 	line-height: 30px;
 	font-size: 14px;
 	overflow: auto;
-	height: calc(100% - 85px);
+	height: calc(100% - 75px);
 }
 .olitem {
 	text-align: left;
@@ -319,10 +318,9 @@ video::-webkit-media-controls-panel {
 }
 /*学习记录递交是否成功的提示信息*/
 .videolog {
-	
 }
-.info{
-	color:#3F6;
+.info {
+	color: #3F6;
 }
 .error {
 	color: red;
@@ -437,8 +435,8 @@ video::-webkit-media-controls-panel {
 	margin-top: 10px;
 	text-align: center;
 	color: #F00;
-	height:0px;
-	opacity:0;
+	height: 0px;
+	opacity: 0;
 	transition: height 1s;
 	transition: opacity 1s;
 	overflow: hidden;
@@ -450,7 +448,6 @@ video::-webkit-media-controls-panel {
 	font-size: 16px;
 	font-weight: normal;
 }
-
 /*限制只能在桌面应用中打开*/
 #StudyForDeskapp {
 	color: #fff;
@@ -464,4 +461,94 @@ video::-webkit-media-controls-panel {
 }
 #StudyForDeskapp, #StudyForDeskapp a {
 	font-size: 16px;
+}
+/*交流咨询*/
+.chatbox {
+	background-color: #666;
+	position: absolute;
+	bottom: 0px;
+	height: 40px;
+	width: 100%;
+}
+.chatbox .switch {
+	background-color: #fff;
+	height: 24px;
+	line-height: 24px;
+	width: 35px;
+	margin-top: 8px;
+	margin-left: 8px;
+	font-size: 8px;
+	border-radius: 12px;
+	position: relative;
+	cursor: pointer;
+	float: left;
+	transition: text-align .6s;
+}
+.chatbox .switch:before {
+	content: "弹";
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	border-radius: 10px;
+	margin: 2px 0px 2px 0px;
+	margin-right: 5px;
+	font-size: 8px;
+	position: absolute;
+	z-index: 2;
+	color: #fff;
+	left: 2px;
+	background-color: #333;
+	transition: left .6s;	
+}
+.chatbox .switch:after {
+	content: " ";
+	width: 31px;
+	height: 20px;
+	border-radius: 10px;
+	position: absolute;
+	z-index: 1;
+	left: 2px;
+	margin: 2px 0px 2px 0px;
+	background-color: #999;
+	transition: background-color .6s;
+}
+.chatbox .switch-on{
+	background-color: #FFFF99;
+}
+.chatbox .switch-on:before {
+	left: 12px;
+	background-color: #360;
+}
+.chatbox .switch-on:after {
+	background-color: #6F6;
+}
+.chatbox .msgbox {
+	float: left;
+	background-color: #fff;
+	width: calc(100% - 55px);
+	height: 24px;
+	line-height: 24px;
+	margin-left: 8px;
+	margin-top: 8px;
+	border-radius: 6px;
+}
+.chatbox .msgbox input {
+	float: left;
+	width: calc(75% - 8px);
+	height: 24px;
+	line-height: 24px;
+	margin: 0px 0px 0px 8px;
+}
+.chatbox .msgbox>div#btnMessage {
+	float: left;
+	background-color: #999;
+	width: 25%;
+	height: 24px;
+	border-radius: 0px 6px 6px 0px;
+	text-align:center;
+	font-size:12px;
+	cursor:pointer;
+}
+.chatbox .msgbox>div#btnMessage:hover{
+	background-color:#F93;
 }
