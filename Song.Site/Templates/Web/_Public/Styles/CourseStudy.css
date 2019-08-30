@@ -432,15 +432,25 @@ video::-webkit-media-controls-panel {
 	cursor: pointer;
 	margin-top: 10px;
 }
-.MsgBoxContext .quesAns {
+.MsgBoxContext #event_error {
 	font-size: 14px;
-	height: 22px;
 	margin-top: 10px;
 	text-align: center;
+	color: #F00;
+	height:0px;
+	opacity:0;
+	transition: height 1s;
+	transition: opacity 1s;
+	overflow: hidden;
 }
-#footer {
-	margin-top: 10px !important;
+.MsgBoxContext #event_error:before {
+	content: "\e63d";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;
 }
+
 /*限制只能在桌面应用中打开*/
 #StudyForDeskapp {
 	color: #fff;

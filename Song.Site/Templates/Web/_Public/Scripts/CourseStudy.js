@@ -134,7 +134,7 @@
             }
             return false;
         },
-        //视频播放
+        //视频开始播放
         videoPlay: function (state) {
             if (vdata.playready()) {
                 vdata.player.destroy();
@@ -167,16 +167,13 @@
                     vdata.video.percent = vdata.video.percent > 100 ? 100 : vdata.video.percent;
                 });
                 vdata.player.on("seeked", function () {
-                    var playtime = vdata.playready() ? vdata.player.currentTime : vdata.playtime;
-                    //alert(playtime);
-                    vdata.playtime = playtime;
+                    vdata.playtime = vdata.playready() ? vdata.player.currentTime : 0;
                     window.setTimeout(function () {
                         if (vdata.playready()) vdata.player.pause();
                     }, 50);
 
                 });
             }
-
         },
         //播放器加载后的事件
         videoready: function () {
@@ -253,6 +250,7 @@
                         (Number(i) + 1) + "、" + items[i].item + "</div>";
                 }
                 context += "</div>";
+                context += "<div id='event_error'>回答错误</div>";
                 box.Init("提问" + curr.Oe_Title, context, curr.Oe_Width, curr.Oe_Height, "null").Open();
             }
             if (curr.Oe_EventType == 4) {
@@ -264,14 +262,24 @@
                         (Number(i) + 1) + "、" + items[i].item + " - （跳转到：" + items[i].point + "秒）</div>";
                 }
                 context += "</div>";
-                box.Init("实时反馈：" + curr.Oe_Title, context, curr.Oe_Width, curr.Oe_Height, "alert").Open();
+                box.Init("反馈：" + curr.Oe_Title, context, curr.Oe_Width, curr.Oe_Height, "alert").Open();
             }
         },
         //视频事件的点击操作
         videoEventClick: function (iscorrect, seek) {
             //视频事件的问题
-            if (iscorrect != null && iscorrect) {
-                MsgBox.Close();
+            if (iscorrect != null) {
+                if (iscorrect) MsgBox.Close();
+                if (!iscorrect) {
+                    var err = document.getElementById("event_error");
+                    err.style.height = 20 + 'px';
+                    err.style.opacity  = 1;
+                    window.setTimeout(function () {
+                        var err = document.getElementById("event_error");
+                        err.style.height = 0 + 'px';
+                        err.style.opacity  = 0;
+                    }, 1000);
+                }
             }
             //视频跳转
             if (iscorrect == null && seek > 0) {
@@ -322,66 +330,3 @@ window.onfocus = function () {
     }
 }
 */
-/*===========================================================================================
-
-视频的播放事件
-
-*/
-/*
-MsgBox.OverEvent = function () {
-    CKobject.getObjectById('ckplayer_videobox').videoPlay();
-};
-//通过播放时间，激活视频事件
-function activeEvent(time) {
-    //实际播放的时间值，单位秒
-    var s = Math.floor(Number(time));
-    //
-    $("#events .eventItem").each(function () {
-        var point = Number($(this).attr("point"));
-        if (point == s) {
-            //暂停播放
-            CKobject.getObjectById('ckplayer_videobox').videoPause();
-            //激出弹出窗口
-            var tit = $(this).find(".eventTitle").html();
-            var width = Number($(this).attr("winWidth"));
-            var height = Number($(this).attr("winHeight"));
-            var contx = $(this).find(".eventContext").html();
-            var type = Number($(this).attr("type"));
-            //如果是提醒或知识展示
-            if (type == 1 || type == 2) {
-                new MsgBox(tit, contx, width, height, "alert").Open();
-            }
-            //如果是试题
-            if (type == 3) {
-                new MsgBox(tit, $(this).html(), width, height, "null").Open();
-                $(".MsgBoxContext .eventTitle").remove();
-                $(".MsgBoxContext .quesBox .ansItem").click(function () {
-                    if ($(this).attr("iscorrect") == "True") {
-                        var quesAnd = $(".MsgBoxContext .quesAns");
-                        quesAnd.hide();
-                        quesAnd.html("&radic; 回答正确！");
-                        quesAnd.css("color", "green");
-                        quesAnd.show(100);
-                        setTimeout("MsgBox.Close()", 1000);
-                    } else {
-                        var quesAnd = $(".MsgBoxContext .quesAns");
-                        quesAnd.hide();
-                        quesAnd.html("&times; 回答错误！");
-                        quesAnd.css("color", "red");
-                        quesAnd.show(100);
-                    }
-                });
-            }
-            //如果是实时反馈
-            if (type == 4) {
-                new MsgBox(tit, $(this).html(), width, height, "null").Open();
-                $(".MsgBoxContext .eventTitle").remove();
-                $(".MsgBoxContext .quesBox .ansItem").click(function () {
-                    var playPoint = Number($(this).attr("point"));
-                    CKobject.getObjectById('ckplayer_videobox').videoSeek(playPoint);
-                    MsgBox.Close(true);
-                });
-            }
-        }
-    });
-}*/
