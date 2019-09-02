@@ -123,7 +123,7 @@ video::-webkit-media-controls-panel {
 	position: absolute;
 	z-index: 11;
 	color: #fff;
-	width: 100%;
+	width: calc(100% - 160px);
 	height: 30px;
 	font-size: 12px;
 	line-height: 30px;

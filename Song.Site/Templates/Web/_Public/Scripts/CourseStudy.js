@@ -27,7 +27,7 @@
         outlineLoaded: false,         //右侧章节列表加载中
         studylogUpdate: false,           //学习记录是否在递交中
         studylogState: 0,            //学习记录提交状态，1为成功，-1为失败
-        switchSubtitle:false,               //弹幕开关
+        switchSubtitle: false,               //弹幕开关
         //控件
         player: null             //播放器
     },
@@ -41,7 +41,8 @@
             if (vdata.state.isLive) vdata.titState = 'isLive';
             if (vdata.state.existVideo) vdata.titState = 'existVideo';
             //视频播放
-            vdata.videoPlay(vdata.state);
+            if (vdata.state.existVideo || vdata.state.isLive)
+                vdata.videoPlay(vdata.state);
         },
         //左侧选项卡切换
         titState: function (val) {
@@ -274,11 +275,11 @@
                 if (!iscorrect) {
                     var err = document.getElementById("event_error");
                     err.style.height = 20 + 'px';
-                    err.style.opacity  = 1;
+                    err.style.opacity = 1;
                     window.setTimeout(function () {
                         var err = document.getElementById("event_error");
                         err.style.height = 0 + 'px';
-                        err.style.opacity  = 0;
+                        err.style.opacity = 0;
                     }, 1000);
                 }
             }
