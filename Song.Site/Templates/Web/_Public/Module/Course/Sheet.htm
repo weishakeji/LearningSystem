@@ -172,7 +172,7 @@
                                 var ifm = document.getElementById("MessageBoardIframe");
                                 var subWeb = document.frames ? document.frames["MessageBoardIframe"].document : ifm.contentDocument;
                                 if (ifm != null && subWeb != null) {
-                                    ifm.height = subWeb.body.scrollHeight;
+                                    ifm.height = subWeb.body.scrollHeight+60;
                                 }
                             }
 
