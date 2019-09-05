@@ -15,6 +15,7 @@ using WeiSha.WebControl;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Threading;
+using WeiSha.Data;
 
 namespace Song.Site
 {
@@ -36,31 +37,34 @@ namespace Song.Site
         /// <param name="e"></param>
         protected void Application_Start(object sender, EventArgs e)
         {
+            
             //创建路由
             RegisterRoutes(RouteTable.Routes);
 
-            //生成所有机构的二维码
-            new Thread(new ThreadStart(() =>
+            if (!Gateway.IsCorrect) throw new Exception("数据库链接不正确！");
+
+            if (Gateway.IsCorrect)
             {
-                Business.Do<IOrganization>().OrganBuildQrCode();
-            })).Start();
+                //生成所有机构的二维码
+                new Thread(new ThreadStart(() =>
+                {
+                    Business.Do<IOrganization>().OrganBuildQrCode();
+                })).Start();
 
-            //初始化七牛云直播的值
-            Business.Do<ILive>().Initialization();
-            ////章节缓存创建      
-            //new Thread(new ThreadStart(() =>
-            //{                    
-                
-            //})).Start();
-            //Business.Do<IOutline>().OutlineBuildCache();
+                //初始化七牛云直播的值
+                Business.Do<ILive>().Initialization();
+                ////章节缓存创建      
+                //new Thread(new ThreadStart(() =>
+                //{                    
+
+                //})).Start();
+                //Business.Do<IOutline>().OutlineBuildCache();
 
 
-            #region  试题的事件            
-            Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
-            #endregion
-
-            
-
+                #region  试题的事件
+                Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
+                #endregion
+            }
         }    
 
 

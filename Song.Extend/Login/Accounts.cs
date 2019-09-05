@@ -98,6 +98,7 @@ namespace Song.Extend.Login
                 //如果是多机构，又不用IP访问，则用根域写入cookie
                 int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
                 if (multi == 0 && !WeiSha.Common.Server.IsLocalIP) cookie.Domain = WeiSha.Common.Server.MainName;
+                cookie.Expires = DateTime.Now.AddDays(30);
                 _context.Response.Cookies.Add(cookie);
             }
         }        

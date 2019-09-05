@@ -22,18 +22,6 @@ namespace Song.Entities {
     		
     		protected Int32? _Msg_State;
     		
-    		protected String _Msg_ToName;
-    		
-    		protected Int32? _Msg_ToId;
-    		
-    		protected Int32? _Msg_OfBox;
-    		
-    		protected String _Msg_ToAllId;
-    		
-    		protected String _Msg_ToAllName;
-    		
-    		protected Int32? _Msg_OwnerId;
-    		
     		protected Boolean _Msg_Del;
     		
     		protected Int32? _Org_Id;
@@ -49,6 +37,14 @@ namespace Song.Entities {
     		protected String _Msg_ReContext;
     		
     		protected Boolean _Msg_IsReply;
+    		
+    		protected Boolean _Cou_ID;
+    		
+    		protected Int32? _Ol_ID;
+    		
+    		protected Boolean _Msg_PlayTime;
+    		
+    		protected Boolean _Msg_Likenum;
     		
     		/// <summary>
     		/// False
@@ -142,84 +138,6 @@ namespace Song.Entities {
     		}
     		
     		/// <summary>
-    		/// True
-    		/// </summary>
-    		public String Msg_ToName {
-    			get {
-    				return this._Msg_ToName;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Msg_ToName, _Msg_ToName, value);
-    				this._Msg_ToName = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// False
-    		/// </summary>
-    		public Int32? Msg_ToId {
-    			get {
-    				return this._Msg_ToId;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Msg_ToId, _Msg_ToId, value);
-    				this._Msg_ToId = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// False
-    		/// </summary>
-    		public Int32? Msg_OfBox {
-    			get {
-    				return this._Msg_OfBox;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Msg_OfBox, _Msg_OfBox, value);
-    				this._Msg_OfBox = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// True
-    		/// </summary>
-    		public String Msg_ToAllId {
-    			get {
-    				return this._Msg_ToAllId;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Msg_ToAllId, _Msg_ToAllId, value);
-    				this._Msg_ToAllId = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// True
-    		/// </summary>
-    		public String Msg_ToAllName {
-    			get {
-    				return this._Msg_ToAllName;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Msg_ToAllName, _Msg_ToAllName, value);
-    				this._Msg_ToAllName = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// False
-    		/// </summary>
-    		public Int32? Msg_OwnerId {
-    			get {
-    				return this._Msg_OwnerId;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Msg_OwnerId, _Msg_OwnerId, value);
-    				this._Msg_OwnerId = value;
-    			}
-    		}
-    		
-    		/// <summary>
     		/// False
     		/// </summary>
     		public Boolean Msg_Del {
@@ -302,6 +220,46 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Cou_ID {
+    			get {
+    				return this._Cou_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_ID, _Cou_ID, value);
+    				this._Cou_ID = value;
+    			}
+    		}
+    		
+    		public Int32? Ol_ID {
+    			get {
+    				return this._Ol_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ol_ID, _Ol_ID, value);
+    				this._Ol_ID = value;
+    			}
+    		}
+    		
+    		public Boolean Msg_PlayTime {
+    			get {
+    				return this._Msg_PlayTime;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Msg_PlayTime, _Msg_PlayTime, value);
+    				this._Msg_PlayTime = value;
+    			}
+    		}
+    		
+    		public Boolean Msg_Likenum {
+    			get {
+    				return this._Msg_Likenum;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Msg_Likenum, _Msg_Likenum, value);
+    				this._Msg_Likenum = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -336,12 +294,6 @@ namespace Song.Entities {
     					_.Msg_ToTime,
     					_.Msg_ReadTime,
     					_.Msg_State,
-    					_.Msg_ToName,
-    					_.Msg_ToId,
-    					_.Msg_OfBox,
-    					_.Msg_ToAllId,
-    					_.Msg_ToAllName,
-    					_.Msg_OwnerId,
     					_.Msg_Del,
     					_.Org_Id,
     					_.Org_Name,
@@ -349,7 +301,11 @@ namespace Song.Entities {
     					_.Msg_QQ,
     					_.Msg_Phone,
     					_.Msg_ReContext,
-    					_.Msg_IsReply};
+    					_.Msg_IsReply,
+    					_.Cou_ID,
+    					_.Ol_ID,
+    					_.Msg_PlayTime,
+    					_.Msg_Likenum};
     		}
     		
     		/// <summary>
@@ -364,12 +320,6 @@ namespace Song.Entities {
     					this._Msg_ToTime,
     					this._Msg_ReadTime,
     					this._Msg_State,
-    					this._Msg_ToName,
-    					this._Msg_ToId,
-    					this._Msg_OfBox,
-    					this._Msg_ToAllId,
-    					this._Msg_ToAllName,
-    					this._Msg_OwnerId,
     					this._Msg_Del,
     					this._Org_Id,
     					this._Org_Name,
@@ -377,7 +327,11 @@ namespace Song.Entities {
     					this._Msg_QQ,
     					this._Msg_Phone,
     					this._Msg_ReContext,
-    					this._Msg_IsReply};
+    					this._Msg_IsReply,
+    					this._Cou_ID,
+    					this._Ol_ID,
+    					this._Msg_PlayTime,
+    					this._Msg_Likenum};
     		}
     		
     		/// <summary>
@@ -405,24 +359,6 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Msg_State))) {
     				this._Msg_State = reader.GetInt32(_.Msg_State);
     			}
-    			if ((false == reader.IsDBNull(_.Msg_ToName))) {
-    				this._Msg_ToName = reader.GetString(_.Msg_ToName);
-    			}
-    			if ((false == reader.IsDBNull(_.Msg_ToId))) {
-    				this._Msg_ToId = reader.GetInt32(_.Msg_ToId);
-    			}
-    			if ((false == reader.IsDBNull(_.Msg_OfBox))) {
-    				this._Msg_OfBox = reader.GetInt32(_.Msg_OfBox);
-    			}
-    			if ((false == reader.IsDBNull(_.Msg_ToAllId))) {
-    				this._Msg_ToAllId = reader.GetString(_.Msg_ToAllId);
-    			}
-    			if ((false == reader.IsDBNull(_.Msg_ToAllName))) {
-    				this._Msg_ToAllName = reader.GetString(_.Msg_ToAllName);
-    			}
-    			if ((false == reader.IsDBNull(_.Msg_OwnerId))) {
-    				this._Msg_OwnerId = reader.GetInt32(_.Msg_OwnerId);
-    			}
     			if ((false == reader.IsDBNull(_.Msg_Del))) {
     				this._Msg_Del = reader.GetBoolean(_.Msg_Del);
     			}
@@ -446,6 +382,18 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Msg_IsReply))) {
     				this._Msg_IsReply = reader.GetBoolean(_.Msg_IsReply);
+    			}
+    			if ((false == reader.IsDBNull(_.Cou_ID))) {
+    				this._Cou_ID = reader.GetBoolean(_.Cou_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Ol_ID))) {
+    				this._Ol_ID = reader.GetInt32(_.Ol_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Msg_PlayTime))) {
+    				this._Msg_PlayTime = reader.GetBoolean(_.Msg_PlayTime);
+    			}
+    			if ((false == reader.IsDBNull(_.Msg_Likenum))) {
+    				this._Msg_Likenum = reader.GetBoolean(_.Msg_Likenum);
     			}
     		}
     		
@@ -509,36 +457,6 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Msg_State = new WeiSha.Data.Field<Message>("Msg_State");
     			
     			/// <summary>
-    			/// True - 字段名：Msg_ToName - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Msg_ToName = new WeiSha.Data.Field<Message>("Msg_ToName");
-    			
-    			/// <summary>
-    			/// False - 字段名：Msg_ToId - 数据类型：Int32(可空)
-    			/// </summary>
-    			public static WeiSha.Data.Field Msg_ToId = new WeiSha.Data.Field<Message>("Msg_ToId");
-    			
-    			/// <summary>
-    			/// False - 字段名：Msg_OfBox - 数据类型：Int32(可空)
-    			/// </summary>
-    			public static WeiSha.Data.Field Msg_OfBox = new WeiSha.Data.Field<Message>("Msg_OfBox");
-    			
-    			/// <summary>
-    			/// True - 字段名：Msg_ToAllId - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Msg_ToAllId = new WeiSha.Data.Field<Message>("Msg_ToAllId");
-    			
-    			/// <summary>
-    			/// True - 字段名：Msg_ToAllName - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Msg_ToAllName = new WeiSha.Data.Field<Message>("Msg_ToAllName");
-    			
-    			/// <summary>
-    			/// False - 字段名：Msg_OwnerId - 数据类型：Int32(可空)
-    			/// </summary>
-    			public static WeiSha.Data.Field Msg_OwnerId = new WeiSha.Data.Field<Message>("Msg_OwnerId");
-    			
-    			/// <summary>
     			/// False - 字段名：Msg_Del - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Msg_Del = new WeiSha.Data.Field<Message>("Msg_Del");
@@ -577,7 +495,26 @@ namespace Song.Entities {
     			/// 字段名：Msg_IsReply - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Msg_IsReply = new WeiSha.Data.Field<Message>("Msg_IsReply");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_ID - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<Message>("Cou_ID");
+    			
+    			/// <summary>
+    			/// 字段名：Ol_ID - 数据类型：Int32(可空)
+    			/// </summary>
+    			public static WeiSha.Data.Field Ol_ID = new WeiSha.Data.Field<Message>("Ol_ID");
+    			
+    			/// <summary>
+    			/// 字段名：Msg_PlayTime - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Msg_PlayTime = new WeiSha.Data.Field<Message>("Msg_PlayTime");
+    			
+    			/// <summary>
+    			/// 字段名：Msg_Likenum - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Msg_Likenum = new WeiSha.Data.Field<Message>("Msg_Likenum");
     		}
     	}
     }
-    

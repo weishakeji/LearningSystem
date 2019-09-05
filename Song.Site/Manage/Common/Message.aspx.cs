@@ -51,7 +51,7 @@ namespace Song.Site.Manage.Common
                 endTime = Convert.ToDateTime(tbEnd.Text.Trim());
             }           
             Song.Entities.Message[] msg = null;
-            msg = Business.Do<IMessage>().GetPager(org.Org_ID, 0, sear, startTime, endTime, Pager1.Size, Pager1.Index, out count);
+            msg = Business.Do<IMessage>().GetPager(org.Org_ID, 0, 0, sear, startTime, endTime, Pager1.Size, Pager1.Index, out count);
 
             GridView1.DataSource = msg;
             GridView1.DataKeyNames = new string[] { "Msg_id" };

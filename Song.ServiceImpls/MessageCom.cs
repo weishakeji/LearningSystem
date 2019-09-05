@@ -68,14 +68,81 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 获取对象；
         /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
         /// <returns></returns>
-        public Message[] GetAll()
+        public Message[] GetAll(int couid, int olid)
         {
-            return Gateway.Default.From<Message>().OrderBy(Message._.Msg_CrtTime.Desc).ToArray<Message>();
+            return GetCount(couid, olid, 0);
         }
-        public Message[] GetPager(int orgid, int stid, string sear, DateTime startTime, DateTime endTime, int size, int index, out int countSum)
+        public Message[] GetCount(int couid, int olid, int count)
         {
             WhereClip wc = new WhereClip();
+            if (couid > 0) wc &= Message._.Cou_ID == couid;
+            if (olid > 0) wc &= Message._.Ol_ID == olid;
+            return Gateway.Default.From<Message>().Where(wc).OrderBy(Message._.Msg_CrtTime.Desc).ToArray<Message>(count);
+        }
+        /// <summary>
+        /// 分页获取
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="stid"></param>
+        /// <param name="sear"></param>
+        /// <param name="startTime">创建时间，起始范围</param>
+        /// <param name="endTime">创建时间，结束的范围</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public Message[] GetPager(int couid, int olid, int stid, string sear, DateTime? startTime, DateTime? endTime, int size, int index, out int countSum)
+        {
+            WhereClip wc = new WhereClip();
+            if (couid > 0) wc &= Message._.Cou_ID == couid;
+            if (olid > 0) wc &= Message._.Ol_ID == olid;
+            if (stid > 0) wc &= Message._.Ac_ID == stid;
+            if (!string.IsNullOrWhiteSpace(sear))
+                wc.And(Message._.Msg_Context.Like("%" + sear + "$"));
+            if (startTime != null)
+            {
+                wc.And(Message._.Msg_CrtTime >= (DateTime)startTime);
+            }
+            if (endTime != null)
+            {
+                wc.And(Message._.Msg_CrtTime < (DateTime)endTime);
+            }
+            countSum = Gateway.Default.Count<Message>(wc);
+            return Gateway.Default.From<Message>().Where(wc).OrderBy(Message._.Msg_CrtTime.Desc).ToArray<Message>(size, (index - 1) * size);
+        }
+        /// <summary>
+        /// 分页获取
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="stid"></param>
+        /// <param name="sear"></param>
+        /// <param name="startPlay"></param>
+        /// <param name="endPlay"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public Message[] GetPager(int couid, int olid, int stid, string sear, int startPlay, int endPlay, int size, int index, out int countSum)
+        {
+            WhereClip wc = new WhereClip();
+            if (couid > 0) wc &= Message._.Cou_ID == couid;
+            if (olid > 0) wc &= Message._.Ol_ID == olid;
+            if (stid > 0) wc &= Message._.Ac_ID == stid;
+            if (!string.IsNullOrWhiteSpace(sear))
+                wc.And(Message._.Msg_Context.Like("%" + sear + "$"));
+            if (startPlay >= 0)
+            {
+                wc.And(Message._.Msg_PlayTime >= startPlay);
+            }
+            if (endPlay >= 0)
+            {
+                wc.And(Message._.Msg_PlayTime < endPlay);
+            }
             countSum = Gateway.Default.Count<Message>(wc);
             return Gateway.Default.From<Message>().Where(wc).OrderBy(Message._.Msg_CrtTime.Desc).ToArray<Message>(size, (index - 1) * size);
         }
