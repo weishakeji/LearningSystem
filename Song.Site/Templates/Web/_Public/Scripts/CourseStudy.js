@@ -128,6 +128,8 @@
                     if (!state.data.success) alert("章节状态加载错误");
                 }
             }));
+            //获取留言列表
+            vdata.msgGet();
         },
         //播放器是否准备好
         playready: function () {
@@ -355,7 +357,23 @@
         window.setInterval('vdata.msgGet()', 1000 * 10);
     },
     mounted: function () {
-        //alert(3);
+        //视频上面的漂浮信息（学员姓名和电话），防录屏
+        window.acctop = Math.ceil(Math.random() * 10);
+        window.accleft = Math.ceil(Math.random() * 10);
+        window.setInterval(function () {
+            var acc = document.getElementById("accinfo");
+            if (acc == null) return;
+            if (acc.parentNode.offsetHeight == 0 || acc.parentNode.offsetWidth == 0) return;
+            //获取当前坐标
+            var top = acc.offsetTop;
+            var left = acc.offsetLeft;
+            //转向            
+            if (top < 0 || top > acc.parentNode.offsetHeight - acc.offsetHeight) window.acctop = -window.acctop;
+            if (left < 0 || left > acc.parentNode.offsetWidth - acc.offsetWidth) window.accleft = -window.accleft;
+            //移动 
+            acc.style.top = (top > acc.parentNode.offsetHeight - acc.offsetHeight ? acc.parentNode.offsetHeight - acc.offsetHeight : top + window.acctop) + "px";
+            acc.style.left = (left > acc.parentNode.offsetWidth - acc.offsetWidth ? acc.parentNode.offsetWidth - acc.offsetWidth : left + window.accleft) + "px";
+        }, 120);
     },
 
 });

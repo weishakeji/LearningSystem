@@ -182,11 +182,19 @@ video::-webkit-media-controls-panel {
 	padding-left: 160px;
 	text-align: left;
 }
-#accinfo{
+
+#accinfo {
 	position: absolute;
 	z-index: 20;
-	top: 0px;
-	left: 0px;
+	top: 10px;
+	left: 10px;
+	height: 20px;
+	white-space: nowrap;
+	display: table;
+	transition: top .12s, left .12s;
+	filter: alpha(Opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
 }
 
 /* 课程内容
