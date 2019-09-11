@@ -24,11 +24,8 @@ namespace Song.ServiceImpls
         {
             entity.Msg_CrtTime = DateTime.Now;
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            if (org != null)
-            {
-                entity.Org_Id = org.Org_ID;
-                entity.Org_Name = org.Org_Name;
-            }
+            if (org != null)         
+                entity.Org_Id = org.Org_ID; 
             return Gateway.Default.Save<Message>(entity);
         }
         /// <summary>
@@ -56,6 +53,15 @@ namespace Song.ServiceImpls
             Gateway.Default.Delete<Message>(Message._.Msg_Id == identify);
         }
         /// <summary>
+        /// 删除，按主键id和学员id
+        /// </summary>
+        /// <param name="identify">主键id</param>
+        /// <param name="acid">学员账户id</param>
+        public void Delete(int identify, int acid)
+        {
+            Gateway.Default.Delete<Message>(Message._.Msg_Id == identify && Message._.Ac_ID == acid);
+        }
+        /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
@@ -75,12 +81,16 @@ namespace Song.ServiceImpls
         {
             return GetCount(couid, olid, 0);
         }
+        public Message[] GetAll(int olid)
+        {
+            return GetCount(0, olid, 0);
+        }
         public Message[] GetCount(int couid, int olid, int count)
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc &= Message._.Cou_ID == couid;
             if (olid > 0) wc &= Message._.Ol_ID == olid;
-            return Gateway.Default.From<Message>().Where(wc).OrderBy(Message._.Msg_CrtTime.Desc).ToArray<Message>(count);
+            return Gateway.Default.From<Message>().Where(wc).OrderBy(Message._.Msg_CrtTime.Asc).ToArray<Message>(count);
         }
         /// <summary>
         /// 分页获取

@@ -2,27 +2,60 @@
 html {
 	overflow: hidden;
 }
+
 body {
 	background-color: #222326;
 	background: #222326;
 }
+
 html, body, #body {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 }
+
+/*修改滚动条样式*/
+
+div::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+	/**/
+}
+
+div::-webkit-scrollbar-track {
+	background: rgb(239, 239, 239);
+	border-radius: 2px;
+}
+
+div::-webkit-scrollbar-thumb {
+	background: #999;
+	border-radius: 10px;
+}
+
+div::-webkit-scrollbar-thumb:hover {
+	background: #666;
+}
+
+div::-webkit-scrollbar-corner {
+	background: #179a16;
+}
+
 /*布局*/
+
 #MainBox, #median, #rightBox {
 	height: 100%;
 	float: left;
 	position: relative;
 	transition: width .3s;
 }
+
 /*分隔符*/
+
 #median {
 	width: 5px;
 	background-color: #999999;
 }
+
 #median span {
 	font-size: 12px;
 	font-weight: 900;
@@ -41,24 +74,31 @@ html, body, #body {
 	background: linear-gradient(to right, #fff, #eee, #fff);
 	border-radius: 2px
 }
+
 #median span.close:before {
 	content: "<";
 }
+
 #median span.open:before {
 	content: ">";
 }
+
 .mainTop {
 	height: 65px;
 }
+
 video::-internal-media-controls-download-button {
- display:none;
+	display: none;
 }
+
 video::-webkit-media-controls-enclosure {
- overflow:hidden;
+	overflow: hidden;
 }
+
 video::-webkit-media-controls-panel {
- width: calc(100% + 30px);
+	width: calc(100% + 30px);
 }
+
 .courseBox {
 	height: 30px;
 	font-size: 14px;
@@ -67,6 +107,7 @@ video::-webkit-media-controls-panel {
 	text-indent: 10;
 	text-align: left;
 }
+
 .courseBox:before {
 	content: "\e636";
 	font-family: iconfont;
@@ -74,10 +115,12 @@ video::-webkit-media-controls-panel {
 	font-size: 16px;
 	font-weight: normal;
 }
+
 .courseBox a {
 	color: #999;
 	font-size: 14px;
 }
+
 #MainBox #btnKnowledge {
 	position: absolute;
 	right: 10px;
@@ -98,27 +141,35 @@ video::-webkit-media-controls-panel {
 	margin-top: 25px;
 	cursor: pointer;
 }
+
 #MainBox #btnKnowledge:before {
 	content: "\e675";
 	font-size: 22px;
 	margin-right: 5px;
 	font-family: iconfont;
 }
+
 /*左侧内容区*/
+
 #contextArea {
 	height: calc(100% - 65px);
 	width: 100%;
 	color: #ddd;
 }
+
 #contextArea>div {
 	height: 100%;
 	position: relative;
 }
+
 /*视频播放器*/
+
 #videoplayer {
 	z-index: 10;
 }
+
 /*视频播放信息栏*/
+
 #videoinfo {
 	position: absolute;
 	z-index: 11;
@@ -131,32 +182,39 @@ video::-webkit-media-controls-panel {
 	padding-left: 160px;
 	text-align: left;
 }
+
 /* 课程内容
 ------------------------*/
+
 #details {
 	font-size: 16px;
 	line-height: 20px;
 	background-color: #FFF;
 	overflow: auto;
 }
+
 #details img {
 	max-width: 100%;
 }
+
 #details p, #details * {
 	font-size: 17px !important;
 	line-height: 30px !important;
 	background-color: transparent !important;
 	color: #666 !important;
 }
+
 #details p {
 	margin-bottom: 20px;
 }
+
 #detailsArea {
 	margin: 20px;
 	padding: 20px;
 	border: 1px solid #ccc;
 	text-align: left;
 }
+
 #rightBox .boxBar {
 	border-bottom-width: 1px;
 	border-top-style: none;
@@ -167,6 +225,7 @@ video::-webkit-media-controls-panel {
 	height: 62px;
 	margin-bottom: 10px;
 }
+
 #rightBox .title {
 	font-size: 18px;
 	float: left;
@@ -184,6 +243,7 @@ video::-webkit-media-controls-panel {
 	transition: line-height .5s;
 	white-space: nowrap;
 }
+
 #rightBox .titleCurr {
 	color: #FFF;
 	font-size: 20px;
@@ -195,7 +255,9 @@ video::-webkit-media-controls-panel {
 	border-bottom-color: #0387d9;
 	line-height: 26px;
 }
+
 /*右侧遮罩层*/
+
 #rightMask {
 	width: 20%;
 	height: calc(100% - 65px);
@@ -206,19 +268,25 @@ video::-webkit-media-controls-panel {
 	transition: width .3s;
 	transition: opacity 2s;
 }
+
 .fade-enter {
 	opacity: 0;
 }
+
 .fade-enter-active {
 	transition: opacity 3s;
 }
+
 .fade-leave-to {
 	opacity: 0;
 }
+
 .fade-leave-active {
 	transition: opacity 3s;
 }
+
 /*章节列表*/
+
 .rightArea {
 	color: #333;
 	line-height: 30px;
@@ -226,10 +294,12 @@ video::-webkit-media-controls-panel {
 	overflow: auto;
 	height: calc(100% - 75px);
 }
+
 .olitem {
 	text-align: left;
 	color: #666;
 }
+
 .olitem:before {
 	content: "\e65f";
 	font-family: iconfont;
@@ -239,7 +309,9 @@ video::-webkit-media-controls-panel {
 	margin-left: 8px;
 	color: #999;
 }
+
 /*视频章节的图标*/
+
 .li-video:before {
 	content: "\e606";
 	font-family: iconfont;
@@ -247,7 +319,9 @@ video::-webkit-media-controls-panel {
 	font-size: 16px;
 	font-weight: normal;
 }
+
 /*当前章节的图标*/
+
 .current:before {
 	content: "\e621";
 	font-family: iconfont;
@@ -256,7 +330,9 @@ video::-webkit-media-controls-panel {
 	font-weight: normal;
 	color: #fff;
 }
+
 /*直播章节的图标*/
+
 .li-live:before {
 	content: "";
 	background-image: url(../Images/live-icon.gif);
@@ -265,7 +341,9 @@ video::-webkit-media-controls-panel {
 	height: 24px;
 	display: inline-block;
 }
+
 /*未完结*/
+
 .nofinish {
 	margin-right: 20px;
 	margin-top: 10px;
@@ -279,7 +357,9 @@ video::-webkit-media-controls-panel {
 	background-color: rgba(0, 0, 0, .15);
 	color: #CCC;
 }
+
 /*购买图标*/
+
 .buy {
 	margin-right: 20px;
 	margin-top: 10px;
@@ -290,24 +370,29 @@ video::-webkit-media-controls-panel {
 	height: 10px;
 	padding: 3px 10px 3px 10px;
 	line-height: 20px;
-	background-color: rgba(102,102,102,0.15);
+	background-color: rgba(102, 102, 102, 0.15);
 	color: #FC0;
 }
+
 .buy:before {
 	content: "\e625";
 	font-family: "moneyico";
 	margin-right: 5px;
 }
+
 .outline a {
 	color: #999;
 }
+
 .current {
 	background-color: #999;
 }
+
 .current, .current a, .current span {
 	font-weight: bold;
 	color: #FFFFFF;
 }
+
 #playerInfo {
 	line-height: 30px;
 	height: 30px;
@@ -316,28 +401,36 @@ video::-webkit-media-controls-panel {
 	position: relative;
 	text-align: left;
 }
+
 /*学习记录递交是否成功的提示信息*/
-.videolog {
-}
+
+.videolog {}
+
 .info {
 	color: #3F6;
 }
+
 .error {
 	color: red;
 }
+
 video::-webkit-media-controls-enclosure {
- overflow:hidden;
+	overflow: hidden;
 }
+
 video::-webkit-media-controls-panel {
- width: calc(100% + 30px);
+	width: calc(100% + 30px);
 }
+
 .historyInfo {
 	margin-left: 20px;
 	cursor: pointer;
 	color: #06F;
 }
+
 /* 章节的主标题下的选项卡
 */
+
 #MainBox .oltitle {
 	height: 30px;
 	border-bottom-width: 5px;
@@ -347,6 +440,7 @@ video::-webkit-media-controls-panel {
 	border-left-style: none;
 	border-bottom-color: #999999;
 }
+
 #MainBox .oltitle a {
 	font-size: 14px;
 	background-repeat: no-repeat;
@@ -369,12 +463,14 @@ video::-webkit-media-controls-panel {
 	transition: font-size .6s;
 	transition: background-color 0.6s;
 }
+
 /*
 .oltitle>a:first-child{
 	color: #000;
 	background-color: #999999;
 	text-shadow: 0 0 10px #fff;
 }*/
+
 #MainBox .oltitle .titCurr {
 	color: #000;
 	background-color: #999999;
@@ -384,6 +480,7 @@ video::-webkit-media-controls-panel {
 	font-size: 16px;
 	padding-top: 2px;
 }
+
 .noSelect {
 	text-align: left;
 	line-height: 35px;
@@ -395,15 +492,19 @@ video::-webkit-media-controls-panel {
 	margin-bottom: auto;
 	margin-left: auto;
 }
+
 .noSelect, .noSelect a {
 	color: #eee;
 	font-size: 16px;
 }
+
 /* 附件 */
+
 #access {
 	margin: 20px;
 	text-align: left;
 }
+
 #access a {
 	font-size: 16px;
 	text-indent: 20px;
@@ -412,24 +513,30 @@ video::-webkit-media-controls-panel {
 	line-height: 30px;
 	width: auto;
 }
+
 #access a:hover {
 	background-color: #333;
 }
+
 /* 视频事件中的试题窗口*/
+
 .MsgBoxContext .eventContext {
 	font-size: 14px;
 	height: 22px;
 	margin-bottom: 10px;
 }
+
 .MsgBoxContext .quesBox {
 	margin-left: 14px;
 }
+
 .MsgBoxContext .quesBox>div {
 	font-size: 14px;
 	height: 22px;
 	cursor: pointer;
 	margin-top: 10px;
 }
+
 .MsgBoxContext #event_error {
 	font-size: 14px;
 	margin-top: 10px;
@@ -441,6 +548,7 @@ video::-webkit-media-controls-panel {
 	transition: opacity 1s;
 	overflow: hidden;
 }
+
 .MsgBoxContext #event_error:before {
 	content: "\e63d";
 	font-family: iconfont;
@@ -448,7 +556,9 @@ video::-webkit-media-controls-panel {
 	font-size: 16px;
 	font-weight: normal;
 }
+
 /*限制只能在桌面应用中打开*/
+
 #StudyForDeskapp {
 	color: #fff;
 	margin-top: 60px;
@@ -459,10 +569,69 @@ video::-webkit-media-controls-panel {
 	margin-left: auto;
 	margin-right: auto;
 }
+
 #StudyForDeskapp, #StudyForDeskapp a {
 	font-size: 16px;
 }
+
 /*交流咨询*/
+
+.chat {
+	position: relative;
+	overflow: hidden;
+}
+
+.chatlist {
+	max-height: calc(100% - 40px);
+	position: absolute;
+	bottom: 40px;
+	width: 100%;
+	overflow-y: auto;
+}
+
+.chatlist dd {
+	width: auto;
+	display: table;
+	line-height: 20px;
+	position: relative;
+}
+
+.chatlist dd>div {
+	text-align: left;
+	padding: 5px;
+	padding-right: 10px;
+	color: #eee;
+	border-radius: 10px;
+	margin: 10px;
+	width: auto;
+	display: table;
+	line-height: 20px;
+	box-shadow: 1px 1px 2px #666;
+}
+
+.chatlist dd acc {
+	display: block;
+}
+
+.chatlist dd msg {
+	display: block;
+}
+
+.chatlist dd date {
+	display: block;
+	text-align: left;
+	padding-left: 16px;
+	height: 18px;
+	line-height: 18px;
+	margin-top: -8px;
+	color: #444;
+}
+
+.chatlist dd i {
+	padding-right: 5px;
+	font-size: 16px;
+}
+
 .chatbox {
 	background-color: #666;
 	position: absolute;
@@ -470,6 +639,7 @@ video::-webkit-media-controls-panel {
 	height: 40px;
 	width: 100%;
 }
+
 .chatbox .switch {
 	background-color: #fff;
 	height: 24px;
@@ -484,6 +654,7 @@ video::-webkit-media-controls-panel {
 	float: left;
 	transition: text-align .6s;
 }
+
 .chatbox .switch:before {
 	content: "弹";
 	width: 20px;
@@ -498,8 +669,9 @@ video::-webkit-media-controls-panel {
 	color: #fff;
 	left: 2px;
 	background-color: #333;
-	transition: left .6s;	
+	transition: left .6s;
 }
+
 .chatbox .switch:after {
 	content: " ";
 	width: 31px;
@@ -512,16 +684,20 @@ video::-webkit-media-controls-panel {
 	background-color: #999;
 	transition: background-color .6s;
 }
-.chatbox .switch-on{
+
+.chatbox .switch-on {
 	background-color: #FFFF99;
 }
+
 .chatbox .switch-on:before {
 	left: 12px;
 	background-color: #360;
 }
+
 .chatbox .switch-on:after {
 	background-color: #6F6;
 }
+
 .chatbox .msgbox {
 	float: left;
 	background-color: #fff;
@@ -532,6 +708,7 @@ video::-webkit-media-controls-panel {
 	margin-top: 8px;
 	border-radius: 6px;
 }
+
 .chatbox .msgbox input {
 	float: left;
 	width: calc(75% - 8px);
@@ -539,16 +716,18 @@ video::-webkit-media-controls-panel {
 	line-height: 24px;
 	margin: 0px 0px 0px 8px;
 }
+
 .chatbox .msgbox>div#btnMessage {
 	float: left;
 	background-color: #999;
 	width: 25%;
 	height: 24px;
 	border-radius: 0px 6px 6px 0px;
-	text-align:center;
-	font-size:12px;
-	cursor:pointer;
+	text-align: center;
+	font-size: 12px;
+	cursor: pointer;
 }
-.chatbox .msgbox>div#btnMessage:hover{
-	background-color:#F93;
+
+.chatbox .msgbox>div#btnMessage:hover {
+	background-color: #F93;
 }

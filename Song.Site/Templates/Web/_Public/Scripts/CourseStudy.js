@@ -7,6 +7,7 @@
         outlines: [],     //当前课程的章节列表（树形）
         access: [],          //附件列表
         events: [],          //视频事件
+        messages: [],        //咨询留言
         //当前章节的视频信息
         video: {
             url: '',         //视频路径
@@ -27,7 +28,7 @@
         outlineLoaded: false,         //右侧章节列表加载中
         studylogUpdate: false,           //学习记录是否在递交中
         studylogState: 0,            //学习记录提交状态，1为成功，-1为失败
-        switchSubtitle: false,               //弹幕开关
+        switchSubtitle: $api.cookie("switchSubtitle_" + $api.querystring("couid")) == "true" ? true : false,               //弹幕开关
         //控件
         player: null             //播放器
     },
@@ -50,12 +51,10 @@
                 vdata.titState == 'existVideo' ? vdata.player.play() : vdata.player.pause();
             }
         },
-        'video': {
-            handler: function (val, old) {
-
-            },
-            deep: true
-            //immediate: true
+        //弹幕开关
+        'switchSubtitle': function (val, old) {
+            if (val != old)
+                $api.cookie("switchSubtitle_" + vdata.couid, val);
         },
         //播放进度变化
         playtime: function (val) {
@@ -289,6 +288,38 @@
                 vdata.player.seek(seek);
                 MsgBox.Close();
             }
+        },
+        //发送消息
+        msgSend: function () {
+            var msg = document.getElementById("messageinput").value;
+            if ($api.trim(msg) == '') return;
+            var span = Date.now() - Number($api.cookie("msgtime"));
+            if (span / 1000 < 10) {
+                vdata.$notify({
+                    message: '不要频繁发消息！',
+                    position: 'bottom-right'
+                });
+                return;
+            }
+            $api.cookie("msgtime", Date.now());
+            $api.post("message/add", { msg: msg, playtime: vdata.playtime, couid: vdata.couid, olid: vdata.olid }).then(function (req) {
+                var d = req.data;
+                if (d.success) {
+                    document.getElementById("messageinput").value = '';
+                    vdata.msgGet();
+                }
+            });
+        },
+        //获取当前章节的留言信息
+        msgGet: function () {
+            $api.post("message/All", { olid: vdata.olid }).then(function (req) {
+                var d = req.data;
+                if (d.success) vdata.messages = d.result;
+                window.setTimeout(function () {
+                    var dl=document.getElementById("chatlistdl");
+                    document.getElementById("chatlist").scrollTop = dl.offsetHeight;
+                }, 1000);
+            });
         }
     },
     created: function () {
@@ -308,11 +339,16 @@
                             if (!subject.data.success) alert("课程所属专业加载错误");
                         }
                     });
+                    vdata.msgGet();
                 } else {
                     if (!ol.data.success) alert("章节列表加载错误");
                     if (!cur.data.success) alert("课程信息加载错误");
                 }
             }));
+
+        window.setInterval(function () {
+            vdata.msgGet();
+        }, 1000 * 10)
     },
     mounted: function () {
         //alert(3);
@@ -332,3 +368,21 @@ window.onfocus = function () {
     }
 }
 */
+
+//全局过滤器，日期格式化
+Vue.filter('date', function (value, fmt) {
+    if ($api.getType(value) != 'Date') return value;
+    var o = {
+        "M+": value.getMonth() + 1,
+        "d+": value.getDate(),
+        "h+": value.getHours(),
+        "m+": value.getMinutes(),
+        "s+": value.getSeconds()
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (value.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+});

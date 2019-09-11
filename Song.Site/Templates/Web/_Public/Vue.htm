@@ -26,6 +26,9 @@
             var app = new Vue({
                   el: '#app'
             });
+            $api.get("message/student").then(function(e){
+                  var d=e.data;
+            });
       </script>
 </body>
 

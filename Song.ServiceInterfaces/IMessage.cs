@@ -32,6 +32,12 @@ namespace Song.ServiceInterfaces
         /// <param name="identify">实体的主键</param>
         void Delete(int identify);
         /// <summary>
+        /// 删除，按主键id和学员id
+        /// </summary>
+        /// <param name="identify">主键id</param>
+        /// <param name="acid">学员账户id</param>
+        void Delete(int identify,int acid);
+        /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
@@ -44,6 +50,7 @@ namespace Song.ServiceInterfaces
         /// <param name="olid">章节id</param>
         /// <returns></returns>
         Message[] GetAll(int couid, int olid);
+        Message[] GetAll(int olid);
         Message[] GetCount(int couid, int olid, int count);
         /// <summary>
         /// 分页获取

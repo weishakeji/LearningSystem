@@ -70,7 +70,7 @@ namespace Song.ViewData
             return obj;
         }
         #endregion
-        
+
         /// <summary>
         /// 执行，按实际结果返回
         /// </summary>
@@ -83,23 +83,23 @@ namespace Song.ViewData
             //2.获取要执行的方法，即$api.get("account/single")中的single
             MethodInfo method = getMethod(execObj.GetType(), letter);
             //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限    
-            //验证是否登录
-            AdminAttribute adminAttr = authenticateLoginControl(execObj, method);
-            if (adminAttr != null && !adminAttr.Ignore)
-            {
-                if (!adminAttr.Logged())
-                {
-                    //如果没有登录
-                    throw new Exception("当前方法需要管理员登录后操作");
-                }
-            }
+            //验证是否需要管理员登录
+            LoginAttribute loginattr = null;
+            loginattr = LoginAttribute.AuthenticateLoginControl<AdminAttribute>(execObj, method);
+            if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
+                throw new Exception("当前方法需要管理员登录后操作");
+            loginattr = LoginAttribute.AuthenticateLoginControl<StudentAttribute>(execObj, method);
+            if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
+                throw new Exception("当前方法需要学员账户登录后操作");
+            loginattr = LoginAttribute.AuthenticateLoginControl<TeacherAttribute>(execObj, method);
+            if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
+                throw new Exception("当前方法需要教师账号登录后操作");
             //4.构建执行该方法所需要的参数
             object[] parameters = getInvokeParam(method, letter);
             //5.执行方法，返回结果
-            object objResult= method.Invoke(execObj, parameters);
+            object objResult = method.Invoke(execObj, parameters);
             //将执行结果写入日志
-            if (adminAttr != null && adminAttr.Logged()) adminAttr.LogWrite(objResult);
-
+            LoginAttribute.LogWrite(loginattr, objResult);
             return objResult;
         }
         /// <summary>
@@ -129,11 +129,11 @@ namespace Song.ViewData
         private static MethodInfo getMethod(Type type, Letter p)
         {
             //1、先判断方法是否存在
-            List<MethodInfo> methods = new List<MethodInfo>(); 
-            foreach(MethodInfo mi in  type.GetMethods())
+            List<MethodInfo> methods = new List<MethodInfo>();
+            foreach (MethodInfo mi in type.GetMethods())
             {
-                if (p.MethodName.Equals(mi.Name, StringComparison.CurrentCultureIgnoreCase))               
-                    methods.Add(mi);                
+                if (p.MethodName.Equals(mi.Name, StringComparison.CurrentCultureIgnoreCase))
+                    methods.Add(mi);
             }
             if (methods.Count < 1)
                 throw new Exception(string.Format("调用方法'{0}.{1}'不存在", p.ClassName, p.MethodName));
@@ -156,7 +156,7 @@ namespace Song.ViewData
                 //2-1、判断参数个数是否相同
                 int paraCount = 0;
                 foreach (ParameterInfo pi in mi.GetParameters())
-                {                   
+                {
                     if (!pi.IsOut) paraCount++;
                 }
                 //方法的参数个数，和传参的参数个数，必须相等
@@ -225,9 +225,9 @@ namespace Song.ViewData
                                         break;
                                     }
                                     DateTime dt = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-                                     long lTime = long.Parse(val + "0000");  
+                                    long lTime = long.Parse(val + "0000");
                                     TimeSpan toNow = new TimeSpan(lTime);
-                                    objs[i] = dt.Add(toNow); 
+                                    objs[i] = dt.Add(toNow);
                                     break;
                                 default:
                                     objs[i] = Convert.ChangeType(val, pi.ParameterType);
@@ -248,27 +248,6 @@ namespace Song.ViewData
             }
             return objs;
         }
-        /// <summary>
-        /// 验证登录
-        /// </summary>
-        /// <param name="obj">要执行的对象，先验证它是否需要登录</param>
-        /// <param name="member">要验证的方法</param>
-        /// <returns></returns>
-        private static AdminAttribute authenticateLoginControl(object obj,MemberInfo method)
-        {
-            AdminAttribute attr = null;
-            //先验证对象，如果对象需验证，则下面方法全部需要验证登录，除非方法设置了[Admin(Ignore = true)]
-            object[] attrsObj = obj.GetType().GetCustomAttributes(typeof(AdminAttribute), true);
-            if (attrsObj.Length > 0) attr = attrsObj[0] as AdminAttribute;
-            //再验证方法
-            object[] attrsMethod = method.GetCustomAttributes(typeof(AdminAttribute), true);
-            if (attrsMethod.Length > 0)
-            {
-                AdminAttribute admin = attrsMethod[0] as AdminAttribute;                
-                if (attr == null) attr = admin;
-                if (attr != null && admin.Ignore) attr.Ignore = admin.Ignore;
-            }
-            return attr;
-        }
+
     }
 }

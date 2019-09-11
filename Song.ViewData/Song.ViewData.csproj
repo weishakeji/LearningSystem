@@ -62,8 +62,10 @@
     <Compile Include="Attri\HttpVerb\HttpGetAttribute.cs" />
     <Compile Include="Attri\Login\StudentAttribute.cs" />
     <Compile Include="Attri\Login\TeacherAttribute.cs" />
+    <Compile Include="Attri\Login\LoginAttribute.cs" />
     <Compile Include="Attri\Purview\PurviewAttribute.cs" />
     <Compile Include="Attri\Purview\StudyAttribute.cs" />
+    <Compile Include="Attri\WeishaAttr.cs" />
     <Compile Include="DataResult.cs" />
     <Compile Include="ExecuteMethod.cs" />
     <Compile Include="Helper\Browser.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="Methods\Live.cs" />
     <Compile Include="Methods\Outline.cs" />
     <Compile Include="Methods\Subject.cs" />
+    <Compile Include="Methods\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -94,6 +94,12 @@ namespace Song.ViewData
             //从请求地址中，分析类名与方法名
             //string[] arr = httprequest.RequestUri.Segments;
             string[] arr = request.Url.Segments;
+
+            string pas = string.Empty;
+            foreach (string x in request.Params)
+            {
+                pas += string.Format("{0}:{1}", x, request.Params[x]);
+            }
             //获取类名与方法名
             string clasname = arr[3];
             string action = arr[4];

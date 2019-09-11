@@ -9,7 +9,9 @@
       <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/vue_min.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/CoreScripts/api.js?ver={$version}"></script>
+      <script type="text/javascript" src="/Utility/ElementUi/index.js?ver={$version}"></script>
       <script type="text/javascript" src="/Utility/Qiniuyun/qiniu-web-player-1.2.2.js"></script>
+      <link href="/Utility/ElementUi/index.css?ver={$version}" rel="stylesheet" type="text/css" />
       <link href="Styles/CourseStudy.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 
@@ -137,13 +139,24 @@
                         </template>
                   </div>
                   <div class="chat rightArea" v-show="rightState=='chat'">
-
-                        <div class="chatlist"></div>
+                        <div class="chatlist" id="chatlist">
+                              <dl id="chatlistdl">
+                                    <dd v-for="(item,index) in messages">
+                                          <div>
+                                                <acc><i class="el-icon-chat-dot-round"></i>{{item.Ac_Name}}：</acc>
+                                                <msg>{{item.Msg_Context}} </msg>
+                                          </div>
+                                          <date>{{item.Msg_CrtTime | date('yyyy-M-d hh:mm')}}</date>
+                                    </dd>
+                              </dl>
+                        </div>
                         <div class="chatbox">
-                              <div :class="['switch',switchSubtitle ? 'switch-on' : '']" v-on:click="switchSubtitle=!switchSubtitle"></div>
+                              <div :class="['switch',switchSubtitle ? 'switch-on' : '']"
+                                    v-on:click="switchSubtitle=!switchSubtitle"></div>
                               <div class="msgbox">
-                                    <input type="text" name="fname" />
-                                    <div id="btnMessage">发送</div>
+                                    <input type="text" id="messageinput" name="messageinput"
+                                          v-on:keyup.enter="msgSend" />
+                                    <div id="btnMessage" v-on:click="msgSend">发送</div>
                               </div>
                         </div>
                   </div>

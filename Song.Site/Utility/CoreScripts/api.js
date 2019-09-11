@@ -133,9 +133,7 @@
             var isAndroid = (/android/gi).test(navigator.appVersion);
             var uzStorage = function () {
                 var ls = window.localStorage;
-                if (isAndroid) {
-                    ls = window.localStorage;
-                }
+                if (isAndroid) ls = window.localStorage;
                 return ls;
             };
             //如果只有一个参数，为读取
@@ -155,17 +153,9 @@
             //如果两个参数，为写入，第一个为键，第二个为值
             if (arguments.length === 2) {
                 if (value != null) {
-                    var v = value;
-                    if (typeof v == 'object') {
-                        v = JSON.stringify(v);
-                        v = 'obj-' + v;
-                    } else {
-                        v = 'str-' + v;
-                    }
+                    var v = typeof value == 'object' ? 'obj-' + JSON.stringify(value) : 'str-' + value;
                     var ls = uzStorage();
-                    if (ls) {
-                        ls.setItem(key, v);
-                    }
+                    if (ls) ls.setItem(key, v);
                 } else {
                     var ls = uzStorage();
                     if (ls && key) {
@@ -232,13 +222,12 @@
         var self = this;
         //创建请求对象，以及拦截器
         this.query = function (way, parameters, method, loading, loaded) {
-            if (method != 'get') method = 'post';
             var url = methods.url(this.version, way);
             if (arguments.length < 2 || parameters == null) parameters = {};
             if (arguments.length < 3 || method == null || method == '') method = 'get';
             //创建axiso对象
             var instance = axios.create({
-                method: method, url: url,
+                method: method != 'get' ? 'post' : 'get', url: url,
                 headers: {
                     'X-Custom-Header': 'weishakeji',
                     'Access-Control-Allow-Headers': 'X-Requested-With',
@@ -296,7 +285,9 @@
                 //处理数据，服务器端返回的数据是经过Url编码的，此处进行解码
                 if (response.data.result != null) {
                     if (typeof (response.data.result) == 'string') {
-                        response.data.result = eval("(" + response.data.result + ")");
+                        try {
+                            response.data.result = eval("(" + response.data.result + ")");
+                        } catch{ }
                     }
                     response.data.result = methods.unescape(response.data.result);
                 }

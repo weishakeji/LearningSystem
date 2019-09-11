@@ -11,41 +11,6 @@ namespace Song.ViewData.Attri
     /// </summary>
     public class StudyAttribute : Attribute
     {
-        private bool _ignore = false;
-        /// <summary>
-        /// 忽略此方法，默认为false
-        /// 说明：则某个类设置了特性后，下面的所有方法都需要验证，除非设置[Admin(Ignore=true)]
-        /// </summary>
-        public bool Ignore
-        {
-            get { return _ignore; }
-            set { _ignore = value; }
-        }
-        public StudyAttribute()
-        {
 
-        }
-        public StudyAttribute(bool ignore)
-        {
-            _ignore = ignore;
-        }
-
-        /// <summary>
-        /// 是否登录
-        /// </summary>
-        /// <returns></returns>
-        public bool Logged()
-        {
-            //return Helper.Admin.Singleton.CurrentUser != null;
-            return Extend.LoginState.Admin.CurrentUser != null;
-        }
-        /// <summary>
-        /// 将执行结果写入日志
-        /// </summary>
-        /// <param name="execResult"></param>
-        public void LogWrite(object execResult)
-        {
-
-        }
     }
 }
