@@ -182,6 +182,12 @@ video::-webkit-media-controls-panel {
 	padding-left: 160px;
 	text-align: left;
 }
+#accinfo{
+	position: absolute;
+	z-index: 20;
+	top: 0px;
+	left: 0px;
+}
 
 /* 课程内容
 ------------------------*/
@@ -592,6 +598,7 @@ video::-webkit-media-controls-panel {
 .chatlist dd {
 	width: auto;
 	display: table;
+	min-width: 30%;
 	line-height: 20px;
 	position: relative;
 }
@@ -603,14 +610,25 @@ video::-webkit-media-controls-panel {
 	color: #eee;
 	border-radius: 10px;
 	margin: 10px;
-	width: auto;
-	display: table;
 	line-height: 20px;
 	box-shadow: 1px 1px 2px #666;
 }
 
 .chatlist dd acc {
 	display: block;
+	position: relative;
+}
+
+.chatlist dd del {
+	display: block;
+	position: absolute;
+	right: -8px;
+	top: 0px;
+	color: red;
+	font-size: 14px;
+	text-decoration-line: none;
+	cursor: pointer;
+	display: none;
 }
 
 .chatlist dd msg {
@@ -625,6 +643,7 @@ video::-webkit-media-controls-panel {
 	line-height: 18px;
 	margin-top: -8px;
 	color: #444;
+	font-size: 10px;
 }
 
 .chatlist dd i {

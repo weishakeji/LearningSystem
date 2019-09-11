@@ -23,7 +23,17 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts ForID(int id)
         {
             Song.Entities.Accounts acc= Business.Do<IAccounts>().AccountsSingle(id);
-            acc.Ac_Pw = string.Empty;
+            if (acc != null) acc.Ac_Pw = string.Empty;
+            return acc;
+        }
+        /// <summary>
+        /// 当前登录的学员
+        /// </summary>
+        /// <returns></returns>
+        public Song.Entities.Accounts Current()
+        {
+            Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+            if (acc != null) acc.Ac_Pw = string.Empty;
             return acc;
         }
         /// <summary>
@@ -34,7 +44,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts ForAcc(string acc)
         {
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsSingle(acc, -1);
-            account.Ac_Pw = string.Empty;
+            if (account != null) account.Ac_Pw = string.Empty;
             return account;
         }
         /// <summary>

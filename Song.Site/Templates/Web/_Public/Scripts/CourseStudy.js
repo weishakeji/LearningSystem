@@ -1,6 +1,7 @@
 ﻿var vdata = new Vue({
     data: {
         //数据实体
+        account: {},         //当前账号信息
         course: {},      //当前课程
         outline: {},     //当前课程章节
         subject: {},     //当前专业
@@ -137,7 +138,7 @@
         },
         //视频开始播放
         videoPlay: function (state) {
-            if (vdata.playready()) {
+            if (vdata.player != null) {
                 vdata.player.destroy();
                 vdata.player = null;
             }
@@ -147,8 +148,7 @@
                     container: document.getElementById("videoplayer"),
                     autoplay: true,
                 });
-            } else {
-                //直播
+            } else { //直播
                 vdata.player = new QPlayer({
                     url: state.urlVideo,
                     container: document.getElementById("livebox"),
@@ -316,7 +316,7 @@
                 var d = req.data;
                 if (d.success) vdata.messages = d.result;
                 window.setTimeout(function () {
-                    var dl=document.getElementById("chatlistdl");
+                    var dl = document.getElementById("chatlistdl");
                     document.getElementById("chatlist").scrollTop = dl.offsetHeight;
                 }, 1000);
             });
@@ -345,10 +345,14 @@
                     if (!cur.data.success) alert("课程信息加载错误");
                 }
             }));
-
-        window.setInterval(function () {
-            vdata.msgGet();
-        }, 1000 * 10)
+        //当前登录学员
+        $api.get("Account/Current", {}, null, null).then(function (req) {
+            if (req.data.success) {
+                vdata.account = req.data.result;
+            }
+        });
+        //定时刷新（加载）咨询留言
+        window.setInterval('vdata.msgGet()', 1000 * 10);
     },
     mounted: function () {
         //alert(3);
