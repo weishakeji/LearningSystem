@@ -2,7 +2,7 @@
 <html>
 
 <head>
-      <title>{$course.cou_Name}</title>
+      <title>课程学习</title>
 
       <vt:include file="inc/meta.inc" />
       <script type="text/javascript" src="/Utility/CoreScripts/polyfill.min.js?ver={$version}"></script>
@@ -66,6 +66,7 @@
                               </div>
                               <div id="accinfo" v-if="JSON.stringify(account) != '{}'" title="仅自己可见" remark="飘浮信息，防录屏">
                                     {{account.Ac_Name}} {{account.Ac_MobiTel1}}</div>
+                              <div id="chartlayer" v-show="!state.outerVideo && switchSubtitle" remark="弹幕层"></div>
                               <div id="videoinfo" v-show="!state.outerVideo && !state.isLive">
                                     <span style="display: non6e">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
                                     <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>

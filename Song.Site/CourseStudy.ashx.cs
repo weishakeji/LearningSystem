@@ -20,7 +20,7 @@ namespace Song.Site
         int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         protected override void InitPageTemplate(HttpContext context)
         {
-
+           
         }
         /// <summary>
         /// 判断是否必须在桌面应用中学习

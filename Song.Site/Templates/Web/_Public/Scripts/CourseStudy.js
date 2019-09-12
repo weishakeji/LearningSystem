@@ -334,6 +334,7 @@
                     if (vdata.olid == '') vdata.olid = ol.data.result[0].Ol_ID;
                     vdata.outlineClick(vdata.olid, null);
                     vdata.course = cur.data.result;
+                    document.title = vdata.course.Cou_Name; 
                     $api.get("Subject/ForID", { id: vdata.course.Sbj_ID }).then(function (subject) {
                         if (subject.data.success) {
                             vdata.subject = subject.data.result;
@@ -358,22 +359,24 @@
     },
     mounted: function () {
         //视频上面的漂浮信息（学员姓名和电话），防录屏
-        window.acctop = Math.ceil(Math.random() * 10);
-        window.accleft = Math.ceil(Math.random() * 10);
         window.setInterval(function () {
             var acc = document.getElementById("accinfo");
             if (acc == null) return;
             if (acc.parentNode.offsetHeight == 0 || acc.parentNode.offsetWidth == 0) return;
+            //移动速度
+            window.acctop = window.acctop ? window.acctop : Math.ceil(Math.random() * 100) / 10;
+            window.accleft = window.accleft ? window.accleft : Math.ceil(Math.random() * 100) / 10;
             //获取当前坐标
-            var top = acc.offsetTop;
-            var left = acc.offsetLeft;
+            var top = Number(acc.style.top.replace('px', ''));
+            var left = Number(acc.style.left.replace('px', ''));
             //转向            
             if (top < 0 || top > acc.parentNode.offsetHeight - acc.offsetHeight) window.acctop = -window.acctop;
             if (left < 0 || left > acc.parentNode.offsetWidth - acc.offsetWidth) window.accleft = -window.accleft;
             //移动 
-            acc.style.top = (top > acc.parentNode.offsetHeight - acc.offsetHeight ? acc.parentNode.offsetHeight - acc.offsetHeight : top + window.acctop) + "px";
-            acc.style.left = (left > acc.parentNode.offsetWidth - acc.offsetWidth ? acc.parentNode.offsetWidth - acc.offsetWidth : left + window.accleft) + "px";
-        }, 120);
+            acc.style.top = (top < 0 ? 0 : (top > acc.parentNode.offsetHeight - acc.offsetHeight ? acc.parentNode.offsetHeight - acc.offsetHeight : top + window.acctop)) + "px";
+            acc.style.left = (left < 0 ? 0 : (left > acc.parentNode.offsetWidth - acc.offsetWidth ? acc.parentNode.offsetWidth - acc.offsetWidth : left + window.accleft)) + "px";
+
+        }, 200);
     },
 
 });

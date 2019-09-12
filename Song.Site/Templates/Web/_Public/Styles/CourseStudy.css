@@ -182,7 +182,7 @@ video::-webkit-media-controls-panel {
 	padding-left: 160px;
 	text-align: left;
 }
-
+/*视频上漂浮的学员姓名和电话*/
 #accinfo {
 	position: absolute;
 	z-index: 20;
@@ -191,12 +191,23 @@ video::-webkit-media-controls-panel {
 	height: 20px;
 	white-space: nowrap;
 	display: table;
-	transition: top .12s, left .12s;
+	transition: top .2s, left .2s;
 	filter: alpha(Opacity=50);
 	-moz-opacity: 0.5;
 	opacity: 0.5;
 }
-
+#chartlayer{
+	position: absolute;
+	z-index: 30;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 30%;
+	background-color: #360;
+	filter: alpha(Opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
 /* 课程内容
 ------------------------*/
 
