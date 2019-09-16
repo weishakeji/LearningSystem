@@ -19,13 +19,13 @@ namespace Song.Site.API
             Song.ViewData.Letter p = new Song.ViewData.Letter(context);
             Song.ViewData.DataResult result = Song.ViewData.ExecuteMethod.ExecToResult(p);
 
-            string json = result.ToJson();
             context.Response.ContentType = "text/plain";
-            context.Response.Write(json);
+            string resultTxt = "xml".Equals(p.ReturnType, StringComparison.CurrentCultureIgnoreCase) ? result.ToXml() : result.ToJson();
+            context.Response.Write(resultTxt);
             context.Response.End();
         }
 
-        public bool IsReusable
+        public new bool IsReusable
         {
             get
             {

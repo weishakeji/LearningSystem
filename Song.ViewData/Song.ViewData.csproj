@@ -82,6 +82,7 @@
     <Compile Include="Methods\Outline.cs" />
     <Compile Include="Methods\Subject.cs" />
     <Compile Include="Methods\Message.cs" />
+    <Compile Include="Methods\Teacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

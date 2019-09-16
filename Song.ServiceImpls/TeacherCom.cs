@@ -135,7 +135,8 @@ namespace Song.ServiceImpls
 
         public Teacher TeacherSingle(string accname, int orgid)
         {
-            WhereClip wc = Teacher._.Org_ID == orgid;
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= Teacher._.Org_ID == orgid;
             wc.And(Teacher._.Th_AccName == accname);
             return Gateway.Default.From<Teacher>().Where(wc).ToFirst<Teacher>();
         }

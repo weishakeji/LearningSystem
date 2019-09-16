@@ -26,9 +26,15 @@
             var app = new Vue({
                   el: '#app'
             });
-            $api.get("message/student").then(function(e){
+            /*$api.put("Teacher/login",{acc:'13223040250',pw:'1'}).then(function(e){
+                  var d=e.data;
+            });*/
+           $api.put("Teacher/test").then(function(e){
                   var d=e.data;
             });
+             /*$api.put("Outline/State",{olid:241}).then(function(e){
+                  var d=e.data;
+            });*/
       </script>
 </body>
 

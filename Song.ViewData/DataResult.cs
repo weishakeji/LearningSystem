@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Newtonsoft.Json;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace Song.ViewData
 {
@@ -94,6 +96,7 @@ namespace Song.ViewData
             }
             State = 0;
         }
+        #region json
         /// <summary>
         /// 输出Json字符串
         /// </summary>
@@ -111,7 +114,7 @@ namespace Song.ViewData
                 //属性名（包括泛型名称）
                 var nullableType = Nullable.GetUnderlyingType(pi.PropertyType);
                 string typename = nullableType != null ? nullableType.Name : pi.PropertyType.Name;
-                str += string.Format("\"{0}\":{1},", pi.Name.ToLower(), _to_property(typename, value));
+                str += string.Format("\"{0}\":{1},", pi.Name.ToLower(), _json_property(typename, value));
             }
             if (str.EndsWith(",")) str = str.Substring(0, str.Length - 1);
             str += "}";
@@ -123,7 +126,7 @@ namespace Song.ViewData
         /// <param name="typename">字段的类型名称</param>
         /// <param name="value">字段的值</param>
         /// <returns></returns>
-        private string _to_property(string typename, object value)
+        private string _json_property(string typename, object value)
         {
             string str = "";
             //根据不同类型输出
@@ -187,5 +190,96 @@ namespace Song.ViewData
             }
             return str;
         }
+        #endregion
+
+        #region 输出xml
+        /// <summary>
+        /// 输出XML字符串
+        /// </summary>
+        /// <returns></returns>
+        public string ToXml()
+        {
+            Type info = this.GetType();
+            PropertyInfo[] properties = info.GetProperties();
+            string str = "<DataResult>";
+            for (int j = 0; j < properties.Length; j++)
+            {
+                PropertyInfo pi = properties[j];
+                //当前属性的值
+                object value = info.GetProperty(pi.Name).GetValue(this, null);
+                //属性名（包括泛型名称）
+                var nullableType = Nullable.GetUnderlyingType(pi.PropertyType);
+                string typename = nullableType != null ? nullableType.Name : pi.PropertyType.Name;
+                str += string.Format("<{0}>{1}</{0}>", pi.Name.ToLower(), _xml_property(typename, value));
+            }
+            if (str.EndsWith(",")) str = str.Substring(0, str.Length - 1);
+            str += "</DataResult>";
+            return str;
+        }
+        /// <summary>
+        /// 为xml输出字段
+        /// </summary>
+        /// <param name="typename">字段的类型名称</param>
+        /// <param name="value">字段的值</param>
+        /// <returns></returns>
+        private string _xml_property(string typename, object value)
+        {
+            if (typename.Equals("object", StringComparison.CurrentCultureIgnoreCase)) typename = value.GetType().Name;
+            string str = "";
+            //根据不同类型输出
+            switch (typename)
+            {
+                case "DateTime":
+                    System.DateTime time = System.DateTime.Now;
+                    if (value != null) time = Convert.ToDateTime(value);
+                    str = time.ToString("yyyy/MM/dd HH:mm:ss");
+                    break;
+                case "String":
+                    str = value == null ? "" : value.ToString();
+                    str = str.Replace(Environment.NewLine, "");
+                    str = string.Format("{0}", str);
+                    break;
+                case "Int32":
+                    str = value.ToString().ToLower();
+                    break;
+                case "Boolean":
+                    str = value.ToString().ToLower();
+                    break;
+                case "Exception":
+                    Exception ex = (Exception)value;
+                    str = ex == null ? "" : ex.Message;
+                    str = string.Format("{0}", str);
+                    break;
+                default:
+                    if (value == null) return string.Empty;
+                    if (value is WeiSha.Data.Entity)
+                    {
+                        str = ((WeiSha.Data.Entity)value).ToXML();
+                    }
+                    else
+                    {
+                        if (value is WeiSha.Data.Entity[])
+                        {
+                            WeiSha.Data.Entity[] entitis = (WeiSha.Data.Entity[])value;
+                            str += "<Entitis>";
+                            foreach (WeiSha.Data.Entity en in entitis)
+                                str += en.ToXML();
+                            str += "</Entitis>";
+                        }
+                        else
+                        {
+                            string strjson = JsonConvert.SerializeObject(value);
+                            string root="TemporaryNode";
+                            string xml = JsonConvert.DeserializeXNode(strjson, root, true).ToString();
+                            xml = xml.Replace(string.Format("<{0}>", root), string.Empty);
+                            xml = xml.Replace(string.Format("</{0}>", root), string.Empty);
+                            str += xml;
+                        }
+                    }
+                    break;
+            }
+            return str;
+        }
+        #endregion
     }
 }

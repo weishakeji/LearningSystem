@@ -19,7 +19,29 @@ namespace Song.ViewData
         /// <summary>
         /// HTTP请求谓词，即Get、Post、Put等
         /// </summary>
-        public string REQUEST_METHOD { get; set; }
+        public string HTTP_METHOD { get; set; }
+        /// <summary>
+        /// 来源页，一般是调用api方法时的所在页
+        /// </summary>
+        public string HTTP_REFERER { get; set; }
+        /// <summary>
+        /// http请求的域名
+        /// </summary>
+        public string HTTP_HOST { get; set; }
+        /// <summary>
+        /// 请求标识，只允许是weishakeji
+        /// </summary>
+        public string HTTP_Mark { get; set; }
+        /// <summary>
+        /// 返回数据的类型，默认为json，可以设置为xml
+        /// </summary>
+        public string ReturnType { get; set; }
+        
+        /// <summary>
+        /// 接口版本
+        /// </summary>
+        public string Version { get; set; }
+
         /// <summary>
         /// 所请求接口的类名称
         /// </summary>
@@ -77,7 +99,7 @@ namespace Song.ViewData
         /// <summary>
         /// 请求的来源，即客户端
         /// </summary>
-        public Song.ViewData.Browser From
+        public Song.ViewData.Browser Client
         {
             get
             {
@@ -90,25 +112,44 @@ namespace Song.ViewData
         public Letter(HttpContext context)
         {
             HttpRequest request = context.Request;//定义传统request对象
-            REQUEST_METHOD = request.HttpMethod;
-            //从请求地址中，分析类名与方法名
-            //string[] arr = httprequest.RequestUri.Segments;
-            string[] arr = request.Url.Segments;
-
-            string pas = string.Empty;
-            foreach (string x in request.Params)
+            HTTP_METHOD = request.HttpMethod;
+            HTTP_HOST = request.Params["HTTP_HOST"];
+            HTTP_REFERER = request.Params["HTTP_REFERER"];
+            //Authorization的解析
+            string auth = request.Params["HTTP_AUTHORIZATION"];
+            if (!string.IsNullOrWhiteSpace(auth))
             {
-                pas += string.Format("{0}:{1}", x, request.Params[x]);
+                auth = auth.Substring(auth.IndexOf(" ")).Trim();
+                auth = WeiSha.Common.DataConvert.DecryptForBase64(auth);
+                List<string> users = new List<string>();
+                foreach (string s in auth.Substring(0, auth.LastIndexOf(":")).Split(' '))
+                {
+                    if (string.IsNullOrWhiteSpace(s)) continue;
+                    users.Add(s);
+                }
+                if (users.Count > 0) HTTP_Mark = users[0];
+                if (users.Count > 1 && !HTTP_METHOD.Equals("get",StringComparison.CurrentCultureIgnoreCase)) HTTP_METHOD = users[1].ToUpper();
+                if (users.Count > 2) ReturnType = users[2];
+                if (users.Count > 3 && string.IsNullOrWhiteSpace(HTTP_REFERER)) HTTP_REFERER = users[3];
             }
+            ////用于调试，勿删除
+            //string pas = string.Empty;
+            //for (int i = 0; i < request.Params.Count; i++)
+            //{
+            //    string key = request.Params.Keys[i];
+            //    string val = request.Params[key];
+            //    pas += string.Format("{0}、{1}:{2}\n", (i + 1).ToString(), key,val);
+            //}
             //获取类名与方法名
+            string[] arr = request.Url.Segments;
             string clasname = arr[3];
             string action = arr[4];
             if (clasname.EndsWith("/")) clasname = clasname.Substring(0, clasname.LastIndexOf("/"));
             if (action.EndsWith("/")) action = action.Substring(0, action.LastIndexOf("/"));
             this.ClassName = clasname;
             this.MethodName = action;
-            //获取参数         
 
+            #region 获取参数
             //获取get参数
             for (int i = 0; i < context.Request.QueryString.Count; i++)
             {
@@ -140,6 +181,7 @@ namespace Song.ViewData
                 else
                     _cookies.Add(key, val);
             }
+            #endregion
         }
         /// <summary>
         /// 构造函数，来自MVC控制器的调用，客户端采用$api时会经过MVC控制器
@@ -148,7 +190,7 @@ namespace Song.ViewData
         /// <param name="httprequest">api控制器的访问对象</param>
         public Letter(HttpRequestMessage httprequest)
         {
-            REQUEST_METHOD = httprequest.Method.Method; //请求方法
+            HTTP_METHOD = httprequest.Method.Method; //请求方法
             //从请求地址中，分析类名与方法名
             string[] arr = httprequest.RequestUri.Segments;
             //获取类名与方法名
