@@ -32,6 +32,11 @@ namespace Song.ViewData.Methods
             if (!account.Ac_IsTeacher) return null;
             //
             Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherSingle(account.Ac_AccName, -1);
+            if (teacher != null)
+            {
+                teacher.Th_Photo = WeiSha.Common.Upload.Get["Accounts"].Virtual + account.Ac_Photo;
+                teacher.Th_Pw = string.Empty;
+            }
             return teacher;
         }
 

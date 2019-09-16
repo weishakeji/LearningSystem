@@ -111,6 +111,9 @@ namespace Song.ViewData
         {
             try
             {
+                if (!"weishakeji".Equals(letter.HTTP_Mark))
+                    return new Song.ViewData.DataResult(new Exception("请求标识不正确"));
+
                 object res = Exec(letter);
                 if (res is ListResult) return (ListResult)res;  //如果是分页数据
                 return new Song.ViewData.DataResult(res);       //普通数据

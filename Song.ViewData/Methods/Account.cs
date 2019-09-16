@@ -24,6 +24,7 @@ namespace Song.ViewData.Methods
         {
             Song.Entities.Accounts acc= Business.Do<IAccounts>().AccountsSingle(id);
             if (acc != null) acc.Ac_Pw = string.Empty;
+            acc.Ac_Photo = WeiSha.Common.Upload.Get["Accounts"].Virtual + acc.Ac_Photo;
             return acc;
         }
         /// <summary>
