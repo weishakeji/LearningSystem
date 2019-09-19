@@ -140,7 +140,7 @@ namespace Song.ViewData
             //    string val = request.Params[key];
             //    pas += string.Format("{0}、{1}:{2}\n", (i + 1).ToString(), key,val);
             //}
-            //获取类名与方法名
+            //获取类名与方法名，可以考虑增加默认方法，例如index或default
             string[] arr = request.Url.Segments;
             string clasname = arr[3];
             string action = arr[4];

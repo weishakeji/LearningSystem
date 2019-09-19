@@ -26,10 +26,13 @@
             var app = new Vue({
                   el: '#app'
             });
-            $api.put("Teacher/login",{acc:'13223040250',pw:'1'}).then(function(e){
+            /*$api.put("Teacher/login",{acc:'13223040250',pw:'1'}).then(function(e){
                   var d=e.data;
-            });
-           $api.put("Teacher/test").then(function(e){
+            });*/
+           /*$api.put("Teacher/login?acc=13223040250&pw=1").then(function(e){
+                  var d=e.data;
+            });*/
+            $api.put("helper/Methods",{classname:'Account'}).then(function(e){
                   var d=e.data;
             });
              /*$api.put("Outline/State",{olid:241}).then(function(e){

@@ -39,13 +39,23 @@ namespace Song.ViewData.Methods
             }
             return teacher;
         }
-
-        public int test()
+        /// <summary>
+        /// 教师的课程
+        /// </summary>
+        /// <param name="thid">教师id</param>
+        /// <returns></returns>
+        public Song.Entities.Course[] Courses(int thid)
         {
-
-
-            return 0;
+            return null;
         }
-
+        /// <summary>
+        /// 教师的直播课
+        /// </summary>
+        /// <param name="thid">教师id</param>
+        /// <returns></returns>
+        public Song.Entities.Outline[] Lives(int thid)
+        {
+            return null;
+        }
     }
 }
