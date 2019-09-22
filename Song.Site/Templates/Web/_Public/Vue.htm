@@ -18,13 +18,17 @@
             </table>
 
             <mycomp></mycomp>
+            {{msg}}
       </div>
       <script>
             Vue.component('mycomp', {
                   template: '<div>这里是组件的内容</div>'
             });
             var app = new Vue({
-                  el: '#app'
+                el: '#app',
+                data: {
+                msg:'dddd'
+                }
             });
             /*$api.put("Teacher/login",{acc:'13223040250',pw:'1'}).then(function(e){
                   var d=e.data;

@@ -1352,6 +1352,12 @@
     <Content Include="Templates\Web\NetSchool\Inc\Footer.html" />
     <Content Include="Templates\Web\NetSchool\Inc\Header.html" />
     <Content Include="Templates\Web\NetSchool\Inc\Header-home.html" />
+    <Content Include="Templates\Web\_Public\Helper\API.htm" />
+    <Content Include="Templates\Web\_Public\Helper\Default.htm" />
+    <Content Include="Templates\Web\_Public\Helper\Scripts\Default.js" />
+    <Content Include="Templates\Web\_Public\Helper\Scripts\API.js" />
+    <Content Include="Templates\Web\_Public\Helper\Styles\Default.css" />
+    <Content Include="Templates\Web\_Public\Helper\Styles\API.css" />
     <Content Include="Templates\Web\_Public\Images\live-icon.gif" />
     <Content Include="Templates\Web\_Public\Inc\meta_api.inc" />
     <Content Include="Templates\Web\_Public\Knowledge.htm" />
@@ -2411,6 +2417,14 @@
     </Compile>
     <Compile Include="Examing.ashx.cs">
       <DependentUpon>Examing.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Helper\API.ashx.cs">
+      <DependentUpon>API.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Helper\Default.ashx.cs">
+      <DependentUpon>Default.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Manage\Admin\Courses.aspx.cs">
@@ -6511,6 +6525,8 @@
     <Content Include="Ajax\SelfCourse.ashx" />
     <Content Include="Ajax\SelfStudyLog.ashx" />
     <Content Include="API\API.ashx" />
+    <Content Include="Helper\API.ashx" />
+    <Content Include="Helper\Default.ashx" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <Content Include="Mobile\ExamReview.ashx" />
     <Content Include="Mobile\MyFriends.ashx" />

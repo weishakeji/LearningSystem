@@ -12,7 +12,10 @@ using WeiSha.Common;
 
 namespace Song.ViewData.Methods
 {
-    public class Subject
+    /// <summary>
+    /// 专业管理
+    /// </summary>
+    public class Subject : IViewAPI
     {
         [HttpGet(IsAllow = false)]
         public Song.Entities.Subject ForID(int id)

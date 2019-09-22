@@ -17,7 +17,7 @@ namespace Song.ViewData.Methods
     /// 管理账号
     /// </summary>
     [HttpGet]
-    public class Account
+    public class Account : IViewAPI
     {
         [HttpGet(IsAllow = false)]
         public Song.Entities.Accounts ForID(int id)

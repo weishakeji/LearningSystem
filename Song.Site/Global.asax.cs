@@ -91,8 +91,14 @@ namespace Song.Site
             routes.MapPageRoute(
                 "wcutom",
                 "{term}",
-                "~/{term}.ashx"
-            );                        
+                "~/{term}/default.ashx"
+            );
+            //帮助文档
+            routes.MapPageRoute(
+                "helper",
+                "helper/{term}",
+                "~/helper/{term}.ashx"
+            );          
             //************************************
             ////同上，只是此为手机端的ashx动态页
             //routes.MapPageRoute(

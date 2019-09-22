@@ -1,0 +1,34 @@
+﻿<!doctype html>
+<html>
+
+<head>
+      <title>API接口方法说明</title>
+
+      <vt:include file="../inc/meta_api.inc" />
+
+      <link href="Styles/api.css?ver={$version}" rel="stylesheet" type="text/css" />
+      <meta charset="utf-8">
+</head>
+
+<body>
+      <header>
+            API接口方法说明
+      </header>
+      <section>
+            <menu>
+                  <div class="tit"> <i class="el-icon-set-up"></i>接口方法</div>
+                  <dl id="menu">
+                        <dd v-for="(u,i) in arr">
+                              <methods :name="u.Name" :intro="u.Intro" :index="i+1"></methods>
+                        </dd>
+                  </dl>
+            </menu>
+            <context id="context">
+                  <div class="tit"> {{message}}</div>
+            </context>
+      </section>
+      <footer>微厦计算机科技</footer>
+      <script type="text/javascript" src="Scripts/api.js?ver={$version}"></script>
+</body>
+
+</html>

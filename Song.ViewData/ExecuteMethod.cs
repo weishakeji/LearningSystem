@@ -54,7 +54,10 @@ namespace Song.ViewData
             //如果之前未创建，则重新创建
             Type type = null;
             Assembly assembly = Assembly.Load(assemblyName);
-            foreach (Type info in assembly.GetExportedTypes())
+            Type[] types = assembly.GetExportedTypes()
+                .Where(t => t.GetInterfaces().Contains(typeof(IViewAPI)))
+                .ToArray();
+            foreach (Type info in types)
             {
                 if (info.FullName.Equals(classFullName, StringComparison.CurrentCultureIgnoreCase))
                 {

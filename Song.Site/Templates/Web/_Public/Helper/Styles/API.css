@@ -1,0 +1,127 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-align: left;
+    margin: 0px;
+    padding: 0px;
+}
+
+header {
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    font-size: 25px;
+    text-align: left;
+    padding: 20px;
+}
+
+section {
+    height: calc(100% - 110px);
+    width: 100%;
+}
+
+menu {
+    width: 30%;
+    height: 100%;
+    float: left;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+menu, menu * {
+    margin: 0px;
+    padding: 0px;
+}
+
+menu .tit {
+    font-size: 16px;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 10px;
+    font-weight: bold;
+}
+
+menu .tit i {
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+#menu {}
+
+#menu .methods {
+    --display: none;
+    margin-left: 10px;
+}
+
+#menu .classname {
+    background-color: #eee;
+    line-height: 35px;
+    padding-left: 15px;
+    cursor: pointer;
+    position: relative;
+    --transform: rotate(-3deg);
+    transition: background-color 0.5s;
+    padding-right: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#menu .classname:hover {
+    background-color: #ccc;
+    transition: background-color 0.5s;
+}
+
+#menu .classname i {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    display: block;
+}
+#menu .classname span{
+    font-size: 12px;
+    color: #999;
+}
+.methods>dd {
+    font-size: 14px;
+    margin-bottom: 5px;
+    padding-left: 20px;
+    cursor: pointer;
+    --transform: rotate(-3deg);
+    transition: background-color 0.2s;
+}
+.methods>dt{
+    font-size: 12px;
+    color: #999;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 30px;
+}
+.methods>dd:hover {
+    background-color: rgb(222, 255, 179);
+    transition: background-color 0.5s;
+}
+
+.methods>dd>div {
+    font-size: 13px;
+    color: #999;
+    margin-left: 22px;
+}
+
+context {
+    width: 70%;
+    height: 100%;
+    float: left;
+}
+
+footer {
+    height: 30px;
+    line-height: 30px;
+    text-indent: 10px;
+    font-size: 16px;
+    background: #ccc;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}

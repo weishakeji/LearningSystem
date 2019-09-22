@@ -12,7 +12,10 @@ using pili_sdk;
 
 namespace Song.ViewData.Methods
 {
-    public class Live
+    /// <summary>
+    /// 直播
+    /// </summary>
+    public class Live : IViewAPI
     {
         /// <summary>
         /// 记录直播的各种设置项

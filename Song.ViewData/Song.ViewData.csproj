@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Song.ViewData.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -74,6 +75,7 @@
     <Compile Include="Helper\Login\Admin.cs" />
     <Compile Include="Helper\Login\LoginPatternEnum.cs" />
     <Compile Include="Helper\Server.cs" />
+    <Compile Include="IViewAPI.cs" />
     <Compile Include="Letter.cs" />
     <Compile Include="ListResult.cs" />
     <Compile Include="Methods\Account.cs" />
