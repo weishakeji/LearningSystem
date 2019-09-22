@@ -95,7 +95,8 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 从学习记录中获取学员记录
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="acc">学员账号</param>
+        /// <param name="name">学员姓名</param>
         /// <returns></returns>
         public Song.Entities.LogForStudentStudy[] ForLogs(string acc, string name)
         {

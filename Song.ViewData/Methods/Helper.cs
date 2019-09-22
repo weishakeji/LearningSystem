@@ -90,7 +90,8 @@ namespace Song.ViewData.Methods
                 string fullname = mi.ToString();        //带参数的方法名称
                 if (fullname.IndexOf(" ") > -1) fullname = fullname.Substring(fullname.IndexOf(" ") + 1);             
                 string returntype = mi.ReturnParameter.ToString();      //返回类型
-                string intro = string.Empty;        //方法摘要
+                string returnintro = string.Empty; 
+                string intro = string.Empty;        //方法摘要                
                 if (nodes != null)
                 {
                     foreach (XmlNode n in nodes)
@@ -99,6 +100,7 @@ namespace Song.ViewData.Methods
                         if (miname.EndsWith(fullname))
                         {
                             intro = n.SelectSingleNode("summary").InnerText.Trim();
+                            returnintro = n.SelectSingleNode("returns").InnerText.Trim();
                             break;
                         }
                     }
@@ -107,7 +109,7 @@ namespace Song.ViewData.Methods
                 {
                     Name = name,
                     FullName = fullname,
-                    Return = returntype,
+                    Return = new Helper_API_Method_Return(returntype, returnintro),
                     ClassName = mi.DeclaringType.Name,
                     Intro = intro
                 });
@@ -128,18 +130,33 @@ namespace Song.ViewData.Methods
         }
     }
     #region 一些需要用到的类
+    //接口类
     public class Helper_API
     {
         public string Name { get; set; }
         public string Intro { get; set; }
     }
+    //接口类中的方法
     public class Helper_API_Method
     {
         public string Name { get; set; }        //方法名   
         public string FullName { get; set; }    //方法全名  
         public string Intro { get; set; }       //方法摘要说明
-        public string Return { get; set; }      //返回值的类型
+        public Helper_API_Method_Return Return { get; set; }      //返回值的类型
         public string ClassName { get; set; }    //方法所的类的名称
+    }
+    //方法的返回值
+    public class Helper_API_Method_Return
+    {
+        //返回值的类型
+        public string Type { get; set; }
+        //返回值的摘要
+        public string Intro { get; set; }
+        public Helper_API_Method_Return(string type, string intro)
+        {
+            Type = type;
+            Intro = intro;
+        }
     }
     #endregion
 }
