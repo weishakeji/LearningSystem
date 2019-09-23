@@ -64,9 +64,10 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="classname">类名称</param>
         /// <returns></returns>
-        /// <remarks></remarks>
+        /// <remarks>备注信息</remarks>
         /// <example><![CDATA[
-        /// 示例
+        /// 示例，写个代码试试
+        ///  XmlNodeList nodes = null;
         /// ]]></example>
         /// <exception cref="System.Exception">异常</exception>
         public List<Helper_API_Method> Methods(string classname)
@@ -104,7 +105,8 @@ namespace Song.ViewData.Methods
                     Class = mi.DeclaringType.FullName,
                     Intro = Helper_API_Method.GetHelp(node, "summary"),
                     Remarks = Helper_API_Method.GetHelp(node, "remarks"),
-                    Example = Helper_API_Method.GetHelp(node, "example")
+                    Example = Helper_API_Method.GetHelp(node, "example"),
+                    Attrs = Helper_API_Method_Attr.GetAttrs(mi)
                 });
             }
             //按方法名排序
@@ -149,14 +151,12 @@ namespace Song.ViewData.Methods
             XmlNode n = node.SelectSingleNode(txt);
             if (n == null) return string.Empty;
             return n.InnerText.Trim();
-            //if (node != null)
-            //    intro = node.SelectSingleNode("summary").InnerText.Trim();  //方法摘要 
-            //return intro;
         }
         //方法的完整名，包括方法名+(参数)
         public static string GetFullName(MethodInfo mi)
         {
             string paras = Helper_API_Method_Para.GetParaString(mi);
+            if (paras.Length < 1) return string.Format("{0}.{1}", mi.ReflectedType.FullName, mi.Name);
             return string.Format("{0}.{1}({2})", mi.ReflectedType.FullName, mi.Name, paras);
         }
         //获取方法的注释节点
@@ -175,7 +175,6 @@ namespace Song.ViewData.Methods
             }
             return node;
         }
-        //public static string GetPara
     }
     //方法的返回值
     public class Helper_API_Method_Return
@@ -189,7 +188,7 @@ namespace Song.ViewData.Methods
             Helper_API_Method_Return ret = new Helper_API_Method_Return();
             if (node != null)
             {
-                if (node.SelectSingleNode("returns")!=null)
+                if (node.SelectSingleNode("returns") != null)
                     ret.Intro = node.SelectSingleNode("returns").InnerText.Trim();   //返回值的摘要                
             }
             if (string.IsNullOrWhiteSpace(ret.Intro)) ret.Intro = string.Empty;
@@ -256,7 +255,50 @@ namespace Song.ViewData.Methods
     public class Helper_API_Method_Attr
     {
         public string Name { get; set; }     //特性名称
-
+        public bool Ignore { get; set; }    
+        //所有特性
+        private static Type[] attrs = null;
+        public static Helper_API_Method_Attr[] GetAttrs(MethodInfo method)
+        {
+            //如果是第一次运行
+            if (attrs == null)
+            {
+                string assemblyName = "Song.ViewData";
+                Assembly assembly = Assembly.Load(assemblyName);
+                attrs = assembly.GetExportedTypes()
+                    .Where(t => t.FullName.StartsWith("Song.ViewData.Attri") && !t.IsAbstract)
+                    .OrderBy(c => c.Name).ToArray();        
+            }
+            List<object> list = new List<object>();
+            foreach (Type att in attrs)
+            {
+                //先验证对象，如果对象需验证，则下面方法全部需要验证登录，除非方法设置了[Admin(Ignore = true)]
+                object[] attrsObj = method.DeclaringType.GetCustomAttributes(att, true);
+                foreach (object o in attrsObj)
+                {
+                    if (!list.Contains(o)) list.Add(o);
+                }               
+                //再验证方法
+                object[] attrsMethod = method.GetCustomAttributes(att, true);
+                foreach (object o in attrsMethod)
+                {
+                    if (!list.Contains(o)) list.Add(o);
+                }
+            }
+            //
+            Helper_API_Method_Attr[] arr = new Helper_API_Method_Attr[list.Count];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = new Helper_API_Method_Attr();
+                arr[i].Name = list[i].GetType().Name.Replace("Attribute", "");
+                if (list[i] is WeishaAttr)
+                {
+                    arr[i].Ignore = ((WeishaAttr)list[i]).Ignore;
+                }
+                //arr[i].Ignore = list[i].
+            }            
+            return arr;
+        }
     }
     #endregion
 }

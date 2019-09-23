@@ -36,6 +36,7 @@ namespace Song.ViewData.Methods
         /// 当前登录的学员
         /// </summary>
         /// <returns></returns>
+        [Attri.Student(Ignore=true)]
         public Song.Entities.Accounts Current()
         {
             Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;

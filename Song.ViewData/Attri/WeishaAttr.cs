@@ -25,7 +25,7 @@ namespace Song.ViewData.Attri
         /// 验证登录
         /// </summary>
         /// <param name="obj">要执行的对象，先验证它是否需要登录</param>
-        /// <param name="member">要验证的方法</param>
+        /// <param name="method">要验证的方法</param>
         /// <returns></returns>
         public static T AuthenticateLoginControl<T>(object obj, MemberInfo method) where T : WeishaAttr
         {

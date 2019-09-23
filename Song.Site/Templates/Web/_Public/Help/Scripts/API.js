@@ -27,10 +27,6 @@ Vue.component('methods', {
         }
     },
     methods: {
-        //显示方法的参数
-        showname: function (sign) {
-            return '参数：' + sign.substring(sign.indexOf('('));
-        },
         //方法的点击事件
         methodClick: function (classname, method) {
             var txt = "类名" + classname + "，方法：" + method.FullName;
@@ -82,7 +78,10 @@ var rvue = new Vue({
     methods: {
         //显示方法的参数
         showname: function (name, fullname) {
-            return name + fullname.substring(fullname.indexOf('('));
+            if (fullname.indexOf('(') > -1) {
+                return name + fullname.substring(fullname.indexOf('('));
+            }
+            return name + '()';
         }
     },
     created: function () {
