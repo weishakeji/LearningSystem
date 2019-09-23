@@ -64,6 +64,11 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="classname">类名称</param>
         /// <returns></returns>
+        /// <remarks></remarks>
+        /// <example><![CDATA[
+        /// 示例
+        /// ]]></example>
+        /// <exception cref="System.Exception">异常</exception>
         public List<Helper_API_Method> Methods(string classname)
         {
             string assemblyName = "Song.ViewData";
@@ -79,39 +84,27 @@ namespace Song.ViewData.Methods
                     break;
                 }
             }
-            //注译
+            //注释文档
             XmlNodeList nodes = readXml();
             //类下面的方法，仅获取当前类生成的方法，不包括父类
             List<Helper_API_Method> list = new List<Helper_API_Method>();
             MemberInfo[] mis = classtype.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
             foreach (MethodInfo mi in mis)
             {
-                string name = mi.Name;      //方法名称
-                string fullname = mi.ToString();        //带参数的方法名称
-                if (fullname.IndexOf(" ") > -1) fullname = fullname.Substring(fullname.IndexOf(" ") + 1);             
-                string returntype = mi.ReturnParameter.ToString();      //返回类型
-                string returnintro = string.Empty; 
-                string intro = string.Empty;        //方法摘要                
-                if (nodes != null)
-                {
-                    foreach (XmlNode n in nodes)
-                    {
-                        string miname = n.Attributes["name"].Value;                      
-                        if (miname.EndsWith(fullname))
-                        {
-                            intro = n.SelectSingleNode("summary").InnerText.Trim();
-                            returnintro = n.SelectSingleNode("returns").InnerText.Trim();
-                            break;
-                        }
-                    }
-                }
+                string fullname = Helper_API_Method.GetFullName(mi);        //带参数的方法名称               
+                //方法的注释
+                XmlNode node = Helper_API_Method.GetNode(mi, nodes);
                 list.Add(new Helper_API_Method()
                 {
-                    Name = name,
+                    Name = mi.Name,
                     FullName = fullname,
-                    Return = new Helper_API_Method_Return(returntype, returnintro),
+                    Paras = Helper_API_Method_Para.GetParas(mi, node),
+                    Return = Helper_API_Method_Return.GetReturn(mi, node),
                     ClassName = mi.DeclaringType.Name,
-                    Intro = intro
+                    Class = mi.DeclaringType.FullName,
+                    Intro = Helper_API_Method.GetHelp(node, "summary"),
+                    Remarks = Helper_API_Method.GetHelp(node, "remarks"),
+                    Example = Helper_API_Method.GetHelp(node, "example")
                 });
             }
             //按方法名排序
@@ -142,8 +135,47 @@ namespace Song.ViewData.Methods
         public string Name { get; set; }        //方法名   
         public string FullName { get; set; }    //方法全名  
         public string Intro { get; set; }       //方法摘要说明
+        public string Remarks { get; set; }       //方法备注说明
+        public string Example { get; set; }       //方法的示例
+        public Helper_API_Method_Attr[] Attrs { get; set; }          //方法的特性
+        public Helper_API_Method_Para[] Paras { get; set; }         //方法的参数
         public Helper_API_Method_Return Return { get; set; }      //返回值的类型
         public string ClassName { get; set; }    //方法所的类的名称
+        public string Class { get; set; }       //方法所的类的完整名称
+        public static string GetHelp(XmlNode node, string txt)
+        {
+            string intro = string.Empty;
+            if (node == null) return string.Empty;
+            XmlNode n = node.SelectSingleNode(txt);
+            if (n == null) return string.Empty;
+            return n.InnerText.Trim();
+            //if (node != null)
+            //    intro = node.SelectSingleNode("summary").InnerText.Trim();  //方法摘要 
+            //return intro;
+        }
+        //方法的完整名，包括方法名+(参数)
+        public static string GetFullName(MethodInfo mi)
+        {
+            string paras = Helper_API_Method_Para.GetParaString(mi);
+            return string.Format("{0}.{1}({2})", mi.ReflectedType.FullName, mi.Name, paras);
+        }
+        //获取方法的注释节点
+        public static XmlNode GetNode(MethodInfo mi, XmlNodeList nodes)
+        {
+            if (nodes == null) return null;
+            XmlNode node = null;
+            string fullname = GetFullName(mi);
+            foreach (XmlNode n in nodes)
+            {
+                if (n.Attributes["name"].Value.EndsWith(fullname))
+                {
+                    node = n;
+                    break;
+                }
+            }
+            return node;
+        }
+        //public static string GetPara
     }
     //方法的返回值
     public class Helper_API_Method_Return
@@ -152,11 +184,79 @@ namespace Song.ViewData.Methods
         public string Type { get; set; }
         //返回值的摘要
         public string Intro { get; set; }
-        public Helper_API_Method_Return(string type, string intro)
+        public static Helper_API_Method_Return GetReturn(MethodInfo method, XmlNode node)
         {
-            Type = type;
-            Intro = intro;
+            Helper_API_Method_Return ret = new Helper_API_Method_Return();
+            if (node != null)
+            {
+                if (node.SelectSingleNode("returns")!=null)
+                    ret.Intro = node.SelectSingleNode("returns").InnerText.Trim();   //返回值的摘要                
+            }
+            if (string.IsNullOrWhiteSpace(ret.Intro)) ret.Intro = string.Empty;
+            ret.Type = method.ReturnParameter.ToString();      //返回类型
+            return ret;
         }
+    }
+    //方法的参数
+    public class Helper_API_Method_Para
+    {
+        public string Name { get; set; }    //参数名称
+        public string Type { get; set; }        //参数数据类型
+        public string Intro { get; set; }       //参数的摘要
+        public static Helper_API_Method_Para[] GetParas(MethodInfo method)
+        {
+            ParameterInfo[] paramInfos = method.GetParameters();
+            Helper_API_Method_Para[] paras = new Helper_API_Method_Para[paramInfos.Length];
+            for (int i = 0; i < paramInfos.Length; i++)
+            {
+                ParameterInfo pi = paramInfos[i];
+                paras[i] = new Helper_API_Method_Para();
+                paras[i].Name = pi.Name;
+                paras[i].Type = pi.ParameterType.FullName; 
+            }
+            return paras;
+        }
+        public static Helper_API_Method_Para[] GetParas(MethodInfo method, XmlNode node)
+        {
+            Helper_API_Method_Para[] paras = GetParas(method);
+            if (node == null) return paras;
+            for (int i = 0; i < paras.Length; i++)
+            {
+                Helper_API_Method_Para pi = paras[i];
+                foreach (XmlNode n in node.SelectNodes("param"))
+                {
+                    string name = n.Attributes["name"].Value;
+                    if (name.Equals(pi.Name, StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        pi.Intro = n.InnerText.Trim();
+                        break;
+                    }
+                }
+            }
+            return paras;
+        }
+        /// <summary>
+        /// 获取参数的类型，多个参数串连
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public static string GetParaString(MethodInfo method)
+        {
+            string str = string.Empty;
+            ParameterInfo[] paras = method.GetParameters();
+            for (int i = 0; i < paras.Length; i++)
+            {
+                str += paras[i].ParameterType.FullName;
+                if (i < paras.Length - 1) str += ",";
+            }
+            return str;
+        }
+    }
+    //方法的特性
+    public class Helper_API_Method_Attr
+    {
+        public string Name { get; set; }     //特性名称
+
     }
     #endregion
 }

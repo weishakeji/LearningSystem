@@ -278,6 +278,7 @@
             });
             //添加响应拦截器（即返回之后）
             instance.interceptors.response.use(function (response) {
+                response.text=response.data;
                 //如果返回的数据是字符串，这里转为json
                 if (typeof (response.data) == 'string') {
                     response.data = eval("(" + response.data + ")");

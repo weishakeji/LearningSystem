@@ -7,7 +7,7 @@ using Song.ServiceInterfaces;
 using Song.Extend;
 using VTemplate.Engine;
 using System.Web.SessionState;
-namespace Song.Site.Helper
+namespace Song.Site.Help
 {
     /// <summary>
     /// Song.ViewData方法的调用说明

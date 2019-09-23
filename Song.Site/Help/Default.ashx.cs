@@ -5,7 +5,7 @@ using System.Web;
 using WeiSha.Common;
 using Song.ServiceInterfaces;
 
-namespace Song.Site.Helper
+namespace Song.Site.Help
 {
     /// <summary>
     /// 帮助信息首页

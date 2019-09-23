@@ -96,8 +96,8 @@ namespace Song.Site
             //帮助文档
             routes.MapPageRoute(
                 "helper",
-                "helper/{term}",
-                "~/helper/{term}.ashx"
+                "help/{term}",
+                "~/help/{term}.ashx"
             );          
             //************************************
             ////同上，只是此为手机端的ashx动态页

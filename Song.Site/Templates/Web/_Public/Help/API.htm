@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html>
+
+<head>
+      <title>API接口方法说明</title>
+
+      <vt:include file="../inc/meta_api.inc" />
+
+      <link href="Styles/api.css?ver={$version}" rel="stylesheet" type="text/css" />
+      <meta charset="utf-8">
+</head>
+
+<body>
+      <header>
+            ViewData API接口方法说明
+      </header>
+      <section>
+            <menu>
+                  <div class="tit"> <i class="el-icon-set-up"></i>接口方法</div>
+                  <dl id="menu">
+                        <dd v-for="(u,i) in arr">
+                              <methods :name="u.Name" :intro="u.Intro" :index="i+1"></methods>
+                        </dd>
+                  </dl>
+            </menu>
+            <context id="context">
+                  <div class="method" v-if="method!=null">
+                        <name>{{method.ClassName +'.'+method.Name}}</name>
+                        <fullname>{{showname(method.Name,method.FullName)}}</fullname>
+                        <intro><b>摘要：</b>{{method.Intro}}</intro>
+                        <atrr><b>特性：</b></atrr>
+                        <params><b>参数：</b>
+                              <table cellspacing="0" cellpadding="0" width="100%" border="0"
+                                    v-show="method.Paras.length>0">
+                                    <tr>
+                                          <th>#</th>
+                                          <th>名称</th>
+                                          <th>类型</th>
+                                          <th>说明</th>
+                                    </tr>
+                                    <tr v-for="(item,index) in method.Paras">
+                                          <td>{{index+1}}</td>
+                                          <td>{{item.Name}}</td>
+                                          <td>{{item.Type}}</td>
+                                          <td>{{item.Intro}}</td>
+                                    </tr>
+                              </table>
+
+
+                              <div v-show="method.Paras.length==0">没有参数</div>
+
+                        </params>
+                        <return><b>返回值：</b>
+                              <div class="type">数据类型：{{method.Return.Type}}</div>
+                              <div class="intro" v-if="method.Return.Intro.length>0">说明：{{method.Return.Intro}}</div>
+                        </return>
+                  </div>
+                  <div v-if="method==null">帮助</div>
+            </context>
+      </section>
+      <footer>微厦计算机科技</footer>
+      <script type="text/javascript" src="Scripts/api.js?ver={$version}"></script>
+</body>
+
+</html>

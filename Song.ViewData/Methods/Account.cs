@@ -19,7 +19,12 @@ namespace Song.ViewData.Methods
     [HttpGet]
     public class Account : IViewAPI
     {
-        [HttpGet(IsAllow = false)]
+        /// <summary>
+        /// 根据ID查询学员账号
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>账户对象</returns>
+        [HttpGet(IsAllow = false)]        
         public Song.Entities.Accounts ForID(int id)
         {
             Song.Entities.Accounts acc= Business.Do<IAccounts>().AccountsSingle(id);
@@ -65,7 +70,7 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 按账号和姓名查询学员
         /// </summary>
-        /// <param name="acc"></param>
+        /// <param name="acc">学员账号</param>
         /// <param name="name">姓名，可模糊查询</param>
         /// <returns></returns>
         public Song.Entities.Accounts[] Seach(string acc, string name)

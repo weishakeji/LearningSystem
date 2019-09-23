@@ -5,15 +5,16 @@ html, body {
     text-align: left;
     margin: 0px;
     padding: 0px;
+    font-family: Segoe UI, SegoeUI, Segoe WP, Helvetica Neue, Helvetica, Tahoma, Arial, sans-serif;
 }
 
 header {
-    height: 40px;
-    line-height: 40px;
+    height: 50px;
+    line-height: 50px;
     width: 100%;
-    font-size: 25px;
     text-align: left;
-    padding: 20px;
+    text-indent: 20px;
+    background-color: #ccc;
 }
 
 section {
@@ -22,7 +23,7 @@ section {
 }
 
 menu {
-    width: 30%;
+    width: 300px;
     height: 100%;
     float: left;
     overflow-y: auto;
@@ -62,7 +63,7 @@ menu .tit i {
     position: relative;
     --transform: rotate(-3deg);
     transition: background-color 0.5s;
-    padding-right: 20px;
+    padding-right: 30px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -76,13 +77,15 @@ menu .tit i {
 #menu .classname i {
     position: absolute;
     right: 10px;
-    top: 8px;
+    top: 12px;
     display: block;
 }
-#menu .classname span{
+
+#menu .classname span {
     font-size: 12px;
     color: #999;
 }
+
 .methods>dd {
     font-size: 14px;
     margin-bottom: 5px;
@@ -91,13 +94,15 @@ menu .tit i {
     --transform: rotate(-3deg);
     transition: background-color 0.2s;
 }
-.methods>dt{
+
+.methods>dt {
     font-size: 12px;
     color: #999;
     padding-left: 10px;
     padding-right: 10px;
     line-height: 30px;
 }
+
 .methods>dd:hover {
     background-color: rgb(222, 255, 179);
     transition: background-color 0.5s;
@@ -107,12 +112,48 @@ menu .tit i {
     font-size: 13px;
     color: #999;
     margin-left: 22px;
+    word-wrap: break-word;
+    word-break:break-all;
+    padding-right: 20px;
 }
 
 context {
-    width: 70%;
+    width: calc(100% - 300px);
     height: 100%;
     float: left;
+}
+
+/*右侧方法详情的区域*/
+
+.method {
+    padding: 20px;
+}
+
+.method>* {
+    display: block;
+}
+
+.method * {
+    font-size: 16px;
+    line-height: 30px;
+}
+
+.method name {
+    font-weight: bold;
+    font-size: 30px;
+    word-wrap: break-word;
+    padding: 10px 10px 10px 0;
+}
+.method fullname{
+    word-wrap: break-word;
+    word-break:break-all;
+}
+.method table{
+    margin-left: 50px;
+}
+.method table th {
+    font-weight: normal;
+    background-color: #eee;
 }
 
 footer {
