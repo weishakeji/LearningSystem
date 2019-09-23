@@ -7,6 +7,8 @@ using System.Reflection;
 using Newtonsoft.Json;
 using System.Xml.Serialization;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace Song.ViewData
 {
@@ -268,12 +270,16 @@ namespace Song.ViewData
                         }
                         else
                         {
-                            string strjson = JsonConvert.SerializeObject(value);
-                            string root="TemporaryNode";
-                            string xml = JsonConvert.DeserializeXNode(strjson, root, true).ToString();
-                            xml = xml.Replace(string.Format("<{0}>", root), string.Empty);
-                            xml = xml.Replace(string.Format("</{0}>", root), string.Empty);
-                            str += xml;
+                            XmlSerializer serializer = new XmlSerializer(value.GetType());
+                            string content = string.Empty;
+                            using (StringWriter writer = new StringWriter())
+                            {
+                                serializer.Serialize(writer, value);
+                                content = writer.ToString();
+                            }
+                            XmlDocument xml = new XmlDocument();
+                            xml.LoadXml(content);
+                            str += xml.LastChild.InnerXml;
                         }
                     }
                     break;

@@ -29,8 +29,9 @@
                         <fullname>{{showname(method.Name,method.FullName)}}</fullname>
                         <intro><b>摘要：</b>{{method.Intro}}</intro>
                         <atrr><b>特性：</b>
-                        <span v-for="item in method.Attrs">[{{item.Name}}<i v-show='item.Ignore'> (Ignore={{item.Ignore}})</i>] </span>
-                        <span v-if="method.Attrs.length<1">无</span>
+                              <span v-for="item in method.Attrs">[{{item.Name}}<i v-show='item.Ignore'>
+                                          (Ignore={{item.Ignore}})</i>] </span>
+                              <span v-if="method.Attrs.length<1">无</span>
                         </atrr>
                         <params><b>参数：</b>
                               <table cellspacing="0" cellpadding="0" width="100%" border="0"
@@ -58,9 +59,26 @@
                               <span class="type">{{method.Return.Type}}</span>
                               <div class="intro" v-if="method.Return.Intro.length>0">{{method.Return.Intro}}</div>
                         </return>
-                        <example v-if='method.Example.length>0'><b>示例：</b><pre>{{method.Example}}</pre></example>
+                        <example v-if='method.Example.length>0'><b>示例：</b>
+                              <pre>{{method.Example}}</pre>
+                        </example>
                   </div>
-                  <div v-if="method==null">帮助</div>
+                  <div v-if="method==null" class="homepage">
+                        <h1>ViewData RESTful API 接口方法使用说明</h1>
+                        <p>ViewData为数据层提供了一系列相关操作的接口方法，能够为多个终端提供支持，例如Web、手机端、电脑客户端等；所有接口基于Restful接口规范，可以返回Json或Xml格式数据。
+                        </p>
+                        <p>接口示例：http://www.domain.com/api/v1/xxx/ffff</p>
+                        <p>可以用url拼接，如v1/xxx/ffff?acc=123456&pw=123，也可以构建参数对象传递。
+                              参数名称大小写不敏感，参数的值大小写是敏感的。</p>
+                        <P>
+                              Authorization认证：</p>
+                        <P> 这里对Authorization认证方式主要用来传递参数了，例如返回值类型、http谓词、来源页，并没有真正用到认证上的功能。
+                              <p>Authorization认证有两部分组成user和pw，这里只用到了user，pw部分为空即可。</p>
+                              <P>User的组成：</p>
+                              <P>标识【weishakeji】 Http谓词【get|post】 返回值类型【json|xml】 来源页【可为空】</p>
+                              <P>示例：weishakeji Post json null
+                              </P>
+                  </div>
             </context>
       </section>
       <footer>微厦计算机科技</footer>
