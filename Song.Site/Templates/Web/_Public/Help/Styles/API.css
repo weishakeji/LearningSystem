@@ -18,7 +18,7 @@ header {
 }
 
 section {
-    height: calc(100% - 110px);
+    height: calc(100% - 80px);
     width: 100%;
 }
 
@@ -28,6 +28,7 @@ menu {
     float: left;
     overflow-y: auto;
     overflow-x: hidden;
+    box-shadow: 3px 0px 3px #ccc;
 }
 
 menu, menu * {
@@ -47,6 +48,7 @@ menu .tit i {
     font-size: 18px;
     margin-right: 5px;
 }
+
 menu .tit b {
     font-size: 22px;
     float: right;
@@ -121,7 +123,7 @@ menu .tit b {
     color: #999;
     margin-left: 22px;
     word-wrap: break-word;
-    word-break:break-all;
+    word-break: break-all;
     padding-right: 20px;
 }
 
@@ -129,17 +131,21 @@ context {
     width: calc(100% - 300px);
     height: 100%;
     float: left;
+    overflow-y: auto;
 }
-.homepage h1{
+
+.homepage h1 {
     padding-left: 35px;
 }
-.homepage p{
+
+.homepage p {
     padding: 10px 10px 0 10px;
     margin: 0px;
     font-size: 16px;
     line-height: 25px;
     text-indent: 30px;
 }
+
 /*右侧方法详情的区域*/
 
 .method {
@@ -161,18 +167,61 @@ context {
     word-wrap: break-word;
     padding: 10px 10px 10px 0;
 }
-.method fullname{
+
+.method fullname {
     word-wrap: break-word;
-    word-break:break-all;
+    word-break: break-all;
 }
-.method table{
+
+.method table {
     margin-left: 50px;
+    width: calc(100% - 50px);
 }
+
 .method table th {
     font-weight: normal;
     background-color: #eee;
 }
-
+.method table input{
+    height: 20px;
+    width: 100px;
+}
+.test-tit {
+    height: 40px;
+    line-height: 40px;
+    background: #ccc;
+    width: 100%;
+    text-indent: 20px;
+    position: relative;
+}
+.test-tit  button{
+    position: absolute;
+    height: 30px;
+    width: 90px;
+    top:5px;
+    right: 10px;
+    border-radius: 5px;
+    background-color:#eee;
+    cursor: pointer;
+}
+.test-tit  button:hover{
+    background-color:rgb(166, 228, 163);
+}
+#testResult{
+    width: calc(100% - 60px);
+    display: table;
+    padding: 30px;
+    margin: 0px;
+}
+#testResult pre{
+    margin: 0px;
+    font-size: 16px;
+    line-height: 22px;
+    padding: 20px;
+    background-color: rgb(240, 243, 215);
+    word-wrap: break-word;
+    word-break: break-all;
+}
 footer {
     height: 30px;
     line-height: 30px;

@@ -138,6 +138,8 @@ namespace Song.ViewData.Methods
         {
             int sum = 0;
             Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(-1, size, index, out sum);
+            foreach (Song.Entities.Accounts ac in accs)
+                ac.Ac_Pw = string.Empty;
             Song.ViewData.ListResult result = new ListResult(accs);
             result.Index = index;
             result.Size = size;

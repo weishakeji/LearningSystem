@@ -219,7 +219,8 @@ namespace Song.ViewData
                     //普通参数，不是输出参数
                     if (!pi.IsOut)
                     {
-                        object val = letter[pi.Name].String;
+                        string val = letter[pi.Name].String;
+                        if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
                         try
                         {
                             switch (pi.ParameterType.Name)
@@ -243,7 +244,7 @@ namespace Song.ViewData
                         }
                         catch
                         {
-                            throw new Exception("参数 " + pi.Name + "的值，数据格式不正确");
+                            throw new Exception("参数 " + pi.Name + " 的值，数据格式不正确");
                         }
                     }
                     else

@@ -37,8 +37,10 @@ namespace Song.ServiceImpls
         /// <param name="secretKey"></param>
         public void SetupKey(string accessKey, string secretKey)
         {
-            Business.Do<ISystemPara>().Save(prefix + "AccessKey", accessKey, false);
-            Business.Do<ISystemPara>().Save(prefix + "SecretKey", secretKey, false);
+            if(!string.IsNullOrWhiteSpace(accessKey) && accessKey.Trim()!="")
+                Business.Do<ISystemPara>().Save(prefix + "AccessKey", accessKey, false);
+            if (!string.IsNullOrWhiteSpace(secretKey) && secretKey.Trim() != "")
+                Business.Do<ISystemPara>().Save(prefix + "SecretKey", secretKey, false);
         }
         /// <summary>
         /// 设置直播空间的名称
@@ -46,7 +48,7 @@ namespace Song.ServiceImpls
         /// <param name="pace"></param>
         public void SetupLiveSpace(string pace)
         {
-            if (!string.IsNullOrWhiteSpace(pace))
+            if (!string.IsNullOrWhiteSpace(pace) && pace.Trim() != "")
                 Business.Do<ISystemPara>().Save(prefix + "pace", pace, false);
         }
         /// <summary>
