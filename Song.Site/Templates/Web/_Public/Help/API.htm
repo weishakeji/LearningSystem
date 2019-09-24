@@ -15,9 +15,11 @@
             ViewData API接口方法说明
       </header>
       <section>
-            <menu>
-                  <div class="tit"> <i class="el-icon-set-up"></i>接口方法</div>
-                  <dl id="menu">
+            <menu id="menu">
+                  <div class="tit"> <i class="el-icon-set-up"></i>APIs
+                        <b class="el-icon-s-home" v-on:click="homeClick"></b>
+                  </div>
+                  <dl>
                         <dd v-for="(u,i) in arr">
                               <methods :name="u.Name" :intro="u.Intro" :index="i+1"></methods>
                         </dd>

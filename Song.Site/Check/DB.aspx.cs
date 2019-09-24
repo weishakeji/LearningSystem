@@ -56,9 +56,10 @@ namespace Song.Site.Check
         private bool _isCorrect()
         {
             bool isCorrect = Business.Do<ISystemPara>().DatabaseLinkTest();
+            object version = Business.Do<ISystemPara>().ScalarSql("select @@version");
             if (isCorrect)
             {
-                lbShowText.Text = "数据库链接正确";
+                lbShowText.Text = "数据库链接正确<br/>"+version.ToString();
                 plCorrectShow.Visible = false;
             }
             else

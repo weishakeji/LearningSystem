@@ -4,6 +4,11 @@
         message: '测试',
         arr: [1, 2]         //接口列表
     },
+    methods: {
+        homeClick: function () {
+            rvue.method = null;
+        }
+    },
     created: function () {
         var th = this;
         $api.get("helper/List").then(function (req) {
@@ -71,8 +76,8 @@ var rvue = new Vue({
     },
     watch: {
         method: function (n, o) {
-            var name = n.Name;
-            rvue.paras = n.Paras;
+            //var name = n.Name;
+            //rvue.paras = n.Paras;
         }
     },
     methods: {

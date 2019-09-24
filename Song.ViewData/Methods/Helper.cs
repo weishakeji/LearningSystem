@@ -113,6 +113,7 @@ namespace Song.ViewData.Methods
             list.Sort((a, b) => a.Name.CompareTo(b.Name));
             return list;
         }
+
         private XmlNodeList readXml()
         {           
             XmlNodeList nodes = null;

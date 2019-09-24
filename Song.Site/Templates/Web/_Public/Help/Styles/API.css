@@ -37,8 +37,8 @@ menu, menu * {
 
 menu .tit {
     font-size: 16px;
-    height: 30px;
-    line-height: 30px;
+    height: 40px;
+    line-height: 40px;
     padding-left: 10px;
     font-weight: bold;
 }
@@ -46,6 +46,14 @@ menu .tit {
 menu .tit i {
     font-size: 18px;
     margin-right: 5px;
+}
+menu .tit b {
+    font-size: 22px;
+    float: right;
+    display: block;
+    margin-top: 6px;
+    margin-right: 12px;
+    cursor: pointer;
 }
 
 #menu {}
