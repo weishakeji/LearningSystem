@@ -217,11 +217,13 @@
         var httpverb = ['get', 'post', 'delete', 'put', 'patch', 'options'];
         for (let i = 0; i < httpverb.length; i++) {
             var el = httpverb[i];
-            eval("this." + el + " = function (way, parameters,loading,loaded) {return this.query(way, parameters, '" + el + "',loading,loaded);};");
+            eval("this." + el + " = function (way, parameters,loading,loaded) {return this.query(way, parameters, '" + el + "',loading,loaded,'json');};");
         }
         var self = this;
         //创建请求对象，以及拦截器
-        this.query = function (way, parameters, method, loading, loaded) {
+        //way:接口方法
+        //returntype:返回数据的类型，Json或xml
+        this.query = function (way, parameters, method, loading, loaded, returntype) {
             var url = methods.url(this.version, way);
             if (arguments.length < 2 || parameters == null) parameters = {};
             if (arguments.length < 3 || method == null || method == '') method = 'get';
@@ -235,10 +237,11 @@
                     'Access-Control-Allow-Methods': 'POST,GET,DELETE,PUT,PATCH,HEAD,OPTIONS'
                 },
                 auth: {
-                    username: 'weishakeji ' + method + ' json ' + window.location,
+                    username: 'weishakeji ' + method + ' ' + returntype + ' ' + window.location,
                     password: 'token'
                 },
-                timeout: 60 * 1000
+                timeout: 60 * 1000,
+                returntype:returntype
             });
             //添加请求拦截器（即请求之前）
             instance.interceptors.request.use(function (config) {
@@ -278,20 +281,22 @@
             });
             //添加响应拦截器（即返回之后）
             instance.interceptors.response.use(function (response) {
-                response.text=response.data;
+                response.text = response.data;
                 //如果返回的数据是字符串，这里转为json
-                if (typeof (response.data) == 'string') {
-                    response.data = eval("(" + response.data + ")");
-                }
-                //处理数据，服务器端返回的数据是经过Url编码的，此处进行解码
-                if (response.data.result != null) {
-                    if (typeof (response.data.result) == 'string') {
-                        try {
-                            response.data.result = eval("(" + response.data.result + ")");
-                        } catch{ }
+                try {
+                    if (typeof (response.data) == 'string') {
+                        response.data = eval("(" + response.data + ")");
                     }
-                    response.data.result = methods.unescape(response.data.result);
-                }
+                    //处理数据，服务器端返回的数据是经过Url编码的，此处进行解码
+                    if (response.data.result != null) {
+                        if (typeof (response.data.result) == 'string') {
+                            try {
+                                response.data.result = eval("(" + response.data.result + ")");
+                            } catch{ }
+                        }
+                        response.data.result = methods.unescape(response.data.result);
+                    }
+                } catch (e) { }
                 //执行加载完成后的方法
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loaded != null) loaded(response, null);

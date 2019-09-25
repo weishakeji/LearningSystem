@@ -69,8 +69,26 @@
 
                   </div>
                   <div class="testbox" v-if="method!=null" remark="测试接口">
-                        <div class="test-tit">测试： <button type="button" v-on:click="testapi">测试</button></div>
-                        <div id="testResult"><pre></pre></div>
+                        <div class="test-tit">HTTP谓词：
+                              <select id="httppre">
+                                    <option value="get">GET</option>
+                                    <option value="post">POST</option>
+                                    <option value="delete">DELETE</option>
+                                    <option value="put">PUT</option>
+                                    <option value="patch">PATHCH</option>
+                                    <option value="options">OPTIONS</option>
+                              </select>
+                              返回：
+                              <select id="returntype">
+                                    <option value="json">JSON</option>
+                                    <option value="xml">XML</option>
+                              </select>
+                              <button type="button" v-on:click="testapi" v-show="!loading">测试</button>
+                              <div class="loadbox" v-show='loading'><i class='el-icon-loading' ></i> 加载中...</div>
+                        </div>
+                        <div id="testResult">
+                              <pre>查询结果</pre>
+                        </div>
                   </div>
                   <div v-if="method==null" class="homepage">
                         <h1>ViewData RESTful API 接口方法使用说明</h1>

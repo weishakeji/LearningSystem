@@ -69,11 +69,13 @@ Vue.component('methods', {
 //右侧的内容区
 var rvue = new Vue({
     data: {
-        method: null    //接口方法对象
+        method: null,    //接口方法对象
+        loading: false   //调用接口时的状态
     },
     watch: {
         method: function (n, o) {
-            document.getElementById("testResult").firstChild.innerText = "";
+            var ele = document.getElementById("testResult");
+            if (ele != null) ele.firstChild.innerText = "";
             document.querySelectorAll("#context table input").forEach(function (item) {
                 item.value = "";
             });
@@ -91,14 +93,28 @@ var rvue = new Vue({
     },
     methods: {
         testapi: function () {
-            var classname = this.method.ClassName;
-            var func = this.method.Name;
+            var mathd = this.method.ClassName + "/" + this.method.Name;
             var params = this.getInputPara();
+            var http = document.getElementById("httppre").value;
+            var rettype = document.getElementById("returntype").value;
             //
-            $api.get(classname + "/" + func, params).then(function (req) {
+            $api.query(mathd, params, http, function () {
+                rvue.loading = true;
+            }, function () {
+                window.setTimeout(function () {
+                    rvue.loading = false;
+                }, 500);
+            }, rettype).then(function (req) {
                 var ele = document.getElementById("testResult").firstChild;
-                ele.innerText = rvue.jsonformat(unescape(req.text));
-                //alert(req.text);
+                if (req == null) throw { message: '没有获取到返回值，可能是服务器端错误' };
+                if (req.config.returntype == "json")
+                    ele.innerText = rvue.jsonformat(unescape(req.text));
+                if (req.config.returntype == "xml")
+                    ele.innerText = rvue.xmlformat(req.text);
+            }).catch(function (ex) {
+                //alert(ex.message);
+                var ele = document.getElementById("testResult").firstChild;
+                ele.innerText = ex.message;
             });
         },
         //获取录入的参数
@@ -152,6 +168,63 @@ var rvue = new Vue({
                 //console.log('index:' + index + ',indent:' + indent + ',padIdx:' + padIdx + ',node-->' + node);
             });
             return formatted;
+        },
+        //xml格式化
+        xmlformat: function (text) {
+            //计算头函数 用来缩进
+            function setPrefix(prefixIndex) {
+                var result = '';
+                var span = '    ';//缩进长度
+                var output = [];
+                for (var i = 0; i < prefixIndex; ++i) {
+                    output.push(span);
+                }
+                result = output.join('');
+                return result;
+            }
+            //使用replace去空格
+            text = '\n' + text.replace(/(<\w+)(\s.*?>)/g, function ($0, name, props) {
+                return name + ' ' + props.replace(/\s+(\w+=)/g, " $1");
+            }).replace(/>\s*?</g, ">\n<");
+            //处理注释
+            text = text.replace(/\n/g, '\r').replace(/<!--(.+?)-->/g, function ($0, text) {
+                var ret = '<!--' + escape(text) + '-->';
+                return ret;
+            }).replace(/\r/g, '\n');
+            //调整格式  以压栈方式递归调整缩进
+            var rgx = /\n(<(([^\?]).+?)(?:\s|\s*?>|\s*?(\/)>)(?:.*?(?:(?:(\/)>)|(?:<(\/)\2>)))?)/mg;
+            var nodeStack = [];
+            var output = text.replace(rgx, function ($0, all, name, isBegin, isCloseFull1, isCloseFull2, isFull1, isFull2) {
+                var isClosed = (isCloseFull1 == '/') || (isCloseFull2 == '/') || (isFull1 == '/') || (isFull2 == '/');
+                var prefix = '';
+                if (isBegin == '!') {//!开头
+                    prefix = setPrefix(nodeStack.length);
+                } else {
+                    if (isBegin != '/') {///开头
+                        prefix = setPrefix(nodeStack.length);
+                        if (!isClosed) {//非关闭标签
+                            nodeStack.push(name);
+                        }
+                    } else {
+                        nodeStack.pop();//弹栈
+                        prefix = setPrefix(nodeStack.length);
+                    }
+                }
+                var ret = '\n' + prefix + all;
+                return ret;
+            });
+            var prefixSpace = -1;
+            var outputText = output.substring(1);
+            //还原注释内容
+            outputText = outputText.replace(/\n/g, '\r').replace(/(\s*)<!--(.+?)-->/g, function ($0, prefix, text) {
+                if (prefix.charAt(0) == '\r')
+                    prefix = prefix.substring(1);
+                text = unescape(text).replace(/\r/g, '\n');
+                var ret = '\n' + prefix + '<!--' + text.replace(/^\s*/mg, prefix) + '-->';
+                return ret;
+            });
+            outputText = outputText.replace(/\s+$/g, '').replace(/\r/g, '\r\n');
+            return outputText;
         }
     },
     created: function () {
@@ -159,3 +232,9 @@ var rvue = new Vue({
     }
 });
 rvue.$mount('context');
+
+function formateXml(xmlStr) {
+    text = xmlStr;
+
+}
+

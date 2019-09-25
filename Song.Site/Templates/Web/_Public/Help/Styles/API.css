@@ -194,6 +194,11 @@ context {
     text-indent: 20px;
     position: relative;
 }
+.test-tit select{
+    height: 30px;
+    min-width: 60px;
+    margin-right: 10px;
+}
 .test-tit  button{
     position: absolute;
     height: 30px;
@@ -203,6 +208,16 @@ context {
     border-radius: 5px;
     background-color:#eee;
     cursor: pointer;
+}
+.test-tit  .loadbox{
+    float: right;
+    width: 80px;
+    margin-right: 30px;
+    height: 40px;
+    line-height: 40px;
+    text-indent:0px;
+    font-size: 12px;
+    color: #666;
 }
 .test-tit  button:hover{
     background-color:rgb(166, 228, 163);
@@ -221,6 +236,7 @@ context {
     background-color: rgb(240, 243, 215);
     word-wrap: break-word;
     word-break: break-all;
+    border:1px solid #ccc;
 }
 footer {
     height: 30px;

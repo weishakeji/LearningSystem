@@ -226,6 +226,7 @@ namespace Song.ViewData
         /// <returns></returns>
         private string _xml_property(string typename, object value)
         {
+            if (value == null) return string.Empty;
             if (typename.Equals("object", StringComparison.CurrentCultureIgnoreCase)) typename = value.GetType().Name;
             string str = "";
             //根据不同类型输出
