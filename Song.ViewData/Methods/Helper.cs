@@ -24,7 +24,7 @@ namespace Song.ViewData.Methods
         /// 接口方法列表
         /// </summary>
         /// <returns></returns>
-        public List<Helper_API> List()
+        public Helper_API[] List()
         {
             List<Helper_API> list = new List<Helper_API>();
             string assemblyName = "Song.ViewData";
@@ -56,7 +56,7 @@ namespace Song.ViewData.Methods
                 });
             }
             list.Sort((a, b) => a.Name.CompareTo(b.Name));
-            return list;
+            return list.ToArray<Helper_API>();
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Song.ViewData.Methods
         ///  XmlNodeList nodes = null;
         /// ]]></example>
         /// <exception cref="System.Exception">异常</exception>
-        public List<Helper_API_Method> Methods(string classname)
+        public Helper_API_Method[] Methods(string classname)
         {
             string assemblyName = "Song.ViewData";
             string classFullName = String.Format("{0}.Methods.{1}", assemblyName, classname);
@@ -111,7 +111,7 @@ namespace Song.ViewData.Methods
             }
             //按方法名排序
             list.Sort((a, b) => a.Name.CompareTo(b.Name));
-            return list;
+            return list.ToArray<Helper_API_Method>();
         }
 
         private XmlNodeList readXml()

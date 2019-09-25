@@ -131,8 +131,8 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 分页获取学员信息
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="size"></param>
+        /// <param name="index">页码，即第几页</param>
+        /// <param name="size">每页多少条记录</param>
         /// <returns></returns>
         public ListResult Pager(int index, int size)
         {
