@@ -5,7 +5,7 @@
 使用：请查文档中的readme节点
 -->
 <Copyright>
-  <compay remark="公司全称" type="text">郑州微厦计算机科技有限公司</compay>
+  <company remark="公司全称" type="text">郑州微厦计算机科技有限公司</company>
   <abbr remark="公司名称简称" type="text">微厦科技</abbr>
   <en remark="公司名称英文简称" type="text">Weishakeji</en>
   <summary remark="公司信息摘要" type="text">

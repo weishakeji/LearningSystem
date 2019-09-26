@@ -111,8 +111,11 @@ namespace Song.ViewData.Methods
         {
             Dictionary<string, object> dic = new Dictionary<string, object>();   
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
+            if (outline == null) return null;
+            dic.Add("Name", outline.Ol_Name);  
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
-             
+            if (course == null) return null;
+            dic.Add("Course", course.Cou_Name);  
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {

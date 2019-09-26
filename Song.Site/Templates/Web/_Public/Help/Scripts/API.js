@@ -110,7 +110,7 @@ var rvue = new Vue({
                 if (req.config.returntype == "json")
                     ele.innerText = rvue.jsonformat(unescape(req.text));
                 if (req.config.returntype == "xml")
-                    ele.innerText = rvue.xmlformat(req.text);
+                    ele.innerText = rvue.xmlformat(unescape(req.text));
             }).catch(function (ex) {
                 //alert(ex.message);
                 var ele = document.getElementById("testResult").firstChild;

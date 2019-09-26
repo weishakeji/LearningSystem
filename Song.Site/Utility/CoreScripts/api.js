@@ -241,7 +241,7 @@
                     password: 'token'
                 },
                 timeout: 60 * 1000,
-                returntype:returntype
+                returntype: returntype
             });
             //添加请求拦截器（即请求之前）
             instance.interceptors.request.use(function (config) {
@@ -283,7 +283,7 @@
             instance.interceptors.response.use(function (response) {
                 response.text = response.data;
                 //如果返回的数据是字符串，这里转为json
-                try {
+                if (response.config.returntype == "json") {
                     if (typeof (response.data) == 'string') {
                         response.data = eval("(" + response.data + ")");
                     }
@@ -296,7 +296,7 @@
                         }
                         response.data.result = methods.unescape(response.data.result);
                     }
-                } catch (e) { }
+                }               
                 //执行加载完成后的方法
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loaded != null) loaded(response, null);

@@ -52,12 +52,12 @@ namespace Song.ViewData.Methods
             {
                 throw ex;
             }
-        }
+        }        
         /// <summary>
         /// 获取设置项
         /// </summary>
         /// <returns></returns>
-        public string GetSetup()
+        public Dictionary<string, string> GetSetup()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             object obj = Business.Do<ILive>();
@@ -71,7 +71,7 @@ namespace Song.ViewData.Methods
                     dic.Add(key, objResult == null ? "" : objResult.ToString());
                 }
             }
-            return JsonConvert.SerializeObject(dic);
+            return dic;
         }
     }
 }

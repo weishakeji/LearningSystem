@@ -271,16 +271,29 @@ namespace Song.ViewData
                         }
                         else
                         {
-                            XmlSerializer serializer = new XmlSerializer(value.GetType());
-                            string content = string.Empty;
-                            using (StringWriter writer = new StringWriter())
+                            try
                             {
-                                serializer.Serialize(writer, value);
-                                content = writer.ToString();
+                                string strjson = JsonConvert.SerializeObject(value);
+                                string root = "TemporaryNode";
+                                string xml = JsonConvert.DeserializeXNode(strjson, root, true).ToString();
+                                xml = xml.Replace(string.Format("<{0}>", root), string.Empty);
+                                xml = xml.Replace(string.Format("</{0}>", root), string.Empty);
+                                str += xml;
+                                
                             }
-                            XmlDocument xml = new XmlDocument();
-                            xml.LoadXml(content);
-                            str += xml.LastChild.InnerXml;
+                            catch
+                            {
+                                XmlSerializer serializer = new XmlSerializer(value.GetType());
+                                string content = string.Empty;
+                                using (StringWriter writer = new StringWriter())
+                                {
+                                    serializer.Serialize(writer, value);
+                                    content = writer.ToString();
+                                }
+                                XmlDocument xml = new XmlDocument();
+                                xml.LoadXml(content);
+                                str += xml.LastChild.InnerXml;
+                            }
                         }
                     }
                     break;
