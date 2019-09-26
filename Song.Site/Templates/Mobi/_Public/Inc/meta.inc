@@ -5,8 +5,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
 <meta name="format-detection" content="telephone=yes" />
 <meta name="format-detection" content="email=no" />
-<meta name="Keywords"  content="{$org.Org_Keywords},微厦科技" />
-<meta name="Description" content="{$org.Org_Description},微厦科技" />
+<meta name="Keywords"  content="{$org.Org_Keywords}" />
+<meta name="Description" content="{$org.Org_Description}" />
 <!--核心Js文件-->
 <script type="text/javascript" src="/Utility/CoreScripts/jquery.js?ver={$version}"></script>
 

@@ -1,6 +1,6 @@
 ﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="Keywords"  content="{$org.Org_Keywords},微厦科技" />
-<meta name="Description" content="{$org.Org_Description},微厦科技" />
+<meta name="Keywords"  content="{$org.Org_Keywords}" />
+<meta name="Description" content="{$org.Org_Description}" />
 <!--核心Js文件-->
 <script type="text/javascript" src="/Utility/CoreScripts/jquery.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/artTemplate.js?ver={$version}"></script>
