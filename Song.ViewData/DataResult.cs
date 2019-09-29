@@ -279,10 +279,11 @@ namespace Song.ViewData
                                 xml = xml.Replace(string.Format("<{0}>", root), string.Empty);
                                 xml = xml.Replace(string.Format("</{0}>", root), string.Empty);
                                 str += xml;
-                                
+
                             }
                             catch
                             {
+
                                 XmlSerializer serializer = new XmlSerializer(value.GetType());
                                 string content = string.Empty;
                                 using (StringWriter writer = new StringWriter())
@@ -293,6 +294,7 @@ namespace Song.ViewData
                                 XmlDocument xml = new XmlDocument();
                                 xml.LoadXml(content);
                                 str += xml.LastChild.InnerXml;
+
                             }
                         }
                     }

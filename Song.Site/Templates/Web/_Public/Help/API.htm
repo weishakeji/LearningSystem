@@ -58,10 +58,10 @@
                               <span v-show="method.Paras.length==0">无</span>
 
                         </params>
-                        <remarks v-if='method.Remarks.length>0'><b>备注：</b>{{method.Remarks}}</remarks>
+                        <remarks v-if='method.Remarks.length>0'><b>备注：</b><pre>{{method.Remarks}}</pre></remarks>
                         <return><b>返回值：</b>
                               <span class="type">{{method.Return.Type}}</span>
-                              <div class="intro" v-if="method.Return.Intro.length>0">{{method.Return.Intro}}</div>
+                              <div class="intro" v-if="method.Return.Intro.length>0"><pre>{{method.Return.Intro}}</pre></div>
                         </return>
                         <example v-if='method.Example.length>0'><b>示例：</b>
                               <pre>{{method.Example}}</pre>

@@ -22,8 +22,9 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 根据ID查询学员账号
         /// </summary>
+        /// <remarks>为了安全，返回的对象密码不显示</remarks>
         /// <param name="id"></param>
-        /// <returns>账户对象</returns>
+        /// <returns>学员账户的映射对象</returns>
         [HttpGet(IsAllow = false)]        
         public Song.Entities.Accounts ForID(int id)
         {
@@ -35,6 +36,7 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 当前登录的学员
         /// </summary>
+        /// <remarks>登录状态通过cookies或session保持</remarks>
         /// <returns></returns>
         [Attri.Student(Ignore=true)]
         public Song.Entities.Accounts Current()

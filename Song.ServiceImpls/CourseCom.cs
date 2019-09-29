@@ -490,6 +490,36 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 获取指定个数的课程列表
         /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="thid">教师id</param>
+        /// <param name="islive">是否有直播课</param>
+        /// <param name="sear"></param>
+        /// <param name="isUse"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public List<Course> CourseCount(int orgid, int sbjid, int thid, bool? islive, string sear, bool? isUse, int count)
+        {
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Course._.Org_ID == orgid);
+            if (sbjid > 0)
+            {
+                WhereClip wcSbjid = new WhereClip();
+                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (int l in list)
+                    wcSbjid.Or(Course._.Sbj_ID == l);
+                wc.And(wcSbjid);
+            }
+            if (thid > 0) wc.And(Course._.Th_ID == thid);
+            if (islive != null) wc.And(Course._.Cou_ExistLive == (bool)islive);
+            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+            if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            return Gateway.Default.From<Course>().Where(wc)
+               .OrderBy(Course._.Cou_Tax.Desc).ToList<Course>(count);
+        }
+        /// <summary>
+        /// 获取指定个数的课程列表
+        /// </summary>
         /// <param name="orgid">所在机构id</param>
         /// <param name="sbjid">专业id，等于0取所有</param>
         /// <param name="sear"></param>

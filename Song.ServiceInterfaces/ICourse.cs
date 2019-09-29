@@ -122,6 +122,18 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 获取指定个数的课程列表
         /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="thid">教师id</param>
+        /// <param name="islive">是否有直播课</param>
+        /// <param name="sear"></param>
+        /// <param name="isUse"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        List<Course> CourseCount(int orgid, int sbjid, int thid, bool? islive, string sear, bool? isUse, int count);
+        /// <summary>
+        /// 获取指定个数的课程列表
+        /// </summary>
         /// <param name="orgid">所在机构id</param>
         /// <param name="sbjid">专业id，等于0取所有</param>
         /// <param name="sear"></param>

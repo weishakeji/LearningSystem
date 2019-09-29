@@ -131,13 +131,23 @@ namespace Song.ServiceInterfaces
         ///// <returns></returns>
         //List<Outline> OutlineBuildCache();
         /// <summary>
-        /// 获取指定个数的课程列表
+        /// 获取指定个数的章节列表
         /// </summary>
         /// <param name="couid">所属课程id</param>
         /// <param name="isUse"></param>
         /// <param name="count">取多少条记录，如果小于等于0，则取所有</param>
         /// <returns></returns>
         Outline[] OutlineCount(int couid, string search, bool? isUse, int count);
+        /// <summary>
+        /// 获取指定个数的章节列表
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="islive">是否是直播章节</param>
+        /// <param name="search"></param>
+        /// <param name="isUse"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        Outline[] OutlineCount(int couid, bool? islive, string search, bool? isUse, int count);
         /// <summary>
         /// 取指定数量的章节
         /// </summary>

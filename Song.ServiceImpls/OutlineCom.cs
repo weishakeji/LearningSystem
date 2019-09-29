@@ -667,8 +667,22 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Outline[] OutlineCount(int couid, string search, bool? isUse, int count)
         {
+            return OutlineCount(couid, null, search, isUse, count);
+        }
+        /// <summary>
+        /// 获取指定个数的章节列表
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="islive">是否是直播章节</param>
+        /// <param name="search"></param>
+        /// <param name="isUse"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public Outline[] OutlineCount(int couid, bool? islive, string search, bool? isUse, int count)
+        {
             WhereClip wc = Outline._.Cou_ID == couid;
             if (!string.IsNullOrWhiteSpace(search)) wc.And(Outline._.Ol_Name.Like("%" + search + "%"));
+            if (islive != null) wc.And(Outline._.Ol_IsLive == (bool)islive);
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
             return Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToArray<Outline>(count);
         }
