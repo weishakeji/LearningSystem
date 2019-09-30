@@ -126,9 +126,10 @@ var rvue = new Vue({
             var params = this.getInputPara();
             var http = document.getElementById("httppre").value;
             //语句
-            var str = "$api." + http + "('" + mathd + "'" + (params == "{}" ? "" : "," + params) + ")";
-            str += ".then(function(req)\r{\r\t...\r});";
-            document.getElementById("teststring").innerText = str;
+            var urlstr=window.location.protocol+"//"+window.location.host+"/api/v1/"+mathd;            
+            var jsstr = "$api." + http + "('" + mathd + "'" + (params == "{}" ? "" : "," + params) + ")";
+            jsstr += ".then(function(req)\r{\r\t...\r});";
+            document.getElementById("teststring").innerText = "APIurl："+urlstr.toLowerCase()+"\r"+jsstr;
         },
         //获取录入的参数
         getInputPara: function () {
