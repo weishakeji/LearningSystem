@@ -74,11 +74,14 @@ var rvue = new Vue({
     },
     watch: {
         method: function (n, o) {
-            var ele = document.getElementById("testResult");
-            if (ele != null) ele.firstChild.innerText = "";
+            var ele = document.getElementById("testresult");
+            if (ele != null) ele.innerText = "";
             document.querySelectorAll("#context table input").forEach(function (item) {
                 item.value = "";
             });
+            window.setTimeout(function () {
+                rvue.teststring();
+            }, 200);
         }
     },
     computed: {
@@ -97,15 +100,15 @@ var rvue = new Vue({
             var params = this.getInputPara();
             var http = document.getElementById("httppre").value;
             var rettype = document.getElementById("returntype").value;
-            //
-            $api.query(mathd, params, http, function () {
+            //调用
+            $api.query(mathd, eval("(" + params + ")"), http, function () {
                 rvue.loading = true;
             }, function () {
                 window.setTimeout(function () {
                     rvue.loading = false;
                 }, 500);
             }, rettype).then(function (req) {
-                var ele = document.getElementById("testResult").firstChild;
+                var ele = document.getElementById("testresult");
                 if (req == null) throw { message: '没有获取到返回值，可能是服务器端错误' };
                 if (req.config.returntype == "json")
                     ele.innerText = rvue.jsonformat(unescape(req.text));
@@ -113,9 +116,19 @@ var rvue = new Vue({
                     ele.innerText = rvue.xmlformat(unescape(req.text));
             }).catch(function (ex) {
                 //alert(ex.message);
-                var ele = document.getElementById("testResult").firstChild;
+                var ele = document.getElementById("testResult");
                 ele.innerText = ex.message;
             });
+        },
+        //生成测试代码
+        teststring: function () {
+            var mathd = this.method.ClassName + "/" + this.method.Name;
+            var params = this.getInputPara();
+            var http = document.getElementById("httppre").value;
+            //语句
+            var str = "$api." + http + "('" + mathd + "'" + (params == "{}" ? "" : "," + params) + ")";
+            str += ".then(function(req)\r{\r\t...\r});";
+            document.getElementById("teststring").innerText = str;
         },
         //获取录入的参数
         getInputPara: function () {
@@ -125,13 +138,13 @@ var rvue = new Vue({
                 var val = item.value;
                 arr.push("'" + name + "':'" + val + "'");
             });
-            var txt = "({";
+            var txt = "{";
             for (var i = 0; i < arr.length; i++) {
                 txt += arr[i];
                 if (i < arr.length - 1) txt += ",";
             }
-            txt += "})";
-            return eval(txt);
+            txt += "}";
+            return txt;
         },
         //json字符格式化
         jsonformat: function (json) {

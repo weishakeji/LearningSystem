@@ -48,7 +48,7 @@
                                     <tr v-for="(item,index) in method.Paras">
                                           <td>{{index+1}}</td>
                                           <td>{{item.Name}}</td>
-                                          <td><input type="text" :name="item.Name" /></td>
+                                          <td><input type="text" :name="item.Name" v-on:blur.prevent="teststring()" :datatype="item.Type"/></td>
                                           <td>{{item.Type.substring(item.Type.indexOf('.')+1)}}</td>
                                           <td>{{item.Intro}}</td>
                                     </tr>
@@ -70,7 +70,7 @@
                   </div>
                   <div class="testbox" v-if="method!=null" remark="测试接口">
                         <div class="test-tit">HTTP谓词：
-                              <select id="httppre">
+                              <select id="httppre" v-on:change="teststring()" >
                                     <option value="get">GET</option>
                                     <option value="post">POST</option>
                                     <option value="delete">DELETE</option>
@@ -86,8 +86,11 @@
                               <button type="button" v-on:click="testapi" v-show="!loading">测试</button>
                               <div class="loadbox" v-show='loading'><i class='el-icon-loading' ></i> 加载中...</div>
                         </div>
-                        <div id="testResult">
-                              <pre>查询结果</pre>
+                        <div id="testarea">
+                              
+                              <fieldset><legend>示例代码</legend> <pre id="teststring"></pre></fieldset>
+                              <fieldset><legend>查询结果</legend> <pre id="testresult"></pre></fieldset>
+                             
                         </div>
                   </div>
                   <div v-if="method==null" class="homepage">

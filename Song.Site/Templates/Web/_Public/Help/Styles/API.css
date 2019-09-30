@@ -222,13 +222,13 @@ context {
 .test-tit  button:hover{
     background-color:rgb(166, 228, 163);
 }
-#testResult{
+#testarea{
     width: calc(100% - 60px);
     display: table;
-    padding: 30px;
+    padding: 10px 30px 10px 30px;
     margin: 0px;
 }
-#testResult pre{
+#testarea pre{
     margin: 0px;
     font-size: 16px;
     line-height: 22px;
@@ -237,6 +237,9 @@ context {
     word-wrap: break-word;
     word-break: break-all;
     border:1px solid #ccc;
+}
+#testarea fieldset{
+    margin-bottom: 20px;
 }
 footer {
     height: 30px;
