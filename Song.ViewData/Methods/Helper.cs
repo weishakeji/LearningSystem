@@ -273,23 +273,44 @@ namespace Song.ViewData.Methods
                     .Where(t => t.FullName.StartsWith("Song.ViewData.Attri") && !t.IsAbstract)
                     .OrderBy(c => c.Name).ToArray();        
             }
-            List<object> list = new List<object>();
+            List<WeishaAttr> list = new List<WeishaAttr>();
             foreach (Type att in attrs)
-            {
-                //先验证对象，如果对象需验证，则下面方法全部需要验证登录，除非方法设置了[Admin(Ignore = true)]
+            {               
+                //取类上面的特性
                 object[] attrsObj = method.DeclaringType.GetCustomAttributes(att, true);
-                foreach (object o in attrsObj)
+                for (int i = 0; i < attrsObj.Length; i++)
                 {
-                    if (!list.Contains(o)) list.Add(o);
-                }               
-                //再验证方法
+                    WeishaAttr attr = attrsObj[i] as WeishaAttr;
+                    if (list.Contains(attr))
+                    {
+                        if (attr.Ignore) list[i].Ignore = true;
+                    }
+                    else
+                    {
+                        list.Add(attr);
+                    }
+                }                             
+                //取方法上的特性
                 object[] attrsMethod = method.GetCustomAttributes(att, true);
-                foreach (object o in attrsMethod)
+                for (int i = 0; i < attrsMethod.Length; i++)
                 {
-                    if (!list.Contains(o)) list.Add(o);
-                }
+                    WeishaAttr attr = attrsMethod[i] as WeishaAttr;
+                    if (list.Contains(attr))
+                    {
+                        if (attr.Ignore) list[i].Ignore = true;
+                    }
+                    else
+                    {
+                        list.Add(attr);
+                    }
+                }   
             }
-            //
+            //ignore为true的全部移除
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].Ignore) list.RemoveAt(i);
+            }
+            //去除Attribute
             Helper_API_Method_Attr[] arr = new Helper_API_Method_Attr[list.Count];
             for (int i = 0; i < arr.Length; i++)
             {
