@@ -25,7 +25,7 @@ namespace Song.ViewData.Methods
         /// <remarks>为了安全，返回的对象密码不显示</remarks>
         /// <param name="id"></param>
         /// <returns>学员账户的映射对象</returns>
-        [HttpGet(IsAllow = false)]        
+        [HttpGet(Ignore = true)]        
         public Song.Entities.Accounts ForID(int id)
         {
             Song.Entities.Accounts acc= Business.Do<IAccounts>().AccountsSingle(id);

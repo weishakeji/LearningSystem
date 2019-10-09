@@ -24,6 +24,11 @@ namespace Song.ViewData.Methods
         /// 接口方法列表
         /// </summary>
         /// <returns></returns>
+        [HttpGet,HttpPost]
+        [TV,Web]
+        [Domain,Localhost(Ignore=true)]
+        [Student,Teacher]
+        [Study]
         public Helper_API[] List()
         {
             List<Helper_API> list = new List<Helper_API>();
@@ -66,8 +71,8 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         /// <remarks>备注信息</remarks>
         /// <example><![CDATA[
-        /// 示例，写个代码试试
-        ///  XmlNodeList nodes = null;
+        /// 
+        ///  
         /// ]]></example>
         /// <exception cref="System.Exception">异常</exception>
         public Helper_API_Method[] Methods(string classname)
@@ -296,7 +301,6 @@ namespace Song.ViewData.Methods
                 {
                     arr[i].Ignore = ((WeishaAttr)list[i]).Ignore;
                 }
-                //arr[i].Ignore = list[i].
             }            
             return arr;
         }

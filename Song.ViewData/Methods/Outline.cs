@@ -37,7 +37,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">所属课程的id</param>
         /// <param name="pid">上级id</param>
         /// <returns></returns>
-        [HttpGet(IsAllow = false)]
+        [HttpGet(Ignore = true)]
         public Song.Entities.Outline[] List(int couid, int pid)
         {
             return Business.Do<IOutline>().OutlineCount(couid, pid, true, 0);

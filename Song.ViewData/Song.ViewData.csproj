@@ -58,14 +58,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attri\Client\MobileAttribute.cs" />
+    <Compile Include="Attri\Client\WebAttribute.cs" />
+    <Compile Include="Attri\Client\DesktopAttribute.cs" />
+    <Compile Include="Attri\Client\WeixinAttribute.cs" />
+    <Compile Include="Attri\Client\TVAttribute.cs" />
     <Compile Include="Attri\Domain\DomainAttribute.cs" />
+    <Compile Include="Attri\Domain\LocalhostAttribute.cs" />
+    <Compile Include="Attri\Domain\IntranetAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpPostAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpDeleteAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpPutAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpPatchAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpOptionsAttribute.cs" />
     <Compile Include="Attri\Login\AdminAttribute.cs" />
     <Compile Include="Attri\HttpVerb\HttpGetAttribute.cs" />
     <Compile Include="Attri\Login\StudentAttribute.cs" />
     <Compile Include="Attri\Login\TeacherAttribute.cs" />
-    <Compile Include="Attri\Login\LoginAttribute.cs" />
+    <Compile Include="Attri\Login\_LoginAttribute.cs" />
     <Compile Include="Attri\Purview\PurviewAttribute.cs" />
     <Compile Include="Attri\Purview\StudyAttribute.cs" />
+    <Compile Include="Attri\Purview\BuyAttribute.cs" />
     <Compile Include="Attri\WeishaAttr.cs" />
     <Compile Include="DataResult.cs" />
     <Compile Include="ExecuteMethod.cs" />
@@ -103,7 +116,6 @@
       <Name>Song.ServiceInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

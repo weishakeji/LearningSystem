@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Song.ViewData.Attri
 {
-    /// <summary>
-    /// 学员能够学习当前课程，才能使用的方法
-    /// </summary>
-    public class StudyAttribute : PurviewAttribute
+    public class HttpPostAttribute : WebAttribute
     {
-
+       
     }
 }

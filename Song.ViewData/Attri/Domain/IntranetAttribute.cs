@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Song.ViewData.Attri
 {
     /// <summary>
-    /// 限制请求必须来自根域
+    /// 限制请求必须来局域网
     /// </summary>
-    public class DomainAttribute : WeishaAttr
+    public class IntranetAttribute : WeishaAttr
     {        
         /// <summary>
         /// 将执行结果写入日志
