@@ -86,17 +86,11 @@ namespace Song.ViewData
             //2.获取要执行的方法，即$api.get("account/single")中的single
             MethodInfo method = getMethod(execObj.GetType(), letter);
             //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限    
-            //验证是否需要管理员登录
-            LoginAttribute loginattr = null;
-            loginattr = LoginAttribute.AuthenticateLoginControl<AdminAttribute>(execObj, method);
-            if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
-                throw new Exception("当前方法需要管理员登录后操作");
-            loginattr = LoginAttribute.AuthenticateLoginControl<StudentAttribute>(execObj, method);
-            if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
-                throw new Exception("当前方法需要学员账户登录后操作");
-            loginattr = LoginAttribute.AuthenticateLoginControl<TeacherAttribute>(execObj, method);
-            if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
-                throw new Exception("当前方法需要教师账号登录后操作");
+            //----验证Http谓词访问限制
+            HttpAttribute.Verify(letter.HTTP_METHOD, execObj, method);
+            //----验证是否需要登录
+            LoginAttribute loginattr = LoginAttribute.Verify(execObj, method); 
+
             //4.构建执行该方法所需要的参数
             object[] parameters = getInvokeParam(method, letter);
             //5.执行方法，返回结果

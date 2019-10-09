@@ -18,17 +18,14 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 接口方法的帮助
     /// </summary> 
+    [HttpGet]
     public class Helper : IViewAPI
     {
         /// <summary>
         /// 接口方法列表
         /// </summary>
         /// <returns></returns>
-        [HttpGet,HttpPost]
-        [TV,Web]
-        [Domain,Localhost(Ignore=true)]
-        [Student,Teacher]
-        [Study]
+        [HttpPost]
         public Helper_API[] List()
         {
             List<Helper_API> list = new List<Helper_API>();
@@ -75,6 +72,7 @@ namespace Song.ViewData.Methods
         ///  
         /// ]]></example>
         /// <exception cref="System.Exception">异常</exception>
+        [HttpGet]
         public Helper_API_Method[] Methods(string classname)
         {
             string assemblyName = "Song.ViewData";

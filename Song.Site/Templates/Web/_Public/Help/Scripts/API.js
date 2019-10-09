@@ -14,6 +14,8 @@
         $api.get("helper/List").then(function (req) {
             if (req.data.success) {
                 th.arr = req.data.result;
+            }else{
+                alert(req.data.message);
             }
         });
     }

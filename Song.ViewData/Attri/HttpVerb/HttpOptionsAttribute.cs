@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Song.ViewData.Attri
 {
-    public class HttpOptionsAttribute : WebAttribute
+    public class HttpOptionsAttribute : HttpAttribute
     {
        
     }

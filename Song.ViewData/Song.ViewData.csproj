@@ -71,11 +71,12 @@
     <Compile Include="Attri\HttpVerb\HttpPutAttribute.cs" />
     <Compile Include="Attri\HttpVerb\HttpPatchAttribute.cs" />
     <Compile Include="Attri\HttpVerb\HttpOptionsAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpAttribute.cs" />
     <Compile Include="Attri\Login\AdminAttribute.cs" />
     <Compile Include="Attri\HttpVerb\HttpGetAttribute.cs" />
     <Compile Include="Attri\Login\StudentAttribute.cs" />
     <Compile Include="Attri\Login\TeacherAttribute.cs" />
-    <Compile Include="Attri\Login\_LoginAttribute.cs" />
+    <Compile Include="Attri\Login\LoginAttribute.cs" />
     <Compile Include="Attri\Purview\PurviewAttribute.cs" />
     <Compile Include="Attri\Purview\StudyAttribute.cs" />
     <Compile Include="Attri\Purview\BuyAttribute.cs" />

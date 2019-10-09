@@ -38,7 +38,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <remarks>登录状态通过cookies或session保持</remarks>
         /// <returns></returns>
-        [Attri.Student(Ignore=true)]
+        [Student]
         public Song.Entities.Accounts Current()
         {
             Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;

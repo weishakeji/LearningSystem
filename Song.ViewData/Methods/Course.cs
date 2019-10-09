@@ -15,6 +15,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 课程管理
     /// </summary>
+    [HttpGet]
     public class Course : IViewAPI
     {
         [HttpGet(Ignore = true)]
