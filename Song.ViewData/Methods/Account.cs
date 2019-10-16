@@ -25,7 +25,6 @@ namespace Song.ViewData.Methods
         /// <remarks>为了安全，返回的对象密码不显示</remarks>
         /// <param name="id"></param>
         /// <returns>学员账户的映射对象</returns>    
-        [Anywhere]
         public Song.Entities.Accounts ForID(int id)
         {
             Song.Entities.Accounts acc= Business.Do<IAccounts>().AccountsSingle(id);
@@ -39,7 +38,6 @@ namespace Song.ViewData.Methods
         /// <remarks>登录状态通过cookies或session保持</remarks>
         /// <returns></returns>
         [Student]
-        [Domain]
         public Song.Entities.Accounts Current()
         {
             Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;

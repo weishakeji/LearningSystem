@@ -38,16 +38,17 @@ namespace Song.ViewData.Attri
         /// <returns></returns>
         public static LoginAttribute Verify(MemberInfo method)
         {
+            string msg = string.Format("当前方法 {0}.{1} 需要", method.DeclaringType.Name, method.Name);
             LoginAttribute loginattr = null;
             loginattr = LoginAttribute.GetAttr<AdminAttribute>(method);
             if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
-                throw new Exception("当前方法需要管理员登录后操作");
+                throw new Exception(msg+"管理员登录后操作");
             loginattr = LoginAttribute.GetAttr<StudentAttribute>(method);
             if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
-                throw new Exception("当前方法需要学员账户登录后操作");
+                throw new Exception(msg + "学员账户登录后操作");
             loginattr = LoginAttribute.GetAttr<TeacherAttribute>(method);
             if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
-                throw new Exception("当前方法需要教师账号登录后操作");
+                throw new Exception(msg + "教师账号登录后操作");
             return loginattr;
         }
     }
