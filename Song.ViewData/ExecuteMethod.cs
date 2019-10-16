@@ -87,9 +87,12 @@ namespace Song.ViewData
             MethodInfo method = getMethod(execObj.GetType(), letter);
             //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限    
             //----验证Http谓词访问限制
-            HttpAttribute.Verify(letter.HTTP_METHOD, execObj, method);
+            HttpAttribute.Verify(letter.HTTP_METHOD, method);
+            //----范围控制，本机或局域网，或同域
+            bool isRange = RangeAttribute.Verify(letter, method);
             //----验证是否需要登录
-            LoginAttribute loginattr = LoginAttribute.Verify(execObj, method); 
+            LoginAttribute loginattr = LoginAttribute.Verify(method); 
+            
 
             //4.构建执行该方法所需要的参数
             object[] parameters = getInvokeParam(method, letter);

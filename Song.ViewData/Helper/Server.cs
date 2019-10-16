@@ -108,6 +108,24 @@ namespace Song.ViewData
             }
         }
         /// <summary>
+        /// db.config中配置的根域
+        /// </summary>
+        public string RootDomain
+        {
+            get
+            {
+                try
+                {
+                    return WeiSha.Common.Server.RootDomain;
+                }
+                catch
+                {
+                    return "";
+                }
+                return "";
+            }
+        }
+        /// <summary>
         /// 站点的访问域名带端口，如:http://www.xx.com/
         /// </summary>
         /// <returns></returns>

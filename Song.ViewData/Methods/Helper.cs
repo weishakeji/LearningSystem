@@ -260,19 +260,11 @@ namespace Song.ViewData.Methods
     {
         public string Name { get; set; }     //特性名称
         public bool Ignore { get; set; }    
-        //所有特性
-        private static Type[] attrs = null;
+        
         public static Helper_API_Method_Attr[] GetAttrs(MethodInfo method)
         {
-            //如果是第一次运行
-            if (attrs == null)
-            {
-                string assemblyName = "Song.ViewData";
-                Assembly assembly = Assembly.Load(assemblyName);
-                attrs = assembly.GetExportedTypes()
-                    .Where(t => t.FullName.StartsWith("Song.ViewData.Attri") && !t.IsAbstract)
-                    .OrderBy(c => c.Name).ToArray();        
-            }
+            //所有特性
+            Type[] attrs = WebAttribute.Initialization();
             List<WeishaAttr> list = new List<WeishaAttr>();
             foreach (Type att in attrs)
             {               

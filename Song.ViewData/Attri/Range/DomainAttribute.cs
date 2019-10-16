@@ -9,15 +9,8 @@ namespace Song.ViewData.Attri
     /// <summary>
     /// 限制请求必须来自根域
     /// </summary>
-    public class DomainAttribute : WeishaAttr
+    public class DomainAttribute : RangeAttribute
     {        
-        /// <summary>
-        /// 将执行结果写入日志
-        /// </summary>
-        /// <param name="execResult"></param>
-        public void LogWrite(object execResult)
-        {
-
-        }
+       
     }
 }

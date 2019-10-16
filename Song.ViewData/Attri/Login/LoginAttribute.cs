@@ -34,19 +34,18 @@ namespace Song.ViewData.Attri
         /// <summary>
         /// 验证是否满足特性的限定
         /// </summary>
-        /// <param name="execObj">执行的对象</param>
         /// <param name="method">执行的方法</param>
         /// <returns></returns>
-        public static LoginAttribute Verify(object execObj, MemberInfo method)
+        public static LoginAttribute Verify(MemberInfo method)
         {
             LoginAttribute loginattr = null;
-            loginattr = LoginAttribute.AuthenticateLoginControl<AdminAttribute>(execObj, method);
+            loginattr = LoginAttribute.GetAttr<AdminAttribute>(method);
             if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
                 throw new Exception("当前方法需要管理员登录后操作");
-            loginattr = LoginAttribute.AuthenticateLoginControl<StudentAttribute>(execObj, method);
+            loginattr = LoginAttribute.GetAttr<StudentAttribute>(method);
             if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
                 throw new Exception("当前方法需要学员账户登录后操作");
-            loginattr = LoginAttribute.AuthenticateLoginControl<TeacherAttribute>(execObj, method);
+            loginattr = LoginAttribute.GetAttr<TeacherAttribute>(method);
             if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
                 throw new Exception("当前方法需要教师账号登录后操作");
             return loginattr;

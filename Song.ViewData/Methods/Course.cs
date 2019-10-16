@@ -18,7 +18,7 @@ namespace Song.ViewData.Methods
     [HttpGet]
     public class Course : IViewAPI
     {
-        [HttpGet(Ignore = true)]
+        
         public Song.Entities.Course ForID(int id)
         {
             return Business.Do<ICourse>().CourseSingle(id);

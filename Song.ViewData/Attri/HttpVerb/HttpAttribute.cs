@@ -12,26 +12,17 @@ namespace Song.ViewData.Attri
     /// </summary>
     public class HttpAttribute : WebAttribute
     {
-        //所有特性
-        private static Type[] attrs = null;
+       
         /// <summary>
         /// 验证是否满足特性的限定
         /// </summary>
         /// <param name="httpmethod">http请求方法，即谓词</param>
-        /// <param name="execObj">执行的对象</param>
         /// <param name="method">执行的方法</param>
         /// <returns></returns>
-        public static HttpAttribute Verify(string httpmethod, object execObj, MemberInfo method)
+        public static HttpAttribute Verify(string httpmethod, MemberInfo method)
         {
             //如果是第一次运行，获取所有特性
-            if (attrs == null)
-            {
-                string assemblyName = "Song.ViewData";
-                Assembly assembly = Assembly.Load(assemblyName);
-                attrs = assembly.GetExportedTypes()
-                    .Where(t => t.FullName.StartsWith("Song.ViewData.Attri") && !t.IsAbstract)
-                    .OrderBy(c => c.Name).ToArray();
-            }
+            Type[] attrs = Initialization();
             //通过http请求的谓词，获取需要验证的特性
             string httpattrname = string.Format("http{0}Attribute", httpmethod);
             Type type = null;
@@ -46,7 +37,7 @@ namespace Song.ViewData.Attri
             //验证特性
             HttpAttribute attr = null;
             //先验证对象，如果对象需验证，则下面方法全部需要验证登录，除非方法设置了[(Ignore = true)]
-            object[] attrsObj = execObj.GetType().GetCustomAttributes(type, true);
+            object[] attrsObj = method.DeclaringType.GetCustomAttributes(type, true);
             if (attrsObj.Length > 0) attr = attrsObj[0] as HttpAttribute;
             //再验证方法
             object[] attrsMethod = method.GetCustomAttributes(type, true);
