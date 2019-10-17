@@ -20,6 +20,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 章节管理
     /// </summary>
+    [HttpGet]
     public class Outline : IViewAPI
     {
         /// <summary>

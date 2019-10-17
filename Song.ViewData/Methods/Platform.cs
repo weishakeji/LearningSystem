@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Song.ServiceInterfaces;
 using WeiSha.Common;
+using Song.ViewData.Attri;
 
 namespace Song.ViewData.Methods
 {
     /// <summary>
     /// 平台信息
     /// </summary>
+    [HttpGet]
     public class Platform:IViewAPI
     {
         /// <summary>

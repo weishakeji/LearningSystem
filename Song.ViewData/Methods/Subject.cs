@@ -15,9 +15,14 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 专业管理
     /// </summary>
+    [HttpGet]
     public class Subject : IViewAPI
     {
-        [HttpGet(Ignore = true)]
+        /// <summary>
+        /// 通过专业ID，获取专业信息
+        /// </summary>
+        /// <param name="id">专业id</param>
+        /// <returns></returns>
         public Song.Entities.Subject ForID(int id)
         {
             return Business.Do<ISubject>().SubjectSingle(id);

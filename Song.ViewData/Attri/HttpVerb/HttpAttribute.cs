@@ -21,6 +21,10 @@ namespace Song.ViewData.Attri
         /// <returns></returns>
         public static HttpAttribute Verify(string httpmethod, MemberInfo method)
         {
+            //如果方法没有设置任何HTTP限制，则不验证
+            List<HttpAttribute> https = WeishaAttr.GetAttrs<HttpAttribute>(method);
+            if (https.Count < 1) return null;
+
             //如果是第一次运行，获取所有特性
             Type[] attrs = Initialization();
             //通过http请求的谓词，获取需要验证的特性

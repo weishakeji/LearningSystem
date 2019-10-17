@@ -17,6 +17,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 教师账号的相关操作
     /// </summary> 
+    [HttpGet]
     public class Teacher : IViewAPI
     {
         
