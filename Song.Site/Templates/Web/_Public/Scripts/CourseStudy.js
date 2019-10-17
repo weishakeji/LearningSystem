@@ -109,7 +109,7 @@
                             if (acc.data.success) {
                                 vdata.access = acc.data.result;
                             } else {
-                                alert("附件信息加载错误！详情：\r"+acc.data.message);
+                                alert("附件信息加载异常！详情：\r" + acc.data.message);
                             }
                         });
                     }
@@ -119,13 +119,13 @@
                             if (req.data.success) {
                                 vdata.events = req.data.result;
                             } else {
-                                alert("视频事件加载失败！详情：\r"+req.data.message);
+                                alert("视频事件加载失败！详情：\r" + req.data.message);
                             }
                         });
                     }
                 } else {
-                    if (!ol.data.success) alert("章节信息加载错误！详情：\r"+ol.data.message);
-                    if (!state.data.success) alert("章节状态加载错误！详情：\r"+state.data.message);
+                    if (!ol.data.success) alert("章节信息加载异常！详情：\r" + ol.data.message);
+                    if (!state.data.success) alert("章节状态加载异常！详情：\r" + state.data.message);
                 }
             }));
             //获取留言列表
@@ -309,6 +309,8 @@
                 if (d.success) {
                     document.getElementById("messageinput").value = '';
                     vdata.msgGet();
+                }else{
+                    alert("信息添加发生异常！详情：\r" + d.message);
                 }
             });
         },
@@ -316,11 +318,15 @@
         msgGet: function () {
             $api.post("message/All", { olid: vdata.olid }).then(function (req) {
                 var d = req.data;
-                if (d.success) vdata.messages = d.result;
-                window.setTimeout(function () {
-                    var dl = document.getElementById("chatlistdl");
-                    document.getElementById("chatlist").scrollTop = dl.offsetHeight;
-                }, 1000);
+                if (d.success) {
+                vdata.messages = d.result;
+                    window.setTimeout(function () {
+                        var dl = document.getElementById("chatlistdl");
+                        document.getElementById("chatlist").scrollTop = dl.offsetHeight;
+                    }, 1000);
+                }else{
+                    alert("留言信息加载异常！详情：\r" + d.message);
+                }
             });
         }
     },
@@ -334,18 +340,18 @@
                     if (vdata.olid == '') vdata.olid = ol.data.result[0].Ol_ID;
                     vdata.outlineClick(vdata.olid, null);
                     vdata.course = cur.data.result;
-                    document.title = vdata.course.Cou_Name; 
+                    document.title = vdata.course.Cou_Name;
                     $api.get("Subject/ForID", { id: vdata.course.Sbj_ID }).then(function (subject) {
                         if (subject.data.success) {
                             vdata.subject = subject.data.result;
                         } else {
-                            if (!subject.data.success) alert("课程所属专业加载错误！详情：\r"+subject.data.message);
+                            if (!subject.data.success) alert("课程所属专业加载异常！详情：\r" + subject.data.message);
                         }
                     });
                     vdata.msgGet();
                 } else {
-                    if (!ol.data.success) alert("章节列表加载错误！详情：\r"+ol.data.message);
-                    if (!cur.data.success) alert("课程信息加载错误！详情：\r"+cur.data.message);
+                    if (!ol.data.success) alert("章节列表加载异常！详情：\r" + ol.data.message);
+                    if (!cur.data.success) alert("课程信息加载异常！详情：\r" + cur.data.message);
                 }
             }));
         //当前登录学员
