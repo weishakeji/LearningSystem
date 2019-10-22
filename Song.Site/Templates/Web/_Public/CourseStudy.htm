@@ -116,7 +116,7 @@
                               <div :class="'olitem '+(d.Ol_IsVideo ? 'li-video ' : '')+(d.Ol_ID==olid ? 'current ' : '')+(d.Ol_IsLive ? 'li-live ' : '')"
                                     :isvideo="d.Ol_IsVideo" :olid="d.Ol_ID"
                                     :style="'padding-left:'+(d.Ol_Level*15+5)+'px'">
-                                    <template v-if="state.isBuy || d.Ol_IsFree" remark="如果购买，或可以试学">
+                                    <template v-if="state.isBuy || d.Ol_IsFree || course.Cou_IsFree" remark="如果购买，或可以试学">
                                           <a :href="'CourseStudy.ashx?olid='+d.Ol_ID+'&couid='+couid"
                                                 v-if="d.Ol_IsFinish"
                                                 v-on:click="outlineClick(d.Ol_ID,$event)">{{d.Ol_XPath}}{{d.Ol_Name}}
