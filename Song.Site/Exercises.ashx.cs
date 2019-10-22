@@ -29,6 +29,7 @@ namespace Song.Site
         Song.Entities.Questions[] collectQues = null;
         protected override void InitPageTemplate(HttpContext context)
         {
+            if (olid < 1) return;
             //登录且学员必须通过审核
             if (!(Extend.LoginState.Accounts.IsLogin && Extend.LoginState.Accounts.CurrentUser.Ac_IsPass))
             {

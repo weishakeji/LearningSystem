@@ -937,6 +937,7 @@
     <Content Include="Templates\Mobi\Default2019\_self.xml" />
     <Content Include="Templates\Mobi\Default2019\MyFriends.htm" />
     <Content Include="Templates\Mobi\Default2019\QuesExercisesItems.htm" />
+    <Content Include="Templates\Mobi\Default2019\CourseStudy_.htm" />
     <Content Include="Templates\Mobi\_Public\ExamReview.htm" />
     <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
     <Content Include="Templates\Mobi\_Public\Images\live-icon.gif" />

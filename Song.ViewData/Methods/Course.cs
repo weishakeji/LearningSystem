@@ -33,6 +33,7 @@ namespace Song.ViewData.Methods
         /// <param name="totalTime">视频总时长，单位：秒</param>
         /// <returns></returns>
         [Student]
+        [HttpPost]
         public double StudyLog(int couid, int olid, int playTime, int studyTime, int totalTime)
         {
             //当前学员

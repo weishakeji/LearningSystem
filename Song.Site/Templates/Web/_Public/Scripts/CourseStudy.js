@@ -1,4 +1,5 @@
-﻿var vdata = new Vue({
+﻿var couid=$api.querystring("couid");
+var vdata = new Vue({
     data: {
         //数据实体
         account: {},         //当前账号信息
@@ -25,7 +26,7 @@
         olid: $api.querystring("olid"),
         median: false,     //分隔线折叠状态
         titState: 'loading',        //左侧选项卡的状态
-        rightState: 'chat',       //右侧选项卡状态，章节outline,交流chat
+        rightState: 'outline',       //右侧选项卡状态，章节outline,交流chat
         outlineLoaded: false,         //右侧章节列表加载中
         studylogUpdate: false,           //学习记录是否在递交中
         studylogState: 0,            //学习记录提交状态，1为成功，-1为失败
@@ -188,8 +189,8 @@
             //隐藏设置按钮(播放倍速也禁用了)
             var setbtn = document.getElementsByClassName("qplayer-settings-btn");
             for (var i = 0; i < setbtn.length; i++) {
-                setbtn[i].style.display = "none";
-            }
+                //setbtn[i].style.display = "none";
+            }            
         },
         //视频播放跳转
         videoSeek: function (second) {
@@ -211,12 +212,14 @@
                 }, function () {
                     vdata.studylogUpdate = false;
                 }).then(function (req) {
+                    if (!req.data.success) throw req.data.message;
                     vdata.studylogState = 1;
                     window.setTimeout(function () {
                         vdata.studylogState = 0;
                     }, 2000);
                 }).catch(function (err) {
                     vdata.studylogState = -1;
+                    //alert(err);
                     window.setTimeout(function () {
                         vdata.studylogState = 0;
                     }, 2000);
@@ -309,36 +312,44 @@
                 if (d.success) {
                     document.getElementById("messageinput").value = '';
                     vdata.msgGet();
-                }else{
+                } else {
                     alert("信息添加发生异常！详情：\r" + d.message);
                 }
             });
         },
         //获取当前章节的留言信息
         msgGet: function () {
+            if (!vdata.olid || vdata.olid < 1) return;
             $api.post("message/All", { olid: vdata.olid }).then(function (req) {
                 var d = req.data;
                 if (d.success) {
-                vdata.messages = d.result;
+                    vdata.messages = d.result;
                     window.setTimeout(function () {
                         var dl = document.getElementById("chatlistdl");
                         document.getElementById("chatlist").scrollTop = dl.offsetHeight;
                     }, 1000);
-                }else{
-                    alert("留言信息加载异常！详情：\r" + d.message);
+                } else {
+                    throw "留言信息加载异常！详情：\r" + d.message;
                 }
+            }).catch(function (err) {
+                alert(err);
             });
-        }
-    },
-    created: function () {
-        var couid = $api.querystring("couid");
-        $api.all(
-            $api.get("Outline/tree", { couid: couid }),
-            $api.get("Course/ForID", { id: couid })).then(axios.spread(function (ol, cur) {
-                if (ol.data.success && cur.data.success) {
+        },
+        init: function () {
+            var couid = $api.querystring("couid");
+            $api.post("Outline/tree", { couid: couid }).then(function (ol) {
+                if (ol.data.success) {
                     vdata.outlines = ol.data.result;
                     if (vdata.olid == '') vdata.olid = ol.data.result[0].Ol_ID;
                     vdata.outlineClick(vdata.olid, null);
+                } else {
+                    throw "章节列表加载异常！详情：\r" + ol.data.message
+                }
+            }).catch(function (err) {
+                alert(err);
+            });
+            $api.get("Course/ForID", { id: couid }).then(function (cur) {
+                if (cur.data.success) {
                     vdata.course = cur.data.result;
                     document.title = vdata.course.Cou_Name;
                     $api.get("Subject/ForID", { id: vdata.course.Sbj_ID }).then(function (subject) {
@@ -350,18 +361,24 @@
                     });
                     vdata.msgGet();
                 } else {
-                    if (!ol.data.success) alert("章节列表加载异常！详情：\r" + ol.data.message);
-                    if (!cur.data.success) alert("课程信息加载异常！详情：\r" + cur.data.message);
+                    throw "课程信息加载异常！详情：\r" + ol.data.message
                 }
-            }));
-        //当前登录学员
-        $api.get("Account/Current", {}, null, null).then(function (req) {
-            if (req.data.success) {
-                vdata.account = req.data.result;
-            }
-        });
-        //定时刷新（加载）咨询留言
-        window.setInterval('vdata.msgGet()', 1000 * 10);
+            }).catch(function (err) {
+                alert(err);
+            });
+    
+            //当前登录学员
+            $api.get("Account/Current", {}, null, null).then(function (req) {
+                if (req.data.success) {
+                    vdata.account = req.data.result;
+                }
+            });
+            //定时刷新（加载）咨询留言
+            window.setInterval('vdata.msgGet()', 1000 * 15);
+        }
+    },
+    created: function () {
+        
     },
     mounted: function () {
         //视频上面的漂浮信息（学员姓名和电话），防录屏
@@ -383,11 +400,15 @@
             acc.style.left = (left < 0 ? 0 : (left > acc.parentNode.offsetWidth - acc.offsetWidth ? acc.parentNode.offsetWidth - acc.offsetWidth : left + window.accleft)) + "px";
 
         }, 200);
+        
     },
 
 });
 vdata.$mount('#body');
-/*
+window.onload=function(){
+    this.vdata.init();
+}
+
 window.onblur = function () {
     if (vdata.playready()) {
         vdata.player.pause();
@@ -398,7 +419,7 @@ window.onfocus = function () {
         vdata.titState == 'existVideo' ? vdata.player.play() : vdata.player.pause();
     }
 }
-*/
+
 
 //全局过滤器，日期格式化
 Vue.filter('date', function (value, fmt) {

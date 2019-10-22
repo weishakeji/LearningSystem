@@ -49,11 +49,13 @@
 }
 div {
 }
-#videobox {
+.videobox {
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	z-index: 1;
+	width: 100%;
+	height: calc(100vw*9/16);
 }
 .intro-box {
 }
@@ -135,15 +137,25 @@ div {
 	font-weight: normal;
 }
 /*学习内容与附件的区域*/
-.context-box {
+#context-box {
 	overflow: hidden;
-	position: relative;
-}
-.context-box-inner {
 	position: absolute;
+	width: 100%;
+	height: calc(100% - 50px);
+}
+#context-box>div{
+	width: 100%;
+	height: 100%;
+	--position: absolute;
+	float: left;
+}
+#context-box .mui-card{
+	height: calc(100% - 20px);
+	width: calc(100% - 20px);
 }
 .mui-card-content {
 	overflow: auto !important;
+	height: calc(100% - 20px);
 }
 .mui-card-content {
 
@@ -313,12 +325,21 @@ video::-webkit-media-controls-panel {
 	font-weight: normal;
 }
 /*视频章节的图标*/
-.study-menu .li-video a:before {
+.study-menu li[isvideo=True] a:before {
 	content: "\e66c";
 	font-family: iconfont;
 	margin-right: 5px;
 	font-size: 16px;
 	font-weight: normal;
+}
+/*直播章节的图标*/
+.study-menu li[islive=True] a:before {
+	content: "";
+    background-image: url(../Images/live-icon.gif);
+    background-repeat: no-repeat;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
 }
 /*当前章节*/
 .study-menu .current {

@@ -21,6 +21,9 @@ namespace Song.Site.API
 
             context.Response.ContentType = "text/plain";
             string resultTxt = "xml".Equals(p.ReturnType, StringComparison.CurrentCultureIgnoreCase) ? result.ToXml() : result.ToJson();
+            //如果操作失败，则返回自定义状态码
+            //if (!result.Success)
+            //    context.Response.StatusCode = 405;
             context.Response.Write(resultTxt);
             context.Response.End();
         }

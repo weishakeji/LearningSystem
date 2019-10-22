@@ -15,7 +15,7 @@
         <vt:if var="outlines.Length" value="0" compare=">">
           <vt:foreach from="$olTree" item="d" index="i" remark="章节">
             <vt:expression var="r" args="$d.ol_level" args="10" expression="{0}*{1}" />
-            <li isvideo="{$:#.d.Ol_IsVideo}" class="mui-table-view-cell outline" olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
+            <li isvideo="{$:#.d.Ol_IsVideo}" islive="{$:#.d.Ol_IsLive}" class="mui-table-view-cell outline" olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
               <vt:if var="d.ol_isfinish" value="false" compare="="  remark="是否完结"> <a type="nofinish" class="noselect">{$:#.d.ol_name}</a><span class="mui-badge">未完</span>
                 <vt:else />
                 <vt:if var="isBuy" value="true" compare="="  remark="是否购买"> <a href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}" class="mui-navigate-right">{$:#.d.ol_name} </a>
@@ -86,11 +86,12 @@
         var xpath = $(this).attr("xpath");
         $(this).find("a").html("<span class='tax'>" + xpath + "</span>" + $(this).find("a").html());
     });
-	//是否有视频
+	/*//是否有视频
 	$(".outline").each(function () {
 		var isvideo=$(this).attr("isvideo");
 		if(isvideo=="True")$(this).addClass("li-video");
 	});
+    */
 	//当前章节的样式
 	$(".outline").each(function () {
 		var olid = $("body").attr("olid");	//当前章节id

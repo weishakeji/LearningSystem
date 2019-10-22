@@ -173,13 +173,14 @@ video::-webkit-media-controls-panel {
 #videoinfo {
 	position: absolute;
 	z-index: 11;
-	color: #fff;
+	color: #999;
 	width: calc(100% - 160px);
 	height: 30px;
 	font-size: 12px;
 	line-height: 30px;
 	bottom: 0px;
-	padding-left: 160px;
+	width:auto;
+	margin-left: 150px;
 	text-align: left;
 }
 /*视频上漂浮的学员姓名和电话*/

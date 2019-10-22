@@ -292,11 +292,13 @@
                         if (typeof (response.data.result) == 'string') {
                             try {
                                 response.data.result = eval("(" + response.data.result + ")");
-                            } catch{ }
+                            } catch(err){
+                                alert(err);
+                             }
                         }
                         response.data.result = methods.unescape(response.data.result);
                     }
-                }               
+                } 
                 //执行加载完成后的方法
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loaded != null) loaded(response, null);

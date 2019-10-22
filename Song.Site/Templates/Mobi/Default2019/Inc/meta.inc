@@ -15,6 +15,11 @@
 <script type="text/javascript" src="../CoreScripts/Extend.js?ver={$version}"></script>
 <script type="text/javascript" src="../CoreScripts/Base64.js?ver={$version}"></script>
 <script type="text/javascript" src="../CoreScripts/PageBox.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/polyfill.min.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/axios_min.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/vue_min.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/CoreScripts/api.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utility/ElementUi/index.js?ver={$version}"></script>
 <!--核心Css文件-->
 
 <link rel="stylesheet" href="../CoreStyles/mui.min.css?ver={$version}"/>
@@ -22,7 +27,6 @@
 <link rel="stylesheet" href="../CoreStyles/PageBox.css?ver={$version}"/>
 <!--APICloud的接口文件，当用apicloud打包app时，需要用到-->
 <script src="../APICloud/common.js?ver={$version}"></script>
-<script src="../APICloud/api.js?ver={$version}"></script>
 <script src="../APICloud/dataSource.js?ver={$version}"></script>
 <!--公共的Js文件-->
 <script type="text/javascript" src="../CoreScripts/public.js?ver={$version}"></script>

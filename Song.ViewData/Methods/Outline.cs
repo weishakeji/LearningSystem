@@ -28,6 +28,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpGet]
         public Song.Entities.Outline ForID(int id)
         {
             return Business.Do<IOutline>().OutlineSingle(id);
@@ -49,17 +50,22 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="couid">所属课程的id</param>
         /// <returns></returns>
+        [HttpGet,HttpPost]
         public DataTable Tree(int couid)
         {
             // 当前课程的所有章节            
             Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
-            foreach (Song.Entities.Outline ol in outlines)
+            if (outlines.Length > 0)
             {
-                ol.Ol_Intro = string.Empty;
+                foreach (Song.Entities.Outline ol in outlines)
+                {
+                    ol.Ol_Intro = string.Empty;
+                }
+                //树形章节输出
+                DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
+                return dt;
             }
-            //树形章节输出
-            DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
-            return dt;
+            return null;
         }
         /// <summary>
         /// 章节附件

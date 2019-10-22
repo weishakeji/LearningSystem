@@ -3,15 +3,9 @@
 
 <head>
       <title>课程学习</title>
-
-      <vt:include file="inc/meta.inc" />
-      <script type="text/javascript" src="/Utility/CoreScripts/polyfill.min.js?ver={$version}"></script>
-      <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js?ver={$version}"></script>
-      <script type="text/javascript" src="/Utility/CoreScripts/vue_min.js?ver={$version}"></script>
-      <script type="text/javascript" src="/Utility/CoreScripts/api.js?ver={$version}"></script>
-      <script type="text/javascript" src="/Utility/ElementUi/index.js?ver={$version}"></script>
+       <vt:include file="inc/meta_api.inc" />
+      
       <script type="text/javascript" src="/Utility/Qiniuyun/qiniu-web-player-1.2.2.js"></script>
-      <link href="/Utility/ElementUi/index.css?ver={$version}" rel="stylesheet" type="text/css" />
       <link href="Styles/CourseStudy.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 
@@ -101,7 +95,7 @@
                               </div>
                         </div>
                         <div remark="习题" v-show="titState=='isQues'">
-                              <iframe :src="'Exercises.ashx?olid='+outline.Ol_ID" style="height: 100%" marginwidth="0"
+                              <iframe :src="outline!=null ? 'Exercises.ashx?olid='+outline.Ol_ID : ''" style="height: 100%" marginwidth="0"
                                     marginheight="0" align="top" scrolling="no" width="100%" frameborder="0"
                                     allowtransparency="true"></iframe>
                         </div>
@@ -156,7 +150,7 @@
                         </div>
                         <div class="chatbox">
                               <div :class="['switch',switchSubtitle ? 'switch-on' : '']"
-                                    v-on:click="switchSubtitle=!switchSubtitle"></div>
+                                    v-on:click="switchSubtitle=!switchSubtitle" style="display:none"></div>
                               <div class="msgbox">
                                     <input type="text" id="messageinput" name="messageinput"
                                           v-on:keyup.enter="msgSend" />

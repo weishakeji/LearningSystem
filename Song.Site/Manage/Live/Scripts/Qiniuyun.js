@@ -17,7 +17,7 @@
         //保存信息
         btnEnter: function () {
             if (vm.loading) return;
-            this.$refs['form'].validate((valid) => {
+            this.$refs['form'].validate(function(valid){
                 if (valid) {
                     $api.post("live/Setup", vm.form).then(function (req) {
                         var res = req.data;
