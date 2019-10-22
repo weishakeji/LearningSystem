@@ -336,7 +336,11 @@ var vdata = new Vue({
             });
         },
         init: function () {
-            var couid = $api.querystring("couid");
+            
+        }
+    },
+    created: function () {
+        var couid = $api.querystring("couid");
             $api.post("Outline/tree", { couid: couid }).then(function (ol) {
                 if (ol.data.success) {
                     vdata.outlines = ol.data.result;
@@ -375,10 +379,6 @@ var vdata = new Vue({
             });
             //定时刷新（加载）咨询留言
             window.setInterval('vdata.msgGet()', 1000 * 15);
-        }
-    },
-    created: function () {
-        
     },
     mounted: function () {
         //视频上面的漂浮信息（学员姓名和电话），防录屏
