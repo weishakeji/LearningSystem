@@ -45,7 +45,8 @@ namespace Song.Site.Manage.Course
                 //推流地址
                 ltPublish.Text = string.Format("rtmp://{0}/{1}/{2}", stream.PublishRtmpHost, stream.HubName, stream.Title);
                 //直播地址
-                ltPlayHls.Text = string.Format("http://{0}/{1}/{2}.m3u8", stream.LiveHlsHost, stream.HubName, stream.Title);
+                string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
+                ltPlayHls.Text = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
                 ltPlayRtmp.Text = string.Format("rtmp://{0}/{1}/{2}", stream.LiveRtmpHost, stream.HubName, stream.Title);
             }
             //string publish = Business.Do<ILive>().GetPublish(mm.Ol_LiveID);

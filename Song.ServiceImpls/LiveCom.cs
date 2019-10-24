@@ -93,6 +93,15 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(domain))
                 Business.Do<ISystemPara>().Save(prefix + "Vod", domain, false);
         }
+        /// <summary>
+        /// 设置协议，是http还是https
+        /// </summary>
+        /// <param name="protocol"></param>
+        public void SetupProtocol(string protocol)
+        {
+            if (!string.IsNullOrWhiteSpace(protocol))
+                Business.Do<ISystemPara>().Save(prefix + "Protocol", protocol, false);
+        }
         #endregion
 
         #region 获取参数
@@ -156,7 +165,17 @@ namespace Song.ServiceImpls
                 return Business.Do<ISystemPara>().GetValue(prefix + "HDL");
             }
         }
-
+        /// <summary>
+        /// 访问协议，http或https
+        /// </summary>
+        public string GetProtocol
+        {
+            get
+            {
+                string protocol= Business.Do<ISystemPara>().GetValue(prefix + "Protocol");
+                return string.IsNullOrWhiteSpace(protocol) ? "http" : protocol;
+            }
+        }
         /// <summary>
         /// 推流的地址
         /// </summary>

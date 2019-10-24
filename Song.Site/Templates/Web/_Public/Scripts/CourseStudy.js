@@ -1,4 +1,4 @@
-﻿var couid=$api.querystring("couid");
+﻿var couid = $api.querystring("couid");
 var vdata = new Vue({
     data: {
         //数据实体
@@ -190,7 +190,7 @@ var vdata = new Vue({
             var setbtn = document.getElementsByClassName("qplayer-settings-btn");
             for (var i = 0; i < setbtn.length; i++) {
                 //setbtn[i].style.display = "none";
-            }            
+            }
         },
         //视频播放跳转
         videoSeek: function (second) {
@@ -336,49 +336,45 @@ var vdata = new Vue({
             });
         },
         init: function () {
-            
+
         }
     },
     created: function () {
         var couid = $api.querystring("couid");
-            $api.post("Outline/tree", { couid: couid }).then(function (ol) {
-                if (ol.data.success) {
+        $api.all(
+            $api.get("Outline/tree", { couid: couid }),
+            $api.get("Course/ForID", { id: couid })).then(axios.spread(function (ol, cur) {
+                if (ol.data.success && cur.data.success) {
                     vdata.outlines = ol.data.result;
                     if (vdata.olid == '') vdata.olid = ol.data.result[0].Ol_ID;
                     vdata.outlineClick(vdata.olid, null);
-                } else {
-                    throw "章节列表加载异常！详情：\r" + ol.data.message
-                }
-            }).catch(function (err) {
-                alert(err);
-            });
-            $api.get("Course/ForID", { id: couid }).then(function (cur) {
-                if (cur.data.success) {
                     vdata.course = cur.data.result;
                     document.title = vdata.course.Cou_Name;
                     $api.get("Subject/ForID", { id: vdata.course.Sbj_ID }).then(function (subject) {
                         if (subject.data.success) {
                             vdata.subject = subject.data.result;
                         } else {
-                            if (!subject.data.success) alert("课程所属专业加载异常！详情：\r" + subject.data.message);
+                            if (!subject.data.success) throw "课程所属专业加载异常！详情：\r" + subject.data.message;
                         }
+                    }).catch(function (err) {
+                        alert(err);
                     });
                     vdata.msgGet();
                 } else {
-                    throw "课程信息加载异常！详情：\r" + ol.data.message
+                    if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
+                    if (!cur.data.success) throw "课程信息加载异常！详情：\r" + cur.data.message;
                 }
-            }).catch(function (err) {
+            })).catch(function (err) {
                 alert(err);
             });
-    
-            //当前登录学员
-            $api.get("Account/Current", {}, null, null).then(function (req) {
-                if (req.data.success) {
-                    vdata.account = req.data.result;
-                }
-            });
-            //定时刷新（加载）咨询留言
-            window.setInterval('vdata.msgGet()', 1000 * 15);
+        //当前登录学员
+        $api.get("Account/Current", {}, null, null).then(function (req) {
+            if (req.data.success) {
+                vdata.account = req.data.result;
+            }
+        });
+        //定时刷新（加载）咨询留言
+        window.setInterval('vdata.msgGet()', 1000 * 10);
     },
     mounted: function () {
         //视频上面的漂浮信息（学员姓名和电话），防录屏
@@ -400,23 +396,24 @@ var vdata = new Vue({
             acc.style.left = (left < 0 ? 0 : (left > acc.parentNode.offsetWidth - acc.offsetWidth ? acc.parentNode.offsetWidth - acc.offsetWidth : left + window.accleft)) + "px";
 
         }, 200);
-        
+
     },
 
 });
 vdata.$mount('#body');
-window.onload=function(){
+window.onload = function () {
     this.vdata.init();
 }
 
 window.onblur = function () {
     if (vdata.playready()) {
-        vdata.player.pause();
+        if (!vdata.state.isLive)
+            vdata.player.pause();
     }
 }
 window.onfocus = function () {
     if (vdata.playready()) {
-        vdata.titState == 'existVideo' ? vdata.player.play() : vdata.player.pause();
+        vdata.titState == 'existVideo' && vdata.state.isLive ? vdata.player.play() : vdata.player.pause();
     }
 }
 

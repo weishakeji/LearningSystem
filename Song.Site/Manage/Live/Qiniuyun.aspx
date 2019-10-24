@@ -16,7 +16,12 @@
     <el-input v-model="form.LiveSpace" style="width: 300px"></el-input>
   </el-form-item>
    <el-divider></el-divider>
-   
+    <el-form-item label="HTTPSÅäÖÃ£º">
+   <el-radio-group v-model="form.Protocol">
+    <el-radio label="http">½ûÖ¹ HTTPS</el-radio>
+    <el-radio label="https">¿ªÆô HTTPS</el-radio>
+  </el-radio-group>
+  </el-form-item>
    <el-form-item label="Ö±²¥·âÃæÓòÃû£º">
     <el-input v-model="form.Snapshot" style="width: 400px"></el-input>
   </el-form-item>

@@ -1,38 +1,57 @@
 @charset "utf-8";
 /*设置侧滑菜单的宽度*/
+
 .mui-off-canvas-left, .mui-off-canvas-right {
 	width: 80% !important;
 }
+
 .mui-off-canvas-wrap.mui-right .mui-inner-wrap {
 	-webkit-transform: translate3d(80%, 0, 0) !important;
 	transform: translate3d(80%, 0, 0) !important;
 }
+
 .headbar {
 	background-color: transparent !important;
 	webkit-box-shadow: 0 0px 0px #ccc !important;
 	box-shadow: 0 0px 0px #ccc !important;
 }
-.back{
-	display:block;
-	position:absolute;
-	z-index:101;
+
+.back {
+	display: block;
+	position: absolute;
+	z-index: 101;
 }
+
+video::-internal-media-controls-download-button {
+	display: none;
+}
+
+video::-webkit-media-controls-enclosure {
+	overflow: hidden;
+}
+
+video::-webkit-media-controls-panel {
+	width: calc(100% + 30px);
+}
+
 /*返回首页*/
-.home{	
-	display:block;
-	position:absolute;
-	left:20px;
-	top:2px;
-	color:#555;
-	z-index:200;
+
+.home {
+	display: block;
+	position: absolute;
+	left: 20px;
+	top: 2px;
+	color: #555;
+	z-index: 200;
 }
+
 .home:before {
 	content: "\e678";
 	font-family: iconfont;
 	margin-right: 5px;
 	font-size: 20px;
-	
 }
+
 .video-box {
 	background-color: #333;
 	width: 100%;
@@ -40,6 +59,7 @@
 	color: #CCC;
 	position: relative;
 }
+
 .video {
 	background-color: transparent !important;
 	webkit-box-shadow: 0 1px 2px #ccc !important;
@@ -47,8 +67,9 @@
 	padding: 0px !important;
 	min-height: 260px;
 }
-div {
-}
+
+div {}
+
 .videobox {
 	position: absolute;
 	top: 0px;
@@ -57,61 +78,74 @@ div {
 	width: 100%;
 	height: calc(100vw*9/16);
 }
-.intro-box {
-}
+
+.intro-box {}
+
 #playerInfo {
 	height: 20px;
 	line-height: 20px;
- --background-color: #FFF;
- --webkit-box-shadow: 0 1px 6px #ccc;
- --box-shadow: 0 1px 6px #ccc;
+	--background-color: #FFF;
+	--webkit-box-shadow: 0 1px 6px #ccc;
+	--box-shadow: 0 1px 6px #ccc;
 	position: absolute;
 	top: 2px;
 	right: 0px;
 	z-index: 100;
 }
+
 #playerInfo, #playerInfo * {
 	font-size: 8px;
 }
+
 #playerInfo .time {
 	color: #999;
 	font-size: 8px;
 	margin-right: 5px;
 }
+
 #playerInfo .time * {
 	font-size: 10px;
 }
+
 /*上次观看播放进度*/
-.historyInfo{
-	display:block;
-	bottom:40px;
-	left:20px;
+
+.historyInfo {
+	display: block;
+	bottom: 40px;
+	left: 20px;
 	position: absolute;
-	z-index:200;
-	font-size:10px;
+	z-index: 200;
+	font-size: 10px;
 }
+
 /*学习记录递交成功的提示*/
-.StudentStudyLog{
-	display:block;
-	bottom:40px;
-	right:20px;
+
+.StudentStudyLog {
+	display: block;
+	bottom: 40px;
+	right: 20px;
 	position: absolute;
-	z-index:200;
-	font-size:10px;
+	z-index: 200;
+	font-size: 10px;
 }
-.error{
-	color:red;
+
+.error {
+	color: red;
 }
+
 #videoIframe {
 	width: 100% !important;
 }
+
 .noVideo {
 	text-align: center;
 	line-height: 260px;
 	font-size: 17px;
 	color: #ccc;
 }
+
 /*章节名称*/
+
 .outline-name {
 	background-color: #FFF;
 	webkit-box-shadow: 0 1px 6px #ccc;
@@ -127,8 +161,9 @@ div {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	font-size:15px;
+	font-size: 15px;
 }
+
 .outline-name:before {
 	content: "\e681";
 	font-family: iconfont;
@@ -136,34 +171,40 @@ div {
 	font-size: 18px;
 	font-weight: normal;
 }
+
 /*学习内容与附件的区域*/
+
 #context-box {
 	overflow: hidden;
 	position: absolute;
 	width: 100%;
 	height: calc(100% - 50px);
 }
-#context-box>div{
+
+#context-box>div {
 	width: 100%;
 	height: 100%;
 	--position: absolute;
 	float: left;
 }
-#context-box .mui-card{
+
+#context-box .mui-card {
 	height: calc(100% - 20px);
 	width: calc(100% - 20px);
 }
+
 .mui-card-content {
 	overflow: auto !important;
 	height: calc(100% - 20px);
 }
-.mui-card-content {
 
+.mui-card-content {}
+
+#details {
+	width: 100%;
+	padding: 20px;
 }
-#details{
-	width:100%;
-	padding:20px;
-}
+
 #details p, #details * {
 	font-size: 15px !important;
 	line-height: 1.6em;
@@ -171,34 +212,42 @@ div {
 	color: #666 !important;
 	padding: 0px !important;
 }
-#details p
-{
-	margin-buttom:20px !important;
+
+#details p {
+	margin-buttom: 20px !important;
 }
-#details a{
-	color:#09F !important;
+
+#details a {
+	color: #09F !important;
 }
+
 #details img {
 	max-width: 100% !important;
 }
-#details .nointro{
+
+#details .nointro {
 	font-size: 16px;
 	line-height: 30px;
 	color: #666;
 	padding: 20px;
 }
+
 video::-internal-media-controls-download-button {
- display:none;
+	display: none;
 }
- video::-webkit-media-controls-enclosure {
- overflow:hidden;
+
+video::-webkit-media-controls-enclosure {
+	overflow: hidden;
 }
+
 video::-webkit-media-controls-panel {
- width: calc(100% + 30px);
+	width: calc(100% + 30px);
 }
+
 .mui-table-view {
 	margin: 10px;
 }
+
 /*附件*/
 
 #access {
@@ -206,17 +255,21 @@ video::-webkit-media-controls-panel {
 	padding-left: 20px;
 	padding-right: 20px;
 }
+
 #access dd {
 	margin: 0px;
 	line-height: 35px;
 }
+
 .noaccess {
 	font-size: 16px;
 	line-height: 30px;
 	color: #666;
 	padding: 20px;
 }
+
 /*没有购买课程*/
+
 #noStudy {
 	text-align: center;
 	margin-top: 30px;
@@ -233,90 +286,112 @@ video::-webkit-media-controls-panel {
 	height: 140px;
 	line-height: 100px;
 }
+
 /*+++++底部图标*/
-.footer span{
-	height:15px !important;
-	display:block;
-	width:100%;
+
+.footer span {
+	height: 15px !important;
+	display: block;
+	width: 100%;
 }
-.footer b{
-	height:20px !important;
-	display:block;
-	width:100% !important;
+
+.footer b {
+	height: 20px !important;
+	display: block;
+	width: 100% !important;
 }
-.footer b:before{
-	display:block;
+
+.footer b:before {
+	display: block;
 }
+
 .footer a.foot-outline b:before {
 	content: "\e79c";
 	font-size: 16px;
 }
+
 .footer a.foot-video b:before {
 	content: "\e615";
 }
+
 .footer a.foot-message b:before {
 	content: "\e75a";
 }
+
 .footer a.foot-text b:before {
 	content: "\e65e";
 	font-size: 23px;
-	margin-top:1px;
+	margin-top: 1px;
 }
+
 .footer a.foot-acc b:before {
 	content: "\e651";
 }
+
 .footer a.foot-course b:before {
 	content: "\e60b";
 }
+
 .footer a.foot-home b:before {
 	font-size: 22px;
 }
+
 /*-----底部图标*/
 
 /*+++++++左侧侧滑菜单*/
+
 .study-menu .cour-info {
 	margin: 10px;
 	display: table;
 	width: 100%;
 }
+
 .study-menu .cour-info img {
 	width: 30%;
 	margin-right: 5%;
 	float: left;
 	box-shadow: 0 1px 2px #fff !important;
 }
+
 .study-menu .cour-info .cour-info-right {
 	width: 60%;
 	margin-right: 5%;
 	float: left;
 }
+
 .cour-info-right cour-name {
 	display: block;
 	line-height: 22px;
 	color: #eee;
 }
+
 .cour-info-right cour-name:before {
 	content: "\e60b";
 	font-size: 15px;
 	font-family: iconfont;
 	margin-right: 8px;
 }
+
 .cour-info-right sbj-name {
 	display: block;
 	line-height: 22px;
 	color: #999;
 	font-size: 10px;
 }
+
 .cour-info-right sbj-name:before {
 	content: "\e675";
 	font-size: 10px;
 	margin-right: 5px;
 	font-family: iconfont;
 }
+
 /*侧滑菜单的章节列表*/
+
 .study-menu .outline {
 	padding-right: 40px !important;
 }
+
 .study-menu .outline a:before {
 	content: "\e681";
 	font-family: iconfont;
@@ -324,7 +399,9 @@ video::-webkit-media-controls-panel {
 	font-size: 15px;
 	font-weight: normal;
 }
+
 /*视频章节的图标*/
+
 .study-menu li[isvideo=True] a:before {
 	content: "\e66c";
 	font-family: iconfont;
@@ -332,19 +409,24 @@ video::-webkit-media-controls-panel {
 	font-size: 16px;
 	font-weight: normal;
 }
+
 /*直播章节的图标*/
+
 .study-menu li[islive=True] a:before {
 	content: "";
-    background-image: url(../Images/live-icon.gif);
-    background-repeat: no-repeat;
-    width: 24px;
-    height: 24px;
-    display: inline-block;
+	background-image: url(../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display: inline-block;
 }
+
 /*当前章节*/
+
 .study-menu .current {
 	color: #FF9;
 }
+
 .study-menu .current a:before {
 	content: "\e618";
 	font-family: iconfont;
@@ -352,40 +434,49 @@ video::-webkit-media-controls-panel {
 	font-size: 14px;
 	font-weight: normal;
 }
+
 .study-menu .mui-badge {
 	color: #999;
 	background-color: #555;
 }
+
 .study-menu .noselect {
 	color: #666 !important;
 }
-.try{
+
+.try {
 	color: #eee !important;
 }
-.buy{	
-	background-color: rgba(102,102,102,0.15);
+
+.buy {
+	background-color: rgba(102, 102, 102, 0.15);
 	color: #FC0 !important;
 }
 
 /*-------左侧侧滑菜单*/
 
 /*学习内容*/
+
 .mui-card {
 	float: left;
 }
-.mui-card-header{
-	font-size:15px;
+
+.mui-card-header {
+	font-size: 15px;
 }
+
 .intro-box .mui-card-header span:before {
 	content: "\e65e";
 	font-family: iconfont;
 	margin-right: 5px;
 	font-size: 18px;
-	margin-top:2px;
-	display:block;
-	float:left;
+	margin-top: 2px;
+	display: block;
+	float: left;
 }
+
 /*附件*/
+
 .acc-box .mui-card-header span:before {
 	content: "\e651";
 	font-family: iconfont;

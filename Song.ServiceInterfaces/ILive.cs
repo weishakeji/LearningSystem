@@ -49,6 +49,11 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="domain"></param>
         void SetupVod(string domain);
+        /// <summary>
+        /// 设置协议，是http还是https
+        /// </summary>
+        /// <param name="protocol"></param>
+        void SetupProtocol(string protocol);
         #endregion
 
         #region 获取参数
@@ -76,6 +81,10 @@ namespace Song.ServiceInterfaces
         /// hdl播放域名
         /// </summary>
         string GetHDL { get; }
+        /// <summary>
+        /// 访问协议，http或https
+        /// </summary>
+        string GetProtocol { get; }
         /// <summary>
         /// 推流的地址
         /// </summary>

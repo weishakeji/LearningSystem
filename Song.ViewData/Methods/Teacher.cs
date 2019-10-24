@@ -87,14 +87,15 @@ namespace Song.ViewData.Methods
             List<Outline_LiveInfo> list = new List<Outline_LiveInfo>();
             //直播截图的域名
             string snapshot = Business.Do<ILive>().GetSnapshot;
+            string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
             foreach (Song.Entities.Outline o in outls)
             {
                 pili_sdk.pili.Stream stream = Pili.API<IStream>().GetForTitle(o.Ol_LiveID);
                 if (stream == null) continue;
                 //推流地址
                 string publist = string.Format("rtmp://{0}/{1}/{2}", stream.PublishRtmpHost, stream.HubName, stream.Title);
-                //播放地址
-                string play = string.Format("http://{0}/{1}/{2}.m3u8", stream.LiveHlsHost, stream.HubName, stream.Title);
+                //播放地址               
+                string play = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
                 //封面地址
                 string cover = string.Format("http://{0}/{1}/{2}.jpg", snapshot, stream.HubName, stream.Title);
                 list.Add(new Outline_LiveInfo()

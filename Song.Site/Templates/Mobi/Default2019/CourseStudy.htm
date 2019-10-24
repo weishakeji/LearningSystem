@@ -37,7 +37,7 @@
                               type="application/x-shockwave-flash"></iframe>
 
                   </div>
-                  <div remark="直播" v-show="state=='isLive'" :video="state.urlVideo" class="videobox">
+                  <div remark="直播" v-show="state.isLive" :video="state.urlVideo" class="videobox">
                         <div id="livebox" v-show="state.isLive" style="height: 100%;width:100%;" remark="直播">
                         </div>
                   </div>

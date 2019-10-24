@@ -185,7 +185,8 @@ namespace Song.ViewData.Methods
                 if (status != null)
                 {
                     pili_sdk.pili.Stream stream = status.Stream;
-                    dic.Add("urlVideo", string.Format("http://{0}/{1}/{2}.m3u8", stream.LiveHlsHost, stream.HubName, stream.Title));
+                    string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
+                    dic.Add("urlVideo", string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title));
                     isLive = status.Status == "connected";  //正在直播
                     existVideo = isLive ? false : existVideo;
                 }
