@@ -44,14 +44,28 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Message GetSingle(int identify);
         /// <summary>
-        /// 获取对象；
+        /// 获取留言
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <returns></returns>
         Message[] GetAll(int couid, int olid);
-        Message[] GetAll(int olid);
-        Message[] GetCount(int couid, int olid, int count);
+        /// <summary>
+        /// 获取留言
+        /// </summary>
+        /// <param name="olid">章节id</param>
+        /// <param name="order">排序方式，desc或asc</param>
+        /// <returns></returns>
+        Message[] GetAll(int olid,string order);
+        /// <summary>
+        /// 获取留言
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="count"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        Message[] GetCount(int couid, int olid, string order, int count);
         /// <summary>
         /// 分页获取
         /// </summary>

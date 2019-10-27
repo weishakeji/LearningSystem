@@ -22,6 +22,13 @@
 	z-index: 101;
 }
 
+#videoplayer, #videoinfo, #novideoplayer {
+	background-color: #000;
+	color: #999;
+	line-height: 100px;
+	text-align: center;
+}
+
 video::-internal-media-controls-download-button {
 	display: none;
 }
@@ -71,10 +78,6 @@ video::-webkit-media-controls-panel {
 div {}
 
 .videobox {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	z-index: 1;
 	width: 100%;
 	height: calc(100vw*9/16);
 }
@@ -150,20 +153,18 @@ div {}
 	background-color: #FFF;
 	webkit-box-shadow: 0 1px 6px #ccc;
 	box-shadow: 0 1px 6px #ccc;
-	position: absolute;
-	buttom: 0px;
 	width: 100%;
 	height: 40px;
 	line-height: 40px;
 	padding-left: 20px;
-	padding-right: 20px;
+	padding-right: 80px;
 	color: #333;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	font-size: 15px;
+	position: relative;
 }
-
 .outline-name:before {
 	content: "\e681";
 	font-family: iconfont;
@@ -171,14 +172,201 @@ div {}
 	font-size: 18px;
 	font-weight: normal;
 }
+.outline-name #msginputBtn{
+	background-color: #fff;
+	position: absolute;
+	width: 60px;
+	height: 30px;
+	line-height: 30px;
+	text-indent: 5px;
+	top:5px;
+	right: 10px;
+	border-radius: 15px;
+	border:1px solid #999 ;
+}
+/*咨询留言*/
+#chatArea.mui-card {
+	height: calc(100vh - 100vw*9/16 - 105px);
+	width: calc(100% - 20px);
+}
+.chatlist {
+	max-height: calc(100% - 30px);
+	bottom: 30px;
+	width: 100%;
+	overflow-y: auto;
+	-webkit-overflow-scrolling:touch;
+}
+/*没有留言*/
+.nomsg{
+	padding: 20px;
+}
+.chatlist dl, .chatlist dd{
+	margin: 0px;
+}
+.chatlist dd {
+	width: auto;
+	display: table;	
+	min-width: 30%;
+	line-height: 20px;
+	position: relative;
+}
 
+.chatlist dd>div {
+	text-align: left;
+	padding: 5px;
+	padding-right: 10px;
+	color: #333;
+	border-radius: 10px;
+	margin: 10px;
+	line-height: 20px;
+	box-shadow: 1px 1px 2px #eee;
+}
+
+.chatlist dd acc {
+	display: block;
+	position: relative;
+}
+
+.chatlist dd del {
+	display: block;
+	position: absolute;
+	right: -8px;
+	top: 0px;
+	color: red;
+	font-size: 14px;
+	text-decoration-line: none;
+	cursor: pointer;
+	display: none;
+}
+
+.chatlist dd msg {
+	display: block;
+}
+
+.chatlist dd date {
+	display: block;
+	text-align: left;
+	padding-left: 16px;
+	height: 18px;
+	line-height: 18px;
+	margin-top: -8px;
+	color: #444;
+	font-size: 10px;
+}
+
+.chatlist dd i {
+	padding-right: 5px;
+	font-size: 16px;
+}
+/*留言输入区域*/
+#chatbox {
+	
+	width: 100%;
+	height: 44px;
+	position: absolute;
+	bottom: 0px;
+}
+
+#chatbox .switch {
+	background-color: #fff;
+	height: 24px;
+	line-height: 24px;
+	width: 35px;
+	margin-top: 8px;
+	margin-left: 8px;
+	font-size: 8px;
+	border-radius: 12px;
+	position: relative;
+	cursor: pointer;
+	float: left;
+	transition: text-align .6s;
+}
+
+#chatbox .switch:before {
+	content: "弹";
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	border-radius: 10px;
+	margin: 2px 0px 2px 0px;
+	margin-right: 5px;
+	font-size: 8px;
+	position: absolute;
+	z-index: 2;
+	color: #fff;
+	left: 2px;
+	background-color: #333;
+	transition: left .6s;
+}
+
+#chatbox .switch:after {
+	content: " ";
+	width: 31px;
+	height: 20px;
+	border-radius: 10px;
+	position: absolute;
+	z-index: 1;
+	left: 2px;
+	margin: 2px 0px 2px 0px;
+	background-color: #999;
+	transition: background-color .6s;
+}
+
+#chatbox .switch-on {
+	background-color: #FFFF99;
+}
+
+#chatbox .switch-on:before {
+	left: 12px;
+	background-color: #360;
+}
+
+#chatbox .switch-on:after {
+	background-color: #6F6;
+}
+
+#chatbox .msgbox {
+	float: left;
+	background-color: #fff;
+	width: calc(100% - 20px);
+	height: 24px;
+	line-height: 24px;
+	border-radius: 6px;
+}
+
+#chatbox textarea {
+	float: left;
+	width: calc(75% - 2px);
+	height: 44px;
+	line-height: 22px;
+	margin: 0px 0px 0px 2px;
+	border-radius:  10px 0px 0px 10px;
+}
+
+#chatbox #btnMessage {
+	float: left;
+	background-color: #999;
+	width: 25%;
+	height: 44px;
+	line-height: 44px;
+	margin: 0px !important;
+	padding: 0px !important;
+	border-radius: 0px 10px 10px 0px;
+	text-align: center;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+#chatbox #btnMessage:hover {
+	background-color: #F93;
+}
 /*学习内容与附件的区域*/
 
 #context-box {
 	overflow: hidden;
 	position: absolute;
 	width: 100%;
-	height: calc(100% - 50px);
+	height: calc(100% - 0px);
 }
 
 #context-box>div {
@@ -188,14 +376,14 @@ div {}
 	float: left;
 }
 
-#context-box .mui-card {
-	height: calc(100% - 20px);
+.mui-card {
+	height: calc(100% - 60px);
 	width: calc(100% - 20px);
 }
 
 .mui-card-content {
 	overflow: auto !important;
-	height: calc(100% - 20px);
+	height: calc(100% - 4px);
 }
 
 .mui-card-content {}

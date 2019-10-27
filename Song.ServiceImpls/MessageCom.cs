@@ -79,18 +79,21 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Message[] GetAll(int couid, int olid)
         {
-            return GetCount(couid, olid, 0);
+            return GetCount(couid, olid, "asc", 0);
         }
-        public Message[] GetAll(int olid)
+        public Message[] GetAll(int olid,string order)
         {
-            return GetCount(0, olid, 0);
+            return GetCount(0, olid, order, 0);
         }
-        public Message[] GetCount(int couid, int olid, int count)
+        public Message[] GetCount(int couid, int olid, string order, int count)
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc &= Message._.Cou_ID == couid;
             if (olid > 0) wc &= Message._.Ol_ID == olid;
-            return Gateway.Default.From<Message>().Where(wc).OrderBy(Message._.Msg_CrtTime.Asc).ToArray<Message>(count);
+            OrderByClip ord = Message._.Msg_CrtTime.Asc;
+            if ("desc".Equals(order, StringComparison.CurrentCultureIgnoreCase)) ord = Message._.Msg_CrtTime.Desc;
+            if ("asc".Equals(order, StringComparison.CurrentCultureIgnoreCase)) ord = Message._.Msg_CrtTime.Asc;
+            return Gateway.Default.From<Message>().Where(wc).OrderBy(ord).ToArray<Message>(count);
         }
         /// <summary>
         /// 分页获取

@@ -293,7 +293,7 @@
                             try {
                                 response.data.result = eval("(" + response.data.result + ")");
                             } catch(err){
-                                alert(err);
+                                //alert(err);
                              }
                         }
                         response.data.result = methods.unescape(response.data.result);

@@ -320,7 +320,7 @@ var vdata = new Vue({
         //获取当前章节的留言信息
         msgGet: function () {
             if (!vdata.olid || vdata.olid < 1) return;
-            $api.post("message/All", { olid: vdata.olid }).then(function (req) {
+            $api.post("message/All", { olid: vdata.olid,order:'asc' }).then(function (req) {
                 var d = req.data;
                 if (d.success) {
                     vdata.messages = d.result;

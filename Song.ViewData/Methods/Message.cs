@@ -47,10 +47,11 @@ namespace Song.ViewData.Methods
         /// 获取章节的所有留言
         /// </summary>
         /// <param name="olid">章节id</param>
+        /// <param name="order">排序方式，desc或asc</param>
         /// <returns></returns>
-        public Song.Entities.Message[] All(int olid)
+        public Song.Entities.Message[] All(int olid,string order)
         {
-            return Business.Do<IMessage>().GetAll(olid);
+            return Business.Do<IMessage>().GetAll(olid, order);
         }
         /// <summary>
         /// 删除

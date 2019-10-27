@@ -66,7 +66,10 @@ namespace Song.ViewData.Methods
         public string DbVersion()
         {
             object version = Business.Do<ISystemPara>().ScalarSql("select @@version");
-            return version.ToString();
+            if (version == null) return string.Empty;
+            string str = version.ToString();
+            str = str.Replace("\n", "").Replace("\t", "").Replace("\r", "");
+            return str;
         }
 
         /// <summary>

@@ -44,6 +44,7 @@
 var vdata = new Vue({
     data: {
         outline: {},    //当前课程章节
+        messages: [],        //咨询留言
         state: {},           //课程状态  
         couid: $api.querystring("couid"),
         olid: $api.querystring("olid"),
@@ -59,6 +60,7 @@ var vdata = new Vue({
         playtime: 0,         //当前播放时间，单位：秒
         studylogUpdate: false,           //学习记录是否在递交中
         studylogState: 0,            //学习记录提交状态，1为成功，-1为失败
+        switchSubtitle: $api.cookie("switchSubtitle_" + $api.querystring("couid")) == "true" ? true : false,               //弹幕开关
         //控件
         player: null             //播放器
     },
@@ -147,7 +149,6 @@ var vdata = new Vue({
             var url = $api.setpara("olid", olid);
             history.pushState({}, null, url);
             vdata.olid = olid;
-            vdata.titState = 'loading';
             if (event != null) event.preventDefault();
             //获取当前章节状态，和专业信息
             $api.all(
@@ -201,6 +202,59 @@ var vdata = new Vue({
                     }, 2000);
                 });
             }
+        },
+        //发送消息
+        msgSend: function () {
+            vdata.msgBlur();
+            var msg = document.getElementById("messageinput").value;
+            if ($api.trim(msg) == '') return;
+            var span = Date.now() - Number($api.cookie("msgtime"));
+            if (span / 1000 < 10) {
+                vdata.$notify({
+                    message: '不要频繁发消息！',
+                    position: 'bottom-right'
+                });
+                return;
+            }
+            $api.cookie("msgtime", Date.now());
+            $api.post("message/add", { msg: msg, playtime: vdata.playtime, couid: vdata.couid, olid: vdata.olid }).then(function (req) {
+                var d = req.data;
+                if (d.success) {
+                    var input=document.getElementById("messageinput");
+                    input.value = '';                    
+                    vdata.msgGet();
+                } else {
+                    alert("信息添加发生异常！详情：\r" + d.message);
+                }
+            });
+        },
+        //留言输入框失去焦点
+        msgBlur:function(e){
+            document.getElementById("footer").style.display="";
+            document.getElementById("messageinput").blur();      
+        },
+        //留言输入框获取焦点
+        msgFocus:function(e){
+            document.getElementById("footer").style.display="none";
+            document.getElementById("messageinput").focus();
+        },
+        //获取当前章节的留言信息
+        msgGet: function () {
+            if (!vdata.olid || vdata.olid < 1) return;
+            $api.post("message/All", { olid: vdata.olid,order:'desc' }).then(function (req) {
+                var d = req.data;
+                if (d.success) {
+                    vdata.messages = d.result;
+                    window.setTimeout(function () {
+                        var dl = document.getElementById("chatlistdl");
+                        document.getElementById("chatlist").scrollTop = dl.offsetHeight;
+                    }, 1000);
+                } else {
+                    throw "留言信息加载异常！详情：\r" + d.message;
+                }
+            }).catch(function (err) {
+                alert(err);
+            });
         }
     },
     created: function () {
@@ -213,7 +267,7 @@ var vdata = new Vue({
                     if (vdata.olid == '' || vdata.olid==null) vdata.olid = ol.data.result[0].Ol_ID;
                     vdata.outlineClick(vdata.olid, null);
                     vdata.course = cur.data.result;                    
-                    //vdata.msgGet();
+                    vdata.msgGet();
                 } else {
                     if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
                     if (!cur.data.success) throw "课程信息加载异常！详情：\r" + cur.data.message;
@@ -224,7 +278,7 @@ var vdata = new Vue({
     }
 });
 vdata.$mount('#context-box');
-
+//窗体失去焦点的事件
 window.onblur = function () {
     if (vdata.playready()) {
         if (!vdata.state.isLive)
@@ -236,3 +290,30 @@ window.onfocus = function () {
         !vdata.state.isLive ? vdata.player.play() : vdata.player.pause();
     }
 }
+//全局过滤器，日期格式化
+Vue.filter('date', function (value, fmt) {
+    if ($api.getType(value) != 'Date') return value;
+    var o = {
+        "M+": value.getMonth() + 1,
+        "d+": value.getDate(),
+        "h+": value.getHours(),
+        "m+": value.getMinutes(),
+        "s+": value.getSeconds()
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (value.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+});
+
+//点击留言按钮，进入留言输入状态
+mui('body').on('tap', '#msginputBtn', function () {
+    vdata.msgFocus();   
+});
+//
+mui('body').on('tap', '#chatArea', function () {    
+    vdata.msgBlur();
+    
+});
