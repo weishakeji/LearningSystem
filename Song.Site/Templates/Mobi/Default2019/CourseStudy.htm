@@ -19,38 +19,40 @@
             <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"
                 style="position: relative;height:100%">
                 <div id="context-box">
-                    <div tag="视频">
-                        <div remark="视频" :video="state.urlVideo" class="videobox">
-                            <div id="videoplayer"
-                                v-show="JSON.stringify(outline) == '{}' || (state.existVideo && !state.outerVideo && !state.isLive)"
-                                style="height: 100%;width:100%;" remark="点播">
-                            </div>
-                            <div id="novideoplayer" v-show="JSON.stringify(outline) != '{}' && !state.existVideo"
-                                style="height: 100%;width:100%;" remark="没有视频">
-                                没有视频资源
-                            </div>
-                            <div id="videoinfo" v-if="!state.outerVideo && !state.isLive" style="display: none;">
-                                <span style="display: non6e">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
-                                <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
-                                <span style="cursor: pointer"
-                                    v-on:click="videoSeek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>
-                                <span class="videolog info" v-show="studylogState==1">学习进度提交成功!</span>
-                                <span class="videolog error" v-show="studylogState==-1">学习进度提交失败!</span>
-                            </div>
-                            <iframe id="vedioiframe" height="100%" width="100%" v-if="state.outerVideo && !state.isLive"
-                                :src="state.urlVideo" allowscriptaccess="always" allowfullscreen="true" wmode="opaque"
-                                allowtransparency="true" frameborder="0" remark="外部视频链接"
-                                type="application/x-shockwave-flash"></iframe>
+                    <div remark="视频" :video="state.urlVideo" class="videobox">
+                        <div id="videoplayer"
+                            v-show="JSON.stringify(outline) == '{}' || (state.existVideo && !state.outerVideo && !state.isLive)"
+                            style="height: 100%;width:100%;" remark="点播">
+                        </div>
+                        <div id="novideoplayer" v-show="JSON.stringify(outline) != '{}' && !state.existVideo"
+                            style="height: 100%;width:100%;" remark="没有视频">
+                            没有视频资源
+                        </div>
+                        <div id="videoinfo" v-if="!state.outerVideo && !state.isLive" style="display: none;">
+                            <span style="display: non6e">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
+                            <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
+                            <span style="cursor: pointer"
+                                v-on:click="videoSeek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>
+                            <span class="videolog info" v-show="studylogState==1">学习进度提交成功!</span>
+                            <span class="videolog error" v-show="studylogState==-1">学习进度提交失败!</span>
+                        </div>
+                        <iframe id="vedioiframe" height="100%" width="100%" v-if="state.outerVideo && !state.isLive"
+                            :src="state.urlVideo" allowscriptaccess="always" allowfullscreen="true" wmode="opaque"
+                            allowtransparency="true" frameborder="0" remark="外部视频链接"
+                            type="application/x-shockwave-flash"></iframe>
 
+                    </div>
+                    <div remark="直播" v-show="state.isLive" :video="state.urlVideo" class="videobox">
+                        <div id="livebox" v-show="state.isLive" style="height: 100%;width:100%;" remark="直播">
                         </div>
-                        <div remark="直播" v-show="state.isLive" :video="state.urlVideo" class="videobox">
-                            <div id="livebox" v-show="state.isLive" style="height: 100%;width:100%;" remark="直播">
-                            </div>
-                        </div>
+                    </div>
+                    <div tag="视频">
+
                         <div class="outline-name">
                             <span v-show="JSON.stringify(outline) == '{}'">正在加载...</span>
                             {{outline.Ol_Name}}
-                            <div id="msginputBtn" class="el-icon-edit" v-show="JSON.stringify(outline) != '{}'"> 留言</div>
+                            <div id="msginputBtn" class="el-icon-edit" v-show="JSON.stringify(outline) != '{}'"> 留言
+                            </div>
                         </div>
                         <div class="mui-card intro-box" id="chatArea">
                             <div class="mui-card-content mui-scroll-wrapper">
@@ -77,11 +79,11 @@
 
                         </div>
                         <div id="chatbox" remark="留言录入区域">
-                            
-                                <textarea   rows="3" id="messageinput" name="messageinput"
-                                      v-on:keyup.enter="msgSend" ></textarea>
-                                <button id="btnMessage" v-on:click="msgSend">发送</button>
-                          
+
+                            <textarea rows="3" id="messageinput" name="messageinput" autofocus
+                                v-on:keyup.enter="msgSend"></textarea>
+                            <button id="btnMessage" v-on:click="msgSend">发送</button>
+
                         </div>
                     </div>
                     <div tag="学习内容" style="display:none">

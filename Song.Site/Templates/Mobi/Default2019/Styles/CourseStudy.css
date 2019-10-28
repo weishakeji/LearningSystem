@@ -80,6 +80,9 @@ div {}
 .videobox {
 	width: 100%;
 	height: calc(100vw*9/16);
+	position: absolute;
+	top:0px;
+	z-index: 100;
 }
 
 .intro-box {}
@@ -363,17 +366,17 @@ div {}
 /*学习内容与附件的区域*/
 
 #context-box {
-	overflow: hidden;
-	position: absolute;
+	overflow: hidden;	
 	width: 100%;
 	height: calc(100% - 0px);
 }
 
-#context-box>div {
+#context-box>div[tag] {
 	width: 100%;
-	height: 100%;
+	height: calc(100vh - 100vw*9/16);
 	--position: absolute;
-	float: left;
+	--float: left;
+	margin-top:calc(100vw*9/16)
 }
 
 .mui-card {

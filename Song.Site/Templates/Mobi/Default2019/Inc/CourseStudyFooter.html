@@ -23,8 +23,8 @@
         //当前显示的内容块
         var current = $("#context-box>[tag=" + tag + "]:visible");
         if (current.size() > 0) return;
-        $("#context-box>[tag!=" + tag + "]").hide();
-        $("#context-box>[tag=" + tag + "]").fadeIn(100);
+        $("#context-box>[tag]").hide();
+        $("#context-box>[tag=" + tag + "]").show();
     });    
 
 </script>
