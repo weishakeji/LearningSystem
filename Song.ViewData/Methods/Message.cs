@@ -95,8 +95,8 @@ namespace Song.ViewData.Methods
 
             try
             {
-                Business.Do<IMessage>().Delete(msid);
-                return true;
+                int row=Business.Do<IMessage>().Delete(msid);
+                return row > 0;
             }
             catch (Exception exp)
             {

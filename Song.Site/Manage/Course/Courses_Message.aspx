@@ -35,11 +35,6 @@
                 </template>
             </el-table-column>
 
-            <el-table-column prop="Msg_IP" label="IP" width="120">
-                <template scope="scope">
-                   <span v-html="scope.row.Msg_IP"></span>
-                </template>
-            </el-table-column>
             
         </el-table>
         <div id="pager-box">
@@ -49,7 +44,7 @@
         </el-pagination>
     </div>
         </div>
-        <el-dialog :title="'留言：'+msgobj.Msg_Context" :visible.sync="dialogFormVisible">
+        <el-dialog title="留言管理" :visible.sync="dialogFormVisible">
   <el-form :model="msgobj">
     <el-form-item label="留言：" label-width="60">
   
@@ -60,6 +55,9 @@
     </el-form-item>
     <el-form-item label="学员：">
       {{msgobj.Ac_Name}}      {{msgobj.Msg_Phone}} 
+    </el-form-item>
+    <el-form-item label="IP：">
+      {{msgobj.Msg_IP}}
     </el-form-item>
   </el-form>
   <div slot="footer" class="dialog-footer">

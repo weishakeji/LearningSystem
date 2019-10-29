@@ -40,26 +40,26 @@ namespace Song.ServiceImpls
         /// 删除
         /// </summary>
         /// <param name="entity">业务实体</param>
-        public void Delete(Message entity)
+        public int Delete(Message entity)
         {
-            Gateway.Default.Delete<Message>(entity);
+            return Gateway.Default.Delete<Message>(entity);
         }
         /// <summary>
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        public void Delete(int identify)
+        public int Delete(int identify)
         {
-            Gateway.Default.Delete<Message>(Message._.Msg_Id == identify);
+            return Gateway.Default.Delete<Message>(Message._.Msg_Id == identify);
         }
         /// <summary>
         /// 删除，按主键id和学员id
         /// </summary>
         /// <param name="identify">主键id</param>
         /// <param name="acid">学员账户id</param>
-        public void Delete(int identify, int acid)
+        public int Delete(int identify, int acid)
         {
-            Gateway.Default.Delete<Message>(Message._.Msg_Id == identify && Message._.Ac_ID == acid);
+            return  Gateway.Default.Delete<Message>(Message._.Msg_Id == identify && Message._.Ac_ID == acid);
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；
