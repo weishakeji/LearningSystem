@@ -215,9 +215,10 @@
         //当前api要请求的服务端接口的版本号
         this.version = version == null ? config.versionDefault : version;
         var httpverb = ['get', 'post', 'delete', 'put', 'patch', 'options'];
-        for (let i = 0; i < httpverb.length; i++) {
+        for (var i = 0; i < httpverb.length; i++) {
             var el = httpverb[i];
-            eval("this." + el + " = function (way, parameters,loading,loaded) {return this.query(way, parameters, '" + el + "',loading,loaded,'json');};");
+            var tm = "this." + el + " = function (way, parameters,loading,loaded) {return this.query(way, parameters, '" + el + "',loading,loaded,'json');}";
+            eval(tm);
         }
         var self = this;
         //创建请求对象，以及拦截器
@@ -292,13 +293,13 @@
                         if (typeof (response.data.result) == 'string') {
                             try {
                                 response.data.result = eval("(" + response.data.result + ")");
-                            } catch(err){
+                            } catch (err) {
                                 //alert(err);
-                             }
+                            }
                         }
                         response.data.result = methods.unescape(response.data.result);
                     }
-                } 
+                }
                 //执行加载完成后的方法
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loaded != null) loaded(response, null);

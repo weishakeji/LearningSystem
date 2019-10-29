@@ -14,7 +14,7 @@
         $api.get("helper/List").then(function (req) {
             if (req.data.success) {
                 th.arr = req.data.result;
-            }else{
+            } else {
                 alert(req.data.message);
             }
         });
@@ -64,7 +64,7 @@ Vue.component('methods', {
             </dd>\
        </dl>\
        </div>"
-})
+});
 /*
 
 */
@@ -128,10 +128,21 @@ var rvue = new Vue({
             var params = this.getInputPara();
             var http = document.getElementById("httppre").value;
             //语句
-            var urlstr=window.location.protocol+"//"+window.location.host+"/api/v1/"+mathd;            
+            var urlstr = window.location.protocol + "//" + window.location.host + "/api/v1/" + mathd;
+            document.getElementById("apiurl").innerText = " - " + urlstr;
             var jsstr = "$api." + http + "('" + mathd + "'" + (params == "{}" ? "" : "," + params) + ")";
-            jsstr += ".then(function(req)\r{\r\t...\r});";
-            document.getElementById("teststring").innerText = "APIurl："+urlstr.toLowerCase()+"\r"+jsstr;
+            jsstr += ".then(function(req){\r\tif(req.data.success){\r\t\tvar result=req.data.result;\r\t\t //...\r\t}else{\r\t\tthrow req.data.message;\r\t}\r})";
+            jsstr += ".catch(function (err) {\r\talert(err);\r});";
+            document.getElementById("teststring").innerText = jsstr;
+            //document.getElementById("input_teststring").innerText = jsstr;
+        },
+        //复制测试代码
+        btnCopyEvent: function () {
+            var jsstr = document.getElementById("teststring").innerText;
+            var input = document.getElementById("input_teststring");
+            input.value = jsstr; // 修改文本框的内容
+            input.select(); // 选中文本
+            document.execCommand('copy');
         },
         //获取录入的参数
         getInputPara: function () {
@@ -253,4 +264,3 @@ function formateXml(xmlStr) {
     text = xmlStr;
 
 }
-

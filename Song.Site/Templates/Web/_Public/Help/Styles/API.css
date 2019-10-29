@@ -183,8 +183,11 @@ context {
     background-color: #eee;
 }
 .method table input{
-    height: 20px;
+    height: 22px;
     width: 100px;
+    --border: 1px solid #999;
+    box-shadow: 0px 0px 2px #333 inset;
+    border-radius: 2px;
 }
 .test-tit {
     height: 40px;
@@ -222,16 +225,28 @@ context {
 .test-tit  button:hover{
     background-color:rgb(166, 228, 163);
 }
+fieldset{
+    position: relative;
+}
+#btnCopy{
+    position: absolute;
+    bottom: 0px;
+    right:  0px;
+    width: 80px;
+    height: 25px;
+    cursor: pointer;
+}
 #testarea{
     width: calc(100% - 60px);
     display: table;
+
     padding: 10px 30px 10px 30px;
     margin: 0px;
 }
 #testarea pre{
     margin: 0px;
     font-size: 16px;
-    line-height: 22px;
+    line-height: 25px;
     padding: 20px;
     background-color: rgb(240, 243, 215);
     word-wrap: break-word;
