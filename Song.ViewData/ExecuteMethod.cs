@@ -217,7 +217,10 @@ namespace Song.ViewData
                     if (!pi.IsOut)
                     {
                         string val = letter[pi.Name].String;
-                        if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
+                        if (!pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
+                        }
                         try
                         {
                             switch (pi.ParameterType.Name)
