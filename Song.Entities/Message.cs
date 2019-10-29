@@ -46,6 +46,10 @@ namespace Song.Entities {
     		
     		protected String _Ac_Photo;
     		
+    		protected String _Msg_IP;
+    		
+    		protected String _Ac_AccName;
+    		
     		/// <summary>
     		/// False
     		/// </summary>
@@ -257,6 +261,26 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Msg_IP {
+    			get {
+    				return this._Msg_IP;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Msg_IP, _Msg_IP, value);
+    				this._Msg_IP = value;
+    			}
+    		}
+    		
+    		public String Ac_AccName {
+    			get {
+    				return this._Ac_AccName;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ac_AccName, _Ac_AccName, value);
+    				this._Ac_AccName = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -302,7 +326,9 @@ namespace Song.Entities {
     					_.Msg_PlayTime,
     					_.Msg_Likenum,
     					_.Ac_Name,
-    					_.Ac_Photo};
+    					_.Ac_Photo,
+    					_.Msg_IP,
+    					_.Ac_AccName};
     		}
     		
     		/// <summary>
@@ -328,7 +354,9 @@ namespace Song.Entities {
     					this._Msg_PlayTime,
     					this._Msg_Likenum,
     					this._Ac_Name,
-    					this._Ac_Photo};
+    					this._Ac_Photo,
+    					this._Msg_IP,
+    					this._Ac_AccName};
     		}
     		
     		/// <summary>
@@ -391,6 +419,12 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ac_Photo))) {
     				this._Ac_Photo = reader.GetString(_.Ac_Photo);
+    			}
+    			if ((false == reader.IsDBNull(_.Msg_IP))) {
+    				this._Msg_IP = reader.GetString(_.Msg_IP);
+    			}
+    			if ((false == reader.IsDBNull(_.Ac_AccName))) {
+    				this._Ac_AccName = reader.GetString(_.Ac_AccName);
     			}
     		}
     		
@@ -512,6 +546,16 @@ namespace Song.Entities {
     			/// 字段名：Ac_Photo - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Ac_Photo = new WeiSha.Data.Field<Message>("Ac_Photo");
+    			
+    			/// <summary>
+    			/// 字段名：Msg_IP - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Msg_IP = new WeiSha.Data.Field<Message>("Msg_IP");
+    			
+    			/// <summary>
+    			/// 字段名：Ac_AccName - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ac_AccName = new WeiSha.Data.Field<Message>("Ac_AccName");
     		}
     	}
     }

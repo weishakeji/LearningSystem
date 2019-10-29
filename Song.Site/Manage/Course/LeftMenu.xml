@@ -8,5 +8,7 @@
   <item name="试卷" href="Courses_TestPaper.aspx"/>
   <item name="知识 " href="Courses_Knl.aspx"/>
   <item name="公告 " href="Courses_Guide.aspx"/>
+  <item name="留言 " href="Courses_Message.aspx"/>
   <!--<item name="学员 " href="Courses_Guide.aspx"/>-->
+  <!--<item name="收入 " href="Courses_Guide.aspx"/>-->
 </items>

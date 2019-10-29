@@ -96,6 +96,20 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Message>().Where(wc).OrderBy(ord).ToArray<Message>(count);
         }
         /// <summary>
+        /// 获取留言数量
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        public int GetOfCount(int couid, int olid)
+        {
+            WhereClip wc = new WhereClip();
+            if (couid > 0) wc &= Message._.Cou_ID == couid;
+            if (olid > 0) wc &= Message._.Ol_ID == olid;
+            //Message._.Msg_Title
+            return Gateway.Default.From<Message>().Where(wc).Count();
+        }
+        /// <summary>
         /// 分页获取
         /// </summary>
         /// <param name="couid"></param>

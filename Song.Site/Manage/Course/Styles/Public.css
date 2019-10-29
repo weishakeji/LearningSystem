@@ -63,8 +63,8 @@ td,p,div{
 {
 	margin-top:10px;
 	margin-left: 50px;
-	height: calc(100vh - 120px);     
-	padding-bottom:50px;
+	height: calc(100vh - 60px);     
+	padding-bottom:0px;
 	overflow: auto;
 }
 /*底部按钮区域*/
@@ -95,7 +95,7 @@ td,p,div{
 }
 /**/
 select, input[type=text]{
-	height:25px;
+	
 }
 select{
 }

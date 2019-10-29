@@ -48,7 +48,7 @@
                                     <tr v-for="(item,index) in method.Paras">
                                           <td>{{index+1}}</td>
                                           <td>{{item.Name}}</td>
-                                          <td><input type="text" :name="item.Name" v-on:blur.prevent="teststring()" :datatype="item.Type"/></td>
+                                          <td><input type="text" :name="item.Name" v-on:input.prevent="teststring()" :datatype="item.Type"/></td>
                                           <td>{{item.Type.substring(item.Type.indexOf('.')+1)}}</td>
                                           <td>{{item.Intro}}</td>
                                     </tr>

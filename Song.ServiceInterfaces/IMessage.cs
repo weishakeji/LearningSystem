@@ -67,6 +67,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Message[] GetCount(int couid, int olid, string order, int count);
         /// <summary>
+        /// 获取留言数量
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        int GetOfCount(int couid, int olid);
+        /// <summary>
         /// 分页获取
         /// </summary>
         /// <param name="couid"></param>
