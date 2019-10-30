@@ -632,10 +632,28 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<Course> CoursePager(int orgid, string sbjid, bool? isUse, string searTxt, string order, int size, int index, out int countSum)
         {
+            return this.CoursePager(orgid, sbjid, isUse, null, searTxt, order, size, index, out countSum);
+        }
+ 
+        /// <summary>
+        /// 分页获取
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid"></param>
+        /// <param name="isUse"></param>
+        /// <param name="isLive">是否是直播课</param>
+        /// <param name="searTxt"></param>
+        /// <param name="order"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public List<Course> CoursePager(int orgid, string sbjid, bool? isUse, bool? isLive, string searTxt, string order, int size, int index, out int countSum)
+        {
             WhereClip wc = Course._.Org_ID == orgid;
             if (!string.IsNullOrWhiteSpace(sbjid))
             {
-                WhereClip wcSbjid = new WhereClip();              
+                WhereClip wcSbjid = new WhereClip();
                 foreach (string tm in sbjid.Split(','))
                 {
                     if (string.IsNullOrWhiteSpace(tm)) continue;
@@ -647,10 +665,11 @@ namespace Song.ServiceImpls
                     List<int> list = Business.Do<ISubject>().TreeID(sbj);
                     foreach (int l in list)
                         wcSbjid.Or(Course._.Sbj_ID == l);
-                }               
+                }
                 wc.And(wcSbjid);
-            }           
+            }
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            if (isLive != null) wc.And(Course._.Cou_ExistLive == (bool)isLive);
             if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Like("%" + searTxt + "%"));
             countSum = Gateway.Default.Count<Course>(wc);
             OrderByClip wcOrder = new OrderByClip();

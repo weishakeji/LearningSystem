@@ -975,6 +975,7 @@
     <Content Include="Templates\Web\Gov\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\Gov\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\Gov\Inc\meta.inc" />
+    <Content Include="Templates\Web\Gov\Live.htm" />
     <Content Include="Templates\Web\Gov\mobi.htm" />
     <Content Include="Templates\Web\Gov\Scripts\Article.js" />
     <Content Include="Templates\Web\Gov\Scripts\CourseChannel.js" />
@@ -999,6 +1000,7 @@
     <Content Include="Templates\Web\Neimeng\Images\QQ-weixin.png" />
     <Content Include="Templates\Web\Neimeng\Images\teacher-banner.jpg" />
     <Content Include="Templates\Web\Neimeng\Inc\meta.inc" />
+    <Content Include="Templates\Web\Neimeng\Live.htm" />
     <Content Include="Templates\Web\Neimeng\mobi.htm" />
     <Content Include="Templates\Web\Neimeng\Scripts\Article.js" />
     <Content Include="Templates\Web\Neimeng\Scripts\CourseChannel.js" />
@@ -1284,6 +1286,7 @@
     <Content Include="Templates\Web\NetSchool\Styles\lunhuan\luara.left.css" />
     <Content Include="Templates\Web\NetSchool\Styles\lunhuan\luara.top.css" />
     <Content Include="Templates\Web\NetSchool\Styles\lunhuan\style.css" />
+    <Content Include="Templates\Web\NetSchool\Live.htm" />
     <Content Include="Templates\Web\School\Conn.htm" />
     <Content Include="Templates\Web\School\Images\bar01.jpg" />
     <Content Include="Templates\Web\School\Images\cou_nophoto.jpg" />
@@ -1294,6 +1297,7 @@
     <Content Include="Templates\Web\School\Images\more.png" />
     <Content Include="Templates\Web\School\Images\nosubject.jpg" />
     <Content Include="Templates\Web\School\Images\sl.gif" />
+    <Content Include="Templates\Web\School\Live.htm" />
     <Content Include="Templates\Web\School\News.htm" />
     <Content Include="Templates\Web\School\Scripts\jquery.luara.0.0.1.min.js" />
     <Content Include="Templates\Web\School\Scripts\CourseChannel.js" />
@@ -1424,6 +1428,9 @@
     <Content Include="Templates\Web\_Public\Module\Course\Subject-bar.htm" />
     <Content Include="Templates\Web\_Public\Module\Course\Subject-bar.css" />
     <Content Include="Templates\Web\_Public\Module\Course\Subject-bar.js" />
+    <Content Include="Templates\Web\_Public\Module\Course\Live.htm" />
+    <Content Include="Templates\Web\_Public\Module\Course\Live.js" />
+    <Content Include="Templates\Web\_Public\Module\Course\Live.css" />
     <Content Include="Templates\Web\_Public\Module\Teacher\Register.css" />
     <Content Include="Templates\Web\_Public\Module\Teacher\Register.htm" />
     <Content Include="Templates\Web\_Public\Module\Teacher\Register.js" />
@@ -5688,6 +5695,10 @@
       <DependentUpon>WeixinpubLogin.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Live.ashx.cs">
+      <DependentUpon>Live.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -6914,6 +6925,7 @@
     <None Include="Utility\PdfViewer\locale\zu\viewer.properties" />
     <Content Include="CourseChannel.ashx" />
     <Content Include="Mobile\WeixinpubLogin.ashx" />
+    <Content Include="Live.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />

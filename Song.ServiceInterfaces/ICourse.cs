@@ -198,6 +198,20 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         List<Course> CoursePager(int orgid, string sbjid, bool? isUse, string searTxt, string order, int size, int index, out int countSum);
         /// <summary>
+        /// 分页获取
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid"></param>
+        /// <param name="isUse"></param>
+        /// <param name="isLive">是否是直播课</param>
+        /// <param name="searTxt"></param>
+        /// <param name="order"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        List<Course> CoursePager(int orgid, string sbjid, bool? isUse, bool? isLive, string searTxt, string order, int size, int index, out int countSum);
+        /// <summary>
         /// 将当前项目向上移动；仅在当前对象的同层移动，即同一父节点下的对象这前移动；
         /// </summary>
         /// <param name="id"></param>

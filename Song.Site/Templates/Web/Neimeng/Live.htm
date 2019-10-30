@@ -1,0 +1,16 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>{$course.cou_name} - {$:#.org.org_platformname}</title>
+    <vt:include file="inc/meta.inc" />
+    <script type="text/javascript" src="Scripts/Course.js?ver={$version}"></script>
+    <link href="Styles/Course.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <vt:include file="inc/Header.html" />
+    <div id="Context">
+<vt:include file="Module/Course/live.htm" from="_public" remark="直播课程" />
+    </div>
+    <vt:include file="inc/footer.html" />
+</body>
+</html>

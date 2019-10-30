@@ -1,0 +1,142 @@
+﻿@charset "utf-8";
+body {
+}
+#mainShow {
+	background-image: url(../Images/3.jpg);
+	background-repeat: no-repeat;
+	background-position: center 0px;
+	height: 300px;
+	width: 100%;
+}
+#TitleBar {
+	font-size: 16px;
+	line-height: 35px;
+	font-weight: bold;
+	color: #000000;
+	background-image: url(../Images/icon1.png);
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+	height: 40px;
+	margin-top: 25px;
+	text-indent: 45px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	margin-bottom: 20px;
+}
+#TitleBar span {
+	font-size: 16px;
+}
+.depart {
+	float: right;
+}
+#Context #selectArea {
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	padding-bottom: 20px;
+}
+.courseList {
+	width: 1200px;
+	height: auto;
+	overflow: hidden;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 30px;
+	min-height: 800px;
+}
+.courseList .courseListInner {
+	width: 1250px;
+}
+.course-item {
+	float: left;
+	height: 160px;
+	width: 220px;
+	margin-top: 20px;
+	margin-right: 25px;
+	margin-bottom: 30px;
+}
+.live{
+	background-image: url(../../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display:inline-block;	
+}
+.cour-img {
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+.cour-img img {
+	width: 220px;
+}
+.cour-img:hover {
+}
+.cour-img:hover img {
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+	opacity: 0.85;
+}
+.cour-name {
+	line-height: 20px;
+	color: #333;
+	display: block;
+	height: 40px;
+	text-align: left;
+	font-size: 15px;
+	overflow: hidden;
+}
+.cour-name:hover {
+	color: #188eee;
+}
+.cour-price {
+	font-size: 15px;
+	line-height: 30px;
+	height:30px;
+	position:relative;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+}
+.cour-price .free {
+	color: #090;	
+}
+.cour-price .cou-sbj {
+	color: #999;
+	float:right;	
+}
+.cou-count {
+	padding-top: 1px;
+	padding-left: 20px;
+	background: url(../../images/sl.gif) 0 2px no-repeat;
+	height: 25px;
+	color: #666;
+	margin-left: 10px;
+	margin-top:0px;
+}
+/*课程价格*/
+.money {
+	color: #F60;
+	float: left;
+	font-size: 16px;
+}
+.money-ico {
+	font-size: 18px;
+	margin-right: 5px;
+}
+.p-num, .p-span, .p-unit {
+	font-size: 12px;
+}
+.nocourse {
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 18px;
+	line-height: 40px;
+	text-align: center;
+}

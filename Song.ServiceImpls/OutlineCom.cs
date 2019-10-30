@@ -670,6 +670,28 @@ namespace Song.ServiceImpls
             return OutlineCount(couid, null, search, isUse, count);
         }
         /// <summary>
+        /// 直播中的章节
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public List<Outline> OutlineLiving(int orgid, int count)
+        {
+            pili_sdk.pili.StreamList streams = Business.Do<ILive>().StreamList(string.Empty, true, count);
+            if (streams == null || streams.Streams.Count < 1) return null;
+            List<Outline> list = new List<Outline>();
+            
+            foreach (pili_sdk.pili.Stream stream in streams.Streams)
+            {
+                WhereClip wc = new WhereClip();
+                if (orgid > 0) wc &= Outline._.Org_ID == orgid;
+                Outline outline = Gateway.Default.From<Outline>().Where(
+                    wc & Outline._.Ol_LiveID == stream.Title).ToFirst<Outline>();
+                list.Add(outline);
+            }
+            return list;
+        }
+        /// <summary>
         /// 获取指定个数的章节列表
         /// </summary>
         /// <param name="couid"></param>

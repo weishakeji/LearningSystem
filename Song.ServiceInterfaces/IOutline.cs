@@ -149,6 +149,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Outline[] OutlineCount(int couid, bool? islive, string search, bool? isUse, int count);
         /// <summary>
+        /// 直播中的章节
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        List<Outline> OutlineLiving(int orgid, int count);
+        /// <summary>
         /// 取指定数量的章节
         /// </summary>
         /// <param name="couid"></param>

@@ -239,12 +239,23 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public pili_sdk.pili.StreamList StreamList(string prefix, long count)
         {
+            return StreamList(prefix, null, count);
+        }
+        /// <summary>
+        /// 直播流列表
+        /// </summary>
+        /// <param name="prefix">直播流名称前缀</param>
+        /// <param name="living">是否正在直播中</param>
+        /// <param name="count">取几条记录</param>
+        /// <returns></returns>
+        public pili_sdk.pili.StreamList StreamList(string prefix, bool? living, long count)
+        {
             string marker = null; // optional
             long limit = count; // optional
             string titlePrefix = prefix; // optional
             try
             {
-                StreamList streamList = Pili.API<IStream>().List(marker, limit, titlePrefix);
+                StreamList streamList = Pili.API<IStream>().List(marker, limit, titlePrefix, living);
                 IList<Stream> list = streamList.Streams;
                 foreach (Stream s in list)
                 {

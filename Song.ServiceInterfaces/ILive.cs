@@ -115,6 +115,14 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         pili_sdk.pili.StreamList StreamList(string prefix, long count);
         /// <summary>
+        /// 直播流列表
+        /// </summary>
+        /// <param name="prefix">直播流名称前缀</param>
+        /// <param name="living">是否正在直播中</param>
+        /// <param name="count">取几条记录</param>
+        /// <returns></returns>
+        pili_sdk.pili.StreamList StreamList(string prefix, bool? living, long count);
+        /// <summary>
         /// 获取直播流
         /// </summary>
         /// <param name="name"></param>
@@ -128,5 +136,7 @@ namespace Song.ServiceInterfaces
         bool StreamDelete(string name);
         //bool Stream
         #endregion
+
+        
     }
 }
