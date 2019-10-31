@@ -158,13 +158,18 @@ namespace Song.ServiceImpls
                 if (string.IsNullOrWhiteSpace(entity.Ol_LiveID))
                 {
                     stream = Business.Do<ILive>().StreamCreat();
-                    if(stream!=null)
-                        entity.Ol_LiveID = stream.Title;
+                    if (stream != null) entity.Ol_LiveID = stream.Title;
                 }
                 else
                 {
-                    stream = pili_sdk.Pili.API<pili_sdk.IStream>().GetForTitle(entity.Ol_LiveID);
-                    if (stream != null) pili_sdk.Pili.API<pili_sdk.IStream>().Enable(stream);
+                    try
+                    {
+                        stream = pili_sdk.Pili.API<pili_sdk.IStream>().GetForTitle(entity.Ol_LiveID);
+                        if (stream != null) pili_sdk.Pili.API<pili_sdk.IStream>().Enable(stream);
+                    }
+                    catch
+                    {
+                    }
                 }
                 
             }
@@ -677,7 +682,15 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<Outline> OutlineLiving(int orgid, int count)
         {
-            pili_sdk.pili.StreamList streams = Business.Do<ILive>().StreamList(string.Empty, true, count);
+            pili_sdk.pili.StreamList streams = null;
+            try
+            {
+                streams = Business.Do<ILive>().StreamList(string.Empty, true, count);
+            }
+            catch
+            {
+                return null;
+            }
             if (streams == null || streams.Streams.Count < 1) return null;
             List<Outline> list = new List<Outline>();
             

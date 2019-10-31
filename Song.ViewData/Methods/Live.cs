@@ -78,5 +78,22 @@ namespace Song.ViewData.Methods
             }
             return dic;
         }
+        /// <summary>
+        /// 测试链接是否通过
+        /// </summary>
+        /// <returns></returns>
+        public bool Test()
+        {
+            pili_sdk.pili.StreamList streams = null;
+            try
+            {
+                streams = Business.Do<ILive>().StreamList(string.Empty, 10);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

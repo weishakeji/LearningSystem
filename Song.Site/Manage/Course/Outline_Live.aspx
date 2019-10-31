@@ -61,6 +61,16 @@
             </td>
         </tr>
     </table>
+    <asp:Panel ID="panelError" runat="server" Visible=false>
+       <asp:Label ID="lbError" runat="server" Text="错误" ForeColor="Red"></asp:Label>
+       <br />
+
+       <span style="color:#ff0000">可能原因：<br />
+       1、对接七牛云平台的密钥信息填写错误；<br />
+       2、七牛云账户欠费；<br />
+       请联络系统管理员，登录七牛云账户查看具体原因</span>
+    </asp:Panel>
+ 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">
     <cc1:EnterButton verify="true" ID="btnEnter" runat="server" Text="确定" OnClick="btnEnter_Click"

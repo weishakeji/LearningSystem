@@ -39,18 +39,26 @@ namespace Song.Site.Manage.Course
             tbLiveTime.Text = mm.Ol_LiveTime < DateTime.Now.AddYears(-100) ? "" : mm.Ol_LiveTime.ToString("yyyy-MM-dd HH:mm");
             tbLiveSpan.Text = mm.Ol_LiveSpan == 0 ? "" : mm.Ol_LiveSpan.ToString();
             //直播流地址
-            pili_sdk.pili.Stream stream = Business.Do<ILive>().StreamGet(mm.Ol_LiveID);
-            if (stream != null)
+            pili_sdk.pili.Stream stream = null;
+            try
             {
-                //推流地址
-                ltPublish.Text = string.Format("rtmp://{0}/{1}/{2}", stream.PublishRtmpHost, stream.HubName, stream.Title);
-                //直播地址
-                string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
-                ltPlayHls.Text = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
-                ltPlayRtmp.Text = string.Format("rtmp://{0}/{1}/{2}", stream.LiveRtmpHost, stream.HubName, stream.Title);
+                stream = Business.Do<ILive>().StreamGet(mm.Ol_LiveID);
+                if (stream != null)
+                {
+                    //推流地址
+                    ltPublish.Text = string.Format("rtmp://{0}/{1}/{2}", stream.PublishRtmpHost, stream.HubName, stream.Title);
+                    //直播地址
+                    string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
+                    ltPlayHls.Text = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
+                    ltPlayRtmp.Text = string.Format("rtmp://{0}/{1}/{2}", stream.LiveRtmpHost, stream.HubName, stream.Title);
+                }
             }
-            //string publish = Business.Do<ILive>().GetPublish(mm.Ol_LiveID);
-            //ltPublish.Text = publish;
+            catch (Exception ex)
+            {
+                panelError.Visible = true;
+                lbError.Text = "直播调用发生异常：" + ex.Message;
+            }            
+
         }
 
         protected void btnEnter_Click(object sender, EventArgs e)
