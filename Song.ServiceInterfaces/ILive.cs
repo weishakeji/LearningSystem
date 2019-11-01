@@ -15,6 +15,11 @@ namespace Song.ServiceInterfaces
         /// 初始化相关参数
         /// </summary>
         void Initialization();
+        /// <summary>
+        /// 测试链接是否正确
+        /// </summary>
+        /// <returns></returns>
+        bool Test(string accesskey, string secretkey, string hubname);
         #region 设置
         /// <summary>
         /// 设置直接平台的密钥

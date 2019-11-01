@@ -81,14 +81,15 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 测试链接是否通过
         /// </summary>
+        /// <param name="ak">accesskey密钥</param>
+        /// <param name="sk">secretkey密钥</param>
+        /// <param name="hubname">直播空间名</param>
         /// <returns></returns>
-        public bool Test()
+        public bool Test(string ak, string sk, string hubname)
         {
-            pili_sdk.pili.StreamList streams = null;
             try
             {
-                streams = Business.Do<ILive>().StreamList(string.Empty, 10);
-                return true;
+                return Business.Do<ILive>().Test(ak, sk, hubname);
             }
             catch(Exception ex)
             {

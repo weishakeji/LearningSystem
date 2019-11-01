@@ -28,7 +28,10 @@ namespace Song.ServiceImpls
         {
             pili_sdk.Pili.Initialization(this.GetAccessKey, this.GetSecretKey, this.GetLiveSpace, "v1");
         }
-
+        public bool Test(string accesskey, string secretkey, string hubname)
+        {
+            return Pili.API<IStream>().Test(accesskey, secretkey, hubname, "v1");
+        }
         #region 设置
         /// <summary>
         /// 设置密钥

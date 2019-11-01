@@ -34,10 +34,17 @@
         },
         //测试链接
         btnTest: function () {
-            $api.get('Live/Test').then(function (req) {
+            var ak = vm.form.AccessKey;
+            var sk = vm.form.SecretKey;
+            var hubname = vm.form.LiveSpace;
+            $api.get('Live/Test', { 'ak': ak, 'sk': sk, 'hubname': hubname }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
-                    //...
+                    vm.$alert('测试通过', '成功',
+                        {
+                            dangerouslyUseHTMLString: true,
+                            confirmButtonText: '确定'
+                        });
                 } else {
                     throw req.data.message;
                 }
