@@ -1,20 +1,32 @@
 ﻿<script type="text/javascript" src="live.js?ver={$version}" href="live.css?ver={$version}"></script>
- <div class="navi-bar">
-            <a href="/" class="nav-txt">首页</a> &gt; <a href="/courses.ashx" class="nav-txt">课程中心</a>
-            &gt;
-            直播课
-        </div>
-         <div class="liveList">
-          <vt:foreach from="$#.lives" item="o" index="i" size="40" remark="直播章节列表">
-          <div>
-          {$:#.o.Ol_Name}<br />
-          <vt:function var="snapshot" method="GetSnapshot" args="$#.o.Ol_LiveID"/>
-          <img src="{$:#.snapshot}"/>
+<div class="navi-bar">
+    <a href="/" class="nav-txt">首页</a> &gt; <a href="/courses.ashx" class="nav-txt">课程中心</a>
+    &gt; 直播课
+</div>
+<div class="liveList">
+    <vt:foreach from="$#.lives" item="o" index="i" size="40" remark="直播章节列表">
+          <div class="livebox">
+           <vt:function var="liveCou" method="GetCourse" args="$#.o.Cou_ID"  remark="获取直播课程"/>
+           <vt:function var="snapshot" method="GetSnapshot" args="$#.o.Ol_LiveID"  remark="获取直播截图"/>
+          <div class="snapshot">
+          
+          <a href="CourseStudy.ashx?couid={$:#.liveCou.Cou_id}&olid={$:#.o.ol_id}" target="_blank" class="bvr_mr" title="开始学习"><img src="{$:#.snapshot}" style="width:600px;height:337px"/></a></div>
+          <div class="liveRight">
+        
+                 <a href="course.ashx?id={$:#.liveCou.Cou_id}"  class="couName" target="_blank"> {$:#.liveCou.Cou_Name}</a>
+          
+            
+     
+         <a href="CourseStudy.ashx?couid={$:#.liveCou.Cou_id}&olid={$:#.o.ol_id}" target="_blank" class="liveinfo">直播内容：{$:#.o.Ol_Name}</a>
+                <div class="liveinfo">开始时间：{$:#.o.Ol_LiveTime format="yyyy-M-d HH:mm"}</div>
+         <div class="liveinfo">直播时长：{$:#.o.Ol_LiveSpan}分钟</div>
+          <div class="couBtn"><a href="CourseStudy.ashx?couid={$:#.liveCou.Cou_id}&olid={$:#.o.ol_id}" target="_blank" class="bvr_mr" title="开始学习">正在直播</a></div>
+          </div>
           </div>
           </vt:foreach>
-         </div>
-        <div class="courseList">
-   <vt:if var="course.Count" value="0" compare="!="> 
+</div>
+<div class="courseList">
+    <vt:if var="course.Count" value="0" compare="!="> 
     <div class="courseListInner">
       <vt:foreach id="course" from="$#.course" item="c" index="i" size="40" remark="课程列表">
         <div class="course-item"> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" default="../../images/cou_nophoto.jpg" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"><vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
@@ -34,9 +46,9 @@
     <vt:else/>
     <div class="nocourse">当前选择条件下没有课程！</div>
     </vt:if>
-  </div>
-  <!--分页导航 -->
-  <vt:if var="pageAmount.Length" value="1" compare=">">
+</div>
+<!--分页导航 -->
+<vt:if var="pageAmount.Length" value="1" compare=">">
     <div id="pagerBar">
       <div class="pagerFirst pagerBtn"><a href="/courses.ashx?sbjid={$sbjid}">首页</a></div>
       <!--上一页 -->

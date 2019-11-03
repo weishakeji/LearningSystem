@@ -116,13 +116,13 @@ namespace Song.ViewData.Methods
         /// <returns></returns>        
         public Dictionary<string, object> State(int olid)
         {
-            Dictionary<string, object> dic = new Dictionary<string, object>();   
+            Dictionary<string, object> dic = new Dictionary<string, object>();
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
             if (outline == null) return null;
-            dic.Add("Name", outline.Ol_Name);  
+            dic.Add("Name", outline.Ol_Name);
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
             if (course == null) return null;
-            dic.Add("Course", course.Cou_Name);  
+            dic.Add("Course", course.Cou_Name);
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {
@@ -156,8 +156,9 @@ namespace Song.ViewData.Methods
             dic.Add("isKnl", knlCount > 0);
 
             //是否有视频，是否为外链视频
+
             List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(outline.Ol_UID, "CourseVideo");
-            bool existVideo = videos.Count > 0;                   
+            bool existVideo = videos.Count > 0;
             dic.Add("outerVideo", existVideo && (videos.Count > 0 && videos[0].As_IsOuter));
             if (videos.Count > 0)
             {
@@ -174,33 +175,40 @@ namespace Song.ViewData.Methods
                         if (ext == ".flv") videoUrl = Path.ChangeExtension(videoUrl, ".mp4");
                     }
                 }
-                dic.Add("urlVideo", videoUrl);
+                dic.Add("urlVideo", canStudy ? videoUrl : string.Empty);
             }
             //直播       
             bool isLive = false;
             if (outline.Ol_IsLive)
             {
-                //查询直播状态
-                pili_sdk.pili.StreamStatus status = Pili.API<IStream>().Status(outline.Ol_LiveID);
-                if (status != null)
+                string urlVideo = string.Empty;
+                if (canStudy)
                 {
-                    pili_sdk.pili.Stream stream = status.Stream;
-                    string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
-                    dic.Add("urlVideo", string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title));
-                    isLive = status.Status == "connected";  //正在直播
-                    existVideo = isLive ? false : existVideo;
+                    //查询直播状态
+                    pili_sdk.pili.StreamStatus status = Pili.API<IStream>().Status(outline.Ol_LiveID);
+                    if (status != null)
+                    {
+                        pili_sdk.pili.Stream stream = status.Stream;
+                        string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
+                        urlVideo = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);                       
+                        isLive = status.Status == "connected";  //正在直播
+                        existVideo = isLive ? false : existVideo;
+                    }
                 }
+                //直播播放地址
+                dic.Add("urlVideo", urlVideo);
                 //直播开始或结束
                 dic.Add("LiveStart", DateTime.Now > outline.Ol_LiveTime);
-                dic.Add("LiveOver",  outline.Ol_LiveTime.AddMinutes(outline.Ol_LiveSpan) > DateTime.Now);
+                dic.Add("LiveOver", outline.Ol_LiveTime.AddMinutes(outline.Ol_LiveSpan) > DateTime.Now);
             }
             dic.Add("isLive", isLive);
             dic.Add("existVideo", existVideo);
+
             //是否有课程内容
-            bool isContext=!string.IsNullOrWhiteSpace(outline.Ol_Intro);
+            bool isContext = !string.IsNullOrWhiteSpace(outline.Ol_Intro);
             dic.Add("isContext", isContext);
             //是否有试题
-            bool isQues=Business.Do<IOutline>().OutlineIsQues(outline.Ol_ID, true);
+            bool isQues = Business.Do<IOutline>().OutlineIsQues(outline.Ol_ID, true);
             dic.Add("isQues", isQues);
             //是否有附件
             int accessCount = Business.Do<IAccessory>().OfCount(outline.Ol_UID, "Course");

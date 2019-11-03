@@ -51,7 +51,7 @@
                   <!--左侧顶部结束-->
                   <div id="contextArea">
                         <div remark="提示" v-show="titState=='isNull'">
-                              <div class="noSelect">当前章节没有内容！</div>
+                              <div class="noSelect">当前章节没有内容！或无权查看学习内容！</div>
                               <div class="noSelect" v-if="state.LiveStart && state.LiveOver">直播已经结束</div>
                         </div>
                         <div remark="视频" v-show="titState=='existVideo'" :video="state.urlVideo">

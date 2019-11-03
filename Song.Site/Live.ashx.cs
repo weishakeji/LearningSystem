@@ -24,11 +24,6 @@ namespace Song.Site
             if (lives != null)
             {
                 this.Document.SetValue("lives", lives);
-                //foreach (Song.Entities.Outline o in lives)
-                //{
-                //    //封面地址
-                //    string cover = string.Format("http://{0}/{1}/{2}.jpg", snapshot, hubname, o.Ol_LiveID);
-                //}
             }
             this.Document.RegisterGlobalFunction(this.GetSnapshot);
             this.Document.RegisterGlobalFunction(this.GetCourse);
