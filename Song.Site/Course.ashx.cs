@@ -39,7 +39,7 @@ namespace Song.Site
                     DateTime freeEnd = cou.Cou_FreeEnd.AddDays(1).Date;
                     if (!(cou.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))                       
                         cou.Cou_IsLimitFree = false;                   
-                }
+                }               
                 this.Document.Variables.SetValue("course", cou);
             }
             //是否学习当前课程
