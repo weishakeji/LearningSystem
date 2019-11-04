@@ -7,6 +7,10 @@
 
 </head>
 <body>
+<script>
+    document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
+    document.body.onpaste = document.body.oncopy = function () { return false; };
+</script>
 <div id="area">
   <vt:if var="explain" value="" compare="="> <div class="noContext">（该试题没有解析）</div>
     <vt:else />
