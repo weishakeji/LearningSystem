@@ -106,6 +106,7 @@ namespace Song.ServiceImpls
                     current.Sbj_ID = sbjid;
                     current.Cou_ID = couid;
                     current.Ol_PID = pid;
+                    current.Ol_IsFinish = true;     //默认为完结
                     this.OutlineAdd(current);
                 }
                 last = current;
