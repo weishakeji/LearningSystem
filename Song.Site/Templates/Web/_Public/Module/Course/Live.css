@@ -49,6 +49,9 @@ body {
     margin-right: 5%;
     background-color: #188eee;
 }
+.liveRight .couBtn:hover{
+	box-shadow: 2px 2px 2px #888888;
+}
 .couBtn a::before{
 	content: "";
 	background-image: url(../../Images/live-icon.gif);

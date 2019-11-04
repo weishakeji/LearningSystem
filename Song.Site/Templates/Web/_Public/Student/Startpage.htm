@@ -35,7 +35,16 @@
     <div class="title">我的课程</div>
   </div>
   <div class="listBox"> <vt:foreach id="Course" from="$#.Course" item="data" index="i" size="15" remark="选修的课程">
-      <div class="item" couid="{$:#.data.Cou_ID}"> <a href="/course.ashx?id={$:#.data.Cou_ID}" target="_blank"><img src="{$:#.data.Cou_LogoSmall}"  default="../images/cou_nophoto.jpg" alt="{$:#.data.Cou_Name}" subject="{$:#.data.sbj_Name}"/></a>
+      <div class="item" couid="{$:#.data.Cou_ID}">
+       <a href="/course.ashx?id={$:#.data.Cou_ID}" target="_blank"  alt="{$:#.data.Cou_Name}" subject="{$:#.data.sbj_Name}">
+        <vt:if var="data.cou_logo" value="" compare="=" remark="课程图片">
+                <img src="../images/cou_nophoto.jpg" background-size: 100%;"/>
+                 <vt:else/>
+                   <img src="{$data.Cou_LogoSmall}" default="../images/cou_nophoto.jpg" 
+                style="background: url({$data.cou_logo}) no-repeat center; background-size: 100%;"/>
+                 </vt:if>
+
+      </a>
         <div class="itemName"><a href="/course.ashx?id={$:#.data.Cou_ID}" target="_blank"> {$:#.data.Cou_Name}</a> </div>
       </div>
     </vt:foreach> </div>
