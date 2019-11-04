@@ -97,6 +97,23 @@ var vdata = new Vue({
                 if (ol.data.success && state.data.success) {
                     vdata.outline = ol.data.result;
                     vdata.state = state.data.result;
+                    if (!vdata.state.isLive && vdata.state.PlayTime / 1000 > 0) {
+                        /*if (window.confirm("是否从上次进放播放？")) {
+                            vdata.videoSeek(vdata.state.PlayTime);
+                        }*/
+                        vdata.$confirm('是否从上次进度播放？', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            vdata.videoSeek(vdata.state.PlayTime / 1000);
+                            window.setTimeout(function () {
+                                if (vdata.playready()) vdata.player.play();
+                            }, 500);
+                        }).catch(() => {
+
+                        });
+                    }
                     //视频播放记录
                     var result = state.data.result;
                     vdata.video.studytime = isNaN(result.StudyTime) ? 0 : result.StudyTime;
@@ -194,7 +211,9 @@ var vdata = new Vue({
         },
         //视频播放跳转
         videoSeek: function (second) {
-            if (vdata.playready()) vdata.player.seek(second);
+            if (vdata.playready()) {
+                vdata.player.seek(second);
+            }
         },
         //学习记录记录
         videoLog: function () {
@@ -320,7 +339,7 @@ var vdata = new Vue({
         //获取当前章节的留言信息
         msgGet: function () {
             if (!vdata.olid || vdata.olid < 1) return;
-            $api.post("message/All", { olid: vdata.olid,order:'asc' }).then(function (req) {
+            $api.post("message/All", { olid: vdata.olid, order: 'asc' }).then(function (req) {
                 var d = req.data;
                 if (d.success) {
                     vdata.messages = d.result;

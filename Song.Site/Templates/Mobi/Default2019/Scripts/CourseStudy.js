@@ -79,7 +79,7 @@ var vdata = new Vue({
             //vdata.videoEvent(vdata.playtime);
         }
     },
-    methods: { 
+    methods: {
         //播放器是否准备好
         playready: function () {
             if (vdata.player != null) {
@@ -142,7 +142,7 @@ var vdata = new Vue({
             var setbtn = document.getElementsByClassName("qplayer-settings-btn");
             for (var i = 0; i < setbtn.length; i++) {
                 //setbtn[i].style.display = "none";
-            }            
+            }
         },
         //章节列表的点击事件
         outlineClick: function (olid, event) {
@@ -158,13 +158,21 @@ var vdata = new Vue({
                 if (ol.data.success && state.data.success) {
                     vdata.outline = ol.data.result;
                     vdata.state = state.data.result;
+                    if (!vdata.state.isLive && vdata.state.PlayTime > 0) {
+                        if (window.confirm("是否从上次进度播放？")) {
+                            vdata.videoSeek(vdata.state.PlayTime / 1000);
+                            window.setTimeout(function () {
+                                if (vdata.playready()) vdata.player.play();
+                            }, 500);
+                        }
+                    }
                     //视频播放记录
                     var result = state.data.result;
                     vdata.video.studytime = isNaN(result.StudyTime) ? 0 : result.StudyTime;
                     vdata.video.playhistime = isNaN(result.PlayTime) ? 0 : result.PlayTime / 1000;
                     window.setTimeout(function () {
                         vdata.outlineLoaded = true;
-                    }, 100);                   
+                    }, 100);
                 } else {
                     if (!ol.data.success) alert("章节信息加载异常！详情：\r" + ol.data.message);
                     if (!state.data.success) alert("章节状态加载异常！详情：\r" + state.data.message);
@@ -189,7 +197,7 @@ var vdata = new Vue({
                 }, function () {
                     vdata.studylogUpdate = false;
                 }).then(function (req) {
-                    if(!req.data.success)throw req.data.message;
+                    if (!req.data.success) throw req.data.message;
                     vdata.studylogState = 1;
                     window.setTimeout(function () {
                         vdata.studylogState = 0;
@@ -220,8 +228,8 @@ var vdata = new Vue({
             $api.post("message/add", { msg: msg, playtime: vdata.playtime, couid: vdata.couid, olid: vdata.olid }).then(function (req) {
                 var d = req.data;
                 if (d.success) {
-                    var input=document.getElementById("messageinput");
-                    input.value = '';                    
+                    var input = document.getElementById("messageinput");
+                    input.value = '';
                     vdata.msgGet();
                 } else {
                     alert("信息添加发生异常！详情：\r" + d.message);
@@ -229,19 +237,19 @@ var vdata = new Vue({
             });
         },
         //留言输入框失去焦点
-        msgBlur:function(e){
-            document.getElementById("footer").style.display="";
-            document.getElementById("messageinput").blur();      
+        msgBlur: function (e) {
+            document.getElementById("footer").style.display = "";
+            document.getElementById("messageinput").blur();
         },
         //留言输入框获取焦点
-        msgFocus:function(e){
-            document.getElementById("footer").style.display="none";
+        msgFocus: function (e) {
+            document.getElementById("footer").style.display = "none";
             document.getElementById("messageinput").focus();
         },
         //获取当前章节的留言信息
         msgGet: function () {
             if (!vdata.olid || vdata.olid < 1) return;
-            $api.post("message/All", { olid: vdata.olid,order:'desc' }).then(function (req) {
+            $api.post("message/All", { olid: vdata.olid, order: 'desc' }).then(function (req) {
                 var d = req.data;
                 if (d.success) {
                     vdata.messages = d.result;
@@ -264,9 +272,9 @@ var vdata = new Vue({
             $api.get("Course/ForID", { id: couid })).then(axios.spread(function (ol, cur) {
                 if (ol.data.success && cur.data.success) {
                     vdata.outlines = ol.data.result;
-                    if (vdata.olid == '' || vdata.olid==null) vdata.olid = ol.data.result[0].Ol_ID;
+                    if (vdata.olid == '' || vdata.olid == null) vdata.olid = ol.data.result[0].Ol_ID;
                     vdata.outlineClick(vdata.olid, null);
-                    vdata.course = cur.data.result;                    
+                    vdata.course = cur.data.result;
                     vdata.msgGet();
                 } else {
                     if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
@@ -310,10 +318,10 @@ Vue.filter('date', function (value, fmt) {
 
 //点击留言按钮，进入留言输入状态
 mui('body').on('tap', '#msginputBtn', function () {
-    vdata.msgFocus();   
+    vdata.msgFocus();
 });
 //
-mui('body').on('tap', '#chatArea', function () {    
+mui('body').on('tap', '#chatArea', function () {
     vdata.msgBlur();
-    
+
 });
