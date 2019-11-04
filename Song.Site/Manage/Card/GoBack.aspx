@@ -8,7 +8,7 @@
 <body>
     <script type="text/javascript" src="/Manage/CoreScripts/AutoLoyout.js"></script>
     <form id="form1" runat="server" loyout="row">
-    <div loyout="row" overflow="auto">
+    
         <div class="context">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -63,11 +63,13 @@
                         <div style="height:20px;"><%#Container.ItemIndex + 1%> 、 <%# Eval("Cou_Name") %></div>
                         </ItemTemplate>
                         </asp:Repeater>
+                        <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div>
+                        <div>888</div>
                     </td>
                 </tr>
             </table>
         </div>
-    </div>
+   
     <div class="footer" loyout="row" height="60px">
         <div loyout="column" width="20px">
         </div>

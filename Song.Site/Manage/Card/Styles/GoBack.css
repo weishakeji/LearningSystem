@@ -2,6 +2,8 @@
 .context
 {
 	margin:10px;
+	max-height: calc(100% - 80px);
+	overflow-y: auto;
 	
 }
 .btn{
@@ -18,4 +20,8 @@
 }
 .yellow{
 	background-color: #FF9;
+}
+.footer{
+	bottom: 0px;
+	position: absolute;
 }
