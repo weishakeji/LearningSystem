@@ -75,7 +75,7 @@ namespace Song.Extend
                 Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<link href=\"styles/" + name + ".css?ver=" + version + "\" type=\"text/css\" rel=\"stylesheet\" />\r\n"));
             if (System.IO.File.Exists(WeiSha.Common.Request.Page.PhysicsPath + "scripts/" + name + ".js"))
             {
-                Page.Controls.Add(new System.Web.UI.LiteralControl("<script type=\"text/javascript\" src=\"scripts/" + name + ".js?ver=" + version + "\"></script>\r\n"));
+                Page.Header.Controls.Add(new System.Web.UI.LiteralControl("<script type=\"text/javascript\" src=\"scripts/" + name + ".js?ver=" + version + "\"></script>\r\n"));
                 //Page.con
             }
             //Response.Write(Extend.ManageSession.Session.Name);
