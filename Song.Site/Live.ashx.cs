@@ -59,7 +59,8 @@ namespace Song.Site
         protected object GetSnapshot(object[] liveid)
         {
             string title = string.Empty;
-            if (liveid.Length > 0) title = liveid[0].ToString();
+            if (liveid.Length > 0 && liveid[0] != null) title = liveid[0].ToString();
+            if (string.IsNullOrWhiteSpace(title)) return string.Empty;
             //封面地址
             string cover = string.Format("http://{0}/{1}/{2}.jpg", snapshot, hubname, title);
             return cover;
@@ -72,7 +73,7 @@ namespace Song.Site
         protected object GetCourse(object[] olid)
         {
             int couid = 0;
-            if (olid.Length > 0)
+            if (olid.Length > 0 && olid[0] != null)
                 int.TryParse(olid[0].ToString(), out couid);
             if (couid < 1) return null;
             return Business.Do<ICourse>().CourseSingle(couid);

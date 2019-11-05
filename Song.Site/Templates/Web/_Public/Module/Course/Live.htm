@@ -10,7 +10,14 @@
            <vt:function var="snapshot" method="GetSnapshot" args="$#.o.Ol_LiveID"  remark="获取直播截图"/>
           <div class="snapshot">
           
-          <a href="CourseStudy.ashx?couid={$:#.liveCou.Cou_id}&olid={$:#.o.ol_id}" target="_blank" class="bvr_mr" title="开始学习"><img src="{$:#.snapshot}" style="width:600px;height:337px"/></a></div>
+          <a href="CourseStudy.ashx?couid={$:#.liveCou.Cou_id}&olid={$:#.o.ol_id}" target="_blank" class="bvr_mr" title="开始学习">
+           <vt:if var="snapshot" value="" compare="!="> 
+          <img src="{$:#.snapshot}" style="width:600px;height:337px" default="images/liveSnapshot.jpg"/>
+            <vt:else/>
+             <img src="images/liveSnapshot.jpg" style="width:600px;height:337px"/>
+            </vt:if>
+          </a>
+          </div>
           <div class="liveRight">
         
                  <a href="course.ashx?id={$:#.liveCou.Cou_id}"  class="couName" target="_blank"> {$:#.liveCou.Cou_Name}</a>

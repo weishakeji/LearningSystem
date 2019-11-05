@@ -701,7 +701,8 @@ namespace Song.ServiceImpls
                 if (orgid > 0) wc &= Outline._.Org_ID == orgid;
                 Outline outline = Gateway.Default.From<Outline>().Where(
                     wc & Outline._.Ol_LiveID == stream.Title).ToFirst<Outline>();
-                list.Add(outline);
+                if (outline != null) 
+                    list.Add(outline);
             }
             return list;
         }
