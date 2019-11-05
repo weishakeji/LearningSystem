@@ -1367,6 +1367,9 @@
     <Content Include="Templates\Web\_Public\Help\Styles\Default.css" />
     <Content Include="Templates\Web\_Public\Help\Styles\API.css" />
     <Content Include="Templates\Web\_Public\Images\live-icon.gif" />
+    <Content Include="Templates\Web\_Public\Images\LiveBg.jpg" />
+    <Content Include="Templates\Web\_Public\Images\sl.gif" />
+    <Content Include="Templates\Web\_Public\Images\studyBg.jpg" />
     <Content Include="Templates\Web\_Public\Inc\meta_api.inc" />
     <Content Include="Templates\Web\_Public\Knowledge.htm" />
     <Content Include="Templates\Web\_Public\Knowledges.htm" />
@@ -1418,7 +1421,6 @@
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.css" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.htm" />
     <Content Include="Templates\Web\_Public\Module\Admin\panel.js" />
-    <Content Include="Templates\Web\_Public\Module\Course\Images\LiveBg.jpg" />
     <Content Include="Templates\Web\_Public\Module\Course\Images\liveSnapshot.jpg" />
     <Content Include="Templates\Web\_Public\Module\Course\Sheet.css" />
     <Content Include="Templates\Web\_Public\Module\Course\Buy.css" />

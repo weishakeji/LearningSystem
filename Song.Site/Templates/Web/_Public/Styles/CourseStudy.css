@@ -219,7 +219,7 @@ video::-webkit-media-controls-panel {
 	position: relative;
 }
 
-#liveStopbox .liveStop_Tit {
+#liveStopbox .liveStop_Tit, .noSelect {
 	position: absolute;
 	width: 320px;
 	height: 180px;
@@ -236,7 +236,16 @@ video::-webkit-media-controls-panel {
 	box-shadow: 3px 3px 3px #aaa;
 	cursor: default;
 }
-
+/*背景图，带渐变效果*/
+.bgPicture{
+	opacity:0.4;
+	animation: 2s opacity2; 
+}
+@keyframes opacity2{
+	0%{opacity:0}
+	50%{opacity:.8;}
+	100%{opacity:.4;}
+}
 /*预载动画*/
 
 #preloader-2 {
@@ -588,22 +597,7 @@ video::-webkit-media-controls-panel {
 	padding-top: 2px;
 }
 
-.noSelect {
-	text-align: left;
-	line-height: 35px;
-	color: #eee;
-	font-size: 16px;
-	width: 500px;
-	margin-top: 20px;
-	margin-right: auto;
-	margin-bottom: auto;
-	margin-left: auto;
-}
 
-.noSelect, .noSelect a {
-	color: #eee;
-	font-size: 16px;
-}
 
 /* 附件 */
 

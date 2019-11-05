@@ -385,7 +385,7 @@ background-color: transparent;
 	width: 96%;
 	margin-right: auto;
 	margin-left: auto;
-	min-height:300px;
+	min-height:10px;
 }
 .introBox, .introBox * {
 	font-size: 14px !important;

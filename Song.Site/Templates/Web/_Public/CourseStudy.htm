@@ -32,8 +32,8 @@
                         <div id="btnKnowledge" v-if="state.isKnl" v-on:click="knlClick">知识库</div>
                         <div class="oltitle">
                               <a v-if="titState== 'loading'" class="titCurr">加载中...</a>
-                              <a v-if="state.isNull" v-on:click="titState='isNull'"
-                                    :class="titState=='isNull'  && titState != 'loading' ? 'titCurr':''">提 示</a>
+                              <a v-if="state.isNull  && titState != 'loading' " v-on:click="titState='isNull'"
+                                    :class="titState=='isNull'? 'titCurr':''">提 示</a>
                               <a v-if="state.existVideo && titState != 'loading'" v-on:click="titState='existVideo'"
                                     :class="titState=='existVideo' ? 'titCurr':''">视 频</a>
                               <a v-if="state.isLive && titState != 'loading'" v-on:click="titState='isLive'"
@@ -60,7 +60,8 @@
                                             </p>
                         </div>
                         <div remark="提示" v-show="titState=='isNull'">
-                              <div class="noSelect">当前章节没有内容！或无权查看学习内容！</div>
+                                    <img src="images/studyBg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
+                              <div class="noSelect">没有内容，或无权查看！</div>
                               <div class="noSelect" v-if="state.LiveStart && state.LiveOver">直播已经结束</div>
                         </div>
                         <div remark="视频" v-show="titState=='existVideo'" :video="state.urlVideo">
@@ -91,7 +92,7 @@
                               </div>
                               <div id="liveStopbox" v-show="state.isLive && !state.isLiving"
                                     style="height: 100%;width:100%;" remark="直播未开始">
-                                    <img src="images/livebg.jpg" style="height: 100%;width:100%;" />
+                                    <img src="images/livebg.jpg"  class="bgPicture" style="height: 100%;width:100%;" />
                                     <div class="liveStop_Tit" v-show="!state.LiveStart">直播未开始！</div>
                                     <div class="liveStop_Tit" v-show="state.LiveOver">直播已经结束！</div>
                               </div>

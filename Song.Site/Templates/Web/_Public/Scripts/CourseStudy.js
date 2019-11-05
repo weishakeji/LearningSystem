@@ -348,10 +348,10 @@ var vdata = new Vue({
                         document.getElementById("chatlist").scrollTop = dl.offsetHeight;
                     }, 1000);
                 } else {
-                    throw "留言信息加载异常！详情：\r" + d.message;
+                    alert("留言信息加载异常！详情：\r" + d.message);
                 }
             }).catch(function (err) {
-                alert("错误2："+err);
+                //alert("msgGet方法存在错误："+err);
             });
         },
         init: function () {
