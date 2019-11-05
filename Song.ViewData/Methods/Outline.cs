@@ -174,8 +174,8 @@ namespace Song.ViewData.Methods
                 }
                 dic.Add("urlVideo", canStudy ? videoUrl : string.Empty);
             }
-            //直播       
-            bool isLive = false;
+            //直播  
+            bool isLive = outline.Ol_IsLive, isLiving = false;
             if (outline.Ol_IsLive)
             {
                 string urlVideo = string.Empty;
@@ -187,18 +187,19 @@ namespace Song.ViewData.Methods
                     {
                         pili_sdk.pili.Stream stream = status.Stream;
                         string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
-                        urlVideo = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);                       
-                        isLive = status.Status == "connected";  //正在直播
-                        existVideo = isLive ? false : existVideo;
+                        urlVideo = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
+                        isLiving = status.Status == "connected";  //正在直播
+                        existVideo = isLiving ? false : existVideo;
                     }
                 }
                 //直播播放地址
                 dic.Add("urlVideo", urlVideo);
                 //直播开始或结束
                 dic.Add("LiveStart", DateTime.Now > outline.Ol_LiveTime);
-                dic.Add("LiveOver", outline.Ol_LiveTime.AddMinutes(outline.Ol_LiveSpan) > DateTime.Now);
+                dic.Add("LiveOver", outline.Ol_LiveTime.AddMinutes(outline.Ol_LiveSpan) < DateTime.Now);
             }
-            dic.Add("isLive", isLive);
+            dic.Add("isLive", outline.Ol_IsLive);   //是否为直播章节
+            dic.Add("isLiving", isLiving);  //是否在直播中
             dic.Add("existVideo", existVideo);
 
             //是否有课程内容

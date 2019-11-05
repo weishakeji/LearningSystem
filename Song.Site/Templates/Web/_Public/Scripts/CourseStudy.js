@@ -351,7 +351,7 @@ var vdata = new Vue({
                     throw "留言信息加载异常！详情：\r" + d.message;
                 }
             }).catch(function (err) {
-                alert(err);
+                alert("错误2："+err);
             });
         },
         init: function () {

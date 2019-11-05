@@ -1418,6 +1418,8 @@
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.css" />
     <Content Include="Templates\Web\_Public\Module\Admin\Panel.htm" />
     <Content Include="Templates\Web\_Public\Module\Admin\panel.js" />
+    <Content Include="Templates\Web\_Public\Module\Course\Images\LiveBg.jpg" />
+    <Content Include="Templates\Web\_Public\Module\Course\Images\liveSnapshot.jpg" />
     <Content Include="Templates\Web\_Public\Module\Course\Sheet.css" />
     <Content Include="Templates\Web\_Public\Module\Course\Buy.css" />
     <Content Include="Templates\Web\_Public\Module\Course\Buy.htm" />

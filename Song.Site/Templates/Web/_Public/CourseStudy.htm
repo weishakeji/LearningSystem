@@ -3,8 +3,8 @@
 
 <head>
       <title>课程学习</title>
-       <vt:include file="inc/meta_api.inc" />
-      
+      <vt:include file="inc/meta_api.inc" />
+
       <script type="text/javascript" src="/Utility/Qiniuyun/qiniu-web-player-1.2.2.js"></script>
       <link href="Styles/CourseStudy.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
@@ -33,16 +33,16 @@
                         <div class="oltitle">
                               <a v-if="titState== 'loading'" class="titCurr">加载中...</a>
                               <a v-if="state.isNull" v-on:click="titState='isNull'"
-                                    :class="titState=='isNull' ? 'titCurr':''">提 示</a>
-                              <a v-if="state.existVideo" v-on:click="titState='existVideo'"
+                                    :class="titState=='isNull'  && titState != 'loading' ? 'titCurr':''">提 示</a>
+                              <a v-if="state.existVideo && titState != 'loading'" v-on:click="titState='existVideo'"
                                     :class="titState=='existVideo' ? 'titCurr':''">视 频</a>
-                              <a v-if="state.isLive" v-on:click="titState='isLive'"
+                              <a v-if="state.isLive && titState != 'loading'" v-on:click="titState='isLive'"
                                     :class="titState=='isLive' ? 'titCurr':''">直播</a>
-                              <a v-if="state.isContext" v-on:click="titState='isContext'"
+                              <a v-if="state.isContext && titState != 'loading'" v-on:click="titState='isContext'"
                                     :class="titState=='isContext' ? 'titCurr':''">内 容</a>
-                              <a v-if="state.isAccess" v-on:click="titState='isAccess'"
+                              <a v-if="state.isAccess && titState != 'loading'" v-on:click="titState='isAccess'"
                                     :class="titState=='isAccess' ? 'titCurr':''">附 件</a>
-                              <a v-if="state.isQues" v-on:click="titState='isQues'"
+                              <a v-if="state.isQues && titState != 'loading'" v-on:click="titState='isQues'"
                                     :class="titState=='isQues' ? 'titCurr':''">习 题</a>
 
                               <!-- <div class="titBox">作业</div>-->
@@ -50,6 +50,15 @@
                   </div>
                   <!--左侧顶部结束-->
                   <div id="contextArea">
+                        <div remark="正在加载" v-show="titState=='loading'">
+                                    <p id="preloader-2">
+
+                                                <span></span>
+                                        
+                                                <span></span>
+                                        
+                                            </p>
+                        </div>
                         <div remark="提示" v-show="titState=='isNull'">
                               <div class="noSelect">当前章节没有内容！或无权查看学习内容！</div>
                               <div class="noSelect" v-if="state.LiveStart && state.LiveOver">直播已经结束</div>
@@ -77,7 +86,14 @@
 
                         </div>
                         <div remark="直播" v-show="titState=='isLive'" :video="state.urlVideo">
-                              <div id="livebox" v-show="state.isLive" style="height: 100%;width:100%;" remark="直播">
+                              <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
+                                    remark="直播">
+                              </div>
+                              <div id="liveStopbox" v-show="state.isLive && !state.isLiving"
+                                    style="height: 100%;width:100%;" remark="直播未开始">
+                                    <img src="images/livebg.jpg" style="height: 100%;width:100%;" />
+                                    <div class="liveStop_Tit" v-show="!state.LiveStart">直播未开始！</div>
+                                    <div class="liveStop_Tit" v-show="state.LiveOver">直播已经结束！</div>
                               </div>
                         </div>
                         <div remark="内容" v-show="titState=='isContext'" id="details">
@@ -95,9 +111,9 @@
                               </div>
                         </div>
                         <div remark="习题" v-show="titState=='isQues'">
-                              <iframe :src="outline!=null ? 'Exercises.ashx?olid='+outline.Ol_ID : ''" style="height: 100%" marginwidth="0"
-                                    marginheight="0" align="top" scrolling="no" width="100%" frameborder="0"
-                                    allowtransparency="true"></iframe>
+                              <iframe :src="outline!=null ? 'Exercises.ashx?olid='+outline.Ol_ID : ''"
+                                    style="height: 100%" marginwidth="0" marginheight="0" align="top" scrolling="no"
+                                    width="100%" frameborder="0" allowtransparency="true"></iframe>
                         </div>
                   </div>
             </div>
@@ -116,7 +132,8 @@
                               <div :class="'olitem '+(d.Ol_IsVideo ? 'li-video ' : '')+(d.Ol_ID==olid ? 'current ' : '')+(d.Ol_IsLive ? 'li-live ' : '')"
                                     :isvideo="d.Ol_IsVideo" :olid="d.Ol_ID"
                                     :style="'padding-left:'+(d.Ol_Level*15+5)+'px'">
-                                    <template v-if="state.isBuy || d.Ol_IsFree || course.Cou_IsFree" remark="如果购买，或可以试学">
+                                    <template v-if="state.isBuy || d.Ol_IsFree || course.Cou_IsFree"
+                                          remark="如果购买，或可以试学">
                                           <a :href="'CourseStudy.ashx?olid='+d.Ol_ID+'&couid='+couid"
                                                 v-if="d.Ol_IsFinish"
                                                 v-on:click="outlineClick(d.Ol_ID,$event)">{{d.Ol_XPath}}{{d.Ol_Name}}
