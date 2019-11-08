@@ -238,7 +238,7 @@ var vdata = new Vue({
         },
         //留言输入框失去焦点
         msgBlur: function (e) {
-            document.getElementById("footer").style.display = "block";
+            document.getElementById("footer").style.display = "table";
             document.getElementById("messageinput").blur();
         },
         //留言输入框获取焦点
@@ -322,7 +322,6 @@ mui('body').on('tap', '#msginputBtn', function () {
 });
 */
 //
-mui('body').on('tap', '#chatArea', function () {
+mui('body').on('tap', '#chatArea, .videobox', function () {
     vdata.msgBlur();
-
 });

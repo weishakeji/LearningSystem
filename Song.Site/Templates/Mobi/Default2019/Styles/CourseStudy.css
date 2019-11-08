@@ -160,8 +160,9 @@ div {}
 
 #liveStopbox .liveStop_Tit, .noSelect {
 	position: absolute;
-	width: 320px;
-	height: 180px;
+	width: 100%;
+	height: 100%;
+	text-align: center;
 	line-height: 180px;
 	color: #333;
 	font-weight: bold;
