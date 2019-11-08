@@ -746,6 +746,7 @@
     <Content Include="Templates\Mobi\Default2019\Images\head2.jpg" />
     <Content Include="Templates\Mobi\Default2019\Images\line.jpg" />
     <Content Include="Templates\Mobi\Default2019\Images\live-icon.gif" />
+    <Content Include="Templates\Mobi\Default2019\Images\LiveBg.jpg" />
     <Content Include="Templates\Mobi\Default2019\Images\load_015.gif" />
     <Content Include="Templates\Mobi\Default2019\Images\load_016.gif" />
     <Content Include="Templates\Mobi\Default2019\Images\load_024.gif" />

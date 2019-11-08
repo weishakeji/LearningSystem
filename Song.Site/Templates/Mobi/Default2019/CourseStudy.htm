@@ -24,7 +24,7 @@
                             v-show="JSON.stringify(outline) == '{}' || (state.existVideo && !state.outerVideo && !state.isLive)"
                             style="height: 100%;width:100%;" remark="点播">
                         </div>
-                        <div id="novideoplayer" v-show="JSON.stringify(outline) != '{}' && !state.existVideo"
+                        <div id="novideoplayer" v-show="JSON.stringify(outline) != '{}' && !state.existVideo && !state.isLive"
                             style="height: 100%;width:100%;" remark="没有视频">
                             没有视频资源
                         </div>
@@ -43,7 +43,14 @@
 
                     </div>
                     <div remark="直播" v-show="state.isLive" :video="state.urlVideo" class="videobox">
-                        <div id="livebox" v-show="state.isLive" style="height: 100%;width:100%;" remark="直播">
+                        <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
+                            remark="直播">
+                        </div>
+                        <div id="liveStopbox" v-show="state.isLive && !state.isLiving" style="height: 100%;width:100%;"
+                            remark="直播未开始">
+                            <img src="images/livebg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
+                            <div class="liveStop_Tit" v-show="!state.LiveStart">直播未开始！</div>
+                            <div class="liveStop_Tit" v-show="state.LiveOver">直播已经结束！</div>
                         </div>
                     </div>
                     <div tag="视频">
@@ -51,8 +58,9 @@
                         <div class="outline-name">
                             <span v-show="JSON.stringify(outline) == '{}'">正在加载...</span>
                             {{outline.Ol_Name}}
-                            <div id="msginputBtn" class="el-icon-edit" v-show="JSON.stringify(outline) != '{}'"> 留言
-                            </div>
+                            <button id="msginputBtn" class="el-icon-edit" v-on:click="msgFocus"
+                                v-show="JSON.stringify(outline) != '{}'"> 留言
+                            </button>
                         </div>
                         <div class="mui-card intro-box" id="chatArea">
                             <div class="mui-card-content mui-scroll-wrapper">

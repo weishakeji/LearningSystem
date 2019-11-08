@@ -81,7 +81,7 @@ div {}
 	width: 100%;
 	height: calc(100vw*9/16);
 	position: absolute;
-	top:0px;
+	top: 0px;
 	z-index: 100;
 }
 
@@ -150,6 +150,35 @@ div {}
 	color: #ccc;
 }
 
+/*直播，没有直播时*/
+
+#liveStopbox {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+#liveStopbox .liveStop_Tit, .noSelect {
+	position: absolute;
+	width: 320px;
+	height: 180px;
+	line-height: 180px;
+	color: #333;
+	font-weight: bold;
+	font-size: 25px;
+	text-align: center;
+	top: 0px;
+	text-shadow: 1px 1px #eee;
+	cursor: default;
+}
+
+/*背景图，带渐变效果*/
+
+.bgPicture {
+	opacity: 0.4;
+	animation: 2s opacity2;
+}
+
 /*章节名称*/
 
 .outline-name {
@@ -168,6 +197,7 @@ div {}
 	font-size: 15px;
 	position: relative;
 }
+
 .outline-name:before {
 	content: "\e681";
 	font-family: iconfont;
@@ -175,40 +205,49 @@ div {}
 	font-size: 18px;
 	font-weight: normal;
 }
-.outline-name #msginputBtn{
+
+.outline-name #msginputBtn {
 	background-color: #fff;
 	position: absolute;
 	width: 60px;
 	height: 30px;
 	line-height: 30px;
 	text-indent: 5px;
-	top:5px;
+	padding: 0px;
+	top: 5px;
 	right: 10px;
 	border-radius: 15px;
-	border:1px solid #999 ;
+	border: 1px solid #999;
 }
+
 /*咨询留言*/
+
 #chatArea.mui-card {
 	height: calc(100vh - 100vw*9/16 - 105px);
 	width: calc(100% - 20px);
 }
+
 .chatlist {
 	max-height: calc(100% - 30px);
 	bottom: 30px;
 	width: 100%;
 	overflow-y: auto;
-	-webkit-overflow-scrolling:touch;
+	-webkit-overflow-scrolling: touch;
 }
+
 /*没有留言*/
-.nomsg{
+
+.nomsg {
 	padding: 20px;
 }
-.chatlist dl, .chatlist dd{
+
+.chatlist dl, .chatlist dd {
 	margin: 0px;
 }
+
 .chatlist dd {
 	width: auto;
-	display: table;	
+	display: table;
 	min-width: 30%;
 	line-height: 20px;
 	position: relative;
@@ -261,9 +300,10 @@ div {}
 	padding-right: 5px;
 	font-size: 16px;
 }
+
 /*留言输入区域*/
+
 #chatbox {
-	
 	width: 100%;
 	height: 44px;
 	position: absolute;
@@ -343,7 +383,7 @@ div {}
 	height: 44px;
 	line-height: 22px;
 	margin: 0px 0px 0px 2px;
-	border-radius:  10px 0px 0px 10px;
+	border-radius: 10px 0px 0px 10px;
 }
 
 #chatbox #btnMessage {
@@ -363,10 +403,11 @@ div {}
 #chatbox #btnMessage:hover {
 	background-color: #F93;
 }
+
 /*学习内容与附件的区域*/
 
 #context-box {
-	overflow: hidden;	
+	overflow: hidden;
 	width: 100%;
 	height: calc(100% - 0px);
 }
@@ -376,7 +417,7 @@ div {}
 	height: calc(100vh - 100vw*9/16);
 	--position: absolute;
 	--float: left;
-	margin-top:calc(100vw*9/16)
+	margin-top: calc(100vw*9/16)
 }
 
 .mui-card {

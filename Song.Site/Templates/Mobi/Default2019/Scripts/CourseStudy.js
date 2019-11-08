@@ -238,7 +238,7 @@ var vdata = new Vue({
         },
         //留言输入框失去焦点
         msgBlur: function (e) {
-            document.getElementById("footer").style.display = "";
+            document.getElementById("footer").style.display = "block";
             document.getElementById("messageinput").blur();
         },
         //留言输入框获取焦点
@@ -315,11 +315,12 @@ Vue.filter('date', function (value, fmt) {
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 });
-
+/*
 //点击留言按钮，进入留言输入状态
 mui('body').on('tap', '#msginputBtn', function () {
     vdata.msgFocus();
 });
+*/
 //
 mui('body').on('tap', '#chatArea', function () {
     vdata.msgBlur();
