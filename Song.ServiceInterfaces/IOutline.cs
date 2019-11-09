@@ -42,6 +42,13 @@ namespace Song.ServiceInterfaces
         /// <param name="entity">业务实体</param>
         void OutlineSave(Outline entity);
         /// <summary>
+        /// 更新章节的试题数
+        /// </summary>
+        /// <param name="olid">章节Id</param>
+        /// <param name="count">试题数</param>
+        /// <returns></returns>
+        int UpdateQuesCount(int olid, int count);
+        /// <summary>
         /// 导入章节，导入时不立即生成缓存
         /// </summary>
         /// <param name="entity"></param>

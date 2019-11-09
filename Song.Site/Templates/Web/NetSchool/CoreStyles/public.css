@@ -9,7 +9,7 @@ body {
 	padding: 0px;
 }
 body, a, p, div, td {
-	font-size: 13px;
+	font-size: 15px;
 }
 a {
 	text-decoration: none;
@@ -98,16 +98,13 @@ img {
 	padding: 0;
 	border: none;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
-	font-size: 12px;
 }
 body {
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
 }
-body, a, p, div, td {
-	font-size: 13px;
-}
+
 a {
 	text-decoration: none;
 }

@@ -40,7 +40,7 @@ namespace Song.Site.Manage.Course
             foreach (Song.Entities.Outline c in outlines)
             {
                 c.Ol_QuesCount = Business.Do<IOutline>().QuesOfCount(c.Ol_ID, -1, true, true);
-                Business.Do<IOutline>().OutlineSave(c);
+                Business.Do<IOutline>().UpdateQuesCount(c.Ol_ID, c.Ol_QuesCount);
             }
             //生成树形
             DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);

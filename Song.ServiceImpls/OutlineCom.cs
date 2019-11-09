@@ -50,9 +50,25 @@ namespace Song.ServiceImpls
                         entity.Ol_UID = WeiSha.Common.Request.UniqueID();
                     ////层级
                     //entity.Ol_Level = _ClacLevel(entity);
-                    //entity.Ol_XPath = _ClacXPath(entity);                   
+                    //entity.Ol_XPath = _ClacXPath(entity);  
+                    //如果是直播章节
+                    if (entity.Ol_IsLive)
+                    {
+                        string liveid = string.Format("{0}_{1}_{2}", entity.Cou_ID, entity.Ol_ID, entity.Ol_UID);
+                        try
+                        {
+                            pili_sdk.pili.Stream stream = Business.Do<ILive>().StreamCreat(liveid);
+                            entity.Ol_LiveID = stream.Title;
+                        }
+                        catch(Exception ex)
+                        {
+                            throw new Exception("无法创建直播流，" + ex.Message);
+                        }                       
+                        tran.Update<Course>(Course._.Cou_ExistLive, true, Course._.Cou_ID == entity.Cou_ID);
+                    }
                     tran.Save<Outline>(entity);                   
                     tran.Commit();
+
                     this.OnSave(null, EventArgs.Empty);
                 }
                 catch (Exception ex)
@@ -64,15 +80,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Close();
                 }
-                //如果是直播章节
-                if (entity.Ol_IsLive)
-                {
-                    string liveid = string.Format("{0}_{1}_{2}", entity.Cou_ID, entity.Ol_ID, entity.Ol_UID);
-                    pili_sdk.pili.Stream stream = Business.Do<ILive>().StreamCreat(liveid);
-                    entity.Ol_LiveID = stream.Title;
-                    Gateway.Default.Save<Outline>(entity);
-                    Business.Do<ICourse>().IsLiveCourse(entity.Cou_ID, true);
-                }
+                
             }
             
         }
@@ -158,7 +166,14 @@ namespace Song.ServiceImpls
                 pili_sdk.pili.Stream stream = null;
                 if (string.IsNullOrWhiteSpace(entity.Ol_LiveID))
                 {
-                    stream = Business.Do<ILive>().StreamCreat();
+                    try
+                    {
+                        stream = Business.Do<ILive>().StreamCreat();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("直播流创建失败，" + ex.Message);
+                    }
                     if (stream != null) entity.Ol_LiveID = stream.Title;
                 }
                 else
@@ -186,6 +201,17 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<Outline>(entity);
             Business.Do<ICourse>().IsLiveCourse(entity.Cou_ID, true);
             this.OnSave(entity, EventArgs.Empty);
+        }
+        /// <summary>
+        /// 更新章节的试题数
+        /// </summary>
+        /// <param name="olid">章节Id</param>
+        /// <param name="count">试题数</param>
+        /// <returns></returns>
+        public int UpdateQuesCount(int olid, int count)
+        {
+            Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == olid);
+            return count;
         }
         /// <summary>
         /// 导入章节，导入时不立即生成缓存
