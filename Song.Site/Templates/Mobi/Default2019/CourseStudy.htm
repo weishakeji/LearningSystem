@@ -49,8 +49,9 @@
                         <div id="liveStopbox" v-show="state.isLive && !state.isLiving" style="height: 100%;width:100%;"
                             remark="直播未开始">
                             <img src="images/livebg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
-                            <div class="liveStop_Tit" v-show="!state.LiveStart">直播未开始！</div>
-                            <div class="liveStop_Tit" v-show="state.LiveOver">直播已经结束！</div>
+                            <div class="liveStop_Tit" v-show="state.canStudy && !state.LiveStart">直播未开始！</div>
+                            <div class="liveStop_Tit" v-show="state.canStudy && state.LiveOver">直播已经结束！</div>
+                            <div class="liveStop_Tit" v-show="!state.canStudy">无权阅览！</div>
                         </div>
                     </div>
                     <div tag="视频">

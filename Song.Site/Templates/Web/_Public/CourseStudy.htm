@@ -32,11 +32,11 @@
                         <div id="btnKnowledge" v-if="state.isKnl" v-on:click="knlClick">知识库</div>
                         <div class="oltitle">
                               <a v-if="titState== 'loading'" class="titCurr">加载中...</a>
-                              <a v-if="state.isNull  && titState != 'loading' " v-on:click="titState='isNull'"
-                                    :class="titState=='isNull'? 'titCurr':''">提 示</a>
+                              <a v-if="(state.isNull   || !state.canStudy) && titState != 'loading' " v-on:click="titState='isNull'"
+                                    :class="titState=='isNull' || !state.canStudy ? 'titCurr':''">提 示</a>
                               <a v-if="state.existVideo && titState != 'loading'" v-on:click="titState='existVideo'"
                                     :class="titState=='existVideo' ? 'titCurr':''">视 频</a>
-                              <a v-if="state.isLive && titState != 'loading'" v-on:click="titState='isLive'"
+                              <a v-if="state.isLive && titState != 'loading' && state.canStudy" v-on:click="titState='isLive'"
                                     :class="titState=='isLive' ? 'titCurr':''">直播</a>
                               <a v-if="state.isContext && titState != 'loading'" v-on:click="titState='isContext'"
                                     :class="titState=='isContext' ? 'titCurr':''">内 容</a>
@@ -59,10 +59,10 @@
                                         
                                             </p>
                         </div>
-                        <div remark="提示" v-show="titState=='isNull'">
+                        <div remark="提示" v-show="titState=='isNull' || !state.canStudy ">
                                     <img src="images/studyBg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
                               <div class="noSelect">没有内容，或无权查看！</div>
-                              <div class="noSelect" v-if="state.LiveStart && state.LiveOver">直播已经结束</div>
+                              <div class="noSelect" v-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束</div>
                         </div>
                         <div remark="视频" v-show="titState=='existVideo'" :video="state.urlVideo">
                               <div id="videoplayer" v-show="!state.outerVideo && !state.isLive"
@@ -94,7 +94,7 @@
                                     style="height: 100%;width:100%;" remark="直播未开始">
                                     <img src="images/livebg.jpg"  class="bgPicture" style="height: 100%;width:100%;" />
                                     <div class="liveStop_Tit" v-show="!state.LiveStart">直播未开始！</div>
-                                    <div class="liveStop_Tit" v-show="state.LiveOver">直播已经结束！</div>
+                                    <div class="liveStop_Tit" v-show="state.LiveOver">直播已经结束！</div>                                   
                               </div>
                         </div>
                         <div remark="内容" v-show="titState=='isContext'" id="details">

@@ -150,7 +150,7 @@ namespace Song.ViewData.Methods
             dic.Add("canStudy", canStudy);
             //是否有知识库
             int knlCount = Business.Do<IKnowledge>().KnowledgeOfCount(-1, course.Cou_ID, -1, true);
-            dic.Add("isKnl", knlCount > 0);
+            dic.Add("isKnl", knlCount > 0 && canStudy);
 
             //是否有视频，是否为外链视频
 
@@ -199,20 +199,21 @@ namespace Song.ViewData.Methods
                 dic.Add("LiveOver", outline.Ol_LiveTime.AddMinutes(outline.Ol_LiveSpan) < DateTime.Now);
             }
             dic.Add("isLive", outline.Ol_IsLive);   //是否为直播章节
-            dic.Add("isLiving", isLiving);  //是否在直播中
-            dic.Add("existVideo", existVideo);
+            dic.Add("isLiving", isLiving && canStudy);  //是否在直播中
+            dic.Add("existVideo", existVideo && canStudy);
 
             //是否有课程内容
             bool isContext = !string.IsNullOrWhiteSpace(outline.Ol_Intro);
-            dic.Add("isContext", isContext);
+            dic.Add("isContext", isContext && canStudy);
             //是否有试题
             bool isQues = Business.Do<IOutline>().OutlineIsQues(outline.Ol_ID, true);
-            dic.Add("isQues", isQues);
+            dic.Add("isQues", isQues && canStudy);
             //是否有附件
             int accessCount = Business.Do<IAccessory>().OfCount(outline.Ol_UID, "Course");
-            dic.Add("isAccess", accessCount > 0);
+            dic.Add("isAccess", accessCount > 0 && canStudy);
             //啥都没有（视频，内容，附件，试题，都没有）
-            dic.Add("isNull", !(existVideo || isLive || isContext || isQues || isQues || accessCount > 0));
+            bool isNull = !(existVideo || isLive || isContext || isQues || isQues || accessCount > 0);
+            dic.Add("isNull",isNull || !canStudy);
             return dic;
         }
     }
