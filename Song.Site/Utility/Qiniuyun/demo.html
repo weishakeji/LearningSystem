@@ -1,25 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>直播测试</title>
-  <script src="qiniu-web-player-1.2.2.js"></script>
+  <script src="qiniu-web-player-1.2.3.js"></script>
+  <style type="text/css">
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+    }
+
+    #player {
+      position: absolute;
+      z-index: 1;
+      top:0px;
+      left: 0px;
+    }
+
+    #info {
+      position: absolute;
+      z-index: 10;
+      top:0px;
+      left: 0px;
+      color: #fff;
+    }
+  </style>
 </head>
 
 <body>
-  <div id="player" style="width: 640px; height: 480px;"></div>
+  <div id="player" style="width: 100%; height: 100%;"></div>
   <div id="info" style="position: absolute;z-index:100; top:0px;left:0px;">播放时间：<span id="curtime">0</span></div>
   <script>
     var container = document.getElementById("player");
     var player = new QPlayer({
-        url: "https://pili-live-hls.zhibo.weisha100.cn/ceshi5/294_726_1f756c50dafd0e6fd9fed9564759ba3d.m3u8",
+      url: "https://pili-live-hls.zhibo.weisha100.cn/ceshi5/132_267_548f3efe842b564c74babb4c70fc6b79.m3u8",
       container: container,
-      isLive:true,
+      isLive: true,
       autoplay: true,
-      loggerLevel:2
+      loggerLevel: 2
     });
     // 注册 ready 的监听函数，但是只会触发一次
     player.once("ready", function () {

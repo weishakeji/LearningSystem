@@ -104,10 +104,13 @@ var vdata = new Vue({
                     autoplay: true,
                 });
             } else { //直播
+                var u = navigator.userAgent, app = navigator.appVersion;
+                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+                var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
                 vdata.player = new QPlayer({
                     url: state.urlVideo,
                     container: document.getElementById("livebox"),
-                    isLive: true,
+                    isLive: !isIOS,
                     autoplay: true
                 });
             }
