@@ -30,17 +30,17 @@ iframe {
 
 @keyframes opacity2 {
     0% {
-        opacity: 0.8;
+        opacity: 0.6;
         transform: rotate(0deg);
         box-shadow: 0px 0px 25px #fff;
     }
     50% {
-        opacity: .9;
+        opacity: .8;
         transform: rotate(0deg) scale(1.05);
         box-shadow: 0px 0px 45px #fff;
     }
     100% {
-        opacity: 0.8;
+        opacity: 0.6;
         transform: rotate(0deg);
         box-shadow: 0px 0px 25px #fff;
     }
@@ -116,7 +116,7 @@ iframe {
     line-height: 30px;
     width: 120px;
     border: 1px solid #FF9900;
-    margin-left: 10px;
+   
     border-radius: 4px;
     background-color: #1B9AF7;
     border-color: #1B9AF7;
@@ -147,3 +147,4 @@ iframe {
 #login_box .login_foot span {
     float: right;
 }
+

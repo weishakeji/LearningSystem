@@ -4,6 +4,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>管理中心</title>
+	<script src="CoreScripts/jquery-3.4.1.min.js"></script>
 	<link href="Styles/index.css" rel="stylesheet" type="text/css" />
 </head>
 
@@ -16,11 +17,11 @@
 				ev.target.style.visibility = "";
 			});
 	</script>
-	<div id="login_show">
-
-		<img src="images/01a3ff5bfa2bc4a80121ab5d545539.jpg" width="450px" height="200px" style="display: none;" />
+	<div id="login_show" remark="轮换图文">
+		<iframe src="Slider.html" width="100%" height="200px" frameborder="no" border="0"
+		marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>		
 	</div>
-	<div id="login_box">
+	<div id="login_box" remark="登录框">
 		<div class="login_inner">
 			<div class="login_tit">微厦在线学习系统</div>
 			<div class="login_cont">

@@ -218,6 +218,9 @@
     <Content Include="Check\Writer.aspx" />
     <Content Include="Check\Dbup_20170323.aspx" />
     <Content Include="Check\Dbup_20190321.aspx" />
+    <Content Include="Console\Effect\2D_Cloud\Images\login_bgX.jpg" />
+    <Content Include="Console\Effect\2D_Cloud\Images\login_Top.jpg" />
+    <Content Include="Console\Effect\2D_Cloud\index.html" />
     <Content Include="Console\Effect\3D_Cloud\cloud10.png" />
     <Content Include="Console\Effect\3D_Cloud\index.html" />
     <Content Include="Console\Effect\3D_Cloud\js\Detector.js" />
