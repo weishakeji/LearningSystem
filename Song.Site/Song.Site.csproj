@@ -218,6 +218,16 @@
     <Content Include="Check\Writer.aspx" />
     <Content Include="Check\Dbup_20170323.aspx" />
     <Content Include="Check\Dbup_20190321.aspx" />
+    <Content Include="Console\CoreScripts\api.js" />
+    <Content Include="Console\CoreScripts\axios_min.js" />
+    <Content Include="Console\CoreScripts\ElementUi\index.css" />
+    <Content Include="Console\CoreScripts\ElementUi\index.html" />
+    <Content Include="Console\CoreScripts\ElementUi\index.js" />
+    <Content Include="Console\CoreScripts\jquery-3.4.1.min.js" />
+    <Content Include="Console\CoreScripts\polyfill_min.js" />
+    <Content Include="Console\CoreScripts\Slider.js" />
+    <Content Include="Console\CoreScripts\vue_min.js" />
+    <Content Include="Console\CoreScripts\vue_router.js" />
     <Content Include="Console\Effect\2D_Cloud\Images\login_bgX.jpg" />
     <Content Include="Console\Effect\2D_Cloud\Images\login_Top.jpg" />
     <Content Include="Console\Effect\2D_Cloud\index.html" />
@@ -227,11 +237,11 @@
     <Content Include="Console\Effect\3D_Cloud\js\RequestAnimationFrame.js" />
     <Content Include="Console\Effect\3D_Cloud\js\ThreeExtras.js" />
     <Content Include="Console\Effect\3D_Cloud\js\ThreeWebGL.js" />
-    <Content Include="Console\Images\01a3ff5bfa2bc4a80121ab5d545539.jpg" />
     <Content Include="Console\index.html" />
     <Content Include="Console\Scripts\Index.js" />
     <Content Include="Console\Scripts\JScript1.js" />
     <Content Include="Console\Styles\Index.css" />
+    <Content Include="Console\Styles\Slider.css" />
     <Content Include="Console\Tags.html" />
     <Content Include="Console\test1.html" />
     <Content Include="Copyright.xml">
@@ -6572,6 +6582,8 @@
     <Content Include="API\API.ashx" />
     <Content Include="Help\API.ashx" />
     <Content Include="Help\Default.ashx" />
+    <None Include="Console\CoreScripts\ElementUi\fonts\element-icons.ttf" />
+    <None Include="Console\CoreScripts\ElementUi\fonts\element-icons.woff" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <Content Include="Mobile\ExamReview.ashx" />
     <Content Include="Mobile\MyFriends.ashx" />
@@ -6954,8 +6966,8 @@
   <ItemGroup>
     <Folder Include="bin\" />
     <Folder Include="Console\Components\" />
-    <Folder Include="Console\CoreScripts\" />
     <Folder Include="Console\Fonts\" />
+    <Folder Include="Console\Images\" />
     <Folder Include="Console\Themes\Default\" />
     <Folder Include="Console\Themes\Spring\" />
     <Folder Include="Manage\Utility\kindeditor\attached\" />
