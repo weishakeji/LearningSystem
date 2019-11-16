@@ -110,6 +110,7 @@
 /*自定义内容的样式*/
 dl{
 	margin: 20px;
+	user-select: none;
 }
 dl dt{
 	display: block;
