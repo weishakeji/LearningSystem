@@ -65,6 +65,7 @@ namespace Song.Site.Manage
             bool isLogin = Business.Do<ISystemPara>()["SysIsLoginLogs"].Boolean ?? true;
             if(isLogin)Business.Do<ILogs>().AddLoginLogs();
             Response.Redirect("console.aspx");
+            
         }
         /// <summary>
         /// 验证，验证码

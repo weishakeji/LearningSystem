@@ -1,0 +1,49 @@
+﻿<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>管理中心</title>
+	<link href="Styles/index.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<iframe src="Effect/3D_Cloud/index.html" id="iframe" width="100%" height="100%" frameborder="no" border="0"
+		marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes" style="visibility:hidden;"></iframe>
+	<script>
+		document.getElementById("iframe")
+			.addEventListener("load", function (ev) {
+				ev.target.style.visibility = "";
+			});
+	</script>
+	<div id="login_show">
+
+		<img src="images/01a3ff5bfa2bc4a80121ab5d545539.jpg" width="450px" height="200px" style="display: none;" />
+	</div>
+	<div id="login_box">
+		<div class="login_inner">
+			<div class="login_tit">微厦在线学习系统</div>
+			<div class="login_cont">
+				<div class="login_row">
+					<label>账号</label><input type="text" />
+				</div>
+				<div class="login_row">
+					<label>密码</label><input type="text" />
+				</div>
+				<div class="login_row">
+					<label>验证码</label><input type="text" />
+				</div>
+				<div class="login_row">
+					<label>&nbsp;</label>
+					<div class="itemBtn">登 &nbsp; 录</div>
+				</div>
+			</div>
+			<div class="login_foot"><a href="http://www.weishakeji.net" target="_blank">微厦科技</a>
+				<span>400 6015 615</span>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="Scripts/Index.js"></script>
+
+</html>

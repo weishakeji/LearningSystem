@@ -33,6 +33,21 @@ input
 	text-indent: 5px;
 	line-height: 22px;
 }
+#topbar{
+	background-color: #fff;
+	position: absolute;
+	height: 30px;
+	width: 100%;
+	opacity: .8;	
+}
+#topbar>*{
+	text-decoration: none;
+	width: 60px;
+	line-height: 30px;
+	float: right;
+	font-size: 16px;
+	text-align: center;
+}
 #topShow {
 	background-image: url(../Images/Index/login_Top.jpg);
 	background-repeat: no-repeat;

@@ -1,0 +1,255 @@
+﻿<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>标签</title>
+	<style type="text/css">
+		* {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		html {
+			background-image: url("images/9c33a634fc313c75251f14c7.jpg ");
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+			height: 100%;
+		}
+
+		dl {
+			height: 31px;
+			width: 100%;
+			--background-color: #999;
+			margin-top: 20px;
+			border-bottom: 1px solid #aaa;
+		}
+
+		dd {
+			width: auto;
+			width: 60px;
+			float: left;
+			height: 30px;
+			position: relative;
+			font-size: 13px;
+			line-height: 33px;
+			padding-left: 15px;
+			padding-right: 22px;
+			cursor: default;
+			user-select: none;
+			/*禁用事件*/
+			--pointer-events: none;
+		}
+
+		dd:not(:last-child):before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: -1;
+			background-color: #ddd;
+			background-image: linear-gradient(to bottom, rgb(216, 216, 219, .6), rgb(236, 238, 236, .9), rgb(236, 238, 236, 1), rgb(236, 238, 236, 1));
+			transform: perspective(.5em) rotateX(3deg);
+			border-left: 1px solid #aaa;
+			border-bottom: 1px solid #aaa;
+			box-shadow: .5px -1px .5px #aaa;
+			/*当禁用父元素事件时，启用伪类事件*/
+			--pointer-events: auto;
+		}
+
+		dd div {
+			width: 100%;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			user-select: none;
+		}
+
+		dl dd:last-child {
+
+			transform: skewX(23deg);
+			margin-left: 5px;
+			color: #999;
+			background-color: rgb(223, 222, 222, .8);
+
+			border: 1px solid #999;
+			height: 20px;
+			line-height: 20px;
+			margin-top: 5px;
+			width: 0px;
+		}
+
+		dl dd:last-child:hover {
+			background-color: #eee;
+		}
+
+		dd.curr {
+			z-index: 100000 !important;
+		}
+
+		dd.curr:before {
+			background: #fff !important;
+			--background-image: linear-gradient(to bottom, rgb(255, 255, 255, .6), rgb(255, 255, 255, .9), rgb(255, 255, 255, 1), rgb(255, 255, 255, 1));
+			border-bottom-style: none;
+		}
+
+		dd:hover:before {
+			background-color: #eee;
+		}
+
+		/*关闭按钮*/
+		dd close {
+			top: 10px;
+			right: 6px;
+			width: 14px;
+			height: 14px;
+			display: none;
+			line-height: 12px;
+			text-align: center;
+			position: absolute;
+		}
+
+		dd close:after {
+			content: "×";
+		}
+
+		dd:hover close,
+		dd.curr close {
+			display: block;
+		}
+
+		dd close:hover {
+			background-color: #aaa;
+			color: #f00;
+			border-radius: 7px;
+			cursor: pointer;
+
+		}
+
+		dd:hover close:after {
+			--background-color: #aaa;
+			--color: #fff;
+			border-radius: 7px;
+			cursor: pointer;
+
+		}
+
+		#contextbox {
+			height: calc(100vh - 52px);
+			--background-color: #fff;
+			background-image: linear-gradient(to bottom, rgb(255, 255, 255, 1), rgb(255, 255, 255, .9), rgb(255, 255, 255, .9), rgb(255, 255, 255, .9));
+		}
+	</style>
+</head>
+
+<body>
+	<dl id="tags">
+		<dd>菜单一
+			<close />
+		</dd>
+		<dd>窗口
+			<close />
+		</dd>
+		<dd>测试一
+			<close />
+		</dd>
+		<dd>菜单二
+			<close />
+		</dd>
+		<dd>
+			<div>窗口标题比较长，测试下</div>
+			<close />
+		</dd>
+		<dd tag="create">+</dd>
+	</dl>
+	<div id="contextbox" remark="内容区"></div>
+	<script type="text/javascript">
+		var dd = document.getElementsByTagName("dd");
+		if (dd.length > 0) dd[0].className = "curr";
+		for (i = 0; i < dd.length - 1; i++) {
+			dd[i].style.zIndex = dd.length - i;
+			dd[i].setAttribute("title", dd[i].innerText);
+			//标签的单击事件
+			dd[i].addEventListener("click", function (el) {
+				var target = el.target;
+				while (target.nodeName != "DD")
+					target = target.parentNode;
+				setCurr(target);
+			}, false);
+			//关闭按钮的事件
+			dd[i].getElementsByTagName("close")[0].addEventListener("click",
+				function (event) {
+					//当前点中的标签
+					var p = event.target.parentNode;
+					if (p.classList.contains("curr")) {
+						var brother = p.previousElementSibling;
+						if (!brother) brother = p.nextElementSibling;
+						if (brother) {
+							brother.classList.add("curr");
+							document.getElementById("tags").removeChild(p);
+						} else {
+							alert("剩最后一个了！");
+						}
+					} else {
+						document.getElementById("tags").removeChild(p);
+					}
+					event.stopPropagation();
+					return false;
+				}, false);
+			//标签的右键事件
+			dd[i].addEventListener("contextmenu", function (event) {
+				var target = event.target;
+				while (target.nodeName != "DD")
+					target = target.parentNode;
+				if (target.nodeName == "DD") {
+					alert(target.innerText);
+				}
+				event.preventDefault();
+				return false;
+			}, false);
+			//鼠标滚轮事件
+			dd[i].addEventListener("mousewheel", function (e) {
+				e = e || window.event;
+				var whell = e.wheelDelta ? e.wheelDelta : e.detail;
+				var action = whell > 0 ? "up" : "down";	//上滚或下滚
+				var dds = document.getElementsByTagName("dd");
+				var target = dds[0];
+				for (i = 0; i < dds.length - 1; i++) {
+					if (dds[i].classList.contains("curr"))
+						target = dds[i];
+				}
+				setCurr(target, action == "up" ? -1 : 1);
+			});
+		}
+		//设置当前标签项
+		//dd为菜单元素，默认是第一个，direction为方向，1向右，-1向左，0为当前
+		function setCurr(dd, direction) {
+			var dds = document.getElementsByTagName("dd");
+			dd = dd == null ? document.getElementsByTagName("dd")[0] : dd;
+			direction = direction == null ? 0 : direction;
+			//设置当前标签为选中状态
+			if (direction == 0) {
+				for (i = 0; i < dds.length - 1; i++)
+					dds[i].classList.remove("curr");
+				dd.classList.add("curr");
+			}
+			//当前标签的后一个标签，为选中状态，如果后面没有，则选第一个
+			if (direction == 1) {
+				var next = dd.nextElementSibling;
+				if (!next || next.getAttribute("tag") == "create") next = dds[0];
+				setCurr(next);
+			}
+			if (direction == -1) {
+				var prev = dd.previousElementSibling;
+				if (!prev && dds.length > 0) prev = dds[dds.length - 2];
+				setCurr(prev);
+			}
+		}
+
+	</script>
+</body>
+
+</html>

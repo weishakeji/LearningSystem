@@ -218,6 +218,19 @@
     <Content Include="Check\Writer.aspx" />
     <Content Include="Check\Dbup_20170323.aspx" />
     <Content Include="Check\Dbup_20190321.aspx" />
+    <Content Include="Console\Effect\3D_Cloud\cloud10.png" />
+    <Content Include="Console\Effect\3D_Cloud\index.html" />
+    <Content Include="Console\Effect\3D_Cloud\js\Detector.js" />
+    <Content Include="Console\Effect\3D_Cloud\js\RequestAnimationFrame.js" />
+    <Content Include="Console\Effect\3D_Cloud\js\ThreeExtras.js" />
+    <Content Include="Console\Effect\3D_Cloud\js\ThreeWebGL.js" />
+    <Content Include="Console\Images\01a3ff5bfa2bc4a80121ab5d545539.jpg" />
+    <Content Include="Console\index.html" />
+    <Content Include="Console\Scripts\Index.js" />
+    <Content Include="Console\Scripts\JScript1.js" />
+    <Content Include="Console\Styles\Index.css" />
+    <Content Include="Console\Tags.html" />
+    <Content Include="Console\test1.html" />
     <Content Include="Copyright.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -2191,7 +2204,9 @@
     <Content Include="Utility\PdfViewer\viewer.css" />
     <Content Include="Utility\PdfViewer\viewer.html" />
     <Content Include="Utility\PdfViewer\viewer.js" />
-    <Content Include="Utility\Qiniuyun\crossdomain.xml" />
+    <Content Include="Utility\Qiniuyun\crossdomain.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Utility\Qiniuyun\demo.html" />
     <Content Include="Utility\Qiniuyun\demo1.html" />
     <Content Include="Utility\Qiniuyun\qiniu-web-player-1.2.2.js" />
@@ -6935,11 +6950,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+    <Folder Include="Console\Components\" />
     <Folder Include="Console\CoreScripts\" />
     <Folder Include="Console\Fonts\" />
-    <Folder Include="Console\Images\" />
-    <Folder Include="Console\Scripts\" />
-    <Folder Include="Console\Styles\" />
     <Folder Include="Console\Themes\Default\" />
     <Folder Include="Console\Themes\Spring\" />
     <Folder Include="Manage\Utility\kindeditor\attached\" />

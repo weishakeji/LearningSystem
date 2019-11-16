@@ -11,6 +11,9 @@
 <script type="text/javascript" src="Scripts/Index.js"></script>
 </head>
 <body>
+<div id="topbar">
+<a class="topitem" href="/">首页</a>
+</div>
 <div id="topShow">
   <!--顶部图片 -->
 </div>

@@ -1,0 +1,149 @@
+﻿html, body {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #326696;
+}
+
+iframe {
+    z-index: 0;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+
+/*登录框后面的文本内容显示*/
+
+#login_show {
+    position: absolute;
+    z-index: 1;
+    width: 800px;
+    height: 200px;
+    background: #eee;
+    top: calc((100vh - 200px)/2);
+    left: calc((100vw - 800px)/2);
+    animation: 5s opacity2 0s infinite;   
+    border: 1px solid #fff;
+}
+
+@keyframes opacity2 {
+    0% {
+        opacity: 0.8;
+        transform: rotate(0deg);
+        box-shadow: 0px 0px 25px #fff;
+    }
+    50% {
+        opacity: .9;
+        transform: rotate(0deg) scale(1.05);
+        box-shadow: 0px 0px 45px #fff;
+    }
+    100% {
+        opacity: 0.8;
+        transform: rotate(0deg);
+        box-shadow: 0px 0px 25px #fff;
+    }
+}
+
+/*登录框*/
+
+#login_box {
+    position: absolute;
+    z-index: 2;
+    width: 300px;
+    height: 310px;
+    background: rgba(243, 240, 240, 0.6);
+    top: calc((100vh - 200px)/2 - 55px);
+    left: calc((100vw - 800px)/2 + 480px);
+    border: 1px solid #fff;
+    box-shadow: 0px 0px 25px #fff;
+}
+
+#login_box .login_inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+#login_box .login_tit {
+    position: absolute;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    width: calc(100% - 20px);
+    top: 0px;
+    padding: 0px 10px 0px 10px;
+}
+
+#login_box .login_cont {
+    position: absolute;
+    width: calc(100% - 30px);
+    top: 70px;
+    padding: 0px 10px 0px 20px;
+}
+
+#login_box .login_cont .login_row {
+    height: 50px;
+    width: 100%;
+    line-height: 50px;
+    position: relative;
+}
+
+#login_box .login_cont label {
+    width: 60px;
+    display: block;
+    line-height: 40px;
+    float: left;
+}
+#login_box .login_cont input{
+    float: left;
+    width: 180px;
+    height: 40px;
+    line-height: 36px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    border: 1px solid #d7dce0;
+    background-color: #fff;
+    font-size: 16px;
+    color: rgba(102,102,102,0.5);
+}
+#login_box .login_cont .itemBtn {
+    display: block;
+    float: left;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+    width: 120px;
+    border: 1px solid #FF9900;
+    margin-left: 10px;
+    border-radius: 4px;
+    background-color: #1B9AF7;
+    border-color: #1B9AF7;
+    font-weight: 300;
+    font-size: 14px !important;
+    color: #FFF;
+    cursor: pointer;
+}
+#login_box .login_cont .itemBtn:hover{
+    box-shadow: 0 2px 0 #0880d7, 0 3px 3px rgba(0, 0, 0, 0.3);
+	background-color: #36A6F8;
+	border-color: #36A6F8;
+}
+#login_box .login_foot {
+    position: absolute;
+    color: #999;
+    height: 40px;
+    line-height: 50px;
+    width: calc(100% - 20px);
+    bottom: 0px;
+    font-size: 12px;
+    padding: 0px 10px 0px 10px;
+}
+#login_box .login_foot *{
+    color: #999;
+    text-decoration : none;
+}
+#login_box .login_foot span {
+    float: right;
+}
