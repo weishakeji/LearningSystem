@@ -237,9 +237,11 @@
     <Content Include="Console\Effect\3D_Cloud\js\RequestAnimationFrame.js" />
     <Content Include="Console\Effect\3D_Cloud\js\ThreeExtras.js" />
     <Content Include="Console\Effect\3D_Cloud\js\ThreeWebGL.js" />
+    <Content Include="Console\Effect\Tree\index.html" />
     <Content Include="Console\index.html" />
     <Content Include="Console\Scripts\Index.js" />
     <Content Include="Console\Scripts\JScript1.js" />
+    <Content Include="Console\Slider.html" />
     <Content Include="Console\Styles\Index.css" />
     <Content Include="Console\Styles\Slider.css" />
     <Content Include="Console\Tags.html" />
