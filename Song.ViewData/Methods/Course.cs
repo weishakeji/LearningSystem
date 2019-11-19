@@ -18,7 +18,11 @@ namespace Song.ViewData.Methods
     [HttpGet]
     public class Course : IViewAPI
     {
-        
+        /// <summary>
+        /// 根据课程ID获取课程信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Song.Entities.Course ForID(int id)
         {
             return Business.Do<ICourse>().CourseSingle(id);

@@ -19,26 +19,16 @@
     <script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
 </head>
 <body>
-    <script type="text/javascript">
-        //写着玩的
-        (function () {
-            var vers = ["", "1", "2"];
-            var obj = function (version) {
-                this.version = version == null ? "1.1" : version;
-                this.query = function () {
-                    //alert(this.version);
-                }
-            };
-            for (var v in vers) {
-                var str = vers[v] == "" ?
-             "window.$api = new obj();" :
-             "window.$api.v" + vers[v] + "= new obj('" + vers[v] + "')";
-                eval(str);
-            }
-        })();
-        $api.query();
-        $api.v1.query();
-        $api.v2.query();
-    </script>
+
+    <form id="form1" runat="server"><asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+ 
+    
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server">   <ContentTemplate>  <asp:Button ID="Button1" runat="server" Text="Button" />
+    </ContentTemplate>
+    </asp:UpdatePanel>
+    
+    </form>
+
 </body>
 </html>

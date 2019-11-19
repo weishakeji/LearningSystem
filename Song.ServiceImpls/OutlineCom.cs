@@ -358,7 +358,13 @@ namespace Song.ServiceImpls
                     //删除直播流
                     if (!string.IsNullOrWhiteSpace(entity.Ol_LiveID))
                     {
-                        Pili.API<pili_sdk.IStream>().Delete(entity.Ol_LiveID);
+                        try
+                        {
+                            Pili.API<pili_sdk.IStream>().Delete(entity.Ol_LiveID);
+                        }
+                        catch
+                        {
+                        }
                     }
                     this.OnDelete(entity, null);
                 }

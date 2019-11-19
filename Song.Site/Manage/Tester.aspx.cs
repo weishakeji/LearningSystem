@@ -26,27 +26,10 @@ namespace Song.Site.Manage
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            Hub hub = Hub.Create("", "", "");
-
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-
-            this.Title = IsDestopApp.ToString();
+           
             
 
         }
-        /// <summary>
-        /// 前端浏览器是否是桌面应用
-        /// </summary>
-        public static bool IsDestopApp
-        {
-            get
-            {
-                System.Web.HttpContext _context = System.Web.HttpContext.Current;
-                string userAgent = _context.Request.ServerVariables["HTTP_USER_AGENT"];
-                Regex b = new Regex(@"DeskApp\(.[^\)]*\)");
-                if (b.IsMatch(userAgent)) return true;
-                return false;
-            }
-        }
+
     }
 }

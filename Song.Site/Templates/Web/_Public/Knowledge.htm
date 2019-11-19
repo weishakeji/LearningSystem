@@ -6,6 +6,10 @@
 <link href="Styles/Knowledge.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<script>
+    document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
+    document.body.onpaste = document.body.oncopy = function () { return false; };
+</script>
 <div class="contextbox">
   <div class="title">知识库： {$knl.kn_title} </div>
   <div class="details">

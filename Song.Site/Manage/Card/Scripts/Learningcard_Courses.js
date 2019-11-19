@@ -37,7 +37,7 @@ function _EventInt(){
 //选择课程的事件
 function _Event_Select(){
     //添加课程到选择列表
-    $("a[href=select]").click(function () {
+    $("a[href='select']").click(function () {
         var couid = $(this).attr("couid");
         if (couid == "all") {
             $("a[href=select][title]").each(function () {

@@ -117,14 +117,14 @@ dl dt{
     font-size: 2em;
     margin-block-end: 0.67em;
 	font-weight: bold;
-	color: #999;
+	color: #636262;
 	margin-left: 20px;
-	//text-shadow:1px 1px 1px #000;
+	text-shadow:1px 1px 1px #000;
 }
 dl dd{
 	height: 40px;
 	line-height: 40px;
 	font-size: 18px;
-	color: #999;
+	color: #636262;
 	font-weight: bold;
 }

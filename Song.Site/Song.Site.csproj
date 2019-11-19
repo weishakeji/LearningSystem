@@ -237,6 +237,16 @@
     <Content Include="Console\Effect\3D_Cloud\js\RequestAnimationFrame.js" />
     <Content Include="Console\Effect\3D_Cloud\js\ThreeExtras.js" />
     <Content Include="Console\Effect\3D_Cloud\js\ThreeWebGL.js" />
+    <Content Include="Console\Effect\Circular\css\style.css" />
+    <Content Include="Console\Effect\Circular\index.html" />
+    <Content Include="Console\Effect\Line\css\style.css" />
+    <Content Include="Console\Effect\Line\index.html" />
+    <Content Include="Console\Effect\Line\js\jparticle.min.js" />
+    <Content Include="Console\Effect\Line\js\jquery.js" />
+    <Content Include="Console\Effect\Particle\css\style.css" />
+    <Content Include="Console\Effect\Particle\index.html" />
+    <Content Include="Console\Effect\Particle\js\script.js" />
+    <Content Include="Console\Effect\Particle\js\simplex-noise.min.js" />
     <Content Include="Console\Effect\Tree\index.html" />
     <Content Include="Console\index.html" />
     <Content Include="Console\Scripts\Index.js" />

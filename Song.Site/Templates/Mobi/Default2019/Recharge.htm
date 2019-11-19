@@ -70,7 +70,7 @@
                   <label>金额</label>
                   <div class="mui-numbox" data-numbox-min='0.01' data-numbox-max='9999' data-numbox-step='10' >
                     <button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
-                    <input name="money" type="number" class="mui-input-numbox" id="money" value="1" step="0.01" />
+                    <input name="money" type="number"   group="money" class="mui-input-numbox" id="money" value="1" step="0.01" />
                     <button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
                   </div>
                   <input name="paiid" type="hidden" id="paiid" value="">
@@ -83,7 +83,7 @@
                   </ul>
                 </div>
                 <div class="mui-button-row">
-                  <button class="mui-btn mui-btn-primary enter" id="btnSubmit" type="submit"  data-loading-text="提交中"  verify="true"  group="code">充 值</button>
+                  <button class="mui-btn mui-btn-primary enter" id="btnSubmit" type="submit"  data-loading-text="提交中"  verify="true"  group="money">充 值</button>
                 </div>
               </form>
             </div>

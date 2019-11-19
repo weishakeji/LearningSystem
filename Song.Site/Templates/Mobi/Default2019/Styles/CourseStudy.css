@@ -80,6 +80,8 @@ div {}
 .videobox {
 	width: 100%;
 	height: calc(100vw*9/16);
+	height: -webkit-calc(100vw*9/16);
+	height: -moz-calc(100vw*9/16);
 	position: absolute;
 	top: 0px;
 	z-index: 100;
@@ -410,15 +412,18 @@ div {}
 #context-box {
 	overflow: hidden;
 	width: 100%;
-	height: calc(100% - 0px);
+	height: 100%;
 }
 
 #context-box>div[tag] {
 	width: 100%;
 	height: calc(100vh - 100vw*9/16);
-	--position: absolute;
-	--float: left;
-	margin-top: calc(100vw*9/16)
+	height: -webkit-calc(100vh - 100vw*9/16);
+	height: -moz-calc(100vh - 100vw*9/16);
+
+	margin-top: calc(100vw*9/16);
+	margin-top: -webkit-calc(100vw*9/16);
+	margin-top: -moz-calc(100% * 9/16);
 }
 
 .mui-card {

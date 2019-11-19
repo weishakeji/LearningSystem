@@ -21,7 +21,9 @@
         }
     }
     function load() {
+    try{
         Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+        }catch{}
     }
     $(load);
     </script>
@@ -99,7 +101,7 @@
                                     <ItemTemplate>
                                         <a href="select" couid="<%# Eval("Cou_ID")%>" title="<%# Eval("Cou_Name")%>">选择</a>
                                     </ItemTemplate>
-                                    <ItemStyle CssClass="center" />
+                                    <ItemStyle CssClass="center" Width="60px" />
                                 </asp:TemplateField>
                             </Columns>
                         </asp:GridView>
