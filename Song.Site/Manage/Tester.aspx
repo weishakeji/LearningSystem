@@ -19,16 +19,20 @@
     <script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
 </head>
 <body>
-
-    <form id="form1" runat="server"><asp:ScriptManager ID="ScriptManager1" runat="server">
-    </asp:ScriptManager>
- 
-    
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server">   <ContentTemplate>  <asp:Button ID="Button1" runat="server" Text="Button" />
-    </ContentTemplate>
-    </asp:UpdatePanel>
-    
+    <form id="form1" runat="server">
+    IPad：
+    <asp:Label ID="isiPad" runat="server" Text="Label"></asp:Label>
+    <br />
+    Mobile:
+    <asp:Label ID="isMobile" runat="server" Text="Label"></asp:Label>
+    <br />
+    IPhone：
+    <asp:Label ID="isPhone" runat="server" Text="Label"></asp:Label>
+    <br />
+    OS：
+    <asp:Label ID="lbOs" runat="server" Text="Label"></asp:Label>
+    <hr />
+     <asp:Label ID="lbUseagent" runat="server" Text="Label"></asp:Label>
     </form>
-
 </body>
 </html>
