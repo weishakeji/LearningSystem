@@ -35,7 +35,7 @@ function setCourse(courses) {
     var dl = $("dl.courses");
     dl.find("dd").remove();
     //判断是否有重复
-    var isExist = false;    
+    var isExist = false;
     for (var i = 0; i < courses.length; i++) {
         var isExist = false;
         dl.find("dd").each(function () {
@@ -48,10 +48,10 @@ function setCourse(courses) {
         });
         if (!isExist) add(dl, courses[i].id, courses[i].name);
     }
-    var couids="";
+    var couids = "";
     dl.find("dd").each(function (index) {
         $(this).find("span:first").text(index + 1);
-        couids += $(this).attr("couid")+",";
+        couids += $(this).attr("couid") + ",";
     });
     dl.find("dd").size() < 1 ? $(".noCourse").show() : $(".noCourse").hide();
     $("input[name$=tbCourses]").val(couids);
@@ -69,7 +69,8 @@ function getCourses() {
     //写入选修的课程到cookies
     var courses = new Array()
     $("dl.courses dd").each(function (index) {
-        var obj = { id: $(this).attr("couid"), name: $(this).find(".name").text() };
+        var name = $.trim($(this).find(".name").text());
+        var obj = { id: $(this).attr("couid"), name: name };
         courses[index] = obj;
     });
     return courses;

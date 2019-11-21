@@ -56,6 +56,9 @@
     <Reference Include="WeiSha.Data">
       <HintPath>..\Lib\WeiSha.Data.dll</HintPath>
     </Reference>
+    <Reference Include="WeiSha.WebControl">
+      <HintPath>..\Lib\WeiSha.WebControl.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attri\Client\MobileAttribute.cs" />
@@ -99,6 +102,7 @@
     <Compile Include="Methods\Account.cs" />
     <Compile Include="Methods\Course.cs" />
     <Compile Include="Methods\Live.cs" />
+    <Compile Include="Methods\Organ.cs" />
     <Compile Include="Methods\Outline.cs" />
     <Compile Include="Methods\Platform.cs" />
     <Compile Include="Methods\Subject.cs" />

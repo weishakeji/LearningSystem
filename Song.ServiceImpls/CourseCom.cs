@@ -670,7 +670,7 @@ namespace Song.ServiceImpls
             }
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
             if (isLive != null) wc.And(Course._.Cou_ExistLive == (bool)isLive);
-            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Like("%" + searTxt + "%"));
+            if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Like("%" + searTxt.Trim() + "%"));
             countSum = Gateway.Default.Count<Course>(wc);
             OrderByClip wcOrder = new OrderByClip();
             if (order == "flux") wcOrder = Course._.Cou_ViewNum.Desc;

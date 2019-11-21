@@ -305,6 +305,7 @@
     <Content Include="Manage\Card\Scripts\Learningcard_Courses.js" />
     <Content Include="Manage\Card\Scripts\Learningcard_Code.js" />
     <Content Include="Manage\Card\Scripts\GoBack.js" />
+    <Content Include="Manage\Card\Scripts\副本 Learningcard_Courses.js" />
     <Content Include="Manage\Card\Styles\Learningcard_Edit.css" />
     <Content Include="Manage\Card\Learningcard_Courses.aspx" />
     <Content Include="Manage\Card\Styles\Learningcard_Courses.css" />

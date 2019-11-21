@@ -13,13 +13,18 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         name="viewport" />
     <base target="_self"></base>
+     <link href="/Utility/ElementUi/index.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/Utility/ElementUi/vue_min.js"></script>
+    <script type="text/javascript" src="/Utility/ElementUi/index.js"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/api.js"></script>
     <link href="/manage/Styles/PageWin.css" rel="stylesheet" type="text/css" />
     <link href="/manage/Styles/Jme.css" rel="stylesheet" type="text/css" />
 </head>
 <body style="padding:0px">
     <form id="form1" runat="server" class="pageWinForm" style="margin:0px">
     <div class="pageWinContext" loyout="row">
-        <div style="margin: 10px; margin-bottom:0px;height:100%">
+        <div style="margin: 10px; margin-bottom:0px;height:calc(100% - 10px)">
             <asp:ContentPlaceHolder ID="cphMain" runat="server">
             </asp:ContentPlaceHolder>
         </div>

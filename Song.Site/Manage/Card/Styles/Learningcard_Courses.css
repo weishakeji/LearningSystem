@@ -1,29 +1,9 @@
-﻿body
-{
-}
-dl.courses
-{
-}
-dl.courses dt{
-     line-height:25px;
-    margin-right:10px;
-    font-weight:bold;
+﻿/*穿梭框宽度*/
+
+.el-transfer-panel {
+    ---width: calc( (96% - 96px)/2);
 }
 
-dl.courses dt .clear
-{
-    float:right;
-    cursor:pointer;
-    color:Red;
-}
-dl.courses dd
-{
-    line-height:25px;
-    margin-right:10px;
-}
-dl.courses dd .remove
-{
-    float:right;
-    cursor:pointer;
-    color:Red;
+.el-checkbox {
+    width: calc(100% - 50px);
 }

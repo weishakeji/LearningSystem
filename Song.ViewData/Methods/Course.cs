@@ -28,6 +28,26 @@ namespace Song.ViewData.Methods
             return Business.Do<ICourse>().CourseSingle(id);
         }
         /// <summary>
+        /// 分页获取课程
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjids">章节id，可以为多个，以逗号分隔</param>
+        /// <param name="search">检索字符，按课程名称</param>
+        /// <param name="size">每页几条</param>
+        /// <param name="index">第几页</param>
+        /// <returns></returns>
+        public ListResult Pager(int orgid, string sbjids, string search, int size, int index)
+        {
+            int count = 0;
+            List<Song.Entities.Course> eas = null;
+            eas = Business.Do<ICourse>().CoursePager(orgid, sbjids, true, search, "", size, index, out count);
+            ListResult result = new ListResult(eas);
+            result.Index = index;
+            result.Size = size;
+            result.Total = count;
+            return result;
+        }
+        /// <summary>
         /// 记录当前学员的视频学习进度
         /// </summary>
         /// <param name="couid">课程ID</param>
