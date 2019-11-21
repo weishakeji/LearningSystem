@@ -79,7 +79,7 @@
         top = top < 0 ? 0 : top;
         box.css({ top: top, left: left });
         //如果有父窗口           
-        var parent = $(".PageBox[winid=" + window.name + "]");
+        var parent = $(".PageBox[winid='" + window.name + "']");
         if (parent != null && parent.size() > 0) {
             box.attr({ "parent": parent.attr("winid") });
             if (!(parent.attr("wdper") == "100" && parent.attr("hgper") == "100")) {
