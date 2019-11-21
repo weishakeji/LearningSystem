@@ -239,18 +239,20 @@ fieldset{
 #testarea{
     width: calc(100% - 60px);
     display: table;
-
+    word-wrap: break-word;
+    word-break:break-all;
     padding: 10px 30px 10px 30px;
     margin: 0px;
 }
 #testarea pre{
     margin: 0px;
+    width: 100%;
     font-size: 16px;
     line-height: 25px;
     padding: 20px;
     background-color: rgb(240, 243, 215);
     word-wrap: break-word;
-    word-break: break-all;
+    word-break: break-all;    
     border:1px solid #ccc;
 }
 #testarea fieldset{
