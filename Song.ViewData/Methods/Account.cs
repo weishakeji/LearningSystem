@@ -41,8 +41,10 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts Current()
         {
             Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
-            if (acc != null) acc.Ac_Pw = string.Empty;
-            return acc;
+            if (acc == null) return acc;
+            Song.Entities.Accounts curr = acc.Clone<Song.Entities.Accounts>();
+            if (curr != null) curr.Ac_Pw = string.Empty;
+            return curr;
         }
         /// <summary>
         /// 根据账号获取学员
@@ -52,8 +54,10 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts ForAcc(string acc)
         {
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsSingle(acc, -1);
-            if (account != null) account.Ac_Pw = string.Empty;
-            return account;
+            if (account == null) return account;
+            Song.Entities.Accounts curr = (Song.Entities.Accounts)account.Clone();
+            curr.Ac_Pw = string.Empty;
+            return curr;
         }
         /// <summary>
         /// 根据名称获取学员
