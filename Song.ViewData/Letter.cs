@@ -113,7 +113,8 @@ namespace Song.ViewData
         {
             HttpRequest request = context.Request;//定义传统request对象
             HTTP_METHOD = request.HttpMethod;
-            HTTP_HOST = request.Params["HTTP_HOST"];
+            //HTTP_HOST = request.Params["HTTP_HOST"];
+            HTTP_HOST = request.Url.Authority;      //等同Params["HTTP_HOST"]，但是由于Params["HTTP_HOST"]可以在客户端更改，不安全
             HTTP_REFERER = request.Params["HTTP_REFERER"];
             //Authorization的解析
             string auth = request.Params["HTTP_AUTHORIZATION"];
