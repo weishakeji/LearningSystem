@@ -12,6 +12,7 @@ header {
     height: 50px;
     line-height: 50px;
     width: 100%;
+    font-size: 18px;
     text-align: left;
     text-indent: 20px;
     background-color: #ccc;
@@ -49,13 +50,30 @@ menu .tit i {
     margin-right: 5px;
 }
 
-menu .tit b {
+menu .tit .searchbox {
     font-size: 22px;
     float: right;
-    display: block;
-    margin-top: 6px;
-    margin-right: 12px;
-    cursor: pointer;
+    width: 170px;
+    height: 100%;
+    position: relative;
+}
+menu .tit .searchbox input {
+    box-shadow: 0px 0px 2px #333 inset;
+    border-radius: 5px;
+    height: 26px;
+    width: 120px;
+    top: 6px;
+    position: absolute; 
+    z-index: 1;
+    padding: 2px 30px 2px 10px;
+}
+menu .tit .searchbox i {
+    font-size: 22px;
+    position: absolute; 
+    right: 10px;
+    top: 10px;
+    z-index: 2;
+    color: #999;
 }
 
 #menu {}
@@ -117,7 +135,12 @@ menu .tit b {
     background-color: rgb(222, 255, 179);
     transition: background-color 0.5s;
 }
-
+dd.noapi span
+{
+    font-size:16px;
+    margin:10px;
+    color:#999;
+}
 .methods>dd>div {
     font-size: 13px;
     color: #999;
@@ -135,7 +158,8 @@ context {
 }
 
 .homepage h1 {
-    padding-left: 35px;
+    font-size: 25px;
+    margin:20px 10px 10px 40px;
 }
 
 .homepage p {
@@ -236,6 +260,10 @@ fieldset{
     height: 25px;
     cursor: pointer;
 }
+#btnCopy:hover
+{
+    box-shadow: 1px 1px 1px #999;
+}
 #testarea{
     width: calc(100% - 60px);
     display: table;
@@ -246,7 +274,7 @@ fieldset{
 }
 #testarea pre{
     margin: 0px;
-    width: 100%;
+    width: calc(100% - 40px);
     font-size: 16px;
     line-height: 25px;
     padding: 20px;
@@ -255,8 +283,11 @@ fieldset{
     word-break: break-all;    
     border:1px solid #ccc;
 }
-#testarea fieldset{
+#testarea fieldset
+{     margin: 0px;
+    padding: 0px;
     margin-bottom: 20px;
+    width:100%;
 }
 footer {
     height: 30px;

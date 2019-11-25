@@ -16,17 +16,24 @@
       </header>
       <section>
             <menu id="menu">
-                  <div class="tit"> <i class="el-icon-set-up"></i>APIs
-                        <b class="el-icon-s-home" v-on:click="homeClick"></b>
+                  <div class="tit"> <i class="el-icon-set-up"></i>API list
+                       <div class="searchbox"> <i class="el-icon-search"></i>
+                      <form>  <input type="text" name="search" id="apisearch" autofocus v-model="apisearch" />
+                      </form>
+                      </div>
                   </div>
                   <dl>
-                        <dd v-for="(u,i) in arr">
+                        <dd v-for="(u,i) in apilist">
                               <methods :name="u.Name" :intro="u.Intro" :index="i+1"></methods>
+                        </dd>
+                         <dd v-if="apilist.length<1" class="noapi">
+                              <span>没有接口信息</span>
                         </dd>
                   </dl>
             </menu>
-            <context id="context">
+            <context id="context"> 
                   <div class="method" v-if="method!=null">
+                            
                         <name>{{method.ClassName +'.'+method.Name}}</name>
                         <fullname>{{showname}}</fullname>
                         <intro><b>摘要：</b>{{method.Intro}}</intro>
@@ -91,7 +98,7 @@
                               <fieldset><legend>示例代码 <span id="apiurl"></span> </legend> 
                                     <button id="btnCopy" v-on:click="btnCopyEvent">复制</button>
                                     <pre id="teststring"></pre>
-                                    <textarea id="input_teststring" style="opacity: 0;position: absolute;top: -10px;right: -0px;"></textarea>
+                                    <textarea id="input_teststring" style="opacity: 0;position: absolute;top: -10px;right: -0px;" remark="用于复制示例代码"></textarea>
                               </fieldset>
                               <fieldset><legend>查询结果</legend> <pre id="testresult"></pre></fieldset>
                              

@@ -1,26 +1,41 @@
 ﻿var menvue = new Vue({
-    //el: '#menu',
+    el: '#menu',
     data: {
-        message: '测试',
-        arr: [1, 2]         //接口列表
+        apisearch: '',
+        list: []         //接口列表
     },
     methods: {
         homeClick: function () {
             rvue.method = null;
         }
     },
+    computed: {
+        // 计算属性的 getter
+        apilist: function () {
+            var search = this.apisearch;
+            if (search == '') return this.list;
+            var arr = new Array();
+            for (var i = 0; i < this.list.length; i++) {
+                if (this.list[i].Name.indexOf(search) > -1 || this.list[i].Intro.indexOf(search) > -1) {
+                    arr.push(this.list[i]);
+                }
+            }
+            return arr;
+        }
+    },
     created: function () {
         var th = this;
         $api.get("helper/List").then(function (req) {
             if (req.data.success) {
-                th.arr = req.data.result;
+                th.list = req.data.result;
             } else {
                 alert(req.data.message);
             }
         });
+        //document.getElementById("apisearch").focus();
     }
 });
-menvue.$mount('#menu');
+//menvue.$mount('#menu');
 
 // 注册组件
 Vue.component('methods', {
