@@ -19,7 +19,9 @@
         }
     }
     function load() {
-        Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+        try{
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+            }catch{}
     }
     $(load);
  </script>

@@ -1,18 +1,18 @@
 ﻿$(function () {
     _initLoyout();
     //单选框只能选中一个
-    $("input[value=rbAns]").click(function () {
+    $("input[value='rbAns']").click(function () {
         var tr = $(this).parents("tr");
         var num = tr.find("span.itemTxtCount");
         if (Number($.trim(num.text())) < 1) {
             alert("请勿选择空白选项作为答案项目。");
             return false;
         }
-        $("input[value=rbAns]").removeAttr("checked");
+        $("input[value='rbAns']").removeAttr("checked");
         $(this).prop("checked", "checked");
     });
     //提交按钮
-    $("input[id$=btnEnter]").click(function () {
+    $("input[id$='btnEnter']").click(function () {
         //验证题干是否录入
         if (Number($(".count").text()) < 1) {
             alert("题干不得为空！");
@@ -29,7 +29,7 @@
             return false;
         }
         //是否设置了正确答案
-        if ($("input[value=rbAns]:checked").size() < 1) {
+        if ($("input[value='rbAns']:checked").size() < 1) {
             alert("试题选择项未设置正确答案！");
             return false;
         }
