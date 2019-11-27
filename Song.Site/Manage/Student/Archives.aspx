@@ -60,7 +60,7 @@
                 <ItemStyle CssClass="center" Width="60" />
                 <ItemTemplate>
                     <b>
-                        <%# Eval("Exr_ScoreFinal", "{0:00.0}")%></b>
+                        <%# Eval("Exr_ScoreFinal", "{0:0.0}")%></b>
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
