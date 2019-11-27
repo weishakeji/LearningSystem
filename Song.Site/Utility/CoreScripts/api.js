@@ -201,6 +201,14 @@
                 }
                 return cookieValue;
             }
+        },
+        //在线浏览pdf文件
+        pdfViewer: function (file) {
+            var viewer = "/Utility/PdfViewer/viewer.html";
+            if (file.indexOf("?") > -1) file = file.substring(0, file.indexOf("?"));
+            viewer += "?file=" + encodeURIComponent(file);
+            //window.location.href = viewer;
+            return viewer;
         }
     };
     //api操作的具体对象和方法

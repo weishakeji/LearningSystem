@@ -78,7 +78,7 @@ var vdata = new Vue({
             var exist = file.substring(file.lastIndexOf(".") + 1).toLowerCase();
             if (exist == "pdf") {
                 event.preventDefault();
-                var box = new PageBox(tit, $().PdfViewer(file), 100, 100, null, window.name);
+                var box = new PageBox(tit, $api.pdfViewer(file), 100, 100, null, window.name);
                 box.Open();
             }
             return false;
