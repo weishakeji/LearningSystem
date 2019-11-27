@@ -32,7 +32,10 @@
                 alert(req.data.message);
             }
         });
-        //document.getElementById("apisearch").focus();
+        window.setTimeout(function () {
+
+            document.getElementById("apisearch").focus();
+        }, 1000);
     }
 });
 //menvue.$mount('#menu');
