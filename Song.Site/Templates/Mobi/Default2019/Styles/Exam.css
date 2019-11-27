@@ -51,9 +51,10 @@
 	border-radius: 10px 10px 0px 0px;
 }
 .menu-box>div{
-	width:60px;
+	width:calc( 100% /3 - 10px);
 	float:left;
-	margin-right:10px;
+	margin-right:5px;
+	margin-left:5px;
 	text-align:center;
 	font-size:12px;
 }
