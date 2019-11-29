@@ -156,7 +156,8 @@ namespace Song.ViewData.Methods
 
             List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(outline.Ol_UID, "CourseVideo");
             bool existVideo = videos.Count > 0;
-            dic.Add("outerVideo", existVideo && (videos.Count > 0 && videos[0].As_IsOuter));
+            dic.Add("outerVideo", existVideo && (videos.Count > 0 && videos[0].As_IsOuter));    //站外视频,包括其它网站的视频，或是视频播放链接
+            dic.Add("otherVideo", existVideo && (videos.Count > 0 && videos[0].As_IsOther));    //其它视频平台的链接
             if (videos.Count > 0)
             {
                 string videoUrl = existVideo ? videos[0].As_FileName : string.Empty; //视频地址

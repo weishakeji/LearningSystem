@@ -20,6 +20,7 @@ var vdata = new Vue({
             percent: 0       //完成度（百分比）
         },
         playtime: 0,         //当前播放时间，单位：秒
+        playpercent: 0,          //当前播放完成度百分比
         //状态
         state: {},           //课程状态       
         couid: $api.querystring("couid"),
@@ -59,13 +60,20 @@ var vdata = new Vue({
             if (val != old)
                 $api.cookie("switchSubtitle_" + vdata.couid, val);
         },
-        //播放进度变化
+        //播放进度时间变化
         playtime: function (val) {
             vdata.video.studytime++;
-            //学习记录提交
-            vdata.videoLog();
+            //当前视频播放进度百分比
+            var per = Math.floor(vdata.video.studytime <= 0 ? 0 : vdata.video.studytime / vdata.video.total * 100);
+            vdata.playpercent = per;
             //触发视频事件
             vdata.videoEvent(vdata.playtime);
+        },
+        //播放进度百分比变化，
+        playpercent: function (val, oldval) {
+            //console.log('当前播放进度百分比：'+val);
+            //学习记录提交
+            if (val <= 100) vdata.videoLog(val);
         }
     },
     methods: {
@@ -217,12 +225,12 @@ var vdata = new Vue({
             }
         },
         //学习记录记录
-        videoLog: function () {
+        videoLog: function (per) {
             if (vdata.studylogUpdate) return;
             var interval = 1; 	//间隔百分比多少递交一次记录
-            if (vdata.video.total <= 5 * 60) interval = 10; //5分钟内
-            else if (vdata.video.total <= 10 * 60) interval = 5;
-            var per = Math.floor(vdata.video.studytime <= 0 ? 0 : vdata.video.studytime / vdata.video.total * 1000) / 10;
+            if (vdata.video.total <= 5 * 60) interval = 10; //5分钟内的视频
+            else if (vdata.video.total <= 10 * 60) interval = 5;      //10分钟的视频，5%递交一次      
+            else if (vdata.video.total <= 30 * 60) interval = 2;      //30分钟的视频，2%递交一次    
             if (per > 0 && per < (100 + interval) && per % interval == 0) {
                 $api.post("Course/StudyLog", {
                     couid: vdata.course.Cou_ID, olid: vdata.outline.Ol_ID,

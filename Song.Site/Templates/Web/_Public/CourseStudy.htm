@@ -65,13 +65,13 @@
                               <div class="noSelect" v-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束</div>
                         </div>
                         <div remark="视频" v-show="titState=='existVideo'" :video="state.urlVideo">
-                              <div id="videoplayer" v-show="!state.outerVideo && !state.isLive"
+                              <div id="videoplayer" v-show="!state.otherVideo && !state.isLive"
                                     style="height: 100%;width:100%;" remark="点播">
                               </div>
                               <div id="accinfo" v-if="JSON.stringify(account) != '{}'" title="仅自己可见" remark="飘浮信息，防录屏">
                                     {{account.Ac_Name}} {{account.Ac_MobiTel1}}</div>
-                              <div id="chartlayer" v-show="!state.outerVideo && switchSubtitle" remark="弹幕层"></div>
-                              <div id="videoinfo" v-show="!state.outerVideo && !state.isLive">
+                              <div id="chartlayer" v-show="!state.otherVideo && switchSubtitle" remark="弹幕层"></div>
+                              <div id="videoinfo" v-show="!state.otherVideo && !state.isLive">
                                     <span style="display: non6e">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
                                     <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
                                     <span style="cursor: pointer"
@@ -80,7 +80,7 @@
                                     <span class="videolog error" v-show="studylogState==-1">学习进度提交失败!</span>
                               </div>
                               <iframe id="vedioiframe" height="100%" width="100%"
-                                    v-if="state.outerVideo && !state.isLive" :src="state.urlVideo"
+                                    v-if="state.outerVideo && state.otherVideo  && !state.isLive" :src="state.urlVideo"
                                     allowscriptaccess="always" allowfullscreen="true" wmode="opaque"
                                     allowtransparency="true" frameborder="0" remark="外部视频链接"
                                     type="application/x-shockwave-flash"></iframe>
