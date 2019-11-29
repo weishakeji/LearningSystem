@@ -151,7 +151,22 @@ div {}
 	font-size: 17px;
 	color: #ccc;
 }
-
+/*直播加载时*/
+#liveLoadingbox {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 110;
+	width: 100%;
+	padding: 10px;	
+	max-height: 60px;
+	font-size: 16px;
+	color: #333;
+	background-color: rgb(182, 179, 179,0.8);
+}
+#liveLoadingbox button{
+	float: right;
+}
 /*直播，没有直播时*/
 
 #liveStopbox {

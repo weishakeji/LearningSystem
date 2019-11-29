@@ -24,7 +24,8 @@
                             v-show="JSON.stringify(outline) == '{}' || (state.existVideo && !state.outerVideo && !state.isLive)"
                             style="height: 100%;width:100%;" remark="点播">
                         </div>
-                        <div id="novideoplayer" v-show="JSON.stringify(outline) != '{}' && !state.existVideo && !state.isLive"
+                        <div id="novideoplayer"
+                            v-show="JSON.stringify(outline) != '{}' && !state.existVideo && !state.isLive"
                             style="height: 100%;width:100%;" remark="没有视频">
                             没有视频资源
                         </div>
@@ -45,6 +46,10 @@
                     <div remark="直播" v-show="state.isLive" :video="state.urlVideo" class="videobox">
                         <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
                             remark="直播">
+                        </div>
+                        <div id="liveLoadingbox" v-show="state.isLive && state.isLiving && video.loading" remark="直播流加载时">
+正在加载...
+<button id="pagefresh" v-on:click="pagefresh" type="button">刷新</button>
                         </div>
                         <div id="liveStopbox" v-show="state.isLive && !state.isLiving" style="height: 100%;width:100%;"
                             remark="直播未开始">

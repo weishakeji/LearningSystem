@@ -55,7 +55,8 @@ var vdata = new Vue({
             playTime: 0,         //当前播放时间，单位：毫秒     
             playhistime: 0,    //历史播放时间
             studytime: 0,    //累计学习时间
-            percent: 0       //完成度（百分比）
+            percent: 0,       //完成度（百分比）
+            loading:false       //是否处于加载状态
         },
         playtime: 0,         //当前播放时间，单位：秒
         playpercent: 0,          //当前播放完成度百分比
@@ -88,6 +89,11 @@ var vdata = new Vue({
         }
     },
     methods: {
+        //页面刷新
+        pagefresh:function(){
+            //alert("页面刷新");
+            window.location.reload();
+        },
         //播放器是否准备好
         playready: function () {
             if (vdata.player != null) {
@@ -121,9 +127,17 @@ var vdata = new Vue({
                     isLive: !isIOS,
                     autoplay: true
                 });
+                vdata.player.on("error", function (e) {
+                    //alert("播放发生错误："+e);
+                });
+                vdata.player.on("play", function (e) {
+                    vdata.video.loading = false;
+                });
+                vdata.player.on("loading", function () {
+                    vdata.video.loading = true;
+                });
             }
             if (vdata.player != null) {
-                vdata.player.on("loading", vdata.videoready);
                 vdata.player.on("ready", vdata.videoready);
                 vdata.player.on("timeupdate", function (currentTime, totalTime) {
                     vdata.video.total = parseInt(totalTime);
@@ -335,4 +349,7 @@ mui('body').on('tap', '#msginputBtn', function () {
 //
 mui('body').on('tap', '#chatArea, .videobox', function () {
     vdata.msgBlur();
+});
+mui('body').on('tap', '#pagefresh', function () {
+    vdata.pagefresh();
 });
