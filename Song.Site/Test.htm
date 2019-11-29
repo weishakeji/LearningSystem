@@ -1,37 +1,38 @@
-﻿<!DOCTYPE html PUBddC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html
+    PUBddC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>测试页</title>
     <script type="text/javascript" src="Manage/CoreScripts/jquery.js"></script>
     <style type="text/css">
-        h1
-        {
+        h1 {
             font-size: 18px;
             line-height: 25px;
             font-weight: bold;
-            font-family: "黑体" , "微软雅黑";
+            font-family: "黑体", "微软雅黑";
         }
-        a
-        {
+
+        a {
             font-size: 13px;
             color: #03F;
         }
-        .success
-        {
+
+        .success {
             color: #060;
         }
-        ul li
-        {
-            line-height:20px;
-            height:20px;
-            margin:0px;
-            padding:0px;
-            font-size:13px;
-            color:#333;
+
+        ul li {
+            line-height: 20px;
+            margin: 0px;
+            padding: 0px;
+            font-size: 13px;
+            color: #333;
         }
     </style>
 </head>
+
 <body>
     <h2>
         《微厦在线学习云服务平台》部署测试</h2>
@@ -84,12 +85,13 @@
     </div>
     <hr />
     <br />
-    </div>    
-<div>
-    <h1>
+    </div>
+    <div>
+        <h1>
             关于升级</h1>
         <div class="stepBox">
-            我们会提供免费升级包，需您自主升级，升级包云盘地址：<a href="http://pan.baidu.com/s/1bppzM15#list/path=/" target="_blank">http://pan.baidu.com/s/1bppzM15#list/path=%2F
+            我们会提供免费升级包，需您自主升级，升级包云盘地址：<a href="http://pan.baidu.com/s/1bppzM15#list/path=/"
+                target="_blank">http://pan.baidu.com/s/1bppzM15#list/path=%2F
             </a>
         </div>
         <div class="stepBox">
@@ -102,17 +104,45 @@
                 <dd>
                     3、升级涉及数据结构大副调整，不仅要执行SQL升级脚本，还要运行下面程序，请按时间倒序执行。
                     <ul>
-                    <li>
-                        <a href="Check/Dbup_20170710.aspx" target="_blank">2017-07-10升级</a>（合并教师与学员的账号）</li>
-                    <li>
-                        <a href="Check/Dbup_20170323.aspx" target="_blank">2017-03-23升级</a>（修正了试卷题量为零的问题）</li>
-                    <li>
-                        <a href="Check/Dbup_20170301.aspx" target="_blank">2017-03-01升级</a>（此日期之前的版本，需要执行）</li>
-                    <li>
-                        <a href="Check/Dbup_20161024.aspx" target="_blank">2016-10-24升级</a>（此日期之前的版本，需要执行）</li></ul>
+                        <li>
+                            <a href="Check/Dbup_20170710.aspx" target="_blank">2017-07-10升级</a>（合并教师与学员的账号）</li>
+                        <li>
+                            <a href="Check/Dbup_20170323.aspx" target="_blank">2017-03-23升级</a>（修正了试卷题量为零的问题）</li>
+                        <li>
+                            <a href="Check/Dbup_20170301.aspx" target="_blank">2017-03-01升级</a>（此日期之前的版本，需要执行）</li>
+                        <li>
+                            <a href="Check/Dbup_20161024.aspx" target="_blank">2016-10-24升级</a>（此日期之前的版本，需要执行）</li>
+                    </ul>
                 </dd>
             </dl>
         </div>
     </div>
+    <script type="text/javascript">
+        document.writeln("<h1>浏览器信息</h1>");
+        document.writeln("userAgent:<b> " + navigator.userAgent + "</b><br />");
+        document.writeln("appName: " + navigator.appName + "<br />");
+        document.writeln("appCodeName: " + navigator.appCodeName + "<br />");
+        document.writeln("appVersion: " + navigator.appVersion + "<br />");
+        document.writeln("appMinorVersion: " + navigator.appMinorVersion + "<br />");
+        document.writeln("platform: " + navigator.platform + "<br />");
+        document.writeln("cookieEnabled: " + navigator.cookieEnabled + "<br />");
+        document.writeln("onLine: " + navigator.onLine + "<br />");
+        document.writeln("userLanguage: " + navigator.userLanguage + "<br />");
+        document.writeln("<h1>屏幕分辨率</h1>");
+        document.write(window.screen.width + "×" + window.screen.height);
+        if (navigator.plugins && navigator.plugins.length > 0) {
+            document.writeln("<h1>浏览器插件</h1>");
+            for (var i = 0; i < navigator.plugins.length; i++) {
+                document.writeln(navigator.plugins[i].name +" : " + navigator.plugins[i].name + "<br />");
+            }
+        }
+        if (navigator.mimeTypes && navigator.mimeTypes.length > 0) {
+            document.writeln("<h1>mimeTypes</h1>");
+            for (var i = 0; i < navigator.mimeTypes.length; i++) {
+                document.writeln(navigator.mimeTypes[i].type +":" + navigator.mimeTypes[i].suffixes + "<br />");
+            }           
+        }  
+    </script>
 </body>
+
 </html>
