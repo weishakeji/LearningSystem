@@ -68,7 +68,7 @@
                               <div id="videoplayer" v-show="!state.otherVideo && !state.isLive"
                                     style="height: 100%;width:100%;" remark="点播">
                               </div>
-                              <div id="accinfo" v-if="JSON.stringify(account) != '{}'" title="仅自己可见" remark="飘浮信息，防录屏">
+                              <div id="accinfo" v-if="JSON.stringify(account) != '{}' && !state.otherVideo && !state.isLive" title="仅自己可见" remark="飘浮信息，防录屏">
                                     {{account.Ac_Name}} {{account.Ac_MobiTel1}}</div>
                               <div id="chartlayer" v-show="!state.otherVideo && switchSubtitle" remark="弹幕层"></div>
                               <div id="videoinfo" v-show="!state.otherVideo && !state.isLive">
@@ -87,6 +87,8 @@
 
                         </div>
                         <div remark="直播" v-show="titState=='isLive'" :video="state.urlVideo">
+                        <div id="accinfo" v-if="JSON.stringify(account) != '{}' && state.isLive && state.isLiving" title="仅自己可见" remark="飘浮信息，防录屏">
+                                    {{account.Ac_Name}} {{account.Ac_MobiTel1}}</div>
                               <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
                                     remark="直播">
                               </div>
