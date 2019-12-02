@@ -96,7 +96,8 @@ var rvue = new Vue({
         method: function (n, o) {
             var ele = document.getElementById("testresult");
             if (ele != null) ele.innerText = "";
-            document.querySelectorAll("#context table input").forEach(function (item) {
+            var inputs = Array.from(document.querySelectorAll("#context table input"));
+            inputs.forEach(function (item) {
                 item.value = "";
             });
             window.setTimeout(function () {
@@ -165,7 +166,8 @@ var rvue = new Vue({
         //获取录入的参数
         getInputPara: function () {
             var arr = new Array();
-            document.querySelectorAll("#context table input").forEach(function (item) {
+            var inputs = Array.from(document.querySelectorAll("#context table input"));
+            inputs.forEach(function (item) {
                 var name = item.getAttribute("name");
                 var val = item.value;
                 arr.push("'" + name + "':'" + val + "'");

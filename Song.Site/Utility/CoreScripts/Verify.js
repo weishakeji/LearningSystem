@@ -14,7 +14,7 @@
  */
 (function () {
     var verify = {
-        version: "1.5",  //版本号
+        version: "1.6",  //版本号
         //默认属性值
         attr: {
             place: "bottom",     //提示信息显示位置，默认为下方，可以设置right
@@ -56,11 +56,12 @@
         init: function (element) {
             var star = "<span style=\"color:red\">*</span>";
             if (element == null) element = document;
-            element.querySelectorAll("*[nullable='false'],select[novalue='-1']").forEach(function (item) {
+            var ctrls = element.querySelectorAll("*[nullable='false'], select[novalue='-1']");
+            this.toArray(ctrls).forEach(function (item) {
                 var isstar = verify.getAttr($(item), "star", "true");
                 if (isstar == "true") item.outerHTML += star;
             });
-            element.querySelectorAll("*[verify='true']").forEach(function (item) {
+            this.toArray(element.querySelectorAll("*[verify='true']")).forEach(function (item) {
                 item.addEventListener("click", function (e) {
                     if (this.getAttribute("disabled") == "disabled") return;     //如果按钮是禁用的，则不验证
                     var group = this.getAttribute("group");  //按钮的验证组，识标码
@@ -143,6 +144,19 @@
                 if (form.size() > 0) attr = form.attr(attrName);
             }
             return attr == null || attr == "" ? defValue : attr;
+        },
+        //将节点列表转为数组
+        toArray: function (nodes) {
+            var array = null;
+            try {
+                array = Array.prototype.slice.call(nodes, 0);//非ie浏览器  ie8-将NodeList实现为COM对象，不能用这种方式检测
+            } catch (ex) {//ie8-
+                array = new Array();
+                for (var i = 0; i < nodes.length; i++) {
+                    array.push(nodes[0]);
+                }
+            }
+            return array;
         },
         //显示提示个信息
         //control:要显示提示的控件
