@@ -21,7 +21,7 @@
                 <div id="context-box">
                     <div remark="视频" :video="state.urlVideo" class="videobox">
                         <div id="videoplayer"
-                            v-show="JSON.stringify(outline) == '{}' || (state.existVideo && !state.outerVideo && !state.isLive)"
+                            v-show="JSON.stringify(outline) == '{}' || (state.existVideo && !state.otherVideo && !state.isLive)"
                             style="height: 100%;width:100%;" remark="点播">
                         </div>
                         <div id="novideoplayer"
@@ -29,7 +29,7 @@
                             style="height: 100%;width:100%;" remark="没有视频">
                             没有视频资源
                         </div>
-                        <div id="videoinfo" v-if="!state.outerVideo && !state.isLive" style="display: none;">
+                        <div id="videoinfo" v-if="!state.otherVideo && !state.isLive" style="display: none;">
                             <span style="display: non6e">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
                             <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
                             <span style="cursor: pointer"
@@ -37,7 +37,7 @@
                             <span class="videolog info" v-show="studylogState==1">学习进度提交成功!</span>
                             <span class="videolog error" v-show="studylogState==-1">学习进度提交失败!</span>
                         </div>
-                        <iframe id="vedioiframe" height="100%" width="100%" v-if="state.outerVideo && !state.isLive"
+                        <iframe id="vedioiframe" height="100%" width="100%" v-if="state.outerVideo && state.otherVideo && !state.isLive"
                             :src="state.urlVideo" allowscriptaccess="always" allowfullscreen="true" wmode="opaque"
                             allowtransparency="true" frameborder="0" remark="外部视频链接"
                             type="application/x-shockwave-flash"></iframe>
