@@ -242,6 +242,7 @@ div {}
 
 #chatArea.mui-card {
 	height: calc(100vh - 100vw*9/16 - 105px);
+	height: -webkit-calc(100vh - 100vw*9/16 - 105px);
 	width: calc(100% - 20px);
 }
 

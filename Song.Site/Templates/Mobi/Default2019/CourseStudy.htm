@@ -3,7 +3,7 @@
 
 <head>
     <title>{$outline.ol_name}-{$course.Cou_Name}</title>
-    <vt:include file="inc/meta.inc" />
+    <vt:include file="inc/meta-vue.inc" />
     <!--播放器的引用-->
     <!--<script type="text/javascript" src="/Utility/Ckplayer/js/offlights.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/Ckplayer/ckplayer/ckplayer_h5.js?ver={$version}" charset="utf-8"></script>-->
@@ -15,11 +15,12 @@
     <div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable">
         <!--侧滑菜单部分-->
         <vt:include file="inc/CourseStudyMenu.html" />
+
         <div class="mui-inner-wrap">
             <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"
                 style="position: relative;height:100%">
                 <div id="context-box">
-                    <div remark="视频" :video="state.urlVideo" class="videobox">
+                    <div remark="视频" :video="state.urlVideo" class="videobox"  v-on:click="msgBlur">
                         <div id="videoplayer"
                             v-show="JSON.stringify(outline) == '{}' || (state.existVideo && !state.otherVideo && !state.isLive)"
                             style="height: 100%;width:100%;" remark="点播">
@@ -43,7 +44,7 @@
                             type="application/x-shockwave-flash"></iframe>
 
                     </div>
-                    <div remark="直播" v-show="state.isLive" :video="state.urlVideo" class="videobox">
+                    <div remark="直播" v-show="state.isLive" :video="state.urlVideo" class="videobox"  v-on:click="msgBlur">
                         <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
                             remark="直播">
                         </div>

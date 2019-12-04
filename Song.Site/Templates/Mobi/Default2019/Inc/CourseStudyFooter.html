@@ -16,15 +16,24 @@
     });
 </script>
 <script type="text/javascript">
+
     //底部按的事件
-    mui('body').on('tap', '.footer a', function () {
-        var tag = $.trim($(this).text());        
+    function foot_a_click() {
+        var tag = $.trim($(this).text());
         if ($("#context-box>[tag=" + tag + "]").size() <= 0) return;
         //当前显示的内容块
         var current = $("#context-box>[tag=" + tag + "]:visible");
         if (current.size() > 0) return;
         $("#context-box>[tag]").hide();
         $("#context-box>[tag=" + tag + "]").show();
-    });    
-
+    }
+    try {
+        mui('body').on('tap', '.footer a', foot_a_click);
+    } catch (err) {
+        $(".footer a").click(foot_a_click);
+        //显示章节列表
+        $(".footer a.foot-outline").click(function () {
+            //alert(3);
+        });  
+    }
 </script>

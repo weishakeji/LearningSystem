@@ -1,46 +1,51 @@
 ﻿$(function () {
-    //附件下载,如果是pdf则预览
-    mui('body').on('tap', '#access a', function () {
-        var href = $(this).attr("href");
-        var exist = "";
-        if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
-        if (href.indexOf(".") > -1) exist = href.substring(href.lastIndexOf(".") + 1).toLowerCase();
-        if (exist != "pdf") {
-            document.location.href = this.href;
-        } else {
-            var tit = $.trim($(this).text());
-            var pdfview = $().PdfViewer(href);
-            var box = new PageBox(tit, pdfview, 100, 100);
-            if ($(".video-box").height() > 10) $(".video-box").hide();
-            $('video').trigger('pause');
-            box.CloseEvent = function () {
-                if ($(".video-box").height() > 10) {
-                    $(".video-box").show();
-
-                }
-            }
-            box.Open();
-        }
-        return false;
-    });
-    //学习资料内容中的超链接打开
-    mui('body').on('tap', '#details a', function () {
-        var href = $(this).attr("href");
+    try {
+        mui('body').on('tap', '#access a', access_a_click);
+        mui('body').on('tap', '#details a', details_a_click);
+    } catch (err) {
+        $("#access a").click(access_a_click);
+        $("#details a").click(details_a_click);
+    }
+});
+//附件下载,如果是pdf则预览
+function access_a_click() {
+    var href = $(this).attr("href");
+    var exist = "";
+    if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
+    if (href.indexOf(".") > -1) exist = href.substring(href.lastIndexOf(".") + 1).toLowerCase();
+    if (exist != "pdf") {
+        document.location.href = this.href;
+    } else {
         var tit = $.trim($(this).text());
-        var box = new PageBox(tit, href, 100, 100);
+        var pdfview = $().PdfViewer(href);
+        var box = new PageBox(tit, pdfview, 100, 100);
         if ($(".video-box").height() > 10) $(".video-box").hide();
         $('video').trigger('pause');
         box.CloseEvent = function () {
             if ($(".video-box").height() > 10) {
                 $(".video-box").show();
-                //视频播放
-                //.........               
             }
         }
         box.Open();
-    });
-});
+    }
+    return false;
+}
+//学习资料内容中的超链接打开
+function details_a_click() {
+    var href = $(this).attr("href");
+    var tit = $.trim($(this).text());
+    var box = new PageBox(tit, href, 100, 100);
+    if ($(".video-box").height() > 10) $(".video-box").hide();
+    $('video').trigger('pause');
+    box.CloseEvent = function () {
+        if ($(".video-box").height() > 10) {
+            $(".video-box").show();
+        }
+    }
+    box.Open();
+}
 
+//
 var vdata = new Vue({
     data: {
         outline: {},    //当前课程章节
@@ -56,7 +61,7 @@ var vdata = new Vue({
             playhistime: 0,    //历史播放时间
             studytime: 0,    //累计学习时间
             percent: 0,       //完成度（百分比）
-            loading:false       //是否处于加载状态
+            loading: false       //是否处于加载状态
         },
         playtime: 0,         //当前播放时间，单位：秒
         playpercent: 0,          //当前播放完成度百分比
@@ -90,7 +95,7 @@ var vdata = new Vue({
     },
     methods: {
         //页面刷新
-        pagefresh:function(){
+        pagefresh: function () {
             //alert("页面刷新");
             window.location.reload();
         },
@@ -340,16 +345,27 @@ Vue.filter('date', function (value, fmt) {
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 });
+
+$(function () {
+    if (typeof (mui) != 'undefined') {
+        //点击留言按钮，进入留言输入状态
+        mui('body').on('tap', '#msginputBtn', vdata.msgFocus);
+        mui('body').on('tap', '#chatArea, #videoplayer', vdata.msgBlur);
+    } 
+});
+
 /*
-//点击留言按钮，进入留言输入状态
-mui('body').on('tap', '#msginputBtn', function () {
-    vdata.msgFocus();
+//当点击视频播放区域时，显示控制条
+mui('body').on('tap', '.videobox', function () {
+    //alert("点击视频");
+    vdata.msgBlur();
+    var nodes = document.getElementsByClassName("qplayer-controls");
+    if (nodes.length < 1) return;
+    nodes[0].style.bottom = "40px";
+    window.setTimeout(function () {
+        var nodes = document.getElementsByClassName("qplayer-controls");
+        if (nodes.length < 1) return;
+        nodes[0].style.bottom = "0px";
+    }, 5000);
 });
 */
-//
-mui('body').on('tap', '#chatArea, .videobox', function () {
-    vdata.msgBlur();
-});
-mui('body').on('tap', '#pagefresh', function () {
-    vdata.pagefresh();
-});

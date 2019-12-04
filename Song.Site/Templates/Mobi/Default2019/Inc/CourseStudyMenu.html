@@ -37,73 +37,74 @@
   </div>
 </aside>
 <script type="text/javascript" language="javascript">
-    mui.init();
-    //侧滑容器父节点
-    var offCanvasWrapper = mui('#offCanvasWrapper');
-    //主界面容器
-    var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
-    //菜单容器
-    var offCanvasSide = document.getElementById("offCanvasSide");
-    if (!mui.os.android) {
-        var spans = document.querySelectorAll('.android-only');
-        for (var i = 0, len = spans.length; i < len; i++) {
-            spans[i].style.display = "none";
+    if (typeof (mui) != 'undefined') {
+        mui.init();
+        //侧滑容器父节点
+        var offCanvasWrapper = mui('#offCanvasWrapper');
+        //主界面容器
+        var offCanvasInner = offCanvasWrapper[0].querySelector('.mui-inner-wrap');
+        //菜单容器
+        var offCanvasSide = document.getElementById("offCanvasSide");
+        if (!mui.os.android) {
+            var spans = document.querySelectorAll('.android-only');
+            for (var i = 0, len = spans.length; i < len; i++) {
+                spans[i].style.display = "none";
+            }
         }
-    }
-    //移动效果是否为整体移动
-    var moveTogether = false;
-    //侧滑容器的class列表，增加.mui-slide-in即可实现菜单移动、主界面不动的效果；
-    var classList = offCanvasWrapper[0].classList;
+        //移动效果是否为整体移动
+        var moveTogether = false;
+        //侧滑容器的class列表，增加.mui-slide-in即可实现菜单移动、主界面不动的效果；
+        var classList = offCanvasWrapper[0].classList;
 
-    //主界面和侧滑菜单界面均支持区域滚动；
-    mui('#offCanvasSideScroll').scroll();
-    mui('#offCanvasContentScroll').scroll();
-    mui.ready(function () {
-        mui('.mui-scroll-wrapper').scroll({ deceleration: 0.0005 });
-    });
+        //主界面和侧滑菜单界面均支持区域滚动；
+        mui('#offCanvasSideScroll').scroll();
+        mui('#offCanvasContentScroll').scroll();
+        mui.ready(function () {
+            mui('.mui-scroll-wrapper').scroll({ deceleration: 0.0005 });
+        });
 
-    //实现ios平台原生侧滑关闭页面；
-    if (mui.os.plus && mui.os.ios) {
-        mui.plusReady(function () { //5+ iOS暂时无法屏蔽popGesture时传递touch事件，故该demo直接屏蔽popGesture功能
-            plus.webview.currentWebview().setStyle({
-                'popGesture': 'none'
+        //实现ios平台原生侧滑关闭页面；
+        if (mui.os.plus && mui.os.ios) {
+            mui.plusReady(function () { //5+ iOS暂时无法屏蔽popGesture时传递touch事件，故该demo直接屏蔽popGesture功能
+                plus.webview.currentWebview().setStyle({
+                    'popGesture': 'none'
+                });
             });
+        }
+
+        //左侧滑菜单的链接事件
+        mui('body').on('tap', '#offCanvasSide a', function () {
+            document.location.href = this.href;
+        });
+        //图片加载错误时，显示默认图片
+        $("#offCanvasSide img").error(function () {
+            var errImg = $(this).attr("default");
+            if (errImg == null) return false;
+            $(this).attr("src", errImg);
+        });
+        //计算章节序号（树形排序）
+        $(".outline").each(function () {
+            var xpath = $(this).attr("xpath");
+            $(this).find("a").html("<span class='tax'>" + xpath + "</span>" + $(this).find("a").html());
+        });
+        /*//是否有视频
+        $(".outline").each(function () {
+        var isvideo=$(this).attr("isvideo");
+        if(isvideo=="True")$(this).addClass("li-video");
+        });
+        */
+        //当前章节的样式
+        $(".outline").each(function () {
+            var olid = $("body").attr("olid"); //当前章节id
+            //如果没有olid参数，则第一个为当前章节
+            if (olid == null || olid == "") {
+                $(".outline:first").addClass("current");
+                return false;
+            }
+            var currid = $(this).attr("olid");
+            var current = currid == olid ? $(this) : null;
+            if (current == null) return true;
+            current.addClass("current");
         });
     }
-
-    //左侧滑菜单的链接事件
-    mui('body').on('tap', '#offCanvasSide a', function () {
-        document.location.href = this.href;
-    });
-    //图片加载错误时，显示默认图片
-    $("#offCanvasSide img").error(function () {
-        var errImg = $(this).attr("default");
-        if (errImg == null) return false;
-        $(this).attr("src", errImg);
-    });
-	//计算章节序号（树形排序）
-    $(".outline").each(function () {
-        var xpath = $(this).attr("xpath");
-        $(this).find("a").html("<span class='tax'>" + xpath + "</span>" + $(this).find("a").html());
-    });
-	/*//是否有视频
-	$(".outline").each(function () {
-		var isvideo=$(this).attr("isvideo");
-		if(isvideo=="True")$(this).addClass("li-video");
-	});
-    */
-	//当前章节的样式
-	$(".outline").each(function () {
-		var olid = $("body").attr("olid");	//当前章节id
-		//如果没有olid参数，则第一个为当前章节
-		if(olid==null || olid==""){			
-			$(".outline:first").addClass("current");
-			return false;
-		}
-        var currid = $(this).attr("olid");
-		var current=currid == olid ? $(this) : null;
-		if(current==null)return true;		
-        current.addClass("current");		
-    });
-	
 </script> 
