@@ -1,12 +1,15 @@
 ﻿@charset "utf-8";
 @font-face {
 	font-family: "iconfont";
-	src: url('iconfont/iconfont.eot'); /* IE9*/
-	src: url('iconfont/iconfont.eot#iefix') format('embedded-opentype'), 	/* IE6-IE8 */  
-	url('iconfont/iconfont.woff') format('woff'), 	/* chrome, firefox */  
-	url('iconfont/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/  
-	url('iconfont/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+	src: url('iconfont/iconfont.eot');
+	/* IE9*/
+	src: url('iconfont/iconfont.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	url('iconfont/iconfont.woff') format('woff'), /* chrome, firefox */
+	url('iconfont/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+	url('iconfont/iconfont.svg#iconfont') format('svg');
+	/* iOS 4.1- */
 }
+
 .iconfont {
 	font-family: "iconfont" !important;
 	font-size: 16px;
@@ -15,113 +18,134 @@
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
 }
+
 html, body {
 	background-color: #efeff4;
 }
-body,a,p,div,input{
-	font-size:13px;
+
+body, a, p, div, input {
+	font-size: 13px;
 }
+
 a {
 	color: #555;
 }
-#offCanvasSide .mui-table-view-cell{
+
+#offCanvasSide .mui-table-view-cell {
 	padding-top: 10px;
 	padding-right: 65px;
 	padding-bottom: 10px;
 	padding-left: 15px;
-	
 }
-#offCanvasSide .mui-table-view-cell a{
-	font-size:14px !important;
+
+#offCanvasSide .mui-table-view-cell a {
+	font-size: 14px !important;
 }
-space{
-	height:40px;
-	display:block;
+
+space {
+	height: 40px;
+	display: block;
 }
-line{
+
+line {
 	display: block;
 	text-align: center;
 	color: #aaa;
-	font-size:10px;
-	margin-top:20px;
-	margin-bottom:20px;
+	font-size: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
-line:before{
+
+line:before {
 	content: "————";
-	margin-right:20px;
+	margin-right: 20px;
 	color: #ccc;
 }
-line:after{
+
+line:after {
 	content: "————";
-	margin-left:20px;
+	margin-left: 20px;
 	color: #ccc;
 }
+
 /*
 页底导航
 */
-.footer{
+
+.footer {
 	padding-top: 4px;
 	height: 40px;
 	overflow: hidden;
 	background-color: #FFF !important;
 	box-shadow: 0 -2px 3px -1px rgba(0, 0, 0, .3);
 }
-.footer a{
+
+.footer a {
 	float: left;
 	display: block;
 	overflow: hidden;
 	position: relative;
 	width: 25;
-	font-size:13px;
-	text-align:center;
-	height:40px;
+	font-size: 13px;
+	text-align: center;
+	height: 40px;
 }
-.footer a .mitem
-{
-	text-align:center;
-	width:20px;
-	height:20px;
+
+.footer a .mitem {
+	text-align: center;
+	width: 20px;
+	height: 20px;
 	border-radius: 50%;
-	
 }
-.footer a b.mitem:before{
+
+.footer a b.mitem:before {
 	font-family: "iconfont";
 	line-height: 25px;
 	font-size: 20px;
-	text-align:center;
-	max-height:20px;
+	text-align: center;
+	max-height: 20px;
 	/* text-shadow: -1px -1px white, 2px 2px #999; */
 }
+
 /*首页*/
-.footer a.foot-home b:before{
-	content: "\e635";	
+
+.footer a.foot-home b:before {
+	content: "\e635";
 }
+
 /*课程中心*/
-.footer a.foot-courses b:before{
-	content: "\e675";	
+
+.footer a.foot-courses b:before {
+	content: "\e675";
 	font-size: 18px;
 }
+
 /*我的课程*/
-.footer a.foot-mycourse b:before{
-	content: "\e60b";	
+
+.footer a.foot-mycourse b:before {
+	content: "\e60b";
 }
+
 /*在线考试*/
-.footer a.foot-exam b:before{
-	content: "\e602";	
+
+.footer a.foot-exam b:before {
+	content: "\e602";
 }
+
 /*个人中心*/
-.footer a.foot-mycenter b:before{
-	content: "\e68c";	
+
+.footer a.foot-mycenter b:before {
+	content: "\e68c";
 }
-.footer a span
-{
+
+.footer a span {
 	display: block;
 	text-align: center;
 	font-size: 10px;
-	position:absolute;
+	position: absolute;
 	bottom: 5px;
 	line-height: 20px;
-	height:15px;
+	height: 15px;
 	white-space: nowrap;
 	overflow: hidden;
 	width: 100%;
@@ -131,9 +155,11 @@ line:after{
 ----------左侧滑动菜单的事件
 
 */
+
 .title {
 	margin: 35px 15px 10px;
 }
+
 .title+.content {
 	margin: 10px 15px 35px;
 	color: #bbb;
@@ -141,33 +167,39 @@ line:after{
 	font-size: 14px;
 	line-height: 24px;
 }
+
 input {
 	color: #000;
 }
+
 /*账户信息区域*/
-.accInfoBox
-{
+
+.accInfoBox {
 	height: 60px;
 	margin-top: 20px;
 	margin-bottom: 20px;
 	margin-left: 10px;
 }
+
 /*学员头像*/
-.accPhoto{
+
+.accPhoto {
 	width: 60px;
 	height: 60px;
 	border-radius: 50%;
 	overflow: hidden;
 	border: 2px solid #CCC;
 	margin-right: 10px;
-	float:left;
+	float: left;
 }
-.accPhoto img{
+
+.accPhoto img {
 	width: 60px;
-	
 }
+
 /*学员右上角的头像*/
-.right-logo{
+
+.right-logo {
 	width: 30px;
 	height: 30px;
 	border-radius: 50%;
@@ -177,24 +209,28 @@ input {
 	float: right;
 	display: block;
 }
-.right-logo img{
+
+.right-logo img {
 	width: 30px;
-	
 }
-.stName{
+
+.stName {
 	color: #F00 !important;
 }
-.accInfo{
+
+.accInfo {
 	float: left;
 	height: 60px;
 	width: auto;
-	min-width:100px;
+	min-width: 100px;
 }
-.acc-name{
+
+.acc-name {
 	line-height: 35px;
 	font-weight: bold;
 }
-.main-menu .signature{
+
+.main-menu .signature {
 	color: #999;
 	width: 120px;
 	height: 40px;
@@ -203,61 +239,89 @@ input {
 	display: inline-block;
 	overflow: hidden;
 }
-.acc-name, .acc-name a{
+
+.acc-name, .acc-name a {
 	color: #CCC;
 }
-.acc-money{
+
+.acc-money {
 	font-size: 13px;
-	color:#F90;
-	margin-right:5px;
+	color: #F90;
+	margin-right: 5px;
 }
-.acc-money:before{
+
+.acc-money:before {
 	content: "\e670";
 	font-family: "iconfont";
 	font-size: 16px;
-	margin-right:2px;
+	margin-right: 2px;
 }
-.acc-money:after{
-	content: "元";	
+
+.acc-money:after {
+	content: "元";
 }
-.accico{
+
+.accico {
 	font-size: 14px;
 }
+
 /*充值链接*/
-.income{
+
+.income {
 	float: right;
-	display:none;
+	display: none;
 }
+
 /*联系我们的按钮*/
-.btn-link{
+
+.btn-link {
 	margin-left: 3px;
 	color: #FFF;
 }
-.btn-about{
+
+.btn-about {
 	float: right;
 	color: #FFF;
 	margin-right: 5px;
 }
+
 /*列表菜单项前面的图标*/
-.main-menu .mui-table-view-cell .iconfont{
+
+.main-menu .mui-table-view-cell .iconfont {
 	margin-right: 10px;
 }
-.main-menu .mui-bar-footer .iconfont{
+
+.main-menu .mui-bar-footer .iconfont {
 	margin-right: 5px;
 }
+
 /*----------侧滑菜单结束*/
 
 /*没有更多信息*/
-.mui-pull-caption-nomore{
+
+.mui-pull-caption-nomore {
 	font-weight: normal;
 }
-.mui-pull-caption-nomore:before{
-	content: "\e60a";	
+
+.mui-pull-caption-nomore:before {
+	content: "\e60a";
 	font-family: "iconfont";
 	line-height: 25px;
 	font-size: 20px;
-	margin-right:10px;
-	text-align:center;
-	max-height:20px;
-	font-weight:700;
+	margin-right: 10px;
+	text-align: center;
+	max-height: 20px;
+	font-weight: 700;
+}
+
+/*侧滑菜单的显示控制*/
+
+.mui-off-canvas-left-show {
+	opacity: 1 !important;
+	-webkit-opacity: 1 !important;
+	z-index: 100 !important;
+	visibility: visible !important;
+	-webkit-transform: scale(1) !important;
+	transform: scale(1) !important;
+	overflow: auto !important;
 }

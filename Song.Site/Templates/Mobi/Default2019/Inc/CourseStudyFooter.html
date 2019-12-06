@@ -1,12 +1,13 @@
 <!--底部导航菜单-->
 <nav class="mui-bar mui-bar-tab footer" id="footer">
-<a class="foot-outline" href="#offCanvasSide"> <b class="mitem"></b><span>章节列表</span></a>
-<a class="foot-video" href="#"> <b class="mitem"></b><span>视频</span></a>
-<!--<a class="foot-message" href="#"> <b class="mitem"></b><span>交流</span></a>-->
-<a class="foot-text" href="#"> <b class="mitem"></b><span>学习内容</span></a>
-<a class="foot-acc" href="#"> <b class="mitem"></b><span>附件</span></a>
-<!--<a class="foot-home" href="/mobile/default.ashx" type="link" target="_blank"> <b class="mitem"></b><span>返回首页</span></a>  -->
-<a class="foot-course" href="../CoursePage.ashx?couid={$course.cou_id}" type="link"> <b class="mitem"></b><span>返回课程</span></a>
+    <a class="foot-outline" href="#offCanvasSide"> <b class="mitem"></b><span>章节列表</span></a>
+    <a class="foot-video" href="#"> <b class="mitem"></b><span>视频</span></a>
+    <!--<a class="foot-message" href="#"> <b class="mitem"></b><span>交流</span></a>-->
+    <a class="foot-text" href="#"> <b class="mitem"></b><span>学习内容</span></a>
+    <a class="foot-acc" href="#"> <b class="mitem"></b><span>附件</span></a>
+    <!--<a class="foot-home" href="/mobile/default.ashx" type="link" target="_blank"> <b class="mitem"></b><span>返回首页</span></a>  -->
+    <a class="foot-course" href="../CoursePage.ashx?couid={$course.cou_id}" type="link"> <b
+            class="mitem"></b><span>返回课程</span></a>
 </nav>
 <script type="text/javascript">
     //底部按钮平均分布
@@ -33,7 +34,27 @@
         $(".footer a").click(foot_a_click);
         //显示章节列表
         $(".footer a.foot-outline").click(function () {
-            //alert(3);
-        });  
+            var menu = $("#offCanvasSide");
+            /*menu.css({
+            opacity: 1,
+            'z-index': 100,
+            'visibility': 'visible',
+            '-webkit-transform': 'scale(1)',
+            'transform': 'scale(1)',
+            'overflow': 'auto'
+            });*/
+            menu.addClass("mui-off-canvas-left-show");
+            $("#offCanvasSideScroll").css({
+                'overflow-y': 'auto'
+            });
+            $(".mui-inner-wrap").css({ opacity: .61 });
+        });
+        $("#offCanvasContentScroll").click(function () {
+            var menu = $("#offCanvasSide");
+            if (menu.hasClass("mui-off-canvas-left-show")) {
+                menu.removeClass("mui-off-canvas-left-show");
+                $(".mui-inner-wrap").css({ opacity: 1 });
+            }
+        });
     }
 </script>
