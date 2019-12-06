@@ -171,8 +171,9 @@ namespace Song.ServiceImpls
                 }
             }
             Gateway.Default.Update<Course>(
-               new Field[] { Course._.Cou_ExistLive },
-               new object[] { true }, Course._.Cou_ID == couid);
+                new Field[] { Course._.Cou_ExistLive },
+                new object[] { isExist }, Course._.Cou_ID == couid);
+
             return isExist;
         }
         /// <summary>
