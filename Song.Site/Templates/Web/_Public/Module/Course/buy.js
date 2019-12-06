@@ -217,7 +217,7 @@ function BuySubmit(isfree, istry) {
                     if (result.logfile) errinfo += "<br/>详情：<a href=\'" + result.logfile + "' target='_blank'>点击查看</a>";
                     var msg = new MsgBox("发生错误", errinfo, 400, 300, "alert");
                     msg.OverEvent = function () {
-                        MsgBox.Close();
+                        //MsgBox.Close();
                     };
                     msg.Open();
                 }
