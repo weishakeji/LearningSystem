@@ -230,7 +230,7 @@ function BuySubmit(isfree, istry) {
                 if (result.status != 0) {
                     var msg = new MsgBox("错误", error, 90, 200, "alert");
                     msg.OverEvent = function () {
-                        MsgBox.Close();
+                        //MsgBox.Close();
                     };
                     msg.Open();
                 }
