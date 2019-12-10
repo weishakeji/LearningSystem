@@ -51,8 +51,11 @@ namespace Song.Site
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
             if (outline != null)
             {
-                bool isBuy = Business.Do<ICourse>().IsBuy(outline.Cou_ID, Extend.LoginState.Accounts.UserID);
-                if (isBuy)
+                //是否可以学习，是否购买
+                bool isStudy = false, isBuy = false;
+                isStudy = Business.Do<ICourse>().Study(outline.Cou_ID, this.Account.Ac_ID);
+                isBuy = Business.Do<ICourse>().IsBuy(outline.Cou_ID, this.Account.Ac_ID);
+                if (isStudy)
                 {
                     sumCount = Business.Do<IQuestions>().QuesOfCount(Organ.Org_ID, 0, 0, olid, type, diff, true);
                 }
