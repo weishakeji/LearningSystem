@@ -82,6 +82,7 @@ div {}
 	height: calc(100vw*9/16);
 	height: -webkit-calc(100vw*9/16);
 	height: -moz-calc(100vw*9/16);
+	min-height:100px;
 	position: absolute;
 	top: 0px;
 	z-index: 100;

@@ -48,7 +48,7 @@
                         <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
                             remark="直播">
                         </div>
-                        <div id="liveLoadingbox" v-show="state.isLive && state.isLiving && video.loading" remark="直播流加载时">
+                        <div id="liveLoadingbox" v-show="state.isLive && video.loading" remark="直播流加载时">
 正在加载...
 <button id="pagefresh" v-on:click="pagefresh" type="button">刷新</button>
                         </div>

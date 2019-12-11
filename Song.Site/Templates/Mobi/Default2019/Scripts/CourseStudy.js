@@ -121,6 +121,7 @@ var vdata = new Vue({
                     url: state.urlVideo,
                     container: document.getElementById("videoplayer"),
                     autoplay: true,
+                    loggerLevel:3
                 });
             } else { //直播
                 var u = navigator.userAgent, app = navigator.appVersion;
@@ -129,8 +130,9 @@ var vdata = new Vue({
                 vdata.player = new QPlayer({
                     url: state.urlVideo,
                     container: document.getElementById("livebox"),
-                    isLive: !isIOS,
-                    autoplay: true
+                    isLive: true,
+                    autoplay: true,
+                    loggerLevel:2
                 });
                 vdata.player.on("error", function (e) {
                     //alert("播放发生错误："+e);
@@ -139,7 +141,8 @@ var vdata = new Vue({
                     vdata.video.loading = false;
                 });
                 vdata.player.on("loading", function () {
-                    vdata.video.loading = true;
+                 var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+                 if(!isIOS) vdata.video.loading = true;
                 });
             }
             if (vdata.player != null) {
@@ -351,10 +354,10 @@ $(function () {
         //点击留言按钮，进入留言输入状态
         mui('body').on('tap', '#msginputBtn', vdata.msgFocus);
         mui('body').on('tap', '#chatArea, #videoplayer', vdata.msgBlur);
-    } 
+    }
 });
 
-/*
+
 //当点击视频播放区域时，显示控制条
 mui('body').on('tap', '.videobox', function () {
     //alert("点击视频");
@@ -368,4 +371,4 @@ mui('body').on('tap', '.videobox', function () {
         nodes[0].style.bottom = "0px";
     }, 5000);
 });
-*/
+
