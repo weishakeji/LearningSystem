@@ -1,12 +1,12 @@
 ﻿@charset "utf-8";
 @font-face {
 	font-family: "iconfont";
-	src: url('iconfont/iconfont.eot');
+	src: url('iconfont/iconfont.eot?t=1');
 	/* IE9*/
-	src: url('iconfont/iconfont.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
-	url('iconfont/iconfont.woff') format('woff'), /* chrome, firefox */
-	url('iconfont/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-	url('iconfont/iconfont.svg#iconfont') format('svg');
+	src: url('iconfont/iconfont.eot?t=1#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	url('iconfont/iconfont.woff?t=1') format('woff'), /* chrome, firefox */
+	url('iconfont/iconfont.ttf?t=1') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+	url('iconfont/iconfont.svg?t=1#iconfont') format('svg');
 	/* iOS 4.1- */
 }
 
