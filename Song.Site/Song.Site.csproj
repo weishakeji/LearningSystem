@@ -6666,6 +6666,7 @@
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.woff" />
     <Content Include="Templates\Mobi\Default2019\fonts\mui.ttf" />
     <Content Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.woff2" />
+    <None Include="Templates\Mobi\Default2019\CoreStyles\iconfont\iconfont.json" />
     <None Include="Utility\CkplayerX1\ckplayer\hls\LICENSE" />
     <None Include="Utility\CkplayerX1\material\en.srt" />
     <None Include="Utility\CkplayerX1\material\zh.vtt" />
