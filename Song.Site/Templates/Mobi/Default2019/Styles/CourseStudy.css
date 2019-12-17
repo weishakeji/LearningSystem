@@ -1,8 +1,13 @@
 @charset "utf-8";
+html,body
+{
+    height:100%;
+}
 /*设置侧滑菜单的宽度*/
 
 .mui-off-canvas-left, .mui-off-canvas-right {
 	width: 80% !important;
+	z-index:200 !important;
 }
 
 .mui-off-canvas-wrap.mui-right .mui-inner-wrap {

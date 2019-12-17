@@ -107,7 +107,7 @@ function _btnEvent() {
             var txt = "您还没有登录，请登录后购买。";
             var msg = new MsgBox("未登录", txt, 400, 200, "confirm");
             msg.EnterEvent = function () {
-                window.location.href = "Login.ashx";
+                window.location.href = "/student/index.ashx";
             };
             msg.Open();
             return false

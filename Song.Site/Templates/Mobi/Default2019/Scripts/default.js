@@ -104,10 +104,10 @@ function default_event() {
                     var cour = d.object[i];
                     var html = "<div class='cour-box' couid='{id}'>{rec}{free}{limitfree}<img src='{logo}' default='{defimg}'/><name>{live}{name}</name><price>{price}</price></div>";
                     html = html.replace("{logo}", unescape(cour.Cou_LogoSmall)).replace("{name}", unescape(cour.Cou_Name));
-                    html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);					
+                    html = html.replace("{id}", cour.Cou_ID).replace("{defimg}", defimg);
                     html = html.replace("{rec}", (cour.Cou_IsRec ? "<rec></rec>" : ""));
                     html = html.replace("{free}", (cour.Cou_IsFree ? "<free></free>" : ""));
-					html = html.replace("{live}", (cour.Cou_ExistLive ? "<live></live>" : ""));
+                    html = html.replace("{live}", (cour.Cou_ExistLive ? "<live></live>" : ""));
                     html = html.replace("{limitfree}", (cour.Cou_IsLimitFree ? "<limitfree></limitfree>" : ""));
                     //价格
                     var price = "";
@@ -123,21 +123,24 @@ function default_event() {
                     }
                     html = html.replace("{price}", price);
                     list.append(html);
-					//是否隐藏收费信息
-					var mremove=$("body").attr("mremove")=="True" ? true : false;
-					if(mremove){
-						list.find("price,free,limitfree").hide();
-					}
+                    //是否隐藏收费信息
+                    var mremove = $("body").attr("mremove") == "True" ? true : false;
+                    if (mremove) {
+                        list.find("price,free,limitfree").hide();
+                    }
                     list.find("img:last").error(function () {
                         var errImg = $(this).attr("default");
                         if (errImg == null) return false;
                         $(this).attr("src", errImg);
                     });
-                    list.append("<a class='list-more' type='link' href='courses.ashx?sbjids=" + d.sbjid + "'>更多课程点这里...</a>");
                 }
+                list.append("<a class='list-more' type='link' href='courses.ashx?sbjids=" + sbjid + "'>更多课程点这里...</a>");
                 if (d.object.length <= 0) {
                     $(".cour-list[sbjid=" + sbjid + "]").html("<null>当前分类没有课程信息！</null>");
                 }
+                var rownum = d.object.length % 2 == 0 ? d.object.length / 2 : d.object.length / 2 + 1;
+                var height = list.width() * 0.44 * 1.02 * rownum +60;
+                list.css('height', height + 'px');
             }
             catch (err) {
                 $(".cour-context .cour-list:visible span").html("加载错误<br/>详情：" + err);
