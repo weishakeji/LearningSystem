@@ -435,14 +435,16 @@ window.onload = function () {
 
 window.onblur = function () {
     if (vdata.playready()) {
-        //if (!vdata.state.isLive)
+        //if (vdata.state.isLive || vdata.state.existVideo)
             vdata.player.pause();
     }
 }
 window.onfocus = function () {
     if (vdata.playready()) {
         //vdata.titState == 'existVideo' && vdata.state.isLive ? vdata.player.play() : vdata.player.pause();
-        vdata.player.play();
+        //只有当处于视频状态时才播放
+        if(vdata.titState == 'existVideo' || vdata.titState == 'isLive')
+                vdata.player.play();
     }
 }
 
