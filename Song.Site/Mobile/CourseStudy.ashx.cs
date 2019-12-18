@@ -58,7 +58,7 @@ namespace Song.Site.Mobile
 
             #region 章节输出
             // 当前课程的所有章节            
-            Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(ol.Cou_ID, true);
+            Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
             //课程章节列表
             this.Document.Variables.SetValue("outlines", outlines);
             //树形章节输出
