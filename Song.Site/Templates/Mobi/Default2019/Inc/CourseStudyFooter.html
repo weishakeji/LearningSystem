@@ -35,19 +35,14 @@
         //显示章节列表
         $(".footer a.foot-outline").click(function () {
             var menu = $("#offCanvasSide");
-            /*menu.css({
-            opacity: 1,
-            'z-index': 100,
-            'visibility': 'visible',
-            '-webkit-transform': 'scale(1)',
-            'transform': 'scale(1)',
-            'overflow': 'auto'
-            });*/
             menu.addClass("mui-off-canvas-left-show");
             $("#offCanvasSideScroll").css({
                 'overflow-y': 'auto'
             });
             $(".mui-inner-wrap").css({ opacity: .61 });
+            //隐藏视频
+            var video = document.querySelector("video");
+            video.style.display = "none";
         });
         $("#offCanvasContentScroll").click(function () {
             var menu = $("#offCanvasSide");
@@ -55,6 +50,9 @@
                 menu.removeClass("mui-off-canvas-left-show");
                 $(".mui-inner-wrap").css({ opacity: 1 });
             }
+            //显示视频
+            var video = document.querySelector("video");
+            video.style.display = "";
         });
     }
 </script>

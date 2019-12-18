@@ -174,7 +174,7 @@ var vdata = new Vue({
             if (!vdata.state.isLive) {  //点播
                 vdata.player = new QPlayer({
                     url: state.urlVideo,
-                    container: document.getElementById("videoplayer"),
+                    container: document.getElementById("videoplayer"),                    
                     autoplay: true,
                 });
             } else { //直播
@@ -217,6 +217,15 @@ var vdata = new Vue({
             for (var i = 0; i < setbtn.length; i++) {
                 //setbtn[i].style.display = "none";
             }
+            //给video对象增加属性
+            var video = document.querySelector("video");
+            video.setAttribute("x5-playsinline","");
+            video.setAttribute("playsinline",true);
+            video.setAttribute("webkit-playsinline",true);
+            video.setAttribute("x-webkit-airplay",true);
+            video.setAttribute("x5-video-player-type","h5");
+            video.setAttribute("x5-video-player-fullscreen","");
+            video.setAttribute("x5-video-orientation","portraint");
         },
         //视频播放跳转
         videoSeek: function (second) {
