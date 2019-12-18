@@ -254,7 +254,7 @@ a {
 
 .cour-list .cour-box {
 	width: 44%;
-	height: calc(44vw * 0.98);
+	
 	float: left;
 	text-align: center;
 	position: relative;

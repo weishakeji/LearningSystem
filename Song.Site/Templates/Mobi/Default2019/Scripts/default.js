@@ -23,20 +23,20 @@ $(function () {
         $(".notice-box li").hide();
         $(".notice-box li:first").show();
         window.setInterval("notice_alternate()", 3000);
-    }   
+    }
 });
 function notice_alternate() {
     var curr = $(".notice-box li:visible");
     var next = curr.next();
     if (next.size() <= 0) {
         var first = $(".notice-box li:first");
-		//alert(first.get(0).outerHTML);
+        //alert(first.get(0).outerHTML);
         $(".notice-box").append(first.get(0).outerHTML);
         first.remove();
-		next = curr.next();
+        next = curr.next();
     }
     curr.slideUp(500);
-	next.slideDown(500);
+    next.slideDown(500);
 }
 
 //自动登录
@@ -138,9 +138,11 @@ function default_event() {
                 if (d.object.length <= 0) {
                     $(".cour-list[sbjid=" + sbjid + "]").html("<null>当前分类没有课程信息！</null>");
                 }
+                //计算课程行数（每行两个）
                 var rownum = d.object.length % 2 == 0 ? d.object.length / 2 : d.object.length / 2 + 1;
-                var height = list.width() * 0.44 * 1.02 * rownum +60;
-                list.css('height', height + 'px');
+                //课程图片宽高
+                var imgHg = 13 + list.width() * 0.44 * 9 / 16;
+                list.css('height', ((imgHg + 55 + 3) * rownum + 10) + 'px');
             }
             catch (err) {
                 $(".cour-context .cour-list:visible span").html("加载错误<br/>详情：" + err);
