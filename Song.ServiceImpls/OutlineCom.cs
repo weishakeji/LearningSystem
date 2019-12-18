@@ -503,7 +503,8 @@ namespace Song.ServiceImpls
                         break;
                     }
                 }
-            }
+                if (ol == null) ol = outlines[0];
+            }            
             return ol;
         }
         /// <summary>

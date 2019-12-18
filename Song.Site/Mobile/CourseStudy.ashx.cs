@@ -47,45 +47,42 @@ namespace Song.Site.Mobile
             Song.Entities.Outline ol = olid < 1 ?
                 Business.Do<IOutline>().OutlineFirst(couid, true)
                 : Business.Do<IOutline>().OutlineSingle(olid);
-            if (ol == null) return;
+            if (ol != null) olid = ol.Ol_ID;
             this.Document.Variables.SetValue("outline", ol);
-            this.Document.Variables.SetValue("olid", ol.Ol_ID.ToString());
+            this.Document.Variables.SetValue("olid", olid.ToString());
             //入写章节id的cookie，当播放视频时会判断此处
-            Response.Cookies.Add(new HttpCookie("olid", ol.Ol_ID.ToString()));
+            Response.Cookies.Add(new HttpCookie("olid", olid.ToString()));
             //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
-            bool canStudy = isBuy || (isStudy && ol.Ol_IsUse && ol.Ol_IsFinish && course.Cou_IsTry && ol.Ol_IsFree);
+            bool canStudy = false;
+            if (ol != null)
+            {
+                canStudy = isBuy || (isStudy && ol.Ol_IsUse && ol.Ol_IsFinish && ol.Ol_IsFree && course.Cou_IsTry);
+            }
+            else
+            {
+                canStudy = isBuy || isStudy;
+            }
             this.Document.Variables.SetValue("canStudy", canStudy);
 
             #region 章节输出
             // 当前课程的所有章节            
             Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
-            //课程章节列表
             this.Document.Variables.SetValue("outlines", outlines);
             //树形章节输出
             if (outlines.Length > 0)
                 this.Document.Variables.SetValue("olTree", Business.Do<IOutline>().OutlineTree(outlines));
             #endregion
 
-            ////视频
-            //Song.Entities.Accessory video = Song.Site.CourseStudy.getVideo(ol.Ol_UID);
-            //this.Document.Variables.SetValue("video", video);            
-            //if (Extend.LoginState.Accounts.IsLogin)
-            //{
-            //    Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(this.Account.Ac_ID, ol.Ol_ID);
-            //    if (studyLog != null)
-            //    {
-            //        this.Document.Variables.SetValue("studyLog", studyLog);
-            //        double historyPlay = (double)studyLog.Lss_PlayTime / 1000;
-            //        this.Document.Variables.SetValue("historyPlay", historyPlay);
-            //    }
-            //}
             //附件
-            List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(ol.Ol_UID, "Course");
-            if (access.Count > 0)
+            if (ol != null)
             {
-                foreach (Accessory ac in access)
-                    ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
-                this.Document.Variables.SetValue("access", access);
+                List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(ol.Ol_UID, "Course");
+                if (access.Count > 0)
+                {
+                    foreach (Accessory ac in access)
+                        ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
+                    this.Document.Variables.SetValue("access", access);
+                }
             }
         }      
     }
