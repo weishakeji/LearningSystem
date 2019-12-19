@@ -126,16 +126,20 @@ input {
 	display: block;
 	text-align: left;
 	line-height: 20px;
-	font-size:14px;
-	max-height: 40px;
+	max-height: 22px;
 	overflow: hidden;
+	width: 90%;
+	margin: 5px auto 5px auto;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 live{
 	background-image: url(../Images/live-icon.gif);
 	background-repeat: no-repeat;
-	width: 24px;
-	height: 24px;
-	display:inline-block;	
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	margin-right: 5px;
 }
 .cour-box sbjname {
 	height: 20px;

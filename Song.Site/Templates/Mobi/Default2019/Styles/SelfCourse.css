@@ -240,6 +240,7 @@ html, body {
 	overflow: hidden;
 	padding-left: 5px;
 	padding-top: 5px;
+	margin-bottom:10px;
 }
 /*没有登录，所以没有课程*/
 .nocour-box{
@@ -252,7 +253,6 @@ html, body {
 	width: 50% !important;
 	margin-right: 2%;
 	padding-left: 5px;
-	padding-top: 5px;
 	position: relative;
 }
 .cour-box picture img {
@@ -318,16 +318,20 @@ html, body {
 	display: block;
 	text-align: left;
 	line-height: 20px;
-	font-size: 14px;
-	max-height: 40px;
+	max-height: 22px;
 	overflow: hidden;
+	width: 90%;
+	//margin: 5px auto 5px auto;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 live{
 	background-image: url(../Images/live-icon.gif);
 	background-repeat: no-repeat;
-	width: 24px;
-	height: 24px;
-	display:inline-block;	
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	margin-right: 5px;
 }
 .cour-box sbjname {
 	height: 20px;
@@ -349,7 +353,7 @@ live{
 	display: block;
 	color: #F30;
 	position: absolute;
-	bottom: 10px;
+	bottom: -3px;
 	width: 100%;
 }
 /*免费*/

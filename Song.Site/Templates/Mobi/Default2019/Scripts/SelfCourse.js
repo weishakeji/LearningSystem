@@ -24,12 +24,21 @@ function cour_tab() {
         }
         //如果已经加载过，则不再加载
         var context = $(".cour-context[action=" + action + "]").show();
-        if (context.find(".cour-box,.nocour-box").size() > 0) return;
+        if (context.find(".cour-box,.nocour-box").size() > 0) {
+            //设置课程区高度
+            var imgWd = 0;
+            context.find("picture img").each(function () {
+                imgWd = imgWd < $(this).outerWidth(true) ? $(this).outerWidth(true) : imgWd;
+            });
+            context.find(".cour-box").height(imgWd * 9 / 16);          
+            return;
+        }
         //添加预载
         context.html($(".cour-area>.loading")[0].outerHTML.replace("{0}", title));
         var loading = context.find(".loading").show();
         //异步加载课程
         cour_tab_post(action, "");
+
     });
     mui.trigger(document.querySelector('.cour-bar .cour-tit[action=trycou]'), 'tap');
     mui.trigger(document.querySelector('.cour-bar .cour-tit[action=overcou]'), 'tap');
@@ -61,6 +70,12 @@ function cour_tab_post(action, sear) {
                 //显示课程数量
                 var tit = $(".cour-bar .cour-tit[action=" + d.action + "]");
                 tit.html(tit.attr("title") + "(" + d.object.length + ")");
+                //设置课程区高度
+                var imgWd = 0;
+                context.find("picture img").each(function () {
+                    imgWd = imgWd < $(this).outerWidth(true) ? $(this).outerWidth(true) : imgWd;
+                });
+                context.find(".cour-box").height(imgWd * 9 / 16);   
                 //加载学习进度
                 getStudyLog();
             }
