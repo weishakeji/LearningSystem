@@ -206,7 +206,7 @@ function setListData(data, box) {
     for (var i = 0; i < data.length - 1; i++) {
         var n = data[i];
         var index = i + window.knSize * (window.knIndex - 1) + 1;
-        html += "<dd knid=\"" + n.Kn_ID + "\" index=\"" + index + "\">" + index + "、<span>" + n.Kn_Title + "</span></dd>";
+        html += "<dd knid=\"" + n.Kn_ID + "\" index=\"" + index + "\">" + index + "、<span>" + unescape(n.Kn_Title) + "</span></dd>";
     }
     box.find("dl").html(html);
     //事件
