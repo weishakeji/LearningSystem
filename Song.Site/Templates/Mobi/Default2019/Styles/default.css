@@ -329,7 +329,7 @@ a {
 	display: block;
 	text-align: left;
 	line-height: 20px;
-	max-height: 22px;
+	height: 22px;
 	overflow: hidden;
 	width: 90%;
 	margin: 5px auto 5px auto;
