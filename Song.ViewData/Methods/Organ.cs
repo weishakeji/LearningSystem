@@ -22,7 +22,7 @@ namespace Song.ViewData.Methods
         /// <returns>机构实体</returns>
         public Song.Entities.Organization ForID(int id)
         {
-            return Business.Do<IOrganization>().OrganSingle(id);
+            return _trans(Business.Do<IOrganization>().OrganSingle(id));
         }
         /// <summary>
         /// 获取所有可用的机构
@@ -30,7 +30,12 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Song.Entities.Organization[] All()
         {
-            return Business.Do<IOrganization>().OrganAll(true, -1);
+            Song.Entities.Organization[] orgs = Business.Do<IOrganization>().OrganAll(true, -1);
+            for (int i = 0; i < orgs.Length; i++)
+            {
+                orgs[i] = _trans(orgs[i]);
+            }
+            return orgs;
         }
         /// <summary>
         /// 当前机构
@@ -38,7 +43,21 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Song.Entities.Organization Current()
         {
-            return Business.Do<IOrganization>().OrganCurrent();
+            return _trans(Business.Do<IOrganization>().OrganCurrent());
         }
+        #region 私有方法
+        /// <summary>
+        /// 处理机构对外展示的信息
+        /// </summary>
+        /// <param name="org"></param>
+        /// <returns></returns>
+        private Song.Entities.Organization _trans(Song.Entities.Organization org)
+        {
+            if (org == null) return org;
+            org = (Song.Entities.Organization)org.Clone();
+            org.Org_Logo = WeiSha.Common.Upload.Get["Org"].Virtual + org.Org_Logo;
+            return org;
+        }
+        #endregion
     }
 }
