@@ -189,22 +189,26 @@ context {
     font-weight: bold;
     font-size: 30px;
     word-wrap: break-word;
-    padding: 10px 10px 10px 0;
+    padding: 2px 10px 2px 0;
 }
-
+.method name  para{
+     font-size: 16px;
+     font-weight: normal;
+     margin-left: 10px;
+}
 .method fullname {
     word-wrap: break-word;
     word-break: break-all;
 }
 
 .method table {
-    margin-left: 50px;
-    width: calc(100% - 50px);
+    width: calc(100% - 5px);
 }
 
 .method table th {
     font-weight: normal;
     background-color: #eee;
+    font-size: 12px;
 }
 .method table input{
     height: 22px;
@@ -212,6 +216,16 @@ context {
     --border: 1px solid #999;
     box-shadow: 0px 0px 2px #333 inset;
     border-radius: 2px;
+}
+.method remarks b{
+    display: block;
+    float: left;
+    width: 50px;
+}
+.method remarks div{
+    display: block;
+    float: right;
+     width: calc(100% - 50px);
 }
 .test-tit {
     height: 40px;
@@ -227,43 +241,25 @@ context {
     margin-right: 10px;
 }
 .test-tit  button{
-    position: absolute;
     height: 30px;
     width: 90px;
-    top:5px;
-    right: 10px;
+    margin-left: 10px;
     border-radius: 5px;
     background-color:#eee;
     cursor: pointer;
 }
-.test-tit  .loadbox{
-    float: right;
-    width: 80px;
-    margin-right: 30px;
-    height: 40px;
-    line-height: 40px;
-    text-indent:0px;
-    font-size: 12px;
-    color: #666;
-}
 .test-tit  button:hover{
     background-color:rgb(166, 228, 163);
+    box-shadow: 1px 1px 1px #999;
+}
+.test-tit button:first-child{
+    margin-right: 50px;
 }
 fieldset{
     position: relative;
 }
-#btnCopy{
-    position: absolute;
-    bottom: 0px;
-    right:  0px;
-    width: 80px;
-    height: 25px;
-    cursor: pointer;
-}
-#btnCopy:hover
-{
-    box-shadow: 1px 1px 1px #999;
-}
+
+
 #testarea{
     width: calc(100% - 60px);
     display: table;
@@ -273,21 +269,32 @@ fieldset{
     margin: 0px;
 }
 #testarea pre{
-    margin: 0px;
+    margin: 0px 0px 10px 0px;
     width: calc(100% - 40px);
-    font-size: 16px;
-    line-height: 25px;
+    font-size: 14px;
+    line-height: 20px;
     padding: 20px;
     background-color: rgb(240, 243, 215);
     word-wrap: break-word;
     word-break: break-all;    
     border:1px solid #ccc;
+    position: relative;
+
 }
 #testarea fieldset
 {     margin: 0px;
     padding: 0px;
     margin-bottom: 20px;
     width:100%;
+}
+#testresult:before{
+    content:"测试查询的返回结果：";
+    display: block;
+    position: absolute;
+    top:0px;
+    left:10px;
+    color: #666;
+    font-size: 12px;
 }
 footer {
     height: 30px;

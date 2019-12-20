@@ -81,7 +81,7 @@
         },
         //去除两端空格
         trim: function (str) {
-            return str.replace(/^\s*|\s*$/g, '');
+            return str.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g,"");
         },
         //将数据url解码
         unescape: function (data) {

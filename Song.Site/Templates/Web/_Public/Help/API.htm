@@ -33,21 +33,19 @@
             </menu>
             <context id="context"> 
                   <div class="method" v-if="method!=null">
-                            
-                        <name>{{method.ClassName +'.'+method.Name}}</name>
-                        <fullname>{{showname}}</fullname>
-                        <intro><b>摘要：</b>{{method.Intro}}</intro>
-                        <atrr><b>特性：</b>
+                            <atrr><b>特性：</b>
                               <span v-for="item in method.Attrs">[{{item.Name}}<i v-show='item.Ignore'>
-                                          (Ignore={{item.Ignore}})</i>] </span>
+                                          (Ignore={{item.Ignore}})</i>]  </span>
                               <span v-if="method.Attrs.length<1">无</span>
                         </atrr>
-                        <params><b>参数：</b>
+                        <name>{{method.ClassName +'.'+method.Name}}<para>{{parameter}}</para></name>                        
+                        <intro><b>摘要：</b>{{method.Intro}}</intro>                        
+                        <params>
                               <table cellspacing="0" cellpadding="0" width="100%" border="0"
                                     v-show="method.Paras.length>0">
                                     <tr>
                                           <th width="40">#</th>
-                                          <th width="100">名称</th>
+                                          <th width="100">参数</th>
                                           <th width="110">测试值</th>
                                           <th width="80">类型</th>
                                           <th>说明</th>
@@ -65,8 +63,8 @@
                               <span v-show="method.Paras.length==0">无</span>
 
                         </params>
-                        <remarks v-if='method.Remarks.length>0'><b>备注：</b><pre>{{method.Remarks}}</pre></remarks>
-                        <return><b>返回值：</b>
+                        <remarks v-if='method.Remarks.length>0'><b>备注：</b><div><pre>{{method.Remarks}}</pre></div></remarks>
+                        <return><b>返回：</b>
                               <span class="type">{{method.Return.Type}}</span>
                               <div class="intro" v-if="method.Return.Intro.length>0"><pre>{{method.Return.Intro}}</pre></div>
                         </return>
@@ -90,17 +88,26 @@
                                     <option value="json">JSON</option>
                                     <option value="xml">XML</option>
                               </select>
-                              <button type="button" v-on:click="testapi" v-show="!loading">测试</button>
-                              <div class="loadbox" v-show='loading'><i class='el-icon-loading' ></i> 加载中...</div>
+                               
+                              <button type="button" v-on:click="testapi">
+                                    <span  v-show="!loading">测试</span>
+                                    <span v-show='loading'> <i class='el-icon-loading' ></i> 加载中...</span>
+                              </button>
+                              <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                               <button id="btnCopy" v-on:click="btnCopyEvent">复制js执行脚本</button>
+                                <button id="btnShow" v-on:click="showcode=!showcode" v-html="showcode ? '隐藏脚本' : '显示脚本'">
+
+                                </button>
                         </div>
                         <div id="testarea">
-                              
-                              <fieldset><legend>示例代码 <span id="apiurl"></span> </legend> 
-                                    <button id="btnCopy" v-on:click="btnCopyEvent">复制</button>
+                              <div v-show="showcode">
+                              <span id="apiurl"></span> 
+                                  
                                     <pre id="teststring"></pre>
                                     <textarea id="input_teststring" style="opacity: 0;position: absolute;top: -10px;right: -0px;" remark="用于复制示例代码"></textarea>
-                              </fieldset>
-                              <fieldset><legend>查询结果</legend> <pre id="testresult"></pre></fieldset>
+                              
+                        </div>
+                            <pre id="testresult"></pre>
                              
                         </div>
                   </div>
