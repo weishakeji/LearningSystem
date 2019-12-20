@@ -163,8 +163,8 @@
         //关闭事件，全屏事件
         if (this.CloseEvent != null) pagebox.events.add(this.WinId + "_CloseEvent", this.CloseEvent);
         if (this.FullScreenEvent != null) pagebox.events.add(this.WinId + "_FullScreenEvent", this.FullScreenEvent);
-        if (this.WinScreenEvent != null) pagebox.events.add(this.WinId + "_WinScreenEvent", this.WinScreenEvent);
-        $("html").css("overflow", "hidden");
+        if (this.WinScreenEvent != null) pagebox.events.add(this.WinId + "_WinScreenEvent", this.WinScreenEvent);        
+        //$("html").css("overflow", "hidden");
     }
     //生成窗体外框
     pagebox.prototype.buildFrame = function () {
