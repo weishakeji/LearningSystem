@@ -37,7 +37,7 @@
         <vt:foreach from="$#.todayExam" item="e" index="tax">
           <vt:function var="paper" method="getTestPaper" args="$#.e.Tp_Id"/>
           <ul class="mui-table-view">
-            <li class="mui-table-view-cell mui-collapse mui-active"> <a class="mui-navigate-right" href="#">（{$tax}）.《{$:e.Exam_name}》</a>
+            <li class="mui-table-view-cell mui-collapse mui-active"> <a class="mui-navigate-right" href="#">{$tax}.《{$:e.Exam_name}》- {$:e.Exam_title}</a>
               <div class="mui-collapse-content">
                 <div class="item">时间：
                   <vt:if var="e.Exam_DateType" value="1" compare="="> 
