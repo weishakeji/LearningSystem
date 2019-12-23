@@ -43,12 +43,19 @@ namespace Song.ViewData.Attri
             loginattr = LoginAttribute.GetAttr<AdminAttribute>(method);
             if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
                 throw new Exception(msg+"管理员登录后操作");
+
+            loginattr = LoginAttribute.GetAttr<SuperAdminAttribute>(method);
+            if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
+                throw new Exception(msg + "超级管理员登录后操作");
+
             loginattr = LoginAttribute.GetAttr<StudentAttribute>(method);
             if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
                 throw new Exception(msg + "学员账户登录后操作");
+
             loginattr = LoginAttribute.GetAttr<TeacherAttribute>(method);
             if (loginattr != null && !loginattr.Ignore && !loginattr.Logged())
                 throw new Exception(msg + "教师账号登录后操作");
+
             return loginattr;
         }
     }

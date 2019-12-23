@@ -22,6 +22,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="letter"></param>
         [HttpPost]
+        [Admin]
         public int Setup(Letter letter)
         {
             try
@@ -29,6 +30,8 @@ namespace Song.ViewData.Methods
                 //记录key
                 string akey = letter.GetParameter("AccessKey").String;
                 string skey = letter.GetParameter("SecretKey").String;
+                if (string.IsNullOrWhiteSpace(akey) || akey.Trim() == "") throw new Exception("AccessKey不可为空");
+                if (string.IsNullOrWhiteSpace(skey) || skey.Trim() == "") throw new Exception("SecretKey不可为空");
                 Business.Do<ILive>().SetupKey(akey, skey);
                 //直播空间
                 string space = letter.GetParameter("LiveSpace").String;
@@ -62,6 +65,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [SuperAdmin]
         public Dictionary<string, string> GetSetup()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();

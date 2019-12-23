@@ -88,6 +88,7 @@ namespace Song.ViewData
             //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限    
             //----验证Http谓词访问限制
             HttpAttribute.Verify(letter.HTTP_METHOD, method);
+            //LoginAttribute.Verify(method);
             //----范围控制，本机或局域网，或同域
             bool isRange = RangeAttribute.Verify(letter, method);
             //----验证是否需要登录
