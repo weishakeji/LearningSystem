@@ -116,10 +116,10 @@ var rvue = new Vue({
                 var str = '';
                 for (var t = 0; t < paras.length; t++) {
                     if (paras[t].indexOf('.') > -1) {
-                        str += paras[t].substring(paras[t].lastIndexOf('.')+1);
-                        if(t<paras.length-1)str+=',';
+                        str += paras[t].substring(paras[t].lastIndexOf('.') + 1);
+                        if (t < paras.length - 1) str += ',';
                     }
-                }  
+                }
                 return '(' + str.toLowerCase();
             }
             return '';
@@ -144,7 +144,7 @@ var rvue = new Vue({
                     message: '没有获取到返回值，可能是服务器端错误'
                 };
                 if (req.config.returntype == "json")
-                    ele.innerText = $api.trim(rvue.jsonformat(unescape(req.text)));
+                    ele.innerText = $api.trim(rvue.jsonformat(unescape(req.text), true));
                 if (req.config.returntype == "xml")
                     ele.innerText = $api.trim(rvue.xmlformat(unescape(req.text)));
             }).catch(function(ex) {
@@ -162,10 +162,17 @@ var rvue = new Vue({
             var urlstr = window.location.protocol + "//" + window.location.host + "/api/v1/" + mathd;
             document.getElementById("apiurl").innerText = urlstr;
             var jsstr = "$api." + http + "('" + mathd + "'" + (params == "{}" ? "" : "," + params) + ")";
-            jsstr += ".then(function(req){\r\tif(req.data.success){\r\t\tvar result=req.data.result;\r\t\t //...\r\t}else{\r\t\tthrow req.data.message;\r\t}\r})";
-            jsstr += ".catch(function (err) {\r\talert(err);\r});";
+            jsstr += ".then(function(req){\r\
+            if(req.data.success){\r\
+                var result=req.data.result;\r\
+                //...\r\
+            }else{\r\
+                throw req.data.message;\r\
+            }\r}).catch(function (err) {\r\
+            alert(err);\r});";
+            //jsstr = rvue.jsonformat(jsstr, false);
             document.getElementById("teststring").innerText = jsstr;
-            //document.getElementById("input_teststring").innerText = jsstr;
+            document.getElementById("input_teststring").innerText = jsstr;
         },
         //复制测试代码
         btnCopyEvent: function() {
@@ -193,7 +200,8 @@ var rvue = new Vue({
             return txt;
         },
         //json字符格式化
-        jsonformat: function(json) {
+        //isbrace:花括号是否换行，true换行
+        jsonformat: function(json, isbrace) {
             var formatted = '', //转换后的json字符串
                 padIdx = 0, //换行后是否增减PADDING的标识
                 PADDING = '    '; //4个空格符
@@ -208,11 +216,11 @@ var rvue = new Vue({
              *---> \r\n{\r\n'name':'ccy',\r\n'age':18,\r\n
              *'info':\r\n[\r\n'address':'wuhan',\r\n'interest':'playCards'\r\n]\r\n}\r\n
              */
-            json = json.replace(/([\{\}])/g, '\r\n$1\r\n')
-                //.replace(/([\[\]])/g, '\r\n$1\r\n')
-                .replace(/(\,)/g, '$1\r\n')
+            json = json.replace(/(\,)/g, '$1\r\n')
+                //.replace(/([\[\]])/g, '\r\n$1\r\n')               
                 .replace(/(\r\n\r\n)/g, '\r\n')
                 .replace(/\r\n\,/g, ',');
+            if (isbrace) json = json.replace(/([\{\}])/g, '\r\n$1\r\n');
             /** 
              * 根据split生成数据进行遍历，一行行判断是否增减PADDING
              */
@@ -293,7 +301,3 @@ var rvue = new Vue({
 });
 rvue.$mount('context');
 
-function formateXml(xmlStr) {
-    text = xmlStr;
-
-}
