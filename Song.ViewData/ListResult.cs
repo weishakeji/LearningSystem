@@ -47,6 +47,7 @@ namespace Song.ViewData
             Success = true;
             State = 1;
             DateTime = DateTime.Now;
+            Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds; 
         }
     }
 }

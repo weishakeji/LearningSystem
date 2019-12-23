@@ -35,6 +35,10 @@ namespace Song.ViewData
         /// </summary>
         public DateTime DateTime { get; set; }
         /// <summary>
+        /// 执行时间的时间戳
+        /// </summary>
+        public long Timestamp { get; set; }
+        /// <summary>
         /// 详细的异常信息
         /// </summary>
         public Exception Exception { get; set; }
@@ -56,6 +60,7 @@ namespace Song.ViewData
             Success = obj != null;
             State = 1;
             DateTime = DateTime.Now;
+            Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds; 
             Message = obj != null ? "" : "未查询到数据";
         }
         /// <summary>
@@ -66,6 +71,7 @@ namespace Song.ViewData
         {
             Success = false;
             DateTime = DateTime.Now;
+            Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds; 
             Exception = exc;
             if (exc.InnerException != null)
             {
@@ -87,6 +93,7 @@ namespace Song.ViewData
             this.Result = obj;
             Success = obj != null;
             DateTime = DateTime.Now;
+            Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds; 
             Exception = exc;
             if (exc.InnerException != null)
             {
@@ -149,6 +156,7 @@ namespace Song.ViewData
                     str = string.Format("\"{0}\"", str);
                     break;
                 case "Int32":
+                case "Int64":
                     str = value.ToString().ToLower();
                     break;
                 case "Boolean":
