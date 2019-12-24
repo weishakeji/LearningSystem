@@ -36,8 +36,9 @@ namespace Song.ViewData.Methods
             Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherSingle(account.Ac_AccName, -1);
             if (teacher != null)
             {
+                teacher = teacher.Clone<Song.Entities.Teacher>();
+                if (teacher != null) teacher.Th_Pw = string.Empty;
                 teacher.Th_Photo = WeiSha.Common.Upload.Get["Accounts"].Virtual + account.Ac_Photo;
-                teacher.Th_Pw = string.Empty;
             }
             return teacher;
         }
@@ -50,6 +51,11 @@ namespace Song.ViewData.Methods
         {
             List<Song.Entities.Course> cours = Business.Do<ICourse>().CourseAll(-1, -1, thid, true);
             if (cours == null || cours.Count < 1) return null;
+            for (int i = 0; i < cours.Count; i++)
+            {
+                cours[i].Cou_Logo = WeiSha.Common.Upload.Get["Course"].Virtual + cours[i].Cou_Logo;
+                cours[i].Cou_LogoSmall = WeiSha.Common.Upload.Get["Course"].Virtual + cours[i].Cou_LogoSmall;
+            }
             return cours.ToArray<Song.Entities.Course>();
         }
         /// <summary>
@@ -62,6 +68,11 @@ namespace Song.ViewData.Methods
         {
             List<Song.Entities.Course> cours = Business.Do<ICourse>().CourseCount(-1, -1, thid, true, null, true, count);
             if (cours == null || cours.Count < 1) return null;
+            for (int i = 0; i < cours.Count; i++)
+            {
+                cours[i].Cou_Logo = WeiSha.Common.Upload.Get["Course"].Virtual + cours[i].Cou_Logo;
+                cours[i].Cou_LogoSmall = WeiSha.Common.Upload.Get["Course"].Virtual + cours[i].Cou_LogoSmall;
+            }
             return cours.ToArray<Song.Entities.Course>();
         }
         /// <summary>

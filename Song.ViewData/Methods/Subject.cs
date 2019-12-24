@@ -26,7 +26,8 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Song.Entities.Subject ForID(int id)
         {
-            return Business.Do<ISubject>().SubjectSingle(id);
+            Song.Entities.Subject sbj = Business.Do<ISubject>().SubjectSingle(id);
+            return _tran(sbj);
         }
         /// <summary>
         /// 某个机构下的专业
@@ -35,7 +36,12 @@ namespace Song.ViewData.Methods
         /// <returns>专业列表</returns>
         public Song.Entities.Subject[] List(int orgid)
         {
-            return Business.Do<ISubject>().SubjectCount(orgid, string.Empty, true, -1, -1);
+            Song.Entities.Subject[] sbjs = Business.Do<ISubject>().SubjectCount(orgid, string.Empty, true, -1, -1);
+            for (int i = 0; i < sbjs.Length; i++)
+            {
+                sbjs[i] = _tran(sbjs[i]);
+            }
+            return sbjs;
         }
         /// <summary>
         /// 某个机构下的专业
@@ -45,6 +51,10 @@ namespace Song.ViewData.Methods
         public DataTable Tree(int orgid)
         {
             Song.Entities.Subject[] sbjs= Business.Do<ISubject>().SubjectCount(orgid, string.Empty, true, -1, -1);
+            for (int i = 0; i < sbjs.Length; i++)
+            {
+                sbjs[i] = _tran(sbjs[i]);
+            }
             DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(sbjs);
             WeiSha.WebControl.Tree.DataTableTree tree = new WeiSha.WebControl.Tree.DataTableTree();
             tree.IdKeyName = "Sbj_ID";
@@ -55,5 +65,20 @@ namespace Song.ViewData.Methods
 
             return dt;
         }
+        #region 私有方法，处理对象的关联信息
+        /// <summary>
+        /// 处理专业信息，图片转为全路径，并生成clone对象
+        /// </summary>
+        /// <param name="sbj">专业对象的clone</param>
+        /// <returns></returns>
+        private Song.Entities.Subject _tran(Song.Entities.Subject sbj)
+        {
+            if (sbj == null) return sbj;
+            Song.Entities.Subject clone = sbj.Clone<Song.Entities.Subject>();
+            clone.Sbj_Logo = WeiSha.Common.Upload.Get["Subject"].Virtual + clone.Sbj_Logo;
+            clone.Sbj_LogoSmall = WeiSha.Common.Upload.Get["Subject"].Virtual + clone.Sbj_LogoSmall;
+            return clone;
+        }
+        #endregion
     }
 }
