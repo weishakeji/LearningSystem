@@ -169,7 +169,7 @@ namespace Song.ViewData.Methods
                     if (!System.IO.File.Exists(fileHy))
                     {
                         string ext = System.IO.Path.GetExtension(fileHy).ToLower();
-                        if (ext == ".mp4") videoUrl = Path.ChangeExtension(videoUrl, ".flv");
+                        //if (ext == ".mp4") videoUrl = Path.ChangeExtension(videoUrl, ".flv");
                         if (ext == ".flv") videoUrl = Path.ChangeExtension(videoUrl, ".mp4");
                     }
                 }
