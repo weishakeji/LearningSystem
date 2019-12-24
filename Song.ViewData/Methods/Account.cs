@@ -28,9 +28,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts ForID(int id)
         {
             Song.Entities.Accounts acc= Business.Do<IAccounts>().AccountsSingle(id);
-            if (acc != null) acc.Ac_Pw = string.Empty;
-            acc.Ac_Photo = WeiSha.Common.Upload.Get["Accounts"].Virtual + acc.Ac_Photo;
-            return acc;
+            return _tran(acc);
         }
         /// <summary>
         /// 当前登录的学员
@@ -41,35 +39,32 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts Current()
         {
             Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
-            if (acc == null) return acc;
-            Song.Entities.Accounts curr = acc.Clone<Song.Entities.Accounts>();
-            if (curr != null) curr.Ac_Pw = string.Empty;
-            return curr;
+            return _tran(acc);
         }
         /// <summary>
-        /// 根据账号获取学员
+        /// 根据账号获取学员，不支持模糊查询
         /// </summary>
-        /// <param name="acc"></param>
+        /// <param name="acc">学员账号</param>
         /// <returns></returns>
         public Song.Entities.Accounts ForAcc(string acc)
         {
+            if (string.IsNullOrWhiteSpace(acc)) throw new Exception("学员账号不得为空");
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsSingle(acc, -1);
-            if (account == null) return account;
-            Song.Entities.Accounts curr = (Song.Entities.Accounts)account.Clone();
-            curr.Ac_Pw = string.Empty;
-            return curr;
+            return _tran(account);
         }
         /// <summary>
-        /// 根据名称获取学员
+        /// 根据学员名称获取学员信息，支持模糊查询
         /// </summary>
         /// <param name="name">学员名称</param>
         /// <returns></returns>
         public Song.Entities.Accounts[] ForName(string name)
         {
+            if (string.IsNullOrWhiteSpace(name)) throw new Exception("学员名称不得为空");
             Song.Entities.Accounts[] accs= Business.Do<IAccounts>().Account4Name(name);
-            foreach (Song.Entities.Accounts ac in accs)
+            if (accs == null) return accs;
+            for (int i = 0; i < accs.Length; i++)
             {
-                ac.Ac_Pw = string.Empty;
+                accs[i] = _tran(accs[i]);
             }
             return accs;
         }
@@ -99,8 +94,11 @@ namespace Song.ViewData.Methods
                 }
                 if (!isExist) list.Add(account);
             }
-            foreach (Song.Entities.Accounts ac in list)          
-                ac.Ac_Pw = string.Empty;
+            //
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i] = _tran(list[i]);
+            }
             return list.ToArray<Accounts>();
         }
         /// <summary>
@@ -143,14 +141,30 @@ namespace Song.ViewData.Methods
         {
             int sum = 0;
             Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(-1, size, index, out sum);
-            foreach (Song.Entities.Accounts ac in accs)
-                ac.Ac_Pw = string.Empty;
+            for (int i = 0; i < accs.Length; i++)
+            {
+                accs[i] = _tran(accs[i]);
+            }
             Song.ViewData.ListResult result = new ListResult(accs);
             result.Index = index;
             result.Size = size;
             result.Total = sum;
             return result;
         }
-
+        #region 私有方法，处理学员信息
+        /// <summary>
+        /// 处理学员信息，密码清空、头像转为全路径，并生成clone对象
+        /// </summary>
+        /// <param name="acc">学员账户的clone对象</param>
+        /// <returns></returns>
+        private Song.Entities.Accounts _tran(Song.Entities.Accounts acc)
+        {
+            if (acc == null) return acc;
+            Song.Entities.Accounts curr = acc.Clone<Song.Entities.Accounts>();
+            if (curr != null) curr.Ac_Pw = string.Empty;
+            curr.Ac_Photo = WeiSha.Common.Upload.Get["Accounts"].Virtual + curr.Ac_Photo;
+            return curr;
+        }
+        #endregion
     }
 }
