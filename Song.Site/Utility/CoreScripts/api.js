@@ -1,23 +1,23 @@
 /*!
-* 主  题：API调用方法
-* 说  明：用于调用Restful api接口的js方法。
-* 功能描述：
-* 1、封装api调用方法，采用axios异步读取服务端；支持get,post,delete,put,patch,options六种方式
-* 2、数据提交与返回均经过url编码与解码
-* 3、一些常用方法，如$api.trim，querystring,cookies等
-*
-*
-* 作  者：宋雷鸣 10522779@qq.com
-* 开发时间: 2019年5月20日
-*/
-(function () {
+ * 主  题：API调用方法
+ * 说  明：用于调用Restful api接口的js方法。
+ * 功能描述：
+ * 1、封装api调用方法，采用axios异步读取服务端；支持get,post,delete,put,patch,options六种方式
+ * 2、数据提交与返回均经过url编码与解码
+ * 3、一些常用方法，如$api.trim，querystring,cookies等
+ *
+ *
+ * 作  者：宋雷鸣 10522779@qq.com
+ * 开发时间: 2019年5月20日
+ */
+(function() {
     var config = {
         //api的版本号
         versions: ["", "1", "2"],
-        versionDefault: "1",    //默认版本号
+        versionDefault: "1", //默认版本号
         //调用地址的根路径
         baseURL: '',
-        pathUrl: "/api/v{0}/",  //url路径
+        pathUrl: "/api/v{0}/", //url路径
     };
     //版权信息
     var copyright = {};
@@ -26,7 +26,7 @@
         //生成axios调用的路径,
         //vesion:api版本号,
         //way:api方法名，如/api/v1/[account/del]
-        url: function (version, way) {
+        url: function(version, way) {
             if (way === undefined) throw 'api名称不得为空';
             var url = config.pathUrl.replace("{0}", version);
             //调用地址的根路径可以在此处理，（如果需要跨多台服务器请求的话）
@@ -34,7 +34,7 @@
             return url + way;
         },
         //获取url中的参数
-        querystring: function (url, key) {
+        querystring: function(url, key) {
             if (arguments.length == 1) key = arguments[0];
             if (arguments.length <= 1) url = String(window.document.location.href);
             if (url.indexOf("?") < 0) return "";
@@ -46,7 +46,10 @@
                 if (arr.length < 2) continue;
                 if (arr[1].indexOf("#") > -1) arr[1] = arr[1].substring(0, arr[1].indexOf("#"));
                 arr[1] = decodeURI(arr[1]).replace(/<[^>]+>/g, "");
-                values.push({ key: arr[0], val: arr[1] });
+                values.push({
+                    key: arr[0],
+                    val: arr[1]
+                });
             }
             //返回
             if (arguments.length == 0) return values;
@@ -58,7 +61,7 @@
             }
             return "";
         },
-        setpara: function (key, value) {
+        setpara: function(key, value) {
             //获取所有参数
             var values = methods.querystring();
             var isExist = false;
@@ -68,7 +71,10 @@
                     isExist = true;
                 }
             }
-            if (!isExist) values.push({ key: key, val: value });
+            if (!isExist) values.push({
+                key: key,
+                val: value
+            });
             //拼接Url      
             var url = String(window.document.location.href);
             if (url.indexOf("?") > -1) url = url.substring(0, url.lastIndexOf("?"));
@@ -80,11 +86,11 @@
             return url + "?" + parastr;
         },
         //去除两端空格
-        trim: function (str) {
-            return str.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g,"");
+        trim: function(str) {
+            return str.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g, "");
         },
         //将数据url解码
-        unescape: function (data) {
+        unescape: function(data) {
             var typeName = methods.getType(data);
             if (typeName == 'String') return unescape(data);
             if (typeName == 'Object') return handleObject(data);
@@ -109,6 +115,8 @@
                         data[key] = abnormalTime(data[key]);
                     if (typeName == 'Array')
                         data[key] = handleArray(data[key]);
+                    if (typeName == 'Object')
+                        data[key] = handleObject(data[key]);
                 }
                 return data;
             }
@@ -122,16 +130,16 @@
             return data;
         },
         //判断数据类型
-        getType: function (data) {
+        getType: function(data) {
             var getType = Object.prototype.toString;
-            var myType = getType.call(data);//调用call方法判断类型，结果返回形如[object Function]  
-            var typeName = myType.slice(8, -1);//[object Function],即取除了“[object ”的字符串。 
+            var myType = getType.call(data); //调用call方法判断类型，结果返回形如[object Function]  
+            var typeName = myType.slice(8, -1); //[object Function],即取除了“[object ”的字符串。 
             return typeName;
         },
         //storage存储
-        storage: function (key, value) {
+        storage: function(key, value) {
             var isAndroid = (/android/gi).test(navigator.appVersion);
-            var uzStorage = function () {
+            var uzStorage = function() {
                 var ls = window.localStorage;
                 if (isAndroid) ls = window.localStorage;
                 return ls;
@@ -141,7 +149,7 @@
                 var ls = uzStorage();
                 if (ls) {
                     var v = ls.getItem(key);
-                    if (!v) { return; }
+                    if (!v) return;
                     if (v.indexOf('obj-') === 0) {
                         v = v.slice(4);
                         return JSON.parse(v);
@@ -164,7 +172,7 @@
                 }
             }
         },
-        cookie: function (name, value, options) {
+        cookie: function(name, value, options) {
             if (typeof value != 'undefined') { // name and value given, set cookie 
                 options = options || {};
                 if (value === null) {
@@ -203,7 +211,7 @@
             }
         },
         //在线浏览pdf文件
-        pdfViewer: function (file) {
+        pdfViewer: function(file) {
             var viewer = "/Utility/PdfViewer/viewer.html";
             if (file.indexOf("?") > -1) file = file.substring(0, file.indexOf("?"));
             viewer += "?file=" + encodeURIComponent(file);
@@ -212,14 +220,17 @@
         }
     };
     //api操作的具体对象和方法
-    var apiObj = function (version) {
+    var apiObj = function(version) {
         //加载效果，参数：前者为一般loading效果，后者一般为去除loading
-        this.effect = function (loading, loaded) {
+        this.effect = function(loading, loaded) {
             this.loadeffect.before = loading;
             this.loadeffect.after = loaded;
             return this;
         }
-        this.loadeffect = { before: null, after: null };
+        this.loadeffect = {
+            before: null,
+            after: null
+        };
         //当前api要请求的服务端接口的版本号
         this.version = version == null ? config.versionDefault : version;
         var httpverb = ['get', 'post', 'delete', 'put', 'patch', 'options'];
@@ -232,13 +243,14 @@
         //创建请求对象，以及拦截器
         //way:接口方法
         //returntype:返回数据的类型，Json或xml
-        this.query = function (way, parameters, method, loading, loaded, returntype) {
+        this.query = function(way, parameters, method, loading, loaded, returntype) {
             var url = methods.url(this.version, way);
             if (arguments.length < 2 || parameters == null) parameters = {};
             if (arguments.length < 3 || method == null || method == '') method = 'get';
             //创建axiso对象
             var instance = axios.create({
-                method: method != 'get' ? 'post' : 'get', url: url,
+                method: method != 'get' ? 'post' : 'get',
+                url: url,
                 headers: {
                     'X-Custom-Header': 'weishakeji',
                     'Access-Control-Allow-Headers': 'X-Requested-With',
@@ -253,7 +265,7 @@
                 returntype: returntype
             });
             //添加请求拦截器（即请求之前）
-            instance.interceptors.request.use(function (config) {
+            instance.interceptors.request.use(function(config) {
                 if (loading == null) loading = self.loadeffect.before;
                 if (loading != null) loading(config);
                 //在发送请求之前做某件事
@@ -282,23 +294,23 @@
                     config.params = tmpObj;
                 }
                 return config;
-            }, function (error) {
+            }, function(error) {
                 console.log('错误的传参');
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loading != null) loaded(config, error);
                 //return Promise.reject(error);
             });
             //添加响应拦截器（即返回之后）
-            instance.interceptors.response.use(function (response) {
+            instance.interceptors.response.use(function(response) {
                 response.text = response.data;
                 //如果返回的数据是字符串，这里转为json
                 if (response.config.returntype == "json") {
-                    if (typeof (response.data) == 'string') {
+                    if (typeof(response.data) == 'string') {
                         response.data = eval("(" + response.data + ")");
                     }
                     //处理数据，服务器端返回的数据是经过Url编码的，此处进行解码
                     if (response.data.result != null) {
-                        if (typeof (response.data.result) == 'string') {
+                        if (typeof(response.data.result) == 'string') {
                             try {
                                 response.data.result = eval("(" + response.data.result + ")");
                             } catch (err) {
@@ -312,20 +324,24 @@
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loaded != null) loaded(response, null);
                 return response;
-            }, function (error) {
+            }, function(error) {
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loaded != null) loaded(null, error);
                 //return Promise.reject(error);
             });
             //如果是get方式，参数名是params；非get参数名是data
             if (method == 'get') {
-                return instance.request({ params: parameters });
+                return instance.request({
+                    params: parameters
+                });
             } else {
-                return instance.request({ data: parameters });
+                return instance.request({
+                    data: parameters
+                });
             }
         }
         //一次获取多个数据
-        this.all = function (queryArr) {
+        this.all = function(queryArr) {
             if (arguments.length == 0) return null;
             if (arguments.length == 1) return queryArr;
             return axios.all(arguments);
@@ -361,7 +377,7 @@ $api.all(
 }));
 */
 //日期格式化
-Date.prototype.format = function (fmt) {
+Date.prototype.format = function(fmt) {
     var o = {
         "M+": this.getMonth() + 1,
         "d+": this.getDate(),

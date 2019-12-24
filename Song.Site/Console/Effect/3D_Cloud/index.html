@@ -176,7 +176,7 @@
 
 		function onDocumentMouseMove(event) {
 
-			mouseX = (event.clientX - windowHalfX) * 0.25;
+			mouseX = (windowHalfX - event.clientX  ) * 0.25;
 			//mouseY = ( event.clientY - windowHalfY ) * 0.15;
 
 		}

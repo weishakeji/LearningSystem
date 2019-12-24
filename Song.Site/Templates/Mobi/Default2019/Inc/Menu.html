@@ -150,7 +150,8 @@
 $(function(){
 	//$(".main-menu li.mui-table-view-cell[state=login]").hide();
 	$.get("/Ajax/Self.ashx", function(json){
-		var data=eval("("+json+")");
+	    var data = eval("(" + json + ")");
+	    data = $api.unescape(data);
 		$("#menu-area").show();
 		//处理侧滑菜单在是否登录状态的显示项目
 		$(".main-menu li.mui-table-view-cell").each(function(index, element) {
@@ -170,7 +171,7 @@ $(function(){
 		if(data.login){
 			var acc=data.object;
 			//学员姓名
-			$(".acc-name a").text(acc.Ac_Name == "" ? "(无名)" : unescape(acc.Ac_Name));
+			$(".acc-name a").text(acc.Ac_Name == "" ? "(无名)" : acc.Ac_Name);
 			//学员资金
 			var money=String(acc.Ac_Money);
 			if(money.indexOf(".")>-1)money=money.substr(0,money.indexOf("."));
