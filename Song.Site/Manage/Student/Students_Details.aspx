@@ -56,7 +56,7 @@
                             出生年月：
                         </td>
                         <td class="left">
-                            <%# DateTime.Parse(Eval("Ac_Birthday", "{0}")).AddYears(200) < DateTime.Now ? "" : Eval("Ac_Birthday", "{0:yyyy年M月}")%>
+                            <%# DateTime.Parse(Eval("Ac_Birthday", "{0}")).AddYears(100) < DateTime.Now ? "" : Eval("Ac_Birthday", "{0:yyyy年M月}")%>
                         </td>
                     </tr>
                     <tr>

@@ -69,7 +69,16 @@ namespace Song.Site.Manage.Student
                     //if (!string.IsNullOrEmpty(acc.Ac_Photo) && acc.Ac_Photo.Trim() != "")
                     //{
                     //    acc.Ac_Photo = Upload.Get[_uppath].Virtual + acc.Ac_Photo;
-                    //}                    
+                    //}
+                    //偶尔出现学员生日未填写的问题，此处做个处理
+                    try
+                    {
+                        acc.Ac_Birthday.AddYears(100);
+                    }
+                    catch
+                    {
+                        acc.Ac_Birthday = DateTime.Now;
+                    }
                 }
                 //绑定
                 rptAccounts.DataSource = accounts;
