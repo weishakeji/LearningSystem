@@ -18,29 +18,56 @@ namespace Song.ViewData.Methods
     /// </summary>
     public class Message : IViewAPI
     {
+        ///// <summary>
+        ///// 添加留言
+        ///// </summary>
+        ///// <returns></returns>
+        //[Student]
+        //public int Add(string msg, int playtime, int couid, int olid)
+        //{
+        //    if (string.IsNullOrWhiteSpace(msg)) return 0;
+        //    if (msg.Trim() == "") return 0;
+        //    Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+        //    if (acc == null) return 0;
+        //    return this.Add(acc.Ac_AccName, playtime, couid,  olid);
+        //}
         /// <summary>
         /// 添加留言
         /// </summary>
+        /// <param name="acc">学员账号，如果账号为空则默认为当前登录账号</param>
+        /// <param name="msg">留言信息</param>
+        /// <param name="playtime">视频播放时间</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
         /// <returns></returns>
-        [Student]
-        public int Add(string msg, int playtime, int couid, int olid)
+        public int Add(string acc,string msg, int playtime, int couid, int olid)
         {
-            if (string.IsNullOrWhiteSpace(msg)) return 0;
-            if (msg.Trim() == "") return 0;
-            Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
-            if (acc == null) return 0;
-
+            Song.Entities.Accounts account = null;
+            if (!string.IsNullOrWhiteSpace(acc))
+            {
+                account = Business.Do<IAccounts>().AccountsSingle(acc, -1);               
+            }
+            else
+            {
+                account = Extend.LoginState.Accounts.CurrentUser;
+            }
+            if (account == null) throw new Exception("当前账号不存在");
             Song.Entities.Message entity = new Entities.Message();
             entity.Msg_Context = msg.Length > 200 ? msg.Substring(0, 200) : msg;
             entity.Msg_PlayTime = playtime;
+            if (couid <= 0)
+            {
+                Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
+                if (outline != null) couid = outline.Cou_ID;
+            }
             entity.Cou_ID = couid;
             entity.Ol_ID = olid;
-            entity.Ac_ID = acc.Ac_ID;
-            entity.Ac_AccName = acc.Ac_AccName;
-            entity.Ac_Name = acc.Ac_Name;
-            entity.Msg_Phone = string.IsNullOrWhiteSpace(acc.Ac_MobiTel1) ? acc.Ac_MobiTel2 : acc.Ac_MobiTel1;
-            entity.Msg_QQ = acc.Ac_Qq;
-            entity.Ac_Photo = acc.Ac_Photo;
+            entity.Ac_ID = account.Ac_ID;
+            entity.Ac_AccName = account.Ac_AccName;
+            entity.Ac_Name = account.Ac_Name;
+            entity.Msg_Phone = string.IsNullOrWhiteSpace(account.Ac_MobiTel1) ? account.Ac_MobiTel2 : account.Ac_MobiTel1;
+            entity.Msg_QQ = account.Ac_Qq;
+            entity.Ac_Photo = account.Ac_Photo;
             entity.Msg_IP = WeiSha.Common.Browser.IP;
 
             return Business.Do<IMessage>().Add(entity);

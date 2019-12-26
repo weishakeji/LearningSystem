@@ -76,6 +76,13 @@ namespace Song.Site
                 "~/templatePage.ashx",
                 false
              );
+            //课程学习中的留言咨询
+            routes.MapPageRoute(
+                "courseChat",
+                "courseChat/",
+                "~/courseChat.ashx"
+                );
+            //api接口地址
             routes.MapPageRoute(
                "api_url",
                "api/{t1}/{t2}/{t3}",
@@ -118,6 +125,7 @@ namespace Song.Site
                 "download/{term}.aspx",
                 "~/download/App.aspx"
                 );
+            
         }
 
 

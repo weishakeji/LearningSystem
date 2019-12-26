@@ -1,0 +1,37 @@
+﻿<!doctype html>
+<html>
+
+<head>
+      <title>课程学习交流咨询</title>
+      <vt:include file="inc/meta_api.inc" />
+      <link rel="stylesheet" type="text/css" href="styles/CourseChat.css" />
+</head>
+
+<body>
+      <div id="vue-app">
+            <div class="chat rightArea">
+                  <div class="chatlist" id="chatlist">
+                        <dl id="chatlistdl">
+                              <dd v-for="(item,index) in messages">
+                                    <div :playtime="item.Msg_PlayTime">
+                                          <acc><i class="el-icon-chat-dot-round"></i>{{item.Ac_Name}}：<del
+                                                      class="el-icon-close"></del></acc>
+                                          <msg>{{item.Msg_Context}} </msg>
+                                    </div>
+                                    <date>{{item.Msg_CrtTime | date('yyyy-M-d hh:mm:ss')}}</date>
+                              </dd>
+                        </dl>
+                  </div>
+                  <div class="chatbox">
+                        
+                        <div class="msgbox">
+                              <input type="text" id="messageinput" name="messageinput" v-on:keyup.enter="msgSend" />
+                              <div id="btnMessage" v-on:click="msgSend">发送</div>
+                        </div>
+                  </div>
+            </div>
+      </div>
+      <script type="text/javascript" src="Scripts/CourseChat.js"></script>
+</body>
+
+</html>

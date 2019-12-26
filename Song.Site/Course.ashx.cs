@@ -32,7 +32,11 @@ namespace Song.Site
                 }
                 //图片路径
                 cou.Cou_Logo = string.IsNullOrWhiteSpace(cou.Cou_Logo) ? "" : Upload.Get["Course"].Virtual + cou.Cou_Logo;
+                if (!System.IO.File.Exists(WeiSha.Common.Server.MapPath(cou.Cou_Logo)))               
+                    cou.Cou_Logo = "";              
                 cou.Cou_LogoSmall = string.IsNullOrWhiteSpace(cou.Cou_LogoSmall) ? "" : Upload.Get["Course"].Virtual + cou.Cou_LogoSmall;
+                if (!System.IO.File.Exists(WeiSha.Common.Server.MapPath(cou.Cou_LogoSmall)))
+                    cou.Cou_LogoSmall = "";
                 //是否免费，或是限时免费
                 if (cou.Cou_IsLimitFree)
                 {

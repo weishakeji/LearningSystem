@@ -1531,6 +1531,7 @@
     <Content Include="Templates\Web\NetSchool\Student\PwFind.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Scripts\Register.js" />
     <Content Include="Templates\Web\_Public\Scripts\CourseStudy_.js" />
+    <Content Include="Templates\Web\_Public\Scripts\CourseChat.js" />
     <Content Include="Templates\Web\_Public\Student\Startpage.htm" />
     <Content Include="Templates\Web\NetSchool\Student\Styles\index.css" />
     <Content Include="Templates\Web\NetSchool\Student\Styles\Panel.css" />
@@ -1560,7 +1561,9 @@
     <Content Include="Templates\Web\_Public\Debug.htm" />
     <Content Include="Templates\Web\_Public\CourseStudy_.htm" />
     <Content Include="Templates\Web\_Public\Styles\CourseStudy_.css" />
+    <Content Include="Templates\Web\_Public\Styles\CourseChat.css" />
     <Content Include="Templates\Web\_Public\Vue.htm" />
+    <Content Include="Templates\Web\_Public\CourseChat.htm" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.js" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.min.js" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.xml" />
@@ -5748,6 +5751,10 @@
       <DependentUpon>Live.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="CourseChat.ashx.cs">
+      <DependentUpon>CourseChat.ashx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
@@ -6978,6 +6985,7 @@
     <Content Include="CourseChannel.ashx" />
     <Content Include="Mobile\WeixinpubLogin.ashx" />
     <Content Include="Live.ashx" />
+    <Content Include="CourseChat.ashx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
