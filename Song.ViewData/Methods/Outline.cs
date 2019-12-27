@@ -165,13 +165,8 @@ namespace Song.ViewData.Methods
                 if (existVideo && !videos[0].As_IsOuter)
                 {
                     videoUrl = Upload.Get[videos[0].As_Type].Virtual + videoUrl;
-                    string fileHy = WeiSha.Common.Server.MapPath(videoUrl);
-                    if (!System.IO.File.Exists(fileHy))
-                    {
-                        string ext = System.IO.Path.GetExtension(fileHy).ToLower();
-                        //if (ext == ".mp4") videoUrl = Path.ChangeExtension(videoUrl, ".flv");
-                        if (ext == ".flv") videoUrl = Path.ChangeExtension(videoUrl, ".mp4");
-                    }
+                    string ext = System.IO.Path.GetExtension(videoUrl).ToLower();
+                    if (ext == ".flv") videoUrl = Path.ChangeExtension(videoUrl, ".mp4");
                 }
                 dic.Add("urlVideo", canStudy ? videoUrl : string.Empty);
             }
