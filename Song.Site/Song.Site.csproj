@@ -263,6 +263,7 @@
     <Content Include="Debug.aspx" />
     <Content Include="Debug.htm" />
     <Content Include="Default.aspx" />
+    <Content Include="2020.html" />
     <Content Include="Download\App.aspx" />
     <Content Include="Download\DesktopApp\readme.txt" />
     <Content Include="favicon.ico" />

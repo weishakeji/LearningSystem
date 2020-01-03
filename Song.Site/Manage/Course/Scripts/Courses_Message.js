@@ -160,13 +160,3 @@ mesvue.$mount('#app');
 
 
 
-$api.get('Account/Current').then(function (req) {
-    if (req.data.success) {
-        var result = req.data.result;
-        //...
-    } else {
-        throw req.data.message;
-    }
-}).catch(function (err) {
-    alert(err);
-});
