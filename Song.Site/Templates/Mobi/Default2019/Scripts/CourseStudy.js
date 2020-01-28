@@ -264,7 +264,7 @@ var vdata = new Vue({
                 return;
             }
             $api.cookie("msgtime", Date.now());
-            $api.post("message/add", { msg: msg, playtime: vdata.playtime, couid: vdata.couid, olid: vdata.olid }).then(function (req) {
+            $api.post("message/add", {acc:'',  msg: msg, playtime: vdata.playtime, couid: vdata.couid, olid: vdata.olid }).then(function (req) {
                 var d = req.data;
                 if (d.success) {
                     var input = document.getElementById("messageinput");
