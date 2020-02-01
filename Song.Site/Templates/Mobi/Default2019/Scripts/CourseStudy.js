@@ -121,6 +121,8 @@ var vdata = new Vue({
                     url: state.urlVideo,
                     container: document.getElementById("videoplayer"),
                     autoplay: true,
+                    loop:"loop",
+                    loggerLevel:0
                 });
             } else { //直播
                 var u = navigator.userAgent, app = navigator.appVersion;
@@ -166,7 +168,7 @@ var vdata = new Vue({
             //隐藏全屏按钮
             var fullbtn = document.getElementsByClassName("qplayer-fullscreen");
             for (var i = 0; i < fullbtn.length; i++) {
-                //fullbtn[i].style.display = "none";
+                fullbtn[i].style.display = "none";
             }
             //隐藏设置按钮(播放倍速也禁用了)
             var setbtn = document.getElementsByClassName("qplayer-settings-btn");
@@ -175,12 +177,13 @@ var vdata = new Vue({
             }
             //给video对象增加属性
             var video = document.querySelector("video");
+            /**/
             video.setAttribute("x5-playsinline","");
             video.setAttribute("playsinline",true);
-            video.setAttribute("webkit-playsinline",true);
-            video.setAttribute("x-webkit-airplay",true);
-            video.setAttribute("x5-video-player-type","h5");
-            video.setAttribute("x5-video-player-fullscreen","");
+            video.setAttribute("webkit-playsinline","");
+            //video.setAttribute("x-webkit-airplay",true);
+            //video.setAttribute("x5-video-player-type","h5");
+            video.setAttribute("x5-video-player-fullscreen","true");
             video.setAttribute("x5-video-orientation","portraint");
         },
         //章节列表的点击事件
