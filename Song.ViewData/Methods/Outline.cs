@@ -189,7 +189,8 @@ namespace Song.ViewData.Methods
                     }
                 }
                 //直播播放地址
-                dic.Add("urlVideo", urlVideo);
+                if(!dic.ContainsKey("urlVideo"))
+                    dic.Add("urlVideo", urlVideo);
                 //直播开始或结束
                 dic.Add("LiveStart", DateTime.Now > outline.Ol_LiveTime);
                 dic.Add("LiveOver", outline.Ol_LiveTime.AddMinutes(outline.Ol_LiveSpan) < DateTime.Now);
