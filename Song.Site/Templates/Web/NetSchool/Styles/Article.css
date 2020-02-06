@@ -75,8 +75,8 @@
 }
 
 #artIntro, #artIntro  span, #artIntro div ,#artIntro *{
-	font-size: 16px;
-	line-height: 25px;
+	font-size: 18px !important;
+	line-height: 36px !important;
 }
 #artBox #artImg {
 	text-align: center;
@@ -87,8 +87,10 @@
 }
 
 #artContext, #artContext  span, #artContext div ,#artContext p,#artContext font,#artContext strong{
-	font-size: 16px;
-	line-height: 25px;
+	font-size: 18px !important;
+	line-height: 36px !important;
+	
+	font-family: "Hiragino Sans GB","Microsoft Yahei",arial,\5b8b\4f53,"Helvetica Neue",Helvetica,STHeiTi,sans-serif  !important;;
 	background-color:transparent !important;
 }
 #artContext p{

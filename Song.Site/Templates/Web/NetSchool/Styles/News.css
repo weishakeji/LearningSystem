@@ -385,6 +385,9 @@ body {
 	background-position: 0px 8px;
 	text-indent: 15px;	
 }
+.newslist .item .newsItem a{
+	font-size:16px;
+}
 /*热门课程*/
 .hotCour{
 	min-height: 260px;
