@@ -166,12 +166,19 @@ namespace Song.Site.Manage.Exam
                     liCous.Selected = true;
                     ddlCourse_SelectedIndexChanged(null, null);
                 }                
-                //难度
-                ListItem liDiff = ddlDiff.Items.FindByValue(mm.Tp_Diff2.ToString());
+                //难度1
+                ListItem liDiff = ddlDiff.Items.FindByValue(mm.Tp_Diff.ToString());
                 if (liDiff != null)
                 {
                     ddlDiff.SelectedIndex = -1;
                     liDiff.Selected = true;
+                }
+                //难度2
+                ListItem liDiff2 = ddlDiff2.Items.FindByValue(mm.Tp_Diff2.ToString());
+                if (liDiff != null)
+                {
+                    ddlDiff2.SelectedIndex = -1;
+                    liDiff2.Selected = true;
                 }
                 //时长，总分，及格分
                 tbSpan.Text = mm.Tp_Span.ToString();
@@ -318,8 +325,14 @@ namespace Song.Site.Manage.Exam
             mm.Sbj_Name = ddlSubject.SelectedText;//专业名称
             int couid = 0;  //课程ID
             int.TryParse(ddlCourse.SelectedValue, out couid);
-            mm.Cou_ID = couid;  //设置课程id            
-            mm.Tp_Diff = mm.Tp_Diff2 = Convert.ToInt32(ddlDiff.SelectedValue);    //难易度
+            mm.Cou_ID = couid;  //设置课程id         
+            //难易度
+            int diff, diff2;
+            diff= Convert.ToInt32(ddlDiff.SelectedValue);
+            diff2 = Convert.ToInt32(ddlDiff2.SelectedValue);
+            mm.Tp_Diff = diff > diff2 ? diff2 : diff;
+            mm.Tp_Diff2 = diff > diff2 ? diff : diff2;
+           
             mm.Tp_Span = Convert.ToInt32(tbSpan.Text);  //考试限时时长
             mm.Tp_Total = Convert.ToInt32(tbTotal.Text);    //考试总分
             mm.Tp_PassScore = Convert.ToInt32(tbPassScore.Text);   //及极分            

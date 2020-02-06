@@ -362,7 +362,7 @@ namespace Song.ServiceImpls
                 float num = (float)t.TPI_Number;    //当前题型占的分数
                 if (count < 1) continue;
                 //当前类型的试题
-                Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesRandom(tp.Org_ID, (int)tp.Sbj_ID, tp.Cou_ID, -1, type, -1, -1, true, count);
+                Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesRandom(tp.Org_ID, (int)tp.Sbj_ID, tp.Cou_ID, -1, type,tp.Tp_Diff, tp.Tp_Diff2, true, count);
                 if (ques.Length < 1) continue;
                 ques = clacScore(ques, num);
                 dic.Add(t, ques);

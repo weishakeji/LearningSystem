@@ -65,7 +65,15 @@
             <asp:ListItem Value="3" Selected="true">3</asp:ListItem>
             <asp:ListItem Value="4">4</asp:ListItem>
             <asp:ListItem Value="5">5</asp:ListItem>
-          </asp:DropDownList></td>
+          </asp:DropDownList> - 
+          <asp:DropDownList ID="ddlDiff2" runat="server">
+            <asp:ListItem Value="1">1</asp:ListItem>
+            <asp:ListItem Value="2">2</asp:ListItem>
+            <asp:ListItem Value="3" Selected="true">3</asp:ListItem>
+            <asp:ListItem Value="4">4</asp:ListItem>
+            <asp:ListItem Value="5">5</asp:ListItem>
+          </asp:DropDownList>
+          </td>
       </tr>
       <tr>
         <td class="right"> 组卷人： </td>

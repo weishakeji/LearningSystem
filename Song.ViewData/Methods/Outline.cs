@@ -169,6 +169,7 @@ namespace Song.ViewData.Methods
                     if (ext == ".flv") videoUrl = Path.ChangeExtension(videoUrl, ".mp4");
                 }
                 dic.Add("urlVideo", canStudy ? videoUrl : string.Empty);
+                outline.Ol_IsLive = false;
             }
             //直播  
             bool isLive = outline.Ol_IsLive, isLiving = false;
