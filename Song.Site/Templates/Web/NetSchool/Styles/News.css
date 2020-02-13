@@ -321,7 +321,7 @@ body {
 	text-decoration: underline;
 }
 .order{
-	height: 260px;
+	height: 310px;
 	width: 375px;
 	margin-right: 23px;
 	margin-bottom:3px;
@@ -372,10 +372,10 @@ body {
 	margin-left:5px;
 }
 .newslist .item .newsItem {
-	line-height: 22px;
+	line-height: 24px;
 	white-space: nowrap;
 	float: left;
-	height: 26px;
+	height: 32px;
 	width: 310px;
 	overflow: hidden;
 	margin-left: 5px;
@@ -418,10 +418,12 @@ body {
 	margin: 0px;
 	padding: 0px;
 	text-align: center;
+	transition: width 0.3s, height 0.3s;
 }
 .cour-img img{
 	width: 220px;
 	height:125px;
+	transition: width 0.3s, height 0.3s;
 }
 .cour-img:hover{
 	

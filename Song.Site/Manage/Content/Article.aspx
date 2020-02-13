@@ -59,7 +59,7 @@
                         </asp:DropDownList>
                     </td>
                 </tr>
-                <tr>
+                <tr style="display:none">
                     <td class="right">
                         所属专题：
                     </td>

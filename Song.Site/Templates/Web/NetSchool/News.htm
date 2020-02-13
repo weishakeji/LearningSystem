@@ -17,7 +17,7 @@
     <div class="notice box" >
       <div class="boxTit tit"> <span class="txt">通知公告</span> <a href="/notices.ashx">&nbsp;</a> </div>
       <div class="newslist">
-         <vt:list type="notice" item="data" index="i" count="10">
+         <vt:list type="notice" item="data" index="i" count="8">
           <div class="item" noid="{$:#.data.no_id}">
             <div class="newsItem"><a href="/notice.ashx?id={$:#.data.no_id}" title="{$:#.data.no_ttl}"> {$:#.data.no_ttl}</a> </div>
             <div class="newsTime">{$:#.data.no_startTime  format="[MM-dd]"}</div>
@@ -29,7 +29,7 @@
                 <div class="example2">
                     <ul>
                         <vt:list type="news" var="newsImg" item="data" order="img" index="i" count="4" remark="图片资讯">
-            <li><a href="/article.ashx?id={$:#.data.art_id}" target="_blank"><img src="{$:#.data.art_logo}" style="width:499px; height:317px" alt="{$:i}"/> </a></li>
+            <li><a href="/article.ashx?id={$:#.data.art_id}" target="_blank"><img src="{$:#.data.art_logo}" default='images/cou_nophoto.jpg' style="width:499px; height:317px" alt="{$:i}"/> </a></li>
           </vt:list>
                     </ul>
                     <ol>
@@ -52,7 +52,7 @@
         <span class="txt">热点资讯</span>
        <a href="/news.ashx">&nbsp;</a> </div>
       <div class="newslist">
-        <vt:list type="news" item="data" columns="-1" index="i" count="10" remark="columns为资讯栏目Id">
+        <vt:list type="news" item="data" columns="-1" index="i" count="8" remark="columns为资讯栏目Id">
           <div class="item" artid="{$:#.data.art_id}">
             <div class="newsItem"> <a href="../../article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}">{$:#.data.art_title}</a> </div>
             <div class="newsTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
