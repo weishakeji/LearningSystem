@@ -1075,6 +1075,9 @@
     <Content Include="Templates\Web\NetSchool\Inc\meta.inc">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Templates\Web\NetSchool\Inc\meta_art.inc">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Templates\Web\NetSchool\mobi.htm" />
     <Content Include="Pay\Alipaywap\notify_url.aspx" />
     <Content Include="Pay\Alipaywap\return_url.aspx" />
