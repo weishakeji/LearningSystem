@@ -1,4 +1,13 @@
 @charset "utf-8";
+#Context {
+	max-width: 1200px;
+	width:100%;
+	margin-top: 0px;
+	margin-right: auto;
+	margin-bottom: 0px;
+	margin-left: auto;
+	text-align: left;
+}
 #mainShow {
 	background-image: url(../Images/2.jpg);
 	background-repeat: no-repeat;
@@ -93,13 +102,15 @@
 #SecondBox {
 	margin-bottom: 20px;
 	height:630px;
+	width:100%;
 }
 #SecondBox .left {
 	width: 670px;
 	float: left;
+	overflow:hidden;
 }
 #SecondBox .right {
-	width: 500px;
+	width: calc(100% - 680px);
 	float: right;
 }
 /*标题*/
@@ -132,7 +143,7 @@
 	text-decoration: none;
 }
 .imgbox {
-	width: 110%;
+	width: 100%;
 	margin-bottom: 10px;
 	height: 350px;
 }
@@ -141,12 +152,14 @@
 	height: 330px;
 	list-style-type: none;
 	float: left;
-	margin-top: 30px;
-	margin-right: 30px;
+	margin-top: 30px;	
 	margin-bottom: 30px;
 	margin-left: 0px;
 	overflow: visible;
 	position: relative;
+}
+.imgbox dd:first-child{
+	margin-right:30px;
 }
 .imgbox dd img {
 	width: 320px;
@@ -191,14 +204,17 @@
 	border-top-color: #999;
 }
 .newsbox {
-	width: 110%;
+	width: 100%;
 	height: 210px;
 }
 .nlistbox {
 	margin-top: 20px;
 	height: 180px;
 	float: left;
-	margin-right: 20px;
+	margin-right: 0px;
+}
+.newsbox .nlistbox:first-child{
+	margin-right:30px;
 }
 .artItem {
 	width: 320px;
@@ -219,6 +235,7 @@
 	background-position: 0px 8px;
 	text-indent: 15px;
 }
+
 .artItem .arttime {
 	color: #999999;
 	float: right;
@@ -264,6 +281,7 @@
 	height: 60px;
 	line-height: 30px;
 	width: 350px;
+	width:calc(100% - 150px);
 	overflow: hidden;
 	margin-top: -2px;
 }
@@ -291,7 +309,8 @@
 	font-family: "microsoft yahei";
 }
 .link-items {
-	width: 500px;
+	max-width: 500px;
+	width:100%;
 	height: 150px;
 	overflow: hidden;
 }

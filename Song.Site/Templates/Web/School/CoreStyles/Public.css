@@ -76,14 +76,14 @@ img {
 	margin-left: auto;
 	text-align: left;
 	height: 70px;
-	width: 1200px;
+	max-width: 1200px;
 	background-color: #FFFFFF;
 	position: relative;
 }
 #header .logo {
 	float: left;
-	margin-top: 2px;
-	max-height: 80px;
+	margin-top: 10px;
+	max-height: 60px;
 	max-width: 640px;
 }
 .topright {
@@ -265,24 +265,34 @@ img {
 	border-bottom-color: #199475;
 }
 .menubBar dl {
-	width: 1200px;
+	max-width: 1200px;
 	margin-right: auto;
 	margin-left: auto;
 	height: 45px;
 	padding: 0px;
 	margin-top: 0px;
 	margin-bottom: 0px;
+	box-orient: horizontal;
+  display: -webkit-box;
+  -moz-display: -moz-box;
+  display: flex;
+  flex-direction:row;
 }
 .menubBar dl dd {
 	line-height: 45px;
-	float: left;
+	
 	height: 45px;
-	width: 142px;
+	width: auto;
+	padding: 0px 10px 0px 10px;
 	text-align: center;
 	font-size: 15px;
 	font-weight: bold;
 	margin: 0px;
-	padding: 0px;
+	-webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  flex:1;
+
 }
 .menubBar dl dd a {
 	color: #FFFFFF;
