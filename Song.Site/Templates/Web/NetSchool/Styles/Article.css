@@ -80,10 +80,11 @@
 }
 #artBox #artImg {
 	text-align: center;
+	100%;
 }
 
 #artBox #artImg img {
-	max-width:980px;
+	max-width:100%;
 }
 
 #artContext, #artContext  span, #artContext div ,#artContext p,#artContext font,#artContext strong{
