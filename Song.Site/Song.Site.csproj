@@ -1595,7 +1595,9 @@
     <Content Include="Utility\CkplayerX1\sample\hls.html" />
     <Content Include="Utility\CkplayerX1\请看一下.txt" />
     <Content Include="Utility\Ckplayer\ckplayer\ckplayer_h5.js" />
-    <Content Include="Utility\Copyright.xsl" />
+    <Content Include="Utility\Copyright.xsl">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Utility\CoreScripts\api.js" />
     <Content Include="Utility\CoreScripts\axios.min.js" />
     <Content Include="Utility\CoreScripts\axios_min.js" />
