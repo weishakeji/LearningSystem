@@ -134,7 +134,7 @@ function default_event() {
                         $(this).attr("src", errImg);
                     });
                 }
-                list.append("<a class='list-more' type='link' href='courses.ashx?sbjids=" + sbjid + "'>更多课程点这里...</a>");
+                //list.append("<a class='list-more' type='link' href='courses.ashx?sbjids=" + sbjid + "'>更多课程点这里...</a>");
                 if (d.object.length <= 0) {
                     $(".cour-list[sbjid=" + sbjid + "]").html("<null>当前分类没有课程信息！</null>");
                 }

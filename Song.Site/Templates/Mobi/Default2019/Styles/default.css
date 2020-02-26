@@ -215,6 +215,9 @@ a {
 	text-align: center;
 	width: 100%;
 	margin-bottom: 50px;
+	 display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
 }
 
 .cour-list .loading {
@@ -234,6 +237,7 @@ a {
 	width: 90%;
 	margin-left: 5%;
 	margin-right: 5%;
+	margin-top: 50px;
 	font-weight: normal;
 }
 
@@ -256,9 +260,7 @@ a {
 }
 
 .cour-list .cour-box {
-	width: 44%;
-	
-	float: left;
+	width: 44%;	
 	text-align: center;
 	position: relative;
 }
