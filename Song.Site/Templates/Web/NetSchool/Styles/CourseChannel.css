@@ -47,22 +47,29 @@
 	border-bottom-style: solid;
 	border-left-style: none;
 	border-bottom-color: #CCC;	
+		
+	 display: flex;
+  flex-direction:row;
 }
-.row-right-tit .tititem, .tititem a{
-	float: left;
-	font-size: 15px;
-	line-height: 40px;
-	font-family: "Microsoft YaHei", "微软雅黑", "MicrosoftJhengHei", "华文细黑", STHeiti, MingLiu;
+.row-right-tit .tititem{
+	flex:1;
+	height: 40px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	width:auto;
 	text-align: center;
+}
+.row-right-tit .tititem a{
+	font-size: 15px;
+	line-height: 40px;	
 	width: auto;
 	cursor: pointer;
 	height: 40px;
-	padding-right: 20px;
-	padding-left: 20px;
 	color: #333;
 	text-decoration: none;
 }
-.row-right-tit .titleOver, .titleOver a{
+.row-right-tit .titleOver{
 	color: #188eee;
 	border-bottom-width: 2px;
 	border-top-style: none;
@@ -115,7 +122,7 @@
 	line-height: 20px;
 	color: #333;
 	display: block;
-	height: 40px;
+	max-height: 40px;
 	text-align: left;
 	font-size: 15px;
 	overflow: hidden;
@@ -132,6 +139,7 @@
 	white-space: nowrap;
 	text-overflow:ellipsis;
 	text-align:left;
+	width:100%;	
 }
 .cour-price .free {
 	color: #090;	

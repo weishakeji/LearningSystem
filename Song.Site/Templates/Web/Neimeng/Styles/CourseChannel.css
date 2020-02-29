@@ -47,12 +47,22 @@
 	border-bottom-style: solid;
 	border-left-style: none;
 	border-bottom-color: #CCC;	
+	 display: flex;
+  flex-direction:row;
 }
-.row-right-tit .tititem, .tititem a{
-	float: left;
+.row-right-tit .tititem{
+flex:1;
+	height: 40px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+	width:auto;
+	text-align: center;
+}
+.row-right-tit .tititem a{
+
 	font-size: 15px;
-	line-height: 40px;
-	font-family: "Microsoft YaHei", "微软雅黑", "MicrosoftJhengHei", "华文细黑", STHeiti, MingLiu;
+	line-height: 40px;	
 	text-align: center;
 	width: auto;
 	cursor: pointer;
@@ -62,7 +72,7 @@
 	color: #333;
 	text-decoration: none;
 }
-.row-right-tit .titleOver, .titleOver a{
+.row-right-tit .titleOver{
 	color: #188eee;
 	border-bottom-width: 2px;
 	border-top-style: none;
@@ -79,6 +89,9 @@
 }
 .cour-panel{
 	display:none;
+}
+.cour-panel:first-child{
+	display:block;
 }
 .course-item{
 	float: left;
@@ -102,20 +115,24 @@
 }
 .cour-img img{
 	width: 220px;
-
+	height:125px;
 }
 .cour-img:hover{
 	
 }
 .cour-img:hover img{
-	box-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+	width: 216px;
+	height:121px;
+	border: 2px solid #fff;
+	filter: alpha(Opacity=85);
+	-moz-opacity: 0.85;
 	opacity: 0.85;
 }
 .cour-name{
 	line-height: 20px;
 	color: #333;
 	display: block;
-	height: 40px;
+	max-height: 40px;
 	text-align: left;
 	font-size: 15px;
 	overflow: hidden;
@@ -131,7 +148,6 @@
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow:ellipsis;
-	text-align:left;
 }
 .cour-price .free {
 	color: #090;	
