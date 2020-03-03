@@ -89,6 +89,7 @@ namespace Song.ServiceImpls
                 entity.Ac_Age = card.Birthday.Year;
                 entity.Ac_Sex = card.Sex;
                 entity.Ac_Birthday = card.Birthday;
+                entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
             }
             else
             {
@@ -128,6 +129,7 @@ namespace Song.ServiceImpls
                 entity.Ac_Age = card.Birthday.Year;
                 entity.Ac_Sex = card.Sex;
                 entity.Ac_Birthday = card.Birthday;
+                entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
             }
             else
             {
