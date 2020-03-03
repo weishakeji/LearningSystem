@@ -72,7 +72,7 @@
                 身份证：
             </td>
             <td>
-                <asp:TextBox ID="Ac_IDCardNumber" runat="server" Enabled=false></asp:TextBox>
+                <asp:TextBox ID="Ac_IDCardNumber" runat="server" datatype="idcard"></asp:TextBox>
             </td>
         </tr>
         <tr>

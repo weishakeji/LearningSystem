@@ -82,12 +82,22 @@ namespace Song.ServiceImpls
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                 if (org != null) entity.Org_ID = org.Org_ID;
             }
-            //如果用户自己设置了年龄，则记录出生年份
-            if (entity.Ac_Age > 0) entity.Ac_Age = DateTime.Now.Year - entity.Ac_Age;
-            //计算年龄，如果设置了生日，则自动计算出生年月
-            if (entity.Ac_Birthday > DateTime.Now.AddYears(-100))
-                entity.Ac_Age = entity.Ac_Birthday.Year;
-                  
+            //如果身份证不为空，则解析生日
+            if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
+            {
+                IDCardNumber card = IDCardNumber.Get(entity.Ac_IDCardNumber);
+                entity.Ac_Age = card.Birthday.Year;
+                entity.Ac_Sex = card.Sex;
+                entity.Ac_Birthday = card.Birthday;
+            }
+            else
+            {
+                //如果用户自己设置了年龄，则记录出生年份
+                if (entity.Ac_Age > 0) entity.Ac_Age = DateTime.Now.Year - entity.Ac_Age;
+                //计算年龄，如果设置了生日，则自动计算出生年月
+                if (entity.Ac_Birthday > DateTime.Now.AddYears(-100))
+                    entity.Ac_Age = entity.Ac_Birthday.Year;
+            }
             //如果密码为空
             if (string.IsNullOrWhiteSpace(entity.Ac_Pw))
                 entity.Ac_Pw = WeiSha.Common.Login.Get["Accounts"].DefaultPw.MD5;
@@ -111,7 +121,22 @@ namespace Song.ServiceImpls
             //如果密码不为空
             //if (!string.IsNullOrWhiteSpace(entity.Ac_Pw))
             //    entity.Ac_Pw = new WeiSha.Common.Param.Method.ConvertToAnyValue(entity.Ac_Pw).MD5; 
-           
+            //如果身份证不为空，则解析生日
+            if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
+            {
+                IDCardNumber card = IDCardNumber.Get(entity.Ac_IDCardNumber);
+                entity.Ac_Age = card.Birthday.Year;
+                entity.Ac_Sex = card.Sex;
+                entity.Ac_Birthday = card.Birthday;
+            }
+            else
+            {
+                //如果用户自己设置了年龄，则记录出生年份
+                if (entity.Ac_Age > 0) entity.Ac_Age = DateTime.Now.Year - entity.Ac_Age;
+                //计算年龄，如果设置了生日，则自动计算出生年月
+                if (entity.Ac_Birthday > DateTime.Now.AddYears(-100))
+                    entity.Ac_Age = entity.Ac_Birthday.Year;
+            }
             //获取原有数据
             //Accounts old = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == entity.Ac_ID).ToFirst<Accounts>();
             using (DbTrans tran = Gateway.Default.BeginTrans())
