@@ -176,16 +176,24 @@ var vdata = new Vue({
 			for (var i = 0; i < setbtn.length; i++) {
 				//setbtn[i].style.display = "none";
 			}
+			window.setInterval(function() {
+				var video = document.querySelector("video");
+
+				video.setAttribute("x5-playsinline", "true");
+				video.setAttribute("playsinline", "true");
+				video.setAttribute("webkit-playsinline", "true");
+				//
+				//video.setAttribute("x-webkit-airplay",true);
+				//video.setAttribute("x5-video-player-type","h5");
+				//
+				video.removeAttribute("controls");
+				video.setAttribute("x5-video-player-fullscreen", "true");
+				video.setAttribute("x5-video-orientation", "portraint");
+				video.setAttribute("controlsList", "nodownload");
+			}, 6000);
 			//给video对象增加属性
 			var video = document.querySelector("video");
-			/**/
-			video.setAttribute("x5-playsinline", "");
-			video.setAttribute("playsinline", true);
-			video.setAttribute("webkit-playsinline", "");
-			//video.setAttribute("x-webkit-airplay",true);
-			//video.setAttribute("x5-video-player-type","h5");
-			video.setAttribute("x5-video-player-fullscreen", "true");
-			video.setAttribute("x5-video-orientation", "portraint");
+
 		},
 		//章节列表的点击事件
 		outlineClick: function(olid, event) {

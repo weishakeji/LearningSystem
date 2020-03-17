@@ -85,11 +85,17 @@ namespace Song.ServiceImpls
             //如果身份证不为空，则解析生日
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
             {
-                IDCardNumber card = IDCardNumber.Get(entity.Ac_IDCardNumber);
-                entity.Ac_Age = card.Birthday.Year;
-                entity.Ac_Sex = card.Sex;
-                entity.Ac_Birthday = card.Birthday;
-                entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
+                try
+                {
+                    IDCardNumber card = IDCardNumber.Get(entity.Ac_IDCardNumber);
+                    entity.Ac_Age = card.Birthday.Year;
+                    entity.Ac_Sex = card.Sex;
+                    entity.Ac_Birthday = card.Birthday;
+                    entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
+                }
+                catch
+                {
+                }
             }
             else
             {
@@ -125,11 +131,17 @@ namespace Song.ServiceImpls
             //如果身份证不为空，则解析生日
             if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
             {
-                IDCardNumber card = IDCardNumber.Get(entity.Ac_IDCardNumber);
-                entity.Ac_Age = card.Birthday.Year;
-                entity.Ac_Sex = card.Sex;
-                entity.Ac_Birthday = card.Birthday;
-                entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
+                try
+                {
+                    IDCardNumber card = IDCardNumber.Get(entity.Ac_IDCardNumber);
+                    entity.Ac_Age = card.Birthday.Year;
+                    entity.Ac_Sex = card.Sex;
+                    entity.Ac_Birthday = card.Birthday;
+                    entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
+                }
+                catch
+                {
+                }
             }
             else
             {
