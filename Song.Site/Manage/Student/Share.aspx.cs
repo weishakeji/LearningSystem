@@ -18,7 +18,7 @@ namespace Song.Site.Manage.Student
         protected void Page_Load(object sender, EventArgs e)
         {
             Song.Entities.Accounts acc = this.Master.Account;
-
+            if (acc == null) return;
             //分享链接
             string url = "http://{0}{1}/default.ashx?sharekeyid={2}";
             //端口
