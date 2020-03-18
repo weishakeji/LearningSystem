@@ -118,12 +118,12 @@ var vdata = new Vue({
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
                             type: 'warning'
-                        }).then(() => {
+                        }).then(function() {
                             vdata.videoSeek(vdata.state.PlayTime / 1000);
                             window.setTimeout(function() {
                                 if (vdata.playready()) vdata.player.play();
                             }, 500);
-                        }).catch(() => {
+                        }).catch(function() {
 
                         });
                     }
