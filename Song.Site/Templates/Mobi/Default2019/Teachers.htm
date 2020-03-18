@@ -13,7 +13,11 @@
     <vt:list type="teacher" item="data" index="i" remark="教师列表">
       <div class="mui-card"> 
         <!--页眉，放置标题-->
-        <div class="mui-card-header">{$:#.data.th_name}<a href="tel:{$:#.data.Th_PhoneMobi}" type="tel" class="th-tel"><b></b>{$:#.data.Th_PhoneMobi}</a></div>
+        <div class="mui-card-header">{$:#.data.th_name}
+        <vt:if var="data.Th_IsOpenMobi" value="true" compare="=">
+        <a href="tel:{$:#.data.Th_PhoneMobi}" type="tel" class="th-tel"><b></b>{$:#.data.Th_PhoneMobi}</a>
+        </vt:if>
+        </div>
         <!--内容区-->
         <div class="mui-card-content">
           <div class="teacher" thname="{$:#.data.th_name}" thid="{$:#.data.th_id}">
