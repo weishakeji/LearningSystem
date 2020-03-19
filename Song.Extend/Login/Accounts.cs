@@ -142,6 +142,7 @@ namespace Song.Extend.Login
                     for (int i = list.Count - 1; i >= 0; i--)
                     {
                         Song.Entities.Accounts em = list[i];
+                        if (em == null) continue;
                         if (em.Ac_ID == acid)
                         {
                             //如果不是在微信中，同一账号不能同时登录

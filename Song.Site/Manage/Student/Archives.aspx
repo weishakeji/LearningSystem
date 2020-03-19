@@ -46,8 +46,9 @@
             <asp:TemplateField HeaderText="回顾">
                 <ItemStyle CssClass="center" Width="60px" />
                 <ItemTemplate>
-                    <a href="#" onclick="OpenWin('/ExamReview.ashx?id=<%# Eval("Exr_ID")%>&stid=<%# Eval("Ac_Id")%>','<%# Eval("Exam_Title","考试回顾：《{0}》")%>',980,95);return false;">
-                        回顾</a>
+                   <%-- <a href="#" onclick="OpenWin('/ExamReview.ashx?id=<%# Eval("Exr_ID")%>&stid=<%# Eval("Ac_Id")%>','<%# Eval("Exam_Title","考试回顾：《{0}》")%>',980,95);return false;">
+                        回顾</a>--%>
+                         <a href='/ExamReview.ashx?id=<%# Eval("Exr_ID")%>&stid=<%# Eval("Ac_Id")%>' target='_blank'>回顾</a>
                 </ItemTemplate>
             </asp:TemplateField>
            <%-- <asp:TemplateField HeaderText="模拟测试">

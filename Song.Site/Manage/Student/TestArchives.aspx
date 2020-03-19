@@ -41,7 +41,8 @@
              <asp:TemplateField HeaderText="回顾">
                 <itemstyle cssclass="center"  Width="60px" />
                 <itemtemplate>
-                <a href="#" onclick="OpenWin('/testview.ashx?trid=<%# Eval("Tr_ID")%>&tpid=<%# Eval("tp_Id")%>','<%# Eval("Tp_Name","测试回顾：《{0}》")%>',980,100);return false;">回顾</a>
+               <%-- <a href="#" onclick="OpenWin('/testview.ashx?trid=<%# Eval("Tr_ID")%>&tpid=<%# Eval("tp_Id")%>','<%# Eval("Tp_Name","测试回顾：《{0}》")%>',980,100);return false;">回顾</a>--%>
+                 <a href='/testview.ashx?trid=<%# Eval("Tr_ID")%>&tpid=<%# Eval("tp_Id")%>' target='_blank'>回顾</a>
 </itemtemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="成绩">

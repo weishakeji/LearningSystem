@@ -670,6 +670,7 @@ namespace Song.ServiceImpls
                 wc.And(wcSbjid);
             }
             if (isUse != null) wc.And(Course._.Cou_IsUse == (bool)isUse);
+            if (order == "live") isLive = true;
             if (isLive != null) wc.And(Course._.Cou_ExistLive == (bool)isLive);
             if (!string.IsNullOrWhiteSpace(searTxt)) wc.And(Course._.Cou_Name.Like("%" + searTxt.Trim() + "%"));
             countSum = Gateway.Default.Count<Course>(wc);
@@ -684,6 +685,7 @@ namespace Song.ServiceImpls
                 wc.And(Course._.Cou_IsFree == true);
                 wcOrder = Course._.Cou_IsFree.Desc & Course._.Cou_Tax.Desc;
             }
+            //if (order == "live") wc.And();
             return Gateway.Default.From<Course>().Where(wc).OrderBy(wcOrder).ToList<Course>(size, (index - 1) * size);
         }
         /// <summary>
