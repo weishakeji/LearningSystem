@@ -318,6 +318,7 @@ namespace Song.Extend.Login
             {               
                 for (int i = 0; i < list.Count; i++)
                 {
+                    if (list[i] == null) continue;
                     if (list[i].Ac_ID == st.Ac_ID)
                     {
                         //登录时间，该时间不入数据库，仅为临时使用
@@ -377,6 +378,7 @@ namespace Song.Extend.Login
                 for (int i = list.Count - 1; i >= 0; i--)
                 {
                     Song.Entities.Accounts em = list[i];
+                    if (em == null) continue;
                     if (DateTime.Now > em.Ac_LastTime.AddMinutes(outTimeNumer))
                     {
                         list.RemoveAt(i);
@@ -397,6 +399,7 @@ namespace Song.Extend.Login
             {
                 for (int i = list.Count - 1; i >= 0; i--)
                 {
+                    if (list[i] == null) continue;
                     if (list[i].Ac_ID == accid)
                     {
                         list.RemoveAt(i);
