@@ -54,7 +54,12 @@
 </itemtemplate>
                 <itemstyle cssclass="left" />
             </asp:TemplateField>
-        
+         <asp:TemplateField HeaderText="预览">
+                <itemtemplate>
+<a href='/article.ashx?id=<%# Eval("Art_Id")%>' target="_blank">预览</a>
+</itemtemplate>
+                <itemstyle cssclass="center" width="60px" />
+            </asp:TemplateField>
             <asp:TemplateField HeaderText="显示">
                 <itemtemplate>
 <cc1:StateButton id="sbShow" onclick="sbShow_Click" runat="server" TrueText="显示" FalseText="隐藏" State='<%# Eval("Art_IsShow","{0}")=="True"%>'></cc1:StateButton> 
