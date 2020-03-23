@@ -23,6 +23,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Cache(Expires = 60)]
         public Song.Entities.Course ForID(int id)
         {
             Song.Entities.Course cur = Business.Do<ICourse>().CourseSingle(id);

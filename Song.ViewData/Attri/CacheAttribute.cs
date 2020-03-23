@@ -34,7 +34,7 @@ namespace Song.ViewData.Attri
         /// <returns></returns>
         public static object GetResult(MethodInfo method, Letter letter)
         {
-            string cacheName = string.Format("{0}_[{1}]",method.Name,letter.ToString());
+            string cacheName = string.Format("ViewData_{0}_[{1}]", method.Name, letter.ToString());
             return HttpRuntime.Cache.Get(cacheName);
         }
         /// <summary>
@@ -47,7 +47,7 @@ namespace Song.ViewData.Attri
         public static void Insert(int expires, MethodInfo method, Letter letter, object result)
         {
             //缓存名称
-            string cacheName = string.Format("{0}_[{1}]", method.Name, letter.ToString());
+            string cacheName = string.Format("ViewData_{0}_[{1}]", method.Name, letter.ToString());
             //过期时间
             DateTime expTime = DateTime.Now.AddMinutes(expires);
             HttpRuntime.Cache.Insert(cacheName, result, null, expTime, TimeSpan.Zero);
