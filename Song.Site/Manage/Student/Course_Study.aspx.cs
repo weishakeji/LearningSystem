@@ -65,7 +65,7 @@ namespace Song.Site.Manage.Student
             Song.Entities.Accounts st = this.Master.Account;
             if (st == null) return;
             //购买的课程(含概试用的）
-            List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(st.Ac_ID, null, 1,null,-1);
+            List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(st.Ac_ID, null, 0,null,-1);
             foreach (Song.Entities.Course c in cous)
             {
                 //课程图片
