@@ -259,8 +259,8 @@ namespace Song.ViewData.Methods
     public class Helper_API_Method_Attr
     {
         public string Name { get; set; }     //特性名称
-        public bool Ignore { get; set; }    
-        
+        public bool Ignore { get; set; }
+        public int Expires { get; set; }   //缓存的过期时效
         public static Helper_API_Method_Attr[] GetAttrs(MethodInfo method)
         {
             //所有特性
@@ -297,21 +297,23 @@ namespace Song.ViewData.Methods
                     }
                 }   
             }
-            //ignore为true的全部移除
+            //ignore为true的全部移除，不输出
             for (int i = 0; i < list.Count; i++)
             {
-                if (list[i].Ignore) list.RemoveAt(i);
+                WeishaAttr attr = list[i] as WeishaAttr;
+                if (attr == null) continue;
+                if (attr.Ignore) list.RemoveAt(i);
             }
-            //去除Attribute
+            //去除"Attribute"字样
             Helper_API_Method_Attr[] arr = new Helper_API_Method_Attr[list.Count];
             for (int i = 0; i < arr.Length; i++)
             {
                 arr[i] = new Helper_API_Method_Attr();
                 arr[i].Name = list[i].GetType().Name.Replace("Attribute", "");
-                if (list[i] is WeishaAttr)
-                {
+                if (list[i] is WeishaAttr)               
                     arr[i].Ignore = ((WeishaAttr)list[i]).Ignore;
-                }
+                if (list[i] is CacheAttribute)
+                    arr[i].Expires = ((CacheAttribute)list[i]).Expires;
             }            
             return arr;
         }

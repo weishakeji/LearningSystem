@@ -184,7 +184,11 @@ context {
     font-size: 16px;
     line-height: 30px;
 }
-
+.method attr i
+{
+    font-style:normal;   
+    font-size: 11px; 
+}
 .method name {
     font-weight: bold;
     font-size: 30px;

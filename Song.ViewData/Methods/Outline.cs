@@ -51,16 +51,14 @@ namespace Song.ViewData.Methods
         /// <param name="couid">所属课程的id</param>
         /// <returns></returns>
         [HttpGet,HttpPost]
+        [Cache(Expires=1)]
         public DataTable Tree(int couid)
         {
-            // 当前课程的所有章节            
+            // 当前课程的所有章节
             Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
             if (outlines.Length > 0)
             {
-                foreach (Song.Entities.Outline ol in outlines)
-                {
-                    ol.Ol_Intro = string.Empty;
-                }
+                foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;                
                 //树形章节输出
                 DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
                 return dt;

@@ -33,11 +33,14 @@
             </menu>
             <context id="context"> 
                   <div class="method" v-if="method!=null">
-                            <atrr><b>特性：</b>
-                              <span v-for="item in method.Attrs">[{{item.Name}}<i v-show='item.Ignore'>
-                                          (Ignore={{item.Ignore}})</i>]  </span>
+                            <attr><b>特性：</b>
+                              <span v-for="item in method.Attrs">[{{item.Name}}
+                              <i v-show='item.Ignore'>
+                                          (Ignore={{item.Ignore}})</i>  
+                              <i v-show='item.Expires>0' title='缓存过期时间'>
+                                          (Expires={{item.Expires}})</i>]  </span>
                               <span v-if="method.Attrs.length<1">无</span>
-                        </atrr>
+                        </attr>
                         <name>{{method.ClassName +'.'+method.Name}}<para>{{parameter}}</para></name>                        
                         <intro><b>摘要：</b>{{method.Intro}}</intro>                        
                         <params>

@@ -98,7 +98,24 @@ namespace Song.ViewData
             //4.构建执行该方法所需要的参数
             object[] parameters = getInvokeParam(method, letter);
             //5.执行方法，返回结果
-            object objResult = method.Invoke(execObj, parameters);
+            object objResult = null;    //结果
+            //只有get方式时，才使用缓存
+            CacheAttribute cache = null;
+            if (letter.HTTP_METHOD == "GET")           
+                cache = CacheAttribute.GetAttr<CacheAttribute>(method);       
+            if (cache != null)
+            {
+                objResult = CacheAttribute.GetResult(method, letter);
+                if (objResult == null)
+                {
+                    objResult = method.Invoke(execObj, parameters);
+                    CacheAttribute.Insert(cache.Expires, method, letter, objResult);
+                }
+            }
+            else
+            {
+                objResult = method.Invoke(execObj, parameters);
+            }            
             //将执行结果写入日志
             LoginAttribute.LogWrite(loginattr, objResult);
             return objResult;
