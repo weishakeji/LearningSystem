@@ -52,7 +52,7 @@
             }
             //显示视频
             var video = document.querySelector("video");
-            video.style.display = "";
+            if (video.size() > 0) video.style.display = "";
         });
     }
 </script>

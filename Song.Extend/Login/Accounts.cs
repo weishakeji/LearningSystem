@@ -293,6 +293,7 @@ namespace Song.Extend.Login
             List<Song.Entities.Accounts> list = this.OnlineUser;
             for (int i = 0; i < list.Count; i++)
             {
+                if (list[i] == null) continue;
                 if (list[i].Ac_ID == acc.Ac_ID)
                 {
                     list[i] = acc;
