@@ -35,6 +35,14 @@ namespace Song.ViewData
         /// </summary>
         public DateTime DateTime { get; set; }
         /// <summary>
+        /// 执行耗时（单位：毫秒）
+        /// </summary>
+        public double ExecSpan { get; set; }
+        /// <summary>
+        /// web端执行耗时（单位：毫秒）
+        /// </summary>
+        public double WebSpan { get; set; }
+        /// <summary>
         /// 执行时间的时间戳
         /// </summary>
         public long Timestamp { get; set; }
@@ -63,6 +71,9 @@ namespace Song.ViewData
             Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds; 
             Message = obj != null ? "" : "未查询到数据";
         }
+        public DataResult(object obj,double span):this(obj){
+            this.ExecSpan = span;
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -83,6 +94,7 @@ namespace Song.ViewData
             }
             State = 0;
         }
+
         /// <summary>
         /// 
         /// </summary>
