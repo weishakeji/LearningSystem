@@ -85,7 +85,7 @@ namespace Song.Site.Manage.Questions
             Song.Entities.Questions mm;
             if (id != 0)
             {
-                mm = Business.Do<IQuestions>().QuesSingle(id);
+                mm = Business.Do<IQuestions>().QuesSingle(id, false);
                 cbIsUse.Checked = mm.Qus_IsUse;
                 //唯一标识
                 ViewState["UID"] = mm.Qus_UID;

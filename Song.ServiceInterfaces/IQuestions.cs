@@ -47,6 +47,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Questions QuesSingle(int identify);
         /// <summary>
+        ///  获取单一实体对象，按主键ID；
+        /// </summary>
+        /// <param name="identify"></param>
+        /// <param name="cache">是否来自缓存</param>
+        /// <returns></returns>
+        Questions QuesSingle(int identify,bool cache);
+        /// <summary>
         /// 获取单一实体对象，按UID
         /// </summary>
         /// <param name="uid">全局唯一id</param>
