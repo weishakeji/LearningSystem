@@ -118,12 +118,12 @@ var vdata = new Vue({
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
                             type: 'warning'
-                        }).then(() => {
+                        }).then(function() {
                             vdata.videoSeek(vdata.state.PlayTime / 1000);
                             window.setTimeout(function() {
                                 if (vdata.playready()) vdata.player.play();
                             }, 500);
-                        }).catch(() => {
+                        }).catch(function() {
 
                         });
                     }
@@ -445,7 +445,7 @@ var vdata = new Vue({
             }
         });
         //定时刷新（加载）咨询留言
-        window.setInterval('vdata.msgGet()', 1000 * 10);
+        window.setInterval('vdata.msgGet()', 1000 * 20);
     },
     mounted: function() {
         //视频上面的漂浮信息（学员姓名和电话），防录屏

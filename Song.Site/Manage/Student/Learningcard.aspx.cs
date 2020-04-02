@@ -26,7 +26,8 @@ namespace Song.Site.Manage.Student
         protected int cardcount, usecount;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Song.Entities.Accounts st = Extend.LoginState.Accounts.CurrentUser;
+            if (st == null) return;
 
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {

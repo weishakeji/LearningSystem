@@ -952,6 +952,27 @@ select * from course as c inner join
                 DataTable dt = ds.Tables[0];
                 if (dt.Rows.Count > 0)
                 {
+                    //*****如果没有购买的，则去除
+                    //购买的课程(含概试用的）
+                    List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(acid, null, 1, null, -1);
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        bool isExist = false;
+                        for (int j = 0; j < cous.Count; j++)
+                        {
+                            if (dt.Rows[i]["Cou_ID"].ToString() == cous[j].Cou_ID.ToString())
+                            {
+                                isExist = true;
+                                break;
+                            }
+                        }
+                        if (!isExist)
+                        {
+                            dt.Rows.RemoveAt(i);
+                            i--;
+                        }
+                    }
+                    //计算完成度
                     foreach (DataRow dr in dt.Rows)
                     {
                         //课程的累计完成度

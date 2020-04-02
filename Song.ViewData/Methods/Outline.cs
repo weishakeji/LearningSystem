@@ -29,6 +29,7 @@ namespace Song.ViewData.Methods
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
+        [Cache(Expires = 20)]
         public Song.Entities.Outline ForID(int id)
         {
             return Business.Do<IOutline>().OutlineSingle(id);
@@ -40,6 +41,7 @@ namespace Song.ViewData.Methods
         /// <param name="pid">上级id</param>
         /// <returns></returns>
         [HttpGet(Ignore = true)]
+        [Cache(Expires = 20)]
         public Song.Entities.Outline[] List(int couid, int pid)
         {
             return Business.Do<IOutline>().OutlineCount(couid, pid, true, 0);
@@ -51,16 +53,14 @@ namespace Song.ViewData.Methods
         /// <param name="couid">所属课程的id</param>
         /// <returns></returns>
         [HttpGet,HttpPost]
+        [Cache(Expires=20)]
         public DataTable Tree(int couid)
         {
-            // 当前课程的所有章节            
+            // 当前课程的所有章节
             Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
             if (outlines.Length > 0)
             {
-                foreach (Song.Entities.Outline ol in outlines)
-                {
-                    ol.Ol_Intro = string.Empty;
-                }
+                foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;                
                 //树形章节输出
                 DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
                 return dt;
@@ -72,6 +72,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="oluid">章节的uid</param>
         /// <returns></returns>
+        [Cache(Expires = 20)]
         public List<Song.Entities.Accessory> Accessory(string uid)
         {
             //先判断是否购买课程
@@ -94,7 +95,7 @@ namespace Song.ViewData.Methods
                 ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
             return access;
         }
-
+        [Cache(Expires = 20)]
         public OutlineEvent[] VideoEvents(int olid)
         {
             OutlineEvent[] events = Business.Do<IOutline>().EventAll(-1, olid, -1, true);

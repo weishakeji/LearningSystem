@@ -29,7 +29,7 @@
 }
 #artArea #artBox {
 	margin-top: 20px;
-	min-height: 400px;
+	min-height: 1000px;
 	padding: 50px;
 	width: 850px;
 	float: left;
@@ -139,6 +139,7 @@
 	border-top-style: solid;
 	border-top-color: #CCCCCC;
 	padding-top: 20px;
+	width:952px;
 }
 .artNavi *, .artNavi  a{
 	font-size: 15px;
@@ -160,7 +161,6 @@
 	float: left;
 	height: 160px;
 	width: 220px;
-	margin-left: 25px;
 	margin-bottom: 50px;
 }
 .cour-img{

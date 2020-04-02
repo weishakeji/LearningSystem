@@ -17,6 +17,8 @@ namespace Song.Site.Manage.Student
         Song.Entities.Organization org = null;
         protected void Page_Load(object sender, EventArgs e)
         {
+            Song.Entities.Accounts st = this.Master.Account;
+            if (st == null) return;
             this.Form.DefaultButton = this.btnSear.UniqueID;
             org = Business.Do<IOrganization>().OrganCurrent();
             if (!IsPostBack)

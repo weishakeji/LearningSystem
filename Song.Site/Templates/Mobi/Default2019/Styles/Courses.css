@@ -45,7 +45,7 @@ input {
 	content: "\e620";
 }
 .btnBar .new:before {
-	content: "\e61e";
+	content: "\e73e";
 }
 .btnBar .hot:before {
 	content: "\e6be";

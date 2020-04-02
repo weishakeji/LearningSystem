@@ -33,10 +33,10 @@ namespace Song.Template.Tags.ListTag
                         Business.Do<ITeacher>().TeacherSave(t);
                     }
                 }
-                if (!string.IsNullOrWhiteSpace(t.Th_Photo))
-                {
+                if (!string.IsNullOrWhiteSpace(t.Th_Photo))                
                     t.Th_Photo = Upload.Get["Teacher"].Virtual + t.Th_Photo;
-                }
+               //是否显示电话
+
             }
             tag.DataSourse = teachers;    
         }

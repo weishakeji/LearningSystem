@@ -35,15 +35,18 @@ html,body
 }
 
 video::-internal-media-controls-download-button {
-	display: none;
+	display: none !important;
 }
 
 video::-webkit-media-controls-enclosure {
-	overflow: hidden;
+	overflow: hidden !important;
 }
-
+video::-webkit-media-controls {
+    overflow: hidden !important;
+}
 video::-webkit-media-controls-panel {
-	width: calc(100% + 30px);
+	width: calc(100% + 30px) !important;
+	 margin-left: auto;
 }
 
 /*返回首页*/

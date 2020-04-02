@@ -64,6 +64,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attri\CacheAttribute.cs" />
     <Compile Include="Attri\Client\MobileAttribute.cs" />
     <Compile Include="Attri\Client\WebAttribute.cs" />
     <Compile Include="Attri\Client\DesktopAttribute.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Methods\Teacher.cs" />
     <Compile Include="Methods\Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultCache.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
