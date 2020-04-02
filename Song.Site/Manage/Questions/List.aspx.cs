@@ -61,9 +61,9 @@ namespace Song.Site.Manage.Questions
                 ListItem liDdlType = ddlType.Items.FindByValue(type.ToString());
                 if (liDdlType != null) liDdlType.Selected = true;
             }
-            //
-            this.SearchBind(this.searchBox);
+            //            
             ddlSubject_SelectedIndexChanged(null, null);
+            //this.SearchBind(this.searchBox);
         }
         /// <summary>
         /// 专业选择变更事件
