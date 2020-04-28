@@ -77,6 +77,8 @@ namespace Song.Site.Manage.Course
                 cbIsLive.Checked = mm.Ol_IsLive;
                 tbLiveTime.Text = mm.Ol_LiveTime < DateTime.Now.AddYears(-100) ? "" : mm.Ol_LiveTime.ToString("yyyy-MM-dd HH:mm");
                 tbLiveSpan.Text = mm.Ol_LiveSpan == 0 ? "" : mm.Ol_LiveSpan.ToString();
+                //排序号
+                Ol_Tax.Text = mm.Ol_Tax.ToString();
             }
             else
             {
@@ -86,6 +88,7 @@ namespace Song.Site.Manage.Course
             }
             //标题
             Ol_Name.Text = mm.Ol_Name;
+            
             //简介
             Ol_Intro.Text = mm.Ol_Intro; 
         }
@@ -120,8 +123,15 @@ namespace Song.Site.Manage.Course
                 int liveSpan = 0;       //直播计划时长
                 int.TryParse(tbLiveSpan.Text, out liveSpan);
                 ol.Ol_LiveSpan = liveSpan;
-                //全局唯一ID
-                ol.Ol_UID = getUID();
+                //排序号
+                int tax = 0;
+                if (Ol_Tax.Text.Trim() != "")
+                {
+                    int.TryParse(Ol_Tax.Text, out tax);
+                    ol.Ol_Tax = tax;
+                }
+                ////全局唯一ID
+                //ol.Ol_UID = getUID();
                 try
                 {
                     if (id < 1)

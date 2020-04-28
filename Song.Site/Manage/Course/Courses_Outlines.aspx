@@ -11,10 +11,15 @@
        <uc2:toolsBar ID="ToolsBar1" runat="server" WinPath="Outline_Edit.aspx"
            AddButtonOpen="true" GvName="GridView1" WinWidth="80"  DelButtonVisible="false"
             WinHeight="80" InputButtonVisible="false" OutputButtonVisible="false" />
+        <span class="btnarea"><asp:Button ID="btnUse" CssClass="btnModfiy" runat="server" OnClick="btnModfiy_Click" Text="启用" />
+        <asp:Button ID="btnFinish"  OnClick="btnFinish_Click"  CssClass="btnGeneral" runat="server" Text="完结" />
+        <asp:Button ID="btnFree"  OnClick="btnFree_Click" CssClass="btnModfiy" runat="server" Text="免费" />
+        <asp:Button ID="btnNofree" OnClick="btnNofree_Click"  CssClass="btnGeneral" runat="server" Text="收费" />
+        </span>
        <%-- <asp:Button ID="btnAdd" runat="server" Text="新增" CssClass="btnAdd toolsBtn outlineName" />--%></div>
     <div loyout="row" overflow="auto">
         <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" SelectBoxKeyName="SelectBox"
-            ShowSelectBox="false" IsEncrypt="False">
+            ShowSelectBox="true" IsEncrypt="False">
             <EmptyDataTemplate>
                 <div style="text-align: center">
                     当前课程还没有添加章节</div>
@@ -25,6 +30,12 @@
                     <ItemTemplate>
                         <asp:LinkButton ID="lbUp" OnClick="lbUp_Click" runat="server" Enabled='<%# Container.DataItemIndex!=0 %>'>&#8593; </asp:LinkButton>
                         <asp:LinkButton ID="lbDown" OnClick="lbDown_Click" runat="server" Enabled='<%# Container.DataItemIndex+1< ((System.Data.DataTable)GridView1.DataSource).Rows.Count %>'>&#8595;</asp:LinkButton>
+                    </ItemTemplate>
+                    <ItemStyle CssClass="center" Width="50px" />
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="序号">
+                    <ItemTemplate>
+                       <%# Eval("Ol_Tax")%></span>
                     </ItemTemplate>
                     <ItemStyle CssClass="center" Width="50px" />
                 </asp:TemplateField>
