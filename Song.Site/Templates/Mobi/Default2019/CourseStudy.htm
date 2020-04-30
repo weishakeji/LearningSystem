@@ -28,7 +28,10 @@
                         <div id="novideoplayer"
                             v-show="JSON.stringify(outline) != '{}' && !state.existVideo && !state.isLive"
                             style="height: 100%;width:100%;" remark="没有视频">
-                            没有视频资源
+                            <span v-if="!state.isLogin">
+                              <a href="Login.ashx">未登录，点击此处登录！</a></span>
+                            <span v-if="state.isLogin">
+                              没有视频资源</span>
                         </div>
                         <div id="videoinfo" v-if="!state.otherVideo && !state.isLive" style="display: none;">
                             <span style="display: non6e">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>

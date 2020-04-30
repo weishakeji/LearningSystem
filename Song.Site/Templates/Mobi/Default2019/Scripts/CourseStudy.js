@@ -178,19 +178,19 @@ var vdata = new Vue({
 			}
 			window.setInterval(function() {
 				var video = document.querySelector("video");
-
-				video.setAttribute("x5-playsinline", "true");
-				video.setAttribute("playsinline", "true");
-				video.setAttribute("webkit-playsinline", "true");
-				//
-				//video.setAttribute("x-webkit-airplay",true);
-				//video.setAttribute("x5-video-player-type","h5");
-				//
-				video.removeAttribute("controls");
-				video.setAttribute("x5-video-player-fullscreen", "true");
-				video.setAttribute("x5-video-orientation", "portraint");
-				video.setAttribute("controlsList", "nodownload");
-			}, 6000);
+				if (!$().isWeixin()) {
+					video.setAttribute("x5-playsinline", "true");
+					video.setAttribute("playsinline", "true");
+					video.setAttribute("webkit-playsinline", "true");
+					video.removeAttribute("controls");
+					//video.setAttribute("x5-video-player-fullscreen", "true");
+					video.setAttribute("x5-video-orientation", "portraint");
+					video.setAttribute("controlsList", "nodownload");
+				}else{
+					video.setAttribute("x-webkit-airplay",true);
+					video.setAttribute("x5-video-player-type","h5");
+				}
+			}, 3000);
 			//给video对象增加属性
 			var video = document.querySelector("video");
 
