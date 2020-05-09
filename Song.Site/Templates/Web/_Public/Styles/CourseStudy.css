@@ -100,7 +100,7 @@ video::-webkit-media-controls-enclosure {
 }
 
 video::-webkit-media-controls-panel {
-	width: calc(100% + 30px);
+	width: calc(100% + 0px);
 }
 
 .courseBox {
@@ -534,14 +534,6 @@ video::-webkit-media-controls-panel {
 
 .error {
 	color: red;
-}
-
-video::-webkit-media-controls-enclosure {
-	overflow: hidden;
-}
-
-video::-webkit-media-controls-panel {
-	width: calc(100% + 30px);
 }
 
 .historyInfo {
