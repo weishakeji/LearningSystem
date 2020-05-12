@@ -47,8 +47,11 @@ namespace Song.ServiceImpls
             //整理名称信息
             names = names.Replace("，", ",");
             List<string> listName = new List<string>();
-            foreach (string s in names.Split(','))
+            foreach (string str in names.Split(','))
+            {
+                string s = str.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "");            
                 if (s.Trim() != "") listName.Add(s.Trim());
+            }
             //
             int pid = 0;
             Song.Entities.Subject last = null;
@@ -58,7 +61,7 @@ namespace Song.ServiceImpls
                 if (current == null)
                 {
                     current = new Subject();
-                    current.Sbj_Name = listName[i].Trim();
+                    current.Sbj_Name = listName[i];
                     current.Sbj_IsUse = true;
                     current.Org_ID = orgid;
                     current.Sbj_PID = pid;
