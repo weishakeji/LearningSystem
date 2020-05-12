@@ -142,14 +142,17 @@
         //执行窗口关闭事件
         if (isquiet == null || isquiet != true) {
             //if (msgbox.OverEvent != null) msgbox.OverEvent();
+            var mbox=$(".MsgBox");
+            console.log('mbox:'+mbox.size());
             $(".MsgBox").each(function (index) {
                 var winid = $(this).attr("winid");
                 var func = msgbox.events.get(winid + "_OverEvent");
                 if (func != null) func();
+                //console.log('test');
             });
         }
         //$("#msgMask").fadeOut(100, function () {
-            $("#msgMask").remove();
+            //$("#msgMask").remove();
         //});
         //$(".MsgBox").fadeOut(100, function () {
             $(".MsgBox").remove();
