@@ -1,10 +1,14 @@
-﻿$(function () {  
+﻿$(function () {
     //	导出详情的按钮
     $("input[name$=btnOutput]").val("打印").click(function () {
-        //$(this).attr("disabled", "disabled");        
+        //$(this).attr("disabled", "disabled");     
+        //当前选中的课程id 
+        var cous = GetKeyValues('GridView1');
         var iframe = $("#iframeExportDetails");
-        var link=iframe.attr("link") + "&t=" + new Date().getTime();
+        var link = iframe.attr("link")+"&cous="+ cous + "&t=" + new Date().getTime();
         //iframe.attr("src", iframe.attr("link") + "&t=" + new Date().getTime());
+        
+        //alert(cous);
         new top.PageBox("学习证明打印", link, 980, 90, null, window.name).Open();
         return false;
     });

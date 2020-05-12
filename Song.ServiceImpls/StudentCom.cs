@@ -992,7 +992,42 @@ select * from course as c inner join
                 return null;
             }
         }
-
+        /// <summary>
+        /// 学员指定学习课程的记录
+        /// </summary>
+        /// <param name="stid"></param>
+        /// <param name="couids">课程id,逗号分隔</param>
+        /// <returns></returns>
+        public DataTable StudentStudyCourseLog(int stid, string couids)
+        {
+            DataTable dt = this.StudentStudyCourseLog(stid);
+            if (dt == null) return dt;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                //课程id
+                int couid = Convert.ToInt32(dr["Cou_ID"].ToString());
+                bool isexist = false;
+                foreach (string id in couids.Split(','))
+                {
+                    if (string.IsNullOrWhiteSpace(id)) continue;
+                    int sid = 0;
+                    int.TryParse(id,out sid);
+                    if (sid == 0) continue;
+                    if (couid == sid)
+                    {
+                        isexist = true;
+                        break;
+                    }
+                }
+                if (!isexist)
+                {
+                    dt.Rows.RemoveAt(i);
+                    i--;
+                }
+            }
+            return dt;
+        }
         /// <summary>
         /// 学员学习某一门课程的完成度
         /// </summary>
