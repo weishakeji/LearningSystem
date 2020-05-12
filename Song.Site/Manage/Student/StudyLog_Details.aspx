@@ -21,7 +21,7 @@
                 <ItemStyle CssClass="left" />
                 <ItemTemplate>
                     <%# Eval("Tree")%></span>
-                    <a href='/CourseStudy.ashx?olid=<%# Eval("Ol_ID", "{0}")%>' target="_blank"> <%# Eval("Ol_IsVideo", "{0}") == "True" ? Eval("Ol_Name","<b>{0}</b>") : Eval("Ol_Name")%></a>
+                    <a href='/CourseStudy.ashx?couid=<%=couid%>&olid=<%# Eval("Ol_ID", "{0}")%>' target="_blank"> <%# Eval("Ol_IsVideo", "{0}") == "True" ? Eval("Ol_Name","<b>{0}</b>") : Eval("Ol_Name")%></a>
                     
                 </ItemTemplate>
             </asp:TemplateField>
