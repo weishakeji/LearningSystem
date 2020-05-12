@@ -91,7 +91,7 @@ namespace Song.Site.Manage.Student
             int hh = num / 60;
             int mm = num % 60;
             //
-            return string.Format(format, string.Format(tm, hh, num, ss));
+            return string.Format(format, string.Format(tm, hh, mm, ss));
         }
        
     }
