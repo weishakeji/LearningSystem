@@ -49,11 +49,7 @@ namespace Song.ViewData
         /// <summary>
         /// 详细的异常信息
         /// </summary>
-        public Exception Exception { get; set; }
-        /// <summary>
-        /// 堆栈跟踪信息
-        /// </summary>
-        public string StackTrace { get; set; }
+        public Exception Exception { get; set; }       
         /// <summary>
         /// 实际返回的数据
         /// </summary>
@@ -90,13 +86,11 @@ namespace Song.ViewData
             Exception = exc;
             if (exc.InnerException != null)
             {
-                Message = exc.InnerException.Message;
-                StackTrace = exc.InnerException.StackTrace;
+                Message = exc.InnerException.Message;               
             }
             else
             {
-                Message = exc.Message;
-                StackTrace = exc.StackTrace;
+                Message = exc.Message;              
             }
             //执行时间
             ExecSpan = ((TimeSpan)(DateTime.Now - time)).TotalMilliseconds;
@@ -209,12 +203,12 @@ namespace Song.ViewData
                         }
                     }
                     break;
-                case "Exception":
-                    Exception ex = (Exception)value;
-                    str = ex == null ? "" : ex.StackTrace;
-                    str = str.Replace("\n", " ").Replace("\t", " ").Replace("\r", " ");
-                    str = string.Format("\"{0}\"", str.Trim());
-                    break;
+                //case "Exception":
+                //    Exception ex = (Exception)value;
+                //    str = ex == null ? "" : ((ex.InnerException == null) ? ex.Message : ex.InnerException.Message);
+                //    str = str.Replace("\n", ";").Replace("\t", " ").Replace("\r", ";");
+                //    str = string.Format("\"{0}\"", str.Trim());
+                //    break;
                 default:
                     str = value == null ? "" : value.ToString();
                     str = str.Replace("\n", " ").Replace("\t", " ").Replace("\r", " ");
