@@ -403,7 +403,11 @@ $api.effect(function() {
 
 }, function(response, err) {
     //请求网址
-    var url = response.config.url;
+    var url = response ? response.config.url : err.config.url;
+    if(response==null){
+        alert('"'+url+'",请求失败。message:'+err.message);
+        return;
+    }
     url=url.substring(url.indexOf('/v1/')+3);
     //请求参数
     var para = JSON.stringify(response.config.params);
