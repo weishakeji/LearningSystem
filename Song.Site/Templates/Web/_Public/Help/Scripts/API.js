@@ -150,7 +150,7 @@ var rvue = new Vue({
 
             }).catch(function(ex) {
                 //alert(ex.message);
-                var ele = document.getElementById("testResult");
+                var ele = document.getElementById("testresult");
                 ele.innerText = ex.message;
             });
         },

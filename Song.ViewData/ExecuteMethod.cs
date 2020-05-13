@@ -127,10 +127,9 @@ namespace Song.ViewData
         /// <returns></returns>
         public static DataResult ExecToResult(Letter letter)
         {
+            DateTime time = DateTime.Now;
             try
-            {
-                DateTime time = DateTime.Now;
-
+            {   
                 if (!"weishakeji".Equals(letter.HTTP_Mark))
                     return new Song.ViewData.DataResult(new Exception("请求标识不正确"));
 
@@ -149,7 +148,7 @@ namespace Song.ViewData
             }
             catch (Exception ex)
             {
-                return new Song.ViewData.DataResult(ex);
+                return new Song.ViewData.DataResult(ex,time);
             }
         }
         /// <summary>

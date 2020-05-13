@@ -46,10 +46,11 @@ namespace Song.ViewData.Attri
         /// <param name="result"></param>
         public static void Insert(int expires, MethodInfo method, Letter letter, object result)
         {
+            if (result == null) return;
             //缓存名称
             string cacheName = string.Format("ViewData_{0}_[{1}]", method.Name, letter.ToString());
             //过期时间
-            DateTime expTime = DateTime.Now.AddMinutes(expires);
+            DateTime expTime = DateTime.Now.AddMinutes(expires);            
             HttpRuntime.Cache.Insert(cacheName, result, null, expTime, TimeSpan.Zero);
         }
     }

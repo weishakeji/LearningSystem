@@ -51,6 +51,10 @@ namespace Song.ViewData
         /// </summary>
         public Exception Exception { get; set; }
         /// <summary>
+        /// 堆栈跟踪信息
+        /// </summary>
+        public string StackTrace { get; set; }
+        /// <summary>
         /// 实际返回的数据
         /// </summary>
         public object Result { get; set; }
@@ -78,7 +82,7 @@ namespace Song.ViewData
         /// 
         /// </summary>
         /// <param name="exc"></param>
-        public DataResult(Exception exc)
+        public DataResult(Exception exc, DateTime time)
         {
             Success = false;
             DateTime = DateTime.Now;
@@ -87,11 +91,15 @@ namespace Song.ViewData
             if (exc.InnerException != null)
             {
                 Message = exc.InnerException.Message;
+                StackTrace = exc.InnerException.StackTrace;
             }
             else
             {
                 Message = exc.Message;
+                StackTrace = exc.StackTrace;
             }
+            //执行时间
+            ExecSpan = ((TimeSpan)(DateTime.Now - time)).TotalMilliseconds;
             State = 0;
         }
 
@@ -165,6 +173,7 @@ namespace Song.ViewData
                 case "String":
                     str = value == null ? "" : value.ToString();
                     str = str.Replace(Environment.NewLine, "");
+                    str = str.Replace("\n", " ").Replace("\t", " ").Replace("\r", " ");
                     str = string.Format("\"{0}\"", str);
                     break;
                 case "Int32":
@@ -202,11 +211,13 @@ namespace Song.ViewData
                     break;
                 case "Exception":
                     Exception ex = (Exception)value;
-                    str = ex == null ? "" : ex.Message;
-                    str = string.Format("\"{0}\"", str);
+                    str = ex == null ? "" : ex.StackTrace;
+                    str = str.Replace("\n", " ").Replace("\t", " ").Replace("\r", " ");
+                    str = string.Format("\"{0}\"", str.Trim());
                     break;
                 default:
                     str = value == null ? "" : value.ToString();
+                    str = str.Replace("\n", " ").Replace("\t", " ").Replace("\r", " ");
                     str = string.Format("\"{0}\"", str);
                     break;
             }
