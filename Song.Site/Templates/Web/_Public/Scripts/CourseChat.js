@@ -1,22 +1,22 @@
 ﻿//章节id,学员账号
 var olid = $api.querystring("olid");
-var acc=$api.querystring("acc");
+var acc = $api.querystring("acc");
 //
 var vdata = new Vue({
     data: {
         //数据实体
-        messages: [],        //咨询留言
+        messages: [], //咨询留言
         //状态
-        state: {},           //课程状态      
+        state: {}, //课程状态      
         olid: $api.querystring("olid"),
-        loading: false        //加载中
+        loading: false //加载中
     },
     watch: {
 
     },
     methods: {
         //发送消息
-        msgSend: function () {
+        msgSend: function() {
             var msg = document.getElementById("messageinput").value;
             if ($api.trim(msg) == '') return;
             var span = Date.now() - Number($api.cookie("msgtime"));
@@ -28,7 +28,13 @@ var vdata = new Vue({
                 return;
             }
             $api.cookie("msgtime", Date.now());
-            $api.post("message/add", {acc:acc, msg: msg, playtime: 0, couid: 0, olid: olid }).then(function (req) {
+            $api.post("message/add", {
+                acc: acc,
+                msg: msg,
+                playtime: 0,
+                couid: 0,
+                olid: olid
+            }).then(function(req) {
                 var d = req.data;
                 if (d.success) {
                     document.getElementById("messageinput").value = '';
@@ -38,34 +44,38 @@ var vdata = new Vue({
                 }
             });
         },
-        msgGet: function () {
+        msgGet: function() {
             if (!olid || olid < 1) return;
-            $api.post("message/All", { olid: olid, order: 'asc' }).then(function (req) {
+            $api.post("message/All", {
+                olid: olid,
+                order: 'asc'
+            }).then(function(req) {
                 var d = req.data;
                 if (d.success) {
                     vdata.messages = d.result;
-                    window.setTimeout(function () {
+                    window.setTimeout(function() {
                         var dl = document.getElementById("chatlistdl");
                         document.getElementById("chatlist").scrollTop = dl.offsetHeight;
                     }, 1000);
                 } else {
                     alert("留言信息加载异常！详情：\r" + d.message);
                 }
-            }).catch(function (err) {
+            }).catch(function(err) {
                 //alert("msgGet方法存在错误："+err);
             });
         }
     },
-    created: function () {
-
+    created: function() {
+        //定时刷新（加载）咨询留言
+        window.setInterval('vdata.msgGet()', 1000 * 20);
     },
-    mounted: function () {
+    mounted: function() {
         this.msgGet();
     }
 });
 vdata.$mount('#vue-app');
 //全局过滤器，日期格式化
-Vue.filter('date', function (value, fmt) {
+Vue.filter('date', function(value, fmt) {
     if ($api.getType(value) != 'Date') return value;
     var o = {
         "M+": value.getMonth() + 1,

@@ -186,9 +186,9 @@ var vdata = new Vue({
 					//video.setAttribute("x5-video-player-fullscreen", "true");
 					video.setAttribute("x5-video-orientation", "portraint");
 					video.setAttribute("controlsList", "nodownload");
-				}else{
-					video.setAttribute("x-webkit-airplay",true);
-					video.setAttribute("x5-video-player-type","h5");
+				} else {
+					video.setAttribute("x-webkit-airplay", true);
+					video.setAttribute("x5-video-player-type", "h5");
 				}
 			}, 3000);
 			//给video对象增加属性
@@ -337,7 +337,7 @@ var vdata = new Vue({
 				}
 			}).catch(function(err) {
 				//alert(err);
-			});
+			});			
 		}
 	},
 	created: function() {
@@ -362,6 +362,8 @@ var vdata = new Vue({
 		})).catch(function(err) {
 			alert(err);
 		});
+        //定时刷新（加载）咨询留言
+        window.setInterval('vdata.msgGet()', 1000 * 20);
 	}
 });
 vdata.$mount('#context-box');
