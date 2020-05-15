@@ -380,9 +380,10 @@ var vdata = new Vue({
         //获取当前章节的留言信息
         msgGet: function() {
             if (!vdata.olid || vdata.olid < 1) return;
-            $api.post("message/All", {
+            $api.post("message/count", {
                 olid: vdata.olid,
-                order: 'asc'
+                order: 'asc',
+                count:100
             }).then(function(req) {
                 var d = req.data;
                 if (d.success) {
@@ -443,7 +444,7 @@ var vdata = new Vue({
             }
         });
         //定时刷新（加载）咨询留言
-        window.setInterval('vdata.msgGet()', 1000 * 20);
+        window.setInterval('vdata.msgGet()', 1000 * 10);
     },
     mounted: function() {
         //视频上面的漂浮信息（学员姓名和电话），防录屏

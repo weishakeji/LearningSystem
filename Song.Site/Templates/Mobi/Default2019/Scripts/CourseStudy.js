@@ -322,8 +322,9 @@ var vdata = new Vue({
 		msgGet: function() {
 			if (!vdata.olid || vdata.olid < 1) return;
 			$api.post("message/All", {
-				olid: vdata.olid,
-				order: 'desc'
+				 olid: vdata.olid,
+                order: 'asc',
+                count:100
 			}).then(function(req) {
 				var d = req.data;
 				if (d.success) {
@@ -363,7 +364,7 @@ var vdata = new Vue({
 			alert(err);
 		});
         //定时刷新（加载）咨询留言
-        window.setInterval('vdata.msgGet()', 1000 * 20);
+        window.setInterval('vdata.msgGet()', 1000 * 10);
 	}
 });
 vdata.$mount('#context-box');

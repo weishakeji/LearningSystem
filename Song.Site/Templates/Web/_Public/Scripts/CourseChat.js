@@ -67,7 +67,7 @@ var vdata = new Vue({
     },
     created: function() {
         //定时刷新（加载）咨询留言
-        window.setInterval('vdata.msgGet()', 1000 * 20);
+        window.setInterval('vdata.msgGet()', 1000 * 6);
     },
     mounted: function() {
         this.msgGet();
