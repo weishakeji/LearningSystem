@@ -18,7 +18,7 @@ using System.Xml.Serialization;
 namespace Song.ViewData.Methods
 {
     /// <summary>
-    /// 章节管理
+    /// 章节信息
     /// </summary>
     [HttpGet]
     public class Outline : IViewAPI
