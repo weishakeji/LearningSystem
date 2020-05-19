@@ -22,6 +22,8 @@ namespace Song.Site.Manage.Student
     {
         //学员组的id串
         private string sts = WeiSha.Common.Request.QueryString["sts"].String;
+        //课程id串
+        private string courses = WeiSha.Common.Request.QueryString["cous"].String;
         //学员ID
         private int accid = WeiSha.Common.Request.QueryString["id"].Int32 ?? 0;
         //员工上传资料的所在路径
@@ -115,7 +117,11 @@ namespace Song.Site.Manage.Student
                 //绑定学员的课程学习记录
                 Song.Entities.Accounts acc = this.accounts[e.Item.ItemIndex];
                 Repeater rtp = (Repeater)e.Item.FindControl("rtpLearnInfo");
-                DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(acc.Ac_ID);
+                DataTable dt = null;
+                if (sts == "-1" && !string.IsNullOrWhiteSpace(this.courses))
+                    dt = Business.Do<IStudent>().StudentStudyCourseLog(acc.Ac_ID, courses);
+                else
+                    dt = Business.Do<IStudent>().StudentStudyCourseLog(acc.Ac_ID);
                 if (dt != null)
                 {
                     rtp.DataSource = dt;

@@ -24,3 +24,22 @@ l{
 	height:24px;
 	display:inline-block;
 }
+.toolsBar
+{
+    width:auto;
+    float:left;
+}
+.btnarea input[type=submit]
+{
+       LINE-HEIGHT: 26px;
+    text-indent: 0px;
+    margin-top: 0px;
+    height: 25px;
+    width: 65px;
+    cursor: pointer;
+    text-align: right;
+    border: 1px solid #CCCCCC;
+    margin-right: 2px;
+    padding-right: 4px;
+    margin-bottom: 5px;
+}

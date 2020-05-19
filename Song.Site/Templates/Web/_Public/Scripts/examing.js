@@ -14,7 +14,7 @@ $(document).ready(function () {
 		var box=new MsgBox(title,msg,width,height,"alert",null,closeEvent);
         box.OverEvent =function(){
             if(closeEvent!=null)closeEvent();
-            window.MsgBox.Close();
+            //window.MsgBox.Close();
             $('body').css('overflow','auto');
         }
 		box.Open();
@@ -25,7 +25,7 @@ $(document).ready(function () {
         if(enterEvent!=null)msg.EnterEvent =enterEvent;
         msg.OverEvent =function(){
             if(closeEvent!=null)closeEvent();
-            window.MsgBox.Close();
+            //window.MsgBox.Close();
             $('body').css('overflow','auto');
         }
         msg.Open();

@@ -47,8 +47,11 @@ namespace Song.ServiceImpls
             //整理名称信息
             names = names.Replace("，", ",");
             List<string> listName = new List<string>();
-            foreach (string s in names.Split(','))
+            foreach (string str in names.Split(','))
+            {
+                string s = str.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "");
                 if (s.Trim() != "") listName.Add(s.Trim());
+            }
             //
             int pid = 0;
             Song.Entities.Course last = null;
@@ -122,10 +125,18 @@ namespace Song.ServiceImpls
                             new Field[] { Student_Course._.Stc_EndTime }, new object[] { DateTime.Now },
                             Student_Course._.Cou_ID == entity.Cou_ID && Student_Course._.Stc_IsFree == true);
                     }
-                    tran.Update<TestPaper>(
-                        new Field[] { TestPaper._.Cou_Name, TestPaper._.Sbj_ID, TestPaper._.Sbj_Name },
-                        new object[] { entity.Cou_Name, entity.Sbj_ID, entity.Sbj_Name },
-                        TestPaper._.Cou_ID == entity.Cou_ID);
+                    //如果课程更改了专业
+                    if (old.Sbj_ID != entity.Sbj_ID)
+                    {
+                        tran.Update<Questions>(
+                                    new Field[] { Questions._.Sbj_ID, Questions._.Sbj_Name },
+                                    new object[] { entity.Sbj_ID, entity.Sbj_Name }, Questions._.Cou_ID == entity.Cou_ID);
+                        tran.Update<Outline>(new Field[] { Outline._.Sbj_ID }, new object[] { entity.Sbj_ID }, Outline._.Cou_ID == entity.Cou_ID);
+                        tran.Update<TestPaper>(
+                                    new Field[] { TestPaper._.Cou_Name, TestPaper._.Sbj_ID, TestPaper._.Sbj_Name },
+                                    new object[] { entity.Cou_Name, entity.Sbj_ID, entity.Sbj_Name },
+                                    TestPaper._.Cou_ID == entity.Cou_ID);
+                    }
                     tran.Save<Course>(entity);
                     tran.Commit();
                 }

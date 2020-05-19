@@ -18,7 +18,7 @@ namespace Song.Site.Manage.Student
     public partial class StudyLog_Details : Extend.CustomPage
     {
         //¿Î³Ìid
-        private int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
+        public int couid = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
         //Ñ§Ô±id
         private int acid = WeiSha.Common.Request.QueryString["acid"].Int32 ?? Extend.LoginState.Accounts.UserID;
         protected void Page_Load(object sender, EventArgs e)
@@ -91,7 +91,7 @@ namespace Song.Site.Manage.Student
             int hh = num / 60;
             int mm = num % 60;
             //
-            return string.Format(format, string.Format(tm, hh, num, ss));
+            return string.Format(format, string.Format(tm, hh, mm, ss));
         }
        
     }

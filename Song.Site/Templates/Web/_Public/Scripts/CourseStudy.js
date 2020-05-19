@@ -111,9 +111,7 @@ var vdata = new Vue({
                     vdata.outline = ol.data.result;
                     vdata.state = state.data.result;
                     if (!vdata.state.isLive && vdata.state.PlayTime / 1000 > 0) {
-                        /*if (window.confirm("是否从上次进放播放？")) {
-                            vdata.videoSeek(vdata.state.PlayTime);
-                        }*/
+                        /*
                         vdata.$confirm('是否从上次进度播放？', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
@@ -125,7 +123,7 @@ var vdata = new Vue({
                             }, 500);
                         }).catch(function() {
 
-                        });
+                        });*/
                     }
                     //视频播放记录
                     var result = state.data.result;

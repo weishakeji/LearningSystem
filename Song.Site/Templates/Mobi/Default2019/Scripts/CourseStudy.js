@@ -169,7 +169,7 @@ var vdata = new Vue({
 			//隐藏全屏按钮
 			var fullbtn = document.getElementsByClassName("qplayer-fullscreen");
 			for (var i = 0; i < fullbtn.length; i++) {
-				fullbtn[i].style.display = "none";
+				//fullbtn[i].style.display = "none";
 			}
 			//隐藏设置按钮(播放倍速也禁用了)
 			var setbtn = document.getElementsByClassName("qplayer-settings-btn");
@@ -178,19 +178,19 @@ var vdata = new Vue({
 			}
 			window.setInterval(function() {
 				var video = document.querySelector("video");
-
-				video.setAttribute("x5-playsinline", "true");
-				video.setAttribute("playsinline", "true");
-				video.setAttribute("webkit-playsinline", "true");
-				//
-				//video.setAttribute("x-webkit-airplay",true);
-				//video.setAttribute("x5-video-player-type","h5");
-				//
-				video.removeAttribute("controls");
-				video.setAttribute("x5-video-player-fullscreen", "true");
-				video.setAttribute("x5-video-orientation", "portraint");
-				video.setAttribute("controlsList", "nodownload");
-			}, 6000);
+				if (!$().isWeixin()) {
+					video.setAttribute("x5-playsinline", "true");
+					video.setAttribute("playsinline", "true");
+					video.setAttribute("webkit-playsinline", "true");
+					video.removeAttribute("controls");
+					//video.setAttribute("x5-video-player-fullscreen", "true");
+					video.setAttribute("x5-video-orientation", "portraint");
+					video.setAttribute("controlsList", "nodownload");
+				} else {
+					video.setAttribute("x-webkit-airplay", true);
+					video.setAttribute("x5-video-player-type", "h5");
+				}
+			}, 3000);
 			//给video对象增加属性
 			var video = document.querySelector("video");
 
@@ -214,12 +214,12 @@ var vdata = new Vue({
 					vdata.outline = ol.data.result;
 					vdata.state = state.data.result;
 					if (!vdata.state.isLive && vdata.state.PlayTime > 0) {
-						if (window.confirm("是否从上次进度播放？")) {
+						/*if (window.confirm("是否从上次进度播放？")) {
 							vdata.videoSeek(vdata.state.PlayTime / 1000);
 							window.setTimeout(function() {
 								if (vdata.playready()) vdata.player.play();
 							}, 500);
-						}
+						}*/
 					}
 					//视频播放记录
 					var result = state.data.result;
@@ -337,7 +337,7 @@ var vdata = new Vue({
 				}
 			}).catch(function(err) {
 				//alert(err);
-			});
+			});			
 		}
 	},
 	created: function() {
@@ -362,6 +362,8 @@ var vdata = new Vue({
 		})).catch(function(err) {
 			alert(err);
 		});
+        //定时刷新（加载）咨询留言
+        window.setInterval('vdata.msgGet()', 1000 * 20);
 	}
 });
 vdata.$mount('#context-box');

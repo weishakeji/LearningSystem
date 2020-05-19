@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过下列属性集
 // 控制。更改这些属性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("ReleaseDate 2020-3-23")]
+[assembly: AssemblyTitle("ReleaseDate 2020-5-14")]
 [assembly: AssemblyDescription("集“学、练、考”与一体的在线学习系统")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("微厦科技")]

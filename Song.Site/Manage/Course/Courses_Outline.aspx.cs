@@ -195,8 +195,8 @@ namespace Song.Site.Manage.Course
             ol.Cou_ID = couid;
             Song.Entities.Course cou = Business.Do<ICourse>().CourseSingle(couid);
             if (cou != null) ol.Sbj_ID = cou.Sbj_ID;
-            //全局唯一ID
-            ol.Ol_UID = getUID();
+            ////全局唯一ID
+            //ol.Ol_UID = getUID();
             try
             {
                 if (olid < 1)

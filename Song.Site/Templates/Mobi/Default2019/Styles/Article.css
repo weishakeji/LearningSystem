@@ -1,8 +1,14 @@
 body{
-	padding: 10px;
+	padding: 20px;
+	width:calc(100% - 40px);
 }
 body,p,div,td,*{
 	color:#333 !important;
+}
+.context{	
+	margin:0px;
+	overflow-x:hidden;
+	overflow:hidden;
 }
 .artTitle
 {

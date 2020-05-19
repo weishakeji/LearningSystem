@@ -28,6 +28,9 @@
                             <cc1:DropDownTree ID="ddlOutline" runat="server" IdKeyName="Ol_ID" ParentIdKeyName="Ol_PID"
                                 TaxKeyName="Ol_Tax" Width="350">
                             </cc1:DropDownTree>
+                            &nbsp; 排序号：
+                             <asp:TextBox ID="Ol_Tax"  runat="server" Width="80" group="ent" datatype='uint'
+                                MaxLength="200"></asp:TextBox>
                         </td>
                     </tr>
                      <tr >

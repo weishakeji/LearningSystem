@@ -144,12 +144,13 @@ var rvue = new Vue({
                     message: '没有获取到返回值，可能是服务器端错误'
                 };
                 if (req.config.returntype == "json")
-                    ele.innerText = $api.trim(rvue.jsonformat(unescape(req.text), true));
+                    ele.innerText = $api.trim(rvue.jsonformat(unescape(JSON.stringify(req.data)), true));
                 if (req.config.returntype == "xml")
                     ele.innerText = $api.trim(rvue.xmlformat(unescape(req.text)));
+
             }).catch(function(ex) {
                 //alert(ex.message);
-                var ele = document.getElementById("testResult");
+                var ele = document.getElementById("testresult");
                 ele.innerText = ex.message;
             });
         },
@@ -300,4 +301,3 @@ var rvue = new Vue({
     }
 });
 rvue.$mount('context');
-

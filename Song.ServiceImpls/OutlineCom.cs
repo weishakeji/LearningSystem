@@ -36,7 +36,7 @@ namespace Song.ServiceImpls
                     {
                         Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                         if (org != null) entity.Org_ID = org.Org_ID;
-                    }                    
+                    }
                     //所属专业
                     if (entity.Sbj_ID <= 0 && entity.Cou_ID > 0)
                     {
@@ -46,8 +46,14 @@ namespace Song.ServiceImpls
                     //计算排序号
                     object obj = tran.Max<Outline>(Outline._.Ol_Tax, Outline._.Cou_ID == entity.Cou_ID && Outline._.Ol_PID == entity.Ol_PID);
                     entity.Ol_Tax = obj is int ? (int)obj + 1 : 1;
-                    if (string.IsNullOrWhiteSpace(entity.Ol_UID))
-                        entity.Ol_UID = WeiSha.Common.Request.UniqueID();
+                    //唯一id
+                    string uid = string.IsNullOrWhiteSpace(entity.Ol_UID) ? WeiSha.Common.Request.UniqueID() : entity.Ol_UID;
+                    do
+                    {
+                        uid = WeiSha.Common.Request.UniqueID();
+                    } while (Gateway.Default.Count<Outline>(Outline._.Ol_UID == uid) > 0);
+                    entity.Ol_UID = uid;
+
                     ////层级
                     //entity.Ol_Level = _ClacLevel(entity);
                     //entity.Ol_XPath = _ClacXPath(entity);  
@@ -60,13 +66,13 @@ namespace Song.ServiceImpls
                             pili_sdk.pili.Stream stream = Business.Do<ILive>().StreamCreat(liveid);
                             entity.Ol_LiveID = stream.Title;
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             throw new Exception("无法创建直播流，" + ex.Message);
-                        }                       
+                        }
                         tran.Update<Course>(Course._.Cou_ExistLive, true, Course._.Cou_ID == entity.Cou_ID);
                     }
-                    tran.Save<Outline>(entity);                   
+                    tran.Save<Outline>(entity);
                     tran.Commit();
 
                     this.OnSave(null, EventArgs.Empty);
@@ -80,9 +86,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Close();
                 }
-                
             }
-            
         }
         /// <summary>
         /// 批量添加章节，可用于导入时
@@ -97,8 +101,11 @@ namespace Song.ServiceImpls
             //整理名称信息
             names = names.Replace("，", ",");
             List<string> listName = new List<string>();
-            foreach (string s in names.Split(','))
+            foreach (string str in names.Split(','))
+            {
+                string s = str.Replace("\n", "").Replace(" ", "").Replace("\t", "").Replace("\r", "");
                 if (s.Trim() != "") listName.Add(s.Trim());
+            }
             //
             int pid = 0;
             Song.Entities.Outline last = null;
@@ -108,7 +115,7 @@ namespace Song.ServiceImpls
                 if (current == null)
                 {
                     current = new Outline();
-                    current.Ol_Name = listName[i].Trim();
+                    current.Ol_Name = listName[i];
                     current.Ol_IsUse = true;
                     current.Org_ID = orgid;
                     current.Sbj_ID = sbjid;

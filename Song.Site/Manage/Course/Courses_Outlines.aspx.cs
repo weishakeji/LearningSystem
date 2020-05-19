@@ -252,5 +252,69 @@ namespace Song.Site.Manage.Course
             GridView1.DataBind();
         }
         #endregion
+
+        #region 上方的按钮事件
+        /// <summary>
+        /// 批量启用章节
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnModfiy_Click(object sender, EventArgs e)
+        {
+            string keys = GridView1.GetKeyValues;
+            foreach (string s in keys.Split(','))
+            {
+                int id = 0;
+                int.TryParse(s, out id);
+                Song.Entities.Outline entity = Business.Do<IOutline>().OutlineSingle(id);
+                if (entity == null) continue;
+                entity.Ol_IsUse = !entity.Ol_IsUse;
+                Business.Do<IOutline>().OutlineSave(entity);
+            }
+            BindData(null, null);
+        }
+        protected void btnFinish_Click(object sender, EventArgs e)
+        {
+            string keys = GridView1.GetKeyValues;
+            foreach (string s in keys.Split(','))
+            {
+                int id = 0;
+                int.TryParse(s, out id);
+                Song.Entities.Outline entity = Business.Do<IOutline>().OutlineSingle(id);
+                if (entity == null) continue;
+                entity.Ol_IsFinish = !entity.Ol_IsFinish;
+                Business.Do<IOutline>().OutlineSave(entity);
+            }
+            BindData(null, null);
+        }
+        protected void btnFree_Click(object sender, EventArgs e)
+        {
+            string keys = GridView1.GetKeyValues;
+            foreach (string s in keys.Split(','))
+            {
+                int id = 0;
+                int.TryParse(s, out id);
+                Song.Entities.Outline entity = Business.Do<IOutline>().OutlineSingle(id);
+                if (entity == null) continue;
+                entity.Ol_IsFree = true;
+                Business.Do<IOutline>().OutlineSave(entity);
+            }
+            BindData(null, null);
+        }
+        protected void btnNofree_Click(object sender, EventArgs e)
+        {
+            string keys = GridView1.GetKeyValues;
+            foreach (string s in keys.Split(','))
+            {
+                int id = 0;
+                int.TryParse(s, out id);
+                Song.Entities.Outline entity = Business.Do<IOutline>().OutlineSingle(id);
+                if (entity == null) continue;
+                entity.Ol_IsFree = false;
+                Business.Do<IOutline>().OutlineSave(entity);
+            }
+            BindData(null, null);
+        }
+        #endregion
     }
 }

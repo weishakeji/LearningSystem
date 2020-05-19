@@ -16,6 +16,15 @@ body{
 #Context #selectArea {
 	margin-bottom: 10px;
 	padding-bottom: 10px;
+	position:relative;
+}
+#btnShow{
+	position:absolute;
+	top:5px;
+	right:10px;
+	width:auto;
+	height:30px;
+	cursor:pointer;
 }
 .selectBar {
 	display: table;

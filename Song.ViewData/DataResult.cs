@@ -35,13 +35,21 @@ namespace Song.ViewData
         /// </summary>
         public DateTime DateTime { get; set; }
         /// <summary>
+        /// 执行耗时（单位：毫秒）
+        /// </summary>
+        public double ExecSpan { get; set; }
+        /// <summary>
+        /// web端执行耗时（单位：毫秒）
+        /// </summary>
+        public double WebSpan { get; set; }
+        /// <summary>
         /// 执行时间的时间戳
         /// </summary>
         public long Timestamp { get; set; }
         /// <summary>
         /// 详细的异常信息
         /// </summary>
-        public Exception Exception { get; set; }
+        public Exception Exception { get; set; }       
         /// <summary>
         /// 实际返回的数据
         /// </summary>
@@ -63,11 +71,14 @@ namespace Song.ViewData
             Timestamp = (long)(DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1))).TotalMilliseconds; 
             Message = obj != null ? "" : "未查询到数据";
         }
+        public DataResult(object obj,double span):this(obj){
+            this.ExecSpan = span;
+        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="exc"></param>
-        public DataResult(Exception exc)
+        public DataResult(Exception exc, DateTime time)
         {
             Success = false;
             DateTime = DateTime.Now;
@@ -75,14 +86,17 @@ namespace Song.ViewData
             Exception = exc;
             if (exc.InnerException != null)
             {
-                Message = exc.InnerException.Message;
+                Message = exc.InnerException.Message;               
             }
             else
             {
-                Message = exc.Message;
+                Message = exc.Message;              
             }
+            //执行时间
+            ExecSpan = ((TimeSpan)(DateTime.Now - time)).TotalMilliseconds;
             State = 0;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -153,6 +167,7 @@ namespace Song.ViewData
                 case "String":
                     str = value == null ? "" : value.ToString();
                     str = str.Replace(Environment.NewLine, "");
+                    str = str.Replace("\n", " ").Replace("\t", " ").Replace("\r", " ");
                     str = string.Format("\"{0}\"", str);
                     break;
                 case "Int32":
@@ -188,13 +203,15 @@ namespace Song.ViewData
                         }
                     }
                     break;
-                case "Exception":
-                    Exception ex = (Exception)value;
-                    str = ex == null ? "" : ex.Message;
-                    str = string.Format("\"{0}\"", str);
-                    break;
+                //case "Exception":
+                //    Exception ex = (Exception)value;
+                //    str = ex == null ? "" : ((ex.InnerException == null) ? ex.Message : ex.InnerException.Message);
+                //    str = str.Replace("\n", ";").Replace("\t", " ").Replace("\r", ";");
+                //    str = string.Format("\"{0}\"", str.Trim());
+                //    break;
                 default:
                     str = value == null ? "" : value.ToString();
+                    str = str.Replace("\n", " ").Replace("\t", " ").Replace("\r", " ");
                     str = string.Format("\"{0}\"", str);
                     break;
             }

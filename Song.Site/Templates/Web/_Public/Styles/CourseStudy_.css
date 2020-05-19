@@ -302,7 +302,7 @@ video::-webkit-media-controls-enclosure {
     overflow:hidden;
 }
 video::-webkit-media-controls-panel {
-     width: calc(100% + 30px); 
+     --width: calc(100% + 30px); 
 }
 .historyInfo {
 	margin-left: 20px;

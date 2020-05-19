@@ -377,3 +377,14 @@ jQuery.fn.isWeixinApp = function () {
     var ua = window.navigator.userAgent.toLowerCase();
     return ua.match(/miniProgram/i) == 'miniprogram';
 };
+//是否处于QQ浏览器
+jQuery.fn.isQQBrowser = function () {
+    var ua = window.navigator.userAgent.toLowerCase();
+    return ua.match(/MQQBrowser/i) == 'mqqbrowser';
+};
+jQuery.fn.ua = function () {
+    var ua = window.navigator.userAgent.toLowerCase();
+    console.log(ua);
+    return ua;
+    //return ua.match(/miniProgram/i) == 'miniprogram';
+};

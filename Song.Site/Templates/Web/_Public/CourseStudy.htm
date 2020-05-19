@@ -62,7 +62,10 @@
                         </div>
                         <div remark="提示" v-show="titState=='isNull' || !state.canStudy ">
                                     <img src="images/studyBg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
-                              <div class="noSelect">没有内容，或无权查看！</div>
+                              <div class="noSelect" v-if="!!account.Ac_ID">
+                              没有内容，或无权查看！</div>
+                               <div class="noSelect" v-if="!account.Ac_ID">
+                              <a href="/student/index.ashx">未登录，点击此处登录！</a></div>
                               <div class="noSelect" v-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束</div>
                         </div>
                         <div remark="视频" v-show="titState=='existVideo'" :video="state.urlVideo">

@@ -167,7 +167,17 @@ namespace Song.ServiceImpls
             return qus;
 
         }
-
+        /// <summary>
+        ///  获取单一实体对象，按主键ID；
+        /// </summary>
+        /// <param name="identify"></param>
+        /// <param name="cache">是否来自缓存</param>
+        /// <returns></returns>
+        public Questions QuesSingle(int identify, bool cache)
+        {
+            if (cache) return this.QuesSingle(identify);
+            return Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == identify).ToFirst<Questions>();
+        }
         public Questions QuesSingle(string uid)
         {
             if (uid == string.Empty) return null;

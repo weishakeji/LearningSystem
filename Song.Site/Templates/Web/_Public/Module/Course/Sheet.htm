@@ -114,7 +114,7 @@
                      <vt:function var="intro" method="ClearHtml" args="$course.Cou_Target" />
                      <vt:if var="intro" value="" compare="!="  remark="学习目标">
                     <span>学习目标：</span>                   
-                    <div class="couIntro">{$:#.intro}</div>
+                    <div class="couIntro"> {$course.Cou_Target}</div>
                     </vt:if> 
                         {$course.cou_intro}
                     </div>

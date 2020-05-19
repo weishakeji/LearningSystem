@@ -42,7 +42,7 @@
             $(".mui-inner-wrap").css({ opacity: .61 });
             //隐藏视频
             var video = document.querySelector("video");
-            video.style.display = "none";
+            if (video) video.style.display = "none";
         });
         $("#offCanvasContentScroll").click(function () {
             var menu = $("#offCanvasSide");
@@ -52,7 +52,7 @@
             }
             //显示视频
             var video = document.querySelector("video");
-            if (video.size() > 0) video.style.display = "";
+            if (video) video.style.display = "";
         });
     }
 </script>

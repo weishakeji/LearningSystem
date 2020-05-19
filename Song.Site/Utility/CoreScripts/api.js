@@ -247,6 +247,9 @@
             var url = methods.url(this.version, way);
             if (arguments.length < 2 || parameters == null) parameters = {};
             if (arguments.length < 3 || method == null || method == '') method = 'get';
+            //开始时间
+            var startTime = new Date();
+            //console.log(startTime);
             //创建axiso对象
             var instance = axios.create({
                 method: method != 'get' ? 'post' : 'get',
@@ -320,6 +323,10 @@
                         response.data.result = methods.unescape(response.data.result);
                     }
                 }
+                //计算执行耗时
+                if (response.data) {
+                    response.data['webspan'] = new Date() - startTime;
+                }
                 //执行加载完成后的方法
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loaded != null) loaded(response, null);
@@ -391,3 +398,23 @@ Date.prototype.format = function(fmt) {
 
     return fmt;
 }
+//添加加载前后的事件
+$api.effect(function() {
+
+}, function(response, err) {
+    //请求网址
+    var url = response ? response.config.url : err.config.url;
+    if(response==null){
+        alert('"'+url+'",请求失败。message:'+err.message);
+        return;
+    }
+    url=url.substring(url.indexOf('/v1/')+3);
+    //请求参数
+    var para = JSON.stringify(response.config.params);
+    para = para == undefined ? '' : para;
+    //时长
+    var exec = response.data.execspan;
+    var span = response.data.webspan;
+    console.log(url + '' + para + ' 用时 ' + span + ' 毫秒，服务端 ' + exec + ' 毫秒');
+    //console.log(response);
+});

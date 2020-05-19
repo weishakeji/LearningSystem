@@ -3,6 +3,10 @@
     subjectEvent(); 	//各种选择按钮的事件
     setButtonEvent();
     _quesSelectEvent();
+	//折叠选择区域
+	$("#btnShow").click(function(){
+		$("#subject").toggle();
+	});
 });
 
 

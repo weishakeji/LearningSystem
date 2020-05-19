@@ -100,7 +100,7 @@ video::-webkit-media-controls-enclosure {
 }
 
 video::-webkit-media-controls-panel {
-	width: calc(100% + 30px);
+	width: calc(100% + 0px);
 }
 
 .courseBox {
@@ -227,18 +227,20 @@ video::-webkit-media-controls-panel {
 	position: absolute;
 	width: 320px;
 	height: 180px;
-	line-height: 180px;
 	color: #333;
-	font-weight: bold;
 	background-color: rgba(128, 128, 128, 0.5);
-	font-size: 25px;
-	text-align: center;
 	top: 30%;
 	left: calc(50% - 160px);
 	border: 1px solid #999;
 	text-shadow: 1px 1px #eee;
 	box-shadow: 3px 3px 3px #aaa;
 	cursor: default;
+}
+#liveStopbox .liveStop_Tit, .noSelect, .noSelect a{
+	line-height: 180px;
+	font-weight: bold;
+	font-size: 25px;
+	text-align: center;
 }
 /*背景图，带渐变效果*/
 .bgPicture{
@@ -532,14 +534,6 @@ video::-webkit-media-controls-panel {
 
 .error {
 	color: red;
-}
-
-video::-webkit-media-controls-enclosure {
-	overflow: hidden;
-}
-
-video::-webkit-media-controls-panel {
-	width: calc(100% + 30px);
 }
 
 .historyInfo {
