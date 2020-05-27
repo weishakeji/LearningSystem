@@ -99,9 +99,11 @@ namespace Song.ViewData
             object[] parameters = getInvokeParam(method, letter);
             //5.执行方法，返回结果
             object objResult = null;    //结果
-            //只有get方式时，才使用缓存
+            //只有get方式时，才使用缓存；post清除缓存
             CacheAttribute cache = null;
-            if (letter.HTTP_METHOD == "GET")           
+            if (letter.HTTP_METHOD.Equals("post", StringComparison.CurrentCultureIgnoreCase))
+                CacheAttribute.Remove(method, letter);
+            if (letter.HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase)) 
                 cache = CacheAttribute.GetAttr<CacheAttribute>(method);       
             if (cache != null)
             {

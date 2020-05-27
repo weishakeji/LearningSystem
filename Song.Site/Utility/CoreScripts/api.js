@@ -10,7 +10,7 @@
  * 作  者：宋雷鸣 10522779@qq.com
  * 开发时间: 2019年5月20日
  */
-(function() {
+(function () {
     var config = {
         //api的版本号
         versions: ["", "1", "2"],
@@ -26,7 +26,7 @@
         //生成axios调用的路径,
         //vesion:api版本号,
         //way:api方法名，如/api/v1/[account/del]
-        url: function(version, way) {
+        url: function (version, way) {
             if (way === undefined) throw 'api名称不得为空';
             var url = config.pathUrl.replace("{0}", version);
             //调用地址的根路径可以在此处理，（如果需要跨多台服务器请求的话）
@@ -34,7 +34,7 @@
             return url + way;
         },
         //获取url中的参数
-        querystring: function(url, key) {
+        querystring: function (url, key) {
             if (arguments.length == 1) key = arguments[0];
             if (arguments.length <= 1) url = String(window.document.location.href);
             if (url.indexOf("?") < 0) return "";
@@ -61,7 +61,7 @@
             }
             return "";
         },
-        setpara: function(key, value) {
+        setpara: function (key, value) {
             //获取所有参数
             var values = methods.querystring();
             var isExist = false;
@@ -86,11 +86,11 @@
             return url + "?" + parastr;
         },
         //去除两端空格
-        trim: function(str) {
+        trim: function (str) {
             return str.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g, "");
         },
         //将数据url解码
-        unescape: function(data) {
+        unescape: function (data) {
             var typeName = methods.getType(data);
             if (typeName == 'String') return unescape(data);
             if (typeName == 'Object') return handleObject(data);
@@ -130,16 +130,16 @@
             return data;
         },
         //判断数据类型
-        getType: function(data) {
+        getType: function (data) {
             var getType = Object.prototype.toString;
             var myType = getType.call(data); //调用call方法判断类型，结果返回形如[object Function]  
             var typeName = myType.slice(8, -1); //[object Function],即取除了“[object ”的字符串。 
             return typeName;
         },
         //storage存储
-        storage: function(key, value) {
+        storage: function (key, value) {
             var isAndroid = (/android/gi).test(navigator.appVersion);
-            var uzStorage = function() {
+            var uzStorage = function () {
                 var ls = window.localStorage;
                 if (isAndroid) ls = window.localStorage;
                 return ls;
@@ -172,7 +172,7 @@
                 }
             }
         },
-        cookie: function(name, value, options) {
+        cookie: function (name, value, options) {
             if (typeof value != 'undefined') { // name and value given, set cookie 
                 options = options || {};
                 if (value === null) {
@@ -199,7 +199,7 @@
                 if (document.cookie && document.cookie != '') {
                     var cookies = document.cookie.split(';');
                     for (var i = 0; i < cookies.length; i++) {
-                        var cookie = jQuery.trim(cookies[i]);
+                        var cookie = methods.trim(cookies[i]);
                         // Does this cookie string begin with the name we want? 
                         if (cookie.substring(0, name.length + 1) == (name + '=')) {
                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -210,8 +210,53 @@
                 return cookieValue;
             }
         },
+        //记录或获取登录状态值
+        loginstatus: function (key, code) {
+            var storagename = 'weishakei_loginstatus';
+            var status = methods.storage(storagename);
+            //读取
+            if (arguments.length <= 1) {
+                if (status == null || !(status instanceof Array)) return '';
+                var str = '';
+                if (arguments.length == 0) {
+
+                    for (var i = 0; i < status.length; i++) {
+                        if (!!status[i].val) str += status[i].val;
+                        if (i < status.length - 1) str += ',';
+                    }
+                }
+                if (arguments.length == 1) {
+                    for (var t in status) {
+                        if (!!status[t].key && status[t].key == key)
+                            str = status[t].val;
+                    }
+                }
+                return str;
+            }
+            //写入
+            if (arguments.length == 2) {
+                if (status == null || !(status instanceof Array)) status = [];
+                var isexist = false;
+                for (var t in status) {
+                    if (!!status[t].key && status[t].key == key) {
+                        status[t].val = code;
+                        isexist = true;
+                    }
+                }
+                if (!isexist) status.push({
+                    key: key,
+                    val: code
+                });
+                methods.storage(storagename, status);
+                return status;
+            }
+        },
+        //判断变量是否是对象
+        isobj: function (obj) {
+            return Object.prototype.toString.call(obj) === '[object Object]';
+        },
         //在线浏览pdf文件
-        pdfViewer: function(file) {
+        pdfViewer: function (file) {
             var viewer = "/Utility/PdfViewer/viewer.html";
             if (file.indexOf("?") > -1) file = file.substring(0, file.indexOf("?"));
             viewer += "?file=" + encodeURIComponent(file);
@@ -220,9 +265,9 @@
         }
     };
     //api操作的具体对象和方法
-    var apiObj = function(version) {
+    var apiObj = function (version) {
         //加载效果，参数：前者为一般loading效果，后者一般为去除loading
-        this.effect = function(loading, loaded) {
+        this.effect = function (loading, loaded) {
             this.loadeffect.before = loading;
             this.loadeffect.after = loaded;
             return this;
@@ -243,7 +288,7 @@
         //创建请求对象，以及拦截器
         //way:接口方法
         //returntype:返回数据的类型，Json或xml
-        this.query = function(way, parameters, method, loading, loaded, returntype) {
+        this.query = function (way, parameters, method, loading, loaded, returntype) {
             var url = methods.url(this.version, way);
             if (arguments.length < 2 || parameters == null) parameters = {};
             if (arguments.length < 3 || method == null || method == '') method = 'get';
@@ -262,13 +307,13 @@
                 },
                 auth: {
                     username: 'weishakeji ' + method + ' ' + returntype + ' ' + window.location,
-                    password: 'token'
+                    password: methods.loginstatus()
                 },
                 timeout: 60 * 1000,
                 returntype: returntype
             });
             //添加请求拦截器（即请求之前）
-            instance.interceptors.request.use(function(config) {
+            instance.interceptors.request.use(function (config) {
                 if (loading == null) loading = self.loadeffect.before;
                 if (loading != null) loading(config);
                 //在发送请求之前做某件事
@@ -297,23 +342,23 @@
                     config.params = tmpObj;
                 }
                 return config;
-            }, function(error) {
+            }, function (error) {
                 console.log('错误的传参');
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loading != null) loaded(config, error);
                 //return Promise.reject(error);
             });
             //添加响应拦截器（即返回之后）
-            instance.interceptors.response.use(function(response) {
+            instance.interceptors.response.use(function (response) {
                 response.text = response.data;
                 //如果返回的数据是字符串，这里转为json
                 if (response.config.returntype == "json") {
-                    if (typeof(response.data) == 'string') {
+                    if (typeof (response.data) == 'string') {
                         response.data = eval("(" + response.data + ")");
                     }
                     //处理数据，服务器端返回的数据是经过Url编码的，此处进行解码
                     if (response.data.result != null) {
-                        if (typeof(response.data.result) == 'string') {
+                        if (typeof (response.data.result) == 'string') {
                             try {
                                 response.data.result = eval("(" + response.data.result + ")");
                             } catch (err) {
@@ -322,6 +367,7 @@
                         }
                         response.data.result = methods.unescape(response.data.result);
                     }
+                    response.data = methods.unescape(response.data);
                 }
                 //计算执行耗时
                 if (response.data) {
@@ -331,7 +377,7 @@
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loaded != null) loaded(response, null);
                 return response;
-            }, function(error) {
+            }, function (error) {
                 if (loaded == null) loaded = self.loadeffect.after;
                 if (loaded != null) loaded(null, error);
                 //return Promise.reject(error);
@@ -348,7 +394,7 @@
             }
         }
         //一次获取多个数据
-        this.all = function(queryArr) {
+        this.bat = function (queryArr) {
             if (arguments.length == 0) return null;
             if (arguments.length == 1) return queryArr;
             return axios.all(arguments);
@@ -374,7 +420,7 @@
 });*/
 
 /*一次获取多个数据
-$api.all(
+$api.bat(
     $api.get("Outline/tree", { couid: $api.querystring("couid") }),
     $api.get("Course/ForID", { id: $api.querystring("couid") })
 ).then(axios.spread(function (req, cur) {
@@ -383,32 +429,14 @@ $api.all(
     }
 }));
 */
-//日期格式化
-Date.prototype.format = function(fmt) {
-    var o = {
-        "M+": this.getMonth() + 1,
-        "d+": this.getDate(),
-        "h+": this.getHours()
-    };
-    if (/(y+)/.test(fmt))
-        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt))
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 
-    return fmt;
-}
 //添加加载前后的事件
-$api.effect(function() {
+$api.effect(function () {
 
-}, function(response, err) {
+}, function (response, err) {
     //请求网址
-    var url = response ? response.config.url : err.config.url;
-    if(response==null){
-        alert('"'+url+'",请求失败。message:'+err.message);
-        return;
-    }
-    url=url.substring(url.indexOf('/v1/')+3);
+    var url = response.config.url;
+    url = url.substring(url.indexOf('/v1/') + 3);
     //请求参数
     var para = JSON.stringify(response.config.params);
     para = para == undefined ? '' : para;

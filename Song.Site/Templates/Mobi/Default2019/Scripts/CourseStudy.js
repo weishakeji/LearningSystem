@@ -202,7 +202,7 @@ var vdata = new Vue({
 			vdata.olid = olid;
 			if (event != null) event.preventDefault();
 			//获取当前章节状态，和专业信息
-			$api.all(
+			$api.bat(
 				$api.get("Outline/ForID", {
 					id: olid
 				}),
@@ -343,8 +343,8 @@ var vdata = new Vue({
 	},
 	created: function() {
 		var couid = $api.querystring("couid");
-		$api.all(
-			$api.get("Outline/tree", {
+		$api.bat(
+			$api.post("Outline/tree", {
 				couid: couid
 			}),
 			$api.get("Course/ForID", {

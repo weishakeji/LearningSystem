@@ -343,7 +343,7 @@
 });*/
 
 /*一次获取多个数据
-$api.all(
+$api.bat(
     $api.get("Outline/tree", { couid: $api.querystring("couid") }),
     $api.get("Course/ForID", { id: $api.querystring("couid") })
 ).then(axios.spread(function (req, cur) {
