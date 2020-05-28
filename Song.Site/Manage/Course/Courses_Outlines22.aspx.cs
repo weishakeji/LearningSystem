@@ -227,7 +227,7 @@ namespace Song.Site.Manage.Course
             int olid = int.Parse(this.GridView1.DataKeys[gr.RowIndex].Value.ToString());
             //从数据库获取章节
             Song.Entities.Outline[] outline = Business.Do<IOutline>().OutlineAll(couid, null);
-            DataTable dt = WeiSha.WebControl.Tree.ObjectArrayToDataTable.To(outline);
+            DataTable dt = Business.Do<IOutline>().OutlineTree(outline);
             //是否有下级，下级的最大tax
             int tax = 0;
             for (int i = 0; i < dt.Rows.Count; i++)

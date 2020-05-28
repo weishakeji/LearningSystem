@@ -43,12 +43,14 @@
                     <ItemTemplate>
                         <span class="treeIco">
                             <%# Eval("Tree")%></span>
+                            <%# Eval("Ol_XPath", "{0}")%>  
                             <%# Eval("Ol_IsLive", "{0}") == "True" ? "<l title='直播'></l>" : ""%>
                         <asp:LinkButton ID="btnName" runat="server" OnClick="btnToEditor_Click"><%# Eval("Ol_Name", "{0}")%></asp:LinkButton>
                     </ItemTemplate>
                     <EditItemTemplate>
                         <span class="treeIco">
-                            <%# Eval("Tree")%></span>                            
+                            <%# Eval("Tree")%></span>  
+                                              
                         <asp:TextBox ID="tbName" runat="server" Width="95%" Text='<%# Eval("Ol_Name", "{0}")%>'
                             nullable="false" group="edit"></asp:TextBox>
                         <div style="display: none">
