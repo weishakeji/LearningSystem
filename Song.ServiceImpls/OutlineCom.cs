@@ -179,7 +179,7 @@ namespace Song.ServiceImpls
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("直播流创建失败，" + ex.Message);
+                        //throw new Exception("直播流创建失败，" + ex.Message);
                     }
                     if (stream != null) entity.Ol_LiveID = stream.Title;
                 }

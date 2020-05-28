@@ -360,6 +360,7 @@
     <Content Include="Manage\Course\Scripts\Outline_Video.js" />
     <Content Include="Manage\Course\Scripts\Courses_Message.js" />
     <Content Include="Manage\Course\Scripts\Courses_Outlines22.js" />
+    <Content Include="Manage\Course\Scripts\Outline_Accessory.js" />
     <Content Include="Manage\Course\Styles\Courses.css" />
     <Content Include="Manage\Course\Styles\Courses_Edit.css" />
     <Content Include="Manage\Course\Styles\Courses_Guide.css" />

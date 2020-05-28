@@ -39,7 +39,7 @@
             throw req.data.message;
         }
     }).catch(function (err) {
-        alert(err);
+        //alert(err);
     });
 });
 //导入

@@ -20,7 +20,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 章节信息
     /// </summary>
-    [HttpGet]
+    [HttpGet, HttpPut]
     public class Outline : IViewAPI
     {
         /// <summary>
@@ -53,7 +53,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">所属课程的id</param>
         /// <returns></returns>
         [HttpGet,HttpPost,HttpPut]
-        [Cache(Expires=20)]
+        [Cache(Expires=120)]
         public DataTable Tree(int couid)
         {
             // 当前课程的所有章节
