@@ -3,7 +3,8 @@
   <item name="常规" href="Courses_Edit.aspx"/>
   <item name="资费" href="Courses_Money.aspx"/>
   <!--<item name="题型 " href="Courses_QuesTypes.aspx"/>-->  
-  <item name="章节" href="Courses_Outlines.aspx"/>
+  <!--<item name="章节" href="Courses_Outlines.aspx"/>-->
+  <item name="章节" href="Courses_Outlines22.aspx"/>
   <item name="试题" href="Courses_Questions.aspx"/>
   <item name="试卷" href="Courses_TestPaper.aspx"/>
   <item name="知识 " href="Courses_Knl.aspx"/>

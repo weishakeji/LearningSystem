@@ -52,7 +52,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="couid">所属课程的id</param>
         /// <returns></returns>
-        [HttpGet,HttpPost]
+        [HttpGet,HttpPost,HttpPut]
         [Cache(Expires=20)]
         public DataTable Tree(int couid)
         {

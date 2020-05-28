@@ -359,6 +359,7 @@
     <Content Include="Manage\Course\Scripts\Courses_Outlines.js" />
     <Content Include="Manage\Course\Scripts\Outline_Video.js" />
     <Content Include="Manage\Course\Scripts\Courses_Message.js" />
+    <Content Include="Manage\Course\Scripts\Courses_Outlines22.js" />
     <Content Include="Manage\Course\Styles\Courses.css" />
     <Content Include="Manage\Course\Styles\Courses_Edit.css" />
     <Content Include="Manage\Course\Styles\Courses_Guide.css" />
@@ -373,7 +374,7 @@
     <Content Include="Manage\Course\OutlineEvent_Edit.aspx" />
     <Content Include="Manage\Course\Courses_Questions.aspx" />
     <Content Include="Manage\Course\Styles\Courses_Questions.css" />
-    <Content Include="Manage\Course\Courses_Outlines.aspx" />
+    <Content Include="Manage\Course\Courses_Outlines22.aspx" />
     <Content Include="Manage\Course\Styles\Courses_Outlines.css" />
     <Content Include="Manage\Course\Outline_Edit.aspx" />
     <Content Include="Manage\Course\Outline_Accessory.aspx" />
@@ -384,6 +385,8 @@
     <Content Include="Manage\Course\Outline_Live.aspx" />
     <Content Include="Manage\Course\Courses_Message.aspx" />
     <Content Include="Manage\Course\Styles\Courses_Message.css" />
+    <Content Include="Manage\Course\Courses_Outlines.aspx" />
+    <Content Include="Manage\Course\Styles\Courses_Outlines22.css" />
     <Content Include="Manage\DataTemplate\Config\充值码.xml" />
     <Content Include="Manage\DataTemplate\Config\学习卡.xml" />
     <Content Include="Manage\DataTemplate\Config\教师信息.xml">
@@ -2683,12 +2686,12 @@
     <Compile Include="Manage\Course\Courses_Questions.aspx.designer.cs">
       <DependentUpon>Courses_Questions.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Manage\Course\Courses_Outlines.aspx.cs">
-      <DependentUpon>Courses_Outlines.aspx</DependentUpon>
+    <Compile Include="Manage\Course\Courses_Outlines22.aspx.cs">
+      <DependentUpon>Courses_Outlines22.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Manage\Course\Courses_Outlines.aspx.designer.cs">
-      <DependentUpon>Courses_Outlines.aspx</DependentUpon>
+    <Compile Include="Manage\Course\Courses_Outlines22.aspx.designer.cs">
+      <DependentUpon>Courses_Outlines22.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Course\Outline_Edit.aspx.cs">
       <DependentUpon>Outline_Edit.aspx</DependentUpon>
@@ -2738,6 +2741,13 @@
     </Compile>
     <Compile Include="Manage\Course\Courses_Message.aspx.designer.cs">
       <DependentUpon>Courses_Message.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Course\Courses_Outlines.aspx.cs">
+      <DependentUpon>Courses_Outlines.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Course\Courses_Outlines.aspx.designer.cs">
+      <DependentUpon>Courses_Outlines.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Exam\TestPaper_Edit1.aspx.cs">
       <DependentUpon>TestPaper_Edit1.aspx</DependentUpon>

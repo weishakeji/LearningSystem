@@ -136,7 +136,7 @@
                   </div>
                   <div class="outline rightArea" v-show="rightState=='outline'">
                         <template v-for="d in outlines" remark="章节列表">
-                              <div :class="'olitem '+(d.Ol_IsVideo ? 'li-video ' : '')+(d.Ol_ID==olid ? 'current ' : '')+(d.Ol_IsLive ? 'li-live ' : '')"
+                              <div v-if="d.Ol_IsUse" :class="'olitem '+(d.Ol_IsVideo ? 'li-video ' : '')+(d.Ol_ID==olid ? 'current ' : '')+(d.Ol_IsLive ? 'li-live ' : '')"
                                     :isvideo="d.Ol_IsVideo" :olid="d.Ol_ID"
                                     :style="'padding-left:'+(d.Ol_Level*15+5)+'px'">
                                     <template v-if="state.isBuy || d.Ol_IsFree || course.Cou_IsFree"

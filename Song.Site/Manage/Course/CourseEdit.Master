@@ -13,7 +13,7 @@
     <meta http-equiv="expires" content="0" />
     <meta http-equiv="Content-Language" content="zh-cn" />
     <base target="_self"></base>
-     <script type="text/javascript" src="/Utility/ElementUi/vue_min.js"></script>
+    <script type="text/javascript" src="/Utility/ElementUi/vue_min.js"></script>
     <script type="text/javascript" src="/Utility/ElementUi/index.js"></script>
     <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js"></script>
     <script type="text/javascript" src="/Utility/CoreScripts/api.js"></script>
