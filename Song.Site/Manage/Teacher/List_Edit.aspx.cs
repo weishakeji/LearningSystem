@@ -43,7 +43,11 @@ namespace Song.Site.Manage.Teacher
                 if (ts.Ths_IsDefault)
                 {
                     ListItem li = Ths_ID.Items.FindByValue(ts.Ths_ID.ToString());
-                    if (li != null) li.Selected = true;
+                    if (li != null)
+                    {
+                        li.Selected = true;
+                        break;
+                    }
                 }
             }
         }
