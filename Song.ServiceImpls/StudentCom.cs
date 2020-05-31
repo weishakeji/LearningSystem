@@ -931,7 +931,7 @@ namespace Song.ServiceImpls
             //} ;
             //开始计算
             string sql = @"
-select * from course as c inner join 
+select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inner join 
 	(select cou_id, max(lastTime) as 'lastTime',sum(studyTime) as 'studyTime',		
 		sum(case when complete>=100 then 100 else complete end) as 'complete'
 		from 

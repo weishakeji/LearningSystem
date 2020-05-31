@@ -114,6 +114,7 @@
     <Compile Include="Methods\Message.cs" />
     <Compile Include="Methods\Teacher.cs" />
     <Compile Include="Methods\Helper.cs" />
+    <Compile Include="Methods\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResultCache.cs" />
   </ItemGroup>

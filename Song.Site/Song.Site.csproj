@@ -497,6 +497,7 @@
     <Content Include="Manage\Student\Scripts\Course_Curr.js" />
     <Content Include="Manage\Student\Scripts\StudyLog.js" />
     <Content Include="Manage\Student\Scripts\Students_Details.js" />
+    <Content Include="Manage\Student\Scripts\Students_DetailsBat.js" />
     <Content Include="Manage\Student\SelfCourse.aspx" />
     <Content Include="Manage\Student\Students_Details.aspx" />
     <Content Include="Manage\Student\Styles\Course.css" />
@@ -523,6 +524,7 @@
     <Content Include="Manage\Student\Styles\Course_Curr.css" />
     <Content Include="Manage\Student\Styles\Learningcard.css" />
     <Content Include="Manage\Student\Styles\LearningCardView.css" />
+    <Content Include="Manage\Student\Styles\Students_DetailsBat.css" />
     <Content Include="Manage\Student\Subordinates.aspx" />
     <Content Include="Manage\Student\Share.aspx" />
     <Content Include="Manage\Student\PointDetails.aspx" />
@@ -534,6 +536,7 @@
     <Content Include="Manage\Student\Course_Study.aspx" />
     <Content Include="Manage\Student\Course_Expire.aspx" />
     <Content Include="Manage\Student\LearningCardView.aspx" />
+    <Content Include="Manage\Student\Students_DetailsBat.aspx" />
     <Content Include="Manage\Styles\Jme.css" />
     <Content Include="Manage\Styles\Jme\Symbola.svg" />
     <Content Include="Manage\Sys\LimitDomain.aspx" />
@@ -3092,6 +3095,13 @@
     </Compile>
     <Compile Include="Manage\Student\LearningCardView.aspx.designer.cs">
       <DependentUpon>LearningCardView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\Students_DetailsBat.aspx.cs">
+      <DependentUpon>Students_DetailsBat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\Students_DetailsBat.aspx.designer.cs">
+      <DependentUpon>Students_DetailsBat.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Sys\Accounts.aspx.cs">
       <DependentUpon>Accounts.aspx</DependentUpon>

@@ -1,0 +1,186 @@
+﻿@charset "utf-8";
+@page {
+	size: A4 portrait;
+	margin: 2cm;
+	margin-top: 1cm;
+	margin-bottom: 1cm;
+}
+
+@media all {
+	.page {
+		position: relative;
+	}
+	.page-title {
+		height: 40px;
+		line-height: 30px;
+		text-align: center;
+		font-size: 25px;
+		font-weight: bold;
+	}
+	select {
+		display: none;
+	}
+	/*公章*/
+	.stamp {
+		position: absolute;
+		z-index: 1000;
+		opacity: 0.8;
+		filter: alpha(opacity=80);
+		page-break-inside: avoid;
+	}
+	.left-top {
+		top: -20px;
+		left: -0px;
+	}
+	.left-bottom {
+		bottom: 30px;
+		left: 30px;
+	}
+	.right-top {
+		top: 0px;
+		right: 0px;
+	}
+	.right-bottom {
+		right: 0px;
+		bottom: 0px;
+	}
+	/*主体表格*/
+	table {
+		max-width: 100%;
+		margin-right: auto;
+		margin-left: auto;
+		--page-break-before: auto;
+	}
+	table.first {
+		border-bottom-style: none;
+	}
+	table.second {
+		border-bottom-style: none;
+		border-top-style: none;
+	}
+	table.three {
+		border-top-style: none;
+		page-break-after: always;
+	}
+	table td {
+		height: 35px !important;
+		line-height: 20px;
+		overflow: hidden;
+		font-size: 16px;
+	}
+	.photo {
+		height: 200px;
+		width: 150px;
+		overflow: visible;
+	}
+	.photo img {
+		height: 200px;
+		margin-top: 2px;
+		margin-left: 2px;
+		margin-right: 2px;
+	}
+	table td.right {
+		font-weight: bold !important;
+	}
+	table td.center {
+		font-weight: bold !important;
+	}
+	table td.left {
+		text-indent: 10px;
+	}
+	.txtrow {
+		font-size: 13px;
+		white-space: nowrap;
+	}
+	.intro {
+		height: 400px;
+	}
+	/**/
+	table.firtst {
+		page-break-after: avoid;
+		height: 29cm;
+	}
+	/*课程学习情况*/
+	.rtpLearnInfo {
+		min-height: 360px;
+		padding: 10px;
+		margin-bottom: 120px;
+	}
+	.rtpLearnInfo dt, dd {
+		line-height: 35px;
+	}
+	.rtpLearnInfo div {
+		font-size: 15px;
+	}
+	.rtpLearnInfo .cou {
+		width: 70%;
+		float: left;
+	}
+	.rtpLearnInfo .date {
+		width: 20%;
+		float: left;
+	}
+	.rtpLearnInfo .complete {
+		width: 10%;
+		float: left;
+	}
+	/*课程详情区域*/
+	.info-area {
+		position: relative;
+		page-break-inside: avoid;
+	}
+	.info-foot {
+		position: absolute;
+		right: 50px;
+		bottom: 30px;
+	}
+	.plate-name {
+		font-size: 18px;
+		line-height: 40px;
+		text-align: right;
+	}
+	.output-date {
+		font-size: 16px;
+		line-height: 40px;
+		text-align: right;
+	}
+	/*二维码*/
+	.qrcode {
+		position: absolute;
+		left: 20px;
+		bottom: 15px;
+	}
+	.pageWinBtn input {
+		margin-top: 10px;
+		text-align: center;
+		text-indent: 10px;
+		font-weight: bold;
+		color: #333333;
+		font-size: 14px;
+		line-height: 35px;
+		width: 120px;
+		height: 35px;
+	}
+}
+
+@media print {
+	.pageWinBtn input {
+		display: none;
+	}
+	.page {
+		PAGE-BREAK-AFTER: always;
+	}
+	.qrcode {
+		position: absolute;
+		left: 20px;
+		bottom: 15px;
+		display:block;
+	}
+	table td {
+		height: 35px !important;
+		line-height: 20px;
+		overflow: hidden;
+
+		font-size: 16px;
+	}
+}
