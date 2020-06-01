@@ -14,13 +14,20 @@ var vm = new Vue({
     data: {
         sts: $api.querystring('sts'),//学员分组
         students: [],    //所有学员
+        org: {},         //当前机构信息
+        stamp: {},         //公章信息（参数，stamp:公章base64编码;positon:位置）
         loading: true,
         finishcount: 0,      //加载完成数
     },
     watch: {
         //当所有学员的进度获取完成，loading状态
         'finishcount': function (val, old) {
-            if (val >= this.students.length) this.loading = false;
+            if (val >= this.students.length + 2) this.loading = false;
+        },
+        'loading': function (val, old) {
+            if (!val) {
+                this.qrcode();
+            }
         }
     },
     computed: {
@@ -62,9 +69,21 @@ var vm = new Vue({
         getstamp: function () {
             $api.get('Platform/Stamp').then(function (req) {
                 if (req.data.success) {
-                    var result = req.data.result;
-                    $("#stamp").attr("src", result.stamp);
-                    //...
+                    vm.stamp = req.data.result;
+                    vm.finishcount++;
+                } else {
+                    throw req.data.message;
+                }
+            }).catch(function (err) {
+                alert(err);
+            });
+        },
+        //获取机构信息
+        getorg: function () {
+            $api.get('Organ/Current').then(function (req) {
+                if (req.data.success) {
+                    vm.finishcount++;
+                    vm.org = req.data.result;
                 } else {
                     throw req.data.message;
                 }
@@ -74,14 +93,22 @@ var vm = new Vue({
         },
         //生成二维码
         qrcode: function (stid) {
-            jQuery($(this)).qrcode({
-                render: "canvas", //也可以替换为table
-                width: 75,
-                height: 75,
-                foreground: "#000",
-                background: "#FFF",
-                text: $().getHostPath() + "Mobile/certify.ashx?acid=" + stid
-                //text:acid
+            //生成学员学习证明的二维码
+            $(".qrcode").each(function () {
+                var acid = $(this).attr("acid");
+                jQuery($(this)).qrcode({
+                    render: "canvas", //也可以替换为table
+                    width: 75,
+                    height: 75,
+                    foreground: "#000",
+                    background: "#FFF",
+                    text: $().getHostPath() + "Mobile/certify.ashx?acid=" + acid
+                    //text:acid
+                });
+                //将canvas转换成img标签，否则无法打印
+                var canvas = $(this).find("canvas").hide()[0];  /// get canvas element
+                var img = $(this).append("<img/>").find("img")[0]; /// get image element
+                img.src = canvas.toDataURL();
             });
         },
         //获取学历
@@ -102,8 +129,14 @@ var vm = new Vue({
             }
             return '';
         },
+        //计算完成度的百分比
+        getPercent: function (val) {
+            if (val > 95) return '100%';
+            val = Math.round(val * 10000) / 10000
+            return val + '%';
+        },
         //生日
-        birthday: function (fmt,date) {
+        birthday: function (fmt, date) {
             date = new Date(date);
             if ((new Date().getFullYear() - date.getFullYear()) > 100) return '';
             return this.format(fmt, date);
@@ -149,6 +182,7 @@ var vm = new Vue({
         }
     },
     mounted() {
+        this.getorg();
         this.getall();
         this.getstamp();
     },

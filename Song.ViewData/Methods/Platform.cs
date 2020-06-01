@@ -5,6 +5,8 @@ using System.Text;
 using Song.ServiceInterfaces;
 using WeiSha.Common;
 using Song.ViewData.Attri;
+using System.IO;
+
 
 namespace Song.ViewData.Methods
 {
@@ -93,7 +95,7 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 机构公章信息
         /// </summary>
-        /// <returns>stamp:公章base64编码;positon:位置</returns>
+        /// <returns>path:公章图片路径;positon:位置</returns>
         public Dictionary<string, string> Stamp()
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
@@ -106,9 +108,8 @@ namespace Song.ViewData.Methods
             dic.Add("positon", positon);
             //公章图像信息
             string stamp = config["Stamp"].Value.String;
-            string base64 = WeiSha.Common.Images.FileTo.ToBase64(Upload.Get["Org"].Physics + stamp);
-            dic.Add("stamp", string.IsNullOrWhiteSpace(base64) ? "" : "data:image/jpeg;base64," + base64);
-
+            string filepath = Upload.Get["Org"].Physics + stamp;           
+            dic.Add("path", !File.Exists(filepath) ? "" : Upload.Get["Org"].Virtual + stamp);
             return dic;
         }
         //其它基础信息

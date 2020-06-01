@@ -8,7 +8,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
     <script type="text/javascript" src="/Utility/CoreScripts/jquery.qrcode.min.js"></script>
     <script type="text/javascript" src="/Manage/CoreScripts/jquery.jqprint-0.3.js"></script>
-    <img id="stamp" />
     <div id="app-area">
         <div>
             学员数量：{{students.length}}</div>
@@ -18,7 +17,9 @@
             状态：{{loading}}</div>
             {{students.length}}
           
-        <div class="page"  v-for="d in students">
+        <div class="page"  v-for="d in students">       
+        <img id="imgStamp" :src="stamp.path"  :class="'stamp '+stamp.positon" remark="公章"/>
+        <div class="qrcode"></div>
             <div class="page-title">
                 学习证明</div>
             <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0">
@@ -99,7 +100,112 @@
                     </td>
                 </tr>
             </table>
-         
+         <table width="100%" class="second" border="1" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="right" width="120px">
+                            毕业院校：
+                        </td>
+                        <td class="left" colspan="4">
+                            {{d.Ac_School}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            通讯地址：
+                        </td>
+                        <td class="left" colspan="4">
+                            {{d.Ac_AddrContact}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            邮编：
+                        </td>
+                        <td class="left" width="100px">
+                            {{d.Ac_Zip}}
+                        </td>
+                        <td class="right" width="100px">
+                            电话：
+                        </td>
+                        <td class="left" colspan="2">
+                            {{d.Ac_MobiTel1}}
+                            &nbsp;
+                            {{d.Ac_MobiTel2==d.Ac_MobiTel1 ? "" : d.Ac_MobiTel2}}
+                            &nbsp;
+                            {{d.Ac_Tel}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            网路通讯：
+                        </td>
+                        <td class="left" colspan="4">
+                            <span class="txtrow">
+                                {{d.Ac_Email != null ? "Email：" + d.Ac_Email : ""}}
+                                &nbsp;
+                                {{d.Ac_Weixin  != null ? "微信：" + d.Ac_Weixin : ""}}
+                                &nbsp;
+                                {{d.Ac_Qq  != null ? "QQ：" + d.Ac_Qq : ""}}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="right">
+                            紧急联系人：
+                        </td>
+                        <td class="left" colspan="4">
+                            {{d.Ac_LinkMan}}
+                            &nbsp;
+                            {{d.Ac_LinkManPhone != null ? "联系电话：" +d.Ac_LinkManPhone  : ""}}
+                        </td>
+                    </tr>
+                    </table>
+                     <table width="100%" class="three" border="1" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="center">
+                            学习情况
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="info-area">
+                            <dl class="rtpLearnInfo">
+                                <dt>
+                                    <div class="cou">
+                                        课程</div>
+                                    <div class="date">
+                                        学习时间</div>
+                                    <div class="complete">
+                                        完成度</div>
+                                </dt>
+                                <dd v-for="(c,index) in d.courses">
+                                <div class="cou">
+                                              {{index+1}}.  《
+                                                {{c.Cou_Name}}
+                                                》
+                                            </div>
+                                            <div class="date">
+                                            
+                                                {{ format('yyyy-MM-dd',new Date(c.lastTime))}}
+                                            </div>
+                                               <div class="complete">
+                                               {{getPercent(c.complete)}}
+                                               </div>
+                                </dd>
+                            </dl>
+                            <%--机构信息--%>
+                            <div class="info-foot">
+                                <div class="plate-name">
+                                    {{org.Org_Name}}
+                                </div>
+                                <div class="output-date">
+                                   
+                                    {{format('yyyy年M月d日',new Date())}}
+                                </div>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </table>
         </div>
     </div>
 </asp:Content>
