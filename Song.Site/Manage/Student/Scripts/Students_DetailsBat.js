@@ -17,12 +17,17 @@ var vm = new Vue({
         org: {},         //当前机构信息
         stamp: {},         //公章信息（参数，stamp:公章base64编码;positon:位置）
         loading: true,
+        //课程分页
+        coursepager: {
+            first: 10,      //第一页显示多少条
+            size: 20         //后续每页显示多少条
+        },
         finishcount: 0,      //加载完成数
     },
     watch: {
         //当所有学员的进度获取完成，loading状态
         'finishcount': function (val, old) {
-            if (val >= this.students.length + 2) this.loading = false;
+            if (val >= (this.students.length + 2)) this.loading = false;
         },
         'loading': function (val, old) {
             if (!val) {
@@ -49,6 +54,18 @@ var vm = new Vue({
                             if (req.data.success) {
                                 var result = req.data.result;
                                 element.courses = result;
+                                //测试
+                                if (result.length > 0) {
+                                    //var c = JSON.parse(JSON.stringify( result[0] ));
+                                    for (var i = 0; i < 50; i++) {
+                                        var c = JSON.parse(JSON.stringify(result[0]));
+                                        c.Cou_Name += i;
+                                        element.courses.push(c);
+                                    }
+                                    //计算页数
+                                    var pagercount = Math.ceil((element.courses.length - vm.coursepager.first) / vm.coursepager.size);
+                                    element.pager = pagercount;
+                                }
                                 //console.log(element);
                                 vm.finishcount++;
                             } else {
@@ -92,9 +109,17 @@ var vm = new Vue({
             });
         },
         //生成二维码
-        qrcode: function (stid) {
-            //生成学员学习证明的二维码
+        qrcode: function () {
+            var len = $(".qrcode").length;
+            if(len<=0) window.setTimeout(this.qrcode, 100);;
+            ///console.log('qrcode:'+$(".qrcode").size());
+            //console.log('img:'+$(".qrcode img").size());
+            if ($(".qrcode").size() > $(".qrcode img").size()) {
+                window.setTimeout(this.qrcode, 100);
+            }
+            //生成学员学习证明的二维码 
             $(".qrcode").each(function () {
+                if ($(this).find("img").size() > 0) return;
                 var acid = $(this).attr("acid");
                 jQuery($(this)).qrcode({
                     render: "canvas", //也可以替换为table
@@ -103,7 +128,6 @@ var vm = new Vue({
                     foreground: "#000",
                     background: "#FFF",
                     text: $().getHostPath() + "Mobile/certify.ashx?acid=" + acid
-                    //text:acid
                 });
                 //将canvas转换成img标签，否则无法打印
                 var canvas = $(this).find("canvas").hide()[0];  /// get canvas element

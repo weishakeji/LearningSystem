@@ -8,21 +8,16 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
     <script type="text/javascript" src="/Utility/CoreScripts/jquery.qrcode.min.js"></script>
     <script type="text/javascript" src="/Manage/CoreScripts/jquery.jqprint-0.3.js"></script>
-    <div id="app-area">
-        <div>
-            学员数量：{{students.length}}</div>
-        <div>
-            完成数：{{finishcount}}</div>
-        <div>
-            状态：{{loading}}</div>
-            {{students.length}}
-          
-        <div class="page"  v-for="d in students">       
+    <div id="app-area" v-clock>
+    <div id="loading" v-show="loading"><img src="../Images/loading/load_016.gif" />
+    <div>加载中... 学员{{students.length}}个，完成 {{finishcount<=2 ? 0 : finishcount-2}} </div>
+    </div>
+ <template  v-for="d in students" v-if="!loading">
+        <div class="page"  v-show="!loading">       
         <img id="imgStamp" :src="stamp.path"  :class="'stamp '+stamp.positon" remark="公章"/>
         <div class="qrcode"></div>
-            <div class="page-title">
-                学习证明</div>
-            <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0">
+         <div class="page-title">学习证明</div>
+         <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0">
                 <tr>
                     <td class="right" width="120px">
                         姓名：
@@ -160,10 +155,12 @@
                         </td>
                     </tr>
                     </table>
-                     <table width="100%" class="three" border="1" cellspacing="0" cellpadding="0">
+         <table width="100%" class="three" border="1" cellspacing="0" cellpadding="0">
                     <tr>
                         <td class="center">
-                            学习情况
+                            学习情况 <span style="font-weight:normal">（{{ d.courses ? d.courses.length : 0}} 门课程
+                            {{d.pager ? '，分'+ (d.pager+1)+'页打印': ''}}
+                            ）</span>
                         </td>
                     </tr>
                     <tr>
@@ -177,7 +174,7 @@
                                     <div class="complete">
                                         完成度</div>
                                 </dt>
-                                <dd v-for="(c,index) in d.courses">
+                                <dd v-for="(c,index) in d.courses" v-if="index<coursepager.first">
                                 <div class="cou">
                                               {{index+1}}.  《
                                                 {{c.Cou_Name}}
@@ -207,6 +204,63 @@
                     </tr>
                 </table>
         </div>
+        <template v-if="d.courses && d.courses.length>10" v-for="p in d.pager">
+         <div class="page"> 
+          <img id="img1" :src="stamp.path"  :class="'stamp '+stamp.positon" remark="公章"/>
+        <div class="qrcode"></div>
+         <div class="pagerinfo"><span>学员： {{d.Ac_Name}}</span>  &nbsp;&nbsp;
+         <span v-show="d.Ac_IDCardNumber!=null">身份证号：{{d.Ac_IDCardNumber}}</span>
+         <span v-show="d.Ac_CodeNumber!=null">学号：{{d.Ac_CodeNumber}}</span>
+          </div>
+          <table width="100%" class="four" border="1" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td class="center">
+                            学习情况 <span style="font-weight:normal">（累计学习 {{ d.courses ? d.courses.length : 0}} 门课程，<span>第{{p+1}}/{{d.pager+1}}页</span>）</span>
+                        </td>
+                    </tr>
+                     <tr>
+                        <td class="info-area">
+                            <dl class="rtpLearnInfo" style="min-height: 20.7cm">
+                                <dt>
+                                    <div class="cou">
+                                        课程</div>
+                                    <div class="date">
+                                        学习时间</div>
+                                    <div class="complete">
+                                        完成度</div>
+                                </dt>
+                                <dd v-for="(c,index) in d.courses" v-if="index>=coursepager.first+(p-1)*coursepager.size && index<coursepager.first+p*coursepager.size">
+                                <div class="cou">
+                                              {{index+1}}.  《
+                                                {{c.Cou_Name}}
+                                                》
+                                            </div>
+                                            <div class="date">
+                                            
+                                                {{ format('yyyy-MM-dd',new Date(c.lastTime))}}
+                                            </div>
+                                               <div class="complete">
+                                               {{getPercent(c.complete)}}
+                                               </div>
+                                </dd>
+                            </dl>
+                            <%--机构信息--%>
+                            <div class="info-foot">
+                                <div class="plate-name">
+                                    {{org.Org_Name}}
+                                </div>
+                                <div class="output-date">
+                                   
+                                    {{format('yyyy年M月d日',new Date())}}
+                                </div>
+                            </div>
+                            
+                        </td>
+                    </tr>
+                    </table>
+         </div>
+        </template>
+</template>
     </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">

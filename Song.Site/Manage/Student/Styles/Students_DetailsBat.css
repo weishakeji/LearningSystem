@@ -6,7 +6,12 @@
 	margin-bottom: 1cm;
 }
 
+.loading {}
+
 @media all {
+	[v-clock] {
+		display: none;
+	}
 	.page {
 		position: relative;
 	}
@@ -16,6 +21,12 @@
 		text-align: center;
 		font-size: 25px;
 		font-weight: bold;
+	}
+	.pagerinfo
+	{
+	    height:30px;
+		line-height: 30px;
+		font-size: 16px;
 	}
 	select {
 		display: none;
@@ -102,7 +113,7 @@
 	}
 	/*课程学习情况*/
 	.rtpLearnInfo {
-		min-height: 360px;
+		min-height: 400px;
 		padding: 10px;
 		margin-bottom: 120px;
 	}
@@ -174,13 +185,12 @@
 		position: absolute;
 		left: 20px;
 		bottom: 15px;
-		display:block;
+		display: block;
 	}
 	table td {
 		height: 35px !important;
 		line-height: 20px;
 		overflow: hidden;
-
 		font-size: 16px;
 	}
 }
