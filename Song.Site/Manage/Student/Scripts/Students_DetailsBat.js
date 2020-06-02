@@ -56,12 +56,12 @@ var vm = new Vue({
                                 element.courses = result;
                                 //测试
                                 if (result.length > 0) {
-                                    //var c = JSON.parse(JSON.stringify( result[0] ));
+                                    /*//增加一些课程，用于分页打印的测试
                                     for (var i = 0; i < 50; i++) {
                                         var c = JSON.parse(JSON.stringify(result[0]));
                                         c.Cou_Name += i;
                                         element.courses.push(c);
-                                    }
+                                    }*/
                                     //计算页数
                                     var pagercount = Math.ceil((element.courses.length - vm.coursepager.first) / vm.coursepager.size);
                                     element.pager = pagercount;
