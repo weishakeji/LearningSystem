@@ -6,6 +6,14 @@
 
 >适用行业：企业培训、教育机构、高等教育、基础教育
 
+<b>产品特点：</b>
+>1、可私有化部署，对接支付宝支付、微信支付，收益全掌控；
+>2、多终端支持，电脑、手机、微信、APP、微信小程序，全都有；
+>3、永久授权，一次购买，终身使用；
+
+
+<b>功能介绍：</b>
+
 <b>开发环境：</b>
 * 1、采用C#；基于.Net 4.0
 * 2、数据库采用Sqlserver2005或更高版本
@@ -14,12 +22,3 @@
 <b>升级日志：</b>
 <a href="http://www.weishakeji.net/download.html" target="_blank">http://www.weishakeji.net/download.html</a> 
 
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_07.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_08.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_09.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_10.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_11.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_12.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_13.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_14.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_15.png?raw=true)
