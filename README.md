@@ -12,6 +12,11 @@
 * 永久授权，一次购买，终身使用；<a href="http://www.weishakeji.net/price.html" target="_blank" size=12> [ 购买商业授权 ] </a>
 
 ## 功能介绍：
+* 视频教学，直播、录播
+
+* 试题同步练习，时实记录学习进度
+
+* 在线考试
 
 ## 开发环境：
 * 采用C#；基于.Net 4.0
