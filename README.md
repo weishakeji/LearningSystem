@@ -9,7 +9,7 @@
 ## 产品特点：
 * 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
 * 多终端支持，电脑、手机、微信、APP、微信小程序，全都有；
-* 永久授权，一次购买，终身使用；
+* 永久授权，一次购买，终身使用；<a href="http://www.weishakeji.net/price.html" target="_blank">[购买商业授权]</a>
 
 ## 功能介绍：
 
@@ -21,3 +21,5 @@
 ## 升级日志：
 <a href="http://www.weishakeji.net/download.html" target="_blank">http://www.weishakeji.net/download.html</a> 
 
+## 开发交流：
+>QQ交流群：10237400
