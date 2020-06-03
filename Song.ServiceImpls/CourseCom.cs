@@ -331,7 +331,7 @@ namespace Song.ServiceImpls
         /// 学员购买的该课程
         /// </summary>
         /// <param name="stid">学员Id</param>
-        /// <param name="sear">用于检索的字符</param>
+        /// <param name="sear">用于检索课程的字符</param>
         /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
         /// <returns></returns>
         public List<Course> CourseForStudent(int stid, string sear, int state, bool? istry, int count)

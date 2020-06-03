@@ -952,9 +952,10 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                 DataTable dt = ds.Tables[0];
                 if (dt.Rows.Count > 0)
                 {
+                    ///* 不要删除
                     //*****如果没有购买的，则去除
                     //购买的课程(含概试用的）
-                    List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(acid, null, 1, null, -1);
+                    List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(acid, null, 0, null, -1);
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         bool isExist = false;
@@ -972,6 +973,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                             i--;
                         }
                     }
+                    // * */
                     //计算完成度
                     foreach (DataRow dr in dt.Rows)
                     {
