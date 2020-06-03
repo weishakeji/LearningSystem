@@ -8,19 +8,16 @@
 
 ## 产品特点：
 * 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
-
 * 多终端支持，电脑、手机、微信、APP、微信小程序，全都有；
-
 * 永久授权，一次购买，终身使用；
 
+## 功能介绍：
 
-<b>功能介绍：</b>
+## 开发环境：
+* 采用C#；基于.Net 4.0
+* 数据库采用Sqlserver2005或更高版本
+* 开发工具是Microsoft Visual Studio 2010
 
-<b>开发环境：</b>
-* 1、采用C#；基于.Net 4.0
-* 2、数据库采用Sqlserver2005或更高版本
-* 3、开发工具是Microsoft Visual Studio 2010
-
-<b>升级日志：</b>
+## 升级日志：
 <a href="http://www.weishakeji.net/download.html" target="_blank">http://www.weishakeji.net/download.html</a> 
 
