@@ -4,7 +4,7 @@ var vdata = new Vue({
         //数据实体
         account: {}, //当前账号信息
         course: {}, //当前课程
-        outline: null, //当前课程章节
+        outline: {}, //当前课程章节
         subject: {}, //当前专业
         outlines: [], //当前课程的章节列表（树形）
         access: [], //附件列表
