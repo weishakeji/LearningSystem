@@ -55,5 +55,5 @@
             </asp:TemplateField>
         </Columns>
     </cc1:GridView>
-    <iframe src="" id="iframeExportDetails" link="Students_Details.aspx?sts=-1" scrolling="auto" style="display:none;" height="30" width="100%"></iframe>
+    <iframe src="" id="iframeExportDetails" link="Students_Details.aspx?id=<%= st!=null ? st.Ac_ID : 0 %>" scrolling="auto" style="display:none;" height="30" width="100%"></iframe>
 </asp:Content>
