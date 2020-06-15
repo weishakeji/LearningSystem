@@ -323,9 +323,15 @@
                         var typeName = methods.getType(config.data[d]);
                         if (typeName == 'Date') {
                             formData.append(d, config.data[d].getTime());
-                        } else {
-                            formData.append(d, escape(config.data[d]));
+                            continue;
                         }
+                        //json值，序列化为字符串                       
+                        if (typeName === 'Object') {
+                             formData.append(d,escape(JSON.stringify(config.data[d])));
+                            continue;
+                        }
+                        formData.append(d, escape(config.data[d]));
+
                     }
                     config.data = formData;
                 } else {
@@ -335,9 +341,14 @@
                         var typeName = methods.getType(config.params[d]);
                         if (typeName == 'Date') {
                             tmpObj[d] = config.params[d].getTime();
-                        } else {
-                            tmpObj[d] = escape(config.params[d]);
+                            continue;
                         }
+                        //json值，序列化为字符串
+                        if (typeName === 'Object') {
+                            tmpObj[d] = escape(JSON.stringify(config.params[d]));
+                            continue;
+                        }
+                        tmpObj[d] = escape(config.params[d]);
                     }
                     config.params = tmpObj;
                 }
@@ -357,6 +368,7 @@
                         response.data = eval("(" + response.data + ")");
                     }
                     //处理数据，服务器端返回的数据是经过Url编码的，此处进行解码
+                    response.data = methods.unescape(response.data);
                     if (response.data.result != null) {
                         if (typeof (response.data.result) == 'string') {
                             try {
@@ -365,9 +377,7 @@
                                 //alert(err);
                             }
                         }
-                        response.data.result = methods.unescape(response.data.result);
                     }
-                    response.data = methods.unescape(response.data);
                 }
                 //计算执行耗时
                 if (response.data) {
@@ -429,7 +439,21 @@ $api.bat(
     }
 }));
 */
+//日期格式化
+Date.prototype.format = function (fmt) {
+    var o = {
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "h+": this.getHours()
+    };
+    if (/(y+)/.test(fmt))
+        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+        if (new RegExp("(" + k + ")").test(fmt))
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 
+    return fmt;
+}
 //添加加载前后的事件
 $api.effect(function () {
 

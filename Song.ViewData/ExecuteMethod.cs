@@ -1,4 +1,5 @@
-﻿using Song.ViewData.Attri;
+﻿using Newtonsoft.Json;
+using Song.ViewData.Attri;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,19 +93,19 @@ namespace Song.ViewData
             //----范围控制，本机或局域网，或同域
             bool isRange = RangeAttribute.Verify(letter, method);
             //----验证是否需要登录
-            LoginAttribute loginattr = LoginAttribute.Verify(method); 
-            
+            LoginAttribute loginattr = LoginAttribute.Verify(method);
+
 
             //4.构建执行该方法所需要的参数
             object[] parameters = getInvokeParam(method, letter);
             //5.执行方法，返回结果
             object objResult = null;    //结果
-            //只有get方式时，才使用缓存；put清除缓存
+            //只有get方式时，才使用缓存
             CacheAttribute cache = null;
             if (letter.HTTP_METHOD.Equals("put", StringComparison.CurrentCultureIgnoreCase))
                 CacheAttribute.Remove(method, letter);
-            if (letter.HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase)) 
-                cache = CacheAttribute.GetAttr<CacheAttribute>(method);       
+            if (letter.HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase))
+                cache = CacheAttribute.GetAttr<CacheAttribute>(method);
             if (cache != null)
             {
                 objResult = CacheAttribute.GetResult(method, letter);
@@ -117,7 +118,7 @@ namespace Song.ViewData
             else
             {
                 objResult = method.Invoke(execObj, parameters);
-            }            
+            }
             //将执行结果写入日志
             LoginAttribute.LogWrite(loginattr, objResult);
             return objResult;
@@ -131,10 +132,10 @@ namespace Song.ViewData
         {
             DateTime time = DateTime.Now;
             try
-            {   
+            {
                 if (!"weishakeji".Equals(letter.HTTP_Mark))
-                    return new Song.ViewData.DataResult(new Exception("请求标识不正确"));
-
+                    throw VExcept.System("请求标识不正确", 100);
+                //执行方法
                 object res = Exec(letter);
                 //计算耗时                
                 double span = ((TimeSpan)(DateTime.Now - time)).TotalMilliseconds;
@@ -150,7 +151,13 @@ namespace Song.ViewData
             }
             catch (Exception ex)
             {
-                return new Song.ViewData.DataResult(ex,time);
+                //如果是自定义异常
+                if (ex.InnerException is VExcept)
+                {
+                    VExcept except = (VExcept)ex.InnerException;
+                    return new Song.ViewData.DataResult(except, time);
+                }
+                return new Song.ViewData.DataResult(ex, time);
             }
         }
         /// <summary>
@@ -236,52 +243,76 @@ namespace Song.ViewData
             for (int i = 0; i < objs.Length; i++)
             {
                 ParameterInfo pi = paramInfos[i];
+                //接口方法的参数所对应的客户端传来的值
+                string val = letter[pi.Name].String;
+                //如果参数为输出型的，则不赋值（ViewData接口不允许此类参数）
+                if (pi.IsOut || string.IsNullOrWhiteSpace(val))
+                {
+                    objs[i] = null;
+                    continue;
+                }
                 //如果参数是Letter类型，则直接赋值
                 if (letter.GetType().FullName.Equals(pi.ParameterType.FullName))
                 {
                     objs[i] = letter;
+                    continue;
                 }
-                else
+                //如果参数是数据实体
+                if (pi.ParameterType.BaseType != null && pi.ParameterType.BaseType.FullName == "WeiSha.Data.Entity")
                 {
-                    //普通参数，不是输出参数
-                    if (!pi.IsOut)
+                    //创建实体
+                    object entity = pi.ParameterType.Assembly.CreateInstance(pi.ParameterType.FullName);
+                    Dictionary<string, string> dic = JsonConvert.DeserializeObject<Dictionary<string, string>>(val);
+                    PropertyInfo[] props = pi.ParameterType.GetProperties();
+                    for (int j = 0; j < props.Length; j++)
                     {
-                        string val = letter[pi.Name].String;
-                        if (!pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
+                        PropertyInfo opi = props[j];    //实体属性
+                        foreach (KeyValuePair<string, string> kv in dic)
                         {
-                            if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
-                        }
-                        try
-                        {
-                            switch (pi.ParameterType.Name)
+                            if (kv.Key.Equals(opi.Name, StringComparison.CurrentCultureIgnoreCase))
                             {
-                                case "DateTime":
-                                    if (val == null || string.IsNullOrWhiteSpace(val.ToString()))
-                                    {
-                                        objs[i] = DateTime.Now;
-                                        break;
-                                    }
-                                    DateTime dt = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-                                    long lTime = long.Parse(val + "0000");
-                                    TimeSpan toNow = new TimeSpan(lTime);
-                                    objs[i] = dt.Add(toNow);
-                                    break;
-                                default:
-                                    objs[i] = Convert.ChangeType(val, pi.ParameterType);
-                                    break;
+                                //实体属性的值
+                                object tm = string.IsNullOrEmpty(kv.Value) ? null : WeiSha.Common.DataConvert.ChangeType(kv.Value, opi.PropertyType);
+                                opi.SetValue(entity, tm, null);
+                                continue;
                             }
-                            //objs[i] = Convert.ChangeType(val, pi.ParameterType);
-                        }
-                        catch
-                        {
-                            throw new Exception("参数 " + pi.Name + " 的值，数据格式不正确");
                         }
                     }
-                    else
-                    {
-                        objs[i] = null;
-                    }
+                    objs[i] = entity;
+                    continue;
                 }
+                //将客户端传来的参数，转换为方法对应的参数类型
+
+                if (!pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
+                }
+                try
+                {
+                    switch (pi.ParameterType.Name)
+                    {
+                        case "DateTime":
+                            if (val == null || string.IsNullOrWhiteSpace(val.ToString()))
+                            {
+                                objs[i] = DateTime.Now;
+                                break;
+                            }
+                            DateTime dt = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+                            long lTime = long.Parse(val + "0000");
+                            TimeSpan toNow = new TimeSpan(lTime);
+                            objs[i] = dt.Add(toNow);
+                            break;
+                        default:
+                            objs[i] = Convert.ChangeType(val, pi.ParameterType);
+                            break;
+                    }
+
+                }
+                catch
+                {
+                    throw new Exception("参数 " + pi.Name + " 的值，数据格式不正确");
+                }
+
             }
             return objs;
         }
