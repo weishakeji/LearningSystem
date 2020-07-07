@@ -190,6 +190,7 @@ Global
 		{739180BB-2529-485F-867F-28774EB2ACC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{739180BB-2529-485F-867F-28774EB2ACC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{739180BB-2529-485F-867F-28774EB2ACC9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{739180BB-2529-485F-867F-28774EB2ACC9}.Debug|x64.Build.0 = Debug|Any CPU
 		{739180BB-2529-485F-867F-28774EB2ACC9}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{739180BB-2529-485F-867F-28774EB2ACC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{739180BB-2529-485F-867F-28774EB2ACC9}.Release|Any CPU.Build.0 = Release|Any CPU
@@ -206,6 +207,7 @@ Global
 		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug|x64.Build.0 = Debug|Any CPU
 		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41D99603-4C27-4075-81D5-F56C553ACDC8}.Release|Any CPU.Build.0 = Release|Any CPU
@@ -228,7 +230,7 @@ Global
 		{41D99603-4C27-4075-81D5-F56C553ACDC8} = {9E1AA0BC-6525-4FBD-940A-93AEF86188FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		SolutionGuid = {2C42F976-5DC7-4525-AD51-50BB9419A0D5}
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal
