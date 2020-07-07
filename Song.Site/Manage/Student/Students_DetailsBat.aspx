@@ -15,7 +15,7 @@
  <template  v-for="d in students" v-if="!loading">
         <div class="page"  v-show="!loading">       
         <img id="imgStamp" :src="stamp.path"  :class="'stamp '+stamp.positon" remark="公章"/>
-        <div class="qrcode"></div>
+        <div class="qrcode" :acid="d.Ac_ID"></div>
          <div class="page-title">学习证明</div>
          <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0">
                 <tr>
