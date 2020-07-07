@@ -25,9 +25,9 @@
    > 学员分享，多级裂变，运营、推广不再难
 
 ## 开发环境：
-* 采用C#；基于.Net 4.0
-* 数据库采用Sqlserver2005或更高版本
-* 开发工具是Microsoft Visual Studio 2010
+* 采用C#；基于.Net 4.6 <a href="https://www.microsoft.com/zh-CN/download/details.aspx?id=53344" target="_blank" size=12>[下载]</a>
+* 数据库采用Sqlserver2008或更高版本
+* 开发工具 Microsoft Visual Studio Community 2019
 
 ## 升级日志：
 <a href="http://www.weishakeji.net/download.html" target="_blank">http://www.weishakeji.net/download.html</a> 
