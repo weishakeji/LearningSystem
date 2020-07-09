@@ -72,7 +72,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="oluid">章节的uid</param>
         /// <returns></returns>
-        [Cache(Expires = 20)]
+        //[Cache(Expires = 20)]
         public List<Song.Entities.Accessory> Accessory(string uid)
         {
             //先判断是否购买课程
