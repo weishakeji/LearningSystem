@@ -73,11 +73,11 @@ namespace Song.ViewData.Methods
         /// <param name="oluid">章节的uid</param>
         /// <returns></returns>
         //[Cache(Expires = 20)]
-        public List<Song.Entities.Accessory> Accessory(string uid)
+        public Song.Entities.Accessory[] Accessory(string uid)
         {
             //先判断是否购买课程
             Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
-            if (acc == null) return new List<Accessory>();
+            if (acc == null) throw new ExceptionForNoLogin();
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(uid);
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
             //是否免费，或是限时免费
@@ -88,12 +88,12 @@ namespace Song.ViewData.Methods
                     course.Cou_IsLimitFree = false;
             }
             bool isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, acc.Ac_ID);
-            if (!isBuy) return new List<Accessory>();
+            if (!isBuy) throw new Exception("未购买课程，无法提供附件信息");
             //获取附件
             List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(uid, "Course");
             foreach (Accessory ac in access)
                 ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
-            return access;
+            return access.ToArray<Song.Entities.Accessory>();
         }
         [Cache(Expires = 20)]
         public OutlineEvent[] VideoEvents(int olid)

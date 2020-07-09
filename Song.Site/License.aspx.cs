@@ -125,7 +125,7 @@ namespace Song.Site
             DataTable dt = WeiSha.Common.Parameters.Authorization.VersionLevel.LevelTable;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                for (int j = 1; j < dt.Columns.Count; j++)
+                for (int j = 2; j < dt.Columns.Count; j++)
                 {
                     int t=-1;
                     int.TryParse(dt.Rows[i][j].ToString(),out t);
