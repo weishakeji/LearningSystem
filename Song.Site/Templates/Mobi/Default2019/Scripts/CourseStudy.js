@@ -321,7 +321,7 @@ var vdata = new Vue({
 		//获取当前章节的留言信息
 		msgGet: function() {
 			if (!vdata.olid || vdata.olid < 1) return;
-			$api.post("message/All", {
+			$api.post("message/count", {
 				 olid: vdata.olid,
                 order: 'asc',
                 count:100
@@ -337,7 +337,7 @@ var vdata = new Vue({
 					throw "留言信息加载异常！详情：\r" + d.message;
 				}
 			}).catch(function(err) {
-				//alert(err);
+				alert(err);
 			});			
 		}
 	},
