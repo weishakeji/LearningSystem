@@ -87,6 +87,7 @@ namespace Song.ViewData.Methods
                 if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
                     course.Cou_IsLimitFree = false;
             }
+            //是否购买 （必须是免费或购买后才能查看附件，仅试学时，不可以查看附件）
             bool isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, acc.Ac_ID);
             if (!isBuy) throw new Exception("未购买课程，无法提供附件信息");
             //获取附件
@@ -95,6 +96,11 @@ namespace Song.ViewData.Methods
                 ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
             return access.ToArray<Song.Entities.Accessory>();
         }
+        /// <summary>
+        /// 视频事件
+        /// </summary>
+        /// <param name="olid"></param>
+        /// <returns></returns>
         [Cache(Expires = 20)]
         public OutlineEvent[] VideoEvents(int olid)
         {
@@ -119,10 +125,10 @@ namespace Song.ViewData.Methods
         {
             Dictionary<string, object> dic = new Dictionary<string, object>();
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
-            if (outline == null) return null;
+            if (outline == null) throw new Exception("章节不存在");
             dic.Add("Name", outline.Ol_Name);
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
-            if (course == null) return null;
+            if (course == null) throw new Exception("课程不存在");
             dic.Add("Course", course.Cou_Name);
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
