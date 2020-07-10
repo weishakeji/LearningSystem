@@ -107,15 +107,7 @@
                               <div id="detailsArea" v-html="outline.Ol_Intro"> </div>
                         </div>
                         <div remark="附件" v-show="titState=='isAccess'">
-                              <div id="access">
-                                    <a v-for="(item,index) in access" target="_blank" :href="item.As_FileName"
-                                          v-on:click="accessClick(item.As_FileName,item.As_Name,$event)"
-                                          :download="item.As_Name">{{index+1}}、{{item.As_Name}}
-                                    </a>
-                              </div>
-                              <div class="noInfo" v-if="access.length<1">
-                                    没有附件
-                              </div>
+                            <accessory ref='accessory' :uid="outline.Ol_UID" :isbuy="state.isBuy"></accessory>                         
                         </div>
                         <div remark="习题" v-show="titState=='isQues'">
                               <iframe :src="outline!=null ? 'Exercises.ashx?olid='+outline.Ol_ID : ''"

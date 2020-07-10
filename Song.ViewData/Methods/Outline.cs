@@ -89,11 +89,14 @@ namespace Song.ViewData.Methods
             }
             //是否购买 （必须是免费或购买后才能查看附件，仅试学时，不可以查看附件）
             bool isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, acc.Ac_ID);
-            if (!isBuy) throw new Exception("未购买课程，无法提供附件信息");
+            //if (!isBuy) throw new Exception("未购买课程，无法提供附件信息");
             //获取附件
             List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(uid, "Course");
-            foreach (Accessory ac in access)
-                ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
+            if (isBuy)
+            {
+                foreach (Accessory ac in access)
+                    ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
+            }
             return access.ToArray<Song.Entities.Accessory>();
         }
         /// <summary>

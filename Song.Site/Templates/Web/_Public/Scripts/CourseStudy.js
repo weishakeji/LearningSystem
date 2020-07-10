@@ -81,16 +81,6 @@ var vdata = new Vue({
         knlClick: function () {
             new top.PageBox('课程知识库', 'Knowledges.ashx?couid=' + vdata.couid, 100, 100, null, window.name).Open();
         },
-        //附件的点击事件
-        accessClick: function (file, tit, event) {
-            var exist = file.substring(file.lastIndexOf(".") + 1).toLowerCase();
-            if (exist == "pdf") {
-                event.preventDefault();
-                var box = new PageBox(tit, $api.pdfViewer(file), 100, 100, null, window.name);
-                box.Open();
-            }
-            return false;
-        },
         //章节列表的点击事件
         outlineClick: function (olid, event) {
             var url = $api.setpara("olid", olid);
@@ -132,18 +122,7 @@ var vdata = new Vue({
                     window.setTimeout(function () {
                         vdata.outlineLoaded = true;
                     }, 100);
-                    //获取附件
-                    if (state.data.result.isAccess && vdata.outline) {
-                        $api.get("Outline/Accessory", {
-                            uid: vdata.outline.Ol_UID
-                        }).then(function (acc) {
-                            if (acc.data.success) {
-                                vdata.access = acc.data.result;
-                            } else {
-                                alert("附件信息加载异常！详情：\r" + acc.data.message);
-                            }
-                        });
-                    }
+
                     //获取视频事件
                     if (state.data.result.existVideo && vdata.outline) {
                         $api.get("Outline/VideoEvents", {
@@ -509,4 +488,56 @@ Vue.filter('date', function (value, fmt) {
         if (new RegExp("(" + k + ")").test(fmt))
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
+});
+
+//******* 附件列表
+Vue.component('accessory', {
+    props: ['uid', 'isbuy'],
+    data: function () {
+        return {
+            datas: [],  //附件列表
+            msg: ''      //提示信息
+        }
+    },
+    watch: {
+        'uid': function (val, old) {
+            var th = this;
+            th.msg = '';
+            $api.get("Outline/Accessory", { uid: val }).then(function (acc) {
+                if (acc.data.success) {
+                    th.datas = acc.data.result;
+                } else {
+                    th.msg = "附件信息加载异常！详情：\r" + acc.data.message;
+                }
+            }).catch(function (err) {
+                th.msg = err;
+            });
+        },
+        'isbuy': function (val, old) {
+
+        }
+    },
+    methods: {
+        //附件的点击事件
+        accessClick: function (file, tit, event) {
+            var exist = file.substring(file.lastIndexOf(".") + 1).toLowerCase();
+            if (exist == "pdf") {
+                event.preventDefault();
+                var box = new PageBox(tit, $api.pdfViewer(file), 100, 100, null, window.name);
+                box.Open();
+            }
+            return false;
+        }
+    },
+    template: '<div id="accessory">\
+         <div  v-if="!isbuy" style="color:red;">课程未购买，资料不提供下载或预览</div>\
+        <a  v-if="isbuy"  v-for="(item,index) in datas" target="_blank":href="item.As_FileName"\
+            v-on:click="accessClick(item.As_FileName,item.As_Name,$event)"\
+            :download="item.As_Name">{{index+1}}、{{item.As_Name}}\
+        </a>\
+        <div v-if="!isbuy"  v-for="(item,index) in datas" >\
+        {{index+1}}、{{item.As_Name}}\
+        </div>\
+        <div class="noInfo">{{msg}}</div>\
+        </div>'
 });
