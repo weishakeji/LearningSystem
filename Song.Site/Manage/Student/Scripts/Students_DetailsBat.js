@@ -50,7 +50,7 @@ var vm = new Vue({
                     result.forEach(element => {
                         //console.log(element.Ac_ID);
                         //获取学员的课程进度
-                        $api.get('Student/CourseCompletion', { 'stid': element.Ac_ID }).then(function (req) {
+                        $api.get('Student/CourseCompletion', { 'stid': element.Ac_ID, 'couid': ''  }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 element.courses = result;

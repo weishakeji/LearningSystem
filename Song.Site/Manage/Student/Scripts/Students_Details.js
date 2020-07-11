@@ -14,6 +14,7 @@ var vm = new Vue({
     data: {
         sts: $api.querystring('sts'),//学员分组
         stid: $api.querystring('id'),   //学员Id
+        cous: $api.querystring('cous'), //选中的课程
         students: [],    //所有学员
         org: {},         //当前机构信息
         stamp: {},         //公章信息（参数，stamp:公章base64编码;positon:位置）
@@ -43,7 +44,7 @@ var vm = new Vue({
         //获取所有学员
         getall: function () {
             var th = this;
-            $api.get('Account/ForID',{'id':th.stid}).then(function(req){
+            $api.get('Account/ForID', { 'id': th.stid }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.students.push(result);
@@ -51,7 +52,7 @@ var vm = new Vue({
                     th.students.forEach(element => {
                         //console.log(element.Ac_ID);
                         //获取学员的课程进度
-                        $api.get('Student/CourseCompletion', { 'stid': element.Ac_ID }).then(function (req) {
+                        $api.get('Student/CourseCompletion', { 'stid': element.Ac_ID, 'couid': th.cous }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 element.courses = result;
@@ -112,7 +113,7 @@ var vm = new Vue({
         //生成二维码
         qrcode: function () {
             var len = $(".qrcode").length;
-            if(len<=0) window.setTimeout(this.qrcode, 100);;
+            if (len <= 0) window.setTimeout(this.qrcode, 100);;
             ///console.log('qrcode:'+$(".qrcode").size());
             //console.log('img:'+$(".qrcode img").size());
             if ($(".qrcode").size() > $(".qrcode img").size()) {
@@ -213,6 +214,6 @@ var vm = new Vue({
     },
     created() {
 
-    },
+    }
 
 });

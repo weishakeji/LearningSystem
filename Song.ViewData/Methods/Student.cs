@@ -59,10 +59,15 @@ namespace Song.ViewData.Methods
         /// 学员所学课程的完成度
         /// </summary>
         /// <param name="stid">学员账号id</param>
+        /// <param name="couid">课程id，可以为多个(逗号分隔），可以为空</param>
         /// <returns></returns>
-        public DataTable CourseCompletion(int stid)
+        public DataTable CourseCompletion(int stid, string couid)
         {
-            DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(stid);
+            DataTable dt = null;
+            if (!string.IsNullOrWhiteSpace(couid))
+                dt = Business.Do<IStudent>().StudentStudyCourseLog(stid, couid);
+            else
+                dt = Business.Do<IStudent>().StudentStudyCourseLog(stid);
             return dt;
         }
     }
