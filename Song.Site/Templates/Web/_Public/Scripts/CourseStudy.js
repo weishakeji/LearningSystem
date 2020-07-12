@@ -186,7 +186,9 @@ var vdata = new Vue({
                     window.setTimeout(function () {
                         if (vdata.playready()) vdata.player.pause();
                     }, 50);
-
+                });
+                vdata.player.on("play", function (e) {
+                    if (window.videoFixed) vdata.player.pause();
                 });
             }
         },
@@ -463,6 +465,8 @@ window.onblur = function () {
     }
 }
 window.onfocus = function () {
+    //如果有视频事件弹出，则窗体获取焦点时，视频并不播放
+    if ($("div[type=MsgBox]").size() > 0) return;
     if (vdata.playready()) {
         //vdata.titState == 'existVideo' && vdata.state.isLive ? vdata.player.play() : vdata.player.pause();
         //只有当处于视频状态时才播放
@@ -471,6 +475,18 @@ window.onfocus = function () {
     }
 }
 
+window.onresize = function () {
+    window.setTimeout(function () {
+        var str = '';
+        [22, 9, 4, 5, 15].forEach(x => str += String.fromCharCode(0x60 + x));
+        var v = document.querySelector(str);
+        var styles = document.defaultView.getComputedStyle(v.parentNode, null);
+        var posi = styles.getPropertyValue('position');
+        window.videoFixed = posi == 'fixed';
+        v.style.display = window.videoFixed ? 'none' : '';
+        window.videoFixed ? v.pause() : v.play();
+    }, 100);
+}
 
 //全局过滤器，日期格式化
 Vue.filter('date', function (value, fmt) {
