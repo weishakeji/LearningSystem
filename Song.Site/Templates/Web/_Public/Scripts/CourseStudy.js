@@ -480,11 +480,12 @@ window.onresize = function () {
         var str = '';
         [22, 9, 4, 5, 15].forEach(x => str += String.fromCharCode(0x60 + x));
         var v = document.querySelector(str);
+        if (!v) return;
         var styles = document.defaultView.getComputedStyle(v.parentNode, null);
         var posi = styles.getPropertyValue('position');
         window.videoFixed = posi == 'fixed';
         v.style.display = window.videoFixed ? 'none' : '';
-        window.videoFixed ? v.pause() : v.play();
+        !window.videoFixed && $("div[type=MsgBox]").size() < 1 ? v.play() : v.pause();
     }, 100);
 }
 
