@@ -50,7 +50,7 @@
                         </div>
                   </div>
                   <!--左侧顶部结束-->
-                  <div id="contextArea">
+                  <div id="contextArea"  v-if="!state.DeskAllow">                     
                         <div remark="正在加载" v-show="titState=='loading'">
                                     <p id="preloader-2">
 
@@ -114,6 +114,9 @@
                                     style="height: 100%" marginwidth="0" marginheight="0" align="top" scrolling="no"
                                     width="100%" frameborder="0" allowtransparency="true"></iframe>
                         </div>
+                  </div>
+                  <div id="contextArea" v-if="state.DeskAllow">
+                      <div><div class="noSelect">请在DeskApp应用中打开</div></div>
                   </div>
             </div>
             <div id="median" remark="此为分隔线"><span v-on:click="median = !median"

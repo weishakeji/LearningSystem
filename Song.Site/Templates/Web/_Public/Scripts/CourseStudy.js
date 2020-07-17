@@ -45,6 +45,7 @@ var vdata = new Vue({
             if (vdata.state.isLive) vdata.titState = 'isLive';
             if (vdata.state.existVideo) vdata.titState = 'existVideo';
             //if (!vdata.state.canStudy) vdata.titState = 'isNull';
+            if (vdata.state.DeskAllow) return;
             //视频播放
             if (vdata.state.canStudy && (vdata.state.existVideo || vdata.state.isLive))
                 vdata.videoPlay(vdata.state);

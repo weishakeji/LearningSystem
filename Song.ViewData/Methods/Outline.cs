@@ -133,6 +133,8 @@ namespace Song.ViewData.Methods
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
             if (course == null) throw new Exception("课程不存在");
             dic.Add("Course", course.Cou_Name);
+            //是否限制在桌面应用中打开
+            dic.Add("DeskAllow", this.getDeskallow(course,outline));
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {
@@ -223,6 +225,33 @@ namespace Song.ViewData.Methods
             bool isNull = !(existVideo || isLive || isContext || isQues || isQues || accessCount > 0);
             dic.Add("isNull",isNull || !canStudy);
             return dic;
+        }
+        /// <summary>
+        /// 判断是否必须在桌面应用中学习
+        /// </summary>
+        /// <returns>如果为true，则必须在课面应用中学习</returns>
+        private bool getDeskallow(Song.Entities.Course course, Song.Entities.Outline ol)
+        {
+            //当前机构
+            Song.Entities.Organization organ = Business.Do<IOrganization>().OrganCurrent();
+            //自定义配置项
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(organ.Org_Config);
+            //是否限制在桌面应用中学习
+            bool studyFordesk = config["StudyForDeskapp"].Value.Boolean ?? false;   //课程学习需要在桌面应用打开
+            bool freeFordesk = config["FreeForDeskapp"].Value.Boolean ?? false;     //免费课程和试用章节除外
+            if (!WeiSha.Common.Browser.IsDestopApp)
+            {
+                if (!freeFordesk)
+                {
+                    return studyFordesk && !WeiSha.Common.Browser.IsDestopApp;
+                }
+                else
+                {
+                    if (course.Cou_IsFree || course.Cou_IsLimitFree) return false;
+                    if (ol.Ol_IsFree) return false;
+                }
+            }
+            return true && !WeiSha.Common.Browser.IsDestopApp;
         }
     }
 }
