@@ -17,12 +17,17 @@ namespace Song.Site.Mobile
     {
         //学员ID
         private int accid = WeiSha.Common.Request.QueryString["acid"].Int32 ?? 0;
+        //课程id
+        private string couid = WeiSha.Common.Request.QueryString["cous"].String;
         protected override void InitPageTemplate(HttpContext context)
         {
             //当前学员
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(accid);
-            //学员的学习情况记录
-            DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(acc.Ac_ID);
+            DataTable dt = null;
+            if (!string.IsNullOrWhiteSpace(couid))
+                dt = Business.Do<IStudent>().StudentStudyCourseLog(accid, couid);
+            else
+                dt = Business.Do<IStudent>().StudentStudyCourseLog(accid);            
             //
             this.Document.Variables.SetValue("acc", acc);
             this.Document.Variables.SetValue("logs", dt);

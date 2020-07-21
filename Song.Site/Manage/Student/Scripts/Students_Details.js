@@ -129,7 +129,7 @@ var vm = new Vue({
                     height: 75,
                     foreground: "#000",
                     background: "#FFF",
-                    text: $().getHostPath() + "Mobile/certify.ashx?acid=" + acid
+                    text: $().getHostPath() + "Mobile/certify.ashx?acid=" + acid+"&cous="+$api.querystring('cous')
                 });
                 //将canvas转换成img标签，否则无法打印
                 var canvas = $(this).find("canvas").hide()[0];  /// get canvas element
