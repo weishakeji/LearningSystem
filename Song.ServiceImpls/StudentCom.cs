@@ -1097,6 +1097,14 @@ select * from course as c inner join
         /// <returns>datatable中，LastTime：最后学习时间；totalTime：视频时间长；playTime：播放进度；studyTime：学习时间，complete：完成度百分比</returns>
         public DataTable StudentStudyOutlineLog(int couid, int acid)
         {
+            Accounts student = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acid).ToFirst<Accounts>();
+            if (student == null) throw new Exception("当前学员不存在！");
+            Organization org = Gateway.Default.From<Organization>().Where(Organization._.Org_ID == student.Org_ID).ToFirst<Organization>();
+            if (org == null) throw new Exception("学员所在的机构不存在！");
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //容差，例如完成度小于5%，则默认100%
+            int tolerance = config["SwitchStop"].Value.Int32 ?? 5;
+            //读取学员学习记录
             string sql = @"select * from outline as c left join 
                         (SELECT top 90000 ol_id, MAX(Lss_LastTime) as 'lastTime', 
 	                        sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
@@ -1111,11 +1119,20 @@ select * from course as c inner join
             {
                 DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
                 //计算学习时度，因为没有学习的章节没有记录，也要计算进去
+                DataTable dt= ds.Tables[0];
+                //计算完成度                   
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (string.IsNullOrWhiteSpace(dr["complete"].ToString())) continue;
+                    //课程的累计完成度
+                    double complete = Convert.ToDouble(dr["complete"].ToString());                   
+                    dr["complete"] = complete >= (100 - tolerance) ? 100 : complete;
+                }
                 return ds.Tables[0];
             }
-            catch
+            catch(Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
         #endregion
