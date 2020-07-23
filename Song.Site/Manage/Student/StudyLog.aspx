@@ -43,7 +43,7 @@
             <asp:TemplateField HeaderText="完成度">
                 <ItemStyle CssClass="center" Width="100px" />
                 <ItemTemplate>
-                    <%# Eval("complete", "{0:0.00}%")%>
+                    <%# Eval("complete", "{0:0.##}%")%>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="详情">

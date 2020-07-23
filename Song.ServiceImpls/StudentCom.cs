@@ -917,6 +917,14 @@ namespace Song.ServiceImpls
         /// <returns>datatable中,LastTime:最后学习时间； studyTime：累计学习时间，complete：完成度百分比</returns>
         public DataTable StudentStudyCourseLog(int acid)
         {
+            Accounts student = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acid).ToFirst<Accounts>();
+            if (student == null) throw new Exception("当前学员不存在！");
+            Organization org= Gateway.Default.From<Organization>().Where(Organization._.Org_ID == student.Org_ID).ToFirst<Organization>();
+            if (org == null) throw new Exception("学员所在的机构不存在！");
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //容差，例如完成度小于5%，则默认100%
+            int tolerance = config["SwitchStop"].Value.Int32 ?? 5;
+
             ////清理掉不需要的数据，包括：“章节不存在，章节没有视频，章节禁用或未完成”的学习记录，全部删除
             //WhereClip wc = LogForStudentStudy._.Ac_ID == acid;
             //SourceReader lfs = Gateway.Default.FromSql(string.Format("select Ol_ID from [LogForStudentStudy] where Ac_ID={0} group by Ol_ID",acid)).ToReader();
@@ -974,8 +982,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                         }
                     }
                     // * */
-                    //计算完成度
-                    int tolerance = 5;  //容差，例如完成度小于5%，则默认100%
+                    //计算完成度                   
                     foreach (DataRow dr in dt.Rows)
                     {
                         //课程的累计完成度

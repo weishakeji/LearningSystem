@@ -63,7 +63,10 @@ namespace Song.Site.Manage.Admin
             this.cbStudyForDeskapp.Checked = config["StudyForDeskapp"].Value.Boolean ?? false;  //课程学习需要在桌面应用打开
             this.cbFreeForDeskapp.Checked = config["FreeForDeskapp"].Value.Boolean ?? false;    //免费课程和试用章节除外
             this.cbIsWebRemoveMoney.Checked = config["IsWebRemoveMoney"].Value.Boolean ?? false;    //电脑端隐藏资费
-            
+            //视频学习相关
+            this.cbIsSwitchStop.Checked = config["IsSwitchStop"].Value.Boolean ?? false;    //为true时，切换浏览器视频不暂停
+            tbTolerance.Text = config["SwitchStop"].Value.String;     //学习完成度的容差
+
         }
         protected void btnBase_Click(object sender, EventArgs e)
         {
@@ -86,6 +89,10 @@ namespace Song.Site.Manage.Admin
             config["StudyForDeskapp"].Text = this.cbStudyForDeskapp.Checked.ToString();     //课程学习需要在桌面应用打开
             config["FreeForDeskapp"].Text = this.cbFreeForDeskapp.Checked.ToString();    //免费课程和试用章节除外
             config["IsWebRemoveMoney"].Text = this.cbIsWebRemoveMoney.Checked.ToString();       //电脑端隐藏资费
+            //视频学习相关
+            config["IsSwitchStop"].Text = this.cbIsSwitchStop.Checked.ToString();   //为true时，切换浏览器视频不暂停
+            config["SwitchStop"].Text = tbTolerance.Text;   //学习完成度的容差
+
             //图片
             if (fuLoad.PostedFile.FileName != "")
             {
