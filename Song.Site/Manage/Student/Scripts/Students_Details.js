@@ -157,7 +157,6 @@ var vm = new Vue({
         },
         //计算完成度的百分比
         getPercent: function (val) {
-            if (val > 95) return '100%';
             val = Math.round(val * 10000) / 10000
             return val + '%';
         },
