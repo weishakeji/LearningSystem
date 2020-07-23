@@ -975,6 +975,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                     }
                     // * */
                     //计算完成度
+                    int tolerance = 5;  //容差，例如完成度小于5%，则默认100%
                     foreach (DataRow dr in dt.Rows)
                     {
                         //课程的累计完成度
@@ -984,7 +985,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                         int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true);
                         //完成度
                         double peracent = Math.Floor(complete / olnum * 100) / 100;
-                        dr["complete"] = peracent;
+                        dr["complete"] = peracent >= (100 - tolerance) ? 100 : peracent;
                     }
                 }
                 return dt;
