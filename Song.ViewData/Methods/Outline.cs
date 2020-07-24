@@ -127,6 +127,9 @@ namespace Song.ViewData.Methods
         public Dictionary<string, object> State(int olid)
         {
             Dictionary<string, object> dic = new Dictionary<string, object>();
+            Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+            dic.Add("isLogin", acc != null);    //学员是否登录
+            //
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
             if (outline == null) throw new Exception("章节不存在");
             dic.Add("Name", outline.Ol_Name);
@@ -136,16 +139,15 @@ namespace Song.ViewData.Methods
             Song.Entities.Organization orgin;
             //是否限制在桌面应用中打开
             dic.Add("DeskAllow", this.getDeskallow(course,outline,out orgin));
-            dic.Add("SwitchPlay", this.getSwitchPlay(course, outline, orgin));            
+            //是否在切换浏览器时继续播放
+            dic.Add("SwitchPlay", this.getSwitchPlay(course, acc, orgin));            
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {
                 DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
                 if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
                     course.Cou_IsLimitFree = false;
-            }
-            Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
-            dic.Add("isLogin", acc != null);    //学员是否登录
+            }            
             //是否可以学习，是否购买
             bool isStudy = false, isBuy = false, canStudy = false;
             if (acc != null)
@@ -260,15 +262,19 @@ namespace Song.ViewData.Methods
         /// 判断当前课程是否允许切换浏览器时视频暂停
         /// </summary>
         /// <param name="course"></param>
-        /// <param name="ol"></param>
+        /// <param name="acc"></param>
         /// <param name="organ"></param>
         /// <returns>true，则允许浏览器失去焦点时，视频仍然播放</returns>
-        private bool getSwitchPlay(Song.Entities.Course course, Song.Entities.Outline ol, Song.Entities.Organization organ)
+        private bool getSwitchPlay(Song.Entities.Course course, Song.Entities.Accounts acc, Song.Entities.Organization organ)
         {
             //自定义配置项
             WeiSha.Common.CustomConfig config = CustomConfig.Load(organ.Org_Config);
-            bool isstop = config["IsSwitchStop"].Value.Boolean ?? false;
-            return isstop;
+            bool isstop = config["IsSwitchPlay"].Value.Boolean ?? false;
+            if (isstop) return true;
+            //如果机构设置中为false，继续判断学员组的设置
+            Song.Entities.StudentSort sort = Business.Do<IStudent>().SortSingle(acc.Sts_ID);
+            if (sort == null || !sort.Sts_IsUse) return isstop;
+            return sort.Sts_SwitchPlay;
         }
     }
 }

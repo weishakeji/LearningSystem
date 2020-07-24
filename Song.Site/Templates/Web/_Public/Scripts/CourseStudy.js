@@ -462,7 +462,8 @@ window.onload = function () {
 window.onblur = function () {
     if (vdata.playready()) {
         //if (vdata.state.isLive || vdata.state.existVideo)
-        vdata.player.pause();
+        if (!vdata.state.SwitchPlay)
+            vdata.player.pause();
     }
 }
 window.onfocus = function () {

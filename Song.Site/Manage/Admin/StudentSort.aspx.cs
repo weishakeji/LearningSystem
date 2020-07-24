@@ -87,6 +87,21 @@ namespace Song.Site.Manage.Admin
             BindData(null, null);
         }
         /// <summary>
+        /// 禁用或启用“视频课程学习时的切换窗体暂停视频播放”功能
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void sbSwitchPlay_Click(object sender, EventArgs e)
+        {
+            StateButton ub = (StateButton)sender;
+            int index = ((GridViewRow)(ub.Parent.Parent)).RowIndex;
+            int id = int.Parse(this.GridView1.DataKeys[index].Value.ToString());
+            Song.Entities.StudentSort entity = Business.Do<IStudent>().SortSingle(id);
+            entity.Sts_SwitchPlay = !entity.Sts_SwitchPlay;
+            Business.Do<IStudent>().SortSave(entity);
+            BindData(null, null);
+        }
+        /// <summary>
         /// 删除
         /// </summary>
         /// <param name="sender"></param>

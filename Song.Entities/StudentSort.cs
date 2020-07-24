@@ -28,6 +28,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Dep_Id;
     		
+    		protected Boolean _Sts_SwitchPlay;
+    		
     		public Int32 Sts_ID {
     			get {
     				return this._Sts_ID;
@@ -128,6 +130,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Sts_SwitchPlay {
+    			get {
+    				return this._Sts_SwitchPlay;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_SwitchPlay, _Sts_SwitchPlay, value);
+    				this._Sts_SwitchPlay = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -164,7 +176,8 @@ namespace Song.Entities {
     					_.Org_ID,
     					_.Org_Name,
     					_.Dep_CnName,
-    					_.Dep_Id};
+    					_.Dep_Id,
+    					_.Sts_SwitchPlay};
     		}
     		
     		/// <summary>
@@ -181,7 +194,8 @@ namespace Song.Entities {
     					this._Org_ID,
     					this._Org_Name,
     					this._Dep_CnName,
-    					this._Dep_Id};
+    					this._Dep_Id,
+    					this._Sts_SwitchPlay};
     		}
     		
     		/// <summary>
@@ -217,6 +231,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Dep_Id))) {
     				this._Dep_Id = reader.GetInt32(_.Dep_Id);
+    			}
+    			if ((false == reader.IsDBNull(_.Sts_SwitchPlay))) {
+    				this._Sts_SwitchPlay = reader.GetBoolean(_.Sts_SwitchPlay);
     			}
     		}
     		
@@ -293,7 +310,11 @@ namespace Song.Entities {
     			/// 字段名：Dep_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Dep_Id = new WeiSha.Data.Field<StudentSort>("Dep_Id");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_SwitchPlay - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_SwitchPlay = new WeiSha.Data.Field<StudentSort>("Sts_SwitchPlay");
     		}
     	}
     }
-    
