@@ -92,7 +92,7 @@
             </td>
             <td>
                 <p>
-                    <asp:CheckBox ID="cbIsSwitchStop" runat="server" Text="禁用“视频课程学习时的切换窗体暂停播放”功能" /></p>
+                    <asp:CheckBox ID="cbIsSwitchPlay" runat="server" Text="禁用“视频课程学习时的切换窗体暂停播放”功能" /></p>
                 <p>
                    视频学习完成度的容差： <asp:TextBox ID="tbTolerance" runat="server" MaxLength="200" Width="60px"></asp:TextBox>% 
                     （说明：假如为5%，则学习完成度大于95%时，显示100%）

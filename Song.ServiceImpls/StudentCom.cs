@@ -923,7 +923,7 @@ namespace Song.ServiceImpls
             if (org == null) throw new Exception("学员所在的机构不存在！");
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
             //容差，例如完成度小于5%，则默认100%
-            int tolerance = config["SwitchStop"].Value.Int32 ?? 5;
+            int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
 
             ////清理掉不需要的数据，包括：“章节不存在，章节没有视频，章节禁用或未完成”的学习记录，全部删除
             //WhereClip wc = LogForStudentStudy._.Ac_ID == acid;

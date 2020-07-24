@@ -133,8 +133,10 @@ namespace Song.ViewData.Methods
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
             if (course == null) throw new Exception("课程不存在");
             dic.Add("Course", course.Cou_Name);
+            Song.Entities.Organization orgin;
             //是否限制在桌面应用中打开
-            dic.Add("DeskAllow", this.getDeskallow(course,outline));
+            dic.Add("DeskAllow", this.getDeskallow(course,outline,out orgin));
+            dic.Add("SwitchPlay", this.getSwitchPlay(course, outline, orgin));            
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {
@@ -230,10 +232,11 @@ namespace Song.ViewData.Methods
         /// 判断是否必须在桌面应用中学习
         /// </summary>
         /// <returns>如果为true，则必须在课面应用中学习</returns>
-        private bool getDeskallow(Song.Entities.Course course, Song.Entities.Outline ol)
+        private bool getDeskallow(Song.Entities.Course course, Song.Entities.Outline ol,out Song.Entities.Organization organ)
         {
             //当前机构
-            Song.Entities.Organization organ = Business.Do<IOrganization>().OrganCurrent();
+            organ = Business.Do<IOrganization>().OrganSingle(course.Org_ID);
+
             //自定义配置项
             WeiSha.Common.CustomConfig config = CustomConfig.Load(organ.Org_Config);
             //是否限制在桌面应用中学习
@@ -252,6 +255,20 @@ namespace Song.ViewData.Methods
                 }
             }
             return true && !WeiSha.Common.Browser.IsDestopApp;
+        }
+        /// <summary>
+        /// 判断当前课程是否允许切换浏览器时视频暂停
+        /// </summary>
+        /// <param name="course"></param>
+        /// <param name="ol"></param>
+        /// <param name="organ"></param>
+        /// <returns>true，则允许浏览器失去焦点时，视频仍然播放</returns>
+        private bool getSwitchPlay(Song.Entities.Course course, Song.Entities.Outline ol, Song.Entities.Organization organ)
+        {
+            //自定义配置项
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(organ.Org_Config);
+            bool isstop = config["IsSwitchStop"].Value.Boolean ?? false;
+            return isstop;
         }
     }
 }
