@@ -267,6 +267,7 @@ namespace Song.ViewData.Methods
         /// <returns>true，则允许浏览器失去焦点时，视频仍然播放</returns>
         private bool getSwitchPlay(Song.Entities.Course course, Song.Entities.Accounts acc, Song.Entities.Organization organ)
         {
+            if (acc == null) return false;
             //自定义配置项
             WeiSha.Common.CustomConfig config = CustomConfig.Load(organ.Org_Config);
             bool isstop = config["IsSwitchPlay"].Value.Boolean ?? false;

@@ -1103,7 +1103,7 @@ select * from course as c inner join
             if (org == null) throw new Exception("学员所在的机构不存在！");
             WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
             //容差，例如完成度小于5%，则默认100%
-            int tolerance = config["SwitchStop"].Value.Int32 ?? 5;
+            int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
             //读取学员学习记录
             string sql = @"select * from outline as c left join 
                         (SELECT top 90000 ol_id, MAX(Lss_LastTime) as 'lastTime', 
