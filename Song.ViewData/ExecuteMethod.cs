@@ -243,6 +243,12 @@ namespace Song.ViewData
             for (int i = 0; i < objs.Length; i++)
             {
                 ParameterInfo pi = paramInfos[i];
+                //如果参数是Letter类型，则直接赋值
+                if (letter.GetType().FullName.Equals(pi.ParameterType.FullName))
+                {
+                    objs[i] = letter;
+                    continue;
+                }
                 //接口方法的参数所对应的客户端传来的值
                 string val = letter[pi.Name].String;
                 //如果参数为输出型的，则不赋值（ViewData接口不允许此类参数）
@@ -250,13 +256,7 @@ namespace Song.ViewData
                 {
                     objs[i] = null;
                     continue;
-                }
-                //如果参数是Letter类型，则直接赋值
-                if (letter.GetType().FullName.Equals(pi.ParameterType.FullName))
-                {
-                    objs[i] = letter;
-                    continue;
-                }
+                }                
                 //如果参数是数据实体
                 if (pi.ParameterType.BaseType != null && pi.ParameterType.BaseType.FullName == "WeiSha.Data.Entity")
                 {
