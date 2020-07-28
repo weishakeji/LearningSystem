@@ -51,9 +51,10 @@ function pulldownRefresh() {
 function ajaxLoaddata() {
     index = size * index < sumcount ? ++index : index;
     var url = window.location.href;
-    url = url.indexOf("?") > -1 ? url.substring(0, url.lastIndexOf("?")) : url;
+    //url = url.indexOf("?") > -1 ? url.substring(0, url.lastIndexOf("?")) : url;
     $.post(url, { size: size, index: index, action: "list" }, function (requestdata) {
         var data = eval("(" + requestdata + ")");
+        data = $api.unescape(data);
         sumcount = data.sumcount;
         var views = $('#detail-view');		
         for (var i = 0; i < data.items.length; i++) {
@@ -76,6 +77,8 @@ function ajaxLoaddata() {
         mui('#pullrefresh').pullRefresh().endPulldownToRefresh((size * index >= sumcount)); //参数为true代表没有更多数据了。  
     });
 }
+
+
 //学生消息输出
 function _stMsg(obj) {
 }

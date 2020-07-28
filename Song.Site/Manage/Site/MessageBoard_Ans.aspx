@@ -8,9 +8,13 @@
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
     <%--贴子列表--%>
+     <div class="course">
+            <%= getCourse("<a href='/course.ashx?id={Cou_ID}' target='_blank'>{Cou_Name}</a>") %>
+        </div>
     <div class="topBox">
+       
         <div class="title">
-            主题：<asp:Label ID="lbTitle" runat="server" Text=""></asp:Label></div>
+            留言：<asp:Label ID="lbTitle" runat="server" Text=""></asp:Label></div>
         <div class="ansBtn">
             <a href="#ans">回复</a></div>
         <div class="uid" style="display: none">

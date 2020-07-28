@@ -14,6 +14,7 @@ using Song.ServiceInterfaces;
 using Song.Entities;
 using WeiSha.WebControl;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Song.Site.Manage.Site
 {
@@ -138,13 +139,34 @@ namespace Song.Site.Manage.Site
                 Message.Alert(ex);
             } 
         }
-        #region 列表中的事件
         /// <summary>
-        /// 修改是否显示的状态
+        /// 获取课程
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void sbShow_Click(object sender, EventArgs e)
+        /// <param name="couid"></param>
+        /// <param name="fmt">输出字符的格式</param>
+        /// <returns></returns>
+        protected string getCourse(string couid,string fmt)
+        {
+            int cid = 0;
+            int.TryParse(couid, out cid);
+            if (cid == 0) return "";
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(cid);
+            if (course == null) return "";
+            Type type = course.GetType();
+            foreach(PropertyInfo pi in type.GetProperties())
+            {
+                object o = type.GetProperty(pi.Name).GetValue(course, null);
+                fmt = fmt.Replace("{" + pi.Name + "}", o == null ? "" : o.ToString());
+            }
+            return fmt;
+        }
+            #region 列表中的事件
+            /// <summary>
+            /// 修改是否显示的状态
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            protected void sbShow_Click(object sender, EventArgs e)
         {
             try
             {

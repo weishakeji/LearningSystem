@@ -81,6 +81,7 @@ namespace Song.Site.Mobile
         /// </summary>
         private void list()
         {
+            //int couid = WeiSha.Common.Request.Form["couid"].Int32 ?? 0;
             int size = WeiSha.Common.Request.Form["size"].Int32 ?? 10;  //每页多少条
             int index = WeiSha.Common.Request.Form["index"].Int32 ?? 1;  //第几页
     
