@@ -52,16 +52,22 @@
 <%# Eval("Mb_ReplyNumber")%>/<%# Eval("Mb_FluxNumber")%>
 </itemtemplate>
             </asp:TemplateField>  --%>    
+            <asp:TemplateField HeaderText="课程">
+                <itemstyle cssclass="center"  />
+                <itemtemplate>
+<%# getCourse(Eval("Cou_ID","{0}"),"<a href='/course.ashx?id={Cou_ID}' target='_blank'>{Cou_Name}</a>")%>
+</itemtemplate>
+            </asp:TemplateField> 
                <asp:TemplateField HeaderText="发贴时间">
                 <itemstyle cssclass="center"  width="150px" />
                 <itemtemplate>
-<%# Eval("Mb_CrtTime")%>
+<%# Eval("Mb_CrtTime","{0:yyyy-M-d HH:mm:ss}")%>
 </itemtemplate>
             </asp:TemplateField>  
             <asp:TemplateField HeaderText="最后回复">
                 <itemstyle cssclass="center"  width="150px" />
                 <itemtemplate>
-<%# Eval("Mb_IsAns","{0}")=="True" ? Eval("Mb_AnsTime") : ""%>
+<%# Eval("Mb_IsAns","{0}")=="True" ? Eval("Mb_AnsTime","{0:yyyy-M-d HH:mm:ss}") : ""%>
 </itemtemplate>
             </asp:TemplateField>       
                       <asp:TemplateField HeaderText="显示">

@@ -15,6 +15,7 @@ using Song.ServiceInterfaces;
 using Song.Entities;
 using WeiSha.WebControl;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Song.Site.Manage.Site
 {
@@ -45,7 +46,25 @@ namespace Song.Site.Manage.Site
             cbIshow.Checked = mb.Mb_IsShow;
 
         }
-
+        /// <summary>
+        /// 获取课程
+        /// </summary>
+        /// <param name="fmt">输出字符的格式</param>
+        /// <returns></returns>
+        protected string getCourse(string fmt)
+        {
+            int cid = mb.Cou_ID;
+            if (cid == 0) return "";
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(cid);
+            if (course == null) return "";
+            Type type = course.GetType();
+            foreach (PropertyInfo pi in type.GetProperties())
+            {
+                object o = type.GetProperty(pi.Name).GetValue(course, null);
+                fmt = fmt.Replace("{" + pi.Name + "}", o == null ? "" : o.ToString());
+            }
+            return fmt;
+        }
 
         protected void btnEnter_Click(object sender, ImageClickEventArgs e)
         {

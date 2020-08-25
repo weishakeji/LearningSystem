@@ -151,9 +151,9 @@
                 //console.log('test');
             });
         }
-        //$("#msgMask").fadeOut(100, function () {
-            //$("#msgMask").remove();
-        //});
+        $("#msgMask").fadeOut(100, function () {
+            $("#msgMask").remove();
+        });
         //$(".MsgBox").fadeOut(100, function () {
             $(".MsgBox").remove();
         //});

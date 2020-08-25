@@ -333,15 +333,13 @@ namespace Song.ServiceImpls
             {
                 try
                 {
-                    tran.Save<TeacherSort>(entity);
-                    tran.Update<Teacher>(new Field[] { Teacher._.Ths_Name }, new object[] { entity.Ths_Name }, Teacher._.Ths_ID == entity.Ths_ID);
                     if (entity.Ths_IsDefault)
                     {
                         tran.Update<TeacherSort>(new Field[] { TeacherSort._.Ths_IsDefault }, new object[] { false },
                             TeacherSort._.Ths_ID != entity.Ths_ID && TeacherSort._.Org_ID == entity.Org_ID);
-                        tran.Update<TeacherSort>(new Field[] { TeacherSort._.Ths_IsDefault }, new object[] { true },
-                            TeacherSort._.Ths_ID == entity.Ths_ID && TeacherSort._.Org_ID == entity.Org_ID);
                     }
+                    tran.Save<TeacherSort>(entity);
+                    tran.Update<Teacher>(new Field[] { Teacher._.Ths_Name }, new object[] { entity.Ths_Name }, Teacher._.Ths_ID == entity.Ths_ID);                    
                     tran.Commit();
                 }
                 catch (Exception ex)

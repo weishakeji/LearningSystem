@@ -42,6 +42,15 @@
                 <asp:CheckBox ID="Sts_IsDefault" runat="server" Text="是否为默认组" />
             </td>
         </tr>
+         <tr>
+            <td class="right"  valign="top" >
+                课程学习：
+            </td>
+            <td>
+                <p><asp:CheckBox ID="Sts_SwitchPlay" runat="server" Text="禁用“视频课程学习时的切换窗体暂停视频播放”功能"  /></p>
+                <p>(启用该功能后，该组所属学员在课程学习时，切换浏览器窗体，视频将不再暂停播放)</p>
+            </td>
+        </tr>
     </table>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="cphBtn" runat="server">

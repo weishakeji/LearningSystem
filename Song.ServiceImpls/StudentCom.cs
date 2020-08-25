@@ -917,6 +917,14 @@ namespace Song.ServiceImpls
         /// <returns>datatable中,LastTime:最后学习时间； studyTime：累计学习时间，complete：完成度百分比</returns>
         public DataTable StudentStudyCourseLog(int acid)
         {
+            Accounts student = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acid).ToFirst<Accounts>();
+            if (student == null) throw new Exception("当前学员不存在！");
+            Organization org= Gateway.Default.From<Organization>().Where(Organization._.Org_ID == student.Org_ID).ToFirst<Organization>();
+            if (org == null) throw new Exception("学员所在的机构不存在！");
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //容差，例如完成度小于5%，则默认100%
+            int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
+
             ////清理掉不需要的数据，包括：“章节不存在，章节没有视频，章节禁用或未完成”的学习记录，全部删除
             //WhereClip wc = LogForStudentStudy._.Ac_ID == acid;
             //SourceReader lfs = Gateway.Default.FromSql(string.Format("select Ol_ID from [LogForStudentStudy] where Ac_ID={0} group by Ol_ID",acid)).ToReader();
@@ -931,7 +939,7 @@ namespace Song.ServiceImpls
             //} ;
             //开始计算
             string sql = @"
-select * from course as c inner join 
+select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inner join 
 	(select cou_id, max(lastTime) as 'lastTime',sum(studyTime) as 'studyTime',		
 		sum(case when complete>=100 then 100 else complete end) as 'complete'
 		from 
@@ -952,9 +960,10 @@ select * from course as c inner join
                 DataTable dt = ds.Tables[0];
                 if (dt.Rows.Count > 0)
                 {
+                    ///* 不要删除
                     //*****如果没有购买的，则去除
                     //购买的课程(含概试用的）
-                    List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(acid, null, 1, null, -1);
+                    List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(acid, null, 0, null, -1);
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         bool isExist = false;
@@ -972,7 +981,8 @@ select * from course as c inner join
                             i--;
                         }
                     }
-                    //计算完成度
+                    // * */
+                    //计算完成度                   
                     foreach (DataRow dr in dt.Rows)
                     {
                         //课程的累计完成度
@@ -982,7 +992,7 @@ select * from course as c inner join
                         int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true);
                         //完成度
                         double peracent = Math.Floor(complete / olnum * 100) / 100;
-                        dr["complete"] = peracent;
+                        dr["complete"] = peracent >= (100 - tolerance) ? 100 : peracent;
                     }
                 }
                 return dt;
@@ -1087,6 +1097,14 @@ select * from course as c inner join
         /// <returns>datatable中，LastTime：最后学习时间；totalTime：视频时间长；playTime：播放进度；studyTime：学习时间，complete：完成度百分比</returns>
         public DataTable StudentStudyOutlineLog(int couid, int acid)
         {
+            Accounts student = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acid).ToFirst<Accounts>();
+            if (student == null) throw new Exception("当前学员不存在！");
+            Organization org = Gateway.Default.From<Organization>().Where(Organization._.Org_ID == student.Org_ID).ToFirst<Organization>();
+            if (org == null) throw new Exception("学员所在的机构不存在！");
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //容差，例如完成度小于5%，则默认100%
+            int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
+            //读取学员学习记录
             string sql = @"select * from outline as c left join 
                         (SELECT top 90000 ol_id, MAX(Lss_LastTime) as 'lastTime', 
 	                        sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
@@ -1101,11 +1119,20 @@ select * from course as c inner join
             {
                 DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
                 //计算学习时度，因为没有学习的章节没有记录，也要计算进去
+                DataTable dt= ds.Tables[0];
+                //计算完成度                   
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (string.IsNullOrWhiteSpace(dr["complete"].ToString())) continue;
+                    //课程的累计完成度
+                    double complete = Convert.ToDouble(dr["complete"].ToString());                   
+                    dr["complete"] = complete >= (100 - tolerance) ? 100 : complete;
+                }
                 return ds.Tables[0];
             }
-            catch
+            catch(Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
         #endregion

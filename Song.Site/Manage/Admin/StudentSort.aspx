@@ -39,10 +39,17 @@
                     <asp:LinkButton ID="lbDown" OnClick="lbDown_Click" runat="server" Enabled='<%# Container.DataItemIndex+1< ((Song.Entities.StudentSort[])GridView1.DataSource).Length %>'>下移</asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="分类名称">
+            <asp:TemplateField HeaderText="名称">
                 <ItemStyle CssClass="left" />
                 <ItemTemplate>
                     <%# Eval("sts_Name")%>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="视频">
+                <ItemStyle CssClass="center" Width="60px" />
+                <ItemTemplate>
+                    <cc1:StateButton ID="sbSwitchPlay"  OnClick="sbSwitchPlay_Click" runat="server" TrueText="正常播放"
+                        FalseText="切换暂停" State='<%# Eval("Sts_SwitchPlay","{0}")=="True"%>'></cc1:StateButton>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="默认">

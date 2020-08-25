@@ -37,7 +37,7 @@ var vdata = new Vue({
     },
     watch: {
         //课程状态
-        state: function(val) {
+        state: function (val) {
             if (vdata.state.isNull) vdata.titState = 'isNull';
             if (vdata.state.isAccess) vdata.titState = 'isAccess';
             if (vdata.state.isQues) vdata.titState = 'isQues';
@@ -45,23 +45,24 @@ var vdata = new Vue({
             if (vdata.state.isLive) vdata.titState = 'isLive';
             if (vdata.state.existVideo) vdata.titState = 'existVideo';
             //if (!vdata.state.canStudy) vdata.titState = 'isNull';
+            if (vdata.state.DeskAllow) return;
             //视频播放
             if (vdata.state.canStudy && (vdata.state.existVideo || vdata.state.isLive))
                 vdata.videoPlay(vdata.state);
         },
         //左侧选项卡切换
-        titState: function(val) {
+        titState: function (val) {
             if (vdata.playready()) {
                 vdata.titState == 'existVideo' ? vdata.player.play() : vdata.player.pause();
             }
         },
         //弹幕开关
-        'switchSubtitle': function(val, old) {
+        'switchSubtitle': function (val, old) {
             if (val != old)
                 $api.cookie("switchSubtitle_" + vdata.couid, val);
         },
         //播放进度时间变化
-        playtime: function(val) {
+        playtime: function (val) {
             vdata.video.studytime++;
             //当前视频播放进度百分比
             var per = Math.floor(vdata.video.studytime <= 0 ? 0 : vdata.video.studytime / vdata.video.total * 100);
@@ -70,7 +71,7 @@ var vdata = new Vue({
             vdata.videoEvent(vdata.playtime);
         },
         //播放进度百分比变化，
-        playpercent: function(val, oldval) {
+        playpercent: function (val, oldval) {
             //console.log('当前播放进度百分比：'+val);
             //学习记录提交
             if (val <= 100) vdata.videoLog(val);
@@ -78,35 +79,25 @@ var vdata = new Vue({
     },
     methods: {
         //知识库的点击事件
-        knlClick: function() {
+        knlClick: function () {
             new top.PageBox('课程知识库', 'Knowledges.ashx?couid=' + vdata.couid, 100, 100, null, window.name).Open();
         },
-        //附件的点击事件
-        accessClick: function(file, tit, event) {
-            var exist = file.substring(file.lastIndexOf(".") + 1).toLowerCase();
-            if (exist == "pdf") {
-                event.preventDefault();
-                var box = new PageBox(tit, $api.pdfViewer(file), 100, 100, null, window.name);
-                box.Open();
-            }
-            return false;
-        },
         //章节列表的点击事件
-        outlineClick: function(olid, event) {
+        outlineClick: function (olid, event) {
             var url = $api.setpara("olid", olid);
             history.pushState({}, null, url);
             vdata.olid = olid;
             vdata.titState = 'loading';
             if (event != null) event.preventDefault();
             //获取当前章节状态，和专业信息
-            $api.all(
+            $api.bat(
                 $api.get("Outline/ForID", {
                     id: olid
                 }),
                 $api.get("Outline/state", {
                     olid: olid
                 })
-            ).then(axios.spread(function(ol, state) {
+            ).then(axios.spread(function (ol, state) {
                 if (ol.data.success && state.data.success) {
                     vdata.outline = ol.data.result;
                     vdata.state = state.data.result;
@@ -129,26 +120,15 @@ var vdata = new Vue({
                     var result = state.data.result;
                     vdata.video.studytime = isNaN(result.StudyTime) ? 0 : result.StudyTime;
                     vdata.video.playhistime = isNaN(result.PlayTime) ? 0 : result.PlayTime / 1000;
-                    window.setTimeout(function() {
+                    window.setTimeout(function () {
                         vdata.outlineLoaded = true;
                     }, 100);
-                    //获取附件
-                    if (state.data.result.isAccess) {
-                        $api.get("Outline/Accessory", {
-                            uid: vdata.outline.Ol_UID
-                        }).then(function(acc) {
-                            if (acc.data.success) {
-                                vdata.access = acc.data.result;
-                            } else {
-                                alert("附件信息加载异常！详情：\r" + acc.data.message);
-                            }
-                        });
-                    }
+
                     //获取视频事件
-                    if (state.data.result.existVideo) {
+                    if (state.data.result.existVideo && vdata.outline) {
                         $api.get("Outline/VideoEvents", {
                             olid: vdata.outline.Ol_ID
-                        }).then(function(req) {
+                        }).then(function (req) {
                             if (req.data.success) {
                                 vdata.events = req.data.result;
                             } else {
@@ -165,14 +145,14 @@ var vdata = new Vue({
             vdata.msgGet();
         },
         //播放器是否准备好
-        playready: function() {
+        playready: function () {
             if (vdata.player != null) {
                 return vdata.player._isReady && vdata.player.engine;
             }
             return false;
         },
         //视频开始播放
-        videoPlay: function(state) {
+        videoPlay: function (state) {
             if (vdata.player != null) {
                 vdata.player.destroy();
                 vdata.player = null;
@@ -194,7 +174,7 @@ var vdata = new Vue({
             if (vdata.player != null) {
                 vdata.player.on("loading", vdata.videoready);
                 vdata.player.on("ready", vdata.videoready);
-                vdata.player.on("timeupdate", function(currentTime, totalTime) {
+                vdata.player.on("timeupdate", function (currentTime, totalTime) {
                     vdata.video.total = parseInt(totalTime);
                     vdata.video.playTime = currentTime; //详细时间，精确到毫秒
                     vdata.playtime = parseInt(currentTime);
@@ -202,17 +182,19 @@ var vdata = new Vue({
                     vdata.video.percent = Math.floor(vdata.video.studytime <= 0 ? 0 : vdata.video.studytime / vdata.video.total * 1000) / 10;
                     vdata.video.percent = vdata.video.percent > 100 ? 100 : vdata.video.percent;
                 });
-                vdata.player.on("seeked", function() {
+                vdata.player.on("seeked", function () {
                     vdata.playtime = vdata.playready() ? vdata.player.currentTime : 0;
-                    window.setTimeout(function() {
+                    window.setTimeout(function () {
                         if (vdata.playready()) vdata.player.pause();
                     }, 50);
-
+                });
+                vdata.player.on("play", function (e) {
+                    if (window.videoFixed) vdata.player.pause();
                 });
             }
         },
         //播放器加载后的事件
-        videoready: function() {
+        videoready: function () {
             //隐藏全屏按钮
             var fullbtn = document.getElementsByClassName("qplayer-fullscreen");
             for (var i = 0; i < fullbtn.length; i++) {
@@ -234,30 +216,31 @@ var vdata = new Vue({
             video.setAttribute("x5-video-orientation", "portraint");
         },
         //视频播放跳转
-        videoSeek: function(second) {
+        videoSeek: function (second) {
             if (vdata.playready()) {
                 vdata.player.seek(second);
             }
         },
         //学习记录记录
-        videoLog: function(per) {
+        videoLog: function (per) {
             if (vdata.studylogUpdate) return;
             var interval = 1; //间隔百分比多少递交一次记录
             if (vdata.video.total <= 5 * 60) interval = 10; //5分钟内的视频
             else if (vdata.video.total <= 10 * 60) interval = 5; //10分钟的视频，5%递交一次      
             else if (vdata.video.total <= 30 * 60) interval = 2; //30分钟的视频，2%递交一次    
             if (per > 0 && per < (100 + interval) && per % interval == 0) {
+                if (!vdata.outline) return;
                 $api.post("Course/StudyLog", {
                     couid: vdata.course.Cou_ID,
                     olid: vdata.outline.Ol_ID,
                     playTime: vdata.playtime,
                     studyTime: vdata.video.studytime,
                     totalTime: vdata.video.total
-                }, function() {
+                }, function () {
                     vdata.studylogUpdate = true;
-                }, function() {
+                }, function () {
                     vdata.studylogUpdate = false;
-                }).then(function(req) {
+                }).then(function (req) {
                     if (!req.data.success) {
                         if (vdata.playready()) {
                             vdata.player.pause();
@@ -268,20 +251,20 @@ var vdata = new Vue({
                         return;
                     }
                     vdata.studylogState = 1;
-                    window.setTimeout(function() {
+                    window.setTimeout(function () {
                         vdata.studylogState = 0;
                     }, 2000);
-                }).catch(function(err) {
+                }).catch(function (err) {
                     vdata.studylogState = -1;
                     //alert(err);
-                    window.setTimeout(function() {
+                    window.setTimeout(function () {
                         vdata.studylogState = 0;
                     }, 2000);
                 });
             }
         },
         //视频事件的触发
-        videoEvent: function(playtime) {
+        videoEvent: function (playtime) {
             if (vdata.events.length < 1) return;
             var curr = null;
             for (var ev in vdata.events) {
@@ -294,7 +277,7 @@ var vdata = new Vue({
             //视频暂停
             if (vdata.playready()) vdata.player.pause();
             var box = new MsgBox();
-            box.OverEvent = function() {
+            box.OverEvent = function () {
                 if (vdata.playready()) vdata.player.play();
             }
             if (curr.Oe_EventType == 1)
@@ -326,7 +309,7 @@ var vdata = new Vue({
             }
         },
         //视频事件的点击操作
-        videoEventClick: function(iscorrect, seek) {
+        videoEventClick: function (iscorrect, seek) {
             //视频事件的问题
             if (iscorrect != null) {
                 if (iscorrect) MsgBox.Close();
@@ -334,7 +317,7 @@ var vdata = new Vue({
                     var err = document.getElementById("event_error");
                     err.style.height = 20 + 'px';
                     err.style.opacity = 1;
-                    window.setTimeout(function() {
+                    window.setTimeout(function () {
                         var err = document.getElementById("event_error");
                         err.style.height = 0 + 'px';
                         err.style.opacity = 0;
@@ -349,7 +332,7 @@ var vdata = new Vue({
             }
         },
         //发送消息
-        msgSend: function() {
+        msgSend: function () {
             var msg = document.getElementById("messageinput").value;
             if ($api.trim(msg) == '') return;
             var span = Date.now() - Number($api.cookie("msgtime"));
@@ -367,7 +350,7 @@ var vdata = new Vue({
                 playtime: vdata.playtime,
                 couid: vdata.couid,
                 olid: vdata.olid
-            }).then(function(req) {
+            }).then(function (req) {
                 var d = req.data;
                 if (d.success) {
                     document.getElementById("messageinput").value = '';
@@ -378,76 +361,78 @@ var vdata = new Vue({
             });
         },
         //获取当前章节的留言信息
-        msgGet: function() {
+        msgGet: function () {
             if (!vdata.olid || vdata.olid < 1) return;
-            $api.post("message/All", {
+            $api.post("message/count", {
                 olid: vdata.olid,
-                order: 'asc'
-            }).then(function(req) {
+                order: 'asc',
+                count: 100
+            }).then(function (req) {
                 var d = req.data;
                 if (d.success) {
                     vdata.messages = d.result;
-                    window.setTimeout(function() {
+                    window.setTimeout(function () {
                         var dl = document.getElementById("chatlistdl");
                         document.getElementById("chatlist").scrollTop = dl.offsetHeight;
                     }, 1000);
                 } else {
                     alert("留言信息加载异常！详情：\r" + d.message);
                 }
-            }).catch(function(err) {
+            }).catch(function (err) {
                 //alert("msgGet方法存在错误："+err);
             });
         },
-        init: function() {
+        init: function () {
 
         }
     },
-    created: function() {
+    created: function () {
         var couid = $api.querystring("couid");
-        $api.all(
+        $api.bat(
             $api.get("Outline/tree", {
                 couid: couid
             }),
             $api.get("Course/ForID", {
                 id: couid
-            })).then(axios.spread(function(ol, cur) {
-            if (ol.data.success && cur.data.success) {
-                vdata.outlines = ol.data.result;
-                if (vdata.olid == '') vdata.olid = ol.data.result[0].Ol_ID;
-                vdata.outlineClick(vdata.olid, null);
-                vdata.course = cur.data.result;
-                document.title = vdata.course.Cou_Name;
-                $api.get("Subject/ForID", {
-                    id: vdata.course.Sbj_ID
-                }).then(function(subject) {
-                    if (subject.data.success) {
-                        vdata.subject = subject.data.result;
-                    } else {
-                        if (!subject.data.success) throw "课程所属专业加载异常！详情：\r" + subject.data.message;
-                    }
-                }).catch(function(err) {
-                    alert(err);
-                });
-                vdata.msgGet();
-            } else {
-                if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
-                if (!cur.data.success) throw "课程信息加载异常！详情：\r" + cur.data.message;
-            }
-        })).catch(function(err) {
-            alert(err);
-        });
+            })).then(axios.spread(function (ol, cur) {
+                if (ol.data.success && cur.data.success) {
+                    if (ol.data.result.length < 1) throw "没有课程章节";
+                    vdata.outlines = ol.data.result;
+                    if (vdata.olid == '') vdata.olid = ol.data.result[0].Ol_ID;
+                    vdata.outlineClick(vdata.olid, null);
+                    vdata.course = cur.data.result;
+                    document.title = vdata.course.Cou_Name;
+                    $api.get("Subject/ForID", {
+                        id: vdata.course.Sbj_ID
+                    }).then(function (subject) {
+                        if (subject.data.success) {
+                            vdata.subject = subject.data.result;
+                        } else {
+                            if (!subject.data.success) throw "课程所属专业加载异常！详情：\r" + subject.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                    });
+                    vdata.msgGet();
+                } else {
+                    if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
+                    if (!cur.data.success) throw "课程信息加载异常！详情：\r" + cur.data.message;
+                }
+            })).catch(function (err) {
+                alert(err);
+            });
         //当前登录学员
-        $api.get("Account/Current", {}, null, null).then(function(req) {
+        $api.get("Account/Current", {}, null, null).then(function (req) {
             if (req.data.success) {
                 vdata.account = req.data.result;
             }
         });
         //定时刷新（加载）咨询留言
-        window.setInterval('vdata.msgGet()', 1000 * 20);
+        window.setInterval('vdata.msgGet()', 1000 * 10);
     },
-    mounted: function() {
+    mounted: function () {
         //视频上面的漂浮信息（学员姓名和电话），防录屏
-        window.setInterval(function() {
+        window.setInterval(function () {
             var acc = document.getElementById("accinfo");
             if (acc == null) return;
             if (acc.parentNode.offsetHeight == 0 || acc.parentNode.offsetWidth == 0) return;
@@ -470,17 +455,20 @@ var vdata = new Vue({
 
 });
 vdata.$mount('#body');
-window.onload = function() {
+window.onload = function () {
     this.vdata.init();
 }
 
-window.onblur = function() {
+window.onblur = function () {
     if (vdata.playready()) {
         //if (vdata.state.isLive || vdata.state.existVideo)
-        vdata.player.pause();
+        if (!vdata.state.SwitchPlay)
+            vdata.player.pause();
     }
 }
-window.onfocus = function() {
+window.onfocus = function () {
+    //如果有视频事件弹出，则窗体获取焦点时，视频并不播放
+    if ($("div[type=MsgBox]").size() > 0) return;
     if (vdata.playready()) {
         //vdata.titState == 'existVideo' && vdata.state.isLive ? vdata.player.play() : vdata.player.pause();
         //只有当处于视频状态时才播放
@@ -489,9 +477,22 @@ window.onfocus = function() {
     }
 }
 
+window.onresize = function () {
+    window.setTimeout(function () {
+        var str = '';
+        [22, 9, 4, 5, 15].forEach(x => str += String.fromCharCode(0x60 + x));
+        var v = document.querySelector(str);
+        if (!v) return;
+        var styles = document.defaultView.getComputedStyle(v.parentNode, null);
+        var posi = styles.getPropertyValue('position');
+        window.videoFixed = posi == 'fixed';
+        v.style.display = window.videoFixed ? 'none' : '';
+        !window.videoFixed && $("div[type=MsgBox]").size() < 1 ? v.play() : v.pause();
+    }, 100);
+}
 
 //全局过滤器，日期格式化
-Vue.filter('date', function(value, fmt) {
+Vue.filter('date', function (value, fmt) {
     if ($api.getType(value) != 'Date') return value;
     var o = {
         "M+": value.getMonth() + 1,
@@ -506,4 +507,56 @@ Vue.filter('date', function(value, fmt) {
         if (new RegExp("(" + k + ")").test(fmt))
             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
+});
+
+//******* 附件列表
+Vue.component('accessory', {
+    props: ['uid', 'isbuy'],
+    data: function () {
+        return {
+            datas: [],  //附件列表
+            msg: ''      //提示信息
+        }
+    },
+    watch: {
+        'uid': function (val, old) {
+            var th = this;
+            th.msg = '';
+            $api.get("Outline/Accessory", { uid: val }).then(function (acc) {
+                if (acc.data.success) {
+                    th.datas = acc.data.result;
+                } else {
+                    th.msg = "附件信息加载异常！详情：\r" + acc.data.message;
+                }
+            }).catch(function (err) {
+                th.msg = err;
+            });
+        },
+        'isbuy': function (val, old) {
+
+        }
+    },
+    methods: {
+        //附件的点击事件
+        accessClick: function (file, tit, event) {
+            var exist = file.substring(file.lastIndexOf(".") + 1).toLowerCase();
+            if (exist == "pdf") {
+                event.preventDefault();
+                var box = new PageBox(tit, $api.pdfViewer(file), 100, 100, null, window.name);
+                box.Open();
+            }
+            return false;
+        }
+    },
+    template: '<div id="accessory">\
+         <div  v-if="!isbuy" style="color:red;">课程未购买，资料不提供下载或预览</div>\
+        <a  v-if="isbuy"  v-for="(item,index) in datas" target="_blank":href="item.As_FileName"\
+            v-on:click="accessClick(item.As_FileName,item.As_Name,$event)"\
+            :download="item.As_Name">{{index+1}}、{{item.As_Name}}\
+        </a>\
+        <div v-if="!isbuy"  v-for="(item,index) in datas" >\
+        {{index+1}}、{{item.As_Name}}\
+        </div>\
+        <div class="noInfo">{{msg}}</div>\
+        </div>'
 });

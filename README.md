@@ -6,20 +6,31 @@
 
 >适用行业：企业培训、教育机构、高等教育、基础教育
 
-<b>开发环境：</b>
-* 1、采用C#；基于.Net 4.0
-* 2、数据库采用Sqlserver2005或更高版本
-* 3、开发工具是Microsoft Visual Studio 2010
+## 产品特点：
+* 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
+* 多终端支持，电脑、手机、微信、APP、微信小程序，全都有；
+* 永久授权，一次购买，终身使用；<a href="http://www.weishakeji.net/price.html" target="_blank" size=12> [ 购买商业授权 ] </a>
 
-<b>升级日志：</b>
+## 功能介绍：
+* 视频教学，直播、录播
+   > “直播”可以在线互动，“录播”可以时实记录学习进度
+
+* 试题同步练习
+   > 支持批量导入，手机随时随地刷题，时实记录练习成果和进度
+
+* 在线考试
+   > 千人同考，断电、死机不丢题
+   
+* 分享、分润、分销
+   > 学员分享，多级裂变，运营、推广不再难
+
+## 开发环境：
+* 采用C#；基于.Net 4.6 <a href="https://www.microsoft.com/zh-CN/download/details.aspx?id=53344" target="_blank" size=12>[下载]</a>
+* 数据库采用Sqlserver2008或更高版本
+* 开发工具 Microsoft Visual Studio Community 2019
+
+## 升级日志：
 <a href="http://www.weishakeji.net/download.html" target="_blank">http://www.weishakeji.net/download.html</a> 
 
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_07.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_08.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_09.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_10.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_11.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_12.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_13.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_14.png?raw=true)
-![Alt text](https://github.com/weishakeji/LearningSystem/blob/master/Song.Site/Utility/Taobao/2018_15.png?raw=true)
+## 开发交流：
+>QQ交流群：10237400

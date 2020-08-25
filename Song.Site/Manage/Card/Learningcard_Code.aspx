@@ -43,15 +43,22 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="有效期">
                 <ItemTemplate>
-                    <%# Eval("Lc_LimitStart","{0:yyyy-MM-dd}")%>至<%# Eval("Lc_LimitEnd", "{0:yyyy-MM-dd}")%>
+                    <%# Eval("Lc_LimitStart","{0:yyyy-MM-dd}")%><span style="color:#999">至</span><%# Eval("Lc_LimitEnd", "{0:yyyy-MM-dd}")%>
                 </ItemTemplate>
-                <ItemStyle CssClass="center" Width="160px" />
+                <ItemStyle CssClass="center" Width="180px" />
             </asp:TemplateField>
             <asp:TemplateField HeaderText="状态">
                 <ItemTemplate>
                     <%# Convert.ToBoolean(Eval("Lc_IsUsed")) ? (Eval("Lc_State", "{0}") == "-1" ? "被回滚" : (Eval("Lc_State", "{0}") == "0" ? "暂存" : "已使用")) : ""%>
                 </ItemTemplate>
                 <ItemStyle CssClass="center" Width="70px" />
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="激活时间">
+                <ItemTemplate>
+                      <%# Convert.ToBoolean(Eval("Lc_IsUsed")) ?  Eval("Lc_UsedTime","{0:yyyy-MM-dd HH:mm:ss}") : ""%>
+                  
+                </ItemTemplate>
+                <ItemStyle CssClass="center" />
             </asp:TemplateField>
             <asp:TemplateField HeaderText="使用人">
                 <ItemTemplate>

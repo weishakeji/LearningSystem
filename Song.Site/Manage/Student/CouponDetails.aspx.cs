@@ -17,7 +17,7 @@ namespace Song.Site.Manage.Student
         Song.Entities.Accounts st = null;
         protected void Page_Load(object sender, EventArgs e)
         {
-            Song.Entities.Accounts st = this.Master.Account;
+            st = this.Master.Account;
             if (st == null) return;
 
             this.Form.DefaultButton = this.btnSear.UniqueID;
@@ -57,7 +57,7 @@ namespace Song.Site.Manage.Student
             //操作方向
             int type = Convert.ToInt16(this.ddlType.SelectedValue);
             //学员账号
-            int stid = st == null ? -1 : st.Ac_ID;
+            int stid = st == null ? 0 : st.Ac_ID;
             Song.Entities.CouponAccount[] eas = null;
             eas = Business.Do<IAccounts>().CouponPager(-1, stid, type, (DateTime?)start, (DateTime?)end, Pager1.Size, Pager1.Index, out count);
             GridView1.DataSource = eas;

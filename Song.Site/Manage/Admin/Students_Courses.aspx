@@ -10,13 +10,13 @@
         <div class="itemTitle">
             
     <asp:Label ID="lbAccName" runat="server" Text=""></asp:Label> 选修的课程
-            <input id="btnPrint" type="button" value=" 打 印 " href="../student/Students_Details.aspx?id=<%= id %>" />
+            <input id="btnPrint" type="button" value=" 打 印 " href="../student/Students_Details.aspx?sts=-1&id=<%= id %>" />
             </div>
         <asp:Repeater ID="rptCourse" runat="server">
             <ItemTemplate>
                 <div class="item" isfree="<%# GetStc(Eval("Cou_ID","{0}")).Stc_IsFree %>" istry="<%# GetStc(Eval("Cou_ID","{0}")).Stc_IsTry %>">
                     <a class="logo" href="/course.ashx?id=<%# Eval("Cou_ID") %>" target="_blank">
-                        <img src="<%# Eval("Cou_LogoSmall") %>" alt="<%# Eval("Cou_Name","{0}") %>" subject="<%# Eval("sbj_Name","[{0}]") %>" /></a>
+                        <img src="<%# Eval("Cou_LogoSmall") %>" alt="<%# Eval("Cou_Name","{0}") %>"  onerror="this.style.setProperty('display','none')"  subject="<%# Eval("sbj_Name","[{0}]") %>" /></a>
                     <div class="infoBox">
                         <div class="courseName">
                             <a href="/course.ashx?id=<%# Eval("Cou_ID") %>" target="_blank"><%# Eval("Cou_Name","《{0}》") %></a></div>

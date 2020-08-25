@@ -83,6 +83,17 @@ namespace Song.ViewData.Methods
             return Business.Do<IMessage>().GetAll(olid, order);
         }
         /// <summary>
+        /// 获取指定数量的留言
+        /// </summary>
+        /// <param name="olid">章节id</param>
+        /// <param name="order">排序方式，desc或asc</param>
+        /// <param name="count">取多少条</param>
+        /// <returns></returns>
+        public Song.Entities.Message[] Count(int olid, string order,int count)
+        {
+            return Business.Do<IMessage>().GetCount(-1, olid, order, count);
+        }
+        /// <summary>
         /// 获取留言数量
         /// </summary>
         /// <param name="couid">课程id</param>

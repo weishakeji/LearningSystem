@@ -19,9 +19,10 @@ namespace Song.Site.Manage.Student
     public partial class StudyLog : Extend.CustomPage
     {
         Song.Entities.Organization org;
+        protected Song.Entities.Accounts st = null;
         protected void Page_Load(object sender, EventArgs e)
         {
-            Song.Entities.Accounts st = this.Master.Account;
+            st = this.Master.Account;
             if (st == null) return;
             org = Business.Do<IOrganization>().OrganCurrent();
             if (!this.IsPostBack)

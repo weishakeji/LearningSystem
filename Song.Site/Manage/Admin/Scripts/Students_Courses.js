@@ -18,8 +18,9 @@
     //打印详情的按钮事件
     $("#btnPrint").click(function () {
         var href = $(this).attr("href");
-        var iframe = $("#iframeExportDetails");
-        iframe.attr("src", href);
+        //var iframe = $("#iframeExportDetails");
+        //iframe.attr("src", href);
+        new top.PageBox("学习证明打印", href, 980, 60, null, window.name).Open();
         return false;
     });
     //主管理区加载完成事件

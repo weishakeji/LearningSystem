@@ -93,7 +93,7 @@ function editroot() {
     root.show();
     edit.hide();
     $.get("/manage/soap/ManageMenu.asmx/ManageMenuJson", { id: rootid }, function (data) {
-        var node = eval("(" + $(data).text() + ")");
+        var node = eval("(" + unescape($(data).text()) + ")");
         update.setCtl($("#RootEditPanel"), node);
         update.setCtl($("#patdata"), node);   //在新增界面的上级
     })
@@ -110,7 +110,7 @@ function editNode(node) {
     var id = node.attr("nodeId");
     //获取单个信息
     $.get("/manage/soap/ManageMenu.asmx/ManageMenuJson", { id: id }, function (data) {
-        var node = eval("(" + $(data).text() + ")");
+        var node = eval("(" + unescape($(data).text()) + ")");
         update.setCtl($("#EditPanel"), node);   //填充数据
         update.setCtl($("#patdata"), node);   //在新增界面的上级
         //菜单项的“移动到”
@@ -118,7 +118,7 @@ function editNode(node) {
         panel.find("select[name$='copyto']").attr("value", rootid);
         //当前节点父节点信息
         $.get("/manage/soap/ManageMenu.asmx/ManageMenuJson", { id: node.MM_PatId }, function (data) {
-            var node = eval("(" + $(data).text() + ")");
+            var node = eval("(" + unescape($(data).text()) + ")");
             var panel = $("#EditPanel");
             panel.find("#editNodeParent").text(node.MM_Name);
         })

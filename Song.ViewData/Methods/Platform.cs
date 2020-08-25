@@ -5,6 +5,8 @@ using System.Text;
 using Song.ServiceInterfaces;
 using WeiSha.Common;
 using Song.ViewData.Attri;
+using System.IO;
+
 
 namespace Song.ViewData.Methods
 {
@@ -12,7 +14,7 @@ namespace Song.ViewData.Methods
     /// 平台信息
     /// </summary>
     [HttpGet]
-    public class Platform:IViewAPI
+    public class Platform : IViewAPI
     {
         /// <summary>
         /// 授权信息
@@ -35,7 +37,7 @@ namespace Song.ViewData.Methods
             System.Xml.XmlNodeList nodes = xml.SelectNodes("Copyright/*");
             foreach (System.Xml.XmlNode n in nodes)
             {
-                 string remark = n.Attributes["remark"] != null ? n.Attributes["remark"].Value : string.Empty;
+                string remark = n.Attributes["remark"] != null ? n.Attributes["remark"].Value : string.Empty;
                 string type = n.Attributes["type"] != null ? n.Attributes["type"].Value : string.Empty;
                 list.Add(new Copyright_Item()
                 {
@@ -47,7 +49,7 @@ namespace Song.ViewData.Methods
             }
             return list.ToArray<Copyright_Item>();
         }
-        
+
 
         /// <summary>
         /// 数据库是否链接正常
@@ -86,13 +88,33 @@ namespace Song.ViewData.Methods
             List<string> error = Business.Do<ISystemPara>().DatabaseCompleteTest();
             if (error == null)
             {
-               return new string[]{};
+                return new string[] { };
             }
             return error.ToArray<string>();
         }
+        /// <summary>
+        /// 机构公章信息
+        /// </summary>
+        /// <returns>path:公章图片路径;positon:位置</returns>
+        public Dictionary<string, string> Stamp()
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            //公章
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //公章显示位置
+            string positon = config["StampPosition"].Value.String;
+            if (string.IsNullOrEmpty(positon)) positon = "right-bottom";
+            dic.Add("positon", positon);
+            //公章图像信息
+            string stamp = config["Stamp"].Value.String;
+            string filepath = Upload.Get["Org"].Physics + stamp;           
+            dic.Add("path", !File.Exists(filepath) ? "" : Upload.Get["Org"].Virtual + stamp);
+            return dic;
+        }
         //其它基础信息
     }
-
+    #region
     /// <summary>
     /// 版权信息的项
     /// </summary>
@@ -103,4 +125,5 @@ namespace Song.ViewData.Methods
         public string Type { get; set; }
         public string Text { get; set; }
     }
+    #endregion
 }

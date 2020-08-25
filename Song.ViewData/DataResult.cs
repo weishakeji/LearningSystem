@@ -167,7 +167,7 @@ namespace Song.ViewData
                 case "String":
                     str = value == null ? "" : value.ToString();
                     str = str.Replace(Environment.NewLine, "");
-                    str = str.Replace("\n", " ").Replace("\t", " ").Replace("\r", " ");
+                    str = Microsoft.JScript.GlobalObject.escape(str);
                     str = string.Format("\"{0}\"", str);
                     break;
                 case "Int32":
@@ -203,15 +203,9 @@ namespace Song.ViewData
                         }
                     }
                     break;
-                //case "Exception":
-                //    Exception ex = (Exception)value;
-                //    str = ex == null ? "" : ((ex.InnerException == null) ? ex.Message : ex.InnerException.Message);
-                //    str = str.Replace("\n", ";").Replace("\t", " ").Replace("\r", ";");
-                //    str = string.Format("\"{0}\"", str.Trim());
-                //    break;
                 default:
                     str = value == null ? "" : value.ToString();
-                    str = str.Replace("\n", " ").Replace("\t", " ").Replace("\r", " ");
+                    str = Microsoft.JScript.GlobalObject.escape(str);
                     str = string.Format("\"{0}\"", str);
                     break;
             }

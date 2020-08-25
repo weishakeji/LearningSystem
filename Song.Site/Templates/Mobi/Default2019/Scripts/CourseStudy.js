@@ -202,7 +202,7 @@ var vdata = new Vue({
 			vdata.olid = olid;
 			if (event != null) event.preventDefault();
 			//获取当前章节状态，和专业信息
-			$api.all(
+			$api.bat(
 				$api.get("Outline/ForID", {
 					id: olid
 				}),
@@ -321,9 +321,10 @@ var vdata = new Vue({
 		//获取当前章节的留言信息
 		msgGet: function() {
 			if (!vdata.olid || vdata.olid < 1) return;
-			$api.post("message/All", {
-				olid: vdata.olid,
-				order: 'desc'
+			$api.post("message/count", {
+				 olid: vdata.olid,
+                order: 'asc',
+                count:100
 			}).then(function(req) {
 				var d = req.data;
 				if (d.success) {
@@ -336,14 +337,14 @@ var vdata = new Vue({
 					throw "留言信息加载异常！详情：\r" + d.message;
 				}
 			}).catch(function(err) {
-				//alert(err);
+				alert(err);
 			});			
 		}
 	},
 	created: function() {
 		var couid = $api.querystring("couid");
-		$api.all(
-			$api.get("Outline/tree", {
+		$api.bat(
+			$api.post("Outline/tree", {
 				couid: couid
 			}),
 			$api.get("Course/ForID", {
@@ -363,7 +364,7 @@ var vdata = new Vue({
 			alert(err);
 		});
         //定时刷新（加载）咨询留言
-        window.setInterval('vdata.msgGet()', 1000 * 20);
+        window.setInterval('vdata.msgGet()', 1000 * 10);
 	}
 });
 vdata.$mount('#context-box');

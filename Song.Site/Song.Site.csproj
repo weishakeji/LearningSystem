@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -19,13 +20,20 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <UpgradeBackupLocation />
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
     <TargetFrameworkProfile />
     <UseIISExpress>false</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +46,9 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,6 +58,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -61,6 +73,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -75,6 +88,7 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -91,6 +105,7 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -106,6 +121,7 @@
     <CodeAnalysisRuleSetDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Common.Logging, Version=1.2.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e">
@@ -187,9 +203,9 @@
     <Reference Include="URLRewriter">
       <HintPath>..\Lib\URLRewriter.dll</HintPath>
     </Reference>
-    <Reference Include="WeiSha.Common, Version=1.1.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="WeiSha.Common, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\Lib\WeiSha.Common.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="WeiSha.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=fd39f026add70812, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -221,44 +237,6 @@
     <Content Include="Check\Writer.aspx" />
     <Content Include="Check\Dbup_20170323.aspx" />
     <Content Include="Check\Dbup_20190321.aspx" />
-    <Content Include="Console\CoreScripts\api.js" />
-    <Content Include="Console\CoreScripts\axios_min.js" />
-    <Content Include="Console\CoreScripts\ElementUi\index.css" />
-    <Content Include="Console\CoreScripts\ElementUi\index.html" />
-    <Content Include="Console\CoreScripts\ElementUi\index.js" />
-    <Content Include="Console\CoreScripts\jquery-3.4.1.min.js" />
-    <Content Include="Console\CoreScripts\polyfill_min.js" />
-    <Content Include="Console\CoreScripts\Slider.js" />
-    <Content Include="Console\CoreScripts\vue_min.js" />
-    <Content Include="Console\CoreScripts\vue_router.js" />
-    <Content Include="Console\Effect\2D_Cloud\Images\login_bgX.jpg" />
-    <Content Include="Console\Effect\2D_Cloud\Images\login_Top.jpg" />
-    <Content Include="Console\Effect\2D_Cloud\index.html" />
-    <Content Include="Console\Effect\3D_Cloud\cloud10.png" />
-    <Content Include="Console\Effect\3D_Cloud\index.html" />
-    <Content Include="Console\Effect\3D_Cloud\js\Detector.js" />
-    <Content Include="Console\Effect\3D_Cloud\js\RequestAnimationFrame.js" />
-    <Content Include="Console\Effect\3D_Cloud\js\ThreeExtras.js" />
-    <Content Include="Console\Effect\3D_Cloud\js\ThreeWebGL.js" />
-    <Content Include="Console\Effect\Circular\css\style.css" />
-    <Content Include="Console\Effect\Circular\index.html" />
-    <Content Include="Console\Effect\Line\css\style.css" />
-    <Content Include="Console\Effect\Line\index.html" />
-    <Content Include="Console\Effect\Line\js\jparticle.min.js" />
-    <Content Include="Console\Effect\Line\js\jquery.js" />
-    <Content Include="Console\Effect\Particle\css\style.css" />
-    <Content Include="Console\Effect\Particle\index.html" />
-    <Content Include="Console\Effect\Particle\js\script.js" />
-    <Content Include="Console\Effect\Particle\js\simplex-noise.min.js" />
-    <Content Include="Console\Effect\Tree\index.html" />
-    <Content Include="Console\index.html" />
-    <Content Include="Console\Scripts\Index.js" />
-    <Content Include="Console\Scripts\JScript1.js" />
-    <Content Include="Console\Slider.html" />
-    <Content Include="Console\Styles\Index.css" />
-    <Content Include="Console\Styles\Slider.css" />
-    <Content Include="Console\Tags.html" />
-    <Content Include="Console\test1.html" />
     <Content Include="Copyright.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -359,6 +337,8 @@
     <Content Include="Manage\Course\Scripts\Courses_Outlines.js" />
     <Content Include="Manage\Course\Scripts\Outline_Video.js" />
     <Content Include="Manage\Course\Scripts\Courses_Message.js" />
+    <Content Include="Manage\Course\Scripts\Courses_Outlines22.js" />
+    <Content Include="Manage\Course\Scripts\Outline_Accessory.js" />
     <Content Include="Manage\Course\Styles\Courses.css" />
     <Content Include="Manage\Course\Styles\Courses_Edit.css" />
     <Content Include="Manage\Course\Styles\Courses_Guide.css" />
@@ -373,7 +353,7 @@
     <Content Include="Manage\Course\OutlineEvent_Edit.aspx" />
     <Content Include="Manage\Course\Courses_Questions.aspx" />
     <Content Include="Manage\Course\Styles\Courses_Questions.css" />
-    <Content Include="Manage\Course\Courses_Outlines.aspx" />
+    <Content Include="Manage\Course\Courses_Outlines22.aspx" />
     <Content Include="Manage\Course\Styles\Courses_Outlines.css" />
     <Content Include="Manage\Course\Outline_Edit.aspx" />
     <Content Include="Manage\Course\Outline_Accessory.aspx" />
@@ -384,6 +364,8 @@
     <Content Include="Manage\Course\Outline_Live.aspx" />
     <Content Include="Manage\Course\Courses_Message.aspx" />
     <Content Include="Manage\Course\Styles\Courses_Message.css" />
+    <Content Include="Manage\Course\Courses_Outlines.aspx" />
+    <Content Include="Manage\Course\Styles\Courses_Outlines22.css" />
     <Content Include="Manage\DataTemplate\Config\充值码.xml" />
     <Content Include="Manage\DataTemplate\Config\学习卡.xml" />
     <Content Include="Manage\DataTemplate\Config\教师信息.xml">
@@ -493,6 +475,7 @@
     <Content Include="Manage\Student\Scripts\Course_Curr.js" />
     <Content Include="Manage\Student\Scripts\StudyLog.js" />
     <Content Include="Manage\Student\Scripts\Students_Details.js" />
+    <Content Include="Manage\Student\Scripts\Students_DetailsBat.js" />
     <Content Include="Manage\Student\SelfCourse.aspx" />
     <Content Include="Manage\Student\Students_Details.aspx" />
     <Content Include="Manage\Student\Styles\Course.css" />
@@ -519,6 +502,7 @@
     <Content Include="Manage\Student\Styles\Course_Curr.css" />
     <Content Include="Manage\Student\Styles\Learningcard.css" />
     <Content Include="Manage\Student\Styles\LearningCardView.css" />
+    <Content Include="Manage\Student\Styles\Students_DetailsBat.css" />
     <Content Include="Manage\Student\Subordinates.aspx" />
     <Content Include="Manage\Student\Share.aspx" />
     <Content Include="Manage\Student\PointDetails.aspx" />
@@ -530,6 +514,7 @@
     <Content Include="Manage\Student\Course_Study.aspx" />
     <Content Include="Manage\Student\Course_Expire.aspx" />
     <Content Include="Manage\Student\LearningCardView.aspx" />
+    <Content Include="Manage\Student\Students_DetailsBat.aspx" />
     <Content Include="Manage\Styles\Jme.css" />
     <Content Include="Manage\Styles\Jme\Symbola.svg" />
     <Content Include="Manage\Sys\LimitDomain.aspx" />
@@ -2247,21 +2232,6 @@
     <Content Include="Utility\Qiniuyun\demo1.html" />
     <Content Include="Utility\Qiniuyun\qiniu-web-player-1.2.2.js" />
     <Content Include="Utility\Qiniuyun\qiniu-web-player-1.2.3.js" />
-    <Content Include="Utility\Taobao\2018_01.png" />
-    <Content Include="Utility\Taobao\2018_02.png" />
-    <Content Include="Utility\Taobao\2018_03.png" />
-    <Content Include="Utility\Taobao\2018_04.png" />
-    <Content Include="Utility\Taobao\2018_05.png" />
-    <Content Include="Utility\Taobao\2018_06.png" />
-    <Content Include="Utility\Taobao\2018_07.png" />
-    <Content Include="Utility\Taobao\2018_08.png" />
-    <Content Include="Utility\Taobao\2018_09.png" />
-    <Content Include="Utility\Taobao\2018_10.png" />
-    <Content Include="Utility\Taobao\2018_11.png" />
-    <Content Include="Utility\Taobao\2018_12.png" />
-    <Content Include="Utility\Taobao\2018_13.png" />
-    <Content Include="Utility\Taobao\2018_14.png" />
-    <Content Include="Utility\Taobao\2018_15.png" />
     <Content Include="Utility\Verify\Demo\1-1.htm" />
     <Content Include="Utility\Verify\Demo\1-2.htm" />
     <Content Include="Utility\Verify\Demo\2-1.htm" />
@@ -2683,12 +2653,12 @@
     <Compile Include="Manage\Course\Courses_Questions.aspx.designer.cs">
       <DependentUpon>Courses_Questions.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Manage\Course\Courses_Outlines.aspx.cs">
-      <DependentUpon>Courses_Outlines.aspx</DependentUpon>
+    <Compile Include="Manage\Course\Courses_Outlines22.aspx.cs">
+      <DependentUpon>Courses_Outlines22.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Manage\Course\Courses_Outlines.aspx.designer.cs">
-      <DependentUpon>Courses_Outlines.aspx</DependentUpon>
+    <Compile Include="Manage\Course\Courses_Outlines22.aspx.designer.cs">
+      <DependentUpon>Courses_Outlines22.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Course\Outline_Edit.aspx.cs">
       <DependentUpon>Outline_Edit.aspx</DependentUpon>
@@ -2738,6 +2708,13 @@
     </Compile>
     <Compile Include="Manage\Course\Courses_Message.aspx.designer.cs">
       <DependentUpon>Courses_Message.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Course\Courses_Outlines.aspx.cs">
+      <DependentUpon>Courses_Outlines.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Course\Courses_Outlines.aspx.designer.cs">
+      <DependentUpon>Courses_Outlines.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Exam\TestPaper_Edit1.aspx.cs">
       <DependentUpon>TestPaper_Edit1.aspx</DependentUpon>
@@ -3081,6 +3058,13 @@
     </Compile>
     <Compile Include="Manage\Student\LearningCardView.aspx.designer.cs">
       <DependentUpon>LearningCardView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Manage\Student\Students_DetailsBat.aspx.cs">
+      <DependentUpon>Students_DetailsBat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Manage\Student\Students_DetailsBat.aspx.designer.cs">
+      <DependentUpon>Students_DetailsBat.aspx</DependentUpon>
     </Compile>
     <Compile Include="Manage\Sys\Accounts.aspx.cs">
       <DependentUpon>Accounts.aspx</DependentUpon>
@@ -6609,8 +6593,6 @@
     <Content Include="API\API.ashx" />
     <Content Include="Help\API.ashx" />
     <Content Include="Help\Default.ashx" />
-    <None Include="Console\CoreScripts\ElementUi\fonts\element-icons.ttf" />
-    <None Include="Console\CoreScripts\ElementUi\fonts\element-icons.woff" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <Content Include="Mobile\ExamReview.ashx" />
     <Content Include="Mobile\MyFriends.ashx" />
@@ -6994,18 +6976,18 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
-    <Folder Include="Console\Components\" />
-    <Folder Include="Console\Fonts\" />
-    <Folder Include="Console\Images\" />
-    <Folder Include="Console\Themes\Default\" />
-    <Folder Include="Console\Themes\Spring\" />
     <Folder Include="Manage\Utility\kindeditor\attached\" />
     <Folder Include="Upload\" />
     <Folder Include="Utility\Images\Mobi\" />
     <Folder Include="Utility\VideoHandler\" />
   </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -172,7 +172,8 @@ function _btnEvent() {
     });
     //返回按钮事件
     mui('body').on('tap', '.btnStudyBack', function (event) {
-        window.history.go(-1);
+        //window.history.go(-1);
+        window.location.href='/';
     });
 }
 
@@ -231,6 +232,9 @@ function BuySubmit(isfree, istry) {
                     var msg = new MsgBox("错误", error, 90, 200, "alert");
                     msg.OverEvent = function () {
                         //MsgBox.Close();
+                        $.cookie('courseBuy_state', '');
+                        $('.MsgBox').remove();
+                        $('#msgMask').remove();
                     };
                     msg.Open();
                 }
