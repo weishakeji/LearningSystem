@@ -1,11 +1,11 @@
 --2020-7-28
-/*å­¦å‘˜ç»„ï¼Œå¢åŠ è¯¥ç»„å­¦å‘˜åœ¨è§†é¢‘å­¦ä¹ æ—¶ï¼Œåˆ‡æ¢æµè§ˆå™¨æ˜¯å¦ä¸æš‚åœæ’­æ”¾ï¼Œé»˜è®¤ä¸ºfalse*/
+/*Ñ§Ô±×é£¬Ôö¼Ó¸Ã×éÑ§Ô±ÔÚÊÓÆµÑ§Ï°Ê±£¬ÇĞ»»ä¯ÀÀÆ÷ÊÇ·ñ²»ÔİÍ£²¥·Å£¬Ä¬ÈÏÎªfalse*/
 alter table StudentSort add Sts_SwitchPlay  bit NULL
 go
 UPDATE StudentSort SET Sts_SwitchPlay  = 0
 GO
 alter table StudentSort ALTER COLUMN Sts_SwitchPlay  bit NOT NULL
-/*ä¿®æ”¹èœå•åç§°*/
+/*ĞŞ¸Ä²Ëµ¥Ãû³Æ*/
 UPDATE ManageMenu
-   SET ManageMenu.MM_Name='å­¦å‘˜ç»„'
-   where ManageMenu.MM_Name='å­¦å‘˜ç­çº§'
+   SET ManageMenu.MM_Name='Ñ§Ô±×é'
+   where ManageMenu.MM_Name='Ñ§Ô±°à¼¶'
