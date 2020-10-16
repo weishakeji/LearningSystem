@@ -86,15 +86,48 @@
     .menubox a {
       color: #333;
       display: block;
+      position: relative;
       padding: 0px;
       line-height: 40px;
       height: 40px;
       margin-top: 0px;
       margin-right: 0px;
       margin-bottom: 0px;
-      margin-left: 30px;
+      text-indent: 40px;
       text-align: left;
       font-size: 18px;
+      text-decoration: none;
+    }
+
+    .menubox a.curr {
+      font-weight: bold;
+    }
+
+    .menubox a.curr::before {
+      content: '';
+      display: block;
+      position: absolute;
+      line-height: 40px;
+      height: 40px;
+      width: calc(100% + 12px);
+      background-color: #fff;
+      z-index: -1;
+      border-radius: 0px 3px 0px 0px;
+      box-shadow: 2px 2px 2px 2px rgba(180, 180, 180, 0.3), -0px -0px 2px 2px rgba(180, 180, 180, 0.3);
+      background: linear-gradient(to right bottom, #eee 0%, #ffffff 100%);
+    }
+
+    .menubox a.curr::after {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 0px;
+      width: 0px;
+      right: -12px;
+      z-index: 2;
+      overflow: hidden;
+      border: 6px solid;
+      border-color: rgba(180, 180, 180, 0.3) transparent transparent rgba(180, 180, 180, 0.3);
     }
 
     .left-buttom {
@@ -137,14 +170,14 @@
       max-width: 600px;
     }
 
-    .item {
+    .context .item {
       margin-bottom: 50px;
-      padding-top: 30px;
+      padding-top: 5px;
     }
 
     .item .tit {
-      font-size: 18px;
-      line-height: 5px;
+      font-size: 20px;
+      line-height: 30px;
       font-weight: bold;
     }
 
@@ -182,11 +215,13 @@
       top: 70px;
       right: 25px;
       width: 280px;
-    
+
     }
-    .float>div:not(:last-of-type){
+
+    .float>div:not(:last-of-type) {
       margin-bottom: 10px;
     }
+
     .float h1 {
       margin: 0px;
       padding: 0px;
@@ -200,11 +235,11 @@
       text-shadow: 1px 1px 1px rgba(51, 51, 51, 0.3), -1px -1px 1px rgba(51, 51, 51, 0.3), -1px 1px 1px rgba(51, 51, 51, 0.3), 1px -1px 1px rgba(51, 51, 51, 0.3);
     }
 
-    #adbox {     
+    #adbox {
       bottom: 10px;
       right: 25px;
-      width: 280px;     
-    }   
+      width: 180px;
+    }
   </style>
 </head>
 
@@ -214,7 +249,7 @@
   </div>
   <div class="leftbox">
     <div class="menubox">
-      <a href="#a1">1、系统简述</a>
+      <a href="#a1" class="curr">1、系统简述</a>
       <a href="#a2">2、文件说明</a>
       <a href="#a3">3、安装部署</a>
       <a href="#a4">4、升级指南</a>
@@ -249,15 +284,15 @@
           <p>C、开源代码</p>
           <p>GitHub源码地址：<a href="https://github.com/weishakeji/LearningSystem"
               target="_blank">https://github.com/weishakeji/LearningSystem</a></p>
-              <p>国内同步镜像：<a href="https://gitee.com/weishakeji/LearningSystem"
-                target="_blank">https://gitee.com/weishakeji/LearningSystem</a></p>
+          <p>国内同步镜像：<a href="https://gitee.com/weishakeji/LearningSystem"
+              target="_blank">https://gitee.com/weishakeji/LearningSystem</a></p>
         </div>
       </div>
       <a id="a2"></a>
       <div class="item">
         <div class="tit"> 文件说明</div>
         <div class="txt">
-          <p>1、系统部署文件是“部署文件yyyy-mm-dd.rar”；</p>        
+          <p>1、系统部署文件是“部署文件yyyy-mm-dd.rar”；</p>
           <p> 2、upload.rar是系统中的upload文件夹，是用来存放用户上传资料、图片等信息的
             有些朋友在部署后反映没有图片（例如课程图片不显示），都是因为“程序发布.rar”中只是程序， 没有图片信息。</p>
           <p> 3、Sqlscript.sql是当前系统的数据库脚本；</p>
@@ -419,10 +454,27 @@
   </div>
   <div id="adbox" class="float">
     <h1>在线交流</h1>
-    <div>售前交流群：<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=toqb5W5ZRxa9MISLbSL8FdzdZmHqP6cz&jump_from=webapi"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="微厦科技-服务交流群" title="微厦科技-服务交流群"></a><br/>
-    开发交流群：<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=tTTdUnuOvlZU092BUBuzgxR9WLUV6rBK&jump_from=webapi"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="微厦科技（开发交流）" title="微厦科技（开发交流）"></a></div>
+    <div>售前交流群：<a target="_blank"
+        href="https://qm.qq.com/cgi-bin/qm/qr?k=toqb5W5ZRxa9MISLbSL8FdzdZmHqP6cz&jump_from=webapi"><img border="0"
+          src="https://pub.idqqimg.com/wpa/images/group.png" alt="微厦科技-服务交流群" title="微厦科技-服务交流群"></a><br />
+      开发交流群：<a target="_blank"
+        href="https://qm.qq.com/cgi-bin/qm/qr?k=tTTdUnuOvlZU092BUBuzgxR9WLUV6rBK&jump_from=webapi"><img border="0"
+          src="https://pub.idqqimg.com/wpa/images/group.png" alt="微厦科技（开发交流）" title="微厦科技（开发交流）"></a></div>
   </div>
 
 </body>
+<script>
+  window.onload = window.onresize = function () {
+    var menu = document.querySelectorAll(".menubox a");
+    for (var i = 0; i < menu.length; i++) {
+      menu[i].addEventListener('click', function (evt) {
+        for (var j = 0; j < menu.length; j++)
+          menu[j].classList.remove('curr');
+        var node = event.target ? event.target : event.srcElement;
+        node.classList.add('curr');
+      }, true);
+    }    
+  }
+</script>
 
 </html>
