@@ -247,6 +247,16 @@
     <Content Include="Download\App.aspx" />
     <Content Include="Download\DesktopApp\readme.txt" />
     <Content Include="favicon.ico" />
+    <Content Include="Help\API\Index.htm" />
+    <Content Include="Help\API\Scripts\API.js" />
+    <Content Include="Help\API\Scripts\Default.js" />
+    <Content Include="Help\API\Styles\API.css" />
+    <Content Include="Help\Datas\entities.details.txt" />
+    <Content Include="Help\Datas\Index.htm" />
+    <Content Include="Help\Datas\Scripts\index.js" />
+    <Content Include="Help\Datas\Styles\index.css" />
+    <Content Include="Help\Default.htm" />
+    <Content Include="Help\Styles\Default.css" />
     <Content Include="License.aspx" />
     <Content Include="Manage\Admin\Courses.aspx" />
     <Content Include="Manage\Admin\Departs_Edit.aspx" />
@@ -2454,14 +2464,6 @@
     </Compile>
     <Compile Include="Examing.ashx.cs">
       <DependentUpon>Examing.ashx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Help\API.ashx.cs">
-      <DependentUpon>API.ashx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Help\Default.ashx.cs">
-      <DependentUpon>Default.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Manage\Admin\Courses.aspx.cs">
@@ -6591,8 +6593,6 @@
     <Content Include="Ajax\SelfCourse.ashx" />
     <Content Include="Ajax\SelfStudyLog.ashx" />
     <Content Include="API\API.ashx" />
-    <Content Include="Help\API.ashx" />
-    <Content Include="Help\Default.ashx" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <Content Include="Mobile\ExamReview.ashx" />
     <Content Include="Mobile\MyFriends.ashx" />

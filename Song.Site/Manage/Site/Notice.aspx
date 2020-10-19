@@ -46,7 +46,7 @@
             <asp:TemplateField HeaderText="发布时间">
                 <itemstyle cssclass="center" width="140px" />
                 <itemtemplate>
-<%# Eval("No_StartTime")%>
+<%# Eval("No_StartTime","{0:yyyy-M-d HH:mm:ss}")%>
 </itemtemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="显示">

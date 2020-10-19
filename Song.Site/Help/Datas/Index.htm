@@ -1,0 +1,72 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <title>数据字典说明</title>
+
+    <script type="text/javascript" src="/Utility/CoreScripts/polyfill.min.js"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/api.js"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/vue_min.js"></script>
+    <script type="text/javascript" src="/Utility/CoreScripts/vue-router.js"></script>
+    <script type="text/javascript" src="/Utility/ElementUi/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Utility/ElementUi/index.css" />
+
+
+
+    <link href="Styles/index.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+</head>
+
+<body>
+
+    <section id="entities">
+        <menu id="menu">
+            <div class="tit"> <i class="el-icon-wallet"></i>
+                <i class="el-icon-loading" v-if="JSON.stringify(entities) == '{}'"></i>
+                Entities
+                <div class="searchbox"> <i class="el-icon-search"></i>
+                    <form> <input type="text" name="search" id="search" autofocus v-model="entitysearch" />
+                    </form>
+                </div>
+            </div>
+            <dl>
+                <dd v-for="(val,key,i) in entitylist">
+                    <a class='entity' :title="content(key,'mark')" :href="'#'+key">
+                        {{i+1}}. <b class='el-icon-loading' v-show='loading'></b>
+                       {{key}}
+                        <span v-html="content(key,'mark')"></span>
+                    </a>
+                </dd>
+                <dd v-if="listcount<1" class="noapi">
+                    <span>没有查询到实体</span>
+                </dd>
+            </dl>
+            <footer><a href="http://www.weishakeji.net" target="_blank">郑州微厦计算机科技有限公司</a></footer>
+        </menu>
+        <context id="context">
+            <div class="homepage">
+                <h1>数据字典，实体说明</h1>
+                <p>数据实体来自数据库的映射，与数据库结构（表、字段、数据类型）对应。但下述详细说明信息并不是取自数据库，而是取自Song.Entities项目的反射，
+                    所以诸如属性的类型会显示String（C#数据类型），而不是数据库的varchar类型。这里只是方便开发时查询说明信息，详细的数据实体信息仍需要进数据库查看。
+                </p>
+                <p>解决方案中的Song.Entities项目，包含了所有的实体，由代码生成器自动生成（WeiSha.Data.Generete.exe，在解决方案下的Lib文件夹），实体代码非常不建议手工调整。</p>
+
+
+            </div>
+            <div class="homepage">
+                <h1><i class="el-icon-loading" v-if="JSON.stringify(details) == '{}'"></i>Entities Details（数据实体的详情列表）
+                </h1>
+                <div class="entity_area" v-for="(val,key,index) in entities">
+                    <entity :index="index" :clname="key" :properties="val" :datas="entities" :details="entityDetails(key)" :states="entityStates(key)"></entity>
+                    
+                </div>
+               
+            </div>
+        </context>
+    </section>
+
+    <script type="text/javascript" src="Scripts/index.js"></script>
+</body>
+
+</html>
