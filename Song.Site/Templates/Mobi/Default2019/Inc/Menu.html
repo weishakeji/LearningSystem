@@ -19,29 +19,32 @@
         </div>
       </div>
       <ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
-        
-        <!--如果学员没有登录-->
-        <li class="mui-table-view-cell" state="logout"> <a class="mui-navigate-right" type="link" href="../login.ashx"> <span class="iconfont">&#xe614;</span>登录 </a> </li>
-        <li class="mui-table-view-cell" state="logout"> <a class="mui-navigate-right" type="link" href="../Register.ashx"> <span class="iconfont">&#xe68f;</span>注册 </a> </li>
-         <li class="mui-table-view-cell" state="logout"> <a class="mui-navigate-right" href="../courses.ashx"> <span class="iconfont">&#xe674;</span>课程中心 </a> </li>     
-        <!--如果处于登录状态-->
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../selfcourse.ashx"><span class="iconfont">&#xe60b;</span>我的课程 </a> </li>
-         <vt:if var="mremove" value="false" compare="=">
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../MoneyDetails.ashx"><span class="iconfont">&#xe690;</span>资金明细 </a> </li>
-        </vt:if>
 
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../CouponExchange.ashx"><span class="iconfont">&#xe88a;</span>积分兑换 </a> </li>
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../LearningCard.ashx"><span class="iconfont">&#xe62c;</span>学习卡</a> </li>
-        <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../MyFriends.ashx"><span class="iconfont">&#xe62f;</span>我的朋友 </a> </li>
-         <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" type="confirm" 
-              title="注销登录" msg="您是否要注销当前登录？" cancel="取消" enter="注销登录"  
-             href="../logout.ashx"> <span class="iconfont">&#xe61b;</span>注销登录 </a> </li>
-        <li class="mui-table-view-cell" state="login"> </li>
-         
-         <!--其它菜单，不管是否登录都出现-->   
-        <li class="mui-table-view-cell"> <a class="mui-navigate-right" type="link"  href="../news.ashx"> <span class="iconfont">&#xe60e;</span>资讯 </a> </li>
-        <!--<li class="mui-table-view-cell"> <a class="mui-navigate-right"type="open"  href="Message.ashx"> <span class="iconfont rowico">&#xe636;</span>问题返馈 </a> </li>-->
-      <!--  <li class="mui-table-view-cell"> <a class="mui-navigate-right" type="open"  href="../Conn.cshtm"> <span class="iconfont">&#xe680;</span>联系我们</a> </li>-->
+          <!--如果学员没有登录-->
+          <li class="mui-table-view-cell" state="logout"> <a class="mui-navigate-right" type="link" href="../login.ashx"> <span class="iconfont">&#xe614;</span>登录 </a> </li>
+          <li class="mui-table-view-cell" state="logout"> <a class="mui-navigate-right" type="link" href="../Register.ashx"> <span class="iconfont">&#xe68f;</span>注册 </a> </li>
+          <li class="mui-table-view-cell" state="logout"> <a class="mui-navigate-right" href="../courses.ashx"> <span class="iconfont">&#xe674;</span>课程中心 </a> </li>
+          <!--如果处于登录状态-->
+          <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../selfcourse.ashx"><span class="iconfont">&#xe60b;</span>我的课程 </a> </li>
+          <vt:if var="mremove" value="false" compare="=">
+              <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../MoneyDetails.ashx"><span class="iconfont">&#xe690;</span>资金明细 </a> </li>
+          </vt:if>
+
+          <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../CouponExchange.ashx"><span class="iconfont">&#xe88a;</span>积分兑换 </a> </li>
+          <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../LearningCard.ashx"><span class="iconfont">&#xe62c;</span>学习卡</a> </li>
+          <li class="mui-table-view-cell" state="login"> <a class="mui-navigate-right" href="../MyFriends.ashx"><span class="iconfont">&#xe62f;</span>我的朋友 </a> </li>
+          <li class="mui-table-view-cell" state="login">
+              <a class="mui-navigate-right" type="confirm"
+                 title="注销登录" msg="您是否要注销当前登录？" cancel="取消" enter="注销登录"
+                 href="../logout.ashx"> <span class="iconfont">&#xe61b;</span>注销登录 </a>
+          </li>
+          <li class="mui-table-view-cell" state="login"> </li>
+
+          <!--其它菜单，不管是否登录都出现-->
+          <li class="mui-table-view-cell"> <a class="mui-navigate-right" type="link" href="../news.ashx"> <span class="iconfont">&#xe60e;</span>资讯 </a> </li>
+          <li class="mui-table-view-cell"> <a class="mui-navigate-right" type="link" href="../notices.ashx"> <span class="iconfont">&#xe67a;</span>通知 </a> </li>
+          <!--<li class="mui-table-view-cell"> <a class="mui-navigate-right"type="open"  href="Message.ashx"> <span class="iconfont rowico">&#xe636;</span>问题返馈 </a> </li>-->
+          <!--  <li class="mui-table-view-cell"> <a class="mui-navigate-right" type="open"  href="../Conn.cshtm"> <span class="iconfont">&#xe680;</span>联系我们</a> </li>-->
       </ul>
       
     </div>

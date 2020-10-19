@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Manage/ManagePage.Master" AutoEventWireup="true"
-    Codebehind="Notice.aspx.cs" Inherits="Song.Site.Manage.Site.Notice" Title="无标题页" %>
+    Codebehind="Notice.aspx.cs" Inherits="Song.Site.Manage.Site.Notice" Title="通知公告" %>
 
 <%@ Register Src="../Utility/toolsBar.ascx" TagName="toolsBar" TagPrefix="uc1" %>
 <%@ Register Src="../Utility/Pager.ascx" TagName="Pager" TagPrefix="uc2" %>
@@ -18,7 +18,7 @@
             没有满足条件的信息！
         </EmptyDataTemplate>
         <Columns>
-            <asp:TemplateField HeaderText="序号">
+            <asp:TemplateField HeaderText="#">
                 <itemstyle cssclass="center" width="40" />
                 <itemtemplate>
 <%# Container.DataItemIndex   + Pager1.Size*(Pager1.Index-1) + 1 %>
@@ -31,12 +31,7 @@
 </itemtemplate>
                 <itemstyle cssclass="center" width="44px" />
             </asp:TemplateField>        
-            <asp:TemplateField HeaderText="ID">
-                <itemstyle cssclass="center" width="50px" />
-                <itemtemplate>
-<%# Eval("No_Id","{0}")%>
-</itemtemplate>
-            </asp:TemplateField>
+        
             <asp:TemplateField HeaderText="主题">
                 <itemstyle cssclass="left" />
                 <itemtemplate>
