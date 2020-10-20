@@ -452,8 +452,11 @@
     <Content Include="Manage\Questions\Questions_Edit6.aspx" />
     <Content Include="Manage\Scripts\Public.js" />
     <Content Include="Manage\Scripts\Console.js" />
+    <Content Include="Manage\Site\Notice_Edit.html" />
+    <Content Include="Manage\Site\Scripts\Notice_Edit.js" />
     <Content Include="Manage\Site\SSOApi.aspx" />
     <Content Include="Manage\Site\SSOApi_Edit.aspx" />
+    <Content Include="Manage\Site\Styles\Notice_Edit.css" />
     <Content Include="Manage\SMS\Scripts\SMSSetup.js" />
     <Content Include="Manage\SMS\Scripts\SMSSetup_Edit.js" />
     <Content Include="Manage\SMS\SMSSetup_Edit.aspx" />
@@ -2098,6 +2101,8 @@
     <Content Include="Utility\echarts\chart\wordCloud.js" />
     <Content Include="Utility\echarts\echarts-all.js" />
     <Content Include="Utility\echarts\echarts.js" />
+    <Content Include="Utility\editor\vue-html5-editor.css" />
+    <Content Include="Utility\editor\vue-html5-editor.js" />
     <Content Include="Utility\ElementUi\index.css" />
     <Content Include="Utility\ElementUi\index.html" />
     <Content Include="Utility\ElementUi\index.js" />
@@ -6694,6 +6699,8 @@
     <Content Include="Mobile\Weixin.ashx" />
     <Content Include="Utility\ElementUi\fonts\element-icons.ttf" />
     <Content Include="Utility\ElementUi\fonts\element-icons.woff" />
+    <Content Include="Utility\editor\fontawesome-webfont.woff" />
+    <Content Include="Utility\editor\fontawesome-webfont.woff2" />
     <None Include="Utility\PdfViewer\cmaps\78-EUC-H.bcmap" />
     <None Include="Utility\PdfViewer\cmaps\78-EUC-V.bcmap" />
     <None Include="Utility\PdfViewer\cmaps\78-H.bcmap" />

@@ -5,15 +5,15 @@
 <%@ Register Src="../Utility/Pager.ascx" TagName="Pager" TagPrefix="uc2" %>
 <%@ Register Assembly="WeiSha.WebControl" Namespace="WeiSha.WebControl" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="cphMain" runat="server">
-    <div id="header"><uc1:toolsBar ID="ToolsBar1" runat="server" WinPath="Notice_Edit.aspx" GvName="GridView1"
-        WinWidth="640" WinHeight="480" IsWinOpen="true" OnDelete="DeleteEvent" />
+    <div id="header"><uc1:toolsBar ID="ToolsBar1" runat="server" WinPath="Notice_Edit.html" GvName="GridView1"
+        WinWidth="800" WinHeight="600" IsWinOpen="true" OnDelete="DeleteEvent" />
     <div class="searchBox">
         标题：<asp:TextBox ID="tbSear" runat="server" Width="115" MaxLength="10"></asp:TextBox>&nbsp;&nbsp;<a
             href="#" type="ClearBtn">清空</a><asp:Button ID="btnSear" runat="server" Width="100"
                 Text="查询" OnClick="btnsear_Click" />
     </div></div>
     <cc1:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
-        SelectBoxKeyName="SelectBox" ShowSelectBox="True">
+        SelectBoxKeyName="SelectBox" ShowSelectBox="True" IsEncrypt="false">
         <EmptyDataTemplate>
             没有满足条件的信息！
         </EmptyDataTemplate>
