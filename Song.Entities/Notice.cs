@@ -38,7 +38,7 @@ namespace Song.Entities {
     		
     		protected String _No_Page;
     		
-    		protected String _No_interval;
+    		protected String _No_Interval;
     		
     		protected Int32 _No_Range;
     		
@@ -235,13 +235,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public String No_interval {
+    		public String No_Interval {
     			get {
-    				return this._No_interval;
+    				return this._No_Interval;
     			}
     			set {
-    				this.OnPropertyValueChange(_.No_interval, _No_interval, value);
-    				this._No_interval = value;
+    				this.OnPropertyValueChange(_.No_Interval, _No_Interval, value);
+    				this._No_Interval = value;
     			}
     		}
     		
@@ -347,7 +347,7 @@ namespace Song.Entities {
     					_.Org_ID,
     					_.Org_Name,
     					_.No_Page,
-    					_.No_interval,
+    					_.No_Interval,
     					_.No_Range,
     					_.No_OpenCount,
     					_.No_Width,
@@ -376,7 +376,7 @@ namespace Song.Entities {
     					this._Org_ID,
     					this._Org_Name,
     					this._No_Page,
-    					this._No_interval,
+    					this._No_Interval,
     					this._No_Range,
     					this._No_OpenCount,
     					this._No_Width,
@@ -434,8 +434,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.No_Page))) {
     				this._No_Page = reader.GetString(_.No_Page);
     			}
-    			if ((false == reader.IsDBNull(_.No_interval))) {
-    				this._No_interval = reader.GetString(_.No_interval);
+    			if ((false == reader.IsDBNull(_.No_Interval))) {
+    				this._No_Interval = reader.GetString(_.No_Interval);
     			}
     			if ((false == reader.IsDBNull(_.No_Range))) {
     				this._No_Range = reader.GetInt32(_.No_Range);
@@ -557,9 +557,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field No_Page = new WeiSha.Data.Field<Notice>("No_Page");
     			
     			/// <summary>
-    			/// 字段名：No_interval - 数据类型：String
+    			/// 字段名：No_Interval - 数据类型：String
     			/// </summary>
-    			public static WeiSha.Data.Field No_interval = new WeiSha.Data.Field<Notice>("No_interval");
+    			public static WeiSha.Data.Field No_Interval = new WeiSha.Data.Field<Notice>("No_Interval");
     			
     			/// <summary>
     			/// 字段名：No_Range - 数据类型：Int32
@@ -593,4 +593,3 @@ namespace Song.Entities {
     		}
     	}
     }
-    

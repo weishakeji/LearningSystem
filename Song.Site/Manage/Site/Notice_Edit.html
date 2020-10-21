@@ -24,7 +24,7 @@
                             <el-input v-model="formData.No_Ttl" clearable :style="{width: '100%'}">
                             </el-input>
                         </el-form-item>
-                        <el-form-item label="内容" prop="Ot_Name">
+                        <el-form-item label="内容" prop="No_Context">
                             <vue-html5-editor :content="details" :show-module-name="false" ref="editor"
                                 @change="updateDetails">
                             </vue-html5-editor>
@@ -39,97 +39,99 @@
                         </el-form-item>
 
                     </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="响应页面" prop="No_IsOpen">
-                            <template>
-                                <el-radio v-model="formData.No_Page" label="">无</el-radio>
-                                <el-radio v-model="formData.No_Page" label="web_home">电脑端首页</el-radio>
-                                <el-radio v-model="formData.No_Page" label="mobi_home">手机端首页</el-radio>
-                            </template>
-                        </el-form-item>
+                    <template v-if="formData.No_IsOpen">
+                        <el-col :span="24">
+                            <el-form-item label="响应页面" prop="No_IsOpen">
+                                <template>
+                                    <el-radio v-model="formData.No_Page" label="">无</el-radio>
+                                    <el-radio v-model="formData.No_Page" label="web_home">电脑端首页</el-radio>
+                                    <el-radio v-model="formData.No_Page" label="mobi_home">手机端首页</el-radio>
+                                </template>
+                            </el-form-item>
 
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="受众范围" prop="No_Range">
-                            <el-radio-group v-model="formData.No_Range">
-                                <el-radio :label="1">全部</el-radio>
-                                <el-radio :label="2">未登录</el-radio>
-                                <el-radio :label="3">已登录</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </el-col>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="受众范围" prop="No_Range">
+                                <el-radio-group v-model="formData.No_Range">
+                                    <el-radio :label="1">全部</el-radio>
+                                    <el-radio :label="2">未登录</el-radio>
+                                    <el-radio :label="3">已登录</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                        </el-col>
 
-                    <el-col :span="24">
-                        <el-form-item label="有效时间" prop="No_IsOpen">
-                            <template>
-                                <el-date-picker v-model="formData.No_StartTime" type="date" placeholder="起始时间"
-                                    :style="{width: '160px'}">
-                                </el-date-picker>
+                        <el-col :span="24">
+                            <el-form-item label="有效时间" prop="No_IsOpen">
+                                <template>
+                                    <el-date-picker v-model="formData.No_StartTime" @change="changeTime" type="date"
+                                        placeholder="起始时间" :style="{width: '160px'}">
+                                    </el-date-picker>
 
-                                <el-date-picker v-model="formData.No_EndTime" align="right" type="date"
-                                    placeholder="结束时间" :style="{width: '160px'}">
-                                </el-date-picker>
+                                    <el-date-picker v-model="formData.No_EndTime" @change="changeTime" type="date"
+                                        placeholder="结束时间" :style="{width: '160px'}">
+                                    </el-date-picker>
 
-                            </template>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="" prop="No_IsOpen" >
-                            <el-input v-model="formData.SI_Timespan" :style="{width: '325px'}" :maxlength="5">
-                                <template slot="prepend">每天弹出</template>
-                                <template slot="append">次</template>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
+                                </template>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="" prop="No_OpenCount">
+                                <el-input v-model="formData.No_OpenCount" :style="{width: '325px'}" :maxlength="5">
+                                    <template slot="prepend">每天弹出</template>
+                                    <template slot="append">次</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
 
-                    <el-col :span="24">
-                        <el-form-item label="弹出时段" prop="No_IsOpen">
-                            <template>
-                                <el-time-picker :picker-options="{
-                                    selectableRange: '18:30:00 - 20:30:00'
-                                  }" placeholder="任意时间点">
-                                </el-time-picker>
-                                <el-time-picker arrow-control :picker-options="{
-                                    selectableRange: '18:30:00 - 20:30:00'
-                                  }" placeholder="任意时间点">
-                                </el-time-picker>
-                            </template>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="背景图片" prop="No_IsOpen">
-                            <el-upload class="avatar-uploader"
-                            :action="'/upload/image/Employee?width=200&height=200&tojpg=true&small=true&old='+formData.Acc_Photo"
-                            :show-file-list="false"
-                            :on-success="handleAvatarSuccess"
-                            :before-upload="beforeAvatarUpload">
-                     <img v-if="formData.Acc_Photo!=''" :src="formData.Acc_Photo" class="avatar photo">
-                     <img v-else class="el-icon-plus avatar-uploader-icon photo" src="../images/head1.jpg" />
-                     <span class="avatar-uploader-icon photo-txt">上传头像</span>
-                 </el-upload>
- 
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="" prop="No_IsOpen">
-                            <el-input v-model="formData.SI_Timespan" :style="{width: '260px'}" :maxlength="5">
-                                <template slot="prepend">宽度</template>
-                                <template slot="append">%</template>
-                            </el-input>
-                            <el-input v-model="formData.SI_Timespan" :style="{width: '260px'}" :maxlength="5">
-                                <template slot="prepend">高度</template>
-                                <template slot="append">%</template>
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="弹出时段" prop="No_interval">
 
-                    <el-col :span="24">
-                        <el-form-item label="链接地址" prop="No_Linkurl">
-                            <el-input v-model="formData.No_Linkurl" placeholder="可以为空" clearable
-                                :style="{width: '100%'}">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
+                                <template>
+                                    <el-time-picker is-range v-model="interval" range-separator="至"
+                                        start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围">
+                                    </el-time-picker>
+                                    <el-link type="primary" @click="addInterval">添加</el-link>
+                                </template> <template>
+                                    <div v-for='(item,index) in formData.No_interval'>{{timeformat(item.start,'HH:mm')}} 至
+                                        {{timeformat(item.end,'HH:mm')}}   <el-link type="primary" @click="formData.No_interval.splice(index, 1)">移除</el-link></div>
+                                </template>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="背景图片" prop="No_IsOpen">
+                                <el-upload class="avatar-uploader"
+                                    :action="'/upload/image/Employee?width=200&height=200&tojpg=true&small=true&old='+formData.Acc_Photo"
+                                    :show-file-list="false" :on-success="handleAvatarSuccess"
+                                    :before-upload="beforeAvatarUpload">
+                                    <img v-if="formData.Acc_Photo!=''" :src="formData.Acc_Photo" class="avatar photo">
+                                    <img v-else class="el-icon-plus avatar-uploader-icon photo"
+                                        src="../images/head1.jpg" />
+                                    <span class="avatar-uploader-icon photo-txt">上传头像</span>
+                                </el-upload>
+
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="" prop="No_Width">
+                                <el-input v-model="formData.No_Width" :style="{width: '220px'}" :maxlength="5">
+                                    <template slot="prepend">宽度</template>
+                                    <template slot="append">%</template>
+                                </el-input>
+                                <el-input v-model="formData.No_Height" :style="{width: '220px'}" :maxlength="5">
+                                    <template slot="prepend">高度</template>
+                                    <template slot="append">%</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :span="24">
+                            <el-form-item label="链接地址" prop="No_Linkurl">
+                                <el-input v-model="formData.No_Linkurl" placeholder="可以为空" clearable
+                                    :style="{width: '100%'}">
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                    </template>
                 </el-tab-pane>
             </el-tabs>
             <el-form-item class="footer">

@@ -441,18 +441,49 @@ $api.bat(
 */
 //日期格式化
 Date.prototype.format = function (fmt) {
-    var o = {
-        "M+": this.getMonth() + 1,
-        "d+": this.getDate(),
-        "h+": this.getHours()
-    };
-    if (/(y+)/.test(fmt))
-        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    for (var k in o)
-        if (new RegExp("(" + k + ")").test(fmt))
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
 
-    return fmt;
+    var fmtfuc = function (fmt, date) {
+        fmt = fmt.replace(/\Y/g, "y");
+        //24小时制
+        var h24 = date.toLocaleString();
+        try {
+            h24 = date.toLocaleString('chinese', {
+                hour12: false
+            });
+        } catch (e) { }
+        h24 = h24.substring(h24.indexOf(' ') + 1, h24.indexOf(':'));
+        //12小时制
+        var h12 = date.toLocaleString();
+        try {
+            h12 = date.toLocaleString('chinese', {
+                hour12: true
+            });
+        } catch (e) { }
+        h12 = h12.substring(h12.indexOf(' ') + 1, h12.indexOf(':'));
+        //星期
+        var week = ['天', '一', '二', '三', '四', '五', '六'];
+        //
+        var ret;
+        var opt = {
+            "yyyy": date.getFullYear().toString(), // 年
+            "yy": date.getFullYear().toString().substring(2),
+            "M+": (date.getMonth() + 1).toString(), // 月
+            "d+": date.getDate().toString(), // 日
+            "w+": week[date.getDay()], // 星期
+            "H+": h24, //小时
+            "h+": h12,
+            "m+": date.getMinutes().toString(), // 分
+            "s+": date.getSeconds().toString() // 秒			
+        };
+        for (var k in opt) {
+            ret = new RegExp("(" + k + ")").exec(fmt);
+            if (ret) {
+                fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+            };
+        };
+        return fmt;
+    }
+    return fmtfuc(fmt, this);
 }
 //添加加载前后的事件
 $api.effect(function () {

@@ -5160,13 +5160,6 @@
     <Compile Include="Manage\Site\Notice.aspx.designer.cs">
       <DependentUpon>Notice.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Manage\Site\Notice_Edit.aspx.cs">
-      <DependentUpon>Notice_Edit.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Manage\Site\Notice_Edit.aspx.designer.cs">
-      <DependentUpon>Notice_Edit.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Manage\Site\Vote.aspx.cs">
       <DependentUpon>Vote.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -5820,7 +5813,6 @@
     <Content Include="Manage\Site\MessageBoard.aspx" />
     <Content Include="Manage\Site\MessageBoard_Ans.aspx" />
     <Content Include="Manage\Site\Notice.aspx" />
-    <Content Include="Manage\Site\Notice_Edit.aspx" />
     <Content Include="Manage\Site\Vote.aspx" />
     <Content Include="Manage\Site\Vote_Edit.aspx" />
     <Content Include="Manage\SOAP\Depart.asmx" />
