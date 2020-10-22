@@ -225,7 +225,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public StudentSort[] SortPager(int orgid, bool? isUse, string name, int size, int index, out int countSum)
         {
-            WhereClip wc = StudentSort._.Org_ID == orgid;
+            WhereClip wc = StudentSort._.Org_ID == orgid;            
             if (isUse != null) wc.And(StudentSort._.Sts_IsUse == (bool)isUse);
             if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(StudentSort._.Sts_Name.Like("%" + name + "%"));
             countSum = Gateway.Default.Count<StudentSort>(wc);

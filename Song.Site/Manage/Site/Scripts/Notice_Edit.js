@@ -17,11 +17,15 @@ window.vapp = new Vue({
             No_IsOpen: true,
             No_Page: '',
             No_Range: 1,
-            No_interval: []
+            No_interval: '',
+            No_Timespan: 6,
+            No_OpenCount: 1
         },
         details: '',
         activeName: 'tab02',
-        interval: '',
+        interval: '',       //有效时间的临时值
+        No_interval: [],     //有效时间的临时值
+        accountSort: [],     //学员账号分组
         rules: {
             No_Ttl: [
                 { required: true, message: '标题不得为空', trigger: 'blur' }
@@ -29,30 +33,69 @@ window.vapp = new Vue({
             No_OpenCount: [
                 { required: true, message: '不得为空', trigger: 'blur' },
                 { pattern: /^[0-9]\d*$/, message: '请输入大于零的整数', trigger: 'blur' }
-            ],
-            SI_Timespan: [
-                { required: true, message: '工时信息不得为空', trigger: 'blur' },
-                { pattern: /^([1-9]\d*)|([1-9]\d*\.\d*|0\.\d*[1-9]\d*)$/, message: '请输入大于零的数字', trigger: 'blur' }
             ]
         },
         loading: false
 
     },
     watch: {
+        No_interval: function (nl, ol) {
+            this.formData.No_interval = JSON.stringify(this.No_interval);
+        }
     },
-    created: function () { },
+    created: function () {
+        $api.get('Account/SortPager', { 'index': '1', 'size': '99999' }).then(function (req) {
+            if (req.data.success) {
+                var results = req.data.result;
+                // vapp.accountSort.push();
+                results.forEach((item, index) => {
+                    vapp.accountSort.push({
+                        label: item.Sts_Name,
+                        key: item.Sts_ID,
+                        index: index
+                    });
+                });
+                //...
+            } else {
+                throw req.data.message;
+            }
+        }).catch(function (err) {
+            alert(err);
+            console.error(err);
+        });
+    },
     methods: {
         //详情输入框更改时
         updateDetails: function (data) {
             this.formData.No_Context = data;
         },
-        btnEnter: function (formName) { },
-        handleAvatarSuccess: function (res, file) {
-            if (file.status == "success") {
-                this.account.Acc_Photo = res.url;
-                //this.btnEnter('account');                
-            }
+        btnEnter: function (formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    var apipath = 'Notice/' + (this.id == '' ? 'add' : 'Modify');
+                    $api.post(apipath, { 'entity': vapp.formData }).then(function (req) {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            vapp.$message({
+                                type: 'success',
+                                message: '操作成功!',
+                                center: true
+                            });
+                            //vue.operateSuccess();
+                        } else {
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        //window.top.ELEMENT.MessageBox(err, '错误');
+                        vapp.$alert(err, '错误');
+                    });
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
         },
+
         beforeAvatarUpload: function (file) {
             //console.log(file);
             const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -64,8 +107,37 @@ window.vapp = new Vue({
             if (!isLt2M) {
                 this.$message.error('上传头像图片大小不能超过 2MB!');
             }
+            return false;
             return isJPG && isLt2M;
         },
+        imgChange: function (file, fileList) {
+            var th = this;
+            this.getBase64(file.raw).then(res => {
+                th.formData.No_BgImage = res;
+                th.loading = true;
+                window.setTimeout(function () {
+                    window.vapp.loading = false;
+                }, 500);
+            });
+        },
+
+        getBase64: function (file) {
+            return new Promise(function (resolve, reject) {
+                let reader = new FileReader();
+                let imgResult = "";
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    imgResult = reader.result;
+                };
+                reader.onerror = function (error) {
+                    reject(error);
+                };
+                reader.onloadend = function () {
+                    resolve(imgResult);
+                };
+            });
+        },
+
         //起始或终止时间更改时
         changeTime: function () {
             var start = this.formData.No_StartTime;
@@ -87,10 +159,10 @@ window.vapp = new Vue({
             //添加
             var start = this.interval[0];
             var end = this.interval[1];
-            if (this.formData.No_interval == '' || this.formData.No_interval == null) this.formData.No_interval = [];
+            if (this.No_interval == '' || this.No_interval == null) this.No_interval = [];
             //验证重复
             var exist = false;
-            var arr = this.formData.No_interval;
+            var arr = this.No_interval;
             for (var i = 0; i < arr.length; i++) {
                 if (arr[i]['start'] == start && arr[i]['end'] == end) {
                     exist = true;
@@ -98,18 +170,19 @@ window.vapp = new Vue({
                 }
             }
             if (!exist) {
-                this.formData.No_interval.push({
+                this.No_interval.push({
                     'start': start,
                     'end': end
                 });
             }
-            this.formData.No_interval = this.formData.No_interval.sort(function (a, b) {
+            this.No_interval = this.No_interval.sort(function (a, b) {
                 return a.start - b.start
             })
             return true;
-        },       
+        },
         timeformat: function (time, fmt) {
             return time.format(fmt);
-        }
+        },
+
     }
 });

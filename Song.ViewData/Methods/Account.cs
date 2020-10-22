@@ -166,5 +166,25 @@ namespace Song.ViewData.Methods
             return curr;
         }
         #endregion
+
+        #region 学员组
+        /// <summary>
+        /// 学员组的信息
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
+        public ListResult SortPager(int index, int size)
+        {
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            int sum = 0;
+            Song.Entities.StudentSort[] accs = Business.Do<IStudent>().SortPager(org.Org_ID, true, null, size, index, out sum);           
+            Song.ViewData.ListResult result = new ListResult(accs);
+            result.Index = index;
+            result.Size = size;
+            result.Total = sum;
+            return result;
+        }
+        #endregion
     }
 }

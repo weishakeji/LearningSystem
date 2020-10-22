@@ -7,11 +7,22 @@ body {
     width: calc(100% - 40px);
     height: calc(100% - 40px);
     margin: 0px;
-    padding: 20px !important;
+    padding: 20px !important;    
 }
-
+#app{
+    margin-bottom: 120px;
+}
 .footer {
     position: fixed;
-    bottom: 0px;
+    bottom: -20px;
     right: 20px;
+    width: calc(100% + 40px);
+    height: 40px;
+    padding: 10px;
+    text-align: right;
+    background-color: #fff;
+}
+
+.photo {
+    width: 100px;
 }

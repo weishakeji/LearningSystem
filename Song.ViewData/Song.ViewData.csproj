@@ -133,6 +133,7 @@
     <Compile Include="Methods\Account.cs" />
     <Compile Include="Methods\Course.cs" />
     <Compile Include="Methods\Live.cs" />
+    <Compile Include="Methods\Notice.cs" />
     <Compile Include="Methods\Organ.cs" />
     <Compile Include="Methods\Outline.cs" />
     <Compile Include="Methods\Platform.cs" />
