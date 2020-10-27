@@ -14,18 +14,21 @@ window.vapp = new Vue({
         id: $api.querystring('id'),
         //当前实体
         formData: {
-            No_IsOpen: true,
+            No_IsShow: true,
+            No_IsOpen: false,
             No_Page: '',
             No_Range: 1,
-            No_interval: '',
+            No_Interval: '',
             No_Timespan: 6,
-            No_OpenCount: 1
+            No_OpenCount: 1,
+            No_StudentSort: ''
         },
         details: '',
-        activeName: 'tab02',
+        activeName: 'tab01',
         interval: '',       //有效时间的临时值
-        No_interval: [],     //有效时间的临时值
+        No_Interval: [],     //有效时间的临时值
         accountSort: [],     //学员账号分组
+        No_StudentSort: [],      //选中的学员账号分组
         rules: {
             No_Ttl: [
                 { required: true, message: '标题不得为空', trigger: 'blur' }
@@ -39,15 +42,30 @@ window.vapp = new Vue({
 
     },
     watch: {
-        No_interval: function (nl, ol) {
-            this.formData.No_interval = JSON.stringify(this.No_interval);
+        No_Interval: function (nl, ol) {
+            var arr = [];
+            for (var i = 0; i < this.No_Interval.length; i++) {
+                var item = this.No_Interval[i];
+                arr.push({
+                    'start': item.start.format('HH:mm'),
+                    'end': item.end.format('HH:mm'),
+                });
+            }
+            this.formData.No_Interval = JSON.stringify(arr);
+        },
+        No_StudentSort: function (nl, ol) {
+            this.formData.No_StudentSort = JSON.stringify(this.No_StudentSort);
+        },
+        No_Context: function (nl, ol) {
+            this.formData.No_Context = nl;
         }
     },
     created: function () {
+        var th = this;
+        th.id = $api.querystring('id');
         $api.get('Account/SortPager', { 'index': '1', 'size': '99999' }).then(function (req) {
             if (req.data.success) {
                 var results = req.data.result;
-                // vapp.accountSort.push();
                 results.forEach((item, index) => {
                     vapp.accountSort.push({
                         label: item.Sts_Name,
@@ -55,10 +73,36 @@ window.vapp = new Vue({
                         index: index
                     });
                 });
-                //...
+                if (th.id == '') return;
+                $api.get('Notice/ForID', { 'id': th.id }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        vapp.formData = result;
+                        vapp.details = vapp.formData.No_Context;
+                        //时间段的初始化
+                        if (vapp.formData.No_Interval != '') {
+                            var interval = JSON.parse(vapp.formData.No_Interval);
+                            for (var i = 0; i < interval.length; i++) {
+                                interval[i]['start'] = new Date('2020-01-01 ' + interval[i]['start']);
+                                interval[i]['end'] = new Date('2020-01-01 ' + interval[i]['end']);
+                            }
+                            vapp.No_Interval = interval;
+                        }
+                        //学员分组信息
+                        if (vapp.formData.No_StudentSort != '')
+                            th.No_StudentSort = JSON.parse(vapp.formData.No_StudentSort);
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                });
             } else {
                 throw req.data.message;
             }
+
+
         }).catch(function (err) {
             alert(err);
             console.error(err);
@@ -159,10 +203,10 @@ window.vapp = new Vue({
             //添加
             var start = this.interval[0];
             var end = this.interval[1];
-            if (this.No_interval == '' || this.No_interval == null) this.No_interval = [];
+            if (this.No_Interval == '' || this.No_Interval == null) this.No_Interval = [];
             //验证重复
             var exist = false;
-            var arr = this.No_interval;
+            var arr = this.No_Interval;
             for (var i = 0; i < arr.length; i++) {
                 if (arr[i]['start'] == start && arr[i]['end'] == end) {
                     exist = true;
@@ -170,12 +214,12 @@ window.vapp = new Vue({
                 }
             }
             if (!exist) {
-                this.No_interval.push({
+                this.No_Interval.push({
                     'start': start,
                     'end': end
                 });
             }
-            this.No_interval = this.No_interval.sort(function (a, b) {
+            this.No_Interval = this.No_Interval.sort(function (a, b) {
                 return a.start - b.start
             })
             return true;
@@ -183,6 +227,9 @@ window.vapp = new Vue({
         timeformat: function (time, fmt) {
             return time.format(fmt);
         },
-
+        //关闭窗体
+        btnClose: function () {
+            new top.PageBox().Close(window.name);
+        }
     }
 });
