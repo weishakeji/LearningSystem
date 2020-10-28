@@ -105,6 +105,16 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         Notice[] GetPager(int orgid, bool? isShow, string searTxt, int size, int index, out int countSum);
-        
+        /// <summary>
+        /// 获取通知公告
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="type">1为普通通知，2为弹窗通知</param>
+        /// <param name="forpage">弹窗所在页</param>
+        /// <param name="time">当前时间</param> 
+        /// <param name="isShow">是否显示</param>
+        /// <param name="count">取多少条</param>
+        /// <returns></returns>
+        Notice[] List(int orgid, int type, string forpage, DateTime? time, bool? isShow, int count);
     }
 }

@@ -871,6 +871,7 @@
     <Content Include="Templates\Mobi\Default2019\Scripts\MoneyDetails.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\MsgBoards.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\MyTeacher.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\Def_Notice.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\News.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\NewsList.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\notice.js" />

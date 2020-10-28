@@ -76,5 +76,15 @@ namespace Song.ViewData.Methods
             result.Total = count;
             return result;
         }
+        public ListResult OpenItems(string forpage)
+        {
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            Song.Entities.Notice[] eas = Business.Do<INotice>().List(org.Org_ID, 2, forpage, DateTime.Now, true, -1);
+            ListResult result = new ListResult(eas);
+            result.Index = 1;
+            result.Size = eas.Length;
+            result.Total = eas.Length;
+            return result;
+        }
     }
 }
