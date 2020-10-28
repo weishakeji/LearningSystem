@@ -90,7 +90,7 @@
                                     <template slot="prepend">每天弹出</template>
                                     <template slot="append">次</template>
                                 </el-input>
-                         
+
                                 <el-input v-model="formData.No_Timespan" :style="{width: '220px'}" :maxlength="5">
                                     <template slot="prepend">每次</template>
                                     <template slot="append">秒</template>
@@ -116,13 +116,14 @@
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
-                            <el-form-item label="背景图片" prop="No_IsOpen">
+                            <el-form-item label="图片" prop="No_IsOpen">
+                                <el-link type="primary" @click="formData.No_BgImage=''" v-if="formData.No_BgImage!=''">清除图片</el-link>
                                 <el-upload class="avatar-uploader" v-loading="loading" :show-file-list="false"
                                     :before-upload="beforeAvatarUpload" :on-change="imgChange">
                                     <img :src="formData.No_BgImage" class="avatar photo">
                                     <span class="avatar-uploader-icon photo-txt">上传图片，限Jpg格式</span>
                                 </el-upload>
-
+                               
                             </el-form-item>
                         </el-col>
                         <el-col :span="24">
@@ -151,7 +152,7 @@
             <el-form-item class="footer">
                 <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('formData')">
                     确认修改</el-button>
-                <el-button type='close'  @click="btnClose">取消</el-button>
+                <el-button type='close' @click="btnClose">取消</el-button>
             </el-form-item>
         </el-form>
 

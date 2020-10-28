@@ -1,128 +1,162 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
-    <title>{$org.org_platformname}</title>
-    <vt:include file="inc/meta.inc" />
-    <link rel="stylesheet" href="Styles/default.css?ver={$version}" />
-    <script type="text/javascript" src="Scripts/default.js?ver={$version}"></script>
-    <script type="text/javascript" src="Scripts/Def_Notice.js?ver={$version}"></script>
+  <title>{$org.org_platformname}</title>
+  <vt:include file="inc/meta.inc" />
+  <link rel="stylesheet" href="Styles/default.css?ver={$version}" />
+  <script type="text/javascript" src="Scripts/default.js?ver={$version}"></script>
+  <script type="text/javascript" src="Scripts/Def_Notice.js?ver={$version}"></script>
 </head>
+
 <body mremove="{$mremove}">
-    <div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable">
-        <!--侧滑菜单部分-->
-        <vt:include file="inc/Menu.html" />
-        <div class="mui-inner-wrap">
-            <header class="mui-bar mui-bar-nav headbar"><img src="{$orgPath}{$org.org_logo}" class="logo" />
-      <form action="courses.ashx" method="get" id="formSearch">
-        <input name="sear" type="search" class="sear txtSearch" placeholder="搜索">
-      </form>
-      <script language="javascript" type="text/javascript">
+  <div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable">
+    <!--侧滑菜单部分-->
+    <vt:include file="inc/Menu.html" />
+    <div class="mui-inner-wrap">
+      <header class="mui-bar mui-bar-nav headbar"><img src="{$orgPath}{$org.org_logo}" class="logo" />
+        <form action="courses.ashx" method="get" id="formSearch">
+          <input name="sear" type="search" class="sear txtSearch" placeholder="搜索">
+        </form>
+        <script language="javascript" type="text/javascript">
           $(function () {
-              //设置搜索框的宽度
-              $("header img.logo").load(setFormSearchWidth);
-              $(window).load(setFormSearchWidth);
-              function setFormSearchWidth() {
-                  var searWidth = $("header").width() - $("header .logo").width() - 10;
-                  $("#formSearch").animate({ width: searWidth });
-              }
+            //设置搜索框的宽度
+            $("header img.logo").load(setFormSearchWidth);
+            $(window).load(setFormSearchWidth);
+            function setFormSearchWidth() {
+              var searWidth = $("header").width() - $("header .logo").width() - 10;
+              $("#formSearch").animate({ width: searWidth });
+            }
           });
-  </script> 
-    </header>
-            <div class="mui-content mui-scroll-wrapper">
-                <div class="mui-scroll">
-                    <!--/*轮换图片*/-->
-                    <div class="mui-slider" style="margin-top: 40px;">
-                        <div class="mui-slider-group mui-slider-loop">
-                            <vt:list type="showpic" var="$show" site="mobi" item="sp" index="j">
-              <vt:if var="#.j" value="$show.length" compare="=">
-                <div class="mui-slider-item mui-slider-item-duplicate"><a href="{$:sp.shp_url}" type="link"  target="{$:sp.shp_target}"><img src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a> </div>
-              </vt:if>
-            </vt:list>
-                            <vt:list type="showpic" from="$show" site="mobi" item="sp" index="j">
-              <div class="mui-slider-item"><a href="{$:sp.shp_url}" type="link"  target="{$:sp.shp_target}"><img src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a> </div>
-              <vt:listelse />
-              <!--支持循环，需要重复图片节点-->
-              <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="imagesShow/3.jpg" /></a></div>
-              <div class="mui-slider-item"><a href="#"><img src="imagesShow/1.jpg" /></a></div>
-              <div class="mui-slider-item"><a href="#"><img src="imagesShow/2.jpg" /></a></div>
-              <div class="mui-slider-item"><a href="#"><img src="imagesShow/3.jpg" /></a></div>
-              <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="imagesShow/1.jpg" /></a></div>
-            </vt:list>
-                            <vt:list type="showpic" from="$show" site="mobi" item="sp" index="j">
-              <vt:if var="#.j" value="1" compare="=">
-                <div class="mui-slider-item mui-slider-item-duplicate"><a href="{$:sp.shp_url}" type="link"  target="{$:sp.shp_target}"><img src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a> </div>
-              </vt:if>
-            </vt:list>
-                        </div>
-                    </div>
-                    <script>
-                        //获得slider插件对象
-                        var gallery = mui('.mui-slider');
-                        gallery.slider({
-                            interval: 2000//自动轮播周期，若为0则不自动播放，默认为0；
-                        });
-                    </script>
-                    <!--轮换图片结束-->
-                    <!--通知公告-->
-                    <vt:list type="notice" var="$notices" item="data" index="i" count="5"> </vt:list>
-                    <vt:if var="notices.Length" value="0" compare=">">
-          <ul class="mui-table-view notice-box">
-            <vt:list type="notice" from="$notices" item="data" index="i">
-              <li class="mui-table-view-cell" noid="{$:#.data.no_id}"> <a href="notice.ashx?id={$:#.data.no_id}" class="notice" title="{$:#.data.no_ttl}" type="link"> <i></i> {$:#.data.no_ttl}</a> <span class="mui-badge">{$:#.data.no_startTime  format="MM-dd"}</span> </li>
-            </vt:list>
-          </ul>
-        </vt:if>
-                    <!--自定义菜单-->
-                    <vt:function var="menu" method="Navi" args="main" args="0" />
-                    <vt:if var="menu.length" value="0" compare=">">
-          <vt:function var="path" method="Path" args="org"/>
-          <div class="custom-menu">
-            <vt:foreach from="$#.menu" item="m" index="i"> <a type="link" href="{$:m.nav_url}" target="{$:m.nav_target}">
-              <vt:if var="#.m.nav_logo" value="" compare="!="> <img alt="" src="{$:path}{$:m.nav_logo}" class="mitem"/>
-                <vt:else />
-                <b class="mitem"></b> </vt:if>
-              <vt:if var="m.nav_isbold" value="true" compare="=">
-              <span style="color: {$:m.nav_color};font-family: {$:m.nav_font};font-weight: bold;">
-              <vt:else />
-              <span style="color: {$:m.nav_color};font-family: {$:m.nav_font};">
-              </vt:if>
-              {$:m.nav_name} </span> </a> </vt:foreach>
-          </div>
-        </vt:if>
-                    <!--课程区-->
-                    <div class="cour-area">
-                        <div class="cour-top">
-                            <div class="cour-left-line">
-                            </div>
-                            <a class="cour-more" href="courses.ashx" type="link"></a>
-                            <div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted cour-bar">
-                                <div class="mui-scroll">
-                                    <a class="mui-control-item cour-tit current" sbjid="0">精选课程</a>
-                                    <vt:list type="subject" var="$subject" item="data" index="i" count="10" pid="0" order="rec"> </vt:list>
-                                    <vt:foreach from="$#.subject" item="m" index="i"> <a class="mui-control-item cour-tit" sbjid="{$:m.sbj_id}" count="10">{$:m.Sbj_ByName}</a> </vt:foreach>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="cour-context">
-                            <img class="default-img" default="images/cou_nophoto.jpg" style="display: none;" />
-                            <div class="cour-list" sbjid="0">
-                                <img src="images/load_016.gif" class="loading" />
-                                <br />
-                                <span class="loading">正在加载“{0}”...</span>
-                            </div>
-                        </div>
-                        <!-- 课程区结束 -->
-                    </div>
-                   
+        </script>
+      </header>
+      <div class="mui-content mui-scroll-wrapper">
+        <div class="mui-scroll">
+          <!--/*轮换图片*/-->
+          <div class="mui-slider" style="margin-top: 40px;">
+            <div class="mui-slider-group mui-slider-loop">
+              <vt:list type="showpic" var="$show" site="mobi" item="sp" index="j">
+                <vt:if var="#.j" value="$show.length" compare="=">
+                  <div class="mui-slider-item mui-slider-item-duplicate"><a href="{$:sp.shp_url}" type="link"
+                      target="{$:sp.shp_target}"><img src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a> </div>
+                </vt:if>
+              </vt:list>
+              <vt:list type="showpic" from="$show" site="mobi" item="sp" index="j">
+                <div class="mui-slider-item"><a href="{$:sp.shp_url}" type="link" target="{$:sp.shp_target}"><img
+                      src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a> </div>
+                <vt:listelse />
+                <!--支持循环，需要重复图片节点-->
+                <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="imagesShow/3.jpg" /></a>
                 </div>
+                <div class="mui-slider-item"><a href="#"><img src="imagesShow/1.jpg" /></a></div>
+                <div class="mui-slider-item"><a href="#"><img src="imagesShow/2.jpg" /></a></div>
+                <div class="mui-slider-item"><a href="#"><img src="imagesShow/3.jpg" /></a></div>
+                <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="imagesShow/1.jpg" /></a>
+                </div>
+              </vt:list>
+              <vt:list type="showpic" from="$show" site="mobi" item="sp" index="j">
+                <vt:if var="#.j" value="1" compare="=">
+                  <div class="mui-slider-item mui-slider-item-duplicate"><a href="{$:sp.shp_url}" type="link"
+                      target="{$:sp.shp_target}"><img src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a> </div>
+                </vt:if>
+              </vt:list>
             </div>
-            <div class="mui-off-canvas-backdrop">
+          </div>
+          <script>
+            //获得slider插件对象
+            var gallery = mui('.mui-slider');
+            gallery.slider({
+              interval: 2000//自动轮播周期，若为0则不自动播放，默认为0；
+            });
+          </script>
+          <!--轮换图片结束-->
+          <!--通知公告-->
+          <vt:list type="notice" var="$notices" item="data" index="i" count="5"> </vt:list>
+          <vt:if var="notices.Length" value="0" compare=">">
+            <ul class="mui-table-view notice-box">
+              <vt:list type="notice" from="$notices" item="data" index="i">
+                <li class="mui-table-view-cell" noid="{$:#.data.no_id}"> <a href="notice.ashx?id={$:#.data.no_id}"
+                    class="notice" title="{$:#.data.no_ttl}" type="link"> <i></i> {$:#.data.no_ttl}</a> <span
+                    class="mui-badge">{$:#.data.no_startTime format="MM-dd"}</span> </li>
+              </vt:list>
+            </ul>
+          </vt:if>
+          <!--自定义菜单-->
+          <vt:function var="menu" method="Navi" args="main" args="0" />
+          <vt:if var="menu.length" value="0" compare=">">
+            <vt:function var="path" method="Path" args="org" />
+            <div class="custom-menu">
+              <vt:foreach from="$#.menu" item="m" index="i"> <a type="link" href="{$:m.nav_url}"
+                  target="{$:m.nav_target}">
+                  <vt:if var="#.m.nav_logo" value="" compare="!="> <img alt="" src="{$:path}{$:m.nav_logo}"
+                      class="mitem" />
+                    <vt:else />
+                    <b class="mitem"></b> </vt:if>
+                  <vt:if var="m.nav_isbold" value="true" compare="=">
+                    <span style="color: {$:m.nav_color};font-family: {$:m.nav_font};font-weight: bold;">
+                      <vt:else />
+                      <span style="color: {$:m.nav_color};font-family: {$:m.nav_font};">
+                  </vt:if>
+                  {$:m.nav_name} </span>
+                </a> </vt:foreach>
             </div>
-            <space></space>
-            <vt:include file="inc/homefooter.html" />
+          </vt:if>
+          <!--课程区-->
+          <div class="cour-area">
+            <div class="cour-top">
+              <div class="cour-left-line">
+              </div>
+              <a class="cour-more" href="courses.ashx" type="link"></a>
+              <div id="sliderSegmentedControl"
+                class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted cour-bar">
+                <div class="mui-scroll">
+                  <a class="mui-control-item cour-tit current" sbjid="0">精选课程</a>
+                  <vt:list type="subject" var="$subject" item="data" index="i" count="10" pid="0" order="rec">
+                  </vt:list>
+                  <vt:foreach from="$#.subject" item="m" index="i"> <a class="mui-control-item cour-tit"
+                      sbjid="{$:m.sbj_id}" count="10">{$:m.Sbj_ByName}</a> </vt:foreach>
+                </div>
+              </div>
+            </div>
+            <div class="cour-context">
+              <img class="default-img" default="images/cou_nophoto.jpg" style="display: none;" />
+              <div class="cour-list" sbjid="0">
+                <img src="images/load_016.gif" class="loading" />
+                <br />
+                <span class="loading">正在加载“{0}”...</span>
+              </div>
+            </div>
+            <!-- 课程区结束 -->
+          </div>
+
         </div>
+      </div>
+      <div class="mui-off-canvas-backdrop">
+      </div>
+      <space></space>
+      <vt:include file="inc/homefooter.html" />
     </div>
-    <vt:include file="inc/SubjectSelect.html" />
-    <div id="notice_box" remark="通知公告的弹出"></div>
+  </div>
+  <vt:include file="inc/SubjectSelect.html" />
+  <div id="notice_box" remark="通知公告的弹出" :style="'width:calc(100vw * '+items.length+')'" v-if="items.length>0" v-cloak>
+    <div class="notice_item" v-for="(item,index) in items" style="width: 100vw;height: 100%;float:left;">
+      <div :style="'width:'+item.No_Width+'%;height:'+item.No_Height+'%;background-color: #fff;border-radius: 10px;overflow: hidden;'"
+        v-on:click="goUrl(item)">
+        <template v-if="item.No_BgImage==''">
+          <div style="width: 100%;line-height: 40px;padding: 15px;font-size: 18px;">{{item.No_Ttl}}</div>
+          <div style="padding: 0px 15px ;font-size: 16px;text-align: left;overflow: auto;height: calc(100% - 90px);"
+            v-html="item.No_Context"></div>
+        </template>
+        <img :src="item.No_BgImage" v-if="item.No_BgImage!=''" v-on:click="goUrl(item)"
+          :style="'width:100%;height:100%;'" />
+      </div>
+      <div :style="'bottom:calc((100vh - '+item.No_Height+'%)/4 - 15px)'" class="btnNoticeClose"
+        v-on:click="btnClose(item.No_Id)">&times</div>
+      <div
+        :style="'position:absolute; top:calc((100vh - '+item.No_Height+'%)/2 + 5px); right:calc((100vw - '+item.No_Width+'%)/2 + 5px);padding:5px;color:red;font-size:16px;'">
+        {{item.No_Timespan}}</div>
+    </div>
+  </div>
 </body>
+
 </html>

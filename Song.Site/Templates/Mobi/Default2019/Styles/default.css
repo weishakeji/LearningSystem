@@ -2,10 +2,12 @@
 	background-color: #f2f2f2;
 	overflow-x: hidden;
 }
-html,body{
-	width:100%;
-	height:100%;	
+
+html, body {
+	width: 100%;
+	height: 100%;
 }
+
 a {
 	color: gray;
 }
@@ -215,9 +217,9 @@ a {
 	text-align: center;
 	width: 100%;
 	margin-bottom: 50px;
-	 display: flex;
-     flex-direction: row;
-     flex-wrap: wrap;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 .cour-list .loading {
@@ -260,7 +262,7 @@ a {
 }
 
 .cour-list .cour-box {
-	width: 44%;	
+	width: 44%;
 	text-align: center;
 	position: relative;
 }
@@ -404,4 +406,55 @@ live {
 	font-family: iconfont;
 	font-size: 16px;
 	margin-right: 5px;
+}
+
+/*通知公告的弹出*/
+
+[v-cloak] {
+	display: none;
+}
+
+#notice_box {
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 99999;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+#notice_box>div {
+	text-align: center;
+	line-height: 100%;
+	display: flex !important;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	position: relative;
+}
+
+#notice_box img {
+	margin: auto;
+	border-radius: 3px;
+}
+
+#notice_box>div>* {
+	margin: auto;
+	--box-shadow: -3px 0px 3px rgba(255, 255, 255, 0.6), 0px -3px 3px rgba(255, 255, 255, 0.6), 3px 0px 3px rgba(255, 255, 255, 0.6), 0px 3px 3px rgba(255, 255, 255, 0.6);
+}
+
+.btnNoticeClose {
+	position: absolute;
+	font-size: 30px;
+	line-height: 25px;
+	text-align: center;
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+	background-color: rgba(255, 255, 255,0.1);
+	border: #f2f2f2 solid 3px;
+	left: calc((100% - 30px)/2);
+	color: #fff;
 }
