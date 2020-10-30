@@ -16,12 +16,12 @@ window.vapp = new Vue({
         formData: {
             No_IsShow: true,
             No_IsOpen: false,
-            No_Page: '',
+            No_Page: 'mobi_home',
             No_Range: 1,
             No_Interval: '',
             No_Timespan: 6,
             No_OpenCount: 1,
-            No_StudentSort: ''
+            No_StudentSort: ''            
         },
         details: '',
         activeName: 'tab01',

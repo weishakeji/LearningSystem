@@ -168,7 +168,8 @@ namespace Song.ServiceImpls
             if (string.IsNullOrWhiteSpace(forpage)) wc &= Notice._.No_Page == forpage;
             if (time != null)
             {
-                wc &= Notice._.No_StartTime < (DateTime)time && Notice._.No_EndTime >= (DateTime)time;
+                DateTime date = ((DateTime)time).Date;
+                wc &= Notice._.No_StartTime <= date && Notice._.No_EndTime >= date;
             }
             if (type == 2) wc &= Notice._.No_IsOpen == true;
             return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>(count);

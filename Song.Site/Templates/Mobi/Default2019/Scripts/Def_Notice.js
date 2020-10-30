@@ -67,7 +67,7 @@
                         interval[j]['end'] = new Date(time.format('yyyy-MM-dd ') + interval[j]['end']);
                         var start = interval[j]['start'];
                         var end = interval[j]['end'];
-                        if (interval[j]['start'] < time && time <= interval[j]['end']) {
+                        if (interval[j]['start'] <= time && time <= interval[j]['end']) {
                             exist = true;
                             break;
                         }

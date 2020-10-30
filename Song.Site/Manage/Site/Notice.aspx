@@ -44,6 +44,12 @@
 <%# Eval("No_StartTime","{0:yyyy-M-d HH:mm:ss}")%>
 </itemtemplate>
             </asp:TemplateField>
+            <asp:TemplateField HeaderText="类型">
+                <itemstyle cssclass="center" width="60px" />
+                <itemtemplate>
+<%# Eval("No_IsOpen","{0}")=="True" ? "弹出" : ""%>
+</itemtemplate>
+            </asp:TemplateField>
             <asp:TemplateField HeaderText="显示">
                 <itemstyle cssclass="center" width="60px" />
                 <itemtemplate>
