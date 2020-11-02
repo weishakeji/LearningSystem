@@ -15,13 +15,13 @@ window.vapp = new Vue({
         //当前实体
         formData: {
             No_IsShow: true,
-            No_IsOpen: false,
+            No_Type: 1,
             No_Page: 'mobi_home',
             No_Range: 1,
             No_Interval: '',
             No_Timespan: 6,
             No_OpenCount: 1,
-            No_StudentSort: ''            
+            No_StudentSort: ''
         },
         details: '',
         activeName: 'tab01',
@@ -38,6 +38,7 @@ window.vapp = new Vue({
                 { pattern: /^[0-9]\d*$/, message: '请输入大于零的整数', trigger: 'blur' }
             ]
         },
+        testPhone: '',       //用于测试短信的手机号
         loading: false
 
     },
@@ -101,7 +102,7 @@ window.vapp = new Vue({
             } else {
                 throw req.data.message;
             }
-
+            //其它数据，随机学员、机构信息，用于短信的转义
 
         }).catch(function (err) {
             alert(err);
@@ -111,7 +112,15 @@ window.vapp = new Vue({
     methods: {
         //详情输入框更改时
         updateDetails: function (data) {
-            this.formData.No_Context = data;
+            if (data != null) this.formData.No_Context = data;
+            //当是短信时
+            if (this.formData.No_Type == 3) {
+                var txt = this.formData.No_Context;
+                var date = (new Date()).format('yyyy-MM-dd');
+                txt = txt.replace(new RegExp("{date}"), date)
+                return txt;
+            }
+            return data;
         },
         btnEnter: function (formName) {
             this.$refs[formName].validate((valid) => {

@@ -123,6 +123,29 @@
             },
             //验证打开次数，每天打开几次
             verifyCount: function (items) {
+                var countrecord = $api.storage("countrecord");
+                if (countrecord == undefined) countrecord = {};
+                var date = (new Date()).format('yyyy-MM-dd');
+                //今天的弹出记录
+                var today = countrecord[date];
+                if (today == undefined) {
+                    today = {};
+                    for (var i = 0; i < items.length; i++)
+                        today['id_' + items[i].No_Id] = 1;
+                    countrecord[date] = today;
+                } else {
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].No_OpenCount <= 0) continue;   //小于等于0，为无限次
+                        var history = today['id_' + items[i].No_Id];
+                        if (history >= items[i].No_OpenCount) {
+                            items.splice(i, 1);
+                            i--;
+                        } else {
+                            today['id_' + items[i].No_Id] += 1;
+                        }
+                    }
+                }
+                $api.storage("countrecord", countrecord);               
                 return items;
             }
         }

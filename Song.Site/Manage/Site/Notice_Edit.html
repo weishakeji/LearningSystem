@@ -21,131 +21,180 @@
             <el-tabs v-model="activeName">
                 <el-tab-pane label="基础信息" name="tab01">
                     <el-col :span="24">
-                        <el-form-item label="标题" prop="No_Ttl">
-                            <el-input v-model="formData.No_Ttl" clearable :style="{width: '100%'}">
-                            </el-input>
-                        </el-form-item>
-                        <el-form-item label="内容" prop="No_Context">
-                            <vue-html5-editor :content="details" :show-module-name="false" ref="editor"
-                                @change="updateDetails">
-                            </vue-html5-editor>
+                        <el-form-item label="" prop="No_Type">
+                            <el-radio-group v-model="formData.No_Type">
+                                <el-radio :label="1">普通通知</el-radio>
+                                <el-radio :label="2">弹窗公告</el-radio>
+                                <el-radio :label="3">短信通知</el-radio>
+                            </el-radio-group>
                         </el-form-item>
                     </el-col>
+                    <template v-if="formData.No_Type!=3">
+                        <el-col :span="24">
+                            <el-form-item label="标题" prop="No_Ttl">
+                                <el-input v-model="formData.No_Ttl" clearable :style="{width: '100%'}">
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+
+                        <el-col :span="24">
+                            <el-form-item label="内容" prop="No_Context">
+                                <vue-html5-editor :content="details" :show-module-name="false" ref="editor"
+                                    @change="updateDetails">
+                                </vue-html5-editor>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="" prop="No_IsShow">
+                                <el-switch v-model="formData.No_IsShow" active-text="启用" inactive-text="禁用">
+                                </el-switch>
+                            </el-form-item>
+                        </el-col>
+                    </template>
+                    <template v-if="formData.No_Type==3">
+                        <el-col :span="24">
+                            <el-form-item label="内容" prop="No_Context" style="margin-bottom: 0px;">
+                                <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="details"
+                                    @input="updateDetails">
+                                </el-input>
+                                <div>转义符：
+                                    <el-tag>{name}学员名称</el-tag>
+                                    <el-tag>{account}学员账号</el-tag>
+                                    <el-tag>{org}平台名称</el-tag>
+                                    <el-tag>{date}日期</el-tag>
+                                </div>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="实际内容">
+
+                                输入测试
+                                {{updateDetails()}}
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="测试">
+                                <el-input v-model="testPhone" placeholder="请输入手机号" clearable :style="{width: '50%'}">
+                                </el-input>
+                                <el-button type="primary" native-type="submit" :loading="loading" plain>
+                                    发送测试</el-button>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="">
+                                <el-button type="primary" native-type="submit" :loading="loading">
+                                    群发通知</el-button>
+                            </el-form-item>
+                        </el-col>
+                    </template>
                 </el-tab-pane>
-                <el-tab-pane label="高级设置" name="tab02">
+                <el-tab-pane label="弹窗公告" name="tab02" v-if="formData.No_Type==2">
                     <el-col :span="24">
-                        <el-form-item label="" prop="No_IsShow">
-                            <el-switch v-model="formData.No_IsShow" active-text="启用" inactive-text="禁用">
-                            </el-switch>
+
+                    </el-col>
+
+                    <el-col :span="24">
+                        <el-form-item label="响应页面" prop="No_Page">
+                            <template>
+                                <el-radio v-model="formData.No_Page" label="mobi_home">手机端首页</el-radio>
+                                <el-radio v-model="formData.No_Page" label="web_home">电脑端首页</el-radio>
+                            </template>
+                        </el-form-item>
+
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="受众范围" prop="No_Range">
+                            <el-radio-group v-model="formData.No_Range">
+                                <el-radio :label="1">全部</el-radio>
+                                <el-radio :label="2">未登录</el-radio>
+                                <el-radio :label="3">所有登录学员</el-radio>
+                                <el-radio :label="4">分组学员</el-radio>
+                            </el-radio-group>
+                            <el-transfer v-model="No_StudentSort" :data="accountSort" v-show="formData.No_Range==4"
+                                :titles="['学员分组', '选定的组']"></el-transfer>
+                        </el-form-item>
+                    </el-col>
+
+                    <el-col :span="24">
+                        <el-form-item label="有效时间">
+                            <template>
+                                <el-date-picker v-model="formData.No_StartTime" @change="changeTime" type="date"
+                                    placeholder="起始时间" :style="{width: '160px'}">
+                                </el-date-picker>
+
+                                <el-date-picker v-model="formData.No_EndTime" @change="changeTime" type="date"
+                                    placeholder="结束时间" :style="{width: '160px'}">
+                                </el-date-picker>
+
+                            </template>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
-                        <el-form-item label="" prop="No_IsOpen">
-                            <el-switch v-model="formData.No_IsOpen" active-text="弹窗通知" inactive-text="一般通知">
-                            </el-switch>
-                        </el-form-item>
-
-                    </el-col>
-                    <template v-if="formData.No_IsOpen">
-                        <el-col :span="24">
-                            <el-form-item label="响应页面" prop="No_IsOpen">
-                                <template>
-                                    <el-radio v-model="formData.No_Page" label="mobi_home">手机端首页</el-radio>
-                                    <el-radio v-model="formData.No_Page" label="web_home">电脑端首页</el-radio>                                    
-                                </template>
-                            </el-form-item>
-
-                        </el-col>
-                        <el-col :span="24">
-                            <el-form-item label="受众范围" prop="No_Range">
-                                <el-radio-group v-model="formData.No_Range">
-                                    <el-radio :label="1">全部</el-radio>
-                                    <el-radio :label="2">未登录</el-radio>
-                                    <el-radio :label="3">所有登录学员</el-radio>
-                                    <el-radio :label="4">分组学员</el-radio>
-                                </el-radio-group>
-                                <el-transfer v-model="No_StudentSort" :data="accountSort" v-show="formData.No_Range==4"
-                                    :titles="['学员分组', '选定的组']"></el-transfer>
-                            </el-form-item>
-                        </el-col>
-
-                        <el-col :span="24">
-                            <el-form-item label="有效时间" prop="No_IsOpen">
-                                <template>
-                                    <el-date-picker v-model="formData.No_StartTime" @change="changeTime" type="date"
-                                        placeholder="起始时间" :style="{width: '160px'}">
-                                    </el-date-picker>
-
-                                    <el-date-picker v-model="formData.No_EndTime" @change="changeTime" type="date"
-                                        placeholder="结束时间" :style="{width: '160px'}">
-                                    </el-date-picker>
-
-                                </template>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="24">
-                            <el-form-item label="" prop="No_OpenCount">
+                        <el-form-item label="" prop="No_OpenCount">
+                            <el-tooltip placement="top">
+                                <div slot="content">0次或负值，为无限次</div>
                                 <el-input v-model="formData.No_OpenCount" :style="{width: '220px'}" :maxlength="5">
                                     <template slot="prepend">每天弹出</template>
                                     <template slot="append">次</template>
                                 </el-input>
+                            </el-tooltip>
+                            <el-input v-model="formData.No_Timespan" :style="{width: '220px'}" :maxlength="5">
+                                <template slot="prepend">每次</template>
+                                <template slot="append">秒</template>
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
 
-                                <el-input v-model="formData.No_Timespan" :style="{width: '220px'}" :maxlength="5">
-                                    <template slot="prepend">每次</template>
-                                    <template slot="append">秒</template>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="有效时段" prop="No_Interval">
 
-                        <el-col :span="24">
-                            <el-form-item label="有效时段" prop="No_Interval">
+                            <template>
+                                <el-time-picker is-range v-model="interval" range-separator="至" start-placeholder="开始时间"
+                                    end-placeholder="结束时间" placeholder="选择时间范围">
+                                </el-time-picker>
+                                <el-link type="primary" @click="addInterval">添加</el-link>
+                            </template> <template>
+                                <div v-for='(item,index) in No_Interval'>{{timeformat(item.start,'HH:mm')}}
+                                    至
+                                    {{timeformat(item.end,'HH:mm')}} <el-link type="primary"
+                                        @click="No_Interval.splice(index, 1)">移除</el-link>
+                                </div>
+                            </template>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="图片">
+                            <el-link type="primary" @click="formData.No_BgImage=''" v-if="formData.No_BgImage!=''">清除图片
+                            </el-link>
+                            <el-upload class="avatar-uploader" v-loading="loading" :show-file-list="false"
+                                :before-upload="beforeAvatarUpload" :on-change="imgChange">
+                                <img :src="formData.No_BgImage" class="avatar photo">
+                                <span class="avatar-uploader-icon photo-txt">上传图片，限Jpg格式</span>
+                            </el-upload>
 
-                                <template>
-                                    <el-time-picker is-range v-model="interval" range-separator="至"
-                                        start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围">
-                                    </el-time-picker>
-                                    <el-link type="primary" @click="addInterval">添加</el-link>
-                                </template> <template>
-                                    <div v-for='(item,index) in No_Interval'>{{timeformat(item.start,'HH:mm')}}
-                                        至
-                                        {{timeformat(item.end,'HH:mm')}} <el-link type="primary"
-                                            @click="No_Interval.splice(index, 1)">移除</el-link>
-                                    </div>
-                                </template>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="24">
-                            <el-form-item label="图片" prop="No_IsOpen">
-                                <el-link type="primary" @click="formData.No_BgImage=''" v-if="formData.No_BgImage!=''">清除图片</el-link>
-                                <el-upload class="avatar-uploader" v-loading="loading" :show-file-list="false"
-                                    :before-upload="beforeAvatarUpload" :on-change="imgChange">
-                                    <img :src="formData.No_BgImage" class="avatar photo">
-                                    <span class="avatar-uploader-icon photo-txt">上传图片，限Jpg格式</span>
-                                </el-upload>
-                               
-                            </el-form-item>
-                        </el-col>
-                        <el-col :span="24">
-                            <el-form-item label="" prop="No_Width">
-                                <el-input v-model="formData.No_Width" :style="{width: '220px'}" :maxlength="5">
-                                    <template slot="prepend">宽度</template>
-                                    <template slot="append">%</template>
-                                </el-input>
-                                <el-input v-model="formData.No_Height" :style="{width: '220px'}" :maxlength="5">
-                                    <template slot="prepend">高度</template>
-                                    <template slot="append">%</template>
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="" prop="No_Width">
+                            <el-input v-model="formData.No_Width" :style="{width: '220px'}" :maxlength="5">
+                                <template slot="prepend">宽度</template>
+                                <template slot="append">%</template>
+                            </el-input>
+                            <el-input v-model="formData.No_Height" :style="{width: '220px'}" :maxlength="5">
+                                <template slot="prepend">高度</template>
+                                <template slot="append">%</template>
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
 
-                        <el-col :span="24">
-                            <el-form-item label="链接地址" prop="No_Linkurl">
-                                <el-input v-model="formData.No_Linkurl" placeholder="可以为空" clearable
-                                    :style="{width: '100%'}">
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                    </template>
+                    <el-col :span="24">
+                        <el-form-item label="链接地址" prop="No_Linkurl">
+                            <el-input v-model="formData.No_Linkurl" placeholder="可以为空" clearable
+                                :style="{width: '100%'}">
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+
                 </el-tab-pane>
             </el-tabs>
             <el-form-item class="footer">

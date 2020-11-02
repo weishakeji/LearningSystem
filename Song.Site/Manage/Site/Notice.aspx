@@ -47,7 +47,7 @@
             <asp:TemplateField HeaderText="类型">
                 <itemstyle cssclass="center" width="60px" />
                 <itemtemplate>
-<%# Eval("No_IsOpen","{0}")=="True" ? "弹出" : ""%>
+<%# Eval("No_Type","{0}")=="2" ? "弹窗" : ""%>
 </itemtemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="显示">

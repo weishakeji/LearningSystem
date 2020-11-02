@@ -163,6 +163,7 @@ namespace Song.ServiceImpls
         public Notice[] List(int orgid, int type, string forpage, DateTime? time, bool? isShow, int count)
         {
             WhereClip wc = new WhereClip();
+            wc &= Notice._.No_Type == type;
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
             if (string.IsNullOrWhiteSpace(forpage)) wc &= Notice._.No_Page == forpage;
@@ -171,7 +172,6 @@ namespace Song.ServiceImpls
                 DateTime date = ((DateTime)time).Date;
                 wc &= Notice._.No_StartTime <= date && Notice._.No_EndTime >= date;
             }
-            if (type == 2) wc &= Notice._.No_IsOpen == true;
             return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>(count);
         }
         #endregion

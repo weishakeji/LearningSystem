@@ -16,8 +16,6 @@ namespace Song.Entities {
     		
     		protected Boolean _No_IsShow;
     		
-    		protected Boolean _No_IsOpen;
-    		
     		protected Boolean _No_IsTop;
     		
     		protected DateTime? _No_CrtTime;
@@ -55,6 +53,8 @@ namespace Song.Entities {
     		protected Int32 _No_Timespan;
     		
     		protected String _No_StudentSort;
+    		
+    		protected Int32 _No_Type;
     		
     		/// <summary>
     		/// False
@@ -105,19 +105,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.No_IsShow, _No_IsShow, value);
     				this._No_IsShow = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// False
-    		/// </summary>
-    		public Boolean No_IsOpen {
-    			get {
-    				return this._No_IsOpen;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.No_IsOpen, _No_IsOpen, value);
-    				this._No_IsOpen = value;
     			}
     		}
     		
@@ -329,6 +316,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int32 No_Type {
+    			get {
+    				return this._No_Type;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Type, _No_Type, value);
+    				this._No_Type = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -360,7 +357,6 @@ namespace Song.Entities {
     					_.No_Ttl,
     					_.No_Context,
     					_.No_IsShow,
-    					_.No_IsOpen,
     					_.No_IsTop,
     					_.No_CrtTime,
     					_.No_StartTime,
@@ -379,7 +375,8 @@ namespace Song.Entities {
     					_.No_BgImage,
     					_.No_Linkurl,
     					_.No_Timespan,
-    					_.No_StudentSort};
+    					_.No_StudentSort,
+    					_.No_Type};
     		}
     		
     		/// <summary>
@@ -391,7 +388,6 @@ namespace Song.Entities {
     					this._No_Ttl,
     					this._No_Context,
     					this._No_IsShow,
-    					this._No_IsOpen,
     					this._No_IsTop,
     					this._No_CrtTime,
     					this._No_StartTime,
@@ -410,7 +406,8 @@ namespace Song.Entities {
     					this._No_BgImage,
     					this._No_Linkurl,
     					this._No_Timespan,
-    					this._No_StudentSort};
+    					this._No_StudentSort,
+    					this._No_Type};
     		}
     		
     		/// <summary>
@@ -428,9 +425,6 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.No_IsShow))) {
     				this._No_IsShow = reader.GetBoolean(_.No_IsShow);
-    			}
-    			if ((false == reader.IsDBNull(_.No_IsOpen))) {
-    				this._No_IsOpen = reader.GetBoolean(_.No_IsOpen);
     			}
     			if ((false == reader.IsDBNull(_.No_IsTop))) {
     				this._No_IsTop = reader.GetBoolean(_.No_IsTop);
@@ -489,6 +483,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.No_StudentSort))) {
     				this._No_StudentSort = reader.GetString(_.No_StudentSort);
     			}
+    			if ((false == reader.IsDBNull(_.No_Type))) {
+    				this._No_Type = reader.GetInt32(_.No_Type);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -534,11 +531,6 @@ namespace Song.Entities {
     			/// False - 字段名：No_IsShow - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field No_IsShow = new WeiSha.Data.Field<Notice>("No_IsShow");
-    			
-    			/// <summary>
-    			/// False - 字段名：No_IsOpen - 数据类型：Boolean
-    			/// </summary>
-    			public static WeiSha.Data.Field No_IsOpen = new WeiSha.Data.Field<Notice>("No_IsOpen");
     			
     			/// <summary>
     			/// 字段名：No_IsTop - 数据类型：Boolean
@@ -634,6 +626,11 @@ namespace Song.Entities {
     			/// 字段名：No_StudentSort - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field No_StudentSort = new WeiSha.Data.Field<Notice>("No_StudentSort");
+    			
+    			/// <summary>
+    			/// 字段名：No_Type - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Type = new WeiSha.Data.Field<Notice>("No_Type");
     		}
     	}
     }
