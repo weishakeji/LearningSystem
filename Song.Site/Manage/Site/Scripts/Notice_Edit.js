@@ -80,6 +80,7 @@ window.vapp = new Vue({
                         var result = req.data.result;
                         vapp.formData = result;
                         vapp.details = vapp.formData.No_Context;
+                        if (vapp.formData.No_Page == '') vapp.formData.No_Page = 'mobi_home';
                         //时间段的初始化
                         if (vapp.formData.No_Interval != '') {
                             var interval = JSON.parse(vapp.formData.No_Interval);

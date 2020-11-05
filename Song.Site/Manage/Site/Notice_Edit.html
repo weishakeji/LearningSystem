@@ -25,7 +25,7 @@
                             <el-radio-group v-model="formData.No_Type">
                                 <el-radio :label="1">普通通知</el-radio>
                                 <el-radio :label="2">弹窗公告</el-radio>
-                                <el-radio :label="3">短信通知</el-radio>
+                                <el-radio :label="3" v-if="false">短信通知</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -97,7 +97,7 @@
                         <el-form-item label="响应页面" prop="No_Page">
                             <template>
                                 <el-radio v-model="formData.No_Page" label="mobi_home">手机端首页</el-radio>
-                                <el-radio v-model="formData.No_Page" label="web_home">电脑端首页</el-radio>
+                                <el-radio v-model="formData.No_Page" label="web_home" v-if="false">电脑端首页</el-radio>
                             </template>
                         </el-form-item>
 

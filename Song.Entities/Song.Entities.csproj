@@ -185,7 +185,6 @@
     <Compile Include="Navigation.cs" />
     <Compile Include="NewsNote.cs" />
     <Compile Include="Notice.cs" />
-    <Compile Include="Notice_StudentSort.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="OrganLevel.cs" />
     <Compile Include="Outline.cs" />
