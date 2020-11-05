@@ -29,6 +29,10 @@
 * 数据库采用Sqlserver2008或更高版本
 * 开发工具 Microsoft Visual Studio Community 2019
 
+## 开源地址：
+* GitHub ：<a href="https://github.com/weishakeji/LearningSystem" target="_blank">https://github.com/weishakeji/LearningSystem</a> 
+* Gitee（同步镜像）： <a href="https://gitee.com/weishakeji/LearningSystem" target="_blank">https://gitee.com/weishakeji/LearningSystem</a> 
+
 ## 升级日志：
 <a href="http://www.weishakeji.net/download.html" target="_blank">http://www.weishakeji.net/download.html</a> 
 
