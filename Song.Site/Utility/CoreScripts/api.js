@@ -327,7 +327,7 @@
                         }
                         //json值，序列化为字符串                       
                         if (typeName === 'Object') {
-                             formData.append(d,escape(JSON.stringify(config.data[d])));
+                            formData.append(d, escape(JSON.stringify(config.data[d])));
                             continue;
                         }
                         formData.append(d, escape(config.data[d]));
@@ -484,6 +484,31 @@ Date.prototype.format = function (fmt) {
         return fmt;
     }
     return fmtfuc(fmt, this);
+};
+//日期字符串解析为日期对象
+Date.parse = function (str) {
+    var date = '', time = '';
+    str = str.replace(/\//g, "-");
+    if (str.indexOf(' ') > -1) {
+        date = str.substring(0, str.indexOf(' '));
+        time = str.substring(str.lastIndexOf(' ') + 1);
+    } else {
+        if (str.indexOf('-') > -1) date = str;
+        if (str.indexOf(':') > -1) {
+            date = new Date().format('yyyy-MM-dd');
+            time = str;
+        }
+    }
+    var dateStrs = date.split('-');
+    var year = parseInt(dateStrs[0], 10);
+    var month = parseInt(dateStrs[1], 10) - 1;
+    var day = parseInt(dateStrs[2], 10);
+    var timeStrs = time.split(':');   
+    var hour = parseInt(timeStrs[0], 10);
+    var minute = parseInt(timeStrs[1], 10);
+    var second = parseInt(timeStrs[2], 10);
+    second = isNaN(second) ? 0 : second;
+    return new Date(year, month, day, hour, minute, second);
 }
 //添加加载前后的事件
 $api.effect(function () {
