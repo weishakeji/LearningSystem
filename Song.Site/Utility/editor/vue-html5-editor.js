@@ -1296,11 +1296,19 @@
                 });
                 var reg = new RegExp(/<img[^>].*>/, "ig");
                 var match = innerhtml.match(reg);
-                for (var m in match) {
-                    var r = new RegExp(/(?<=src="file:\/{3})([^"].*)(?=")/, "ig");
-                    var m = match[m].match(r);
-                    if (m == null) continue;
-                    //console.log(m);
+                 console.error(match);
+                if (match != null && match.length > 1) {
+                    for (var m in match) {
+                        try {
+                            //var r = new RegExp(/(?<=src="file:\/{3})([^"].*)(?=")/, "ig");
+                            //var m = match[m].match(r);
+
+                            //if (m == null) continue;
+                        } catch (e) {
+                            //throw e;
+                        }
+                        //console.log(m);
+                    }
                 }
                 //console.dir(match);
                

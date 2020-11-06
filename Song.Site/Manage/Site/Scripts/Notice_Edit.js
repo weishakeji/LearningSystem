@@ -67,7 +67,7 @@ window.vapp = new Vue({
         $api.get('Account/SortPager', { 'index': '1', 'size': '99999' }).then(function (req) {
             if (req.data.success) {
                 var results = req.data.result;
-                results.forEach((item, index) => {
+                results.forEach(function(item, index){
                     vapp.accountSort.push({
                         label: item.Sts_Name,
                         key: item.Sts_ID,
@@ -85,8 +85,8 @@ window.vapp = new Vue({
                         if (vapp.formData.No_Interval != '') {
                             var interval = JSON.parse(vapp.formData.No_Interval);
                             for (var i = 0; i < interval.length; i++) {
-                                interval[i]['start'] = new Date('2020-01-01 ' + interval[i]['start']);
-                                interval[i]['end'] = new Date('2020-01-01 ' + interval[i]['end']);
+                                interval[i]['start'] = Date.parse(interval[i]['start']);
+                                interval[i]['end'] = Date.parse(interval[i]['end']);
                             }
                             vapp.No_Interval = interval;
                         }
@@ -124,7 +124,7 @@ window.vapp = new Vue({
             return data;
         },
         btnEnter: function (formName) {
-            this.$refs[formName].validate((valid) => {
+            this.$refs[formName].validate(function(valid) {
                 if (valid) {
                     var apipath = 'Notice/' + (this.id == '' ? 'add' : 'Modify');
                     $api.post(apipath, { 'entity': vapp.formData }).then(function (req) {
@@ -166,7 +166,7 @@ window.vapp = new Vue({
         },
         imgChange: function (file, fileList) {
             var th = this;
-            this.getBase64(file.raw).then(res => {
+            this.getBase64(file.raw).then(function(res) {
                 th.formData.No_BgImage = res;
                 th.loading = true;
                 window.setTimeout(function () {
@@ -200,7 +200,7 @@ window.vapp = new Vue({
                 var msg = "结束时间不能小于开始时间";
                 this.$alert(msg, '提示', {
                     confirmButtonText: '确定',
-                    callback: action => { }
+                    callback: function(action){ }
                 });
                 return false;
             }

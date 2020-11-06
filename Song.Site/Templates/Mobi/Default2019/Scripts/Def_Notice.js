@@ -39,6 +39,7 @@
                     }
                 }, 1000);
             }, 500);
+
         },
         methods: {
             //打开网址
@@ -63,8 +64,8 @@
                     if (interval.length < 1) continue;
                     var exist = false;
                     for (var j = 0; j < interval.length; j++) {
-                        interval[j]['start'] = new Date(time.format('yyyy-MM-dd ') + interval[j]['start']);
-                        interval[j]['end'] = new Date(time.format('yyyy-MM-dd ') + interval[j]['end']);
+                        interval[j]['start'] = Date.parse(interval[j]['start']);
+                        interval[j]['end'] = Date.parse(interval[j]['end']);
                         var start = interval[j]['start'];
                         var end = interval[j]['end'];
                         if (interval[j]['start'] <= time && time <= interval[j]['end']) {
@@ -145,7 +146,7 @@
                         }
                     }
                 }
-                $api.storage("countrecord", countrecord);               
+                $api.storage("countrecord", countrecord);
                 return items;
             }
         }
