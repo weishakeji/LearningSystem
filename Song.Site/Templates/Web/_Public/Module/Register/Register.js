@@ -2,11 +2,25 @@
     //弹出注册协议
     $("#linkAgreement").click(function () {
         var title = $(this).text();
-        var msg = new MsgBox(title, $(".Agreement").html(), 1000, 80, "msg");
+        var msg = new MsgBox(title, $(".Agreement").html(), 1000, 80, "confirm");
+        msg.btnText.enter = '同意协议';
+        msg.EnterEvent = function () {
+            $("input[name=cbAgree]").attr("checked", "checked");
+            var agree = $("input[name=cbAgree]").get(0).checked;
+            if (agree) {
+                $("#btnSubmit").removeClass("disabled").removeAttr("disabled");
+            }
+            else {
+                $("#btnSubmit").addClass("disabled").attr("disabled", "disabled");
+            }
+            MsgBox.Close();
+        };
         msg.Open();
+       
         return false;
     });
     Event_init();
+    $("#linkAgreement").click();
     //当提交时，按钮进入预载状态
     setInterval(function () {
         var obj = $("*[state=submit]");

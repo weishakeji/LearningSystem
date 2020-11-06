@@ -22,6 +22,10 @@
         this.OverEvent = overFunc;
         this.Init(title, info, width, height, type);
     }
+    msgbox.prototype.btnText = {
+        enter: '确定',
+        close:'关闭'
+    }
     msgbox.prototype.WinBox = null; //窗体Jquery对象
     msgbox.prototype.EnterEvent = null; //确认按钮的事件    
     msgbox.prototype.OverEvent = null;    //结束后的事件    
@@ -117,13 +121,13 @@
         var box = this.WinBox.find(".msgBtnBox");
         box.width(this.WinBox.width());
         if (this.Type == "msg" || this.Type == "alert" || this.Type == "confirm") {
-            box.append("<div class='msgBtnClose msgbtn'>关闭</div>");
+            box.append("<div class='msgBtnClose msgbtn'>" + this.btnText.close + "</div>");
             box.find(".msgBtnClose").click(function () {
                 msgbox.CloseEvent($(this));
             });
         }
         if (this.Type == "confirm") {
-            box.append("<div class='msgBtnEnter msgbtn'>确定</div>");
+            box.append("<div class='msgBtnEnter msgbtn'>" + this.btnText.enter + "</div>");
             if (this.EnterEvent != null) {
                 box.find(".msgBtnEnter").click(function () {
                     var winid = $(this).parents(".MsgBox").attr("winid");

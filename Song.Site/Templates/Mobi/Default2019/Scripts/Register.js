@@ -28,6 +28,7 @@
     if ($("input[name=cbAgree]").get(0).checked) {
         $("#btnSubmit").removeClass("disabled").removeAttr("disabled");
     }
+    $("#linkAgreement").click();
 });
 
 /*

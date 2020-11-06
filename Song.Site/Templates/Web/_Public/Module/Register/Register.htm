@@ -36,7 +36,7 @@
         </vt:if>
         <div class="loginRow lbar">
           <label>
-            <input name="cbAgree" type="checkbox" checked/>
+            <input name="cbAgree" type="checkbox"/>
             我同意<a href="#" type="open" id="linkAgreement">《平台使用协议》</a> </label>
         </div>
         <div class="loginRow btnBar">
@@ -48,4 +48,6 @@
     <div class="noRegister"> 当前平台暂停注册。<br>
     </div>
   </vt:if>
-<div class="Agreement" style="display:none;"> {$Agreement} </div>
+<div class="Agreement" style="display:none;">
+    <iframe name="url" src="/Mobile/RegisterAgreement.ashx" width="100%" height="100%" marginwidth="0" marginheight="0" align="top" scrolling="auto" frameborder="0"></iframe>
+ </div>
