@@ -871,7 +871,6 @@
     <Content Include="Templates\Mobi\Default2019\Scripts\MoneyDetails.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\MsgBoards.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\MyTeacher.js" />
-    <Content Include="Templates\Mobi\Default2019\Scripts\Def_Notice.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\News.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\NewsList.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\notice.js" />
@@ -2248,6 +2247,7 @@
     <Content Include="Utility\Qiniuyun\demo1.html" />
     <Content Include="Utility\Qiniuyun\qiniu-web-player-1.2.2.js" />
     <Content Include="Utility\Qiniuyun\qiniu-web-player-1.2.3.js" />
+    <Content Include="Utility\Scripts\popup-notice.js" />
     <Content Include="Utility\Verify\Demo\1-1.htm" />
     <Content Include="Utility\Verify\Demo\1-2.htm" />
     <Content Include="Utility\Verify\Demo\2-1.htm" />

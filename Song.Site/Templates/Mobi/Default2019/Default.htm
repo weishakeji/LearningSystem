@@ -6,7 +6,7 @@
   <vt:include file="inc/meta.inc" />
   <link rel="stylesheet" href="Styles/default.css?ver={$version}" />
   <script type="text/javascript" src="Scripts/default.js?ver={$version}"></script>
-  <script type="text/javascript" src="Scripts/Def_Notice.js?ver={$version}"></script>
+  <script type="text/javascript" src="/Utility/Scripts/popup-notice.js?ver={$version}"></script>
 </head>
 
 <body mremove="{$mremove}">
@@ -138,25 +138,10 @@
     </div>
   </div>
   <vt:include file="inc/SubjectSelect.html" />
-  <div id="notice_box" remark="通知公告的弹出" :style="'width:calc(100vw * '+items.length+')'" v-if="items.length>0" v-cloak>
-    <div class="notice_item" v-for="(item,index) in items" style="width: 100vw;height: 100%;float:left;">
-      <div :style="'width:'+item.No_Width+'%;height:'+item.No_Height+'%;background-color: #fff;border-radius: 10px;overflow: hidden;'"
-        v-on:click="goUrl(item)">
-        <template v-if="item.No_BgImage==''">
-          <div style="width: 100%;line-height: 40px;padding: 15px;font-size: 18px;">{{item.No_Ttl}}</div>
-          <div style="padding: 0px 15px ;font-size: 16px;text-align: left;overflow: auto;height: calc(100% - 90px);"
-            v-html="item.No_Context"></div>
-        </template>
-        <img :src="item.No_BgImage" v-if="item.No_BgImage!=''" v-on:click="goUrl(item)"
-          :style="'width:100%;height:100%;'" />
-      </div>
-      <div :style="'bottom:calc((100vh - '+item.No_Height+'%)/4 - 15px)'" class="btnNoticeClose"
-        v-on:click="btnClose(item.No_Id)">&times</div>
-      <div
-        :style="'position:absolute; top:calc((100vh - '+item.No_Height+'%)/2 + 5px); right:calc((100vw - '+item.No_Width+'%)/2 + 5px);padding:5px;color:red;font-size:16px;'">
-        {{item.No_Timespan}}</div>
-    </div>
+  <div id="notice_box" remark="通知公告的弹出" v-cloak>
+    <popup-notice forpage="mobi_home"></popup-notice>
   </div>
+
 </body>
 
 </html>

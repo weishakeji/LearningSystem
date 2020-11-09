@@ -1,39 +1,40 @@
 ﻿<!doctype html>
 <html>
 <head>
-<title>{$org.org_platformname}</title>
-<vt:include file="inc/meta.inc" />
-<script type="text/javascript" src="Scripts/Default.js?ver={$version}"></script>
-<script type="text/javascript" src="Scripts/slider.js?ver={$version}"></script>
-<link href="Styles/Default.css?ver={$version}" rel="stylesheet" type="text/css" />
+    <title>{$org.org_platformname}</title>
+    <vt:include file="inc/meta.inc" />
+    <script type="text/javascript" src="Scripts/Default.js?ver={$version}"></script>
+    <script type="text/javascript" src="Scripts/slider.js?ver={$version}"></script>
+    <link href="Styles/Default.css?ver={$version}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/Utility/Scripts/popup-notice.js?ver={$version}"></script>
 </head>
 <body>
-<vt:include file="inc/Header-home.html" />
-<div id="banner_tabs" class="flexslider">
-  <ul class="slides">
-    <vt:list type="showpic" var="show" site="web" item="sp" index="j">
-      <li style="background:{$:sp.shp_bgColor};"> <a title="" href="{$:sp.shp_url}"  target="{$:sp.shp_target}"> <img alt="{$:sp.shp_title}" background="{$:sp.shp_file}"  src="images/alpha.png"/> </a> </li>
-      <vt:listelse />
-      <li style="background:#292A2C;"> <a title="" href="#"><img alt="" background="images/banner/1.jpg"  src="images/alpha.png"/> </a> </li>
-      <li style="background:#B6283E;"> <a title="" href="#"> <img alt="" background="images/banner/2.jpg" src="images/alpha.png"/> </a> </li>
-      <li style="background:#080E1E;"> <a title="" href="#"> <img alt="" background="images/banner/3.jpg"  src="images/alpha.png"/> </a> </li>
-    </vt:list>
-  </ul>
-  <ul class="flex-direction-nav">
-    <li><a class="flex-prev" href="javascript:;">Previous</a></li>
-    <li><a class="flex-next" href="javascript:;">Next</a></li>
-  </ul>
-  <ol id="bannerCtrl" class="flex-control-nav flex-control-paging">
-    <vt:foreach from="$show" item="sp" index="j">
-      <li><a>{$:j}</a></li>
-      <vt:foreachelse />
-      <li><a>1</a></li>
-      <li><a>2</a></li>
-      <li><a>3</a></li>
-    </vt:foreach>
-  </ol>
-</div>
-<script type="text/javascript">
+    <vt:include file="inc/Header-home.html" />
+    <div id="banner_tabs" class="flexslider">
+        <ul class="slides">
+            <vt:list type="showpic" var="show" site="web" item="sp" index="j">
+                <li style="background:{$:sp.shp_bgColor};"> <a title="" href="{$:sp.shp_url}" target="{$:sp.shp_target}"> <img alt="{$:sp.shp_title}" background="{$:sp.shp_file}" src="images/alpha.png" /> </a> </li>
+                <vt:listelse />
+                <li style="background:#292A2C;"> <a title="" href="#"><img alt="" background="images/banner/1.jpg" src="images/alpha.png" /> </a> </li>
+                <li style="background:#B6283E;"> <a title="" href="#"> <img alt="" background="images/banner/2.jpg" src="images/alpha.png" /> </a> </li>
+                <li style="background:#080E1E;"> <a title="" href="#"> <img alt="" background="images/banner/3.jpg" src="images/alpha.png" /> </a> </li>
+            </vt:list>
+        </ul>
+        <ul class="flex-direction-nav">
+            <li><a class="flex-prev" href="javascript:;">Previous</a></li>
+            <li><a class="flex-next" href="javascript:;">Next</a></li>
+        </ul>
+        <ol id="bannerCtrl" class="flex-control-nav flex-control-paging">
+            <vt:foreach from="$show" item="sp" index="j">
+                <li><a>{$:j}</a></li>
+                <vt:foreachelse />
+                <li><a>1</a></li>
+                <li><a>2</a></li>
+                <li><a>3</a></li>
+            </vt:foreach>
+        </ol>
+    </div>
+    <script type="text/javascript">
         $(function () {
             $(".slides a img").each(function (index, element) {
                 var src = $(this).attr("background");
@@ -55,179 +56,201 @@
                 bannerSlider.next()
             });
         })
-    </script> 
-<!--轮换图片结束-->
-<div class="selectPanelArea">
-  <div class="selectPanelBox">
-    <div class="userLoginbox">
-      <div class="login-box">
-        <div class="login-show">欢迎光临！</div>
-        <div class="stLoginPhoto">
-          <vt:if var="Account.Ac_photo" value="" compare="="> <img src="images/usernophoto.png"/>
-            <vt:else/>
-            <img src="{$stpath}{$:#.Account.Ac_photo}" default="images/usernophoto.png"/> </vt:if>
-        </div>
-         <vt:if var="Account.Ac_id" value="1" compare="<">
-        <a class="login-btn" href="/student/index.ashx" target="_blank">学员登录</a>
-         <vt:else/>
-         <a class="login-btn" href="/courses.ashx" target="_blank">开始学习</a>
-         </vt:if>
-      </div>
-    </div>
-  </div>
-</div>
-<!--资讯与通知区域-->
-<div class="selectPanelArea">
-  <div class="selectPanelBox">
-    <div class="nolist">
-      <vt:list type="notice" item="data" index="i" count="4" remark="通知公告">
-        <div class="news-row" noid="{$:#.data.no_id}">
-          <div class="news-tit"><a href="notice.ashx?id={$:#.data.no_id}" target="_blank" title="{$:#.data.no_ttl}"> {$:#.data.no_ttl}</a> </div>
-          <div class="news-time">{$:#.data.no_startTime  format="yyyy/M/d"}</div>
-        </div>
-      </vt:list>
-    </div>
-    <div class="newsBox">
-      <vt:list type="news" item="data" columns="-1" index="i" count="4" remark="资讯">
-        <div class="news-row" artid="{$:#.data.art_id}">
-          <div class="news-tit"> <a href="article.ashx?id={$:#.data.art_id}" target="_blank" title="{$:#.data.art_title}">{$:#.data.art_title}</a> </div>
-          <div class="news-time">{$:#.data.art_pushTime  format="yyyy/M/d"}</div>
-        </div>
-      </vt:list>
-    </div>
-  </div>
-</div>
-
-<!--专业选的择菜单面板-->
-<div class="selectPanelArea">
-  <div class="selectPanelBox">
-    <div class="selectPanel">
-      <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">
-        <div class="sbj-top-item" sid="{$#.data.current.Sbj_id}">
-          <div class="sbj-top-item1">
-            <div class="sbj-top-name"> <a href="/Courses.ashx?sbjid={$#.data.current.Sbj_id}" target="_blank">{$#.data.current.Sbj_Name} </a></div>
-            <i class="icon-font i-v-right">&gt;</i> </div>
-          <div class="sbj-top-item2">
-            <vt:repeat from="$data.Childs" type="subject" item="d" index="i" count="5" remark="面板上的二级分类，仅显示两个"> <a  href="/Courses.ashx?sbjid={$#.d.current.Sbj_id}" target="_blank"> {$#.d.current.Sbj_Name} </a> </vt:repeat>
-          </div>
-        </div>
-      </vt:repeat>
-    </div>
-    <!-----可展示的专业分类面板，结束------>
-    <vt:repeat from="$sbjs" item="data" index="i" count="10" remark="顶级专业分类">
-      <div class="sbj-two-panel" pid="{$#.data.current.Sbj_id}">
-        <vt:repeat from="$data.Childs" type="subject" item="d" index="i"  remark="二级分类">
-          <div class="sbj-two-row">
-            <div class="sbj-two-left"><a href="/Courses.ashx?sbjid={$#.d.current.Sbj_id}" target="_blank"> {$#.d.current.Sbj_Name} </a></div>
-            <div class="sbj-two-right">
-              <vt:repeat from="$d.Childs" type="subject" item="t" index="i"  remark="三级分类"> <a  href="/Courses.ashx?sbjid={$#.t.current.Sbj_id}" target="_blank"> {$#.t.current.Sbj_Name}</a>
-                <vt:repeatelse/>
-                <span class="sbj-nocontext">没有下级专业</span> </vt:repeat>
-            </div>
-          </div>
-        </vt:repeat>
-      </div>
-    </vt:repeat>
-  </div>
-</div>
-
-<!--各专业的课程列表-->
-<div class="contextbox">
-  <vt:repeat from="$sbjs" item="data" index="i" remark="顶级专业分类">
-    <div class="course-row">
-      <div class="row-left">
-        <div class="row-sbjname"><a href="/Courses.ashx?sbjid={$#.data.current.Sbj_id}" target="_blank">{$#.data.current.Sbj_name}</a></div>
-        <img src="{$#.data.current.Sbj_logo}" default="images/nosubject.jpg" style="width:220px; height:420px" alt="专业的图片，在专业设置中编辑" /> </div>
-      <div class="row-right" type="tab">
-        <div class="row-right-tit">
-          <div class="tititem" type="title" index="rec" ><a href="/Courses.ashx?sbjid={$#.data.current.Sbj_id}" target="_blank">推荐</a></div>
-          <vt:repeat from="$data.Childs" type="subject" item="d" index="i" count="5" remark="二级分类">
-            <div class="tititem" type="title" index="{$:i}"><a href="/Courses.ashx?sbjid={$#.d.current.Sbj_id}" target="_blank">{$#.d.current.Sbj_name}</a></div>
-          </vt:repeat>
-          <div class="tititem" type="title" index="new" ><a href="/Courses.ashx?sbjid={$#.data.current.Sbj_id}" target="_blank">最新发布</a></div>
-        </div>
-        <div class="course-area"> 
-          <!--课程列表-->
-          <div class="courbox"> 
-            <!--推荐课程-->
-            <div class="cour-panel"  type="area" index="rec">
-              <vt:function var="reccour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="rec"/>
-              <vt:foreach from="$reccour" type="course" item="c" index="i" order="rec"  remark="推荐课程">
-                <div class="course-item">                 
-                <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name"> 
-                <vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
-                 <div class="live" title="直播课"></div>
-                 </vt:if>
-                {$:#.c.cou_name} </a>
-                  <div class="cour-price">
-                    <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
-                      <vt:else/>
-                      <vt:function var="price" method="getCoursePrice" args="$#.c.cou_uid"/>
-                      <span class="money">
-                      <vt:foreach from="$price" item="p" index="i" count="1"  remark="当前课程价格"> <span class="moneyico money-ico">&#xe625;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </vt:foreach>
-                      </span> </vt:if>
-                    <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span> </div>
+    </script>
+    <!--轮换图片结束-->
+    <div class="selectPanelArea">
+        <div class="selectPanelBox">
+            <div class="userLoginbox">
+                <div class="login-box">
+                    <div class="login-show">欢迎光临！</div>
+                    <div class="stLoginPhoto">
+                        <vt:if var="Account.Ac_photo" value="" compare="=">
+                            <img src="images/usernophoto.png" />
+                            <vt:else />
+                            <img src="{$stpath}{$:#.Account.Ac_photo}" default="images/usernophoto.png" />
+                        </vt:if>
+                    </div>
+                    <vt:if var="Account.Ac_id" value="1" compare="<">
+                        <a class="login-btn" href="/student/index.ashx" target="_blank">学员登录</a>
+                        <vt:else />
+                        <a class="login-btn" href="/courses.ashx" target="_blank">开始学习</a>
+                    </vt:if>
                 </div>
-              </vt:foreach>
             </div>
-            <vt:repeat from="$data.Childs" type="subject" item="d2" index="n" count="8" remark="二级分类">
-              <div class="cour-panel"  type="area" index="{$:n}">
-                <vt:function var="listcours" method="getCourses" args="$#.d2.current.sbj_id" args="8" args="new"/>
-                <vt:list from="$listcours" type="course" item="c" index="i" order="rec"  remark="专业下的课程">
-                  <div class="course-item">                 
-                   <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">
-                    <vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
-                 <div class="live" title="直播课"></div>
-                 </vt:if>
-                 {$:#.c.cou_name}</a>
-                    <div class="cour-price">
-                      <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
-                        <vt:else/>
-                        <vt:function var="price" method="getCoursePrice" args="$#.c.cou_uid"/>
-                        <span class="money">
-                        <vt:foreach from="$price" item="p" index="i" count="1"  remark="当前课程价格"> <span class="moneyico money-ico">&#xe625;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </vt:foreach>
-                        </span> </vt:if>
-                      <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span> </div>
-                  </div>
+        </div>
+    </div>
+    <!--资讯与通知区域-->
+    <div class="selectPanelArea">
+        <div class="selectPanelBox">
+            <div class="nolist">
+                <vt:list type="notice" item="data" index="i" count="4" remark="通知公告">
+                    <div class="news-row" noid="{$:#.data.no_id}">
+                        <div class="news-tit"><a href="notice.ashx?id={$:#.data.no_id}" target="_blank" title="{$:#.data.no_ttl}"> {$:#.data.no_ttl}</a> </div>
+                        <div class="news-time">{$:#.data.no_startTime  format="yyyy/M/d"}</div>
+                    </div>
                 </vt:list>
-              </div>
-            </vt:repeat>
-            <!--最新课程-->
-            <div class="cour-panel"  type="area" index="new">
-              <vt:function var="newcour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="new"/>
-              <vt:foreach from="$newcour" type="course" item="c" index="i" order="rec"  remark="最新课程">
-                <div class="course-item">               
-                 <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}"  default="images/cou_nophoto.jpg"/></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">
-                  <vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
-                 <div class="live" title="直播课"></div>
-                 </vt:if>
-                 {$:#.c.cou_name}</a>
-                  <div class="cour-price">
-                    <vt:if var="c.cou_isfree" value="true" compare="="> <span class="free">免费</span>
-                      <vt:else/>
-                      <vt:function var="price" method="getCoursePrice" args="$#.c.cou_uid"/>
-                      <span class="money">
-                      <vt:foreach from="$price" item="p" index="i" count="1"  remark="当前课程价格"> <span class="moneyico money-ico">&#xe625;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </vt:foreach>
-                      </span> </vt:if>
-                    <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span> </div>
-                </div>
-              </vt:foreach>
             </div>
-          </div>
+            <div class="newsBox">
+                <vt:list type="news" item="data" columns="-1" index="i" count="4" remark="资讯">
+                    <div class="news-row" artid="{$:#.data.art_id}">
+                        <div class="news-tit"> <a href="article.ashx?id={$:#.data.art_id}" target="_blank" title="{$:#.data.art_title}">{$:#.data.art_title}</a> </div>
+                        <div class="news-time">{$:#.data.art_pushTime  format="yyyy/M/d"}</div>
+                    </div>
+                </vt:list>
+            </div>
         </div>
-      </div>
     </div>
-  </vt:repeat>
-</div>
-<!--友情链接-->
-<div class="links-box">
-  <div class="links-tit"><a href="links.ashx" target="_blank">友情链接</a></div>
-  <div class="link-items">
-    <vt:list type="links" item="l" index="i">
-      <div class="link-item"><a href="{$:l.lk_url}" target="_blank">{$:l.lk_name}</a></div>
-    </vt:list>
-  </div>
-</div>
-<vt:include file="inc/footer.html" />
+
+    <!--专业选的择菜单面板-->
+    <div class="selectPanelArea">
+        <div class="selectPanelBox">
+            <div class="selectPanel">
+                <vt:repeat type="subject" var="sbjs" item="data" index="i" remark="顶级专业分类">
+                    <div class="sbj-top-item" sid="{$#.data.current.Sbj_id}">
+                        <div class="sbj-top-item1">
+                            <div class="sbj-top-name"> <a href="/Courses.ashx?sbjid={$#.data.current.Sbj_id}" target="_blank">{$#.data.current.Sbj_Name} </a></div>
+                            <i class="icon-font i-v-right">&gt;</i>
+                        </div>
+                        <div class="sbj-top-item2">
+                            <vt:repeat from="$data.Childs" type="subject" item="d" index="i" count="5" remark="面板上的二级分类，仅显示两个"> <a href="/Courses.ashx?sbjid={$#.d.current.Sbj_id}" target="_blank"> {$#.d.current.Sbj_Name} </a> </vt:repeat>
+                        </div>
+                    </div>
+                </vt:repeat>
+            </div>
+            <!-----可展示的专业分类面板，结束------>
+            <vt:repeat from="$sbjs" item="data" index="i" count="10" remark="顶级专业分类">
+                <div class="sbj-two-panel" pid="{$#.data.current.Sbj_id}">
+                    <vt:repeat from="$data.Childs" type="subject" item="d" index="i" remark="二级分类">
+                        <div class="sbj-two-row">
+                            <div class="sbj-two-left"><a href="/Courses.ashx?sbjid={$#.d.current.Sbj_id}" target="_blank"> {$#.d.current.Sbj_Name} </a></div>
+                            <div class="sbj-two-right">
+                                <vt:repeat from="$d.Childs" type="subject" item="t" index="i" remark="三级分类">
+                                    <a href="/Courses.ashx?sbjid={$#.t.current.Sbj_id}" target="_blank"> {$#.t.current.Sbj_Name}</a>
+                                    <vt:repeatelse />
+                                    <span class="sbj-nocontext">没有下级专业</span>
+                                </vt:repeat>
+                            </div>
+                        </div>
+                    </vt:repeat>
+                </div>
+            </vt:repeat>
+        </div>
+    </div>
+
+    <!--各专业的课程列表-->
+    <div class="contextbox">
+        <vt:repeat from="$sbjs" item="data" index="i" remark="顶级专业分类">
+            <div class="course-row">
+                <div class="row-left">
+                    <div class="row-sbjname"><a href="/Courses.ashx?sbjid={$#.data.current.Sbj_id}" target="_blank">{$#.data.current.Sbj_name}</a></div>
+                    <img src="{$#.data.current.Sbj_logo}" default="images/nosubject.jpg" style="width:220px; height:420px" alt="专业的图片，在专业设置中编辑" />
+                </div>
+                <div class="row-right" type="tab">
+                    <div class="row-right-tit">
+                        <div class="tititem" type="title" index="rec"><a href="/Courses.ashx?sbjid={$#.data.current.Sbj_id}" target="_blank">推荐</a></div>
+                        <vt:repeat from="$data.Childs" type="subject" item="d" index="i" count="5" remark="二级分类">
+                            <div class="tititem" type="title" index="{$:i}"><a href="/Courses.ashx?sbjid={$#.d.current.Sbj_id}" target="_blank">{$#.d.current.Sbj_name}</a></div>
+                        </vt:repeat>
+                        <div class="tititem" type="title" index="new"><a href="/Courses.ashx?sbjid={$#.data.current.Sbj_id}" target="_blank">最新发布</a></div>
+                    </div>
+                    <div class="course-area">
+                        <!--课程列表-->
+                        <div class="courbox">
+                            <!--推荐课程-->
+                            <div class="cour-panel" type="area" index="rec">
+                                <vt:function var="reccour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="rec" />
+                                <vt:foreach from="$reccour" type="course" item="c" index="i" order="rec" remark="推荐课程">
+                                    <div class="course-item">
+                                        <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" default="images/cou_nophoto.jpg" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">
+                                            <vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
+                                                <div class="live" title="直播课"></div>
+                                            </vt:if>
+                                            {$:#.c.cou_name}
+                                        </a>
+                                        <div class="cour-price">
+                                            <vt:if var="c.cou_isfree" value="true" compare="=">
+                                                <span class="free">免费</span>
+                                                <vt:else />
+                                                <vt:function var="price" method="getCoursePrice" args="$#.c.cou_uid" />
+                                                <span class="money">
+                                                    <vt:foreach from="$price" item="p" index="i" count="1" remark="当前课程价格"> <span class="moneyico money-ico">&#xe625;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </vt:foreach>
+                                                </span>
+                                            </vt:if>
+                                            <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span>
+                                        </div>
+                                    </div>
+                                </vt:foreach>
+                            </div>
+                            <vt:repeat from="$data.Childs" type="subject" item="d2" index="n" count="8" remark="二级分类">
+                                <div class="cour-panel" type="area" index="{$:n}">
+                                    <vt:function var="listcours" method="getCourses" args="$#.d2.current.sbj_id" args="8" args="new" />
+                                    <vt:list from="$listcours" type="course" item="c" index="i" order="rec" remark="专业下的课程">
+                                        <div class="course-item">
+                                            <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" default="images/cou_nophoto.jpg" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">
+                                                <vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
+                                                    <div class="live" title="直播课"></div>
+                                                </vt:if>
+                                                {$:#.c.cou_name}
+                                            </a>
+                                            <div class="cour-price">
+                                                <vt:if var="c.cou_isfree" value="true" compare="=">
+                                                    <span class="free">免费</span>
+                                                    <vt:else />
+                                                    <vt:function var="price" method="getCoursePrice" args="$#.c.cou_uid" />
+                                                    <span class="money">
+                                                        <vt:foreach from="$price" item="p" index="i" count="1" remark="当前课程价格"> <span class="moneyico money-ico">&#xe625;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </vt:foreach>
+                                                    </span>
+                                                </vt:if>
+                                                <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span>
+                                            </div>
+                                        </div>
+                                    </vt:list>
+                                </div>
+                            </vt:repeat>
+                            <!--最新课程-->
+                            <div class="cour-panel" type="area" index="new">
+                                <vt:function var="newcour" method="getCourses" args="$#.data.current.sbj_id" args="8" args="new" />
+                                <vt:foreach from="$newcour" type="course" item="c" index="i" order="rec" remark="最新课程">
+                                    <div class="course-item">
+                                        <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-img"><img src="{$:#.c.cou_logosmall}" default="images/cou_nophoto.jpg" /></a> <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank" title="{$:#.c.cou_name}" class="cour-name">
+                                            <vt:if var="c.Cou_ExistLive" value="true" compare="=" remark="直播">
+                                                <div class="live" title="直播课"></div>
+                                            </vt:if>
+                                            {$:#.c.cou_name}
+                                        </a>
+                                        <div class="cour-price">
+                                            <vt:if var="c.cou_isfree" value="true" compare="=">
+                                                <span class="free">免费</span>
+                                                <vt:else />
+                                                <vt:function var="price" method="getCoursePrice" args="$#.c.cou_uid" />
+                                                <span class="money">
+                                                    <vt:foreach from="$price" item="p" index="i" count="1" remark="当前课程价格"> <span class="moneyico money-ico">&#xe625;</span> <span class="p-num">{$:#.p.CP_Price}元</span> <span class="p-span">/{$:#.p.CP_Span}</span> <span class="p-unit">{$:#.p.CP_Unit}</span> </vt:foreach>
+                                                </span>
+                                            </vt:if>
+                                            <span class="cou-count" title="访问量">{$:#.c.cou_viewNum}</span> <span class="cou-sbj" title="{$:#.c.sbj_name}">{$:#.c.sbj_name}</span>
+                                        </div>
+                                    </div>
+                                </vt:foreach>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </vt:repeat>
+    </div>
+    <!--友情链接-->
+    <div class="links-box">
+        <div class="links-tit"><a href="links.ashx" target="_blank">友情链接</a></div>
+        <div class="link-items">
+            <vt:list type="links" item="l" index="i">
+                <div class="link-item"><a href="{$:l.lk_url}" target="_blank">{$:l.lk_name}</a></div>
+            </vt:list>
+        </div>
+    </div>
+
+    <vt:include file="inc/footer.html" />
+    <div id="notice_box" remark="通知公告的弹出" style="height:100%;" v-cloak>
+        <popup-notice forpage="web_home"></popup-notice>
+    </div>
 </body>
 </html>

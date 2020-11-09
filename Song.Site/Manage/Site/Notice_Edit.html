@@ -30,7 +30,7 @@
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
-                    <template v-if="formData.No_Type!=3">
+                    <template v-if="formData.No_Type==1 ||formData.No_Type==2">
                         <el-col :span="24">
                             <el-form-item label="标题" prop="No_Ttl">
                                 <el-input v-model="formData.No_Ttl" clearable :style="{width: '100%'}">
@@ -98,7 +98,7 @@
                         <el-form-item label="响应页面" prop="No_Page">
                             <template>
                                 <el-radio v-model="formData.No_Page" label="mobi_home">手机端首页</el-radio>
-                                <el-radio v-model="formData.No_Page" label="web_home" v-if="false">电脑端首页</el-radio>
+                                <el-radio v-model="formData.No_Page" label="web_home">电脑端首页</el-radio>
                             </template>
                         </el-form-item>
 
@@ -179,11 +179,11 @@
                         <el-form-item label="" prop="No_Width">
                             <el-input v-model="formData.No_Width" :style="{width: '220px'}" :maxlength="5">
                                 <template slot="prepend">宽度</template>
-                                <template slot="append">%</template>
+                                <template slot="append">{{ismoblie ? '%' : 'px'}}</template>
                             </el-input>
                             <el-input v-model="formData.No_Height" :style="{width: '220px'}" :maxlength="5">
                                 <template slot="prepend">高度</template>
-                                <template slot="append">%</template>
+                                <template slot="append">{{ismoblie ? '%' : 'px'}}</template>
                             </el-input>
                         </el-form-item>
                     </el-col>

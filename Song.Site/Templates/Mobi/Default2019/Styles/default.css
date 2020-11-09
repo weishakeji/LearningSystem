@@ -412,49 +412,5 @@ live {
 
 [v-cloak] {
 	display: none;
-}
-
-#notice_box {
-	width: 100vw;
-	height: 100vh;
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	z-index: 99999;
-	overflow: hidden;
-	background-color: rgba(0, 0, 0, 0.7);
-}
-
-#notice_box>div {
-	text-align: center;
-	line-height: 100%;
-	display: flex !important;
-	-webkit-flex-wrap: wrap;
-	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
-	position: relative;
-}
-
-#notice_box img {
-	margin: auto;
-	border-radius: 3px;
-}
-
-#notice_box>div>* {
-	margin: auto;
-	--box-shadow: -3px 0px 3px rgba(255, 255, 255, 0.6), 0px -3px 3px rgba(255, 255, 255, 0.6), 3px 0px 3px rgba(255, 255, 255, 0.6), 0px 3px 3px rgba(255, 255, 255, 0.6);
-}
-
-.btnNoticeClose {
-	position: absolute;
-	font-size: 30px;
-	line-height: 25px;
-	text-align: center;
-	width: 30px;
-	height: 30px;
-	border-radius: 15px;
-	background-color: rgba(255, 255, 255,0.1);
-	border: #f2f2f2 solid 3px;
-	left: calc((100% - 30px)/2);
-	color: #fff;
+	
 }

@@ -166,7 +166,7 @@ namespace Song.ServiceImpls
             wc &= Notice._.No_Type == type;
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
-            if (string.IsNullOrWhiteSpace(forpage)) wc &= Notice._.No_Page == forpage;
+            if (!string.IsNullOrWhiteSpace(forpage)) wc &= Notice._.No_Page == forpage;
             if (time != null)
             {
                 DateTime date = ((DateTime)time).Date;

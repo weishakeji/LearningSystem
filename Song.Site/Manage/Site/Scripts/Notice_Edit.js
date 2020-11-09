@@ -61,13 +61,23 @@ window.vapp = new Vue({
             this.formData.No_Context = nl;
         }
     },
+    computed: {
+        //是否是手机端
+        ismoblie: function () {
+            var str = this.formData.No_Page;
+            var prefix = '';
+            if (str.indexOf('_'))
+                prefix = str.substring(0, str.indexOf('_'));
+            return prefix == 'mobi';
+        }
+    },
     created: function () {
         var th = this;
         th.id = $api.querystring('id');
         $api.get('Account/SortPager', { 'index': '1', 'size': '99999' }).then(function (req) {
             if (req.data.success) {
                 var results = req.data.result;
-                results.forEach(function(item, index){
+                results.forEach(function (item, index) {
                     vapp.accountSort.push({
                         label: item.Sts_Name,
                         key: item.Sts_ID,
@@ -124,7 +134,7 @@ window.vapp = new Vue({
             return data;
         },
         btnEnter: function (formName) {
-            this.$refs[formName].validate(function(valid) {
+            this.$refs[formName].validate(function (valid) {
                 if (valid) {
                     var apipath = 'Notice/' + (this.id == '' ? 'add' : 'Modify');
                     $api.post(apipath, { 'entity': vapp.formData }).then(function (req) {
@@ -166,7 +176,7 @@ window.vapp = new Vue({
         },
         imgChange: function (file, fileList) {
             var th = this;
-            this.getBase64(file.raw).then(function(res) {
+            this.getBase64(file.raw).then(function (res) {
                 th.formData.No_BgImage = res;
                 th.loading = true;
                 window.setTimeout(function () {
@@ -200,7 +210,7 @@ window.vapp = new Vue({
                 var msg = "结束时间不能小于开始时间";
                 this.$alert(msg, '提示', {
                     confirmButtonText: '确定',
-                    callback: function(action){ }
+                    callback: function (action) { }
                 });
                 return false;
             }
