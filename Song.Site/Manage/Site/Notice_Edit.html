@@ -139,52 +139,66 @@
                                     <template slot="append">次</template>
                                 </el-input>
                             </el-tooltip>
-                            <el-input v-model="formData.No_Timespan" :style="{width: '220px'}" :maxlength="5">
-                                <template slot="prepend">每次</template>
-                                <template slot="append">秒</template>
-                            </el-input>
+                            <el-tooltip placement="top">
+                                <div slot="content">0秒或负值，不计时间，一直显示</div>
+                                <el-input v-model="formData.No_Timespan" :style="{width: '220px'}" :maxlength="5">
+
+                                    <template slot="prepend">每次</template>
+                                    <template slot="append">秒</template>
+                                </el-input>
+                            </el-tooltip>
                         </el-form-item>
                     </el-col>
 
                     <el-col :span="24">
-                        <el-form-item label="有效时段" prop="No_Interval">
+                        <el-form-item label="有效时段" prop="No_Interval" style="margin-bottom: 0px;">
 
                             <template>
                                 <el-time-picker is-range v-model="interval" range-separator="至" start-placeholder="开始时间"
-                                    end-placeholder="结束时间" placeholder="选择时间范围">
+                                    end-placeholder="结束时间" format="HH:mm" value-format="HH:mm" placeholder="选择时间范围"
+                                    style="width: 260px;">
                                 </el-time-picker>
                                 <el-link type="primary" @click="addInterval">添加</el-link>
-                            </template> <template>
-                                <div v-for='(item,index) in No_Interval'>{{timeformat(item.start,'HH:mm')}}
+                            </template>
+                            <div style="width: 100%; display: flex;flex-wrap: wrap; justify-content: start;">
+                                <div v-for='(item,index) in No_Interval' v-if="No_Interval.length>0"
+                                    style="flex: 0 0 33%;">
+                                    {{timeformat(item.start,'HH:mm')}}
                                     至
                                     {{timeformat(item.end,'HH:mm')}} <el-link type="primary"
                                         @click="No_Interval.splice(index, 1)">移除</el-link>
                                 </div>
-                            </template>
+                                <div v-if="No_Interval.length==0">
+                                    (没有设置时间段，默认为全天显示)
+                                </div>
+                            </div>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
-                        <el-form-item label="图片">
-                            <el-link type="primary" @click="formData.No_BgImage=''" v-if="formData.No_BgImage!=''">清除图片
-                            </el-link>
+                        <el-form-item label="图片" style="margin-bottom: 0px;">
+
                             <el-upload class="avatar-uploader" v-loading="loading" :show-file-list="false"
                                 :before-upload="beforeAvatarUpload" :on-change="imgChange">
-                                <img :src="formData.No_BgImage" class="avatar photo">
-                                <span class="avatar-uploader-icon photo-txt">上传图片，限Jpg格式</span>
+                                <div class="avatar-uploader-icon photo-txt">上传图片，限 {{imgLimit.join('、')}} 格式</div>
+                                <img :src="formData.No_BgImage" class="avatar photo" id="BgImage" style="float: left; ">
+                                <br />
                             </el-upload>
-
+                            <el-link type="danger" @click="formData.No_BgImage=''" v-if="formData.No_BgImage!=''">清除图片
+                            </el-link>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="" prop="No_Width">
-                            <el-input v-model="formData.No_Width" :style="{width: '220px'}" :maxlength="5">
+                            <el-input v-model="imgWidth" :style="{width: '200px'}" v-on:change="imgWidthChange"
+                                :maxlength="5">
                                 <template slot="prepend">宽度</template>
                                 <template slot="append">{{ismoblie ? '%' : 'px'}}</template>
                             </el-input>
-                            <el-input v-model="formData.No_Height" :style="{width: '220px'}" :maxlength="5">
+                            <el-input v-model="imgHeight" :style="{width: '200px'}" v-on:change="imgHeightChange" :maxlength="5">
                                 <template slot="prepend">高度</template>
                                 <template slot="append">{{ismoblie ? '%' : 'px'}}</template>
                             </el-input>
+                            <el-checkbox v-model="scale">等比缩放</el-checkbox>
                         </el-form-item>
                     </el-col>
 

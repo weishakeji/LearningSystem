@@ -25,10 +25,14 @@ window.vapp = new Vue({
         },
         details: '',
         activeName: 'tab01',
-        interval: '',       //有效时间的临时值
-        No_Interval: [],     //有效时间的临时值
+        interval: '',       //有效时间段的添加时的值
+        No_Interval: [],     //有效时间段的临时数组
         accountSort: [],     //学员账号分组
         No_StudentSort: [],      //选中的学员账号分组
+        imgLimit: ['jpg', 'png', 'gif'],     //上传图片的类型限制
+        scale: true,         //等比例缩放
+        imgWidth: 0,
+        imgHeight: 0,
         rules: {
             No_Ttl: [
                 { required: true, message: '标题不得为空', trigger: 'blur' }
@@ -90,6 +94,8 @@ window.vapp = new Vue({
                         var result = req.data.result;
                         vapp.formData = result;
                         vapp.details = vapp.formData.No_Context;
+                        vapp.imgWidth = vapp.formData.No_Width;
+                        vapp.imgHeight = vapp.formData.No_Height;
                         if (vapp.formData.No_Page == '') vapp.formData.No_Page = 'mobi_home';
                         //时间段的初始化
                         if (vapp.formData.No_Interval != '') {
@@ -159,32 +165,50 @@ window.vapp = new Vue({
                 }
             });
         },
-
+        //图片上传
         beforeAvatarUpload: function (file) {
-            //console.log(file);
-            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-            const isLt2M = file.size / 1024 / 1024 < 2;
-
-            if (!isJPG) {
-                this.$message.error('上传头像图片只能是 JPG 格式!');
-            }
-            if (!isLt2M) {
-                this.$message.error('上传头像图片大小不能超过 2MB!');
-            }
             return false;
-            return isJPG && isLt2M;
         },
         imgChange: function (file, fileList) {
+            //后缀名限制
+            var suffix = file.name.indexOf('.') > -1 ? file.name.substring(file.name.lastIndexOf('.') + 1) : '';
+            if (this.imgLimit.indexOf(suffix.toLowerCase()) < 0) {
+                this.$message.error('上传图片只能是 ' + this.imgLimit.join('、') + ' 格式!');
+                return false;
+            }
+            if (file.size / 1024 / 1024 > 2) {
+                this.$message.error('上传图片大小不能超过 2MB!');
+                return false;
+            }
             var th = this;
             this.getBase64(file.raw).then(function (res) {
                 th.formData.No_BgImage = res;
                 th.loading = true;
                 window.setTimeout(function () {
-                    window.vapp.loading = false;
+                    th.loading = false;
+                    //自动生成图片宽度，实现等比例缩放，以免图像失真
+                    var img = document.getElementById('BgImage');
+                    var width = img.naturalWidth;
+                    var height = img.naturalHeight;
+                    if (th.ismoblie) {
+                        //手机端
+                        var def = 70;
+                        var wp = Math.floor(width / height * 16 / 9 * def);
+                        var hp = Math.floor(height / width * def * 9 / 16);
+                        th.formData.No_Width = wp >= hp ? def : wp;
+                        th.formData.No_Height = wp >= hp ? hp : def;
+                    } else {
+                        //电脑端，max为最大宽高
+                        var max = 600, percent = 0;
+                        percent = max / width > max / height ? max / height : max / width;
+                        th.formData.No_Width = width < max ? width : Math.floor(percent * width);
+                        th.formData.No_Height = width < max ? height : Math.floor(percent * height);
+                    }
+                    th.imgWidth = th.formData.No_Width;
+                    th.imgHeight = th.formData.No_Height;
                 }, 500);
             });
         },
-
         getBase64: function (file) {
             return new Promise(function (resolve, reject) {
                 let reader = new FileReader();
@@ -201,7 +225,20 @@ window.vapp = new Vue({
                 };
             });
         },
-
+        imgWidthChange: function (val) {
+            if (this.scale) {
+                this.imgHeight = Math.floor(val / this.formData.No_Width * this.imgHeight);
+                this.formData.No_Height = this.imgHeight;
+            }
+            this.formData.No_Width = val;
+        },
+        imgHeightChange: function (val) {
+            if (this.scale) {
+                this.imgWidth = Math.floor(val / this.formData.No_Height * this.imgWidth);
+                this.formData.No_Width = this.imgWidth;
+            }
+            this.formData.No_Height = val;
+        },
         //起始或终止时间更改时
         changeTime: function () {
             var start = this.formData.No_StartTime;
@@ -221,14 +258,15 @@ window.vapp = new Vue({
             var type = $api.getType(this.interval);
             if (type != 'Array') return false;
             //添加
-            var start = this.interval[0];
-            var end = this.interval[1];
+            var start = Date.parse(this.interval[0]);
+            var end = Date.parse(this.interval[1]);
             if (this.No_Interval == '' || this.No_Interval == null) this.No_Interval = [];
             //验证重复
             var exist = false;
             var arr = this.No_Interval;
             for (var i = 0; i < arr.length; i++) {
-                if (arr[i]['start'] == start && arr[i]['end'] == end) {
+                if (arr[i]['start'].getTime() == start.getTime() &&
+                    arr[i]['end'].getTime() == end.getTime()) {
                     exist = true;
                     break;
                 }

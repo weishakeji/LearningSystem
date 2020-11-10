@@ -60,8 +60,12 @@ Vue.component('popup-notice', {
                     width = (item.No_Width < 100 ? 100 : item.No_Width) + 'px';
                     height = (item.No_Height < 100 ? 100 : item.No_Height) + 'px';
                 }
-                return 'width:' + width + ';height:' + height + ';\
-                background-color: #fff;border-radius: 10px;overflow: hidden;margin: auto;';
+                var shadow = 'box-shadow: -3px 0px 3px rgba(255, 255, 255, 0.6), \
+                0px -3px 3px rgba(255, 255, 255, 0.6), \
+                3px 0px 3px rgba(255, 255, 255, 0.6), \
+                0px 3px 3px rgba(255, 255, 255, 0.6);';
+                return shadow + 'width:' + width + ';height:' + height + ';\
+                background-color: #fff;border-radius: 5px;overflow: hidden;margin: auto;';
             }
         },
         //标题样式，如果没有图片，显示文字内容，
@@ -75,20 +79,25 @@ Vue.component('popup-notice', {
         close: function () {
             return function (item) {
                 var mobi = this.ismoblie();
-                var postion = '', color = '';
+                var postion = '', color = '', wh = 30;
                 if (mobi) {
                     postion = 'bottom:calc((100vh - ' + item.No_Height + '%)/4 - 15px);left: calc((100% - 30px)/2);';
-                    color = '#fff';
+                    color = 'rgb(214, 67, 67)';
                 } else {
                     var width = item.No_Width < 100 ? 100 : item.No_Width;
                     var height = item.No_Height < 100 ? 100 : item.No_Height;
                     postion = 'top: calc((100% - ' + height + 'px)/2 + 5px); right: calc((100vw - ' + width + 'px)/2 + 5px);';
-                    color = '#333';
+                    color = 'rgb(214, 67, 67)';
+                    wh = 20;
                 }
-                return postion + ' position: absolute;font-size: 30px;line-height: 25px;text-align: center;\
-                width: 30px;height: 30px;border-radius: 15px;z-Index:10;cursor: pointer;\
-                background-color: rgba(255, 255, 255,0.1);border: '+ color + ' solid 3px;\
-                color: '+ color + ';';
+                var shadow = 'box-shadow: -3px 0px 3px rgba(255, 255, 255, 0.6), \
+                0px -3px 3px rgba(255, 255, 255, 0.6), \
+                3px 0px 3px rgba(255, 255, 255, 0.6), \
+                0px 3px 3px rgba(255, 255, 255, 0.6);';
+                return postion + ' position: absolute;font-size: ' + wh + 'px;line-height: ' + (wh * 0.85) + 'px;text-align: center;\
+                width: '+ wh + 'px;height: ' + wh + 'px;border-radius: 15px;z-Index:10;cursor: pointer;\
+                background-color: rgba(255, 255, 255,0.8);border: '+ color + ' solid 2px;\
+                color: '+ color + ';'+shadow;
             }
         },
         //数秒的样式
@@ -134,6 +143,7 @@ Vue.component('popup-notice', {
         window.setTimeout(function () {
             window.setInterval(function () {
                 if (th.items.length > 0) {
+                    if (th.items[0].No_Timespan <= 0) return;
                     if (th.items[0].No_Timespan > 1) {
                         th.items[0].No_Timespan--;
                     } else {
@@ -153,7 +163,9 @@ Vue.component('popup-notice', {
         },
         //打开网址
         goUrl: function (item) {
-            window.location.href = item.No_Linkurl != '' ? item.No_Linkurl : '/Mobile/notice.ashx?id=' + item.No_Id;
+            var mobi = this.ismoblie();
+            var page = mobi ? '/Mobile/notice.ashx' : '/notice.ashx'
+            window.location.href = item.No_Linkurl != '' ? item.No_Linkurl : page + '?id=' + item.No_Id;
         },
         //关闭公告
         btnClose: function (id) {
@@ -272,7 +284,7 @@ Vue.component('popup-notice', {
                 </template>\
             </div>\
             <div remark="关闭按钮" :style="close(item)" v-on:click="btnClose(item.No_Id)">&times</div>\
-            <div remark="数秒" :style="second(item)">{{item.No_Timespan}}</div>\
+            <div remark="数秒" :style="second(item)" v-if="item.No_Timespan>0">{{item.No_Timespan}}</div>\
         </div>\
     <div>'
 })
