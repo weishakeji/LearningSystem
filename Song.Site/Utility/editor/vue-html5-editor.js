@@ -1296,7 +1296,7 @@
                 });
                 var reg = new RegExp(/<img[^>].*>/, "ig");
                 var match = innerhtml.match(reg);
-                 console.error(match);
+                // console.error(match);
                 if (match != null && match.length > 1) {
                     for (var m in match) {
                         try {

@@ -26,11 +26,19 @@ namespace Song.ServiceImpls
                 entity.Org_ID = org.Org_ID;
                 entity.Org_Name = org.Org_Name;
             }
+            if (entity.No_StartTime != null)            
+                entity.No_StartTime = ((DateTime)entity.No_StartTime).Date;
+            if (entity.No_EndTime != null)
+                entity.No_EndTime = ((DateTime)entity.No_EndTime).Date;
             Gateway.Default.Save<Notice>(entity);
         }
 
         public void Save(Notice entity)
         {
+            if (entity.No_StartTime != null)
+                entity.No_StartTime = ((DateTime)entity.No_StartTime).Date;
+            if (entity.No_EndTime != null)
+                entity.No_EndTime = ((DateTime)entity.No_EndTime).Date;
             Gateway.Default.Save<Notice>(entity);
         }
 

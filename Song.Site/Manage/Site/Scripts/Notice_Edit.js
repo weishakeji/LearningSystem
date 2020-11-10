@@ -21,7 +21,8 @@ window.vapp = new Vue({
             No_Interval: '',
             No_Timespan: 6,
             No_OpenCount: 1,
-            No_StudentSort: ''
+            No_StudentSort: '',
+            No_BgImage: ''
         },
         details: '',
         activeName: 'tab01',
@@ -140,9 +141,10 @@ window.vapp = new Vue({
             return data;
         },
         btnEnter: function (formName) {
+            var th = this;
             this.$refs[formName].validate(function (valid) {
                 if (valid) {
-                    var apipath = 'Notice/' + (this.id == '' ? 'add' : 'Modify');
+                    var apipath = 'Notice/' + (th.id == '' ? 'add' : 'Modify');
                     $api.post(apipath, { 'entity': vapp.formData }).then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
