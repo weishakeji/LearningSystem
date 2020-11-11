@@ -38,16 +38,25 @@
 <%# Eval("No_Ttl")%>
 </itemtemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="发布时间">
+           <%-- <asp:TemplateField HeaderText="发布时间">
                 <itemstyle cssclass="center" width="140px" />
                 <itemtemplate>
 <%# Eval("No_StartTime","{0:yyyy-M-d HH:mm:ss}")%>
 </itemtemplate>
-            </asp:TemplateField>
+            </asp:TemplateField>--%>
             <asp:TemplateField HeaderText="类型">
                 <itemstyle cssclass="center" width="60px" />
                 <itemtemplate>
 <%# Eval("No_Type","{0}")=="2" ? "弹窗" : ""%>
+</itemtemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="位置">
+                <itemstyle cssclass="center" width="100px" />
+                <itemtemplate>
+                    <div style='<%# Eval("No_Type","{0}")=="2" ? "" : "display:none"%>'>
+<%# Eval("No_Page","{0}")=="mobi_home" ? "手机端首页" : ""%>
+ <%# Eval("No_Page","{0}")=="web_home" ? "Web端首页" : ""%>
+                        </div>
 </itemtemplate>
             </asp:TemplateField>
             <asp:TemplateField HeaderText="显示">
