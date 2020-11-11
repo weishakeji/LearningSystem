@@ -18,29 +18,16 @@ Vue.component('popup-notice', {
     },
     watch: {
         items: function (nl, ol) {
-            if (nl.length == ol.length) return;
-            //如果是电脑端
-            if (!this.ismoblie()) {
-                var html = document.querySelectorAll('html,body');
-                if (nl.length > 0) {
-                    for (var i = 0; i < html.length; i++)
-                        html[i].style.setProperty('overflow', 'hidden');
-                } else {
-                    for (var i = 0; i < html.length; i++)
-                        html[i].style.setProperty('overflow', 'auto');
-                }
-            }
+            if (nl.length == ol.length) return;           
         }
     },
     computed: {
         //最外侧样式
-        shell: function () {
-            var mobi = this.ismoblie();
-            var height = mobi ? '100vh' : '100%';
+        shell: function () {          
             return 'width:calc(100vw * ' + this.items.length + ');\
-            height: '+ height + ';position: absolute;\
+            height: 100vh;position: fixed;\
             top: 0px;left: 0px;z-index: 99999;overflow: hidden;\
-            background-color: rgba(0, 0, 0, 0.7);';
+            background-color: rgba(0, 0, 0, 0.8);';
         },
         //当前视图
         view: function () {
@@ -60,11 +47,7 @@ Vue.component('popup-notice', {
                     width = (item.No_Width < 100 ? 100 : item.No_Width) + 'px';
                     height = (item.No_Height < 100 ? 100 : item.No_Height) + 'px';
                 }
-                var shadow = 'box-shadow: -3px 0px 3px rgba(255, 255, 255, 0.6), \
-                0px -3px 3px rgba(255, 255, 255, 0.6), \
-                3px 0px 3px rgba(255, 255, 255, 0.6), \
-                0px 3px 3px rgba(255, 255, 255, 0.6);';
-                return shadow + 'width:' + width + ';height:' + height + ';\
+                return 'width:' + width + ';height:' + height + ';\
                 background-color: #fff;border-radius: 5px;overflow: hidden;margin: auto;';
             }
         },
@@ -97,7 +80,7 @@ Vue.component('popup-notice', {
                 return postion + ' position: absolute;font-size: ' + wh + 'px;line-height: ' + (wh * 0.85) + 'px;text-align: center;\
                 width: '+ wh + 'px;height: ' + wh + 'px;border-radius: 15px;z-Index:10;cursor: pointer;\
                 background-color: rgba(255, 255, 255,0.8);border: '+ color + ' solid 2px;\
-                color: '+ color + ';'+shadow;
+                color: '+ color + ';'+(mobi ? '' : shadow);
             }
         },
         //数秒的样式
