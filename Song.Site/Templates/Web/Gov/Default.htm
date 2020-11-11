@@ -9,18 +9,19 @@
     <script type="text/javascript" src="Scripts/jquery.luara.0.0.1.min.js?ver={$version}"></script>
     <link rel="stylesheet" href="Styles/lunhuan/style.css?ver={$version}" />
     <link rel="stylesheet" href="Styles/lunhuan/luara.left.css?ver={$version}" />
+    <script type="text/javascript" src="/Utility/Scripts/popup-notice.js?ver={$version}"></script>
 </head>
 <body>
     <vt:include file="inc/Header.html" />
     <div id="banner_tabs" class="flexslider">
         <ul class="slides">
             <vt:list type="showpic" var="show" site="web" item="sp" index="j">
-        <li style="background:{$:sp.shp_bgColor};"> <a title="" href="{$:sp.shp_url}"  target="{$:sp.shp_target}"> <img alt="{$:sp.shp_title}" background="{$:sp.shp_file}"  src="images/alpha.png"/> </a> </li>
-      <vt:listelse />
-      <li style="background:#93d1fa;"> <a title="" target="_blank" href="#"><img alt="" background="images/banner/1.jpg"  src="images/alpha.png"/> </a> </li>
-      <li style="background:#78bfff;"> <a title="" href="#"> <img alt="" background="images/banner/2.jpg" src="images/alpha.png"/> </a> </li>
-      <li style="background:#80cae7;"> <a title="" href="#"> <img alt="" background="images/banner/3.jpg"  src="images/alpha.png"/> </a> </li>
-      </vt:list>
+                <li style="background:{$:sp.shp_bgColor};"> <a title="" href="{$:sp.shp_url}" target="{$:sp.shp_target}"> <img alt="{$:sp.shp_title}" background="{$:sp.shp_file}" src="images/alpha.png" /> </a> </li>
+                <vt:listelse />
+                <li style="background:#93d1fa;"> <a title="" target="_blank" href="#"><img alt="" background="images/banner/1.jpg" src="images/alpha.png" /> </a> </li>
+                <li style="background:#78bfff;"> <a title="" href="#"> <img alt="" background="images/banner/2.jpg" src="images/alpha.png" /> </a> </li>
+                <li style="background:#80cae7;"> <a title="" href="#"> <img alt="" background="images/banner/3.jpg" src="images/alpha.png" /> </a> </li>
+            </vt:list>
         </ul>
         <ul class="flex-direction-nav">
             <li><a class="flex-prev" href="javascript:;">Previous</a></li>
@@ -28,12 +29,12 @@
         </ul>
         <ol id="bannerCtrl" class="flex-control-nav flex-control-paging">
             <vt:foreach from="$show" item="sp" index="j">
-        <li><a>{$:j}</a></li>
-        <vt:foreachelse />
-        <li><a>1</a></li>
-      <li><a>2</a></li>
-      <li><a>3</a></li>
-      </vt:foreach>
+                <li><a>{$:j}</a></li>
+                <vt:foreachelse />
+                <li><a>1</a></li>
+                <li><a>2</a></li>
+                <li><a>3</a></li>
+            </vt:foreach>
         </ol>
     </div>
     <script type="text/javascript">
@@ -68,48 +69,49 @@
                 </div>
                 <div class="newslist">
                     <vt:list type="notice" item="data" index="i" count="10">
-          <div class="item" noid="{$:#.data.no_id}">
-            <div class="newsItem"><a href="/notice.ashx?id={$:#.data.no_id}" title="{$:#.data.no_ttl}" target="_blank"> {$:#.data.no_ttl}</a> </div>
-            <div class="newsTime">{$:#.data.no_startTime  format="[MM-dd]"}</div>
-          </div>
-        </vt:list>
+                        <div class="item" noid="{$:#.data.no_id}">
+                            <div class="newsItem"><a href="/notice.ashx?id={$:#.data.no_id}" title="{$:#.data.no_ttl}" target="_blank"> {$:#.data.no_ttl}</a> </div>
+                            <div class="newsTime">{$:#.data.no_startTime  format="[MM-dd]"}</div>
+                        </div>
+                    </vt:list>
                 </div>
             </div>
             <div class="imgshow box">
                 <div class="example2">
                     <ul>
                         <vt:list type="news" var="newsImg" item="data" order="img" index="i" count="4" remark="图片资讯">
-            <li><a href="/article.ashx?id={$:#.data.art_id}" target="_blank"><img src="{$:#.data.art_logo}" style="width:499px; height:317px" alt="{$:i}"/> </a></li>
-          </vt:list>
+                            <li><a href="/article.ashx?id={$:#.data.art_id}" target="_blank"><img src="{$:#.data.art_logo}" style="width:499px; height:317px" alt="{$:i}" /> </a></li>
+                        </vt:list>
                     </ul>
                     <ol>
                         <vt:list from="$newsImg">
-            <li></li>
-          </vt:list>
+                            <li></li>
+                        </vt:list>
                     </ol>
                 </div>
                 <!--Luara图片切换骨架end-->
                 <script>
-        $(function(){
-            <!--调用Luara示例-->
-            $(".example2").luara({width:"500",height:"317",interval:4500,selected:"seleted",deriction:"left"});
+                    $(function () {
+                            < !--调用Luara示例-->
+                            $(".example2").luara({ width: "500", height: "317", interval: 4500, selected: "seleted", deriction: "left" });
 
-        });
+                    });
                 </script>
             </div>
             <div class="news box">
                 <div class="boxTit">
                     <div class="txt">
-                        热点资讯</div>
+                        热点资讯
+                    </div>
                     <span class="more"><a href="/news.ashx">更多&gt;&gt;</a></span>
                 </div>
                 <div class="newslist">
                     <vt:list type="news" item="data" columns="-1" index="i" count="10" remark="columns为资讯栏目Id">
-          <div class="item" artid="{$:#.data.art_id}">
-            <div class="newsItem"> <a href="../../article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}" target="_blank">{$:#.data.art_title}</a> </div>
-            <div class="newsTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
-          </div>
-        </vt:list>
+                        <div class="item" artid="{$:#.data.art_id}">
+                            <div class="newsItem"> <a href="../../article.ashx?id={$:#.data.art_id}" title="{$:#.data.art_title}" target="_blank">{$:#.data.art_title}</a> </div>
+                            <div class="newsTime">{$:#.data.art_pushTime  format="[MM-dd]"}</div>
+                        </div>
+                    </vt:list>
                 </div>
             </div>
         </div>
@@ -121,38 +123,39 @@
                 </div>
                 <div class="loginAreaBox">
                     <vt:if var="Account.Ac_id" value="0" compare=">">
-          <div class="isLoginBox">
-            <div class="loginRow">尊敬的：{$:#.Account.Ac_name} 您好！ </div>
-             <div  class="stLoginPhoto">
-             <vt:if var="Account.Ac_photo" value="" compare="="> 
-              <img src="/Utility/images/head1.jpg"/>
-              <vt:else/>
-             <img src="{$stpath}{$:#.Account.Ac_photo}"/>
-              </vt:if>
-              </div>
-            <div class="loginRow"> <a href="/Student/panel.ashx" class="btnInManage">进入学习</a> <a href="/Student/logout.ashx" class="btnLogout">退出登录</a></div>
-          </div>
-          <vt:else/>
-          <form id="student" name="student" method="post" action="/student/index.ashx" star="false">
-            <div class="loginRow">
-              <widget type="text" ico="&#xe600;"  deftxt="手机号/账号/学籍号" name="acc" class="textbox width" nullable="false"  group="login"> </widget>
-            </div>
-            <div class="loginRow">
-              <widget type="password" ico="&#xe6ed;"  deftxt="密码" name="pw" class="textbox width" nullable="false"  group="login"> </widget>
-            </div>
-            <div class="loginRow">
-              <input name="from" type="hidden" value="{$from}" />
-              <input name="succurl" type="hidden" value="/default.ashx" />
-              <input name="failurl" type="hidden" value="/student/index.ashx" />
-              <widget type="text"  ico="&#xe636;" deftxt="验证码" name="tbCode" 
-                class="textbox verify" nullable="false" lenlimit="4-4" datatype="number"   group="login"> </widget>
-              <img src="/Utility/codeimg.aspx?name=studentvcode" class="verifyCode"/> </div>
-            <div class="loginRow btnBar">
-              <input type="submit" name="btnSubmit" id="btnSubmit" value="&nbsp;&nbsp;"  verify="true"  group="login" class="btnLogin"/>
-              <vt:if var="IsRegStudent" value="false" compare="="> <a href="/student/Register.ashx" class="aRegister"> </a> </vt:if>
-            </div>
-          </form>
-        </vt:if>
+                        <div class="isLoginBox">
+                            <div class="loginRow">尊敬的：{$:#.Account.Ac_name} 您好！ </div>
+                            <div class="stLoginPhoto">
+                                <vt:if var="Account.Ac_photo" value="" compare="=">
+                                    <img src="/Utility/images/head1.jpg" />
+                                    <vt:else />
+                                    <img src="{$stpath}{$:#.Account.Ac_photo}" />
+                                </vt:if>
+                            </div>
+                            <div class="loginRow"> <a href="/Student/panel.ashx" class="btnInManage">进入学习</a> <a href="/Student/logout.ashx" class="btnLogout">退出登录</a></div>
+                        </div>
+                        <vt:else />
+                        <form id="student" name="student" method="post" action="/student/index.ashx" star="false">
+                            <div class="loginRow">
+                                <widget type="text" ico="&#xe600;" deftxt="手机号/账号/学籍号" name="acc" class="textbox width" nullable="false" group="login"> </widget>
+                            </div>
+                            <div class="loginRow">
+                                <widget type="password" ico="&#xe6ed;" deftxt="密码" name="pw" class="textbox width" nullable="false" group="login"> </widget>
+                            </div>
+                            <div class="loginRow">
+                                <input name="from" type="hidden" value="{$from}" />
+                                <input name="succurl" type="hidden" value="/default.ashx" />
+                                <input name="failurl" type="hidden" value="/student/index.ashx" />
+                                <widget type="text" ico="&#xe636;" deftxt="验证码" name="tbCode"
+                                        class="textbox verify" nullable="false" lenlimit="4-4" datatype="number" group="login"> </widget>
+                                <img src="/Utility/codeimg.aspx?name=studentvcode" class="verifyCode" />
+                            </div>
+                            <div class="loginRow btnBar">
+                                <input type="submit" name="btnSubmit" id="btnSubmit" value="&nbsp;&nbsp;" verify="true" group="login" class="btnLogin" />
+                                <vt:if var="IsRegStudent" value="false" compare="="> <a href="/student/Register.ashx" class="aRegister"> </a> </vt:if>
+                            </div>
+                        </form>
+                    </vt:if>
                 </div>
             </div>
             <!--热门课程-->
@@ -163,15 +166,18 @@
                 <div class="courseList">
                     <div class="courseListInner">
                         <vt:list type="course" item="data" index="i" count="4" order="flux" remark="课程">
-            <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}"><img src="{$:#.data.cou_logosmall}"  default="images/cou_nophoto.jpg"/> </a>
-              <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">
-              <vt:if var="data.Cou_ExistLive" value="true" compare="=" remark="直播">
-                 <div class="live" title="直播课"></div>
-                 </vt:if>{$:#.data.cou_name} </a>
-                <div class="itemDetails"><span class="hot-left count" title="访问量">{$:#.data.cou_viewNum}</span> <span class="hot-right">{$:#.data.sbj_name}</span> </div>
-              </div>
-            </div>
-          </vt:list>
+                            <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600">
+                                <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}"><img src="{$:#.data.cou_logosmall}" default="images/cou_nophoto.jpg" /> </a>
+                                <div class="itemInfo">
+                                    <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">
+                                        <vt:if var="data.Cou_ExistLive" value="true" compare="=" remark="直播">
+                                            <div class="live" title="直播课"></div>
+                                        </vt:if>{$:#.data.cou_name}
+                                    </a>
+                                    <div class="itemDetails"><span class="hot-left count" title="访问量">{$:#.data.cou_viewNum}</span> <span class="hot-right">{$:#.data.sbj_name}</span> </div>
+                                </div>
+                            </div>
+                        </vt:list>
                     </div>
                 </div>
             </div>
@@ -186,19 +192,22 @@
                 <div class="orderAreaBox">
                     <div class="exttitle">
                         <div class="col1">
-                            排名</div>
+                            排名
+                        </div>
                         <div class="col2">
-                            姓名</div>
+                            姓名
+                        </div>
                         <div class="col3">
-                            得分</div>
+                            得分
+                        </div>
                     </div>
                     <vt:foreach id="exrTag" from="$#.exr" item="data" count="5" index="i" remark="学员排行">
-          <div class="extrow">
-            <div class="col1"><img src="images/ranking0{$:i}.jpg" /></div>
-            <div class="col2">{$:#.data.ac_name}</div>
-            <div class="col3"> {$:#.data.Exr_ScoreFinal}</div>
-          </div>
-        </vt:foreach>
+                        <div class="extrow">
+                            <div class="col1"><img src="images/ranking0{$:i}.jpg" /></div>
+                            <div class="col2">{$:#.data.ac_name}</div>
+                            <div class="col3"> {$:#.data.Exr_ScoreFinal}</div>
+                        </div>
+                    </vt:foreach>
                 </div>
             </div>
             <!--课程-->
@@ -208,22 +217,25 @@
                     <span class="more"><a href="/courses.ashx">更多&gt;&gt;</a></span>
                 </div>
                 <vt:foreach from="$sbj" item="m" index="j">
-        <vt:function var="s" method="getCourses" args="$#.m.sbj_id" args="4"/>
-        <div class="courseList" style="display:none" type="area"  index="{$:j}">
-          <div class="courseListInner">
-            <vt:foreach from="$#.s" item="data" index="i" count="4" remark="课程">
-              <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}"><img src="{$:#.data.cou_logosmall}"  default="images/cou_nophoto.jpg"/> </a>
-                <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">
-                <vt:if var="data.Cou_ExistLive" value="true" compare="=" remark="直播">
-                 <div class="live" title="直播课"></div>
-                 </vt:if>{$:#.data.cou_name} </a>
-                  <div class="itemDetails"><span class="hot-left count" title="访问量">{$:#.data.cou_viewNum}</span> <span class="hot-right">{$:#.data.sbj_name}</span> </div>
-                </div>
-              </div>
-            </vt:foreach>
-          </div>
-        </div>
-      </vt:foreach>
+                    <vt:function var="s" method="getCourses" args="$#.m.sbj_id" args="4" />
+                    <div class="courseList" style="display:none" type="area" index="{$:j}">
+                        <div class="courseListInner">
+                            <vt:foreach from="$#.s" item="data" index="i" count="4" remark="课程">
+                                <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600">
+                                    <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}"><img src="{$:#.data.cou_logosmall}" default="images/cou_nophoto.jpg" /> </a>
+                                    <div class="itemInfo">
+                                        <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">
+                                            <vt:if var="data.Cou_ExistLive" value="true" compare="=" remark="直播">
+                                                <div class="live" title="直播课"></div>
+                                            </vt:if>{$:#.data.cou_name}
+                                        </a>
+                                        <div class="itemDetails"><span class="hot-left count" title="访问量">{$:#.data.cou_viewNum}</span> <span class="hot-right">{$:#.data.sbj_name}</span> </div>
+                                    </div>
+                                </div>
+                            </vt:foreach>
+                        </div>
+                    </div>
+                </vt:foreach>
             </div>
         </div>
         <!--行-->
@@ -235,24 +247,28 @@
                 <div class="orderAreaBox">
                     <div class="exttitle">
                         <div class="col1">
-                            排名</div>
+                            排名
+                        </div>
                         <div class="col2">
-                            单位</div>
+                            单位
+                        </div>
                         <div class="col3">
-                            参训率</div>
+                            参训率
+                        </div>
                         <div class="col4">
-                            平均分</div>
+                            平均分
+                        </div>
                     </div>
                     <vt:foreach id="exrdt" from="$#.exrdt" item="r" count="5" index="i" remark="学员排行">
-         <vt:if var="i" value="5" compare="<=">
-          <div class="extrow">
-            <div class="col1"><img src="images/ranking0{$:i}.jpg" /></div>
-            <div class="col2">{$:#.r.Sts_Name}</div>
-            <div class="col3"> {$:#.r.参训率}%</div>
-             <div class="col4"> {$:#.r.平均分}</div>
-          </div>
-          </vt:if>
-        </vt:foreach>
+                        <vt:if var="i" value="5" compare="<=">
+                            <div class="extrow">
+                                <div class="col1"><img src="images/ranking0{$:i}.jpg" /></div>
+                                <div class="col2">{$:#.r.Sts_Name}</div>
+                                <div class="col3"> {$:#.r.参训率}%</div>
+                                <div class="col4"> {$:#.r.平均分}</div>
+                            </div>
+                        </vt:if>
+                    </vt:foreach>
                 </div>
             </div>
             <!--课程-->
@@ -262,26 +278,32 @@
                     <span class="more"><a href="/courses.ashx">更多&gt;&gt;</a></span>
                 </div>
                 <vt:foreach from="$sbj" item="m" index="j">
-        <vt:function var="s" method="getCourses" args="$#.m.sbj_id" args="4"/>
-        <div class="courseList" style="display:none" type="area"  index="{$:j}">
-          <div class="courseListInner">
-            <vt:foreach from="$#.s" item="data" index="i" count="4" remark="课程">
-              <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}"><img src="{$:#.data.cou_logosmall}"  default="images/cou_nophoto.jpg"/> </a>
-                <div class="itemInfo"> <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">
-                <vt:if var="data.Cou_ExistLive" value="true" compare="=" remark="直播">
-                 <div class="live" title="直播课"></div>
-                 </vt:if>{$:#.data.cou_name} </a>
-                  <div class="itemDetails"><span class="hot-left count" title="访问量">{$:#.data.cou_viewNum}</span> <span class="hot-right">{$:#.data.sbj_name}</span></div>
-                </div>
-              </div>
-            </vt:foreach>
-          </div>
-        </div>
-      </vt:foreach>
+                    <vt:function var="s" method="getCourses" args="$#.m.sbj_id" args="4" />
+                    <div class="courseList" style="display:none" type="area" index="{$:j}">
+                        <div class="courseListInner">
+                            <vt:foreach from="$#.s" item="data" index="i" count="4" remark="课程">
+                                <div class="item" couid="{$:#.data.cou_id}" wd="800" hg="600">
+                                    <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}"><img src="{$:#.data.cou_logosmall}" default="images/cou_nophoto.jpg" /> </a>
+                                    <div class="itemInfo">
+                                        <a href="/course.ashx?id={$:#.data.cou_id}" title="{$:#.data.cou_name}">
+                                            <vt:if var="data.Cou_ExistLive" value="true" compare="=" remark="直播">
+                                                <div class="live" title="直播课"></div>
+                                            </vt:if>{$:#.data.cou_name}
+                                        </a>
+                                        <div class="itemDetails"><span class="hot-left count" title="访问量">{$:#.data.cou_viewNum}</span> <span class="hot-right">{$:#.data.sbj_name}</span></div>
+                                    </div>
+                                </div>
+                            </vt:foreach>
+                        </div>
+                    </div>
+                </vt:foreach>
             </div>
         </div>
         <img src="Images/ggw02.jpg" width="1196" height="100" class="rowImg" />
     </div>
     <vt:include file="inc/footer.html" />
+    <div id="notice_box" remark="通知公告的弹出" style="height:100%;" v-cloak>
+        <popup-notice forpage="web_home"></popup-notice>
+    </div>
 </body>
 </html>
