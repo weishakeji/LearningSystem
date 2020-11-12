@@ -5,38 +5,49 @@
   <div id="menuBox">
     <vt:repeat type="managemenu" item="data" marker="organAdmin">
       <vt:repeat from="$data.Childs" item="m" index="i">
-        <div class="mmitem"  mmtype="{$:m.current.mm_type}" wd="{$:m.current.MM_WinWidth}" hg="{$:m.current.MM_WinHeight}" title="{$:m.current.MM_Intro}" tax="{$:i}"  mmid="{$:m.current.MM_ID}" > 
+        <div class="mmitem" mmtype="{$:m.current.mm_type}" wd="{$:m.current.MM_WinWidth}"
+          hg="{$:m.current.MM_WinHeight}" title="{$:m.current.MM_Intro}" tax="{$:i}" mmid="{$:m.current.MM_ID}">
           <!--图标 -->
           <vt:if var="m.current.mm_icox" value="0" compare=">">
             <div class="ico" style="background-position: -{$:m.current.mm_icox}px -{$:m.current.mm_icoy}px"></div>
             <vt:else />
             <div class="ico"></div>
           </vt:if>
-          <a href="{$:m.current.MM_Link}" title=" {$:m.current.mm_name}" target="_blank" isBold="{$:m.current.mm_isbold}"> {$:m.current.mm_name}</a> </div>
+          <a href="{$:m.current.MM_Link}" title=" {$:m.current.mm_name}" target="_blank"
+            isBold="{$:m.current.mm_isbold}"> {$:m.current.mm_name}</a>
+        </div>
         <vt:if var="m.Childs.Count" value="0" compare=">">
           <div class="mmBox" style="display:none" mmtype="{$:m.current.mm_type}">
             <vt:repeat from="$m.Childs" item="m2" index="j">
-              <div class="mmitem" mmtype="{$:m2.current.mm_type}"  wd="{$:m2.current.MM_WinWidth}" hg="{$:m2.current.MM_WinHeight}" mmid="{$:m2.current.MM_ID}" title="{$:m2.current.MM_Intro}" tax="{$:i}.{$:j}"> 
+              <div class="mmitem" mmtype="{$:m2.current.mm_type}" wd="{$:m2.current.MM_WinWidth}"
+                hg="{$:m2.current.MM_WinHeight}" mmid="{$:m2.current.MM_ID}" title="{$:m2.current.MM_Intro}"
+                tax="{$:i}.{$:j}">
                 <!--图标 -->
                 <vt:if var="m2.current.mm_icox" value="0" compare=">">
-                  <div class="ico" style="background-position: -{$:m2.current.mm_icox}px -{$:m2.current.mm_icoy}px"></div>
+                  <div class="ico" style="background-position: -{$:m2.current.mm_icox}px -{$:m2.current.mm_icoy}px">
+                  </div>
                   <vt:else />
                   <div class="ico"></div>
                 </vt:if>
-                <a href="{$:m2.current.MM_Link}" title=" {$:m2.current.mm_name}" target="_blank" isBold="{$:m2.current.mm_isbold}"> {$:m2.current.mm_name}</a> </div>
+                <a href="{$:m2.current.MM_Link}" title=" {$:m2.current.mm_name}" target="_blank"
+                  isBold="{$:m2.current.mm_isbold}"> {$:m2.current.mm_name}</a>
+              </div>
               <vt:if var="m2.Childs.Count" value="0" compare=">">
                 <div class="mmBox" style="display:none" mmtype="{$:m2.current.mm_type}">
                   <vt:repeat from="$m2.Childs" item="m3" index="n">
-                    <div class="mmitem" mmtype="{$:m3.current.mm_type}" mmid="{$:m3.current.MM_ID}" 
-                 wd="{$:m3.current.MM_WinWidth}" hg="{$:m3.current.MM_WinHeight}"
-                title="{$:m3.current.MM_Intro}"  tax="{$:i}.{$:j}.{$:n}"> 
+                    <div class="mmitem" mmtype="{$:m3.current.mm_type}" mmid="{$:m3.current.MM_ID}"
+                      wd="{$:m3.current.MM_WinWidth}" hg="{$:m3.current.MM_WinHeight}" title="{$:m3.current.MM_Intro}"
+                      tax="{$:i}.{$:j}.{$:n}">
                       <!--图标 -->
                       <vt:if var="m3.current.mm_icox" value="0" compare=">">
-                        <div class="ico" style="background-position: -{$:m3.current.mm_icox}px -{$:m3.current.mm_icoy}px"></div>
+                        <div class="ico"
+                          style="background-position: -{$:m3.current.mm_icox}px -{$:m3.current.mm_icoy}px"></div>
                         <vt:else />
                         <div class="ico"></div>
                       </vt:if>
-                      <a href="{$:m3.current.MM_Link}" title=" {$:m2.current.mm_name}>>{$:m3.current.mm_name}" target="_blank" isBold="{$:m3.current.mm_isbold}"> {$:m3.current.mm_name}</a> </div>
+                      <a href="{$:m3.current.MM_Link}" title=" {$:m2.current.mm_name}>>{$:m3.current.mm_name}"
+                        target="_blank" isBold="{$:m3.current.mm_isbold}"> {$:m3.current.mm_name}</a>
+                    </div>
                   </vt:repeat>
                 </div>
               </vt:if>
@@ -44,26 +55,29 @@
           </div>
         </vt:if>
       </vt:repeat>
-      <vt:repeatelse/>
+      <vt:repeatelse />
       <p style="text-align:center">没有菜单项</p>
     </vt:repeat>
   </div>
 </div>
 <!--右侧管理区 -->
 <div id="rightArea">
-  <div class="bar">
-    <div class="menuNav"> 当前操作：<a id="menuPath" href="/admin/Startpage.ashx">启始页</a></div>
-    <div class="loginInfo"> {$:#.st.Ac_name} <a href="/admin/logout.ashx">退出</a></div>
-    <vt:if var="lic.VersionLevel" value="6" compare="<">
-      <a class="versionBox" title="当前版本" href="/license.aspx" target="_blank">{$lic.VersionName}</a>
-    </vt:if>
-  </div>
+
   <div class="lowest" mark="最低一级导航菜单">
     <div class="item"> </div>
     <div class="item"> </div>
+
   </div>
-  <iframe src="/admin/Startpage.ashx" name="adminPage" id="adminPage" style="min-height: 700px;"
-        class="frame" marginwidth="0" marginheight="0" align="top" scrolling="auto" width="988"
-        frameborder="0" allowtransparency="true">
+  <div class="righttop">
+    <div class="loginInfo">机构管理 | <a href="/admin/logout.ashx">退出</a></div>
+    <vt:if var="lic.VersionLevel" value="6" compare="<">
+      <a class="versionBox" title="当前系统的商业授权" href="/license.aspx" target="_blank">{$lic.VersionName}</a>
+    </vt:if>
+  </div>
+  <div class="bar">
+    <div class="menuNav"> 当前操作：<a id="menuPath" href="/admin/Startpage.ashx">启始页</a></div>
+  </div>
+  <iframe src="/admin/Startpage.ashx" name="adminPage" id="adminPage" class="frame" marginwidth="0" marginheight="0"
+    align="top" scrolling="auto" width="988" frameborder="0" allowtransparency="true">
   </iframe>
 </div>

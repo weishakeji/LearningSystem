@@ -23,7 +23,7 @@
                     mmbox.find(">.mmitem").css("padding-left", (15 * level) + "px");
                     //树形展开的点击事件
                     $(this).click(function () {
-                        mmbox.slideToggle("slow", function () {
+                        mmbox.slideToggle(100, function () {
                             if ($(this).is(":hidden")) $(this).prev().removeClass("open");
                             if ($(this).is(":visible")) $(this).prev().addClass("open");
                         });
@@ -152,13 +152,6 @@
             menupath = menupath == null ? menutree.getmenupath(mmid) : menupath;
             $("#menuPath").attr({ "href": url, "mmid": mmid }).html(menupath);
             menutree.loading.open();
-            try {
-                var subWeb = document.frames ? document.frames["adminPage"].document : ifm.contentDocument;
-                if (ifm != null && subWeb != null) {
-                    ifm.height = 0;
-                    ifm.focus();
-                }
-            } catch (e) { }
         },
         //预载
         loading: {
@@ -184,7 +177,7 @@
             var path = "";
             var mm = $("#menuBox .mmitem[mmid=" + mmid + "]");
             while (mm != null && mm.size() > 0) {
-                path = $.trim(mm.text()) + " <i>&gt;&gt;</i> " + path;
+                path = $.trim(mm.text()) + " <i>&gt;</i> " + path;
                 var box = mm.parent(".mmBox");
                 mm = box.size() > 0 ? box.prev(".mmitem") : null;
                 if (mm == null || mm.size() < 0) mm = null;
@@ -200,26 +193,19 @@
         //主管理区加载完成事件
         $("#adminPage").load(function () {
             window.menutree.loading.close();
-            var ifm = document.getElementById("adminPage");
-            try {
-                var subWeb = document.frames ? document.frames["adminPage"].document : ifm.contentDocument;
-                if (ifm != null && subWeb != null) {
-                    ifm.height = subWeb.body.scrollHeight;
-                    ifm.focus();
-                }
-            } catch (e) { }
         });
     });
 })();
 
 window.onload = function () {
-    //界面布局，自适应宽度
+    /*//界面布局，自适应宽度
     var left = $("#leftArea");
     //alert(left.parent().width()-left.width()-8);
     $("#rightArea").hide()
         .width(left.parent().width() - left.width() - 8)
         .fadeIn(1000).find("iframe").width($("#rightArea").width() - 20);
     //$("#rightArea .bar").width($("#rightArea").width());
+    */
 }
 //初始代码
 $(function () {
@@ -240,6 +226,6 @@ $(function () {
     });
 });
 //获取弹出窗的标题
-function getAdminTitle(){   
+function getAdminTitle() {
     return $(".menuNav").text();
 }

@@ -1,59 +1,75 @@
 @charset "utf-8";
+html,body{
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+/*头部*/
+#header{
+	border: none;
+	overflow: hidden;
+	height: 50px;
+}
+#headerTop{
+	width: calc(100% - 20px);
+	margin: 0px 10px 0px 10px;
+}
+#header .logo {
+    float: left;
+	max-height: 40px;
+	margin: 5px;   
+}
+#headerTop .topright{
+	display: none;
+}
+#Context{
+	width: 100%;
+	height: calc(100% - 50px);
+	margin: 5px 0px 0px 0px;
+}
 #leftArea {
 	float: left;
-	width: 180px;
-	display: table;
+	width: 180px;	
+	height: 100%;
+	background-color: #444;
+	box-shadow: 1px 2px 2px 0px #888;
 }
 #rightArea {
 	float: right;
-	width: 1008px;
-	min-height: 620px;
-	border: 1px solid #CCCCCC;
+	width: calc(100% - 180px - 4px);
+	height: 100%;
 	margin-right: 0px;
 	background-color: #FFFFFF;
 	padding-bottom: 10px;
+	position: relative;
 }
 .menuTitle {
-	background-color: #ff8e30;
+	background-color: #000;
 	text-align: center;
 	font-size: 16px;
-	height: 40px;
-	line-height: 40px;
-	font-weight: bold;
-	color: #FFFFFF;
+	height: 36px;
+	line-height: 36px;
+	color: #ebee47;
 	display: block;
-	letter-spacing: 0.5ex;
+	letter-spacing: 0.5ex;	
 }
 .menuTitle:hover {
 	text-decoration: none;
 }
 /*左侧菜单列表*/
 #menuBox {
-	display: table;
 	width:180px;
-	border-bottom-style: solid;
-	border-bottom-color: #E1E1E1;
-	border-bottom-width: 1px;
 }
 #menuBox .mmitem {
 	height: 40px;
 	line-height: 40px;
 	cursor: pointer;
-	background-color: #FFFFFF;
-	font-size: 15px;
-	font-weight: bold;	
-	border-top-width: 1px;
-	border-right-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 1px;
-	border-top-style: solid;
-	border-right-style: solid;
-	border-bottom-style: none;
-	border-left-style: solid;
-	border-top-color: #E1E1E1;
-	border-right-color: #E1E1E1;
-	border-bottom-color: #E1E1E1;
-	border-left-color: #E1E1E1;
+	font-size: 15px;	
+	transition: 0.5s all;
+	position: relative;
+	opacity: 0.8;
 }
 .mmitem .ico {
 	height: 20px;
@@ -67,16 +83,40 @@
 	background-repeat: no-repeat;
 	background-position: -90px -101px;
 }
-.mmitem .rightIco {
-	float: right;
-	height: 18px;
-	width: 18px;
-	margin-right: 15px;
-	background-image: url(../../Images/icon-1.png);
-	background-repeat: no-repeat;
-	background-position: -206px -205px;
-	margin-top: 11px;
+.mmitem .rightIco {	
+	display: block;
+	position: absolute;
+	right: 12px;
+	top:16px;
+	height: 0px;
+	width: 0px;	
+	color: #CCC;
+	border-style: solid dashed dashed;
+	border-color: transparent transparent   transparent #eee ;
+	border-width: 6px;
+	transition: 1s all;
 }
+
+.open .rightIco {	
+	transform:rotate(90deg);
+}
+.mmitem:hover{
+	background-color: #333;
+}
+.mmitem:hover:before {
+    content: '';
+    width: calc(100% - 7px);
+    height: calc(100% - 6px);
+    border: solid 1px rgba(160, 160, 160, 0.6);
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    z-index: 1;
+    border-radius: 3px;
+    background: rgba(200, 200, 200, 0.2);
+    box-shadow: rgba(255, 255, 255, .3) 0px 0px 10px inset;   
+}
+
 .mmitem .topTxt {
 	float: left;
 	width: auto;
@@ -87,32 +127,14 @@
 	font-size: 15px;
 	font-weight: bold;
 }
-.open a {
-	color: #000000 !important;
-}
-.open .rightIco {
-	float: right;
-	height: 18px;
-	width: 18px;
-	margin-right: 15px;
-	background-image: url(../../Images/icon-1.png);
-	background-repeat: no-repeat;
-	background-position: -206px -175px;
-	margin-top: 11px;
-}
+
 #menuBox .mmBox {
 
 }
 #menuBox a {
-	color: #333333 !important;
+	color: #eee !important;
 	text-decoration: none;
-	font-weight: bold;
 	font-size: 15px;
-}
-#menuBox a:hover {
-	color: #000000;
-	text-decoration: none;
-	font-weight: bold;
 }
 /*右侧内容区导航*/
 .bar {
@@ -121,7 +143,9 @@
 	margin-top: 0px;
 	margin-right: 0px;
 	height: 40px;
-	
+	position: absolute;
+	left: 0px;
+	top: 35px;
 }
 .bar, .bar a {
 	font-size: 15px;
@@ -141,39 +165,83 @@
 	line-height: 40px;
 	height: 40px;
 }
+.bar .menuNav::before{
+	content: '\27A4';
+	display: inline-block;
+	transform: scaleX(.5);
+	width: 15px;
+    text-align: left;
+    text-indent: -1px;
+}
 .bar .menuNav, .bar .menuNav *{
-	font-size:15px;
+	font-size:14px;
 }
 .bar .menuNav i{
-
 	font-style: normal;
 	font-size: 12px;
-	letter-spacing: 30%;
 	line-height:15px;
+	display: inline-block;
+    font-family: iconfont, sans-serif;
+	font-weight: 800;
+	width: 10px;
+    text-align: left;
+    text-indent: -1px;
+    transform: scaleX(.5);
 }
-.versionBox {
+
+/*右侧的右上角*/
+.righttop {
+	position: absolute;
+	top: 7px;
+	right: 20px;
+	width: 200px;
+	text-align: center;
+	line-height: 40px;
+}
+.righttop .loginInfo{
+	float: right;
+	height: 25px;
+	line-height: 25px;
+	color: rgb(211, 198, 14);
+	background-color: #444;
+	padding: 0px 10px 0px 10px;
+	border-radius: 2px;
+	font-size: 14px;
+	overflow: hidden;
+	cursor: default;
+}
+.righttop .loginInfo a{
+	color: #fff;
+	font-size: 14px;
+}
+.righttop .loginInfo a::before{
+	content: '\27A5';
+	margin-right: 3px;
+}
+.righttop .versionBox {
 	float: right;
 	width: 60px;
 	text-align: center;
 	color: #666 !important;
-	line-height: 20px;
-	display: block;	
-}
-.bar .loginInfo {
-	float: right;
-	width: 80px;
-	text-align: center;
-	line-height: 40px;
+	line-height: 25px;
+	height: 20px;
+	margin-top: 6px;
+	font-size: 12px;
+	display: block;		
 }
 .lowest{
-	height: 30px;
-	line-height: 30px;
+	width: 100%;
+	height: 35px;
+	line-height: 35px;
 	border-bottom-width: 1px;
 	border-top-style: none;
 	border-right-style: none;
 	border-bottom-style: solid;
 	border-left-style: none;
 	border-bottom-color: #CCC;
+	position: absolute;
+	top: 0px;
+	left: 0px;
 }
 .lowest .item{
 	float: left;
@@ -184,8 +252,7 @@
 	padding-right: 5px;
 	padding-left: 5px;
 }
-.lowest .curr{
-	font-weight: bold;
+.lowest .curr{	
 	color: #000;
 	border-top-width: 2px;
 	border-right-width: 1px;
@@ -199,16 +266,19 @@
 	border-bottom-color: #999;
 	border-left-color: #999;
 	background-color: #FFF;
-	height: 24px;
-	line-height: 25px;
-	margin-top: 5px;
+	height: 33px;
+	font-size: 16px;
+	line-height: 32px;
+	margin-top: 1px;
 	padding-right: 15px;
 	padding-left: 15px;
 }
 /*内容区域*/
-#adminPage {
-	margin-top: 10px;
-	margin-right: 10px;
-	margin-bottom: 0px;
-	margin-left: 10px;
+#adminPage {	
+	margin: 0px 10px 2px 0px;
+	width: calc(100% - 12px);
+	height: calc(100% - 80px);
+	position: absolute;
+	left: 10px;
+	bottom: 0px;
 }
