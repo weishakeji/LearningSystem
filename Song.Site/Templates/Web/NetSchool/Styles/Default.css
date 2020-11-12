@@ -123,7 +123,7 @@
 	margin: 0px;
 }
 .menubBar dl {
-	width: 950px;
+	width: calc(100% - 220px);
 	margin-right: auto;
 	margin-left: auto;
 	height: 45px;
@@ -131,11 +131,12 @@
 	margin-top: 0px;
 	margin-bottom: 0px;
 	overflow: hidden;
+	display: flex;
 	float: right;
 }
 .menubBar dl dd {
 	line-height: 45px;
-	float: left;
+	flex: 1;
 	height: 45px;
 	width: auto;
 	text-align: center;
@@ -622,9 +623,7 @@
 	height: 40px;
 }
 .course-area{
-	height: 418px;
-	margin-top: 2px;
-	
+	height: calc(100% - 41px);
 }
 .cour-panel{
 	display:none;
@@ -637,6 +636,10 @@
 	margin-left: 25px;
 	margin-bottom: 30px;
 	position:relative;
+	transition:all .5s ease-out;
+}
+.course-item:hover{
+	transform:scale(1.05);
 }
 .live{
 	background-image: url(../Images/live-icon.gif);

@@ -107,8 +107,8 @@ namespace Song.ServiceImpls
             }
             Gateway.Default.Delete<Accessory>(Accessory._.As_Uid == uid);
             //如果是视频,设置该视频所在的章节是否有视频
-            Song.Entities.Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == uid).ToFirst<Outline>();
-            if (outline != null) Business.Do<IOutline>().OutlineSave(outline);
+            //Song.Entities.Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == uid).ToFirst<Outline>();
+            //if (outline != null) Business.Do<IOutline>().OutlineSave(outline);
         }
         public void Delete(string uid, WeiSha.Data.DbTrans tran)
         {

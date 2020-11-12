@@ -49,7 +49,7 @@
                 </ItemTemplate>
             </asp:TemplateField>
              <asp:TemplateField HeaderText="时间">
-                <ItemStyle CssClass="center"   Width="150px"  />
+                <ItemStyle CssClass="center"   Width="180px"  />
                 <ItemTemplate>
                     <%# Eval("Thc_CrtTime")%>
                 </ItemTemplate>

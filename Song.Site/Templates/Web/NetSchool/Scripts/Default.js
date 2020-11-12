@@ -56,7 +56,7 @@ function courseTabs() {
         $(this).find("*[type='area']:first").show();
         $(this).find("*[type='title']:first").addClass("titleOver");
         //选项卡
-        $(this).find("*[type='title']").hover(function () {
+        $(this).find("*[type='title']").click(function () {
             //隐藏所有内容区
             $(this).parents("*[type='tab']").find("*[type='area']").hide();
             $(this).parents("*[type='tab']").find("*[type='title']").removeClass("titleOver");
@@ -64,6 +64,7 @@ function courseTabs() {
             var index = $(this).attr("index");
             $(this).parents("*[type='tab']").find("*[type='area'][index=" + index + "]").show();
             $(this).addClass("titleOver");
+            return false;
         });
     });
 }

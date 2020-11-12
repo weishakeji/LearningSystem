@@ -84,7 +84,10 @@
         setAdminpage: function (mmid) {
             var id = Number(mmid);
             if (id < 1) {
-                $(".lowest").hide();
+                //$(".lowest").hide();
+                var lowest = $(".lowest");
+                lowest.empty().show();
+                lowest.append("<div class='item curr' mmid='0'>启始页</div>");
                 var menutit = $(".menuTitle");
                 menutree.setAdminurl(menutit.attr("href"), mmid, menutit.attr("title"));
                 return;
@@ -96,18 +99,18 @@
             var mmpat = mm.parent(".mmBox");  //当前菜单的同级菜单区域块
             //情况一：节点菜单有下级
             if (mm.attr("mmtype") == "node" && mmbox.size() > 0) {
-                menutree.setLowest(mmbox, mmid, 0);
+                menutree.setLowest(mmbox, id, 0);
             }
             //情况二三
             if (mm.attr("mmtype") != "node" && mmbox.size() < 1) {
                 //情况三、本身就是最低一级
                 if (mmpat.size() > 0 && mmpat.attr("mmtype") == "node") {
                     mmbox = mm.parent(".mmBox");
-                    menutree.setLowest(mmbox, mmid, mmid);
+                    menutree.setLowest(mmbox, id, id);
                 } else {
                     //情况二：没有下级
-                    $(".lowest").hide();
-                    menutree.setAdminurl(mm, mmid);
+                    //$(".lowest").hide();
+                    menutree.setAdminurl(mm, id);
                 }
             }
         },
