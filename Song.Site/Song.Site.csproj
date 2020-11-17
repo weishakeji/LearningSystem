@@ -1561,6 +1561,11 @@
     <Content Include="Templates\Web\_Public\CourseStudy_.htm" />
     <Content Include="Templates\Web\_Public\Styles\CourseStudy_.css" />
     <Content Include="Templates\Web\_Public\Styles\CourseChat.css" />
+    <Content Include="Templates\Web\_Public\Teacher\Panel.htm" />
+    <Content Include="Templates\Web\_Public\Teacher\Scripts\panel.js" />
+    <Content Include="Templates\Web\_Public\Teacher\Startpage.htm" />
+    <Content Include="Templates\Web\_Public\Teacher\Styles\Panel.css" />
+    <Content Include="Templates\Web\_Public\Teacher\Styles\Startpage.css" />
     <Content Include="Templates\Web\_Public\Vue.htm" />
     <Content Include="Templates\Web\_Public\CourseChat.htm" />
     <Content Include="Utility\CkplayerX1\ckplayer\ckplayer.js" />

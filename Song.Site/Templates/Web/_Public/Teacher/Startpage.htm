@@ -1,0 +1,60 @@
+﻿<!doctype html>
+<html>
+<head>
+<title></title>
+<vt:include file="../inc/meta.inc" />
+<script type="text/javascript" src="/Utility/CoreScripts/highcharts.js?ver={$version}"></script>
+<link href="Styles/Startpage.css?ver={$version}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="box">
+  <div class="titBar">
+    <h1>{$org.Org_PlatformName}</h1>
+  </div>
+</div>
+<div class="box">
+  <div class="listBox" id="infoBox">
+    <div class="info">课程：{$couNum}课</div>
+    <div class="info">教师：{$thNum}人</div>
+    <div class="info">学生：{$stNum}人</div>
+    <div class="info">试题：{$qusNum}道</div>
+    <div class="info">试卷：{$testNum}个</div>
+  </div>
+</div>
+<div class="box">
+<div class="box-left">
+<dl>
+<dt>热门课程</dt>
+<vt:foreach from="$#.hotcourse" item="c" index="i" count="10" remark="热门课程">
+<dd>{$:#.i}. <a href="/course.ashx?id={$:#.c.cou_id}" target="_blank">{$:#.c.cou_name} </a></dd>
+</vt:foreach>
+</dl>
+</div>
+<div class="box-right">
+
+<dl>
+<dt>当前风格模板</dt>
+<dd>
+<vt:foreach from="$#.tempweb" item="t" index="i" remark="web端模板">
+ <vt:if var="t.isCurrent" value="true" compare="="> 
+<img src="{$:#.t.logo}" style="width:180px; height:180px;"/>
+<div class="tmpname">
+{$:#.t.name} <span class="size">({$:#.t.size})</span></div>
+<div class="alert">Web端风格</div>
+</vt:if>
+</vt:foreach>
+</dd>
+<dd>
+<vt:foreach from="$#.tempwap" item="t" index="i" remark="web端模板">
+ <vt:if var="t.isCurrent" value="true" compare="="> 
+<img src="{$:#.t.logo}" style="width:180px; height:180px;"/>
+<div class="tmpname">
+{$:#.t.name} <span class="size">({$:#.t.size})</span></div>
+<div class="alert">手机端风格</div>
+</vt:if>
+</vt:foreach></dd>
+</dl>
+</div>
+</div>
+</body>
+</html>

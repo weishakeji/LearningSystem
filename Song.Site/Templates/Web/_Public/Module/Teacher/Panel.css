@@ -1,4 +1,13 @@
 @charset "utf-8";
+#Context {
+    width: 100%;
+    margin-top: 20px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+    text-align: left;
+    display: table;
+}
 #leftArea {
 	float: left;
 	width: 180px;

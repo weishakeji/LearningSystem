@@ -23,6 +23,8 @@
 	color: #FFFFFF;
 	display: block;
 	letter-spacing: 0.5ex;
+	border-radius: 4px;
+	margin-bottom: 10px;
 }
 .menuTitle:hover {
 	text-decoration: none;
@@ -39,19 +41,7 @@
 	cursor: pointer;
 	background-color: #FFFFFF;
 	font-size: 15px;
-	font-weight: bold;	
-	border-top-width: 1px;
-	border-right-width: 1px;
-	border-bottom-width: 1px;
-	border-left-width: 1px;
-	border-top-style: solid;
-	border-right-style: solid;
-	border-bottom-style: none;
-	border-left-style: solid;
-	border-top-color: #E1E1E1;
-	border-right-color: #E1E1E1;
-	border-bottom-color: #E1E1E1;
-	border-left-color: #E1E1E1;
+	font-weight: bold;		
 }
 .mmitem .ico {
 	height: 20px;
