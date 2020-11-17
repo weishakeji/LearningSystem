@@ -173,7 +173,7 @@ dl.menubBar dd.curr a {
 	background-color: #000;
 	text-align: left;
 	font-size: 16px;
-	height: 36px;
+	height: 45px;
 	line-height: 36px;
 	color: #ebee47;
 	display: block;
@@ -281,8 +281,8 @@ dl.menubBar dd.curr a {
 #foldbtn {
 	width: 8px;
 	height: 60px;
-	border-radius: 4px;
-	background-color: red;
+	border-radius: 3px;
+	background-color: #333;
 	position: absolute;
 	right: -4px;
 	top: calc(100% / 3);

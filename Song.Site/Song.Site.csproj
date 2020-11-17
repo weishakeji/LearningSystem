@@ -1058,7 +1058,6 @@
     <Content Include="Templates\Web\Neimeng\Teacher\Register.htm" />
     <Content Include="Templates\Web\Neimeng\Teacher\Scripts\Register.js" />
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\Register.css" />
-    <Content Include="Templates\Web\NetSchool\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\NetSchool\CourseChannel.htm" />
     <Content Include="Templates\Web\NetSchool\Images\bar01.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\cou_nophoto.jpg" />
@@ -1087,10 +1086,8 @@
     <Content Include="Templates\Web\Gov\Admin\Images\login-banner.jpg" />
     <Content Include="Templates\Web\Gov\Admin\Images\main-banner.jpg" />
     <Content Include="Templates\Web\Gov\Admin\Index.htm" />
-    <Content Include="Templates\Web\Gov\Admin\Panel.htm" />
     <Content Include="Templates\Web\Gov\Admin\Scripts\Index.js" />
     <Content Include="Templates\Web\Gov\Admin\Styles\index.css" />
-    <Content Include="Templates\Web\Gov\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\Gov\Article.htm" />
     <Content Include="Templates\Web\Gov\Contactus.htm" />
     <Content Include="Templates\Web\Gov\CoreScripts\ajaxfileupload.js" />
@@ -1354,7 +1351,7 @@
     <Content Include="Templates\Web\School\CourseChannel.htm" />
     <Content Include="Templates\Web\School\Styles\CourseChannel.css" />
     <Content Include="Templates\Web\_Public\Admin\Panel.htm" />
-    <Content Include="Templates\Web\_Public\Admin\Scritps\panel.js" />
+    <Content Include="Templates\Web\_Public\Admin\Scripts\panel.js" />
     <Content Include="Templates\Web\_Public\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\_Public\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Web\_Public\CoreScripts\dexie.js" />
@@ -1465,9 +1462,6 @@
     <Content Include="Templates\Web\_Public\Module\Accounts\PwFind.css" />
     <Content Include="Templates\Web\_Public\Module\Accounts\PwFind.htm" />
     <Content Include="Templates\Web\_Public\Module\Accounts\PwFind.js" />
-    <Content Include="Templates\Web\_Public\Module\Admin\Panel.css" />
-    <Content Include="Templates\Web\_Public\Module\Admin\Panel.htm" />
-    <Content Include="Templates\Web\_Public\Module\Admin\panel.js" />
     <Content Include="Templates\Web\_Public\Module\Course\Images\liveSnapshot.jpg" />
     <Content Include="Templates\Web\_Public\Module\Course\Sheet.css" />
     <Content Include="Templates\Web\_Public\Module\Course\Buy.css" />
@@ -1696,10 +1690,8 @@
     <Content Include="Templates\Web\Neimeng\Admin\Images\login-banner.jpg" />
     <Content Include="Templates\Web\Neimeng\Admin\Images\main-banner.jpg" />
     <Content Include="Templates\Web\Neimeng\Admin\Index.htm" />
-    <Content Include="Templates\Web\Neimeng\Admin\Panel.htm" />
     <Content Include="Templates\Web\Neimeng\Admin\Scripts\Index.js" />
     <Content Include="Templates\Web\Neimeng\Admin\Styles\index.css" />
-    <Content Include="Templates\Web\Neimeng\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\Neimeng\Article.htm" />
     <Content Include="Templates\Web\Neimeng\Contactus.htm" />
     <Content Include="Templates\Web\Neimeng\CoreScripts\Base64.js" />
@@ -1842,10 +1834,8 @@
     <Content Include="Templates\Web\School\Admin\Images\login-banner.jpg" />
     <Content Include="Templates\Web\School\Admin\Images\main-banner.jpg" />
     <Content Include="Templates\Web\School\Admin\Index.htm" />
-    <Content Include="Templates\Web\School\Admin\Panel.htm" />
     <Content Include="Templates\Web\School\Admin\Scripts\Index.js" />
     <Content Include="Templates\Web\School\Admin\Styles\index.css" />
-    <Content Include="Templates\Web\School\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\School\Article.htm" />
     <Content Include="Templates\Web\School\Contactus.htm" />
     <Content Include="Templates\Web\School\CoreScripts\Base64.js" />
