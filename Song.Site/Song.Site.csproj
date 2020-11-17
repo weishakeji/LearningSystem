@@ -1300,7 +1300,6 @@
     <Content Include="Templates\Web\NetSchool\Admin\Images\login-banner.jpg" />
     <Content Include="Templates\Web\NetSchool\Admin\Images\main-banner.jpg" />
     <Content Include="Templates\Web\NetSchool\Admin\Index.htm" />
-    <Content Include="Templates\Web\NetSchool\Admin\Panel.htm" />
     <Content Include="Templates\Web\NetSchool\Admin\Scripts\Index.js" />
     <Content Include="Templates\Web\NetSchool\Admin\Styles\index.css" />
     <Content Include="Templates\Web\NetSchool\Article.htm" />
@@ -1354,6 +1353,9 @@
     <Content Include="Templates\Web\School\Styles\News.css" />
     <Content Include="Templates\Web\School\CourseChannel.htm" />
     <Content Include="Templates\Web\School\Styles\CourseChannel.css" />
+    <Content Include="Templates\Web\_Public\Admin\Panel.htm" />
+    <Content Include="Templates\Web\_Public\Admin\Scritps\panel.js" />
+    <Content Include="Templates\Web\_Public\Admin\Styles\Panel.css" />
     <Content Include="Templates\Web\_Public\CoreScripts\ajaxfileupload.js" />
     <Content Include="Templates\Web\_Public\CoreScripts\dexie.js" />
     <Content Include="Templates\Web\_Public\CoreScripts\Node.js" />
