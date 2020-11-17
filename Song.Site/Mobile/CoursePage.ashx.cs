@@ -5,6 +5,9 @@ using System.Web;
 using WeiSha.Common;
 using Song.ServiceInterfaces;
 using VTemplate.Engine;
+using System.Data;
+using WeiSha.Data;
+
 namespace Song.Site.Mobile
 {
     /// <summary>
@@ -18,6 +21,7 @@ namespace Song.Site.Mobile
         bool isBuy = false;
         protected override void InitPageTemplate(HttpContext context)
         {
+            WeiSha.Data.Gateway.Default.RegisterLogger(new logger());
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) return;
             //记录当前学习的课程
@@ -91,5 +95,39 @@ namespace Song.Site.Mobile
             }
             return null;
         }   
+    }
+
+    public class logger : WeiSha.Data.Logger.IExecuteLog
+    {
+        public void Begin(IDbCommand command)
+        {
+            System.Web.HttpContext _context = System.Web.HttpContext.Current;
+            string path = _context.Request.Url.AbsolutePath;
+
+            string sql = command.CommandText;
+            for (int i = 0; i < command.Parameters.Count; i++)
+            {
+                System.Data.SqlClient.SqlParameter para = (System.Data.SqlClient.SqlParameter)command.Parameters[i];
+                string vl = para.Value.ToString();
+                string tp = para.DbType.ToString();
+                if (tp.IndexOf("Int") > -1)
+                    sql = sql.Replace("@p" + i.ToString(), vl);
+                if (tp == "String")
+                    sql = sql.Replace("@p" + i.ToString(), "'"+vl+"'");
+                if (tp == "Boolean")
+                    sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "1" : "0");
+                if (tp == "DateTime")
+                    sql = sql.Replace("@p" + i.ToString(), "'" + ((DateTime)para.Value).ToString("yyyy/MM/dd HH:mm:ss") + "'");
+            }
+            //string t = command.Connection
+            WeiSha.Common.Log.Info(path, sql);
+            //WeiSha.Common.Log.Info(path, command.Connection.ConnectionString);
+            //throw new NotImplementedException();
+        }
+
+        public void End(IDbCommand command, ReturnValue retValue, long elapsedTime)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

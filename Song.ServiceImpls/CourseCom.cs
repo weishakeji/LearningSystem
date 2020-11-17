@@ -266,7 +266,7 @@ namespace Song.ServiceImpls
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
         public Course CourseSingle(int identify)
-        {
+        {            
             return Gateway.Default.From<Course>().Where(Course._.Cou_ID == identify).ToFirst<Course>();
         }
         /// <summary>
