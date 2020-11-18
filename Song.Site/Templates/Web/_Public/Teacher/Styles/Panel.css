@@ -13,7 +13,7 @@ html, body {
 	border: none;
 	overflow: hidden;
 	height: 50px;
-	background-color: #444;
+	background-color: #006241;
 }
 
 #headerTop {
@@ -24,9 +24,9 @@ html, body {
 #header .logo {
 	display: block;
 	height: calc(100% - 10px);
-	width: 170px;
+	width: 180px;
 	background-color: #fff;
-	margin: 5px 5px 5px 5px;
+	margin: 5px 0px 5px 0px;
 }
 
 #header .logo img {
@@ -36,8 +36,8 @@ html, body {
 
 dl.menubBar {
 	float: left;
-	width: calc(100% - 180px - 200px);
-	margin: 0px;
+	width: calc(100% - 190px - 200px);
+	margin: 0px 5px 0px 5px;
 	padding: 0px;
 	height: 100%;
 	display: flex;
@@ -63,15 +63,15 @@ dl.menubBar dd a:hover {
 }
 
 dl.menubBar dd.overMenu {
-	background-color: #b30404;
+	background-color: #367517;
 }
 
 dl.menubBar dd.overMenu a {
-	color: #09F;
+	color: #367517;
 }
 
 dl.menubBar dd.curr {
-	background-color: #b30404;
+	background-color: #367517;
 }
 
 dl.menubBar dd.curr a {
@@ -95,7 +95,7 @@ dl.menubBar dd.curr a {
 	z-index: 100;
 	opacity: 1;
 	filter: alpha(opacity=100);
-	background-color: #b30404;
+	background-color: #367517;
 }
 
 .naviItem {
@@ -134,7 +134,7 @@ dl.menubBar dd.curr a {
 }
 
 .naviHover {
-	background-color: #ff2e2e;
+	background-color: #489620;
 }
 
 .naviHover a, .naviHover span {
@@ -151,10 +151,11 @@ dl.menubBar dd.curr a {
 	float: left;
 	width: 180px;
 	height: 100%;
-	background-color: #444;
-	box-shadow: 1px 2px 2px 0px #888;
+	background-color: #006241;
+	box-shadow: 1px 2px 2px 0px #006241;
 	position: relative;
 	transition: .5s all;
+	background-image: linear-gradient(to right bottom, #006241 50%, #00422c);
 }
 
 #rightArea {
@@ -170,12 +171,12 @@ dl.menubBar dd.curr a {
 }
 
 .menuTitle {
-	background-color: #000;
+	background-color: #EC870E;
 	text-align: left;
 	font-size: 16px;
 	height: 45px;
-	line-height: 36px;
-	color: #ebee47;
+	line-height: 46px;
+	color: #000000;
 	display: block;
 }
 
@@ -183,7 +184,7 @@ dl.menubBar dd.curr a {
 	float: left;
 	width: 24px;
 	height: 24px;
-	margin: 6px 8px 0px 6px;
+	margin: 10px 12px 0px 10px;
 	border-radius: 12px;
 	box-shadow: -2px 0px 2px #fff, 0px -2px 2px #fff, 2px 0px 2px #fff, 0px 2px 2px #fff;
 }
@@ -240,21 +241,21 @@ dl.menubBar dd.curr a {
 }
 
 .mmitem:hover {
-	background-color: #333;
+	--background-color:rgba(188, 214, 205, 0.9);
 }
 
 .mmitem:hover:before {
 	content: '';
 	width: calc(100% - 7px);
 	height: calc(100% - 6px);
-	border: solid 1px rgba(160, 160, 160, 0.6);
+	border: solid 1px rgba(0, 127, 84, 0.6);
 	position: absolute;
 	left: 2px;
 	top: 2px;
 	z-index: 1;
 	border-radius: 3px;
-	background: rgba(200, 200, 200, 0.2);
-	box-shadow: rgba(255, 255, 255, .3) 0px 0px 10px inset;
+	background: rgba(0, 127, 84, 0.2);
+	box-shadow: rgba(255, 255, 255, .8) 0px 0px 3px inset;
 }
 
 .mmitem .topTxt {
@@ -282,15 +283,14 @@ dl.menubBar dd.curr a {
 	width: 8px;
 	height: 60px;
 	border-radius: 3px;
-	background-color: #333;
+	background-color: #007F54;
 	position: absolute;
 	right: -4px;
 	top: calc(100% / 3);
 	z-index: 10;
 	cursor: pointer;
-	background-image: linear-gradient(to right, #666, #333, #999);
 	border: solid 1px #ccc;
-	box-shadow: 1px 0px 1px #333;
+	box-shadow: 1px 0px 1px #007F54;
 }
 
 #foldbtn::before {
@@ -308,7 +308,6 @@ dl.menubBar dd.curr a {
 	transform: rotate(180deg) scaleX(0.3);
 	line-height: 65px;
 	text-indent: -4px;
-
 }
 
 /*右侧内容区导航*/
@@ -387,8 +386,8 @@ dl.menubBar dd.curr a {
 	float: right;
 	height: 25px;
 	line-height: 25px;
-	color: rgb(211, 198, 14);
-	background-color: #444;
+	color: rgb(0, 0, 0);
+	background-color: #EC870E;
 	padding: 0px 10px 0px 10px;
 	border-radius: 2px;
 	font-size: 14px;

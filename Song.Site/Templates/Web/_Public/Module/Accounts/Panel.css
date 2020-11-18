@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 #leftArea {
 	float: left;
 	width: 180px;
@@ -40,8 +40,7 @@
 	line-height: 40px;
 	cursor: pointer;
 	background-color: #FFFFFF;
-	font-size: 15px;
-	font-weight: bold;		
+	font-size: 16px;	
 }
 .mmitem .ico {
 	height: 20px;
@@ -94,8 +93,7 @@
 #menuBox a {
 	color: #333333 !important;
 	text-decoration: none;
-	font-weight: bold;
-	font-size: 15px;
+	font-size: 16px;
 }
 #menuBox a:hover {
 	color: #000000;

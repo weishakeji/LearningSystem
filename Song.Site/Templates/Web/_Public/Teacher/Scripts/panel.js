@@ -89,7 +89,7 @@
                 if ($(this).attr('class') == 'close') {
                     $("#leftArea").width('10px').find(">*[id!=foldbtn]").hide(500);
                     $("#rightArea").width('calc(calc(100% - 10px - 2px))');
-                }else{
+                } else {
                     $("#leftArea").width('180px').find(">*[id!=foldbtn]").show(500);
                     $("#rightArea").width('calc(calc(100% - 180px - 2px))');
                 }
@@ -124,7 +124,8 @@
                     menutree.setLowest(mmbox, id, id);
                 } else {
                     //情况二：没有下级
-                    //$(".lowest").hide();
+                    //$(".lowest").hide();                 
+                    menutree.setLowest(mm, id, id);
                     menutree.setAdminurl(mm, id);
                 }
             }
@@ -134,9 +135,13 @@
             //右侧菜单条，即最低一级菜单
             var lowest = $(".lowest");
             lowest.empty().show();
-            mmbox.find(">.mmitem").each(function () {
+            var mmitem = mmbox.find(">.mmitem");
+            if (mmitem.length == 0) mmitem = mmbox;
+
+            mmitem.each(function () {
                 lowest.append("<div class='item' mmid='" + $(this).attr("mmid") + "'>" + $.trim($(this).text()) + "</div>");
             });
+
             lowest.find(">.item").click(function () {
                 var mmid = $(this).attr("mmid");
                 var url = $().setPara(window.location.href, "mmid", mmid);

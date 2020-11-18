@@ -62,13 +62,13 @@
         <div id="leftArea">
             <div id="foldbtn"></div>
             <a class="menuTitle" mmid="0" title="启始页" href="/Admin/Startpage.ashx">
-                <vt:if var="CurrUser.Acc_Photo" value="" compare="=">
+                <vt:if var="Teacher.Th_Photo" value="" compare="=">
                     <img src="/Utility/images/head1.jpg" width="20" />
                     <vt:else />
-                    <img src="{$adminpath}{$:#.CurrUser.Acc_Photo}" default="/Utility/images/head1.jpg" />
+                    <img src="{$thpath}{$:#.Teacher.Th_Photo}" default="/Utility/images/head1.jpg" />
                 </vt:if>
 
-                {$CurrUser.Acc_Name}
+                {$Teacher.Th_Name}
             </a>
             <div id="menuBox">
                 <vt:repeat type="managemenu" item="data" marker="teacher">
@@ -145,7 +145,7 @@
 
             </div>
             <div class="righttop">
-                <div class="loginInfo">教师管理 | <a href="/admin/logout.ashx">退出</a></div>
+                <div class="loginInfo">教师管理 | <a href="/student/logout.ashx">退出</a></div>
                 <vt:if var="lic.VersionLevel" value="6" compare="<">
                     <a class="versionBox" title="当前系统的商业授权" href="/license.aspx" target="_blank">{$lic.VersionName}</a>
                 </vt:if>
