@@ -22,8 +22,8 @@
 
     <section id="entities">
         <menu id="menu">
-            <div class="tit"> <i class="el-icon-wallet"></i>
-                <i class="el-icon-loading" v-if="JSON.stringify(entities) == '{}'"></i>
+            <div class="tit"> <i class="el-icon-wallet" v-show='!loading'></i>
+                <i class="el-icon-loading" v-if="loading"></i>
                 Entities
                 <div class="searchbox"> <i class="el-icon-search"></i>
                     <form> <input type="text" name="search" id="search" autofocus v-model="entitysearch" />
@@ -32,10 +32,9 @@
             </div>
             <dl>
                 <dd v-for="(val,key,i) in entitylist">
-                    <a class='entity' :title="content(key,'mark')" :href="'#'+key">
-                        {{i+1}}. <b class='el-icon-loading' v-show='loading'></b>
-                       {{key}}
-                        <span v-html="content(key,'mark')"></span>
+                    <a class='entity' :title="val.mark" @click="current=key;index=i;entity=val;">
+                        {{i+1}}. {{key}}
+                        <span v-html="val.mark"></span>
                     </a>
                 </dd>
                 <dd v-if="listcount<1" class="noapi">
@@ -55,13 +54,13 @@
 
             </div>
             <div class="homepage">
-                <h1><i class="el-icon-loading" v-if="JSON.stringify(details) == '{}'"></i>Entities Details（数据实体的详情列表）
+                <h1>Entities Details（数据实体的详情）
                 </h1>
-                <div class="entity_area" v-for="(val,key,index) in entities">
-                    <entity :index="index" :clname="key" :properties="val" :datas="entities" :details="entityDetails(key)" :states="entityStates(key)"></entity>
-                    
+                <div class="entity_area">
+                    <entity :index="index" :clname="current" :entity="entity" :datas="entities"></entity>
+
                 </div>
-               
+
             </div>
         </context>
     </section>

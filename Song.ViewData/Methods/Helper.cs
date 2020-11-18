@@ -135,78 +135,38 @@ namespace Song.ViewData.Methods
         #endregion
 
         #region 数据字典
+        public string Entities()
+        {
+            return this.Entities(string.Empty);
+        }
         /// <summary>
         /// 数据实体
         /// </summary>
+        /// <param name="detail">实体的详情说明,json格式</param>
         /// <returns></returns>
-        public string Entities()
+        [HttpPost]
+        public string Entities(string detail)
         {
+            //读取或写入
+            string file = string.Format("{0}help\\datas\\entitiy\\entities.json", AppDomain.CurrentDomain.BaseDirectory);
+            if (!string.IsNullOrWhiteSpace(detail))
+            {
+                using (System.IO.StreamWriter f = new System.IO.StreamWriter(file, false))               
+                    f.Write(detail);               
+            }
             Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
             Type[] types = assembly.GetExportedTypes()
                 .Where(t => t.BaseType.FullName.Equals("WeiSha.Data.Entity", StringComparison.CurrentCultureIgnoreCase))
                 .ToArray();
-            JObject entities = new JObject();
-            for (int i = 0; i < types.Length; i++)
-            {
-                if (entities.ContainsKey(types[i].Name)) continue;
-                JObject pname = new JObject();
-                //获取属性
-                PropertyInfo[] properties = types[i].GetProperties();
-                string[] parray = new string[properties.Length];
-                for (int j = 0; j < properties.Length; j++)
-                {
-                    if (pname.ContainsKey(properties[j].Name)) continue;
-                    Type ptype = properties[j].PropertyType;
-                    JObject pattr = new JObject();
-                    //属性的类型名称，包括泛型
-                    if (ptype.IsGenericType && ptype.GetGenericTypeDefinition() == typeof(Nullable<>))
-                        ptype = ptype.GetGenericArguments()[0];
-                    pattr.Add("type", ptype.Name.ToLower());
-                    //属性是否可以为空
-                    pattr.Add("nullable", properties[j].PropertyType.Name.IndexOf("Nullable") >= 0);
-                    //
-                    pname.Add(properties[j].Name, pattr);
-                    parray[j] = JsonConvert.SerializeObject(pname);
-                }
-                entities.Add(types[i].Name, pname);
-            }
-            return entities.ToString();
-        }
-        /// <summary>
-        /// 实体详细说明的获取
-        /// </summary>       
-        /// <returns>返回实体详情</returns>
-        //[Admin]
-        public string EntityDetails()
-        {
-            //获取所有的实体和实体属性
-            List<string> list = new List<string>();
-            Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
-            Type[] types = assembly.GetExportedTypes()
-                .Where(t => t.BaseType.FullName.Equals("WeiSha.Data.Entity", StringComparison.CurrentCultureIgnoreCase))
-                .ToArray();
-            foreach (Type t in types)
-            {
-                if (list.Contains(t.Name)) continue;
-                list.Add(t.Name);
-                foreach (PropertyInfo p in t.GetProperties())
-                {
-                    if (list.Contains(t.Name + "." + p.Name)) continue;
-                    list.Add(t.Name + "." + p.Name);
-                }
-            }
-            //获取实体详情
             string details = string.Empty;
-            string detailfile = AppDomain.CurrentDomain.BaseDirectory + "\\help\\datas\\entities.details.txt";
-            if (!System.IO.File.Exists(detailfile))
-            {
-                System.IO.File.Create(detailfile);
-            }
-
-            details = System.IO.File.ReadAllText(detailfile);
+            if (System.IO.File.Exists(file))
+                details = System.IO.File.ReadAllText(file);
             JObject jitem = (JObject)JsonConvert.DeserializeObject(details);
             jitem = jitem == null ? new JObject() : jitem;
 
+            List<string> list = new List<string>();
+            for (int i = 0; i < types.Length; i++)            
+                list.Add(types[i].Name);
             foreach (string entity in list)
             {
                 bool isexist = false;
@@ -230,27 +190,103 @@ namespace Song.ViewData.Methods
                     jitem.Add(entity, obj);
                 }
             }
-
             details = JsonConvert.SerializeObject(jitem);
-
             return details;
+            //return list.ToArray();
         }
         /// <summary>
-        /// 实体情况的递交保存
+        /// 获取某个实体的类型
         /// </summary>
-        /// <param name="details">实体详情，如果为空，则返回全部；如果不为空，则存储</param>
+        /// <param name="name"></param>
         /// <returns></returns>
-        //[SuperAdmin]
-        [HttpPost]
-        public bool EntityDetailsUpdate(string details)
+        public string EntityField(string name)
         {
-            if (string.IsNullOrWhiteSpace(details)) return false;
-            string detailfile = AppDomain.CurrentDomain.BaseDirectory + "\\help\\datas\\entities.details.txt";
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(detailfile, false))
+            if (string.IsNullOrWhiteSpace(name)) return null;
+            Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
+            Type type = assembly.GetExportedTypes()
+                .Where(t => t.FullName.Substring(t.FullName.Length - name.Length).Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault();
+            if (type == null) return null;
+
+            JObject fields = new JObject();
+            //获取属性
+            PropertyInfo[] properties = type.GetProperties();
+            for (int j = 0; j < properties.Length; j++)
             {
-                file.Write(details);
+                if (fields.ContainsKey(properties[j].Name)) continue;
+                Type ptype = properties[j].PropertyType;
+                JObject pattr = new JObject();
+                //属性的类型名称，包括泛型
+                if (ptype.IsGenericType && ptype.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    ptype = ptype.GetGenericArguments()[0];
+                pattr.Add("type", ptype.Name.ToLower());
+                //属性是否可以为空
+                pattr.Add("nullable", properties[j].PropertyType.Name.IndexOf("Nullable") >= 0);
+                //
+                fields.Add(properties[j].Name, pattr);
             }
-            return true;
+            return fields.ToString();
+        }
+        /// <summary>
+        /// 实体详细说明的获取
+        /// </summary>       
+        /// <param name="name">实体名称</param>
+        /// <param name="detail">实体的详情说明,json格式</param>
+        /// <returns>返回实体详情</returns>
+        //[Admin]
+        [HttpPost]
+        public string EntityDetails(string name, string detail)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return null;
+            Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
+            Type type = assembly.GetExportedTypes()
+                .Where(t => t.FullName.Substring(t.FullName.Length - name.Length).Equals(name, StringComparison.CurrentCultureIgnoreCase))
+                .FirstOrDefault();
+            if (type == null) return null;
+            //读取或写入
+            string file = string.Format("{0}help\\datas\\Entitiy\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, name);
+            if (!string.IsNullOrWhiteSpace(detail))
+            {
+                using (System.IO.StreamWriter f = new System.IO.StreamWriter(file, false))
+                    f.Write(detail);
+            }
+            string details = string.Empty;
+            if (System.IO.File.Exists(file))
+                details = System.IO.File.ReadAllText(file);
+
+            //获取实体和实体属性的名称
+            List<string> list = new List<string>();            
+            foreach (PropertyInfo p in type.GetProperties())
+                list.Add(p.Name);
+
+            JObject jitem = (JObject)JsonConvert.DeserializeObject(details);
+            jitem = jitem == null ? new JObject() : jitem;
+            foreach (string entity in list)
+            {
+                bool isexist = false;
+                if (jitem.Count > 0)
+                {
+                    JToken record = jitem;
+                    foreach (JProperty jp in record)
+                    {
+                        if (jp.Name.Equals(entity, StringComparison.OrdinalIgnoreCase))
+                        {
+                            isexist = true;
+                            break;
+                        }
+                    }
+                }
+                if (!isexist)
+                {
+                    JObject obj = new JObject();
+                    obj.Add("mark", "");
+                    obj.Add("intro", "");
+                    obj.Add("relation", "");
+                    jitem.Add(entity, obj);
+                }
+            }
+            details = JsonConvert.SerializeObject(jitem);
+            return details;
         }
         #endregion
 
