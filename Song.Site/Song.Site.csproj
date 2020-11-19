@@ -251,7 +251,6 @@
     <Content Include="Help\API\Scripts\API.js" />
     <Content Include="Help\API\Scripts\Default.js" />
     <Content Include="Help\API\Styles\API.css" />
-    <Content Include="Help\Datas\entities.details.txt" />
     <Content Include="Help\Datas\Index.htm" />
     <Content Include="Help\Datas\Scripts\index.js" />
     <Content Include="Help\Datas\Styles\index.css" />
@@ -6588,6 +6587,7 @@
     <Content Include="Ajax\SelfCourse.ashx" />
     <Content Include="Ajax\SelfStudyLog.ashx" />
     <Content Include="API\API.ashx" />
+    <Content Include="Help\Datas\Entitiy\entities.json" />
     <None Include="Manage\DataTemplate\课程章节.xls" />
     <Content Include="Mobile\ExamReview.ashx" />
     <Content Include="Mobile\MyFriends.ashx" />

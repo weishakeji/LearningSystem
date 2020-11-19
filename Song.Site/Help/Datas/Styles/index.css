@@ -222,7 +222,7 @@ context>h1 {
     height: 40px;
     line-height: 40px;
     padding-left: 10px;
-    padding: 0px 0px 0 40px;
+    padding: 0px 0px 0 20px;
     background-color: #eee;
 }
 
@@ -268,10 +268,10 @@ context>h1>span.hidden {
     padding: 10px 0px 20px 0px;
 }
 .homepage p {
-    padding: 10px 20px 0 40px;
+    padding: 10px 20px 0 20px;
     margin: 0px;
     font-size: 16px;
-    line-height: 25px;
+    line-height: 30px;
     text-indent: 30px;
 }
 
@@ -298,8 +298,9 @@ footer a:hover {
 /*实体详情区域*/
 
 .entity_area {
-    margin: 0px 10px 0px 40px;
-    height: calc(100% - 40px);
+    margin: 0px 5px 0px 20px;
+    padding: 0px 15px 10px 0px;
+    height: calc(100% - 50px);
     overflow-y: auto;
 }
 
