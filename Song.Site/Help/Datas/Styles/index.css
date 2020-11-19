@@ -17,6 +17,85 @@ section {
     width: 100%;
 }
 
+#mask {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/*预载效*/
+
+#mask #loading {
+    width: 100px;
+    height: 100px;
+    margin: calc(100% / 3) auto 0px auto;
+    position: relative;
+}
+
+#mask b {
+    display: block;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 20px;
+    color: #fff;
+    text-shadow: 1px 0 1px #8B4513, 0 1px 1px #8B4513, 0 -1px 1px #8B4513, -1px 0 1px #8B4513;
+}
+
+#mask span {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: rgb(30, 30, 31);
+    animation: bounce 0.4s infinite linear;
+}
+
+#mask span:nth-child(1) {
+    left: 0;
+    animation-delay: 0s;
+}
+
+#mask span:nth-child(2) {
+    left: 20px;
+    animation-delay: 0.1s;
+}
+
+#mask span:nth-child(3) {
+    left: 40px;
+    animation-delay: 0.2s;
+}
+
+#mask span:nth-child(4) {
+    left: 60px;
+    animation-delay: 0.3s;
+}
+
+#mask span:nth-child(5) {
+    left: 80px;
+    animation-delay: .4s;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0px);
+        opacity: 0.5;
+    }
+    50% {
+        transform: translateY(-30px);
+        opacity: 1.0;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 0.5;
+    }
+}
+
 menu {
     width: 300px;
     height: 100%;
@@ -37,6 +116,7 @@ menu .tit {
     line-height: 40px;
     padding-left: 10px;
     font-weight: bold;
+    background-color: #eee;
 }
 
 menu .tit i {
@@ -85,7 +165,6 @@ menu .tit .searchbox i {
 
 #menu .entity {
     display: block;
-    background-color: #eee;
     line-height: 35px;
     padding-left: 15px;
     cursor: pointer;
@@ -137,11 +216,57 @@ context {
     overflow-y: auto;
 }
 
-.homepage h1 {
-    font-size: 25px;
-    margin: 20px 10px 10px 40px;
+context>h1 {
+    font-size: 16px;
+    margin: 0px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+    padding: 0px 0px 0 40px;
+    background-color: #eee;
 }
 
+context>h1>span {
+    display: block;
+    float: right;
+    margin-right: 30px;
+    width: 40px;
+    height: 40px;
+    line-height: 50px;
+    font-size: 30px;
+    cursor: pointer;
+    transition: 0.5s all;    
+}
+context>h1>span>i{
+    width: 40px;
+    height: 40px;
+    display: block;
+}
+context>h1>span>i::before {
+    line-height: 40px;
+    display: block;
+}
+
+context>h1>span.show {  
+    transform:rotate(0deg); 
+}
+context>h1>span.hidden {    
+    transform:rotate(-90deg);
+}
+.homepage{
+    transform-origin: 0 0;
+    display: block;
+    position: absolute;
+    width: calc(100% - 305px);
+    top: 40px;
+    right: 0px;
+    background-color: #eee;
+    overflow: hidden;
+    transition: 0.3s opacity, 0.5s transform;
+    z-index: 100;
+    box-shadow: 0px 3px 3px #ccc;
+    padding: 10px 0px 20px 0px;
+}
 .homepage p {
     padding: 10px 20px 0 40px;
     margin: 0px;
@@ -155,7 +280,7 @@ footer {
     line-height: 30px;
     text-indent: 10px;
     font-size: 12px;
-    background: #ccc;
+    background-color: #eee;
     position: absolute;
     bottom: 0px;
     width: 100%;
@@ -174,6 +299,8 @@ footer a:hover {
 
 .entity_area {
     margin: 0px 10px 0px 40px;
+    height: calc(100% - 40px);
+    overflow-y: auto;
 }
 
 .entity_area a.anchor {
@@ -241,9 +368,12 @@ footer a:hover {
     color: #666;
 }
 
+.name i, .intro i {
+    margin-right: 4px;
+}
+
 .entity_area .intro {
     margin: 0px 10px 10px 0px;
-    font-size: 15px;
     line-height: 25px;
 }
 
@@ -264,9 +394,11 @@ table td {
     line-height: 30px;
     background-color: #fff;
 }
-table td textarea{
+
+table td textarea {
     width: 100%;
 }
+
 table tr th {
     text-align: center;
     background-color: #ccc;

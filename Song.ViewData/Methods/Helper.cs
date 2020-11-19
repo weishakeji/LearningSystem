@@ -145,6 +145,7 @@ namespace Song.ViewData.Methods
         /// <param name="detail">实体的详情说明,json格式</param>
         /// <returns></returns>
         [HttpPost]
+        [SuperAdmin]
         public string Entities(string detail)
         {
             //读取或写入
@@ -233,7 +234,18 @@ namespace Song.ViewData.Methods
         /// <param name="name">实体名称</param>
         /// <param name="detail">实体的详情说明,json格式</param>
         /// <returns>返回实体详情</returns>
-        //[Admin]
+        [HttpGet]
+        public string EntityDetails(string name)
+        {
+            return this.EntityDetails(name, string.Empty);
+        }
+        /// <summary>
+        /// 实体详细说明的获取
+        /// </summary>       
+        /// <param name="name">实体名称</param>
+        /// <param name="detail">实体的详情说明,json格式</param>
+        /// <returns>返回实体详情</returns>
+        [SuperAdmin]
         [HttpPost]
         public string EntityDetails(string name, string detail)
         {
