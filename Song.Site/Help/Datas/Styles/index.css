@@ -264,7 +264,9 @@ table td {
     line-height: 30px;
     background-color: #fff;
 }
-
+table td textarea{
+    width: 100%;
+}
 table tr th {
     text-align: center;
     background-color: #ccc;
@@ -300,7 +302,7 @@ table tr td:nth-child(5) {
 }
 
 table tr td:nth-child(6) {
-    width: 100px;
+    width: 120px;
     text-align: center;
 }
 

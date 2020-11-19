@@ -33,8 +33,12 @@
         }
     },
     watch: {
-        'current': function (nl, ol) {
-            console.log(nl);
+        'entities': {
+            deep: true,
+            handler: function (nval, oval) {
+                if (JSON.stringify(oval) != "{}")
+                    this.update();
+            }
         }
     },
     created: function () {
@@ -78,18 +82,19 @@
 // 实体详情
 Vue.component('entity', {
     //依次：索引，当前实体名称，当前实体对象，所有实体对象
-    props: ['index', 'clname', 'entity', 'datas', 'states'],
+    props: ['index', 'clname', 'entity', 'datas'],
     data: function () {
-        // data 选项是一个函数，组件不相互影响
         return {
             search: '',
             properties: {},      //实体的属性
             details: {},         //实体的属性说明
-            editstates: {},   //编辑状态,临时数据     
-            //编辑状态    
-            editor: {
-                mark: false,
-                intro: false
+            //编辑状态,临时数据
+            states: {
+                update: false,       //是否更新
+                intro: false,        //实体的介绍，与属性不在一起存储
+                mark: false
+                //各个字段的状态
+                //如：Ac_ID:{mark:false, intro:false, relation:false}
             }
         }
     },
@@ -97,53 +102,50 @@ Vue.component('entity', {
     },
     watch: {
         'clname': function (val, old) {
-            this.getField(val);
             this.getDetails(val);
         },
         'search': function (val, old) {
             //console.log(val);
         },
-        'editor': {
-            deep: true,
-            handler: function (nval, oval) {
-                if (!nval.mark && !nval.intro)
-                    vapp.update();
-            }
-        },
         //当props中的states赋值时，传递给组件内部的editstates
-        'states': {
+        'details': {
             deep: true,
-            immediate: true,
+            //immediate: true,
             handler: function (nval, oval) {
-                this.editstates = nval;
+                if (this.states['update']) this.updateDetails();
             }
         }
     },
     mounted() {
-        this.getField(this.clname);
         this.getDetails(this.clname);
     },
     methods: {
-        //获取字段信息
-        getField: function (clname) {
+        //获取详细信息
+        getDetails: function (clname) {
             var th = this;
-            $api.get('Helper/EntityField', { 'name': clname }).then(function (req) {
-                if (req.data.success) {
-                    th.properties = req.data.result;
-                } else {
-                    throw req.data.message;
-                }
-            }).catch(function (err) {
+            $api.bat(
+                $api.get('Helper/EntityField', { 'name': clname }), //获取字段（属性）
+                $api.get('Helper/EntityDetails', { 'name': clname, 'detail': '' })  //字段说明
+            ).then(axios.spread(function (field, detal) {
+                if (field.data.success) th.properties = field.data.result;
+                if (detal.data.success) th.details = detal.data.result;
+                Vue.set(th.states, 'update', false);
+            })).catch(function (err) {
                 alert(err);
                 console.error(err);
             });
         },
-        //获取详细信息
-        getDetails: function (clname) {
+        //更新详细信息
+        updateDetails: function () {
             var th = this;
-            $api.get('Helper/EntityDetails', { 'name': clname, 'detail': '' }).then(function (req) {
+            $api.post('Helper/EntityDetails', { 'name': this.clname, 'detail': this.details }).then(function (req) {
                 if (req.data.success) {
-                    th.details = req.data.result;
+                    th.$notify({
+                        title: '保存成功',
+                        message: '数据实体的描述信息保存成功！',
+                        type: 'success'
+                    });
+                    Vue.set(th.states, 'update', false);
                 } else {
                     throw req.data.message;
                 }
@@ -153,55 +155,41 @@ Vue.component('entity', {
             });
         },
         //--------------------------------
-        //获取实体的详情对象
-        detail: function (name) {
-            var obj = {};
-            for (var t in this.details) {
-                var key = Object.keys(this.details[t])[0];
-                if (key == name) {
-                    obj = this.details[t];
-                    break;
-                }
-            }
-            return obj;
-        },
-        //实体的详情，cont为内容类型，mark或intro
-        entityDetail: function (cont) {
-
-        },
-        //实体编辑状态，cont同上
-        entityState: function (cont) {
-
-        },
-        //获取内容，name:实体或字段名称，cont:内容类型
-        content: function (name, cont, html) {
-            var item = this.detail(name);
-            if (!item[name]) return "";
-            var text = item[name][cont] ? item[name][cont] : "";
+        //获取内容，attr:实体或字段名称，cont:内容类型
+        text: function (attr, cont, html) {
+            var item = this.details[attr];
+            var text = !!item[cont] ? item[cont] : "";
             if (html == null || !html) return text;
             text = text.replace(/\n/g, "<br/>");
             return text;
         },
-        //实体详情的标注,name:实体名称，cont:内容类型,state:是否编辑状态
-        state: function (name, cont, state) {
-            if (state != null) this.editstates[name][cont] = state;
-            if (!!this.editstates[name] && this.editstates[name][cont])
-                return this.editstates[name][cont];
-            return null;
+        //实体详情的标注,attr:实体属性,state:是否编辑状态
+        state: function (attr, state) {
+            if (this.states == null) this.states = {};
+            if (state != null) Vue.set(this.states, attr, state);
+            if (!!this.states[attr])
+                return this.states[attr];
+            return false;
         },
         //进入编辑状态
-        edit: function (name, cont) {
-            this.state(name, cont, true);
+        edit: function (attr) {
+            this.state(attr, true);
             window.setTimeout(function () {
-                document.getElementById(cont + '_' + name).focus();
+                document.getElementById(attr).focus();
             }, 200);
         },
         //退出编辑状态
-        leave: function (name, cont) {
-            var item = this.detail(name);
-            var val = document.getElementById(cont + '_' + name).value;
-            item[name][cont] = val;
-            this.state(name, cont, false);
+        leave: function (attr) {
+            var val = document.getElementById(attr).value;
+            if (attr.indexOf('.') > -1) {
+                var prefix = attr.substring(0, attr.indexOf('.'));
+                var suffix = attr.substring(attr.indexOf('.') + 1);
+                this.details[prefix][suffix] = val;
+                Vue.set(this.states, 'update', true);
+            } else {
+                this.entity[attr] = val;
+            }
+            this.state(attr, false);
         },
         //复制到粘贴板
         copy: function (val) {
@@ -228,18 +216,18 @@ Vue.component('entity', {
     template: '<div><a :name="clname" class="anchor">&nbsp;</a>\
     <div class="name">\
         {{index+1}}. <span @dblclick="copy(clname)">{{clname}}</span>\
-        <span class="mark" v-show="!editor.mark" @click="editor.mark=true">\
+        <span class="mark" v-show="!state(\'mark\')" @click="edit(\'mark\')">\
         <i class="el-icon-edit"></i><span>{{entity.mark}}</span></span>\
-        <span v-show="editor.mark"><i class="el-icon-edit"></i>\
-        <input type="text" v-model="entity.mark" @keyup.enter="editor.mark=false" @blur="editor.mark=false" />\
+        <span v-show="state(\'mark\')"><i class="el-icon-edit"></i>\
+        <input type="text" :value="entity.mark" id="mark" @keyup.enter="leave(\'mark\')" @blur="leave(\'mark\')" />\
         </span>\
         <div class="psearch"><input type="text" v-model="search" /><i class="el-icon-search"></i></div>\
     </div>\
     <div class="intro">\
-        <span class="intro_text" v-show="!editor.intro" @click="editor.intro=true">\
+        <span class="intro_text" v-show="!state(\'intro\')" @click="edit(\'intro\')">\
         <i class="el-icon-edit"></i>说明：<div v-html="entity.intro"></div></span>\
-        <span v-show="editor.intro"><i class="el-icon-edit"></i> 说明：<br />\
-        <textarea rows="3" style="width: 100%;" v-model="entity.intro" @blur="editor.intro=false"></textarea>\
+        <span v-show="state(\'intro\')"><i class="el-icon-edit"></i> 说明：<br />\
+        <textarea rows="3" style="width: 100%;"  id="intro" :value="entity.intro" @blur="leave(\'intro\')"></textarea>\
         </span>\
     </div>\
     <table border="0">\
@@ -249,9 +237,25 @@ Vue.component('entity', {
         <td v-html="$options.filters.show(k,search)" @dblclick="copy(k)"></td>\
         <td>{{v.type}}</td>\
         <td>{{v.nullable ? v.nullable : \'\'}}</td>\
-        <td>{{v.relation}}</td>\
-        <td>{{v.mark}}</td>\
-        <td>{{v.intro}}</td>\
+        <td @dblclick="edit(k+\'.relation\')" mark="关联">\
+            <span v-if="!state(k+\'.relation\')">{{text(k,\'relation\')}}</span>\
+            <select  v-if="state(k+\'.relation\')" :id="k+\'.relation\'"\
+                :value="text(k,\'relation\')" @blur="leave(k+\'.relation\')"\
+                @change="leave(k+\'.relation\')">\
+                <option value=""></option>\
+                <option :value="key" v-for="(val,key,index) in datas">{{key}}</option>\
+            </select>\
+        </td >\
+        <td @dblclick="edit(k+\'.mark\')"  mark="备注">\
+            <span v-if="!state(k+\'.mark\')" v-html="$options.filters.show(text(k,\'mark\',true),search)"></span>\
+            <textarea rows="3" v-if="state(k+\'.mark\')" :id="k+\'.mark\'"\
+            :value="text(k,\'mark\')" @blur="leave(k+\'.mark\')"></textarea>\
+        </td>\
+        <td @dblclick="edit(k+\'.intro\')"  mark="说明">\
+            <span v-if="!state(k+\'.intro\')" v-html="$options.filters.show(text(k,\'intro\',true),search)"></span>\
+            <textarea rows="3" v-if="state(k+\'.intro\')" :id="k+\'.intro\'"\
+            :value="text(k,\'intro\')" @blur="leave(k+\'.intro\')"></textarea>\
+        </td>\
         </table >\
     </div>'
 });
