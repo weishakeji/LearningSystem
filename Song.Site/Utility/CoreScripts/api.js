@@ -159,7 +159,7 @@
                 }
             }
             //如果两个参数，为写入，第一个为键，第二个为值
-            if (arguments.length === 2) {               
+            if (arguments.length === 2) {
                 if (value != null) {
                     var v = typeof value == 'object' ? 'obj-' + JSON.stringify(value) : 'str-' + value;
                     var ls = uzStorage();
@@ -217,14 +217,11 @@
                 key += JSON.stringify(para);
             }
             key = key.toLowerCase();
-            console.log(key);
             var obj = this.storage(key);
             if (arguments.length <= 2) {
                 if (obj == null) return null;
                 var expires = new Date(obj['expires']);
-                if (expires >= new Date()) {
-                    return obj.value;
-                }
+                if (expires >= new Date()) return obj.value;
                 return null;
             } else {
                 if (obj == null) obj = {};
@@ -356,7 +353,7 @@
                 if (loading != null) loading(config);
                 //在发送请求之前做某件事
                 if (config.custom_method == 'get') {
-                    config.parameters=config.params;
+                    config.parameters = config.params;
                     //克隆参数对象，因为上传的参数要escape转码，需要保留原数据类型
                     var tmpObj = new Object();
                     for (var d in config.params) {
@@ -372,9 +369,9 @@
                         }
                         tmpObj[d] = escape(config.params[d]);
                     }
-                    config.params = tmpObj;                   
+                    config.params = tmpObj;
                 } else {
-                    config.parameters=config.data;
+                    config.parameters = config.data;
                     var formData = new FormData();
                     for (var d in config.data) {
                         var typeName = methods.getType(config.data[d]);
