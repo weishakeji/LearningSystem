@@ -37,18 +37,18 @@ namespace Song.ViewData
         /// </summary>
         /// <param name="letter"></param>
         /// <returns></returns>
-        public static object CreateInstance(Letter letter)
+        public static IViewAPI CreateInstance(Letter letter)
         {
             string assemblyName = "Song.ViewData";
             string classFullName = String.Format("{0}.Methods.{1}", assemblyName, letter.ClassName);
-            object obj = null;
+            IViewAPI obj = null;
             //由缓存中查找，是否存在
             ExecuteMethod curr = ExecuteMethod.GetInstance();
             foreach (KeyValuePair<string, object> kv in curr._objects)
             {
                 if (classFullName.Trim().Equals(kv.Key, StringComparison.CurrentCultureIgnoreCase))
                 {
-                    obj = kv.Value;
+                    obj = (IViewAPI)kv.Value;
                     break;
                 }
             }
@@ -70,10 +70,14 @@ namespace Song.ViewData
             if (type == null) throw new Exception(
                 string.Format("调用的对象'{0}'不存在, 可能是'{1}'拼写错误",
                 classFullName, letter.ClassName));
-            obj = System.Activator.CreateInstance(type);    //创建对象
+            obj = (IViewAPI)System.Activator.CreateInstance(type);    //创建对象
             //记录到缓存
             if (!ExecuteMethod.GetInstance()._objects.ContainsKey(type.FullName))
-                ExecuteMethod.GetInstance()._objects.Add(type.FullName, obj);
+                ExecuteMethod.GetInstance()._objects.Add(type.FullName, obj);       
+           if(obj is ViewMethod)
+            {
+                ((ViewMethod)obj).Letter = letter;
+            }
             return obj;
         }
         #endregion
@@ -86,7 +90,7 @@ namespace Song.ViewData
         public static object Exec(Letter letter)
         {
             //1.创建对象,即$api.get("account/single")中的account
-            object execObj = ExecuteMethod.CreateInstance(letter);
+            IViewAPI execObj = ExecuteMethod.CreateInstance(letter);
             //2.获取要执行的方法，即$api.get("account/single")中的single
             MethodInfo method = getMethod(execObj.GetType(), letter);
             //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限    

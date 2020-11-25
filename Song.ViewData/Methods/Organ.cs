@@ -13,7 +13,7 @@ namespace Song.ViewData.Methods
     /// 机构管理
     /// </summary>
     [HttpGet]
-    public class Organ : IViewAPI
+    public class Organ : ViewMethod, IViewAPI
     {
         /// <summary>
         /// 通过机构id获取机构信息

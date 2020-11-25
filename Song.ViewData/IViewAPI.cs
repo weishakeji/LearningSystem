@@ -11,5 +11,6 @@ namespace Song.ViewData
     /// </summary>
     public interface IViewAPI
     {
+        
     }
 }

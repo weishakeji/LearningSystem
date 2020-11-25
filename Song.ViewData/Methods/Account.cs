@@ -12,12 +12,12 @@ using WeiSha.Common;
 
 namespace Song.ViewData.Methods
 {
-    
+
     /// <summary>
     /// 管理账号
     /// </summary>
     [HttpGet]
-    public class Account : IViewAPI
+    public class Account : ViewMethod, IViewAPI
     {
         /// <summary>
         /// 根据ID查询学员账号
@@ -26,8 +26,8 @@ namespace Song.ViewData.Methods
         /// <param name="id"></param>
         /// <returns>学员账户的映射对象</returns>    
         public Song.Entities.Accounts ForID(int id)
-        {
-            Song.Entities.Accounts acc= Business.Do<IAccounts>().AccountsSingle(id);
+        {          
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(id);
             return _tran(acc);
         }
         /// <summary>
@@ -60,7 +60,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts[] ForName(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new Exception("学员名称不得为空");
-            Song.Entities.Accounts[] accs= Business.Do<IAccounts>().Account4Name(name);
+            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().Account4Name(name);
             if (accs == null) return accs;
             for (int i = 0; i < accs.Length; i++)
             {
@@ -178,7 +178,7 @@ namespace Song.ViewData.Methods
         {
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             int sum = 0;
-            Song.Entities.StudentSort[] accs = Business.Do<IStudent>().SortPager(org.Org_ID, true, null, size, index, out sum);           
+            Song.Entities.StudentSort[] accs = Business.Do<IStudent>().SortPager(org.Org_ID, true, null, size, index, out sum);
             Song.ViewData.ListResult result = new ListResult(accs);
             result.Index = index;
             result.Size = size;

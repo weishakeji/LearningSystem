@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 课程学习中的咨询留言，可作为弹幕
     /// </summary>
-    public class Message : IViewAPI
+    public class Message : ViewMethod, IViewAPI
     {
         ///// <summary>
         ///// 添加留言

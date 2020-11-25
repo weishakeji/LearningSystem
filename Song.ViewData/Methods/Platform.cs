@@ -14,7 +14,7 @@ namespace Song.ViewData.Methods
     /// 平台信息
     /// </summary>
     [HttpGet]
-    public class Platform : IViewAPI
+    public class Platform : ViewMethod, IViewAPI
     {
         /// <summary>
         /// 授权信息

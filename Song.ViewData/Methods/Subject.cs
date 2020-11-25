@@ -17,7 +17,7 @@ namespace Song.ViewData.Methods
     /// 专业管理
     /// </summary>
     [HttpGet]
-    public class Subject : IViewAPI
+    public class Subject : ViewMethod, IViewAPI
     {
         /// <summary>
         /// 通过专业ID，获取专业信息

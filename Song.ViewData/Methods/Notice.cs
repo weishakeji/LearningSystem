@@ -13,7 +13,7 @@ namespace Song.ViewData.Methods
     /// 通知公告
     /// </summary>
     [HttpGet]
-    public class Notice : IViewAPI
+    public class Notice : ViewMethod, IViewAPI
     {
         /// <summary>
         /// 通过机构id获取机构信息

@@ -22,7 +22,7 @@ namespace Song.ViewData.Methods
     /// 接口方法的帮助
     /// </summary> 
     [HttpGet]
-    public class Helper : IViewAPI
+    public class Helper : ViewMethod, IViewAPI
     {
         #region 接口说明
         /// <summary>
@@ -32,7 +32,7 @@ namespace Song.ViewData.Methods
         [HttpPost]
         [Cache]
         public Helper_API[] List()
-        {
+        {           
             List<Helper_API> list = new List<Helper_API>();
             string assemblyName = "Song.ViewData";
             Assembly assembly = Assembly.Load(assemblyName);

@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// 课程管理
     /// </summary>
     [HttpGet]
-    public class Course : IViewAPI
+    public class Course : ViewMethod, IViewAPI
     {
         /// <summary>
         /// 根据课程ID获取课程信息

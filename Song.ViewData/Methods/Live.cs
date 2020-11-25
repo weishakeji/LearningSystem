@@ -15,7 +15,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 直播
     /// </summary>
-    public class Live : IViewAPI
+    public class Live : ViewMethod, IViewAPI
     {
         /// <summary>
         /// 记录直播的各种设置项

@@ -21,7 +21,7 @@ namespace Song.ViewData.Methods
     /// 章节信息
     /// </summary>
     [HttpGet, HttpPut]
-    public class Outline : IViewAPI
+    public class Outline : ViewMethod, IViewAPI
     {
         /// <summary>
         /// 获取章节
