@@ -21,6 +21,7 @@ namespace Song.ViewData.Attri
         /// <returns></returns>
         public static HttpAttribute Verify(string httpmethod, MemberInfo method)
         {
+            if ("cache".Equals(httpmethod,StringComparison.CurrentCultureIgnoreCase)) return null;
             //如果方法没有设置任何HTTP限制，则不验证
             List<HttpAttribute> https = WeishaAttr.GetAttrs<HttpAttribute>(method);
             if (https.Count < 1) return null;
