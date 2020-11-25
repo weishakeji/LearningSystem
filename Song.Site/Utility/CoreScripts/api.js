@@ -159,7 +159,7 @@
                 }
             }
             //如果两个参数，为写入，第一个为键，第二个为值
-            if (arguments.length === 2) {
+            if (arguments.length === 2) {               
                 if (value != null) {
                     var v = typeof value == 'object' ? 'obj-' + JSON.stringify(value) : 'str-' + value;
                     var ls = uzStorage();
@@ -208,6 +208,32 @@
                     }
                 }
                 return cookieValue;
+            }
+        },
+        //本地接口缓存,value两个属性
+        clientcache: function (way, para, value) {
+            var key = 'cache_' + way.replace(/\//g, "_");
+            if (para != null && JSON.stringify(para) != '{}') {
+                key += JSON.stringify(para);
+            }
+            key = key.toLowerCase();
+            console.log(key);
+            var obj = this.storage(key);
+            if (arguments.length <= 2) {
+                if (obj == null) return null;
+                var expires = new Date(obj['expires']);
+                if (expires >= new Date()) {
+                    return obj.value;
+                }
+                return null;
+            } else {
+                if (obj == null) obj = {};
+                obj['value'] = value;
+                var time = new Date();
+                time.setMinutes(time.getMinutes() + 10);
+                obj['expires'] = time;
+                this.storage(key, obj);
+                return value;
             }
         },
         //记录或获取登录状态值
@@ -278,7 +304,7 @@
         };
         //当前api要请求的服务端接口的版本号
         this.version = version == null ? config.versionDefault : version;
-        var httpverb = ['get', 'post', 'delete', 'put', 'patch', 'options'];
+        var httpverb = ['get', 'post', 'delete', 'put', 'patch', 'options', 'cache'];
         for (var i = 0; i < httpverb.length; i++) {
             var el = httpverb[i];
             var tm = "this." + el + " = function (way, parameters,loading,loaded) {return this.query(way, parameters, '" + el + "',loading,loaded,'json');}";
@@ -289,6 +315,16 @@
         //way:接口方法
         //returntype:返回数据的类型，Json或xml
         this.query = function (way, parameters, method, loading, loaded, returntype) {
+            if (method == 'cache') {
+                var cache = $api.clientcache(way, parameters);
+                if (cache != null) {
+                    var promise = new Promise(function (resolve, reject) {
+                        resolve(cache);
+                        //reject(new Error('错误了吗'));
+                    });
+                    return promise;
+                }
+            }
             var url = methods.url(this.version, way);
             if (arguments.length < 2 || parameters == null) parameters = {};
             if (arguments.length < 3 || method == null || method == '') method = 'get';
@@ -298,6 +334,8 @@
             //创建axiso对象
             var instance = axios.create({
                 method: method != 'get' ? 'post' : 'get',
+                custom_method: method,
+                way: way,
                 url: url,
                 headers: {
                     'X-Custom-Header': 'weishakeji',
@@ -317,7 +355,26 @@
                 if (loading == null) loading = self.loadeffect.before;
                 if (loading != null) loading(config);
                 //在发送请求之前做某件事
-                if (config.method != 'get') {
+                if (config.custom_method == 'get') {
+                    config.parameters=config.params;
+                    //克隆参数对象，因为上传的参数要escape转码，需要保留原数据类型
+                    var tmpObj = new Object();
+                    for (var d in config.params) {
+                        var typeName = methods.getType(config.params[d]);
+                        if (typeName == 'Date') {
+                            tmpObj[d] = config.params[d].getTime();
+                            continue;
+                        }
+                        //json值，序列化为字符串
+                        if (typeName === 'Object') {
+                            tmpObj[d] = escape(JSON.stringify(config.params[d]));
+                            continue;
+                        }
+                        tmpObj[d] = escape(config.params[d]);
+                    }
+                    config.params = tmpObj;                   
+                } else {
+                    config.parameters=config.data;
                     var formData = new FormData();
                     for (var d in config.data) {
                         var typeName = methods.getType(config.data[d]);
@@ -334,23 +391,6 @@
 
                     }
                     config.data = formData;
-                } else {
-                    //克隆参数对象，因为上传的参数要escape转码，需要保留原数据类型
-                    var tmpObj = new Object();
-                    for (var d in config.params) {
-                        var typeName = methods.getType(config.params[d]);
-                        if (typeName == 'Date') {
-                            tmpObj[d] = config.params[d].getTime();
-                            continue;
-                        }
-                        //json值，序列化为字符串
-                        if (typeName === 'Object') {
-                            tmpObj[d] = escape(JSON.stringify(config.params[d]));
-                            continue;
-                        }
-                        tmpObj[d] = escape(config.params[d]);
-                    }
-                    config.params = tmpObj;
                 }
                 return config;
             }, function (error) {
@@ -378,6 +418,9 @@
                             }
                         }
                     }
+                }
+                if (response.config.custom_method == 'cache') {
+                    $api.clientcache(response.config.way, response.config.parameters, response);
                 }
                 //计算执行耗时
                 if (response.data) {
@@ -503,7 +546,7 @@ Date.parse = function (str) {
     var year = parseInt(dateStrs[0], 10);
     var month = parseInt(dateStrs[1], 10) - 1;
     var day = parseInt(dateStrs[2], 10);
-    var timeStrs = time.split(':');   
+    var timeStrs = time.split(':');
     var hour = parseInt(timeStrs[0], 10);
     var minute = parseInt(timeStrs[1], 10);
     var second = parseInt(timeStrs[2], 10);
