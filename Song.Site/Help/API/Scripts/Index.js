@@ -2,7 +2,7 @@
     el: '#menu',
     data: {
         apisearch: '',
-        list: [] //接口列表
+        list: [] //接口列表       
     },
     methods: {
         homeClick: function () {
@@ -54,11 +54,12 @@ Vue.component('methods', {
         //方法的点击事件
         methodClick: function (method) {
             rvue.method = method;
+            rvue.helpshow = false;
         }
     },
     created: function () {
         var name = this.name;
-        var th = this;       
+        var th = this;
         $api.cache("helper/Methods:86400", {
             classname: name
         }).then(function (req) {
@@ -92,7 +93,8 @@ var rvue = new Vue({
     data: {
         method: null, //接口方法对象
         loading: false, //调用接口时的状态
-        showcode: false //显示代码
+        showcode: false, //显示代码
+        helpshow: true
     },
     watch: {
         method: function (n, o) {
@@ -173,16 +175,30 @@ var rvue = new Vue({
             alert(err);\r\
             console.error(err);\r});";
             //jsstr = rvue.jsonformat(jsstr, false);
-            document.getElementById("teststring").innerText = jsstr;
-            document.getElementById("input_teststring").innerText = jsstr;
+            document.getElementById("teststring").innerText = jsstr;          
+            return jsstr;
         },
         //复制测试代码
-        btnCopyEvent: function () {
-            var jsstr = document.getElementById("teststring").innerText;
-            var input = document.getElementById("input_teststring");
-            input.value = jsstr; // 修改文本框的内容
-            input.select(); // 选中文本
-            document.execCommand('copy');
+        btnCopyEvent: function () {          
+            this.copy(this.teststring(),'textarea');        
+        },
+        //复制api路径
+        copyApipath: function (clname, method) {
+            this.copy(clname + '/' + method);
+        },
+        //复制到粘贴板
+        copy: function (val, textbox) {
+            if (textbox == null) textbox = 'input';
+            var oInput = document.createElement(textbox);
+            oInput.value = val;
+            document.body.appendChild(oInput);
+            oInput.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令           
+            oInput.style.display = 'none';
+            this.$message({
+                message: '复制 “' + val + '” 到粘贴板',
+                type: 'success'
+            });
         },
         //获取录入的参数
         getInputPara: function () {
@@ -237,6 +253,7 @@ var rvue = new Vue({
                 padIdx += indent;
                 //console.log('index:' + index + ',indent:' + indent + ',padIdx:' + padIdx + ',node-->' + node);
             });
+            //formatted=formatted.replace(/\r\n/g, '<br/>');
             return formatted;
         },
         //xml格式化

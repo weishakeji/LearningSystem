@@ -240,11 +240,14 @@
                 if (obj == null) obj = {};
                 //过期时效，默认10分钟
                 var duration = 10;
-                console.log(way);
                 if (active != '') {
                     if (active == 'clear') return null;
                     else
                         if (!isNaN(Number(active))) duration = Number(active);
+                    if (active == 'update') {
+                        var item = obj[key];
+                        duration = item.duration;
+                    }
                 }
                 var time = new Date();
                 time.setMinutes(time.getMinutes() + duration);

@@ -248,8 +248,8 @@
     <Content Include="Download\DesktopApp\readme.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Help\API\Index.htm" />
-    <Content Include="Help\API\Scripts\API.js" />
     <Content Include="Help\API\Scripts\Default.js" />
+    <Content Include="Help\API\Scripts\Index.js" />
     <Content Include="Help\API\Styles\API.css" />
     <Content Include="Help\Datas\Index.htm" />
     <Content Include="Help\Datas\Scripts\index.js" />
