@@ -25,7 +25,7 @@
     },
     created: function () {
         var th = this;
-        $api.cache("helper/List:86400").then(function (req) {
+        $api.cache("helper/List:20").then(function (req) {
             if (req.data.success) {
                 th.list = req.data.result;
             } else {
@@ -58,7 +58,7 @@ Vue.component('methods', {
     },
     created: function () {
         var name = this.name;
-        var th = this;
+        var th = this;       
         $api.cache("helper/Methods:86400", {
             classname: name
         }).then(function (req) {

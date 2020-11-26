@@ -29,7 +29,7 @@ namespace Song.ViewData.Methods
         /// 接口方法列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost][HttpGet][HttpPut]
         [Cache]
         public Helper_API[] List()
         {           

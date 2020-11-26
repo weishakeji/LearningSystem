@@ -213,34 +213,51 @@
         },
         //本地接口缓存,way:api请求路径,para：请求参数,value:api的返回值
         apicache: function (way, para, value) {
-            var name = 'cache_' + way.replace(/\//g, "_").toLowerCase();
-            var key = para == null || JSON.stringify(para) == '{}' ? 'null' : JSON.stringify(para).toLowerCase();
+            //接口缓存名称，缓存指令，缓存项的名称
+            var name, active = '', key;
+            if (way.indexOf(":") > -1) {
+                active = way.substring(way.indexOf(':') + 1);
+                way = way.substring(0, way.indexOf(":"));
+            }
+            name = 'cache_' + way.replace(/\//g, "_").toLowerCase();
+            key = para == null || JSON.stringify(para) == '{}' ? 'nothing' : JSON.stringify(para).toLowerCase();
             key = key.replace(/\{|\}|\"/g, "").replace(/:/g, "_");
             //
             var obj = this.storage(name);
             if (arguments.length <= 2) {
                 if (obj == null || !obj[key]) return null;
+                if (active == 'update') return null;
+                if (active == 'clear') {
+                    delete obj[key];
+                    this.storage(name, obj);
+                    return null;
+                }
                 var item = obj[key];
                 var expires = new Date(item['expires']);
                 if (expires >= new Date()) return item.value;
                 return null;
             } else {
                 if (obj == null) obj = {};
-                if (!!value['config']) {
-                    if (!!value['config']['auth']) delete value['config']['auth'];
-                    if (!!value['config']['headers']) delete value['config']['headers'];
-                }
-                if (!!value['headers']) delete value['headers'];
                 //过期时效，默认10分钟
-                var expires = 10;
-                if (way.indexOf(':') > -1) {
-                    var tm = way.substring(way.indexOf(':') + 1);
-                    if (!isNaN(Number(tm))) expires = Number(tm);
+                var duration = 10;
+                console.log(way);
+                if (active != '') {
+                    if (active == 'clear') return null;
+                    else
+                        if (!isNaN(Number(active))) duration = Number(active);
                 }
                 var time = new Date();
-                time.setMinutes(time.getMinutes() + expires);
+                time.setMinutes(time.getMinutes() + duration);
+                if (value != null) {
+                    if (!!value['config']) {
+                        if (!!value['config']['auth']) delete value['config']['auth'];
+                        if (!!value['config']['headers']) delete value['config']['headers'];
+                    }
+                    if (!!value['headers']) delete value['headers'];
+                }
                 obj[key] = {
                     'value': value,
+                    'duration': duration,
                     'expires': time
                 };
                 this.storage(name, obj);
