@@ -210,26 +210,28 @@
                 return cookieValue;
             }
         },
-        //本地接口缓存,value两个属性
+        //本地接口缓存,way:api请求路径,para：请求参数,value:api的返回值
         clientcache: function (way, para, value) {
-            var key = 'cache_' + way.replace(/\//g, "_");
-            if (para != null && JSON.stringify(para) != '{}') {
-                key += JSON.stringify(para);
-            }
-            key = key.toLowerCase();
-            var obj = this.storage(key);
+            var name = 'cache_' + way.replace(/\//g, "_").toLowerCase();
+            var key = para == null || JSON.stringify(para) == '{}' ? 'null' : JSON.stringify(para).toLowerCase();
+            key = key.replace(/\{|\}|\"/g, "").replace(/:/g, "_");
+            //
+            var obj = this.storage(name);
             if (arguments.length <= 2) {
-                if (obj == null) return null;
-                var expires = new Date(obj['expires']);
-                if (expires >= new Date()) return obj.value;
+                if (obj == null || !obj[key]) return null;
+                var item = obj[key];
+                var expires = new Date(item['expires']);
+                if (expires >= new Date()) return item.value;
                 return null;
             } else {
                 if (obj == null) obj = {};
-                obj['value'] = value;
                 var time = new Date();
                 time.setMinutes(time.getMinutes() + 10);
-                obj['expires'] = time;
-                this.storage(key, obj);
+                obj[key] = {
+                    'value': value,
+                    'expires': time
+                };
+                this.storage(name, obj);
                 return value;
             }
         },
@@ -416,7 +418,8 @@
                         }
                     }
                 }
-                if (response.config.custom_method == 'cache') {
+                //如果要缓存接口数据，返回成功才会被缓存
+                if (response.config.custom_method == 'cache' && response.data.success) {
                     $api.clientcache(response.config.way, response.config.parameters, response);
                 }
                 //计算执行耗时
