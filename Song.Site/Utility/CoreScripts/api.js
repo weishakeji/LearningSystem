@@ -28,6 +28,7 @@
         //way:api方法名，如/api/v1/[account/del]
         url: function (version, way) {
             if (way === undefined) throw 'api名称不得为空';
+            if (way.indexOf(':') > -1) way = way.substring(0, way.indexOf(':'));
             var url = config.pathUrl.replace("{0}", version);
             //调用地址的根路径可以在此处理，（如果需要跨多台服务器请求的话）
             if (config.baseURL != '') url = config.baseURL + url;
@@ -211,7 +212,7 @@
             }
         },
         //本地接口缓存,way:api请求路径,para：请求参数,value:api的返回值
-        clientcache: function (way, para, value) {
+        apicache: function (way, para, value) {
             var name = 'cache_' + way.replace(/\//g, "_").toLowerCase();
             var key = para == null || JSON.stringify(para) == '{}' ? 'null' : JSON.stringify(para).toLowerCase();
             key = key.replace(/\{|\}|\"/g, "").replace(/:/g, "_");
@@ -225,8 +226,19 @@
                 return null;
             } else {
                 if (obj == null) obj = {};
+                if (!!value['config']) {
+                    if (!!value['config']['auth']) delete value['config']['auth'];
+                    if (!!value['config']['headers']) delete value['config']['headers'];
+                }
+                if (!!value['headers']) delete value['headers'];
+                //过期时效，默认10分钟
+                var expires = 10;
+                if (way.indexOf(':') > -1) {
+                    var tm = way.substring(way.indexOf(':') + 1);
+                    if (!isNaN(Number(tm))) expires = Number(tm);
+                }
                 var time = new Date();
-                time.setMinutes(time.getMinutes() + 10);
+                time.setMinutes(time.getMinutes() + expires);
                 obj[key] = {
                     'value': value,
                     'expires': time
@@ -315,7 +327,7 @@
         //returntype:返回数据的类型，Json或xml
         this.query = function (way, parameters, method, loading, loaded, returntype) {
             if (method == 'cache') {
-                var cache = $api.clientcache(way, parameters);
+                var cache = $api.apicache(way, parameters);
                 if (cache != null) {
                     var promise = new Promise(function (resolve, reject) {
                         resolve(cache);
@@ -400,7 +412,8 @@
             });
             //添加响应拦截器（即返回之后）
             instance.interceptors.response.use(function (response) {
-                response.text = response.data;
+                //保留未解析为json之前的数据
+                //response.text = response.data;
                 //如果返回的数据是字符串，这里转为json
                 if (response.config.returntype == "json") {
                     if (typeof (response.data) == 'string') {
@@ -420,7 +433,7 @@
                 }
                 //如果要缓存接口数据，返回成功才会被缓存
                 if (response.config.custom_method == 'cache' && response.data.success) {
-                    $api.clientcache(response.config.way, response.config.parameters, response);
+                    $api.apicache(response.config.way, response.config.parameters, response);
                 }
                 //计算执行耗时
                 if (response.data) {

@@ -5,13 +5,13 @@
         list: [] //接口列表
     },
     methods: {
-        homeClick: function() {
+        homeClick: function () {
             rvue.method = null;
         }
     },
     computed: {
         // 计算属性的 getter
-        apilist: function() {
+        apilist: function () {
             var search = this.apisearch;
             if (search == '') return this.list;
             var arr = new Array();
@@ -23,16 +23,16 @@
             return arr;
         }
     },
-    created: function() {
+    created: function () {
         var th = this;
-        $api.cache("helper/List").then(function(req) {
+        $api.cache("helper/List:86400").then(function (req) {
             if (req.data.success) {
                 th.list = req.data.result;
             } else {
                 alert(req.data.message);
             }
         });
-        window.setTimeout(function() {
+        window.setTimeout(function () {
             document.getElementById("apisearch").focus();
         }, 1000);
     }
@@ -43,7 +43,7 @@
 Vue.component('methods', {
     // 声明 props，用于向组件传参
     props: ['name', 'intro', 'index'],
-    data: function() {
+    data: function () {
         return {
             methods: [], //方法列表
             loading: true, //预载中
@@ -52,16 +52,16 @@ Vue.component('methods', {
     },
     methods: {
         //方法的点击事件
-        methodClick: function(method) {
+        methodClick: function (method) {
             rvue.method = method;
         }
     },
-    created: function() {
+    created: function () {
         var name = this.name;
         var th = this;
-        $api.cache("helper/Methods", {
+        $api.cache("helper/Methods:86400", {
             classname: name
-        }).then(function(req) {
+        }).then(function (req) {
             if (req.data.success) {
                 th.methods = req.data.result;
                 th.loading = false;
@@ -95,20 +95,20 @@ var rvue = new Vue({
         showcode: false //显示代码
     },
     watch: {
-        method: function(n, o) {
+        method: function (n, o) {
             var ele = document.getElementById("testresult");
             if (ele != null) ele.innerText = "";
             var inputs = Array.from(document.querySelectorAll("#context table input"));
-            inputs.forEach(function(item) {
+            inputs.forEach(function (item) {
                 item.value = "";
             });
-            window.setTimeout(function() {
+            window.setTimeout(function () {
                 rvue.teststring();
             }, 200);
         }
     },
     computed: {
-        parameter: function() {
+        parameter: function () {
             var fullname = this.method.FullName;
             var name = this.method.Name;
             if (fullname.indexOf('(') > -1) {
@@ -126,19 +126,19 @@ var rvue = new Vue({
         }
     },
     methods: {
-        testapi: function() {
+        testapi: function () {
             var mathd = this.method.ClassName + "/" + this.method.Name;
             var params = this.getInputPara();
             var http = document.getElementById("httppre").value;
             var rettype = document.getElementById("returntype").value;
             //调用
-            $api.query(mathd, eval("(" + params + ")"), http, function() {
+            $api.query(mathd, eval("(" + params + ")"), http, function () {
                 rvue.loading = true;
-            }, function() {
-                window.setTimeout(function() {
+            }, function () {
+                window.setTimeout(function () {
                     rvue.loading = false;
                 }, 500);
-            }, rettype).then(function(req) {
+            }, rettype).then(function (req) {
                 var ele = document.getElementById("testresult");
                 if (req == null) throw {
                     message: '没有获取到返回值，可能是服务器端错误'
@@ -146,16 +146,16 @@ var rvue = new Vue({
                 if (req.config.returntype == "json")
                     ele.innerText = $api.trim(rvue.jsonformat(unescape(JSON.stringify(req.data)), true));
                 if (req.config.returntype == "xml")
-                    ele.innerText = $api.trim(rvue.xmlformat(unescape(req.text)));
+                    ele.innerText = $api.trim(rvue.xmlformat(unescape(req.data)));
 
-            }).catch(function(ex) {
+            }).catch(function (ex) {
                 //alert(ex.message);
                 var ele = document.getElementById("testResult");
                 ele.innerText = ex.message;
             });
         },
         //生成测试代码
-        teststring: function() {
+        teststring: function () {
             var mathd = this.method.ClassName + "/" + this.method.Name;
             var params = this.getInputPara();
             var http = document.getElementById("httppre").value;
@@ -177,7 +177,7 @@ var rvue = new Vue({
             document.getElementById("input_teststring").innerText = jsstr;
         },
         //复制测试代码
-        btnCopyEvent: function() {
+        btnCopyEvent: function () {
             var jsstr = document.getElementById("teststring").innerText;
             var input = document.getElementById("input_teststring");
             input.value = jsstr; // 修改文本框的内容
@@ -185,10 +185,10 @@ var rvue = new Vue({
             document.execCommand('copy');
         },
         //获取录入的参数
-        getInputPara: function() {
+        getInputPara: function () {
             var arr = new Array();
             var inputs = Array.from(document.querySelectorAll("#context table input"));
-            inputs.forEach(function(item) {
+            inputs.forEach(function (item) {
                 var name = item.getAttribute("name");
                 var val = item.value;
                 arr.push("'" + name + "':'" + val + "'");
@@ -203,7 +203,7 @@ var rvue = new Vue({
         },
         //json字符格式化
         //isbrace:花括号是否换行，true换行
-        jsonformat: function(json, isbrace) {
+        jsonformat: function (json, isbrace) {
             var formatted = '', //转换后的json字符串
                 padIdx = 0, //换行后是否增减PADDING的标识
                 PADDING = '    '; //4个空格符
@@ -226,7 +226,7 @@ var rvue = new Vue({
             /** 
              * 根据split生成数据进行遍历，一行行判断是否增减PADDING
              */
-            (json.split('\r\n')).forEach(function(node, index) {
+            (json.split('\r\n')).forEach(function (node, index) {
                 var indent = 0,
                     padding = '';
                 if (node.match(/\{$/) || node.match(/\[$/)) indent = 1;
@@ -240,7 +240,7 @@ var rvue = new Vue({
             return formatted;
         },
         //xml格式化
-        xmlformat: function(text) {
+        xmlformat: function (text) {
             //计算头函数 用来缩进
             function setPrefix(prefixIndex) {
                 var result = '';
@@ -253,18 +253,18 @@ var rvue = new Vue({
                 return result;
             }
             //使用replace去空格
-            text = '\n' + text.replace(/(<\w+)(\s.*?>)/g, function($0, name, props) {
+            text = '\n' + text.replace(/(<\w+)(\s.*?>)/g, function ($0, name, props) {
                 return name + ' ' + props.replace(/\s+(\w+=)/g, " $1");
             }).replace(/>\s*?</g, ">\n<");
             //处理注释
-            text = text.replace(/\n/g, '\r').replace(/<!--(.+?)-->/g, function($0, text) {
+            text = text.replace(/\n/g, '\r').replace(/<!--(.+?)-->/g, function ($0, text) {
                 var ret = '<!--' + escape(text) + '-->';
                 return ret;
             }).replace(/\r/g, '\n');
             //调整格式  以压栈方式递归调整缩进
             var rgx = /\n(<(([^\?]).+?)(?:\s|\s*?>|\s*?(\/)>)(?:.*?(?:(?:(\/)>)|(?:<(\/)\2>)))?)/mg;
             var nodeStack = [];
-            var output = text.replace(rgx, function($0, all, name, isBegin, isCloseFull1, isCloseFull2, isFull1, isFull2) {
+            var output = text.replace(rgx, function ($0, all, name, isBegin, isCloseFull1, isCloseFull2, isFull1, isFull2) {
                 var isClosed = (isCloseFull1 == '/') || (isCloseFull2 == '/') || (isFull1 == '/') || (isFull2 == '/');
                 var prefix = '';
                 if (isBegin == '!') { //!开头
@@ -286,7 +286,7 @@ var rvue = new Vue({
             var prefixSpace = -1;
             var outputText = output.substring(1);
             //还原注释内容
-            outputText = outputText.replace(/\n/g, '\r').replace(/(\s*)<!--(.+?)-->/g, function($0, prefix, text) {
+            outputText = outputText.replace(/\n/g, '\r').replace(/(\s*)<!--(.+?)-->/g, function ($0, prefix, text) {
                 if (prefix.charAt(0) == '\r')
                     prefix = prefix.substring(1);
                 text = unescape(text).replace(/\r/g, '\n');
@@ -297,7 +297,7 @@ var rvue = new Vue({
             return outputText;
         }
     },
-    created: function() {
+    created: function () {
 
     }
 });
