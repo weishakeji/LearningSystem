@@ -92,32 +92,34 @@
 
                         </div>
                         <div class="testbox" v-if="method!=null" remark="测试接口">
-                              <div class="test-tit">HTTP谓词：
-                                    <select id="httppre" v-on:change="teststring()">
-                                          <option value="get">GET</option>
-                                          <option value="post">POST</option>
-                                          <option value="delete">DELETE</option>
-                                          <option value="put">PUT</option>
-                                          <option value="patch">PATHCH</option>
-                                          <option value="options">OPTIONS</option>
-                                    </select>
-                                    返回：
-                                    <select id="returntype">
-                                          <option value="json">JSON</option>
-                                          <option value="xml">XML</option>
-                                    </select>
+                              <div class="test-tit">
+                                    <div class="test-func">HTTP方法：
+                                          <select id="httppre" v-on:change="teststring()">
+                                                <option value="get">GET</option>
+                                                <option value="post">POST</option>
+                                                <option value="delete">DELETE</option>
+                                                <option value="put">PUT</option>
+                                                <option value="patch">PATHCH</option>
+                                                <option value="options">OPTIONS</option>
+                                                <option value="cache">CACHE</option>
+                                          </select>
+                                          返回：
+                                          <select id="returntype">
+                                                <option value="json">JSON</option>
+                                                <option value="xml">XML</option>
+                                          </select>
+                                    </div>
+                                    <div class="test-btn">
+                                          <div v-on:click="testapi">
+                                                <span v-show="!loading">测试</span>
+                                                <span v-show='loading'> <i class='el-icon-loading'></i> 加载中...</span>
+                                          </div>                                        
+                                          <div v-on:click="btnCopyEvent">复制js脚本</div>
+                                          <div v-on:click="showcode=!showcode" v-html="showcode ? '隐藏脚本' : '显示脚本'">
 
-                                    <button type="button" v-on:click="testapi">
-                                          <span v-show="!loading">测试</span>
-                                          <span v-show='loading'> <i class='el-icon-loading'></i> 加载中...</span>
-                                    </button>
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                    <button id="btnCopy" v-on:click="btnCopyEvent">复制js脚本</button>
-                                    <button id="btnShow" v-on:click="showcode=!showcode"
-                                          v-html="showcode ? '隐藏脚本' : '显示脚本'">
-
-                                    </button>
-                              </div>                            
+                                          </div>
+                                    </div>
+                              </div>
                               <div id="testarea">
                                     <div v-show="showcode">
                                           <span id="apiurl"></span>

@@ -79,18 +79,21 @@ menu dl::-webkit-scrollbar {
     /*高宽分别对应横竖滚动条的尺寸*/
     height: 1px;
 }
-menu dl::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
 
+menu dl::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
     border-radius: 3px;
-     -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
+    -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
     background: #808080;
 }
 
-menu dl::-webkit-scrollbar-track {/*滚动条里面轨道*/
+menu dl::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
     -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
     border-radius: 3px;
     background: #EDEDED;
 }
+
 #menu {}
 
 #menu .methods {
@@ -219,6 +222,7 @@ context>h1>span.hidden {
     width: 100%;
     height: calc(100% - 40px);
     overflow-y: auto;
+    overflow-x: hidden;
     position: absolute;
     top: 40px;
     left: 0px;
@@ -302,38 +306,55 @@ context>h1>span.hidden {
     float: right;
     width: calc(100% - 50px);
 }
-
+.testbox{
+    width: calc(100% - 20px);
+}
 .test-tit {
     height: 40px;
     line-height: 40px;
     background: #ccc;
-    width: 100%;
-    text-indent: 20px;
+    width: calc(100% - 20px);
+    padding: 0px 20px 0px 20px;
     position: relative;
+}
+
+.test-tit>* {
+    float: left;
+}
+
+.test-tit .test-func {
+    width: 300px;
+}
+
+.test-tit .test-btn {
+    width: calc(100% - 300px);
+    display: flex;
 }
 
 .test-tit select {
     height: 30px;
-    min-width: 60px;
+    width: 60px;
     margin-right: 10px;
 }
 
-.test-tit button {
+.test-tit .test-btn>* {
+    flex: 1;
     height: 30px;
-    width: 90px;
+    line-height: 30px;
+    text-align: center;
+    margin-top: 5px;
     margin-left: 10px;
-    border-radius: 5px;
+    border-radius: 2px;
     background-color: #eee;
     cursor: pointer;
+    box-shadow: 1px 1px 2px #666;
+    overflow: hidden;
+    font-size: 14px;
 }
 
-.test-tit button:hover {
+.test-tit .test-btn>*:hover {
     background-color: rgb(166, 228, 163);
     box-shadow: 1px 1px 1px #999;
-}
-
-.test-tit button:first-child {
-    margin-right: 50px;
 }
 
 fieldset {
@@ -341,11 +362,11 @@ fieldset {
 }
 
 #testarea {
-    width: calc(100% - 60px);
+    width: calc(100% - 0px);
     display: table;
     word-wrap: break-word;
     word-break: break-all;
-    padding: 10px 30px 10px 30px;
+    padding: 10px 30px 10px 0px;
     margin: 0px;
 }
 
