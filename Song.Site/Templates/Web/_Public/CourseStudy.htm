@@ -5,7 +5,7 @@
       <title>课程学习</title>
       <vt:include file="inc/meta_api.inc" />
       <script type="text/javascript" src="/Utility/CoreScripts/MessageBox.js?ver={$version}"></script>
-      <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/MessageBox.css?ver={$version}"/>
+      <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/MessageBox.css?ver={$version}" />
       <script type="text/javascript" src="/Utility/Qiniuyun/qiniu-web-player-1.2.3.js"></script>
       <link href="Styles/CourseStudy.css?ver={$version}" rel="stylesheet" type="text/css" />
 </head>
@@ -33,12 +33,13 @@
                         <div id="btnKnowledge" v-if="state.isKnl" v-on:click="knlClick">知识库</div>
                         <div class="oltitle">
                               <a v-if="titState== 'loading'" class="titCurr">加载中...</a>
-                              <a v-if="(state.isNull   || !state.canStudy) && titState != 'loading' " v-on:click="titState='isNull'"
+                              <a v-if="(state.isNull   || !state.canStudy) && titState != 'loading' "
+                                    v-on:click="titState='isNull'"
                                     :class="titState=='isNull' || !state.canStudy ? 'titCurr':''">提 示</a>
                               <a v-if="state.existVideo && titState != 'loading'" v-on:click="titState='existVideo'"
                                     :class="titState=='existVideo' ? 'titCurr':''">视 频</a>
-                              <a v-if="state.isLive && titState != 'loading' && state.canStudy" v-on:click="titState='isLive'"
-                                    :class="titState=='isLive' ? 'titCurr':''">直播</a>
+                              <a v-if="state.isLive && titState != 'loading' && state.canStudy"
+                                    v-on:click="titState='isLive'" :class="titState=='isLive' ? 'titCurr':''">直播</a>
                               <a v-if="state.isContext && titState != 'loading'" v-on:click="titState='isContext'"
                                     :class="titState=='isContext' ? 'titCurr':''">内 容</a>
                               <a v-if="state.isAccess && titState != 'loading'" v-on:click="titState='isAccess'"
@@ -50,29 +51,32 @@
                         </div>
                   </div>
                   <!--左侧顶部结束-->
-                  <div id="contextArea"  v-if="!state.DeskAllow">                     
+                  <div id="contextArea" v-if="!state.DeskAllow">
                         <div remark="正在加载" v-show="titState=='loading'">
-                                    <p id="preloader-2">
+                              <p id="preloader-2">
 
-                                                <span></span>
-                                        
-                                                <span></span>
-                                        
-                                            </p>
+                                    <span></span>
+
+                                    <span></span>
+
+                              </p>
                         </div>
                         <div remark="提示" v-show="titState=='isNull' || !state.canStudy ">
-                                    <img src="images/studyBg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
+                              <img src="images/studyBg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
                               <div class="noSelect" v-if="!!account.Ac_ID">
-                              没有内容，或无权查看！</div>
-                               <div class="noSelect" v-if="!account.Ac_ID">
-                              <a href="/student/index.ashx">未登录，点击此处登录！</a></div>
-                              <div class="noSelect" v-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束</div>
+                                    没有内容，或无权查看！</div>
+                              <div class="noSelect" v-if="!account.Ac_ID">
+                                    <a href="/student/index.ashx">未登录，点击此处登录！</a></div>
+                              <div class="noSelect" v-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束
+                              </div>
                         </div>
                         <div remark="视频" v-show="titState=='existVideo'" :video="state.urlVideo">
                               <div id="videoplayer" v-show="!state.otherVideo && !state.isLive"
                                     style="height: 100%;width:100%;" remark="点播">
                               </div>
-                              <div id="accinfo" v-if="JSON.stringify(account) != '{}' && !state.otherVideo && !state.isLive" title="仅自己可见" remark="飘浮信息，防录屏">
+                              <div id="accinfo"
+                                    v-if="JSON.stringify(account) != '{}' && !state.otherVideo && !state.isLive"
+                                    title="仅自己可见" remark="飘浮信息，防录屏">
                                     {{account.Ac_Name}} {{account.Ac_MobiTel1}}</div>
                               <div id="chartlayer" v-show="!state.otherVideo && switchSubtitle" remark="弹幕层"></div>
                               <div id="videoinfo" v-show="!state.otherVideo && !state.isLive">
@@ -80,8 +84,13 @@
                                     <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
                                     <span style="cursor: pointer"
                                           v-on:click="videoSeek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>
-                                    <span class="videolog info" v-show="studylogState==1">学习进度提交成功!</span>
-                                    <span class="videolog error" v-show="studylogState==-1">学习进度提交失败!</span>
+                                    <span class="info" v-show="studylogState==1">学习进度提交成功!</span>
+                                    <span class="error" v-show="studylogState==-1">学习进度提交失败!</span>
+                              </div>
+                              <div id="videolog" v-show="!state.otherVideo && !state.isLive">
+                                    <template v-for="i in video.total">
+                                          <i></i>
+                                    </template>
                               </div>
                               <iframe id="vedioiframe" height="100%" width="100%"
                                     v-if="state.outerVideo && state.otherVideo  && !state.isLive" :src="state.urlVideo"
@@ -91,23 +100,24 @@
 
                         </div>
                         <div remark="直播" v-show="titState=='isLive'" :video="state.urlVideo">
-                        <div id="accinfo" v-if="JSON.stringify(account) != '{}' && state.isLive && state.isLiving" title="仅自己可见" remark="飘浮信息，防录屏">
+                              <div id="accinfo" v-if="JSON.stringify(account) != '{}' && state.isLive && state.isLiving"
+                                    title="仅自己可见" remark="飘浮信息，防录屏">
                                     {{account.Ac_Name}} {{account.Ac_MobiTel1}}</div>
                               <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
                                     remark="直播">
                               </div>
                               <div id="liveStopbox" v-show="state.isLive && !state.isLiving"
                                     style="height: 100%;width:100%;" remark="直播未开始">
-                                    <img src="images/livebg.jpg"  class="bgPicture" style="height: 100%;width:100%;" />
+                                    <img src="images/livebg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
                                     <div class="liveStop_Tit" v-show="!state.LiveStart">直播未开始！</div>
-                                    <div class="liveStop_Tit" v-show="state.LiveOver">直播已经结束！</div>                                   
+                                    <div class="liveStop_Tit" v-show="state.LiveOver">直播已经结束！</div>
                               </div>
                         </div>
                         <div remark="内容" v-show="titState=='isContext'" id="details">
                               <div id="detailsArea" v-html="outline.Ol_Intro"> </div>
                         </div>
                         <div remark="附件" v-show="titState=='isAccess'">
-                            <accessory ref='accessory' :uid="outline.Ol_UID" :isbuy="state.isBuy"></accessory>                         
+                              <accessory ref='accessory' :uid="outline.Ol_UID" :isbuy="state.isBuy"></accessory>
                         </div>
                         <div remark="习题" v-show="titState=='isQues'">
                               <iframe :src="outline!=null ? 'Exercises.ashx?olid='+outline.Ol_ID : ''"
@@ -116,7 +126,9 @@
                         </div>
                   </div>
                   <div id="contextArea" v-if="state.DeskAllow">
-                      <div><div class="noSelect">请在DeskApp应用中打开</div></div>
+                        <div>
+                              <div class="noSelect">请在DeskApp应用中打开</div>
+                        </div>
                   </div>
             </div>
             <div id="median" remark="此为分隔线"><span v-on:click="median = !median"
@@ -131,7 +143,8 @@
                   </div>
                   <div class="outline rightArea" v-show="rightState=='outline'">
                         <template v-for="d in outlines" remark="章节列表">
-                              <div v-if="d.Ol_IsUse" :class="'olitem '+(d.Ol_IsVideo ? 'li-video ' : '')+(d.Ol_ID==olid ? 'current ' : '')+(d.Ol_IsLive ? 'li-live ' : '')"
+                              <div v-if="d.Ol_IsUse"
+                                    :class="'olitem '+(d.Ol_IsVideo ? 'li-video ' : '')+(d.Ol_ID==olid ? 'current ' : '')+(d.Ol_IsLive ? 'li-live ' : '')"
                                     :isvideo="d.Ol_IsVideo" :olid="d.Ol_ID"
                                     :style="'padding-left:'+(d.Ol_Level*15+5)+'px'">
                                     <template v-if="state.isBuy || d.Ol_IsFree || course.Cou_IsFree"

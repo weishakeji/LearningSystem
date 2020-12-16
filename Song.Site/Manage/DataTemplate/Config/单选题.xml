@@ -14,6 +14,12 @@
   <item Column="答案选项4" Field="Ans_Context4" />
   <item Column="答案选项5" Field="Ans_Context5" />
   <item Column="答案选项6" Field="Ans_Context6" />
+  <item Column="答案选项7" Field="Ans_Context7" />
+  <item Column="答案选项8" Field="Ans_Context8" />
+  <item Column="答案选项9" Field="Ans_Context9" />
+  <item Column="答案选项10" Field="Ans_Context10" />
+  <item Column="答案选项11" Field="Ans_Context11" />
+  <item Column="答案选项12" Field="Ans_Context12" />
   <item Column="正确答案" Field="Ans_IsCorrect" />
   <item Column="试题讲解" Field="Qus_Explain" />
 </config>

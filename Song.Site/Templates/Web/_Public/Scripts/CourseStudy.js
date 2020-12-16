@@ -91,30 +91,31 @@ var vdata = new Vue({
             if (event != null) event.preventDefault();
             //获取当前章节状态，和专业信息
             $api.bat(
-                $api.get("Outline/ForID", {
-                    id: olid
-                }),
-                $api.get("Outline/state", {
-                    olid: olid
-                })
+                $api.get("Outline/ForID", { id: olid }),
+                $api.get("Outline/state", { olid: olid })
             ).then(axios.spread(function (ol, state) {
                 if (ol.data.success && state.data.success) {
                     vdata.outline = ol.data.result;
                     vdata.state = state.data.result;
                     if (!vdata.state.isLive && vdata.state.PlayTime / 1000 > 0) {
-                        /*
-                        vdata.$confirm('是否从上次进度播放？', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(function() {
-                            vdata.videoSeek(vdata.state.PlayTime / 1000);
-                            window.setTimeout(function() {
-                                if (vdata.playready()) vdata.player.play();
-                            }, 500);
-                        }).catch(function() {
+                        var vurl = vdata.state.urlVideo;  //视频播放地址
+                        if (vurl.indexOf('.') > -1) {
+                            var ext = vurl.substring(vurl.lastIndexOf('.') + 1).toLowerCase();
+                            if (ext == 'm3u8') {
+                                vdata.$confirm('是否从上次进度播放？', '提示', {
+                                    confirmButtonText: '确定',
+                                    cancelButtonText: '取消',
+                                    type: 'warning'
+                                }).then(function () {
+                                    vdata.videoSeek(vdata.state.PlayTime / 1000);
+                                    window.setTimeout(function () {
+                                        if (vdata.playready()) vdata.player.play();
+                                    }, 500);
+                                }).catch(function () {
 
-                        });*/
+                                });
+                            }
+                        }
                     }
                     //视频播放记录
                     var result = state.data.result;
@@ -137,8 +138,14 @@ var vdata = new Vue({
                         });
                     }
                 } else {
-                    if (!ol.data.success) alert("章节信息加载异常！详情：\r" + ol.data.message);
-                    if (!state.data.success) alert("章节状态加载异常！详情：\r" + state.data.message);
+                    if (!ol.data.success) {
+                        alert("章节信息加载异常！详情：\r" + ol.data.message);
+                        console.error(ol.data.message);
+                    }
+                    if (!state.data.success) {
+                        alert("章节状态加载异常！详情：\r" + state.data.message);
+                        console.error(state.data.message);
+                    }
                 }
             }));
             //获取留言列表
@@ -221,7 +228,7 @@ var vdata = new Vue({
                 vdata.player.seek(second);
             }
         },
-        //学习记录记录
+        //学习记录提交到服务器
         videoLog: function (per) {
             if (vdata.studylogUpdate) return;
             var interval = 1; //间隔百分比多少递交一次记录
@@ -389,12 +396,8 @@ var vdata = new Vue({
     created: function () {
         var couid = $api.querystring("couid");
         $api.bat(
-            $api.get("Outline/tree", {
-                couid: couid
-            }),
-            $api.get("Course/ForID", {
-                id: couid
-            })).then(axios.spread(function (ol, cur) {
+            $api.get("Outline/tree", { couid: couid }),
+            $api.get("Course/ForID", { id: couid })).then(axios.spread(function (ol, cur) {
                 if (ol.data.success && cur.data.success) {
                     if (ol.data.result.length < 1) throw "没有课程章节";
                     vdata.outlines = ol.data.result;
@@ -420,6 +423,7 @@ var vdata = new Vue({
                 }
             })).catch(function (err) {
                 alert(err);
+                console.error(err);
             });
         //当前登录学员
         $api.get("Account/Current", {}, null, null).then(function (req) {
@@ -509,6 +513,7 @@ Vue.filter('date', function (value, fmt) {
     return fmt;
 });
 
+//
 //******* 附件列表
 Vue.component('accessory', {
     props: ['uid', 'isbuy'],

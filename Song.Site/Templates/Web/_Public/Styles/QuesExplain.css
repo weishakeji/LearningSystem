@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 body
 {
     background-image: none;
@@ -23,8 +23,8 @@ body
 	font-size: 20px;
 }
 .details{
-	line-height: 20px;
-	font-size: 15px;
+	line-height: 30px;
+	font-size: 16px;
 }
 .details *{
 	line-height: 25px;

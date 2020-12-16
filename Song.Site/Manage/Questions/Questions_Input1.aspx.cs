@@ -24,6 +24,7 @@ namespace Song.Site.Manage.Questions
         int type=WeiSha.Common.Request.QueryString["type"].Int32 ?? 0;
         //来自get参数的课程id
         int couid_get = WeiSha.Common.Request.QueryString["couid"].Int32 ?? 0;
+        Song.Entities.Course course = null;       
         //当前机构
         Song.Entities.Organization org = null;
         protected void Page_Load(object sender, EventArgs e)
@@ -32,6 +33,10 @@ namespace Song.Site.Manage.Questions
         protected void ExcelInput1_OnInput(object sender, EventArgs e)
         {
             org = Business.Do<IOrganization>().OrganCurrent();
+            if (couid_get > 0)
+            {
+                course = Business.Do<ICourse>().CourseSingle(couid_get);               
+            }
             //工作簿中的数据
             DataTable dt = ExcelInput1.SheetDataTable;
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -142,6 +147,11 @@ namespace Song.Site.Manage.Questions
                 error = string.Format("正确答案的设置不正确，共{0}个答案选项，不能设置为{1}", ansItem.Count, correct);
             obj.Qus_IsError = error != "";
             obj.Qus_ErrorInfo = error;
+            if (this.course != null)
+            {
+                obj.Cou_ID = this.course.Cou_ID;
+                obj.Sbj_ID = this.course.Sbj_ID;
+            }
             if (obj.Sbj_ID == 0) throw new Exception("当前试题所属专业并不存在");
             if (obj.Cou_ID == 0) throw new Exception("当前试题所在课程并不存在");
             //if (obj.Ol_ID == 0) throw new Exception("当前试题所在章节并不存在");

@@ -179,14 +179,12 @@ video::-webkit-media-controls-panel {
 	position: absolute;
 	z-index: 11;
 	color: #999;
-	width: calc(100% - 160px);
 	height: 30px;
 	font-size: 12px;
 	line-height: 30px;
-	bottom: 0px;
-	width: auto;
-	margin-left: 150px;
-	text-align: left;
+	bottom: 5px;
+	width: 100%;
+	text-align: center;
 }
 
 /*视频上漂浮的学员姓名和电话*/
@@ -538,7 +536,6 @@ video::-webkit-media-controls-panel {
 
 /*学习记录递交是否成功的提示信息*/
 
-.videolog {}
 
 .info {
 	color: #3F6;
@@ -553,7 +550,19 @@ video::-webkit-media-controls-panel {
 	cursor: pointer;
 	color: #06F;
 }
-
+/*学习记录的时间进度*/
+#videolog {
+	display: none;
+	position: absolute;
+	z-index: 20;
+	color: #999;
+	height: 10px;
+	font-size: 12px;
+	bottom: 0px;
+	width: 100%;
+	text-align: center;
+	background-color: red;
+}
 /* 章节的主标题下的选项卡
 */
 

@@ -250,7 +250,7 @@
     <Content Include="Help\API\Index.htm" />
     <Content Include="Help\API\Scripts\Default.js" />
     <Content Include="Help\API\Scripts\Index.js" />
-    <Content Include="Help\API\Styles\API.css" />
+    <Content Include="Help\API\Styles\Index.css" />
     <Content Include="Help\Datas\Index.htm" />
     <Content Include="Help\Datas\Scripts\index.js" />
     <Content Include="Help\Datas\Styles\index.css" />
