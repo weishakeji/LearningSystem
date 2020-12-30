@@ -156,6 +156,7 @@ namespace Song.ViewData
             {
                 string key = context.Request.QueryString.Keys[i].ToString().Trim();
                 string val = Microsoft.JScript.GlobalObject.unescape(context.Request.QueryString[i].ToString().Trim());
+                val = WeiSha.Common.HTML.ClearTag(val);
                 if (_params.ContainsKey(key))
                     _params[key] = val;
                 else
@@ -166,6 +167,7 @@ namespace Song.ViewData
             {
                 string key = context.Request.Form.Keys[i].ToString().Trim();
                 string val = Microsoft.JScript.GlobalObject.unescape(context.Request.Form[i].ToString().Trim());
+                val = WeiSha.Common.HTML.ClearTag(val);
                 if (_params.ContainsKey(key))
                     _params[key] = val;
                 else
@@ -192,6 +194,26 @@ namespace Song.ViewData
         public Letter(HttpRequestMessage httprequest)
         {
             HTTP_METHOD = httprequest.Method.Method; //请求方法
+            //HTTP_HOST = request.Params["HTTP_HOST"];
+            HTTP_HOST = httprequest.Headers.Host;
+            HTTP_REFERER = httprequest.Headers.Referrer.AbsolutePath;
+            //Authorization的解析
+            string auth = httprequest.Headers.Authorization.ToString();
+            if (!string.IsNullOrWhiteSpace(auth))
+            {
+                auth = auth.Substring(auth.IndexOf(" ")).Trim();
+                auth = WeiSha.Common.DataConvert.DecryptForBase64(auth);
+                List<string> users = new List<string>();
+                foreach (string s in auth.Substring(0, auth.LastIndexOf(":")).Split(' '))
+                {
+                    if (string.IsNullOrWhiteSpace(s)) continue;
+                    users.Add(s);
+                }
+                if (users.Count > 0) HTTP_Mark = users[0];
+                if (users.Count > 1 && !HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase)) HTTP_METHOD = users[1].ToUpper();
+                if (users.Count > 2) ReturnType = users[2];
+                if (users.Count > 3 && string.IsNullOrWhiteSpace(HTTP_REFERER)) HTTP_REFERER = users[3];
+            }
             //从请求地址中，分析类名与方法名
             string[] arr = httprequest.RequestUri.Segments;
             //获取类名与方法名
@@ -209,6 +231,7 @@ namespace Song.ViewData
             {
                 string key = context.Request.QueryString.Keys[i].ToString().Trim();
                 string val = Microsoft.JScript.GlobalObject.unescape(context.Request.QueryString[i].ToString().Trim());
+                val = WeiSha.Common.HTML.ClearTag(val);
                 if (_params.ContainsKey(key))
                     _params[key] = val;
                 else
@@ -219,6 +242,7 @@ namespace Song.ViewData
             {
                 string key = context.Request.Form.Keys[i].ToString().Trim();
                 string val = Microsoft.JScript.GlobalObject.unescape(context.Request.Form[i].ToString().Trim());
+                val = WeiSha.Common.HTML.ClearTag(val);
                 if (_params.ContainsKey(key))
                     _params[key] = val;
                 else
