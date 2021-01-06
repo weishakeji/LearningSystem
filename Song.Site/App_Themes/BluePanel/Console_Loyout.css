@@ -230,7 +230,7 @@ img {
 /*左侧菜单的树形菜单面板*/
 #consTreePanel .treepanel {
 	float: left;
-	width: 185px;
+	width: calc(100% - 43px);
 	padding-left: 1px;
 	display: block;
 	margin: 0px;
@@ -402,6 +402,7 @@ img {
 #consContextPanel {
 	float: left;
 	margin-left: 4px;
+	width: calc(100% - 235px);
 }
 #consBody .consFramePanel {
 	background-color: #FFFFFF;
@@ -409,6 +410,7 @@ img {
 }
 #consBody .consFramePanel .frame {
 	padding-left:5px;
+	width: calc(100% - 8px);
 }
 #consBody .topBar {
 	line-height: 30px;

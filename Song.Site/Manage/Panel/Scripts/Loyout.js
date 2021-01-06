@@ -58,14 +58,12 @@ function loyoutInit(){
 	var bar=$("#consBoxTitleBar");//选项卡区域
 	var cbody=$("#consBody");//内容区域
 	var left=$("#consTreePanel");//内容区域的左侧
-	var right=$("#consContextPanel");//内容区域的右侧
 	//设置选项卡
 	bar.width(winWidth-left.width());
 	bar.css({left:left.width(),top:25});
 	//主内容区高度
 	cbody.height(winHeight-top.outerHeight()-Number(top.css("margin-bottom").replace("px","")));
-	//右则内容宽度，去除边距
-	right.width(winWidth-left.width()-Number(right.css("margin-left").replace("px","")));
+	
 }
 //当窗体变动时，重新布局
 function reLoyout(){
@@ -83,10 +81,7 @@ function reLoyout(){
 	bar.css({left:left.width(),top:25});
 	//主内容区高度
 	cbody.height(winHeight-top.outerHeight()-Number(top.css("margin-bottom").replace("px","")));
-	//右则内容宽度，去除边距
-	right.width(winWidth-left.width()-Number(right.css("margin-left").replace("px","")));	
-	right.height(cbody.height());
-	////左侧树形菜单的面板高度设置
+	//左侧树形菜单的面板高度设置
 	left.height(cbody.height());
 	$(".treepanel").height(cbody.height());
 	//管理内容页区的高度设置
@@ -100,8 +95,7 @@ function reLoyout(){
 				$(this).height(right.height());
 				$(this).width(right.width());
 			    var h=right.height()-topbar.height();
-				iframe.height(h);
-				iframe.width(right.width());
+				iframe.height(h);			
 			}
 			//当全屏显示时
 			if(state=="fullscreen")
@@ -110,8 +104,6 @@ function reLoyout(){
 				$(this).width(winWidth);
 				var h=winHeight-topbar.height();
 				iframe.height(h);
-				iframe.width(winWidth);
-				//iframe.width(winWidth);
 				var span=$(this).find(".topBar .pagePanelMaxHand");	
 				span.attr("w",right.width());
 	    		span.attr("h",right.height());	
