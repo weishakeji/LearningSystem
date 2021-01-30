@@ -36,7 +36,7 @@ namespace Song.ViewData.Attri
         /// </summary>
         /// <param name="method">执行的方法</param>
         /// <returns></returns>
-        public static LoginAttribute Verify(MemberInfo method)
+        public static LoginAttribute Verify(MemberInfo method, Letter letter)
         {
             string msg = string.Format("当前方法 {0}.{1} 需要", method.DeclaringType.Name, method.Name);
             LoginAttribute loginattr = null;

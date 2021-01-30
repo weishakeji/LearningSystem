@@ -12,15 +12,48 @@
     computed: {
         // 计算属性的 getter
         apilist: function () {
-            var search = this.apisearch;
+            var search = this.apisearch.toLowerCase();
             if (search == '') return this.list;
             var arr = new Array();
             for (var i = 0; i < this.list.length; i++) {
-                if (this.list[i].Name.indexOf(search) > -1 || this.list[i].Intro.indexOf(search) > -1) {
+                var item = this.list[i];
+                if (item.Name.toLowerCase().indexOf(search) > -1 || item.Intro.indexOf(search) > -1) {
                     arr.push(this.list[i]);
+                } else {
+                    // if (!!this.list[i].methods) {
+                    var methods = item.methods;
+                    for (var j = 0; j < methods.length; j++) {
+                        if (methods[j].Name.toLowerCase().indexOf(search) > -1 || methods[j].Intro.indexOf(search) > -1) {
+                            arr.push(item);
+                            break;
+                        }
+                    }
+                    // }
                 }
             }
             return arr;
+        }
+    },
+    methods: {
+        //判断是否满足查询条件
+        searhState: function (item) {
+            var search = this.apisearch.toLowerCase();
+            if (search == '') return true;
+
+            if (item.Name.toLowerCase().indexOf(search) > -1 || item.Intro.indexOf(search) > -1) {
+                return true;
+            } else {
+
+                var methods = item.methods;
+                for (var j = 0; j < methods.length; j++) {
+                    if (methods[j].Name.toLowerCase().indexOf(search) > -1 || methods[j].Intro.indexOf(search) > -1) {
+                        return true;
+                    }
+                }
+
+            }
+
+            return false;
         }
     },
     created: function () {
@@ -42,12 +75,26 @@
 // 注册组件
 Vue.component('methods', {
     // 声明 props，用于向组件传参
-    props: ['name', 'intro', 'index'],
+    //apiobject:接口对象
+    props: ['apiobject', 'search', 'index'],
     data: function () {
         return {
             methods: [], //方法列表
             loading: true, //预载中
             open: false //是否打开方法列表
+        }
+    },
+    computed: {
+        list: function () {
+            var sear = this.search.toLowerCase();
+            if (sear == '') return this.methods;
+            var regExp = new RegExp(sear, 'ig');
+            var arr = $api.clone(this.methods);
+            for (var i = 0; i < arr.length; i++) {
+                arr[i].Name = arr[i].Name.replace(regExp, `<red>${sear}</red>`);
+                arr[i].Intro = arr[i].Intro.replace(regExp, `<red>${sear}</red>`);
+            }
+            return arr;
         }
     },
     methods: {
@@ -58,29 +105,30 @@ Vue.component('methods', {
         }
     },
     created: function () {
-        var name = this.name;
+        var name = this.apiobject.Name;
         var th = this;
         $api.cache("helper/Methods:86400", {
             classname: name
         }).then(function (req) {
             if (req.data.success) {
                 th.methods = req.data.result;
+                th.apiobject["methods"] = req.data.result;
                 th.loading = false;
             }
         });
     },
     // 
     template: "<div>\
-      <div class='classname' v-on:click='open=!open' :title='\"摘要：\"+intro'>\
-            {{index}}. <b class='el-icon-loading' v-show='loading'></b>{{ name }} \
-            <span>{{intro}}</span>\
+      <div class='classname' v-on:click='open=!open' :title='\"摘要：\"+apiobject.Intro'>\
+            {{index}}. <b class='el-icon-loading' v-show='loading'></b>{{ apiobject.Name }} \
+            <span>{{apiobject.Intro}}</span>\
             <i class='el-icon-arrow-right' v-show='!open'></i><i class='el-icon-arrow-down' v-show='open'></i>\
        </div>\
        <dl class='methods' v-show='open'>\
-       <dt v-if='intro.length>0'>摘要：{{intro}}</dt>\
-            <dd v-for='(item,i) in methods' v-on:click='methodClick(item)'>\
-                {{index}}.{{i+1}}.{{item.Name}} \
-                <div v-show='item.Intro.length>0'>--{{item.Intro}}</div>\
+       <dt v-if='apiobject.Intro.length>0'>摘要：{{apiobject.Intro}}</dt>\
+            <dd v-for='(item,i) in list' v-on:click='methodClick(item)'>\
+                {{index}}.{{i+1}}.<span v-html='item.Name'></span> \
+                <div v-show='item.Intro.length>0' v-html='item.Intro'></div>\
             </dd>\
        </dl>\
        </div>"
@@ -170,17 +218,18 @@ var rvue = new Vue({
                 var result=req.data.result;\r\
                 //...\r\
             }else{\r\
+                console.error(req.data.exception);\r\
                 throw req.data.message;\r\
             }\r}).catch(function (err) {\r\
             alert(err);\r\
             console.error(err);\r});";
             //jsstr = rvue.jsonformat(jsstr, false);
-            document.getElementById("teststring").innerText = jsstr;          
+            document.getElementById("teststring").innerText = jsstr;
             return jsstr;
         },
         //复制测试代码
-        btnCopyEvent: function () {          
-            this.copy(this.teststring(),'textarea');        
+        btnCopyEvent: function () {
+            this.copy(this.teststring(), 'textarea');
         },
         //复制api路径
         copyApipath: function (clname, method) {

@@ -1,0 +1,40 @@
+[
+    {
+      "title": "主题皮肤",
+      "ico": "a044",
+      "url": "/manage/Panel/Skinsetup",
+      "type": "open",
+      "width": 565,
+      "height": 160,
+      "id": "Skinsetup"
+    },
+    {
+      "title": "夜间模式/日间模式",
+      "ico": "a032",
+      "type": "event",
+      "url": "window.$skins.switch()"
+    },
+    {
+      "type": "hr"
+    },   
+  
+    {
+      "title": "微厦科技",
+      "ico": "e77d",
+      "url": "http://www.weishakeji.net",
+      "type": "link"
+    },
+   
+    {
+      "title": "关于",
+      "ico": "a031",
+      "url": "/help/about.html",
+      "type": "open",
+      "width": 600,
+      "height": 400,
+      "min": false,
+      "max": false,
+      "resize": false,
+      "id": "about"
+    }
+  ]

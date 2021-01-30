@@ -1,0 +1,141 @@
+[
+  {
+    "title": "系统设置",
+    "tit": "系统",
+    "ico": "a038",
+    "url": "",
+    "type": "",
+    "marker": "",
+    "intro": "",
+    "childs": [
+      {
+        "title": "平台信息",
+        "ico": "a038",
+        "url": "/manage/Platform/Platinfo"
+      },
+      {
+        "title": "基础信息",
+        "ico": "a038",
+        "childs": [
+          {
+            "title": "管理员",
+            "ico": "e655",
+            "url": "/manage/Platform/Employee"
+          },
+          {
+            "title": "岗位/角色",
+            "ico": "e645",
+            "url": "/manage/Platform/position"
+          },
+          {
+            "title": "机构信息",
+            "ico": "e631",
+            "url": "/manage/Platform/organinfo"
+          }
+        ]
+      },
+      {
+        "title": "菜单管理",
+        "ico": "a005",
+        "childs": [
+          {
+            "title": "功能菜单",
+            "ico": "a009",
+            "help": "/manage/Platform/sysmenu",
+            "url": "/manage/Platform/menuroot"
+          },
+          {
+            "title": "系统菜单",
+            "ico": "a017",
+            "url": "/manage/Platform/sysmenu"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "基础设置",
+    "tit": "设置",
+    "ico": "a038",
+    "url": "",
+    "type": "",
+    "marker": "",
+    "intro": "",
+    "childs": [
+      {
+        "title": "账号管理",
+        "ico": "a038",
+        "url": "/manage/Platform/Platinfo"
+      },
+      {
+        "title": "机构管理",
+        "ico": "a038",
+        "childs": [
+          {
+            "title": "机构列表",
+            "ico": "e655",
+            "url": "/manage/Platform/Employee"
+          },
+          {
+            "title": "机构审核",
+            "ico": "e645",
+            "url": "/manage/Platform/position"
+          },
+          {
+            "title": "机构权限",
+            "ico": "e631",
+            "url": "/manage/Platform/organinfo"
+          },
+          {
+            "title": "机构等级",
+            "ico": "e631",
+            "url": "/manage/Platform/organinfo"
+          }
+        ]
+      },
+      {
+        "title": "平台运营",
+        "ico": "a005",
+        "childs": [
+          {
+            "title": "资金流水",
+            "ico": "a009",
+            "url": "/manage/Platform/menuroot"
+          },
+          {
+            "title": "充值码",
+            "ico": "a017",
+            "url": "/manage/Platform/sysmenu"
+          },
+          {
+            "title": "学习卡",
+            "ico": "a017",
+            "url": "/manage/Platform/sysmenu"
+          },
+          {
+            "title": "分润设置",
+            "ico": "a017",
+            "url": "/manage/Platform/sysmenu",
+            "childs": [
+              {
+                "title": "积分设置",
+                "ico": "a017",
+                "url": "/manage/Platform/sysmenu"
+              },
+              {
+                "title": "分润设置",
+                "ico": "a017",
+                "url": "/manage/Platform/sysmenu"
+              },
+              {
+                "title": "分销管理",
+                "ico": "a017",
+                "url": "/manage/Platform/sysmenu"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

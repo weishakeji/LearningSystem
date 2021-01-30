@@ -16,8 +16,12 @@ namespace Song.ViewData
         /// </summary>
         public Letter Letter
         {
-            get;
-            set;
+            get
+            {
+                System.Web.HttpContext _context = System.Web.HttpContext.Current;
+                Letter letter = new Letter(_context);
+                return letter;
+            }
         }
     }
 }

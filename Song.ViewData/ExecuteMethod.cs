@@ -53,6 +53,7 @@ namespace Song.ViewData
                 }
             }
             if (obj != null) return obj;
+
             //如果之前未创建，则重新创建
             Type type = null;
             Assembly assembly = Assembly.Load(assemblyName);
@@ -68,16 +69,12 @@ namespace Song.ViewData
                 }
             }
             if (type == null) throw new Exception(
-                string.Format("调用的对象'{0}'不存在, 可能是'{1}'拼写错误",
-                classFullName, letter.ClassName));
+                string.Format("调用的接口'{0}'不存在, 可能是'{1}'拼写错误",
+                letter.API_PATH, letter.ClassName));
             obj = (IViewAPI)System.Activator.CreateInstance(type);    //创建对象
-            //记录到缓存
+                                                                      //记录到缓存
             if (!ExecuteMethod.GetInstance()._objects.ContainsKey(type.FullName))
-                ExecuteMethod.GetInstance()._objects.Add(type.FullName, obj);       
-           if(obj is ViewMethod)
-            {
-                ((ViewMethod)obj).Letter = letter;
-            }
+                ExecuteMethod.GetInstance()._objects.Add(type.FullName, obj);
             return obj;
         }
         #endregion
@@ -93,14 +90,17 @@ namespace Song.ViewData
             IViewAPI execObj = ExecuteMethod.CreateInstance(letter);
             //2.获取要执行的方法，即$api.get("account/single")中的single
             MethodInfo method = getMethod(execObj.GetType(), letter);
+            //清除缓存
+            if (letter.HTTP_METHOD.Equals("put", StringComparison.CurrentCultureIgnoreCase))
+                CacheAttribute.Remove(method, letter);
             //3#.验证方法的特性,一是验证Http动词，二是验证是否登录后操作，三是验证权限    
             //----验证Http谓词访问限制
             HttpAttribute.Verify(letter.HTTP_METHOD, method);
             //LoginAttribute.Verify(method);
             //----范围控制，本机或局域网，或同域
-            bool isRange = RangeAttribute.Verify(letter, method);
+            bool isRange = RangeAttribute.Verify(method, letter);
             //----验证是否需要登录
-            LoginAttribute loginattr = LoginAttribute.Verify(method);
+            LoginAttribute loginattr = LoginAttribute.Verify(method, letter);
 
 
             //4.构建执行该方法所需要的参数
@@ -109,8 +109,8 @@ namespace Song.ViewData
             object objResult = null;    //结果
             //只有get方式时，才使用缓存
             CacheAttribute cache = null;
-            if (letter.HTTP_METHOD.Equals("put", StringComparison.CurrentCultureIgnoreCase))
-                CacheAttribute.Remove(method, letter);
+            //if (letter.HTTP_METHOD.Equals("put", StringComparison.CurrentCultureIgnoreCase))
+            //    CacheAttribute.Remove(method, letter);
             if (letter.HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase))
                 cache = CacheAttribute.GetAttr<CacheAttribute>(method);
             if (cache != null)
@@ -267,7 +267,11 @@ namespace Song.ViewData
                 string val = letter[pi.Name].String;
                 if (!pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
+                    if (!pi.ParameterType.Name.Equals("int32", StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
+                    }
+                    //if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
                 }
                 //如果形参是数据实体
                 if (pi.ParameterType.BaseType != null && pi.ParameterType.BaseType.FullName == "WeiSha.Data.Entity")
@@ -318,6 +322,9 @@ namespace Song.ViewData
                     break;
                 case "String":
                     obj = actual == null ? "" : actual.ToString().Trim();
+                    break;
+                case "Int32":
+                    obj = actual == null || string.IsNullOrWhiteSpace(actual.ToString()) ? 0 : Convert.ToInt32(actual.ToString());
                     break;
                 default:
                     obj = Convert.ChangeType(actual, paramType);

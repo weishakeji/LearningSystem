@@ -17,6 +17,10 @@ namespace Song.ViewData
     {
         #region 属性
         /// <summary>
+        /// api的请求路径
+        /// </summary>
+        public string API_PATH { get; set; }
+        /// <summary>
         /// HTTP请求谓词，即Get、Post、Put等
         /// </summary>
         public string HTTP_METHOD { get; set; }
@@ -36,7 +40,10 @@ namespace Song.ViewData
         /// 返回数据的类型，默认为json，可以设置为xml
         /// </summary>
         public string ReturnType { get; set; }
-        
+        /// <summary>
+        /// 登录状态的信息，来自客户端auth
+        /// </summary>
+        public string[] LoginStatus { get; set; }
         /// <summary>
         /// 接口版本
         /// </summary>
@@ -112,6 +119,7 @@ namespace Song.ViewData
         public Letter(HttpContext context)
         {
             HttpRequest request = context.Request;//定义传统request对象
+            API_PATH = request.Url.AbsolutePath;
             HTTP_METHOD = request.HttpMethod;
             //HTTP_HOST = request.Params["HTTP_HOST"];
             HTTP_HOST = request.Url.Authority;      //等同Params["HTTP_HOST"]，但是由于Params["HTTP_HOST"]可以在客户端更改，不安全
@@ -129,9 +137,12 @@ namespace Song.ViewData
                     users.Add(s);
                 }
                 if (users.Count > 0) HTTP_Mark = users[0];
-                if (users.Count > 1 && !HTTP_METHOD.Equals("get",StringComparison.CurrentCultureIgnoreCase)) HTTP_METHOD = users[1].ToUpper();
+                if (users.Count > 1 && !HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase)) HTTP_METHOD = users[1].ToUpper();
                 if (users.Count > 2) ReturnType = users[2];
                 if (users.Count > 3 && string.IsNullOrWhiteSpace(HTTP_REFERER)) HTTP_REFERER = users[3];
+                //登录状态信息
+                string pwstr = auth.Substring(auth.LastIndexOf(":") + 1);
+                if (!string.IsNullOrWhiteSpace(pwstr)) this.LoginStatus = pwstr.Split(',');
             }
             ////用于调试，勿删除
             //string pas = string.Empty;
@@ -193,12 +204,16 @@ namespace Song.ViewData
         /// <param name="httprequest">api控制器的访问对象</param>
         public Letter(HttpRequestMessage httprequest)
         {
+            API_PATH = httprequest.RequestUri.AbsolutePath;
             HTTP_METHOD = httprequest.Method.Method; //请求方法
             //HTTP_HOST = request.Params["HTTP_HOST"];
             HTTP_HOST = httprequest.Headers.Host;
-            HTTP_REFERER = httprequest.Headers.Referrer.AbsolutePath;
+            if (httprequest.Headers.Referrer != null)
+                HTTP_REFERER = httprequest.Headers.Referrer.AbsolutePath;
             //Authorization的解析
-            string auth = httprequest.Headers.Authorization.ToString();
+            string auth = string.Empty;
+            if (httprequest.Headers.Authorization != null)
+                auth = httprequest.Headers.Authorization.ToString();
             if (!string.IsNullOrWhiteSpace(auth))
             {
                 auth = auth.Substring(auth.IndexOf(" ")).Trim();
@@ -213,6 +228,9 @@ namespace Song.ViewData
                 if (users.Count > 1 && !HTTP_METHOD.Equals("get", StringComparison.CurrentCultureIgnoreCase)) HTTP_METHOD = users[1].ToUpper();
                 if (users.Count > 2) ReturnType = users[2];
                 if (users.Count > 3 && string.IsNullOrWhiteSpace(HTTP_REFERER)) HTTP_REFERER = users[3];
+                //登录状态信息
+                string pwstr = auth.Substring(auth.LastIndexOf(":") + 1);
+                if (!string.IsNullOrWhiteSpace(pwstr)) this.LoginStatus = pwstr.Split(',');
             }
             //从请求地址中，分析类名与方法名
             string[] arr = httprequest.RequestUri.Segments;
@@ -438,7 +456,7 @@ namespace Song.ViewData
                         pi.SetValue(t, piValue, null);
                         break;
                     }
-                }               
+                }
             }
             return t;
         }

@@ -1,0 +1,127 @@
+[
+  {
+    "title": "首页",
+    "url": "/",
+    "intro": "网站首页",
+    "type": "link",
+    "ico": "a020",
+    "font": {
+      "bold": false
+    }
+  },
+  {
+    "title": "源代码",
+    "ico": "a034",
+    "childs": [
+      {
+        "title": "开发文档",
+        "ico": "a018",
+        "childs": [
+          {
+            "title": "ViewData API 说明",
+            "ico": "a003",
+            "url": "/help/api/",
+            "type": "link"
+          },
+          {
+            "title": "数据字典",
+            "ico": "e72f",
+            "url": "/help/datas/",
+            "type": "link"
+          },
+          {
+            "title": "WebUI 开发文档",
+            "ico": "a010",
+            "url": "http://webdesk.weisha100.cn/",
+            "type": "link"
+          },
+          {
+            "title": "图标库",
+            "ico": "a015",
+            "type": "link",
+            "url": "/Utilities/Fonts/webdesk.html"
+          }
+        ]
+      },
+      {
+        "title": "在线帮助",
+        "ico": "a022",
+        "type": "link",
+        "url": "http://www.weisha100.net/"
+      },
+      {
+        "title": "升级日志",
+        "ico": "e77d",
+        "url": "http://www.weishakeji.net/download.html",
+        "type": "link"
+      },
+      {
+        "type": "hr"
+      },
+      {
+        "title": "学习系统源码",
+        "ico": "e691",
+        "url": "https://github.com/weishakeji/LearningSystem",
+        "type": "link"
+      },
+      {
+        "title": "WebUI源码",
+        "ico": "a010",
+        "url": "https://github.com/weishakeji/WebdeskUI",
+        "type": "link"
+      },
+      {
+        "title": "源码国内镜像",
+        "ico": "e686",
+        "url": "https://gitee.com/weishakeji",
+        "type": "link"
+      }
+    ]
+  },
+  {
+    "title": "帮助",
+    "ico": "a026",
+    "url": "",
+    "childs": [
+      {
+        "title": "帮助",
+        "ico": "a026",
+        "url": "/readme.html",
+        "type": "link"
+      },      
+      {
+        "title": "开源协议",
+        "ico": "a034",
+        "type": "open",
+        "url": "help/mit.html",
+        "width": 620,
+        "height": 350,
+        "min": false,
+        "max": false,
+        "resize": false,
+        "id": "license_mit"
+      },
+      {
+        "type": "hr"
+      },
+      {
+        "title": "微厦科技",
+        "type": "link",
+        "ico": "e77d",
+        "url": "http://www.weishakeji.net"
+      },
+      {
+        "title": "关于",
+        "ico": "a031",
+        "url": "help/about.html",
+        "type": "open",
+        "width": 600,
+        "height": 400,
+        "min": false,
+        "max": false,
+        "resize": false,
+        "id": "about"
+      }
+    ]
+  }
+]

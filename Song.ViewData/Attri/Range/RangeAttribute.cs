@@ -15,10 +15,10 @@ namespace Song.ViewData.Attri
         /// <summary>
         /// 验证是否满足特性的限定
         /// </summary>
-        /// <param name="letter">请求</param>
         /// <param name="method">执行的方法</param>
+        /// <param name="letter">请求</param>
         /// <returns></returns>
-        public static bool Verify(Letter letter, MemberInfo method)
+        public static bool Verify(MemberInfo method, Letter letter)
         {
             List<RangeAttribute> ranges = WeishaAttr.GetAttrs<RangeAttribute>(method);
             if (ranges.Count < 1) return true;
@@ -30,7 +30,7 @@ namespace Song.ViewData.Attri
             {
                 IntranetAttribute intranet = WeishaAttr.GetAttr<IntranetAttribute>(method);
                 if (any != null && !any.Ignore) return true;
-            }  
+            }
             //本机访问
             if (letter.Sever.IsLocalIP)
             {
@@ -54,8 +54,7 @@ namespace Song.ViewData.Attri
                 if (ranges[i] is DomainAttribute) msg += "同域";
                 if (i < ranges.Count - 1) msg += ",";
             }
-            throw new Exception(string.Format("当前方法访问受限，仅限{0}访问",msg));
-            return false;
+            throw new Exception(string.Format("当前方法访问受限，仅限{0}访问", msg));
         }
         /// <summary>
         /// 将执行结果写入日志
