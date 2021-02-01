@@ -1,8 +1,16 @@
-﻿$(window).load(function () {
-    menuBox_Autoloyout();
+﻿window.vue = new Vue({
+    el: '#app',
+    data: {
+
+    },
+    methods: {}
+});
+
+$(window).load(function () {
+   
 });
 $(function () {
-    menuBox_Autoloyout();
+ 
     default_event();
     //热门课程点击事件
     mui('body').on('tap', '.cou-item', function () {
@@ -152,26 +160,5 @@ function default_event() {
     //加载第一个课程选项卡
     mui.trigger(document.querySelector('.current'), 'tap');
 }
-//自定义菜单的自动布局
-function menuBox_Autoloyout() {
-    //获取菜单项
-    var mitem = $(".custom-menu a");
-    //如果菜单项可以被4整除，则每行四个，默认是每行三个
-    if (mitem.size() % 4 == 0) mitem.css("width", (100 / 4) + "%");
-    //if (mitem.size() == 2) mitem.css("width", (100 / 2) + "%");
-    //if (mitem.size() == 1) mitem.css({ "width": "20%", "margin-left": "auto", "margin-right": "auto", "float": "none", "border-right-style": "none" });
-    //自动计算图片宽高
-    mitem.find(".mitem-img").each(function (index, element) {
-        var wd = $(this).width();
-        $(this).height(Math.floor(wd));
-    });
-    //计动计算菜单项高度
-    var maxheight = 0;
-    $(".custom-menu a").each(function (index, element) {
-        var imgHg = $(this).find(".mitem").outerHeight();
-        var spanHg = $(this).find("span").outerHeight();
-        var height = imgHg + spanHg;
-        maxheight = maxheight < height ? height : maxheight;
-    }).height(maxheight);
-}
+
 

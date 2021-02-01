@@ -904,6 +904,7 @@
     <Content Include="Templates\Mobi\Default2019\Scripts\TestView.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\QuesExercisesGuide.js" />
     <Content Include="Templates\Mobi\Default2019\Scripts\MyFriends.js" />
+    <Content Include="Templates\Mobi\Default2019\Scripts\webdesk.ui.core.js" />
     <Content Include="Templates\Mobi\Default2019\SelfCourse.htm" />
     <Content Include="Templates\Mobi\Default2019\SelfInfo.htm" />
     <Content Include="Templates\Mobi\Default2019\SelfPw.htm" />

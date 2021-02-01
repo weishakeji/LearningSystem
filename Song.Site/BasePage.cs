@@ -22,10 +22,21 @@ namespace Song.Site
 {
     public abstract class BasePage : System.Web.UI.Page, IHttpHandler, IRequiresSessionState
     {
+        private static string _version = string.Empty;
         /// <summary>
         /// 系统版本号
         /// </summary>
-        protected static string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+        protected static string version
+        {
+            get
+            {
+                if (string.IsNullOrWhiteSpace(_version))
+                {
+                    _version= System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                }
+                return _version;
+            }
+        }
         /// <summary>
         /// 当前页面的模板文档对象
         /// </summary>
@@ -54,11 +65,18 @@ namespace Song.Site
             string filePath = this.Request.Url.AbsolutePath;
             bool isMobi = isMobilePage(out filePath);     //处理后filePath为文件名（不含扩展名）  
             if (isMobi && LoginState.Accounts.IsLogin)
-                LoginState.Accounts.Refresh(LoginState.Accounts.CurrentUser);            
+                LoginState.Accounts.Refresh(LoginState.Accounts.CurrentUser);
             //取模板对象
-            this.TmBank = isMobi ?
-                WeiSha.Common.Template.ForMobile.SetCurrent(this.Organ.Org_TemplateMobi)
-                : WeiSha.Common.Template.ForWeb.SetCurrent(this.Organ.Org_Template);
+            if (this.Organ != null)
+            {
+                this.TmBank = isMobi ?
+                    WeiSha.Common.Template.ForMobile.SetCurrent(this.Organ.Org_TemplateMobi)
+                    : WeiSha.Common.Template.ForWeb.SetCurrent(this.Organ.Org_Template);
+            }
+            else
+            {
+                this.TmBank = isMobi ? WeiSha.Common.Template.ForMobile.Default : WeiSha.Common.Template.ForWeb.Default;
+            }
             if (TmBank == null) throw new Exception("没有任何模板库可用！");
             //是否是公共页面
             if (TmBank.Config.Public == null) throw new Exception("未找到公共模板库！");
@@ -99,24 +117,27 @@ namespace Song.Site
                 path = path.Substring(path.IndexOf("/") + 1);
             path = path.Replace("/", "\\");
             //自定义配置项
-            WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
-            bool isNoaccess = false;    //是否禁止访问
-            //如果是手机端
-            if (ismobi)
-            {                
-                //如果禁止微信中使用，且又处于微信中时
-                if ((config["DisenableWeixin"].Value.Boolean ?? false) && WeiSha.Common.Browser.IsWeixin) isNoaccess = true;
-                if ((config["DisenableMini"].Value.Boolean ?? false) && WeiSha.Common.Browser.IsWeixinApp) isNoaccess = true;
-                if ((config["DisenableMweb"].Value.Boolean ?? false) && (!WeiSha.Common.Browser.IsAPICloud && !WeiSha.Common.Browser.IsWeixin))
-                    isNoaccess = true;
-                if ((config["DisenableAPP"].Value.Boolean ?? false) && WeiSha.Common.Browser.IsAPICloud) isNoaccess = true;                
-            }
-            else
+            if (this.Organ != null)
             {
-                if ((config["WebForDeskapp"].Value.Boolean ?? false) && !WeiSha.Common.Browser.IsDestopApp) isNoaccess = true;
+                WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
+                bool isNoaccess = false;    //是否禁止访问
+                                            //如果是手机端
+                if (ismobi)
+                {
+                    //如果禁止微信中使用，且又处于微信中时
+                    if ((config["DisenableWeixin"].Value.Boolean ?? false) && WeiSha.Common.Browser.IsWeixin) isNoaccess = true;
+                    if ((config["DisenableMini"].Value.Boolean ?? false) && WeiSha.Common.Browser.IsWeixinApp) isNoaccess = true;
+                    if ((config["DisenableMweb"].Value.Boolean ?? false) && (!WeiSha.Common.Browser.IsAPICloud && !WeiSha.Common.Browser.IsWeixin))
+                        isNoaccess = true;
+                    if ((config["DisenableAPP"].Value.Boolean ?? false) && WeiSha.Common.Browser.IsAPICloud) isNoaccess = true;
+                }
+                else
+                {
+                    if ((config["WebForDeskapp"].Value.Boolean ?? false) && !WeiSha.Common.Browser.IsDestopApp) isNoaccess = true;
+                }
+                //如果被限制访问
+                if (isNoaccess) path = "Noaccess";
             }
-            //如果被限制访问
-            if (isNoaccess) path = "Noaccess";
             return ismobi;
         }
         #region 初始化的操作
@@ -172,14 +193,14 @@ namespace Song.Site
 
         public new void ProcessRequest(HttpContext context)
         {
-            string gourl = WeiSha.Common.Skip.GetUrl();   //跳转
-            if (!string.IsNullOrWhiteSpace(gourl))
-            {
-                context.Response.Redirect(gourl);
-                return;
-            }
-            ////计算树形的运算时间
-            //DateTime beforDT = System.DateTime.Now;
+            //string gourl = WeiSha.Common.Skip.GetUrl();   //跳转
+            //if (!string.IsNullOrWhiteSpace(gourl))
+            //{
+            //    context.Response.Redirect(gourl);
+            //    return;
+            //}
+            //计算运算时间
+            DateTime beforDT = System.DateTime.Now;
 
             this.InitContext(context);  //初始化页面参数
             //输出数据
@@ -204,14 +225,16 @@ namespace Song.Site
                 //当前模板的路径
                 this.Document.SetValue("TempPath", this.TmBank.Path.Virtual);
                 //自定义配置项
-                WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
-                //手机端隐藏关于“充值收费”等资费相关信息
-                bool IsMobileRemoveMoney = config["IsMobileRemoveMoney"].Value.Boolean ?? false;
-                this.Document.SetValue("mremove", IsMobileRemoveMoney);
-                //电脑端隐藏资费
-                bool IsWebRemoveMoney = config["IsWebRemoveMoney"].Value.Boolean ?? false;
-                this.Document.SetValue("wremove", IsWebRemoveMoney);
-
+                if (this.Organ != null)
+                {
+                    WeiSha.Common.CustomConfig config = CustomConfig.Load(this.Organ.Org_Config);
+                    //手机端隐藏关于“充值收费”等资费相关信息
+                    bool IsMobileRemoveMoney = config["IsMobileRemoveMoney"].Value.Boolean ?? false;
+                    this.Document.SetValue("mremove", IsMobileRemoveMoney);
+                    //电脑端隐藏资费
+                    bool IsWebRemoveMoney = config["IsWebRemoveMoney"].Value.Boolean ?? false;
+                    this.Document.SetValue("wremove", IsWebRemoveMoney);
+                }
             }
             catch { }
             //时间
@@ -220,24 +243,24 @@ namespace Song.Site
             this.Document.SetValue("tick", DateTime.Now.Ticks);
             //系统版本号          
             this.Document.SetValue("version", version);
-            //导航菜单
-            this.Document.RegisterGlobalFunction(this.Navi);
-            this.Document.RegisterGlobalFunction(this.NaviDrop);
-            //版权信息
-            this.Document.SetValue("copyright", WeiSha.Common.Request.Copyright);
-            //用本地模板引擎处理标签
-            Song.Template.Handler.Start(this.Document);
+            ////导航菜单
+            //this.Document.RegisterGlobalFunction(this.Navi);
+            //this.Document.RegisterGlobalFunction(this.NaviDrop);
+            ////版权信息
+            //this.Document.SetValue("copyright", WeiSha.Common.Request.Copyright);
+            ////用本地模板引擎处理标签
+            //Song.Template.Handler.Start(this.Document);
             //
             //开始输出
             this.InitPageTemplate(context);
             this.Document.Render(this.Response.Output);
 
-            //DateTime afterDT = System.DateTime.Now;
-            //TimeSpan ts = afterDT.Subtract(beforDT);
-            //if (ts.TotalMilliseconds >= 100)
-            //{
-            //    WeiSha.Common.Log.Debug(this.GetType().FullName, string.Format("页面输出,耗时：{0}ms", ts.TotalMilliseconds));
-            //}
+            DateTime afterDT = System.DateTime.Now;
+            TimeSpan ts = afterDT.Subtract(beforDT);
+            if (ts.TotalMilliseconds >= 1)
+            {
+                WeiSha.Common.Log.Debug(this.GetType().FullName, string.Format("页面输出,耗时：{0}ms", ts.TotalMilliseconds));
+            }
         }
         #endregion
 
