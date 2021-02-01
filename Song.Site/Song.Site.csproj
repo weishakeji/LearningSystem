@@ -721,6 +721,7 @@
     <Content Include="Pay\Weixin\miniProgramCall.aspx" />
     <Content Include="Pay\Weixin\miniProgramResult.aspx" />
     <Content Include="Readme.html" />
+    <Content Include="Reconsitution.txt" />
     <Content Include="Templates\Mobi\Default2019\About.htm" />
     <Content Include="Templates\Mobi\Default2019\APICloud\api.js" />
     <Content Include="Templates\Mobi\Default2019\APICloud\common.js" />
@@ -2373,6 +2374,7 @@
     <Compile Include="API\SSO\HangzhouZhengfang.aspx.designer.cs">
       <DependentUpon>HangzhouZhengfang.aspx</DependentUpon>
     </Compile>
+    <Content Include="App_Code\Reconsitution.cs" />
     <Compile Include="Article.ashx.cs">
       <DependentUpon>Article.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

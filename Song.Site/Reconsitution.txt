@@ -1,0 +1,2 @@
+﻿/mobile/default.ashx
+--/Default.ashx

@@ -17,6 +17,7 @@ using Song.ServiceInterfaces;
 using Song.Entities;
 using WeiSha.WebControl;
 using System.Web.SessionState;
+using System.Collections.Generic;
 
 namespace Song.Site
 {
@@ -243,14 +244,19 @@ namespace Song.Site
             this.Document.SetValue("tick", DateTime.Now.Ticks);
             //系统版本号          
             this.Document.SetValue("version", version);
-            ////导航菜单
-            //this.Document.RegisterGlobalFunction(this.Navi);
-            //this.Document.RegisterGlobalFunction(this.NaviDrop);
-            ////版权信息
-            //this.Document.SetValue("copyright", WeiSha.Common.Request.Copyright);
-            ////用本地模板引擎处理标签
-            //Song.Template.Handler.Start(this.Document);
-            //
+            
+            //如果当前页面没有重构，则继续用原来的方法
+            if (!Reconsi.Exist)
+            {
+                //导航菜单
+                this.Document.RegisterGlobalFunction(this.Navi);
+                this.Document.RegisterGlobalFunction(this.NaviDrop);
+                //版权信息
+                this.Document.SetValue("copyright", WeiSha.Common.Request.Copyright);
+                //用本地模板引擎处理标签
+                Song.Template.Handler.Start(this.Document);
+            }
+
             //开始输出
             this.InitPageTemplate(context);
             this.Document.Render(this.Response.Output);
@@ -340,5 +346,58 @@ namespace Song.Site
         }
         #endregion
 
+    }
+    /// <summary>
+    /// 将要重构的文件判断
+    /// </summary>
+    public class Reconsi
+    {
+        /// <summary>
+        /// 所有将要重构的页面
+        /// </summary>
+        public static List<string> Files
+        {
+            get
+            {
+                System.Web.Caching.Cache cache = System.Web.HttpRuntime.Cache;
+                if (cache == null) return null;
+                //取缓存数据
+                string cachekey = "Reconsitution_webpage";
+                object cachevalue = cache.Get(cachekey);
+                if (cachevalue != null) return (List<string>)cachevalue;
+                //如果没有缓存，则读取并创建缓存
+                string filepath = System.AppDomain.CurrentDomain.BaseDirectory + "Reconsitution.txt";
+                List<string> _files = new List<string>();
+                using (StreamReader sr = new StreamReader(filepath, Encoding.Default))
+                {
+                    String line;
+                    while ((line = sr.ReadLine()) != null)
+                        if (!string.IsNullOrWhiteSpace(line)) _files.Add(line);
+                    sr.Close();
+                    cache.Insert(cachekey, _files, new System.Web.Caching.CacheDependency(filepath));
+                }
+                return _files;
+            }
+        }
+        /// <summary>
+        /// 是否存在重构
+        /// </summary>
+        public static bool Exist
+        {
+            get
+            {
+                System.Web.HttpContext context = System.Web.HttpContext.Current;
+                string path = context.Request.Url.AbsolutePath;
+                List<string> _files = Files;
+                foreach(string s in _files)
+                {
+                    if (path.Equals(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
     }
 }
