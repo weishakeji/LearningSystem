@@ -38,7 +38,7 @@
         //key:参数名
         //defvalue:默认值（如果key取不到值）
         querystring: function (key, defvalue) {
-            defvalue=typeof(defvalue)=="undefined" ? "" : defvalue;
+            defvalue = typeof (defvalue) == "undefined" ? "" : defvalue;
             var url = String(window.document.location.href);
             if (url.indexOf("?") < 0) return defvalue;
             //取所有参数
@@ -53,7 +53,7 @@
                     key: arr[0],
                     val: arr[1]
                 });
-            }           
+            }
             //返回
             for (var q in values) {
                 if (values[q].key.toLowerCase() == key.toLowerCase())
@@ -180,10 +180,7 @@
         cookie: function (name, value, options) {
             if (typeof value != 'undefined') { // name and value given, set cookie 
                 options = options || {};
-                if (value === null) {
-                    value = '';
-                    options.expires = -1;
-                }
+                if (value === null) { value = ''; options.expires = -1; }
                 var expires = '';
                 if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
                     var date;
@@ -217,7 +214,7 @@
         },
         //本地接口缓存,way:api请求路径,para：请求参数,value:api的返回值
         apicache: function (way, para, value) {
-            if (window.location.hostname == 'localhost') return null;
+            //if (window.location.hostname == 'localhost') return null;
             //接口缓存名称，缓存指令，缓存项的名称
             var name, active = '', key;
             if (way.indexOf(":") > -1) {
@@ -503,6 +500,22 @@
             eval("this." + m + "=" + methods[m] + ";");
         }
     };
+    //机构信息，主要为了解析config
+    apiObj.prototype.organ = function (organ) {
+        var obj = { 'obj': organ, 'id': organ.Org_ID, 'domain': organ.Org_TwoDomain, 'config': {} };
+        //创建文档对象
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(organ.Org_Config, "text/xml");
+        var nodes = xmlDoc.lastChild.children;
+        for (var i = 0; i < nodes.length; i++) {
+            var key = nodes[i].attributes['key'].value;
+            var val = nodes[i].attributes['value'].value;
+            if (val == 'True') val = true;
+            if (val == 'False') val = false;
+            obj.config[key] = val;
+        }
+        return obj;
+    }
     //创建$api调用对象
     for (var v in config.versions) {
         var str = config.versions[v] == "" ?

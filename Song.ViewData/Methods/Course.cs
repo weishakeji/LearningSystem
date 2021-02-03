@@ -71,8 +71,11 @@ namespace Song.ViewData.Methods
             for (int i = 0; i < eas.Count; i++)
             {
                 Song.Entities.Course c = eas[i];
+                //图片和缩略图
                 c.Cou_Logo = vpath + c.Cou_Logo;
                 c.Cou_LogoSmall = vpath + c.Cou_LogoSmall;
+                if (!System.IO.File.Exists(c.Cou_Logo)) c.Cou_Logo = "";
+                if (!System.IO.File.Exists(c.Cou_LogoSmall)) c.Cou_LogoSmall = "";
                 //是否免费，或是限时免费
                 if (c.Cou_IsLimitFree)
                 {
@@ -81,7 +84,7 @@ namespace Song.ViewData.Methods
                         c.Cou_IsLimitFree = false;
                 }
                 c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
-                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");               
+                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
             }
             ListResult result = new ListResult(eas);
             result.Index = index;

@@ -202,12 +202,13 @@ a {
 	padding-left: 10px;
 }
 
-.cour-bar .cour-tit {
+.cour-bar .cour-tit>* {
 	font-size: 16px;
 	line-height: 40px;
 	margin-left: 5px !important;
 	margin-right: 5px !important;
 	padding: 0px !important;
+	background-color: transparent !important;
 }
 
 .cour-bar .current {
@@ -298,21 +299,6 @@ a {
 	box-shadow: 1px 1px 2px #888888;
 }
 
-/*免费课程的角标*/
-
-.cour-list .cour-box free {
-	position: absolute;
-	top: 12px;
-	right: -8px;
-}
-
-.cour-list .cour-box free:before {
-	content: "\e633";
-	font-family: iconfont;
-	font-size: 40px;
-	color: #090;
-}
-
 /*限时免费的角标*/
 
 .cour-list .cour-box limitfree {
@@ -347,12 +333,12 @@ a {
 	display: block;
 	text-align: left;
 	line-height: 20px;
-	height: 22px;
-	overflow: hidden;
+	max-height: 40px;
+	--overflow: hidden;
 	width: 90%;
-	margin: 5px auto 5px auto;
+	margin: 5px auto 0px auto;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+	--white-space: nowrap;
 }
 
 live {
@@ -364,15 +350,17 @@ live {
 	margin-right: 5px;
 }
 
-.cour-list .cour-box price {
+.cour-list .cour-box price {	
 	height: 25px;
 	font-size: 12px;
 	text-align: left;
-	display: block;
-	width: 90%;
 	margin-right: auto;
 	margin-left: auto;
 	color: #F30;
+	right: 8px;
+	top: 12px;
+	text-shadow:1px 1px 1px white;
+	position: absolute;
 }
 
 /*免费*/

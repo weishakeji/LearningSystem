@@ -45,6 +45,7 @@ namespace Song.ViewData.Methods
         {
             return _trans(Business.Do<IOrganization>().OrganCurrent());
         }
+
         #region 私有方法
         /// <summary>
         /// 处理机构对外展示的信息

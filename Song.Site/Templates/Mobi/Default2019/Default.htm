@@ -78,22 +78,17 @@
               <a class="cour-more" href="courses.ashx" type="link"></a>
               <div id="sliderSegmentedControl"
                 class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted cour-bar">
-                <div class="mui-scroll">
-                  <button class="mui-control-item cour-tit current" v-on:click="curr_sbjid=0">精选课程</button>
-                  <button class="mui-control-item cour-tit" v-for="m in subject" v-on:click="curr_sbjid=m.Sbj_ID"
-                    :sbjid="m.Sbj_ID">{{m.Sbj_ByName}}</button>
+                <div class="mui-scroll cour-tit">
+                  <a :class="'mui-control-item '+ (curr_sbjid==0 ? 'current' : '')" v-on:tap="curr_sbjid=0">精选课程</a>
+                  <a :class="'mui-control-item '+ (curr_sbjid==m.Sbj_ID ? 'current' : '')" v-for="m in subject"
+                    v-on:tap="curr_sbjid=m.Sbj_ID" :sbjid="m.Sbj_ID">{{m.Sbj_ByName}}</a>
                 </div>
               </div>
             </div>
             <div class="cour-context">
-              <img class="default-img" default="images/cou_nophoto.jpg" style="display: none;" />
-              <courses :sbjid="curr_sbjid"></courses>
-              <div class="cour-list" sbjid="0">
+              <img id="default-img" src="images/cou_nophoto.jpg" style="display: none;" />
+              <courses :sbjid="curr_sbjid" :orgid="organ.Org_ID" :config="config"></courses>
 
-                <img src="images/load_016.gif" class="loading" />
-                <br />
-                <span class="loading">正在加载“{0}”...</span>
-              </div>
             </div>
             <!-- 课程区结束 -->
           </div>
