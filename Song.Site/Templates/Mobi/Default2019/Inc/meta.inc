@@ -19,13 +19,13 @@
 <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/vue_min.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/api.js?ver={$version}"></script>
-<script type="text/javascript" src="/Utility/ElementUi/index.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utilities/ElementUi/index.js?ver={$version}"></script>
 <!--核心Css文件-->
 
 <link rel="stylesheet" href="../CoreStyles/mui.min.css?ver={$version}"/>
 <link rel="stylesheet" href="../CoreStyles/public.css?ver={$version}"/>
 <link rel="stylesheet" href="../CoreStyles/PageBox.css?ver={$version}"/>
-<link rel="stylesheet" href="/Utility/ElementUi/index.css?ver={$version}"/>
+<link rel="stylesheet" href="/Utilities/ElementUi/index.css?ver={$version}"/>
 <!--APICloud的接口文件，当用apicloud打包app时，需要用到-->
 <script src="../APICloud/common.js?ver={$version}"></script>
 <script src="../APICloud/dataSource.js?ver={$version}"></script>

@@ -65,6 +65,27 @@ namespace Song.ViewData.Methods
 
             return dt;
         }
+        /// <summary>
+        /// 供前端显示的专业最顶级分类
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public Song.Entities.Subject[] ShowRoot(int orgid, int count)
+        {
+            Song.Entities.Subject[] sbjs = Business.Do<ISubject>().SubjectCount(orgid, string.Empty, true, 0, count);
+            string path = Upload.Get["Subject"].Virtual;
+            foreach (Song.Entities.Subject c in sbjs)
+            {
+                c.Sbj_Logo = path + c.Sbj_Logo;
+                c.Sbj_LogoSmall = path + c.Sbj_LogoSmall;
+                //如果别名为空，则别名等于专业名称
+                if (string.IsNullOrWhiteSpace(c.Sbj_ByName) || c.Sbj_ByName.Trim() == "")
+                    c.Sbj_ByName = c.Sbj_Name;
+                c.Sbj_Intro = HTML.ClearTag(c.Sbj_Intro);
+            }
+            return sbjs;
+        }
         #region 私有方法，处理对象的关联信息
         /// <summary>
         /// 处理专业信息，图片转为全路径，并生成clone对象

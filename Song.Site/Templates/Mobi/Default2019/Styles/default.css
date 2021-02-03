@@ -40,10 +40,19 @@ a {
 	background-color: #eee !important;
 }
 
+/*轮换图片*/
+
+.el-carousel__item img {
+	width: calc(100% - 10px);
+	height: calc(100% - 10px);
+	margin: 5px;
+	border-radius: 5px;
+}
+
 /*通知公告*/
 
 .notice-box {
-	margin-top: 8px;
+	margin-top: 0px;
 	height: 52px;
 }
 
@@ -82,15 +91,18 @@ a {
 
 .custom-menu {
 	width: 100%;
-	display: table;
+	flex-direction:row;
+	display: flex;
+	flex-wrap: wrap;
+    flex-flow: row wrap;/*子元素溢出父容器时换行*/
 	text-align: center;
 	margin-top: 6px;
 	background-color: #FFF;
 }
 
 .custom-menu a {
-	float: left;
-	width: 33%;
+	float: left;	
+	width: 20%;
 	height: 80px;
 	display: block;
 	overflow: hidden;
@@ -108,7 +120,6 @@ a {
 	border-radius: 50%;
 }
 
-.custom-menu a img {}
 
 .custom-menu a b:before {
 	content: "\e610";
@@ -412,5 +423,4 @@ live {
 
 [v-cloak] {
 	display: none;
-	
 }

@@ -1,17 +1,78 @@
-﻿window.vue = new Vue({
-    el: '#app',
+﻿window.vapp = new Vue({
+    el: '#vapp',
     data: {
-
+        organ: {},       //当前机构
+        showpic: [],        //轮换图片
+        notice: [],          //通知公告
+        menus: [],        //主导航菜单
+        subject: [],         //专业
+        curr_sbjid: 0        //当前专业
     },
-    methods: {}
+    watch: {
+        'curr_sbjid': function (nv, ov) {
+            //console.log(nv);
+        }
+    },
+    created: function () {
+        $api.get('Organ/Current').then(function (req) {
+            if (req.data.success) {
+                vapp.organ = req.data.result;
+                document.title = vapp.organ.Org_PlatformName;
+                //轮换图片，通知公告,自定义菜单项，专业
+                var orgid = vapp.organ.Org_ID;
+                $api.bat(
+                    $api.get('Showpic/Mobi', { 'orgid': orgid }),
+                    $api.get('Notice/ShowItems', { 'orgid': orgid, 'count': 10 }),
+                    $api.get('Navig/Mobi', { 'orgid': orgid, 'type': 'main' }),
+                    $api.get('Subject/ShowRoot', { 'orgid': orgid, 'count': 10 })
+                ).then(axios.spread(function (showpic, notice, menus, subject) {
+                    //判断结果是否正常
+                    for (var i = 0; i < arguments.length; i++) {
+                        if (arguments[i].status != 200)
+                            console.error(arguments[i]);
+                        var data = arguments[i].data;
+                        if (!data.success && data.exception != '') {
+                            console.error(data.exception);
+                            throw data.message;
+                        }
+                    }
+                    //获取结果
+                    vapp.showpic = showpic.data.result;
+                    vapp.notice = notice.data.result;
+                    vapp.menus = menus.data.result;
+                    vapp.subject = subject.data.result;
+                })).catch(function (err) {
+                    console.error(err);
+                });
+
+            } else {
+                console.error(req.data.exception);
+                throw req.data.message;
+            }
+        }).catch(function (err) {
+            alert(err);
+            console.error(err);
+        });
+    },
+    methods: {
+        changeSbj: function (sbj) {
+            //console.log(sbj);
+        }
+    },
+    filters: {
+        date: function (time, fmt) {
+            //console.log(fmt);
+            return time.format(fmt);
+        }
+    }
 });
 
 $(window).load(function () {
-   
+
 });
 $(function () {
- 
-    default_event();
+
+    //default_event();
     //热门课程点击事件
     mui('body').on('tap', '.cou-item', function () {
         var id = $(this).attr("couid");
@@ -25,27 +86,6 @@ $(function () {
     //    $("#test").append("是否处于微信小程序：" + ismini);
 });
 
-//通知公告
-$(function () {
-    if ($(".notice-box li").size() > 1) {
-        $(".notice-box li").hide();
-        $(".notice-box li:first").show();
-        window.setInterval("notice_alternate()", 3000);
-    }
-});
-function notice_alternate() {
-    var curr = $(".notice-box li:visible");
-    var next = curr.next();
-    if (next.size() <= 0) {
-        var first = $(".notice-box li:first");
-        //alert(first.get(0).outerHTML);
-        $(".notice-box").append(first.get(0).outerHTML);
-        first.remove();
-        next = curr.next();
-    }
-    curr.slideUp(500);
-    next.slideDown(500);
-}
 
 //自动登录
 //WeixinLoginIsUse:微信登录是否启用
@@ -93,7 +133,7 @@ function default_event() {
         $(".cour-context .cour-list").hide();
         //显示课程列表
         var list = $(".cour-context .cour-list[sbjid=" + sbjid + "]").show();
-        list.html(list.html().replace("{0}", sbjname));
+        //list.html(list.html().replace("{0}", sbjname));
         //课程点击事件
         mui('body').off('tap', '.cour-box').on('tap', '.cour-box', function () {
             var id = $(this).attr("couid");
@@ -139,7 +179,7 @@ function default_event() {
                     list.find("img:last").error(function () {
                         var errImg = $(this).attr("default");
                         if (errImg == null) return false;
-                        $(this).attr("src", errImg);
+                        //$(this).attr("src", errImg);
                     });
                 }
                 //list.append("<a class='list-more' type='link' href='courses.ashx?sbjids=" + sbjid + "'>更多课程点这里...</a>");
@@ -158,7 +198,21 @@ function default_event() {
         });
     });
     //加载第一个课程选项卡
-    mui.trigger(document.querySelector('.current'), 'tap');
+    //mui.trigger(document.querySelector('.current'), 'tap');
 }
 
-
+//课程列表
+Vue.component('courses', {
+    // 声明 props
+    props: ['sbjid'],
+    data: function () {
+        datas: []
+    },
+    watch: {
+        'sbjid': function (val, old) {
+            console.log(val);
+        }
+    },
+    // 同样也可以在 vm 实例中像 "this.message" 这样使用
+    template: '<span>{{ sbjid }}</span>'
+})

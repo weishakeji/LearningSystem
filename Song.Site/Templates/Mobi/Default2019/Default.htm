@@ -2,11 +2,11 @@
 <html>
 
 <head>
-  <title>{$org.org_platformname}</title>
+  <title></title>
   <vt:include file="inc/meta.inc" />
   <link rel="stylesheet" href="Styles/default.css?ver={$version}" />
- 
-  <script type="text/javascript" src="Scripts/default.js?ver={$version}"></script>
+
+
   <script type="text/javascript" src="/Utility/Scripts/popup-notice.js?ver={$version}"></script>
 </head>
 
@@ -14,7 +14,7 @@
   <div id="offCanvasWrapper" class="mui-off-canvas-wrap mui-draggable mui-scalable">
     <!--侧滑菜单部分-->
     <vt:include file="inc/Menu.html" />
-    <div class="mui-inner-wrap">
+    <div class="mui-inner-wrap" id="vapp">
       <header class="mui-bar mui-bar-nav headbar"><img src="{$orgPath}{$org.org_logo}" class="logo" />
         <form action="courses.ashx" method="get" id="formSearch">
           <input name="sear" type="search" class="sear txtSearch" placeholder="搜索">
@@ -35,73 +35,41 @@
         <div class="mui-scroll">
           <!--/*轮换图片*/-->
           <div class="mui-slider" style="margin-top: 40px;">
-            <div class="mui-slider-group mui-slider-loop">
-              <vt:list type="showpic" var="$show" site="mobi" item="sp" index="j">
-                <vt:if var="#.j" value="$show.length" compare="=">
-                  <div class="mui-slider-item mui-slider-item-duplicate"><a href="{$:sp.shp_url}" type="link"
-                      target="{$:sp.shp_target}"><img src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a> </div>
-                </vt:if>
-              </vt:list>
-              <vt:list type="showpic" from="$show" site="mobi" item="sp" index="j">
-                <div class="mui-slider-item"><a href="{$:sp.shp_url}" type="link" target="{$:sp.shp_target}"><img
-                      src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a> </div>
-                <vt:listelse />
-                <!--支持循环，需要重复图片节点-->
-                <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="imagesShow/3.jpg" /></a>
-                </div>
-                <div class="mui-slider-item"><a href="#"><img src="imagesShow/1.jpg" /></a></div>
-                <div class="mui-slider-item"><a href="#"><img src="imagesShow/2.jpg" /></a></div>
-                <div class="mui-slider-item"><a href="#"><img src="imagesShow/3.jpg" /></a></div>
-                <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="imagesShow/1.jpg" /></a>
-                </div>
-              </vt:list>
-              <vt:list type="showpic" from="$show" site="mobi" item="sp" index="j">
-                <vt:if var="#.j" value="1" compare="=">
-                  <div class="mui-slider-item mui-slider-item-duplicate"><a href="{$:sp.shp_url}" type="link"
-                      target="{$:sp.shp_target}"><img src="{$:sp.shp_file}" alt="{$:sp.shp_intro}" /></a> </div>
-                </vt:if>
-              </vt:list>
-            </div>
+            <el-carousel height="150px" indicator-position="none" v-if="showpic.length>0">
+              <el-carousel-item v-for="pic in showpic" :key="pic.Shp_ID">
+                <a :href="pic.Shp_Url" :type="pic.Shp_Url=='' ? 'none' : 'link'"> <img :src="pic.Shp_File"
+                    :alt="pic.Shp_Intro" /></a>
+              </el-carousel-item>
+            </el-carousel>
+            <el-carousel height="150px" indicator-position="none" v-else>
+              <el-carousel-item> <img src="imagesShow/1.jpg" /> </el-carousel-item>
+              <el-carousel-item> <img src="imagesShow/2.jpg" /> </el-carousel-item>
+              <el-carousel-item> <img src="imagesShow/3.jpg" /> </el-carousel-item>
+            </el-carousel>
           </div>
-          <script>
-            //获得slider插件对象
-            var gallery = mui('.mui-slider');
-            gallery.slider({
-              interval: 2000//自动轮播周期，若为0则不自动播放，默认为0；
-            });
-          </script>
-          <!--轮换图片结束-->
+
           <!--通知公告-->
-          <vt:list type="notice" var="$notices" item="data" index="i" count="5"> </vt:list>
-          <vt:if var="notices.Length" value="0" compare=">">
-            <ul class="mui-table-view notice-box">
-              <vt:list type="notice" from="$notices" item="data" index="i">
-                <li class="mui-table-view-cell" noid="{$:#.data.no_id}"> <a href="notice.ashx?id={$:#.data.no_id}"
-                    class="notice" title="{$:#.data.no_ttl}" type="link"> <i></i> {$:#.data.no_ttl}</a> <span
-                    class="mui-badge">{$:#.data.no_startTime format="MM-dd"}</span> </li>
-              </vt:list>
-            </ul>
-          </vt:if>
+          <ul class="mui-table-view notice-box" v-if="notice.length>0">
+            <el-carousel height="50px" direction="vertical" :autoplay="true">
+              <el-carousel-item v-for="(data,index) in notice" :noid="data.No_Id" :key="data.No_Id">
+                <li class="mui-table-view-cell mui-collapse"><a :href="'notice.ashx?id='+data.No_Id" class="notice"
+                    :title="data.No_Ttl" type="link"> <i></i>
+                    {{data.No_Ttl}}</a> <span class="mui-badge">{{data.No_StartTime|date('MM-dd')}}</span>
+                </li>
+              </el-carousel-item>
+            </el-carousel>
+          </ul>
           <!--自定义菜单-->
-          <vt:function var="menu" method="Navi" args="main" args="0" />
-          <vt:if var="menu.length" value="0" compare=">">
-            <vt:function var="path" method="Path" args="org" />
-            <div class="custom-menu">
-              <vt:foreach from="$#.menu" item="m" index="i"> <a type="link" href="{$:m.nav_url}"
-                  target="{$:m.nav_target}">
-                  <vt:if var="#.m.nav_logo" value="" compare="!="> <img alt="" src="{$:path}{$:m.nav_logo}"
-                      class="mitem" />
-                    <vt:else />
-                    <b class="mitem"></b> </vt:if>
-                  <vt:if var="m.nav_isbold" value="true" compare="=">
-                    <span style="color: {$:m.nav_color};font-family: {$:m.nav_font};font-weight: bold;">
-                      <vt:else />
-                      <span style="color: {$:m.nav_color};font-family: {$:m.nav_font};">
-                  </vt:if>
-                  {$:m.nav_name} </span>
-                </a> </vt:foreach>
-            </div>
-          </vt:if>
+          <div class="custom-menu">
+            <a v-for="m in menus" :type="m.Nav_Url=='' ? 'none' : 'line'" :href="m.Nav_Url"
+              :style="'color:'+m.Nav_Color+';font-family:'+m.Nav_Font+';'">
+              <img :src="m.Nav_Logo" v-if="m.Nav_Logo!=''" class="mitem" />
+              <b class="mitem" v-else></b>
+              <strong v-if="m.Nav_IsBold">
+                {{m.Nav_Name}} </strong>
+              <template v-else> {{m.Nav_Name}} </template>
+            </a>
+          </div>
           <!--课程区-->
           <div class="cour-area">
             <div class="cour-top">
@@ -111,17 +79,17 @@
               <div id="sliderSegmentedControl"
                 class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted cour-bar">
                 <div class="mui-scroll">
-                  <a class="mui-control-item cour-tit current" sbjid="0">精选课程</a>
-                  <vt:list type="subject" var="$subject" item="data" index="i" count="10" pid="0" order="rec">
-                  </vt:list>
-                  <vt:foreach from="$#.subject" item="m" index="i"> <a class="mui-control-item cour-tit"
-                      sbjid="{$:m.sbj_id}" count="10">{$:m.Sbj_ByName}</a> </vt:foreach>
+                  <button class="mui-control-item cour-tit current" v-on:click="curr_sbjid=0">精选课程</button>
+                  <button class="mui-control-item cour-tit" v-for="m in subject" v-on:click="curr_sbjid=m.Sbj_ID"
+                    :sbjid="m.Sbj_ID">{{m.Sbj_ByName}}</button>
                 </div>
               </div>
             </div>
             <div class="cour-context">
               <img class="default-img" default="images/cou_nophoto.jpg" style="display: none;" />
+              <courses :sbjid="curr_sbjid"></courses>
               <div class="cour-list" sbjid="0">
+
                 <img src="images/load_016.gif" class="loading" />
                 <br />
                 <span class="loading">正在加载“{0}”...</span>
@@ -144,5 +112,6 @@
   </div>
 
 </body>
+<script type="text/javascript" src="Scripts/default.js?ver={$version}"></script>
 
 </html>

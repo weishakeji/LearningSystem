@@ -54,6 +54,42 @@ namespace Song.ViewData.Methods
             return result;
         }
         /// <summary>
+        /// 分页获取课程
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjids">章节id，可以为多个，以逗号分隔</param>
+        /// <param name="search">检索字符，按课程名称</param>
+        /// <param name="size">每页几条</param>
+        /// <param name="index">第几页</param>
+        /// <returns></returns>
+        public ListResult ShowPager(int orgid, string sbjids, string search, int size, int index)
+        {
+            int count = 0;
+            List<Song.Entities.Course> eas = null;
+            eas = Business.Do<ICourse>().CoursePager(orgid, sbjids, true, search, "", size, index, out count);
+            string vpath = WeiSha.Common.Upload.Get["Course"].Virtual;
+            for (int i = 0; i < eas.Count; i++)
+            {
+                Song.Entities.Course c = eas[i];
+                c.Cou_Logo = vpath + c.Cou_Logo;
+                c.Cou_LogoSmall = vpath + c.Cou_LogoSmall;
+                //是否免费，或是限时免费
+                if (c.Cou_IsLimitFree)
+                {
+                    DateTime freeEnd = c.Cou_FreeEnd.AddDays(1).Date;
+                    if (!(c.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                        c.Cou_IsLimitFree = false;
+                }
+                c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
+                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");               
+            }
+            ListResult result = new ListResult(eas);
+            result.Index = index;
+            result.Size = size;
+            result.Total = count;
+            return result;
+        }
+        /// <summary>
         /// 记录当前学员的视频学习进度
         /// </summary>
         /// <param name="couid">课程ID</param>
@@ -82,9 +118,10 @@ namespace Song.ViewData.Methods
         private Song.Entities.Course _tran(Song.Entities.Course cour)
         {
             if (cour == null) return cour;
+            string vpath = WeiSha.Common.Upload.Get["Course"].Virtual;
             Song.Entities.Course curr = cour.Clone<Song.Entities.Course>();
-            curr.Cou_Logo = WeiSha.Common.Upload.Get["Course"].Virtual + curr.Cou_Logo;
-            curr.Cou_LogoSmall = WeiSha.Common.Upload.Get["Course"].Virtual + curr.Cou_LogoSmall;
+            curr.Cou_Logo = vpath + curr.Cou_Logo;
+            curr.Cou_LogoSmall = vpath + curr.Cou_LogoSmall;
             return curr;
         }
         #endregion

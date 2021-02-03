@@ -19,9 +19,9 @@
     }
     //图片加载错误时，显示默认图片
     $("img").error(function () {
-        var errImg = $(this).attr("default");
-        if (errImg == null) return false;
-        $(this).attr("src", errImg);
+        //var errImg = $(this).attr("default");
+        //if (errImg == null) return false;
+        //$(this).attr("src", errImg);
     });
 });
 //超链接的事件
@@ -29,7 +29,7 @@ function a_click(event) {
     var v = this.onclick;
     var type = $.trim(this.getAttribute("type"));
     var target = $.trim(this.getAttribute("target"));
-    if (type == "link" || type == null) {
+    if (type == "link") {
         if (target == null || target == "" || target == "_blank" || type == "_self")
             document.location.href = this.href;
         if (target == "_top" || type == "_parent") top.location.href = this.href;

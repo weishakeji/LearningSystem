@@ -182,12 +182,13 @@ $(function(){
 			$(".signature").text(acc.Ac_Signature=="" ? "（没有签名）" : acc.Ac_Signature);	//个人签名
 			$(".income").show();
 			//头像
-			var root=$(".accPhoto img").attr("root");
+            var root = $(".accPhoto img").attr("root");
+            /*
 			$(".accPhoto img").attr("src",root+acc.Ac_Photo).error(function () {
 				var errImg = $(this).attr("default");
 				if (errImg == null) return false;
 				$(this).attr("src", errImg);
-			});
+			});*/
 			$(".accPhoto a").attr("href",$(".acc-name a").attr("href"));
 		}
 	});

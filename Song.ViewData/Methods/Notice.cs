@@ -76,6 +76,11 @@ namespace Song.ViewData.Methods
             result.Total = count;
             return result;
         }
+        /// <summary>
+        /// 弹窗公告，用于广告或通知
+        /// </summary>
+        /// <param name="forpage">所在页面位置</param>
+        /// <returns></returns>
         public ListResult OpenItems(string forpage)
         {
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
@@ -85,6 +90,21 @@ namespace Song.ViewData.Methods
             result.Size = eas.Length;
             result.Total = eas.Length;
             return result;
+        }
+        /// <summary>
+        /// 显示通知公告
+        /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="count">取多少条</param>
+        /// <returns></returns>
+        public Song.Entities.Notice[] ShowItems(int orgid, int count)
+        {
+            if (orgid <= 0)
+            {
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                orgid = org.Org_ID;
+            }
+            return Business.Do<INotice>().GetCount(orgid, true, count);
         }
     }
 }
