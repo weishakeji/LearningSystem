@@ -42,6 +42,10 @@ a {
 
 /*轮换图片*/
 
+.el-carousel {
+	background-color: #fff;
+}
+
 .el-carousel__item img {
 	width: calc(100% - 10px);
 	height: calc(100% - 10px);
@@ -91,17 +95,19 @@ a {
 
 .custom-menu {
 	width: 100%;
-	flex-direction:row;
+	flex-direction: row;
 	display: flex;
 	flex-wrap: wrap;
-    flex-flow: row wrap;/*子元素溢出父容器时换行*/
+	flex-flow: row wrap;
+	/*子元素溢出父容器时换行*/
 	text-align: center;
-	margin-top: 6px;
+	margin-top: 0px;
+	padding-top: 6px;
 	background-color: #FFF;
 }
 
 .custom-menu a {
-	float: left;	
+	float: left;
 	width: 20%;
 	height: 80px;
 	display: block;
@@ -119,7 +125,6 @@ a {
 	margin-right: auto;
 	border-radius: 50%;
 }
-
 
 .custom-menu a b:before {
 	content: "\e610";
@@ -158,7 +163,7 @@ a {
 
 .cour-top {
 	position: relative;
-	width: calc(100% - 16px);
+	width: 100%;
 	height: 40px;
 }
 
@@ -228,7 +233,8 @@ a {
 .cour-list {
 	text-align: center;
 	width: 100%;
-	margin-bottom: 50px;
+	margin-bottom: 60px;
+	padding-bottom: 20px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
@@ -334,7 +340,7 @@ a {
 	text-align: left;
 	line-height: 20px;
 	max-height: 40px;
-	--overflow: hidden;
+	overflow: hidden;
 	width: 90%;
 	margin: 5px auto 0px auto;
 	text-overflow: ellipsis;
@@ -350,16 +356,10 @@ live {
 	margin-right: 5px;
 }
 
-.cour-list .cour-box price {	
-	height: 25px;
-	font-size: 12px;
-	text-align: left;
-	margin-right: auto;
-	margin-left: auto;
-	color: #F30;
-	right: 8px;
-	top: 12px;
-	text-shadow:1px 1px 1px white;
+.cour-list .cour-box price {
+	right: 3px;
+	top: 10px;
+	text-shadow: 1px 1px 2px white, -1px -1px 2px white;
 	position: absolute;
 }
 
@@ -367,14 +367,14 @@ live {
 
 .cour-list .cour-box price f {
 	color: #090;
-	font-size: 10px;
+	font-size: 13px;
 }
 
 .cour-list .cour-box price f:before {
 	content: "\e61a";
 	font-family: iconfont;
-	font-size: 20px;
-	margin-right: 5px;
+	font-size: 16px;
+	margin-right: 2px;
 }
 
 /*限时免费费*/
@@ -387,7 +387,7 @@ live {
 .cour-list .cour-box price l:before {
 	content: "\e645";
 	font-family: iconfont;
-	font-size: 17px;
+	font-size: 15px;
 	margin-right: 2px;
 }
 
@@ -398,13 +398,17 @@ live {
 .cour-list .cour-box price m {
 	color: #F60;
 	font-size: 12px;
+	line-height: 12px;
 }
 
 .cour-list .cour-box price m:before {
 	content: "\e619";
 	font-family: iconfont;
-	font-size: 16px;
-	margin-right: 5px;
+	display: inline-block;
+	padding-top: 2px;
+	font-size: 15px;
+	line-height: 18px;
+	margin-right: 2px;
 }
 
 /*通知公告的弹出*/
