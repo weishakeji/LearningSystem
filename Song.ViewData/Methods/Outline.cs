@@ -13,7 +13,7 @@ using System.IO;
 using pili_sdk;
 using Newtonsoft.Json;
 using System.Xml.Serialization;
-
+using Newtonsoft.Json.Linq;
 
 namespace Song.ViewData.Methods
 {
@@ -40,11 +40,11 @@ namespace Song.ViewData.Methods
         /// <param name="couid">所属课程的id</param>
         /// <param name="pid">上级id</param>
         /// <returns></returns>
-        [HttpGet(Ignore = true)]
+        [HttpGet]
         [Cache(Expires = 20)]
-        public Song.Entities.Outline[] List(int couid, int pid)
+        public Song.Entities.Outline[] List(int couid)
         {
-            return Business.Do<IOutline>().OutlineCount(couid, pid, true, 0);
+            return Business.Do<IOutline>().OutlineAll(couid, true);
         }
 
         /// <summary>
@@ -58,14 +58,47 @@ namespace Song.ViewData.Methods
         {
             // 当前课程的所有章节
             Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
+            //return outlines.Length > 0 ? _nodes(null, outlines) : null;
             if (outlines.Length > 0)
             {
-                foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;                
+                foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;
                 //树形章节输出
                 DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
                 return dt;
             }
             return null;
+        }
+        /// <summary>
+        /// 生成菜单子节点
+        /// </summary>
+        /// <param name="item">当前菜单项</param>
+        /// <param name="items">所有菜单项</param>
+        /// <returns></returns>
+        private JArray _nodes(Song.Entities.Outline item, Song.Entities.Outline[] items)
+        {
+            JArray jarr = new JArray();
+
+            foreach (Song.Entities.Outline m in items)
+            {
+
+                if (item == null)
+                {
+                    if (m.Ol_PID != 0) continue;
+                }
+                else
+                {
+                    if (m.Ol_PID != item.Ol_ID) continue;
+                }              
+
+                string j = m.ToJson(null, "Ol_LiveTime");
+
+                JObject jo = JObject.Parse(j);
+                jo.Add("id", "node_" + m.Ol_ID.ToString());
+                jo.Add("label", m.Ol_Name);               
+                jarr.Add(jo);
+                jo.Add("children", _nodes(m, items));
+            }
+            return jarr;
         }
         /// <summary>
         /// 章节附件

@@ -20,7 +20,25 @@ namespace Song.ViewData.Methods
     [HttpGet]
     public class Teacher : ViewMethod, IViewAPI
     {
-        
+        /// <summary>
+        /// 根据id获取教师信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Cache(Expires = 60)]
+        public Song.Entities.Teacher ForID(int id)
+        {
+            if (id <= 0) return null;
+            Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherSingle(id);
+            if (teacher != null)
+            {
+                if (System.IO.File.Exists(Upload.Get["Teacher"].Physics + teacher.Th_Photo))
+                    teacher.Th_Photo = Upload.Get["Teacher"].Virtual + teacher.Th_Photo;
+                else
+                    teacher.Th_Photo = "";
+            }
+            return teacher;
+        }
         /// <summary>
         /// 教师登录
         /// </summary>

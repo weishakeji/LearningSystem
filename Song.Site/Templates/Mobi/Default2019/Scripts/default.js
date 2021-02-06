@@ -146,7 +146,7 @@ Vue.component('courses', {
         //打开窗体
         open: function (cour) {
             console.log(cour);
-            new PageBox("课程详情", "Course.ashx?id=" + cour.Cou_ID, 100, 100, "url").Open();
+            new PageBox(cour.Cou_Name, "Course.ashx?id=" + cour.Cou_ID, 100, 100, "url").Open();
         },
         //显示价格
         price: function (cour) {
@@ -165,7 +165,6 @@ Vue.component('courses', {
             return price;
         }
     },
-    // 同样也可以在 vm 实例中像 "this.message" 这样使用
     template: '<div class="cour-list" :sbjid="sbjid">\
     <div class="cour-box" :couid="c.Cou_ID" v-for="(c,i) in datas" v-on:tap="open(c)">\
         <rec v-if="c.Cou_IsRec"></rec>\

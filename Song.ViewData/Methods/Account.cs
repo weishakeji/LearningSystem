@@ -28,6 +28,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts ForID(int id)
         {          
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(id);
+            if (acc == null) return null;
             return _tran(acc);
         }
         /// <summary>
@@ -39,6 +40,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts Current()
         {
             Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+            if (acc == null) return null;
             return _tran(acc);
         }
         /// <summary>
