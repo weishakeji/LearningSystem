@@ -194,6 +194,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public int CourseViewNum(Course entity, int num)
         {
+            if (num < 1) return entity.Cou_ViewNum;
             entity.Cou_ViewNum += num;
             Gateway.Default.Update<Course>(
                 new Field[] { Course._.Cou_ViewNum },

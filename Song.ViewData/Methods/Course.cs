@@ -180,6 +180,17 @@ namespace Song.ViewData.Methods
             bool isBuy = Business.Do<ICourse>().StudyIsCourse(acc.Ac_ID, couid);
             return isBuy;
         }
+        /// <summary>
+        /// 课程访问数
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="step">每次访问增加多少</param>
+        /// <returns></returns>
+        public int Viewnum(int couid, int step)
+        {
+            if (step < 0) step = 0;
+            return Business.Do<ICourse>().CourseViewNum(couid, 1);
+        }
         #region 私有方法，处理对象的关联信息
         /// <summary>
         /// 处理课程信息，图片转为全路径，并生成clone对象

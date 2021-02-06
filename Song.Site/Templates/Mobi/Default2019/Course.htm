@@ -9,7 +9,8 @@
 </head>
 
 <body>
-    <div id="vapp">
+    <div id="vapp" v-cloak>
+        <div class="loading" v-if="loading"></div>
         <div class="photo" v-if="JSON.stringify(course)!='{}'">
             <img id="default-img" src="images/cou_nophoto.jpg" style="display: none;" />
             <img :src="course.Cou_Logo" v-if="course.Cou_Logo!=''">
@@ -90,7 +91,7 @@
                 </div>
             </div>
         </div>
-        <div class="cour-footer">
+        <div class="cour-footer" v-show="!loading">
             <div class="couBtnBox">
                 <!--按钮开始-->
                 <div class="couBtn" v-if="JSON.stringify(course) === '{}'"> 课程不存在或被禁用</div>

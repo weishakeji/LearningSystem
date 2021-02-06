@@ -29,6 +29,7 @@ window.vapp = new Vue({
         prices: [],          //课程价格
         isbuy: false,        //是否购买课程
         defimg: '',   //课程默认图片
+        loading: false       //加载状态
     },
     watch: {
         'curr_sbjid': function (nv, ov) {
@@ -36,6 +37,7 @@ window.vapp = new Vue({
         }
     },
     created: function () {
+        this.loading = true;
         //默认图片
         var img = document.getElementById("default-img");
         this.defimg = img.getAttribute("src");
@@ -67,15 +69,16 @@ window.vapp = new Vue({
             if (req.data.success) {
                 vapp.course = req.data.result;
                 document.title = vapp.course.Cou_Name;
-                //课程章节，价格，购买人数,通知，教师，是否购买
+                //课程章节，价格，购买人数,通知，教师，是否购买,课程访问数
                 $api.bat(
                     $api.cache('Outline/Tree', { 'couid': vapp.course.Cou_ID }),
                     $api.cache('Course/Prices', { 'uid': vapp.course.Cou_UID }),
                     $api.get('Course/StudentSum', { 'couid': vapp.course.Cou_ID }),
                     $api.cache('Course/Guides', { 'couid': vapp.course.Cou_ID, 'count': 20 }),
                     $api.cache('Teacher/ForID', { 'id': vapp.course.Th_ID }),
-                    $api.get('Course/Studied', { 'couid': vapp.course.Cou_ID })
-                ).then(axios.spread(function (outlines, prices, sum, guides, teacher, isbuy) {
+                    $api.get('Course/Studied', { 'couid': vapp.course.Cou_ID }),
+                    $api.cache('Course/Viewnum', { 'couid': vapp.course.Cou_ID, 'step': 1 })
+                ).then(axios.spread(function (outlines, prices, sum, guides, teacher, isbuy, viewnum) {
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -86,6 +89,7 @@ window.vapp = new Vue({
                             throw data.message;
                         }
                     }
+                    vapp.loading = false;
                     //获取结果
                     vapp.outlines = outlines.data.result;
                     vapp.prices = prices.data.result;
@@ -93,6 +97,7 @@ window.vapp = new Vue({
                     vapp.guides = guides.data.result;
                     vapp.teacher = teacher.data.result;
                     vapp.isbuy = isbuy.data.result;
+                    vapp.course.Cou_ViewNum = viewnum.data.result;
                 })).catch(function (err) {
                     console.error(err);
                 });
@@ -107,17 +112,7 @@ window.vapp = new Vue({
         });
     },
     methods: {
-        //显示章节列表
-        outlineShow: function () {
-            var list = this.outline;
-            var html = "";
-            for (var i = 0; i < list.length; i++) {
-                html += " <span class=\"ol_name\">";
-                html += list[i].Ol_Name;
-                html += "</span>";
-            }
-            return html;
-        }
+
     }
 });
 

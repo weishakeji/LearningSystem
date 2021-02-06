@@ -32,7 +32,9 @@ body, a, p, div, input {
 a {
 	color: #555;
 }
-
+[v-cloak]{
+	display: none;
+}
 #offCanvasSide .mui-table-view-cell {
 	padding-top: 10px;
 	padding-right: 65px;
@@ -326,4 +328,46 @@ input {
 	-webkit-transform: scale(1) !important;
 	transform: scale(1) !important;
 	overflow: auto !important;
+}
+.loading {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 99999;
+	width: 100vw;
+	height: 100vh;
+	--background-color: rgba(0, 0, 0, 0.3);
+	padding: 70% 0px 0px 0px;
+	text-align: center;
+}
+
+.loading::before {
+	content: "";
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	margin: auto;
+	border-radius: 50%;
+	text-indent: -9999em;
+	font-size: 20px;
+	position: relative;
+	animation: load-effect 1s infinite linear;
+}
+
+@keyframes load-effect {
+	0% {
+		box-shadow: -3em 2em 0 .5em #999, 0 2em 0 0 #999, 3em 2em 0 -.5em #999;
+	}
+	25% {
+		box-shadow: -3em 2em 0 0 #999, 0 2em 0 -.5em #999, 3em 2em 0 0 #999;
+	}
+	50% {
+		box-shadow: -3em 2em 0 -0.5em #999, 0 2em 0 0 #999, 3em 2em 0 .5em #999;
+	}
+	75% {
+		box-shadow: -3em 2em 0 0 #999, 0 2em 0 .5em #999, 3em 2em 0 0 #999;
+	}
+	100% {
+		box-shadow: -3em 2em 0 .5em #999, 0 2em 0 0 #999, 3em 2em 0 -.5em #999;
+	}
 }
