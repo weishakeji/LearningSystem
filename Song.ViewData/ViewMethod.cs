@@ -23,5 +23,15 @@ namespace Song.ViewData
                 return letter;
             }
         }
+        /// <summary>
+        /// 当前登录学员
+        /// </summary>
+        public Song.Entities.Accounts Student
+        {
+            get
+            {
+                return Song.Extend.LoginState.Accounts.CurrentUser; 
+            }
+        }
     }
 }

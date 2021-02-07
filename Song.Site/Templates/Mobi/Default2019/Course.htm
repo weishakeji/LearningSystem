@@ -34,7 +34,6 @@
                         <span v-if="course.Cou_IsLimitFree">（{{course.Cou_FreeStart|date('yyyy/M/d')}}
                             - {{course.Cou_FreeEnd|date('yyyy/M/d')}}）</span>
                     </span>
-                    </span>
                     <span class="money" v-for="p in prices" v-if="prices.length>0" :title="'可以用券抵扣'+p.CP_Coupon+'元'">
                         <i class="p-span " v-html="p.CP_Span"></i>
                         <i class="p-unit" v-html="p.CP_Unit"></i>
@@ -45,11 +44,12 @@
             </div>
             <!--选项卡-->
             <div class="control">
-                <a class="control-item active" href="#item1">详情 </a><a class="control-item" href="#item1">
-                    章节 </a><a class="control-item" href="#item1">公告 </a>
+                <a :class="{'control-item':true, 'active':showState==1}" href="#item1" @tap="showState=1">详情 </a>
+                <a :class="{'control-item':true, 'active':showState==2}" href="#item1" @tap="showState=2"> 章节 </a>
+                <a :class="{'control-item':true, 'active':showState==3}" href="#item1" @tap="showState=3">公告 </a>
             </div>
             <div class="control-content">
-                <div class="details" style="display: block">
+                <div class="details" style="display: block" v-show="showState==1">
 
                     <div id="teacher" v-if="teacher!=null ">
                         <div class="teacher-tit">主讲教师：</div>
@@ -74,7 +74,7 @@
 
                     </div>
                 </div>
-                <div class="outlines">
+                <div class="outlines" v-show="showState==1 || showState==2">
                     <div class="olitem" :olid="o.Ol_ID" v-for="o in outlines"
                         :style="'padding-left:'+(o.Ol_Level*20)+'px'">
                         <span class="ol_name">{{o.Ol_XPath}}{{o.Ol_Name}}
@@ -82,7 +82,7 @@
                         </span>
                     </div>
                 </div>
-                <div>
+                <div v-show="showState==3">
                     <dl remark="课程公告">
                         <dd v-for="(g,i) in guides"><a :href="'Guide.ashx?id='+g.Gu_Id"
                                 target="_blank">{{i+1}}.{{g.Gu_Title}}</a>
@@ -95,28 +95,30 @@
             <div class="couBtnBox">
                 <!--按钮开始-->
                 <div class="couBtn" v-if="JSON.stringify(course) === '{}'"> 课程不存在或被禁用</div>
-                <a class="couBtn" v-else-if="account==null" href="Login.ashx" target="_top" title="请选登录">52登录学习</a>
+                <a class="couBtn" v-else-if="account==null" type="link" href="Login.ashx" target="_top"
+                    title="请选登录">52登录学习</a>
 
                 <template v-else>
                     <template v-if="course.Cou_IsFree || course.Cou_IsLimitFree || isbuy">
-                        <div class="couBtn study"> <a :href="'CoursePage.ashx?couid='+course.Cou_ID" target="_top"
-                                class="bvr_mr" title="开始学习">开始学习</a></div>
+                        <div class="couBtn study"> <a :href="'CoursePage.ashx?couid='+course.Cou_ID" type="link"
+                                target="_top" class="bvr_mr" title="开始学习">开始学习</a></div>
                     </template>
                     <template v-else-if="course.Cou_IsTry">
-                        <div class="couBtn btn1 study"> <a :href="'CoursePage.ashx?couid='+course.Cou_ID" target="_top"
-                                class="bvr_mr" title="开始学习">试学</a></div>
+                        <div class="couBtn btn1 study"> <a :href="'CoursePage.ashx?couid='+course.Cou_ID" type="link"
+                                target="_top" class="bvr_mr" title="开始学习">试学</a></div>
                         <div class="couBtn btn2"> <a :href="'CourseBuy.ashx?couid='+course.Cou_ID"
-                                :isPass="account.Ac_isPass" state="noSelected" target="_top" title="选修该课程">选修该课程</a>
+                                :isPass="account.Ac_isPass" state="noSelected" type="link" target="_top"
+                                title="选修该课程">选修该课程</a>
                         </div>
                     </template>
                     <template v-else>
                         <div class="couBtn"> <a :href="'CourseBuy.ashx?couid='+course.Cou_ID"
-                            :isPass="account.Ac_isPass" state="noSelected" target="_top"
-                            title="选修该课程">选修该课程</a> </div>
+                                :isPass="account.Ac_isPass" state="noSelected" target="_top" type="link"
+                                title="选修该课程">选修该课程</a> </div>
                     </template>
                 </template>
 
-              
+
 
                 <!--按钮结束-->
             </div>

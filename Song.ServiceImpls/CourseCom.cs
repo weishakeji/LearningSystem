@@ -897,7 +897,9 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Student_Course StudentCourse(int stid, int couid)
         {
-            return Gateway.Default.From<Student_Course>().Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid)
+            return Gateway.Default.From<Student_Course>()
+                .Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid)
+                .OrderBy(Student_Course._.Stc_ID.Desc)
                 .ToFirst<Student_Course>();
         }
         /// <summary>

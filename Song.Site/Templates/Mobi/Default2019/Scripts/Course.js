@@ -1,19 +1,3 @@
-$(function () {
-    //底部按钮的事件
-    mui('body').on('tap', '.cour-footer a', function (event) {
-        var target = this.getAttribute("target");
-        if (target == null) document.location.href = this.href;
-        if (target == "_top") top.location.href = this.href;
-    });
-    //主内容选项卡
-    mui('body').on('tap', '.control .control-item', function (event) {
-        $(".control .control-item").removeClass("active");
-        $(this).addClass("active");
-        var index = $(".control .control-item").index(this);
-        $(".control-content>div").hide();
-        $(".control-content>div:eq(" + index + ")").show();
-    });
-});
 window.vapp = new Vue({
     el: '#vapp',
     data: {
@@ -29,7 +13,8 @@ window.vapp = new Vue({
         prices: [],          //课程价格
         isbuy: false,        //是否购买课程
         defimg: '',   //课程默认图片
-        loading: false       //加载状态
+        loading: false,       //加载状态
+        showState:1         //内容显示的切换状态
     },
     watch: {
         'curr_sbjid': function (nv, ov) {

@@ -1,3 +1,4 @@
 ﻿/mobile/default.ashx
 /Mobile/Course.ashx
+/Mobile/CoursePage.ashx
 --/Default.ashx
