@@ -2,43 +2,62 @@
 
 <aside id="offCanvasSide" class="mui-off-canvas-left study-menu">
   <div id="offCanvasSideScroll" class="mui-scroll-wrapper">
-    <div class="mui-scroll">
+    <div class="mui-scroll" id="menu">
       <div class="cour-info">
-        <vt:function var="path" method="Path" args="Course" />
-        <img class="default-img" src="{$path}{$course.Cou_LogoSmall}" default="../images/cou_nophoto.jpg" />
+        <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
+        <img :src="course.Cou_Logo" v-if="course.Cou_Logo!=''">
+        <img :src="defimg" v-else>
         <div class="cour-info-right">
-          <cour-name>{$course.Cou_Name}</cour-name>
-          <sbj-name>{$course.Sbj_Name}</sbj-name>
+          <cour-name>{{course.Cou_Name}}</cour-name>
+          <sbj-name>{{course.Sbj_Name}}</sbj-name>
         </div>
       </div>
-      <ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted">
-        <vt:if var="outlines.Length" value="0" compare=">">
-          <vt:foreach from="$olTree" item="d" index="i" remark="章节">
-            <vt:expression var="r" args="$d.ol_level" args="10" expression="{0}*{1}" />
-            <li isvideo="{$:#.d.Ol_IsVideo}" islive="{$:#.d.Ol_IsLive}" class="mui-table-view-cell outline"
-              olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
-              <vt:if var="d.ol_isfinish" value="false" compare="=" remark="是否完结"> <a type="nofinish"
-                  class="noselect">{$:#.d.ol_name}</a><span class="mui-badge">未完</span>
+      <ul class="mui-table-view mui-table-view-chevron mui-table-view-inverted" v-if="outlines.length>0">
+        <li class="mui-table-view-cell outline" v-for="o in outlines" :isvideo="o.Ol_IsVideo" :islive="o.Ol_IsLive"
+          :olid="o.Ol_ID" :style="'padding-left:'+(o.Ol_Level*20)+'px'">
+          <template v-if="isbuy">
+            <a class="ol_name"
+              :href="'../CourseStudy.ashx?olid='+o.Ol_ID+'&couid='+course.Cou_ID">{{o.Ol_XPath}}{{o.Ol_Name}}
+            </a><span v-if="!o.Ol_IsFinish" class="mui-badge">未完</span>
+          </template>
+          <template v-else>
+            <a v-if="o.Ol_IsFree" href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}"
+              class="mui-navigate-right">{{o.Ol_XPath}}{{o.Ol_Name}}
+              <span class="mui-badge try">试学</span></a>
+            <a v-else href="../CourseBuy.ashx?&couid={$:#.d.cou_id}"
+              class="mui-navigate-right">{{o.Ol_XPath}}{{o.Ol_Name}}
+              <span class="mui-badge buy">购买</span></a>
+          </template>
+        </li>
+
+
+        <vt:foreach from="$olTree" item="d" index="i" remark="章节">
+          <vt:expression var="r" args="$d.ol_level" args="10" expression="{0}*{1}" />
+          <li isvideo="{$:#.d.Ol_IsVideo}" islive="{$:#.d.Ol_IsLive}" class="mui-table-view-cell outline"
+            olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
+            <vt:if var="d.ol_isfinish" value="false" compare="=" remark="是否完结"> <a type="nofinish"
+                class="noselect">{$:#.d.ol_name}</a><span class="mui-badge">未完</span>
+              <vt:else />
+              <vt:if var="isBuy" value="true" compare="=" remark="是否购买"> <a
+                  href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}"
+                  class="mui-navigate-right">{$:#.d.ol_name} </a>
                 <vt:else />
-                <vt:if var="isBuy" value="true" compare="=" remark="是否购买"> <a
+                <vt:if var="d.Ol_IsFree" value="true" compare="=" remark="如果未选修，但是课程免费"> <a
                     href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}"
-                    class="mui-navigate-right">{$:#.d.ol_name} </a>
+                    class="mui-navigate-right">{$:#.d.ol_name}</a>
+                  <span class="mui-badge try">试学</span>
                   <vt:else />
-                  <vt:if var="d.Ol_IsFree" value="true" compare="=" remark="如果未选修，但是课程免费"> <a
-                      href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}"
-                      class="mui-navigate-right">{$:#.d.ol_name}</a>
-                    <span class="mui-badge try">试学</span>
-                    <vt:else />
-                    <a type="buy" href="../CourseBuy.ashx?&couid={$:#.d.cou_id}"
-                      class="mui-navigate-right">{$:#.d.ol_name} </a> <span class="mui-badge buy">购买</span> </vt:if>
+                  <a type="buy" href="../CourseBuy.ashx?&couid={$:#.d.cou_id}"
+                    class="mui-navigate-right">{$:#.d.ol_name} </a> <span class="mui-badge buy">购买</span>
                 </vt:if>
               </vt:if>
-            </li>
-          </vt:foreach>
-          <vt:else />
-          <li class="mui-table-view-cell"> 当前课程没有章节 </li>
-        </vt:if>
+            </vt:if>
+          </li>
+        </vt:foreach>
+
+
       </ul>
+      <div class="mui-table-view-cell" v-else style="color: azure;"> 当前课程没有章节 </div>
     </div>
     <!-- 上面的侧滑菜单-->
   </div>
@@ -84,35 +103,99 @@
     });
 
   }
-  //图片加载错误时，显示默认图片
-  $("#offCanvasSide img").error(function () {
-    var errImg = $(this).attr("default");
-    if (errImg == null) return false;
-    $(this).attr("src", errImg);
-  });
+
+  /*
   //计算章节序号（树形排序）
   $(".outline").each(function () {
     var xpath = $(this).attr("xpath");
-    $(this).find("a").html("<span class='tax'>" + xpath + "</span>" + $(this).find("a").html());
+    //$(this).find("a").html("<span class='tax'>" + xpath + "</span>" + $(this).find("a").html());
   });
-
+*/
   /*//是否有视频
   $(".outline").each(function () {
   var isvideo=$(this).attr("isvideo");
   if(isvideo=="True")$(this).addClass("li-video");
   });
   */
-  //当前章节的样式
-  $(".outline").each(function () {
-    var olid = $("body").attr("olid"); //当前章节id
-    //如果没有olid参数，则第一个为当前章节
-    if (olid == null || olid == "") {
-      $(".outline:first").addClass("current");
-      return false;
+  /*
+   //当前章节的样式
+   $(".outline").each(function () {
+     var olid = $("body").attr("olid"); //当前章节id
+     //如果没有olid参数，则第一个为当前章节
+     if (olid == null || olid == "") {
+       $(".outline:first").addClass("current");
+       return false;
+     }
+     var currid = $(this).attr("olid");
+     var current = currid == olid ? $(this) : null;
+     if (current == null) return true;
+     current.addClass("current");
+   });*/
+  window.vmenu = new Vue({
+    el: '#menu',
+    data: {
+      couid: 0,        //课程id    
+      course: {},         //当前课程对象    
+      outlines: [],     //课程章节
+      isbuy: false,        //是否购买该课程     
+      defimg: '',   //课程默认图片
+      loading: false       //加载状态     
+    },
+    watch: {
+
+    },
+    created: function () {
+      this.loading = true;
+      //默认图片
+      var img = document.getElementById("default-img");
+      this.defimg = img.getAttribute("src");
+      //课程信息
+      this.couid = $api.querystring("couid");
+      $api.cache('Course/ForID', { 'id': this.couid }).then(function (req) {
+        if (req.data.success) {
+          vmenu.course = req.data.result;
+          document.title = vmenu.course.Cou_Name;
+          //课程章节，价格，购买人数,通知，教师，是否购买,课程访问数
+          var couid = vmenu.course.Cou_ID;
+          $api.bat(
+            $api.cache('Outline/Tree', { 'couid': couid }),
+            $api.get('Course/Studied', { 'couid': couid })
+          ).then(axios.spread(function (outlines, studied) {
+            //判断结果是否正常
+            for (var i = 0; i < arguments.length; i++) {
+              if (arguments[i].status != 200)
+                console.error(arguments[i]);
+              var data = arguments[i].data;
+              if (!data.success && data.exception != '') {
+                console.error(data.exception);
+                throw data.message;
+              }
+            }
+            vmenu.loading = false;
+            //获取结果
+            vmenu.outlines = outlines.data.result;
+            vmenu.isbuy = studied.data.result;
+          })).catch(function (err) {
+            console.error(err);
+          });
+
+        } else {
+          console.error(req.data.exception);
+          throw req.data.message;
+        }
+      }).catch(function (err) {
+        alert(err);
+        console.error(err);
+      });
+    },
+    methods: {
+      //清理Html标签
+      clearTag: function (html) {
+        var txt = html.replace(/<\/?.+?>/g, "");
+        txt = $api.trim(txt);
+        return txt;
+      }
     }
-    var currid = $(this).attr("olid");
-    var current = currid == olid ? $(this) : null;
-    if (current == null) return true;
-    current.addClass("current");
   });
+
 </script>

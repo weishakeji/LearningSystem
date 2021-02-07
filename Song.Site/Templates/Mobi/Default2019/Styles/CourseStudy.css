@@ -664,7 +664,7 @@ video::-webkit-media-controls-panel {
 
 /*视频章节的图标*/
 
-.study-menu li[isvideo=True] a:before {
+.study-menu li[isvideo=true] a:before {
 	content: "\e66c";
 	font-family: iconfont;
 	margin-right: 5px;
@@ -674,7 +674,7 @@ video::-webkit-media-controls-panel {
 
 /*直播章节的图标*/
 
-.study-menu li[islive=True] a:before {
+.study-menu li[islive=true] a:before {
 	content: "";
 	background-image: url(../Images/live-icon.gif);
 	background-repeat: no-repeat;

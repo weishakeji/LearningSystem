@@ -35,7 +35,7 @@ window.vapp = new Vue({
         guides: [],          //课程通知
         prices: [],          //课程价格
         isbuy: false,        //是否购买课程
-        record: {},          //课程购买记录
+        record: null,          //课程购买记录
         canStudy: false,     //是否能够学习
         defimg: '',   //课程默认图片
         loading: false,       //加载状态

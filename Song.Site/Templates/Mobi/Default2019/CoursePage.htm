@@ -32,7 +32,7 @@
             <span v-if="course.Cou_IsLimitFree">（{{course.Cou_FreeStart|date('yyyy/M/d')}}
               - {{course.Cou_FreeEnd|date('yyyy/M/d')}}）</span>
           </span>
-          <span v-if="JSON.stringify(record)!='{}'">
+          <span v-if="record!=null">
             期限： {{record.Stc_StartTime|date("yyyy/M/d")}}-{{record.Stc_EndTime|date("yyyy/M/d")}}
           </span>
         </template>
@@ -45,7 +45,8 @@
       <div class="mm-item" :href="'CourseStudy.ashx?couid='+course.Cou_ID"><svg class="icon mm-ico" aria-hidden="true">
           <use xlink:href="#icon-luboxuexi"></use>
         </svg><span>学习</span></div>
-      <div class="mm-item" :href="'QuesOutlines.ashx?couid='+course.Cou_ID"> <svg class="icon mm-ico" aria-hidden="true">
+      <div class="mm-item" :href="'QuesOutlines.ashx?couid='+course.Cou_ID"> <svg class="icon mm-ico"
+          aria-hidden="true">
           <use xlink:href="#icon-edit"></use>
         </svg> <span>练习</span> </div>
       <div class="mm-item" :href="'TestPapers.ashx?couid='+course.Cou_ID"> <svg class="icon mm-ico" aria-hidden="true">
@@ -67,8 +68,8 @@
       <div class="mm-item" :href="'Knowledges.ashx?couid='+course.Cou_ID"><svg class="icon mm-ico" aria-hidden="true">
           <use xlink:href="#icon-business-color_briefcase-"></use>
         </svg> <span> 知识库 </span> </div>
-      <a class="mm-item" :href="'MsgBoards.ashx?couid='+course.Cou_ID+'&state=nohead'" type="open"><svg class="icon mm-ico"
-          aria-hidden="true">
+      <a class="mm-item" :href="'MsgBoards.ashx?couid='+course.Cou_ID+'&state=nohead'" type="open"><svg
+          class="icon mm-ico" aria-hidden="true">
           <use xlink:href="#icon-tech-color_keyboard"></use>
         </svg> <span> 咨询 </span> </a>
       <!--<div class="mm-item" href="MsgBoards.ashx"><svg class="icon mm-ico" aria-hidden="true">
