@@ -9,7 +9,7 @@ function default_event() {
         //if($.trim(type)=="open")return;
         var canStudy = $(this).parent().attr("canStudy");
         var couid = $(this).parent().attr("couid");
-        if (canStudy != "True") {
+        if (canStudy != "true") {
             var txt = "由此进入<a href='CourseBuy.ashx?couid=" + couid + "' type='link' target='_top'>购买当前课程</a>";
             txt += "或<a href='coureses.ashx' type='link' target='_top'>课程中心</a>";
             txt = "当前课程没有购买！<br/>" + txt;

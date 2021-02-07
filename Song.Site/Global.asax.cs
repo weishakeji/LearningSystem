@@ -28,7 +28,7 @@ namespace Song.Site
         /// <param name="e"></param>
         protected void Application_Init(object sender, EventArgs e)
         {
-            
+           
         }
         /// <summary>
         /// 在HttpApplication 类的第一个实例被创建时，该事件被触发。它允许你创建可以由所有HttpApplication 实例访问的对象。
@@ -37,7 +37,7 @@ namespace Song.Site
         /// <param name="e"></param>
         protected void Application_Start(object sender, EventArgs e)
         {
-            
+            WeiSha.Data.Gateway.Default.RegisterLogger(new logger());
             //创建路由
             RegisterRoutes(RouteTable.Routes);
 
@@ -65,6 +65,7 @@ namespace Song.Site
                 Business.Do<IQuestions>().OnSave(null, EventArgs.Empty);
                 #endregion
             }
+
         }    
 
 
@@ -160,5 +161,43 @@ namespace Song.Site
                 }
             }
         }        
+    }
+
+    /// <summary>
+    /// SQL查询监控
+    /// </summary>
+    public class logger : WeiSha.Data.Logger.IExecuteLog
+    {
+        public void Begin(IDbCommand command)
+        {
+            System.Web.HttpContext _context = System.Web.HttpContext.Current;
+            string path = _context.Request.Url.AbsolutePath.Replace("/","_");
+
+            string sql = command.CommandText;
+            for (int i = 0; i < command.Parameters.Count; i++)
+            {
+                System.Data.SqlClient.SqlParameter para = (System.Data.SqlClient.SqlParameter)command.Parameters[i];
+                string vl = para.Value.ToString();
+                string tp = para.DbType.ToString();
+                if (tp.IndexOf("Int") > -1)
+                    sql = sql.Replace("@p" + i.ToString(), vl);
+                if (tp == "String")
+                    sql = sql.Replace("@p" + i.ToString(), "'" + vl + "'");
+                if (tp == "Boolean")
+                    sql = sql.Replace("@p" + i.ToString(), vl == "True" ? "1" : "0");
+                if (tp == "DateTime")
+                    sql = sql.Replace("@p" + i.ToString(), "'" + ((DateTime)para.Value).ToString("yyyy/MM/dd HH:mm:ss") + "'");
+            }
+            //string t = command.Connection
+            //WeiSha.Common.Log.Info(path, sql);
+            WeiSha.Common.Log.Query(path, sql);
+            //WeiSha.Common.Log.Info(path, command.Connection.ConnectionString);
+            //throw new NotImplementedException();
+        }
+
+        public void End(IDbCommand command, ReturnValue retValue, long elapsedTime)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }
