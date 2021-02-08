@@ -1,4 +1,4 @@
-﻿$(function() {
+﻿$(function () {
 	try {
 		mui('body').on('tap', '#access a', access_a_click);
 		mui('body').on('tap', '#details a', details_a_click);
@@ -21,7 +21,7 @@ function access_a_click() {
 		var box = new PageBox(tit, pdfview, 100, 100);
 		if ($(".video-box").height() > 10) $(".video-box").hide();
 		$('video').trigger('pause');
-		box.CloseEvent = function() {
+		box.CloseEvent = function () {
 			if ($(".video-box").height() > 10) {
 				$(".video-box").show();
 			}
@@ -37,7 +37,7 @@ function details_a_click() {
 	var box = new PageBox(tit, href, 100, 100);
 	if ($(".video-box").height() > 10) $(".video-box").hide();
 	$('video').trigger('pause');
-	box.CloseEvent = function() {
+	box.CloseEvent = function () {
 		if ($(".video-box").height() > 10) {
 			$(".video-box").show();
 		}
@@ -48,8 +48,13 @@ function details_a_click() {
 //
 var vdata = new Vue({
 	data: {
-		outline: {}, //当前课程章节
+		course: {},		//当前课程
+		outline: {},		//当前章节
+		outlines: [], //当前课程所有章节
+		isbuy: false,		//当前学员是否购买该课程
 		messages: [], //咨询留言
+		menuShow: false,		//章节菜单是否显示
+		contextShow: '',		//内容显示的判断
 		state: {}, //课程状态  
 		couid: $api.querystring("couid"),
 		olid: $api.querystring("olid"),
@@ -71,14 +76,15 @@ var vdata = new Vue({
 		//控件
 		player: null //播放器
 	},
-	watch: { //课程状态
-		state: function(val) {
+	watch: {
+		//课程状态
+		state: function (val) {
 			//视频播放
 			if (vdata.state.existVideo || vdata.state.isLive)
 				vdata.videoPlay(vdata.state);
 		},
 		//播放进度变化
-		playtime: function(val) {
+		playtime: function (val) {
 			vdata.video.studytime++;
 			//当前视频播放进度百分比
 			var per = Math.floor(vdata.video.studytime <= 0 ? 0 : vdata.video.studytime / vdata.video.total * 100);
@@ -87,31 +93,71 @@ var vdata = new Vue({
 			//vdata.videoEvent(vdata.playtime);
 		},
 		//播放进度百分比变化，
-		playpercent: function(val, oldval) {
+		playpercent: function (val, oldval) {
 			//console.log('当前播放进度百分比：'+val);
 			//学习记录提交
 			if (val <= 100) vdata.videoLog(val);
+		},
+		//章节菜单变化
+		menuShow: function (val, oval) {
+			//隐藏视频
+			var video = document.querySelector("video");
+			if (val) {
+				if (video) video.style.display = "none";
+			} else {
+				if (video) video.style.display = "block";
+			}
 		}
+	},
+	created: function () {
+		var couid = $api.querystring("couid");
+		$api.bat(
+			$api.cache("Outline/tree", { couid: couid }),
+			$api.get("Course/ForID", { id: couid }),
+			$api.get('Course/Studied', { 'couid': couid })
+		).then(axios.spread(function (ol, cur, isbuy) {
+			//判断结果是否正常
+			for (var i = 0; i < arguments.length; i++) {
+				if (arguments[i].status != 200)
+					console.error(arguments[i]);
+				var data = arguments[i].data;
+				if (!data.success && data.exception != '') {
+					console.error(data.exception);
+					throw data.message;
+				}
+			}
+			vdata.outlines = ol.data.result;
+			if (vdata.olid == '' || vdata.olid == null) vdata.olid = ol.data.result[0].Ol_ID;
+			//vdata.outlineClick(vdata.olid, null);
+			vdata.course = cur.data.result;
+			vdata.isbuy = isbuy.data.result;
+			vdata.msgGet();
+
+		})).catch(function (err) {
+			alert(err);
+		});
+		//定时刷新（加载）咨询留言
+		window.setInterval('vdata.msgGet()', 1000 * 10);
 	},
 	methods: {
 		//页面刷新
-		pagefresh: function() {
+		pagefresh: function () {
 			//alert("页面刷新");
 			window.location.reload();
 		},
 		//播放器是否准备好
-		playready: function() {
+		playready: function () {
 			if (vdata.player != null) {
 				return vdata.player._isReady && vdata.player.engine;
 			}
 			return false;
 		},
 		//视频播放跳转
-		videoSeek: function(second) {
+		videoSeek: function (second) {
 			if (vdata.playready()) vdata.player.seek(second);
 		},
 		//视频开始播放
-		videoPlay: function(state) {
+		videoPlay: function (state) {
 			if (vdata.player != null) {
 				vdata.player.destroy();
 				vdata.player = null;
@@ -135,19 +181,19 @@ var vdata = new Vue({
 					isLive: !isIOS,
 					autoplay: true
 				});
-				vdata.player.on("error", function(e) {
+				vdata.player.on("error", function (e) {
 					//alert("播放发生错误："+e);
 				});
-				vdata.player.on("play", function(e) {
+				vdata.player.on("play", function (e) {
 					vdata.video.loading = false;
 				});
-				vdata.player.on("loading", function() {
+				vdata.player.on("loading", function () {
 					vdata.video.loading = true;
 				});
 			}
 			if (vdata.player != null) {
 				vdata.player.on("ready", vdata.videoready);
-				vdata.player.on("timeupdate", function(currentTime, totalTime) {
+				vdata.player.on("timeupdate", function (currentTime, totalTime) {
 					vdata.video.total = parseInt(totalTime);
 					vdata.video.playTime = currentTime; //详细时间，精确到毫秒
 					vdata.playtime = parseInt(currentTime);
@@ -155,9 +201,9 @@ var vdata = new Vue({
 					vdata.video.percent = Math.floor(vdata.video.studytime <= 0 ? 0 : vdata.video.studytime / vdata.video.total * 1000) / 10;
 					vdata.video.percent = vdata.video.percent > 100 ? 100 : vdata.video.percent;
 				});
-				vdata.player.on("seeked", function() {
+				vdata.player.on("seeked", function () {
 					vdata.playtime = vdata.playready() ? vdata.player.currentTime : 0;
-					window.setTimeout(function() {
+					window.setTimeout(function () {
 						if (vdata.playready()) vdata.player.pause();
 					}, 50);
 
@@ -165,7 +211,7 @@ var vdata = new Vue({
 			}
 		},
 		//播放器加载后的事件
-		videoready: function() {
+		videoready: function () {
 			//隐藏全屏按钮
 			var fullbtn = document.getElementsByClassName("qplayer-fullscreen");
 			for (var i = 0; i < fullbtn.length; i++) {
@@ -176,7 +222,7 @@ var vdata = new Vue({
 			for (var i = 0; i < setbtn.length; i++) {
 				//setbtn[i].style.display = "none";
 			}
-			window.setInterval(function() {
+			window.setInterval(function () {
 				var video = document.querySelector("video");
 				if (!$().isWeixin()) {
 					video.setAttribute("x5-playsinline", "true");
@@ -196,20 +242,16 @@ var vdata = new Vue({
 
 		},
 		//章节列表的点击事件
-		outlineClick: function(olid, event) {
+		outlineClick: function (olid, event) {
 			var url = $api.setpara("olid", olid);
 			history.pushState({}, null, url);
 			vdata.olid = olid;
 			if (event != null) event.preventDefault();
 			//获取当前章节状态，和专业信息
 			$api.bat(
-				$api.get("Outline/ForID", {
-					id: olid
-				}),
-				$api.get("Outline/state", {
-					olid: olid
-				})
-			).then(axios.spread(function(ol, state) {
+				$api.get("Outline/ForID", { id: olid }),
+				$api.get("Outline/state", { olid: olid })
+			).then(axios.spread(function (ol, state) {
 				if (ol.data.success && state.data.success) {
 					vdata.outline = ol.data.result;
 					vdata.state = state.data.result;
@@ -225,7 +267,7 @@ var vdata = new Vue({
 					var result = state.data.result;
 					vdata.video.studytime = isNaN(result.StudyTime) ? 0 : result.StudyTime;
 					vdata.video.playhistime = isNaN(result.PlayTime) ? 0 : result.PlayTime / 1000;
-					window.setTimeout(function() {
+					window.setTimeout(function () {
 						vdata.outlineLoaded = true;
 					}, 100);
 				} else {
@@ -237,7 +279,7 @@ var vdata = new Vue({
 			//vdata.msgGet();
 		},
 		//学习记录记录
-		videoLog: function(per) {
+		videoLog: function (per) {
 			if (vdata.studylogUpdate) return;
 			var interval = 1; //间隔百分比多少递交一次记录
 			if (vdata.video.total <= 5 * 60) interval = 10; //5分钟内的视频
@@ -250,11 +292,11 @@ var vdata = new Vue({
 					playTime: vdata.playtime,
 					studyTime: vdata.video.studytime,
 					totalTime: vdata.video.total
-				}, function() {
+				}, function () {
 					vdata.studylogUpdate = true;
-				}, function() {
+				}, function () {
 					vdata.studylogUpdate = false;
-				}).then(function(req) {
+				}).then(function (req) {
 					if (!req.data.success) {
 						if (vdata.playready()) {
 							vdata.player.pause();
@@ -265,20 +307,20 @@ var vdata = new Vue({
 						return;
 					}
 					vdata.studylogState = 1;
-					window.setTimeout(function() {
+					window.setTimeout(function () {
 						vdata.studylogState = 0;
 					}, 2000);
-				}).catch(function(err) {
+				}).catch(function (err) {
 					vdata.studylogState = -1;
 					alert(err);
-					window.setTimeout(function() {
+					window.setTimeout(function () {
 						vdata.studylogState = 0;
 					}, 2000);
 				});
 			}
 		},
 		//发送消息
-		msgSend: function() {
+		msgSend: function () {
 			vdata.msgBlur();
 			var msg = document.getElementById("messageinput").value;
 			if ($api.trim(msg) == '') return;
@@ -297,7 +339,7 @@ var vdata = new Vue({
 				playtime: vdata.playtime,
 				couid: vdata.couid,
 				olid: vdata.olid
-			}).then(function(req) {
+			}).then(function (req) {
 				var d = req.data;
 				if (d.success) {
 					var input = document.getElementById("messageinput");
@@ -309,97 +351,55 @@ var vdata = new Vue({
 			});
 		},
 		//留言输入框失去焦点
-		msgBlur: function(e) {
+		msgBlur: function (e) {
 			document.getElementById("footer").style.display = "table";
 			document.getElementById("messageinput").blur();
 		},
 		//留言输入框获取焦点
-		msgFocus: function(e) {
+		msgFocus: function (e) {
 			document.getElementById("footer").style.display = "none";
 			document.getElementById("messageinput").focus();
 		},
 		//获取当前章节的留言信息
-		msgGet: function() {
+		msgGet: function () {
 			if (!vdata.olid || vdata.olid < 1) return;
 			$api.post("message/count", {
-				 olid: vdata.olid,
-                order: 'asc',
-                count:100
-			}).then(function(req) {
+				olid: vdata.olid,
+				order: 'asc',
+				count: 100
+			}).then(function (req) {
 				var d = req.data;
 				if (d.success) {
 					vdata.messages = d.result;
-					window.setTimeout(function() {
+					window.setTimeout(function () {
 						var dl = document.getElementById("chatlistdl");
+						if (dl == null) return;
 						document.getElementById("chatlist").scrollTop = dl.offsetHeight;
 					}, 1000);
 				} else {
 					throw "留言信息加载异常！详情：\r" + d.message;
 				}
-			}).catch(function(err) {
+			}).catch(function (err) {
 				alert(err);
-			});			
+			});
 		}
-	},
-	created: function() {
-		var couid = $api.querystring("couid");
-		$api.bat(
-			$api.post("Outline/tree", {
-				couid: couid
-			}),
-			$api.get("Course/ForID", {
-				id: couid
-			})).then(axios.spread(function(ol, cur) {
-			if (ol.data.success && cur.data.success) {
-				vdata.outlines = ol.data.result;
-				if (vdata.olid == '' || vdata.olid == null) vdata.olid = ol.data.result[0].Ol_ID;
-				vdata.outlineClick(vdata.olid, null);
-				vdata.course = cur.data.result;
-				vdata.msgGet();
-			} else {
-				if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
-				if (!cur.data.success) throw "课程信息加载异常！详情：\r" + cur.data.message;
-			}
-		})).catch(function(err) {
-			alert(err);
-		});
-        //定时刷新（加载）咨询留言
-        window.setInterval('vdata.msgGet()', 1000 * 10);
 	}
 });
-vdata.$mount('#context-box');
+vdata.$mount('#offCanvasWrapper');
 //窗体失去焦点的事件
-window.onblur = function() {
+window.onblur = function () {
 	if (vdata.playready()) {
 		if (!vdata.state.isLive)
 			vdata.player.pause();
 	}
 }
-window.onfocus = function() {
+window.onfocus = function () {
 	if (vdata.playready()) {
 		!vdata.state.isLive ? vdata.player.play() : vdata.player.pause();
 	}
 }
-//全局过滤器，日期格式化
-Vue.filter('date', function(value, fmt) {
-	if ($api.getType(value) != 'Date') return value;
-	var o = {
-		"M+": value.getMonth() + 1,
-		"d+": value.getDate(),
-		"h+": value.getHours(),
-		"m+": value.getMinutes(),
-		"s+": value.getSeconds()
-	};
-	if (/(y+)/.test(fmt))
-		fmt = fmt.replace(RegExp.$1, (value.getFullYear() + "").substr(4 - RegExp.$1.length));
-	for (var k in o)
-		if (new RegExp("(" + k + ")").test(fmt))
-			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-	return fmt;
-});
-
-$(function() {
-	if (typeof(mui) != 'undefined') {
+$(function () {
+	if (typeof (mui) != 'undefined') {
 		//点击留言按钮，进入留言输入状态
 		mui('body').on('tap', '#msginputBtn', vdata.msgFocus);
 		mui('body').on('tap', '#chatArea, #videoplayer', vdata.msgBlur);
@@ -409,15 +409,163 @@ $(function() {
 /*
 //当点击视频播放区域时，显示控制条
 mui('body').on('tap', '.videobox', function () {
-    //alert("点击视频");
-    vdata.msgBlur();
-    var nodes = document.getElementsByClassName("qplayer-controls");
-    if (nodes.length < 1) return;
-    nodes[0].style.bottom = "40px";
-    window.setTimeout(function () {
-        var nodes = document.getElementsByClassName("qplayer-controls");
-        if (nodes.length < 1) return;
-        nodes[0].style.bottom = "0px";
-    }, 5000);
+	//alert("点击视频");
+	vdata.msgBlur();
+	var nodes = document.getElementsByClassName("qplayer-controls");
+	if (nodes.length < 1) return;
+	nodes[0].style.bottom = "40px";
+	window.setTimeout(function () {
+		var nodes = document.getElementsByClassName("qplayer-controls");
+		if (nodes.length < 1) return;
+		nodes[0].style.bottom = "0px";
+	}, 5000);
 });
 */
+// 章节列表组件
+Vue.component('menutree', {
+	//章节列表，课程对象，菜单是否显示
+	props: ['outlines', 'course', 'isbuy', 'menushow'],
+	data: function () {
+		return {
+			current: {}, //当前章节对象
+			state: {},		//章节状态
+			olid: 0,		//当前章节id
+			loading: true, //预载中
+			defimg: ''   //课程默认图片
+		}
+	},
+	watch: {
+		//当章节id变化时
+		olid: {
+			handler(nv, ov) {
+				if (nv == 0) return;
+				var th = this;
+				$api.get('Outline/State', { 'olid': nv }).then(function (req) {
+					if (req.data.success) {
+						th.state = req.data.result;
+					} else {
+						console.error(req.data.exception);
+						throw req.data.message;
+					}
+				}).catch(function (err) {
+					alert(err);
+					console.error(err);
+				});
+			},
+			immediate: true
+		}
+	},
+	created: function () {
+		//默认图片
+		var img = document.getElementById("default-img");
+		this.defimg = img.getAttribute("src");
+		//当前章节
+		this.olid = $api.querystring("olid");
+		if (this.olid == '') {
+			for (var i = 0; i < this.outlines.length; i++) {
+				if (this.outlines[i].Ol_IsVideo) {
+					current = this.outlines[i];
+					this.olid = current.Ol_ID;
+					break;
+				}
+			}
+		} else {
+			for (var i = 0; i < this.outlines.length; i++) {
+				if (this.outlines[i].Ol_ID == this.olid) {
+					current = this.outlines[i];
+					break;
+				}
+			}
+		}
+		vdata.outline = current;
+	},
+	methods: {
+		//计算缩进
+		padding: function (level) {
+			return 'padding-left:' + (level * 10 + 15) + 'px';
+		},
+		//章节点击事件
+		click: function (node) {
+			vdata.outline = node;
+			var url = $api.setpara('olid', node.Ol_ID);
+			history.pushState({}, null, url);
+			vdata.menuShow = false;
+			console.log(node);
+		}
+	},
+	template: "<div id='menu-layer' :class='{active:menushow}'  v-on:click.self='vdata.menuShow=false'>\
+	<div id='menu'>\
+		<div class='cour-info'>\
+		<img :src='course.Cou_Logo' v-if='course.Cou_Logo.length>0'/>\
+		<img :src='defimg' class='no' v-else/>\
+		<div class='cour-info-right'>\
+			<cour-name>{{course.Cou_Name}}</cour-name>\
+			<sbj-name>{{course.Sbj_Name}}</sbj-name>\
+			</div>\
+		</div>\
+		<ul class='mui-table-view mui-table-view-chevron mui-table-view-inverted' v-if='outlines.length>0'>\
+        <li class='mui-table-view-cell outline' v-for='o in outlines' :isvideo='o.Ol_IsVideo' :islive='o.Ol_IsLive'\
+          :olid='o.Ol_ID' :style='padding(o.Ol_Level)' v-on:click='click(o)'>\
+          <template v-if='isbuy'>\
+            <a class='ol_name'>{{o.Ol_XPath}}{{o.Ol_Name}}</a>\
+			<span v-if='!o.Ol_IsFinish' class='mui-badge'>未完</span>\
+          </template>\
+          <template v-else>\
+            <a v-if='o.Ol_IsFree' class='mui-navigate-right'>{{o.Ol_XPath}}{{o.Ol_Name}}\
+              <span class='mui-badge try'>试学</span></a>\
+            <a v-else class='mui-navigate-right'>{{o.Ol_XPath}}{{o.Ol_Name}}\
+              <span class='mui-badge buy'>购买</span></a>\
+          </template>\
+        </li>\
+      </ul>\
+      <div class='mui-table-view-cell' v-else style='color: azure;'> 当前课程没有章节 </div>\
+ 	</div>\
+	</div>"
+});
+//底部按钮组件
+Vue.component('coursestudyfooter', {
+	props: ['course'],
+	data: function () {
+		return {
+			menus: [
+				{ label: '章节列表', id: 'outline', icon: '&#xe79c', show: true },
+				{ label: '视频', id: 'video', icon: '&#xe615', show: true },
+				{ label: '交流', id: 'message', icon: '&#xe75a', show: false },
+				{ label: '学习内容', id: 'content', icon: '&#xe65e', show: true },
+				{ label: '附件', id: 'accessory', icon: '&#xe651', show: true },
+				{ label: '返回课程', id: 'goback', icon: '&#xe60b', show: true }
+			],
+			loading: true, //预载中
+			defimg: ''   //课程默认图片
+		}
+	},
+	computed: {},
+	created: function () {
+		//默认图片
+		var img = document.getElementById("default-img");
+		this.defimg = img.getAttribute("src");
+	},
+	methods: {
+		//事件
+		click: function (item) {
+			switch (item.id) {
+				//显示章节树形菜单
+				case 'outline':
+					vdata.menuShow = true;
+					break;
+				case 'goback':
+					document.location.href = 'CoursePage.ashx?couid=' + this.course.Cou_ID;
+					break;
+				default:
+					vdata.contextShow = item.id;
+					break;
+			}
+			console.log(this.course);
+		}
+	},
+	template: "<nav class='mui-bar mui-bar-tab footer' id='footer'>\
+	<a v-for='item in menus' :id='item.id' v-if='item.show' v-on:click='click(item)'>\
+	<b v-html='item.icon'></b>\
+	<span>{{item.label}}</span>\
+	</a></nav>"
+});

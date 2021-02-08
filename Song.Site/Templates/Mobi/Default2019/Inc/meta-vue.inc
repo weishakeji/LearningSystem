@@ -17,8 +17,8 @@
 <script type="text/javascript" src="../CoreScripts/PageBox.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/polyfill.min.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js?ver={$version}"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/vue_min.js?ver={$version}"></script>
-<script type="text/javascript" src="/Utility/CoreScripts/api.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utilities/Scripts/vue.min.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utilities/Scripts/api.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/ElementUi/index.js?ver={$version}"></script>
 <!--核心Css文件-->
 

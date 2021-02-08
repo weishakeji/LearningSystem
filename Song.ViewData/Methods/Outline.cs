@@ -61,7 +61,7 @@ namespace Song.ViewData.Methods
             //return outlines.Length > 0 ? _nodes(null, outlines) : null;
             if (outlines.Length > 0)
             {
-                foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;
+                //foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;
                 //树形章节输出
                 DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
                 return dt;

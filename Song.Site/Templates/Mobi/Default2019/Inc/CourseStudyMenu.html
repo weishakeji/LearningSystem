@@ -2,6 +2,7 @@
 
 <aside id="offCanvasSide" class="mui-off-canvas-left study-menu">
   <div id="offCanvasSideScroll" class="mui-scroll-wrapper">
+
     <div class="mui-scroll" id="menu">
       <div class="cour-info">
         <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
@@ -29,33 +30,6 @@
               <span class="mui-badge buy">购买</span></a>
           </template>
         </li>
-
-
-        <vt:foreach from="$olTree" item="d" index="i" remark="章节">
-          <vt:expression var="r" args="$d.ol_level" args="10" expression="{0}*{1}" />
-          <li isvideo="{$:#.d.Ol_IsVideo}" islive="{$:#.d.Ol_IsLive}" class="mui-table-view-cell outline"
-            olid="{$:#.d.ol_id}" xpath="{$:#.d.ol_xpath}" pid="{$:#.d.ol_pid}" style="margin-left:{$:r}px">
-            <vt:if var="d.ol_isfinish" value="false" compare="=" remark="是否完结"> <a type="nofinish"
-                class="noselect">{$:#.d.ol_name}</a><span class="mui-badge">未完</span>
-              <vt:else />
-              <vt:if var="isBuy" value="true" compare="=" remark="是否购买"> <a
-                  href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}"
-                  class="mui-navigate-right">{$:#.d.ol_name} </a>
-                <vt:else />
-                <vt:if var="d.Ol_IsFree" value="true" compare="=" remark="如果未选修，但是课程免费"> <a
-                    href="../CourseStudy.ashx?olid={$:#.d.ol_id}&couid={$:#.d.cou_id}"
-                    class="mui-navigate-right">{$:#.d.ol_name}</a>
-                  <span class="mui-badge try">试学</span>
-                  <vt:else />
-                  <a type="buy" href="../CourseBuy.ashx?&couid={$:#.d.cou_id}"
-                    class="mui-navigate-right">{$:#.d.ol_name} </a> <span class="mui-badge buy">购买</span>
-                </vt:if>
-              </vt:if>
-            </vt:if>
-          </li>
-        </vt:foreach>
-
-
       </ul>
       <div class="mui-table-view-cell" v-else style="color: azure;"> 当前课程没有章节 </div>
     </div>
@@ -97,11 +71,6 @@
         });
       });
     }
-    //左侧滑菜单的链接事件
-    mui('body').on('tap', '#offCanvasSide a', function () {
-      document.location.href = this.href;
-    });
-
   }
 
   /*
@@ -189,12 +158,6 @@
       });
     },
     methods: {
-      //清理Html标签
-      clearTag: function (html) {
-        var txt = html.replace(/<\/?.+?>/g, "");
-        txt = $api.trim(txt);
-        return txt;
-      }
     }
   });
 

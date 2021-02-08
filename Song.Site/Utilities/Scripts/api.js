@@ -54,10 +54,14 @@
                     val: arr[1]
                 });
             }
-            //返回
-            for (var q in values) {
-                if (values[q].key.toLowerCase() == key.toLowerCase())
-                    return values[q].val;
+            //如果不带参数，则返回所有参数
+            if (arguments.length <= 0) return values;
+            //如果key不等空，则返回
+            if (arguments.length == 1) {
+                for (var q in values) {
+                    if (values[q].key.toLowerCase() == key.toLowerCase())
+                        return values[q].val;
+                }
             }
             return defvalue;
         },
@@ -71,10 +75,7 @@
                     isExist = true;
                 }
             }
-            if (!isExist) values.push({
-                key: key,
-                val: value
-            });
+            if (!isExist) values.push({ key: key, val: value });
             //拼接Url      
             var url = String(window.document.location.href);
             if (url.indexOf("?") > -1) url = url.substring(0, url.lastIndexOf("?"));

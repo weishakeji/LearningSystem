@@ -550,7 +550,13 @@ video::-webkit-media-controls-panel {
 }
 
 /*+++++底部图标*/
-
+.footer{
+	display: flex;
+	height: 45px;
+}
+.footer a{
+	flex: 1;
+}
 .footer span {
 	height: 15px !important;
 	display: block;
@@ -561,61 +567,17 @@ video::-webkit-media-controls-panel {
 	height: 20px !important;
 	display: block;
 	width: 100% !important;
+	font-family: iconfont;
+	text-align: center;  
+    border-radius: 50%;
+	font-size: 20px;
 }
 
-.footer b:before {
-	display: block;
-}
-
-.footer a.foot-outline b:before {
-	content: "\e79c";
-	font-size: 16px;
-}
-
-.footer a.foot-video b:before {
-	content: "\e615";
-}
-
-.footer a.foot-message b:before {
-	content: "\e75a";
-}
-
-.footer a.foot-text b:before {
-	content: "\e65e";
-	font-size: 23px;
-	margin-top: 1px;
-}
-
-.footer a.foot-acc b:before {
-	content: "\e651";
-}
-
-.footer a.foot-course b:before {
-	content: "\e60b";
-}
-
-.footer a.foot-home b:before {
-	font-size: 22px;
-}
 
 /*-----底部图标*/
 
 /*+++++++左侧侧滑菜单*/
-
-.study-menu .cour-info {
-	margin: 10px;
-	display: table;
-	width: 100%;
-}
-
-.study-menu .cour-info img {
-	width: 30%;
-	margin-right: 5%;
-	float: left;
-	box-shadow: 0 1px 2px #fff !important;
-}
-
-.study-menu .cour-info .cour-info-right {
+#menu-layer .cour-info .cour-info-right {
 	width: 60%;
 	margin-right: 5%;
 	float: left;
@@ -649,12 +611,46 @@ video::-webkit-media-controls-panel {
 }
 
 /*侧滑菜单的章节列表*/
-
-.study-menu .outline {
-	padding-right: 40px !important;
+#menu-layer{
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, .3);
+	position: absolute;
+	top: 0px;
+	left: -100vw;
+	z-index: 9999;
+	opacity:0;
+	transition: all .8s ease ;  
+}
+#menu-layer.active{
+	left: 0px;
+	opacity:1;
+}
+#menu-layer #menu{
+	width: 75%;
+	height: 100vh;
+	overflow-y: auto;
+	background-color: rgba(0, 0, 0, .8);
+}
+#menu-layer .cour-info {
+	margin: 10px;
+	display: table;
+	width: calc(100% - 20px);
+}
+#menu-layer .cour-info img {
+	width: 30%;
+	margin-right: 5%;
+	float: left;
+	box-shadow: 0 1px 2px #fff !important;
+}
+#menu-layer ul{
+	margin: 0px;
+}
+#menu-layer .outline {
+	padding-right: 40px !important;	
 }
 
-.study-menu .outline a:before {
+#menu-layer .outline a:before {
 	content: "\e681";
 	font-family: iconfont;
 	margin-right: 5px;
@@ -664,7 +660,7 @@ video::-webkit-media-controls-panel {
 
 /*视频章节的图标*/
 
-.study-menu li[isvideo=true] a:before {
+#menu-layer li[isvideo=true] a:before {
 	content: "\e66c";
 	font-family: iconfont;
 	margin-right: 5px;
@@ -674,7 +670,7 @@ video::-webkit-media-controls-panel {
 
 /*直播章节的图标*/
 
-.study-menu li[islive=true] a:before {
+#menu-layer li[islive=true] a:before {
 	content: "";
 	background-image: url(../Images/live-icon.gif);
 	background-repeat: no-repeat;
@@ -685,11 +681,11 @@ video::-webkit-media-controls-panel {
 
 /*当前章节*/
 
-.study-menu .current {
+#menu-layer .current {
 	color: #FF9;
 }
 
-.study-menu .current a:before {
+#menu-layer .current a:before {
 	content: "\e618";
 	font-family: iconfont;
 	margin-right: 5px;
@@ -697,12 +693,12 @@ video::-webkit-media-controls-panel {
 	font-weight: normal;
 }
 
-.study-menu .mui-badge {
+#menu-layer .mui-badge {
 	color: #999;
 	background-color: #555;
 }
 
-.study-menu .noselect {
+#menu-layer .noselect {
 	color: #666 !important;
 }
 
