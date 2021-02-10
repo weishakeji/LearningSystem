@@ -48,9 +48,10 @@ function details_a_click() {
 //
 var vdata = new Vue({
 	data: {
+		account: {},		//当前登录学员
 		course: {},		//当前课程
 		outline: {},		//当前章节
-		outlines: [], //当前课程所有章节
+		outlines: [], 	//当前课程所有章节
 		isbuy: false,		//当前学员是否购买该课程
 		messages: [], //咨询留言
 		menuShow: false,		//章节菜单是否显示
@@ -112,10 +113,11 @@ var vdata = new Vue({
 	created: function () {
 		var couid = $api.querystring("couid");
 		$api.bat(
-			$api.cache("Outline/tree", { couid: couid }),
+			$api.get('Account/Current'),
 			$api.get("Course/ForID", { id: couid }),
+			$api.cache("Outline/tree", { couid: couid }),
 			$api.get('Course/Studied', { 'couid': couid })
-		).then(axios.spread(function (ol, cur, isbuy) {
+		).then(axios.spread(function (account, cur, ol, isbuy) {
 			//判断结果是否正常
 			for (var i = 0; i < arguments.length; i++) {
 				if (arguments[i].status != 200)
@@ -126,10 +128,10 @@ var vdata = new Vue({
 					throw data.message;
 				}
 			}
-			vdata.outlines = ol.data.result;
-			if (vdata.olid == '' || vdata.olid == null) vdata.olid = ol.data.result[0].Ol_ID;
-			//vdata.outlineClick(vdata.olid, null);
+			vdata.account = account.data.result;
 			vdata.course = cur.data.result;
+			vdata.outlines = ol.data.result;
+			//vdata.outlineClick(vdata.olid, null);		
 			vdata.isbuy = isbuy.data.result;
 			vdata.msgGet();
 
@@ -568,4 +570,77 @@ Vue.component('coursestudyfooter', {
 	<b v-html='item.icon'></b>\
 	<span>{{item.label}}</span>\
 	</a></nav>"
+});
+//附件列表
+Vue.component('accessory', {
+	props: ['outline', 'account'],
+	data: function () {
+		return {
+			files: [],		//附件文件列表		
+			loading: true //预载中
+		}
+	},
+	watch: {
+		'outline': {
+			deep: true,
+			immediate: true,
+			handler: function (newV, oldV) {
+				if (JSON.stringify(newV) == '{}' || newV == null) return;
+				var th = this;
+				$api.get('Outline/Accessory', { 'uid': newV.Ol_UID }).then(function (req) {
+					if (req.data.success) {
+						th.files = req.data.result;
+					} else {
+						console.error(req.data.exception);
+						throw req.data.message;
+					}
+				}).catch(function (err) {
+					alert(err);
+					console.error(err);
+				});
+			}
+		}
+	},
+	created: function () {
+
+	},
+	methods: {
+		//是不是pdf格式
+		ispdf: function (href) {
+			var exist = "";
+			if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
+			if (href.indexOf(".") > -1) exist = href.substring(href.lastIndexOf(".") + 1).toLowerCase();
+			return exist == "pdf";
+		},
+		//附件击事件
+		openpdf: function (href) {
+			var tit = $.trim($(this).text());
+			var pdfview = $().PdfViewer(href);
+			var box = new PageBox(tit, pdfview, 100, 100);
+			if ($(".video-box").height() > 10) $(".video-box").hide();
+			$('video').trigger('pause');
+			box.CloseEvent = function () {
+				if ($(".video-box").height() > 10) {
+					$(".video-box").show();
+				}
+			}
+			box.Open();
+			return false;
+		}
+	},
+	template: "<template>\
+	<div class='mui-scroll'  v-if='account.Ac_ID'>\
+		<dl id='access' v-if='files.length>0'>\
+			<dd v-for='(f,i) in files'>\
+				<a target='_blank' :href='f.As_FileName' v-if='ispdf(f.As_FileName)' \
+				:download='f.As_Name' @click.prevent ='openpdf(f.As_FileName)'>\
+				{{i+1}}、{{f.As_Name}}</a>\
+				<a target='_blank' :href='f.As_FileName' v-else\
+				:download='f.As_Name'>{{i+1}}、{{f.As_Name}}</a>\
+			</dd>\
+		</dl>\
+		<div class='noaccess' v-else>（没有附件）</div>\
+	</div>\
+	<div class='noaccess' v-else>（未登录或未购买）</div>\
+	</template>"
 });

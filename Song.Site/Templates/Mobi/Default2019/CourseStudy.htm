@@ -18,53 +18,52 @@
             <div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper"
                 style="position: relative;height:100%">
                 <div id="context-box">
-                   
-                        <div remark="视频" :video="state.urlVideo" class="videobox" v-on:click="msgBlur">
-                            <div id="videoplayer"
-                                v-show="JSON.stringify(outline) == '{}' || (state.existVideo && !state.otherVideo && !state.isLive)"
-                                style="height: 100%;width:100%;" remark="点播">
-                            </div>
-                            <div id="novideoplayer"
-                                v-show="JSON.stringify(outline) != '{}' && !state.existVideo && !state.isLive"
-                                style="height: 100%;width:100%;" remark="没有视频">
-                                <span v-if="!state.isLogin">
-                                    <a href="Login.ashx">未登录，点击此处登录！</a></span>
-                                <span v-if="state.isLogin">
-                                    没有视频资源</span>
-                            </div>
-                            <div id="videoinfo" v-if="!state.otherVideo && !state.isLive" style="display: none;">
-                                <span style="display: non6e">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
-                                <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
-                                <span style="cursor: pointer"
-                                    v-on:click="videoSeek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>
-                                <span class="videolog info" v-show="studylogState==1">学习进度提交成功!</span>
-                                <span class="videolog error" v-show="studylogState==-1">学习进度提交失败!</span>
-                            </div>
-                            <iframe id="vedioiframe" height="100%" width="100%"
-                                v-if="state.outerVideo && state.otherVideo && !state.isLive" :src="state.urlVideo"
-                                allowscriptaccess="always" allowfullscreen="true" wmode="opaque"
-                                allowtransparency="true" frameborder="0" remark="外部视频链接"
-                                type="application/x-shockwave-flash"></iframe>
 
+                    <div remark="视频" :video="state.urlVideo" class="videobox" v-on:click="msgBlur">
+                        <div id="videoplayer"
+                            v-show="JSON.stringify(outline) == '{}' || (state.existVideo && !state.otherVideo && !state.isLive)"
+                            style="height: 100%;width:100%;" remark="点播">
                         </div>
-                        <div remark="直播" v-show="state.isLive" :video="state.urlVideo" class="videobox"
-                            v-on:click="msgBlur">
-                            <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
-                                remark="直播">
-                            </div>
-                            <!-- <div id="liveLoadingbox" v-show="state.isLive && state.isLiving && video.loading" remark="直播流加载时">
+                        <div id="novideoplayer"
+                            v-show="JSON.stringify(outline) != '{}' && !state.existVideo && !state.isLive"
+                            style="height: 100%;width:100%;" remark="没有视频">
+                            <span v-if="!state.isLogin">
+                                <a href="Login.ashx">未登录，点击此处登录！</a></span>
+                            <span v-if="state.isLogin">
+                                没有视频资源</span>
+                        </div>
+                        <div id="videoinfo" v-if="!state.otherVideo && !state.isLive" style="display: none;">
+                            <span style="display: non6e">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
+                            <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
+                            <span style="cursor: pointer"
+                                v-on:click="videoSeek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>
+                            <span class="videolog info" v-show="studylogState==1">学习进度提交成功!</span>
+                            <span class="videolog error" v-show="studylogState==-1">学习进度提交失败!</span>
+                        </div>
+                        <iframe id="vedioiframe" height="100%" width="100%"
+                            v-if="state.outerVideo && state.otherVideo && !state.isLive" :src="state.urlVideo"
+                            allowscriptaccess="always" allowfullscreen="true" wmode="opaque" allowtransparency="true"
+                            frameborder="0" remark="外部视频链接" type="application/x-shockwave-flash"></iframe>
+
+                    </div>
+                    <div remark="直播" v-show="state.isLive" :video="state.urlVideo" class="videobox"
+                        v-on:click="msgBlur">
+                        <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
+                            remark="直播">
+                        </div>
+                        <!-- <div id="liveLoadingbox" v-show="state.isLive && state.isLiving && video.loading" remark="直播流加载时">
 正在加载...
 <button id="pagefresh" v-on:click="pagefresh" type="button">刷新</button>
                         </div>-->
-                            <div id="liveStopbox" v-show="state.isLive && !state.isLiving"
-                                style="height: 100%;width:100%;" remark="直播未开始">
-                                <img src="images/livebg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
-                                <div class="liveStop_Tit" v-show="state.canStudy && !state.LiveStart">直播未开始！</div>
-                                <div class="liveStop_Tit" v-show="state.canStudy && state.LiveOver">直播已经结束！</div>
-                                <div class="liveStop_Tit" v-show="!state.canStudy">无权阅览！</div>
-                            </div>
+                        <div id="liveStopbox" v-show="state.isLive && !state.isLiving" style="height: 100%;width:100%;"
+                            remark="直播未开始">
+                            <img src="images/livebg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
+                            <div class="liveStop_Tit" v-show="state.canStudy && !state.LiveStart">直播未开始！</div>
+                            <div class="liveStop_Tit" v-show="state.canStudy && state.LiveOver">直播已经结束！</div>
+                            <div class="liveStop_Tit" v-show="!state.canStudy">无权阅览！</div>
                         </div>
-                               
+                    </div>
+
                     <div tag="视频" v-show="contextShow=='video' || contextShow==''">
 
                         <div class="outline-name">
@@ -106,46 +105,27 @@
 
                         </div>
                     </div>
-                    <div tag="学习内容"  v-show="contextShow=='content'">
+                    <div tag="学习内容" v-show="contextShow=='content'">
                         <div class="mui-card intro-box">
                             <div class="mui-card-header">
                                 <span>学习内容</span>
                             </div>
                             <div class="mui-card-content mui-scroll-wrapper">
-                                <div class="mui-scroll" id="details" v-html="outline.Ol_Intro">
-                                   
-                                            {{outline.Ol_Intro}}
-                                           
-                                            没有学习内容
-                                       
-                                        <div class="nointro">（未登录或未购买） </div>
-                                   
+                                <div class="mui-scroll" id="details" v-html="outline.Ol_Intro"
+                                    v-if="outline.Ol_Intro!=''">
+                                    {{outline.Ol_Intro}}
                                 </div>
+                                <div class="mui-scroll" id="details" v-else>（没有内容）</div>
                             </div>
                         </div>
                     </div>
-                    <div tag="附件"  v-show="contextShow=='accessory'">
+                    <div tag="附件" v-show="contextShow=='accessory'">
                         <div class="mui-card acc-box">
                             <div class="mui-card-header">
                                 <span>附件</span>
                             </div>
                             <div class="mui-card-content  mui-scroll-wrapper">
-                                <vt:if var="canStudy" value="true" compare="=" remark="如果可以学习">
-                                    <vt:if var="access.count" value="0" compare=">">
-                                        <div class="mui-scroll">
-                                            <dl id="access">
-                                                <vt:foreach from="$#.access" item="acc" index="j">
-                                                    <dd><a class="accItem" target="_blank" href="{$acc.As_FileName}"
-                                                            download="{$acc.As_Name}">{$:j}、{$acc.As_Name} </a> </dd>
-                                                </vt:foreach>
-                                            </dl>
-                                        </div>
-                                        <vt:else />
-                                        <div class="noaccess">没有附件</div>
-                                    </vt:if>
-                                    <vt:else />
-                                    <div class="noaccess">（未登录或未购买）</div>
-                                </vt:if>
+                                <accessory :outline="outline" :account="account"></accessory>
                             </div>
                         </div>
                     </div>
