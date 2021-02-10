@@ -1,13 +1,13 @@
 @charset "utf-8";
-html,body
-{
-    height:100%;
+html, body {
+	height: 100%;
 }
+
 /*设置侧滑菜单的宽度*/
 
 .mui-off-canvas-left, .mui-off-canvas-right {
 	width: 80% !important;
-	z-index:200 !important;
+	z-index: 200 !important;
 }
 
 .mui-off-canvas-wrap.mui-right .mui-inner-wrap {
@@ -27,13 +27,23 @@ html,body
 	z-index: 101;
 }
 
-#videoplayer, #videoinfo, #novideoplayer {
+#videoplayer, #novideo {
 	background-color: #000;
 	color: #999;
 	line-height: 100px;
+	width: 100%;
+	height: 100%;
 	text-align: center;
 }
-
+#videoinfo{
+	line-height: 30px;
+	width: 100%;
+	position: absolute;
+	top: 0px;
+	z-index: 200;
+	text-align: center;
+	background-color: rgba(255, 255, 255, .6);
+}
 video::-internal-media-controls-download-button {
 	display: none !important;
 }
@@ -41,9 +51,11 @@ video::-internal-media-controls-download-button {
 video::-webkit-media-controls-enclosure {
 	overflow: hidden !important;
 }
+
 video::-webkit-media-controls {
-    overflow: hidden !important;
+	overflow: hidden !important;
 }
+
 video::-webkit-media-controls-panel {
 	--width: calc(100% + 30px) !important;
 	margin-left: auto;
@@ -93,6 +105,11 @@ div {}
 	position: absolute;
 	top: 0px;
 	z-index: 100;
+	background-color: #666;
+}
+
+.videobox>div {
+	height: 100%;
 }
 
 .intro-box {}
@@ -153,31 +170,36 @@ div {}
 	width: 100% !important;
 }
 
-.noVideo {
+#noVideo {
 	text-align: center;
-	line-height: 260px;
+	line-height: calc(100vw*9/16);
+	height: calc(100vw*9/16);
 	font-size: 17px;
 	color: #ccc;
 }
+
 /*直播加载时*/
+
 #liveLoadingbox {
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	z-index: 110;
 	width: 100%;
-	padding: 10px;	
+	padding: 10px;
 	max-height: 60px;
 	font-size: 16px;
 	color: #333;
-	background-color: rgb(182, 179, 179,0.8);
+	background-color: rgb(182, 179, 179, 0.8);
 }
-#liveLoadingbox button{
+
+#liveLoadingbox button {
 	float: right;
 }
+
 /*直播，没有直播时*/
 
-#liveStopbox {
+#liveStopbox, #livebox {
 	position: relative;
 	width: 100%;
 	height: 100%;
@@ -236,13 +258,13 @@ div {}
 	background-color: #fff;
 	position: absolute;
 	width: 60px;
-	height: 30px;
-	line-height: 30px;
+	height: 25px;
+	line-height: 25px;
 	text-indent: 5px;
 	padding: 0px;
-	top: 5px;
+	top: 7px;
 	right: 10px;
-	border-radius: 15px;
+	border-radius: 5px;
 	border: 1px solid #999;
 }
 
@@ -268,62 +290,42 @@ div {}
 	padding: 20px;
 }
 
-.chatlist dl, .chatlist dd {
+dl#chatlist {
+	padding: 20px;
+}
+
+dl#chatlist, #chatlist dd {
 	margin: 0px;
 }
 
-.chatlist dd {
-	width: auto;
-	display: table;
-	min-width: 30%;
-	line-height: 20px;
-	position: relative;
+#chatlist dd {
+	width: 100%;
+	margin-bottom: 12px;
 }
 
-.chatlist dd>div {
-	text-align: left;
-	padding: 5px;
-	padding-right: 10px;
-	color: #333;
-	border-radius: 10px;
-	margin: 10px;
-	line-height: 20px;
-	box-shadow: 1px 1px 2px #eee;
-}
-
-.chatlist dd acc {
+#chatlist dd:first-child {
 	display: block;
-	position: relative;
+	width: 100%;
+	line-height: 25px;
 }
 
-.chatlist dd del {
+#chatlist dd acc {
+	display: inline-block;
+}
+
+#chatlist dd date {
 	display: block;
-	position: absolute;
-	right: -8px;
-	top: 0px;
-	color: red;
-	font-size: 14px;
-	text-decoration-line: none;
-	cursor: pointer;
-	display: none;
+	float: right;
+	color: #999;
+	font-size: 11px;
 }
 
-.chatlist dd msg {
+#chatlist dd msg {
 	display: block;
+	line-height: 22px;
 }
 
-.chatlist dd date {
-	display: block;
-	text-align: left;
-	padding-left: 16px;
-	height: 18px;
-	line-height: 18px;
-	margin-top: -8px;
-	color: #444;
-	font-size: 10px;
-}
-
-.chatlist dd i {
+#chatlist dd i {
 	padding-right: 5px;
 	font-size: 16px;
 }
@@ -331,68 +333,11 @@ div {}
 /*留言输入区域*/
 
 #chatbox {
-	width: 100%;
-	height: 44px;
+	width: calc(100% - 20px);
+	height: 32px;
 	position: absolute;
 	bottom: 0px;
-}
-
-#chatbox .switch {
-	background-color: #fff;
-	height: 24px;
-	line-height: 24px;
-	width: 35px;
-	margin-top: 8px;
-	margin-left: 8px;
-	font-size: 8px;
-	border-radius: 12px;
-	position: relative;
-	cursor: pointer;
-	float: left;
-	transition: text-align .6s;
-}
-
-#chatbox .switch:before {
-	content: "弹";
-	width: 20px;
-	height: 20px;
-	line-height: 20px;
-	border-radius: 10px;
-	margin: 2px 0px 2px 0px;
-	margin-right: 5px;
-	font-size: 8px;
-	position: absolute;
-	z-index: 2;
-	color: #fff;
-	left: 2px;
-	background-color: #333;
-	transition: left .6s;
-}
-
-#chatbox .switch:after {
-	content: " ";
-	width: 31px;
-	height: 20px;
-	border-radius: 10px;
-	position: absolute;
-	z-index: 1;
-	left: 2px;
-	margin: 2px 0px 2px 0px;
-	background-color: #999;
-	transition: background-color .6s;
-}
-
-#chatbox .switch-on {
-	background-color: #FFFF99;
-}
-
-#chatbox .switch-on:before {
-	left: 12px;
-	background-color: #360;
-}
-
-#chatbox .switch-on:after {
-	background-color: #6F6;
+	margin: 10px;
 }
 
 #chatbox .msgbox {
@@ -407,21 +352,23 @@ div {}
 #chatbox textarea {
 	float: left;
 	width: calc(75% - 2px);
-	height: 44px;
-	line-height: 22px;
 	margin: 0px 0px 0px 2px;
-	border-radius: 10px 0px 0px 10px;
+	border-radius: 4px 0px 0px 4px;
+	height: 32px;
+	padding: 8px !important;
+	color: #606266;
 }
 
 #chatbox #btnMessage {
 	float: left;
-	background-color: #999;
+	background-color: #409eff;
+	color: #fff;
 	width: 25%;
-	height: 44px;
-	line-height: 44px;
+	height: 32px;
+	line-height: 32px;
 	margin: 0px !important;
 	padding: 0px !important;
-	border-radius: 0px 10px 10px 0px;
+	border-radius: 0px 4px 4px 0px;
 	text-align: center;
 	font-size: 12px;
 	cursor: pointer;
@@ -444,7 +391,6 @@ div {}
 	height: calc(100vh - 100vw*9/16);
 	height: -webkit-calc(100vh - 100vw*9/16);
 	height: -moz-calc(100vh - 100vw*9/16);
-
 	margin-top: calc(100vw*9/16);
 	margin-top: -webkit-calc(100vw*9/16);
 	margin-top: -moz-calc(100% * 9/16);
@@ -550,13 +496,16 @@ video::-webkit-media-controls-panel {
 }
 
 /*+++++底部图标*/
-.footer{
+
+.footer {
 	display: flex;
 	height: 45px;
 }
-.footer a{
+
+.footer a {
 	flex: 1;
 }
+
 .footer span {
 	height: 15px !important;
 	display: block;
@@ -568,15 +517,15 @@ video::-webkit-media-controls-panel {
 	display: block;
 	width: 100% !important;
 	font-family: iconfont;
-	text-align: center;  
-    border-radius: 50%;
+	text-align: center;
+	border-radius: 50%;
 	font-size: 20px;
 }
-
 
 /*-----底部图标*/
 
 /*+++++++左侧侧滑菜单*/
+
 #menu-layer .cour-info .cour-info-right {
 	width: 60%;
 	margin-right: 5%;
@@ -611,7 +560,8 @@ video::-webkit-media-controls-panel {
 }
 
 /*侧滑菜单的章节列表*/
-#menu-layer{
+
+#menu-layer {
 	width: 100vw;
 	height: 100vh;
 	background-color: rgba(0, 0, 0, .3);
@@ -619,35 +569,41 @@ video::-webkit-media-controls-panel {
 	top: 0px;
 	left: -100vw;
 	z-index: 9999;
-	opacity:0;
-	transition: all .8s ease ;  
+	opacity: 0;
+	transition: all .8s ease;
 }
-#menu-layer.active{
+
+#menu-layer.active {
 	left: 0px;
-	opacity:1;
+	opacity: 1;
 }
-#menu-layer #menu{
+
+#menu-layer #menu {
 	width: 75%;
 	height: 100vh;
 	overflow-y: auto;
 	background-color: rgba(0, 0, 0, .8);
 }
+
 #menu-layer .cour-info {
 	margin: 10px;
 	display: table;
 	width: calc(100% - 20px);
 }
+
 #menu-layer .cour-info img {
 	width: 30%;
 	margin-right: 5%;
 	float: left;
 	box-shadow: 0 1px 2px #fff !important;
 }
-#menu-layer ul{
+
+#menu-layer ul {
 	margin: 0px;
 }
+
 #menu-layer .outline {
-	padding-right: 40px !important;	
+	padding-right: 40px !important;
 }
 
 #menu-layer .outline a:before {
