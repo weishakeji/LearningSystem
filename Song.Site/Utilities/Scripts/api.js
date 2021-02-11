@@ -18,6 +18,7 @@
         //调用地址的根路径
         baseURL: '',
         pathUrl: "/api/v{0}/", //url路径
+        apicache_location: true     //本机是否缓存数据
     };
     //版权信息
     var copyright = {};
@@ -215,7 +216,9 @@
         },
         //本地接口缓存,way:api请求路径,para：请求参数,value:api的返回值
         apicache: function (way, para, value) {
-            if (window.location.hostname == 'localhost') return null;
+            if (!config.apicache_location) {
+                if (window.location.hostname == 'localhost') return null;
+            }
             //接口缓存名称，缓存指令，缓存项的名称
             var name, active = '', key;
             if (way.indexOf(":") > -1) {

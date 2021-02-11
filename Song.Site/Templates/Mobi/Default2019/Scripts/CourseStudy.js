@@ -34,7 +34,7 @@ var vdata = new Vue({
 		var th = this;
 		$api.bat(
 			$api.get('Account/Current'),
-			$api.get("Course/ForID", { id: couid }),
+			$api.cache("Course/ForID", { id: couid }),
 			$api.cache("Outline/tree", { couid: couid }),
 			$api.get('Course/Studied', { 'couid': couid })
 		).then(axios.spread(function (account, cur, ol, isbuy) {
@@ -50,13 +50,14 @@ var vdata = new Vue({
 			}
 			vdata.account = account.data.result;
 			vdata.course = cur.data.result;
+			document.title = vdata.course.Cou_Name;
 			vdata.outlines = ol.data.result;
 			vdata.isbuy = isbuy.data.result;
 		})).catch(function (err) {
 			alert(err);
 		});
 	},
-	methods: {	}
+	methods: {}
 });
 vdata.$mount('#offCanvasWrapper');
 //窗体失去焦点的事件
@@ -95,8 +96,7 @@ Vue.component('menutree', {
 	props: ['outlines', 'course', 'isbuy', 'menushow'],
 	data: function () {
 		return {
-			current: {}, //当前章节对象
-			state: {},		//章节状态
+			current: {}, //当前章节对象		
 			olid: 0,		//当前章节id
 			loading: true, //预载中
 			defimg: ''   //课程默认图片
@@ -106,19 +106,10 @@ Vue.component('menutree', {
 		//当章节id变化时
 		olid: {
 			handler(nv, ov) {
-				if (nv == 0) return;
-				var th = this;
-				$api.get('Outline/State', { 'olid': nv }).then(function (req) {
-					if (req.data.success) {
-						th.state = req.data.result;
-					} else {
-						console.error(req.data.exception);
-						throw req.data.message;
-					}
-				}).catch(function (err) {
-					alert(err);
-					console.error(err);
-				});
+				if (nv == 0 || nv == ov) return;
+				var url = $api.setpara('olid', nv);
+				history.pushState({}, null, url);
+				vdata.menuShow = false;
 			},
 			immediate: true
 		}
@@ -154,11 +145,10 @@ Vue.component('menutree', {
 		},
 		//章节点击事件
 		click: function (node) {
+			if (node.Ol_ID == this.olid) return;
+			this.olid = node.Ol_ID;
+			this.current = node;
 			vdata.outline = node;
-			var url = $api.setpara('olid', node.Ol_ID);
-			history.pushState({}, null, url);
-			vdata.menuShow = false;
-			console.log(node);
 		}
 	},
 	template: "<div id='menu-layer' :class='{active:menushow}'  v-on:click.self='vdata.menuShow=false'>\
@@ -172,7 +162,7 @@ Vue.component('menutree', {
 			</div>\
 		</div>\
 		<ul class='mui-table-view mui-table-view-chevron mui-table-view-inverted' v-if='outlines.length>0'>\
-        <li class='mui-table-view-cell outline' v-for='o in outlines' :isvideo='o.Ol_IsVideo' :islive='o.Ol_IsLive'\
+        <li class='mui-table-view-cell' :current='o.Ol_ID==olid' v-for='o in outlines' :isvideo='o.Ol_IsVideo' :islive='o.Ol_IsLive'\
           :olid='o.Ol_ID' :style='padding(o.Ol_Level)' v-on:click='click(o)'>\
           <template v-if='isbuy'>\
             <a class='ol_name'>{{o.Ol_XPath}}{{o.Ol_Name}}</a>\
@@ -253,7 +243,7 @@ Vue.component('accessory', {
 			handler: function (newV, oldV) {
 				if (JSON.stringify(newV) == '{}' || newV == null) return;
 				var th = this;
-				$api.get('Outline/Accessory', { 'uid': newV.Ol_UID }).then(function (req) {
+				$api.cache('Outline/Accessory', { 'uid': newV.Ol_UID }).then(function (req) {
 					if (req.data.success) {
 						th.files = req.data.result;
 					} else {
@@ -453,6 +443,10 @@ Vue.component('videoplayer', {
 			handler: function (newV, oldV) {
 				if (JSON.stringify(newV) == '{}' || newV == null) return;
 				var th = this;
+				if (this.player != null) {
+					this.player.destroy();
+					this.player = null;
+				}
 				$api.get('Outline/State', { 'olid': this.outline.Ol_ID }).then(function (req) {
 					if (req.data.success) {
 						th.state = req.data.result;
@@ -477,7 +471,7 @@ Vue.component('videoplayer', {
 		//课程状态
 		state: function (val) {
 			//视频播放
-			if (val.existVideo || val.state.isLive) {
+			if (val.existVideo || val.isLive) {
 				this.videoPlay(val);
 			}
 		},
@@ -503,10 +497,6 @@ Vue.component('videoplayer', {
 	methods: {
 		//视频开始播放
 		videoPlay: function (state) {
-			if (this.player != null) {
-				this.player.destroy();
-				this.player = null;
-			}
 			var th = this;
 			if (!this.state.isLive) { //点播
 				var container = document.getElementById("videoplayer");
@@ -589,6 +579,7 @@ Vue.component('videoplayer', {
 			}
 			window.setInterval(function () {
 				var video = document.querySelector("video");
+				if (video == null) return;
 				if (!$().isWeixin()) {
 					video.setAttribute("x5-playsinline", "true");
 					video.setAttribute("playsinline", "true");

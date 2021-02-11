@@ -602,18 +602,21 @@ video::-webkit-media-controls-panel {
 	margin: 0px;
 }
 
-#menu-layer .outline {
+#menu-layer .mui-table-view-cell {
 	padding-right: 40px !important;
 }
 
-#menu-layer .outline a:before {
+#menu-layer .mui-table-view-cell a:before {
 	content: "\e681";
 	font-family: iconfont;
 	margin-right: 5px;
 	font-size: 15px;
 	font-weight: normal;
 }
-
+#menu-layer .mui-table-view-cell[current]{
+	color: rgb(255, 192, 97) !important;
+	background-color: rgba(255, 255, 255, .3);
+}
 /*视频章节的图标*/
 
 #menu-layer li[isvideo=true] a:before {
