@@ -811,8 +811,6 @@
     </Content>
     <Content Include="Templates\Mobi\Default2019\Inc\Footer.html" />
     <Content Include="Templates\Mobi\Default2019\Inc\HomeFooter.html" />
-    <Content Include="Templates\Mobi\Default2019\Inc\CourseStudyFooter.html" />
-    <Content Include="Templates\Mobi\Default2019\Inc\CourseStudyMenu.html" />
     <Content Include="Templates\Mobi\Default2019\Inc\KnowledgesFooter.html" />
     <Content Include="Templates\Mobi\Default2019\Inc\QuesFooter.html" />
     <Content Include="Templates\Mobi\Default2019\Inc\SubjectSelect.css" />
@@ -6590,7 +6588,6 @@
     <Content Include="About.ashx" />
     <Content Include="Knowledges.ashx" />
     <Content Include="Knowledge.ashx" />
-    <Content Include="App_Browsers\IE10.browser" />
     <Content Include="Examing.ashx" />
     <Content Include="Ajax\ExamPager.ashx" />
     <Content Include="Ajax\InResult.ashx" />
@@ -6673,9 +6670,6 @@
     <Content Include="Mobile\CourseStudy.ashx" />
     <Content Include="Pay\PayEntry.ashx" />
     <Content Include="Manage\Student\Parents.Master" />
-    <Content Include="App_Browsers\Form.browser">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="db.config">
       <SubType>Designer</SubType>
     </Content>
@@ -7120,6 +7114,7 @@
     <Content Include="CourseChat.ashx" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Browsers\" />
     <Folder Include="bin\" />
     <Folder Include="Manage\Utility\kindeditor\attached\" />
     <Folder Include="Upload\" />

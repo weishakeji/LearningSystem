@@ -20,49 +20,49 @@ namespace Song.Site.Mobile
         bool isStudy = false;      
         protected override void InitPageTemplate(HttpContext context)
         {
-            if (!Extend.LoginState.Accounts.IsLogin)
-                this.Response.Redirect("login.ashx");
-            
-            //当前选中的课程
-            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);         
-            if (course != null)
-            {
-                //是否免费，或是限时免费
-                if (course.Cou_IsLimitFree)
-                {
-                    DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
-                    if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
-                        course.Cou_IsLimitFree = false;
-                }
-                //是否学习当前课程
-                isStudy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, couid);
-                this.Document.Variables.SetValue("isStudy", isStudy);
-                //是否免费，或是限时免费
-                if (course.Cou_IsLimitFree)
-                {
-                    DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
-                    if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
-                        course.Cou_IsLimitFree = false;
-                }
-                this.Document.SetValue("course", course);
-                couid = course.Cou_ID;                            
-                //当前课程下的章节
-                Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
-                this.Document.SetValue("outlines", outlines);
-                //树形章节输出
-                if (outlines.Length > 0)
-                    this.Document.Variables.SetValue("dtOutlines", Business.Do<IOutline>().OutlineTree(outlines));  
-            }
-            this.Document.SetValue("couid", couid);  
-            //课程资源、课程视频资源的所在的路径
-            this.Document.SetValue("path", Upload.Get["Course"].Virtual);
-            this.Document.SetValue("vpath", Upload.Get["CourseVideo"].Virtual);
-            //试题练习记录
-            Song.Entities.LogForStudentQuestions log = Business.Do<ILogs>().QuestionSingle(this.Account.Ac_ID, couid, 0);
-            this.Document.SetValue("log", log);
-            //是否拥有子级
-            this.Document.RegisterGlobalFunction(this.isChildren);
-            this.Document.RegisterGlobalFunction(this.getChildren);            
+            //if (!Extend.LoginState.Accounts.IsLogin)
+            //    this.Response.Redirect("login.ashx");
+
+            ////当前选中的课程
+            //Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);         
+            //if (course != null)
+            //{
+            //    //是否免费，或是限时免费
+            //    if (course.Cou_IsLimitFree)
+            //    {
+            //        DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+            //        if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+            //            course.Cou_IsLimitFree = false;
+            //    }
+            //    //是否学习当前课程
+            //    isStudy = Business.Do<ICourse>().StudyIsCourse(this.Account.Ac_ID, couid);
+            //    this.Document.Variables.SetValue("isStudy", isStudy);
+            //    //是否免费，或是限时免费
+            //    if (course.Cou_IsLimitFree)
+            //    {
+            //        DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+            //        if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+            //            course.Cou_IsLimitFree = false;
+            //    }
+            //    this.Document.SetValue("course", course);
+            //    couid = course.Cou_ID;                            
+            //    //当前课程下的章节
+            //    Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
+            //    this.Document.SetValue("outlines", outlines);
+            //    //树形章节输出
+            //    if (outlines.Length > 0)
+            //        this.Document.Variables.SetValue("dtOutlines", Business.Do<IOutline>().OutlineTree(outlines));  
+            //}
+            //this.Document.SetValue("couid", couid);  
+            ////课程资源、课程视频资源的所在的路径
+            //this.Document.SetValue("path", Upload.Get["Course"].Virtual);
+            //this.Document.SetValue("vpath", Upload.Get["CourseVideo"].Virtual);
+            ////试题练习记录
+            //Song.Entities.LogForStudentQuestions log = Business.Do<ILogs>().QuestionSingle(this.Account.Ac_ID, couid, 0);
+            //this.Document.SetValue("log", log);
+            ////是否拥有子级
+            //this.Document.RegisterGlobalFunction(this.isChildren);
+            //this.Document.RegisterGlobalFunction(this.getChildren);            
         }
         /// <summary>
         /// 是否拥有子级

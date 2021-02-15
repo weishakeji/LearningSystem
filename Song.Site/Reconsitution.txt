@@ -2,4 +2,5 @@
 /Mobile/Course.ashx
 /Mobile/CoursePage.ashx
 /Mobile/CourseStudy.ashx
+/mobile/QuesOutlines.ashx
 --/Default.ashx

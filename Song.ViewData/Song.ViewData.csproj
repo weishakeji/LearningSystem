@@ -138,6 +138,7 @@
     <Compile Include="Methods\Organ.cs" />
     <Compile Include="Methods\Outline.cs" />
     <Compile Include="Methods\Platform.cs" />
+    <Compile Include="Methods\Question.cs" />
     <Compile Include="Methods\Showpic.cs" />
     <Compile Include="Methods\Subject.cs" />
     <Compile Include="Methods\Message.cs" />
