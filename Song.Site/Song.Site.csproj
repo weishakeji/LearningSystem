@@ -288,13 +288,16 @@
     <Content Include="Manage\Admin\Students_Courses.aspx" />
     <Content Include="Manage\Admin\Courses_Students.aspx" />
     <Content Include="Manage\Card\Learningcard.aspx" />
+    <Content Include="Manage\Card\Learningcard.html" />
     <Content Include="Manage\Card\Learningcard_Edit.aspx" />
     <Content Include="Manage\Card\Learningcard_Code.aspx" />
     <Content Include="Manage\Card\Output_Excel.aspx" />
+    <Content Include="Manage\Card\Scripts\Learningcard.js" />
     <Content Include="Manage\Card\Scripts\Learningcard_Edit.js" />
     <Content Include="Manage\Card\Scripts\Learningcard_Courses.js" />
     <Content Include="Manage\Card\Scripts\Learningcard_Code.js" />
     <Content Include="Manage\Card\Scripts\GoBack.js" />
+    <Content Include="Manage\Card\Styles\Learningcard.css" />
     <Content Include="Manage\Card\Styles\Learningcard_Edit.css" />
     <Content Include="Manage\Card\Learningcard_Courses.aspx" />
     <Content Include="Manage\Card\Styles\Learningcard_Courses.css" />
@@ -451,6 +454,7 @@
     <Content Include="Manage\Questions\Questions_Edit6.aspx" />
     <Content Include="Manage\Scripts\Public.js" />
     <Content Include="Manage\Scripts\Console.js" />
+    <Content Include="Manage\Scripts\webdesk.ui.core.js" />
     <Content Include="Manage\Site\Notice_Edit.html" />
     <Content Include="Manage\Site\Scripts\Notice_Edit.js" />
     <Content Include="Manage\Site\SSOApi.aspx" />

@@ -63,8 +63,7 @@
                         <div style="height:20px;"><%#Container.ItemIndex + 1%> 、 <%# Eval("Cou_Name") %></div>
                         </ItemTemplate>
                         </asp:Repeater>
-                        <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div> <div>ddd</div>
-                        <div>888</div>
+                       
                     </td>
                 </tr>
             </table>
