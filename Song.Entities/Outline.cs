@@ -44,11 +44,11 @@ namespace Song.Entities {
     		
     		protected Int32 _Ol_QuesCount;
     		
-    		protected Boolean _Ol_IsFinish;
-    		
     		protected Boolean _Ol_IsNode;
     		
     		protected Boolean _Ol_IsVideo;
+    		
+    		protected Boolean _Ol_IsFinish;
     		
     		protected Boolean _Ol_IsLive;
     		
@@ -238,16 +238,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Boolean Ol_IsFinish {
-    			get {
-    				return this._Ol_IsFinish;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Ol_IsFinish, _Ol_IsFinish, value);
-    				this._Ol_IsFinish = value;
-    			}
-    		}
-    		
     		public Boolean Ol_IsNode {
     			get {
     				return this._Ol_IsNode;
@@ -265,6 +255,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Ol_IsVideo, _Ol_IsVideo, value);
     				this._Ol_IsVideo = value;
+    			}
+    		}
+    		
+    		public Boolean Ol_IsFinish {
+    			get {
+    				return this._Ol_IsFinish;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ol_IsFinish, _Ol_IsFinish, value);
+    				this._Ol_IsFinish = value;
     			}
     		}
     		
@@ -353,9 +353,9 @@ namespace Song.Entities {
     					_.Org_ID,
     					_.Sbj_ID,
     					_.Ol_QuesCount,
-    					_.Ol_IsFinish,
     					_.Ol_IsNode,
     					_.Ol_IsVideo,
+    					_.Ol_IsFinish,
     					_.Ol_IsLive,
     					_.Ol_LiveTime,
     					_.Ol_LiveSpan,
@@ -385,9 +385,9 @@ namespace Song.Entities {
     					this._Org_ID,
     					this._Sbj_ID,
     					this._Ol_QuesCount,
-    					this._Ol_IsFinish,
     					this._Ol_IsNode,
     					this._Ol_IsVideo,
+    					this._Ol_IsFinish,
     					this._Ol_IsLive,
     					this._Ol_LiveTime,
     					this._Ol_LiveSpan,
@@ -452,14 +452,14 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ol_QuesCount))) {
     				this._Ol_QuesCount = reader.GetInt32(_.Ol_QuesCount);
     			}
-    			if ((false == reader.IsDBNull(_.Ol_IsFinish))) {
-    				this._Ol_IsFinish = reader.GetBoolean(_.Ol_IsFinish);
-    			}
     			if ((false == reader.IsDBNull(_.Ol_IsNode))) {
     				this._Ol_IsNode = reader.GetBoolean(_.Ol_IsNode);
     			}
     			if ((false == reader.IsDBNull(_.Ol_IsVideo))) {
     				this._Ol_IsVideo = reader.GetBoolean(_.Ol_IsVideo);
+    			}
+    			if ((false == reader.IsDBNull(_.Ol_IsFinish))) {
+    				this._Ol_IsFinish = reader.GetBoolean(_.Ol_IsFinish);
     			}
     			if ((false == reader.IsDBNull(_.Ol_IsLive))) {
     				this._Ol_IsLive = reader.GetBoolean(_.Ol_IsLive);
@@ -590,11 +590,6 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ol_QuesCount = new WeiSha.Data.Field<Outline>("Ol_QuesCount");
     			
     			/// <summary>
-    			/// 字段名：Ol_IsFinish - 数据类型：Boolean
-    			/// </summary>
-    			public static WeiSha.Data.Field Ol_IsFinish = new WeiSha.Data.Field<Outline>("Ol_IsFinish");
-    			
-    			/// <summary>
     			/// 字段名：Ol_IsNode - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Ol_IsNode = new WeiSha.Data.Field<Outline>("Ol_IsNode");
@@ -603,6 +598,11 @@ namespace Song.Entities {
     			/// 字段名：Ol_IsVideo - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Ol_IsVideo = new WeiSha.Data.Field<Outline>("Ol_IsVideo");
+    			
+    			/// <summary>
+    			/// 字段名：Ol_IsFinish - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Ol_IsFinish = new WeiSha.Data.Field<Outline>("Ol_IsFinish");
     			
     			/// <summary>
     			/// 字段名：Ol_IsLive - 数据类型：Boolean

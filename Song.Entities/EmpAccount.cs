@@ -86,6 +86,8 @@ namespace Song.Entities {
     		
     		protected String _Org_Name;
     		
+    		protected String _Acc_CheckUID;
+    		
     		/// <summary>
     		/// -1
     		/// </summary>
@@ -587,6 +589,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Acc_CheckUID {
+    			get {
+    				return this._Acc_CheckUID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Acc_CheckUID, _Acc_CheckUID, value);
+    				this._Acc_CheckUID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -652,7 +664,8 @@ namespace Song.Entities {
     					_.Team_ID,
     					_.Team_Name,
     					_.Org_ID,
-    					_.Org_Name};
+    					_.Org_Name,
+    					_.Acc_CheckUID};
     		}
     		
     		/// <summary>
@@ -698,7 +711,8 @@ namespace Song.Entities {
     					this._Team_ID,
     					this._Team_Name,
     					this._Org_ID,
-    					this._Org_Name};
+    					this._Org_Name,
+    					this._Acc_CheckUID};
     		}
     		
     		/// <summary>
@@ -821,6 +835,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Org_Name))) {
     				this._Org_Name = reader.GetString(_.Org_Name);
+    			}
+    			if ((false == reader.IsDBNull(_.Acc_CheckUID))) {
+    				this._Acc_CheckUID = reader.GetString(_.Acc_CheckUID);
     			}
     		}
     		
@@ -1042,6 +1059,11 @@ namespace Song.Entities {
     			/// 字段名：Org_Name - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Org_Name = new WeiSha.Data.Field<EmpAccount>("Org_Name");
+    			
+    			/// <summary>
+    			/// 字段名：Acc_CheckUID - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Acc_CheckUID = new WeiSha.Data.Field<EmpAccount>("Acc_CheckUID");
     		}
     	}
     }

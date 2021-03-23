@@ -1571,6 +1571,13 @@ namespace Song.ServiceImpls
                 entity.Ma_Total = deposit;
             }
             tran.Update<Accounts>(new Field[] { Accounts._.Ac_Money }, new object[] { entity.Ma_Total }, Accounts._.Ac_ID == entity.Ac_ID);
+            //同步学员账号与姓名
+            Accounts acc = tran.From<Accounts>().Where(Accounts._.Ac_ID == entity.Ac_ID).ToFirst<Accounts>();
+            if (acc != null)
+            {
+                entity.Ac_Name = acc.Ac_Name;
+                entity.Ac_AccName = acc.Ac_AccName;
+            }
         }
         /// <summary>
         /// 资金减除
@@ -1595,6 +1602,13 @@ namespace Song.ServiceImpls
                 entity.Ma_Total = total;
             }
             tran.Update<Accounts>(new Field[] { Accounts._.Ac_Money }, new object[] { entity.Ma_Total }, Accounts._.Ac_ID == entity.Ac_ID);
+            //同步学员账号与姓名
+            Accounts acc = tran.From<Accounts>().Where(Accounts._.Ac_ID == entity.Ac_ID).ToFirst<Accounts>();
+            if (acc != null)
+            {
+                entity.Ac_Name = acc.Ac_Name;
+                entity.Ac_AccName = acc.Ac_AccName;
+            }
         }
         #endregion
         

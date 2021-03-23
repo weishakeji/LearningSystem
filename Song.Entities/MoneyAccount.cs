@@ -44,6 +44,10 @@ namespace Song.Entities {
     		
     		protected String _Ma_Seller;
     		
+    		protected String _Ac_AccName;
+    		
+    		protected String _Ac_Name;
+    		
     		public Int32 Ma_ID {
     			get {
     				return this._Ma_ID;
@@ -224,6 +228,26 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Ac_AccName {
+    			get {
+    				return this._Ac_AccName;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ac_AccName, _Ac_AccName, value);
+    				this._Ac_AccName = value;
+    			}
+    		}
+    		
+    		public String Ac_Name {
+    			get {
+    				return this._Ac_Name;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ac_Name, _Ac_Name, value);
+    				this._Ac_Name = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -268,7 +292,9 @@ namespace Song.Entities {
     					_.Pai_ID,
     					_.Ma_Status,
     					_.Ma_Buyer,
-    					_.Ma_Seller};
+    					_.Ma_Seller,
+    					_.Ac_AccName,
+    					_.Ac_Name};
     		}
     		
     		/// <summary>
@@ -293,7 +319,9 @@ namespace Song.Entities {
     					this._Pai_ID,
     					this._Ma_Status,
     					this._Ma_Buyer,
-    					this._Ma_Seller};
+    					this._Ma_Seller,
+    					this._Ac_AccName,
+    					this._Ac_Name};
     		}
     		
     		/// <summary>
@@ -353,6 +381,12 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ma_Seller))) {
     				this._Ma_Seller = reader.GetString(_.Ma_Seller);
+    			}
+    			if ((false == reader.IsDBNull(_.Ac_AccName))) {
+    				this._Ac_AccName = reader.GetString(_.Ac_AccName);
+    			}
+    			if ((false == reader.IsDBNull(_.Ac_Name))) {
+    				this._Ac_Name = reader.GetString(_.Ac_Name);
     			}
     		}
     		
@@ -469,6 +503,16 @@ namespace Song.Entities {
     			/// 字段名：Ma_Seller - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Ma_Seller = new WeiSha.Data.Field<MoneyAccount>("Ma_Seller");
+    			
+    			/// <summary>
+    			/// 字段名：Ac_AccName - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ac_AccName = new WeiSha.Data.Field<MoneyAccount>("Ac_AccName");
+    			
+    			/// <summary>
+    			/// 字段名：Ac_Name - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Ac_Name = new WeiSha.Data.Field<MoneyAccount>("Ac_Name");
     		}
     	}
     }

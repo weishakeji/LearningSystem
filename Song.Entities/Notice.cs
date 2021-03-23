@@ -50,9 +50,9 @@ namespace Song.Entities {
     		
     		protected String _No_Linkurl;
     		
-    		protected Int32 _No_Timespan;
-    		
     		protected String _No_StudentSort;
+    		
+    		protected Int32 _No_Timespan;
     		
     		protected Int32 _No_Type;
     		
@@ -296,16 +296,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 No_Timespan {
-    			get {
-    				return this._No_Timespan;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.No_Timespan, _No_Timespan, value);
-    				this._No_Timespan = value;
-    			}
-    		}
-    		
     		public String No_StudentSort {
     			get {
     				return this._No_StudentSort;
@@ -313,6 +303,16 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.No_StudentSort, _No_StudentSort, value);
     				this._No_StudentSort = value;
+    			}
+    		}
+    		
+    		public Int32 No_Timespan {
+    			get {
+    				return this._No_Timespan;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Timespan, _No_Timespan, value);
+    				this._No_Timespan = value;
     			}
     		}
     		
@@ -374,8 +374,8 @@ namespace Song.Entities {
     					_.No_Height,
     					_.No_BgImage,
     					_.No_Linkurl,
-    					_.No_Timespan,
     					_.No_StudentSort,
+    					_.No_Timespan,
     					_.No_Type};
     		}
     		
@@ -405,8 +405,8 @@ namespace Song.Entities {
     					this._No_Height,
     					this._No_BgImage,
     					this._No_Linkurl,
-    					this._No_Timespan,
     					this._No_StudentSort,
+    					this._No_Timespan,
     					this._No_Type};
     		}
     		
@@ -477,11 +477,11 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.No_Linkurl))) {
     				this._No_Linkurl = reader.GetString(_.No_Linkurl);
     			}
-    			if ((false == reader.IsDBNull(_.No_Timespan))) {
-    				this._No_Timespan = reader.GetInt32(_.No_Timespan);
-    			}
     			if ((false == reader.IsDBNull(_.No_StudentSort))) {
     				this._No_StudentSort = reader.GetString(_.No_StudentSort);
+    			}
+    			if ((false == reader.IsDBNull(_.No_Timespan))) {
+    				this._No_Timespan = reader.GetInt32(_.No_Timespan);
     			}
     			if ((false == reader.IsDBNull(_.No_Type))) {
     				this._No_Type = reader.GetInt32(_.No_Type);
@@ -618,14 +618,14 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field No_Linkurl = new WeiSha.Data.Field<Notice>("No_Linkurl");
     			
     			/// <summary>
-    			/// 字段名：No_Timespan - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field No_Timespan = new WeiSha.Data.Field<Notice>("No_Timespan");
-    			
-    			/// <summary>
     			/// 字段名：No_StudentSort - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field No_StudentSort = new WeiSha.Data.Field<Notice>("No_StudentSort");
+    			
+    			/// <summary>
+    			/// 字段名：No_Timespan - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Timespan = new WeiSha.Data.Field<Notice>("No_Timespan");
     			
     			/// <summary>
     			/// 字段名：No_Type - 数据类型：Int32
@@ -634,3 +634,4 @@ namespace Song.Entities {
     		}
     	}
     }
+    
