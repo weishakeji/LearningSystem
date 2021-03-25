@@ -33,8 +33,10 @@
                               </methods>
                         </dd>
                         <dd v-if="apilist.length<1" class="noapi">
-                              <span>没有接口信息</span>
+                              <span v-if="error==''">没有接口信息</span>
+                              <span v-else>{{error}}</span>
                         </dd>
+                       
                   </dl>
                   <footer>郑州微厦计算机科技有限公司</footer>
             </menu>
@@ -51,18 +53,19 @@
                                                 (Expires={{item.Expires}})</i>] </span>
                                     <span v-if="method.Attrs.length<1">无</span>
                               </attr>
-                              <div @dblclick="copyApipath(method.ClassName,method.Name)" class="name" v-html="method.ClassName +'.'+method.Name">
+                              <div @dblclick="copyApipath(method.ClassName,method.Name)" class="name"
+                                    v-html="method.ClassName +'.'+method.Name">
                                     <para>{{parameter}}</para>
                               </div>
                               <intro><b>摘要：</b>{{method.Intro}}</intro>
                               <params>
-                                    <table cellspacing="0" cellpadding="0" width="100%" border="0"
-                                          v-show="method.Paras.length>0">
+                                    <table cellspacing="0" cellpadding="0" border="0" v-show="method.Paras.length>0">
                                           <tr>
                                                 <th width="40">#</th>
                                                 <th width="100">参数</th>
                                                 <th width="110">测试值</th>
-                                                <th width="80">类型</th>
+                                                <th width="160">类型</th>
+                                                <th width="80">可空</th>
                                                 <th>说明</th>
                                           </tr>
                                           <tr v-for="(item,index) in method.Paras">
@@ -72,6 +75,7 @@
                                                             v-on:input.prevent="teststring()" :datatype="item.Type" />
                                                 </td>
                                                 <td>{{item.Type.substring(item.Type.indexOf('.')+1)}}</td>
+                                                <td>{{item.Nullable}}</td>
                                                 <td>{{item.Intro}}</td>
                                           </tr>
                                     </table>

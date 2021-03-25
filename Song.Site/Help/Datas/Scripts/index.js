@@ -11,7 +11,8 @@ var vapp = new Vue({
     el: '#entities',
     data: {
         entitysearch: '',   //用于左侧实体列表的搜索
-        entities: {}, //实体列表，       
+        entities: {}, //实体列表，   
+        error: '',       //错误信息的提示    
         loading: false,
         helpshow: false,     //帮助信息的显示状态
         //用于向子组件传参
@@ -58,7 +59,8 @@ var vapp = new Vue({
         var th = this;
         th.loading = true;
         //实体信息的获取
-        $api.get("helper/Entities").then(function (req) {
+        $api.post("helper/Entities").then(function (req) {
+            th.loading = false;
             if (req.data.success) {
                 th.entities = req.data.result;
                 for (var t in th.entities) {
@@ -66,10 +68,14 @@ var vapp = new Vue({
                     th.entity = th.entities[t];
                     break;
                 }
-                th.loading = false;
             } else {
-                console.error(req.data.message);
+                throw req.data.message;
             }
+        }).catch(function (err) {
+            th.loading = false;
+            th.error = err;
+            console.error(err);
+            alert(err);
         });
         //帮助信息隐藏
         window.setTimeout(function () {
@@ -149,10 +155,11 @@ Vue.component('entity', {
     methods: {
         //获取详细信息
         getDetails: function (clname) {
+            if (clname == '') return;
             this.loading = true;
             var th = this;
             $api.bat(
-                $api.get('Helper/EntityField', { 'name': th.clname }), //获取字段（属性）
+                $api.post('Helper/EntityField', { 'name': th.clname }), //获取字段（属性）
                 $api.get('Helper/EntityDetails', { 'name': th.clname })  //字段说明
             ).then(axios.spread(function (field, detal) {
                 if (field.data.success) th.properties = field.data.result;
@@ -162,7 +169,7 @@ Vue.component('entity', {
             })).catch(function (err) {
                 alert(err);
                 console.error(err);
-                vapp.loading = false;
+                th.loading = false;
             });
         },
         //更新详细信息

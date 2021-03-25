@@ -1516,6 +1516,7 @@ namespace Song.ServiceImpls
             Song.Entities.MoneyAccount ma = Gateway.Default.From<MoneyAccount>().Where(MoneyAccount._.Ma_Serial == serial).ToFirst<MoneyAccount>();
             return MoneyConfirm(ma);
         }
+        private static object _lockMoneyConfirm = new object();
         /// <summary>
         /// 通过交易记录的对象，进行资金支出或收入的确认操作
         /// </summary>
@@ -1524,27 +1525,32 @@ namespace Song.ServiceImpls
         public MoneyAccount MoneyConfirm(MoneyAccount ma)
         {
             if (ma == null) return null;
-            if (ma.Ma_IsSuccess) return ma;
-            using (DbTrans tran = Gateway.Default.BeginTrans())
+            lock (_lockMoneyConfirm)
             {
-                try
+                Song.Entities.MoneyAccount maccount = Gateway.Default.From<MoneyAccount>().Where(MoneyAccount._.Ma_ID == ma.Ma_ID).ToFirst<MoneyAccount>();
+                if (ma.Ma_IsSuccess) return ma;
+                maccount.Copy<Song.Entities.MoneyAccount>(ma);
+                using (DbTrans tran = Gateway.Default.BeginTrans())
                 {
-                    ma.Ma_IsSuccess = true;
-                    if (ma.Ma_Type == 1) _subtraction(ma, tran);
-                    if (ma.Ma_Type == 2) _addition(ma, tran);
-                    tran.Save<MoneyAccount>(ma);
-                    tran.Commit();
-                    Extend.LoginState.Accounts.Refresh(ma.Ac_ID);
-                    return ma;
-                }
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-                    throw ex;
-                }
-                finally
-                {
-                    tran.Close();
+                    try
+                    {
+                        ma.Ma_IsSuccess = true;
+                        if (ma.Ma_Type == 1) _subtraction(maccount, tran);
+                        if (ma.Ma_Type == 2) _addition(maccount, tran);
+                        tran.Save<MoneyAccount>(maccount);
+                        tran.Commit();
+                        Extend.LoginState.Accounts.Refresh(maccount.Ac_ID);
+                        return maccount;
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        throw ex;
+                    }
+                    finally
+                    {
+                        tran.Close();
+                    }
                 }
             }
         }

@@ -101,6 +101,8 @@ namespace Song.ViewData
             bool isRange = RangeAttribute.Verify(method, letter);
             //----验证是否需要登录
             LoginAttribute loginattr = LoginAttribute.Verify(method, letter);
+            //----清理参数值中的html标签,默认全部清理，通过设置not参数不过虑某参数
+            HtmlClearAttribute.Clear(method, letter);
 
 
             //4.构建执行该方法所需要的参数
@@ -141,7 +143,7 @@ namespace Song.ViewData
             try
             {
                 if (!"weishakeji".Equals(letter.HTTP_Mark))
-                    throw VExcept.System("请求标识不正确", 100);
+                    throw VExcept.System("The request ID is incorrect", 100);
                 //执行方法
                 object res = Exec(letter);
                 //计算耗时                
@@ -265,13 +267,25 @@ namespace Song.ViewData
                 }
                 //实参的值，即接口方法的参数所对应的客户端传来的值
                 string val = letter[pi.Name].String;
-                if (!pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
+                //是否是可以为空的参数，例如DateTime? int?
+                Type nullableType = Nullable.GetUnderlyingType(pi.ParameterType);
+                if (nullableType != null)
                 {
-                    if (!pi.ParameterType.Name.Equals("int32", StringComparison.CurrentCultureIgnoreCase))
+                    if (string.IsNullOrWhiteSpace(val)) objs[i] = null;
+                    else
+                        objs[i] = _getValueToObject<object>(Type.GetType(nullableType.FullName), val);
+                    continue;
+                }
+                else
+                {
+                    if (!pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
+                        if (!pi.ParameterType.Name.Equals("int32", StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
+                        }
+                        //if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
                     }
-                    //if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
                 }
                 //如果形参是数据实体
                 if (pi.ParameterType.BaseType != null && pi.ParameterType.BaseType.FullName == "WeiSha.Data.Entity")
@@ -283,6 +297,17 @@ namespace Song.ViewData
                 if (pi.ParameterType.IsArray)
                 {
                     objs[i] = _getValueToArray(pi.ParameterType, val);
+                    continue;
+                }
+                //如果是Json数据
+                if (pi.ParameterType.Name.Equals("JArray"))
+                {
+                    objs[i] = JArray.Parse(val);
+                    continue;
+                }
+                if (pi.ParameterType.Name.Equals("JObject"))
+                {
+                    objs[i] = JObject.Parse(val);
                     continue;
                 }
                 try

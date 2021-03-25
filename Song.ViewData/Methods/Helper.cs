@@ -31,6 +31,8 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost][HttpGet][HttpPut]
         [Cache]
+        [Localhost]
+        [Admin]
         public Helper_API[] List()
         {           
             List<Helper_API> list = new List<Helper_API>();
@@ -78,6 +80,8 @@ namespace Song.ViewData.Methods
         /// ]]></example>
         /// <exception cref="System.Exception">异常</exception>
         [HttpGet]
+        [Localhost]
+        [Admin]
         public Helper_API_Method[] Methods(string classname)
         {
             string assemblyName = "Song.ViewData";
@@ -135,6 +139,9 @@ namespace Song.ViewData.Methods
         #endregion
 
         #region 数据字典
+        [Localhost]
+        [HttpPost]
+        [SuperAdmin]
         public string Entities()
         {
             return this.Entities(string.Empty);
@@ -146,6 +153,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [SuperAdmin]
+        [Localhost]
         public string Entities(string detail)
         {
             //读取或写入
@@ -200,6 +208,9 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
+        [HttpPost]
+        [SuperAdmin]
+        [Localhost]
         public string EntityField(string name)
         {
             if (string.IsNullOrWhiteSpace(name)) return null;
@@ -340,7 +351,7 @@ namespace Song.ViewData.Methods
             //context.Response.Cookies.Add(cookie);
             //生成图片
             //System.Drawing.Bitmap image = CreateImage(tmp);
-            //string base64 = WeiSha.Common.Images.ImageTo.ToBase64(image);
+            //string base64 = WeiSha.Core.Images.ImageTo.ToBase64(image);
             //return "data:image/JPG;base64," + base64;
         }
         /// <summary>
@@ -471,7 +482,7 @@ namespace Song.ViewData.Methods
     public class Helper_API_Method
     {
         public string Name { get; set; }        //方法名   
-        public string FullName { get; set; }    //方法全名  
+        public string FullName { get; set; }    //方法全名         
         public string Intro { get; set; }       //方法摘要说明
         public string Remarks { get; set; }       //方法备注说明
         public string Example { get; set; }       //方法的示例
@@ -519,6 +530,8 @@ namespace Song.ViewData.Methods
         public string Type { get; set; }
         //返回值的摘要
         public string Intro { get; set; }
+        //是否可为空 
+        public bool Nullable { get; set; }   
         public static Helper_API_Method_Return GetReturn(MethodInfo method, XmlNode node)
         {
             Helper_API_Method_Return ret = new Helper_API_Method_Return();
@@ -528,7 +541,9 @@ namespace Song.ViewData.Methods
                     ret.Intro = node.SelectSingleNode("returns").InnerText.Trim();   //返回值的摘要                
             }
             if (string.IsNullOrWhiteSpace(ret.Intro)) ret.Intro = string.Empty;
-            ret.Type = method.ReturnParameter.ToString();      //返回类型
+            Type nullableType = System.Nullable.GetUnderlyingType(method.ReturnParameter.ParameterType);
+            ret.Type = nullableType != null ? nullableType.FullName + "?" : method.ReturnParameter.ToString();
+            ret.Nullable = nullableType != null;
             return ret;
         }
     }
@@ -537,6 +552,7 @@ namespace Song.ViewData.Methods
     {
         public string Name { get; set; }    //参数名称
         public string Type { get; set; }        //参数数据类型
+        public bool Nullable { get; set; }    //是否可为空 
         public string Intro { get; set; }       //参数的摘要
         public static Helper_API_Method_Para[] GetParas(MethodInfo method)
         {
@@ -547,7 +563,17 @@ namespace Song.ViewData.Methods
                 ParameterInfo pi = paramInfos[i];
                 paras[i] = new Helper_API_Method_Para();
                 paras[i].Name = pi.Name;
-                paras[i].Type = pi.ParameterType.FullName;
+                Type nullableType = System.Nullable.GetUnderlyingType(pi.ParameterType);
+                if (nullableType == null)
+                {                   
+                    paras[i].Type = pi.ParameterType.FullName;
+                    paras[i].Nullable = false;
+                }
+                else
+                {
+                    paras[i].Type = nullableType.FullName + "?";
+                    paras[i].Nullable = true;
+                }                
             }
             return paras;
         }

@@ -33,6 +33,7 @@ public partial class Alipayweb_return_url : System.Web.UI.Page
     public string return_para = "type=2&sccess={0}&money={1}&paiid={2}";
     protected void Page_Load(object sender, EventArgs e)
     {
+        return;
         //输出获取的参数
         string query = string.Empty;
         for (int i = 0; i < Request.QueryString.Count; i++)

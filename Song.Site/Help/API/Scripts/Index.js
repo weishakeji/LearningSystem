@@ -2,6 +2,7 @@
     el: '#menu',
     data: {
         apisearch: '',
+        error: '',       //错误信息
         list: [] //接口列表       
     },
     methods: {
@@ -62,8 +63,12 @@
             if (req.data.success) {
                 th.list = req.data.result;
             } else {
-                alert(req.data.message);
+                throw req.data.message;
             }
+        }).catch(function (err) {
+            th.error = err;
+            console.error(err);
+            alert(err);
         });
         window.setTimeout(function () {
             document.getElementById("apisearch").focus();
@@ -193,6 +198,8 @@ var rvue = new Vue({
                 if (req == null) throw {
                     message: '没有获取到返回值，可能是服务器端错误'
                 };
+                console.log(req);
+                var result = JSON.stringify(req.data.result);
                 if (req.config.returntype == "json")
                     ele.innerText = $api.trim(rvue.jsonformat(unescape(JSON.stringify(req.data)), true));
                 if (req.config.returntype == "xml")

@@ -97,6 +97,7 @@
     <Compile Include="Attri\Client\WeixinAttribute.cs" />
     <Compile Include="Attri\Client\TVAttribute.cs" />
     <Compile Include="Attri\Client\ClientAttribute.cs" />
+    <Compile Include="Attri\HtmlClear\HtmlClearAttribute.cs" />
     <Compile Include="Attri\Login\SuperAdminAttribute.cs" />
     <Compile Include="Attri\Range\DomainAttribute.cs" />
     <Compile Include="Attri\Range\LocalhostAttribute.cs" />

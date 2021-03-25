@@ -4,13 +4,13 @@
 <head>
     <title>数据字典说明</title>
 
-    <script type="text/javascript" src="/Utility/CoreScripts/polyfill.min.js"></script>
-    <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js"></script>
-    <script type="text/javascript" src="/Utility/CoreScripts/api.js"></script>
-    <script type="text/javascript" src="/Utility/CoreScripts/vue_min.js"></script>
-    <script type="text/javascript" src="/Utility/CoreScripts/vue-router.js"></script>
-    <script type="text/javascript" src="/Utility/ElementUi/index.js"></script>
-    <link rel="stylesheet" type="text/css" href="/Utility/ElementUi/index.css" />
+    <script type="text/javascript" src="/Utilities/Scripts/polyfill.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/vue-router.js"></script>
+    <script type="text/javascript" src="/Utilities/ElementUi/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Utilities/ElementUi/index.css" />
 
 
 
@@ -44,7 +44,8 @@
                     </a>
                 </dd>
                 <dd v-if="listcount<1" class="noapi">
-                    <span>没有查询到实体</span>
+                    <span v-if="error==''">没有查询到实体</span>
+                    <span v-else>{{error}}</span>
                 </dd>
             </dl>
             <footer><a href="http://www.weishakeji.net" target="_blank">郑州微厦计算机科技有限公司</a></footer>
@@ -62,7 +63,7 @@
             </div>
 
 
-            <div class="entity_area">
+            <div class="entity_area" v-if="error==''">
                 <entity :index="index" :clname="current" :entity="entity" :datas="entities"></entity>
 
             </div>

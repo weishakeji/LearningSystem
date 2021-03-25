@@ -77,21 +77,21 @@ menu dl {
     overflow-y: auto;
 }
 
-menu dl::-webkit-scrollbar {
+*::-webkit-scrollbar {
     /*滚动条整体样式*/
     width: 3px;
     /*高宽分别对应横竖滚动条的尺寸*/
     height: 1px;
 }
 
-menu dl::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
     /*滚动条里面小方块*/
     border-radius: 3px;
     -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
     background: #808080;
 }
 
-menu dl::-webkit-scrollbar-track {
+*l::-webkit-scrollbar-track {
     /*滚动条里面轨道*/
     -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
     border-radius: 3px;
@@ -157,10 +157,11 @@ menu dl::-webkit-scrollbar-track {
     background-color: rgb(222, 255, 179);
     transition: background-color 0.5s;
 }
-
+dd.noapi{
+    padding: 10px;
+}
 dd.noapi span {
     font-size: 16px;
-    margin: 10px;
     color: #999;
 }
 
@@ -194,7 +195,7 @@ context>h1 {
 context>h1>span {
     display: block;
     float: right;
-    margin-right: 30px;
+    margin-right: 1px;
     width: 40px;
     height: 40px;
     line-height: 50px;
