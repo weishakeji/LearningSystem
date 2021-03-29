@@ -1524,19 +1524,19 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public MoneyAccount MoneyConfirm(MoneyAccount ma)
         {
-            if (ma == null) return null;
+            if (ma == null || ma.Ma_IsSuccess) return null;
             lock (_lockMoneyConfirm)
             {
                 Song.Entities.MoneyAccount maccount = Gateway.Default.From<MoneyAccount>().Where(MoneyAccount._.Ma_ID == ma.Ma_ID).ToFirst<MoneyAccount>();
-                if (ma.Ma_IsSuccess) return ma;
+                if (maccount.Ma_IsSuccess) return ma;
                 maccount.Copy<Song.Entities.MoneyAccount>(ma);
                 using (DbTrans tran = Gateway.Default.BeginTrans())
                 {
                     try
                     {
-                        ma.Ma_IsSuccess = true;
-                        if (ma.Ma_Type == 1) _subtraction(maccount, tran);
-                        if (ma.Ma_Type == 2) _addition(maccount, tran);
+                        maccount.Ma_IsSuccess = true;
+                        if (maccount.Ma_Type == 1) _subtraction(maccount, tran);
+                        if (maccount.Ma_Type == 2) _addition(maccount, tran);
                         tran.Save<MoneyAccount>(maccount);
                         tran.Commit();
                         Extend.LoginState.Accounts.Refresh(maccount.Ac_ID);
