@@ -204,6 +204,13 @@ namespace Song.Site
             DateTime beforDT = System.DateTime.Now;
 
             this.InitContext(context);  //初始化页面参数
+            //取缓存内容
+            bool iscache = CachePage.Exist;
+            if (iscache && !string.IsNullOrWhiteSpace(CachePage.Html))
+            {
+                context.Response.Write(CachePage.Html);
+                return;
+            }
             //输出数据
             this.LoadCurrentTemplate(); //装载当前页面的模板文档
             try
@@ -244,7 +251,7 @@ namespace Song.Site
             this.Document.SetValue("tick", DateTime.Now.Ticks);
             //系统版本号          
             this.Document.SetValue("version", version);
-            
+
             //如果当前页面没有重构，则继续用原来的方法
             if (!Reconsi.Exist)
             {
@@ -257,15 +264,23 @@ namespace Song.Site
                 Song.Template.Handler.Start(this.Document);
             }
 
-            //开始输出
-            this.InitPageTemplate(context);
-            this.Document.Render(this.Response.Output);
+
 
             DateTime afterDT = System.DateTime.Now;
             TimeSpan ts = afterDT.Subtract(beforDT);
             if (ts.TotalMilliseconds >= 1)
             {
                 WeiSha.Common.Log.Debug(this.GetType().FullName, string.Format("页面输出,耗时：{0}ms", ts.TotalMilliseconds));
+            }
+            //开始输出
+            this.InitPageTemplate(context);
+            if (iscache)
+            {
+                context.Response.Write(CachePage.Add(this.Document));
+            }
+            else
+            {
+                this.Document.Render(this.Response.Output);
             }
         }
         #endregion
@@ -398,6 +413,95 @@ namespace Song.Site
                 }
                 return false;
             }
+        }
+    }
+    /// <summary>
+    /// 缓存页面
+    /// </summary>
+    public class CachePage
+    {
+        /// <summary>
+        /// 所有将要缓存的页面
+        /// </summary>
+        public static List<string> Files
+        {
+            get
+            {
+                System.Web.Caching.Cache cache = System.Web.HttpRuntime.Cache;
+                if (cache == null) return null;
+                //取缓存数据
+                string cachekey = "cache_page_webpage";
+                object cachevalue = cache.Get(cachekey);
+                if (cachevalue != null) return (List<string>)cachevalue;
+                //如果没有缓存，则读取并创建缓存
+                string filepath = System.AppDomain.CurrentDomain.BaseDirectory + "cache_page.txt";
+                List<string> _files = new List<string>();
+                using (StreamReader sr = new StreamReader(filepath, Encoding.Default))
+                {
+                    String line;
+                    while ((line = sr.ReadLine()) != null)
+                        if (!string.IsNullOrWhiteSpace(line)) _files.Add(line);
+                    sr.Close();
+                    cache.Insert(cachekey, _files, new System.Web.Caching.CacheDependency(filepath));
+                }
+                return _files;
+            }
+        }
+        /// <summary>
+        /// 是否存在重构
+        /// </summary>
+        public static bool Exist
+        {
+            get
+            {
+                System.Web.HttpContext context = System.Web.HttpContext.Current;
+                string path = context.Request.Url.AbsolutePath;
+                List<string> _files = Files;
+                foreach (string s in _files)
+                {
+                    if (path.Equals(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
+        public static string Html
+        {
+            get
+            {
+                System.Web.HttpContext context = System.Web.HttpContext.Current;
+                string path = context.Request.Url.AbsolutePath;
+                Song.Template.Cache_Item cache = Song.Template.Cache.Get(path);
+                if (cache != null) return cache.Value;
+                return string.Empty;
+            }
+        }
+        public static void Add(string key,string val)
+        {
+            Song.Template.Cache.Add(key, val);
+        }
+        /// <summary>
+        /// 页面内容写入缓存
+        /// </summary>
+        /// <param name="document"></param>
+        /// <param name="key">缓存key值</param>
+        /// <returns></returns>
+        public static string Add(TemplateDocument document)
+        {
+            System.Web.HttpContext context = System.Web.HttpContext.Current;
+            string path = context.Request.Url.AbsolutePath;
+            //如果没有缓存，则计算后输出
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            document.Render(writer);
+            writer.Flush();
+            stream.Position = 0;
+            StreamReader reader = new StreamReader(stream);
+            string text = reader.ReadToEnd();
+            Song.Template.Cache.Add(path, text);
+            return text;
         }
     }
 }

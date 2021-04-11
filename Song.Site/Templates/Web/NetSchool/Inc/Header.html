@@ -36,6 +36,7 @@
                 |
             </div>
             <div class="accoutbox right-div" id="accoutbox">
+                <span class="el-icon-loading" v-if="loading"></span>
                 <template v-if="!islogin" remark="未登录">
                     <a href="/student/index.ashx" target="_blank">登录</a>&nbsp;
                     <a href="/student/Register.ashx"
@@ -67,20 +68,6 @@
                         <el-dropdown-item><a href="../student/Logout.ashx">退出登录</a></el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
-
-                <!--学员菜单-->
-                <dl class="accMenu" type="acc" v-show="islogin">
-                    <dd><a href="../student/panel.ashx">个人管理中心</a></dd>
-                    <dd v-if="!account.Ac_IsTeacher"><a href="../teacher/index.ashx">我要开课</a></dd>
-                    <dd v-if="account.Ac_IsTeacher && teacher.Th_IsPass"><a href="../teacher/panel.ashx">进入教学管理</a></dd>
-                    <dd v-if="account.Ac_IsTeacher && !teacher.Th_IsPass">
-                        <a href="../teacher/Register.ashx?step=3">教师审核中...</a>
-                    </dd>
-                    <dd v-if="config.IsWebRemoveMoney">
-                        <a href="../student/panel.ashx">余额：{$Account.Ac_money format="0.0"}元</a>
-                    </dd>
-                    <dd><a href="../student/Logout.ashx">退出登录</a></dd>
-                </dl>
             </div>
         </div>
         <div class="headerCenter">

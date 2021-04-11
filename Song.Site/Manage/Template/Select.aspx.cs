@@ -66,7 +66,8 @@ namespace Song.Site.Manage.Template
             LinkButton ub = (LinkButton)sender;
             string tag = ub.CommandArgument;
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            Business.Do<Song.ServiceInterfaces.ITemplate>().SetWebCurr(org.Org_ID,tag); 
+            Business.Do<Song.ServiceInterfaces.ITemplate>().SetWebCurr(org.Org_ID,tag);
+            Song.Template.Cache.Clear();
             BindData(null, null);           
         }
         /// <summary>
@@ -80,6 +81,7 @@ namespace Song.Site.Manage.Template
             string tag = ub.CommandArgument;
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             Business.Do<Song.ServiceInterfaces.ITemplate>().SetMobiCurr(org.Org_ID, tag);
+            Song.Template.Cache.Clear();
             BindData(null, null);
         }
     }

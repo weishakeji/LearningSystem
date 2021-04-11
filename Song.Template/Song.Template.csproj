@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache.cs" />
     <Compile Include="Handler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterFunction.cs" />

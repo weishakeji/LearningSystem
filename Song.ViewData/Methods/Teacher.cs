@@ -27,6 +27,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.Teacher Current()
         {
             Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+            if (acc == null) return null;
             return Business.Do<IAccounts>().GetTeacher(acc.Ac_ID, true);
         }
         /// <summary>
