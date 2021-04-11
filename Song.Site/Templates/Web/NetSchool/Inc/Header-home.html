@@ -2,41 +2,60 @@
   <div id="headerTop">
     <vt:if var="org.org_logo" value="" compare="!="><a href="/"> <img src="{$orgPath}{$org.org_logo}" class="logo" /></a> </vt:if>
     <div class="topright">
-      <div class="phone right-div" type="phone"><a href="/mobi.cshtm" ><span class="iconphone" style="font-size:14px">&#xe610;</span>手机端</a></div>
-      <div id="qrcode" type="phone" style="display:none"> <a href="/mobi.cshtm" ><img src="data:image/JPG;base64,{$org.Org_Qrcode}"/></a>
-        <div>手机扫描二维码</div>
-        <em></em> </div>
-      <div class="right-div">|</div>
-      <div class="accoutbox right-div">
-        <vt:if var="Account.ac_id" value="1" compare="<"> <a href="/student/index.ashx" target="_blank">登录</a>&nbsp;<a href="/student/Register.ashx" target="_blank">注册</a>
-          <vt:else/>
-          <!--学员登录后的效果-->
-          <div class="accTarget" type="acc">
-            <div class="accPhoto"> <a href="/student/panel.ashx">
-              <vt:if var="Account.ac_photo" value="" compare="="> <img src="/Utility/images/head1.jpg" width="20"/>
-                <vt:else/>
-                <img src="{$stpath}{$:#.Account.Ac_photo}" default="/Utility/images/head1.jpg"/> </vt:if>
-              </a> </div>
-            <a href="/student/panel.ashx"> {$Account.Ac_name}</a><i class="icon-select-down"></i> </div>
-          <!--学员菜单-->
-          <dl class="accMenu" type="acc">
-            <dd><a href="../student/panel.ashx">个人管理中心</a></dd>
-             <vt:if var="Account.Ac_IsTeacher" value="true" compare="=">
-              <vt:if var="Teacher.Th_IsPass" value="true" compare="=">
-              <dd><a href="../teacher/panel.ashx">进入教学管理</a></dd>
-              <vt:else/>
-            <dd><a href="../teacher/Register.ashx?step=3">教师审核中...</a></dd>
-            </vt:if>
-            <vt:else/>
-            <dd><a href="../teacher/index.ashx">我要开课</a></dd>
-            </vt:if>
-            <vt:if var="wremove" value="false" compare="=">
-            <dd><a href="../student/panel.ashx">余额：{$Account.Ac_money format="0.0"}元</a></dd>   
-            </vt:if>           
-            <dd><a href="../student/Logout.ashx">退出登录</a></dd>
-          </dl>
-        </vt:if>
-      </div>
+        <div class="phone right-div" type="phone"><a href="/mobi.cshtm"><span class="iconphone" style="font-size:14px">&#xe610;</span>手机端</a></div>
+        <div id="qrcode" type="phone" style="display:none">
+            <a href="/mobi.cshtm"><img src="data:image/JPG;base64,{$org.Org_Qrcode}" /></a>
+            <div>手机扫描二维码</div>
+            <em></em>
+        </div>
+        <div class="right-div">|</div>
+        <div class="accoutbox right-div" id="accoutbox">
+            <template v-if="!islogin" remark="未登录">
+                <a href="/student/index.ashx" target="_blank">登录</a>&nbsp;
+                <a href="/student/Register.ashx"
+                   target="_blank">注册</a>
+            </template>
+            <el-dropdown v-else>
+                <span class="el-dropdown-link">
+                    <div class="accPhoto">
+                        <a href="/student/panel.ashx">
+                            <img v-if="islogin && account.Ac_Photo!=''" :src="account.Acc_Photo" width="20" />
+                            <img v-else src="/Utility/images/head1.jpg" width="20" />
+                        </a>
+                    </div>
+                    <a href="/student/panel.ashx">{{account.Ac_Name}}</a>
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item><a href="../student/panel.ashx">个人管理中心</a></el-dropdown-item>
+                    <el-dropdown-item v-if="!account.Ac_IsTeacher"><a href="../teacher/index.ashx">我要开课</a></el-dropdown-item>
+                    <el-dropdown-item v-if="account.Ac_IsTeacher && teacher.Th_IsPass">
+                        <a href="../teacher/panel.ashx">进入教学管理</a>
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="account.Ac_IsTeacher && !teacher.Th_IsPass">
+                        <a href="../teacher/Register.ashx?step=3">教师审核中...</a>
+                    </el-dropdown-item>
+                    <el-dropdown-item v-if="!config.IsWebRemoveMoney">
+                        <a href="../student/panel.ashx">余额：{{account.Ac_Money|money}}元</a>
+                    </el-dropdown-item>
+                    <el-dropdown-item><a href="../student/Logout.ashx">退出登录</a></el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+
+            <!--学员菜单-->
+            <dl class="accMenu" type="acc" v-show="islogin">
+                <dd><a href="../student/panel.ashx">个人管理中心</a></dd>
+                <dd v-if="!account.Ac_IsTeacher"><a href="../teacher/index.ashx">我要开课</a></dd>
+                <dd v-if="account.Ac_IsTeacher && teacher.Th_IsPass"><a href="../teacher/panel.ashx">进入教学管理</a></dd>
+                <dd v-if="account.Ac_IsTeacher && !teacher.Th_IsPass">
+                    <a href="../teacher/Register.ashx?step=3">教师审核中...</a>
+                </dd>
+                <dd v-if="config.IsWebRemoveMoney">
+                    <a href="../student/panel.ashx">余额：{$Account.Ac_money format="0.0"}元</a>
+                </dd>
+                <dd><a href="../student/Logout.ashx">退出登录</a></dd>
+            </dl>
+        </div>
     </div>
     <div class="headerCenter">
       <form class="searchBox" action="/Courses.ashx" method="get">
@@ -73,3 +92,4 @@
     MenuEvent();
     
 </script>
+<script type="text/javascript" src="../CoreScripts/Account_online.js"></script>

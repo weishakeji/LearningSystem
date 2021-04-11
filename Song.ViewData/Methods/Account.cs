@@ -20,6 +20,17 @@ namespace Song.ViewData.Methods
     public class Account : ViewMethod, IViewAPI
     {
         /// <summary>
+        /// 当前登录的学员
+        /// </summary>
+        /// <remarks>登录状态通过cookies或session保持</remarks>
+        /// <returns></returns>
+        public Song.Entities.Accounts Current()
+        {
+            Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+            return _tran(acc);
+        }
+        
+        /// <summary>
         /// 根据ID查询学员账号
         /// </summary>
         /// <remarks>为了安全，返回的对象密码不显示</remarks>
@@ -28,18 +39,6 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts ForID(int id)
         {          
             Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(id);
-            if (acc == null) return null;
-            return _tran(acc);
-        }
-        /// <summary>
-        /// 当前登录的学员
-        /// </summary>
-        /// <remarks>登录状态通过cookies或session保持</remarks>
-        /// <returns></returns>
-        [Student]
-        public Song.Entities.Accounts Current()
-        {
-            Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
             if (acc == null) return null;
             return _tran(acc);
         }
@@ -164,7 +163,10 @@ namespace Song.ViewData.Methods
             if (acc == null) return acc;
             Song.Entities.Accounts curr = acc.Clone<Song.Entities.Accounts>();
             if (curr != null) curr.Ac_Pw = string.Empty;
-            curr.Ac_Photo = WeiSha.Common.Upload.Get["Accounts"].Virtual + curr.Ac_Photo;
+            if (System.IO.File.Exists(WeiSha.Common.Upload.Get["Accounts"].Physics + curr.Ac_Photo))
+                curr.Ac_Photo = WeiSha.Common.Upload.Get["Accounts"].Virtual + curr.Ac_Photo;
+            else
+                curr.Ac_Photo = "";
             return curr;
         }
         #endregion

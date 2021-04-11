@@ -194,12 +194,12 @@ namespace Song.Site
 
         public new void ProcessRequest(HttpContext context)
         {
-            //string gourl = WeiSha.Common.Skip.GetUrl();   //跳转
-            //if (!string.IsNullOrWhiteSpace(gourl))
-            //{
-            //    context.Response.Redirect(gourl);
-            //    return;
-            //}
+            string gourl = WeiSha.Common.Skip.GetUrl();   //跳转
+            if (!string.IsNullOrWhiteSpace(gourl))
+            {
+                context.Response.Redirect(gourl);
+                return;
+            }
             //计算运算时间
             DateTime beforDT = System.DateTime.Now;
 

@@ -13,12 +13,14 @@
 <script type="text/javascript" src="/Utility/CoreScripts/axios_min.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/vue_min.js?ver={$version}"></script>
 <script type="text/javascript" src="/Utility/CoreScripts/api.js?ver={$version}"></script>
+<script type="text/javascript" src="/Utilities/ElementUi/index.js?ver={$version}"></script>
 <!--核心Css文件-->
 <link rel="stylesheet" type="text/css" href="/Utility/iconfont/iconfont.css?ver={$version}"/>
 <link rel="stylesheet" type="text/css" href="../CoreStyles/public.css?ver={$version}"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/PageBox.css?ver={$version}"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/MessageBox.css?ver={$version}"/>
 <link rel="stylesheet" type="text/css" href="/Utility/CoreStyles/Jme.css?ver={$version}"/>
+<link rel="stylesheet" type="text/css" href="/Utilities/ElementUi/index.css?ver={$version}"/>
 <!--公共的Js文件-->
 <script type="text/javascript" src="../CoreScripts/public.js?ver={$version}"></script>
 <script type="text/javascript">

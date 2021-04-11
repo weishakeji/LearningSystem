@@ -21,6 +21,15 @@ namespace Song.ViewData.Methods
     public class Teacher : ViewMethod, IViewAPI
     {
         /// <summary>
+        /// 当前登录的教师
+        /// </summary>
+        /// <returns></returns>
+        public Song.Entities.Teacher Current()
+        {
+            Song.Entities.Accounts acc = Extend.LoginState.Accounts.CurrentUser;
+            return Business.Do<IAccounts>().GetTeacher(acc.Ac_ID, true);
+        }
+        /// <summary>
         /// 根据id获取教师信息
         /// </summary>
         /// <param name="id"></param>

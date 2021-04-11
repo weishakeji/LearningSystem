@@ -1012,6 +1012,7 @@
     <Content Include="Templates\Mobi\_Public\Certify.htm" />
     <Content Include="Templates\Mobi\_Public\Yunzhijia.htm" />
     <Content Include="Templates\Web\Gov\Conn.htm" />
+    <Content Include="Templates\Web\Gov\CoreScripts\Account_online.js" />
     <Content Include="Templates\Web\Gov\CourseChannel.htm" />
     <Content Include="Templates\Web\Gov\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\Gov\Images\Flvplayer.swf" />
@@ -1034,6 +1035,7 @@
     <Content Include="Templates\Web\Gov\Teacher\Scripts\Register.js" />
     <Content Include="Templates\Web\Gov\Teacher\Styles\Register.css" />
     <Content Include="Templates\Web\Neimeng\Conn.htm" />
+    <Content Include="Templates\Web\Neimeng\CoreScripts\Account_online.js" />
     <Content Include="Templates\Web\Neimeng\CoreStyles\PageBox.css" />
     <Content Include="Templates\Web\Neimeng\CourseChannel.htm" />
     <Content Include="Templates\Web\Neimeng\Images\ad_ctr.png" />
@@ -1061,6 +1063,7 @@
     <Content Include="Templates\Web\Neimeng\Teacher\Register.htm" />
     <Content Include="Templates\Web\Neimeng\Teacher\Scripts\Register.js" />
     <Content Include="Templates\Web\Neimeng\Teacher\Styles\Register.css" />
+    <Content Include="Templates\Web\NetSchool\CoreScripts\Account_online.js" />
     <Content Include="Templates\Web\NetSchool\CourseChannel.htm" />
     <Content Include="Templates\Web\NetSchool\Images\bar01.jpg" />
     <Content Include="Templates\Web\NetSchool\Images\cou_nophoto.jpg" />
@@ -1332,6 +1335,7 @@
     <Content Include="Templates\Web\NetSchool\Styles\lunhuan\style.css" />
     <Content Include="Templates\Web\NetSchool\Live.htm" />
     <Content Include="Templates\Web\School\Conn.htm" />
+    <Content Include="Templates\Web\School\CoreScripts\Account_online.js" />
     <Content Include="Templates\Web\School\Images\bar01.jpg" />
     <Content Include="Templates\Web\School\Images\cou_nophoto.jpg" />
     <Content Include="Templates\Web\School\Images\ghs.png" />

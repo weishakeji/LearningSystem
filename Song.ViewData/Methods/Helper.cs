@@ -31,8 +31,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost][HttpGet][HttpPut]
         [Cache]
-        [Localhost]
-        [Admin]
+        [Localhost]      
         public Helper_API[] List()
         {           
             List<Helper_API> list = new List<Helper_API>();
@@ -81,7 +80,6 @@ namespace Song.ViewData.Methods
         /// <exception cref="System.Exception">异常</exception>
         [HttpGet]
         [Localhost]
-        [Admin]
         public Helper_API_Method[] Methods(string classname)
         {
             string assemblyName = "Song.ViewData";
@@ -141,7 +139,6 @@ namespace Song.ViewData.Methods
         #region 数据字典
         [Localhost]
         [HttpPost]
-        [SuperAdmin]
         public string Entities()
         {
             return this.Entities(string.Empty);
@@ -209,7 +206,6 @@ namespace Song.ViewData.Methods
         /// <param name="name"></param>
         /// <returns></returns>
         [HttpPost]
-        [SuperAdmin]
         [Localhost]
         public string EntityField(string name)
         {
@@ -256,7 +252,6 @@ namespace Song.ViewData.Methods
         /// <param name="name">实体名称</param>
         /// <param name="detail">实体的详情说明,json格式</param>
         /// <returns>返回实体详情</returns>
-        [SuperAdmin]
         [HttpPost]
         public string EntityDetails(string name, string detail)
         {

@@ -6,6 +6,7 @@ using WeiSha.Common;
 using Song.Entities;
 using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ViewData.Methods
 {
@@ -45,7 +46,28 @@ namespace Song.ViewData.Methods
         {
             return _trans(Business.Do<IOrganization>().OrganCurrent());
         }
-
+        /// <summary>
+        /// 当前机构的配置项
+        /// </summary>
+        /// <param name="orgid">机构id，如果小于等于0，则为当前机构</param>
+        /// <returns></returns>
+        public JObject Config(int orgid)
+        {
+            Song.Entities.Organization org;
+            if (orgid <= 0) org = Business.Do<IOrganization>().OrganCurrent();
+            else
+                org = Business.Do<IOrganization>().OrganSingle(orgid);
+            WeiSha.Common.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            JObject jo = new JObject();
+            foreach (WeiSha.Common.CustomConfigItem item in config)
+            {
+                if (item.Text == "True" || item.Text == "False")
+                    jo.Add(item.Key, Convert.ToBoolean(item.Text.ToLower()));
+                else
+                    jo.Add(item.Key, item.Text);
+            }
+            return jo;
+        }
         #region 私有方法
         /// <summary>
         /// 处理机构对外展示的信息
