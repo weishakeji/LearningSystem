@@ -38,6 +38,10 @@ namespace Song.Site.Mobile
             ////当前资讯的下一条
             //Song.Entities.Article artNext = Business.Do<IContents>().ArticleNext(artid);
             //this.Document.Variables.SetValue("artNext", artNext);
+            //来源页
+            string from = WeiSha.Common.Request.QueryString["from"].String;
+            if (string.IsNullOrWhiteSpace(from)) from = context.Request.UrlReferrer != null ? context.Request.UrlReferrer.PathAndQuery : "";
+            this.Document.SetValue("from", from);
         }
     }
 }

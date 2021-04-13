@@ -38,7 +38,7 @@ window.vapp = new Vue({
                 var data = arguments[i].data;
                 if (!data.success && data.exception != '') {
                     console.error(data.exception);
-                    throw data.message;
+                    //throw data.message;
                 }
             }
             //获取结果
@@ -71,7 +71,7 @@ window.vapp = new Vue({
                         var data = arguments[i].data;
                         if (!data.success && data.exception != '') {
                             console.error(data.exception);
-                            throw data.message;
+                            //throw data.message;
                         }
                     }
                     vapp.loading = false;

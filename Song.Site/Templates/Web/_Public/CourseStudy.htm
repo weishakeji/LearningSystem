@@ -138,7 +138,7 @@
                   <div class="boxBar">
                         <div class="title" v-on:click="rightState = 'outline'"
                               :class="rightState=='outline' ? 'titleCurr' : ''"> 章节目录</div>
-                        <div class="title" v-on:click="rightState = 'chat'"
+                        <div class="title" v-on:click="rightState = 'chat'" v-if="isMessage"
                               :class="rightState=='chat' ? 'titleCurr' : ''"> 交流咨询</div>
                   </div>
                   <div class="outline rightArea" v-show="rightState=='outline'">
@@ -167,7 +167,7 @@
                               </div>
                         </template>
                   </div>
-                  <div class="chat rightArea" v-show="rightState=='chat'">
+                  <div class="chat rightArea" v-show="rightState=='chat'" v-if="isMessage">
                         <div class="chatlist" id="chatlist">
                               <dl id="chatlistdl">
                                     <dd v-for="(item,index) in messages">

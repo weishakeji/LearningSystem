@@ -26,6 +26,7 @@ var vdata = new Vue({
         couid: $api.querystring("couid"),
         olid: $api.querystring("olid"),
         median: false, //分隔线折叠状态
+        isMessage: false,         //是否启用留言咨询
         titState: 'loading', //左侧选项卡的状态
         rightState: 'outline', //右侧选项卡状态，章节outline,交流chat
         outlineLoaded: false, //右侧章节列表加载中
@@ -149,7 +150,7 @@ var vdata = new Vue({
                 }
             }));
             //获取留言列表
-            vdata.msgGet();
+            if (vdata.isMessage) vdata.msgGet();
         },
         //播放器是否准备好
         playready: function () {
@@ -415,8 +416,8 @@ var vdata = new Vue({
                         }
                     }).catch(function (err) {
                         alert(err);
-                    });
-                    vdata.msgGet();
+                    });                    
+                    if (vdata.isMessage) vdata.msgGet();
                 } else {
                     if (!ol.data.success) throw "章节列表加载异常！详情：\r" + ol.data.message;
                     if (!cur.data.success) throw "课程信息加载异常！详情：\r" + cur.data.message;
@@ -432,7 +433,9 @@ var vdata = new Vue({
             }
         });
         //定时刷新（加载）咨询留言
-        window.setInterval('vdata.msgGet()', 1000 * 10);
+        if (this.isMessage) {
+            window.setInterval('vdata.msgGet()', 1000 * 10);
+        }
     },
     mounted: function () {
         //视频上面的漂浮信息（学员姓名和电话），防录屏

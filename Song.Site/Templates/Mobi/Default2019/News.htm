@@ -26,7 +26,7 @@
           <vt:function var="arts" method="getArticle" args="$#.c.col_id" args="6"/>
           <ul class="mui-table-view">
             <vt:foreach  from="$#.arts" item="data" remark="资讯文章">
-              <li class="mui-table-view-cell"> <a href="article.ashx?id={$:#.data.art_id}" type="open" title="{$:#.data.art_title}">{$:#.data.art_title}</a> <span class="mui-badge">{$:#.data.art_pushTime  format="M-dd"}</span> </li>
+              <li class="mui-table-view-cell"> <a href="article.ashx?id={$:#.data.art_id}" type="link" title="{$:#.data.art_title}">{$:#.data.art_title}</a> <span class="mui-badge">{$:#.data.art_pushTime  format="M-dd"}</span> </li>
             </vt:foreach>
           </ul>
         </div>

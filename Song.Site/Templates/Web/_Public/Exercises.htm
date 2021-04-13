@@ -77,7 +77,7 @@
         <div class="quesBox"> 
           <!--试题的题干 -->
           <vt:function var="typeName" method="GetTypeName" args="$#.q.qus_type"/>
-          <div class="quesTitle">{$qindex}、[{$:#.typeName}题] {$:#.q.qus_title} </div>
+          <div class="quesTitle">{$qindex}、[{$:#.typeName}题] {$:#.q.qus_title}</div>
           <!--试题答案选项 -->
           <div class="quesAnswerBox">
             <vt:if var="q.qus_type" value="1" compare="="> 

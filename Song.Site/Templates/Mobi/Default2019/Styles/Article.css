@@ -5,6 +5,28 @@ body{
 body,p,div,td,*{
 	color:#333 !important;
 }
+/*·µ»ØÊ×Ò³*/
+.home:before {
+	content: "\e678";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 20px;
+	margin-top: 5px;
+	position: absolute;
+	left: 50px;
+	top: 3px;
+}
+/*·µ»Ø*/
+.goback:before {
+	content: "\e6b0";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 22px;
+	padding-top: -5px;
+	position: absolute;
+	left: 10px;
+	top: 5px;
+}
 .context{	
 	margin:0px;
 	overflow-x:hidden;

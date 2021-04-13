@@ -20,7 +20,7 @@
                 <div id="context-box">
                     <videoplayer :outline="outline" :account="account"></videoplayer>
                     <div tag="视频" v-show="contextShow=='video' || contextShow==''">
-                        <message  :outline="outline" :account="account"></message>   
+                        <message  :outline="outline" :account="account" v-if="isMessage"></message>   
                     </div>
                     <div tag="学习内容" v-show="contextShow=='content'">
                         <div class="mui-card intro-box">

@@ -24,7 +24,8 @@ var vdata = new Vue({
 		isbuy: false,		//当前学员是否购买该课程
 		messages: [], //咨询留言
 		menuShow: false,		//章节菜单是否显示
-		contextShow: '',		//内容显示的判断
+		isMessage: false,         //是否启用留言咨询
+		contextShow: 'content',		//内容显示的判断
 		couid: $api.querystring("couid")
 	},
 	watch: {
@@ -647,7 +648,7 @@ Vue.component('videoplayer', {
 			v-if='state.outerVideo && state.otherVideo && !state.isLive' :src='state.urlVideo'\
 			allowscriptaccess='always' allowfullscreen='true' wmode='opaque' allowtransparency='true'\
 			frameborder='0' type='application/x-shockwave-flash'></iframe>\
-			<div id='videoinfo' v-if='!state.otherVideo && !state.isLive' style='display: no5ne;'>\
+			<div id='videoinfo' v-if='!state.otherVideo && !state.isLive' style='display: none;'>\
 				<span style='display: none'>视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>\
 				<span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>\
 				<span style='cursor: pointer' v-on:click='videoSeek(video.playhistime)'>上次播放到{{video.playhistime}}秒</span>\
