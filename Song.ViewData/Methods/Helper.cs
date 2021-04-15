@@ -212,8 +212,8 @@ namespace Song.ViewData.Methods
             if (string.IsNullOrWhiteSpace(name)) return null;
             Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
             Type type = assembly.GetExportedTypes()
-                .Where(t => t.FullName.Substring(t.FullName.Length - name.Length).Equals(name, StringComparison.CurrentCultureIgnoreCase))
-                .FirstOrDefault();
+              .Where(t => t.FullName.Substring(t.FullName.Length - name.Length - 1).Equals("." + name, StringComparison.CurrentCultureIgnoreCase))
+              .FirstOrDefault();
             if (type == null) return null;
 
             JObject fields = new JObject();
@@ -258,8 +258,8 @@ namespace Song.ViewData.Methods
             if (string.IsNullOrWhiteSpace(name)) return null;
             Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
             Type type = assembly.GetExportedTypes()
-                .Where(t => t.FullName.Substring(t.FullName.Length - name.Length).Equals(name, StringComparison.CurrentCultureIgnoreCase))
-                .FirstOrDefault();
+               .Where(t => t.FullName.Substring(t.FullName.Length - name.Length - 1).Equals("." + name, StringComparison.CurrentCultureIgnoreCase))
+               .FirstOrDefault();
             if (type == null) return null;
             //读取或写入
             string file = string.Format("{0}help\\datas\\Entitiy\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, name);
