@@ -66,7 +66,9 @@ namespace Song.ViewData.Methods
         {
             int count = 0;
             List<Song.Entities.Course> eas = null;
-            eas = Business.Do<ICourse>().CoursePager(orgid, sbjids, true, search, "", size, index, out count);
+            string order = "new";
+            if (string.IsNullOrWhiteSpace(sbjids) || sbjids == "0") order = "rec";
+            eas = Business.Do<ICourse>().CoursePager(orgid, sbjids, true, search, order, size, index, out count);
             string vpath = WeiSha.Common.Upload.Get["Course"].Virtual;
             string hpath = WeiSha.Common.Upload.Get["Course"].Physics;
             for (int i = 0; i < eas.Count; i++)

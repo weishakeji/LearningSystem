@@ -59,7 +59,9 @@ namespace Song.Site.Manage.Admin
             bool? isUse = null;
             List<Song.Entities.Course> eas = null;
             int sbjid = Convert.ToInt32(ddlSubject.SelectedValue);
-            eas = Business.Do<ICourse>().CoursePager(org.Org_ID, sbjid, -1, isUse, tbSear.Text, "tax", Pager1.Size, Pager1.Index, out count);
+            string order = "tax";
+            if (cbIsRec.Checked) order = "rec";
+            eas = Business.Do<ICourse>().CoursePager(org.Org_ID, sbjid, -1, isUse, tbSear.Text, order, Pager1.Size, Pager1.Index, out count);
             foreach (Song.Entities.Course s in eas)
             {
                 if (string.IsNullOrEmpty(s.Sbj_Name) || s.Sbj_Name.Trim() == "")

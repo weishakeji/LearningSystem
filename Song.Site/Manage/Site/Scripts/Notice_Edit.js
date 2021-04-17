@@ -229,14 +229,19 @@ window.vapp = new Vue({
         },
         imgWidthChange: function (val) {
             if (this.scale) {
-                this.imgHeight = Math.floor(val / this.formData.No_Width * this.imgHeight);
+                var width = isNaN(Number(this.imgWidth)) ? 0 : Number(this.imgWidth);
+                var height = isNaN(Number(this.imgHeight)) ? 0 : Number(this.imgHeight);
+                var t = isFinite(height);
+                this.imgHeight = height == 0  ? val : Math.floor(val / this.formData.No_Width * this.imgHeight);
                 this.formData.No_Height = this.imgHeight;
             }
             this.formData.No_Width = val;
         },
         imgHeightChange: function (val) {
             if (this.scale) {
-                this.imgWidth = Math.floor(val / this.formData.No_Height * this.imgWidth);
+                var width = isNaN(Number(this.imgWidth)) ? 0 : Number(this.imgWidth);
+                var height = isNaN(Number(this.imgHeight)) ? 0 : Number(this.imgHeight);
+                this.imgWidth = width == 0  ? val : Math.floor(val / this.formData.No_Height * this.imgWidth);
                 this.formData.No_Width = this.imgWidth;
             }
             this.formData.No_Height = val;

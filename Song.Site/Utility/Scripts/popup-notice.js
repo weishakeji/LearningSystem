@@ -18,12 +18,12 @@ Vue.component('popup-notice', {
     },
     watch: {
         items: function (nl, ol) {
-            if (nl.length == ol.length) return;           
+            if (nl.length == ol.length) return;
         }
     },
     computed: {
         //最外侧样式
-        shell: function () {          
+        shell: function () {
             return 'width:calc(100vw * ' + this.items.length + ');\
             height: 100vh;position: fixed;\
             top: 0px;left: 0px;z-index: 99999;overflow: hidden;\
@@ -53,10 +53,10 @@ Vue.component('popup-notice', {
         },
         //标题样式，如果没有图片，显示文字内容，
         title: function () {
-            return 'width: 100%;line-height: 40px;padding: 15px;font-size: 18px;';
+            return 'width: calc(100% - 30px);line-height: 40px;padding: 15px;font-size: 18px;';
         },
         context: function () {
-            return 'padding: 0px 15px ;font-size: 16px;text-align: left;overflow: auto;height: calc(100% - 90px);';
+            return 'padding: 0px 15px ;line-height:30px;font-size: 16px;text-align: left;overflow: auto;height: calc(100% - 90px);';
         },
         //关闭按钮
         close: function () {
@@ -77,10 +77,10 @@ Vue.component('popup-notice', {
                 0px -3px 3px rgba(255, 255, 255, 0.6), \
                 3px 0px 3px rgba(255, 255, 255, 0.6), \
                 0px 3px 3px rgba(255, 255, 255, 0.6);';
-                return postion + ' position: absolute;font-size: ' + wh + 'px;line-height: ' + (wh * 0.85) + 'px;text-align: center;\
+                return postion + ' position: absolute;font-size: ' + wh + 'px;line-height: ' + (wh * 1) + 'px;text-align: center;\
                 width: '+ wh + 'px;height: ' + wh + 'px;border-radius: 15px;z-Index:10;cursor: pointer;\
                 background-color: rgba(255, 255, 255,0.8);border: '+ color + ' solid 2px;\
-                color: '+ color + ';'+(mobi ? '' : shadow);
+                color: '+ color + ';' + (mobi ? '' : shadow);
             }
         },
         //数秒的样式
@@ -256,18 +256,18 @@ Vue.component('popup-notice', {
         }
     },
     // 同样也可以在 vm 实例中像 "this.message" 这样使用
-    template: '<div :style="shell" remark="区域" >\
-        <div v-for="(item,index) in items" :style="view" remark="通知视图">\
-            <div :style="notice(item)" v-on:click="goUrl(item)" remark="通知内容">\
-                <img :src="item.No_BgImage" v-if="item.No_BgImage!=\'\'" v-on:click="goUrl(item)" \
-                style="width:100%;height:100%;" />\
-                <template v-else>\
-                    <div :style="title">{{item.No_Ttl}}</div>\
-                    <div :style="context" v-html="item.No_Context"></div>\
-                </template>\
-            </div>\
-            <div remark="关闭按钮" :style="close(item)" v-on:click="btnClose(item.No_Id)">&times</div>\
-            <div remark="数秒" :style="second(item)" v-if="item.No_Timespan>0">{{item.No_Timespan}}</div>\
-        </div>\
-    <div>'
+    template: `<div :style="shell" remark="区域" >
+        <div v-for="(item,index) in items" :style="view" remark="通知视图">
+            <div :style="notice(item)" v-on:click="goUrl(item)" remark="通知内容">
+                <img :src="item.No_BgImage" v-if="item.No_BgImage!=\'\'" v-on:click="goUrl(item)"
+                style="width:100%;height:100%;" />
+                <template v-else>
+                    <div :style="title">{{item.No_Ttl}}</div>
+                    <div :style="context" v-html="item.No_Context"></div>
+                </template>
+            </div>
+            <div remark="关闭按钮" :style="close(item)" v-on:click="btnClose(item.No_Id)">&times</div>
+            <div remark="数秒" :style="second(item)" v-if="item.No_Timespan>0">{{item.No_Timespan}}</div>
+        </div>
+    </div>`
 })

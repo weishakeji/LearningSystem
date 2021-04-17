@@ -13,6 +13,7 @@
             <cc1:DropDownTree ID="ddlSubject" runat="server" IdKeyName="Sbj_ID" ParentIdKeyName="Sbj_PID"
                 TaxKeyName="Sbj_Tax" Width="120">
             </cc1:DropDownTree>
+            <asp:CheckBox ID="cbIsRec" runat="server" Text="推荐" />
             &nbsp;名称：<asp:TextBox ID="tbSear" runat="server" Width="115" MaxLength="10"></asp:TextBox>&nbsp;<asp:Button
                 ID="btnSear" runat="server" Width="100" Text="查询" OnClick="btnsear_Click" />
         </div>

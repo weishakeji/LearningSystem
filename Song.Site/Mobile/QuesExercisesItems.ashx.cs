@@ -84,20 +84,29 @@ namespace Song.Site.Mobile
             for (int i = 0; i < ques.Length; i++)
             {
                 ques[i] = Extend.Questions.TranText(ques[i]);
-                ques[i].Qus_Title = ques[i].Qus_Title.Replace("&lt;", "<");
-                ques[i].Qus_Title = ques[i].Qus_Title.Replace("&gt;", ">");
-                ques[i].Qus_Title = ques[i].Qus_Title.Replace("&apos;/", "");
-                ques[i].Qus_Title = ques[i].Qus_Title.Replace("&apos;", "");
-                ques[i].Qus_Title = Extend.Html.ClearHTML(ques[i].Qus_Title, "p", "div", "font", "span", "a");
-                ques[i].Qus_Explain = Extend.Html.ClearHTML(ques[i].Qus_Explain, "p", "div", "font", "span", "a");
-                ques[i].Qus_Answer = Extend.Html.ClearHTML(ques[i].Qus_Answer, "p", "div", "font", "span", "a");
-                ques[i].Qus_Answer = ques[i].Qus_Answer.Replace("&apos;/", "");
-                ques[i].Qus_Answer = ques[i].Qus_Answer.Replace("&apos;", "");
-                ques[i].Qus_Explain = ques[i].Qus_Explain.Replace("&apos;/", "");
-                ques[i].Qus_Explain = ques[i].Qus_Explain.Replace("&apos;", "");
-                ques[i].Qus_Title = ques[i].Qus_Title.Replace("\n", "<br/>");
+                if (!string.IsNullOrWhiteSpace(ques[i].Qus_Title))
+                {
+                    ques[i].Qus_Title = ques[i].Qus_Title.Replace("&lt;", "<");
+                    ques[i].Qus_Title = ques[i].Qus_Title.Replace("&gt;", ">");
+                    ques[i].Qus_Title = ques[i].Qus_Title.Replace("&apos;/", "");
+                    ques[i].Qus_Title = ques[i].Qus_Title.Replace("&apos;", "");
+                    ques[i].Qus_Title = ques[i].Qus_Title.Replace("\n", "<br/>");
+                    ques[i].Qus_Title = Extend.Html.ClearHTML(ques[i].Qus_Title, "p", "div", "font", "span", "a");
+                }
+               
                 if (!string.IsNullOrWhiteSpace(ques[i].Qus_Answer))
+                {
+                    ques[i].Qus_Answer = Extend.Html.ClearHTML(ques[i].Qus_Answer, "p", "div", "font", "span", "a");
+                    ques[i].Qus_Answer = ques[i].Qus_Answer.Replace("&apos;/", "");
+                    ques[i].Qus_Answer = ques[i].Qus_Answer.Replace("&apos;", "");
                     ques[i].Qus_Answer = ques[i].Qus_Answer.Replace("&nbsp;", " ");
+                }
+                if (!string.IsNullOrWhiteSpace(ques[i].Qus_Explain))
+                {
+                    ques[i].Qus_Explain = Extend.Html.ClearHTML(ques[i].Qus_Explain, "p", "div", "font", "span", "a");
+                    ques[i].Qus_Explain = ques[i].Qus_Explain.Replace("&apos;/", "");
+                    ques[i].Qus_Explain = ques[i].Qus_Explain.Replace("&apos;", "");
+                }
             }
             //List<Song.Entities.Questions> list = new List<Entities.Questions>();
             //if (isBuy || course.Cou_IsFree) list = ques.ToList<Song.Entities.Questions>();  //如果已经购买或免费；

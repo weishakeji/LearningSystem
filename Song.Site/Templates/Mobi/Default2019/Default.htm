@@ -61,7 +61,7 @@
           </ul>
           <!--自定义菜单-->
           <div class="custom-menu">
-            <a v-for="m in menus" :type="m.Nav_Url=='' ? 'none' : 'line'" :href="m.Nav_Url"
+            <a v-for="m in menus" :type="m.Nav_Url=='' ? 'none' : 'link'" :href="m.Nav_Url"
               :style="'color:'+m.Nav_Color+';font-family:'+m.Nav_Font+';'">
               <img :src="m.Nav_Logo" v-if="m.Nav_Logo!=''" class="mitem" />
               <b class="mitem" v-else></b>

@@ -189,12 +189,12 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="" prop="No_Width">
-                            <el-input v-model="imgWidth" :style="{width: '200px'}" v-on:change="imgWidthChange"
+                            <el-input v-model.number ="imgWidth" :style="{width: '200px'}" v-on:change="imgWidthChange"
                                 :maxlength="5">
                                 <template slot="prepend">宽度</template>
                                 <template slot="append">{{ismoblie ? '%' : 'px'}}</template>
                             </el-input>
-                            <el-input v-model="imgHeight" :style="{width: '200px'}" v-on:change="imgHeightChange" :maxlength="5">
+                            <el-input v-model.number="imgHeight" :style="{width: '200px'}" v-on:change="imgHeightChange" :maxlength="5">
                                 <template slot="prepend">高度</template>
                                 <template slot="append">{{ismoblie ? '%' : 'px'}}</template>
                             </el-input>
