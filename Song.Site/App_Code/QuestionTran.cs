@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace Song.Site.App_Code
+namespace Song.Site
 {
     public class QuestionTran
     {
