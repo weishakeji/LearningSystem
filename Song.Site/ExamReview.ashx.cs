@@ -272,8 +272,10 @@ namespace Song.Site
                         if (!string.IsNullOrWhiteSpace(ques.Qus_Title))
                         {
                             ques.Qus_Title = Extend.Html.ClearHTML(ques.Qus_Title, "pre", "p");
-                            
+                            ques.Qus_Title = ques.Qus_Title.Replace("&apos;", "");
+                            ques.Qus_Title = ques.Qus_Title.Replace("/\"", "\"");
                             ques.Qus_Title = ques.Qus_Title.Replace("&quot;", "\"");
+
                         }
                         if (!string.IsNullOrWhiteSpace(ques.Qus_Explain))
                         {

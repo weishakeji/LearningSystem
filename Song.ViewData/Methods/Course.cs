@@ -171,10 +171,11 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="couid"></param>
         /// <returns></returns>
-        [Student]
+        //[Student]
         public bool Studied(int couid)
         {
             Song.Entities.Accounts acc = this.Student;
+            if (acc == null) return false;
             bool isBuy = Business.Do<ICourse>().StudyIsCourse(acc.Ac_ID, couid);
             return isBuy;
         }

@@ -18,7 +18,8 @@
         //调用地址的根路径
         baseURL: '',
         pathUrl: "/api/v{0}/", //url路径
-        apicache_location: true     //本机是否缓存数据
+        apicache_location: false,     //本机是否缓存数据
+        timeout: 60 * 60 * 24 * 1000        //请求过期时效
     };
     //版权信息
     var copyright = {};
@@ -39,6 +40,7 @@
         //key:参数名
         //defvalue:默认值（如果key取不到值）
         querystring: function (key, defvalue) {
+            //console.log(defvalue);
             defvalue = typeof (defvalue) == "undefined" ? "" : defvalue;
             var url = String(window.document.location.href);
             if (url.indexOf("?") < 0) return defvalue;
@@ -58,7 +60,7 @@
             //如果不带参数，则返回所有参数
             if (arguments.length <= 0) return values;
             //如果key不等空，则返回
-            if (arguments.length == 1) {
+            if (arguments.length >= 1) {
                 for (var q in values) {
                     if (values[q].key.toLowerCase() == key.toLowerCase())
                         return values[q].val;
@@ -95,6 +97,10 @@
         clone: function (obj) {
             var t = JSON.stringify(obj);
             return JSON.parse(t);
+        },
+        //是否是本地路径
+        islocal: function () {
+            return window.location.hostname == 'localhost' || window.location.hostname == '127.0.0.1';
         },
         //将数据url解码
         unescape: function (data) {
@@ -384,7 +390,7 @@
                     username: 'weishakeji ' + method + ' ' + returntype + ' ' + window.location,
                     password: methods.loginstatus()
                 },
-                timeout: 60 * 1000,
+                timeout: config.timeout,
                 returntype: returntype
             });
             //添加请求拦截器（即请求之前）
@@ -507,6 +513,7 @@
     //机构信息，主要为了解析config
     apiObj.prototype.organ = function (organ) {
         var obj = { 'obj': organ, 'id': organ.Org_ID, 'domain': organ.Org_TwoDomain, 'config': {} };
+        if (!organ.Org_Config || organ.Org_Config == '') return obj;
         //创建文档对象
         var parser = new DOMParser();
         var xmlDoc = parser.parseFromString(organ.Org_Config, "text/xml");
@@ -616,15 +623,36 @@ Date.parse = function (str) {
     second = isNaN(second) ? 0 : second;
     return new Date(year, month, day, hour, minute, second);
 }
+Date.prototype.addmonth = function (n) {
+    var dt = this;
+    var yy = dt.getYear();
+    var mm = dt.getMonth();
+    dt.setMonth(dt.getMonth() + n);
+    if ((dt.getYear() * 12 + dt.getMonth()) > (yy * 12 + mm + n)) {
+        dt = new Date(dt.getYear(), dt.getMonth(), 0);
+    }
+    var year = dt.getYear();
+    var month = dt.getMonth() + 1;
+    var days = dt.getDate();
+    var dd = year + "-" + month + "-" + days;
+    return dd;
+}
 //添加加载前后的事件
 $api.effect(function () {
 
 }, function (response, err) {
+    if (response == null) {
+        console.error(err);
+        return;
+    }
     //请求网址
     var url = response.config.url;
     url = url.substring(url.indexOf('/v1/') + 3);
     //请求参数
+
     var para = JSON.stringify(response.config.params);
+    if (!para) para = JSON.stringify(response.config.parameters);
+    //var
     para = para == undefined ? '' : para;
     //时长
     var exec = response.data.execspan;
@@ -632,3 +660,4 @@ $api.effect(function () {
     console.log(url + '' + para + ' 用时 ' + span + ' 毫秒，服务端 ' + exec + ' 毫秒');
     //console.log(response);
 });
+
