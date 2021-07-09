@@ -276,7 +276,7 @@ namespace Song.Site.Manage.Sys
                 Extend.MenuNode n = new Song.Extend.MenuNode(m, _allMM);
                 temp += "<div type=\"nodeline\" class=\"nodeline\">";
                 //节点前的图标区域//树的连线与图标
-                temp += "<div style='width:auto;float:left;' state='" + m.MM_State + "' ";
+                temp += "<div style='width:auto;float:left;' state='' ";
                 temp += "type='nodeIco' ";
                 temp += "IsChilds='" + (n.IsChilds ? "True" : "False") + "'>";
                 temp += this._PurNodeLine(m, 0) + this._PurNodeIco(m);
@@ -383,7 +383,7 @@ namespace Song.Site.Manage.Sys
                 while (p.Item.MM_Id != topid)
                 {
                     //如果是当前子树的最后一个
-                    if (p.Item.MM_PatId == 0)
+                    if (p.Item.MM_PatId == "0")
                     {
                         temp = empty + temp;
                         break;

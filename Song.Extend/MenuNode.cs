@@ -92,7 +92,7 @@ namespace Song.Extend
             int length = 0;
             foreach (Song.Entities.ManageMenu m in this._fullData)
             {
-                if (m.MM_PatId == Item.MM_Id)
+                if (m.MM_PatId == Item.MM_Id.ToString())
                 {
                     length++;
                     _IsChilds = true;
@@ -102,7 +102,7 @@ namespace Song.Extend
             int i = 0;
             foreach (Song.Entities.ManageMenu n in this._fullData)
             {
-                if (n.MM_PatId == Item.MM_Id)
+                if (n.MM_PatId == Item.MM_Id.ToString())
                 {
                     this._Childs[i++] = n;
                 }
@@ -153,7 +153,7 @@ namespace Song.Extend
         {
             foreach (Song.Entities.ManageMenu m in this._fullData)
             {
-                if (m.MM_Id == Item.MM_PatId)
+                if (m.MM_Id.ToString() == Item.MM_PatId)
                 {
                     this._parent = m;
                     break;

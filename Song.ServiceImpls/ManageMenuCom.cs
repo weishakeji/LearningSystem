@@ -212,9 +212,8 @@ namespace Song.ServiceImpls
                         Song.Entities.ManageMenu mm = this.GetSingle(id);
                         if (mm != null)
                         {
-                            mm.MM_PatId = pid;
-                            mm.MM_Tax = tax;
-                            mm.MM_State = state;
+                            mm.MM_PatId = pid.ToString();
+                            mm.MM_Tax = tax;                          
                             tran.Save<ManageMenu>(mm);
                         }
                     }
@@ -238,7 +237,7 @@ namespace Song.ServiceImpls
             }
             if (entity.MM_Root != rootid)
             {
-                entity.MM_PatId = rootid;
+                entity.MM_PatId = rootid.ToString();
                 entity.MM_Tax = 0;
                 this._move(entity, rootid);
             }
@@ -259,7 +258,7 @@ namespace Song.ServiceImpls
             }
             if (entity.MM_Root != rootid)
             {
-                entity.MM_PatId = rootid;
+                entity.MM_PatId = rootid.ToString();
                 _copty(entity, rootid, -1);
             }
         }
@@ -291,7 +290,7 @@ namespace Song.ServiceImpls
         {
             ManageMenu tm = _copySingle(entity);
             tm.MM_Root = rootid;
-            if (pid > 0) tm.MM_PatId = pid;
+            if (pid > 0) tm.MM_PatId = pid.ToString();
             Gateway.Default.Save<ManageMenu>(tm);
             //
             ManageMenu[] mm = this.GetChilds(entity.MM_Id);
@@ -588,7 +587,7 @@ namespace Song.ServiceImpls
                 return false;
             }
             ManageMenu ws = Gateway.Default.From<ManageMenu>().Where(ManageMenu._.MM_Id == currentId).ToFirst<ManageMenu>();
-            ws.MM_PatId = parentId;
+            ws.MM_PatId = parentId.ToString();
             Gateway.Default.Save<ManageMenu>(ws);
             return true;
         }
@@ -602,7 +601,7 @@ namespace Song.ServiceImpls
             //当前对象
             ManageMenu current = Gateway.Default.From<ManageMenu>().Where(ManageMenu._.MM_Id == id).ToFirst<ManageMenu>();
             //当前对象父节点id;
-            int parentId = (int)current.MM_PatId;
+            string parentId = (string)current.MM_PatId;
             //当前对象排序号
             int orderValue = (int)current.MM_Tax;
             //上一个对象，即兄长对象；
@@ -646,7 +645,7 @@ namespace Song.ServiceImpls
             //当前对象
             ManageMenu current = Gateway.Default.From<ManageMenu>().Where(ManageMenu._.MM_Id == id).ToFirst<ManageMenu>();
             //当前对象父节点id;
-            int parentId = (int)current.MM_PatId;
+            string parentId = (string)current.MM_PatId;
             //当前对象排序号
             int orderValue = (int)current.MM_Tax;
             //下一个对象，即弟弟对象；
