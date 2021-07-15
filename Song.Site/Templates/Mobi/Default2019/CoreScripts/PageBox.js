@@ -74,7 +74,11 @@
     //获取父路径
     pagebox.getParentPath = function (winname) {
         var winbox = $(".PageBox[winid='" + winname + "']", window.top.document);
-        if (winbox.size() < 1) winbox = $("iframe[name=" + winname + "]", window.top.document);
+        if (winbox.size() < 1) {
+            try {
+                winbox = $("iframe[name=" + winname + "]", window.top.document);
+            } catch {}
+        }
         var iframe = winbox.find("iframe");
         var path = "";
         if (iframe.size() > 0) {

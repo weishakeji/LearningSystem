@@ -251,7 +251,7 @@ namespace Song.Site.Manage.SOAP
             if (type == "add")
             {
                 mm.MM_Root = rootid;
-                mm.MM_PatId = Convert.ToInt32(getNodeText(node, "patid", 0));
+                mm.MM_PatId = getNodeText(node, "patid", 0).ToString();
                 Business.Do<IManageMenu>().Add(mm);
             }
             if (type == "edit")
@@ -350,13 +350,13 @@ namespace Song.Site.Manage.SOAP
             string tm = "";
             foreach (Song.Entities.ManageMenu m in _allMM)
             {
-                if (m.MM_PatId != 0) m.MM_IsShow = true;
+                if (m.MM_PatId != "0") m.MM_IsShow = true;
             }
             Extend.MenuNode top = new Song.Extend.MenuNode(null, _allMM);
             //生成每个菜单树的外框
             foreach (Song.Entities.ManageMenu m in top.Childs)
             {
-                if (m.MM_PatId == 0 && m.MM_IsShow) continue;
+                if (m.MM_PatId =="0" && m.MM_IsShow) continue;
                 tm += "<DIV class=\"TreeBox\">";
                 //生成菜单树
                 tm += this._PurBuidTree(m);
@@ -372,7 +372,7 @@ namespace Song.Site.Manage.SOAP
             string temp = "";
             temp += "<div type=\"nodeline\" class=\"nodeline\">";
             //节点前的图标区域//树的连线与图标
-            temp += "<div style='width:auto;float:left;' state='" + m.MM_State + "' ";
+            temp += "<div style='width:auto;float:left;' state='' ";
             temp += "type='nodeIco' ";
             temp += "IsChilds='" + (n.IsChilds ? "True" : "False") + "'>";
             temp += this._PurNodeLine(m, 0) + this._PurNodeIco(m);
@@ -458,7 +458,7 @@ namespace Song.Site.Manage.SOAP
             while (p.Item.MM_Id != topid)
             {
                 //如果是当前子树的最后一个
-                if (p.Item.MM_PatId == 0)
+                if (p.Item.MM_PatId == "0")
                 {
                     temp = empty + temp;
                     break;

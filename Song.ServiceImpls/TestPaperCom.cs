@@ -439,7 +439,7 @@ namespace Song.ServiceImpls
                 ques[j] = Extend.Questions.TranText(ques[j]);
                 //当前试题的分数
                 float curr = total / ques.Length;
-                curr = ((float)Math.Round(curr * 10)) / 10;
+                curr = ((float)Math.Round(curr * 100)) / 100;
                 if (j < ques.Length - 1)
                 {
                     ques[j].Qus_Number = curr;

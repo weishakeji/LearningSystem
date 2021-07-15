@@ -64,6 +64,7 @@ window.vapp = new Vue({
                     $api.get('Course/Studied', { 'couid': vapp.course.Cou_ID }),
                     $api.cache('Course/Viewnum', { 'couid': vapp.course.Cou_ID, 'step': 1 })
                 ).then(axios.spread(function (outlines, prices, sum, guides, teacher, isbuy, viewnum) {
+                    vapp.loading = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -71,10 +72,9 @@ window.vapp = new Vue({
                         var data = arguments[i].data;
                         if (!data.success && data.exception != '') {
                             console.error(data.exception);
-                            //throw data.message;
+                            throw data.message;
                         }
-                    }
-                    vapp.loading = false;
+                    }                    
                     //获取结果
                     vapp.outlines = outlines.data.result;
                     vapp.prices = prices.data.result;

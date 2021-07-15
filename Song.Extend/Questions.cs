@@ -119,6 +119,35 @@ namespace Song.Extend
             html = html.Replace("\n", "");
             return html.Trim();
         }
-        
+        /// <summary>
+        /// 处理试题中的图片
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string TransformImagePath(string text)
+        {
+            RegexOptions options = RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.IgnoreCase;
+            //将超链接处理为相对于模版页的路径
+            string linkExpr = @"<(img)[^>]+>";
+            foreach (Match match in new Regex(linkExpr, options).Matches(text))
+            {
+                string tagName = match.Groups[1].Value.Trim();      //标签名称
+                string tagContent = match.Groups[0].Value.Trim();   //标签内容
+                string expr = @"(?<=\s+)(?<key>src[^=""']*)=([""'])?(?<value>[^'"">]*)\1?";
+                foreach (Match m in new Regex(expr, options).Matches(tagContent))
+                {
+                    string key = m.Groups["key"].Value.Trim();      //属性名称
+                    string val = m.Groups["value"].Value.Trim();    //属性值      
+                    val = val.Replace("&apos;", "");
+                    if (val.EndsWith("/")) val = val.Substring(0, val.Length - 1);
+                    val = m.Groups[2].Value + "=\"" + val + "\"";
+                    val = Regex.Replace(val, @"//", "/");
+                    
+                    tagContent = tagContent.Replace(m.Value, val);
+                }
+                text = text.Replace(match.Groups[0].Value.Trim(), tagContent);
+            }
+            return text;
+        }
     }
 }

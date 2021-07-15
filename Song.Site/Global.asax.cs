@@ -171,6 +171,7 @@ namespace Song.Site
         public void Begin(IDbCommand command)
         {
             System.Web.HttpContext _context = System.Web.HttpContext.Current;
+            if (_context == null) return;
             string path = _context.Request.Url.AbsolutePath.Replace("/","_");
 
             string sql = command.CommandText;

@@ -22,7 +22,7 @@ namespace Song.Entities {
     		
     		protected Int32 _MM_Tax;
     		
-    		protected Int32 _MM_PatId;
+    		protected String _MM_PatId;
     		
     		protected String _MM_Color;
     		
@@ -42,7 +42,7 @@ namespace Song.Entities {
     		
     		protected String _MM_Intro;
     		
-    		protected Boolean _MM_State;
+    		protected Boolean _MM_IsChilds;
     		
     		protected String _MM_Func;
     		
@@ -53,6 +53,26 @@ namespace Song.Entities {
     		protected Int32 _MM_IcoX;
     		
     		protected Int32 _MM_IcoY;
+    		
+    		protected String _MM_UID;
+    		
+    		protected Boolean _MM_WinMin;
+    		
+    		protected Boolean _MM_WinMax;
+    		
+    		protected Boolean _MM_WinMove;
+    		
+    		protected Boolean _MM_WinResize;
+    		
+    		protected String _MM_WinID;
+    		
+    		protected String _MM_AbbrName;
+    		
+    		protected Boolean _MM_IsFixed;
+    		
+    		protected String _MM_Help;
+    		
+    		protected Boolean _MM_Complete;
     		
     		/// <summary>
     		/// -1
@@ -148,7 +168,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32 MM_PatId {
+    		public String MM_PatId {
     			get {
     				return this._MM_PatId;
     			}
@@ -278,13 +298,13 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Boolean MM_State {
+    		public Boolean MM_IsChilds {
     			get {
-    				return this._MM_State;
+    				return this._MM_IsChilds;
     			}
     			set {
-    				this.OnPropertyValueChange(_.MM_State, _MM_State, value);
-    				this._MM_State = value;
+    				this.OnPropertyValueChange(_.MM_IsChilds, _MM_IsChilds, value);
+    				this._MM_IsChilds = value;
     			}
     		}
     		
@@ -347,6 +367,106 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String MM_UID {
+    			get {
+    				return this._MM_UID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_UID, _MM_UID, value);
+    				this._MM_UID = value;
+    			}
+    		}
+    		
+    		public Boolean MM_WinMin {
+    			get {
+    				return this._MM_WinMin;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_WinMin, _MM_WinMin, value);
+    				this._MM_WinMin = value;
+    			}
+    		}
+    		
+    		public Boolean MM_WinMax {
+    			get {
+    				return this._MM_WinMax;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_WinMax, _MM_WinMax, value);
+    				this._MM_WinMax = value;
+    			}
+    		}
+    		
+    		public Boolean MM_WinMove {
+    			get {
+    				return this._MM_WinMove;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_WinMove, _MM_WinMove, value);
+    				this._MM_WinMove = value;
+    			}
+    		}
+    		
+    		public Boolean MM_WinResize {
+    			get {
+    				return this._MM_WinResize;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_WinResize, _MM_WinResize, value);
+    				this._MM_WinResize = value;
+    			}
+    		}
+    		
+    		public String MM_WinID {
+    			get {
+    				return this._MM_WinID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_WinID, _MM_WinID, value);
+    				this._MM_WinID = value;
+    			}
+    		}
+    		
+    		public String MM_AbbrName {
+    			get {
+    				return this._MM_AbbrName;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_AbbrName, _MM_AbbrName, value);
+    				this._MM_AbbrName = value;
+    			}
+    		}
+    		
+    		public Boolean MM_IsFixed {
+    			get {
+    				return this._MM_IsFixed;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_IsFixed, _MM_IsFixed, value);
+    				this._MM_IsFixed = value;
+    			}
+    		}
+    		
+    		public String MM_Help {
+    			get {
+    				return this._MM_Help;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_Help, _MM_Help, value);
+    				this._MM_Help = value;
+    			}
+    		}
+    		
+    		public Boolean MM_Complete {
+    			get {
+    				return this._MM_Complete;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_Complete, _MM_Complete, value);
+    				this._MM_Complete = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -391,12 +511,22 @@ namespace Song.Entities {
     					_.MM_IsUse,
     					_.MM_IsShow,
     					_.MM_Intro,
-    					_.MM_State,
+    					_.MM_IsChilds,
     					_.MM_Func,
     					_.MM_WinWidth,
     					_.MM_WinHeight,
     					_.MM_IcoX,
-    					_.MM_IcoY};
+    					_.MM_IcoY,
+    					_.MM_UID,
+    					_.MM_WinMin,
+    					_.MM_WinMax,
+    					_.MM_WinMove,
+    					_.MM_WinResize,
+    					_.MM_WinID,
+    					_.MM_AbbrName,
+    					_.MM_IsFixed,
+    					_.MM_Help,
+    					_.MM_Complete};
     		}
     		
     		/// <summary>
@@ -421,12 +551,22 @@ namespace Song.Entities {
     					this._MM_IsUse,
     					this._MM_IsShow,
     					this._MM_Intro,
-    					this._MM_State,
+    					this._MM_IsChilds,
     					this._MM_Func,
     					this._MM_WinWidth,
     					this._MM_WinHeight,
     					this._MM_IcoX,
-    					this._MM_IcoY};
+    					this._MM_IcoY,
+    					this._MM_UID,
+    					this._MM_WinMin,
+    					this._MM_WinMax,
+    					this._MM_WinMove,
+    					this._MM_WinResize,
+    					this._MM_WinID,
+    					this._MM_AbbrName,
+    					this._MM_IsFixed,
+    					this._MM_Help,
+    					this._MM_Complete};
     		}
     		
     		/// <summary>
@@ -455,7 +595,7 @@ namespace Song.Entities {
     				this._MM_Tax = reader.GetInt32(_.MM_Tax);
     			}
     			if ((false == reader.IsDBNull(_.MM_PatId))) {
-    				this._MM_PatId = reader.GetInt32(_.MM_PatId);
+    				this._MM_PatId = reader.GetString(_.MM_PatId);
     			}
     			if ((false == reader.IsDBNull(_.MM_Color))) {
     				this._MM_Color = reader.GetString(_.MM_Color);
@@ -484,8 +624,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.MM_Intro))) {
     				this._MM_Intro = reader.GetString(_.MM_Intro);
     			}
-    			if ((false == reader.IsDBNull(_.MM_State))) {
-    				this._MM_State = reader.GetBoolean(_.MM_State);
+    			if ((false == reader.IsDBNull(_.MM_IsChilds))) {
+    				this._MM_IsChilds = reader.GetBoolean(_.MM_IsChilds);
     			}
     			if ((false == reader.IsDBNull(_.MM_Func))) {
     				this._MM_Func = reader.GetString(_.MM_Func);
@@ -501,6 +641,36 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.MM_IcoY))) {
     				this._MM_IcoY = reader.GetInt32(_.MM_IcoY);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_UID))) {
+    				this._MM_UID = reader.GetString(_.MM_UID);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_WinMin))) {
+    				this._MM_WinMin = reader.GetBoolean(_.MM_WinMin);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_WinMax))) {
+    				this._MM_WinMax = reader.GetBoolean(_.MM_WinMax);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_WinMove))) {
+    				this._MM_WinMove = reader.GetBoolean(_.MM_WinMove);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_WinResize))) {
+    				this._MM_WinResize = reader.GetBoolean(_.MM_WinResize);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_WinID))) {
+    				this._MM_WinID = reader.GetString(_.MM_WinID);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_AbbrName))) {
+    				this._MM_AbbrName = reader.GetString(_.MM_AbbrName);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_IsFixed))) {
+    				this._MM_IsFixed = reader.GetBoolean(_.MM_IsFixed);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_Help))) {
+    				this._MM_Help = reader.GetString(_.MM_Help);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_Complete))) {
+    				this._MM_Complete = reader.GetBoolean(_.MM_Complete);
     			}
     		}
     		
@@ -564,7 +734,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field MM_Tax = new WeiSha.Data.Field<ManageMenu>("MM_Tax");
     			
     			/// <summary>
-    			/// -1 - 字段名：MM_PatId - 数据类型：Int32
+    			/// -1 - 字段名：MM_PatId - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field MM_PatId = new WeiSha.Data.Field<ManageMenu>("MM_PatId");
     			
@@ -614,9 +784,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field MM_Intro = new WeiSha.Data.Field<ManageMenu>("MM_Intro");
     			
     			/// <summary>
-    			/// -1 - 字段名：MM_State - 数据类型：Boolean
+    			/// -1 - 字段名：MM_IsChilds - 数据类型：Boolean
     			/// </summary>
-    			public static WeiSha.Data.Field MM_State = new WeiSha.Data.Field<ManageMenu>("MM_State");
+    			public static WeiSha.Data.Field MM_IsChilds = new WeiSha.Data.Field<ManageMenu>("MM_IsChilds");
     			
     			/// <summary>
     			/// -1 - 字段名：MM_Func - 数据类型：String
@@ -642,7 +812,56 @@ namespace Song.Entities {
     			/// 字段名：MM_IcoY - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field MM_IcoY = new WeiSha.Data.Field<ManageMenu>("MM_IcoY");
+    			
+    			/// <summary>
+    			/// 字段名：MM_UID - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_UID = new WeiSha.Data.Field<ManageMenu>("MM_UID");
+    			
+    			/// <summary>
+    			/// 字段名：MM_WinMin - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_WinMin = new WeiSha.Data.Field<ManageMenu>("MM_WinMin");
+    			
+    			/// <summary>
+    			/// 字段名：MM_WinMax - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_WinMax = new WeiSha.Data.Field<ManageMenu>("MM_WinMax");
+    			
+    			/// <summary>
+    			/// 字段名：MM_WinMove - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_WinMove = new WeiSha.Data.Field<ManageMenu>("MM_WinMove");
+    			
+    			/// <summary>
+    			/// 字段名：MM_WinResize - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_WinResize = new WeiSha.Data.Field<ManageMenu>("MM_WinResize");
+    			
+    			/// <summary>
+    			/// 字段名：MM_WinID - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_WinID = new WeiSha.Data.Field<ManageMenu>("MM_WinID");
+    			
+    			/// <summary>
+    			/// 字段名：MM_AbbrName - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_AbbrName = new WeiSha.Data.Field<ManageMenu>("MM_AbbrName");
+    			
+    			/// <summary>
+    			/// 字段名：MM_IsFixed - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_IsFixed = new WeiSha.Data.Field<ManageMenu>("MM_IsFixed");
+    			
+    			/// <summary>
+    			/// 字段名：MM_Help - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_Help = new WeiSha.Data.Field<ManageMenu>("MM_Help");
+    			
+    			/// <summary>
+    			/// 字段名：MM_Complete - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_Complete = new WeiSha.Data.Field<ManageMenu>("MM_Complete");
     		}
     	}
     }
-    

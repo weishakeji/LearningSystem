@@ -9,6 +9,8 @@ using Song.Entities;
 using WeiSha.Data;
 using Song.ServiceInterfaces;
 using System.IO;
+using System.Web;
+using System.Collections;
 
 namespace Song.ServiceImpls
 {
@@ -103,6 +105,10 @@ namespace Song.ServiceImpls
                         new object[] { false }, Organization._.Org_ID != identify);
                     trans.Commit();
                     this.OrganBuildCache();
+
+                    IDictionaryEnumerator cache = HttpRuntime.Cache.GetEnumerator();
+                    while (cache.MoveNext())
+                        HttpRuntime.Cache.Remove(cache.Key.ToString());
                 }
                 catch (Exception ex)
                 {

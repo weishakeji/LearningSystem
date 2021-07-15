@@ -120,23 +120,22 @@ namespace Song.Site
                 {
                     ques[i] = Extend.Questions.TranText(ques[i]);
                     if (!string.IsNullOrWhiteSpace(ques[i].Qus_Title))
-                    {
-                        ques[i].Qus_Title = ques[i].Qus_Title.Replace("&lt;", "<");
-                        ques[i].Qus_Title = ques[i].Qus_Title.Replace("&gt;", ">");
-                        ques[i].Qus_Title = ques[i].Qus_Title.Replace("&apos;/", "");
-                        ques[i].Qus_Title = ques[i].Qus_Title.Replace("&apos;", "");
+                    { 
                         ques[i].Qus_Title = Extend.Html.ClearHTML(ques[i].Qus_Title, "p", "div", "font", "pre");
+                        ques[i].Qus_Title = ques[i].Qus_Title.Replace("&lt;", "<");
+                        ques[i].Qus_Title = ques[i].Qus_Title.Replace("&gt;", ">");                    
                         ques[i].Qus_Title = ques[i].Qus_Title.Replace("\n", "<br/>");
+                        ques[i].Qus_Title = Extend.Questions.TransformImagePath(ques[i].Qus_Title); 
                     }
                     if (!string.IsNullOrWhiteSpace(ques[i].Qus_Answer))
                     {
-                        ques[i].Qus_Answer = ques[i].Qus_Answer.Replace("&apos;/", "");
-                        ques[i].Qus_Answer = ques[i].Qus_Answer.Replace("&apos;", "");
+                        ques[i].Qus_Answer = Extend.Questions.TransformImagePath(ques[i].Qus_Answer);                       
                     }
                     if (!string.IsNullOrWhiteSpace(ques[i].Qus_Explain))
                     {
-                        ques[i].Qus_Explain = ques[i].Qus_Explain.Replace("&apos;/", "");
-                        ques[i].Qus_Explain = ques[i].Qus_Explain.Replace("&apos;", "");
+                        ques[i].Qus_Explain = Extend.Html.ClearHTML(ques[i].Qus_Explain, "p", "div", "font", "span", "a");
+                        ques[i].Qus_Explain = ques[i].Qus_Explain.Replace("&nbsp;", " ");
+                        ques[i].Qus_Explain = Extend.Questions.TransformImagePath(ques[i].Qus_Explain);
                     }
                 }
             }

@@ -18,6 +18,8 @@
         //调用地址的根路径
         baseURL: '',
         pathUrl: "/api/v{0}/", //url路径
+        apicache_location: false,     //本机是否缓存数据
+        timeout: 60 * 60 * 24 * 1000        //请求过期时效
     };
     //版权信息
     var copyright = {};
@@ -35,10 +37,13 @@
             return url + way;
         },
         //获取url中的参数
-        querystring: function (url, key) {
-            if (arguments.length == 1) key = arguments[0];
-            if (arguments.length <= 1) url = String(window.document.location.href);
-            if (url.indexOf("?") < 0) return "";
+        //key:参数名
+        //defvalue:默认值（如果key取不到值）
+        querystring: function (key, defvalue) {
+            //console.log(defvalue);
+            defvalue = typeof (defvalue) == "undefined" ? "" : defvalue;
+            var url = String(window.document.location.href);
+            if (url.indexOf("?") < 0) return defvalue;
             //取所有参数
             var values = new Array();
             var query = url.substring(url.lastIndexOf("?") + 1).split('&');
@@ -52,15 +57,16 @@
                     val: arr[1]
                 });
             }
-            //返回
-            if (arguments.length == 0) return values;
-            if (arguments.length == 1) {
+            //如果不带参数，则返回所有参数
+            if (arguments.length <= 0) return values;
+            //如果key不等空，则返回
+            if (arguments.length >= 1) {
                 for (var q in values) {
                     if (values[q].key.toLowerCase() == key.toLowerCase())
                         return values[q].val;
                 }
             }
-            return "";
+            return defvalue;
         },
         setpara: function (key, value) {
             //获取所有参数
@@ -72,10 +78,7 @@
                     isExist = true;
                 }
             }
-            if (!isExist) values.push({
-                key: key,
-                val: value
-            });
+            if (!isExist) values.push({ key: key, val: value });
             //拼接Url      
             var url = String(window.document.location.href);
             if (url.indexOf("?") > -1) url = url.substring(0, url.lastIndexOf("?"));
@@ -89,6 +92,15 @@
         //去除两端空格
         trim: function (str) {
             return str.replace(/^\s*|\s*$/g, '').replace(/^\n+|\n+$/g, "");
+        },
+        //克隆对象
+        clone: function (obj) {
+            var t = JSON.stringify(obj);
+            return JSON.parse(t);
+        },
+        //是否是本地路径
+        islocal: function () {
+            return window.location.hostname == 'localhost' || window.location.hostname == '127.0.0.1';
         },
         //将数据url解码
         unescape: function (data) {
@@ -176,10 +188,7 @@
         cookie: function (name, value, options) {
             if (typeof value != 'undefined') { // name and value given, set cookie 
                 options = options || {};
-                if (value === null) {
-                    value = '';
-                    options.expires = -1;
-                }
+                if (value === null) { value = ''; options.expires = -1; }
                 var expires = '';
                 if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
                     var date;
@@ -213,7 +222,9 @@
         },
         //本地接口缓存,way:api请求路径,para：请求参数,value:api的返回值
         apicache: function (way, para, value) {
-            if (window.location.hostname == 'localhost') return null;
+            if (!config.apicache_location) {
+                if (window.location.hostname == 'localhost') return null;
+            }
             //接口缓存名称，缓存指令，缓存项的名称
             var name, active = '', key;
             if (way.indexOf(":") > -1) {
@@ -270,7 +281,7 @@
         },
         //记录或获取登录状态值
         loginstatus: function (key, code) {
-            var storagename = 'weishakei_loginstatus';
+            var storagename = 'weishakeji_loginstatus';
             var status = methods.storage(storagename);
             //读取
             if (arguments.length <= 1) {
@@ -379,7 +390,7 @@
                     username: 'weishakeji ' + method + ' ' + returntype + ' ' + window.location,
                     password: methods.loginstatus()
                 },
-                timeout: 60 * 1000,
+                timeout: config.timeout,
                 returntype: returntype
             });
             //添加请求拦截器（即请求之前）
@@ -402,6 +413,10 @@
                             tmpObj[d] = escape(JSON.stringify(config.params[d]));
                             continue;
                         }
+                        if (config.params[d] instanceof Array) {
+                            formData.append(d, escape(JSON.stringify(config.params[d])));
+                            continue;
+                        }
                         tmpObj[d] = escape(config.params[d]);
                     }
                     config.params = tmpObj;
@@ -416,6 +431,10 @@
                         }
                         //json值，序列化为字符串                       
                         if (typeName === 'Object') {
+                            formData.append(d, escape(JSON.stringify(config.data[d])));
+                            continue;
+                        }
+                        if (config.data[d] instanceof Array) {
                             formData.append(d, escape(JSON.stringify(config.data[d])));
                             continue;
                         }
@@ -491,6 +510,23 @@
             eval("this." + m + "=" + methods[m] + ";");
         }
     };
+    //机构信息，主要为了解析config
+    apiObj.prototype.organ = function (organ) {
+        var obj = { 'obj': organ, 'id': organ.Org_ID, 'domain': organ.Org_TwoDomain, 'config': {} };
+        if (!organ.Org_Config || organ.Org_Config == '') return obj;
+        //创建文档对象
+        var parser = new DOMParser();
+        var xmlDoc = parser.parseFromString(organ.Org_Config, "text/xml");
+        var nodes = xmlDoc.lastChild.children;
+        for (var i = 0; i < nodes.length; i++) {
+            var key = nodes[i].attributes['key'].value;
+            var val = nodes[i].attributes['value'].value;
+            if (val == 'True') val = true;
+            if (val == 'False') val = false;
+            obj.config[key] = val;
+        }
+        return obj;
+    }
     //创建$api调用对象
     for (var v in config.versions) {
         var str = config.versions[v] == "" ?
@@ -587,15 +623,36 @@ Date.parse = function (str) {
     second = isNaN(second) ? 0 : second;
     return new Date(year, month, day, hour, minute, second);
 }
+Date.prototype.addmonth = function (n) {
+    var dt = this;
+    var yy = dt.getYear();
+    var mm = dt.getMonth();
+    dt.setMonth(dt.getMonth() + n);
+    if ((dt.getYear() * 12 + dt.getMonth()) > (yy * 12 + mm + n)) {
+        dt = new Date(dt.getYear(), dt.getMonth(), 0);
+    }
+    var year = dt.getYear();
+    var month = dt.getMonth() + 1;
+    var days = dt.getDate();
+    var dd = year + "-" + month + "-" + days;
+    return dd;
+}
 //添加加载前后的事件
 $api.effect(function () {
 
 }, function (response, err) {
+    if (response == null) {
+        console.error(err);
+        return;
+    }
     //请求网址
     var url = response.config.url;
     url = url.substring(url.indexOf('/v1/') + 3);
     //请求参数
+
     var para = JSON.stringify(response.config.params);
+    if (!para) para = JSON.stringify(response.config.parameters);
+    //var
     para = para == undefined ? '' : para;
     //时长
     var exec = response.data.execspan;
@@ -603,3 +660,4 @@ $api.effect(function () {
     console.log(url + '' + para + ' 用时 ' + span + ' 毫秒，服务端 ' + exec + ' 毫秒');
     //console.log(response);
 });
+

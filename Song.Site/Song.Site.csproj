@@ -2506,6 +2506,7 @@
       <DependentUpon>HangzhouZhengfang.aspx</DependentUpon>
     </Compile>
     <Content Include="App_Code\Reconsitution.cs" />
+    <Content Include="App_Code\QuestionTran.cs" />
     <Compile Include="Article.ashx.cs">
       <DependentUpon>Article.ashx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

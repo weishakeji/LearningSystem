@@ -14,11 +14,12 @@ namespace Song.ViewData.Attri
     [AttributeUsage(AttributeTargets.Method)]
     public class CacheAttribute : WeishaAttr
     {
-        //缓存名称
-        private static string _cacheName = "ViewData_{0}.{1}_[{2}]";
+        //缓存名称，依次为
+        //二级域名，类名，方法名，参数集
+        private static string _cacheName = "DataCache/{0}/{1}/{2}:{3}";
         private int _expires = 10;
         /// <summary>
-        /// 失效时间
+        /// 过期时间，单位分钟
         /// </summary>
         public int Expires
         {
@@ -36,7 +37,8 @@ namespace Song.ViewData.Attri
         /// <returns></returns>
         public static object GetResult(MethodInfo method, Letter letter)
         {
-            string cacheName = string.Format(_cacheName, method.ReturnType.FullName, method.Name, letter.ToString());
+            string domain = WeiSha.Common.Request.Domain.TwoDomain;
+            string cacheName = string.Format(_cacheName, domain, method.DeclaringType.Name, method.Name, letter.ToString());
             return HttpRuntime.Cache.Get(cacheName);
         }
         /// <summary>
@@ -46,8 +48,8 @@ namespace Song.ViewData.Attri
         /// <param name="letter"></param>
         public static void Remove(MethodInfo method, Letter letter)
         {
-            //缓存名称
-            string cacheName = string.Format(_cacheName, method.ReturnType.FullName, method.Name, letter.ToString());
+            string domain = WeiSha.Common.Request.Domain.TwoDomain;
+            string cacheName = string.Format(_cacheName, domain, method.DeclaringType.Name, method.Name, letter.ToString());
             HttpRuntime.Cache.Remove(cacheName);
         }
         /// <summary>
@@ -61,11 +63,12 @@ namespace Song.ViewData.Attri
         {
             if (result == null) return;
             //缓存名称
-            string cacheName = string.Format(_cacheName, method.ReturnType.FullName, method.Name, letter.ToString());
+            string domain = WeiSha.Common.Request.Domain.TwoDomain;
+            string cacheName = string.Format(_cacheName, domain, method.DeclaringType.Name, method.Name, letter.ToString());
             //过期时间
-            DateTime expTime = DateTime.Now.AddMinutes(expires);            
+            DateTime expTime = DateTime.Now.AddMinutes(expires);
             HttpRuntime.Cache.Insert(cacheName, result, null, expTime, TimeSpan.Zero);
         }
-        
+
     }
 }

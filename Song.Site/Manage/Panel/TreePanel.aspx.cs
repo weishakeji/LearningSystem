@@ -33,7 +33,7 @@ namespace Song.Site.Manage.Panel
                 for (int i = 0; i < _allMM.Length; i++)
                 {
                     ManageMenu m = _allMM[i];
-                    if (m.MM_PatId == 0)
+                    if (m.MM_PatId == "0")
                     {
                         string title = m.MM_Intro.Trim() == "" ? m.MM_Name : m.MM_Intro;
                         string style = i == 0 ? "current" : "out";

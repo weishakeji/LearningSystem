@@ -96,7 +96,7 @@
                 <!--按钮开始-->
                 <div class="couBtn" v-if="JSON.stringify(course) === '{}'"> 课程不存在或被禁用</div>
                 <a class="couBtn" v-else-if="account==null" type="link" href="Login.ashx" target="_top"
-                    title="请选登录">52登录学习</a>
+                    title="请选登录">登录学习</a>
 
                 <template v-else>
                     <template v-if="course.Cou_IsFree || course.Cou_IsLimitFree || isbuy">
