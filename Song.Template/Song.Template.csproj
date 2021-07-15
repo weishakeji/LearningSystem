@@ -102,7 +102,7 @@
       <Name>Song.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Song.ServiceInterfaces\Song.ServiceInterfaces.csproj">
-      <Project>{7CFB4DC1-8536-44A4-AF1D-2D7BDA8067C1}</Project>
+      <Project>{7cfb4dc1-8536-44a4-af1d-2d7bda8067c1}</Project>
       <Name>Song.ServiceInterfaces</Name>
     </ProjectReference>
   </ItemGroup>
