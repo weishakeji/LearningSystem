@@ -68,13 +68,15 @@ namespace Song.ServiceImpls
         /// <returns>如果已经存在该账户，则返回-1</returns>
         public int AccountsAdd(Accounts entity)
         {
-            if(!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
+            //校验一些数据项
+            entity.Ac_AccName = this._checkAccount(entity.Ac_AccName);
+            entity.Ac_MobiTel1 = this._checkMobile(entity.Ac_MobiTel1);
+            entity.Ac_MobiTel2 = this._checkMobile(entity.Ac_MobiTel2);
+            entity.Ac_Name = this._checkName(entity.Ac_Name);
+
+            if (!string.IsNullOrWhiteSpace(entity.Ac_IDCardNumber))
                 entity.Ac_IDCardNumber = entity.Ac_IDCardNumber.Trim();
-            //如果账号为空
-            if (string.IsNullOrWhiteSpace(entity.Ac_AccName))
-                throw new Exception("账号不得为空！");    
-            else
-                entity.Ac_AccName = entity.Ac_AccName.Trim();
+         
             entity.Ac_RegTime = entity.Ac_LastTime = DateTime.Now;
             entity.Ac_IsUse = true;
             if (entity.Org_ID < 1)
@@ -93,8 +95,9 @@ namespace Song.ServiceImpls
                     entity.Ac_Birthday = card.Birthday;
                     entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    throw ex;
                 }
             }
             else
@@ -125,6 +128,11 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void AccountsSave(Accounts entity)
         {
+            //校验一些数据项
+            entity.Ac_AccName = this._checkAccount(entity.Ac_AccName);
+            entity.Ac_MobiTel1 = this._checkMobile(entity.Ac_MobiTel1);
+            entity.Ac_MobiTel2 = this._checkMobile(entity.Ac_MobiTel2);
+            entity.Ac_Name = this._checkName(entity.Ac_Name);
             //如果密码不为空
             //if (!string.IsNullOrWhiteSpace(entity.Ac_Pw))
             //    entity.Ac_Pw = new WeiSha.Common.Param.Method.ConvertToAnyValue(entity.Ac_Pw).MD5; 
@@ -139,8 +147,9 @@ namespace Song.ServiceImpls
                     entity.Ac_Birthday = card.Birthday;
                     entity.Ac_Native = card.Province + "," + card.Area + "," + card.City;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    throw ex;
                 }
             }
             else
@@ -204,6 +213,61 @@ namespace Song.ServiceImpls
             }
 
             return ac;
+        }
+        /// <summary>
+        /// 校验账号
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <returns></returns>
+        private string _checkAccount(string acc)
+        {
+            if (string.IsNullOrWhiteSpace(acc))
+                throw new Exception("账号不可为空");
+            //清除空格
+            acc = acc.Replace(" ", "").ToLower();
+            if (acc.Length < 6)
+                throw new Exception("账号最短不得小于6个字符");
+            if (acc.Length > 50)
+                throw new Exception("账号最长不得超过50个字符");
+            bool ispass = System.Text.RegularExpressions.Regex.IsMatch(acc, @"^[a-zA-Z0-9]*$");
+            if (!ispass) throw new Exception("账号仅限字母和数字");
+            return acc;
+        }
+        /// <summary>
+        /// 校验手机号
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        private string _checkMobile(string number)
+        {
+            number = number.Replace(" ", "").ToLower();
+            if (string.IsNullOrWhiteSpace(number)) return number;
+            bool ispass = System.Text.RegularExpressions.Regex.IsMatch(number, @"^[0-9]*$");
+            if (!ispass) throw new Exception("手机号仅限数字");
+            return number;
+        }
+        /// <summary>
+        /// 校验名称，禁止特殊字符
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private string _checkName(string name)
+        {
+            name = name.Replace(" ", "");
+            if (string.IsNullOrWhiteSpace(name)) return name;
+            if (name.Length > 50)
+                throw new Exception("名字最长不得超过50个字符");
+            //逐字判断
+            for (int i = 0; i < name.Length; i++)
+            {
+                string t = name.Substring(i, 1);
+                //是字母或数字
+                bool ischar = System.Text.RegularExpressions.Regex.IsMatch(t, @"^[a-zA-Z0-9]*$");
+                bool ischinese = System.Text.RegularExpressions.Regex.IsMatch(t, @"^[\u4E00-\u9FA5]$");
+                if (!(ischar || ischinese))
+                    throw new Exception("限中文字符或英文字母和数字");
+            }
+            return name;
         }
         #endregion
         /// <summary>
