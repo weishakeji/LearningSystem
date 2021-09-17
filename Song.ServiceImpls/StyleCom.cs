@@ -42,14 +42,15 @@ namespace Song.ServiceImpls
         public void NaviSave(Navigation entity)
         {
             //验证父级节点是否正常
-            if (entity.Nav_ID == entity.Nav_PID) throw new Exception("请勿将自身设置为父级");
-            if (entity.Nav_PID > 0)
+            if (entity.Nav_UID == entity.Nav_PID) throw new Exception("请勿将自身设置为父级");
+            if (entity.Nav_PID!="0" || entity.Nav_PID != "")
             {
                 Navigation parent = this.NaviSingle(entity.Nav_PID);
-                while (parent.Nav_PID != 0)
+                while (entity.Nav_PID != "0" || entity.Nav_PID != "")
                 {
-                    if (entity.Nav_ID == parent.Nav_PID) throw new Exception("请勿将自身的下级设置为父级");
+                    if (entity.Nav_UID == parent.Nav_PID) throw new Exception("请勿将自身的下级设置为父级");
                     parent = this.NaviSingle(parent.Nav_PID);
+                    if (parent == null) break;
                 }
             }
             
@@ -89,6 +90,10 @@ namespace Song.ServiceImpls
         public Navigation NaviSingle(int identify)
         {
             return Gateway.Default.From<Navigation>().Where(Navigation._.Nav_ID == identify).ToFirst<Navigation>();
+        }
+        public Navigation NaviSingle(string uid)
+        {
+            return Gateway.Default.From<Navigation>().Where(Navigation._.Nav_UID == uid).ToFirst<Navigation>();
         }
         /// <summary>
         /// 获取所有导航

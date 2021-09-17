@@ -32,6 +32,7 @@ namespace Song.ServiceInterfaces
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
         Navigation NaviSingle(int identify);
+        Navigation NaviSingle(string uid);
         /// <summary>
         /// 获取所有导航
         /// </summary>

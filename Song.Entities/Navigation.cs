@@ -10,7 +10,7 @@ namespace Song.Entities {
     		
     		protected Int32 _Nav_ID;
     		
-    		protected Int32 _Nav_PID;
+    		protected String _Nav_PID;
     		
     		protected String _Nav_Name;
     		
@@ -52,6 +52,10 @@ namespace Song.Entities {
     		
     		protected String _Org_Name;
     		
+    		protected String _Nav_UID;
+    		
+    		protected String _Nav_Icon;
+    		
     		/// <summary>
     		/// -1
     		/// </summary>
@@ -68,7 +72,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32 Nav_PID {
+    		public String Nav_PID {
     			get {
     				return this._Nav_PID;
     			}
@@ -329,6 +333,26 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Nav_UID {
+    			get {
+    				return this._Nav_UID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Nav_UID, _Nav_UID, value);
+    				this._Nav_UID = value;
+    			}
+    		}
+    		
+    		public String Nav_Icon {
+    			get {
+    				return this._Nav_Icon;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Nav_Icon, _Nav_Icon, value);
+    				this._Nav_Icon = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -377,7 +401,9 @@ namespace Song.Entities {
     					_.Nav_IsBold,
     					_.Nav_Logo,
     					_.Org_ID,
-    					_.Org_Name};
+    					_.Org_Name,
+    					_.Nav_UID,
+    					_.Nav_Icon};
     		}
     		
     		/// <summary>
@@ -406,7 +432,9 @@ namespace Song.Entities {
     					this._Nav_IsBold,
     					this._Nav_Logo,
     					this._Org_ID,
-    					this._Org_Name};
+    					this._Org_Name,
+    					this._Nav_UID,
+    					this._Nav_Icon};
     		}
     		
     		/// <summary>
@@ -417,7 +445,7 @@ namespace Song.Entities {
     				this._Nav_ID = reader.GetInt32(_.Nav_ID);
     			}
     			if ((false == reader.IsDBNull(_.Nav_PID))) {
-    				this._Nav_PID = reader.GetInt32(_.Nav_PID);
+    				this._Nav_PID = reader.GetString(_.Nav_PID);
     			}
     			if ((false == reader.IsDBNull(_.Nav_Name))) {
     				this._Nav_Name = reader.GetString(_.Nav_Name);
@@ -479,6 +507,12 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Org_Name))) {
     				this._Org_Name = reader.GetString(_.Org_Name);
     			}
+    			if ((false == reader.IsDBNull(_.Nav_UID))) {
+    				this._Nav_UID = reader.GetString(_.Nav_UID);
+    			}
+    			if ((false == reader.IsDBNull(_.Nav_Icon))) {
+    				this._Nav_Icon = reader.GetString(_.Nav_Icon);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -511,7 +545,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Nav_ID = new WeiSha.Data.Field<Navigation>("Nav_ID");
     			
     			/// <summary>
-    			/// -1 - 字段名：Nav_PID - 数据类型：Int32
+    			/// -1 - 字段名：Nav_PID - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Nav_PID = new WeiSha.Data.Field<Navigation>("Nav_PID");
     			
@@ -614,6 +648,16 @@ namespace Song.Entities {
     			/// 字段名：Org_Name - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Org_Name = new WeiSha.Data.Field<Navigation>("Org_Name");
+    			
+    			/// <summary>
+    			/// 字段名：Nav_UID - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Nav_UID = new WeiSha.Data.Field<Navigation>("Nav_UID");
+    			
+    			/// <summary>
+    			/// 字段名：Nav_Icon - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Nav_Icon = new WeiSha.Data.Field<Navigation>("Nav_Icon");
     		}
     	}
     }

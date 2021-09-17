@@ -26,6 +26,8 @@ namespace Song.Entities {
     		
     		protected Int32? _Olv_ID;
     		
+    		protected String _MM_UID;
+    		
     		/// <summary>
     		/// False
     		/// </summary>
@@ -137,6 +139,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String MM_UID {
+    			get {
+    				return this._MM_UID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.MM_UID, _MM_UID, value);
+    				this._MM_UID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -172,7 +184,8 @@ namespace Song.Entities {
     					_.Pur_State,
     					_.Pur_Type,
     					_.Org_ID,
-    					_.Olv_ID};
+    					_.Olv_ID,
+    					_.MM_UID};
     		}
     		
     		/// <summary>
@@ -188,7 +201,8 @@ namespace Song.Entities {
     					this._Pur_State,
     					this._Pur_Type,
     					this._Org_ID,
-    					this._Olv_ID};
+    					this._Olv_ID,
+    					this._MM_UID};
     		}
     		
     		/// <summary>
@@ -221,6 +235,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Olv_ID))) {
     				this._Olv_ID = reader.GetInt32(_.Olv_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.MM_UID))) {
+    				this._MM_UID = reader.GetString(_.MM_UID);
     			}
     		}
     		
@@ -292,6 +309,11 @@ namespace Song.Entities {
     			/// 字段名：Olv_ID - 数据类型：Int32(可空)
     			/// </summary>
     			public static WeiSha.Data.Field Olv_ID = new WeiSha.Data.Field<Purview>("Olv_ID");
+    			
+    			/// <summary>
+    			/// 字段名：MM_UID - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field MM_UID = new WeiSha.Data.Field<Purview>("MM_UID");
     		}
     	}
     }

@@ -44,7 +44,7 @@ namespace Song.Site.Manage.Admin
             Song.Entities.Navigation[] navi = Business.Do<IStyle>().NaviAll(null, site, type, org.Org_ID);
             ddlTree.DataSource = navi;
             this.ddlTree.DataTextField = "Nav_Name";
-            this.ddlTree.DataValueField = "Nav_ID";
+            this.ddlTree.DataValueField = "Nav_UID";
             //this.ddlTree.
             this.ddlTree.Root = 0;
             this.ddlTree.DataBind();
@@ -70,11 +70,14 @@ namespace Song.Site.Manage.Admin
             lbID.Text = mm.Nav_ID.ToString();
             //tbEnName.Text = mm.Nav_EnName;
             //上级导航
-            ListItem liNav = ddlTree.Items.FindByValue(mm.Nav_PID.ToString());
-            if (liNav != null)
+            if (!string.IsNullOrWhiteSpace(mm.Nav_PID))
             {
-                ddlTree.SelectedIndex = -1;
-                liNav.Selected = true;
+                ListItem liNav = ddlTree.Items.FindByValue(mm.Nav_PID);
+                if (liNav != null)
+                {
+                    ddlTree.SelectedIndex = -1;
+                    liNav.Selected = true;
+                }
             }
             tbUrl.Text = mm.Nav_Url;
             //链接打开方式
@@ -113,7 +116,7 @@ namespace Song.Site.Manage.Admin
             mm.Nav_Name = tbName.Text.Trim();
             //mm.Nav_EnName = tbEnName.Text.Trim();
             //上级导航
-            mm.Nav_PID = Convert.ToInt32(ddlTree.SelectedValue);
+            mm.Nav_PID = ddlTree.SelectedValue;
             //导航地址
             mm.Nav_Url = tbUrl.Text.Trim();
             //链接打开方式
