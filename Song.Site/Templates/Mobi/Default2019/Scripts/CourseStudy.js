@@ -581,6 +581,7 @@ Vue.component('videoplayer', {
 			window.setInterval(function () {
 				var video = document.querySelector("video");
 				if (video == null) return;
+				video.setAttribute("type", "video/mp4");
 				if (!$().isWeixin()) {
 					video.setAttribute("x5-playsinline", "true");
 					video.setAttribute("playsinline", "true");
@@ -593,6 +594,7 @@ Vue.component('videoplayer', {
 					video.setAttribute("x-webkit-airplay", true);
 					video.setAttribute("x5-video-player-type", "h5");
 				}
+				
 			}, 3000);
 			//给video对象增加属性
 			var video = document.querySelector("video");
@@ -648,7 +650,7 @@ Vue.component('videoplayer', {
 			v-if='state.outerVideo && state.otherVideo && !state.isLive' :src='state.urlVideo'\
 			allowscriptaccess='always' allowfullscreen='true' wmode='opaque' allowtransparency='true'\
 			frameborder='0' type='application/x-shockwave-flash'></iframe>\
-			<div id='videoinfo' v-if='!state.otherVideo && !state.isLive' style='display: none;'>\
+			<div id='videoinfo' v-if='!state.otherVideo && !state.isLive' style='display: none5;'>\
 				<span style='display: none'>视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>\
 				<span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>\
 				<span style='cursor: pointer' v-on:click='videoSeek(video.playhistime)'>上次播放到{{video.playhistime}}秒</span>\
