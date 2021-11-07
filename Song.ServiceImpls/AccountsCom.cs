@@ -240,8 +240,8 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         private string _checkMobile(string number)
         {
-            number = number.Replace(" ", "").ToLower();
             if (string.IsNullOrWhiteSpace(number)) return number;
+            number = number.Replace(" ", "").ToLower();          
             bool ispass = System.Text.RegularExpressions.Regex.IsMatch(number, @"^[0-9]*$");
             if (!ispass) throw new Exception("手机号仅限数字");
             return number;
@@ -253,8 +253,8 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         private string _checkName(string name)
         {
-            name = name.Replace(" ", "");
             if (string.IsNullOrWhiteSpace(name)) return name;
+            name = name.Replace(" ", "");         
             if (name.Length > 50)
                 throw new Exception("名字最长不得超过50个字符");
             //逐字判断

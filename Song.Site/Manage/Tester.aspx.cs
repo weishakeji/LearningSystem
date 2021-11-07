@@ -26,15 +26,28 @@ namespace Song.Site.Manage
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            //ÊÇ²»ÊÇiPad
-            isiPad.Text = WeiSha.Common.Browser.IsIPad.ToString();
-            isMobile.Text = WeiSha.Common.Browser.IsMobile.ToString();
-            isPhone.Text = WeiSha.Common.Browser.IsIPhone.ToString();
-            lbOs.Text = WeiSha.Common.Browser.MobileOS;
+            List<Song.Entities.Course> cour = Business.Do<ICourse>().CourseAll(-1, -1, -1, true);
 
-            System.Web.HttpContext _context = System.Web.HttpContext.Current;
-            string u = _context.Request.ServerVariables["HTTP_USER_AGENT"];
-            lbUseagent.Text = u;
+            Song.Entities.Course[] arr = cour.ToArray();
+
+
+            object value = cour;
+            //Type type = value.GetType();
+            //Array array = (Array)value;
+            //for (int i = 0; i < array.Length; i++)
+            //{
+            //    int ii = i;
+            //    object o = array.GetValue(i);
+
+            //    Song.Entities.Course c = (Song.Entities.Course)o;
+            //}
+
+            System.Collections.IList list = (System.Collections.IList)value;
+            for (int i = 0; i < list.Count; i++)
+            {
+                object o = list[i];
+                Song.Entities.Course c = (Song.Entities.Course)o;
+            }
         }
 
     }
