@@ -48,12 +48,14 @@ namespace Song.ServiceInterfaces
         /// 所有设置项数量
         /// </summary>
         /// <param name="orgid">机构id</param>
+        /// <param name="isEnable"></param>
         /// <returns></returns>
         int RechargeSetOfCount(int orgid, bool? isEnable);
         /// <summary>
         /// 分页获取充值码设置项
         /// </summary>
         /// <param name="orgid"></param>
+        /// <param name="isEnable"></param>
         /// <param name="isUse"></param>
         /// <param name="searTxt"></param>
         /// <param name="size"></param>

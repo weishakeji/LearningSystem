@@ -296,6 +296,25 @@ namespace Song.Site.Manage.Utility
             return workbook;
         }
         /// <summary>
+        /// 创建行
+        /// </summary>
+        /// <param name="xlsFile"></param>
+        /// <param name="row"></param>
+        /// <returns></returns>
+        private IRow createRow(string xlsFile, object obj)
+        {
+            //创建工作薄对象
+            IRow row = null;
+            using (FileStream file = new FileStream(xlsFile, FileMode.Open, FileAccess.Read))
+            {
+                //根据扩展名判断excel版本
+                string ext = xlsFile.Substring(xlsFile.LastIndexOf(".") + 1);
+                if (ext.ToLower() == "xls") row = (HSSFRow)obj;
+                if (ext.ToLower() == "xlsx") row = (XSSFRow)obj;
+            }
+            return row;
+        }
+        /// <summary>
         /// 从Excel中读取一个工作薄，生成Datatable对象。
         /// </summary>
         /// <param name="xlsFile"></param>
@@ -312,7 +331,7 @@ namespace Song.Site.Manage.Utility
             {
                 rows.MoveNext();
                 //创建Datatable结构
-                HSSFRow firsRow = (HSSFRow)rows.Current;
+                IRow firsRow = createRow(xlsFile, rows.Current);
                 for (int i = 0; i < firsRow.LastCellNum; i++)
                 {
                     ICell cell = firsRow.GetCell(i);
@@ -322,7 +341,7 @@ namespace Song.Site.Manage.Utility
                 //导入工作薄的数据
                 while (rows.MoveNext())
                 {
-                    HSSFRow row = (HSSFRow)rows.Current;
+                    IRow row = createRow(xlsFile, rows.Current);
                     DataRow dr = dt.NewRow();
                     for (int i = 0; i < dt.Columns.Count; i++)
                     {
@@ -360,7 +379,7 @@ namespace Song.Site.Manage.Utility
                     dt.Rows.Add(dr);
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 return dt;
             }

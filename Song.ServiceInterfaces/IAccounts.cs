@@ -468,7 +468,7 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         CouponAccount[] CouponPager(int orgid, int stid, int type, int size, int index, out int countSum);
-        CouponAccount[] CouponPager(int orgid, int stid, int type, DateTime? start, DateTime? end,int size, int index, out int countSum);
+        CouponAccount[] CouponPager(int orgid, int stid, int type, DateTime? start, DateTime? end, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取所有的公告；
         /// </summary>
