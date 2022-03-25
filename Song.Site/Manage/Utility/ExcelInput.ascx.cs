@@ -25,9 +25,7 @@ namespace Song.Site.Manage.Utility
         #region 属性，事件
         public event EventHandler Input;
         //文档上传后的临时存放路径
-        private string _tempPathConfig = "Temp";
-        //Excel链接字符串
-        string connStr = "Provider=Microsoft.Ace.OleDb.12.0;data source={0};Extended Properties='Excel 12.0; HDR=NO; IMEX=1'";
+        private string _tempPathConfig = "Temp";      
         /// <summary>
         /// 数据模板的名称
         /// </summary>
