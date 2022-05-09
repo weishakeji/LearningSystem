@@ -72,7 +72,7 @@
   <vt:if var="ques.Length" value="0" compare=">">
     <vt:foreach id="ques" from="$#.ques" item="q" index="i" remark="试题">
       <vt:function var="IsCollect" method="IsCollect" args="$#.q.qus_id"/>
-      <vt:expression var="qindex" args="$i" args="$index" expression="{0}+{1}-1" />
+      <vt:expression var="qindex" args="$i" args="$index" expression="{0}+{1}" />
       <div class="quesItem" qid="{$:#.q.qus_id}" index="{$:i}" IsCollect="{$:#.IsCollect}" type="{$:#.q.qus_type}">
         <div class="quesBox"> 
           <!--试题的题干 -->

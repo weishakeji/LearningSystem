@@ -23,6 +23,8 @@ namespace Song.Extend
             qs.Qus_Explain = _tran(qs.Qus_Explain);
             qs.Qus_Answer = _ClearAttr(qs.Qus_Answer, new string[] { "p", "span", "pre", "font" });
             //qs.Qus_Answer = _tranAnswer(qs.Qus_Answer);
+            if (!string.IsNullOrWhiteSpace(qs.Qus_Items))
+                qs.Qus_Items = qs.Qus_Items.Replace("&apos;", "");
             return qs;
         }
         public static Song.Entities.QuesAnswer TranText(Song.Entities.QuesAnswer qa)

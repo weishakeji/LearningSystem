@@ -3,10 +3,10 @@
     subjectEvent(); 	//各种选择按钮的事件
     setButtonEvent();
     _quesSelectEvent();
-	//折叠选择区域
-	$("#btnShow").click(function(){
-		$("#subject").toggle();
-	});
+    //折叠选择区域
+    $("#btnShow").click(function () {
+        $("#subject").toggle();
+    });
 });
 
 
@@ -60,7 +60,17 @@ function selectedInit() {
         var url = buildUrl($(this).attr("attr"), null, clear);
         window.document.location.href = url;
     });
-
+    //处理Img中的单引号
+    $("img").each(function (index, val) {
+        var img = $(val);
+        var src = img.attr("src");
+        if (src.length > 1 && src.substring(0, 1) == "'")
+            src = src.substring(1);
+        //var tt = src.substring(src.length - 2);
+        if (src.length >= 2 && src.substring(src.length - 2) == "'/")
+            src = src.substring(0, src.length - 2);
+        img.attr("src", src);
+    });
 }
 //当前地址，根据参数生成地址
 function buildUrl(attr, val, clear) {
@@ -295,9 +305,9 @@ function quesEventType5(ansItem) {
                 if (correct != ansInput) {
                     iscorrect = false;
                     return false;
-                }else{
-					tm= true;
-				}
+                } else {
+                    tm = true;
+                }
             }
             if (!tm) {
                 iscorrect = false;

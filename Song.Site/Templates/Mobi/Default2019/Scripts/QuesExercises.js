@@ -72,6 +72,17 @@ window.loadEvent.push(function () {
     });
     //左右滑动切换试题
     finger.init();
+     //处理Img中的单引号
+     $("img").each(function (index, val) {
+        var img = $(val);
+        var src = img.attr("src");
+        if (src.length > 1 && src.substring(0, 1) == "'")
+            src = src.substring(1);
+        //var tt = src.substring(src.length - 2);
+        if (src.length >= 2 && src.substring(src.length - 2) == "'/")
+            src = src.substring(0, src.length - 2);
+        img.attr("src", src);
+    });
 });
 //更新本地试题的按钮事件
 window.loadEvent.push(function () {
