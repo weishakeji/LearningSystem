@@ -1,0 +1,47 @@
+﻿@charset "utf-8";
+
+html, body, #vapp {
+	overflow: hidden;
+	background-color: #fff;
+}
+
+.el-form {
+	height: calc(100% - 20px - 90px);
+	width: calc(100% - 20px);
+	padding-right: 10px;
+	overflow-y: auto;
+	box-sizing: border-box;
+}
+
+.el-tabs {
+	--height: 100%;
+}
+
+.el-tabs--border-card {
+	box-shadow: none;
+	border: none;
+}
+
+.el-tabs__content {
+	display: none;
+}
+
+.el-row .el-input {
+	margin-bottom: 5px;
+}
+
+/*底部按钮区*/
+#footer-box {
+	background-color: #fff;
+	height: 50px;
+	text-align: right;
+	padding: 10px 10px 0px 10px;
+	box-sizing: border-box;
+	position: relative;
+}
+
+#footer-box .el-tag {
+	position: absolute;
+	left: 10px;
+	top: 15px;
+}

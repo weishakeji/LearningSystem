@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="inc/meta.inc" />   
+    <title>联系我们</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <context>
+            <van-sticky>
+                <page_header title="联系我们" icon="&#xe766" :fresh="false"></page_header>
+            </van-sticky>
+            <div class="platform">
+                <img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />
+                <img src="Images/def_logo.gif" style="height: 32px;" class="logo" v-else />
+                <div v-html="organ.Org_PlatformName" class="platinfo"></div>
+            </div>
+            <van-cell-group :title="organ.Org_Name">
+                <van-cell title="电话" :value="organ.Org_Phone"></van-cell>
+                <van-cell title="传真" :value="organ.Org_Fax"></van-cell>
+                <van-cell title="Email" :value="organ.Org_Email"></van-cell>
+                <van-cell title="邮编" :value="organ.Org_Zip"></van-cell>
+                <van-cell title="地址" :label="organ.Org_Address"></van-cell>
+                <van-cell>
+                    <baidu-map class="map" :center="center" :zoom="15" @ready="handler">
+                        <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>
+                        <bm-view class="bm-view"></bm-view>
+                        <bm-marker :position="center" :dragging="true" animation="BMAP_ANIMATION_BOUNCE"></bm-marker>
+
+                    </baidu-map>
+                </van-cell>
+            </van-cell-group>
+            <baidumap></baidumap>
+
+
+
+
+        </context>
+    </div>
+
+    <div id="map">
+
+    </div>
+
+
+</body>
+
+</html>

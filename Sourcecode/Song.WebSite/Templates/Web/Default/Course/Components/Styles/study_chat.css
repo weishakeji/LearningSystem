@@ -1,0 +1,177 @@
+/*交流咨询*/
+#study_chat {
+    line-height: 30px;
+    font-size: 14px;
+    overflow: auto;
+    height: calc(100% - 60px - 10px);
+    width: 100%;
+    box-sizing: border-box;
+    margin: 10px 0px;
+    position: relative;
+}
+
+dl#chatlist {
+    height: calc(100% - 40px);
+    width: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+dl#chatlist dd {
+    color: #eee;
+    border-radius: 10px;
+    text-align: left;
+    margin: 10px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 2px #666;
+    display: flex;
+    flex-direction: column;
+    word-break: break-all; 
+}
+
+#chatlist dd>div:first-child {
+   display: flex;
+}
+
+#chatlist dd acc {
+    display: block;
+    position: relative;
+}
+
+#chatlist dd del {
+    color: red;
+    font-size: 14px;
+    text-decoration-line: none;
+    cursor: pointer;
+}
+
+#chatlist dd msg {
+    display: block;
+    color: #ccc;
+}
+
+#chatlist dd date {
+    display: block;
+    color: #444;
+    font-size: 10px;
+    text-align: right;
+    flex: 1;
+}
+
+#chatlist dd i {
+    padding-right: 5px;
+    font-size: 16px;
+}
+
+/*输入框*/
+.chatbox {
+    background-color: #666;
+    height: 40px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.chatbox .switch {
+    background-color: #fff;
+    display: block;
+    height: 24px;
+    width: 35px;
+    line-height: 24px;
+    font-size: 8px;
+    border-radius: 12px;
+    position: absolute;
+    cursor: pointer;
+    top: 8px;
+    left: 6px;
+    transition: text-align .6s;
+}
+
+.chatbox .switch:before {
+    content: "弹";
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    border-radius: 10px;
+    margin: 2px 0px 2px 0px;
+    margin-right: 5px;
+    font-size: 8px;
+    position: absolute;
+    z-index: 2;
+    color: #fff;
+    left: 2px;
+    background-color: #333;
+    transition: left .6s;
+}
+
+.chatbox .switch:after {
+    content: " ";
+    width: 33px;
+    height: 22px;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1;
+    left: 1px;
+    margin: 1px 0px 1px 0px;
+    background-color: #999;
+    transition: background-color .6s;
+}
+
+.chatbox .switch-on {
+    background-color: #FFFF99;
+}
+
+.chatbox .switch-on:before {
+    left: 12px;
+    background-color: #360;
+}
+
+.chatbox .switch-on:after {
+    background-color: #6F6;
+}
+
+.chatbox .msgbox {
+    flex: 1;
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chatbox .msgbox input {
+    height: 22px;
+    width: calc(100% - 50px);
+    line-height: 20px;
+    border: none;
+}
+
+.chatbox .msgbox>div#btnMessage {
+    background-color: #999;
+    width: 50px;
+    height: 24px;
+    border-radius: 0px 3px 3px 0px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.chatbox .msgbox>div#btnMessage:hover {
+    background-color: #F93;
+}
+
+.subtitle {
+    padding-left: 45px;
+}
+
+.chatbox loading {
+    color: #999;
+    float: right;
+    display: block;
+}

@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>平台信息</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+
+    <div id="app" v-cloak>
+        <el-card shadow="hover">
+            <div slot="header" class="clearfix">
+                <span class="weisha_icon" icon="&#xa038">平台名称</span>
+                <el-button type="primary" native-type="submit" style="float: right; padding: 5px 10px"
+                    v-loading="loading" @click="btnEnter('platinfo')">保存设置</el-button>
+
+            </div>
+            <el-form ref="platinfo" :model="platinfo" :rules="rules" @submit.native.prevent label-width="80px">
+                <el-form-item label="平台名称" prop="title">
+                    <el-input v-model="platinfo.title" @keyup.enter.native="btnEnter('platinfo')"
+                        :style="{width: '100%'}"></el-input>
+
+                    </span>
+                </el-form-item>
+                <el-form-item label="描述" prop="intro">
+                    <el-input v-model="platinfo.intro" type="textarea" placeholder="请输入描述"
+                        :autosize="{minRows: 4, maxRows: 4}" :style="{width: '100%'}"></el-input>
+                </el-form-item>
+            </el-form>
+        </el-card>
+
+        <el-card shadow="hover">
+            <div slot="header" class="clearfix">
+                <span class="weisha_icon" icon="&#xa038">多机构平台设置</span>
+                <el-button type="primary" native-type="submit" style="float: right; padding: 5px 10px"
+                    v-loading="loading" @click="btnMultiOrgan">保存设置</el-button>
+
+            </div>
+            <el-form ref="platinfo" :model="platinfo" :rules="rules" @submit.native.prevent label-width="80px">
+                <template>
+                    <div>
+                        <el-radio v-model="MultiOrgan" label="0">启用多机构</el-radio>
+                        <p>当前系统支持多机构入驻，不同机构可以设置不同二级域名</p>
+                    </div>
+                    <div>
+                        <el-radio v-model="MultiOrgan" label="1">采用单机构</el-radio>
+                        <p>只采用默认机构作为唯一机构，不再受跨域问题影响</p>
+                    </div>
+
+
+
+                </template>
+                <el-alert title=" （注意：此处勿轻易切换，会导致用户登录与注销的异常情况，用户需清空浏览器缓存）" type="warning"></el-alert>
+            </el-form>
+        </el-card>
+    </div>
+
+
+</body>
+
+</html>

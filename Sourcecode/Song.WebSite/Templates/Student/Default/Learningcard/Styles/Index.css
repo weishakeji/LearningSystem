@@ -1,0 +1,113 @@
+﻿@charset "utf-8";
+
+/*没有学习卡的引导效果*/
+.non-existent {
+    margin: 20px 60px;
+    height: 120px;
+    box-sizing: border-box;
+    font-size: 18px;
+    color: #aaa;
+    text-align: left;
+    position: relative;
+}
+
+.non-existent icon {
+    font-size: 80px;
+    transform: rotateY(180deg);
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.non-existent span {
+    display: block;
+    position: absolute;
+    bottom: 0px;
+    left: 100px;
+}
+
+/*使用学习卡*/
+.useCardShow {
+    box-sizing: border-box;
+    height: auto !important;
+}
+
+.useCardShow .el-drawer__body {
+
+    box-sizing: border-box;
+    padding: 0px 40px 20px 20px;
+}
+
+.card_input {
+    font-size: 18px;
+}
+
+.card_input icon {
+    font-size: 30px;
+    line-height: 50px;
+    margin-left: 8px;
+    display: block;
+}
+
+.card_input input.el-input__inner {
+    font-size: 20px;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 50px;
+}
+
+/*列表中的样式*/
+.row_code {
+    font-size: 18px;
+    line-height: 30px;
+}
+
+/*卡片详情*/
+.detailShow {
+    width: 50% !important;
+}
+
+.detailShow .el-drawer__body {
+    box-sizing: border-box;
+    padding: 0px 20px 20px 20px;
+}
+
+.detail>div {
+    padding: 5px 0px;
+}
+
+.detail>div::before {
+    content: attr(title) ' ：  ';
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+
+}
+
+.detail card {
+    margin: 10px 0px;
+    display: block;
+}
+
+.detail card-title {
+    display: block;
+    padding: 5px 0px;
+}
+
+.detail card-context {
+    display: block;
+    padding: 5px 0px 5px 30px;
+    box-sizing: border-box;
+}
+
+.detail card-context>a {
+    padding: 5px 0px;
+    font-size: 14px;
+    line-height: 20px;
+    display: block;
+}
+
+.detail card-context>a:hover {
+    text-decoration: underline;
+}

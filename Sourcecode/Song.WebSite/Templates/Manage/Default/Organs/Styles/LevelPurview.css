@@ -1,0 +1,46 @@
+﻿@charset "utf-8";
+#app {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.tree_area {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    margin: 0px;
+    padding: 0px;
+}
+
+.tree_area>div {
+    flex: 1;
+    float: left;
+    height: calc(100% - 70px);
+    margin: 10px 10px 10px 0px;
+}
+.tree_area>div:first-child{
+    margin: 10px 10px 10px 10px;
+}
+.tree_area>div .el-card__body {
+    overflow-y: auto;
+    height: calc(100% - 80px);
+    padding: 10px;
+    margin-right: 3px;
+}
+
+.custom-tree-node{
+    font-size: 14px;
+}
+.tree-node[color] {
+    color: attr(color);
+}
+
+.tree-node[bold=true] {
+    font-weight: bold;
+}
+
+.tree-node[italic=true] {
+    font-style: italic;
+}

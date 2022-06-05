@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type='text/xsl' href='/Utilities/Copyright.xsl'?>
+<Copyright>
+  <company remark="公司全称" type="text" fixed="true"><![CDATA[郑州微厦计算机科技有限公司]]></company>
+  <abbr remark="公司简称" type="text" fixed="true"><![CDATA[微厦科技]]></abbr>
+  <website remark="公司官方网站" type="link" fixed="false"><![CDATA[http://www.weishakeji.net]]></website>
+  <readme remark="版权信息的说明" type="multi" fixed="true"><![CDATA[摘要：产品中所有涉及版权信息的内容都在这里设置，其目的是方便代理商销售。<br/>
+说明：<br/>
+1、版权信息的文件在系统根文件夹下的Copyright.weisha；<br/>
+2、可以手动更改Copyright.weisha内容，也可以通过超级管理员在“版权信息”中修改；<br/>
+3、页面的Html源码中的&lt;meta powerby="..."/&gt;，也是来源于Copyright.weisha文件中的powerby项目；
+    ]]></readme>
+  <edition remark="版本名称" type="text" fixed="true"><![CDATA[大客户版（版本名称可以自定义）]]></edition>
+  <product remark="产品名称" type="text" fixed="true"><![CDATA[微厦在线学习系统]]></product>
+  <intro remark="产品介绍，简述" type="multi" fixed="false"><![CDATA[《微厦在线学习云服务平台》是一款集在线学习、课程练习、模拟测试、在线考试等为一体的云服务平台，支持电脑、手机、微信；支持多机构入驻；支持风格多变。]]></intro>
+  <detail remark="产品介绍，详述" type="multi" fixed="false"><![CDATA[《微厦在线学习云服务平台》是一款基于B/S架构的在线教育系统，将“在线视频学习、在线试题练习、在线同步考试”紧密相联，打造“学、练、考”于一体的在线教育系统，能够利用电脑、手机、微信等多种设备进行学习，方便学员利用碎片化时间进行随时随地的学习。并带有“分享、分润、分销”的辅助功能，对于平台推广、课程销售起到非常有效的帮助。]]></detail>
+  <github remark="开源地址" type="link" fixed="true"><![CDATA[https://github.com/weishakeji/LearningSystem]]></github>
+  <gitee remark="国内源码镜像" type="link" fixed="false"><![CDATA[https://gitee.com/weishakeji/LearningSystem]]></gitee>  
+  <domain remark="域名" type="text" fixed="false"><![CDATA[www.weishakeji.net]]></domain>
+  <address remark="办公地址" type="text" fixed="false"><![CDATA[河南郑州市郑东新区相济路与文苑南路交汇处河南省大中专学生就业服务中心 4楼B427]]></address>
+  <title remark="宣传口号" type="text" fixed="false"><![CDATA[微厦科技，专注在线教育系统开发！]]></title>
+  <powerby remark="版权所有" type="text" fixed="true"><![CDATA[www.weishakeji.net]]></powerby>
+  <tel remark="业务电话" type="text" fixed="false"><![CDATA[400 6015 615]]></tel>
+  <telphone remark="联系电话" type="text" fixed="true"><![CDATA[18037155753]]></telphone>
+  <email remark="电子邮箱" type="text" fixed="false"><![CDATA[10522779@qq.com]]></email>
+  <logo remark="公司Logo" type="image" fixed="false"><![CDATA[data:image/gif;base64,R0lGODlhTgAtAOZRACAbGB4aFx8ZGeZ7EyAbGk5KSk1JSCMbGCEZFyIZGiAYFRsXFExIRyIjJul2FOV4GRkVEiEcGBwYFSEdHCEZFiIdGU5ISktJSCIeGx4ZFVFMTExKSyQgHkZDQh0WFR4YGEpGR0tHRklFRSEdGhsWEx0ZGCQeHE5LTBsZGB0cGSAbF09LSB4aGxsXFhwVEhYTESEYGU1MShwYFyAaGikZEyciIBwbF0xLSeB5INx6JhwYGSUbHFJOThwaGyIcFSEeGU5ISBsTEURBP998HSAXGCEXFed+Hh0cIlZTUut3DR4dHCQZGScfHSQcGhwbGR4ZFh8aF////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH/C1hNUCBEYXRhWE1QPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS4zLWMwMTEgNjYuMTQ1NjYxLCAyMDEyLzAyLzA2LTE0OjU2OjI3ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpEMUVGNUM0MzI5OEExMUU3QjJDMEY5RDc1QkQwNjE5OSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpEMUVGNUM0NDI5OEExMUU3QjJDMEY5RDc1QkQwNjE5OSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkQxRUY1QzQxMjk4QTExRTdCMkMwRjlENzVCRDA2MTk5IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkQxRUY1QzQyMjk4QTExRTdCMkMwRjlENzVCRDA2MTk5Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+Af/+/fz7+vn49/b19PPy8fDv7u3s6+rp6Ofm5eTj4uHg397d3Nva2djX1tXU09LR0M/OzczLysnIx8bFxMPCwcC/vr28u7q5uLe2tbSzsrGwr66trKuqqainpqWko6KhoJ+enZybmpmYl5aVlJOSkZCPjo2Mi4qJiIeGhYSDgoGAf359fHt6eXh3dnV0c3JxcG9ubWxramloZ2ZlZGNiYWBfXl1cW1pZWFdWVVRTUlFQT05NTEtKSUhHRkVEQ0JBQD8+PTw7Ojk4NzY1NDMyMTAvLi0sKyopKCcmJSQjIiEgHx4dHBsaGRgXFhUUExIREA8ODQwLCgkIBwYFBAMCAQAAIfkEAQAAUQAsAAAAAE4ALQAAB/+AUYKDhIWGh4iJiouMjYJQUACOk5SET4UUUImXghVPnJCSgh8KE48skKmqq6ytmYUcUAgKoqaCr4gKg08BB4+RgwgIP48BARgBBMrLzM3OzCmHCzKDI03UuIeiUU/AUaGDAlC2UAGalZUIBIWX2YUA292i4ILi5ObokxIQUAsZnIPc7YI0cJ63KPaKnWvFsOG2QuoEvbAVRWCUIAsOdlvya1vCb/gOmYDkIR8hGzB2ceBQ8RwhAPIKdgw3TiEiflBImBQUwRzAKChaFlIVLyeBCakwoIjwsdy5XgcSSM0IJQIAAlKzas3qRBoACBIMCewHCSAEIgrSql37RIlNhFD/xAEIcISGjwN48+rdS8OQi2/RDEn4OaImlJ+TnNaL63LnoJIIAnP4UOKDBwQSPvTguRCxI8VwxTm2JCjyoQo6B1UYdFhQg9ewY8t+K060oBxJHujezbs3DkQRDSFoTLF1FHjIkyc/ACpkbZcDhgyYTr269RyIoKwzVC57WHSgn482tCCoYBunoZTIF57xeMdQRppsbzvKABwO8uvfz9/I+G4EEWIOQwEQQh901iWY4HgDNvaNAAh8kAoKNQRIW1yevdcIgBY+AmEhGXRI3ycklmjiiZ8c8sIMhkzQgiElqDJUfYKE2NiBDeXY4S4IiFUDdzCkMtSOABq4o4aCuKBA/wa+GGMMBLwYM0gAODkopCUiHolkFAuwVEgEERhyyZWsEWkhPwIUGEUAKLbp5iEBsPjlCGJ+syOZgnTz3RMAIMBCmTrqmKEACXAHZYpGOjicgxlkQNNggvADDzpPZDQoE6QNEgFieEaxKDuDUAXBI8N5SYkMqXjmAQa05PnTVUM2BsGnmUaBQSacIHBAay0sUGIiLiBQRKqGeFDBeoIwN+VDvzQ2ki+IdBOkIIVBMSpPhT2BAImERLCrBADooIgEKhBCwmpchhlrt1CUdEilUBSaZ1nskMjKr4tAUe4uOrWg5rqCmACAg4TQIgAnVBFsIAICNHwYt4sEsO8gCuzwHf93FkKywE2QYJCnBActYi8kEQzmcXaNPVEBBpVuOZpy8JTz5zvX8vKCahn86/LOgqgQT7Q8By300EQXbfTRSGsgiAUgDKJ0FCcYUMDUgmxQiAYWZG1B1YRcUMAgHRgQwiEGCNKBCIOIPfXXhVwgiNtpC8JAFE1TDbUhZQ9ywtyFWJ0221GgHcMhVndQyAmK5M2301F8/bXhgsSw9gqC5D3IBRYwIATbDBTAAAM8SC1IAU1vAATeFoxNSNhT34C33IWIkHcIDFgOeNyIiOC25VGI3rsIU0NOCN9wv63I04sPAjjvkn/ON++Nr42EIJQPcgPlyfdeiOWq062BAeATskEG07AjbX4gADs=]]></logo>
+  <weixin remark="微信公众号" type="text" fixed="false"><![CDATA[Weishakeji]]></weixin>
+  <weixinqr remark="微信二维码地址" type="image" fixed="false"><![CDATA[/Utilities/Images/weixin.jpg]]></weixinqr>
+  <taobao remark="淘宝店地址" type="link" fixed="false"><![CDATA[https://shop35387540.taobao.com/]]></taobao>
+</Copyright>

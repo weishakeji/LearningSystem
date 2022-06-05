@@ -1,0 +1,23 @@
+.outlinelist {
+    background-color: #fff;
+    text-align: left;
+}
+
+.outlinelist .outlinelist {
+    margin-left: 20px;
+}
+.outline_row{
+    width: 100%;
+    box-sizing: border-box;  
+    padding: 5px 0px;
+    position: relative;
+}
+.outline_row>div:first-child{
+    width: calc(100% - 160px);  
+}
+.outline_row .tag{
+    display: block;
+    position: absolute;
+    right: 0px;
+    top: 3px;
+}

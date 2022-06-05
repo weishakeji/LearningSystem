@@ -1,0 +1,7 @@
+.outlinelist {
+    background-color: #fff;
+}
+
+.outlinelist .outlinelist {
+    margin-left: 20px;
+}

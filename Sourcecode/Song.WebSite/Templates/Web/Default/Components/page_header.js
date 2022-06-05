@@ -1,0 +1,216 @@
+﻿
+//顶部导航
+Vue.component('page_header', {
+    props: ["organ"],
+    data: function () {
+        return {
+            show: false,
+            path: $dom.path(),   //模板路径
+            menus: [],        //导航菜单
+
+            search: $api.querystring("search"),      //搜索字符
+            //登录相关
+            loading_login: true,        //请求登录中
+            account: {},        //当前登录的学员账号
+            teacher: {},         //当前登录的教师账号
+
+            visible_userdrop: false,     //用户登录后的菜单面板的显示与隐藏
+
+            error: [],       //错误信息
+            loading: false
+        }
+    },
+    watch: {
+        'organ': {
+            handler: function (nv, ov) {
+                this.$nextTick(function () {
+                    $dom("header img.logo").bind('load,error', function (event) {
+                        var node = event.target ? event.target : event.srcElement;
+                        var img = $dom(node);
+                        var rightWh = $dom("header").width() - img.width() - parseInt(img.css("margin-left")) * 2;
+                        img.next().width(rightWh);
+                        img.width(img.width());
+                    });
+                });
+                this.getnavi();
+            }, immediate: true
+        },
+        'menus': {
+            handler: function (nv, ov) {
+                this.$nextTick(function () {
+                    //$dom(".menubar").text('ddd');
+                    window.usermenu = window.$dropmenu.create({
+                        target: '#menubar',
+                        plwidth: 180,
+                        height: 40,
+                        level: 40000
+                    }).onclick(this.menuClick);
+                    window.usermenu.add(this.nodeconvert(nv));
+                });
+            }, immediate: true
+        },
+        'account': {
+            handler: function (nv, ov) {
+                //if (nv != null && JSON.stringify(nv) != '{}') this.$emit('login', nv);
+            }, immediate: true, deep: true
+        },
+        'search': {
+            handler: function (nv, ov) {
+                //this.$emit('search', nv);
+            }, immediate: true
+        }
+    },
+    computed: {
+        //是否登录
+        islogin: function () {
+            return JSON.stringify(this.account) != '{}' && this.account != null;
+        },
+        //是否存在教师角色
+        isteacher: function () {
+            return JSON.stringify(this.teacher) != '{}' && this.teacher != null;
+        }
+    },
+    mounted: function () {
+        $dom.load.css([$dom.path() + 'Components/Styles/page_header.css']);
+        var th = this;
+        //学员登录
+        th.loading_login = true;
+        $api.login.account().then(function (acc) {
+            th.account = acc;
+            th.$emit('login', th.account);
+            th.loading_login = false;
+            $api.login.account_fresh();
+        }).catch((err) => {
+            console.log(err);
+            th.loading_login = false;
+        });
+        //教师登录
+        $api.login.teacher().then(function (teach) {
+            th.teacher = teach;
+            th.$emit('teacher', th.teacher);
+        }).catch((err) => { });
+        //搜索事件
+        this.$emit('search', this.search);
+    },
+    methods: {
+        //获取导航菜单
+        getnavi: function () {
+            if (!(this.organ && this.organ.Org_ID)) return;
+            var th = this;
+            $api.get('Navig/web', { 'orgid': this.organ.Org_ID, 'type': 'main' }).then(function (req) {
+                if (req.data.success) {
+                    th.menus = req.data.result;
+                    //console.log(th.menus);
+                } else {
+                    console.error(req.data.exception);
+                    throw req.data.message;
+                }
+            }).catch(function (err) {
+                th.error.push(err);
+                console.error(err);
+            });
+        },
+        //导航菜单的点击事件
+        menuClick: function (sender, eventArgs) {
+            var data = eventArgs.data;
+            if (!data || data.url == '') return;
+            window.location.href = data.url;
+            //console.log(data);
+        },
+        //节点转换
+        nodeconvert: function (obj) {
+            var result = '';
+            if (typeof (obj) != 'string')
+                result = JSON.stringify(obj);
+            //result = result.replace(/MM_WinID/g, "id");
+            result = result.replace(/Nav_Name/g, "title");
+            result = result.replace(/Nav_Name/g, "tit");
+            result = result.replace(/Nav_Icon/g, "ico");
+            result = result.replace(/children/g, "childs");
+            result = result.replace(/Nav_Url/g, "url");
+            return JSON.parse(result);
+        },
+        //搜索框的事件
+        gosearch: function () {
+            var str = encodeURIComponent(this.search);
+            var path = "/web/course/index";
+            var route = $dom('meta[view]').attr("route");
+            //如果正处在课程频道页
+            //var func=path == route ? $api.setpara
+            var url = $api.url.set(path == route ? null : path, 'search', str);
+            if (path == route) {
+                history.pushState({}, "", url);
+                this.$emit('search', this.search);
+            } else {
+                window.location.href = url;
+            }
+            //console.log(route);
+        },
+        //搜索字符串被改变
+        changesearch: function (str) {
+            this.search = str;
+            this.gosearch();
+        },
+        //右上角下拉菜单的事件
+        handleCommand: function (command) {
+            if (command == 'logout') return this.logout();
+            if (command == 'money') {
+                window.location.href = '/web/account?uid=f4c2e87c58a014d0eaaed7ba1a459314';
+            } else {
+                window.location.href = command;
+            }
+
+        },
+        //退出登录
+        logout: function () {
+            this.$confirm('是否确定退出登录？').then(function () {
+                $api.loginstatus('account', '');
+                this.account = {};
+                window.setTimeout(function () {
+                    window.location.href = '/web/';
+                }, 500);
+            }).catch(function () { });
+        },
+    },
+    // 同样也可以在 vm 实例中像 "this.message" 这样使用
+    template: `<weisha_header_navi>
+        <header v-if="organ && JSON.stringify(organ) != '{}'">
+            <a href="/"><img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />
+            <img :src="path+'Images/def_logo.gif'" style="height: 32px;" class="logo deflogo" v-else />
+            </a>
+            <right>
+                <search>
+                    <input type="text" name="fname" v-model.trim="search" placeholder="请输入查询" @keyup.enter="gosearch()"></input>
+                    <icon @click="gosearch()">&#xe63b</icon>
+                </search>
+                <userbar>
+                    <loading v-if="loading_login">... </loading>
+                    <template v-else-if="!islogin">
+                        <a href="/web/sign/in">登录</a> | <a href="/web/sign/up">注册</a>
+                    </template>
+                    <el-dropdown v-else  @command="handleCommand" @visible-change="show=>visible_userdrop=show" show-timeout="10" remark="登录后的状态">
+                        <span :class="{'el-dropdown-link':true,'user-dropdown-show':visible_userdrop}">
+                            <img v-if="!!account.Ac_Photo && account.Ac_Photo!=''" :src="account.Ac_Photo">
+                            <template v-else>
+                                <img v-if="account.Ac_Sex==2" src="/Utilities/Images/head2.jpg" />
+                                <img v-else src="/Utilities/Images/head1.jpg" />
+                            </template>
+                            <span v-if="!!account.Ac_Name" class="acname" v-html="account.Ac_Name"></span>
+                            <span v-else class="noname">(无名)</span>
+                            <i class="el-icon-arrow-right el-icon--right"></i>
+                        </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item command="/web/account"><icon>&#xe79b</icon>个人中心</el-dropdown-item>
+                            <el-dropdown-item command="/web/teach" v-if="isteacher"><icon>&#xe650</icon>教学管理</el-dropdown-item>
+                            <el-dropdown-item command="money"><icon>&#xe81c</icon>余额: {{account.Ac_Money}} 元</el-dropdown-item>                          
+                            <el-dropdown-item divided  command="logout"><icon>&#xe739</icon>退出登录</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
+                 </userbar>
+            </right>
+        </header>
+        <span v-else v-for="(e,i) in error" >{{i+1}}.{{e}}</span>
+        <div id="menubar">           
+        </div>
+    </weisha_header_navi>`
+});

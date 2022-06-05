@@ -1,0 +1,15 @@
+﻿body {}
+
+.el-card {
+    margin: 20px;
+}
+.text{
+    line-height: 35px;
+}
+.text dl,dd{
+    margin: 0px;
+    padding: 0px;
+}
+.text dl{
+    margin-left: 40px;
+}

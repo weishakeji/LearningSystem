@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title> 批量禁用学员</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+
+        <el-tabs v-model="activeName" type="border-card">
+            <el-tab-pane label="信息录入" name="first">
+                <div class="first_intro">
+                    请在下面输入框录入学员信息，换行分隔<br />并明确录入的是：
+                    <el-radio-group v-model="search_type">
+                        <el-radio label="acc">账号</el-radio>
+                        <el-radio label="card">身份证</el-radio>
+                        <el-radio label="mobi">手机号</el-radio>
+                    </el-radio-group>
+                </div>
+                <el-input type="textarea" class="inputText" :rows="2" placeholder="请输入内容" v-model="inputText">
+                </el-input>
+            </el-tab-pane>
+            <el-tab-pane label="录入数据解析" name="second">
+                <el-table ref="datatables" :stripe="true" :data="datas" tooltip-effect="dark"
+                    style="width: 100%">
+                    <el-table-column type="index" label="#" align="center">
+                        <template slot-scope="scope">
+                            <span>{{scope.$index + 1}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="录入的信息">
+                        <template slot="header" slot-scope="scope">
+                            <span v-if="search_type=='acc'">学员账号</span>
+                            <span v-if="search_type=='card'">身份证号</span>
+                            <span v-if="search_type=='mobi'">手机号</span>
+                            <span title="总数">：{{datas.length}} 条</span>
+                        </template>
+                        <template slot-scope="scope">
+                            {{scope.row.text}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="账号查询">
+                        <template slot="header" slot-scope="scope">
+                            查询完成{{query_complete()}}条，有效{{query_valid()}}条
+                        </template>
+                        <template slot-scope="scope">
+                            <account :item="scope.row" :text="scope.row.text" :type="search_type"></account>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="帮助" name="help">
+                <span slot="label">
+                    <icon>&#xa026</icon> 操作说明
+                </span>
+                <div class="help_title">
+                    第一步：
+                </div>
+                <div class="help_intro">
+                    将学员信息录入到“信息录入”选项卡下的输入框中，录入的信息可以是学员账号、学员身份证号或手机号。
+                </div>
+                <div class="help_title">
+                    第二步：
+                </div>
+                <div class="help_intro">
+                    进入“录入数据解析”界面，可以查看学员信息的状态，是否存在、是否已经禁用。
+                </div>
+                <div class="help_title">
+                    第三步：
+                </div>
+                <div class="help_intro">
+                    点击按钮“批量禁用学员”，等待完成即可。
+                </div>
+            </el-tab-pane>
+        </el-tabs>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnBatch()">
+                <icon v-if="!loading">&#xa048</icon>批量禁用学员
+            </el-button>
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

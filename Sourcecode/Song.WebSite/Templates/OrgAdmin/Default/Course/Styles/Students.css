@@ -1,0 +1,52 @@
+﻿@charset "utf-8";
+.ws_avatar{
+	float: left;
+	margin-right: 10px;
+}
+.info {
+	color: rgb(72, 127, 210);
+}
+
+.woman{
+	color: rgb(240, 104, 117);
+}
+
+.tearch::before {
+	color: rgb(3, 167, 3);
+	margin: 0px;
+}
+.el-progress{
+	float: left;
+	margin-right: 5px;
+}
+.complete{
+	font-size: 16px;
+	margin-right: 0px;
+}
+/*成绩得分的样式*/
+.nopass{
+	color: #F56C6C;
+}
+.normal{
+	color: #333;
+}
+.fine{
+	color: #409EFF;
+}
+/*导出文件下载列表*/
+dl,dd{
+    padding: 0px;
+    margin: 0px;
+}
+dl dd{
+    line-height: 30px;
+}
+dl dd a[href]{
+    display: inline-block;
+    min-width: 230px;
+    color: #409EFF;
+	font-size: 16px;
+}
+dl dd a[href]:hover{
+    text-decoration: underline;
+}

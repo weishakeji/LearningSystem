@@ -1,0 +1,38 @@
+
+/*友情链接*/
+weisha.links{
+	width: 1200px;
+	margin-right: auto;
+	margin-left: auto;
+	height: 160px;
+    display: block;
+}
+
+weisha.links .links-tit{	
+	float: left;
+	height: 100px;
+	width: 200px;
+	line-height: 100px;	
+}
+weisha.links .links-tit a{
+	font-family: "Microsoft YaHei", "微软雅黑", "MicrosoftJhengHei", "华文细黑", STHeiti, MingLiu;
+	font-weight: bold;
+	font-size: 30px;
+	color: #666;
+	text-decoration: none;
+}
+weisha.links .link-items{
+	float: left;
+	height: 60px;
+	width: 1000px;
+	margin-top: 20px;
+}
+weisha.links .link-item{
+	line-height: 30px;
+	float: left;
+	margin-right: 30px;
+}
+weisha.links .link-item a{
+	color: #333;
+	font-size: 16px;
+}

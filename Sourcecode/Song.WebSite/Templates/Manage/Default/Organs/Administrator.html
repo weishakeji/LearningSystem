@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <title>设置机构管理员</title>
+    <include file="../inc/meta.inc" />
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增" ref='btngroup' @add="()=>{dialogVisible=true;current={};}" @delete="deleteData"
+                width="600" height="600" idkey='Acc_Id' table="datatables"></btngroup>
+            <div class="search-box">
+
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-tag>
+                            <icon>&#xa02a</icon>{{org.Org_Name}}
+                        </el-tag>
+                    </el-form-item>
+                    <el-form-item label="" v-if="adminPosi">
+                        <el-tag type="warning" v-if="adminPosi.length>0">
+                            <icon>&#xe645</icon>{{adminPosi[0].Posi_Name}}
+                        </el-tag>
+                        <el-tag type="warning" v-else @click="creatPosi" style="cursor: pointer;">
+                            <icon>&#xe645</icon>没有管理岗位，单击创建
+                        </el-tag>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <el-table ref="datatables" :data="accounts" :stripe="true" tooltip-effect="dark" style="width: 100%"
+            @row-dblclick="rowdblclick">
+            <el-table-column type="index" label="#" width="50" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="姓名/账号">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.Acc_Sex=='1'" class="weisha_icon man" icon="&#xe645" title="男性"></span>
+                    <span v-if="scope.row.Acc_Sex=='2'" class="weisha_icon woman" icon="&#xe647" title="女性"></span>
+                    <span v-html='showInfo(scope.row.Acc_Name)'></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="账号" width="120">
+                <template slot-scope="scope">
+                    {{ scope.row.Acc_AccName }}
+                </template>
+            </el-table-column>
+            <el-table-column label="电话" width="120">
+                <template slot-scope="scope">
+                    <span v-html='scope.row.Acc_MobileTel'></span>
+                </template>
+            </el-table-column>
+            <el-table-column label="启用" width="80" align="center">
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-show="loadingid==scope.row.Acc_Id"></span>
+                    <el-switch v-model="scope.row.Acc_IsUse" :disabled='scope.row.isAdminPosi'
+                        @change="changeUse(scope.row)" v-show="loadingid!=scope.row.Acc_Id">
+                    </el-switch>
+                </template>
+            </el-table-column>
+            <el-table-column label="密码" width="80" align="center">
+                <template slot-scope="scope">
+                    <el-link type="primary" plain icon="el-icon-edit" :disabled='scope.row.isAdminPosi'
+                        @click="()=>{pwVisible=true;pwEntify=scope.row;}">
+                        重置</el-link>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" show-overflow-tooltip width="120">
+
+                <el-button-group slot-scope="scope">
+                    <el-link type="primary" plain icon="el-icon-edit"
+                        @click='()=>{dialogVisible=true;current=scope.row;}'>
+                        修改</el-link>
+                    <el-tooltip class="item" effect="dark" :content="scope.row.isAdminPosi ? '系统管理员，不得删除' : ''"
+                        :disabled='!scope.row.isAdminPosi' placement="left">
+
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Acc_Id)">
+                            <el-link type="danger" plain icon="el-icon-delete" :disabled='scope.row.isAdminPosi'
+                                slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+                </el-button-group>
+            </el-table-column>
+        </el-table>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+        <el-dialog :visible.sync="dialogVisible" width="60%" :close-on-click-modal="false">
+            <span slot="title">
+                <icon style="font-size: 20px;">&#xe645</icon>
+                <span v-if="current && current.Acc_Id">修改管理员信息</span>
+                <span v-else>新增管理员</span>
+            </span>
+            <el-form ref="entity" :model="current" :rules="rules" @submit.native.prevent label-width="80px">
+                <el-form-item label="姓名" prop="Acc_Name">
+                    <el-input v-model="current.Acc_Name">
+                        <icon slot="prefix">&#xa043</icon>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="账号" prop="Acc_AccName">
+                    <el-input v-model="current.Acc_AccName">
+                        <icon slot="prefix">&#xe687</icon>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="电话" prop="Acc_MobileTel">
+                    <el-input v-model="current.Acc_MobileTel">
+                        <icon slot="prefix">&#xe677</icon>
+                    </el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button type="primary" @click="btnEnter('entity')">确 定</el-button>
+            </span>
+        </el-dialog>
+        <el-dialog :visible.sync="pwVisible" width="50%" :close-on-click-modal="false">
+            <span slot="title">
+                <icon style="font-size: 20px;">&#xe67b</icon>
+                修改密码
+            </span>
+            <el-form ref="pwchange" :model="pwEntify" :rules="pwrules" @submit.native.prevent label-width="80px">
+                <el-form-item label="名称" prop="Acc_Name">
+                    <icon>&#xa043</icon> {{pwEntify.Acc_Name}}
+                </el-form-item>
+                <el-form-item label="账号" prop="Acc_AccName">
+                    <icon>&#xe687</icon> {{pwEntify.Acc_AccName}}
+                </el-form-item>
+                <el-form-item label="密码" prop="Acc_Pw">
+                    <el-input v-model="pwEntify.Acc_Pw" show-password>
+                        <icon slot="prefix">&#xe67b</icon>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="密码确认" prop="Acc_Pw2">
+                    <el-input v-model="pwEntify.Acc_Pw2" show-password>
+                        <icon slot="prefix">&#xe67b</icon>
+                    </el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="pwVisible = false">取 消</el-button>
+                <el-button type="primary" @click="btnChangePw('pwchange')">修改密码</el-button>
+            </span>
+        </el-dialog>
+    </div>
+
+</body>
+
+</html>

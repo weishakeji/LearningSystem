@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <el-tag>
+                <icon>&#xe67d</icon>好朋友{{friends}}个 / 累计朋友{{friendAll}}个
+            </el-tag>
+
+            <div class="search-box">
+                <el-form :inline="true" :model="form" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item>
+                        <el-input v-model="form.acc" clearable style="width:120px" placeholder="账号">
+                            <icon slot="prefix">&#xa043</icon>
+                        </el-input>
+                        <el-input v-model="form.name" clearable style="width:120px" placeholder="姓名">
+                            <icon slot="prefix">&#xe808</icon>
+                        </el-input>
+                        <el-input v-model="form.phone" clearable style="width:130px" placeholder="手机号">
+                            <icon slot="prefix">&#xe677</icon>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button v-on:click="handleCurrentChange(1)" :loading="loading" native-type="submit"
+                            class="el-icon-search">
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatables" v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
+                style="width: 100%">
+                <el-table-column type="index" label="#" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="姓名">
+                    <template slot-scope="scope">
+                        <avatar :account="scope.row" circle="true" size="25"></avatar>
+                        <span v-html='scope.row.Ac_Name' v-if="scope.row.Ac_Name!=''"></span>
+                        <span v-else class="noname">(没有名字)</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="账号">
+                    <template slot-scope="scope">
+                        <div :class="{'woman': scope.row.Ac_Sex==2,'info':true}">
+                            <icon v-if="scope.row.Ac_Sex==2" title="女性">&#xe844</icon>
+                            <icon v-if="scope.row.Ac_Sex==1" title="男性">&#xe645</icon>
+                            <icon v-if="scope.row.Ac_Sex==0" title="性别未知">&#xa043</icon>
+                            <span v-html='scope.row.Ac_AccName'></span>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="电话">
+                    <template slot-scope="scope">
+                        <icon>&#xe677</icon>
+                        <span v-html='scope.row.Ac_MobiTel1'></span>
+                        <span
+                            v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1">/</span>
+                        <span v-html='scope.row.Ac_MobiTel2'
+                            v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="资金">
+                    <template slot-scope="scope">
+                        <div class="weisha_icon money" icon="&#xe624" title="资金余额" style="font-size: 14px;">
+                            {{scope.row.Ac_Money}}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="卡券">
+                    <template slot-scope="scope">
+                        <span class="weisha_icon coupon" icon="&#xe847" title="卡券"
+                            style="font-size: 14px;">{{scope.row.Ac_Coupon}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="积分">
+                    <template slot-scope="scope">
+                        <span class="weisha_icon point" icon="&#xe88a" title="积分"
+                            style="font-size: 14px;">{{scope.row.Ac_Point}}</span>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

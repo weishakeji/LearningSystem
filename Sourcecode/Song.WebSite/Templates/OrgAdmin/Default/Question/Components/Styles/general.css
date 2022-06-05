@@ -1,0 +1,92 @@
+﻿.panel>div.base[remark] {
+	overflow: hidden;
+}
+
+.general {
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.general form.el-form {
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.tree-area .el-form-item__content {
+	height: 100%;
+}
+
+/*难度*/
+.el-rate {
+	margin-top: 6px;
+}
+
+/*章节区域*/
+.tree-area {
+	height: calc(100% - (43px * 5));
+	overflow: hidden;
+	display: block;
+}
+
+.tree-area .el-tree {
+	height: calc(100% - 35px);
+	margin-top: 5px;
+	overflow-y: auto;
+}
+
+.outline_bar {
+	width: 100%;
+	height: 35px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.outline_bar>span {
+	display: block;
+	width: calc(100% - 160px);
+	box-sizing: border-box;
+	padding: 0px 15px;
+	font-size: 15px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	word-break: break-all;
+}
+.outline_bar>span::before{
+	content: '\e841';
+	font-family: "webdesk_icon" !important;
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 16px;
+}
+.outline_bar>span.noselect{
+	color: #999;
+}
+/*章节节点*/
+.outline-tree-node {
+	font-size: 15px;
+	line-height: 30px;
+}
+
+.outline-tree-node span:first-child {
+	color: #999;
+}
+
+.tree-area .selected {
+	color: darkgreen;
+	font-weight: bold;
+}
+
+.tree-area .el-tree__empty-block {
+	text-align: left !important;
+	height:  auto !important;
+}
+
+.tree-area .el-tree__empty-text {
+	left: 60px !important;
+}

@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <title>机构参数</title>
+    <include file="../inc/meta.inc" />
+</head>
+
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <help>以下是当前机构的相关参数</help>
+        </div>
+        <div class="context">
+            <el-row :gutter="20" v-for="(val, key, index) in config" :class="{'odd':index%2==0}">
+                <el-col :span="1">
+                    {{index+1}}
+                </el-col>
+                <el-col :span="8">
+                    {{key}}
+                </el-col>
+                <el-col :span="15">
+                   {{val}}
+                </el-col>              
+            </el-row>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+﻿<!doctype html>
+<html>
+
+<head resource>
+    <title></title>
+    <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header :organ="organ"  @login="acc=>account = acc">loading ...</page_header>
+
+        <template v-if="!loading">
+            <el-carousel v-if="showpic.length>0" class="carousel">
+                <el-carousel-item v-for="pic in showpic" :style="'background:'+pic.Shp_BgColor">
+                    <a :href="pic.Shp_Url" :target="pic.shp_target">
+                        <img :src="pic.Shp_File" v-if="pic.Shp_File!=''" />
+                        <img src="Images/swipe/3.jpg" v-else />
+                    </a>
+                </el-carousel-item>
+            </el-carousel>
+            <el-carousel :interval="5000" class="carousel" v-else>
+                <el-carousel-item style="background:#e2f1f6;">
+                    <img src="Images/swipe/2.jpg" />
+                </el-carousel-item>
+                <el-carousel-item style="background:#f3d3c4;">
+                    <img src="Images/swipe/1.jpg" />
+                </el-carousel-item>
+                <el-carousel-item style="background:rgb(248, 248, 248);">
+                    <img src="Images/swipe/3.jpg" />
+                </el-carousel-item>
+            </el-carousel>
+        </template>
+        <context class="notice" v-if="notice.length>0">
+            <a class="tit" href="web/Notice">
+                <icon>&#xe659</icon> 通知公告 <span class="more">&nbsp;</span>
+            </a>
+            <div class="noticebox">
+                <div class="noItem" v-for="(data,i) in notice">
+                    <div>
+                        <b :class="'order_'+i">{{i+1}}.</b>
+                        <a :href="'web/notice/detail.'+data.No_Id" :title="data.No_Ttl">
+                            {{data.No_Ttl}}<br /> <span v-html="data.No_Context">
+                            </span></a>
+                    </div>
+                    <div class="nodate">
+                        <icon>&#xe81a</icon>{{data.No_StartTime|date("yyyy-MM-dd HH:mm")}}
+                    </div>
+                </div>
+            </div>
+        </context>
+        <context class="rec">
+            <subject_rec :subject="null" :count="8" :mincount="4" order="rec"></subject_rec>
+        </context>
+        <context class="news" v-if="articles.length>0">
+            <a class="tit" href="web/news">
+                <icon>&#xe668</icon> 焦点要闻 <span class="more">&nbsp;</span>
+            </a>
+            <div class="artbox">
+                <div class="art_img" remark="图片新闻">
+                    <template v-for="(data,i) in articles">
+                        <div v-if="i<3">
+                            <a :href="'web/news/article.'+data.Art_Id" :title="data.Art_Title">
+                                <img :src="data.Art_Logo" v-if="data.Art_Logo!=''" />
+                                <img src="Images/def_news.jpg" v-else />
+                            </a>
+                            <a v-html="data.Art_Title" :title="data.Art_Title" :href="'article.'+data.Art_Id"></a>
+                        </div>
+                    </template>
+                </div>
+                <div class="art_list" remark="新闻列表">
+                    <template v-for="(data,i) in articles">
+                        <a v-if="i>=4" v-html="data.Art_Title" :title="data.Art_Title"
+                            :href="'web/news/article.'+data.Art_Id"></a>
+                    </template>
+                </div>
+            </div>
+
+        </context>
+
+        <context class="subjectbox" v-infinite-scroll="load">
+            <template v-for="sbj in subject">
+                <subject_show :subject="sbj" :count="6" :mincount="6" order="rec"></subject_show>
+            </template>
+        </context>
+
+        <context remark="友情链接">
+            <links :sort="null" :org="organ" :count="6" :mincount="6"></links>
+        </context>
+        <page_footer :organ="organ" :account="account">loading ...</page_footer>
+    </div>
+    <div id="notice_box" remark="通知公告的弹出" v-cloak>
+        <popup-notice forpage="web_home"></popup-notice>
+    </div>
+
+</body>
+
+</html>

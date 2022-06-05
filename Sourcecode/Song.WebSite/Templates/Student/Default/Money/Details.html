@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>资金流水</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="frame_header">
+            <el-form :inline="true" :model="form" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
+                <el-form-item>
+                    <el-date-picker v-model="date_picker" type="daterange" range-separator="至" start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                    </el-date-picker>
+                    <el-select v-model="form.from" placeholder="请选择来源" style="width: 120px;">
+                        <el-option key="-1" label="--所有来源--" value="-1"> </el-option>
+                        <el-option key="2" label="充值码充值" value="2" v-if="false"> </el-option>
+                        <el-option key="3" label="在线支付" value="3"> </el-option>
+                        <el-option key="1" label="管理员操作" value="1"> </el-option>
+                    </el-select>
+                    <el-select v-model="form.type" placeholder="请选择" style="width: 120px;">
+                        <el-option key="-1" label="--所有收支--" value="-1"> </el-option>
+                        <el-option key="1" label="支出" value="1"> </el-option>
+                        <el-option key="2" label="收入" value="2"> </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button v-on:click="handleCurrentChange(1)" :loading="loading" native-type="submit"
+                        class="el-icon-search">
+                    </el-button>
+                </el-form-item>
+            </el-form>
+            <div>
+                <el-tag type="success" class="tatol_info">
+                    <icon>&#xe81c</icon>余额 {{account.Ac_Coupon}} 元
+                </el-tag>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatables" v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
+                style="width: 100%" @row-click="rowclick">
+                <el-table-column type="index" label="#" width="80" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="收支" width="100">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Ma_Type==1" class="type1">
+                            <icon>&#xe773</icon> - {{scope.row.Ma_Money}}
+                        </span>
+                        <span v-if="scope.row.Ma_Type==2" class="type2">
+                            <icon>&#xe807</icon> + {{scope.row.Ma_Money}}
+                        </span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="状态" width="60">
+                    <template slot-scope="scope">
+                        <el-tag v-if="scope.row.Ma_IsSuccess" type="success">成功</el-tag>
+                        <el-tag v-else type="warning">失败</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column label="来源" width="120">
+                    <template slot-scope="scope">
+                        {{scope.row.Ma_Source}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="说明">
+                    <template slot-scope="scope">
+                        {{scope.row.Ma_Info}}
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="时间" width="80">
+                    <template slot-scope="scope">
+                        <el-tooltip class="item" effect="light" placement="left">
+                            <div slot="content">{{scope.row.Ma_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}</div>
+                            <span> {{scope.row.Ma_CrtTime|date('MM-dd HH:mm')}}</span>
+                        </el-tooltip>
+
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+        <!-- 详情-->
+        <el-drawer :visible.sync="show_detail" direction="rtl" custom-class="show_detail">
+            <span slot="title">
+                <icon style="font-size: 22px;">&#xe833</icon>资金详情
+            </span>
+            <div class="detail_content">
+                <div title="收支">
+                    <icon v-if="detail.Ma_Type==1" class="type1">&#xe773</icon>
+                    <icon v-if="detail.Ma_Type==2" class="type2">&#xe807</icon>
+                    <span v-if="detail.Ma_Type==1">-</span>
+                    <span v-if="detail.Ma_Type==2">+</span>
+                    {{detail.Ma_Money}}
+                </div>
+                <div title="时间">
+                    {{detail.Ma_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}
+                </div>
+                <div title="余额">
+                    <icon>&#xe837</icon>{{detail.Ma_Total}} 元
+                </div>
+                <div title="明细">
+                    <span v-if="detail.Ma_Type==1">-</span>
+                    <span v-if="detail.Ma_Type==2">+</span>
+                    {{detail.Ma_Money}} 元
+                </div>
+
+                <div title="类型">
+                    <span v-if="detail.Ma_Type==1">支出</span>
+                    <span v-if="detail.Ma_Type==2">收入</span>
+                    <span v-if="!item.Ma_IsSuccess">（失败）</span>
+                </div>
+                <div title="交易号">
+                    {{detail.Ma_Serial}}
+                </div>
+                <div title="来源">
+                    {{detail.Ma_Source}}
+                </div>
+                <template v-if="detail.Ma_From == 3" remark="在线支付">
+                    <div title="支付接口">
+                        {{detail.Pai_Name}}
+                    </div>
+                </template>
+                <div title="支付账户">
+                    {{detail.Ma_Buyer}}
+                </div>
+                <div title="收款账户">
+                    {{detail.Ma_Seller}}
+                </div>
+                <div title="说明">
+                    {{detail.Ma_Info}}
+                </div>
+                <div title="备注">
+                    {{detail.Ma_Remark}}
+                </div>
+            </div>
+        </el-drawer>
+    </div>
+</body>
+
+</html>

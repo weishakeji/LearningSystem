@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <include file="../inc/meta.inc" />
+  <title>轮播图片</title>
+</head>
+
+<body>
+  <div id="vapp" v-cloak>
+    <div id="imglist">
+      <div class="imgitem draghandle" v-for="(img,i) in datas">
+        <div class="loading_panel" v-if="loading_id==img.Shp_ID">
+          <span class="el-icon-loading"></span>
+          正在处理中....
+        </div>
+        <span v-html="i+1" class="index"></span>
+        <upload-img @change="filechange" :id="img.Shp_ID" :data="img">
+          <icon v-if="img.Shp_File==''">&#xe6ea</icon>
+          <img :src="img.Shp_File" v-else />
+        </upload-img>
+
+        <div class="img_info" v-if="edit_id!=img.Shp_ID">
+          <div name="背景色">
+            <span v-html="img.Shp_BgColor" v-if="img.Shp_BgColor!=''"
+              :style="'background-color:'+img.Shp_BgColor">&nbsp;</span>
+            <span v-else>(无)</span>
+          </div>
+          <div name="链接地址">{{img.Shp_Url}}</div>
+          <div name="打开方式" v-if="img.Shp_Target!=''">{{img.Shp_Target}}</div>
+          <div name="简要说明" v-if="img.Shp_Intro!=''">{{img.Shp_Intro}}</div>
+        </div>
+        <div class="img_edit" v-else>
+          <el-form ref="form" :model="img" label-width="70px">
+            <el-form-item label="背景色">
+              <el-color-picker v-model="img.Shp_BgColor" @change="colorChange" @active-change="colorChange">
+              </el-color-picker>
+            </el-form-item>
+            <el-form-item label="链接地址">
+              <el-input v-model="img.Shp_Url"></el-input>
+            </el-form-item>
+            <el-form-item label="打开方式">
+              <el-select v-model="img.Shp_Target" :style="{width: '50%'}" placeholder="请选择">
+                <el-option key="" label="--默认--" value="">
+                </el-option>
+                <el-option key="_blank" label="_blank" value="_blank">
+                </el-option>
+                <el-option key="_self" label="_self" value="_self">
+                </el-option>
+                <el-option key="_parent" label="_parent" value="_parent">
+                </el-option>
+                <el-option key="_top" label="_top" value="_top">
+                </el-option>
+                <el-option key="_open" label="_open" value="_open">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="简要说明">
+              <el-input v-model="img.Shp_Intro"></el-input>
+            </el-form-item>
+          </el-form>
+          <el-button-group class="btn_edit">
+            <el-button type="primary" size="mini" :loading="loading_id==img.Shp_ID" icon="el-icon-check"
+              @click="update(img)">保存</el-button>
+            <el-button type="info" size="mini" icon="el-icon-back" @click="edit_id=-1">返回</el-button>
+          </el-button-group>
+        </div>
+        <el-button-group class="btn_bar" v-if="edit_id!=img.Shp_ID">
+          <el-button type="success" v-if="img.Shp_IsShow" size="mini" icon="el-icon-open"
+            @click="changeShow(img,false)">启用</el-button>
+          <el-button type="info" v-else size="mini" icon="el-icon-turn-off" @click="changeShow(img,true)">禁用
+          </el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit_id=img.Shp_ID">编辑</el-button>
+          <el-popconfirm title="确定删除吗？" @confirm="deleteImg(img)">
+
+            <el-button type="danger" size="mini" icon="el-icon-delete" slot="reference">删除</el-button>
+          </el-popconfirm>
+        </el-button-group>
+      </div>
+    </div>
+    
+    <upload-img @change="fileupload" text="新增图片" id="add"></upload-img>
+
+  </div>
+</body>
+
+</html>

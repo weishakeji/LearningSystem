@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span>
+                    <icon>&#xe613</icon>密码修改
+                </span>
+                <icon class="right">&#xe777</icon>
+            </div>
+
+            <el-form ref="formpw" :model="formpw" :rules="rules_pw" @submit.native.prevent label-width="100px">
+                <el-form-item label="原密码" prop="oldpw">
+                    <el-input v-model="formpw.oldpw" show-password></el-input>
+
+                </el-form-item>
+                <el-form-item label="新密码" prop="newpw">
+                    <el-input v-model="formpw.newpw" show-password></el-input>
+                </el-form-item>
+                <el-form-item label="确认输入" prop="newpw2">
+                    <el-input v-model="formpw.newpw2" show-password></el-input>
+                </el-form-item>
+
+                <el-form-item class="footer">
+                    <el-button type="primary" :loading="loading" @click="btnEnterPw('formpw')">
+                        <icon v-if="!loading">&#xa030</icon>修改密码
+                    </el-button>
+                </el-form-item>
+            </el-form>
+
+        </el-card>
+
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span>
+                    <icon>&#xe6ed</icon>安全问题
+                </span>
+                <icon class="right">&#xe777</icon>
+            </div>
+            <el-form ref="ques" :model="account" :rules="rules_ques" @submit.native.prevent label-width="100px">
+
+                <el-form-item label="安全问题" prop="Ac_Qus">
+                    <el-input v-model="account.Ac_Qus"></el-input>
+                </el-form-item>
+                <el-form-item label="答案" prop="Ac_Ans">
+                    <el-input v-model="account.Ac_Ans"></el-input>
+                </el-form-item>
+                <el-form-item class="footer">
+                    <el-button type="primary" :loading="loading" @click="btnEnterQues('ques')">
+                        <icon v-if="!loading">&#xa030</icon>修改
+                    </el-button>
+                </el-form-item>
+            </el-form>
+
+        </el-card>
+    </div>
+</body>
+
+</html>

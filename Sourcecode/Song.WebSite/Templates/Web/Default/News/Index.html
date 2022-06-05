@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>新闻</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header :organ="org">loading ...</page_header>
+        <context class="news" v-if="articles.length>0">
+
+            <div class="artbox">
+                <div class="art_img" remark="图片新闻">
+                    <template v-for="(data,i) in articles">
+                        <div v-if="i<3">
+                            <a :href="'/web/news/article.'+data.Art_Id" :title="data.Art_Title">
+                                <img :src="data.Art_Logo" v-if="data.Art_Logo!=''" />
+                                <img src="../Images/def_news.jpg" v-else />
+                            </a>
+                            <a v-html="data.Art_Title" :title="data.Art_Title" :href="'/web/news/article.'+data.Art_Id"></a>
+                        </div>
+                    </template>
+                </div>
+                <div class="art_list" remark="新闻列表">
+                    <template v-for="(data,i) in articles">
+                        <a v-if="i>=4" v-html="data.Art_Title" :title="data.Art_Title"
+                            :href="'/web/news/article.'+data.Art_Id"></a>
+                    </template>
+                </div>
+            </div>
+        </context>
+        <context class="columns" v-if="columns.length>0">
+            <div v-for="(col,i) in columns" class="column">
+                <div class="col_name"><icon>&#xe6fd</icon><a :href="'/web/news/list.'+col.Col_UID">{{col.Col_Name}}</a></div>
+                <articles :column="col" :count="6"></articles>
+            </div>
+        </context>
+        <context class="rec">
+            <subject_rec :subject="null" :count="8" :mincount="4" order="rec"></subject_rec>
+        </context>
+        <page_footer :organ="org">loading ...</page_footer>
+    </div>
+
+
+</body>
+
+</html>

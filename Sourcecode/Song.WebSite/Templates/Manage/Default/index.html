@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head resource>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Platform Admin Panel</title>
+    <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Utilities/panel/styles/login.css">
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            background-color: rgb(27, 87, 148);
+            overflow: hidden;
+        }
+
+        panel {
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+
+        /*预载效*/
+
+        panel#loading {
+            width: 100px;
+            height: 100px;
+            margin: 200px auto 0px auto;
+            position: relative;
+        }
+
+        panel#loading b {
+            display: block;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            bottom: 20px;
+            color: #fff;
+            text-shadow: 1px 0 1px #8B4513, 0 1px 1px #8B4513,
+                0 -1px 1px #8B4513, -1px 0 1px #8B4513;
+        }
+
+        panel#loading span {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            background: rgb(178, 166, 248);
+            animation: bounce 1s infinite linear;
+        }
+
+        panel#loading span:nth-child(1) {
+            left: 0;
+            animation-delay: 0s;
+        }
+
+        panel#loading span:nth-child(2) {
+            left: 20px;
+            animation-delay: 0.25s;
+        }
+
+        panel#loading span:nth-child(3) {
+            left: 40px;
+            animation-delay: 0.5s;
+        }
+
+        panel#loading span:nth-child(4) {
+            left: 60px;
+            animation-delay: 0.75s;
+        }
+
+        panel#loading span:nth-child(5) {
+            left: 80px;
+            animation-delay: 1.0s;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0px);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translateY(-30px);
+                opacity: 1.0;
+            }
+
+            100% {
+                transform: translateY(0px);
+                opacity: 0.5;
+            }
+        }
+
+        panel#login {
+            z-index: 2;
+            --opacity: 0;
+            background-color: #fff;
+        }
+
+        panel#admin {
+            z-index: 3;
+            background-size: 100% 100%;
+            transition: all .3s;
+            display: none;
+            opacity: 0;
+        }
+
+        /*登录框后面的文本内容显示*/
+
+        #Sliderbox {
+            position: absolute;
+            z-index: 1;
+            width: 800px;
+            height: 200px;
+            background: #eee;
+            top: calc((100vh - 200px)/2);
+            left: calc((100vw - 800px)/2);
+            animation: 5s opacity2 0s infinite;
+            border: 1px solid #fff;
+        }
+
+        @keyframes opacity2 {
+            0% {
+                opacity: 0.6;
+                transform: rotate(0deg);
+                box-shadow: 0px 0px 25px #fff;
+            }
+
+            50% {
+                opacity: .8;
+                transform: rotate(0deg) scale(1.05);
+                box-shadow: 0px 0px 45px #fff;
+            }
+
+            100% {
+                opacity: 0.6;
+                transform: rotate(0deg);
+                box-shadow: 0px 0px 25px #fff;
+            }
+        }
+
+        #login-area {
+            position: absolute;
+            z-index: 2;
+            width: 280px;
+            height: 320px;
+            top: calc((100vh - 200px)/2 - 55px);
+            left: calc((100vw - 800px)/2 + 500px);
+            border: 1px solid #fff;
+            box-shadow: 0px 0px 25px #fff;
+        }
+    </style>
+</head>
+
+<body oncontextmenu='return false'>
+    <panel id="loading" remark="预载效果">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <b>界面加载中....</b>
+    </panel>
+    <panel id="login" remark="登录区域">
+        <iframe src="/Utilities/Panel/Effects/2Dcloud/index.html" id="iframe" width="100%" height="100%" frameborder="no"
+            border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
+        <div id="Sliderbox" remark="轮换图文">
+            <iframe src="/Utilities/Panel/Slider/Slider.html" width="500px" height="200px" frameborder="no" border="0"
+                marginwidth="0" marginheight="0" scrolling="no" allowtransparency="yes"></iframe>
+        </div>
+        <div id="login-area" remark="登录框"></div>
+    </panel>
+    <panel id="admin" remark="管理面板">
+        <div id="header-box">
+            <div id="dropmenu-area" remark="下拉菜单"></div>
+            <div id="headbar">『 <b platinfo="title"></b> 』<span
+                    platinfo="intro">“学、练、考”一体，点播、直播、在线支付，电脑、手机、微信全支持</span></div>
+            <div id="user-area" remark="用户信息，也是下拉菜单"></div>
+        </div>
+        <div id="mainbody">
+            <div id="treemenu-area" remark="树形菜单"></div>
+            <div id="vbar-area" remark="竖形工具条"></div>
+            <div id="tabs-area" remark="选项卡"></div>
+            <timer format='yyyy年M月d日 星期w hh:mm:ss'></timer>
+            <div id="pageboxcollect"></div>
+        </div>
+    </panel>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>保留域名</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="LimitDomainModify" width="600" height="400"
+                :selects='selects' idkey='LD_ID'></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>                   
+                    <el-form-item label="">
+                        <el-input v-model="form.search" style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="loadDatas(1)" v-loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="LD_ID">
+                <el-table-column type="selection" width="55">
+                </el-table-column>
+                <el-table-column type="index" width="50">
+                </el-table-column>
+                <el-table-column label="名称" header-align="left">
+                    <template slot-scope="scope">
+                        <span v-html='showInfo(scope.row.LD_Name)'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="简介" header-align="left">
+                    <template slot-scope="scope">
+                        <span v-html='scope.row.LD_Intro'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="启用" width="80" align="center">
+                    <template slot-scope="scope">
+                        <span class="el-icon-loading" v-show="loadingid==scope.row.LD_ID"></span>
+                        <el-switch v-model="scope.row.LD_IsUse" @change="changeUse(scope.row)"
+                            v-show="loadingid!=scope.row.LD_ID">
+                        </el-switch>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" show-overflow-tooltip width="120">
+                    <template slot-scope="scope">
+                        <span class="el-icon-loading" v-show="loadingid==scope.row.LD_ID"></span>
+                        <el-button-group v-show="loadingid!=scope.row.LD_ID">
+                            <el-link type="primary" plain icon="el-icon-edit"
+                                @click='$refs.btngroup.modify(scope.row.LD_ID)'>修改</el-link>
+                            <el-popconfirm title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.LD_ID)">
+                                <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除</el-link>
+                            </el-popconfirm>
+                        </el-button-group>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="loadDatas" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

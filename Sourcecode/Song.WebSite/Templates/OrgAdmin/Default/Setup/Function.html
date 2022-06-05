@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>功能设置</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-tabs type="border-card" v-model="activeName">
+            <el-tab-pane v-for="tab in tabs" :name="tab.tag">
+                <span slot="label">
+                    <icon v-html="tab.icon" :style="'font-size:'+tab.size+'px'"></icon>{{tab.name}}
+                </span>
+            </el-tab-pane>
+        </el-tabs>
+        <el-form ref="entity" :model="organ" :rules="rules" @submit.native.prevent label-width="120px">
+            <div v-show="activeName=='register'" remark="登录/注册">
+                <el-form-item label="用户注册">
+                    <el-row>
+                        <el-checkbox v-model="config.IsRegTeacher">禁止教师注册</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.IsRegStudent">禁止学生注册</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.IsRegSms">注册时采用短信验证</el-checkbox>
+                    </el-row>
+                </el-form-item>
+                <el-form-item label="审核">
+                    <el-row>
+                        <el-checkbox v-model="config.IsVerifyTeahcer">启用教师注册审核</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.IsVerifyStudent">启用学生注册审核</el-checkbox>
+                    </el-row>
+                </el-form-item>
+                <el-form-item label="登录设置">
+                    <el-row>
+                        <el-checkbox v-model="config.IsLoginForPw">启用账号密码登录</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.IsLoginForSms">启用手机短信验证登录</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.IsLoginForWeixin">微信中仅限微信登录（禁用账号、手机验证等方式登录）</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.IsTraningLogin">试题练习需要学员登录后才能操作</el-checkbox>
+                    </el-row>
+                </el-form-item>
+
+            </div>
+            <div v-show="activeName=='device'" remark="终端设备的设置">
+                <el-form-item label="移动端">
+                    <el-row>
+                        <el-checkbox v-model="config.DisenableWeixin">禁止在微信中使用</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.DisenableMini">禁止在微信小程序中使用</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.DisenableMweb">禁止在手机网页中使用</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.DisenableAPP">禁止在手机APP中使用</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.IsMobileRemoveMoney">手机端隐藏关于“充值收费”等资费相关信息</el-checkbox>
+                    </el-row>
+                </el-form-item>
+                <el-form-item label="电脑端">
+                    <el-row>
+                        <el-checkbox v-model="config.IsWebRemoveMoney">电脑端隐藏资金相关信息</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.WebForDeskapp">当前系统必须运行于桌面应用之中（如果本地未安装桌面应用，请勿轻易勾选）</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.StudyForDeskapp">课程学习需要在桌面应用打开</el-checkbox>
+
+                        <el-checkbox v-model="config.FreeForDeskapp">免费课程和试用章节除外</el-checkbox>
+                    </el-row>
+
+                </el-form-item>
+            </div>
+            <div v-show="activeName=='study'" remark="课程学习">
+                <el-form-item label="视频学习" prop="VideoTolerance">
+
+                    <el-row>
+                        <el-input placeholder="" type="number" min="1" max="100" v-model.number="config.VideoTolerance"
+                            @input="(n)=>{config.VideoTolerance=n>100 ? 100 : config.VideoTolerance }"
+                            style="width: 400px;">
+                            <template slot="prepend">视频学习完成度的容差：</template>
+                            <template slot="append">% </template>
+                        </el-input>
+                        <br />
+                        <help>说明：假如为5%，则学习完成度大于95%时，显示100%</help>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.IsSwitchPlay">禁用“视频课程学习时的切换窗体暂停视频播放”功能</el-checkbox>
+                    </el-row>
+                    <el-row>
+                        <el-checkbox v-model="config.IsDisableChat">禁用在课程学习中的“交流”功能</el-checkbox>
+                    </el-row>
+                </el-form-item>
+                <el-form-item label="结课考试">
+                    <el-row>
+                        <el-input placeholder="" type="number" min="0" max="100"
+                            v-model.number="config.finaltest_condition_video " style="width: 400px;">
+                            <template slot="prepend">条件1：<icon>&#xe83a</icon>视频学习完成度达到</template>
+                            <template slot="append">% </template>
+                        </el-input>
+                    </el-row>
+                    <el-row>
+                        <el-input placeholder="" type="number" min="0" max="100"
+                            v-model.number="config.finaltest_condition_ques" style="width: 400px;">
+                            <template slot="prepend">条件2：<icon>&#xe75e</icon>试题练习完成度达到</template>
+                            <template slot="append">% </template>
+                        </el-input>
+                    </el-row>
+                    <el-row>
+                        <help multi>此处不记入容差值，例如：学员视频完成度为80%，视频完成度的容差是10%，而完成要达到90%才可以参加结果考试，这里是按实际的完成度80%计算，
+                            而不是80%+10%
+                        </help>
+                    </el-row>
+                    <el-row>
+                        <el-input placeholder="" type="number" min="0" max="100" v-model.number="config.finaltest_count"
+                            style="width: 400px;">
+                            <template slot="prepend">最多可以考试</template>
+                            <template slot="append">次，取最高分为结课成绩 </template>
+                        </el-input>
+                    </el-row>
+                </el-form-item>
+                <el-form-item label="结课成绩">
+                    <el-row>
+                        <el-input placeholder="" type="number" min="0" max="100"
+                            v-model.number="config.finaltest_weight_video" style="width: 500px;">
+                            <template slot="prepend">
+                                <icon>&#xe83a</icon>视频学习的完成度，占成绩的权重比为
+                            </template>
+                            <template slot="append">%</template>
+                        </el-input>
+                    </el-row>
+                    <el-row>
+                        <el-input placeholder="" type="number" min="0" max="100"
+                            v-model.number="config.finaltest_weight_ques" style="width: 500px;">
+                            <template slot="prepend">
+                                <icon>&#xe75e</icon>试题练习的完成度，占成绩的权重比为
+                            </template>
+                            <template slot="append">%</template>
+                        </el-input>
+                    </el-row>
+                    <el-row>
+                        <el-input placeholder="" type="number" min="0" max="100"
+                            v-model.number="config.finaltest_weight_exam" style="width: 500px;">
+                            <template slot="prepend">
+                                <icon>&#xe816</icon>结课考试的得分数，占成绩的权重比为
+                            </template>
+                            <template slot="append">%</template>
+                        </el-input>
+                    </el-row>
+                    <el-row>
+                        <help multi>权重得分包含容差值，例如：学员实际视频学习完成80%，容差值为10%，这里将是（80%+10%）×权重值。
+                        </help>
+                    </el-row>
+                    <el-row>
+                        <el-input placeholder="" type="number" min="0" v-model.number="config.finaltest_score_pass"
+                            style="width: 400px;">
+                            <template slot="prepend">结课成绩默认为百分制，其及格分为</template>
+                            <template slot="append">分</template>
+                        </el-input>
+                    </el-row>
+                </el-form-item>
+            </div>
+        </el-form>
+        <div id="footer-box">
+            <el-tag type="danger" v-if="error!=''">
+                <icon>&#xe6d0</icon>{{error}}
+            </el-tag>
+            <el-button type="primary" native-type="submit" :loading="loading" v-loading.fullscreen.lock="loading"
+                @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>确认修改
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

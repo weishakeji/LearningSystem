@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>功能菜单树</title>
+  <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+
+  <div id="app" v-cloak>
+    <div class="tree_root">
+      <span v-if="rootMenu.MM_IcoS==null || rootMenu.MM_IcoS==''" class="font_icon">&#xa038;</span>
+      <span v-else class="font_icon" v-html="'&#x'+rootMenu.MM_IcoS+';'"></span>
+      <span>{{rootMenu.MM_Name}}</span>
+      <el-button type="text" size="mini" @click="() => append()" v-loading="loading">
+        新增下级
+      </el-button>
+    </div>
+    <el-tree :data="data" node-key="id" :props="defaultProps" default-expand-all @node-drag-start="handleDragStart"
+      @node-drag-enter="handleDragEnter" @node-drag-leave="handleDragLeave" @node-drag-over="handleDragOver"
+      @node-drag-end="handleDragEnd" @node-drop="handleDrop" :expand-on-click-node="false" draggable
+      :allow-drop="allowDrop" :allow-drag="allowDrag" v-loading="loading">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+
+        <span class="tree-node draghandle" :bold="data.MM_IsBold" :italic="data.MM_IsItalic" :color="data.MM_Color"
+          :style="'color:'+data.MM_Color+'; background-image: linear-gradient(to right, rgb(255, 255, 255) '+(data.MM_IsUse ? data.MM_Complete : 100)+'%,rgb(255, 0, 0) '+(100-data.MM_Complete)+'%);'">
+          <span v-if="data.MM_IcoS==null || data.MM_IcoS==''" class="font_icon">&#xa038;</span>
+          <span v-else class="font_icon" v-html="'&#x'+data.MM_IcoS+';'"></span>
+          {{ data.MM_Name }}
+          <span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
+        </span>
+        <span> <span style="display: inline-block;width: 80px;">
+            <el-tag type="info" v-if="data.MM_Type=='item'">菜单项</el-tag>
+            <el-tag type="primary" v-if="data.MM_Type=='link'">超链接</el-tag>
+            <el-tag type="warning" v-if="data.MM_Type=='open'">窗体</el-tag>
+            <el-tag type="danger" v-if="data.MM_Type=='event'">Js事件</el-tag>
+            <el-tag type="success" v-if="data.MM_Type=='node'">节点</el-tag>
+            <el-tag type="success" v-if="data.MM_Type=='hr'">--</el-tag>
+          </span>
+          <span style="display: inline-block;width: 60px;" @click="data.MM_IsUse=!data.MM_IsUse">
+            <el-tag type="success" v-if="data.MM_IsUse">启用</el-tag>
+            <el-tag type="danger" v-if="!data.MM_IsUse">禁用</el-tag>
+          </span>
+          <span style="display: none;width: 60px; " @click="data.MM_IsShow=!data.MM_IsShow">
+            <el-tag type="success" v-if="data.MM_IsShow">显示</el-tag>
+            <el-tag type="danger" v-if="!data.MM_IsShow">隐藏</el-tag>
+          </span>
+
+          <el-button type="text" size="mini" @click="() => append(data)">
+            新增下级
+          </el-button>
+          <el-button type="text" size="mini" @click="drawer=true;curr_node=node;curr=data;">
+            编辑
+          </el-button>
+          <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
+            <el-button type="text" slot="reference">
+              删除
+            </el-button>
+          </el-popconfirm>
+        </span>
+      </span>
+    </el-tree>
+    <el-drawer title="编辑菜单项" :visible.sync="drawer" :with-header="false" custom-class="drawer_item">
+      <div class="drawer-title">编辑菜单项</div>
+      <el-form ref="form" :model="curr" :rules="rules" label-width="80px">
+        <el-row>
+          <el-col :span="20">
+            <el-form-item label="名称" prop="MM_Name">
+              <el-input v-model="curr.MM_Name"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item label="" label-width="5px">
+
+              <el-link type="primary" @click="iconSelect=true" title="选择图标"> <span
+                  v-if="curr.MM_IcoS==null || curr.MM_IcoS==''" class="font_icon">&#xa038;</span>
+                <span v-else class="font_icon" v-html="'&#x'+curr.MM_IcoS+';'"></span>
+              </el-link>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+
+        <el-form-item label="菜单类型">
+          <el-select v-model="curr.MM_Type" :style="{width: '120px'}" placeholder="请选择">
+            <el-option key="item" label="菜单项" value="item">
+            </el-option>
+            <el-option key="link" label="超链接" value="link">
+            </el-option>
+            <el-option key="open" label="窗体" value="open">
+            </el-option>
+            <el-option key="event" label="Js事件" value="event">
+            </el-option>
+            <el-option key="node" label="节点" value="node">
+            </el-option>
+            <el-option key="hr" label="分隔线" value="hr">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <template v-if="curr.MM_Type=='open'">
+          <el-form-item label="窗体尺寸">
+            <el-input v-model="curr.MM_WinWidth" :style="{width: '180px'}"> <template slot="prepend">宽</template>
+              <template slot="append">px</template>
+            </el-input>
+            <el-input v-model="curr.MM_WinHeight" :style="{width: '180px'}"> <template slot="prepend">高</template>
+              <template slot="append">px</template>
+            </el-input>
+
+          </el-form-item>
+          <el-form-item label="窗体功能">
+            <el-checkbox v-model="curr.MM_WinMin" title="是否允许窗体最小化">最小化</el-checkbox>
+            <el-checkbox v-model="curr.MM_WinMax" title="是否允许窗体最大化">最大化</el-checkbox>
+            <el-checkbox v-model="curr.MM_WinMove" title="是否允许拖动窗体">可移动</el-checkbox>
+            <el-checkbox v-model="curr.MM_WinResize" title="是否允许拖放窗体大小">可缩放</el-checkbox>
+          </el-form-item>
+          <el-form-item label="窗体ID">
+            <el-input v-model="curr.MM_WinID" :style="{width: '180px'}">
+            </el-input>
+          </el-form-item>
+        </template>
+        <template v-if="curr.MM_Type!='hr'">
+          <template v-if="curr.MM_Type=='event'">
+            <el-form-item label="事件脚本">
+              <el-input v-model="curr.MM_Link"></el-input>
+            </el-form-item>
+          </template>
+          <el-form-item label="链接" v-if="curr.MM_Type!='event' && curr.MM_Type!='node' ">
+            <el-input v-model="curr.MM_Link"></el-input>
+          </el-form-item>
+          <template v-if="curr.MM_Type=='item'">
+            <el-form-item label="帮助">
+              <el-input v-model="curr.MM_Help" placeholder="帮助信息的链接地址" title="帮助信息的链接地址"></el-input>
+          </template>
+          <el-form-item label="标识" v-if="false">
+            <el-input v-model="curr.MM_Marker"></el-input>
+          </el-form-item>
+          <el-form-item label="说明">
+            <el-input v-model="curr.MM_Intro" type="textarea"></el-input>
+          </el-form-item>
+          <el-row>
+            <el-col :span="17">
+              <el-form-item label="样式">
+                <el-checkbox v-model="curr.MM_IsBold" label="粗体"></el-checkbox>
+                <el-checkbox v-model="curr.MM_IsItalic" label="斜体"></el-checkbox>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="颜色" label-width="60px">
+                <el-color-picker v-model="curr.MM_Color" @change="colorChange" @active-change="colorChange">
+                </el-color-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+        </template>
+        <el-form-item label="状态">
+          <el-checkbox v-model="curr.MM_IsUse" label="启用"></el-checkbox>
+          <el-checkbox v-model="curr.MM_IsShow" label="显示" v-if="false"></el-checkbox>
+        </el-form-item>
+        <el-divider></el-divider>
+        <el-form-item label="移动">
+          <el-select v-model="MM_PatId" placeholder="请选择" @change="move2Root">
+            <el-option v-for="(item,index) in rootdata" :key="item.MM_UID" :label="item.MM_Name" :value="item.MM_UID">
+              <span style="float: left">
+                <span v-if="item.MM_IcoS==null || item.MM_IcoS==''" class="font_icon">&#xa038;</span>
+                <span v-else class="font_icon" v-html="'&#x'+item.MM_IcoS+';'"></span>
+                {{ item.MM_Name }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="完成度">
+          <el-slider v-model="curr.MM_Complete" show-input @change="changeComplete"></el-slider>
+        </el-form-item>
+      </el-form>
+    </el-drawer>
+    <el-dialog title="图标选择" :visible.sync="iconSelect" id="dialog_icons">
+      <icons @change='iconChange' :selected="curr.MM_IcoS"></icons>
+    </el-dialog>
+    <div class="btnFooter">
+      <el-button type="primary" v-loading="loading" @click="btnSave()">保存菜单树</el-button>
+      <el-button type="close">关闭</el-button>
+    </div>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>设置教师</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="course">
+            <div>
+                <img :src="course.Cou_LogoSmall" v-if="course.Cou_LogoSmall!=''" class="cou_logo" />
+                <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                <span v-html="course.Cou_Name" class="large"> </span>
+            </div>
+            <div class="teach" mark="课程教师">
+                <div v-if="existteach" @click="showteach(teacher)" class="teacher">
+                    <photo :teacher="teacher" circle="true" size="45"></photo>
+                    <div>{{teacher.Th_Name}}</div>
+                </div>
+                <div v-else class="noteach">
+                    <icon>&#xe687</icon>
+                    <div>（未设置）</div>
+                </div>
+
+            </div>
+        </div>
+        <el-table ref="datatables" v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
+            style="width: 100%">
+
+            <el-table-column type="index" label="#" width="50" align="center">
+                <template slot-scope="scope">
+                    <span>{{(query.index - 1) * query.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="姓名">
+                <template slot="header" slot-scope="scope">
+                    <el-input v-model="query.search" size="mini" clearable placeholder="查询名称"
+                        @keyup.enter.native="handleCurrentChange(1)" @clear="handleCurrentChange(1)"
+                        :disabled="loading">
+                        <i slot="prefix" class="el-input__icon el-icon-search" @click="handleCurrentChange(1)"></i>
+                    </el-input>
+                </template>
+                <template slot-scope="scope">
+                    <span class="info" :class="{'woman': scope.row.Th_Sex==2}">
+                        <icon v-if="scope.row.Th_Sex==2" title="女性">&#xe844</icon>
+                        <icon v-if="scope.row.Th_Sex==1" title="男性">&#xe645</icon>
+                        <icon v-if="scope.row.Th_Sex==0" title="性别未知">&#xa043</icon>
+                        <span v-html='showInfo(scope.row.Th_Name)' v-if="scope.row.Th_Name!=''"></span>
+                        <span v-else class="noname">(没有名字)</span>
+                    </span>
+                    <template v-if="existteach && teacher.Th_ID==scope.row.Th_ID">
+                        <el-tag type="info">
+                            <icon>&#xe705</icon>当前教师
+                        </el-tag>
+                    </template>
+                </template>
+            </el-table-column>
+            <el-table-column label="电话">
+                <template slot="header" slot-scope="scope">
+                    <el-input v-model="query.phone" size="mini" clearable placeholder="查询电话"
+                        @keyup.enter.native="handleCurrentChange(1)" @clear="handleCurrentChange(1)"
+                        :disabled="loading">
+                        <i slot="prefix" class="el-input__icon el-icon-search" @click="handleCurrentChange(1)"></i>
+                    </el-input>
+                </template>
+                <template slot-scope="scope">
+                    <div remark="电话">
+                        <icon>&#xe677</icon>
+                        <span v-html='scope.row.Th_PhoneMobi'></span>
+                        <span
+                            v-if="scope.row.Th_PhoneMobi!='' && scope.row.Th_Phone!='' && scope.row.Th_Phone!=scope.row.Th_PhoneMobi">/</span>
+                        <span v-html='scope.row.Th_Phone'
+                            v-if="scope.row.Th_PhoneMobi!='' && scope.row.Th_Phone!=scope.row.Th_PhoneMobi"></span>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label="账号">
+                <template slot="header" slot-scope="scope">
+                    <el-input v-model="query.acc" size="mini" clearable placeholder="查询账号"
+                        @keyup.enter.native="handleCurrentChange(1)" @clear="handleCurrentChange(1)"
+                        :disabled="loading">
+                        <i slot="prefix" class="el-input__icon el-icon-search" @click="handleCurrentChange(1)"></i>
+                    </el-input>
+                </template>
+                <template slot-scope="scope">
+                    {{scope.row.Th_AccName}}
+                </template>
+            </el-table-column>
+            <el-table-column label="职称" width="120" align="center">
+                <template slot-scope="scope">
+                    {{scope.row.Ths_Name}}
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作" show-overflow-tooltip width="120" align="center">
+                <el-button-group slot-scope="scope">
+                    <el-link type="primary" plain icon="el-icon-tickets" @click="showteach(scope.row)">详情
+                    </el-link>
+                    <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
+                        title="选择该教师吗？" @confirm="selected(scope.row)" :disabled="loading_sel">
+                        <el-link type="success" plain icon="el-icon-connection" slot="reference"
+                            :disabled="existteach && teacher.Th_ID==scope.row.Th_ID">选择
+                        </el-link>
+                    </el-popconfirm>
+                </el-button-group>
+
+            </el-table-column>
+        </el-table>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="query.index" :page-sizes="[1]"
+                :page-size="query.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+        <!-- 教师详情-->
+        <el-drawer :visible.sync="drawer" direction="ltr" size="40%">
+            <span slot="title">{{drawerobj.Th_Name}}</span>
+            <photo :teacher="teacher" circle="true" size="100"></photo>
+            <dl>
+                <dd class="info" :class="{'woman': drawerobj.Th_Sex==2}">
+                    <icon v-if="drawerobj.Th_Sex==2" title="女性">&#xe844</icon>
+                    <icon v-if="drawerobj.Th_Sex==1" title="男性">&#xe645</icon>
+                    <icon v-if="drawerobj.Th_Sex==0" title="性别未知">&#xa043</icon>姓名：
+                    <span v-html='drawerobj.Th_Name' v-if="drawerobj.Th_Name!=''"></span>
+                    <span v-else class="noname">(没有名字)</span>
+                </dd>
+                <dd>
+                    <icon>&#xe677</icon>电话：
+                    <span v-html='drawerobj.Th_PhoneMobi'></span>
+                    <span
+                        v-if="drawerobj.Th_PhoneMobi!='' && drawerobj.Th_Phone!='' && drawerobj.Th_Phone!=drawerobj.Th_PhoneMobi">/</span>
+                    <span v-html='drawerobj.Th_Phone'
+                        v-if="drawerobj.Th_PhoneMobi!='' && drawerobj.Th_Phone!=drawerobj.Th_PhoneMobi"></span>
+                </dd>
+                <dd title="年龄">
+                    <icon>&#xe84d</icon>年龄：
+                    <template v-if="drawerobj.Th_Age>0">
+                        {{drawerobj.Th_Age}} 岁
+                    </template>                  
+                </dd>
+                <dd title="生日">
+                    <icon>&#xe82c</icon>生日：
+                    {{drawerobj.Th_Birthday|date('yyyy-MM-dd')}}
+                </dd>
+                <dd title="学历">
+                    <icon>&#xe6112</icon>学历：
+                    <education :value="drawerobj.Th_Education" ctr="span"></education>
+                </dd>
+                <dd title="职称">
+                    <icon>&#xe732</icon>职称：
+                    {{drawerobj.Ths_Name}}
+                </dd>
+            </dl>
+        </el-drawer>
+    </div>
+
+
+</body>
+
+</html>

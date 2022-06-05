@@ -1,0 +1,27 @@
+﻿@charset "utf-8";
+
+.el-table__expanded-cell[class*=cell] {
+    padding: 10px 5px;
+}
+
+.el-table__expanded-cell .el-row {
+    padding: 8px 0;
+}
+
+.row_title {
+    font-weight: bold;
+}
+
+.groups {
+    max-height: 40px;
+    line-height: 20px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+.exam_name{
+    text-align: left;
+    box-sizing: border-box;
+    padding-left: 40px !important;
+}

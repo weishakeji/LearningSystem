@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+
+            <el-form-item label="名称" prop="Ths_Name">
+                <el-input v-model="entity.Ths_Name" maxlength="140"></el-input>
+
+            </el-form-item>
+            <el-form-item label="备注" prop="Ths_Intro">
+                <el-input type="textarea" :rows="3" placeholder="请输入内容" maxlength="250" v-model="entity.Ths_Intro">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="状态">
+                <el-switch v-model="entity.Ths_IsUse" active-color="#13ce66" inactive-color="#ff4949"
+                    :active-text="entity.Ths_IsUse ? '启用' : '禁用'">
+                </el-switch>
+            </el-form-item>
+
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>修改
+            </el-button>
+            <el-button type='close'>
+                <icon>&#xe748</icon>取消
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

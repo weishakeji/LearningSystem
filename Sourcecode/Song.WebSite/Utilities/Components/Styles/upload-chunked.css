@@ -1,0 +1,8 @@
+﻿.upload_chunked_area {
+    height: 45px;
+}
+
+.upload_chunked_area .filename {
+    font-size: 14px;
+    color: #999;
+}

@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />      
+    <title>修改友情链接</title>   
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+
+            <el-form-item label="名称" prop="Lk_Name">
+                <el-input v-model="entity.Lk_Name" maxlength="140"></el-input>
+            </el-form-item>
+            <el-form-item label="链接" prop="Lk_Url">
+                <el-input v-model="entity.Lk_Url" maxlength="140"></el-input>
+            </el-form-item>
+            <el-form-item label="所属分类">
+                <el-select v-model="entity.Ls_Id" placeholder="请选择分类">
+                    <el-option v-for="(item,i) in sorts" :key="item.Ls_Id" :label="item.Ls_Name" :value="item.Ls_Id">
+                        <span style="float: left;margin-right: 10px;">{{ i+1 }}.&nbsp;</span>
+                        <span style="float: left">{{ item.Ls_Name }}</span>
+                        <el-tag type="info" v-if="!item.Ls_IsShow" style="float: right; ">不显示</el-tag>
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="状态">
+                <el-switch v-model="entity.Lk_IsUse" active-color="#13ce66" inactive-color="#ff4949"
+                    :active-text="entity.Lk_IsUse ? '启用' : '禁用'">
+                </el-switch>
+                <el-switch v-model="entity.Lk_IsShow" v-show="false" :active-text="entity.Lk_IsShow ? '显示' : '隐藏'">
+                </el-switch>
+            </el-form-item>
+            <el-form-item label="序号" prop="Lk_Tax">
+                <el-tooltip class="item" effect="light" content="数值越小越靠前" placement="right">
+                    <el-input v-model="entity.Lk_Tax" type="number" maxlength="140" style="width: 120px;"></el-input>
+                </el-tooltip>
+            </el-form-item>
+            <el-form-item label="提示信息" prop="Lk_Tootip">
+                <el-input type="textarea" :rows="3" placeholder="请输入内容" maxlength="250" v-model="entity.Lk_Tootip">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="备注" prop="Lk_Explain">
+                <el-input type="textarea" :rows="3" placeholder="请输入内容" maxlength="250" v-model="entity.Lk_Explain">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="图片">
+                <upload-img @change="filechange" :data="entity" size="1024" height="100" ext="jpg,png,gif">
+                    <template v-if="entity.Lk_LogoSmall!='' || upfile!=null">
+                        <img v-if="upfile!=null" :src="upfile.base64" />
+                        <img v-else :src="entity.Lk_LogoSmall" />
+                        <el-link type="primary" @click.stop="fileremove">清除图片</el-link>
+                    </template>
+                    <div class="nophoto" v-else>
+                        <el-tooltip content="点击上传图片" placement="right" effect="light">
+                            <icon>&#xe724</icon>
+                        </el-tooltip>
+                    </div>
+                </upload-img>
+               
+            </el-form-item>
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>保存
+            </el-button>
+            <el-button type='close'>
+               取消
+            </el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

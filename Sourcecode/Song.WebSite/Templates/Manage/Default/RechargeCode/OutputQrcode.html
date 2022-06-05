@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row :gutter="20" class="theme">
+            {{codeset.Rs_Theme}}
+        </el-row>
+        <el-row :gutter="20" class="row">
+            <el-col :span="8">面额：<span class="weisha_icon money" icon="&#xe624">{{codeset.Rs_Price}}元</span></el-col>
+            <el-col :span="8">数量：{{codeset.Rs_Count}} 张</el-col>
+            <el-col :span="8">已使用：{{codeset.Rs_UsedCount}} 张</el-col>
+        </el-row>
+        <el-row :gutter="20" class="row">
+            <el-col :span="16">有效期：
+                {{codeset.Rs_LimitStart|date('yyyy-MM-dd')}}
+                至
+                {{codeset.Rs_LimitEnd|date('yyyy-MM-dd')}}</el-col>
+                <el-col :span="8"> <input id="btnPrint" type="button" value="打印" onclick="window.print();" /></el-col>
+        </el-row>
+  
+        <div class="qrcode-area">
+            <img src="/Utilities/images/used.png" id="used" style="display: none;" />
+            <img src="/Utilities/images/disable.png" id="disable" style="display: none;" />
+            <dl>
+                <dd v-for="(c,i) in codes" :id="'code_'+c.Rc_ID" :code="c.Rc_Code" :pw="c.Rc_Pw"
+                    v-bind:used="c.Rc_IsUsed" :disable="!c.Rc_IsEnable">
+                    <div class="code">
+                        {{c.Rc_Code}} - {{c.Rc_Pw}}</div>
+                    <div class="qrcodeimg"></div>
+                    <div class="info">
+                        学习卡-{{organ.Org_PlatformName}}</div>
+
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

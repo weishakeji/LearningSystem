@@ -1,0 +1,239 @@
+﻿@charset "utf-8";
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: relative;
+}
+
+context {
+	display: block;
+	width: 100%;
+	height: calc(100% - 44px);
+	padding: 44px 0px 10px 0px;
+	text-align: left;
+	overflow-y: auto;
+	box-sizing: border-box;
+	background: linear-gradient(rgba(147, 209, 255, 1), rgba(255, 255, 255, 1));
+}
+.nophoto {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 20px;
+	float: left;
+	background-size: cover;
+	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+	background-image: url(/Utilities/images/head1.jpg);
+}
+.course {
+	width: calc(100% - 20px);
+	margin: 10px;
+	display: table;
+}
+
+.course img:first-child {
+	width: 150px;
+	height: calc(150px * 9 / 16);
+	float: left;
+}
+
+.course .info {
+	width: calc(100% - 150px);
+	height: calc(150px * 9 / 16);
+	float: right;
+	padding: 5px 0px 0px 10px;
+	box-sizing: border-box;
+	position: relative;
+}
+
+.course .info>div:first-child {
+	font-size: 15px;
+	line-height: 20px;
+	height: 40px;
+	overflow: hidden;
+}
+
+.sbjname {
+	height: 20px;
+	line-height: 20px;
+	position: absolute;
+	font-size: 13px;
+	color: #666;
+	bottom: 20px;
+}
+
+.sbjname::before {
+	content: '\e750';
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	margin-right: 3px;
+	font-size: 12px;
+}
+
+.info div.count {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	font-size: 14px;
+	height: 25px;
+	display: flex;
+	justify-content: flex-start;
+	margin-left: 10px;
+	line-height: 30px;
+	width: 100%;
+	white-space: nowrap;
+}
+
+.info div.count>* {
+	display: inline;
+	text-align: center;
+	margin-right: 15px;
+}
+
+.info div.count>*::before {
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	margin-right: 3px;
+}
+
+.info div.count>.outline::before {
+	content: '\e841';
+}
+
+.info div.count>.ques::before {
+	content: '\e75e';
+}
+
+.info div.count>.video::before {
+	content: '\e83a';
+}
+
+/*价格*/
+
+#money {
+	font-size: 18px;
+	font-weight: bold;
+	color: #CD7F32;
+}
+
+#money::before {
+	content: '\e746';
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	margin-right: 5px;
+	font-weight: normal;
+}
+
+#money::after {
+	content: '元';
+	margin-left: 5px;
+	font-weight: normal;
+}
+
+#coupon {
+	font-size: 14px;
+	color: #0f0f0f;
+	margin-left: 15px;
+}
+
+#coupon::before {
+	content: '\e847';
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	margin-right: 5px;
+	font-weight: normal;
+}
+
+#coupon::after {
+	content: '张券';
+	margin-left: 5px;
+	font-weight: normal;
+}
+
+.prices {
+	padding: 10px;
+	box-sizing: border-box;
+	line-height: 25px;
+	font-size: 16px !important;
+}
+
+.prices span {
+	font-size: 16px !important;
+}
+
+.prices .van-cell__label span {
+	font-size: 14px !important;
+}
+
+.mprice::before {
+	content: '\e83e';
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	font-size: 20px;
+	margin-right: 3px;
+	text-align: center;
+}
+
+.mprice::after {
+	content: ' 元';
+	display: inline-block;
+	margin-left: 3px;
+}
+
+.mprice b {
+	font-size: 20px;
+	color: #ffffff;
+	display: inline-block;
+	margin-right: 5px;
+	text-shadow: 1px 1px 3px #ff0000, -1px -1px 3px #ff0000, 1px -1px 3px #ff0000, -1px 1px 3px #ff0000;
+}
+
+.mprice .not {
+	text-decoration: line-through;
+	font-size: 16px;
+	text-shadow: none;
+	color: #999;
+	font-style:italic;
+}
+
+.munit::before {
+	content: '/';
+}
+.van-cell{
+	margin-bottom: 5px;
+}
+.van-cell__label .mprice {
+	color: #000;
+}
+
+.van-cell__label .mprice::before {
+	margin-right: 0px;
+	font-size: 15px;
+}
+
+span.avg {
+	font-size: 14px !important;
+	margin-left: 15px;
+	color: #999;
+}
+
+.selected {
+	background-color: #c1f8dc;
+	box-shadow: 1px 1px 3px #07c160, -1px -1px 3px #07c160, 1px -1px 3px #07c160, -1px 1px 3px #07c160;
+}
+/*按钮面板*/
+.showbtn{
+	height: 60px;
+	box-sizing: border-box;
+	padding: 10px;
+	display: flex;
+}
+.showbtn button{
+	flex: 1;
+	width: 100%;
+	font-size: 16px;
+}

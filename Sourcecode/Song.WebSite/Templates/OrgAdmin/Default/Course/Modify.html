@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>课程内容编辑</title>
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-skeleton :rows="8" animated :throttle="500" v-if="loading"></el-skeleton>
+        <template v-else>
+            <template v-if="exist" remark="课程管理">
+                <course_name :course="course" @save="savename"></course_name>
+                <el-tabs type="card" tab-position="top" v-model="tabName" class="course_tabs noselect">
+                    <el-tab-pane v-for="item in tabs" :name="item.tab">
+                        <div slot="label" @dblclick="doubletab(item)">
+                            <icon v-html="item.icon"></icon>{{item.name}}
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
+                <div id="content_panel">
+                    <iframe :name="winname" frameborder="0" border="0" marginwidth="0" marginheight="0"
+                        v-for="(item,i) in tabs" :id="item.tab" v-if="isshow(item.tab)"
+                        :src="item.tab+'?id='+id+'&uid='+course.Cou_UID"></iframe>
+                </div>
+            </template>
+            <template v-else remark="课程不存在">
+                <el-result icon="warning" title="信息为空" sub-title="当前要管理的课程并不存在">
+                    <template slot="extra">
+
+                    </template>
+                </el-result>
+            </template>
+        </template>
+    </div>
+</body>
+
+</html>

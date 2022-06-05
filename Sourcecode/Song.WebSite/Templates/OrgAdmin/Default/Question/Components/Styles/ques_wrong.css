@@ -1,0 +1,7 @@
+﻿/*反馈的错误信息*/
+.ques_wrong {
+	margin: 15px;
+	width: calc(100% - 30px);
+	height: calc(100% - 30px);
+	position: relative;
+}

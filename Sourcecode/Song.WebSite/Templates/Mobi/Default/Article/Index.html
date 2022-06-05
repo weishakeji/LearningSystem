@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />    
+    <title>新闻</title>   
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="header">
+            <search_input></search_input>
+        </div>
+        <div class="context">
+            <card v-if="loading">
+                <card-title>
+                    <van-loading size="24px">加载中...</van-loading>
+                </card-title>
+            </card>
+
+            <card v-for="(item,index) in columns">
+                <card-title arrow @click="window.location.href='list.'+item.Col_UID">
+                    <span class="weisha_icon" icon="&#xe75c"></span>
+                    {{item.Col_Name}}
+                </card-title>
+                <articles :column="item" :index="index"></articles>
+            </card>
+
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

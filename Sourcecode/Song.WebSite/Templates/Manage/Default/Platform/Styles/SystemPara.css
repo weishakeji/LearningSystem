@@ -1,0 +1,9 @@
+﻿@charset "utf-8";
+.value
+{
+	white-space: nowrap;
+	width: 100%;
+	overflow: hidden;
+	height:25px;
+	text-overflow:ellipsis; 
+}

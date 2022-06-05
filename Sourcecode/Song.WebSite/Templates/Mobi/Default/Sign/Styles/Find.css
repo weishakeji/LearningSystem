@@ -1,0 +1,60 @@
+﻿html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background-color: #58c198;
+    overflow: hidden;
+    background-image: linear-gradient(to bottom right, #6dbcff, #58c198, #ffb83c);
+}
+#vapp {
+    width: 100%;
+    height: 100%;
+	overflow-y: auto;
+}
+context {
+	display: block;
+	width: 100%;
+	height: calc(100% - 88px);
+	padding: 44px 0px 0px 0px;
+	text-align: center;
+	overflow-y: auto;
+}
+img.logo {
+	max-width: calc(60% - 40px);
+	padding: 20px 20px 0px 20px;
+}
+.platinfo{
+	box-sizing: border-box;
+	padding: 20px;	
+	font-size: 20px;
+	text-shadow: 1px 1px 3px #999;
+}
+card{
+    text-align:left;	
+}
+.btns button{
+    float: right;
+}
+.acc_photo {
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 20px;
+	float: left;
+	background-size: cover;
+	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+}
+
+.nophoto {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+.man {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+.woman {
+	background-image: url(/Utilities/images/head2.jpg);
+}

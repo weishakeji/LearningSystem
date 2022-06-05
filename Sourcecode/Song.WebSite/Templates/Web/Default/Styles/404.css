@@ -1,0 +1,19 @@
+﻿context {
+	display: block;
+	width: 1200px;
+	min-height: 800px;
+	display: table;
+	margin: 0px auto;
+	box-sizing: border-box;
+	padding: 100px;
+}
+context icon{
+	display: block;
+	font-size: 160px;
+	margin: 60px;
+	color: #999;
+}
+context>div{
+	font-size: 18px;
+	line-height: 40px;
+}

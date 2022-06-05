@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="account" :model="account" @submit.native.prevent label-width="120px">
+
+            <el-form-item label="账号" prop="Ac_AccName">
+                <el-tag type="info">{{account.Ac_AccName}}</el-tag>
+            </el-form-item>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="姓名" prop="Ac_Name">
+                        <el-input v-model="account.Ac_Name" clearable @input="pingyin" @blur="pingyin"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-form-item label="拼音缩写" prop="Ac_Pinyin">
+                <el-input v-model="account.Ac_Pinyin" style="width:100px"></el-input>
+                <span v-show="accPingyin.length>1" class="pingyin">
+                    （多音：<span class="py" v-for="(d,i) in accPingyin" @click="account.Ac_Pinyin=d">
+                        {{d}} <span v-show='i<accPingyin.length-1'>, </span>
+                    </span>）
+            </el-form-item>
+            <el-form-item label="性别" prop="Ac_Sex">
+                <el-radio-group v-model="account.Ac_Sex">
+                    <el-radio-button label="1">男</el-radio-button>
+                    <el-radio-button label="2">女</el-radio-button>
+                    <el-radio-button label="0">未知</el-radio-button>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="签名" prop="Ac_Signature">
+                <el-input v-model="account.Ac_Signature" type="textarea" :rows="2">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="出生年月" prop="Ac_Birthday">
+                <el-date-picker v-model="account.Ac_Birthday" type="date" format="yyyy-MM-dd" placeholder="选择日期">
+                </el-date-picker>
+            </el-form-item>
+
+            <el-form-item label="身份证" prop="Ac_IDCardNumber">
+                <el-input v-model="account.Ac_IDCardNumber" style="width: 220px;">
+                    <icon slot="prefix">&#xe67a</icon>
+                </el-input>
+                <help>身份证信息中包括了出生年月与性别</help>
+            </el-form-item>
+            <el-form-item label="学历" prop="Ac_Education">
+                <education :value="account.Ac_Education" @change="val=>account.Ac_Education=val"></education>
+            </el-form-item>
+            <el-form-item label="专业" prop="Ac_Major">
+                <el-input v-model="account.Ac_Major" style="width: 50%;">
+                    <icon slot="prefix">&#xe84b</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="籍贯" prop="Ac_Native">
+                <el-input v-model="account.Ac_Native">
+                    <icon slot="prefix">&#xe67c</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="民族" prop="Ac_Nation">
+                <el-input v-model="account.Ac_Nation" style="width: 220px;">
+                    <icon slot="prefix">&#xe60e</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="">
+                <el-button type="primary" native-type="submit" :loading="loading" @click="btnEnter('account')">
+                    <icon v-if="!loading">&#xa030</icon>保存修改
+                </el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+
+
+</body>
+
+</html>

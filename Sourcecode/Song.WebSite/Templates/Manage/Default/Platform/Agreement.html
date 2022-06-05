@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head resource>
+  <meta charset="utf-8">
+  <title>注册协议</title>
+
+  <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+  <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <el-tabs v-model="activeName" type="border-card">
+      <el-tab-pane label="学员注册" name="first">
+        <vue-html5-editor :content="accounts_details" @change="change_accounts" :show-module-name="false" ref="editor1">
+        </vue-html5-editor>
+        <div class="foot-btn">
+          <p class="title">通配字符：
+            <el-tag v-for="(val,key,index) in tooltip">
+             {<span v-html="key"></span>}  {{val}} 
+            </el-tag>          
+          </p>
+          <el-button type="primary" @click="updateDetails('accounts')">
+            保存“学员注册协议”的修改</el-button>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="教师申请" name="second">
+        <vue-html5-editor :content="teacher_details" @change="change_teacher" :show-module-name="false" ref="editor2">
+        </vue-html5-editor>
+        <div class="foot-btn">
+          <p class="title">通配字符：
+            <el-tag v-for="(val,key,index) in tooltip">
+             {<span v-html="key"></span>}  {{val}} 
+            </el-tag>          
+          </p>
+          <el-button type="success" @click="updateDetails('teacher')">保存"教师申请协议"的修改</el-button>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
+</body>
+
+</html>

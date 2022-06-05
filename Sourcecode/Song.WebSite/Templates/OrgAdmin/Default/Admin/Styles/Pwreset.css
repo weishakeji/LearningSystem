@@ -1,0 +1,28 @@
+﻿@charset "utf-8";
+#vapp{
+    overflow: hidden;
+}
+.el-form {
+    box-sizing: border-box;
+    margin: 10px;
+    height: calc(100% - 50px);
+    padding: 0px 5px 0px 0px;
+    overflow: auto;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+img.photo {
+    width: 60px;
+    height: 60px;
+    display: block;
+    float: left;
+    border: 1px solid #aaa;
+    margin-top: 5px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.accname {
+    line-height: 60px;
+}

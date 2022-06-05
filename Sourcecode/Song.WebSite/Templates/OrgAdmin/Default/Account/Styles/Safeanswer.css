@@ -1,0 +1,44 @@
+﻿@charset "utf-8";
+
+#vapp {
+    overflow: hidden;
+}
+
+.el-form {
+    box-sizing: border-box;
+    margin: 10px;
+    height: calc(100% - 50px);
+    padding: 0px 5px 0px 0px;
+    overflow: auto;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.photo {
+    display: flex;
+    justify-content: center;
+    margin: 0px 0px 10px 10px;
+}
+
+.photo img {
+    width: 60px;
+    height: 60px;
+    display: block;
+    border-radius: 50%;
+    border: 1px solid #aaa;
+    margin: 0px 10px 10px 0px;
+}
+
+.photo>dl {
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+}
+
+.photo>dl dd {
+    line-height: 30px;
+}
+
+.accname {
+    color: #999;
+}

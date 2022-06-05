@@ -1,0 +1,561 @@
+﻿@charset "utf-8";
+
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: relative;
+	text-align: left;
+}
+
+#vapp {
+
+	position: relative;
+}
+
+#vapp>* {
+	height: 100%;
+}
+
+/*学员信息的面板*/
+aside {
+	width: 30%;
+	float: right;
+	position: relative;
+	box-sizing: border-box;
+	padding: 15px;
+}
+
+aside div.account {
+	height: 80px;
+	width: 100%;
+	display: flex;
+}
+
+div.account>img:first-child {
+	width: 80px;
+	height: 80px;
+	display: block;
+	box-shadow: 1px 1px 2px #aaa, 1px 1px 8px #eee, -1px -1px 2px #fff, -1px -1px 8px #aaa;
+	border-radius: 50%;
+}
+
+aside div.account div:last-child {
+	flex: 1;
+}
+
+aside .name {
+	box-sizing: border-box;
+	display: block;
+	position: relative;
+	padding: 5px 10px;
+	margin: 0px 10px;
+	font-size: 18px;
+	color: #333;
+	text-shadow: 1px 1px 2px #999;
+	border-radius: 5px;
+	cursor: pointer;
+	user-select: none;
+	text-align: left;
+}
+
+aside .name:not(:first-child) {
+	color: #999;
+	font-size: 14px;
+	padding: 0px 10px;
+}
+
+div.body {
+	display: block;
+	position: relative;
+	flex: 1;
+	width: 70%;
+	overflow: hidden;
+	float: left;
+}
+
+row {
+	display: block;
+	position: relative;
+	padding: 11px 0px;
+	font-size: 15px;
+	line-height: 25px;
+	overflow: hidden;
+}
+
+row::after {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0px;
+	height: 1px;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #c8c7cc;
+}
+
+row[arrow]::before {
+	content: '\e670';
+	position: absolute;
+	top: 15px;
+	right: 8px;
+	font-size: 18px;
+	font-family: "webdesk_icon" !important;
+}
+
+.el-dialog__body {
+	padding-top: 0px;
+}
+
+/*不能考试的区域*/
+
+.context {
+	height: calc(100%);
+	background-color: #f2f2f2;
+	font-size: 14px;
+	width: 100%;
+	z-index: 4;
+	position: relative;
+	transition: left 0.5s;
+	overflow-y: auto;
+}
+
+/*未登录*/
+
+.acc_photo {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 20px;
+	float: left;
+	background-size: cover;
+	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+	transition: all 0.2s;
+}
+
+.nophoto {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+/*没有内容的图标*/
+
+.null_icon::before {
+	font-size: 65px;
+	line-height: 65px;
+	display: block;
+	color: #999;
+}
+
+.null_icon {
+	padding: 10px;
+	text-align: center;
+}
+
+.time_icon::before {
+	font-size: 85px;
+	position: absolute;
+	display: block;
+	left: 0px;
+	top: 50px;
+	color: #999;
+	height: 80px;
+}
+
+.time_icon {
+	position: relative;
+	padding: 20px 20px 20px 100px;
+	line-height: 30px;
+	font-size: 16px;
+}
+
+/*头部*/
+
+header {
+	height: 44px;
+	font-size: 14px;
+	width: calc(100% - 15px);
+	z-index: 2;
+}
+
+header .weisha_icon::before {
+	font-size: 22px;
+	line-height: 45px;
+}
+
+header>div:first-child {
+	width: 44px;
+	height: 44px;
+	line-height: 45px;
+	text-align: center;
+	float: left;
+}
+
+header>div:last-child {
+	width: 180px;
+	height: 44px;
+	line-height: 45px;
+	text-align: center;
+	float: right;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+header>div:last-child::before {
+	font-size: 18px;
+}
+
+header>div.title {
+	float: left;
+	width: calc(100% - 180px);
+	line-height: 45px;
+	font-size: 16px;
+	text-align: left;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+	box-sizing: border-box;
+	padding: 0px 15px;
+}
+
+/*上一题，下一题*/
+.move_btn span {
+	font-size: 13px;
+}
+
+.move_btn icon {
+	font-size: 20px;
+	margin: 0px;
+}
+
+.move_btn span:first-child {
+	margin-right: 15px;
+}
+
+/*页面底部*/
+
+footer {
+	height: 44px;
+	background-color: rgb(212, 224, 206);
+	font-size: 14px;
+	position: absolute;
+	width: calc(100% - 30px);
+	bottom: 25px;
+	z-index: 3;
+}
+
+footer>div {
+	float: left;
+	font-size: 16px;
+	text-align: center;
+	height: 100%;
+	cursor: pointer;
+}
+
+footer>div, footer>div * {
+	line-height: 44px;
+}
+
+footer>div::before {
+	font-size: 22px;
+}
+
+footer div#btnTime {
+	height: 100%;
+	line-height: 44px;
+	box-sizing: border-box;
+	font-weight: bold;
+	width: 40%;
+}
+
+footer div#btnSubmit {
+	width: 60%;
+	background-color: #009900;
+	color: #fff;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+footer div#btnSubmit::before {
+	font-size: 20px;
+	margin-right: 15px;
+}
+
+attended {
+	display: block;
+	height: calc(100% - 88px);
+	background-color: #f2f2f2;
+	position: fixed;
+	width: 100%;
+	top: 44px;
+	left: 0px;
+	z-index: 4;
+	position: relative;
+	transition: left 0.5s;
+}
+
+/*试题区*/
+
+section {
+	height: calc(100% - 55px);
+	background-color: #f2f2f2;
+	font-size: 14px;
+	z-index: 4;
+	position: relative;
+	transition: left 0.5s;
+}
+
+section dl, section dd {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	float: left;
+}
+
+section dd {
+	width: 70vw;
+	overflow-y: auto;
+	line-height: 150%;
+}
+
+section dd info {
+	display: block;
+	padding: 15px 15px 0px 15px;
+	height: 20px;
+	margin: 0px 10px;
+	font-size: 15px;
+}
+
+section dd info span {
+	font-size: 14px;
+	color: #999;
+}
+
+section dd * {
+	line-height: 150% !important;
+	font-size: 16px;
+}
+
+section dd card {
+	min-height: calc(100% - 32px - 35px);
+}
+
+section dd img {
+	max-width: 100% !important;
+}
+
+/*试题选项*/
+
+.ans_area {
+	margin-left: 5px;
+}
+
+.ans_area>div {
+	position: relative;
+	margin: 10px;
+}
+
+.type1>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e85c';
+	font-style: normal;
+	margin-right: 15px;
+}
+
+.type1>div[selected] i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e75b';
+	font-style: normal;
+}
+
+.ans_area>div[correct] {}
+
+.ans_area>div[correct]::before {
+	content: '\e706';
+	position: absolute;
+	left: -20px;
+	font-family: "webdesk_icon" !important;
+}
+
+.type2>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e603';
+	font-style: normal;
+	margin-right: 5px;
+}
+
+.type2>div[selected] i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e78b';
+	font-style: normal;
+}
+
+section textarea {
+	width: calc(100% - 22px);
+	padding: 10px;
+}
+
+/*答题卡*/
+
+.quesCard {
+	width: 100%;
+	height: calc(100% - 130px);
+}
+
+.quesCard .cardTit {
+	height: 50px;
+	font-size: 16px;
+	line-height: 50px;
+}
+
+.quesCard .cardTit>span:first-child {
+	padding: 0px 0px;
+}
+
+.quesCard .cardTit>span:first-child::before {
+	font-size: 22px;
+	margin-right: 10px;
+}
+
+.quesCard .cardTit>span:last-child {
+	font-size: 14px;
+	color: #999;
+	float: right;
+}
+
+.quesCard .cardBox {
+	height: calc(100% - 50px - 15px);
+	overflow-y: auto;
+	width: calc(100% + 12px);
+
+}
+
+.quesCard dl, .quesCard dt, .quesCard dd {
+	padding: 0px;
+	margin: 0px;
+}
+
+.quesCard dl {
+	width: 100%;
+	display: table;
+	margin-bottom: 10px;
+}
+
+.quesCard dt {
+	padding: 10px 0px 10px 15px;
+	width: calc(100% - 15px);
+}
+
+.quesCard dt span {
+	float: right;
+	font-size: 14px;
+	color: #999;
+}
+
+.quesCard dd {
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	margin: 5px;
+	border-radius: 50%;
+	border: solid 1px #666;
+	float: left;
+	cursor: pointer;
+	position: relative;
+}
+
+.quesCard dd[ans] {
+	background-color: rgb(25, 137, 250);
+	color: #fff;
+}
+
+.quesCard dd[current] {
+	border: solid 1px rgb(92, 180, 3);
+	color: rgb(255, 255, 255);
+	background-color: rgb(92, 180, 3) !important;
+}
+
+.quesCard dd[current]::after {
+	content: '\e777';
+	font-family: "webdesk_icon" !important;
+	font-size: 22px;
+	display: block;
+	position: absolute;
+	bottom: 1px;
+	right: -15px;
+	width: 20px;
+	height: 20px;
+	text-align: right;
+	color: rgb(92, 180, 3);
+}
+
+/*一些面板*/
+
+.submitState loading {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.submitState .btnEnter {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: darkgreen;
+	cursor: pointer;
+}
+
+/*得分样式*/
+
+score {
+	font-size: 16px;
+	line-height: 20px;
+	height: 20px;
+}
+
+score::before {
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	font-size: 22px;
+}
+
+score.nopass::before {
+	content: '\e774';
+	color: #ff0000;
+}
+
+score.general::before {
+	content: '\e829';
+}
+
+score.fine::before {
+	content: '\e826';
+	color: #07c160;
+}
+
+score.praise::before {
+	content: '\e855';
+	font-size: 20px;
+	color: chocolate;
+}
+
+.scoreinfo {
+	padding: 10px;
+	color: chocolate;
+}
+
+.scoreinfo>span {
+	font-size: 13px;
+	color: #999;
+}
+
+/*预载*/
+
+.loading_paper {
+	padding: 20px;
+}

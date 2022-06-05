@@ -1,0 +1,150 @@
+$ready(function () {
+
+    window.vapp = new Vue({
+        el: '#vapp',
+        data: {
+            couid: $api.dot(),       //课程id       
+            organ: {},
+            config: {},      //当前机构配置项
+
+            course: {},     //当前课程
+            teacher: {},     //当课程的教师
+            //教师查询
+            query: {
+                orgid: '', titid: '', search: '', phone: '', acc: '',
+                size: 20, index: 1
+            },
+            datas: [],
+            total: 1, //总记录数
+            totalpages: 1, //总页数
+
+            drawer: false,       //展示详情
+            drawerobj: {},           //要展示详情的对象
+
+            loading: false,
+            loading_sel: false,      //选中教师的执行状态
+            loading_init: false
+        },
+        mounted: function () {
+            var th = this;
+            $api.get('Course/ForID', { 'id': this.couid }).then(function (req) {
+                th.loading_init = true;
+                if (req.data.success) {
+                    var result = req.data.result;
+                    th.course = result;
+                    th.getTeacher();
+                    $api.get('Organization/ForID', { 'id': th.course.Org_ID }).then(function (req) {
+                        th.loading_init = false;
+                        if (req.data.success) {
+                            th.organ = req.data.result;
+                            //机构配置信息
+                            th.config = $api.organ(th.organ).config;
+                            th.query.orgid = th.organ.Org_ID;
+                            th.handleCurrentChange(1);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        th.loading_init = false;
+                        Vue.prototype.$alert(err);
+                        console.error(err);
+                    });
+                } else {
+                    console.error(req.data.exception);
+                    throw req.data.message;
+                }
+            }).catch(function (err) {
+                th.loading_init = false;
+                Vue.prototype.$alert('课程：' + err + '');
+                console.error(err);
+            });
+        },
+        created: function () {
+
+        },
+        computed: {
+            //当前课程是否有教师
+            existteach: function () {
+                return JSON.stringify(this.teacher) != '{}' && this.teacher != null;
+            }
+        },
+        watch: {
+        },
+        methods: {
+            //获取当前课程的教师
+            getTeacher: function () {
+                if (this.course.Th_ID <= 0) return;
+                var th = this;
+                $api.get('Teacher/ForID', { 'id': th.course.Th_ID }).then(function (req) {
+                    if (req.data.success) {
+                        th.teacher = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    //Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            },
+            //加载数据页
+            handleCurrentChange: function (index) {
+                if (index != null) this.query.index = index;
+                var th = this;
+                //每页多少条，通过界面高度自动计算
+                var area = document.documentElement.clientHeight - 180;
+                th.query.size = Math.floor(area / 42);
+                th.loading = true;
+                $api.get("Teacher/Pager", th.query).then(function (d) {
+                    th.loading = false;
+                    if (d.data.success) {
+                        th.datas = d.data.result;
+                        th.totalpages = Number(d.data.totalpages);
+                        th.total = d.data.total;
+                    } else {
+                        console.error(d.data.exception);
+                        throw d.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                });
+            },
+            //在列中显示信息，包含检索
+            showInfo: function (txt) {
+                if (txt != '' && this.query.search != '') {
+                    var regExp = new RegExp(this.query.search, 'g');
+                    txt = txt.replace(regExp, `<red>${this.query.search}</red>`);
+                }
+                return txt;
+            },
+            //选择教师
+            selected: function (teach) {
+                var th = this;
+                th.loading_sel = true;
+                $api.post('Teacher/SetCourse', { 'couid': th.couid, 'teachid': teach.Th_ID }).then(function (req) {
+                    th.loading_sel = false;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.teacher = teach;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading_sel = false;
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            },
+            //显示教师详情
+            showteach: function (teach) {
+                this.drawer = true;
+                this.drawerobj = teach;
+            }
+        }
+    });
+
+}, ['../teacher/Components/photo.js',
+    "/Utilities/Components/education.js"]);

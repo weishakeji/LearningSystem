@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title></title>
+    <script src="/Utilities/tinymce/tinymce.min.js"></script>
+ 
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <tinymce-editor :init="init" v-model="datas.content"></tinymce-editor>
+        <form method="post">
+            <textarea id="mytextarea">Hello, World!</textarea>
+          </form>
+    </div>  
+</body>
+
+</html>

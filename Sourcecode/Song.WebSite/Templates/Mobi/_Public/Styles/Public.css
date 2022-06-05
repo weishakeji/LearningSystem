@@ -1,0 +1,463 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+@font-face {
+	font-family: 'webdesk_icon';
+	src: url("/Utilities/fonts/iconfont.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+
+.font_icon {
+	font-family: "webdesk_icon" !important;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-transition: font-size 0.25s ease-out 0s;
+	-moz-transition: font-size 0.25s ease-out 0s;
+	transition: font-size 0.25s ease-out 0s;
+}
+
+/*图标引用，
+	html标签中增加icon属性， 例如：<span class="weisha_icon" icon="&#xa038">内容</span>
+*/
+
+.weisha_icon::before, .webdesk_icon::before {
+	content: attr(icon);
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+}
+
+icon {
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	display: inline-block;
+}
+
+*[v-cloak] {
+	display: none;
+}
+
+* {
+	touch-action: none;
+	touch-action: pan-y;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+html {
+	background-color: #f2f2f2;
+	overflow-x: hidden;
+}
+
+*::-webkit-scrollbar {
+	/*滚动条整体样式*/
+	width: 3px;
+	/*高宽分别对应横竖滚动条的尺寸*/
+	height: 1px;
+	width: 0 !important;
+}
+
+*::-webkit-scrollbar-thumb {
+	/*滚动条里面小方块*/
+	border-radius: 3px;
+	-webkit-box-shadow: inset 0 0 5px rgba(175, 173, 173, 0.2);
+	background: #b9b9b9;
+}
+
+*::-webkit-scrollbar-track {
+	/*滚动条里面轨道*/
+	-webkit-box-shadow: inset 0 0 5px rgba(204, 204, 204, 0.2);
+	border-radius: 3px;
+	background: #EDEDED;
+}
+
+*[v-cloak] {
+	display: none;
+}
+
+.van-dialog {
+	border-radius: 3px;
+}
+/*预载*/
+loading {
+	color: #666;
+	font-size: 13px;
+}
+
+loading::before {
+	content: "\e621";
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	font-size: 20px;
+	margin-right: 10px;
+	animation: rotate_360 0.6s infinite linear;
+}
+
+@keyframes rotate_360 {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	25% {
+		transform: rotate(90deg);
+	}
+
+	50% {
+		transform: rotate(180deg);
+	}
+
+	75% {
+		transform: rotate(270deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+help, alert {
+	color: #999;
+	font-size: 13px;
+}
+alert{
+	color: #F56C6C;
+}
+
+help::before, alert::before {
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	margin-right: 8px;
+	font-size: 16px;
+}
+
+help::before {
+	content: "\a026";	
+}
+
+alert::before {
+	content: "\e74f";	
+}
+/*特殊字体*/
+
+red, .red {
+	color: red;
+	font-weight: bold;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+.icon_man::before {
+	content: "\e645";
+	color: rgb(3, 71, 71);
+	font-family: "webdesk_icon" !important;
+}
+
+.icon_woman::before {
+	content: "\e647";
+	color: rgb(248, 87, 87);
+	font-family: "webdesk_icon" !important;
+}
+
+/*侧边菜单栏*/
+
+#aside_menu.van-popup {
+	background-color: #000;
+	overflow: hidden;
+	height: 100%;
+}
+
+.aside_menu {
+	color: #ccc;
+	width: 60vw;
+	height: calc(100% - 20px);
+	padding-top: 20px;
+	position: relative;
+}
+
+.aside_menu a {
+	color: #ccc;
+}
+
+.account_info {
+	height: 60px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+}
+
+.aside_menu .acc_photo {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 10px;
+	float: left;
+	background-size: cover;
+	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+}
+
+.aside_menu .nophoto {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+.aside_menu .man {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+.aside_menu .woman {
+	background-image: url(/Utilities/images/head2.jpg);
+}
+
+.aside_menu .accInfo {
+	float: right;
+	height: 100%;
+	width: calc(100% - 90px);
+	margin-right: 10px;
+}
+
+.aside_menu .acc-name {
+	line-height: 35px;
+}
+
+.aside_menu .acc-name a {
+	font-size: 16px;
+}
+
+.aside_menu .acc-money {
+	width: 100%;
+	display: flex;
+	justify-content: left;
+}
+
+.aside_menu .acc-money>* {
+	flex: initial;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.aside_menu .acc-money a:first-child {
+	font-size: 13px;
+	color: #F90;
+	margin-right: 10px;
+	text-align: left;
+}
+
+.aside_menu .acc-money a:first-child:before {
+	content: "\e73c";
+	font-family: "webdesk_icon";
+	font-size: 16px;
+	margin-right: 2px;
+}
+
+.aside_menu .acc-money a:last-child {
+	float: right;
+	text-align: right;
+}
+
+.aside_menu .income {
+	font-size: 12px;
+	line-height: 1;
+	display: inline-block;
+	padding: 3px 6px;
+	border-radius: 100px;
+	color: #fff;
+	background-color: #007aff;
+}
+
+.aside_menu .aside_list {
+	height: calc(100% - 130px);
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.aside_menu .aside_list::-webkit-scrollbar {
+	display: none;
+}
+
+.aside_menu .aside_list a {
+	display: block;
+	height: 20px;
+	padding: 10px 10px 10px 15px;
+	line-height: 20px;
+	font-size: 16px;
+	box-shadow: -1px -1px 0px #333;
+	width: calc(100% - 24px);
+}
+
+.aside_menu .aside_list p {
+	height: 0px;
+	padding: 10px 10px 10px 15px;
+	line-height: 20px;
+	margin: 0px;
+}
+
+.aside_menu .aside_list p+a {
+	box-shadow: none;
+}
+
+.aside_menu .aside_list a::after {
+	content: "\e670";
+	font-family: "webdesk_icon";
+	font-size: 14px;
+	margin-right: 2px;
+	float: right;
+}
+
+.aside_menu .aside_list a:first-child {
+	box-shadow: none;
+}
+
+.aside_menu b {
+	font-family: "webdesk_icon";
+	margin-right: 4px;
+	font-weight: normal;
+}
+
+.aside_menu .aside_foot {
+	height: 50px;
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+	display: flex;
+}
+
+.aside_foot a {
+	display: block;
+	height: 30px;
+	padding: 10px 10px 10px 10px;
+	line-height: 10px;
+	font-size: 14px;
+	width: auto;
+	flex: auto;
+	white-space: nowrap;
+}
+
+/*主页底部导航栏*/
+
+footer#nav_menu {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	display: flex;
+	width: 100%;
+	background-color: rgba(255, 255, 255, 1);
+	height: 70px;
+	font-size: 22px;
+	z-index: 10;
+}
+
+/*导航的项目*/
+
+footer#nav_menu>div {
+	flex: 1;
+	text-align: center;
+	height: 40px;
+	color: #666;
+	padding-top: 10px;
+	background-color: #fff;
+}
+
+footer#nav_menu .font_icon {
+	line-height: 26px;
+	height: 25px;
+	display: block;
+}
+
+footer#nav_menu>div span {
+	font-size: 12px;
+	height: 20px;
+	padding: 0px;
+	margin: 0px;
+	display: block;
+}
+
+footer#nav_menu img {
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+}
+
+/*卡片*/
+
+card {
+	display: block;
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+	border-radius: 4px;
+	border: 1px solid #ebeef5;
+	background-color: #fff;
+	overflow: hidden;
+	color: #303133;
+	transition: .3s;
+	margin: 15px;
+	width: calc(100% - 30px);
+}
+
+card-title {
+	display: block;
+	padding: 15px;
+	line-height: 25px;
+	position: relative;
+	border-bottom: solid 1px rgba(0, 0, 0, .1);
+}
+
+card-title[arrow]::after {
+	content: '\e670';
+	position: absolute;
+	top: 15px;
+	right: 8px;
+	font-size: 18px;
+	font-family: "webdesk_icon" !important;
+}
+
+card-title[line] {
+	border-bottom: solid 1px rgba(0, 0, 0, .1);
+}
+
+card-context {
+	display: block;
+	padding: 10px 15px 15px 15px;
+	line-height: 30px;
+}
+
+row {
+	display: block;
+	position: relative;
+	padding: 11px 0px;
+	font-size: 15px;
+	line-height: 25px;
+	overflow: hidden;
+}
+
+row::after {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0px;
+	height: 1px;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #c8c7cc;
+}
+
+row[arrow]::before {
+	content: '\e670';
+	position: absolute;
+	top: 15px;
+	right: 8px;
+	font-size: 18px;
+	font-family: "webdesk_icon" !important;
+}

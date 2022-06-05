@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>找回密码</title>
+</head>
+
+<body>
+
+    <div id="vapp" v-cloak>
+        <page_header ref='header' :organ="organ" v-if="true">loading ...</page_header>
+
+        <context class="first">
+            <section>
+                <div class="platinfo weisha_icon" icon="&#xe67b">找回密码</div>
+                <!--输入账号-->
+                <card v-if="step==1">
+                    <card-title>
+                        <icon style="font-size: 23px;">&#xe687</icon>请输入您的账号
+                    </card-title>
+                    <card-context>
+                        <el-form size="medium" @submit.native.prevent label-width="80px">
+                            <el-form-item label="账号">
+                                <el-input v-model="acc.input" label="账号" required placeholder="账号">
+                                </el-input>
+                                <error v-if='acc.error' v-html="acc.message"></error>
+                            </el-form-item>
+                            <el-form-item label="">
+                                <el-button type="primary" @click="testAcc" :loading="loading" :disabled="loading"
+                                    loading-text="正在执行...">
+                                    <icon>&#xe6c6</icon>下一步
+                                </el-button>
+
+                            </el-form-item>
+                        </el-form>
+                    </card-context>
+                </card>
+                <!--安全问题-->
+                <card v-if="step==2">
+                    <card-title>
+                        <icon>&#xa043</icon>安全问题
+                    </card-title>
+                    <card-context>
+                        <el-form size="medium" @submit.native.prevent label-width="80px">
+                            <el-form-item label="账号">
+                                {{account.Ac_AccName}}
+                            </el-form-item>
+                            <template v-if="account.Ac_Qus!=''">
+                                <el-form-item label="安全问题">
+                                    {{account.Ac_Qus}}
+                                </el-form-item>
+                                <el-form-item label="答案">
+                                    <el-input v-model="ques.input" placeholder="请输入内容"></el-input>
+                                    <error v-if='ques.error' v-html="ques.message"></error>
+                                </el-form-item>
+                                <el-form-item label="">
+                                    <el-button type="primary" @click="testQues" :loading="loading" :disabled="loading"
+                                        loading-text="正在执行...">
+                                        <icon>&#xe6c6</icon>下一步
+                                    </el-button>
+                                </el-form-item>
+                            </template>
+                            <template v-else>
+                                <el-form-item label="提示">
+                                    <span style="line-height: 10px;">没有设置安全问题，无法找回密码，请联系管理员！</span>
+                                </el-form-item>
+                            </template>
+                        </el-form>
+                    </card-context>
+                </card>
+                <!--修改密码-->
+                <card v-if="step==3">
+                    <card-title>
+                        <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                            :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                        <template v-else>
+                            <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
+                            <div class="acc_photo man" v-else></div>
+                        </template>
+                        重新设置密码
+                    </card-title>
+                    <card-context>
+                        <el-form size="medium" @submit.native.prevent label-width="80px">
+                            <el-form-item label="账号">
+                                {{account.Ac_AccName}}
+                            </el-form-item>
+                            <el-form-item label="密码">
+                                <el-input v-model="pw.input1" placeholder="" show-password></el-input>
+                            </el-form-item>
+                            <el-form-item label="密码确认">
+                                <el-input v-model="pw.input2" placeholder="" show-password></el-input>
+                                <error v-if='pw.error' v-html="pw.message"></error>
+                            </el-form-item>
+                            <el-form-item label="">
+                                <el-button type="primary" @click="setupPw" :loading="loading" :disabled="loading"
+                                    loading-text="正在执行...">
+                                    <icon>&#xa030</icon>设置密码
+                                </el-button>
+                            </el-form-item>
+                        </el-form>
+                    </card-context>
+                </card>
+            </section>
+        </context>
+        <page_footer :organ="organ" v-if="true">loading ...</page_footer>
+    </div>
+
+
+</body>
+
+</html>

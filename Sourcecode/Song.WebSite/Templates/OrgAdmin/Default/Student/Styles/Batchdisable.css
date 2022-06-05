@@ -1,0 +1,51 @@
+﻿@charset "utf-8";
+
+#vapp {
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.el-tabs {
+    height: calc(100% - 40px);
+}
+
+.first_intro {
+    margin: 10px 0px 10px 0px;
+    line-height: 30px;
+}
+
+div.el-tabs__content {
+    height: calc(100% - 70px);
+    overflow-y: auto;
+}
+
+div.el-tabs__content>div {
+    height: calc(100% - 10px);
+}
+
+.inputText {
+    height: calc(100% - 80px);
+}
+
+.inputText>textarea {
+    height: 100%;
+}
+.woman{
+	color: rgb(104, 160, 212);
+}
+/*已经禁用的学员*/
+.disable{
+ color: #999;
+}
+.disable icon{
+    display: none;
+}
+.disable::before{
+	content: "\e7ad";
+	color: #999;
+	font-family: "webdesk_icon" !important;
+}
+/*帮助说明*/
+.help_title{
+    padding-top: 10px;
+}

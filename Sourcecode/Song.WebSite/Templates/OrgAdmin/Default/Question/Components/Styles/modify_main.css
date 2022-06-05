@@ -1,0 +1,33 @@
+﻿/*课程数据*/
+
+.panel {
+	width: 100%;
+	height: calc(100% - 65px);
+}
+.panel>div:not(:first-child){
+	border: 1px solid #DCDFE6;
+	border-top: none;
+}
+.el-tabs--border-card {
+	box-shadow: none;
+	border-bottom: none;
+}
+
+.el-tabs__content {
+	display: none;
+}
+/*编辑区域*/
+.panel>div[remark]{
+	height: calc(100% - 30px);
+	overflow: auto;
+}
+/*试题解析的编辑器*/
+.explain_editor{
+	margin: 15px;
+	width: calc(100% - 30px);
+	height: calc(100% - 30px);
+
+}
+.explain_editor .content{
+	height: calc(100% - 37px) !important;
+}

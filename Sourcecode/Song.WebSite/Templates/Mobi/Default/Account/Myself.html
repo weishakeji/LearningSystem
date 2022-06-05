@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>个人信息</title> 
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <van-loading size="24px" type="spinner" v-if="loading">加载中...</van-loading>
+        <div class="context" v-else>
+            <van-sticky>
+                <div class="header_info" v-if="!islogin" remark="未登录">
+                    <div class="acc_photo nophoto"></div>
+                    <div class="accInfo">
+                        <div class="acc-name"> <a href="/mobi/sign/in">未登录 </a>
+                        </div>
+                        <span class="acc-money"> ... </span>
+                    </div>
+                </div>
+                <div class="header_info" v-if="islogin" remark="已经登录">
+                    <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                        :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                    <template v-else>
+                        <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
+                        <div class="acc_photo man" v-else></div>
+                    </template>
+                    <div class="accInfo">
+                        <div class="acc-name">
+                            <span v-if="account.Ac_Name!=''">{{account.Ac_Name}}</span>
+                            <span v-else>（没有名字）</span></div>
+                        <span class="acc-acname">{{account.Ac_AccName}}</span>
+
+                    </div>
+                </div>
+            </van-sticky>
+            <template v-if="islogin">
+                <card class="first">
+                    <van-cell is-link @click="window.location.href='/mobi/Money/Details'">
+                        <template #title>
+                            <span class="weisha_icon" icon="&#xe749">资金明细</span>
+                        </template>
+                        <template #default>
+                            <span class="weisha_icon" icon="&#xe73c">{{account.Ac_Money}} 元</span>
+                        </template>
+                    </van-cell>
+                    <van-cell is-link>
+                        <template #title>
+                            <span class="weisha_icon" icon="&#xe73b">充值</span>
+                        </template>
+                        <template #default>
+                            <span class="weisha_icon" icon="&#xe847"> 券{{account.Ac_Coupon}} 个</span>
+                        </template>
+                    </van-cell>
+                    <van-cell is-link @click="window.location.href='Myfriends'">
+                        <template #title>
+                            <span class="weisha_icon" icon="&#xe67d">我的朋友</span>
+                        </template>
+                        <template #default>
+                            <span>累计 {{friendsAll}} 位</span>
+                        </template>
+                    </van-cell>
+                </card>
+                <card>
+                    <van-collapse v-model="activeNames">
+                        <van-collapse-item name="1">
+                            <template #title>
+                                <span class="weisha_icon" icon="&#xe804">姓名 </span>
+                            </template>
+                            <template #value>
+                                {{account.Ac_Name}}
+                            </template>
+                            <van-cell-group>
+                                <van-field v-model="account.Ac_Name" label="" placeholder="请输入姓名" @blur="update">
+                                </van-field>
+                            </van-cell-group>
+                        </van-collapse-item>
+                        <van-collapse-item name="2">
+                            <template #title>
+                                <span class="weisha_icon" icon="&#xe685">身份证 </span>
+                            </template>
+                            <template #value>
+                                {{account.Ac_IDCardNumber}}
+                            </template>
+                            <van-cell-group>
+                                <van-field v-model="account.Ac_IDCardNumber" label="" placeholder=""
+                                    right-icon="question-o" @click-right-icon="$toast('请输入身份证号')" @blur="update">
+                                </van-field>
+                            </van-cell-group>
+                        </van-collapse-item>
+                        <van-collapse-item name="3">
+                            <template #title>
+                                <span class="weisha_icon" icon="&#xe804">性别 </span>
+                            </template>
+                            <template #value>
+                                <span v-if="account.Ac_Sex==1" class="icon_man">男</span>
+                                <span v-if="account.Ac_Sex==2" class="icon_woman">女</span>
+                            </template>
+                            <van-radio-group v-model="account.Ac_Sex" @change="update">
+                                <van-cell-group>
+                                    <van-cell title="男" clickable @click="account.Ac_Sex = '1'">
+                                        <template #right-icon>
+                                            <van-radio name="1" />
+                                        </template>
+                                    </van-cell>
+                                    <van-cell title="女" clickable @click="account.Ac_Sex = '2'">
+                                        <template #right-icon>
+                                            <van-radio name="2" />
+                                        </template>
+                                    </van-cell>
+                                </van-cell-group>
+                            </van-radio-group>
+                        </van-collapse-item>
+                        <van-collapse-item name="4">
+                            <template #title>
+                                <span class="weisha_icon" icon="&#xe82c">年龄 </span>
+                            </template>
+                            <template #value>
+                                {{account.Ac_Age}} 岁
+                            </template>
+                            <van-field v-model="account.Ac_Age" type="digit" label="年龄" placeholder=""
+                                right-icon="question-o" @click-right-icon="$toast('如果填写身份证号后，年龄会随身份证')"
+                                @blur="update" />
+                        </van-collapse-item>
+                        <van-collapse-item name="5">
+                            <template #title>
+                                <span class="weisha_icon" icon="&#xe71a">联系方式 </span>
+                            </template>
+                            <template #value>
+                                {{account.Ac_MobiTel1}}
+                            </template>
+
+                            <van-cell>
+
+                                <van-field v-model="account.Ac_MobiTel1" type="tel" label="手机号" @blur="update" />
+
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Qq" type="digit" label="QQ" @blur="update" />
+                                </template>
+                            </van-cell>
+                            <van-cell>
+                                <template>
+                                    <van-field v-model="account.Ac_Email" label="邮箱" @blur="update" />
+
+                                </template>
+                            </van-cell>
+
+                        </van-collapse-item>
+                        <van-collapse-item name="6">
+                            <template #title>
+                                <span class="weisha_icon" icon="&#xe85b">个人签名 </span>
+                            </template>
+                            <template #value>
+
+                            </template>
+                            <van-cell-group>
+                                <van-cell>
+                                    <van-field v-model="account.Ac_Signature" type="textarea" label="签名" placeholder=""
+                                        @blur="update">
+
+                                    </van-field>
+                                </van-cell>
+                            </van-cell-group>
+                        </van-collapse-item>
+                    </van-collapse>
+                </card>
+                <card>
+                    <van-collapse v-model="activeNames">
+                        <van-collapse-item name="7">
+                            <template #title>
+                                <span class="weisha_icon" icon="&#xe67b">安全问题 </span>
+                            </template>
+                            <van-cell-group>
+                                <van-cell>
+                                    <van-field v-model="account.Ac_Qus" label="问题" />
+                                </van-cell>
+                                <van-cell>
+                                    <template>
+                                        <van-field v-model="account.Ac_Ans" label="答案" />
+                                    </template>
+                                </van-cell>
+                                <van-cell>
+                                    <van-button size="small" type="primary" style="float: right;" @click="update">确 定
+                                    </van-button>
+                                </van-cell>
+                            </van-cell-group>
+                        </van-collapse-item>
+                        <van-collapse-item name="8">
+                            <template #title>
+                                <span class="weisha_icon" icon="&#xe76c">密码修改 </span>
+                            </template>
+                            <van-cell-group>
+                                <van-cell>
+                                    <van-field v-model="password.oldpw" type="password" label="原密码" />
+                                </van-cell>
+                                <van-cell>
+                                    <template>
+                                        <van-field v-model="password.newpw" type="password" label="新密码" />
+                                    </template>
+                                </van-cell>
+                                <van-cell>
+                                    <template>
+                                        <van-field v-model="password.newpw2" type="password" label="密码确认" />
+                                    </template>
+                                </van-cell>
+                                <van-cell>
+                                    <van-button size="small" type="primary" style="float: right;" @click="changePw">确 定
+                                    </van-button>
+                                </van-cell>
+                            </van-cell-group>
+                        </van-collapse-item>
+                    </van-collapse>
+                </card>
+
+                <card>
+                    <van-cell title="退出登录" @click="logout">
+                        <template #title>
+                            <span class="weisha_icon" icon="&#xe739">退出登录</span>
+                        </template>
+                    </van-cell>
+
+                </card>
+            </template>
+            <card v-else>
+                <van-cell is-link>
+                    <template #title>
+                        <a class="weisha_icon" icon="&#xe84d" href="../Sign/in">点击此处登录</a>
+                    </template>
+                </van-cell>
+
+            </card>
+
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

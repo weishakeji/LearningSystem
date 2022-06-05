@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="panel">
+            <el-tabs type="border-card" v-model="activeName">
+                <el-tab-pane :name="tab.tab" v-for="(tab,i) in tabs">
+                    <span slot="label">
+                        <icon v-html="'&#x'+tab.icon"></icon> {{tab.name}}
+                    </span>
+                </el-tab-pane>
+            </el-tabs>
+
+            <el-form ref="form" :model="entity" :rules="rules" v-loading="loading" @submit.native.prevent
+                label-width="100px">
+                <div v-show="activeName=='general'" remark="基本信息">
+                    <el-form-item label="试卷标题" prop="Tp_Name">
+                        <el-input v-model="entity.Tp_Name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="副标题" prop="Tp_SubName">
+                        <el-input v-model="entity.Tp_SubName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-switch v-model="entity.Tp_IsFinal" active-color="#13ce66" active-text="设置为结课考试">
+                        </el-switch>
+                        <help>一个课程最多只能有一个结课考试，请谨慎选择</help>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-switch v-model="entity.Tp_IsUse" active-color="#13ce66" active-text="启用">
+                        </el-switch>
+                        <el-switch v-model="entity.Tp_IsRec" active-color="#13ce66" active-text="推荐">
+                        </el-switch>
+                     
+                    </el-form-item>
+
+                    <el-row :gutter="10">
+                        <el-col :span="14">
+                            <el-form-item label="" prop="Tp_Span">
+                                <el-input placeholder="请输入内容" v-model="entity.Tp_Span" type="number">
+                                    <template slot="prepend">限时</template>
+                                    <template slot="append">分钟</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="10">
+
+                        </el-col>
+                    </el-row>
+
+
+                    <el-row :gutter="10">
+                        <el-col :span="14">
+                            <el-form-item label="" prop="Tp_Total">
+                                <el-input v-model="entity.Tp_Total" type="number" :min="1">
+                                    <template slot="prepend">满分</template>
+                                    <template slot="append">分</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="9">
+                            <el-form-item label="" prop="Tp_PassScore" label-width="0">
+                                <el-input v-model="entity.Tp_PassScore" type="number" :min="0">
+                                    <template slot="prepend">及格分</template>
+                                    <template slot="append">分</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                    <el-form-item label="难度范围" prop="Tp_Diff">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-slider v-model="Tp_Diff" range show-stops :min="1" :max="5" @change="diffChange">
+                                </el-slider>
+                            </el-col>
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="11">
+                                <el-tag type="info">{{entity.Tp_Diff}} - {{entity.Tp_Diff2}}</el-tag>
+                            </el-col>
+                        </el-row>
+
+                    </el-form-item>
+                    <el-form-item label="专业" prop="Tp_SubName">
+                        <sbj_cascader :sbjid="entity.Sbj_ID" :orgid="orgid" @change="sbjChange"
+                            :disabled="edit || couid!=''">
+                        </sbj_cascader>
+                    </el-form-item>
+                    <el-form-item label="课程" prop="Cou_ID">
+                        <el-select v-model="entity.Cou_ID" style="width: 100%;" filterable clearable
+                            :disabled="edit || couid!=''" placeholder="-- 课程 --">
+                            <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
+                                :value="item.Cou_ID">
+                                <span>{{i+1}} . </span>
+                                <span>{{item.Cou_Name}}</span>
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="出卷人">
+                        <el-input v-model="entity.Tp_Author" style="width: 180px;"></el-input>
+                    </el-form-item>
+                </div>
+                <div v-show="activeName=='range'" remark="出题范围">
+                    <el-row :gutter="10">
+                        <el-col :span="12">
+                            <el-form-item label="" label-width="0px">
+                                <el-radio-group v-model="entity.Tp_FromType">
+                                    <el-radio :label="0">当前课程所有试题</el-radio>
+                                    <el-radio :label="1">按章节出题</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="" prop="Tp_Total" label-width="0px">
+                                <el-input v-model="entity.Tp_Total" type="number" :min="1">
+                                    <template slot="prepend">试卷满分</template>
+                                    <template slot="append">分</template>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+
+                    <el-form-item label="" remark="当前课程所有试题" label-width="0px" v-show="entity.Tp_FromType==0">
+                        <fromtype0 ref="fromtype0" :types="types" :testpaper="entity" :total="entity.Tp_Total">
+                        </fromtype0>
+                    </el-form-item>
+                    <el-form-item label="" remark="按章节出题" label-width="0px" v-show="entity.Tp_FromType==1">
+                        <fromtype1 ref="fromtype1" :types="types" :testpaper="entity" :total="entity.Tp_Total">
+                        </fromtype1>
+                    </el-form-item>
+                </div>
+                <div v-show="activeName=='intro'" remark="简介" class="intro_editor">
+                    <vue-html5-editor :content="entity.Tp_Intro" :show-module-name="false" ref="editor_intro"
+                        @change="text=>entity.Tp_Intro = text">
+                    </vue-html5-editor>
+                </div>
+                <div v-show="activeName=='remind'" remark="注意事项" class="intro_editor">
+                    <vue-html5-editor :content="entity.Tp_Remind" :show-module-name="false" ref="editor_intro"
+                        @change="text=>entity.Tp_Remind = text">
+                    </vue-html5-editor>
+                </div>
+                <div v-show="activeName=='other'" remark="其它">
+                    <el-form-item label="试卷Logo">
+                        <div class="img_tools">
+                            <upload-img @change="filechange" :data="entity" size="1024" height="30" ext="jpg,png,gif">
+                                <el-tooltip content="允许的图片格式：jpg,png,gif" placement="right" effect="light">
+                                    <span style="cursor: pointer;">
+                                        <icon>&#xe724</icon>点击上传图片
+                                    </span>
+                                </el-tooltip>
+                            </upload-img>
+                            <template v-if="entity.Tp_Logo!='' || upfile!=null">
+                                <el-link type="primary" @click.stop="fileremove">清除图片</el-link>
+                            </template>
+                        </div>
+                        <div v-if="entity.Tp_Logo!='' || upfile!=null" class="img_div">
+                            <img v-if="upfile!=null" :src="upfile.base64" />
+                            <img v-else :src="entity.Tp_Logo" />
+                        </div>
+                    </el-form-item>
+                </div>
+            </el-form>
+        </div>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('form')">
+                <icon v-if="!loading">&#xa048</icon>确认修改
+            </el-button>
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

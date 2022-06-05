@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>卡券</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="frame_header">
+            <el-form :inline="true" :model="form" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
+                <el-form-item>
+                    <el-date-picker v-model="date_picker" type="daterange" range-separator="至" start-placeholder="开始日期"
+                        end-placeholder="结束日期">
+                    </el-date-picker>
+
+                    <el-select v-model="form.type" placeholder="请选择" style="width: 120px;">
+                        <el-option key="-1" label="--所有--" value="-1"> </el-option>
+                        <el-option key="1" label="支出" value="1"> </el-option>
+                        <el-option key="2" label="增加" value="2"> </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item>
+                    <el-button v-on:click="handleCurrentChange(1)" :loading="loading" native-type="submit"
+                        class="el-icon-search">
+                    </el-button>
+                </el-form-item>
+            </el-form>
+            <div>
+                <el-tag type="success" class="tatol_info">
+                    <icon>&#xe847</icon>{{account.Ac_Coupon}} 券
+                </el-tag>
+                <el-button type="primary" sizie="mini" plain @click="exchangeShow=true">
+                    <icon>&#xe88a</icon>兑换
+                </el-button>
+                <el-button type="success" sizie="mini" plain @click="useCardShow=true">
+                    <icon>&#xe60f</icon>充值
+                </el-button>
+
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatables" v-loading="loading" :stripe="true" :data="datas" tooltip-effect="dark"
+                style="width: 100%">
+                <el-table-column type="index" label="#" width="80" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="详情" width="150">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Ca_Type==1" class="type1">支出
+                            >> {{scope.row.Ca_Value}}
+                        </span>
+                        <span v-if="scope.row.Ca_Type==2" class="type2">增加
+                            >> {{scope.row.Ca_Value}}
+                        </span>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="说明">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Ca_Info!=''">{{scope.row.Ca_Info}}</span>
+                        <span v-else>{{scope.row.Ca_Source}}</span>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="时间" width="150">
+                    <template slot-scope="scope">
+                        {{scope.row.Ca_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+        <template remark="充值">
+            <el-drawer :visible.sync="useCardShow" direction="ttb" custom-class="useCardShow">
+                <span slot="title">
+                    <icon style="font-size: 22px;">&#xe60f</icon>使用充值卡
+                </span>
+                <el-form ref="useCardForm" :model="useCardForm" :rules="useCardRules" v-on:submit.native.prevent>
+                    <el-form-item prop="card">
+                        <el-input placeholder="卡号 - 密码" v-model.trim="useCardForm.card" class="card_input" clearable>
+                            <icon slot="prefix">&#xe60d </icon>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <help>注：格式为“充值卡卡号-密码”，破折号不可缺少</help>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" :disabled="loading_up" @click="useCard('useCardForm')">
+                            <icon>&#xe847</icon>充值卡券
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </el-drawer>
+        </template>
+        <template remark="兑换">
+            <el-drawer :visible.sync="exchangeShow" direction="ttb" custom-class="exchangeShow">
+                <span slot="title">
+                    <icon style="font-size: 22px;">&#xe88a</icon>积分兑换卡券
+                </span>
+                <el-form ref="exchangeForm" :model="exchangeForm" :rules="exchangeRules" label-width="120px"
+                    v-on:submit.native.prevent>
+                    <el-form-item label="当前积分">
+                        <el-tag>
+                            <icon>&#xe88a</icon>{{account.Ac_Point}}
+                        </el-tag>
+                    </el-form-item>
+                    <el-form-item label="兑换比例">
+                        <el-tag type="info">
+                            <icon>&#xe88a</icon>{{param.PointConvert}}
+                        </el-tag>
+                        :
+                        <el-tag type="info">
+                            <icon>&#xe847</icon>1
+                        </el-tag>
+                    </el-form-item>
+                    <el-form-item label="示例">
+                        <div>
+                            {{account.Ac_Point}}
+                            <icon style="margin: 0px 3px;">&#xe74b</icon>
+                            {{param.PointConvert}}
+                            <icon style="margin: 0px 3px;">&#xe74d</icon>
+                            {{calc_demo()}}
+                            个
+                        </div>
+                        <help>
+                            积分除以兑换率，向下取整
+                        </help>
+                    </el-form-item>
+                    <el-form-item label="兑换" prop="point">
+                        <el-input v-model.trim="exchangeForm.point" placeholder="请输入要兑换的积分数" class="point_input"
+                            style="width: 300px;">
+                            <icon slot="prefix">&#xe88a </icon>
+                        </el-input>
+                        <span v-if="calc_demo(exchangeForm.point)>0">可兑换{{calc_demo(exchangeForm.point)}}个卡券</span>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" :disabled="loading_up" @click="exchange('exchangeForm')">
+                            <icon>&#xe847</icon>积分兑换卡券
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </el-drawer>
+        </template>
+    </div>
+</body>
+
+</html>

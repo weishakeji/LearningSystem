@@ -1,0 +1,49 @@
+﻿@charset "utf-8";
+#vapp {
+    display: flex;
+	text-align: left;
+}
+
+aside.sorts {
+    width: 30%;	
+    height: 100%;
+    margin-right: 20px;
+	box-shadow: 1px 0px 2px #ccc;
+}
+aside.sorts .bar {   
+    box-sizing: border-box;
+	line-height: 35px;
+	text-align: left;
+	padding: 5px 20px;
+}
+
+/*右侧内容列表区*/
+section.list {
+   width: calc(70% - 20px);
+    height: 100%;
+	position: relative;
+}
+.search-box{
+	width: 100%;
+	text-align: right;
+	box-sizing: border-box;
+
+}
+.knl_title{
+	font-size: 16px;
+	cursor: pointer;
+}
+#pager-box {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, .8);
+	text-align: left;
+}
+.knl_form, .knl_form>div{
+	overflow: hidden !important;
+}
+.knl_form .el-dialog__body{
+ height: calc(100% - 130px - 40px);
+ overflow: auto;
+}

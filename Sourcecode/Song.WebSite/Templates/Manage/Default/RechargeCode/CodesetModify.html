@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改充值卡设置项</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+    <script type="text/javascript" src="../Scripts/hanzi2pinyin.js"></script>
+</head>
+
+
+<body>
+    <div id="app" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+
+            <el-form-item label="主题" prop="Rs_Theme">
+                <el-input v-model.trim="entity.Rs_Theme"></el-input>
+
+            </el-form-item>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="面额" prop="Rs_Price">
+                        <el-input v-model.number="entity.Rs_Price" type="number">
+                            <template slot="prepend"><span class="weisha_icon money" icon="&#xe624"
+                                    style="font-size: 14px;"></span>
+                            </template> <template slot="append">元</template>
+                        </el-input>
+
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="数量" prop="Rs_Count">
+                        <template>
+                            <el-input v-model.number="entity.Rs_Count" type="number">
+                                <template slot="append">张</template>
+                            </el-input>
+                        </template>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+
+
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="有效期" prop="Rs_Limit">
+
+                        <el-date-picker type="daterange" v-model="datespan" style="width:100%" range-separator="至"
+                            start-placeholder="起始日期" end-placeholder="结束日期">
+                        </el-date-picker>
+
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-form-item label="说明" prop="Rs_Intro">
+      
+                    <el-input type="textarea" :rows="4" placeholder="请输入内容"
+                        v-model="entity.Rs_Intro"></el-input>
+                </el-form-item>
+            </el-row>
+
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="充值码" prop="Rs_CodeLength">
+                        <template>
+                            <el-input v-model.number="entity.Rs_CodeLength" clearable>
+                                <template slot="prepend">长度
+                                </template> <template slot="append">位</template>
+                            </el-input>
+                        </template>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="" prop="Rs_PwLength">
+                        <template>
+                            <el-input v-model.number="entity.Rs_PwLength" type="number">
+                                <template slot="prepend">密钥
+                                </template>
+                                <template slot="append">位</template>
+
+                        </template>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="状态" prop="Rs_IsEnable">
+                        <el-switch v-model="entity.Rs_IsEnable" :active-text="entity.Rs_IsEnable ? '启用' : '禁用'">
+                        </el-switch>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-form-item class="footer">
+                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                    确认修改</el-button>
+                <el-button type='close'>取消</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+
+
+</body>
+
+</html>

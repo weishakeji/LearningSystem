@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title></title>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="context">
+            <upload-img @change="file=>upfile = file" :data="entity" size="1024" ext="jpg,png,gif">
+                <template v-if="islogo">
+                    <img v-if="upfile!=null" :src="upfile.base64" />
+                    <img v-else :src="entity.Cou_Logo" />
+
+                    <el-link type="danger" class="remove" icon="el-icon-delete"
+                        @click.stop="()=>{upfile=null;entity.Cou_Logo = entity.Cou_LogoSmall=''}">
+                        清除图片</el-link>
+                </template>
+                <template v-else>
+                    <div class="nophoto">
+                        <i class="el-icon-picture-outline"></i>
+                        <span> 课程图片 </span>
+                    </div>
+                    <el-tooltip content="点击上传图片" placement="bottom" effect="light">
+                        <div slot="content">
+                            图片宽高比为16：9 <br />
+                            像素大小不限<br />
+                            文件大小限制为最大1Mb<br />
+                            图片类型限：jpg,png,gif<br />
+                        </div>
+                        <icon class="photo_add">&#xe724</icon>
+                    </el-tooltip>
+                </template>
+            </upload-img>
+
+
+            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+                <el-form-item label="课程专业">
+                    <el-cascader style="width: 100%;" v-model="sbjSelects" :options="subjects" separator="／"
+                        :props="defaultProps" filterable>
+                    </el-cascader>
+                </el-form-item>
+                <el-form-item label="状态">
+                    <div>
+                        <el-switch v-model="entity.Cou_IsUse" :active-text="entity.Cou_IsUse ? '启用' : '禁用'">
+                        </el-switch>
+                        （只有启用后，学员才能看到该课程）
+                    </div>
+                    <div>
+                        <el-switch v-model="entity.Cou_IsRec" :active-text="entity.Cou_IsRec ? '推荐' : '未推荐'">
+                        </el-switch>（推荐后优先展示）
+                    </div>
+                </el-form-item>
+                <el-form-item label="排序号" prop="Cou_Tax">
+                    <el-tooltip class="item" effect="dark" content="数值越大越靠前" placement="right">
+                        <el-input v-model="entity.Cou_Tax" style="width: 180px;"></el-input>
+                      </el-tooltip>                    
+                </el-form-item>
+                <el-form-item label="访问数" prop="Cou_ViewNum">
+                    <el-input v-model="entity.Cou_ViewNum" style="width: 180px;">
+                        <template slot="append">人次</template>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="学习目标">
+                    <vue-html5-editor :content="textual.target" style="height: 200px;z-index: 1001;"  :show-module-name="false" ref="editor_target"
+                        @change="(text)=>entity.Cou_Target = text">
+                    </vue-html5-editor>
+                </el-form-item>
+                <el-form-item label="课程简介">
+                    <vue-html5-editor :content="textual.intro" :show-module-name="false" ref="editor_intro"
+                        @change="(text)=>entity.Cou_Intro = text">
+                    </vue-html5-editor>
+                </el-form-item>
+            </el-form>
+        </div>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>修改课程信息
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

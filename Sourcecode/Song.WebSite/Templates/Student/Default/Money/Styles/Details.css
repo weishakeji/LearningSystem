@@ -1,0 +1,54 @@
+﻿@charset "utf-8";
+@charset "utf-8";
+
+.tatol_info {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.tatol_info icon {
+    font-size: 18px;
+}
+
+.el-table {
+    height: calc(100% - 32px - 45px);
+}
+
+/*支出或增加*/
+.type1 {
+    color: #F56C6C;
+}
+
+.type2 {
+    color: #03964a;
+}
+
+.frame_header button {
+    padding: 5px;
+    margin-top: 1px;
+    box-sizing: border-box;
+}
+
+.frame_header .el-button+.el-button {
+    margin-left: 0px;
+    margin-right: 10px;
+}
+/*详情查看*/
+.show_detail {
+    width: 50% !important;
+}
+.detail_content{
+    padding: 10px;
+    box-sizing: border-box;
+}
+.detail_content>div {
+    padding: 5px 0px;
+}
+
+.detail_content>div::before {
+    content: attr(title) ' ：  ';
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+
+}

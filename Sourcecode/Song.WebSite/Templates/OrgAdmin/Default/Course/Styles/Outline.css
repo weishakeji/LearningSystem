@@ -1,0 +1,95 @@
+﻿@charset "utf-8";
+
+html, body, #vapp {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    position: relative;
+}
+
+.toolsbar {
+    border: none;
+}
+
+.tree-box {
+    margin: 15px;
+    width: calc(100% - 30px);
+    height: calc(100% - 30px - 32px);
+    box-sizing: border-box;
+    position: relative;
+    overflow: auto;
+}
+
+/*树形中的行高*/
+
+div[role=treeitem] {
+    min-height: 30px;
+}
+/*节点行*/
+.custom-node {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
+}
+
+.custom-node:hover {
+    background-color: #eee;
+}
+.btns{
+    display: flex;
+    justify-content: space-between;
+}
+.btns>*{
+    margin-left: 20px;
+}
+.el-tree-node__content {
+    cursor: default !important;
+}
+/*节点名称*/
+.node_name{
+    display: inline-block;
+    width: calc(100% - 210px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.node_name icon {
+    margin: 0px;
+}
+.column_btn{
+    width: 90px;
+    text-align: right;
+}
+.column_btn .el-dropdown-link a:hover{
+   text-decoration: none !important;
+  
+}
+.btn_dropdown a{
+    display: block;
+    width: 100%;
+}
+.btn_dropdown icon{
+    width: 15px;
+}
+/*编辑面板*/
+.modify_show {
+    width: 70%;
+    height: 80%;
+    margin-top: 10vh !important;
+}
+
+.modify_show .el-dialog__body {
+    height: calc(100% - 160px);
+    overflow: auto;
+
+}
+.el-dialog__footer{
+    padding: 0px 20px !important;
+}

@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>教学管理 - </title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header ref='pageheader' v-show="!full" @login="acc=>account = acc" @teacher="t=>teacher = t"
+            :organ="organ">loading ...
+        </page_header>
+        <context :class="{full:full}">
+            <section v-if="islogin">
+                <nav>
+                    <template v-if="loading_menu">
+                        <loading>loading...</loading>
+                    </template>
+                    <template v-else>
+                        <header>
+                            <upload-img v-if="!loading_photo" @change="file=>upfile=file" :data="teacher" size="512"
+                                height="100" ext="jpg,png,gif">
+                                <template v-if="teacher.Th_Photo!='' || upfile!=null">
+                                    <img v-if="upfile!=null && JSON.stringify(upfile) != '{}'" :src="upfile.base64" />
+                                    <img v-else :src="teacher.Th_Photo" />
+
+                                    <el-link type="danger" v-if="upfile!=null" class="photo-txt"
+                                        @click.stop="()=>upfile=null">清除头像
+                                    </el-link>
+                                    <el-link type="danger" v-if="upfile!=null" class="photo-btn"
+                                        @click.stop="updatePhoto()">确定上传
+                                    </el-link>
+                                </template>
+                                <div class="nophoto" v-else>
+                                    <img v-if="teacher.Th_Sex==2" src="/Utilities/Images/head2.jpg" />
+                                    <img v-else src="/Utilities/Images/head1.jpg" />
+                                    <span class="photo-txt" v-if="upfile==null">选择头像</span>
+                                </div>
+                            </upload-img>
+                            <loading v-else>头像上传中...</loading>
+                            <div :class="{'woman': teacher.Th_Sex==2,'name':true}">
+                                <a href="/web/teach/">
+                                    <icon v-if="teacher.Th_Sex==2" title="女性">&#xe650</icon>
+                                    <icon v-if="teacher.Th_Sex==1" title="男性">&#xe6a1</icon>
+                                    <icon v-if="teacher.Th_Sex==0" title="未知">&#xa043</icon>
+                                    <span v-if="!!teacher.Th_Name" v-html="teacher.Th_Name"></span>
+                                    <span v-else class="noname">(无名)</span>
+                                </a>
+                                <div id="full_btn" @click="full=!full" title="全屏/还原">
+                                    <icon v-if="full" style="font-size: 19px;">&#xe6c4</icon>
+                                    <icon v-else style="font-size: 16px;">&#xe6a6</icon>
+                                </div>
+                            </div>
+                        </header>
+                        <menus v-if="menus.length>0">
+                            <menu_node ref="menu_node" v-for="(node,index) in menus" @open="openmenu" :menu="node"
+                                :level="1"></menu_node>
+                        </menus>
+                        <menus v-else class="nomenu">
+                            <div>
+                                <icon>&#xe609</icon>没有菜单项，请联系管理员
+                            </div>
+                        </menus>
+                    </template>
+                </nav>
+                <aside>
+                    <el-tabs v-model="tabName" v-if="select_menus.length>1">
+                        <el-tab-pane v-for='(node,index) in select_menus' :name="node.MM_UID">
+                            <span slot="label">
+                                <icon v-if="node.MM_IcoS==''">&#xa038</icon>
+                                <icon v-html="'&#x'+node.MM_IcoS" v-else></icon>
+                                {{node.MM_Name}}
+                            </span>
+                        </el-tab-pane>
+                    </el-tabs>
+                    <div id="content_iframe" :class="{'one':select_menus.length<=1}">
+                        <div class="iframe_loading">
+                            <loading> loading ... </loading>
+                        </div>
+                        <iframe :name="node.MM_UID" frameborder="0" border="0" marginwidth="0" marginheight="0"
+                            v-for="(node,index) in select_menus" :id="'node_'+node.MM_UID" v-if="isshow(node.MM_UID)"
+                            :src="node.MM_Link"></iframe>
+                    </div>
+                </aside>
+            </section>
+            <section v-else class="nologin">
+                <icon>&#xe7ad</icon>
+                <div>学员未登录，无权访问！</div>
+            </section>
+        </context>
+        <page_footer v-show="!full" :organ="organ" v-if="true">loading ...</page_footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课程详情</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header ref="header" :organ="organ" @login="forlogin">loading ...</page_header>
+        <context>
+            <breadcrumb ref="breadcrumb" :subjects="subjects" :course="course"></breadcrumb>
+        </context>
+        <context v-if="loading_init" class="loading_init">
+            <loading>loading ....</loading>
+        </context>
+        <template v-else>
+            <context v-if="nullcourse" class="nullcourse" remark="课程不存在">
+                <icon>&#xe854</icon>课程不存在!
+            </context>
+            <context v-else id="couHead" remark="课程头部信息">
+                <img src="/Utilities/Images/cou_nophoto.jpg" v-if="!course || course.Cou_Logo==''" />
+                <img src="/Utilities/Images/alpha.png" v-else
+                    :style="'background: url('+course.Cou_Logo+') no-repeat center; background-size: cover;'">
+
+                <div class="headRight">
+                    <span class="couName">
+                        <template>{{course.Cou_Name}}</template>
+                        <template v-else> (当前课程不存在，或课程被暂停学习)</template>
+                    </span>
+                    <div class="headinfo">
+                        <div id="course-qrcode"></div>
+                        <div title="关注次数：" v-html="course.Cou_ViewNum"></div>
+                        <div title="主讲老师：" v-html="course.Th_Name"></div>
+                    </div>
+                    <div class="couMoney" title="学习费用：">
+                        <span class="moneyfree" v-if="course.Cou_IsFree">
+                            <icon>&#xe746;</icon>免费
+                        </span>
+                        <span class="moneyfree" v-else-if="course.Cou_IsLimitFree" remark="限时免费">
+                            <icon>&#xe746;</icon> 限时免费（
+                            {{course.Cou_FreeStart|date('yyyy-M-d')}} - {{course.Cou_FreeEnd|date('yyyy-M-d')}}）
+                        </span>
+                        <span class="money" v-for="p in prices" :title="'可以用券抵扣'+p.CP_Coupon+'元'"
+                            v-else-if="prices && prices.length>0">
+                            <icon>&#xe624;</icon>
+                            {{p.CP_Price}}元/{{p.CP_Span}}{{p.CP_Unit}}
+                        </span>
+                        <span class="money" v-else>未设置价格（非免费课程）</span>
+                    </div>
+                    <!--购买课程的按钮-->
+                    <largebutton :course="course" :account="account" :isbuy="isbuy" :finaltest="finaltest">
+                    </largebutton>
+
+                </div>
+            </context>
+        </template>
+        <context class="body">
+            <aside v-show="!nullcourse">
+                <el-divider content-position="left">课程推荐</el-divider>
+                <courses :sbjid="course ? course.Sbj_ID : 0" :org="organ" :couid="couid" :count="4">
+                    <template slot="item" slot-scope="item">
+                        <course :item="item.data" :class="{'fourth':(item.index+1)%4==0}"></course>
+                    </template>
+                </courses>
+            </aside>
+            <section v-if="!nullcourse">
+                <course_tabs ref="tabs">
+                    <template slot="intro" remark="课程介绍">
+                        <div class="introBox" v-if="course.Cou_Target!=''">
+                            <div>
+                                <icon>&#xe816</icon>学习目标：
+                            </div>
+                            <span v-html="course.Cou_Target"></span>
+                        </div>
+                        <div class="introBox" v-if="course.Cou_Intro!=''">
+                            <div v-if="course.Cou_Target!=''">
+                                <icon>&#xe813</icon>学习内容：
+                            </div>
+                            <div v-if="course.Cou_Intro!=''" v-html="course.Cou_Intro"></div>
+                        </div>
+                        <div class="introBox nocontext" v-else>
+                            <icon>&#xe839</icon>没有内容
+                        </div>
+                    </template>
+                    <div slot="outline" remark="章节" class="outlines">
+                        <div v-if="!(outlines && outlines.length>0)" class="nocontext">
+                            <icon>&#xe839</icon>没有章节
+                        </div>
+                        <template v-else>
+                            <div v-for="o in outlines" :style="'padding-left:'+(o.Ol_Level*30)+'px'">
+                                <index>{{o.Ol_XPath}}</index>{{o.Ol_Name}}
+                                <el-tag type="danger" v-if="!o.Ol_IsFinish">未完结</el-tag>
+                                <template v-else-if="course.Cou_IsTry && o.Ol_IsFree">
+                                    <a type="success" v-if="o.Ol_IsVideo"
+                                        :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">
+                                        <el-tag type="success">免费</el-tag>
+                                    </a>
+                                </template>
+                                <template v-else>
+                                    <template v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree">
+                                        <a type="success" v-if="o.Ol_IsVideo"
+                                            :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">
+                                            <progress_video :videolog="videolog" :outline="o" text="学习"
+                                                v-if="o.Ol_IsVideo">
+                                            </progress_video>
+                                        </a>
+                                    </template>
+                                    <template v-else>
+                                        <a type="primary" :href="'buy.'+course.Cou_ID+'?olid='+o.Ol_ID">
+                                            <el-tag type="warning">购买</el-tag>
+                                        </a>
+                                    </template>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+                    <div slot="guide" remark="通知公告" class="guides">
+                        <div class="guideCol" v-if="guideCol && guideCol.length>0">
+                            <div><span>按分类查看</span>
+                                <el-tag type="success" @click="$refs['guides'].gcuid=''">查看所有</el-tag>
+                            </div>
+                            <el-tree :data="guideCol" node-key="Gc_ID" ref="tree"
+                                @node-click="data=>{$refs['guides'].gcuid=data.Gc_UID;}"
+                                :props="{children: 'children',label: 'Gc_Title'}" :default-expand-all="true"
+                                expand-on-click-node :expand-on-click-node="false">
+                                <template class="custom-tree-node" slot-scope="{ node, data }">
+                                    <span v-html="data.Gc_Title"
+                                        :class="{'current':data.Gc_UID==$refs['guides'].gcuid}"> </span>
+                                </template>
+                            </el-tree>
+                        </div>
+                        <guides ref="guides" :couid="couid" :gcuid="''" class="guides_list"></guides>
+                    </div>
+                    <div slot="test" remark="测试与考试" class="test">
+                        <alert v-if="testpapers.length<1">
+                            没有测试或考试所用的试卷
+                        </alert>
+                        <div v-else v-for="(item,i) in testpapers" class="testpapers">
+                            <div>
+                                <span class="order">{{i+1}}.</span>
+                                <a :href="'../test/paper.'+item.Tp_Id" target="_blank">{{item.Tp_Name}}</a>
+                            </div>
+
+                            <div>
+                                <el-tag type="info" title="题量"> {{item.Tp_Count}} 道题</el-tag>
+                                <template v-if="item.Tp_Type==1">
+                                    <el-tag type="success">
+                                        <icon>&#xe6b0</icon>固定试题
+                                    </el-tag>
+                                </template>
+                                <template v-if="item.Tp_Type==2" remark="随机试题">
+                                    <el-tag type="success">
+                                        <icon>&#xe6cc</icon>随机试题
+                                    </el-tag>
+                                </template>
+                                <el-tag type="primary" title="限时">
+                                    <icon>&#xe81a</icon> 限时{{item.Tp_Span}} 分钟
+                                </el-tag>
+                                <el-tag type="info" title="限时">
+                                    <icon>&#xe705</icon> 满分{{item.Tp_Total}} 分，
+                                    {{item.Tp_PassScore}}分及格</span>
+                                </el-tag>
+                            </div>
+                        </div>
+                    </div>
+                </course_tabs>
+            </section>
+
+        </context>
+        <page_footer :organ="organ" :account="account">loading ...</page_footer>
+    </div>
+</body>
+
+</html>

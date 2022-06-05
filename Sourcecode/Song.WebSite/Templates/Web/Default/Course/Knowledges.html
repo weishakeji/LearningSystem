@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>知识库</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <aside class="sorts" v-if='sorts && sorts.length>0'>
+            <div class="bar">知识分类</div>
+            <el-tree :data="sorts" ref="tree" :props="{children: 'children',label: 'Kns_Name'}"
+                :default-expand-all="true" expand-on-click-node :expand-on-click-node="false" draggable
+                empty-text="没有数据" @node-click="nodeclick" v-loading="loading">
+                <template slot-scope="{ node, data }">
+                    <span class="tree-node" v-html="data.Kns_Name"> </span>
+                </template>
+            </el-tree>
+        </aside>
+        <!--右侧内容列表-->
+        <section class="list">
+   
+                <el-table ref="knls" :stripe="true" :data="knls" tooltip-effect="dark" style="width: 100%"
+                    @row-dblclick="()=>{}">
+                    <el-table-column type="index" width="50" align="center">
+                        <template slot-scope="scope">
+                            <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="标题">
+                        <template slot="header" slot-scope="scope">
+                            <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                                <el-form-item label="">
+                                    <el-tag v-if="sort_current" closable @close="nodeclose">分类： {{sort_current.Kns_Name}}
+                                    </el-tag>
+                                    <el-input v-model="form.search" style="width:100px" clearable></el-input>
+                                </el-form-item>
+                                <el-form-item>
+                                    <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
+                                        native-type="submit" plain>
+                                        查询
+                                    </el-button>
+                                </el-form-item>
+                            </el-form>
+                          </template>
+                        <template slot-scope="scope">
+                            <span class="knl_title" @click="()=>{knlVisible=true;knl_current=scope.row;}">{{scope.row.Kn_Title}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="分类" v-if="false">
+                        <template slot-scope="scope">
+                            {{scope.row.Kns_Name}}
+                        </template>
+                    </el-table-column>
+                </el-table>
+            <div id="pager-box">
+                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                    :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+            </div>
+            <!--内容展示-->
+            <el-dialog :title="knl_current && knl_current.Kn_Title" :visible.sync="knlVisible"
+                :show-close="false" class="knl_form" fullscreen>
+                <div v-if="knl_current" v-html="knl_current.Kn_Details"></div>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="knlVisible = false">取 消</el-button>                  
+                  </div>
+            </el-dialog>
+        </section>
+    </div>
+</body>
+
+</html>

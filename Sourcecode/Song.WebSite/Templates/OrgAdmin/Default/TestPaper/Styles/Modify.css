@@ -1,0 +1,11 @@
+﻿@charset "utf-8";
+loading{
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 100vh;
+}
+loading::before{
+    font-size: 35px;
+}

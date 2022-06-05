@@ -1,0 +1,31 @@
+﻿@charset "utf-8";
+/* CSS Document */
+@font-face {
+    font-family: 'webdesk_icon';
+   src:  url("../panel/fonts/webdesk.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.webdesk_icon {
+	font-family: "webdesk_icon" !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-transition: font-size 0.25s ease-out 0s;
+	-moz-transition: font-size 0.25s ease-out 0s;
+	transition: font-size 0.25s ease-out 0s;
+}
+.weisha_icon::before, .webdesk_icon::before{
+	content: attr(icon);
+	font-family:"webdesk_icon" !important;	
+}
+*[v-cloak]{
+	display: none;
+}

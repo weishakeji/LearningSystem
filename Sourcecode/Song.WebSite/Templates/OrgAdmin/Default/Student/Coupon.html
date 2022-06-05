@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>卡券操作</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>   
+</head>
+
+
+<body>
+    <div id="app" v-cloak>
+        <div class="context">
+            <div class="acc_info">
+                <avatar :account="account" circle="true" size="100"></avatar>
+                <div class="info_right">
+                    <div title="姓名">
+                        <icon v-if="account.Ac_Sex==2" title="性别女">&#xe844</icon>
+                        <icon v-if="account.Ac_Sex==1" title="性别男">&#xe645</icon>
+                        <icon v-if="account.Ac_Sex==0" title="性别未知">&#xa043</icon>
+                        <span v-html='account.Ac_Name' v-if="account.Ac_Name!=''"></span>
+                        <span v-else class="lower">(没有名字)</span>
+                    </div>
+                    <div title="账号">
+                        <icon>&#xe687</icon>
+                        <span v-html='account.Ac_AccName' class="lower"></span>
+                    </div>
+                    <div title="卡券余额" class="surplus">
+                        <icon>&#xe847</icon>
+                        <span class="lower">当前卡券</span>
+                        <span v-html='account.Ac_Coupon'></span>
+                        <span class="lower">个</span>
+                    </div>
+                </div>
+            </div>
+            <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="80px">
+                <el-form-item label="">
+                    <el-radio-group v-model="operated">
+                        <el-radio-button v-for="o in operates" :label="o.type" :key="o.type">
+                            <icon v-if="operated==o.type">&#xe61a</icon>
+                            <icon v-else>&#xe85c</icon>
+                            {{o.label}}
+                        </el-radio-button>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="数值" prop="coupon" class="input_number">
+                    <icon v-if="operated==2">&#xe6ea</icon>
+                    <icon v-if="operated==1">&#xe600</icon>
+                    <el-input v-model="form.coupon" type="number" min="1" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="备注">
+                    <el-input v-model="form.remark" type="textarea"></el-input>
+                </el-form-item>
+            </el-form>
+        </div>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('form')">
+                <icon v-if="!loading">&#xa048</icon>确认
+            </el-button>
+            <el-button type='close'>
+               取消
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

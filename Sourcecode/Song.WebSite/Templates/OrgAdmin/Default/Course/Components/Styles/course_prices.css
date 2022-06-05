@@ -1,0 +1,24 @@
+﻿/*课程价格*/
+
+.course_prices .price {
+	background-color: #fdf6ec;
+	border-color: #faecd8;
+	border: 1px solid #faecd8;
+	color: #e6a23c;
+	line-height: 10px !important;
+	box-sizing: border-box;
+	padding: 0px 8px 0px 0px;
+	height: 15px;
+	font-size: 12px;
+	display: table;
+}
+
+.course_prices .first {
+	margin-bottom: 2px;
+}
+
+.price icon {
+	margin-left: 6px;
+	margin-right: 2px;
+	font-size: 13px;
+}

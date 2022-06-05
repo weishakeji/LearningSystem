@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>新闻栏目管理</title>
+</head>
+
+<body>
+
+  <div id="vapp" v-cloak>
+    <div class="toolsbar">
+      <btngroup show="新增" ref='btngroup' @add="append()"></btngroup>
+      <div class="search-box">
+
+        <el-form :inline="true" class="demo-form-inline" v-on:submit.native.prevent>
+          <el-form-item label="">
+            <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索" suffix-icon="el-icon-search">
+            </el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+    </div>
+    <div class="tree-box">
+      <el-tree :data="datas" node-key="id" ref="tree" :props="defaultProps" default-expand-all
+        @node-drag-start="handleDragStart" :filter-node-method="filterNode" @node-drag-enter="handleDragEnter"
+        @node-drag-leave="handleDragLeave" @node-drag-over="handleDragOver" @node-drag-end="handleDragEnd"
+        @node-drop="handleDrop" :expand-on-click-node="false" draggable :allow-drop="allowDrop" :allow-drag="allowDrag"
+        v-loading="loading">
+        <span class="custom-tree-node" slot-scope="{ node, data }">
+
+          <span class="tree-node draghandle">
+            {{ data.Col_Name }}
+          </span>
+          <span class="tree-handle">
+            <span style="width: 100px; " @click="data.Col_IsUse=!data.Col_IsUse">
+              <el-tag type="success" v-if="data.Col_IsUse">启用</el-tag>
+              <el-tag type="danger" v-if="!data.Col_IsUse">禁用</el-tag>
+            </span>
+
+            <el-button type="text" size="mini" @click="() => append(data)">
+              新增下级
+            </el-button>
+            <el-button type="text" size="mini" @click="drawer=true;curr=data">
+              编辑
+            </el-button>
+            <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
+              <el-button type="text" slot="reference">
+                删除
+              </el-button>
+            </el-popconfirm>
+          </span>
+        </span>
+      </el-tree>
+    </div>
+    <el-drawer title="编辑菜单项" :visible.sync="drawer" :with-header="false" custom-class="drawer_item">
+      <div class="drawer-title">编辑菜单项</div>
+      <el-form ref="form" :model="curr" :rules="rules" label-width="80px">
+
+        <el-form-item label="名称" prop="Col_Name">
+          <el-input v-model="curr.Col_Name"></el-input>
+        </el-form-item>
+        <el-form-item label="别名" prop="Col_ByName">
+          <el-input v-model="curr.Col_ByName"></el-input>
+        </el-form-item>
+        <el-form-item label="标题" prop="Col_Title">
+          <el-input v-model="curr.Col_Title"></el-input>
+        </el-form-item>
+        <el-form-item label="关键字" prop="Col_Keywords">
+          <el-input v-model="curr.Col_Keywords" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="描述" prop="Col_Descr">
+          <el-input v-model="curr.Col_Descr" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="简述" prop="Col_Intro">
+          <el-input v-model="curr.Col_Intro" type="textarea" :rows="4"></el-input>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-switch v-model="curr.Col_IsUse" active-color="#13ce66" inactive-color="#ff4949"
+            :active-text="curr.Col_IsUse ? '启用' : '禁用'">
+
+          </el-switch>
+          <br />
+          <el-checkbox v-model="curr.Col_IsNote" label="允许评论" v-if="false"></el-checkbox>
+        </el-form-item>
+      </el-form>
+    </el-drawer>
+
+    <div class="btnFooter">
+      <el-button type="primary" v-loading="loading" @click="btnSave()">保存新闻栏目</el-button>
+    </div>
+  </div>
+
+</body>
+
+</html>

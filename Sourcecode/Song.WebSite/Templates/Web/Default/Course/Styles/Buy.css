@@ -1,0 +1,307 @@
+﻿@charset "utf-8";
+
+context {
+	display: block;
+	width: 1200px;
+	padding: 0px calc((100% - 1200px)/2);
+	text-align: left;
+	margin-top: 10px;
+}
+
+/*面包屑导航*/
+.el-breadcrumb {
+	font-size: 14px;
+	box-sizing: border-box;
+	padding: 10px 15px;
+}
+
+.el-breadcrumb * {
+	font-weight: normal !important;
+}
+
+.el-breadcrumb span {
+	cursor: pointer;
+}
+
+/*课程不存在*/
+context.nullcourse {
+	height: 337px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	text-align: center;
+	color: #666;
+	font-size: 20px;
+}
+
+context.nullcourse icon {
+	display: block;
+	font-size: 160px;
+	margin-top: 100px;
+}
+
+/*课程头部信息*/
+context#couHead {
+	height: 337px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+	display: flex;
+}
+
+#couHead>img:first-child {
+	width: 600px;
+	margin: 0px 40px 0px 15px;
+	border-radius: 5px;
+}
+
+#couHead .headRight {
+	position: relative;
+	flex: 1;
+}
+
+#couHead .headRight span {
+	font-size: 16px;
+	line-height: 25px;
+}
+
+#couHead .headRight .couName {
+	font-size: 30px;
+	line-height: 50px;
+	font-weight: bolder;
+	color: #000000;
+	display: table;
+	margin-bottom: 10px;
+}
+
+.headinfo {
+	position: relative;
+	height: 100px;
+	padding-left: 90px;
+}
+
+#couHead .headRight #course-qrcode {
+	position: absolute;
+	top: 6px;
+	left: 0px;
+}
+
+.headinfo>div {
+	font-size: 16px;
+	line-height: 25px;
+	height: 25px;
+}
+
+.headinfo>div::before {
+	content: attr(title);
+}
+
+.couIntro *, .couIntro a, .couIntro p, .couIntro div {
+	font-size: 16px !important;
+	line-height: 25px;
+	color: #333333 !important;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+.info {
+	width: calc(100% - 150px);
+	height: calc(150px * 9 / 16);	
+	padding: 5px 0px 0px 10px;
+	box-sizing: border-box;
+	position: absolute;
+	bottom: 0px;
+}
+
+.info>div:first-child {
+	font-size: 15px;
+	line-height: 20px;
+	height: 40px;
+	overflow: hidden;
+}
+
+.sbjname {
+	height: 20px;
+	line-height: 20px;
+	position: absolute;
+	font-size: 13px;
+	color: #666;
+	bottom: 20px;
+}
+
+.sbjname::before {
+	content: '\e750';
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	margin-right: 3px;
+	font-size: 12px;
+}
+
+.info div.count {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	font-size: 14px;
+	height: 25px;
+	display: flex;
+	justify-content: flex-start;
+	margin-left: 10px;
+	line-height: 30px;
+	width: 100%;
+	white-space: nowrap;
+}
+
+.info div.count>* {
+	display: inline;
+	text-align: center;
+	margin-right: 15px;
+}
+
+.info div.count>*::before {
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	margin-right: 3px;
+}
+
+.info div.count>.outline::before {
+	content: '\e841';
+}
+
+.info div.count>.ques::before {
+	content: '\e75e';
+}
+
+.info div.count>.video::before {
+	content: '\e83a';
+}
+
+/*价格*/
+
+#money {
+	font-size: 18px;
+	font-weight: bold;
+	color: #CD7F32;
+}
+
+#money::before {
+	content: '\e746';
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	margin-right: 5px;
+	font-weight: normal;
+}
+
+#money::after {
+	content: '元';
+	margin-left: 5px;
+	font-weight: normal;
+}
+
+#coupon {
+	font-size: 14px;
+	color: #0f0f0f;
+	margin-left: 15px;
+}
+
+#coupon::before {
+	content: '\e847';
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	margin-right: 5px;
+	font-weight: normal;
+}
+
+#coupon::after {
+	content: '张券';
+	margin-left: 5px;
+	font-weight: normal;
+}
+
+.prices {
+	padding: 10px;
+	box-sizing: border-box;
+	line-height: 25px;
+	font-size: 16px !important;
+}
+
+.prices>div {
+	padding: 10px 20px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+.prices>div.selected {
+	border-radius: 5px;
+	background-color: #d1f8e4;
+	box-shadow: 1px 1px 3px #a4f7cb, -1px -1px 3px #a4f7cb, 1px -1px 3px #a4f7cb, -1px 1px 3px #a4f7cb;
+	position: relative;
+}
+
+.prices>div.selected::after {
+	display: block;
+	position: absolute;
+	right: 5px;
+	top: 16px;
+	font-size: 33px;
+	color: rgb(25, 172, 69);
+	content: '\a048';
+	font-family: "webdesk_icon" !important;
+}
+
+.prices span {
+	font-size: 16px !important;
+}
+
+.prices help {
+	padding-left: 15px;
+}
+
+.prices help span {
+	font-size: 14px !important;
+}
+
+.mprice::before {
+	content: '\e83e';
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	font-size: 20px;
+	margin-right: 3px;
+	text-align: center;
+}
+
+.mprice::after {
+	content: ' 元';
+	display: inline-block;
+	margin-left: 3px;
+}
+
+.mprice b {
+	font-size: 20px;
+	color: #ffffff;
+	display: inline-block;
+	margin-right: 5px;
+	text-shadow: 1px 1px 3px #ff0000, -1px -1px 3px #ff0000, 1px -1px 3px #ff0000, -1px 1px 3px #ff0000;
+}
+
+.mprice .not {
+	text-decoration: line-through;
+	font-size: 16px;
+	text-shadow: none;
+	color: #999;
+	font-style: italic;
+}
+
+.munit::before {
+	content: '/';
+}
+
+span.avg {
+	font-size: 14px !important;
+	margin-left: 15px;
+	color: #999;
+}
+
+
+.showbtn {
+	text-align: right;
+	box-sizing: border-box;
+	padding: 5px 20px;
+}

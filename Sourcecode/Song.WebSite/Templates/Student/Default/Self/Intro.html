@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>个人说明</title>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="about_editor">
+            <vue-html5-editor :content="account.Ac_Intro" :show-module-name="false" ref="editor_intro"
+                @change="text=>account.Ac_Intro = text">
+            </vue-html5-editor>
+        </div>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" @click="btnEnter('account')">
+                <icon v-if="!loading">&#xa030</icon>保存修改
+            </el-button>
+        </div>
+        </el-form>
+    </div>
+</body>
+
+</html>

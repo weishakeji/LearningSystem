@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>学习卡</title> 
+</head>
+
+<body>
+    <input id="upload_qrcode" type="file" accept="image/*;" capture="user" style="display: none;" />
+    <div id="vapp" v-cloak>
+        <context>
+            <van-sticky>
+                <page_header title="学习卡" icon="&#xe60f" :fresh="true"></page_header>
+            </van-sticky>
+            <div class="header">
+                <van-row>
+                    <div class="header_info" v-if="!islogin" remark="未登录" @click="login">
+                        <div class="acc_photo nophoto"></div>
+                        <div class="acc_info">
+                            <div class="acc-name">未登录 </div>
+                            <span class="acc-money"> ... </span>
+                        </div>
+                    </div>
+                    <div class="header_info" v-if="islogin" remark="已经登录" @click="myself">
+                        <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                            :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                        <template v-else>
+                            <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
+                            <div class="acc_photo man" v-else></div>
+                        </template>
+                        <div class="accInfo">
+                            <div class="acc-name"><span v-html="account.Ac_Name"></span>
+                                <span class="acc-acname" v-html="account.Ac_AccName"></span>
+                            </div>
+                            <div class="card-info">
+                                <icon>&#xe81e</icon>学习卡<span v-html="carddata.count">0</span>张，
+                                已经使用<span v-html="carddata.usecount">0</span>张
+                            </div>
+
+                        </div>
+                    </div>
+                </van-row>
+            </div>
+            <!-- 学习卡使用-->
+            <card class="handler">
+                <card-title>
+                    <icon>&#xe60f</icon> 学习卡
+                    <icon class="help" @click="showhelp=true">&#xa026</icon>
+                </card-title>
+                <card-context>
+                    <van-cell class="input_row">
+                        <template #title>
+                            <van-field v-model="input_code" label="卡号" clearable placeholder="格式为“卡号-密码”">
+                                <template #left-icon>
+
+                                </template>
+                            </van-field>
+                        </template>
+                        <template #label>
+                            <span class="tip">
+                                <red>*</red> 破折号不可缺少
+                            </span>
+                        </template>
+                    </van-cell>
+                    <van-cell class="btn_row">
+                       
+                        <span class="qrcode" @click="openqrcode">
+                            <van-icon name="qr"></van-icon>二维码
+                        </span>
+                        <van-button type="info" :disabled="!islogin" @click="usecode">
+                            <icon>&#xa048</icon>使用
+                        </van-button>
+                        <van-button type="primary" :disabled="!islogin" @click="acceptcode">
+                            <icon>&#xe698</icon>暂存
+                        </van-button>
+
+                    </van-cell>
+                </card-context>
+            </card>
+            <!-- 学习卡列表 -->
+            <card class="list">
+                <card-title>
+                    <icon>&#xe60f</icon> 我的学习卡
+                    <span>（<b v-html="carddata.count"></b>张）</span>
+                    <input type="text" id="search_code" v-model="search_code"></input>
+                </card-title>
+                <card-context>
+                    <template v-if="mycards.length>0">
+                        <van-swipe-cell v-for="(c,i) in mycards">
+                            <van-cell>
+                                <template #title>
+                                    <span class="c-title">{{i+1}}、<span v-html="showcode(c.Lc_Code)"></span> - {{c.Lc_Pw}}</span>
+                                    <template v-if="c.Lc_IsEnable">
+                                        <template v-if="c.Lc_State!=0" remark="已经使用，包括使用后又被回滚">
+                                            <van-tag color="#ad0000" text-color="#fff" v-if="c.Lc_State==-1">被回滚
+                                            </van-tag>
+                                            <van-tag color="#ffe1e1" text-color="#ad0000" v-if="c.Lc_State==1">已使用
+                                            </van-tag>
+                                        </template>
+                                        <template v-else-if="expire(c)" remark="未使用，但已经过期">
+                                            <van-tag color="#ad0000" text-color="#fff">已经过期</van-tag>
+                                        </template>
+                                        <template v-else-if="nearexpire(c)" remark="未过期，但临近过期">
+                                            <van-tag color="#ffe1e1" text-color="#fff">临近过期</van-tag>
+                                        </template>
+                                        <template v-else remark="未使用">
+                                            <van-tag type="success" @click="usenow(c)">立即使用</van-tag>
+                                        </template>
+                                    </template>
+                                    <template v-else>
+                                        <van-tag color="#999" text-color="#fff">被禁用</van-tag>
+                                    </template>
+                                </template>
+                                <template #label>
+                                    <template v-if="c.Lc_State==0">
+                                        有效期：{{c.Lc_LimitStart|date('yyyy-M-d')}} 至 {{c.Lc_LimitEnd|date('yyyy-M-d')}}
+                                    </template>
+                                    <template v-else>
+                                        课程学习：{{c.Lc_UsedTime|date('yyyy-M-d')}} 至 {{useendtime(c)|date('yyyy-M-d')}}
+                                    </template>
+                                </template>
+                            </van-cell>
+                            <template #right>
+                                <van-button square type="info" text="查看详情" @click="carddetail(c)"></van-button>
+                            </template>
+                        </van-swipe-cell>
+                    </template>
+                    <van-cell v-else title="没有任何学习卡"></van-cell>
+                </card-context>
+            </card>
+        </context>
+
+        <van-popup v-model="showhelp" closeable class="showhelp">
+            <dl class="help-txt">
+                <dd><b>1、关于学习卡</b><br>
+                    学习卡是由“卡号+密码”组成的一串数字，如“931193827144-665”。<br>
+                    正常使用后即可选修学习卡所有关联的课程。
+                </dd>
+                <dd><b>2、如何使用学习卡</b><br>
+
+                    通过学习卡号或二维码识别学习卡；<br>
+                    使用后学习卡关联的课程自动设置为选修状态；<br>
+                    也可以将学习卡暂存在自己名下，等需要时使用（不得超过有效期）
+                </dd>
+                <dd><b>3、如何得到学习卡</b><br>
+                    可以联系老师线下购买，或通过淘宝购买学习卡。
+                </dd>
+                <dd><b>4、学习卡时效的计算</b><br>
+                    例如有效期为“2018年11月22日 - 2019年11月22日”则在这个时间段时可以使用学习卡，超出这个时间段则该学习卡作废；<br>
+                    “学习时间”是学习卡关联的课程允许学习的时候，从使用学习卡的时间开始算起；如果学习卡关联的课程之前已经处在选修状态，则学习时间累加。
+                </dd>
+
+            </dl>
+        </van-popup>
+        <!--显示卡片详情-->
+        <van-popup v-model="showcard" closeable class="showcard">
+            <carddetail :card="currentcard"></carddetail>
+        </van-popup>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

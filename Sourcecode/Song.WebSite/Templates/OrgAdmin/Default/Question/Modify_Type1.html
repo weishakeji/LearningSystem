@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>试题编辑-单选</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <modify_main ref="main" @load="ques=>entity=ques" @init="(o,c,t)=>{organ=o;config=c;types=t}">
+            <!-- 编辑区域-->
+            <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
+                <el-form-item label="题干" prop="Qus_Title">
+                    <vue-html5-editor :content="entity.Qus_Title" :show-module-name="false" ref="editor_intro"
+                        style="height: 200px;" @change="text=>entity.Qus_Title = text">
+                    </vue-html5-editor>
+                </el-form-item>
+                <el-form-item label="选项" prop="Qus_Items">
+                    <dl class="ans" id="ansitems">
+                        <dd v-for="(item,index) in ansitems">
+                            <index :title="'id:'+item.Ans_ID">{{index+1}}</index>
+                            <div class="itemcrt" @click="radio(item)" title="设置正确答案">
+                                <icon v-if="item.Ans_IsCorrect" style="font-size: 21px;">&#xe75b</icon>
+                                <icon v-else style="font-size: 22px;">&#xf00c6</icon>
+                            </div>
+                            <div class="text" v-html="item.Ans_Context">
+
+                            </div>
+                            <div class="btns">
+                                <el-link type="primary" plain icon="el-icon-edit" @click='edit(item,index)'>修改</el-link>
+                                <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                    title="确定删除吗？" @confirm="del(item,index)">
+                                    <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除 </el-link>
+                                </el-popconfirm>
+                            </div>
+                        </dd>
+                        <dt>
+                            <el-link type="success" plain icon="el-icon-circle-plus-outline" @click='add()'>添加新项
+                            </el-link>
+                        </dt>
+                    </dl>
+                </el-form-item>
+            </el-form>
+            <el-dialog :visible.sync="showitem" :append-to-body="true" :close-on-click-modal="false"
+                custom-class="showitem">
+                <span slot="title">
+                    <icon>&#xe60d</icon>编辑“选项 {{edititem.index+1}}”
+                </span>
+                <vue-html5-editor :content="edititem.Ans_Context" class="item_editor" :show-module-name="false"
+                    ref="editor_intro" @change="text=>edititem.Ans_Context = text">
+                </vue-html5-editor>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="showitem = false">取 消</el-button>
+                    <el-button type="primary" @click="editenter()">确 定</el-button>
+                </span>
+            </el-dialog>
+        </modify_main>
+        <enter_button :question="entity" :verify="verify" :organ="organ"></enter_button>
+    </div>
+
+</body>
+
+</html>

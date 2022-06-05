@@ -1,0 +1,100 @@
+﻿@charset "utf-8";
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: relative;
+}
+#vapp{
+    overflow: auto;
+}
+context {
+    display: block;
+    width: 1200px;
+    padding: 0px calc((100% - 1200px)/2);
+    text-align: left;
+    margin-top: 10px;
+}
+
+context.navig {
+    display: flex;
+    flex-direction: column;
+}
+
+context.navig>div {
+    padding: 15px;
+    box-sizing: border-box;
+    width: 100%;
+
+}
+
+context.navig>div.bar {
+    display: flex;
+}
+
+context.navig>div.bar>div:first-child {
+    width: 80px;
+    text-align: right;
+}
+context.navig>div.bar>div:last-child {
+    width: calc(100% - 80px);
+}
+context.navig>div.bar .el-tag {
+    margin: 0px 10px 10px 0px;
+    font-size: 14px;
+}
+
+context.navig>div.subject .el-tag {
+    cursor: pointer;
+}
+
+/*面包屑导航*/
+.el-breadcrumb {
+    font-size: 14px;
+}
+
+.el-breadcrumb b {
+    cursor: pointer;
+}
+
+/*按专业显示课程*/
+context.subjectbox {
+    padding-top: 30px;
+}
+
+/*按检索显示课程*/
+context.coursebox {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: row;
+    --flex-direction: column;
+    flex-wrap: wrap;
+    --justify-content: space-between;
+    align-items:flex-start;
+    align-content: flex-start;
+    overflow: auto;
+    --max-height: 300px;
+}
+context.coursebox weisha_course{
+    margin-right: 53px;
+    margin-bottom: 80px;
+}
+context.coursebox weisha_course.fourth{
+    margin-right: 0px;
+}
+.nocourse{
+    box-sizing: border-box;
+    width: 100%;
+    height: 600px;
+    text-align: center;
+    font-size: 18px;
+    padding: 30px;
+}
+.nocourse icon{
+    font-size: 180px;
+    display: block;
+    margin: 50px;
+    color: #999;
+}

@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <el-tag>
+                <help>请从右侧课程列表中选择要打印证明的课程</help>
+            </el-tag>
+
+            <div class="search-box">
+                <el-form :inline="true" :model="query" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item>
+                        <el-input v-model="query.search" clearable style="width:180px" placeholder="按课程检索">
+                            <icon slot="prefix">&#xe813</icon>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button v-on:click="handleCurrentChange(1)" :loading="loading" native-type="submit"
+                            class="el-icon-search"> 查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+
+        <context>
+            <div class="left">
+                <el-card>
+                    <template slot="header">
+                        <span>
+                            <icon>&#xe639</icon>学习证明打印
+                        </span>
+                        <div>
+                            <el-button type="danger" plain @click="cancel(null)" v-if="selects.length>1">
+                                <icon>&#xe800</icon>全部取消
+                            </el-button>
+                            <el-button type="primary" plain @click="print()" :disabled="selects.length<1">
+                                <icon>&#xa046</icon>打印
+                            </el-button>
+                        </div>
+                    </template>
+                    <div class="courses" v-if="selects.length>0">
+                        <card v-for="(item,index) in selects" class="course">
+                            <card-context>
+                                <div class="info_row">
+                                    <span v-html="index + 1" class="index"></span>
+                                    <a target="_blank" class="cour_name" :href="'/web/course/detail.'+item.Cou_ID"
+                                    v-html="item.Cou_Name"></a>
+                                </div>
+                                <div class="info_row btns">
+                                    <progress_value :stid="account.Ac_ID" :course="item" :config="config">
+                                        <template slot-scope="count">
+                                            <el-tag>
+                                                <icon>&#xe6ef</icon>完成 {{count.value}} %
+                                            </el-tag>
+                                        </template>
+                                    </progress_value>
+                                    <el-button type="danger" plain @click="cancel(item)">
+                                        <icon>&#xe800</icon>取消
+                                    </el-button>
+
+                                </div>
+                            </card-context>
+                        </card>
+                    </div>
+                    <div class="nocentext" v-else>
+                        <alert>请选择要打印证明的课程</alert>
+                    </div>
+                </el-card>
+
+
+            </div>
+            <div class="right">
+                <div class="courses" v-if="courses.length>0">
+                    <el-card v-for="(item,index) in courses" class="course">
+                        <div class="picture">
+                            <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
+                            <img src="/Utilities/images/cou_nophoto.jpg" v-else />
+                            <span class="rec" v-if="item.Cou_IsRec"></span>
+                            <div class="subject" title="课程专业" v-html="item.Sbj_Name"></div>
+                        </div>
+                        <div class="info_box" remark="课程信息">
+                            <div class="info_row">
+                                <span v-html="(query.index - 1) * query.size + index + 1" class="index"></span>
+                                <a target="_blank" class="cour_name" :href="'/web/course/detail.'+item.Cou_ID"
+                                    v-html="item.Cou_Name"></a>
+                            </div>
+                            <div class="info_row btns">
+                                <progress_value :stid="account.Ac_ID" :course="item" :config="config">
+                                    <template slot-scope="count">
+                                        <el-tag>
+                                            <icon>&#xe6ef</icon>完成 {{count.value}} %
+                                        </el-tag>
+                                    </template>
+                                </progress_value>
+                                <el-button type="primary" plain @click="select(item)">
+                                    <icon>&#xa030</icon>选择
+                                </el-button>
+
+                            </div>
+                        </div>
+                    </el-card>
+                </div>
+                <div class="nocoures" v-else>
+                    没有课程！
+                </div>
+                <div id="pager-box" v-if="!loading">
+                    <el-pagination v-on:current-change="handleCurrentChange" :current-page="query.index"
+                        :page-sizes="[1]" :page-size="query.size" :pager-count="4"
+                        layout="total, prev, pager, next, jumper" :total="total">
+                    </el-pagination>
+                </div>
+            </div>
+        </context>
+    </div>
+
+
+</body>
+
+</html>

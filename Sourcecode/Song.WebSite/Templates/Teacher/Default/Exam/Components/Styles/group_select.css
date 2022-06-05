@@ -1,0 +1,23 @@
+﻿@charset "utf-8";
+.SortSelected{
+    height: calc(100% - 50px);
+    padding: 0px 0px 0px 8px;
+    box-sizing: border-box;
+}
+.el-transfer{
+    height: 100%;
+    display: flex;
+}
+.el-transfer__buttons{
+    margin-top: calc(50% - 50px);
+}
+.el-transfer-panel{
+    height: 100%;
+    flex: 1;
+}
+.el-transfer-panel__body{
+    height: calc(100% - 50px);
+}
+.el-checkbox-group{
+    height: calc(100% - 60px) !important;
+}

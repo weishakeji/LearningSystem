@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>课程学习</title>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body canstudy="{$canStudy}" olid="{$olid}">
+    <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
+    <div id="vapp">
+        <!--侧滑菜单部分-->
+        <menutree :course="course" :outlines="outlines" :videolog="videolog" :isbuy="isbuy" :menushow="menuShow"></menutree>
+        <div id="context-box">
+            <div class="loading" v-if="loading_init">
+                <van-loading size="24px" type="spinner">加载中...</van-loading>
+            </div>
+            <template v-else>
+                <videoplayer :outline="outline" :account="account"></videoplayer>
+                <div tag="视频" v-show="contextShow=='video' || contextShow==''">
+                    <message :outline="outline" :account="account" v-if="isMessage"></message>
+                </div>
+                <div tag="学习内容" v-show="contextShow=='content'">
+                    <div class="card intro-box">
+                        <div class="card-header">
+                            <span>学习内容</span>
+                        </div>
+                        <div class="card-content">
+                            <div id="details" v-html="outline.Ol_Intro" v-if="outline.Ol_Intro!=''">
+                                {{outline.Ol_Intro}}
+                            </div>
+                            <div id="details" v-else>（没有内容）</div>
+                        </div>
+                    </div>
+                </div>
+                <div tag="附件" v-show="contextShow=='accessory'">
+                    <div class="card acc-box">
+                        <div class="card-header">
+                            <span>附件</span>
+                        </div>
+                        <div class="card-content" v-if="islogin">
+                            <accessory :outline="outline" :account="account" ></accessory>
+                        </div>
+                        <div class="card-content" v-else>
+                            （没有内容）
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+        <!-- ++ -->
+        <coursestudyfooter :course="course"></coursestudyfooter>
+    </div>
+</body>
+
+
+</html>

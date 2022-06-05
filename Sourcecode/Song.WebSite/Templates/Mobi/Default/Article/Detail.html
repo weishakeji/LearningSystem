@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>新闻</title> 
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="header">
+            <a class="weisha_icon" icon="&#xe748" @click="window.history.go(-1); "></a>
+            <a class="weisha_icon" icon="&#xa020" href="/mobi/index"> </a>
+            <search_input></search_input>
+        </div>
+        <div class="context">
+            <van-loading size="24px" v-if="loading">加载中...</van-loading>
+            <div id="artBox">
+                <van-sticky :offset-top="45">
+                    <div class="artTitle">
+                        {{article.Art_Title}}
+                    </div>
+                </van-sticky>
+                <div class="artAttrBar">
+                    <span class="weisha_icon" icon="&#xa039">{{article.Art_PushTime|date('yyyy-MM-dd HH:mm:ss')}}</span>
+                    <span class="weisha_icon" icon="&#xa03a"> {{article.Art_Number}} </span>
+
+                </div>
+                <!--摘要 -->
+
+                <div id="artIntro" v-if="article.Art_Intro && article.Art_Intro!=''"><span class="tit">摘要：</span>
+                    {{article.Art_Intro}}
+                </div>
+
+                <!--图片 -->
+                <div id="artImg" v-if="article.Art_Logo!=''"> <img :src="article.Art_Logo" />
+                </div>
+                <!--正文 -->
+                <div id="artContext" v-html="article.Art_Details">
+
+                </div>
+                <!--附件 -->
+                <dl id="artAcc" v-if="accessory.length>0" remark="资讯的附件">
+                    <dt>相关附件：</dt>
+                    <dd class="accItem" v-for="(data,i) in accessory">
+                        <span class="filename">{{(i+1)}}、<a :href="data.As_FileName" target="_blank" type="link"
+                                :download="data.As_Name">{{data.As_Name}}</a></span>
+                        <span class="filesize">{{data.As_Size|size}}</span>
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

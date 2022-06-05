@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>考试管理</title>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-tabs v-model="activeName" type="card">
+            <el-tab-pane v-for="tab in tabs" :name="tab.name">
+                <span slot="label">
+                    <icon v-html="'&#x'+tab.icon"></icon> {{tab.title}}
+                </span>
+            </el-tab-pane>
+        </el-tabs>
+        <div class="context">
+            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
+                <div v-show="activeName=='general'">
+                    <el-form-item label="考试主题" prop="Exam_Title">
+                        <el-input v-model="entity.Exam_Title" maxlength="255"></el-input>
+                    </el-form-item>
+                    <el-form-item label="考试时间" prop="Exam_DateType">
+                        <div style="margin-bottom: 6px;">
+                            <el-radio-group v-model="entity.Exam_DateType">
+                                <el-radio-button :label="1">
+                                    <icon>&#xa039</icon>定时开始
+                                </el-radio-button>
+                                <el-radio-button :label="2">
+                                    <icon>&#xe737</icon>在指定的时间区间内考试
+                                </el-radio-button>
+                            </el-radio-group>
+                        </div>
+                        <div v-if="entity.Exam_DateType==1">
+                            <help>每场考试单独设置考试时间</help>
+                        </div>
+                        <div v-if="entity.Exam_DateType==2">
+                            <el-date-picker v-model="dateRange" type="datetimerange" range-separator="至"
+                                start-placeholder="开始日期" end-placeholder="结束日期"
+                                @change="val=>{entity.Exam_Date=val[0];entity.Exam_DateOver=val[1];}">
+                            </el-date-picker>
+                            <br />
+                            <help>上述时间之间可以随时考试，各场次所设置的时间将不再起作用。</help>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="状态" prop="Exam_State">
+                        <el-row>
+                            <el-switch v-model="entity.Exam_IsUse" active-text="启用"> </el-switch>
+                        </el-row>
+                        <el-row>
+                            <el-switch v-model="entity.Exam_IsToggle" active-text="允许切换窗口"> </el-switch>
+                        </el-row>
+                        <el-row>
+                            <el-switch v-model="entity.Exam_IsShowBtn" active-text="显示确认按钮"> </el-switch>
+                        </el-row>
+                        <el-row>
+                            <el-switch v-model="entity.Exam_IsRightClick" active-text="禁用右键"> </el-switch>
+                        </el-row>
+                    </el-form-item>
+                    <el-form-item label="简述" prop="Exam_Intro">
+                        <el-input type="textarea" :rows="3" placeholder="请输入内容" v-model="entity.Exam_Intro">
+                        </el-input>
+                    </el-form-item>
+                </div>
+                <div v-show="activeName=='exams'">
+                    <exam_items ref="exam_items" :theme="entity" :organ="organ" @addexam="addexam"></exam_items>   
+                </div>
+                <div v-show="activeName=='range'">
+                    <el-form-item label="" prop="Exam_GroupType" label-width="10px">
+                        <el-radio-group v-model="entity.Exam_GroupType">
+                            <el-radio-button :label="1">
+                                <icon>&#xe67d</icon>全体学生
+                            </el-radio-button>
+                            <el-radio-button :label="2">
+                                <icon>&#xe812</icon>限定分组
+                            </el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                    <group_select ref="group_select" :type="entity.Exam_GroupType" :theme="entity" :organ="organ"></group_select>                  
+                </div>
+            </el-form>
+        </div>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>保存
+            </el-button>
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

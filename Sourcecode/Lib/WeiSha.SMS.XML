@@ -1,0 +1,322 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WeiSha.SMS</name>
+    </assembly>
+    <members>
+        <member name="T:WeiSha.SMS.sms1086.WsAPIs">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.#ctor">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.Query(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.QueryAsync(System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.QueryAsync(System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.ChgPwd(System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.ChgPwdAsync(System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.ChgPwdAsync(System.String,System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.Send(System.String,System.String,System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.SendAsync(System.String,System.String,System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.SendAsync(System.String,System.String,System.String,System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.SendEx(System.String,System.String,System.String,System.String,System.String,System.String,System.Int32)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.SendExAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.Int32)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.SendExAsync(System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.RecvSMS(System.String,System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.RecvSMSAsync(System.String,System.String,System.String,System.String)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.RecvSMSAsync(System.String,System.String,System.String,System.String,System.Object)">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.sms1086.WsAPIs.CancelAsync(System.Object)">
+            <remarks/>
+        </member>
+        <member name="E:WeiSha.SMS.sms1086.WsAPIs.QueryCompleted">
+            <remarks/>
+        </member>
+        <member name="E:WeiSha.SMS.sms1086.WsAPIs.ChgPwdCompleted">
+            <remarks/>
+        </member>
+        <member name="E:WeiSha.SMS.sms1086.WsAPIs.SendCompleted">
+            <remarks/>
+        </member>
+        <member name="E:WeiSha.SMS.sms1086.WsAPIs.SendExCompleted">
+            <remarks/>
+        </member>
+        <member name="E:WeiSha.SMS.sms1086.WsAPIs.RecvSMSCompleted">
+            <remarks/>
+        </member>
+        <member name="T:WeiSha.SMS.sms1086.QueryCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:WeiSha.SMS.sms1086.QueryCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:WeiSha.SMS.sms1086.QueryCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:WeiSha.SMS.sms1086.ChgPwdCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:WeiSha.SMS.sms1086.ChgPwdCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:WeiSha.SMS.sms1086.ChgPwdCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:WeiSha.SMS.sms1086.SendCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:WeiSha.SMS.sms1086.SendCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:WeiSha.SMS.sms1086.SendCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:WeiSha.SMS.sms1086.SendExCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:WeiSha.SMS.sms1086.SendExCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:WeiSha.SMS.sms1086.SendExCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="T:WeiSha.SMS.sms1086.RecvSMSCompletedEventHandler">
+            <remarks/>
+        </member>
+        <member name="T:WeiSha.SMS.sms1086.RecvSMSCompletedEventArgs">
+            <remarks/>
+        </member>
+        <member name="P:WeiSha.SMS.sms1086.RecvSMSCompletedEventArgs.Result">
+            <remarks/>
+        </member>
+        <member name="M:WeiSha.SMS.ISMS.Send(System.String,System.String)">
+            <summary>
+            发送短信
+            </summary>
+            <param name="mobiles"></param>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.SMS.ISMS.Send(System.String,System.String,System.DateTime)">
+            <summary>
+            定时发送短信
+            </summary>
+            <param name="mobiles"></param>
+            <param name="context"></param>
+            <param name="time"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.SMS.ISMS.Query">
+            <summary>
+            查询剩余的短信条数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.SMS.ISMS.Query(System.String,System.String)">
+            <summary>
+            查询剩余的短信条数
+            </summary>
+            <param name="user">账号</param>
+            <param name="pw">密码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WeiSha.SMS.ISMS.ReceiveSMS(System.DateTime,System.String)">
+            <summary>
+            接收回发的短信
+            </summary>
+            <param name="from">开始接收的时间</param>
+            <param name="readflag">是否已读，0:未读短信，1:所有短信</param>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.SMS.ISMS.Current">
+            <summary>
+            短信平台的管理项
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.ISMS.User">
+            <summary>
+            用户的账号
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.ISMS.Password">
+            <summary>
+            用户的密码
+            </summary>
+        </member>
+        <member name="T:WeiSha.SMS.Object.DuanXinWang">
+            <summary>
+            短信王的短信发送类
+            </summary>
+        </member>
+        <member name="M:WeiSha.SMS.Object.DuanXinWang.Query(System.String,System.String)">
+            <summary>
+            查询剩余的短信条数
+            </summary>
+            <param name="user">账号</param>
+            <param name="pw">密码</param>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.SMS.Object.DuanXinWang.User">
+            <summary>
+            用户的账号
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.Object.DuanXinWang.Password">
+            <summary>
+            用户的密码
+            </summary>
+        </member>
+        <member name="M:WeiSha.SMS.Gatway.GetCurrentPlate(System.String)">
+            <summary>
+            设置当前使用的短信平台
+            </summary>
+            <param name="name">短信平台名称，来自于web.config中的配置</param>
+        </member>
+        <member name="M:WeiSha.SMS.Gatway.GetService(System.String)">
+            <summary>
+            根据短信平台的名称，获取短信平台接口实例
+            </summary>
+            <param name="remark">短信接口备注名，来自于webconfig中的设置项</param>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.SMS.Gatway.Service">
+            <summary>
+            发送短信的入口，实现IOC依赖反转
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.SMS.SmsItem.User">
+            <summary>
+            短信发送帐号
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.SmsItem.Password">
+            <summary>
+            短信发送的密码
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.SmsItem.Type">
+            <summary>
+            短信接口的实现类
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.SmsItem.Remarks">
+            <summary>
+            备注信息
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.SmsItem.IsCurrent">
+            <summary>
+            是否当前采用的短信平台
+            </summary>
+        </member>
+        <member name="M:WeiSha.SMS.Config.SetCurrent(System.String)">
+            <summary>
+            设置当前的短信平台
+            </summary>
+            <param name="remarks"></param>
+        </member>
+        <member name="P:WeiSha.SMS.Config.Singleton">
+            <summary>
+            获取参数(单件对象)
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.Config.SmsItems">
+            <summary>
+            短信平台列表
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.Config.CurrentName">
+            <summary>
+            当前采用的短信平台
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.Config.Current">
+            <summary>
+            当前采用的短信平台
+            </summary>
+        </member>
+        <member name="T:WeiSha.SMS.SmsState">
+            <summary>
+            短信的发送状态
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.SmsState.Success">
+            <summary>
+            是否成功
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.SmsState.Result">
+            <summary>
+            发送短信的返回结果
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.SmsState.Code">
+            <summary>
+            发送后的返回代码，一般0为发送成功
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.SmsState.Description">
+            <summary>
+            发送短信的详细返回信息
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.SmsState.FailList">
+            <summary>
+            如果发送失败，失败列表
+            </summary>
+        </member>
+        <member name="T:WeiSha.SMS.Object.HenanTengxin">
+            <summary>
+            河南腾信的短信开发接口
+            </summary>
+        </member>
+        <member name="M:WeiSha.SMS.Object.HenanTengxin.Query(System.String,System.String)">
+            <summary>
+            查询剩余的短信条数
+            </summary>
+            <param name="user">账号</param>
+            <param name="pw">密码</param>
+            <returns></returns>
+        </member>
+        <member name="P:WeiSha.SMS.Object.HenanTengxin.User">
+            <summary>
+            用户的账号
+            </summary>
+        </member>
+        <member name="P:WeiSha.SMS.Object.HenanTengxin.Password">
+            <summary>
+            用户的密码
+            </summary>
+        </member>
+    </members>
+</doc>

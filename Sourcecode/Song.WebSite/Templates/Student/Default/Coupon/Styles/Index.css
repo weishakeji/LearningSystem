@@ -1,0 +1,87 @@
+﻿@charset "utf-8";
+
+.tatol_info {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.tatol_info icon {
+    font-size: 18px;
+}
+
+.el-table {
+    height: calc(100% - 32px - 45px);
+}
+
+/*支出或增加*/
+.type1 {
+    color: #F56C6C;
+}
+
+.type2 {
+    --color: #67C23A;
+}
+
+.frame_header button {
+    padding: 5px;
+    margin-top: 1px;
+    box-sizing: border-box;
+}
+
+.frame_header .el-button+.el-button {
+    margin-left: 0px;
+    margin-right: 10px;
+}
+
+/*使用充值卡*/
+.useCardShow {
+    box-sizing: border-box;
+    height: auto !important;
+}
+
+.useCardShow .el-drawer__body {
+
+    box-sizing: border-box;
+    padding: 0px 40px 20px 20px;
+}
+
+.card_input {
+    font-size: 18px;
+}
+
+.card_input icon {
+    font-size: 30px;
+    line-height: 50px;
+    margin-left: 8px;
+    display: block;
+}
+
+.card_input input.el-input__inner {
+    font-size: 20px;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 50px;
+}
+/*积分兑换*/
+.exchangeShow{
+    box-sizing: border-box;
+    height: auto !important;
+}
+.exchangeShow .el-drawer__body {
+
+    box-sizing: border-box;
+    padding: 0px 40px 20px 20px;
+}
+.point_input {
+    font-size: 16px;
+}
+
+.point_input icon {
+    font-size: 25px;
+    line-height: 40px;
+    margin-left: 8px;
+    display: block;
+}
+.point_input input.el-input__inner {
+    padding-left: 40px;
+}

@@ -1,0 +1,14 @@
+﻿@charset "utf-8";
+.weisha_icon{
+    font-size: 18px;
+}
+.man::before{
+    color: rgb(3, 71, 71);
+}
+.woman::before{
+    color: rgb(248, 87, 87);
+}
+.tearch::before{
+    color: rgb(3, 167, 3);
+    margin: 0px;
+}

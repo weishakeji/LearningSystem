@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=MBUg6BlQ9sowj5824cX1IKIG"></script>
+    <title>基本信息配置管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-tabs type="border-card" v-model="activeName">
+            <el-tab-pane label="常规" name="general">
+                <span slot="label">
+                    <icon>&#xa030</icon> 常规
+                </span>
+            </el-tab-pane>
+
+            <el-tab-pane label="SEO" name="seo"> <span slot="label">
+                    <icon>&#xe7d4</icon> SEO
+                </span></el-tab-pane>
+            <el-tab-pane label="联系方式" name="contact"> <span slot="label">
+                    <icon>&#xa047</icon> 联系方式
+                </span></el-tab-pane>
+            <el-tab-pane label="关于我们" name="about"> <span slot="label">
+                    <icon>&#xe67d</icon> 关于我们
+                </span></el-tab-pane>
+        </el-tabs>
+        <el-form ref="entity" :model="organ" :rules="rules" @submit.native.prevent label-width="120px">
+            <div v-show="activeName=='general'" remark="常规参数设置">
+                <el-form-item label="平台名称" prop="Org_PlatformName">
+                    <el-input v-model="organ.Org_PlatformName"></el-input>
+                </el-form-item>
+                <el-form-item label="域名" prop="Org_TwoDomain">
+                    <el-tag type="info">{{twomain}}</el-tag>
+
+                </el-form-item>
+                <el-form-item label="标志" prop="">
+                    <upload-img @change="filechange" :data="organ" size="1024" height="100" ext="jpg,png,gif">
+                        <template v-if="organ.Org_Logo!='' || upfile!=null">
+                            <img v-if="upfile!=null" :src="upfile.base64" />
+                            <img v-else :src="organ.Org_Logo" />
+                            <el-link type="primary" @click.stop="fileremove">清除图片</el-link>
+                        </template>
+                        <div class="nophoto" v-else>
+                            <el-tooltip content="点击上传图片" placement="right" effect="light">
+                                <icon>&#xe724</icon>
+                            </el-tooltip>
+                        </div>
+                    </upload-img>
+                </el-form-item>
+                <el-form-item label="ICP备案号" prop="Org_ICP">
+                    <el-input v-model="organ.Org_ICP"></el-input>
+                </el-form-item>
+                <el-form-item label="公案备案号" prop="Org_GonganBeian">
+                    <el-input v-model="organ.Org_GonganBeian"></el-input>
+                </el-form-item>
+            </div>
+            <div v-show="activeName=='stamp'" remark="公章">
+            </div>
+            <div v-show="activeName=='seo'" remark="SEO">
+                <el-form-item label="Keywords" prop="Org_Keywords">
+                    <el-input type="textarea" v-model="organ.Org_Keywords"></el-input>
+                </el-form-item>
+                <el-form-item label="Description" prop="Org_Description">
+                    <el-input type="textarea" v-model="organ.Org_Description"></el-input>
+                </el-form-item>
+                <el-form-item label="附属代码" prop="Org_Extracode">
+                    <template slot="label">
+                        <el-tooltip class="item" effect="light" placement="bottom">
+                            <div slot="content">（例如流量统计代码）</div>
+                            <help>附属代码</help>
+                        </el-tooltip>
+                    </template>
+                    <el-input type="textarea" :rows="5" v-model="organ.Org_Extracode"></el-input>
+                </el-form-item>
+            </div>
+            <div v-show="activeName=='contact'" remark="联系方式">
+                <el-row>
+                    <el-col :span="21">
+                        <el-form-item label="地址" prop="Org_Address">
+                            <el-input v-model="organ.Org_Address" clearable>
+                                <icon slot="prefix">&#xe64f</icon>
+                            </el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="3" style="padding-left: 10px;">
+                        <el-link type="primary" @click="mapshow=true">
+                            <icon>&#xe64c</icon>地图
+                        </el-link>
+                    </el-col>
+                </el-row>
+                <el-form-item label="电话" prop="Org_Phone">
+                    <el-input v-model="organ.Org_Phone" clearable maxlength="200" style="width: 50%;">
+                        <icon slot="prefix">&#xe66c</icon>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="传真" prop="Org_Fax">
+                    <el-input v-model="organ.Org_Fax" clearable maxlength="200" style="width: 50%;">
+                        <icon slot="prefix">&#xa046</icon>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="电子邮箱" prop="Org_Email">
+                    <el-input v-model="organ.Org_Email" clearable maxlength="200" style="width: 50%;">
+                        <icon slot="prefix">&#xe76e</icon>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="微信" prop="Org_Weixin">
+                    <el-input v-model="organ.Org_Weixin" clearable maxlength="200" style="width: 50%;">
+                        <icon slot="prefix">&#xe730</icon>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="联系人" prop="Org_Linkman">
+                    <el-input v-model="organ.Org_Linkman" clearable maxlength="200" style="width: 50%;">
+                        <icon slot="prefix">&#xa043</icon>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="联系电话" prop="Org_LinkmanPhone">
+                    <el-input v-model="organ.Org_LinkmanPhone" clearable maxlength="200" style="width: 50%;">
+                        <icon slot="prefix">&#xa047</icon>
+                    </el-input>
+                </el-form-item>
+                <el-form-item label="邮编" prop="Org_Zip">
+                    <el-input v-model="organ.Org_Zip" clearable maxlength="10" style="width: 50%;">
+                        <icon slot="prefix">&#xe751</icon>
+                    </el-input>
+                </el-form-item>
+                <el-dialog title="地址的GPS坐标（点击地图选择位置）" :visible.sync="mapshow" width="80%">
+                    <el-row>
+                        <el-form-item label="地址" prop="Org_Address" label-width="60px">
+                            <el-input v-model="organ.Org_Address" clearable @input="addressChange"></el-input>
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="经度" prop="Org_Longitude" label-width="60px">
+                                <el-input v-model="organ.Org_Longitude" :disabled="true">
+                                    <i class="el-icon-map-location" slot="prefix"> </i>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="纬度" prop="Org_Latitude" label-width="60px">
+                                <el-input v-model="organ.Org_Latitude" :disabled="true">
+                                    <i class="el-icon-map-location" slot="prefix"> </i>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <div id="map" style="height:250px;width:100%;"></div>
+                </el-dialog>
+            </div>
+            <div v-show="activeName=='about'" class="about_editor" remark="关于我们">
+                <vue-html5-editor :content="Org_Intro" :show-module-name="false" ref="editor_intro"
+                    @change="text=>organ.Org_Intro = text">
+                </vue-html5-editor>
+            </div>
+        </el-form>
+        <div id="footer-box">
+            <el-tag type="danger" v-if="error!=''">
+                <icon>&#xe6d0</icon>{{error}}
+            </el-tag>
+            <el-button type="primary" native-type="submit" :loading="loading" v-loading.fullscreen.lock="loading"
+                @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>确认修改
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

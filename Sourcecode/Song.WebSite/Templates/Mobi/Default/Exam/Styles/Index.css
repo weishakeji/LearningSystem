@@ -1,0 +1,270 @@
+﻿@charset "utf-8";
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: relative;
+	background-color: #fff;
+}
+
+#vapp {
+	overflow: auto;
+	background: linear-gradient(rgba(146, 171, 147, 0.8) 0%, rgba(255, 255, 255, 1) 40%);
+}
+
+.van-loading {
+	padding: 20px;
+}
+
+.header {
+	height: 50px;
+	position: relative;
+	z-index: 1;
+	padding: 20px;
+}
+
+.header[login] {
+	height: 80px;
+}
+
+.header_info {
+	width: 100%;
+	height: 60px;
+	position: relative;
+}
+
+.acc_photo {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 20px;
+	float: left;
+	background-size: cover;
+	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+}
+
+.logined .acc_photo {
+	width: 80px;
+	height: 80px;
+	text-align: center;
+}
+
+.van-sticky--fixed card {
+	width: 100%;
+	margin: 0px;
+	border-radius: 0px;
+	border: none;
+}
+
+.accInfo {
+	width: calc(100% - 80px);
+	float: left;
+	position: relative;
+	color: #fff;
+}
+
+.acc-acname {
+	font-size: 12px;
+}
+
+.nologin::after {
+	content: '\e72a';
+	font-family: webdesk_icon;
+	display: block;
+	width: 10px;
+	position: absolute;
+	right: 25px;
+	top: 40px;
+	transform: rotate(180deg);
+	color: #fff;
+	z-index: -1;
+}
+
+.nophoto {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+.man {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+.woman {
+	background-image: url(/Utilities/images/head2.jpg);
+}
+
+.header .van-tag {
+	padding: 2px 8px;
+	margin-right: 10px;
+}
+
+/*主菜单*/
+
+.menu-box {
+	padding: 10px;
+	position: absolute;
+	bottom: 0px;
+	width: calc(100vw - 150px);
+	right: 10px;
+	height: 45px;
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.6) 95%, rgba(255, 255, 255, 0.1));
+	border-radius: 5px 5px 0px 0px;
+	display: flex;
+}
+
+.menu-box>div {
+	width: calc( 100% /3 - 10px);
+	float: left;
+	margin-right: 5px;
+	margin-left: 5px;
+	text-align: center;
+	font-size: 14px;
+	flex: 1;
+	word-wrap:normal;
+	white-space:nowrap;
+}
+
+.menu-box>div::before {
+	display: block;
+	font-size: 28px;
+}
+
+.van-sticky--fixed .menu-box {
+	position: static;
+	width: calc(100vw);
+	background: #fff;
+	height: 30px;
+	box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+}
+
+.van-sticky--fixed .menu-box>div {
+	text-align: left;
+}
+
+.van-sticky--fixed .menu-box>div::before {
+	display: inline-block;
+}
+
+/*考试详情*/
+
+card-title {
+	position: relative;
+	padding: 15px 100px 15px 15px;
+}
+card-title .search{
+	position: absolute;
+	right: 10px;
+	top: 15px;	
+}
+card-title .search input[type='search']{
+	border: 1px solid #ddd;
+	width: 120px;
+	height: 30px;
+	padding: 10px 30px 10px 10px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	font-size: 13px;
+}
+card-title .search::before{
+	content: '\a00b';
+	font-family: webdesk_icon;
+	display: block;
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	right: 0px;
+	top: 2px;
+	font-size: 20px;
+	color: #999;
+	text-align: center;
+	z-index: 10;
+}
+.theme card-title {
+	padding: 15px;
+}
+
+card-title button {
+	position: absolute;
+	top: 20px;
+	right: 5px;
+	color: #fff;
+	background-color: #07c160;
+	border: 1px solid #07c160;
+	font-size: 14px;
+	line-height: 20px;
+	height: 20px;
+}
+
+card-context {
+	font-size: 16px;
+}
+
+.item {
+	line-height: 30px;
+}
+
+/*得分样式*/
+
+score {
+	font-size: 16px;
+	position: absolute;
+	top: 20px;
+	right: 5px;
+	line-height: 20px;
+	height: 20px;
+}
+
+score.general{
+	color: #07c160;
+}
+score.praise{
+	color: #409EFF;
+	font-weight: bold;
+}
+score::before {
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	font-size: 22px;
+}
+
+score.nopass::before {
+	content: '\e774';
+	color: #ff0000;
+}
+
+score.general::before {
+	content: '\e829';
+}
+
+score.fine::before {
+	content: '\e850';
+	color: #409EFF;
+}
+
+score.praise::before {
+	content: '\e8c9';
+	font-size: 20px;
+	color:coral;
+	font-weight: normal;	
+}
+
+/*没有考试*/
+
+.noexam {
+	margin: 50px;
+	text-align: center;
+}
+
+.noexam::before {
+	content: '\e723';
+	font-family: "webdesk_icon" !important;
+	font-size: 80px;
+	display: block;
+	color: #666;
+}
+
+.item b {
+	font-size: 16px;
+}

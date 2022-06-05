@@ -1,0 +1,202 @@
+﻿@charset "utf-8";
+
+#vapp {
+	display: flex;
+	flex-direction: column;
+	--background-color: darkgreen;
+}
+
+.toolsbar .el-tag {
+	border-bottom: none;
+	border-radius: 3px 3px 0px 0px;
+	margin-left: 10px;
+}
+
+/*内容区域*/
+context {
+	display: flex;
+	height: calc(100% - 41px);
+	padding: 10px 0px 10px 10px;
+	box-sizing: border-box;
+	position: relative;
+}
+
+context>div {
+	flex: 1;
+	position: relative;
+}
+
+.left .nocentext{
+	text-align: center;
+}
+
+.left>.el-card {
+	width: calc(100% - 8px);
+	height: calc(100% - 5px);
+	margin: 5px 15px 15px 0px;
+}
+
+.left>.el-card .el-card__header {
+	display: flex;
+}
+
+.left>.el-card .el-card__header>*:first-child {
+	flex: 1;
+}
+
+.left>.el-card .el-card__header button {
+	padding: 5px 15px;
+}
+
+.left>.el-card .el-card__body {
+	padding: 5px;
+	overflow-y: auto;
+	height: calc(100% - 60px);
+}
+
+.left card.course card-context {
+	position: relative;
+	padding-bottom: 40px;
+	box-sizing: border-box;
+
+}
+
+/*右侧课程列表*/
+.right .courses {
+	height: calc(100% - 35px);
+	overflow-y: auto;
+}
+
+.nocoures {
+	box-sizing: border-box;
+	padding: 20px 30px;
+}
+
+context .right .el-card {
+	width: calc(100% - 28px);
+	margin: 5px 15px 15px 15px;
+	margin-bottom: 20px;
+
+}
+
+/*课程内容*/
+.right .el-card__body {
+	box-sizing: border-box;
+	position: relative;
+	display: flex;
+}
+
+.index::after {
+	content: '.';
+	margin-right: 5px;
+}
+
+.picture {
+	position: relative;
+	margin-right: 20px;
+	display: inline-block;
+	height: 100px;
+}
+
+.el-card__body img:first-child {
+	display: inline-block;
+	height: 100px;
+}
+
+.rec {
+	position: absolute;
+	top: -1px;
+	left: -1px;
+}
+
+.rec::before {
+	content: "\e741";
+	font-family: webdesk_icon;
+	font-size: 35px;
+	margin-right: 3px;
+	font-size: 60px;
+	display: block;
+	position: absolute;
+	margin: -2px 0px 0px -4px;
+	color: rgb(255, 30, 30);
+	text-shadow: -1px -1px 2px #fff, -1px -1px 3px #fff;
+}
+
+
+/*课程右侧的内容区*/
+.info_box {
+	flex: 1;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+}
+
+.info_box a.cour_name {
+	max-height: 70px;
+	overflow: hidden;
+	text-overflow: -o-ellipsis-lastline;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+
+.info_row {
+	display: flex;
+}
+
+.info_column {
+	display: flex;
+	flex-direction: column;
+}
+
+.subject {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+	color: #333;
+	line-height: 30px;
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0px 10px;
+	background-color: rgba(255, 255, 255, 0.3);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	word-break: break-all;
+}
+
+.subject::before {
+	content: "\e750";
+	font-family: webdesk_icon;
+	color: #333;
+}
+
+.cour_name {
+	flex: 1;
+}
+
+/*最下面的一行*/
+.btns {
+	position: absolute;
+	width: calc(100% - 20px);
+	height: 25px;
+	left: 10px;
+	bottom: 5px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.left .btns {
+	bottom: 10px;
+}
+
+.btns button {
+	padding: 0px 8px;
+	height: 28px;
+	font-size: 12px;
+}

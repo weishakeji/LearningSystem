@@ -1,0 +1,107 @@
+﻿context {
+	position: relative;
+}
+
+context {
+	display: flex;
+	width: 1000px;
+	min-height: 600px;
+	margin: 40px auto;
+	text-align: left;
+
+}
+
+.left {
+	width: 600px;
+
+	float: left;
+	padding-bottom: 80px;
+}
+
+.left .el-breadcrumb {
+	margin: 20px 0px;
+}
+
+dl, dl dd {
+	margin: 0px;
+	padding: 0px;
+	text-align: left;
+}
+
+
+
+.tit_bar {
+	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
+	font-size: 22px;
+	height: 40px;
+	line-height: 35px;
+	font-weight: bold;
+	color: #000000;
+	border-bottom: solid 1px #ddd;
+	margin: 0px 20px 20px 0px;
+	padding: 0px 0px 10px 0px;
+}
+.tit_bar icon{
+	margin-right: 15px;
+	font-size: 25px;
+	font-weight: normal;
+}
+.tit_bar>div:last-child {
+	float: right;
+}
+
+.left dl dd {
+	font-size: 18px;
+	line-height: 35px;
+	margin-bottom: 40px;
+	position: relative;
+}
+
+.left dl dd a {
+	display: block;
+	width: calc(100% - 100px);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	word-break: break-all;
+}
+
+.left dl dd b {
+	margin-right: 8px;
+}
+
+.left dl dd span {
+	color: #999;
+	font-size: 16px;
+	line-height: 18px !important;
+}
+
+.left dl dd .nodate {
+	position: absolute;
+	color: #999;
+	top: 0px;
+	right: 0px;
+	font-size: 14px;
+}
+
+.el-pagination {
+	position: absolute;
+	bottom: 0px;
+}
+
+/*右侧区域*/
+.right {
+	float: right;
+	width: calc(100% - 600px);
+	margin-left: 40px;
+	padding-left: 40px;
+	box-sizing: border-box;
+	border-left: dashed 1px #ddd;
+}
+.right dl dd{
+	font-size: 15px;
+	line-height: 35px;
+}
+.right dl dd a span{
+	margin-right: 10px;
+}

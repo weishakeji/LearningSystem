@@ -1,0 +1,9 @@
+﻿@charset "utf-8";
+#vapp{
+	overflow: hidden;
+}
+.count{
+	color: #999;
+	margin-left: 15px;
+	font-size: 12px;
+}

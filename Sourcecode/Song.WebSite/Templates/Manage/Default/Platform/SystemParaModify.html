@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>管理菜单的根节点编辑</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="120px">
+
+            <el-form-item label="参数名（key）" prop="Sys_Key">
+                <el-input v-model="entity.Sys_Key"></el-input>
+            </el-form-item>
+
+            <el-form-item label="参数值（value）" prop="Sys_Value">
+                <el-input v-model="entity.Sys_Value"></el-input>
+            </el-form-item>
+
+
+            <el-form-item label="默认值" prop="MM_Marker">
+                <el-input v-model="entity.Sys_Default"></el-input>
+            </el-form-item>
+
+            <el-form-item label="供选择的单位" prop="MM_IcoS">
+                <el-input v-model="entity.Sys_SelectUnit" style="width: 300px;"></el-input>
+                （用,分隔单位项）
+            </el-form-item>
+
+
+            <el-row>
+                <el-form-item label="实际单位" >
+                    <el-input v-model="entity.Sys_Unit"  style="width: 300px;"></el-input>
+                </el-form-item>
+            </el-row>
+            <el-row>
+                <el-form-item label="说明">
+                    <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="entity.Sys_ParaIntro"></el-input>
+                </el-form-item>
+            </el-row>
+            <el-form-item class="footer">
+                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">确认修改
+                </el-button>
+                <el-button type='close'>取消</el-button>
+            </el-form-item>
+        </el-form>      
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" @cardquery="cardquery" path="CardsetModify"
+                width="800" height="600" :selects='selects' idkey='Lcs_ID' table="datatables"></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-select v-model="form.orgid" placeholder="--所有机构--">
+                            <el-option class="organs_option" v-for="(item,index) in organs" :key="item.Org_ID"
+                                :label="item.Org_PlatformName" :value="item.Org_ID">
+                                <div>
+                                    <span>{{index+1}}.</span>
+                                    <span>
+                                        {{ item.Org_PlatformName }}
+                                    </span>
+                                </div>
+                                <div style="float: right; color: #8492a6; font-size: 13px">{{ item.Org_Name }}</div>
+
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model.trim="form.search" placeholder="主题" style="width:100px"> </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                            :disabled="loading" native-type="submit" plain>
+                            <span v-if="!loading">查询</span>
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="主题">
+                    <template slot-scope="scope">
+
+                        <el-link :type="scope.row.Lcs_IsEnable ? 'primary' :'info'" title="点击查看学习卡"
+                            @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">
+                            <span class="el-icon-open enable" v-if="scope.row.Lcs_IsEnable"></span>
+                            <span class="el-icon-turn-off disable" v-if="!scope.row.Lcs_IsEnable"></span> <span
+                                v-html="showInfo(scope.row.Lcs_Theme)"></span>
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="课程数" width="80" align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.Lcs_CoursesCount}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="数量" width="120">
+                    <template slot-scope="scope">
+                        <span title="已经使用" class="usedCount">{{scope.row.Lsc_UsedCount}}</span> / <span title="总数"
+                            class="sumCount">{{scope.row.Lcs_Count}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="面额" width="80">
+                    <template slot-scope="scope">
+                        <span class="weisha_icon money" icon="&#xe624"
+                            style="font-size: 14px;">{{scope.row.Lcs_Price}}</span>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="有效期">
+                    <template slot-scope="scope">
+                        {{scope.row.Lcs_LimitStart|date('yyyy-MM-dd')}}
+                        至
+                        {{scope.row.Lcs_LimitEnd|date('yyyy-MM-dd')}}
+                    </template>
+                </el-table-column>
+
+
+                <el-table-column label="操作" show-overflow-tooltip width="60" align="center">
+                    <template slot-scope="scope">
+                        <el-dropdown>
+                            <span class="el-dropdown-link">
+                                管理<i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item icon="el-icon-view"> <span
+                                        @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">
+                                        查看学习卡
+                                    </span>
+                                </el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-position" @click.native="outputExcel(scope.row)">导出Excel
+                                </el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-position" @click.native="outputQrCode(scope.row)">导出二维码
+                                </el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-refresh-left" @click.native="batGoback(scope.row)">
+                                    批量回滚
+                                </el-dropdown-item>
+                                <el-dropdown-item icon="el-icon">
+                                    <el-switch v-model="scope.row.Lcs_IsEnable" size="mini" active-text="启用"
+                                        @change="changeUse(scope.row)" v-show="loadingid!=scope.row.Lcs_ID">
+                                    </el-switch>
+                                </el-dropdown-item>
+
+                                <el-dropdown-item divided type="danger" icon="el-icon-edit" style="color:#409EFF"
+                                    @click.native='$refs.btngroup.modifyrow(scope.row)'>
+                                    修改
+                                </el-dropdown-item>
+                                <el-dropdown-item type="danger" icon="el-icon-delete" style="color:#F56C6C"
+                                    @click.native='$refs.btngroup.delete(scope.row.Lcs_ID,{})'>
+                                    删除
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
+
+
+                </el-table-column>
+            </el-table>
+
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

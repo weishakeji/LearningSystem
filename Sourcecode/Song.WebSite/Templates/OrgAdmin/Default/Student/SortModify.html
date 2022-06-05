@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改学员组信息</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+
+            <el-form-item label="名称" prop="Sts_Name">
+                <el-input v-model="entity.Sts_Name" maxlength="140"></el-input>
+
+            </el-form-item>
+
+            <el-form-item label="状态">
+                <el-switch v-model="entity.Sts_IsUse" active-color="#13ce66" inactive-color="#ff4949"
+                    :active-text="entity.Sts_IsUse ? '启用' : '禁用'">
+                </el-switch>               
+            </el-form-item>
+            <el-form-item label="备注" prop="Sts_Intro">
+                <el-input type="textarea" :rows="3" placeholder="请输入内容"  maxlength="250" v-model="entity.Sts_Intro">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="视频播放">
+                <el-checkbox v-model="entity.Sts_SwitchPlay">禁用“视频课程学习时的切换窗体暂停视频播放”功能</el-checkbox>
+                <el-tag type="info">(启用该功能后，该组所属学员在课程学习时，切换浏览器窗体，视频将不再暂停播放)</el-tag>
+                <div>
+                    <el-tag type="success" v-if="entity.Sts_SwitchPlay">
+                        <icon>&#xa049</icon>持续播放
+                    </el-tag>
+                    <el-tag type="warning" v-else>
+                        <icon>&#xe6bf</icon>切换暂停
+                    </el-tag>
+                </div>
+            </el-form-item>
+
+
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>修改
+            </el-button>
+            <el-button type='close'>
+                <icon>&#xe748</icon>取消
+            </el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

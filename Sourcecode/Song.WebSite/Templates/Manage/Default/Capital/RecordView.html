@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>查看资金流水</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+
+        <el-form ref="account" :model="account" @submit.native.prevent label-width="80px">
+            <el-form-item>
+                <img v-if="account.Ac_Photo!=''" :src="account.Ac_Photo" class="avatar photo">
+                <img v-else class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head1.jpg" />
+                <div>
+                    <span v-if="account.Ac_Sex=='1'" class="weisha_icon man" icon="&#xe645" title="男性"></span>
+                    <span v-if="account.Ac_Sex=='2'" class="weisha_icon woman" icon="&#xe647" title="女性"></span>
+                    <b>{{account.Ac_Name}}</b> &nbsp; <span title="账号">({{account.Ac_AccName}})</span>
+
+
+                    <template v-if="account.Ac_MobiTel1!='' || account.Ac_MobiTel2!=''"><br />
+                        电话：<span v-html='account.Ac_MobiTel1'></span>
+                        <span v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!=''">/</span>
+                        <span v-html='account.Ac_MobiTel2'></span>
+                    </template>
+
+                    <template v-if="account.Ac_IDCardNumber!=''"><br />
+                        证件：{{account.Ac_IDCardNumber}}</template>
+                    <br />
+                    机构：{{organ.Org_Name}}
+                </div>
+                </el-upload>
+            </el-form-item>
+            <el-form-item label="">
+                <span :class="'money type'+entity.Ma_Type">
+                    <span v-if="entity.Ma_Type==1">支出 >></span>
+                    <span v-if="entity.Ma_Type==2">充值 >></span>
+                    <span class="weisha_icon" icon="&#xe624">{{entity.Ma_Money}} 元</span>
+                </span>
+                <span style="margin-left: 30px;">
+                    <el-tag type="success" v-if="entity.Ma_IsSuccess" class="el-icon-circle-check"> 状态：操作成功</el-tag>
+                    <el-tag type="danger" v-else class="el-icon-circle-close"> 状态：操作失败</el-tag>
+                    <el-link v-if="!entity.Ma_IsSuccess && entity.Ma_Type==2 && isSuper" @click="btnConfirm"
+                        type="primary">人工审核确认</el-link>
+                </span>
+            </el-form-item>
+            <el-form-item label="余额">
+                <span class="weisha_icon" icon="&#xe624">{{entity.Ma_Total}} 元</span>
+            </el-form-item>
+            <el-form-item label="时间">
+                {{entity.Ma_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}
+            </el-form-item>
+            <el-form-item label="流水号">
+                {{entity.Ma_Serial}}<el-tag @click="copy(entity.Ma_Serial,'流水号')" style="cursor: pointer;">复制</el-tag>
+            </el-form-item>
+            <el-form-item label="动作">
+                {{getFrom(entity.Ma_From)}}
+            </el-form-item>
+            <el-form-item label="来源信息">
+                {{entity.Ma_Source}}
+            </el-form-item>
+            <el-form-item label="充值码" v-if="entity.Ma_From==2">
+                {{entity.Rc_Code}}
+            </el-form-item>
+            <template v-if="entity.Ma_From==3">
+                <el-form-item label="支付平台">
+                    {{pay.Pai_Name}}
+                </el-form-item>
+                <el-form-item label="支付账户">
+                    {{entity.Ma_Buyer}}
+                </el-form-item>
+                <el-form-item label="收款账户">
+                    {{entity.Ma_Seller}}
+                </el-form-item>
+            </template>
+
+            <el-form-item label="说明">
+                {{entity.Ma_Info}}
+            </el-form-item>
+            <el-form-item class="footer">
+
+                <el-button type='close'>取消</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+
+
+</body>
+
+</html>

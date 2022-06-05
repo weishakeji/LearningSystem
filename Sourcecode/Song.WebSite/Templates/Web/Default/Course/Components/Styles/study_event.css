@@ -1,0 +1,39 @@
+
+/* 视频事件中的试题窗口*/
+
+.MsgBoxContext .eventContext {
+	font-size: 14px;
+	height: 22px;
+	margin-bottom: 10px;
+}
+
+.MsgBoxContext .quesBox {
+	margin-left: 14px;
+}
+
+.MsgBoxContext .quesBox>div {
+	font-size: 14px;
+	height: 22px;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+.MsgBoxContext #event_error {
+	font-size: 14px;
+	margin-top: 10px;
+	text-align: center;
+	color: #F00;
+	height: 0px;
+	opacity: 0;
+	transition: height 1s;
+	transition: opacity 1s;
+	overflow: hidden;
+}
+
+.MsgBoxContext #event_error:before {
+	content: "\e63d";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;
+}

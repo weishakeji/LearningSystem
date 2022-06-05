@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>试题收藏</title>
+</head>
+
+<body>
+  <script>
+    document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
+    document.body.onpaste = document.body.oncopy = function () { return false; };
+  </script>
+  <div id="vapp" v-cloak>
+    <template v-if="loading_init">
+      <loading size="24px" type="spinner">加载中...</loading>
+    </template>
+    <template v-else>
+      <template v-if="error!=''">
+        <card v-if="!islogin">
+          <card-title class="weisha_icon" icon="&#xa043">未登录！</card-title>
+          <card-context><a href="/mobi/sign/in">点击此处登录</a></card-context>
+        </card>
+        <card v-else>
+          <card-title class="weisha_icon" icon="&#xe6fe">错误！</card-title>
+          <card-context>{{error}}</card-context>
+        </card>
+      </template>
+      <template v-else>
+        <div class="topBox">
+          <a class="weisha_icon" icon="&#xe748" @click="window.history.back();"></a>
+          <div span="9" @click="learnmode++">
+            <span v-if="learnmode%2==0" class="weisha_icon" icon="&#xe801"> 练习模式 </span>
+            <span v-if="learnmode%2==1" class="weisha_icon" icon="&#xe6da"> 背题模式 </span>
+          </div>
+          <div @click="()=>{$refs['setupmenu'].show=true}">
+            <icon v-if="false">&#xa038</icon>
+          </div>
+        </div>
+        <setupmenu ref="setupmenu" :account="account"></setupmenu>
+        <!--试题区域 -->
+        <template v-if="loading">
+          <loading size="24px" type="spinner">试题加载中...</loading>
+        </template>
+        <template v-else>
+          <section v-if="questions.length>0" :style="'width:'+questions.length*100+'vw'" v-swiperight="swiperight"
+            v-swipeleft="swipeleft" remark="试题区域">
+            <dl>
+              <question v-for="(q,i) in questions" :ques="q" :index="i" :total="questions.length" :types="types"
+                :state="state.getitem(q.Qus_ID,i)" :mode="learnmode%2" @answer="answer">
+                <template v-slot:buttons>
+                  <quesbuttons :question="q" :account="account" :couid="couid"></quesbuttons>
+                </template>
+              </question>
+            </dl>
+          </section>
+          <card v-else>
+            <card-title class="weisha_icon" icon="&#xe839">没有试题！</card-title>
+            <card-context>没有收藏任何试题。</card-context>
+          </card>
+        </template>
+        <!--答题卡 -->
+        <answercard ref='answercard' :questions="questions" :types="types" :ansstate="state"
+          @click="index=>swipeIndex = index"></answercard>
+
+        <!--底部按钮区 -->
+        <div class="footer">
+          <div class="correct-rate">{{count.rate}}</div>
+          <div>
+            <span class="correct-num">{{count.correct}}</span>
+            <span class="error-num">{{count.wrong}}</span>
+          </div>
+          <div class="foot-ico" id="btnCard" @click="$refs.answercard.show=true">
+            <span>{{count.answer}}</span>/{{questions.length}}
+          </div>
+        </div>
+  </div>
+
+
+</body>
+
+</html>

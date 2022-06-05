@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>课程管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" @add="btnadd" @bat="batchVisible=true"
+                :modal="true" path="/orgadmin/course/Modify" width="880" height="60%" :selects='selects' idkey='Cou_ID'
+                table="datatables"></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <sbj_cascader ref="subject" :orgid="form.orgid" @change="id=>{form.sbjids=id}"> </sbj_cascader>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-checkbox v-model="checkRec">推荐</el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.search" clearable style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <!--数据列表-->
+        <el-table ref="datatables" :data="datas" :show-header="false" tooltip-effect="dark"
+            style="width: 100%" v-loading="loading" @selection-change="val=>selects=val" default-expand-all
+            @row-dblclick="row=>$refs.btngroup.modify(row)" row-key="Cou_ID" cell-class-name="tdcell">
+            <el-table-column type="selection" width="35" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column type="expand">
+                <div slot-scope="scope" class="course_expand" :title="scope.row.Cou_Name">
+                    <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
+                        <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
+                        <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                    </a>
+                    <div class="info_box">
+                        <span class="subject" title="专业">
+                            <icon>&#xe83d</icon> {{scope.row.Sbj_Name}} 
+                        </span>
+                        <course_prices :course="scope.row"></course_prices>
+                        <course_data :course="scope.row" :show_student="true"></course_data>
+                    </div>
+                    <div class="btns">
+                        <span>
+                            <span class="el-icon-loading" v-show="loadingid==scope.row.Cou_ID"></span>
+                            <el-switch v-model="scope.row.Cou_IsUse" @change="changeState(scope.row)" active-color="#13ce66"
+                                inactive-color="#ff4949" v-show="loadingid!=scope.row.Cou_ID"
+                                :active-text="scope.row.Cou_IsUse ? '启用' : '禁用'">
+                            </el-switch>
+                        </span>
+                        <div>
+                        <el-link type="primary" plain icon="el-icon-edit" @click='btnmodify(scope.row.Cou_ID)'>
+                            编辑
+                        </el-link>
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Cou_ID)">
+                            <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm></div>
+                    </div>
+                </div>
+            </el-table-column>
+
+            <el-table-column label="课程">
+                <template slot-scope="scope">
+                    <span class="index">{{(form.index - 1) * form.size + scope.$index + 1}}.</span>
+                    <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
+                    <a v-html="showInfo(scope.row.Cou_Name)" class="large" target="_blank"
+                        :href="'/web/course/detail.'+scope.row.Cou_ID"> </a>
+                    
+                </template>
+
+            </el-table-column>
+            <el-table-column label="操作" show-overflow-tooltip width="100">
+                <template slot-scope="scope">
+                    <el-link type="primary" class="medium" plain @click="()=>{drawer=true;curr=scope.row;}">
+                        <icon>&#xe696</icon>课程综述
+                    </el-link>                  
+                </template>
+            </el-table-column>
+        </el-table>
+        <!--分页导航-->
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+        <!--显示当前课程的综述-->
+        <el-drawer :visible.sync="drawer" direction="rtl" size="400px" :show-close="false" custom-class="drawer_item">
+            <template slot="title">
+                <div>
+                    <icon style="font-size: 22px;">&#xe696</icon>课程综述
+                </div>
+            </template>
+            <div class="showDetail">
+                <img :src="curr.Cou_Logo" v-if="curr.Cou_Logo!=''" class="cou_logo" />
+                <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                <div class="showtitle">
+                    <live v-if="curr.Cou_ExistLive" title="直播课"></live>
+                    <span v-html="curr.Cou_Name"> </span>
+                </div>
+                <div class="showSubject">
+                    <icon>&#xe83d</icon> 专业：
+                    <span v-html="subjectPath(curr.Sbj_ID,curr)"></span>
+                </div>
+                <div class="showPrice">
+                    <template v-if="curr.Cou_IsFree">
+                        <el-tag type="success">
+                            <icon>&#xe71e</icon>免费
+                        </el-tag>
+                    </template>
+                    <template v-else-if="curr.Cou_IsLimitFree">
+                        <el-tag>
+                            <icon>&#xe81a</icon>限时免费
+                        </el-tag>
+                        <el-tag>{{curr.Cou_FreeStart|date('yyyy-M-dd')}} 至 {{curr.Cou_FreeEnd|date('yyyy-M-dd')}}
+                        </el-tag>
+                    </template>
+                    <template v-else>
+                        <span class="el-icon-loading" v-if="loading"></span>
+                        <template v-for="(item,i) in curr.prices">
+                            <el-tag type="warning">
+                                <icon>&#xe624</icon>{{item.CP_Span}} {{item.CP_Unit}} {{item.CP_Price}} 元
+                            </el-tag>
+                        </template>
+                    </template>
+                </div>
+                <div class="showContext" v-if="curr.data">
+                    <div>
+                        <icon>&#xe6f2</icon>运营数据：
+                    </div>
+                    <div class="showitems">
+                        <div class="weisha_icon" icon="&#xa043">
+                            学员数：{{curr.data.student}}
+                        </div>
+                        <div class="weisha_icon" icon="&#xa03a">
+                            浏览数：{{curr.data.view}}
+                        </div>
+                    </div>
+                </div>
+                <div class="showContext" v-if="curr.data">
+                    <div>
+                        <icon>&#xe72f</icon>内容数据：
+                    </div>
+                    <div class="showitems">
+                        <div class="weisha_icon" icon="&#xe841">
+                            章节数：{{curr.data.outline}}
+                        </div>
+                        <div class="weisha_icon" icon="&#xe75e">
+                            试题数：{{curr.data.question}}
+                        </div>
+                        <div class="weisha_icon" icon="&#xe731">
+                            试卷数：{{curr.data.testpaper}}
+                        </div>
+                        <div class="weisha_icon" icon="&#xe6bf">
+                            视频数：{{curr.data.video}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </el-drawer>
+        <!-- 批量处理的面板-->
+        <el-dialog title="批量处理" :visible.sync="batchVisible" :show-close="false" :before-close="()=>{}">
+            <template v-if="fileloading">
+                <el-progress :text-inside="true" :stroke-width="24" :percentage="excelProgress.progress"
+                    status="success"></el-progress>
+                <div style="margin-top: 10px;">
+                    <el-tag type="success">{{excelProgress.timespan}}</el-tag>
+                    <el-tag type="info">共计 {{excelProgress.total}} 个课程</el-tag>
+
+                </div>
+                <div style="margin-top: 10px;">
+                    <el-tag><i class="el-icon-loading"></i> 正在处理第 {{excelProgress.complete}} 个</el-tag>
+                    <el-tag>《{{excelProgress.course}}》</el-tag>
+                </div>
+                <div style="margin-top: 10px;">
+                    <el-tag type="warning">用时较长，请耐心等待，程序后台执行，其间不影响其它操作</el-tag>
+                </div>
+            </template>
+            <template v-else>
+                <a :href="excelProgress.zipurl" target="_blank" title="点击下载" :download="excelProgress.zipfile">
+                    {{excelProgress.zipfile}}
+                    <span v-if="excelProgress.zipfile"
+                        style="font-size: 14px;margin-left: 10px; color: #999;">点击下载</span>
+                </a>
+            </template>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="batchVisible = false" :disabled="fileloading">取 消</el-button>
+                <el-button type="primary" @click="batch2excel" :loading="fileloading">批量生成学习记录的Excel</el-button>
+            </span>
+        </el-dialog>
+    </div>
+</body>
+
+</html>

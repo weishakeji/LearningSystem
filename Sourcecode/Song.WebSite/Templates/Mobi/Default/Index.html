@@ -1,0 +1,84 @@
+﻿<!doctype html>
+<html>
+
+<head resource>
+    <title></title>
+    <meta charset="UTF-8" />
+    <include file="inc/meta.inc" />     
+    
+</head>
+
+<body>
+    
+    <div id="vapp" v-cloak>
+        <header>
+            <img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />
+            <img src="Images/def_logo.gif" style="height: 32px;" class="logo" v-else />
+            <van-search v-model="search" placeholder="请输入搜索关键词" background="transparent" show-action>
+                <template #action>
+                    <div @click="onSearch">搜索</div>
+                </template>
+            </van-search>
+        </header>
+        <div id="context">
+            <template v-show="!loading" remark="轮换图片">
+                <van-swipe :autoplay="3000" v-if="showpic.length>0" class="swip_pic">
+                    <van-swipe-item v-for="(pic, index) in showpic" :key="index">
+                        <img :src="pic.Shp_File" v-if="pic.Shp_File!=''" />
+                        <img src="Images/swipe/2.jpg" v-else />
+                    </van-swipe-item>
+                </van-swipe>
+                <van-swipe :autoplay="3000" v-else class="swip_pic">
+                    <van-swipe-item key="1">
+                        <img src="Images/swipe/1.jpg" />
+                    </van-swipe-item>
+                    <van-swipe-item key="2">
+                        <img src="Images/swipe/2.jpg" />
+                    </van-swipe-item>
+                    <van-swipe-item key="3">
+                        <img src="Images/swipe/3.jpg" />
+                    </van-swipe-item>
+                </van-swipe>
+            </template>
+            <van-loading size="24px" type="spinner"  v-show="loading">加载中...</van-loading>
+            <div class="custom-menu" remark="导航按钮" v-if="menus.length>0">
+                <a v-for="m in menus" :type="m.Nav_Url=='' ? 'none' : 'link'" :href="m.Nav_Url"
+                    :style="'color:'+m.Nav_Color+';font-family:'+m.Nav_Font+';'">
+                    <img :src="m.Nav_Logo" v-if="m.Nav_Logo!=''" class="mitem" />
+                    <b class="mitem" :style="'color:'+m.Nav_Color+';'" v-else></b>
+                    <strong v-if="m.Nav_IsBold">
+                        {{m.Nav_Name}} </strong>
+                    <template v-else> {{m.Nav_Name}} </template>
+                </a>
+            </div>
+            <template remark="通知公告" v-if="notice.length>0">
+                <van-swipe :autoplay="3000" class="swip_notice" vertical :show-indicators="false">
+                    <van-swipe-item v-for="(data, index) in notice" :key="index">
+                        <div class="data"><a :href="'notice/Detail?id='+data.No_Id" class="notice" :title="data.No_Ttl"
+                                type="link"> <i class="weisha_icon" icon="&#xa022"></i>
+                                {{data.No_Ttl}}{{data.No_Ttl}}{{data.No_Ttl}}</a> <span
+                                class="badge">{{data.No_StartTime|date('MM-dd')}}</span>
+                        </div>
+                    </van-swipe-item>
+                </van-swipe>
+            </template>
+            <template remark="课程列表">               
+                <courses :sbjid="0" title="推荐课程" :orgid="organ.Org_ID" :config="config" count="6"></courses>
+                <template v-if="true">
+                    <courses v-for="item in subject" :sbjid="item.Sbj_ID" :title="item.Sbj_Name" :orgid="organ.Org_ID"
+                        :config="config"  count="4">
+                    </courses>
+                </template>
+            </template>
+            <van-divider hairline :style="{ color: '#999', borderColor: '#ccc', padding: '0 16px' }"  v-show="!loading">我是有底线的
+            </van-divider>
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+    <div id="notice_box" remark="通知公告的弹出" v-cloak>
+        <popup-notice forpage="mobi_home"></popup-notice>
+    </div>
+</body>
+
+</html>

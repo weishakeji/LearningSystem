@@ -1,0 +1,16 @@
+﻿.upload_file_area{
+   position: relative;
+}
+.upload_file_area .error{
+   font-size: 12px;
+   color: #ff0000;
+   position: absolute;
+   bottom: -20px;
+   left: 0px;
+   border: 1px solid #ff0000;
+   border-radius: 5px;   
+   line-height: 20px;
+   padding: 5px 10px;
+   background-color: rgba(255, 0, 0, 0.2);
+   text-shadow: 1px 1px 3px #fff,-1px -1px 3px #fff;
+}

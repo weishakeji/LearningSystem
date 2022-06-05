@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>课程公告-</title>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <aside class="columns" v-if="columnsMofidy">
+            <div class="bar">
+                <div>
+                <el-button type="primary" icon="el-icon-edit" plain @click="columnsShow(true,null)">新增分类</el-button>
+                <help>拖动树形中的节点可以改变顺序</help></div>
+                <el-button type=" text" icon="el-icon-back" @click="columnsMofidy=false">退出编辑</el-button>
+            </div>
+            <el-tree :data="columns" node-key="Gc_ID" ref="tree" :props="{children: 'children',label: 'Gc_Title'}"
+                :default-expand-all="true" expand-on-click-node @node-drag-end="handleDragEnd"
+                :expand-on-click-node="false" draggable empty-text="没有数据，请点击左上角“新增分类”"
+                v-loading="loading || loading_sumbit">
+                <span class="custom-tree-node" slot-scope="{ node, data }">
+                    <span class="tree-node draghandle" v-html="data.Gc_Title">
+                    </span>
+                    <span class="column_btn">
+                        <b class="el-icon-loading" v-if="loadingid==data.Gc_ID"></b>
+                        <el-tag v-else :type="data.Gc_IsUse ? 'success' : 'info'" @click="columnState(data,'Gc_IsUse')">
+                            {{data.Gc_IsUse ? '启用' : '禁用'}}
+                        </el-tag>
+                        <el-link type="primary" size="mini" icon="el-icon-edit" @click="columnsShow(true,data)">
+                            编辑
+                        </el-link>
+                        <el-link type="danger" icon="el-icon-delete" @click="columnRemove(node, data)">
+                            删除
+                        </el-link>
+                    </span>
+                </span>
+                </span>
+            </el-tree>
+            <el-dialog :title="column_title" :visible.sync="columnsVisible" :before-close="()=>{}" :show-close="false">
+                <el-form :model="column_form" ref="column_form" :rules="column_rules">
+                    <el-form-item label="分类名称" label-width="100px" prop="Gc_Title">
+                        <el-input v-model="column_form.Gc_Title"></el-input>
+                    </el-form-item>
+                    <el-form-item label="简介" label-width="100px" prop="Gc_Intro">
+                        <el-input v-model="column_form.Gc_Intro" type="textarea" :rows="2"></el-input>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="columnsVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="columnsEnter('column_form')">确 定</el-button>
+                </div>
+            </el-dialog>
+        </aside>
+        <!--右侧内容列表-->
+        <section class="list" v-show="!columnsMofidy">
+            <div class="toolsbar">
+                <btngroup show="新增,删除" ref='btngroup' @add="guideShow(true,null)" @delete="deleteData"
+                    path="AccountModify" width="600" height="600" :selects='selects' idkey='Gu_Id' table="guides">
+                    <el-button type="primary" size="small" icon="el-icon-edit" plain @click="columnsMofidy=true">编辑公告的分类</el-button>
+                </btngroup>
+                <div class="search-box">
+                    <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                        <el-form-item label="">
+                            <el-cascader style="width: 100%;" v-model="form.uid" :options="columns" separator="／"
+                            :props="{
+                                children: 'children',
+                                label: 'Gc_Title',
+                                value: 'Gc_UID',
+                                expandTrigger: 'hover',
+                                checkStrictly: true
+                            }" clearable placeholder="请选择公告的分类">
+                        </el-cascader>
+                        </el-form-item>
+                        <el-form-item label="">
+                            <el-input v-model="form.search" style="width:100px"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
+                                native-type="submit" plain>
+                                查询
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+            <template>
+                <el-table ref="datatables" :stripe="true" :data="guides" tooltip-effect="dark" style="width: 100%"
+                    @selection-change="val=>selects=val" @row-dblclick="row=>{$refs.btngroup.modifyrow(row);}">
+                    <el-table-column type="selection" width="35">
+                    </el-table-column>
+                    <el-table-column type="index" width="50" align="center">
+                        <template slot-scope="scope">
+                            <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="标题">
+                        <template slot-scope="scope">
+                            {{scope.row.Gu_Title}}
+
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="分类">
+                        <template slot-scope="scope">
+                            {{scope.row.Gc_Title}}
+
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="操作" show-overflow-tooltip width="120" align="center">
+                        <el-button-group slot-scope="scope">
+                            <el-link type="primary" plain icon="el-icon-edit"
+                                @click='guideShow(true,scope.row)'>修改</el-link>
+                            <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Gu_Id)">
+                                <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                                </el-link>
+                            </el-popconfirm>
+
+                        </el-button-group>
+
+                    </el-table-column>
+                </el-table>
+
+            </template>
+            <div id="pager-box">
+                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                    :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+            </div>
+            <el-dialog :title="guide_title" :visible.sync="guideVisible" :before-close="()=>{}" :show-close="false" class="guide_form"
+                fullscreen>
+                <el-form :model="guide_form" ref="guide_form" :rules="guide_rules">
+                    <el-form-item label="标题" label-width="100px" prop="Gu_Title">
+                        <el-input v-model="guide_form.Gu_Title"></el-input>
+                    </el-form-item>
+                    <el-form-item label="分类" label-width="100px" prop="Gc_UID">
+                        <el-cascader style="width: 100%;" v-model="guide_form.Gc_UID" :options="columns" separator="／"
+                            :props="{
+                                children: 'children',
+                                label: 'Gc_Title',
+                                value: 'Gc_UID',
+                                expandTrigger: 'hover',
+                                checkStrictly: true
+                            }" filterable>
+                        </el-cascader>
+                    </el-form-item>
+                    <el-form-item label="简介" label-width="100px" prop="Gu_Details">
+                        <vue-html5-editor :content="guide_form.Gu_Details" :show-module-name="false" ref="editor_intro"
+                            @change="text=>guide_form.Gu_Details = text">
+                        </vue-html5-editor>
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                    <el-button @click="guideVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="guideEnter('guide_form')">确 定</el-button>
+                </div>
+            </el-dialog>
+        </section>
+    </div>
+</body>
+
+</html>

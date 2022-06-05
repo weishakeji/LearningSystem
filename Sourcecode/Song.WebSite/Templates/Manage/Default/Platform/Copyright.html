@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>版权信息编辑</title>
+  <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <dl class="view" v-show="!modify">
+      <dd v-for="item in datas" :name="item.name" :type="item.type">
+        <template v-if="item.type=='text' || item.type=='multi'">
+          <span>{{item.remark}}</span>
+          <div v-html="item.text"></div>
+        </template>
+        <template v-if="item.type=='link'">
+          <span>{{item.remark}}</span>
+          <div><a :href="item.text" target="_blank" v-html="item.text"></a></div>
+        </template>
+        <template v-if="item.type=='image'">
+          <span>{{item.remark}}</span>
+          <div><img :src="item.text" /></div>
+        </template>
+      </dd>
+    </dl>
+    <div v-show="modify" class="modifyarea">
+
+      <editor :item="item" :index="index" v-for="(item,index) in datas"></editor>
+      <div class="addbtn">
+        <el-link type="primary" class="el-icon-circle-plus-outline" @click="add"> &nbsp;添加信息项</el-link>
+      </div>
+    </div>
+    <div id="footer">
+      <template v-if="issuper">
+        <el-button type="primary" v-if="!modify" @click="modify=!modify">
+          <icon>&#xa027</icon>编辑版权信息
+        </el-button>
+        <el-button type="primary" v-if="modify" native-type="submit" :loading="loading" :disabled="loading"
+          @click="update">
+          <icon>&#xa050</icon>保存版权信息
+        </el-button>
+        <el-button type="info" v-if="modify" :disabled="loading" @click="modify=!modify">
+          <icon>&#xe748</icon>退出编辑</el-button>
+        <el-button type='close' :disabled="loading">关闭</el-button>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>注册</title>
+  <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <a href="#" class="weisha_icon" icon="&#xe727" style="font-size: 22px;" onclick="window.history.back(-1);"></a>
+    <a href="/mobi/" class="weisha_icon" icon="&#xa020"></a>
+    <div id="platname"></div>
+  </header>
+
+  <div id="vapp" v-cloak>
+    <context>
+      <img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />
+      <img src="../Images/def_logo.gif" style="height: 32px;" class="logo" v-else />
+      <!---->
+      <van-form @submit="btn_submit" v-if="!config.IsRegStudent">
+        <card>
+          <card-title>
+            <icon>&#xe687</icon>注册
+            <a href="in">已经有账号？登录</a>
+          </card-title>
+          <card-context>
+
+            <van-field v-model="form.acc" label="账号" required placeholder="账号/手机号" :rules="acc_rules">
+            </van-field>
+            <van-field v-model="form.pw" label="登录密码" required type="password" placeholder="登录密码" :rules="pw_rules">
+            </van-field>
+            <van-field v-model="password2" label="密码确认" required type="password" placeholder="登录密码" :rules="pw2_rules">
+            </van-field>
+            <van-field v-model="form.rec" label="推荐人" placeholder="非必填">
+            </van-field>
+            <van-cell>
+              <template #title>
+                <van-field class="vcode_input" v-model="form.vcode" type="digit" label="校验码" placeholder="校验码"
+                  :rules="vcode_rules">
+                </van-field>
+                <van-loading type="spinner" v-if="loading_vcode"></van-loading>
+                <img id="vcode" @click="getvcode" v-show="!loading_vcode" />
+              </template>
+            </van-cell>
+            <van-cell class="agreement">
+              <template #title>
+                <van-checkbox v-model="agreement.checked">我已经阅读，并同意<a href="#" @click.stop="showagreement">《平台协议》</a>
+                </van-checkbox>
+              </template>
+            </van-cell>
+
+          </card-context>
+        </card>
+
+        <van-button class="submit" type="info" :loading="loading_submit" :disabled="loading_submit"
+          loading-text="正在执行...">
+          立即注册
+        </van-button>
+      </van-form>
+      <card v-else>
+        <card-title>
+          <icon>&#xe687</icon>注册
+          <a href="in">已经有账号？登录</a>
+        </card-title>
+        <card-context class="disable_body">
+          <icon>&#xe7ad</icon>
+          <div>
+            禁止注册
+          </div>
+        </card-context>
+      </card>
+      <!-- 平台注册协议-->
+      <van-popup v-model="agreement.show" class="showAgreement" closeable>
+        <div class="agreement_title">
+          <icon>&#xa050</icon>
+          平台协议
+        </div>
+        <div class="agreement_text" v-html="agreement.text"></div>
+        <div class="agreement_radio">
+          <van-checkbox v-model="agreement.checked">我已经阅读，并同意《平台协议》</van-checkbox>
+        </div>
+      </van-popup>
+    </context>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+﻿@charset "utf-8";
+form.el-form{
+    padding-right: 3px !important;
+}
+.el-form-item{
+    margin-right: 2px !important;
+}
+.el-button--small, .el-button--small.is-round {
+    padding: 9px 10px;
+}
+.el-input--suffix .el-input__inner {
+    padding-right: 10px;
+}
+.man::before {
+    color: rgb(3, 71, 71);
+}
+
+.woman::before {
+    color: rgb(248, 87, 87);
+}
+.el-button-group button{
+    margin: 0px !important;
+    border-radius: 0px;
+}
+.barright {
+    float: right;
+    font-size: 13px;
+    line-height: 30px;
+    color: #606266;
+}
+
+.barright>span {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+.el-dialog__body .el-row {
+    line-height: 35px;
+    font-size: 16px;
+}
+
+.accountInfo img.photo {
+    width: 100px;
+    height: 100px;
+    display: block;
+    float: left;
+    border: 1px solid #eee;
+    margin-top: 5px;
+    border-radius: 50px;
+    margin-right: 10px;
+    float: left;
+}
+/*显示详情*/
+.cardsetVisible .el-dialog{
+    height: 80%;
+    margin-top:calc((100% - 80%)/3) !important;
+    overflow: hidden;
+}
+.cardsetVisible .el-dialog__body{
+    height: 100%;
+    overflow-y: auto !important;
+    padding: 5px 20px 10px 20px;
+}
+.code_item{
+    cursor: pointer !important;
+}

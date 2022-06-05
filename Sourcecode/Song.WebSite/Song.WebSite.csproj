@@ -1,0 +1,1968 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EBD508E6-EC9C-4041-9AA6-80DD388F4847}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Song.WebSite</RootNamespace>
+    <AssemblyName>Song.WebSite</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ExcludeGeneratedDebugSymbol>true</ExcludeGeneratedDebugSymbol>
+    <LegacyPublishPropertiesPageEnabled>true</LegacyPublishPropertiesPageEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.TelemetryCorrelation, Version=1.0.8.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.TelemetryCorrelation.1.0.8\lib\net45\Microsoft.AspNet.TelemetryCorrelation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.6.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.3\lib\netstandard1.1\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net46\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net46\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WeiSha.Core, Version=2.0.8166.41242, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\WeiSha.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WeiSha.ORM">
+      <HintPath>..\Lib\WeiSha.ORM.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\API\V1Controller.cs" />
+    <Compile Include="Controllers\DownController.cs" />
+    <Compile Include="Controllers\UploadController.cs" />
+    <Compile Include="Controllers\View\PadController.cs" />
+    <Compile Include="Controllers\View\TVController.cs" />
+    <Compile Include="Controllers\View\StudentController.cs" />
+    <Compile Include="Controllers\View\TeacherController.cs" />
+    <Compile Include="Controllers\View\ManageController.cs" />
+    <Compile Include="Controllers\View\OrgAdminController.cs" />
+    <Compile Include="Controllers\View\MobiController.cs" />
+    <Compile Include="Controllers\View\WebController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="copyright.weisha" />
+    <Content Include="Download\readme.html" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Help\API\Index.htm" />
+    <Content Include="Help\API\Scripts\Index.js" />
+    <Content Include="Help\API\Styles\Index.css" />
+    <Content Include="Help\Datas\entities.details.txt" />
+    <Content Include="Help\Datas\Scripts\test.js" />
+    <Content Include="Help\Datas\Styles\test.css" />
+    <Content Include="Help\Datas\Test.htm" />
+    <Content Include="Help\Datas\Index.htm" />
+    <Content Include="Help\Datas\Scripts\index.js" />
+    <Content Include="Help\Datas\Styles\index.css" />
+    <Content Include="Help\Default.htm" />
+    <Content Include="Help\Images\api.ico" />
+    <Content Include="Help\Images\datas.ico" />
+    <Content Include="Help\Service.html" />
+    <Content Include="Help\Styles\Default.css" />
+    <Content Include="Pay\readme.html" />
+    <Content Include="Readme.html" />
+    <Content Include="Templates\Manage\Default\Inc\meta.inc" />
+    <Content Include="Templates\Manage\Default\Organs\Administrator.html" />
+    <Content Include="Templates\Manage\Default\Organs\Config.html" />
+    <Content Include="Templates\Manage\Default\Organs\Scripts\Administrator.js" />
+    <Content Include="Templates\Manage\Default\Organs\Scripts\Config.js" />
+    <Content Include="Templates\Manage\Default\Organs\Styles\Administrator.css" />
+    <Content Include="Templates\Manage\Default\Organs\Styles\Config.css" />
+    <Content Include="Templates\Manage\Default\Platform\PositionMember.html" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\PositionMember.js" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\PositionMember.css" />
+    <Content Include="Templates\Mobi\Default\Question\Components\ExerciseState.js" />
+    <Content Include="Templates\Mobi\Default\Question\Components\OutlineList.js" />
+    <Content Include="Templates\Mobi\Default\Question\Components\Styles\OutlineList.css" />
+    <Content Include="Templates\Mobi\Default\Reference\Cache_Clear.html" />
+    <Content Include="Templates\Mobi\Default\Reference\Scripts\Cache_Clear.js" />
+    <Content Include="Templates\Mobi\_Public\404.html" />
+    <Content Include="Templates\Mobi\_Public\Inc\meta.inc" />
+    <Content Include="Templates\Mobi\_Public\Scripts\404.js" />
+    <Content Include="Templates\Mobi\_Public\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Mobi\_Public\Styles\404.css" />
+    <Content Include="Templates\Mobi\_Public\Styles\Public.css" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Safeanswer.html" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Scripts\Safeanswer.js" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Styles\Safeanswer.css" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Employee.html" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\EmployeeModify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\EmpTitle.html" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\EmpTitleModify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\PositionMember.html" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Pwreset.html" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Position.html" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\PositionModify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Scripts\PositionMember.js" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Scripts\Employee.js" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Scripts\EmployeeModify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Scripts\EmpTitle.js" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Scripts\EmpTitleModify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Scripts\Pwreset.js" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Scripts\Position.js" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Scripts\PositionModify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Styles\PositionMember.css" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Styles\Employee.css" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Styles\EmployeeModify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Styles\EmpTitle.css" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Styles\EmpTitleModify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Styles\Pwreset.css" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Styles\Position.css" />
+    <Content Include="Templates\OrgAdmin\Default\Admin\Styles\PositionModify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Components\outline_cascader.js" />
+    <Content Include="Templates\OrgAdmin\Default\Components\sbj_cascader.js" />
+    <Content Include="Templates\OrgAdmin\Default\Components\Styles\outline_cascader.css" />
+    <Content Include="Templates\OrgAdmin\Default\Components\Styles\sbj_cascader.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\video_list.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\outline_live.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\accessory.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\course_prices.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\course_income.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\course_data.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\video_list.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\outline_live.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\course_income.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\accessory.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\course_prices.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Components\Styles\course_data.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\SetupTeacher.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\inc\head.inc" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\SetupTeacher.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\SetupTeacher.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Testpaper.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Question.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Video.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\FinalTest.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Video.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\FinalTest.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Students.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Students.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Video.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\FinalTest.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Guide.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Knowledge.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Students.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Outline.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Message.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Guide.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Knowledge.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Create.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Outline.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Question.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Money.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\General.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Message.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Outline.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Knowledge.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Question.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Testpaper.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Guide.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Money.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\General.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Testpaper.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Money.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\General.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\List.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Modify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Create.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\List.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Scripts\Modify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Create.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\List.css" />
+    <Content Include="Templates\OrgAdmin\Default\Course\Styles\Modify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Links\List.html" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Scripts\Modify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Scripts\SortModify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Modify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Links\SortModify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Scripts\List.js" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Sort.html" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Scripts\Sort.js" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Styles\List.css" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Styles\Modify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Styles\SortModify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Links\Styles\Sort.css" />
+    <Content Include="Templates\OrgAdmin\Default\News\Columns.html" />
+    <Content Include="Templates\OrgAdmin\Default\News\List.html" />
+    <Content Include="Templates\OrgAdmin\Default\News\Modify.html" />
+    <Content Include="Templates\OrgAdmin\Default\News\Scripts\Columns.js" />
+    <Content Include="Templates\OrgAdmin\Default\News\Scripts\List.js" />
+    <Content Include="Templates\OrgAdmin\Default\News\Scripts\Modify.js" />
+    <Content Include="Templates\OrgAdmin\Default\News\Styles\Columns.css" />
+    <Content Include="Templates\OrgAdmin\Default\News\Styles\List.css" />
+    <Content Include="Templates\OrgAdmin\Default\News\Styles\Modify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Notice\Modify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Notice\List.html" />
+    <Content Include="Templates\OrgAdmin\Default\Notice\Scripts\Modify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Notice\Scripts\List.js" />
+    <Content Include="Templates\OrgAdmin\Default\Notice\Styles\Modify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Notice\Styles\List.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\general.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\modify_main.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\knowledge.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\enter_button.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_wrong.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_error.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_type.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\general.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\ques_error.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\enter_button.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\ques_wrong.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\ques_type.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\modify_main.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\knowledge.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Modify_Type5.html" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Modify_Type4.html" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Modify_Type3.html" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Modify_Type2.html" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Modify_Type1.html" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Modify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Scripts\Modify_Type5.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Scripts\Modify_Type4.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Scripts\Modify_Type3.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Scripts\Modify_Type2.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Scripts\Modify_Type1.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Scripts\Modify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Styles\Modify_Type1.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Styles\Modify_Type2.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Styles\Modify_Type3.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Styles\Modify_Type5.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Styles\Modify_Type4.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Styles\Modify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\course_data.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\course_info.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\course_progress.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\outline_progress.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\purchase_data.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\DetailsView.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\DetailsView.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\DetailsView.css" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Components\fromtype1.js" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Components\fromtype0.js" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Components\Styles\fromtype1.css" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Components\Styles\fromtype0.css" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Modify_Type2.html" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Modify_Type1.html" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Modify.html" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Scripts\Modify_Type1.js" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Scripts\Modify_Type2.js" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Scripts\Modify.js" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Styles\Modify_Type1.css" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Styles\Modify_Type2.css" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Styles\Modify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Test\Scripts\chunked.js" />
+    <Content Include="Templates\OrgAdmin\Default\Test\Scripts\upload.js" />
+    <Content Include="Templates\OrgAdmin\Default\Test\Styles\upload.css" />
+    <Content Include="Templates\OrgAdmin\Default\Test\upload.html" />
+    <Content Include="Templates\OrgAdmin\Default\Test\Demo.html" />
+    <Content Include="Templates\OrgAdmin\Default\Test\Scripts\Demo.js" />
+    <Content Include="Templates\OrgAdmin\Default\Test\Styles\Demo.css" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\Stamp.html" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\Function.html" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\General.html" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\Scripts\Stamp.js" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\Scripts\Function.js" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\Scripts\General.js" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\Styles\Stamp.css" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\Styles\Function.css" />
+    <Content Include="Templates\OrgAdmin\Default\Setup\Styles\General.css" />
+    <Content Include="Templates\OrgAdmin\Default\Start.html" />
+    <Content Include="Templates\OrgAdmin\Default\Images\def_logo.gif" />
+    <Content Include="Templates\OrgAdmin\Default\Inc\meta.inc" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Scripts\Skinsetup.js" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Skinsetup.html" />
+    <Content Include="Templates\OrgAdmin\Default\Panel\Styles\Skinsetup.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\List.html" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Scripts\List.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Styles\List.css" />
+    <Content Include="Templates\OrgAdmin\Default\Reference\Demo.html" />
+    <Content Include="Templates\OrgAdmin\Default\Reference\Scripts\Demo.js" />
+    <Content Include="Templates\OrgAdmin\Default\Reference\Styles\Demo.css" />
+    <Content Include="Templates\OrgAdmin\Default\Scripts\Start.js" />
+    <Content Include="Templates\OrgAdmin\Default\Statis\CourseHot.html" />
+    <Content Include="Templates\OrgAdmin\Default\Statis\Scripts\CourseHot.js" />
+    <Content Include="Templates\OrgAdmin\Default\Statis\Styles\CourseHot.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Courses.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Batchdisable.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Import.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Export.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Money.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Point.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Coupon.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\ResetPassword.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Modify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\List.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Courses.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Batchdisable.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Import.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Export.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Money.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Point.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Coupon.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\ResetPassword.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Modify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\List.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\Sort.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortModify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Sort.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\SortModify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\Courses.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\Batchdisable.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\Import.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\Export.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\Money.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\Point.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\Coupon.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\ResetPassword.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\Modify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\List.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\Sort.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortModify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\Start.css" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\Public.css" />
+    <Content Include="Templates\OrgAdmin\Default\Subject\List.html" />
+    <Content Include="Templates\OrgAdmin\Default\Subject\Modify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Subject\Scripts\List.js" />
+    <Content Include="Templates\OrgAdmin\Default\Subject\Scripts\Modify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Subject\Styles\List.css" />
+    <Content Include="Templates\OrgAdmin\Default\Subject\Styles\Modify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Components\photo.js" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Components\Styles\Photo.css" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\ResetPassword.html" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Modify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\ResetPassword.js" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\Modify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Styles\ResetPassword.css" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Styles\Modify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\TitleModify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\TitleModify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Styles\TitleModify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Titles.html" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\List.html" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\Titles.js" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\List.js" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Styles\Titles.css" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Styles\List.css" />
+    <Content Include="Templates\OrgAdmin\Default\Template\Scripts\ShowPicture.js" />
+    <Content Include="Templates\OrgAdmin\Default\Template\Scripts\Navigation.js" />
+    <Content Include="Templates\OrgAdmin\Default\Template\ShowPicture.html" />
+    <Content Include="Templates\OrgAdmin\Default\Template\Navigation.html" />
+    <Content Include="Templates\OrgAdmin\Default\Template\Styles\ShowPicture.css" />
+    <Content Include="Templates\OrgAdmin\Default\Template\Styles\Navigation.css" />
+    <Content Include="Templates\OrgAdmin\_public\_self.xml" />
+    <Content Include="Templates\Manage\Default\404.html" />
+    <Content Include="Templates\Manage\Default\Capital\RecordOutput.html" />
+    <Content Include="Templates\Manage\Default\Capital\RecordView.html" />
+    <Content Include="Templates\Manage\Default\Capital\Scripts\RecordOutput.js" />
+    <Content Include="Templates\Manage\Default\Capital\Scripts\RecordView.js" />
+    <Content Include="Templates\Manage\Default\Capital\Scripts\Records.js" />
+    <Content Include="Templates\Manage\Default\Capital\Records.html" />
+    <Content Include="Templates\Manage\Default\Capital\Styles\RecordOutput.css" />
+    <Content Include="Templates\Manage\Default\Capital\Styles\RecordView.css" />
+    <Content Include="Templates\Manage\Default\Capital\Styles\Records.css" />
+    <Content Include="Templates\Manage\Default\Learningcard\CardQuery.html" />
+    <Content Include="Templates\Manage\Default\Learningcard\BatchRollback.html" />
+    <Content Include="Templates\Manage\Default\Learningcard\OutputExcel.html" />
+    <Content Include="Templates\Manage\Default\Learningcard\OutputQrcode.html" />
+    <Content Include="Templates\Manage\Default\Learningcard\Cardset.html" />
+    <Content Include="Templates\Manage\Default\Learningcard\CardsetModify.html" />
+    <Content Include="Templates\Manage\Default\Learningcard\Cards.html" />
+    <Content Include="Templates\Manage\Default\Learningcard\CourseSelect.html" />
+    <Content Include="Templates\Manage\Default\Learningcard\Scripts\BatchRollback.js" />
+    <Content Include="Templates\Manage\Default\Learningcard\Scripts\CardQuery.js" />
+    <Content Include="Templates\Manage\Default\Learningcard\Scripts\OutputExcel.js" />
+    <Content Include="Templates\Manage\Default\Learningcard\Scripts\OutputQrcode.js" />
+    <Content Include="Templates\Manage\Default\Learningcard\Scripts\Cardset.js" />
+    <Content Include="Templates\Manage\Default\Learningcard\Scripts\CardsetModify.js" />
+    <Content Include="Templates\Manage\Default\Learningcard\Scripts\Cards.js" />
+    <Content Include="Templates\Manage\Default\Learningcard\Scripts\CourseSelect.js" />
+    <Content Include="Templates\Manage\Default\Learningcard\Styles\BatchRollback.css" />
+    <Content Include="Templates\Manage\Default\Learningcard\Styles\CardQuery.css" />
+    <Content Include="Templates\Manage\Default\Learningcard\Styles\OutputExcel.css" />
+    <Content Include="Templates\Manage\Default\Learningcard\Styles\OutputQrcode.css" />
+    <Content Include="Templates\Manage\Default\Learningcard\Styles\Cardset.css" />
+    <Content Include="Templates\Manage\Default\Learningcard\Styles\CardsetModify.css" />
+    <Content Include="Templates\Manage\Default\Learningcard\Styles\Cards.css" />
+    <Content Include="Templates\Manage\Default\Learningcard\Styles\CourseSelect.css" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Scripts\Setup.js" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Setup.html" />
+    <Content Include="Templates\Manage\Default\OtherLogin\Styles\Setup.css" />
+    <Content Include="Templates\Manage\Default\Platform\PointSetup.html" />
+    <Content Include="Templates\Manage\Default\Platform\LimitDomainModify.html" />
+    <Content Include="Templates\Manage\Default\Platform\LimitDomain.html" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\PointSetup.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\LimitDomainModify.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\LimitDomain.js" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\PointSetup.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\LimitDomainModify.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\LimitDomain.css" />
+    <Content Include="Templates\Manage\Default\Scripts\404.js" />
+    <Content Include="Templates\Manage\Default\SMS\Setup.html" />
+    <Content Include="Templates\Manage\Default\SMS\Scripts\Setup.js" />
+    <Content Include="Templates\Manage\Default\SMS\Styles\Setup.css" />
+    <Content Include="Templates\Manage\Default\Live\Qiniuyun.html" />
+    <Content Include="Templates\Manage\Default\Live\Scripts\Qiniuyun.js" />
+    <Content Include="Templates\Manage\Default\Live\Styles\Qiniuyun.css" />
+    <Content Include="Templates\Manage\Default\Organs\LevelPurview.html" />
+    <Content Include="Templates\Manage\Default\Organs\OrganModify.html" />
+    <Content Include="Templates\Manage\Default\Organs\LevelModify.html" />
+    <Content Include="Templates\Manage\Default\Organs\Level.html" />
+    <Content Include="Templates\Manage\Default\Organs\List.html" />
+    <Content Include="Templates\Manage\Default\Organs\About.html" />
+    <Content Include="Templates\Manage\Default\Organs\Scripts\LevelPurview.js" />
+    <Content Include="Templates\Manage\Default\Organs\Scripts\Organinfo.js" />
+    <Content Include="Templates\Manage\Default\Organs\Scripts\OrganModify.js" />
+    <Content Include="Templates\Manage\Default\Organs\Scripts\LevelModify.js" />
+    <Content Include="Templates\Manage\Default\Organs\Scripts\Level.js" />
+    <Content Include="Templates\Manage\Default\Organs\Scripts\List.js" />
+    <Content Include="Templates\Manage\Default\Organs\Scripts\About.js" />
+    <Content Include="Templates\Manage\Default\Organs\Styles\LevelPurview.css" />
+    <Content Include="Templates\Manage\Default\Organs\Styles\Organinfo.css" />
+    <Content Include="Templates\Manage\Default\Organs\Styles\OrganModify.css" />
+    <Content Include="Templates\Manage\Default\Organs\Styles\LevelModify.css" />
+    <Content Include="Templates\Manage\Default\Organs\Styles\Level.css" />
+    <Content Include="Templates\Manage\Default\Organs\Styles\List.css" />
+    <Content Include="Templates\Manage\Default\Organs\Styles\About.css" />
+    <Content Include="Templates\Manage\Default\Pay\List.html" />
+    <Content Include="Templates\Manage\Default\Pay\ModifyNavi.html" />
+    <Content Include="Templates\Manage\Default\Pay\Scripts\List.js" />
+    <Content Include="Templates\Manage\Default\Pay\Scripts\ModifyNavi.js" />
+    <Content Include="Templates\Manage\Default\Pay\Styles\List.css" />
+    <Content Include="Templates\Manage\Default\Pay\Styles\ModifyNavi.css" />
+    <Content Include="Templates\Manage\Default\Platform\AccountOutput.html" />
+    <Content Include="Templates\Manage\Default\Platform\Accounts.html" />
+    <Content Include="Templates\Manage\Default\Account\Logout.html" />
+    <Content Include="Templates\Manage\Default\Account\Modify.html" />
+    <Content Include="Templates\Manage\Default\Account\Mypassword.html" />
+    <Content Include="Templates\Manage\Default\Platform\Copyright.html" />
+    <Content Include="Templates\Manage\Default\Platform\SystemParaModify.html" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\SystemParaModify.js" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\SystemParaModify.css" />
+    <Content Include="Templates\Manage\Default\Platform\SystemPara.html" />
+    <Content Include="Templates\Manage\Default\Platform\EmpGroup.html" />
+    <Content Include="Templates\Manage\Default\Platform\AccountModify.html" />
+    <Content Include="Templates\Manage\Default\Platform\EmpTitle.html" />
+    <Content Include="Templates\Manage\Default\Platform\EmpGroupModify.html" />
+    <Content Include="Templates\Manage\Default\Platform\EmpTitleModify.html" />
+    <Content Include="Templates\Manage\Default\Platform\AccountMoney.html" />
+    <Content Include="Templates\Manage\Default\Platform\ProfitSharingModify.html" />
+    <Content Include="Templates\Manage\Default\Platform\ProfitSharing.html" />
+    <Content Include="Templates\Manage\Default\Platform\Agreement.html" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\AccountOutput.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\Copyright.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\Accounts.js" />
+    <Content Include="Templates\Manage\Default\Account\Scripts\Logout.js" />
+    <Content Include="Templates\Manage\Default\Account\Scripts\Modify.js" />
+    <Content Include="Templates\Manage\Default\Account\Scripts\Mypassword.js" />
+    <Content Include="Templates\Manage\Default\Account\Scripts\SelfInfo.js" />
+    <Content Include="Templates\Manage\Default\Account\SelfInfo.html" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\SystemPara.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\EmpGroup.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\AccountModify.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\EmpTitle.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\EmpGroupModify.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\EmpTitleModify.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\AccountMoney.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\ProfitSharingModify.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\ProfitSharing.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\Agreement.js" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\AccountOutput.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\Copyright.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\Accounts.css" />
+    <Content Include="Templates\Manage\Default\Account\Styles\Logout.css" />
+    <Content Include="Templates\Manage\Default\Account\Styles\Modify.css" />
+    <Content Include="Templates\Manage\Default\Account\Styles\Mypassword.css" />
+    <Content Include="Templates\Manage\Default\Account\Styles\SelfInfo.css" />
+    <Content Include="Templates\Manage\Default\index.html" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\SystemPara.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\EmpGroup.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\AccountModify.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\EmpTitle.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\EmpGroupModify.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\EmpTitleModify.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\AccountMoney.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\Agreement.css" />
+    <Content Include="Templates\Manage\Default\RechargeCode\CodeQuery.html" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Codes.html" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Codeset.html" />
+    <Content Include="Templates\Manage\Default\RechargeCode\CodesetModify.html" />
+    <Content Include="Templates\Manage\Default\Styles\404.css" />
+    <Content Include="Templates\Manage\Default\Styles\Public.css" />
+    <Content Include="Templates\Mobi\Default\Account\Images\MyFriends.jpg" />
+    <Content Include="Templates\Mobi\Default\Account\Myfriends.html" />
+    <Content Include="Templates\Mobi\Default\Account\Scripts\Myfriends.js" />
+    <Content Include="Templates\Mobi\Default\Account\Styles\Myfriends.css" />
+    <Content Include="Templates\Mobi\Default\Article\Components\Articles.js" />
+    <Content Include="Templates\Mobi\Default\Article\Components\SearchInput.js" />
+    <Content Include="Templates\Mobi\Default\Article\Detail.html" />
+    <Content Include="Templates\Mobi\Default\Article\Index.html" />
+    <Content Include="Templates\Mobi\Default\Article\Search.html" />
+    <Content Include="Templates\Mobi\Default\Article\List.html" />
+    <Content Include="Templates\Mobi\Default\Article\Scripts\Detail.js" />
+    <Content Include="Templates\Mobi\Default\Article\Scripts\Index.js" />
+    <Content Include="Templates\Mobi\Default\Article\Scripts\Search.js" />
+    <Content Include="Templates\Mobi\Default\Article\Scripts\List.js" />
+    <Content Include="Templates\Mobi\Default\Article\Styles\Detail.css" />
+    <Content Include="Templates\Mobi\Default\Article\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\Article\Styles\Search.css" />
+    <Content Include="Templates\Mobi\Default\Article\Styles\List.css" />
+    <Content Include="Templates\Mobi\Default\Account\MyCourse.html" />
+    <Content Include="Templates\Mobi\Default\Account\Myself.html" />
+    <Content Include="Templates\Mobi\Default\Account\Scripts\MyCourse.js" />
+    <Content Include="Templates\Mobi\Default\Account\Scripts\Myself.js" />
+    <Content Include="Templates\Mobi\Default\Account\Styles\MyCourse.css" />
+    <Content Include="Templates\Mobi\Default\Account\Styles\Myself.css" />
+    <Content Include="Templates\Mobi\Default\Cache\Api.html" />
+    <Content Include="Templates\Mobi\Default\Cache\Index.html" />
+    <Content Include="Templates\Mobi\Default\Cache\Scripts\Api.js" />
+    <Content Include="Templates\Mobi\Default\Cache\Scripts\Index.js" />
+    <Content Include="Templates\Mobi\Default\Cache\Styles\Api.css" />
+    <Content Include="Templates\Mobi\Default\Cache\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\Components\Courses.js" />
+    <Content Include="Templates\Mobi\Default\Components\page_header.js" />
+    <Content Include="Templates\Mobi\Default\Components\aside_menu.js" />
+    <Content Include="Templates\Mobi\Default\Components\footer_menu.js" />
+    <Content Include="Templates\Mobi\Default\Card\Learn.html" />
+    <Content Include="Templates\Mobi\Default\Card\Scripts\Learn.js" />
+    <Content Include="Templates\Mobi\Default\Card\Styles\Learn.css" />
+    <Content Include="Templates\Mobi\Default\Components\Styles\courses.css" />
+    <Content Include="Templates\Mobi\Default\Components\Styles\page_header.css" />
+    <Content Include="Templates\Mobi\Default\Course\Components\progress_video.js" />
+    <Content Include="Templates\Mobi\Default\Images\live-icon.gif" />
+    <Content Include="Templates\Mobi\Default\Inc\meta.inc" />
+    <Content Include="Templates\Mobi\Default\logo.jpg" />
+    <Content Include="Templates\Mobi\Default\Point\Details.html" />
+    <Content Include="Templates\Mobi\Default\Point\Index.html" />
+    <Content Include="Templates\Mobi\Default\Point\Scripts\Details.js" />
+    <Content Include="Templates\Mobi\Default\Point\Scripts\Index.js" />
+    <Content Include="Templates\Mobi\Default\Point\Styles\Details.css" />
+    <Content Include="Templates\Mobi\Default\Point\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\Course\Buy.html" />
+    <Content Include="Templates\Mobi\Default\Course\Knowledge.html" />
+    <Content Include="Templates\Mobi\Default\Course\Index.html" />
+    <Content Include="Templates\Mobi\Default\Course\Components\KnlHeader.js" />
+    <Content Include="Templates\Mobi\Default\Course\Knowledges.html" />
+    <Content Include="Templates\Mobi\Default\Course\Detail.html" />
+    <Content Include="Templates\Mobi\Default\Course\Scripts\Buy.js" />
+    <Content Include="Templates\Mobi\Default\Course\Scripts\Knowledge.js" />
+    <Content Include="Templates\Mobi\Default\Course\Scripts\Knowledges.js" />
+    <Content Include="Templates\Mobi\Default\Course\Styles\Buy.css" />
+    <Content Include="Templates\Mobi\Default\Course\Styles\KnlHeader.css" />
+    <Content Include="Templates\Mobi\Default\Course\Styles\Knowledge.css" />
+    <Content Include="Templates\Mobi\Default\Course\Styles\Knowledges.css" />
+    <Content Include="Templates\Mobi\Default\About.html" />
+    <Content Include="Templates\Mobi\Default\ContactUs.html" />
+    <Content Include="Templates\Mobi\Default\Exam\Doing.html" />
+    <Content Include="Templates\Mobi\Default\Exam\Review.html" />
+    <Content Include="Templates\Mobi\Default\Exam\Index.html" />
+    <Content Include="Templates\Mobi\Default\Exam\Scripts\Doing.js" />
+    <Content Include="Templates\Mobi\Default\Exam\Scripts\Review.js" />
+    <Content Include="Templates\Mobi\Default\Exam\Scripts\Index.js" />
+    <Content Include="Templates\Mobi\Default\Exam\Styles\Doing.css" />
+    <Content Include="Templates\Mobi\Default\Exam\Styles\Review.css" />
+    <Content Include="Templates\Mobi\Default\Exam\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\Money\Details.html" />
+    <Content Include="Templates\Mobi\Default\Money\Scripts\Details.js" />
+    <Content Include="Templates\Mobi\Default\Money\Styles\Details.css" />
+    <Content Include="Templates\Mobi\Default\Question\Often.html" />
+    <Content Include="Templates\Mobi\Default\Question\Components\SetupMenu.js" />
+    <Content Include="Templates\Mobi\Default\Question\Components\AnswerCard.js" />
+    <Content Include="Templates\Mobi\Default\Question\Components\Quesbuttons.js" />
+    <Content Include="Templates\Mobi\Default\Question\Components\Question.js" />
+    <Content Include="Templates\Mobi\Default\Question\Course.html" />
+    <Content Include="Templates\Mobi\Default\Question\Collects.html" />
+    <Content Include="Templates\Mobi\Default\Question\Notes.html" />
+    <Content Include="Templates\Mobi\Default\Question\Error.html" />
+    <Content Include="Templates\Mobi\Default\Question\Scripts\Often.js" />
+    <Content Include="Templates\Mobi\Default\Question\Scripts\Course.js" />
+    <Content Include="Templates\Mobi\Default\Course\Study.html" />
+    <Content Include="Templates\Mobi\Default\Course\Scripts\Index.js" />
+    <Content Include="Templates\Mobi\Default\Course\Scripts\Detail.js" />
+    <Content Include="Templates\Mobi\Default\Course\Scripts\Study.js" />
+    <Content Include="Templates\Mobi\Default\Course\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\Course\Styles\Detail.css" />
+    <Content Include="Templates\Mobi\Default\Question\Scripts\Collects.js" />
+    <Content Include="Templates\Mobi\Default\Question\Scripts\Notes.js" />
+    <Content Include="Templates\Mobi\Default\Question\Scripts\Error.js" />
+    <Content Include="Templates\Mobi\Default\Question\Styles\Often.css" />
+    <Content Include="Templates\Mobi\Default\Question\Styles\Course.css" />
+    <Content Include="Templates\Mobi\Default\Course\Styles\Study.css" />
+    <Content Include="Templates\Mobi\Default\Images\cou_nophoto.jpg" />
+    <Content Include="Templates\Mobi\Default\Images\def_logo.gif" />
+    <Content Include="Templates\Mobi\Default\Images\swipe\1.jpg" />
+    <Content Include="Templates\Mobi\Default\Images\swipe\2.jpg" />
+    <Content Include="Templates\Mobi\Default\Images\swipe\3.jpg" />
+    <Content Include="Templates\Mobi\Default\Index.html" />
+    <Content Include="Templates\Mobi\Default\Notice\Detail.html" />
+    <Content Include="Templates\Mobi\Default\Notice\List.html" />
+    <Content Include="Templates\Mobi\Default\Notice\Scripts\Detail.js" />
+    <Content Include="Templates\Mobi\Default\Notice\Scripts\List.js" />
+    <Content Include="Templates\Mobi\Default\Notice\Styles\Detail.css" />
+    <Content Include="Templates\Mobi\Default\Notice\Styles\List.css" />
+    <Content Include="Templates\Mobi\Default\Question\Exercises.html" />
+    <Content Include="Templates\Mobi\Default\Question\Scripts\Exercises.js" />
+    <Content Include="Templates\Mobi\Default\Question\Styles\Collects.css" />
+    <Content Include="Templates\Mobi\Default\Question\Styles\Notes.css" />
+    <Content Include="Templates\Mobi\Default\Question\Styles\Error.css" />
+    <Content Include="Templates\Mobi\Default\Question\Styles\Exercises.css" />
+    <Content Include="Templates\Mobi\Default\Reference\Cache_Test.html" />
+    <Content Include="Templates\Mobi\Default\Reference\Demo.html" />
+    <Content Include="Templates\Mobi\Default\Reference\Scripts\Cache_Test.js" />
+    <Content Include="Templates\Mobi\Default\Reference\Scripts\Demo.js" />
+    <Content Include="Templates\Mobi\Default\Reference\Styles\Demo.css" />
+    <Content Include="Templates\Mobi\Default\Scripts\About.js" />
+    <Content Include="Templates\Mobi\Default\Scripts\ContactUs.js" />
+    <Content Include="Templates\Student\Default\Course\Components\ques_progress.js" />
+    <Content Include="Templates\Student\Default\Course\Components\Styles\ques_progress.css" />
+    <Content Include="Templates\Student\Default\Course\Components\Styles\exam_test.css" />
+    <Content Include="Templates\Student\Default\Course\Components\Styles\video_progress.css" />
+    <Content Include="Templates\Student\Default\Course\Components\exam_test.js" />
+    <Content Include="Templates\Student\Default\Course\Components\video_progress.js" />
+    <Content Include="Templates\Student\Default\Course\ScoreDetails.html" />
+    <Content Include="Templates\Student\Default\Course\Scripts\ScoreDetails.js" />
+    <Content Include="Templates\Student\Default\Course\Styles\ScoreDetails.css" />
+    <Content Include="Templates\Student\Default\Start.html" />
+    <Content Include="Templates\Student\Default\Study\Components\progress_value.js" />
+    <Content Include="Templates\Student\Default\Study\Print.html" />
+    <Content Include="Templates\Student\Default\Study\Scripts\Print.js" />
+    <Content Include="Templates\Student\Default\Study\Styles\Print.css" />
+    <Content Include="Templates\Student\Default\Styles\Start.css" />
+    <Content Include="Templates\Teacher\Default\Course\Components\course_data.js" />
+    <Content Include="Templates\Teacher\Default\Course\Components\course_prices.js" />
+    <Content Include="Templates\Teacher\Default\Course\Components\Styles\accessory.css" />
+    <Content Include="Templates\Teacher\Default\Course\Components\Styles\course_data.css" />
+    <Content Include="Templates\Teacher\Default\Course\Components\Styles\course_income.css" />
+    <Content Include="Templates\Teacher\Default\Course\Components\Styles\course_prices.css" />
+    <Content Include="Templates\Teacher\Default\Course\Components\Styles\outline_live.css" />
+    <Content Include="Templates\Teacher\Default\Course\Messages.html" />
+    <Content Include="Templates\Teacher\Default\Course\List.html" />
+    <Content Include="Templates\Teacher\Default\Course\Scripts\Messages.js" />
+    <Content Include="Templates\Teacher\Default\Course\Scripts\List.js" />
+    <Content Include="Templates\Teacher\Default\Course\Styles\Messages.css" />
+    <Content Include="Templates\Teacher\Default\Course\Styles\List.css" />
+    <Content Include="Templates\Teacher\Default\Exam\Components\exam_items.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Components\group_select.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Components\Styles\exam_items.css" />
+    <Content Include="Templates\Teacher\Default\Exam\Components\Styles\group_select.css" />
+    <Content Include="Templates\Teacher\Default\Exam\List.html" />
+    <Content Include="Templates\Teacher\Default\Exam\Modify.html" />
+    <Content Include="Templates\Teacher\Default\Exam\Scripts\List.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Scripts\Modify.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Styles\List.css" />
+    <Content Include="Templates\Teacher\Default\Exam\Styles\Modify.css" />
+    <Content Include="Templates\Teacher\Default\Inc\meta.inc" />
+    <Content Include="Templates\Teacher\Default\Self\Index.html" />
+    <Content Include="Templates\Teacher\Default\Self\Scripts\Index.js" />
+    <Content Include="Templates\Teacher\Default\Self\Styles\Index.css" />
+    <Content Include="Templates\Teacher\Default\Student\List.html" />
+    <Content Include="Templates\Teacher\Default\Student\Scripts\List.js" />
+    <Content Include="Templates\Teacher\Default\Student\Styles\List.css" />
+    <Content Include="Templates\Teacher\Default\Testpaper\List.html" />
+    <Content Include="Templates\Teacher\Default\Testpaper\Scripts\List.js" />
+    <Content Include="Templates\Teacher\Default\Testpaper\Styles\List.css" />
+    <Content Include="Templates\Web\Default\About\Images\about.jpg" />
+    <Content Include="Templates\Web\Default\About\Index.html" />
+    <Content Include="Templates\Web\Default\About\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\About\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Components\courses.js" />
+    <Content Include="Templates\Web\Default\Components\Styles\courses.css" />
+    <Content Include="Templates\Web\Default\Course\Components\accessory.js" />
+    <Content Include="Templates\Web\Default\Course\Components\study_live.js" />
+    <Content Include="Templates\Web\Default\Course\Components\study_event.js" />
+    <Content Include="Templates\Web\Default\Course\Components\study_video.js" />
+    <Content Include="Templates\Web\Default\Course\Components\study_outline.js" />
+    <Content Include="Templates\Web\Default\Course\Components\study_chat.js" />
+    <Content Include="Templates\Web\Default\Course\Components\study_float.js" />
+    <Content Include="Templates\Web\Default\Course\Components\study_tabs.js" />
+    <Content Include="Templates\Web\Default\Course\Components\guides.js" />
+    <Content Include="Templates\Web\Default\Course\Components\breadcrumb.js" />
+    <Content Include="Templates\Web\Default\Course\Components\largebutton.js" />
+    <Content Include="Templates\Web\Default\Course\Components\progress_video.js" />
+    <Content Include="Templates\Web\Default\Course\Buy.html" />
+    <Content Include="Templates\Web\Default\Course\Components\Styles\study_live.css" />
+    <Content Include="Templates\Web\Default\Course\Components\Styles\study_event.css" />
+    <Content Include="Templates\Web\Default\Course\Components\Styles\study_video.css" />
+    <Content Include="Templates\Web\Default\Course\Components\Styles\study_outline.css" />
+    <Content Include="Templates\Web\Default\Course\Components\Styles\study_chat.css" />
+    <Content Include="Templates\Web\Default\Course\Components\Styles\study_float.css" />
+    <Content Include="Templates\Web\Default\Course\Components\Styles\study_tabs.css" />
+    <Content Include="Templates\Web\Default\Course\Components\Styles\accessory.css" />
+    <Content Include="Templates\Web\Default\Course\Images\LiveBg.jpg" />
+    <Content Include="Templates\Web\Default\Course\Images\studyBg.jpg" />
+    <Content Include="Templates\Web\Default\Course\Scripts\Buy.js" />
+    <Content Include="Templates\Web\Default\Course\Scripts\Study2.js" />
+    <Content Include="Templates\Web\Default\Course\Study2.html" />
+    <Content Include="Templates\Web\Default\Course\Styles\guides.css" />
+    <Content Include="Templates\Web\Default\Course\Styles\Buy.css" />
+    <Content Include="Templates\Web\Default\Course\Styles\Study2.css" />
+    <Content Include="Templates\Web\Default\Exam\Doing.html" />
+    <Content Include="Templates\Web\Default\Exam\Images\exam-banner.jpg" />
+    <Content Include="Templates\Web\Default\Exam\Index.html" />
+    <Content Include="Templates\Web\Default\Exam\Scripts\Doing.js" />
+    <Content Include="Templates\Web\Default\Exam\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\Exam\Styles\Doing.css" />
+    <Content Include="Templates\Web\Default\Exam\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Images\live-icon.gif" />
+    <Content Include="Templates\Web\Default\Question\Collects.html" />
+    <Content Include="Templates\Web\Default\Question\Components\AnswerCard.js" />
+    <Content Include="Templates\Web\Default\Question\Components\ExerciseState.js" />
+    <Content Include="Templates\Web\Default\Question\Components\OutlineList.js" />
+    <Content Include="Templates\Web\Default\Question\Components\Quesbuttons.js" />
+    <Content Include="Templates\Web\Default\Question\Components\Question.js" />
+    <Content Include="Templates\Web\Default\Question\Components\SetupMenu.js" />
+    <Content Include="Templates\Web\Default\Question\Components\Styles\Quesbuttons.css" />
+    <Content Include="Templates\Web\Default\Question\Components\Styles\AnswerCard.css" />
+    <Content Include="Templates\Web\Default\Question\Components\Styles\OutlineList.css" />
+    <Content Include="Templates\Web\Default\Question\Course.html" />
+    <Content Include="Templates\Web\Default\Question\Error.html" />
+    <Content Include="Templates\Web\Default\Question\Exercises.html" />
+    <Content Include="Templates\Web\Default\Question\Notes.html" />
+    <Content Include="Templates\Web\Default\Question\Often.html" />
+    <Content Include="Templates\Web\Default\Question\Scripts\Collects.js" />
+    <Content Include="Templates\Web\Default\Question\Scripts\Course.js" />
+    <Content Include="Templates\Web\Default\Question\Scripts\Error.js" />
+    <Content Include="Templates\Web\Default\Question\Scripts\Exercises.js" />
+    <Content Include="Templates\Web\Default\Question\Scripts\Notes.js" />
+    <Content Include="Templates\Web\Default\Question\Scripts\Often.js" />
+    <Content Include="Templates\Web\Default\Question\Styles\Collects.css" />
+    <Content Include="Templates\Web\Default\Question\Styles\Course.css" />
+    <Content Include="Templates\Web\Default\Question\Styles\Error.css" />
+    <Content Include="Templates\Web\Default\Question\Styles\Exercises.css" />
+    <Content Include="Templates\Web\Default\Question\Styles\Notes.css" />
+    <Content Include="Templates\Web\Default\Question\Styles\Often.css" />
+    <Content Include="Templates\Web\Default\Teach\Index.html" />
+    <Content Include="Templates\Web\Default\Teach\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\Teach\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Test\Paper.html" />
+    <Content Include="Templates\Web\Default\Test\Scripts\Paper.js" />
+    <Content Include="Templates\Web\Default\Test\Styles\Paper.css" />
+    <Content Include="Utilities\Components\sbj_cascader.js" />
+    <Content Include="Utilities\Components\Styles\sbj_cascader.css" />
+    <Content Include="Utilities\Components\Styles\useicon.css" />
+    <Content Include="Utilities\Components\useicon.js" />
+    <Content Include="Utilities\Components\Styles\upload-chunked.css" />
+    <Content Include="Utilities\Components\Styles\upload-excel.css" />
+    <Content Include="Utilities\Components\upload-chunked.js" />
+    <Content Include="Utilities\Components\upload-excel.js" />
+    <Content Include="Utilities\Images\alpha.png" />
+    <Content Include="Utilities\Images\head\head1.jpg" />
+    <Content Include="Utilities\Images\head\head2.jpg" />
+    <Content Include="Utilities\Images\live-icon.gif" />
+    <Content Include="Utilities\PdfViewer\debugger.js" />
+    <Content Include="Utilities\PdfViewer\images\annotation-check.svg" />
+    <Content Include="Utilities\PdfViewer\images\annotation-comment.svg" />
+    <Content Include="Utilities\PdfViewer\images\annotation-help.svg" />
+    <Content Include="Utilities\PdfViewer\images\annotation-insert.svg" />
+    <Content Include="Utilities\PdfViewer\images\annotation-key.svg" />
+    <Content Include="Utilities\PdfViewer\images\annotation-newparagraph.svg" />
+    <Content Include="Utilities\PdfViewer\images\annotation-noicon.svg" />
+    <Content Include="Utilities\PdfViewer\images\annotation-note.svg" />
+    <Content Include="Utilities\PdfViewer\images\annotation-paragraph.svg" />
+    <Content Include="Utilities\PdfViewer\images\findbarButton-next%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\findbarButton-next-rtl%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\findbarButton-next-rtl.png" />
+    <Content Include="Utilities\PdfViewer\images\findbarButton-next.png" />
+    <Content Include="Utilities\PdfViewer\images\findbarButton-previous%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\findbarButton-previous-rtl%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\findbarButton-previous-rtl.png" />
+    <Content Include="Utilities\PdfViewer\images\findbarButton-previous.png" />
+    <Content Include="Utilities\PdfViewer\images\grab.cur" />
+    <Content Include="Utilities\PdfViewer\images\grabbing.cur" />
+    <Content Include="Utilities\PdfViewer\images\loading-icon.gif" />
+    <Content Include="Utilities\PdfViewer\images\loading-small%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\loading-small.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-documentProperties%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-documentProperties.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-firstPage%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-firstPage.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-handTool%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-handTool.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-lastPage%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-lastPage.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-rotateCcw%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-rotateCcw.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-rotateCw%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-rotateCw.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-selectTool%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\secondaryToolbarButton-selectTool.png" />
+    <Content Include="Utilities\PdfViewer\images\shadow.png" />
+    <Content Include="Utilities\PdfViewer\images\texture.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-bookmark%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-bookmark.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-download%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-download.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-menuArrows%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-menuArrows.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-openFile%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-openFile.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-pageDown%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-pageDown-rtl%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-pageDown-rtl.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-pageDown.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-pageUp%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-pageUp-rtl%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-pageUp-rtl.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-pageUp.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-presentationMode%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-presentationMode.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-print%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-print.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-search%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-search.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-secondaryToolbarToggle%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-secondaryToolbarToggle-rtl%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-secondaryToolbarToggle-rtl.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-secondaryToolbarToggle.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-sidebarToggle%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-sidebarToggle-rtl%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-sidebarToggle-rtl.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-sidebarToggle.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-viewAttachments%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-viewAttachments.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-viewOutline%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-viewOutline-rtl%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-viewOutline-rtl.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-viewOutline.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-viewThumbnail%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-viewThumbnail.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-zoomIn%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-zoomIn.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-zoomOut%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\toolbarButton-zoomOut.png" />
+    <Content Include="Utilities\PdfViewer\images\treeitem-collapsed%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\treeitem-collapsed-rtl%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\treeitem-collapsed-rtl.png" />
+    <Content Include="Utilities\PdfViewer\images\treeitem-collapsed.png" />
+    <Content Include="Utilities\PdfViewer\images\treeitem-expanded%402x.png" />
+    <Content Include="Utilities\PdfViewer\images\treeitem-expanded.png" />
+    <Content Include="Utilities\PdfViewer\pdf.js" />
+    <Content Include="Utilities\PdfViewer\pdf.worker.js" />
+    <Content Include="Utilities\PdfViewer\viewer.css" />
+    <Content Include="Utilities\PdfViewer\viewer.html" />
+    <Content Include="Utilities\PdfViewer\viewer.js" />
+    <Content Include="Utilities\Scripts\hammer.min.js" />
+    <Content Include="Templates\Mobi\Default\Scripts\treemenu.js" />
+    <Content Include="Utilities\Scripts\jquery.jqprint-0.3.js" />
+    <Content Include="Utilities\Scripts\vue-touch.js" />
+    <Content Include="Templates\Mobi\Default\Sign\Out.html" />
+    <Content Include="Templates\Mobi\Default\Sign\Scripts\Out.js" />
+    <Content Include="Templates\Mobi\Default\Sign\Scripts\Find.js" />
+    <Content Include="Templates\Mobi\Default\Sign\Scripts\Up.js" />
+    <Content Include="Templates\Mobi\Default\Sign\Scripts\In.js" />
+    <Content Include="Templates\Mobi\Default\Sign\Styles\Out.css" />
+    <Content Include="Templates\Mobi\Default\Sign\Styles\Find.css" />
+    <Content Include="Templates\Mobi\Default\Sign\Styles\Up.css" />
+    <Content Include="Templates\Mobi\Default\Sign\Styles\In.css" />
+    <Content Include="Templates\Mobi\Default\Sign\Find.html" />
+    <Content Include="Templates\Mobi\Default\Sign\Up.html" />
+    <Content Include="Templates\Mobi\Default\Sign\In.html" />
+    <Content Include="Templates\Mobi\Default\Scripts\Index.js" />
+    <Content Include="Templates\Mobi\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Mobi\Default\Styles\About.css" />
+    <Content Include="Templates\Mobi\Default\Styles\ContactUs.css" />
+    <Content Include="Templates\Mobi\Default\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\Styles\Public.css" />
+    <Content Include="Templates\Mobi\Default\Styles\treemenu.css" />
+    <Content Include="Templates\Mobi\Default\Test\Components\AnswerCard.js" />
+    <Content Include="Templates\Mobi\Default\Test\Components\Quesbuttons.js" />
+    <Content Include="Templates\Mobi\Default\Test\Components\Question.js" />
+    <Content Include="Templates\Mobi\Default\Test\Components\TestHeader.js" />
+    <Content Include="Templates\Mobi\Default\Test\Doing.html" />
+    <Content Include="Templates\Mobi\Default\Test\Finality.html" />
+    <Content Include="Templates\Mobi\Default\Test\Paper.html" />
+    <Content Include="Templates\Mobi\Default\Test\Index.html" />
+    <Content Include="Templates\Mobi\Default\Test\Review.html" />
+    <Content Include="Templates\Mobi\Default\Test\Scripts\Doing.js" />
+    <Content Include="Templates\Mobi\Default\Test\Scripts\Finality.js" />
+    <Content Include="Templates\Mobi\Default\Test\Scripts\Paper.js" />
+    <Content Include="Templates\Mobi\Default\Test\Scripts\Index.js" />
+    <Content Include="Templates\Mobi\Default\Test\Scripts\Review.js" />
+    <Content Include="Templates\Mobi\Default\Test\Styles\Doing.css" />
+    <Content Include="Templates\Mobi\Default\Test\Styles\Finality.css" />
+    <Content Include="Templates\Mobi\Default\Test\Styles\Paper.css" />
+    <Content Include="Templates\Mobi\Default\Test\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\Test\Styles\Review.css" />
+    <Content Include="Templates\Mobi\Default\Test\Styles\TestHeader.css" />
+    <Content Include="Templates\Mobi\Default\_self.xml" />
+    <Content Include="Templates\Student\Default\Coupon\Index.html" />
+    <Content Include="Templates\Student\Default\Coupon\Scripts\Index.js" />
+    <Content Include="Templates\Student\Default\Coupon\Styles\Index.css" />
+    <Content Include="Templates\Student\Default\Course\Components\course_data.js" />
+    <Content Include="Templates\Student\Default\Course\Components\outline_progress.js" />
+    <Content Include="Templates\Student\Default\Course\Components\purchase_data.js" />
+    <Content Include="Templates\Student\Default\Course\Components\course_progress.js" />
+    <Content Include="Templates\Student\Default\Course\VideoProgress.html" />
+    <Content Include="Templates\Student\Default\Course\Index.html" />
+    <Content Include="Templates\Student\Default\Course\Scripts\VideoProgress.js" />
+    <Content Include="Templates\Student\Default\Course\Scripts\Index.js" />
+    <Content Include="Templates\Student\Default\Course\Styles\VideoProgress.css" />
+    <Content Include="Templates\Student\Default\Course\Styles\Index.css" />
+    <Content Include="Templates\Student\Default\Exam\Results.html" />
+    <Content Include="Templates\Student\Default\Exam\Review.html" />
+    <Content Include="Templates\Student\Default\Exam\Scripts\Results.js" />
+    <Content Include="Templates\Student\Default\Exam\Scripts\Review.js" />
+    <Content Include="Templates\Student\Default\Exam\Styles\Results.css" />
+    <Content Include="Templates\Student\Default\Exam\Styles\Review.css" />
+    <Content Include="Templates\Student\Default\Inc\meta.inc" />
+    <Content Include="Templates\Student\Default\Index.html" />
+    <Content Include="Templates\Student\Default\Learningcard\Index.html" />
+    <Content Include="Templates\Student\Default\Learningcard\Scripts\Index.js" />
+    <Content Include="Templates\Student\Default\Learningcard\Styles\Index.css" />
+    <Content Include="Templates\Student\Default\Money\Profit.html" />
+    <Content Include="Templates\Student\Default\Money\Details.html" />
+    <Content Include="Templates\Student\Default\Money\Recharge.html" />
+    <Content Include="Templates\Student\Default\Money\Scripts\Profit.js" />
+    <Content Include="Templates\Student\Default\Money\Scripts\Details.js" />
+    <Content Include="Templates\Student\Default\Money\Scripts\Recharge.js" />
+    <Content Include="Templates\Student\Default\Money\Styles\Profit.css" />
+    <Content Include="Templates\Student\Default\Money\Styles\Details.css" />
+    <Content Include="Templates\Student\Default\Money\Styles\Recharge.css" />
+    <Content Include="Templates\Student\Default\Point\Index.html" />
+    <Content Include="Templates\Student\Default\Point\Scripts\Index.js" />
+    <Content Include="Templates\Student\Default\Point\Styles\Index.css" />
+    <Content Include="Templates\Student\Default\Question\Components\AnswerCard.js" />
+    <Content Include="Templates\Student\Default\Question\Components\ExercisesState.js" />
+    <Content Include="Templates\Student\Default\Question\Components\Quesbuttons.js" />
+    <Content Include="Templates\Student\Default\Question\Components\Question.js" />
+    <Content Include="Templates\Student\Default\Question\Review.html" />
+    <Content Include="Templates\Student\Default\Question\Errors.html" />
+    <Content Include="Templates\Student\Default\Question\Scripts\Review.js" />
+    <Content Include="Templates\Student\Default\Question\Scripts\Errors.js" />
+    <Content Include="Templates\Student\Default\Question\Styles\Review.css" />
+    <Content Include="Templates\Student\Default\Question\Styles\Errors.css" />
+    <Content Include="Templates\Student\Default\Scripts\Index.js" />
+    <Content Include="Templates\Student\Default\Scripts\Start.js" />
+    <Content Include="Templates\Student\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Student\Default\Self\Intro.html" />
+    <Content Include="Templates\Student\Default\Self\Safe.html" />
+    <Content Include="Templates\Student\Default\Self\Link.html" />
+    <Content Include="Templates\Student\Default\Self\Info.html" />
+    <Content Include="Templates\Student\Default\Self\Scripts\Intro.js" />
+    <Content Include="Templates\Student\Default\Self\Scripts\Safe.js" />
+    <Content Include="Templates\Student\Default\Self\Scripts\Link.js" />
+    <Content Include="Templates\Student\Default\Self\Scripts\Info.js" />
+    <Content Include="Templates\Student\Default\Self\Styles\Intro.css" />
+    <Content Include="Templates\Student\Default\Self\Styles\Safe.css" />
+    <Content Include="Templates\Student\Default\Self\Styles\Link.css" />
+    <Content Include="Templates\Student\Default\Self\Styles\Info.css" />
+    <Content Include="Templates\Student\Default\Share\Subordinates.html" />
+    <Content Include="Templates\Student\Default\Share\Link.html" />
+    <Content Include="Templates\Student\Default\Share\Scripts\Subordinates.js" />
+    <Content Include="Templates\Student\Default\Share\Scripts\Link.js" />
+    <Content Include="Templates\Student\Default\Share\Styles\Subordinates.css" />
+    <Content Include="Templates\Student\Default\Share\Styles\Link.css" />
+    <Content Include="Templates\Student\Default\Study\Certificate.html" />
+    <Content Include="Templates\Student\Default\Study\Scripts\Certificate.js" />
+    <Content Include="Templates\Student\Default\Study\Styles\Certificate.css" />
+    <Content Include="Templates\Student\Default\Styles\Index.css" />
+    <Content Include="Templates\Student\Default\Styles\Public.css" />
+    <Content Include="Templates\Student\Default\Styles\webdesk.ui.core.css" />
+    <Content Include="Templates\Student\Default\Test\Archives.html" />
+    <Content Include="Templates\Student\Default\Test\Scripts\Archives.js" />
+    <Content Include="Templates\Student\Default\Test\Styles\Archives.css" />
+    <Content Include="Templates\Student\Default\_self.xml" />
+    <Content Include="Templates\Student\_public\_self.xml" />
+    <Content Include="Templates\Teacher\Default\Exam\Results.html" />
+    <Content Include="Templates\Teacher\Default\Exam\ResultsReview.html" />
+    <Content Include="Templates\Teacher\Default\Exam\ResultsDetail.html" />
+    <Content Include="Templates\Teacher\Default\Exam\ResultsDetails.html" />
+    <Content Include="Templates\Teacher\Default\Exam\Scripts\ResultsReview.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Scripts\Results.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Scripts\ResultsDetail.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Scripts\ResultsDetails.js" />
+    <Content Include="Templates\Teacher\Default\Exam\Styles\ResultsReview.css" />
+    <Content Include="Templates\Teacher\Default\Exam\Styles\Results.css" />
+    <Content Include="Templates\Teacher\Default\Exam\Styles\ResultsDetail.css" />
+    <Content Include="Templates\Teacher\Default\Exam\Styles\ResultsDetails.css" />
+    <Content Include="Templates\Teacher\Default\Index.html" />
+    <Content Include="Templates\Teacher\Default\Scripts\Index.js" />
+    <Content Include="Templates\Teacher\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Teacher\Default\Styles\Index.css" />
+    <Content Include="Templates\Teacher\Default\Styles\Public.css" />
+    <Content Include="Templates\Teacher\Default\_self.xml" />
+    <Content Include="Templates\Teacher\_public\_self.xml" />
+    <Content Include="Templates\Web\Default\404.html" />
+    <Content Include="Templates\Web\Default\Scripts\pagebox.js" />
+    <Content Include="Templates\Web\Default\Styles\pagebox.css" />
+    <Content Include="Templates\Web\Default\Components\course.js" />
+    <Content Include="Templates\Web\Default\Components\Styles\course.css" />
+    <Content Include="Templates\Web\Default\News\Components\Articles.js" />
+    <Content Include="Templates\Web\Default\News\Components\SearchInput.js" />
+    <Content Include="Templates\Web\Default\News\Article.html" />
+    <Content Include="Templates\Web\Default\News\Index.html" />
+    <Content Include="Templates\Web\Default\News\List.html" />
+    <Content Include="Templates\Web\Default\News\Scripts\Article.js" />
+    <Content Include="Templates\Web\Default\News\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\News\Scripts\List.js" />
+    <Content Include="Templates\Web\Default\News\Styles\Article.css" />
+    <Content Include="Templates\Web\Default\News\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\News\Styles\List.css" />
+    <Content Include="Templates\Web\Default\Components\Styles\subject_rec.css" />
+    <Content Include="Templates\Web\Default\Components\Styles\links.css" />
+    <Content Include="Templates\Web\Default\Components\subject_rec.js" />
+    <Content Include="Templates\Web\Default\Components\links.js" />
+    <Content Include="Templates\Web\Default\Components\subject_show.js" />
+    <Content Include="Templates\Web\Default\Components\page_footer.js" />
+    <Content Include="Templates\Web\Default\Components\page_header.js" />
+    <Content Include="Templates\Web\Default\Components\Styles\page_footer.css" />
+    <Content Include="Templates\Web\Default\Components\Styles\subject_show.css" />
+    <Content Include="Templates\Web\Default\Components\Styles\page_header.css" />
+    <Content Include="Templates\Web\Default\Course\Detail.html" />
+    <Content Include="Templates\Web\Default\Course\Index.html" />
+    <Content Include="Templates\Web\Default\Course\Knowledges.html" />
+    <Content Include="Templates\Web\Default\Course\Scripts\Detail.js" />
+    <Content Include="Templates\Web\Default\Course\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\Course\Scripts\Knowledges.js" />
+    <Content Include="Templates\Web\Default\Course\Scripts\Study.js" />
+    <Content Include="Templates\Web\Default\Course\Study.html" />
+    <Content Include="Templates\Web\Default\Course\Styles\Detail.css" />
+    <Content Include="Templates\Web\Default\Course\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Course\Styles\KnlHeader.css" />
+    <Content Include="Templates\Web\Default\Course\Styles\Knowledges.css" />
+    <Content Include="Templates\Web\Default\Course\Styles\Study.css" />
+    <Content Include="Templates\Web\Default\Images\alpha.png" />
+    <Content Include="Templates\Web\Default\Images\cou_nophoto.jpg" />
+    <Content Include="Templates\Web\Default\Images\def_logo.gif" />
+    <Content Include="Templates\Web\Default\Images\def_news.jpg" />
+    <Content Include="Templates\Web\Default\Images\more.png" />
+    <Content Include="Templates\Web\Default\Images\nopic.jpg" />
+    <Content Include="Templates\Web\Default\Images\nosubject.jpg" />
+    <Content Include="Templates\Web\Default\Images\swipe\1.jpg" />
+    <Content Include="Templates\Web\Default\Images\swipe\2.jpg" />
+    <Content Include="Templates\Web\Default\Images\swipe\3.jpg" />
+    <Content Include="Templates\Web\Default\Inc\header.html" />
+    <Content Include="Templates\Web\Default\Inc\meta.inc" />
+    <Content Include="Templates\Web\Default\Index.html" />
+    <Content Include="Templates\Web\Default\logo.jpg" />
+    <Content Include="Templates\Web\Default\Notice\Detail.html" />
+    <Content Include="Templates\Web\Default\Notice\Index.html" />
+    <Content Include="Templates\Web\Default\Notice\Scripts\Detail.js" />
+    <Content Include="Templates\Web\Default\Notice\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\Notice\Styles\Detail.css" />
+    <Content Include="Templates\Web\Default\Notice\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Account\Index.html" />
+    <Content Include="Templates\Web\Default\Account\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\Account\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Scripts\dropmenu.js" />
+    <Content Include="Templates\Web\Default\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\Scripts\404.js" />
+    <Content Include="Templates\Web\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Web\Default\Sign\Find.html" />
+    <Content Include="Templates\Web\Default\Sign\Images\bg1.png" />
+    <Content Include="Templates\Web\Default\Sign\In.html" />
+    <Content Include="Templates\Web\Default\Sign\Out.html" />
+    <Content Include="Templates\Web\Default\Sign\Scripts\Find.js" />
+    <Content Include="Templates\Web\Default\Sign\Scripts\In.js" />
+    <Content Include="Templates\Web\Default\Sign\Scripts\Out.js" />
+    <Content Include="Templates\Web\Default\Sign\Scripts\Up.js" />
+    <Content Include="Templates\Web\Default\Sign\Styles\Find.css" />
+    <Content Include="Templates\Web\Default\Sign\Styles\In.css" />
+    <Content Include="Templates\Web\Default\Sign\Styles\Out.css" />
+    <Content Include="Templates\Web\Default\Sign\Styles\Up.css" />
+    <Content Include="Templates\Web\Default\Sign\Up.html" />
+    <Content Include="Templates\Web\Default\Styles\404.css" />
+    <Content Include="Templates\Web\Default\Styles\dropmenu.css" />
+    <Content Include="Templates\Web\Default\Styles\Index.css" />
+    <Content Include="Templates\Web\Default\Styles\public.css" />
+    <Content Include="Templates\Web\Default\_self.xml" />
+    <Content Include="Templates\Web\_Public\500.html" />
+    <Content Include="Templates\Web\_Public\Error.html" />
+    <Content Include="Templates\Web\_Public\404.html" />
+    <Content Include="Utilities\AreaCodeInfo.xml" />
+    <Content Include="Utilities\baiduMap\vue-baidu-map.js" />
+    <Content Include="Utilities\Components\avatar.js" />
+    <Content Include="Utilities\Components\education.js" />
+    <Content Include="Utilities\Components\icons.js" />
+    <Content Include="Utilities\Components\popup-notice.js" />
+    <Content Include="Utilities\Components\Styles\upload-file.css" />
+    <Content Include="Utilities\Components\Styles\upload-img.css" />
+    <Content Include="Utilities\Components\Styles\Avatar.css" />
+    <Content Include="Utilities\Components\upload-file.js" />
+    <Content Include="Utilities\Components\upload-img.js" />
+    <Content Include="Utilities\DataTemplate\Config\学生学习记录.xml" />
+    <Content Include="Utilities\DataTemplate\Config\考试成绩.xml" />
+    <Content Include="Utilities\Fonts\iconfont.ico" />
+    <Content Include="Utilities\Images\disable.png" />
+    <Content Include="Utilities\Images\ghs.png" />
+    <Content Include="Utilities\Images\used.png" />
+    <Content Include="Templates\Manage\Default\RechargeCode\OutputExcel.html" />
+    <Content Include="Templates\Manage\Default\RechargeCode\OutputQrcode.html" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Scripts\CodeQuery.js" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Scripts\Codes.js" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Scripts\Codeset.js" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Scripts\CodesetModify.js" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Scripts\OutputExcel.js" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Scripts\OutputQrcode.js" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Styles\CodeQuery.css" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Styles\Codes.css" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Styles\Codeset.css" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Styles\CodesetModify.css" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Styles\OutputExcel.css" />
+    <Content Include="Templates\Manage\Default\RechargeCode\Styles\OutputQrcode.css" />
+    <Content Include="Templates\Manage\Default\Scripts\Startpage.js" />
+    <Content Include="Templates\Web\_Public\Index_.html" />
+    <Content Include="Templates\Web\_Public\Scripts\Index.js" />
+    <Content Include="Templates\Web\_Public\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Web\_Public\Styles\Index.css" />
+    <Content Include="Utilities\baiduMap\convertor.js" />
+    <Content Include="Utilities\DataTemplate\Config\充值码.xml" />
+    <Content Include="Utilities\DataTemplate\Config\判断题.xml" />
+    <Content Include="Utilities\DataTemplate\Config\单选题.xml" />
+    <Content Include="Utilities\DataTemplate\Config\员工信息.xml" />
+    <Content Include="Utilities\DataTemplate\Config\培训计划.xml" />
+    <Content Include="Utilities\DataTemplate\Config\填空题.xml" />
+    <Content Include="Utilities\DataTemplate\Config\多选题.xml" />
+    <Content Include="Utilities\DataTemplate\Config\学习卡.xml" />
+    <Content Include="Utilities\DataTemplate\Config\学生信息.xml" />
+    <Content Include="Utilities\DataTemplate\Config\教师信息.xml" />
+    <Content Include="Utilities\DataTemplate\Config\简答题.xml" />
+    <Content Include="Utilities\DataTemplate\Config\课程章节.xml" />
+    <Content Include="Utilities\DataTemplate\Config\资金流水.xml" />
+    <Content Include="Utilities\DataTemplate\Config\通讯录.xml" />
+    <Content Include="Utilities\Images\cou_nophoto.jpg" />
+    <Content Include="Utilities\Panel\Effects\2Dcloud\Images\login_bgX.jpg" />
+    <Content Include="Utilities\Panel\Effects\2Dcloud\Images\login_Top.jpg" />
+    <Content Include="Utilities\Panel\Effects\2Dcloud\index.html" />
+    <Content Include="Utilities\Panel\Effects\3Dcloud\cloud10.png" />
+    <Content Include="Utilities\Panel\Effects\3Dcloud\index.html" />
+    <Content Include="Utilities\Panel\Effects\3Dcloud\js\Detector.js" />
+    <Content Include="Utilities\Panel\Effects\3Dcloud\js\RequestAnimationFrame.js" />
+    <Content Include="Utilities\Panel\Effects\3Dcloud\js\ThreeExtras.js" />
+    <Content Include="Utilities\Panel\Effects\3Dcloud\js\ThreeWebGL.js" />
+    <Content Include="Utilities\Panel\Effects\Circular\css\style.css" />
+    <Content Include="Utilities\Panel\Effects\Circular\index.html" />
+    <Content Include="Utilities\Panel\Effects\Line\css\style.css" />
+    <Content Include="Utilities\Panel\Effects\Line\index.html" />
+    <Content Include="Utilities\Panel\Effects\Line\js\jparticle.min.js" />
+    <Content Include="Utilities\Panel\Effects\Line\js\jquery.js" />
+    <Content Include="Utilities\Panel\Effects\Particle\css\style.css" />
+    <Content Include="Utilities\Panel\Effects\Particle\index.html" />
+    <Content Include="Utilities\Panel\Effects\Particle\js\script.js" />
+    <Content Include="Utilities\Panel\Effects\Particle\js\simplex-noise.min.js" />
+    <Content Include="Utilities\Panel\Effects\Starrysky\canvas.js" />
+    <Content Include="Utilities\Panel\Effects\Starrysky\Images\big-bg.jpg" />
+    <Content Include="Utilities\Panel\Effects\Starrysky\index.html" />
+    <Content Include="Utilities\Panel\Effects\Starrysky\jquery.js" />
+    <Content Include="Utilities\Panel\Effects\Tree\index.html" />
+    <Content Include="Utilities\Panel\Images\head1.jpg" />
+    <Content Include="Utilities\Panel\Scripts\ctrls.js" />
+    <Content Include="Utilities\Panel\Scripts\dropmenu.js" />
+    <Content Include="Utilities\Panel\Scripts\Login.js" />
+    <Content Include="Utilities\Panel\Scripts\pagebox.js" />
+    <Content Include="Utilities\Panel\Scripts\Skins.js" />
+    <Content Include="Templates\Manage\Default\Panel\Scripts\Skinsetup.js" />
+    <Content Include="Utilities\Panel\Scripts\tabs.js" />
+    <Content Include="Utilities\Panel\Scripts\timer.js" />
+    <Content Include="Utilities\Panel\Scripts\treemenu.js" />
+    <Content Include="Utilities\Panel\Scripts\verticalbar.js" />
+    <Content Include="Templates\Manage\Default\Panel\Skinsetup.html" />
+    <Content Include="Utilities\Panel\Skins\Education\Admin.css" />
+    <Content Include="Utilities\Panel\Skins\Education\bg.jpg" />
+    <Content Include="Utilities\Panel\Skins\Education\dropmenu.css" />
+    <Content Include="Utilities\Panel\Skins\Education\logo.jpg" />
+    <Content Include="Utilities\Panel\Skins\Education\pagebox.css" />
+    <Content Include="Utilities\Panel\Skins\Education\tabs.css" />
+    <Content Include="Utilities\Panel\Skins\Education\treemenu.css" />
+    <Content Include="Utilities\Panel\Skins\Education\verticalbar.css" />
+    <Content Include="Utilities\Panel\Skins\Win10\Admin.css" />
+    <Content Include="Utilities\Panel\Skins\Win10\bg.jpg" />
+    <Content Include="Utilities\Panel\Skins\Win10\dropmenu.css" />
+    <Content Include="Utilities\Panel\Skins\Win10\logo.jpg" />
+    <Content Include="Utilities\Panel\Skins\Win10\pagebox.css" />
+    <Content Include="Utilities\Panel\Skins\Win10\tabs.css" />
+    <Content Include="Utilities\Panel\Skins\Win10\treemenu.css" />
+    <Content Include="Utilities\Panel\Skins\Win10\verticalbar.css" />
+    <Content Include="Utilities\Panel\Skins\Win7\Admin.css" />
+    <Content Include="Utilities\Panel\Skins\Win7\bg.jpg" />
+    <Content Include="Utilities\Panel\Skins\Win7\dropmenu.css" />
+    <Content Include="Utilities\Panel\Skins\Win7\logo.jpg" />
+    <Content Include="Utilities\Panel\Skins\Win7\pagebox.css" />
+    <Content Include="Utilities\Panel\Skins\Win7\tabs.css" />
+    <Content Include="Utilities\Panel\Skins\Win7\treemenu.css" />
+    <Content Include="Utilities\Panel\Skins\Win7\verticalbar.css" />
+    <Content Include="Utilities\Panel\Skins\_Night\Admin.css" />
+    <Content Include="Utilities\Panel\Skins\_Night\dropmenu.css" />
+    <Content Include="Utilities\Panel\Skins\_Night\logo.jpg" />
+    <Content Include="Utilities\Panel\Skins\_Night\pagebox.css" />
+    <Content Include="Utilities\Panel\Skins\_Night\tabs.css" />
+    <Content Include="Utilities\Panel\Skins\_Night\treemenu.css" />
+    <Content Include="Utilities\Panel\Skins\_Night\verticalbar.css" />
+    <Content Include="Utilities\Panel\Slider\jquery-3.4.1.min.js" />
+    <Content Include="Utilities\Panel\Slider\Slider.css" />
+    <Content Include="Utilities\Panel\Slider\Slider.html" />
+    <Content Include="Utilities\Panel\Slider\Slider.js" />
+    <Content Include="Utilities\Panel\Styles\Index.css" />
+    <Content Include="Utilities\Panel\Styles\Login.css" />
+    <Content Include="Utilities\Panel\Styles\Public.css" />
+    <Content Include="Utilities\Panel\Styles\webdesk.ui.core.css" />
+    <Content Include="Templates\Manage\Default\Platform\Employee.html" />
+    <Content Include="Templates\Manage\Default\Platform\EmployeeModify.html" />
+    <Content Include="Templates\Manage\Default\Platform\EmployeePwreset.html" />
+    <Content Include="Templates\Manage\Default\Platform\Menuroot.html" />
+    <Content Include="Templates\Manage\Default\Platform\MenurootModify.html" />
+    <Content Include="Templates\Manage\Default\Organs\Organinfo.html" />
+    <Content Include="Templates\Manage\Default\Platform\Platinfo.html" />
+    <Content Include="Templates\Manage\Default\Platform\Position.html" />
+    <Content Include="Templates\Manage\Default\Platform\PositionModify.html" />
+    <Content Include="Templates\Manage\Default\Platform\Purview.html" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\Employee.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\EmployeeModify.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\EmployeePwreset.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\Menuroot.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\MenurootModify.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\Platinfo.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\Position.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\PositionModify.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\Purview.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\Menutree.js" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\Sysmenu.js" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\Employee.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\EmployeeModify.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\EmployeePwreset.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\ProfitSharingModify.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\ProfitSharing.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\Menuroot.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\MenurootModify.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\Platinfo.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\Position.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\PositionModify.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\Purview.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\Menutree.css" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\Sysmenu.css" />
+    <Content Include="Templates\Manage\Default\Platform\Menutree.html" />
+    <Content Include="Templates\Manage\Default\Platform\Sysmenu.html" />
+    <Content Include="Templates\Manage\Default\Scripts\Manage.js" />
+    <Content Include="Templates\Manage\Default\Scripts\hanzi2pinyin.js" />
+    <Content Include="Templates\Manage\Default\Scripts\Index.js" />
+    <Content Include="Templates\Manage\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Manage\Default\Startpage.html" />
+    <Content Include="Templates\Manage\Default\Styles\Manage.css" />
+    <Content Include="Templates\Manage\Default\Styles\Index.css" />
+    <Content Include="Templates\Manage\Default\Styles\Login.css" />
+    <Content Include="Templates\Manage\Default\Panel\Styles\Skinsetup.css" />
+    <Content Include="Templates\Manage\Default\Styles\Startpage.css" />
+    <Content Include="Templates\Manage\Default\Styles\webdesk.ui.core.css" />
+    <Content Include="Templates\Manage\Default\_self.xml" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Logout.html" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Modify.html" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Mypassword.html" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Scripts\Logout.js" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Scripts\Modify.js" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Scripts\Mypassword.js" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Scripts\SelfInfo.js" />
+    <Content Include="Templates\OrgAdmin\Default\Account\SelfInfo.html" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Styles\Logout.css" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Styles\Modify.css" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Styles\Mypassword.css" />
+    <Content Include="Templates\OrgAdmin\Default\Account\Styles\SelfInfo.css" />
+    <Content Include="Help\About.html" />
+    <Content Include="Templates\OrgAdmin\Default\Help\MIT.html" />
+    <Content Include="Templates\OrgAdmin\Default\Help\Scripts\Startpage.js" />
+    <Content Include="Templates\OrgAdmin\Default\Help\Startpage.html" />
+    <Content Include="Templates\OrgAdmin\Default\Help\Styles\Startpage.css" />
+    <Content Include="Templates\OrgAdmin\Default\index.html" />
+    <Content Include="Templates\OrgAdmin\Default\Scripts\Admin.js" />
+    <Content Include="Templates\OrgAdmin\Default\Scripts\hanzi2pinyin.js" />
+    <Content Include="Templates\OrgAdmin\Default\Scripts\Index.js" />
+    <Content Include="Templates\OrgAdmin\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\Admin.css" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\Index.css" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\Login.css" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\Startpage.css" />
+    <Content Include="Templates\OrgAdmin\Default\Styles\webdesk.ui.core.css" />
+    <Content Include="Templates\OrgAdmin\Default\Template\Scripts\Select.js" />
+    <Content Include="Templates\OrgAdmin\Default\Template\Select.html" />
+    <Content Include="Templates\OrgAdmin\Default\Template\Styles\Select.css" />
+    <Content Include="Templates\OrgAdmin\Default\_self.xml" />
+    <Content Include="Templates\Manage\_public\_self.xml" />
+    <Content Include="Templates\Mobi\_Public\Certify.html" />
+    <Content Include="Templates\Mobi\_Public\ExamReview.htm" />
+    <Content Include="Templates\Mobi\_Public\Images\01_qq_logo.png" />
+    <Content Include="Templates\Mobi\_Public\Images\live-icon.gif" />
+    <Content Include="Templates\Mobi\_Public\Images\load_023.gif" />
+    <Content Include="Templates\Mobi\_Public\Images\load_027.gif" />
+    <Content Include="Templates\Mobi\_Public\Images\nophoto.jpg" />
+    <Content Include="Templates\Mobi\_Public\Images\weixin_logo.png" />
+    <Content Include="Templates\Mobi\_Public\Noaccess.html" />
+    <Content Include="Templates\Mobi\_Public\Notfound.htm" />
+    <Content Include="Templates\Mobi\_Public\QQLogin.html" />
+    <Content Include="Templates\Mobi\_Public\Scripts\Certify.js" />
+    <Content Include="Templates\Mobi\_Public\Scripts\ExamReview.js" />
+    <Content Include="Templates\Mobi\_Public\Scripts\Loading.js" />
+    <Content Include="Templates\Mobi\_Public\Scripts\QQLogin.js" />
+    <Content Include="Templates\Mobi\_Public\Scripts\WeixinpubLogin.js" />
+    <Content Include="Templates\Mobi\_Public\Styles\Certify.css" />
+    <Content Include="Templates\Mobi\_Public\Styles\ExamReview.css" />
+    <Content Include="Templates\Mobi\_Public\Styles\QQLogin.css" />
+    <Content Include="Templates\Mobi\_Public\Styles\WeixinpubLogin.css" />
+    <Content Include="Templates\Mobi\_Public\Styles\Yunzhijia.css" />
+    <Content Include="Templates\Mobi\_Public\Weixin.htm" />
+    <Content Include="Templates\Mobi\_Public\WeixinpubLogin.htm" />
+    <Content Include="Templates\Mobi\_Public\Yunzhijia.htm" />
+    <Content Include="Templates\Mobi\_Public\_self.xml" />
+    <Content Include="Templates\Pad\Default\Index.html" />
+    <Content Include="Templates\TV\Default\Index.html" />
+    <Content Include="Templates\Web\_Public\Scripts\Student.js" />
+    <Content Include="Templates\Web\_Public\Styles\Student.css" />
+    <Content Include="Templates\Web\_Public\Teacher.html" />
+    <Content Include="Templates\Web\_Public\_self.xml" />
+    <Content Include="Upload\readme.html" />
+    <Content Include="Utilities\app-logo.jpg" />
+    <Content Include="Utilities\Copyright.xsl" />
+    <Content Include="Utilities\echarts\chart\bar.js" />
+    <Content Include="Utilities\echarts\chart\chord.js" />
+    <Content Include="Utilities\echarts\chart\eventRiver.js" />
+    <Content Include="Utilities\echarts\chart\force.js" />
+    <Content Include="Utilities\echarts\chart\funnel.js" />
+    <Content Include="Utilities\echarts\chart\gauge.js" />
+    <Content Include="Utilities\echarts\chart\heatmap.js" />
+    <Content Include="Utilities\echarts\chart\k.js" />
+    <Content Include="Utilities\echarts\chart\line.js" />
+    <Content Include="Utilities\echarts\chart\map.js" />
+    <Content Include="Utilities\echarts\chart\pie.js" />
+    <Content Include="Utilities\echarts\chart\radar.js" />
+    <Content Include="Utilities\echarts\chart\scatter.js" />
+    <Content Include="Utilities\echarts\chart\tree.js" />
+    <Content Include="Utilities\echarts\chart\treemap.js" />
+    <Content Include="Utilities\echarts\chart\venn.js" />
+    <Content Include="Utilities\echarts\chart\wordCloud.js" />
+    <Content Include="Utilities\echarts\echarts-all.js" />
+    <Content Include="Utilities\echarts\echarts.js" />
+    <Content Include="Utilities\editor\vue-html5-editor.css" />
+    <Content Include="Utilities\editor\vue-html5-editor.js" />
+    <Content Include="Utilities\ElementUi\index.css" />
+    <Content Include="Utilities\ElementUi\index.html" />
+    <Content Include="Utilities\ElementUi\index.js" />
+    <Content Include="Utilities\ElementUi\vue_min.js" />
+    <Content Include="Utilities\Fonts\iconfont-symbol.svg" />
+    <Content Include="Utilities\Fonts\iconfont.svg" />
+    <Content Include="Utilities\Fonts\webdesk.html" />
+    <Content Include="Utilities\Images\head1.jpg" />
+    <Content Include="Utilities\Images\head2.jpg" />
+    <Content Include="Utilities\Images\load_016.gif" />
+    <Content Include="Utilities\Images\logo.gif" />
+    <Content Include="Utilities\Images\map_point.png" />
+    <Content Include="Utilities\Images\nophoto.jpg" />
+    <Content Include="Utilities\Images\weishakeji_weixin.jpg" />
+    <Content Include="Utilities\Images\weixin.jpg" />
+    <Content Include="Utilities\Images\winClose.gif" />
+    <Content Include="Utilities\License.xsl" />
+    <Content Include="Utilities\logo.jpg" />
+    <Content Include="Utilities\Qiniuyun\crossdomain.xml" />
+    <Content Include="Utilities\Qiniuyun\demo.html" />
+    <Content Include="Utilities\Qiniuyun\demo1.html" />
+    <Content Include="Utilities\Qiniuyun\qiniu-web-player-1.2.2.js" />
+    <Content Include="Utilities\Qiniuyun\qiniu-web-player-1.2.3.js" />
+    <Content Include="Utilities\Scripts\api.js" />
+    <Content Include="Utilities\Scripts\axios_min.js" />
+    <Content Include="Utilities\Scripts\dexie.js" />
+    <Content Include="Utilities\Scripts\hanzi2pinyin.js" />
+    <Content Include="Utilities\Scripts\jquery.js" />
+    <Content Include="Utilities\Scripts\jquery.qrcode.min.js" />
+    <Content Include="Utilities\Scripts\polyfill.min.js" />
+    <Content Include="Utilities\Scripts\qrcode.js" />
+    <Content Include="Utilities\Scripts\reqrcode.js" />
+    <Content Include="Utilities\Scripts\Sortable.min.js" />
+    <Content Include="Utilities\Scripts\vue-router.js" />
+    <Content Include="Utilities\Scripts\vue.js" />
+    <Content Include="Utilities\Scripts\vue.min.js" />
+    <Content Include="Utilities\Scripts\vuecomponent.js" />
+    <Content Include="Utilities\Scripts\vuedraggable.min.js" />
+    <Content Include="Utilities\scrollbar-thumb.gif" />
+    <Content Include="Utilities\scrollbar-track.gif" />
+    <Content Include="Utilities\Vant\Vant.css" />
+    <Content Include="Utilities\Vant\vant.min.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Templates\Manage\Default\Images\" />
+    <Folder Include="Templates\Manage\Default\Learningcard\Images\" />
+    <Folder Include="Templates\Manage\Default\RechargeCode\Images\" />
+    <Folder Include="Templates\Manage\_public\Organs\" />
+    <Folder Include="Templates\OrgAdmin\Default\Student\Components\Styles\" />
+    <Folder Include="Utilities\Images\Mobi\" />
+    <Folder Include="Utilities\Styles\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="db.config" />
+    <Content Include="Help\Datas\Entitiy\Accessory.json" />
+    <Content Include="Help\Datas\Entitiy\Accounts.json" />
+    <Content Include="Help\Datas\Entitiy\AddressList.json" />
+    <Content Include="Help\Datas\Entitiy\AddressSort.json" />
+    <Content Include="Help\Datas\Entitiy\Article.json" />
+    <Content Include="Help\Datas\Entitiy\Columns.json" />
+    <Content Include="Help\Datas\Entitiy\CouponAccount.json" />
+    <Content Include="Help\Datas\Entitiy\Course.json" />
+    <Content Include="Help\Datas\Entitiy\CoursePrice.json" />
+    <Content Include="Help\Datas\Entitiy\DailyLog.json" />
+    <Content Include="Help\Datas\Entitiy\Depart.json" />
+    <Content Include="Help\Datas\Entitiy\Download.json" />
+    <Content Include="Help\Datas\Entitiy\DownloadOS.json" />
+    <Content Include="Help\Datas\Entitiy\DownloadType.json" />
+    <Content Include="Help\Datas\Entitiy\EmpAccount.json" />
+    <Content Include="Help\Datas\Entitiy\EmpAcc_Group.json" />
+    <Content Include="Help\Datas\Entitiy\EmpGroup.json" />
+    <Content Include="Help\Datas\Entitiy\EmpInfo.json" />
+    <Content Include="Help\Datas\Entitiy\entities.json" />
+    <Content Include="Help\Datas\Entitiy\Examination.json" />
+    <Content Include="Help\Datas\Entitiy\ManageMenu.json" />
+    <Content Include="Help\Datas\Entitiy\ProfitSharing.json" />
+    <Content Include="Help\Datas\Entitiy\RechargeCode.json" />
+    <Content Include="Help\Datas\Entitiy\Subject.json" />
+    <Content Include="Help\Datas\Entitiy\Knowledge.json" />
+    <Content Include="Help\Datas\Entitiy\KnowledgeSort.json" />
+    <Content Include="Help\Datas\Entitiy\LearningCard.json" />
+    <Content Include="Help\Datas\Entitiy\LimitDomain.json" />
+    <Content Include="Help\Datas\Entitiy\LogForStudentStudy.json" />
+    <Content Include="Help\Datas\Entitiy\Navigation.json" />
+    <Content Include="Help\Datas\Entitiy\Outline.json" />
+    <Content Include="Help\Datas\Entitiy\PointAccount.json" />
+    <Content Include="Help\Datas\Entitiy\Questions.json" />
+    <Content Include="Help\Datas\Entitiy\Student_Course.json" />
+    <Content Include="Help\Datas\Entitiy\ShowPicture.json" />
+    <Content Include="Help\Datas\Entitiy\LinksSort.json" />
+    <Content Include="Help\Datas\Entitiy\LearningCardSet.json" />
+    <Content Include="Help\Datas\Entitiy\StudentSort.json" />
+    <Content Include="Help\Datas\Entitiy\Teacher.json" />
+    <Content Include="Help\Datas\Entitiy\Organization.json" />
+    <Content Include="Help\Datas\Entitiy\Links.json" />
+    <Content Include="Help\Datas\Entitiy\Position.json" />
+    <Content Include="Help\Datas\Entitiy\Notice.json" />
+    <Content Include="Help\Datas\Entitiy\TeacherSort.json" />
+    <Content Include="Help\Datas\Entitiy\Guide.json" />
+    <Content Include="Help\Datas\Entitiy\GuideColumns.json" />
+    <Content Include="Help\Datas\Entitiy\MoneyAccount.json" />
+    <Content Include="Help\Datas\Entitiy\PayInterface.json" />
+    <Content Include="Help\Datas\Entitiy\ExamResults.json" />
+    <Content Include="Help\Datas\Entitiy\QuesAnswer.json" />
+    <Content Include="Help\Datas\Entitiy\TestPaper.json" />
+    <Content Include="Help\Datas\Entitiy\ExamGroup.json" />
+    <Content Include="Help\Datas\Entitiy\Message.json" />
+    <None Include="packages.config" />
+    <Content Include="Templates\OrgAdmin\Default\web.config" />
+    <Content Include="Templates\OrgAdmin\web.config" />
+    <Content Include="Templates\web.config" />
+    <Content Include="Utilities\editor\fontawesome-webfont.woff" />
+    <Content Include="Utilities\editor\fontawesome-webfont.woff2" />
+    <Content Include="Utilities\ElementUi\fonts\element-icons.ttf" />
+    <Content Include="Utilities\ElementUi\fonts\element-icons.woff" />
+    <Content Include="Utilities\Scripts\axios.min.map" />
+    <Content Include="Utilities\Datas\base.json" />
+    <Content Include="Utilities\Datas\dropmenu.json" />
+    <Content Include="Utilities\Datas\SuperAdmin.json" />
+    <Content Include="Utilities\Datas\treemenu.json" />
+    <Content Include="Utilities\Datas\userinfo.json" />
+    <Content Include="Utilities\Datas\vbar.json" />
+    <Content Include="Utilities\Panel\Skins\_Night\intro.json" />
+    <Content Include="Utilities\Panel\Skins\Education\intro.json" />
+    <Content Include="Utilities\Panel\Skins\Win10\intro.json" />
+    <Content Include="Utilities\Panel\Skins\Win7\intro.json" />
+    <Content Include="Utilities\Datas\manage_userinfo.json" />
+    <Content Include="Utilities\Fonts\iconfont.eot" />
+    <Content Include="Utilities\Fonts\iconfont.ttf" />
+    <Content Include="Utilities\Fonts\iconfont.woff" />
+    <Content Include="Utilities\Fonts\iconfont.woff2" />
+    <Content Include="Templates\config.json" />
+    <Content Include="Utilities\Datas\systemmenu.json" />
+    <Content Include="Utilities\DataTemplate\判断题.xls" />
+    <Content Include="Utilities\DataTemplate\单选题.xls" />
+    <Content Include="Utilities\DataTemplate\员工信息.xls" />
+    <Content Include="Utilities\DataTemplate\培训计划.xls" />
+    <Content Include="Utilities\DataTemplate\填空题.xls" />
+    <Content Include="Utilities\DataTemplate\多选题.xls" />
+    <Content Include="Utilities\DataTemplate\学生信息.xls" />
+    <Content Include="Utilities\DataTemplate\教师信息.xls" />
+    <Content Include="Utilities\DataTemplate\简答题.xls" />
+    <Content Include="Utilities\DataTemplate\课程章节.xls" />
+    <Content Include="Utilities\DataTemplate\通讯录模板.xls" />
+    <Content Include="Templates\OrgAdmin\_public\Datas\usermenu.json" />
+    <Content Include="Utilities\PdfViewer\cmaps\78-EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\78-EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\78-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\78-RKSJ-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\78-RKSJ-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\78-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\78ms-RKSJ-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\78ms-RKSJ-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\83pv-RKSJ-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\90ms-RKSJ-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\90ms-RKSJ-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\90msp-RKSJ-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\90msp-RKSJ-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\90pv-RKSJ-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\90pv-RKSJ-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Add-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Add-RKSJ-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Add-RKSJ-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Add-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-CNS1-0.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-CNS1-1.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-CNS1-2.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-CNS1-3.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-CNS1-4.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-CNS1-5.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-CNS1-6.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-CNS1-UCS2.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-GB1-0.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-GB1-1.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-GB1-2.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-GB1-3.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-GB1-4.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-GB1-5.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-GB1-UCS2.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Japan1-0.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Japan1-1.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Japan1-2.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Japan1-3.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Japan1-4.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Japan1-5.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Japan1-6.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Japan1-UCS2.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Korea1-0.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Korea1-1.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Korea1-2.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Adobe-Korea1-UCS2.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\B5-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\B5-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\B5pc-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\B5pc-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\CNS-EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\CNS-EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\CNS1-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\CNS1-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\CNS2-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\CNS2-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\ETen-B5-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\ETen-B5-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\ETenms-B5-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\ETenms-B5-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\ETHK-B5-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\ETHK-B5-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Ext-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Ext-RKSJ-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Ext-RKSJ-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Ext-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GB-EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GB-EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GB-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GB-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBK-EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBK-EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBK2K-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBK2K-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBKp-EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBKp-EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBpc-EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBpc-EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBT-EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBT-EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBT-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBT-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBTpc-EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\GBTpc-EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Hankaku.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Hiragana.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKdla-B5-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKdla-B5-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKdlb-B5-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKdlb-B5-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKgccs-B5-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKgccs-B5-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKm314-B5-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKm314-B5-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKm471-B5-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKm471-B5-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKscs-B5-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\HKscs-B5-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Katakana.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSC-EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSC-EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSC-Johab-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSC-Johab-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSCms-UHC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSCms-UHC-HW-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSCms-UHC-HW-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSCms-UHC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSCpc-EUC-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\KSCpc-EUC-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\LICENSE" />
+    <Content Include="Utilities\PdfViewer\cmaps\NWP-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\NWP-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\RKSJ-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\RKSJ-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\Roman.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniCNS-UCS2-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniCNS-UCS2-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniCNS-UTF16-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniCNS-UTF16-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniCNS-UTF32-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniCNS-UTF32-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniCNS-UTF8-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniCNS-UTF8-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniGB-UCS2-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniGB-UCS2-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniGB-UTF16-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniGB-UTF16-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniGB-UTF32-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniGB-UTF32-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniGB-UTF8-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniGB-UTF8-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS-UCS2-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS-UCS2-HW-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS-UCS2-HW-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS-UCS2-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS-UTF16-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS-UTF16-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS-UTF32-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS-UTF32-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS-UTF8-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS-UTF8-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS2004-UTF16-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS2004-UTF16-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS2004-UTF32-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS2004-UTF32-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS2004-UTF8-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJIS2004-UTF8-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJISPro-UCS2-HW-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJISPro-UCS2-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJISPro-UTF8-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJISX0213-UTF32-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJISX0213-UTF32-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJISX02132004-UTF32-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniJISX02132004-UTF32-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniKS-UCS2-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniKS-UCS2-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniKS-UTF16-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniKS-UTF16-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniKS-UTF32-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniKS-UTF32-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniKS-UTF8-H.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\UniKS-UTF8-V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\V.bcmap" />
+    <Content Include="Utilities\PdfViewer\cmaps\WP-Symbol.bcmap" />
+    <Content Include="Utilities\PdfViewer\LICENSE" />
+    <Content Include="Utilities\PdfViewer\locale\ach\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\af\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ak\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\an\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ar\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ast\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\as\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\az\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\be\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\bg\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\bn-BD\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\bn-IN\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\br\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\bs\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ca\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\csb\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\cs\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\cy\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\da\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\de\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\el\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\en-GB\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\en-US\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\en-ZA\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\eo\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\es-AR\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\es-CL\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\es-ES\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\es-MX\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\et\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\eu\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\fa\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ff\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\fi\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\fr\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\fy-NL\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ga-IE\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\gd\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\gl\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\gu-IN\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\he\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\hi-IN\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\hr\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\hu\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\hy-AM\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\id\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\is\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\it\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ja\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ka\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\kk\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\km\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\kn\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ko\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ku\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\lg\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\lij\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\locale.properties" />
+    <Content Include="Utilities\PdfViewer\locale\lt\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\lv\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\mai\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\mk\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ml\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\mn\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\mr\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ms\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\my\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\nb-NO\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\nl\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\nn-NO\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\nso\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\oc\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\or\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\pa-IN\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\pl\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\pt-BR\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\pt-PT\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\rm\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ro\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ru\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\rw\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\sah\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\si\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\sk\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\sl\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\son\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\sq\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\sr\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\sv-SE\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\sw\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ta-LK\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ta\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\te\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\th\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\tl\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\tn\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\tr\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\uk\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\ur\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\vi\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\wo\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\xh\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\zh-CN\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\zh-TW\viewer.properties" />
+    <Content Include="Utilities\PdfViewer\locale\zu\viewer.properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
+      <Project>{985a8268-3a87-46b9-9744-650664719e67}</Project>
+      <Name>Song.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Song.ServiceImpls\Song.ServiceImpls.csproj">
+      <Project>{378ef4e2-4ed6-4ed7-89e8-6b40b001e952}</Project>
+      <Name>Song.ServiceImpls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Song.ServiceInterfaces\Song.ServiceInterfaces.csproj">
+      <Project>{7cfb4dc1-8536-44a4-af1d-2d7bda8067c1}</Project>
+      <Name>Song.ServiceInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Song.ViewData\Song.ViewData.csproj">
+      <Project>{41d99603-4c27-4075-81d5-f56c553acdc8}</Project>
+      <Name>Song.ViewData</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\Lib\Spring.Data.dll" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>62362</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:2021/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <UserProperties utilities_4datas_4superadmin_1json__JsonSchema="https://bitbucket.org/atlassianlabs/atlascode/raw/main/resources/schemas/pipelines-schema.json" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

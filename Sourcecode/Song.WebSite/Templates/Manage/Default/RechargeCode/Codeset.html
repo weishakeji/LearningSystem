@@ -1,0 +1,126 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" @cardquery="cardquery" path="CodesetModify"
+                width="640" height="480" :selects='selects' idkey='Rs_ID' table="datatables"></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+
+                    <el-form-item label="">
+                        <el-input v-model.trim="form.search" placeholder="充值码主题" style="width:160px">
+                            <i class="el-icon-search el-input__icon" slot="suffix" @click="handleCurrentChange(1)">
+                            </i>
+                        </el-input>
+                    </el-form-item>
+
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="主题">
+                    <template slot-scope="scope">
+
+                        <el-link :type="scope.row.Rs_IsEnable ? 'primary' :'info'" title="点击查看"
+                            @click="$refs.btngroup.pagebox('Codes?id='+scope.row.Rs_ID,'“'+scope.row.Rs_Theme+'”的卡片详情',null,'900','80%')">
+                            <span class="el-icon-open enable" v-if="scope.row.Rs_IsEnable"></span>
+                            <span class="el-icon-turn-off disable" v-if="!scope.row.Rs_IsEnable"></span> <span
+                                v-html="showInfo(scope.row.Rs_Theme)"></span>
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="数量" align="center">
+                    <template slot-scope="scope">
+                        <span title="已经使用" class="usedCount">{{scope.row.Rs_UsedCount}}</span> / <span title="总数"
+                            class="sumCount">{{scope.row.Rs_Count}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="面额" width="80">
+                    <template slot-scope="scope">
+                        <span class="weisha_icon money" icon="&#xe624"
+                            style="font-size: 14px;">{{scope.row.Rs_Price}}</span>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="有效期">
+                    <template slot-scope="scope">
+                        {{scope.row.Rs_LimitStart|date('yyyy-MM-dd')}}
+                        至
+                        {{scope.row.Rs_LimitEnd|date('yyyy-MM-dd')}}                       
+                    </template>
+
+                </el-table-column>
+                <el-table-column label="启用" width="80" align="center">
+                    <template slot-scope="scope">
+                        <el-switch v-model="scope.row.Rs_IsEnable" @change="changeUse(scope.row)"
+                            v-show="loadingid!=scope.row.Rs_ID">
+                        </el-switch>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="操作" show-overflow-tooltip width="60" align="center">
+                    <template slot-scope="scope">
+                        <el-dropdown>
+                            <span class="el-dropdown-link">
+                                管理<i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item icon="el-icon-view"> <span
+                                        @click="$refs.btngroup.pagebox('Codes?id='+scope.row.Rs_ID,'“'+scope.row.Rs_Theme+'”的卡片详情',null,'900','80%')">
+                                        查看充值码
+                                    </span>
+                                </el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-position" @click.native="outputExcel(scope.row)">导出Excel
+                                </el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-position" @click.native="outputQrCode(scope.row)">导出二维码
+                                </el-dropdown-item>
+
+
+                                <el-dropdown-item divided type="danger" icon="el-icon-edit" style="color:#409EFF"
+                                    @click.native='$refs.btngroup.modifyrow(scope.row)'>
+                                    修改
+                                </el-dropdown-item>
+                                <el-dropdown-item type="danger" icon="el-icon-delete" style="color:#F56C6C"
+                                    @click.native='$refs.btngroup.delete(scope.row.Rs_ID,{})'>
+                                    删除
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
+
+
+                </el-table-column>
+            </el-table>
+
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

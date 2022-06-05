@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学习卡</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <el-button-group>
+                <el-button type="info" size="small" :disabled="cardsetLoading" plain @click="cardsetVisible=true">
+                    <span class="weisha_icon" icon="&#xa022"></span>详情
+                </el-button>
+                <el-button type="primary" size="small" plain @click="OutputExcel">
+                    <span class="weisha_icon" icon="&#xa022"></span>导出Excel
+                </el-button>
+                <el-button type="success" size="small" plain @click="OutputQrcode">
+                    <span class="weisha_icon" icon="&#xa046"></span>导出二维码
+                </el-button>
+                <el-button type="danger" size="small" plain class="el-icon-refresh-left" @click="goback()">回滚
+                </el-button>
+
+            </el-button-group>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-checkbox label="已使用" v-model="form.isused"></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-checkbox label="被回滚" v-model="form.isback"></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-checkbox label="禁用" v-model="form.isdisable"></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model.trim="form.card" placeholder="卡号/不带密码" clearable style="width:120px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                            :disabled="loading" native-type="submit" plain>
+                            <span v-if="!loading">查询</span>
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatable" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+                @selection-change="val=>selects=val" row-key="Lc_ID">
+                <el-table-column type="selection" width="40">
+                </el-table-column>
+                <el-table-column type="index" width="50">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="卡号-密码">
+                    <template slot-scope="scope">
+                        <div title="双击复制学习卡信息" @dblclick="rowdblclick(scope.row)"> <span
+                                v-html='showInfo(scope.row.Lc_Code)'></span>
+                            - {{scope.row.Lc_Pw}}</div>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="状态" width="60" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Lc_IsUsed">
+                            <span v-if="scope.row.Lc_State==-1">被回滚</span>
+                            <span v-else>
+                                <span v-if="scope.row.Lc_State==0">暂存</span>
+                                <span v-else>已使用</span>
+                            </span>
+                        </span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="使用时间" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Lc_IsUsed">{{scope.row.Lc_UsedTime|date('yyyy-MM-dd HH:mm:ss')}}</span>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="使用人" align="center">
+                    <template slot-scope="scope">
+                        <el-link v-if="scope.row.Lc_IsUsed" @click="acccountInfo(scope.row)">
+                            {{scope.row.Ac_AccName}}</el-link>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="启用" width="60" align="center">
+                    <template slot-scope="scope">
+                        <el-switch v-model="scope.row.Lc_IsEnable" :disabled="scope.row.Lc_IsUsed" size="mini"
+                            @change="changeEnable(scope.row)" :title="scope.row.Lc_IsUsed ? '已经使用过，禁用没有意义' : '禁用该卡'">
+                        </el-switch>
+                    </template>
+                </el-table-column>
+                <el-table-column label="回滚" width="60" align="center">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Lc_State==-100" class="el-icon-loading"> </span>
+                        <span v-else-if="scope.row.Lc_IsUsed">
+                            <span v-if="scope.row.Lc_State==-1">被回滚</span>
+                            <el-link v-else type="danger" @click="goback(scope.row)">回滚</el-link>
+                        </span>
+                        <span v-else title="使用后才能回滚" class="el-icon-warning-outline">&nbsp;</span>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" v-if="!loading" :current-page="form.index"
+                :page-sizes="[1]" :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper"
+                :total="total">
+            </el-pagination>
+        </div>
+        <el-dialog :title="'学习卡 '+ current.Lc_Code+'-'+current.Lc_Pw+' 的使用情况'" :visible.sync="currentVisible"
+            width="80%">
+            <template v-if="current.account">
+                <el-row :gutter="20">
+                    <el-col :span="6">卡号</el-col>
+                    <el-col :span="18"> {{current.Lc_Code}} - {{current.Lc_Pw}}</el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">有效期</el-col>
+                    <el-col :span="18">
+                        {{current.Lc_LimitStart|date('yyyy-MM-dd')}}
+                        至
+                        {{current.Lc_LimitEnd|date('yyyy-MM-dd')}}
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">面额</el-col>
+                    <el-col :span="18">
+                        <span class="weisha_icon money" icon="&#xe624"
+                            style="font-size: 14px;">{{current.Lc_Price}}</span>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">状态</el-col>
+                    <el-col :span="18"> <span v-if="current.Lc_IsUsed">
+                            <span v-if="current.Lc_State==-1">被回滚</span>
+                            <span v-else>
+                                <span v-if="current.Lc_State==0">暂存</span>
+                                <span v-else>已使用</span>
+                            </span>
+                        </span>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20" v-if="current.account">
+                    <el-col :span="6">使用人</el-col>
+                    <el-col :span="18" class="accountInfo">
+                        <img v-if="current.account.Ac_Photo!=''" :src="current.account.Ac_Photo" class="avatar photo">
+                        <template v-else>
+                            <img v-if="current.account.Ac_Sex=='1'"
+                                class="el-icon-plus avatar-uploader-icon avatar  photo" src="/Utilities/images/head1.jpg" />
+                            <img v-else class="el-icon-plus avatar-uploader-icon avatar  photo"
+                                src="/Utilities/images/head2.jpg" />
+                        </template>
+                        <span v-if="current.account.Ac_Sex=='1'" class="weisha_icon man" icon="&#xe645"
+                            title="男性"></span>
+                        <span v-if="current.account.Ac_Sex=='2'" class="weisha_icon woman" icon="&#xe647"
+                            title="女性"></span>
+                        {{current.account.Ac_Name}} ({{current.account.Ac_AccName}})
+                        <div class="weisha_icon" icon="&#xe60f" title="身份证">
+                            {{current.account.Ac_IDCardNumber}}
+                        </div>
+                        <div class="weisha_icon" icon="&#xa047" title="电话">
+                            <span v-html='current.account.Ac_MobiTel1'></span>
+                            <span
+                                v-if="current.account.Ac_MobiTel1!='' && current.account.Ac_MobiTel2!='' && current.account.Ac_MobiTel1!= current.account.Ac_MobiTel2 ">/</span>
+                            <span v-if="current.account.Ac_MobiTel1!= current.account.Ac_MobiTel2 "
+                                v-html='current.account.Ac_MobiTel2'></span>
+                        </div>
+
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">使用时间</el-col>
+                    <el-col :span="18">
+                        <span v-if="current.Lc_IsUsed">{{current.Lc_UsedTime|date('yyyy-MM-dd HH:mm:ss')}}</span>
+                    </el-col>
+
+                </el-row>
+            </template>
+
+        </el-dialog>
+
+        <el-dialog :title="'学习卡详情'" :visible.sync="cardsetVisible" class="cardsetVisible" width="80%" height="80%">
+            <template>
+                <el-row :gutter="20">
+                    <el-col :span="6">主题</el-col>
+                    <el-col :span="18"> {{cardset.Lcs_Theme}} </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">有效期</el-col>
+                    <el-col :span="18">
+                        {{cardset.Lcs_LimitStart|date('yyyy-MM-dd')}}
+                        至
+                        {{cardset.Lcs_LimitEnd|date('yyyy-MM-dd')}}
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">学习时长</el-col>
+                    <el-col :span="18">
+                        {{cardset.Lcs_Span}} {{cardset.Lcs_Unit}}
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">数量</el-col>
+                    <el-col :span="6">
+                        <el-tag effect="dark" type="success">
+                            总数量： {{cardset.Lcs_Count}} 张
+                        </el-tag>
+
+                    </el-col>
+                    <el-col :span="9">
+                        <el-tag effect="dark" type="warning">
+                            被禁用：{{num.disable}} 张
+                        </el-tag>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">&nbsp;</el-col>
+                    <el-col :span="6">
+                        <el-tag effect="dark">
+                            已使用： {{cardset.Lsc_UsedCount}} 张
+                        </el-tag>
+
+                    </el-col>
+                    <el-col :span="9">
+                        <el-tag effect="dark" type="danger">
+                            被回滚：{{num.rollbak}} 张
+                        </el-tag>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">面额</el-col>
+                    <el-col :span="18">
+                        <span class="weisha_icon money" icon="&#xe624"
+                            style="font-size: 14px;">{{cardset.Lcs_Price}}</span>
+                        <span style="font-size: 13px;color: #606266;">(可用卡券抵扣 {{cardset.Lcs_Coupon}}元)</span>
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">课程（{{cardset.Lcs_CoursesCount}}）</el-col>
+                    <el-col :span="18">
+
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20" style="margin-left: 30px;">
+                    <div v-for="(c,i) in cardset.courses" :key="c" class="item" :title="c.Cou_Name">
+
+                        <span class="tax">{{i+1}}.</span>
+                        <span class="name">{{c.Cou_Name }}</span>
+
+                    </div>
+                </el-row>
+            </template>
+
+        </el-dialog>
+    </div>
+
+
+</body>
+
+</html>

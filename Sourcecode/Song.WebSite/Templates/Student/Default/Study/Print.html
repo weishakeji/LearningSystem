@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="page">
+            <div class="page-title">学习证明
+
+                <el-button type="primary" @click="print()" :disabled="!loadcomplete">
+                    <icon>&#xa046</icon>打印
+                </el-button>
+            </div>
+            <div class="table">
+                <template v-if="!isexist">
+                    学员不存在
+                </template>
+                <template v-else>
+                    <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td title="姓名" width="120px"></td>
+                            <td class="info" width="120px" v-html="acc.Ac_Name"> </td>
+                            <td title="性别" width="120px"></td>
+                            <td class="info" v-html="acc.Ac_Sex== 0 ? '' : (acc.Ac_Sex== 1 ? '男' : '女')">
+                            </td>
+                            <td rowspan="5" valign="middle" class="photo">
+                                <img :src='acc.Ac_Photo' onerror="this.style.setProperty('display','none')" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td title="年龄"></td>
+                            <td class="info">
+                                {{acc.Ac_Age > 200 || acc.Ac_Age<=0 ? "" : acc.Ac_Age}} </td>
+                            <td title="出生年月"></td>
+                            <td class="info" v-html=""> {{birthday('yyyy年M月',acc.Ac_Birthday)}} </td>
+                        </tr>
+                        <tr>
+                            <td title="籍贯"></td>
+                            <td class="info" v-html=""> {{acc.Ac_Native}}
+                            </td>
+                            <td title=" 民 族 "></td>
+                            <td class="info" v-html="acc.Ac_Nation"> </td>
+
+                        </tr>
+                        <tr>
+                            <td title="学历"></td>
+                            <td class="info" v-html="getedu(acc.Ac_Education)"></td>
+                            <td title="专业"></td>
+                            <td class="info" v-html="acc.Ac_Major"></td>
+                        </tr>
+                        <tr>
+                            <td title="学号"></td>
+                            <td class="info" v-html=""> {{acc.Ac_CodeNumber}} </td>
+                            <td title="邮箱"></td>
+                            <td class="info" v-html=""> {{acc.Ac_Email}} </td>
+                        </tr>
+
+                    </table>
+                    <table width="100%" class="second" border="1" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td title="身份证" width="120px"></td>
+                            <td class="info" v-html="acc.Ac_IDCardNumber"></td>
+                        </tr>
+                        <tr>
+                            <td title="毕业院校"></td>
+                            <td class="info" v-html="acc.Ac_School"></td>
+                        </tr>
+
+                        <tr>
+                            <td title="通讯地址"></td>
+                            <td class="info" v-html="acc.Ac_AddrContact"></td>
+                        </tr>
+                        <tr>
+                            <td title="联系方式"> </td>
+                            <td class="info">
+                                <span class="txtrow">
+                                   <span> 电话
+                                    {{acc.Ac_MobiTel1}} &nbsp; {{acc.Ac_MobiTel2==acc.Ac_MobiTel1 ? "" : acc.Ac_MobiTel2}}
+                                    &nbsp; {{acc.Ac_Tel}}
+                                   </span>
+                                    &nbsp;
+                                    {{acc.Ac_Weixin != '' ? "微信 " + acc.Ac_Weixin : ""}}
+                                    &nbsp;
+                                    {{acc.Ac_Qq != '' ? "QQ " + acc.Ac_Qq : ""}}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr v-if="false">
+                            <td title="邮编"></td>
+                            <td class="info" width="100px" v-html="acc.Ac_Zip"></td>
+                            <td title="电话" width="100px"></td>
+                            <td class="info" colspan="2">
+                                {{acc.Ac_MobiTel1}} &nbsp; {{acc.Ac_MobiTel2==acc.Ac_MobiTel1 ? "" : acc.Ac_MobiTel2}}
+                                &nbsp; {{acc.Ac_Tel}}
+                            </td>
+                        </tr>
+
+                        <tr v-if="false">
+                            <td title="紧急联系人"></td>
+                            <td class="info" colspan="4">
+                                {{acc.Ac_LinkMan}} &nbsp;
+                                {{acc.Ac_LinkManPhone != '' ? "联系电话" +acc.Ac_LinkManPhone : ""}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="center" colspan="2">
+                                学习情况 <span style="font-weight:normal">（{{courses.length}} 门课程 ）</span>
+                            </td>
+                        </tr>
+                    </table>
+                    <table width="100%" class="three" border="1" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td colspan="5" class="info-area" valign="top">
+                                <div class="course_title">
+                                    <div class="cou"> 课程</div>
+                                    <div class="date"> 学习时间</div>
+                                    <div class="complete"> 完成度</div>
+                                </div>
+                                <progress_value ref="progress" :stid="acc.Ac_ID" :course="c"
+                                    v-for="(c,index) in courses" v-if="c && isexist">
+                                    <template slot-scope="item">
+                                        <div class="cou"> {{index+1}}. 《 {{c.Cou_Name}} 》 </div>
+                                        <div class="date" v-if="item.course && item.course.lastTime">
+                                            {{ item.course.lastTime|date('yyyy-MM-dd')}} </div>
+                                        <div class="date" v-else>&nbsp;</div>
+                                        <div class="complete"> {{item.value}} %</div>
+                                    </template>
+                                </progress_value>
+                                <!--机构信息-->
+                                <div class="info-foot">
+                                    <div class="plate-name"> {{org.Org_Name}} </div>
+                                    <div class="output-date"> {{ new Date()|date('yyyy-MM-dd')}} </div>
+                                </div>
+                                <div class="qrcode"></div>
+                                <img :src="stamp.path" :class="'stamp '+stamp.positon" remark="公章" />
+                            </td>
+                        </tr>
+                    </table>
+                </template>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>

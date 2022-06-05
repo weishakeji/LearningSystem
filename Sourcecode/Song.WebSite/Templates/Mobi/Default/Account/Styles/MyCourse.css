@@ -1,0 +1,244 @@
+﻿html, body {
+    width: 100%;
+    height: 100%;
+}
+
+#vapp {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    background: linear-gradient(rgba(147, 209, 255, 1), rgba(255, 255, 255, 1));
+}
+
+.header {
+    height: 50px;
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+
+.header[login] {
+    height: 100px;
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+
+.header_info {
+    width: 100%;
+    height: 60px;
+    position: relative;
+}
+
+.acc_photo {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+    float: left;
+    background-size: cover;
+    box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+}
+
+.accInfo {
+    width: calc(100% - 80px);
+    float: left;
+    position: relative;
+    color: #fff;
+}
+
+.acc-acname {
+    font-size: 14px;
+}
+
+.header::after {
+    content: '\e72a';
+    font-family: webdesk_icon;
+    display: block;
+    width: 10px;
+    position: absolute;
+    right: 25px;
+    top: 40px;
+    transform: rotate(180deg);
+    color: #fff;
+    z-index: -1;
+}
+
+.nophoto {
+    background-image: url(/Utilities/images/head1.jpg);
+}
+
+.man {
+    background-image: url(/Utilities/images/head1.jpg);
+}
+
+.woman {
+    background-image: url(/Utilities/images/head2.jpg);
+}
+
+.header[login] .van-tag {
+    padding: 2px 8px;
+    margin-right: 10px;
+}
+
+/*课程列表*/
+
+.van-list {
+    top: 190px;
+    left: 0px;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    margin: 0px 10px;
+    padding: 0px 0px 30px 0px;
+}
+
+.cour_box {
+    padding: 10px 16px 40px 16px;
+    height: 140px;
+}
+
+.cour_box picture {
+    display: block;
+    float: left;
+    width: 177px !important;
+    margin-right: 2%;
+    position: relative;
+}
+
+.cour_box picture img {
+    width: 177px !important;
+    height: 100%;
+    border-radius: 3px;
+    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0.2);
+}
+
+.cour_box picture .rec {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.cour_box picture .view {
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+    background-color: transparent !important;
+}
+
+.cour_box picture .view::before {
+    content: "\a03a";
+    font-family: webdesk_icon;
+    margin-right: 3px;
+}
+
+.cour_box .van-cell__title {
+    display: flex;
+}
+
+.cour_box .van-cell__title>* {
+    flex: 1;
+}
+
+.cour_box info {
+    display: block;
+    position: relative;
+    height: 100%;
+}
+
+.cour_box info .curname {
+    font-size: 15px;
+    line-height: 20px;
+    max-height: 40px;
+
+    line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.cour_box price {
+    height: 20px;
+    font-size: 12px;
+    text-align: left;
+    display: block;
+    color: #F30;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.cour_box price m:before {
+    content: "\e818";
+    font-family: webdesk_icon;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.cursubject {
+    font-size: 13px;
+    color: #999;
+    height: 20px;
+}
+
+.cursubject::before {
+    content: "\e765";
+    font-family: webdesk_icon;
+    font-size: 16px;
+    margin-right: 3px;
+}
+
+.cur_data {
+    height: calc(100% - 30px);
+    width: 100px;
+    background-color: #e5ffef;
+    padding: 15px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cur_data>div {
+    flex: auto;
+    width: 100%;
+    line-height: 100%;
+    white-space: nowrap;
+}
+
+.cur_data>div span.font_icon {
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+.purchase_data::before {
+    content: "\e81a";
+    font-family: webdesk_icon;
+    font-size: 16px;
+    margin-right: 3px;
+}
+
+.van-tabs {
+    margin: 0px 10px;
+    width: calc(100% - 20px);
+}
+
+.van-sticky--fixed .van-tabs {
+    margin: 0px 0px;
+    width: calc(100%);
+}
+
+.van-list__finished-text {
+    background-color: #fff;
+    min-height: 100px;
+}
+/*进度条*/
+.progress{
+    position: absolute;
+    width: calc(100% - 30px);
+    margin: 0px 15px;
+    left: 0px;
+    bottom: 20px;
+}

@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>积分</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <van-sticky>
+            <page_header title="积分兑换" icon="&#xe88a" fresh="true"></page_header>
+        </van-sticky>
+        <div class="header">
+            <van-row>
+                <div class="header_info" v-if="!islogin" remark="未登录" @click="login">
+                    <div class="acc_photo nophoto"></div>
+                    <div class="accInfo">
+                        <div class="acc-name">未登录
+                        </div>
+                        <span class="acc-money"> ... </span>
+                    </div>
+                </div>
+                <div class="header_info" v-if="islogin" remark="已经登录" @click="myself">
+                    <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                        :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                    <template v-else>
+                        <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
+                        <div class="acc_photo man" v-else></div>
+                    </template>
+                    <div class="accInfo">
+                        <div class="acc-name"><span v-html="account.Ac_Name"></span>
+                            <span class="acc-acname" v-html="account.Ac_AccName"></span>
+                        </div>
+                        <div class="acc-count">
+                            <div>
+                                <icon>&#xe88a</icon>积分<span v-html="account.Ac_Point"></span>个
+                            </div>
+                            <div>
+                                <icon>&#xe847</icon>券<span v-html="account.Ac_Coupon"></span>个
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </van-row>
+        </div>
+
+        <card class="exchange">
+            <card-title>
+                <icon>&#xe88a</icon>积分兑换卡券
+                <van-tag type="success" @click='godetails'>查看积分详情</van-tag>
+            </card-title>
+            <card-context>
+                <van-cell title="兑换比例" :value="param.PointConvert+' ： 1'"></van-cell>
+                <van-cell>
+                    <template #label>
+                        <span style="float: right;">积分除以兑换率，向下取整</span>
+                    </template>
+                    <template #title>
+                        示例
+                        <span style="float: right;">
+                            {{account.Ac_Point}}
+                            <icon style="margin: 0px 3px;">&#xe74b</icon>
+                            {{param.PointConvert}}
+                            <icon style="margin: 0px 3px;">&#xe74d</icon>
+                            {{calc_demo()}}
+                            个
+                        </span>
+                    </template>
+                </van-cell>
+                <van-field label="兑换" placeholder="请输入要兑换的积分数" v-model="point_input"> </van-field>
+                <van-cell>
+                    <span v-html="tips" class="tips" v-if="tips.length>0"></span>
+                    <van-button type="info" style="float: right;" @click="btnExchange" :disabled="loading">
+                        <icon>&#xe88a</icon>兑换成卡券
+                    </van-button>
+                </van-cell>
+            </card-context>
+        </card>
+        <card class="help">
+            <card-title>
+                <icon size='20'>&#xa026</icon>说明
+            </card-title>
+            <card-context>
+                <div class="explain">
+                    <dl>
+                        <dt>1、如何赚取积分？</dt>
+                        <dd>注册送<b>{{param.RegFirst}}</b>，每次登录送<b>{{param.LoginPoint}}</b>（每天最多<b>{{param.LoginPointMax}}</b>）。
+                        </dd>
+                        <dd>转发分享，每访问一次<b>{{param.SharePoint}}</b>（每天最多<b>{{param.SharePointMax}}</b>）。</dd>
+                        <dd>从分享链接中每注册一名学员您会得到<b>{{param.RegPoint}}</b>（每天最多<b>{{param.RegPointMax}}</b>）。</dd>
+                    </dl>
+                    <dl>
+                        <dt>2、积分兑换</dt>
+                        <dd>每<b>{{param.PointConvert}}</b>兑换1个卡券（{{param.PointConvert}}:1）。</dd>
+                    </dl>
+                    <dl>
+                        <dt>3、卡券用途</dt>
+                        <dd>卡券与现金1:1等价，可用于购买课程。</dd>
+                    </dl>
+                </div>
+            </card-context>
+        </card>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

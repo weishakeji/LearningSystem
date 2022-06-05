@@ -1,0 +1,58 @@
+﻿@charset "utf-8";
+
+html, body, #vapp {
+    overflow: hidden;
+}
+
+#vapp {
+    overflow: hidden;
+    display: flex;
+}
+
+.left_box {
+    width: 230px;
+    box-sizing: border-box;
+    color: #666;
+    border-right: dotted #ccc 1px;
+    overflow: hidden;
+}
+.left_box .toolsbar{
+    cursor: pointer;
+}
+.left_box .toolsbar span {
+    font-size: 15px;
+    line-height: 32px;
+    padding: 0px 5px 0px 16px;
+}
+
+.left_box .toolsbar .tip {
+    font-size: 12px;
+    color: #999;
+    padding: 5px;
+}
+
+.left_box .toolsbar icon {
+    font-size: 20px;
+    margin-right: 3px;
+}
+
+.left_box .treebox {
+    width: 100%;
+    height: calc(100% - 31px);
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding: 0px 16px 16px 16px;
+}
+
+.left_box .treebox span {
+    font-size: 15px;
+}
+
+.bolder {
+    font-weight: bolder;
+}
+
+.right_box {
+    width: calc(100% - 230px);
+    background-color: #fff;
+}

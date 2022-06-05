@@ -1,0 +1,134 @@
+﻿html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;   
+}
+.header {
+    height: 44px;
+    background-color: rgb(212, 224, 206);
+    font-size: 14px;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 2;
+}
+
+.header>* {}
+
+.header>div:first-child {
+    float: left;
+    height: 100%;
+    width: 35px;
+    line-height: 45px;
+    text-align: right;
+    font-size: 20px;
+}
+
+.header .sbjname {
+    float: left;
+    padding: 13px 0px 5px 0px;
+}
+
+.van-search {
+    padding: 5px 6px !important;
+}
+
+.context{
+    position: fixed;
+    height: calc(100% - 93px);
+    width: 100%;
+    top: 44px;
+    left: 0px;
+	overflow-y: auto;
+}
+
+#artBox{
+	margin:20px;
+}
+nav .left{
+	margin-left:10px;
+}
+nav .right{
+	margin-right:20px;
+}
+.artTitle
+{
+	font-size: 17px;
+	text-align: center;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-bottom: 10px;
+	margin-left: auto;
+
+}
+.van-sticky{
+	background-color: #fff;
+}
+.artAttrBar
+{
+	font-size: 12px;
+	text-align: center;
+	margin-top: 10px;
+	margin-right: auto;
+	margin-bottom: 10px;
+	margin-left: auto;
+	color: #666666;
+}
+#artImg{
+	text-align: center;
+}
+#artImg img{
+	max-width:100% !important;
+}
+#artContext{
+	margin-bottom: 20px;
+}
+
+#artContext p{
+	margin-top: 10px;
+	margin-left: 10px;
+	text-indent: 2em;
+}
+#artContext img{
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align:center;
+	max-width:100% !important;
+}
+.img-box{
+	text-align: center;
+}
+#artIntro
+{
+	font-size: 16x !important;
+	line-height: 22px !important;
+	background-color:transparent !important;
+	margin-bottom: 1em;
+}
+#artContext, #artContext p, #artContext font, #artContext div,#artContext span{
+	font-size: 16px !important;
+	line-height: 30px !important;
+	background-color:transparent !important;	
+}
+#artContext p
+{
+	margin-top: 0.5em;
+}
+
+.nocontext{
+    padding: 20px;
+    text-align: center;
+    font-size: 16px;
+    
+}
+.nocontext::before{
+    content: "\e849";
+    font-family: webdesk_icon;
+    font-size: 140px;
+    display: block;
+    color: #999;
+}

@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>导入账号</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <upload-excel template="学生信息.xls" config="学生信息.xml" title="学员信息" apiurl="Account/ExcelImport"
+            @finish="finish">
+
+        </upload-excel>
+
+    </div>
+</body>
+
+</html>

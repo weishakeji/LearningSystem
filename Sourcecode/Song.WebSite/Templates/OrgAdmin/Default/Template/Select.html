@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <include file="../inc/meta.inc" />
+  <title>模版选择</title>
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <dl v-if="!loading">
+      <dd v-for="item in datas" :tag="item.Tag" @click="showDetail=true; detail=item"
+        :class="item.Tag==selected_template ? 'current' : ''">
+        <img :src="item.Logo">
+        <div class="name">
+          <b v-html="item.Name"></b>
+          <i v-html="item.Size"></i>
+        </div>
+        <div class="select">
+          <el-button type="primary" plain v-if="item.Tag!=selected_template" @click.stop="btnSelectClick(item)">点击选择该模板
+          </el-button>
+          <span v-else class="selected el-icon-s-flag">当前模板</span>
+        </div>
+      </dd>
+    </dl>
+    <!-- 详情-->
+    <el-dialog title="模版详情" :visible.sync="showDetail" class="showDetail" width="600px">
+      <el-row :gutter="20">
+        <el-col :span="14" class="showlist">
+          <el-row name="模板名称" v-html="detail.Name"></el-row>
+          <el-row name="作者" v-html="detail.Author"></el-row>
+          <el-row name="电话" v-html="detail.Phone"></el-row>
+          <el-row name="QQ" v-html="detail.QQ"></el-row>
+          <el-row name="创建时间">{{detail.CrtTime|date('yyyy年M月d日')}}</el-row>
+          <el-row name="简述" v-html="detail.Intro"></el-row>
+          <el-row name="模板路径" v-html="detail.Virtual"></el-row>
+        </el-col>
+        <el-col :span="10">
+          <img :src="detail.Logo" />
+        </el-col>
+      </el-row>
+    </el-dialog>
+  </div>
+</body>
+
+</html>

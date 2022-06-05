@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="inc/meta.inc" />
+  <title>学习证明</title>
+</head>
+
+<body>
+  <div id="vapp" v-cloak>
+    <div class="header">
+      <a href="/mobi/">
+        <icon>&#xa020</icon>
+        <span v-html="org.Org_PlatformName"></span>
+        - 学习证明
+      </a>
+    </div>
+    <context>
+      <div class="header_info" v-if="isexist" remark="已经登录">
+        <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+          :style="'background-image: url('+account.Ac_Photo+');'"></div>
+        <template v-else>
+          <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
+          <div class="acc_photo man" v-else></div>
+        </template>
+        <div class="accInfo">
+          <div class="acc-name">
+            <span v-if="account.Ac_Name!=''">{{account.Ac_Name}}</span>
+            <span v-else>（没有名字）</span>
+          </div>
+          <span class="acc-acname">{{account.Ac_AccName}}</span>
+
+        </div>
+      </div>
+      <card v-else>
+        <card-context>
+          学员不存在
+        </card-context>
+      </card>
+      <card v-if="isexist">
+        <card-context>
+          <div title="学号" v-html="account.Ac_CodeNumber"></div>
+          <div title="性别" v-html="account.Ac_Sex== 0 ? '' : (account.Ac_Sex== 1 ? '男' : '女')"> </div>
+          <div title="年龄" v-html="account.Ac_Age > 200 || account.Ac_Age<=0 ? '' : account.Ac_Age"> </div>
+          <div title="身份证" v-html="account.Ac_IDCardNumber"></div>
+        </card-context>
+      </card>
+      <card v-if="isexist">
+        <card-context>
+          <div title="学历" v-html="getedu(account.Ac_Education)"></div>
+          <div title="专业" v-html="account.Ac_Major"> </div>
+          <div title="院校" v-html="account.Ac_School"> </div>
+        </card-context>
+      </card>
+      <card v-if="courses.length>0">
+        <card-title>
+          学习情况<span>（{{courses.length}} 门课程 ）</span>
+        </card-title>
+        <card-context class="course_info">
+          <loading v-if="loading"></loading>
+          <progress_value ref="progress" :stid="account.Ac_ID" :course="c"  :config="config" v-for="(c,index) in courses" v-if="c && isexist">
+            <template slot-scope="item">
+              <div class="cou"> {{index+1}}. 《 {{c.Cou_Name}} 》 </div>
+              <div>
+                <span class="date" v-if="item.course && item.course.lastTime">
+                  {{ item.course.lastTime|date('yyyy-MM-dd')}} </span>
+                <span class="complete">完成度： {{item.value}} %</span>
+              </div>
+
+            </template>
+          </progress_value>
+        </card-context>
+      </card>
+      <div class="org_info">
+        <div class="plate-name"> {{org.Org_Name}} </div>      
+      </div>
+    </context>
+
+  </div>
+
+
+</body>
+
+</html>

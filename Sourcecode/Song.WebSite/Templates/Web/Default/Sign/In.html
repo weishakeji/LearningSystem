@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>学员登录</title>
+  <link type="text/css" charset="UTF-8" rel="stylesheet" href="/Utilities/Panel/styles/Login.css">
+</head>
+
+<body>
+  <div id="vapp" v-cloak>
+    <page_header ref='header' :organ="organ" v-if="true">loading ...</page_header>
+
+    <context class="first">
+      <section>
+        <notices :org="organ" :count="6"></notices>
+
+        <div id="login-area" remark="登录框" style="display: none;">
+          <div class="other">
+            <a href="up" v-if="!config.IsRegStudent">
+              <icon>&#xe7cd</icon>注册
+            </a>
+            <a style="float: right;" href="find">
+              <icon>&#xe76a</icon>找回密码
+            </a>
+          </div>
+        </div>
+        <div id="logged-area" v-cloak remark="登录后的状态">
+          <img v-if="!!account.Ac_Photo && account.Ac_Photo!=''" :src="account.Ac_Photo" class="photo">
+          <template v-else>
+            <img class="photo" v-if="account.Ac_Sex==2" src="/Utilities/Images/head2.jpg" />
+            <img class="photo" v-else src="/Utilities/Images/head1.jpg" />
+          </template>
+          <div class="accname" v-if="!!account.Ac_Name" v-html="account.Ac_Name"></div>
+          <div class="nologin" v-else>(未登录或已失效)</div>
+          <div>
+            <el-button type="primary" @click="gourl('/web/account')">
+              <icon>&#xe669</icon>个人中心
+            </el-button>
+          </div>
+          <div>
+            <el-button type="info" @click="logout">
+              <icon>&#xe739</icon>退出登录
+            </el-button>
+          </div>
+        </div>
+      </section>
+    </context>
+
+    <context class="rec">
+      <subject_rec :subject="null" :count="8" :mincount="4" order="rec"></subject_rec>
+    </context>
+    <page_footer :organ="organ" v-if="true">loading ...</page_footer>
+  </div>
+</body>
+
+</html>

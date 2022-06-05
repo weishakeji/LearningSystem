@@ -1,0 +1,1 @@
+{"Eg_ID":{"mark":"主键","intro":"","relation":""},"Eg_Type":{"mark":"类型","intro":"","relation":""},"Sts_ID":{"mark":"学员组的id","intro":"","relation":"StudentSort"},"Exam_UID":{"mark":"考试uid","intro":"","relation":"Examination"},"Org_ID":{"mark":"","intro":"","relation":"Organization"},"Org_Name":{"mark":"","intro":"","relation":"Organization"}}

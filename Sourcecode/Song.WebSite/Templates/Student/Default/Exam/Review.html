@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>成绩回顾</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="header">
+            <div class="header_top">
+                <loading v-if="loading">正在加载中...</loading>
+                <template v-else>
+                    <div class="student_info">
+                        <div class="acc_photo" v-if="!!student.Ac_Photo && student.Ac_Photo!=''"
+                            :style="'background-image: url('+student.Ac_Photo+');'"></div>
+                        <template v-else>
+                            <div class="acc_photo woman" v-if="student.Ac_Sex==2"></div>
+                            <div class="acc_photo man" v-else></div>
+                        </template>
+                        <span class="acc-name">{{student.Ac_Name}} </span>
+                    </div>
+                    <div class="exam_info">，于<span>
+                            {{result.Exr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span> 参加的考试，成绩详情
+                    </div>
+                    <score :class="scoreStyle(scoreFinal)">{{scoreFinal}} 分</score>
+                </template>
+            </div>
+            <div class="sticky">
+                <el-tabs v-model="tabactive">
+                    <el-tab-pane name="all">
+                        <template slot="label">
+                            <span class="weisha_icon" icon="&#xe680">所有({{ques_all_count}})
+                        </template>
+                    </el-tab-pane>
+                    <el-tab-pane name="success"> <template slot="label">
+                            <span class="weisha_icon" icon="&#xe706">正确({{ques_success_count}})
+                        </template>
+                    </el-tab-pane>
+                    <el-tab-pane name="error"> <template slot="label">
+                            <span class="weisha_icon" icon="&#xe6fe">错误({{ques_error_count}})
+                        </template>
+                    </el-tab-pane>
+                    <el-tab-pane name="unasnwered"> <template slot="label">
+                            <span class="weisha_icon" icon="&#xa01f">未做({{ques_unanswerd_count}})
+                        </template>
+                    </el-tab-pane>
+                </el-tabs>
+                <span class="score" v-if="paper">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
+                <alert v-else>试卷不存在</alert>
+            </div>
+        </div>
+        <context v-if="!loading">
+            <el-card v-if="error!=''" remark="如果考试未结束">
+                {{error}}
+            </el-card>
+            <template v-else>
+
+                <div class="question">
+                    <group v-for="(type,index) in questions" :item="type" :index="index" :types="types"
+                        :state="tabactive">
+                        <question v-for="(q,i) in type.ques" :qans="q" :index="i" :state="tabactive" :groupindex="index"
+                            :questions="questions"></question>
+                    </group>
+                </div>
+            </template>
+            </template>
+        </context>
+    </div>
+</body>
+
+</html>

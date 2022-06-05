@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <title>机构列表</title>
+    <include file="../inc/meta.inc" />
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="OrganModify" width="800" height="600"
+                :selects='selects' idkey='Org_ID' table="datatables"></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-select v-model="form.lvid" placeholder="--机构等级--">
+                            <el-option class="organs_option" v-for="(item,index) in levels" :key="item.Olv_ID"
+                                :label="item.Olv_Name" :value="item.Olv_ID">
+                                <div>
+                                    <span>{{index+1}}.</span>
+                                    <span>
+
+                                        {{ item.Olv_Name }}</span>
+
+                                </div>
+
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.search" style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatables" :data="organs" tooltip-effect="dark" v-loading="loading" :stripe="true"
+                style="width: 100%" @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Org_ID">
+                <el-table-column type="selection" width="55">
+                </el-table-column>
+                <el-table-column type="index" width="50">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="机构名称">
+                    <template slot-scope="scope">
+                        <el-tooltip v-if='scope.row.Org_IsRoot' effect="light" content="根机构" placement="left-start">
+                            <span class="weisha_icon root" icon="&#xa003" style="font-size: 20px;"></span>
+                        </el-tooltip>
+                        <el-tooltip v-if='scope.row.Org_IsDefault' effect="light" content="默认机构" placement="left-start">
+                            <span class="weisha_icon def" icon="&#xe631" style="font-size: 16px;"></span>
+                        </el-tooltip>
+
+                        <span v-html='showInfo(scope.row.Org_Name)'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="平台名称">
+                    <template slot-scope="scope">
+                        <el-tooltip v-if='scope.row.Org_ID==current.Org_ID' effect="light" content="当前机构"
+                            placement="left-start">
+                            <span class="weisha_icon root" icon="&#xa020" style="font-size: 16px;"></span>
+                        </el-tooltip>
+                        <span v-html='scope.row.Org_PlatformName'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="二级域名" width="80" align="center">
+                    <template slot-scope="scope">
+                        <el-link :href="domainLink(scope.row.Org_TwoDomain)" target="_blank"
+                            v-html='scope.row.Org_TwoDomain'></el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column label="等级" width="120" align="center">
+                    <template slot-scope="scope">
+                        <span v-html='scope.row.Olv_Name'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="启用" width="80" align="center">
+                    <template slot-scope="scope">
+                        <span class="el-icon-loading" v-show="loadingid==scope.row.Org_ID"></span>
+                        <el-switch v-model="scope.row.Org_IsUse" @change="changeUse(scope.row)"
+                            v-show="loadingid!=scope.row.Org_ID">
+                        </el-switch>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="操作" width="80">
+                    <template slot-scope="scope">
+                        <el-dropdown>
+                            <span class="el-dropdown-link">
+                                管理<i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item @click.native="setAdministrator(scope.row)">
+                                    <icon>&#xe6a1</icon>设置管理员
+                                </el-dropdown-item>
+                                <el-dropdown-item :disabled="scope.row.Org_IsDefault"
+                                    @click.native="changeDefault(scope.row)">
+                                    <icon>&#xe631</icon>设为默认机构
+                                </el-dropdown-item>
+
+                                <el-dropdown-item icon="el-icon-check" :disabled="scope.row.Org_IsPass"
+                                    command="setPass">审核通过
+                                </el-dropdown-item>
+
+                                <el-dropdown-item icon="el-icon-setting" @click.native="viewConfig(scope.row)">机构参数
+                                </el-dropdown-item>
+                                <el-dropdown-item divided type="danger" icon="el-icon-edit" style="color:#409EFF"
+                                    @click.native='$refs.btngroup.modify(scope.row.Org_ID)'>
+                                    修改
+                                </el-dropdown-item>
+                                <el-dropdown-item type="danger" icon="el-icon-delete" style="color:#F56C6C"
+                                    @click.native='$refs.btngroup.delete(scope.row.Org_ID,{})'>
+                                    删除
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" v-if="!loading" :current-page="form.index"
+                :page-sizes="[1]" :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper"
+                :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

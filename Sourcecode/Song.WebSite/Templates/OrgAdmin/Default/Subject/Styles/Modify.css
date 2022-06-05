@@ -1,0 +1,36 @@
+﻿@charset "utf-8";
+.el-form {
+    box-sizing: border-box;
+    margin: 0px;
+    height: calc(100% - 50px);
+    padding: 10px 5px 0px 0px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/*没有图片*/
+
+.nophoto {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    color: #aaa;
+    background-color: #eee;
+    text-align: center;
+    cursor: pointer;
+}
+.nophoto icon{   
+    font-size:35px;
+}
+.upload_img_area{
+    display: table;
+    float: left;
+    width: 100%;
+}
+.upload_img_area img{
+    max-height: 180px;
+    max-width: 100%;
+}
+.vue-html5-editor{
+    margin: 5px 10px;
+}

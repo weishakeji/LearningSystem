@@ -1,0 +1,73 @@
+﻿html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+.header {
+    height: 44px;
+    background-color: rgb(212, 224, 206);
+    font-size: 14px;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 2;
+}
+
+.header>* {}
+
+.header>div:first-child {
+    float: left;
+    height: 100%;
+    width: 35px;
+    line-height: 45px;
+    text-align: right;
+    font-size: 20px;
+}
+
+.header .sbjname {
+    float: left;
+    padding: 13px 0px 5px 0px;
+}
+
+.van-search {
+    padding: 5px 6px !important;
+}
+
+.van-list {
+    position: fixed;
+    top: 44px;
+    left: 0px;
+    width: calc(100% - 20px);
+    height: calc(100% - 44px - 50px - 20px);
+    overflow: auto;
+    padding: 10px 10px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px #ccc;
+}
+.van-swipe-cell{
+    box-shadow: 1px 1px 2px #ccc;
+}
+.notice {
+    position: relative;
+    padding-right: 40px;
+    
+}
+.van-cell__title{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+icon {
+    font-size: 18px;
+}
+
+.van-tag {
+    position: absolute;
+    display: block;
+    top: 15px;
+    right: 6px;
+}

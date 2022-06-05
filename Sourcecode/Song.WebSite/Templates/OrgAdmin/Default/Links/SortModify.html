@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改信息</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+    <script type="text/javascript" src="../Scripts/hanzi2pinyin.js"></script>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+
+            <el-form-item label="名称" prop="Ls_Name">
+                <el-input v-model="entity.Ls_Name" maxlength="140"></el-input>
+
+            </el-form-item>
+
+            <el-form-item label="状态">
+                <el-switch v-model="entity.Ls_IsUse" active-color="#13ce66" inactive-color="#ff4949"
+                    :active-text="entity.Ls_IsUse ? '启用' : '禁用'">
+                </el-switch>
+                <el-switch v-model="entity.Ls_IsShow" :active-text="entity.Ls_IsShow ? '显示' : '隐藏'">
+                </el-switch>
+            </el-form-item>
+            <el-form-item label="提示信息" prop="Ls_Tootip">
+                <el-input type="textarea" :rows="3" placeholder="请输入内容"  maxlength="250" v-model="entity.Ls_Tootip">
+                </el-input>
+            </el-form-item>
+            <el-form-item label="样式">
+                <el-switch v-model="entity.Ls_IsImg" active-text="显示图片链接">
+                </el-switch>
+                <br />
+                <el-switch v-model="entity.Ls_IsText" active-text="显示文字链接">
+                </el-switch>
+            </el-form-item>
+
+
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>修改
+            </el-button>
+            <el-button type='close'>
+                <icon>&#xe748</icon>取消
+            </el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

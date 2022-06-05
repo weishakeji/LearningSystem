@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>测试</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header ref="header" :organ="organ" @login="forlogin">loading ...</page_header>
+        <context>
+            <breadcrumb ref="breadcrumb" :subjects="subjects" :course="course"></breadcrumb>
+        </context>
+        <context v-if="loading_init" class="loading_init">
+            <loading>loading ....</loading>
+        </context>
+        <template v-else>
+            <context v-if="nullcourse" class="nullcourse" remark="课程不存在">
+                <icon>&#xe854</icon>课程不存在!
+            </context>
+            <context v-else id="couHead" remark="课程头部信息">
+                <img src="/Utilities/Images/cou_nophoto.jpg" v-if="!course || course.Cou_Logo==''" />
+                <img src="/Utilities/Images/alpha.png" v-else
+                    :style="'background: url('+course.Cou_Logo+') no-repeat center; background-size: cover;'">
+
+                <div class="headRight">
+                    <span class="couName">
+                        <template>{{course.Cou_Name}}</template>
+                        <template v-else> (当前课程不存在，或课程被暂停学习)</template>
+                    </span>
+                    <div class="headinfo">
+                        <div id="course-qrcode"></div>
+                        <div title="关注次数：" v-html="course.Cou_ViewNum"></div>
+                        <div title="主讲老师：" v-html="course.Th_Name"></div>
+                    </div>
+                    <div class="info">
+                        <div class="sbjname">{{course.Sbj_Name}}</div>
+                        <div class="count">
+                            <span v-html="couinfo.outline" class="outline" title="章节数"></span>
+                            <span v-html="couinfo.question" class="ques" title="试题数"></span>
+                            <span v-html="couinfo.video" class="video" title="视频数"></span>
+                        </div>
+                    </div>
+                </div>
+            </context>
+            <context>
+                <card v-if="islogin">
+                    <card-title>
+                        余额：<span id="money">{{account.Ac_Money}}</span>
+                        <span id="coupon">{{account.Ac_Coupon}}</span>
+                    </card-title>
+                    <card-context class="prices" v-if="!studied">
+                        <template v-for="(data,i) in prices" v-if="prices.length>0">
+                            <div @click="select(data)" :class="{selected:data.CP_ID==selected_price.CP_ID}">
+                                <span class="mprice">
+                                    <b v-if="data.CP_Coupon>0">{{actualpay(data)}}</b>
+                                    <b :class="{not:data.CP_Coupon>0}">{{data.CP_Price}}</b>
+                                </span>
+                                <span class="munit"> {{data.CP_Span}}{{data.CP_Unit}}</span>
+                                <span class="avg">（日均 {{averageday(data)}} )</span>
+                                <help v-if="data.CP_Coupon>0">
+                                    <span>可以用券抵扣{{data.CP_Coupon}}元
+                                        实际需要支付 <span class="mprice">{{actualpay(data)}}</span></span>
+                                </help>
+                            </div>
+                        </template>
+                        <div v-if="prices.length==0">
+                            没有设置价格！
+                        </div>
+                    </card-context>
+                    <card-context v-else>
+                        当前课程已经购买！
+                    </card-context>
+                </card>
+                <card v-else remark="未登录" @click="gologin">
+                    <card-title arrow>
+                        <div class="nophoto"></div>
+                        <div class="acc-name">未登录 </div>
+                    </card-title>
+                    <card-context>
+                        请登录后购买要学习的课程！
+                    </card-context>
+                </card>
+                <div position="bottom" class="showbtn">
+                    <el-button type="primary" size="medium" disabled v-if="JSON.stringify(selected_price) == '{}'">
+                        <icon>&#xe698</icon>选修该课程
+                    </el-button>
+                    <template v-else>
+                        <el-button type="primary" v-if="clacmoney().pass" size="medium" @click="btnBuyClick"
+                            :disabled="loading_buy">
+                            <span v-if="!loading_buy">
+                                <icon>&#xe698</icon>选修该课程
+                            </span>
+                            <loading size="24px" v-else>信息处理中...</loading>
+                        </el-button>
+                        <el-button type="primary" size="medium" disabled v-else>
+                            <icon>&#xe7ad</icon>资金或卡券不足
+                        </el-button>
+                    </template>
+
+
+                </div>
+            </context>
+        </template>
+        <page_footer :organ="organ" :account="account">loading ...</page_footer>
+    </div>
+
+
+</body>
+
+</html>

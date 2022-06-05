@@ -1,0 +1,74 @@
+﻿@charset "utf-8";
+#bodyTop {
+    background-image: url(../Images/about.jpg);
+    background-repeat: no-repeat;
+    background-position: center 0px;
+    height: 200px;
+    width: 100%;
+	margin: 20px 0px 0px 0px;
+}
+context {
+	margin-top: 30px;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: stretch;
+}
+
+context>section {
+	flex: 1;
+	padding-left: 20px;
+	box-sizing: border-box;
+	margin-left: 60px;
+}
+
+context>aside {
+	width: 260px;
+	margin-left: 20px;
+	min-height: 500px;
+}
+
+context>aside .el-divider {
+	color: #999 !important;
+}
+
+.el-divider__text {
+	color: #999 !important;
+}
+
+/*机构信息*/
+.intro {
+	box-sizing: border-box;
+	padding: 20px 40px;
+	
+}
+.intro, .intro *{
+	line-height: 35px !important;
+	font-size: 18px !important;
+}
+dl.infoBox>dd {
+	box-sizing: border-box;
+	padding: 5px 5px 5px 110px;
+	height: 30px;
+	position: relative;
+}
+
+dl.infoBox>dd::before {
+	content: attr(title) '：';
+	display: block;
+	width: 80px;
+	padding: 0px 20px 0px 0px;
+	text-align: right;
+	position: absolute;
+	left: 0px;
+	top: 6px;
+}
+
+dl.infoBox>dd::after {
+	content: attr(icon);
+	font-family: "webdesk_icon" !important;
+	display: block;
+	position: absolute;
+	left: 82px;
+	top: 9px;
+}

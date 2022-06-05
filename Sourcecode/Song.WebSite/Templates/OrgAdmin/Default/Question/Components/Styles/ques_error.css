@@ -1,0 +1,7 @@
+﻿/*错误信息*/
+.ques_error {
+	margin: 15px;
+	width: calc(100% - 30px);
+	height: calc(100% - 30px);
+	position: relative;
+}

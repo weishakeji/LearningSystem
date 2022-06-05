@@ -1,0 +1,13 @@
+﻿@charset "utf-8";
+.tatol_info {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.tatol_info icon {
+    font-size: 18px;
+}
+
+.el-table {
+    height: calc(100% - 32px - 45px);
+}

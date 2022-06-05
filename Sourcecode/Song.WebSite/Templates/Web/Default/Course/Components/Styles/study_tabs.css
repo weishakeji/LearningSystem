@@ -1,0 +1,112 @@
+/* 章节的主标题下的选项卡
+*/
+
+.mainTop {
+	height: 60px;
+	border-bottom-width: 5px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #999999;
+}
+
+#study_tabs dl, #study_tabs dd {
+	padding: 0px;
+	margin: 0px;
+}
+
+#study_tabs dl {
+	display: flex;
+	box-sizing: border-box;
+	padding: 0px 0px 0px 0px;
+	width: 100%;
+}
+#study_tabs dl dd{
+	font-size: 14px;
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	height: 25px;
+	text-align: center;
+	color: #999;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-weight: bold;
+	float: left;
+	box-shadow: 1px -1px 3px #888888;
+	width: 100px;
+	line-height: 25px;
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
+	margin-top: 5px;
+	transition: font-size .6s;
+	transition: background-color 0.6s;
+}
+#study_tabs dl dd icon{
+	font-size: 16px;
+}
+
+#study_tabs dl dd.tabCurrent {
+	color: #000;
+	background-color: #999999;
+	height: 30px;
+	margin-top: 0px;
+	padding-top: 2px;
+	transform: scale(1.1);
+}
+#study_tabs dl dd.tabCurrent icon{
+	font-size: 17px;
+}
+/*顶部课程名称的相关信息*/
+.courseBox {
+	height: 30px;
+	font-size: 14px;
+	line-height: 25px;
+	color: #999;
+	text-indent: 10;
+	text-align: left;
+}
+
+.courseBox:before {
+	content: "\e813";
+	font-family: "webdesk_icon";
+	margin-left: 5px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+.courseBox a {
+	color: #999;
+	font-size: 14px;
+}
+
+/*知识库的按钮*/
+#btnKnowledge {
+	position: absolute;
+	right: 10px;
+	top: 0px;
+	color: #fff;
+	font-family: "微软雅黑";
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	float: left;
+	height: 30px;
+	text-align: left;
+	padding-bottom: 5px;
+	padding-top: 0px;
+	color: #eee;
+	width: 100px;
+	text-align: center;
+	margin-top: 30px;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+ #btnKnowledge:before {
+	content: "\e675";
+	font-size: 18px;
+	margin-right: 5px;
+	font-family: "webdesk_icon";
+}

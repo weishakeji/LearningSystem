@@ -1,0 +1,26 @@
+
+/*笔记面板*/
+
+.quesNote .el-dialog__body>div:last-child {
+	margin-top: 20px;
+	text-align: right;
+
+}
+
+/*试题报错*/
+.quesError .el-dialog__header {}
+
+.quesError .el-dialog__body {
+	padding: 0px 20px 10px 20px;
+}
+
+.quesError div[role='group'] {
+	font-size: 15px;
+	line-height: 30px;
+	text-align: left;
+}
+
+.quesError .btnbar {
+	margin-top: 20px;
+	text-align: right;
+}

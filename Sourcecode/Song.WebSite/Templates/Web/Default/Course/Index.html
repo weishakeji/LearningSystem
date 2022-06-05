@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课程中心</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+
+    <div id="vapp" v-cloak>
+        <page_header ref="header" :organ="organ" :account="account" @search="search">loading ...</page_header>
+        <context class="navig">
+            <breadcrumb ref="breadcrumb" :subjects="subjects" :current="sbjCurrent"></breadcrumb>
+            <div class="bar" v-if="query.search.length>0">
+                <div>查询：</div>
+                <div>
+                    <el-tag type="success" closable @close="$refs['header'].changesearch('')">{{query.search}}</el-tag>
+                </div>
+            </div>
+            <div class="bar subject">
+                <div>专业：</div>
+                <div>
+                    <el-tag v-for="tag in sbj_children" :key="tag.Sbj_ID" @click="setSbjChilds(tag.Sbj_ID)"
+                        :type="tag.Sbj_Name" v-if="sbj_children!=null && sbj_children.length>0">
+                        {{tag.Sbj_Name}}
+                    </el-tag>
+                    <el-tag type="danger" v-if="!sbj_children" @close="setSbjChilds(sbjCurrent.Sbj_PID)" closable>
+                        (没有下级专业)</el-tag>
+                </div>
+            </div>
+        </context>
+
+        <context v-infinite-scroll="load_infinite_datas" :class="issearch ? 'coursebox' : 'subjectbox'"
+            :infinite-scroll-disabled="infinite_disabled()">
+            <template v-if="!issearch">
+                <subject_show v-for="sbj in sbjcourses" :subject="sbj" :count="6" :mincount="1" order="rec">
+                </subject_show>
+            </template>
+            <template v-else>
+                <template v-if="courses && courses.length>0">
+                    <course v-for="(c,i) in courses" :item="c" :class="{'fourth':(i+1)%4==0}"></course>
+                </template>
+                <div v-else class="nocourse">
+                    <icon>&#xe849</icon>
+                    没有满足条件的课程
+                </div>
+            </template>
+        </context>
+
+        <el-backtop target="#vapp" style="font-size: 12px;width: 20px;">返回顶部</el-backtop>
+        
+        <page_footer :organ="organ" :account="account">loading ...</page_footer>
+    </div>
+
+
+</body>
+
+</html>

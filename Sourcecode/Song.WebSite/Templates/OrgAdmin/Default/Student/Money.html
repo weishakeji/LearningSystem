@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>资金流水</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+    <script type="text/javascript" src="../Scripts/hanzi2pinyin.js"></script>
+</head>
+
+
+<body>
+    <div id="app" v-cloak>
+        <el-table ref="datatables" :stripe="true" :data="datas" v-loading="loading" tooltip-effect="dark"
+            style="width: 100%" @row-click="rowclick">
+            <el-table-column type="index" width="50" align="center">
+                <template slot-scope="scope">
+                    <span>{{(query.index - 1) * query.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column type="index" width="50" align="center">
+                <template slot-scope="scope">
+                    <icon v-if="scope.row.Ma_Type==1" class="type1">&#xe773</icon>
+                    <icon v-if="scope.row.Ma_Type==2" class="type2">&#xe807</icon>
+                </template>
+            </el-table-column>
+            <el-table-column label="金额" width="120px">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.Ma_Type==1">-</span>
+                    <span v-if="scope.row.Ma_Type==2">+</span>
+                    {{scope.row.Ma_Money}}
+                </template>
+            </el-table-column>
+            <el-table-column label="时间" width="150px">
+                <template slot-scope="scope">
+                    {{scope.row.Ma_CrtTime|date('yyyy-MM-dd HH:mm')}}
+                </template>
+            </el-table-column>
+            <el-table-column label="备注">
+                <template slot-scope="scope">
+                    <div class="remark">{{scope.row.Ma_Remark}} {{scope.row.Ma_Info}}</div>
+                </template>
+            </el-table-column>
+        </el-table>
+
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="query.index" :page-sizes="[1]"
+                :page-size="query.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+
+        <el-drawer :visible.sync="show_detail" :show-close="false" class="show_detail" size="50%">
+            <template slot="title">
+                <div>
+                    <icon v-if="show_item.Ma_Type==1" class="type1">&#xe773</icon>
+                    <icon v-if="show_item.Ma_Type==2" class="type2">&#xe807</icon>
+                    <span v-if="show_item.Ma_Type==1">-</span>
+                    <span v-if="show_item.Ma_Type==2">+</span>
+                    {{show_item.Ma_Money}} 元
+                </div>
+            </template>
+            <div class="detail_content">
+                <div title="余额">
+                    <icon>&#xe837</icon>{{show_item.Ma_Total}} 元
+                </div>
+                <div title="明细">
+                    <span v-if="show_item.Ma_Type==1">-</span>
+                    <span v-if="show_item.Ma_Type==2">+</span>
+                    {{show_item.Ma_Money}} 元
+                </div>
+                <div title="时间">
+                    {{show_item.Ma_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}
+                </div>
+                <div title="类型">
+                    <span v-if="show_item.Ma_Type==1">支出</span>
+                    <span v-if="show_item.Ma_Type==2">收入</span>
+                    <span v-if="!item.Ma_IsSuccess">（失败）</span>
+                </div>
+                <div title="交易号">
+                    {{show_item.Ma_Serial}}
+                </div>
+                <div title="来源">
+                    {{show_item.Ma_Source}}
+                </div>
+                <div title="说明">
+                    {{show_item.Ma_Info}}
+                </div>
+                <div title="备注">
+                    {{show_item.Ma_Remark}}
+                </div>
+            </div>
+        </el-drawer>
+    </div>
+
+
+</body>
+
+</html>

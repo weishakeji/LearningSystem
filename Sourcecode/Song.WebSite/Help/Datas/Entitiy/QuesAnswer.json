@@ -1,0 +1,1 @@
+{"Ans_ID":{"mark":"主键","intro":"","relation":""},"Qus_ID":{"mark":"试题id","intro":"","relation":""},"Qus_UID":{"mark":"试题uid","intro":"","relation":""},"Ans_Context":{"mark":"选项内容","intro":"单选题、多选题、填空题的选项内容","relation":""},"Ans_IsCorrect":{"mark":"是否正确","intro":"设置该项是否为正确答案","relation":""}}

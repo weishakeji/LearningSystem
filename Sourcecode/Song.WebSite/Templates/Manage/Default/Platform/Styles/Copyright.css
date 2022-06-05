@@ -1,0 +1,93 @@
+﻿@charset "utf-8";
+html,body,#vapp{
+    overflow: hidden;
+}
+
+dl.view,div.modifyarea{
+    height: calc(100% - 50px);
+    overflow-y: auto;
+    box-sizing: border-box;
+    margin: 0px;
+    padding-bottom: 30px;
+}
+dl.view dd {
+    margin: 10px 40px 10px 40px;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+dl.view dd span {
+    font-size: 12px;
+    color: #999;
+}
+
+dl.view dd a {
+    text-decoration: underline;
+}
+
+dl.view dd:first-child {
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 30px;
+}
+
+dl.view dd:first-child span {
+    display: none;
+}
+
+.modifyarea {
+    margin-bottom: 80px;
+}
+
+.el-card {
+    width: calc(100% - 40px);
+    margin: 10px 20px 10px 20px;
+    position: relative;
+}
+
+.el-card__header {
+    margin: 0px;
+    padding: 0px;
+}
+.delitem{
+    position: absolute;
+    right: 8px;
+    top: 12px;
+}
+.cardheader>form {
+    margin: 0px;
+    padding: 0px;
+}
+img{
+    max-width: 100% !important;
+}
+.el-card__header {
+    height: 55px !important;
+    overflow: hidden;
+}
+
+div#footer {
+    width: calc(100% - 20px);
+    height: 32px;
+    padding: 10px;
+    text-align: right;
+    position: fixed;
+    bottom: 0px;
+    background-color: #fff;
+}
+
+.photo-txt {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #409EFF;
+}
+
+.photo-txt:hover {
+    text-decoration: underline;
+}
+.addbtn{
+    text-align: right;
+    margin-left: 30px;
+    width: calc(100% - 60px);
+}

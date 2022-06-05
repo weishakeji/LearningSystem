@@ -1,0 +1,16 @@
+﻿#vapp{
+    height: auto;
+}
+.el-form{
+    margin-top: 0px;
+    padding-top: 10px;
+}
+.form-inline{
+    margin: 0px;
+    padding: 0px 0px 0px 10px;
+    box-sizing: border-box;
+    height: 35px;
+}
+.edit_row td{
+    background-color: rgb(225, 243, 216) !important;
+}

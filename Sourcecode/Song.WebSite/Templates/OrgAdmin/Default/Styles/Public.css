@@ -1,0 +1,269 @@
+﻿@charset "utf-8";
+
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+#vapp {
+	position: relative;
+}
+
+@font-face {
+	font-family: 'webdesk_icon';
+	src: url("/Utilities/fonts/iconfont.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+
+.font_icon {
+	font-family: "webdesk_icon" !important;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-transition: font-size 0.25s ease-out 0s;
+	-moz-transition: font-size 0.25s ease-out 0s;
+	transition: font-size 0.25s ease-out 0s;
+}
+
+/*图标引用，
+	html标签中增加icon属性， 例如：<span class="weisha_icon" icon="&#xa038">内容</span>
+*/
+
+.weisha_icon::before, .webdesk_icon::before {
+	content: attr(icon);
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+}
+
+icon {
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	display: inline-block;
+}
+
+*[v-cloak] {
+	display: none;
+}
+
+* {
+	touch-action: none;
+	touch-action: pan-y;
+}
+
+/*字体大小*/
+.large {
+	font-size: 16px;
+}
+
+.van-dialog {
+	border-radius: 3px;
+}
+
+.draghandle {
+	cursor: s-resize;
+}
+
+/*特殊字体*/
+
+red, .red {
+	color: red;
+	font-weight: bold;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+dl, dd {
+	padding: 0px;
+	margin: 0px;
+}
+
+.icon_man::before {
+	content: "\e645";
+	color: rgb(3, 71, 71);
+	font-family: "webdesk_icon" !important;
+}
+
+.icon_woman::before {
+	content: "\e647";
+	color: rgb(248, 87, 87);
+	font-family: "webdesk_icon" !important;
+}
+
+/*预载*/
+loading {
+	color: #666;
+	font-size: 13px;
+}
+
+loading::before {
+	content: "\e621";
+	font-family: "webdesk_icon" !important;
+	display: inline-block;
+	font-size: 20px;
+	margin-right: 10px;
+	animation: rotate_360 0.6s infinite linear;
+}
+
+@keyframes rotate_360 {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	25% {
+		transform: rotate(90deg);
+	}
+
+	50% {
+		transform: rotate(180deg);
+	}
+
+	75% {
+		transform: rotate(270deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/*帮助、提示*/
+help, alert {
+	color: #999;
+    font-size: 13px;
+	cursor: default;
+}
+/*多行帮助信息*/
+help[multi] {
+	position: relative;
+	display: block;
+	padding-left: 30px;
+	box-sizing: border-box;
+	line-height: 25px;
+	
+}
+
+help[multi]::before {
+	position: absolute;
+	left: 0px;
+	top: 3px;
+}
+alert {
+	color: #F56C6C;
+}
+
+help::before, alert::before {
+	font-family: "webdesk_icon" !important;
+    display: inline-block;
+    margin: 0px 5px 0px 8px;
+    font-size: 16px;	
+}
+
+help::before {
+	content: "\a026";
+}
+
+alert::before {
+	content: "\e74f";
+}
+
+/*表格的内容滚动（标题栏固定）*/
+.el-table {
+	height: calc(100% - 63px);
+}
+
+.el-table__body-wrapper {
+	height: calc(100% - 41px);
+	overflow-y: auto;
+}
+
+/*底部栏*/
+.footer {
+	width: calc(100% - 2px);
+	box-sizing: border-box;
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	text-align: right;
+	padding: 8px 6px 8px 8px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.el-button--close::before {
+	content: '\e72c';
+	font-size: 15px;
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+}
+
+.el-button icon {
+	font-size: 14px;
+}
+
+/*专业下拉选择菜单中，点击标签响应选择*/
+
+.el-cascader-panel .el-radio {
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+.el-cascader-panel .el-radio__input {
+	visibility: hidden;
+}
+
+.el-cascader-panel .el-cascader-node__postfix {
+	top: 10px;
+}
+
+/*禁用（不可以选择的）专业项*/
+
+.is-disabled+* {
+	color: #ccc !important;
+}
+
+label.is-disabled+*::after {
+	content: ' (禁用)';
+	font-size: 12px;
+}
+
+/*文件下载链接*/
+a[download] {
+	display: inline-block;
+	min-width: 230px;
+	color: #409EFF;
+	font-size: 16px;
+}
+
+a[download]:hover {
+	text-decoration: underline;
+}
+
+/*elementUI 的遮罩*/
+.v-modal {
+	background: rgba(255, 255, 255, 1);
+	opacity: 0.7;
+}
+
+.el-drawer {
+	-webkit-box-shadow: 0 8px 10px -5px rgb(0 0 0 / 20%), 0 16px 24px 2px rgb(0 0 0 / 14%), 0 6px 30px 5px rgb(0 0 0 / 12%);
+	box-shadow: 0 8px 10px -5px rgb(158 158 158 / 10%), 0 16px 24px 2px rgb(158 158 158 / 7%), 0 6px 30px 5px rgb(158 158 158 / 6%);
+}
+
+.el-dialog {
+	box-shadow: 0px 0px 8px rgba(0, 0, 0, .7) !important;
+}

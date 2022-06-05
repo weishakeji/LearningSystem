@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>考试中心</title>
+</head>
+
+<body>
+  <div id="vapp" v-cloak>
+    <div class="header" :login="islogin">
+      <van-row>
+        <div class="header_info nologin" v-if="!islogin" remark="未登录" @click="window.location.href='/mobi/sign/in'">
+          <div class="acc_photo nophoto"></div>
+          <div class="accInfo">
+            <div class="acc-name">未登录
+            </div>
+            <span class="acc-money"> ... </span>
+          </div>
+        </div>
+        <div class="header_info logined" v-if="islogin" remark="已经登录">
+          <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+            :style="'background-image: url('+account.Ac_Photo+');'"></div>
+          <template v-else>
+            <div class="acc_photo woman" v-if="account.Ac_Sex==2">
+            </div>
+            <div class="acc_photo man" v-else>
+            </div> <span>{{account.Ac_Name}} <span class="acc-acname">({{account.Ac_AccName}})</span></span>
+          </template>
+        </div>
+      </van-row>
+      <van-sticky>
+        <div class="menu-box" v-if="islogin">
+          <div class="weisha_icon" icon="&#xe810" @click="tabmenu='my_exam'">我的考试</div>
+          <div class="weisha_icon" icon="&#xa023" @click="tabmenu='all_exam'">所有考试</div>
+          <div class="weisha_icon" icon="&#xe6ef" @click="tabmenu='score_exam'">成绩查看</div>
+        </div>
+      </van-sticky>
+    </div>
+    <template v-if="loading_init">
+      <van-loading size="24px" type="spinner">加载中...</van-loading>
+    </template>
+    <template v-else>
+      <template v-if="tabmenu=='my_exam' && islogin">
+        <card>
+          <card-title class="weisha_icon" icon="&#xe810">我的考试
+            <div class="search"><input type="search" placeholder="搜索" v-model="search.my_exam"
+                @change="onsearch('my_exam')"></input></div>
+          </card-title>
+
+        </card>
+        <van-list v-model="loading" :finished="finished" error-text="请求失败，点击重新加载" @load="my_exam()">
+          <exam_data v-for="(e,index) in myexam" :exam="e" :index="index" :account="account"></exam_data>
+        </van-list>
+        <div v-if="myexam.length<=0 && !loading" class="noexam">
+          好嗨哟，没有考试
+        </div>
+      </template>
+      <template v-if="tabmenu=='all_exam' || !islogin">
+        <van-sticky>
+          <card>
+            <card-title class="weisha_icon" icon="&#xa023">所有考试
+              <div class="search"><input type="search" placeholder="搜索" v-model="search.all_exam"
+                  @change="onsearch('all_exam')"></input></div>
+            </card-title>
+          </card>
+        </van-sticky>
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
+          @load="all_exam()">
+          <exam_theme v-for="(theme,index) in allexam" :theme="theme" :index="index" :account="account"></exam_theme>
+        </van-list>
+        <div v-if="allexam.length<=0 && !loading" class="noexam">
+          好嗨哟，没有考试
+        </div>
+      </template>
+      <template v-if="tabmenu=='score_exam'">
+        <card>
+          <card-title class="weisha_icon" icon="&#xe6ef">成绩查看
+            <div class="search"><input type="search" placeholder="搜索" v-model="search.score_exam"
+                @change="onsearch('score_exam')"></input></div>
+          </card-title>
+        </card>
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
+          @load="score_exam()">
+          <score_item v-for="(result,index) in scoreexam" :result="result" :index="index" :account="account">
+          </score_item>
+        </van-list>
+      </template>
+    </template>
+    <aside_menu ref='aside_menu' :account="account"></aside_menu>
+    <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+  </div>
+
+
+</body>
+
+</html>

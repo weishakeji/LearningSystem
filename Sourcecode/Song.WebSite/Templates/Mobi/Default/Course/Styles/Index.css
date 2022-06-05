@@ -1,0 +1,224 @@
+﻿#vapp {
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    height: 44px;
+    background-color: rgb(212, 224, 206);
+    font-size: 14px;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 2;
+}
+
+.header>* {}
+
+.header>div:first-child {
+    float: left;
+    height: 100%;
+    width: 35px;
+    line-height: 45px;
+    text-align: right;
+    font-size: 20px;
+}
+
+.header .sbjname {
+    float: left;
+    padding: 13px 0px 5px 0px;
+}
+
+.van-search {
+    padding: 5px 6px !important;
+}
+
+/*选项卡*/
+
+.van-tabs {
+    position: fixed;
+    top: 45px;
+    left: 0px;
+    width: 100%;
+    height: 44px;
+    overflow: hidden;
+}
+
+/*课程列表*/
+
+.van-list {
+    position: fixed;
+    top: 90px;
+    left: 0px;
+    width: 100%;
+    height: calc(100% - 90px - 50px);
+    overflow: auto;
+}
+
+/*专业面板*/
+
+#subject_panel {
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.subject_title {
+    height: 35px;
+    line-height: 40px;
+    padding: 5px 12px;
+    width: calc(100% - 24px);
+    font-size: 16px;
+    overflow: hidden;
+}
+
+.subject_title::before {
+    font-size: 23px;
+    line-height: 42px;
+    float: left;
+}
+
+#treemenu-area {
+    height: calc(100% - 45px);
+}
+
+.van-tabs .weisha_icon::before {
+    font-size: 20px;
+}
+
+.van-popup__close-icon--top-right {
+    top: 10px;
+    right: 10px;
+}
+
+/*课程列表*/
+
+.cour-box {
+    padding: 20px 16px 0px 16px;
+    height: 110px;
+}
+
+.cour-box picture {
+    display: block;
+    float: left;
+    width: 177px !important;
+    margin-right: 2%;
+    position: relative;
+}
+
+.cour-box picture img {
+    width: 177px !important;
+    height: 100%;
+    border-radius: 3px;
+    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0.2);
+}
+
+.cour-box picture .rec {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.cour-box picture live {
+    position: absolute;
+    background-image: url(../../Images/live-icon.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 20px;
+    height: 16px;
+    display: block;
+    margin-right: 5px;
+    top: 0px;
+    right: 0px;
+    z-index: 1;  
+}
+.cour-box picture .view {
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+    background-color: transparent !important;
+}
+
+.cour-box picture .view::before {
+    content: "\a03a";
+    font-family: webdesk_icon;
+    margin-right: 3px;
+}
+
+.cour-box .van-cell__title {
+    display: flex;
+}
+
+.cour-box .van-cell__title>* {
+    flex: 1;
+}
+
+.cour-box info {
+    display: block;
+    position: relative;
+    height: 100%;
+}
+
+.cour-box info .curname {
+    font-size: 15px;
+    line-height: 20px;
+    max-height: 40px;
+    line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.cour-box price {
+    height: 20px;
+    font-size: 12px;
+    text-align: left;
+    display: block;
+    color: #F30;
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.cour-box price m:before {
+    content: "\e818";
+    font-family: webdesk_icon;
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+.cursubject {
+    font-size: 13px;
+    color: #999;
+    height: 20px;
+}
+
+.cursubject::before {
+    content: "\e765";
+    font-family: webdesk_icon;
+    font-size: 16px;
+    margin-right: 3px;
+}
+
+.cur_data {
+    height: calc(100% - 30px);
+    width: 100px;
+    background-color: #e5ffef;
+    padding: 15px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cur_data>div {
+    flex: auto;
+    width: 100%;
+    line-height: 100%;
+    white-space: nowrap; 
+}
+
+.cur_data>div span.font_icon {
+    font-size: 16px;
+    margin-right: 4px;
+}

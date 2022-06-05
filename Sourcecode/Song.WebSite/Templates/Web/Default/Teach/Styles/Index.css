@@ -1,0 +1,359 @@
+﻿@charset "utf-8";
+
+weisha_header_navi {
+    margin-bottom: 30px;
+}
+
+weisha_page_footer {
+    margin-top: 30px !important;
+}
+
+context {
+    display: block;
+    height: 600px;
+    height: 100vh;
+    --height: calc(100vh - 180px);
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 20px 0px;
+
+    margin: 0px;
+    --background-image: repeating-radial-gradient(circle, rgb(255, 214, 214) 0%, rgb(255, 255, 255) 60%);
+}
+
+context>section {
+    display: block;
+    width: 1200px;
+    height: 100%;
+    margin: 0px auto;
+    position: relative;
+    text-align: left;
+    display: flex;
+}
+
+context.full>section {
+    width: 100%;
+}
+
+context>section>* {
+    height: 100%;
+}
+
+context>section nav {
+    width: 260px;
+    --background-color: rgb(238, 146, 146);
+    box-sizing: border-box;
+    padding: 0px 30px 0px 0px;
+}
+
+context>section nav loading {
+    display: block;
+    text-align: center;
+}
+
+context>section aside {
+    flex: 1;
+}
+
+context>section nav header {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+/*左上角头像*/
+.upload_img_area {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.upload_img_area img {
+    width: 100px;
+    height: 100px;
+    display: block;
+    box-shadow: 1px 1px 2px #aaa, 1px 1px 8px #eee, -1px -1px 2px #fff, -1px -1px 8px #aaa;
+    margin: 0px auto;
+    border-radius: 50px;
+}
+
+.upload_img_area .photo-txt {
+    display: block;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    color: #409EFF;
+    font-size: 12px;
+    display: none;
+}
+
+.upload_img_area:hover .photo-txt, .upload_img_area:hover .photo-btn {
+    display: block;
+}
+
+.photo-btn {
+    display: none;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    color: #409EFF;
+    font-size: 12px;
+}
+
+context>section nav header loading {
+    margin: 30px auto;
+    height: 50px;
+}
+
+context>section nav header #full_btn {
+    position: absolute;
+    top: 5px;
+    right: 3px;
+    opacity: .3;
+}
+
+context>section nav header .name {
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    padding: 5px 10px;
+    font-size: 18px;
+    color: #333;
+    text-shadow: 1px 1px 2px #999;
+    background-color: rgb(235, 243, 253);
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    background-image: -webkit-linear-gradient(45deg,
+            rgba(184, 164, 164, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent);
+}
+
+context>section nav header icon {
+    font-size: 20px;
+    margin-right: 6px;
+}
+
+context>section nav header .woman {
+    color: rgb(253, 130, 130) !important;
+    background-color: rgb(252, 225, 225);
+}
+
+context>section nav header .woman * {
+    color: rgb(253, 130, 130) !important;
+}
+
+nav::before {}
+
+/*没有登录*/
+context>section.nologin {
+    text-align: center;
+    box-sizing: border-box;
+    padding: 120px;
+    height: auto;
+    display: block;
+    font-size: 18px;
+}
+
+context>section.nologin icon {
+    font-size: 120px;
+    color: #999;
+    margin: 50px;
+}
+
+/*左侧菜单项*/
+menus {
+    display: block;
+    width: 100%;
+    height: calc(100% - 169px);
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+}
+
+menus.nomenu>div {
+    text-align: center;
+    padding: 5px 15px;
+    font-size: 14px;
+    color: #999;
+}
+
+menus::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 2px;
+    /*高宽分别对应横竖滚动条的尺寸*/
+    height: 1px;
+}
+
+menus>div>div:last-child {
+    margin-bottom: 10px;
+}
+
+menus>div>weisha_menu_node {
+    font-size: 18px;
+    line-height: 40px;
+    user-select: none;
+    display: flex;
+    white-space: nowrap;
+    justify-content: space-between;
+}
+
+weisha_menu_node {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    line-height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+    text-shadow: 1px 1px 3px #999;
+    display: flex;
+    white-space: nowrap;
+}
+
+menus .hr {
+    height: 1px;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 10px 0px;
+}
+
+menus .hr::after {
+    content: ' ';
+    display: block;
+    height: 1px;
+    box-shadow: 1px 1px 1px #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+weisha_menu_node icon {
+    font-size: 16px;
+}
+
+weisha_menu_node span {
+
+    flex: 1;
+}
+
+menus>div>weisha_menu_node icon {
+    font-size: 22px;
+}
+
+weisha_menu_node:hover {
+    background-color: #eee;
+
+    font-weight: normal;
+    color: #999;
+}
+
+weisha_menu_node.children::after {
+    content: '\a01e';
+    font-family: "webdesk_icon" !important;
+    display: block;
+    float: right;
+    color: #aaaa;
+    text-shadow: none;
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    margin-right: 15px;
+    margin-top: 1px;
+    transform: rotate(90deg);
+    transition: all 0.3s;
+}
+
+weisha_menu_node.fold::after {
+    transform: rotate(0deg);
+}
+
+weisha_menu_node.current {
+    --background-color: rgb(245, 226, 180);
+    --background-image: -webkit-linear-gradient(45deg,
+            rgba(184, 164, 164, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent);
+}
+
+weisha_menu_node.current::after {
+    content: '\a048';
+    font-family: "webdesk_icon" !important;
+    display: block;
+    float: right;
+    color: rgba(5, 173, 61, 0.667);
+    text-shadow: none;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    margin-top: 1px;
+    text-align: center;
+}
+
+/*右侧内容区*/
+.el-tabs .el-tabs__header .el-tabs__item {
+    font-size: 16px;
+    color: #999;
+    transition: all .5s;
+}
+
+.el-tabs__header {
+    margin-bottom: 5px !important;
+}
+
+.el-tabs .el-tabs__header icon {
+    font-size: 20px;
+}
+
+.is-active {
+    color: #409EFF !important;
+    font-size: 18px !important;
+    text-shadow: 1px 1px 2px rgb(161, 161, 160);
+}
+
+#content_iframe {
+    width: 100%;
+    height: calc(100% - 55px);
+    border: none;
+    border-top: none;
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+#content_iframe.one {
+    height: 100%;
+}
+
+#content_iframe>iframe {
+    width: 100%;
+    height: 100%;
+}
+
+/*内容区的预载*/
+.iframe_loading {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    box-sizing: border-box;
+    padding: 50px;
+}
+
+.iframe_loading loading {
+    color: #ddd;
+    font-size: 20px;
+}
+
+.iframe_loading loading::before {
+    font-size: 60px;
+}

@@ -1,0 +1,15 @@
+﻿/*课程收益*/
+
+.course_income {
+	color: #e6a23c;
+	font-size: 16px;
+}
+
+.course_income icon {
+	margin-right: 2px;
+}
+
+.course_income .income_null {
+	color: #ccc;
+	font-size: 14px;
+}

@@ -1,0 +1,45 @@
+﻿@charset "utf-8";
+.el-form--inline .el-form-item {
+    display: inline-block;
+    margin-right: 1px;
+    margin-bottom: 0px;
+    vertical-align: top;
+}
+
+.pay {
+    color: #E6A23C;
+}
+
+.income {
+    color: #67c23a;
+}
+
+.faild {
+    color: #f56c6c;
+}
+
+.queryBox {
+    width: 400px;
+    float: right;
+    position: absolute;
+    padding: 10px 20px 10px 10px;
+    right: 0px;
+    top: 31px;
+    background-color: #fff;
+    z-index: 10;
+    box-shadow: -2px 2px 6px 0 rgba(0, 0, 0, .1); 
+}
+.more i{
+     transform: rotate(90deg);
+}
+.queryBox .el-form-item--small .el-form-item__content, .queryBox .el-form-item--small .el-form-item__label {
+    line-height: 32px;
+}
+.acname{
+    display: inline-block;
+    width: 60px;
+    padding: 1px 8px;
+}
+.money{
+    color: #CD7F32;
+}

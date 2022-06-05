@@ -1,0 +1,63 @@
+﻿@charset "utf-8";
+.context{
+	height: calc(100% - 50px);
+	overflow-y: auto;
+}
+/*图片上传*/
+
+.upload_img_area {
+	width: 240px;
+	height: 135px;
+	margin-left: 92px;
+	background-color: #eee;
+	cursor: pointer;
+	color: #ccc;
+}
+
+.upload_img_area .error {
+	width: 100%;
+	box-sizing: border-box;
+	height: auto;
+	bottom: -0px !important;
+}
+
+.upload_img_area>div, .upload_img_area img {
+	width: 100%;
+	height: 100%;
+}
+
+.upload_img_area .remove {
+	position: absolute;
+	display: block;
+	top: 3px;
+	right: 3px;
+	text-shadow: -1px -1px 3px #fff, 1px 1px 3px #fff;
+}
+
+/*没有图片*/
+.nophoto {
+	height: 30px;		
+	padding: 0px 0px 0px 15px;
+}
+
+.nophoto * {
+	line-height: 30px;
+}
+
+.nophoto i {
+	font-size: 20px;
+}
+.photo_add{
+	display: block;
+	width: 100%;
+	margin-top: calc((135px - 40px - 30px) / 2 );
+	text-align:center;
+	color: #999;
+	font-size: 25px;
+}
+
+.footer{
+	width: 100%;
+	padding-right: 0px;
+	padding-bottom: 0px;
+}

@@ -1,0 +1,54 @@
+﻿@charset "utf-8";
+
+#vapp {
+    display: flex;
+}
+
+aside.sorts {
+    min-width: 400px;
+    height: 100%;
+    margin-right: 20px;
+}
+
+aside.sorts .bar {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: 35px;
+    margin-bottom: 20px;
+}
+
+help {
+    font-size: 12px;
+    color: #999;
+}
+
+aside.sorts .el-tree {
+    height: calc(100% - 35px - 20px);
+}
+
+.custom-tree-node {
+    display: block;
+    width: 100%;
+}
+.custom-tree-node icon{
+    color: #409EFF;
+}
+.sort_btn {
+    float: right;
+}
+
+/*右侧内容列表区*/
+section.list {
+    flex: 1;
+    height: 100%;
+}
+
+.guide_form>div {
+    overflow: hidden;
+}
+
+.guide_form .el-dialog__body {
+    height: calc(100% - 54px - 62px - 60px);
+    overflow-y: auto;
+}

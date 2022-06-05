@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>学员导出</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <div>
+                <el-button type="primary" plain @click="drawer_selected=true" :disabled="loading">
+                    <icon>&#xe78b</icon>选中的学员组<span class="count">({{checkedSorts.length}})</span>
+                </el-button>
+                <el-button type="primary" plain @click="filepanel=true" :disabled="loading">
+                    <icon>&#xe85e</icon>已经生成的导出<span class="count">({{files.length}})</span>
+                </el-button>
+            </div>
+            <div class="ctrl">
+                <el-button-group>
+                    <el-button type="primary" plain @click="selectAll(true)">全选</el-button>
+                    <el-button type="primary" plain @click="selectAll(false)">取消</el-button>
+                    <el-button type="primary" plain @click="selectReverse()">反选</el-button>
+                </el-button-group>
+                <el-input placeholder="搜索" size="small" style="width: 100px;" clearable v-model="form.search">
+                </el-input>
+                <el-button type="primary" plain :disabled="loading" @click="getStudentSorts(1)">搜索</el-button>
+            </div>
+        </div>
+        <div class="sorts">
+            <loading v-if="loading">正在加载...</loading>
+            <template v-else-if="sorts.length>0">
+                <el-checkbox v-for="(item,i) in sorts" v-model="item.selected" @change="selectSingle(item)">
+                    {{i+1}}. <span v-html='showInfo(item.Sts_Name)'></span>
+                    <student_count :sort="item"></student_count>
+                </el-checkbox>
+            </template>
+            <el-empty v-else description="没有满足条件的查询"></el-empty>
+        </div>
+        <div id="pager-box" v-if="totalpages>1">
+            <el-pagination v-on:current-change="getStudentSorts" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="5" layout="total, prev, pager, next" :total="total">
+            </el-pagination>
+        </div>
+        <div class="footer">
+            <el-button :type="loading ? 'info' : 'primary'" v-on:click="btnOutput" class="el-icon-position"
+                :disabled="loading || loading_export" :loading="loading_export" native-type="submit">
+                导出学员信息
+            </el-button>
+            <el-button type='close'> 取消 </el-button>
+        </div>
+        <!--选中的面板-->
+        <el-drawer :visible.sync="drawer_selected" direction="ltr" size="60%">
+            <span slot="title">
+                <icon>&#xe78b</icon>选中的学员组<span class="count">({{checkedSorts.length}})</span>
+            </span>
+            <dl class="selected" v-if="checkedSorts.length>0">
+                <dd v-for="(item,i) in checkedSorts">
+                    {{i+1}}. <span v-html='item.Sts_Name'></span>
+                    <el-link type="danger" plain @click="selectCancel(item)">取消 </el-link>
+                </dd>
+            </dl>
+            <el-empty v-else description="没有选中的信息"></el-empty>
+        </el-drawer>
+        <!--导出文件的面板-->
+        <el-dialog title="提示" :visible.sync="filepanel" width="80%" custom-class="filepanel">
+            <span slot="title"> <icon>&#xe85e</icon>已经生成的导出文件</span>
+            <dl v-if="files.length>0">
+                <dd v-for="(f,i) in files">
+                    <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                            {{f.file}}</a>
+                        {{f.size|size}}
+                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                            <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+                    </div>
+                </dd>
+            </dl>
+            <div v-else >没有文件，请操作“导出学员信息”</div>
+        </el-dialog>
+    </div>
+</body>
+
+</html>

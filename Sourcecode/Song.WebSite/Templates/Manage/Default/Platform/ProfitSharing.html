@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>分润</title>
+  <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <div class="toolsbar">
+      <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="ProfitSharingModify" width="600" height="500"
+        :selects='selects' idkey='Ps_ID' table="datatables"></btngroup>
+    </div>
+    <template>
+      <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
+        @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Ps_ID" index-key="Ps_Level" draggable>
+        <el-table-column type="selection" width="35" show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column type="index" width="50">
+        </el-table-column>
+        <el-table-column label="分润方案" width="120">
+          <template slot-scope="scope">
+            <span v-html='scope.row.Ps_Name' class="draghandle"></span> 
+
+          </template>
+        </el-table-column>
+        <el-table-column prop="MM_Marker" label="说明">
+          <template slot-scope="scope">{{scope.row.Ps_Intro}}
+          </template>
+        </el-table-column>
+        <el-table-column label="启用" width="80">
+          <template slot-scope="scope">
+            <span class="el-icon-loading" v-show="loadingid==scope.row.Ps_ID"></span>
+            <el-switch v-model="scope.row.Ps_IsUse" @change="changeUse(scope.row)" v-show="loadingid!=scope.row.Ps_ID">
+            </el-switch>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="操作" show-overflow-tooltip width="120">
+
+          <el-button-group slot-scope="scope">
+            <el-link type="primary" plain icon="el-icon-edit" @click='$refs.btngroup.modify(scope.row.Ps_ID)'>修改
+            </el-link>
+            <el-link type="danger" plain icon="el-icon-delete" 
+              @click='$refs.btngroup.delete(scope.row.Ps_ID)'>删除
+            </el-link>
+          </el-button-group>
+
+        </el-table-column>
+      </el-table>
+
+    </template>
+
+  </div>
+
+</body>
+
+</html>

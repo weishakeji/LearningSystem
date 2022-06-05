@@ -1,0 +1,73 @@
+﻿@charset "utf-8";
+.panel {
+	width: 100%;
+	height: calc(100% - 55px);
+    border: 1px solid #DCDFE6;
+    box-sizing: border-box;
+}
+.panel>div:not(:first-child){
+	border: 1px solid #DCDFE6;
+	border-top: none;
+}
+.el-form {
+	height: calc(100% - 60px);
+	width: calc(100% - 15px);
+	padding-right: 10px;
+
+	overflow-y: auto;
+	box-sizing: border-box;
+}
+
+.el-tabs--border-card {
+	box-shadow: none;
+	border: none;
+}
+
+.el-tabs__content {
+	display: none;
+}
+.upload_img_area img {
+    width: 100px;
+    height: 100px;
+    display: block;
+    float: left;
+    border: 1px solid #aaa;
+    margin-top: 5px;
+    border-radius: 50px;
+    margin-right: 10px;
+    float: left;
+}
+
+.photo-txt {
+    display: inline-block;
+    margin-top: 50px;
+    color: #409EFF;
+}
+.pingyin{
+    font-size: 13px;
+    color: #409EFF;
+}
+.pingyin .py{
+    cursor: pointer;
+}
+.el-input__prefix icon{
+    text-align: center;
+    margin-left: 6px;
+    font-size: 15px;
+}
+/*编辑框*/
+.about_editor {
+	width: 100%;
+	height: 100%;
+}
+
+.about_editor .vue-html5-editor {
+	width: 100%;
+	height: 100%;
+}
+
+.about_editor .vue-html5-editor .content {
+	width: 100% !important;
+	height: 100% !important;
+
+}

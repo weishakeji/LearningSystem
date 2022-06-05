@@ -1,0 +1,12 @@
+﻿@charset "utf-8";
+
+.toolsbar .el-input--prefix .el-input__inner {
+    padding-left: 20px;
+}
+.ws_avatar{
+    float: left;
+    margin-right: 10px;
+}
+.woman{
+	color: rgb(104, 160, 212);
+}

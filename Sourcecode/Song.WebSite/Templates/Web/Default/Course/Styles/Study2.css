@@ -1,0 +1,826 @@
+﻿@charset "utf-8";
+
+html, body {
+	width: 100%;
+	height: 100%;
+}
+
+html {
+	overflow: hidden;
+}
+
+body {
+	background-color: #222326;
+	background: #222326;
+}
+
+html, body, #body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+/*修改滚动条样式*/
+
+div::-webkit-scrollbar {
+	width: 5px;
+	height: 10px;
+	/**/
+}
+
+div::-webkit-scrollbar-track {
+	background: rgb(239, 239, 239);
+	border-radius: 2px;
+}
+
+div::-webkit-scrollbar-thumb {
+	background: #999;
+	border-radius: 10px;
+}
+
+div::-webkit-scrollbar-thumb:hover {
+	background: #666;
+}
+
+div::-webkit-scrollbar-corner {
+	background: #179a16;
+}
+
+/*布局*/
+
+#MainBox, #median, #rightBox {
+	height: 100%;
+	float: left;
+	position: relative;
+	transition: width .3s;
+}
+
+.mainTop {
+	height: 65px;
+	position: relative;
+}
+
+/*分隔符*/
+
+#median {
+	width: 5px;
+	background-color: #999999;
+}
+
+#median span {
+	font-size: 12px;
+	font-weight: 900;
+	color: #666;
+	font-family: "黑体";
+	cursor: pointer;
+	position: absolute;
+	top: 48%;
+	left: -1px;
+	display: block;
+	width: 7px;
+	height: 60px;
+	line-height: 60px;
+	z-index: 100;
+	box-shadow: 0px 1px 1px #eee;
+	background: linear-gradient(to right, #fff, #eee, #fff);
+	border-radius: 2px
+}
+
+#median span.close:before {
+	content: "<";
+}
+
+#median span.open:before {
+	content: ">";
+}
+
+
+
+video::-internal-media-controls-download-button {
+	display: none;
+}
+
+video::-webkit-media-controls-enclosure {
+	overflow: hidden;
+}
+
+video::-webkit-media-controls-panel {
+	width: calc(100% + 0px);
+}
+
+/*顶部课程名称的相关信息*/
+.courseBox {
+	height: 30px;
+	font-size: 14px;
+	line-height: 25px;
+	color: #999;
+	text-indent: 10;
+	text-align: left;
+}
+
+.courseBox:before {
+	content: "\e813";
+	font-family: "webdesk_icon";
+	margin-left: 5px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+.courseBox a {
+	color: #999;
+	font-size: 14px;
+}
+
+#MainBox #btnKnowledge {
+	position: absolute;
+	right: 10px;
+	top: 0px;
+	color: #fff;
+	font-size: 20px;
+	font-family: "微软雅黑";
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	float: left;
+	height: 30px;
+	text-align: left;
+	padding-bottom: 5px;
+	padding-top: 0px;
+	color: #eee;
+	width: 100px;
+	text-align: center;
+	margin-top: 25px;
+	cursor: pointer;
+}
+
+#MainBox #btnKnowledge:before {
+	content: "\e675";
+	font-size: 22px;
+	margin-right: 5px;
+	font-family: "webdesk_icon";
+}
+
+/*左侧内容区*/
+
+#contextArea {
+	height: calc(100% - 65px);
+	width: 100%;
+	color: #ddd;
+}
+
+#contextArea>div {
+	height: 100%;
+	position: relative;
+}
+
+/*视频播放器*/
+
+#videoplayer {
+	z-index: 10;
+}
+
+/*视频播放信息栏*/
+
+#videoinfo {
+	position: absolute;
+	z-index: 11;
+	color: #999;
+	height: 30px;
+	font-size: 12px;
+	line-height: 30px;
+	bottom: 5px;
+	width: 100%;
+	text-align: center;
+}
+
+/*视频上漂浮的学员姓名和电话*/
+
+#accinfo {
+	position: absolute;
+	z-index: 20;
+	top: 10px;
+	left: 10px;
+	height: 20px;
+	white-space: nowrap;
+	display: table;
+	transition: top .2s, left .2s;
+	filter: alpha(Opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
+
+#chartlayer {
+	position: absolute;
+	z-index: 30;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 30%;
+	background-color: #360;
+	filter: alpha(Opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
+
+/*直播，没有直播时*/
+
+#liveStopbox {
+	position: relative;
+}
+
+#liveStopbox .liveStop_Tit, .noSelect {
+	position: absolute;
+	width: 320px;
+	height: 180px;
+	color: #333;
+	background-color: rgba(128, 128, 128, 0.5);
+	top: 30%;
+	left: calc(50% - 160px);
+	border: 1px solid #999;
+	text-shadow: 1px 1px #eee;
+	box-shadow: 3px 3px 3px #aaa;
+	cursor: default;
+}
+
+#liveStopbox .liveStop_Tit, .noSelect, .noSelect a {
+	line-height: 180px;
+	font-weight: bold;
+	font-size: 25px;
+	text-align: center;
+
+}
+
+.noSelect {
+	height: auto !important;
+}
+
+/*背景图，带渐变效果*/
+
+.bgPicture {
+	opacity: 0.4;
+	animation: 2s opacity2;
+}
+
+@keyframes opacity2 {
+	0% {
+		opacity: 0
+	}
+
+	50% {
+		opacity: .8;
+	}
+
+	100% {
+		opacity: .4;
+	}
+}
+
+/*预载动画*/
+
+#preloader-2 {
+	position: relative;
+	margin-top: calc(50vh - 90px);
+}
+
+#preloader-2 span {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	background: #eee;
+	border-radius: 999px;
+}
+
+#preloader-2 span:nth-child(1) {
+	animation: cross-1 1.5s infinite linear;
+}
+
+#preloader-2 span:nth-child(2) {
+	animation: cross-2 1.5s infinite linear;
+}
+
+@keyframes cross-1 {
+	0% {
+		transform: translateX(0);
+		opacity: 0.5;
+	}
+
+	50% {
+		transform: translateX(80px);
+		opacity: 1;
+	}
+
+	100% {
+		transform: translateX(0);
+		opacity: 0.5;
+	}
+}
+
+@keyframes cross-2 {
+	0% {
+		transform: translateX(80px);
+		opacity: 0.5;
+	}
+
+	50% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+
+	100% {
+		transform: translateX(80px);
+		opacity: 0.5;
+	}
+}
+
+/* 课程内容
+------------------------*/
+
+#details {
+	font-size: 16px;
+	line-height: 20px;
+	background-color: #FFF;
+	overflow: auto;
+}
+
+#details img {
+	max-width: 100%;
+}
+
+#details p, #details * {
+	font-size: 17px !important;
+	line-height: 30px !important;
+	background-color: transparent !important;
+	color: #666 !important;
+}
+
+#details p {
+	margin-bottom: 20px;
+}
+
+#detailsArea {
+	margin: 20px;
+	padding: 20px;
+	border: 1px solid #ccc;
+	text-align: left;
+}
+
+#rightBox .boxBar {
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	height: 62px;
+	margin-bottom: 10px;
+}
+
+#rightBox .title {
+	font-size: 18px;
+	float: left;
+	overflow: hidden;
+	height: 30px;
+	padding-bottom: 5px;
+	padding-top: 0px;
+	color: #666;
+	width: 50%;
+	text-align: center;
+	margin-top: 25px;
+	line-height: 40px;
+	cursor: pointer;
+	transition: font-size .6s;
+	transition: line-height .5s;
+	white-space: nowrap;
+}
+
+#rightBox .titleCurr {
+	color: #FFF;
+	font-size: 20px;
+	border-bottom-width: 5px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #0387d9;
+	line-height: 26px;
+}
+
+/*右侧遮罩层*/
+
+#rightMask {
+	width: 20%;
+	height: calc(100% - 65px);
+	background-color: #222326;
+	position: absolute;
+	top: 65px;
+	right: 0px;
+	transition: width .3s;
+	transition: opacity 2s;
+}
+
+.fade-enter {
+	opacity: 0;
+}
+
+.fade-enter-active {
+	transition: opacity 3s;
+}
+
+.fade-leave-to {
+	opacity: 0;
+}
+
+.fade-leave-active {
+	transition: opacity 3s;
+}
+
+/*章节列表*/
+
+.rightArea {
+	color: #333;
+	line-height: 30px;
+	font-size: 14px;
+	overflow: auto;
+	height: calc(100% - 75px);
+}
+
+.rightArea .el-tree {
+	background: transparent !important;
+}
+
+.el-tree-node__content {
+	line-height: 30px;
+	height: auto;
+}
+
+.is-current .el-tree-node__content {
+	background-color: #fcf0de !important;
+}
+
+.el-tree-node__content:hover {
+	background-color: #bebebe !important;
+}
+
+.custom-tree-node {
+	font-size: 16px;
+	line-height: 30px;
+}
+
+/*视频章节的图标*/
+
+.custom-tree-node[isvideo]>span:last-child::before {
+	content: "\e83a";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+/*直播章节的图标*/
+.custom-tree-node[islive]>span:last-child::before {
+	content: "";
+	background-image: url(../../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+}
+
+#playerInfo {
+	line-height: 30px;
+	height: 30px;
+	color: #CCC;
+	text-indent: 20px;
+	position: relative;
+	text-align: left;
+}
+
+/*学习记录递交是否成功的提示信息*/
+
+
+.info {
+	color: #3F6;
+}
+
+.error {
+	color: red;
+}
+
+.historyInfo {
+	margin-left: 20px;
+	cursor: pointer;
+	color: #06F;
+}
+
+/*学习记录的时间进度*/
+#videolog {
+	display: none;
+	position: absolute;
+	z-index: 20;
+	color: #999;
+	height: 10px;
+	font-size: 12px;
+	bottom: 0px;
+	width: 100%;
+	text-align: center;
+	background-color: red;
+}
+
+/* 章节的主标题下的选项卡
+*/
+
+#MainBox .oltitle {
+	height: 30px;
+	border-bottom-width: 5px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #999999;
+}
+
+#MainBox .oltitle a {
+	font-size: 14px;
+	background-repeat: no-repeat;
+	background-position: left bottom;
+	height: 25px;
+	text-align: center;
+	color: #999;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	font-weight: bold;
+	float: left;
+	box-shadow: 1px -1px 3px #888888;
+	width: 100px;
+	line-height: 25px;
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
+	margin-top: 5px;
+	transition: font-size .6s;
+	transition: background-color 0.6s;
+}
+
+/*
+.oltitle>a:first-child{
+	color: #000;
+	background-color: #999999;
+	text-shadow: 0 0 10px #fff;
+}*/
+
+#MainBox .oltitle .titCurr {
+	color: #000;
+	background-color: #999999;
+	text-shadow: 1px 1px 2px #fff;
+	height: 30px;
+	margin-top: 0px;
+	font-size: 16px;
+	padding-top: 2px;
+}
+
+/* 附件 */
+
+#accessory {
+	margin: 20px;
+	text-align: left;
+}
+
+#accessory a, #accessory>div {
+	font-size: 16px;
+	text-indent: 20px;
+	display: block;
+	color: #CCC;
+	line-height: 30px;
+	width: auto;
+}
+
+#accessory a:hover {
+	background-color: #333;
+}
+
+/* 视频事件中的试题窗口*/
+
+.MsgBoxContext .eventContext {
+	font-size: 14px;
+	height: 22px;
+	margin-bottom: 10px;
+}
+
+.MsgBoxContext .quesBox {
+	margin-left: 14px;
+}
+
+.MsgBoxContext .quesBox>div {
+	font-size: 14px;
+	height: 22px;
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+.MsgBoxContext #event_error {
+	font-size: 14px;
+	margin-top: 10px;
+	text-align: center;
+	color: #F00;
+	height: 0px;
+	opacity: 0;
+	transition: height 1s;
+	transition: opacity 1s;
+	overflow: hidden;
+}
+
+.MsgBoxContext #event_error:before {
+	content: "\e63d";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+/*限制只能在桌面应用中打开*/
+
+#StudyForDeskapp {
+	color: #fff;
+	margin-top: 60px;
+	width: 320px;
+	height: 90px;
+	line-height: 90px;
+	background: #999;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#StudyForDeskapp, #StudyForDeskapp a {
+	font-size: 16px;
+}
+
+/*交流咨询*/
+
+.chat {
+	position: relative;
+	overflow: hidden;
+}
+
+.chatlist {
+	max-height: calc(100% - 40px);
+	position: absolute;
+	bottom: 40px;
+	width: 100%;
+	overflow-y: auto;
+}
+
+.chatlist dd {
+	width: auto;
+	display: table;
+	min-width: 30%;
+	line-height: 20px;
+	position: relative;
+}
+
+.chatlist dd>div {
+	text-align: left;
+	padding: 5px;
+	padding-right: 10px;
+	color: #eee;
+	border-radius: 10px;
+	margin: 10px;
+	line-height: 20px;
+	box-shadow: 1px 1px 2px #666;
+}
+
+.chatlist dd acc {
+	display: block;
+	position: relative;
+}
+
+.chatlist dd del {
+	display: block;
+	position: absolute;
+	right: -8px;
+	top: 0px;
+	color: red;
+	font-size: 14px;
+	text-decoration-line: none;
+	cursor: pointer;
+	display: none;
+}
+
+.chatlist dd msg {
+	display: block;
+}
+
+.chatlist dd date {
+	display: block;
+	text-align: left;
+	padding-left: 16px;
+	height: 18px;
+	line-height: 18px;
+	margin-top: -8px;
+	color: #444;
+	font-size: 10px;
+}
+
+.chatlist dd i {
+	padding-right: 5px;
+	font-size: 16px;
+}
+
+.chatbox {
+	background-color: #666;
+	position: absolute;
+	bottom: 0px;
+	height: 40px;
+	width: 100%;
+}
+
+.chatbox .switch {
+	background-color: #fff;
+	height: 24px;
+	line-height: 24px;
+	width: 35px;
+	margin-top: 8px;
+	margin-left: 8px;
+	font-size: 8px;
+	border-radius: 12px;
+	position: relative;
+	cursor: pointer;
+	float: left;
+	transition: text-align .6s;
+}
+
+.chatbox .switch:before {
+	content: "弹";
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	border-radius: 10px;
+	margin: 2px 0px 2px 0px;
+	margin-right: 5px;
+	font-size: 8px;
+	position: absolute;
+	z-index: 2;
+	color: #fff;
+	left: 2px;
+	background-color: #333;
+	transition: left .6s;
+}
+
+.chatbox .switch:after {
+	content: " ";
+	width: 31px;
+	height: 20px;
+	border-radius: 10px;
+	position: absolute;
+	z-index: 1;
+	left: 2px;
+	margin: 2px 0px 2px 0px;
+	background-color: #999;
+	transition: background-color .6s;
+}
+
+.chatbox .switch-on {
+	background-color: #FFFF99;
+}
+
+.chatbox .switch-on:before {
+	left: 12px;
+	background-color: #360;
+}
+
+.chatbox .switch-on:after {
+	background-color: #6F6;
+}
+
+.chatbox .msgbox {
+	float: left;
+	background-color: #fff;
+	width: calc(100% - 55px);
+	height: 24px;
+	line-height: 24px;
+	margin-left: 8px;
+	margin-top: 8px;
+	border-radius: 6px;
+}
+
+.chatbox .msgbox input {
+	float: left;
+	width: calc(75% - 8px);
+	height: 24px;
+	line-height: 24px;
+	margin: 0px 0px 0px 8px;
+}
+
+.chatbox .msgbox>div#btnMessage {
+	float: left;
+	background-color: #999;
+	width: 25%;
+	height: 24px;
+	border-radius: 0px 6px 6px 0px;
+	text-align: center;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.chatbox .msgbox>div#btnMessage:hover {
+	background-color: #F93;
+}

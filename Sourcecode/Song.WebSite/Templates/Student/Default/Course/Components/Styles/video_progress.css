@@ -1,0 +1,36 @@
+﻿.video_progress {
+    font-size: 15px;   
+}
+
+.video_progress>div:first-child {
+    display: flex;
+    justify-content: space-between;
+}
+
+.video_progress .progress {
+    position: absolute;
+    bottom: 5px;
+    width: calc(100% - 8px);
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+.video_progress .progress>* :first-child {
+    flex: 1;
+}
+
+.video_progress .continue {
+    display: block;
+    font-size: 14px;
+    width: 55px;
+    color: #67c23a;
+}
+
+.video_progress .el-progress {
+    cursor: pointer;
+    transition: all 0.5s;
+}
+.video_progress .el-progress:hover{
+    transform: scale(1.05);
+}

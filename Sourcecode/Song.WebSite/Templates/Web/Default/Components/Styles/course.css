@@ -1,0 +1,89 @@
+
+/*课程*/
+weisha_course{
+	display: block;
+}
+
+
+weisha_course {
+    width: 260px;
+    height: 210px;
+    margin: 0px 0px 50px 0px;
+    transition: all 0.5s;
+    position: relative;
+	text-align: left;
+}
+
+weisha_course[rec]::before {
+    content: '\e741';
+    font-family: "webdesk_icon" !important;
+    font-size: 60px;
+    display: block;
+    position: absolute;
+    margin: -2px 0px 0px -4px;
+    color: rgb(255, 30, 30);
+    text-shadow: -1px -1px 2px #fff, -1px -1px 3px #fff;
+}
+
+weisha_course:hover {
+    transform: scale(1.05);
+}
+
+weisha_course img:first-child {
+    width: 260px;
+    height: 146px;
+    border-radius: 5px;
+}
+
+
+weisha_course .name {
+    line-height: 25px;
+    font-size: 16px;
+    max-height: 50px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+weisha_course .price {
+    font-size: 12px;
+    height: 25px;
+    line-height: 25px;
+    margin-top: 6px;
+    padding: 0px 10px 0px 10px;
+}
+
+weisha_course .price .money {
+    color: #F60;
+}
+
+weisha_course .price .money icon {
+    font-size: 16px;
+    margin-right: 3px;
+}
+
+weisha_course .price .free {
+    color: rgb(0, 148, 7);
+}
+
+weisha_course .price .free::before {
+    content: '\e72d';
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
+    font-size: 16px;
+    display: inline-block;
+}
+
+weisha_course .price .view {
+    float: right;
+    display: block;
+    margin-right: 3px;
+    color: #999;
+}
+
+weisha_course .price .view::before {
+    content: '\a03a';
+    font-family: "webdesk_icon" !important;
+    margin-right: 3px;
+    font-size: 16px;
+    display: inline-block;
+}

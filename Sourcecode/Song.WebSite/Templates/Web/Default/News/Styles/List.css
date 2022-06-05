@@ -1,0 +1,76 @@
+﻿context {
+    display: block;
+    width: 1200px;
+    min-height: 800px;
+    display: table;
+    margin: 0px auto;
+}
+
+context .left {
+    margin-left: 10px;
+    width: 840px;
+    display: flex;
+    float: left;
+}
+
+context .right {
+    margin-right: 60px;
+    width: 260px;
+    float: right;
+    margin-top: 60px;
+    box-sizing: border-box;
+
+}
+
+.fixed {
+    width: 50px;
+    --background-color: chocolate;
+}
+
+#artBox {
+    margin: 60px 20px 80px 20px;
+    padding: 30px;
+    width: calc(100% - 50px);
+    border: solid 1px #ccc;
+    box-sizing: border-box;
+    min-height: 1500px;
+}
+
+/* 栏目不存在*/
+.null {
+    padding: 60px;
+    box-sizing: border-box;
+    color: #999;
+}
+
+.null icon {
+    display: block;
+    font-size: 60px;
+    margin: 50px;
+}
+
+/*新闻列表*/
+.articles {
+    display: block;
+    text-align: left;
+    padding: 30px 10px;
+    box-sizing: border-box;
+}
+
+.articles a {
+    font-size: 18px;
+    line-height: 30px;
+    display: block;
+    position: relative;
+    padding: 10px 90px 10px 0px;
+    box-sizing: border-box;
+}
+
+.articles a date {
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-size: 14px;
+    color: #999;
+}

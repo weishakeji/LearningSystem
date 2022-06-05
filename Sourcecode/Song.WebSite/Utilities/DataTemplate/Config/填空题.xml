@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 该文件记录Excel数据导入时Excel的列名与数据库中字段的对应关系 -->
+
+<config>
+  <item Column="ID" Field="Qus_ID" />
+  <item Column="题干" Field="Qus_Title" /> 
+  <item Column="专业" Field="Sbj_Name" />
+  <item Column="课程" Field="Cou_Name" />
+  <item Column="章节" Field="Ol_Name" />
+  <item Column="难度" Field="Qus_Diff" />
+  <item Column="答案选项1" Field="Ans_Context1" />
+  <item Column="答案选项2" Field="Ans_Context2" />
+  <item Column="答案选项3" Field="Ans_Context3" />
+  <item Column="答案选项4" Field="Ans_Context4" />
+  <item Column="答案选项5" Field="Ans_Context5" />
+  <item Column="答案选项6" Field="Ans_Context6" />
+  <item Column="试题讲解" Field="Qus_Explain" />
+</config>

@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>注册</title>
+
+</head>
+
+<body>
+
+
+  <div id="vapp" v-cloak>
+    <page_header ref='header' :organ="organ" v-if="true">loading ...</page_header>
+    <context class="first">
+      <section v-if="!config.IsRegStudent">
+        <el-form ref="register" :model="form" :rules="rules" size="medium" @submit.native.prevent label-width="80px">
+          <el-card class="box-card">
+            <div slot="header" class="box-title">
+              <span>
+                <icon>&#xe7cd</icon>注册
+              </span>
+              <a href="in" style="float: right; padding: 3px 0">已经有账号？登录</a>
+            </div>
+            <div class="card-context">
+              <el-form-item label-width="0px" label="" prop="acc">
+                <el-input placeholder="账号/手机号" v-model="form.acc" minlength="6">
+                  <template slot="prepend">
+                    <icon>&#xe622</icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <el-form-item label-width="0px" prop="pw1">
+                <el-input placeholder="登录密码" show-password v-model="form.pw1">
+                  <template slot="prepend">
+                    <icon>&#xa036</icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <el-form-item label-width="0px" prop="pw2">
+                <el-input placeholder="密码确认" show-password v-model="form.pw2">
+                  <template slot="prepend">
+                    <icon>&#xe708</icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <el-form-item label-width="0px" prop="rec">
+                <el-input placeholder="推荐人" v-model="form.rec">
+                  <template slot="prepend">
+                    <icon>&#xe804</icon>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <el-form-item label-width="0px" prop="vcode">
+                <el-input placeholder="校验码" v-model="form.vcode" maxlength="4" style="width: calc(100% - 110px);">
+                  <template slot="prepend">
+                    <icon>&#xa050</icon>
+                  </template>
+                </el-input>
+                <loading v-if="loading_vcode"></loading>
+                <img id="vcode" @click="getvcode" v-show="!loading_vcode" />
+              </el-form-item>
+              <el-row class="agreement">
+                <el-checkbox v-model="agreement.checked">我已经阅读，并同意</el-checkbox>
+                <el-link type="primary" @click.stop="showagreement">《平台协议》</el-link>
+              </el-row>
+              <el-row class="btnrow">
+                <el-button type="primary" :loading="loading_submit" @click="btn_submit('register')"
+                  :disabled="loading_submit || !agreement.checked">
+                  同意协议并注册</el-button>
+              </el-row>
+
+            </div>
+          </el-card>
+        </el-form>
+      </section>
+      <section v-else class="disable_reg">
+        <el-card class="box-card">
+          <div slot="header" class="box-title">
+            <span>
+              <icon>&#xe7cd</icon>注册
+            </span>
+            <a href="in" style="float: right; padding: 3px 0">已经有账号？登录</a>
+          </div>
+          <div class="disable_body">
+            <icon>&#xe7ad</icon>
+            <div>
+              禁止注册
+            </div>
+          </div>
+        </el-card>
+      </section>
+    </context>
+    <!-- 平台注册协议-->
+    <el-dialog :visible.sync="agreement.show" class="showAgreement" closeable>
+      <template slot="title">
+        <div class="agreement_title">
+          <icon>&#xa037</icon>
+          平台协议
+        </div>
+      </template>
+      <div class="agreement_text" v-html="agreement.text"></div>
+      <div class="agreement_radio">
+        <el-checkbox v-model="agreement.checked">我已经阅读，并同意《平台协议》</el-checkbox>
+      </div>
+    </el-dialog>
+    <page_footer :organ="organ" v-if="true">loading ...</page_footer>
+  </div>
+
+</body>
+
+</html>

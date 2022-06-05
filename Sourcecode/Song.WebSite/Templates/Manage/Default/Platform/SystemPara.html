@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>参数管理</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增" ref='btngroup'  @delete="deleteData" path="SystemParaModify" width="600" height="400" idkey='Sys_Id'></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-input v-model="search" style="width:160px" clearable placeholder="参数名">
+                            <i class="el-icon-search el-input__icon" slot="suffix"> </i>
+                        </el-input>
+                    </el-form-item>                  
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatable" :data="calcDatas()" tooltip-effect="dark" style="width: 100%"
+                @row-dblclick="rowdblclick" row-key="Sys_Id">
+                <el-table-column type="index" width="50">
+                </el-table-column>
+                <el-table-column label="参数名" header-align="left">
+                    <template slot-scope="scope">
+                        <span v-html='showInfo(scope.row.Sys_Key)'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="参数值" header-align="left">
+                    <template slot-scope="scope">
+                        <div class="value" v-html='scope.row.Sys_Value'></div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="单位" width="80">
+                    <template slot-scope="scope">
+                        <span v-html='scope.row.Sys_Unit'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="说明" header-align="left">
+                    <template slot-scope="scope">
+                        <span v-html='scope.row.Sys_ParaIntro'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" show-overflow-tooltip width="120">
+                    <template slot-scope="scope">
+
+                        <el-button-group v-show="loadingid!=scope.row.EGrp_Id">
+                            <el-link type="primary" plain icon="el-icon-edit"
+                                @click='$refs.btngroup.modifyrow(scope.row)'>修改</el-link>
+                            <el-popconfirm title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row)">
+                                <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除</el-link>
+                            </el-popconfirm>
+                        </el-button-group>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+        </template>
+
+    </div>
+</body>
+
+</html>

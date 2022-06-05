@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>通知公告</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="700" height="600"
+                :selects='selects' idkey='No_Id' table="datatables"></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-input v-model.trim="form.search" style="width:150px">
+                            <i class="el-icon-search" slot="suffix" v-on:click="handleCurrentChange(1)"> </i>
+                        </el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
+            @selection-change="val=>selects = val"
+            @row-dblclick="(row, column, event)=>{$refs.btngroup.modify(row[$refs.btngroup.idkey])}" row-key="No_Id">
+            <el-table-column type="selection" width="35" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column type="index" width="50" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="主题">
+                <template slot-scope="scope">
+                    <span v-html="showInfo(scope.row.No_Ttl)">
+                </template>
+            </el-table-column>
+            <el-table-column label="时间" width="150">
+                <template slot-scope="scope">
+                    {{scope.row.No_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}
+                </template>
+            </el-table-column>
+            <el-table-column label="类型" width="60" align="center">
+                <template slot-scope="scope">
+                    <span v-if="scope.row.No_Type=='2'">
+                        <icon>&#xa02c</icon>弹窗
+                    </span>
+                </template>
+            </el-table-column>
+            <el-table-column label="位置" width="150" align="center">
+                <template slot-scope="scope" v-if="scope.row.No_Type=='2'">
+                    <span v-if="scope.row.No_Page=='mobi_home'">
+                        <icon>&#xe66b</icon>手机端首页
+                    </span>
+                    <span v-if="scope.row.No_Page=='web_home'">
+                        <icon>&#xe609</icon>电脑端首页
+                    </span>
+                </template>
+            </el-table-column>
+            <el-table-column label="显示" width="60" align="center">
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-show="loadingid==scope.row.No_Id"></span>
+                    <div>
+                        <el-switch v-model="scope.row.No_IsShow" @change="changeState(scope.row)" active-color="#13ce66"
+                            inactive-color="#ff4949" v-show="loadingid!=scope.row.No_Id">
+                        </el-switch>
+                    </div>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作" show-overflow-tooltip width="120">
+
+                <el-button-group slot-scope="scope">
+                    <el-link type="primary" plain icon="el-icon-edit" @click='$refs.btngroup.modify(scope.row.No_Id)'>修改
+                    </el-link>
+                    <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
+                        title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.No_Id)">
+                        <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+                </el-button-group>
+            </el-table-column>
+        </el-table>
+
+
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,175 @@
+﻿html{
+	overflow-x: hidden;
+}
+.topBox {
+	height: 45px;
+	overflow: hidden;
+	font-size: 18px;
+	line-height: 45px;
+	text-align: center;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 1;
+	width: 100vw;
+}
+/*图片区*/
+.chart-area {
+	height: 200px;
+	width: 100%;
+	position: relative;
+	text-align: center;
+	padding-top: 10px;
+	background-color: #FFF;
+	margin-bottom: 8px;
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #E6E6E6;
+	background-color: #FFF;
+}
+.chart-area .chart-back {
+	background: linear-gradient(to bottom right, #b4d0e5, #fff); /* 标准的语法 */
+	height: 120px;
+	width: 120px;
+	top: 20px;
+	border-radius: 50%;
+	margin-right: auto;
+	margin-left: auto;
+	border: 20px solid #DFEFFF;
+	box-shadow: 0 10px 20px rgba(223, 239, 255, .3);
+}
+.chart-area .y {
+	background: linear-gradient(to bottom right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.1) 80%); /* 标准的语法 */
+	height: 100px;
+	width: 100px;
+	margin-top: 5px;
+	border-radius: 80px 80px 80px 80px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.chart-txt {
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	top: 60px;
+}
+.chart-txt span {
+	display: block;
+	font-size: 14px;
+	color: #666;	
+}
+.chart-txt span.cou-rate {
+	font-size: 30px;
+	line-height: 40px;
+	color: #666;
+	font-weight: bold;
+}
+.chart-txt span.cou-rate::after{
+	content: '%';
+}
+.quesnumbox{
+	width:100%;
+	height:40px;
+	position:absolute;
+	bottom:0px;
+	margin:0px;
+	padding:0px;
+}
+.quesnumbox dd{
+	width:50%;
+	float:left;
+	margin:0px;
+	padding:0px;
+	line-height:40px;
+	text-align:center;
+}
+/*主菜单*/
+
+.mainmenu {
+    width: calc(100% - 20px);
+    display: flex;
+    padding: 10px 10px 10px 10px;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.mainmenu>div {
+    flex: 1;
+    width: calc((100% - 20px)/5 - 20px);
+    flex-basis: auto;
+    font-size: 13px;
+    text-align: center;
+    padding: 10px 5px 0px 5px;
+}
+
+.mainmenu span{  
+    display: block;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+/*上次练习的时候*/
+.log {
+	display:none;
+}
+.right {
+	margin-right: 20px;
+}
+.curr-logo {
+	width: 30px;
+	height: 30px !important;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-top: -6px;
+	border: 2px solid #CCC !important;
+	display: block;
+}
+.curr-box {
+	overflow: hidden;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.outline-tit b:before{
+	content: "\e79c";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;	
+	color:#666;
+}
+/*章节列表*/
+.outline{
+	padding: 10px;
+	width: calc(100% - 20px);
+}
+.outline .van-cell {
+    padding: 8px 10px 8px 10px;
+}
+.outline .van-cell__title{
+    font-size: 16px;
+}
+.outline .van-cell .tag{
+    position: absolute;
+    top:0px;
+    right: 0px;
+}
+.olname{
+	font-size: 16px;
+}
+/*正确率的百分比*/
+.van-circle{
+	font-size: 12px;
+}
+.van-circle__text{
+	font-size: 12px;
+}
+/*继续练习*/
+.continue{
+	float: right;
+}

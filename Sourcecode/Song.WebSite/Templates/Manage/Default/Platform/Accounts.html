@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>账号管理</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="导出,修改,删除" ref='btngroup' @delete="deleteData" @output="output" path="AccountModify"
+                width="600" height="600" :selects='selects' idkey='Ac_ID' table="datatables"></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-select v-model="form.orgid" placeholder="--所有机构--">
+                            <el-option class="organs_option" v-for="(item,index) in organs" :key="item.Org_ID"
+                                :label="item.Org_PlatformName" :value="item.Org_ID">
+                                <div>
+                                    <span>{{index+1}}.</span>
+                                    <span>
+                                        {{ item.Org_PlatformName }}</span>
+
+                                </div>
+                                <div style="float: right; color: #8492a6; font-size: 13px">{{ item.Org_Name }}</div>
+
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.search" style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatables" :stripe="true" :data="accounts" tooltip-effect="dark" style="width: 100%"
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="姓名" width="120">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Ac_Sex=='1'" class="weisha_icon man" icon="&#xe645" title="男性"></span>
+                        <span v-if="scope.row.Ac_Sex=='2'" class="weisha_icon woman" icon="&#xe647" title="女性"></span>
+
+                        <span v-html='showInfo(scope.row.Ac_Name)'
+                            :class="{'woman':scope.row.Ac_Sex=='2','name':true}"></span>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="账号">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Ac_IsTeacher" class="weisha_icon tearch" icon="&#xe804" title="教师"></span>
+                        <span v-html='showInfo(scope.row.Ac_AccName)'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="电话">
+                    <template slot-scope="scope">
+                        <span v-html='scope.row.Ac_MobiTel1'></span>
+                        <span
+                            v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1">/</span>
+                        <span v-html='scope.row.Ac_MobiTel2'
+                            v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="资金" width="120">
+                    <template slot-scope="scope">
+                        <span class="weisha_icon money" @click="moneyHandle(scope.row)" icon="&#xe624"
+                            style="font-size: 14px;">{{scope.row.Ac_Money}}</span>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="启用" width="80" align="center">
+                    <template slot-scope="scope">
+                        <span class="el-icon-loading" v-show="loadingid==scope.row.Ac_ID"></span>
+                        <el-switch v-model="scope.row.Ac_IsUse" @change="changeUse(scope.row)"
+                            v-show="loadingid!=scope.row.Ac_ID">
+                        </el-switch>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="操作" show-overflow-tooltip width="120" align="center">
+
+                    <el-button-group slot-scope="scope">
+                        <el-link type="primary" plain icon="el-icon-edit"
+                            @click='$refs.btngroup.modify(scope.row.Ac_ID)'>修改</el-link>
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Ac_ID)">
+                            <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+
+                    </el-button-group>
+
+                </el-table-column>
+            </el-table>
+
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

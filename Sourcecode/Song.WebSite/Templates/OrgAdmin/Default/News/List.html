@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>新闻管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+
+        <div class="left_box" remark="新闻栏目">
+            <div class="toolsbar" @click="handleNodeClick(null)">
+                <span>
+                    <icon>&#xe63a</icon>
+                    栏目
+                    <span class="tip">(点击此处选所有)</span>
+                </span>
+            </div>
+            <div class="treebox">
+                <el-tree :data="columns" v-loading="loading_init" :props="defaultProps" default-expand-all
+                    @node-click="handleNodeClick">
+                    <span class="custom-tree-node" slot-scope="{ node, data }">
+                        <span class="bolder" v-if="curr_column && curr_column.Col_ID==data.Col_ID"
+                            v-html="data.Col_Name"></span>
+                        <span v-else v-html="data.Col_Name"></span>
+                    </span>
+                </el-tree>
+            </div>
+        </div>
+        <div class="right_box" remark="新闻列表">
+            <div class="toolsbar" v-if="!loading_init">
+                <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="Modify" width="80%" height="80%"
+                    :selects='selects' idkey='Art_Id' table="datatables"></btngroup>
+                <div class="search-box">
+
+                    <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                        <el-form-item label="">
+                            <el-input v-model="form.search" clearable style="width:100px"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                                native-type="submit" plain>
+                                查询
+                            </el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
+            </div>
+            <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Art_Id">
+                <el-table-column type="selection" width="35" show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="标题">
+                    <template slot-scope="scope">
+                        <icon v-if="scope.row.Art_IsImg" title="图片" style="font-size: 18px;">&#xe672</icon>
+                        <span v-html="showInfo(scope.row.Art_Title)">
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="启用" width="60">
+                    <template slot-scope="scope">
+                        <span class="el-icon-loading" v-show="loadingid==scope.row.Art_Id"></span>
+                        <div>
+                            <el-switch v-model="scope.row.Art_IsUse" @change="changeState(scope.row)"
+                                active-color="#13ce66" inactive-color="#ff4949" v-show="loadingid!=scope.row.Art_Id">
+                            </el-switch>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" show-overflow-tooltip width="120">
+
+                    <el-button-group slot-scope="scope">
+                        <el-link type="primary" plain icon="el-icon-edit"
+                            @click='$refs.btngroup.modify(scope.row.Art_Id)'>修改
+                        </el-link>
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Art_Id)">
+                            <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+                    </el-button-group>
+                </el-table-column>
+            </el-table>
+            <div id="pager-box">
+                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                    :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

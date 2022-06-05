@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>视频管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-tabs type="card" tab-position="top" v-model="tabName">
+            <el-tab-pane v-for="item in tabs" :name="item.tab" :disabled="item.disabled">
+                <div slot="label">
+                    <icon v-html="item.icon"></icon>{{item.name}}
+                </div>
+            </el-tab-pane>
+        </el-tabs>
+        <div id="content_panel">
+            <div v-show="tabName=='video'">
+                <div class="btns_bar">
+                    <upload-chunked :chunk="1" :thread="3" ext="mp4" title="上传本地文件" pathkey="CourseVideo"
+                        @start="upload_start" @success="upload_success"></upload-chunked>
+                    <div>
+                        <el-button type="primary" plain :disabled="loading_up" @click="$refs['videos'].show()">
+                            <icon>&#xe79b</icon>选择服务器端文件
+                        </el-button>
+                        <el-button type="danger" plain :disabled="loading_up" @click="deleteVideo()">
+                            <icon>&#xe800</icon>清除视频
+                        </el-button>
+                    </div>
+                </div>
+
+            </div>
+            <div v-show="tabName=='outer'">
+                <help multi>视频为本系统之外的视频文件链接，例如：阿里云、七牛云等云存储的视频地址；
+                    <br />在播放时可以像本地服务器上的视频一样统计观看进度
+                </help>
+                <el-form ref="outer" :model="accessory" :rules="rules_outer" label-width="100px"
+                    v-on:submit.native.prevent>
+                    <el-form-item label="视频地址" prop="As_FileName">
+                        <el-input placeholder="请输入内容" v-model="accessory.As_FileName" clearable>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" :loading="loading" icon="el-icon-plus" native-type="submit" plain
+                            v-if="false">
+                            测试视频地址
+                        </el-button>
+                        <el-button type="primary" :loading="loading" icon="el-icon-plus" native-type="submit" plain
+                            @click="btnSaveOuter('outer')">
+                            保存上述视频链接地址
+                        </el-button>
+                        <el-button type="danger" plain :disabled="loading_up" @click="deleteVideo()">
+                            <icon>&#xe800</icon>清除视频
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+            <div id="videoplayer" v-show="tabName=='video' || tabName=='outer'"
+                :class="{'video':tabName=='video','outer':tabName=='outer'}"></div>
+            <div v-show="tabName=='other'">
+                <help multi>其它视频网站的播放页面，例如：爱奇艺、优酷、腾讯视频等视频网站的播放页面；
+                    <br />播放时只嵌入他们的播放页面，无法统计观看进度。
+                </help>
+                <el-form ref="other" :model="accessory" :rules="rules_outer" label-width="100px"
+                    v-on:submit.native.prevent>
+                    <el-form-item label="视频地址" prop="As_FileName">
+                        <el-input placeholder="请输入内容" v-model="accessory.As_FileName" clearable>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" :loading="loading" icon="el-icon-plus" native-type="submit" plain
+                            @click="btnSaveOther('other')">
+                            保存上述地址
+                        </el-button>
+                        <el-button type="danger" plain :disabled="loading_up" @click="deleteVideo()">
+                            <icon>&#xe800</icon>清除视频
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <video_list ref="videos" @selected="selectfile"></video_list>
+        <div class="footer">
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>成绩回顾</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="header">
+            <a class="weisha_icon" icon="&#xe748" style="font-size: 22px;" @click="window.history.go(-1);"></a>
+            <a class="weisha_icon" icon="&#xa020" style="font-size: 18px;" href="/mobi/"></a>
+            <div class="header_info" v-if="!islogin" remark="未登录">
+                <div class="acc_photo nophoto"></div>
+                <a href="/mobi/sign/in">未登录 </a>
+            </div>
+            <div class="header_info" v-if="islogin" remark="已经登录">
+                <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                    :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                <template v-else>
+                    <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
+                    <div class="acc_photo man" v-else></div>
+                </template>
+                <span class="acc-name">{{account.Ac_Name}} </span>
+            </div>
+        </div>
+        <div v-if="loading">
+            <card>
+                <card-title><van-loading type="spinner">正在加载中...</van-loading></card-title>
+            </card>
+        </div>
+        <context>
+            <card v-if="!loading">
+                <card-title>《{{result.Exam_Name ? result.Exam_Name : result.Exam_Title}}》</card-title>
+                <card-context v-if="error!=''" remark="如果考试未结束">
+                    <row> 成绩：<score :class="scoreStyle(scoreFinal)">{{scoreFinal}} 分</score>
+                        <span class="tag" v-if="exam">（满分{{exam.Exam_Total}}分，{{exam.Exam_PassScore}}分及格）</span>
+                    </row>
+                    <row> 回顾：{{error}}</row>
+
+                </card-context>
+            </card>
+            <template v-if="error==''">
+                <div class="info"> 亲爱的
+                    <b v-if="student.Ac_Name" v-html="student.Ac_Name"></b>
+                    <b v-else> 匿名考生</b>，
+                    您于<b>{{result.Exr_CrtTime|date("yyyy-MM-dd HH:mm")}}</b>参考的考试，成绩详情
+                </div>
+                <div class="scoreinfo"> 得分：
+                    <score :class="scoreStyle(result.Exr_ScoreFinal)">{{result.Exr_ScoreFinal}} 分</score>
+                    <span v-if="paper">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
+                    <alert v-else>试卷不存在</alert>
+                </div>
+
+                <van-sticky>
+                    <van-tabs v-model="tabactive">
+                        <van-tab name="all">
+                            <template #title>
+                                <span class="weisha_icon" icon="&#xe680">所有({{ques_all_count}})
+                            </template>
+                        </van-tab>
+                        <van-tab name="success"> <template #title>
+                                <span class="weisha_icon" icon="&#xe706">正确({{ques_success_count}})
+                            </template>
+                        </van-tab>
+                        <van-tab name="error"> <template #title>
+                                <span class="weisha_icon" icon="&#xe6fe">错误({{ques_error_count}})
+                            </template>
+                        </van-tab>
+                        <van-tab name="unasnwered"> <template #title>
+                                <span class="weisha_icon" icon="&#xa01f">未做({{ques_unanswerd_count}})
+                            </template>
+                        </van-tab>
+                    </van-tabs>
+                </van-sticky>
+                <div class="question">
+                    <group v-for="(type,index) in questions" :item="type" :index="index" :types="types"
+                        :state="tabactive">
+                        <question v-for="(q,i) in type.ques" :qans="q" :index="i" :state="tabactive" :groupindex="index"
+                            :questions="questions"></question>
+                    </group>
+                </div>
+            </template>
+            </template>
+        </context>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+﻿@charset "utf-8";
+#vapp {
+    box-sizing: border-box;
+    padding: 20px;
+}
+header{
+    font-size: 18px;
+    line-height: 50px;
+}
+dl{
+    display: flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    width: 100%;
+   
+}
+dd{
+    box-sizing: border-box;
+    height: 50px;
+    width: 200px;
+    border: 1px solid #DCDFE6;
+    padding: 15px 20px;
+    line-height: 1;
+    margin: 5px 20px 5px 0px;
+    border-radius: 5px;
+    white-space:nowrap;
+    cursor: pointer;
+    color: #333;
+}
+dd[current]{
+    background: #409EFF;
+    color: #fff;
+}
+dd icon{
+    font-size: 22px;
+}
+dd:hover{
+    background: rgb(217, 236, 255);
+    color: #333;
+}

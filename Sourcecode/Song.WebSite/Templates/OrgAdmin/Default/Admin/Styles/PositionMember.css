@@ -1,0 +1,79 @@
+﻿@charset "utf-8";
+
+workarea {
+    display: flex;
+    width: 100%;
+    height: calc(100% - 50px);
+}
+
+workarea>div {
+    height: 100%;
+}
+
+.footer {
+    --background-color: transparent !important;
+    right: 0px;
+    left: auto;
+    width: 180px;
+}
+
+#pager-box {
+    z-index: 1;
+}
+
+workarea>div .tit {
+    padding: 5px 10px;
+    box-sizing: border-box;
+    line-height: 40px;
+    height: 40px;
+}
+
+workarea>div .tit .el-input {
+    margin: 0px;
+    float: right;
+}
+
+.left {
+    --background-color: cadetblue;
+    flex-grow: 3;
+    position: relative;
+    max-width: 50%;
+}
+
+.right {   
+    flex-grow: 3;
+}
+
+.center {    
+    flex-grow: 2;
+    padding: 10px;
+    box-sizing: border-box;
+    padding-top: 20%;
+}
+.center button:first-child{
+    margin-bottom: 20px;
+}
+.el-table {
+    height: calc(100% - 40px);
+}
+
+.el-table__body-wrapper {
+    height: calc(100% - 40px);
+    overflow-y: auto;
+}
+.el-table--border::after, .el-table--group::after, .el-table::before{
+    height: 0px !important;
+}
+.el-table td.el-table__cell{
+    border-bottom: none !important;
+}
+.el-table .count {
+    float: right;
+    font-weight: normal;
+}
+
+#pager-box {
+    max-width: calc(100% - 200px);
+    overflow: hidden;
+    padding: 8px 6px 8px 8px;
+}

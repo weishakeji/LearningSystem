@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 该文件记录Excel数据导入时Excel的列名与数据库中字段的对应关系 -->
+<!--export:是否导出，默认为true-->
+<config>
+  <item Column="ID" Field="Ol_ID" />
+  <item Column="章节名称" Field="Ol_Name" />
+  <item Column="是否免费" Field="Ol_IsFree" DefautValue="true=是|false=否" />
+  <item Column="是否启用" Field="Ol_IsUse" export="true"  DefautValue="true=是|false=否"/>
+  <item Column="是否完结" Field="Ol_IsFinish" DefautValue="true=是|false=否"/> 
+</config>

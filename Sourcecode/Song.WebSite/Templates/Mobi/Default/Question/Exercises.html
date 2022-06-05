@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>试题练习</title>
+</head>
+
+<body>
+  <script>
+    document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
+    document.body.onpaste = document.body.oncopy = function () { return false; };
+  </script>
+  <div id="vapp" v-cloak>
+    <template v-if="loading_init">
+      <van-loading size="24px" type="spinner">加载中...</van-loading>
+    </template>
+    <template v-else>
+      <template v-if="error!=''">
+        <card v-if="!islogin">
+          <card-title class="weisha_icon" icon="&#xa043">未登录！</card-title>
+          <card-context><a href="/mobi/sign/in">点击此处登录</a></card-context>
+        </card>
+        <card v-else>
+          <card-title class="weisha_icon" icon="&#xe6fe">错误！</card-title>
+          <card-context>{{error}}</card-context>
+        </card>
+      </template>
+      <template v-else>
+        <van-row class="topBox">
+          <van-col span="7" class="btntop">
+            <a class="weisha_icon" icon="&#xe748" @click="window.history.back();"></a>
+            <a class="weisha_icon" icon="&#xa020" href="/mobi/"></a>
+            <a class="weisha_icon" icon="&#xe813" @click="showCourse=true"></a>
+          </van-col>
+          <van-col span="2">&nbsp;</van-col>
+          <van-col span="10" @click="learnmode++">
+            <span v-if="learnmode%2==0" class="weisha_icon" icon="&#xe801"> 练习模式 </span>
+            <span v-if="learnmode%2==1" class="weisha_icon" icon="&#xe6da"> 背题模式 </span>
+          </van-col>
+          <van-col span="2">&nbsp;</van-col>
+          <van-col span="3" @click="()=>{$refs['setupmenu'].show=true}">
+            <icon>&#xa038</icon>
+          </van-col>
+        </van-row>
+        <setupmenu ref="setupmenu" :account="account"></setupmenu>
+        <!--试题区域 -->
+        <template v-if="loading">
+          <van-loading size="24px" type="spinner">试题加载中...</van-loading>
+        </template>
+        <template v-else>
+          <section v-if="questions.length>0" :style="'width:'+questions.length*100+'vw'" v-swiperight="swiperight"
+            v-swipeleft="swipeleft" remark="试题区域">
+            <dl>
+              <question ref="question" v-for="(q,i) in questions" :ques="q" :index="i"
+                :state="state.getitem(q.Qus_ID,i)" :total="questions.length" :types="types" :mode="learnmode%2"
+                @answer="answer">
+                <template v-slot:buttons>
+                  <quesbuttons :question="q" :account="account" :couid="couid"></quesbuttons>
+                </template>
+              </question>
+            </dl>
+          </section>
+          <card v-else>
+            <card-title class="weisha_icon" icon="&#xe839">没有试题！</card-title>
+            <card-context>没有供学习的试题，请选择其它的章节。</card-context>
+          </card>
+        </template>
+        <!--答题卡 -->
+        <van-popup v-model="showCard" position="left" closeable class="quesCard" :overlay="false" remark="答题卡">
+          <answercard ref='answercard' :questions="questions" :types="types" :ansstate="state"
+            @click="index=>swipeIndex = index"></answercard>
+        </van-popup>
+
+        <!--底部按钮区 -->
+        <div class="footer">
+          <div class="correct-rate">{{count.rate}}</div>
+          <div class="correct-num">{{count.correct}}</div>
+          <div class="error-num">{{count.wrong}}</div>
+          <div class="foot-ico" id="btnCard" @click="showCard=true">
+            <span>{{count.answer}}</span>/{{questions.length}}
+          </div>
+        </div>
+      </template>
+    </template>
+    <van-popup v-model="showCourse" class="showCourse" ramark="课程信息">
+      <row>课程： {{course.Cou_Name}}</row>
+      <row>章节： {{outline.Ol_XPath}} {{outline.Ol_Name}}</row>
+      <div>
+        <van-button type="default" @click="showCourse=false">取消</van-button>
+        <van-button type="primary" :url="'../course/Detail.'+couid">
+          <span class="weisha_icon" icon="&#xe813"></span>
+          返回课程
+        </van-button>
+      </div>
+
+    </van-popup>
+  </div>
+
+
+</body>
+
+</html>

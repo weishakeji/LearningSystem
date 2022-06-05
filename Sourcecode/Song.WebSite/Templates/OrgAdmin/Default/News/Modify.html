@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>文章内容管理</title>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-tabs v-model="activeName" type="card">
+            <el-tab-pane name="tab1"> <span slot="label">
+                    <icon>&#xe731</icon> 基本信息
+                </span> </el-tab-pane>
+            <el-tab-pane name="tab2"> <span slot="label">
+                    <icon>&#xe60d</icon> 文章内容
+                </span></el-tab-pane>
+            <el-tab-pane name="tab3"> <span slot="label">
+                    <icon>&#xe628</icon> 预览图
+                </span></el-tab-pane>
+            <el-tab-pane name="tab4"> <span slot="label">
+                    <icon>&#xe853</icon> 附件
+                </span></el-tab-pane>
+            <el-tab-pane name="tab5"> <span slot="label">
+                    <icon>&#xe834</icon> 其它
+                </span></el-tab-pane>
+        </el-tabs>
+        <div class="context">
+            <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+                <template v-if="activeName=='tab1'">
+                    <el-form-item label="标题" prop="Art_Title">
+                        <el-input v-model="entity.Art_Title" maxlength="140"></el-input>
+                    </el-form-item>
+                    <el-form-item label="简标题" prop="Art_TitleAbbr">
+                        <el-input v-model="entity.Art_TitleAbbr" style="width: 50%;" maxlength="140"></el-input>
+                    </el-form-item>
+                    <el-form-item label="完整标题" prop="Art_TitleFull">
+                        <el-input v-model="entity.Art_TitleFull" type="textarea" maxlength="255"></el-input>
+                    </el-form-item>
+                    <el-form-item label="所属栏目" prop="Col_UID">
+                        <el-cascader style="width: 50%;" v-model="entity.Col_UID" :options="columns" separator="／"
+                            :props="defaultProps" filterable>
+                        </el-cascader>
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-switch v-model="entity.Art_IsUse" active-color="#13ce66" inactive-color="#ff4949"
+                            :active-text="entity.Art_IsUse ? '启用' : '禁用'">
+                        </el-switch>
+                        <el-switch v-model="entity.Art_IsRec" :active-text="entity.Art_IsRec ? '推荐' : '未推荐'">
+                        </el-switch>
+                        <el-switch v-model="entity.Art_IsTop" :active-text="entity.Art_IsTop ? '置顶' : '未置顶'">
+                        </el-switch>
+                        <el-switch v-model="entity.Art_IsHot" :active-text="entity.Art_IsHot ? '热点' : '非热点'">
+                        </el-switch>
+                    </el-form-item>
+                    <el-form-item label="简述" prop="Art_Intro">
+                        <el-input type="textarea" :rows="5" placeholder="请输入内容" maxlength="250"
+                            v-model="entity.Art_Intro">
+                        </el-input>
+                    </el-form-item>
+                </template>
+                <template v-if="activeName=='tab2'">
+                    <vue-html5-editor :content="entity.Art_Details" :show-module-name="false" ref="editor_intro"
+                        @change="text=>entity.Art_Details = text">
+                    </vue-html5-editor>
+                </template>
+                <template v-if="activeName=='tab3'">
+                    <div class="art_logo">
+                        <div class="img_tools">
+                            <upload-img @change="filechange" :data="entity" size="1024" height="30" ext="jpg,png,gif">
+                                <el-tooltip content="允许的图片格式：jpg,png,gif" placement="right" effect="light">
+                                    <span style="cursor: pointer;">
+                                        <icon>&#xe724</icon>点击上传图片
+                                    </span>
+                                </el-tooltip>
+                            </upload-img>
+                            <template v-if="entity.Art_Logo!='' || upfile!=null">
+                                <el-link type="primary" @click.stop="fileremove">清除图片</el-link>
+                            </template>
+                        </div>
+                        <div v-if="entity.Art_Logo!='' || upfile!=null">
+                            <img v-if="upfile!=null" :src="upfile.base64" />
+                            <img v-else :src="entity.Art_Logo" />
+                        </div>
+                    </div>
+                </template>
+                <template v-if="activeName=='tab4'" remark="附件">
+                    <div class="art_access">
+                        <div class="file_tools">
+                            <loading v-if="loading_upload">
+                                正在上传...
+                            </loading>
+                            <upload-file v-else @change="uploadAccessory" :data="entity" size="102400" height="30"
+                                ext="zip,rar,pdf,doc,docx,xls,xlsx">
+                                <el-tooltip content="允许的文件类型：zip,rar,pdf,doc,docx,xls,xlsx" placement="right"
+                                    effect="light">
+                                    <el-button type="primary" plain>
+                                        <icon>&#xe724</icon>点击上传文件
+                                    </el-button>
+                                </el-tooltip>
+                            </upload-file>
+                        </div>
+                        <dl>
+                            <dd v-for="(f,i) in accessories">
+                                <a :href="f.As_FileName" target="_blank"
+                                    :download="f.As_Name"><span>{{i+1}}.</span><span v-html="f.As_Name"></span></a>
+                                <el-popconfirm title="确定删除吗？" @confirm="delAccessory(f)">
+                                    <el-link type="danger" class="el-icon-delete" slot="reference"> 删除</el-link>
+                                </el-popconfirm>
+                            </dd>
+                        </dl>
+                    </div>
+                </template>
+                <template v-if="activeName=='tab5'">
+                    <el-form-item label="标签" prop="Art_Label">
+                        <el-input type="textarea" :rows="3" placeholder="请输入内容" maxlength="250"
+                            v-model="entity.Art_Label">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="作者" prop="Art_Author">
+                        <el-input v-model="entity.Art_Author" type="text" maxlength="140" style="width: 120px;">
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item label="来源" prop="Art_Source">
+                        <el-input v-model="entity.Art_Source" type="text" maxlength="140"> </el-input>
+                    </el-form-item>
+                </template>
+            </el-form>
+        </div>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>保存
+            </el-button>
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

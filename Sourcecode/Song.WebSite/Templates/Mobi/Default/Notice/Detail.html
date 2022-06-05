@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />    
+    <title>公告</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="header">
+            <div class="weisha_icon" icon="&#xe748" @click="window.history.go(-1);"></div>
+            <van-search v-model="sear_str" placeholder="请输入搜索关键词" background="transparent" @search="onSearch">
+                <template #action>
+
+                </template>
+                <template #right-icon>
+                    <div @click="onSearch">搜索</div>
+                </template>
+                <template #left-icon>
+
+                </template>
+            </van-search>
+        </div>
+        <div class="context" v-if="!isempty">
+            <div id="artBox">
+                <van-sticky  :offset-top="44" class="artTitle"> {{data.No_Ttl}}</van-sticky>
+
+                <div class="artAttrBar"> <span class="artTime">{{data.No_StartTime|date("yyyy-M-dd hh:m:s")}}</span>
+                    <!--<span class="artSharp">分享 </span>  -->
+                </div>
+                <!--正文 -->
+                <div id="artContext" v-html="data.No_Context">
+
+                </div>
+            </div>
+        </div>
+        <div class="context" v-if="isempty">
+            <div class="nocontext"> 没有内容</div>
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

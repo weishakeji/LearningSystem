@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>试题</title>
+</head>
+
+<body>
+    <div id="vapp">
+        <template v-if="!(!!entity.Qus_Type) && (!loading_init && !loading)">
+            <header>
+                请选择试题类型
+            </header>
+            <dl>
+                <dd v-for="(item,i) in types" :current="entity && !!entity.Qus_Type && entity.Qus_Type==i+1"
+                    @click="gourl(i+1)">
+                    <ques_type :type="i+1" :types="types"></ques_type> <span>{{ item }}题</span>
+                </dd>
+            </dl>
+            <div class="footer">
+                <el-button type='close'>
+                    取消
+                </el-button>
+            </div>
+        </template>
+    </div>
+
+
+</body>
+
+</html>

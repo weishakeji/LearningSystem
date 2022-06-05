@@ -1,0 +1,120 @@
+﻿<!doctype html>
+<html>
+
+<head>
+	<title>云之家测试</title>
+	<vt:include file="inc/meta.inc" />
+	<link rel="stylesheet" href="Styles/Yunzhijia.css?ver={$version}" type="text/css" />
+
+</head>
+
+<body>
+	<div id="view">
+		<div id="limitMsg" class="box">
+			<div class="title">{$org.org_platformname}.登录</div>
+			<div class="message">
+				<span style="display: none" class="noyunzhijia">当前应用没有处于云之家APP中，无法使用云之家账号进行登录学习</span>
+				<div class="error" style="display: none">错误：<span>{{message}}</span></div>
+
+				<div class="userinfo" style="margin-bottom:40px;display:none">
+					<img src="/Utility/images/head1.jpg" id="photo" />
+					<div class="name">姓名：<span></span></div>
+					<div class="mobile">账号：<span></span></div>
+
+				</div>
+				<div style="display: none" class="box-foot">
+					正在登录... <span class="second">5</span>后转到首页
+				</div>
+
+			</div>
+
+		</div>
+		<div class="box" id="Debuginfo" style="display: none">
+			<div class="title">调试信息</div>
+			<div class="infobox">
+				<div class="txt"> 是否处于云之家：<span></span> </div>
+				<div class="ticket">ticket:<span></span></div>
+				<div class="state">详细信息：<span></span></div>
+				<div class="url"><span></span></div>
+			</div>
+		</div>
+	</div>
+	<script>
+
+		//常用参数
+		window.view = {
+			isDebug: false,
+			error: false,
+			message: 'null',
+			url: window.location.href,
+			user: null,
+			second: 5
+		};
+		//常用方法
+		var methods = {
+			//判断是否运行于云之家App中
+			isYzjApp: function () {
+				return navigator.userAgent.match(/Qing\/.*;(iPhone|Android).*/) ? true : false;
+			},
+			isMobile: function () {
+				var os = navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+					? 'ios' : navigator.userAgent.match(/Android/i)
+						? 'android' : '';
+				return os == 'ios' || os == 'android';
+			},
+			getParam: function (name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+				var r = window.location.search.substr(1).match(reg); //匹配目标参数
+				if (r != null)
+					return unescape(r[2]);
+				return null; //返回参数值
+			}
+		}
+		$(function () {
+			//调试信息
+			if (window.view.isDebug) {
+				$("#Debuginfo").show();
+				$("#Debuginfo .txt span").text(methods.isYzjApp());
+				$("#Debuginfo .ticket span").text(methods.getParam('ticket'));
+				$("#Debuginfo .url span").text(view.url);
+			}
+			//如果不在云之家平台中
+			if (!methods.isYzjApp()) {
+				$(".noyunzhijia").show();
+				return;
+			}
+			$.post(window.location.href, { 'action': 'getuser' }, function (data) {
+				try {
+					view.user = eval("(" + data + ")");
+					$("#Debuginfo .state span").text(data);
+					if (view.user.appid == "0") {
+						$(".error").show().find("span").text(view.user.message);
+					} else {
+						//姓名和账号
+						var user = view.user;
+						$(".name span").text(user.username);
+						$(".mobile span").text(user.mobile);
+						$("#photo").attr("src", user.photoUrl);
+						$(".userinfo,.box-foot").show();
+
+						//成功后返回首页
+						setInterval(function () {
+							view.second--;
+							$(".second").text(view.second);
+							if (view.second <= 0) {
+								window.location.href = '/';
+							}
+						}, 1000);
+					}
+				}
+				catch (err) {
+					alert(err);
+					//window.location.reload();
+				}
+			});
+		});
+	</script>
+
+</body>
+
+</html>

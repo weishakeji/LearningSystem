@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>公章管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="stamp" @submit.native.prevent label-width="120px">
+            <el-form-item label="说明">
+                <template slot="label">
+
+                    <help>说明</help>
+
+                </template>
+                1、公章的用途主要在学员学习情况导出时使用；
+                <br />
+                2、考虑到公章需要加盖到学习信息之上，公章图片需要为gif或png格式的背景透明图片。
+            </el-form-item>
+            <el-form-item label="公章" prop="Org_Keywords">
+                <upload-img @change="filechange" :data="stamp" size="1024" height="100" ext="png,gif">
+                    <template v-if="stamp.path!='' || upfile!=null">
+                        <img v-if="upfile!=null" :src="upfile.base64" />
+                        <img v-else :src="stamp.path" />
+                        <el-link type="primary" @click.stop="fileremove">清除图片</el-link>
+                    </template>
+                    <div class="nophoto" v-else>
+                        <el-tooltip content="点击上传图片" placement="right" effect="light">
+                            <icon>&#xe724</icon>
+                        </el-tooltip>
+                    </div>
+                </upload-img>
+            </el-form-item>
+            <el-form-item label="位置">
+                <div class="positions">
+                    <div v-for="item in positions" @click="stamp.positon=item.posi"
+                        :class="{'curr':stamp.positon==item.posi}">
+                        {{item.text}}
+                    </div>
+                </div>
+
+            </el-form-item>
+            <el-form-item label="">
+                <el-button type="primary" native-type="submit" :loading="loading" v-loading.fullscreen.lock="loading"
+                    @click="btnEnter('entity')">
+                    <icon v-if="!loading">&#xa048</icon>确认修改
+                </el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+$ready(function () {
+
+    window.vapp = new Vue({
+        el: '#vapp',
+        data: {
+            couid: $api.dot(),
+            stid: $api.querystring('stid', 0),     //学员id
+            account: {},     //当前登录账号       
+
+            outlines: [],
+            logdatas: [],
+
+            loading_init: true,
+            loading: false
+        },
+        mounted: function () {
+            var th = this;
+            th.getAccount().then(function (d) {
+                th.account = d;
+                th.stid = d ? d.Ac_ID : 0;
+                if (th.islogin) th.getlogs();
+            });
+            th.loading_init = true;
+            $api.cache('Outline/TreeList', { 'couid': th.couid }).then(function (req) {
+                th.loading_init = false;
+                if (req.data.success) {
+                    th.outlines = req.data.result;
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                th.loading_init = false;
+                //Vue.prototype.$alert(err);
+                console.error(err);
+            });
+        },
+        created: function () {
+
+        },
+        computed: {
+            //是否登录
+            islogin: function () {
+                return JSON.stringify(this.account) != '{}' && this.account != null;
+            }
+        },
+        watch: {
+        },
+        methods: {
+            //获取当前学员
+            getAccount: async function () {
+                var th = this;
+                return new Promise(function (resolve, reject) {
+                    var api = Number(th.stid) > 0 ? $api.get('Account/ForID', { 'id': th.stid }) : $api.get('Account/Current');
+                    api.then(function (req) {
+                        if (req.data.success) {
+                            resolve(req.data.result);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        reject(err);
+                    });
+                });
+            },
+            //加载日志数据
+            getlogs: function () {
+                var th = this;
+                th.loading = true;
+                var acid = th.account.Ac_ID;
+                $api.get('Course/LogForOutlineVideo', { 'stid': acid, 'couid': th.couid }).then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        th.logdatas = req.data.result;
+                        console.log(th.logdatas);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading = false;
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            }
+        }
+    });
+
+}, ['Components/outline_progress.js']);

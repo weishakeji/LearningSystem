@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人信息</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form label-width="80px">
+            <el-form-item>
+                <img v-if="account!=null && account.Acc_Photo!=''" :src="account.Acc_Photo" class="photo">
+                <img v-else class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head1.jpg" />
+                <span class="accname" v-if="account!=null" v-html="account.Acc_Name"></span>
+                <span class="nologin" v-else>(未登录或已失效)</span>
+            </el-form-item>
+            <template v-if="account!=null" >
+                <el-form-item label="工号">
+                    <span>{{account.Acc_EmpCode}}</span>
+                    <span v-show="account.Acc_MobileTel!=''"> &nbsp; <i
+                            class="el-icon-phone-outline"></i>{{account.Acc_MobileTel}}</span>
+                </el-form-item>
+                <el-form-item label="电话">
+                    <span>{{account.Acc_Tel}}</span>
+                </el-form-item>
+                <el-form-item label="Email">
+                    <span>{{account.Acc_Email}}</span>
+                </el-form-item>
+            </template>
+        </el-form>
+    </div>
+
+
+</body>
+
+</html>

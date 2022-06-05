@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+  <meta charset="utf-8">
+  <include file="../inc/meta.inc" />
+  <title>个人信息</title>
+  <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <!--主界面部分-->
+  <div id="vapp" v-clock>
+    <van-row class="topBox">
+      <van-col span="7" class="btntop">
+        <a class="weisha_icon" icon="&#xe748" @click="window.history.back();"></a>
+        <a class="weisha_icon" icon="&#xe813" :href="'../course/Detail.'+couid"></a>
+        <a class="weisha_icon" icon="&#xa020" href="/mobi/"></a>
+      </van-col>
+
+    </van-row>
+    <div class="chart-area">
+      <div class="chart-back">
+        <div class="y"> </div>
+      </div>
+      <div class="chart-txt"> <span>通过率</span> <span class="cou-rate" v-html="rate">-</span></div>
+      <dl class="quesnumbox">
+        <dd>总题量：<span class="sum" v-html="count.sum"></span>道</dd>
+        <dd>已练习：<span class="ansSum" v-html="count.exercise"></span>道</dd>
+      </dl>
+    </div>
+    <!--按钮组-->
+    <menus ref='menus' :couid="couid" :olid="couid"></menus>
+    <div class="outline">
+      <van-cell>
+        <template #title>
+          <span class="weisha_icon" icon="&#xe841">按章节练习</span>
+          <van-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</van-tag>
+        </template>
+      </van-cell>
+      <template v-if="outlines && outlines.length>0">
+        <outlinelist ref="outlines" :outlines="outlines" :course="course" :acid="account.Ac_ID" :isbuy="isbuy">
+        </outlinelist>
+      </template>
+      <van-cell v-else-if="loading">
+        加载中.... </van-cell>
+      <van-cell v-else>
+        没有章节 </van-cell>
+    </div>
+
+  </div>
+
+
+</body>
+
+</html>

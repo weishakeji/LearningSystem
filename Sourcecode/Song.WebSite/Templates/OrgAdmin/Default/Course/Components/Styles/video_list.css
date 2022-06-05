@@ -1,0 +1,132 @@
+﻿.video_list_dialog {
+    width: 80%;
+    height: 80%;
+    margin-top: 10vh !important;
+}
+
+.video_list_dialog .el-dialog__body {
+    height: calc(100% - 125px);
+    overflow: hidden;
+    padding: 10px 20px 0px 20px;
+    position: relative;
+}
+
+.video_list_dialog .el-dialog__footer {
+    padding: 5px 20px;
+    text-align: left;
+}
+/*播放器的时间样式*/
+.qplayer-time{
+    width: 150px !important;
+}
+/*弹窗的标题部分*/
+.video_list_title {
+    display: flex;
+    box-sizing: border-box;
+    padding-right: 40px;
+}
+
+.video_list_title>*:first-child {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.video_list_title>*:last-child {
+    width: 180px;
+}
+
+/*视频详情的面板*/
+.video_list_dialog .el-dialog__body #file_drawer {
+    background-color: rgba(200, 200, 200, 0.3);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+    visibility: hidden;
+}
+
+.video_list_dialog .file_drawer>div {
+    width: 0px;
+    height: 100%;
+    background-color: #333;
+    position: absolute;
+    left: -50%;
+    top: 0px;
+    z-index: 2;
+    color: #ccc !important;
+    transition: all 0.5s;
+}
+
+#file_drawer.show {
+    visibility: visible !important;
+}
+
+#file_drawer.show>div {
+    left: 0px;
+    width: 65%;
+}
+
+#file_drawer .file_drawer_title {
+    height: 40px;
+    line-height: 30px;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    font-size: 16px;
+}
+
+#file_drawer .file_drawer_body {
+    height: calc(100% - 80px);
+    width: 100%;
+}
+
+#file_drawer .file_drawer_footer {
+    height: 40px;
+    line-height: 30px;
+    box-sizing: border-box;
+    padding: 5px 5px;
+    text-align: right;
+    font-size: 16px;
+}
+
+/*文件列表*/
+.video_list_dialog dl {
+    height: 100%;
+    overflow: auto;
+}
+
+.video_list_dialog dl dd {
+    line-height: 30px;
+    display: flex;  
+}
+
+.video_list_dialog dl dd .order {
+    width: 60px;
+    text-align: center;
+}
+
+.video_list_dialog dl dd .filename {
+    flex: 1;
+    font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.video_list_dialog dl dd .filename a{
+    cursor: pointer;
+}
+.video_list_dialog dl dd .filename a:hover{
+    text-decoration: underline;
+}
+.video_list_dialog dl dd .size {
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+    color: #999;
+}
+
+.video_list_dialog dl dd .btn {
+    width: 60px;
+    text-align: center;
+}

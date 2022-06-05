@@ -1,0 +1,233 @@
+﻿@charset "utf-8";
+
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+html {
+	overflow: hidden;
+}
+
+body {
+	background-color: #222326;
+	background: #222326;
+}
+
+/*修改滚动条样式*/
+
+div::-webkit-scrollbar {
+	width: 5px;
+	height: 10px;
+	/**/
+}
+
+div::-webkit-scrollbar-track {
+	background: rgb(239, 239, 239);
+	border-radius: 2px;
+}
+
+div::-webkit-scrollbar-thumb {
+	background: #999;
+	border-radius: 10px;
+}
+
+div::-webkit-scrollbar-thumb:hover {
+	background: #666;
+}
+
+div::-webkit-scrollbar-corner {
+	background: #179a16;
+}
+
+/*布局*/
+
+#MainBox, fold, #rightBox {
+	height: 100%;
+	float: left;
+	position: relative;
+	transition: width .3s;
+}
+
+.mainTop {
+	height: 65px;
+	position: relative;
+}
+
+/*分隔符*/
+
+fold {
+	width: 5px;
+	background-color: #999999;
+	display: block;
+}
+
+fold span {
+	font-size: 12px;
+	font-weight: 900;
+	color: #666;
+	cursor: pointer;
+	position: absolute;
+	top: 48%;
+	left: -1px;
+	display: block;
+	width: 7px;
+	height: 60px;
+	line-height: 60px;
+	z-index: 100;
+	box-shadow: 0px 1px 1px #eee;
+	background: linear-gradient(to right, #fff, #eee, #fff);
+	border-radius: 2px
+}
+
+fold span:before {
+	content: "<";
+}
+
+fold span.open:before {
+	content: ">";
+}
+
+
+
+video::-internal-media-controls-download-button {
+	display: none;
+}
+
+video::-webkit-media-controls-enclosure {
+	overflow: hidden;
+}
+
+video::-webkit-media-controls-panel {
+	width: calc(100% + 0px);
+}
+
+
+
+/*左侧内容区*/
+
+#contextArea {
+	height: calc(100% - 65px);
+	width: 100%;
+	color: #ddd;
+}
+
+#contextArea>div {
+	height: 100%;
+	position: relative;
+	box-sizing: border-box;
+}
+
+
+.noSelect {
+	height: auto !important;
+}
+
+/*预载动画*/
+
+#preloader-2 {
+	position: relative;
+	margin-top: calc(50vh - 90px);
+}
+
+#preloader-2 span {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	background: #eee;
+	border-radius: 999px;
+}
+
+#preloader-2 span:nth-child(1) {
+	animation: cross-1 1.5s infinite linear;
+}
+
+#preloader-2 span:nth-child(2) {
+	animation: cross-2 1.5s infinite linear;
+}
+
+@keyframes cross-1 {
+	0% {
+		transform: translateX(0);
+		opacity: 0.5;
+	}
+
+	50% {
+		transform: translateX(80px);
+		opacity: 1;
+	}
+
+	100% {
+		transform: translateX(0);
+		opacity: 0.5;
+	}
+}
+
+@keyframes cross-2 {
+	0% {
+		transform: translateX(80px);
+		opacity: 0.5;
+	}
+
+	50% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+
+	100% {
+		transform: translateX(80px);
+		opacity: 0.5;
+	}
+}
+
+/* 课程内容
+------------------------*/
+
+#details {
+	font-size: 16px;
+	line-height: 20px;
+	background-color: #ccc;
+	overflow: auto;
+	padding: 50px;
+	box-sizing: border-box;
+	text-align: left;
+}
+
+#details img {
+	max-width: 100% !important;
+}
+
+#details, #details * {
+	font-size: 17px !important;
+	line-height: 30px !important;
+	color: #333 !important;
+	word-break: break-all;
+}
+
+#details * {
+	
+	background-color: transparent !important;
+}
+
+#details p {
+	margin-bottom: 20px;
+}
+
+
+/*限制只能在桌面应用中打开*/
+
+#StudyForDeskapp {
+	color: #fff;
+	margin-top: 60px;
+	width: 320px;
+	height: 90px;
+	line-height: 90px;
+	background: #999;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#StudyForDeskapp, #StudyForDeskapp a {
+	font-size: 16px;
+}

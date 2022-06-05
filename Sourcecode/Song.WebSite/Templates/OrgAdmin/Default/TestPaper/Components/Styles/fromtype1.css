@@ -1,0 +1,29 @@
+﻿.fromtype1 .el-row {
+    margin-bottom: 8px;
+}
+
+.item_box {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    justify-content:flex-start;
+}
+
+.item_box .el-input {
+    margin-bottom: 8px;
+    margin-right: 8px;
+    width: calc(33% - 8px);
+}
+.header{
+    font-size: 16px;
+}
+.el-card__body{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:flex-start;
+}
+.el-card__body .el-input {
+    margin-bottom: 8px;
+    margin-right: 8px;
+    width: calc(33% - 8px);
+}

@@ -1,0 +1,78 @@
+﻿@charset "utf-8";
+/*顶部学员信息，头像等*/
+div#app{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;    
+}
+.context{
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow: auto;   
+}
+.acc_info {
+    padding: 20px 20px 0px 20px;
+    height: 110px;
+}
+
+.acc_info .ws_avatar {
+    border: 1px solid #ccc;
+    float: left;
+    margin-right: 20px;
+    box-sizing: border-box;
+}
+
+.info_right {
+    float: left;
+    width: calc(100% - 100px - 20px);
+    height: 100%;
+}
+
+.info_right>div {
+    line-height: 24px;
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow: ellipsis;
+}
+
+.lower {
+    color: #aaa;
+    font-size: 12px;
+}
+/*余额*/
+.surplus{
+    margin-top: 10px;
+    font-size: 18px;
+    overflow: visible !important;
+    color: rgb(255, 119, 104);
+}
+.surplus icon{
+    font-size: 30px;
+    color: rgb(255, 119, 104);
+}
+/*输入框*/
+.input_number .el-form-item__content {
+    position: relative;   
+}
+.input_number .el-form-item__content icon{
+    position: absolute;
+    z-index: 1;
+    left: 8px;
+    top: 1px;
+    font-size: 20px;
+    color: #999;
+}
+.input_number .el-form-item__content input{
+    padding-left: 30px;
+    font-size: 18px;
+}
+.footer {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #fff;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    text-align: right;
+    padding: 8px;
+}

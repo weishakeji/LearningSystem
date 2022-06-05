@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>缓存管理</title> 
+</head>
+
+<body>
+    <div id="vapp" v-cloak><context>
+        <van-sticky>
+            <page_header title="缓存管理" icon="&#xe6a4" :fresh="true"></page_header>
+        </van-sticky>
+        
+            <div class="help">
+                <p>
+                    <icon>&#xa026</icon> 此缓存管理是针对客户端本地应用数据的缓存，不涉及服务端的缓存管理，也不涉及css、js、图片等资源文件的缓存。
+                </p>
+            </div>
+            <card @click="goApipage">
+                <card-title arrow>
+                    <icon>&#xa01c</icon>接口数据
+                </card-title>
+                <card-context>
+                    <p>当前系统采用RESTful风格的接口与服务端进行数据交换，在本地缓存接口数据可以减轻服务器运算压力，提升浏览速度。</p>
+                    <p><icon>&#xe6a4</icon>
+                        采用IndexedDb存储。</p>
+                </card-context>
+            </card>
+            <card>
+                <card-title>
+                    <icon>&#xe6b0</icon>试题练习
+                    <van-button type="danger" @click="clearQues"> <icon>&#xe800</icon> 清空</van-button>
+                </card-title>
+                <card-context>
+                    <p>试题练习的本地记录，内容涉及练习进度、答题状态、相关统计数据。可以在试题练习时按章节删除记录，也可以在此处全部删除记录。</p>
+                    <p><icon>&#xe6a4</icon>采用localStorage存储。</p>
+                </card-context>
+            </card>
+
+            <card>
+                <card-title>
+                    <icon>&#xe81a</icon>状态信息
+
+                    <van-button type="danger" @click="clearState"> <icon>&#xe800</icon> 清空</van-button>
+                </card-title>
+                <card-context>
+                    <p>登录状态、访问数据的记录。清理此数据将影响登录状态。</p>
+                    <p><icon>&#xe6a4</icon>采用localStorage存储。</p>
+                </card-context>
+            </card>
+        </context>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

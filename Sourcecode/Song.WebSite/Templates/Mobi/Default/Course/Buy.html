@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />    
+    <title>购买课程</title> 
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <context>
+            <van-sticky>
+                <page_header title="选修课程" icon="&#xe813" :fresh="true"></page_header>
+            </van-sticky>
+            <template v-if="loading_init">
+                <van-loading size="24px" vertical>加载中...</van-loading>
+            </template>
+            <template v-else>
+                <div class="course">
+                    <img :src="course.Cou_Logo" v-if="course.Cou_Logo!=''">
+                    <img :src="defimg" v-else>
+
+                    <div class="info">
+                        <div>
+                            <icon>&#xe813</icon>{{course.Cou_Name}}
+                        </div>
+                        <div class="sbjname">{{course.Sbj_Name}}</div>
+                        <div class="count">
+                            <span v-html="couinfo.outline" class="outline"></span>
+                            <span v-html="couinfo.question" class="ques"></span>
+                            <span v-html="couinfo.video" class="video"></span>
+                        </div>
+                    </div>
+                </div>
+                <card v-if="islogin">
+                    <card-title>
+                        余额：<span id="money">{{account.Ac_Money}}</span>
+                        <span id="coupon">{{account.Ac_Coupon}}</span>
+                    </card-title>
+                    <card-context class="prices" v-if="!studied">
+                        <template v-for="(data,i) in prices" v-if="prices.length>0">
+                            <van-cell @click="select(data)" :class="{selected:data.CP_ID==selected_price.CP_ID}">
+                                <template #title>
+                                    <span class="mprice">
+                                        <b v-if="data.CP_Coupon>0">{{actualpay(data)}}</b>
+                                        <b :class="{not:data.CP_Coupon>0}">{{data.CP_Price}}</b>
+                                    </span>
+                                    <span class="munit"> {{data.CP_Span}}{{data.CP_Unit}}</span>
+                                    <span class="avg">（日均 {{averageday(data)}} )</span>
+                                </template>
+                                <template #label v-if="data.CP_Coupon>0">
+                                    <span>可以用券抵扣{{data.CP_Coupon}}元
+                                        实际需要支付 <span class="mprice">{{actualpay(data)}}</span></span>
+                                </template>
+                            </van-cell>
+                        </template>
+                        <div v-if="prices.length==0">
+                            没有设置价格！
+                        </div>
+                    </card-context>
+                    <card-context v-else>
+                        当前课程已经购买！
+                    </card-context>
+                </card>
+                <card v-else remark="未登录" @click="gologin" >
+                    <card-title arrow>
+                        <div class="nophoto"></div>
+                        <div class="acc-name">未登录 </div>
+                    </card-title>
+                    <card-context>
+                        请登录后购买要学习的课程！
+                    </card-context>
+                </card>
+            </template>
+        </context>
+        <van-popup v-model="showbtn" position="bottom" class="showbtn">
+
+            <van-button type="info" v-if="clacmoney().pass" @click="btnBuyClick" :disabled="loading_buy">
+                <span v-if="!loading_buy">
+                    <icon>&#xe6fd</icon>选修该课程
+                </span>
+                <van-loading size="24px" v-else>信息处理中...</van-loading>
+            </van-button>
+            <van-button type="primary" disabled v-else>
+                <icon>&#xe7ad</icon>资金或卡券不足
+            </van-button>
+
+
+
+        </van-popup>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

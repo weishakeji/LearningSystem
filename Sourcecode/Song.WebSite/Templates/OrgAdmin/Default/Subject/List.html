@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>课程专业</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增" ref='btngroup' path="Modify" width="800" idkey='Sbj_ID' height="600"></btngroup>
+            <div class="search-box">
+
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-tag type="success">
+                            <icon>&#xe83d</icon>总计 {{total}} 个专业
+                        </el-tag>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索"
+                            suffix-icon="el-icon-search"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+
+        <div class="tree-box">
+            <el-tree :data="datas" node-key="Sbj_ID" ref="tree" :props="defaultProps" expand-on-click-node
+                :filter-node-method="filterNode" @node-drag-start="handleDragStart" @node-drag-enter="handleDragEnter"
+                @node-drag-leave="handleDragLeave" @node-drag-over="handleDragOver" @node-drag-end="handleDragEnd"
+                @node-drop="handleDrop" :expand-on-click-node="false" draggable :allow-drop="allowDrop"
+                @node-expand="nodeexpand" @node-collapse="nodecollapse" :default-expanded-keys="expanded"
+                :allow-drag="allowDrag" v-loading="loading || loading_sumbit">
+                <span class="custom-tree-node" slot-scope="{ node, data }">
+
+                    <span class="tree-node draghandle">
+                        <icon v-if="data.Sbj_LogoSmall!=''" style="font-size: 18px;" @mouseover="hoverlogo(data)"
+                            @mouseout="mouseleave">&#xe672</icon>
+                        <img :src="data.Sbj_LogoSmall" v-show="false" class="logoSmall" :id="'logo_'+data.Sbj_ID" />
+                        {{ data.Sbj_Name }}
+                        <sbj_count :sbjid="data.Sbj_ID" :subject="data"></sbj_count>
+                    </span>
+                    <span class="column_count">
+                        <course_count :sbjid="data.Sbj_ID" :subject="data"></course_count>
+                    </span>
+                    <span class="column_use">
+                        <b class="el-icon-loading" v-if="loadingid==data.Sbj_ID"></b>
+                        <el-tag v-else :type="data.Sbj_IsUse ? 'success' : 'info'"
+                            @click="changeState(data,'Sbj_IsUse')">
+                            {{data.Sbj_IsUse ? '启用' : '禁用'}}</el-tag>
+                    </span>
+                    <span class="column_rec">
+                        <el-tag :type="data.Sbj_IsRec ? '' : 'info'" @click="changeState(data,'Sbj_IsRec')">
+                            {{data.Sbj_IsRec ? '推荐' : '默认'}}</el-tag>
+                    </span>
+                    <span class="column_btn">
+                        <el-link type="primary" size="mini" icon="el-icon-edit" @click="modify(data)">
+                            编辑
+                        </el-link>
+                        <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
+                            <el-link type="danger" icon="el-icon-delete" slot="reference">
+                                删除
+                            </el-link>
+                        </el-popconfirm>
+                    </span>
+                </span>
+                </span>
+            </el-tree>
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

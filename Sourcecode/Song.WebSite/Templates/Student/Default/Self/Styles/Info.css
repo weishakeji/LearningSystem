@@ -1,0 +1,17 @@
+﻿@charset "utf-8";
+#vapp{
+	overflow-y: auto;
+}
+
+.pingyin {
+	font-size: 13px;
+	color: #409EFF;
+}
+
+.pingyin .py {
+	cursor: pointer;
+}
+
+.el-input__prefix icon {
+	width: 25px;
+}

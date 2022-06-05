@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>学员</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="修改,删除,导入,导出,批量禁用" ref='btngroup' @delete="deleteData" @output="output" @input="input"
+                @batch="batch_disable" path="Modify" width="600" height="600" :selects='selects' idkey='Ac_ID'
+                table="datatables"></btngroup>
+            <div class="search-box">
+
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-tag type="success" class="organ" title="所属机构">
+                            <icon>&#xa02a</icon>
+                            {{organ.Org_Name}}
+                        </el-tag>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.search" clearable style="width:200px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatables" v-loading="loading" :stripe="true" :data="accounts" tooltip-effect="dark"
+                style="width: 100%" @selection-change="val=>selects=val" @row-dblclick="rowdblclick">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" label="#" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="姓名/电话">
+                    <template slot-scope="scope">
+                        <avatar :account="scope.row" circle="true" size="45"></avatar>
+                        <div :class="{'woman': scope.row.Ac_Sex==2,'large':true}">
+                            <icon v-if="scope.row.Ac_Sex==2" title="女性">&#xe844</icon>
+                            <icon v-if="scope.row.Ac_Sex==1" title="男性">&#xe645</icon>
+                            <icon v-if="scope.row.Ac_Sex==0" title="性别未知">&#xa043</icon>
+                            <span v-html='showInfo(scope.row.Ac_Name)' v-if="scope.row.Ac_Name!=''"></span>
+                            <span v-else class="noname">(没有名字)</span>
+                            <el-tag type="warning" v-if="!scope.row.Ac_IsPass">未审核</el-tag>
+                            <div remark="电话">
+                                <icon>&#xe677</icon>
+                                <span v-html='scope.row.Ac_MobiTel1'></span>
+                                <span
+                                    v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1">/</span>
+                                <span v-html='scope.row.Ac_MobiTel2'
+                                    v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1"></span>
+                            </div>
+                        </div>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="资金/卡券/积分" width="180">
+                    <template slot-scope="scope">
+                        <div class="weisha_icon money" @click="openSubpage('money',scope.row,'资金明细',800,600,'e625')"
+                            icon="&#xe624" title="资金余额" style="font-size: 14px;">{{scope.row.Ac_Money}}</div>
+                        <div>
+                            <span class="weisha_icon coupon"
+                                @click="openSubpage('Coupon',scope.row,'卡券操作',400,400,'e847')" icon="&#xe847" title="卡券"
+                                style="font-size: 14px;">{{scope.row.Ac_Coupon}}</span>
+                            <span class="weisha_icon point"
+                                @click="openSubpage('Point',scope.row,'积分操作',400,400,'e88a')" icon="&#xe88a" title="积分"
+                                style="font-size: 14px;">{{scope.row.Ac_Point}}</span>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="账号/学员组">
+                    <template slot-scope="scope">
+                        <div>
+                            <span v-if="scope.row.Ac_IsTeacher" class="weisha_icon tearch" icon="&#xe804"
+                                title="教师"></span>
+                            <span v-html='showInfo(scope.row.Ac_AccName)'></span>
+
+                        </div>
+                        <div title="学员组">
+                            <el-tag type="info" v-if="scope.row.Sts_Name!=''">
+                                <span v-html='scope.row.Sts_Name'></span>
+                            </el-tag>
+                            <el-tag type="info" v-else>
+                                (无)
+                            </el-tag>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="启用" width="100">
+                    <template slot-scope="scope">
+                        <span class="el-icon-loading" v-show="loadingid==scope.row.Ac_ID"></span>
+                        <div>
+                            <el-switch v-model="scope.row.Ac_IsUse" @change="changeState(scope.row)"
+                                active-color="#13ce66" inactive-color="#ff4949" v-show="loadingid!=scope.row.Ac_ID"
+                                :active-text="scope.row.Ac_IsUse ? '启用' : '禁用'">
+                            </el-switch>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" show-overflow-tooltip width="80">
+                    <template slot-scope="scope">
+                        <div>
+                            <el-button-group>
+                                <el-link type="success" plain icon="el-icon-collection"
+                                    @click="openSubpage('courses',scope.row,'课程','80%','80%','e813')">学员课程</el-link>
+                            </el-button-group>
+                        </div>
+
+                        <el-dropdown>
+                            <span class="el-dropdown-link">
+                                <icon>&#xa030</icon><span style="font-size: 12px">管理</span>
+                                <i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>
+                                    <el-switch v-model="scope.row.Ac_IsUse" @change="changeState(scope.row)"
+                                        active-color="#13ce66" inactive-color="#ff4949"
+                                        v-show="loadingid!=scope.row.Ac_ID"
+                                        :active-text="scope.row.Ac_IsUse ? '启用' : '禁用'">
+                                    </el-switch>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <el-switch v-model="scope.row.Ac_IsPass" @change="changeState(scope.row)"
+                                        v-show="loadingid!=scope.row.Ac_ID"
+                                        :active-text="scope.row.Ac_IsPass ? '已审核' : '未审核'">
+                                    </el-switch>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided>
+                                    <el-link type="success" plain icon="el-icon-unlock"
+                                        @click="openSubpage('resetPassword',scope.row,'重置密码',400,350,'a036')">
+                                        重置密码</el-link>
+                                </el-dropdown-item>
+                                <el-dropdown-item divided>
+                                    <el-link type="primary" plain icon="el-icon-edit"
+                                        @click='$refs.btngroup.modify(scope.row.Ac_ID)'>修改</el-link>
+                                </el-dropdown-item>
+                                <el-dropdown-item>
+                                    <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                        icon-color="red" title="确定删除吗？"
+                                        @confirm="$refs.btngroup.delete(scope.row.Ac_ID)">
+                                        <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                                        </el-link>
+                                    </el-popconfirm>
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

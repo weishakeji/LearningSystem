@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>我的学习卡</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <el-tooltip class="item" effect="light" content="点击此处，激活学习卡" placement="right">
+                <el-button type="primary" size="mini" plain @click="useCardShow=true">
+                    <icon style="font-size: 19px;">&#xe685</icon>使用学习卡
+                </el-button>
+            </el-tooltip>
+
+            <div class="search-box">
+                <el-form :inline="true" :model="form" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-checkbox v-model="form.isused">已使用</el-checkbox>
+                        <el-checkbox v-model="form.isdisable">被禁用</el-checkbox>
+                        <el-checkbox v-model="form.isback">被回滚</el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.code" clearable style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <template v-if="!loading &&  totalCard<1">
+            <div class="non-existent">
+                <icon>&#xe764</icon>
+                <span>您还没有学习卡，请由此处操作使用学习卡</span>
+            </div>
+        </template>
+        <template v-else>
+            <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+                v-loading="loading" @selection-change="val=>selects=val" cell-class-name="tdcell">
+                <el-table-column type="index" width="60" label="#" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="卡号-密钥">
+                    <template slot-scope="scope">
+                        <div class="row_code" title="双击复制学习卡信息" @dblclick.stop="rowdblclick(scope.row)"> <span
+                                v-html='showInfo(scope.row.Lc_Code)'></span>
+                            - {{scope.row.Lc_Pw}}
+                        </div>
+                        <template v-if="false">
+                            <el-tag type="success" v-if="scope.row.Lc_State==0">
+                                有效期：{{scope.row.Lc_LimitStart|date('yyyy-M-d')}} 至
+                                {{scope.row.Lc_LimitEnd|date('yyyy-M-d')}}
+                            </el-tag>
+                            <el-tag type="info" v-else>
+                                课程学习：{{scope.row.Lc_UsedTime|date('yyyy-M-d')}} 至
+                                {{useendtime(scope.row)|date('yyyy-M-d')}}
+                            </el-tag>
+                        </template>
+                    </template>
+                </el-table-column>
+                <el-table-column label="主题">
+                    <template slot-scope="scope">
+                        <cardset :card="scope.row"></cardset>
+                    </template>
+                </el-table-column>
+                <el-table-column label="面额" width="80">
+                    <template slot-scope="scope">
+                        <span class="weisha_icon money" icon="&#xe624"
+                            style="font-size: 14px;">{{scope.row.Lc_Price}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="状态" width="80" align="center">
+                    <template slot-scope="scope">
+                        <template v-if="scope.row.Lc_IsUsed">
+                            <el-tag v-if="scope.row.Lc_State==1" type="info"> 已使用</el-tag>
+                            <el-button type="text" v-if="scope.row.Lc_State==0" @click.stop="usenow(scope.row)">
+                                未使用</el-button>
+                            <el-tag v-if="scope.row.Lc_State==-1" type="warning">被回滚</el-tag>
+                        </template>
+                        <template v-else>
+                            <el-tag v-if="scope.row.Lc_IsEnable" type="danger">禁用</el-tag>
+                        </template>
+                    </template>
+                </el-table-column>
+                <el-table-column label="详情" width="80" align="center">
+                    <template slot-scope="scope">
+                        <el-link type="primary" @click.stop="()=>{detail=scope.row;detailShow=true;}">查看</el-link>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <div id="pager-box">
+                <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                    :page-size="form.size" :pager-count="10" layout="total, prev, pager, next, jumper" :total="total">
+                </el-pagination>
+            </div>
+        </template>
+
+
+        <template>
+            <el-drawer :visible.sync="useCardShow" direction="ttb" custom-class="useCardShow">
+                <span slot="title">
+                    <icon style="font-size: 22px;">&#xe685</icon>使用学习卡
+                </span>
+                <el-form ref="useCardForm" :model="useCardForm" :rules="useCardRules" v-on:submit.native.prevent>
+                    <el-form-item prop="card">
+                        <el-input placeholder="卡号 - 密码" v-model.trim="useCardForm.card" class="card_input" clearable>
+                            <icon slot="prefix">&#xe60d </icon>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <help>注：格式为“学习卡-密码”，破折号不可缺少</help>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-tooltip placement="bottom" effect="light">
+                            <div slot="content">将学习卡暂存到个人名下，等需要时再使用<br/>
+                            例如：学习卡设定可以学习一个月，如果立即使用，则从当天开始计时，如果你想下个月才开始学习，则可以先暂存。</div>
+                            <el-button type="success" :disabled="loading_up" @click="useCard('useCardForm','acceptcode')">
+                                <icon>&#xe698</icon>暂存
+                            </el-button>
+                          </el-tooltip>
+                      
+                        <el-button type="primary" :disabled="loading_up" @click="useCard('useCardForm','usecode')">
+                            <icon>&#xa030</icon>立即使用
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </el-drawer>
+            <el-drawer :visible.sync="detailShow" direction="rtl" custom-class="detailShow">
+                <span slot="title">
+                    <icon style="font-size: 22px;">&#xe685</icon>卡片详情
+                </span>
+                <div v-if="JSON.stringify(detail) != '{}' && detail != null" class="detail">
+                    <div title="卡号">
+                        {{detail.Lc_Code}} - {{detail.Lc_Pw}}
+                    </div>
+                    <div title="主题" v-html="detail.cardset.Lcs_Theme" class="lcstheme"> </div>
+                    <div title="面额" v-html="detail.cardset.Lcs_Price+'元'"> </div>
+                    <div title="学习时间" v-html="detail.cardset.Lcs_Span+detail.cardset.Lcs_Unit"> </div>
+                    <div title="有效期">
+                        {{detail.cardset.Lcs_LimitStart|date('yyyy-MM-dd')}}
+                        至
+                        {{detail.cardset.Lcs_LimitEnd|date('yyyy-MM-dd')}} </div>
+
+                    <div title="使用时间" v-if="detail.Lc_IsUsed && detail.Lc_State!=0">
+                        {{detail.Lc_UsedTime|date('yyyy-MM-dd HH:mm:ss')}}
+                    </div>
+                    <div title="课程学习" v-if="detail.Lc_IsUsed && detail.Lc_State==1">
+                        {{detail.Lc_UsedTime|date('yyyy-M-d')}} 至 {{useendtime(detail)|date('yyyy-M-d')}}
+                    </div>
+
+                    <card>
+                        <card-title>
+                            <icon>&#xe83d</icon>
+                            关联课程
+                            <span>（{{detail.courses ? detail.courses.length : 0}}）</span>
+                        </card-title>
+                        <card-context>
+                            <a v-for="(c,i) in detail.courses" :href="'/web/course/detail.'+c.Cou_ID" target="_blank">
+                                {{i+1}}、{{c.Cou_Name}}
+                            </a>
+                        </card-context>
+                    </card>
+                </div>
+            </el-drawer>
+        </template>
+    </div>
+</body>
+
+</html>

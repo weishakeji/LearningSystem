@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>试题编辑-简答</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <modify_main ref="main" @load="ques=>entity=ques" @init="(o,c,t)=>{organ=o;config=c;types=t}">
+            <!-- 编辑区域-->
+            <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
+                <el-form-item label="题干" prop="Qus_Title">
+                    <vue-html5-editor :content="entity.Qus_Title" :show-module-name="false" ref="editor_intro"
+                        @change="text=>entity.Qus_Title = text">
+                    </vue-html5-editor>
+                </el-form-item>
+                <el-form-item label="答案" prop="Qus_Answer">
+                    <vue-html5-editor :content="entity.Qus_Answer" :show-module-name="false" ref="editor_intro"
+                        @change="text=>entity.Qus_Answer = text">
+                    </vue-html5-editor>
+                </el-form-item>
+            </el-form>
+        </modify_main>
+        <enter_button :question="entity" :verify="verify" :organ="organ"></enter_button>
+    </div>
+</body>
+
+</html>

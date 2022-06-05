@@ -1,0 +1,32 @@
+﻿@charset "utf-8";
+.organs_option {
+    height: 70px;
+}
+
+.weisha_icon {
+    font-size: 18px;
+}
+
+.man::before {
+    color: rgb(3, 71, 71);
+}
+
+.woman {
+    color: rgb(240, 104, 117);
+}
+
+.tearch::before {
+    color: rgb(3, 167, 3);
+    margin: 0px;
+}
+
+.money {
+    cursor: pointer;
+}
+
+.money:hover {
+    text-decoration: underline;
+}
+.name{
+    font-size: 16px;
+}

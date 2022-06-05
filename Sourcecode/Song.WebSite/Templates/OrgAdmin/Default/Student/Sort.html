@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>学员组</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="SortModify" width="600" height="400"
+                :selects='selects' idkey='Sts_ID' table="datatables"></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-input v-model.trim="form.search" style="width:200px" clearable
+                            @keyup.enter.native="handleCurrentChange(1)">
+                            <i class="el-icon-search" slot="suffix" v-on:click="handleCurrentChange(1)"> </i>
+                        </el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+
+        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
+            @selection-change="val=>selects=val"
+            @row-dblclick="(row, column, event)=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Sts_ID"
+            draggable>
+            <el-table-column type="selection" width="35" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column type="index" label="#" width="50" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="组名称">
+                <template slot-scope="scope">
+                    <span v-html="showInfo(scope.row.Sts_Name)" class="draghandle"></span>
+                    <student_count :sort="scope.row"></student_count>
+                </template>
+            </el-table-column>    
+            <el-table-column label="视频" width="120">
+                <template slot="header" slot-scope="scope">
+                    <el-tooltip class="item" effect="light" content="调整顺序的数值" placement="top">
+                        <div slot="content">切换暂停：当浏览器不处于前端时，视频暂停播放<br />
+                            持续播放：视频打开后可以一直播放</div>
+                        <help>视频播放</help>
+                    </el-tooltip>
+                </template>
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-if="loadingid==scope.row.Sts_ID"></span>
+                    <el-popconfirm v-else confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                        icon-color="red" title="是否更改视频播放方式？"
+                        @confirm="()=>{scope.row.Sts_SwitchPlay=!scope.row.Sts_SwitchPlay;changeState(scope.row)}">
+                        <el-tag type="success" v-if="scope.row.Sts_SwitchPlay" slot="reference">
+                            <icon>&#xa049</icon>持续播放
+                        </el-tag>
+                        <el-tag type="warning" v-else slot="reference">
+                            <icon>&#xe6bf</icon>切换暂停
+                        </el-tag>
+                    </el-popconfirm>
+                </template>
+            </el-table-column>
+            <el-table-column label="默认" width="100">
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-show="loadingid==scope.row.Sts_ID"></span>
+                    <div>
+                        <el-tag type="danger" v-if="scope.row.Sts_IsDefault">
+                            <icon>&#xe69e</icon>默认组
+                        </el-tag>
+                        <el-popconfirm v-else confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="是否将当前组设置为默认组？" @confirm="setDefault(scope.row.Sts_ID)">
+                            <el-tag type="info" v-if="!scope.row.Sts_IsDefault" slot="reference">
+                                普通组
+                            </el-tag>
+                        </el-popconfirm>
+
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label="启用" width="100">
+                <template slot-scope="scope">
+                    <span class="el-icon-loading" v-show="loadingid==scope.row.Sts_ID"></span>
+                    <div v-show="loadingid!=scope.row.Sts_ID">
+                        <el-switch v-model="scope.row.Sts_IsUse" @change="changeState(scope.row)" active-color="#13ce66"
+                            inactive-color="#ff4949" v-show="loadingid!=scope.row.Sts_ID"
+                            :active-text="scope.row.Sts_IsUse ? '启用' : '禁用'">
+                        </el-switch>
+                    </div>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" show-overflow-tooltip width="120">
+
+                <el-button-group slot-scope="scope">
+                    <el-link type="primary" plain icon="el-icon-edit" @click='$refs.btngroup.modify(scope.row.Sts_ID)'>
+                        修改
+                    </el-link>
+                    <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
+                        title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Sts_ID,{})">
+                        <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                        </el-link>
+                    </el-popconfirm>
+                </el-button-group>
+            </el-table-column>
+        </el-table>
+
+
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

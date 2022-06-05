@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课程学习</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+</head>
+
+<body>
+    <div id="vapp">
+        <script>
+            document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
+            document.body.onpaste = document.body.oncopy = function () { return false; };
+        </script>
+        <div id="MainBox" :style="!fold ? 'width: calc(80% - 5px);' : 'width: calc(99.5% - 5px);'">
+            <div class="mainTop">
+                <study_tabs ref="tabs" :course="course" :account="account" :state="state"
+                    @switch="(tag,index)=>{titState=tag}"></study_tabs>
+            </div>
+            <!--左侧顶部结束-->
+            <div id="contextArea" v-if="!state.DeskAllow">
+                <div remark="正在加载" v-show="titState=='loading'">
+                    <p id="preloader-2">
+                        <span></span>
+                        <span></span>
+                    </p>
+                </div>
+                <div remark="提示" v-show="titState=='isNull' || !state.canStudy || !islogin ">
+                    <div class="noSelect" v-if="!islogin"> <a href="/web/sign/in">未登录，点击此处登录！</a> </div>
+                    <div class="noSelect" v-if="!!account.Ac_ID"> 没有内容，或无权查看！</div>
+                    <div class="noSelect" v-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束
+                    </div>
+                </div>
+                <study_video remark="视频" ref='videoplayer' v-show="titState=='existVideo'" :account="account"
+                    :outline="outline" :state="state" @playing="(t)=>{$refs['rightArea'].playtime=t;}"
+                    @completed="(o,s)=>{$refs['rightArea'].nextOutline(o,s);}">
+                </study_video>
+                <study_live remark="直播" v-show="titState=='isLive'" :account="account" :outline="outline"
+                    :state="state"></study_live>
+                <div remark="内容" v-show="titState=='isContext'" id="details" v-html="outline.Ol_Intro"> </div>
+                <accessory remark="附件" v-show="titState=='isAccess'" :uid="outline.Ol_UID" :outline="outline"
+                    :isbuy="state.isBuy" :account="account">
+                </accessory>
+                <div remark="习题" v-show="titState=='isQues'">
+                    <iframe
+                        :src="outline!=null ? '../question/Exercises?olid='+outline.Ol_ID+'&couid='+outline.Cou_ID : ''"
+                        style="height: 100%" marginwidth="0" marginheight="0" align="top" scrolling="no" width="100%"
+                        frameborder="0" allowtransparency="true"></iframe>
+                </div>
+
+            </div>
+            <div id="contextArea" v-if="state.DeskAllow">
+                <div>
+                    <div class="noSelect">请在DeskApp应用中打开</div>
+                </div>
+            </div>
+        </div>
+        <fold remark="此为分隔线"><span @click="fold = !fold" :class="{'open':fold}"></span> </fold>
+        <!--开始右侧菜单区域-->
+        <study_outline ref="rightArea" :account="account" @switch="(tag,index)=>{}" @init="(c,o)=>{course=c;outline=o;}"
+            @change="(s,o)=>{state=s;outline=o;}" :style="!fold ? 'width: 20%;' : 'width: 0%'" v-show="!fold">
+        </study_outline>
+    </div>
+</body>
+
+</html>

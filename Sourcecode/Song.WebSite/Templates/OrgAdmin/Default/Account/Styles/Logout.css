@@ -1,0 +1,33 @@
+﻿@charset "utf-8";
+
+html, body {
+    overflow: hidden;
+    margin: 0px;
+    padding: 0px;
+}
+
+#vapp {
+    overflow: hidden;
+    width: 200px;
+    margin: 10px auto 0px auto;
+}
+
+img.photo {
+    width: 30px;
+    height: 30px;
+    display: block;
+    float: left;
+    border: 1px solid #aaa;
+    margin-top: 5px;
+    border-radius: 15px;
+    margin-right: 10px;
+}
+
+.accname {
+    line-height: 40px;
+
+}
+
+.el-row {
+    margin-bottom: 10px;
+}

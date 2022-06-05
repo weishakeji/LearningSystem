@@ -1,0 +1,57 @@
+﻿@charset "utf-8";
+
+.queryBox {
+    width: 400px;
+    float: right;
+    position: absolute;
+    padding: 10px 20px 10px 10px;
+    right: 0px;
+    top: 31px;
+    background-color: #fff;
+    z-index: 11;
+    box-shadow: -2px 2px 6px 0 rgba(0, 0, 0, .1);
+}
+
+.queryBox_mask {
+    position: absolute;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, .6);
+    right: 0px;
+    top: 31px;
+    width: 100%;
+    height: 100%;
+    transition: all 0.5;
+}
+
+.sbj_course {
+    color: #999;
+    margin-left: 10px;
+}
+
+.types label {
+    margin-bottom: 3px;
+}
+
+.types label:nth-child(4) .el-radio-button__inner {
+    border-left: 1px solid #DCDFE6;
+}
+
+.search_btns {
+    margin-top: 20px;
+}
+
+.ques_title>div {
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+    word-break: break-all !important;
+    height: 25px;
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 15px !important;
+}
+
+/*列表中的试题类型*/
+.cell icon[ques_type] {
+    font-size: 18px;
+}

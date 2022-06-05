@@ -1,0 +1,76 @@
+﻿@charset "utf-8";
+body,html{
+    height: 100%;
+    width: 100%;
+}
+.weisha_icon {
+    font-size: 18px;
+}
+
+.man {
+    color: rgb(3, 71, 71);
+}
+
+.woman{
+    color: rgb(248, 87, 87);
+}
+.link{
+    cursor: pointer;
+}
+.link:hover{
+    text-decoration: underline;
+}
+.accountInfo {
+    line-height: 30px;
+    font-size: 18px;
+}
+.accountInfo img.photo {
+    width: 70px;
+    height: 70px;
+    display: block;
+    
+    float: left;
+    border: 1px solid #eee;
+    margin-top: 5px;
+    border-radius: 35px;
+    margin-right: 10px;
+    float: left;
+}
+dl,dd{
+    padding: 0px;
+    margin: 0px;
+}
+dl dd{
+    line-height: 30px;
+}
+dl dd a[href]{
+    display: inline-block;
+    min-width: 230px;
+    color: #409EFF;
+}
+dl dd a[href]:hover{
+    text-decoration: underline;
+}
+/*得分，小数点对齐*/
+.score{
+    width: 80px;
+    display: flex;
+}
+.score span{
+    display: block;
+}
+.score .after{
+    width: 30px;
+    float: right;
+    text-align: left;
+}
+.score .dot{
+    width: 8px;
+    float: right;
+    text-align: center;
+}
+.score .prev{
+    width: 45px;
+    float: right;
+    text-align: right;
+}

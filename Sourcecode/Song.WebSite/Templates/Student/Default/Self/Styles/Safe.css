@@ -1,0 +1,41 @@
+﻿@charset "utf-8";
+#vapp{
+    display: flex;
+}
+
+.el-card {
+    margin: 30px 30px 30px 10px;    
+    max-height: 300px;
+    flex: 1;
+    position: relative;
+}
+.el-card:last-child{
+    margin-left: 0px;
+}
+.el-card__header {
+    position: relative;
+}
+.el-card__header icon{
+    font-size: 20px;
+}
+.el-card__body{
+    box-sizing: border-box;
+    height: calc(100% - 43px);
+}
+.el-form{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+icon.right {
+    position: absolute;
+    right: 0px;
+    bottom: 8px;
+    color: #999;
+    font-size: 15px;
+}
+.footer{
+    position: absolute !important;
+    margin-bottom: 0px !important;
+}

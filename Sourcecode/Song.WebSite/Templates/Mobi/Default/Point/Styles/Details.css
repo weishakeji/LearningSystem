@@ -1,0 +1,253 @@
+﻿@charset "utf-8";
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: relative;
+	background-color: #fff;
+}
+
+#vapp {
+	overflow-y: auto;
+}
+
+.header {
+	height: 70px;
+	background-color: #069;
+	position: relative;
+	z-index: 1;
+	padding: 60px 20px 0px 20px;
+	background: linear-gradient(rgba(147, 209, 255, 1), rgba(255, 255, 255, 1));
+	overflow: hidden;
+}
+
+.header_info {
+	width: 100%;
+	height: 60px;
+	position: relative;
+}
+
+.acc_photo {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 20px;
+	float: left;
+	background-size: cover;
+	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+}
+
+.acc-info {
+	width: calc(100% - 80px);
+	float: left;
+	line-height: 30px;
+	position: relative;
+	color: #666;
+}
+
+.acc-acname {
+	font-size: 14px;
+	margin: 0px 10px;
+}
+
+.acc-acname::before {
+	content: '(';
+}
+
+.acc-acname::after {
+	content: ')';
+}
+
+.header .van-row {
+	position: relative;
+}
+
+.header .van-row::after {
+	content: '\e72a';
+	font-family: webdesk_icon;
+	display: block;
+	width: 10px;
+	position: absolute;
+	right: 0px;
+	top: 10px;
+	transform: rotate(180deg);
+	color: #fff;
+	z-index: -1;
+}
+
+.nophoto {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+.man {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+.woman {
+	background-image: url(/Utilities/images/head2.jpg);
+}
+
+.header .van-tag {
+	padding: 2px 8px;
+	margin-right: 10px;
+}
+
+.header .acc-count {
+	padding: 5px 0px;
+	font-size: 14px;
+	display: flex;
+	width: 100%;
+}
+
+.header .acc-count span {
+	font-size: 15px;
+	margin: 0px 5px;
+	font-weight: bold;
+	color: #333;
+}
+
+.header .acc-count>div {
+	flex: 1;
+}
+
+/*月份信息*/
+.month{
+	font-size: 20px;
+	font-weight: bold;
+	padding: 10px 20px;
+	text-shadow: 1px 1px 2px #ccc;
+}
+.month icon{
+	font-weight: normal;
+	margin-right: 10px;
+	font-size: 28px;
+}
+/*明细项*/
+
+.van-swipe-cell {
+	padding-left: 40px;
+}
+
+.row-box .van-cell__title {
+	position: relative;
+	width: 100%;
+	height: 50px;
+	line-height: 30px;
+}
+
+.row-box .van-cell__title icon:first-child {
+	font-size: 30px;
+	width: 60px;
+	height: 60px;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	text-align: center;
+	padding-top: 10px;
+	line-height: 20px;
+}
+
+.error icon:first-child {
+	color: #999 !important;
+}
+
+.row-box .van-cell__title icon.type1 {
+	color: #ee0a24;
+}
+
+.row-box .van-cell__title icon.type2 {
+	color: #03964a;
+}
+.dates{
+	width: 50px;
+	--background-color: magenta;
+	float: left;
+}
+.ico{
+	width: 60px;
+	height: 60px;
+	--background-color: rgb(243, 188, 8);
+	float: left;
+	font-size: 40px;
+	text-align: center;
+	line-height: 50px;
+}
+.right_area {
+	position: absolute;
+	width: calc(100% - 110px);
+	top: 0px;
+	right: 0px;
+	--background-color: rgb(243, 8, 8);
+}
+
+money {
+	font-size: 20px;
+	font-weight: bold;
+}
+.ico:before {
+	font-family: "webdesk_icon" !important;
+
+}
+/*收入*/
+
+.type2{
+	color: #060;
+}
+.type2:before{
+	content: "\e88a";
+}
+/*支出*/
+.type1{
+	color: #F00;
+	font-size: 35px;
+}
+.type1:before{
+	content: "\e847";	
+}
+/*详情*/
+
+.van-overlay {
+	background-color: rgba(0, 0, 0, .3);
+}
+
+.show_detail {
+	width: 80%;
+	height: 80%;
+}
+
+.detail_title {
+	padding: 15px;
+	height: 20px;
+	font-size: 18px;
+}
+.detail_content{
+	padding: 10px 15px;
+	width: calc(100% - 30px);
+	height: calc(100% - 20px - 50px);
+}
+.detail_content icon:first-child{
+	font-size: 25px;
+}
+.detail_content>div {
+	padding: 5px 15px;
+	line-height: 150%;
+	word-break:break-all;
+	min-height: 30px;
+}
+
+.detail_content>div::before {
+	content: attr(title)  '：';
+	display: block;
+	width: 60px;
+	float: left;
+	text-align: right;
+	margin-right: 10px;
+	color: #666;
+	white-space:nowrap;
+}
+.btnDelete{
+	height: 100%;
+}

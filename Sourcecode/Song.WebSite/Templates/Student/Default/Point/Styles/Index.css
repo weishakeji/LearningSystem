@@ -1,0 +1,23 @@
+﻿@charset "utf-8";
+
+.tatol_info {
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.tatol_info icon {
+    font-size: 18px;
+}
+
+.el-table {
+    height: calc(100% - 32px - 45px);
+}
+
+/*支出或增加*/
+.type1 {
+    color: #F56C6C;
+}
+
+.type2 {
+    --color: #67C23A;
+}

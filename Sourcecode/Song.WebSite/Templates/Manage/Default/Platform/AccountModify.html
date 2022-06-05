@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改信息</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+    <script type="text/javascript" src="../Scripts/hanzi2pinyin.js"></script>
+</head>
+
+
+<body>
+    <div id="app" v-cloak>
+        <el-form ref="account" :model="account" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-form-item>
+                <el-upload class="avatar-uploader"
+                    :action="'/upload/image/Accounts?width=200&height=200&tojpg=true&small=true&old='+account.Ac_Photo"
+                    :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                    <img v-if="account.Ac_Photo!=''" :src="account.Ac_Photo" class="avatar photo">
+                    <img v-else class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head1.jpg" />
+                    <span class="avatar-uploader-icon photo-txt">上传头像</span>
+                </el-upload>
+
+            </el-form-item>
+            <el-form-item label="">
+
+            </el-form-item>
+            <el-form-item label="账号" prop="Ac_AccName">
+                <span class="el-form-item__label">{{account.Ac_AccName}}</span>
+                <span class="el-form-item__label" title="所在机构">({{organ.Org_Name}})</span>
+
+            </el-form-item>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="姓名" prop="Ac_Name">
+                        <el-input v-model="account.Ac_Name" style="width:200px" clearable @input="pingyin"
+                            @blur="pingyin"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+
+                </el-col>
+            </el-row>
+
+            <el-form-item label="拼音缩写" prop="Ac_Pinyin">
+                <el-input v-model="account.Ac_Pinyin" style="width:100px"></el-input>
+                <span v-show="accPingyin.length>1" class="pingyin">
+                    （多音：<span class="py" v-for="(d,i) in accPingyin" @click="account.Ac_Pinyin=d">{{d}}
+                        <span v-show='i<accPingyin.length-1'>,</span>
+                    </span>）
+            </el-form-item>
+
+
+            <el-form-item label="性别">
+                <el-radio-group v-model="account.Ac_Sex">
+                    <el-radio-button label="1">男</el-radio-button>
+                    <el-radio-button label="2">女</el-radio-button>
+                    <el-radio-button label="0">未知</el-radio-button>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="身份证" prop="Ac_IDCardNumber">
+                <el-input v-model="account.Ac_IDCardNumber"></el-input>
+            </el-form-item>
+            <el-form-item label="年龄" prop="Ac_Age">
+                <el-input-number v-model="account.Ac_Age"></el-input-number>
+            </el-form-item>
+            <el-form-item label="Email" prop="Ac_Email">
+                <el-input v-model="account.Ac_Email"></el-input>
+            </el-form-item>
+            <el-row>
+                <el-col :span="14">
+                    <el-form-item label="电话" prop="Ac_Tel">
+                        <el-input v-model="account.Ac_Tel"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                    <el-form-item label="是否公开">
+                        <el-switch v-model="account.Ac_IsOpenTel"> </el-switch>
+                    </el-form-item>
+
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="14">
+                    <el-form-item label="移动电话1" prop="Ac_MobiTel1">
+                        <el-input v-model="account.Ac_MobiTel1"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                    <el-form-item label="是否公开">
+                        <el-switch v-model="account.Ac_IsOpenMobile"> </el-switch>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="14">
+                    <el-form-item label="移动电话2" prop="Ac_MobiTel2">
+                        <el-input v-model="account.Ac_MobiTel2"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10"></el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="14">
+                    <el-form-item label="QQ" prop="Ac_Qq">
+                        <el-input v-model="account.Ac_Qq"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10"></el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="14">
+                    <el-form-item label="微信" prop="Ac_Weixin">
+                        <el-input v-model="account.Ac_Weixin"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10"></el-col>
+            </el-row>
+            <el-form-item class="footer">
+                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('account')">
+                    确认修改</el-button>
+                <el-button type='close'>取消</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+
+
+</body>
+
+</html>

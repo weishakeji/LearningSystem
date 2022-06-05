@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <include file="../inc/meta.inc" />
+    <title>课程管理编辑</title>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+
+            <el-row :gutter="20">
+                <el-col :span="12">
+                    <el-form-item label="名称" prop="Sbj_Name">
+                        <el-input v-model="entity.Sbj_Name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="别名" prop="Sbj_ByName">
+                        <el-input v-model="entity.Sbj_ByName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="上级专业">
+                        <el-cascader style="width: 100%;" v-model="sbjSelects" :options="subjects" separator="／"
+                            :props="defaultProps" filterable>
+                        </el-cascader>
+
+                    </el-form-item>
+                    <el-form-item label="状态">
+                        <el-switch v-model="entity.Sbj_IsUse" :active-text="entity.Sbj_IsUse ? '启用' : '禁用'">
+                        </el-switch>
+                        <el-switch v-model="entity.Sbj_IsRec" :active-text="entity.Sbj_IsRec ? '推荐' : '未推荐'">
+                        </el-switch>
+                    </el-form-item>
+                    <el-form-item label="说明">
+                        <el-input type="textarea" :rows="2" placeholder="请输入内容" v-model="entity.Sbj_Intro">
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="别名" prop="Sbj_ByName">
+                        <template slot="label">
+                            <span style="float: left;">展示图片</span>
+                        </template>
+                        <el-link type="primary" style="float: right;" v-if="islogo"
+                            @click="()=>{upfile=null;entity.Sbj_Logo = entity.Sbj_LogoSmall=''}">清除图片
+                        </el-link>
+                    </el-form-item>
+
+                    <upload-img @change="(file)=>upfile=file" :data="entity" size="1024" ext="jpg,png,gif">
+                        <template v-if="islogo">
+                            <img v-if="upfile!=null" :src="upfile.base64" />
+                            <img v-else :src="entity.Sbj_Logo" />
+                        </template>
+                        <div class="nophoto" v-else>
+                            <el-tooltip content="点击上传图片" placement="right" effect="light">
+                                <icon>&#xe724</icon>
+                            </el-tooltip>
+                        </div>
+                    </upload-img>
+                </el-col>
+            </el-row>
+            <el-row :gutter="20">
+                <el-form-item label="详情">
+                    <vue-html5-editor :content="details" :show-module-name="false" ref="editor"
+                        @change="(text)=>entity.Sbj_Details = text">
+                    </vue-html5-editor>
+                </el-form-item>
+            </el-row>
+        </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>修改
+            </el-button>
+            <el-button type='close'>
+               取消
+            </el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

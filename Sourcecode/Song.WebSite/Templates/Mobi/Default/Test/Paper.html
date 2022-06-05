@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>试卷</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <test_header></test_header>
+        <div class="context">
+            <card class="paper">
+                <card-title class="weisha_icon" icon="&#xe731">{{paper.Tp_Name}}
+                    <a class="btn btntest" @click="btnDoing">参加测试</a>
+
+                </card-title>
+                <card-context>
+                    <div class="row">
+                        题 量：{{paper.Tp_Count}} 道
+                    </div>
+                    <div class="row">
+                        总 分：{{paper.Tp_Total}} 分 / {{paper.Tp_PassScore}}分及格
+                    </div>
+                    <div class="row">
+                        限 时：{{paper.Tp_Span}} 分钟
+                    </div>
+                    <van-divider></van-divider>
+                    <div class="row">
+                        课 程：{{course.Cou_Name}}
+                    </div>
+                    <div class="row">
+                        专 业：{{paper.Sbj_Name}}
+                    </div>
+                </card-context>
+            </card>
+            <card>
+                <card-title>
+                    <icon>&#xe6f1</icon>历史成绩
+
+                    <span class="btn btnCloseAll" @click="btnDeleteAll">清空成绩</span>
+                </card-title>
+                <card-context>
+                    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
+                        @load="onload">
+                        <van-swipe-cell v-for="(item,i) in datas" @open="cell_swipe">
+                            <template #left>
+
+                            </template>
+                            <van-cell :border="false" class="cour-box" @click="godetail(item)">
+                                <template #title>
+                                    <div class="trscore"> {{i+1}}. <icon style="font-size: 22px;">&#xf008f</icon>
+                                        <span>{{item.Tr_Score}}</span> 分 </div>
+                                    <score :class="scoreStyle(item.Tr_Score)"></score>
+                                    <div class="row_foot">
+                                        <span class="stname">{{item.Ac_Name}}</span>
+                                        <span class="time">{{item.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span>
+                                    </div>
+                                </template>
+                            </van-cell>
+                            <template #right>                                
+                                <van-button type="danger" class="btnDelete" @click="btnDelete(item)">删除成绩</van-button>
+                            </template>
+                        </van-swipe-cell>
+                    </van-list>
+                </card-context>
+            </card>
+
+
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学员资金增减</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-row>
+
+                <el-form-item label="名称">
+                    {{entity.Ac_Name}} ({{entity.Ac_AccName}})
+                </el-form-item>
+
+            </el-row>
+            <el-row>
+                <el-form-item label="余额" prop="Ac_Name">
+                    {{entity.Ac_Money}} 元
+                </el-form-item>
+            </el-row>
+            <el-row>
+                <el-form-item label="操作">
+                    <template>
+                        <el-radio v-model="form.type" label="2">充值</el-radio>
+                        <el-radio v-model="form.type" label="1">扣除</el-radio>
+                    </template>
+                </el-form-item>
+            </el-row>
+            <el-row>
+                <el-col :span="14">
+                    <el-form-item label="" prop="money">
+                        <el-input placeholder="请输入内容" v-model.number="form.money" width="120px" type="number">
+                            <template slot="prepend"> <span v-if="form.type=='2'">+</span>
+                                <span v-if="form.type=='1'">-</span></template>
+                        </el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="23">
+                    <el-form-item label="">
+                        <el-slider v-model="form.money" :min="0" :max="9999" :show-tooltip="false"></el-slider>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-form-item label="备注">
+                    <el-input type="textarea" v-model="form.remark" :rows="4" placeholder="请输入内容"></el-input>
+                </el-form-item>
+            </el-row>
+            <el-form-item class="footer">
+                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('form')">确认修改
+                </el-button>
+                <el-button type='close'>取消</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+
+
+</body>
+
+</html>

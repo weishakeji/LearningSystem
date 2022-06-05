@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>模拟考试</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <test_header></test_header>
+        <div class="context">
+            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
+                @load="onload">
+
+                <card v-for="(paper,index) in datas" @click="gopaper(paper)">
+                    <card-title class="weisha_icon" icon="&#xe731">{{index+1}}.{{paper.Tp_Name}}</card-title>
+                    <card-context>
+                        <div class="row">
+                            题 量：{{paper.Tp_Count}} 道
+                        </div>
+                        <div class="row">
+                            总 分：{{paper.Tp_Total}} 分 / {{paper.Tp_PassScore}}分及格
+                        </div>
+                        <div class="row">
+                            限 时：{{paper.Tp_Span}} 分钟
+                        </div>
+                    </card-context>
+                </card>
+
+
+            </van-list>
+        </div>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

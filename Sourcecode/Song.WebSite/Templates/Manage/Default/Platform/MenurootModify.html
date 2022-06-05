@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>管理菜单的根节点编辑</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="名称" prop="MM_Name">
+                        <el-input v-model="entity.MM_Name"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="简称" prop="MM_AbbrName">
+                        <el-input v-model="entity.MM_AbbrName"></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="12">
+                    <el-form-item label="标识" prop="MM_Marker">
+                        <el-input v-model="entity.MM_Marker" :disabled="entity.MM_IsFixed"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="图标" prop="MM_IcoS">
+                        <el-link type="primary" @click="iconSelect=true"> <span v-if="entity.MM_IcoS==null || entity.MM_IcoS==''"
+                            class="font_icon">&#xa038;</span>
+                          <span v-else class="font_icon" v-html="'&#x'+entity.MM_IcoS+';'"></span>&nbsp;点击选择
+                        </el-link>
+                </el-form-item>
+                </el-col>
+            </el-row>
+           
+            <el-row>
+                <el-form-item label="说明" prop="MM_Intro">
+                    <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="entity.MM_Intro"></el-input>
+                </el-form-item>
+            </el-row>
+            <el-row>
+                <el-form-item label="状态">
+                    <el-switch v-model="entity.MM_IsShow" v-if="false"
+                        :active-text="entity.MM_IsShow ? '显示' : '隐藏'">
+                    </el-switch>
+                    <el-switch v-model="entity.MM_IsUse" :active-text="entity.MM_IsUse ? '启用' : '禁用'">
+                    </el-switch>
+                </el-form-item>
+            </el-row>
+            <el-form-item class="footer">
+                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">确认修改
+                </el-button>
+                <el-button type='close'>取消</el-button>
+            </el-form-item>
+        </el-form>
+        <el-dialog title="图标选择" :visible.sync="iconSelect" id="dialog_icons">
+
+            <span v-for="ico in icons" v-html="'&#x'+ico+';'" @click="entity.ico=ico;entity.MM_IcoS=ico;iconSelect=false;"
+              :selected="ico==entity.MM_IcoS"></span>
+      
+          </el-dialog>
+    </div>
+
+
+</body>
+
+</html>

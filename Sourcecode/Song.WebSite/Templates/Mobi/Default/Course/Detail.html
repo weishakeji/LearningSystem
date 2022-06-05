@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>课程详情</title>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="loading" v-if="loading"></div>
+        <div class="photo">
+            <img src="/Utilities/Images/cou_nophoto.jpg" v-if="course.Cou_Logo==''" />
+            <img :src="course.Cou_Logo" v-else>
+
+            <div class="couName">
+                <a class="weisha_icon" icon="&#xe72a" @click="window.history.go(-1); "></a>
+                <span v-html="course.Cou_Name"></span>
+            </div>
+            <a class="go-home" href="/mobi/index"> </a>
+            <div class="info"><span class="study" v-html="sum"></span> /<span class="view"
+                    v-html="course.Cou_ViewNum"></span>
+                <template v-if="!config.IsMobileRemoveMoney">
+                    / <span class="moneyfree" v-if="course.Cou_IsFree || course.Cou_IsLimitFree">
+                        <i class="free" v-if="course.Cou_IsFree">免费</i>
+                        <i class="free" v-if="course.Cou_IsLimitFree"> 限时免费</i>
+                        <span v-if="course.Cou_IsLimitFree">（{{course.Cou_FreeStart|date('yyyy/M/d')}}
+                            - {{course.Cou_FreeEnd|date('yyyy/M/d')}}）</span>
+                    </span>
+                    <span v-if="record!=null">
+                        期限： {{record.Stc_StartTime|date("yyyy/M/d")}}-{{record.Stc_EndTime|date("yyyy/M/d")}}
+                    </span>
+                </template>
+            </div>
+            <a class="playico" remark="播放的图标" @click="$refs.menus.btnEvt()"></a>
+        </div>
+        <van-sticky>
+            <!--按钮组-->
+            <course_menus ref='menus' :course="course" :account="account" :canstudy="canStudy" :isbuy="isbuy">
+            </course_menus>
+            <!--选项卡-->
+            <van-tabs v-model="tabActive">
+                <van-tab title="detail">
+                    <template #title>
+                        <span class="weisha_icon" icon="&#xe813">课程介绍
+                    </template>
+                </van-tab>
+                <van-tab title="outline"> <template #title>
+                        <span class="weisha_icon" icon="&#xe841">章节
+                    </template>
+                </van-tab>
+                <van-tab title="target"> <template #title>
+                        <span class="weisha_icon" icon="&#xe816">学习目标
+                    </template>
+                </van-tab>
+                <van-tab title="notice"> <template #title>
+                        <span class="weisha_icon" icon="&#xe697">公告
+                    </template>
+                </van-tab>
+            </van-tabs>
+        </van-sticky>
+        <div class="card" id="Context">
+
+            <!--课程详情-->
+            <template v-if="tabActive==0">
+                <div class="introBox" v-if="course.Cou_Intro!=''" v-html="course.Cou_Intro"></div>
+                <div class="introBox" v-else>没有内容</div>
+            </template>
+            <!--章节-->
+            <template v-if="tabActive==1">
+
+                <van-cell-group v-if="outlines && outlines.length>0" class="outline">
+                    <van-cell v-for="o in outlines">
+                        <template #title>
+                            <div :style="'padding-left:'+(o.Ol_Level*20)+'px'">{{o.Ol_XPath}}{{o.Ol_Name}}
+                                <van-tag type="danger" v-if="!o.Ol_IsFinish">未完结</van-tag>
+                            </div>
+                            <div class="tag">
+                                <template v-if="course.Cou_IsTry && o.Ol_IsFree">
+                                    <van-tag type="success" v-if="o.Ol_IsVideo" @click="$refs.menus.btnEvt(null,o)">免费
+                                    </van-tag>
+                                </template>
+                                <template v-else>
+                                    <span v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree"
+                                        @click="$refs.menus.btnEvt(null,o)">
+                                        <progress_video :videolog="videolog" :outline="o" text="学习" v-if="o.Ol_IsVideo">
+                                        </progress_video>
+                                    </span>
+                                    <template v-else>
+                                        <van-tag type="primary" plain @click="$refs.menus.btnEvt(null,o)">购买
+                                        </van-tag>
+                                    </template>
+                                </template>
+                            </div>
+                        </template>
+                    </van-cell>
+                </van-cell-group>
+            </template>
+            <!--课程通知-->
+            <template v-if="tabActive==3">
+                <div class="guids" remark="课程公告">
+                    <div v-for="(g,i) in guides">
+                        <a @click="guides_show=true;guide=g;">{{i+1}}.{{g.Gu_Title}}</a>
+                        <span>{{g.Gu_CrtTime|date('MM-dd')}}</span>
+                    </div>
+                </div>
+                <van-popup v-model="guides_show" class="guides_show">{{guide.Gu_Title}}</van-popup>
+            </template>
+            <!--学习目标-->
+            <template v-if="tabActive==2">
+                <div class="couTarget" v-html="course.Cou_Target"></div>
+            </template>
+
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

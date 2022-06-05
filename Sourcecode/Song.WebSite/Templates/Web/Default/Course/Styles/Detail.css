@@ -1,0 +1,347 @@
+﻿@charset "utf-8";
+
+
+context.loading_init {
+    height: 500px;
+    text-align: center;
+    padding-top: 60px;
+}
+
+/*面包屑导航*/
+.el-breadcrumb {
+    font-size: 14px;
+    box-sizing: border-box;
+    padding: 10px 15px;
+}
+
+.el-breadcrumb * {
+    font-weight: normal !important;
+}
+
+.el-breadcrumb span {
+    cursor: pointer;
+}
+
+/*课程不存在*/
+context.nullcourse {
+    height: 337px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #666;
+    font-size: 20px;
+}
+
+context.nullcourse icon {
+    display: block;
+    font-size: 160px;
+    margin-top: 100px;
+}
+
+/*课程头部信息*/
+context#couHead {
+    height: 337px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+#couHead>img:first-child {
+    width: 600px;
+    margin: 0px 40px 0px 15px;
+    border-radius: 5px;
+}
+
+#couHead .headRight {
+    position: relative;
+    flex: 1;
+}
+
+#couHead .headRight span {
+    font-size: 16px;
+    line-height: 25px;
+}
+
+#couHead .headRight .couName {
+    font-size: 30px;
+    line-height: 50px;
+    font-weight: bolder;
+    color: #000000;
+    display: table;
+    margin-bottom: 10px;
+}
+
+.headinfo {
+    position: relative;
+    height: 100px;
+    padding-left: 90px;
+}
+
+#couHead .headRight #course-qrcode {
+    position: absolute;
+    top: 6px;
+    left: 0px;
+}
+
+.headinfo>div {
+    font-size: 16px;
+    line-height: 25px;
+    height: 25px;
+}
+
+.headinfo>div::before {
+    content: attr(title);
+}
+
+.couIntro *, .couIntro a, .couIntro p, .couIntro div {
+    font-size: 16px !important;
+    line-height: 25px;
+    color: #333333 !important;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.couMoney::before {
+    content: attr(title);
+}
+
+.money {
+    color: #e85308;
+    margin-right: 10px;
+    padding-right: 3px;
+    padding-left: 3px;
+}
+
+.moneyfree {
+    color: #060;
+}
+
+.money * {
+    color: #e85308;
+}
+
+/*课程学习的按钮*/
+.couBtnBox {
+    height: 50px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+}
+
+.couBtnBox a {
+    display: block;
+    box-sizing: border-box;
+    padding: 25px 40px;
+    background-color: #58b927;
+    margin-right: 15px;
+    font-size: 22px;
+    height: 50px;
+    color: #FFFFFF;
+    line-height: 0px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.5s;
+    border-radius: 3px;
+    letter-spacing: 5px;
+    background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+}
+
+.couBtnBox a:hover {
+    transform: scale(1.05);
+}
+.couBtnBox a.finaltest{
+    background-color: #409EFF !important;
+    font-weight: normal;
+}
+.btn1 {
+    width: 25% !important;
+    float: left;
+}
+
+.btn2 {
+    width: 30% !important;
+    float: left;
+}
+
+.buy {
+    background-color: #409EFF !important;
+}
+
+weisha_course {
+    margin-bottom: 40px !important;
+}
+
+weisha_courses weisha_course:last-child {
+    margin-bottom: 0px !important;
+}
+
+/*课程内容区*/
+context.body {
+    margin-top: 80px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+context.body>section {
+    flex: 1;
+    padding-left: 20px;
+    box-sizing: border-box;
+    margin-left: 60px;
+}
+
+context.body>aside {
+    width: 260px;
+    margin-left: 20px;
+    min-height: 500px;
+}
+
+context.body>aside .el-divider {
+    color: #999 !important;
+    margin-top: 38px;
+
+}
+
+.el-divider__text {
+    color: #999 !important;
+}
+
+/*选项卡*/
+context.body>section .el-tabs {
+    height: 100%;
+}
+
+context.body>section .el-tabs .el-tabs__item {
+    font-size: 18px;
+}
+
+context.body>section .el-tabs .el-tabs__content {
+    height: calc(100% - 50px);
+}
+
+context.body>section .el-tabs .el-tabs__content>div {
+    height: 100%;
+}
+
+/*课程介绍*/
+.introBox {
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.introBox *:not(icon) {
+    line-height: 35px !important;
+    font-size: 18px !important;
+
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+/*章节列表*/
+.outlines {
+    box-sizing: border-box;
+    margin-left: 30px;
+}
+
+.outlines>div {
+    line-height: 35px;
+    height: 35px;
+    position: relative;
+    padding-right: 100px;
+    transition: all 0.5s;
+}
+
+.outlines>div:hover {
+    background-color: #eee;
+    transform: scale(1.01);
+}
+
+.outlines>div>span, .outlines>div>a {
+    position: absolute;
+    right: 10px;
+    top: -1px;
+}
+
+index {
+    margin-right: 8px;
+}
+
+/*课程公告*/
+.guideCol {
+    margin-right: 20px;
+    min-width: 200px;
+}
+
+.guideCol>div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.guideCol>div:first-child {
+    font-size: 12px;
+    color: #999;
+}
+
+.guideCol>div:first-child span.el-tag {
+    cursor: pointer;
+}
+
+.guideCol .current {
+    font-weight: bold;
+}
+
+.guides {
+    height: 100%;
+    display: flex;
+    position: relative;
+}
+
+.guides_list {
+    height: 100%;
+    position: relative;
+    flex: 1;
+}
+
+.weisha_guides>div {
+    line-height: 35px;
+    cursor: pointer;
+}
+
+.guide_null {
+    font-size: 12px;
+    color: #999;
+    line-height: 25px !important;
+}
+
+/*课程公告的详情*/
+.guide_dialog {
+    text-align: left;
+    width: 70%;
+    height: 70%;
+}
+
+.guide_dialog .el-dialog__body {
+
+    height: calc(100% - 130px);
+    overflow: auto;
+}
+
+#pager-box {
+    position: absolute;
+    bottom: 0px;
+}
+
+/*试卷列表*/
+.testpapers{
+    box-sizing: border-box;
+    padding: 20px 20px 10px 20px;
+    line-height: 30px;
+}
+.testpapers>div:first-child{
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+.testpapers .order{
+    margin-right: 15px;
+}

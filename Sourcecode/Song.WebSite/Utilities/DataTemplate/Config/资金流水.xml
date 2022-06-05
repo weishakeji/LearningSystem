@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- 该文件记录Excel数据导入时Excel的列名与数据库中字段的对应关系 -->
+<!--参数说明：
+Keys:主键字段
+output：为flase时，不导出数据，默认为true;
+DefautValue:默认值，例如描述性别时，0=未知|1=男|2=女
+DataType：数据类型，如 DataType="date"（日期型）
+Format：输出的格式字符-->
+<config>
+  <item Column="金额" Field="Ma_Money" />
+  <item Column="收支" Field="Ma_Type"  DefautValue="1=扣除|2=充值 "/>
+  <item Column="状态" Field="Ma_IsSuccess"  DefautValue="true=成功|false=失败 " />
+  <item Column="余额" Field="Ma_Total"/>
+  <item Column="动作" Field="Ma_From" DefautValue="1=管理员充扣|3=在线支付|4=购买课程" />
+  
+  <item Column="学员" Field="Ac_Name"/>
+  <item Column="账号" Field="Ac_AccName"/>
+  
+  <item Column="流水号" Field="Ma_Serial" />
+  <item Column="说明" Field="Ma_Info"/>
+  <item Column="使用时间" Field="Ma_CrtTime"  DataType="date" Format="yyyy-MM-dd HH:mm:ss" />
+ 
+  <item Column="操作" Field="Ma_Source" />
+</config>

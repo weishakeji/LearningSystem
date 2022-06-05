@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>修改信息</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+    <script type="text/javascript" src="../Scripts/hanzi2pinyin.js"></script>
+</head>
+
+
+<body>
+    <div id="app" v-cloak>
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-form-item>
+
+            </el-form-item>
+            <el-form-item label="名称" prop="Olv_Name">
+                <el-input v-model="entity.Olv_Name"></el-input>
+            </el-form-item>
+            <el-form-item label="标识" prop="Olv_Tag">
+                <el-input v-model="entity.Olv_Tag" style="width:200px" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="等级" prop="Olv_Level">
+                <el-input v-model="entity.Olv_Level" type="number"  style="width:100px" ></el-input>
+            </el-form-item>
+            <el-form-item label="分润方案" prop="Ps_ID">
+                <template>
+                    <el-select v-model="profit_id" placeholder="请选择">
+                        <el-option v-for="item in profits" :value-key="item.Ps_ID" :label="item.Ps_Name"
+                            :value="item.Ps_ID">
+                        </el-option>
+                    </el-select>
+                </template>
+            </el-form-item>
+            <el-row>
+                <el-form-item label="说明" prop="MM_Intro">
+                    <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="entity.Olv_Intro"></el-input>
+                </el-form-item>
+            </el-row>
+            <el-form-item label="状态" prop="Acc_QQ">
+                <el-switch v-model="entity.Olv_IsUse" :active-text="entity.Olv_IsUse ? '启用' : '禁用'">
+                </el-switch>
+            </el-form-item>
+            <el-form-item class="footer">
+                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                    确认修改</el-button>
+                <el-button type='close'>取消</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+
+
+</body>
+
+</html>

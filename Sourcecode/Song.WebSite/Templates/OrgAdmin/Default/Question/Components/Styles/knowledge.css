@@ -1,0 +1,104 @@
+﻿/*知识点的选择*/
+.knowledge {
+	margin: 15px;
+	width: calc(100% - 30px);
+	height: calc(100% - 30px);
+	position: relative;
+}
+
+.knowledge .selected {
+	width: 100%;
+	line-height: 30px;
+	padding: 0px 15px;
+	box-sizing: border-box;
+	font-size: 16px;
+	color: #549c30;
+	cursor: pointer;
+}
+
+/*当前试题没有关联知识点的提示*/
+.knl_noselected {
+	font-size: 14px;
+	color: #999;
+}
+
+.knowledge .search {
+	display: flex;
+}
+
+.knowledge .search>*:not(:last-child) {
+	margin-right: 10px;
+	flex: 1;
+}
+
+.knowledge .knl-pager-box {
+	position: fixed;
+	left: 8px;
+	bottom: 6px;
+	max-width: calc(100% - 200px);
+	overflow: hidden;
+}
+
+
+
+/*知识点列表*/
+dl.knl_list {
+	width: 100%;
+	height: calc(100% - 70px);
+	margin: 10px 0px 0px 0px;
+}
+dl.knl_list dt{
+	font-size: 15px;
+	color: #999;
+	box-sizing: border-box;
+	padding: 15px;
+}
+dl.knl_list dd {
+	width: 100%;
+	line-height: 30px;
+	display: flex;
+	font-size: 15px;
+}
+
+dl.knl_list dd:hover {
+	background-color: #eee;
+}
+
+dl.knl_list dd:hover>a {
+	text-decoration: underline;
+	color: #666;
+}
+
+dl.knl_list dd>a {
+	flex: 1;
+}
+
+dl.knl_list dd>index:first-child {
+	min-width: 30px;
+	display: block;
+	text-align: center;
+	margin-right: 10px;
+}
+
+dl.knl_list dd>*:last-child {
+	min-width: 60px;
+	text-align: center;
+	margin-right: 10px;
+}
+
+.showKnowledge {
+	width: 100%;
+	height: 100%;
+}
+
+.showKnowledge .el-dialog {
+	width: 80%;
+	height: 80%;
+
+}
+
+.showKnowledge .el-dialog__body {
+	height: calc(100% - 160px);
+	padding: 30px 20px 20px 20px;
+	overflow-y: auto;
+}

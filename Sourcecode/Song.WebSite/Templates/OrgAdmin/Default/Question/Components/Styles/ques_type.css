@@ -1,0 +1,13 @@
+﻿/*题型的图标*/
+
+.el-tabs__header icon[ques_type] {
+	font-size: 18px;
+}
+
+icon[ques_type][showname=true]::after {
+	content: attr(title);
+	margin-left: 8px;
+}
+.el-tabs__header icon[ques_type][showname=true]::after  {
+	font-size: 15px;
+}

@@ -1,0 +1,70 @@
+﻿@charset "utf-8";
+
+.el-tabs__nav-wrap {
+	margin-left: 8px;
+}
+
+.el-tabs .el-tabs__header {
+	margin-bottom: 0px;
+}
+
+#content_panel {
+	width: 100%;
+	height: calc(100% - 100px);
+	border: 1px solid #E4E7ED;
+	border-top: none;
+	box-sizing: border-box;
+	margin: 0px;
+	padding: 10px 5px 5px 10px;
+}
+
+#content_panel>div {
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+/*上传视频的按钮组*/
+
+
+.btns_bar {
+	display: flex;
+}
+
+.btns_bar>* {
+	margin-right: 10px;
+
+}
+
+.btns_bar>*:first-child {
+	flex: 1;
+}
+
+.btns_bar icon {
+	font-size: 16px;
+}
+
+.btns_bar>div:last-child {
+	display: flex;
+	width: 260px;
+}
+
+.btns_bar .el-button {
+	height: 35px;
+}
+
+/*视频播放器*/
+
+#videoplayer {
+	z-index: 10;
+	width: 100%;
+}
+
+#videoplayer.video {
+	height: calc(100% - 45px);
+}
+
+#videoplayer.outer {
+	height: calc(100% - 180px);
+}
+

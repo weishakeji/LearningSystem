@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head resource>
+    <meta charset="utf-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="text/javascript" src="Scripts/webdesk.ui.core.js"></script>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span>说明</span>
+
+            </div>
+            <div class="text">
+               1、为保证升级的同时系统能正常运行，将采用分步、分模块升级的方法，后续逐步完成整体升级。
+            </div>
+            <div class="text">
+                2、左侧菜单项中的数字是剩余完成度（可以理解为，带数字的就是没有完成的）
+             </div>
+            <div class="text">
+                3、学习卡管理功能已经完成; 
+                <dl>
+                    <dd>增加批量回滚；</dd>
+                    <dd>增加学习卡全面查询；</dd>
+                </dl>
+             </div>
+             <div class="text">
+                4、资金流水完成; 
+                <dl>
+                    <dd>可以按条件导出数据；</dd>                  
+                </dl>
+             </div>
+        </el-card>
+        <div style="display: none;">起始页
+            <hr />
+            要显示的内容：<br />
+            学员总量，增长量（按月，按年）<br />
+            课程数，试题数<br />
+
+            <br />
+            服务器硬件信息<br />
+            <br />
+
+            <br />
+            <br />学习卡发放量，使用量，回滚数
+        </div>
+    </div>
+</body>
+
+</html>

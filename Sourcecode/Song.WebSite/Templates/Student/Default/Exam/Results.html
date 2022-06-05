@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+
+        <div class="toolsbar">
+            <el-tag>
+                <icon>&#xe634</icon>考试成绩查看
+            </el-tag>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-input v-model="form.sear" placeholder="考试名称" clearable>
+                            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <context>
+            <loading v-show='loading'>正在加载中...</loading>
+            <template v-if="results.length<1 && !loading">
+                <div class="nodata">
+                    <icon>&#xe839</icon>没有满足条件的数据
+                </div>
+            </template>
+            <template v-if="results.length>0">
+                <score_item v-for="(result,index) in results" :result="result" :index="index" :account="account">
+                    <template scope="item">
+                        <el-card>
+                            <div slot="header" @click="review(result)">
+                                <div class="exam_name">
+                                    <span>{{(form.index - 1) * form.size + index + 1}}.</span>
+                                    {{result.Exam_Name ? result.Exam_Name : result.Exam_Title}}
+                                </div>
+                                <score :class="item.th.scoreStyle(result.Exr_ScoreFinal)">{{result.Exr_ScoreFinal}} 分
+                                </score>
+                            </div>
+                            <div class="items">
+                                <div>
+                                    <span title="专业" v-if="item.subject">
+                                        <icon>&#xe83d</icon>{{item.subject.Sbj_Name}}
+                                    </span>
+                                    <span v-if="item.paper" title="课程">
+                                        <icon>&#xe813</icon>{{item.paper.Cou_Name}}
+                                    </span>
+                                    <span title="考试主题" v-if="item.exam">
+                                        <icon>&#xe810</icon>{{item.exam.Exam_Title}}
+                                    </span>
+                                    <span title="考试主题" v-else>
+                                        <alert>考试不存在，可能被删除，仅留下考试成绩</alert>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span title="考试限时的时长" v-if="item.exam">
+                                        <icon>&#xe737</icon>
+                                        限时：{{item.exam.Exam_Span}}分钟
+                                    </span>
+                                    <span title="总共多少道题" v-if="item.paper">
+                                        <icon>&#xe75e</icon>题量：{{item.paper.Tp_Count}}道
+                                    </span>
+                                    <span>
+                                        <icon>&#xe70c</icon>交卷时间：
+                                        <template v-if="result.Exr_SubmitTime">
+                                            {{result.Exr_SubmitTime|date("yyyy-MM-dd HH:mm:ss")}}
+                                        </template>
+                                        <template v-else>
+                                            {{result.Exr_LastTime|date("yyyy-MM-dd HH:mm:ss")}}
+                                        </template>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span>
+                                        <icon>&#xe816</icon> 得分：
+                                        <score :class="item.th.scoreStyle(result.Exr_ScoreFinal)"  @click="review(result)">
+                                            {{result.Exr_ScoreFinal}} 分
+                                        </score>
+                                        <help v-if="item.exam">
+                                            （满分{{item.exam.Exam_Total}}分，{{item.exam.Exam_PassScore}}分及格）</help>
+                                    </span>
+                                </div>
+                            </div>
+                        </el-card>
+                    </template>
+                </score_item>
+
+
+            </template>
+        </context>
+        <div id="pager-box">
+            <loading v-if='loading'>正在加载中...</loading>
+            <el-pagination v-else v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人信息</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app" v-cloak>
+
+        <vue-html5-editor :content="details" :show-module-name="false" ref="editor" @change="changeIntro">
+        </vue-html5-editor>
+        <div class="foot-btn">
+            <p class="title">
+
+            </p>
+            <el-button type="primary" @click="updateDetails" :loading="loading">保存修改</el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

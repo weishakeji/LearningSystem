@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>课程学习</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+</head>
+
+<body>
+    <div id="vapp">
+        <script>
+            document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
+            document.body.onpaste = document.body.oncopy = function () { return false; };
+        </script>
+        <div id="MainBox" :style="!median ? 'width: calc(80% - 5px);' : 'width: calc(99.5% - 5px);'">
+            <div class="mainTop">
+                <div class="courseBox">
+                    <template v-if="JSON.stringify(course) != '{}' && course.Cou_Name!=''" remark="课程名称">
+                        课程：<a :href="'detail.'+course.Cou_ID">《{{course.Cou_Name}}》</a>
+                    </template>
+                    <template v-else>
+                        当前课程好像不存在，如果是正在加载，请等待！
+                    </template>
+                    <template v-if="course.Sbj_Name!=''" remark="专业">
+                        - <a :href="'index?sbjid='+course.Sbj_ID">{{course.Sbj_Name}}</a>
+                    </template>
+                </div>
+
+                <div id="btnKnowledge" v-if="state.isKnl" v-on:click="knlClick">知识库</div>
+                <div class="oltitle">
+                    <a v-if="titState== 'loading'" class="titCurr">加载中...</a>
+                    <a v-if="(state.isNull   || !state.canStudy) && titState != 'loading' "
+                        v-on:click="titState='isNull'" :class="titState=='isNull' || !state.canStudy ? 'titCurr':''">提
+                        示</a>
+                    <a v-if="state.existVideo && titState != 'loading'" v-on:click="titState='existVideo'"
+                        :class="titState=='existVideo' ? 'titCurr':''">视 频</a>
+                    <a v-if="state.isLive && titState != 'loading' && state.canStudy" v-on:click="titState='isLive'"
+                        :class="titState=='isLive' ? 'titCurr':''">直播</a>
+                    <a v-if="state.isContext && titState != 'loading'" v-on:click="titState='isContext'"
+                        :class="titState=='isContext' ? 'titCurr':''">内 容</a>
+                    <a v-if="state.isAccess && titState != 'loading'" v-on:click="titState='isAccess'"
+                        :class="titState=='isAccess' ? 'titCurr':''">附 件</a>
+                    <a v-if="state.isQues && titState != 'loading'" v-on:click="titState='isQues'"
+                        :class="titState=='isQues' ? 'titCurr':''">习 题</a>
+
+                    <!-- <div class="titBox">作业</div>-->
+                </div>
+            </div>
+            <!--左侧顶部结束-->
+            <div id="contextArea" v-if="!state.DeskAllow">
+                <div remark="正在加载" v-show="titState=='loading'">
+                    <p id="preloader-2">
+                        <span></span>
+                        <span></span>
+                    </p>
+                </div>
+                <div remark="提示" v-show="titState=='isNull' || !state.canStudy ">
+                    <img src="images/studyBg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
+                    <div class="noSelect" v-if="!!account.Ac_ID">
+                        没有内容，或无权查看！</div>
+                    <div class="noSelect" v-if="!islogin">
+                        <a href="/web/sign/in">未登录，点击此处登录！</a>
+                    </div>
+                    <div class="noSelect" v-if="state.canStudy && state.LiveStart && state.LiveOver">直播已经结束
+                    </div>
+                </div>
+                <div class="noSelect" v-if="!islogin">
+                    <a href="/web/sign/in">未登录，点击此处登录！</a>
+                </div>
+                <template v-else>
+                <div remark="视频" v-show="titState=='existVideo'" :video="state.urlVideo">
+                    <div id="videoplayer" v-show="!state.otherVideo && !state.isLive" style="height: 100%;width:100%;"
+                        remark="点播">
+                    </div>
+                    <div id="accinfo" v-if="JSON.stringify(account) != '{}' && !state.otherVideo && !state.isLive"
+                        title="仅自己可见" remark="飘浮信息，防录屏">
+                        {{account.Ac_Name}} {{account.Ac_MobiTel1}}</div>
+                    <div id="chartlayer" v-show="!state.otherVideo && switchSubtitle" remark="弹幕层"></div>
+                    <div id="videoinfo" v-show="!state.otherVideo && !state.isLive">
+                        <span style="display: non6e">视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
+                        <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
+                        <span style="cursor: pointer"
+                            v-on:click="videoSeek(video.playhistime)">上次播放到{{video.playhistime}}秒</span>
+                        <span class="info" v-show="studylogState==1">学习进度提交成功!</span>
+                        <span class="error" v-show="studylogState==-1">学习进度提交失败!</span>
+                    </div>
+                    <div id="videolog" v-show="!state.otherVideo && !state.isLive">
+                        <template v-for="i in video.total">
+                            <i></i>
+                        </template>
+                    </div>
+                    <iframe id="vedioiframe" height="100%" width="100%"
+                        v-if="state.outerVideo && state.otherVideo  && !state.isLive" :src="state.urlVideo"
+                        allowscriptaccess="always" allowfullscreen="true" wmode="opaque" allowtransparency="true"
+                        frameborder="0" remark="外部视频链接" type="application/x-shockwave-flash"></iframe>
+
+                </div>
+                <div remark="直播" v-show="titState=='isLive'" :video="state.urlVideo">
+                    <div id="accinfo" v-if="JSON.stringify(account) != '{}' && state.isLive && state.isLiving"
+                        title="仅自己可见" remark="飘浮信息，防录屏">
+                        {{account.Ac_Name}} {{account.Ac_MobiTel1}}</div>
+                    <div id="livebox" v-show="state.isLive && state.isLiving" style="height: 100%;width:100%;"
+                        remark="直播">
+                    </div>
+                    <div id="liveStopbox" v-show="state.isLive && !state.isLiving" style="height: 100%;width:100%;"
+                        remark="直播未开始">
+                        <img src="images/livebg.jpg" class="bgPicture" style="height: 100%;width:100%;" />
+                        <div class="liveStop_Tit" v-show="!state.LiveStart">直播未开始！</div>
+                        <div class="liveStop_Tit" v-show="state.LiveOver">直播已经结束！</div>
+                    </div>
+                </div>
+                <div remark="内容" v-show="titState=='isContext'" id="details">
+                    <div id="detailsArea" v-html="outline.Ol_Intro"> </div>
+                </div>
+                <div remark="附件" v-show="titState=='isAccess'">
+                    <accessory ref='accessory' :uid="outline.Ol_UID" :isbuy="state.isBuy"  :account="account" ></accessory>
+                </div>
+                <div remark="习题" v-show="titState=='isQues'">
+                    <iframe
+                        :src="outline!=null ? '../question/Exercises?olid='+outline.Ol_ID+'&couid='+outline.Cou_ID : ''"
+                        style="height: 100%" marginwidth="0" marginheight="0" align="top" scrolling="no" width="100%"
+                        frameborder="0" allowtransparency="true"></iframe>
+                </div>
+            </template>
+            </div>
+            <div id="contextArea" v-if="state.DeskAllow">
+                <div>
+                    <div class="noSelect">请在DeskApp应用中打开</div>
+                </div>
+            </div>
+        </div>
+        <div id="median" remark="此为分隔线"><span v-on:click="median = !median" :class="!median ? 'open' : 'close'"></span>
+        </div>
+        <!--开始右侧菜单区域-->
+        <div id="rightBox" :style="!median ? 'width: 20%;' : 'width: 0%'" v-show="!median">
+            <div class="boxBar">
+                <div class="title" v-on:click="rightState = 'outline'"
+                    :class="rightState=='outline' ? 'titleCurr' : ''"> 章节目录</div>
+                <div class="title" v-on:click="rightState = 'chat'" v-if="isMessage"
+                    :class="rightState=='chat' ? 'titleCurr' : ''"> 交流咨询</div>
+            </div>
+            <div class="outline rightArea" v-show="rightState=='outline'">
+                <el-tree :data="outlines" node-key="Ol_ID" ref="outlines_tree" default-expand-all
+                    :props="{children: 'children',label: 'Ol_Name'}" expand-on-click-node
+                    @node-click="outlineClick">
+                    <span class="custom-tree-node" slot-scope="{ node, data }" :title="data.Ol_Name"
+                        :isvideo='data.Ol_IsVideo' :islive='data.Ol_IsLive'>
+                        <span>{{data.serial}}</span>
+                        <span>{{ data.Ol_Name }}</span>
+                    </span>
+                </el-tree>
+            </div>
+            <div class="chat rightArea" v-show="rightState=='chat'" v-if="isMessage">
+                <div class="chatlist" id="chatlist">
+                    <dl id="chatlistdl">
+                        <dd v-for="(item,index) in messages">
+                            <div :playtime="item.Msg_PlayTime">
+                                <acc><i class="el-icon-chat-dot-round"></i>{{item.Ac_Name}}：<del
+                                        class="el-icon-close"></del></acc>
+                                <msg>{{item.Msg_Context}} </msg>
+                            </div>
+                            <date>{{item.Msg_CrtTime | date('yyyy-M-d hh:mm:ss')}}</date>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="chatbox">
+                    <div :class="['switch',switchSubtitle ? 'switch-on' : '']"
+                        v-on:click="switchSubtitle=!switchSubtitle" style="display:none"></div>
+                    <div class="msgbox">
+                        <input type="text" id="messageinput" name="messageinput" v-on:keyup.enter="msgSend" />
+                        <div id="btnMessage" v-on:click="msgSend">发送</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <transition name="fade" remark="右侧的遮罩层">
+            <div id="rightMask" :style="!median ? 'width: 20%;' : 'width: 0%'" v-show="!outlineLoaded" remark="右侧的遮罩层">
+            </div>
+        </transition>
+
+    </div>
+</body>
+
+</html>

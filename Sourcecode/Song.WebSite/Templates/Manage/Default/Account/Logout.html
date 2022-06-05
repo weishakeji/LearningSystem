@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>退出登录</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-row>
+            <img v-if="account!=null && account.Acc_Photo!=''" :src="account.Acc_Photo" class="photo">
+            <img v-else class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head1.jpg" />
+            <span class="accname" v-if="account!=null" v-html="account.Acc_Name"></span>
+            <span class="nologin" v-else>(未登录或已失效)</span>
+        </el-row>
+        <el-row>
+
+            <el-button type="primary" @click="btnLogout" v-if="account!=null">退出登录</el-button>
+            <el-button type="primary" @click="btnLogout" v-else>重新登录</el-button>
+            <el-button type="close">返回</el-button>
+
+        </el-row>
+    </div>
+</body>
+
+</html>

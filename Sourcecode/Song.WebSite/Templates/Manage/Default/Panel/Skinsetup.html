@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>风格设置</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+   
+    <style type="text/css">
+        html,
+        body {
+            overflow: hidden;
+        }
+
+        skin {
+            display: block;
+            margin: 15px 0 15px 15px;
+            float: left;
+            cursor: pointer;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden;
+            height: 92px;
+        }
+
+        skin:hover {
+            transform: scale(1.05);
+            box-shadow: 2px 2px 3px 3px rgba(180, 180, 180, 0.3), -2px -2px 3px 3px rgba(180, 180, 180, 0.3);
+        }
+
+        skin name {
+            display: block;
+            height: 30px;
+            line-height: 30px;
+            text-transform: capitalize;
+            position: absolute;
+            bottom: 5px;
+            left: 1px;
+            z-index: 2;
+            width: calc(100% - 22px);
+            padding: 0px 10px 0px 10px;
+            overflow: hidden;
+            font-size: 14px;
+            background-color: rgba(255, 255, 255, .6);
+        }
+
+        skin img {
+            width: 160px;
+            height: 90px;
+            border: solid 1px #999;
+        }
+
+        skin.curr name:before {
+            content: '* ';
+            color: red;
+        }
+
+        skin.curr name {
+            color: green;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #999;
+        }
+
+        skin.curr:before {
+            content: '当 前';
+            display: block;
+            width: auto;
+            height: 20px;
+            line-height: 20px;
+            position: absolute;
+            text-align: center;
+            background-color: rgba(247, 239, 141, .9);
+            padding: 0px 40px 0px 40px;
+            border: solid 1px #666;
+            font-size: 10px;
+            top: 6px;
+            right: -40px;
+            transform: rotate(45deg);
+            box-shadow: 1px 1px 2px #999;
+            z-index: 3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="skins"></div>
+</body>
+<script type="text/javascript" src="Scripts/Skinsetup.js"></script>
+
+</html>

@@ -1,0 +1,18 @@
+﻿use_icon {
+    display: inline-block;
+    box-sizing: border-box;
+    padding-top: 5px;
+    line-height: 20px !important;
+}
+
+    use_icon::before {
+        font-size: 22px;
+    }
+
+.el-icon-open {
+    color: #67C23A;
+}
+
+.el-icon-turn-off {
+    color: #F56C6C;
+}

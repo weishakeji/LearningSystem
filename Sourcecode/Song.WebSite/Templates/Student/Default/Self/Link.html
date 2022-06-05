@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>联系信息</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form ref="account" :model="account" @submit.native.prevent  label-width="120px">
+            <el-form-item label="固定电话" prop="Ac_Tel">
+                <el-input v-model="account.Ac_Tel" style="width:200px">
+                    <icon slot="prefix">&#xe66c</icon>
+                </el-input>
+                <el-checkbox v-model="account.Ac_IsOpenPhone">是否公开</el-checkbox>
+            </el-form-item>
+            <el-form-item label="移动电话" prop="Ac_MobiTel1">
+                <el-input v-model="account.Ac_MobiTel1" style="width:200px">
+                    <icon slot="prefix">&#xe66c</icon>
+                </el-input>
+                <el-checkbox v-model="account.Ac_IsOpenMobi">是否公开</el-checkbox>
+            </el-form-item>
+            <el-form-item label="电子邮箱" prop="Ac_Email">
+                <el-input v-model="account.Ac_Email">
+                    <icon slot="prefix">&#xe76e</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="QQ" prop="Ac_QQ">
+                <el-input v-model="account.Ac_QQ" style="width:200px">
+                    <icon slot="prefix">&#xe82a</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="微信" prop="Ac_Weixin">
+                <el-input v-model="account.Ac_Weixin" style="width:200px">
+                    <icon slot="prefix">&#xe730</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="住址" prop="Ac_Address">
+                <el-input v-model="account.Ac_Address">
+                    <icon slot="prefix">&#xe64f</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="通讯地址" prop="Ac_AddrContact">
+                <el-input v-model="account.Ac_AddrContact">
+                    <icon slot="prefix">&#xe64c</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="邮编" prop="Ac_Zip">
+                <el-input v-model="account.Ac_Zip" style="width:200px">
+                    <icon slot="prefix">&#xe751</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="紧急联系人" prop="Ac_LinkMan">
+                <el-input v-model="account.Ac_LinkMan" style="width:200px">
+                    <icon slot="prefix">&#xa043</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="紧急电话" prop="Ac_LinkManPhone">
+                <el-input v-model="account.Ac_LinkManPhone" style="width:200px">
+                    <icon slot="prefix">&#xa047</icon>
+                </el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" native-type="submit" :loading="loading" @click="btnEnter('account')">
+                    <icon v-if="!loading">&#xa030</icon>保存修改
+                </el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+</body>
+
+</html>

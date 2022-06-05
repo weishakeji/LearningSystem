@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>资金明细</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <van-sticky>
+            <page_header title="积分明细" icon="&#xe88a" :fresh="true"></page_header>
+        </van-sticky>
+        <div class="header">
+            <van-row>
+                <div class="header_info" v-if="!islogin" remark="未登录" @click="login">
+                    <div class="acc_photo nophoto"></div>
+                    <div class="acc-info">
+                        <div class="acc-name">未登录
+                        </div>
+                        <span class="acc-money"> ... </span>
+                    </div>
+                </div>
+                <div class="header_info" v-if="islogin" remark="已经登录" @click="myself">
+                    <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                        :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                    <template v-else>
+                        <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
+                        <div class="acc_photo man" v-else></div>
+                    </template>
+                    <div class="acc-info">
+                        <div class="acc-name"><span v-html="account.Ac_Name"></span>
+                            <span class="acc-acname" v-html="account.Ac_AccName"></span>
+                        </div>
+                        <div class="acc-count">
+                            <div>
+                                <icon>&#xe88a</icon>积分<span v-html="account.Ac_Point"></span>个
+                            </div>
+                            <div>
+                                <icon>&#xe847</icon>券<span v-html="account.Ac_Coupon"></span>个
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </van-row>
+        </div>
+
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载" @load="onload">
+            <template v-for="(m,i) in details">
+                <div class="month">
+                    <icon>&#xe671</icon>{{m.month}}
+                </div>
+                <van-swipe-cell v-for="(item,i) in m.items">
+                    <template #left>
+
+                    </template>
+                    <van-cell :border="false" class="row-box" @click="godetail(item)">
+                        <template #title>
+                            <div class="dates">
+                                <div>{{item.Pa_CrtTime|date('HH:mm')}}</div>
+                                <div>{{item.Pa_CrtTime|date('MM-dd')}}</div>
+                            </div>
+                            <div :class="'ico type'+item.Pa_Type"></div>
+                            <div class="right_area">
+
+                                <money>
+                                    <span v-if="item.Pa_Type==1">-</span>
+                                    <span v-if="item.Pa_Type==2">+</span>
+                                    {{item.Pa_Value}}
+                                </money>
+                                <div>{{remark(item)}}</div>
+                            </div>
+
+                        </template>
+                    </van-cell>
+                    <template #right>
+                        <van-button type="danger" class="btnDelete" @click="btnDelete(item)">删除</van-button>
+                    </template>
+                </van-swipe-cell>
+            </template>
+
+
+        </van-list>
+        <!-- 详情-->
+        <van-popup v-model="show_detail" class="show_detail" closeable close-icon="close">
+            <div class="detail_title">
+                <icon>&#xe749</icon>
+                <span v-if="show_item.Ma_Type==1">-</span>
+                <span v-if="show_item.Ma_Type==2">+</span>
+                {{show_item.Ma_Money}}
+            </div>
+            <div class="detail_content">
+                <div title="余额">
+                    <icon>&#xe837</icon>{{show_item.Ma_Total}} 元
+                </div>
+                <div title="明细">
+                    <span v-if="show_item.Ma_Type==1">-</span>
+                    <span v-if="show_item.Ma_Type==2">+</span>
+                    {{show_item.Ma_Money}} 元
+                </div>
+                <div title="时间">
+                    {{show_item.Ma_CrtTime|date('yyyy-MM-dd HH:mm:ss')}}
+                </div>
+                <div title="类型">
+                    <span v-if="show_item.Ma_Type==1">支出</span>
+                    <span v-if="show_item.Ma_Type==2">收入</span>
+                    <span v-if="!item.Ma_IsSuccess">（失败）</span>
+                </div>
+                <div title="交易号">
+                    {{show_item.Ma_Serial}}
+                </div>
+                <div title="来源">
+                    {{show_item.Ma_Source}}
+                </div>
+                <div title="说明">
+                    {{show_item.Ma_Info}}
+                </div>
+                <div title="备注">
+                    {{show_item.Ma_Remark}}
+                </div>
+            </div>
+        </van-popup>
+        <!-- 底部和侧边导航-->
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

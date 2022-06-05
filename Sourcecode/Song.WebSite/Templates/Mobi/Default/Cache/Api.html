@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />    
+    <title>缓存管理</title>   
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <context>
+
+            <page_header title="缓存管理 - 接口数据" icon="&#xe6a4" :fresh="true"></page_header>
+            <van-sticky>
+                <van-tabs v-model="active" @change="tabChange">
+                    <van-tab title="all">
+                        <template #title>
+                            <span class="weisha_icon" icon="&#xe6a4">所有缓存
+                        </template>
+                    </van-tab>
+                    <van-tab title="expires"> <template #title>
+                            <span class="weisha_icon" icon="&#xe81a">过期数据
+                        </template>
+                    </van-tab>
+                    <van-tab title="compel"> <template #title>
+                            <span class="weisha_icon" icon="&#xe816">强制缓存
+                        </template>
+                    </van-tab>
+                </van-tabs>
+            </van-sticky>
+            <!-- 所有缓存-->
+            <div class="list" v-if="active_name=='all'">
+                <div class="item_info">
+                    <span>共<b>{{allitems.length}}</b>个缓存库，缓存<b>{{itemtotal}}</b>条记录</span>
+                    <van-button type="danger" class="btnclearall" :disabled="itemtotal<1" @click="clear(null,false)">
+                        <icon>&#xe800</icon>清空所有
+                    </van-button>
+                </div>
+                <van-swipe-cell v-for="(item,i) in allitems">
+                    <van-cell :border="true">
+                        <template #title>
+                            <span class="storename"> {{i+1}} . {{item.store}}</span>
+                            <van-tag type="primary" size="medium" color="#ccc" text-color="#333">
+                                {{item.items.length}} 条记录
+                            </van-tag>
+                        </template>
+                    </van-cell>
+                    <template #right>
+                        <van-button square type="danger" @click="clear(item.store,false)">
+                            <icon>&#xe800</icon>清空
+                        </van-button>
+                    </template>
+                </van-swipe-cell>
+            </div>
+            <!--过期缓存-->
+            <div class="list" v-if="active_name=='expires'">
+                <div class="item_info">
+                    <span>过期<b>{{expirestotal()}}</b>条缓存记录</span>
+                    <van-button type="danger" class="btnclearall" :disabled="expirestotal()<1"
+                        @click="clear(null,true)">
+                        <icon>&#xe800</icon>清除过期
+                    </van-button>
+                </div>
+                <van-swipe-cell v-for="(item,i) in expiresItems">
+                    <van-cell :border="true">
+                        <template #title>
+                            <span class="storename"> {{i+1}} . {{item.store}}</span>
+                            <van-tag type="primary" size="medium" color="#ccc" text-color="#333">
+                                {{item.items.length}} 条记录
+                            </van-tag>
+                        </template>
+                    </van-cell>
+                    <template #right>
+                        <van-button square type="danger" @click="clear(item.store,true)">
+                            <icon>&#xe800</icon>清除
+                        </van-button>
+                    </template>
+                </van-swipe-cell>
+            </div>
+            <!--强制缓存-->
+            <div class="list" v-if="active_name=='compel'">
+                <div class="item_info">
+                    <span>共有<b>{{compeltotal()}}</b>条强制缓存，强制缓存不可清除。</span>
+                </div>
+                <van-swipe-cell v-for="(item,i) in compelItems">
+                    <van-cell :border="true">
+                        <template #title>
+                            <span class="storename"> {{i+1}} . {{item.store}}</span>
+                            <van-tag type="primary" size="medium" color="#ccc" text-color="#333">
+                                {{item.items.length}} 条记录
+                            </van-tag>
+                        </template>
+                    </van-cell>                   
+                </van-swipe-cell>
+            </div>
+        </context>
+
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,351 @@
+﻿context.first {
+    display: block;
+    height: 440px;
+    --height: 100vh;
+    width: 100%;
+    padding: 0px !important;
+    text-align: center;
+    background-color: rgb(221, 133, 18);
+}
+
+context.first section {
+    display: block;
+    width: 1200px;
+    height: 100%;
+    margin: 0px auto;
+    position: relative;
+    --background-color: rgba(255, 255, 255, 0.3);
+    background-image: url(../images/bg1.png);
+    background-size: contain;
+    background-position: center 0;
+    background-repeat: no-repeat;
+}
+
+context.first {
+    width: 100wh;
+    color: #fff;
+    background: linear-gradient(-60deg, #ffcdbe, #befaae, #e4f7fd, #9efce6);
+    background-size: 400% 400%;
+    -webkit-animation: Gradient 15s ease infinite;
+    -moz-animation: Gradient 15s ease infinite;
+    animation: Gradient 15s ease infinite;
+}
+
+@-webkit-keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-moz-keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+/*预载效*/
+
+#loading {
+    width: 100px;
+    height: 100px;
+    margin: 200px auto 0px auto;
+    position: relative;
+}
+
+#loading b {
+    display: block;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 20px;
+    color: #fff;
+    text-shadow: 1px 0 1px #8B4513, 0 1px 1px #8B4513, 0 -1px 1px #8B4513, -1px 0 1px #8B4513;
+}
+
+#loading span {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: rgb(178, 166, 248);
+    animation: bounce 1s infinite linear;
+}
+
+#loading span:nth-child(1) {
+    left: 0;
+    animation-delay: 0s;
+}
+
+#loading span:nth-child(2) {
+    left: 20px;
+    animation-delay: 0.25s;
+}
+
+#loading span:nth-child(3) {
+    left: 40px;
+    animation-delay: 0.5s;
+}
+
+#loading span:nth-child(4) {
+    left: 60px;
+    animation-delay: 0.75s;
+}
+
+#loading span:nth-child(5) {
+    left: 80px;
+    animation-delay: 1.0s;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0px);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateY(-30px);
+        opacity: 1.0;
+    }
+
+    100% {
+        transform: translateY(0px);
+        opacity: 0.5;
+    }
+}
+
+#login-area, #logged-area {
+    width: 280px;
+    height: 320px;
+    top: calc((100% - 320px) / 2);
+    right: 60px;
+}
+
+#login-area {
+    position: absolute;
+    text-align: left;
+    color: #666;
+    z-index: 2;
+    border: 1px solid #fff;
+    border: none;
+    box-shadow: 0px 0px 200px #fff;
+    padding: 5px;
+    box-sizing: border-box;
+    background: rgba(119, 119, 119, 0.74);
+    background-color: rgba(200, 200, 200, 0.6);
+   
+}
+
+#logged-area {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    padding: 30px;
+    box-sizing: border-box;
+    background-color: rgba(200, 200, 200, 0.3);
+}
+
+#logged-area button {
+    font-size: 16px;
+}
+
+#logged-area icon {
+    font-size: 22px;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+.loginbox {
+
+    box-shadow: none !important;
+}
+
+.loginbox .login_body {
+    height: calc(100% - 70px) !important;
+
+}
+
+.loginbox .login_body>* {
+    border: none !important;
+}
+
+.loginbox .login_body>*:not(:last-child) {
+    border: solid 1px #fff;
+    width: calc(100% - 42px);
+    position: relative;
+    border-radius: 2px;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 5px rgb(255, 255, 255);
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #aaa;
+    font-size: 16px;
+  }
+.loginbox .login_body>*:last-child {
+    margin-top: 20px;
+}
+
+.login_code img {
+    margin: 3px;
+    height: 39px !important;
+    height: calc(100% - 6px) !important;
+    width: 84px !important;
+    border-radius: 0px 5px 5px 0px;
+}
+
+.other {
+    width: 100%;
+    padding: 30px 10px 10px 25px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.other a:first-child {
+    float: left;
+    display: block;
+}
+
+.other a:last-child {
+    float: right;
+    display: block;
+}
+
+.accname {
+    margin: 10px 0px;
+    color: #333;
+    font-size: 18px;
+}
+
+.photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+#logged-area button {
+    width: 100%;
+    margin-top: 10px !important;
+}
+
+.loginbox .login_body button {
+    border: none !important;
+    background: rgba(33, 161, 255, .5) !important;
+
+}
+
+/*头尾部*/
+weisha_page_footer {
+    margin-top: 60px !important;
+}
+context.rec {
+    display: block;
+    width: 1200px;
+    margin: 60px auto;
+    position: relative;
+}
+/*通知公告*/
+.notices{
+    position: absolute;
+    width: calc(100% - 180px - 280px);
+    height: 320px;
+    top: calc((100% - 320px) / 2);
+    left: 60px;
+    --background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+
+.notices .noItem {
+    margin-top: 0px;
+    width: calc(50% - 20px);
+    margin: 0px 20px 20px 0px;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: all 0.5s;
+
+}
+.notices .noItem>div:first-child {
+    height: calc(100% - 30px);
+    line-height: 30px;
+    font-size: 18px;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.notices .noItem:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.notices .noItem>div b {
+    color: #999;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.notices .noItem:nth-child(1) b{
+	color: rgb(179, 11, 44);
+}
+.notices .noItem:nth-child(2) b{
+	color: rgb(238, 23, 66);
+}
+.notices .noItem:nth-child(3) b{
+	color: #ff9a03;
+}
+.notices .noItem a {
+    font-size: 20px;
+}
+
+.notices .noItem a span {
+    font-size: 14px;
+    color: #999;
+}
+
+.notices .nodate {
+    margin-left: 0px;
+    font-size: 14px;
+    margin-right: 10px;
+    color: #aaa;
+    bottom: 0px;
+    left: 0px;
+    height: 30px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}

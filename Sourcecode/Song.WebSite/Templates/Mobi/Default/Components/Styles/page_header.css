@@ -1,0 +1,48 @@
+﻿.page_header {
+    height: 44px;
+    font-size: 16px;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 2;
+    display: flex;
+    line-height: 44px;
+    color: #666;
+    text-align: left;
+}
+.van-sticky--fixed .page_header {
+    background-color: #fff;
+    box-shadow: 0px 1px 2px #eee;
+}
+.page_header icon {
+    height: 100%;
+    width: 44px;
+    line-height: 40px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.page_header icon.goback {
+    width: 30px;
+    text-align: right;
+    line-height: 44px;
+    font-size: 16px;
+}
+
+.page_header icon.fresh {
+    float: right;
+}
+
+.page_header .header_title {
+    width: calc(100% - 70px);
+    text-shadow: .2rem 0rem .5rem #fff,-.2rem 0rem .5rem #fff,0rem .2rem .5rem #fff,0rem -.2rem .5rem #fff;
+
+}
+
+.page_header .header_title icon {
+    width: auto;
+    margin-right: 3px;
+    font-size: 21px;
+    margin-top: 3px;
+    float: left;
+}

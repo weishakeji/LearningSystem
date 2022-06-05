@@ -1,0 +1,130 @@
+.rightArea {
+	color: #333;
+	line-height: 30px;
+	font-size: 14px;
+	overflow: auto;
+	height: calc(100% - 75px);
+}
+
+#rightBox {
+	height: 100%;
+	float: left;
+	position: relative;
+	transition: width .3s;
+	overflow: hidden;
+}
+
+/*选项卡*/
+#rightBox div.tabs {
+	border-bottom-width: 1px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #CCCCCC;
+	height: 62px;
+	margin-bottom: 10px;
+}
+
+#rightBox dl, #rightBox dd {
+	padding: 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+#rightBox  div.tabs {
+	display: flex;
+	box-sizing: border-box;
+	padding: 0px 0px 0px 0px;
+	width: 100%;
+}
+
+#rightBox  div.tabs>div {
+	font-size: 14px;
+	text-align: left;
+	padding-left: 15px;
+	flex: 1;
+	overflow: hidden;
+	height: 30px;
+	color: #999;
+	margin-top: 30px;
+	cursor: pointer;
+	transition: font-size .6s;
+	transition: line-height .5s;
+	white-space: nowrap;
+	line-height: 28px;
+}
+
+#rightBox div.tabs>div icon {
+	font-size: 16px;
+}
+
+#rightBox div.tabs>div.tabCurrent {
+	font-size: 16px;
+	color: #FFF;
+	border-bottom-width: 5px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #0387d9;
+}
+
+#rightBox div.tabs>div.tabCurrent icon {
+	font-size: 17px;
+}
+
+#rightBox .el-loading-mask {
+	background-color: rgba(136, 136, 136, 0.8);
+}
+
+/*章节列表*/
+
+.el-tree {
+	background: transparent !important;
+	line-height: 30px;
+	font-size: 14px;
+	overflow: auto;
+	height: calc(100% - 60px - 10px);
+	width: 100%;
+	box-sizing: border-box;
+	margin: 10px 0px;
+}
+
+.el-tree-node__content {
+	line-height: 30px;
+	height: auto;
+}
+
+.is-current .el-tree-node__content {
+	background-color: #fcf0de !important;
+}
+
+.el-tree-node__content:hover {
+	background-color: #bebebe !important;
+}
+
+.custom-tree-node {
+	font-size: 16px;
+	line-height: 30px;
+}
+
+/*视频章节的图标*/
+
+.custom-tree-node[isvideo]>span:last-child::before {
+	content: "\e83a";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+/*直播章节的图标*/
+.custom-tree-node[islive]>span:last-child::before {
+	content: "";
+	background-image: url(../../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+}

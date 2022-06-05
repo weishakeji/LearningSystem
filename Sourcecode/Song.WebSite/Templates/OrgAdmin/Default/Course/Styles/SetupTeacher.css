@@ -1,0 +1,94 @@
+﻿@charset "utf-8";
+/*顶部课程区*/
+.course{
+	height: 100px;
+	box-sizing: border-box;
+	padding: 5px;
+	display: flex;
+}
+.course>div:first-child{
+	flex: 1;
+}.course .cou_logo{
+	float: left;
+	margin-right: 10px;
+	max-height: 90px;
+}
+.course .teach{
+	width: 100px;
+	margin-left: 15px;
+	position: relative;
+	text-align: center;
+	font-size: 14px;
+}
+.teach::before {
+	content: attr(mark);
+	color: rgb(175, 175, 175);
+	margin: 0px;
+	font-size: 13px;
+	display: block;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	top: 0px;
+	left: 0px;
+}
+.teach .teacher{
+	cursor: pointer;
+}
+/*没有教师*/
+.noteach{
+	color: rgb(175, 175, 175);
+	font-size: 13px;
+	text-align: center;
+	margin-top: 25px;
+}
+.noteach icon{
+	font-size: 30px;
+	margin: 0px;
+}
+/*头像组件*/
+
+.course .teach .ws_avatar {
+	margin: 20px auto 5px auto;
+}
+.ws_avatar img {
+    width: 100%;
+    height: 100%;
+	border-radius: 50% !important;
+}
+
+.weisha_icon {
+	font-size: 18px;
+}
+
+.info {
+	font-size: 16px;
+	color: rgb(72, 127, 210);
+	margin-right: 10px;
+}
+
+.woman{
+	color: rgb(240, 104, 117);
+}
+
+.noname{
+	color: #aaa;
+	font-size: 12px;
+}
+
+
+/*详情中的图片*/
+.el-drawer__body .ws_avatar {
+	margin: 0px auto 5px auto;
+}
+.el-drawer__body dl{
+	box-sizing: border-box;
+	padding: 10px 20px 0px 20px;
+}
+.el-drawer__body dl dd{
+	font-size: 16px;
+	line-height: 30px;
+}
+.el-drawer__body dl dd icon{
+	width: 25px;
+}

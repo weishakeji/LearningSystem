@@ -1,0 +1,50 @@
+﻿.accessory_dialog {
+    width: 70%;
+    height: 80%;
+    margin-top: 10vh !important;
+}
+
+.accessory_dialog .el-dialog__body {
+    height: calc(100% - 160px);
+    overflow: auto;
+
+}
+
+.accessory_dialog .el-dialog__footer {
+    padding: 0px 20px !important;
+}
+
+/*附件列表*/
+.accessory_dialog dl {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.accessory_dialog dl dd {
+    line-height: 30px;
+    display: flex;
+    padding: 0px 60px 0px 0px;
+    position: relative;
+}
+.accessory_dialog dl dd:hover{
+    background-color: #eee;
+}
+.accessory_dialog dl dd a{
+    width: auto;
+    min-width: auto;
+}
+.filesize {
+    font-size: 12px;
+    color: #666666;
+    margin-left: 10px;
+}
+.accessory_dialog dd .btndel{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    display: block;
+}
+.accessory_dialog .upload_file_area{
+    margin-bottom: 20px;
+
+}

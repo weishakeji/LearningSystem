@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学习卡设置中的课程选择</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <el-row :gutter="10" class="topbox">
+            <el-col :span="8">
+                <el-select v-model="form.orgid" placeholder="请选择" style="width:100%">
+                    <el-option v-for="item in orgs" :key="item.Org_ID" :label="item.Org_PlatformName"
+                        :value="item.Org_ID">
+                    </el-option>
+                </el-select>
+            </el-col>
+            <el-col :span="8">
+                <el-cascader :options="sbjs" v-model="sbjids" placeholder="请选择专业" :show-all-levels="true"
+                    style="width:100%" :props="{ checkStrictly: true }" clearable></el-cascader>
+            </el-col>
+            <el-col :span="8">
+                <el-input v-model="form.search" placeholder="课程检索" style="width:100%"></el-input>
+            </el-col>
+        </el-row>
+
+        <el-row :gutter="10" class="context">
+            <el-col :span="12">
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>供选择的课程({{courses.length}})</span>
+                        <el-button style="float: right; padding: 3px 0" v-on:click="handleSelectCourse()" type="text">全选
+                        </el-button>
+                    </div>
+                    <div v-for="(c,i) in courses" class="item">
+                        {{i+1}}.{{c.Cou_Name }}
+                        <el-button type="text" size="small" v-on:click="handleSelectCourse(c)">选择</el-button>
+                    </div>
+                </el-card>
+            </el-col>
+            <el-col :span="12">
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>  已选择课程 ({{selects.length}})</span>
+                        <el-popconfirm title="确定清空已经选择的课程？" @confirm="handleRemoveourse">
+                            <el-button type="text"  style="float: right; padding: 3px 0" slot="reference">清空</el-button>
+                        </el-popconfirm>
+                    </div>
+                    <div v-for="(c,i) in selects" class="item">
+                        {{i+1}}.{{c.Cou_Name }}
+                        <el-button type="danger" icon="el-icon-delete" size="mini" circle
+                        v-on:click="handleRemoveourse(c)"></el-button>
+                    </div>
+                </el-card>
+            </el-col>
+        </el-row>       
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,155 @@
+﻿@charset "utf-8";
+#imglist {
+	width: calc(100% - 40px);
+	max-height: calc(100% - 50px - 40px);
+	overflow-y: auto;
+	margin: 20px;
+	padding: 0px 10px 0px 0px;
+}
+
+#imglist .imgitem {
+	margin-bottom: 20px;
+	height: 180px;
+	width: 100%;
+	background-color: #eee;
+	position: relative;
+	box-sizing: border-box;
+	padding: 15px;
+	overflow: hidden;
+	box-shadow: 1px 1px 3px #ddd, -1px -1px 3px #ddd;
+}
+
+.loading_panel {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: rgba(220, 220, 220, 0.8);
+	z-index: 10;
+	text-align: center;
+	font-size: 14px;
+	line-height: 100px;
+}
+
+#imglist .imgitem img:first-child {
+	width: 298px;
+	height: 148px;
+}
+
+#imglist .imgitem::before {
+	content: '';
+	display: block;
+	background-color: #67C23Acc;
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top: -70px;
+	left: -40px;
+	transform: rotate(60deg);
+	box-shadow: 1px 1px 3px rgb(240, 219, 152);
+	z-index: 1;
+}
+
+#imglist .imgitem span.index {
+	display: block;
+	position: absolute;
+	top: 5px;
+	left: 10px;
+	font-size: 16px;
+	font-weight: bold;
+	color: #fff;
+	text-shadow: 1px 1px 3px #ccc;
+	z-index: 2;
+}
+
+.imgitem .upload_img_area {
+	width: 300px;
+	height: 150px;
+	float: left;
+}
+
+.upload_img_area img {
+	box-shadow: 1px 1px 3px rgb(201, 201, 201);
+}
+
+.upload_img_area icon {
+	display: block;
+	background-color: #fff;
+	color: #ccc;
+	width: 300px;
+	height: 150px;
+	float: left;
+	text-align: center;
+	line-height: 150px;
+	font-size: 50px;
+}
+
+/*轮换图片的信息*/
+
+.img_info {
+	width: calc(100% - 300px);
+	float: left;
+	padding: 15px;
+	box-sizing: border-box;
+}
+
+.img_info>div::before {
+	content: attr(name) '：';
+	display: inline-block;
+	font-size: 14px;
+	width: 70px;
+	padding: 5px 10px;
+}
+
+.btn_bar {
+	display: block;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+/*修改区域*/
+
+.img_edit {
+	width: calc(100% - 300px);
+	height: 150px;
+	float: left;
+	padding: 0px 15px 15px 15px;
+	box-sizing: border-box;
+	position: relative;
+}
+
+.img_edit .btn_edit {
+	position: absolute;
+	right: -8px;
+	top: -10px;
+}
+
+.img_edit .el-form-item:first-child {
+	height: 30px;
+	overflow: hidden;
+}
+
+.el-form-item {
+	padding: 0px;
+	margin: 0px 0px 5px 0px !important;
+}
+
+/*新增图片的按钮*/
+
+.upload_img_area[ctrid='upload_add'] {
+	width: 160px;
+	height: 39px;
+	line-height: 100%;
+	padding: 10px 15px;
+	border: 1px solid #dcdfe6;
+	text-align: center;
+	box-shadow: 1px 1px 2px #ccc;
+	border-radius:4px;
+	box-sizing: border-box;
+	cursor: pointer;
+	background-color: #409eff;
+	color: #fff;
+	margin: 15px;
+}

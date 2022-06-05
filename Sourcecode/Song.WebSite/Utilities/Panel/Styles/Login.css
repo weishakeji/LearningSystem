@@ -1,0 +1,418 @@
+﻿@charset "utf-8";
+.loginbox {
+    background: rgba(243, 240, 240, 0.6);
+    border: 1px solid #fff;
+    box-shadow: 0px 0px 25px #333;
+    position: relative;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, .2) 0%, rgba(255, 255, 255, .6) 6%, rgba(255, 255, 255, 0.9) 70%, rgba(255, 255, 255, .2) 100%);
+}
+
+/*标题栏*/
+
+.loginbox login_titlebar {
+    display: block;
+    height: 50px;
+    width: calc(100% - 20px);
+    line-height: 60px;
+    margin-bottom: 10px;
+    padding: 0px 0px 0px 20px;
+    font-size: 18px;
+    cursor: default;
+    display: flex;
+    user-select: none;
+    text-shadow: 1px 1px 3px #999;
+}
+
+.loginbox login_titlebar>* {
+    display: block;
+}
+
+.loginbox login_ico { 
+    min-width: auto;
+    height: 60px;
+    width: 50px;
+    text-align: left;
+}
+
+.loginbox login_ico img {
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+}
+
+.loginbox login_ico i {
+    font-family: "webdesk_icon" !important;
+    font-style: normal;
+    font-size: 36px;
+}
+
+.loginbox login_tit {
+    line-height: 60px;
+    width: calc(100% - 50px);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 20px;
+    word-break: break-all;
+}
+
+/*底部信息栏*/
+
+.loginbox login_footbar {
+    display: block;
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+    bottom: 0px;
+    position: absolute;
+    cursor: default;
+    user-select: none;
+}
+
+.loginbox login_footbar * {
+    display: block;
+    height: 100%;
+    font-size: 12px;
+    width: auto;
+    color: #999;
+    text-decoration: none;
+}
+
+.loginbox login_footbar login_company {
+    float: left;
+    margin-left: 10px;
+}
+
+.loginbox login_footbar login_tel {
+    float: right;
+    margin-right: 10px;
+}
+
+.loginbox login_footbar *:before {
+    margin-right: 5px;
+    font-family: "webdesk_icon" !important;
+    width: 10px;
+}
+
+.loginbox login_footbar login_company a::before {
+    content: '\a020';
+}
+
+.loginbox login_footbar login_tel::before {
+    content: '\a047';
+}
+
+/*主题内容区*/
+
+.loginbox .login_body {
+    height: calc(100% - 90px);
+    width: 100%;
+    overflow: hidden;
+    display: block;
+    position: relative;
+    --display: flex;
+    --flex-direction: column;
+}
+
+.loginbox .login_body>* {
+    display: block;
+    margin: 10px 20px 10px 20px;
+    height: 45px;
+    width: calc(100% - 40px);
+    --flex: 1;
+    border-radius: 2px;
+    background-color: rgba(255, 255, 255, .3);
+}
+
+.loginbox .login_body>* {
+    border: solid 1px #999;
+    width: calc(100% - 42px);
+    position: relative;
+}
+
+.loginbox .login_body>*:before {
+    font-family: "webdesk_icon" !important;
+    width: 42px;
+    height: 45px;
+    line-height: 45px;
+    display: block;
+    position: absolute;
+    overflow: hidden;
+    text-align: center;
+    font-size: 22px;
+    left: 0px;
+    top: 0px;
+    color: #999;
+}
+
+.loginbox .login_body .login_user:before {
+    content: '\a043';
+}
+
+.loginbox .login_body .login_pw:before {
+    content: '\a036';
+}
+
+.loginbox .login_body .login_code:before {
+    content: '\a050';
+}
+
+.loginbox .login_body>* input {
+    border: none;
+    height: 45px;
+    height: calc(100% - 2px);
+    width: 180px;
+    width: -webkit-calc(100% - 48px);
+    width: -moz-calc(100% - 48px);
+    width: calc(100% - 60px);
+    position: absolute;
+    text-indent: 10px;
+    left: 45px;
+    top: 0px;
+    font-size: 18px;
+    background-color: transparent !important;
+}
+
+.loginbox .login_body>* input:focus {
+    font-size: 23px;
+    border: none !important;
+    outline: none;
+}
+
+.loginbox .login_body>* input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    -webkit-text-fill-color: #333 !important;
+    transition: background-color 5000s ease-in-out 0s;
+    background-color: transparent !important;
+    -webkit-box-shadow: 0 0 0 1000px transparent inset;
+}
+
+.loginbox .login_body login_row.login_code {
+    position: relative;
+}
+
+.loginbox .login_body login_row.login_code input {
+    width: 100px;
+    width: calc(100% - 90px - 47px);  
+    text-indent: 10px;  
+}
+
+.loginbox .login_body login_row.login_code img.vcode_img {
+    height: 100%;
+    width: 90px;
+    background-color: #fff;
+    float: right;
+    border: none;
+}
+
+/*登录按钮*/
+
+.loginbox .login_body button {
+    width: 100%;
+    height: 100%;
+    letter-spacing: 20px;
+    font-size: 18px;
+    border: solid 1px #fff;
+    color: #fff;
+    cursor: pointer;
+    background: rgba(33, 161, 255, .5);
+    background: linear-gradient(to bottom, rgba(33, 161, 255, .5) 0%, rgba(33, 161, 255, 0.9) 100%);
+}
+
+.loginbox .login_body button:hover {
+    background: linear-gradient(to bottom, rgba(33, 161, 255, .2) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 100%);
+    border: solid 1px #aaa;
+}
+
+.loginbox .login_body button:active {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.952) 0%, rgba(33, 161, 255, .6) 30%, rgba(33, 161, 255, 0.9) 100%);
+    border: solid 1px #aaa;
+}
+
+.loginbox .login_body>*:last-child {
+    height: 40px;
+    transition: all 0.2s;
+}
+
+.loginbox .login_body>*:last-child:hover {
+    box-shadow: 0px 0px 10px rgba(9, 114, 191, .81);
+}
+
+.loginbox .login_body button:before {
+    font-family: "webdesk_icon" !important;
+    content: '\a035';
+}
+
+.loginbox .login_body button:hover {
+    border: solid 1px #fff;
+}
+
+/*滑块*/
+
+.loginbox .login_body login_drag {
+    display: block;
+    font-size: 12px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    color: #999;
+    position: absolute;
+    width: 100%;
+    background-color: #eee;
+    transition: all 0.6s;
+}
+
+.loginbox .login_body login_drag>div {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    user-select: none;
+    transition: all 0.6s;
+    user-select: none;
+}
+
+.loginbox login_dragbox {
+    display: block;
+    user-select: none;
+    height: 35px;
+    line-height: 35px;
+    width: 40px;
+    font-size: 25px;
+    text-align: center;
+    background-color: #bbb;
+    position: absolute;
+    padding: 0px 0px 0px 5px;
+    top: 5px;
+    left: 5px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.loginbox login_dragbox:before {
+    content: '\a049';
+    font-family: "webdesk_icon" !important;
+}
+
+.loginbox login_dragbox.drag {
+    background-color: #777;
+}
+
+/*拖动完成*/
+
+.loginbox .login_body login_drag.complete>div {
+    background-color: rgba(83, 204, 83);
+    background: linear-gradient(to bottom, rgba(83, 204, 83, 1) 0%, rgba(51, 162, 51, 1) 100%);
+}
+
+.loginbox .login_body login_drag.complete login_dragbox {
+    background-color: #fff;
+}
+
+.loginbox .login_body login_drag.complete login_dragbox:before {
+    content: '\a048';
+    color: rgba(83, 204, 83, 1);
+}
+
+.loginbox .login_body login_drag.complete span {
+    display: none;
+}
+
+/*提示信息*/
+
+.loginbox .login_body>* login_tips {
+    background-color: rgba(255, 0, 0, .8);
+    box-shadow: 1px 1px 2px rgba(255, 0, 0, .8);
+    position: absolute;
+    height: 20px;
+    line-height: 20px;
+    font-size: 10px;
+    width: auto;
+    padding: 0px 10px 0px 10px;
+    color: #fff;
+    border-radius: 4px;
+    display: none;
+    right: 800px;
+    bottom: -8px;
+    transition: left 0.6s;
+}
+
+/*错误提示*/
+
+.loginbox login_row.login_error {
+    border: solid 1px red !important;
+    box-shadow: 0px 0px 10px #ff0000, 0px 0px 10px rgba(255, 0, 0, .8) inset !important;
+}
+
+.loginbox login_row.login_error login_tips {
+    display: block;
+    transition: left 0.6s;
+    right: -8px;
+}
+
+/*预载效*/
+
+div.login_loding {
+    width: 100px;
+    height: calc(100% - 120px);
+    margin: 30px auto 0px auto;
+    position: relative;
+}
+
+div.login_loding span {
+    position: absolute;
+    border: 8px solid #b36868;
+    border-top: 8px solid transparent;
+    border-radius: 999px;
+}
+
+div.login_loding b {
+    display: block;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 120px;
+    color: #666;
+}
+
+div.login_loding span:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    animation: spin-1 2s infinite linear;
+}
+
+div.login_loding span:nth-child(2) {
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    animation: spin-2 1s infinite linear;
+}
+
+@keyframes spin-1 {
+    0% {
+        transform: rotate(360deg);
+        opacity: 1.0;
+    }
+    50% {
+        transform: rotate(180deg);
+        opacity: 0.5;
+    }
+    100% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes spin-2 {
+    0% {
+        transform: rotate(0deg);
+        opacity: 0.5;
+    }
+    50% {
+        transform: rotate(180deg);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(360deg);
+        opacity: 0.5;
+    }
+}

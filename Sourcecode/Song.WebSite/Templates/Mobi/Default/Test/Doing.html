@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>考试中...</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <van-loading type="spinner" class="loading_init" v-if="loading.init" size="24px">加载初始数据...</van-loading>
+        <template v-else>
+            <header>
+                <div class="weisha_icon" icon="&#xe748" @click="window.history.go(-1);"></div>
+                <div class="title" @click="showExam=true">{{paper.Tp_Name}}</div>
+                <div class="weisha_icon" icon="&#xe81a"> {{surplustime|surplus}} </div>
+            </header>
+            <footer>
+                <div id="btnCard" class="weisha_icon" icon="&#xe70d" @click="showCard=true">
+                    <span>{{answertotal}}</span>/<span>{{questotal}}</span>
+                </div>
+                <div id="btnSubmit" class="weisha_icon" icon="&#xe6cf" @click="submitManual">
+                    交&nbsp;卷</div>
+            </footer>
+
+
+            <section :style="'width:'+questotal*100+'vw'" v-swiperight="swiperight" v-swipeleft="swipeleft"
+                remark="试题区域">
+                <template v-if="!loading.paper">
+                    <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*100+'vw'">
+                        <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :types="types">
+                        </question>
+                    </dl>
+                </template>
+                <div class="loading_paper" v-else>
+                    <van-loading type="spinner" size="24px">试题加载中...</van-loading>
+                </div>
+            </section>
+            <!--答题卡 -->
+            <van-popup v-model="showCard" position="left" closeable class="quesCard" :overlay="false" remark="答题卡">
+                <answercard ref='answercard' :questions="paperAnswer.ques" :types="types"></answercard>
+            </van-popup>
+
+            <van-popup v-model="submitState.show" class="submitState" :close-on-click-overlay="false">
+                <van-loading size="24px" v-if="submitState.loading">成绩提交中...</van-loading>
+                <div v-else class="submitSuccess">
+                    <div>成绩提交成功！</div>
+                    <div>测试得分：<b v-html="submitState.result.score"></b> 分 </div>
+                    <div class="pager_total">
+                        总 分：{{paper.Tp_Total}} 分 / {{paper.Tp_PassScore}}分及格
+                    </div>
+                    <van-button type="primary" @click="goreview"> 点击查看回顾</van-button>
+                </div>
+            </van-popup>
+    </div>
+
+    </template>
+
+</body>
+
+</html>

@@ -1,0 +1,277 @@
+﻿@charset "utf-8";
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+}
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.back {
+    top: 0px;
+    display: block;
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.photo {
+    width: 100%;
+    height: calc(100vw*9/16);
+    height: -webkit-calc(100vw*9/16);
+    height: -moz-calc(100vw*9/16);
+    position: relative;
+}
+
+.photo img {
+    width: 100%;
+    height: 100%;
+}
+
+.playico {
+    background-color: rgb(204, 204, 204, 0.1);
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    text-align: center;
+}
+
+.playico:before {
+    content: "\e84a";
+    font-family: "webdesk_icon";
+    font-size: 80px;
+    width: auto;
+    height: auto;
+    margin: 0px auto 0px auto;
+    line-height: calc(100vw*9/16);
+    line-height: -webkit-calc(100vw*9/16);
+    line-height: -moz-calc(100vw*9/16);
+    color: #fff;
+    animation: 5s playico 0s infinite;
+    z-index: 8;
+}
+
+@keyframes playico {
+    0% {
+        opacity: 0.3;
+        color: #eee;
+    }
+    50% {
+        opacity: .8;
+        color: #fff;
+        text-shadow: .1rem 0rem .2rem #fff, -.1rem 0rem .2rem #fff, 0rem .1rem .2rem #fff, 0rem -.1rem .2rem #fff;
+    }
+    100% {
+        opacity: 0.3;
+        color: #eee;
+    }
+}
+
+/*课程名称*/
+
+.couName {
+    width: calc(100% - 20px);
+    line-height: 22px;
+    color: #333;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    padding: 10px;
+    background-color: rgb(204, 204, 204, 0.3);
+    z-index: 9;
+}
+
+.couName a, .couName a:before {
+    line-height: 22px;
+}
+
+a.go-home:before {
+    content: "\a020";
+    font-family: "webdesk_icon";
+    font-size: 16px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 10;
+    line-height: 30px;
+    margin-left: 10px;
+    width: 20px;
+    color: #999;
+}
+
+.info {
+    color: #999;
+    margin-top: 2px;
+    font-size: 14px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding-right: 6px;
+    text-align: right;
+    width: calc(100% - 30px);
+}
+
+.info span:before {
+    font-family: "webdesk_icon";
+    font-size: 14px;
+}
+
+.info .study:before {
+    content: "\e841";
+}
+
+.info .view:before {
+    content: "\a03a";
+}
+.van-sticky{
+    background: rgb(255, 255, 255);
+}
+/*主菜单*/
+
+.mainmenuBox {
+    width: calc(100% - 20px);
+    display: flex;
+    padding: 10px 10px 10px 10px;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.mainmenuBox>div {
+    flex: 1;
+    width: calc((100% - 20px)/5 - 20px);
+    flex-basis: auto;
+    font-size: 13px;
+    text-align: center;
+    padding: 10px 5px 0px 5px;
+}
+
+.mainmenuBox span{  
+    display: block;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+/*内容区*/
+
+#Context {
+    min-height: calc(100vh - 100vw*9/16 - 85px - 44px - 40px );
+
+}
+
+.card {
+    font-size: 14px;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 2px;
+    background-color: #fff;
+    background-clip: padding-box;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+    min-height: 200px;
+    
+}
+
+
+/*学习目标*/
+
+.couTarget {   
+    word-wrap: break-word;
+}
+
+.couTarget, .couTarget * {
+    font-size: 16px !important;
+    line-height: 30px !important;
+}
+
+/*课程公告*/
+
+.guids {
+   
+    padding: 20px;
+    padding-top: 0px;
+}
+
+.guids>div {
+    height: 30px;
+    line-height: 30px;
+}
+
+.guids>div a {
+    display: block;
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: left;
+    color: #666;
+}
+
+.guids>div span {
+    float: right;
+    color: #999;
+    display: block;
+}
+
+/*课程详情*/
+
+.noinfo {
+    text-align: center;
+    color: #CCC;
+}
+.introBox img {
+    width: 100% !important;
+    height: 100%;
+}
+
+.introBox, .introBox * {
+    font-size: 16px !important;
+    line-height: 30px !important;
+}
+
+/*章节列表*/
+
+.outline .van-cell {
+    padding: 8px 40px 8px 0px;
+}
+.outline .van-cell__title{
+    font-size: 16px;
+}
+.outline .van-cell .tag{
+    position: absolute;
+    top:8px;
+    right: 0px;
+}
+/*弹出面板*/
+.mainmenu .van-popup button{
+    font-size: 16px;
+    letter-spacing:8px;
+}
+.mainmenu .van-popup .font_icon{
+    font-size: 20px;
+}
+.login button{
+    width: 100%;
+}
+.mainmenu .van-popup{
+    text-align: center;
+    padding: 15px 15px 30px 15px;
+    width: calc(100% - 30px);
+}
+.buy button{
+    width: 100%;
+}
+.try{
+    display: flex;
+}
+.try button:first-child{
+    margin-right: 10px;
+}
+.try button{
+    flex: 1 auto;
+}

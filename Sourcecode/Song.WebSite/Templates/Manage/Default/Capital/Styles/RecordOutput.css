@@ -1,0 +1,36 @@
+﻿@charset "utf-8";
+img.photo {
+    width: 100px;
+    height: 100px;
+    display: block;
+    float: left;
+    border: 1px solid #aaa;
+    margin-top: 5px;
+    border-radius: 50px;
+    margin-right: 10px;
+    float: left;
+}
+.man::before {
+    color: rgb(3, 71, 71);
+}
+
+.woman::before {
+    color: rgb(248, 87, 87);
+}
+
+
+dl,dd{
+    padding: 0px;
+    margin: 0px;
+}
+dl dd{
+    line-height: 30px;
+}
+dl dd a[href]{
+    display: inline-block;
+    min-width: 230px;
+    color: #409EFF;
+}
+dl dd a[href]:hover{
+    text-decoration: underline;
+}

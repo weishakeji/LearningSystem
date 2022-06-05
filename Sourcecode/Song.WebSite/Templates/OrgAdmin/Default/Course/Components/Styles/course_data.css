@@ -1,0 +1,23 @@
+﻿/*课程数据*/
+
+.course_data {
+    display: block;
+}
+
+.course_data>div {
+	height: 20px;
+	display: flex;
+}
+
+.course_data>div>div {
+	flex: 1;
+}
+
+.course_data .link {
+	color: #409EFF;
+	cursor: pointer;
+}
+
+.course_data .link:hover {
+	text-decoration: underline;
+}

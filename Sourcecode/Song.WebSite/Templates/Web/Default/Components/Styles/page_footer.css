@@ -1,0 +1,86 @@
+weisha_page_footer {
+    display: block;
+    width: 100%;
+    position: relative;
+    margin: auto;
+    margin-top: 50px;
+}
+
+weisha_page_footer * {
+    margin: 0px;
+    padding: 0px;
+}
+
+weisha_page_footer #foot_bar {
+    width: 1200px;
+    height: 40px;
+    padding: 0px calc((100% - 1200px)/2);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+weisha_page_footer #foot_bar a {
+    text-decoration: none;
+    height: 100%;
+    flex: initial;
+    text-align: center;
+    line-height: 40px;
+    padding: 0px 20px;
+    overflow: hidden;
+}
+
+weisha_page_footer #foot_bar a:hover {
+    background-color: #eee;
+}
+
+weisha_page_footer a, weisha_page_footer * {
+    color: #333;
+    font-size: 18px;
+}
+
+/*底部文本内容*/
+
+weisha_page_footer #foot_context {
+    width: 1200px;
+    height: auto;
+    padding: 20px calc((100% - 1200px)/2);
+   
+}
+
+weisha_page_footer #foot_context, weisha_page_footer #foot_context * {
+    font-size: 16px;
+    color: #333;
+    line-height: 30px;
+    font-style: normal;
+}
+
+weisha_page_footer #foot_context>* {
+    display: inline;
+    margin-right: 20px;
+}
+
+weisha_page_footer #foot_context>*::before {
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
+}
+
+weisha_page_footer telphone::before {
+    content: '\e66c';
+}
+
+weisha_page_footer address::before {
+    content: '\e64f';
+}
+
+weisha_page_footer email::before {
+    content: '\e751';
+}
+
+weisha_page_footer .beian a {
+    text-decoration: none;
+}
+
+weisha_page_footer .beian a:first-child {
+    margin-right: 20px;
+}

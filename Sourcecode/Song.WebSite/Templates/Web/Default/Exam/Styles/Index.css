@@ -1,0 +1,209 @@
+﻿@charset "utf-8";
+#bodyTop {
+    background-position: center 0px;
+    width: 100%;
+    height: 256px;
+    background-image: url(../Images/exam-banner.jpg);
+    background-repeat: no-repeat;
+}
+context {
+	display: block;
+	width: 1200px;
+	padding: 0px calc((100% - 1200px)/2);
+	text-align: left;
+	margin-top: 10px;
+	min-height: 600px;
+}
+/*课程内容区*/
+context {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+context>section {
+    flex: 1;
+    padding-left: 20px;
+    box-sizing: border-box;
+    margin-left: 60px;
+}
+
+context>aside {
+    width: 260px;
+    margin-left: 20px;
+    min-height: 500px;
+}
+
+context>aside .el-divider {
+    color: #999 !important;
+    margin-top: 38px;
+
+}
+
+.el-divider__text {
+    color: #999 !important;
+}
+loading{
+	margin: 20px auto;
+	text-align: center;
+	display: block;
+}
+/*顶部选项卡*/
+.tabs-box {
+	display: flex;
+	font-size: 16px;
+	width: 100%;
+	height: 45px;
+	position: relative;
+	padding: 0px 200px 0px 0px;
+	box-sizing: border-box;
+}
+
+.tabs-box>div:not(.tab_search) {
+	padding: 10px 15px 10px 5px;
+	margin: 0px 5px 0px 10px;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+.tabs-box>div icon {
+	font-size: 18px;
+}
+
+.tabs-box>div[current] {
+	font-size: 18px;
+	padding: 8px 15px 6px 5px;
+	border-bottom: 2px solid rgb(121, 187, 255);
+
+	color: #409EFF;
+}
+
+.tabs-box>div[current] icon {
+	font-size: 22px;
+}
+
+.tabs-box .tab_search {
+	position: absolute;
+	width: 200px;
+	right: 0px;
+	top: 8px;
+}
+/*考试详情*/
+
+card-title {
+	position: relative;
+	padding: 15px 100px 15px 15px;
+}
+card-title .search{
+	position: absolute;
+	right: 10px;
+	top: 15px;	
+}
+card-title .search input[type='search']{
+	border: 1px solid #ddd;
+	width: 120px;
+	height: 30px;
+	padding: 10px 30px 10px 10px;
+	box-sizing: border-box;
+	border-radius: 5px;
+	font-size: 13px;
+}
+card-title .search::before{
+	content: '\a00b';
+	font-family: webdesk_icon;
+	display: block;
+	width: 30px;
+	height: 30px;
+	position: absolute;
+	right: 0px;
+	top: 2px;
+	font-size: 20px;
+	color: #999;
+	text-align: center;
+	z-index: 10;
+}
+.theme card-title {
+	padding: 15px;
+}
+
+card-title button {
+	position: absolute;
+	top: 20px;
+	right: 5px;
+	color: #fff;
+	background-color: #07c160;
+	border: 1px solid #07c160;
+	font-size: 12px;
+	line-height: 20px;
+	height: 20px;
+}
+
+card-context {
+	font-size: 16px;
+}
+.item {
+	line-height: 30px;
+}
+/*得分样式*/
+
+score {
+	font-size: 16px;
+	position: absolute;
+	top: 20px;
+	right: 5px;
+	line-height: 20px;
+	height: 20px;
+}
+
+score.general{
+	color: #07c160;
+}
+score.praise{
+	color: #409EFF;
+	font-weight: bold;
+}
+score::before {
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	font-size: 22px;
+}
+
+score.nopass::before {
+	content: '\e774';
+	color: #ff0000;
+}
+
+score.general::before {
+	content: '\e829';
+}
+
+score.fine::before {
+	content: '\e850';
+	color: #409EFF;
+}
+
+score.praise::before {
+	content: '\e8c9';
+	font-size: 20px;
+	color:coral;
+	font-weight: normal;	
+}
+
+/*没有考试*/
+
+.noexam {
+	margin: 150px 100px;
+	text-align: center;
+}
+
+.noexam icon {
+	font-size: 80px;
+	display: block;
+	color: #666;
+}
+
+.item b {
+	font-size: 16px;
+}

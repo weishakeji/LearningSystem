@@ -1,0 +1,25 @@
+/* 附件 */
+
+#accessory {
+	padding: 20px;
+	text-align: left;
+}
+
+#accessory a, #accessory>div {
+	font-size: 16px;
+	text-indent: 20px;
+	display: block;
+	color: #CCC;
+	line-height: 30px;
+	width: auto;
+}
+
+#accessory a:hover {
+	background-color: #333;
+}
+
+#accessory .filesize {
+	margin: 0px 15px;
+	font-size: 13px;
+	color: #999;
+}

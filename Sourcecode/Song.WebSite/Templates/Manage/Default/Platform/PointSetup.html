@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head resource>
+  <meta charset="utf-8">
+  <title>积分设置</title>
+  <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+  <div id="vapp" v-cloak>
+    <el-form ref="form" :model="param" :rules="rules" label-width="80px">
+      <el-form-item label="注册积分">
+        <el-input v-model.number="param.RegFirst">
+          <template slot="prepend"> 初次注册，送</template>
+          <template slot="append">积分，（注册即得积分）</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="登录积分" class="inline" prop="LoginPoint">
+        <el-input v-model.number="param.LoginPoint">
+          <template slot="prepend"> 每次登录增加</template>
+          <template slot="append">积分</template>
+        </el-input>
+        <el-input v-model.number="param.LoginPointMax">
+          <template slot="prepend"> 每天最多</template>
+          <template slot="append">积分</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="分享积分" class="inline" prop="SharePoint">
+        <el-input v-model.number="param.SharePoint">
+          <template slot="prepend"> 分享链接每次访问增加</template>
+          <template slot="append">积分</template>
+        </el-input>
+        <el-input v-model.number="param.SharePointMax">
+          <template slot="prepend"> 每天最多</template>
+          <template slot="append">积分</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="分享注册" class="inline" prop="RegPoint">
+        <el-input v-model.number="param.RegPoint">
+          <template slot="prepend"> 通过分享链接每注册一位加</template>
+          <template slot="append">积分</template>
+        </el-input>
+        <el-input v-model.number="param.RegPointMax">
+          <template slot="prepend"> 每天最多</template>
+          <template slot="append">积分</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="积分兑换">
+        <el-input v-model.number="param.PointConvert">
+          <template slot="prepend">每</template>
+          <template slot="append">积分，兑换1个卡券，（卡券可以购买课程，但不可以提现）</template>
+        </el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit('form')" :loading="loading" :disabled="loading">
+          <icon v-if="!loading">&#xa030</icon>保存修改
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+</body>
+
+</html>

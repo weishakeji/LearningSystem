@@ -1,0 +1,687 @@
+﻿@charset "utf-8";
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.headbar {
+	background-color: transparent !important;
+	box-shadow: 0 0px 0px #ccc !important;
+}
+
+.back {
+	display: block;
+	position: absolute;
+	z-index: 101;
+}
+
+#videoplayer, #novideo {
+	background-color: #000;
+	color: #999;
+	line-height: 100px;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+#videoinfo {
+	line-height: 30px;
+	width: 100%;
+	font-size: 12px;
+	position: absolute;
+	top: 0px;
+	z-index: 200;
+	text-align: center;
+	background-color: rgba(255, 255, 255, .6);
+}
+
+video::-internal-media-controls-download-button {
+	display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+	overflow: hidden !important;
+}
+
+video::-webkit-media-controls {
+	overflow: hidden !important;
+}
+
+video::-webkit-media-controls-panel {
+	--width: calc(100% + 30px) !important;
+	margin-left: auto;
+}
+
+/*返回首页*/
+
+.home {
+	display: block;
+	position: absolute;
+	left: 20px;
+	top: 2px;
+	color: #555;
+	z-index: 200;
+}
+
+.home:before {
+	content: "\e678";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 20px;
+}
+
+.video-box {
+	background-color: #333;
+	width: 100%;
+	height: 300px;
+	color: #CCC;
+	position: relative;
+}
+
+.video {
+	background-color: transparent !important;
+	box-shadow: 0 0px 0px #ccc !important;
+	padding: 0px !important;
+	min-height: 260px;
+}
+
+.videobox {
+	width: 100%;
+	height: calc(100vw*9/16);
+	height: -webkit-calc(100vw*9/16);
+	height: -moz-calc(100vw*9/16);
+	--position: absolute;
+	top: 0px;
+	z-index: 100;
+	background-color: #666;
+}
+
+.videobox>div {
+	height: 100%;
+}
+
+#playerInfo {
+	height: 20px;
+	line-height: 20px;
+	--background-color: #FFF;
+	--webkit-box-shadow: 0 1px 6px #ccc;
+	--box-shadow: 0 1px 6px #ccc;
+	position: absolute;
+	top: 2px;
+	right: 0px;
+	z-index: 100;
+}
+
+#playerInfo, #playerInfo * {
+	font-size: 8px;
+}
+
+#playerInfo .time {
+	color: #999;
+	font-size: 8px;
+	margin-right: 5px;
+}
+
+#playerInfo .time * {
+	font-size: 10px;
+}
+
+/*上次观看播放进度*/
+
+.historyInfo {
+	display: block;
+	bottom: 40px;
+	left: 20px;
+	position: absolute;
+	z-index: 200;
+	font-size: 10px;
+}
+
+/*学习记录递交成功的提示*/
+
+.StudentStudyLog {
+	display: block;
+	bottom: 40px;
+	right: 20px;
+	position: absolute;
+	z-index: 200;
+	font-size: 10px;
+}
+
+.error {
+	color: red;
+}
+
+#videoIframe {
+	width: 100% !important;
+}
+
+#noVideo {
+	text-align: center;
+	line-height: calc(100vw*9/16);
+	height: calc(100vw*9/16);
+	font-size: 17px;
+	color: #ccc;
+}
+
+/*直播加载时*/
+
+#liveLoadingbox {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 110;
+	width: 100%;
+	padding: 10px;
+	max-height: 60px;
+	font-size: 16px;
+	color: #333;
+	background-color: rgb(182, 179, 179, 0.8);
+}
+
+#liveLoadingbox button {
+	float: right;
+}
+
+/*直播，没有直播时*/
+
+#liveStopbox, #livebox {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+#liveStopbox .liveStop_Tit, .noSelect {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	line-height: 180px;
+	color: #333;
+	font-weight: bold;
+	font-size: 25px;
+	text-align: center;
+	top: 0px;
+	text-shadow: 1px 1px #eee;
+	cursor: default;
+}
+
+/*背景图，带渐变效果*/
+
+.bgPicture {
+	opacity: 0.4;
+	animation: 2s opacity2;
+}
+
+/*章节名称*/
+
+.outline-name {
+	background-color: #FFF;
+	box-shadow: 0 1px 6px #ccc;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	padding-left: 20px;
+	padding-right: 80px;
+	color: #333;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 15px;
+	position: relative;
+}
+
+.outline-name:before {
+	content: "\e841";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+.outline-name #msginputBtn {
+	background-color: #fff;
+	position: absolute;
+	width: 60px;
+	height: 25px;
+	line-height: 25px;
+	text-indent: 5px;
+	padding: 0px;
+	top: 7px;
+	right: 10px;
+	border-radius: 5px;
+	border: 1px solid #999;
+}
+
+/*咨询留言*/
+
+#chatarea {
+	height: 100%;
+}
+
+card {
+	height: calc(100vh - 100vw * 9 / 16 - 105px);
+	width: calc(100% - 20px);
+}
+
+.chatlist {
+	max-height: calc(100% - 30px);
+	bottom: 30px;
+	width: 100%;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+/*没有留言*/
+
+.nomsg {
+	padding: 20px;
+}
+
+dl#chatlist {
+	padding: 15px;
+	height: calc(100% - 30px - 80px);
+	overflow-y: auto;
+}
+
+dl#chatlist, #chatlist dd {
+	margin: 0px;
+}
+
+#chatlist dd {
+	width: 100%;
+	margin-bottom: 12px;
+	font-size: 12px;
+}
+
+#chatlist dd:first-child {
+	display: block;
+	width: 100%;
+	line-height: 25px;
+}
+
+#chatlist dd acc {
+	display: inline-block;
+}
+
+#chatlist dd acc::before {
+	content: "\a043";
+	font-size: 15px;
+	font-family: "webdesk_icon";
+	margin-right: 1px;
+}
+
+#chatlist dd date {
+	display: block;
+	float: right;
+	color: #999;
+	font-size: 11px;
+}
+
+#chatlist dd msg {
+	display: block;
+	line-height: 22px;
+	font-size: 12px;
+}
+
+#chatlist dd i {
+	padding-right: 5px;
+	font-size: 16px;
+}
+
+/*留言输入区域*/
+
+#chatbox {
+	width: calc(100% - 20px);
+	height: 20px;
+	margin: 10px;
+}
+
+#chatbox .msgbox {
+	float: left;
+	background-color: #fff;
+	width: calc(100% - 20px);
+	height: 24px;
+	line-height: 24px;
+	border-radius: 6px;
+}
+
+#chatbox textarea {
+	float: left;
+	width: calc(75% - 2px);
+	margin: 0px 0px 0px 2px;
+	border-radius: 4px 0px 0px 4px;
+	height: 10px;
+	padding: 5px !important;
+	color: #606266;
+}
+
+#chatbox #btnMessage {
+	float: left;
+	background-color: #409eff;
+	color: #fff;
+	width: 20%;
+	height: 22px;
+	line-height: 22px;
+	margin: 0px !important;
+	padding: 0px !important;
+	border-radius: 0px 4px 4px 0px;
+	text-align: center;
+	font-size: 12px;
+	cursor: pointer;
+	border: none;
+}
+
+#chatbox #btnMessage:hover {
+	background-color: #F93;
+}
+
+/*学习内容与附件的区域*/
+
+#context-box {
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.loading {
+	padding: 20px;
+}
+
+#context-box>div[tag] {
+	width: 100%;
+	height: calc(100vh - 100vw * 9 / 16 - 55px);
+	--margin-top: calc(100vw * 9 / 16);
+}
+
+#details {
+	width: 100%;
+	padding: 20px;
+}
+
+#details p, #details * {
+	font-size: 15px !important;
+	line-height: 1.6em;
+	background-color: transparent !important;
+	color: #666 !important;
+	padding: 0px !important;
+}
+
+#details p {
+	margin-bottom: 20px !important;
+}
+
+#details a {
+	color: #09F !important;
+}
+
+#details img {
+	max-width: 100% !important;
+}
+
+#details .nointro {
+	font-size: 16px;
+	line-height: 30px;
+	color: #666;
+	padding: 20px;
+}
+
+video::-internal-media-controls-download-button {
+	display: none;
+}
+
+video::-webkit-media-controls-enclosure {
+	overflow: hidden;
+}
+
+video::-webkit-media-controls-panel {
+	width: calc(100% + 30px);
+}
+
+/*附件*/
+
+#access {
+	margin: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+#access dd {
+	margin: 0px;
+	line-height: 35px;
+}
+
+.noaccess {
+	font-size: 16px;
+	line-height: 30px;
+	color: #666;
+	padding: 20px;
+}
+
+/*没有购买课程*/
+
+#noStudy {
+	text-align: center;
+	margin-top: 30px;
+	margin: 10px;
+	margin-top: 50px;
+	height: auto;
+	position: relative;
+	overflow: hidden;
+	border-radius: 2px;
+	background-color: white;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	padding: 10px;
+	height: 140px;
+	line-height: 100px;
+}
+
+/*-----底部图标*/
+
+/*+++++++左侧侧滑菜单*/
+
+#menu .cour-info .cour-info-right {
+	width: 60%;
+	margin-right: 5%;
+	float: left;
+}
+.cour-info-right cour-name{
+	color: #eee;
+	display: block;
+	line-height: 22px;
+}
+.cour-info-right cour-name:not(:fisrt-child) {	
+	
+	height: 40px;
+	line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.cour-info-right cour-name:before {
+	content: "\e813";
+	font-size: 15px;
+	font-family: "webdesk_icon";
+	margin-right: 8px;
+}
+
+.cour-info-right sbj-name {
+	display: block;
+	line-height: 22px;
+	color: #999;
+	font-size: 10px;
+}
+
+.cour-info-right sbj-name:before {
+	content: "\e765";
+	font-size: 10px;
+	margin-right: 5px;
+	font-family: "webdesk_icon";
+}
+
+/*侧滑菜单的章节列表*/
+
+#menu {
+	height: 100%;
+	width: 70%;
+	background-color: #333;
+}
+
+#menu .van-cell-group {
+	background-color: transparent !important;
+}
+
+#menu .cour-info {
+	margin: 10px;
+	display: table;
+	width: calc(100% - 20px);
+}
+
+#menu .cour-info img {
+	width: 30%;
+	margin-right: 5%;
+	float: left;
+	box-shadow: 0 1px 2px #fff !important;
+}
+
+#menu ul {
+	margin: 0px;
+}
+
+#menu .van-cell {
+	background-color: transparent !important;
+	color: #999;
+	font-size: 14px;
+	position: relative;
+	padding: 8px 40px 8px 0px;
+}
+
+#menu .van-cell::after {
+	border-bottom: 1px solid #111;
+}
+
+#menu .van-cell>span:before {
+	content: "\e681";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 15px;
+	font-weight: normal;
+}
+
+#menu .van-cell[current] {
+	color: rgb(255, 192, 97) !important;
+	background-color: rgba(255, 255, 255, .3) !important;
+}
+
+#menu .van-tag {
+	position: absolute;
+	top: 12px;
+	right: 5px;
+}
+
+/*视频章节的图标*/
+
+#menu li[isvideo=true] a:before {
+	content: "\e66c";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+/*直播章节的图标*/
+
+#menu li[islive=true] a:before {
+	content: "";
+	background-image: url(../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+}
+
+/*当前章节*/
+
+#menu .current {
+	color: #FF9;
+}
+
+#menu .current a:before {
+	content: "\e618";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 14px;
+	font-weight: normal;
+}
+
+#menu .noselect {
+	color: #666 !important;
+}
+
+.try {
+	color: #eee !important;
+}
+
+.buy {
+	background-color: rgba(102, 102, 102, 0.15);
+	color: #FC0 !important;
+}
+
+/*-------左侧侧滑菜单*/
+
+/*学习内容*/
+
+.card {
+	float: left;
+	font-size: 14px;
+	position: relative;
+	overflow: hidden;
+	margin: 10px;
+	border-radius: 2px;
+	background-color: #fff;
+	background-clip: padding-box;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	height: calc(100% - 20px);
+	width: calc(100% - 20px);
+}
+
+.card-header {
+	font-size: 15px;
+	position: relative;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	min-height: 44px;
+	padding: 10px 15px;
+	-webkit-box-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	border-radius: 2px 2px 0 0;
+}
+
+.intro-box .card-header span:before {
+	content: "\e813";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 18px;
+	margin-top: 2px;
+	display: block;
+	float: left;
+}
+
+/*附件*/
+
+.acc-box .card-header span:before {
+	content: "\e853";
+	font-family: "webdesk_icon";
+	margin-right: 5px;
+	font-size: 16px;
+}

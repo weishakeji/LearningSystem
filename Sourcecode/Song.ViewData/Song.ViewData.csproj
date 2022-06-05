@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{41D99603-4C27-4075-81D5-F56C553ACDC8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Song.ViewData</RootNamespace>
+    <AssemblyName>Song.ViewData</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Song.ViewData.XML</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Song.ViewData.XML</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.2.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\Lib\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\Lib\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\Lib\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.ScratchPad.HSSF">
+      <HintPath>..\Lib\NPOI.ScratchPad.HSSF.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.ScratchPad.HWPF">
+      <HintPath>..\Lib\NPOI.ScratchPad.HWPF.dll</HintPath>
+    </Reference>
+    <Reference Include="pili-sdk-csharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\pili-sdk-csharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WeiSha.Core, Version=2.0.8166.41242, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\WeiSha.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WeiSha.ORM">
+      <HintPath>..\Lib\WeiSha.ORM.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attri\UploadAttribute.cs" />
+    <Compile Include="Attri\CacheAttribute.cs" />
+    <Compile Include="Attri\Client\MobileAttribute.cs" />
+    <Compile Include="Attri\Client\WebAttribute.cs" />
+    <Compile Include="Attri\Client\DesktopAttribute.cs" />
+    <Compile Include="Attri\Client\WeixinAttribute.cs" />
+    <Compile Include="Attri\Client\TVAttribute.cs" />
+    <Compile Include="Attri\Client\ClientAttribute.cs" />
+    <Compile Include="Attri\Login\SuperAdminAttribute.cs" />
+    <Compile Include="Attri\Range\DomainAttribute.cs" />
+    <Compile Include="Attri\Range\LocalhostAttribute.cs" />
+    <Compile Include="Attri\Range\IntranetAttribute.cs" />
+    <Compile Include="Attri\Range\AnywhereAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpPostAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpDeleteAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpPutAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpPatchAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpOptionsAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpAttribute.cs" />
+    <Compile Include="Attri\Login\AdminAttribute.cs" />
+    <Compile Include="Attri\HttpVerb\HttpGetAttribute.cs" />
+    <Compile Include="Attri\Login\StudentAttribute.cs" />
+    <Compile Include="Attri\Login\TeacherAttribute.cs" />
+    <Compile Include="Attri\Login\LoginAttribute.cs" />
+    <Compile Include="Attri\Purview\PurviewAttribute.cs" />
+    <Compile Include="Attri\Purview\StudyAttribute.cs" />
+    <Compile Include="Attri\Purview\PurchasedAttribute.cs" />
+    <Compile Include="Attri\Range\RangeAttribute.cs" />
+    <Compile Include="Attri\HtmlClear\HtmlClearAttribute.cs" />
+    <Compile Include="Attri\WeishaAttr.cs" />
+    <Compile Include="DataResult.cs" />
+    <Compile Include="ExecuteMethod.cs" />
+    <Compile Include="Helper\Browser.cs" />
+    <Compile Include="Helper\Cache.cs" />
+    <Compile Include="Helper\ConvertToAnyValue.cs" />
+    <Compile Include="Helper\Excel.cs" />
+    <Compile Include="Helper\ExceptionWeisha.cs" />
+    <Compile Include="Helper\Html.cs" />
+    <Compile Include="Helper\LoginAccount.cs" />
+    <Compile Include="Helper\LoginAdmin.cs" />
+    <Compile Include="Helper\Logs.cs" />
+    <Compile Include="Helper\Server.cs" />
+    <Compile Include="IViewAPI.cs" />
+    <Compile Include="Letter.cs" />
+    <Compile Include="ListResult.cs" />
+    <Compile Include="Methods\Accessory.cs" />
+    <Compile Include="Methods\Admin.cs" />
+    <Compile Include="Methods\Copyright.cs" />
+    <Compile Include="Methods\Exam.cs" />
+    <Compile Include="Methods\Knowledge.cs" />
+    <Compile Include="Methods\Guide.cs" />
+    <Compile Include="Methods\Link.cs" />
+    <Compile Include="Methods\Navig.cs" />
+    <Compile Include="Methods\News.cs" />
+    <Compile Include="Methods\Domain.cs" />
+    <Compile Include="Methods\Coupon.cs" />
+    <Compile Include="Methods\Point.cs" />
+    <Compile Include="Methods\Question.cs" />
+    <Compile Include="Methods\RechargeCode.cs" />
+    <Compile Include="Methods\Learningcard.cs" />
+    <Compile Include="Methods\ManageMenu.cs" />
+    <Compile Include="Methods\Money.cs" />
+    <Compile Include="Methods\Position.cs" />
+    <Compile Include="Methods\Platform.cs" />
+    <Compile Include="Methods\ProfitSharing.cs" />
+    <Compile Include="Methods\Pay.cs" />
+    <Compile Include="Methods\Showpic.cs" />
+    <Compile Include="Methods\Systempara .cs" />
+    <Compile Include="Methods\Share.cs" />
+    <Compile Include="Methods\TestPaper.cs" />
+    <Compile Include="Methods\Template.cs" />
+    <Compile Include="Methods\Account.cs" />
+    <Compile Include="Methods\Course.cs" />
+    <Compile Include="Methods\Live.cs" />
+    <Compile Include="Methods\Notice.cs" />
+    <Compile Include="Methods\Organization.cs" />
+    <Compile Include="Methods\Outline.cs" />
+    <Compile Include="Methods\Subject.cs" />
+    <Compile Include="Methods\Message.cs" />
+    <Compile Include="Methods\Teacher.cs" />
+    <Compile Include="Methods\Helper.cs" />
+    <Compile Include="Methods\Student.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultCache.cs" />
+    <Compile Include="VExcept.cs" />
+    <Compile Include="ViewMethod.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
+      <Project>{985A8268-3A87-46B9-9744-650664719E67}</Project>
+      <Name>Song.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Song.ServiceInterfaces\Song.ServiceInterfaces.csproj">
+      <Project>{7CFB4DC1-8536-44A4-AF1D-2D7BDA8067C1}</Project>
+      <Name>Song.ServiceInterfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

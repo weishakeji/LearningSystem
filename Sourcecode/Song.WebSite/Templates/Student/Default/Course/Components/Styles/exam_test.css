@@ -1,0 +1,27 @@
+﻿.exam_test {
+    font-size: 15px;
+}
+
+.exam_test>div:first-child {
+    display: flex;
+    justify-content: space-between;
+}
+
+.exam_test .exam_btns {
+    position: absolute;
+    height: 30px;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 0px 5px;
+}
+.exam_test .exam_btns button{
+    flex: 1;
+    text-align: left;
+}
+.exam_test .exam_btns button:last-child{
+    text-align: right;
+}

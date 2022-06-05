@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />   
+    <title>课程中心</title>   
+    <link type="text/css" charset="UTF-8" rel="stylesheet" href="../Styles/treemenu.css">
+</head>
+
+<body>
+    <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
+    <div id="vapp" v-cloak>
+        <div class="header">
+            <div class="weisha_icon" icon="&#xa00c" @click="show_subject=true"></div>
+            <div class="sbjname" v-if="sbjname!=''">
+                <van-tag closeable size="medium" type="warning " @close="closeTag">
+                    {{sbjname}}
+                </van-tag>
+            </div>
+            <van-search v-model="sear_str" placeholder="请输入搜索关键词" background="transparent"  @search="onSearch">
+                <template #action>
+                  
+                </template>
+                <template #right-icon>
+                    <div @click="onSearch">搜索</div>
+                </template>
+                <template #left-icon>
+                   
+                </template>
+            </van-search>
+        </div>
+        <van-tabs v-model="active" @change="tabChange">
+            <van-tab title="rec">
+                <template #title>
+                    <span class="weisha_icon" icon="&#xe829">推荐
+                </template>
+            </van-tab>
+            <van-tab title="hot"> <template #title>
+                    <span class="weisha_icon" icon="&#xe856">热门
+                </template>
+            </van-tab>
+            <van-tab title="live"> <template #title>
+                    <span class="weisha_icon" icon="&#xe6bf">直播
+                </template>
+            </van-tab>
+            <van-tab title="free"> <template #title>
+                    <span class="weisha_icon" icon="&#xe72d">免费
+                </template>
+            </van-tab>
+        </van-tabs>
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载" @load="onload">
+            <van-swipe-cell v-for="item in datas" @open="cell_swipe">
+                <template #left>
+
+                </template>
+                <van-cell :border="false" class="cour-box" @click="godetail(item.Cou_ID)">
+                    <template #title>
+                        <picture>
+                            <img :src="item.Cou_LogoSmall" v-if="item.Cou_LogoSmall!=''" />
+                            <img src="/Utilities/images/cou_nophoto.jpg" v-else />
+                            <van-tag type="danger" class="rec" v-if="item.Cou_IsRec">推荐</van-tag>
+                            <live v-if="item.Cou_ExistLive"></live>
+                            <van-tag type="danger" class="view" v-if="item.Cou_ViewNum>0">{{item.Cou_ViewNum}}</van-tag>
+                        </picture>
+                        <info>
+                            <div class="curname">
+                                              
+                                <van-tag type="success" class="free" v-if="item.Cou_IsFree">免费</van-tag>
+                                <van-tag type="success" class="free" v-else-if="item.Cou_IsLimitFree">限免</van-tag>
+                                <van-tag type="primary" class="free" v-else-if="item.Cou_IsTry">试</van-tag>
+                               {{item.Cou_Name}}
+                            </div>
+                            <div class="cursubject"> {{item.Sbj_Name}}</div>
+                            <price>
+                                <van-tag type="warning" v-if="!(item.Cou_IsFree || item.Cou_IsLimitFree)">
+                                    {{item.Cou_PriceSpan}} {{item.Cou_PriceUnit}} {{item.Cou_Price}}元
+                                </van-tag>
+                                <van-tag type="success " class="free" v-if="item.Cou_IsLimitFree">
+                                    免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
+                                </van-tag>
+                            </price>
+                        </info>
+
+                    </template>
+                </van-cell>
+                <template #right>
+                    <course_data :couid="item.Cou_ID" :viewnum="item.Cou_ViewNum"></course_data>                    
+                </template>
+            </van-swipe-cell>
+        </van-list>
+        <van-popup v-model="show_subject" position="left" :style="{ height: '30%' }" closeable id="subject_panel"
+            @open="popupSubject">
+            <div class="subject_title weisha_icon" icon="&#xe750">
+                选择专业
+            </div>
+            <div id="treemenu-area" remark="树形菜单">
+                <div id="treemenu"></div>
+            </div>
+
+        </van-popup>
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+
+</body>
+
+</html>

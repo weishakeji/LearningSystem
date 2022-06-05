@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>学习卡</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-checkbox label="已使用" v-model="form.isused"></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-checkbox label="禁用" v-model="form.isdisable"></el-checkbox>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model.trim="form.code" placeholder="卡号/不带密码" clearable style="width:120px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:160px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"
+                @selection-change="val=>selects=val" row-key="Lc_ID">
+                <el-table-column type="selection" width="40">
+                </el-table-column>
+                <el-table-column type="index" width="50">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="卡号-密码">
+                    <template slot-scope="scope">
+                        <div title="双击复制卡号信息" @dblclick="rowdblclick(scope.row)"> <span
+                                v-html='showInfo(scope.row.Rc_Code)'></span>
+                            - {{scope.row.Rc_Pw}}</div>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="面额" width="80">
+                    <template slot-scope="scope">
+                        <span class="weisha_icon money" icon="&#xe624"
+                            style="font-size: 14px;">{{scope.row.Rc_Price}}</span>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="主题" align="center">
+                    <template slot-scope="scope">
+                        <codeset :theme="getTheme(scope.row.Rs_ID)"></codeset>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="使用人" align="center">
+                    <template slot-scope="scope">
+                        <el-tooltip class="item" effect="dark"
+                            :content="scope.row.Rc_UsedTime|date('使用时间：yyyy-MM-dd HH:mm:ss')" placement="bottom">
+                            <el-link v-if="scope.row.Rc_IsUsed" @click="acccountInfo(scope.row)">
+                                {{scope.row.Ac_AccName}}</el-link>
+                        </el-tooltip>
+
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="启用" width="60" align="center">
+                    <template slot-scope="scope">
+
+                        <el-switch v-model="scope.row.Rc_IsEnable" :disabled="scope.row.Rc_IsUsed" size="mini"
+                            @change="changeEnable(scope.row)" :title="scope.row.Rc_IsUsed ? '学习卡使用过，禁用没有意义' : '禁用该卡'">
+                        </el-switch>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+        </template>
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" v-if="!loading" :current-page="form.index"
+                :page-sizes="[1]" :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper"
+                :total="total">
+            </el-pagination>
+        </div>
+        <el-dialog :title="'充值码 '+ current.Rc_Code+'-'+current.Rc_Pw+' 的使用情况'" :visible.sync="currentVisible"
+            width="80%">
+            <template v-if="current.account">
+                <el-row :gutter="20">
+                    <el-col :span="6">卡号</el-col>
+                    <el-col :span="18"> {{current.Rc_Code}} - {{current.Rc_Pw}}</el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">有效期</el-col>
+                    <el-col :span="18">
+
+                        {{current.Rc_LimitStart|date('yyyy-MM-dd')}}
+                        至
+                        {{current.Rc_LimitEnd|date('yyyy-MM-dd')}}
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">面额</el-col>
+                    <el-col :span="18">
+                        <span class="weisha_icon money" icon="&#xe624"
+                            style="font-size: 14px;">{{current.Rc_Price}}</span>
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">状态</el-col>
+                    <el-col :span="18"> <span v-if="current.Rc_IsUsed">
+                            <span v-if="current.Rc_State==-1">被回滚</span>
+                            <span v-else>
+                                <span v-if="current.Rc_State==0">暂存</span>
+                                <span v-else>已使用</span>
+                            </span>
+                        </span></el-col>
+
+                </el-row>
+                <el-row :gutter="20" v-if="current.account">
+                    <el-col :span="6">使用人</el-col>
+                    <el-col :span="18" class="accountInfo">
+                        <img v-if="current.account.Ac_Photo!=''" :src="current.account.Ac_Photo" class="avatar photo">
+                        <img v-else class="el-icon-plus avatar-uploader-icon avatar  photo" src="/Utilities/images/head1.jpg" />
+                        <span v-if="current.account.Ac_Sex=='1'" class="weisha_icon man" icon="&#xe645"
+                            title="男性"></span>
+                        <span v-if="current.account.Ac_Sex=='2'" class="weisha_icon woman" icon="&#xe647"
+                            title="女性"></span>
+                        {{current.account.Ac_Name}} ({{current.account.Ac_AccName}})
+                        <div class="weisha_icon" icon="&#xe60f" title="身份证">
+                            {{current.account.Ac_IDCardNumber}}
+                        </div>
+                        <div class="weisha_icon" icon="&#xa047" title="电话">
+                            <span v-html='current.account.Ac_MobiTel1'></span>
+                            <span
+                                v-if="current.account.Ac_MobiTel1!='' && current.account.Ac_MobiTel2!='' && current.account.Ac_MobiTel1!= current.account.Ac_MobiTel2 ">/</span>
+                            <span v-if="current.account.Ac_MobiTel1!= current.account.Ac_MobiTel2 "
+                                v-html='current.account.Ac_MobiTel2'></span>
+                        </div>
+
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">使用时间</el-col>
+                    <el-col :span="18">
+                        <span v-if="current.Rc_IsUsed">{{current.Rc_UsedTime|date('yyyy-MM-dd HH:mm:ss')}}</span>
+                    </el-col>
+
+                </el-row>
+            </template>
+
+        </el-dialog>
+
+        <el-dialog :title="'充值码'" :visible.sync="codesetVisible" class="codesetVisible">
+            <template>
+                <el-row :gutter="20">
+                    <el-col :span="6">主题</el-col>
+                    <el-col :span="18"> {{codeset.Rs_Theme}} </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">有效期</el-col>
+                    <el-col :span="18">
+                        {{codeset.Rs_LimitStart|date('yyyy-MM-dd')}}
+                        至
+                        {{codeset.Rs_LimitEnd|date('yyyy-MM-dd')}}
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">数量</el-col>
+                    <el-col :span="8">
+                        <el-tag effect="dark" type="success">
+                            总数： {{codeset.Rs_Count}} 张
+                        </el-tag>
+
+                    </el-col>
+                    <el-col :span="8">
+                        <el-tag effect="dark" type="warning">
+                            禁用：{{num.disable}} 张
+                        </el-tag>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">&nbsp;</el-col>
+                    <el-col :span="6">
+                        <el-tag effect="dark">
+                            已使用： {{codeset.Rs_UsedCount}} 张
+                        </el-tag>
+
+                    </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
+                    <el-col :span="6">面额</el-col>
+                    <el-col :span="18">
+                        <span class="weisha_icon money" icon="&#xe624"
+                            style="font-size: 14px;">{{codeset.Rs_Price}}</span>
+
+                    </el-col>
+
+                </el-row>
+
+
+            </template>
+
+        </el-dialog>
+    </div>
+
+
+</body>
+
+</html>

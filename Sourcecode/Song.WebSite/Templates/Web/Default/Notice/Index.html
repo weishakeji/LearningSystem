@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>通知公告</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <page_header :organ="org">loading ...</page_header>
+        <context>
+            <div class="left">
+                <div class="tit_bar">
+                    <icon>&#xe659</icon>通知公告
+                    <el-input v-model.trim="form.search" @blur="handleCurrentChange(1)" style="width:150px"
+                        suffix-icon="el-icon-search"></el-input>
+                </div>
+                <dl class="item" v-for="(item,i) in datas" v-if="datas.length>0">
+                    <dd>
+                        <a :href="'/web/notice/detail.'+item.No_Id">
+                            <b>{{(form.index - 1) * form.size + i + 1}}.</b>{{item.No_Ttl}}</a>
+                        <span>
+                            {{clearhtml(item.No_Context,100)}}
+                        </span>
+                        <div class="nodate">
+                            <icon>&#xe81a</icon>{{item.No_StartTime|date("yyyy-MM-dd")}}
+                        </div>
+                    </dd>
+                </dl>
+
+                <template v-if="datas.length>0">
+                    <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index"
+                        :page-sizes="[1]" :page-size="form.size" :pager-count="6"
+                        layout="total, prev, pager, next, jumper" :total="total">
+                    </el-pagination>
+                </template>
+                <div class="nocontext" v-if="!loading && datas.length<1"> 没有内容</div>
+            </div>
+            <div class="right">
+                <div class="tit_bar">
+                    <icon>&#xe668</icon>新闻
+                </div>
+                <news :org="org" :count="10">
+                    <template slot-scope="d">
+                        <a :href="'/web/news/article.'+d.item.Art_Id" target="_blank">
+                            <span>{{d.index+1}} . </span> 
+                            {{d.item.Art_Title}}</a>
+                    </template>
+                </news>
+            </div>
+        </context>
+        <page_footer :organ="org">loading ...</page_footer>
+    </div>
+
+
+</body>
+
+</html>

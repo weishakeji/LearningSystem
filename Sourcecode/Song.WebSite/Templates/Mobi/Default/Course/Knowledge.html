@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>考试中心</title>
+</head>
+
+<body>
+    <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
+    <div id="vapp" v-cloak>
+        <knl_header></knl_header>
+        <div class="context">
+            <van-sticky :offset-top="44">
+                <knl_title>
+                    {{datas.Kn_Title}}
+                </knl_title>
+            </van-sticky>
+            <knl_context v-html="datas.Kn_Details">
+            </knl_context>
+        </div>
+    </div>
+</body>
+
+</html>

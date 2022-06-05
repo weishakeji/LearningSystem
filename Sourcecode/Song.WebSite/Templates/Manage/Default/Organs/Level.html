@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <title>机构等级</title>
+    <include file="../inc/meta.inc" />
+
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="LevelModify" width="600" height="500"
+                :selects='selects' idkey='Olv_ID' table="datatable"></btngroup>
+        </div>
+        <template>
+            <el-table ref="datatable" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick" index-key="Olv_Tax" row-key="Olv_ID"
+                draggable>
+                <el-table-column type="selection" width="40">
+                </el-table-column>
+                <el-table-column type="index" width="50">
+                    <template slot-scope="scope">
+                        <span>{{scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="名称">
+                    <template slot-scope="scope">
+
+                        <span v-html='scope.row.Olv_Name' class="draghandle" :title="scope.row.Olv_Intro"></span>
+                        <span v-if='scope.row.Olv_IsDefault' title="默认等级" class="weisha_icon" icon="&#xe703"
+                            style="font-size: 16px; color: red;"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="等级" width="60" align="center">
+                    <template slot-scope="scope">
+                        <span v-html='scope.row.Olv_Level'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="标识" width="120" align="center">
+                    <template slot-scope="scope">
+                        <span v-html='scope.row.Olv_Tag'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="机构数" width="60" align="center">
+                    <template slot-scope="scope">
+
+                        {{scope.row.count}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="分润方案" width="100" align="center">
+                    <template slot-scope="scope">
+                        {{scope.row.psname}}
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="使用" show-overflow-tooltip width="60">
+                    <template slot-scope="scope">
+                        <span class="el-icon-loading" v-show="loadingid==scope.row.Olv_ID"></span>
+                        <el-switch v-model="scope.row.Olv_IsUse" @change="changeUse(scope.row)"
+                            v-show="loadingid!=scope.row.Olv_ID">
+                        </el-switch>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" width="80" align="center">
+                    <template slot-scope="scope">
+                        <el-dropdown>
+                            <span class="el-dropdown-link">
+                                管理<i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item icon="el-icon-plus" @click.native="setPurview(scope.row)">设置权限
+                                </el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-monitor" :disabled="scope.row.Olv_IsDefault"
+                                    @click.native="changeDefault(scope.row)">
+                                    设为默认等级
+                                </el-dropdown-item>
+                                <el-dropdown-item divided type="danger" icon="el-icon-edit" style="color:#409EFF"
+                                    @click.native='$refs.btngroup.modify(scope.row.Olv_ID)'>
+                                    修改
+                                </el-dropdown-item>
+                                <el-dropdown-item type="danger" icon="el-icon-delete" style="color:#F56C6C"
+                                    @click.native='$refs.btngroup.delete(scope.row.Olv_ID,{})'>
+                                    删除
+                                </el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
+                </el-table-column>
+            </el-table>
+
+        </template>
+    </div>
+
+
+</body>
+
+</html>

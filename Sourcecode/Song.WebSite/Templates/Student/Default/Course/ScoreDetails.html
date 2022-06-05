@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>结课成绩的详情</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        dn xgm
+        <template v-if="loading_init">
+            <loading>...</loading>
+        </template>
+        <template v-else-if="!islogin">
+            <alert class="nolog"> 学员登录后，才能查看自己已学课程的记录</alert>
+        </template>
+        <template v-else>
+            <div v-if="outlines && outlines.length>0" class="outlines">
+                <div v-for="o in outlines">
+                    <span :style="'padding-left:'+(o.Ol_Level*20)+'px'">
+                        <span class="order">{{o.Ol_XPath}}</span>
+                        {{o.Ol_Name}}<icon v-if="o.Ol_IsVideo">&#xe83a</icon>
+                    </span>
+
+                    <outline_progress :outline="o" :videolog="logdatas" :loading="loading"></outline_progress>
+
+                </div>
+            </div>
+            <alert v-else class="nolog"> 没有查询到信息</alert>
+        </template>
+    </div>
+
+
+</body>
+
+</html>

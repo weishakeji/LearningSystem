@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>创建新课程</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="form">
+            <div class="content">
+                <div class="cour-name">
+                    <div class="tit">
+                        <icon>&#xe813</icon>课程名称：
+                    </div>
+                    <el-input type="textarea" :rows="2" :maxlength="100" resize="none" placeholder="请输入内容，最长100个字符"
+                        v-model="form.name">
+                    </el-input>
+                </div>
+                <upload-img @change="file=>upfile = file" :data="entity" size="1024" ext="jpg,png,gif">
+                    <template v-if="upfile!=null">
+                        <img :src="upfile.base64" />
+                        <el-link type="danger" class="remove" icon="el-icon-delete" @click.stop="upfile = null">
+                            清除图片</el-link>
+                    </template>
+                    <template v-else>
+                        <div class="nophoto">
+                            <i class="el-icon-picture-outline"></i>
+                            <span> 课程图片 </span>
+                        </div>
+                        <el-tooltip content="点击上传图片" placement="bottom" effect="light">
+                            <div slot="content">
+                                图片宽高比为16：9 <br />
+                                像素大小不限<br />
+                                文件大小限制为最大1Mb<br />
+                                图片类型限：jpg,png,gif<br />
+                            </div>
+                            <icon class="photo_add">&#xe724</icon>
+                        </el-tooltip>
+                    </template>
+                </upload-img>
+            </div>
+            <div class="subject">
+                <icon>&#xe83d</icon> 专业：
+
+                <el-link type="primary" @click="sbj_panel=true" title="选择专业">
+                    <span v-if="subjectPath()==''">请选择课程专业</span>
+                    <span v-else v-html="subjectPath()"></span>
+                </el-link>
+
+            </div>
+        </div>
+        <!--底部按钮-->
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter()">
+                <icon v-if="!loading">&#xa048</icon>创建新课程
+            </el-button>
+            <el-button type='close'>
+               取消
+            </el-button>
+        </div>
+        <!-- 专业选择的面板 -->
+        <div class="sbj_panel" v-show="sbj_panel">
+            <div class="sbj_tit">
+                <el-input v-model="filterText" clearable style="width:200px" placeholder="搜索课程专业"
+                    suffix-icon="el-icon-search"></el-input>
+                <el-button size="mini" class="back" @click="sbj_panel=false">
+                    <icon>&#xe748</icon>返回
+                </el-button>
+            </div>
+            <div class="tree-box">
+                <el-tree :data="subjects" node-key="Sbj_ID" ref="tree"
+                    :props="{ children: 'children', label: 'Sbj_Name'}" @node-click="select_sbj"
+                    :filter-node-method="filterNode" v-loading="loading">
+                    <span class="custom-tree-node" slot-scope="{ node, data }">
+                        {{ data.Sbj_Name }}
+                    </span>
+                </el-tree>
+            </div>
+        </div>
+        <!--操作成功-->
+        <div class="success_panel" v-if="success">
+            <el-result icon="success" title="创建课程成功，开始进一步编辑" subTitle="请根据提示进行操作">
+                <template slot="extra">
+                    <el-button type="primary" @click="countdown=0" size="medium" :disabled="countdown<=0">
+                        编辑课程内容
+                        <span v-if="countdown>0">({{countdown}})</span>
+                    </el-button>
+                </template>
+            </el-result>
+        </div>
+    </div>
+</body>
+
+</html>

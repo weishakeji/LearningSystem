@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>章节</title>
+    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增" ref='btngroup' @add="addBtn()" width="800" idkey='Ol_ID' height="600"></btngroup>
+            <div class="search-box">
+
+                <el-form :inline="true" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-tag type="success">
+                            <icon>&#xe83d</icon>当前课程有 {{total}} 个章节
+                        </el-tag>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="filterText" clearable style="width:160px" placeholder="搜索"
+                            suffix-icon="el-icon-search"></el-input>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+
+        <div class="tree-box">
+            <el-tree :data="datas" node-key="Ol_ID" ref="tree" :props="defaultProps" expand-on-click-node default-expand-all
+                :filter-node-method="filterNode" @node-drag-end="handleDragEnd" :expand-on-click-node="false" draggable
+                @node-expand="nodeexpand" @node-collapse="nodecollapse" :default-expanded-keys="expanded"
+                v-loading="loading || loading_sumbit">
+                <span class="custom-node" slot-scope="{ node, data }">
+
+                    <div class="node_name draghandle">
+                        <span>{{data.serial}}</span>
+                        {{ data.Ol_Name }}
+                    </div>
+                    <div class="btns">
+                        <span class="column_video">
+                            <el-tag @click="btnVideoModify(data)" :type="data.Ol_IsVideo ? 'success' : 'info'">
+                                <icon>&#xe83a</icon>视频
+                            </el-tag>
+                            <el-tag  @click="()=>{$refs['live'].setvalue(data);}" :type="data.Ol_IsLive ? 'success' : 'info'">
+                                <icon>&#xe6bf</icon> 直播
+                            </el-tag>
+                            <el-tag @click="()=>{$refs['accessory'].setvalue(data);}" type="info" title="附件">
+                                <icon>&#xe853</icon> 附件
+                            </el-tag>
+                        </span>
+
+                        <span class="column_btn">
+                            <loading v-if="loadingid==data.Ol_ID"></loading>
+                            <el-dropdown v-else>
+                                <span class="el-dropdown-link">
+                                    <el-link :type="data.Ol_IsUse ? 'success' : 'warning'">
+                                        <icon v-if="data.Ol_IsUse" title="启用">&#xe634</icon>
+                                        <icon v-else title="禁用">&#xe7ad</icon>
+                                    </el-link>
+                                    <el-link :type="data.Ol_IsFinish ? 'success' : 'warning'">
+                                        <icon v-if="data.Ol_IsFinish" title="完成">&#xe706</icon>
+                                        <icon v-else title="未完成">&#xe85c</icon>
+                                    </el-link>
+                                    <el-link :type="data.Ol_IsFree ? 'success' : 'warning'">
+                                        <icon v-if="data.Ol_IsFree" title="免费">&#xe740</icon>
+                                        <icon v-else title="收费">&#xe819</icon>
+                                    </el-link>
+                                    <i class="el-icon-arrow-down el-icon--right"></i>
+                                </span>
+                                <el-dropdown-menu slot="dropdown" class="btn_dropdown">
+                                    <el-dropdown-item>
+                                        <el-link :type="data.Ol_IsUse ? 'success' : 'warning'"
+                                            @click="changeState(data,'Ol_IsUse')">
+                                            <icon v-if="data.Ol_IsUse">&#xe634</icon>
+                                            <icon v-else>&#xe7ad</icon>
+                                            启用/禁用
+                                        </el-link>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item>
+                                        <el-link :type="data.Ol_IsFree ? 'success' : 'warning'"
+                                            @click="changeState(data,'Ol_IsFree')">
+                                            <icon v-if="data.Ol_IsFree">&#xe740</icon>
+                                            <icon v-else>&#xe819</icon>
+                                            免费/收费
+                                        </el-link>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item>
+                                        <el-link :type="data.Ol_IsFinish ? 'success' : 'warning'"
+                                            @click="changeState(data,'Ol_IsFinish')">
+                                            <icon v-if="data.Ol_IsFinish">&#xa048</icon>
+                                            <icon v-else>&#xe706</icon>完结/编辑中
+                                        </el-link>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item divided>
+                                        <el-link type="primary"
+                                            @click="()=>{modify_obj=$api.clone(data);modify_show=true;}">
+                                            <icon>&#xa02e</icon>编辑
+                                        </el-link>
+                                    </el-dropdown-item>
+                                    <el-dropdown-item>
+                                        <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
+                                            <el-link type="danger" slot="reference">
+                                                <icon>&#xe800</icon> 删除
+                                            </el-link>
+                                        </el-popconfirm>
+                                    </el-dropdown-item>
+                                </el-dropdown-menu>
+                            </el-dropdown>
+                        </span>
+                    </div>
+                </span>
+            </el-tree>
+        </div>
+        <!--新增或编辑-->
+        <el-dialog :title="modify_obj.Ol_ID ? '编辑章节' : '新增章节'" :visible.sync="modify_show" append-to-body
+            :show-close="true" :close-on-click-modal="false" custom-class="modify_show">
+            <el-form :model="modify_obj" ref="modify_obj" label-width="80px"
+                :rules="{'Ol_Name':[ { required: true, message: '不得为空', trigger: 'blur' }]}">
+                <el-form-item label="章节名称" prop="Ol_Name">
+                    <el-input v-model="modify_obj.Ol_Name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="状态">
+                    <div>
+                        <el-checkbox v-model="modify_obj.Ol_IsUse">启用</el-checkbox>
+                    </div>
+                    <div>
+                        <el-checkbox v-model="modify_obj.Ol_IsFree">免费</el-checkbox>
+                        <help>课程允许试学时，不用购买课程也可以学习</help>
+                    </div>
+                    <div>
+                        <el-checkbox v-model="modify_obj.Ol_IsFinish">完结</el-checkbox>
+                        <help>章节是否编辑完成</help>
+                    </div>
+                </el-form-item>
+                <el-form-item label="">
+                    <el-checkbox v-model="modify_obj.Ol_IsLive">当前章节为直播课</el-checkbox>
+                </el-form-item>
+                <template v-if="modify_obj.Ol_IsLive">
+                    <el-form-item label="直播时间">
+                        <el-date-picker v-model="modify_obj.Ol_LiveTime" type="datetime" placeholder="开始时间">
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="直播时长">
+                        <el-input type="number" v-model="modify_obj.Ol_LiveSpan" style="width: 220px;">
+                            <template slot="append">分钟</template>
+                        </el-input>
+                    </el-form-item>
+                </template>
+                <el-form-item label="学习内容" label-width="100px" prop="Ol_Intro">
+                </el-form-item>
+                <el-form-item label="" label-width="0px" prop="Ol_Intro">
+                    <vue-html5-editor :content="modify_obj.Ol_Intro" :show-module-name="false" ref="editor_intro"
+                        @change="text=>modify_obj.Ol_Intro = text">
+                    </vue-html5-editor>
+                </el-form-item>
+
+            </el-form>
+
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="()=>{$confirm('确认关闭？').then(()=> { modify_show = false;})}">取 消</el-button>
+                <el-button type="primary" @click="btnModify('modify_obj')">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!--章节直播的设置-->
+        <accessory ref="accessory" remark="章节附件的管理"></accessory>
+        <outline_live ref="live" remark="章节直播的管理" @save="()=>{getTreeData()}"></outline_live>
+    </div>
+
+
+</body>
+
+</html>

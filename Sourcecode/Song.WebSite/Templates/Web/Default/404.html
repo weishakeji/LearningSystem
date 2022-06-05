@@ -1,0 +1,21 @@
+﻿<!doctype html>
+<html>
+<head resource>
+    <title>找不到！</title>
+    <include file="inc/meta.inc" />   
+</head>
+<body>
+    <div id="vapp" v-cloak>
+        <page_header :organ="org">loading ...</page_header>
+        <context>
+          
+            <icon>&#xe849</icon>
+            <div>您当前访问的
+                <b v-html="geturl()"></b> 页面不存在！
+            </div>
+            <div>请点<a href="javascript:history.go(-1)">此处返回</a>，或转到<a href="/">主页</a></div>
+        </context>
+        <page_footer :organ="org">loading ...</page_footer>
+    </div>
+</body>
+</html>

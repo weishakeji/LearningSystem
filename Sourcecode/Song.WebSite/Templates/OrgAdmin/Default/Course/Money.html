@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title></title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <el-form :inline="true" ref="addobj" :model="addobj" :rules="rules" class="demo-form-inline"
+            v-on:submit.native.prevent>
+            <el-form-item label="" prop="CP_Span">
+                <el-input tabindex="0" type="number" v-model="addobj.CP_Span" style="width:200px">
+                    <template slot="append">
+                        <el-dropdown @command="cmd=>addobj.CP_Unit = cmd">
+                            <span class="el-dropdown-link">
+                                {{addobj.CP_Unit}}<i class="el-icon-arrow-down el-icon--right"></i>
+                            </span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item command="日">日</el-dropdown-item>
+                                <el-dropdown-item command="周">周</el-dropdown-item>
+                                <el-dropdown-item command="月">月</el-dropdown-item>
+                                <el-dropdown-item command="年">年</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </template>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="" prop="CP_Price">
+                <el-input tabindex="0" type="number" v-model="addobj.CP_Price" style="width:160px">
+                    <template slot="append">
+                        元
+                    </template>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="" prop="CP_Coupon">
+                <el-input tabindex="0" type="number" v-model="addobj.CP_Coupon" style="width:300px">
+                    <template slot="prepend">
+                        可以用
+                    </template>
+                    <template slot="append">
+                        个券抵现金用
+                    </template>
+                </el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" :loading="loading" @click="btnadd('addobj')" icon="el-icon-plus"
+                    native-type="submit" plain>
+                    添加价格
+                </el-button>
+            </el-form-item>
+        </el-form>
+
+        <template v-if="prices.length>0">
+            <el-table ref="prices" :data="prices" :span-method="arraySpanMethod" :row-class-name="tableRowClassName"
+                v-loading="loading" element-loading-text="拼命加载中" :stripe="true" tooltip-effect="dark"
+                style="width: 850px" index-key="CP_Tax" row-key="CP_ID" draggable>
+                <el-table-column type="index" label="#" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{ scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="价格">
+                    <template slot-scope="scope">
+                        <template v-if="editobj.CP_ID!=scope.row.CP_ID">
+                            <div class="draghandle">
+                                {{scope.row.CP_Span}}{{scope.row.CP_Unit}}
+                                /
+                                {{scope.row.CP_Price}}元
+                            </div>
+                        </template>
+                        <div v-else style="display: flex;" remark="行内编辑">
+                            <el-form :inline="true" ref="editobj" :model="scope.row" :rules="rules" class="form-inline"
+                                v-on:submit.native.prevent>
+                                <el-form-item label="" prop="CP_Span">
+                                    <el-input tabindex="0" type="number" v-model="scope.row.CP_Span"
+                                        style="width:180px">
+                                        <template slot="append">
+                                            <el-dropdown @command="cmd=>scope.row.CP_Unit = cmd">
+                                                <span class="el-dropdown-link">
+                                                    {{scope.row.CP_Unit}}<i
+                                                        class="el-icon-arrow-down el-icon--right"></i>
+                                                </span>
+                                                <el-dropdown-menu slot="dropdown">
+                                                    <el-dropdown-item command="日">日</el-dropdown-item>
+                                                    <el-dropdown-item command="周">周</el-dropdown-item>
+                                                    <el-dropdown-item command="月">月</el-dropdown-item>
+                                                    <el-dropdown-item command="年">年</el-dropdown-item>
+                                                </el-dropdown-menu>
+                                            </el-dropdown>
+                                        </template>
+                                    </el-input>
+                                </el-form-item>
+
+                                <el-form-item label="" prop="CP_Price">
+                                    <el-input tabindex="0" type="number" v-model="scope.row.CP_Price"
+                                        style="width:150px">
+                                        <template slot="append"> 元 </template>
+                                    </el-input>
+                                </el-form-item>
+                                <el-form-item label="" prop="CP_Coupon">
+                                    <el-input tabindex="0" type="number" v-model="scope.row.CP_Coupon"
+                                        style="width:230px">
+                                        <template slot="prepend">
+                                            用券抵
+                                        </template>
+                                        <template slot="append">
+                                            元
+                                        </template>
+                                    </el-input>
+                                </el-form-item>
+                            </el-form>
+                        </div>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="抵用券" align="center">
+                    <template slot-scope="scope">
+                        <template v-if="editobj.CP_ID!=scope.row.CP_ID">
+                            可抵 <b>{{scope.row.CP_Coupon}}</b> 元
+                        </template>
+                    </template>
+                </el-table-column>
+                <el-table-column label="使用" show-overflow-tooltip width="50">
+                    <template slot-scope="scope">
+                        <template v-if="editobj.CP_ID!=scope.row.CP_ID">
+                            <span class="el-icon-loading" v-show="loadingid==scope.row.CP_ID"></span>
+                            <el-switch v-model="scope.row.CP_IsUse" @change="changeUse(scope.row)"
+                                v-show="loadingid!=scope.row.CP_ID">
+                            </el-switch>
+                        </template>
+                        <template v-else>
+                            <el-switch v-model="scope.row.CP_IsUse"></el-switch>
+                        </template>
+                    </template>
+                </el-table-column>
+                <el-table-column label="操作" width="120" align="center">
+                    <template slot-scope="scope">
+                        <template v-if="editobj.CP_ID!=scope.row.CP_ID">
+                            <el-button-group>
+                                <el-link type="primary" plain icon="el-icon-edit" @click="goedit(scope.row)">修改
+                                </el-link>
+                                <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                                    icon-color="red" title="确定删除吗？" @confirm="deleteData(scope.row.CP_ID)">
+                                    <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                                    </el-link>
+                                </el-popconfirm>
+                            </el-button-group>
+                        </template>
+                        <template v-else>
+                            <el-button-group>
+                                <el-link type="success" plain icon="el-icon-check"
+                                    @click="updateItem('editobj',scope.row)">保存
+                                </el-link>
+                                <el-link type="info" plain icon="el-icon-circle-close" @click="backedit(scope.$index)">
+                                    退出
+                                </el-link>
+                            </el-button-group>
+                        </template>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-divider></el-divider>
+        </template>
+
+        <el-form ref="course" :model="course" :rules="rules" v-loading="loading_course" @submit.native.prevent
+            label-width="80px">
+            <el-form-item label="是否免费" prop="Cou_IsFree">
+                <div>
+                    <el-switch v-model="course.Cou_IsFree" @change="updateCourse()"
+                        :active-text="course.Cou_IsFree ? '完全免费' : '完全免费'">
+                    </el-switch>
+                </div>
+                <div>
+                    <el-switch v-model="course.Cou_IsLimitFree" @change="updateCourse()"
+                        :active-text="course.Cou_IsLimitFree ? '限时免费' : '限时免费'">
+                    </el-switch>
+                </div>
+                <div v-show="course.Cou_IsLimitFree">
+                    <el-date-picker v-model="limitTime" type="datetimerange" range-separator="至"
+                        start-placeholder="开始日期" end-placeholder="结束日期">
+                    </el-date-picker>
+                    <el-button type="primary" plain @click="updateCourse()">
+                        <icon>&#xa048</icon>保存限时免费的时限
+                    </el-button>
+                </div>
+            </el-form-item>
+            <el-form-item label="试学" prop="Cou_IsTry">
+                <el-switch v-model="course.Cou_IsTry" @change="updateCourse()" active-text="允许试学免费章节的内容">
+                </el-switch>
+            </el-form-item>
+        </el-form>
+    </div>
+</body>
+
+</html>

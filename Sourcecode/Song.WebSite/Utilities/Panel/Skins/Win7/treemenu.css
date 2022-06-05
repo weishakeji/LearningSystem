@@ -1,0 +1,343 @@
+﻿@charset "utf-8";
+.treemenu {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transition: width 0.3s, height 0.3s;
+    box-shadow: 0 -1px #fff, 1px 0 #333, 0 1px #333;
+}
+
+.treemenu * {
+    display: block;
+}
+
+.treemenu a {
+    text-decoration: none;
+}
+
+.treemenu a, .treemenu span, .treemenu tree-node ico {
+    color: #1b1b1b;
+}
+
+.treemenu tree_tags {
+    width: 40px;
+    height: 100%;
+    float: left;
+    position: relative;
+}
+
+.treemenu tree_tags tree_tag {
+    cursor: pointer;
+    position: relative;
+    height: 60px;
+    background-color: rgb(195, 195, 195);
+    transform: background-color .1s;
+    color: #095db3;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.6) 10%, rgba(255, 255, 255, 0.8) 90%, rgba(255, 255, 255, .8) 100%);
+}
+
+.treemenu tree_tags tree_tag ico {
+    height: 30px;
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    display: block;
+    font-size: 20px;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree_tags tree_tag.loading ico {
+    -webkit-animation: rotate 1s linear infinite;
+    -moz-animation: rotate 1s linear infinite;
+    -o-animation: rotate 1s linear infinite;
+    animation: rotate 1s linear infinite;
+}
+
+@-webkit-keyframes rotate {
+    from {
+        -webkit-transform: rotate(0deg)
+    }
+    to {
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+@-moz-keyframes rotate {
+    from {
+        -moz-transform: rotate(0deg)
+    }
+    to {
+        -moz-transform: rotate(359deg)
+    }
+}
+
+@-o-keyframes rotate {
+    from {
+        -o-transform: rotate(0deg)
+    }
+    to {
+        -o-transform: rotate(359deg)
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(359deg)
+    }
+}
+
+.treemenu tree_tags tree_tag itemtxt {
+    height: 25px;
+    width: calc(100% - 10px);
+    overflow: hidden;
+    line-height: 25px;
+    font-size: 14px;
+    padding: 0px 5px 0px 5px;
+}
+
+.treemenu tree_tags tree_tag.curr {
+    color: #1b1b1b;
+    --background-color: rgba(255, 255, 255, .8);
+    background: linear-gradient(to right, rgba(161, 197, 247, 1) 0%, rgba(161, 197, 247, 1) 10%, rgba(255, 255, 255, 0.8) 30%, rgba(255, 255, 255, .8) 100%);
+}
+
+.treemenu tree_tags tree_tag.curr:before {
+    content: '>';
+    position: absolute;
+    display: block;
+    right: 0px;
+    top: 10px;
+    font: 800 9px/14px consolas;
+}
+
+/*折叠按钮*/
+
+.treemenu tree_tags tree-foldbtn {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 40px;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    z-index: 2;
+    color: #555;
+    --transition: transform 0.3s;
+}
+
+.treemenu tree_tags tree-foldbtn.fold {
+    transform: rotate(180deg);
+}
+
+.treemenu tree_tags tree-foldbtn:before {
+    content: '\a016';
+    line-height: 40px;
+    font-size: 16px;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree_tags tree-foldbtn:hover {
+    color: #eee;
+}
+
+/*左侧标签区，用于填充空白的*/
+
+.treemenu tree_tags tree-tagspace {
+    width: 100%;
+    display: block;
+    height: 150px;
+    position: absolute;
+    background-color: rgb(195, 195, 195);
+    bottom: 0px;
+    z-index: 1;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.6) 10%, rgba(255, 255, 255, 0.8) 90%, rgba(255, 255, 255, .8) 100%);
+}
+
+/*树形菜单区域*/
+
+.treemenu tree_body {
+    background-color: rgba(255, 255, 255, .8);
+    height: 100%;
+    float: right;
+    overflow: hidden;
+    position: relative;
+    transition: width 0.3s, height 0.3s;
+}
+
+.treemenu tree_area {
+    width: 100%;
+    height: 100%;
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    cursor: default;
+    box-sizing: border-box;
+    position: relative;
+    padding: 50px 0px 0px 0px;
+    overflow: hidden;
+}
+
+.treemenu tree_area loading {
+    height: 200px;
+    width: 100%;
+    line-height: 200px;
+    text-align: center;
+    display: block;
+    color: #999;
+    font-size: 35px;
+    font-family: "webdesk_icon" !important;
+    -webkit-animation: rotate 2s linear infinite;
+    -moz-animation: rotate 2s linear infinite;
+    -o-animation: rotate 2s linear infinite;
+    animation: rotate 2s linear infinite;
+}
+
+.treemenu tree_area tree_tit {
+    height: 30px;
+    line-height: 30px;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+    margin: 10px 10px 10px 10px;
+    font-size: 15px;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: bold;
+    background-color: rgba(107, 106, 106, 0.2);  
+    text-shadow: 1px 1px 2px #f9f9f9;
+    background-image: linear-gradient(rgba(255, 255, 255, .1), rgba(255, 255, 255, .2));
+    box-shadow: -1px 0 #333, 0 -1px #333, 1px 0 #fff, 0 1px #fff;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.treemenu tree_area tree_tit *{
+    display: inline;
+    color: #4e4e4e;
+}
+.treemenu tree_area tree_tit i{
+    font-style:normal;
+    margin-right: 5px;
+    font-family: "webdesk_icon" !important;
+}
+.treemenu tree_area>div{
+    height: calc(100%);
+    width: calc(100%);
+    overflow-y: auto;
+}
+/*树形节点*/
+
+.treemenu tree-node {
+    position: relative;
+    font-size: 14px;
+    line-height: 30px;
+    height: 30px;
+    cursor: pointer;
+    padding-right: 30px;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-image-slice: 10;
+}
+
+.treemenu tree-node complete {
+    color: #ffffff;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    border-radius: 10px 10px 0px 0px;
+    font-size: 6px;
+    position: absolute;
+    background-color: red;
+    bottom: -5px;
+    left: 1px;
+}
+
+.treemenu tree_box {
+    display: block;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.treemenu tree-node span {
+    width: auto;
+    display: inline-block;
+    z-index: 2;
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.treemenu tree-node ico {
+    line-height: 30px;
+    font-size: 18px;
+    height: 30px;
+    font-weight: normal;
+    width: 20px;
+    margin-right: 5px;
+    display: inline-block;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree-node.folder {
+    --background-color: #ccc;
+}
+
+.treemenu tree-node:after {
+    line-height: 30px;
+    font-size: 10px;
+    height: 30px;
+    width: 20px;
+    color: #999;
+    display: block;
+    position: absolute;
+    text-align: center;
+    top: 0px;
+    right: 5px;
+    transition: transform 0.3s;
+    font-family: "webdesk_icon" !important;
+}
+
+.treemenu tree-node:hover {
+    --background-color: rgba(200, 200, 200, 1);
+    text-shadow: 1px 1px 2px #999;
+}
+
+.treemenu tree-node:hover span, .treemenu tree-node:hover a {
+    color: #333;
+}
+
+.treemenu tree-node:hover:after {
+    color: #333;
+}
+
+.treemenu tree-node:hover:before {
+    content: '';
+    width: calc(100% - 7px);
+    height: calc(100% - 6px);
+    --border: solid 1px rgba(160, 160, 160, 0.6);
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    z-index: 1;
+    border-radius: 3px;
+    box-shadow: -1px 0 #eee, 0 -1px #eee, 1px 0 #666, 0 1px #666;
+    background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
+}
+
+/*子节点右侧的三角号*/
+
+.treemenu tree-node.folder:after {
+    content: '\a01e';
+    transform: rotate(90deg);
+}
+
+.treemenu tree-node.folderclose:after {
+    content: '\a01e';
+}

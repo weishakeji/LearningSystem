@@ -1,0 +1,46 @@
+[
+  {
+    "title": "主题皮肤",
+    "ico": "a044",
+    "url": "/manage/Panel/Skinsetup",
+    "type": "open",
+    "width": 565,
+    "height": 160,
+    "id": "Skinsetup"
+  },
+  {
+    "title": "夜间模式/日间模式",
+    "ico": "a032",
+    "type": "event",
+    "url": "window.$skins.switch()"
+  },
+  {
+    "type": "hr"
+  },
+    
+  {
+    "title": "客户服务",
+    "ico": "e650",
+    "url": "/help/service.html",
+    "type": "open",
+    "width": 600,
+    "height": 400,
+    "min": false,
+    "max": false,
+    "resize": false,
+    "id": "service"
+  },
+
+  {
+    "title": "关于",
+    "ico": "a031",
+    "url": "/help/about.html",
+    "type": "open",
+    "width": 600,
+    "height": 400,
+    "min": false,
+    "max": false,
+    "resize": false,
+    "id": "about"
+  }
+]

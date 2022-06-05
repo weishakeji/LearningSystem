@@ -1,0 +1,213 @@
+/*课程列表*/
+
+.cour-card {
+    margin: 10px;
+    width: calc(100vw - 20px);
+    height: auto;
+    padding-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ebeef5;
+    background-color: #fff;
+    overflow: hidden;
+    color: #303133;
+    transition: .3s;
+}
+
+.cour-card .cour-title {
+    padding: 10px 15px 10px 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-bottom: 1px solid #ebeef5;
+}
+
+.cour-card .cour-title icon {
+    width: 15px;
+    font-size: 15px;
+    display: inline-block;
+    font-weight: normal;
+    text-align: right;
+    transform: rotateY(180deg);
+}
+
+.cour-card .cour-title .van-loading {
+    display: inline-block;
+    padding: 0px;   
+    font-size: 16px !important;
+    margin-top: -3px;
+}
+
+.cour-card .cour-title more {
+    float: right;
+    display: block;
+}
+
+.cour-card .cour-title more::before {
+    content: "\e733";
+    font-family: webdesk_icon;
+    color: #888888;
+}
+
+.cour-card .cour-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.cour-card .cour-content[loading=true] {
+    display: none;
+}
+
+.cour-card .cour-box {
+    width: 46%;
+    text-align: center;
+    position: relative;
+}
+
+.cour-card .cour-box:nth-of-type(even) {
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 10px;
+}
+
+.cour-card .cour-box:nth-of-type(odd) {
+    margin-right: 2%;
+    margin-left: 2%;
+}
+
+.cour-card .cour-box img {
+    display: block;
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+    margin-bottom: 3px;
+    box-shadow: 1px 1px 2px #888888;
+}
+
+/*限时免费的角标*/
+
+.cour-card .cour-box limitfree {
+    position: absolute;
+    top: 12px;
+    right: -8px;
+}
+
+.cour-card .cour-box limitfree:before {
+    content: "\e60b";
+    font-family: webdesk_icon;
+    font-size: 40px;
+    color: #f60;
+}
+
+/*推荐的角标*/
+
+.cour-card .cour-box rec {
+    position: absolute;
+    top: 8px;
+    left: -3px;
+}
+
+.cour-card .cour-box rec:before {
+    content: "\e741";
+    font-family: webdesk_icon;
+    font-size: 40px;
+    color: #f60;
+    text-shadow: -1px -1px 2px #fff;
+}
+
+.cour-card name {
+    display: block;
+    text-align: left;
+    line-height: 20px;
+    max-height: 20px;
+    overflow: hidden;
+    width: 90%;
+    margin: 5px auto 0px auto;
+    text-overflow: ellipsis;
+    --white-space: nowrap;
+}
+
+live {
+    background-image: url(../../Images/live-icon.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 20px;
+    height: 16px;
+    display: inline-block;
+    margin-right: 5px;
+    float: left;
+}
+
+.cour-card .cour-box price {
+    right: 3px;
+    top: 10px;
+    text-shadow: 1px 1px 2px white, -1px -1px 2px white;
+    position: absolute;
+}
+
+/*免费*/
+
+.cour-card .cour-box price f {
+    color: #090;
+    font-size: 13px;
+}
+
+.cour-card .cour-box price f:before {
+    content: "\e60b";
+    font-family: webdesk_icon;
+    font-size: 16px;
+    margin-right: 2px;
+}
+
+/*限时免费费*/
+
+.cour-card .cour-box price l {
+    color: #FF6600;
+    font-size: 10px;
+}
+
+.cour-card .cour-box price l:before {
+    content: "\e746";
+    font-family: webdesk_icon;
+    font-size: 15px;
+    margin-right: 2px;
+}
+
+.cour-card .cour-box price l t {}
+
+/*收费*/
+
+.cour-card .cour-box price m {
+    color: #F60;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.cour-card .cour-box price m:before {
+    content: "\e63c";
+    font-family: webdesk_icon;
+    display: inline-block;
+    padding-top: 2px;
+    font-size: 15px;
+    line-height: 18px;
+    margin-right: 2px;
+}
+
+/*试用*/
+
+.cour-card t {
+    color: #F60;
+    font-size: 12px;
+    line-height: 12px;
+}
+
+.cour-card t:before {
+    content: "\f008f";
+    font-family: webdesk_icon;
+    display: inline-block;
+    padding-top: 2px;
+    font-size: 15px;
+    line-height: 18px;
+    margin-right: 2px;
+}

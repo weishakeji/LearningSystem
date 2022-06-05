@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>权限设置</title>
+    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+
+</head>
+
+<body>
+
+    <div id="app" v-cloak>
+
+        <template>
+            <el-transfer v-model="value" :data="data" :titles="['功能菜单', '选中的菜单项']"></el-transfer>
+        </template>
+        <el-form  @submit.native.prevent label-width="80px">
+        <el-form-item class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('account')">确认修改</el-button>
+            <el-button type='close'>取消</el-button>
+        </el-form-item>
+        </el-form>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+﻿@charset "utf-8";
+card{
+    display: block;
+    margin: 10px;
+}
+.link>div{
+    line-height: 40px;
+}
+.link a .el-link--inner{
+    font-size: 16px;
+}
+.link .el-tag{
+    cursor: pointer;
+}
+#qrcode{
+    margin: 10px;
+}

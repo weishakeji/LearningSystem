@@ -1,0 +1,78 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <title>数据字典说明</title>
+
+    <script type="text/javascript" src="/Utilities/Scripts/polyfill.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/vue-router.js"></script>
+    <script type="text/javascript" src="/Utilities/ElementUi/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="/Utilities/ElementUi/index.css" />
+    <link href="Styles/test.css" rel="stylesheet" type="text/css" />
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <div id="vapp">
+        <el-card class="box-card">
+            <div slot="header" class="clearfix">
+                <span>数据库链接测试</span>
+                <el-button style="float: right; padding: 3px 0" type="text" class="el-icon-refresh"
+                    :loading="loadingConn" @click="checkConn">重新测试</el-button>
+            </div>
+            <div v-if="!loadingConn">
+                <div v-if="connState">
+                    <el-tag type="success" class="el-icon-connection connState"> 链接正常</el-tag>
+                    以下是数据库版本信息：<br />
+                </div>
+                <el-tag type="danger" v-else class="el-icon-link connState">链接不正确，请检查db.config中的配置项</el-tag>
+            </div>
+            <div v-else>
+                <span class="el-icon-loading"></span> 正在检测...
+            </div>
+            <div v-if="connState" class="version">
+
+                {{verison}}
+            </div>
+        </el-card>
+        <el-card class="box-card" v-if="connState">
+            <div slot="header" class="clearfix">
+                <span>数据库表与字段的完整性</span>
+                <el-button style="float: right; padding: 3px 0" type="text" class="el-icon-refresh"
+                    :loading="loadingComp" @click="checkComplete">重新测试</el-button>
+            </div>
+            <div v-if="loadingComp">
+                <span class="el-icon-loading"></span> 正在检测...
+            </div>
+            <div v-else-if="connState" class="list">
+                <template v-if="compDatas.length>0">
+                    <div>
+                        <el-tag type="danger" class="el-icon-chat-line-square connState"> 缺失的表或字段</el-tag>
+                    </div>
+                    <div v-for="(item,index) in compDatas" class="data_row">
+                        {{index+1}}.
+                        <span v-for="(val,key,i) in item">
+                            {{key}}:<br />
+                            <template v-if="val.length>0">
+                                <span v-for="(field,j) in val">
+                                    <el-tag type="info"> {{field}}</el-tag>
+                                </span>
+                            </template>
+                            <el-tag v-else type="warning"> 缺失整个表</el-tag>
+                        </span>
+                    </div>
+                </template>
+                <div v-else>
+                    <el-tag type="success" class="el-icon-circle-check connState"> 没有缺失的表或字段</el-tag>
+                </div>
+            </div>
+        </el-card>
+    </div>
+
+</body>
+<script type="text/javascript" src="Scripts/test.js"></script>
+
+</html>

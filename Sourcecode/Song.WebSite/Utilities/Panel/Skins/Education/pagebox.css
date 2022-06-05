@@ -1,0 +1,604 @@
+﻿@charset "utf-8";
+
+.pagebox {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 1px;
+    position: absolute;
+    border: 1px solid rgba(62, 63, 63, 0.6);
+    user-select: none;
+    overflow: hidden;
+    text-align: left;
+}
+
+
+/*边框元素*/
+
+.pagebox margin {
+    display: block;
+    position: relative;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+    border: 1px solid #fff;
+}
+
+.pagebox margin>* {
+    position: absolute;
+    display: block;
+    width: 10px;
+    height: 10px;
+    z-index: 2;
+}
+
+.pagebox margin nw {}
+
+.pagebox margin w {
+    height: calc(100% - 20px);
+    top: 10px;
+    left: 0px;
+}
+
+.pagebox margin sw {
+    bottom: 0px;
+    left: 0px;
+}
+
+.pagebox margin ne {
+    top: 0px;
+    right: 0px;
+    z-index: 10;
+}
+
+.pagebox margin e {
+    height: calc(100% - 20px);
+    top: 10px;
+    right: 0px;
+}
+
+.pagebox margin se {
+    bottom: 0px;
+    right: 0px;
+}
+
+.pagebox margin n {
+    width: calc(100% - 20px);
+    height: 6px;
+    top: 0px;
+    left: 10px;
+}
+
+.pagebox margin s {
+    width: calc(100% - 20px);
+    bottom: 0px;
+    left: 10px;
+}
+
+
+/*移动窗体的响应条*/
+
+.pagebox pagebox_dragbar {
+    display: block;
+    position: absolute;
+    width: calc(100% - 12px - 25px);
+    height: 22px;
+    top: 6px;
+    left: 31px;
+    user-select: none;
+    cursor: default;
+    z-index: 2;
+}
+
+.pagebox pagebox_title {
+    display: block;
+    position: absolute;
+    width: calc(100% - 12px);
+    height: 30px;
+    top: 0px;
+    left: 6px;
+    user-select: none;
+    cursor: default;
+    z-index: 1;
+
+}
+
+.pagebox pagebox_title>* {
+    display: block;
+    float: left;
+    color: #aaa;
+}
+
+.pagebox pagebox_title pb-ico {
+    height: 30px;
+    width: auto;
+    max-width: 30px;
+    line-height: 30px;
+    font-size: 18px;
+    top: 3px;
+    left: 6px;
+    z-index: 1;
+    font-family: 'webdesk_icon' !important;
+    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+}
+
+.pagebox pagebox_title .pb-loading {
+    color: #666;
+    animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg)
+    }
+
+    to {
+        transform: rotate(359deg)
+    }
+}
+
+.pagebox pagebox_title pb-text {
+    height: 30px;
+    line-height: 30px;
+    width: calc(100% - 50px);
+    font-size: 13px;
+    overflow: hidden;
+    padding-right: 5px;
+    text-indent: 5px;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 1;
+    user-select: none;
+    cursor: default;
+    text-shadow: .2rem 0rem 1.2rem rgba(255, 255, 255, 1), -.2rem 0rem .2rem rgba(255, 255, 255, 1), 0rem .2rem 1.2rem rgba(255, 255, 255, 1), 0rem -.2rem 1.2rem rgba(255, 255, 255, 1);
+}
+
+
+/*左上角图标下拉菜单*/
+
+.pagebox dropmenu {
+    display: none;
+    width: 150px;
+    position: absolute;
+    z-index: 5;
+    text-align: left;
+    background-color: rgba(238, 238, 238, 1);
+    border: 1px solid #999;
+    --border-top: none;
+    --border-left: none;
+}
+
+.ui_menu>*:not(hr) {
+    display: block;
+    font-size: 13px;
+    height: 25px;
+    line-height: 25px;
+    position: relative;
+}
+
+.ui_menu>*:not(hr):before {
+    content: '\e77c';
+    font-family: "webdesk_icon" !important;
+    display: block;
+    height: 25px;
+    line-height: 28px;
+    width: 30px;
+    border-right: 1px solid #ddd;
+    float: left;
+    color: #666;
+    text-align: center;
+    margin-right: 6px;
+    font-size: 14px;
+}
+
+.ui_menu>*.disable,
+.ui_menu>*.disable::before {
+    color: #ccc;
+    pointer-events: none;
+}
+
+.ui_menu>*:hover {
+    box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
+}
+
+.ui_menu>*:not(hr):hover:after {
+    content: '';
+    width: calc(100% - 5px);
+    height: calc(100% - 5px);
+    border: solid 1px rgba(161, 197, 247, 0.8);
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    border-radius: 3px;
+    background: rgba(161, 197, 247, 0.2);
+    background: linear-gradient(to bottom, rgba(161, 197, 247, 0.3) 1%, rgba(255, 255, 255, 0.3) 5%, rgba(161, 197, 247, 0.1) 50%, rgba(161, 197, 247, 0.3) 55%);
+}
+
+.ui_menu>hr {
+    height: 1px;
+    border: 0px;
+    margin: 0px;
+    margin-left: 30px;
+    background: #ddd;
+}
+
+
+
+/*刷新的菜单项*/
+
+.pagebox .ui_menu>menu_fresh:before {
+    content: '\e651';
+}
+
+.pagebox .ui_menu>menu_print:before {
+    content: '\a046';
+}
+
+
+/*关闭*/
+
+.pagebox .ui_menu>menu_close:before {
+    content: '\e606';
+}
+
+.pagebox .ui_menu>menu_min:before {
+    content: '\e600';
+}
+
+.pagebox .ui_menu>menu_max:before {
+    content: '\e6a6';
+}
+
+.pagebox .ui_menu>menu_win:before {
+    content: '\a012';
+}
+
+
+/*标题栏右上角按钮组*/
+
+.pagebox btnbox {
+    width: auto;
+    height: 18px;
+    top: 0px;
+    right: 0px;
+    position: absolute;
+    display: block;
+    z-index: 3;
+}
+
+.pagebox btnbox>* {
+    width: 30px;
+    height: 18px;
+    display: block;
+    float: left;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+    font-family: "webdesk_icon" !important;
+    cursor: pointer;
+}
+
+.pagebox btnbox>*:hover {
+    background-color: #eee;
+    box-shadow: rgb(255, 255, 255) 0px 0px 3px inset;
+}
+
+.pagebox btnbox>*:hover:after {
+    content: "";
+    width: 30px;
+    margin-left: 0px;
+    margin-top: 10px;
+    height: 100%;
+    display: block;
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    background-color: #eee;
+}
+
+.pagebox btnbox>*:first-child {}
+
+.pagebox btnbox>*:last-child {
+    border-top: none;
+}
+
+.pagebox btnbox>*::before {
+    position: absolute;
+    z-index: 3;
+    color: #333;
+    width: 30px;
+    display: block;
+    text-align: center;
+    height: 18px;
+    line-height: 18px;
+    cursor: pointer;
+}
+
+.pagebox btnbox btn_min {}
+
+.pagebox btnbox btn_min::before {
+    content: "\e600";
+    font-size: 16px;
+    line-height: 22px;
+    color: #999;
+}
+
+.pagebox btnbox btn_max::before {
+    content: "\e693";
+    font-size: 13px;
+    padding-top: 2px;
+    transform: scale(1.2, 1);
+}
+
+.pagebox_full btnbox btn_max::before {
+    content: "\e6c4";
+    padding-top: 1px;
+    font-size: 15px;
+}
+
+.pagebox btnbox btn_close {
+    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
+}
+
+.pagebox btnbox btn_close:hover {
+    background-color: rgb(228, 32, 32);
+    color: rgba(255, 255, 255, 1);
+}
+
+.pagebox btnbox btn_close::before {
+    content: "\e606";
+    display: block;
+    text-align: center;
+    height: 18px;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+.pagebox btnbox btn_close:hover::before {
+    color: rgba(255, 255, 255, 1);
+}
+
+.pagebox btnbox btn_close:hover::after {
+    display: none;
+}
+
+
+/*禁用按钮*/
+
+.pagebox btnbox>*.btndisable {
+    background: rgba(220, 220, 220, .4);
+    box-shadow: none;
+    pointer-events: none;
+}
+
+.pagebox btnbox>*.btndisable::before {
+    background: rgba(220, 220, 220, .3);
+    color: #333;
+    text-shadow: none;
+    cursor: default;
+}
+
+.pagebox btnbox>*.btndisable::after {
+    background: #eee;
+}
+
+.pagebox btnbox>*.btndisable:hover::after {
+    background-image: none;
+    background: none;
+}
+
+
+/*内容区*/
+
+.pagebox iframe {
+    width: calc(100% - 12px - 2px);
+    height: calc(100% - 28px - 6px - 2px);
+    bottom: 5px;
+    left: 6px;
+    position: absolute;
+    background-color: transparent;
+    z-index: 3;
+}
+
+
+/*遮罩*/
+
+.pagebox pagebox_mask {
+    position: absolute;
+    width: calc(100% - 8px - 2px);
+    height: calc(100% - 28px - 3px - 2px);
+    background-color: rgba(255, 255, 255, 0.01);
+    bottom: 4px;
+    left: 5px;
+    z-index: 4;
+    display: block;
+}
+
+
+/*正在拖动窗体时，显示遮罩*/
+
+.pagebox_drag pagebox_mask {
+    display: block !important;
+}
+
+.pagebox_focus pagebox_mask {
+    display: none;
+}
+
+
+/*窗体背景遮罩*/
+
+pagebox_bg_mask {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(255, 255, 255, .3);
+}
+body.pagebox_overflow, body.pagebox_overflow>*{
+    overflow: hidden !important;
+}
+
+/* 焦点窗体的样式 */
+
+.pagebox_focus {
+    background-color: rgba(255, 255, 255, 1);
+    box-shadow: 2px 2px 3px 3px rgba(180, 180, 180, 0.3), -2px -2px 3px 3px rgba(180, 180, 180, 0.3);
+}
+
+.pagebox_focus pagebox_title>* {
+    color: #333;
+}
+
+.pagebox_focus iframe {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+
+/*窗体最小化的管理区*/
+
+.pagebox-collect {
+    width: 45px;
+    height: 45px;
+    z-index: 999999;
+    color: #333;
+    cursor: pointer;
+    text-align: center;
+    text-shadow: 1px 2px 2px #ccc;
+    transition: transform 0.15s, color 0.15s;
+}
+
+
+/*当窗体最小化时，管理区的动画效果*/
+
+.pagebox-collect-action {
+    color: #666;
+    transform: scale(1.2, 1.2);
+}
+
+.pagebox-collect::after {
+    content: '\a01b';
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 100%;
+    font-family: "webdesk_icon" !important;
+    font-size: 40px;
+}
+
+pagebox-minarea {
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: rgba(238, 238, 238, .9);
+    border: solid 1px #ccc;
+    position: absolute;
+    z-index: 999999;
+    border-radius: 3px;
+    left: -1000px;
+    bottom: -5000px;
+    transition: opacity 0.3s, width 0.5s, height 0.5s;
+    box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
+    box-shadow: rgb(238, 238, 238) 0px 0px 8px inset;
+}
+
+
+/*最小化的窗体*/
+
+pagebox-min {
+    display: block;
+    width: 150px;
+    height: 30px;
+    user-select: none;
+    cursor: default;
+    background-color: rgba(161, 197, 247, 0.4);
+    box-shadow: 2px 2px 3px 1px rgba(200, 200, 200, 0.3), -2px -2px 3px 1px rgba(200, 200, 200, 0.3);
+    border-radius: 3px;
+    border: 1px solid rgba(62, 63, 63, 0.3);
+    overflow: hidden;
+    float: left;
+    position: relative;
+    margin: 8px 0px 0px 8px;
+    transition: opacity 0.3s;
+}
+
+pagebox-min:hover {
+    background-color: rgba(161, 197, 247, 0.8);
+    box-shadow: 2px 2px 3px 1px rgba(155, 155, 155, 0.3), -2px -2px 3px 1px rgba(155, 155, 155, 0.3);
+}
+
+pagebox-min pb-ico {
+    height: 30px;
+    width: auto;
+    max-width: 30px;
+    margin-left: 5px;
+    line-height: 30px;
+    font-size: 18px;
+    float: left;
+    font-family: "webdesk_icon" !important;
+    text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
+}
+
+pagebox-min pb-text {
+    height: 30px;
+    line-height: 30px;
+    width: calc(100% - 50px);
+    font-size: 14px;
+    overflow: hidden;
+    padding-right: 5px;
+    text-indent: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 1;
+    float: left;
+    cursor: default;
+    text-shadow: 0.2rem 0rem 1.2rem rgba(255, 255, 255, 1), -0.2rem 0rem 0.2rem rgba(255, 255, 255, 1), 0rem 0.2rem 1.2rem rgba(255, 255, 255, 1), 0rem -0.2rem 1.2rem rgba(255, 255, 255, 1);
+}
+
+pagebox-min btn_close {
+    background-color: rgb(245, 45, 45);
+    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    cursor: pointer;
+}
+
+pagebox-min btn_close.disable {
+    background-color: #999;
+    pointer-events: none;
+}
+
+pagebox-min btn_close:before {
+    content: "\e606";
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 15px;
+    border-radius: 0px 0px 4px 0px;
+    font-family: "webdesk_icon" !important;
+}
+
+
+/*窗口集中管理区的右键菜单*/
+
+pageboxcollect_contextmenu {
+    display: block;
+    z-index: 1000000;
+    background-color: rgba(238, 238, 238, 1);
+    border: 1px solid #999;
+    width: 140px;
+}
+
+pageboxcollect_contextmenu.ui_menu>menu_all_towindow:before {
+    content: '\a021';
+}
+
+pageboxcollect_contextmenu.ui_menu>menu_all_min:before {
+    content: '\a024';
+}
+
+pageboxcollect_contextmenu.ui_menu>menu_all_close:before {
+    content: '\e606';
+}

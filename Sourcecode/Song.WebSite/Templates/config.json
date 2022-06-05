@@ -1,0 +1,37 @@
+{
+  "root": "~/Templates/",
+  "istrim": false,
+  "iscache": false,
+  "items": [
+    {
+      "key": "web",
+      "value": "web",
+      "default": "NetSchool"
+    },
+    {
+      "key": "Mobi",
+      "value": "Mobi",
+      "default": "Default2019"
+    },
+    {
+      "key": "Admin",
+      "value": "Admin",
+      "default": "default"
+    },
+    {
+      "key": "Manage",
+      "value": "Manage",
+      "default": "default"
+    },
+    {
+      "key": "Pad",
+      "value": "Pad",
+      "default": "default"
+    },
+    {
+      "key": "TV",
+      "value": "TV",
+      "default": "default"
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+@charset "utf-8";
+body{
+	text-align:left;
+}
+/*没有成绩*/
+.noinfo{
+	text-align:center;
+	line-height:30px;
+	margin-top:30px;
+}
+.noinfo dl dt, .noinfo dl dd{
+	text-align:left;
+	margin:10px 10px 0px 30px;
+}
+.noinfo dl dt{
+}
+td, th {
+	text-align: center;
+	font-size: 12px;
+	line-height: 20px;
+}
+div, p, td, * {
+	line-height: 20px;
+}
+.pagerTitle {
+	font-size: 18px;
+	line-height: 25px;
+	color: #0066FF;
+	text-align: center;
+	margin-top: 10px;
+}
+.info {
+	font-size: 14px;
+	line-height: 20px;
+	color: #000000;
+	margin-left: auto;
+	width: 96%;
+	margin-right: auto;
+}
+.scoreinfo {
+	font-size: 14px;
+	line-height: 35px;
+	color: #000000;
+	margin-left: auto;
+	width: 96%;
+	margin-right: auto;
+}
+.scoreinfo .score {
+	font-size: 21px;
+	line-height: 35px;
+	font-weight: bold;
+	color: #FF0000;
+}
+.scoreinfo .total {
+	font-weight: bold;
+	color: #0066FF;
+}
+.scoreinfo .pass {
+	color: #FF3300;
+}
+#detailsTable {
+	margin-right: auto;
+	margin-left: auto;
+}
+#detailsTable th {
+	background-color: #CCCCCC;
+	border: 1px solid #FFF;
+}
+.sum td {
+	background-color: #FFFFCC;
+}
+/*试题详情*/
+#quesBox
+{
+	width: 96%;
+	margin-right: auto;
+	margin-left: auto;
+
+	margin-bottom: 30px;
+}
+.quesSelectBox {
+	margin-left: 15px;
+	margin-bottom: 20px;
+}
+.quesSelectBox p{
+	display:inline-block;
+}
+.quesSelectBox .item_False{
+	margin-top: 10px;
+	color: #333;
+}
+.quesSelectBox .item_True{
+	color: #000;
+	margin-top: 10px;
+	text-shadow:3px 1px 3px #999;
+}
+.quesSelectBox .item_True .order{
+	font-weight: bold;
+}
+#quesTitle {
+	font-size: 14px;
+	line-height: 30px;
+	font-weight: bold;
+	height: 60px;
+	margin-top: 15px;
+}
+.typeName {
+	font-size: 14px;
+	line-height: 30px;
+	height: 30px;
+	margin-top: 10px;
+	background-color: #FFFFCC;
+	text-indent: 20px;
+	font-weight: bold;
+}
+.qitemBox {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 10px;
+}
+
+.qusTitle {
+	line-height: 22px;
+	display: table;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+.qusTitle *{
+	font-size: 15px;
+	background-color: transparent !important;
+	word-wrap: break-word;
+    word-break: normal;
+}
+.qitemBox, .qitemBox *{
+	background-color:transparent !important;
+}
+.qitemBox, .qitemBox img{
+	max-width:100%;
+}
+/*正确答案的样式*/
+.sucessBox{
+	text-shadow:3px 1px 3px #999;
+}
+#quesBtnBox {
+	height: 35px;
+	width: 100%;
+}
+.btn {
+	float: left;
+	height: 25px;
+	width: 24%;
+	cursor:pointer;
+	text-align: center;
+	color: #0066CC;
+	font-size: 12px;
+}
+#btnAll {
+	color: #000000;
+}
+#btnSuccess {
+	color: #0099FF;
+}
+#btnError {
+	color: #FF0000;
+}
+#btnNoans {
+	color: #666666;
+}
+
+
+
+/*答题正确*/
+.ansState0 {
+	background-color: #e2f5ff;
+	border: 1px solid #B3E7FF;
+}
+/*答题错误*/
+.ansState1 {
+	background-color: #fde5e3;
+	border: 1px solid #E2C9C9;
+}
+
+/*没有答题*/
+.ansState2 {
+	background-color: #efefef;
+	border: 1px solid #dedede;
+}

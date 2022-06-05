@@ -1,0 +1,177 @@
+weisha_header_navi {
+    display: block;
+    width: 100%;
+    height: 124px;
+}
+
+weisha_header_navi * {
+    margin: 0px;
+    padding: 0px;
+}
+
+weisha_header_navi loading::before {
+    font-size: 10px;
+}
+
+weisha_header_navi header {
+    display: flex;
+    justify-content: space-between;
+    width: 1200px;
+    margin: 0px auto;
+    height: 70px;
+}
+
+weisha_header_navi header>* {
+    flex: 1;
+}
+
+weisha_header_navi #menubar {
+    width: 100vw;
+    height: 45px;
+    --padding: 0px calc((100vw - 1200px)/2);
+    background-color: transparent;
+    text-align: center;
+    overflow: hidden;
+    border-bottom-width: 4px;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: solid;
+    border-left-style: none;
+    border-bottom-color: transparent;
+    margin-top: 10px;
+}
+
+weisha_header_navi #menubar>* {
+    width: 1200px;
+    margin: 0px auto;
+    height: 100%;
+    line-height: 40px;
+    text-align: center;
+}
+
+weisha_header_navi drop-node {
+    overflow: hidden;
+}
+
+.dropmenu drop_roots drop-node:hover, .dropmenu drop_roots drop-node.hover {
+    background-color: rgba(200, 200, 200, 0.7) !important;
+    text-shadow: 1px 1px 2px #666;
+}
+
+drop-panel {
+    background-color: rgba(200, 200, 200, 0.7) !important;
+}
+
+
+
+weisha_header_navi drop-node span {
+    overflow: auto;
+    text-overflow: initial;
+}
+
+weisha_header_navi header img.logo {
+    height: calc(100% - 0px);
+    width: auto;
+    float: left;
+}
+
+weisha_header_navi header .deflogo {
+    margin: 15px 5px;
+}
+
+weisha_header_navi header right {
+    display: block;
+    position: relative;
+    height: 60px;
+    font-size: 14px;
+    flex-grow: 2;
+}
+
+userbar {
+    max-width: 120px;
+    height: 20px;
+    position: absolute;
+    right: 0px;
+    top: 15px;
+}
+
+userbar .el-dropdown-link {
+    font-size: 13px;
+    display: flex;
+}
+userbar .el-dropdown-link>*{
+    line-height: 28px;
+}
+userbar .acname{
+    min-width: 60px;
+    line-height: 25px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+    display: inline-block;
+    width: calc(100% - 60px);
+}
+userbar .noname {
+    color: #999;
+}
+
+userbar .el-dropdown-link img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 5px;
+    border: solid 1px #eee;
+}
+
+userbar .el-dropdown-link .el-icon--right {
+    margin: 0px;
+    font-size: 10px;
+    transition: 0.3s;
+}
+
+userbar .user-dropdown-show .el-icon--right {
+    transform: rotate(90deg);
+}
+
+.el-dropdown-menu {
+    text-align: left;
+}
+
+.el-dropdown-menu icon {
+    font-size: 16px;
+}
+
+/*搜索框*/
+
+weisha_header_navi header search {
+    width: 400px;
+    display: block;
+    height: 30px;
+    position: absolute;
+    left: calc((100% - 100px - 400px)/1.5);
+    top: 15px;
+    border-radius: 3px;
+    border: solid 2px #aaa;
+}
+
+weisha_header_navi header search icon {
+    height: 100%;
+    width: 60px;
+    float: right;
+    line-height: 30px;
+    font-size: 28px;
+    text-align: center;
+    background-color: #aaa;
+    color: #fff;
+    cursor: pointer;
+}
+
+weisha_header_navi header search input {
+    height: calc(100% - 30px);
+    width: calc(100% - 60px - 30px);
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+}
