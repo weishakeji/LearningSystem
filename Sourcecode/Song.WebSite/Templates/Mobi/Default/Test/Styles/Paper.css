@@ -74,6 +74,7 @@ score::after {
 	font-size: 18px;
 }
 score::before {	
+	font-family: "webdesk_icon" !important;
 	margin-right: 5px;
 	font-size: 14px;
 	line-height: 150%;

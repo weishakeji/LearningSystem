@@ -62,7 +62,7 @@
         </template>
         <context class="body">
             <aside v-show="!nullcourse">
-                <el-divider content-position="left">课程推荐</el-divider>
+                <el-divider content-position="left"><icon>&#xe81b</icon>课程推荐</el-divider>
                 <courses :sbjid="course ? course.Sbj_ID : 0" :org="organ" :couid="couid" :count="4">
                     <template slot="item" slot-scope="item">
                         <course :item="item.data" :class="{'fourth':(item.index+1)%4==0}"></course>

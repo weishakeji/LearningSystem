@@ -3,15 +3,115 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />   
+    <include file="../inc/meta.inc" />
     <title></title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
+        <page_header ref="header" :organ="organ" @login="acc=>account=acc"
+            @load="(o,c,p)=>{organ=o;config=c;platinfo=p;}">loading ...</page_header>
+        <context class="breadcrumb">
+            <el-breadcrumb separator-class="el-icon-arrow-right">
+                <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
+                <el-breadcrumb-item><a href="/web/Course">课程中心</a></el-breadcrumb-item>
+                <el-breadcrumb-item><a :href="'/web/course/detail.'+course.Cou_ID">《{{course.Cou_Name}}》</a>
+                </el-breadcrumb-item>
+                <el-breadcrumb-item>模拟测试</el-breadcrumb-item>
+            </el-breadcrumb>
+        </context>
+        <context id="testpaper" remark="试卷信息">
+            <img src="/Utilities/Images/alpha.png" v-if="paper && paper.Tp_Logo!=''"
+                :style="'background: url('+paper.Tp_Logo+')  center center / cover no-repeat;'">
+            <img src="/Utilities/Images/testpaper.jpg" v-else />
 
-        <aside_menu ref='aside_menu' :account="account"></aside_menu>
-        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+
+            <div class="headRight">
+                <span class="name">
+                    {{paper.Tp_Name}}
+                </span>
+                <div class="headinfo" id="info">
+                    <div class="row">
+                        题 量：{{paper.Tp_Count}} 道
+                    </div>
+                    <div class="row">
+                        总 分：{{paper.Tp_Total}} 分 / {{paper.Tp_PassScore}}分及格
+                    </div>
+                    <div class="row">
+                        限 时：{{paper.Tp_Span}} 分钟
+                    </div>
+                    <div class="row">
+                        类型： <template v-if="paper.Tp_Type==1">
+                            固定试题
+                        </template>
+                        <template v-if="paper.Tp_Type==2" remark="随机试题">
+                            随机试题
+                            <el-tag type="success" v-if="paper.Tp_FromType==0">
+                                <icon>&#xe813</icon>按课程
+                            </el-tag>
+                            <el-tag type="warning" v-else>
+                                <icon>&#xe841</icon>按章节
+                            </el-tag>
+                        </template>
+                    </div>
+
+                </div>
+                <div class="headinfo">
+                    <el-divider></el-divider>
+                    <div class="row">
+                        课 程：{{course.Cou_Name}}
+                    </div>
+                    <div class="row">
+                        专 业：{{paper.Sbj_Name}}
+                    </div>
+                </div>
+                <div class="btnBox">
+                    <a href="url('study')">
+                        <icon>&#xe810</icon>参加测试
+                    </a>
+                </div>
+            </div>
+        </context>
+        <context class="body">
+            <aside>
+                <el-divider content-position="left">
+                    <icon>&#xe81b</icon>课程推荐
+                </el-divider>
+                <courses :sbjid="course ? course.Sbj_ID : 0" :org="organ" :couid="course.Cou_ID" :count="3">
+                    <template slot="item" slot-scope="item">
+                        <course :item="item.data" :class="{'fourth':(item.index+1)%4==0}"></course>
+                    </template>
+                </courses>
+            </aside>
+            <section>
+                <el-divider content-position="left">
+                    <icon>&#xe816</icon>成绩回顾
+                </el-divider>
+                <div v-if="!islogin">
+                    未登录，无法查看成绩
+                </div>
+                <template v-else-if="results.length>0">
+                    <div v-for="(item,i) in results" class="result">
+                        <span class="index">{{i+1}}.</span>
+                        <span class="score">{{item.Tr_Score}}分
+                            <score :class="scoreStyle(item.Tr_Score)"></score>
+                        </span>
+                        <span class="time">{{item.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span>
+                        <el-tag class="review">成绩回顾</el-tag>
+                    </div>
+                    <div id="pager-box">
+                        <el-pagination v-on:current-change="getresults" :current-page="query.index" :page-sizes="[1]"
+                            :page-size="query.size" :pager-count="12" layout="total, prev, pager, next, jumper"
+                            :total="total">
+                        </el-pagination>
+                    </div>
+                </template>
+                <div v-else>
+                    没有测试成绩
+                </div>
+            </section>
+        </context>
+        <page_footer :organ="organ" :account="account">loading ...</page_footer>
     </div>
 
 

@@ -1,9 +1,213 @@
 ﻿@charset "utf-8";
-html, body, #vapp {
-	width: 100%;
-	height: 100%;
-	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
+
+context.breadcrumb>* {
+	margin: 30px 15px;
+}
+
+/*试卷区域*/
+context#testpaper {
+	height: 337px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	display: flex;
+}
+
+#testpaper>img:first-child {
+	width: 600px;
+	margin: 0px 40px 0px 15px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 6px #ccc, -1px -1px 4px #ccc;
+}
+
+#testpaper .headRight {
+	flex: 1;
 	position: relative;
+}
+
+#testpaper .name {
+	font-size: 30px;
+	line-height: 50px;
+	font-weight: bolder;
+	color: #000000;
+	display: table;
+	margin-bottom: 10px;
+}
+
+.headinfo .row {
+	line-height: 30px;
+}
+
+#info.headinfo {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+#info.headinfo>div {
+	width: 50%;
+	box-sizing: border-box;
+	padding: 5px 0px;
+}
+
+/*课程学习的按钮*/
+.btnBox {
+	height: 50px;
+	width: 100%;
+	position: absolute;
+	bottom: 0;
+	display: flex;
+}
+
+.btnBox a {
+	display: block;
+	box-sizing: border-box;
+	padding: 25px 40px;
+	background-color: #58b927;
+	margin-right: 15px;
+	font-size: 22px;
+	height: 50px;
+	color: #FFFFFF;
+	line-height: 0px;
+	text-decoration: none;
+	transition: all 0.5s;
+	border-radius: 3px;
+	letter-spacing: 5px;
+	background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+}
+
+.btnBox a:hover {
+	transform: scale(1.05);
+}
+
+.btnBox a.finaltest {
+	background-color: #409EFF !important;
+	font-weight: normal;
+}
+
+/*内容区*/
+context.body {
+	margin-top: 60px;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: stretch;
+}
+
+context.body>section {
+	flex: 1;
+	padding-left: 20px;
+	box-sizing: border-box;
+	margin-left: 60px;
+	position: relative;
+}
+
+context.body>aside {
+	width: 260px;
+	margin-left: 20px;
+	min-height: 500px;
+}
+
+context.body .el-divider {
+	color: #999 !important;
+	margin-top: 38px;
+
+}
+
+.el-divider__text {
+	color: #999 !important;
+}
+
+#pager-box {
+	position: absolute;
+	bottom: 30px;
+
+}
+
+/*成绩项*/
+.result {
+	box-sizing: border-box;
+	padding: 15px 15px;
+	font-size: 16px;
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+}
+
+.result .index {
+	margin-right: 30px;
+}
+
+.result .score {
+	width: 180px;
+	font-size: 18px;
+}
+
+/*得分样式*/
+
+score {
+	font-size: 16px;
+	line-height: 20px;
+	margin-left: 10px;
+}
+
+score::after {
+	font-family: "webdesk_icon" !important;
+	margin-left: 5px;
+	font-size: 18px;
+}
+
+score::before {
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+score.nopass::after {
+	content: '\e774';
+	color: #ff0000;
+}
+
+/*文字提示*/
+score.nopass::before {
+	content: '不及格';
+	color: #ff0000;
+}
+
+score.general::before {
+	content: '\e829';
+}
+
+score.fine::before {
+	content: '\e826';
+	color: #07c160;
+}
+
+score.praise::before {
+	content: '\e855';
+	font-size: 20px;
+	color: chocolate;
+}
+
+
+
+/*测试时间*/
+
+.time {
+	font-size: 14px;
+	line-height: 150%;
+	text-align: right;
+	float: right;
+	flex: 1;
+}
+
+.time::before {
+	content: '\e81a';
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	font-size: 16px;
+}
+
+.review {
+	margin: 0px 10px 0px 20px;
+	cursor: pointer;
 }

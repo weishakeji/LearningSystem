@@ -3,38 +3,27 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
+            id: $api.dot(),      //试卷id
             account: {},     //当前登录账号
+
             platinfo: {},
             organ: {},
-            config: {},      //当前机构配置项        
-            datas: {},
-            loading_init: true
+            config: {},      //当前机构配置项      
+
+            paper: {},      //试卷对象
+            course: {},          //课程对象
+            results: [],
+            query: {
+                'stid': -1, 'tpid': $api.dot(), 'size': 12, 'index': 1
+            },
+            total: 1, //总记录数
+            totalpages: 1, //总页数
+
+            loading: true,
+            loading_result: true //加载成绩的预载
         },
         mounted: function () {
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo:60'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                vapp.loading_init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-            })).catch(function (err) {
-                console.error(err);
-            });
+            console.log(this.organ);
         },
         created: function () {
 
@@ -46,9 +35,99 @@ $ready(function () {
             }
         },
         watch: {
+            'organ': {
+                handler: function (nv, ov) {
+                    console.log(nv);
+                },
+                immediate: true
+            },
+            'account': {
+                handler: function (nv, ov) {
+                    if (nv) {
+                        this.query.stid = nv.Ac_ID;
+                        this.getresults(1);
+                    }
+                },
+                immediate: true
+            },
+            'id': {
+                handler: function (nv, ov) {
+                    this.gettestpaper();
+                },
+                immediate: true
+            },
         },
         methods: {
+            //获取试卷
+            gettestpaper: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('TestPaper/ForID', { 'id': th.id }).then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        th.paper = req.data.result;
+                        document.title = th.paper.Tp_Name;
+                        th.getcourse(th.paper.Cou_ID);
+
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading = false;
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            },
+            //获取课程
+            getcourse: function (couid) {
+                var th = this;
+                $api.get('Course/ForID', { 'id': couid }).then(function (req) {
+                    if (req.data.success) {
+                        th.course = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            },
+            //获取成绩
+            getresults: function (index) {
+                if (index != null) this.query.index = index;
+                var th = this;
+                th.loading_result = true;
+                $api.get('TestPaper/ResultsPager', th.query).then(function (req) {
+                    th.loading_result = false;
+                    if (req.data.success) {
+                        th.total = req.data.total;
+                        th.results = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+
+                }).catch(function (err) {
+                    th.loading_result = false;
+                    th.error = err;
+                    console.error(err);
+                });
+            },
+            //得分样式
+            scoreStyle: function (score) {
+                //总分和及格分
+                var total = this.paper.Tp_Total;
+                var passscore = this.paper.Tp_PassScore;
+                if (score == total) return "praise";
+                if (score < passscore) return "nopass";
+                if (score < total * 0.8) return "general";
+                if (score >= total * 0.8) return "fine";
+                return "";
+            }
         }
     });
 
-});
+}, ["../Components/courses.js"]);
