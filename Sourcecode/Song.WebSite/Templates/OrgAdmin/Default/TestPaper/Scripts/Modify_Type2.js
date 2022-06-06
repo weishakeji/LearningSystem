@@ -35,7 +35,7 @@ $ready(function () {
 
             entity: {
                 Tp_Id: 0,        //主键
-                Tp_Type: 0,
+                Tp_Type: 2,
                 Tp_Total: 100,
                 Tp_Diff: 2,
                 Tp_Diff2: 4,
@@ -191,7 +191,7 @@ $ready(function () {
             sbjChange: function (sbjid, sbjs) {
                 var th = this;
                 var orgid = th.organ.Org_ID;
-                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '','search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
+                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
                     if (req.data.success) {
                         th.courses = req.data.result;
                     } else {
@@ -210,7 +210,7 @@ $ready(function () {
                 var orgid = th.organ.Org_ID;
                 var sbjid = 0;
                 if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
-                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '','search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
+                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
                     if (req.data.success) {
                         th.courses = req.data.result;
                     } else {
@@ -228,6 +228,7 @@ $ready(function () {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.entity.Tp_FromConfig = th.buildFromConfig();
+                        th.entity.Tp_Type = 2;    //试卷类型为随时抽题
                         th.loading = true;
                         var apipath = 'TestPaper/' + (th.edit ? 'Modify' : 'add');
                         //接口参数，如果有上传文件，则增加file
@@ -243,8 +244,8 @@ $ready(function () {
                                     center: true
                                 });
                                 window.setTimeout(function () {
-                                   
-                                }, 600);
+                                    th.operateSuccess();
+                                }, 300);
                             } else {
                                 throw req.data.message;
                             }
@@ -278,7 +279,14 @@ $ready(function () {
             fileremove: function () {
                 this.upfile = null;
                 this.entity.Tp_Logo = '';
-            },            
+            },
+            //操作成功
+            operateSuccess: function () {
+                //如果处于课程编辑页，则刷新
+                var pagebox = window.top.$pagebox;
+                if (pagebox && pagebox.source.box)
+                    pagebox.source.box(window.name, 'vapp.fresh_frame', true);
+            }
         }
     });
 

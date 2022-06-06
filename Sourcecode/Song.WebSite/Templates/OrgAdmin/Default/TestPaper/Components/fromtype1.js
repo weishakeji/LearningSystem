@@ -105,7 +105,7 @@ Vue.component('fromtype1', {
                     }
                     arr.push(obj);
                 }
-                console.error(arr);
+                //console.error(arr);
                 this.percents = arr;
             }
             else {

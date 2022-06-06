@@ -41,14 +41,17 @@ $ready(function () {
             gourl: function () {
                 var entity = this.entity;
                 var type = entity == null ? 2 : entity.Tp_Type;
+                type = type <= 1 ? 1 : type;
+                //类型默认是随时抽题，即2
+                type = 2;
                 var url = "Modify_Type" + type + ".html";
                 if (entity == null) {
                     var couid = $api.querystring('couid');
                     if (couid != '')
                         url = $api.url.set(url, 'couid', couid);
-                     window.location.href = url;
+                    window.location.href = url;
                 } else {
-                    url = $api.url.set(url, 'id', entity.Tp_Id);                    
+                    url = $api.url.set(url, 'id', entity.Tp_Id);
                     window.location.href = url;
                 }
 
