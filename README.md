@@ -28,6 +28,12 @@
 * 分享、分润、分销
    > 学员分享，多级裂变，运营、推广不再难
 
+## 初始账号：
+学员账号： tester 密码1
+机构管理员： /orgadmin 账号song 密码1
+超级管理员： /manage  账号admin 密码1
+
+
 ## 开发环境：
 * 采用C#；基于.Net 4.6 <a href="https://www.microsoft.com/zh-CN/download/details.aspx?id=53344" target="_blank" size=12>[下载]</a>
 * 数据库采用Sqlserver2008或更高版本
