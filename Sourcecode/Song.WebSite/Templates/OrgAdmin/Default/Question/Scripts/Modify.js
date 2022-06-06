@@ -46,7 +46,7 @@ $ready(function () {
 
         },
         methods: {
-            //获取文章信息
+            //获取试题
             getEntity: function () {
                 var th = this;
                 if (th.id == '') return;

@@ -17,7 +17,7 @@
                 <course_name :course="course" @save="savename"></course_name>
                 <el-tabs type="card" tab-position="top" v-model="tabName" class="course_tabs noselect">
                     <el-tab-pane v-for="item in tabs" :name="item.tab">
-                        <div slot="label" @dblclick="doubletab(item)">
+                        <div slot="label" @dblclick="doubletab(item.tab)">
                             <icon v-html="item.icon"></icon>{{item.name}}
                         </div>
                     </el-tab-pane>

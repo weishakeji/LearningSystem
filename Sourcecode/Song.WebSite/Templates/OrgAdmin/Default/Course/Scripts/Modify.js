@@ -78,7 +78,7 @@
             },
             //双击选项卡，刷新对应的Iframe
             doubletab: function (item) {
-                var iframe = $dom('iframe#' + item.tab);
+                var iframe = $dom('iframe#' + item);
                 if (iframe.length < 1) return;
                 var src = iframe.attr('src');
                 src = $api.url.set(src, 'time', new Date().getTime());
@@ -104,6 +104,11 @@
                         winname = winname.substring(0, winname.lastIndexOf('['));
                     window.top.vapp.fresh(winname, func);
                 }
+            },
+            //刷新选项卡的frame页
+            fresh_frame: function () {
+                console.log('刷新fresh_frame:' + this.tabName);
+                this.doubletab(this.tabName);
             }
         }
     });
