@@ -1,5 +1,10 @@
-﻿
+﻿$dom.load.css([$dom.path() + 'Components/Styles/page_header.css']);
 //顶部导航
+//事件：
+//login:当学员登录
+//teacher：当教师登录
+//search: 搜索
+//load: 加载成功，三个参数，机构、机构参数、平台参数
 Vue.component('page_header', {
     props: ["organ"],
     data: function () {
@@ -13,6 +18,10 @@ Vue.component('page_header', {
             loading_login: true,        //请求登录中
             account: {},        //当前登录的学员账号
             teacher: {},         //当前登录的教师账号
+            //平台信息
+            platinfo: {},           //平台信息
+            config: {},             //当前机构的配置项
+            organization: {},        //当前机构
 
             visible_userdrop: false,     //用户登录后的菜单面板的显示与隐藏
 
@@ -71,8 +80,33 @@ Vue.component('page_header', {
         }
     },
     mounted: function () {
-        $dom.load.css([$dom.path() + 'Components/Styles/page_header.css']);
         var th = this;
+        th.loading = true;
+        $api.bat(
+            $api.cache('Platform/PlatInfo:60'),
+            $api.get('Organization/Current')
+        ).then(axios.spread(function (platinfo, organ) {
+            th.loading = false;
+            //判断结果是否正常
+            for (var i = 0; i < arguments.length; i++) {
+                if (arguments[i].status != 200)
+                    console.error(arguments[i]);
+                var data = arguments[i].data;
+                if (!data.success && data.exception != null) {
+                    console.error(data.message);
+                }
+            }
+            //获取结果             
+            th.platinfo = platinfo.data.result;
+            th.organ = organ.data.result;
+            //机构配置信息
+            th.config = $api.organ(th.organ).config;
+            //加载成功的事件
+            th.$emit('load', th.organ, th.config, th.platinfo);
+        })).catch(function (err) {
+            th.loading = false;
+            console.error(err);
+        });
         //学员登录
         th.loading_login = true;
         $api.login.account().then(function (acc) {
@@ -174,7 +208,8 @@ Vue.component('page_header', {
     },
     // 同样也可以在 vm 实例中像 "this.message" 这样使用
     template: `<weisha_header_navi>
-        <header v-if="organ && JSON.stringify(organ) != '{}'">
+        <header v-if="loading"> <loading>... </loading></header>
+        <header v-else-if="organ && JSON.stringify(organ) != '{}'">
             <a href="/"><img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />
             <img :src="path+'Images/def_logo.gif'" style="height: 32px;" class="logo deflogo" v-else />
             </a>
