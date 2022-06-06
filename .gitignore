@@ -48,6 +48,6 @@ packages/
 !/Sourcecode/Song.WebSite/upload/copyright.xml
 !/Sourcecode/Song.WebSite/upload/readme.html
 !copyright.xml
-/Sourcecode/Song.WebSite/Templates/Teacher/Default/*.code-workspace
+
 /Sourcecode/Song.WebSite/logs
 /Sourcecode/Song.WebSite/logs_viewdata
