@@ -18,10 +18,20 @@
     box-sizing: border-box;
     padding: 0px 5px;
 }
-.exam_test .exam_btns button{
+.exam_test .exam_btns a{
     flex: 1;
     text-align: left;
+    font-size: 13px;
+    cursor: pointer;
+    line-height: 30px;
 }
-.exam_test .exam_btns button:last-child{
-    text-align: right;
+.exam_test .exam_btns a:last-child{
+    text-align: center;
+}
+.exam_test .exam_btns a[disabled]{
+    color: #999;
+    cursor: default;
+}
+.exam_test .exam_btns a[disabled]:hover{
+    text-decoration: none;
 }

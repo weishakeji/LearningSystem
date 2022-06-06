@@ -26,7 +26,7 @@ $ready(function () {
             loading: false,       //加载状态
             loading_init: false,
 
-            activeName: 'guide',
+      
             guide: {},                   //当前要显示的通知公告
         },
         watch: {
@@ -217,7 +217,7 @@ $ready(function () {
                     { name: '交流咨询', tab: 'message', icon: '&#xe817', size: 22, show: false, evt: null },
                     { name: '测试/考试', tab: 'test', icon: '&#xe810', size: 21, show: true, evt: null },
                 ],
-                activeName: 'test',
+                activeName: $api.querystring('tab','intro'),
                 curr_menus: {},  //当前点击的按钮项
                 outline: {},     //当前点击的章节
                 loading: false

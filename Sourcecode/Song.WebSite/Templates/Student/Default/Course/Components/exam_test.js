@@ -52,14 +52,27 @@ Vue.component('exam_test', {
                     console.error(err);
                 });
         },
+        //跳转的地址
+        //isgo:是否跳
+        gourl: function (isgo) {
+            if (!isgo) return "#";
+            var url = '/web/course/detail';
+            url = $api.url.dot(this.course.Cou_ID, url);
+            url = $api.url.set(url, { 'tab': 'test' });
+            return url;
+        }
     },
     template: `<div class="exam_test">
         <div><span><icon>&#xe810</icon>测试/考试</span>           
         </div>
         <div class="exam_btns">
-            <el-button type="text" :disabled="datas.length<1" :style="{'color':datas.length>0 ? '#67C23A' : ''}"><icon>&#xe72f</icon>模拟测试
-            <span>({{datas.length}})</span></el-button>
-            <el-button type="text" :disabled="!final"><icon>&#xe816</icon>结课考试</el-button>
+            <a :href="gourl(datas.length>0)" :target="datas.length>0 ? '_blank' : ''" :disabled="datas.length<1" 
+             :style="{'color':datas.length>0 ? '#67C23A' : ''}">
+                <icon>&#xe72f</icon>模拟测试
+                <span>({{datas.length}})</span>
+            </a>
+            <a :href="gourl(final)" target="_blank" 
+             :style="{'color':final ? '#409EFF' : ''}"  :target="final ? '_blank' : ''" :disabled="!final"><icon>&#xe816</icon>结课考试</a>
         </div>
     </div>`
 });
