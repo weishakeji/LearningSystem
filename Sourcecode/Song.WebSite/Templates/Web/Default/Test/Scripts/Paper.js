@@ -126,8 +126,31 @@ $ready(function () {
                 if (score < total * 0.8) return "general";
                 if (score >= total * 0.8) return "fine";
                 return "";
+            },
+            //参加测试的按钮
+            btn_test: function () {
+
+            },
+            //成绩回顾
+            btnReview: function (item) {
+                var url = '';
+                var obj =
+                {
+                    'url': url, 'ico': 'e6ef',
+                    'pid': window.name,
+                    'title': item.Tp_Name,
+                    'width': '80%',
+                    'height': '80%'
+                }
+
+                obj['showmask'] = true; //始终显示遮罩
+                obj['min'] = false;
+
+                var box = $pagebox.create(obj).open();
             }
         }
     });
 
-}, ["../Components/courses.js"]);
+}, ["../Components/courses.js",
+    '../scripts/pagebox.js']);
+    $dom.load.css([$dom.path() + 'styles/pagebox.css']);

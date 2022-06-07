@@ -78,7 +78,7 @@ context#testpaper {
 	transform: scale(1.05);
 }
 
-.btnBox a.finaltest {
+.btnBox a.btn_final {
 	background-color: #409EFF !important;
 	font-weight: normal;
 }

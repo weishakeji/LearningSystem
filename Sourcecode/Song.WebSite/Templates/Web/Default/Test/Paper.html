@@ -66,8 +66,11 @@
                     </div>
                 </div>
                 <div class="btnBox">
-                    <a href="url('study')">
+                    <a @click="btn_test" href="url('study')" v-if="!paper.Tp_IsFinal" class="btn_test">
                         <icon>&#xe810</icon>参加测试
+                    </a>
+                    <a href="url('study')" v-else class="btn_final">
+                        <icon style="font-size: 28px;">&#xe829</icon>结课考试
                     </a>
                 </div>
             </div>
@@ -97,7 +100,7 @@
                             <score :class="scoreStyle(item.Tr_Score)"></score>
                         </span>
                         <span class="time">{{item.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span>
-                        <el-tag class="review">成绩回顾</el-tag>
+                        <el-tag class="review" @click="btnReview(item)">成绩回顾</el-tag>
                     </div>
                     <div id="pager-box">
                         <el-pagination v-on:current-change="getresults" :current-page="query.index" :page-sizes="[1]"
