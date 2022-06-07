@@ -58,7 +58,7 @@
           rgba(255, 255, 255, 0.2) 50%,
           rgba(255, 255, 255, 0.2) 75%,
           transparent 75%,
-          transparent);     
+          transparent);
       background-repeat: no-repeat;
     }
 
@@ -67,7 +67,7 @@
       /*滚动条里面轨道*/
       -webkit-box-shadow: inset 0 0 3px rgba(133, 131, 131, 0.2);
       border-radius: 3px;
-      background: #EDEDED;   
+      background: #EDEDED;
       background-repeat: no-repeat;
       background-position: bottom;
     }
@@ -144,11 +144,14 @@
       line-height: 40px;
       height: 40px;
       width: calc(100% + 12px);
-      background-color: #fff;
+      background-color: #d5e8fc!important;
       z-index: -1;
       border-radius: 0px 3px 0px 0px;
       box-shadow: 2px 2px 2px 2px rgba(180, 180, 180, 0.3), -0px -0px 2px 2px rgba(180, 180, 180, 0.3);
       background: linear-gradient(to right bottom, #eee 0%, #ffffff 100%);
+      
+    background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+
     }
 
     .menubox a.curr::after {
@@ -306,7 +309,7 @@
         <div class="tit"> 系统简述</div>
         <div class="txt">
           <p>
-            微厦在线学习云服务平台是一款基于B/S架构的在线教育系统，系统将在线学习、在线练习、在线考试紧密相联，打造&ldquo;<strong>学、练、考</strong>&rdquo;于一体的在线教育系统，能够利用电脑、手机、微信等多种设备进行学习，方便学员利用碎片化时间进行随时随地的学习。
+            "微厦在线学习云服务平台"是一款基于B/S架构的在线教育系统，系统将在线学习、在线练习、在线考试紧密相联，打造&ldquo;<strong>学、练、考</strong>&rdquo;于一体的在线教育系统，能够利用电脑、手机、微信等多种设备进行学习，方便学员利用碎片化时间进行随时随地的学习。
           </p>
           <p>适用类别：个人、单位、老师、大学、教育机构</p>
           <p>适用行业：企业培训、教育机构、高等教育、基础教育 </p>
@@ -331,7 +334,7 @@
           <p>1、系统部署文件是“部署文件yyyy-mm-dd.rar”；</p>
           <p> 2、upload.rar是系统中的upload文件夹，是用来存放用户上传资料、图片等信息的
             有些朋友在部署后反映没有图片（例如课程图片不显示），都是因为“程序发布.rar”中只是程序， 没有图片信息。</p>
-          <p> 3、Sqlscript.sql是当前系统的数据库脚本；</p>
+          <p> 3、script.sql是当前系统的数据库脚本；</p>
           <p> 4、升级脚本文件夹中，是之前版本升到当前版时，所需要执行的数据库脚本。 如果是第一次安装，则不需要，因为script.sql是最新数据库脚本。</p>
           <p> 5、可以由云盘下载最新版本
             地址：<a href="http://pan.baidu.com/s/1bppzM15" target="_blank">http://pan.baidu.com/s/1bppzM15</a></p>
@@ -421,15 +424,13 @@
         <div class="txt">
           <p>A、部署成功后图片无法显示。 <br>
             答：在程序发布的压缩包，没有把upload打包进去，upload文件夹是用户上传的资料。
-            之所以部署后看不到图片，是用户上传的图片看不到，其它图片应该还是可以看到的。 如果所有图片都不正确，应该是路径问题，建议把系统部署到独立站点下，不要作为其它站点的应用程序文件夹。 </p>
-          <p>B、课程视频无法播放 <br>
-            答：当前系统中课程仅支持flv格式，在IIS需设置。以IIS6中为例，打开站点属性，选择“HTTP头”选项卡，设置MIME类型，在MIME类型中添加.flv格式文件。 </p>
-          <p>C、问题描述：IIS 7 HTTP 错误 500.19 - Internal Server Error<br>
+            之所以部署后看不到图片，是用户上传的图片看不到，其它图片应该还是可以看到的。 如果所有图片都不正确，应该是路径问题，建议把系统部署到独立站点下，不要作为其它站点的应用程序文件夹。 </p>          
+          <p>B、问题描述：IIS 7 HTTP 错误 500.19 - Internal Server Error<br>
             错误场景：在windows server 2008 r2中的IIS部署站点时碰到该问题。<br>
             解决方法：选择当前站点的应用程序池，选“高级设值”，在“启用32位应用程序”中设置为“False”。<br>
             其实默认就是False，在其它版本的IIS7中，此处需设置为true才正常。<br>
           </p>
-          <p>D、问题描述：上传文件大于30M时，报Http 404错误。<br>
+          <p>C、问题描述：上传文件大于30M时，报Http 404错误。<br>
             具体步骤：<br>
             1、打开IIS管理器，找到Default Web Site。先进行停止。<br>
             2、在IIS中双击“请求筛选”打开。<br>
@@ -438,7 +439,7 @@
             4、启动IIS.<br>
             这样大文件的上传就解决了<br>
           </p>
-          <p>E、问题描述：64位操作系统下，不能运行。<br>
+          <p>D、问题描述：64位操作系统下，不能运行。<br>
             IIS7 很简单，在网站对应的应用程序池上右键高级设置，常规 里的 启用32位应用程序 改为 true 就可以了。<br>
             IIS6暂没有找到合适方法解决，建议升级系统。</p>
         </div>
@@ -447,12 +448,10 @@
       <div class="item">
         <div class="tit"> 演示地址</div>
         <div class="txt">
-          <p>演示地址：<a href="http://exam.weisha100.cn/" target="_blank">http://exam.weisha100.cn/</a></p>
-          <p> 测试账号：13223040250 密码 1</p>
-          <p>机构管理账号：song密码1</p>
-          <p><strong>超级管理员</strong></p>
-          <p> 登录地址 /manage/index.aspx</p>
-          <p> 账号 admin 密码 1</p>
+          <p>演示地址：<a href="http://22.weisha100.net/" target="_blank">http://22.weisha100.net/</a></p>
+          <p> 测试账号：学员tester 密码 1</p>
+          <p>机构管理：~/orgadmin  账号song密码1</p>        
+          <p>超级管理员： ~/manage 账号 admin 密码 1</p>
           <p>（说明：机构管理员与超级管理员的区别）</p>
           <p>该系统是一款基于多机构的在线教育云服务平台，每一个机构都相当于一个独立的网校系统，拥有不同的域名、界面风格、功能权限等等，由超级管理员进行全方位管理。
 
@@ -481,9 +480,7 @@
     <h1>"学、练、考"一体</h1>
     <div title="“学、练、考”一体">录播、直播、试题、考试、学习证明打印</div>
     <h1>自带“分享、分润、分销”</h1>
-    <div>学员分销 、多级裂变、课程代理</div>
-    <h1>多种风格自由切换</h1>
-    <div>网校版、学院版、商务版、政务版</div>
+    <div>学员分销 、多级裂变、课程代理</div>  
     <h1>电脑、手机、微信，全支持</h1>
     <div>手机APP、微信小程序、电脑客户端</div>
     <h1>私有化部署，永久授权</h1>
