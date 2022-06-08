@@ -133,7 +133,12 @@ $ready(function () {
             },
             //成绩回顾
             btnReview: function (item) {
-                var url = '';
+                var url = 'Review?tr=121&tp=56&couid=132';
+                url = $api.url.set(url, {
+                    'tr': item.Tr_ID,
+                    'tp': this.paper.Tp_Id,
+                    'couid': this.course.Cou_ID
+                });
                 var obj =
                 {
                     'url': url, 'ico': 'e6ef',
@@ -153,4 +158,4 @@ $ready(function () {
 
 }, ["../Components/courses.js",
     '../scripts/pagebox.js']);
-    $dom.load.css([$dom.path() + 'styles/pagebox.css']);
+$dom.load.css([$dom.path() + 'styles/pagebox.css']);

@@ -1,0 +1,482 @@
+﻿@charset "utf-8";
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: relative;
+}
+
+/*不能考试的区域*/
+
+.context {
+	height: calc(100%);
+	background-color: #f2f2f2;
+	font-size: 14px;
+	width: 100%;
+	z-index: 4;
+	position: relative;
+	transition: left 0.5s;
+	overflow-y: auto;
+}
+
+/*未登录*/
+
+.acc_photo {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 20px;
+	float: left;
+	background-size: cover;
+	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+	transition: all 0.2s;
+}
+
+.nophoto {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+/*没有内容的图标*/
+
+.null_icon::before {
+	font-size: 65px;
+	display: block;
+	color: #999;
+}
+
+.null_icon {
+	padding: 10px;
+	text-align: center;
+}
+
+.time_icon::before {
+	font-size: 85px;
+	position: absolute;
+	display: block;
+	left: 0px;
+	top: 50px;
+	color: #999;
+	height: 80px;
+}
+
+.time_icon {
+	position: relative;
+	padding: 20px 20px 20px 100px;
+	line-height: 30px;
+	font-size: 16px;
+}
+
+/*头部*/
+
+header {
+	height: 44px;
+	background-color: rgb(212, 224, 206);
+	font-size: 14px;
+	position: fixed;
+	width: 100%;
+	top: 0px;
+	z-index: 2;
+}
+
+header .weisha_icon::before {
+	font-size: 22px;
+	line-height: 45px;
+}
+
+header>div:first-child {
+	width: 44px;
+	height: 44px;
+	line-height: 45px;
+	text-align: center;
+	float: left;
+}
+
+header>div:last-child {
+	width: 80px;
+	height: 44px;
+	line-height: 45px;
+	text-align: center;
+	float: right;
+	font-size: 15px;
+}
+
+header>div:last-child::before {
+	font-size: 18px;
+}
+
+header>div.title {
+	float: left;
+	width: calc(100% - 44px - 80px);
+	line-height: 45px;
+	font-size: 16px;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/*页面底部*/
+
+footer {
+	height: 44px;
+	background-color: rgb(212, 224, 206);
+	font-size: 14px;
+	position: fixed;
+	width: 100%;
+	bottom: 0px;
+	z-index: 3;
+}
+
+footer>div {
+	float: left;
+	font-size: 16px;
+	text-align: center;
+	height: 100%;
+}
+
+footer>div, footer>div * {
+	line-height: 44px;
+}
+
+footer>div::before {
+	font-size: 22px;
+}
+
+footer div#btnCard {
+	height: 100%;
+	line-height: 100%;
+	width: 40%;
+}
+
+footer div#btnSubmit {
+	width: 60%;
+	background-color: #009900;
+	color: #fff;
+}
+
+footer div#btnSubmit::before {
+	font-size: 20px;
+	margin-right: 15px;
+}
+
+attended {
+	display: block;
+	height: calc(100% - 88px);
+	background-color: #f2f2f2;
+	position: fixed;
+	width: 100%;
+	top: 44px;
+	left: 0px;
+	z-index: 4;
+	position: relative;
+	transition: left 0.5s;
+}
+
+/*试题区*/
+
+section {
+	height: calc(100% - 88px);
+	background-color: #f2f2f2;
+	font-size: 14px;
+	position: fixed;
+	width: 100%;
+	top: 44px;
+	left: 0px;
+	z-index: 4;
+	position: relative;
+	transition: left 0.5s;
+}
+
+section dl, section dd {
+	margin: 0px;
+	padding: 0px;
+	height: 100%;
+	float: left;
+}
+
+section dd {
+	width: 100vw;
+	overflow-y: auto;
+	line-height: 150%;
+}
+
+section dd info {
+	display: block;
+	padding: 15px 15px 0px 15px;
+	height: 20px;
+	margin: 0px 10px;
+	font-size: 15px;
+}
+
+section dd info span {
+	font-size: 14px;
+	color: #999;
+}
+
+section dd * {
+	line-height: 150% !important;
+	font-size: 16px;
+}
+
+section dd card {
+	min-height: calc(100% - 20px - 40px);
+}
+
+section dd img {
+	max-width: 100% !important;
+}
+
+/*试题选项*/
+
+.ans_area {
+	margin-left: 5px;
+}
+
+.ans_area>div {
+	position: relative;
+	margin: 10px;
+}
+
+.type1>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e85c';
+	font-style: normal;
+	font-size: 20px;
+	margin-right: 15px;
+}
+
+.type1>div[selected] i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e75b';
+	font-style: normal;
+}
+
+.ans_area>div[correct] {}
+
+.ans_area>div[correct]::before {
+	content: '\e706';
+	position: absolute;
+	left: -20px;
+	font-family: "webdesk_icon" !important;
+}
+
+.type2>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e603';
+	font-style: normal;
+	margin-right: 5px;
+	font-size: 20px;
+}
+
+.type2>div[selected] i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e78b';
+	font-style: normal;
+}
+
+.type4 button {
+	float: right;
+	height: 35px;
+	margin-bottom: 20px;
+	margin-right: 10px;
+}
+
+/*答题卡*/
+
+.quesCard {
+	width: 100%;
+}
+
+.quesCard .cardTit {
+	height: 50px;
+	background-color: rgb(212, 224, 206);
+	font-size: 16px;
+	line-height: 50px;
+}
+
+.quesCard .cardTit>span:first-child {
+	padding: 0px 20px;
+}
+
+.quesCard .cardTit>span:first-child::before {
+	font-size: 22px;
+	margin-right: 10px;
+}
+
+.quesCard .cardTit>span:last-child {
+	font-size: 14px;
+	color: #999;
+}
+
+.quesCard .cardBox {
+	height: calc(100vh - 50px - 15px);
+	overflow-y: auto;
+	padding: 0px 15px 15px 15px;
+}
+
+.quesCard dl, .quesCard dt, .quesCard dd {
+	padding: 0px;
+	margin: 0px;
+}
+
+.quesCard dl {
+	width: 100%;
+	display: table;
+	margin-bottom: 10px;
+}
+
+.quesCard dt {
+	padding: 10px 15px;
+	width: calc(100% - 30px);
+}
+
+.quesCard dt span {
+	float: right;
+	font-size: 14px;
+	color: #999;
+}
+
+.quesCard dd {
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	margin: 5px;
+	border-radius: 50%;
+	border: solid 1px #666;
+	float: left;
+	position: relative;
+}
+
+.quesCard dd[ans] {
+	background-color: rgb(25, 137, 250);
+	color: #fff;
+}
+
+.quesCard dd[current] {
+	border: solid 1px rgb(92, 180, 3);
+	color: rgb(255, 255, 255);
+	background-color: rgb(92, 180, 3) !important;
+}
+
+.quesCard dl dd[current]::after {
+	content: '\e777';
+	font-family: "webdesk_icon" !important;
+	font-size: 22px;
+	display: block;
+	position: absolute;
+	bottom: 1px;
+	right: -15px;
+	width: 20px;
+	height: 20px;
+	text-align: right;
+	color: rgb(92, 180, 3);
+}
+
+/*一些面板*/
+
+.showTime {
+	padding: 20px;
+	width: 60%;
+}
+
+.showExam {
+	width: 80%;
+}
+
+.submitState {
+	padding: 0px 20px 50px 20px;
+	width: 60%;
+	
+}
+
+.submitState .van-loading {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.submitState .btnEnter {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: darkgreen;
+}
+
+/*得分样式*/
+
+score {
+	font-size: 16px;
+	line-height: 20px;
+	height: 20px;
+}
+
+score::before {
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	font-size: 22px;
+}
+
+score.nopass::before {
+	content: '\e774';
+	color: #ff0000;
+}
+
+score.general::before {
+	content: '\e829';
+}
+
+score.fine::before {
+	content: '\e826';
+	color: #07c160;
+}
+
+score.praise::before {
+	content: '\e855';
+	font-size: 20px;
+	color: chocolate;
+}
+
+.scoreinfo {
+	padding: 10px;
+	color: chocolate;
+}
+
+.scoreinfo>span {
+	font-size: 13px;
+	color: #999;
+}
+
+/*预载*/
+
+.loading_paper {
+	padding: 20px;
+	width: 100vw;
+}
+
+/*成绩提交成功*/
+
+.submitSuccess {
+	padding: 20px;
+}
+
+.submitSuccess>div {
+	padding: 8px 0px;
+}
+
+.submitSuccess b {
+	font-size: 18px;
+}
+
+.submitSuccess>div.pager_total {
+	font-size: 14px;
+}
+.submitSuccess button{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+}
