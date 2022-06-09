@@ -3,15 +3,17 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />   
+    <include file="../inc/meta.inc" />
     <title>成绩回顾</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
         <div class="header">
-            <a class="weisha_icon" icon="&#xe748" style="font-size: 22px;" @click="window.history.go(-1);"></a>
-            <a class="weisha_icon" icon="&#xa020" style="font-size: 18px;" href="/mobi/"></a>
+            <span>
+            成绩：<score :class="scoreStyle(scoreFinal)">{{scoreFinal}} 分</score>
+            <span class="tag">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
+            时间： {{result.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span>
             <div class="header_info" v-if="!islogin" remark="未登录">
                 <div class="acc_photo nophoto"></div>
                 <a href="/mobi/sign/in">未登录 </a>
@@ -29,44 +31,38 @@
         <div v-if="loading">
             <card>
                 <card-title>
-                    <van-loading type="spinner">正在加载中...</van-loading>
+                    <loading type="spinner">正在加载中...</loading>
                 </card-title>
             </card>
         </div>
         <context>
             <card v-if="!loading">
-                <card-title>《{{paper.Tp_Name}}》</card-title>
-                <card-context>
-                    <row> 成绩：<score :class="scoreStyle(scoreFinal)">{{scoreFinal}} 分</score>
-                        <span class="tag">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
-                    </row>
-                    <row>
-                        时间： {{result.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}
-                    </row>
-                </card-context>
+                <card-title>《{{paper.Tp_Name}}》</card-title>              
             </card>
             <template v-if="error==''">
-                <van-sticky>
-                    <van-tabs v-model="tabactive">
-                        <van-tab name="all">
-                            <template #title>
+                <div class="sticky">
+                    <el-tabs v-model="tabactive">
+                        <el-tab-pane name="all">
+                            <template slot="label">
                                 <span class="weisha_icon" icon="&#xe680">所有({{ques_all_count}})
                             </template>
-                        </van-tab>
-                        <van-tab name="success"> <template #title>
+                        </el-tab-pane>
+                        <el-tab-pane name="success"> <template slot="label">
                                 <span class="weisha_icon" icon="&#xe706">正确({{ques_success_count}})
                             </template>
-                        </van-tab>
-                        <van-tab name="error"> <template #title>
+                        </el-tab-pane>
+                        <el-tab-pane name="error"> <template slot="label">
                                 <span class="weisha_icon" icon="&#xe6fe">错误({{ques_error_count}})
                             </template>
-                        </van-tab>
-                        <van-tab name="unasnwered"> <template #title>
+                        </el-tab-pane>
+                        <el-tab-pane name="unasnwered"> <template slot="label">
                                 <span class="weisha_icon" icon="&#xa01f">未做({{ques_unanswerd_count}})
                             </template>
-                        </van-tab>
-                    </van-tabs>
-                </van-sticky>
+                        </el-tab-pane>
+                    </el-tabs>
+                    <span class="score" v-if="paper">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
+                    <alert v-else>试卷不存在</alert>
+                </div>
                 <div class="question">
                     <group v-for="(type,index) in questions" :item="type" :index="index" :types="types"
                         :state="tabactive">
@@ -75,7 +71,7 @@
                     </group>
                 </div>
             </template>
-            </template>
+
         </context>
     </div>
 </body>

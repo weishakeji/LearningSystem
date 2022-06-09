@@ -133,7 +133,7 @@ $ready(function () {
             },
             //成绩回顾
             btnReview: function (item) {
-                var url = 'Review?tr=121&tp=56&couid=132';
+                var url = '/student/test/Review?tr=121&tp=56&couid=132';
                 url = $api.url.set(url, {
                     'tr': item.Tr_ID,
                     'tp': this.paper.Tp_Id,

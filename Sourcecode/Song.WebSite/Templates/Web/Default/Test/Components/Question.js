@@ -190,7 +190,8 @@ Vue.component('question', {
         <span>（{{ques.Qus_Number}} 分）</span>
     </info>
     <card :qid="ques.Qus_ID" :correct="ques.state ? ques.state.correct : ''" :ans="ques.state.ans">   
-        <card-title v-html="ques.Qus_Title"></card-title>          
+        <card-title v-if="ques.Qus_Title!=''" v-html="ques.Qus_Title"></card-title>  
+        <card-title v-else>(试题不存在）</card-title>          
         <card-context>
             <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
                 <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
@@ -216,14 +217,14 @@ Vue.component('question', {
             </div>
             <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">
                 <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.state.ans"></textarea>
-                 <van-button type="primary" @click="ques_doing(null,ques)">提交答案</van-button>
+                 <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
                 </div>
             <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                 <div v-for="(ans,i) in ques.Qus_Items">
                 <i></i>
                 <input type="text" v-model="ans.answer"></input>                
                 </div>
-                <van-button type="primary" @click="ques_doing(null,ques)">提交答案</van-button>
+                <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
             </div>    
         </card-context>
     </card>

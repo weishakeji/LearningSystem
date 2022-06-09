@@ -16,6 +16,8 @@ html, body, #vapp {
 	top: 0px;
 	z-index: 2;
 	padding: 12px;
+	display: flex;
+	justify-content: space-between;
 }
 
 .header_info {
@@ -128,6 +130,11 @@ card[qid] card-title::before{
 }
 card[qid] card-title>*{
 	display: inline;
+}
+card[qid] card-title .null{
+	font-size: 13px;
+	color: #ccc;
+	margin: 0px 15px;
 }
 /*试题的题型*/
 
