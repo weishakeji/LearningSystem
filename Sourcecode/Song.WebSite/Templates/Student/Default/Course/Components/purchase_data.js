@@ -37,8 +37,5 @@ Vue.component('purchase_data', {
             });
         }
     },
-    template: ` <div>
-        <loading v-if="loading"></loading> 
-        <slot v-else :data="data"></slot> 
-    </div>`
+    template: `<slot v-else :data="data"></slot>`
 });

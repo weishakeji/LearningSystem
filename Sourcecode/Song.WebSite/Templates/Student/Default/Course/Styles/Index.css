@@ -100,7 +100,9 @@ context .el-card__header>div * {
 context .course:last-child {
 	margin-bottom: 0px !important;
 }
-
+.nopass{
+	color: rgb(245, 108, 108);
+}
 /*课程内容*/
 .el-card__body {
 	box-sizing: border-box;

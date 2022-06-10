@@ -101,18 +101,38 @@ $ready(function () {
                     console.error(err);
                 });
             },
+            //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
+            resultScore: function (purchase) {
+                var th = this;
+                //视频得分
+                var weight_video = orgconfig('finaltest_weight_video', 33.3);
+                var video = weight_video * purchase.Stc_StudyScore / 100;
+                //试题得分
+                var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
+                var ques = weight_ques * purchase.Stc_QuesScore / 100;
+                //结考课试分
+                var weight_exam = orgconfig('finaltest_weight_exam', 33.3);
+                var exam = weight_exam * purchase.Stc_ExamScore / 100;
+
+                return Math.round((video + ques + exam) * 100) / 100;
+                //获取机构的配置参数
+                function orgconfig(para, def) {
+                    var val = th.config[para];
+                    if (!val) return def ? def : '';
+                    return val;
+                };
+            },
             //查看结课成绩的详情
             viewScore: function (item) {
                 if (!window.top || !window.top.vapp) return;
                 var obj = {
-                    'url': '/Student/Course/ScoreDetails.'+item.Cou_ID,
+                    'url': '/Student/Course/ScoreDetails.' + item.Cou_ID,
                     'ico': 'e6ef', 'min': false,
                     'title': '成绩详情 - ' + item.Cou_Name,
                     'width': '80%',
                     'height': '80%'
                 }
                 window.top.vapp.open(obj);
-              
             }
         }
     });

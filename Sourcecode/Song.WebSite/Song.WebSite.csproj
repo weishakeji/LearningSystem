@@ -771,6 +771,9 @@
     <Content Include="Templates\Student\Default\Study\Scripts\Print.js" />
     <Content Include="Templates\Student\Default\Study\Styles\Print.css" />
     <Content Include="Templates\Student\Default\Styles\Start.css" />
+    <Content Include="Templates\Student\Default\Test\Review.html" />
+    <Content Include="Templates\Student\Default\Test\Scripts\Review.js" />
+    <Content Include="Templates\Student\Default\Test\Styles\Review.css" />
     <Content Include="Templates\Teacher\Default\Course\Components\course_data.js" />
     <Content Include="Templates\Teacher\Default\Course\Components\course_prices.js" />
     <Content Include="Templates\Teacher\Default\Course\Components\Styles\accessory.css" />
@@ -885,15 +888,12 @@
     <Content Include="Templates\Web\Default\Test\Doing.html" />
     <Content Include="Templates\Web\Default\Test\Finality.html" />
     <Content Include="Templates\Web\Default\Test\Paper.html" />
-    <Content Include="Templates\Web\Default\Test\Review.html" />
     <Content Include="Templates\Web\Default\Test\Scripts\Doing.js" />
     <Content Include="Templates\Web\Default\Test\Scripts\Finality.js" />
     <Content Include="Templates\Web\Default\Test\Scripts\Paper.js" />
-    <Content Include="Templates\Web\Default\Test\Scripts\Review.js" />
     <Content Include="Templates\Web\Default\Test\Styles\Doing.css" />
     <Content Include="Templates\Web\Default\Test\Styles\Finality.css" />
     <Content Include="Templates\Web\Default\Test\Styles\Paper.css" />
-    <Content Include="Templates\Web\Default\Test\Styles\Review.css" />
     <Content Include="Utilities\Components\sbj_cascader.js" />
     <Content Include="Utilities\Components\Styles\sbj_cascader.css" />
     <Content Include="Utilities\Components\Styles\useicon.css" />
