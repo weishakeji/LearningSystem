@@ -11,7 +11,7 @@ var vapp = new Vue({
     el: '#entities',
     data: {
         entitysearch: '',   //用于左侧实体列表的搜索
-        entities: [], //实体列表，   
+        entities: {}, //实体列表，   
         error: '',       //错误信息的提示    
         loading: false,
         helpshow: false,     //帮助信息的显示状态
@@ -45,7 +45,7 @@ var vapp = new Vue({
     },
     watch: {
         'entities': {
-            deep: true,
+            deep: true, immediate: false,
             handler: function (nval, oval) {
                 if (JSON.stringify(oval) != "{}")
                     this.update();
@@ -84,8 +84,10 @@ var vapp = new Vue({
     },
     methods: {
         update: function () {
-            this.loading = true;
+            var th = this;
+            th.loading = true;
             $api.post('Helper/EntitiesUpdate', { 'detail': this.entities }).then(function (req) {
+                th.loading = false;
                 if (req.data.success) {
                     vapp.loading = false;
                     vapp.$notify({
@@ -97,9 +99,9 @@ var vapp = new Vue({
                     throw req.data.message;
                 }
             }).catch(function (err) {
+                th.loading = false;
                 alert(err);
                 console.error(err);
-                vapp.loading = false;
             });
         },
         //遮罩层，用于加载过程中锁屏

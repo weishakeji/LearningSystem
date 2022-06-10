@@ -60,6 +60,13 @@ Vue.component('exam_test', {
             url = $api.url.dot(this.course.Cou_ID, url);
             url = $api.url.set(url, { 'tab': 'test' });
             return url;
+        },
+        gofinal:function(isgo){
+            if (!isgo) return "#";
+            var url = '/web/test/paper';
+            url = $api.url.dot(this.finaltest.Tp_Id, url);
+            //url = $api.url.set(url, { 'tab': 'test' });
+            return url;
         }
     },
     template: `<div class="exam_test">
@@ -71,7 +78,7 @@ Vue.component('exam_test', {
                 <icon>&#xe72f</icon>模拟测试
                 <span>({{datas.length}})</span>
             </a>
-            <a :href="gourl(final)" target="_blank" 
+            <a :href="gofinal(final)" target="_blank" 
              :style="{'color':final ? '#409EFF' : ''}"  :target="final ? '_blank' : ''" :disabled="!final"><icon>&#xe816</icon>结课考试</a>
         </div>
     </div>`

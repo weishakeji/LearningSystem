@@ -56,22 +56,55 @@
                     </div>
 
                 </div>
-                <div class="headinfo">
+                <div class="headinfo" v-if="!final || !islogin">
                     <el-divider></el-divider>
+                    <div class="row"> 课 程：{{course.Cou_Name}} </div>
+                    <div class="row"> 专 业：{{paper.Sbj_Name}} </div>
+                </div>
+                <div class="finalinfo" v-else>
+                    <el-divider content-position="left">参加结课考试的条件</el-divider>
                     <div class="row">
-                        课 程：{{course.Cou_Name}}
+                        1、视频学习完成<b>{{orgconfig('finaltest_condition_video',100)}}%</b>，当前完成<b>{{purchase.Stc_StudyScore}}%</b>，
+                        <el-tag type="success"
+                            v-if="orgconfig('finaltest_condition_video',100)<=purchase.Stc_StudyScore">
+                            <icon>&#xa048</icon>达成
+                        </el-tag>
+
+                        <el-tag type="danger" v-else>
+                            <icon>&#xe72c</icon>未达成
+                        </el-tag>
                     </div>
                     <div class="row">
-                        专 业：{{paper.Sbj_Name}}
+                        2、试题练习通过率达到<b>{{orgconfig('finaltest_condition_ques',100)}}%</b>，当前完成<b>{{purchase.Stc_QuesScore}}%</b>，
+                        <el-tag type="success" v-if="orgconfig('finaltest_condition_ques',100)<=purchase.Stc_QuesScore">
+                            <icon>&#xa048</icon>达成
+                        </el-tag>
+                        <el-tag type="danger" v-else>
+                            <icon>&#xe72c</icon>未达成
+                        </el-tag>
                     </div>
+                    <div class="row">
+                        3、最多允许考试 <b>{{orgconfig('finaltest_count',1)}}</b> 次，
+                        <template v-if="results.length>0">
+                            已经考了{{results.length}}次，最高得分
+                            <b>{{score_highest()}}分</b></template>
+                        <template v-else>还未参加过结课考试</template>
+                    </div>
+
                 </div>
                 <div class="btnBox">
-                    <a @click="btn_test" href="url('study')" v-if="!paper.Tp_IsFinal" class="btn_test">
-                        <icon>&#xe810</icon>参加测试
-                    </a>
-                    <a href="url('study')" v-else class="btn_final">
-                        <icon style="font-size: 28px;">&#xe829</icon>结课考试
-                    </a>
+                    <loading v-if="loading"></loading>
+                    <template v-else>
+                        <template v-if="islogin">
+                            <a @click="btn_test" href="url('study')" v-if="!final" class="btn_test">
+                                <icon>&#xe810</icon>参加测试
+                            </a>
+                            <a  @click="btn_final()" v-else class="btn_final" :disabled="final_disable()">
+                                <icon style="font-size: 28px;">&#xe829</icon>结课考试
+                            </a>
+                        </template>
+                        <el-tag type="info" v-else>未登录</el-tag>
+                    </template>
                 </div>
             </div>
         </context>
@@ -90,9 +123,8 @@
                 <el-divider content-position="left">
                     <icon>&#xe816</icon>成绩回顾
                 </el-divider>
-                <div v-if="!islogin">
-                    未登录，无法查看成绩
-                </div>
+                <el-tag type="info" v-if="!islogin"> 未登录，无法查看成绩</el-tag>
+
                 <template v-else-if="results.length>0">
                     <div v-for="(item,i) in results" class="result">
                         <span class="index">{{i+1}}.</span>
@@ -103,9 +135,9 @@
                         <el-tag class="review" @click="btnReview(item)">成绩回顾</el-tag>
                     </div>
                     <div id="pager-box">
-                        <el-pagination v-on:current-change="getresults" :current-page="query.index" :page-sizes="[1]"
-                            :page-size="query.size" :pager-count="12" layout="total, prev, pager, next, jumper"
-                            :total="total">
+                        <el-pagination v-on:current-change="getresults" :current-page="result_query.index"
+                            :page-sizes="[1]" :page-size="result_query.size" :pager-count="12"
+                            layout="total, prev, pager, next, jumper" :total="total">
                         </el-pagination>
                     </div>
                 </template>
