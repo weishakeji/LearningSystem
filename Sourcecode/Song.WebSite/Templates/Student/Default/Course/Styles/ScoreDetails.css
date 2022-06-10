@@ -1,74 +1,24 @@
 ﻿@charset "utf-8";
 
-.outlines {
-	padding: 15px;
+#vapp {
+	padding: 20px;
 	box-sizing: border-box;
-	overflow-y: auto;
-	height: 100%;
 }
 
-.outlines>div {
-	line-height: 30px;
+.row {
+	padding: 5px 15px;
+	box-sizing: border-box;
 	display: flex;
+	justify-content: space-between;
 }
-.outlines>div:hover{
-	background-color: #eee;
-}
-.order {
-	margin-right: 10px;
-}
-
-.outlines>div icon {
-	margin-left: 5px;
-}
-
-.outline_progress {
-	flex: 1;
-	display: flex;
-	justify-content: flex-end;
-	font-size: 14px;
-	color: #666;
-}
-
-.outline_progress>* {
-	margin: 0px 8px;
-	width: 100px;
-}
-
-.outline_progress .el-tag {
-	width: 60px;
-	text-align: right;
-	float: right;
-}
-
-.studyTime {
-	width: 80px;
-	text-align: center;
-}
-
-.outline_progress .lastTime {
+.row span:last-child{
+	display: block;
 	width: 120px;
 }
-
-.playTime {
-	width: 180px;
-	display: flex;
-}
-
-.playTime>*:first-child {
-	min-width: 80px;
+.score{
+	margin-top: 20px;
 	text-align: right;
 }
-
-.playTime .slant {
-	margin: 0px 5px;
-}
-
-/*没有学习记录*/
-.nolog {
-	margin: 30px;
-	display: block;
-}
-.el-tag a{
-	color:#e6a23c;
+.score span{
+	font-size: 22px;
 }

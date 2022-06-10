@@ -8,15 +8,32 @@
 </head>
 
 <body>
-    <div id="vapp" v-cloak>       
+    <div id="vapp" v-cloak>
         <template v-if="loading_init">
             <loading>...</loading>
         </template>
         <template v-else-if="!islogin">
-            <alert class="nolog"> 学员登录后，才能查看自己已学课程的记录</alert>
+            <alert class="nolog">未查询到学员信息</alert>
         </template>
         <template v-else>
-            
+            <div class="row">
+                <span>1、视频学习完成<b>{{purchase.Stc_StudyScore}}%</b>，
+                权重<b>{{orgconfig('finaltest_weight_video',33.3)}}%</b>，</span>
+                <span>得分：{{Math.round(score.video*100)/100}}</span>
+            </div>
+            <div class="row">
+                <span>2、试题练习通过率达到<b>{{purchase.Stc_QuesScore}}%</b>，
+                权重<b>{{orgconfig('finaltest_weight_ques',33.3)}}%</b>，</span>
+                <span>得分：{{Math.round(score.ques*100)/100}}</span>
+            </div>
+            <div class="row">
+                <span>3、结课考试得分<b>{{purchase.Stc_ExamScore}}%</b>，
+                权重<b>{{orgconfig('finaltest_weight_exam',33.3)}}%</b>，</span>
+                <span>得分：{{Math.round(score.exam*100)/100}}</span>
+            </div>
+            <div class="score">
+                综合成绩：<span :class="{'nopass':score.score<60}">{{Math.round(score.score*100)/100}} 分</span>
+            </div>
         </template>
     </div>
 

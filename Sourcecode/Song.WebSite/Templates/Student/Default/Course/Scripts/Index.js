@@ -106,7 +106,9 @@ $ready(function () {
                 var th = this;
                 //视频得分
                 var weight_video = orgconfig('finaltest_weight_video', 33.3);
-                var video = weight_video * purchase.Stc_StudyScore / 100;
+                //加上容差
+                var video=purchase.Stc_StudyScore>0 ? purchase.Stc_StudyScore+ orgconfig('VideoTolerance', 0) : 0;                
+                video = weight_video * video / 100;
                 //试题得分
                 var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
                 var ques = weight_ques * purchase.Stc_QuesScore / 100;
@@ -125,12 +127,15 @@ $ready(function () {
             //查看结课成绩的详情
             viewScore: function (item) {
                 if (!window.top || !window.top.vapp) return;
+                var url = "/Student/Course/ScoreDetails";
+                url = $api.url.dot(item.Cou_ID, url);
+                url = $api.url.set(url, { 'stid': this.account.Ac_ID });
                 var obj = {
-                    'url': '/Student/Course/ScoreDetails.' + item.Cou_ID,
+                    'url': url,
                     'ico': 'e6ef', 'min': false,
                     'title': '成绩详情 - ' + item.Cou_Name,
-                    'width': '80%',
-                    'height': '80%'
+                    'width': '600px',
+                    'height': '400px'
                 }
                 window.top.vapp.open(obj);
             }
