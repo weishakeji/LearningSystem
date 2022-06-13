@@ -1,42 +1,26 @@
 ﻿@charset "utf-8";
-html, body, #vapp {
-	width: 100%;
-	height: 100%;
-	margin: 0px;
-	padding: 0px;
+
+context.breadcrumb>* {
+	margin: 10px 15px;
+}
+
+/*考试场景*/
+context#scene {
+	position: relative;
+	display: flex;
+	height: 600px;
+}
+
+context#scene div.testinfo {
+	width: 400px;
+	box-sizing: border-box;
 	overflow: hidden;
 	position: relative;
 }
 
-/*不能考试的区域*/
-
-.context {
-	height: calc(100%);
-	background-color: #f2f2f2;
-	font-size: 14px;
-	width: 100%;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
-	overflow-y: auto;
-}
-
-/*未登录*/
-
-.acc_photo {
-	width: 58px;
-	height: 58px;
-	border-radius: 50%;
+context#scene div.exam {
+	flex: 1;
 	overflow: hidden;
-	margin-right: 20px;
-	float: left;
-	background-size: cover;
-	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
-	transition: all 0.2s;
-}
-
-.nophoto {
-	background-image: url(/Utilities/images/head1.jpg);
 }
 
 /*没有内容的图标*/
@@ -52,138 +36,66 @@ html, body, #vapp {
 	text-align: center;
 }
 
-.time_icon::before {
-	font-size: 85px;
-	position: absolute;
-	display: block;
-	left: 0px;
-	top: 50px;
-	color: #999;
+/*剩余时间*/
+.remaining {	
 	height: 80px;
-}
-
-.time_icon {
-	position: relative;
-	padding: 20px 20px 20px 100px;
-	line-height: 30px;
-	font-size: 16px;
-}
-
-/*头部*/
-
-header {
-	height: 44px;
-	background-color: rgb(212, 224, 206);
-	font-size: 14px;
-	position: fixed;
-	width: 100%;
-	top: 0px;
-	z-index: 2;
-}
-
-header .weisha_icon::before {
-	font-size: 22px;
-	line-height: 45px;
-}
-
-header>div:first-child {
-	width: 44px;
-	height: 44px;
-	line-height: 45px;
+	box-sizing: border-box;
 	text-align: center;
-	float: left;
+	padding: 15px;
 }
 
-header>div:last-child {
-	width: 80px;
-	height: 44px;
-	line-height: 45px;
-	text-align: center;
-	float: right;
-	font-size: 15px;
+.remaining, .remaining * {
+	font-size: 50px;
+	color: #666;
 }
-
-header>div:last-child::before {
-	font-size: 18px;
-}
-
-header>div.title {
-	float: left;
-	width: calc(100% - 44px - 80px);
-	line-height: 45px;
-	font-size: 16px;
-	text-align: center;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-/*页面底部*/
-
-footer {
-	height: 44px;
-	background-color: rgb(212, 224, 206);
-	font-size: 14px;
-	position: fixed;
-	width: 100%;
-	bottom: 0px;
-	z-index: 3;
-}
-
-footer>div {
-	float: left;
-	font-size: 16px;
-	text-align: center;
-	height: 100%;
-}
-
-footer>div, footer>div * {
+/*提交按钮*/
+.testinfo div#btnSubmit {
+	cursor: pointer;
+	width: calc(100% - 20px);
+	margin: 10px;
 	line-height: 44px;
-}
-
-footer>div::before {
 	font-size: 22px;
-}
-
-footer div#btnCard {
-	height: 100%;
-	line-height: 100%;
-	width: 40%;
-}
-
-footer div#btnSubmit {
-	width: 60%;
 	background-color: #009900;
 	color: #fff;
+	text-align: center;
+	position: absolute;
+	bottom: 0px;
+	box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+	background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
 }
 
-footer div#btnSubmit::before {
+.testinfo div#btnSubmit:hover {
+	text-shadow: 0 2px 12px rgba(0, 0, 0, .6);
+}
+
+.testinfo div#btnSubmit::before {
 	font-size: 20px;
 	margin-right: 15px;
 }
-
-attended {
-	display: block;
-	height: calc(100% - 88px);
-	background-color: #f2f2f2;
-	position: fixed;
-	width: 100%;
-	top: 44px;
-	left: 0px;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
+/*上一题，下一题*/
+.move_btn{
+	position: absolute;
+	right: 80px;
+	top: 20px;
+	width: 180px;
+	z-index: 10;
+	display: flex;
+	background-color: #fff;
 }
-
+.move_btn span{
+	cursor: pointer;
+	flex: 1;
+	margin-right: 15px;
+}
 /*试题区*/
 
 section {
-	height: calc(100% - 88px);
-	background-color: #f2f2f2;
+	height: 100%;
+	width: 800px;
 	font-size: 14px;
 	position: fixed;
-	width: 100%;
-	top: 44px;
+	flex: auto;
+	top: 0px;
 	left: 0px;
 	z-index: 4;
 	position: relative;
@@ -198,9 +110,8 @@ section dl, section dd {
 }
 
 section dd {
-	width: 100vw;
-	overflow-y: auto;
-	line-height: 150%;
+	width: 800px;
+	line-height: 160%;
 }
 
 section dd info {
@@ -217,8 +128,8 @@ section dd info span {
 }
 
 section dd * {
-	line-height: 150% !important;
-	font-size: 16px;
+	line-height: 160% !important;
+	font-size: 18px;
 }
 
 section dd card {
@@ -284,97 +195,6 @@ section dd img {
 	margin-right: 10px;
 }
 
-/*答题卡*/
-
-.quesCard {
-	width: 100%;
-}
-
-.quesCard .cardTit {
-	height: 50px;
-	background-color: rgb(212, 224, 206);
-	font-size: 16px;
-	line-height: 50px;
-}
-
-.quesCard .cardTit>span:first-child {
-	padding: 0px 20px;
-}
-
-.quesCard .cardTit>span:first-child::before {
-	font-size: 22px;
-	margin-right: 10px;
-}
-
-.quesCard .cardTit>span:last-child {
-	font-size: 14px;
-	color: #999;
-}
-
-.quesCard .cardBox {
-	height: calc(100vh - 50px - 15px);
-	overflow-y: auto;
-	padding: 0px 15px 15px 15px;
-}
-
-.quesCard dl, .quesCard dt, .quesCard dd {
-	padding: 0px;
-	margin: 0px;
-}
-
-.quesCard dl {
-	width: 100%;
-	display: table;
-	margin-bottom: 10px;
-}
-
-.quesCard dt {
-	padding: 10px 15px;
-	width: calc(100% - 30px);
-}
-
-.quesCard dt span {
-	float: right;
-	font-size: 14px;
-	color: #999;
-}
-
-.quesCard dd {
-	width: 30px;
-	height: 30px;
-	text-align: center;
-	line-height: 30px;
-	margin: 5px;
-	border-radius: 50%;
-	border: solid 1px #666;
-	float: left;
-	position: relative;
-}
-
-.quesCard dd[ans] {
-	background-color: rgb(25, 137, 250);
-	color: #fff;
-}
-
-.quesCard dd[current] {
-	border: solid 1px rgb(92, 180, 3);
-	color: rgb(255, 255, 255);
-	background-color: rgb(92, 180, 3) !important;
-}
-
-.quesCard dl dd[current]::after {
-	content: '\e777';
-	font-family: "webdesk_icon" !important;
-	font-size: 22px;
-	display: block;
-	position: absolute;
-	bottom: 1px;
-	right: -15px;
-	width: 20px;
-	height: 20px;
-	text-align: right;
-	color: rgb(92, 180, 3);
-}
 
 /*一些面板*/
 
@@ -390,7 +210,7 @@ section dd img {
 .submitState {
 	padding: 0px 20px 50px 20px;
 	width: 60%;
-	
+
 }
 
 .submitState .van-loading {
@@ -454,7 +274,7 @@ score.praise::before {
 
 .loading_paper {
 	padding: 20px;
-	width: 100vw;
+	width: 100%;
 }
 
 /*成绩提交成功*/
@@ -474,7 +294,8 @@ score.praise::before {
 .submitSuccess>div.pager_total {
 	font-size: 14px;
 }
-.submitSuccess button{
+
+.submitSuccess button {
 	position: absolute;
 	bottom: 0px;
 	left: 0px;

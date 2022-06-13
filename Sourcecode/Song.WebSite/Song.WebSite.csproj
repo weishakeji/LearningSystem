@@ -883,7 +883,7 @@
     <Content Include="Templates\Web\Default\Test\Components\AnswerCard.js" />
     <Content Include="Templates\Web\Default\Test\Components\Quesbuttons.js" />
     <Content Include="Templates\Web\Default\Test\Components\Question.js" />
-    <Content Include="Templates\Web\Default\Test\Components\Styles\TestHeader.css" />
+    <Content Include="Templates\Web\Default\Test\Components\Styles\AnswerCard.css" />
     <Content Include="Templates\Web\Default\Test\Components\TestHeader.js" />
     <Content Include="Templates\Web\Default\Test\Doing.html" />
     <Content Include="Templates\Web\Default\Test\Finality.html" />

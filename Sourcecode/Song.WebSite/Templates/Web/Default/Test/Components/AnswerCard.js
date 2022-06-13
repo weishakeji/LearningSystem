@@ -1,6 +1,8 @@
 ﻿//答题卡
+console.log($dom.pagepath());
+$dom.load.css([$dom.pagepath() + 'Components/Styles/answercard.css']);
 Vue.component('answercard', {
-    props: ['questions', 'types'],
+    props: ['questions', 'types', 'index'],
     data: function () {
         return {
         }
@@ -8,6 +10,7 @@ Vue.component('answercard', {
     watch: {
         'questions': {
             handler(nv, ov) {
+                if (!nv) return;
                 if (!(this.types && this.types.length > 0)) return;
                 //生成试题的序号
                 for (var i = 0; i < this.questions.length; i++) {
@@ -47,11 +50,17 @@ Vue.component('answercard', {
                 }
             }
             return total;
-        },
+        }
     },
     mounted: function () { },
-    methods: {},
-    template: `<div>
+    methods: {
+        //切换试题
+        toswipe: function (index) {
+            var parent = this.$parent;
+            if (parent) parent.swipeIndex = index;
+        }
+    },
+    template: `<div class="quesCard">
         <div class="cardTit">
             <icon>&#xe70d</icon>答题卡</span>
             <span>完成<b>{{answertotal}}</b>道 / 共<b>{{questotal}}</b>道</span>
@@ -63,8 +72,8 @@ Vue.component('answercard', {
                     [ {{types[group.type - 1]}}题 ]
                     <span>每题{{Math.floor(group.number/group.count*100)/100}}分/共{{group.number}}分</span>
                 </dt>
-                <dd v-for="q in group.q" @click="vapp.swipe(q.index)" :ans="q.ans!=''"
-                :current="q.index==vapp.swipeIndex" :index="q.index"
+                <dd v-for="q in group.q" @click="toswipe(q.index)" :ans="q.ans!=''"
+                :current="q.index==index" :index="q.index"
                 :correct="q.state ? q.state.correct : false">
                     {{q.index+1}}
                 </dd>

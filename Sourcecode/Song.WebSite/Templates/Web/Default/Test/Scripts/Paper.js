@@ -23,7 +23,7 @@ $ready(function () {
             total: 1, //总记录数
             totalpages: 1, //总页数
 
-            loading: true,
+            loading: false,
             loading_result: true //加载成绩的预载
         },
         mounted: function () {
@@ -138,9 +138,9 @@ $ready(function () {
             },
             //获取购买课程的记录
             getpurchase: function (query) {
-                var th = this;
-                th.loading = true;
+                var th = this;              
                 if (query.couid <= 0 || query.stid <= 0) return;
+                th.loading = true;
                 $api.get('Course/Purchaselog:5', query).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
@@ -159,6 +159,7 @@ $ready(function () {
             //获取机构的配置参数
             orgconfig: function (para, def) {
                 var val = this.config[para];
+                if (val === 0) return 0;
                 if (!val) return def ? def : '';
                 return val;
             },
@@ -191,6 +192,12 @@ $ready(function () {
             btn_final: function () {
                 var disabled = this.final_disable();
                 if (disabled) return;
+                var url = "/Web/Test/doing";
+                url = $api.url.set(url, {
+                    'tpid': this.id,
+                    'couid': this.course.Cou_ID
+                });
+                window.location.href = url;
                 console.log(333);
             },
             //结果考试的按钮是否通过,为true时表示不通过

@@ -132,7 +132,19 @@
                     console.log('交卷');
                     this.submit(1);
                 }
-                console.log(nv);
+                //console.log(nv);
+            },
+            //滑动试题，滑动到指定试题索引
+            'swipeIndex': {
+                handler: function (nv, ov) {
+                    console.log(nv);
+                    if (nv > this.questotal || nv < 0) return;
+                    var qeus_width = 800;
+                    window.setTimeout(function () {
+                        $dom("section[remark]").css('left', -(qeus_width * nv) + 'px');
+                    }, 100);
+
+                }, immediate: true
             }
         },
         methods: {
@@ -148,7 +160,7 @@
                     }, 1000);
                     if (req.data.success) {
                         var paper = req.data.result;
-                        vapp.paperQues = paper;
+                        th.paperQues = paper;
                         window.setInterval(function () {
                             vapp.time.now = new Date().getTime();
                             //var surplus = Math.floor((vapp.time.over.getTime() - vapp.time.now) / 1000 - 1);
@@ -243,19 +255,11 @@
             swiperight: function (e) {
                 if (e && e.preventDefault) e.preventDefault();
                 if (this.swipeIndex > 0) this.swipeIndex--;
-                this.swipe(this.swipeIndex);
             },
             //试题向左滑动
             swipeleft: function (e) {
                 if (e && e.preventDefault) e.preventDefault();
                 if (this.swipeIndex < this.questotal - 1) this.swipeIndex++;
-                this.swipe(this.swipeIndex);
-            },
-            //滑动试题，滑动到指定试题索引
-            swipe: function (index) {
-                this.swipeIndex = index;
-                $dom("section").css('left', -($dom("#vapp").width() * this.swipeIndex) + 'px');
-                this.showCard = false;
             },
             //生成答题信息
             generateAnswerJson: function (paper) {
