@@ -376,8 +376,14 @@
     <Content Include="Templates\OrgAdmin\Default\Student\Components\course_data.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Components\course_info.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Components\course_progress.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\exam_test.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Components\outline_progress.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Components\purchase_data.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\ques_progress.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\Styles\exam_test.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\Styles\ques_progress.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\Styles\video_progress.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Components\video_progress.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\DetailsView.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\DetailsView.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\DetailsView.css" />
@@ -1545,7 +1551,6 @@
     <Folder Include="Templates\Manage\Default\Learningcard\Images\" />
     <Folder Include="Templates\Manage\Default\RechargeCode\Images\" />
     <Folder Include="Templates\Manage\_public\Organs\" />
-    <Folder Include="Templates\OrgAdmin\Default\Student\Components\Styles\" />
     <Folder Include="Utilities\Images\Mobi\" />
     <Folder Include="Utilities\Styles\" />
   </ItemGroup>

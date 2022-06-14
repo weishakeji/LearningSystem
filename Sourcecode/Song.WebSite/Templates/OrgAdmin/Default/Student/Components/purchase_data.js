@@ -21,22 +21,21 @@ Vue.component('purchase_data', {
     methods: {
         onload: function () {
             var th = this;
+            th.loading = true;
             $api.get('Course/Purchaselog:5', { 'couid': this.couid, 'stid': this.stid }).then(function (req) {
+                th.loading = false;
                 if (req.data.success) {
                     th.data = req.data.result;
-                    //...
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                alert(err);
+                th.loading = false;
+                Vue.prototype.$alert(err);
                 console.error(err);
             });
         }
     },
-    // 同样也可以在 vm 实例中像 "this.message" 这样使用
-    template: `  <div class="purchase_data"> 
-    <icon>&#xe671</icon>{{data.Stc_EndTime|date("yyyy-M-d ")}} 过期                 
-                </div>`
+    template: `<slot v-else :data="data"></slot>`
 });

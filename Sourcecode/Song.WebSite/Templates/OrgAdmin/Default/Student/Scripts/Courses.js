@@ -84,7 +84,7 @@
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 console.log(document.documentElement.clientHeight);
-                th.query.size = Math.floor(area / 120);
+                th.query.size = Math.floor(area / 200);
                 var apiurl = "Course/" + this.method_name;
                 $api.get(apiurl, th.query).then(function (req) {
                     th.loading = false;
@@ -102,23 +102,53 @@
                     console.error(err);
                 });
             },
-            //查看课程学习记录详情
-            viewDetail: function (item) {
-                if (!window.top || !window.top.vapp) return;
-                var obj = {
-                    'url': '/Student/Course/VideoProgress.' + item.Cou_ID,
-                    'ico': 'e6ef', 'min': false,
-                    'title': '学习进度 - ' + item.Cou_Name,
-                    'width': '80%',
-                    'height': '80%'
-                }
-                window.top.vapp.open(obj);
+            //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
+            resultScore: function (purchase) {
+                var th = this;
+                //视频得分
+                var weight_video = orgconfig('finaltest_weight_video', 33.3);
+                //加上容差
+                var video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
+                video = weight_video * video / 100;
+                //试题得分
+                var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
+                var ques = weight_ques * purchase.Stc_QuesScore / 100;
+                //结考课试分
+                var weight_exam = orgconfig('finaltest_weight_exam', 33.3);
+                var exam = weight_exam * purchase.Stc_ExamScore / 100;
 
+                return Math.round((video + ques + exam) * 100) / 100;
+                //获取机构的配置参数
+                function orgconfig(para, def) {
+                    var val = th.config[para];
+                    if (!val) return def ? def : '';
+                    return val;
+                };
+            },
+            //查看结课成绩的详情
+            viewScore: function (item) {
+                //if (!window.top || !window.top.vapp) return;
+                var url = "/Student/Course/ScoreDetails";
+                url = $api.url.dot(item.Cou_ID, url);
+                url = $api.url.set(url, { 'stid': this.account.Ac_ID });
+                var obj = {
+                    'url': url,
+                    'ico': 'e6ef', 'min': false,
+                    'title': '成绩详情 - ' + item.Cou_Name,
+                    'width': '600px',
+                    'height': '400px'
+                }
+                obj['showmask'] = true; //始终显示遮罩
+                obj['min'] = false;
+                var box = window.top.$pagebox.create(obj);
+                box.open();
+                //window.top.vapp.open(obj);
             }
         }
     });
 
 }, ['Components/course_data.js',
     'Components/purchase_data.js',      // 课程购买信息
-    'Components/course_info.js',        // 课程信息
-    'Components/course_progress.js']);
+    'Components/video_progress.js',
+    'Components/ques_progress.js',
+    'Components/exam_test.js']);
