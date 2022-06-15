@@ -25,14 +25,15 @@
                 </template>
             </el-breadcrumb>
         </context>
-        <context id="scene" remark="考试区域">
+        <context id="scene" v-if="islogin" remark="考试区域">
             <div class="testinfo" remark="试卷信息区域">
                 <loading class="loading_init" v-if="loading.init">加载初始数据...</loading>
                 <template v-else>
                     <div class="remaining" @click="showExam=true">
                         <icon>&#xe81a</icon> {{surplustime|surplus}}
                     </div>
-                    <answercard ref='answercard' :questions="paperAnswer.ques" :types="types" :index="swipeIndex"></answercard>
+                    <answercard ref='answercard' :questions="paperAnswer.ques" :types="types" :index="swipeIndex">
+                    </answercard>
                     <div id="btnSubmit" class="weisha_icon" icon="&#xe6cf" @click="submitManual">
                         交&nbsp;卷</div>
                 </template>
@@ -40,12 +41,12 @@
             <div class="exam">
                 <div class="move_btn">
                     <span @click="swiperight()">
-                      <icon>&#xe803</icon>上一题
+                        <icon>&#xe803</icon>上一题
                     </span>
                     <span @click="swipeleft()">
-                      <icon>&#xe802</icon>下一题
+                        <icon>&#xe802</icon>下一题
                     </span>
-                  </div>   
+                </div>
                 <section :style="'width:'+questotal*800+'px'" v-swiperight="swiperight" v-swipeleft="swipeleft"
                     remark="试题区域">
                     <template v-if="!loading.paper">
@@ -59,8 +60,8 @@
                     </div>
                 </section>
             </div>
-
         </context>
+        <nologin v-else remark="未登录"></nologin>
         <page_footer :organ="organ" :account="account">loading ...</page_footer>
     </div>
 </body>

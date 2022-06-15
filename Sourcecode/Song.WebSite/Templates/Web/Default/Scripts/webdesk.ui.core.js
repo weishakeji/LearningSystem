@@ -833,6 +833,8 @@
             arr2.push(webdom.path() + 'Components/page_header.js');
             arr2.push(webdom.path() + 'Components/page_footer.js');
             arr2.push(webdom.path() + 'Components/course.js');
+            //未登录的样式
+            arr2.push(webdom.path() + 'Components/nologin.js');
             window.$dom.load.js(arr2, f);
         });
     };

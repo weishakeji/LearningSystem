@@ -84,10 +84,7 @@
                     </div>
                 </aside>
             </section>
-            <section v-else class="nologin">
-                <icon>&#xe7ad</icon>
-                <div>学员未登录，无权访问！</div>
-            </section>
+            <nologin v-else></nologin>    
         </context>
         <page_footer v-show="!full" :organ="organ" v-if="true">loading ...</page_footer>
     </div>

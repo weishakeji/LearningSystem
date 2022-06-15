@@ -42,13 +42,11 @@
             resultTotal: 0
         },
         mounted: function () {
+            var th = this;
             $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.get('TestPaper/ForID', { 'id': this.tpid })
-            ).then(axios.spread(function (account, platinfo, organ, type, paper) {
+            ).then(axios.spread(function (type, paper) {
                 vapp.loading.init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -59,16 +57,10 @@
                         console.error(data.message);
                     }
                 }
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                vapp.config = $api.organ(vapp.organ).config;
                 //考试相关
-                vapp.types = type.data.result;
-                vapp.paper = paper.data.result;
-                //生成试卷
-                vapp.generatePaper();
+                th.types = type.data.result;
+                th.paper = paper.data.result;
+
             })).catch(function (err) {
                 console.error(err);
             });
@@ -107,6 +99,17 @@
             }
         },
         watch: {
+            //当学员登录后
+            'account': {
+                handler: function (nv, ov) {
+                    if (nv && this.islogin) {
+                        //生成试卷
+                        this.generatePaper();
+                    }
+                },
+                immediate: true
+            },
+            //试卷内容，试题列表，按题型分开
             'paperQues': {
                 handler(nv, ov) {
                     //if (JSON.stringify(nv) == JSON.stringify(ov)) return;                   
@@ -204,10 +207,11 @@
                 this.paperAnswer.patter = patter;
                 var xml = this.generateAnswerXml(this.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
+                var th = this;
                 $api.put('TestPaper/InResult', { 'result': xml }).then(function (req) {
                     vapp.submitState.loading = false;
                     if (req.data.success) {
-                        vapp.submitState.result = req.data.result;
+                        th.submitState.result = req.data.result;
                         console.log('成绩递交成功');
                     } else {
                         console.error(req.data.exception);
@@ -228,14 +232,16 @@
                 } else {
                     msg = "当前考试" + this.questotal + "道题，您还有" + surplus + " 没有做！";
                 }
-                vapp.$dialog.confirm({
-                    title: '交卷',
-                    message: msg + '<br/>是否确认交卷？',
+                var th = this;
+                this.$confirm(msg + '<br/>是否确认交卷？', '交卷', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    dangerouslyUseHTMLString: true,
+                    type: 'warning'
                 }).then(() => {
-                    vapp.submit(2);
-                }).catch(() => {
-                    // on cancel
-                });
+                    th.submit(2);
+                }).catch(() => { });
+
             },
             //计算成绩得分
             calcReslutScore: function () {
