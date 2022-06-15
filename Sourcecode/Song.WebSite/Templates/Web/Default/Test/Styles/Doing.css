@@ -23,6 +23,32 @@ context#scene div.exam {
 	overflow: hidden;
 }
 
+/*课程未选择或过期*/
+.course_end {
+	width: 100%;
+	padding: 30px 10px;
+	font-size: 16px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.course_end icon {
+	font-size: 20px;
+}
+
+/*结课考试的条件*/
+.condition {
+	margin: 20px auto;
+	width: 1200px;
+	min-height: 500px;
+}
+
+.condition>div:not(:first-child) {	
+	text-align: left;
+	box-sizing: border-box;
+	padding: 10px 200px;
+}
+
 /*没有内容的图标*/
 
 .null_icon::before {
@@ -37,7 +63,7 @@ context#scene div.exam {
 }
 
 /*剩余时间*/
-.remaining {	
+.remaining {
 	height: 80px;
 	box-sizing: border-box;
 	text-align: center;
@@ -48,6 +74,7 @@ context#scene div.exam {
 	font-size: 50px;
 	color: #666;
 }
+
 /*提交按钮*/
 .testinfo div#btnSubmit {
 	cursor: pointer;
@@ -72,8 +99,9 @@ context#scene div.exam {
 	font-size: 20px;
 	margin-right: 15px;
 }
+
 /*上一题，下一题*/
-.move_btn{
+.move_btn {
 	position: absolute;
 	right: 80px;
 	top: 20px;
@@ -82,11 +110,13 @@ context#scene div.exam {
 	display: flex;
 	background-color: #fff;
 }
-.move_btn span{
+
+.move_btn span {
 	cursor: pointer;
 	flex: 1;
 	margin-right: 15px;
 }
+
 /*试题区*/
 
 section {

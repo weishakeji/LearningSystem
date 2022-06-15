@@ -3,10 +3,15 @@
         el: '#vapp',
         data: {
             tpid: $api.querystring('tpid', 0),
+            couid: $api.querystring('couid', 0),
+
             account: {},     //当前登录账号
             platinfo: {},
             organ: {},
-            config: {},      //当前机构配置项 
+            config: {},      //当前机构配置项        
+
+            purchase: {},        //课程购买的记录           
+            results: [],        //测试成绩
 
             paper: {},           //试卷信息           
             types: [],              //试题类型 
@@ -42,34 +47,25 @@
             resultTotal: 0
         },
         mounted: function () {
-            var th = this;
-            $api.bat(
-                $api.cache('Question/Types:9999'),
-                $api.get('TestPaper/ForID', { 'id': this.tpid })
-            ).then(axios.spread(function (type, paper) {
-                vapp.loading.init = false;
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
-                //考试相关
-                th.types = type.data.result;
-                th.paper = paper.data.result;
 
-            })).catch(function (err) {
-                console.error(err);
-            });
         },
         created: function () { },
         computed: {
             //学员是否登录
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
+            },
+            //是否过期，过期返回true
+            isoverdue: function () {
+                var isbuy = JSON.stringify(this.purchase) != '{}' && this.purchase != null;
+                if (!isbuy) return true;
+                if (this.purchase.Stc_IsFree) return false;
+                if (this.purchase.Stc_EndTime > this.servertime) return false;
+                return true;
+            },
+            //是否可以进行模拟测试
+            istest: function () {
+
             },
             //试题总数
             questotal: function () {
@@ -102,10 +98,7 @@
             //当学员登录后
             'account': {
                 handler: function (nv, ov) {
-                    if (nv && this.islogin) {
-                        //生成试卷
-                        this.generatePaper();
-                    }
+                    this.initialize();
                 },
                 immediate: true
             },
@@ -151,6 +144,83 @@
             }
         },
         methods: {
+            //初始化
+            initialize: function () {
+                var th = this;
+                $api.bat(
+                    $api.cache('Question/Types:9999'),
+                    $api.get('TestPaper/ForID', { 'id': this.tpid })
+                ).then(axios.spread(function (type, paper) {
+                    vapp.loading.init = false;
+                    //判断结果是否正常
+                    for (var i = 0; i < arguments.length; i++) {
+                        if (arguments[i].status != 200)
+                            console.error(arguments[i]);
+                        var data = arguments[i].data;
+                        if (!data.success && data.exception != null) {
+                            console.error(data.message);
+                        }
+                    }
+                    //试题类型
+                    th.types = type.data.result;
+                    //试卷
+                    th.paper = paper.data.result;
+                    //获取购买记录
+                    if (th.islogin) {
+                        th.getpurchase(th.account.Ac_ID, th.paper.Cou_ID);
+                        th.getresults(th.account.Ac_ID);
+                    }
+                    if (!th.final_disable())
+                        th.generatePaper();
+                })).catch(function (err) {
+                    console.error(err);
+                });
+            },
+            //获取购买课程的记录
+            getpurchase: function (stid, couid) {
+                var th = this;
+                if (th.couid <= 0 || stid <= 0) return;
+                th.loading = true;
+                $api.get('Course/Purchaselog:5', { 'stid': stid, 'couid': couid }).then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        th.purchase = req.data.result;
+                        console.log(th.purchase);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading = false;
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            },
+            //获取历史成绩
+            getresults: function (stid) {
+                var th = this;
+                $api.get('TestPaper/ResultsAll', { 'stid': stid, 'tpid': th.tpid }).then(function (req) {
+                    th.loading_result = false;
+                    if (req.data.success) {
+                        th.results = req.data.result;
+                        console.log(th.results);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+
+                }).catch(function (err) {
+                    th.loading_result = false;
+                    th.results = [];
+                    console.error(err);
+                });
+            },
+            //结果考试的按钮是否通过,为true时表示不通过
+            final_disable: function () {
+                if (!this.paper.Tp_IsFinal) return false;
+                var final_condition = this.$refs["final_condition"];
+                return final_condition.final_disable();
+            },
             //生成试卷内容
             generatePaper: function () {
                 if (JSON.stringify(this.paper) == '{}' && this.paper == null) return;
@@ -400,4 +470,5 @@
     });
 }, ['Components/Question.js',
     'Components/Quesbuttons.js',
-    'Components/AnswerCard.js']);
+    'Components/AnswerCard.js',
+    "Components/final_condition.js"]);

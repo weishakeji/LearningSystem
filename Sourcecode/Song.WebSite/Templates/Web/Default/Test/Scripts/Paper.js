@@ -5,6 +5,7 @@ $ready(function () {
         data: {
             id: $api.dot(),      //试卷id
             account: {},     //当前登录账号
+            servertime: {},      //服务端时间
 
             platinfo: {},
             organ: {},
@@ -27,7 +28,17 @@ $ready(function () {
             loading_result: true //加载成绩的预载
         },
         mounted: function () {
-            console.log(this.organ);
+            var th = this;
+            $api.get('Platform/ServerTime').then(function (req) {
+                if (req.data.success) {
+                    th.servertime = req.data.result;
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                console.error(err);
+            });
         },
         created: function () {
 
@@ -36,6 +47,14 @@ $ready(function () {
             //是否登录
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
+            },
+            //是否过期，过期返回true
+            isoverdue: function () {
+                var isbuy = JSON.stringify(this.purchase) != '{}' && this.purchase != null;
+                if (!isbuy) return true;
+                if (this.purchase.Stc_IsFree) return false;
+                if (this.purchase.Stc_EndTime > this.servertime) return false;
+                return true;
             },
             //是否存在结课考试
             final: function () {
@@ -138,7 +157,7 @@ $ready(function () {
             },
             //获取购买课程的记录
             getpurchase: function (query) {
-                var th = this;              
+                var th = this;
                 if (query.couid <= 0 || query.stid <= 0) return;
                 th.loading = true;
                 $api.get('Course/Purchaselog:5', query).then(function (req) {
@@ -156,23 +175,6 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            //获取机构的配置参数
-            orgconfig: function (para, def) {
-                var val = this.config[para];
-                if (val === 0) return 0;
-                if (!val) return def ? def : '';
-                return val;
-            },
-            //最高得分
-            score_highest: function () {
-                if (this.results.length < 1) return;
-                var highest = 0;
-                for (let i = 0; i < this.results.length; i++) {
-                    const el = this.results[i];
-                    if (el.Tr_Score > highest) highest = el.Tr_Score;
-                }
-                return highest;
-            },
             //得分样式
             scoreStyle: function (score) {
                 //总分和及格分
@@ -186,32 +188,23 @@ $ready(function () {
             },
             //参加测试的按钮
             btn_test: function () {
-
-            },
-            //结课考试的按钮事件
-            btn_final: function () {
-                var disabled = this.final_disable();
-                if (disabled) return;
                 var url = "/Web/Test/doing";
                 url = $api.url.set(url, {
                     'tpid': this.id,
                     'couid': this.course.Cou_ID
                 });
                 window.location.href = url;
-                console.log(333);
+            },
+            //结课考试的按钮事件
+            btn_final: function () {
+                var disabled = this.final_disable();
+                if (disabled) return;
+                this.btn_test();
             },
             //结果考试的按钮是否通过,为true时表示不通过
             final_disable: function () {
-                //视频学习进度是否达成
-                var condition_video = this.orgconfig('finaltest_condition_video', 100);
-                if (condition_video > this.purchase.Stc_StudyScore) return true;
-                //试题练习通过率是否达成
-                var condition_ques = this.orgconfig('finaltest_condition_ques', 100);
-                if (condition_ques > this.purchase.Stc_QuesScore) return true;
-                //最多可以考几次
-                var finaltest_count = this.orgconfig('finaltest_count', 1);
-                if (finaltest_count <= this.results.length) return true;
-                return false;
+                var final_condition=this.$refs["final_condition"];
+                return final_condition.final_disable();               
             },
             //成绩回顾的链接
             btnReview: function (item) {
@@ -237,5 +230,6 @@ $ready(function () {
     });
 
 }, ["../Components/courses.js",
-    '../scripts/pagebox.js']);
+    '../scripts/pagebox.js',
+    "Components/final_condition.js"]);
 $dom.load.css([$dom.path() + 'styles/pagebox.css']);

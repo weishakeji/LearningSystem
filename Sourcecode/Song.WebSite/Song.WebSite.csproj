@@ -818,7 +818,9 @@
     <Content Include="Templates\Web\Default\About\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\About\Styles\Index.css" />
     <Content Include="Templates\Web\Default\Components\courses.js" />
+    <Content Include="Templates\Web\Default\Components\nologin.js" />
     <Content Include="Templates\Web\Default\Components\Styles\courses.css" />
+    <Content Include="Templates\Web\Default\Components\Styles\nologin.css" />
     <Content Include="Templates\Web\Default\Course\Components\accessory.js" />
     <Content Include="Templates\Web\Default\Course\Components\study_live.js" />
     <Content Include="Templates\Web\Default\Course\Components\study_event.js" />

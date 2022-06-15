@@ -405,6 +405,19 @@ namespace Song.ViewData.Methods
             return result;
         }
         /// <summary>
+        /// 所有测试成绩
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="tpid">试卷id</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Song.Entities.TestResults[] ResultsAll(int stid, int tpid)
+        {         
+            Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsCount(stid, tpid);            
+            return trs;
+        }
+        /// <summary>
         /// 获取测试成绩
         /// </summary>
         /// <param name="id">测试成绩记录的id</param>
@@ -418,7 +431,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="trid">测试成绩的id</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpDelete,Admin,Teacher,Student]
         public bool ResultDelete(int trid)
         {
             try
@@ -438,7 +451,7 @@ namespace Song.ViewData.Methods
         /// <param name="acid">学员id</param>
         /// <param name="tpid">试卷id</param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpDelete, Admin, Teacher, Student]
         public int ResultClear(int acid, int tpid)
         {
             Song.Entities.Accounts account = this.User;

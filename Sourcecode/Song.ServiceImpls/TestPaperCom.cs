@@ -637,17 +637,30 @@ namespace Song.ServiceImpls
         /// 获取某员工的测试成绩
         /// </summary>
         /// <param name="stid"></param>
-        /// <param name="sbjid"></param>
+        /// <param name="couid"></param>
+        /// <param name="search"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public TestResults[] ResultsCount(int stid, int sbjid, int couid, string sear, int count)
+        public TestResults[] ResultsCount(int stid, int couid, string search, int count)
         {
             WhereClip wc = TestResults._.Tr_ID > -1;
-            if (stid > 0) wc.And(TestResults._.Ac_ID == stid);
-            if (sbjid > 0) wc.And(TestResults._.Sbj_ID == sbjid);
+            if (stid > 0) wc.And(TestResults._.Ac_ID == stid);         
             if (couid > 0) wc.And(TestResults._.Cou_ID == couid);
-            if (sear != null && sear != "") wc.And(TestResults._.Tp_Name.Like("%" + sear + "%"));
+            if (!string.IsNullOrWhiteSpace(search)) wc.And(TestResults._.Tp_Name.Like("%" + search + "%"));
             return Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_CrtTime.Desc).ToArray<TestResults>(count);
+        }
+        /// <summary>
+        /// 获取某员工的测试成绩
+        /// </summary>
+        /// <param name="stid"></param>
+        /// <param name="tpid"></param>    
+        /// <returns></returns>
+        public TestResults[] ResultsCount(int stid, int tpid)
+        {
+            WhereClip wc = new WhereClip();
+            if (tpid > 0) wc.And(TestResults._.Tp_Id == tpid);
+            if (stid > 0) wc.And(TestResults._.Ac_ID == stid);          
+            return Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_CrtTime.Desc).ToArray<TestResults>();
         }
         /// <summary>
         /// 分页获取测试成绩

@@ -25,7 +25,16 @@
                 </template>
             </el-breadcrumb>
         </context>
-        <context id="scene" v-if="islogin" remark="考试区域">
+        <nologin v-if="!islogin" remark="未登录"></nologin>
+        <context v-else-if="isoverdue" class="course_end">
+            <icon>&#xe671</icon>未选修当前课程，或已经过期
+        </context>
+
+        <final_condition ref="final_condition" class="condition" :config="config" :purchase="purchase" :paperid="tpid" :account="account">
+            <el-divider>参加结课考试的条件</el-divider>
+        </final_condition>
+
+        <context id="scene" v-if="!final_disable()" remark="考试区域">
             <div class="testinfo" remark="试卷信息区域">
                 <loading class="loading_init" v-if="loading.init">加载初始数据...</loading>
                 <template v-else>
@@ -61,7 +70,7 @@
                 </section>
             </div>
         </context>
-        <nologin v-else remark="未登录"></nologin>
+
         <page_footer :organ="organ" :account="account">loading ...</page_footer>
     </div>
 </body>

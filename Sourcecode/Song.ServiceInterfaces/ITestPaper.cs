@@ -182,10 +182,18 @@ namespace Song.ServiceInterfaces
         /// 获取某员工的测试成绩
         /// </summary>
         /// <param name="stid"></param>
-        /// <param name="sbjid"></param>
+        /// <param name="couid"></param>
+        /// <param name="search"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        TestResults[] ResultsCount(int stid, int sbjid, int couid, string sear, int count);
+        TestResults[] ResultsCount(int stid, int couid, string search, int count);
+        /// <summary>
+        /// 获取某员工的测试成绩
+        /// </summary>
+        /// <param name="stid"></param>
+        /// <param name="tpid"></param>    
+        /// <returns></returns>
+        TestResults[] ResultsCount(int stid, int tpid);
         /// <summary>
         /// 分页获取测试成绩
         /// </summary>

@@ -98,6 +98,14 @@ context#testpaper {
 .btnBox a.btn_final[disabled]:hover{
 	transform: scale(1);
 }
+/*课程未选择或过期*/
+.course_end{
+	padding: 5px 10px;
+	font-size: 16px;
+}
+.course_end icon{
+	font-size: 20px;
+}
 /*内容区*/
 context.body {
 	margin-top: 60px;
