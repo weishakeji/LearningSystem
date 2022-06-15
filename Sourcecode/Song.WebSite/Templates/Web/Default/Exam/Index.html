@@ -41,7 +41,7 @@
                     <exam_theme v-for="(theme,index) in allexam" :theme="theme"  :index="(form.index - 1) * form.size + index" :account="account">
                     </exam_theme>
                     <div v-if="allexam.length<=0 && !loading" class="noexam">
-                        <icon>&3xe723</icon>好嗨哟，没有考试
+                        <icon>&#xe723</icon>好嗨哟，没有考试
                     </div>
                     <div class="pager-box" v-if="allexam.length>0 && !loading" >
                         <el-pagination v-on:current-change="all_exam" :current-page="form.index" :page-sizes="[1]"
