@@ -1,8 +1,8 @@
 //结课条件
 $dom.load.css([$dom.pagepath() + 'Styles/final_condition.css']);
 Vue.component('final_condition', {
-    //参数：机构参数，购买记录，试卷id，学员
-    props: ['config', 'purchase', 'paperid', 'account'],
+    //参数：机构参数，购买记录，试卷id，学员,是否一直显示
+    props: ['config', 'purchase', 'paperid', 'account','show'],
     data: function () {
         return {
             results: [],
@@ -75,7 +75,7 @@ Vue.component('final_condition', {
             return highest;
         },
     },
-    template: `<div class="final_condition" v-if="final_disable()">
+    template: `<div class="final_condition" v-if="show || final_disable()">
         <slot></slot>
         <div>
             1、视频学习完成<b>{{orgconfig('finaltest_condition_video',100)}}%</b>，当前完成<b>{{purchase.Stc_StudyScore}}%</b>，
