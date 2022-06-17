@@ -65,8 +65,8 @@
 
                 <div class="finalinfo" v-else>
                     <el-divider content-position="left">参加结课考试的条件</el-divider>
-                    <final_condition ref="final_condition" :show="true" :config="config" :purchase="purchase" :paperid="id"
-                        :account="account"></final_condition>
+                    <final_condition ref="final_condition" :show="true" :config="config" :purchase="purchase"
+                        :paperid="id" :account="account"></final_condition>
                 </div>
                 <div class="btnBox">
                     <loading v-if="loading"></loading>
@@ -105,12 +105,26 @@
 
                 <template v-else-if="results.length>0">
                     <div v-for="(item,i) in results" class="result">
-                        <span class="index">{{i+1}}.</span>
-                        <span class="score">{{item.Tr_Score}}分
-                            <score :class="scoreStyle(item.Tr_Score)"></score>
-                        </span>
-                        <span class="time">{{item.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span>
-                        <el-tag class="review" @click="btnReview(item)">成绩回顾</el-tag>
+                        <template v-if="loading_id==item.Tr_ID">
+                            <loading></loading>
+                        </template>
+                        <template v-else>
+                            <span class="index">{{i+1}}.</span>
+                            <span class="score">{{item.Tr_Score}}分
+                                <score :class="scoreStyle(item.Tr_Score)"></score>
+                            </span>
+                            <span class="time">{{item.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span>
+                            <el-button-group class="btns">
+                                <el-popconfirm confirm-button-text='是的' v-if="!final" cancel-button-text='不用'
+                                    icon="el-icon-info" icon-color="red" title="确定删除吗？" @confirm="btnDelete(item)">
+                                    <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                                    </el-link>
+                                </el-popconfirm>
+                                <el-link type="primary" plain icon="el-icon-trophy" @click="btnReview(item)">
+                                    成绩回顾
+                                </el-link>
+                            </el-button-group>
+                        </template>
                     </div>
                     <div id="pager-box">
                         <el-pagination v-on:current-change="getresults" :current-page="result_query.index"

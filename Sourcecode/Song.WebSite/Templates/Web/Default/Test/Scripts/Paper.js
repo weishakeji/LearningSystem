@@ -25,6 +25,7 @@ $ready(function () {
             totalpages: 1, //总页数
 
             loading: false,
+            loading_id: 0,           //单行的预载
             loading_result: true //加载成绩的预载
         },
         mounted: function () {
@@ -203,8 +204,8 @@ $ready(function () {
             },
             //结果考试的按钮是否通过,为true时表示不通过
             final_disable: function () {
-                var final_condition=this.$refs["final_condition"];
-                return final_condition.final_disable();               
+                var final_condition = this.$refs["final_condition"];
+                return final_condition.final_disable();
             },
             //成绩回顾的链接
             btnReview: function (item) {
@@ -225,6 +226,25 @@ $ready(function () {
                 obj['showmask'] = true; //始终显示遮罩
                 obj['min'] = false;
                 var box = $pagebox.create(obj).open();
+            },
+            //删除成绩
+            btnDelete: function (item) {
+                var th = this;
+                th.loading_id = item.Tr_ID;
+                $api.delete('TestPaper/ResultDelete', { 'trid': item.Tr_ID }).then(function (req) {
+                    th.loading_id = -1;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.getresults();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading_id = -1;
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
             }
         }
     });

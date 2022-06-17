@@ -54,7 +54,7 @@ namespace Song.ViewData.Methods
                         file.SaveAs(PhyPath + filename);
                         //生成缩略图
                         smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
-                        WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 160, 90, 0);
+                        WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 320, 180, 0);
                         break;
                     }
 
@@ -127,7 +127,7 @@ namespace Song.ViewData.Methods
                             file.SaveAs(PhyPath + filename);
                             //生成缩略图
                             smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
-                            WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 160, 90, 0);
+                            WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 320, 180, 0);
                             break;
                         }
                         course.Cou_Logo = filename;
