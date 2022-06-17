@@ -6,19 +6,42 @@
 }
 
 .row {
-	padding: 5px 15px;
+	padding: 10px 15px 5px 80px;
+	height: 80px;
 	box-sizing: border-box;
 	display: flex;
 	justify-content: space-between;
+	text-align: left;
+	position: relative;
+	font-size: 20px;
+}
+.row::before{
+	font-family:"webdesk_icon" !important;	
+	font-size: 60px;
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.video::before{
+	content: '\e83a';
+}
+.ques::before{
+	content: '\e75e';
+}
+.exam::before{
+	content: '\e810';
 }
 .row span:last-child{
 	display: block;
 	width: 120px;
 }
 .score{
-	margin-top: 20px;
-	text-align: right;
+	bottom: 10px;   
 }
 .score span{
-	font-size: 22px;
+	font-size: 30px;
+	line-height: 20px;
+	margin: 0px 5px;
+	color: #409EFF;
 }

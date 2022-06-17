@@ -127,14 +127,14 @@ $ready(function () {
             //查看结课成绩的详情
             viewScore: function (item) {
                 if (!window.top || !window.top.vapp) return;
-                var url = "/Student/Course/ScoreDetails";
+                var url = "/student/course/ScoreDetails";
                 url = $api.url.dot(item.Cou_ID, url);
                 url = $api.url.set(url, { 'stid': this.account.Ac_ID });
                 var obj = {
                     'url': url,
                     'ico': 'e6ef', 'min': false,
                     'title': '成绩详情 - ' + item.Cou_Name,
-                    'width': '600px',
+                    'width': '800px',
                     'height': '400px'
                 }
                 window.top.vapp.open(obj);

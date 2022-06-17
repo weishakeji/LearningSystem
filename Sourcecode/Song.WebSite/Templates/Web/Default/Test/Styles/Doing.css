@@ -68,6 +68,7 @@ context#scene div.exam {
 	box-sizing: border-box;
 	text-align: center;
 	padding: 15px;
+	cursor: pointer;
 }
 
 .remaining, .remaining * {
@@ -229,8 +230,7 @@ section dd img {
 /*一些面板*/
 
 .showTime {
-	padding: 20px;
-	width: 60%;
+	padding: 20px;	
 }
 
 .showExam {
@@ -239,7 +239,6 @@ section dd img {
 
 .submitState {
 	padding: 0px 20px 50px 20px;
-	width: 60%;
 
 }
 
@@ -310,7 +309,7 @@ score.praise::before {
 /*成绩提交成功*/
 
 .submitSuccess {
-	padding: 20px;
+	text-align: left;
 }
 
 .submitSuccess>div {

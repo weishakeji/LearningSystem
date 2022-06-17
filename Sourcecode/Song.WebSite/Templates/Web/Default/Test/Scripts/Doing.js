@@ -33,8 +33,7 @@
                 client: {},            //客户端时间
                 span: 0,            //考试时长（单位分钟）  
                 begin: new Date(), //开始考试时间          
-                over: new Date(),    //考试结束时间              
-
+                over: new Date(),    //考试结束时间 
             },
             result: {},                  //答题成绩信息
             //加载中的状态
@@ -449,13 +448,8 @@
             },
             //进入回顾
             goreview: function () {
-                var file = "Review";
-                var th = this;
-                var url = $api.url.set(file, {
-                    'tr': th.submitState.result.trid,
-                    'tp': th.paper.Tp_Id,
-                    'couid': $api.querystring("couid")
-                });
+                var file = "/web/test/paper";
+                var url = $api.url.dot(this.tpid, file);
                 window.location.href = url;
             },
         },

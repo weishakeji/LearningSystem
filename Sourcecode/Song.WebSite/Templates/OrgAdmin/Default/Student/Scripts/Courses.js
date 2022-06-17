@@ -135,7 +135,7 @@
                     'url': url,
                     'ico': 'e6ef', 'min': false,
                     'title': '成绩详情 - ' + item.Cou_Name,
-                    'width': '600px',
+                    'width': '800px',
                     'height': '400px'
                 }
                 obj['showmask'] = true; //始终显示遮罩

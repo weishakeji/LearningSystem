@@ -30,7 +30,8 @@
             <icon>&#xe671</icon>未选修当前课程，或已经过期
         </context>
 
-        <final_condition ref="final_condition" class="condition" :config="config" :purchase="purchase" :paperid="tpid" :account="account">
+        <final_condition ref="final_condition" class="condition" :config="config" :purchase="purchase" :paperid="tpid"
+            :account="account">
             <el-divider>参加结课考试的条件</el-divider>
         </final_condition>
 
@@ -70,7 +71,25 @@
                 </section>
             </div>
         </context>
-
+        <el-dialog :visible.sync="submitState.show" class="submitState" :append-to-body="true"
+            :close-on-click-modal="false" :show-close="false">
+            <template slot="title">
+                <loading v-if="submitState.loading">成绩提交中...</loading>
+                <span v-else>成绩提交成功！</span>
+            </template>
+            <div class="submitSuccess">
+                <loading v-if="submitState.loading">成绩提交中...</loading>
+                <template v-else>
+                    <div>得分：<b v-html="submitState.result.score"></b> 分 </div>
+                    <div class="pager_total">
+                        总 分：{{paper.Tp_Total}} 分 / {{paper.Tp_PassScore}}分及格
+                    </div>
+                </template>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="goreview">确 定</el-button>
+            </span>
+        </el-dialog>
         <page_footer :organ="organ" :account="account">loading ...</page_footer>
     </div>
 </body>
