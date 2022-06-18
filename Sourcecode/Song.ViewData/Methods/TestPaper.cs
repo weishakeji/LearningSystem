@@ -309,6 +309,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPut,HttpPost]
         [HtmlClear(Not = "result")]
+        [Student]
         public JObject InResult(string result)
         {
             JObject jo = new JObject();
@@ -322,24 +323,66 @@ namespace Song.ViewData.Methods
             XmlDocument resXml = new XmlDocument();
             resXml.LoadXml(result, false);
             XmlNode xn = resXml.SelectSingleNode("results");
-            //试卷id，试卷名称
-            int tpid = 0;
-            int.TryParse(getAttr(xn, "tpid"), out tpid);
-            string tpname = getAttr(xn, "tpname");
-            //课程id,课程名称
-            int couid = 0;
-            int.TryParse(getAttr(xn, "couid"), out couid);
-            string couname = getAttr(xn, "couname");
-            //专业id,专业名称
-            int sbjid = 0;
-            int.TryParse(getAttr(xn, "sbjid"), out sbjid);
-            string sbjname = getAttr(xn, "sbjname");
             //学员Id,学员名称
             int stid = 0, stsid = 0;
             int.TryParse(getAttr(xn, "stid"), out stid);
             int.TryParse(getAttr(xn, "stsid"), out stsid);
             string stname = getAttr(xn, "stname");
             string stsname = getAttr(xn, "stsname");
+            //***验证是否是当前学员
+            Song.Entities.Accounts acc = this.User;
+            if (acc.Ac_ID != stid) throw new Exception("当前登录学员信息与成绩提交的信息不匹配");
+
+            //课程id,课程名称
+            int couid = 0;
+            int.TryParse(getAttr(xn, "couid"), out couid);
+            string couname = getAttr(xn, "couname");
+            //***课程是否购买或过期
+            Student_Course purchase = Business.Do<ICourse>().StudentCourse(stid, couid);
+            if (purchase == null || (!purchase.Stc_IsFree && (purchase.Stc_EndTime < DateTime.Now || purchase.Stc_StartTime > DateTime.Now)))
+                throw new Exception("未购买课程或已经过期");
+
+            //机构信息
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+
+            //试卷id，试卷名称
+            int tpid = 0;
+            int.TryParse(getAttr(xn, "tpid"), out tpid);
+            string tpname = getAttr(xn, "tpname");
+            //***如果结课考试，则验证结课条件是否满足
+            Song.Entities.TestPaper paper = Business.Do<ITestPaper>().PaperSingle(tpid);
+            if (paper == null) throw new Exception("试卷不存在");
+            if (paper.Tp_IsFinal)
+            {
+                string txt = string.Format("学员 {0} 未满足结课考试条件：", acc.Ac_Name);
+                WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
+                //视频学习进度是否达成
+                double condition_video = config["finaltest_condition_video"].Value.Double ?? 100;
+                if (condition_video > purchase.Stc_StudyScore)
+                {
+                    throw new Exception(string.Format(txt + "视频学习应达到{0}%，实际学习进度{1}%", condition_video, purchase.Stc_StudyScore));
+                }
+                //试题练习通过率是否达成
+                double condition_ques = config["finaltest_condition_ques"].Value.Double ?? 100;
+                if (condition_ques > purchase.Stc_QuesScore)
+                {
+                    throw new Exception(string.Format(txt + "试题通过率应达到{0}%，实际通过率为{1}%", condition_ques, purchase.Stc_QuesScore));
+                }
+                //最多可以考几次
+                int finaltest_count = config["finaltest_count"].Value.Int32 ?? 1;
+                Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsCount(stid, tpid);
+                if (finaltest_count <= trs.Length)
+                {
+                    throw new Exception(string.Format("最多允许考试{0}次， 已经考了{1}次，", finaltest_count, trs.Length));
+                }
+
+            }
+
+            //专业id,专业名称
+            int sbjid = 0;
+            int.TryParse(getAttr(xn, "sbjid"), out sbjid);
+            string sbjname = getAttr(xn, "sbjname");
+          
             //UID与考试主题
             string uid = getAttr(xn, "uid");
             //string theme = xn.Attributes["theme"].Value.ToString();
@@ -363,8 +406,7 @@ namespace Song.ViewData.Methods
             exr.Tr_UID = uid;
             exr.Tr_Results = result;
             exr.Tr_Score = score;
-            //机构信息
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+          
             exr.Org_ID = org.Org_ID;
             exr.Org_Name = org.Org_Name;
             //得分
