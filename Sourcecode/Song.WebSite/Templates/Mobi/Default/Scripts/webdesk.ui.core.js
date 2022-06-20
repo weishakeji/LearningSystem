@@ -731,7 +731,7 @@
                     var href = $dom(this).attr("href").toLowerCase();
                     if (href.indexOf('?') > -1)
                         href = href.substring(0, href.lastIndexOf('?'));
-                    console.log(href);
+                    //console.log(href);
                     if (one.toLowerCase() == href) {
                         exist = true;
                         return false;

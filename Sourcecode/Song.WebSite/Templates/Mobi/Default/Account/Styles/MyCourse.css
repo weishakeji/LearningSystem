@@ -95,8 +95,8 @@
 }
 
 .cour_box {
-    padding: 10px 16px 40px 16px;
-    height: 140px;
+    padding: 10px 16px 60px 16px;
+    height: 160px;   
 }
 
 .cour_box picture {
@@ -153,11 +153,11 @@
     max-height: 40px;
 
     line-clamp: 2;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .cour_box price {
@@ -234,11 +234,32 @@
     background-color: #fff;
     min-height: 100px;
 }
+
 /*进度条*/
-.progress{
+.progress {
     position: absolute;
     width: calc(100% - 30px);
     margin: 0px 15px;
     left: 0px;
     bottom: 20px;
+    display: flex;
+}
+
+.progress>*:not(:last-child) {
+    flex: 1;
+    display: flex;
+}
+.progress>div:not(:last-child){
+    margin-right: 10px;
+}
+.progress>* icon {
+    font-size: 18px;
+}
+
+.progress>*>div {
+    flex: 1;
+}
+
+.progress .van-progress {
+    margin-top: 8px;
 }

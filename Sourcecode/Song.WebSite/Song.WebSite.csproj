@@ -215,6 +215,11 @@
     <Content Include="Templates\Manage\Default\Platform\PositionMember.html" />
     <Content Include="Templates\Manage\Default\Platform\Scripts\PositionMember.js" />
     <Content Include="Templates\Manage\Default\Platform\Styles\PositionMember.css" />
+    <Content Include="Templates\Mobi\Default\Account\Components\ques_progress.js" />
+    <Content Include="Templates\Mobi\Default\Account\Components\Styles\video_progress.css" />
+    <Content Include="Templates\Mobi\Default\Account\Components\purchase_data.js" />
+    <Content Include="Templates\Mobi\Default\Account\Components\result_score.js" />
+    <Content Include="Templates\Mobi\Default\Account\Components\video_progress.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\ExerciseState.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\OutlineList.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\OutlineList.css" />
