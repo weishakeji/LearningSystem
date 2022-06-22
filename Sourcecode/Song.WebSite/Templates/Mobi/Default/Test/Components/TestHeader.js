@@ -1,10 +1,10 @@
 //搜索框
-$dom.load.css([$dom.pagepath() + 'Styles/TestHeader.css']);
+$dom.load.css([$dom.pagepath() + 'Components/Styles/TestHeader.css']);
 Vue.component('test_header', {
-    props: [],
+    props: ['title','icon'],
     data: function () {
         return {
-            couid: $api.querystring("couid"),         
+            couid: $api.querystring("couid"),
             search: $api.querystring("s"),       //搜索字符  
             course: {},                  //课程信息
             sorts: [],                   //知识库分类
@@ -30,13 +30,16 @@ Vue.component('test_header', {
         }
     },
     computed: {
-        defimg: function () {
-            //默认图片
-            var img = document.getElementById("default-img");
-            return img.getAttribute("src");
+        'tit': function () {
+            if (this.title) return this.title;
+            return '在线测试';
+        },
+        'ico':function(){
+            if (this.icon) return this.icon;
+            return 'e84b';
         }
     },
-    mounted: function () {        
+    mounted: function () {
     },
     methods: {
         onSearch: function () {
@@ -65,13 +68,14 @@ Vue.component('test_header', {
             var couid = $api.querystring("couid", 0);
             var url = $api.url.dot(couid, '/mobi/course/Detail');
             window.location.href = url;
-        } 
+        }
     },
     template: `<div class="header">
     <icon @click="goback">&#xe748</icon>
     <icon @click="gocourse">&#xe813</icon>
     <van-tag  size="medium" class="sortname" type="success">
-       在线测试
+        <icon v-html="'&#x'+ico"></icon>
+       {{tit}}
     </van-tag>
      <van-search v-model.trim="search" placeholder="请输入检索字符" background="transparent" @search="onSearch">
         <template #action>

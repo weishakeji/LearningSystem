@@ -7,3 +7,137 @@ html, body, #vapp {
 	overflow: hidden;
 	position: relative;
 }
+
+.context {
+	width: 100%;
+	height: calc(100% - 44px - 55px);
+	overflow-y: auto;
+}
+
+.row {
+	line-height: 35px;
+}
+
+/*试卷信息*/
+
+card.paper card-title {
+	font-size: 16px;
+	padding-right: 100px;
+	position: relative;
+}
+
+.btn {
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	font-size: 14px;
+	margin: 18px 10px;
+	padding: 0px 5px;
+	background-color: #07c160;
+	border-radius: 5px;
+	color: #fff;
+}
+.btn[disabled]{
+	background-color: #999;
+	color: #eee;
+}
+.btn::after {
+	margin-left: 5px;
+}
+
+.btntest::after {
+	content: '\e6c6';
+	font-family: "webdesk_icon" !important;
+	font-size: 17px;
+}
+.btnCloseAll{
+	background-color: #ff976a;
+}
+.btnCloseAll::before {
+	content: '\e800';
+	font-family: "webdesk_icon" !important;
+	font-size: 15px;
+}
+
+/*得分样式*/
+
+score {
+	font-size: 16px;
+	line-height: 20px;
+	height: 20px;
+	position: absolute;
+	right: 0px;
+	top: 2px;
+}
+
+score::after {
+	font-family: "webdesk_icon" !important;
+	margin-left: 5px;
+	font-size: 18px;
+}
+score::before {	
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	font-size: 14px;
+	line-height: 150%;
+}
+score.nopass::after {
+	content: '\e774';
+	color: #ff0000;
+}
+
+/*文字提示*/
+score.nopass::before {
+	content: '不及格';
+	color: #ff0000;
+}
+
+score.general::before {
+	content: '\e829';
+}
+
+score.fine::before {
+	content: '\e826';
+	color: #07c160;
+}
+
+score.praise::before {
+	content: '\e855';
+	font-size: 20px;
+	color: chocolate;
+}
+
+.trscore {
+	font-size: 16px;
+	line-height: 180%;
+}
+
+.trscore span {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+/*测试时间*/
+
+.time {
+	font-size: 14px;
+	line-height: 150%;
+	text-align: right;
+	float: right;
+}
+
+.time::before {
+	content: '\e81a';
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	font-size: 16px;
+}
+.van-cell__title{
+	position: relative;
+	border-bottom: solid 1px #eee;
+	padding: 0px 0px 10px 0px;
+}
+.btnDelete{
+	height: calc(100% - 10px);
+}

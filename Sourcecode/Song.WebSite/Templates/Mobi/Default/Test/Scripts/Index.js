@@ -21,6 +21,7 @@ $ready(function () {
             total: 0
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
@@ -37,11 +38,11 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
             })).catch(function (err) {
                 console.error(err);
             });
@@ -62,14 +63,15 @@ $ready(function () {
                 var th = this;
                 th.query.index++;
                 var query = $api.clone(this.query);
-                console.log(query);
+                //console.log(query);
                 $api.get('TestPaper/ShowPager', query).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
                         var result = req.data.result;
                         for (var i = 0; i < result.length; i++) {
-                            th.datas.push(result[i]);
+                            if (!result[i].Tp_IsFinal)
+                                th.datas.push(result[i]);
                         }
                         var totalpages = req.data.totalpages;
                         // 数据全部加载完成
@@ -88,7 +90,7 @@ $ready(function () {
                 });
             },
             //页面跳转到试卷详情页
-            gopaper:function(item){
+            gopaper: function (item) {
                 var file = "Paper";
                 var url = $api.url.set(file, {
                     'id': item.Tp_Id,

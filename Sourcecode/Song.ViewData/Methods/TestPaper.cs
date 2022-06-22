@@ -230,6 +230,18 @@ namespace Song.ViewData.Methods
             return result;
         }
         /// <summary>
+        /// 获取某个课程的结课考试
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public Song.Entities.TestPaper FinalPaper(int couid)
+        {
+            Song.Entities.TestPaper tp = Business.Do<ITestPaper>().FinalPaper(couid);
+            if (tp != null)
+                tp.Tp_Logo = System.IO.File.Exists(PhyPath + tp.Tp_Logo) ? VirPath + tp.Tp_Logo : "";
+            return tp;
+        }
+        /// <summary>
         /// 分页获取所有试卷
         /// </summary>
         /// <param name="orgid"></param>

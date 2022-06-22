@@ -53,9 +53,7 @@ html, body, #vapp {
 	white-space:nowrap;
 	font-size: 15px;
 }
-.sortname::before{
-	content: '\e84b';
-	font-family: "webdesk_icon" !important;
+.sortname icon{
 	font-size: 17px;
 	margin-right: 10px;
 }

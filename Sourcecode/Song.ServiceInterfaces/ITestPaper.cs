@@ -44,6 +44,13 @@ namespace Song.ServiceInterfaces
         TestPaper PaperSingle(int identify);
         TestPaper PaperSingle(string name);
         /// <summary>
+        /// 获取某个课程的结课考试
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="use"></param>
+        /// <returns></returns>
+        TestPaper FinalPaper(int couid,bool? use);
+        /// <summary>
         /// 获取试卷
         /// </summary>
         /// <param name="orgid">机构id</param>

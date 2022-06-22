@@ -1055,7 +1055,7 @@
     <Content Include="Templates\Mobi\Default\Test\Styles\Paper.css" />
     <Content Include="Templates\Mobi\Default\Test\Styles\Index.css" />
     <Content Include="Templates\Mobi\Default\Test\Styles\Review.css" />
-    <Content Include="Templates\Mobi\Default\Test\Styles\TestHeader.css" />
+    <Content Include="Templates\Mobi\Default\Test\Components\Styles\TestHeader.css" />
     <Content Include="Templates\Mobi\Default\_self.xml" />
     <Content Include="Templates\Student\Default\Coupon\Index.html" />
     <Content Include="Templates\Student\Default\Coupon\Scripts\Index.js" />

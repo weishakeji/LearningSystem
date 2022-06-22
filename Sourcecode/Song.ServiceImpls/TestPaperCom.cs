@@ -163,7 +163,21 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.From<TestPaper>().Where(TestPaper._.Tp_Name == name).ToFirst<TestPaper>();
         }
-
+        /// <summary>
+        /// 获取某个课程的结课考试
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public TestPaper FinalPaper(int couid,bool? use)
+        {
+            WhereClip wc = TestPaper._.Cou_ID == couid;
+            wc.And(TestPaper._.Tp_IsFinal == true);
+            if (use != null)
+            {
+                wc.And(TestPaper._.Tp_IsUse == (bool)use);
+            }
+            return Gateway.Default.From<TestPaper>().Where(wc).OrderBy(TestPaper._.Tp_Id.Desc).ToFirst<TestPaper>();
+        }
         public TestPaper[] PaperCount(int orgid, int sbjid, int couid, int diff, bool? isUse, int count)
         {
             WhereClip wc = TestPaper._.Tp_Id > -1;
