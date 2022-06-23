@@ -233,10 +233,11 @@ namespace Song.ViewData.Methods
         /// 获取某个课程的结课考试
         /// </summary>
         /// <param name="couid">课程id</param>
+        /// <param name="use"></param>
         /// <returns></returns>
-        public Song.Entities.TestPaper FinalPaper(int couid)
+        public Song.Entities.TestPaper FinalPaper(int couid, bool? use)
         {
-            Song.Entities.TestPaper tp = Business.Do<ITestPaper>().FinalPaper(couid);
+            Song.Entities.TestPaper tp = Business.Do<ITestPaper>().FinalPaper(couid, use);
             if (tp != null)
                 tp.Tp_Logo = System.IO.File.Exists(PhyPath + tp.Tp_Logo) ? VirPath + tp.Tp_Logo : "";
             return tp;

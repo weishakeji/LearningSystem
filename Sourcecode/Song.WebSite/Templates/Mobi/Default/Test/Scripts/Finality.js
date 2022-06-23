@@ -54,7 +54,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.course = course.data.result;
                 if (JSON.stringify(th.course) != '{}' && th.course != null) {
-                    $api.get('TestPaper/FinalPaper', { 'couid': th.course.Cou_ID }).then(function (req) {
+                    $api.get('TestPaper/FinalPaper', { 'couid': th.course.Cou_ID, 'use': true }).then(function (req) {
                         if (req.data.success) {
                             th.paper = req.data.result;
                             th.tpid = th.paper.Tp_Id;
@@ -153,9 +153,9 @@ $ready(function () {
                         title: '未满足结课条件',
                         message: '未满足结课条件，不能参加结课考试',
                         theme: 'round-button',
-                      }).then(() => {
+                    }).then(() => {
                         // on close
-                      });
+                    });
                     return;
                 }
 
