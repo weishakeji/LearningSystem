@@ -15,13 +15,19 @@
 	color: rgb(3, 167, 3);
 	margin: 0px;
 }
-.el-progress{
-	float: left;
-	margin-right: 5px;
+/*完成度的各项值*/
+.progress{
+	display: flex;
 }
-.complete{
+.progress>div{
+	flex: 1;
+	
+}
+.progress>div span{
+	cursor: default;
+}
+.progress>div::before{
 	font-size: 16px;
-	margin-right: 0px;
 }
 /*成绩得分的样式*/
 .nopass{

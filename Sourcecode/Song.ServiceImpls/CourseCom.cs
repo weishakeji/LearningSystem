@@ -1447,15 +1447,18 @@ namespace Song.ServiceImpls
         public DataTable StudentPager(int couid, string acc, string name, int size, int index, out int countSum)
         {
             //计算总数的脚本
-            string sqlsum = @"select COUNT(*) from (
-                                select tm.cou_id,c.* from Accounts as c inner join
-                                    (select cou_id, ac_id
-                                        from (SELECT ac_id, MAX(cou_id) as 'cou_id'
+            //string sqlsum = @"select COUNT(*) from (
+            //                    select tm.cou_id,c.* from Accounts as c inner join
+            //                        (select cou_id, ac_id
+            //                            from (SELECT ac_id, MAX(cou_id) as 'cou_id'
 
-                                                FROM[LogForStudentStudy]  where Cou_ID = {{couid}} group by ac_id
-				                                ) as s group by s.cou_id,s.ac_id
-	                                ) as tm on c.ac_id = tm.ac_id  {{where}}
-                                ) as total";
+            //                                    FROM[LogForStudentStudy]  where Cou_ID = {{couid}} group by ac_id
+				        //                        ) as s group by s.cou_id,s.ac_id
+	           //                     ) as tm on c.ac_id = tm.ac_id  {{where}}
+            //                    ) as total";
+            string sqlsum = @"select COUNT(*) as total from 
+                     (select * from Student_Course where Student_Course.Cou_ID = {{couid}}) as sc  inner join
+                     Accounts as a on sc.Ac_ID = a.Ac_ID {{where}}";
             //查询条件
             string where = "";
             if (!string.IsNullOrWhiteSpace(acc) || !string.IsNullOrWhiteSpace(name))
@@ -1471,18 +1474,22 @@ namespace Song.ServiceImpls
             countSum = Convert.ToInt32(o);
 
             //分页查询的脚本
-            string sqljquery = @"select * from (
-                select tm.cou_id,c.*,lastTime,studyTime,complete, ROW_NUMBER() OVER(Order by c.ac_id ) AS rowid  from Accounts as c inner join 
-	                (SELECT ac_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
-				                 sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
-				                 (case  when max(Lss_Duration)>0 then
-					                 cast(convert(decimal(18,4),1000* sum(cast(Lss_StudyTime as float))/sum(cast(Lss_Duration AS float))) as float)*100
-					                 else 0 end
-				                  ) as 'complete'
-			                 FROM [LogForStudentStudy]  where Cou_ID={{couid}} group by ac_id
+            //string sqljquery = @"select * from (
+            //    select tm.cou_id,c.*,lastTime,studyTime,complete, ROW_NUMBER() OVER(Order by c.ac_id ) AS rowid  from Accounts as c inner join 
+	           //     (SELECT ac_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
+				        //         sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
+				        //         (case  when max(Lss_Duration)>0 then
+					       //          cast(convert(decimal(18,4),1000* sum(cast(Lss_StudyTime as float))/sum(cast(Lss_Duration AS float))) as float)*100
+					       //          else 0 end
+				        //          ) as 'complete'
+			         //        FROM [LogForStudentStudy]  where Cou_ID={{couid}} group by ac_id
 			
-	                ) as tm on c.ac_id=tm.ac_id {{where}}
-                ) as pager where rowid > {{start}} and rowid<={{end}} ";
+	           //     ) as tm on c.ac_id=tm.ac_id {{where}}
+            //    ) as pager where rowid > {{start}} and rowid<={{end}} ";
+            string sqljquery = @"select * from
+                       (select a.*,sc.Stc_QuesScore,sc.Stc_StudyScore,sc.Stc_ExamScore,ROW_NUMBER() OVER(Order by a.ac_id ) AS rowid from 
+                         (select * from Student_Course where  Student_Course.Cou_ID={{couid}}) as sc  inner join      
+                         Accounts as a on sc.Ac_ID=a.Ac_ID {{where}}) as pager  where  rowid > {{start}} and rowid<={{end}} ";
             sqljquery = sqljquery.Replace("{{couid}}", couid.ToString());
             sqljquery = sqljquery.Replace("{{where}}", where);
             int start = (index - 1) * size;
@@ -1519,8 +1526,18 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public string StudentToExcel(string path, Course course)
         {
-            //Song.Entities.Course course = Gateway.Default.From<Course>().Where(Course._.Cou_ID == couid).ToFirst<Course>();
-            //if (course == null) throw new Exception("课程不存在！");
+            //课程所在机构
+            Organization org = Business.Do<IOrganization>().OrganSingle(course.Org_ID);
+            if (org == null) org = Business.Do<IOrganization>().OrganCurrent();
+            //计算综合成绩时，要获取机构的相关参数
+            WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //视频学习的权重   //试题通过率的权重   //结课考试的权重
+            double weight_video = config["finaltest_weight_video"].Value.Double ?? 33.3;
+            double weight_ques = config["finaltest_weight_ques"].Value.Double ?? 33.3;
+            double weight_exam = config["finaltest_weight_exam"].Value.Double ?? 33.3;
+            //视频完成度的容差
+            double video_lerance = config["VideoTolerance"].Value.Double ?? 0;
+
 
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             //xml配置文件
@@ -1531,7 +1548,7 @@ namespace Song.ServiceImpls
 
             //创建工作簿，每个工作簿多少条
             int size = 10000, index = 1;
-          
+
             //生成数据行
             ICellStyle style_size = hssfworkbook.CreateCellStyle();
             style_size.WrapText = true;
@@ -1583,35 +1600,21 @@ namespace Song.ServiceImpls
                                             string f = s.Substring(s.LastIndexOf("=") + 1);
                                             if (value.ToLower() == h.ToLower()) value = f;
                                         }
-                                    }                                   
+                                    }
                                     row.CreateCell(n).SetCellValue(value);
                                 }
                             }
                         }
                     }
-                   
-                    int acid = Convert.ToInt32(dr["Ac_ID"]);
-                    ExamResults result = Business.Do<IExamination>().StudentForCourseExam(course.Cou_ID, acid);
-                    if (result != null)
-                    {
-                        Song.Entities.Examination exam = _getCahceExam(result.Exam_ID);
-                        if (exam != null)
-                        {
-                            double score = result.Exr_ScoreFinal >= 100 ? 100 : result.Exr_ScoreFinal;
-                            row.CreateCell(nodes.Count).SetCellValue(score);
-                            //考试不及极
-                            string state = "";
-                            if (score < exam.Exam_PassScore)
-                                state = "不及格";
-                            else if (score < exam.Exam_Total * 0.8)
-                                state = "";
-                            else if (score >= exam.Exam_Total * 0.8)
-                                state = "优秀";
-                            else if (score >= exam.Exam_Total)
-                                state = "满分";
-                            row.CreateCell(nodes.Count + 1).SetCellValue(state);
-                        }
-                    }
+                    //计算学员的课程综合成绩
+                    decimal result = 0, video = 0, ques = 0, exam = 0;
+                    video = Convert.ToDecimal(dr["Stc_StudyScore"]);
+                    video = video > 0 ? video + (decimal)video_lerance : video;
+                    ques = Convert.ToDecimal(dr["Stc_QuesScore"]);
+                    exam = Convert.ToDecimal(dr["Stc_ExamScore"]);
+                    result = (video * (decimal)weight_video / 100) + (ques * (decimal)weight_ques / 100) + (exam * (decimal)weight_exam / 100);
+                    result = Math.Round(result * 100) / 100;
+                    row.CreateCell(nodes.Count).SetCellValue((double)result);                    
                 }
                 index++;
             } while (index <= totalPage);
@@ -1667,8 +1670,8 @@ namespace Song.ServiceImpls
             IRow rowHead = sheet.CreateRow(0);
             for (int i = 0; i < nodes.Count; i++)
                 rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
-            rowHead.CreateCell(nodes.Count).SetCellValue("考试成绩");
-            rowHead.CreateCell(nodes.Count + 1).SetCellValue("成绩评定");
+            rowHead.CreateCell(nodes.Count).SetCellValue("综合成绩");
+            //rowHead.CreateCell(nodes.Count + 1).SetCellValue("成绩评定");
             return sheet;
         }
         #endregion

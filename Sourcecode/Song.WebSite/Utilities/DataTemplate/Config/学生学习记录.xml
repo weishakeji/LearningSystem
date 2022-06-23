@@ -14,5 +14,7 @@
   <item Column="身份证号" Field="Ac_IDCardNumber" />  
   <item Column="电子邮箱" Field="Ac_Email" />
   <item Column="QQ号" Field="Ac_Qq" />
-  <item Column="完成度" Field="complete" />
+  <item Column="视频学习" Field="Stc_StudyScore" />
+  <item Column="试题练习" Field="Stc_QuesScore" />
+  <item Column="结课考试" Field="Stc_ExamScore" />
 </config>

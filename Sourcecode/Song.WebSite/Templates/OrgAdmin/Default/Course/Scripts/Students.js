@@ -3,6 +3,8 @@
     window.vapp = new Vue({
         el: '#vapp',
         data: {
+            organ: {},
+            config: {},
             course: {},
             form: {
                 'couid': $api.querystring('id'),
@@ -21,21 +23,33 @@
         },
         mounted: function () {
             var th = this;
-            $api.get('Course/ForID', { 'id': this.form.couid }).then(function (req) {
-                if (req.data.success) {
-                    var result = req.data.result;
-                    th.course = result;
-                    document.title = '学习记录-《' + th.course.Cou_Name + '》';
-                    th.getdata(1);
-                    th.getFiles();
-                } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
+            th.loading_init = true;
+            $api.bat(
+                $api.get('Course/ForID', { 'id': th.form.couid }),
+                $api.get('Organization/Current')
+            ).then(axios.spread(function (course, organ) {
+                th.loading_init = false;
+                //判断结果是否正常
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i].status != 200)
+                        console.error(arguments[i]);
+                    var data = arguments[i].data;
+                    if (!data.success && data.exception != null) {
+                        console.error(data.message);
+                    }
                 }
-            }).catch(function (err) {
+                //获取结果
+                th.course = course.data.result;
+                document.title = '学习记录-《' + th.course.Cou_Name + '》';
+                th.getdata(1);
+                th.getFiles();
+
+                th.organ = organ.data.result;
+                th.config = $api.organ(th.organ).config;
+            })).catch(function (err) {
+                th.loading_init = false;
                 console.error(err);
             });
-
         },
         created: function () {
 
@@ -56,9 +70,6 @@
                 $api.get("Course/Students", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
-                        for (var i = 0; i < d.data.result.length; i++) {
-                            d.data.result[i].isAdminPosi = false;
-                        }
                         th.datas = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
@@ -90,13 +101,6 @@
             },
             showcomplPer: function (num) {
                 return Math.round(this.showcomplete(num))
-            },
-            showstatus: function (num) {
-                num = this.showcomplPer(num);
-                if (num >= 90) return "";
-                if (num >= 80) return "success";
-                if (num >= 60) return "warning";
-                return "exception";
             },
             //显示帮助
             btnhelp: function () {
@@ -182,9 +186,10 @@
             },
         }
     });
-    //考试成绩
-    Vue.component('exam_result', {
-        props: ["acid"],
+    //课程综合成绩
+    Vue.component('result_score', {
+        //account:学员记录，其中包括视频学习等的值，Stc_QuesScore,Stc_StudyScore,Stc_ExamScore,
+        props: ["account", "config"],
         data: function () {
             return {
                 result: {},  //成绩 {"score":成绩得分，没有成绩为-1,"state":nopass不及格，normal及格，fine优秀}
@@ -192,29 +197,38 @@
             }
         },
         watch: {
-            'acid': {
+            'account': {
                 handler: function (nv, ov) {
-                    this.getData(nv);
+                    this.result = this.calcScore();
                 }, immediate: true
             }
         },
         computed: {},
         mounted: function () { },
         methods: {
-            getData: function (acid) {
+            //综合得分
+            calcScore: function () {
+                var purchase = this.account;
                 var th = this;
-                th.loading = true;
-                $api.cache('Course/StudentForCourseExam', { 'couid': $api.querystring('id'), acid }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.result = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    console.error(err);
-                });
+                //视频得分
+                var weight_video = orgconfig('finaltest_weight_video', 33.3);
+                //加上容差
+                var video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
+                video = weight_video * video / 100;
+                //试题得分
+                var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
+                var ques = weight_ques * purchase.Stc_QuesScore / 100;
+                //结考课试分
+                var weight_exam = orgconfig('finaltest_weight_exam', 33.3);
+                var exam = weight_exam * purchase.Stc_ExamScore / 100;
+
+                return Math.round((video + ques + exam) * 100) / 100;
+                //获取机构的配置参数
+                function orgconfig(para, def) {
+                    var val = th.config[para];
+                    if (!val) return def ? def : '';
+                    return val;
+                };
             },
             //显示所有价格信息
             showdetail: function () {
@@ -227,7 +241,7 @@
             }
         },
         template: `<div class="exam_result">
-                <span v-if="result.score>-1" :class="result.state">{{result.score}}</span>      
+               {{result}}
                 </div> `
     });
 });

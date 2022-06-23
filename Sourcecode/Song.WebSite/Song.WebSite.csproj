@@ -225,6 +225,8 @@
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\OutlineList.css" />
     <Content Include="Templates\Mobi\Default\Reference\Cache_Clear.html" />
     <Content Include="Templates\Mobi\Default\Reference\Scripts\Cache_Clear.js" />
+    <Content Include="Templates\Mobi\Default\Test\Components\final_condition.js" />
+    <Content Include="Templates\Mobi\Default\Test\Components\Styles\final_condition.css" />
     <Content Include="Templates\Mobi\_Public\404.html" />
     <Content Include="Templates\Mobi\_Public\Inc\meta.inc" />
     <Content Include="Templates\Mobi\_Public\Scripts\404.js" />
