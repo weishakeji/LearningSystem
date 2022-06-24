@@ -56,7 +56,7 @@ Vue.component('popup-notice', {
             return 'width: calc(100% - 30px);line-height: 40px;padding: 15px;font-size: 18px;';
         },
         context: function () {
-            return 'padding: 0px 15px ;line-height:30px;font-size: 16px;text-align: left;overflow: auto;height: calc(100% - 90px);';
+            return 'padding: 0px 30px ;line-height:30px;font-size: 16px;text-align: left;overflow: auto;height: calc(100% - 90px);';
         },
         //关闭按钮
         close: function () {
