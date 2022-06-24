@@ -28,7 +28,7 @@
                 <template v-if="tabmenu=='my_exam' && islogin" remark="我的考试">
                     <exam_data v-for="(e,index) in myexam" :exam="e" :index="(form.index - 1) * form.size + index" :account="account"></exam_data>
                     <div v-if="myexam.length<=0 && !loading" class="noexam">
-                        好嗨哟，没有考试
+                        <icon>&#xe723</icon>好嗨哟，没有考试
                     </div>
                     <div class="pager-box" v-if="myexam.length>0 && !loading" >
                         <el-pagination v-on:current-change="my_exam" :current-page="form.index" :page-sizes="[1]"

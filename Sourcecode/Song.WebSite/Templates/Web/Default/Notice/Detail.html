@@ -17,7 +17,7 @@
                 <div id="artBox">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
-                        <el-breadcrumb-item><a href="list">通知公告</a></el-breadcrumb-item>
+                        <el-breadcrumb-item><a href="index">通知公告</a></el-breadcrumb-item>
                         <el-breadcrumb-item>正文</el-breadcrumb-item>
                     </el-breadcrumb>
                     <h1> {{data.No_Ttl}}</h1>
@@ -34,7 +34,7 @@
             <div class="right">
                 <div class="notices">
                     <div class="tit">
-                       <a href="list"><icon>&#xe659</icon> 通知公告</a> 
+                       <a href="index"><icon>&#xe659</icon> 通知公告</a> 
                     </div>
                     <div class="noItem" v-for="(data,i) in notices">
                         <b :class="'order_'+i">{{i+1}}.</b>

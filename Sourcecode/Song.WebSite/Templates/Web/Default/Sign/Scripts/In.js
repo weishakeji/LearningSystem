@@ -216,7 +216,7 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 var orgid = th.org.Org_ID;
-                $api.get('Notice/showitems', { 'orgid': orgid, 'count': th.count }).then(function (req) {
+                $api.get('Notice/showitems', { 'orgid': orgid, 'type':-1,'count': th.count }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.datas = req.data.result;

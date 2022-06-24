@@ -110,11 +110,12 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>();
         }
 
-        public Notice[] GetCount(int orgid, bool? isShow, int count)
+        public Notice[] GetCount(int orgid, int type, bool? isShow, int count)
         {
             WhereClip wc = new WhereClip();
             wc.And(Notice._.No_StartTime < DateTime.Now);
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
+            if (type > 0) wc &= Notice._.No_Type == type;
             if (isShow != null) wc &= Notice._.No_IsShow == (bool)isShow;
             return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>(count);
         }

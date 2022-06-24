@@ -40,7 +40,7 @@ $ready(function () {
                 var orgid = vapp.organ.Org_ID;
                 $api.bat(
                     $api.cache('Showpic/Mobi:60', { 'orgid': orgid }),
-                    $api.get('Notice/ShowItems', { 'orgid': orgid, 'count': 10 }),
+                    $api.get('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 10 }),
                     $api.cache('Navig/Mobi', { 'orgid': orgid, 'type': 'main' }),
                     $api.cache('Subject/ShowRoot:60', { 'orgid': orgid, 'count': 10 })
                 ).then(axios.spread(function (showpic, notice, menus, subject) {

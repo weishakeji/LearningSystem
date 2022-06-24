@@ -155,16 +155,17 @@ namespace Song.ViewData.Methods
         /// 显示通知公告
         /// </summary>
         /// <param name="orgid">机构id</param>
+        /// <param name="type">1为普通通知，2为弹窗通知，-1取所有</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public Song.Entities.Notice[] ShowItems(int orgid, int count)
+        public Song.Entities.Notice[] ShowItems(int orgid, int type, int count)
         {
             if (orgid <= 0)
             {
                 Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                 orgid = org.Org_ID;
             }
-            return Business.Do<INotice>().GetCount(orgid, true, count);
+            return Business.Do<INotice>().GetCount(orgid, type, true, count);
         }
     }
 }

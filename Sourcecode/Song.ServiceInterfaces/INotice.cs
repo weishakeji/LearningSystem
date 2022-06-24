@@ -76,10 +76,11 @@ namespace Song.ServiceInterfaces
         /// 获取指定个数的记录
         /// </summary>
         /// <param name="orgid"></param>
+        /// <param name="type">1为普通通知，2为弹窗通知，-1取所有</param>
         /// <param name="isShow"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Notice[] GetCount(int orgid, bool? isShow, int count);
+        Notice[] GetCount(int orgid, int type, bool? isShow, int count);
         /// <summary>
         /// 取具体的数量
         /// </summary>
