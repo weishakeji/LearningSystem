@@ -505,17 +505,17 @@ namespace Song.ServiceImpls
         /// 分页获取
         /// </summary>
         /// <param name="orgid">机构Id</param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
         /// <param name="acid">学员Id</param>
         /// <param name="platform">学员文章平台，PC或Mobi</param>
-        /// <param name="start">统计的开始时间</param>
-        /// <param name="end">统计的结束时间</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
         public LogForStudentStudy[] LogForStudyPager(int orgid, int couid, int olid, int acid, string platform, int size, int index, out int countSum)
         {
-            WhereClip wc = LogForStudentStudy._.Org_ID == orgid;
+            WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(LogForStudentStudy._.Cou_ID == couid);
             if (olid > 0) wc.And(LogForStudentStudy._.Ol_ID == olid);
             if (acid > 0) wc.And(LogForStudentStudy._.Ac_ID == acid);

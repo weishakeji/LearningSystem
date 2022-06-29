@@ -1,0 +1,10 @@
+﻿.studylog{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 70px 30px 30px 30px;
+}
+.studylog>div{
+    width: 100%;
+    height: 100%;
+}

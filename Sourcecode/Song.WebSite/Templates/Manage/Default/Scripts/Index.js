@@ -12,7 +12,7 @@
  */
 
 //起始页
-var startpage = "/web/viewreport/index";
+var startpage = "/web/viewport/index";
 window.onload = function () {
     //禁用iframe中的右键菜单
     $dom('iframe').each(function () {

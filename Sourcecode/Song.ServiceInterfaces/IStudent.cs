@@ -216,15 +216,15 @@ namespace Song.ServiceInterfaces
         /// <param name="platform">平台，PC或Mobi</param>
         /// <param name="count"></param>
         /// <returns></returns>
-        LogForStudentStudy[] LogForStudyCount(int orgid, int couid, int olid, int stid, string platform, int count);   
+        LogForStudentStudy[] LogForStudyCount(int orgid, int couid, int olid, int stid, string platform, int count);
         /// <summary>
         /// 分页获取
         /// </summary>
         /// <param name="orgid">机构Id</param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
         /// <param name="stid">学员Id</param>
-        /// <param name="platform">学员文章平台，PC或Mobi</param>
-        /// <param name="start">统计的开始时间</param>
-        /// <param name="end">统计的结束时间</param>
+        /// <param name="platform">学员文章平台，PC或Mobi</param>    
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
@@ -235,7 +235,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="stid"></param>
         /// <returns>datatable中LastTime列为学习时间；studyTime：学习时间</returns>
-        DataTable StudentStudyCourseLog(int stid);
+        DataTable StudentStudyCourseLog(int stid);        
         /// <summary>
         /// 学员指定学习课程的记录
         /// </summary>

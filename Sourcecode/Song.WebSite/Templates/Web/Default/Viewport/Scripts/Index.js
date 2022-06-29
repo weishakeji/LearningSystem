@@ -45,6 +45,7 @@ $ready(function () {
 
         },
         methods: {
+            //获取一些统计数据
             getquantity: function () {
                 var th = this;
                 $api.get('Platform/Datas', { 'orgid': '' }).then(function (req) {
@@ -68,4 +69,5 @@ $ready(function () {
     });
 
 }, ["/Utilities/Viewport/datav.min.vue.js",
-    "Components/number.js"]);
+    "Components/number.js",
+    "Components/studylog.js"]);

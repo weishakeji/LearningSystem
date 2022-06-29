@@ -654,6 +654,24 @@ namespace Song.ViewData.Methods
             return per;
         }
         /// <summary>
+        /// 分页获取视频学习记录
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="couid"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ListResult StudyLogPager(int orgid, int couid, int size,int index)
+        {
+            int total = 0;
+            LogForStudentStudy[] list= Business.Do<IStudent>().LogForStudyPager(orgid, couid,-1,-1,null,size,index,out total);
+            Song.ViewData.ListResult result = new ListResult(list);
+            result.Index = index;
+            result.Size = size;
+            result.Total = total;
+            return result;
+        }
+        /// <summary>
         /// 学员学习某个课程的视频的完成信息，包括课程详细信息与完成信息
         /// </summary>
         /// <param name="stid">学员账号id</param>
@@ -700,7 +718,7 @@ namespace Song.ViewData.Methods
             return dt;
         }
         /// <summary>
-        /// 
+        /// 保存视频学习进度到课程购买记录
         /// </summary>
         /// <param name="acid"></param>
         /// <param name="couid"></param>
