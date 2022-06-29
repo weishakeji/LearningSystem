@@ -1,0 +1,8 @@
+﻿.map_henan{
+    margin: 20px;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+}
+.map_henan>div{
+   border-radius: 10px;
+}

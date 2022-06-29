@@ -51,8 +51,12 @@ body {
 	flex-direction: row;
 }
 
+.main-bod>div {
+	flex: 1;
+}
+
 .main-body>div:not(:last-child) {
-	margin-right: 20px;
+	margin-right: 10px;
 }
 
 .main-foot {
@@ -74,7 +78,7 @@ body {
 	justify-content: space-between;
 }
 
-.border-box-content .number_show{
+.border-box-content .number_show {
 	flex: 1 !important;
 }
 

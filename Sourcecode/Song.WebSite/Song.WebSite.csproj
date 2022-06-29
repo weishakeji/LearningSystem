@@ -910,8 +910,10 @@
     <Content Include="Templates\Web\Default\Test\Styles\Doing.css" />
     <Content Include="Templates\Web\Default\Test\Styles\Finality.css" />
     <Content Include="Templates\Web\Default\Test\Styles\Paper.css" />
+    <Content Include="Templates\Web\Default\Viewport\Components\map_henan.js" />
     <Content Include="Templates\Web\Default\Viewport\Components\studylog.js" />
     <Content Include="Templates\Web\Default\Viewport\Components\number.js" />
+    <Content Include="Templates\Web\Default\Viewport\Components\Styles\map_henan.css" />
     <Content Include="Templates\Web\Default\Viewport\Components\Styles\studylog.css" />
     <Content Include="Templates\Web\Default\Viewport\Components\Styles\number.css" />
     <Content Include="Templates\Web\Default\Viewport\Index.html" />
@@ -1556,6 +1558,9 @@
     <Content Include="Utilities\Vant\vant.min.js" />
     <Content Include="Utilities\Viewport\datav.map.vue.js" />
     <Content Include="Utilities\Viewport\datav.min.vue.js" />
+    <Content Include="Utilities\Viewport\Images\mapCenterPoint.png" />
+    <Content Include="Utilities\Viewport\Images\mapPoint.png" />
+    <Content Include="Utilities\Viewport\Images\map_henan.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

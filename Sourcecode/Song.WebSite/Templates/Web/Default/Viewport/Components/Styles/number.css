@@ -5,6 +5,7 @@
 }
 .number_show .title{
     height: 55px;
+    overflow: hidden;
 }
 .number_show .title icon {
     font-size: 35px;

@@ -1,10 +1,23 @@
-﻿.studylog{
+﻿.studylog {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
     padding: 70px 30px 30px 30px;
 }
-.studylog>div{
+
+.studylog>div {
     width: 100%;
     height: 100%;
+}
+.studylog .row-item{
+    display: flex;
+}
+.studylog .row-item .ceil:first-child{
+    width: 120px !important;
+}
+.studylog .row-item .ceil:nth-child(2){
+    flex: 1;
+}
+.studylog .row-item .ceil:last-child {
+    width: 80px !important;
 }

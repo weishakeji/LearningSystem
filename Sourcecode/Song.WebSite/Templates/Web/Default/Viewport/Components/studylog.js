@@ -27,13 +27,18 @@ Vue.component('studylog', {
     computed: {
     },
     mounted: function () {
+        var th = this;
         this.getStudyLogPager(1);
-
+        window.setInterval(function () {
+            th.getStudyLogPager();
+        }, 30 * 1000);
     },
     methods: {
         getStudyLogPager: function (index) {
             var th = this;
             if (index != null) th.query.index = index;
+            else
+                th.query.index++;
             $api.get('Course/StudyLogPager', th.query).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
@@ -64,16 +69,16 @@ Vue.component('studylog', {
                 if (d.Ac_Name.length > 1) d.Ac_Name = this.asterisk(d.Ac_Name, 1, 2);
                 //if (d.Ac_IDCardNumber.length > 1) d.Ac_IDCardNumber = this.asterisk(d.Ac_IDCardNumber, 6, 14);
                 if (d.Ac_AccName.length > 1) d.Ac_AccName = this.asterisk(d.Ac_AccName, 6, 14);
-                var arr = [d.Ac_Name, d.Ac_AccName, progress+" %"];
+                var arr = [d.Ac_Name, d.Ac_AccName, progress + " %"];
                 data.push(arr);
             }
             this.config = {
                 data: data,
-                rowNum: 10
+                rowNum: 9
             }
         },
-         //替换星号
-         asterisk: function (str, start, end) {
+        //替换星号
+        asterisk: function (str, start, end) {
             var len = str.length;
             end = end >= len ? len : end;
             start = start > len || start < 0 ? 0 : start;

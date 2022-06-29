@@ -70,4 +70,5 @@ $ready(function () {
 
 }, ["/Utilities/Viewport/datav.min.vue.js",
     "Components/number.js",
-    "Components/studylog.js"]);
+    "Components/studylog.js",
+    "Components/map_henan.js"]);
