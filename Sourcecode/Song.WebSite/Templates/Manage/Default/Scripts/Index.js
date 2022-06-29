@@ -10,6 +10,9 @@
  * 最后修订：2021年3月16日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
+
+//起始页
+var startpage = "/web/viewreport/index";
 window.onload = function () {
     //禁用iframe中的右键菜单
     $dom('iframe').each(function () {
@@ -124,7 +127,7 @@ $dom.ctrljs(function () {
     //判断是否登录
     $api.login.super().then(function (d) {
         ready(d);
-        $api.login.super_fresh();        
+        $api.login.super_fresh();
     }).catch(() => {
         window.login.loading = false;
     });
@@ -243,7 +246,8 @@ function ready(result) {
         default: {
             title: '启始页',
             path: '学习平台,启始页',
-            url: '/manage/Startpage',
+            //url: '/manage/Startpage',
+            url: startpage,
             ico: 'a020'
         }
     });

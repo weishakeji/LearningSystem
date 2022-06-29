@@ -188,9 +188,15 @@ namespace Song.ServiceImpls
         /// <param name="uid"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public int OfCount(string uid, string type)
+        public int OfCount(int orgid, string uid, string type)
         {
-            WhereClip wc = Accessory._.As_Uid == uid && Accessory._.As_Type == type;
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Accessory._.Org_ID == orgid);
+            if (!string.IsNullOrWhiteSpace(uid))           
+                wc.And(Accessory._.As_Uid == uid);
+            if (!string.IsNullOrWhiteSpace(type))
+                wc.And(Accessory._.As_Type == type);
+
             return Gateway.Default.Count<Accessory>(wc);
         }
     }

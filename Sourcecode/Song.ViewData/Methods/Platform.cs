@@ -276,6 +276,34 @@ namespace Song.ViewData.Methods
             return jo;
 
         }
+        /// <summary>
+        /// 平台数据,包括课程数、专业数、试题数、视频数，学员数，教师数等
+        /// </summary>
+        /// <param name="orgid">机构id,小于等于零取所有机构</param>
+        /// <returns></returns>
+        [HttpGet]
+        public JObject Datas(int orgid)
+        {
+            JObject jo = new JObject();
+            //课程数
+            jo.Add("course", Business.Do<ICourse>().CourseOfCount(orgid, -1, -1, null));
+            //专业数
+            jo.Add("subject", Business.Do<ISubject>().SubjectOfCount(orgid, -1, null, true));
+            //试题数
+            jo.Add("question", Business.Do<IQuestions>().QuesOfCount(orgid, -1, -1,-1,-1, null));
+            //学员数
+            jo.Add("account", Business.Do<IAccounts>().AccountsOfCount(orgid, null));
+            //教师数
+            jo.Add("teacher", Business.Do<ITeacher>().TeacherOfCount(orgid, null));
+            //视频数
+            jo.Add("video", Business.Do<IAccessory>().OfCount(orgid, string.Empty, "CourseVideo"));
+            //试卷数
+            jo.Add("testpaper", Business.Do<ITestPaper>().PaperOfCount(orgid, -1, -1, -1, null));
+            //资料数
+            jo.Add("document", Business.Do<IAccessory>().OfCount(orgid, string.Empty, "Course"));
+
+            return jo;
+        }
         #endregion
 
         #region 系统参数管理

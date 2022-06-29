@@ -10,45 +10,27 @@
 </head>
 
 <body>
-    <div id="app" v-cloak>
-        <el-card class="box-card">
-            <div slot="header" class="clearfix">
-                <span>说明</span>
-
-            </div>
-            <div class="text">
-               1、为保证升级的同时系统能正常运行，将采用分步、分模块升级的方法，后续逐步完成整体升级。
-            </div>
-            <div class="text">
-                2、左侧菜单项中的数字是剩余完成度（可以理解为，带数字的就是没有完成的）
-             </div>
-            <div class="text">
-                3、学习卡管理功能已经完成; 
-                <dl>
-                    <dd>增加批量回滚；</dd>
-                    <dd>增加学习卡全面查询；</dd>
-                </dl>
-             </div>
-             <div class="text">
-                4、资金流水完成; 
-                <dl>
-                    <dd>可以按条件导出数据；</dd>                  
-                </dl>
-             </div>
-        </el-card>
-        <div style="display: none;">起始页
-            <hr />
-            要显示的内容：<br />
-            学员总量，增长量（按月，按年）<br />
-            课程数，试题数<br />
-
-            <br />
-            服务器硬件信息<br />
-            <br />
-
-            <br />
-            <br />学习卡发放量，使用量，回滚数
+    <div id="vapp" v-cloak>
+        <div class="main-header">
+            <dv-decoration-1 style="width:200px;height:50px;"></dv-decoration-1>
+            <dv-decoration-11 style="height:60px;" class="title"><span v-html="platinfo.title"></span></dv-decoration-11>
+            <dv-decoration-3 style="width:200px;height:30px;" ></dv-decoration-3>
         </div>
+        <div class="main-body">
+            <dv-border-box-3 title="dv-border-box-11">dv-border-box-11</dv-border-box-3>
+            <dv-border-box-4 :reverse="true">          
+                dd
+            </dv-border-box-4>
+        </div>
+        <div class="main-foot">
+            <dv-border-box-8>     
+            
+                <dv-digital-flop :config="test" style="width:200px;height:50px;" />
+                {{quantity.account}}
+            </dv-border-box-8>
+        </div>
+       
+      
     </div>
 </body>
 

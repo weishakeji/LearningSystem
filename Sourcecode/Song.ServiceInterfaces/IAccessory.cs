@@ -73,9 +73,10 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 共计多少个记录
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="uid"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        int OfCount(string uid, string type);
+        int OfCount(int orgid, string uid, string type);
     }
 }

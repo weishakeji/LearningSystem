@@ -320,11 +320,18 @@ namespace Song.ServiceImpls
 
         public int SubjectOfCount(int orgid, int pid, bool? isUse, bool children)
         {
+            if (pid < 0)
+            {
+                WhereClip wc = new WhereClip();
+                if (orgid > 0) wc.And(Subject._.Org_ID == orgid);
+                if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
+                return Gateway.Default.Count<Subject>(wc);
+            }
             //不包括子级，仅当前专业的直接下级专业
             if (!children)
             {
                 WhereClip wc = new WhereClip();
-                if (orgid >= 0) wc.And(Subject._.Org_ID == orgid);
+                if (orgid > 0) wc.And(Subject._.Org_ID == orgid);
                 if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
                 if (pid >= 0) wc.And(Subject._.Sbj_PID == pid);
                 return Gateway.Default.Count<Subject>(wc);
@@ -335,7 +342,7 @@ namespace Song.ServiceImpls
                 List<int> list = new List<int>();
                 //取同一个机构下的所有章节
                 WhereClip wc = new WhereClip();
-                if (orgid >= 0) wc.And(Subject._.Org_ID == orgid);
+                if (orgid > 0) wc.And(Subject._.Org_ID == orgid);
                 if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
                 Subject[] sbjs = Gateway.Default.From<Subject>().Where(wc).ToArray<Subject>();
                 list = _treeid(pid, sbjs);

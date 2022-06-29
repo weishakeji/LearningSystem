@@ -364,7 +364,7 @@ namespace Song.ViewData.Methods
             bool isQues = Business.Do<IOutline>().OutlineIsQues(outline.Ol_ID, true);
             dic.Add("isQues", isQues && canStudy);
             //是否有附件
-            int accessCount = Business.Do<IAccessory>().OfCount(outline.Ol_UID, "Course");
+            int accessCount = Business.Do<IAccessory>().OfCount(-1, outline.Ol_UID, "Course");
             dic.Add("isAccess", accessCount > 0 && canStudy);
             //啥都没有（视频，内容，附件，试题，都没有）
             bool isNull = !(existVideo || isLive || isContext || isQues || isQues || accessCount > 0);

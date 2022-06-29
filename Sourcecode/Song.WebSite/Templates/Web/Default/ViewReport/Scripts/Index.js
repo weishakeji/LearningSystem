@@ -1,4 +1,4 @@
-﻿
+
 $ready(function () {
 
     window.vapp = new Vue({
@@ -30,7 +30,7 @@ $ready(function () {
                     }
                 }
                 th.platinfo = platinfo.data.result;
-                document.title = th.platinfo.title;
+                document.title += ' - ' + th.platinfo.title;
                 th.organ = organ.data.result;
                 th.config = $api.organ(th.organ).config;
 
@@ -67,4 +67,5 @@ $ready(function () {
         }
     });
 
-}, ["/Utilities/Viewport/datav.min.vue.js"]);
+}, ["/Utilities/Viewport/datav.min.vue.js",
+    "Components/number.js"]);

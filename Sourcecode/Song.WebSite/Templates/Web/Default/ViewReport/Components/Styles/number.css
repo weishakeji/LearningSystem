@@ -1,0 +1,24 @@
+﻿.number_show {
+    padding: 10px 0px;
+    box-sizing: border-box;
+    height: 100%;
+}
+.number_show .title{
+    height: 55px;
+}
+.number_show .title icon {
+    font-size: 35px;
+    font-weight: normal;
+    margin-right: 0px !important;
+}
+
+.number_show .title span {
+    font-size: 25px;
+    letter-spacing: 5px;
+}
+.number_show>div:last-child{
+    height: calc(100% - 55px);
+}
+.number_show>div:last-child canvas{
+    height: 100% !important;
+}
