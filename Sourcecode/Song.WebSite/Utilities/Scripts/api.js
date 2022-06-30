@@ -1406,6 +1406,10 @@ $api.effect(function () {
         console.error(err);
         return;
     }
+    if (response.data.state == '94060') {        
+            alert('数据库链接异常');
+        return;
+    }
     if (!response.config) return;
     //方法
     var method = response.config.method;

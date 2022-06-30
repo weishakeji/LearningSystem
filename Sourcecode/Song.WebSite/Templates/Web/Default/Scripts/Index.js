@@ -22,6 +22,7 @@ $ready(function () {
             sbj_loading: false
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo:30'),
                 $api.get('Organization/Current')
@@ -36,22 +37,22 @@ $ready(function () {
                     }
                 }
                 //获取结果            
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                if (!vapp.organ) return;
-                //vapp.organ.Org_Logo = '';
-                vapp.load();
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
+                if (!th.organ) return;
+                //th.organ.Org_Logo = '';
+                th.load();
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
                 //轮换图片，通知公告,自定义菜单项，专业
-                var orgid = vapp.organ.Org_ID;
+                var orgid = th.organ.Org_ID;
                 $api.bat(
                     $api.cache('Showpic/web:60', { 'orgid': orgid }),
-                    $api.get('Notice/ShowItems', { 'orgid': orgid, 'type': 1,'count': 4 }),
+                    $api.get('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 4 }),
                     $api.get('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' }),
                     $api.cache('Subject/ShowRoot:60', { 'orgid': orgid, 'count': 10 })
                 ).then(axios.spread(function (showpic, notice, articles, subject) {
-                    vapp.loading = false;
+                    th.loading = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -62,19 +63,19 @@ $ready(function () {
                         }
                     }
                     //获取结果
-                    vapp.showpic = showpic.data.result;
-                    vapp.notice = notice.data.result;
-                    if (vapp.notice) {
+                    th.showpic = showpic.data.result;
+                    th.notice = notice.data.result;
+                    if (th.notice) {
                         var regex = /(<([^>]+)>)/ig;
-                        for (let i = 0; i < vapp.notice.length; i++) {
-                            vapp.notice[i].No_Context = vapp.notice[i].No_Context.replace(regex, "");
+                        for (let i = 0; i < th.notice.length; i++) {
+                            th.notice[i].No_Context = th.notice[i].No_Context.replace(regex, "");
                         }
                     }
-                    vapp.articles = articles.data.result;
+                    th.articles = articles.data.result;
 
-                    //vapp.subject = subject.data.result;
+                    //th.subject = subject.data.result;
                 })).catch(function (err) {
-                    vapp.loading = false;
+                    th.loading = false;
                     console.error(err);
                 });
             })).catch(function (err) {
