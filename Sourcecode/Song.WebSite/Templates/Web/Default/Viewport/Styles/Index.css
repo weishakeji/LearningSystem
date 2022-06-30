@@ -44,7 +44,7 @@ body {
 	justify-content: center;
 	align-items: center;
 }
-
+/*中间部分*/
 .main-body {
 	flex: 1;
 	display: flex;
@@ -52,11 +52,12 @@ body {
 }
 
 .main-bod>div {
-	flex: 1;
+	
 }
 
 .main-body>div:not(:last-child) {
 	margin-right: 10px;
+	flex: 1;
 }
 
 .main-foot {
