@@ -468,6 +468,9 @@
                                 //alert(err);
                             }
                         }
+                        if(response.data.datatype=="JArray" || response.data.datatype=="JObject"){
+                            response.data.result = methods.unescape(response.data.result);
+                        }
                     }
                 }
                 //如果要缓存接口数据，返回成功才会被缓存

@@ -64,7 +64,7 @@
             //获取视频附件对象
             getaccessory: function () {
                 var th = this;
-                $api.get('Accessory/ForUID', { 'uid': th.uid,'type':'CourseVideo' }).then(function (req) {
+                $api.get('Accessory/ForUID', { 'uid': th.uid, 'type': 'CourseVideo' }).then(function (req) {
                     if (req.data.success) {
                         th.accessory = req.data.result;
                         th.initState();
@@ -281,6 +281,7 @@
                     if (valid) {
                         th.loading = true;
                         var url = th.accessory.As_FileName;
+                        if (url.indexOf('%') > -1) url = decodeURIComponent(url);
                         $api.post('Accessory/SaveOtherVideo', { 'uid': th.uid, 'type': 'CourseVideo', 'url': url, 'outer': true, 'other': false })
                             .then(function (req) {
                                 th.loading = false;

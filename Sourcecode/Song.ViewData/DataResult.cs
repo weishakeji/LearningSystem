@@ -58,6 +58,10 @@ namespace Song.ViewData
         /// </summary>
         public object Result { get; set; }
         /// <summary>
+        /// 数据类型
+        /// </summary>
+        public object DataType { get; set; }
+        /// <summary>
         /// 
         /// </summary>
         public DataResult() { }
@@ -68,6 +72,7 @@ namespace Song.ViewData
         public DataResult(object obj)
         {
             this.Result = obj;
+            this.DataType = obj.GetType().Name;
             Success = obj != null;
             State = 1;
             DateTime = DateTime.Now;
@@ -168,7 +173,7 @@ namespace Song.ViewData
             //当大于最大层深，则不再输出
             if (level >= max_level) return "\"\"";
 
-            if (obj == null) return level<=1 ? "null" : "\"\"";
+            if (obj == null) return level <= 1 ? "null" : "\"\"";
 
             Type type = obj.GetType();
             //属性名（包括泛型名称）
@@ -202,9 +207,35 @@ namespace Song.ViewData
             }
             StringBuilder sb = new StringBuilder();
             //如果是Newtonsoft.Json 的对象
-            if (obj is JObject || obj is JArray)
+            if (obj is JContainer)
             {
-                sb.Append(obj.ToString());
+                //if (obj is JArray)
+                //{
+                //    JArray jarr = obj as JArray;
+                //}
+                //if (obj is JObject)
+                //{
+                //    JObject jo = obj as JObject;
+                //    IEnumerable<JProperty> properties = jo.Properties();
+                //    foreach (JProperty item in properties)
+                //    {
+                //        sb.Append(_josn_object(item, false, ++level));
+                //        //var key = item.Name;//名称
+                //        //var type = item.Value.Type;//类型
+                //        //Debug.WriteLine(key + ":" + type);
+                //    }
+                //}
+                //if (obj is JProperty)
+                //{
+                //    JProperty jp = obj as JProperty;
+                //    jp.Name=Microsoft.JScript.GlobalObject.escape(str);
+                //    jp.Value
+                //}
+                string jstr = obj.ToString();
+                jstr = Microsoft.JScript.GlobalObject.escape(jstr);
+                sb.Append(jstr);
+                return string.Format("\"{0}\"", jstr);
+                //sb.Append(obj.ToString());
                 return sb.ToString();
             }
             //如果是数组
@@ -234,19 +265,19 @@ namespace Song.ViewData
                 sb.Append("]");
             }
             //如果是DataTable
-            else if (obj is DataTable || type.FullName.IndexOf("Dictionary")>-1)
+            else if (obj is DataTable || type.FullName.IndexOf("Dictionary") > -1)
             {
                 if (obj is DataTable)
                 {
                     DataTable dt = (DataTable)obj;
-                    foreach(DataRow dr in dt.Rows)
+                    foreach (DataRow dr in dt.Rows)
                     {
-                        for(int i = 0; i < dt.Columns.Count; i++)
+                        for (int i = 0; i < dt.Columns.Count; i++)
                         {
                             if (dt.Columns[i].DataType.FullName == "System.String")
                             {
-                                if (dr[i].ToString() == "")                                
-                                    dr[i] = string.Empty;                              
+                                if (dr[i].ToString() == "")
+                                    dr[i] = string.Empty;
                             }
                         }
                     }
@@ -279,7 +310,7 @@ namespace Song.ViewData
                 sb.Append("}");
             }
             return sb.ToString();
-        }   
+        } 
         #endregion
       
 

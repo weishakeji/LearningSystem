@@ -265,9 +265,9 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="olid"></param>
         /// <returns></returns>        
-        public Dictionary<string, object> State(int olid)
+        public JObject State(int olid)
         {
-            Dictionary<string, object> dic = new Dictionary<string, object>();
+            JObject dic = new JObject();
             Song.Entities.Accounts acc = LoginAccount.Status.User();
             dic.Add("isLogin", acc != null);    //学员是否登录
             //

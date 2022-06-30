@@ -7,7 +7,7 @@ Vue.component('study_outline', {
     props: ['account'],
     data: function () {
         return {
-            couid: $api.dot(),
+            couid: $api.dot() != "" ? $api.dot() : $api.querystring("couid"),
             olid: $api.querystring("olid"),
 
             organ: {},

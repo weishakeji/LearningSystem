@@ -2,7 +2,7 @@ $ready(function () {
     //var couid = $api.querystring("couid");
     window.vapp = new Vue({
         el: '#vapp',
-        data: {           
+        data: {
 
             //数据实体
             account: {}, //当前账号信息
@@ -12,7 +12,7 @@ $ready(function () {
             //状态
             state: {}, //课程章节的状态       
 
-            couid: $api.querystring("couid") == "" ? $api.dot() : $api.querystring("couid"),
+            couid: $api.dot() != "" ? $api.dot() : $api.querystring("couid"),
             olid: $api.querystring("olid"),
             fold: false, //分隔线折叠状态
 
@@ -42,7 +42,6 @@ $ready(function () {
         },
         created: function () {
             $dom.load.css([$dom.path() + 'styles/pagebox.css']);
-
             var th = this;
             //当前登录学员
             $api.login.account().then(function (acc) {
