@@ -23,4 +23,8 @@ icon {
     margin: 0px;
     width: calc(100%/2 - 30px);
     float: left;
+    cursor: pointer;
+}
+.interface_type  .current{
+    background-color: cadetblue;
 }

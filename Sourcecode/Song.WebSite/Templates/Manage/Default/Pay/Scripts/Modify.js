@@ -6,50 +6,27 @@ $ready(function () {
         data: {
             id: $api.querystring('id'),
             entity: {}, //当前对象             
-            rules: {
-                Olv_Name: [
-                    { required: true, message: '名称不得为空', trigger: 'blur' }
-                ],
-                Olv_Tag: [
-                    { required: true, message: '标识不得为空', trigger: 'blur' },
-                    { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }
-                ]
-            },
+
             loading: false
         },
         watch: {
-            'profit_id': function (nl, ol) {
-                this.entity.Ps_ID = nl;
-            }
+
         },
         created: function () {
             var th = this;
-            if (th.id != '') {
-                $api.get('Organization/LevelForID', { 'id': th.id }).then(function (req) {
-                    if (req.data.success) {
-                        th.entity = req.data.result;
-                        vapp.profit_id = th.entity.Ps_ID;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
-            } else {
-                th.entity.Olv_IsUse = true;
-            }
-            $api.get('ProfitSharing/ThemeUselist').then(function (req) {
+            if (th.id == '') return;
+            th.loading = true;
+            $api.get('Pay/ForID', { 'id': th.id }).then(function (req) {
+                th.loading = false;
                 if (req.data.success) {
-                    vapp.profits = req.data.result;
-
+                    th.entity = req.data.result;
                 } else {
                     console.error(req.data.exception);
-                    throw req.data.message;
+                    throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                alert(err);
+                th.loading = false;
+                Vue.prototype.$alert(err);
                 console.error(err);
             });
         },

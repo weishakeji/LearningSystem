@@ -18,9 +18,7 @@ $ready(function () {
             loading: false
         },
         watch: {
-            'profit_id': function (nl, ol) {
-                this.entity.Ps_ID = nl;
-            }
+         
         },
         created: function () {
             var th = this;

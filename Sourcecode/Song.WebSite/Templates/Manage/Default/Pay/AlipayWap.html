@@ -9,7 +9,31 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <interface_type></interface_type>       
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
+            <el-form-item label="支付方式" prop="Title_Name">
+                <interface_type :entity="entity"></interface_type>    
+            </el-form-item>
+            <el-form-item label="名称" prop="Title_Name">
+                <el-input v-model="entity.Title_Name"></el-input>
+            </el-form-item>
+            <el-form-item label="说明" prop="Title_Intro">
+                <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="entity.Title_Intro"></el-input>
+            </el-form-item>
+            <el-form-item label="状态">
+                <el-switch v-model="entity.Title_IsUse" :active-text="entity.Title_IsUse ? '启用' : '禁用'"
+                    inactive-text="">
+                </el-switch>
+            </el-form-item>
+
+            <el-form-item label="排序号" v-if="entity.Title_Tax>0">
+                <el-input-number v-model="entity.Title_Tax"></el-input-number>
+            </el-form-item>
+            <el-form-item class="footer">
+                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter">确认修改
+                </el-button>
+                <el-button type='close'>取消</el-button>
+            </el-form-item>
+        </el-form>   
     </div>
 
 

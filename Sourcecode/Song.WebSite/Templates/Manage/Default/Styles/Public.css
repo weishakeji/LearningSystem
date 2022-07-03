@@ -1,16 +1,17 @@
 ﻿@charset "utf-8";
+
 .font_icon {
-	font-family: "webdesk_icon" !important;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-transition: font-size 0.25s ease-out 0s;
-	-moz-transition: font-size 0.25s ease-out 0s;
-	transition: font-size 0.25s ease-out 0s;
+    font-family: "webdesk_icon" !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-transition: font-size 0.25s ease-out 0s;
+    -moz-transition: font-size 0.25s ease-out 0s;
+    transition: font-size 0.25s ease-out 0s;
 }
 
 /*图标引用，
@@ -18,27 +19,29 @@
 */
 
 .weisha_icon::before, .webdesk_icon::before {
-	content: attr(icon);
-	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
+    content: attr(icon);
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
 }
 
 icon {
-	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
-	display: inline-block;
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
+    display: inline-block;
 }
 
-html,body, #vapp{
-	width: 100%;
-	height: 100%;
-	margin: 0px;
-	padding: 0px;
-	overflow: hidden;
+html, body, #vapp {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
 }
+
 #vapp {
-	position: relative;
+    position: relative;
 }
+
 *::-webkit-scrollbar {
     /*滚动条整体样式*/
     width: 3px;
@@ -46,13 +49,15 @@ html,body, #vapp{
     height: 1px;
 }
 
-*::-webkit-scrollbar-thumb { /*滚动条里面小方块*/
+*::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
     border-radius: 3px;
     -webkit-box-shadow: inset 0 0 5px rgba(175, 173, 173, 0.2);
     background: #b9b9b9;
 }
 
-*::-webkit-scrollbar-track { /*滚动条里面轨道*/
+*::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
     -webkit-box-shadow: inset 0 0 5px rgba(204, 204, 204, 0.2);
     border-radius: 3px;
     background: #EDEDED;
@@ -68,9 +73,47 @@ red, .red {
     color: red;
     font-weight: bold;
 }
+
 a {
     text-decoration: none;
     color: black;
+}
+
+/*预载*/
+loading {
+    color: #666;
+    font-size: 13px;
+}
+
+loading::before {
+    content: "\e621";
+    font-family: "webdesk_icon" !important;
+    display: inline-block;
+    font-size: 20px;
+    margin-right: 10px;
+    animation: rotate_360 0.6s infinite linear;
+}
+
+@keyframes rotate_360 {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /*帮助、提示*/
@@ -79,31 +122,32 @@ help, alert {
     font-size: 13px;
     cursor: default;
 }
-    /*多行帮助信息*/
-    help[multi] {
-        position: relative;
-        display: block;
-        padding-left: 30px;
-        box-sizing: border-box;
-        line-height: 25px;
-    }
 
-        help[multi]::before {
-            position: absolute;
-            left: 0px;
-            top: 3px;
-        }
+/*多行帮助信息*/
+help[multi] {
+    position: relative;
+    display: block;
+    padding-left: 30px;
+    box-sizing: border-box;
+    line-height: 25px;
+}
+
+help[multi]::before {
+    position: absolute;
+    left: 0px;
+    top: 3px;
+}
 
 alert {
     color: #F56C6C;
 }
 
-    help::before, alert::before {
-        font-family: "webdesk_icon" !important;
-        display: inline-block;
-        margin: 0px 5px 0px 8px;
-        font-size: 16px;
-    }
+help::before, alert::before {
+    font-family: "webdesk_icon" !important;
+    display: inline-block;
+    margin: 0px 5px 0px 8px;
+    font-size: 16px;
+}
 
 help::before {
     content: "\a026";
@@ -128,6 +172,7 @@ alert::before {
     height: calc(100% - 41px);
     overflow-y: auto;
 }
+
 /*表格背景透明*/
 
 .table-wrapper .el-table--fit {
@@ -183,25 +228,28 @@ alert::before {
 
 /*底部栏*/
 .footer {
-	width: calc(100% - 2px);
-	box-sizing: border-box;	
-	position: fixed;
-	bottom: 0px;
-	left: 0px;
-	text-align: right;
-	padding: 8px 6px 8px 8px;
-	display: flex;
-	justify-content: flex-end;
+    width: calc(100% - 2px);
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    text-align: right;
+    padding: 8px 6px 8px 8px;
+    display: flex;
+    justify-content: flex-end;
 }
-.el-button--close::before{
+
+.el-button--close::before {
     content: '\e72c';
     font-size: 15px;
-	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
 }
-.el-button icon{
+
+.el-button icon {
     font-size: 14px;
 }
+
 /*分页控件条的区域*/
 
 #pager-box {
@@ -280,18 +328,22 @@ hr {
     border: 0px;
     height: 1px;
 }
+
 /* 表格第一列，往往是选择框，居中并对齐*/
 .el-table tr td:first-child, .el-table tr th:first-child {
     text-align: center;
 }
+
 .el-table tr .cell:first-child, .el-table th .cell:first-child {
     text-overflow: clip;
-    min-width:auto;
-    padding:0px;
+    min-width: auto;
+    padding: 0px;
 }
-.el-tree{
-    background:none !important;
+
+.el-tree {
+    background: none !important;
 }
-.el-card{
-    background-color:rgba(255, 255, 255, .3) !important;
+
+.el-card {
+    background-color: rgba(255, 255, 255, .3) !important;
 }
