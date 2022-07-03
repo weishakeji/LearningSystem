@@ -72,7 +72,8 @@ namespace Song.ViewData
         public DataResult(object obj)
         {
             this.Result = obj;
-            this.DataType = obj.GetType().Name;
+            if (obj != null)
+                this.DataType = obj.GetType().Name;
             Success = obj != null;
             State = 1;
             DateTime = DateTime.Now;

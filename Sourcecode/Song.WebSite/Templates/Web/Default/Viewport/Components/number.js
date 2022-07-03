@@ -37,7 +37,6 @@ Vue.component('number', {
     methods: {
         create_config: function (num) {
             var config = { number: [0], content: '{nt}' };
-            config.number = [num];
             config.content = '{nt} ' + (this.unit ? this.unit : '');
         
             return $api.clone(config);

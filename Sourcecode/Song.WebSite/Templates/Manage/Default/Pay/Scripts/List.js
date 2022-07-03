@@ -126,6 +126,11 @@
                     alert(err);
                     console.error(err);
                 });
+            },
+            //获取支付类型，例如支付宝、微信
+            getpattern: function (pattern) {
+                if (pattern.indexOf('支付宝') > -1) return 'zhifubao';
+                if (pattern.indexOf('微信') > -1) return 'weixin';
             }
         }
     });

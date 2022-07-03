@@ -2,18 +2,15 @@
 <html lang="zh">
 
 <head resource>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>支付接口</title>
-    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
+    <include file="../inc/meta.inc" />
+    <title>支付接口</title> 
 
 </head>
 
 <body>
     <div id="app" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改" ref='btngroup' @delete="deleteData" path="ModifyNavi" width="600" height="500"
+            <btngroup show="新增,修改" ref='btngroup' @delete="deleteData" path="Modify" width="600" height="500"
                 :selects='selects' idkey='Pai_ID' table="datatable"></btngroup>
         </div>
         <template>
@@ -29,6 +26,8 @@
                 </el-table-column>
                 <el-table-column label="接口名称">
                     <template slot-scope="scope">
+                        <icon v-if="getpattern(scope.row.Pai_Pattern)=='zhifubao'">&#xe602</icon>
+                        <icon v-if="getpattern(scope.row.Pai_Pattern)=='weixin'">&#xe832</icon>
                         <span v-html='scope.row.Pai_Name' class="draghandle"></span>
                     </template>
                 </el-table-column>
@@ -39,8 +38,11 @@
                 </el-table-column>
                 <el-table-column label="设备" width="60" align="center">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.Pai_Platform=='web'">电脑</span>
-                        <span v-if="scope.row.Pai_Platform=='mobi'">手机</span>
+                        <span v-if="scope.row.Pai_Platform=='web'">
+                            <icon>&#xe609</icon>
+                            电脑</span>
+                        <span v-if="scope.row.Pai_Platform=='mobi'">
+                            <icon>&#xe66b</icon>手机</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="合作ID"  align="center">

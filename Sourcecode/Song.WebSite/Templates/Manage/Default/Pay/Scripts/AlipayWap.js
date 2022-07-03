@@ -2,12 +2,10 @@
 $ready(function () {
 
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
             id: $api.querystring('id'),
-            entity: {}, //当前对象    
-            profits: [], //分润方案列表
-            profit_id: '',   //当前分润方案
+            entity: {}, //当前对象             
             rules: {
                 Olv_Name: [
                     { required: true, message: '名称不得为空', trigger: 'blur' }
@@ -36,7 +34,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
+                    //alert(err);
                     console.error(err);
                 });
             } else {
@@ -57,6 +55,7 @@ $ready(function () {
         },
         methods: {
             btnEnter: function (formName) {
+                return;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var apipath = 'Organization/Level' + (this.id == '' ? api = 'add' : 'Modify');
@@ -89,4 +88,4 @@ $ready(function () {
         },
     });
 
-});
+}, ['Components/interface_type.js']);

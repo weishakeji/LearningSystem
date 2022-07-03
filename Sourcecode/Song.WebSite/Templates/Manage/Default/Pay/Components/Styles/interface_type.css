@@ -1,0 +1,26 @@
+﻿@charset "utf-8";
+
+icon {
+    font-size: 18px;
+    line-height: 18px;
+}
+
+.interface_type {
+    box-sizing: border-box;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+
+}
+
+.interface_type dt {
+    font-size: 18px;
+}
+
+.interface_type dd {
+    padding: 5px 15px;
+    margin: 0px;
+    width: calc(100%/2 - 30px);
+    float: left;
+}
