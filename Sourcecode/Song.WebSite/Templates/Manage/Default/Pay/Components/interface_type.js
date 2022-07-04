@@ -64,14 +64,21 @@ Vue.component('interface_type', {
             var view = $dom('meta[view]').attr("view").toLowerCase();
             var pattern = item.pattern.toLowerCase();
             return view == pattern;
+        },
+        //获取支付类型，例如支付宝、微信
+        getpattern: function (pattern) {
+            if (pattern.indexOf('支付宝') > -1) return 'zhifubao';
+            if (pattern.indexOf('微信') > -1) return 'weixin';
         }
     },
     template: `<div>
         <dl class="interface_type" v-if="layout_value=='list'">   
-            <dt>支付方式</dt>     
-            <dd v-for="(item,i) in navigation" @click="gonavi(item)" :class="{'current':iscurrent(item)}">
-                <icon v-html="item.icon"></icon>
-                <span>{{item.name}}</span>
+            <dt>请选择支付接口的类型</dt>     
+            <dd v-for="(item,i) in navigation" :class="{'current':iscurrent(item)}">
+                <el-button type="primary" plain @click="gonavi(item)" >
+                    <icon v-html="item.icon" :class="getpattern(item.name)"></icon>
+                    <span>{{item.name}}</span>
+                </el-button>
             </dd>
         </dl> 
         <span v-if="layout_value=='single'">

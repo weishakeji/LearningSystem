@@ -16,15 +16,35 @@ icon {
 
 .interface_type dt {
     font-size: 18px;
+    margin: 20px;
 }
 
 .interface_type dd {
-    padding: 5px 15px;
+    padding: 10px 15px;
     margin: 0px;
     width: calc(100%/2 - 30px);
     float: left;
     cursor: pointer;
 }
-.interface_type  .current{
+
+.interface_type dd button {
+    width: 100%;
+    font-size: 18px;
+}
+.interface_type dd icon{
+    font-size: 20px;
+}
+.interface_type dd button:hover icon{
+    color: #fff;
+}
+.interface_type .current {
     background-color: cadetblue;
+}
+.weixin {
+    color: #019541;
+}
+
+.zhifubao {
+    color: #0098e0;
+    font-size: 15px;
 }

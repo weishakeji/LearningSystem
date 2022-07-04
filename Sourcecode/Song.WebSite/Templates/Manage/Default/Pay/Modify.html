@@ -14,8 +14,8 @@
     <div id="vapp" v-cloak>
         <loading v-if="loading"></loading>
         <template v-else>
-            <interface_type layout="list" :entity="entity"></interface_type>
-        </template>
+            <interface_type layout="list" :entity="entity" v-show="!entity_exist"></interface_type>
+        </template>      
     </div>
 
 
