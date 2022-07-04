@@ -24,7 +24,7 @@ $ready(function () {
                 Pai_Feerate: [
                     {
                         validator: function (rule, value, callback) {
-                            if (isNaN(Number(value))) {
+                            if (value != '' && isNaN(Number(value))) {
                                 callback(new Error('请输入数字!'));
                             } else {
                                 callback();

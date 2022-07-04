@@ -5,75 +5,91 @@ $ready(function () {
         el: '#vapp',
         data: {
             id: $api.querystring('id'),
-            entity: {}, //当前对象             
+            //当前对象    
+            entity: {
+                Pai_IsEnable: true,
+                Pai_Platform: 'web'
+            },
+            config: {},      //接口配置项   
             rules: {
-                Olv_Name: [
-                    { required: true, message: '名称不得为空', trigger: 'blur' }
+                Pai_Name: [
+                    { required: true, message: '不得为空', trigger: 'blur' }
                 ],
-                Olv_Tag: [
-                    { required: true, message: '标识不得为空', trigger: 'blur' },
-                    { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }
+                Pai_ParterID: [
+                    { required: true, message: '不得为空', trigger: 'blur' }
+                ],
+                Pai_Key: [
+                    { required: true, message: '不得为空', trigger: 'blur' }
+                ],
+                Pai_Returl: [
+                    { required: true, message: '不得为空', trigger: 'blur' }
+                ],
+                Pai_Feerate: [
+                    {
+                        validator: function (rule, value, callback) {
+                            if (value != '' && isNaN(Number(value)))  {
+                                callback(new Error('请输入数字!'));
+                            } else {
+                                callback();
+                            }
+                        }, trigger: 'blur'
+                    }
                 ]
             },
             loading: false
         },
         watch: {
-            'profit_id': function (nl, ol) {
-                this.entity.Ps_ID = nl;
-            }
+
         },
         created: function () {
             var th = this;
-            if (th.id != '') {
-                $api.get('Organization/LevelForID', { 'id': th.id }).then(function (req) {
-                    if (req.data.success) {
-                        th.entity = req.data.result;
-                        vapp.profit_id = th.entity.Ps_ID;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
-            } else {
-                th.entity.Olv_IsUse = true;
-            }
-            $api.get('ProfitSharing/ThemeUselist').then(function (req) {
+            if (th.id == '') return;
+            th.loading = true;
+            $api.get('Pay/ForID', { 'id': th.id }).then(function (req) {
+                th.loading = false;
                 if (req.data.success) {
-                    vapp.profits = req.data.result;
-
+                    th.entity = req.data.result;
+                    th.config = $api.xmlconfig.tojson(th.entity.Pai_Config);
                 } else {
                     console.error(req.data.exception);
-                    throw req.data.message;
+                    throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                alert(err);
+                th.loading = false;
+                Vue.prototype.$alert(err);
                 console.error(err);
             });
         },
         methods: {
             btnEnter: function (formName) {
-                return;
+                var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        var apipath = 'Organization/Level' + (this.id == '' ? api = 'add' : 'Modify');
-                        $api.post(apipath, { 'entity': vapp.entity }).then(function (req) {
+                        var obj = $api.clone(th.entity);
+                        obj.Pai_Config = $api.xmlconfig.toxml(th.config);
+                        //类型
+                        var type = th.$refs['interface_type'].current;
+                        obj.Pai_Scene = type.scene;
+                        obj.Pai_Pattern = type.name;
+                        obj.Pai_Platform = 'web';
+                        console.log(type);
+                        // return;
+                        var apipath = 'Pay/' + (this.id == '' ? api = 'add' : 'Modify');
+                        $api.post(apipath, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true
                                 });
-                                vapp.operateSuccess();
+                                th.operateSuccess();
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
                             //window.top.ELEMENT.MessageBox(err, '错误');
-                            vapp.$alert(err, '错误');
+                            th.$alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');

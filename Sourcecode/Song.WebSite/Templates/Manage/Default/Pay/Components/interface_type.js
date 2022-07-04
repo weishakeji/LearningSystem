@@ -41,7 +41,7 @@ Vue.component('interface_type', {
             }
             if (current == null) {
                 var view = $dom('meta[view]').attr("view").toLowerCase();
-                current = this.navigation.find(item => item.pattern == view);
+                current = this.navigation.find(item => item.pattern.toLowerCase() == view);
             }
             return current == null ? {} : current;
         }
