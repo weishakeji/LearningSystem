@@ -33,8 +33,9 @@
                 <el-input v-model.trim="entity.Pai_Returl"></el-input>
             </el-form-item>
 
-            <el-form-item label="费率" v-if="entity.Title_Tax>0">
-                <el-input v-model.number="entity.Pai_Feerate"></el-input>
+            <el-form-item label="费率"  prop="Pai_Feerate">
+                <el-input v-model="entity.Pai_Feerate" style="width: 50%">
+                    <template slot="append">%</template></el-input>
             </el-form-item>
             <el-form-item label="简介" prop="Privatekey">
                 <el-input type="textarea" :rows="2" placeholder="请输入内容"></el-input>

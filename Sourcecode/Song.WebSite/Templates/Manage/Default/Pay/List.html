@@ -10,7 +10,7 @@
 <body>
     <div id="app" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改" ref='btngroup' @delete="deleteData" path="Modify" width="600" height="500"
+            <btngroup show="新增,修改" ref='btngroup' @delete="deleteData" path="Modify" width="600" height="600"
                 :selects='selects' idkey='Pai_ID' table="datatable"></btngroup>
         </div>
         <template>
@@ -26,8 +26,8 @@
                 </el-table-column>
                 <el-table-column label="接口名称">
                     <template slot-scope="scope">
-                        <icon v-if="getpattern(scope.row.Pai_Pattern)=='zhifubao'">&#xe602</icon>
-                        <icon v-if="getpattern(scope.row.Pai_Pattern)=='weixin'">&#xe832</icon>
+                        <icon v-if="getpattern(scope.row.Pai_Pattern)=='zhifubao'" class="zhifubao">&#xe602</icon>
+                        <icon v-if="getpattern(scope.row.Pai_Pattern)=='weixin'" class="weixin">&#xe832</icon>
                         <span v-html='scope.row.Pai_Name' class="draghandle"></span>
                     </template>
                 </el-table-column>

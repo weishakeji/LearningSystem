@@ -1,5 +1,15 @@
 ﻿@charset "utf-8";
-icon{
+
+icon {
     font-size: 18px;
     line-height: 18px;
+}
+
+.weixin {
+    color: #019541;
+}
+
+.zhifubao {
+    color: #0098e0;
+    font-size: 15px;
 }

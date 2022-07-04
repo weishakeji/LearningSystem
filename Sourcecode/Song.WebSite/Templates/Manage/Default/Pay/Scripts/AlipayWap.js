@@ -20,6 +20,17 @@ $ready(function () {
                 ],
                 Pai_Returl: [
                     { required: true, message: '不得为空', trigger: 'blur' }
+                ],
+                Pai_Feerate: [
+                    {
+                        validator: function (rule, value, callback) {
+                            if (isNaN(Number(value))) {
+                                callback(new Error('请输入数字!'));
+                            } else {
+                                callback();
+                            }
+                        }, trigger: 'blur'
+                    }
                 ]
             },
             loading: false
