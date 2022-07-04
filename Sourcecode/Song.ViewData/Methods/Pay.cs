@@ -33,8 +33,9 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        [Admin]
+        [SuperAdmin]
         [HttpPost]
+        [HtmlClear(Not = "entity")]
         public bool Add(Song.Entities.PayInterface entity)
         {
             try
@@ -56,6 +57,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [SuperAdmin]
         [HttpPost]
+        [HtmlClear(Not = "entity")]
         public bool Modify(PayInterface entity)
         {
             PayInterface pi = Business.Do<IPayInterface>().PayIsExist(-1, entity);
@@ -73,7 +75,7 @@ namespace Song.ViewData.Methods
         /// <param name="id">id可以是多个，用逗号分隔</param>
         /// <returns></returns>
         [SuperAdmin]
-        [HttpDelete]
+        [HttpDelete, HttpGet(Ignore = true)]
         public int Delete(string id)
         {
             int i = 0;
@@ -101,6 +103,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="platform">接口平台，电脑为web，手机为mobi</param>
         /// <returns>专业列表</returns>
+        [SuperAdmin]
         public Song.Entities.PayInterface[] List(string platform)
         {
             return Business.Do<IPayInterface>().PayAll(-1, platform, null);

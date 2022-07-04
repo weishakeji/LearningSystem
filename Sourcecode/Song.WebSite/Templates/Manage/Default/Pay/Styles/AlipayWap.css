@@ -1,1 +1,8 @@
 ﻿@charset "utf-8";
+.el-form{
+    overflow-y: auto;
+    height: calc(100% - 54px);
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 10px;
+}

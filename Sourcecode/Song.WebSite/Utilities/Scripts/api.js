@@ -468,7 +468,7 @@
                                 //alert(err);
                             }
                         }
-                        if(response.data.datatype=="JArray" || response.data.datatype=="JObject"){
+                        if (response.data.datatype == "JArray" || response.data.datatype == "JObject") {
                             response.data.result = methods.unescape(response.data.result);
                         }
                     }
@@ -708,23 +708,46 @@
     apiObj.prototype.organ = function (organ) {
         var obj = { 'obj': organ, 'id': organ.Org_ID, 'domain': organ.Org_TwoDomain, 'config': {} };
         if (!organ.Org_Config || organ.Org_Config == '') return obj;
-        //创建文档对象
-        var parser = new DOMParser();
-        var xmlDoc = parser.parseFromString(organ.Org_Config, "text/xml");
-        var nodes = xmlDoc.lastChild.children;
-        for (var i = 0; i < nodes.length; i++) {
-            var key = nodes[i].attributes['key'].value;
-            var val = nodes[i].attributes['value'].value;
-            var n = Number(val);
-            if (!isNaN(n)) {
-                obj.config[key] = n;
-                continue;
-            }
-            if (val == 'True') obj.config[key] = true;
-            if (val == 'False') obj.config[key] = false;
-            //obj.config[key] = val;
-        }
+        console.log(obj);
+        obj.config = this.xmlconfig.tojson(organ.Org_Config);
         return obj;
+    };
+    //处理xml的配置信息，老版本中服务端大量采用了xml作为配置项
+    apiObj.prototype.xmlconfig = {
+        tojson: function (xml) {
+            var obj = {};
+            if (xml == '') return obj;
+            //创建文档对象
+            var parser = new DOMParser();
+            var xmlDoc = parser.parseFromString(xml, "text/xml");
+            var nodes = xmlDoc.lastChild.children;
+            for (var i = 0; i < nodes.length; i++) {
+                var key = nodes[i].attributes['key'].value;
+                var val = nodes[i].attributes['value'].value;
+                //如果是逻辑值
+                if (val == 'True') obj[key] = true;
+                if (val == 'False') obj[key] = false;
+                //如果是数值
+                if (!isNaN(Number(val))) {
+                    obj[key] = Number(val);
+                } else {
+                    obj[key] = val;
+                }
+            }
+            return obj;
+        },
+        toxml: function (json) {
+            var xml = '<?xml version="1.0" encoding="UTF-8"?>';
+            xml += '<items>';
+            if (json != null) {
+                for (var key in json) {
+                    xml += '<item key="' + key + '" value="' + json[key] + '">';
+                    xml += '</item>';
+                }
+            }
+            xml += '</items>';
+            return xml;
+        }
     };
     //md5编码
     apiObj.prototype.md5 = function (string) {
@@ -1409,8 +1432,8 @@ $api.effect(function () {
         console.error(err);
         return;
     }
-    if (response.data.state == '94060') {        
-            alert('数据库链接异常');
+    if (response.data.state == '94060') {
+        alert('数据库链接异常');
         return;
     }
     if (!response.config) return;

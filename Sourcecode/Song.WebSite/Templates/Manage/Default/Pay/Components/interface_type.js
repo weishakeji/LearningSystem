@@ -42,12 +42,12 @@ Vue.component('interface_type', {
             if (current == null) {
                 var view = $dom('meta[view]').attr("view").toLowerCase();
                 current = this.navigation.find(item => item.pattern == view);
-            }          
+            }
             return current == null ? {} : current;
         }
     },
     mounted: function () {
-console.log(this.layout_value);
+        console.log(this.layout_value);
     },
     methods: {
         //跳转
@@ -60,7 +60,7 @@ console.log(this.layout_value);
             window.location.href = url;
         },
         //是否是当前选项
-        current: function (item) {
+        iscurrent: function (item) {
             var view = $dom('meta[view]').attr("view").toLowerCase();
             var pattern = item.pattern.toLowerCase();
             return view == pattern;
@@ -69,7 +69,7 @@ console.log(this.layout_value);
     template: `<div>
         <dl class="interface_type" v-if="layout_value=='list'">   
             <dt>支付方式</dt>     
-            <dd v-for="(item,i) in navigation" @click="gonavi(item)" :class="{'current':current(item)}">
+            <dd v-for="(item,i) in navigation" @click="gonavi(item)" :class="{'current':iscurrent(item)}">
                 <icon v-html="item.icon"></icon>
                 <span>{{item.name}}</span>
             </dd>

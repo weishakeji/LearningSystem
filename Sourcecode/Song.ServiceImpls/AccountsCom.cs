@@ -503,14 +503,14 @@ namespace Song.ServiceImpls
             Song.Entities.Accounts entity = Gateway.Default.From<Accounts>().Where(wc && w2).ToFirst<Accounts>();
             if (entity != null)
             {
-                Thread t1=new Thread(()=> {
+                //Thread t1=new Thread(()=> {
                     //如果登录成功，则修改最后登录时间
                     Gateway.Default.Update<Accounts>(new Field[] { Accounts._.Ac_LastTime }, new object[] { DateTime.Now },
                        Accounts._.Ac_ID == entity.Ac_ID);
                     Gateway.Default.Update<Teacher>(new Field[] { Teacher._.Th_LastTime }, new object[] { DateTime.Now },
                       Teacher._.Ac_ID == entity.Ac_ID);
-                });
-                t1.Start();
+                //});
+                //t1.Start();
                
             }
             return _acc_init(entity);

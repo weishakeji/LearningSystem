@@ -9,31 +9,46 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
-            <el-form-item label="支付方式" prop="Title_Name">
-                <interface_type :entity="entity"></interface_type>    
+        <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
+            <el-form-item label="" prop="Pai_Pattern">
+                <interface_type ref="interface_type" :entity="entity"></interface_type>    
             </el-form-item>
-            <el-form-item label="名称" prop="Title_Name">
-                <el-input v-model="entity.Title_Name"></el-input>
+            <el-form-item label="支付名称" prop="Pai_Name">
+                <el-input v-model="entity.Pai_Name"></el-input>
             </el-form-item>
-            <el-form-item label="说明" prop="Title_Intro">
-                <el-input type="textarea" :rows="5" placeholder="请输入内容" v-model="entity.Title_Intro"></el-input>
+            <el-form-item label="" prop="Pai_IsEnable">
+                <el-switch v-model="entity.Pai_IsEnable" active-color="#13ce66" inactive-color="#ff4949"
+                :active-text="entity.Pai_IsEnable ? '启用' : '禁用'">
+            </el-switch>
+            
             </el-form-item>
-            <el-form-item label="状态">
-                <el-switch v-model="entity.Title_IsUse" :active-text="entity.Title_IsUse ? '启用' : '禁用'"
-                    inactive-text="">
-                </el-switch>
+            <el-form-item label="合作者身份" prop="Pai_ParterID">
+                <el-input v-model="entity.Pai_ParterID" style="width: 50%"></el-input>
+                <help>即：ParterID</help>
+            </el-form-item>
+            <el-form-item label="商户的私钥">
+                <el-input type="textarea" :rows="5" v-model.trim="config.Privatekey" placeholder="请输入内容"></el-input>
+            </el-form-item>
+            <el-form-item label="回调域" prop="Pai_Returl">
+                <el-input v-model.trim="entity.Pai_Returl"></el-input>
             </el-form-item>
 
-            <el-form-item label="排序号" v-if="entity.Title_Tax>0">
-                <el-input-number v-model="entity.Title_Tax"></el-input-number>
+            <el-form-item label="费率" v-if="entity.Title_Tax>0">
+                <el-input v-model.number="entity.Pai_Feerate"></el-input>
             </el-form-item>
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter">确认修改
-                </el-button>
-                <el-button type='close'>取消</el-button>
+            <el-form-item label="简介" prop="Privatekey">
+                <el-input type="textarea" :rows="2" placeholder="请输入内容"></el-input>
             </el-form-item>
+
         </el-form>   
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                <icon v-if="!loading">&#xa048</icon>保存
+            </el-button>
+            <el-button type='close'>
+               取消
+            </el-button>
+        </div>
     </div>
 
 

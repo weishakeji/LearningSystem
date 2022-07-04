@@ -20,11 +20,8 @@ namespace Song.ServiceImpls
         {           
             if (entity.Org_ID < 1)
             {
-                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-                if (org != null)
-                {
-                    entity.Org_ID = org.Org_ID;
-                }
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganRoot();
+                if (org != null) entity.Org_ID = org.Org_ID;              
             }
             //添加对象，并设置排序号
             object obj = Gateway.Default.Max<PayInterface>(PayInterface._.Pai_Tax, PayInterface._.Pai_Tax > -1 && PayInterface._.Org_ID == entity.Org_ID);
@@ -37,6 +34,11 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void PaySave(PayInterface entity)
         {
+            if (entity.Org_ID < 1)
+            {
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganRoot();
+                if (org != null) entity.Org_ID = org.Org_ID;
+            }
             Gateway.Default.Save<PayInterface>(entity);
         }
         /// <summary>
