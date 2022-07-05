@@ -87,7 +87,7 @@ namespace Song.ServiceImpls
                     if (entity.Tp_IsFinal)
                     {
                         tran.Update<TestPaper>(new Field[] { TestPaper._.Tp_IsFinal },
-                      new object[] { false }, TestPaper._.Cou_ID == entity.Cou_ID);
+                      new object[] { false }, TestPaper._.Cou_ID == entity.Cou_ID && TestPaper._.Tp_Id != entity.Tp_Id);
                     }
                     tran.Update<Examination>(new Field[] { Examination._.Exam_PassScore, Examination._.Exam_Total },
                         new object[] { entity.Tp_PassScore, entity.Tp_Total }, Examination._.Tp_Id == entity.Tp_Id);
