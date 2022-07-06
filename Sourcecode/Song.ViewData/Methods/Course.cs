@@ -107,6 +107,7 @@ namespace Song.ViewData.Methods
         [Admin]
         [HttpPost, HttpGet(Ignore = true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [HtmlClear(Not = "course")]
         public Song.Entities.Course Modify(Song.Entities.Course course)
         {
             try
@@ -172,6 +173,7 @@ namespace Song.ViewData.Methods
         [Admin]
         [Student]
         [HttpPost]
+        [HtmlClear(Not = "course")]
         public bool ModifyJson(JObject course)
         {
             int id = 0;

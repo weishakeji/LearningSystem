@@ -7,9 +7,9 @@ Vue.component('accessory', {
             showpanel: false,     //是否显示
             datas: [],       //附件列表
 
-            ext_limit:"zip,rar,pdf,doc,docx,xls,xlsx",
+            ext_limit: "zip,rar,pdf,ppt,pptx,doc,docx,xls,xlsx",
 
-            loading_upload:false,
+            loading_upload: false,
             loading: false
         }
     },
@@ -89,10 +89,10 @@ Vue.component('accessory', {
         //附件文件上传
         uploadAccessory: function (file) {
             var th = this;
-            th.loading_upload=true;
+            th.loading_upload = true;
             var uid = this.outline.Ol_UID;
             $api.post('Accessory/Upload', { 'uid': uid, 'type': 'Course', 'file': file }).then(function (req) {
-                th.loading_upload=false;
+                th.loading_upload = false;
                 if (req.data.success) {
                     var result = req.data.result;
                     th.getDatas(uid);
@@ -101,7 +101,7 @@ Vue.component('accessory', {
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                th.loading_upload=false;
+                th.loading_upload = false;
                 console.error(err);
             });
         },
