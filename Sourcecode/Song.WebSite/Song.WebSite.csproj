@@ -235,6 +235,9 @@
     <Content Include="Templates\Manage\Default\Platform\PositionMember.html" />
     <Content Include="Templates\Manage\Default\Platform\Scripts\PositionMember.js" />
     <Content Include="Templates\Manage\Default\Platform\Styles\PositionMember.css" />
+    <Content Include="Templates\Manage\Default\SSO\Setup.html" />
+    <Content Include="Templates\Manage\Default\SSO\Scripts\Setup.js" />
+    <Content Include="Templates\Manage\Default\SSO\Styles\Setup.css" />
     <Content Include="Templates\Mobi\Default\Account\Components\ques_progress.js" />
     <Content Include="Templates\Mobi\Default\Account\Components\Styles\video_progress.css" />
     <Content Include="Templates\Mobi\Default\Account\Components\purchase_data.js" />

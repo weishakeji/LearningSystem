@@ -120,7 +120,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Admin]
-        [Upload(Extension = "zip,rar,pdf,doc,docx,xls,xlsx", MaxSize = int.MaxValue, CannotEmpty = true)]
+        [Upload(Extension = "zip,rar,pdf,ppt,pptx,doc,docx,xls,xlsx", MaxSize = int.MaxValue, CannotEmpty = true)]
         public List<Song.Entities.Accessory> Upload(string uid, string type)
         {
             //资源的虚拟路径和物理路径

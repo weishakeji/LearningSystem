@@ -1,16 +1,15 @@
 ﻿$ready(function () {
     window.vm = new Vue({
         data: {
-            form: {},
+            tabs: [
+                { name: 'QQ登录', tag: 'qq', icon: '&#xe82a', size: 16 },
+                { name: '微信登录', tag: 'weixin', icon: '&#xe730', size: 18 },
+                { name: '金碟.云之家', tag: 'yunzhijia', icon: '&#xa021', size: 14 }
+            ],
+            activeName: 'qq',      //选项卡
+          
             loading: false,
-            rules: {
-                'AccessKey': [
-                    { required: true, message: '请输入密钥', trigger: 'blur' }
-                ],
-                'SecretKey': [
-                    { required: true, message: '请输入密钥', trigger: 'blur' }
-                ]
-            }
+           
         },
         watch: {
         },

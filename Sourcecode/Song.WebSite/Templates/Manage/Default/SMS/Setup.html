@@ -2,47 +2,13 @@
 <html lang="zh">
 
 <head resource>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>七牛云直播</title>
-    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
-
+    <include file="../inc/meta.inc" />
+    <title>短信接口</title>
 </head>
 
 <body>
     <div id="app-form"  v-cloak>
-        <el-form ref="form" :model="form" :rules="rules" label-width="160px" size="small">
-
-            <el-form-item label="AccessKey：" prop="AccessKey">
-                <el-input v-model="form.AccessKey" style="width: 400px"></el-input>
-            </el-form-item>
-            <el-form-item label="SecretKey：" prop="SecretKey">
-                <el-input v-model="form.SecretKey" style="width: 400px"></el-input>
-            </el-form-item>
-            <el-form-item label="直播空间名：">
-                <el-input v-model="form.LiveSpace" style="width: 200px"></el-input>
-                <el-button type="info" v-on:click="btnTest" v-loading="loading">验 证 测 试</el-button>
-            </el-form-item>
-            <el-divider></el-divider>
-            <el-form-item label="HTTPS配置：">
-                <el-radio-group v-model="form.Protocol">
-                    <el-radio label="http">禁止 HTTPS</el-radio>
-                    <el-radio label="https">开启 HTTPS</el-radio>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item label="直播封面域名：">
-                <el-input v-model="form.Snapshot" style="width: 400px"></el-input>
-            </el-form-item>
-            <el-form-item label="点播域名：">
-                <el-input v-model="form.Vod" style="width: 400px"></el-input>
-            </el-form-item>
-
-            <el-form-item>
-                <el-button type="primary" v-on:click="btnEnter" v-loading="loading">确 定</el-button>
-
-            </el-form-item>
-        </el-form>
+       <help>说明：注册成功后，需手工在账号列进行设置账号与密码。</help>
     </div>
 </body>
 
