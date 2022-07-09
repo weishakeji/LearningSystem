@@ -29,11 +29,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>bin\Song.ViewData.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -158,6 +159,7 @@
     <Compile Include="Methods\Exam.cs" />
     <Compile Include="Methods\Knowledge.cs" />
     <Compile Include="Methods\Guide.cs" />
+    <Compile Include="Methods\OtherLogin.cs" />
     <Compile Include="Methods\Link.cs" />
     <Compile Include="Methods\Navig.cs" />
     <Compile Include="Methods\News.cs" />

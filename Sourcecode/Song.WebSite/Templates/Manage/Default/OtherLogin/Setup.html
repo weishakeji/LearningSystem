@@ -7,7 +7,7 @@
 </head>
 
 <body>
-    <div id="app-form"  v-cloak>
+    <div id="vapp" v-cloak>
         <el-tabs type="border-card" v-model="activeName">
             <el-tab-pane v-for="tab in tabs" :name="tab.tag">
                 <span slot="label">
@@ -15,6 +15,120 @@
                 </span>
             </el-tab-pane>
         </el-tabs>
+        <el-form ref="qq" :model="qq" :rules="qq_rules" @submit.native.prevent label-width="120px"
+            v-show="activeName=='qq'" remark="qq登录">
+            <el-form-item label="">
+                <el-row>
+                    <el-checkbox v-model="qq.LoginIsUse">是否启用QQ登录</el-checkbox>
+                </el-row>
+                <el-row>
+                    <el-checkbox v-model="qq.DirectIs">是否允许QQ直接注册</el-checkbox>
+                </el-row>
+            </el-form-item>
+            <el-form-item label="AppID" prop="APPID">
+                <el-input v-model="qq.APPID" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="AppKey" prop="APPKey">
+                <el-input v-model="qq.APPKey" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="回调域" prop="Returl">
+                <el-input v-model="qq.Returl" placeholder="">
+                    <template slot="append">/qqlogin</template>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="说明">
+                <help>（回调域默认取自db.config中设置项）</help>
+            </el-form-item>
+            <el-form-item label="">
+                <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
+                    title="确定保存吗？" @confirm="btnEnter('qq',qq)">
+                    <el-button type="primary" slot="reference" :loading="loading" v-loading.fullscreen.lock="loading">
+                        <icon v-if="!loading">&#xa048</icon>确认修改
+                    </el-button>
+                </el-popconfirm>
+            </el-form-item>
+        </el-form>
+
+        <el-form ref="weixin" :model="weixin" :rules="weixin_rules" @submit.native.prevent label-width="120px"
+            v-show="activeName=='weixin'" remark="微信登录">
+            <el-form-item label="">
+                <el-row>
+                    <el-checkbox v-model="weixin.LoginIsUse">是否启用微信登录</el-checkbox>
+                </el-row>
+                <el-row>
+                    <el-checkbox v-model="weixin.DirectIs">是否允许微信直接注册</el-checkbox>
+                </el-row>
+            </el-form-item>
+            <el-form-item label="">
+                电脑端微信登录（请填写<b>微信开放平台</b>中的AppID与AppSecret）
+            </el-form-item>
+            <el-form-item label="AppID" prop="APPID">
+                <el-input v-model="weixin.APPID" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="AppSecret" prop="Secret">
+                <el-input v-model="weixin.Secret" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="回调域" prop="Returl">
+                <el-input v-model="weixin.Returl" placeholder="">
+                    <template slot="append">/web/weixinweblogin</template>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="">
+                在微信中登录（请填写<b>微信公众号</b>中的AppID与AppSecret）
+            </el-form-item>
+            <el-form-item label="AppID" prop="pubAPPID">
+                <el-input v-model="weixin.pubAPPID" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="AppSecret" prop="pubSecret">
+                <el-input v-model="weixin.pubSecret" placeholder=""></el-input>
+            </el-form-item>
+            <el-form-item label="回调域" prop="pubReturl">
+                <el-input v-model="weixin.pubReturl" placeholder="">
+                    <template slot="append">/mobi/weixinweblogin</template>
+                </el-input>
+            </el-form-item>
+            <el-form-item label="">
+                <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
+                    title="确定保存吗？" @confirm="btnEnter('weixin',weixin)">
+                    <el-button type="primary" slot="reference" :loading="loading" v-loading.fullscreen.lock="loading">
+                        <icon v-if="!loading">&#xa048</icon>确认修改
+                    </el-button>
+                </el-popconfirm>
+            </el-form-item>
+        </el-form>
+
+        <el-form ref="yunzhijia" :model="yunzhijia" :rules="yunzhijia_rules" @submit.native.prevent label-width="120px"
+        v-show="activeName=='yunzhijia'" remark="云之家登录">
+        <el-form-item label="">
+            <el-row>
+                <el-checkbox v-model="yunzhijia.LoginIsuse">是否启用云之家登录</el-checkbox>
+            </el-row>         
+        </el-form-item>     
+        <el-form-item label="AppID" prop="Appid">
+            <el-input v-model="yunzhijia.Appid" placeholder=""></el-input>
+        </el-form-item>
+        <el-form-item label="AppSecret" prop="AppSecret">
+            <el-input v-model="weixin.AppSecret" placeholder=""></el-input>
+        </el-form-item>      
+        <el-form-item label="域名" prop="Domain">
+            <el-input v-model="weixin.Domain" placeholder=""></el-input>
+        </el-form-item>
+        <el-form-item label="账号字段" prop="Acc">
+            <el-input v-model="weixin.Acc" placeholder="" style="width: 120px;"></el-input>
+            <help>（指定云之家用户信息的某个字段作为当前系统的账号字段）</help>
+        </el-form-item>    
+        <el-form-item label="说明">
+            <help>“域名”为云之家平台的域名，如果为私有云，请自主填写</help>
+        </el-form-item> 
+        <el-form-item label="">
+            <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
+                title="确定保存吗？" @confirm="btnEnter('yunzhijia',yunzhijia)">
+                <el-button type="primary" slot="reference" :loading="loading" v-loading.fullscreen.lock="loading">
+                    <icon v-if="!loading">&#xa048</icon>确认修改
+                </el-button>
+            </el-popconfirm>
+        </el-form-item>
+    </el-form>
     </div>
 </body>
 
