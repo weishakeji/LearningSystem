@@ -36,6 +36,7 @@ Vue.component('video_progress', {
         'data': {
             handler: function (nv, ov) {
                 if (nv == null) return;
+                nv.complete = nv.complete >= 100 ? 100 : nv.complete;
                 //如果实时计算的学习进度，大于购买记录中的，则记录在购买记录中
                 if (nv.complete > this.purchase.Stc_StudyScore) {
                     var th = this;
@@ -43,7 +44,11 @@ Vue.component('video_progress', {
                         .then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                th.$notify({ type: 'success', message: '保存通过率成功' });
+                                console.log(result);
+                                th.purchase.Stc_StudyScore = result;
+                                //触发更新事件
+                                th.$emit('record', result, th.purchase);
+                                th.$notify({ type: 'success', message: '保存视频学习进度成功' });
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;

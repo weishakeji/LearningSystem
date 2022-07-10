@@ -724,23 +724,23 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="acid"></param>
         /// <param name="couid"></param>
-        /// <param name="rate"></param>
+        /// <param name="rate">进度百分比</param>
         /// <returns></returns>
         [Student,Admin]
-        public bool LogForVideoRecord(int acid, int couid, double rate)
+        public double LogForVideoRecord(int acid, int couid, double rate)
         {
             Song.Entities.Accounts acc = this.User;
-            if (acc.Ac_ID != acid) return false;
+            if (acc.Ac_ID != acid) return rate;
 
             Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
-            if (sc == null) return false;
+            if (sc == null) return rate;
             if (sc.Stc_StudyScore != rate)
             {
                 sc.Stc_StudyScore = rate;
                 Business.Do<ICourse>().StudentScoreSave(sc, rate, -1, -1);
-                return true;
+                return rate;
             }
-            return false;
+            return rate;
         }
         /// <summary>
         /// 学习记录修改为完成
@@ -892,7 +892,9 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Student_Course Purchaselog(int stid, int couid)
         {
-            return Business.Do<ICourse>().StudentCourse(stid, couid);
+            Student_Course sc= Business.Do<ICourse>().StudentCourse(stid, couid);
+            sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;
+            return sc;
         }
         #endregion
 

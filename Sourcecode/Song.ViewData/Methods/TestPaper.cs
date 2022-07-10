@@ -352,7 +352,7 @@ namespace Song.ViewData.Methods
             string couname = getAttr(xn, "couname");
             //***课程是否购买或过期
             Student_Course purchase = Business.Do<ICourse>().StudentCourse(stid, couid);
-            if (purchase == null || (!purchase.Stc_IsFree && (purchase.Stc_EndTime < DateTime.Now || purchase.Stc_StartTime > DateTime.Now)))
+            if (purchase == null || (!purchase.Stc_IsFree && purchase.Stc_EndTime < DateTime.Now && purchase.Stc_StartTime > DateTime.Now))
                 throw new Exception("未购买课程或已经过期");
 
             //机构信息

@@ -267,6 +267,8 @@
                     "stcardid": this.account.Ac_IDCardNumber,
                     "stsid": this.account.Sts_ID,
                     "stsname": this.account.Sts_Name,
+                     //课程
+                     "couid": this.paper.Cou_ID,
                     //试卷
                     "tpid": this.paper.Tp_Id,
                     "tpname": this.paper.Tp_Name,

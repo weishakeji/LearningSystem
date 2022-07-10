@@ -84,8 +84,8 @@ $ready(function () {
             },
             //获取机构的配置参数
             orgconfig: function (para, def) {
-                var val = this.config[para];
-                if (!val) return def ? def : '';
+                var val = Number(this.config[para]);
+                if (isNaN(val)) return def ? def : '';                    
                 return val;
             },
             //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
@@ -95,6 +95,7 @@ $ready(function () {
                 var weight_video = orgconfig('finaltest_weight_video', 33.3);
                 //加上容差
                 var video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
+                video = video >= 100 ? 100 : video;
                 video = weight_video * video / 100;
                 //试题得分
                 var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
@@ -112,8 +113,8 @@ $ready(function () {
                 }
                 //获取机构的配置参数
                 function orgconfig(para, def) {
-                    var val = th.config[para];
-                    if (!val) return def ? def : '';
+                    var val = Number(th.config[para]);
+                    if (isNaN(val)) return def ? def : '';                    
                     return val;
                 };
             },

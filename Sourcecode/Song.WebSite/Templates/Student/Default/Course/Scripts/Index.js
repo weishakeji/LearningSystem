@@ -107,7 +107,8 @@ $ready(function () {
                 //视频得分
                 var weight_video = orgconfig('finaltest_weight_video', 33.3);
                 //加上容差
-                var video=purchase.Stc_StudyScore>0 ? purchase.Stc_StudyScore+ orgconfig('VideoTolerance', 0) : 0;                
+                var video=purchase.Stc_StudyScore>0 ? purchase.Stc_StudyScore+ orgconfig('VideoTolerance', 0) : 0;   
+                video = video >= 100 ? 100 : video;             
                 video = weight_video * video / 100;
                 //试题得分
                 var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
@@ -119,8 +120,8 @@ $ready(function () {
                 return Math.round((video + ques + exam) * 100) / 100;
                 //获取机构的配置参数
                 function orgconfig(para, def) {
-                    var val = th.config[para];
-                    if (!val) return def ? def : '';
+                    var val = Number(th.config[para]);
+                    if (isNaN(val)) return def ? def : '';                    
                     return val;
                 };
             },

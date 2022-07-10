@@ -253,8 +253,9 @@
             },
             //跳转到试卷页
             goback: function () {
-                var url = "Review?examid=" + this.exam.Exam_ID + "&exrid=" + this.result.Exr_ID;
-                window.location.href = url;
+                var file = "/web/test/paper";
+                var url = $api.url.dot(this.tpid, file);
+                window.location.href = url;               
             },
             //计算时间，参数：初始时间、考试时长
             calcTime: function () {
@@ -346,6 +347,8 @@
                     "stcardid": this.account.Ac_IDCardNumber,
                     "stsid": this.account.Sts_ID,
                     "stsname": this.account.Sts_Name,
+                    //课程
+                    "couid": this.paper.Cou_ID,
                     //试卷
                     "tpid": this.paper.Tp_Id,
                     "tpname": this.paper.Tp_Name,
