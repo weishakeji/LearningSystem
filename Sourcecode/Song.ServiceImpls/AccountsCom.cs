@@ -15,6 +15,7 @@ using System.Xml;
 using NPOI.SS.UserModel;
 using System.IO;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
 namespace Song.ServiceImpls
 {
@@ -503,24 +504,29 @@ namespace Song.ServiceImpls
             Song.Entities.Accounts entity = Gateway.Default.From<Accounts>().Where(wc && w2).ToFirst<Accounts>();
             if (entity != null)
             {
-                Thread t1 = new Thread(() =>
-                {
-                    try
-                    {
-                        //如果登录成功，则修改最后登录时间
-                        Gateway.Default.Update<Accounts>(new Field[] { Accounts._.Ac_LastTime }, new object[] { DateTime.Now },
-                           Accounts._.Ac_ID == entity.Ac_ID);
-                        Gateway.Default.Update<Teacher>(new Field[] { Teacher._.Th_LastTime }, new object[] { DateTime.Now },
-                          Teacher._.Ac_ID == entity.Ac_ID);
-                    }
-                    catch(Exception ex) {
-                        WeiSha.Core.Log.Error(this.GetType().FullName, ex);
-                    }
-                });
-                t1.Start();
-
+                Thread t2 = new Thread(new ParameterizedThreadStart(_AccountsLogin_update_time));
+                t2.Start(entity);
             }
             return _acc_init(entity);
+        }
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        private static void _AccountsLogin_update_time(object acc)
+        {
+            if (acc == null) return;
+            if (!(acc is Song.Entities.Accounts)) return;
+            Accounts account = (Accounts)acc;
+            try
+            {
+                //如果登录成功，则修改最后登录时间
+                Gateway.Default.Update<Accounts>(new Field[] { Accounts._.Ac_LastTime }, new object[] { DateTime.Now },
+                      Accounts._.Ac_ID == account.Ac_ID);
+                Gateway.Default.Update<Teacher>(new Field[] { Teacher._.Th_LastTime }, new object[] { DateTime.Now },
+                  Teacher._.Ac_ID == account.Ac_ID);
+            }
+            catch (Exception ex)
+            {
+                WeiSha.Core.Log.Error(account.GetType().FullName, ex);
+            }
         }
         /// <summary>
         /// 登录判断
