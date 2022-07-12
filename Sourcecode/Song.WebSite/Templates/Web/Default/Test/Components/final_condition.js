@@ -2,7 +2,7 @@
 $dom.load.css([$dom.pagepath() + 'Styles/final_condition.css']);
 Vue.component('final_condition', {
     //参数：机构参数，购买记录，试卷id，学员,是否一直显示
-    props: ['config', 'purchase', 'paperid', 'account','show'],
+    props: ['config', 'purchase', 'paperid', 'account', 'show'],
     data: function () {
         return {
             results: [],
@@ -14,6 +14,13 @@ Vue.component('final_condition', {
         'account': {
             handler: function (nv, ov) {
                 this.getresults(nv.Ac_ID, this.paperid);
+            },
+            immediate: true
+        },
+        //课程购买记录
+        'purchase': {
+            handler: function (nv, ov) {
+                nv.Stc_StudyScore = nv.Stc_StudyScore >= 100 ? 100 : nv.Stc_StudyScore;
             },
             immediate: true
         },
@@ -61,6 +68,7 @@ Vue.component('final_condition', {
             }).catch(function (err) {
                 th.loading = false;
                 th.results = [];
+                Vue.prototype.$alert(err);
                 console.error(err);
             });
         },

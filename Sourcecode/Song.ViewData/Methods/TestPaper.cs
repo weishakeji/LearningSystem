@@ -463,12 +463,12 @@ namespace Song.ViewData.Methods
         /// 所有测试成绩
         /// </summary>
         /// <param name="stid">学员id</param>
-        /// <param name="tpid">试卷id</param>
-        /// <param name="size"></param>
-        /// <param name="index"></param>
+        /// <param name="tpid">试卷id</param>    
         /// <returns></returns>
         public Song.Entities.TestResults[] ResultsAll(int stid, int tpid)
-        {         
+        {
+            if (stid <= 0) throw new Exception("学员id为空，无法获取成绩");
+            if (tpid <= 0) throw new Exception("试卷id为空，无法获取成绩");
             Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsCount(stid, tpid);            
             return trs;
         }

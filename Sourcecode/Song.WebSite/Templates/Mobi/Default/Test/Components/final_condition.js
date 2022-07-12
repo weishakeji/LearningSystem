@@ -26,6 +26,13 @@ Vue.component('final_condition', {
             },
             immediate: true
         },
+        //课程购买记录
+        'purchase': {
+            handler: function (nv, ov) {
+                nv.Stc_StudyScore = nv.Stc_StudyScore >= 100 ? 100 : nv.Stc_StudyScore;
+            },
+            immediate: true
+        },
     },
     computed: {
 
@@ -64,7 +71,7 @@ Vue.component('final_condition', {
                 th.loading = false;
                 if (req.data.success) {
                     th.results = req.data.result;
-                    console.log(th.results);
+                   // console.log(th.results);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -73,6 +80,7 @@ Vue.component('final_condition', {
             }).catch(function (err) {
                 th.loading = false;
                 th.results = [];
+                Vue.prototype.$alert(err);
                 console.error(err);
             });
         },
