@@ -22,6 +22,11 @@ context#testpaper {
 #testpaper .headRight {
 	flex: 1;
 	position: relative;
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+	height: 100%;
+	justify-content: space-between;
 }
 
 #testpaper .name {
@@ -29,8 +34,10 @@ context#testpaper {
 	line-height: 50px;
 	font-weight: bolder;
 	color: #000000;
-	display: table;
+	display: block;
 	margin-bottom: 10px;
+	word-break: break-all !important;
+	word-wrap: break-word !important;
 }
 
 .headinfo .row {
@@ -47,20 +54,23 @@ context#testpaper {
 	box-sizing: border-box;
 	padding: 5px 0px;
 }
+
 /*结课考试的条件*/
-.finalinfo *{
+.finalinfo * {
 	font-size: 14px;
 	line-height: 30px;
 }
-.finalinfo b{
+
+.finalinfo b {
 	margin: 0px 5px;
 }
+
 /*课程学习的按钮*/
 .btnBox {
 	height: 50px;
 	width: 100%;
-	position: absolute;
-	bottom: 0;
+	--position: absolute;
+	--bottom: 0;
 	display: flex;
 }
 
@@ -90,22 +100,27 @@ context#testpaper {
 	background-color: #409EFF !important;
 	font-weight: normal;
 }
-.btnBox a.btn_final[disabled]{
+
+.btnBox a.btn_final[disabled] {
 	color: #999;
 	background-color: #ccc !important;
 	cursor: not-allowed;
 }
-.btnBox a.btn_final[disabled]:hover{
+
+.btnBox a.btn_final[disabled]:hover {
 	transform: scale(1);
 }
+
 /*课程未选择或过期*/
-.course_end{
+.course_end {
 	padding: 5px 10px;
 	font-size: 16px;
 }
-.course_end icon{
+
+.course_end icon {
 	font-size: 20px;
 }
+
 /*内容区*/
 context.body {
 	margin-top: 60px;
