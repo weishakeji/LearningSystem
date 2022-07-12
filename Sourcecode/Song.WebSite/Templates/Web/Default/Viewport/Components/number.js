@@ -24,7 +24,7 @@ Vue.component('number', {
                     window.setTimeout(function () {
                         th.number = th.real;
                     }, 500);
-                }, 20 * 1000);
+                }, 15 * 1000);
             }, immediate: true, deep: true
         }
     },
@@ -36,9 +36,10 @@ Vue.component('number', {
     },
     methods: {
         create_config: function (num) {
+            var n = num==null  ||  isNaN(Number(num)) ? 0 : num;
             var config = { number: [0], content: '{nt}' };
+            config.number = [num];
             config.content = '{nt} ' + (this.unit ? this.unit : '');
-        
             return $api.clone(config);
         }
     },
