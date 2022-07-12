@@ -1,5 +1,44 @@
 ﻿@charset "utf-8";
 
+@page {
+	size: auto;
+	margin: 2cm;
+	margin-top: 1cm;
+	margin-bottom: 1cm;
+}
+
+@media print {
+	html, body, #vapp {
+		overflow: auto;
+	}
+
+	html, body, #vapp {
+		height: auto !important;
+	}
+
+	context {
+		height: auto !important;
+	}
+
+	card {
+		box-shadow: none !important;
+		border: none !important;
+		background-color: transparent !important;
+	}
+
+	card-title {
+		border: none !important;
+	}
+
+	/*答题与解析等*/
+	.resultBox {
+		font-size: 16px !important;
+	}
+	context .resultBox>div {
+		page-break-inside: avoid;
+	}
+}
+
 #vapp {
 	display: flex;
 	flex-direction: column;
@@ -29,10 +68,12 @@
 	overflow: hidden;
 	display: flex;
 }
-null{
+
+null {
 	font-size: 13px;
 	color: #999;
 }
+
 .header .sticky>div:first-child {
 	flex: 1;
 }
@@ -42,9 +83,11 @@ null{
 	line-height: 40px;
 	color: #999;
 }
-.el-tabs__nav-wrap::after{
+
+.el-tabs__nav-wrap::after {
 	background-color: transparent;
 }
+
 .el-tabs__item {
 	padding-left: 10px !important;
 }
@@ -137,6 +180,10 @@ context {
 	width: calc(100% - 30px);
 	padding: 15px;
 	overflow-y: auto;
+}
+
+context card * {
+	page-break-inside: avoid;
 }
 
 context card:first-child {

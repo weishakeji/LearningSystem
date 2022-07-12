@@ -23,6 +23,10 @@
 	card-title{
 		border:none !important;
 	}
+	/*答题与解析等*/
+	.resultBox {
+		font-size: 16px !important;
+	}
 }
 html, body, #vapp {
 	width: 100%;
@@ -131,7 +135,9 @@ context {
 	padding: 15px;
 	overflow-y: auto;
 }
-
+context card * {
+	page-break-inside: avoid;
+}
 context card:first-child {
 	margin: 0px 0px 15px 0px;
 	width: 100%;

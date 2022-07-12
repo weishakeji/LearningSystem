@@ -11,7 +11,18 @@ html, body, #vapp {
 #vapp {
 	position: relative;
 }
-
+@page {
+	size: auto;
+	margin: 2cm;
+	margin-top: 1cm;
+	margin-bottom: 1cm;
+}
+@media print{
+	html, body, #vapp {		
+		overflow: auto !important;	
+		height: auto !important;
+	}	
+}
 @font-face {
 	font-family: 'webdesk_icon';
 	src: url("/Utilities/fonts/iconfont.woff") format("woff");
