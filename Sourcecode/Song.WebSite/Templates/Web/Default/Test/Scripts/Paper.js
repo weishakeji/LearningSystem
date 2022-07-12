@@ -1,3 +1,6 @@
+document.oncontextmenu = function () {    
+    return false;
+}
 $ready(function () {
 
     window.vapp = new Vue({

@@ -576,7 +576,7 @@
         return this;
     };
     //打印窗体内容
-    fn.doPrint = function () {
+    fn.doPrint = function () {       
         if (window.frames[this.id] == null) {
             this.document().print();
         } else {

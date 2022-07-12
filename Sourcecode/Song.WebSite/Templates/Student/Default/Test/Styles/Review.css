@@ -1,10 +1,35 @@
 ﻿@charset "utf-8";
+@page {
+	size: auto;
+	margin: 2cm;
+	margin-top: 1cm;
+	margin-bottom: 1cm;
+}
+@media print{
+	html, body, #vapp {		
+		overflow: auto;		
+	}
+	html,body, #vapp{
+		height: auto !important;
+	}
+	context {		
+		height: auto !important;		
+	}
+	card{
+		box-shadow:none !important;
+		border:none !important;
+		background-color:transparent !important;
+	}
+	card-title{
+		border:none !important;
+	}
+}
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
-	overflow: hidden;
+	overflow: visible;
 	position: relative;
 }
 
@@ -93,8 +118,11 @@ score.praise::before {
 	font-size: 13px;
 	color: #999;
 }
-
-/**/
+/*试卷标题*/
+.tp_name{
+	font-size: 20px;
+}
+/*内容区域*/
 
 context {
 	display: block;
