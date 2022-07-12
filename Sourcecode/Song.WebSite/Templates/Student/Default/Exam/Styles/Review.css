@@ -37,6 +37,10 @@
 	context .resultBox>div {
 		page-break-inside: avoid;
 	}
+	context .ans_area>div {
+		page-break-inside: avoid;
+	}
+	
 }
 
 #vapp {
@@ -182,9 +186,6 @@ context {
 	overflow-y: auto;
 }
 
-context card * {
-	page-break-inside: avoid;
-}
 
 context card:first-child {
 	margin: 0px 0px 15px 0px;
