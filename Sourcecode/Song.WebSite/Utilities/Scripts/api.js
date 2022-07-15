@@ -708,8 +708,18 @@
     apiObj.prototype.organ = function (organ) {
         var obj = { 'obj': organ, 'id': organ.Org_ID, 'domain': organ.Org_TwoDomain, 'config': {} };
         if (!organ.Org_Config || organ.Org_Config == '') return obj;
-        console.log(obj);
+
         obj.config = this.xmlconfig.tojson(organ.Org_Config);
+        for (var t in obj.config) {
+            if (!isNaN(Number(obj.config[t]))) {
+                obj.config[t] = Number(obj.config[t]);
+                continue;
+            }
+            if (obj.config[t] == 'True') obj.config[t] = true;
+            if (obj.config[t] == 'False') obj.config[t] = false;
+
+        }
+        //console.log(obj);
         return obj;
     };
     //处理xml的配置信息，老版本中服务端大量采用了xml作为配置项
