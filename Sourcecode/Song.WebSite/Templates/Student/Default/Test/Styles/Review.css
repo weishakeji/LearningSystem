@@ -33,6 +33,9 @@
 	context .ans_area>div {
 		page-break-inside: avoid;
 	}
+	.print{
+		display: none;
+	}
 }
 html, body, #vapp {
 	width: 100%;
@@ -84,7 +87,9 @@ html, body, #vapp {
 .woman {
 	background-image: url(/Utilities/images/head2.jpg);
 }
-
+.print{
+	margin: 0px 15px;
+}
 /*得分样式*/
 
 score {
