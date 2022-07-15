@@ -39,9 +39,9 @@
             </card>
         </div>
         <context>
-            <card v-if="!loading">
-                <card-title class="tp_name">《{{paper.Tp_Name}}》</card-title>
-            </card>
+            <div v-if="!loading" class="tp_name">
+               《{{paper.Tp_Name}}》
+            </div>
             <template v-if="error==''">
                 <div class="sticky">
                     <el-tabs v-model="tabactive">

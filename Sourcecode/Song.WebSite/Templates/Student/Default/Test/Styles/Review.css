@@ -48,7 +48,6 @@ html, body, #vapp {
 
 .header {
 	height: 20px;
-	background-color: rgb(212, 224, 206);
 	font-size: 14px;
 	width: calc(100% - 24px);
 	top: 0px;
@@ -136,6 +135,9 @@ score.praise::before {
 /*试卷标题*/
 .tp_name{
 	font-size: 20px;
+	text-align: center;
+	box-sizing: border-box;
+	padding: 15px 0px 30px 0px;
 }
 /*内容区域*/
 
