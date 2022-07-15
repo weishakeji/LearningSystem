@@ -119,7 +119,7 @@ Vue.component('final_condition', {
         <div>
             3、最多允许考试 <b>{{orgconfig('finaltest_count',1)}}</b> 次，
             <template v-if="results.length>0">
-                已经考了{{results.length}}次，最高得分
+                已经考了<b>{{results.length}}</b>次，最高得分
                 <b>{{score_highest()}}分</b></template>
             <template v-else>还未参加过结课考试</template>
         </div>

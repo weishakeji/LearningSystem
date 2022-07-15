@@ -146,7 +146,7 @@ namespace Song.ServiceInterfaces
         /// <param name="acid"></param>
         /// <param name="code"></param>
         /// <returns></returns>
-        bool RecordLoginCode(int acid, string code);
+        void RecordLoginCode(int acid, string code);
         /// <summary>
         /// ≈–∂œ’À∫≈ «∑Ò¥Ê‘⁄
         /// </summary>

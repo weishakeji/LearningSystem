@@ -150,7 +150,7 @@ $ready(function () {
                 th.account = acc;
                 $api.bat(
                     $api.get('Course/StudyAllow', { 'couid': th.couid }),
-                    $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
+                    $api.cache('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
                     $api.cache('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid })   //章节的视频学习记录                    
                 ).then(axios.spread(function (canStudy, record, videolog) {
                     //判断结果是否正常

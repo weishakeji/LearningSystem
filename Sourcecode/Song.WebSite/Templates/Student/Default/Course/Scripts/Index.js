@@ -75,10 +75,10 @@ $ready(function () {
         },
         methods: {
             handleCurrentChange: function (index) {
-                var th = this;
-                th.loading = true;
+                var th = this;               
                 if (index != null) this.query.index = index;
                 if (th.query.acid === undefined || th.query.acid == -1) return;
+                th.loading = true;
                 //var query = $api.clone(this.query);
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;

@@ -89,7 +89,7 @@ $ready(function () {
             getpurchase: function (stid, couid) {
                 var th = this;
                 th.loading = true;
-                $api.get('Course/Purchaselog:5', { 'stid': stid, 'couid': couid }).then(function (req) {
+                $api.cache('Course/Purchaselog:5', { 'stid': stid, 'couid': couid }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.purchase = req.data.result;

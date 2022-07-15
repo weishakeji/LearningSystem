@@ -37,9 +37,9 @@ namespace Song.ViewData.Methods
         /// <returns></returns> 
         [HttpPost]
         public Song.Entities.Accounts Current()
-        {
+        {          
             return LoginAccount.Status.User(this.Letter);           
-        }
+        }        
         /// <summary>
         /// 刷新登录状态
         /// </summary>
@@ -66,12 +66,15 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts account = Business.Do<IAccounts>().AccountsLogin(acc, pw, true);
             if (account == null) throw VExcept.Verify("密码错误或账号不存在", 102);
             if (!(bool)account.Ac_IsUse) throw VExcept.Verify("当前账号被禁用", 103);
-            //克隆当前对象
-            account = account.DeepClone<Song.Entities.Accounts>();
-            account.Ac_Photo = System.IO.File.Exists(PhyPath + account.Ac_Photo) ? VirPath + account.Ac_Photo : "";
+            LoginAccount.Add(account);
+
+            //克隆当前对象,用于发向前端
+            Song.Entities.Accounts user = account.DeepClone<Song.Entities.Accounts>();
+            user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";
             //登录，密码被设置成加密状态值
-            account.Ac_Pw = LoginAccount.Status.Login(account);
-            return account;
+            user.Ac_CheckUID = account.Ac_CheckUID;
+            user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account);
+            return user;
         }
         /// <summary>
         /// 注册学员
@@ -135,12 +138,13 @@ namespace Song.ViewData.Methods
             {
                 int id = Business.Do<IAccounts>().AccountsAdd(tmp);
                 //登录，密码被设置成加密状态值
-                tmp.Ac_Pw = LoginAccount.Status.Login(tmp);
+                tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            LoginAccount.Add(tmp);
             return tmp;
         }
         /// <summary>

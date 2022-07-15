@@ -370,7 +370,9 @@
             var custom_method = method == "get_cache" ? "cache" : method;
             //开始时间
             var startTime = new Date();
-            //console.log(startTime);
+            //登录状态
+            var loginstatus=methods.loginstatus();
+            console.log(loginstatus);
             //创建axiso对象
             var instance = axios.create({
                 method: true_method,
@@ -386,7 +388,7 @@
                 },
                 auth: {
                     username: 'weishakeji ' + custom_method + ' ' + action + ' ' + returntype + ' ' + window.location,
-                    password: methods.loginstatus()
+                    password: loginstatus
                 },
                 timeout: config.timeout,
                 returntype: returntype

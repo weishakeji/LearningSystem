@@ -15,6 +15,7 @@
         <template v-else-if="!islogin">
             <alert class="nolog">未查询到学员信息</alert>
         </template>
+        <loading v-else-if="loading">...</loading>
         <template v-else>
             <div class="row video">
                 <span>1、视频学习完成<b>{{purchase.Stc_StudyScore}}%</b>，

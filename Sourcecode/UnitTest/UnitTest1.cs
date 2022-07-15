@@ -16,6 +16,9 @@ namespace UnitTest
         [TestMethod]
         public void TestMethod1()
         {
+            string rootPath = Environment.CurrentDirectory;
+            string str3 = Directory.GetCurrentDirectory();
+
             string excel = @"E:\SourceCode\02_LearningSystem\Sourcecode\Song.WebSite\Upload\Temp\f3acaad5f5aa9f098e59e00bcb302d2a.xls";
             DataTable t = Song.ViewData.Helper.Excel.SheetToDatatable(excel,0,"");
 

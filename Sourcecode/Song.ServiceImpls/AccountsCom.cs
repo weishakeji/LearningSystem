@@ -504,6 +504,8 @@ namespace Song.ServiceImpls
             Song.Entities.Accounts entity = Gateway.Default.From<Accounts>().Where(wc && w2).ToFirst<Accounts>();
             if (entity != null)
             {
+                //识别码，记录到数据库
+                entity.Ac_CheckUID = WeiSha.Core.Request.UniqueID();
                 Thread t2 = new Thread(new ParameterizedThreadStart(_AccountsLogin_update_time));
                 t2.Start(entity);
             }
@@ -518,7 +520,7 @@ namespace Song.ServiceImpls
             try
             {
                 //如果登录成功，则修改最后登录时间
-                Gateway.Default.Update<Accounts>(new Field[] { Accounts._.Ac_LastTime }, new object[] { DateTime.Now },
+                Gateway.Default.Update<Accounts>(new Field[] { Accounts._.Ac_LastTime, Accounts._.Ac_CheckUID }, new object[] { DateTime.Now, account.Ac_CheckUID },
                       Accounts._.Ac_ID == account.Ac_ID);
                 Gateway.Default.Update<Teacher>(new Field[] { Teacher._.Th_LastTime }, new object[] { DateTime.Now },
                   Teacher._.Ac_ID == account.Ac_ID);
@@ -543,18 +545,21 @@ namespace Song.ServiceImpls
             Song.Entities.Accounts entity = Gateway.Default.From<Accounts>().Where(wc).ToFirst<Accounts>();
             return _acc_init(entity);
         }
-        public bool RecordLoginCode(int acid, string code)
+        public void RecordLoginCode(int acid, string code)
         {
-            try
+            Thread t1 = new Thread(() =>
             {
-                Gateway.Default.Update<Accounts>(new Field[] { Accounts._.Ac_CheckUID }, new object[] { code },
-                    Accounts._.Ac_ID == acid);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+                try
+                {
+                    Gateway.Default.Update<Accounts>(new Field[] { Accounts._.Ac_CheckUID }, new object[] { code },
+                  Accounts._.Ac_ID == acid);
+                }
+                catch (Exception ex)
+                {
+                    WeiSha.Core.Log.Error(this.GetType().FullName, ex);
+                }
+            });
+            t1.Start();            
         }
         /// <summary>
         /// 判断账号是否存在

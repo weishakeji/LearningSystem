@@ -66,7 +66,7 @@ $ready(function () {
             getpurchase: function () {
                 var th = this;
                 th.loading = true;
-                $api.get('Course/Purchaselog:5', { 'couid': th.couid, 'stid': th.stid }).then(function (req) {
+                $api.cache('Course/Purchaselog:5', { 'couid': th.couid, 'stid': th.stid }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.purchase = req.data.result;

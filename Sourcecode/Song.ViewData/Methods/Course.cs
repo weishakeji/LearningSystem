@@ -727,6 +727,7 @@ namespace Song.ViewData.Methods
         /// <param name="rate">进度百分比</param>
         /// <returns></returns>
         [Student,Admin]
+        [HttpPost]
         public double LogForVideoRecord(int acid, int couid, double rate)
         {
             Song.Entities.Accounts acc = this.User;
