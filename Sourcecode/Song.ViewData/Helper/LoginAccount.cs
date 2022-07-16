@@ -177,7 +177,7 @@ namespace Song.ViewData
                     {
                         list[i] = acc;
                         isexsit = true;
-                        Business.Do<IAccounts>().RecordLoginCode(acc.Ac_ID, acc.Ac_CheckUID);
+                        //Business.Do<IAccounts>().RecordLoginCode(acc.Ac_ID, acc.Ac_CheckUID);
                         break;
                     }
                 }
@@ -192,18 +192,15 @@ namespace Song.ViewData
         public static Song.Entities.Accounts GetCurrent(int acid)
         {
             Song.Entities.Accounts acc = null;
-            lock (_lock_list)
+            for (int i = 0; i < list.Count; i++)
             {
-                for (int i = 0; i < list.Count; i++)
+                if (list[i].Ac_ID == acid)
                 {
-                    if (list[i].Ac_ID == acid)
-                    {
-                        acc = list[i];                      
-                        break;
-                    }
+                    acc = list[i];
+                    break;
                 }
-                return acc;
             }
+            return acc;
         }
         /// <summary>
         /// 返回当前登录用户的实体

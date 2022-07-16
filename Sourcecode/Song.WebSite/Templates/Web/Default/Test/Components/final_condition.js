@@ -13,7 +13,9 @@ Vue.component('final_condition', {
         //当学员登录后
         'account': {
             handler: function (nv, ov) {
-                this.getresults(nv.Ac_ID, this.paperid);
+                var stid = Number(nv.Ac_ID);
+                stid = isNaN(stid) ? 0 : stid;
+                this.getresults(stid, this.paperid);
             },
             immediate: true
         },
@@ -54,6 +56,7 @@ Vue.component('final_condition', {
         //获取历史成绩
         getresults: function (stid, tpid) {
             var th = this;
+            if (stid <= 0 || tpid <= 0) return;
             th.loading = true;
             $api.get('TestPaper/ResultsAll', { 'stid': stid, 'tpid': tpid }).then(function (req) {
                 th.loading = false;

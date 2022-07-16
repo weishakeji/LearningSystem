@@ -371,8 +371,8 @@
             //开始时间
             var startTime = new Date();
             //登录状态
-            var loginstatus=methods.loginstatus();
-            console.log(loginstatus);
+            var loginstatus = methods.loginstatus();
+            //console.log(loginstatus);
             //创建axiso对象
             var instance = axios.create({
                 method: true_method,
@@ -566,6 +566,7 @@
         //status:登录状态类型，只有admin、account两个选择
         //lose_func: 登录失效后调用的方法
         fresh: function (status, lose_func) {
+            if (status == 'account') return;    //学员账号不刷新登录状态
             var interval_name = 'login_' + status + '_fresh_keyname';
             //console.log(interval_name);
             window[interval_name] = window.setInterval(function () {
@@ -576,21 +577,23 @@
                     if (lose_func != null) lose_func();
                     return;
                 }
+                console.error('interval_name');
                 $api.post(status + '/Fresh').then(function (req) {
                     if (req == null) throw '';
                     if (req.data.success) {
                         var result = req.data.result;
+                        if (result == '') throw '校验码返回为空';
                         $api.loginstatus(status, result);
-                        if (result == '') throw '';
                     } else {
                         throw req.data.message;
                     }
-                }).catch(function () {
-                    $api.loginstatus(status, '');
+                }).catch(function (err) {
+                    console.error(err);
+                    //$api.loginstatus(status, '');
                     clearInterval(window[interval_name]);
                     if (lose_func != null) lose_func();
                 });
-            }, 1000 * 60 * 5);
+            }, 1000 * 60 * 10);
         }
 
     };

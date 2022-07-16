@@ -35,7 +35,7 @@
             <el-divider>参加结课考试的条件</el-divider>
         </final_condition>
 
-        <context id="scene" v-if="!final_disable()" remark="考试区域">
+        <context id="scene" v-if="!final_disable() && islogin" remark="考试区域">
             <div class="testinfo" remark="试卷信息区域">
                 <loading class="loading_init" v-if="loading.init">加载初始数据...</loading>
                 <template v-else>
