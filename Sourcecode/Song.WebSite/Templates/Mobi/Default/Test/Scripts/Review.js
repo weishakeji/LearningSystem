@@ -22,14 +22,15 @@ $ready(function () {
         },
         mounted: function () {
             window.addEventListener('scroll', this.handleScroll, true);
-            this.loading = true;
+            var th=this;
+            th.loading = true;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
-                $api.cache('TestPaper/ForID', { 'id': this.tpid }),
-                $api.get('TestPaper/ResultForID', { 'id': this.trid }),
+                $api.cache('TestPaper/ForID', { 'id': th.tpid }),
+                $api.get('TestPaper/ResultForID', { 'id': th.trid }),
             ).then(axios.spread(function (account, types, paper,result) {
-                vapp.loading = false;
+                th.loading = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -40,11 +41,12 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.types = types.data.result;
-                vapp.paper = paper.data.result;
-                vapp.result = result.data.result;
-                vapp.exrxml = $api.loadxml(vapp.result.Tr_Results);
+                th.account = account.data.result;
+                th.types = types.data.result;
+                th.paper = paper.data.result;
+                th.result = result.data.result;
+                th.scoreFinal=th.result.Tr_Score;
+                th.exrxml = $api.loadxml(th.result.Tr_Results);
               
             })).catch(function (err) {
                 console.error(err);

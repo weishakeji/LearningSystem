@@ -80,7 +80,7 @@ Vue.component('final_condition', {
             }).catch(function (err) {
                 th.loading = false;
                 th.results = [];
-                Vue.prototype.$alert(err);
+                window.alert(err);
                 console.error(err);
             });
         },
