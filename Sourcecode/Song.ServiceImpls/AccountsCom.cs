@@ -720,10 +720,11 @@ namespace Song.ServiceImpls
         /// <param name="index">当前第几页</param>
         /// <param name="countSum">记录总数</param>
         /// <returns></returns>
-        public Accounts[] AccountsPager(int orgid, int size, int index, out int countSum)
+        public Accounts[] AccountsPager(int orgid, int size, int index, bool? isUse, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
+            if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
             countSum = Gateway.Default.Count<Accounts>(wc);
             Accounts[] accs = Gateway.Default.From<Accounts>().Where(wc).OrderBy(Accounts._.Ac_RegTime.Desc).ToArray<Accounts>(size, (index - 1) * size);
             foreach (Song.Entities.Accounts ac in accs)

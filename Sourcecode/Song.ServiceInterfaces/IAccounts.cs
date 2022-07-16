@@ -213,7 +213,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index">当前第几页</param>
         /// <param name="countSum">记录总数</param>
         /// <returns></returns>
-        Accounts[] AccountsPager(int orgid, int size, int index, out int countSum);
+        Accounts[] AccountsPager(int orgid, int size, int index, bool? isUse, out int countSum);
         /// <summary>
         /// 分页获取某账户组，所有的网站账户帐号；
         /// </summary>

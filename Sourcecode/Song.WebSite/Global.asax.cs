@@ -33,6 +33,8 @@ namespace Song.WebSite
             {               
                 WeiSha.Core.Business.Do<ITemplate>().SetPlateOrganInfo();
             }
+            //账号信息，加入内存缓存，方便后续查询
+            //Song.ServiceImpls.AccountLogin.Buffer.Init();
         }
     }
     /// <summary>

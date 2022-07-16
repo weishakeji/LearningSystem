@@ -159,6 +159,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountLogin\AccountObject.cs" />
+    <Compile Include="AccountLogin\Buffer.cs" />
     <Compile Include="DepartCom.cs" />
     <Compile Include="GuideCom.cs" />
     <Compile Include="ManageMenuCom.cs" />

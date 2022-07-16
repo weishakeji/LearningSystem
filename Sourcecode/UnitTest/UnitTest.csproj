@@ -68,6 +68,10 @@
       <Project>{985a8268-3a87-46b9-9744-650664719e67}</Project>
       <Name>Song.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Song.ServiceImpls\Song.ServiceImpls.csproj">
+      <Project>{378ef4e2-4ed6-4ed7-89e8-6b40b001e952}</Project>
+      <Name>Song.ServiceImpls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Song.ServiceInterfaces\Song.ServiceInterfaces.csproj">
       <Project>{7cfb4dc1-8536-44a4-af1d-2d7bda8067c1}</Project>
       <Name>Song.ServiceInterfaces</Name>

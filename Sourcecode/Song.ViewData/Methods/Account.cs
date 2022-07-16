@@ -39,7 +39,30 @@ namespace Song.ViewData.Methods
         public Song.Entities.Accounts Current()
         {          
             return LoginAccount.Status.User(this.Letter);           
-        }        
+        }
+        public int atest()
+        {
+            int total = 0;
+            //foreach (System.Web.Caching.Cache c in HttpRuntime.Cache)
+            //{
+            //    total++;
+            //    //string key=c.
+            //}
+
+            //HttpRuntime.Cache
+            System.Collections.IDictionaryEnumerator cacheEnum = HttpRuntime.Cache.GetEnumerator();
+            while (cacheEnum.MoveNext())
+            {
+                total++;
+                string key = cacheEnum.Key.ToString();
+                if (key.StartsWith("AccountBuffer_"))
+                {
+                    object val = cacheEnum.Value;
+                }
+                //cacheEnum.Key.ToString()为缓存名称，cacheEnum.Value为缓存值 
+            }
+            return total;
+        }
         /// <summary>
         /// 刷新登录状态
         /// </summary>
@@ -266,7 +289,7 @@ namespace Song.ViewData.Methods
         public ListResult Pager(int index, int size)
         {
             int sum = 0;
-            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(-1, size, index, out sum);
+            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(-1, size, index, null, out sum);
             for (int i = 0; i < accs.Length; i++)
             {
                 accs[i] = _tran(accs[i]);

@@ -16,15 +16,8 @@ namespace UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            string rootPath = Environment.CurrentDirectory;
-            string str3 = Directory.GetCurrentDirectory();
-
-            string excel = @"E:\SourceCode\02_LearningSystem\Sourcecode\Song.WebSite\Upload\Temp\f3acaad5f5aa9f098e59e00bcb302d2a.xls";
-            DataTable t = Song.ViewData.Helper.Excel.SheetToDatatable(excel,0,"");
-
-            string file = "2w3432/2342.jpg";
-            string small = WeiSha.Core.Images.Name.ToSmall(file);
-            Assert.AreEqual(small, "2w3432/2342_small.jpg");
+            string tt = Song.ServiceImpls.AccountLogin.Buffer.GenerateName("123");
+            Assert.AreEqual(tt, "123456");
         }
        
         [TestMethod]
