@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Xml;
@@ -313,14 +314,14 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
-       
+
         #region 成绩
         /// <summary>
         /// 递交答题信息与成绩
         /// </summary>
         /// <param name="result"></param>
         /// <returns></returns>
-        [HttpPut,HttpPost]
+        [HttpPut, HttpPost]
         [HtmlClear(Not = "result")]
         [Student]
         public JObject InResult(string result)
@@ -329,10 +330,10 @@ namespace Song.ViewData.Methods
             //如果为空，则返回-1，表示错误
             if (result == "")
             {
-                jo.Add("score",0);
+                jo.Add("score", 0);
                 jo.Add("trid", 0);
                 return jo;
-            }           
+            }
             XmlDocument resXml = new XmlDocument();
             resXml.LoadXml(result, false);
             XmlNode xn = resXml.SelectSingleNode("results");
@@ -395,7 +396,7 @@ namespace Song.ViewData.Methods
             int sbjid = 0;
             int.TryParse(getAttr(xn, "sbjid"), out sbjid);
             string sbjname = getAttr(xn, "sbjname");
-          
+
             //UID与考试主题
             string uid = getAttr(xn, "uid");
             //string theme = xn.Attributes["theme"].Value.ToString();
@@ -419,11 +420,28 @@ namespace Song.ViewData.Methods
             exr.Tr_UID = uid;
             exr.Tr_Results = result;
             exr.Tr_Score = score;
-          
+
             exr.Org_ID = org.Org_ID;
             exr.Org_Name = org.Org_Name;
             //得分
             score = Business.Do<ITestPaper>().ResultsSave(exr);
+            if (paper.Tp_IsFinal)
+            {
+                Thread t1 = new Thread(() =>
+                {
+                    try
+                    {
+                        double highest = Business.Do<ITestPaper>().ResultsHighest(paper.Tp_Id, stid);
+                        purchase.Stc_ExamScore = highest;
+                        Business.Do<ICourse>().StudentScoreSave(purchase, -1, -1, highest);
+                    }
+                    catch (Exception ex)
+                    {
+                        WeiSha.Core.Log.Error(this.GetType().FullName, ex);
+                    }
+                });
+                t1.Start();
+            }
             //返回得分与成绩id
             jo.Add("score", score);
             jo.Add("trid", exr.Tr_ID);

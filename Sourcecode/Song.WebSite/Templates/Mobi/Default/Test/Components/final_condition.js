@@ -14,7 +14,8 @@ Vue.component('final_condition', {
         //当学员登录后
         'account': {
             handler: function (nv, ov) {
-                this.query.stid = nv.Ac_ID;
+                var stid = Number(nv.Ac_ID);
+                this.query.stid = isNaN(stid) ? 0 : stid;
                 this.getresults();
             },
             immediate: true
@@ -63,7 +64,7 @@ Vue.component('final_condition', {
         //获取历史成绩
         getresults: function () {
             var th = this;
-            if (th.query.stid <= 0 || th.query.tpid <= 0) {             
+            if (th.query.stid <= 0 || th.query.tpid <= 0) {
                 return;
             }
             th.loading = true;
@@ -71,7 +72,7 @@ Vue.component('final_condition', {
                 th.loading = false;
                 if (req.data.success) {
                     th.results = req.data.result;
-                   // console.log(th.results);
+                    // console.log(th.results);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;

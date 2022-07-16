@@ -613,6 +613,20 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<TestResults>().Where(TestResults._.Tp_Id == identify).OrderBy(TestResults._.Tr_Score.Desc).ToFirst<TestResults>();
         }
         /// <summary>
+        /// 计算该试卷的某个学员的最高分
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <param name="stid">学员id</param>
+        /// <returns></returns>
+        public double ResultsHighest(int tpid, int stid)
+        {
+            WhereClip wc = new WhereClip();
+            wc.And(TestResults._.Ac_ID == stid);
+            wc.And(TestResults._.Tp_Id == tpid);
+            object score = Gateway.Default.Max<TestResults>(TestResults._.Tr_Score, wc);
+            return (double)score;
+        }
+        /// <summary>
         /// 计算该试卷的所有测试的最低分
         /// </summary>
         /// <param name="identify"></param>

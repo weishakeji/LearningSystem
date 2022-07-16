@@ -163,6 +163,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         TestResults ResultsHighest(int identify);
         /// <summary>
+        /// 计算该试卷的某个学员的最高分
+        /// </summary>
+        /// <param name="tpid">试卷id</param>
+        /// <param name="stid">学员id</param>
+        /// <returns></returns>
+        double ResultsHighest(int tpid,int stid);
+        /// <summary>
         /// 计算该试卷的所有测试的最低分
         /// </summary>
         /// <param name="identify"></param>
