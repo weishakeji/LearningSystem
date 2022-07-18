@@ -9,11 +9,18 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <test_header title="结课考试" icon="e810"></test_header>
+        <div class="header">
+            <icon @click="gocourse()">&#xe813</icon>
+            <van-tag  size="medium" class="sortname" type="success">
+                <icon>&#xe810</icon>
+                结课考试
+            </van-tag> <a class="btn btntest" @click="btnDoing" :disabled="final_disable()">开始考试</a>
+        </div>
+      
         <div class="context">
             <card class="paper">
                 <card-title class="weisha_icon" icon="&#xe731">{{paper.Tp_Name}}
-                    <a class="btn btntest" @click="btnDoing" :disabled="final_disable()">参加测试</a>
+                   
 
                 </card-title>
                 <card-context>
@@ -30,7 +37,7 @@
                     <div class="row">
                         课 程：{{course.Cou_Name}}
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="paper.Sbj_Name!=''">
                         专 业：{{paper.Sbj_Name}}
                     </div>
                 </card-context>
@@ -50,13 +57,13 @@
                 <card-context>
                     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
                         @load="onload">
-                        <van-swipe-cell v-for="(item,i) in datas" @open="cell_swipe">
+                        <van-swipe-cell v-for="(item,i) in datas">
                             <template #left>
 
                             </template>
                             <van-cell :border="false" class="cour-box" @click="godetail(item)">
                                 <template #title>
-                                    <div class="trscore"> {{i+1}}. <icon style="font-size: 22px;">&#xf008f</icon>
+                                    <div class="trscore"> {{i+1}}. 
                                         <span>{{item.Tr_Score}}</span> 分
                                     </div>
                                     <score :class="scoreStyle(item.Tr_Score)"></score>

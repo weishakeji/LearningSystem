@@ -166,12 +166,11 @@ $ready(function () {
                 });
                 window.location.href = url;
             },
-            //单元格滑动时
-            cell_swipe: function (event) {
-                var position = event.position;
-                if (position == "right") {
-                    console.log("显示详情");
-                }
+            //返回课程
+            gocourse: function () {
+                var couid = $api.querystring("couid", 0);
+                var url = $api.url.dot(couid, '/mobi/course/Detail');
+                window.location.href = url;
             },
             //进入详情页
             godetail: function (item) {

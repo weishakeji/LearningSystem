@@ -28,7 +28,7 @@ $ready(function () {
                 $api.cache('Question/Types:9999'),
                 $api.cache('TestPaper/ForID', { 'id': this.tpid }),
                 $api.get('TestPaper/ResultForID', { 'id': this.trid }),
-            ).then(axios.spread(function (account, types, paper,result) {
+            ).then(axios.spread(function (account, types, paper, result) {
                 vapp.loading = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -45,7 +45,7 @@ $ready(function () {
                 vapp.paper = paper.data.result;
                 vapp.result = result.data.result;
                 vapp.exrxml = $api.loadxml(vapp.result.Tr_Results);
-              
+
             })).catch(function (err) {
                 console.error(err);
             });
@@ -78,7 +78,8 @@ $ready(function () {
                         var q = $dom(list[j]);
                         var qid = Number(q.attr('id'));
                         var ans = q.attr('ans');
-                        var sucess = q.attr('sucess') == 'true';
+                        var success = q.attr('sucess');
+                        var sucess = success == 'true' || success == 'True';
                         var score = Number(q.attr('score'));
                         qarr.push({
                             'id': qid, 'type': type,
