@@ -101,7 +101,7 @@
                                 </price>
                             </info>
                             <div class="progress">
-                                <video_progress :couid="item.Cou_ID" :stid="account.Ac_ID" :config="config">
+                                <video_progress :course="item" :stid="account.Ac_ID" :config="config" :purchase="scope.data">
                                 </video_progress>
                                 <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">
                                 </ques_progress>
