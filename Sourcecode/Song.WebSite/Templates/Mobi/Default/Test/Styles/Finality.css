@@ -26,6 +26,21 @@ card.paper card-title {
 	position: relative;
 }
 
+.title {
+	display: block;
+	position: absolute;
+	height: 28px;
+	top: 0px;
+	right: 0px;
+	font-size: 16px;
+	margin: 8px 10px;
+	padding: 0px 5px;
+	background-color: #07c160;
+	border-radius: 5px;
+	color: #fff;
+	padding: 6px 8px;
+	box-sizing: border-box;
+}
 .btn {
 	display: block;
 	position: absolute;
@@ -38,6 +53,7 @@ card.paper card-title {
 	border-radius: 5px;
 	color: #fff;
 }
+
 .btn[disabled]{
 	background-color: #999;
 	color: #eee;

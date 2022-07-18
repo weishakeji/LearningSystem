@@ -11,16 +11,16 @@
     <div id="vapp" v-cloak>
         <div class="header">
             <icon @click="gocourse()">&#xe813</icon>
-            <van-tag  size="medium" class="sortname" type="success">
+            <van-tag  size="medium" class="title" type="success" :disabled="final_disable()">
                 <icon>&#xe810</icon>
                 结课考试
-            </van-tag> <a class="btn btntest" @click="btnDoing" :disabled="final_disable()">开始考试</a>
+            </van-tag> 
         </div>
       
         <div class="context">
             <card class="paper">
                 <card-title class="weisha_icon" icon="&#xe731">{{paper.Tp_Name}}
-                   
+                    <a class="btn btntest" @click="btnDoing" :disabled="final_disable()">参加考试</a>
 
                 </card-title>
                 <card-context>
