@@ -1,6 +1,9 @@
 ﻿.exam_test {
     font-size: 15px;
 }
+.exam_test .el-dialog__header {
+    padding: 20px 40px 10px 20px !important;
+}
 
 .exam_test>div:first-child {
     display: flex;
@@ -18,20 +21,88 @@
     box-sizing: border-box;
     padding: 0px 5px;
 }
-.exam_test .exam_btns a{
+
+.exam_test .exam_btns a {
     flex: 1;
     text-align: left;
     font-size: 13px;
     cursor: pointer;
     line-height: 30px;
 }
-.exam_test .exam_btns a:last-child{
+
+.exam_test .exam_btns a:last-child {
     text-align: center;
 }
-.exam_test .exam_btns a[disabled]{
+
+.exam_test .exam_btns a[disabled] {
     color: #999;
     cursor: default;
 }
-.exam_test .exam_btns a[disabled]:hover{
+
+.exam_test .exam_btns a[disabled]:hover {
     text-decoration: none;
+}
+
+.exam_test .result {
+    padding: 5px 10px;
+}
+
+.exam_test .result:hover {
+    background-color: #eee;
+}
+
+.result .score {
+    width: 180px;
+    font-size: 18px;
+}
+
+/*得分样式*/
+
+score {
+    font-size: 16px;
+    line-height: 20px;
+    margin-left: 10px;
+}
+
+score::after {
+    font-family: "webdesk_icon" !important;
+    margin-left: 5px;
+    font-size: 18px;
+}
+
+score::before {
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
+    font-size: 14px;
+    line-height: 150%;
+}
+
+score.nopass::after {
+    content: '\e774';
+    color: #ff0000;
+}
+
+/*文字提示*/
+score.nopass::before {
+    content: '不及格';
+    color: #ff0000;
+}
+
+score.general::before {
+    content: '\e829';
+}
+
+score.fine::before {
+    content: '\e826';
+    color: #07c160;
+}
+
+score.praise::before {
+    content: '\e855';
+    font-size: 20px;
+    color: chocolate;
+}
+
+.btns {
+    float: right;
 }
