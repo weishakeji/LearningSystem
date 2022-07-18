@@ -26,7 +26,7 @@ Vue.component('exam_test', {
     watch: {
         'course': {
             handler: function (nv, ov) {
-                this.onload();
+                //this.onload();
             }, immediate: true, deep: true
         },
         'stid': {
@@ -39,12 +39,15 @@ Vue.component('exam_test', {
                 var tpid = Number(nv.Tp_Id);
                 tpid = isNaN(tpid) ? 0 : tpid;
                 this.result_query.tpid = tpid;
+
+                this.getresults(1);
             }, immediate: true, deep: true
         },
         //当打开结课成绩面板时
         showFinaldata: function (nv, ov) {
             if (nv == true) {
-                this.getresults(1);
+                this.onload();
+                //this.getresults(1);
             }
         }
     },
@@ -58,6 +61,7 @@ Vue.component('exam_test', {
     methods: {
         onload: function () {
             var th = this;
+            th.finaltest = {};
             var couid = this.course.Cou_ID;
             th.loading = true;
             $api.get('TestPaper/ShowPager', { 'couid': couid, 'search': '', 'diff': '', 'size': Number.MAX_VALUE, 'index': 1 })
@@ -80,6 +84,7 @@ Vue.component('exam_test', {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
+                    th.finaltest = {};
                     console.error(err);
                 });
         },
