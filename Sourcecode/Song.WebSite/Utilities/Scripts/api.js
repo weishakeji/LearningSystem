@@ -5,7 +5,7 @@
  * 1、封装api调用方法，采用axios异步读取服务端；支持get,post,delete,put,patch,options六种方式
  * 2、数据提交与返回均经过url编码与解码
  * 3、一些常用方法，如$api.trim，querystring,cookies等
- * 4、本地数据缓存（采用indexedDB数据库）
+ * 4、构建本地数据缓存（采用indexedDB）,调用方法$api.cache()，使用方式与get、post等无差别
  *
  *
  * 作  者：宋雷鸣 10522779@qq.com
@@ -577,7 +577,7 @@
                     if (lose_func != null) lose_func();
                     return;
                 }
-                console.error('interval_name');
+                //console.error('interval_name');
                 $api.post(status + '/Fresh').then(function (req) {
                     if (req == null) throw '';
                     if (req.data.success) {

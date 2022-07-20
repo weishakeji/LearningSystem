@@ -172,6 +172,10 @@ $ready(function () {
                 var url = $api.url.dot(couid, '/mobi/course/Detail');
                 window.location.href = url;
             },
+            //返回主页
+            gohome: function () {
+                window.location.href = '/mobi/index';
+            },
             //进入详情页
             godetail: function (item) {
                 var file = "Review";

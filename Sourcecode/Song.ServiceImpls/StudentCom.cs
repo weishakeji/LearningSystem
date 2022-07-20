@@ -796,6 +796,10 @@ select * from course as c inner join
                     log.Ac_AccName = student.Ac_AccName;
                 }
                 //视频信息
+                if (acc.As_IsOther && acc.As_IsOuter)
+                {
+                    throw new Exception("视频链接为外部视频，无法统计学习进度");
+                }
                 if (acc.As_Duration <= 0)
                 {
                     throw new Exception("视频时间小于等于零，请在课程管理中设置该章节视频的时长");
