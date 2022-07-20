@@ -25,10 +25,10 @@
                         <icon>&#xe644 </icon>错误
                     </el-tag>
                     <br />
-                    <el-button type="primary" plain @click="entity.Qus_IsCorrect=true">
+                    <el-button type="primary" :plain="!entity.Qus_IsCorrect" @click="entity.Qus_IsCorrect=true">
                         <icon style="font-size: 19px;">&#xe61a </icon>设置答案为：正确
                     </el-button>
-                    <el-button type="danger" plain @click="entity.Qus_IsCorrect=false">
+                    <el-button type="danger" :plain="entity.Qus_IsCorrect" @click="entity.Qus_IsCorrect=false">
                         <icon style="font-size: 18px;">&#xe644 </icon>设置答案为：错误
                     </el-button>
 

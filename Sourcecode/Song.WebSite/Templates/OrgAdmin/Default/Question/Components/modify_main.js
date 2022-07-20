@@ -10,6 +10,7 @@ Vue.component('modify_main', {
                 Qus_ID: 0,
                 Ol_ID: 0,
                 Ol_Name: '',
+                Qus_IsCorrect: false,
                 Qus_Items: []
             },      //当前试题
             organ: {},           //当前机构

@@ -16,22 +16,25 @@ $ready(function () {
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
 
-            entity: {},      //当前试题
+            //当前试题
+            entity: {
+                Qus_IsCorrect: false
+            },
 
             loading: false
         },
         watch: {
             'entity': {
                 handler: function (nv, ov) {
-                   
+
                 }, immediate: false, deep: true
             }
         },
         created: function () { },
         mounted: function () { },
-        methods: {          
+        methods: {
             //验证方法
-            verify: function (ques, alert) {                        
+            verify: function (ques, alert) {
                 return true;
             }
         },
