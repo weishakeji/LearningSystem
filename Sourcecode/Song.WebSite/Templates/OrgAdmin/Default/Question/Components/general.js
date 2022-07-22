@@ -59,9 +59,10 @@ Vue.component('general', {
         }
     },
     computed: {
-        //难度
-        'diff': function () {
-
+        //禁止选择专业与课程，（例如在课程管理中的试题编辑）
+        'disable_select': function () {
+            var from = $api.querystring('from');
+            return from=='course_modify';
         }
     },
     mounted: function () {
@@ -225,7 +226,8 @@ Vue.component('general', {
             </el-form-item>
             <el-form-item label="专业" prop="Sbj_ID">
                 <el-cascader ref="subjects" style="width: 50%;" clearable v-model="sbjids" placeholder="请选择课程专业"
-                :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="changeSbj">
+                :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="changeSbj"
+                :disabled="disable_select">
                 <template slot-scope="{ node, data }">
                     <span>{{ data.Sbj_Name }}</span>
                     <span class="sbj_course" v-if="data.Sbj_CouNumber>0">
@@ -233,11 +235,11 @@ Vue.component('general', {
                     </span>
                 </template>
                 </el-cascader>
-                <help>可以检索查询</help>
+                <help v-if="!disable_select">可以检索查询</help>
             </el-form-item>
             <el-form-item label="课程" prop="Cou_ID">
                 <el-select v-model="couid" @change="changeCourse" value-key="Cou_ID" style="width: 100%;" 
-                filterable placeholder="-- 课程 --" clearable :multiple-limit="1">
+                filterable placeholder="-- 课程 --" clearable :multiple-limit="1" :disabled="disable_select">
                     <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
                         :value="item.Cou_ID">
                         <span>{{i+1}} . </span>
