@@ -87,6 +87,8 @@ Vue.component('general', {
         changeSbj: function (val) {
             this.question['Sbj_ID'] = val.length > 0 ? val[val.length - 1] : 0;
             this.getCourses();
+            //关闭级联菜单的浮动层
+            this.$refs["subjects"].dropDownVisible = false;
         },
         //获取当前专业的上级路径
         getParentPath: function (entity, datas, arr) {
@@ -208,7 +210,7 @@ Vue.component('general', {
                 <el-switch  v-model="question.Qus_IsUse"  active-text="启用"  inactive-text="禁用"></el-switch>
             </el-form-item>
             <el-form-item label="专业" prop="Sbj_ID">
-                <el-cascader style="width: 50%;" clearable v-model="sbjids" placeholder="请选择课程专业"
+                <el-cascader ref="subjects" style="width: 50%;" clearable v-model="sbjids" placeholder="请选择课程专业"
                 :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="changeSbj">
                 <template slot-scope="{ node, data }">
                     <span>{{ data.Sbj_Name }}</span>
