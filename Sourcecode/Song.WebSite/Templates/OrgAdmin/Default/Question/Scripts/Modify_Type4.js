@@ -16,6 +16,7 @@ $ready(function () {
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
 
+            course: {},          //当前试题的课程
             entity: {},      //当前试题            
 
             loading: false

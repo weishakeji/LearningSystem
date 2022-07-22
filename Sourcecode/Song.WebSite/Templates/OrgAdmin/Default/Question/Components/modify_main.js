@@ -6,8 +6,12 @@ Vue.component('modify_main', {
     data: function () {
         return {
             id: $api.dot(),     //试题id
+
+            course: {},          //当前试题的课程
             question: {
                 Qus_ID: 0,
+                Cou_ID: 0,
+                Sbj_ID: 0,
                 Ol_ID: 0,
                 Ol_Name: '',
                 Qus_IsCorrect: false,
@@ -16,6 +20,7 @@ Vue.component('modify_main', {
             organ: {},           //当前机构
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
+
 
             //选项卡
             tabs: [
@@ -51,7 +56,12 @@ Vue.component('modify_main', {
             }, immediate: true, deep: true
         }
     },
-    computed: {},
+    computed: {
+        //课程是否为空
+        coursenull: function () {
+            return JSON.stringify(this.course) != '{}' && this.course != null;
+        }
+    },
     mounted: function () {
         $dom.load.css([$dom.path() + 'Question/Components/Styles/modify_main.css']);
         $dom.load.css(['/Utilities/editor/vue-html5-editor.css']);
@@ -90,7 +100,8 @@ Vue.component('modify_main', {
         getEntity: function () {
             var th = this;
             if (th.id == '') {
-                th.$emit('load', th.question);
+                //th.$emit('load', th.question);
+                th.getCourse();
                 return;
             }
             th.loading = true;
@@ -99,13 +110,36 @@ Vue.component('modify_main', {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.question = th.parseAnswer(result);
-                    th.$emit('load', th.question);
+                    th.getCourse();
+                    //th.$emit('load', th.question);
                 } else {
                     //th.$emit('load', th.question);
                     throw '未查询到数据';
                 }
             }).catch(function (err) {
                 th.$alert(err, '错误');
+            });
+        },
+        //获取课程
+        getCourse: function () {
+            //课程uid
+            var uid = $api.querystring("uid");
+
+            var th = this;
+            var apipath = uid != '' ? 'Course/ForUID' : 'Course/ForID';
+            var apipara = uid != '' ? { 'uid': uid } : { 'id': th.question.Cou_ID };
+            $api.get(apipath, apipara).then(function (req) {
+                if (req.data.success) {
+                    th.course = req.data.result;
+                    th.$emit('load', th.question, th.course);
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                th.$emit('load', th.question, th.course);
+                //Vue.prototype.$alert(err);
+                //console.error(err);
             });
         },
         //将试题对象中的Qus_Items，解析为json
@@ -163,7 +197,7 @@ Vue.component('modify_main', {
         </el-tabs>
         <div v-show="activeName=='question'" remark="试题"><slot></slot></div>
         <div v-show="activeName=='base'" class="base" remark="基本信息">
-            <general :question="question" :organ="organ"></general>
+            <general :question="question" :organ="organ" :course="course"></general>
         </div>
         <div v-show="activeName=='explan'" remark="解析">
             <vue-html5-editor :content="question.Qus_Explain" class="explain_editor" :show-module-name="false" ref="editor_intro"

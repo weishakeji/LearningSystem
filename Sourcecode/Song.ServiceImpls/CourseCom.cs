@@ -306,6 +306,15 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Course>().Where(Course._.Cou_ID == identify).ToFirst<Course>();
         }
         /// <summary>
+        /// 获取单一实体对象，按UID；
+        /// </summary>
+        /// <param name="uid">唯一值</param>
+        /// <returns></returns>
+        public Course CourseSingle(string uid)
+        {
+            return Gateway.Default.From<Course>().Where(Course._.Cou_UID == uid).ToFirst<Course>();
+        }
+        /// <summary>
         /// 获取课程名称，如果为多级，则带上父级名称
         /// </summary>
         /// <param name="identify"></param>

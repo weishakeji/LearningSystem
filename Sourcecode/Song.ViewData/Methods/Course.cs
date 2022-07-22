@@ -100,6 +100,17 @@ namespace Song.ViewData.Methods
             return _tran(cur);
         }
         /// <summary>
+        /// 根据课程UID获取课程信息
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        [Cache(Expires = 60, AdminDisable = true)]
+        public Song.Entities.Course ForUID(string uid)
+        {
+            Song.Entities.Course cur = Business.Do<ICourse>().CourseSingle(uid);
+            return _tran(cur);
+        }
+        /// <summary>
         /// 修改课程信息
         /// </summary>
         /// <param name="course"></param>

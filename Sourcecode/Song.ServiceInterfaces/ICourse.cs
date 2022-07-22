@@ -93,6 +93,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Course CourseSingle(int identify);
         /// <summary>
+        /// 获取单一实体对象，按UID；
+        /// </summary>
+        /// <param name="uid">唯一值</param>
+        /// <returns></returns>
+        Course CourseSingle(string uid);
+        /// <summary>
         /// 获取课程名称，如果为多级，则带上父级名称
         /// </summary>
         /// <param name="identify"></param>

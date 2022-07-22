@@ -6,13 +6,13 @@ $ready(function () {
             id: $api.querystring('id'),
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
-
-            entity: {},      //当前实体对象
+          
+            entity: {},         //当前试题实体
             loading: false,
             loading_init: true,
         },
         watch: {
-        },
+        },         
         created: function () {
             var th = this;
             th.loading_init = true;
@@ -63,7 +63,7 @@ $ready(function () {
                 }).catch(function (err) {
                     th.$alert(err, '错误');
                 });
-            },
+            },            
             //转向
             gourl: function (type) {
                 var url = "Modify_Type" + type;
@@ -71,12 +71,11 @@ $ready(function () {
                 for (let i = 0; i < params.length; i++)
                     url = $api.url.set(url, params[i].key, params[i].val);
                 url = $api.url.set(url, 'id', '');
-                url = $api.url.dot(this.id, url);
+                if (this.id != '') url = $api.url.dot(this.id, url);
                 var loading = this.showloading();
                 window.setTimeout(function () {
                     window.location.href = url;
-                }, 500);
-                //console.log(url);
+                }, 500);               
             },
             //显示全屏Loading
             showloading: function () {

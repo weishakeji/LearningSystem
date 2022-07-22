@@ -1,6 +1,6 @@
 ﻿//试题编辑中的基本信息
 Vue.component('general', {
-    props: ["question", "organ"],
+    props: ["question", "organ", "course"],
     data: function () {
         return {
             //专业树形下拉选择器的配置项
@@ -15,7 +15,7 @@ Vue.component('general', {
             sbjids: [],
 
             courses: [],     //课程列表
-            course: {},      //当前课程
+            couid: '',      //当前课程id
 
             outlines: [],     //章节
             defaultOutlinesProps: {
@@ -39,6 +39,18 @@ Vue.component('general', {
         'organ': {
             handler: function (nv, ov) {
                 if (nv) this.getSubjects(nv);
+            }, immediate: true
+        },
+        'course': {
+            handler: function (nv, ov) {
+                if (JSON.stringify(nv) != '{}' && nv != null)
+                    this.couid = nv.Cou_ID;
+            }, immediate: true
+        },
+        'couid': {
+            handler: function (nv, ov) {
+                this.question.Cou_ID = nv;
+                console.error(nv);
             }, immediate: true
         },
         //章节查询的字符
@@ -65,10 +77,12 @@ Vue.component('general', {
                 if (req.data.success) {
                     th.subjects = req.data.result;
                     //将当前课程的专业，在控件中显示
-                    if (th.question.Sbj_ID && th.question.Sbj_ID > 0) {
+                    var sbjid = th.question.Sbj_ID && th.question.Sbj_ID > 0 ? th.question.Sbj_ID : 0;
+                    sbjid = th.course && th.course.Sbj_ID > 0 ? th.course.Sbj_ID : 0;
+                    if (sbjid > 0) {
                         var arr = [];
-                        arr.push(th.question.Sbj_ID);
-                        var sbj = th.traversalQuery(th.question.Sbj_ID, th.subjects);
+                        arr.push(sbjid);
+                        var sbj = th.traversalQuery(sbjid, th.subjects);
                         if (sbj == null) {
                             throw '课程的专业“' + th.question.Sbj_Name + '”不存在，或该专业被禁用';
                         }
@@ -222,7 +236,7 @@ Vue.component('general', {
                 <help>可以检索查询</help>
             </el-form-item>
             <el-form-item label="课程" prop="Cou_ID">
-                <el-select v-model="question.Cou_ID" @change="changeCourse" value-key="Cou_ID" style="width: 100%;" 
+                <el-select v-model="couid" @change="changeCourse" value-key="Cou_ID" style="width: 100%;" 
                 filterable placeholder="-- 课程 --" clearable :multiple-limit="1">
                     <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
                         :value="item.Cou_ID">
