@@ -67,12 +67,16 @@ $ready(function () {
             //转向
             gourl: function (type) {
                 var url = "Modify_Type" + type;
-                if (this.id != '') url += "." + this.id;
+                var params = $api.url.params();
+                for (let i = 0; i < params.length; i++)
+                    url = $api.url.set(url, params[i].key, params[i].val);
+                url = $api.url.set(url, 'id', '');
+                url = $api.url.dot(this.id, url);
                 var loading = this.showloading();
                 window.setTimeout(function () {
                     window.location.href = url;
                 }, 500);
-                console.log(url);
+                //console.log(url);
             },
             //显示全屏Loading
             showloading: function () {

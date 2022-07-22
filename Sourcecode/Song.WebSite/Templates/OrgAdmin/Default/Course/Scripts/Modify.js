@@ -106,9 +106,23 @@
                 }
             },
             //刷新选项卡的frame页
-            fresh_frame: function () {
+            fresh_frame: function (func) {
                 console.log('刷新fresh_frame:' + this.tabName);
-                this.doubletab(this.tabName);
+                if (func == null) {
+                    this.doubletab(this.tabName);
+                }else{
+                    var iframe = $dom('iframe#' + this.tabName);
+                    if (iframe.length < 1) return;
+                    var win = iframe[0].contentWindow;
+                    if (win && func != null) {
+                        if (func.charAt(func.length - 1) == ')') { eval('win.' + func); }
+                        else {
+                            var f = eval('win.' + func);
+                            if (f != null) f();
+                        }
+                    }
+                    console.error(func);
+                }
             }
         }
     });

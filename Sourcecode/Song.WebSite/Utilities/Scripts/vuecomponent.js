@@ -91,7 +91,7 @@ Vue.component('btngroup', {
             if (btnid == 'add' || btnid == 'modify') {
                 //如果设置了事件，则直接执行，否则执行默认事件
                 var existEvent = this.$listeners[btnid];
-                if (existEvent) return this.$emit(btnid, curr,this);
+                if (existEvent) return this.$emit(btnid, curr, this);
                 if (!top.$pagebox) {
                     return this.$message({
                         message: '未找到pagebox.js对象',
@@ -110,6 +110,7 @@ Vue.component('btngroup', {
         add: function (url) {
             if (url == null) url = this.path;
             if (!(top.$pagebox && url)) return;
+            url = this.setParameter(url, '');
             this.pagebox(url, '新增', window.name + '[add]', this.width, this.height);
         },
         //修改事件
@@ -209,9 +210,10 @@ Vue.component('btngroup', {
         },
         //设置参数
         setParameter: function (url, id) {
-            if (!id) return url;
-            url += url.indexOf("?") < 0 ? '?' : '&';
-            return url + 'id=' + id;
+            var params = $api.url.params();
+            for (let i = 0; i < params.length; i++)
+                url = $api.url.set(url, params[i].key, params[i].val);
+            return $api.url.set(url, 'id', id);
         },
         //打开窗体
         //url:弹窗内页的链接

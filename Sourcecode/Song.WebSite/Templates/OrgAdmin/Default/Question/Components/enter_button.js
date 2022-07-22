@@ -56,13 +56,13 @@ Vue.component('enter_button', {
                         center: true
                     });
                     //如果是新增
-                    if (isadd) {
-                        //var url = $api.dot(result, window.location.href);
-                        //window.location.href = url;
-                        window.setTimeout(function () {
-                            th.operateSuccess();
-                        }, 300);
-                    }
+                    //if (isadd) {
+                    //var url = $api.dot(result, window.location.href);
+                    //window.location.href = url;
+                    window.setTimeout(function () {
+                        th.operateSuccess();
+                    }, 300);
+                    //}
                 } else {
                     throw req.data.message;
                 }
@@ -91,7 +91,17 @@ Vue.component('enter_button', {
         },
         //操作成功
         operateSuccess: function () {
-            window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+            var from = $api.querystring('from');
+            //如果是在课程管理中
+            if (from == "course_modify") {
+                console.log(from);
+                 //如果处于课程编辑页，则刷新
+                 var pagebox = window.top.$pagebox;
+                 if (pagebox && pagebox.source.box)
+                     pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.handleCurrentChange")', true);
+            } else {
+                window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+            }
         }
     },
     template: `<div class="footer">

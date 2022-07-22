@@ -652,7 +652,7 @@
             if (url.indexOf("?") > -1) url = url.substring(0, url.lastIndexOf("?"));
             var parastr = "";
             for (var i = 0; i < values.length; i++) {
-                if (values[i].val == null) continue;
+                if (values[i].val == null || values[i].val == '') continue;
                 parastr += values[i].key + "=" + values[i].val;
                 if (i < values.length - 1) parastr += "&";
             }

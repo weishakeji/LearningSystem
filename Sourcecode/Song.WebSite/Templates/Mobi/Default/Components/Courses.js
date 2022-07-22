@@ -5,8 +5,7 @@ Vue.component('courses', {
     props: ['sbjid', 'title', 'orgid', 'config', 'count'],
     data: function () {
         return {
-            datas: [],  //课程数据集
-            defimg: '',   //课程默认图片
+            datas: [],  //课程数据集        
             defcount: 8,     //默认取多少条
             mremove: false,  //移除金额、充值相关
             loading: false       //预载
@@ -27,11 +26,7 @@ Vue.component('courses', {
             immediate: true
         },
     },
-    created: function () {
-        //默认图片
-        var img = $dom.path() + 'images/cou_nophoto.jpg';
-        this.defimg = img;
-        console.log(img);
+    created: function () {      
         //是否移除充值金额相关
         if (!!this.config.IsMobileRemoveMoney)
             this.mremove = this.config.IsMobileRemoveMoney;

@@ -73,6 +73,8 @@
         watch: {
             'sbjSelects': function (nv, ov) {
                 console.log(nv);
+                //关闭级联菜单的浮动层
+                this.$refs["subjects"].dropDownVisible = false;
             }
         },
         methods: {
@@ -151,7 +153,7 @@
                 return obj;
             },
             btnEnter: function (formName) {
-                var th = this; 
+                var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var obj = th.clone(th.entity);
@@ -196,9 +198,9 @@
             //调用父级方法
             callparent: function () {
                 var win = window.parent;
-                if(win && win.vapp){
+                if (win && win.vapp) {
                     win.vapp.close_fresh('vapp.handleCurrentChange()');
-                }               
+                }
             }
         }
     });
