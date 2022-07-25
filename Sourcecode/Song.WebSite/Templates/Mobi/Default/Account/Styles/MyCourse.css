@@ -8,7 +8,7 @@
     height: 100%;
     overflow: hidden;
     overflow-y: auto;
-    background: linear-gradient(rgba(147, 209, 255, 1), rgba(255, 255, 255, 1));
+    background: linear-gradient(#ccd1cc, rgba(255, 255, 255, 1));
 }
 
 .header {
@@ -42,15 +42,19 @@
     box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
 }
 
-.accInfo {
+.header_info .accInfo {
     width: calc(100% - 80px);
     float: left;
     position: relative;
     color: #fff;
 }
-
-.acc-acname {
+.header_info .acc-name {
+    font-size: 18px;
+    line-height: 30px;
+}
+.header_info .acc-acname {
     font-size: 14px;
+    line-height: 30px;
 }
 
 .header::after {

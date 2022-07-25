@@ -90,7 +90,7 @@ Vue.component('aside_menu', {
                     </div>                        
                     <div class="acc-money">
                     <a href="/mobi/Money/Details">{{account.Ac_Money}}元</a>
-                    <a href="/mobi/Money/Details" class="income">充值</a>      
+                    <a href="/mobi/Recharge/index" class="income">充值</a>      
                     </div>                                  
                  </div>
                 </div>

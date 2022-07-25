@@ -12,7 +12,7 @@
     <div id="vapp" v-cloak>
         <context>
             <van-sticky>
-                <page_header title="学习卡" icon="&#xe60f" :fresh="true"></page_header>
+                <page_header title="学习卡" icon="&#xe685" :fresh="true"></page_header>
             </van-sticky>
             <div class="header">
                 <van-row>
@@ -46,7 +46,7 @@
             <!-- 学习卡使用-->
             <card class="handler">
                 <card-title>
-                    <icon>&#xe60f</icon> 学习卡
+                    <icon>&#xe685</icon> 学习卡
                     <icon class="help" @click="showhelp=true">&#xa026</icon>
                 </card-title>
                 <card-context>
@@ -82,7 +82,7 @@
             <!-- 学习卡列表 -->
             <card class="list">
                 <card-title>
-                    <icon>&#xe60f</icon> 我的学习卡
+                    <icon>&#xe685</icon> 我的学习卡
                     <span>（<b v-html="carddata.count"></b>张）</span>
                     <input type="text" id="search_code" v-model="search_code"></input>
                 </card-title>
