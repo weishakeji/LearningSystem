@@ -40,7 +40,7 @@ html, body, #vapp {
 	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
 }
 
-.accInfo {
+.header_info .accInfo {
 	width: calc(100% - 80px);
 	float: left;
 	line-height: 30px;
