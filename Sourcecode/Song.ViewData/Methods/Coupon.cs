@@ -23,7 +23,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="code">卡号+密码，破折号不能少</param>
         /// <returns>充值产生的流水记录</returns>
-        [Student]
+        [Student,HttpPost]
         public CouponAccount Recharge(string code)
         {
             Song.Entities.RechargeCode card = Business.Do<IRecharge>().CouponCheckCode(code);

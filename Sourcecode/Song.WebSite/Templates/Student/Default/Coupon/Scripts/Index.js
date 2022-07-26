@@ -148,7 +148,7 @@ $ready(function () {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading_up = true;
-                        $api.get('Coupon/Recharge', { 'code': th.useCardForm.card }).then(function (req) {
+                        $api.post('Coupon/Recharge', { 'code': th.useCardForm.card }).then(function (req) {
                             th.loading_up = false;
                             if (req.data.success) {
                                 var result = req.data.result;

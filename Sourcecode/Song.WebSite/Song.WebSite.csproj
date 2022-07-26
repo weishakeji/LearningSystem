@@ -246,6 +246,9 @@
     <Content Include="Templates\Mobi\Default\Question\Components\ExerciseState.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\OutlineList.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\OutlineList.css" />
+    <Content Include="Templates\Mobi\Default\Recharge\Index.html" />
+    <Content Include="Templates\Mobi\Default\Recharge\Scripts\Index.js" />
+    <Content Include="Templates\Mobi\Default\Recharge\Styles\Index.css" />
     <Content Include="Templates\Mobi\Default\Reference\Cache_Clear.html" />
     <Content Include="Templates\Mobi\Default\Reference\Scripts\Cache_Clear.js" />
     <Content Include="Templates\Mobi\Default\Test\Components\final_condition.js" />
