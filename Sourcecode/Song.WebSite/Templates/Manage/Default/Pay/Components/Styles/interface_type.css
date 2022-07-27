@@ -48,10 +48,10 @@ icon {
     color: #0098e0;
     font-size: 15px;
 }
-button>span{
+.interface_type button>span{
     display: flex;
     line-height: 36px;
 }
-button>span img{
+.interface_type button>span img{
     margin-right: 15px;
 }

@@ -23,8 +23,8 @@ $ready(function () {
                 ],
                 Pai_Feerate: [
                     {
-                        validator: function (rule, value, callback) {
-                            if (value != '' && isNaN(Number(value))) {
+                        validator: function (rule, value, callback) {                          
+                            if ((value != '' && value != null) && isNaN(Number(value))) {
                                 callback(new Error('请输入数字!'));
                             } else {
                                 callback();
