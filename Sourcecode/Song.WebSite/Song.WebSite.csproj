@@ -203,6 +203,12 @@
     <Content Include="Help\Images\datas.ico" />
     <Content Include="Help\Service.html" />
     <Content Include="Help\Styles\Default.css" />
+    <Content Include="Pay\Images\微信Html5支付.png" />
+    <Content Include="Pay\Images\微信公众号支付.png" />
+    <Content Include="Pay\Images\微信小程序支付.png" />
+    <Content Include="Pay\Images\微信扫码支付.png" />
+    <Content Include="Pay\Images\支付宝手机支付.png" />
+    <Content Include="Pay\Images\支付宝网页直付.png" />
     <Content Include="Pay\readme.html" />
     <Content Include="Readme.html" />
     <Content Include="Templates\Manage\Default\Inc\meta.inc" />
@@ -1657,6 +1663,8 @@
     <Content Include="Help\Datas\Entitiy\TestPaper.json" />
     <Content Include="Help\Datas\Entitiy\ExamGroup.json" />
     <Content Include="Help\Datas\Entitiy\Message.json" />
+    <Content Include="Help\Datas\Entitiy\LogForStudentExercise.json" />
+    <Content Include="Help\Datas\Entitiy\LogForStudentOnline.json" />
     <None Include="packages.config" />
     <Content Include="Templates\OrgAdmin\Default\web.config" />
     <Content Include="Templates\OrgAdmin\web.config" />

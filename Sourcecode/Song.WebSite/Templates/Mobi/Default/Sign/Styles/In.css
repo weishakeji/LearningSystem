@@ -91,7 +91,7 @@ header {
     position: absolute;
     z-index: 2;
     width: 90%;
-    height: 360px;
+    height: 420px;
     top: calc((100vh - 320px)/4);
     left: calc((100vw - 90vw)/2);
     border: 1px solid #fff;
@@ -140,14 +140,48 @@ a {
     margin-top: 30px;
 }
 
+.loginbox .login_body>* {
+    height: 60px !important;
+}
+
+.loginbox .login_body>*:before {
+    text-align: right !important;
+    line-height: 65px !important;
+    font-size: 28px !important;
+}
+
+.loginbox .login_body login_drag {
+    height: 60px !important;
+    line-height: 60px !important;
+}
+
+.loginbox login_dragbox {
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.loginbox login_dragbox:before {
+    line-height: 55px !important;
+    font-size: 28px !important;
+}
+
+login_dragbox>div span {
+    line-height: 55px !important;
+}
+
 .login_code img {
     margin: 3px;
     height: 39px !important;
     height: calc(100% - 6px) !important;
-    width: 84px !important;
+    width: 100px !important;
     border-radius: 0px 5px 5px 0px;
 }
-
+.loginbox .login_body login_row.login_code input{
+    width:calc(100% - 110px - 47px) !important;
+}
+.loginbox .login_body login_row.login_code{
+    ---display: flex;
+}
 .other {
     width: calc(100% - 50px);
     margin: 10px 25px 10px 25px;

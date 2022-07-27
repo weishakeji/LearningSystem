@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title></title>
+</head>
+
+<body>
+    <input id="upload_qrcode" type="file" accept="image/*;" capture="user" style="display: none;" />
+    <div id="vapp" v-cloak>
+        <context>
+            <van-sticky>
+                <page_header title="充值" icon="&#xe824" :fresh="true"></page_header>
+            </van-sticky>
+            <div class="header">
+                <van-row>
+                    <div class="header_info" v-if="!islogin" remark="未登录" @click="gourl('/mobi/sign/in')">
+                        <div class="acc_photo nophoto"></div>
+                        <div class="acc_info">
+                            <div class="acc-name">未登录 </div>
+                            <span class="acc-money"> ... </span>
+                        </div>
+                    </div>
+                    <div class="header_info" v-if="islogin" remark="已经登录">
+                        <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
+                            :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                        <template v-else>
+                            <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
+                            <div class="acc_photo man" v-else></div>
+                        </template>
+                        <div class="accInfo">
+                            <div class="acc-name" @click="gourl('/mobi/account/myself')"><span
+                                    v-html="account.Ac_Name"></span>
+                                <span class="acc-acname" v-html="account.Ac_AccName"></span>
+                            </div>
+                            <div class="acc-money">
+                                <van-tag type="warning"><span class="weisha_icon"
+                                        icon="&#xe818"></span>{{account.Ac_Money}}元
+                                </van-tag>
+                                <van-tag type="primary" @click="gourl('../Point/index')"><span class="weisha_icon"
+                                        icon="&#xe847"></span>券{{account.Ac_Coupon}}
+                                </van-tag>
+                            </div>
+
+                        </div>
+                    </div>
+                </van-row>
+            </div>
+            <!-- 充值卡使用-->
+            <card class="handler">
+                <card-title>
+                    <icon>&#xe60f</icon> 充值卡
+                    <icon class="help" @click="showhelp=true">&#xa026</icon>
+                </card-title>
+                <card-context>
+                    <van-cell class="input_row">
+                        <template #title>
+                            <van-field v-model="input_code" label="卡号" clearable placeholder="格式为“卡号-密码”">
+                                <template #left-icon>
+
+                                </template>
+                            </van-field>
+                        </template>
+                        <template #label>
+                            <span class="tip">
+                                <red>*</red> 破折号不可缺少
+                            </span>
+                        </template>
+                    </van-cell>
+                    <van-cell class="btn_row">
+                        <span class="qrcode" @click="openqrcode">
+                            <van-icon name="qr"></van-icon>二维码
+                        </span>
+                        <van-button type="info" size="small" :disabled="!islogin || loading_up" @click="usecode()">
+                            <icon>&#xe847</icon>充值卡券
+                        </van-button>
+
+                    </van-cell>
+                </card-context>
+            </card>
+            <!-- 在线支付接口列表 -->
+            <card class="list" v-if="paypis.length>0">
+                <card-title>
+
+                    <van-field v-model="recharge_val" label="文本" type="number" placeholder="请填写金额" class="input_area">
+                        <template #button>
+                            <van-button type="primary" size="small" @click="payEntry()">
+                                <icon style="font-size: 15px;">&#xe62d</icon>确认转入
+                            </van-button>
+                        </template>
+                        <template #label>
+                            <icon>&#xe624</icon> 充值
+                        </template>
+                    </van-field>
+
+                </card-title>
+                <card-context class="paypis">
+                    <van-cell v-for="(item,index) in paypis" class="payitem" :current="item.Pai_ID==currentpay_id"
+                        @click="setCurrentpay(item.Pai_ID)">                      
+                        <img :src="'/pay/images/'+item.Pai_Pattern+'.png'"/>
+                        <span>{{item.Pai_Name}}</span>                       
+                    </van-cell>
+                    <van-cell remark="勿删除此标签"></van-cell>
+                </card-context>
+            </card>
+            <div v-else class="nopis">
+                平台未设置支付接口，无法在线充值
+            </div>
+
+
+        </context>
+
+        <van-popup v-model="showhelp" closeable class="showhelp">
+            <dl class="help-txt">
+                <dd><b>1、关于充值卡</b><br>
+                    充值卡是由“卡号+密码”组成的一串数字，如“998511225-665”。<br>
+                    充值成功可获得相应面额的卡券，不是现金。卡券可以在消费时用来抵扣现金。
+                </dd>
+                <dd><b>2、如何使用充值卡</b><br>
+                    请在充值卡的有效期内使用；
+                    通过充值卡号或二维码识别充值卡。
+                </dd>
+                <dd><b>3、如何得到充值卡</b><br>
+                    可以联系老师线下购买，或通过淘宝购买充值卡。
+                </dd>
+
+            </dl>
+        </van-popup>
+
+        <aside_menu ref='aside_menu' :account="account"></aside_menu>
+        <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
+    </div>
+
+</body>
+
+</html>

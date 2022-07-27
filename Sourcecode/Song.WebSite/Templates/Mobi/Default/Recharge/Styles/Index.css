@@ -1,0 +1,270 @@
+﻿@charset "utf-8";
+
+html, body, #vapp {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	position: relative;
+}
+
+context {
+	display: block;
+	width: 100%;
+	height: calc(100% - 50px);
+	padding: 44px 0px 10px 0px;
+	text-align: left;
+	overflow-y: auto;
+	box-sizing: border-box;
+	background: linear-gradient(#f9987e, rgba(255, 255, 255, 1));
+}
+
+.header {
+	height: 80px;
+	position: relative;
+	z-index: 1;
+	padding: 20px 20px 0px 20px;
+	overflow: hidden;
+}
+
+.header_info {
+	width: 100%;
+	height: 60px;
+	position: relative;
+	display: flex;
+	color: #fff;
+}
+
+.acc_photo {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 20px;
+	float: left;
+	background-size: cover;
+	box-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+}
+
+.header_info .accInfo {
+	flex: 1;
+}
+
+.header_info .acc-name {
+	font-size: 18px;
+	margin: 0px 0px 5px 0px;
+}
+
+.header_info .acc-acname {
+	font-size: 14px;
+	margin: 0px 10px;
+}
+
+.acc-acname::before {
+	content: '(';
+}
+
+.acc-acname::after {
+	content: ')';
+}
+
+.header .acc-money {
+	padding: 5px 0px;
+	font-size: 14px;
+	display: flex;
+}
+
+
+.header .van-row {
+	position: relative;
+}
+
+.header .van-row::after {
+	content: '\e72a';
+	font-family: webdesk_icon;
+	display: block;
+	width: 10px;
+	position: absolute;
+	right: 0px;
+	top: 10px;
+	transform: rotate(180deg);
+	color: #eee;
+	z-index: -1;
+}
+
+.nophoto {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+.man {
+	background-image: url(/Utilities/images/head1.jpg);
+}
+
+.woman {
+	background-image: url(/Utilities/images/head2.jpg);
+}
+
+.header .van-tag {
+	padding: 2px 8px;
+	margin-right: 10px;
+}
+
+card-title icon:first-child {
+	font-size: 22px;
+}
+
+card.handler .help {
+	font-size: 22px;
+	float: right;
+	margin-top: 3px;
+}
+
+.input_row {
+	padding: 10px 0px;
+}
+
+.input_row .van-field__label {
+	--margin-right: 0px;
+	width: auto;
+}
+
+.input_row input[type='text'] {
+	padding: 3px 8px;
+	height: 30px;
+	font-size: 16px;
+}
+
+.tip {
+	padding-left: 90px;
+}
+
+.btn_row {
+	padding: 10px 0px 0px 0px;
+	position: relative;
+}
+
+.btn_row .qrcode {
+	line-height: 30px;
+	margin-top: 8px;
+	display: block;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+}
+
+.btn_row .qrcode i::before {
+	font-size: 20px;
+	line-height: 30px;
+	float: left;
+	margin-right: 5px;
+}
+
+.btn_row .qrcode i {
+	display: inline;
+}
+
+.btn_row button {
+	float: right;
+	margin-left: 10px;
+}
+
+/*帮助信息*/
+
+.showhelp {
+	width: 80%;
+	height: 420px;
+	box-sizing: border-box;
+	padding: 15px;
+}
+
+/*帮助说明*/
+
+.showhelp dl.help-txt {
+	margin: 0px;
+	margin-left: 5px;
+	font-size: 16px;
+	line-height: 30px;
+	height: 100%;
+	overflow: auto;
+}
+
+.showhelp dl.help-txt dd {
+	margin: 0px 0px 10px 20px;
+	color: #666;
+	text-indent: -20px;
+}
+
+.showhelp dl.help-txt dd b:first-child {
+	margin-bottom: 8px;
+}
+
+.van-swipe-cell__right button {
+	height: 100%;
+}
+
+/*充值*/
+.input_area {
+	padding: 0px !important;
+}
+
+.input_area .van-cell__title {
+	line-height: 30px;
+}
+
+/*支付接口*/
+
+.paypis icon {
+	font-size: 18px;
+	line-height: 18px;
+}
+
+.paypis .payitem>div {
+	display: flex;
+
+}
+
+.paypis .payitem>div img {
+	margin-right: 15px;
+	height: 35px;
+}
+
+.paypis .payitem>div span {
+	line-height: 35px;
+	font-size: 18px;
+}
+
+.nopis {
+	font-size: 12px;
+	padding: 5px 20px;
+	color: #666;
+}
+.paypis>div>div{
+	overflow: auto;
+}
+.paypis>div[current] {
+	background-color: #c2f7bb;
+	border-radius: 5px;
+}
+
+.paypis>div[current]::before {
+	content: '\a048';
+	font-family: "webdesk_icon" !important;
+	position: absolute;
+	right: 0px !important;
+	top: 12px !important;
+	font-size: 30px;
+	color: #029548;
+	text-shadow: 0 0 5px #fff, 0 0 25px #fff, 0 0 10px #fff, 0 0 10px #fff;
+}
+
+.paypis>div[current]::after{
+	content: '采用当前支付方式' !important;
+	-webkit-transform: scaleY(1) !important; 
+    transform: scaleY(1) !important;
+	bottom: -5px;
+	right: 6px !important;
+	left: auto !important;
+	font-size: 12px;
+	color: #999;
+} 
