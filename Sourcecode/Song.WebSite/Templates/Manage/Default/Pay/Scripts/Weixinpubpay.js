@@ -23,13 +23,7 @@ $ready(function () {
                 ],
                 Pai_Returl: [
                     { required: true, message: '不得为空', trigger: 'blur' }
-                ],
-                MCHID: [
-                    { required: true, message: '不得为空', trigger: 'blur' }
-                ],
-                Paykey: [
-                    { required: true, message: '不得为空', trigger: 'blur' }
-                ],
+                ],             
                 Pai_Feerate: [
                     {
                         validator: function (rule, value, callback) {

@@ -75,8 +75,8 @@ Vue.component('interface_type', {
         <dl class="interface_type" v-if="layout_value=='list'">   
             <dt>请选择支付接口的类型</dt>     
             <dd v-for="(item,i) in navigation" :class="{'current':iscurrent(item)}">
-                <el-button type="primary" plain @click="gonavi(item)" >
-                    <icon v-html="item.icon" :class="getpattern(item.name)"></icon>
+                <el-button type="primary" plain @click="gonavi(item)" >                 
+                    <img :src="'/pay/images/'+item.name+'.png'"/>
                     <span>{{item.name}}</span>
                 </el-button>
             </dd>

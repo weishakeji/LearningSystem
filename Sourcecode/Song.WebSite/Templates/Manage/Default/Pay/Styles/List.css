@@ -13,3 +13,11 @@ icon {
     color: #0098e0;
     font-size: 15px;
 }
+.pai_name{
+    display: flex;
+    line-height: 35px;
+    font-size: 16px;
+}
+.pai_name img{
+    margin-right: 10px;
+}
