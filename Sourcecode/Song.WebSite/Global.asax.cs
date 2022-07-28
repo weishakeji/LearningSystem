@@ -64,9 +64,9 @@ namespace Song.WebSite
                     sql = sql.Replace("@p" + i.ToString(), "'" + ((DateTime)para.Value).ToString("yyyy/MM/dd HH:mm:ss") + "'");
             }
             //string t = command.Connection
-            //WeiSha.Common.Log.Info(path, sql);
+            //WeiSha.Core.Log.Info(path, sql);
             WeiSha.Core.Log.Info(path, sql);
-            //WeiSha.Common.Log.Info(path, command.Connection.ConnectionString);
+            //WeiSha.Core.Log.Info(path, command.Connection.ConnectionString);
             //throw new NotImplementedException();
         }
 

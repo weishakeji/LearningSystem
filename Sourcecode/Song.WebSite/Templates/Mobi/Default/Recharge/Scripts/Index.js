@@ -14,7 +14,7 @@ $ready(function () {
             showhelp: false,     //显示帮助信息 
 
             recharge_val: '',        //要充值的金额
-            currentpay_id:0,        //当前支付接口的id
+            currentpay_id: 0,        //当前支付接口的id
 
             loading_init: true,
             loading_up: false
@@ -204,12 +204,26 @@ $ready(function () {
                     }
                     if (current == null) {
                         current = this.paypis[0];
-                        this.currentpay_id =  this.paypis[0].Pai_ID;
+                        this.currentpay_id = this.paypis[0].Pai_ID;
                         $api.storage(key, this.paypis[0].Pai_ID);
                     }
                     return current;
                 }
 
+            },
+            //开始进入支付
+            payEntry: function () {
+                if(this.recharge_val==''){
+                    this.$toast.fail('请输入金额');
+                    return;
+                }
+                var money = Number(this.recharge_val);
+                money = isNaN(money) ? 0 : money;
+                if (money <= 0) {
+                    this.$toast.fail('金额不得小于零');
+                    return;
+                }
+                //if(this.recharge_val)
             }
         },
         filters: {

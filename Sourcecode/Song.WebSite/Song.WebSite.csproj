@@ -181,6 +181,184 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Pay\Alipaywap\AlipayConfig.cs" />
+    <Compile Include="Pay\Alipaywap\AlipayCore.cs" />
+    <Compile Include="Pay\Alipaywap\AlipayNotify.cs" />
+    <Compile Include="Pay\Alipaywap\AlipaySubmit.cs" />
+    <Compile Include="Pay\Alipaywap\notify_url.aspx.cs">
+      <DependentUpon>notify_url.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Alipaywap\return_url.aspx.cs">
+      <DependentUpon>return_url.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Alipaywap\RSA.cs" />
+    <Compile Include="Pay\Alipayweb\AlipayConfig.cs" />
+    <Compile Include="Pay\Alipayweb\AlipayCore.cs" />
+    <Compile Include="Pay\Alipayweb\AlipayNotify.cs" />
+    <Compile Include="Pay\Alipayweb\AlipaySubmit.cs" />
+    <Compile Include="Pay\Alipayweb\notify_url.aspx.cs">
+      <DependentUpon>notify_url.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Alipayweb\return_url.aspx.cs">
+      <DependentUpon>return_url.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Alipayweb\RSA.cs" />
+    <Compile Include="Pay\PayEntry.ashx.cs">
+      <DependentUpon>PayEntry.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\business\DownloadBill.cs" />
+    <Compile Include="Pay\Weixin\business\JsApiPay.cs" />
+    <Compile Include="Pay\Weixin\business\MicroPay.cs" />
+    <Compile Include="Pay\Weixin\business\NativeNotify.cs" />
+    <Compile Include="Pay\Weixin\business\NativePay.cs" />
+    <Compile Include="Pay\Weixin\business\OrderQuery.cs" />
+    <Compile Include="Pay\Weixin\business\Refund.cs" />
+    <Compile Include="Pay\Weixin\business\RefundQuery.cs" />
+    <Compile Include="Pay\Weixin\business\ResultNotify.cs" />
+    <Compile Include="Pay\Weixin\default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\DownloadBillPage.aspx.cs">
+      <DependentUpon>DownloadBillpage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\DownloadBillPage.aspx.designer.cs">
+      <DependentUpon>DownloadBillpage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\Html5Pay.aspx.cs">
+      <DependentUpon>Html5Pay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\Html5Pay.aspx.designer.cs">
+      <DependentUpon>Html5Pay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\Html5PayResultNotify.aspx.cs">
+      <DependentUpon>Html5PayResultNotify.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\Html5PayResultNotify.aspx.designer.cs">
+      <DependentUpon>Html5PayResultNotify.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\JsApiPayPage.aspx.cs">
+      <DependentUpon>JsApiPayPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\JsApiPayPage.aspx.designer.cs">
+      <DependentUpon>JsApiPayPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\lib\Config.cs" />
+    <Compile Include="Pay\Weixin\lib\Data.cs" />
+    <Compile Include="Pay\Weixin\lib\Exception.cs" />
+    <Compile Include="Pay\Weixin\lib\HttpService.cs" />
+    <Compile Include="Pay\Weixin\lib\Log.cs" />
+    <Compile Include="Pay\Weixin\lib\Notify.cs" />
+    <Compile Include="Pay\Weixin\lib\WxPayApi.cs" />
+    <Compile Include="Pay\Weixin\MakeQRCode.aspx.cs">
+      <DependentUpon>MakeQRCode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\MakeQRCode.aspx.designer.cs">
+      <DependentUpon>MakeQRCode.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\MicroPayPage.aspx.cs">
+      <DependentUpon>MicroPayPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\MicroPayPage.aspx.designer.cs">
+      <DependentUpon>MicroPayPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramCall.aspx.cs">
+      <DependentUpon>miniProgramCall.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramCall.aspx.designer.cs">
+      <DependentUpon>miniProgramCall.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramOpenid.aspx.cs">
+      <DependentUpon>miniProgramOpenid.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramOpenid.aspx.designer.cs">
+      <DependentUpon>miniProgramOpenid.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramPay.aspx.cs">
+      <DependentUpon>miniProgramPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramPay.aspx.designer.cs">
+      <DependentUpon>miniProgramPay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramResult.aspx.cs">
+      <DependentUpon>miniProgramResult.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\miniProgramResult.aspx.designer.cs">
+      <DependentUpon>miniProgramResult.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\NativeNotifyPage.aspx.cs">
+      <DependentUpon>NativeNotifyPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\NativeNotifyPage.aspx.designer.cs">
+      <DependentUpon>NativeNotifyPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\NativePayPage.aspx.cs">
+      <DependentUpon>NativePayPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\NativePayPage.aspx.designer.cs">
+      <DependentUpon>NativePayPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\OrderQueryPage.aspx.cs">
+      <DependentUpon>OrderQueryPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\OrderQueryPage.aspx.designer.cs">
+      <DependentUpon>OrderQueryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\ProductPage.aspx.cs">
+      <DependentUpon>ProductPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\ProductPage.aspx.designer.cs">
+      <DependentUpon>ProductPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\PublicPay.aspx.cs">
+      <DependentUpon>PublicPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\PublicPay.aspx.designer.cs">
+      <DependentUpon>PublicPay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\RefundPage.aspx.cs">
+      <DependentUpon>RefundPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\RefundPage.aspx.designer.cs">
+      <DependentUpon>RefundPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\RefundQueryPage.aspx.cs">
+      <DependentUpon>RefundQueryPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\RefundQueryPage.aspx.designer.cs">
+      <DependentUpon>RefundQueryPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pay\Weixin\ResultNotifyPage.aspx.cs">
+      <DependentUpon>ResultNotifyPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pay\Weixin\ResultNotifyPage.aspx.designer.cs">
+      <DependentUpon>ResultNotifyPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +381,10 @@
     <Content Include="Help\Images\datas.ico" />
     <Content Include="Help\Service.html" />
     <Content Include="Help\Styles\Default.css" />
+    <Content Include="Pay\Alipaywap\notify_url.aspx" />
+    <Content Include="Pay\Alipaywap\return_url.aspx" />
+    <Content Include="Pay\Alipayweb\notify_url.aspx" />
+    <Content Include="Pay\Alipayweb\return_url.aspx" />
     <Content Include="Pay\Images\微信Html5支付.png" />
     <Content Include="Pay\Images\微信公众号支付.png" />
     <Content Include="Pay\Images\微信小程序支付.png" />
@@ -210,6 +392,25 @@
     <Content Include="Pay\Images\支付宝手机支付.png" />
     <Content Include="Pay\Images\支付宝网页直付.png" />
     <Content Include="Pay\readme.html" />
+    <Content Include="Pay\Weixin\Default.aspx" />
+    <Content Include="Pay\Weixin\DownloadBillpage.aspx" />
+    <Content Include="Pay\Weixin\Html5Pay.aspx" />
+    <Content Include="Pay\Weixin\Html5PayResultNotify.aspx" />
+    <Content Include="Pay\Weixin\JsApiPayPage.aspx" />
+    <Content Include="Pay\Weixin\MakeQRCode.aspx" />
+    <Content Include="Pay\Weixin\MicroPayPage.aspx" />
+    <Content Include="Pay\Weixin\miniProgramCall.aspx" />
+    <Content Include="Pay\Weixin\miniProgramOpenid.aspx" />
+    <Content Include="Pay\Weixin\miniProgramPay.aspx" />
+    <Content Include="Pay\Weixin\miniProgramResult.aspx" />
+    <Content Include="Pay\Weixin\NativeNotifyPage.aspx" />
+    <Content Include="Pay\Weixin\NativePayPage.aspx" />
+    <Content Include="Pay\Weixin\OrderQueryPage.aspx" />
+    <Content Include="Pay\Weixin\ProductPage.aspx" />
+    <Content Include="Pay\Weixin\PublicPay.aspx" />
+    <Content Include="Pay\Weixin\RefundPage.aspx" />
+    <Content Include="Pay\Weixin\RefundQueryPage.aspx" />
+    <Content Include="Pay\Weixin\ResultNotifyPage.aspx" />
     <Content Include="Readme.html" />
     <Content Include="Templates\Manage\Default\Inc\meta.inc" />
     <Content Include="Templates\Manage\Default\Organs\Administrator.html" />
@@ -1978,6 +2179,7 @@
     <Content Include="Utilities\PdfViewer\locale\zh-CN\viewer.properties" />
     <Content Include="Utilities\PdfViewer\locale\zh-TW\viewer.properties" />
     <Content Include="Utilities\PdfViewer\locale\zu\viewer.properties" />
+    <Content Include="Pay\PayEntry.ashx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
