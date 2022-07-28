@@ -182,11 +182,6 @@ $ready(function () {
                 upload.click();
             },
             //*** 在线支付 */
-            //获取支付类型，例如支付宝、微信
-            getpattern: function (pattern) {
-                if (pattern.indexOf('支付宝') > -1) return 'zhifubao';
-                if (pattern.indexOf('微信') > -1) return 'weixin';
-            },
             //设置或获取当前支付接口
             setCurrentpay: function (paiid) {
                 var key = 'weisha_payid_current';
@@ -213,7 +208,7 @@ $ready(function () {
             },
             //开始进入支付
             payEntry: function () {
-                if(this.recharge_val==''){
+                if (this.recharge_val == '') {
                     this.$toast.fail('请输入金额');
                     return;
                 }
@@ -223,7 +218,20 @@ $ready(function () {
                     this.$toast.fail('金额不得小于零');
                     return;
                 }
-                //if(this.recharge_val)
+                //转向支付页面
+                var url = '/pay/PayEntry.html';
+                //校验码
+                var vcode = new Date().getTime();
+                $api.storage('weishakeji_pay_vcode', vcode);
+                var md5 = $api.md5(money + '_' + this.currentpay_id + '_' + vcode);
+                //console.log(md5);
+                url = $api.url.set(url, {
+                    'money': money,
+                    'paiid': this.currentpay_id,
+                    'code': md5
+                });
+                console.log(url);
+                window.location.href = url;
             }
         },
         filters: {
