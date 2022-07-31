@@ -38,8 +38,8 @@
     <LegacyPublishPropertiesPageEnabled>true</LegacyPublishPropertiesPageEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>none</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -171,6 +171,7 @@
     <Compile Include="Controllers\DownController.cs" />
     <Compile Include="Controllers\UploadController.cs" />
     <Compile Include="Controllers\View\PadController.cs" />
+    <Compile Include="Controllers\View\PayController.cs" />
     <Compile Include="Controllers\View\TVController.cs" />
     <Compile Include="Controllers\View\StudentController.cs" />
     <Compile Include="Controllers\View\TeacherController.cs" />
@@ -385,6 +386,7 @@
     <Content Include="Pay\Alipaywap\return_url.aspx" />
     <Content Include="Pay\Alipayweb\notify_url.aspx" />
     <Content Include="Pay\Alipayweb\return_url.aspx" />
+    <Content Include="Templates\Pay\Default\Components\btns.js" />
     <Content Include="Pay\Images\微信Html5支付.png" />
     <Content Include="Pay\Images\微信公众号支付.png" />
     <Content Include="Pay\Images\微信小程序支付.png" />
@@ -392,6 +394,11 @@
     <Content Include="Pay\Images\支付宝手机支付.png" />
     <Content Include="Pay\Images\支付宝网页直付.png" />
     <Content Include="Pay\readme.html" />
+    <Content Include="Templates\Pay\Default\Inc\meta.inc" />
+    <Content Include="Templates\Pay\Default\Scripts\PayEntry.js" />
+    <Content Include="Templates\Pay\Default\Scripts\webdesk.ui.core.js" />
+    <Content Include="Templates\Pay\Default\Styles\PayEntry.css" />
+    <Content Include="Templates\Pay\Default\Styles\Public.css" />
     <Content Include="Pay\Weixin\Default.aspx" />
     <Content Include="Pay\Weixin\DownloadBillpage.aspx" />
     <Content Include="Pay\Weixin\Html5Pay.aspx" />
@@ -1002,6 +1009,9 @@
     <Content Include="Templates\Mobi\Default\Reference\Styles\Demo.css" />
     <Content Include="Templates\Mobi\Default\Scripts\About.js" />
     <Content Include="Templates\Mobi\Default\Scripts\ContactUs.js" />
+    <Content Include="Templates\Pay\Default\PayEntry.html" />
+    <Content Include="Templates\Pay\Default\_self.xml" />
+    <Content Include="Templates\Pay\_public\_self.xml" />
     <Content Include="Templates\Student\Default\Course\Components\ques_progress.js" />
     <Content Include="Templates\Student\Default\Course\Components\Styles\ques_progress.css" />
     <Content Include="Templates\Student\Default\Course\Components\Styles\exam_test.css" />

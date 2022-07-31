@@ -219,7 +219,7 @@ $ready(function () {
                     return;
                 }
                 //转向支付页面
-                var url = '/pay/PayEntry.html';
+                var url = '/pay/PayEntry';
                 //校验码
                 var vcode = new Date().getTime();
                 $api.storage('weishakeji_pay_vcode', vcode);

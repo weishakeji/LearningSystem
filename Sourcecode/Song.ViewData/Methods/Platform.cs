@@ -198,11 +198,10 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns>0为启用多机构，1为单机构</returns>
         [HttpGet]
-        public string MultiOrgan()
+        public int MultiOrgan()
         {
             //是否启用多机构，默认启用
-            int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
-            return multi.ToString();
+            return Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
         }
         /// <summary>
         ///  设置是否支持多机构

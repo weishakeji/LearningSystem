@@ -463,7 +463,7 @@
                     //处理数据，服务器端返回的数据是经过Url编码的，此处进行解码
                     response.data = methods.unescape(response.data);
                     if (response.data.result != null) {
-                        if (typeof (response.data.result) == 'string') {
+                        if (response.data.datatype != 'String' && typeof (response.data.result) == 'string') {
                             try {
                                 response.data.result = eval("(" + response.data.result + ")");
                             } catch (err) {

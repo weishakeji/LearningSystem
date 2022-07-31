@@ -266,6 +266,14 @@ namespace Song.ServiceImpls
             return id + baseCode + pre.ToUpper() + string.Format("{0:00}", rdNumber);
         }
         /// <summary>
+        /// 生成流水号(雪花算法）
+        /// </summary>
+        /// <returns></returns>
+        public long SerialSnow()
+        {
+            return WeiSha.Core.Request.SnowID();
+        }
+        /// <summary>
         /// 测试是否完成授权
         /// </summary>
         public bool IsLicense()

@@ -43,7 +43,7 @@ namespace Song.Site.Pay.Weixin
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
                 //当前登录账号
-                if (acc == null) Response.Redirect("/mobile/login.ashx");
+                //if (acc == null) Response.Redirect("/mobile/login.ashx");
                 piid = WeiSha.Core.Request.QueryString["piid"].Int32 ?? 0;
                 serial = WeiSha.Core.Request.QueryString["serial"].String;
                 //回调地址

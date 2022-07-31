@@ -22,14 +22,14 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public string PlatInfo()
+        public JObject PlatInfo()
         {
             string title = Business.Do<ISystemPara>().GetValue("PlatInfo_title");
             string intro = Business.Do<ISystemPara>().GetValue("PlatInfo_intro");
             JObject jo = new JObject();
             jo.Add("title", title);
             jo.Add("intro", intro);
-            return jo.ToString();
+            return jo;
         }
         /// <summary>
         /// 保存平台信息
@@ -65,10 +65,19 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public long UniqueID64()
+        public string UniqueID64()
         {
-            return WeiSha.Core.Request.UniqueID64();
+            long id= WeiSha.Core.Request.Unique64ID();
+            return id.ToString();
         }
-
+        /// <summary>
+        /// 雪花ID 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public long SnowflakeID()
+        {
+            return Business.Do<ISystemPara>().SerialSnow();
+        }
     }
 }

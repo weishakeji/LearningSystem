@@ -108,6 +108,11 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         string Serial();
         /// <summary>
+        /// 生成流水号(雪花算法）
+        /// </summary>
+        /// <returns></returns>
+        long SerialSnow();
+        /// <summary>
         /// 测试是否完成授权
         /// </summary>
         bool IsLicense();

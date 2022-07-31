@@ -19,6 +19,7 @@ namespace Song.ViewData.Methods
     [HttpGet]
     public class Pay : ViewMethod, IViewAPI
     {
+        #region 增删改查
         /// <summary>
         /// 支付接口实体
         /// </summary>
@@ -136,5 +137,32 @@ namespace Song.ViewData.Methods
                 throw ex;
             }
         }
+        #endregion
+
+        #region 支付
+        /// <summary>
+        /// 生成收入的记录
+        /// </summary>
+        /// <param name="money"></param>
+        /// <param name="payif"></param>
+        /// <returns></returns>
+        [Student][HttpPost]
+        public MoneyAccount MoneyIncome(double money,Song.Entities.PayInterface payif)
+        {
+            if (money <= 0) return null;
+
+            Song.Entities.Accounts acc = this.User;
+            //产生支付流水号
+            MoneyAccount ma = new MoneyAccount();
+            ma.Ma_Money = (decimal)money;
+            ma.Ac_ID = acc.Ac_ID;
+            ma.Ma_Source = payif.Pai_Pattern;
+            ma.Pai_ID = payif.Pai_ID;
+            ma.Ma_From = 3;
+            ma.Ma_IsSuccess = false;
+            ma = Business.Do<IAccounts>().MoneyIncome(ma);
+            return ma;
+        }
+        #endregion
     }
 }

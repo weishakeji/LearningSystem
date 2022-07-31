@@ -61,6 +61,19 @@ namespace UnitTest
             Assert.AreEqual(ext, ".txt");
             Assert.AreEqual(prefix, "aaa");
         }
-        
+        [TestMethod]
+        public void SnowFlake()
+        {
+            List<long> list = new List<long>();
+            for (int i = 0; i < 100000; i++)
+            {
+                long id = WeiSha.Core.Request.SnowID();
+
+                list.Add(id);
+
+            }
+
+            Assert.AreEqual(list, "0456");
+        }
     }
 }
