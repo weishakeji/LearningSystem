@@ -89,9 +89,7 @@ $ready(function () {
             //创建资金流水
             createMoneyAccount: function () {
                 var th = this;
-                th.loading_skip = true;
-
-            
+                th.loading_skip = true;           
            
                 $api.post('Pay/MoneyIncome', { 'money': th.params.money, 'payif': th.interface }).then(function (req) {
                     th.loading_skip = false;

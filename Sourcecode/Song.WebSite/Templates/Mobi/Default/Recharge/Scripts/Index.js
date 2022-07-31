@@ -15,6 +15,8 @@ $ready(function () {
 
             recharge_val: '',        //要充值的金额
             currentpay_id: 0,        //当前支付接口的id
+            paypanel: false,         //支付确认的面板是否显示
+            payurl: '',              //转向支付平台的路径与参数
 
             loading_init: true,
             loading_up: false
@@ -230,7 +232,9 @@ $ready(function () {
                     'random': Math.random()
                 });
                 console.log(url);
-                window.location.href = url;
+                this.paypanel = true;
+                this.payurl = url;              
+                //window.location.href = url;
             }
         },
         filters: {

@@ -13,9 +13,7 @@ using WxPayAPI;
 namespace Song.Site.Pay.Weixin
 {
     public partial class PublicPay : System.Web.UI.Page
-    {
-        //学员id
-        private int acid = WeiSha.Core.Request.QueryString["acid"].Int32 ?? 0;
+    {      
         //微信授权code，通过它获取access_token和openid
         private string code = WeiSha.Core.Request.QueryString["code"].String;
         //自己传递的参数被回调回来了，面值、流水号、机构id(例如total_fee:{0},serial:{1},orgid:{2})
@@ -33,20 +31,19 @@ namespace Song.Site.Pay.Weixin
         //支付接口id
         Song.Entities.PayInterface payInterface = null;
         Song.Entities.MoneyAccount moneyAccount = null;
-        //当前账号
+        //学员账号
         protected Song.Entities.Accounts acc = null;
         protected string path = WeiSha.Core.Upload.Get["Accounts"].Virtual;
         //H5调起JS API参数
         public static string wxJsApiParam { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-            acc = Business.Do<IAccounts>().AccountsSingle(this.acid);
+           
             //初始化数据，主要是解析state
             if (!string.IsNullOrWhiteSpace(state)) initData(state);
             //获取token和openid
             if (!string.IsNullOrWhiteSpace(code)) GetOpenidAndAccessTokenFromCode(code);
-            //当前登录账号
-            if (acc == null) Response.Redirect("/mobile/login.ashx");
+           
             //支付
             JsApiPayPage();
             if (string.IsNullOrWhiteSpace(wxJsApiParam)) wxJsApiParam = "\"\"";
@@ -61,10 +58,12 @@ namespace Song.Site.Pay.Weixin
             {
                 string[] arr = s.Split(':');
                 if (arr[0] == "serial") serial = arr[1];
-                if (arr[0] == "pi") int.TryParse(arr[1], out pi);
+                if (arr[0] == "pi") int.TryParse(arr[1], out pi);              
             }
             this.payInterface = Business.Do<IPayInterface>().PaySingle(pi);
             this.moneyAccount = Business.Do<IAccounts>().MoneySingle(serial);
+            this.acc = Business.Do<IAccounts>().AccountsSingle(this.moneyAccount.Ac_ID);
+
             total_fee = (int)(moneyAccount.Ma_Money * 100);
             orgid = moneyAccount.Org_ID;
             appid = payInterface.Pai_ParterID;  //绑定支付的APPID（必须配置）
@@ -76,8 +75,9 @@ namespace Song.Site.Pay.Weixin
             notify_url = this.payInterface.Pai_Returl;
             if (string.IsNullOrWhiteSpace(notify_url)) notify_url = "http://" + WeiSha.Core.Server.Domain + "/";
             if (!notify_url.EndsWith("/")) notify_url += "/";
-            notify_url += "Pay/Weixin/ResultNotifyPage.aspx";            
-            
+            notify_url += "Pay/Weixin/ResultNotifyPage.aspx";
+
+            WxPayAPI.Log.Info(this.GetType().ToString(), "appid:" + appid.ToString());
         }
         /// <summary>
         /// 获取token和openid
@@ -120,7 +120,8 @@ namespace Song.Site.Pay.Weixin
                 if (string.IsNullOrEmpty(openid) || total_fee<=0)
                 {
                     Response.Write("<span style='color:#FF0000;font-size:20px'>" + "页面传参出错,请返回重试" + "</span>");
-                    WxPayAPI.Log.Error(this.GetType().ToString(), "This page have not get params, cannot be inited, exit...");                   
+                    WxPayAPI.Log.Error(this.GetType().ToString(), "This page have not get params, cannot be inited, exit...");
+                    WxPayAPI.Log.Error(this.GetType().ToString(), "openid：" + openid);
                     return;
                 }
                 //若传递了相关参数，则调统一下单接口，获得后续相关接口的入口参数

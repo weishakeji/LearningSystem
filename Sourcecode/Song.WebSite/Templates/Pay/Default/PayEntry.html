@@ -51,7 +51,7 @@
         </template>
         <!-- 转向支付平台-->
         <loading v-if="loading_skip">正在转向支付平台..</loading>
-        <topayment v-else ref="topayment" :interface="interface" :moneyaccount="moneyaccount"></topayment>
+        <topayment v-else ref="topayment" :interface="interface" :moneyrecord="moneyaccount"></topayment>
     </div>
 
 

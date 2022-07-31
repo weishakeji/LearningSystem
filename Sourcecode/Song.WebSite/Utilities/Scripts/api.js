@@ -1450,7 +1450,13 @@ Date.prototype.addmonth = function (n) {
     var days = dt.getDate();
     var dd = year + "-" + month + "-" + days;
     return dd;
-}
+};
+String.prototype.format = function () {
+    var args = arguments;
+    return this.replace(/\{(\d+)\}/g, function (m, i) {
+        return args[i];
+    });
+};
 //添加加载前后的事件
 $api.effect(function () {
 

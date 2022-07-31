@@ -83,24 +83,23 @@
             <!-- 在线支付接口列表 -->
             <card class="list" v-if="paypis.length>0">
                 <card-title>
-
                     <van-field v-model="recharge_val" label="文本" type="number" placeholder="请填写金额" class="input_area">
                         <template #button>
                             <van-button type="primary" size="small" @click="payEntry()">
-                                <icon style="font-size: 15px;">&#xe62d</icon>确认转入
+                                <icon style="font-size: 15px;">&#xe62d</icon>在线充值
                             </van-button>
                         </template>
                         <template #label>
-                            <icon>&#xe624</icon> 充值
+                            <icon>&#xe624</icon>
                         </template>
                     </van-field>
 
                 </card-title>
                 <card-context class="paypis">
                     <van-cell v-for="(item,index) in paypis" class="payitem" :current="item.Pai_ID==currentpay_id"
-                        @click="setCurrentpay(item.Pai_ID)">                      
-                        <img :src="'/pay/images/'+item.Pai_Pattern+'.png'"/>
-                        <span>{{item.Pai_Name}}</span>                       
+                        @click="setCurrentpay(item.Pai_ID)">
+                        <img :src="'/pay/images/'+item.Pai_Pattern+'.png'" />
+                        <span>{{item.Pai_Name}}</span>
                     </van-cell>
                     <van-cell remark="勿删除此标签"></van-cell>
                 </card-context>
@@ -108,10 +107,17 @@
             <div v-else class="nopis">
                 平台未设置支付接口，无法在线充值
             </div>
-
-
         </context>
-
+        <van-popup v-model:show="paypanel" closeable class="paypanel">
+            <div>
+                <icon style="font-size: 15px;">&#xe62d</icon>在线充值
+            </div>
+            <div class="recharge_val"><span v-html="recharge_val"></span>
+                元</div>
+            <div class="pay_btn">
+                <a :href="payurl">确认支付</a>
+            </div>
+        </van-popup>
         <van-popup v-model="showhelp" closeable class="showhelp">
             <dl class="help-txt">
                 <dd><b>1、关于充值卡</b><br>

@@ -100,7 +100,7 @@
                 //alert(msg);
                 //支付成功
                 var returl = "";                //返回的地址
-                var default_returl = '/Mobile/recharge.ashx';
+                var default_returl = '/mobi/Recharge';
                 returl = $.cookie('recharge_returl');  //充值后的返回
                 if (returl == '' || returl == null) returl = default_returl;
                 $("#btnBacklink").attr('href', returl);

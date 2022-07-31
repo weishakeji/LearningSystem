@@ -2,16 +2,18 @@
 // <自动生成>
 //     此代码由工具生成。
 //
-//     对此文件的更改可能会导致不正确的行为，并且如果
-//     重新生成代码，这些更改将会丢失。 
+//     对此文件的更改可能导致不正确的行为，如果
+//     重新生成代码，则所做更改将丢失。
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace Song.Site.Pay.Weixin {
-    
-    
-    public partial class PublicPay {
-        
+namespace Song.Site.Pay.Weixin
+{
+
+
+    public partial class PublicPay
+    {
+
         /// <summary>
         /// form1 控件。
         /// </summary>
