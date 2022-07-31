@@ -1602,7 +1602,7 @@ namespace Song.ServiceImpls
             }
             entity.Ma_Type = 2;
             //流水号
-            entity.Ma_Serial = Business.Do<ISystemPara>().Serial();
+            entity.Ma_Serial = Business.Do<ISystemPara>().SerialSnow().ToString();
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try

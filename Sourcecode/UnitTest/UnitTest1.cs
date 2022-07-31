@@ -7,6 +7,7 @@ using WeiSha.Core;
 using System.Data;
 using System.Collections.Generic;
 using System.IO;
+using System.Web;
 
 namespace UnitTest
 {
@@ -74,6 +75,14 @@ namespace UnitTest
             }
 
             Assert.AreEqual(list, "0456");
+        }
+
+        [TestMethod]
+        public void encodeURIComponent_test()
+        {
+            string tt = "http://localhost:2021/Pay/Weixin/PublicPay.aspx".ToLower();
+            string url = HttpUtility.UrlEncode(tt).ToLower();
+            Assert.AreEqual(url, "http%3A%2F%2Flocalhost%3A2021%2FPay%2FWeixin%2FPublicPay.aspx".ToLower());
         }
     }
 }

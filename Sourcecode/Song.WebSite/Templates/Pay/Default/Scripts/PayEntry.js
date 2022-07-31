@@ -5,6 +5,8 @@ $ready(function () {
         data: {
             account: {},      //当前账户
             interface: {},        //当前支付接口的配置项
+            moneyaccount: {},        //资金流水的记录
+
             //地址栏参数
             params: {
                 'money': $api.querystring('money'),
@@ -49,7 +51,8 @@ $ready(function () {
             },
             //支付接口是否存在
             ifexist: function () {
-                return JSON.stringify(this.interface) != '{}' && this.interface != null && this.interface.Pai_IsEnable == true;
+                return JSON.stringify(this.interface) != '{}' && this.interface != null && this.interface.Pai_IsEnable == true
+                    && this.interface.Pai_InterfaceType != '';
             }
         },
         watch: {
@@ -87,12 +90,13 @@ $ready(function () {
             createMoneyAccount: function () {
                 var th = this;
                 th.loading_skip = true;
-                return;
-                $api.get('Pay/MoneyIncome', { 'money': th.params.money, 'payif': th.interface }).then(function (req) {
+
+            
+           
+                $api.post('Pay/MoneyIncome', { 'money': th.params.money, 'payif': th.interface }).then(function (req) {
                     th.loading_skip = false;
                     if (req.data.success) {
-                        var result = req.data.result;
-                        //...
+                        th.moneyaccount = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -105,4 +109,5 @@ $ready(function () {
         }
     });
 
-}, ['Components/btns.js']);
+}, ['Components/btns.js',
+    'Components/topayment.js']);

@@ -386,6 +386,7 @@
     <Content Include="Pay\Alipaywap\return_url.aspx" />
     <Content Include="Pay\Alipayweb\notify_url.aspx" />
     <Content Include="Pay\Alipayweb\return_url.aspx" />
+    <Content Include="Templates\Pay\Default\Components\topayment.js" />
     <Content Include="Templates\Pay\Default\Components\btns.js" />
     <Content Include="Pay\Images\微信Html5支付.png" />
     <Content Include="Pay\Images\微信公众号支付.png" />

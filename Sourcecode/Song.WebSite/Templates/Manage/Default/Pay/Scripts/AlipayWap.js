@@ -68,6 +68,7 @@ $ready(function () {
                         var type = th.$refs['interface_type'].current;
                         obj.Pai_Scene = type.scene;
                         obj.Pai_Pattern = type.name;
+                        obj.Pai_InterfaceType = type.pattern;
                         obj.Pai_Platform = 'mobi';
                         console.log(type);
                         // return;

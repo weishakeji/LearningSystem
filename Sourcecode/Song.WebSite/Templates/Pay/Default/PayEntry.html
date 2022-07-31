@@ -49,10 +49,9 @@
                 </card-context>
             </card>
         </template>
-        <template v-if="loading_skip">
-            <loading>正在转向支付平台..</loading>
-        </template>
-        
+        <!-- 转向支付平台-->
+        <loading v-if="loading_skip">正在转向支付平台..</loading>
+        <topayment v-else ref="topayment" :interface="interface" :moneyaccount="moneyaccount"></topayment>
     </div>
 
 

@@ -85,9 +85,7 @@ $ready(function () {
             },
         },
         watch: {
-            'search_code': function (nv, ov) {
-                console.log(nv);
-            }
+
         },
         methods: {
             //页面跳转
@@ -228,7 +226,8 @@ $ready(function () {
                 url = $api.url.set(url, {
                     'money': money,
                     'paiid': this.currentpay_id,
-                    'code': md5
+                    'code': md5,
+                    'random': Math.random()
                 });
                 console.log(url);
                 window.location.href = url;
