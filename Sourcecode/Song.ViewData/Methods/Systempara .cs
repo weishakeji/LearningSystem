@@ -65,7 +65,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public string UniqueID64()
+        public string Unique64ID()
         {
             long id= WeiSha.Core.Request.Unique64ID();
             return id.ToString();
@@ -75,9 +75,10 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public long SnowflakeID()
+        public string SnowID()
         {
-            return Business.Do<ISystemPara>().SerialSnow();
+            long id = Business.Do<ISystemPara>().SerialSnow();
+            return id.ToString();
         }
     }
 }
