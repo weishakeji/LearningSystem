@@ -707,6 +707,18 @@
             //var reg=/(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/gi;
             //var result = urlReg.test(url);
             return result;
+        },
+        //取地址的主机部分，例如 http://xxx.com/
+        host: function (url) {
+            if (url == null) url = window.location.href;
+            if (url.length < 4) return '';
+            if (url.substring(0, 4).toLowerCase() != 'http') return '';
+            var arr = url.split('/');
+            var host = '';
+            if (arr.length >= 3) {
+                for (let i = 0; i < 3; i++) host += arr[i] + '/';
+            }
+            return host.toLowerCase();
         }
     };
     //机构信息，主要为了解析config
