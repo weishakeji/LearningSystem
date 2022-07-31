@@ -218,6 +218,12 @@ $ready(function () {
                     this.$toast.fail('金额不得小于零');
                     return;
                 }
+                money = Math.floor(money * 100) / 100;
+                if (money <= 0) {
+                    this.$toast.fail('金额不得小于一分钱');
+                    return;
+                }
+                this.recharge_val = money;
                 //转向支付页面
                 var url = '/pay/PayEntry';
                 //校验码
@@ -233,7 +239,7 @@ $ready(function () {
                 });
                 console.log(url);
                 this.paypanel = true;
-                this.payurl = url;              
+                this.payurl = url;
                 //window.location.href = url;
             }
         },

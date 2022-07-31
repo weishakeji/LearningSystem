@@ -40,7 +40,7 @@ Vue.component('topayment', {
             //回调路径
             var redirect_uri = $api.url.host() + "Pay/Weixin/PublicPay.aspx";
             console.log(redirect_uri);
-            redirect_uri= encodeURIComponent(redirect_uri);
+            redirect_uri= encodeURIComponent(redirect_uri.toLowerCase());
             //返回的状态值，接口id、流水号        
             var state = "pi:{0},serial:{1}";
             state=state.format(pi.Pai_ID,ma.Ma_Serial);          

@@ -48,65 +48,68 @@
                     </div>
                 </van-row>
             </div>
-            <!-- 充值卡使用-->
-            <card class="handler">
-                <card-title>
-                    <icon>&#xe60f</icon> 充值卡
-                    <icon class="help" @click="showhelp=true">&#xa026</icon>
-                </card-title>
-                <card-context>
-                    <van-cell class="input_row">
-                        <template #title>
-                            <van-field v-model="input_code" label="卡号" clearable placeholder="格式为“卡号-密码”">
-                                <template #left-icon>
+            <template v-if="islogin">
+                <!-- 充值卡使用-->
+                <card class="handler">
+                    <card-title>
+                        <icon>&#xe60f</icon> 充值卡
+                        <icon class="help" @click="showhelp=true">&#xa026</icon>
+                    </card-title>
+                    <card-context>
+                        <van-cell class="input_row">
+                            <template #title>
+                                <van-field v-model="input_code" label="卡号" clearable placeholder="格式为“卡号-密码”">
+                                    <template #left-icon>
 
-                                </template>
-                            </van-field>
-                        </template>
-                        <template #label>
-                            <span class="tip">
-                                <red>*</red> 破折号不可缺少
+                                    </template>
+                                </van-field>
+                            </template>
+                            <template #label>
+                                <span class="tip">
+                                    <red>*</red> 破折号不可缺少
+                                </span>
+                            </template>
+                        </van-cell>
+                        <van-cell class="btn_row">
+                            <span class="qrcode" @click="openqrcode">
+                                <van-icon name="qr"></van-icon>二维码
                             </span>
-                        </template>
-                    </van-cell>
-                    <van-cell class="btn_row">
-                        <span class="qrcode" @click="openqrcode">
-                            <van-icon name="qr"></van-icon>二维码
-                        </span>
-                        <van-button type="info" size="small" :disabled="!islogin || loading_up" @click="usecode()">
-                            <icon>&#xe847</icon>充值卡券
-                        </van-button>
-
-                    </van-cell>
-                </card-context>
-            </card>
-            <!-- 在线支付接口列表 -->
-            <card class="list" v-if="paypis.length>0">
-                <card-title>
-                    <van-field v-model="recharge_val" label="文本" type="number" placeholder="请填写金额" class="input_area">
-                        <template #button>
-                            <van-button type="primary" size="small" @click="payEntry()">
-                                <icon style="font-size: 15px;">&#xe62d</icon>在线充值
+                            <van-button type="info" size="small" :disabled="!islogin || loading_up" @click="usecode()">
+                                <icon>&#xe847</icon>充值卡券
                             </van-button>
-                        </template>
-                        <template #label>
-                            <icon>&#xe624</icon>
-                        </template>
-                    </van-field>
 
-                </card-title>
-                <card-context class="paypis">
-                    <van-cell v-for="(item,index) in paypis" class="payitem" :current="item.Pai_ID==currentpay_id"
-                        @click="setCurrentpay(item.Pai_ID)">
-                        <img :src="'/pay/images/'+item.Pai_Pattern+'.png'" />
-                        <span>{{item.Pai_Name}}</span>
-                    </van-cell>
-                    <van-cell remark="勿删除此标签"></van-cell>
-                </card-context>
-            </card>
-            <div v-else class="nopis">
-                平台未设置支付接口，无法在线充值
-            </div>
+                        </van-cell>
+                    </card-context>
+                </card>
+                <!-- 在线支付接口列表 -->
+                <card class="list" v-if="paypis.length>0">
+                    <card-title>
+                        <van-field v-model="recharge_val" label="文本" type="number" placeholder="请填写金额"
+                            class="input_area">
+                            <template #button>
+                                <van-button type="primary" size="small" @click="payEntry()">
+                                    <icon style="font-size: 15px;">&#xe62d</icon>在线充值
+                                </van-button>
+                            </template>
+                            <template #label>
+                                <icon>&#xe624</icon>
+                            </template>
+                        </van-field>
+
+                    </card-title>
+                    <card-context class="paypis">
+                        <van-cell v-for="(item,index) in paypis" class="payitem" :current="item.Pai_ID==currentpay_id"
+                            @click="setCurrentpay(item.Pai_ID)">
+                            <img :src="'/pay/images/'+item.Pai_Pattern+'.png'" />
+                            <span>{{item.Pai_Name}}</span>
+                        </van-cell>
+                        <van-cell remark="勿删除此标签"></van-cell>
+                    </card-context>
+                </card>
+                <div v-else class="nopis">
+                    平台未设置支付接口，无法在线充值
+                </div>
+            </template>
         </context>
         <van-popup v-model:show="paypanel" closeable class="paypanel">
             <div>

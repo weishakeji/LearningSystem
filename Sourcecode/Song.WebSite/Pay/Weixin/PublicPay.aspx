@@ -11,8 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telephone=yes" />
     <meta name="format-detection" content="email=no" />
-    <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
-    <script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/jquery.js"></script>
     <style type="text/css">
         .accinfo {
             margin-right: auto;
@@ -76,13 +75,13 @@
                 <%= acc.Ac_Name %>
             </div>
             <div class="img-line">
-                <img src="<%= path %><%= acc.Ac_Photo %>" id="photo" default="/Utility/images/head1.jpg" /></div>
+                <img src="<%= path %><%= acc.Ac_Photo %>" id="photo" default="/Utilities/images/head1.jpg" /></div>
             <div class="show-tit" id="Div1">
                 正在支付...
             </div>
         </div>
         <div class="footer">
-            <a href="#" target="_top" id="btnBacklink">如无法正常返回，请点击</a></div>
+            <a href="/" id="btnBacklink">如无法正常返回，请点击</a></div>
     </form>
     <script type="text/javascript">
 
@@ -100,10 +99,11 @@
                 //alert(msg);
                 //支付成功
                 var returl = "";                //返回的地址
-                var default_returl = '/mobi/Recharge';
+                var default_returl = '/mobi/account/myself';
                 returl = $.cookie('recharge_returl');  //充值后的返回
                 if (returl == '' || returl == null) returl = default_returl;
                 $("#btnBacklink").attr('href', returl);
+                $("#btnBacklink").click();
                 if (res.err_msg == "get_brand_wcpay_request:ok") {
                     window.location.href = returl;
                 }

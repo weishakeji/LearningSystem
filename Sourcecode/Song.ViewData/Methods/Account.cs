@@ -361,6 +361,7 @@ namespace Song.ViewData.Methods
             //账号，密码，登录状态值，不更改
             old.Copy<Song.Entities.Accounts>(acc, "Ac_AccName,Ac_Pw,Ac_CheckUID");
             Business.Do<IAccounts>().AccountsSave(old);
+            Song.ViewData.LoginAccount.Fresh(old);
             return true;
         }
         /// <summary>
@@ -380,6 +381,7 @@ namespace Song.ViewData.Methods
 
             old.Copy<Song.Entities.Accounts>(acc);
             Business.Do<IAccounts>().AccountsSave(old);
+            Song.ViewData.LoginAccount.Fresh(old);
             return true;
         }
         /// <summary>
@@ -455,7 +457,7 @@ namespace Song.ViewData.Methods
                 Business.Do<IAccounts>().AccountsUpdate(old,new WeiSha.Data.Field[] { 
                     Song.Entities.Accounts._.Ac_Photo
                 },new object[] { filename });
-
+                Song.ViewData.LoginAccount.Fresh(old.Ac_ID);
                 //
                 old.Ac_Photo = System.IO.File.Exists(PhyPath + old.Ac_Photo) ? VirPath + old.Ac_Photo : "";
                 return old;
@@ -485,6 +487,7 @@ namespace Song.ViewData.Methods
             try
             {
                 Business.Do<IAccounts>().AccountsSave(old);
+                Song.ViewData.LoginAccount.Fresh(old);
                 return true;
             }catch(Exception ex)
             {
@@ -1012,6 +1015,7 @@ namespace Song.ViewData.Methods
             if (isExist)
             {
                 Business.Do<IAccounts>().AccountsSave(obj);
+                Song.ViewData.LoginAccount.Fresh(obj);
             }
             else
             {

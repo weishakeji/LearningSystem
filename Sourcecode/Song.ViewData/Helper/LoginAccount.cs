@@ -185,6 +185,16 @@ namespace Song.ViewData
             }
         }
         /// <summary>
+        /// 刷新内存中的登录状态
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <returns>为true表示已经刷新（数据存在）,为false表示未刷新（数据不存在）</returns>
+        public static bool Fresh(int acid)
+        {
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(acid);
+            return Fresh(acc);
+        }
+        /// <summary>
         /// 获取内存中的当前登录账号
         /// </summary>
         /// <param name="acid"></param>
