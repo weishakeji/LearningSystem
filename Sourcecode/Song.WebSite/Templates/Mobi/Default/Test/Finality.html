@@ -12,73 +12,84 @@
         <div class="header">
             <icon @click="gohome()">&#xa020</icon>
             <icon @click="gocourse()">&#xe813</icon>
-            <van-tag  size="medium" class="title" type="success" :disabled="final_disable()">
+            <span class="title">
                 <icon>&#xe810</icon>
                 结课考试
-            </van-tag> 
+            </span>
         </div>
-      
+
         <div class="context">
-            <card class="paper">
-                <card-title class="weisha_icon" icon="&#xe731">{{paper.Tp_Name}}
-                    <a class="btn btntest" @click="btnDoing" :disabled="final_disable()">参加考试</a>
 
-                </card-title>
-                <card-context>
-                    <div class="row">
-                        题 量：{{paper.Tp_Count}} 道
-                    </div>
-                    <div class="row">
-                        总 分：{{paper.Tp_Total}} 分 / {{paper.Tp_PassScore}}分及格
-                    </div>
-                    <div class="row">
-                        限 时：{{paper.Tp_Span}} 分钟
-                    </div>
-                    <van-divider></van-divider>
-                    <div class="row">
-                        课 程：{{course.Cou_Name}}
-                    </div>
-                    <div class="row" v-if="paper.Sbj_Name!=''">
-                        专 业：{{paper.Sbj_Name}}
-                    </div>
-                </card-context>
-            </card>
-            <card class="paper">
-                <card-title class="weisha_icon" icon="&#xe731">结课条件</card-title>
-                <card-context>
-                    <final_condition ref="final_condition" :show="true" :config="config" :purchase="purchase" :paperid="tpid"
-                    :account="account"></final_condition>
-                </card-context>
-            </card>
-           
-            <card>
+            <card v-if="!paperexist" class="papernull">
                 <card-title>
-                    <icon>&#xe6f1</icon>历史成绩
+                    <alert>没有考试</alert>
                 </card-title>
                 <card-context>
-                    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
-                        @load="onload">
-                        <van-swipe-cell v-for="(item,i) in datas">
-                            <template #left>
-
-                            </template>
-                            <van-cell :border="false" class="cour-box" @click="godetail(item)">
-                                <template #title>
-                                    <div class="trscore"> {{i+1}}. 
-                                        <span>{{item.Tr_Score}}</span> 分
-                                    </div>
-                                    <score :class="scoreStyle(item.Tr_Score)"></score>
-                                    <div class="row_foot">
-                                        <span class="stname">{{item.Ac_Name}}</span>
-                                        <span class="time">{{item.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span>
-                                    </div>
-                                </template>
-                            </van-cell>
-                        </van-swipe-cell>
-                    </van-list>
+                    当前课程未设置结课考试
                 </card-context>
             </card>
 
+            <template v-else>
+                <card class="paper">
+                    <card-title class="weisha_icon" icon="&#xe731">{{paper.Tp_Name}}
+                        <a class="btn btntest" @click="btnDoing" :disabled="final_disable()">参加考试</a>
+
+                    </card-title>
+                    <card-context>
+                        <div class="row">
+                            题 量：{{paper.Tp_Count}} 道
+                        </div>
+                        <div class="row">
+                            总 分：{{paper.Tp_Total}} 分 / {{paper.Tp_PassScore}}分及格
+                        </div>
+                        <div class="row">
+                            限 时：{{paper.Tp_Span}} 分钟
+                        </div>
+                        <van-divider></van-divider>
+                        <div class="row">
+                            课 程：{{course.Cou_Name}}
+                        </div>
+                        <div class="row" v-if="paper.Sbj_Name!=''">
+                            专 业：{{paper.Sbj_Name}}
+                        </div>
+                    </card-context>
+                </card>
+                <card class="paper">
+                    <card-title class="weisha_icon" icon="&#xe731">结课条件</card-title>
+                    <card-context>
+                        <final_condition ref="final_condition" :show="true" :config="config" :purchase="purchase"
+                            :paperid="tpid" :account="account"></final_condition>
+                    </card-context>
+                </card>
+
+                <card>
+                    <card-title>
+                        <icon>&#xe6f1</icon>历史成绩
+                    </card-title>
+                    <card-context>
+                        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
+                            @load="onload">
+                            <van-swipe-cell v-for="(item,i) in datas">
+                                <template #left>
+
+                                </template>
+                                <van-cell :border="false" class="cour-box" @click="godetail(item)">
+                                    <template #title>
+                                        <div class="trscore"> {{i+1}}.
+                                            <span>{{item.Tr_Score}}</span> 分
+                                        </div>
+                                        <score :class="scoreStyle(item.Tr_Score)"></score>
+                                        <div class="row_foot">
+                                            <span class="stname">{{item.Ac_Name}}</span>
+                                            <span class="time">{{item.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span>
+                                        </div>
+                                    </template>
+                                </van-cell>
+                            </van-swipe-cell>
+                        </van-list>
+                    </card-context>
+                </card>
+            </template>
 
         </div>
         <aside_menu ref='aside_menu' :account="account"></aside_menu>

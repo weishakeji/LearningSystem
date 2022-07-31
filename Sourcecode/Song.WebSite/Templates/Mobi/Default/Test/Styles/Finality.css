@@ -33,13 +33,16 @@ card.paper card-title {
 	top: 0px;
 	right: 0px;
 	font-size: 16px;
-	margin: 8px 10px;
+	margin: 4px 10px;
 	padding: 0px 5px;
-	background-color: #07c160;
+	
 	border-radius: 5px;
-	color: #fff;
+	color: #333;
 	padding: 6px 8px;
 	box-sizing: border-box;
+}
+.title icon{
+	font-size: 18px;
 }
 .btn {
 	display: block;

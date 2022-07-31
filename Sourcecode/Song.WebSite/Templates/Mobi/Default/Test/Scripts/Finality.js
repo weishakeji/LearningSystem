@@ -65,7 +65,7 @@ $ready(function () {
                         }
                     }).catch(function (err) {
                         //alert(err);
-                        Vue.prototype.$alert(err);
+                        //Vue.prototype.$alert(err);
                         console.error(err);
                     });
                 }
@@ -80,6 +80,10 @@ $ready(function () {
             //是否登录
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
+            },
+            //是否存在结果考试
+            paperexist: function () {
+                return JSON.stringify(this.paper) != '{}' && this.paper != null;
             }
         },
         watch: {
@@ -141,6 +145,7 @@ $ready(function () {
             },
             //结果考试的按钮是否通过,为true时表示不通过
             final_disable: function () {
+                if (!this.paperexist) return true;
                 var final_condition = this.$refs["final_condition"];
                 if (!final_condition) return false;
                 return final_condition.final_disable();
