@@ -7,8 +7,10 @@
 <head runat="server">
     <meta http-equiv="content-type" content="text/html;image/gif;charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
-    <script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
+     <script type="text/javascript" src="/Utilities/Scripts/jquery.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/jquery.qrcode.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <title>微信扫码支付</title>
     <style type="text/css">
         body {
@@ -100,13 +102,14 @@
             <%= acc.Ac_Name %>
         </div>
         <div class="img-line">
-            <img src="<%= accphoto %>" id="photo" default="/Utility/images/head1.jpg" /></div>
+            <img src="<%= accphoto %>" id="photo" default="/Utilities/images/head1.jpg" /></div>
         <div class="show-tit">
             请用微信扫描下面二维码</div>
         <div class="total_fee">
             支付金额：<span><%= (Convert.ToDouble(total_fee)/100).ToString("0.0") %></span>元</div>
     </div>
-    <asp:Image ID="Image2" runat="server" Style="width: 200px; height: 200px;" />
+    <asp:Image ID="Image2" runat="server" Style="width: 200px; height: 200px;display:none;" />
+     <div id="qrcode"></div>
     <div class="success">
         <b></b><a href="#" id="close">支付完成，点击关闭，<i>3</i>秒后关闭</a></div>
 </body>
@@ -125,10 +128,10 @@
         });
     });
     (function () {
-        var returl = $.cookie('recharge_returl');
+        var returl = $api.cookie('recharge_returl');
         $("a#close").attr("href", returl);
         $("a#close").click(function () {
-            var returl = $.cookie('recharge_returl');  //充值后的返回
+            var returl = $api.cookie('recharge_returl');  //充值后的返回
             if (returl == '' || returl == null) {
                 window.opener = null;
                 window.open('', '_self');
@@ -140,10 +143,34 @@
             return false;
         });
     })();
+    //生成二维码
+    (function () {
+        var box = $("#qrcode");
+        if (box.size() < 1) {
+            window.setTimeout(this.qrcode, 200);
+        }
+        box.each(function () {
+            if ($(this).find("img").size() > 0) return;
+            var url = $("#Image2").attr("src");
+            console.log(url);
+            jQuery($(this)).qrcode({
+                render: "canvas", //也可以替换为table
+                width: 200,
+                height: 200,
+                foreground: "#000",
+                background: "#FFF",
+                text: url
+            });
+            //将canvas转换成img标签，否则无法打印
+            var canvas = $(this).find("canvas").hide()[0];  /// get canvas element
+            var img = $(this).append("<img/>").find("img")[0]; /// get image element
+            img.src = canvas.toDataURL();
+        });
+    })();
     window.onbeforeunload = onunload_handler;
     window.onunload = onunload_handler;
     function onunload_handler() {
-        var returl = $.cookie('recharge_returl');  //充值后的返回
+        var returl = $api.cookie('recharge_returl');  //充值后的返回
         if (!(returl == '' || returl == null)) {
             //转向来源页
             window.location.href = returl;

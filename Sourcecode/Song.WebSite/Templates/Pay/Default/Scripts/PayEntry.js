@@ -16,11 +16,11 @@ $ready(function () {
             checked: false,  //参数是否能校验通过
 
             loading: true,
-            loading_skip: false       //页面跳转中的预载
+            loading_income: false       //页面跳转中的预载
         },
         mounted: function () {
             var th = this;
-            th.checked = th.checkcode(); //校验
+            th.checked = th.checkcode(); //校验传递过来的参数
             if (!th.checked) return;
             th.loading = true;
             $api.get('Account/Current').then(function (req) {
@@ -89,10 +89,9 @@ $ready(function () {
             //创建资金流水
             createMoneyAccount: function () {
                 var th = this;
-                th.loading_skip = true;           
-           
+                th.loading_income = true;             
                 $api.post('Pay/MoneyIncome', { 'money': th.params.money, 'payif': th.interface }).then(function (req) {
-                    th.loading_skip = false;
+                    th.loading_income = false;
                     if (req.data.success) {
                         th.moneyaccount = req.data.result;
                     } else {
@@ -100,7 +99,7 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading_skip = false;
+                    th.loading_income = false;
                     console.error(err);
                 });
             }

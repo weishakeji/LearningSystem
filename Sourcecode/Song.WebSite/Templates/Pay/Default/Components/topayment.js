@@ -5,8 +5,8 @@ Vue.component('topayment', {
     //moneyrecord: 资金流水的对象
     props: ['interface', 'moneyrecord'],
     data: function () {
-        return {
-
+        return {           
+            
         }
     },
     watch: {
@@ -34,16 +34,16 @@ Vue.component('topayment', {
         }
     },
     mounted: function () { },
-    methods: {
+    methods: {        
         //微信公众号支付
         weixinpubpay: function (pi, ma) {
             //回调路径
             var redirect_uri = $api.url.host() + "Pay/Weixin/PublicPay.aspx";
             console.log(redirect_uri);
-            redirect_uri= encodeURIComponent(redirect_uri.toLowerCase());
+            redirect_uri = encodeURIComponent(redirect_uri.toLowerCase());
             //返回的状态值，接口id、流水号        
             var state = "pi:{0},serial:{1}";
-            state=state.format(pi.Pai_ID,ma.Ma_Serial);          
+            state = state.format(pi.Pai_ID, ma.Ma_Serial);
             //构建参数
             var data = {
                 "appid": pi.Pai_ParterID,
@@ -53,21 +53,18 @@ Vue.component('topayment', {
                 "state": state + "#wechat_redirect"
             };
             var url = "https://open.weixin.qq.com/connect/oauth2/authorize?" + this.tourl(data);
-            window.location.href = url;
             console.log(url);
+            window.location.href = url;
         },
         //微信扫码支付
         weixinnativepay: function (pi, ma) {
-            /*
-            string host = System.Web.HttpContext.Current.Request.Url.Host + ":" + WeiSha.Core.Server.Port + "/";
-            if (!string.IsNullOrWhiteSpace(pi.Pai_Returl)) host = pi.Pai_Returl;
-            if (!host.EndsWith("/")) host += "/";
+            var host = $api.url.host();
             //用于生成支付二维码的URL          
-            string url = "Pay/Weixin/NativePayPage.aspx?pi={0}&serial={1}";
-            url = host + string.Format(url.ToString(), pi.Pai_ID, ma.Ma_Serial);
-            System.Web.HttpContext.Current.Response.Redirect(url);
-            */
-
+            var url = "Pay/Weixin/NativePayPage.aspx?pi={0}&serial={1}";
+            url = host + url.toLowerCase();
+            url = url.format(pi.Pai_ID, ma.Ma_Serial);
+            console.log(url);
+            window.location.href = url;
         },
         //微信小程序支付
         weixinapppay: function (pi, ma) {

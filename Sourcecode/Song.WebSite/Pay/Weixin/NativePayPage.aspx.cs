@@ -18,7 +18,7 @@ namespace WxPayAPI
     /// 扫码支付
     /// </summary>
     public partial class NativePayPage : System.Web.UI.Page
-    {
+    {       
         //支付接口ID
         int pi = WeiSha.Core.Request.QueryString["pi"].Int32 ?? 0;
         //流水号，即商户订单号
@@ -43,12 +43,7 @@ namespace WxPayAPI
             {
                 //初始化数据
                 initData();
-                //学员头像
-                if (acc == null)
-                {
-                    Response.Redirect("/student/index.ashx");
-                    return;
-                }
+
                 if (!System.IO.File.Exists(WeiSha.Core.Upload.Get["Accounts"].Physics + acc.Ac_Photo))
                 {
                     accphoto = WeiSha.Core.Upload.Get["Accounts"].Virtual + acc.Ac_Photo;
@@ -66,7 +61,7 @@ namespace WxPayAPI
                 string url2 = nativePay.GetPayUrl(total_fee.ToString(), org.Org_PlatformName, serial, total_fee, appid, mchid, paykey, notify_url, buyer);
                 //将url生成二维码图片
                 //Image1.ImageUrl = "MakeQRCode.aspx?data=" + HttpUtility.UrlEncode(url1);
-                Image2.ImageUrl = "MakeQRCode.aspx?data=" + HttpUtility.UrlEncode(url2);
+                Image2.ImageUrl = url2;
             }
             //此页面的ajax提交，全部采用了POST方式
             if (Request.ServerVariables["REQUEST_METHOD"] == "POST")
@@ -91,6 +86,7 @@ namespace WxPayAPI
         {
             this.payInterface = Business.Do<IPayInterface>().PaySingle(pi);
             this.moneyAccount = Business.Do<IAccounts>().MoneySingle(serial);
+            this.acc = Business.Do<IAccounts>().AccountsSingle(this.moneyAccount.Ac_ID);
             total_fee = (int)(moneyAccount.Ma_Money * 100);
             orgid = moneyAccount.Org_ID;
             appid = payInterface.Pai_ParterID;  //绑定支付的APPID（必须配置）
