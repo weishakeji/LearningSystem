@@ -9,10 +9,50 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div class="no">
-            <icon>&#xe7ad</icon>
-            暂未开放
+
+        <div v-if="!islogin" class="nologin">
+            <icon>&#xe7ad</icon>未登录
         </div>
+        <template v-else>
+            <div class="header">
+                <div>
+                    <el-form ref="form" :inline="true" :model="form" :rules="rules" v-on:submit.native.prevent>
+                        <el-form-item label="" prop="money">
+                            <el-input placeholder="请输入金额" v-model="form.money" type="number" min="0">
+                                <template slot="prepend">
+                                    <icon>&#xe624</icon>
+                                </template>
+                                <el-button slot="append" type="primary" plain @click="payEntry('form')">
+                                    <icon style="font-size: 15px;">&#xe62d</icon>在线充值
+                                </el-button>
+                            </el-input>
+                        </el-form-item>
+                    </el-form>
+                </div>
+                <div class="total">
+                    余额：<span v-html="account.Ac_Money"></span>元
+                </div>
+            </div>
+            <!-- 在线支付接口列表 -->
+            <div class="paypis">
+                <div class="title">选择支付方式</div>
+                <div class="list">
+                    <div v-for="(item,index) in paypis" class="payitem" :current="item.Pai_ID==form.payid"
+                        @click="setCurrentpay(item.Pai_ID)">
+                        <img :src="'/pay/images/'+item.Pai_Pattern+'.png'" />
+                        <span>{{item.Pai_Name}}</span>
+                    </div>
+                </div>
+            </div>
+            <el-dialog title="提示" :visible.sync="paypanel" width="30%">
+                <div slot="title">
+                    <icon style="font-size: 15px;">&#xe62d</icon>在线支付
+                </div>
+                <div class="recharge_val"><span v-html="form.money"></span>
+                    元</div>
+                <div slot="footer"> <a :href="payurl" target="_blank">确认支付</a></div>
+            </el-dialog>
+        </template>
     </div>
 </body>
 

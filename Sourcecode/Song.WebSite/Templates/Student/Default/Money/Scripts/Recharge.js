@@ -2,17 +2,52 @@ $ready(function () {
 
     window.vapp = new Vue({
         el: '#vapp',
-        data: {           
+        data: {
+            account: {},     //当前登录账号
+            platinfo: {},
             organ: {},
-            config: {},      //当前机构配置项        
-            datas: {},
-            loading_init: true
+            config: {},      //当前机构配置项   
+
+            paypis: [],       //支付接口的列表
+            form: {
+                money: '',      //要充值的金额
+                payid: 0,
+            },
+            rules: {
+                money: [
+                    { required: true, message: '不得为空', trigger: 'blur' },
+                    {
+                        validator: async function (rule, value, callback) {
+                            var money = Number(value);
+                            money = isNaN(money) ? 0 : money;
+                            if (money <= 0) {
+                                return callback(new Error('金额不得小于零!'));
+                            }
+                            money = Math.floor(money * 100) / 100;
+                            if (money <= 0) {
+                                return callback(new Error('金额不得小于一分钱!'));
+                            } else {
+                                vapp.form.money = money;
+                            }
+                        }, trigger: 'blur'
+                    }
+                ]
+            },
+            paypanel: false,         //支付确认的面板是否显示
+            payurl: '',              //转向支付平台的路径与参数
+
+            loading_init: true,
+            loading_up: false
         },
         mounted: function () {
-            $api.bat(              
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
+            var th = this;
+            $api.bat(
+                $api.get('Account/Current'),
+                $api.cache('Platform/PlatInfo:60'),
+                $api.get('Organization/Current'),
+                $api.get('Pay/ListEnable', { 'platform': '' })
+            ).then(axios.spread(function (account, platinfo, organ, payi) {
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -22,10 +57,21 @@ $ready(function () {
                         console.error(data.message);
                     }
                 }
-                //获取结果             
-                vapp.organ = organ.data.result;
+                //获取结果
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
+                //支付接口
+                th.paypis = payi.data.result;
+                var isweixin = $api.isWeixin(); 	//是否处于微信
+                var ismini = $api.isWeixinApp(); //是否处于微信小程序
+                for (let i = 0; i < th.paypis.length; i++) {
+                    th.paypis[i].Pai_Config = $api.xmlconfig.tojson(th.paypis[i].Pai_Config);
+                }
+                th.setCurrentpay();    //设置或获取当前支付接口，默认是第一个
+                console.log(th.paypis);
             })).catch(function (err) {
                 console.error(err);
             });
@@ -34,11 +80,68 @@ $ready(function () {
 
         },
         computed: {
-           
+            //是否登录
+            islogin: function () {
+                return JSON.stringify(this.account) != '{}' && this.account != null;
+            },
         },
         watch: {
         },
         methods: {
+            //*** 在线支付 */
+            //设置或获取当前支付接口
+            setCurrentpay: function (paiid) {
+                var key = 'weisha_payid_current';
+                var currid = paiid == null ? Number($api.storage(key)) : paiid;
+
+                if (this.paypis.length > 0) {
+                    var current = null;
+                    for (let i = 0; i < this.paypis.length; i++) {
+                        this.paypis[i].current = false;
+                        if (this.paypis[i].Pai_ID == currid) {
+                            this.form.payid = currid;
+                            $api.storage(key, this.paypis[i].Pai_ID);
+                            current = this.paypis[i];
+                        }
+                    }
+                    if (current == null) {
+                        current = this.paypis[0];
+                        this.form.payid = this.paypis[0].Pai_ID;
+                        $api.storage(key, this.paypis[0].Pai_ID);
+                    }
+                    return current;
+                }
+
+            },
+            //开始进入支付
+            payEntry: function (formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        //转向支付页面
+                        var url = '/pay/PayEntry';
+                        //校验码
+                        var vcode = new Date().getTime();
+                        $api.storage('weishakeji_pay_vcode', vcode);
+                        var md5 = $api.md5(this.form.money + '_' + this.form.payid + '_' + vcode);
+                        //console.log(md5);
+                        url = $api.url.set(url, {
+                            'money': this.form.money,
+                            'paiid': this.form.payid,
+                            'code': md5,
+                            'random': Math.random()
+                        });
+                        console.log(url);
+                        this.paypanel = true;
+                        this.payurl = url;
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                });
+
+
+                //window.location.href = url;
+            }
         }
     });
 
