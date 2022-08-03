@@ -12,6 +12,8 @@
     <meta name="format-detection" content="telephone=yes" />
     <meta name="format-detection" content="email=no" />
     <script type="text/javascript" src="/Utilities/Scripts/jquery.js"></script>
+     <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <style type="text/css">
         .accinfo {
             margin-right: auto;
@@ -100,7 +102,7 @@
                 //支付成功
                 var returl = "";                //返回的地址
                 var default_returl = '/mobi/account/myself';
-                returl = $.cookie('recharge_returl');  //充值后的返回
+                returl = $api.storage('recharge_returl');  //充值后的返回
                 if (returl == '' || returl == null) returl = default_returl;
                 $("#btnBacklink").attr('href', returl);
                 $("#btnBacklink").click();

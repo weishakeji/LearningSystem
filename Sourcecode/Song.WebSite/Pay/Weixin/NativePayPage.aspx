@@ -26,9 +26,16 @@
         body {
             text-align: center;
         }
-
+        .name{
+            font-size: 25px;
+            line-height: 40px;
+            height: 40px;
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
         .show-tit {
-            font-size: 14px;
+            font-size: 18px;
             line-height: 40px;
             height: 40px;
             text-align: center;
@@ -37,7 +44,7 @@
         }
 
         .total_fee {
-            font-size: 14px;
+            font-size: 16px;
             line-height: 40px;
             height: 40px;
             color: #f00;
@@ -45,8 +52,9 @@
         }
 
         .total_fee span {
-            font-size: 16px;
+            font-size: 20px;
             font-weight: bold;
+            margin:0px 10px;
         }
 
         .img-line img {
@@ -62,13 +70,12 @@
         }
 
         .success {
-            font-size: 16px;
+            font-size: 18px;
             line-height: 50px;
             height: 50px;
-            color: #06f;
+            color: #67C23A;
             text-align: center;
             display: none;
-            width: 400px;
             margin-right: auto;
             margin-left: auto;
         }
@@ -98,20 +105,18 @@
 
 <body>
     <div class="accinfo">
-        <div class="show-tit" id="name">
+        <div class="name" id="name">
             <%= acc.Ac_Name %>
         </div>
-        <div class="img-line">
-            <img src="<%= accphoto %>" id="photo" default="/Utilities/images/head1.jpg" /></div>
         <div class="show-tit">
             请用微信扫描下面二维码</div>
         <div class="total_fee">
-            支付金额：<span><%= (Convert.ToDouble(total_fee)/100).ToString("0.0") %></span>元</div>
+            支付金额：<span><%= (Convert.ToDouble(total_fee)/100).ToString("0.00") %></span>元</div>
     </div>
     <asp:Image ID="Image2" runat="server" Style="width: 200px; height: 200px;display:none;" />
      <div id="qrcode"></div>
     <div class="success">
-        <b></b><a href="#" id="close">支付完成，点击关闭，<i>3</i>秒后关闭</a></div>
+        支付完成</div>
 </body>
 <script type="text/javascript">
     $(function () {
@@ -128,10 +133,10 @@
         });
     });
     (function () {
-        var returl = $api.cookie('recharge_returl');
+        var returl = $api.storage('recharge_returl');
         $("a#close").attr("href", returl);
         $("a#close").click(function () {
-            var returl = $api.cookie('recharge_returl');  //充值后的返回
+            var returl = $api.storage('recharge_returl');  //充值后的返回
             if (returl == '' || returl == null) {
                 window.opener = null;
                 window.open('', '_self');
@@ -170,7 +175,7 @@
     window.onbeforeunload = onunload_handler;
     window.onunload = onunload_handler;
     function onunload_handler() {
-        var returl = $api.cookie('recharge_returl');  //充值后的返回
+        var returl = $api.storage('recharge_returl');  //充值后的返回
         if (!(returl == '' || returl == null)) {
             //转向来源页
             window.location.href = returl;

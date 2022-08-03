@@ -241,6 +241,8 @@ $ready(function () {
                 this.paypanel = true;
                 this.payurl = url;
                 //window.location.href = url;
+                //支付成功后跳转到的页面
+                $api.storage('recharge_returl', '/mobi/Recharge/index');  
             }
         },
         filters: {

@@ -35,6 +35,7 @@ $ready(function () {
             },
             paypanel: false,         //支付确认的面板是否显示
             payurl: '',              //转向支付平台的路径与参数
+            isopenpay:false,        //是否打开支付窗口
 
             loading_init: true,
             loading_up: false
@@ -133,14 +134,34 @@ $ready(function () {
                         console.log(url);
                         this.paypanel = true;
                         this.payurl = url;
+
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
                 });
-
-
                 //window.location.href = url;
+            },
+            //打开支付窗口
+            open_paywindow: function () {
+                if (!window.top || !window.top.vapp) return;
+                this.isopenpay=true;
+                var url = this.payurl;              
+                var obj = {
+                    'url': url,
+                    'ico': 'e62d', 'min': false,
+                    'title': '在线充值',
+                    'width': '400px',
+                    'height': '500px'
+                }
+                window.top.vapp.open(obj,function(sender,event){
+                    //alert(3);
+                    console.log(sender);
+                    window.top.vapp.shut(window.name);
+                });
+            },
+            fresh_window:function(){
+                window.location.reload();
             }
         }
     });

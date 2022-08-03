@@ -1,4 +1,4 @@
-document.oncontextmenu = function () {    
+document.oncontextmenu = function () {
     return false;
 }
 $ready(function () {
@@ -208,8 +208,14 @@ $ready(function () {
             //打开窗体
             open: function (url, title, name, width, height, icon) {
                 var obj = {};
+                var shutevent = null;      // 窗体关闭事件
                 if ($api.getType(url) == "Object") {
                     obj = url;
+                    if (arguments.length > 1) {
+                        var func = arguments[1];
+                        if ($api.getType(func) == 'Function')
+                            shutevent = func;
+                    }
                 } else {
                     obj = {
                         'url': url, 'ico': icon,
@@ -222,7 +228,9 @@ $ready(function () {
                 obj['showmask'] = true; //始终显示遮罩
                 obj['min'] = false;
 
-                var box = $pagebox.create(obj).open();
+                var box = $pagebox.create(obj);
+                if(shutevent!=null)box.onshut(shutevent);
+                box.open();
             },
             //关闭窗口，并执行方法
             shut: function (name, func) {
