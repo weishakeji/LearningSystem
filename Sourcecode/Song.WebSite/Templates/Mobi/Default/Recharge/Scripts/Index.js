@@ -46,9 +46,7 @@ $ready(function () {
                 //机构配置信息
                 th.config = $api.organ(th.organ).config;
                 //支付接口
-                th.paypis = payi.data.result;
-                var isweixin = $api.isWeixin(); 	//是否处于微信
-                var ismini = $api.isWeixinApp(); //是否处于微信小程序
+                th.paypis = th.pay_scene(payi.data.result);
                 for (let i = 0; i < th.paypis.length; i++) {
                     th.paypis[i].Pai_Config = $api.xmlconfig.tojson(th.paypis[i].Pai_Config);
                 }
@@ -204,7 +202,26 @@ $ready(function () {
                     }
                     return current;
                 }
-
+            },
+            //支付接口在不同场景下的显示
+            pay_scene: function (paypis) {
+                var isweixin = $api.isWeixin(); 	//是否处于微信
+                var ismini = $api.isWeixinApp(); //是否处于微信小程序
+                for (let i = 0; i < paypis.length; i++) {
+                    const pi = paypis[i];
+                    var scene = pi.Pai_Scene;
+                    var arr = scene.split(",");
+                    //如果处在微信中
+                    if (isweixin) {
+                        if (arr[0] != "weixin" || arr[1] == "h5") paypis.splice(i, 1);
+                        if (ismini && arr[1] != "mini") paypis.splice(i, 1);
+                        if (!ismini && arr[1] == "mini") paypis.splice(i, 1);
+                    } else {
+                        //如果不在微信中，且该接口仅限微信使用，则不显示
+                        if (arr[0] == "weixin" && arr[1] != "h5") paypis.splice(i, 1);
+                    }
+                }
+                return paypis;
             },
             //开始进入支付
             payEntry: function () {
@@ -242,7 +259,7 @@ $ready(function () {
                 this.payurl = url;
                 //window.location.href = url;
                 //支付成功后跳转到的页面
-                $api.storage('recharge_returl', '/mobi/Recharge/index');  
+                $api.storage('recharge_returl', '/mobi/Recharge/index');
             }
         },
         filters: {
