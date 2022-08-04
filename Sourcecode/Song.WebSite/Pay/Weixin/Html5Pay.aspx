@@ -69,7 +69,9 @@
             background-image:-webkit-gradient(linear, left top, left bottom, color-stop(0, #43C750), color-stop(1, #31AB40));border:1px solid #2E993C;box-shadow:0 1px 0 0 #69D273 inset;
             margin-top:10px;
             }
-
+        .operation{
+            margin:10px 20px;
+        }
         .footer
         {
             position: fixed;
@@ -139,6 +141,7 @@
                 function (d) {                
                     if (Number(d) != 0) {
                         $('#getBrandWCPayRequest').attr("href", d.mweb_url + '&redirect_url=' + rawurl);
+                        $('#getBrandWCPayRequest').click();
                     } else {
                         alert("下单失败！");
                     }

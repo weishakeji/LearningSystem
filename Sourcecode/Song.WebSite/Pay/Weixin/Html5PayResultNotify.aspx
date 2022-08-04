@@ -73,7 +73,9 @@
             box-shadow: 0 1px 0 0 #69D273 inset;
             margin-top: 10px;
         }
-        
+          .operation{
+            margin:10px 20px;
+        }
         .footer
         {
             position: fixed;
@@ -122,13 +124,13 @@
             $("#getBrandWCPayRequest").attr("href", returl);
         });
         function gourl() {
-            window.location.href = $().setPara(window.location.href, "t", new Date().getTime());
+            window.location.href = $api.url.set(window.location.href, { "t": new Date().getTime() });
         }
         $(function () {
             var lbSucess = $(".lbSucess");
             //如果没有显示成功，可能是微信那边没有响应过来，程序自己刷新
             if (lbSucess.size() < 1) {
-                setTimeout("gourl()", 2000);
+                setTimeout("gourl()", 300);
             }
         });
          
