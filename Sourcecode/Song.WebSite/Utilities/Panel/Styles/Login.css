@@ -144,7 +144,15 @@
     top: 0px;
     color: #999;
 }
-
+.loginbox .login_body .login_user{
+    ime-mode:active;
+}
+.loginbox .login_body .login_pw{
+    ime-mode:active;
+}
+.loginbox .login_body .login_code{
+    ime-mode:active;
+}
 .loginbox .login_body .login_user:before {
     content: '\a043';
 }
@@ -250,7 +258,7 @@
 
 .loginbox .login_body login_drag {
     display: block;
-    font-size: 12px;
+    font-size: 14px;
     height: 45px;
     line-height: 45px;
     text-align: center;
@@ -324,7 +332,7 @@
     position: absolute;
     height: 20px;
     line-height: 20px;
-    font-size: 10px;
+    font-size: 14px;
     width: auto;
     padding: 0px 10px 0px 10px;
     color: #fff;
@@ -338,7 +346,7 @@
 /*错误提示*/
 
 .loginbox login_row.login_error {
-    border: solid 1px red !important;
+    border: solid 1px #ff7d7d !important;
     box-shadow: 0px 0px 10px #ff0000, 0px 0px 10px rgba(255, 0, 0, .8) inset !important;
 }
 

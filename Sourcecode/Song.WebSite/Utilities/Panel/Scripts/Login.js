@@ -262,7 +262,7 @@
             var code = obj.dombody.add('login_row');
             code.add('img').addClass('vcode_img');
             code.addClass('login_code').add('input').attr({
-                'type': 'text',
+                'type': 'number',
                 'name': 'login_vcode',
                 'autocomplete': 'off',
                 'maxlength': obj.vcodelen,

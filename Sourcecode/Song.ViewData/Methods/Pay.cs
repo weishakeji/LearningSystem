@@ -141,11 +141,11 @@ namespace Song.ViewData.Methods
 
         #region 支付
         /// <summary>
-        /// 生成收入的记录
+        /// 生成资金流水的记录
         /// </summary>
-        /// <param name="money"></param>
-        /// <param name="payif"></param>
-        /// <returns></returns>
+        /// <param name="money">金额</param>
+        /// <param name="payif">支付接口配置的实体对象</param>
+        /// <returns>资金流水的记录项，Ma_IsSuccess默认为false</returns>
         [Student][HttpPost]
         public MoneyAccount MoneyIncome(double money,Song.Entities.PayInterface payif)
         {
