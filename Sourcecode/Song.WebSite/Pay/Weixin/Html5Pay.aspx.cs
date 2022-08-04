@@ -13,9 +13,7 @@ using WxPayAPI;
 namespace Song.Site.Pay.Weixin
 {
     public partial class Html5Pay : System.Web.UI.Page
-    {
-        //学员id
-        private int acid = WeiSha.Core.Request.QueryString["acid"].Int32 ?? 0;
+    {     
         //支付接口id
         protected int piid = 0;
         //交易流水号,即商户订单号
@@ -39,15 +37,14 @@ namespace Song.Site.Pay.Weixin
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            acc = Business.Do<IAccounts>().AccountsSingle(this.acid);
+
             if (Request.ServerVariables["REQUEST_METHOD"] == "GET")
             {
-                //当前登录账号
-                //if (acc == null) Response.Redirect("/mobile/login.ashx");
+             
                 piid = WeiSha.Core.Request.QueryString["piid"].Int32 ?? 0;
                 serial = WeiSha.Core.Request.QueryString["serial"].String;
-                //回调地址
-                this.payInterface = Business.Do<IPayInterface>().PaySingle(piid);
+                initData(piid, serial);
+                //回调地址             
                 retdomain = this.payInterface.Pai_Returl;
                 if (string.IsNullOrWhiteSpace(retdomain)) retdomain = "http://" + WeiSha.Core.Server.Domain + "/";
                 if (!retdomain.EndsWith("/")) retdomain += "/";
@@ -62,7 +59,7 @@ namespace Song.Site.Pay.Weixin
                 piid = WeiSha.Core.Request.Form["piid"].Int32 ?? 0;
                 serial = WeiSha.Core.Request.Form["serial"].String;
                 notify_url = WeiSha.Core.Request.Form["returl"].String;
-                initData();  
+                initData(piid,serial);  
                 //支付下单
                 WxPayData result = JsApiPayPage();
                 if (result != null) Response.Write(result.ToJson());
@@ -73,10 +70,11 @@ namespace Song.Site.Pay.Weixin
         /// <summary>
         /// 初始化数据
         /// </summary>
-        private void initData()
+        private void initData(int pid,string serial)
         {
             this.payInterface = Business.Do<IPayInterface>().PaySingle(piid);
             this.moneyAccount = Business.Do<IAccounts>().MoneySingle(serial);
+            this.acc = Business.Do<IAccounts>().AccountsSingle(this.moneyAccount.Ac_ID);
             total_fee = (int)(moneyAccount.Ma_Money * 100);
             orgid = moneyAccount.Org_ID;
             appid = payInterface.Pai_ParterID;  //绑定支付的APPID（必须配置）

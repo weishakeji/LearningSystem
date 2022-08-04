@@ -45,6 +45,10 @@ namespace WxPayAPI
                     Business.Do<IAccounts>().MoneyConfirm(moneyAccount);
                     lbError.Visible = false;
                     lbSucess.Visible = true;
+
+                    //刷新当前登录的学员信息
+                    Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(moneyAccount.Ac_ID);
+                    Song.ViewData.LoginAccount.Fresh(acc);
                 }
                 else
                 {

@@ -12,8 +12,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telephone=yes" />
     <meta name="format-detection" content="email=no" />
-    <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
-    <script type="text/javascript" src="/Utility/CoreScripts/extend.js"></script>
+     <script type="text/javascript" src="/Utilities/Scripts/jquery.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/jquery.qrcode.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
 
     <style type="text/css">
         .accinfo
@@ -104,8 +106,8 @@
     <div class="footer"><a class="btn-green" id="getBrandWCPayRequest" href="/Mobile/recharge.ashx">返 回</a></div>
      <script type="text/javascript">
          $(function () {
-             var default_returl = '/Mobile/recharge.ashx';
-             var returl = $.cookie('recharge_returl');  //充值后的返回
+             var default_returl = '/mobi/Recharge/index';
+             var returl = $api.storage('recharge_returl');  //充值后的返回
              if (returl == '' || returl == null) returl = default_returl;
              $("#getBrandWCPayRequest").attr("href", returl);
          });

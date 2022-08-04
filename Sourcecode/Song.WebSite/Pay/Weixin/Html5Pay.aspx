@@ -10,6 +10,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="format-detection" content="telephone=yes" />
     <meta name="format-detection" content="email=no" />
+       <script type="text/javascript" src="/Utilities/Scripts/jquery.js"></script>
+
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <style type="text/css">
         html
         {
@@ -87,7 +91,7 @@
             line-height: 45px;
         }
     </style>
-    <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
+   
 </head>
 <body>
     <form id="form1" runat="server">
@@ -96,7 +100,7 @@
             <%= acc.Ac_Name %>
         </div>
         <div class="img-line">
-            <img src="<%= path %><%= acc.Ac_Photo %>" id="photo" default="/Utility/images/head1.jpg"/></div>
+              <img src="<%= path %><%= acc.Ac_Photo %>" id="photo" default="/Utilities/images/head1.jpg" /></div>
         <div class="show-tit" id="Div1">
             充值金额：&yen; <%= ((float)total_fee)/100%> 元
         </div>

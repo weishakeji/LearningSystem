@@ -5,8 +5,8 @@ Vue.component('topayment', {
     //moneyrecord: 资金流水的对象
     props: ['interface', 'moneyrecord'],
     data: function () {
-        return {           
-            
+        return {
+
         }
     },
     watch: {
@@ -34,7 +34,7 @@ Vue.component('topayment', {
         }
     },
     mounted: function () { },
-    methods: {        
+    methods: {
         //微信公众号支付
         weixinpubpay: function (pi, ma) {
             //回调路径
@@ -68,24 +68,15 @@ Vue.component('topayment', {
         },
         //微信小程序支付
         weixinapppay: function (pi, ma) {
-            /*
-            string url = "/pay/Weixin/miniProgramPay.aspx?piid={0}&serial={1}&money={2}&org={3}";
-            url = string.Format(url, pi.Pai_ID, ma.Ma_Serial, money * 100, ma.Org_ID);
-            
-            //调试
-            string msg = string.Format("小程序支付，第一步（启动）：\r\n接口ID：{0}，流水号：{1}，金额：{2}元", pi.Pai_ID, ma.Ma_Serial, money);
-            WxPayAPI.Log.Info(this.GetType().FullName, msg);
-
-            System.Web.HttpContext.Current.Response.Redirect(url);
-            */
+            var url = "/pay/Weixin/miniProgramPay.aspx?piid={0}&serial={1}&money={2}&org={3}";
+            url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money * 100, ma.Org_ID);
+            window.location.href = url;
         },
         //微信Html5支付
         weixinh5pay: function (pi, ma) {
-            /*
-            string url = "Weixin/Html5Pay.aspx?piid={0}&serial={1}&money={2}";
-            url = string.Format(url, pi.Pai_ID, ma.Ma_Serial, money*100);
-            System.Web.HttpContext.Current.Response.Redirect(url);
-            */
+            var url = "/pay/Weixin/Html5Pay.aspx?piid={0}&serial={1}&money={2}";
+            url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money*100);
+            window.location.href = url;
         },
 
         tourl: function (obj) {

@@ -31,6 +31,10 @@ namespace WxPayAPI
                     maccount.Ma_Buyer = notifyData.GetValue("attach").ToString();
                     maccount.Ma_Seller = notifyData.GetValue("mch_id").ToString();
                     Business.Do<IAccounts>().MoneyConfirm(maccount);
+
+                    //刷新当前登录的学员信息
+                    Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(maccount.Ac_ID);
+                    Song.ViewData.LoginAccount.Fresh(acc);
                 }
             }
         }
