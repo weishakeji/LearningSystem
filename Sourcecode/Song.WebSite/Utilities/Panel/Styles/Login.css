@@ -153,6 +153,14 @@
 .loginbox .login_body .login_code{
     ime-mode:active;
 }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0; 
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+  }
 .loginbox .login_body .login_user:before {
     content: '\a043';
 }

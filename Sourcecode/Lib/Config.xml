@@ -7,5 +7,5 @@
     <items>Data Source=.;Initial Catalog=Quesbank;User ID=sa;password=Sa123456;</items>
     <items>Data Source=.;Initial Catalog=examweisha;User ID=sa;password=Sa123456;</items>
   </ConnectionStrings>
-  <EntityFolder>E:\SourceCode\02_LearningSystem\Sourcecode\Song.Entities</EntityFolder>
+  <EntityFolder>E:\SourceCode\02_LearningSystem_public\Sourcecode\Song.Entities</EntityFolder>
 </Config>
