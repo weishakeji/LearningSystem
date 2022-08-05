@@ -3,14 +3,14 @@ namespace Song.Entities {
     	
     	
     	/// <summary>
-    	/// 表名：QuesAnswer 主键列：Ans_ID
+    	/// 表名：QuesAnswer 主键列：
     	/// </summary>
     	[SerializableAttribute()]
     	public partial class QuesAnswer : WeiSha.Data.Entity {
     		
-    		protected Int32 _Ans_ID;
+    		protected Int64 _Ans_ID;
     		
-    		protected Int64 _Qus_ID;
+    		protected Int32 _Qus_ID;
     		
     		protected String _Qus_UID;
     		
@@ -21,7 +21,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32 Ans_ID {
+    		public Int64 Ans_ID {
     			get {
     				return this._Ans_ID;
     			}
@@ -34,7 +34,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int64 Qus_ID {
+    		public Int32 Qus_ID {
     			get {
     				return this._Qus_ID;
     			}
@@ -98,14 +98,6 @@ namespace Song.Entities {
     		}
     		
     		/// <summary>
-    		/// 获取实体中的主键列
-    		/// </summary>
-    		protected override WeiSha.Data.Field[] GetPrimaryKeyFields() {
-    			return new WeiSha.Data.Field[] {
-    					_.Ans_ID};
-    		}
-    		
-    		/// <summary>
     		/// 获取列信息
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
@@ -134,10 +126,10 @@ namespace Song.Entities {
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
     			if ((false == reader.IsDBNull(_.Ans_ID))) {
-    				this._Ans_ID = reader.GetInt32(_.Ans_ID);
+    				this._Ans_ID = reader.GetInt64(_.Ans_ID);
     			}
     			if ((false == reader.IsDBNull(_.Qus_ID))) {
-    				this._Qus_ID = reader.GetInt64(_.Qus_ID);
+    				this._Qus_ID = reader.GetInt32(_.Qus_ID);
     			}
     			if ((false == reader.IsDBNull(_.Qus_UID))) {
     				this._Qus_UID = reader.GetString(_.Qus_UID);
@@ -175,12 +167,12 @@ namespace Song.Entities {
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<QuesAnswer>();
     			
     			/// <summary>
-    			/// -1 - 字段名：Ans_ID - 数据类型：Int32
+    			/// -1 - 字段名：Ans_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Ans_ID = new WeiSha.Data.Field<QuesAnswer>("Ans_ID");
     			
     			/// <summary>
-    			/// -1 - 字段名：Qus_ID - 数据类型：Int64
+    			/// -1 - 字段名：Qus_ID - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Qus_ID = new WeiSha.Data.Field<QuesAnswer>("Qus_ID");
     			

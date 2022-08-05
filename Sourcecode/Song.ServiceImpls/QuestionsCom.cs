@@ -96,8 +96,9 @@ namespace Song.ServiceImpls
                 for (int i = 0; i < ansItem.Count; i++)
                 {
                     //添加随机的选择项id
-                    Random rd = new Random((i + 1) * DateTime.Now.Millisecond);
-                    ansItem[i].Ans_ID = rd.Next(1, 1000);
+                    //Random rd = new Random((i + 1) * DateTime.Now.Millisecond);
+                    //ansItem[i].Ans_ID = rd.Next(1, 1000);
+                    ansItem[i].Ans_ID = WeiSha.Core.Request.SnowID();
                     //如果有试题id，则加上，好像也无所谓
                     if (entity.Qus_ID > 0) ansItem[i].Qus_ID = entity.Qus_ID;
                 }
@@ -931,8 +932,21 @@ namespace Song.ServiceImpls
         /// <param name="ans"></param>
         /// <returns></returns>
         public string AnswerToItems(Song.Entities.QuesAnswer[] ans)
-        {
+        {            
             if (ans == null || ans.Length < 1) return null;
+            foreach (QuesAnswer qa in ans)
+                qa.Ans_ID = qa.Ans_ID <= 0 ? WeiSha.Core.Request.SnowID() : qa.Ans_ID;
+            //如果Ans_ID存在重复，则用雪花id赋值
+            for (int i = 0; i < ans.Length; i++)
+            {
+                for (int j = 0; j < ans.Length; j++)
+                {
+                    if (i == j) continue;
+                    if(ans[i].Ans_ID == ans[j].Ans_ID)                  
+                        ans[i].Ans_ID = WeiSha.Core.Request.SnowID();                  
+                }
+            }
+
             XmlDocument xmlDoc = new XmlDocument();
             //创建根节点  
             XmlNode root = xmlDoc.CreateElement("Items");
