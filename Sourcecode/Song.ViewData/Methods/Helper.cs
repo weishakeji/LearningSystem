@@ -219,7 +219,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Localhost]
-        public string EntityFields(string tablename)
+        public JObject EntityFields(string tablename)
         {
             if (string.IsNullOrWhiteSpace(tablename)) return null;
             Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
@@ -258,7 +258,7 @@ namespace Song.ViewData.Methods
                 //
                 fields.Add(properties[j].Name, pattr);
             }
-            return fields.ToString();
+            return fields;
         }
         /// <summary>
         /// 实体详细说明的获取
@@ -267,7 +267,7 @@ namespace Song.ViewData.Methods
         /// <param name="detail">实体的详情说明,json格式</param>
         /// <returns>返回实体详情</returns>
         [HttpGet]
-        public string EntityDetails(string name)
+        public JObject EntityDetails(string name)
         {
             return this.EntityDetails(name, string.Empty);
         }
@@ -279,7 +279,7 @@ namespace Song.ViewData.Methods
         /// <returns>返回实体详情</returns>
         [Localhost]
         [HttpPost]
-        public string EntityDetails(string name, string detail)
+        public JObject EntityDetails(string name, string detail)
         {
             if (string.IsNullOrWhiteSpace(name)) return null;
             Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
@@ -329,8 +329,9 @@ namespace Song.ViewData.Methods
                     jitem.Add(entity, obj);
                 }
             }
-            details = JsonConvert.SerializeObject(jitem);
-            return details;
+            return jitem;
+            //details = JsonConvert.SerializeObject(jitem);
+            //return details;
         }
         #endregion
 
