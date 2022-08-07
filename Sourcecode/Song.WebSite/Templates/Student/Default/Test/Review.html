@@ -14,7 +14,9 @@
                 成绩：<score :class="scoreStyle(result.Tr_Score)">{{result.Tr_Score}} 分</score>
                 <span class="tag">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
                 时间： {{result.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}
-                <el-link type="primary" @click="window.print()" class="print"><icon>&#xa046</icon>打印</el-link>
+                <el-link type="primary" @click="window.print()" class="print">
+                    <icon>&#xa046</icon>打印
+                </el-link>
             </span>
 
             <div class="header_info" v-if="!islogin" remark="未登录">
@@ -22,8 +24,8 @@
                 <a href="/mobi/sign/in">未登录 </a>
             </div>
             <div class="header_info" v-if="islogin" remark="已经登录">
-                <div class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''"
-                    :style="'background-image: url('+account.Ac_Photo+');'"></div>
+                <img class="acc_photo" v-if="!!account.Ac_Photo && account.Ac_Photo!=''" :src="account.Ac_Photo">
+                </img>
                 <template v-else>
                     <div class="acc_photo woman" v-if="account.Ac_Sex==2"></div>
                     <div class="acc_photo man" v-else></div>
@@ -40,7 +42,7 @@
         </div>
         <context>
             <div v-if="!loading" class="tp_name">
-               《{{paper.Tp_Name}}》
+                《{{paper.Tp_Name}}》
             </div>
             <template v-if="error==''">
                 <div class="sticky">

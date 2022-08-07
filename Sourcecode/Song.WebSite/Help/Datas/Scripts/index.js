@@ -264,49 +264,49 @@ Vue.component('entity', {
             return val.replace(regExp, `<b>${search}</b>`);
         }
     },
-    template: '<div><a :name="clname" class="anchor">&nbsp;</a>\
-    <div class="name">\
-        {{index+1}}. <span @dblclick="copy(clname)">{{clname}}</span>\
-        <span class="mark" v-show="!state(\'mark\')" @click="edit(\'mark\')">\
-        <i class="el-icon-edit"></i><span>{{entity.mark}}</span></span>\
-        <span v-show="state(\'mark\')"><i class="el-icon-edit"></i>\
-        <input type="text" :value="entity.mark" id="mark" @keyup.enter="leave(\'mark\')" @blur="leave(\'mark\')" />\
-        </span>\
-        <div class="psearch"><input type="text" v-model="search" /><i class="el-icon-search"></i></div>\
-    </div>\
-    <div class="intro">\
-        <span class="intro_text" v-show="!state(\'intro\')" @click="edit(\'intro\')">\
-        <i class="el-icon-edit"></i>说明：<span v-html="entity.intro"></span></span>\
-        <span v-show="state(\'intro\')"><i class="el-icon-edit"></i> 说明：<br />\
-        <textarea rows="3" style="width: 100%;"  id="intro" :value="entity.intro" @blur="leave(\'intro\')"></textarea>\
-        </span>\
-    </div>\
-    <table border="0">\
-    <tr><th>序号</th><th>属性/字段</th><th>类型</th><th>可空</th><th>关联</th><th>备注</th><th>说明</th></tr>\
-    <tr v-for="(v,k,i) in properties">\
-        <td>{{i+1}}</td>\
-        <td v-html="$options.filters.show(k,search)" @dblclick="copy(k)"></td>\
-        <td>{{v.type}}</td>\
-        <td>{{v.nullable ? v.nullable : \'\'}}</td>\
-        <td @dblclick="edit(k+\'.relation\')" mark="关联">\
-            <span v-if="!state(k+\'.relation\')">{{text(k,\'relation\')}}</span>\
-            <select  v-if="state(k+\'.relation\')" :id="k+\'.relation\'"\
-                :value="text(k,\'relation\')" @blur="leave(k+\'.relation\')"\
-                @change="leave(k+\'.relation\')">\
-                <option value=""></option>\
-                <option :value="key" v-for="(val,key,index) in datas">{{key}}</option>\
-            </select>\
-        </td >\
-        <td @dblclick="edit(k+\'.mark\')"  mark="备注">\
-            <span v-if="!state(k+\'.mark\')" v-html="$options.filters.show(text(k,\'mark\',true),search)"></span>\
-            <textarea rows="3" v-if="state(k+\'.mark\')" :id="k+\'.mark\'"\
-            :value="text(k,\'mark\')" @blur="leave(k+\'.mark\')"></textarea>\
-        </td>\
-        <td @dblclick="edit(k+\'.intro\')"  mark="说明">\
-            <span v-if="!state(k+\'.intro\')" v-html="$options.filters.show(text(k,\'intro\',true),search)"></span>\
-            <textarea rows="3" v-if="state(k+\'.intro\')" :id="k+\'.intro\'"\
-            :value="text(k,\'intro\')" @blur="leave(k+\'.intro\')"></textarea>\
-        </td>\
-        </table >\
-    </div>'
+    template: `<div><a :name="clname" class="anchor">&nbsp;</a>
+    <div class="name">
+        {{index+1}}. <span @dblclick="copy(clname)">{{clname}}</span>
+        <span class="mark" v-show="!state('mark')" @click="edit('mark')">
+        <i class="el-icon-edit"></i><span>{{entity.mark}}</span></span>
+        <span v-show="state('mark')"><i class="el-icon-edit"></i>
+        <input type="text" :value="entity.mark" id="mark" @keyup.enter="leave('mark')" @blur="leave('mark')" />
+        </span>
+        <div class="psearch"><input type="text" v-model="search" /><i class="el-icon-search"></i></div>
+    </div>
+    <div class="intro">
+        <span class="intro_text" v-show="!state('intro')" @click="edit('intro')">
+        <i class="el-icon-edit"></i>说明：<span v-html="entity.intro"></span></span>
+        <span v-show="state('intro')"><i class="el-icon-edit"></i> 说明：<br />
+        <textarea rows="3" style="width: 100%;"  id="intro" :value="entity.intro" @blur="leave('intro')"></textarea>
+        </span>
+    </div>
+    <table border="0">
+    <tr><th>序号</th><th>属性/字段</th><th>类型</th><th>可空</th><th>关联</th><th>备注</th><th>说明</th></tr>
+    <tr v-for="(v,k,i) in properties">
+        <td>{{i+1}}</td>
+        <td v-html="$options.filters.show(k,search)" @dblclick="copy(k)"></td>
+        <td>{{v.type}}</td>
+        <td>{{v.nullable ? v.nullable : ''}}</td>
+        <td @dblclick="edit(k+'.relation')" mark="关联">
+            <span v-if="!state(k+'.relation')">{{text(k,'relation')}}</span>
+            <select  v-if="state(k+'.relation')" :id="k+'.relation'"
+                :value="text(k,'relation')" @blur="leave(k+'.relation')"
+                @change="leave(k+'.relation')">
+                <option value=""></option>
+                <option :value="key" v-for="(val,key,index) in datas">{{key}}</option>
+            </select>
+        </td >
+        <td @dblclick="edit(k+'.mark')"  mark="备注">
+            <span v-if="!state(k+'.mark')" v-html="$options.filters.show(text(k,'mark',true),search)"></span>
+            <textarea rows="3" v-if="state(k+'.mark')" :id="k+'.mark'"
+            :value="text(k,'mark')" @blur="leave(k+'.mark')"></textarea>
+        </td>
+        <td @dblclick="edit(k+'.intro')"  mark="说明">
+            <span v-if="!state(k+'.intro')" v-html="$options.filters.show(text(k,'intro',true),search)"></span>
+            <textarea rows="3" v-if="state(k+'.intro')" :id="k+'.intro'"
+            :value="text(k,'intro')" @blur="leave(k+'.intro')"></textarea>
+        </td>
+        </table >
+    </div>`
 });

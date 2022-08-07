@@ -7,7 +7,7 @@ $ready(function () {
     document.addEventListener('selectstart', function (e) {
         e.preventDefault();
     });
-   
+
     window.vapp = new Vue({
         el: '#vapp',
         data: {

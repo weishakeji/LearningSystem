@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>微信html5支付回调</title>
+    <title>微信小程序支付回调</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=no" />
@@ -87,8 +87,6 @@
             line-height: 45px;
         }
     </style>
-    <script type="text/javascript" src="/Utility/CoreScripts/jquery.js"></script>
-    <script type="text/javascript" src="/Utility/CoreScripts/Extend.js"></script>
 </head>
 <body>
     <div class="accinfo">
@@ -103,7 +101,7 @@
             充值金额：&yen; <%= ((float)total_fee)/100%> 元
         </div>
     </div>
-    <div class="footer"><a class="btn-green" id="getBrandWCPayRequest" href="/Mobile/recharge.ashx">返 回</a></div>
+    <div class="footer"><a class="btn-green" id="getBrandWCPayRequest" href="/mobi/Recharge/index">返 回</a></div>
      <script type="text/javascript">
          $(function () {
              var default_returl = '/mobi/Recharge/index';
@@ -118,7 +116,7 @@
              var lbSucess = $(".lbSucess");
              //如果没有显示成功，可能是微信那边没有响应过来，程序自己刷新
              if (lbSucess.size() < 1) {
-                 setTimeout("gourl()", 2000);
+                 setTimeout("gourl()", 300);
              }
          });
          

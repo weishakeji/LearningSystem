@@ -50,7 +50,7 @@ Vue.component('general', {
         'couid': {
             handler: function (nv, ov) {
                 this.question.Cou_ID = nv;
-                console.error(nv);
+                //console.error(nv);
             }, immediate: true
         },
         //章节查询的字符
