@@ -15,10 +15,11 @@
         <el-form ref="account" :model="account" @submit.native.prevent label-width="80px">
             <el-form-item>
                 <img v-if="account.Ac_Photo!=''" :src="account.Ac_Photo" class="avatar photo">
+                <img v-else-if="account.Ac_Sex==2" class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head2.jpg" />
                 <img v-else class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head1.jpg" />
                 <div>
-                    <span v-if="account.Ac_Sex=='1'" class="weisha_icon man" icon="&#xe645" title="男性"></span>
-                    <span v-if="account.Ac_Sex=='2'" class="weisha_icon woman" icon="&#xe647" title="女性"></span>
+                    <span v-if="account.Ac_Sex==1" class="weisha_icon man" icon="&#xe645" title="男性"></span>
+                    <span v-if="account.Ac_Sex==2" class="weisha_icon woman" icon="&#xe647" title="女性"></span>
                     <b>{{account.Ac_Name}}</b> &nbsp; <span title="账号">({{account.Ac_AccName}})</span>
 
 
