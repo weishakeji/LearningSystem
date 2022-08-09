@@ -10,8 +10,8 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改,删除,导入" ref='btngroup' @delete="deleteData" path="Modify" width="800" height="600"
-                :selects='selects' idkey='Qus_ID' table="datatables"></btngroup>
+            <btngroup show="新增,修改,删除,导入,导出" ref='btngroup' @output="output" @input="input" @delete="deleteData"
+                path="Modify" width="800" height="600" :selects='selects' idkey='Qus_ID' table="datatables"></btngroup>
             <div class="search-box">
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
 
@@ -112,7 +112,8 @@
         </div>
         <!-- 数据列表-->
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" stripe
-            @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Qus_ID">
+            @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])"
+            row-key="Qus_ID">
             <div slot="empty">
                 <span v-if="!loading">未查询到数据</span>
             </div>

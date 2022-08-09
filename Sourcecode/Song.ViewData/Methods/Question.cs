@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using WeiSha.Data;
+using System.Data;
 
 namespace Song.ViewData.Methods
 {
@@ -19,7 +20,7 @@ namespace Song.ViewData.Methods
     [HttpGet]
     public class Question : ViewMethod, IViewAPI
     {
-
+        #region 题型
         /// <summary>
         /// 题型
         /// </summary>
@@ -27,8 +28,13 @@ namespace Song.ViewData.Methods
         [Cache(Expires = int.MaxValue)]
         public string[] Types()
         {
-            return WeiSha.Core.App.Get["QuesType"].Split(',');
+            string[] types = WeiSha.Core.App.Get["QuesType"].Split(',');
+            for (int i = 0; i < types.Length; i++)
+                types[i] = types[i].Trim();
+            return types;
         }
+        #endregion
+
         #region 试题编辑
         /// <summary>
         /// 删除试题
@@ -163,6 +169,77 @@ namespace Song.ViewData.Methods
                 }
             }
             return i;
+        }
+        #endregion
+
+        #region 试题导入
+        /// <summary>
+        /// 试题导入
+        /// </summary>
+        /// <param name="xls">服务器端的excel文件名，即上传后的excel文件名</param>
+        /// <param name="sheet">工作表的名称</param>
+        /// <param name="config">配置文件，完整虚拟路径名</param>
+        /// <param name="matching">excel列与字段的匹配关联</param>
+        /// <param name="type">试题类型</param>
+        /// <param name="couid">试题所属课程的id</param>
+        /// <returns>success:成功数;error:失败数</returns>
+        public JObject ExcelImport(string xls, int sheet, string config, JArray matching, int type, int couid)
+        {
+            //获取Excel中的数据
+            string phyPath = WeiSha.Core.Upload.Get["Temp"].Physics;
+            DataTable dt = ViewData.Helper.Excel.SheetToDatatable(phyPath + xls, sheet, config);
+
+            //当前机构和课程
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            Song.Entities.Course course = null;
+            if (couid > 0) course = Business.Do<ICourse>().CourseSingle(couid);
+            //通过反射调用导入试题的方法
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.Load("Song.ViewData");
+            Type impot = assembly.GetType("Song.ViewData.QuestionHandler.Import");
+            string func_name = "Type" + type;   //导入试题的方法名           
+
+            //开始导入，并计数
+            int success = 0, error = 0;
+            List<DataRow> errorDataRow = new List<DataRow>();
+            List<Exception> errorOjb = new List<Exception>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                try
+                {
+                    //throw new Exception();
+                    //将数据逐行导入数据库
+                    object[] objs = new object[] { dt.Rows[i], type, course, org, matching };
+                    impot.InvokeMember(func_name, System.Reflection.BindingFlags.InvokeMethod | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public,
+                        null, null, objs); 
+
+                    success++;
+                }
+                catch (Exception ex)
+                {
+                    //如果出错，将错误行计数
+                    error++;
+                    errorDataRow.Add(dt.Rows[i]);
+                    errorOjb.Add(ex);
+                }
+            }
+            JObject jo = new JObject();
+            jo.Add("success", success);
+            jo.Add("error", error);
+            //错误数据
+            JArray jarr = new JArray();
+            for (int i = 0; i < errorDataRow.Count; i++)
+            {
+                DataRow dr = errorDataRow[i];
+                JObject jrow = new JObject();
+                foreach (DataColumn dc in dr.Table.Columns)
+                {
+                    jrow.Add(dc.ColumnName, dr[dc.ColumnName].ToString());
+                }
+                jrow.Add("exception", errorOjb[i].Message);
+                jarr.Add(jrow);
+            }
+            jo.Add("datas", jarr);
+            return jo;
         }
         #endregion
 

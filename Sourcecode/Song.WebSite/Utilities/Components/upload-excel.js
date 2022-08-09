@@ -5,7 +5,8 @@ Vue.component('upload-excel', {
     //title: 组件的标题  
     //size:限制的文件大小，单位Kb
     //apiurl:接收导入数据的接口地址
-    props: ['template', 'config', 'title', 'size', 'apiurl'],
+    //params:接收导入数据时的参数对象，例如{type:1}
+    props: ['template', 'config', 'title', 'size', 'apiurl', 'params'],
     data: function () {
         return {
             step: 0,         //步数
@@ -23,6 +24,12 @@ Vue.component('upload-excel', {
         }
     },
     watch: {
+        //当步进数变化时
+        'step': {
+            handler: function (nv, ov) {
+                this.$emit('step', nv);
+            }, immediate: true
+        }
     },
     computed: {
         //配置文件的路径
@@ -119,23 +126,27 @@ Vue.component('upload-excel', {
             var th = this;
             if (th.apiurl == null || th.apiurl == '') return;
             th.loading = true;
-            $api.get(th.apiurl, { 'xls': th.book.file, 'sheet': th.sheet.index, 'config': th.config_file, 'matching': marry })
-                .then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.finish = req.data.result;
-                        th.step = 3;
-                        console.log(th.finish);
-                        th.$emit('finish', th.finish);
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading = false;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+            var params = { 'xls': th.book.file, 'sheet': th.sheet.index, 'config': th.config_file, 'matching': marry };
+            if (th.params != null) {
+                for (var k in th.params)
+                    params[k] = th.params[k];
+            }          
+            $api.get(th.apiurl, params).then(function (req) {
+                th.loading = false;
+                if (req.data.success) {
+                    th.finish = req.data.result;
+                    th.step = 3;
+                    console.log(th.finish);
+                    th.$emit('finish', th.finish);
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                th.loading = false;
+                Vue.prototype.$alert(err);
+                console.error(err);
+            });
         }
     },
     template: `<div class="upload_excel_area">   

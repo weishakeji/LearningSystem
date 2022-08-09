@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>导入试题</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div v-if="tname==''" class="selectType">
+            <div class="head">请选择要导入的试题题型：</div>
+            <div class="btn_list">
+                <el-button type="primary" plain v-for="(type,i) in types" @click="qtype=i+1">
+                    <ques_type :type="i+1" :types="types" :showname="true"></ques_type>
+                </el-button>
+            </div>
+        </div>
+        <template v-else>
+            <div class="navibar">
+                <el-link type="primary" class="el-icon-arrow-left" :disabled="step!=0" @click="qtype=0">返回</el-link>
+                <el-tag type="info">导入
+                    <ques_type :type="qtype" :types="types" :showname="true"></ques_type>
+                </el-tag>
+            </div>
+            <upload-excel ref="upload" :template="tname+'题.xls'" :config="tname+'题.xml'" :title="tname+'题'"
+                apiurl="Question/ExcelImport" @finish="finish" @step="s=>step=s" :params="{'type':qtype,'couid':0}">
+            </upload-excel>
+        </template>
+    </div>
+</body>
+
+</html>

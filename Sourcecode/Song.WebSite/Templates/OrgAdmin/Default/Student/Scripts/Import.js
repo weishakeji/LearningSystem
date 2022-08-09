@@ -7,7 +7,7 @@ $ready(function () {
             config: {},      //当前机构配置项        
             datas: {},
 
-            active: 0,
+       
             loading_init: true
         },
         mounted: function () {
@@ -41,9 +41,7 @@ $ready(function () {
         watch: {
         },
         methods: {
-            next: function () {
-                if (this.active++ > 2) this.active = 0;
-            },
+         
             //完成导入的事件
             finish:function(count){
 

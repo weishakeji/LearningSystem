@@ -42,6 +42,9 @@ namespace Song.ViewData.Methods
         }
         public int atest()
         {
+           
+
+
             int total = 0;
             //foreach (System.Web.Caching.Cache c in HttpRuntime.Cache)
             //{
@@ -905,10 +908,10 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 学员导入
         /// </summary>
-        /// <param name="xls"></param>
+        /// <param name="xls">服务器端的excel文件名，即上传后的excel</param>
         /// <param name="sheet"></param>
-        /// <param name="config"></param>
-        /// <param name="matching"></param>
+        /// <param name="config">配置文件</param>
+        /// <param name="matching">excel列与字段的匹配关联</param>
         /// <returns>success:成功数;error:失败数</returns>
         public JObject ExcelImport(string xls, int sheet, string config, JArray matching)
         {

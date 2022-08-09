@@ -1,0 +1,35 @@
+﻿@charset "utf-8";
+
+#vapp {
+    padding: 40px;
+    box-sizing: border-box;
+    overflow: auto;
+}
+/*试题类型选择区域*/
+.selectType {}
+
+.selectType .head {
+    font-size: 18px;
+    padding: 10px 0px;
+}
+
+.selectType .btn_list {
+    display: flex;
+    padding: 10px 0px;
+    flex-wrap:wrap;
+}
+.selectType .btn_list button{
+    margin-bottom: 10px;
+    font-size: 18px;
+    min-width: 150px;
+}
+.selectType .btn_list button icon{
+    font-size: 16px;
+}
+.selectType .btn_list button:first-child{
+    margin-left: 10px;
+}
+/*试题类型选中后的区域*/
+.navibar{
+    margin-bottom: 10px;
+}

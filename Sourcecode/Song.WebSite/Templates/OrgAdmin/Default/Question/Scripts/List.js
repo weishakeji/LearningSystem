@@ -175,9 +175,15 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            //双击事件
-            rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modify(row[this.$refs.btngroup.idkey]);
+            //导出
+            output: function (btn) {
+                var title = btn.tips;
+                this.$refs.btngroup.pagebox('Export', title, null, 640, 480);
+            },
+            //导入
+            input: function (btn) {
+                var title = btn.tips;
+                this.$refs.btngroup.pagebox('Import', title, null, 800, 600);
             },
             //更改使用状态
             changeState: function (row) {
