@@ -23,6 +23,7 @@ $ready(function () {
             loading_buy: false      //购买中的状态
         },
         mounted: function () {
+            var th=this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
@@ -42,20 +43,20 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.studied = studied.data.result;
-                console.log(vapp.studied );
-                vapp.organ = organ.data.result;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.studied = studied.data.result;
+                console.log(th.studied );
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.course = course.data.result;
-                vapp.couinfo = info.data.result;
+                th.config = $api.organ(th.organ).config;
+                th.course = course.data.result;
+                th.couinfo = info.data.result;
                 //获取价格
-                $api.get('Course/prices', { 'uid': vapp.course.Cou_UID }).then(function (req) {
+                $api.get('Course/prices', { 'uid': th.course.Cou_UID }).then(function (req) {
                     if (req.data.success) {
-                        vapp.prices = req.data.result;
-                        if (vapp.prices.length > 0) {
+                        th.prices = req.data.result;
+                        if (th.prices.length > 0) {
                             //vapp.selected_price = vapp.prices[0];
                         }
                     } else {

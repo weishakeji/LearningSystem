@@ -3,7 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            couid: $api.dot(),        //课程id
+            couid:  $api.querystring("couid") == "" ? $api.dot() : $api.querystring("couid"),        //课程id
             account: {},     //当前登录账号       
             organ: {},
             config: {},      //当前机构配置项     

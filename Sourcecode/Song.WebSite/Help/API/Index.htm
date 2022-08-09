@@ -56,7 +56,7 @@
                                                 (Expires={{item.Expires}})</i>] </span>
                                     <span v-if="method.Attrs.length<1">无</span>
                               </attr>
-                              <div @dblclick="copyApipath(method.ClassName,method.Name)" class="name"
+                              <div @dblclick="copyApipath(method.ClassName,method.Name)" class="name" title="双击复制"
                                     v-html="method.ClassName +'.'+method.Name">
                                     <para>{{parameter}}</para>
                               </div>
@@ -183,7 +183,7 @@
             Vue.prototype.$alert(err);
             console.error(err);
       }); </pre>
-                        <P><b>本地缓存</b> </P>
+                        <P><b>浏览器本地缓存</b> </P>
                         <pre>
       //缓存20分钟，数值可以为空，默认是10分钟
       $api.cache('News/Article:20',{ 'id': 225 }).then(function(req){

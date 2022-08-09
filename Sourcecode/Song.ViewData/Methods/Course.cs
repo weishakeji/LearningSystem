@@ -36,7 +36,7 @@ namespace Song.ViewData.Methods
         /// <param name="name">课程名称</param>
         /// <param name="sbjid">所属专业的id</param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [HttpPost,HttpGet(Ignore =true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
         public Song.Entities.Course Add(string name, int sbjid)
@@ -115,7 +115,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="course"></param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [HttpPost, HttpGet(Ignore = true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
         [HtmlClear(Not = "course")]
@@ -181,7 +181,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="course">course的Json对象</param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [Student]
         [HttpPost]
         [HtmlClear(Not = "course")]
@@ -262,7 +262,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">课程id，可以是多个，用逗号分隔</param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [HttpDelete]
         public int Delete(string id)
         {

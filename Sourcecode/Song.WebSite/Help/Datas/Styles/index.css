@@ -284,14 +284,15 @@ context>h1>span.hidden {
     transition: 0.3s opacity, 0.5s transform;
     z-index: 100;
     box-shadow: 0px 3px 3px #ccc;
-    padding: 10px 0px 20px 0px;
+    padding: 30px 20px 60px 20px;
+    box-sizing: border-box;
 }
 .homepage p {
     padding: 10px 20px 0 20px;
     margin: 0px;
-    font-size: 16px;
-    line-height: 30px;
-    text-indent: 30px;
+    font-size: 18px;
+    line-height: 40px;
+    text-indent: 40px;
 }
 
 footer {
@@ -333,8 +334,11 @@ footer a:hover {
     font-size: 18px;
     font-weight: bold;
     position: relative;
+    cursor: default;
 }
-
+.entity_area .field{
+    cursor: default;
+}
 .entity_area .name span input {
     height: 20px;
     text-indent: 8px;

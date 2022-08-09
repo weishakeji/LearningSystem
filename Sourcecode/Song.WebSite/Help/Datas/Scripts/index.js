@@ -266,7 +266,7 @@ Vue.component('entity', {
     },
     template: `<div><a :name="clname" class="anchor">&nbsp;</a>
     <div class="name">
-        {{index+1}}. <span @dblclick="copy(clname)">{{clname}}</span>
+        {{index+1}}. <span @dblclick="copy(clname)" title="双击复制">{{clname}}</span>
         <span class="mark" v-show="!state('mark')" @click="edit('mark')">
         <i class="el-icon-edit"></i><span>{{entity.mark}}</span></span>
         <span v-show="state('mark')"><i class="el-icon-edit"></i>
@@ -285,7 +285,7 @@ Vue.component('entity', {
     <tr><th>序号</th><th>属性/字段</th><th>类型</th><th>可空</th><th>关联</th><th>备注</th><th>说明</th></tr>
     <tr v-for="(v,k,i) in properties">
         <td>{{i+1}}</td>
-        <td v-html="$options.filters.show(k,search)" @dblclick="copy(k)"></td>
+        <td v-html="$options.filters.show(k,search)" @dblclick="copy(k)" title="双击复制" class="field"></td>
         <td>{{v.type}}</td>
         <td>{{v.nullable ? v.nullable : ''}}</td>
         <td @dblclick="edit(k+'.relation')" mark="关联">
