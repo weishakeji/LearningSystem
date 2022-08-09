@@ -377,11 +377,11 @@
     <Content Include="Help\Datas\Index.htm" />
     <Content Include="Help\Datas\Scripts\index.js" />
     <Content Include="Help\Datas\Styles\index.css" />
-    <Content Include="Help\Default.htm" />
+    <Content Include="Help\Index.html" />
     <Content Include="Help\Images\api.ico" />
     <Content Include="Help\Images\datas.ico" />
     <Content Include="Help\Service.html" />
-    <Content Include="Help\Styles\Default.css" />
+    <Content Include="Help\Styles\Index.css" />
     <Content Include="Pay\Alipaywap\notify_url.aspx" />
     <Content Include="Pay\Alipaywap\return_url.aspx" />
     <Content Include="Pay\Alipayweb\notify_url.aspx" />
@@ -1765,7 +1765,7 @@
     <Content Include="Utilities\ElementUi\vue_min.js" />
     <Content Include="Utilities\Fonts\iconfont-symbol.svg" />
     <Content Include="Utilities\Fonts\iconfont.svg" />
-    <Content Include="Utilities\Fonts\webdesk.html" />
+    <Content Include="Utilities\Fonts\index.html" />
     <Content Include="Utilities\Images\head1.jpg" />
     <Content Include="Utilities\Images\head2.jpg" />
     <Content Include="Utilities\Images\load_016.gif" />
