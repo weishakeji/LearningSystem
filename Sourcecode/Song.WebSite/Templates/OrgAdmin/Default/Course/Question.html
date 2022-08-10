@@ -109,9 +109,18 @@
                 <template slot-scope="scope">
                     <ques_type :type="scope.row.Qus_Type" :types="types"></ques_type>
                     <alert v-if="scope.row.Qus_IsError" title="存在错误">存在错误</alert>
-                    <alert v-if="scope.row.Qus_IsWrong" title="学员反馈试题有错误">报错</alert>
-                    <el-tag type="info" title="难度等级"> {{scope.row.Qus_Diff}}</el-tag>
+                    <alert v-if="scope.row.Qus_IsWrong" title="学员反馈试题有错误">报错</alert>                   
                     <span v-html="showInfo(scope.row.Qus_Title)">
+                </template>
+            </el-table-column>
+            <el-table-column label="难度" width="70">
+                <template slot-scope="scope">
+                    <el-tag type="info" title="难度等级"> {{scope.row.Qus_Diff}}</el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column label="章节">
+                <template slot-scope="scope">
+                   <outline_name :olid="scope.row.Ol_ID"></outline_name>
                 </template>
             </el-table-column>
             <el-table-column label="使用" width="70">

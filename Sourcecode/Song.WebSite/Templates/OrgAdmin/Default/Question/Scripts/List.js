@@ -261,4 +261,43 @@ $ready(function () {
             }
         }
     });
+    //显示课程名称
+    Vue.component('course_name', {
+        props: ["couid"],
+        data: function () {
+            return {
+                course: {},
+                loading: true
+            }
+        },
+        watch: {
+            'couid': {
+                handler: function (nv) {
+                    var th = this;
+                    th.loading = true;
+                    $api.cache('Course/ForID', { 'id': nv }).then(function (req) {
+                        th.loading = false;
+                        if (req.data.success) {
+                            th.course = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        th.loading = false;
+                        console.error(err);
+                    });
+                },immediate: true
+            }
+        },
+        computed: {},
+        mounted: function () { },
+        methods: {
+
+        },
+        template: `<span>
+        <loading v-if="loading"></loading>
+        <template v-else>{{course.Cou_Name}}</template>
+        </span>`
+    });
 }, ['Components/ques_type.js']);

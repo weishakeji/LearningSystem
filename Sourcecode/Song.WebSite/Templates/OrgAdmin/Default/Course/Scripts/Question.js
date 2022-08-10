@@ -210,4 +210,43 @@
             }
         }
     });
+    //显示章节名称
+    Vue.component('outline_name', {
+        props: ["olid"],
+        data: function () {
+            return {
+                oultine: {},
+                loading: true
+            }
+        },
+        watch: {
+            'olid': {
+                handler: function (nv) {
+                    var th = this;
+                    th.loading = true;
+                    $api.cache('Outline/ForID', { 'id': nv }).then(function (req) {
+                        th.loading = false;
+                        if (req.data.success) {
+                            th.oultine = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        th.loading = false;
+                        console.error(err);
+                    });
+                },immediate: true
+            }
+        },
+        computed: {},
+        mounted: function () { },
+        methods: {
+
+        },
+        template: `<span>
+        <loading v-if="loading"></loading>
+        <template v-else>{{oultine.Ol_Name}}</template>
+        </span>`
+    });
 }, ['../Question/Components/ques_type.js']);
