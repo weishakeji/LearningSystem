@@ -3,6 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
+            couid: $api.querystring('couid', 0),        //课程id
             organ: {},
             config: {},      //当前机构配置项     
             types: [],        //试题类型，来自web.config中配置项

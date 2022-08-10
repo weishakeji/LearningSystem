@@ -120,9 +120,19 @@
                     console.error(err);
                 });
             },
-            //双击事件
-            rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modify(row[this.$refs.btngroup.idkey]);
+            //导出
+            output: function (btn) {
+                var title = btn.tips;
+                var url = "../Question/Export";
+                url = $api.url.set(url, { 'couid': this.couid });
+                this.$refs.btngroup.pagebox(url, title, null, 640, 480);
+            },
+            //导入
+            input: function (btn) {
+                var title = btn.tips;
+                var url = "../Question/Import";
+                url = $api.url.set(url, { 'couid': this.couid });
+                this.$refs.btngroup.pagebox(url, title, null, 800, 600);
             },
             //更改使用状态
             changeState: function (row) {

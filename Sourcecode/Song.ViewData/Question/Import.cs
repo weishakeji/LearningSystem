@@ -62,7 +62,7 @@ namespace Song.ViewData.QuestionHandler
                         obj.Sbj_ID = subject.Sbj_ID;
                     }
                 }
-                if (field == "Cou_Name")
+                if (field == "Cou_Name" && course == null)
                 {
                     Song.Entities.Course cou = Business.Do<ICourse>().CourseBatchAdd(null,org.Org_ID, obj.Sbj_ID, column);
                     if (cou != null) obj.Cou_ID = cou.Cou_ID;
@@ -163,7 +163,7 @@ namespace Song.ViewData.QuestionHandler
                         obj.Sbj_ID = subject.Sbj_ID;
                     }
                 }
-                if (field == "Cou_Name")
+                if (field == "Cou_Name" && course == null)
                 {
                     Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null,org.Org_ID, obj.Sbj_ID, column);
                     if (cour != null) obj.Cou_ID = cour.Cou_ID;
@@ -272,9 +272,9 @@ namespace Song.ViewData.QuestionHandler
                         obj.Sbj_ID = subject.Sbj_ID;
                     }
                 }
-                if (field == "Cou_Name")
+                if (field == "Cou_Name" && course == null)
                 {
-                    Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null,org.Org_ID, obj.Sbj_ID, column);
+                    Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null, org.Org_ID, obj.Sbj_ID, column);
                     if (cour != null) obj.Cou_ID = cour.Cou_ID;
                 }
                 if (field == "Ol_Name")
@@ -292,6 +292,11 @@ namespace Song.ViewData.QuestionHandler
                 }
             }
             obj.Qus_ErrorInfo = "";
+            if (course != null)
+            {
+                obj.Cou_ID = course.Cou_ID;
+                obj.Sbj_ID = course.Sbj_ID;
+            }
             if (obj.Sbj_ID == 0) throw new Exception("当前试题所属专业并不存在");
             if (obj.Cou_ID == 0) throw new Exception("当前试题所在课程并不存在");
             //if (obj.Ol_ID == 0) throw new Exception("当前试题所在章节并不存在");
@@ -338,7 +343,7 @@ namespace Song.ViewData.QuestionHandler
                         obj.Sbj_ID = subject.Sbj_ID;
                     }
                 }
-                if (field == "Cou_Name")
+                if (field == "Cou_Name" && course == null)
                 {
                     Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null,org.Org_ID, obj.Sbj_ID, column);
                     if (cour != null) obj.Cou_ID = cour.Cou_ID;
@@ -408,7 +413,7 @@ namespace Song.ViewData.QuestionHandler
                         obj.Sbj_ID = subject.Sbj_ID;
                     }
                 }
-                if (field == "Cou_Name")
+                if (field == "Cou_Name" && course == null)
                 {
                     Song.Entities.Course cour = Business.Do<ICourse>().CourseBatchAdd(null,org.Org_ID, obj.Sbj_ID, column);
                     if (cour != null) obj.Cou_ID = cour.Cou_ID;
@@ -452,6 +457,11 @@ namespace Song.ViewData.QuestionHandler
             //
             obj.Qus_IsError = error != "";
             obj.Qus_ErrorInfo = error;
+            if (course != null)
+            {
+                obj.Cou_ID = course.Cou_ID;
+                obj.Sbj_ID = course.Sbj_ID;
+            }
             if (obj.Sbj_ID == 0) throw new Exception("当前试题所属专业并不存在");
             if (obj.Cou_ID == 0) throw new Exception("当前试题所在课程并不存在");
             //if (obj.Ol_ID == 0) throw new Exception("当前试题所在章节并不存在");

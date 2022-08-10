@@ -35,7 +35,7 @@ $ready(function () {
             },
             //当通过率变更时，即计算完成
             'rate': function (nv, ov) {
-                if (nv <= 0) return;
+                if (nv <= 0 || nv === Infinity) return;
                 var th = this;
                 $api.get('Question/ExerciseLogRecord', { 'acid': th.account.Ac_ID, 'couid': th.course.Cou_ID, 'rate': nv })
                     .then(function (req) {
@@ -178,7 +178,8 @@ $ready(function () {
                     }
                 }
                 //整体的通过率
-                this.rate = Math.round(this.count.correct / this.count.sum * 10000) / 100;
+                var rate = Math.round(this.count.correct / this.count.sum * 10000) / 100;
+                this.rate = rate === Infinity ||  rate === -Infinity ? 0 : rate;
                 return;
             },
             //最后练习的章节
