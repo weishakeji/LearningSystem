@@ -126,7 +126,6 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         int QuesOfCount(int orgid, int sbjid, int couid, int olid, int type, bool? isUse);
         int QuesOfCount(int orgid, int sbjid, int couid, int olid, int type, int diff, bool? isUse);
-        DataSet QuesAns(int identify);
         /// <summary>
         /// 获取随机试题
         /// </summary>
@@ -194,7 +193,20 @@ namespace Song.ServiceInterfaces
         /// <param name="isWrong">是否包括学员反馈的试题，如果为空，则不作判断</param>
         /// <returns></returns>
         HSSFWorkbook QuestionsExport(int orgid, string type, int sbjId, int couid, int olid, string diff, bool? isError, bool? isWrong);
-        
+        /// <summary>
+        /// 导出试题,生成文件
+        /// </summary>
+        /// <param name="path">导出文件的路径（服务器端）</param>
+        /// <param name="orgid"></param>
+        /// <param name="type"></param>
+        /// <param name="sbjId"></param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
+        /// <param name="diff"></param>
+        /// <param name="isError"></param>
+        /// <param name="isWrong"></param>       
+        /// <returns></returns>
+        string QuestionsExport4Excel(string path, int orgid, string type, int sbjId, int couid, int olid, string diff, bool? isError, bool? isWrong);
         #endregion
 
         #region 题型管理（试题分类）

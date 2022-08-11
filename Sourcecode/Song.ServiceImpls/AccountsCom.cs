@@ -888,7 +888,8 @@ namespace Song.ServiceImpls
             }
 
             FileStream file = new FileStream(path, FileMode.Create);
-            hssfworkbook.Write(file);
+            if (hssfworkbook != null)
+                hssfworkbook.Write(file);
             file.Close();
             return path;
         }

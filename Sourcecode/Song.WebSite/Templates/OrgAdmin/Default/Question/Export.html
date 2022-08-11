@@ -39,11 +39,11 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="章节" prop="Ol_ID">
-              
+
                 <el-link icon="el-icon-folder-opened" type="primary" @click="outline_panel=true">选择章节
                     <span v-if="selected_outline==''">（默认为全部）</span>
                     <span v-else>
-                        （当前选择：  {{selected_outline}}）
+                        （当前选择： {{selected_outline}}）
                     </span>
                 </el-link>
                 <el-link icon="el-icon-close" type="warning" @click="form.olid=0" v-if="selected_outline!=''">取消选择
@@ -63,10 +63,24 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="">
-                <el-button type="primary" plain @click="enter">主要按钮</el-button>
+                <el-button type="primary" @click="enter">导出试题excel文件</el-button>
             </el-form-item>
-
         </el-form>
+        <div v-if="files.length>0" class="filepanel">
+            <el-divider content-position="left">已经生成的导出文件</el-divider>
+            <dl>
+                <dd v-for="(f,i) in files">
+                    <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
+                            {{f.file}}</a>
+                        {{f.size|size}}
+                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
+                            <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+                    </div>
+                </dd>
+            </dl>
+        </div>
         <el-dialog title="提示" :visible.sync="outline_panel" class="outline_panel">
             <span slot="title">请选择章节
                 <el-input v-model="outlineFilterText" clearable style="width:160px;margin-left: 10px;" placeholder="搜索"

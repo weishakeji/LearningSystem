@@ -31,7 +31,7 @@ $ready(function () {
             },
             outlineFilterText: '',
 
-            form: { 'types': [], 'diffs': [], 'part': 1, 'sbjid': '', 'couid': '', 'olid': '' },
+            form: { 'types': [], 'diffs': [], 'part': 1, 'orgid': 0, 'sbjid': '', 'couid': '', 'olid': '' },
 
             loading: false,
             loading_export: false,       //生成的预载
@@ -60,10 +60,11 @@ $ready(function () {
                 }
                 th.organ = org.data.result;
                 th.config = $api.organ(th.organ).config;
+                th.form.orgid = th.organ.Org_ID;
                 th.types = types.data.result;
 
                 th.getSubjects(th.organ);
-                if(th.couid>0){
+                if (th.couid > 0) {
                     th.changeCourse(th.couid);
                 }
             })).catch(function (err) {
@@ -71,7 +72,7 @@ $ready(function () {
                 console.error(err);
             });
 
-            // this.getFiles();
+            this.getFiles();
         },
         watch: {
 
@@ -107,8 +108,76 @@ $ready(function () {
             }
         },
         methods: {
+            //生成导出文件
             enter: function () {
                 console.log(this.form);
+                var th = this;
+                var form = $api.clone(th.form);
+                //将题型从数组转为字符串
+                form.types = '';
+                for (let i = 0; i < th.form.types.length; i++) {
+                    form.types += th.form.types[i];
+                    if (i < th.form.types.length-1) form.types += ",";
+                }
+                //将难度等级从数组转为字符串
+                form.diffs = '';
+                for (let i = 0; i < th.form.diffs.length; i++) {
+                    form.diffs += th.form.diffs[i];
+                    if (i < th.form.diffs.length-1) form.diffs += ",";
+                }
+                console.log(form);              
+                $api.get('Question/ExcelExport', form).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.getFiles();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            },
+             //获取文件列表
+             getFiles: function () {
+                var th = this;
+                $api.get('Question/ExcelFiles', { 'path': 'QuestionToExcel','couid':th.couid }).then(function (req) {
+                    if (req.data.success) {
+                        th.files = req.data.result;
+                        th.loading = false;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                });
+            },
+            //删除文件
+            deleteFile: function (file) {
+                var th = this;
+                this.loading = true;
+                $api.delete('Question/ExcelDelete', { 'filename': file, 'path': 'QuestionToExcel' }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.getFiles();
+                        th.$notify({
+                            message: '文件删除成功！',
+                            type: 'success',
+                            position: 'bottom-right',
+                            duration: 2000
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                });
             },
             //获取课程专业的数据
             getSubjects: function (organ) {

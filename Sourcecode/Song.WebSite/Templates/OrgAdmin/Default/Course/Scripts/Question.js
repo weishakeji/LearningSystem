@@ -125,7 +125,7 @@
                 var title = btn.tips;
                 var url = "../Question/Export";
                 url = $api.url.set(url, { 'couid': this.couid });
-                this.$refs.btngroup.pagebox(url, title, null, 640, 480);
+                this.$refs.btngroup.pagebox(url, title, null, 800, 600);
             },
             //导入
             input: function (btn) {

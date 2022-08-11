@@ -11,6 +11,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using WeiSha.Data;
 using System.Data;
+using NPOI.HSSF.UserModel;
+using System.IO;
 
 namespace Song.ViewData.Methods
 {
@@ -172,7 +174,7 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
-        #region 试题导入
+        #region 试题导入导出
         /// <summary>
         /// 试题导入
         /// </summary>
@@ -240,6 +242,92 @@ namespace Song.ViewData.Methods
             }
             jo.Add("datas", jarr);
             return jo;
+        }
+
+        public JObject ExcelExport(string types, string diffs, int part, int orgid, int sbjid, int couid, int olid)
+        {
+            //导出
+            HSSFWorkbook hssfworkbook = null;
+            //导出所有
+            if (part == 1) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(orgid, types, sbjid, couid, olid, diffs, null, null);
+            //导出正常的试题，没有错误，没有用户反馈说错误的
+            if (part == 2) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(orgid, types, sbjid, couid, olid, diffs, false, false);
+            //导出状态为错误的试题
+            if (part == 3) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(orgid, types, sbjid, couid, olid, diffs, true, null);
+            //导出用户反馈说错误的试题
+            if (part == 4) hssfworkbook = Business.Do<IQuestions>().QuestionsExport(orgid, types, sbjid, couid, olid, diffs, null, true);
+
+            string outputPath = "QuestionToExcel";
+            //导出文件的位置
+            string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            DateTime date = DateTime.Now;
+            string filename = string.Format("试题导出.({0}).{1}.xls", date.ToString("yyyy-MM-dd hh-mm-ss"), couid.ToString());
+            string filePath = rootpath + filename;
+            FileStream file = new FileStream(filePath, FileMode.Create);
+            if (hssfworkbook != null)
+                hssfworkbook.Write(file);
+            file.Close();
+
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
+            jo.Add("date", date);
+            return jo;
+        }
+        /// <summary>
+        /// 删除Excel文件
+        /// </summary>
+        /// <param name="filename">文件名，带后缀名，不带路径</param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public bool ExcelDelete(string filename, string path)
+        {
+            string rootpath = Upload.Get["Temp"].Physics + path + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            string filePath = rootpath + filename;
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 已经生成的Excel文件
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="couid">课程id,如果小于等于零，则取所有</param>
+        /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
+        public JArray ExcelFiles(string path,int couid)
+        {
+            string rootpath = Upload.Get["Temp"].Physics + path + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            JArray jarr = new JArray();
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
+            foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
+            {
+                if (couid > 0)
+                {
+                    string name = f.Name;
+                    if (name.IndexOf(".") > 0) name = name.Substring(0, name.LastIndexOf("."));
+                    if (name.IndexOf(".") > 0) name = name.Substring(name.LastIndexOf(".") + 1);
+                    int tmp = 0;
+                    int.TryParse(name, out tmp);
+                    if (tmp > 0 && tmp != couid) continue;
+                }
+                JObject jo = new JObject();
+                jo.Add("file", f.Name);
+                jo.Add("url", Upload.Get["Temp"].Virtual + path + "/" + f.Name);
+                jo.Add("date", f.CreationTime);
+                jo.Add("size", f.Length);
+                jarr.Add(jo);
+            }
+            return jarr;
         }
         #endregion
 

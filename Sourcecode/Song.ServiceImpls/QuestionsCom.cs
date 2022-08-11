@@ -14,8 +14,7 @@ using NPOI.SS.UserModel;
 using System.Xml;
 using System.Reflection;
 using System.Threading;
-
-
+using System.IO;
 
 namespace Song.ServiceImpls
 {
@@ -349,11 +348,6 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             return Gateway.Default.Count<Questions>(wc);
         }
-        public DataSet QuesAns(int identify)
-        {
-            return Gateway.Default.From<Questions>().InnerJoin<QuesAnswer>(QuesAnswer._.Qus_UID == Questions._.Qus_UID)
-                .Where(Questions._.Qus_ID == identify).OrderBy(QuesAnswer._.Ans_ID.Asc).ToDataSet();
-        } 
         /// <summary>
         /// 获取随机试题
         /// </summary>
@@ -536,23 +530,26 @@ namespace Song.ServiceImpls
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             WhereClip wc = new WhereClip();
-            if (orgid > -1) wc.And(Questions._.Org_ID == orgid);
+            if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
             if (sbjId > 0) wc.And(Questions._.Sbj_ID == sbjId);
             if (couid > 0) wc.And(Questions._.Cou_ID == couid);
             if (olid > 0) wc.And(Questions._.Ol_ID == olid);
             if (isError != null) wc.And(Questions._.Qus_IsError == (bool)isError);
             if (isWrong != null) wc.And(Questions._.Qus_IsWrong == (bool)isWrong);
             //难度等级
-            WhereClip diffWc = new WhereClip();
-            foreach (string s in diff.Split(','))
+            if (!string.IsNullOrWhiteSpace(diff))
             {
-                if (string.IsNullOrWhiteSpace(s)) continue;
-                int df = 0;
-                int.TryParse(s, out df);
-                if (df == 0) continue;
-                diffWc.Or(Questions._.Qus_Diff == df);
+                WhereClip diffWc = new WhereClip();
+                foreach (string s in diff.Split(','))
+                {
+                    if (string.IsNullOrWhiteSpace(s)) continue;
+                    int df = 0;
+                    int.TryParse(s, out df);
+                    if (df == 0) continue;
+                    diffWc.Or(Questions._.Qus_Diff == df);
+                }
+                wc.And(diffWc);
             }
-            wc.And(diffWc);
             //试题类型，通过不同的试题类型返回工作表
             foreach (string t in type.Split(','))
             {
@@ -567,6 +564,14 @@ namespace Song.ServiceImpls
                 if (ty == 5) _buildExcelSql_5(hssfworkbook, wc);
             }
             return hssfworkbook;
+        }
+        public string QuestionsExport4Excel(string path, int orgid, string type, int sbjId, int couid, int olid, string diff, bool? isError, bool? isWrong)
+        {
+            HSSFWorkbook hssfworkbook = this.QuestionsExport(orgid, type, sbjId, couid, olid, diff, isError, isWrong);
+            FileStream file = new FileStream(path, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            return path;
         }
         private void _buildExcelSql_1(HSSFWorkbook hssfworkbook, WhereClip where)
         {
