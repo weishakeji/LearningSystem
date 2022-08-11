@@ -4,82 +4,87 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>学员导出</title>
+    <title>试题导出</title>
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-        <div class="toolsbar">
-            <div>
-                <el-button type="primary" plain @click="drawer_selected=true" :disabled="loading">
-                    <icon>&#xe78b</icon>选中的学员组<span class="count">({{checkedSorts.length}})</span>
-                </el-button>
-                <el-button type="primary" plain @click="filepanel=true" :disabled="loading">
-                    <icon>&#xe85e</icon>已经生成的导出<span class="count">({{files.length}})</span>
-                </el-button>
-            </div>
-            <div class="ctrl">
-                <el-button-group>
-                    <el-button type="primary" plain @click="selectAll(true)">全选</el-button>
-                    <el-button type="primary" plain @click="selectAll(false)">取消</el-button>
-                    <el-button type="primary" plain @click="selectReverse()">反选</el-button>
-                </el-button-group>
-                <el-input placeholder="搜索" size="small" style="width: 100px;" clearable v-model="form.search">
-                </el-input>
-                <el-button type="primary" plain :disabled="loading" @click="getStudentSorts(1)">搜索</el-button>
-            </div>
-        </div>
-        <div class="sorts">
-            <loading v-if="loading">正在加载...</loading>
-            <template v-else-if="sorts.length>0">
-                <el-checkbox v-for="(item,i) in sorts" v-model="item.selected" @change="selectSingle(item)">
-                    {{i+1}}. <span v-html='showInfo(item.Sts_Name)'></span>
-                    <student_count :sort="item"></student_count>
-                </el-checkbox>
-            </template>
-            <el-empty v-else description="没有满足条件的查询"></el-empty>
-        </div>
-        <div id="pager-box" v-if="totalpages>1">
-            <el-pagination v-on:current-change="getStudentSorts" :current-page="form.index" :page-sizes="[1]"
-                :page-size="form.size" :pager-count="5" layout="total, prev, pager, next" :total="total">
-            </el-pagination>
-        </div>
-        <div class="footer">
-            <el-button :type="loading ? 'info' : 'primary'" v-on:click="btnOutput" class="el-icon-position"
-                :disabled="loading || loading_export" :loading="loading_export" native-type="submit">
-                导出学员信息
-            </el-button>
-            <el-button type='close'> 取消 </el-button>
-        </div>
-        <!--选中的面板-->
-        <el-drawer :visible.sync="drawer_selected" direction="ltr" size="60%">
-            <span slot="title">
-                <icon>&#xe78b</icon>选中的学员组<span class="count">({{checkedSorts.length}})</span>
+        <el-form ref="form" :model="form" @submit.native.prevent label-width="100px">
+            <el-form-item label="题型" prop="types">
+                <el-checkbox-group v-model="form.types">
+                    <el-checkbox v-for="(t,i) in types" :label="i+1" checked>{{t}}题</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+            <el-form-item label="专业" prop="Sbj_ID">
+                <el-cascader ref="subjects" style="width: 50%;" clearable v-model="sbjids" placeholder="请选择课程专业"
+                    :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="changeSbj"
+                    :disabled="disable_select">
+                    <template slot-scope="{ node, data }">
+                        <span>{{ data.Sbj_Name }}</span>
+                        <span class="sbj_course" v-if="data.Sbj_CouNumber>0">
+                            <icon>&#xe813</icon>{{ data.Sbj_CouNumber }}
+                        </span>
+                    </template>
+                </el-cascader>
+                <help v-if="!disable_select">可以检索查询</help>
+            </el-form-item>
+            <el-form-item label="课程" prop="Cou_ID">
+                <el-select v-model="form.couid" @change="changeCourse" value-key="Cou_ID" style="width: 100%;"
+                    filterable placeholder="-- 课程 --" clearable :multiple-limit="1" :disabled="disable_select">
+                    <el-option v-for="(item,i) in courses" :key="item.Cou_ID" :label="item.Cou_Name"
+                        :value="item.Cou_ID">
+                        <span>{{i+1}} . </span>
+                        <span>{{item.Cou_Name}}</span>
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="章节" prop="Ol_ID">
+              
+                <el-link icon="el-icon-folder-opened" type="primary" @click="outline_panel=true">选择章节
+                    <span v-if="selected_outline==''">（默认为全部）</span>
+                    <span v-else>
+                        （当前选择：  {{selected_outline}}）
+                    </span>
+                </el-link>
+                <el-link icon="el-icon-close" type="warning" @click="form.olid=0" v-if="selected_outline!=''">取消选择
+                </el-link>
+            </el-form-item>
+            <el-form-item label="难度">
+                <el-checkbox-group v-model="form.diffs">
+                    <el-checkbox v-for="l in 5" :label="l" checked>{{l}}</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+            <el-form-item label="其它">
+                <el-radio-group v-model="form.part">
+                    <el-radio :label="1">所有</el-radio>
+                    <el-radio :label="2">仅正常的试题</el-radio>
+                    <el-radio :label="3">仅存在错误的试题</el-radio>
+                    <el-radio :label="4">仅用户反馈的试题</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="">
+                <el-button type="primary" plain @click="enter">主要按钮</el-button>
+            </el-form-item>
+
+        </el-form>
+        <el-dialog title="提示" :visible.sync="outline_panel" class="outline_panel">
+            <span slot="title">请选择章节
+                <el-input v-model="outlineFilterText" clearable style="width:160px;margin-left: 10px;" placeholder="搜索"
+                    suffix-icon="el-icon-search"></el-input>
             </span>
-            <dl class="selected" v-if="checkedSorts.length>0">
-                <dd v-for="(item,i) in checkedSorts">
-                    {{i+1}}. <span v-html='item.Sts_Name'></span>
-                    <el-link type="danger" plain @click="selectCancel(item)">取消 </el-link>
-                </dd>
-            </dl>
-            <el-empty v-else description="没有选中的信息"></el-empty>
-        </el-drawer>
-        <!--导出文件的面板-->
-        <el-dialog title="提示" :visible.sync="filepanel" width="80%" custom-class="filepanel">
-            <span slot="title"> <icon>&#xe85e</icon>已经生成的导出文件</span>
-            <dl v-if="files.length>0">
-                <dd v-for="(f,i) in files">
-                    <div>{{i+1}}. <a :href="f.url" target="_blank" title="点击下载" :download="f.file">
-                            {{f.file}}</a>
-                        {{f.size|size}}
-                        <el-popconfirm title="确定删除这个文件吗？" @confirm="deleteFile(f.file)">
-                            <el-link type="danger" icon="el-icon-delete" v-loading="loading" slot="reference">删除
-                            </el-link>
-                        </el-popconfirm>
-                    </div>
-                </dd>
-            </dl>
-            <div v-else >没有文件，请操作“导出学员信息”</div>
+            <div class="outline_bar">
+
+            </div>
+            <el-tree :data="outlines" node-key="Ol_ID" ref="tree" :props="defaultOutlinesProps" expand-on-click-node
+                empty-text="没有供选择的章节" :filter-node-method="filterNode" :expand-on-click-node="false"
+                @node-click="outlineClick" default-expand-all>
+                <span slot-scope="{ node, data }">
+                    <span>{{data.serial}}</span> {{ data.Ol_Name }}
+                </span>
+            </el-tree>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="outline_panel = false">取 消</el-button>
+            </span>
         </el-dialog>
     </div>
 </body>

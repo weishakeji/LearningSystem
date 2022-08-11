@@ -155,7 +155,7 @@ Vue.component('upload-excel', {
         </el-steps>        
         <div v-if="step==0" remark="上传excel文件">
             <div label="模板">
-                <a :href="templatePath+template" target="_blank">点击下载{{title}}模板</a>
+                <a :href="templatePath+template" target="_blank">点击下载“{{title}}”模板</a>
                 <help>（数据格式请按照模板整理）</hlep>
             </div>
             <div label="上传数据">

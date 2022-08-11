@@ -1,120 +1,22 @@
 ﻿@charset "utf-8";
 
-.toolsbar {
-    padding: 3px 6px;
-    box-sizing: border-box;
-    height: 35px;
-    display: flex;
-    justify-content: space-between;
+.outline_panel {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
-.ctrl {
-    float: right;
-    display: flex;
+.outline_panel .el-dialog {
+    margin: 5% !important;
+    width: 90%;
+    height: 88%;
+    overflow: hidden;
+    box-shadow: 0px 0px 2px rgb(0 0 0 / 60%) !important;
 }
 
-.ctrl>* {
-    margin-left: 10px;
-}
-
-.ctrl a {
-    width: auto;
-    display: inline-block;
-    white-space: nowrap;
-    line-height: 25px;
-}
-
-.toolsbar .el-button--small, .toolsbar .el-button--small.is-round {
-    padding-top: 6px !important;
-    padding-bottom: 6px !important;
-}
-
-.toolsbar .el-input--small, .toolsbar .el-input__inner {
-    height: 25px !important;
-    line-height: 25px !important;
-}
-.toolsbar .el-button+.el-button {
-    margin-left: 0px !important;
-}
-.toolsbar .el-button-group .el-button {   
-    height: 28px !important;
-    padding: 9px 3px !important;
-}
-.toolsbar .el-button-group .el-button:first-child{
-    padding-left: 8px !important;
-}
-.toolsbar .el-button-group .el-button:last-child{
-    padding-right: 8px !important;
-}
-/*学员组*/
-.sorts {
-    padding: 15px;
-    box-sizing: border-box;
-    height: calc(100% - 51px - 31px);
-    overflow-y: auto;
-}
-
-.sorts{
-    display: flex;
-    flex-flow: column;
-}
-.sorts>label{
-    padding: 3px 0px;
-}
-.count{
-	color: #999;
-	margin-left: 15px;
-	font-size: 12px;
-}
-#pager-box{
-    z-index: 10;
-    background-color: transparent;
-    width: calc(100% - 220px);
-    overflow-x: hidden;
-}
-/*已经选中的*/
-dl.selected{
-    padding: 0px 15px 15px 15px;
-    box-sizing: border-box;
-}
-dl.selected dd{
-    font-size: 14px;
-    padding: 3px 30px 3px 0px;
-    position: relative;
-}
-dl.selected dd:hover{
-    background-color: #eee;
-}
-.el-drawer__header{
-    margin-bottom: 20px;
-}
-dl.selected dd a{
-    display: block;
-    position: absolute;
-    width: 30px;
-    right: 0px;
-    top: 5px;
-}
-/*导出的文件列表*/
-.filepanel {
-    height: 60%;
-}
-.filepanel .el-dialog__body{
-height: calc(100% - 51px - 60px);
-overflow-y: auto;
-}
-.filepanel dl,dd{
-    padding: 0px;
-    margin: 0px;
-}
-.filepanel dl dd{
-    line-height: 30px;
-}
-.filepanel dl dd a[href]{
-    display: inline-block;
-    min-width: 230px;
-    color: #409EFF;
-}
-.filepanel dl dd a[href]:hover{
-    text-decoration: underline;
+.outline_panel .el-dialog__body {
+    height: calc(100% - 110px - 30px);
+    overflow: auto;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
 }
