@@ -75,7 +75,10 @@ $ready(function () {
             this.getFiles();
         },
         watch: {
-
+            //章节查询的字符
+            outlineFilterText: function (val) {
+                this.$refs.tree.filter(val);
+            }
         },
         computed: {
             //禁止选择专业与课程，（例如在课程管理中的试题编辑）
@@ -117,15 +120,15 @@ $ready(function () {
                 form.types = '';
                 for (let i = 0; i < th.form.types.length; i++) {
                     form.types += th.form.types[i];
-                    if (i < th.form.types.length-1) form.types += ",";
+                    if (i < th.form.types.length - 1) form.types += ",";
                 }
                 //将难度等级从数组转为字符串
                 form.diffs = '';
                 for (let i = 0; i < th.form.diffs.length; i++) {
                     form.diffs += th.form.diffs[i];
-                    if (i < th.form.diffs.length-1) form.diffs += ",";
+                    if (i < th.form.diffs.length - 1) form.diffs += ",";
                 }
-                console.log(form);              
+                console.log(form);
                 $api.get('Question/ExcelExport', form).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -140,10 +143,10 @@ $ready(function () {
                     console.error(err);
                 });
             },
-             //获取文件列表
-             getFiles: function () {
+            //获取文件列表
+            getFiles: function () {
                 var th = this;
-                $api.get('Question/ExcelFiles', { 'path': 'QuestionToExcel','couid':th.couid }).then(function (req) {
+                $api.get('Question/ExcelFiles', { 'path': 'QuestionToExcel', 'couid': th.couid }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                         th.loading = false;

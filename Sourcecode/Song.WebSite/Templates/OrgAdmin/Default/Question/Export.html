@@ -86,9 +86,6 @@
                 <el-input v-model="outlineFilterText" clearable style="width:160px;margin-left: 10px;" placeholder="搜索"
                     suffix-icon="el-icon-search"></el-input>
             </span>
-            <div class="outline_bar">
-
-            </div>
             <el-tree :data="outlines" node-key="Ol_ID" ref="tree" :props="defaultOutlinesProps" expand-on-click-node
                 empty-text="没有供选择的章节" :filter-node-method="filterNode" :expand-on-click-node="false"
                 @node-click="outlineClick" default-expand-all>
