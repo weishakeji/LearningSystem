@@ -1,18 +1,37 @@
 ﻿//支付接口的类型
 $dom.load.css([$dom.pagepath() + 'Components/Styles/interface_type.css']);
 Vue.component('interface_type', {
-    //接口的对象实体
+    //entity:接口的对象实体
+    //layout:布局方式，list为列表，single显示单个
     props: ['entity', 'layout'],
     data: function () {
         return {
-            //导航
+            //导航，scene：使用场景
             navigation: [
-                { pattern: 'alipaywap', name: '支付宝手机支付', icon: '&#xe602', scene: 'alipay,h5' },
-                { pattern: 'alipayweb', name: '支付宝网页直付', icon: '&#xe602', scene: 'alipay,native' },
-                { pattern: 'weixinpubpay', name: '微信公众号支付', icon: '&#xe832', scene: 'weixin,public' },
-                { pattern: 'weixinnativepay', name: '微信扫码支付', icon: '&#xe832', scene: 'weixin,native' },
-                { pattern: 'WeixinAppPay', name: '微信小程序支付', icon: '&#xe832', scene: 'weixin,mini' },
-                { pattern: 'WeixinH5Pay', name: '微信Html5支付', icon: '&#xe832', scene: 'weixin,h5' },
+                {
+                    pattern: 'alipaywap', name: '支付宝手机支付', icon: '&#xe602', enable: true, scene: 'alipay,h5',
+                    tips: '手机端网页支付'
+                },
+                {
+                    pattern: 'alipayweb', name: '支付宝网页直付', icon: '&#xe602', enable: false, scene: 'alipay,native',
+                    tips: '电脑端网页支付'
+                },
+                {
+                    pattern: 'weixinpubpay', name: '微信公众号支付', icon: '&#xe832', enable: true, scene: 'weixin,public',
+                    tips: '在微信公众号中使用'
+                },
+                {
+                    pattern: 'weixinnativepay', name: '微信扫码支付', icon: '&#xe832', enable: true, scene: 'weixin,native',
+                    tips: '电脑端网页中使用'
+                },
+                {
+                    pattern: 'WeixinAppPay', name: '微信小程序支付', icon: '&#xe832', enable: true, scene: 'weixin,mini',
+                    tips: '在微信小程序中使用'
+                },
+                {
+                    pattern: 'WeixinH5Pay', name: '微信Html5支付', icon: '&#xe832', enable: true, scene: 'weixin,h5',
+                    tips: '手机端网页支付'
+                },
             ],
             //当前导航项
             //current:{}
@@ -52,6 +71,7 @@ Vue.component('interface_type', {
     methods: {
         //跳转
         gonavi: function (item) {
+            if (!item.enable) return;
             var url = item.pattern.toLowerCase();
             url = $api.url.set(url, {
                 'id': $api.querystring('id'),
@@ -74,16 +94,16 @@ Vue.component('interface_type', {
     template: `<div>
         <dl class="interface_type" v-if="layout_value=='list'">   
             <dt>请选择支付接口的类型</dt>     
-            <dd v-for="(item,i) in navigation" :class="{'current':iscurrent(item)}">
-                <el-button type="primary" plain @click="gonavi(item)" >                 
+            <dd v-for="(item,i) in navigation" :class="{'current':iscurrent(item)}" @click="gonavi(item)" :disabled="!item.enable">
+                <div>
                     <img :src="'/pay/images/'+item.name+'.png'"/>
-                    <span>{{item.name}}</span>
-                </el-button>
+                    <span>{{item.name}}</span>     
+                </div> 
+                <div v-html="item.tips">提示信息</div>
             </dd>
         </dl> 
         <span v-if="layout_value=='single'">
-            <el-tag type="success" size="medium"> {{current.name}}</el-tag>
-       
+            <el-tag type="success" size="medium"> {{current.name}}</el-tag>       
         </span>
     </div>`
 });

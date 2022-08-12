@@ -94,7 +94,9 @@ Vue.component('topayment', {
         },
         //支付宝网页直付
         alipayweb: function (pi, ma) {
-
+            var url = "/pay/Alibaba/web?piid={0}&serial={1}&money={2}";
+            url = url.format(pi.Pai_ID, ma.Ma_Serial, ma.Ma_Money*100);
+            window.location.href = url;
         },
     },
     template: `<loading>正在转向支付平台..</loading>`

@@ -5,53 +5,85 @@ icon {
     line-height: 18px;
 }
 
-.interface_type {
+dl.interface_type {
     box-sizing: border-box;
     padding: 20px;
     width: 100%;
     height: 100%;
     margin: 0px;
-
+    display: flex;
+    flex-wrap: wrap;
+    padding: 80px 0px 0px 0px;
+    position: relative;
 }
 
 .interface_type dt {
     font-size: 18px;
     margin: 20px;
+    position: absolute;
+    top: 10px;
+    left: 0px;
 }
 
 .interface_type dd {
     padding: 10px 15px;
-    margin: 0px;
-    width: calc(100%/2 - 30px);
+    margin: 0px 30px 30px 20px;
+    width: calc(100%/2 - 35px);
     float: left;
     cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+
+
 }
 
-.interface_type dd button {
-    width: 100%;
-    font-size: 18px;
+.interface_type dd:nth-child(odd) {
+    margin: 0px 0px 30px 0px;
 }
-.interface_type dd icon{
-    font-size: 20px;
-}
-.interface_type dd button:hover icon{
+
+.interface_type dd:not([disabled]):hover {
+    background-color: #409eff;
     color: #fff;
 }
-.interface_type .current {
-    background-color: cadetblue;
-}
-.weixin {
-    color: #019541;
+
+.interface_type dd:not([disabled]):hover div:last-child {
+    color: #fff;
 }
 
-.zhifubao {
-    color: #0098e0;
-    font-size: 15px;
+.interface_type dd:not([disabled]):hover img {
+    color: #fff;
+    box-shadow: 0 0 10px #fff,
+        0 0 20px #fff,
+        0 0 30px #fff,
+        0 0 40px #fff;
+    background-color: #fff;
+    border-radius: 5px;
 }
-.interface_type button>span{
-    display: flex;
+
+.interface_type dd[disabled] {
+    cursor: not-allowed;
+}
+
+.interface_type dd[disabled]>:first-child {
+    opacity: 0.3;
+}
+
+.interface_type dd>div:first-child {
+    height: 36px;
+    font-size: 20px;
     line-height: 36px;
 }
-.interface_type button>span img{
+
+.interface_type dd>div:last-child {
+    height: 30px;
+    line-height: 50px;
+    font-size: 16px;
+    color: #999;
+}
+
+.interface_type dd img {
+    float: left;
     margin-right: 15px;
 }

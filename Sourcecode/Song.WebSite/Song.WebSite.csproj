@@ -1845,6 +1845,10 @@
     <Folder Include="Templates\Manage\Default\Learningcard\Images\" />
     <Folder Include="Templates\Manage\Default\RechargeCode\Images\" />
     <Folder Include="Templates\Manage\_public\Organs\" />
+    <Folder Include="Templates\Pay\Default\Alibaba\Scripts\" />
+    <Folder Include="Templates\Pay\Default\Alibaba\Styles\" />
+    <Folder Include="Templates\Pay\Default\Weixin\Scripts\" />
+    <Folder Include="Templates\Pay\Default\Weixin\Styles\" />
     <Folder Include="Utilities\Images\Mobi\" />
     <Folder Include="Utilities\Styles\" />
   </ItemGroup>
