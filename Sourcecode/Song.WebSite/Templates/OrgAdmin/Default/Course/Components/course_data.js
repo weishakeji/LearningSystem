@@ -41,7 +41,7 @@ Vue.component('course_data', {
             return Math.floor(num / 1000) + 'k';
         },
         //学员的事件
-        onstudent: function (num) {
+        onstudent: function (num, course) {
             if (!this.show_student) return;   //不显示学员详情
             if (num < 1) {
                 this.$alert('当前课程没有学员', '提示', {
@@ -54,13 +54,14 @@ Vue.component('course_data', {
             var node = this.getnode();
             var tit = node ? node.title : $dom('title').text();
             var url = $dom.routpath() + 'students';
+            course = course == null ? this.course : course;
             var attrs = {
                 width: '80%',
                 height: '80%',
-                url: url + '?id=' + this.course.Cou_ID,
+                url: url + '?id=' + course.Cou_ID,
                 ico: node && node.MM_IcoS != '' ? node.MM_IcoS : 'e77c',
                 pid: window.name,
-                title: tit + '《' + this.course.Cou_Name + '》' + '的学员学习记录'
+                title: tit + '《' + course.Cou_Name + '》' + '的学员学习记录'
             };
             var pbox = top.$pagebox.create(attrs);
             pbox.open();

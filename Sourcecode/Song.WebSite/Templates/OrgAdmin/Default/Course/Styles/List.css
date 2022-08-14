@@ -89,7 +89,9 @@ live {
 	display: inline-block;
 	margin-right: 2px;
 }
-
+.showDetail .student {
+	cursor: pointer;
+}
 .showtitle {
 	margin: 0px 0px 10px 0px;
 }
@@ -132,11 +134,18 @@ live {
 	display: flex;
 	flex-wrap: wrap;
 }
+.showContext>div.showitems *{
 
-.showContext>div.showitems div {
-	line-height: 30px;
 }
-
+.showContext>div.showitems div, .showContext>div.showitems a {
+	line-height: 30px;
+	font-size: 16px !important;
+}
+.showContext>div.showitems a {
+	line-height: 30px;
+	font-size: 16px !important;
+	color: #409EFF;
+}
 .showContext>div.showitems div:nth-child(odd) {
 	width: calc(50% - 10px);
 	margin-right: 10px;

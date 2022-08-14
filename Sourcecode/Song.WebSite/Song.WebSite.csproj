@@ -414,6 +414,12 @@
     <Content Include="Templates\OrgAdmin\Default\Question\Scripts\Import.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Styles\Export.css" />
     <Content Include="Templates\OrgAdmin\Default\Question\Styles\Import.css" />
+    <Content Include="Templates\Pay\Default\Alibaba\Scripts\Mobi.js" />
+    <Content Include="Templates\Pay\Default\Alibaba\Styles\Mobi.css" />
+    <Content Include="Templates\Pay\Default\Alibaba\Mobi.html" />
+    <Content Include="Templates\Pay\Default\Alibaba\Web.html" />
+    <Content Include="Templates\Pay\Default\Alibaba\Scripts\Web.js" />
+    <Content Include="Templates\Pay\Default\Alibaba\Styles\Web.css" />
     <Content Include="Templates\Pay\Default\Components\topayment.js" />
     <Content Include="Templates\Pay\Default\Components\btns.js" />
     <Content Include="Pay\Images\微信Html5支付.png" />
@@ -1845,8 +1851,6 @@
     <Folder Include="Templates\Manage\Default\Learningcard\Images\" />
     <Folder Include="Templates\Manage\Default\RechargeCode\Images\" />
     <Folder Include="Templates\Manage\_public\Organs\" />
-    <Folder Include="Templates\Pay\Default\Alibaba\Scripts\" />
-    <Folder Include="Templates\Pay\Default\Alibaba\Styles\" />
     <Folder Include="Templates\Pay\Default\Weixin\Scripts\" />
     <Folder Include="Templates\Pay\Default\Weixin\Styles\" />
     <Folder Include="Utilities\Images\Mobi\" />

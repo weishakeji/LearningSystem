@@ -163,6 +163,10 @@ namespace Song.ViewData.Methods
             ma = Business.Do<IAccounts>().MoneyIncome(ma);
             return ma;
         }
+
+
         #endregion
+
+
     }
 }

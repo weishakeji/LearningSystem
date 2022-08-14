@@ -9,7 +9,7 @@ Vue.component('interface_type', {
             //导航，scene：使用场景
             navigation: [
                 {
-                    pattern: 'alipaywap', name: '支付宝手机支付', icon: '&#xe602', enable: true, scene: 'alipay,h5',
+                    pattern: 'alipaywap', name: '支付宝手机支付', icon: '&#xe602', enable: false, scene: 'alipay,h5',
                     tips: '手机端网页支付'
                 },
                 {
@@ -25,7 +25,7 @@ Vue.component('interface_type', {
                     tips: '电脑端网页中使用'
                 },
                 {
-                    pattern: 'WeixinAppPay', name: '微信小程序支付', icon: '&#xe832', enable: true, scene: 'weixin,mini',
+                    pattern: 'WeixinAppPay', name: '微信小程序支付', icon: '&#xe832', enable: false, scene: 'weixin,mini',
                     tips: '在微信小程序中使用'
                 },
                 {

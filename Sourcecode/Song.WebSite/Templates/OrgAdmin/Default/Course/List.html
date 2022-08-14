@@ -79,7 +79,7 @@
             </el-table-column>
             <el-table-column label="信息" width="200">
                 <template slot-scope="scope">
-                    <course_data :course="scope.row" :show_student="true"></course_data>
+                    <course_data ref="course_data" :course="scope.row" :show_student="true"></course_data>
                 </template>
             </el-table-column>
             <el-table-column label="所属专业" show-overflow-tooltip width="120">
@@ -197,8 +197,9 @@
                         <icon>&#xe6f2</icon>运营数据：
                     </div>
                     <div class="showitems">
-                        <div class="weisha_icon" icon="&#xa043">
-                            学员数：{{curr.data.student}}
+                        <div class="weisha_icon student" icon="&#xa043">
+                            <a @click="$refs['course_data'].onstudent(curr.data.student,curr)" href="#">
+                                学员数：{{curr.data.student}}</a>
                         </div>
                         <div class="weisha_icon" icon="&#xa03a">
                             浏览数：{{curr.data.view}}

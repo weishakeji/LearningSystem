@@ -3,8 +3,8 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />   
-    <title>个人信息</title> 
+    <include file="../inc/meta.inc" />
+    <title>个人信息</title>
     <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
 </head>
 
@@ -31,7 +31,8 @@
                     <div class="accInfo">
                         <div class="acc-name">
                             <span v-if="account.Ac_Name!=''">{{account.Ac_Name}}</span>
-                            <span v-else>（没有名字）</span></div>
+                            <span v-else>（没有名字）</span>
+                        </div>
                         <span class="acc-acname">{{account.Ac_AccName}}</span>
 
                     </div>
@@ -39,22 +40,24 @@
             </van-sticky>
             <template v-if="islogin">
                 <card class="first">
-                    <van-cell is-link @click="window.location.href='/mobi/Money/Details'">
-                        <template #title>
-                            <span class="weisha_icon" icon="&#xe749">资金明细</span>
-                        </template>
-                        <template #default>
-                            <span class="weisha_icon" icon="&#xe73c">{{account.Ac_Money}} 元</span>
-                        </template>
-                    </van-cell>
                     <van-cell is-link @click="window.location.href='/mobi/Recharge/index'">
                         <template #title>
                             <span class="weisha_icon" icon="&#xe73b">充值</span>
                         </template>
                         <template #default>
+                            <span class="weisha_icon" icon="&#xe73c">{{account.Ac_Money}} 元</span>
+                        </template>
+
+                    </van-cell>
+                    <van-cell is-link @click="window.location.href='/mobi/Money/Details'">
+                        <template #title>
+                            <span class="weisha_icon" icon="&#xe749">资金明细</span>
+                        </template>
+                        <template #default>
                             <span class="weisha_icon" icon="&#xe847"> 券{{account.Ac_Coupon}} 个</span>
                         </template>
                     </van-cell>
+
                     <van-cell is-link @click="window.location.href='Myfriends'">
                         <template #title>
                             <span class="weisha_icon" icon="&#xe67d">我的朋友</span>
