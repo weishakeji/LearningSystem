@@ -14,11 +14,6 @@
             <div class="search-box">
 
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-                    <el-form-item label="">
-                        <el-tag>
-                            <icon>&#xa02a</icon>{{org.Org_Name}}
-                        </el-tag>
-                    </el-form-item>
                     <el-form-item label="" v-if="adminPosi">
                         <el-tag type="warning" v-if="adminPosi.length>0">
                             <icon>&#xe645</icon>{{adminPosi[0].Posi_Name}}

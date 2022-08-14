@@ -190,7 +190,8 @@
             },
             //双击事件
             rowdblclick: function (row, column, event) {
-                this.$refs.btngroup.modify(row.Acc_Id)
+                this.dialogVisible = true;
+                this.current = row;
             },
             //更改使用状态
             changeUse: function (row) {
