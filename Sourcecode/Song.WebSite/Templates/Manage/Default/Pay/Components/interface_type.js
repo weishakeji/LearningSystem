@@ -42,7 +42,7 @@ Vue.component('interface_type', {
             handler: function (nv, ov) {
                 if (nv == null) return;
                 var current = this.navigation.find(item => item.name == nv.Pai_Pattern);
-                if (current != null && this.layout_value == 'list') this.gonavi(current);
+                if (current != null && this.layout_value == 'list') this.gonavi(current, true);
             }, immediate: true
         }
     },
@@ -69,9 +69,9 @@ Vue.component('interface_type', {
         console.log(this.layout_value);
     },
     methods: {
-        //跳转
-        gonavi: function (item) {
-            if (!item.enable) return;
+        //跳转,item是支付接口项,compel是否强制跳转，默认item.enable为false不跳转
+        gonavi: function (item, compel) {
+            if (!compel && !item.enable) return;
             var url = item.pattern.toLowerCase();
             url = $api.url.set(url, {
                 'id': $api.querystring('id'),
@@ -94,7 +94,7 @@ Vue.component('interface_type', {
     template: `<div>
         <dl class="interface_type" v-if="layout_value=='list'">   
             <dt>请选择支付接口的类型</dt>     
-            <dd v-for="(item,i) in navigation" :class="{'current':iscurrent(item)}" @click="gonavi(item)" :disabled="!item.enable">
+            <dd v-for="(item,i) in navigation" :class="{'current':iscurrent(item)}" @click="gonavi(item,false)" :disabled="!item.enable">
                 <div>
                     <img :src="'/pay/images/'+item.name+'.png'"/>
                     <span>{{item.name}}</span>     

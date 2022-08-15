@@ -2,10 +2,13 @@
     window.vue = new Vue({
         el: '#app',
         data: {
+            organ: {},
+            config: {},      //当前机构配置项      
             form: {
                 orgid: -1,
                 start: '',
                 end: '',
+                use:null,
                 search: '',
                 size: 8,
                 index: 1
@@ -13,6 +16,7 @@
             total: 1, //总记录数
             totalpages: 1, //总页数
             datas: [],
+            loading_init:false,
             loading: false,
             loadingid: false,
             pickerOptions: {
@@ -115,7 +119,29 @@
             }
         },
         created: function () {
-            this.handleCurrentChange();
+            var th = this;
+            $api.bat(
+                $api.get('Organization/Current')
+            ).then(axios.spread(function (organ) {
+                th.loading_init = false;
+                //判断结果是否正常
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i].status != 200)
+                        console.error(arguments[i]);
+                    var data = arguments[i].data;
+                    if (!data.success && data.exception != null) {
+                        console.error(data.message);
+                    }
+                }
+                //获取结果             
+                th.organ = organ.data.result;
+                //机构配置信息
+                th.config = $api.organ(th.organ).config;
+                th.form.orgid = th.organ.Org_ID;
+                th.handleCurrentChange();
+            })).catch(function (err) {
+                console.error(err);
+            });
         },
         methods: {
             //加载数据页
@@ -126,7 +152,7 @@
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 49);
-                $api.get('Exam/ThemePager', this.form).then(function (req) {
+                $api.get('Exam/ThemeAdminPager', this.form).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         window.vue.datas = req.data.result;
@@ -265,7 +291,7 @@
                         var boxid = "ResultsDetail_" + row.Exam_ID + "_" + file;
                         var title = '  “' + row.Exam_Title + "”";
                         window.vue.$refs.btngroup.pagebox(file + '?id=' + row.Exam_ID, title, boxid, '80%', '80%',
-                            { pid: window.name, resize: true, 'showmask': true, 'min': false,'ico':'e696' });
+                            { pid: window.name, resize: true, 'showmask': true, 'min': false, 'ico': 'e696' });
                     }
                 },
                 template: `<div><el-row :gutter="20" class="row_title">
