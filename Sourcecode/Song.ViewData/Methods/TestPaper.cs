@@ -534,6 +534,30 @@ namespace Song.ViewData.Methods
             }
             return -1;
         }
+        /// <summary>
+        /// 记录结课考试成绩，记录到学员购买课程的记录上
+        /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="score">结课考试的最高分</param>
+        /// <returns></returns>
+        [Student]
+        public bool ResultLogRecord(int acid, int couid, double score)
+        {
+            Song.Entities.Accounts acc = this.User;
+            if (acc.Ac_ID != acid) return false;
+
+            Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
+            if (sc == null) return false;
+
+            if (sc.Stc_ExamScore != score)
+            {
+                sc.Stc_ExamScore = score;
+                Business.Do<ICourse>().StudentScoreSave(sc, -1, -1, score);
+                return true;
+            }
+            return false;
+        }
         #endregion
     }
 }

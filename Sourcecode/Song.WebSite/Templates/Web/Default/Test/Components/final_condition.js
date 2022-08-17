@@ -28,7 +28,10 @@ Vue.component('final_condition', {
         },
     },
     computed: {
-
+        //购买记录是否存在
+        ispurchase: function () {
+            return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
+        }
     },
     mounted: function () {
     },
@@ -75,7 +78,7 @@ Vue.component('final_condition', {
                 console.error(err);
             });
         },
-        //最高得分
+        //获取测试的最高得分
         score_highest: function () {
             if (this.results.length < 1) return;
             var highest = 0;
@@ -83,6 +86,25 @@ Vue.component('final_condition', {
                 const el = this.results[i];
                 if (el.Tr_Score > highest) highest = el.Tr_Score;
             }
+            //如果结课成绩与课程购买记录中的不一致，更新购买记录中的结课成绩
+            if (this.ispurchase && this.purchase.Stc_ExamScore != highest) {
+                var th = this;
+                var form = { 'acid': th.account.Ac_ID, 'couid': th.purchase.Cou_ID, 'score': highest }
+                $api.get('TestPaper/ResultLogRecord', form).then(function (req) {
+                    if (req.data.success) {
+                        th.purchase.Stc_ExamScore = highest;
+                        th.$notify({ type: 'success', message: '更新结课考试成绩' });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            }
+
             return highest;
         },
     },
