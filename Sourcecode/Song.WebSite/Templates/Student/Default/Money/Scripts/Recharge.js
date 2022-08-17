@@ -127,9 +127,9 @@ $ready(function () {
                         if (!ismini && arr[1] == "mini") paypis.splice(i, 1);
                     } else {
                         //如果不在微信中，且该接口仅限微信使用，则不显示
-                        if (arr[0] == "weixin" && arr[1] != "h5") paypis.splice(i, 1);
+                        if (arr[0] == "weixin" && arr[1] != "native") paypis.splice(i, 1);
                     }
-                }
+                }             
                 return paypis;
             },
             //开始进入支付

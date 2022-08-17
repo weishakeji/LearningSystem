@@ -22,7 +22,8 @@
                                 <template slot="prepend">
                                     <icon>&#xe624</icon>
                                 </template>
-                                <el-button slot="append" type="primary" plain @click="payEntry('form')">
+                                <el-button slot="append" type="primary" plain @click="payEntry('form')"
+                                    :disabled="paypis.length==0">
                                     <icon style="font-size: 15px;">&#xe62d</icon>在线充值
                                 </el-button>
                             </el-input>
@@ -34,7 +35,7 @@
                 </div>
             </div>
             <!-- 在线支付接口列表 -->
-            <div class="paypis">
+            <div class="paypis" v-if="paypis.length>0">
                 <div class="title">选择支付方式</div>
                 <div class="list">
                     <div v-for="(item,index) in paypis" class="payitem" :current="item.Pai_ID==form.payid"
@@ -43,6 +44,10 @@
                         <span>{{item.Pai_Name}}</span>
                     </div>
                 </div>
+            </div>
+            <div v-else class="nopaypis">
+                <el-tag type="warning"><icon>&#xe7ad</icon>未设置支付接口</el-tag>
+                
             </div>
             <el-dialog title="提示" :visible.sync="paypanel" width="40%" :close-on-click-modal="false">
                 <div slot="title">
@@ -53,7 +58,7 @@
                 <div slot="footer">
                     <el-button type="primary" @click="open_paywindow()" v-if="!isopenpay">确认支付</el-button>
                     <el-button type="success" @click="fresh_window()" v-else>确认支付成功,刷新页面</el-button>
-                    <el-button type="info" plain @click="paypanel=false">取消</el-button>                  
+                    <el-button type="info" plain @click="paypanel=false">取消</el-button>
                 </div>
             </el-dialog>
         </template>
