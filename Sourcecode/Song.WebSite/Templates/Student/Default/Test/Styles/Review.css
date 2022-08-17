@@ -1,48 +1,77 @@
 ﻿@charset "utf-8";
+
 @page {
 	size: auto;
 	margin: 2cm;
 	margin-top: 1cm;
 	margin-bottom: 1cm;
 }
-@media print{
-	html, body, #vapp {		
-		overflow: auto;		
+
+@media print {
+	html, body, #vapp {
+		overflow: auto;
 	}
-	html,body, #vapp{
+
+	html, body, #vapp {
 		height: auto !important;
 	}
-	context {		
-		height: auto !important;		
+
+	context {
+		height: auto !important;
 	}
-	card{
-		box-shadow:none !important;
-		border:none !important;
-		background-color:transparent !important;
+
+	card {
+		box-shadow: none !important;
+		border: none !important;
+		background-color: transparent !important;
 	}
-	card-title{
-		border:none !important;
+
+	card-title {
+		border: none !important;
 	}
+
 	/*答题与解析等*/
 	.resultBox {
 		font-size: 16px !important;
 	}
+
 	context .resultBox>div {
 		page-break-inside: avoid;
 	}
+
 	context .ans_area>div {
 		page-break-inside: avoid;
 	}
-	.noprint{
+
+	card[qid] {
+		position: relative;
+	}
+
+	card[qid] .orgname {
+		position: absolute;
+		top: 30px;
+		right: 0px;
+		font-size: 50px;
+		font-weight: bold;
+		color: rgba(187, 187, 187, 0.3);
+		z-index: 1;
+		transform: rotate(-7deg);
+		cursor: default;
+	}
+
+	.noprint {
 		display: none;
 	}
-	.noview{
-		display:inline-block !important;
+
+	.noview {
+		display: inline-block !important;
 	}
 }
-.noview{
+
+.noview {
 	display: none;
 }
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -92,9 +121,11 @@ html, body, #vapp {
 .woman {
 	background-image: url(/Utilities/images/head2.jpg);
 }
-.print{
+
+.print {
 	margin: 0px 15px;
 }
+
 /*得分样式*/
 
 score {
@@ -138,13 +169,15 @@ score.praise::before {
 	font-size: 13px;
 	color: #999;
 }
+
 /*试卷标题*/
-.tp_name{
+.tp_name {
 	font-size: 20px;
 	text-align: center;
 	box-sizing: border-box;
 	padding: 15px 0px 30px 0px;
 }
+
 /*内容区域*/
 
 context {
@@ -163,30 +196,37 @@ context card:first-child {
 context card:first-child card-title {
 	text-align: center;
 }
-.question img{
+
+.question img {
 	max-width: 100%;
 }
+
 .info {
 	padding: 10px;
 	font-size: 16px;
 	line-height: 25px;
 }
+
 span.tag {
 	color: #999;
 	font-size: 14px;
 }
-card[qid] card-title::before{
+
+card[qid] card-title::before {
 	content: attr(index) ' . ';
 	float: left;
 }
-card[qid] card-title>*{
+
+card[qid] card-title>* {
 	display: inline;
 }
-card[qid] card-title .null{
+
+card[qid] card-title .null {
 	font-size: 13px;
 	color: #ccc;
 	margin: 0px 15px;
 }
+
 /*试题的题型*/
 
 .type_title {
@@ -207,47 +247,54 @@ card[qid] card-title .null{
 	position: relative;
 	line-height: 30px;
 }
-.type1>div i::before{
+
+.type1>div i::before {
 	font-family: "webdesk_icon" !important;
 	content: '\e85c';
-	font-style:normal;
+	font-style: normal;
 	margin-right: 5px;
 }
-.type1>div[selected] i::before{
+
+.type1>div[selected] i::before {
 	font-family: "webdesk_icon" !important;
 	content: '\e75b';
-	font-style:normal;
+	font-style: normal;
 }
-.ans_area>div[correct]{	
-}
-.ans_area>div[correct]::before{
+
+.ans_area>div[correct] {}
+
+.ans_area>div[correct]::before {
 	content: '\e706';
 	position: absolute;
 	left: -20px;
 	font-family: "webdesk_icon" !important;
 }
 
-.type2>div i::before{
+.type2>div i::before {
 	font-family: "webdesk_icon" !important;
 	content: '\e603';
-	font-style:normal;
+	font-style: normal;
 	margin-right: 5px;
 }
-.type2>div[selected] i::before{
+
+.type2>div[selected] i::before {
 	font-family: "webdesk_icon" !important;
 	content: '\e78b';
-	font-style:normal;
+	font-style: normal;
 }
+
 /*答题与解析等*/
-.resultBox{
+.resultBox {
 	padding: 10px;
 	font-size: 14px;
 	line-height: 25px;
 
 }
-.resultBox>div.result_score{
+
+.resultBox>div.result_score {
 	color: #ff0000;
 }
-.resultBox>div.result_score[success]{
+
+.resultBox>div.result_score[success] {
 	color: #1989fa;
 }

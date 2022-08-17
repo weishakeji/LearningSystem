@@ -15,8 +15,11 @@ $ready(function () {
             tpid: $api.querystring('tp', 0),
             trid: $api.querystring('tr', 0),
             stid: $api.querystring('stid', 0),  //学员id
-            account: {},     //当前登录账号
-            student: {},     //当前参考的学员，有可能不是当前学员        
+            account: {},     //当前参考的学员，有可能不是当前学员 
+            platinfo: {},
+            organ: {},
+            config: {},      //当前机构配置项    
+
             result: {},         //考试成绩的籹据实体对象
             exrxml: {},          //答题信息，xml
             paper: {},           //试卷信息
@@ -31,14 +34,16 @@ $ready(function () {
         },
         mounted: function () {
             window.addEventListener('scroll', this.handleScroll, true);
-            var th=this;
+            var th = this;
             this.loading = true;
             $api.bat(
                 $api.get('Account/ForID', { 'id': this.stid }),
+                $api.cache('Platform/PlatInfo:60'),
+                $api.get('Organization/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.cache('TestPaper/ForID', { 'id': this.tpid }),
                 $api.get('TestPaper/ResultForID', { 'id': this.trid }),
-            ).then(axios.spread(function (account, types, paper, result) {
+            ).then(axios.spread(function (account, plat, org, types, paper, result) {
                 th.loading = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -51,6 +56,9 @@ $ready(function () {
                 }
                 //获取结果
                 th.account = account.data.result;
+                th.platinfo = plat.data.result;
+                th.organ = org.data.result;
+                th.config = $api.organ(th.organ).config;
                 th.types = types.data.result;
                 th.paper = paper.data.result;
                 th.result = result.data.result;
@@ -214,7 +222,7 @@ $ready(function () {
     //试题的展示
     Vue.component('question', {
         //groupindex:试题题型的分组，用于排序号
-        props: ['qans', 'index', 'state', 'groupindex', 'questions'],
+        props: ['qans', 'index', 'state', 'groupindex', 'questions','org'],
         data: function () {
             return {
                 ques: {},       //试题              
@@ -405,6 +413,7 @@ $ready(function () {
             </div>
         </div>
         </card-context>
+        <div class="orgname noview">{{org.Org_Name}}</div>
       </card>`
     });
 });
