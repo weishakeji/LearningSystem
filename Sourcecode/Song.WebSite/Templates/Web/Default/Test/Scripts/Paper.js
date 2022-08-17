@@ -1,4 +1,4 @@
-document.oncontextmenu = function () {    
+document.oncontextmenu = function () {
     return false;
 }
 $ready(function () {
@@ -214,6 +214,7 @@ $ready(function () {
             btnReview: function (item) {
                 var url = '/student/test/Review?tr=121&tp=56&couid=132';
                 url = $api.url.set(url, {
+                    'stid': item.Ac_ID,
                     'tr': item.Tr_ID,
                     'tp': this.paper.Tp_Id,
                     'couid': this.course.Cou_ID

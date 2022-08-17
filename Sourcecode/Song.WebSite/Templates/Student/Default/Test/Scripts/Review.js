@@ -14,6 +14,7 @@ $ready(function () {
             //考试id和成绩id
             tpid: $api.querystring('tp', 0),
             trid: $api.querystring('tr', 0),
+            stid: $api.querystring('stid', 0),  //学员id
             account: {},     //当前登录账号
             student: {},     //当前参考的学员，有可能不是当前学员        
             result: {},         //考试成绩的籹据实体对象
@@ -30,14 +31,15 @@ $ready(function () {
         },
         mounted: function () {
             window.addEventListener('scroll', this.handleScroll, true);
+            var th=this;
             this.loading = true;
             $api.bat(
-                $api.get('Account/Current'),
+                $api.get('Account/ForID', { 'id': this.stid }),
                 $api.cache('Question/Types:9999'),
                 $api.cache('TestPaper/ForID', { 'id': this.tpid }),
                 $api.get('TestPaper/ResultForID', { 'id': this.trid }),
             ).then(axios.spread(function (account, types, paper, result) {
-                vapp.loading = false;
+                th.loading = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -48,13 +50,14 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.types = types.data.result;
-                vapp.paper = paper.data.result;
-                vapp.result = result.data.result;
-                vapp.exrxml = $api.loadxml(vapp.result.Tr_Results);
+                th.account = account.data.result;
+                th.types = types.data.result;
+                th.paper = paper.data.result;
+                th.result = result.data.result;
+                th.exrxml = $api.loadxml(th.result.Tr_Results);
 
             })).catch(function (err) {
+                th.loading = false;
                 console.error(err);
             });
         },
