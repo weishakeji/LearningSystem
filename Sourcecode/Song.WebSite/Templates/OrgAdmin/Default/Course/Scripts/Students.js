@@ -79,6 +79,7 @@
                         throw d.data.message;
                     }
                 }).catch(function (err) {
+                    Vue.prototype.$alert(err);
                     console.error(err);
                 });
             },

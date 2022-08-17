@@ -33,9 +33,15 @@
 	context .ans_area>div {
 		page-break-inside: avoid;
 	}
-	.print{
+	.noprint{
 		display: none;
 	}
+	.noview{
+		display:inline-block !important;
+	}
+}
+.noview{
+	display: none;
 }
 html, body, #vapp {
 	width: 100%;
