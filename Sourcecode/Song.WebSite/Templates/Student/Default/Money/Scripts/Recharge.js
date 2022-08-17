@@ -35,13 +35,14 @@ $ready(function () {
             },
             paypanel: false,         //支付确认的面板是否显示
             payurl: '',              //转向支付平台的路径与参数
-            isopenpay:false,        //是否打开支付窗口
+            isopenpay: false,        //是否打开支付窗口
 
             loading_init: true,
             loading_up: false
         },
         mounted: function () {
             var th = this;
+            th.loading_init = true;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
@@ -129,7 +130,7 @@ $ready(function () {
                         //如果不在微信中，且该接口仅限微信使用，则不显示
                         if (arr[0] == "weixin" && arr[1] != "native") paypis.splice(i, 1);
                     }
-                }             
+                }
                 return paypis;
             },
             //开始进入支付
@@ -163,8 +164,8 @@ $ready(function () {
             //打开支付窗口
             open_paywindow: function () {
                 if (!window.top || !window.top.vapp) return;
-                this.isopenpay=true;
-                var url = this.payurl;              
+                this.isopenpay = true;
+                var url = this.payurl;
                 var obj = {
                     'url': url,
                     'ico': 'e62d', 'min': false,
@@ -172,13 +173,13 @@ $ready(function () {
                     'width': '400px',
                     'height': '500px'
                 }
-                window.top.vapp.open(obj,function(sender,event){
+                window.top.vapp.open(obj, function (sender, event) {
                     //alert(3);
                     console.log(sender);
                     window.top.vapp.shut(window.name);
                 });
             },
-            fresh_window:function(){
+            fresh_window: function () {
                 window.location.reload();
             }
         }
