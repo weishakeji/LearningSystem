@@ -167,6 +167,7 @@ namespace Song.ServiceImpls
         /// 获取某个课程的结课考试
         /// </summary>
         /// <param name="couid">课程id</param>
+        /// <param name="use"></param>
         /// <returns></returns>
         public TestPaper FinalPaper(int couid,bool? use)
         {
@@ -618,13 +619,13 @@ namespace Song.ServiceImpls
         /// <param name="tpid">试卷id</param>
         /// <param name="stid">学员id</param>
         /// <returns></returns>
-        public double ResultsHighest(int tpid, int stid)
+        public float ResultsHighest(int tpid, int stid)
         {
             WhereClip wc = new WhereClip();
             wc.And(TestResults._.Ac_ID == stid);
             wc.And(TestResults._.Tp_Id == tpid);
             object score = Gateway.Default.Max<TestResults>(TestResults._.Tr_Score, wc);
-            return (double)score;
+            return (float)score;
         }
         /// <summary>
         /// 计算该试卷的所有测试的最低分

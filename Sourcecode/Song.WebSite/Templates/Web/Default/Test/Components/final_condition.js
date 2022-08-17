@@ -90,7 +90,7 @@ Vue.component('final_condition', {
             if (this.ispurchase && this.purchase.Stc_ExamScore != highest) {
                 var th = this;
                 var form = { 'acid': th.account.Ac_ID, 'couid': th.purchase.Cou_ID, 'score': highest }
-                $api.get('TestPaper/ResultLogRecord', form).then(function (req) {
+                $api.post('TestPaper/ResultLogRecord', form).then(function (req) {
                     if (req.data.success) {
                         th.purchase.Stc_ExamScore = highest;
                         th.$notify({ type: 'success', message: '更新结课考试成绩' });

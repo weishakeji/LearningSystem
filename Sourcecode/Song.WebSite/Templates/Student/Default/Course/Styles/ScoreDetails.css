@@ -36,6 +36,10 @@
 	display: block;
 	width: 120px;
 }
+/*底部*/
+.footer{
+	justify-content: space-between;
+}
 .score{
 	bottom: 10px;   
 }

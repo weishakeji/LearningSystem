@@ -40,7 +40,7 @@ Vue.component('video_progress', {
                 //如果实时计算的学习进度，大于购买记录中的，则记录在购买记录中
                 if (nv.complete > this.purchase.Stc_StudyScore) {
                     var th = this;
-                    $api.get('Course/LogForVideoRecord', { 'acid': th.stid, 'couid': th.course.Cou_ID, 'rate': nv.complete })
+                    $api.post('Course/LogForVideoRecord', { 'acid': th.stid, 'couid': th.course.Cou_ID, 'rate': nv.complete })
                         .then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
@@ -79,6 +79,7 @@ Vue.component('video_progress', {
     },
     mounted: function () { },
     methods: {
+        //学员学习某个课程的视频的完成信息，包括课程详细信息与完成信息
         onload: function () {
             var th = this;
             th.loading = true;
@@ -105,7 +106,7 @@ Vue.component('video_progress', {
                     console.error(err);
                 }).finally(function () {
                     //th.percent = 60;
-                });;
+                });
         },
         //是否完成
         finished: function (percentage) {

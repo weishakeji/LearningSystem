@@ -234,7 +234,7 @@ namespace Song.ViewData.Methods
         /// 获取某个课程的结课考试
         /// </summary>
         /// <param name="couid">课程id</param>
-        /// <param name="use"></param>
+        /// <param name="use">是否查询禁用的结课考试,null取所有</param>
         /// <returns></returns>
         public Song.Entities.TestPaper FinalPaper(int couid, bool? use)
         {
@@ -491,6 +491,18 @@ namespace Song.ViewData.Methods
             return trs;
         }
         /// <summary>
+        /// 获取某个试卷的学员最高分
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="tpid">试卷id</param>
+        /// <returns></returns>
+        public float ResultHighest(int stid, int tpid)
+        {
+            if (stid <= 0) throw new Exception("学员id为空，无法获取成绩");
+            if (tpid <= 0) throw new Exception("试卷id为空，无法获取成绩");
+            return Business.Do<ITestPaper>().ResultsHighest(tpid, stid);          
+        }
+        /// <summary>
         /// 获取测试成绩
         /// </summary>
         /// <param name="id">测试成绩记录的id</param>
@@ -541,7 +553,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="score">结课考试的最高分</param>
         /// <returns></returns>
-        [Student]
+        [Student][HttpPost]
         public bool ResultLogRecord(int acid, int couid, double score)
         {
             Song.Entities.Accounts acc = this.User;

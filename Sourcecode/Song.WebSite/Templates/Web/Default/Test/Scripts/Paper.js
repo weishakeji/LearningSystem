@@ -164,7 +164,7 @@ $ready(function () {
                 var th = this;
                 if (query.couid <= 0 || query.stid <= 0) return;
                 th.loading = true;
-                $api.cache('Course/Purchaselog:5', query).then(function (req) {
+                $api.get('Course/Purchaselog:5', query).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.purchase = req.data.result;

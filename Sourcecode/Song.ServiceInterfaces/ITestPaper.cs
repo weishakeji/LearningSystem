@@ -168,7 +168,7 @@ namespace Song.ServiceInterfaces
         /// <param name="tpid">试卷id</param>
         /// <param name="stid">学员id</param>
         /// <returns></returns>
-        double ResultsHighest(int tpid,int stid);
+        float ResultsHighest(int tpid,int stid);
         /// <summary>
         /// 计算该试卷的所有测试的最低分
         /// </summary>

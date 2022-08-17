@@ -37,7 +37,7 @@ $ready(function () {
             'rate': function (nv, ov) {
                 if (nv <= 0 || nv === Infinity) return;
                 var th = this;
-                $api.get('Question/ExerciseLogRecord', { 'acid': th.account.Ac_ID, 'couid': th.course.Cou_ID, 'rate': nv })
+                $api.post('Question/ExerciseLogRecord', { 'acid': th.account.Ac_ID, 'couid': th.course.Cou_ID, 'rate': nv })
                     .then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;

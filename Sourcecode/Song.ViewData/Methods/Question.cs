@@ -930,7 +930,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid"></param>
         /// <param name="rate">试题练习的通过率</param>
         /// <returns></returns>
-        [Student]
+        [Student][HttpPost]
         public bool ExerciseLogRecord(int acid, int couid, double rate)
         {
             Song.Entities.Accounts acc = this.User;

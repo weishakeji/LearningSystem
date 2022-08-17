@@ -17,6 +17,7 @@ $ready(function () {
             score: {},
 
             loading_init: true,
+            loading_fresh: 0,        //刷新的预载
             loading: false
         },
         mounted: function () {
@@ -66,7 +67,7 @@ $ready(function () {
             getpurchase: function () {
                 var th = this;
                 th.loading = true;
-                $api.cache('Course/Purchaselog:5', { 'couid': th.couid, 'stid': th.stid }).then(function (req) {
+                $api.get('Course/Purchaselog:5', { 'couid': th.couid, 'stid': th.stid }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.purchase = req.data.result;
@@ -85,7 +86,7 @@ $ready(function () {
             //获取机构的配置参数
             orgconfig: function (para, def) {
                 var val = Number(this.config[para]);
-                if (isNaN(val)) return def ? def : '';                    
+                if (isNaN(val)) return def ? def : '';
                 return val;
             },
             //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
@@ -114,10 +115,84 @@ $ready(function () {
                 //获取机构的配置参数
                 function orgconfig(para, def) {
                     var val = Number(th.config[para]);
-                    if (isNaN(val)) return def ? def : '';                    
+                    if (isNaN(val)) return def ? def : '';
                     return val;
                 };
             },
+            //更新学习记录的相关数据
+            refresh_data: function () {
+                this.loading_fresh = 2;
+                var th = this;
+                //更新视频学习进度
+                $api.cache('Course/LogForVideo:update', { 'couid': th.couid, 'stid': th.stid })
+                    .then(function (req) {                      
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            var videonum = result != null && result.length > 0 ? result[0].complete : 0;
+                            $api.post('Course/LogForVideoRecord', { 'acid': th.stid, 'couid': th.couid, 'rate': videonum })
+                                .then(function (req) {
+                                    if (req.data.success) {
+                                        th.purchase.Stc_StudyScore = req.data.result;
+                                        th.score = th.resultScore(th.purchase);
+                                        th.$notify({ type: 'success', message: '更新视频学习进度成功' });
+                                    } else {
+                                        console.error(req.data.exception);
+                                        throw req.config.way + ' ' + req.data.message;
+                                    }
+                                }).catch(function (err) {
+                                    console.error(err);
+                                });
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        console.error(err);
+                    }).finally(function () {
+                        th.loading_fresh--;
+                    });
+                //更新结课考试成绩
+                $api.get('TestPaper/FinalPaper', { 'couid': th.couid, 'use': '' }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        $api.get('TestPaper/ResultHighest', { 'stid': th.stid, 'tpid': result.Tp_Id }).then(function (req) {
+                            if (req.data.success) {
+                                var score = req.data.result;
+                                if (score <= 0) return;
+                                var form = { 'acid': th.stid, 'couid': th.couid, 'score': score }
+                                $api.post('TestPaper/ResultLogRecord', form).then(function (req) {
+                                    if (req.data.success) {
+                                        th.purchase.Stc_ExamScore = score;
+                                        th.score = th.resultScore(th.purchase);
+                                        th.$notify({ type: 'success', message: '更新结课考试成绩成功' });
+                                    } else {
+                                        console.error(req.data.exception);
+                                        throw req.config.way + ' ' + req.data.message;
+                                    }
+                                }).catch(function (err) {
+                                    //alert(err);
+                                    Vue.prototype.$alert(err);
+                                    console.error(err);
+                                });
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(function (err) {
+                            //alert(err);
+                            Vue.prototype.$alert(err);
+                            console.error(err);
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                }).finally(function () {
+                    th.loading_fresh--;
+                });
+            }
         }
     });
 
