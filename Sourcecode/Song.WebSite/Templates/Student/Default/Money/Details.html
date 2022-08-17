@@ -123,7 +123,8 @@
                 <div title="类型">
                     <span v-if="detail.Ma_Type==1">支出</span>
                     <span v-if="detail.Ma_Type==2">收入</span>
-                    <span v-if="!item.Ma_IsSuccess">（失败）</span>
+                    <el-tag v-if="detail.Ma_IsSuccess" type="success">成功</el-tag>
+                    <el-tag v-else type="warning">失败</el-tag>                   
                 </div>
                 <div title="交易号">
                     {{detail.Ma_Serial}}
