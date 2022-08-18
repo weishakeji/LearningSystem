@@ -117,7 +117,7 @@
         <!-- 教师详情-->
         <el-drawer :visible.sync="drawer" direction="ltr" size="40%">
             <span slot="title">{{drawerobj.Th_Name}}</span>
-            <photo :teacher="teacher" circle="true" size="100"></photo>
+            <photo :teacher="drawerobj" circle="true" size="100"></photo>
             <dl>
                 <dd class="info" :class="{'woman': drawerobj.Th_Sex==2}">
                     <icon v-if="drawerobj.Th_Sex==2" title="女性">&#xe844</icon>

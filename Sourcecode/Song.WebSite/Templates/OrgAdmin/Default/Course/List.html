@@ -87,6 +87,12 @@
                     <icon>&#xe83d</icon> {{scope.row.Sbj_Name}}
                 </template>
             </el-table-column>
+            <el-table-column label="教师" show-overflow-tooltip width="90">
+                <template slot-scope="scope" v-if="scope.row.Th_Name!=''">
+                    <icon style="font-size: 17px">&#xe650</icon> 
+                    <span>{{scope.row.Th_Name}}</span>
+                </template>
+            </el-table-column>
             <el-table-column label="启用" width="60">
                 <template slot-scope="scope">
                     <span class="el-icon-loading" v-show="loadingid==scope.row.Cou_ID"></span>

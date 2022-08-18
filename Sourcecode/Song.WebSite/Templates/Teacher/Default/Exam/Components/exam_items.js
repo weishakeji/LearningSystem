@@ -84,6 +84,7 @@ Vue.component('exam_items', {
                 Exam_ID: 0,
                 Exam_Name: '',
                 Tp_Id: '',
+                Cou_ID: '',      //临时字段，数据实体中并不存在
                 Exam_Date: '',
                 Exam_GroupType: this.theme.Exam_GroupType,
                 Exam_UID: this.theme.Exam_UID
@@ -261,7 +262,7 @@ Vue.component('exam_item_modify', {
                 label: 'Sbj_Name',
                 value: 'Sbj_ID',
                 expandTrigger: 'hover',
-                checkStrictly: false
+                checkStrictly: true
             },
             sbjTree: [],        //专业树
             sbjids: [],      //选择中的专业
@@ -297,6 +298,7 @@ Vue.component('exam_item_modify', {
         },
         'show': function (nv, ov) {
             var form = this.$refs['exam_form'];
+            console.log(form);
         }
     },
     computed: {},
@@ -382,6 +384,10 @@ Vue.component('exam_item_modify', {
         },
         //专业选择变更时
         sbjChange: function (val) {
+            //关闭级联菜单的浮动层
+            if (this.$refs["subjects"])
+                this.$refs["subjects"].dropDownVisible = false;
+
             var currid = -1;
             if (val.length > 0) currid = val[val.length - 1];
             var th = this;
@@ -471,7 +477,7 @@ Vue.component('exam_item_modify', {
                 <el-input v-model="exam.Exam_Name"></el-input>
             </el-form-item>
             <el-form-item label="专业">
-                <el-cascader style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业"
+                <el-cascader ref="subjects" style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业"
                 :options="sbjTree" separator="／" :props="defaultSubjectProps" filterable @change="sbjChange">
                     <template slot-scope="{ node, data }">
                         <span>{{ data.Sbj_Name }}</span>
