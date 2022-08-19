@@ -134,5 +134,56 @@
             }
         }
     });
-
+    //计算通过支付接口的资金总额
+    Vue.component('moneysummary', {
+        //entity:接口的对象实体   
+        props: ['entity'],
+        data: function () {
+            return {
+                summary: 0,     //支付接口的资金总额
+                loading: false
+            }
+        },
+        watch: {
+            'entity': {
+                handler: function (nv, ov) {
+                    if (JSON.stringify(nv) != '{}' && nv != null)
+                        this.getval();
+                }, immediate: true, deep: true
+            }
+        },
+        computed: {},
+        mounted: function () { },
+        methods: {
+            getval: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('Pay/Summary', { 'id': th.entity.Pai_ID }).then(function (req) {
+                    if (req.data.success) {
+                        th.summary = req.data.result;
+                        //th.money(th.summary+89565421);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                }).finally(function () {
+                    th.loading = false;
+                });
+            },
+            //输出金额的格式，即三位一个逗号
+            money: function (num) {
+                if ($api.getType(num) != 'Number') return num;
+                return num.money();              
+            }
+        },
+        template: `<span>
+            <loading v-if="loading"></loading>
+            <template v-else>
+                <icon>&#xe746</icon>
+                {{money(summary)}} 元
+            </template>
+        </span>`
+    });
 });

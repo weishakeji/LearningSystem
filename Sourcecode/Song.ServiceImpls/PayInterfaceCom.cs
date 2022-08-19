@@ -130,81 +130,15 @@ namespace Song.ServiceImpls
             }
         }
         /// <summary>
-        /// 将当前项目向上移动；仅在当前对象的同层移动，即同一父节点下的对象这前移动；
+        /// 计算某一个支付接口的收入
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
-        public bool PayRemoveUp(int id)
+        /// <param name="paid">支付接口的id</param>
+        /// <returns></returns>
+        public decimal Summary(int paid)
         {
-            //当前对象
-            PayInterface current = Gateway.Default.From<PayInterface>().Where(PayInterface._.Pai_ID == id).ToFirst<PayInterface>();
-            //当前对象排序号
-            int orderValue = (int)current.Pai_Tax; ;
-            //上一个对象，即兄长对象；
-            PayInterface up = Gateway.Default.From<PayInterface>().Where(PayInterface._.Pai_Tax < orderValue)
-                .OrderBy(PayInterface._.Pai_Tax.Desc).ToFirst<PayInterface>();
-            if (up == null) return false;
-            //交换排序号
-            current.Pai_Tax = up.Pai_Tax;
-            up.Pai_Tax = orderValue;
-            using (DbTrans tran = Gateway.Default.BeginTrans())
-            {
-                try
-                {
-                    tran.Save<PayInterface>(current);
-                    tran.Save<PayInterface>(up);
-                    tran.Commit();
-                }
-                catch
-                {
-                    tran.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    tran.Close();
-                }
-            }
-            return true;
-        }
-        /// <summary>
-        /// 将当前项目向下移动；仅在当前对象的同层移动，即同一父节点下的对象这前移动；
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
-        public bool PayRemoveDown(int id)
-        {
-            //当前对象
-            PayInterface current = Gateway.Default.From<PayInterface>().Where(PayInterface._.Pai_ID == id).ToFirst<PayInterface>();
-            //当前对象排序号
-            int orderValue = (int)current.Pai_Tax;
-            //下一个对象，即弟弟对象；
-            PayInterface down = Gateway.Default.From<PayInterface>().Where(PayInterface._.Pai_Tax > orderValue)
-                .OrderBy(PayInterface._.Pai_Tax.Asc).ToFirst<PayInterface>();
-            if (down == null) return false;
-            //交换排序号
-            current.Pai_Tax = down.Pai_Tax;
-            down.Pai_Tax = orderValue;
-            using (DbTrans tran = Gateway.Default.BeginTrans())
-            {
-                try
-                {
-                    tran.Save<PayInterface>(current);
-                    tran.Save<PayInterface>(down);
-                    tran.Commit();
-                }
-                catch
-                {
-                    tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
-            }
-            return true;
+            object o = Gateway.Default.Sum<MoneyAccount>(MoneyAccount._.Ma_Money, MoneyAccount._.Pai_ID == paid && MoneyAccount._.Ma_IsSuccess == true);
+            if (o == null) return 0;
+            return (decimal)o;
         }
     }
 }

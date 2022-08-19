@@ -1457,6 +1457,29 @@ String.prototype.format = function () {
         return args[i];
     });
 };
+//将数值转金额的格式，即三位一个逗号
+//len:小数字后的长度，默认是两位
+Number.prototype.money = function (len) {
+    var str = String(this);
+
+    //小数部分
+    var float_num = 0;
+    if (len == null) len = 2;
+    if (str.indexOf('.') > -1) {
+        var f = str.substring(str.indexOf('.') + 1);
+        var j = 0, s = '';
+        while (len-- > 0) s += f.substring(j++, j);
+        float_num = isNaN(Number(s)) ? 0 : Number(s);       
+    }
+    str = str.indexOf('.') > -1 ? str.substring(0, str.indexOf('.')) : str;
+    //整数部分，每三位加一个逗号
+    var mstr = '', n = 0;
+    for (let i = str.length - 1; i >= 0; i--) {
+        mstr = str.substring(i, i + 1) + mstr;
+        if (++n % 3 == 0 && n != str.length) mstr = ',' + mstr;
+    }
+    return float_num > 0 ? mstr + '.' + float_num : mstr;
+};
 //添加加载前后的事件
 $api.effect(function () {
 

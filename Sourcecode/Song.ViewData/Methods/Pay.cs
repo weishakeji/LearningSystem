@@ -30,6 +30,15 @@ namespace Song.ViewData.Methods
             return Business.Do<IPayInterface>().PaySingle(id);
         }
         /// <summary>
+        /// 计算某一个支付接口的收入
+        /// </summary>
+        /// <param name="id">支付接口的id</param>
+        /// <returns></returns>
+        public decimal Summary(int id)
+        {
+            return Business.Do<IPayInterface>().Summary(id);
+        }
+        /// <summary>
         /// 添加
         /// </summary>
         /// <param name="entity"></param>

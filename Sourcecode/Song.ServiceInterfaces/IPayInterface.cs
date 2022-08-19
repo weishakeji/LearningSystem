@@ -56,5 +56,11 @@ namespace Song.ServiceInterfaces
         /// <param name="items"></param>
         /// <returns></returns>
         bool UpdateTaxis(PayInterface[] items);
+        /// <summary>
+        /// 计算某一个支付接口的收入
+        /// </summary>
+        /// <param name="paid">支付接口的id</param>
+        /// <returns></returns>
+        decimal Summary(int paid);
     }
 }
