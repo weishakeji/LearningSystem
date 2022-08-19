@@ -23,7 +23,7 @@
             </div>
         </div>
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-            @selection-change="val=>selects = val"
+            @selection-change="val=>selects = val" :row-class-name="data=>{return data.row.No_IsShow ? 'enable' : 'disabled';}"
             @row-dblclick="(row, column, event)=>{$refs.btngroup.modify(row[$refs.btngroup.idkey])}" row-key="No_Id">
             <el-table-column type="selection" width="35" show-overflow-tooltip>
             </el-table-column>

@@ -160,7 +160,7 @@ alert::before {
 /*拖动柄*/
 
 .draghandle {
-    cursor: move;
+    cursor:  s-resize;
 }
 
 /*表格的内容滚动（标题栏固定）*/
@@ -189,6 +189,10 @@ alert::before {
 
 .el-table--enable-row-transition .el-table__body td, .el-table .cell {
     --background-color: transparent !important;
+}
+
+table.el-table__body tr.disabled td, table.el-table__body tr.disabled td * {
+    color: #aaa !important;
 }
 
 /*表单行距*/

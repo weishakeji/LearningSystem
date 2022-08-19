@@ -49,7 +49,8 @@
                 </div>
             </div>
             <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-                @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Art_Id">
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick" row-key="Art_Id" 
+                :row-class-name="data=>{return data.row.Art_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="35" show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column type="index" width="50" align="center">

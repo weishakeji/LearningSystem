@@ -67,9 +67,6 @@ icon {
 	border-radius: 3px;
 }
 
-.draghandle {
-	cursor: s-resize;
-}
 
 /*特殊字体*/
 
@@ -140,9 +137,10 @@ loading::before {
 /*帮助、提示*/
 help, alert {
 	color: #999;
-    font-size: 13px;
+	font-size: 13px;
 	cursor: default;
 }
+
 /*多行帮助信息*/
 help[multi] {
 	position: relative;
@@ -150,7 +148,7 @@ help[multi] {
 	padding-left: 30px;
 	box-sizing: border-box;
 	line-height: 25px;
-	
+
 }
 
 help[multi]::before {
@@ -158,15 +156,16 @@ help[multi]::before {
 	left: 0px;
 	top: 3px;
 }
+
 alert {
 	color: #F56C6C;
 }
 
 help::before, alert::before {
 	font-family: "webdesk_icon" !important;
-    display: inline-block;
-    margin: 0px 5px 0px 8px;
-    font-size: 16px;	
+	display: inline-block;
+	margin: 0px 5px 0px 8px;
+	font-size: 16px;
 }
 
 help::before {
@@ -177,6 +176,14 @@ alert::before {
 	content: "\e74f";
 }
 
+
+
+/*拖动柄*/
+
+.draghandle {
+	cursor: s-resize;
+}
+
 /*表格的内容滚动（标题栏固定）*/
 .el-table {
 	height: calc(100% - 63px);
@@ -185,6 +192,38 @@ alert::before {
 .el-table__body-wrapper {
 	height: calc(100% - 41px);
 	overflow-y: auto;
+}
+
+/*表格背景透明*/
+
+.table-wrapper .el-table--fit {
+	padding: 20px;
+}
+
+.el-table, .el-table__expanded-cell {
+	--background-color: transparent !important;
+}
+
+.el-table th, .el-table tr {
+	--background-color: transparent !important;
+}
+
+.el-table--enable-row-transition .el-table__body td, .el-table .cell {
+	--background-color: transparent !important;
+}
+
+/*当表格行处理禁用状态时*/
+table.el-table__body tr.disabled td, table.el-table__body tr.disabled td * {
+	color: #aaa !important;
+}
+
+table.el-table__body tr.disabled td img {
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
 }
 
 /*底部栏*/

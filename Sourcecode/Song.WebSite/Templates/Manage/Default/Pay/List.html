@@ -16,7 +16,7 @@
         <template>
             <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick" index-key="Pai_Tax" row-key="Pai_ID"
-                draggable>
+                draggable :row-class-name="data=>{return data.row.Pai_IsEnable ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="40">
                 </el-table-column>
                 <el-table-column type="index" width="50">
