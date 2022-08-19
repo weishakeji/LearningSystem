@@ -161,7 +161,6 @@
                 $api.get('Pay/Summary', { 'id': th.entity.Pai_ID }).then(function (req) {
                     if (req.data.success) {
                         th.summary = req.data.result;
-                        //th.money(th.summary+89565421);
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -173,16 +172,16 @@
                 });
             },
             //输出金额的格式，即三位一个逗号
-            money: function (num) {
+            money: function (num, len) {
                 if ($api.getType(num) != 'Number') return num;
-                return num.money();              
+                return num.money(len);
             }
         },
         template: `<span>
             <loading v-if="loading"></loading>
             <template v-else>
                 <icon>&#xe746</icon>
-                {{money(summary)}} 元
+                {{money(summary,0)}} 元
             </template>
         </span>`
     });

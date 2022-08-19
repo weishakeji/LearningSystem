@@ -1461,10 +1461,9 @@ String.prototype.format = function () {
 //len:小数字后的长度，默认是两位
 Number.prototype.money = function (len) {
     var str = String(this);
-
     //小数部分
     var float_num = 0;
-    if (len == null) len = 2;
+    if (len == null) len = 2; 
     if (str.indexOf('.') > -1) {
         var f = str.substring(str.indexOf('.') + 1);
         var j = 0, s = '';
