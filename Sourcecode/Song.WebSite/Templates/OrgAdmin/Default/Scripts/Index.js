@@ -394,6 +394,7 @@ window.createVapp = function () {
                         if (!window.$dropmenu) return;
                         window.menubar = window.$dropmenu.create({
                             target: '#menubar',
+                            deftype: 'link',
                             plwidth: 180,
                             height: 45,
                             level: 40000

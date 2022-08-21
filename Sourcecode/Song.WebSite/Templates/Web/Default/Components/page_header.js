@@ -50,6 +50,7 @@ Vue.component('page_header', {
                     //$dom(".menubar").text('ddd');
                     window.usermenu = window.$dropmenu.create({
                         target: '#menubar',
+                        deftype: 'link',
                         plwidth: 180,
                         height: 40,
                         level: 40000
@@ -134,7 +135,7 @@ Vue.component('page_header', {
             $api.get('Navig/web', { 'orgid': this.organ.Org_ID, 'type': 'main' }).then(function (req) {
                 if (req.data.success) {
                     th.menus = req.data.result;
-                    //console.log(th.menus);
+                    console.log(th.menus);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;

@@ -14,7 +14,8 @@
 	var dropmenu = function (param) {
 		if (param == null || typeof (param) != 'object') param = {};
 		this.attrs = {
-			target: '', //所在Html区域			
+			target: '', //所在Html区域	
+			deftype: 'node',		//	默认标识类型		
 			width: 0,
 			height: 30,
 			plwidth: 180, //子菜单面板的宽度
@@ -334,7 +335,8 @@
 		});
 
 		//节点类型
-		node.attr('type', item.type ? item.type : 'node');
+		item.type = item.type ? item.type : this.deftype;
+		node.attr('type', item.type);		
 		var span = null;
 		if (item.type == 'link') {
 			var link = node.add('a');
