@@ -24,7 +24,7 @@ window.onload = function () {
 $dom.ctrljs(function () {
     window.login = $login.create({
         target: '#login-area',
-        ico: 'e804',
+        ico: 'e79b',
         //width: '320px',
         loading: true,
         title: '...',
@@ -51,7 +51,7 @@ $dom.ctrljs(function () {
                     $dom("*[platinfo='title']").html(window.platinfo.title);
                 if (window.platinfo.intro != '')
                     $dom("*[platinfo='intro']").html(window.platinfo.intro);
-                document.title = window.platinfo.title;
+                document.title = '平台管理 - ' + window.platinfo.title;
             } else {
                 throw req.data.message;
             }

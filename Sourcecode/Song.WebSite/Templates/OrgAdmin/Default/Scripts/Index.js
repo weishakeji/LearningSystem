@@ -351,11 +351,12 @@ window.createVapp = function () {
             loading_init: true
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (platinfo, organ) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -366,15 +367,15 @@ window.createVapp = function () {
                     }
                 }
                 //获取结果              
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
                 //window.login.icoimg=vapp.organ.Org_Logo;
-                window.login.title = vapp.organ.Org_PlatformName;
-                document.title = vapp.organ.Org_PlatformName + ' - 机构管理';
+                window.login.title = th.organ.Org_PlatformName;
+                document.title = '机构管理 - ' + th.organ.Org_PlatformName;
                 //
-                vapp.getnavi();
+                th.getnavi();
             })).catch(function (err) {
                 console.error(err);
             });
