@@ -57,7 +57,7 @@ Vue.component('exam_test', {
                     console.error(err);
                 });
         },
-        //获取
+        //获取结课考试的最高成绩
         getfinal_highest: function (stid, tpid) {
             var th = this;
             if (stid <= 0 || tpid <= 0) return;
