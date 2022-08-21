@@ -36,11 +36,12 @@
         <!--数据列表-->
         <el-table ref="datatables" :data="datas" :show-header="false" tooltip-effect="dark"
             style="width: 100%" v-loading="loading" @selection-change="val=>selects=val" default-expand-all
-            @row-dblclick="row=>$refs.btngroup.modify(row)" row-key="Cou_ID" cell-class-name="tdcell">
+            @row-dblclick="row=>$refs.btngroup.modify(row)" row-key="Cou_ID" cell-class-name="tdcell"
+            :row-class-name="data=>{return data.row.Cou_IsUse ? 'enable' : 'disabled';}">
             <el-table-column type="selection" width="35" show-overflow-tooltip>
             </el-table-column>
             <el-table-column type="expand">
-                <div slot-scope="scope" class="course_expand" :title="scope.row.Cou_Name">
+                <div slot-scope="scope" :class="{'course_expand':true,'disabled': !scope.row.Cou_IsUse}" :title="scope.row.Cou_Name">
                     <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
                         <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
                         <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />

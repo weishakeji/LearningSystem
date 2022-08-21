@@ -32,7 +32,7 @@
 
         },
         computed: {
-           
+
         },
         methods: {
             //删除
@@ -93,7 +93,7 @@
             changeUse: function (row) {
                 var th = this;
                 this.loadingid = row.Ac_ID;
-                $api.post('Account/Modify', { 'acc': row }).then(function (req) {
+                $api.post('Account/ModifyState', { 'acid': row.Ac_ID, 'use': row.Ac_IsUse, 'pass': row.Ac_IsPass }).then(function (req) {
                     if (req.data.success) {
                         vue.$notify({
                             type: 'success',

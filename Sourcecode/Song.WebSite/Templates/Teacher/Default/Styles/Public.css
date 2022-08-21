@@ -179,6 +179,49 @@ alert::before {
 	color: rgb(248, 87, 87);
 	font-family: "webdesk_icon" !important;
 }
+
+/*表格的内容滚动（标题栏固定）*/
+.el-table {
+	height: calc(100% - 63px);
+}
+
+.el-table__body-wrapper {
+	height: calc(100% - 41px);
+	overflow-y: auto;
+}
+
+/*表格背景透明*/
+
+.table-wrapper .el-table--fit {
+	padding: 20px;
+}
+
+.el-table, .el-table__expanded-cell {
+	--background-color: transparent !important;
+}
+
+.el-table th, .el-table tr {
+	--background-color: transparent !important;
+}
+
+.el-table--enable-row-transition .el-table__body td, .el-table .cell {
+	--background-color: transparent !important;
+}
+
+/*当表格行处理禁用状态时*/
+table.el-table__body .disabled , table.el-table__body .disabled  * {
+	color: #aaa !important;
+}
+
+table.el-table__body .disabled img {
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
+}
+
 .footer {
     width: 100%;
     box-sizing: border-box;
