@@ -50,7 +50,8 @@
         </div>
         <template>
             <el-table ref="datatable" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
-                @selection-change="val=>selects=val" row-key="Lc_ID">
+                @selection-change="val=>selects=val" row-key="Lc_ID"
+                :row-class-name="data=>{return data.row.Rc_IsEnable ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="40">
                 </el-table-column>
                 <el-table-column type="index" width="50">
@@ -81,7 +82,6 @@
                 </el-table-column>
                 <el-table-column label="启用" width="60" align="center">
                     <template slot-scope="scope">
-
                         <el-switch v-model="scope.row.Rc_IsEnable" :disabled="scope.row.Rc_IsUsed" size="mini"
                             @change="changeEnable(scope.row)" :title="scope.row.Rc_IsUsed ? '已经使用过，禁用没有意义' : '禁用'">
                         </el-switch>

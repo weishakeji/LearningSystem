@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 @page {
     size: A4 portrait;
     margin: 2cm;
@@ -8,93 +9,103 @@
     #btnPrint {
         display: none;
     }
-    body {
-        size: A4 portrait;
-        margin: 0px;
-    }
-    dl.qrcode dd {
-        orphans: 3;
-        widows: 2;
-        page-break-inside: avoid;
+
+    dd {
+        page-break-inside: avoid;       
     }
 }
 
-@media all {
-    body {
-       
-    }
-    body, div, td, p {
-        font-size: 18px;
-    }
-    .page {
-        page-break-inside: avoid;
-        position: relative;
-    }
-    #app {
-        margin-left: auto !important;
-        margin-right: auto !important;
-        size: A4 portrait;
-        width: 21cm;
-    }
-    .theme {
-        text-align: center;
-        font-weight: bold;
-        font-size: 25px;
-        line-height: 50px;
-        margin-bottom: 10px;
-    }
-    .row {
-        line-height: 30px;
-    }
-    .price {}
-    span.box {
-        margin-right: 50px;
-    }
-    #btnPrint {
-        padding-left: 10px;
-        padding-right: 10px;
-        line-height: 20px;
-        float: right;
-    }    
-    /*二维码输出*/
-    .qrcode-area {
-        size: A4 portrait;
-        width: 21cm;
-        overflow: hidden;
-    }
-    .qrcode-area dl {
-        width: 102%;
-    }
-    .qrcode-area dl dd {
-        width: 22%;
-        height: 210px;
-        float: left;
-        text-align: center;
-        border: 1px solid #CCC;
-        padding: 5px;
-        margin-top: 10px;
-        margin-right: 10px;
-        margin-bottom: 0px;
-        margin-left: 0px;
-        text-align: center;
-        position: relative;
-    }
-    .qrcode-area dl dd img {
-        width: 80%;      
-        margin: auto;
-    }
-    .qrcode-area dl dd .code {
-        font-size: 12px;
-        line-height: 30px;
-        white-space: nowrap;
-        text-align: center;
-    }
-    .qrcode-area dl dd .info {
-        font-size: 12px;
-        white-space: nowrap;
-        line-height: 30px;
-        position: absolute;
-        width: calc(100% - 8px);
-        bottom: 4px;     
-    }
+
+html, body, #app {
+    overflow: auto;
+    height: auto;
+}
+
+body, div, td, p {
+    font-size: 18px;
+}
+
+.page {
+    page-break-inside: avoid;
+    position: relative;
+}
+
+#app {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    size: A4 portrait;
+    width: auto;
+    height: auto;
+}
+
+.theme {
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 50px;
+    margin-bottom: 10px;
+}
+
+.row {
+    line-height: 30px;
+}
+
+.el-row {
+    margin: 0px 15px !important;
+}
+
+.price {}
+
+span.box {
+    margin-right: 50px;
+}
+
+#btnPrint {
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 20px;
+    float: right;
+}
+
+/*二维码输出*/
+.qrcode-area {
+    width: calc(100% - 30px);
+    margin: 0px 15px;
+    display: table;
+}
+
+.qrcode-area dl {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.qrcode-area dl dd {
+    display:inline-block;
+    width: 180px;
+    height: 210px;
+    text-align: center;
+    border: 1px solid #CCC;
+    padding: 5px;
+    margin: 10px 10px 0px 0px;
+    page-break-inside: avoid;       
+}
+
+.qrcode-area dl dd img {
+    width: 80%;
+    margin: auto;
+}
+
+.qrcode-area dl dd .code {
+    font-size: 12px;
+    line-height: 30px;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.qrcode-area dl dd .info {
+    font-size: 12px;
+    white-space: nowrap;
+    line-height: 40px;
+    width: calc(100% - 8px);
 }
