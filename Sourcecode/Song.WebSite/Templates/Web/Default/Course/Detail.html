@@ -38,7 +38,7 @@
                         <div title="关注次数：" v-html="course.Cou_ViewNum"></div>
                         <div title="主讲老师：" v-html="course.Th_Name"></div>
                     </div>
-                    <div class="couMoney" title="学习费用：">
+                    <div class="couMoney" title="学习费用：" v-if="!purchased">
                         <span class="moneyfree" v-if="course.Cou_IsFree">
                             <icon>&#xe746;</icon>免费
                         </span>
@@ -52,6 +52,9 @@
                             {{p.CP_Price}}元/{{p.CP_Span}}{{p.CP_Unit}}
                         </span>
                         <span class="money" v-else>未设置价格（非免费课程）</span>
+                    </div>
+                    <div class="couMoney" title="已经选修：" v-else>
+                        {{purchase.Stc_StartTime|date('yyyy-M-d')}} 至 {{purchase.Stc_EndTime|date('yyyy-M-d HH:mm:ss')}}
                     </div>
                     <!--购买课程的按钮-->
                     <largebutton :course="course" :account="account" :isbuy="isbuy" :finaltest="finaltest">

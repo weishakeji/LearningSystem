@@ -85,7 +85,9 @@
                             </picture>
                             <info @click="godetail(item.Cou_ID)">
                                 <div class="curname">
-                                    <van-tag type="success " class="free" v-if="item.Cou_IsLimitFree">限时免</van-tag>
+                                    <van-tag type="success " class="free"
+                                        v-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">限时免
+                                    </van-tag>
                                     <van-tag type="success " class="free" v-else-if="item.Cou_IsFree">免费</van-tag>
                                     {{item.Cou_Name}}
                                 </div>
@@ -95,13 +97,19 @@
                                         <icon>&#xe671</icon>{{scope.data.Stc_EndTime|date("yyyy-M-d ")}} 过期
                                         {{item.endtime|date("yyyy年M月d日")}}
                                     </van-tag>
-                                    <van-tag type="success " class="free" v-if="item.Cou_IsLimitFree">
+                                    <van-tag type="success " class="free"
+                                        v-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
                                         免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
                                     </van-tag>
+                                    <el-tag type="warning" v-else-if="!item.Cou_IsFree">
+                                        <icon>&#xe671</icon>{{scope.data.Stc_EndTime|date("yyyy-M-d ")}} 过期
+                                        {{item.endtime|date("yyyy年M月d日")}}
+                                    </el-tag>
                                 </price>
                             </info>
                             <div class="progress">
-                                <video_progress :course="item" :stid="account.Ac_ID" :config="config" :purchase="scope.data">
+                                <video_progress :course="item" :stid="account.Ac_ID" :config="config"
+                                    :purchase="scope.data">
                                 </video_progress>
                                 <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">
                                 </ques_progress>

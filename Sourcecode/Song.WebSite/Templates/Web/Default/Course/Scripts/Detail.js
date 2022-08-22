@@ -17,7 +17,7 @@ $ready(function () {
             guideCol: [],          //课程通知的分类
             prices: [],          //课程价格
             isbuy: false,        //是否购买课程
-            record: null,          //课程购买记录
+            purchase: null,          //课程购买记录
             canStudy: false,     //是否能够学习
 
             testpapers: [],          //试卷
@@ -26,7 +26,7 @@ $ready(function () {
             loading: false,       //加载状态
             loading_init: false,
 
-      
+
             guide: {},                   //当前要显示的通知公告
         },
         watch: {
@@ -50,6 +50,10 @@ $ready(function () {
             //课程为空,或课程被禁用
             nullcourse: function () {
                 return JSON.stringify(this.course) == '{}' || this.course == null || !this.course.Cou_IsUse;
+            },
+            //是否购买记录
+            purchased: function () {
+                return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
             }
         },
         created: function () {
@@ -150,9 +154,9 @@ $ready(function () {
                 th.account = acc;
                 $api.bat(
                     $api.get('Course/StudyAllow', { 'couid': th.couid }),
-                    $api.cache('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
-                    $api.cache('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid })   //章节的视频学习记录                    
-                ).then(axios.spread(function (canStudy, record, videolog) {
+                    $api.get('Course/Purchaselog', { 'couid': th.couid, 'stid': th.account.Ac_ID }),
+                    $api.get('Course/LogForOutlineVideo:5', { 'stid': th.account.Ac_ID, 'couid': th.couid })   //章节的视频学习记录                    
+                ).then(axios.spread(function (canStudy, purchase, videolog) {
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -165,7 +169,7 @@ $ready(function () {
                     }
                     //获取结果
                     th.canStudy = canStudy.data.result;
-                    th.record = record.data.result;
+                    th.purchase = purchase.data.result;
                     th.videolog = videolog.data.result;
                 })).catch(function (err) {
                     console.error(err);
@@ -217,7 +221,7 @@ $ready(function () {
                     { name: '交流咨询', tab: 'message', icon: '&#xe817', size: 22, show: false, evt: null },
                     { name: '测试/考试', tab: 'test', icon: '&#xe810', size: 21, show: true, evt: null },
                 ],
-                activeName: $api.querystring('tab','intro'),
+                activeName: $api.querystring('tab', 'intro'),
                 curr_menus: {},  //当前点击的按钮项
                 outline: {},     //当前点击的章节
                 loading: false
