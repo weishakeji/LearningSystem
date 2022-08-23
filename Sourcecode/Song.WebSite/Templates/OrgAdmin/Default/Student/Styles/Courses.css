@@ -1,44 +1,44 @@
 ﻿@charset "utf-8";
 
 #vapp {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 /*头部*/
 .header {
-    height: 42px;
-    box-sizing: border-box;
-    padding-left: 10px;
-    position: relative;
+	height: 42px;
+	box-sizing: border-box;
+	padding-left: 10px;
+	position: relative;
 }
 
 #pager-box {
-    position: static;
+	position: static;
 }
 
 .header .el-tabs__item {
-    font-size: 14px;
-    transition: all 0.3s;
+	font-size: 14px;
+	transition: all 0.3s;
 }
 
 .header .el-tabs__item icon {
-    font-size: 18px;
+	font-size: 18px;
 }
 
 .header .is-active {
-    font-size: 16px;
+	font-size: 16px;
 }
 
 .header .is-activeicon {
-    font-size: 20px;
+	font-size: 20px;
 }
 
 .search-box {
-    position: absolute;
-    height: 35px;
-    right: 0px;
-    top: 6px;
+	position: absolute;
+	height: 35px;
+	right: 0px;
+	top: 6px;
 }
 
 /*内容区域*/
@@ -102,9 +102,11 @@ context .el-card__header>div * {
 context .course:last-child {
 	margin-bottom: 0px !important;
 }
-.nopass{
+
+.nopass {
 	color: rgb(245, 108, 108);
 }
+
 /*课程内容*/
 .el-card__body {
 	box-sizing: border-box;
@@ -214,6 +216,21 @@ price {
 	line-height: 30px;
 }
 
+/*课程相关数据*/
+.datainfo {
+	display: flex;
+	justify-content: space-between;
+}
+
+.datainfo>div:first-child {	
+	display: flex;
+}
+.datainfo>div:first-child>*{
+	margin-right: 5px;
+}
+.datainfo>div:first-child>*:last-child{
+	margin-left: 5px;
+}
 /*学习信息*/
 .studyinfo {
 	position: absolute;
@@ -226,7 +243,8 @@ price {
 .studyinfo>div:first-child {
 	flex: 1;
 }
-.studyinfo>div{
+
+.studyinfo>div {
 	width: 200px;
 	position: relative;
 	padding: 5px;
@@ -235,9 +253,11 @@ price {
 	border: 1px solid #ddd;
 	border-radius: 3px;
 }
-.studyinfo>div:last-child{
+
+.studyinfo>div:last-child {
 	margin-right: 0px;
 }
+
 .is-success .el-progress-bar__inner::before {
 	content: "\e706";
 	font-family: webdesk_icon;
@@ -250,4 +270,3 @@ price {
 .el-progress-bar__inner {
 	min-width: 100px;
 }
-

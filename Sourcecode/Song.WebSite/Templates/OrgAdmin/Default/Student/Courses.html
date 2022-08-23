@@ -47,7 +47,8 @@
                 </div>
             </template>
             <template v-else>
-                <purchase_data v-for="(item,index) in datas" :couid="item.Cou_ID" :stid="account.Ac_ID" v-slot="scope">
+                <purchase_data :ref="'purchase_data_'+item.Cou_ID" v-for="(item,index) in datas" :couid="item.Cou_ID"
+                    :stid="account.Ac_ID" v-slot="scope">
                     <el-card class="course">
                         <template slot="header">
                             <div>
@@ -71,7 +72,7 @@
                                 </a> </div>
                         </div>
                         <div class="info">
-                            <div class="info_row">
+                            <div class="info_row datainfo">
                                 <template v-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
                                     <el-tag type="success" class="free">限时免</el-tag>
                                     <el-tag type="success" class="free">
@@ -84,6 +85,25 @@
                                         <icon>&#xe671</icon>{{scope.data.Stc_EndTime|date("yyyy-M-d ")}} 过期
                                         {{item.endtime|date("yyyy年M月d日")}}
                                     </el-tag>
+                                    <el-link type="primary" @click="item.addtime_show=true" v-if="!item.addtime_show">
+                                        <icon>&#xe81a</icon>续时
+                                    </el-link>
+                                    <template v-else>
+                                        <loading v-if="item.addtime_loading"></loading>
+                                        <template v-else>
+                                            <el-input placeholder="" v-model.number="item.addtime_value"
+                                                style="width: 200px;" type="number">
+                                                <template slot="prepend">续时</template>
+                                                <template slot="append">天</template>
+                                            </el-input>
+
+                                            <el-popconfirm title="确定增加课程选修时间吗？"
+                                                @confirm="purchaseAddTime(item.addtime_value,item)">
+                                                <el-button type="text" slot="reference">确定</el-button>
+                                            </el-popconfirm>
+                                            <el-button type="text" @click="item.addtime_show=false">返回</el-button>
+                                        </template>
+                                    </template>
                                 </div>
                                 <course_data :couid="item.Cou_ID" :viewnum="item.Cou_ViewNum"></course_data>
                             </div>

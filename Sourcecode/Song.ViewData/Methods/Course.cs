@@ -947,6 +947,63 @@ namespace Song.ViewData.Methods
             }         
         }
         /// <summary>
+        /// 增加学员购买课程的时间
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="number">要增加的时间数</param>
+        /// <param name="unit">要增加的时间单位；
+        /// 天:天,日,day,d ;
+        /// 周:周,星期,week,w ;
+        /// 月:月,month,m ; 
+        /// 年:年,yeer,y</param>
+        /// <returns></returns>
+        [Admin][HttpPost]
+        public bool PurchaseAddTime(int stid, int couid, int number, string unit)
+        {
+            number = number > 0 ? number : 0;
+            if (number <= 0) throw new Exception("当前学员没有选修该课程");
+
+            Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
+            if (sc == null) throw new Exception("当前学员没有选修该课程");
+
+            unit = unit.ToLower();
+            switch (unit)
+            {
+                case "天":
+                case "日":
+                case "day":
+                case "d":
+                    sc.Stc_EndTime = sc.Stc_EndTime.AddDays(number);
+                    break;
+                case "周":
+                case "星期":
+                case "week":
+                case "w":
+                    sc.Stc_EndTime = sc.Stc_EndTime.AddDays(number * 7);
+                    break;
+                case "月":
+                case "month":
+                case "m":
+                    sc.Stc_EndTime = sc.Stc_EndTime.AddMonths(number);
+                    break;
+                case "年":
+                case "yeer":
+                case "y":
+                    sc.Stc_EndTime = sc.Stc_EndTime.AddYears(number);
+                    break;
+            }
+            try
+            {
+                sc = Business.Do<ICourse>().StudentCourseUpdate(sc);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
         /// 免费学习课程
         /// </summary>
         /// <param name="couid">课程id</param>

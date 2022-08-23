@@ -211,7 +211,15 @@ price {
 	display: block;
 	line-height: 30px;
 }
+/*课程相关数据*/
+.datainfo {
+	display: flex;
+	justify-content: space-between;
+}
 
+.datainfo>div:first-child {
+	margin-right: 5px;
+}
 /*学习信息*/
 .studyinfo {
 	position: absolute;

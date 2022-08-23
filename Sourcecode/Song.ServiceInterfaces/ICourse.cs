@@ -312,6 +312,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Student_Course StudentCourse(int stid, int couid);
         /// <summary>
+        /// 更新学员购买课程的记录的信息
+        /// </summary>
+        /// <param name="sc"></param>
+        /// <returns></returns>
+        Student_Course StudentCourseUpdate(Student_Course sc);
+        /// <summary>
         /// 保存学员的成绩记录
         /// </summary>
         /// <param name="sc"></param>

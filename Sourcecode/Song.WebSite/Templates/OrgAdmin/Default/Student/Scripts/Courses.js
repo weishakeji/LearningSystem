@@ -90,7 +90,14 @@
                     th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
-                        th.datas = req.data.result;
+                        var result = req.data.result;
+                        //添加一些字段，用于增加学员选修时间的表单
+                        for (let i = 0; i < result.length; i++) {
+                            result[i]['addtime_show'] = false;
+                            result[i]['addtime_value'] = '';
+                            result[i]['addtime_loading'] = false;
+                        }
+                        th.datas = result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -109,7 +116,7 @@
                 var weight_video = orgconfig('finaltest_weight_video', 33.3);
                 //加上容差
                 var video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
-                video = video >= 100 ? 100 : video; 
+                video = video >= 100 ? 100 : video;
                 video = weight_video * video / 100;
                 //试题得分
                 var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
@@ -144,6 +151,31 @@
                 var box = window.top.$pagebox.create(obj);
                 box.open();
                 //window.top.vapp.open(obj);
+            },
+            //增加学员选修课程的时间
+            purchaseAddTime: function (num, course) {
+                if (num <= 0) return;
+                var th = this;
+                course['addtime_loading'] = true;
+                $api.get('Course/PurchaseAddTime', { 'stid': th.id, 'couid': course.Cou_ID, 'number': num, 'unit': '天' })
+                    .then(function (req) {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            var fuc = th.$refs['purchase_data_' + course.Cou_ID][0].onload;
+                            if (fuc != num) fuc();
+                            course['addtime_show'] = false;
+                            //th.handleCurrentChange();                            
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        //alert(err);
+                        Vue.prototype.$alert(err);
+                        console.error(err);
+                    }).finally(function () {
+                        course['addtime_loading'] = false;
+                    });
             }
         }
     });
