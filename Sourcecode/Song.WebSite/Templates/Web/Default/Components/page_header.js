@@ -211,8 +211,9 @@ Vue.component('page_header', {
     template: `<weisha_header_navi>
         <header v-if="loading"> <loading>... </loading></header>
         <header v-else-if="organ && JSON.stringify(organ) != '{}'">
-            <a href="/"><img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />
-            <img :src="path+'Images/def_logo.gif'" style="height: 32px;" class="logo deflogo" v-else />
+            <a href="/" class="logo">
+                <img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" />
+                <img src="/Utilities/Images/def_logo.jpg" v-else />
             </a>
             <right>
                 <search>

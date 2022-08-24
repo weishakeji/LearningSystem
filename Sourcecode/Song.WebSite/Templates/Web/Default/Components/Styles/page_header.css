@@ -69,14 +69,14 @@ weisha_header_navi drop-node span {
     text-overflow: initial;
 }
 
-weisha_header_navi header img.logo {
+weisha_header_navi header a.logo img {
     height: calc(100% - 0px);
     width: auto;
     float: left;
 }
 
 weisha_header_navi header .deflogo {
-    margin: 15px 5px;
+    height: 70px;
 }
 
 weisha_header_navi header right {
