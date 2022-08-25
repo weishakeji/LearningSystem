@@ -943,6 +943,30 @@ namespace Song.ServiceImpls
                 .ToFirst<Student_Course>();
         }
         /// <summary>
+        /// 直接开课，创建学员与课程的关联信息
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public int BeginCourse(int stid, DateTime start, DateTime end, int couid)
+        {
+            Student_Course sc = Gateway.Default.From<Student_Course>().Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid)
+                .ToFirst<Student_Course>();
+            if (sc == null)
+            {
+                sc = new Student_Course();
+                sc.Stc_CrtTime = DateTime.Now;
+                sc.Ac_ID = stid;
+                sc.Cou_ID = couid;
+            }
+            sc.Stc_StartTime = start;
+            sc.Stc_EndTime = end;
+            Gateway.Default.Save<Student_Course>(sc);
+            return sc.Stc_ID;
+        }
+        /// <summary>
         /// 更新学员购买课程的记录的信息
         /// </summary>
         /// <param name="sc"></param>

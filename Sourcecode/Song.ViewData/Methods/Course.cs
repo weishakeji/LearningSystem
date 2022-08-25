@@ -910,7 +910,7 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
-        #region 课程购买
+        #region 课程购买(或叫选修)
         /// <summary>
         /// 购买课程
         /// </summary>
@@ -1055,6 +1055,7 @@ namespace Song.ViewData.Methods
                 throw ex;
             }
         }
+
         #endregion
 
         #region 导出课程的学习记录

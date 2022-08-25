@@ -416,6 +416,9 @@
     <Content Include="Templates\OrgAdmin\Default\Question\Scripts\Import.js" />
     <Content Include="Templates\OrgAdmin\Default\Question\Styles\Export.css" />
     <Content Include="Templates\OrgAdmin\Default\Question\Styles\Import.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\BeginCourse.html" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\BeginCourse.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\BeginCourse.css" />
     <Content Include="Templates\Pay\Default\Alibaba\Scripts\Mobi.js" />
     <Content Include="Templates\Pay\Default\Alibaba\Styles\Mobi.css" />
     <Content Include="Templates\Pay\Default\Alibaba\Mobi.html" />
@@ -1210,6 +1213,7 @@
     <Content Include="Utilities\Components\upload-chunked.js" />
     <Content Include="Utilities\Components\upload-excel.js" />
     <Content Include="Utilities\Images\alpha.png" />
+    <Content Include="Utilities\Images\def_logo.jpg" />
     <Content Include="Utilities\Images\head\head1.jpg" />
     <Content Include="Utilities\Images\head\head2.jpg" />
     <Content Include="Utilities\Images\live-icon.gif" />

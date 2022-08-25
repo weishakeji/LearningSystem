@@ -75,6 +75,7 @@
             }
         },
         methods: {
+            //分页加载数据
             handleCurrentChange: function (index) {
                 var th = this;
                 th.loading = true;
@@ -176,6 +177,23 @@
                     }).finally(function () {
                         course['addtime_loading'] = false;
                     });
+            },
+            //打开“开课”的窗体
+            begincourse: function () {
+                var stid = this.id;
+                var url = $api.url.dot(stid, $dom.routpath() + 'begincourse');
+                //直接创建
+                var box = window.top.$pagebox.create({
+                    width: 800, height: '70%',
+                    resize: true, min: false,
+                    ico: 'e813',
+                    id: 'begincourse_' + stid,
+                    title: '给学员（' + this.account.Ac_Name + ' ' + this.account.Ac_AccName + '）添加选修课程',
+                    showmask: true,
+                    pid: window.name,
+                    url: url
+                });
+                box.open();
             }
         }
     });

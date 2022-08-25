@@ -1063,5 +1063,26 @@ namespace Song.ViewData.Methods
             }
         }
         #endregion
+
+        #region 选修课程
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="stid"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public int BeginCourse(int stid,DateTime start,DateTime end,int[] couid)
+        {
+            int i = 0;
+            foreach (int c in couid)
+            {
+                Business.Do<ICourse>().BeginCourse(stid, start, end, c);
+                i++;
+            }
+            return i;
+        }
+        #endregion
     }
 }

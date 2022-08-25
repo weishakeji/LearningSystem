@@ -312,6 +312,15 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Student_Course StudentCourse(int stid, int couid);
         /// <summary>
+        /// 直接开课，创建学员与课程的关联信息
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="start">开始时间</param>
+        /// <param name="end">结束时间</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        int BeginCourse(int stid, DateTime start, DateTime end, int couid);
+        /// <summary>
         /// 更新学员购买课程的记录的信息
         /// </summary>
         /// <param name="sc"></param>

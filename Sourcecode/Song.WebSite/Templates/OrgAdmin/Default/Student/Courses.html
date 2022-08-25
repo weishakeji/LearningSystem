@@ -20,7 +20,7 @@
             <div class="search-box">
                 <el-form :inline="true" :model="query" size="mini" class="demo-form-inline" v-on:submit.native.prevent>
                     <el-form-item>
-                        <el-button type="success" plain>
+                        <el-button type="success" plain @click="begincourse">
                             <icon>&#xe813</icon>单独开课
                         </el-button>
                     </el-form-item>
