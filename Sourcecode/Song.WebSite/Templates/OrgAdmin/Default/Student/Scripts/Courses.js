@@ -201,7 +201,7 @@
             purchaseEnable: function (purchase, enable) {
                 var th = this;
                 th.loading_id = purchase.Stc_ID;
-                purchase.Stc_IsEnable = enable;              
+                purchase.Stc_IsEnable = enable;
                 var params = { 'stid': th.id, 'couid': purchase.Cou_ID, 'enable': enable };
                 $api.post('Course/PurchaseEnable', params).then(function (req) {
                     th.loading_id = 0;
@@ -220,6 +220,37 @@
                     Vue.prototype.$alert(err);
                     console.error(err);
                 });
+            },
+            //删除当前学习记录
+            purchaseDel: function (purchase) {
+                this.$confirm('此操作将永久删除数据, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var th=this;
+                    th.loading_id = purchase.Stc_ID;
+                    var params = { 'stid': purchase.Ac_ID, 'couid': purchase.Cou_ID};
+                    $api.delete('Course/PurchaseDelete', params).then(function (req) {
+                        th.loading_id = 0;
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.$message({
+                                type: 'success',
+                                message: '删除成功!'
+                            });
+                            th.handleCurrentChange();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        th.loading_id = 0;
+                        Vue.prototype.$alert(err);
+                        console.error(err);
+                    });
+                   
+                }).catch(() => { });
             }
         }
     });

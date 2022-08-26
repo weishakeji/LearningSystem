@@ -101,9 +101,12 @@
                                                 title="点击此处可以启用学习状态">
                                                 <icon>&#xe7ad</icon>被禁止
                                             </el-link>
-                                            <el-link type="danger" @click="()=>{}">
-                                                <icon>&#xe800</icon>删除
-                                            </el-link>
+                                            <el-popconfirm title="确定删除吗？" @confirm="purchaseDel(scope.data)">                                          
+                                                <el-link type="danger" slot="reference">
+                                                    <icon>&#xe800</icon>删除
+                                                </el-link>
+                                            </el-popconfirm>
+                                          
                                         </template>
                                     </template>
                                     <template v-else>

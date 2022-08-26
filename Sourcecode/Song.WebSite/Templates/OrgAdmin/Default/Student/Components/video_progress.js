@@ -43,7 +43,7 @@ Vue.component('video_progress', {
                         .then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                th.$notify({ type: 'success', message: '保存通过率成功' });
+                                //th.$notify({ type: 'success', message: '保存通过率成功' });
                             } else {
                                 console.error(req.data.exception);
                                 throw req.config.way + ' ' + req.data.message;
