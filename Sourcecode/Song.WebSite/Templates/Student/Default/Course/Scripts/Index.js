@@ -8,7 +8,7 @@ $ready(function () {
             organ: {},
             config: {},      //当前机构配置项       
             query: {
-                'acid': -1, 'search': '', 'size': 10, 'index': 0
+                'acid': -1, 'search': '', 'enable': true, 'size': 10, 'index': 0
             },
             //左上角的按钮
             methods: [
@@ -75,7 +75,7 @@ $ready(function () {
         },
         methods: {
             handleCurrentChange: function (index) {
-                var th = this;               
+                var th = this;
                 if (index != null) this.query.index = index;
                 if (th.query.acid === undefined || th.query.acid == -1) return;
                 th.loading = true;
@@ -107,8 +107,8 @@ $ready(function () {
                 //视频得分
                 var weight_video = orgconfig('finaltest_weight_video', 33.3);
                 //加上容差
-                var video=purchase.Stc_StudyScore>0 ? purchase.Stc_StudyScore+ orgconfig('VideoTolerance', 0) : 0;   
-                video = video >= 100 ? 100 : video;             
+                var video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
+                video = video >= 100 ? 100 : video;
                 video = weight_video * video / 100;
                 //试题得分
                 var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
@@ -121,7 +121,7 @@ $ready(function () {
                 //获取机构的配置参数
                 function orgconfig(para, def) {
                     var val = Number(th.config[para]);
-                    if (isNaN(val)) return def ? def : '';                    
+                    if (isNaN(val)) return def ? def : '';
                     return val;
                 };
             },

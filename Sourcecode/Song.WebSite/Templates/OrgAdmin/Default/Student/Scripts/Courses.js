@@ -9,7 +9,7 @@
             organ: {},
             config: {},      //当前机构配置项       
             query: {
-                'acid': -1, 'search': '', 'size': 10, 'index': 0
+                'acid': -1, 'search': '', 'enable': null, 'size': 10, 'index': 0
             },
             //左上角的按钮
             methods: [
@@ -23,6 +23,7 @@
             totalpages: 1, //总页数
 
             loading_init: true,
+            loading_id: 0,       //更新状态时的预载
             loading: false
         },
         mounted: function () {
@@ -194,6 +195,31 @@
                     url: url
                 });
                 box.open();
+            },
+            //禁用学习课程的记录
+            //purchase:课程购买记录项
+            purchaseEnable: function (purchase, enable) {
+                var th = this;
+                th.loading_id = purchase.Stc_ID;
+                purchase.Stc_IsEnable = enable;              
+                var params = { 'stid': th.id, 'couid': purchase.Cou_ID, 'enable': enable };
+                $api.post('Course/PurchaseEnable', params).then(function (req) {
+                    th.loading_id = 0;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$message({
+                            message: '更新状态成功！',
+                            type: 'success'
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading_id = 0;
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
             }
         }
     });

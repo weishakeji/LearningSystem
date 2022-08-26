@@ -379,9 +379,10 @@ namespace Song.ServiceImpls
         /// <param name="sear">用于检索课程的字符</param>
         /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
         /// <returns></returns>
-        public List<Course> CourseForStudent(int stid, string sear, int state, bool? istry,int size, int index, out int countSum)
+        public List<Course> CourseForStudent(int stid, string sear, int state, bool? enable, bool? istry,int size, int index, out int countSum)
         {           
             WhereClip wc = Student_Course._.Ac_ID == stid;
+            if (enable != null) wc.And(Student_Course._.Stc_IsEnable == (bool)enable);
             //Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             //if (org != null)
             //{
@@ -950,7 +951,7 @@ namespace Song.ServiceImpls
         /// <param name="end">结束时间</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public int BeginCourse(int stid, DateTime start, DateTime end, int couid)
+        public int BeginCourse(int stid, DateTime start, DateTime end, int couid, int orgid)
         {
             Student_Course sc = Gateway.Default.From<Student_Course>().Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid)
                 .ToFirst<Student_Course>();
@@ -960,9 +961,12 @@ namespace Song.ServiceImpls
                 sc.Stc_CrtTime = DateTime.Now;
                 sc.Ac_ID = stid;
                 sc.Cou_ID = couid;
+                sc.Org_ID = orgid;
             }
             sc.Stc_StartTime = start;
             sc.Stc_EndTime = end;
+            sc.Stc_IsEnable = true;
+            sc.Stc_Type = 3;    //免费为0，试用为1，购买为2，后台开课为3
             Gateway.Default.Save<Student_Course>(sc);
             return sc.Stc_ID;
         }
@@ -1011,6 +1015,8 @@ namespace Song.ServiceImpls
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             sc.Org_ID = org.Org_ID;
             sc.Stc_CrtTime = DateTime.Now;
+            sc.Stc_IsEnable = true;
+            sc.Stc_Type = 2;    //免费为0，试用为1，购买为2，后台开课为3
             Gateway.Default.Save<Student_Course>(sc);
         }
         /// <summary>
@@ -1030,6 +1036,8 @@ namespace Song.ServiceImpls
             stc.Org_ID = org.Org_ID;
             stc.Stc_CrtTime = DateTime.Now;
             stc.Stc_IsTry = false;
+            stc.Stc_IsEnable = true;
+            stc.Stc_Type = 2;    //免费为0，试用为1，购买为2，后台开课为3
             Gateway.Default.Save<Student_Course>(stc);
             return stc;
         }
@@ -1086,11 +1094,14 @@ namespace Song.ServiceImpls
             }
             sc.Cou_ID = couid;
             sc.Ac_ID = stid;
-            sc.Stc_Money = price.CP_Price;
+            sc.Stc_Money = mprice;
+            sc.Stc_Coupon = cprice;
             sc.Stc_StartTime = DateTime.Now;
             sc.Stc_EndTime = end;
             sc.Stc_IsFree = false;
             sc.Stc_IsTry = false;
+            sc.Stc_IsEnable = true;
+            sc.Stc_Type = 2;    //免费为0，试用为1，购买为2，后台开课为3
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             sc.Org_ID = org.Org_ID;
             //
@@ -1135,6 +1146,8 @@ namespace Song.ServiceImpls
             sc.Stc_EndTime = end;
             sc.Stc_IsFree = true;
             sc.Stc_IsTry = false;
+            sc.Stc_IsEnable = true;
+            sc.Stc_Type = 0;    //免费为0，试用为1，购买为2，后台开课为3
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) sc.Org_ID = org.Org_ID;
             Gateway.Default.Save<Student_Course>(sc);
@@ -1156,6 +1169,8 @@ namespace Song.ServiceImpls
             sc.Stc_EndTime = DateTime.Now.AddYears(100);
             sc.Stc_IsFree = false;
             sc.Stc_IsTry = true;
+            sc.Stc_IsEnable = true;
+            sc.Stc_Type = 1;    //免费为0，试用为1，购买为2，后台开课为3
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             sc.Org_ID = org.Org_ID;
             sc.Stc_CrtTime = DateTime.Now;

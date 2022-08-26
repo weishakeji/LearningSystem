@@ -1075,10 +1075,11 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public int BeginCourse(int stid,DateTime start,DateTime end,int[] couid)
         {
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             int i = 0;
             foreach (int c in couid)
             {
-                Business.Do<ICourse>().BeginCourse(stid, start, end, c);
+                Business.Do<ICourse>().BeginCourse(stid, start, end, c, org.Org_ID);
                 i++;
             }
             return i;

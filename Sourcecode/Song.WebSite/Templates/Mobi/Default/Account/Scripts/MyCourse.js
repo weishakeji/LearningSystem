@@ -14,7 +14,7 @@ $ready(function () {
             datas: [],           //课程列表
             finished: false,
             query: {
-                'acid': -1, 'search': '', 'size': 10, 'index': 0
+                'acid': -1, 'search': '', 'enable': true,'size': 10, 'index': 0
             },
             method_name: 'purchased',      //接口名称，来自选项卡的名称
             total: 0

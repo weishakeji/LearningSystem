@@ -533,13 +533,18 @@ namespace Song.ViewData.Methods
             return eas;
         }
         /// <summary>
-        /// 购买的课程
+        ///  购买的课程
         /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="search">按课程检索</param>
+        /// <param name="enable">是否使用中的记录,null取所有</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Purchased(int acid,string search,int size,int index)
+        public ListResult Purchased(int acid, string search, bool? enable, int size, int index)
         {
             int count = 0;
-            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseForStudent(acid, search, 1, false, size, index, out count);
+            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseForStudent(acid, search, 1, enable, false, size, index, out count);
             for (int i = 0; i < courses.Count; i++)
             {
                 Song.Entities.Course c = _tran(courses[i]);
@@ -556,11 +561,16 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 过期的课程
         /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="search">按课程检索</param>
+        /// <param name="enable">是否使用中的记录,null取所有</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Overdue(int acid, string search, int size, int index)
+        public ListResult Overdue(int acid, string search, bool? enable, int size, int index)
         {
             int count = 0;
-            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseForStudent(acid, search, 2, false, size, index, out count);
+            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseForStudent(acid, search, 2, enable, false, size, index, out count);
             for (int i = 0; i < courses.Count; i++)
             {
                 Song.Entities.Course c = _tran(courses[i]);
@@ -578,11 +588,16 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 试用的课程
         /// </summary>
+        /// <param name="acid">学员id</param>
+        /// <param name="search">按课程检索</param>
+        /// <param name="enable">是否使用中的记录,null取所有</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Ontrial(int acid, string search, int size, int index)
+        public ListResult Ontrial(int acid, string search, bool? enable, int size, int index)
         {
             int count = 0;
-            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseForStudent(acid, search, -1, true, size, index, out count);
+            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseForStudent(acid, search, -1, enable, true, size, index, out count);
             for (int i = 0; i < courses.Count; i++)
             {
                 Song.Entities.Course c = _tran(courses[i]);
@@ -601,13 +616,14 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="acid"></param>
         /// <param name="search"></param>
+        /// <param name="enable">是否使用中的记录,null取所有</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult ForStudent(int acid, string search, int size, int index)
+        public ListResult ForStudent(int acid, string search, bool? enable, int size, int index)
         {
             int count = 0;
-            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseForStudent(acid, search, 0, false, size, index, out count);
+            List<Song.Entities.Course> courses = Business.Do<ICourse>().CourseForStudent(acid, search, 0, enable, false, size, index, out count);
             for (int i = 0; i < courses.Count; i++)
             {
                 Song.Entities.Course c = _tran(courses[i]);
@@ -945,6 +961,35 @@ namespace Song.ViewData.Methods
             {
                 throw ex;
             }         
+        }
+        /// <summary>
+        /// 禁用或启用学员的购买课程记录
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="enable">启用或禁用</param>
+        /// <returns></returns>
+        [Admin,Teacher][HttpPost]
+        public bool PurchaseEnable(int stid, int couid, bool enable)
+        {
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
+            if (sc == null) throw new Exception("购买记录不存在");
+            sc.Stc_IsEnable = enable;
+            Business.Do<ICourse>().StudentCourseUpdate(sc);
+            return true;
+        }
+        /// <summary>
+        /// 删除课程购买记录
+        /// </summary>
+        /// <param name="stid"></param>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        [Admin]
+        [HttpDelete]
+        public bool PurchaseDelete(int stid, int couid)
+        {
+            Business.Do<ICourse>().DelteCourseBuy(stid, couid);  
+            return true;
         }
         /// <summary>
         /// 增加学员购买课程的时间

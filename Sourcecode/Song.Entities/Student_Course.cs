@@ -36,6 +36,12 @@ namespace Song.Entities {
     		
     		protected Double _Stc_ExamScore;
     		
+    		protected Boolean _Stc_IsEnable;
+    		
+    		protected Int32 _Stc_Type;
+    		
+    		protected Int32 _Stc_Coupon;
+    		
     		public Int32 Stc_ID {
     			get {
     				return this._Stc_ID;
@@ -176,6 +182,36 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Stc_IsEnable {
+    			get {
+    				return this._Stc_IsEnable;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Stc_IsEnable, _Stc_IsEnable, value);
+    				this._Stc_IsEnable = value;
+    			}
+    		}
+    		
+    		public Int32 Stc_Type {
+    			get {
+    				return this._Stc_Type;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Stc_Type, _Stc_Type, value);
+    				this._Stc_Type = value;
+    			}
+    		}
+    		
+    		public Int32 Stc_Coupon {
+    			get {
+    				return this._Stc_Coupon;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Stc_Coupon, _Stc_Coupon, value);
+    				this._Stc_Coupon = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -216,7 +252,10 @@ namespace Song.Entities {
     					_.Stc_IsTry,
     					_.Stc_QuesScore,
     					_.Stc_StudyScore,
-    					_.Stc_ExamScore};
+    					_.Stc_ExamScore,
+    					_.Stc_IsEnable,
+    					_.Stc_Type,
+    					_.Stc_Coupon};
     		}
     		
     		/// <summary>
@@ -237,7 +276,10 @@ namespace Song.Entities {
     					this._Stc_IsTry,
     					this._Stc_QuesScore,
     					this._Stc_StudyScore,
-    					this._Stc_ExamScore};
+    					this._Stc_ExamScore,
+    					this._Stc_IsEnable,
+    					this._Stc_Type,
+    					this._Stc_Coupon};
     		}
     		
     		/// <summary>
@@ -285,6 +327,15 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Stc_ExamScore))) {
     				this._Stc_ExamScore = reader.GetDouble(_.Stc_ExamScore);
+    			}
+    			if ((false == reader.IsDBNull(_.Stc_IsEnable))) {
+    				this._Stc_IsEnable = reader.GetBoolean(_.Stc_IsEnable);
+    			}
+    			if ((false == reader.IsDBNull(_.Stc_Type))) {
+    				this._Stc_Type = reader.GetInt32(_.Stc_Type);
+    			}
+    			if ((false == reader.IsDBNull(_.Stc_Coupon))) {
+    				this._Stc_Coupon = reader.GetInt32(_.Stc_Coupon);
     			}
     		}
     		
@@ -381,7 +432,21 @@ namespace Song.Entities {
     			/// 字段名：Stc_ExamScore - 数据类型：Double
     			/// </summary>
     			public static WeiSha.Data.Field Stc_ExamScore = new WeiSha.Data.Field<Student_Course>("Stc_ExamScore");
+    			
+    			/// <summary>
+    			/// 字段名：Stc_IsEnable - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Stc_IsEnable = new WeiSha.Data.Field<Student_Course>("Stc_IsEnable");
+    			
+    			/// <summary>
+    			/// 字段名：Stc_Type - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Stc_Type = new WeiSha.Data.Field<Student_Course>("Stc_Type");
+    			
+    			/// <summary>
+    			/// 字段名：Stc_Coupon - 数据类型：Int32
+    			/// </summary>
+    			public static WeiSha.Data.Field Stc_Coupon = new WeiSha.Data.Field<Student_Course>("Stc_Coupon");
     		}
     	}
     }
-    

@@ -586,7 +586,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                     //*****如果没有购买的，则去除
                     //购买的课程(含概试用的）
                     int count = 0;
-                    List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(acid, null, 0, null, int.MaxValue, 1, out count);
+                    List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(acid, null, 0,null, null, int.MaxValue, 1, out count);
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         bool isExist = false;

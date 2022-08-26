@@ -49,7 +49,7 @@
             <template v-else>
                 <purchase_data :ref="'purchase_data_'+item.Cou_ID" v-for="(item,index) in datas" :couid="item.Cou_ID"
                     :stid="account.Ac_ID" v-slot="scope">
-                    <el-card class="course">
+                    <el-card class="course" :disabled="!scope.data.Stc_IsEnable">
                         <template slot="header">
                             <div>
                                 <span>{{(query.index - 1) * query.size + index + 1}}.</span>
@@ -85,9 +85,27 @@
                                         <icon>&#xe671</icon>{{scope.data.Stc_EndTime|date("yyyy-M-d ")}} 过期
                                         {{item.endtime|date("yyyy年M月d日")}}
                                     </el-tag>
-                                    <el-link type="primary" @click="item.addtime_show=true" v-if="!item.addtime_show">
-                                        <icon>&#xe81a</icon>续时
-                                    </el-link>
+                                    <template v-if="!item.addtime_show">
+                                        <div v-if="loading_id==scope.data.Stc_ID">
+                                            <loading></loading>
+                                        </div>
+                                        <template v-else>
+                                            <el-link type="primary" @click="item.addtime_show=true">
+                                                <icon>&#xe81a</icon>续时
+                                            </el-link>
+                                            <el-link type="success" @click="purchaseEnable(scope.data,false)"
+                                                v-if="scope.data.Stc_IsEnable" title="点击此处禁用学习">
+                                                <icon>&#xe634</icon>可学习
+                                            </el-link>
+                                            <el-link type="info" @click="purchaseEnable(scope.data,true)" v-else
+                                                title="点击此处可以启用学习状态">
+                                                <icon>&#xe7ad</icon>被禁止
+                                            </el-link>
+                                            <el-link type="danger" @click="()=>{}">
+                                                <icon>&#xe800</icon>删除
+                                            </el-link>
+                                        </template>
+                                    </template>
                                     <template v-else>
                                         <loading v-if="item.addtime_loading"></loading>
                                         <template v-else>

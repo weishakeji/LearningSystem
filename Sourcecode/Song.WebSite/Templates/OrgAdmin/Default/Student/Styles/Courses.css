@@ -53,7 +53,7 @@ context {
 	position: relative;
 }
 
-context loading {
+context>loading:first-child {
 	position: absolute;
 	width: 100%;
 	line-height: 40px;
@@ -113,7 +113,18 @@ context .course:last-child {
 	position: relative;
 	display: flex;
 }
-
+/*课程在禁用时的效果*/
+.el-card[disabled] .cour_img img{
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
+}
+.el-card[disabled] .el-card__header a{
+	color: #999;
+}
 .el-card__body img:first-child {
 	margin-right: 20px;
 	display: inline-block;
@@ -222,15 +233,18 @@ price {
 	justify-content: space-between;
 }
 
-.datainfo>div:first-child {	
+.datainfo>div:first-child {
 	display: flex;
 }
-.datainfo>div:first-child>*{
+
+.datainfo>div:first-child>* {
 	margin-right: 5px;
 }
-.datainfo>div:first-child>*:last-child{
+
+.datainfo>div:first-child>*:last-child {
 	margin-left: 5px;
 }
+
 /*学习信息*/
 .studyinfo {
 	position: absolute;

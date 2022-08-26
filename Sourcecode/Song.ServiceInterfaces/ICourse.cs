@@ -319,7 +319,7 @@ namespace Song.ServiceInterfaces
         /// <param name="end">结束时间</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        int BeginCourse(int stid, DateTime start, DateTime end, int couid);
+        int BeginCourse(int stid, DateTime start, DateTime end, int couid, int orgid);
         /// <summary>
         /// 更新学员购买课程的记录的信息
         /// </summary>
@@ -346,12 +346,13 @@ namespace Song.ServiceInterfaces
         /// <param name="stid">学员Id</param>
         /// <param name="sear">用于检索的字符</param>
         /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
+        /// <param name="enable">是否启用</param>
         /// <param name="istry">是否试用，为null时取所有</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        List<Course> CourseForStudent(int stid, string sear, int state, bool? istry, int size, int index, out int countSum);
+        List<Course> CourseForStudent(int stid, string sear, int state, bool? enable, bool? istry, int size, int index, out int countSum);
         /// <summary>
         /// 课程收益
         /// </summary>
