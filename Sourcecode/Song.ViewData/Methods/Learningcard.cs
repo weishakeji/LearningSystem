@@ -298,6 +298,7 @@ namespace Song.ViewData.Methods
         /// <param name="clear">是否清理学习记录</param>
         /// <returns></returns>
         [Admin]
+        [HttpPost]
         public LearningCard CardRollback(string code,string pw,bool clear)
         {
             Song.Entities.LearningCard card = Business.Do<ILearningCard>().CardSingle(code, pw);

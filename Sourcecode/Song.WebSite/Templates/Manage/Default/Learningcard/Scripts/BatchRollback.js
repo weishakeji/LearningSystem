@@ -87,7 +87,7 @@
                     if (!element.Lc_IsUsed) continue;
                     if (element.Lc_State -= 1) continue;
                     var para = { 'code': element.Lc_Code, 'pw': element.Lc_Pw, 'clear': clear };
-                    $api.get('Learningcard/CardRollback', para).then(function (req) {
+                    $api.post('Learningcard/CardRollback', para).then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
                             vue.backnum++;

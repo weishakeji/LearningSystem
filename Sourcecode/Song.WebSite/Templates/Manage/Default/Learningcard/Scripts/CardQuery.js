@@ -246,7 +246,7 @@
             //回滚学习的具体方法
             gobackFunc: function (row, isclear) {
                 row.Lc_State = -100;
-                $api.get('Learningcard/CardRollback', { 'code': row.Lc_Code, 'pw': row.Lc_Pw, 'clear': isclear }).then(function (req) {
+                $api.post('Learningcard/CardRollback', { 'code': row.Lc_Code, 'pw': row.Lc_Pw, 'clear': isclear }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         for (var i = 0; i < vue.datas.length; i++) {
