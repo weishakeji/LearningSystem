@@ -1277,7 +1277,20 @@ namespace Song.ServiceImpls
                 {
                     tran.Delete<Student_Course>(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid);
                     tran.Update<Accounts>(new Field[] { Accounts._.Ac_CurrCourse }, new object[] { -1 }, Accounts._.Ac_ID == stid && Accounts._.Ac_CurrCourse == couid);
-                    tran.Commit();                   
+                    tran.Commit();
+                    System.Threading.Tasks.Task task = new System.Threading.Tasks.Task(() =>
+                    {
+                        //学习记录
+                        Gateway.Default.Delete<LogForStudentQuestions>(LogForStudentQuestions._.Ac_ID == stid && LogForStudentQuestions._.Cou_ID == couid);
+                        Gateway.Default.Delete<LogForStudentStudy>(LogForStudentStudy._.Ac_ID == stid && LogForStudentStudy._.Cou_ID == couid);
+                        //试题，收藏、笔记、错题
+                        Gateway.Default.Delete<Student_Collect>(Student_Collect._.Ac_ID == stid && Student_Collect._.Cou_ID == couid);
+                        Gateway.Default.Delete<Student_Notes>(Student_Notes._.Ac_ID == stid && Student_Notes._.Cou_ID == couid);
+                        Gateway.Default.Delete<Student_Ques>(Student_Ques._.Ac_ID == stid && Student_Ques._.Cou_ID == couid);
+                        //模拟测试
+                        Gateway.Default.Delete<TestResults>(TestResults._.Ac_ID == stid && TestResults._.Cou_ID == couid);
+
+                    });
                 }
                 catch (Exception ex)
                 {
