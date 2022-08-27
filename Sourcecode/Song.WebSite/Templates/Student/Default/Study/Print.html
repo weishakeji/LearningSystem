@@ -21,7 +21,7 @@
                     学员不存在
                 </template>
                 <template v-else>
-                    <table width="100%" class="first" border="1" cellspacing="0" cellpadding="0">
+                    <table width="100%" class="first" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td title="姓名" width="120px"></td>
                             <td class="info" width="120px" v-html="acc.Ac_Name"> </td>
@@ -61,7 +61,7 @@
                         </tr>
 
                     </table>
-                    <table width="100%" class="second" border="1" cellspacing="0" cellpadding="0">
+                    <table width="100%" class="second" border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             <td title="身份证" width="120px"></td>
                             <td class="info" v-html="acc.Ac_IDCardNumber"></td>
@@ -79,10 +79,11 @@
                             <td title="联系方式"> </td>
                             <td class="info">
                                 <span class="txtrow">
-                                   <span> 电话
-                                    {{acc.Ac_MobiTel1}} &nbsp; {{acc.Ac_MobiTel2==acc.Ac_MobiTel1 ? "" : acc.Ac_MobiTel2}}
-                                    &nbsp; {{acc.Ac_Tel}}
-                                   </span>
+                                    <span> 电话
+                                        {{acc.Ac_MobiTel1}} &nbsp; {{acc.Ac_MobiTel2==acc.Ac_MobiTel1 ? "" :
+                                        acc.Ac_MobiTel2}}
+                                        &nbsp; {{acc.Ac_Tel}}
+                                    </span>
                                     &nbsp;
                                     {{acc.Ac_Weixin != '' ? "微信 " + acc.Ac_Weixin : ""}}
                                     &nbsp;
@@ -113,34 +114,32 @@
                             </td>
                         </tr>
                     </table>
-                    <table width="100%" class="three" border="1" cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td colspan="5" class="info-area" valign="top">
-                                <div class="course_title">
-                                    <div class="cou"> 课程</div>
-                                    <div class="date"> 学习时间</div>
-                                    <div class="complete"> 完成度</div>
-                                </div>
-                                <progress_value ref="progress" :stid="acc.Ac_ID" :course="c"
-                                    v-for="(c,index) in courses" v-if="c && isexist">
-                                    <template slot-scope="item">
-                                        <div class="cou"> {{index+1}}. 《 {{c.Cou_Name}} 》 </div>
-                                        <div class="date" v-if="item.course && item.course.lastTime">
-                                            {{ item.course.lastTime|date('yyyy-MM-dd')}} </div>
-                                        <div class="date" v-else>&nbsp;</div>
-                                        <div class="complete"> {{item.value}} %</div>
-                                    </template>
-                                </progress_value>
-                                <!--机构信息-->
-                                <div class="info-foot">
-                                    <div class="plate-name"> {{org.Org_Name}} </div>
-                                    <div class="output-date"> {{ new Date()|date('yyyy-MM-dd')}} </div>
-                                </div>
-                                <div class="qrcode"></div>
-                                <img :src="stamp.path" :class="'stamp '+stamp.positon" remark="公章" />
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="three">
+                        <dl>
+                            <dt>
+                                <div class="cou"> 课程</div>
+                                <div class="date"> 学习时间</div>
+                                <div class="complete"> 完成度</div>
+                            </dt>
+                            <progress_value ref="progress" :stid="acc.Ac_ID" :course="c" v-for="(c,index) in courses"
+                                v-if="c && isexist">
+                                <template slot-scope="item">
+                                    <div class="cou"> {{index+1}}. 《 {{c.Cou_Name}} 》 </div>
+                                    <div class="date" v-if="item.course && item.course.lastTime">
+                                        {{ item.course.lastTime|date('yyyy-MM-dd')}} </div>
+                                    <div class="date" v-else>&nbsp;</div>
+                                    <div class="complete"> {{item.value}} %</div>
+                                </template>
+                            </progress_value>
+                        </dl>
+                        <!--机构信息-->
+                        <div class="info-foot">
+                            <div class="plate-name"> {{org.Org_Name}} </div>
+                            <div class="output-date"> {{ new Date()|date('yyyy-MM-dd')}} </div>
+                        </div>
+                        <div class="qrcode"></div>
+                        <img :src="stamp.path" :class="'stamp '+stamp.positon" remark="公章" />
+                    </div>
                 </template>
             </div>
 

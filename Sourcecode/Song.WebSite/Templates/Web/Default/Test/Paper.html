@@ -17,7 +17,8 @@
                 <el-breadcrumb-item><a href="/web/Course">课程中心</a></el-breadcrumb-item>
                 <el-breadcrumb-item><a :href="'/web/course/detail.'+course.Cou_ID">《{{course.Cou_Name}}》</a>
                 </el-breadcrumb-item>
-                <el-breadcrumb-item>模拟测试</el-breadcrumb-item>
+                <el-breadcrumb-item v-if="!final">模拟测试</el-breadcrumb-item>
+                <el-breadcrumb-item v-else>结课考试</el-breadcrumb-item>
             </el-breadcrumb>
         </context>
         <context id="testpaper" remark="试卷信息">
@@ -27,8 +28,11 @@
 
 
             <div class="headRight">
-                <span class="name">
+                <span class="name" v-if="!final">
                     {{paper.Tp_Name}} 
+                </span>
+                <span class="name" v-else>
+                    《{{course.Cou_Name}} 》的结课考试
                 </span>
                 <div class="headinfo" id="info">
                     <div class="row">
@@ -79,7 +83,7 @@
                                 <icon>&#xe810</icon>参加测试
                             </a>
                             <a @click="btn_final()" v-else class="btn_final" :disabled="final_disable()">
-                                <icon style="font-size: 28px;">&#xe829</icon>结课考试
+                                <icon style="font-size: 28px;">&#xe829</icon>参加结课考试
                             </a></template>
                     </template>
                     <el-tag type="info" v-else>未登录</el-tag>

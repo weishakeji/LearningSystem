@@ -61,9 +61,8 @@ Vue.component('progress_value', {
                 });
         }
     },
-    // 同样也可以在 vm 实例中像 "this.message" 这样使用
-    template: `<span>
+    template: `<dd>
             <loading v-if="loading"></loading>
             <slot v-else :value='progress' :course='data'></slot>
-    </span>`
+    </dd>`
 });
