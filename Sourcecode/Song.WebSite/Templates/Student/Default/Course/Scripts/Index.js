@@ -89,6 +89,7 @@ $ready(function () {
                     th.loading = false;
                     if (req.data.success) {
                         th.total = req.data.total;
+                        th.datas = [];
                         th.datas = req.data.result;
                     } else {
                         console.error(req.data.exception);

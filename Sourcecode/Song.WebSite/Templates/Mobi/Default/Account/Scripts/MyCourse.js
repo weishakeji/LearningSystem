@@ -167,8 +167,7 @@ $ready(function () {
                     console.error(err);
                 });
             }
-        },
-        // 同样也可以在 vm 实例中像 "this.message" 这样使用
+        },      
         template: `  <div class="cur_data">
                     <div>
                         <span  class="font_icon">&#xe841</span>
@@ -193,4 +192,5 @@ $ready(function () {
     'Components/purchase_data.js',
     'Components/result_score.js',
     'Components/video_progress.js',
-    'Components/ques_progress.js']);
+    'Components/ques_progress.js',
+    'Components/exam_test.js']);

@@ -22,7 +22,7 @@ Vue.component('purchase_data', {
         onload: function () {
             var th = this;
             th.loading = true;
-            $api.cache('Course/Purchaselog:5', { 'couid': this.couid, 'stid': this.stid }).then(function (req) {
+            $api.get('Course/Purchaselog:5', { 'couid': th.couid, 'stid': this.stid }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
                     th.data = req.data.result;
@@ -32,6 +32,7 @@ Vue.component('purchase_data', {
                 }
             }).catch(function (err) {
                 th.loading = false;
+                th.data = {};
                 Vue.prototype.$alert(err);
                 console.error(err);
             });

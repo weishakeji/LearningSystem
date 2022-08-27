@@ -752,7 +752,8 @@ $ready(function () {
 
 
 }, ['/Utilities/Qiniuyun/qiniu-web-player-1.2.3.js',
-    'Components/progress_video.js']);
+    'Components/progress_video.js',
+    'Components/study_video.js']);
 
 //学习资料内容中的超链接打开
 function details_a_click() {

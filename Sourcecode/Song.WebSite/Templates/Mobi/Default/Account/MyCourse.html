@@ -109,6 +109,9 @@
                                 </video_progress>
                                 <ques_progress :course="item" :stid="account.Ac_ID" :purchase="scope.data">
                                 </ques_progress>
+                                <exam_test :course="item" v-show="false" :stid="account.Ac_ID" :config="config"
+                                    :purchase="scope.data">
+                                </exam_test>
                                 <result_score :config="config" :stid="account.Ac_ID" :purchase="scope.data">
                                 </result_score>
                             </div>

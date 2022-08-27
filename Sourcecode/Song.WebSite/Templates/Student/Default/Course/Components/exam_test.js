@@ -54,6 +54,8 @@ Vue.component('exam_test', {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
+                    th.datas = [];
+                    th.finaltest = {};
                     console.error(err);
                 });
         },
@@ -62,19 +64,19 @@ Vue.component('exam_test', {
             var th = this;
             if (stid <= 0 || tpid <= 0) return;
             th.loading = true;
+            th.highest = -1;
             $api.get('TestPaper/ResultsAll', { 'stid': stid, 'tpid': tpid }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
                     var results = req.data.result;
-                    if (results.length < 1) return;
                     var highest = -1;
                     for (let i = 0; i < results.length; i++) {
                         const el = results[i];
                         if (el.Tr_Score > highest) highest = el.Tr_Score;
                     }
-                    if (highest >= 0) th.highest = highest;
+                    th.highest = highest;
                     //如果结课成绩与课程购买记录中的不一致，更新购买记录中的结课成绩
-                    if (th.purchase && th.purchase.Stc_ExamScore != highest) {                      
+                    if (th.purchase && highest >= 0 && th.purchase.Stc_ExamScore != highest) {
                         var form = { 'acid': stid, 'couid': th.purchase.Cou_ID, 'score': highest }
                         $api.post('TestPaper/ResultLogRecord', form).then(function (req) {
                             if (req.data.success) {
@@ -98,6 +100,7 @@ Vue.component('exam_test', {
             }).catch(function (err) {
                 th.loading = false;
                 th.results = [];
+                th.highest = -1;
                 Vue.prototype.$alert(err);
                 console.error(err);
             });
