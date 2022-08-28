@@ -406,6 +406,10 @@
     <Content Include="Pay\Alipayweb\notify_url.aspx" />
     <Content Include="Pay\Alipayweb\return_url.aspx" />
     <Content Include="Templates\Manage\Default\Images\favicon.gif" />
+    <Content Include="Templates\Mobi\Default\Account\Components\exam_test.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\course_menus.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\study_video.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_video.css" />
     <Content Include="Templates\Mobi\_Public\500.html" />
     <Content Include="Templates\Mobi\_Public\Scripts\500.js" />
     <Content Include="Templates\Mobi\_Public\Styles\500.css" />

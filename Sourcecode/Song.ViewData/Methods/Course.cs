@@ -832,11 +832,10 @@ namespace Song.ViewData.Methods
         [Student]
         public bool StudyAllow(int couid)
         {
-            Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);      
+            Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
+            if (acc == null) return false;
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) return false;
-
-            bool isBuy = Business.Do<ICourse>().StudyIsCourse(acc.Ac_ID, couid);
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {
@@ -844,8 +843,13 @@ namespace Song.ViewData.Methods
                 if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
                     course.Cou_IsLimitFree = false;
             }
-            bool canStudy = isBuy || course.Cou_IsFree || course.Cou_IsLimitFree || course.Cou_IsTry;
-            return canStudy;
+            if (course.Cou_IsFree || course.Cou_IsLimitFree || course.Cou_IsTry) return true;
+            //获取学员与课程的关联
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(acc.Ac_ID, couid);
+            if (sc == null) return false;
+            if (sc.Stc_IsEnable == false) return false;
+
+            return sc.Stc_StartTime > DateTime.Now && sc.Stc_EndTime < DateTime.Now;         
         }
         /// <summary>
         /// 分页获取当前课程的学员（即学习该课程的学员），并计算出完成度

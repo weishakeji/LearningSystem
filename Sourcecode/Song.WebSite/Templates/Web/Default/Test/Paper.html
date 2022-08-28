@@ -29,7 +29,7 @@
 
             <div class="headRight">
                 <span class="name" v-if="!final">
-                    {{paper.Tp_Name}} 
+                    {{paper.Tp_Name}}
                 </span>
                 <span class="name" v-else>
                     《{{course.Cou_Name}} 》的结课考试
@@ -78,13 +78,17 @@
                         <div v-if="isoverdue" class="course_end">
                             <icon>&#xe671</icon>未选修当前课程，或已经过期
                         </div>
-                        <template v-else>
+                        <template v-else-if="purchase.Stc_IsEnable">
                             <a @click="btn_test" v-if="!final" class="btn_test">
                                 <icon>&#xe810</icon>参加测试
                             </a>
                             <a @click="btn_final()" v-else class="btn_final" :disabled="final_disable()">
                                 <icon style="font-size: 28px;">&#xe829</icon>参加结课考试
-                            </a></template>
+                            </a>
+                        </template>
+                        <div v-else>
+                            你被禁止继续学习该课程
+                        </div>
                     </template>
                     <el-tag type="info" v-else>未登录</el-tag>
                 </div>

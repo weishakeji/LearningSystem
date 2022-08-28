@@ -217,17 +217,17 @@ $ready(function () {
                 }
             }
         },
-        template: `<van-popup id='menu' position="left"  v-model="vdata.menuShow">\
-		<div class='cour-info'>\
-		<img :src='course.Cou_Logo' v-if='course.Cou_Logo.length>0'/>\
-		<img :src='defimg' class='no' v-else/>\
-		<div class='cour-info-right'>\
-			<cour-name>{{course.Cou_Name}}</cour-name>\
-			<sbj-name>{{course.Sbj_Name}}</sbj-name>\
-			</div>\
-		</div>\
-		<van-cell-group v-if='outlines && outlines.length>0'>\
-        <van-cell :current='o.Ol_ID==olid' v-for='o in outlines' :isvideo='o.Ol_IsVideo' :islive='o.Ol_IsLive'\
+        template: `<van-popup id='menu' position="left"  v-model="vdata.menuShow">
+		<div class='cour-info'>
+		<img :src='course.Cou_Logo' v-if='course.Cou_Logo.length>0'/>
+		<img :src='defimg' class='no' v-else/>
+		<div class='cour-info-right'>
+			<cour-name>{{course.Cou_Name}}</cour-name>
+			<sbj-name>{{course.Sbj_Name}}</sbj-name>
+			</div>
+		</div>
+		<van-cell-group v-if='outlines && outlines.length>0'>
+        <van-cell :current='o.Ol_ID==olid' v-for='o in outlines' :isvideo='o.Ol_IsVideo' :islive='o.Ol_IsLive'
           :olid='o.Ol_ID' :style='padding(o.Ol_Level)' v-on:click='click(o)'>
           <template #title>
           <span>{{o.Ol_XPath}}{{o.Ol_Name}}</span>          
@@ -243,9 +243,9 @@ $ready(function () {
                         <van-tag type="warning">购买</van-tag>
                     </template>
                 </template>            
-        </van-cell>\
-      </van-cell-group>\
-      <div class='mui-table-view-cell' v-else style='color: azure;'> 当前课程没有章节 </div>\
+        </van-cell>
+      </van-cell-group>
+      <div class='mui-table-view-cell' v-else style='color: azure;'> 当前课程没有章节 </div>
 	</van-popup>`
     });
     //底部按钮组件
@@ -353,21 +353,21 @@ $ready(function () {
                 return false;
             }
         },
-        template: "<template>\
-	<div class='mui-scroll'  v-if='account.Ac_ID'>\
-		<dl id='access' v-if='files.length>0'>\
-			<dd v-for='(f,i) in files'>\
-				<a target='_blank' :href='f.As_FileName' v-if='ispdf(f.As_FileName)' \
-				:download='f.As_Name' @click.prevent ='openpdf(f.As_FileName)'>\
-				{{i+1}}、{{f.As_Name}}</a>\
-				<a target='_blank' :href='f.As_FileName' v-else\
-				:download='f.As_Name'>{{i+1}}、{{f.As_Name}}</a>\
-			</dd>\
-		</dl>\
-		<div class='noaccess' v-else>（没有附件）</div>\
-	</div>\
-	<div class='noaccess' v-else>（未登录或未购买）</div>\
-	</template>"
+        template: `<template>
+	<div class='mui-scroll'  v-if='account.Ac_ID'>
+		<dl id='access' v-if='files.length>0'>
+			<dd v-for='(f,i) in files'>
+				<a target='_blank' :href='f.As_FileName' v-if='ispdf(f.As_FileName)' 
+				:download='f.As_Name' @click.prevent ='openpdf(f.As_FileName)'>
+				{{i+1}}、{{f.As_Name}}</a>
+				<a target='_blank' :href='f.As_FileName' v-else
+				:download='f.As_Name'>{{i+1}}、{{f.As_Name}}</a>
+			</dd>
+		</dl>
+		<div class='noaccess' v-else>（没有附件）</div>
+	</div>
+	<div class='noaccess' v-else>（未登录或未购买）</div>
+	</template>`
     });
     //留言咨询
     Vue.component('message', {
@@ -458,30 +458,30 @@ $ready(function () {
                 //document.getElementById("messageinput").focus();
             }
         },
-        template: "<div id='chatarea'>\
-	<div class='outline-name'>\
-		<span v-show='!outline'>正在加载...</span>\
-		{{outline.Ol_Name}}\
-		<button id='msginputBtn' class='el-icon-edit' v-on:click='msgFocus'\
-			v-show='outline'> 留言\
-		</button>\
-	</div>\
-    <dl id='chatlist' v-if='messages.length>0'  v-on:click='msgBlur'>\
-            <dd v-for='(item,index) in messages'>\
-                <span :playtime='item.Msg_PlayTime'>\
-                    <acc><i class='el-icon-chat-dot-round'></i>{{item.Ac_Name}}：</acc>\
-                    <date>{{item.Msg_CrtTime | date('yyyy-M-d hh:mm:ss')}}</date>\
-                </span>\
-                <msg>{{item.Msg_Context}} </msg>\
-            </dd>\
-        </dl>\
-	<dl v-else id='chatlist'><dd  class='nomsg'>没有人留言！</dd></dl>\
-	<div id='chatbox' remark='留言录入区域'>\
-		<textarea rows='3' id='messageinput' v-model='input_text' name='messageinput' autofocus\
-			v-on:keyup.enter='msgSend'></textarea>\
-		<button id='btnMessage' v-on:click='msgSend'>发送</button>\
-    </div>\
-	</div>"
+        template: `<div id='chatarea'>
+	<div class='outline-name'>
+		<span v-show='!outline'>正在加载...</span>
+		{{outline.Ol_Name}}
+		<button id='msginputBtn' class='el-icon-edit' v-on:click='msgFocus'
+			v-show='outline'> 留言
+		</button>
+	</div>
+    <dl id='chatlist' v-if='messages.length>0'  v-on:click='msgBlur'>
+            <dd v-for='(item,index) in messages'>
+                <span :playtime='item.Msg_PlayTime'>
+                    <acc><i class='el-icon-chat-dot-round'></i>{{item.Ac_Name}}：</acc>
+                    <date>{{item.Msg_CrtTime | date('yyyy-M-d hh:mm:ss')}}</date>
+                </span>
+                <msg>{{item.Msg_Context}} </msg>
+            </dd>
+        </dl>
+	<dl v-else id='chatlist'><dd  class='nomsg'>没有人留言！</dd></dl>
+	<div id='chatbox' remark='留言录入区域'>
+		<textarea rows='3' id='messageinput' v-model='input_text' name='messageinput' autofocus
+			v-on:keyup.enter='msgSend'></textarea>
+		<button id='btnMessage' v-on:click='msgSend'>发送</button>
+    </div>
+	</div>`
     });
     //视频播放
     Vue.component('videoplayer', {
@@ -715,38 +715,38 @@ $ready(function () {
                 }
             }
         },
-        template: "<div class='videobox'>\
-        <div class='loading' v-show='state_loading'>\
-            <van-loading size='24px' type='spinner'>加载中...</van-loading>\
-        </div>\
-		<div remark='视频'  :video='state.urlVideo' v-show='state.isLogin && state.existVideo && !state.isLive'>\
-			<div id='videoplayer' v-show='!outline.Ol_ID || (state.existVideo && !state.otherVideo && !state.isLive)'\
-			remark='点播'></div>\
-			<iframe remark='外部视频链接' id='vedioiframe' height='100%' width='100%'\
-			v-if='state.outerVideo && state.otherVideo && !state.isLive' :src='state.urlVideo'\
-			allowscriptaccess='always' allowfullscreen='true' wmode='opaque' allowtransparency='true'\
-			frameborder='0' type='application/x-shockwave-flash'></iframe>\
-			<div id='videoinfo' v-if='!state.otherVideo && !state.isLive' style='display: none;'>\
-				<span style='display: none'>视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>\
-				<span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>\
-				<span style='cursor: pointer' v-on:click='videoSeek(video.playhistime)'>上次播放到{{video.playhistime}}秒</span>\
-				<span class='videolog info' v-show='studylogState==1'> 学习进度提交成功!</span >\
-				<span class='videolog error' v-show='studylogState==-1'>学习进度提交失败!</span>\
-            </div>\
-		</div>\
-		<div remark='直播' v-show='state.isLogin && state.isLive' :video='state.urlVideo'>\
-			<div id='livebox' v-show='state.isLive && state.isLiving'></div>\
-			<div id='liveStopbox' v-show='state.isLive && !state.isLiving' remark='直播未开始'>\
-				<div class='liveStop_Tit' v-show='state.canStudy && !state.LiveStart'>直播未开始！</div>\
-				<div class='liveStop_Tit' v-show='state.canStudy && state.LiveOver'>直播已经结束！</div>\
-				<div class='liveStop_Tit' v-show='!state.canStudy'>无权阅览！</div>\
-            </div>\
-		</div>\
-		<div remark='没有视频' id='noVideo' v-if='!state.existVideo && !state.isLive'>\
-				<span v-if='!state.isLogin'><a href='Login.ashx'>未登录，点击此处登录！</a></span>\
-				<span v-if='state.isLogin'>没有视频资源</span>\
-        </div>\
-	</div>"
+        template: `<div class='videobox'>
+        <div class='loading' v-show='state_loading'>
+            <van-loading size='24px' type='spinner'>加载中...</van-loading>
+        </div>
+		<div remark='视频'  :video='state.urlVideo' v-show='state.isLogin && state.existVideo && !state.isLive'>
+			<div id='videoplayer' v-show='!outline.Ol_ID || (state.existVideo && !state.otherVideo && !state.isLive)'
+			remark='点播'></div>
+			<iframe remark='外部视频链接' id='vedioiframe' height='100%' width='100%'
+			v-if='state.outerVideo && state.otherVideo && !state.isLive' :src='state.urlVideo'
+			allowscriptaccess='always' allowfullscreen='true' wmode='opaque' allowtransparency='true'
+			frameborder='0' type='application/x-shockwave-flash'></iframe>
+			<div id='videoinfo' v-if='!state.otherVideo && !state.isLive' style='display: none;'>
+				<span style='display: none'>视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
+				<span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
+				<span style='cursor: pointer' v-on:click='videoSeek(video.playhistime)'>上次播放到{{video.playhistime}}秒</span>
+				<span class='videolog info' v-show='studylogState==1'> 学习进度提交成功!</span >
+				<span class='videolog error' v-show='studylogState==-1'>学习进度提交失败!</span>
+            </div>
+		</div>
+		<div remark='直播' v-show='state.isLogin && state.isLive' :video='state.urlVideo'>
+			<div id='livebox' v-show='state.isLive && state.isLiving'></div>
+			<div id='liveStopbox' v-show='state.isLive && !state.isLiving' remark='直播未开始'>
+				<div class='liveStop_Tit' v-show='state.canStudy && !state.LiveStart'>直播未开始！</div>
+				<div class='liveStop_Tit' v-show='state.canStudy && state.LiveOver'>直播已经结束！</div>
+				<div class='liveStop_Tit' v-show='!state.canStudy'>无权阅览！</div>
+            </div>
+		</div>
+		<div remark='没有视频' id='noVideo' v-if='!state.existVideo && !state.isLive'>
+				<span v-if='!state.isLogin'><a href='/mobi/sign/in'>未登录，点击此处登录！</a></span>
+				<span v-else-if='!state.canStudy'>不允许学习相关内容</span>
+        </div>
+	</div>`
     });
 
 

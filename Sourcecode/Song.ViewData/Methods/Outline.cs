@@ -303,7 +303,7 @@ namespace Song.ViewData.Methods
             dic.Add("isStudy", isStudy);
             dic.Add("isBuy", isBuy);
             //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
-            canStudy = isBuy || (isStudy && outline.Ol_IsUse && outline.Ol_IsFinish && course.Cou_IsTry && outline.Ol_IsFree);
+            canStudy = isStudy && outline.Ol_IsUse && outline.Ol_IsFinish;
             dic.Add("canStudy", canStudy);
             //是否有知识库
             int knlCount = Business.Do<IKnowledge>().KnowledgeOfCount(-1, course.Cou_ID, null, true);

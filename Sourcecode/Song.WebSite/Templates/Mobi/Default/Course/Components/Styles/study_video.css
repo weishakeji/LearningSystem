@@ -1,0 +1,56 @@
+/*视频播放器*/
+
+#videoplayer {
+	z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+/*视频播放信息栏*/
+
+#videoinfo {
+	position: absolute;
+	z-index: 11;
+	color: #999;
+	height: 30px;
+	font-size: 12px;
+	line-height: 30px;
+	top: 5px;
+	width: 100%;
+	text-align: right;
+    box-sizing: border-box;
+    padding: 0px 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*学习记录递交是否成功的提示信息*/
+
+
+.info {
+	color: #3F6;
+}
+
+.error {
+	color: red;
+}
+
+.historyInfo {
+	margin-left: 20px;
+	cursor: pointer;
+	color: #06F;
+}
+
+/*学习记录的时间进度*/
+#videolog {
+	display: none;
+	position: absolute;
+	z-index: 20;
+	color: #999;
+	height: 10px;
+	font-size: 12px;
+	bottom: 0px;
+	width: 100%;
+	text-align: center;
+	background-color: red;
+}
+

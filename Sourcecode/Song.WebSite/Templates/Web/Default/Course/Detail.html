@@ -21,7 +21,7 @@
         </context>
         <template v-else>
             <context v-if="nullcourse" class="nullcourse" remark="课程不存在">
-                <icon>&#xe854</icon>课程不存在!
+                <icon>&#xe854</icon>课程不存在，或被禁止学习!
             </context>
             <context v-else id="couHead" remark="课程头部信息">
                 <img src="/Utilities/Images/cou_nophoto.jpg" v-if="!course || course.Cou_Logo==''" />
@@ -57,7 +57,8 @@
                         {{purchase.Stc_StartTime|date('yyyy-M-d')}} 至 {{purchase.Stc_EndTime|date('yyyy-M-d HH:mm:ss')}}
                     </div>
                     <!--购买课程的按钮-->
-                    <largebutton :course="course" :account="account" :isbuy="isbuy" :finaltest="finaltest">
+                    <largebutton :course="course" :purchase="purchase" :account="account" :isbuy="isbuy"
+                        :finaltest="finaltest">
                     </largebutton>
 
                 </div>
@@ -65,7 +66,9 @@
         </template>
         <context class="body">
             <aside v-show="!nullcourse">
-                <el-divider content-position="left"><icon>&#xe81b</icon>课程推荐</el-divider>
+                <el-divider content-position="left">
+                    <icon>&#xe81b</icon>课程推荐
+                </el-divider>
                 <courses :sbjid="course ? course.Sbj_ID : 0" :org="organ" :couid="couid" :count="4">
                     <template slot="item" slot-scope="item">
                         <course :item="item.data" :class="{'fourth':(item.index+1)%4==0}"></course>
@@ -99,6 +102,9 @@
                             <div v-for="o in outlines" :style="'padding-left:'+(o.Ol_Level*30)+'px'">
                                 <index>{{o.Ol_XPath}}</index>{{o.Ol_Name}}
                                 <el-tag type="danger" v-if="!o.Ol_IsFinish">未完结</el-tag>
+                                <template v-else-if="!purchase.Stc_IsEnable">
+                                      <el-tag type="info" title="禁止学习"><icon>&#xe7ad</icon>禁</el-tag>
+                                </template>
                                 <template v-else-if="course.Cou_IsTry && o.Ol_IsFree">
                                     <a type="success" v-if="o.Ol_IsVideo"
                                         :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">

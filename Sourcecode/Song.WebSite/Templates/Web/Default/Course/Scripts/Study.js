@@ -10,7 +10,7 @@ $ready(function () {
             outline: {}, //当前课程章节    
 
             //状态
-            state: {}, //课程章节的状态       
+            state: {}, //课程章节的状态       来自study_outline组件中的change事件传值
 
             couid: $api.dot() != "" ? $api.dot() : $api.querystring("couid"),
             olid: $api.querystring("olid"),

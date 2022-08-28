@@ -29,8 +29,8 @@
                         <span v-if="course.Cou_IsLimitFree">（{{course.Cou_FreeStart|date('yyyy/M/d')}}
                             - {{course.Cou_FreeEnd|date('yyyy/M/d')}}）</span>
                     </span>
-                    <span v-if="record!=null">
-                        期限： {{record.Stc_StartTime|date("yyyy/M/d")}}-{{record.Stc_EndTime|date("yyyy/M/d")}}
+                    <span v-if="purchase!=null">
+                        期限： {{purchase.Stc_StartTime|date("yyyy/M/d")}}-{{purchase.Stc_EndTime|date("yyyy/M/d")}}
                     </span>
                 </template>
             </div>
@@ -38,8 +38,9 @@
         </div>
         <van-sticky>
             <!--按钮组-->
-            <course_menus ref='menus' :course="course" :account="account" :canstudy="canStudy" :isbuy="isbuy">
-            </course_menus>
+            <course_menus ref='menus' :course="course" :account="account"
+                :canstudy="canStudy" :purchase="purchase" :isbuy="isbuy">
+            </course_menus>          
             <!--选项卡-->
             <van-tabs v-model="tabActive">
                 <van-tab title="detail">

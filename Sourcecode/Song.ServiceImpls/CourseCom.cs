@@ -1231,8 +1231,10 @@ namespace Song.ServiceImpls
             }
             else
             {
+                if (sc.Stc_IsEnable == false) return false;
+                //是否购买
                 bool isbuy = this.IsBuy(couid, stid);
-                if (isbuy) return true;
+                if (isbuy && sc.Stc_IsEnable) return true;
                 //课程免费
                 if (course.Cou_IsFree)
                 {
