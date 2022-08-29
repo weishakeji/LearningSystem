@@ -68,7 +68,7 @@
                 var th = this;
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
-                th.form.size = Math.floor(area / 64);
+                th.form.size = Math.floor(area / 42);
                 th.loading = true;
                 $api.get("TestPaper/ResultsQueryPager", th.form).then(function (d) {
                     th.loading = false;
@@ -151,6 +151,17 @@
                 }
                 return txt;
             },
+            //成绩回顾
+            viewresult: function (data) {
+                var url = '/student/test/Review';
+                url = $api.url.set(url, {
+                    'tr': data.Tr_ID,
+                    'tp': data.Tp_Id,
+                    'couid': data.Cou_ID,
+                    'stid': data.Ac_ID
+                });
+                return url;
+            }
         }
     });
 

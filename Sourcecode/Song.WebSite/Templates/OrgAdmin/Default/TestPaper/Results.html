@@ -16,13 +16,12 @@
             <div class="search-box">
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
 
-                    <el-form-item label="最低得分">
-                        <el-input v-model.number="form.score_min" style="width: 80px;" clearable></el-input>
-
+                    <el-form-item label="得分">
+                        <el-input v-model.number="form.score_min" style="width: 80px;" placeholder="最低" clearable></el-input>
+                        <el-input v-model.number="form.score_max" style="width: 80px;" placeholder="最高" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="最高得分">
-
-                        <el-input v-model.number="form.score_max" style="width: 80px;" clearable></el-input>
+                    <el-form-item label="学员">
+                        <el-input v-model.trim="form.stname" style="width: 80px;" clearable></el-input>                        
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
@@ -59,7 +58,7 @@
             </el-table-column>
             <el-table-column label="成绩" align="center" width="80">
                 <template slot-scope="scope">
-                    {{scope.row.Tr_Score}}
+                    <a :href="viewresult(scope.row)" target="_blank" class="viewresult">{{scope.row.Tr_Score}}</a>
                 </template>
             </el-table-column>
             <el-table-column label="交卷时间" width="150">

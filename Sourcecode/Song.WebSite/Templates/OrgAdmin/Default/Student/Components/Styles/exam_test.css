@@ -23,7 +23,6 @@
 }
 
 .exam_test .exam_btns a {
-    flex: 1;
     text-align: left;
     font-size: 13px;
     cursor: pointer;
@@ -105,4 +104,10 @@ score.praise::before {
 
 .btns {
     float: right;
+}
+a.viewresult{
+    color:#409EFF;
+}
+a.viewresult:hover{
+    text-decoration:underline;
 }

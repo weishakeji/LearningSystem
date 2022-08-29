@@ -205,6 +205,17 @@ Vue.component('exam_test', {
                 Vue.prototype.$alert(err);
                 console.error(err);
             });
+        },
+         //成绩回顾
+         viewresult: function (data) {
+            var url = '/student/test/Review';
+            url = $api.url.set(url, {
+                'tr': data.Tr_ID,
+                'tp': data.Tp_Id,
+                'couid': data.Cou_ID,
+                'stid': data.Ac_ID
+            });
+            return url;
         }
     },
     template: `<div class="exam_test">
@@ -235,7 +246,8 @@ Vue.component('exam_test', {
                     </template>
                     <template v-else>
                         <span class="index">{{i+1}}.</span>
-                        <span class="score">{{item.Tr_Score}}分
+                        <span class="score">
+                            <a :href="viewresult(item)" target="_blank" class="viewresult"> {{item.Tr_Score}}分</a>                       
                             <score :class="scoreStyle(item.Tr_Score)"></score>
                         </span>
                         <span class="time">{{item.Tr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span>

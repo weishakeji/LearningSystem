@@ -19,7 +19,6 @@
     padding: 0px 5px;
 }
 .exam_test .exam_btns a{
-    flex: 1;
     text-align: left;
     font-size: 13px;
     cursor: pointer;
