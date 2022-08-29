@@ -343,6 +343,7 @@ namespace Song.ViewData.Methods
             int.TryParse(getAttr(xn, "stsid"), out stsid);
             string stname = getAttr(xn, "stname");
             string stsname = getAttr(xn, "stsname");
+            string cardid= getAttr(xn, "stcardid"); //学员身份证
             //***验证是否是当前学员
             Song.Entities.Accounts acc = this.User;
             if (acc.Ac_ID != stid) throw new Exception("当前登录学员信息与成绩提交的信息不匹配");
@@ -413,6 +414,7 @@ namespace Song.ViewData.Methods
             exr.Sbj_Name = sbjname;
             exr.Ac_ID = stid;
             exr.Ac_Name = stname;
+            exr.St_IDCardNumber = cardid;
             exr.Sts_ID = stid;
             exr.Sts_Name = stsname;
             exr.Tr_IP = WeiSha.Core.Browser.IP;
@@ -424,7 +426,7 @@ namespace Song.ViewData.Methods
             exr.Org_ID = org.Org_ID;
             exr.Org_Name = org.Org_Name;
             //得分
-            score = Business.Do<ITestPaper>().ResultsSave(exr, false);
+            score = Business.Do<ITestPaper>().ResultsAdd(exr, false);
             if (paper.Tp_IsFinal)
             {
                 Thread t1 = new Thread(() =>
@@ -478,6 +480,47 @@ namespace Song.ViewData.Methods
             return result;
         }
         /// <summary>
+        /// 测试成绩
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="tpid">试卷id</param>
+        /// <param name="tpname">试卷名称</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="sbjid">专业id</param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="stname">学员名称</param>
+        /// <param name="cardid">学员身份证</param>
+        /// <param name="score_min">按成绩查询，成绩区间最小值</param>
+        /// <param name="score_max">按成绩查询，成绩区间最大值</param>
+        /// <param name="time_min">按交卷时间查询，成绩区间最小值</param>
+        /// <param name="time_max">按交卷时间查询，成绩区间最小值</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ListResult ResultsQueryPager(int stid, int tpid, string tpname, int couid, int sbjid,int orgid,
+            string stname, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
+            int size, int index)
+        {
+            int count = 0;
+            Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsPager(stid, tpid, tpname, couid, sbjid,orgid,
+                stname, cardid, score_min, score_max, time_min, time_max,
+                size, index, out count);
+            ListResult result = new ListResult(trs);
+            result.Index = index;
+            result.Size = size;
+            result.Total = count;
+            return result;
+        }
+        /// <summary>
+        /// 计算成绩
+        /// </summary>
+        /// <param name="trid">成绩记录的id</param>
+        /// <returns></returns>
+        public float ResultsCalc(int trid)
+        {
+            return Business.Do<ITestPaper>().ResultsCalc(trid);
+        }
+        /// <summary>
         /// 所有测试成绩
         /// </summary>
         /// <param name="stid">学员id</param>
@@ -517,18 +560,27 @@ namespace Song.ViewData.Methods
         /// <param name="trid">测试成绩的id</param>
         /// <returns></returns>
         [HttpDelete,Admin,Teacher,Student]
-        public bool ResultDelete(int trid)
+        public int ResultDelete(string trid)
         {
-            try
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(trid)) return i;
+            string[] arr = trid.Split(',');
+            foreach (string s in arr)
             {
-                Business.Do<ITestPaper>().ResultsDelete(trid);
-                return true;
-              
+                int idval = 0;
+                int.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+                    Business.Do<ITestPaper>().ResultsDelete(idval);                
+                    i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return i;           
         }
         /// <summary>
         /// 清空学员的某个测试的所有历史成绩

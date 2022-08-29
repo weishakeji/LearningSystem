@@ -227,7 +227,9 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         TestResults[] ResultsPager(int stid, int sbjid, int couid, int size, int index, out int countSum);
-        TestResults[] ResultsPager(int stid, int sbjid, int couid, string sear, int size, int index, out int countSum);
+        TestResults[] ResultsPager(int stid, int tpid, string tpname, int couid, int sbjid, int orgid,
+            string acc, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
+            int size, int index, out int countSum);
         /// <summary>
         /// ∞¥ ‘æÌ∑÷“≥∑µªÿ≤‚ ‘≥…º®
         /// </summary>

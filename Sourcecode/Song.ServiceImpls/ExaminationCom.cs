@@ -733,15 +733,17 @@ namespace Song.ServiceImpls
             XmlDocument resXml = new XmlDocument();
             resXml.XmlResolver = null; 
             resXml.LoadXml(resultXML, false);
-            XmlNode root = resXml.LastChild;           
+            XmlNode root = resXml.LastChild;
+            int sbjid = 0;
+            int.TryParse(root.Attributes["sbjid"] != null ? root.Attributes["sbjid"].Value : "0", out sbjid);
             var info = new
             {
                 examid = Convert.ToInt32(root.Attributes["examid"].Value == null ? "0" : root.Attributes["examid"].Value),
                 tpid = Convert.ToInt32(root.Attributes["tpid"].Value),
                 stid = Convert.ToInt32(root.Attributes["stid"].Value),
                 stname = root.Attributes["stname"].Value,
-                sbjid = Convert.ToInt32(root.Attributes["sbjid"].Value),
-                sbjname = root.Attributes["sbjname"].Value,
+                sbjid = sbjid,
+                sbjname = root.Attributes["sbjname"] != null ? root.Attributes["sbjname"].Value : "",
                 patter = Convert.ToInt32(root.Attributes["patter"].Value)
             };
             

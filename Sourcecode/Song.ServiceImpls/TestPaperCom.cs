@@ -523,6 +523,16 @@ namespace Song.ServiceImpls
         public float ResultsAdd(TestResults entity, bool force)
         {
             entity.Tr_CrtTime = DateTime.Now;
+            return ResultsSave(entity, force);
+        }
+        /// <summary>
+        /// 修改测试成绩,返回得分
+        /// </summary>
+        /// <param name="entity">业务实体</param>
+        /// <param name="force"></param>
+        /// <returns>返回得分</returns>
+        public float ResultsSave(TestResults entity, bool force)
+        {        
             //计算得分
             float score = 0;
             //
@@ -533,7 +543,7 @@ namespace Song.ServiceImpls
             //是否已经计算过
             if (xn.Attributes["isclac"] != null)
             {
-                if (xn.Attributes["isclac"].Value == "true" && force==false)
+                if (xn.Attributes["isclac"].Value == "true" && force == false)
                 {
                     if (xn.Attributes["score"] != null)
                     {
@@ -557,17 +567,7 @@ namespace Song.ServiceImpls
                 }
             }
             Gateway.Default.Save<TestResults>(entity);
-            return score;
-        }
-        /// <summary>
-        /// 修改测试成绩,返回得分
-        /// </summary>
-        /// <param name="entity">业务实体</param>
-        /// <param name="force"></param>
-        /// <returns>返回得分</returns>
-        public float ResultsSave(TestResults entity, bool force)
-        {
-            return ResultsAdd(entity,force);
+            return score;           
         }
         /// <summary>
         /// 计算成绩，根据成绩id
@@ -578,7 +578,7 @@ namespace Song.ServiceImpls
         {
             TestResults tr = Gateway.Default.From<TestResults>().Where(TestResults._.Tr_ID == trid).ToFirst<TestResults>();
             if (tr == null) return -1;
-            return this.ResultsAdd(tr, true);
+            return this.ResultsSave(tr, true);
         }
         /// <summary>
         /// 当前考试的及格率
@@ -722,13 +722,28 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<TestResults>(wc);
             return Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_CrtTime.Desc).ToArray<TestResults>(size, (index - 1) * size);
         }
-        public TestResults[] ResultsPager(int stid, int sbjid, int couid, string sear, int size, int index, out int countSum)
+
+        public TestResults[] ResultsPager(int stid, int tpid, string tpname, int couid, int sbjid, int orgid,
+            string acc, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
+            int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (stid > 0) wc.And(TestResults._.Ac_ID == stid);
+            if (tpid > 0) wc.And(TestResults._.Tp_Id == tpid);
             if (sbjid > 0) wc.And(TestResults._.Sbj_ID == sbjid);
             if (couid > 0) wc.And(TestResults._.Cou_ID == couid);
-            if (sear != null && sear != "") wc.And(TestResults._.Tp_Name.Like("%" + sear + "%"));
+            if (orgid > 0) wc.And(TestResults._.Org_ID == orgid);
+            if (!string.IsNullOrWhiteSpace(tpname)) wc.And(TestResults._.Tp_Name.Like("%" + tpname + "%"));
+
+            if (!string.IsNullOrWhiteSpace(acc)) wc.And(TestResults._.Ac_Name.Like("%" + acc + "%"));
+            if (!string.IsNullOrWhiteSpace(cardid)) wc.And(TestResults._.St_IDCardNumber.Like("%" + cardid + "%"));
+            //成绩区间
+            if (score_min > 0) wc.And(TestResults._.Tr_Score >= score_min);
+            if (score_max > 0) wc.And(TestResults._.Tr_Score <= score_max);
+            //时间区间
+            if (time_min!=null) wc.And(TestResults._.Tr_CrtTime >=(DateTime)time_min);
+            if (time_max != null) wc.And(TestResults._.Tr_CrtTime <= (DateTime)time_max);
+
             countSum = Gateway.Default.Count<TestResults>(wc);
             TestResults[] exr = Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_CrtTime.Desc).ToArray<TestResults>(size, (index - 1) * size);
             return exr;

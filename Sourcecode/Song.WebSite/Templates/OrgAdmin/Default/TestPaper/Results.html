@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <include file="inc/head.inc" />
+    <title>试卷管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="删除" ref='btngroup' @delete="deleteData" @calc="batchcalc" width="800" height="600"
+                :selects='selects' idkey='Tr_ID' table="datatables" :modal="true"></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+
+                    <el-form-item label="最低得分">
+                        <el-input v-model.number="form.score_min" style="width: 80px;" clearable></el-input>
+
+                    </el-form-item>
+                    <el-form-item label="最高得分">
+
+                        <el-input v-model.number="form.score_max" style="width: 80px;" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                            native-type="submit" plain class="el-icon-search">
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <!-- 数据列表-->
+        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" stripe
+            @selection-change="val=>selects=val" @row-dblclick="()=>{}" row-key="Tr_ID">
+            <div slot="empty">
+                <span v-if="!loading">未查询到数据</span>
+            </div>
+            <el-table-column type="selection" width="35" show-overflow-tooltip>
+            </el-table-column>
+            <el-table-column label="#" type="index" width="60" align="center">
+                <template slot-scope="scope">
+                    <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                </template>
+            </el-table-column>
+
+            <el-table-column label="学员">
+                <template slot-scope="scope">
+                    {{scope.row.Ac_Name}}
+                </template>
+            </el-table-column>
+            <el-table-column label="试卷">
+                <template slot-scope="scope">
+                    {{scope.row.Tp_Name}}
+                </template>
+            </el-table-column>
+            <el-table-column label="成绩" align="center" width="80">
+                <template slot-scope="scope">
+                    {{scope.row.Tr_Score}}
+                </template>
+            </el-table-column>
+            <el-table-column label="交卷时间" width="150">
+                <template slot-scope="scope">
+                    {{scope.row.Tr_CrtTime|date('yyyy-M-d HH:mm:ss')}}
+                </template>
+            </el-table-column>
+
+            <el-table-column label="操作" show-overflow-tooltip width="120">
+                <template slot-scope="scope">
+                    <loading v-if="scope.row.loading"></loading>
+                    <template v-else>
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="是否重新计算成绩？" @confirm="calcscore(scope.row)">
+                            <el-link type="primary" plain icon="el-icon-finished" slot="reference">计算
+                            </el-link>
+                        </el-popconfirm>
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Tr_ID)">
+                            <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
+                            </el-link>
+                        </el-popconfirm>
+                    </template>
+                </template>
+            </el-table-column>
+        </el-table>
+
+
+        <div id="pager-box">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+        </div>
+    </div>
+</body>
+
+</html>

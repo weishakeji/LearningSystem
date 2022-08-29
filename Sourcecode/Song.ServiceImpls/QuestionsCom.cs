@@ -1099,7 +1099,7 @@ namespace Song.ServiceImpls
             foreach (string s in ans.Split(','))
             {
                 if (string.IsNullOrWhiteSpace(s) || s.Trim() == "") continue;
-                if (Convert.ToInt32(s) == ans1[0].Ans_ID) return true;
+                if (Convert.ToInt64(s) == ans1[0].Ans_ID) return true;
             }
             return false;
         }
@@ -1123,7 +1123,7 @@ namespace Song.ServiceImpls
                 if (string.IsNullOrWhiteSpace(s) || s.Trim() == "") continue;
                 foreach (QuesAnswer qa in ans2)
                 {
-                    if (Convert.ToInt32(s) == qa.Ans_ID)
+                    if (Convert.ToInt64(s) == qa.Ans_ID)
                     {
                         tm--;
                         break;
@@ -1141,8 +1141,8 @@ namespace Song.ServiceImpls
         private bool _clacQues3(Questions ques, string ans)
         {
             ans = ans.Replace(",", "");
-            if (Convert.ToInt32(ans) == 0 && ques.Qus_IsCorrect == true) return true;
-            if (Convert.ToInt32(ans) == 1 && ques.Qus_IsCorrect == false) return true;
+            if (Convert.ToInt64(ans) == 0 && ques.Qus_IsCorrect == true) return true;
+            if (Convert.ToInt64(ans) == 1 && ques.Qus_IsCorrect == false) return true;
             return false;
         }
         /// <summary>

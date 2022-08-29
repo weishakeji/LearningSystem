@@ -348,10 +348,13 @@
                     "stsid": this.account.Sts_ID,
                     "stsname": this.account.Sts_Name,
                     //课程
-                    "couid": this.paper.Cou_ID,
+                    "couid": this.paper.Cou_ID,                    
                     //试卷
                     "tpid": this.paper.Tp_Id,
                     "tpname": this.paper.Tp_Name,
+                    //学科
+                    "sbjid": this.paper.Sbj_ID,
+                    "sbjname": this.paper.Sbj_Name,
                     //考试开始时间与结束时间
                     "begin": this.time.begin.getTime(),
                     "overtime": new Date().getTime(),

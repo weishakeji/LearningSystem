@@ -423,6 +423,9 @@
     <Content Include="Templates\OrgAdmin\Default\Student\BeginCourse.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\BeginCourse.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\BeginCourse.css" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Scripts\Results.js" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Styles\Results.css" />
+    <Content Include="Templates\OrgAdmin\Default\TestPaper\Results.html" />
     <Content Include="Templates\Pay\Default\Alibaba\Scripts\Mobi.js" />
     <Content Include="Templates\Pay\Default\Alibaba\Styles\Mobi.css" />
     <Content Include="Templates\Pay\Default\Alibaba\Mobi.html" />
