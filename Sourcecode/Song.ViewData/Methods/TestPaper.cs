@@ -424,7 +424,7 @@ namespace Song.ViewData.Methods
             exr.Org_ID = org.Org_ID;
             exr.Org_Name = org.Org_Name;
             //得分
-            score = Business.Do<ITestPaper>().ResultsSave(exr);
+            score = Business.Do<ITestPaper>().ResultsSave(exr, false);
             if (paper.Tp_IsFinal)
             {
                 Thread t1 = new Thread(() =>

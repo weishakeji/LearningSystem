@@ -130,14 +130,22 @@ namespace Song.ServiceInterfaces
         /// 添加测试成绩,返回得分
         /// </summary>
         /// <param name="entity"></param>
+        /// <param name="force">强制计算，默认是在客户端计算过成线的，这里强制再计算</param>
         /// <returns>返回得分</returns>
-        float ResultsAdd(TestResults entity);
+        float ResultsAdd(TestResults entity,bool force);
         /// <summary>
         /// 修改测试成绩,返回得分
         /// </summary>
         /// <param name="entity">业务实体</param>
+        /// <param name="force">强制计算，默认是在客户端计算过成线的，这里强制再计算</param>
         /// <returns>返回得分</returns>
-        float ResultsSave(TestResults entity);
+        float ResultsSave(TestResults entity, bool force);
+        /// <summary>
+        /// 计算成绩，根据成绩id
+        /// </summary>
+        /// <param name="trid"></param>
+        /// <returns></returns>
+        float ResultsCalc(int trid);
         /// <summary>
         /// 当前考试的及格率
         /// </summary>

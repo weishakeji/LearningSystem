@@ -255,7 +255,7 @@
             goback: function () {
                 var file = "/web/test/paper";
                 var url = $api.url.dot(this.tpid, file);
-                window.location.href = url;               
+                window.location.href = url;
             },
             //计算时间，参数：初始时间、考试时长
             calcTime: function () {
@@ -275,6 +275,7 @@
                 this.submitState.submited = true;
                 //设置为交卷
                 this.paperAnswer.patter = patter;
+                this.paperAnswer.score = this.calcReslutScore();
                 var xml = this.generateAnswerXml(this.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
                 var th = this;
@@ -324,8 +325,7 @@
                         if (q.sucess) total += q.score;
                     }
                 }
-                return total;
-                console.log(total);
+                return total;               
             },
             //试题向右滑动 
             swiperight: function (e) {

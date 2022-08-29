@@ -89,6 +89,7 @@ Vue.component('general', {
                         }
                         arr = th.getParentPath(sbj, th.subjects, arr);
                         th.sbjids = arr;
+                        th.question['Sbj_ID'] = arr.length > 0 ? arr[arr.length - 1] : 0;
                     }
                     th.getCourses();
                 } else {

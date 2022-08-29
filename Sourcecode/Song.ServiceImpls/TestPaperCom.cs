@@ -518,8 +518,9 @@ namespace Song.ServiceImpls
         /// 添加测试成绩,返回得分
         /// </summary>
         /// <param name="entity"></param>
+        /// <param name="force"></param>
         /// <returns>返回得分</returns>
-        public float ResultsAdd(TestResults entity)
+        public float ResultsAdd(TestResults entity, bool force)
         {
             entity.Tr_CrtTime = DateTime.Now;
             //计算得分
@@ -532,7 +533,7 @@ namespace Song.ServiceImpls
             //是否已经计算过
             if (xn.Attributes["isclac"] != null)
             {
-                if (xn.Attributes["isclac"].Value == "true")
+                if (xn.Attributes["isclac"].Value == "true" && force==false)
                 {
                     if (xn.Attributes["score"] != null)
                     {
@@ -562,10 +563,22 @@ namespace Song.ServiceImpls
         /// 修改测试成绩,返回得分
         /// </summary>
         /// <param name="entity">业务实体</param>
+        /// <param name="force"></param>
         /// <returns>返回得分</returns>
-        public float ResultsSave(TestResults entity)
+        public float ResultsSave(TestResults entity, bool force)
         {
-            return ResultsAdd(entity);
+            return ResultsAdd(entity,force);
+        }
+        /// <summary>
+        /// 计算成绩，根据成绩id
+        /// </summary>
+        /// <param name="trid"></param>
+        /// <returns></returns>
+        public float ResultsCalc(int trid)
+        {
+            TestResults tr = Gateway.Default.From<TestResults>().Where(TestResults._.Tr_ID == trid).ToFirst<TestResults>();
+            if (tr == null) return -1;
+            return this.ResultsAdd(tr, true);
         }
         /// <summary>
         /// 当前考试的及格率
