@@ -115,7 +115,7 @@
             },
             //双击事件
             rowdblclick: function (row, column, event) {
-                console.log(row);
+                //console.log(row);
                 this.$refs.btngroup.modify(row[this.$refs.btngroup.idkey]);
             },
             //更改使用状态
@@ -197,6 +197,11 @@
                 var url = $api.url.set(ctr.path, 'couid', couid);
                 console.log(url);
                 ctr.add(url);
+            },
+            //查看成绩
+            viewResults: function (tpid) {
+                var url = $api.url.set('../TestPaper/Results', 'tpid', tpid);
+                this.$refs.btngroup.pagebox(url, '成绩管理', null, 800, 600, { 'ico': 'e696' });
             }
         }
     });

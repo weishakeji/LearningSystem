@@ -100,7 +100,7 @@
                 </template>
                 <template slot-scope="scope">
                     <div>
-                        <el-link type="primary" plain @click="()=>{drawer=true;curr=scope.row;}">
+                        <el-link type="primary" plain @click="viewResults(scope.row.Tp_Id)">
                             <icon>&#xe696</icon>成绩
                         </el-link>
                     </div>
