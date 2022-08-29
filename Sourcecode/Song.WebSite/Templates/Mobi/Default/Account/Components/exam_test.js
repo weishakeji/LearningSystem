@@ -48,6 +48,8 @@ Vue.component('exam_test', {
                         //如果有结课考试，则计算结课的最高成绩
                         if (th.final) {
                             th.getfinal_highest(th.stid, th.finaltest.Tp_Id);
+                        }else {
+                            th.highest = -1;
                         }
                     } else {
                         console.error(req.data.exception);

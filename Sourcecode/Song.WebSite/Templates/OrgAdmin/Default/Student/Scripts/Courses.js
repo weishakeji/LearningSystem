@@ -99,6 +99,7 @@
                             result[i]['addtime_value'] = '';
                             result[i]['addtime_loading'] = false;
                         }
+                        th.datas = [];
                         th.datas = result;
                     } else {
                         console.error(req.data.exception);
