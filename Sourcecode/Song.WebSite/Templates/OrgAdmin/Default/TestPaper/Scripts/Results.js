@@ -8,7 +8,7 @@
             config: {},      //当前机构配置项
 
             form: {
-                'stid': '', 'tpid': '', 'tpname': '', 'couid': $api.querystring('id'),
+                'stid': '', 'tpid': $api.querystring('tpid'), 'tpname': '', 'couid': $api.querystring('id'),
                 'sbjid': '', 'orgid': '',
                 'stname': '', 'cardid': '', 'score_min': '', 'score_max': '', 'time_min': '', 'time_max': '',
                 'size': 20, 'index': 1
@@ -127,7 +127,7 @@
                 $api.get('TestPaper/ResultsCalc', { 'trid': data.Tr_ID }).then(function (req) {
                     data.loading = false;
                     if (req.data.success) {
-                        data.Tr_Score = req.data.result;                      
+                        data.Tr_Score = req.data.result;
                         th.$notify({
                             type: 'success',
                             message: '重新计算成功',
