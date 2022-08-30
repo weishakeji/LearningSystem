@@ -30,6 +30,10 @@ Vue.component('course_menus', {
         //是否登录
         islogin: function () {
             return JSON.stringify(this.account) != '{}' && this.account != null;
+        },
+        //是否购买记录
+        purchased: function () {
+            return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
         }
     },
     mounted: function () {
@@ -38,7 +42,7 @@ Vue.component('course_menus', {
     methods: {
         //按钮事件，首先是状态判断
         btnEvt: function (item, outline) {
-            if (!this.purchase.Stc_IsEnable) {
+            if (this.purchased && !this.purchase.Stc_IsEnable) {
                 this.disabled_show = true;
                 return;
             }

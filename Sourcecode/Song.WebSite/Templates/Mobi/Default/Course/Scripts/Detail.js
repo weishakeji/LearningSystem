@@ -114,12 +114,13 @@ $ready(function () {
                                 var data = arguments[i].data;
                                 if (!data.success && data.exception != null) {
                                     console.error(data.exception);
-                                    throw data.message;
+                                    //throw data.message;
                                 }
                             }
                             //获取结果
                             th.canStudy = canStudy.data.result;
-                            th.purchase = purchase.data.result;
+                            if (purchase.data.result != null)
+                                th.purchase = purchase.data.result;
                             th.videolog = videolog.data.result;
                         })).catch(function (err) {
                             console.error(err);

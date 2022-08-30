@@ -102,7 +102,7 @@
                             <div v-for="o in outlines" :style="'padding-left:'+(o.Ol_Level*30)+'px'">
                                 <index>{{o.Ol_XPath}}</index>{{o.Ol_Name}}
                                 <el-tag type="danger" v-if="!o.Ol_IsFinish">未完结</el-tag>
-                                <template v-else-if="!purchase.Stc_IsEnable">
+                                <template v-else-if="purchased && !purchase.Stc_IsEnable">
                                       <el-tag type="info" title="禁止学习"><icon>&#xe7ad</icon>禁</el-tag>
                                 </template>
                                 <template v-else-if="course.Cou_IsTry && o.Ol_IsFree">

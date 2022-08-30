@@ -17,7 +17,7 @@ $ready(function () {
             guideCol: [],          //课程通知的分类
             prices: [],          //课程价格
             isbuy: false,        //是否购买课程
-            purchase: null,          //课程购买记录
+            purchase: {},          //课程购买记录
             canStudy: false,     //是否能够学习
 
             testpapers: [],          //试卷
@@ -136,6 +136,7 @@ $ready(function () {
                         th.testpapers = papers;
                     }
                     th.prices = prices.data.result;
+                    console.log(th.prices);
                     th.sum = sum.data.result;
                     th.guideCol = guideCol.data.result;
                     th.teacher = teacher.data.result;
@@ -164,12 +165,13 @@ $ready(function () {
                         var data = arguments[i].data;
                         if (!data.success && data.exception != null) {
                             //console.error(data.exception);
-                            throw arguments[i].config.way + ' ' + data.message;
+                            //throw arguments[i].config.way + ' ' + data.message;
                         }
                     }
                     //获取结果
                     th.canStudy = canStudy.data.result;
-                    th.purchase = purchase.data.result;
+                    if (purchase.data.result != null)
+                        th.purchase = purchase.data.result;
                     th.videolog = videolog.data.result;
                 })).catch(function (err) {
                     console.error(err);
