@@ -3,7 +3,7 @@
 
 <head resource>
     <title>机构等级修改</title>
-    <include file="../inc/meta.inc" />  
+    <include file="../inc/meta.inc" />
     <script type="text/javascript" src="../Scripts/hanzi2pinyin.js"></script>
 </head>
 
@@ -21,7 +21,7 @@
                 <el-input v-model="entity.Olv_Tag" style="width:200px" clearable></el-input>
             </el-form-item>
             <el-form-item label="等级" prop="Olv_Level">
-                <el-input v-model="entity.Olv_Level" type="number"  style="width:100px" ></el-input>
+                <el-input v-model="entity.Olv_Level" type="number" style="width:100px"></el-input>
             </el-form-item>
             <el-form-item label="分润方案" prop="Ps_ID">
                 <template>
@@ -41,12 +41,13 @@
                 <el-switch v-model="entity.Olv_IsUse" :active-text="entity.Olv_IsUse ? '启用' : '禁用'">
                 </el-switch>
             </el-form-item>
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
-                    确认修改</el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
+
         </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                确认修改</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 
 

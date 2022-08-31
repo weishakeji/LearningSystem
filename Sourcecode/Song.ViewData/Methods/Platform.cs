@@ -233,7 +233,7 @@ namespace Song.ViewData.Methods
         [Cache(Expires = 60 * 24 * 30)]
         public string[] IconFonts()
         {
-            string file = "/Utilities/Fonts/webdesk.html";
+            string file = "/Utilities/Fonts/index.html";
             file = WeiSha.Core.Server.MapPath(file);
             string html = System.IO.File.ReadAllText(file, Encoding.UTF8);
             //

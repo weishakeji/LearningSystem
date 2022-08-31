@@ -883,7 +883,7 @@
                     $dom('button.el-button--close').click(function () {
                         if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
                     });
-                }, 300);
+                }, 1000);
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
                     for (var i = 0; i < source.length; i++) {

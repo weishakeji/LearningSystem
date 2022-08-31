@@ -118,12 +118,13 @@
                 </el-col>
                 <el-col :span="10"></el-col>
             </el-row>
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('account')">
-                    确认修改</el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
+
         </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('account')">
+                确认修改</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 
 

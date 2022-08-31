@@ -3,7 +3,7 @@
 
 <head resource>
     <title>编辑机构信息</title>
-    <include file="../inc/meta.inc" />  
+    <include file="../inc/meta.inc" />
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=MBUg6BlQ9sowj5824cX1IKIG"></script>
 </head>
 
@@ -139,13 +139,13 @@
                 </el-row>
                 <div id="map" style="height:250px;width:100%;"></div>
             </el-dialog>
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
-                    确认修改</el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
         </el-form>
 
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('entity')">
+                确认修改</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 
 </body>

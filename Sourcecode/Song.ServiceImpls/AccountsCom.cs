@@ -375,6 +375,7 @@ namespace Song.ServiceImpls
         /// 通过手机号获取账户
         /// </summary>
         /// <param name="phone">手机号</param>
+        /// <param name="orgid"></param>
         /// <param name="isPass">是否通过审核</param>
         /// <param name="isUse">是否启用</param>
         /// <returns></returns>
@@ -382,6 +383,7 @@ namespace Song.ServiceImpls
         {
             if (string.IsNullOrWhiteSpace(phone)) return null;
             WhereClip wc = new WhereClip();
+            if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
             if (isPass != null) wc.And(Accounts._.Ac_IsPass == (bool)isPass);
             if (isUse != null) wc.And(Accounts._.Ac_IsUse == (bool)isUse);
             WhereClip w2 = new WhereClip();
