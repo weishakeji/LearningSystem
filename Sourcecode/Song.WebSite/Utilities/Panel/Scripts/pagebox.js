@@ -576,7 +576,7 @@
         return this;
     };
     //打印窗体内容
-    fn.doPrint = function () {       
+    fn.doPrint = function () {
         if (window.frames[this.id] == null) {
             this.document().print();
         } else {
@@ -1021,10 +1021,10 @@
         region += box.availWidth() / 2 < offset.left + collect.width() / 2 ? 'right' : 'left';
         region += box.availHeight() / 2 < offset.top + collect.height() / 2 ? 'bottom' : 'top';
         //设置"最小化的管理区"的位置
-        if (region.indexOf('right') > -1) area.css('right', (box.availWidth() - offset.left + 0) + 'px');
-        if (region.indexOf('left') > -1) area.left(offset.left + collect.width());
-        if (region.indexOf('top') > -1) area.top(offset.top);
-        if (region.indexOf('bottom') > -1) area.css('bottom', (box.availHeight() - offset.top - collect.height() * 3 / 4) + 'px');
+        area.css('right', region.indexOf('right') > -1 ? (box.availWidth() - offset.left + 0) + 'px' : 'auto');
+        area.css('left', region.indexOf('left') > -1 ? offset.left + collect.width() + 'px' : 'auto');
+        area.css('top', region.indexOf('top') > -1 ? offset.top + 'px' : 'auto');
+        area.css('bottom', region.indexOf('bottom') > -1 ? (box.availHeight() - offset.top - collect.height() * 3 / 4) + 'px' : 'auto');
     };
     //自动设置最小化管理的宽高
     box.pageboxcollect_boxsize = function () {

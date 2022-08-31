@@ -464,7 +464,7 @@ pagebox_bg_mask {
 }
 
 .pagebox-collect::after {
-    content: '\a01b';
+    content: '\a01a';
     display: block;
     height: 100%;
     width: 100%;

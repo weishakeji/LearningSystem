@@ -475,7 +475,7 @@ body.pagebox_overflow, body.pagebox_overflow>*{
 }
 
 .pagebox-collect::after {
-    content: '\a01b';
+    content: '\a01a';
     display: block;
     height: 100%;
     width: 100%;
