@@ -30,8 +30,8 @@
 
 ## 初始账号：
  * 学员账号： tester 密码1
- * 机构管理员： ~/orgadmin 账号song 密码1
- * 超级管理员： ~/manage  账号admin 密码1
+ * 机构管理员： ~/orgadmin 账号admin 密码1
+ * 超级管理员： ~/manage  账号super 密码1
 
 
 ## 开发环境：
