@@ -327,13 +327,12 @@
     font-size: 15px;
 }
 
-.pagebox btnbox btn_close {
-    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
-}
+
 
 .pagebox btnbox btn_close:hover {
-    background-color: rgb(228, 32, 32);
     color: rgba(255,255,255,1);
+    background-color: rgb(228, 32, 32);
+    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
 }
 
 .pagebox btnbox btn_close::before {

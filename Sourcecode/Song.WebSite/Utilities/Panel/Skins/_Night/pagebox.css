@@ -352,14 +352,14 @@
 }
 
 .pagebox btnbox btn_close {
-    --background-color: rgb(195, 7, 7);
-    box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
+    --background-color: rgb(195, 7, 7);  
     width: 45px;
 }
 
-.pagebox btnbox btn_close:hover {
-    background-color: rgb(228, 32, 32);
-}
+    .pagebox btnbox btn_close:hover {
+        background-color: rgb(228, 32, 32);
+        box-shadow: rgba(255, 255, 255, 1) 0px 0px 6px inset;
+    }
 
 .pagebox btnbox btn_close::before {
     content: "\e606";
