@@ -575,12 +575,28 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 判断账号是否存在
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="accname"></param>
         /// <returns></returns>
         public Accounts IsAccountsExist(int orgid, string accname)
         {
             return IsAccountsExist(orgid, accname, 0);
         }
+        /// <summary>
+        /// 判断账号是否存在
+        /// </summary>
+        /// <param name="accname">账号名称</param>
+        /// <param name="id">账号的id，如果新增账号请填写0或小于0的值</param>
+        /// <returns></returns>
+        public bool IsAccountExist(string accname, int id)
+        {
+            if (string.IsNullOrWhiteSpace(accname)) throw new Exception("账号不得为空");
+            WhereClip wc = Accounts._.Ac_ID != id;
+            wc.And(Accounts._.Ac_AccName == accname);
+            int count = Gateway.Default.Count<Accounts>(wc);
+            return count > 0;
+        }
+
         /// <summary>
         /// 当前用帐号是否重名
         /// </summary>

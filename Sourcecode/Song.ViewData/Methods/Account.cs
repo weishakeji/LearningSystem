@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -40,6 +41,10 @@ namespace Song.ViewData.Methods
         {          
             return LoginAccount.Status.User(this.Letter);           
         }
+        /// <summary>
+        /// 一个临时测试的方法
+        /// </summary>
+        /// <returns></returns>
         public int atest()
         {
            
@@ -185,7 +190,15 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts account = Business.Do<IAccounts>().IsAccountsExist(-1, acc, answer);
             return _tran(account);
         }
-
+        /// <summary>
+        /// 默认密码，当管理员添加学员时的默认密码
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet,Admin]
+        public string DefaultPw()
+        {
+            return WeiSha.Core.Login.Get["Accounts"].DefaultPw.Value;
+        }
         #endregion
 
         #region 获取账号
@@ -350,6 +363,34 @@ namespace Song.ViewData.Methods
 
         #region 修改账号信息
         /// <summary>
+        /// 账号是否存在
+        /// </summary>
+        /// <param name="acc">账号名称</param>
+        /// <param name="id">账号id，如果账号已经存在，则不断判断自身</param>
+        /// <returns></returns>
+        [HttpGet]
+        public bool IsExistAcc(string acc, int id)
+        {
+            return Business.Do<IAccounts>().IsAccountExist(acc, id);
+        }
+        /// <summary>
+        /// 新增学员
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = false)]
+        [Admin, SuperAdmin]
+        public Accounts Add(Accounts acc)
+        {
+            acc.Ac_Photo = _uploadLogo();
+            if (!string.IsNullOrWhiteSpace(acc.Ac_Pw))
+                acc.Ac_Pw = new Song.ViewData.ConvertToAnyValue(acc.Ac_Pw).MD5;
+            Business.Do<IAccounts>().AccountsAdd(acc);
+            acc.Ac_Photo = System.IO.File.Exists(PhyPath + acc.Ac_Photo) ? VirPath + acc.Ac_Photo : "";
+            return acc;
+        }
+        /// <summary>
         /// 修改账号信息
         /// </summary>
         /// <param name="acc">员工账号的实体</param>
@@ -357,15 +398,53 @@ namespace Song.ViewData.Methods
         [Admin]
         [Student]
         [HttpPost]
+        [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = false)]
         public bool Modify(Accounts acc)
         {
             Song.Entities.Accounts old = Business.Do<IAccounts>().AccountsSingle(acc.Ac_ID);
             if (old == null) throw new Exception("Not found entity for Accounts！");
+            //图片
+            string filename = _uploadLogo();
+            //如果有上传的图片，且之前也有图片,则删除原图片
+            if ((!string.IsNullOrWhiteSpace(filename) || string.IsNullOrWhiteSpace(acc.Ac_Photo)) && !string.IsNullOrWhiteSpace(old.Ac_Photo))
+                WeiSha.Core.Upload.Get[PathKey].DeleteFile(old.Ac_Photo);      
+            if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
             //账号，密码，登录状态值，不更改
             old.Copy<Song.Entities.Accounts>(acc, "Ac_AccName,Ac_Pw,Ac_CheckUID");
+            if (!string.IsNullOrWhiteSpace(filename)) old.Ac_Photo = filename;
             Business.Do<IAccounts>().AccountsSave(old);
             Song.ViewData.LoginAccount.Fresh(old);
             return true;
+        }
+        /// <summary>
+        ///  图片上传的处理方法
+        /// </summary>
+        /// <returns></returns>
+        private string _uploadLogo()
+        {
+            string filename = string.Empty;
+            foreach (string key in this.Files)
+            {
+                HttpPostedFileBase file = this.Files[key];
+                filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
+                file.SaveAs(PhyPath + filename);
+                break;
+            }
+            //转jpg
+            if (!string.IsNullOrWhiteSpace(filename))
+            {
+                if (!".jpg".Equals(Path.GetExtension(filename), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    string old = filename;
+                    using (System.Drawing.Image image = WeiSha.Core.Images.FileTo.ToImage(PhyPath + filename))
+                    {
+                        filename = Path.ChangeExtension(filename, "jpg");
+                        image.Save(PhyPath + Path.ChangeExtension(filename, "jpg"), ImageFormat.Jpeg);
+                    }
+                    System.IO.File.Delete(PhyPath + old);
+                }
+            }
+            return filename;
         }
         /// <summary>
         ///  修改账号信息

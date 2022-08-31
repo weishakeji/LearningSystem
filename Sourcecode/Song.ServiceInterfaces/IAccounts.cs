@@ -156,9 +156,10 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 判断账号是否存在
         /// </summary>
-        /// <param name="accname"></param>
-        /// <returns></returns>
-        Accounts IsAccountsExist(int orgid, string accname);
+        /// <param name="accname">账号名称</param>
+        /// <param name="id">账号的id，如果新增账号请填写0或小于0的值</param>
+        /// <returns>true为存在，false为不存在</returns>
+        bool IsAccountExist(string accname, int id);
         /// <summary>
         /// 当前用帐号是否重名
         /// </summary>

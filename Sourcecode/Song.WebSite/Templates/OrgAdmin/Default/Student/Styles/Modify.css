@@ -42,11 +42,22 @@
 .organ icon{
     margin-right: 2px;
 }
+.upload_img_area img {
+    width: 100px;
+    height: 100px;
+    display: block;
+    float: left;
+    border: 1px solid #aaa;
+    margin-top: 5px;
+    border-radius: 50px;
+    margin-right: 10px;
+    float: left;
+}
+
 .photo-txt {
-    display: inline-block;  
+    display: inline-block;
+    margin-top: 50px;
     color: #409EFF;
-    cursor: pointer;
-    margin-left: 5px;
 }
 
 .accname {
