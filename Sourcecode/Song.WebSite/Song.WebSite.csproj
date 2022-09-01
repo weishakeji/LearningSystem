@@ -1558,7 +1558,6 @@
     <Content Include="Utilities\Components\upload-img.js" />
     <Content Include="Utilities\DataTemplate\Config\学生学习记录.xml" />
     <Content Include="Utilities\DataTemplate\Config\考试成绩.xml" />
-    <Content Include="Utilities\Fonts\iconfont.ico" />
     <Content Include="Utilities\Images\disable.png" />
     <Content Include="Utilities\Images\ghs.png" />
     <Content Include="Utilities\Images\used.png" />
@@ -1809,8 +1808,6 @@
     <Content Include="Utilities\ElementUi\index.html" />
     <Content Include="Utilities\ElementUi\index.js" />
     <Content Include="Utilities\ElementUi\vue_min.js" />
-    <Content Include="Utilities\Fonts\iconfont-symbol.svg" />
-    <Content Include="Utilities\Fonts\iconfont.svg" />
     <Content Include="Utilities\Fonts\index.html" />
     <Content Include="Utilities\Images\head1.jpg" />
     <Content Include="Utilities\Images\head2.jpg" />
@@ -1947,10 +1944,7 @@
     <Content Include="Utilities\Panel\Skins\Win10\intro.json" />
     <Content Include="Utilities\Panel\Skins\Win7\intro.json" />
     <Content Include="Utilities\Datas\manage_userinfo.json" />
-    <Content Include="Utilities\Fonts\iconfont.eot" />
-    <Content Include="Utilities\Fonts\iconfont.ttf" />
     <Content Include="Utilities\Fonts\iconfont.woff" />
-    <Content Include="Utilities\Fonts\iconfont.woff2" />
     <Content Include="Templates\config.json" />
     <Content Include="Utilities\Datas\systemmenu.json" />
     <Content Include="Utilities\DataTemplate\判断题.xls" />

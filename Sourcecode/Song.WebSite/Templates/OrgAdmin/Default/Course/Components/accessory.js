@@ -117,7 +117,7 @@ Vue.component('accessory', {
             <el-tooltip :content="'允许的文件类型：'+ext_limit" placement="right"
                 effect="light">
                 <el-button type="primary" plain>
-                    <icon>&#xe724</icon>点击上传文件
+                    <icon>&#xe6ea</icon>点击上传文件
                 </el-button>
             </el-tooltip>
         </upload-file>
