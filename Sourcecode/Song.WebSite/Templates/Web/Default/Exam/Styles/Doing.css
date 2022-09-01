@@ -368,7 +368,7 @@ section dd img {
 
 .type1>div[selected] i::before {
 	font-family: "webdesk_icon" !important;
-	content: '\e75b';
+	content: '\e85b';
 	font-style: normal;
 }
 

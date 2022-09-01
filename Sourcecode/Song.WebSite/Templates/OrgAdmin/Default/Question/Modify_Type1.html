@@ -22,8 +22,8 @@
                         <dd v-for="(item,index) in ansitems">
                             <index :title="'id:'+item.Ans_ID">{{index+1}}</index>
                             <div class="itemcrt" @click="radio(item)" title="设置正确答案">
-                                <icon v-if="item.Ans_IsCorrect" style="font-size: 21px;">&#xe75b</icon>
-                                <icon v-else style="font-size: 22px;">&#xf00c6</icon>
+                                <icon v-if="item.Ans_IsCorrect" style="font-size: 21px;">&#xe85b</icon>
+                                <icon v-else style="font-size: 22px;">&#xe85c</icon>
                             </div>
                             <div class="text" v-html="item.Ans_Context">
 

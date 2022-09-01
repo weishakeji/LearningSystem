@@ -184,7 +184,7 @@ input, textarea {
 }
 
 .footer .error-num:before {
-	content: "\e664";
+	content: "\e61c";
 	font-family: "webdesk_icon";
 	color: #FF0000;
 	margin-right: 5px;
@@ -198,7 +198,7 @@ input, textarea {
 }
 
 #btnCard:before {
-	content: "\e680";
+	content: "\e70d";
 	font-family: "webdesk_icon";
 	font-size: 20px;
 	margin-right: 5px;
@@ -304,7 +304,7 @@ section dd img {
 
 .type1>div[selected] i::before {
 	font-family: "webdesk_icon" !important;
-	content: '\e75b';
+	content: '\e85b';
 	font-style: normal;
 }
 

@@ -10,7 +10,7 @@ Vue.component('course_menus', {
             disabled_show: false,        //如果课程状态被禁用
             menus: [
                 { name: '视频/直播', url: 'study', icon: '&#xe761', size: 30, show: true, evt: null },
-                { name: '试题练习', url: '../question/course', icon: '&#xe680', size: 29, show: true, evt: null },
+                { name: '试题练习', url: '../question/course', icon: '&#xe70d', size: 29, show: true, evt: null },
                 { name: '在线测试', url: '../Test/Index', icon: '&#xe84b', size: 29, show: true, evt: null },
                 { name: '知识库', url: 'Knowledges', icon: '&#xe76b', size: 30, show: true, evt: null },
                 { name: '结课考试', url: '../Test/Finality', icon: '&#xe810', size: 32, show: true, evt: this.goFinality },

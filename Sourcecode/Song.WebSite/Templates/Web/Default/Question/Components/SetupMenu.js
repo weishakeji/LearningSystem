@@ -165,7 +165,7 @@ Vue.component('setupmenu', {
 
           <van-cell>
             <template #title>
-              <icon>&#xe801</icon>字体
+              <icon>&#xe657</icon>字体
               <span style="float: right;font-size: 13px;">
                 <span @click="setFont(-1)"><icon>&#xe600</icon>缩小</span>
                 <span @click="setFont(1)"><icon>&#xe6ea</icon>放大</span>

@@ -15,7 +15,7 @@
                 { name: '试题', tab: 'question', icon: '&#xe75e' },
                 { name: '试卷/考试', tab: 'testpaper', icon: '&#xe810' },
                 //{ name: '结课考试', tab: 'finaltest', icon: '&#xe816' },
-                { name: '知识点', tab: 'knowledge', icon: '&#xe85b' },
+                { name: '知识点', tab: 'knowledge', icon: '&#xe76d' },
                 { name: '公告', tab: 'guide', icon: '&#xe840' },
                 { name: '留言', tab: 'message', icon: '&#xe817' }
             ],

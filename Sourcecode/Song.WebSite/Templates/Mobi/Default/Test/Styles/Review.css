@@ -157,7 +157,7 @@ card[qid] card-title>*{
 }
 .type1>div[selected] i::before{
 	font-family: "webdesk_icon" !important;
-	content: '\e75b';
+	content: '\e85b';
 	font-style:normal;
 }
 .ans_area>div[correct]{	

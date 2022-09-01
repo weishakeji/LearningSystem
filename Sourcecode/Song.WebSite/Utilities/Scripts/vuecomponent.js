@@ -26,7 +26,7 @@ Vue.component('btngroup', {
                 text: '导入', tips: '批量导入数据',
                 id: 'input', type: 'info',
                 class: 'el-icon-folder-add',
-                icon: 'e733'
+                icon: 'e69f'
             }, {
                 text: '导出', tips: '批量导出数据',
                 id: 'output', type: 'info',

@@ -41,11 +41,11 @@
     display: block;
 }
 
-.cour-card .cour-title more::before {
-    content: "\e733";
-    font-family: webdesk_icon;
-    color: #888888;
-}
+    .cour-card .cour-title more::before {
+        content: "\e67e";
+        font-family: webdesk_icon;
+        color: #888888;
+    }
 
 .cour-card .cour-content {
     display: flex;
