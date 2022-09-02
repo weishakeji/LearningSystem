@@ -185,7 +185,7 @@
             btnsetteacher: function (couid) {
                 var url = 'SetupTeacher.' + couid;
                 this.$refs.btngroup.pagebox(url, '设置教师', window.name + '[SetupTeacher]', 800, 600, {
-                    'showmask': true,'min':false,'ico':'e650'
+                    'showmask': true, 'min': false, 'ico': 'e650'
                 });
             },
             //在列中显示信息，包含检索

@@ -22,6 +22,7 @@
                 As_FileName: [{ required: true, message: '不得为空', trigger: 'blur' },
                 {
                     validator: function (rule, value, callback) {
+                        if (value == '') return callback();
                         var url = encodeURI(value);
                         if (!$api.url.check(url)) {
                             callback(new Error('请输入有效的网络地址'));
