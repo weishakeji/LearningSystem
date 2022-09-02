@@ -14,7 +14,7 @@ $ready(function () {
             checkRec: false,     //是否推荐的选项
 
             organ: {},
-            teacher:{},         //当前登录的教师
+            teacher: {},         //当前登录的教师
             config: {},      //当前机构配置项      
 
             datas: [],
@@ -42,7 +42,7 @@ $ready(function () {
             });
         },
         created: function () {
-            var th=this;
+            var th = this;
             th.loading_init = true;
             $api.bat(
                 $api.get('Organization/Current'),
@@ -75,7 +75,10 @@ $ready(function () {
             });
         },
         computed: {
-
+            //是否登录
+            islogin: function () {
+                return JSON.stringify(this.teacher) != '{}' && this.teacher != null;
+            },
         },
         watch: {
             //是否查询推荐的课程
@@ -194,7 +197,20 @@ $ready(function () {
             },
             //新增课程的按钮事件
             btnadd: function (btn) {
-                this.$refs.btngroup.pagebox('/orgadmin/course/create', '新增', window.name + '[add]', 600, 300);
+                if (!this.islogin) {
+                    this.$alert('教师未登录，无法创建课程', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'warning'
+                    });
+                    return;
+                }
+                var url = '/orgadmin/course/create';
+                url = $api.url.set(url, {
+                    'thid': this.teacher.Th_ID
+                });
+                this.$refs.btngroup.pagebox(url, '新增', window.name + '[add]', 600, 300, {
+                    'ico': 'e813'
+                });
                 console.log(btn);
             },
             //设置教师

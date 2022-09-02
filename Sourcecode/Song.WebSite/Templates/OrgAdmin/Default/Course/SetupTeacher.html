@@ -100,11 +100,18 @@
                     <el-link type="primary" plain icon="el-icon-tickets" @click="showteach(scope.row)">详情
                     </el-link>
                     <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
-                        title="选择该教师吗？" @confirm="selected(scope.row)" :disabled="loading_sel">
+                        v-if="!(existteach && teacher.Th_ID==scope.row.Th_ID)" title="选择该教师吗？"
+                        @confirm="selected(scope.row)" :disabled="loading_sel">
                         <el-link type="success" plain icon="el-icon-connection" slot="reference"
                             :disabled="existteach && teacher.Th_ID==scope.row.Th_ID">选择
                         </el-link>
                     </el-popconfirm>
+                    <el-popconfirm v-else confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                        icon-color="red" title="是否取消当前教师吗？" @confirm="selected(null)" :disabled="loading_sel">
+                        <el-link type="danger" plain icon="el-icon-check" slot="reference">当前
+                        </el-link>
+                    </el-popconfirm>
+
                 </el-button-group>
 
             </el-table-column>
@@ -138,7 +145,7 @@
                     <icon>&#xe84d</icon>年龄：
                     <template v-if="drawerobj.Th_Age>0">
                         {{drawerobj.Th_Age}} 岁
-                    </template>                  
+                    </template>
                 </dd>
                 <dd title="生日">
                     <icon>&#xe82c</icon>生日：
@@ -149,7 +156,7 @@
                     <education :value="drawerobj.Th_Education" ctr="span"></education>
                 </dd>
                 <dd title="职称">
-                    <icon>&#xe732</icon>职称：
+                    <icon>&#xe698</icon>职称：
                     {{drawerobj.Ths_Name}}
                 </dd>
             </dl>

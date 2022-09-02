@@ -436,24 +436,38 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="teachid">教师id</param>
         /// <returns></returns>
-        [HttpPost][Admin,Teacher]
-        public bool SetCourse(int couid,int teachid)
+        [HttpPost]
+        [Admin, Teacher]
+        public bool SetCourse(int couid, int teachid)
         {
-            Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherSingle(teachid);
-            if (teacher == null) throw new Exception("教师不存在");
-            try
+            if (teachid > 0)
             {
-                Business.Do<ICourse>().CourseUpdate(couid,
-                    new WeiSha.Data.Field[] {
+                Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherSingle(teachid);
+                if (teacher == null) throw new Exception("教师不存在");
+                try
+                {
+                    Business.Do<ICourse>().CourseUpdate(couid,
+                        new WeiSha.Data.Field[] {
                         Song.Entities.Course._.Th_ID,
                         Song.Entities.Course._.Th_Name },
-                    new object[] { teacher.Th_ID, teacher.Th_Name });
+                        new object[] { teacher.Th_ID, teacher.Th_Name });
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            else
+            {
+                Business.Do<ICourse>().CourseUpdate(couid,
+                      new WeiSha.Data.Field[] {
+                        Song.Entities.Course._.Th_ID,
+                        Song.Entities.Course._.Th_Name },
+                      new object[] { 0, "" });
                 return true;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+
         }
         #endregion
 

@@ -34,12 +34,14 @@ namespace Song.ViewData.Methods
         /// 创建课程
         /// </summary>
         /// <param name="name">课程名称</param>
+        /// <param name="orgid">机构id</param>
         /// <param name="sbjid">所属专业的id</param>
+        /// <param name="thid">教师id</param>
         /// <returns></returns>
         [Admin,Teacher]
         [HttpPost,HttpGet(Ignore =true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
-        public Song.Entities.Course Add(string name, int sbjid)
+        public Song.Entities.Course Add(string name,int orgid, int sbjid,int thid)
         {
             try
             {
@@ -60,6 +62,13 @@ namespace Song.ViewData.Methods
 
                     Song.Entities.Course entity = new Entities.Course();
                     entity.Cou_Name = name;
+                    entity.Org_ID = orgid;
+                    entity.Th_ID = thid;
+                    if (thid > 0)
+                    {
+                        Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherSingle(thid);
+                        if (teacher != null) entity.Th_Name = teacher.Th_Name;
+                    }                   
                     entity.Sbj_ID = sbjid;
                     entity.Cou_Logo = filename;
                     entity.Cou_LogoSmall = smallfile;
@@ -81,11 +90,12 @@ namespace Song.ViewData.Methods
         /// 课程是否已经存在，用课程名称判断，只判断当前专业下的课程是否重名
         /// </summary>
         /// <param name="name">课程名称</param>
-        /// <param name="sbjid">专业id</param>
+        /// <param name="orgid"></param>
+        /// <param name="sbjid">专业id</param>  
         /// <returns></returns>
-        public bool NameExist(string name,int sbjid)
+        public bool NameExist(string name, int orgid, int sbjid)
         {
-            Song.Entities.Course cur = Business.Do<ICourse>().CourseIsExist(-1, sbjid, -1, name);
+            Song.Entities.Course cur = Business.Do<ICourse>().CourseIsExist(orgid, sbjid, -1, name);
             return cur != null;
         }
         /// <summary>

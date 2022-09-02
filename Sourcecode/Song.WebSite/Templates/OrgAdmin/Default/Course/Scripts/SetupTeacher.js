@@ -123,20 +123,21 @@ $ready(function () {
             selected: function (teach) {
                 var th = this;
                 th.loading_sel = true;
-                $api.post('Teacher/SetCourse', { 'couid': th.couid, 'teachid': teach.Th_ID }).then(function (req) {
-                    th.loading_sel = false;
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.teacher = teach;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading_sel = false;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
+                $api.post('Teacher/SetCourse', { 'couid': th.couid, 'teachid': teach != null ? teach.Th_ID : 0 })
+                    .then(function (req) {
+                        th.loading_sel = false;
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.teacher = teach;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        th.loading_sel = false;
+                        Vue.prototype.$alert(err);
+                        console.error(err);
+                    });
             },
             //显示教师详情
             showteach: function (teach) {

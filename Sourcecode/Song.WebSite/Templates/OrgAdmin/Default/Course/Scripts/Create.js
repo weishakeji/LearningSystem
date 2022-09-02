@@ -3,13 +3,11 @@
     window.vapp = new Vue({
         el: '#vapp',
         data: {
+            thid: $api.querystring('thid'),  //创建课程的教师
             organ: {},
             config: {},      //当前机构配置项        
             teacher: {},        //当前登录的教师
-            form: {
-                name: '',
-                sbjid: 0
-            },
+            form: { 'name': '', 'orgid': 0, 'sbjid': 0, 'thid': 0 },
             entity: {},
             //图片文件
             upfile: null, //本地上传文件的对象    
@@ -23,25 +21,31 @@
             loading_init: true
         },
         mounted: function () {
+            var th = this;
             $api.bat(
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (organ) {
-                vapp.loading_init = false;
+                $api.get('Organization/Current'),
+                $api.get('Teacher/ForID', { 'id': th.thid })
+            ).then(axios.spread(function (organ, teach) {
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
                         console.error(arguments[i]);
                     var data = arguments[i].data;
                     if (!data.success && data.exception != null) {
-                        console.error(data.message);
+                        console.error(data.exception);
+                        //throw arguments[i].config.way + ' ' + data.message;
                     }
                 }
                 //获取结果             
-                vapp.organ = organ.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.getTreeData();
+                th.config = $api.organ(th.organ).config;
+                th.getTreeData();
+                th.teacher = teach.data.result;
+                th.form.orgid = th.organ.Org_ID;
+                th.form.thid = th.teacher.Th_ID;
             })).catch(function (err) {
+                //Vue.prototype.$alert(err);
                 console.error(err);
             });
         },
@@ -134,8 +138,8 @@
                 if ($api.trim(this.form.name) == '') {
                     this.$alert('课程名称不得为空！', '提示', {
                         showConfirmButton: false,
-                        closeOnClickModal:true,
-                        type:'warning',
+                        closeOnClickModal: true,
+                        type: 'warning',
                         callback: () => { }
                     });
                     return;
@@ -143,14 +147,15 @@
                 if (this.form.sbjid == 0) {
                     this.$alert('请选择课程专业！', '提示', {
                         showConfirmButton: false,
-                        closeOnClickModal:true,
-                        type:'warning',
+                        closeOnClickModal: true,
+                        type: 'warning',
                         callback: () => { }
                     });
                     return;
                 }
                 //判断是否存在重名
-                $api.get('Course/NameExist', this.form).then(function (req) {
+                var query = { 'name': th.form.name, 'orgid': th.form.orgid, 'sbjid': th.form.sbjid };
+                $api.get('Course/NameExist', query).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         if (result == true) {
