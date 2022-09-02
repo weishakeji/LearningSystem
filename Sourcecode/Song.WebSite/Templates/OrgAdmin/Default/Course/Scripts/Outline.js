@@ -83,6 +83,7 @@
                 }).catch(function (err) {
                     console.error(err);
                 });
+                $api.cache('Outline/TreeList:clear', { 'id': th.id });
             },
             //拖动节点改变顺序
             handleDragEnd(draggingNode, dropNode, dropType, ev) {

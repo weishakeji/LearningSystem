@@ -151,7 +151,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">所属课程的id</param>
         /// <returns></returns>
         [HttpGet,HttpPost,HttpPut]
-        [Cache(Expires=120)]
+        [Cache(Expires=120, AdminDisable = true)]
         public DataTable TreeList(int couid)
         {
             // 当前课程的所有章节
