@@ -53,7 +53,7 @@ Vue.component('answercard', {
     methods: {},
     template: `<div>
         <div class="cardTit">
-            <icon>&#xe70d</icon>答题卡</span>
+            <icon>&#xe75e</icon>答题卡</span>
             <span>完成<b>{{answertotal}}</b>道 / 共<b>{{questotal}}</b>道</span>
         </div>
         <div class="cardBox">

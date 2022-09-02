@@ -42,7 +42,7 @@ Vue.component('course', {
     <div class="price">
         <span class="free" v-if="item.Cou_IsFree">免费</span>
         <span class="money" v-else>
-            <icon>&#xe625;</icon>
+            <icon>&#xe818;</icon>
             {{item.Cou_Price}}元/{{item.Cou_PriceSpan}}{{item.Cou_PriceUnit}}             
         </span>
         <span class="view" title="访问量">{{item.Cou_ViewNum}}</span>

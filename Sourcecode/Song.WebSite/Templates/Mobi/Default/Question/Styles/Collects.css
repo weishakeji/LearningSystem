@@ -216,7 +216,7 @@ input, textarea {
 }
 
 #btnCard:before {
-	content: "\e70d";
+	content: "\e75e";
 	font-family: "webdesk_icon";
 	font-size: 20px;
 	margin-right: 5px;

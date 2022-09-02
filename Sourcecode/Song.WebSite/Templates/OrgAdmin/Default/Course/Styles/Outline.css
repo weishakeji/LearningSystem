@@ -53,21 +53,26 @@ div[role=treeitem] {
 /*节点名称*/
 .node_name{
     display: inline-block;
-    width: calc(100% - 210px);
+   
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-all;
+    flex: 1;
 }
 
 .node_name icon {
     margin: 0px;
 }
-.column_btn{
-    width: 90px;
+.column_state{
+    width: 150px;
     text-align: right;
 }
-.column_btn .el-dropdown-link a:hover{
+.column_state icon::after{
+    content: attr(title);
+    margin-left: 3px;
+}
+.column_state .el-dropdown-link a:hover{
    text-decoration: none !important;
   
 }

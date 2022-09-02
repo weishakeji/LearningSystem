@@ -83,7 +83,7 @@
                 }).catch(function (err) {
                     console.error(err);
                 });
-                $api.cache('Outline/TreeList:clear', { 'id': th.id });
+                $api.cache('Outline/TreeList:clear', { 'couid': th.id });
             },
             //拖动节点改变顺序
             handleDragEnd(draggingNode, dropNode, dropType, ev) {
@@ -209,7 +209,8 @@
             //新增章节的按钮事件
             addBtn: function () {
                 this.modify_obj = {
-                    Ol_IsUse: true
+                    Ol_IsUse: true,
+                    Ol_IsFinish: true
                 };
                 this.modify_show = true;
             },

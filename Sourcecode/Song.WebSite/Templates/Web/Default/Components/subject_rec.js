@@ -65,7 +65,7 @@ Vue.component('subject_rec', {
             <div class="price">
                 <span class="free" v-if="cour.Cou_IsFree">免费</span>
                 <span class="money" v-else>
-                    <icon>&#xe625;</icon>
+                    <icon>&#xe818;</icon>
                     {{cour.Cou_Price}}元/{{cour.Cou_PriceSpan}}{{cour.Cou_PriceUnit}}             
                 </span>
                 <span class="view" title="访问量">{{cour.Cou_ViewNum}}</span>

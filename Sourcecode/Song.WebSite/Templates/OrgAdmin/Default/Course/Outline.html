@@ -30,10 +30,10 @@
         </div>
 
         <div class="tree-box">
-            <el-tree :data="datas" node-key="Ol_ID" ref="tree" :props="defaultProps" expand-on-click-node default-expand-all
-                :filter-node-method="filterNode" @node-drag-end="handleDragEnd" :expand-on-click-node="false" draggable
-                @node-expand="nodeexpand" @node-collapse="nodecollapse" :default-expanded-keys="expanded"
-                v-loading="loading || loading_sumbit">
+            <el-tree :data="datas" node-key="Ol_ID" ref="tree" :props="defaultProps" expand-on-click-node
+                default-expand-all :filter-node-method="filterNode" @node-drag-end="handleDragEnd"
+                :expand-on-click-node="false" draggable @node-expand="nodeexpand" @node-collapse="nodecollapse"
+                :default-expanded-keys="expanded" v-loading="loading || loading_sumbit">
                 <span class="custom-node" slot-scope="{ node, data }">
 
                     <div class="node_name draghandle">
@@ -45,7 +45,8 @@
                             <el-tag @click="btnVideoModify(data)" :type="data.Ol_IsVideo ? 'success' : 'info'">
                                 <icon>&#xe83a</icon>视频
                             </el-tag>
-                            <el-tag  @click="()=>{$refs['live'].setvalue(data);}" :type="data.Ol_IsLive ? 'success' : 'info'">
+                            <el-tag @click="()=>{$refs['live'].setvalue(data);}"
+                                :type="data.Ol_IsLive ? 'success' : 'info'">
                                 <icon>&#xe6bf</icon> 直播
                             </el-tag>
                             <el-tag @click="()=>{$refs['accessory'].setvalue(data);}" type="info" title="附件">
@@ -53,63 +54,35 @@
                             </el-tag>
                         </span>
 
-                        <span class="column_btn">
+                        <span class="column_state">
                             <loading v-if="loadingid==data.Ol_ID"></loading>
-                            <el-dropdown v-else>
-                                <span class="el-dropdown-link">
-                                    <el-link :type="data.Ol_IsUse ? 'success' : 'warning'">
-                                        <icon v-if="data.Ol_IsUse" title="启用">&#xe634</icon>
-                                        <icon v-else title="禁用">&#xe7ad</icon>
-                                    </el-link>
-                                    <el-link :type="data.Ol_IsFinish ? 'success' : 'warning'">
-                                        <icon v-if="data.Ol_IsFinish" title="完成">&#xe706</icon>
-                                        <icon v-else title="未完成">&#xe85c</icon>
-                                    </el-link>
-                                    <el-link :type="data.Ol_IsFree ? 'success' : 'warning'">
-                                        <icon v-if="data.Ol_IsFree" title="免费">&#xe740</icon>
-                                        <icon v-else title="收费">&#xe819</icon>
-                                    </el-link>
-                                    <i class="el-icon-arrow-down el-icon--right"></i>
-                                </span>
-                                <el-dropdown-menu slot="dropdown" class="btn_dropdown">
-                                    <el-dropdown-item>
-                                        <el-link :type="data.Ol_IsUse ? 'success' : 'warning'"
-                                            @click="changeState(data,'Ol_IsUse')">
-                                            <icon v-if="data.Ol_IsUse">&#xe634</icon>
-                                            <icon v-else>&#xe7ad</icon>
-                                            启用/禁用
-                                        </el-link>
-                                    </el-dropdown-item>
-                                    <el-dropdown-item>
-                                        <el-link :type="data.Ol_IsFree ? 'success' : 'warning'"
-                                            @click="changeState(data,'Ol_IsFree')">
-                                            <icon v-if="data.Ol_IsFree">&#xe740</icon>
-                                            <icon v-else>&#xe819</icon>
-                                            免费/收费
-                                        </el-link>
-                                    </el-dropdown-item>
-                                    <el-dropdown-item>
-                                        <el-link :type="data.Ol_IsFinish ? 'success' : 'warning'"
-                                            @click="changeState(data,'Ol_IsFinish')">
-                                            <icon v-if="data.Ol_IsFinish">&#xa048</icon>
-                                            <icon v-else>&#xe706</icon>完结/编辑中
-                                        </el-link>
-                                    </el-dropdown-item>
-                                    <el-dropdown-item divided>
-                                        <el-link type="primary"
-                                            @click="()=>{modify_obj=$api.clone(data);modify_show=true;}">
-                                            <icon>&#xa02e</icon>编辑
-                                        </el-link>
-                                    </el-dropdown-item>
-                                    <el-dropdown-item>
-                                        <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
-                                            <el-link type="danger" slot="reference">
-                                                <icon>&#xe800</icon> 删除
-                                            </el-link>
-                                        </el-popconfirm>
-                                    </el-dropdown-item>
-                                </el-dropdown-menu>
-                            </el-dropdown>
+                            <template v-else>
+                                <el-link :type="data.Ol_IsUse ? 'success' : 'danger'"
+                                    @click="changeState(data,'Ol_IsUse')">
+                                    <icon v-if="data.Ol_IsUse" title="启用">&#xe634</icon>
+                                    <icon v-else title="禁用">&#xe7ad</icon>
+                                </el-link>
+                                <el-link :type="data.Ol_IsFinish ? 'success' : 'danger'"
+                                    @click="changeState(data,'Ol_IsFinish')">
+                                    <icon v-if="data.Ol_IsFinish" title="完结">&#xe634</icon>
+                                    <icon v-else title="未完">&#xe85c</icon>
+                                </el-link>
+                                <el-link :type="data.Ol_IsFree ? 'success' : 'warning'"
+                                    @click="changeState(data,'Ol_IsFree')">
+                                    <icon v-if="data.Ol_IsFree" title="免费">&#xe740</icon>
+                                    <icon v-else title="收费">&#xe818</icon>
+                                </el-link>
+                            </template>
+                        </span>
+                        <span class="column_btn">
+                            <el-link type="primary" @click="()=>{modify_obj=$api.clone(data);modify_show=true;}">
+                                <icon>&#xa02e</icon>编辑
+                            </el-link>
+                            <el-popconfirm title="确定删除吗？" @confirm="remove(node, data)">
+                                <el-link type="danger" slot="reference">
+                                    <icon>&#xe800</icon>删除
+                                </el-link>
+                            </el-popconfirm>
                         </span>
                     </div>
                 </span>
