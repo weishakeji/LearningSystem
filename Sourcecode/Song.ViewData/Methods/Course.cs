@@ -162,17 +162,12 @@ namespace Song.ViewData.Methods
                     {
                         WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
                     }
-
+                    //某些字段将不同步修改                   
+                    string nomidfy = "Cou_CrtTime,Cou_StudentSum,Cou_UID,Th_ID,Th_Name,Org_ID,Org_Name";
                     //如果名称为空，则不修改
-                    if (string.IsNullOrWhiteSpace(course.Cou_Name))
-                    {
-                        old.Copy<Song.Entities.Course>(course, "Cou_Name,Cou_CrtTime,Cou_StudentSum,Cou_UID");
-                    }
-                    else
-                    {
-                        old.Copy<Song.Entities.Course>(course, "Cou_CrtTime,Cou_StudentSum,Cou_UID");
-                    }
-
+                    if (!string.IsNullOrWhiteSpace(course.Cou_Name))                 
+                        nomidfy = "Cou_Name," + nomidfy;
+                    old.Copy<Song.Entities.Course>(course, nomidfy);
                     Business.Do<ICourse>().CourseSave(old);
                     return old;
                 }

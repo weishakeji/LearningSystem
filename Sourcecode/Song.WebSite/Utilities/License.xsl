@@ -327,8 +327,14 @@ line-height:35px;
                       </xsl:for-each>
                     </div>
                     <div class="spanVersion">
-                    ReleaseDate
+                   
                       <xsl:for-each select="LicenseInfo/Versions/ReleaseDate">
+                        <xsl:value-of select="text()" />
+                      </xsl:for-each>
+                    </div>
+                    <div class="spanStatus">
+
+                      <xsl:for-each select="LicenseInfo/Versions/Stage">
                         <xsl:value-of select="text()" />
                       </xsl:for-each>
                     </div>
