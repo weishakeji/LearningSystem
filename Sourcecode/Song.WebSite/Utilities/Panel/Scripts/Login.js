@@ -494,7 +494,7 @@
         //当提交表单时
         obj.onsubmit(function (s, e) {
             //验证表单
-            var inputs = s.dom.find('input[type=text],input[type=password]');
+            var inputs = s.dom.find('input[type=text],input[type=number],input[type=password]');
             var pass = false;
             pass = inputs.each(function () {
                 for (var t in s._baseVefiry) {
