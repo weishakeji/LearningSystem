@@ -908,7 +908,7 @@
         var view = webdom('meta[view]');
         if (view.length > 0) file = view.attr("view");
         window.$dom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
-        window.$dom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
+        window.$dom.load.js([webdom.pagepath() + 'scripts/' + file + '.js']);
     }
 })();
 
