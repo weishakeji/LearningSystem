@@ -21,8 +21,8 @@
             </van-search>
         </header>
         <div id="context">
-            <template v-show="!loading" remark="轮换图片">
-                <van-swipe :autoplay="3000" v-if="showpic.length>0" class="swip_pic">
+            <template v-if="!loading" remark="轮换图片">
+                <van-swipe :autoplay="3000" v-if="!loading && showpic.length>0" class="swip_pic">
                     <van-swipe-item v-for="(pic, index) in showpic" :key="index">
                         <img :src="pic.Shp_File" v-if="pic.Shp_File!=''" />
                         <img src="Images/swipe/2.jpg" v-else />

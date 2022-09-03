@@ -12,14 +12,19 @@ $ready(function () {
             menus: [],        //主导航菜单
             subject: [],         //专业
             search: '',      //搜索框
-            loading: true
+
+            loading: true,
+            loading_init: false
         },
         mounted: function () {
+            var th = this;
+            th.loading_init = true;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:300'),
                 $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -30,21 +35,22 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //vapp.organ.Org_Logo = '';
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
                 //轮换图片，通知公告,自定义菜单项，专业
-                var orgid = vapp.organ.Org_ID;
+                var orgid = th.organ.Org_ID;
+                th.loading=true;
                 $api.bat(
                     $api.cache('Showpic/Mobi:60', { 'orgid': orgid }),
                     $api.get('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 10 }),
                     $api.cache('Navig/Mobi', { 'orgid': orgid, 'type': 'main' }),
                     $api.cache('Subject/ShowRoot:60', { 'orgid': orgid, 'count': 10 })
                 ).then(axios.spread(function (showpic, notice, menus, subject) {
-                    vapp.loading = false;
+                    th.loading = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -55,12 +61,12 @@ $ready(function () {
                         }
                     }
                     //获取结果
-                    vapp.showpic = showpic.data.success ? showpic.data.result : [];
-                    vapp.notice = notice.data.success ? notice.data.result : [];
-                    vapp.menus = menus.data.success ? menus.data.result : [];
-                    vapp.subject =  subject.data.success ? subject.data.result : [];
+                    th.showpic = showpic.data.success ? showpic.data.result : [];
+                    th.notice = notice.data.success ? notice.data.result : [];
+                    th.menus = menus.data.success ? menus.data.result : [];
+                    th.subject = subject.data.success ? subject.data.result : [];
                 })).catch(function (err) {
-                    vapp.loading = false;
+                    th.loading = false;
                     console.error(err);
                 });
             })).catch(function (err) {
