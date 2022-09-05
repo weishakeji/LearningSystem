@@ -218,7 +218,7 @@ Vue.component('page_header', {
             <right>
                 <search>
                     <input type="text" name="fname" v-model.trim="search" placeholder="请输入查询" @keyup.enter="gosearch()"></input>
-                    <icon @click="gosearch()">&#xe63b</icon>
+                    <icon @click="gosearch()">&#xa00b</icon>
                 </search>
                 <userbar>
                     <loading v-if="loading_login">... </loading>

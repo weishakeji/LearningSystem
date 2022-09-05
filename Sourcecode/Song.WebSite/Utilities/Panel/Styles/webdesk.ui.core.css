@@ -2,7 +2,7 @@
 /* CSS Document */
 @font-face {
 	font-family: 'webdesk_icon';
-	src: url("/Utilities/fonts/iconfont.woff") format("woff");
+	src: url(/Utilities/fonts/iconfont.woff) format("woff");
 	font-weight: normal;
 	font-style: normal;
 }

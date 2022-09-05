@@ -578,6 +578,8 @@ namespace Song.ServiceImpls
                             }
                             sc.Ac_ID = card.Ac_ID;
                             sc.Cou_ID = cou.Cou_ID;
+                            sc.Stc_IsEnable = true;
+                            sc.Stc_Type = 4;
                             sc.Stc_Money = card.Lc_Price;
                             sc.Org_ID = card.Org_ID;
                             sc.Stc_IsFree = sc.Stc_IsTry = false;

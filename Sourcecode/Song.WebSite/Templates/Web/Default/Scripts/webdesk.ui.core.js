@@ -687,7 +687,10 @@
     webdom.ready = (function () {
         var ie = webdom.isIE();
         if (ie) {
-            alert("当前系统不支持IE浏览器");
+            var txt = "当前系统不支持IE浏览器";
+            alert(txt);
+            document.write(txt);
+            return;
         }
 
         var funcs = []; //当获得事件时，要运行的函数
