@@ -250,20 +250,29 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <returns>iconfont图标库的编码,带说明</returns>
         [HttpGet]
-        //[Cache(Expires = 60 * 24 * 30)]
-        public string[] IconJson()
+        [Cache(Expires = 60 * 24 * 30)]
+        public JArray IconJson()
         {
             string file = "/Utilities/Fonts/index.html";
             file = WeiSha.Core.Server.MapPath(file);
             string html = System.IO.File.ReadAllText(file, Encoding.UTF8);
             //
-            List<string> list = new List<string>();
-            string pattern = @"<div.*?>\\(.*?)<\/div>";
-            foreach (Match match in Regex.Matches(html, pattern))
+            JArray arr = new JArray();
+            string pattern = @"<li>(.*?)<\/li>";
+            foreach (Match match in Regex.Matches(html, pattern,RegexOptions.Singleline))
             {
-                list.Add(match.Groups[1].Value);
+                string li = match.Groups[1].Value;
+                Match code = Regex.Match(li, @"<div.*?>\\(.*?)<\/div>", RegexOptions.Singleline);
+                Match name = Regex.Match(li, @"<div class=""name"">(.*?)<\/div>", RegexOptions.Singleline);
+                JObject jo = new JObject();
+                if (code.Success)
+                {
+                    jo.Add(code.Groups[1].Value,
+                        name.Success ? name.Groups[1].Value : "");
+                }
+                arr.Add(jo);               
             }
-            return list.ToArray();
+            return arr;
         }
         /// <summary>
         /// 获取地址的gps坐标

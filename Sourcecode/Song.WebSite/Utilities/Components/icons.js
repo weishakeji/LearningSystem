@@ -9,7 +9,7 @@ Vue.component('icons', {
         }
     },
     watch: {
-        'selected': function (val, old) {          
+        'selected': function (val, old) {
             this.$emit('change', val);
         }
     },
@@ -20,7 +20,7 @@ Vue.component('icons', {
         var th = this;
         th.loading = true;
         //加载图标
-        $api.cache('Platform/IconFonts').then(function (req) {
+        $api.cache('Platform/IconJson').then(function (req) {
             th.loading = false;
             if (req.data.success) {
                 th.data = req.data.result;
@@ -36,7 +36,9 @@ Vue.component('icons', {
     },
     template: `<div class="icons_select_panel">
     <div v-if="loading">loading...</div>
-    <span v-for="ico in data" v-html="'&#x'+ico+';'" @click="selected=ico;show=false;"
-    :selected="ico==selected"></span>
+        <template v-for="ico in data">
+            <span v-for="(value, key)  in ico" v-html="'&#x'+key+';'" @click="selected=key;show=false;"
+            :title="value"  :selected="ico==selected"></span>
+        </template>   
     </div>`
 });
