@@ -77,7 +77,7 @@
           <el-col :span="4">
             <el-form-item label="" label-width="5px">
 
-              <el-link type="primary" @click="iconSelect=true" title="选择图标"> <span
+              <el-link type="primary" @click="iconSelect=true" title="选择图标" class="setup_icon"> <span
                   v-if="curr.MM_IcoS==null || curr.MM_IcoS==''" class="font_icon">&#xa038;</span>
                 <span v-else class="font_icon" v-html="'&#x'+curr.MM_IcoS+';'"></span>
               </el-link>

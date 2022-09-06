@@ -15,7 +15,6 @@ $ready(function () {
                     { required: true, message: '不得为空', trigger: 'blur' }
                 ]
             },
-            icons: [],       //图标数据
             iconSelect: false    //图标选择
         },
         created: function () {
@@ -35,18 +34,7 @@ $ready(function () {
                 }).catch(function (err) {
                     alert(err);
                 });
-            }
-            //加载图标
-            $api.cache('Platform/IconFonts').then(function (req) {
-                if (req.data.success) {
-                    window.vue.icons = req.data.result;
-                } else {
-                    throw req.data.message;
-                }
-            }).catch(function (err) {
-                alert(err);
-                console.error(err);
-            });
+            }          
         },
         methods: {
             btnEnter: function (formName) {

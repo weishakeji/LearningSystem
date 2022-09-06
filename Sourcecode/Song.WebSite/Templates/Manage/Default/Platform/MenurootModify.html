@@ -34,7 +34,7 @@
                     <el-form-item label="图标" prop="MM_IcoS">
                         <el-link type="primary" @click="iconSelect=true"> <span v-if="entity.MM_IcoS==null || entity.MM_IcoS==''"
                             class="font_icon">&#xa038;</span>
-                          <span v-else class="font_icon" v-html="'&#x'+entity.MM_IcoS+';'"></span>&nbsp;点击选择
+                          <span v-else class="font_icon" style="font-size: 18px;" v-html="'&#x'+entity.MM_IcoS+';'"></span>&nbsp;点击选择
                         </el-link>
                 </el-form-item>
                 </el-col>
@@ -61,9 +61,9 @@
             </el-form-item>
         </el-form>
         <el-dialog title="图标选择" :visible.sync="iconSelect" id="dialog_icons">
+            <icons @change='val=>{entity.ico=val;entity.MM_IcoS=val;iconSelect=false;}' :selected="entity.MM_IcoS"></icons>
 
-            <span v-for="ico in icons" v-html="'&#x'+ico+';'" @click="entity.ico=ico;entity.MM_IcoS=ico;iconSelect=false;"
-              :selected="ico==entity.MM_IcoS"></span>
+           
       
           </el-dialog>
     </div>

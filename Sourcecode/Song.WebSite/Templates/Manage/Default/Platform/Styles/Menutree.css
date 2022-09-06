@@ -89,6 +89,9 @@ html,body{
 .el-checkbox{
     margin-right: 10px;
 }
+.setup_icon .font_icon{
+    font-size: 20px;
+}
 /*菜单图标选择*/
 
 #dialog_icons .el-dialog__body span {

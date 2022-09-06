@@ -38,8 +38,7 @@
             <el-table-column label="姓名">
                 <template slot="header" slot-scope="scope">
                     <el-input v-model="query.search" size="mini" clearable placeholder="查询名称"
-                        @keyup.enter.native="getdatas(1)" @clear="getdatas(1)" @blur="getdatas(1)"
-                        :disabled="loading">
+                        @keyup.enter.native="getdatas(1)" @clear="getdatas(1)" @blur="getdatas(1)" :disabled="loading">
                         <i slot="suffix" class="el-input__icon el-icon-search" @click="getdatas(1)"></i>
                     </el-input>
                 </template>
@@ -53,18 +52,15 @@
                             <span v-else class="noname">(没有名字)</span>
                         </span>
                     </el-tooltip>
-                    <template v-if="existteach && teacher.Th_ID==scope.row.Th_ID">
-                        <el-tag type="info">
-                            <icon>&#xe705</icon>当前教师
-                        </el-tag>
-                    </template>
+                    <el-tag type="info" v-if="existteach && teacher.Th_ID==scope.row.Th_ID">
+                        <icon>&#xe705</icon>当前教师
+                    </el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="电话">
                 <template slot="header" slot-scope="scope">
                     <el-input v-model="query.phone" size="mini" clearable placeholder="查询电话"
-                        @keyup.enter.native="getdatas(1)" @clear="getdatas(1)" @blur="getdatas(1)"
-                        :disabled="loading">
+                        @keyup.enter.native="getdatas(1)" @clear="getdatas(1)" @blur="getdatas(1)" :disabled="loading">
                         <i slot="suffix" class="el-input__icon el-icon-search" @click="getdatas(1)"></i>
                     </el-input>
                 </template>
@@ -82,8 +78,7 @@
             <el-table-column label="账号">
                 <template slot="header" slot-scope="scope">
                     <el-input v-model="query.acc" size="mini" clearable placeholder="查询账号"
-                        @keyup.enter.native="getdatas(1)" @clear="getdatas(1)" @blur="getdatas(1)"
-                        :disabled="loading">
+                        @keyup.enter.native="getdatas(1)" @clear="getdatas(1)" @blur="getdatas(1)" :disabled="loading">
                         <i slot="suffix" class="el-input__icon el-icon-search" @click="getdatas(1)"></i>
                     </el-input>
                 </template>
@@ -94,8 +89,7 @@
             <el-table-column label="身份证号">
                 <template slot="header" slot-scope="scope">
                     <el-input v-model="query.idcard" size="mini" clearable placeholder="查询身份证"
-                        @keyup.enter.native="getdatas(1)" @clear="getdatas(1)" @blur="getdatas(1)"
-                        :disabled="loading">
+                        @keyup.enter.native="getdatas(1)" @clear="getdatas(1)" @blur="getdatas(1)" :disabled="loading">
                         <i slot="suffix" class="el-input__icon el-icon-search" @click="getdatas(1)"></i>
                     </el-input>
                 </template>

@@ -4,7 +4,7 @@ $ready(function () {
         data: {
             form: {
                 orgid: '', titid: '',
-                search: '', phone: '', acc: '',
+                search: '', phone: '', acc: '', idcard: '',
                 size: 20,
                 index: 1
             },

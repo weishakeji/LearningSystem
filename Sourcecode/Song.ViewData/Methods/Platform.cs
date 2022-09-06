@@ -228,10 +228,30 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 字体图标
         /// </summary>
-        /// <returns></returns>
+        /// <returns>iconfont图标库的编码，不带说明</returns>
         [HttpGet]
         [Cache(Expires = 60 * 24 * 30)]
         public string[] IconFonts()
+        {
+            string file = "/Utilities/Fonts/index.html";
+            file = WeiSha.Core.Server.MapPath(file);
+            string html = System.IO.File.ReadAllText(file, Encoding.UTF8);
+            //
+            List<string> list = new List<string>();
+            string pattern = @"<div.*?>\\(.*?)<\/div>";
+            foreach (Match match in Regex.Matches(html, pattern))
+            {
+                list.Add(match.Groups[1].Value);
+            }
+            return list.ToArray();
+        }
+        /// <summary>
+        /// 字体图标
+        /// </summary>
+        /// <returns>iconfont图标库的编码,带说明</returns>
+        [HttpGet]
+        //[Cache(Expires = 60 * 24 * 30)]
+        public string[] IconJson()
         {
             string file = "/Utilities/Fonts/index.html";
             file = WeiSha.Core.Server.MapPath(file);
