@@ -12,6 +12,9 @@ using pili_sdk;
 using System.IO;
 using System.Web;
 using System.Drawing.Imaging;
+using System.Reflection;
+using System.Data;
+using Newtonsoft.Json.Linq;
 
 namespace Song.ViewData.Methods
 {
@@ -597,6 +600,198 @@ namespace Song.ViewData.Methods
             return list.ToArray<Outline_LiveInfo>();
         }
         #endregion
+
+        #region 导入教师信息
+        /// <summary>
+        /// 教师导入
+        /// </summary>
+        /// <param name="xls">服务器端的excel文件名，即上传后的excel</param>
+        /// <param name="sheet"></param>
+        /// <param name="config">配置文件</param>
+        /// <param name="matching">excel列与字段的匹配关联</param>
+        /// <returns>success:成功数;error:失败数</returns>
+        public JObject ExcelImport(string xls, int sheet, string config, JArray matching)
+        {
+            //获取Excel中的数据
+            string phyPath = WeiSha.Core.Upload.Get["Temp"].Physics;
+            DataTable dt = ViewData.Helper.Excel.SheetToDatatable(phyPath + xls, sheet, config);
+
+            //当前机构
+            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            //学员组
+            List<Song.Entities.TeacherSort> sorts = Business.Do<ITeacher>().SortCount(org.Org_ID, null, 0);
+            //开始导入，并计数
+            int success = 0, error = 0;
+            List<DataRow> errorDataRow = new List<DataRow>();
+            List<Exception> errorOjb = new List<Exception>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                try
+                {
+                    //throw new Exception();
+                    //将数据逐行导入数据库
+                    _inputData(dt.Rows[i], org, sorts, matching);
+                    success++;
+                }
+                catch (Exception ex)
+                {
+                    //如果出错，将错误行计数
+                    error++;
+                    errorDataRow.Add(dt.Rows[i]);
+                    errorOjb.Add(ex);
+                }
+            }
+            JObject jo = new JObject();
+            jo.Add("success", success);
+            jo.Add("error", error);
+            //错误数据
+            JArray jarr = new JArray();
+            for (int i = 0; i < errorDataRow.Count; i++)
+            {
+                DataRow dr = errorDataRow[i];
+                JObject jrow = new JObject();
+                foreach (DataColumn dc in dr.Table.Columns)
+                {
+                    jrow.Add(dc.ColumnName, dr[dc.ColumnName].ToString());
+                }
+                jrow.Add("exception", errorOjb[i].Message);
+                jarr.Add(jrow);
+            }
+            jo.Add("datas", jarr);
+            return jo;
+        }
+        /// <summary>
+        /// 将某一行数据加入到数据库
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <param name="org"></param>
+        /// <param name="sorts"></param>
+        /// <param name="mathing">excel列与字段的匹配关联</param>
+        private void _inputData(DataRow dr, Song.Entities.Organization org, List<Song.Entities.TeacherSort> sorts, JArray mathing)
+        {
+            Song.Entities.Accounts acc = null;
+            Song.Entities.Teacher teacher = null;
+            bool isExistAcc = false, isExistTh = false;   //是否存在该教师;
+            for (int i = 0; i < mathing.Count; i++)
+            {
+                //Excel的列的值
+                string column = dr[mathing[i]["column"].ToString()].ToString();
+                //数据库字段的名称
+                string field = mathing[i]["field"].ToString();
+                if (field == "Th_PhoneMobi")
+                {
+                    acc = Business.Do<IAccounts>().AccountsForMobi(column, -1, null, null);
+                    if (acc != null)
+                        teacher = Business.Do<IAccounts>().GetTeacher(acc.Ac_ID, null);
+                    isExistAcc = acc != null;
+                    isExistTh = teacher != null;
+                    continue;
+                }
+            }
+            if (acc == null) acc = new Entities.Accounts();
+            if (teacher == null) teacher = new Entities.Teacher();
+            for (int i = 0; i < mathing.Count; i++)
+            {
+                //Excel的列的值
+                string column = dr[mathing[i]["column"].ToString()].ToString();
+                //数据库字段的名称
+                string field = mathing[i]["field"].ToString();
+                if (field == "Th_Sex")
+                {
+                    teacher.Th_Sex = (short)(column == "男" ? 1 : 2);
+                    continue;
+                }
+                PropertyInfo[] properties = teacher.GetType().GetProperties();
+                for (int j = 0; j < properties.Length; j++)
+                {
+                    PropertyInfo pi = properties[j];
+                    if (field == pi.Name && !string.IsNullOrEmpty(column))
+                    {
+                        pi.SetValue(teacher, Convert.ChangeType(column, pi.PropertyType), null);
+                    }
+                }
+            }
+            //设置分组
+            if (!string.IsNullOrWhiteSpace(acc.Sts_Name)) acc.Sts_ID = _getSortsId(sorts, org, acc.Sts_Name);
+            if (!string.IsNullOrWhiteSpace(teacher.Th_Pw)) teacher.Th_Pw = teacher.Th_Pw.Trim();
+            acc.Org_ID = teacher.Org_ID = org.Org_ID;
+            acc.Ac_Name = teacher.Th_Name;
+            teacher.Org_Name = org.Org_Name;
+            teacher.Th_AccName = teacher.Th_PhoneMobi;
+            acc.Ac_IsPass = teacher.Th_IsPass = true;
+            teacher.Th_IsShow = true;
+            acc.Ac_IsUse = teacher.Th_IsUse = true;
+            //如果账号不存在
+            if (!isExistAcc)
+            {
+                acc.Ac_AccName = acc.Ac_MobiTel1 = acc.Ac_MobiTel2 = teacher.Th_PhoneMobi;  //账号手机号
+                acc.Ac_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码                
+                acc.Ac_Sex = teacher.Th_Sex;        //性别
+                acc.Ac_Birthday = teacher.Th_Birthday;
+                acc.Ac_Qq = teacher.Th_Qq;
+                acc.Ac_Email = teacher.Th_Email;
+                acc.Ac_IDCardNumber = teacher.Th_IDCardNumber;  //身份证    
+                acc.Ac_IsTeacher = true;        //该账号有教师身份
+                //保存
+                teacher.Ac_ID = Business.Do<IAccounts>().AccountsAdd(acc);
+                Business.Do<ITeacher>().TeacherSave(teacher);
+            }
+            else
+            {
+                acc.Ac_IsTeacher = true;
+                teacher.Ac_ID = acc.Ac_ID;
+                //如果账号存在,但教师不存在
+                if (!isExistTh)
+                {
+                    Business.Do<ITeacher>().TeacherAdd(teacher);
+                }
+                else
+                {
+                    teacher.Th_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码
+                    Business.Do<ITeacher>().TeacherSave(teacher);
+                }
+            }
+        }
+        /// <summary>
+        /// 获取分组id
+        /// </summary>
+        /// <param name="sorts"></param>
+        /// <param name="org"></param>
+        /// <param name="sortName"></param>
+        /// <returns></returns>
+        private int _getSortsId(List<Song.Entities.TeacherSort> sorts, Song.Entities.Organization org, string sortName)
+        {
+            try
+            {
+                int sortId = 0;
+                foreach (Song.Entities.TeacherSort s in sorts)
+                {
+                    if (sortName.Trim() == s.Ths_Name)
+                    {
+                        sortId = s.Ths_ID;
+                        break;
+                    }
+                }
+                if (sortId == 0 && sortName.Trim() != "")
+                {
+                    int orgid = org.Org_ID;
+                    Song.Entities.TeacherSort nwsort = new Song.Entities.TeacherSort();
+                    nwsort.Ths_Name = sortName;
+                    nwsort.Ths_IsUse = true;
+                    nwsort.Org_ID = orgid;
+                    Business.Do<ITeacher>().SortAdd(nwsort);
+                    sortId = nwsort.Ths_ID;
+                    sorts = Business.Do<ITeacher>().SortCount(orgid, null, 0);                 
+                }
+                return sortId;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        #endregion
+
     }
     //章节直播信息
     public class Outline_LiveInfo

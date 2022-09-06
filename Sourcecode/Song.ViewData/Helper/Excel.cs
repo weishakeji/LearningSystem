@@ -58,30 +58,39 @@ namespace Song.ViewData.Helper
                         //读取Excel格式，根据格式读取数据类型
                         switch (dt.Columns[i].DataType.FullName)
                         {
-                            case "System.DateTime": //日期类型                                   
-                                if (DateUtil.IsValidExcelDate(cell.NumericCellValue))
+                            case "System.DateTime": //日期类型
+                                try
                                 {
-                                    try
+                                    if (DateUtil.IsValidExcelDate(cell.NumericCellValue))
                                     {
-                                        value = cell.DateCellValue.ToString();
+                                        try
+                                        {
+                                            value = cell.DateCellValue.ToString();
+                                        }
+                                        catch
+                                        {
+                                            value = cell.ToString();
+                                        }
                                     }
-                                    catch
+                                    else
                                     {
-                                        value = cell.ToString();
+                                        value = cell.NumericCellValue.ToString();
                                     }
                                 }
-                                else
+                                catch
                                 {
-                                    value = cell.NumericCellValue.ToString();
+                                    value = cell.ToString();
                                 }
+                                object obj = WeiSha.Core.Param.Method.ConvertToAnyValue.Get(value).ChangeType(dt.Columns[i].DataType);
+                                dr[i] = obj == null ? DateTime.Now : (System.DateTime)obj;
                                 break;
 
                             default:
                                 value = getCellValue(cell, ext, workbook);
+                                dr[i] = WeiSha.Core.Param.Method.ConvertToAnyValue.Get(value).ChangeType(dt.Columns[i].DataType);
                                 break;
                         }
-                        dr[i] = WeiSha.Core.Param.Method.ConvertToAnyValue.Get(value).ChangeType(dt.Columns[i].DataType);
-
+                       
                     }
                     dt.Rows.Add(dr);
                 }

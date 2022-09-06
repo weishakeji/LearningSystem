@@ -130,7 +130,7 @@ $ready(function () {
             //导入
             input: function (btn) {
                 var title = btn.tips;
-                this.$refs.btngroup.pagebox('Import', title, null, '600', '400');
+                this.$refs.btngroup.pagebox('Import', title, null, '900', '600');
             },
             //打开子页面
             openSubpage: function (page, entity, title, width, height, icon) {

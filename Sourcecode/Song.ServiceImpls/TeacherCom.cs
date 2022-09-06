@@ -469,12 +469,12 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<TeacherSort>().Where(wc).OrderBy(TeacherSort._.Ths_Tax.Asc).ToArray<TeacherSort>();
         }
 
-        public TeacherSort[] SortCount(int orgid, bool? isUse, int count)
+        public List<TeacherSort> SortCount(int orgid, bool? isUse, int count)
         {
             WhereClip wc = TeacherSort._.Org_ID == orgid;
             if (isUse != null) wc.And(TeacherSort._.Ths_IsUse == isUse);
             count = count > 0 ? count : int.MaxValue;
-            return Gateway.Default.From<TeacherSort>().Where(wc).ToArray<TeacherSort>(count);
+            return Gateway.Default.From<TeacherSort>().Where(wc).ToList<TeacherSort>(count);
         }
 
         public TeacherSort Sort4Teacher(int studentId)

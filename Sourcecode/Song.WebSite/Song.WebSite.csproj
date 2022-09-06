@@ -423,6 +423,12 @@
     <Content Include="Templates\OrgAdmin\Default\Student\BeginCourse.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\BeginCourse.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\BeginCourse.css" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Export.html" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Import.html" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\Export.js" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\Import.js" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Styles\Export.css" />
+    <Content Include="Templates\OrgAdmin\Default\Teacher\Styles\Import.css" />
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Scripts\Results.js" />
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Styles\Results.css" />
     <Content Include="Templates\OrgAdmin\Default\TestPaper\Results.html" />

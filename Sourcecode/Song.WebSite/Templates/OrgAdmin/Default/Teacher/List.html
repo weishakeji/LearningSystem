@@ -10,8 +10,8 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" @output="output" @input="input" path="Modify"
-                width="600" height="600" :selects='selects' idkey='Th_ID' table="datatables"></btngroup>
+            <btngroup show="新增,修改,删除,导入,导出" ref='btngroup' @delete="deleteData" @output="output" @input="input"
+                path="Modify" width="600" height="600" :selects='selects' idkey='Th_ID' table="datatables"></btngroup>
             <div class="search-box">
 
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
@@ -95,7 +95,7 @@
                             {{scope.row.Th_Birthday|date('yyyy-MM-dd')}}
                         </div>
                     </template>
-                </el-table-column>                
+                </el-table-column>
                 <el-table-column label="最后登录" width="120">
                     <template slot-scope="scope">
                         <div title="时间">

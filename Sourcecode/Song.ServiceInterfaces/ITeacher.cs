@@ -187,7 +187,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        TeacherSort[] SortCount(int orgid, bool? isUse, int count);
+        List<TeacherSort> SortCount(int orgid, bool? isUse, int count);
         /// <summary>
         /// 获取某网站学生所属的组；
         /// </summary>
