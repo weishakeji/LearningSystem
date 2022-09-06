@@ -189,6 +189,12 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         List<TeacherSort> SortCount(int orgid, bool? isUse, int count);
         /// <summary>
+        /// 教师数量
+        /// </summary>
+        /// <param name="sortid"></param>
+        /// <returns></returns>
+        int SortOfNumber(int sortid);
+        /// <summary>
         /// 获取某网站学生所属的组；
         /// </summary>
         /// <param name="studentId">网站学生id</param>
@@ -198,6 +204,7 @@ namespace Song.ServiceInterfaces
         /// 获取某个组的所有网站学生
         /// </summary>
         /// <param name="sortid">分类id</param>
+        /// <param name="isUse"></param>
         /// <returns></returns>
         Teacher[] Teacher4Sort(int sortid, bool? isUse);
         /// <summary>
@@ -212,6 +219,15 @@ namespace Song.ServiceInterfaces
         /// <param name="items">实体数组</param>
         /// <returns></returns>
         bool SortUpdateTaxis(Song.Entities.TeacherSort[] items);
+        /// <summary>
+        /// 学员账号信息导出
+        /// </summary>
+        /// <param name="path">导出文件的路径（服务器端）</param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sorts">学员分组id，用逗号分隔</param>
+        /// <param name="isall">当sorts为空时，true导所有，false导未分组的</param>
+        /// <returns></returns>
+        string Export4Excel(string path, int orgid, string sorts, bool isall);
         #endregion
 
         #region 教师履历管理

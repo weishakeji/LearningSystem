@@ -42,6 +42,15 @@ namespace Song.ViewData.Methods
             return Business.Do<ITeacher>().SortAll(orgid, name, use);
         }
         /// <summary>
+        /// 职称下的教师数
+        /// </summary>
+        /// <param name="id">职称id</param>
+        /// <returns></returns>
+        public int TitleOfNumber(int id)
+        {
+            return Business.Do<ITeacher>().SortOfNumber(id);
+        }
+        /// <summary>
         /// 根据id获取信息
         /// </summary>
         /// <param name="id"></param>
@@ -618,7 +627,7 @@ namespace Song.ViewData.Methods
 
             //当前机构
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            //学员组
+            //职称
             List<Song.Entities.TeacherSort> sorts = Business.Do<ITeacher>().SortCount(org.Org_ID, null, 0);
             //开始导入，并计数
             int success = 0, error = 0;
@@ -792,6 +801,97 @@ namespace Song.ViewData.Methods
         }
         #endregion
 
+        #region 导出学员信息       
+        /// <summary>
+        /// 生成excel,按机构导出
+        /// </summary>
+        /// <param name="organs">机构id,多个id用逗号分隔</param>
+        /// <returns></returns>
+        public JObject ExcelOutputForOrg(string organs)
+        {
+            string outputPath = "TeacherToExcelForTitle";
+            //导出文件的位置
+            string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+
+            DateTime date = DateTime.Now;
+            string filename = string.Format("账号导出{0}.({1}).xls", organs, date.ToString("yyyy-MM-dd hh-mm-ss"));
+            string filePath = rootpath + filename;
+            filePath = Business.Do<IAccounts>().AccountsExport4Excel(filePath, organs);
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
+            jo.Add("date", date);
+            return jo;
+        }
+        /// <summary>
+        /// 生成excel，按职称导出
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="sorts">分组id,多个id用逗号分隔</param> 
+        /// <returns></returns>
+        public JObject ExcelOutputForSort(int orgid, string sorts)
+        {
+            string outputPath = "TeacherToExcelForTitle";
+            //导出文件的位置
+            string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+
+            DateTime date = DateTime.Now;
+            string filename = string.Format("教师导出{0}.({1}).xls", sorts, date.ToString("yyyy-MM-dd hh-mm-ss"));
+            string filePath = rootpath + filename;
+            filePath = Business.Do<ITeacher>().Export4Excel(filePath, orgid, sorts, false);
+            JObject jo = new JObject();
+            jo.Add("file", filename);
+            jo.Add("url", Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
+            jo.Add("date", date);
+            return jo;
+        }
+        /// <summary>
+        /// 删除Excel文件
+        /// </summary>
+        /// <param name="filename">文件名，带后缀名，不带路径</param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        public bool ExcelDelete(string filename, string path)
+        {
+            string rootpath = Upload.Get["Temp"].Physics + path + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            string filePath = rootpath + filename;
+            if (System.IO.File.Exists(filePath))
+            {
+                System.IO.File.Delete(filePath);
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// 已经生成的Excel文件
+        /// </summary>
+        /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
+        public JArray ExcelFiles(string path)
+        {
+            string rootpath = Upload.Get["Temp"].Physics + path + "\\";
+            if (!System.IO.Directory.Exists(rootpath))
+                System.IO.Directory.CreateDirectory(rootpath);
+            JArray jarr = new JArray();
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(rootpath);
+            foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
+            {
+                JObject jo = new JObject();
+                jo.Add("file", f.Name);
+                jo.Add("url", Upload.Get["Temp"].Virtual + path + "/" + f.Name);
+                jo.Add("date", f.CreationTime);
+                jo.Add("size", f.Length);
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        #endregion
     }
     //章节直播信息
     public class Outline_LiveInfo

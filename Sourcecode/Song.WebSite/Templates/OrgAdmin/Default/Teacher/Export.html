@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>学员导出</title>
+    <title>教师导出</title>
 </head>
 
 <body>
@@ -12,7 +12,7 @@
         <div class="toolsbar">
             <div>
                 <el-button type="primary" plain @click="drawer_selected=true" :disabled="loading">
-                    <icon>&#xe78b</icon>选中的学员组<span class="count">({{checkedSorts.length}})</span>
+                    <icon>&#xe78b</icon>选中的教师职称<span class="count">({{checkedSorts.length}})</span>
                 </el-button>
                 <el-button type="primary" plain @click="filepanel=true" :disabled="loading">
                     <icon>&#xe85e</icon>已经生成的导出<span class="count">({{files.length}})</span>
@@ -26,35 +26,30 @@
                 </el-button-group>
                 <el-input placeholder="搜索" size="small" style="width: 100px;" clearable v-model="form.search">
                 </el-input>
-                <el-button type="primary" plain :disabled="loading" @click="getStudentSorts(1)">搜索</el-button>
+                <el-button type="primary" plain :disabled="loading" @click="getSorts(1)">搜索</el-button>
             </div>
         </div>
         <div class="sorts">
             <loading v-if="loading">正在加载...</loading>
             <template v-else-if="sorts.length>0">
                 <el-checkbox v-for="(item,i) in sorts" v-model="item.selected" @change="selectSingle(item)">
-                    {{i+1}}. <span v-html='showInfo(item.Sts_Name)'></span>
-                    <student_count :sort="item"></student_count>
+                    {{i+1}}.  <span v-html="item.Ths_Name"> </span>
+                    <teacher_count :sort="item"></teacher_count>
                 </el-checkbox>
             </template>
             <el-empty v-else description="没有满足条件的查询"></el-empty>
         </div>
-        <div id="pager-box" v-if="totalpages>1">
-            <el-pagination v-on:current-change="getStudentSorts" :current-page="form.index" :page-sizes="[1]"
-                :page-size="form.size" :pager-count="5" layout="total, prev, pager, next" :total="total">
-            </el-pagination>
-        </div>
         <div class="footer">
             <el-button :type="loading ? 'info' : 'primary'" v-on:click="btnOutput" class="el-icon-position"
                 :disabled="loading || loading_export" :loading="loading_export" native-type="submit">
-                导出学员信息
+                导出信息
             </el-button>
             <el-button type='close'> 取消 </el-button>
         </div>
         <!--选中的面板-->
         <el-drawer :visible.sync="drawer_selected" direction="ltr" size="60%">
             <span slot="title">
-                <icon>&#xe78b</icon>选中的学员组<span class="count">({{checkedSorts.length}})</span>
+                <icon>&#xe78b</icon>选中的教师职称<span class="count">({{checkedSorts.length}})</span>
             </span>
             <dl class="selected" v-if="checkedSorts.length>0">
                 <dd v-for="(item,i) in checkedSorts">
@@ -79,7 +74,7 @@
                     </div>
                 </dd>
             </dl>
-            <div v-else >没有文件，请操作“导出学员信息”</div>
+            <div v-else >没有文件，请操作“导出教师信息”</div>
         </el-dialog>
     </div>
 </body>

@@ -7,9 +7,12 @@ $ready(function () {
             organ: {},
             config: {},      //当前机构配置项    
 
-
-            form: { 'orgid': '', 'use': null, 'search': '', 'index': 1, 'size': 10 },
-            sorts: [],           //学员组
+            form: {
+                orgid: '',
+                name: '',
+                use: ''
+            },
+            sorts: [],           //教师职称
             total: 1, //总记录数
             totalpages: 1, //总页数
 
@@ -19,10 +22,10 @@ $ready(function () {
 
 
             loading: false,
-            loading_export:false,       //生成的预载
+            loading_export: false,       //生成的预载
 
             files: [],
-            filepanel:false      //显示文件列表的面板
+            filepanel: false      //显示文件列表的面板
         },
         created: function () {
             var th = this;
@@ -33,7 +36,7 @@ $ready(function () {
                     th.organ = req.data.result;
                     th.config = $api.organ(th.organ).config;
                     th.form.orgid = th.organ.Org_ID;
-                    th.getStudentSorts(1);
+                    th.getSorts();
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -52,7 +55,7 @@ $ready(function () {
                     const element = this.sorts[i];
                     //计算当前项是否存在于被选中的数组
                     var index = this.checkedSorts.findIndex(m => {
-                        return element.Sts_ID == m.Sts_ID;
+                        return element.Ths_ID == m.Ths_ID;
                     });
                     //如果全选
                     if (nv) {
@@ -72,36 +75,19 @@ $ready(function () {
             }
         },
         methods: {
-            //获取学员组
-            getStudentSorts: function (index) {
-                if (index != null) this.form.index = index;
+            //获取职称
+            getSorts: function () {
                 var th = this;
-                //每页多少条，通过界面高度自动计算
-                var area = document.documentElement.clientHeight - 115;
-                th.form.size = Math.floor(area / 25);
-                th.form.size = th.form.size <= 2 ? 2 : th.form.size;
-                th.form.size = th.form.size >= 50 ? 50 : th.form.size;
                 th.loading = true;
-                $api.get("Account/SortPager", th.form).then(function (d) {
+                $api.get("Teacher/Titles", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
-                        var result = d.data.result;
-                        for (var i = 0; i < result.length; i++) {
-                            const element = result[i];
-                            var index = th.checkedSorts.findIndex(m => {
-                                return element.Sts_ID == m.Sts_ID;
-                            });
-                            result[i].selected = index >= 0;
-                        }
-
-                        th.sorts = result;
-                        th.totalpages = Number(d.data.totalpages);
-                        th.total = d.data.total;
+                        th.sorts = d.data.result;
                     } else {
-                        console.error(d.data.exception);
                         throw d.data.message;
-                    }
+                    }                  
                 }).catch(function (err) {
+                    th.$alert(err, '错误');
                     console.error(err);
                 });
             },
@@ -119,7 +105,7 @@ $ready(function () {
                     const element = this.sorts[i];
                     //计算当前项是否存在于被选中的数组
                     var index = this.checkedSorts.findIndex(m => {
-                        return element.Sts_ID == m.Sts_ID;
+                        return element.Ths_ID == m.Ths_ID;
                     });
                     //如果全选
                     if (nv) {
@@ -141,7 +127,7 @@ $ready(function () {
                     const element = this.sorts[i];
                     //计算当前项是否存在于被选中的数组
                     var index = this.checkedSorts.findIndex(m => {
-                        return element.Sts_ID == m.Sts_ID;
+                        return element.Ths_ID == m.Ths_ID;
                     });
                     if (index < 0) {
                         element.selected = true;
@@ -158,7 +144,7 @@ $ready(function () {
                     this.$set(this.checkedSorts, this.checkedSorts.length, item);
                 } else {
                     var index = this.checkedSorts.findIndex(m => {
-                        return item.Sts_ID == m.Sts_ID;
+                        return item.Ths_ID == m.Ths_ID;
                     });
                     this.$delete(this.checkedSorts, index);
                 }
@@ -166,11 +152,11 @@ $ready(function () {
             //取消选择
             selectCancel: function (item) {
                 var index = this.checkedSorts.findIndex(m => {
-                    return item.Sts_ID == m.Sts_ID;
+                    return item.Ths_ID == m.Ths_ID;
                 });
                 this.$delete(this.checkedSorts, index);
                 for (var i = 0; i < this.sorts.length; i++) {
-                    if (this.sorts[i].Sts_ID == item.Sts_ID) {
+                    if (this.sorts[i].Ths_ID == item.Ths_ID) {
                         this.sorts[i].selected = false;
                         this.$set(this.sorts, i, this.sorts[i]);
                         break;
@@ -183,12 +169,12 @@ $ready(function () {
                 if (this.checkedSorts.length > 0) {
                     this.checkedSorts.map(function (v) {
                         total += v.count;
-                        sorts += v.Sts_ID + ',';
+                        sorts += v.Ths_ID + ',';
                     });
                     count = this.checkedSorts.length;
-                    msg = '选中' + count + '个学员组，共' + total + '学员，是否导出?';
+                    msg = '选中' + count + '个职称，共' + total + '教师，是否导出?';
                 } else {
-                    msg = '没有选择学员组，将导出未分组的学员，是否导出?';
+                    msg = '没有选择职称，将导出未分组的教师，是否导出?';
                 }
                 this.$confirm(msg, '提示', {
                     confirmButtonText: '确定',
@@ -203,7 +189,7 @@ $ready(function () {
                 var th = this;
                 //创建生成Excel
                 th.loading_export = true;
-                $api.get('Account/ExcelOutputForSort', { 'orgid': th.organ.Org_ID, 'sorts': sorts }).then(function (req) {
+                $api.get('Teacher/ExcelOutputForSort', { 'orgid': th.organ.Org_ID, 'sorts': sorts }).then(function (req) {
                     th.loading_export = false;
                     if (req.data.success) {
                         var result = req.data.result;
@@ -217,16 +203,16 @@ $ready(function () {
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
-                    }                  
+                    }
                 }).catch(function (err) {
                     th.loading_export = false;
-                    console.error(err);                   
+                    console.error(err);
                 });
             },
             //获取文件列表
             getFiles: function () {
                 var th = this;
-                $api.get('Account/ExcelFiles', { 'path': 'AccountsToExcelForSort' }).then(function (req) {
+                $api.get('Teacher/ExcelFiles', { 'path': 'TeacherToExcelForTitle' }).then(function (req) {
                     if (req.data.success) {
                         th.files = req.data.result;
                         th.loading = false;
@@ -243,7 +229,7 @@ $ready(function () {
             deleteFile: function (file) {
                 var th = this;
                 this.loading = true;
-                $api.delete('Account/ExcelDelete', { 'filename': file, 'path': 'AccountsToExcelForSort' }).then(function (req) {
+                $api.delete('Teacher/ExcelDelete', { 'filename': file, 'path': 'TeacherToExcelForTitle' }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getFiles();
@@ -268,8 +254,8 @@ $ready(function () {
             }
         },
     });
-    //分组下的学员数
-    Vue.component('student_count', {
+    //当前职称下的教师数
+    Vue.component('teacher_count', {
         props: ["sort"],
         data: function () {
             return {
@@ -280,7 +266,7 @@ $ready(function () {
         watch: {
             'sort': {
                 handler: function (nv, ov) {
-                    this.getcount(nv, nv.Sts_ID);
+                    this.getcount(nv, nv.Ths_ID);
                 }, immediate: true
             }
         },
@@ -290,7 +276,7 @@ $ready(function () {
             getcount: function (item, sortid) {
                 var th = this;
                 th.loading = true;
-                $api.cache('Account/SortOfNumber', { 'sortid': sortid }).then(function (req) {
+                $api.cache('Teacher/TitleOfNumber', { 'id': sortid }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.count = req.data.result;
@@ -304,9 +290,9 @@ $ready(function () {
                 });
             }
         },
-        template: `<span title="学员数"  :class="{'count':true,'zero':count<=0}">
+        template: `<span title="当前职称的教师数"  :class="{'count':true,'zero':count<=0}">
                 <span class="el-icon-loading" v-if="loading"></span>
-                <el-tooltip v-else effect="light" content="当前组的学员数" placement="right">
+                <el-tooltip v-else effect="light" content="当前职称的教师数" placement="right">
                     <span>( {{count}} )</span>
                 </el-tooltip>      
              </span> `

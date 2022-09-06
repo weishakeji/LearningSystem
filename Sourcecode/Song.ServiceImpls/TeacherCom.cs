@@ -476,7 +476,10 @@ namespace Song.ServiceImpls
             count = count > 0 ? count : int.MaxValue;
             return Gateway.Default.From<TeacherSort>().Where(wc).ToList<TeacherSort>(count);
         }
-
+        public int SortOfNumber(int sortid)
+        {
+            return Gateway.Default.Count<Teacher>(Teacher._.Ths_ID == sortid);
+        }
         public TeacherSort Sort4Teacher(int studentId)
         {
             Teacher st = this.TeacherSingle(studentId);
@@ -532,6 +535,122 @@ namespace Song.ServiceImpls
                     tran.Close();
                 }
             }
+        }
+        /// <summary>
+        /// 学员账户号导出
+        /// </summary>
+        /// <param name="path">导出文件的路径（服务器端）</param>
+        /// <param name="orgid"></param>
+        /// <param name="sorts"></param>
+        /// <param name="isall"></param>
+        /// <param name="orgs">机构id,用逗号分隔</param>
+        /// <returns></returns>
+        public string Export4Excel(string path, int orgid, string sorts, bool isall)
+        {
+            HSSFWorkbook hssfworkbook = new HSSFWorkbook();
+            //xml配置文件
+            XmlDocument xmldoc = new XmlDocument();
+            string confing = WeiSha.Core.App.Get["ExcelInputConfig"].VirtualPath + "教师信息.xml";
+            xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
+            XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
+            //
+            WhereClip wc = new WhereClip();
+            if (orgid > 0) wc &= Teacher._.Org_ID == orgid;
+            Teacher[] accounts = null;
+            //如果没有分组信息，则取当前机构的所有
+            if (string.IsNullOrWhiteSpace(sorts))
+            {
+                if (isall)
+                {
+                    accounts = Gateway.Default.From<Teacher>().Where(wc).OrderBy(Teacher._.Th_ID.Desc).ToArray<Teacher>();
+                    _export4Excel_to_sheet(hssfworkbook, "教师信息", accounts, nodes);
+                }
+                else
+                {
+                    wc &= Accounts._.Org_ID == orgid;
+                    accounts = Gateway.Default.From<Teacher>().Where(wc && Teacher._.Ths_ID <= 0).OrderBy(Teacher._.Th_ID.Desc).ToArray<Teacher>();
+                    _export4Excel_to_sheet(hssfworkbook, "未设置职称", accounts, nodes);
+                }
+            }
+            else
+            {
+                //按学员组生成工作簿
+                foreach (string s in sorts.Split(','))
+                {
+                    if (string.IsNullOrWhiteSpace(s)) continue;
+                    int sortid = 0;
+                    int.TryParse(s, out sortid);
+                    if (sortid == 0) continue;
+                    //
+                    Song.Entities.TeacherSort sts = Gateway.Default.From<TeacherSort>().Where(TeacherSort._.Ths_ID == sortid).ToFirst<TeacherSort>();
+                    if (sts == null) continue;
+                    accounts = Gateway.Default.From<Teacher>().Where(Teacher._.Org_ID == orgid && Teacher._.Ths_ID == sts.Ths_ID)
+                        .OrderBy(Teacher._.Th_ID.Desc).ToArray<Teacher>();
+                    _export4Excel_to_sheet(hssfworkbook, sts.Ths_Name, accounts, nodes);
+                }               
+            }
+
+            FileStream file = new FileStream(path, FileMode.Create);
+            hssfworkbook.Write(file);
+            file.Close();
+            return path;
+        }
+        private void _export4Excel_to_sheet(HSSFWorkbook hssfworkbook, string sheetName, Teacher[] accounts, XmlNodeList nodes)
+        {
+            ISheet sheet = hssfworkbook.CreateSheet(sheetName);   //创建工作簿对象
+            //创建数据行对象
+            IRow rowHead = sheet.CreateRow(0);
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                string exExport = nodes[i].Attributes["export"] != null ? nodes[i].Attributes["export"].Value : ""; //是否导出
+                if (exExport.ToLower() == "false") continue;
+                rowHead.CreateCell(i).SetCellValue(nodes[i].Attributes["Column"].Value);
+            }
+            //生成数据行
+            ICellStyle style_size = hssfworkbook.CreateCellStyle();
+            style_size.WrapText = true;
+
+            for (int i = 0; i < accounts.Length; i++)
+            {
+                IRow row = sheet.CreateRow(i + 1);
+                for (int j = 0; j < nodes.Count; j++)
+                {
+                    Type type = accounts[i].GetType();
+                    System.Reflection.PropertyInfo propertyInfo = type.GetProperty(nodes[j].Attributes["Field"].Value); //获取指定名称的属性
+                    object obj = propertyInfo.GetValue(accounts[i], null);
+                    if (obj != null)
+                    {
+                        string exExport = nodes[j].Attributes["export"] != null ? nodes[j].Attributes["export"].Value : ""; //是否导出
+                        if (exExport.ToLower() == "false") continue;
+                        string format = nodes[j].Attributes["Format"] != null ? nodes[j].Attributes["Format"].Value : "";
+                        string datatype = nodes[j].Attributes["DataType"] != null ? nodes[j].Attributes["DataType"].Value : "";
+                        string defvalue = nodes[j].Attributes["DefautValue"] != null ? nodes[j].Attributes["DefautValue"].Value : "";
+
+                        string value = "";
+                        switch (datatype)
+                        {
+                            case "date":
+                                DateTime tm = Convert.ToDateTime(obj);
+                                value = tm > DateTime.Now.AddYears(-100) ? tm.ToString(format) : "";
+                                break;
+                            default:
+                                value = obj.ToString();
+                                break;
+                        }
+                        if (defvalue.Trim() != "")
+                        {
+                            foreach (string s in defvalue.Split('|'))
+                            {
+                                string h = s.Substring(0, s.IndexOf("="));
+                                string f = s.Substring(s.LastIndexOf("=") + 1);
+                                if (value == h) value = f;
+                            }
+                        }
+                        row.CreateCell(j).SetCellValue(value);
+                    }
+                }
+            }
+            return;
         }
         #endregion
 

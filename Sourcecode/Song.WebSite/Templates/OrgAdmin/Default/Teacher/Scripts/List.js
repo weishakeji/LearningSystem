@@ -125,7 +125,7 @@ $ready(function () {
             //导出
             output: function (btn) {
                 var title = btn.tips;
-                this.$refs.btngroup.pagebox('Export', title, null, '600', '400');
+                this.$refs.btngroup.pagebox('Export', title, null, '700', '400');
             },
             //导入
             input: function (btn) {
