@@ -133,7 +133,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Teacher[] TeacherPager(int orgid, int thsid, bool? isUse, bool? isShow, string searName, string phone, string acc, int size, int index, out int countSum);     
+        Teacher[] TeacherPager(int orgid, int thsid, bool? isUse, bool? isShow, string searName, string phone, string acc,string idcard, int size, int index, out int countSum);     
         #endregion
 
         #region 教师分类管理

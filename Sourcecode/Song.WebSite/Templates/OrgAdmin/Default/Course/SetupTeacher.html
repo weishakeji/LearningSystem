@@ -40,17 +40,19 @@
                     <el-input v-model="query.search" size="mini" clearable placeholder="查询名称"
                         @keyup.enter.native="handleCurrentChange(1)" @clear="handleCurrentChange(1)"
                         :disabled="loading">
-                        <i slot="prefix" class="el-input__icon el-icon-search" @click="handleCurrentChange(1)"></i>
+                        <i slot="suffix" class="el-input__icon el-icon-search" @click="handleCurrentChange(1)"></i>
                     </el-input>
                 </template>
                 <template slot-scope="scope">
-                    <span class="info" :class="{'woman': scope.row.Th_Sex==2}">
-                        <icon v-if="scope.row.Th_Sex==2" title="女性">&#xe844</icon>
-                        <icon v-if="scope.row.Th_Sex==1" title="男性">&#xe645</icon>
-                        <icon v-if="scope.row.Th_Sex==0" title="性别未知">&#xa043</icon>
-                        <span v-html='showInfo(scope.row.Th_Name)' v-if="scope.row.Th_Name!=''"></span>
-                        <span v-else class="noname">(没有名字)</span>
-                    </span>
+                    <el-tooltip class="item" effect="light" content="点击查看详情" placement="right">
+                        <span class="info" :class="{'woman': scope.row.Th_Sex==2}" @click="showteach(scope.row)">
+                            <icon v-if="scope.row.Th_Sex==2" title="女性">&#xe844</icon>
+                            <icon v-if="scope.row.Th_Sex==1" title="男性">&#xe645</icon>
+                            <icon v-if="scope.row.Th_Sex==0" title="性别未知">&#xa043</icon>
+                            <span v-html='showInfo(scope.row.Th_Name)' v-if="scope.row.Th_Name!=''"></span>
+                            <span v-else class="noname">(没有名字)</span>
+                        </span>
+                    </el-tooltip>
                     <template v-if="existteach && teacher.Th_ID==scope.row.Th_ID">
                         <el-tag type="info">
                             <icon>&#xe705</icon>当前教师
@@ -63,7 +65,7 @@
                     <el-input v-model="query.phone" size="mini" clearable placeholder="查询电话"
                         @keyup.enter.native="handleCurrentChange(1)" @clear="handleCurrentChange(1)"
                         :disabled="loading">
-                        <i slot="prefix" class="el-input__icon el-icon-search" @click="handleCurrentChange(1)"></i>
+                        <i slot="suffix" class="el-input__icon el-icon-search" @click="handleCurrentChange(1)"></i>
                     </el-input>
                 </template>
                 <template slot-scope="scope">
@@ -82,11 +84,23 @@
                     <el-input v-model="query.acc" size="mini" clearable placeholder="查询账号"
                         @keyup.enter.native="handleCurrentChange(1)" @clear="handleCurrentChange(1)"
                         :disabled="loading">
-                        <i slot="prefix" class="el-input__icon el-icon-search" @click="handleCurrentChange(1)"></i>
+                        <i slot="suffix" class="el-input__icon el-icon-search" @click="handleCurrentChange(1)"></i>
                     </el-input>
                 </template>
                 <template slot-scope="scope">
                     {{scope.row.Th_AccName}}
+                </template>
+            </el-table-column>
+            <el-table-column label="身份证号">
+                <template slot="header" slot-scope="scope">
+                    <el-input v-model="query.idcard" size="mini" clearable placeholder="查询身份证"
+                        @keyup.enter.native="handleCurrentChange(1)" @clear="handleCurrentChange(1)"
+                        :disabled="loading">
+                        <i slot="suffix" class="el-input__icon el-icon-search" @click="handleCurrentChange(1)"></i>
+                    </el-input>
+                </template>
+                <template slot-scope="scope">
+                    {{scope.row.Th_IDCardNumber}}
                 </template>
             </el-table-column>
             <el-table-column label="职称" width="120" align="center">
@@ -95,9 +109,9 @@
                 </template>
             </el-table-column>
 
-            <el-table-column label="操作" show-overflow-tooltip width="120" align="center">
+            <el-table-column label="操作" show-overflow-tooltip width="60" align="center">
                 <el-button-group slot-scope="scope">
-                    <el-link type="primary" plain icon="el-icon-tickets" @click="showteach(scope.row)">详情
+                    <el-link type="primary" v-if="false" plain icon="el-icon-tickets" @click="showteach(scope.row)">详情
                     </el-link>
                     <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"
                         v-if="!(existteach && teacher.Th_ID==scope.row.Th_ID)" title="选择该教师吗？"
@@ -140,6 +154,12 @@
                         v-if="drawerobj.Th_PhoneMobi!='' && drawerobj.Th_Phone!='' && drawerobj.Th_Phone!=drawerobj.Th_PhoneMobi">/</span>
                     <span v-html='drawerobj.Th_Phone'
                         v-if="drawerobj.Th_PhoneMobi!='' && drawerobj.Th_Phone!=drawerobj.Th_PhoneMobi"></span>
+                </dd>
+                <dd title="身份证">
+                    <icon>&#xe68f</icon>身份证
+                    <template v-if="drawerobj.Th_IDCardNumber!=''">
+                        {{drawerobj.Th_IDCardNumber}}
+                    </template>
                 </dd>
                 <dd title="年龄">
                     <icon>&#xe84d</icon>年龄：

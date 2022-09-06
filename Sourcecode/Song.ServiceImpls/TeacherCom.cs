@@ -356,7 +356,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Teacher>().Where(wc).OrderBy(Teacher._.Th_CrtTime.Desc).ToArray<Teacher>(size, (index - 1) * size);
         }
 
-        public Teacher[] TeacherPager(int orgid, int thsid, bool? isUse, bool? isShow, string searName, string phone, string acc, int size, int index, out int countSum)
+        public Teacher[] TeacherPager(int orgid, int thsid, bool? isUse, bool? isShow, string searName, string phone, string acc, string idcard, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Teacher._.Org_ID == orgid);
@@ -365,6 +365,7 @@ namespace Song.ServiceImpls
             if (isShow != null) wc.And(Teacher._.Th_IsShow == (bool)isShow);
             if (!string.IsNullOrWhiteSpace(acc)) wc.And(Teacher._.Th_AccName.Like("%" + acc + "%"));
             if (!string.IsNullOrWhiteSpace(searName)) wc.And(Teacher._.Th_Name.Like("%" + searName + "%"));
+            if (!string.IsNullOrWhiteSpace(idcard)) wc.And(Teacher._.Th_IDCardNumber.Like("%" + idcard + "%"));
             if (!string.IsNullOrWhiteSpace(phone))
             {
                 WhereClip wcphone = new WhereClip();

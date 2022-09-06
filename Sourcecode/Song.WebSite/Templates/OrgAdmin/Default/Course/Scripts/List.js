@@ -184,7 +184,7 @@
             //设置教师
             btnsetteacher: function (couid) {
                 var url = 'SetupTeacher.' + couid;
-                this.$refs.btngroup.pagebox(url, '设置教师', window.name + '[SetupTeacher]', 800, 600, {
+                this.$refs.btngroup.pagebox(url, '设置教师', window.name + '[SetupTeacher]', 900, 600, {
                     'showmask': true, 'min': false, 'ico': 'e650'
                 });
             },

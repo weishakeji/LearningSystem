@@ -11,7 +11,7 @@ $ready(function () {
             teacher: {},     //当课程的教师
             //教师查询
             query: {
-                orgid: '', titid: '', search: '', phone: '', acc: '',
+                orgid: '', titid: '', search: '', phone: '', acc: '', idcard: '',
                 size: 20, index: 1
             },
             datas: [],
