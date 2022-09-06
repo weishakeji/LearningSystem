@@ -40,7 +40,7 @@ $ready(function () {
                             //机构配置信息
                             th.config = $api.organ(th.organ).config;
                             th.query.orgid = th.organ.Org_ID;
-                            th.handleCurrentChange(1);
+                            th.getdatas(1);
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
@@ -90,7 +90,7 @@ $ready(function () {
                 });
             },
             //加载数据页
-            handleCurrentChange: function (index) {
+            getdatas: function (index) {
                 if (index != null) this.query.index = index;
                 var th = this;
                 //每页多少条，通过界面高度自动计算
@@ -108,6 +108,7 @@ $ready(function () {
                         throw d.data.message;
                     }
                 }).catch(function (err) {
+                    th.loading = false;
                     console.error(err);
                 });
             },
