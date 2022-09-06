@@ -38,7 +38,7 @@ Vue.component('icons', {
     <div v-if="loading">loading...</div>
         <template v-for="ico in data">
             <span v-for="(value, key)  in ico" v-html="'&#x'+key+';'" @click="selected=key;show=false;"
-            :title="value"  :selected="ico==selected"></span>
+            :title="value"  :selected="key==selected"></span>
         </template>   
     </div>`
 });
