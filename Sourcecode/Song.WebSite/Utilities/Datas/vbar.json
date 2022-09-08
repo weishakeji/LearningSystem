@@ -36,11 +36,11 @@
     "ico": "a031",
     "url": "/help/about.html",
     "type": "open",
-    "width": 600,
-    "height": 400,
+    "width": 700,
+    "height": 450,
     "min": false,
     "max": false,
-    "resize": false,
+    "resize": true,
     "id": "about"
   }
 ]

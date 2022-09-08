@@ -6,65 +6,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>关于</title>
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+    <script type="text/javascript" src="Scripts/About.js"></script>
     <style type="text/css">
         body {
             padding: 20px;
             overflow: auto;
         }
-        
+
         h1 {
             margin: 0px;
             text-shadow: 1px 1px 2px #666;
-            font-size: 25px;
-            text-indent: 2rem;
+            font-size: 30px;
+            text-indent: 1rem;
         }
-        
+
         p {
-            font-size: 16px;
+            font-size: 18px;
             margin: 0.5rem 0px 0px 0px;
-            line-height: 25px;
+            line-height: 35px;
             text-indent: 2rem;
         }
-        
-        .license p,
-        .license p a {
+
+        p[copyright="intro"] {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .opensourse p,
+        .opensourse p a {
             font-size: 13px;
             line-height: 20px;
             color: #444;
         }
-        
+
         a {
             color: #000;
             text-decoration: none;
         }
-        
+
         a:hover {
             text-decoration: underline;
         }
-        
-        #company {
-            display: block;
+
+        #head {
+            box-sizing: border-box;
+            padding: 0px 0px 0px 20px;
+            display: flex;
+        }
+
+        #foot {
+            display: flex;
+            justify-content: space-between;
             position: absolute;
             height: 30px;
-            line-height: 30pxl width: auto;
-            bottom: 2px;
-            right: 20px;
+            line-height: 30px;
+            width: 100%;
+            bottom: 0px;
+            left: 0px;
+            box-sizing: border-box;
+            padding: 0px 20px;
         }
     </style>
 </head>
 
 <body>
-    <h1>关于 WebdeskUI</h1>
-    <p>名字是我随便取的，仓促写起，堆砌而成，懒得起名了。</p>
-    <p>我只是希望我们“微厦在线学习系统”在操作上尽量方便一些罢了。考虑到产品未来的应用和推广，不希望在版权上受制于人，就自己写了一套UI，方便自己也方便大家。</p>
-    <p style="color: red;">主要代码写于2020年春节新冠病毒流行期间，余毒尚存，谨慎使用！</p>
+    <div id="head">
+        <img copyright="logo" />
+        <h1 copyright="product"></h1>
+    </div>
+    <p copyright="intro"></p>
+    <p copyright="detail"></p>
     <hr />
-    <div class="license">
-        <p><a href="https://github.com/weishakeji/WebdeskUI" target="_blank">开源地址：https://github.com/weishakeji/WebdeskUI</a></p>
-        <p>开源协议：MIT（被授权人有权利使用、复制、修改、合并、出版发行、散布、再授权及贩售软件及软件的副本）</p>
+    <div class="opensourse">
+        <p><a copyright="github" target="_blank">开源地址：<span copyright="github"></span></a></p>
+        <p><a copyright="gitee" target="_blank">国内镜像：<span copyright="gitee"></span></a></p>
     </div>
     <hr />
-    <a id='company' href="http://www.weishakeji.net" target="_blank">郑州微厦计算机科技有限公司</a>
+    <div id="foot">
+        <span>电话：<span copyright="tel"></span></span>
+        <a copyright="website" target="_blank"><span copyright="company"></span></a>
+    </div>
 </body>
 
 </html>

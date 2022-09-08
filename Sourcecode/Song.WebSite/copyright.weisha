@@ -12,8 +12,8 @@
     ]]></readme>
   <edition remark="版本名称" type="text" fixed="true"><![CDATA[大客户版（版本名称可以自定义）]]></edition>
   <product remark="产品名称" type="text" fixed="true"><![CDATA[微厦在线学习系统]]></product>
-  <intro remark="产品介绍，简述" type="multi" fixed="false"><![CDATA[《微厦在线学习云服务平台》是一款集在线学习、课程练习、模拟测试、在线考试等为一体的云服务平台，支持电脑、手机、微信；支持多机构入驻；支持风格多变。]]></intro>
-  <detail remark="产品介绍，详述" type="multi" fixed="false"><![CDATA[《微厦在线学习云服务平台》是一款基于B/S架构的在线教育系统，将“在线视频学习、在线试题练习、在线同步考试”紧密相联，打造“学、练、考”于一体的在线教育系统，能够利用电脑、手机、微信等多种设备进行学习，方便学员利用碎片化时间进行随时随地的学习。并带有“分享、分润、分销”的辅助功能，对于平台推广、课程销售起到非常有效的帮助。]]></detail>
+  <intro remark="产品介绍，简述" type="multi" fixed="false"><![CDATA[集“学、练、考”一体，支持电脑、手机、微信；集成在线支付、直播。]]></intro>
+  <detail remark="产品介绍，详述" type="multi" fixed="false"><![CDATA[《微厦在线学习系统》是一款基于B/S架构的在线教育系统，将“在线视频学习、在线试题练习、在线同步考试”紧密相联，打造“学、练、考”于一体的在线教育系统，能够利用电脑、手机、微信等多种设备进行学习，方便学员利用碎片化时间进行随时随地的学习。并带有“分享、分润、分销”的辅助功能，对于平台推广、课程销售起到非常有效的帮助。]]></detail>
   <github remark="开源地址" type="link" fixed="true"><![CDATA[https://github.com/weishakeji/LearningSystem]]></github>
   <gitee remark="国内源码镜像" type="link" fixed="false"><![CDATA[https://gitee.com/weishakeji/LearningSystem]]></gitee>  
   <domain remark="域名" type="text" fixed="false"><![CDATA[www.weishakeji.net]]></domain>

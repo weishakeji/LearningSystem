@@ -399,6 +399,7 @@
     <Content Include="Help\Index.html" />
     <Content Include="Help\Images\api.ico" />
     <Content Include="Help\Images\datas.ico" />
+    <Content Include="Help\Scripts\About.js" />
     <Content Include="Help\Service.html" />
     <Content Include="Help\Styles\Index.css" />
     <Content Include="Pay\Alipaywap\notify_url.aspx" />

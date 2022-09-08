@@ -5,7 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>关于</title>
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+    <title>客户服务</title>
     <style type="text/css">
         body {
             padding: 20px;
@@ -26,13 +29,7 @@
             line-height: 25px;
             text-indent: 2rem;
         }
-
-        .license p,
-        .license p a {
-            font-size: 13px;
-            line-height: 20px;
-            color: #444;
-        }
+        
 
         a {
             color: #000;
@@ -42,14 +39,20 @@
         a:hover {
             text-decoration: underline;
         }
-
-        #company {
-            display: block;
+        img[copyright="weixinqr"]{
+            margin-left: 25px;
+        }
+        #foot {
+            display: flex;
+            justify-content: space-between;
             position: absolute;
             height: 30px;
-            line-height: 30pxl width: auto;
-            bottom: 2px;
-            right: 20px;
+            line-height: 30px;
+            width: 100%;
+            bottom: 0px;
+            left: 0px;
+            box-sizing: border-box;
+            padding: 0px 20px;
         }
     </style>
 </head>
@@ -57,12 +60,14 @@
 <body>
     <h1>客户服务</h1>
     <hr />
-    <p>咨询 QQ 19303340。</p>
-    <p>电话 400 6015 615</p>
+    <p>邮箱 <span copyright="email"></span></p>
+    <p>电话 <span copyright="tel"></span></p>
+    <img copyright="weixinqr" />
 
-
-
-    <a id='company' href="http://www.weishakeji.net" target="_blank">郑州微厦计算机科技有限公司</a>
+    <div id="foot">
+        <span></span>
+        <a copyright="website" target="_blank"><span copyright="company"></span></a>
+    </div>
 </body>
 
 </html>
