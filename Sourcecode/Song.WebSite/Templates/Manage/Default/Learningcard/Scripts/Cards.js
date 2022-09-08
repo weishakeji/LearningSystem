@@ -175,6 +175,7 @@
                     full: true,
                     id: boxid,
                     pid: window.name,
+                    ico:'a053',
                     url: url + '?id=' + $api.querystring('id')
                 });
                 //parent.full = true;
@@ -198,6 +199,7 @@
                     resize: true,
                     id: boxid,
                     pid: window.name,
+                    ico:'e60f',
                     url: url + '?id=' + $api.querystring('id')
                 });
                 box.title = '学习卡“' + this.cardset.Lcs_Theme + "”导出Excel";

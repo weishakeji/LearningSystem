@@ -804,7 +804,7 @@ namespace Song.ServiceImpls
             style_size.WrapText = true;
             WhereClip wc = LearningCard._.Org_ID == orgid;
             if (lcsid >= 0) wc.And(LearningCard._.Lcs_ID == lcsid);
-            LearningCard[] rcodes = Gateway.Default.From<LearningCard>().Where(wc).OrderBy(LearningCard._.Lc_CrtTime.Desc).ToArray<LearningCard>();
+            LearningCard[] rcodes = Gateway.Default.From<LearningCard>().Where(wc).OrderBy(LearningCard._.Lc_ID.Desc).ToArray<LearningCard>();
             for (int i = 0; i < rcodes.Length; i++)
             {
                 IRow row = sheet.CreateRow(i + 1);
@@ -867,7 +867,7 @@ namespace Song.ServiceImpls
             if (isUsed != null) wc &= LearningCard._.Lc_IsUsed == isUsed;
             countSum = Gateway.Default.Count<LearningCard>(wc);
             return Gateway.Default.From<LearningCard>()
-                .Where(wc).OrderBy(LearningCard._.Lc_CrtTime.Desc).ToArray<LearningCard>(size, (index - 1) * size);
+                .Where(wc).OrderBy(LearningCard._.Lc_ID.Desc).ToArray<LearningCard>(size, (index - 1) * size);
         }
         public LearningCard[] CardPager(int orgid, int lcsid, string code, string account, bool? isEnable, bool? isUsed, bool? isback,int size, int index, out int countSum)
         {
@@ -890,7 +890,7 @@ namespace Song.ServiceImpls
             }
             countSum = Gateway.Default.Count<LearningCard>(wc);
             return Gateway.Default.From<LearningCard>()
-                .Where(wc).OrderBy(LearningCard._.Lc_CrtTime.Desc).ToArray<LearningCard>(size, (index - 1) * size);
+                .Where(wc).OrderBy(LearningCard._.Lc_ID.Desc).ToArray<LearningCard>(size, (index - 1) * size);
         }
         #endregion
        

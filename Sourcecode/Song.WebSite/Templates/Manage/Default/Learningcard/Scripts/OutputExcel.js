@@ -38,7 +38,7 @@
         methods: {
             Output: function () {
                 this.loading = true;
-                $api.get('Learningcard/ExcelOutput', { 'id': this.id }).then(function (req) {
+                $api.post('Learningcard/ExcelOutput', { 'id': this.id }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         vue.getFiles();
@@ -75,7 +75,7 @@
             //删除文件
             deleteFile: function (file) {
                 this.loading = true;
-                $api.get('Learningcard/ExcelDelete', { 'filename': file }).then(function (req) {
+                $api.delete('Learningcard/ExcelDelete', { 'filename': file }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         vue.getFiles();

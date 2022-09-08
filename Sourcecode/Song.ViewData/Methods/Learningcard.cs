@@ -375,6 +375,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">学习卡设置项id</param>
         /// <returns>name:学习卡主题,file:文件名,url:下载地址,date:创建时间</returns>
+        [HttpPost]
         public JObject ExcelOutput(int id)
         {
             Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(id);
@@ -395,6 +396,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="filename">文件名，带后缀名，不带路径</param>
         /// <returns></returns>
+        [HttpDelete]
         public bool ExcelDelete(string filename)
         {
             string item = "LearningCard";

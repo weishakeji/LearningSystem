@@ -55,7 +55,7 @@
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="姓名/电话">
+                <el-table-column label="姓名/电话" width="230">
                     <template slot-scope="scope">
                         <photo :teacher="scope.row" circle="true" size="45"></photo>
                         <div class="info" :class="{'woman': scope.row.Th_Sex==2}">
@@ -76,7 +76,7 @@
 
                     </template>
                 </el-table-column>
-                <el-table-column label="身份证号" width="180">
+                <el-table-column label="身份证号">
                     <template slot-scope="scope">
                         <div title="身份证号">
                             <icon>&#xe68f</icon>
@@ -127,7 +127,7 @@
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column label="账号" width="160">
+                <el-table-column label="账号">
                     <template slot="header" slot-scope="scope">
                         <el-tooltip class="item" effect="light" placement="top">
                             <div slot="content">教师账号与学员账号共用，
