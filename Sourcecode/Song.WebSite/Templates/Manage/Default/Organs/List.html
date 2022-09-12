@@ -57,7 +57,7 @@
                             <span class="weisha_icon root" icon="&#xa003" style="font-size: 20px;"></span>
                         </el-tooltip>
                         <el-tooltip v-if='scope.row.Org_IsDefault' effect="light" content="默认机构" placement="left-start">
-                            <span class="weisha_icon def" icon="&#xe631" style="font-size: 16px;"></span>
+                            <span class="weisha_icon def" icon="&#xa006" style="font-size: 16px;"></span>
                         </el-tooltip>
 
                         <span v-html='showInfo(scope.row.Org_Name)'></span>
@@ -104,7 +104,7 @@
                                 </el-dropdown-item>
                                 <el-dropdown-item :disabled="scope.row.Org_IsDefault"
                                     @click.native="changeDefault(scope.row)">
-                                    <icon>&#xe631</icon>设为默认机构
+                                    <icon>&#xa006</icon>设为默认机构
                                 </el-dropdown-item>
 
                                 <el-dropdown-item icon="el-icon-check" :disabled="scope.row.Org_IsPass"

@@ -3,14 +3,14 @@
 
 <head resource>
     <title>权限设置</title>
-    <include file="../inc/meta.inc" />  
+    <include file="../inc/meta.inc" />
 
 </head>
 
 <body>
     <div id="app" v-cloak>
         <div class="tree_area">
-            <el-card class="box-card" v-for="(root,index) in datas"  v-loading="loading" >
+            <el-card class="box-card" v-for="(root,index) in datas" v-loading="loading">
                 <div slot="header" class="clearfix">
                     <span v-if="root.ico==null || root.ico==''" class="font_icon">&#xa038;</span>
                     <span v-else class="font_icon" v-html="'&#x'+root.ico+';'"></span>
@@ -22,8 +22,8 @@
                 <el-tree :data="root.children" show-checkbox default-expand-all node-key="id" ref="tree"
                     highlight-current :props="defaultProps">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
-                        <span class="tree-node" :uid="data.id" :bold="data.MM_IsBold" :italic="data.MM_IsItalic" :color="data.MM_Color"
-                            :style="'color:'+data.MM_Color+';'">
+                        <span class="tree-node" :uid="data.id" :bold="data.MM_IsBold" :italic="data.MM_IsItalic"
+                            :color="data.MM_Color" :style="'color:'+data.MM_Color+';'">
                             <span v-if="data.ico==null || data.ico==''" class="font_icon">&#xa038;</span>
                             <span v-else class="font_icon" v-html="'&#x'+data.ico+';'"></span>
                             {{ data.MM_Name }}
@@ -31,18 +31,13 @@
                     </span>
                 </el-tree>
             </el-card>
-
         </div>
-        <el-form @submit.native.prevent label-width="80px">
-
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" v-loading="loading" plain @click="btnEnter">
-                    确认修改</el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
-        </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" v-loading="loading" plain @click="btnEnter">
+                确认修改</el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
-
 
 </body>
 
