@@ -688,9 +688,9 @@ namespace Song.ViewData.Methods
                 string column = dr[mathing[i]["column"].ToString()].ToString();
                 //数据库字段的名称
                 string field = mathing[i]["field"].ToString();
-                if (field == "Th_PhoneMobi")
+                if (field == "Th_AccName")
                 {
-                    acc = Business.Do<IAccounts>().AccountsForMobi(column, -1, null, null);
+                    acc = Business.Do<IAccounts>().AccountsSingle(column, -1);
                     if (acc != null)
                         teacher = Business.Do<IAccounts>().GetTeacher(acc.Ac_ID, null);
                     isExistAcc = acc != null;
@@ -727,15 +727,16 @@ namespace Song.ViewData.Methods
             acc.Org_ID = teacher.Org_ID = org.Org_ID;
             acc.Ac_Name = teacher.Th_Name;
             teacher.Org_Name = org.Org_Name;
-            teacher.Th_AccName = teacher.Th_PhoneMobi;
+            teacher.Th_AccName = teacher.Th_AccName;
             acc.Ac_IsPass = teacher.Th_IsPass = true;
             teacher.Th_IsShow = true;
             acc.Ac_IsUse = teacher.Th_IsUse = true;
             //如果账号不存在
             if (!isExistAcc)
             {
-                acc.Ac_AccName = acc.Ac_MobiTel1 = acc.Ac_MobiTel2 = teacher.Th_PhoneMobi;  //账号手机号
-                acc.Ac_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码                
+                acc.Ac_AccName = teacher.Th_AccName;  //账号手机号
+                acc.Ac_Pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(teacher.Th_Pw).MD5;    //密码       
+                acc.Ac_MobiTel2 = teacher.Th_PhoneMobi;
                 acc.Ac_Sex = teacher.Th_Sex;        //性别
                 acc.Ac_Birthday = teacher.Th_Birthday;
                 acc.Ac_Qq = teacher.Th_Qq;

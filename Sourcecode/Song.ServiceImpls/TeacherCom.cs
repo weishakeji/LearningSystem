@@ -35,7 +35,12 @@ namespace Song.ServiceImpls
             }
             //教师职称
             Song.Entities.TeacherSort title = this.SortSingle(entity.Ths_ID);
-            if (title != null) entity.Ths_Name = title.Ths_Name;
+            if (title == null) title = this.SortDefault(entity.Org_ID);
+            if (title != null)
+            {
+                entity.Ths_ID = title.Ths_ID;
+                entity.Ths_Name = title.Ths_Name;
+            }
             //如果账号为空
             if (string.IsNullOrWhiteSpace(entity.Th_AccName))
             {
@@ -91,7 +96,12 @@ namespace Song.ServiceImpls
 
             //教师职称
             Song.Entities.TeacherSort title = this.SortSingle(entity.Ths_ID);
-            if (title != null) entity.Ths_Name = title.Ths_Name;
+            if (title == null) title = this.SortDefault(entity.Org_ID);
+            if (title != null)
+            {
+                entity.Ths_ID = title.Ths_ID;
+                entity.Ths_Name = title.Ths_Name;
+            }
             //如果身份证不为空，则解析生日
             if (!string.IsNullOrWhiteSpace(entity.Th_IDCardNumber))
             {

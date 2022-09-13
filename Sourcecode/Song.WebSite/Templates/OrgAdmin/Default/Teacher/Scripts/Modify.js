@@ -18,9 +18,9 @@ $ready(function () {
             titles: [],          //教师职称  
             //当前对象的实体
             entity: {
-                Th_IsUse:true,
-                Th_Photo:''
-            },         
+                Th_IsUse: true,
+                Th_Photo: ''
+            },
             activeName: 'general',      //选项卡
             accPingyin: [],  //账号名称的拼音
             rules: {
@@ -74,6 +74,7 @@ $ready(function () {
                         if (req.data.success) {
                             var result = req.data.result;
                             th.entity = result;
+                            if (th.entity.Ths_ID <= 0) th.entity.Ths_ID = '';
                             $api.get('Organization/ForID', { 'id': th.entity.Org_ID }).then(function (req) {
                                 th.loading = false;
                                 if (req.data.success) {
@@ -113,7 +114,7 @@ $ready(function () {
             btnEnter: function (formName) {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
-                    if (valid) {                       
+                    if (valid) {
                         th.loading = true;
                         var apipath = th.id == '' ? api = 'Teacher/add' : 'Teacher/Modify';
                         if (th.id == '') th.entity.Org_ID = th.organ.Org_ID;
@@ -154,8 +155,8 @@ $ready(function () {
                     this.entity.Th_Pinyin = this.accPingyin[0];
                 //console.log(this.accPingyin);
             },
-             //操作成功
-             operateSuccess: function () {
+            //操作成功
+            operateSuccess: function () {
                 window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
             }
         }
