@@ -15,7 +15,7 @@
   <intro remark="产品介绍，简述" type="multi" fixed="false"><![CDATA[集“学、练、考”一体，支持电脑、手机、微信；集成在线支付、直播。]]></intro>
   <detail remark="产品介绍，详述" type="multi" fixed="false"><![CDATA[《微厦在线学习系统》是一款基于B/S架构的在线教育系统，将“在线视频学习、在线试题练习、在线同步考试”紧密相联，打造“学、练、考”于一体的在线教育系统，能够利用电脑、手机、微信等多种设备进行学习，方便学员利用碎片化时间进行随时随地的学习。并带有“分享、分润、分销”的辅助功能，对于平台推广、课程销售起到非常有效的帮助。]]></detail>
   <github remark="开源地址" type="link" fixed="true"><![CDATA[https://github.com/weishakeji/LearningSystem]]></github>
-  <gitee remark="国内源码镜像" type="link" fixed="false"><![CDATA[https://gitee.com/weishakeji/LearningSystem]]></gitee>  
+  <gitee remark="国内源码镜像" type="link" fixed="false"><![CDATA[https://gitee.com/weishakeji/LearningSystem]]></gitee>
   <domain remark="域名" type="text" fixed="false"><![CDATA[www.weishakeji.net]]></domain>
   <address remark="办公地址" type="text" fixed="false"><![CDATA[河南郑州市郑东新区相济路与文苑南路交汇处河南省大中专学生就业服务中心 4楼B427]]></address>
   <title remark="宣传口号" type="text" fixed="false"><![CDATA[微厦科技，专注在线教育系统开发！]]></title>

@@ -612,5 +612,15 @@ namespace Song.ViewData.Methods
         }
         #endregion
         
+        /// <summary>
+        /// 解析身份证号
+        /// </summary>
+        /// <param name="card"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public IDCardNumber IDCardNumber(string card)
+        {
+            return WeiSha.Core.IDCardNumber.Get(card);
+        }
     }
 }
