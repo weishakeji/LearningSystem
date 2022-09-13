@@ -247,7 +247,7 @@
                 </span>
                 <el-input placeholder="查询" v-model="sortquery.search" clearable style="width: 200px;"
                     @keyup.enter.native="sortpaper(1)" @clear="sortpaper(1)" @blur="sortpaper(1)">
-                    <i slot="suffix" @click="sortpaper(1)" class="el-input__icon el-icon-search"></i>
+                    <i slot="suffix" @click="sortpaper(1)" class="el-input__icon el-icon-search" style="cursor:pointer"></i>
                 </el-input>
             </template>
             <template v-if="sorts.length>0">
