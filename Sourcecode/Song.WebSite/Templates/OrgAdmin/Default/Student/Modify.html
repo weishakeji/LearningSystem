@@ -57,12 +57,8 @@
                                 </el-tooltip>
                             </div>
                         </upload-img>
-
-
                     </el-form-item>
-                    <el-form-item label="">
 
-                    </el-form-item>
                     <el-form-item label="账号" prop="Ac_AccName">
                         <span class="el-form-item__label" v-if="isexist">{{account.Ac_AccName}}</span>
                         <el-input v-model="account.Ac_AccName" v-else style="width:200px">
@@ -92,8 +88,16 @@
                                 <span v-show='i<accPingyin.length-1'>,</span>
                             </span>）
                     </el-form-item>
+                    <el-form-item label="学员组">
 
-
+                        <el-tooltip content="点击更改学员组" v-if="sortexist" effect="light" placement="right">
+                            <el-tag type="success" class="btnsort" @click="sortpanel=true"> {{accsort.Sts_Name}}
+                            </el-tag>
+                        </el-tooltip>
+                        <el-tooltip content="点击设置学员组" v-else effect="light" placement="right">
+                            <el-tag type="info" class="btnsort" @click="sortpanel=true"> 未设置学员组</el-tag>
+                        </el-tooltip>
+                    </el-form-item>
                     <el-form-item label="性别">
                         <el-radio-group v-model="account.Ac_Sex">
                             <el-radio-button label="1">男</el-radio-button>
@@ -235,6 +239,32 @@
             <icon>&#xa02a</icon>
             {{organ.Org_Name}}
         </el-tag>
+        <!-- 学员组的选择-->
+        <el-dialog title="学员组" :visible.sync="sortpanel" class="sortpanel" width="80%" :show-close="false">
+            <template slot="title">
+                <span>
+                    <icon>&#xe67d</icon>选择学员组
+                </span>
+                <el-input placeholder="查询" v-model="sortquery.search" clearable style="width: 200px;"
+                    @keyup.enter.native="sortpaper(1)" @clear="sortpaper(1)" @blur="sortpaper(1)">
+                    <i slot="suffix" @click="sortpaper(1)" class="el-input__icon el-icon-search"></i>
+                </el-input>
+            </template>
+            <template v-if="sorts.length>0">
+                <div v-for="(item,i) in sorts" class="sort" @click="sortselect(item)">
+                    <span>{{i+1+sortquery.size*(sortquery.index-1)}}</span>{{item.Sts_Name}}
+                </div>
+            </template>
+            <div v-else>
+                没有满足条件的内容
+            </div>
+            <template slot="footer">
+                <el-pagination v-on:current-change="sortpaper" :current-page="sortquery.index" :page-sizes="[1]"
+                    :page-size="sortquery.size" :pager-count="12" layout="total, prev, pager, next" :total="sort.total">
+                </el-pagination>
+                <el-button @click="sortpanel = false">取 消</el-button>
+            </template>
+        </el-dialog>
     </div>
 
 

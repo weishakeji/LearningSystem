@@ -23,8 +23,16 @@ $ready(function () {
                 Ac_Name: '',
                 Ac_AccName: ''
             },
-            position: [],   //岗位
-            titles: [],      //职务或头衔
+            sorts: [],   //学员组列表
+            accsort: {},      //当前学员所在的分组
+            sortpanel: false,   //学员组的选择面板
+            sortquery: { 'orgid': '', 'use': true, 'search': '', 'index': 1, 'size': 10 },
+            sort: {
+                loading: true,
+                total: 0,
+                paper: 0
+            },
+
             accPingyin: [],  //账号名称的拼音
             organ: {},       //当前登录账号所在的机构
             rules: {
@@ -58,6 +66,18 @@ $ready(function () {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.account = result;
+                    $api.get('Account/SortForID', { 'id': th.account.Sts_ID }).then(function (req) {
+                        if (req.data.success) {
+                            th.accsort = req.data.result;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        //alert(err);
+                        //Vue.prototype.$alert(err);
+                        console.error(err);
+                    });
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -87,6 +107,10 @@ $ready(function () {
             //是否存在账号
             isexist: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null && !!this.account.Ac_ID;
+            },
+            //学员的组是否存在
+            sortexist: function () {
+                return JSON.stringify(this.accsort) != '{}' && this.accsort != null && !!this.accsort.Sts_ID;
             }
         },
         methods: {
@@ -100,6 +124,8 @@ $ready(function () {
                         th.loading = false;
                         if (req.data.success) {
                             th.organ = req.data.result;
+                            th.sortquery.orgid = th.organ.Org_ID;
+                            th.sortpaper(1);
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -108,6 +134,35 @@ $ready(function () {
                         alert(err);
                         console.error(err);
                     });
+            },
+            //分页获取学员组
+            sortpaper: function (index) {
+                if (index != null) this.sortquery.index = index;
+                var th = this;
+                th.sort.loading = true;
+                $api.get("Account/SortPager", th.sortquery).then(function (d) {
+                    th.sort.loading = false;
+                    if (d.data.success) {
+                        th.sorts = d.data.result;
+                        th.sort.paper = Number(d.data.totalpages);
+                        th.sort.total = d.data.total;
+                        //console.log(th.accounts);
+                    } else {
+                        console.error(d.data.exception);
+                        throw d.data.message;
+                    }
+                }).catch(function (err) {
+                    th.sort.loading = false;
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            },
+            //选择学员组
+            sortselect: function (item) {
+                this.sortpanel = false;
+                this.accsort = item;
+                this.account.Sts_ID = item.Sts_ID;
+                this.account.Sts_Name = item.Sts_Name;
             },
             btnEnter: function (formName) {
                 var th = this;
