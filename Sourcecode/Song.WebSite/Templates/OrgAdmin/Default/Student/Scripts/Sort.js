@@ -213,6 +213,12 @@ $ready(function () {
                 }
                 return txt;
             },
+            //设置成员的按钮事件
+            setaccount: function (item) {
+                var title = '设置“' + item.Sts_Name + '”的成员';
+                var url = $api.url.set('SortAccount', { id: item.Sts_ID });
+                this.$refs.btngroup.pagebox(url, title, null, 800, 600);
+            }
         }
     });
     //分组下的学员数

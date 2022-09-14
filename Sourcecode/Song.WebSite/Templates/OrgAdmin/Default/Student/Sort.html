@@ -41,6 +41,11 @@
                     <student_count :sort="scope.row"></student_count>
                 </template>
             </el-table-column>    
+            <el-table-column label="成员" width="100">
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="setaccount(scope.row)">设置成员</el-link>
+                </template>
+            </el-table-column>
             <el-table-column label="视频" width="120">
                 <template slot="header" slot-scope="scope">
                     <el-tooltip class="item" effect="light" content="调整顺序的数值" placement="top">

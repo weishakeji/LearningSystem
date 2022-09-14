@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+
+<head resource>
+    <meta charset="utf-8">
+    <include file="../inc/meta.inc" />
+    <title>学员组下的学员管理</title>
+</head>
+
+<body>
+    <div id="vapp" v-cloak>
+        <div class="toolsbar">
+            <btngroup show="新增,批量添加,批量移除" ref='btngroup' idkey='Ac_ID' table="datatables" @batremove="batremove"
+                :selects='selects'></btngroup>
+            <div class="search-box">
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.phone" placeholder="电话" clearable style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+        <template>
+            <el-table ref="datatables" :stripe="true" :data="accounts" tooltip-effect="dark" style="width: 100%"
+                @selection-change="val=>selects=val">
+                <el-table-column type="selection" width="35">
+                </el-table-column>
+                <el-table-column type="index" width="50" align="center">
+                    <template slot-scope="scope">
+                        <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="姓名">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Ac_Sex==1" class="weisha_icon man" icon="&#xe645" title="男性"></span>
+                        <span v-if="scope.row.Ac_Sex==2" class="weisha_icon woman" icon="&#xe647" title="女性"></span>
+
+                        <span v-html='scope.row.Ac_Name' :class="{'woman':scope.row.Ac_Sex=='2','name':true}"></span>
+
+                    </template>
+                </el-table-column>
+                <el-table-column label="电话" width="100px">
+                    <template slot-scope="scope">
+                        <span v-html='scope.row.Ac_MobiTel1'></span>
+                        <span
+                            v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1">/</span>
+                        <span v-html='scope.row.Ac_MobiTel2'
+                            v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="账号">
+                    <template slot-scope="scope">
+                        <span v-if="scope.row.Ac_IsTeacher" class="weisha_icon tearch" icon="&#xe804" title="教师"></span>
+                        <span v-html='scope.row.Ac_AccName'></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="身份证" width="140px">
+                    <template slot-scope="scope">
+                        <span v-html='scope.row.Ac_IDCardNumber'></span>
+                    </template>
+                </el-table-column>
+
+                <el-table-column label="操作" show-overflow-tooltip width="60" align="center">
+                    <template slot="header" slot-scope="scope">
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定将学员移除该学员组吗？" @confirm="remove()">
+                            <el-link type="primary" slot="reference">移除</el-link>
+                        </el-popconfirm>
+
+                    </template>
+                    <el-button-group slot-scope="scope">
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定将学员移除该学员组吗？" @confirm="remove(scope.row)">
+                            <el-link type="danger" plain icon="el-icon-delete" slot="reference">移除
+                            </el-link>
+                        </el-popconfirm>
+
+                    </el-button-group>
+
+                </el-table-column>
+            </el-table>
+
+        </template>
+
+        <div class="footer">
+            <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+
+            <el-button type='close'>
+                取消
+            </el-button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

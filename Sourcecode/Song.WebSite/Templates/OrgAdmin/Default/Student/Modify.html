@@ -251,8 +251,8 @@
                 </el-input>
             </template>
             <template v-if="sorts.length>0">
-                <div v-for="(item,i) in sorts" class="sort" @click="sortselect(item)">
-                    <span>{{i+1+sortquery.size*(sortquery.index-1)}}</span>{{item.Sts_Name}}
+                <div v-for="(item,i) in sorts" class="sort" @click="sortselect(item)" title="点击选择当前组">
+                    <span>{{i+1+sortquery.size*(sortquery.index-1)}} . </span>{{item.Sts_Name}}
                 </div>
             </template>
             <div v-else>
@@ -260,7 +260,7 @@
             </div>
             <template slot="footer">
                 <el-pagination v-on:current-change="sortpaper" :current-page="sortquery.index" :page-sizes="[1]"
-                    :page-size="sortquery.size" :pager-count="12" layout="total, prev, pager, next" :total="sort.total">
+                    :page-size="sortquery.size" :pager-count="5" layout="total, prev, pager, next" :total="sort.total">
                 </el-pagination>
                 <el-button @click="sortpanel = false">取 消</el-button>
             </template>
