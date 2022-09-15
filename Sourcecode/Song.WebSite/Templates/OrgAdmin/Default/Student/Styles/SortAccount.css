@@ -1,11 +1,14 @@
 ﻿@charset "utf-8";
+
 .el-table {
     height: calc(100% - 85px);
 }
-.footer{
+
+.footer {
     display: flex;
     justify-content: space-between;
 }
+
 .weisha_icon {
     font-size: 18px;
 }
@@ -30,6 +33,73 @@
 .money:hover {
     text-decoration: underline;
 }
-.name{
+
+.name {
     font-size: 16px;
+}
+
+/*添加学员到学员组*/
+.student_add {}
+
+.student_add .el-drawer__header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 3px 0px 20px;
+    height: 35px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.student_add .el-drawer__header .el-form {
+    margin: 0px !important;
+    height: 35px;
+}
+
+.student_add .el-drawer__body {
+    position: relative;   
+}
+
+.student_add .el-drawer__body .el-pagination {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+}
+
+.student_add dl.list {
+    box-sizing: border-box;
+    padding: 0px 20px;
+    height: calc(100% - 35px);
+    overflow: auto;   
+    padding: 0px 10px 0px 20px;
+}
+
+.student_add dl.list dd {
+    box-sizing: border-box;
+    height: 30px;
+    display: flex;
+    position: relative;
+    padding-right: 60px;
+}
+
+.student_add dl.list dd:hover {
+    background-color: #eee;
+}
+
+.student_add dl.list dd span.index {
+    min-width: 30px;
+    margin-right: 10px;
+}
+
+.student_add dl.list dd span.name {
+    width: 150px;
+}
+
+.student_add dl.list dd span.btn {
+    display: block;
+    position: absolute;
+    right: 5px;
+    top: 0px;
+    width: 60px;
+    text-align: right;
 }

@@ -299,13 +299,19 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 分页获取学员信息
         /// </summary>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sortid">学员分组id</param>
+        /// <param name="use">是否启用</param>
+        /// <param name="acc">账号</param>
+        /// <param name="name">姓名</param>
+        /// <param name="phone">电话</param>
         /// <param name="index">页码，即第几页</param>
         /// <param name="size">每页多少条记录</param>
         /// <returns></returns>
-        public ListResult Pager(int index, int size)
+        public ListResult Pager(int orgid, int sortid, bool? use, string acc, string name, string phone,string idcard, int index, int size)
         {
             int sum = 0;
-            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(-1, size, index, null, out sum);
+            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(orgid, sortid, use, acc, name, phone, idcard, size, index, out sum);
             for (int i = 0; i < accs.Length; i++)
             {
                 accs[i] = _tran(accs[i]);
@@ -327,7 +333,7 @@ namespace Song.ViewData.Methods
         public ListResult PagerOfAll(int orgid, string search, int index, int size)
         {
             int sum = 0;
-            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(orgid, -1, null, search, search, search, size, index, out sum);
+            Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(orgid, -1, null, search, search, search, search, size, index, out sum);
             for (int i = 0; i < accs.Length; i++)
             {
                 accs[i] = _tran(accs[i]);
@@ -887,6 +893,72 @@ namespace Song.ViewData.Methods
             {
                 throw ex;
             }
+        }
+        /// <summary>
+        /// 某个学员组下的学员
+        /// </summary>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="id">账户id，可以是多个，用逗号分隔</param>
+        /// <returns></returns>
+        [Admin]
+        [HttpDelete]
+        public int SortRemoveStudent(int stsid, string id)
+        {
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(id)) return i;
+            string[] arr = id.Split(',');
+            foreach (string s in arr)
+            {
+                int idval = 0;
+                int.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+                    Business.Do<IAccounts>().AccountsUpdate(idval,
+                        new WeiSha.Data.Field[] { Song.Entities.Accounts._.Sts_ID, Song.Entities.Accounts._.Sts_Name },
+                        new object[] { 0, "" });                    
+                    i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return i;
+        }
+        /// <summary>
+        /// 某个学员组下的学员
+        /// </summary>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="id">账户id，可以是多个，用逗号分隔</param>
+        /// <returns></returns>
+        [Admin]
+        [HttpPost]
+        public int SortAddStudent(int stsid, string id)
+        {
+            Song.Entities.StudentSort sort = Business.Do<IStudent>().SortSingle(stsid);
+            if (sort == null) throw new Exception("Not found entity for StudentSort！");
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(id)) return i;
+            string[] arr = id.Split(',');
+            foreach (string s in arr)
+            {
+                int idval = 0;
+                int.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+                    Business.Do<IAccounts>().AccountsUpdate(idval,
+                        new WeiSha.Data.Field[] { Song.Entities.Accounts._.Sts_ID, Song.Entities.Accounts._.Sts_Name },
+                        new object[] { sort.Sts_ID, sort.Sts_Name });
+                    i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return i;
         }
         #endregion
 

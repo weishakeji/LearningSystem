@@ -72,9 +72,6 @@ $ready(function () {
                 th.form.size = Math.floor(area / 41);
                 $api.get("Account/Pager", th.form).then(function (d) {
                     if (d.data.success) {
-                        for (var i = 0; i < d.data.result.length; i++) {
-                            d.data.result[i].isAdminPosi = false;
-                        }
                         th.accounts = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
@@ -126,6 +123,11 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.handleCurrentChange();
+                        th.$message({
+                            type: 'success',
+                            message: '移除成功!',
+                            center: true
+                        });
                         th.$nextTick(function () {
                             th.operateSuccess();
                             loading.close();
@@ -152,8 +154,144 @@ $ready(function () {
             //操作成功
             operateSuccess: function () {
                 window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
+            },
+            //新增学员到当前组
+            studentadd_show: function () {
+                var ctr = this.$refs['studentadd'];
+                if (ctr != null) ctr.show();
+            },
+            studentadd_event: function (stsid, acid) {
+                var th = this;
+                th.handleCurrentChange();
+                th.$nextTick(function () {
+                    th.operateSuccess();
+                    //loading.close();
+                });
+                th.$message({
+                    type: 'success',
+                    message: '添加成功!',
+                    center: true
+                });
             }
         },
     });
+    // 新增学员到学员组（单个新增）
+    Vue.component('student_add', {
+        props: ['stsid', 'orgid'],
+        data: function () {
+            return {
+                showpanel: false,        //是否显示面板
 
+                accounts: [],
+                form: { 'orgid': '', 'sortid': '', 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '', 'index': 1, 'size': '' },
+                total: 1, //总记录数
+                totalpages: 1, //总页数
+                selects: [], //数据表中选中的行
+
+                loading: false
+            }
+        },
+        watch: {
+            'orgid': {
+                handler: function (nv, ov) {
+                    this.form.orgid = nv;
+                    this.getpaper();
+                }, immediate: true
+            }
+
+        },
+        computed: {},
+        mounted: function () { },
+        methods: {
+            //显示面板
+            show: function () {
+                this.showpanel = true;
+            },
+            //加载数据页
+            getpaper: function (index) {
+                if (index != null) this.form.index = index;
+                var th = this;
+                //每页多少条，通过界面高度自动计算
+                var area = document.documentElement.clientHeight - 100;
+                th.form.size = Math.floor(area / 30);
+                $api.get("Account/Pager", th.form).then(function (d) {
+                    if (d.data.success) {
+                        th.accounts = d.data.result;
+                        th.totalpages = Number(d.data.totalpages);
+                        th.total = d.data.total;
+                    } else {
+                        console.error(d.data.exception);
+                        throw d.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+
+                });
+            },
+            //增加学员
+            add: function (item) {
+                var th = this;
+                th.loading = true;
+                $api.post('Account/SortAddStudent', { 'stsid': th.stsid, 'id': item.Ac_ID }).then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$emit('add', th.stsid, item.Ac_ID);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    th.loading = false;
+                    console.error(err);
+                });
+            }
+        },
+        //
+        template: `<el-drawer title="我是标题" :visible.sync="showpanel" size="60%" direction="ltr" :show-close="true"
+            custom-class="student_add">
+            <template slot="title">
+               
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-input v-model="form.name" placeholder="姓名" clearable style="width:110px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:110px"></el-input>
+                    </el-form-item>                  
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="getpaper(1)" :loading="loading"
+                            native-type="submit" plain>
+                        <icon>&#xa00b</icon>
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </template>
+
+            <dl class="list">
+                <dd v-for="(item,i) in accounts">
+                    <span class="index"> 
+                        {{(form.index-1) * form.size+i+1}}   
+                    </span>
+                    <span class="name">                       
+                        <icon v-if="item.Ac_Sex==2" class="woman" title="女性">&#xe647</icon>
+                        <icon v-else class="man">&#xe645</icon>
+                        <span v-html='item.Ac_Name' :class="{'woman':item.Ac_Sex=='2','name':true}"></span>
+                    </span>
+                    <span class="idcard"> 
+                        {{item.Ac_IDCardNumber}}   
+                    </span>
+                    <span class="btn"> 
+                        <el-link type="primary" @click="add(item)" title="添加到学员组">添加</el-link>
+                    </span>
+                </dd>
+            </dl>
+
+            <el-pagination v-on:current-change="getpaper" :current-page="form.index" :page-sizes="[1]"
+                :page-size="form.size" :pager-count="4" layout="total, prev, pager, next" :total="total">
+            </el-pagination> 
+            
+        </el-drawer>`
+    });
 });

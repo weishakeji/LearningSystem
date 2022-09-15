@@ -214,7 +214,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index">当前第几页</param>
         /// <param name="countSum">记录总数</param>
         /// <returns></returns>
-        Accounts[] AccountsPager(int orgid, int size, int index, bool? isUse, out int countSum);
+        Accounts[] AccountsPager(int orgid, bool? isUse, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取某账户组，所有的网站账户帐号；
         /// </summary>
@@ -224,11 +224,12 @@ namespace Song.ServiceInterfaces
         /// <param name="acc">账户名称</param>
         /// <param name="name">姓名或昵称</param>
         /// <param name="phone">手机号</param>
+        /// <param name="idcard">身份证号</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Accounts[] AccountsPager(int orgid, int sortid, bool? isUse, string acc,string name, string phone, int size, int index, out int countSum);
+        Accounts[] AccountsPager(int orgid, int sortid, bool? isUse, string acc,string name, string phone, string idcard, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取某账户组，所有的网站账户帐号；
         /// </summary>
@@ -239,11 +240,12 @@ namespace Song.ServiceInterfaces
         /// <param name="acc">账户名称</param>
         /// <param name="name">姓名或昵称</param>
         /// <param name="phone">手机号</param>
+        /// <param name="idcard">身份证号</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Accounts[] AccountsPager(int orgid, int sortid, int pid, bool? isUse, string acc, string name, string phone, int size, int index, out int countSum);
+        Accounts[] AccountsPager(int orgid, int sortid, int pid, bool? isUse, string acc, string name, string phone,string idcard, int size, int index, out int countSum);
         /// <summary>
         /// 学员账号信息导出
         /// </summary>

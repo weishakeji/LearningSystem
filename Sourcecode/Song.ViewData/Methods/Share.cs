@@ -56,7 +56,7 @@ namespace Song.ViewData.Methods
         public ListResult FriendPager(int acid, string acc, string name, string phone, int index, int size)
         {
             int count = 0;
-            Song.Entities.Accounts[] entities = Business.Do<IAccounts>().AccountsPager(-1, -1, acid, null, acc, name, phone, size, index, out count);
+            Song.Entities.Accounts[] entities = Business.Do<IAccounts>().AccountsPager(-1, -1, acid, null, acc, name, phone,null, size, index, out count);
             foreach(Song.Entities.Accounts st in entities)
             {
                 st.Ac_Pw = string.Empty;

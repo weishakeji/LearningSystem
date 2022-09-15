@@ -104,7 +104,7 @@ Vue.component('btngroup', {
             if (btnid == 'delete') return this.delete(this.getids(), curr);    //删除   
             //其它按钮事件
             var existEvent = this.$listeners[btnid];
-            if (existEvent) return this.$emit(btnid, curr);
+            if (existEvent) return this.$emit(btnid, curr, this.getids());
         },
         //添加按钮事件
         add: function (url) {

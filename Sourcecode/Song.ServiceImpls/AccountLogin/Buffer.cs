@@ -78,7 +78,7 @@ namespace Song.ServiceImpls.AccountLogin
                     try
                     {
                         int sum = 0;
-                        Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(-1, size, i, null, out sum);
+                        Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(-1, null, size, i, out sum);
                         foreach(Song.Entities.Accounts acc in accs)
                         {
                             SetList(acc);

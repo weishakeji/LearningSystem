@@ -734,11 +734,13 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 分页获取所有的网站账户帐号；
         /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="isUse"></param>
         /// <param name="size">每页显示几条记录</param>
         /// <param name="index">当前第几页</param>
         /// <param name="countSum">记录总数</param>
         /// <returns></returns>
-        public Accounts[] AccountsPager(int orgid, int size, int index, bool? isUse, out int countSum)
+        public Accounts[] AccountsPager(int orgid, bool? isUse, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
@@ -762,9 +764,9 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Accounts[] AccountsPager(int orgid, int sortid, bool? isUse, string acc, string name, string phone, int size, int index, out int countSum)
+        public Accounts[] AccountsPager(int orgid, int sortid, bool? isUse, string acc, string name, string phone, string idcard, int size, int index, out int countSum)
         {
-            return AccountsPager(orgid, sortid, -1, isUse, acc, name, phone, size, index, out countSum);
+            return AccountsPager(orgid, sortid, -1, isUse, acc, name, phone, idcard, size, index, out countSum);
         }
         /// <summary>
         /// 分页获取某账户组，所有的网站账户帐号；
@@ -780,18 +782,20 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Accounts[] AccountsPager(int orgid, int sortid, int pid, bool? isUse, string acc, string name, string phone, int size, int index, out int countSum)
+        public Accounts[] AccountsPager(int orgid, int sortid, int pid, bool? isUse, string acc, string name, string phone, string idcard, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
             if (sortid > 0) wc.And(Accounts._.Sts_ID == sortid);
             if (pid > 0) wc.And(Accounts._.Ac_PID == pid);
-            if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);           
+            if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
+            if (!string.IsNullOrWhiteSpace(acc) && acc.Trim() != "") wc.And(Accounts._.Ac_AccName.Like("%" + acc.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(idcard) && acc.Trim() != "") wc.And(Accounts._.Ac_IDCardNumber.Like("%" + idcard.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(Accounts._.Ac_Name.Like("%" + name.Trim() + "%"));
+
             if (!string.IsNullOrWhiteSpace(phone) && phone.Trim() != "")
             {
-                WhereClip wc2 = new WhereClip();
-                if (!string.IsNullOrWhiteSpace(acc) && acc.Trim() != "") wc2.Or(Accounts._.Ac_AccName.Like("%" + acc.Trim() + "%"));
-                if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc2.Or(Accounts._.Ac_Name.Like("%" + name.Trim() + "%"));
+                WhereClip wc2 = new WhereClip();               
                 wc2.Or(Accounts._.Ac_MobiTel1.Like("%" + phone.Trim() + "%"));
                 wc2.Or(Accounts._.Ac_MobiTel2.Like("%" + phone.Trim() + "%"));
                 wc2.Or(Accounts._.Ac_AccName.Like("%" + phone.Trim() + "%"));

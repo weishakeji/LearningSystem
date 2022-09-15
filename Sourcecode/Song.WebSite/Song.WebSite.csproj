@@ -409,7 +409,6 @@
     <Content Include="Pay\Alipaywap\return_url.aspx" />
     <Content Include="Pay\Alipayweb\notify_url.aspx" />
     <Content Include="Pay\Alipayweb\return_url.aspx" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Templates\Manage\Default\Images\favicon.gif" />
     <Content Include="Templates\Mobi\Default\Account\Components\exam_test.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\course_menus.js" />
@@ -427,7 +426,10 @@
     <Content Include="Templates\OrgAdmin\Default\Question\Styles\Import.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\BeginCourse.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\BeginCourse.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortAccount.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\SortAccount.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\BeginCourse.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortAccount.css" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Export.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Import.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Scripts\Export.js" />
