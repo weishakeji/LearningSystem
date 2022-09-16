@@ -42,10 +42,13 @@ $ready(function () {
             this.getEntity();
         },
         created: function () {
-            //Vue.prototype.$alert("为中");
+            
         },
         computed: {
-
+            //是否存在账号
+            isexist: function () {
+                return JSON.stringify(this.entity) != '{}' && this.entity != null && !!this.entity.Th_ID;
+            },
         },
         watch: {
             'organ': function (n, o) {

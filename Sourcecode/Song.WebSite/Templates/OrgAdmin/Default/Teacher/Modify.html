@@ -53,9 +53,11 @@
                             </div>
                         </upload-img>
                     </el-form-item>
-                    <el-form-item label="账号" prop="Th_AccName">
+                    <el-form-item label="账号" v-if="isexist">
+                        <span class="el-form-item__label">{{entity.Th_AccName}}</span>
+                    </el-form-item>
+                    <el-form-item label="账号" prop="Th_AccName" v-else>                   
                         <el-input v-model="entity.Th_AccName" style="width:200px" :disabled="id!=''"></el-input>
-
                     </el-form-item>
                     <el-row>
                         <el-col :span="12">

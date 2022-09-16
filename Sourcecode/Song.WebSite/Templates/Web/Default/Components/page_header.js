@@ -214,37 +214,35 @@ Vue.component('page_header', {
             <a href="/" class="logo">
                 <img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" />
                 <img src="/Utilities/Images/def_logo.jpg" v-else />
-            </a>
-            <right>
-                <search>
-                    <input type="text" name="fname" v-model.trim="search" placeholder="请输入查询" @keyup.enter="gosearch()"></input>
-                    <icon @click="gosearch()">&#xa00b</icon>
-                </search>
-                <userbar>
-                    <loading v-if="loading_login">... </loading>
-                    <template v-else-if="!islogin">
-                        <a href="/web/sign/in">登录</a> | <a href="/web/sign/up">注册</a>
-                    </template>
-                    <el-dropdown v-else  @command="handleCommand" @visible-change="show=>visible_userdrop=show" show-timeout="10" remark="登录后的状态">
-                        <span :class="{'el-dropdown-link':true,'user-dropdown-show':visible_userdrop}">
-                            <img v-if="!!account.Ac_Photo && account.Ac_Photo!=''" :src="account.Ac_Photo">
-                            <template v-else>
-                                <img v-if="account.Ac_Sex==2" src="/Utilities/Images/head2.jpg" />
-                                <img v-else src="/Utilities/Images/head1.jpg" />
-                            </template>
-                            <span v-if="!!account.Ac_Name" class="acname" v-html="account.Ac_Name"></span>
-                            <span v-else class="noname">(无名)</span>
-                            <i class="el-icon-arrow-right el-icon--right"></i>
-                        </span>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command="/web/account"><icon style="font-size:19px;">&#xe687</icon>个人中心</el-dropdown-item>
-                            <el-dropdown-item command="/web/teach" v-if="isteacher"><icon>&#xe650</icon>教学管理</el-dropdown-item>
-                            <el-dropdown-item command="money"><icon>&#xe81c</icon>余额: {{account.Ac_Money}} 元</el-dropdown-item>                          
-                            <el-dropdown-item divided  command="logout"><icon>&#xe739</icon>退出登录</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                 </userbar>
-            </right>
+            </a>          
+            <search>
+                <input type="text" name="fname" v-model.trim="search" placeholder="请输入查询" @keyup.enter="gosearch()"></input>
+                <icon @click="gosearch()">&#xa00b</icon>
+            </search>
+            <userbar>
+                <loading v-if="loading_login">... </loading>
+                <template v-else-if="!islogin">
+                    <a href="/web/sign/in">登录</a> | <a href="/web/sign/up">注册</a>
+                </template>
+                <el-dropdown v-else  @command="handleCommand" @visible-change="show=>visible_userdrop=show" show-timeout="10" remark="登录后的状态">
+                    <span :class="{'el-dropdown-link':true,'user-dropdown-show':visible_userdrop}">
+                        <img v-if="!!account.Ac_Photo && account.Ac_Photo!=''" :src="account.Ac_Photo">
+                        <template v-else>
+                            <img v-if="account.Ac_Sex==2" src="/Utilities/Images/head2.jpg" />
+                            <img v-else src="/Utilities/Images/head1.jpg" />
+                        </template>
+                        <span v-if="!!account.Ac_Name" class="acname" v-html="account.Ac_Name"></span>
+                        <span v-else class="noname">(无名)</span>
+                        <i class="el-icon-arrow-right el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item command="/web/account"><icon style="font-size:19px;">&#xe687</icon>个人中心</el-dropdown-item>
+                        <el-dropdown-item command="/web/teach" v-if="isteacher"><icon>&#xe650</icon>教学管理</el-dropdown-item>
+                        <el-dropdown-item command="money"><icon>&#xe81c</icon>余额: {{account.Ac_Money}} 元</el-dropdown-item>                          
+                        <el-dropdown-item divided  command="logout"><icon>&#xe739</icon>退出登录</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+                </userbar>            
         </header>
         <span v-else v-for="(e,i) in error" >{{i+1}}.{{e}}</span>
         <div id="menubar">           

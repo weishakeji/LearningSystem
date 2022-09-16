@@ -19,10 +19,9 @@ weisha_header_navi header {
     width: 1200px;
     margin: 0px auto;
     height: 70px;
-}
-
-weisha_header_navi header>* {
-    flex: 1;
+    position: relative;
+    box-sizing: border-box;
+    padding-right: 160px;
 }
 
 weisha_header_navi #menubar {
@@ -69,6 +68,12 @@ weisha_header_navi drop-node span {
     text-overflow: initial;
 }
 
+weisha_header_navi header a.logo {
+    display: block;
+    width: auto;
+    max-width: 50%;
+}
+
 weisha_header_navi header a.logo img {
     height: calc(100% - 0px);
     width: auto;
@@ -79,15 +84,41 @@ weisha_header_navi header .deflogo {
     height: 70px;
 }
 
-weisha_header_navi header right {
+
+/*搜索框*/
+
+weisha_header_navi header search {
+    width: 400px;
     display: block;
-    position: relative;
-    height: 60px;
-    font-size: 14px;
-    flex-grow: 2;
+    height: 30px;
+    margin-top: 15px;
+    border-radius: 3px;
+    border: solid 2px #aaa;
+}
+
+weisha_header_navi header search icon {
+    height: 100%;
+    width: 60px;
+    float: right;
+    line-height: 30px;
+    font-size: 28px;
+    text-align: center;
+    background-color: #aaa;
+    color: #fff;
+    cursor: pointer;
+}
+
+weisha_header_navi header search input {
+    height: calc(100% - 30px);
+    width: calc(100% - 60px - 30px);
+    border: none;
+    padding: 15px;
+    font-size: 16px;
 }
 
 userbar {
+    display: block;
+    font-size: 14px;
     max-width: 120px;
     height: 20px;
     position: absolute;
@@ -99,10 +130,12 @@ userbar .el-dropdown-link {
     font-size: 13px;
     display: flex;
 }
-userbar .el-dropdown-link>*{
+
+userbar .el-dropdown-link>* {
     line-height: 28px;
 }
-userbar .acname{
+
+userbar .acname {
     min-width: 60px;
     line-height: 25px;
     white-space: nowrap;
@@ -112,6 +145,7 @@ userbar .acname{
     display: inline-block;
     width: calc(100% - 60px);
 }
+
 userbar .noname {
     color: #999;
 }
@@ -140,38 +174,5 @@ userbar .user-dropdown-show .el-icon--right {
 }
 
 .el-dropdown-menu icon {
-    font-size: 16px;
-}
-
-/*搜索框*/
-
-weisha_header_navi header search {
-    width: 400px;
-    display: block;
-    height: 30px;
-    position: absolute;
-    left: calc((100% - 100px - 400px)/1.5);
-    top: 15px;
-    border-radius: 3px;
-    border: solid 2px #aaa;
-}
-
-weisha_header_navi header search icon {
-    height: 100%;
-    width: 60px;
-    float: right;
-    line-height: 30px;
-    font-size: 28px;
-    text-align: center;
-    background-color: #aaa;
-    color: #fff;
-    cursor: pointer;
-}
-
-weisha_header_navi header search input {
-    height: calc(100% - 30px);
-    width: calc(100% - 60px - 30px);
-    border: none;
-    padding: 15px;
     font-size: 16px;
 }
