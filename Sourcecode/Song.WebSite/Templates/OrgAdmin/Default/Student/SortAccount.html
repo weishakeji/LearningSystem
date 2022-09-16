@@ -11,7 +11,7 @@
     <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="新增,批量添加,批量移除" ref='btngroup' idkey='Ac_ID' table="datatables" @batremove="batremove"
-                @add="studentadd_show" :selects='selects'></btngroup>
+                @add="studentadd_show" @batadd="batadd_show" :selects='selects'></btngroup>
             <div class="search-box">
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
                     <el-form-item label="">
@@ -33,7 +33,7 @@
             </div>
         </div>
         <template>
-            <el-table ref="datatables" :stripe="true" :data="accounts" tooltip-effect="dark" style="width: 100%"
+            <el-table ref="datatables" class="table_accounts" :stripe="true" :data="accounts" tooltip-effect="dark" style="width: 100%"
                 @selection-change="val=>selects=val">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
@@ -94,9 +94,11 @@
 
         </template>
         <!-- 新增学员到学员组（单个新增）-->
-        <student_add :stsid="id" :orgid="organ.Org_ID" ref="studentadd" @add="studentadd_event">
+        <student_add :stsid="id" :orgid="organ.Org_ID" ref="studentadd" @addfinish="studentadd_event">
         </student_add>
-
+        <!-- 批量添加学员到学员组-->
+        <student_batadd :stsid="id" :orgid="organ.Org_ID" ref="studentbatadd" @addfinish="studentadd_event">
+        </student_batadd>
         <div class="footer">
             <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
                 :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
