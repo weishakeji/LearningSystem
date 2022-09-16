@@ -165,7 +165,7 @@ namespace Song.ViewData.Methods
                     //某些字段将不同步修改                   
                     string nomidfy = "Cou_CrtTime,Cou_StudentSum,Cou_UID,Th_ID,Th_Name,Org_ID,Org_Name";
                     //如果名称为空，则不修改
-                    if (!string.IsNullOrWhiteSpace(course.Cou_Name))                 
+                    if (string.IsNullOrWhiteSpace(course.Cou_Name))                 
                         nomidfy = "Cou_Name," + nomidfy;
                     old.Copy<Song.Entities.Course>(course, nomidfy);
                     Business.Do<ICourse>().CourseSave(old);
