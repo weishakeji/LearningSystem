@@ -504,7 +504,8 @@ namespace Song.ViewData.Methods
             {
                 Song.Entities.Course c = _tran(eas[i]);
                 c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
-                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
+                if (!string.IsNullOrWhiteSpace(c.Cou_Name))
+                    c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
                 eas[i] = c;
             }
             ListResult result = new ListResult(eas);
@@ -532,7 +533,8 @@ namespace Song.ViewData.Methods
             {
                 Song.Entities.Course c = _tran(eas[i]);
                 c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
-                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
+                if(!string.IsNullOrWhiteSpace(c.Cou_Name))
+                    c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
                 eas[i] = c;
             }
             return eas;
@@ -554,7 +556,8 @@ namespace Song.ViewData.Methods
             {
                 Song.Entities.Course c = _tran(courses[i]);
                 c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
-                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
+                if (!string.IsNullOrWhiteSpace(c.Cou_Name))
+                    c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
                 courses[i] = c;
             }
             ListResult result = new ListResult(courses);
@@ -580,7 +583,8 @@ namespace Song.ViewData.Methods
             {
                 Song.Entities.Course c = _tran(courses[i]);
                 c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
-                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
+                if (!string.IsNullOrWhiteSpace(c.Cou_Name))
+                    c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
                 courses[i] = c;
             }
             ListResult result = new ListResult(courses);
@@ -607,7 +611,8 @@ namespace Song.ViewData.Methods
             {
                 Song.Entities.Course c = _tran(courses[i]);
                 c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
-                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
+                if (!string.IsNullOrWhiteSpace(c.Cou_Name))
+                    c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
                 courses[i] = c;
             }
             ListResult result = new ListResult(courses);
@@ -633,7 +638,8 @@ namespace Song.ViewData.Methods
             {
                 Song.Entities.Course c = _tran(courses[i]);
                 c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
-                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
+                if (!string.IsNullOrWhiteSpace(c.Cou_Name))
+                    c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
                 courses[i] = c;
             }
             ListResult result = new ListResult(courses);

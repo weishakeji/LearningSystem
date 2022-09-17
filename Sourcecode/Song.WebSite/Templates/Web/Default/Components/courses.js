@@ -52,7 +52,7 @@ Vue.component('courses', {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    Vue.prototype.$alert(err);
+                    //Vue.prototype.$alert(err);
                     console.error(err);
                 });
         },
@@ -79,7 +79,7 @@ Vue.component('courses', {
                     }
                 }).catch(function (err) {
                     //alert(err);
-                    Vue.prototype.$alert(err);
+                    //Vue.prototype.$alert(err);
                     console.error(err);
                 });
         },

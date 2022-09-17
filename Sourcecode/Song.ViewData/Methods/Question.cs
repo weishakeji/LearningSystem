@@ -803,7 +803,8 @@ namespace Song.ViewData.Methods
             {
                 Song.Entities.Course c = Methods.Course._tran(courses[i]);
                 c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
-                c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
+                if (!string.IsNullOrWhiteSpace(c.Cou_Name))
+                    c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
                 courses[i] = c;
             }
             ListResult result = new ListResult(courses);
