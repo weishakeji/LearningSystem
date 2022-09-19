@@ -17,13 +17,16 @@
 
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
                     <el-form-item label="">
-                        <el-tag type="success" class="organ" title="所属机构">
-                            <icon>&#xa02a</icon>
-                            {{organ.Org_Name}}
-                        </el-tag>
+                        <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-input v-model="form.search" clearable style="width:100px"></el-input>
+                        <el-input v-model="form.acc" placeholder="账号" clearable style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.phone" placeholder="电话" clearable style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:100px"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
@@ -45,22 +48,22 @@
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="姓名/电话">
+                <el-table-column label="姓名/电话" width="260">
                     <template slot-scope="scope">
                         <avatar :account="scope.row" circle="true" size="45"></avatar>
                         <div :class="{'woman': scope.row.Ac_Sex==2,'large':true}">
                             <icon v-if="scope.row.Ac_Sex==2" title="女性">&#xe844</icon>
                             <icon v-if="scope.row.Ac_Sex==1" title="男性">&#xe645</icon>
                             <icon v-if="scope.row.Ac_Sex==0" title="性别未知">&#xa043</icon>
-                            <span v-html='showInfo(scope.row.Ac_Name)' v-if="scope.row.Ac_Name!=''"></span>
+                            <span v-html='showInfo(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"></span>
                             <span v-else class="noname">(没有名字)</span>
                             <el-tag type="warning" v-if="!scope.row.Ac_IsPass">未审核</el-tag>
                             <div remark="电话">
                                 <icon>&#xe677</icon>
-                                <span v-html='scope.row.Ac_MobiTel1'></span>
+                                <span v-html='showInfo(scope.row.Ac_MobiTel1,form.phone)'></span>
                                 <span
                                     v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1">/</span>
-                                <span v-html='scope.row.Ac_MobiTel2'
+                                <span v-html='showInfo(scope.row.Ac_MobiTel2,form.phone)'
                                     v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1"></span>
                             </div>
                         </div>
@@ -86,7 +89,7 @@
                         <div>
                             <span v-if="scope.row.Ac_IsTeacher" class="weisha_icon tearch" icon="&#xe650"
                                 title="教师"></span>
-                            <span v-html='showInfo(scope.row.Ac_AccName)'></span>
+                            <span v-html='showInfo(scope.row.Ac_AccName,form.acc)'></span>
 
                         </div>
                         <div title="学员组">
@@ -96,6 +99,17 @@
                             <el-tag type="info" v-else>
                                 (无)
                             </el-tag>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column label="身份证">
+                    <template slot-scope="scope">
+                        <div>                        
+                            <span v-html='showInfo(scope.row.Ac_IDCardNumber,form.idcard)'></span>
+
+                        </div>
+                        <div title="籍贯">
+                            <span v-html='scope.row.Ac_Native'></span>
                         </div>
                     </template>
                 </el-table-column>
@@ -116,7 +130,8 @@
                             <el-button-group>
                                 <el-link type="primary" plain
                                     @click="openSubpage('courses',scope.row,'课程','80%','80%','e813')">
-                                    <icon>&#xe813</icon>学员课程</el-link>
+                                    <icon>&#xe813</icon>学员课程
+                                </el-link>
                             </el-button-group>
                         </div>
 

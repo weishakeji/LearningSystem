@@ -3,10 +3,8 @@ $ready(function () {
         el: '#vapp',
         data: {
             form: {
-                orgid: '',
-                search: '',
-                size: 20,
-                index: 1
+                'orgid': '', 'sortid': -1, 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
+                size: 20, index: 1
             },
             organ: {},       //当前机构
             loading: true,
@@ -38,7 +36,7 @@ $ready(function () {
             });
 
         },
-        computed: {          
+        computed: {
         },
         methods: {
             //删除
@@ -67,7 +65,7 @@ $ready(function () {
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 67);
                 th.loading = true;
-                $api.get("Account/PagerOfAll", th.form).then(function (d) {
+                $api.get("Account/Pager", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
                         for (var i = 0; i < d.data.result.length; i++) {
@@ -87,10 +85,11 @@ $ready(function () {
                 });
             },
             //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.search != '') {
-                    var regExp = new RegExp(this.form.search, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.search}</red>`);
+            showInfo: function (txt, search) {
+                if (search == null || search == '') return txt;
+                if (txt != '') {
+                    var regExp = new RegExp(search, 'gi');
+                    txt = txt.replace(regExp, `<red>${search}</red>`);
                 }
                 return txt;
             },
