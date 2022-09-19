@@ -74,7 +74,8 @@ context.coursebox {
     --justify-content: space-between;
     align-items:flex-start;
     align-content: flex-start;
-    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: hidden;
     --max-height: 300px;
 }
 context.coursebox weisha_course{
