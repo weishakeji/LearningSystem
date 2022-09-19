@@ -790,7 +790,7 @@ namespace Song.ServiceImpls
             if (pid > 0) wc.And(Accounts._.Ac_PID == pid);
             if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
             if (!string.IsNullOrWhiteSpace(acc) && acc.Trim() != "") wc.And(Accounts._.Ac_AccName.Like("%" + acc.Trim() + "%"));
-            if (!string.IsNullOrWhiteSpace(idcard) && acc.Trim() != "") wc.And(Accounts._.Ac_IDCardNumber.Like("%" + idcard.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(idcard) && idcard.Trim() != "") wc.And(Accounts._.Ac_IDCardNumber.Like("%" + idcard.Trim() + "%"));
             if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(Accounts._.Ac_Name.Like("%" + name.Trim() + "%"));
 
             if (!string.IsNullOrWhiteSpace(phone) && phone.Trim() != "")

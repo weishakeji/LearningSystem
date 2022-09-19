@@ -70,8 +70,16 @@ namespace Song.ViewData.Methods
         public Song.Entities.EmpAccount General()
         {
             Song.Entities.EmpAccount acc = LoginAdmin.Status.User(this.Letter);
-            bool issuper=LoginAdmin.Status.IsSuperAdmin(acc);
-            return issuper ? null : acc;
+            //当前机构等于管理员所在机构         
+            Song.Entities.Organization curr = Business.Do<IOrganization>().OrganCurrent();
+            if (curr.Org_ID != acc.Org_ID) return null;
+            ////当前登录对象的岗位
+            //Song.Entities.Position posi = Business.Do<IPosition>().GetSingle((int)acc.Posi_Id);
+            //if (posi == null) return null;
+
+            //bool issuper=LoginAdmin.Status.IsSuperAdmin(acc);
+            //return issuper ? null : acc;
+            return acc;
         }
         /// <summary>
         /// 当前登录的超级管理员
