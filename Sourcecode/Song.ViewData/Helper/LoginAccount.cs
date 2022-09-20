@@ -187,7 +187,7 @@ namespace Song.ViewData
         /// <summary>
         /// 刷新内存中的登录状态
         /// </summary>
-        /// <param name="acc"></param>
+        /// <param name="acid"></param>
         /// <returns>为true表示已经刷新（数据存在）,为false表示未刷新（数据不存在）</returns>
         public static bool Fresh(int acid)
         {

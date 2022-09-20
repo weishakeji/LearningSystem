@@ -78,7 +78,9 @@ namespace Song.ViewData.Methods
                 {
                     ma.Ma_Info = string.Format("系统管理员{0}（{1}{2}）扣除您{3}元", emp.Acc_Name, emp.Acc_AccName, mobi, money);
                     Business.Do<IAccounts>().MoneyPay(ma);
-                } 
+                }
+                //刷新登录状态的学员信息
+                LoginAccount.Fresh(st);
             }
             catch (Exception ex)
             {

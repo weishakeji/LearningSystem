@@ -232,6 +232,8 @@ namespace Song.ViewData.Methods
                     pa.Pa_Info = string.Format("管理员{0}（{1},{2}）扣除您{3}个积分", emp.Acc_Name, emp.Acc_AccName, mobi, point);
                     Business.Do<IAccounts>().PointPay(pa);
                 }
+                //刷新登录状态的学员信息
+                LoginAccount.Fresh(st);
                 return true;
             }
             catch (Exception ex)

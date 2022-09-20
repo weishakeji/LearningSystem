@@ -33,7 +33,10 @@ namespace Song.ViewData.Methods
                 card.Ac_ID = acc.Ac_ID;
                 card.Ac_AccName = acc.Ac_AccName;
             }
-            return Business.Do<IRecharge>().CouponUseCode(card);
+            CouponAccount ca= Business.Do<IRecharge>().CouponUseCode(card);
+            //刷新登录状态的学员信息
+            LoginAccount.Fresh(acc);
+            return ca;
         }
         /// <summary>
         /// 由管理给学员增加卡券
@@ -104,6 +107,8 @@ namespace Song.ViewData.Methods
                     ca.Ca_Info = string.Format("管理员{0}（{1}{2}）扣除您{3}个卡券", emp.Acc_Name, emp.Acc_AccName, mobi, coupon);
                     Business.Do<IAccounts>().CouponPay(ca);
                 }
+                //刷新登录状态的学员信息
+                LoginAccount.Fresh(st);
                 return true;
             }
             catch (Exception ex)
