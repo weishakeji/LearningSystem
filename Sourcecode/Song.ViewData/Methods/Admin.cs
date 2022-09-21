@@ -40,6 +40,8 @@ namespace Song.ViewData.Methods
             string val = new Song.ViewData.ConvertToAnyValue(acc + vcode).MD5;
             if (!val.Equals(vmd5, StringComparison.CurrentCultureIgnoreCase))
                 throw VExcept.Verify("验证码错误", 101);
+            ////当前机构等于管理员所在机构
+            //Song.Entities.Organization curr = Business.Do<IOrganization>().OrganCurrent();
             Song.Entities.EmpAccount EmpAccount = Business.Do<IEmployee>().EmpLogin(acc, pw, -1);
             if (EmpAccount == null) throw VExcept.Verify("密码错误", 102);
             if(!(bool)EmpAccount.Acc_IsUse) throw VExcept.Verify("当前账号被禁用", 103);

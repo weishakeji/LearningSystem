@@ -378,7 +378,7 @@ namespace Song.ServiceImpls
         /// <param name="playTime">播放进度</param>
         /// <param name="studyInterval">学习时间，此为时间间隔，每次提交学习时间加这个数</param>
         /// <param name="totalTime">视频总长度</param>
-        public void LogForStudyFresh(int couid, int olid, Accounts st, int playTime, int studyInterval, int totalTime)
+        public void LogForStudyFresh(int couid, long olid, Accounts st, int playTime, int studyInterval, int totalTime)
         {
             if (st == null) return;
             //当前章节的学习记录
@@ -402,7 +402,7 @@ namespace Song.ServiceImpls
         /// <param name="studyTime">学习时间，此为累计时间</param>
         /// <param name="totalTime">视频总长度</param>
         /// <returns>学习进度百分比（相对于总时长）</returns>
-        public double LogForStudyUpdate(int couid, int olid, Accounts st, int playTime, int studyTime, int totalTime)
+        public double LogForStudyUpdate(int couid, long olid, Accounts st, int playTime, int studyTime, int totalTime)
         {
             if (st == null || olid <= 0) return -1;
             if (couid <= 0)
@@ -458,7 +458,7 @@ namespace Song.ServiceImpls
         /// <param name="acid">学员Id</param>
         /// <param name="olid">章节id</param>
         /// <returns></returns>
-        public LogForStudentStudy LogForStudySingle(int acid, int olid)
+        public LogForStudentStudy LogForStudySingle(int acid, long olid)
         {
             WhereClip wc = new WhereClip();
             wc &= LogForStudentStudy._.Ac_ID == acid;
@@ -483,7 +483,7 @@ namespace Song.ServiceImpls
         /// <param name="acid"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public LogForStudentStudy[] LogForStudyCount(int orgid, int couid, int olid, int acid, string platform, int count)
+        public LogForStudentStudy[] LogForStudyCount(int orgid, int couid, long olid, int acid, string platform, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(LogForStudentStudy._.Org_ID == orgid);

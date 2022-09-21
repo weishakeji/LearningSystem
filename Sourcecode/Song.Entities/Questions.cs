@@ -42,7 +42,7 @@ namespace Song.Entities {
     		
     		protected Int32 _Cou_ID;
     		
-    		protected Int32 _Ol_ID;
+    		protected Int64 _Ol_ID;
     		
     		protected Boolean _Qus_IsWrong;
     		
@@ -276,7 +276,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Ol_ID {
+    		public Int64 Ol_ID {
     			get {
     				return this._Ol_ID;
     			}
@@ -534,7 +534,7 @@ namespace Song.Entities {
     				this._Cou_ID = reader.GetInt32(_.Cou_ID);
     			}
     			if ((false == reader.IsDBNull(_.Ol_ID))) {
-    				this._Ol_ID = reader.GetInt32(_.Ol_ID);
+    				this._Ol_ID = reader.GetInt64(_.Ol_ID);
     			}
     			if ((false == reader.IsDBNull(_.Qus_IsWrong))) {
     				this._Qus_IsWrong = reader.GetBoolean(_.Qus_IsWrong);
@@ -678,7 +678,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<Questions>("Cou_ID");
     			
     			/// <summary>
-    			/// 字段名：Ol_ID - 数据类型：Int32
+    			/// 字段名：Ol_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Ol_ID = new WeiSha.Data.Field<Questions>("Ol_ID");
     			

@@ -102,7 +102,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        Questions[] QuesCount(int orgid, int sbjid, int couid, int olid, int type, int diff, bool? isUse, int count);
+        Questions[] QuesCount(int orgid, int sbjid, int couid, long olid, int type, int diff, bool? isUse, int count);
         /// <summary>
         /// 获取某个课程或章节试题
         /// </summary>
@@ -116,7 +116,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index">起始索引</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        Questions[] QuesCount(int orgid, int sbjid, int couid, int olid, int type, int diff, bool? isUse, int index, int count);
+        Questions[] QuesCount(int orgid, int sbjid, int couid, long olid, int type, int diff, bool? isUse, int index, int count);
         /// <summary>
         /// 计算有多少道题
         /// </summary>
@@ -124,8 +124,8 @@ namespace Song.ServiceInterfaces
         /// <param name="type"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        int QuesOfCount(int orgid, int sbjid, int couid, int olid, int type, bool? isUse);
-        int QuesOfCount(int orgid, int sbjid, int couid, int olid, int type, int diff, bool? isUse);
+        int QuesOfCount(int orgid, int sbjid, int couid, long olid, int type, bool? isUse);
+        int QuesOfCount(int orgid, int sbjid, int couid, long olid, int type, int diff, bool? isUse);
         /// <summary>
         /// 获取随机试题
         /// </summary>
@@ -139,12 +139,13 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse">是否允许</param>
         /// <param name="count">取的数量</param>
         /// <returns></returns>
-        Questions[] QuesRandom(int orgid, int sbjid, int couid, int olid, int type, int diff1, int diff2, bool? isUse, int count);
+        Questions[] QuesRandom(int orgid, int sbjid, int couid, long olid, int type, int diff1, int diff2, bool? isUse, int count);
         /// <summary>
         /// 获取随机试题
         /// </summary>
         /// <param name="type">试题类型</param>
         /// <param name="sbjId">所属学科</param>
+        /// <param name="couid"></param>
         /// <param name="diff1">难度等级区间的最小等级</param>
         /// <param name="diff2">难度等级的最大等级</param>
         /// <param name="isUse"></param>

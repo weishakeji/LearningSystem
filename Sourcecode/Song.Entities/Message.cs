@@ -34,7 +34,7 @@ namespace Song.Entities {
     		
     		protected Boolean _Msg_IsReply;
     		
-    		protected Int32 _Ol_ID;
+    		protected Int64 _Ol_ID;
     		
     		protected Int32 _Cou_ID;
     		
@@ -201,7 +201,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Ol_ID {
+    		public Int64 Ol_ID {
     			get {
     				return this._Ol_ID;
     			}
@@ -403,7 +403,7 @@ namespace Song.Entities {
     				this._Msg_IsReply = reader.GetBoolean(_.Msg_IsReply);
     			}
     			if ((false == reader.IsDBNull(_.Ol_ID))) {
-    				this._Ol_ID = reader.GetInt32(_.Ol_ID);
+    				this._Ol_ID = reader.GetInt64(_.Ol_ID);
     			}
     			if ((false == reader.IsDBNull(_.Cou_ID))) {
     				this._Cou_ID = reader.GetInt32(_.Cou_ID);
@@ -518,7 +518,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Msg_IsReply = new WeiSha.Data.Field<Message>("Msg_IsReply");
     			
     			/// <summary>
-    			/// 字段名：Ol_ID - 数据类型：Int32
+    			/// 字段名：Ol_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Ol_ID = new WeiSha.Data.Field<Message>("Ol_ID");
     			

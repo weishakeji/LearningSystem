@@ -105,7 +105,7 @@ namespace Song.ServiceImpls
                 if (s.Trim() != "") listName.Add(s.Trim());
             }
             //
-            int pid = 0;
+            long pid = 0;
             Song.Entities.Outline last = null;
             for (int i = 0; i < listName.Count; i++)
             {
@@ -136,7 +136,7 @@ namespace Song.ServiceImpls
         /// <param name="pid">上级id</param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Outline OutlineIsExist(int orgid, int sbjid, int couid, int pid, string name)
+        public Outline OutlineIsExist(int orgid, int sbjid, int couid, long pid, string name)
         {
             WhereClip wc = Outline._.Org_ID == orgid;
             if (sbjid > 0) wc &= Outline._.Sbj_ID == sbjid;
@@ -386,7 +386,7 @@ namespace Song.ServiceImpls
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        public void OutlineDelete(int identify)
+        public void OutlineDelete(long identify)
         {
             Song.Entities.Outline ol = this.OutlineSingle(identify);
             this.OutlineDelete(ol);            
@@ -396,7 +396,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        public Outline OutlineSingle(int identify)
+        public Outline OutlineSingle(long identify)
         {
             return Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == identify).ToFirst<Outline>();
         }
@@ -432,9 +432,9 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public List<int> TreeID(int id)
+        public List<long> TreeID(long id)
         {
-            List<int> ints = new List<int>();
+            List<long> ints = new List<long>();
             Outline ol = this.OutlineSingle(id);
             if (ol == null) return ints;
             //取同一个课程下的所有章节
@@ -443,14 +443,14 @@ namespace Song.ServiceImpls
             ints = _treeid(id, ols);
             return ints;
         }
-        private List<int> _treeid( int id,Outline[] ols)
+        private List<long> _treeid( long id,Outline[] ols)
         {
-            List<int> list = new List<int>();
+            List<long> list = new List<long>();
             if (id > 0) list.Add(id);
             foreach (Outline o in ols)
             {
                 if (o.Ol_PID != id) continue;
-                List<int> tm = _treeid(o.Ol_ID, ols);
+                List<long> tm = _treeid(o.Ol_ID, ols);
                 foreach (int t in tm)
                     list.Add(t);
             }
@@ -488,7 +488,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public string OutlineName(int identify)
+        public string OutlineName(long identify)
         {
             Outline entity = this.OutlineSingle(identify);
             if (entity == null) return "";
@@ -592,7 +592,7 @@ namespace Song.ServiceImpls
         /// 清除章节下的试题、附件等
         /// </summary>
         /// <param name="identify"></param>
-        public void OutlineClear(int identify)
+        public void OutlineClear(long identify)
         {
             //清理试题
             Gateway.Default.Delete<Questions>(Questions._.Ol_ID == identify);
@@ -794,7 +794,7 @@ namespace Song.ServiceImpls
             if (!children) return this.OutlineOfCount(couid, pid, isUse);
 
             //包括子级，当前专业下的所有专业数
-            List<int> list = new List<int>();
+            List<long> list = new List<long>();
             //取同一个机构下的所有章节
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(Outline._.Cou_ID == couid);
@@ -843,7 +843,7 @@ namespace Song.ServiceImpls
         /// <param name="olid"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        public bool OutlineIsQues(int olid, bool? isUse)
+        public bool OutlineIsQues(long olid, bool? isUse)
         {
             WhereClip wc = Questions._.Ol_ID == olid;
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
@@ -890,7 +890,7 @@ namespace Song.ServiceImpls
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public Questions[] QuesCount(int olid, int type, bool? isUse, int count)
+        public Questions[] QuesCount(long olid, int type, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (olid > 0) wc.And(Questions._.Ol_ID == olid);
@@ -906,7 +906,7 @@ namespace Song.ServiceImpls
         /// <param name="isUse"></param>
         /// <param name="isAll">是否取所有（当前章节下所有子章节的试题一块算）</param>
         /// <returns></returns>
-        public int QuesOfCount(int olid, int type, bool? isUse, bool isAll)
+        public int QuesOfCount(long olid, int type, bool? isUse, bool isAll)
         {
             WhereClip wc = Questions._.Qus_IsError == false && Questions._.Qus_IsWrong == false;      
             if (type > 0) wc.And(Questions._.Qus_Type == type);
@@ -914,8 +914,8 @@ namespace Song.ServiceImpls
             if (olid > 0 && isAll)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = TreeID(olid);
-                foreach (int l in list)
+                List<long> list = TreeID(olid);
+                foreach (long l in list)
                     wcSbjid.Or(Questions._.Ol_ID == l);
                 wc.And(wcSbjid);
             }

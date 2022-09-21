@@ -899,7 +899,7 @@ namespace Song.ViewData.Methods
     public class Outline_LiveInfo
     {
         public string Name { get; set; }
-        public int ID { get; set; }
+        public long ID { get; set; }
         public string UID { get; set; }
         public string Course { get; set; }      //课程名称
         public string LiveID { get; set; }      //直播ID，由z1.空间名.id三部分组成

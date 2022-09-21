@@ -308,7 +308,7 @@ namespace Song.ServiceImpls
         /// <param name="tp">试卷对象</param>
         /// <param name="olid">章节id，如果小于1，则取所有</param>
         /// <returns></returns>
-        public TestPaperItem[] GetItemForOlCount(TestPaper tp, int olid)
+        public TestPaperItem[] GetItemForOlCount(TestPaper tp, long olid)
         {
             List<TestPaperItem> list = new List<TestPaperItem>();
             if (tp != null && !string.IsNullOrWhiteSpace(tp.Tp_FromConfig))

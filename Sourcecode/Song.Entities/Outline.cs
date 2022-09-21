@@ -8,13 +8,11 @@ namespace Song.Entities {
     	[SerializableAttribute()]
     	public partial class Outline : WeiSha.Data.Entity {
     		
-    		protected Int32 _Ol_ID;
-    		
     		protected String _Ol_Name;
     		
     		protected String _Ol_Intro;
     		
-    		protected Int32 _Ol_PID;
+    		protected Int64 _Ol_PID;
     		
     		protected Int32 _Ol_Tax;
     		
@@ -58,15 +56,7 @@ namespace Song.Entities {
     		
     		protected String _Ol_LiveID;
     		
-    		public Int32 Ol_ID {
-    			get {
-    				return this._Ol_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Ol_ID, _Ol_ID, value);
-    				this._Ol_ID = value;
-    			}
-    		}
+    		protected Int64 _Ol_ID;
     		
     		public String Ol_Name {
     			get {
@@ -88,7 +78,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Ol_PID {
+    		public Int64 Ol_PID {
     			get {
     				return this._Ol_PID;
     			}
@@ -308,18 +298,21 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 Ol_ID {
+    			get {
+    				return this._Ol_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ol_ID, _Ol_ID, value);
+    				this._Ol_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<Outline>("Outline");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Ol_ID;
     		}
     		
     		/// <summary>
@@ -335,7 +328,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Ol_ID,
     					_.Ol_Name,
     					_.Ol_Intro,
     					_.Ol_PID,
@@ -359,7 +351,8 @@ namespace Song.Entities {
     					_.Ol_IsLive,
     					_.Ol_LiveTime,
     					_.Ol_LiveSpan,
-    					_.Ol_LiveID};
+    					_.Ol_LiveID,
+    					_.Ol_ID};
     		}
     		
     		/// <summary>
@@ -367,7 +360,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._Ol_ID,
     					this._Ol_Name,
     					this._Ol_Intro,
     					this._Ol_PID,
@@ -391,16 +383,14 @@ namespace Song.Entities {
     					this._Ol_IsLive,
     					this._Ol_LiveTime,
     					this._Ol_LiveSpan,
-    					this._Ol_LiveID};
+    					this._Ol_LiveID,
+    					this._Ol_ID};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.Ol_ID))) {
-    				this._Ol_ID = reader.GetInt32(_.Ol_ID);
-    			}
     			if ((false == reader.IsDBNull(_.Ol_Name))) {
     				this._Ol_Name = reader.GetString(_.Ol_Name);
     			}
@@ -408,7 +398,7 @@ namespace Song.Entities {
     				this._Ol_Intro = reader.GetString(_.Ol_Intro);
     			}
     			if ((false == reader.IsDBNull(_.Ol_PID))) {
-    				this._Ol_PID = reader.GetInt32(_.Ol_PID);
+    				this._Ol_PID = reader.GetInt64(_.Ol_PID);
     			}
     			if ((false == reader.IsDBNull(_.Ol_Tax))) {
     				this._Ol_Tax = reader.GetInt32(_.Ol_Tax);
@@ -473,6 +463,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Ol_LiveID))) {
     				this._Ol_LiveID = reader.GetString(_.Ol_LiveID);
     			}
+    			if ((false == reader.IsDBNull(_.Ol_ID))) {
+    				this._Ol_ID = reader.GetInt64(_.Ol_ID);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -500,11 +493,6 @@ namespace Song.Entities {
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<Outline>();
     			
     			/// <summary>
-    			/// 字段名：Ol_ID - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Ol_ID = new WeiSha.Data.Field<Outline>("Ol_ID");
-    			
-    			/// <summary>
     			/// 字段名：Ol_Name - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Ol_Name = new WeiSha.Data.Field<Outline>("Ol_Name");
@@ -515,7 +503,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ol_Intro = new WeiSha.Data.Field<Outline>("Ol_Intro");
     			
     			/// <summary>
-    			/// 字段名：Ol_PID - 数据类型：Int32
+    			/// 字段名：Ol_PID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Ol_PID = new WeiSha.Data.Field<Outline>("Ol_PID");
     			
@@ -623,6 +611,11 @@ namespace Song.Entities {
     			/// 字段名：Ol_LiveID - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Ol_LiveID = new WeiSha.Data.Field<Outline>("Ol_LiveID");
+    			
+    			/// <summary>
+    			/// 字段名：Ol_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Ol_ID = new WeiSha.Data.Field<Outline>("Ol_ID");
     		}
     	}
     }

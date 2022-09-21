@@ -107,7 +107,7 @@ namespace Song.ServiceInterfaces
         /// <param name="tp">试卷对象</param>
         /// <param name="olid">章节id，如果小于1，则取所有</param>
         /// <returns></returns>
-        TestPaperItem[] GetItemForOlCount(TestPaper tp, int olid);
+        TestPaperItem[] GetItemForOlCount(TestPaper tp, long olid);
         /// <summary>
         /// 返回试卷的大项，不管是按课程，还是按章节
         /// </summary>

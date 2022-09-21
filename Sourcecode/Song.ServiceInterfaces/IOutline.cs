@@ -35,7 +35,7 @@ namespace Song.ServiceInterfaces
         /// <param name="pid">上级id</param>
         /// <param name="name"></param>
         /// <returns></returns>
-        Outline OutlineIsExist(int orgid, int sbjid, int couid, int pid, string name);
+        Outline OutlineIsExist(int orgid, int sbjid, int couid, long pid, string name);
         /// <summary>
         /// 修改章节
         /// </summary>
@@ -69,13 +69,13 @@ namespace Song.ServiceInterfaces
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        void OutlineDelete(int identify);
+        void OutlineDelete(long identify);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        Outline OutlineSingle(int identify);
+        Outline OutlineSingle(long identify);
         /// <summary>
         /// 获取单一实体对象，按唯一值，即UID；
         /// </summary>
@@ -94,7 +94,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        List<int> TreeID(int id);
+        List<long> TreeID(long id);
         /// <summary>
         /// 获取某个课程下第一个章节
         /// </summary>
@@ -107,7 +107,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        string OutlineName(int identify);
+        string OutlineName(long identify);
         /// <summary>
         /// 获取所有课程章节
         /// </summary>
@@ -125,7 +125,7 @@ namespace Song.ServiceInterfaces
         /// 清空章节下试题和附件
         /// </summary>
         /// <param name="identify"></param>
-        void OutlineClear(int identify);
+        void OutlineClear(long identify);
         /// <summary>
         /// 清理无效章节
         /// </summary>
@@ -223,7 +223,7 @@ namespace Song.ServiceInterfaces
         /// <param name="olid"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        bool OutlineIsQues(int olid, bool? isUse);
+        bool OutlineIsQues(long olid, bool? isUse);
         /// <summary>
         /// 当前章节的子级章节
         /// </summary>
@@ -251,7 +251,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Questions[] QuesCount(int olid, int type, bool? isUse, int count);        
+        Questions[] QuesCount(long olid, int type, bool? isUse, int count);        
         /// <summary>
         /// 当前章节有多少道试题
         /// </summary>
@@ -260,7 +260,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="isAll">是否取所有（当前章节下所有子章节的试题一块算）</param>
         /// <returns></returns>
-        int QuesOfCount(int olid, int type, bool? isUse, bool isAll);        
+        int QuesOfCount(long olid, int type, bool? isUse, bool isAll);        
         /// <summary>
         /// 更改章节的排序
         /// </summary>

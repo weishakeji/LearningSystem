@@ -242,7 +242,7 @@ namespace Song.ServiceImpls
                 .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc)
                 .ToArray<Questions>(count);
         }
-        public Questions[] QuesCount(int orgid, int sbjid, int couid, int olid, int type, int diff, bool? isUse, int count)
+        public Questions[] QuesCount(int orgid, int sbjid, int couid, long olid, int type, int diff, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
@@ -252,8 +252,8 @@ namespace Song.ServiceImpls
             if (olid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (int l in list)
+                List<long> list = Business.Do<IOutline>().TreeID(olid);
+                foreach (long l in list)
                     wcSbjid.Or(Questions._.Ol_ID == l);
                 wc.And(wcSbjid);
             }
@@ -277,7 +277,7 @@ namespace Song.ServiceImpls
         /// <param name="index">起始索引</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public Questions[] QuesCount(int orgid, int sbjid, int couid, int olid, int type, int diff, bool? isUse, int index, int count)
+        public Questions[] QuesCount(int orgid, int sbjid, int couid, long olid, int type, int diff, bool? isUse, int index, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
@@ -287,8 +287,8 @@ namespace Song.ServiceImpls
             if (olid > 0)
             {                
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (int l in list)
+                List<long> list = Business.Do<IOutline>().TreeID(olid);
+                foreach (long l in list)
                     wcSbjid.Or(Questions._.Ol_ID == l);
                 wc.And(wcSbjid);               
             }
@@ -309,7 +309,7 @@ namespace Song.ServiceImpls
         /// <param name="type">试题类型</param>
         /// <param name="isUse">是否使用</param>
         /// <returns></returns>
-        public int QuesOfCount(int orgid, int sbjid, int couid, int olid, int type, bool? isUse)
+        public int QuesOfCount(int orgid, int sbjid, int couid, long olid, int type, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
@@ -319,8 +319,8 @@ namespace Song.ServiceImpls
             if (olid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (int l in list)
+                List<long> list = Business.Do<IOutline>().TreeID(olid);
+                foreach (long l in list)
                     wcSbjid.Or(Questions._.Ol_ID == l);
                 wc.And(wcSbjid);
             }
@@ -328,7 +328,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             return Gateway.Default.Count<Questions>(wc);
         }
-        public int QuesOfCount(int orgid, int sbjid, int couid, int olid, int type, int diff, bool? isUse)
+        public int QuesOfCount(int orgid, int sbjid, int couid, long olid, int type, int diff, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > -1) wc.And(Questions._.Org_ID == orgid);
@@ -338,8 +338,8 @@ namespace Song.ServiceImpls
             if (olid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (int l in list)
+                List<long> list = Business.Do<IOutline>().TreeID(olid);
+                foreach (long l in list)
                     wcSbjid.Or(Questions._.Ol_ID == l);
                 wc.And(wcSbjid);
             }
@@ -361,7 +361,7 @@ namespace Song.ServiceImpls
         /// <param name="isUse">是否允许</param>
         /// <param name="count">取的数量</param>
         /// <returns></returns>
-        public Questions[] QuesRandom(int orgid, int sbjid, int couid, int olid, int type, int diff1, int diff2, bool? isUse, int count)
+        public Questions[] QuesRandom(int orgid, int sbjid, int couid, long olid, int type, int diff1, int diff2, bool? isUse, int count)
         {
             #region 
             //试题类型
@@ -422,7 +422,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="olid"></param>
         /// <returns></returns>
-        private string _quesRandom_buildOlid(int olid)
+        private string _quesRandom_buildOlid(long olid)
         {
             string sql = "";
             Outline[] ols = Gateway.Default.From<Outline>().Where(Outline._.Ol_PID == olid).ToArray<Outline>();
@@ -493,8 +493,8 @@ namespace Song.ServiceImpls
             if (olid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<IOutline>().TreeID(olid);
-                foreach (int l in list)
+                List<long> list = Business.Do<IOutline>().TreeID(olid);
+                foreach (long l in list)
                     wcSbjid.Or(Questions._.Ol_ID == l);
                 wc.And(wcSbjid);
             }
