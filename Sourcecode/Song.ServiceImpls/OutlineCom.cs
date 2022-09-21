@@ -32,6 +32,10 @@ namespace Song.ServiceImpls
             {
                 try
                 {
+                    if (entity.Ol_ID <= 0)
+                    {
+                        entity.Ol_ID = WeiSha.Core.Request.SnowID();
+                    }
                     if (entity.Org_ID <= 0)
                     {
                         Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();

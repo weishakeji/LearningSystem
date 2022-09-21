@@ -231,6 +231,7 @@
                     if (valid) {
                         var obj = th.modify_obj;
                         obj['Cou_ID'] = th.id;
+                        obj['Org_ID'] = th.course.Org_ID;
                         var apipath = 'Outline/' + (th.modify_obj.Ol_ID ? 'Modify' : 'Add');
                         $api.post(apipath, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
