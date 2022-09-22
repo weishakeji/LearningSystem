@@ -245,7 +245,7 @@ price {
 	margin-right: 0px;
 }
 .is-success .el-progress-bar__inner::before {
-	content: "\e706";
+	content: "\a048";
 	font-family: webdesk_icon;
 	float: left;
 	margin-left: 10px;

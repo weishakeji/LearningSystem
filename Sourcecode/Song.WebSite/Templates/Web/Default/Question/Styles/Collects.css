@@ -339,7 +339,7 @@ section dd img {
 }
 
 .ans_area>div[correct]::before {
-	content: '\e706';
+	content: '\a048';
 	position: absolute;
 	left: -20px;
 	font-family: "webdesk_icon" !important;

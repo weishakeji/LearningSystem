@@ -2,7 +2,7 @@
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            tpid: $api.querystring('tpid', 0),
+            tpid: $api.querystring('tpid', 0),      //试卷id
             couid: $api.querystring('couid', 0),
 
             account: {},     //当前登录账号
@@ -59,7 +59,7 @@
                 var isbuy = JSON.stringify(this.purchase) != '{}' && this.purchase != null;
                 if (!isbuy) return true;
                 if (this.purchase.Stc_IsFree) return false;
-                if (this.purchase.Stc_EndTime > this.servertime) return false;
+                if (this.purchase.Stc_EndTime > new Date()) return false;
                 return true;
             },
             //是否可以进行模拟测试

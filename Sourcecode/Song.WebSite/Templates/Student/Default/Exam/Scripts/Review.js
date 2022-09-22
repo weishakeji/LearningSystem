@@ -1,5 +1,12 @@
 $ready(function () {
-
+    //禁用鼠标右键
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+    //禁止选择文本
+    document.addEventListener('selectstart', function (e) {
+        e.preventDefault();
+    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {

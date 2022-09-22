@@ -30,7 +30,7 @@
             <icon>&#xe671</icon>未选修当前课程，或已经过期
         </context>
 
-        <final_condition ref="final_condition" class="condition" :config="config" :purchase="purchase" :paperid="tpid"
+        <final_condition ref="final_condition" v-show="paper.Tp_IsFinal" class="condition" :config="config" :purchase="purchase" :paperid="tpid"
             :account="account">
             <el-divider>参加结课考试的条件</el-divider>
         </final_condition>
