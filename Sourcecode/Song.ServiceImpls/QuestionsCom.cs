@@ -23,8 +23,11 @@ namespace Song.ServiceImpls
          
         #region 试题管理
 
-        public int QuesAdd(Questions entity)
+        public long QuesAdd(Questions entity)
         {
+            if (entity.Qus_ID <= 0)          
+                entity.Qus_ID = WeiSha.Core.Request.SnowID();
+   
             entity.Qus_CrtTime = DateTime.Now;
             entity.Qus_LastTime = DateTime.Now;
             entity.Qus_Title = _ClearString(entity.Qus_Title);
@@ -85,7 +88,11 @@ namespace Song.ServiceImpls
 
         public void QuesInput(Questions entity, List<Song.Entities.QuesAnswer> ansItem)
         {
-            if (entity.Qus_ID < 1) entity.Qus_CrtTime = DateTime.Now;
+            if (entity.Qus_ID <= 0)
+            {
+                entity.Qus_ID = WeiSha.Core.Request.SnowID();
+                entity.Qus_CrtTime = DateTime.Now;
+            }
             entity.Qus_Title = _ClearString(entity.Qus_Title);
             entity.Qus_Answer = _ClearString(entity.Qus_Answer);
             entity.Qus_Explain = _ClearString(entity.Qus_Explain);
@@ -105,7 +112,7 @@ namespace Song.ServiceImpls
             }
             Gateway.Default.Save<Questions>(entity);
         }
-        public void QuesDelete(int identify)
+        public void QuesDelete(long identify)
         {
             Song.Entities.Questions entity = this.QuesSingle(identify);
             if (entity == null) return;
@@ -147,8 +154,8 @@ namespace Song.ServiceImpls
                 {
                     foreach (string idstr in ids.Split(','))
                     {
-                        int intid = 0;
-                        int.TryParse(idstr, out intid);
+                        long intid = 0;
+                        long.TryParse(idstr, out intid);
                         if (intid < 1) continue;
                         tran.Delete<Questions>(Questions._.Qus_ID == intid);
                         tran.Delete<QuesAnswer>(QuesAnswer._.Qus_ID == intid);
@@ -175,7 +182,7 @@ namespace Song.ServiceImpls
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public bool QuesUpdate(int qusid, Field[] fiels, object[] objs)
+        public bool QuesUpdate(long qusid, Field[] fiels, object[] objs)
         {
             try
             {
@@ -187,7 +194,7 @@ namespace Song.ServiceImpls
                 throw ex;
             }
         }
-        public Questions QuesSingle(int identify)
+        public Questions QuesSingle(long identify)
         {
             Song.Entities.Questions qus = QuestionsMethod.QuestionsCache.Singleton.GetSingle(identify);
             if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == identify).ToFirst<Questions>();
@@ -201,7 +208,7 @@ namespace Song.ServiceImpls
         /// <param name="identify"></param>
         /// <param name="cache">是否来自缓存</param>
         /// <returns></returns>
-        public Questions QuesSingle(int identify, bool cache)
+        public Questions QuesSingle(long identify, bool cache)
         {
             if (cache) return this.QuesSingle(identify);
             return Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == identify).ToFirst<Questions>();

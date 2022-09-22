@@ -52,8 +52,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {
@@ -75,7 +75,7 @@ namespace Song.ViewData.Methods
         [Admin, Teacher]
         [HttpPost]
         [HtmlClear(Not = "entity")]
-        public int Add(Song.Entities.Questions entity)
+        public long Add(Song.Entities.Questions entity)
         {
             //处理单选、多选的选项
             if (entity.Qus_Type == 1 || entity.Qus_Type == 2 || entity.Qus_Type == 5)
@@ -155,8 +155,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {

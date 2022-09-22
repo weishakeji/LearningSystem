@@ -162,7 +162,7 @@ namespace Song.ServiceImpls.QuestionsMethod
         /// </summary>
         /// <param name="qid"></param>
         /// <returns></returns>
-        public Song.Entities.Questions GetSingle(int qid)
+        public Song.Entities.Questions GetSingle(long qid)
         {
             Questions ques = null;
             for (int i = 0; i < list.Count; i++)

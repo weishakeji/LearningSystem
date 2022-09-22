@@ -8,8 +8,6 @@ namespace Song.Entities {
     	[SerializableAttribute()]
     	public partial class Questions : WeiSha.Data.Entity {
     		
-    		protected Int32 _Qus_ID;
-    		
     		protected String _Qus_Title;
     		
     		protected String _Qus_Answer;
@@ -64,18 +62,7 @@ namespace Song.Entities {
     		
     		protected String _Kn_Uid;
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public Int32 Qus_ID {
-    			get {
-    				return this._Qus_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Qus_ID, _Qus_ID, value);
-    				this._Qus_ID = value;
-    			}
-    		}
+    		protected Int64 _Qus_ID;
     		
     		/// <summary>
     		/// -1
@@ -386,18 +373,21 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 Qus_ID {
+    			get {
+    				return this._Qus_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Qus_ID, _Qus_ID, value);
+    				this._Qus_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<Questions>("Questions");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Qus_ID;
     		}
     		
     		/// <summary>
@@ -413,7 +403,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Qus_ID,
     					_.Qus_Title,
     					_.Qus_Answer,
     					_.Qus_Diff,
@@ -440,7 +429,8 @@ namespace Song.Entities {
     					_.Sbj_Name,
     					_.Qus_Tax,
     					_.Qus_Errornum,
-    					_.Kn_Uid};
+    					_.Kn_Uid,
+    					_.Qus_ID};
     		}
     		
     		/// <summary>
@@ -448,7 +438,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._Qus_ID,
     					this._Qus_Title,
     					this._Qus_Answer,
     					this._Qus_Diff,
@@ -475,16 +464,14 @@ namespace Song.Entities {
     					this._Sbj_Name,
     					this._Qus_Tax,
     					this._Qus_Errornum,
-    					this._Kn_Uid};
+    					this._Kn_Uid,
+    					this._Qus_ID};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.Qus_ID))) {
-    				this._Qus_ID = reader.GetInt32(_.Qus_ID);
-    			}
     			if ((false == reader.IsDBNull(_.Qus_Title))) {
     				this._Qus_Title = reader.GetString(_.Qus_Title);
     			}
@@ -566,6 +553,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Kn_Uid))) {
     				this._Kn_Uid = reader.GetString(_.Kn_Uid);
     			}
+    			if ((false == reader.IsDBNull(_.Qus_ID))) {
+    				this._Qus_ID = reader.GetInt64(_.Qus_ID);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -591,11 +581,6 @@ namespace Song.Entities {
     			/// 表示选择所有列，与*等同
     			/// </summary>
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<Questions>();
-    			
-    			/// <summary>
-    			/// -1 - 字段名：Qus_ID - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Qus_ID = new WeiSha.Data.Field<Questions>("Qus_ID");
     			
     			/// <summary>
     			/// -1 - 字段名：Qus_Title - 数据类型：String
@@ -731,6 +716,11 @@ namespace Song.Entities {
     			/// 字段名：Kn_Uid - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Kn_Uid = new WeiSha.Data.Field<Questions>("Kn_Uid");
+    			
+    			/// <summary>
+    			/// 字段名：Qus_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Qus_ID = new WeiSha.Data.Field<Questions>("Qus_ID");
     		}
     	}
     }

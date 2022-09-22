@@ -18,7 +18,7 @@ namespace Song.ServiceInterfaces
         /// 添加试题
         /// </summary>
         /// <param name="entity">业务实体</param>
-        int QuesAdd(Questions entity);       
+        long QuesAdd(Questions entity);       
         /// <summary>
         /// 修改
         /// </summary>
@@ -35,7 +35,7 @@ namespace Song.ServiceInterfaces
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        void QuesDelete(int identify);
+        void QuesDelete(long identify);
         /// <summary>
         /// 批量删除
         /// </summary>
@@ -48,20 +48,20 @@ namespace Song.ServiceInterfaces
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        bool QuesUpdate(int qusid, Field[] fiels, object[] objs);
+        bool QuesUpdate(long qusid, Field[] fiels, object[] objs);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        Questions QuesSingle(int identify);
+        Questions QuesSingle(long identify);
         /// <summary>
         ///  获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify"></param>
         /// <param name="cache">是否来自缓存</param>
         /// <returns></returns>
-        Questions QuesSingle(int identify,bool cache);
+        Questions QuesSingle(long identify,bool cache);
         /// <summary>
         /// 获取单一实体对象，按UID
         /// </summary>
