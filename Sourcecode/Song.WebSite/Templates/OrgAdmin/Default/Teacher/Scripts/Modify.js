@@ -29,7 +29,7 @@ $ready(function () {
                 ],
                 Th_AccName: [
                     { required: true, message: '账号不得为空', trigger: 'blur' },
-                    { min: 4, max: 20, message: '长度在 4 到 20 个字符', trigger: 'blur' }
+                    { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
                 ]
             },
             //图片文件
