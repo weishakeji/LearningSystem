@@ -146,8 +146,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {
@@ -177,8 +177,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {

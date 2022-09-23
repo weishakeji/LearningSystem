@@ -21,8 +21,10 @@ namespace Song.ServiceImpls
 
         #region ITestPaper 成员
 
-        public int PaperAdd(TestPaper entity)
+        public long PaperAdd(TestPaper entity)
         {
+            if (entity.Tp_Id <= 0) entity.Tp_Id = WeiSha.Core.Request.SnowID();
+           
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null)
             {
@@ -111,7 +113,7 @@ namespace Song.ServiceImpls
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public bool PaperUpdate(int id, Field[] fiels, object[] objs)
+        public bool PaperUpdate(long id, Field[] fiels, object[] objs)
         {
             try
             {
@@ -123,7 +125,7 @@ namespace Song.ServiceImpls
                 throw ex;
             }
         }
-        public void PaperDelete(int identify)
+        public void PaperDelete(long identify)
         {
             Song.Entities.TestPaper tp = this.PaperSingle(identify);
             if (tp == null) return;
@@ -153,7 +155,7 @@ namespace Song.ServiceImpls
             }
         }
 
-        public TestPaper PaperSingle(int identify)
+        public TestPaper PaperSingle(long identify)
         {
             TestPaper pager = Gateway.Default.From<TestPaper>().Where(TestPaper._.Tp_Id == identify).ToFirst<TestPaper>();
             return pager;
@@ -585,7 +587,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public float ResultsPassrate(int identify)
+        public float ResultsPassrate(long identify)
         {
             Song.Entities.TestPaper mm = Gateway.Default.From<TestPaper>().Where(TestPaper._.Tp_Id == identify).ToFirst<TestPaper>();
             //参考人次
@@ -600,7 +602,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public int ResultsPersontime(int identify)
+        public int ResultsPersontime(long identify)
         {
             return Gateway.Default.Count<TestResults>(TestResults._.Tp_Id == identify);
         }
@@ -609,7 +611,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public float ResultsAverage(int identify)
+        public float ResultsAverage(long identify)
         {
             object obj = Gateway.Default.Avg<TestResults>(TestResults._.Tr_Score, TestResults._.Tp_Id == identify);
             if (obj == null) return 0;
@@ -622,7 +624,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public TestResults ResultsHighest(int identify)
+        public TestResults ResultsHighest(long identify)
         {
             return Gateway.Default.From<TestResults>().Where(TestResults._.Tp_Id == identify).OrderBy(TestResults._.Tr_Score.Desc).ToFirst<TestResults>();
         }
@@ -632,7 +634,7 @@ namespace Song.ServiceImpls
         /// <param name="tpid">试卷id</param>
         /// <param name="stid">学员id</param>
         /// <returns></returns>
-        public float ResultsHighest(int tpid, int stid)
+        public float ResultsHighest(long tpid, int stid)
         {
             WhereClip wc = new WhereClip();
             wc.And(TestResults._.Ac_ID == stid);
@@ -645,7 +647,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public TestResults ResultsLowest(int identify)
+        public TestResults ResultsLowest(long identify)
         {
             return Gateway.Default.From<TestResults>().Where(TestResults._.Tp_Id == identify).OrderBy(TestResults._.Tr_Score.Asc).ToFirst<TestResults>();
         }
@@ -662,7 +664,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="acid">学员id</param>
         /// <param name="tpid">试卷id</param>
-        public int ResultsClear(int acid, int tpid)
+        public int ResultsClear(int acid, long tpid)
         {
             return Gateway.Default.Delete<TestResults>(TestResults._.Ac_ID == acid && TestResults._.Tp_Id == tpid);
         }
@@ -697,7 +699,7 @@ namespace Song.ServiceImpls
         /// <param name="stid"></param>
         /// <param name="tpid"></param>    
         /// <returns></returns>
-        public TestResults[] ResultsCount(int stid, int tpid)
+        public TestResults[] ResultsCount(int stid, long tpid)
         {
             WhereClip wc = new WhereClip();
             if (tpid > 0) wc.And(TestResults._.Tp_Id == tpid);
@@ -723,7 +725,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_CrtTime.Desc).ToArray<TestResults>(size, (index - 1) * size);
         }
 
-        public TestResults[] ResultsPager(int stid, int tpid, string tpname, int couid, int sbjid, int orgid,
+        public TestResults[] ResultsPager(int stid, long tpid, string tpname, int couid, int sbjid, int orgid,
             string acc, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
             int size, int index, out int countSum)
         {
@@ -757,7 +759,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public TestResults[] ResultsPager(int stid, int tpid, int size, int index, out int countSum)
+        public TestResults[] ResultsPager(int stid, long tpid, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (stid > 0) wc &= TestResults._.Ac_ID == stid;

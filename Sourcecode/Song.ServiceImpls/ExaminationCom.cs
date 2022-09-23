@@ -561,7 +561,7 @@ namespace Song.ServiceImpls
         /// <param name="tpid">试卷id</param>
         /// <param name="acid">考生id</param>
         /// <returns></returns>
-        public ExamResults ResultSingle(int examid, int tpid, int acid)
+        public ExamResults ResultSingle(int examid, long tpid, int acid)
         {
             WhereClip wc = new WhereClip();
             if (examid > 0) wc.And(ExamResults._.Exam_ID == examid);
@@ -577,7 +577,7 @@ namespace Song.ServiceImpls
         /// <param name="tpid"></param>
         /// <param name="acid"></param>
         /// <returns></returns>
-        public ExamResults ResultSingleForCache(int examid, int tpid, int acid)
+        public ExamResults ResultSingleForCache(int examid, long tpid, int acid)
         {
             string uid = string.Format("ExamResults：{0}-{1}-{2}", examid, tpid, acid);    //缓存的uid
             ExamResults r = QuestionsMethod.QuestionsCache.Singleton.GetExamResults(uid);

@@ -8,8 +8,6 @@ namespace Song.Entities {
     	[SerializableAttribute()]
     	public partial class TestPaper : WeiSha.Data.Entity {
     		
-    		protected Int32 _Tp_Id;
-    		
     		protected String _Tp_Name;
     		
     		protected Int32 _Tp_Type;
@@ -70,18 +68,7 @@ namespace Song.Entities {
     		
     		protected Boolean _Tp_IsFinal;
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public Int32 Tp_Id {
-    			get {
-    				return this._Tp_Id;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Tp_Id, _Tp_Id, value);
-    				this._Tp_Id = value;
-    			}
-    		}
+    		protected Int64 _Tp_Id;
     		
     		/// <summary>
     		/// -1
@@ -431,18 +418,21 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 Tp_Id {
+    			get {
+    				return this._Tp_Id;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Tp_Id, _Tp_Id, value);
+    				this._Tp_Id = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<TestPaper>("TestPaper");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Tp_Id;
     		}
     		
     		/// <summary>
@@ -458,7 +448,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Tp_Id,
     					_.Tp_Name,
     					_.Tp_Type,
     					_.Tp_Intro,
@@ -488,7 +477,8 @@ namespace Song.Entities {
     					_.Tp_FromType,
     					_.Tp_FromConfig,
     					_.Cou_Name,
-    					_.Tp_IsFinal};
+    					_.Tp_IsFinal,
+    					_.Tp_Id};
     		}
     		
     		/// <summary>
@@ -496,7 +486,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._Tp_Id,
     					this._Tp_Name,
     					this._Tp_Type,
     					this._Tp_Intro,
@@ -526,16 +515,14 @@ namespace Song.Entities {
     					this._Tp_FromType,
     					this._Tp_FromConfig,
     					this._Cou_Name,
-    					this._Tp_IsFinal};
+    					this._Tp_IsFinal,
+    					this._Tp_Id};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.Tp_Id))) {
-    				this._Tp_Id = reader.GetInt32(_.Tp_Id);
-    			}
     			if ((false == reader.IsDBNull(_.Tp_Name))) {
     				this._Tp_Name = reader.GetString(_.Tp_Name);
     			}
@@ -626,6 +613,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Tp_IsFinal))) {
     				this._Tp_IsFinal = reader.GetBoolean(_.Tp_IsFinal);
     			}
+    			if ((false == reader.IsDBNull(_.Tp_Id))) {
+    				this._Tp_Id = reader.GetInt64(_.Tp_Id);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -651,11 +641,6 @@ namespace Song.Entities {
     			/// 表示选择所有列，与*等同
     			/// </summary>
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<TestPaper>();
-    			
-    			/// <summary>
-    			/// -1 - 字段名：Tp_Id - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Tp_Id = new WeiSha.Data.Field<TestPaper>("Tp_Id");
     			
     			/// <summary>
     			/// -1 - 字段名：Tp_Name - 数据类型：String
@@ -806,6 +791,11 @@ namespace Song.Entities {
     			/// 字段名：Tp_IsFinal - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Tp_IsFinal = new WeiSha.Data.Field<TestPaper>("Tp_IsFinal");
+    			
+    			/// <summary>
+    			/// 字段名：Tp_Id - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Tp_Id = new WeiSha.Data.Field<TestPaper>("Tp_Id");
     		}
     	}
     }

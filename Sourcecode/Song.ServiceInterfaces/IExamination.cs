@@ -171,7 +171,7 @@ namespace Song.ServiceInterfaces
         /// <param name="tpid">试卷id</param>
         /// <param name="acid">考生id</param>
         /// <returns></returns>
-        ExamResults ResultSingle(int examid, int tpid, int acid);
+        ExamResults ResultSingle(int examid, long tpid, int acid);
         /// <summary>
         /// 从缓存中获取考试答题信息
         /// </summary>
@@ -179,7 +179,7 @@ namespace Song.ServiceInterfaces
         /// <param name="tpid"></param>
         /// <param name="acid"></param>
         /// <returns></returns>
-        ExamResults ResultSingleForCache(int examid, int tpid, int acid);
+        ExamResults ResultSingleForCache(int examid, long tpid, int acid);
         /// <summary>
         /// 获取当前考试的所有考生答题信息
         /// </summary>

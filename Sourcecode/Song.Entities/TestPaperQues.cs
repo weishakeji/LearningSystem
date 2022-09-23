@@ -12,7 +12,7 @@ namespace Song.Entities {
     		
     		protected Int32? _Qk_Id;
     		
-    		protected Int32? _Tp_Id;
+    		protected Int64 _Tp_Id;
     		
     		protected Single? _Tq_Number;
     		
@@ -53,7 +53,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32? Tp_Id {
+    		public Int64 Tp_Id {
     			get {
     				return this._Tp_Id;
     			}
@@ -185,7 +185,7 @@ namespace Song.Entities {
     				this._Qk_Id = reader.GetInt32(_.Qk_Id);
     			}
     			if ((false == reader.IsDBNull(_.Tp_Id))) {
-    				this._Tp_Id = reader.GetInt32(_.Tp_Id);
+    				this._Tp_Id = reader.GetInt64(_.Tp_Id);
     			}
     			if ((false == reader.IsDBNull(_.Tq_Number))) {
     				this._Tq_Number = reader.GetFloat(_.Tq_Number);
@@ -239,7 +239,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Qk_Id = new WeiSha.Data.Field<TestPaperQues>("Qk_Id");
     			
     			/// <summary>
-    			/// -1 - 字段名：Tp_Id - 数据类型：Int32(可空)
+    			/// -1 - 字段名：Tp_Id - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Tp_Id = new WeiSha.Data.Field<TestPaperQues>("Tp_Id");
     			

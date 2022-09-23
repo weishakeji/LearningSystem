@@ -17,7 +17,7 @@ namespace Song.ServiceInterfaces
         /// 添加试卷
         /// </summary>
         /// <param name="entity">试卷对象</param>
-        int PaperAdd(TestPaper entity);
+        long PaperAdd(TestPaper entity);
         /// <summary>
         /// 修改试卷
         /// </summary>
@@ -30,18 +30,18 @@ namespace Song.ServiceInterfaces
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        bool PaperUpdate(int id, Field[] fiels, object[] objs);
+        bool PaperUpdate(long id, Field[] fiels, object[] objs);
         /// <summary>
         /// 删除试卷，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        void PaperDelete(int identify);
+        void PaperDelete(long identify);
         /// <summary>
         /// 获取单一试卷实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        TestPaper PaperSingle(int identify);
+        TestPaper PaperSingle(long identify);
         TestPaper PaperSingle(string name);
         /// <summary>
         /// 获取某个课程的结课考试
@@ -151,38 +151,38 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        float ResultsPassrate(int identify);
+        float ResultsPassrate(long identify);
         /// <summary>
         /// 参考人次
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        int ResultsPersontime(int identify);
+        int ResultsPersontime(long identify);
         /// <summary>
         /// 计算该试卷的所有测试的平均分
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        float ResultsAverage(int identify);
+        float ResultsAverage(long identify);
         /// <summary>
         /// 计算该试卷的所有测试的最高分
         /// </summary>
-        /// <param name="identify"></param>
+        /// <param name="identify">试卷id</param>
         /// <returns></returns>
-        TestResults ResultsHighest(int identify);
+        TestResults ResultsHighest(long identify);
         /// <summary>
         /// 计算该试卷的某个学员的最高分
         /// </summary>
         /// <param name="tpid">试卷id</param>
         /// <param name="stid">学员id</param>
         /// <returns></returns>
-        float ResultsHighest(int tpid,int stid);
+        float ResultsHighest(long tpid,int stid);
         /// <summary>
         /// 计算该试卷的所有测试的最低分
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        TestResults ResultsLowest(int identify);
+        TestResults ResultsLowest(long identify);
         /// <summary>
         /// 删除测试成绩，按主键ID；
         /// </summary>
@@ -193,7 +193,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="acid">学员id</param>
         /// <param name="tpid">试卷id</param>
-        int ResultsClear(int acid,int tpid);
+        int ResultsClear(int acid, long tpid);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
@@ -215,7 +215,7 @@ namespace Song.ServiceInterfaces
         /// <param name="stid"></param>
         /// <param name="tpid"></param>    
         /// <returns></returns>
-        TestResults[] ResultsCount(int stid, int tpid);
+        TestResults[] ResultsCount(int stid, long tpid);
         /// <summary>
         /// 分页获取测试成绩
         /// </summary>
@@ -227,7 +227,7 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         TestResults[] ResultsPager(int stid, int sbjid, int couid, int size, int index, out int countSum);
-        TestResults[] ResultsPager(int stid, int tpid, string tpname, int couid, int sbjid, int orgid,
+        TestResults[] ResultsPager(int stid, long tpid, string tpname, int couid, int sbjid, int orgid,
             string acc, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
             int size, int index, out int countSum);
         /// <summary>
@@ -239,7 +239,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        TestResults[] ResultsPager(int stid, int tpid, int size, int index, out int countSum);
+        TestResults[] ResultsPager(int stid, long tpid, int size, int index, out int countSum);
         #endregion
 
 
