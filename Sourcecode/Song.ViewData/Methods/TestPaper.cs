@@ -34,7 +34,8 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">试卷id</param>
         /// <returns></returns>
-        public Song.Entities.TestPaper ForID(int id)
+        [HttpPost]
+        public Song.Entities.TestPaper ForID(long id)
         {
             Song.Entities.TestPaper tp = Business.Do<ITestPaper>().PaperSingle(id);
             tp.Tp_Logo = System.IO.File.Exists(PhyPath + tp.Tp_Logo) ? VirPath + tp.Tp_Logo : "";
@@ -250,6 +251,7 @@ namespace Song.ViewData.Methods
         /// <param name="sbjid"></param>
         /// <param name="couid">课程id</param>
         /// <param name="search">按名称检索</param>
+        /// <param name="isuse"></param>
         /// <param name="diff">难度等级</param>
         /// <param name="size">每页几条</param>
         /// <param name="index">第几页</param>
@@ -286,7 +288,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="tpid">试卷id</param>
         /// <returns></returns>
-        public JArray GenerateRandom(int tpid)
+        public JArray GenerateRandom(long tpid)
         {
             //取果是第一次打开，则随机生成试题，此为获取试卷
             Song.Entities.TestPaper paper = Business.Do<ITestPaper>().PaperSingle(tpid);
@@ -361,8 +363,8 @@ namespace Song.ViewData.Methods
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
 
             //试卷id，试卷名称
-            int tpid = 0;
-            int.TryParse(getAttr(xn, "tpid"), out tpid);
+            long tpid = 0;
+            long.TryParse(getAttr(xn, "tpid"), out tpid);
             string tpname = getAttr(xn, "tpname");
             //***如果结课考试，则验证结课条件是否满足
             Song.Entities.TestPaper paper = Business.Do<ITestPaper>().PaperSingle(tpid);
@@ -469,7 +471,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult ResultsPager(int stid, int tpid, int size, int index)
+        public ListResult ResultsPager(int stid, long tpid, int size, int index)
         {
             int count = 0;
             Song.Entities.TestResults[] trs = Business.Do<ITestPaper>().ResultsPager(stid, tpid, size, index, out count);
@@ -497,7 +499,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult ResultsQueryPager(int stid, int tpid, string tpname, int couid, int sbjid,int orgid,
+        public ListResult ResultsQueryPager(int stid, long tpid, string tpname, int couid, int sbjid,int orgid,
             string stname, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
             int size, int index)
         {
@@ -526,7 +528,7 @@ namespace Song.ViewData.Methods
         /// <param name="stid">学员id</param>
         /// <param name="tpid">试卷id</param>    
         /// <returns></returns>
-        public Song.Entities.TestResults[] ResultsAll(int stid, int tpid)
+        public Song.Entities.TestResults[] ResultsAll(int stid, long tpid)
         {
             if (stid <= 0) throw new Exception("学员id为空，无法获取成绩");
             if (tpid <= 0) throw new Exception("试卷id为空，无法获取成绩");
@@ -539,7 +541,7 @@ namespace Song.ViewData.Methods
         /// <param name="stid">学员id</param>
         /// <param name="tpid">试卷id</param>
         /// <returns></returns>
-        public float ResultHighest(int stid, int tpid)
+        public float ResultHighest(int stid, long tpid)
         {
             if (stid <= 0) throw new Exception("学员id为空，无法获取成绩");
             if (tpid <= 0) throw new Exception("试卷id为空，无法获取成绩");
@@ -589,7 +591,7 @@ namespace Song.ViewData.Methods
         /// <param name="tpid">试卷id</param>
         /// <returns></returns>
         [HttpDelete, Admin, Teacher, Student]
-        public int ResultClear(int acid, int tpid)
+        public int ResultClear(int acid, long tpid)
         {
             Song.Entities.Accounts account = this.User;
             if (account != null && account.Ac_ID == acid)

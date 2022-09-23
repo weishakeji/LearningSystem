@@ -76,7 +76,7 @@ namespace Song.ViewData
         /// <summary>
         /// id参数，id是作为普通参数，因为常用，所以单独列出
         /// </summary>
-        public int ID { get; set; }
+        public long ID { get; set; }
 
         private Dictionary<string, string> _params = new Dictionary<string, string>();
         /// <summary>
@@ -345,7 +345,7 @@ namespace Song.ViewData
             //    //这里只测试上传第一张图片file[0]
             //    HttpPostedFileBase file0 = context.Request.Files[key];
             //}
-            this.ID = this["id"].Int32 ?? 0;
+            this.ID = this["id"].Int64 ?? 0;
             //获取cookies
             for (int i = 0; i < context.Request.Cookies.Count; i++)
             {
@@ -389,7 +389,7 @@ namespace Song.ViewData
                 if (arr[1].EndsWith("'")) arr[1] = arr[1].Length > 1 ? arr[1].Substring(0, arr[1].Length - 1) : "";
                 _params.Add(arr[0].Trim(), arr[1].Trim());
             }            
-            this.ID = this["id"].Int32 ?? 0;
+            this.ID = this["id"].Int64 ?? 0;
             //获取cookies       
             System.Web.HttpContext context = System.Web.HttpContext.Current;
             for (int i = 0; i < context.Request.Cookies.Count; i++)
