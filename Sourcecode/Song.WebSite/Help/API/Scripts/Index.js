@@ -254,8 +254,8 @@ var rvue = new Vue({
                     ele.innerText = $api.trim(rvue.xmlformat(unescape(req.data)));
 
             }).catch(function (ex) {
-                //alert(ex.message);
-                var ele = document.getElementById("testResult");
+                rvue.loading = false;
+                var ele = document.getElementById("testresult");
                 ele.innerText = ex.message;
             });
         },

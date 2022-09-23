@@ -210,7 +210,7 @@
         this.inputs = {
             user: this.dom.find('input[type=text][name=login_user]'),
             pw: this.dom.find('input[type=password][name=login_pw]'),
-            vcode: this.dom.find('input[type=text][name=login_vcode]')
+            vcode: this.dom.find('input[type=number][name=login_vcode]')
         }
         var th = this;
         window.setTimeout(function () {
@@ -438,7 +438,7 @@
         var input = null;
         if (ctrl == 'user') input = this.dom.find('input[type=text][name=login_user]');
         if (ctrl == 'pw') input = this.dom.find('input[type=password][name=login_pw]');
-        if (ctrl == 'vcode') input = this.dom.find('input[type=text][name=login_vcode]');
+        if (ctrl == 'vcode') input = this.dom.find('input[type=number][name=login_vcode]');
         this.customVerify.push({
             ctrl: input,
             regex: regex,
