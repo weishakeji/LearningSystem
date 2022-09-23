@@ -94,8 +94,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {
@@ -116,7 +116,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpGet]
         [Cache(Expires = 20)]
-        public Song.Entities.Outline ForID(int id)
+        public Song.Entities.Outline ForID(long id)
         {
             return Business.Do<IOutline>().OutlineSingle(id);
         }
@@ -128,7 +128,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpGet(Ignore = true)]
         [Cache(Expires = 20)]
-        public Song.Entities.Outline[] List(int couid, int pid)
+        public Song.Entities.Outline[] List(int couid, long pid)
         {
             return Business.Do<IOutline>().OutlineCount(couid, pid, true, 0);
         }
@@ -137,11 +137,11 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 当前课程所包含的所有下级章节数量（不包括自身）
         /// </summary>
-        /// <param name="orgid">机构id</param>
-        /// <param name="sbjid">当前专业id，为0时为顶级</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="olid">章节id</param>
         /// <param name="use">是否包括启用的课程,null取所有，true取启用的，false取未启用的</param>
         /// <returns></returns>
-        public int CountOfChildren(int couid, int olid, bool? use)
+        public int CountOfChildren(int couid, long olid, bool? use)
         {
             return Business.Do<IOutline>().OutlineOfCount(couid, olid, use, true);
         }
@@ -245,7 +245,7 @@ namespace Song.ViewData.Methods
         /// <param name="olid"></param>
         /// <returns></returns>
         [Cache(Expires = 20, AdminDisable = true)]
-        public OutlineEvent[] VideoEvents(int olid)
+        public OutlineEvent[] VideoEvents(long olid)
         {
             OutlineEvent[] events = Business.Do<IOutline>().EventAll(-1, olid, -1, true);
             foreach (OutlineEvent ev in events)
@@ -265,7 +265,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="olid"></param>
         /// <returns></returns>        
-        public JObject State(int olid)
+        public JObject State(long olid)
         {
             JObject dic = new JObject();
             Song.Entities.Accounts acc = LoginAccount.Status.User();

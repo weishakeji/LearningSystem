@@ -487,7 +487,7 @@ namespace Song.ServiceImpls
                 .ToArray<Questions>(size, (index - 1) * size);
         }
 
-        public Questions[] QuesPager(int orgid, int type, int sbjId, int couid, int olid, bool? isUse,
+        public Questions[] QuesPager(int orgid, int type, int sbjId, int couid, long olid, bool? isUse,
             bool? isError, bool? isWrong, int diff, string searTxt,
             int size, int index, out int countSum)
         {
@@ -533,7 +533,7 @@ namespace Song.ServiceImpls
         /// <param name="isError">是否包括错误的试题，如果为空，则不作判断</param>
         /// <param name="isWrong">是否包括学员反馈的试题，如果为空，则不作判断</param>
         /// <returns></returns>
-        public HSSFWorkbook QuestionsExport(int orgid, string type, int sbjId, int couid, int olid, string diff, bool? isError, bool? isWrong)
+        public HSSFWorkbook QuestionsExport(int orgid, string type, int sbjId, int couid, long olid, string diff, bool? isError, bool? isWrong)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             WhereClip wc = new WhereClip();
@@ -572,7 +572,7 @@ namespace Song.ServiceImpls
             }
             return hssfworkbook;
         }
-        public string QuestionsExport4Excel(string path, int orgid, string type, int sbjId, int couid, int olid, string diff, bool? isError, bool? isWrong)
+        public string QuestionsExport4Excel(string path, int orgid, string type, int sbjId, int couid, long olid, string diff, bool? isError, bool? isWrong)
         {
             HSSFWorkbook hssfworkbook = this.QuestionsExport(orgid, type, sbjId, couid, olid, diff, isError, isWrong);
             FileStream file = new FileStream(path, FileMode.Create);
@@ -1403,7 +1403,7 @@ namespace Song.ServiceImpls
         /// <param name="olid"></param>
         /// <param name="json"></param>
         /// <returns></returns>
-        public bool ExerciseLogSave(Accounts acc, int orgid, int couid, int olid, string json, int sum, int answer, int correct, int wrong, double rate)
+        public bool ExerciseLogSave(Accounts acc, int orgid, int couid, long olid, string json, int sum, int answer, int correct, int wrong, double rate)
         {
             if (olid <= 0 || acc == null) return false;
             lock (locker_exerciseLog)
@@ -1454,7 +1454,7 @@ namespace Song.ServiceImpls
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        public LogForStudentExercise ExerciseLogGet(int acid, int couid, int olid)
+        public LogForStudentExercise ExerciseLogGet(int acid, int couid, long olid)
         {
             if (acid <= 0 || olid <= 0) return null;
             WhereClip wc = new WhereClip();
@@ -1471,7 +1471,7 @@ namespace Song.ServiceImpls
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        public bool ExerciseLogDel(int acid, int couid, int olid)
+        public bool ExerciseLogDel(int acid, int couid, long olid)
         {
             lock (locker_exerciseLog)
             {

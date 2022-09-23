@@ -244,7 +244,7 @@ namespace Song.ViewData.Methods
             return jo;
         }
 
-        public JObject ExcelExport(string types, string diffs, int part, int orgid, int sbjid, int couid, int olid)
+        public JObject ExcelExport(string types, string diffs, int part, int orgid, int sbjid, int couid, long olid)
         {
             //导出
             HSSFWorkbook hssfworkbook = null;
@@ -342,7 +342,7 @@ namespace Song.ViewData.Methods
         /// <param name="type">试题类型</param>
         /// <param name="use">启用中的试题，null取所有</param>
         /// <returns></returns>
-        public int Count(int orgid, int sbjid, int couid, int olid, int type, bool? use)
+        public int Count(int orgid, int sbjid, int couid, long olid, int type, bool? use)
         {
             return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, type, use);
         }
@@ -354,7 +354,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Cache]
         [HttpPut]
-        public Song.Entities.Questions ForID(int id)
+        public Song.Entities.Questions ForID(long id)
         {
             Song.Entities.Questions ques = Business.Do<IQuestions>().QuesSingle(id);
             if (ques == null) return null;
@@ -400,7 +400,7 @@ namespace Song.ViewData.Methods
         /// <param name="count"></param>
         /// <returns></returns>
         [Study]
-        public ListResult ForCourse(int couid, int olid, int type, int count)
+        public ListResult ForCourse(int couid, long olid, int type, int count)
         {
             if (couid == 0 && olid == 0) return null;
             int total = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, olid, type, true);
@@ -878,7 +878,7 @@ namespace Song.ViewData.Methods
         /// <param name="json"></param>
         /// <returns></returns>
         [HttpPost, Student]
-        public bool ExerciseLogSave(int acid, int couid, int olid, JObject json)
+        public bool ExerciseLogSave(int acid, int couid, long olid, JObject json)
         {
             Song.Entities.Accounts acc = this.User;
             if (acc == null) return false;
@@ -920,7 +920,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        public LogForStudentExercise ExerciseLogGet(int acid, int couid, int olid)
+        public LogForStudentExercise ExerciseLogGet(int acid, int couid, long olid)
         {
             return Business.Do<IQuestions>().ExerciseLogGet(acid, couid, olid);
         }
@@ -956,7 +956,7 @@ namespace Song.ViewData.Methods
         /// <param name="olid"></param>
         /// <returns></returns>
         [HttpDelete,HttpGet(Ignore =true)]
-        public bool ExerciseLogDel(int acid, int couid, int olid)
+        public bool ExerciseLogDel(int acid, int couid, long olid)
         {
             if (acid <= 0 || couid <= 0 || olid <= 0) return false;
             Business.Do<IQuestions>().ExerciseLogDel(acid, couid, olid);

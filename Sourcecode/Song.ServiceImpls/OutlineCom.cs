@@ -216,7 +216,7 @@ namespace Song.ServiceImpls
         /// <param name="olid">章节Id</param>
         /// <param name="count">试题数</param>
         /// <returns></returns>
-        public int UpdateQuesCount(int olid, int count)
+        public int UpdateQuesCount(long olid, int count)
         {
             Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == olid);
             return count;
@@ -736,7 +736,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
             return Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToArray<Outline>(count);
         }
-        public Outline[] OutlineCount(int couid, int pid, bool? isUse, int count)
+        public Outline[] OutlineCount(int couid, long pid, bool? isUse, int count)
         {
             //List<Outline> tm = null;
             //try
@@ -769,7 +769,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
             return Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToArray<Outline>(count);
         }
-        public Outline[] OutlineCount(int orgid, int sbjid, int couid, int pid, bool? isUse, int count)
+        public Outline[] OutlineCount(int orgid, int sbjid, int couid, long pid, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Outline._.Org_ID == orgid;
@@ -786,14 +786,14 @@ namespace Song.ServiceImpls
         /// <param name="pid"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        public int OutlineOfCount(int couid, int pid, bool? isUse)
+        public int OutlineOfCount(int couid, long pid, bool? isUse)
         {
             WhereClip wc = Outline._.Cou_ID == couid;
             if (pid >= 0) wc.And(Outline._.Ol_PID == pid);
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
             return Gateway.Default.Count<Outline>(wc);
         }
-        public int OutlineOfCount(int couid, int pid, bool? isUse, bool children)
+        public int OutlineOfCount(int couid, long pid, bool? isUse, bool children)
         {
             if (!children) return this.OutlineOfCount(couid, pid, isUse);
 
@@ -816,7 +816,7 @@ namespace Song.ServiceImpls
         /// <param name="isUse">是否启用</param>
         /// <param name="isVideo">是否有视频</param>
         /// <returns></returns>
-        public int OutlineOfCount(int couid, int pid, bool? isUse, bool? isVideo, bool? isFinish)
+        public int OutlineOfCount(int couid, long pid, bool? isUse, bool? isVideo, bool? isFinish)
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc &= Outline._.Cou_ID == couid;
@@ -833,7 +833,7 @@ namespace Song.ServiceImpls
         /// <param name="pid">父id</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        public bool OutlineIsChildren(int couid, int pid, bool? isUse)
+        public bool OutlineIsChildren(int couid, long pid, bool? isUse)
         {
             WhereClip wc = Outline._.Cou_ID == couid;
             if (pid >= 0) wc.And(Outline._.Ol_PID == pid);
@@ -861,7 +861,7 @@ namespace Song.ServiceImpls
         /// <param name="pid"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        public Outline[] OutlineChildren(int couid, int pid, bool? isUse,int count)
+        public Outline[] OutlineChildren(int couid, long pid, bool? isUse,int count)
         {
             WhereClip wc = Outline._.Cou_ID == couid;
             if (pid >= 0) wc.And(Outline._.Ol_PID == pid);
@@ -1071,7 +1071,7 @@ namespace Song.ServiceImpls
         /// <param name="type">事件类型，1为提醒，2为知识展示，3课堂提问，4实时反馈（例如，选择某项后跳转到某秒）</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        public OutlineEvent[] EventAll(int couid, int olid, int type, bool? isUse)
+        public OutlineEvent[] EventAll(int couid, long olid, int type, bool? isUse)
         {
             WhereClip wc = OutlineEvent._.Ol_ID == olid;
             if (couid > 0) wc.And(OutlineEvent._.Oe_IsUse == (bool)isUse);

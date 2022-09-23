@@ -180,7 +180,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Questions[] QuesPager(int orgid, int type, int sbjId, int couid, int olid, bool? isUse, bool? isError, bool? isWrong, int diff, string searTxt, int size, int index, out int countSum);
+        Questions[] QuesPager(int orgid, int type, int sbjId, int couid, long olid, bool? isUse, bool? isError, bool? isWrong, int diff, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// 导出试题
         /// </summary>
@@ -193,7 +193,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isError">是否包括错误的试题，如果为空，则不作判断</param>
         /// <param name="isWrong">是否包括学员反馈的试题，如果为空，则不作判断</param>
         /// <returns></returns>
-        HSSFWorkbook QuestionsExport(int orgid, string type, int sbjId, int couid, int olid, string diff, bool? isError, bool? isWrong);
+        HSSFWorkbook QuestionsExport(int orgid, string type, int sbjId, int couid, long olid, string diff, bool? isError, bool? isWrong);
         /// <summary>
         /// 导出试题,生成文件
         /// </summary>
@@ -207,7 +207,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isError"></param>
         /// <param name="isWrong"></param>       
         /// <returns></returns>
-        string QuestionsExport4Excel(string path, int orgid, string type, int sbjId, int couid, int olid, string diff, bool? isError, bool? isWrong);
+        string QuestionsExport4Excel(string path, int orgid, string type, int sbjId, int couid, long olid, string diff, bool? isError, bool? isWrong);
         #endregion
 
         #region 题型管理（试题分类）
@@ -358,7 +358,7 @@ namespace Song.ServiceInterfaces
         /// <param name="wrong">错误数</param>
         /// <param name="rate">正确率</param>
         /// <returns></returns>
-        bool ExerciseLogSave(Accounts acc, int orgid, int couid, int olid, string json, int sum, int answer, int correct, int wrong,double rate);
+        bool ExerciseLogSave(Accounts acc, int orgid, int couid, long olid, string json, int sum, int answer, int correct, int wrong,double rate);
         /// <summary>
         /// 获取试题练习记录
         /// </summary>
@@ -366,7 +366,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        LogForStudentExercise ExerciseLogGet(int acid, int couid, int olid);
+        LogForStudentExercise ExerciseLogGet(int acid, int couid, long olid);
         /// <summary>
         /// 删除试题练习记录
         /// </summary>
@@ -374,7 +374,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        bool ExerciseLogDel(int acid, int couid, int olid);
+        bool ExerciseLogDel(int acid, int couid, long olid);
         
         #endregion
     }
