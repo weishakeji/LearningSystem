@@ -77,15 +77,15 @@ namespace Song.ServiceImpls
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <returns></returns>
-        public Message[] GetAll(long couid, int olid)
+        public Message[] GetAll(long couid, long olid)
         {
             return GetCount(couid, olid, "asc", 0);
         }
-        public Message[] GetAll(int olid,string order)
+        public Message[] GetAll(long olid,string order)
         {
             return GetCount(0, olid, order, 0);
         }
-        public Message[] GetCount(long couid, int olid, string order, int count)
+        public Message[] GetCount(long couid, long olid, string order, int count)
         {
             WhereClip wc = new WhereClip();
             wc.And(Message._.Msg_Del == false);     //未标识删除的
@@ -103,7 +103,7 @@ namespace Song.ServiceImpls
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        public int GetOfCount(long couid, int olid)
+        public int GetOfCount(long couid, long olid)
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc &= Message._.Cou_ID == couid;
@@ -124,7 +124,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Message[] GetPager(int orgid,long couid, int olid, int stid, string sear, DateTime? startTime, DateTime? endTime, int size, int index, out int countSum)
+        public Message[] GetPager(int orgid,long couid, long olid, int stid, string sear, DateTime? startTime, DateTime? endTime, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Message._.Org_Id == orgid;
@@ -157,7 +157,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Message[] GetPager(long couid, int olid, int stid, string sear, int startPlay, int endPlay, int size, int index, out int countSum)
+        public Message[] GetPager(long couid, long olid, int stid, string sear, int startPlay, int endPlay, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc &= Message._.Cou_ID == couid;

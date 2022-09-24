@@ -214,7 +214,7 @@ namespace Song.ViewData.Methods
         /// <param name="size">每页几条</param>
         /// <param name="index">第几页</param>
         /// <returns></returns>
-        public ListResult ShowPager(int couid, string search, int diff, int size, int index)
+        public ListResult ShowPager(long couid, string search, int diff, int size, int index)
         {
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             int orgid = org.Org_ID;
@@ -237,7 +237,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="use">是否查询禁用的结课考试,null取所有</param>
         /// <returns></returns>
-        public Song.Entities.TestPaper FinalPaper(int couid, bool? use)
+        public Song.Entities.TestPaper FinalPaper(long couid, bool? use)
         {
             Song.Entities.TestPaper tp = Business.Do<ITestPaper>().FinalPaper(couid, use);
             if (tp != null)
@@ -256,7 +256,7 @@ namespace Song.ViewData.Methods
         /// <param name="size">每页几条</param>
         /// <param name="index">第几页</param>
         /// <returns></returns>
-        public ListResult Pager(int orgid, int sbjid, int couid, string search, bool? isuse, int diff, int size, int index)
+        public ListResult Pager(int orgid, int sbjid, long couid, string search, bool? isuse, int diff, int size, int index)
         {
             int count = 0;
             Song.Entities.TestPaper[] tps = null;
@@ -351,8 +351,8 @@ namespace Song.ViewData.Methods
             if (acc.Ac_ID != stid) throw new Exception("当前登录学员信息与成绩提交的信息不匹配");
 
             //课程id,课程名称
-            int couid = 0;
-            int.TryParse(getAttr(xn, "couid"), out couid);
+            long couid = 0;
+            long.TryParse(getAttr(xn, "couid"), out couid);
             string couname = getAttr(xn, "couname");
             //***课程是否购买或过期
             Student_Course purchase = Business.Do<ICourse>().StudentCourse(stid, couid);
@@ -499,7 +499,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult ResultsQueryPager(int stid, long tpid, string tpname, int couid, int sbjid,int orgid,
+        public ListResult ResultsQueryPager(int stid, long tpid, string tpname, long couid, int sbjid,int orgid,
             string stname, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
             int size, int index)
         {
@@ -608,7 +608,7 @@ namespace Song.ViewData.Methods
         /// <param name="score">结课考试的最高分</param>
         /// <returns></returns>
         [Student][HttpPost]
-        public bool ResultLogRecord(int acid, int couid, double score)
+        public bool ResultLogRecord(int acid, long couid, double score)
         {
             Song.Entities.Accounts acc = this.User;
             if (acc.Ac_ID != acid) return false;

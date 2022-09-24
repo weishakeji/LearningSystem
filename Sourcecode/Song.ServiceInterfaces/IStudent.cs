@@ -229,7 +229,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        LogForStudentStudy[] LogForStudyPager(int orgid, long couid, int olid, int stid, string platform, int size, int index, out int countSum);
+        LogForStudentStudy[] LogForStudyPager(int orgid, long couid, long olid, int stid, string platform, int size, int index, out int countSum);
         /// <summary>
         /// 学员所有学习课程的记录
         /// </summary>

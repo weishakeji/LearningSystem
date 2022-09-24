@@ -709,7 +709,7 @@ namespace Song.ViewData.Methods
         /// <param name="acid">学员id</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public Song.Entities.LogForStudentStudy[] StudyLog(int acid, int couid)
+        public Song.Entities.LogForStudentStudy[] StudyLog(int acid, long couid)
         {
             return Business.Do<IStudent>().LogForStudyCount(-1, couid, -1, acid, null, 0);
         }

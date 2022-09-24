@@ -48,7 +48,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Admin, Teacher]
-        public bool SaveOutlineVideoFile(int olid, string type, JObject fileinfo)
+        public bool SaveOutlineVideoFile(long olid, string type, JObject fileinfo)
         {
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
             if (outline == null)
@@ -81,7 +81,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Admin, Teacher]
-        public bool SelectOutlineVideoFile(int olid, string type, JObject fileinfo)
+        public bool SelectOutlineVideoFile(long olid, string type, JObject fileinfo)
         {
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
             if (outline == null)

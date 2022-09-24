@@ -244,7 +244,7 @@ namespace Song.ServiceImpls
         /// <param name="ques">试题id</param>
         /// <param name="index">试题页面中的索引</param>
         /// <returns></returns>
-        public LogForStudentQuestions QuestionAdd(int acid, long couid, int olid, int ques, int index)
+        public LogForStudentQuestions QuestionAdd(int acid, long couid, long olid, int ques, int index)
         {
             LogForStudentQuestions entity = new LogForStudentQuestions();
             entity.Ac_ID = acid;
@@ -266,7 +266,7 @@ namespace Song.ServiceImpls
         /// <param name="ques">试题id</param>
         /// <param name="index">试题页面中的索引</param>
         /// <returns></returns>
-        public LogForStudentQuestions QuestionUpdate(int acid, long couid, int olid, int ques, int index)
+        public LogForStudentQuestions QuestionUpdate(int acid, long couid, long olid, int ques, int index)
         {
             LogForStudentQuestions entity = this.QuestionSingle(acid, couid, 0);
             if (entity == null) entity = this.QuestionAdd(acid, couid, 0, ques, index);
@@ -284,7 +284,7 @@ namespace Song.ServiceImpls
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        public LogForStudentQuestions QuestionSingle(int acid, long couid, int olid)
+        public LogForStudentQuestions QuestionSingle(int acid, long couid, long olid)
         {
             WhereClip wc = new WhereClip();
             wc &= LogForStudentQuestions._.Ac_ID == acid;
@@ -298,7 +298,7 @@ namespace Song.ServiceImpls
         /// <param name="acid">学员Id</param>
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
-        public void QuestionDelete(int acid, long couid, int olid)
+        public void QuestionDelete(int acid, long couid, long olid)
         {
             WhereClip wc = new WhereClip();
             wc &= LogForStudentQuestions._.Ac_ID == acid;

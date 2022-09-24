@@ -101,7 +101,7 @@ namespace Song.ViewData.Methods
         /// <param name="search">按名称检索</param>
         /// <param name="isuse">是否启用</param>
         /// <returns></returns>
-        public JArray ColumnsTree(int couid, string search, bool? isuse)
+        public JArray ColumnsTree(long couid, string search, bool? isuse)
         {
             Song.Entities.GuideColumns[] arr = Business.Do<IGuide>().GetColumnsAll(couid, search, isuse);
             for (int i = 0; i < arr.Length; i++)
@@ -240,7 +240,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Pager(int couid,string uid, bool? show, string search, int size, int index)
+        public ListResult Pager(long couid,string uid, bool? show, string search, int size, int index)
         {
             //总记录数
             int count = 0;
@@ -259,7 +259,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpGet, HttpPut]
         [Cache(Expires = 60)]
-        public Song.Entities.Guide[] Guides(int couid, int count)
+        public Song.Entities.Guide[] Guides(long couid, int count)
         {
             return Business.Do<IGuide>().GuideCount(-1, couid, string.Empty, count);
         }

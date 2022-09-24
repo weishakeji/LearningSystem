@@ -513,7 +513,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public LogForStudentStudy[] LogForStudyPager(int orgid, long couid, int olid, int acid, string platform, int size, int index, out int countSum)
+        public LogForStudentStudy[] LogForStudyPager(int orgid, long couid, long olid, int acid, string platform, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(LogForStudentStudy._.Cou_ID == couid);

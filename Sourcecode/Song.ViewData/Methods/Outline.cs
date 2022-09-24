@@ -128,7 +128,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpGet(Ignore = true)]
         [Cache(Expires = 20)]
-        public Song.Entities.Outline[] List(int couid, long pid)
+        public Song.Entities.Outline[] List(long couid, long pid)
         {
             return Business.Do<IOutline>().OutlineCount(couid, pid, true, 0);
         }
@@ -141,7 +141,7 @@ namespace Song.ViewData.Methods
         /// <param name="olid">章节id</param>
         /// <param name="use">是否包括启用的课程,null取所有，true取启用的，false取未启用的</param>
         /// <returns></returns>
-        public int CountOfChildren(int couid, long olid, bool? use)
+        public int CountOfChildren(long couid, long olid, bool? use)
         {
             return Business.Do<IOutline>().OutlineOfCount(couid, olid, use, true);
         }
@@ -152,7 +152,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpGet,HttpPost,HttpPut]
         [Cache(Expires=120, AdminDisable = true)]
-        public DataTable TreeList(int couid)
+        public DataTable TreeList(long couid)
         {
             // 当前课程的所有章节
             Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
@@ -172,7 +172,7 @@ namespace Song.ViewData.Methods
 
         /// <param name="isuse">是否启用</param>
         /// <returns></returns>
-        public JArray Tree(int couid, bool? isuse)
+        public JArray Tree(long couid, bool? isuse)
         {
             if (couid <= 0) return null;
             Song.Entities.Outline[] list = Business.Do<IOutline>().OutlineAll(couid, isuse);           

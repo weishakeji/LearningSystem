@@ -788,7 +788,7 @@ namespace Song.ViewData.Methods
         /// <param name="olid">章节id</param>
         /// <returns></returns>
         [Admin,SuperAdmin]
-        public int LogUpdateOutlineVideo(int stid, int olid)
+        public int LogUpdateOutlineVideo(int stid, long olid)
         {
             try
             {

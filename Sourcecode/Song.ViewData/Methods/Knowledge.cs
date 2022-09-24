@@ -44,7 +44,7 @@ namespace Song.ViewData.Methods
         /// <param name="isuse"></param>
         /// <returns></returns>
         [HttpGet]
-        public JArray SortTree(int couid, string search, bool? isuse)
+        public JArray SortTree(long couid, string search, bool? isuse)
         {
             //顶级分类
             Song.Entities.KnowledgeSort[] kns = Business.Do<IKnowledge>().GetSortAll(-1, couid, search, isuse);
@@ -171,7 +171,7 @@ namespace Song.ViewData.Methods
         /// <param name="index">第几页</param>
         /// <returns></returns>
         [HttpGet]
-        public ListResult Pager(int couid, string uid, bool? isuse, string search, int size, int index)
+        public ListResult Pager(long couid, string uid, bool? isuse, string search, int size, int index)
         {
             int count = 0;
             Song.Entities.Knowledge[] kls = null;

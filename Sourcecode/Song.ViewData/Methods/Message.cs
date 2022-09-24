@@ -27,7 +27,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <returns></returns>
-        public Song.Entities.Message Add(string acc,string msg, int playtime, long couid, int olid)
+        public Song.Entities.Message Add(string acc,string msg, int playtime, long couid, long olid)
         {
             Song.Entities.Accounts account = null;
             if (!string.IsNullOrWhiteSpace(acc))
@@ -66,7 +66,7 @@ namespace Song.ViewData.Methods
         /// <param name="olid">章节id</param>
         /// <param name="order">排序方式，desc或asc</param>
         /// <returns></returns>
-        public Song.Entities.Message[] All(int olid, string order)
+        public Song.Entities.Message[] All(long olid, string order)
         {
             return Business.Do<IMessage>().GetAll(olid, order);
         }
@@ -77,7 +77,7 @@ namespace Song.ViewData.Methods
         /// <param name="order">排序方式，desc或asc</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public Song.Entities.Message[] Count(int olid, string order,int count)
+        public Song.Entities.Message[] Count(long olid, string order,int count)
         {
             return Business.Do<IMessage>().GetCount(-1, olid, order, count);
         }
@@ -87,7 +87,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <returns></returns>
-        public int Count(int couid, int olid)
+        public int Count(long couid, long olid)
         {
             return Business.Do<IMessage>().GetOfCount(couid, olid);
         }
@@ -100,7 +100,7 @@ namespace Song.ViewData.Methods
         /// <param name="size">当页多条记录</param>
         /// <param name="index">第几页</param>
         /// <returns></returns>
-        public ListResult Pager(int orgid,int couid, int olid, string search, int size, int index)
+        public ListResult Pager(int orgid,long couid, long olid, string search, int size, int index)
         {
             int count = 0;
             Song.Entities.Message[] eas = null;

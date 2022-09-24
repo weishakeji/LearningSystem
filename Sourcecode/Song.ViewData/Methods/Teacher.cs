@@ -451,7 +451,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Admin, Teacher]
-        public bool SetCourse(int couid, int teachid)
+        public bool SetCourse(long couid, int teachid)
         {
             if (teachid > 0)
             {
@@ -570,7 +570,7 @@ namespace Song.ViewData.Methods
         /// LiveSpan：直播课的时长，仅供告知学员课时长度，从技术上来说直播不受时长限制
         /// </returns>
         /// <remarks></remarks>
-        public Outline_LiveInfo[] Lives(int thid, int couid)
+        public Outline_LiveInfo[] Lives(int thid, long couid)
         {
             Song.Entities.Course cour = Business.Do<ICourse>().CourseSingle(couid);
             if (cour == null) return null;
