@@ -8,8 +8,6 @@ namespace Song.Entities {
     	[SerializableAttribute()]
     	public partial class Notice : WeiSha.Data.Entity {
     		
-    		protected Int32 _No_Id;
-    		
     		protected String _No_Ttl;
     		
     		protected String _No_Context;
@@ -56,18 +54,7 @@ namespace Song.Entities {
     		
     		protected Int32 _No_Type;
     		
-    		/// <summary>
-    		/// False
-    		/// </summary>
-    		public Int32 No_Id {
-    			get {
-    				return this._No_Id;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.No_Id, _No_Id, value);
-    				this._No_Id = value;
-    			}
-    		}
+    		protected Int64 _No_Id;
     		
     		/// <summary>
     		/// True
@@ -326,18 +313,21 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 No_Id {
+    			get {
+    				return this._No_Id;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.No_Id, _No_Id, value);
+    				this._No_Id = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<Notice>("Notice");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.No_Id;
     		}
     		
     		/// <summary>
@@ -353,7 +343,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.No_Id,
     					_.No_Ttl,
     					_.No_Context,
     					_.No_IsShow,
@@ -376,7 +365,8 @@ namespace Song.Entities {
     					_.No_Linkurl,
     					_.No_Timespan,
     					_.No_StudentSort,
-    					_.No_Type};
+    					_.No_Type,
+    					_.No_Id};
     		}
     		
     		/// <summary>
@@ -384,7 +374,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._No_Id,
     					this._No_Ttl,
     					this._No_Context,
     					this._No_IsShow,
@@ -407,16 +396,14 @@ namespace Song.Entities {
     					this._No_Linkurl,
     					this._No_Timespan,
     					this._No_StudentSort,
-    					this._No_Type};
+    					this._No_Type,
+    					this._No_Id};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.No_Id))) {
-    				this._No_Id = reader.GetInt32(_.No_Id);
-    			}
     			if ((false == reader.IsDBNull(_.No_Ttl))) {
     				this._No_Ttl = reader.GetString(_.No_Ttl);
     			}
@@ -486,6 +473,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.No_Type))) {
     				this._No_Type = reader.GetInt32(_.No_Type);
     			}
+    			if ((false == reader.IsDBNull(_.No_Id))) {
+    				this._No_Id = reader.GetInt64(_.No_Id);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -511,11 +501,6 @@ namespace Song.Entities {
     			/// 表示选择所有列，与*等同
     			/// </summary>
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<Notice>();
-    			
-    			/// <summary>
-    			/// False - 字段名：No_Id - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field No_Id = new WeiSha.Data.Field<Notice>("No_Id");
     			
     			/// <summary>
     			/// True - 字段名：No_Ttl - 数据类型：String
@@ -631,7 +616,11 @@ namespace Song.Entities {
     			/// 字段名：No_Type - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field No_Type = new WeiSha.Data.Field<Notice>("No_Type");
+    			
+    			/// <summary>
+    			/// 字段名：No_Id - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field No_Id = new WeiSha.Data.Field<Notice>("No_Id");
     		}
     	}
     }
-    

@@ -182,3 +182,36 @@ alter table [LogForStudentStudy] ALTER COLUMN Cou_ID  bigint not null
 alter table [LogForStudentQuestions] ALTER COLUMN Cou_ID  bigint not null
 
 alter table [LogForStudentExercise] ALTER COLUMN Cou_ID  bigint not null
+
+
+
+/***************
+通知公告Id转为雪花id
+*/
+ALTER TABLE Notice ADD No_SId bigint default 0 not null
+go
+update Notice  set No_SId=No_Id
+go
+/*删除原有主键，设置新的主建*/
+declare cursor_no cursor scroll
+for SELECT idx.name,idx.type FROM sys.sysobjects idx JOIN sys.tables tab ON (idx.parent_obj = tab.object_id) 
+	where tab.name='Notice'
+open cursor_no
+declare @name nvarchar(500),@type nvarchar(5),@sql nvarchar(500)
+fetch First from cursor_no into @name,@type
+while @@fetch_status=0  
+ begin  
+   set @sql='alter table [Notice] drop constraint '+@name   
+   exec sp_executesql @sql
+   fetch next from cursor_no into @name,@type
+ end   
+--关闭并释放游标
+close cursor_no
+deallocate cursor_no
+go
+alter table Notice drop column No_Id
+go
+execute sp_rename '[Notice].No_SId','No_Id'
+go
+alter table [Notice] add primary key ( No_Id );
+go

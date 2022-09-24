@@ -20,7 +20,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">通知id</param>
         /// <returns>实体</returns>
-        public Song.Entities.Notice ForID(int id)
+        public Song.Entities.Notice ForID(long id)
         {
             return Business.Do<INotice>().NoticeSingle(id);
         }
@@ -29,7 +29,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">通知id</param>
         /// <returns>实体</returns>
-        public Song.Entities.Notice ShowForID(int id)
+        public Song.Entities.Notice ShowForID(long id)
         {
             Song.Entities.Notice notice= Business.Do<INotice>().NoticeSingle(id);
             return notice.No_IsShow ? notice : null;
@@ -85,8 +85,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {

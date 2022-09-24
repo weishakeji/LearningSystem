@@ -14,7 +14,7 @@ namespace Song.ServiceInterfaces
         /// 添加
         /// </summary>
         /// <param name="entity">业务实体</param>
-        void Add(Notice entity);
+        long Add(Notice entity);
         /// <summary>
         /// 修改
         /// </summary>
@@ -29,7 +29,7 @@ namespace Song.ServiceInterfaces
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        void Delete(int identify);
+        void Delete(long identify);
         /// <summary>
         /// 删除，按公告名称
         /// </summary>
@@ -40,7 +40,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        Notice NoticeSingle(int identify);
+        Notice NoticeSingle(long identify);
         /// <summary>
         /// 获取单一实体对象，按公告名称
         /// </summary>
@@ -53,14 +53,14 @@ namespace Song.ServiceInterfaces
         /// <param name="identify"></param>
         /// <param name="orgid"></param>
         /// <returns></returns>
-        Notice NoticePrev(int identify, int orgid);
+        Notice NoticePrev(long identify, int orgid);
         /// <summary>
         /// 当前公告的下一条公告
         /// </summary>
         /// <param name="identify"></param>
         /// <param name="orgid"></param>
         /// <returns></returns>
-        Notice NoticeNext(int identify, int orgid);
+        Notice NoticeNext(long identify, int orgid);
         /// <summary>
         /// 获取对象；即所有公告；
         /// </summary>

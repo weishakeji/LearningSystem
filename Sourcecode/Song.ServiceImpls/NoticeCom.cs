@@ -15,10 +15,13 @@ namespace Song.ServiceImpls
 {
     public class NoticeCom :INotice
     {
-        #region INotice 成员
+       
 
-        public void Add(Notice entity)
+        public long Add(Notice entity)
         {
+            if (entity.No_Id <= 0)         
+                entity.No_Id = WeiSha.Core.Request.SnowID();
+           
             entity.No_CrtTime = DateTime.Now;
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null)
@@ -31,6 +34,7 @@ namespace Song.ServiceImpls
             if (entity.No_EndTime != null)
                 entity.No_EndTime = ((DateTime)entity.No_EndTime).Date;
             Gateway.Default.Save<Notice>(entity);
+            return entity.No_Id;
         }
 
         public void Save(Notice entity)
@@ -47,7 +51,7 @@ namespace Song.ServiceImpls
             Gateway.Default.Delete<Notice>(entity);
         }
 
-        public void Delete(int identify)
+        public void Delete(long identify)
         {
             Gateway.Default.Delete<Notice>(Notice._.No_Id == identify);
         }
@@ -57,7 +61,7 @@ namespace Song.ServiceImpls
             Gateway.Default.Delete<Notice>(Notice._.No_Ttl == name);
         }
 
-        public Notice NoticeSingle(int identify)
+        public Notice NoticeSingle(long identify)
         {
             return Gateway.Default.From<Notice>().Where(Notice._.No_Id == identify).ToFirst<Notice>();
         }
@@ -72,7 +76,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public Notice NoticePrev(int identify, int orgid)
+        public Notice NoticePrev(long identify, int orgid)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
@@ -87,7 +91,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public Notice NoticeNext(int identify,int orgid)
+        public Notice NoticeNext(long identify,int orgid)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Notice._.Org_ID == orgid;
@@ -184,7 +188,7 @@ namespace Song.ServiceImpls
             }
             return Gateway.Default.From<Notice>().Where(wc).OrderBy(Notice._.No_IsTop.Asc && Notice._.No_StartTime.Desc).ToArray<Notice>(count);
         }
-        #endregion
+
 
     }
 }
