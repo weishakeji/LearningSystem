@@ -49,7 +49,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <returns></returns>
-        Message[] GetAll(int couid, int olid);
+        Message[] GetAll(long couid, int olid);
         /// <summary>
         /// 获取留言
         /// </summary>
@@ -65,14 +65,14 @@ namespace Song.ServiceInterfaces
         /// <param name="count"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        Message[] GetCount(int couid, int olid, string order, int count);
+        Message[] GetCount(long couid, int olid, string order, int count);
         /// <summary>
         /// 获取留言数量
         /// </summary>
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        int GetOfCount(int couid, int olid);
+        int GetOfCount(long couid, int olid);
         /// <summary>
         /// 分页获取
         /// </summary>
@@ -86,7 +86,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Message[] GetPager(int orgid,int couid, int olid, int stid, string sear, DateTime? startTime, DateTime? endTime, int size, int index, out int countSum);
+        Message[] GetPager(int orgid,long couid, int olid, int stid, string sear, DateTime? startTime, DateTime? endTime, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取
         /// </summary>
@@ -100,6 +100,6 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Message[] GetPager(int couid, int olid, int stid, string sear, int startPlay, int endPlay, int size, int index, out int countSum);
+        Message[] GetPager(long couid, int olid, int stid, string sear, int startPlay, int endPlay, int size, int index, out int countSum);
     }
 }

@@ -181,7 +181,7 @@ namespace Song.ServiceInterfaces
         /// <param name="playTime">播放进度</param>
         /// <param name="studyInterval">学习时间，此为时间间隔，每次提交学习时间加这个数</param>
         /// <param name="totalTime">视频总长度</param>
-        void LogForStudyFresh(int couid, long olid, Accounts st, int playTime, int studyInterval, int totalTime);
+        void LogForStudyFresh(long couid, long olid, Accounts st, int playTime, int studyInterval, int totalTime);
         /// <summary>
         /// 记录学员学习时间
         /// </summary>
@@ -192,7 +192,7 @@ namespace Song.ServiceInterfaces
         /// <param name="studyTime">学习时间，此为累计时间</param>
         /// <param name="totalTime">视频总长度</param>
         /// <returns>学习进度百分比（相对于总时长），如果为-1，则表示失败</returns>
-        double LogForStudyUpdate(int couid, long olid, Accounts st, int playTime, int studyTime, int totalTime);
+        double LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime);
         /// <summary>
         /// 根据学员id与登录时生成的Uid返回实体
         /// </summary>
@@ -216,7 +216,7 @@ namespace Song.ServiceInterfaces
         /// <param name="platform">平台，PC或Mobi</param>
         /// <param name="count"></param>
         /// <returns></returns>
-        LogForStudentStudy[] LogForStudyCount(int orgid, int couid, long olid, int stid, string platform, int count);
+        LogForStudentStudy[] LogForStudyCount(int orgid, long couid, long olid, int stid, string platform, int count);
         /// <summary>
         /// 分页获取
         /// </summary>
@@ -229,7 +229,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        LogForStudentStudy[] LogForStudyPager(int orgid, int couid, int olid, int stid, string platform, int size, int index, out int countSum);
+        LogForStudentStudy[] LogForStudyPager(int orgid, long couid, int olid, int stid, string platform, int size, int index, out int countSum);
         /// <summary>
         /// 学员所有学习课程的记录
         /// </summary>
@@ -249,21 +249,21 @@ namespace Song.ServiceInterfaces
         /// <param name="stid">学员id</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        DataTable StudentStudyCourseLog(int stid,int couid);
+        DataTable StudentStudyCourseLog(int stid,long couid);
         /// <summary>
         /// 学员学习某一课程下所有章节的记录
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员账户id</param>
         /// <returns>datatable中，LastTime：最后学习时间；totalTime：视频时间长；playTime：播放进度；studyTime：学习时间，complete：完成度百分比</returns>
-        DataTable StudentStudyOutlineLog(int couid, int stid);
+        DataTable StudentStudyOutlineLog(long couid, int stid);
         /// <summary>
         /// 章节学习记录作弊，直接将学习进度设置为100
         /// </summary>
         /// <param name="stid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        void CheatOutlineLog(int stid, int olid);
+        void CheatOutlineLog(int stid, long olid);
         #endregion
 
         #region 学员的错题回顾
@@ -295,7 +295,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员id</param>
         /// <returns>清除的题数</returns>
-        int QuesClear(int couid, int stid);
+        int QuesClear(long couid, int stid);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
@@ -310,7 +310,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid"></param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        Questions[] QuesAll(int stid, int sbjid, int couid, int type);
+        Questions[] QuesAll(int stid, int sbjid, long couid, int type);
         /// <summary>
         /// 获取指定个数的对象
         /// </summary>
@@ -320,7 +320,7 @@ namespace Song.ServiceInterfaces
         /// <param name="type">试题类型</param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Questions[] QuesCount(int stid, int sbjid, int couid, int type, int count);
+        Questions[] QuesCount(int stid, int sbjid, long couid, int type, int count);
         /// <summary>
         /// 学员错题的个数
         /// </summary>
@@ -329,7 +329,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        int QuesOfCount(int stid, int sbjid, int couid, int type);
+        int QuesOfCount(int stid, int sbjid, long couid, int type);
         /// <summary>
         /// 高频错题
         /// </summary>
@@ -337,7 +337,7 @@ namespace Song.ServiceInterfaces
         /// <param name="type">题型</param>
         /// <param name="count">取多少条</param>
         /// <returns>试题的完整结构+count列，取试题的错误次数</returns>
-        Questions[] QuesOftenwrong(int couid, int type, int count);            
+        Questions[] QuesOftenwrong(long couid, int type, int count);            
         /// <summary>
         /// 分页获取学员的错误试题
         /// </summary>
@@ -350,7 +350,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Questions[] QuesPager(int stid, int sbjid, int couid, int type, int diff, int size, int index, out int countSum);
+        Questions[] QuesPager(int stid, int sbjid, long couid, int type, int diff, int size, int index, out int countSum);
         /// <summary>
         /// 错题所属的课程
         /// </summary>
@@ -391,7 +391,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员id</param>
-        void CollectClear(int couid, int stid);
+        void CollectClear(long couid, int stid);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
@@ -413,8 +413,8 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        Questions[] CollectAll4Ques(int stid, int sbjid, int couid, int type);
-        Student_Collect[] CollectAll(int stid, int sbjid, int couid, int type);
+        Questions[] CollectAll4Ques(int stid, int sbjid, long couid, int type);
+        Student_Collect[] CollectAll(int stid, int sbjid, long couid, int type);
         /// <summary>
         /// 获取指定个数的对象
         /// </summary>
@@ -423,7 +423,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        Questions[] CollectCount(int stid, int sbjid, int couid, int type, int count);
+        Questions[] CollectCount(int stid, int sbjid, long couid, int type, int count);
         /// <summary>
         /// 分页获取学员的错误试题
         /// </summary>
@@ -436,7 +436,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Questions[] CollectPager(int stid, int sbjid, int couid, int type, int diff, int size, int index, out int countSum);
+        Questions[] CollectPager(int stid, int sbjid, long couid, int type, int diff, int size, int index, out int countSum);
         #endregion
 
         #region 学员的笔记
@@ -467,7 +467,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员id</param>
-        void NotesClear(int couid, int stid);
+        void NotesClear(long couid, int stid);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
@@ -496,7 +496,7 @@ namespace Song.ServiceInterfaces
         /// <param name="type"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Questions[] NotesCount(int stid, int couid, int type, int count);
+        Questions[] NotesCount(int stid, long couid, int type, int count);
         /// <summary>
         /// 获取指定个数的对象
         /// </summary>

@@ -329,7 +329,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid"></param>
         /// <param name="acid"></param>
         /// <returns>·µ»Ø³É¼¨¼ÇÂ¼</returns>
-        ExamResults StudentForCourseExam(int couid, int acid);
+        ExamResults StudentForCourseExam(long couid, int acid);
         #endregion
 
     }

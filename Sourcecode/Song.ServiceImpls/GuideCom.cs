@@ -142,7 +142,7 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.From<Guide>().Where(Guide._.Gu_Id == identify).ToFirst<Guide>();
         }
-        public Guide[] GuideCount(int orgid, int couid, string gcuid, int count)
+        public Guide[] GuideCount(int orgid, long couid, string gcuid, int count)
         {
             WhereClip wc = new WhereClip();
             wc &= Guide._.Gu_IsShow == true;
@@ -169,7 +169,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Guide[] GuidePager(int orgid, int couid, string gcuid, string searTxt, bool? isShow, int size, int index, out int countSum)
+        public Guide[] GuidePager(int orgid, long couid, string gcuid, string searTxt, bool? isShow, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Guide._.Org_ID == orgid);
@@ -307,7 +307,7 @@ namespace Song.ServiceImpls
         /// 获取对象；即所有分类；
         /// </summary>
         /// <returns></returns>
-        public GuideColumns[] GetColumnsAll(int couid, string search, bool? isUse)
+        public GuideColumns[] GetColumnsAll(long couid, string search, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(GuideColumns._.Cou_ID == couid);
@@ -321,7 +321,7 @@ namespace Song.ServiceImpls
         /// <param name="pid"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        public GuideColumns[] GetColumnsChild(int couid, string pid, bool? isUse)
+        public GuideColumns[] GetColumnsChild(long couid, string pid, bool? isUse)
         {
             WhereClip wc = GuideColumns._.Cou_ID == couid;
             if (!string.IsNullOrWhiteSpace(pid)) wc.And(GuideColumns._.Gc_PID == pid);

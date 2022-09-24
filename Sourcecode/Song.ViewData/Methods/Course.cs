@@ -192,8 +192,8 @@ namespace Song.ViewData.Methods
         [HtmlClear(Not = "course")]
         public bool ModifyJson(JObject course)
         {
-            int id = 0;
-            int.TryParse(course["Cou_ID"].ToString(), out id);
+            long id = 0;
+            long.TryParse(course["Cou_ID"].ToString(), out id);
             Song.Entities.Course old = Business.Do<ICourse>().CourseSingle(id);
             if (old == null) throw new Exception("Not found entity for Course！");
 
@@ -234,7 +234,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Admin, Teacher]
-        public bool ModifyName(string name, int couid)
+        public bool ModifyName(string name, long couid)
         {
             //只有教师登录，管理员没有登录
             if (this.Teacher != null && this.Admin == null)
@@ -276,8 +276,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {
@@ -303,7 +303,7 @@ namespace Song.ViewData.Methods
         /// "view":浏览数,
         /// "live":是否为直播课程
         /// </returns>
-        public JObject Datainfo(int couid)
+        public JObject Datainfo(long couid)
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) return null;
@@ -444,7 +444,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public decimal Income(int couid)
+        public decimal Income(long couid)
         {
             return Business.Do<ICourse>().Income(couid);
         }
@@ -685,7 +685,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Student]
         [HttpPost]
-        public double StudyLog(int couid, int olid, int playTime, int studyTime, int totalTime)
+        public double StudyLog(long couid, long olid, int playTime, int studyTime, int totalTime)
         {
             //当前学员
             Song.Entities.Accounts student = LoginAccount.Status.User();
@@ -701,7 +701,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult StudyLogPager(int orgid, int couid, int size,int index)
+        public ListResult StudyLogPager(int orgid, long couid, int size,int index)
         {
             int total = 0;
             LogForStudentStudy[] list= Business.Do<IStudent>().LogForStudyPager(orgid, couid,-1,-1,null,size,index,out total);
@@ -718,7 +718,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <returns>课程信息，额外增加属性："lastTime"最后记录时间,"studyTime"累计学习时长,"complete"课程完成度
         /// </returns>
-        public DataTable LogForVideo(int stid, int couid)
+        public DataTable LogForVideo(int stid, long couid)
         {
             return Business.Do<IStudent>().StudentStudyCourseLog(stid, couid);
         }
@@ -728,7 +728,7 @@ namespace Song.ViewData.Methods
         /// <param name="stid">学员账号id</param>
         /// <param name="couid">课程id</param>
         /// <returns>仅课程的视频学习的完成度，与LogForVideo接口方法一致，但此仅返回完成度，没有详细信息</returns>
-        public double ProgressForVideo(int stid, int couid)
+        public double ProgressForVideo(int stid, long couid)
         {
             DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(stid, couid);
             if (dt == null || dt.Rows.Count < 1) return 0;
@@ -752,7 +752,7 @@ namespace Song.ViewData.Methods
         /// "playTime":视频播放进度（单位毫秒）,
         /// "complete":完成度（百分比）
         /// </returns>
-        public DataTable LogForOutlineVideo(int stid, int couid)
+        public DataTable LogForOutlineVideo(int stid, long couid)
         {
             DataTable dt= Business.Do<IStudent>().StudentStudyOutlineLog(couid, stid);
             return dt;
@@ -766,7 +766,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Student,Admin]
         [HttpPost]
-        public double LogForVideoRecord(int acid, int couid, double rate)
+        public double LogForVideoRecord(int acid, long couid, double rate)
         {
             Song.Entities.Accounts acc = this.User;
             if (acc.Ac_ID != acid) return rate;
@@ -807,7 +807,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpGet, HttpPut]
         [Cache(Expires = 1)]
-        public int StudentSum(int couid)
+        public int StudentSum(long couid)
         {
             return Business.Do<ICourse>().CourseStudentSum(couid, true);
         }
@@ -818,7 +818,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpGet, HttpPut]
         [Cache(Expires = 1)]
-        public int StudySum(int couid)
+        public int StudySum(long couid)
         {
             return Business.Do<ICourse>().CourseStudentSum(couid, false);
         }
@@ -828,7 +828,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid"></param>
         /// <returns></returns>
         //[Student]
-        public bool Studied(int couid)
+        public bool Studied(long couid)
         {
             Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
             if (acc == null) return false;
@@ -841,7 +841,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <returns></returns>
         [Student]
-        public bool StudyAllow(int couid)
+        public bool StudyAllow(long couid)
         {
             Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
             if (acc == null) return false;
@@ -872,7 +872,7 @@ namespace Song.ViewData.Methods
         /// <param name="index"></param>
         /// <returns>结果中的complete字段为学员在当前课程的学习完成度</returns>
         [Admin,Teacher]
-        public ListResult Students(int couid, string acc, string name, int size, int index)
+        public ListResult Students(long couid, string acc, string name, int size, int index)
         {
             int total = 0;
             DataTable dt = Business.Do<ICourse>().StudentPager(couid, acc, name, size, index, out total);
@@ -898,7 +898,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid"></param>
         /// <param name="acid"></param>
         /// <returns>{"score":成绩得分，没有成绩为-1,"state":nopass不及格，normal及格，fine优秀}</returns>
-        public JObject StudentForCourseExam(int couid, int acid)
+        public JObject StudentForCourseExam(long couid, int acid)
         {
             JObject jo = new JObject();
             if (couid <= 0 || acid <= 0)
@@ -933,7 +933,7 @@ namespace Song.ViewData.Methods
         /// <param name="stid">学员Id</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public Student_Course Purchaselog(int stid, int couid)
+        public Student_Course Purchaselog(int stid, long couid)
         {
             Student_Course sc= Business.Do<ICourse>().StudentCourse(stid, couid);
             sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;
@@ -949,7 +949,7 @@ namespace Song.ViewData.Methods
         /// <param name="cpid">课程价格项的id</param>
         /// <returns></returns>
         [Student]
-        public Song.Entities.Student_Course Buy(int couid, int cpid)
+        public Song.Entities.Student_Course Buy(long couid, int cpid)
         { 
             //价格项
             Song.Entities.CoursePrice price = Business.Do<ICourse>().PriceSingle(cpid);
@@ -985,7 +985,7 @@ namespace Song.ViewData.Methods
         /// <param name="enable">启用或禁用</param>
         /// <returns></returns>
         [Admin,Teacher][HttpPost]
-        public bool PurchaseEnable(int stid, int couid, bool enable)
+        public bool PurchaseEnable(int stid, long couid, bool enable)
         {
             Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
             if (sc == null) throw new Exception("购买记录不存在");
@@ -1001,7 +1001,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [HttpDelete]
-        public bool PurchaseDelete(int stid, int couid)
+        public bool PurchaseDelete(int stid, long couid)
         {
             Business.Do<ICourse>().DelteCourseBuy(stid, couid);  
             return true;
@@ -1019,7 +1019,7 @@ namespace Song.ViewData.Methods
         /// 年:年,yeer,y</param>
         /// <returns></returns>
         [Admin][HttpPost]
-        public bool PurchaseAddTime(int stid, int couid, int number, string unit)
+        public bool PurchaseAddTime(int stid, long couid, int number, string unit)
         {
             number = number > 0 ? number : 0;
             if (number <= 0) throw new Exception("当前学员没有选修该课程");
@@ -1069,7 +1069,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <returns></returns>
         [Student]
-        public Song.Entities.Student_Course FreeBuy(int couid)
+        public Song.Entities.Student_Course FreeBuy(long couid)
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) throw new Exception("课程不存在");
@@ -1095,7 +1095,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <returns></returns>
         [Student]
-        public Song.Entities.Student_Course Try(int couid)
+        public Song.Entities.Student_Course Try(long couid)
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) throw new Exception("课程不存在");
@@ -1126,7 +1126,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程的id</param> 
         /// <returns></returns>
         [HttpPost]
-        public JObject StudentsLogOutputExcel(int couid)
+        public JObject StudentsLogOutputExcel(long couid)
         {
             //导出文件的位置
             string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
@@ -1262,7 +1262,7 @@ namespace Song.ViewData.Methods
         /// <param name="filename">文件名，带后缀名，不带路径</param>
         /// <returns></returns>
         [HttpDelete]
-        public bool StudentsLogOutputDelete(int couid,string filename)
+        public bool StudentsLogOutputDelete(long couid,string filename)
         {
             string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
             if (!System.IO.Directory.Exists(rootpath))
@@ -1280,7 +1280,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
-        public JArray StudentsLogOutputFiles(int couid)
+        public JArray StudentsLogOutputFiles(long couid)
         {
             string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
             if (!System.IO.Directory.Exists(rootpath))

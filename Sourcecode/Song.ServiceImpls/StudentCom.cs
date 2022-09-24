@@ -378,7 +378,7 @@ namespace Song.ServiceImpls
         /// <param name="playTime">播放进度</param>
         /// <param name="studyInterval">学习时间，此为时间间隔，每次提交学习时间加这个数</param>
         /// <param name="totalTime">视频总长度</param>
-        public void LogForStudyFresh(int couid, long olid, Accounts st, int playTime, int studyInterval, int totalTime)
+        public void LogForStudyFresh(long couid, long olid, Accounts st, int playTime, int studyInterval, int totalTime)
         {
             if (st == null) return;
             //当前章节的学习记录
@@ -402,7 +402,7 @@ namespace Song.ServiceImpls
         /// <param name="studyTime">学习时间，此为累计时间</param>
         /// <param name="totalTime">视频总长度</param>
         /// <returns>学习进度百分比（相对于总时长）</returns>
-        public double LogForStudyUpdate(int couid, long olid, Accounts st, int playTime, int studyTime, int totalTime)
+        public double LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime)
         {
             if (st == null || olid <= 0) return -1;
             if (couid <= 0)
@@ -483,7 +483,7 @@ namespace Song.ServiceImpls
         /// <param name="acid"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public LogForStudentStudy[] LogForStudyCount(int orgid, int couid, long olid, int acid, string platform, int count)
+        public LogForStudentStudy[] LogForStudyCount(int orgid, long couid, long olid, int acid, string platform, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(LogForStudentStudy._.Org_ID == orgid);
@@ -513,7 +513,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public LogForStudentStudy[] LogForStudyPager(int orgid, int couid, int olid, int acid, string platform, int size, int index, out int countSum)
+        public LogForStudentStudy[] LogForStudyPager(int orgid, long couid, int olid, int acid, string platform, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(LogForStudentStudy._.Cou_ID == couid);
@@ -611,7 +611,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                         //课程的累计完成度
                         double complete = Convert.ToDouble(dr["complete"].ToString());
                         //课程id
-                        int couid = Convert.ToInt32(dr["Cou_ID"].ToString());
+                        long couid = Convert.ToInt64(dr["Cou_ID"].ToString());
                         int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true);
                         //完成度
                         double peracent = Math.Floor(complete / olnum * 100) / 100;
@@ -639,13 +639,13 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             {
                 DataRow dr = dt.Rows[i];
                 //课程id
-                int couid = Convert.ToInt32(dr["Cou_ID"].ToString());
+                long couid = Convert.ToInt64(dr["Cou_ID"].ToString());
                 bool isexist = false;
                 foreach (string id in couids.Split(','))
                 {
                     if (string.IsNullOrWhiteSpace(id)) continue;
-                    int sid = 0;
-                    int.TryParse(id,out sid);
+                    long sid = 0;
+                    long.TryParse(id,out sid);
                     if (sid == 0) continue;
                     if (couid == sid)
                     {
@@ -667,7 +667,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         /// <param name="acid">学员id</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public DataTable StudentStudyCourseLog(int acid,int couid)
+        public DataTable StudentStudyCourseLog(int acid,long couid)
         {
             //开始计算
             string sql = @"
@@ -718,7 +718,7 @@ select * from course as c inner join
         /// <param name="couid">课程id</param>
         /// <param name="acid">学员账户id</param>
         /// <returns>datatable中，LastTime：最后学习时间；totalTime：视频时间长；playTime：播放进度；studyTime：学习时间，complete：完成度百分比</returns>
-        public DataTable StudentStudyOutlineLog(int couid, int acid)
+        public DataTable StudentStudyOutlineLog(long couid, int acid)
         {
             Accounts student = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acid).ToFirst<Accounts>();
             if (student == null) throw new Exception("当前学员不存在！");
@@ -764,7 +764,7 @@ select * from course as c inner join
         /// <param name="stid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        public void CheatOutlineLog(int stid, int olid)
+        public void CheatOutlineLog(int stid, long olid)
         {
             Outline ol = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == olid).ToFirst<Outline>();
             if (ol == null) return;
@@ -883,7 +883,7 @@ select * from course as c inner join
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员id</param>
-        public int QuesClear(int couid, int stid)
+        public int QuesClear(long couid, int stid)
         {
             return Gateway.Default.Delete<Student_Ques>(Student_Ques._.Cou_ID == couid && Student_Ques._.Ac_ID == stid);
         }
@@ -903,7 +903,7 @@ select * from course as c inner join
         /// <param name="sbjid">学科id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Questions[] QuesAll(int acid, int sbjid, int couid, int type)
+        public Questions[] QuesAll(int acid, int sbjid, long couid, int type)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
@@ -921,7 +921,7 @@ select * from course as c inner join
         /// <param name="sbjid">学科id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Questions[] QuesCount(int acid, int sbjid, int couid, int type, int count)
+        public Questions[] QuesCount(int acid, int sbjid, long couid, int type, int count)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
@@ -940,7 +940,7 @@ select * from course as c inner join
         /// <param name="couid">课程id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public int QuesOfCount(int stid, int sbjid, int couid, int type)
+        public int QuesOfCount(int stid, int sbjid, long couid, int type)
         {
             WhereClip wc = new WhereClip();
             if (stid > 0) wc.And(Student_Ques._.Ac_ID == stid);
@@ -956,7 +956,7 @@ select * from course as c inner join
         /// <param name="type">题型</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public Questions[] QuesOftenwrong(int couid, int type, int count)
+        public Questions[] QuesOftenwrong(long couid, int type, int count)
         {
             string sql = @"select {top} sq.count as Qus_Errornum,c.* from Questions as c inner join 
 (SELECT qus_id,COUNT(qus_id) as 'count'  FROM [Student_Ques] where {couid} and {type} group by qus_id) as sq
@@ -976,7 +976,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Questions[] QuesPager(int acid, int sbjid, int couid, int type, int diff, int size, int index, out int countSum)
+        public Questions[] QuesPager(int acid, int sbjid, long couid, int type, int diff, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
@@ -1085,7 +1085,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员id</param>
-        public void CollectClear(int couid, int stid)
+        public void CollectClear(long couid, int stid)
         {
             Gateway.Default.Delete<Student_Collect>(Student_Collect._.Cou_ID == couid && Student_Collect._.Ac_ID == stid);
         }
@@ -1110,7 +1110,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="couid">课程id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Questions[] CollectAll4Ques(int acid, int sbjid, int couid, int type)
+        public Questions[] CollectAll4Ques(int acid, int sbjid, long couid, int type)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Collect._.Ac_ID == acid);
@@ -1121,7 +1121,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
                 .InnerJoin<Student_Collect>(Questions._.Qus_ID == Student_Collect._.Qus_ID)
                 .Where(wc).OrderBy(Student_Collect._.Stc_CrtTime.Desc).ToArray<Questions>();
         }
-        public Student_Collect[] CollectAll(int acid, int sbjid, int couid, int type)
+        public Student_Collect[] CollectAll(int acid, int sbjid, long couid, int type)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Collect._.Ac_ID == acid);
@@ -1137,7 +1137,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="sbjid">学科id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Questions[] CollectCount(int acid, int sbjid, int couid, int type, int count)
+        public Questions[] CollectCount(int acid, int sbjid, long couid, int type, int count)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Collect._.Ac_ID == acid);
@@ -1159,7 +1159,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Questions[] CollectPager(int acid, int sbjid, int couid, int type, int diff, int size, int index, out int countSum)
+        public Questions[] CollectPager(int acid, int sbjid, long couid, int type, int diff, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Collect._.Ac_ID == acid);
@@ -1235,7 +1235,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员id</param>
-        public void NotesClear(int couid, int stid)
+        public void NotesClear(long couid, int stid)
         {
             Gateway.Default.Delete<Student_Notes>(Student_Notes._.Cou_ID == couid && Student_Notes._.Ac_ID == stid);
         }
@@ -1283,7 +1283,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="type"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public Questions[] NotesCount(int stid, int couid, int type, int count)
+        public Questions[] NotesCount(int stid, long couid, int type, int count)
         {
             WhereClip wc = new WhereClip();
             if (stid > 0) wc.And(Student_Notes._.Ac_ID == stid);          

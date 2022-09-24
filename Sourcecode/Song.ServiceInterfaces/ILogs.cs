@@ -110,7 +110,7 @@ namespace Song.ServiceInterfaces
         /// <param name="ques">试题id</param>
         /// <param name="index">试题页面中的索引</param>
         /// <returns></returns>
-        LogForStudentQuestions QuestionAdd(int acid, int couid, int olid, int ques, int index);
+        LogForStudentQuestions QuestionAdd(int acid, long couid, int olid, int ques, int index);
         /// <summary>
         /// 修改练习记录
         /// </summary>
@@ -120,7 +120,7 @@ namespace Song.ServiceInterfaces
         /// <param name="ques">试题id</param>
         /// <param name="index">试题页面中的索引</param>
         /// <returns></returns>
-        LogForStudentQuestions QuestionUpdate(int acid, int couid, int olid, int ques, int index);
+        LogForStudentQuestions QuestionUpdate(int acid, long couid, int olid, int ques, int index);
         /// <summary>
         /// 获取练习记录
         /// </summary>
@@ -128,14 +128,14 @@ namespace Song.ServiceInterfaces
         /// <param name="couid"></param>
         /// <param name="olid"></param>
         /// <returns></returns>
-        LogForStudentQuestions QuestionSingle(int acid, int couid, int olid);
+        LogForStudentQuestions QuestionSingle(int acid, long couid, int olid);
         /// <summary>
         /// 删除学员的练习记录
         /// </summary>
         /// <param name="acid">学员Id</param>
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
-        void QuestionDelete(int acid, int couid, int olid);
+        void QuestionDelete(int acid, long couid, int olid);
         #endregion
     }
 }

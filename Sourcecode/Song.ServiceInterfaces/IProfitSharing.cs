@@ -108,7 +108,7 @@ namespace Song.ServiceInterfaces
         /// <param name="money">消费的资金数</param>
         /// <param name="coupon">消费的卡数</param>
         /// <returns></returns>
-        ProfitSharing[] Clac(int couid, double money, double coupon);
+        ProfitSharing[] Clac(long couid, double money, double coupon);
         ProfitSharing[] Clac(Course cou, double money, double coupon);
         /// <summary>
         /// 分配利润

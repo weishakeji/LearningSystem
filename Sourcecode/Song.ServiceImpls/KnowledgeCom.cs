@@ -72,7 +72,7 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.From<Knowledge>().Where(Knowledge._.Kn_Uid == uid).ToFirst<Knowledge>();
         }
-        public Knowledge KnowledgePrev(int couid, string kns, int id)
+        public Knowledge KnowledgePrev(long couid, string kns, int id)
         {
             WhereClip wc = new WhereClip();
             if (couid >= 0) wc.And(Knowledge._.Cou_ID == couid);
@@ -81,7 +81,7 @@ namespace Song.ServiceImpls
                .Where(wc && Knowledge._.Kn_ID > id).ToFirst<Knowledge>();
         }
 
-        public Knowledge KnowledgeNext(int couid, string kns, int id)
+        public Knowledge KnowledgeNext(long couid, string kns, int id)
         {
             WhereClip wc = new WhereClip();
             if (couid >= 0) wc.And(Knowledge._.Cou_ID == couid);
@@ -97,7 +97,7 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(kns)) wc.And(Knowledge._.Kns_UID == kns);
             return Gateway.Default.From<Knowledge>().Where(wc).OrderBy(Knowledge._.Kn_CrtTime.Desc).ToArray<Knowledge>(count);
         }
-        public Knowledge[] KnowledgeCount(int orgid, int couid, string kns, string searTxt, bool? isUse, int count)
+        public Knowledge[] KnowledgeCount(int orgid, long couid, string kns, string searTxt, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Knowledge._.Org_ID == orgid);
@@ -115,7 +115,7 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(kns)) wc.And(Knowledge._.Kns_UID == kns);
             return Gateway.Default.Count<Knowledge>(wc);
         }
-        public int KnowledgeOfCount(int orgid, int couid, string kns, bool? isUse)
+        public int KnowledgeOfCount(int orgid, long couid, string kns, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Knowledge._.Org_ID == orgid);
@@ -134,7 +134,7 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Knowledge>(wc);
             return Gateway.Default.From<Knowledge>().Where(wc).OrderBy(Knowledge._.Kn_CrtTime.Desc).ToArray<Knowledge>(size, (index - 1) * size);
         }
-        public Knowledge[] KnowledgePager(int orgid, int couid, string kns, bool? isUse, bool? isHot, bool? isRec, bool? isTop, string searTxt, int size, int index, out int countSum)
+        public Knowledge[] KnowledgePager(int orgid, long couid, string kns, bool? isUse, bool? isHot, bool? isRec, bool? isTop, string searTxt, int size, int index, out int countSum)
         {
 
             WhereClip wc = new WhereClip();
@@ -149,7 +149,7 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Knowledge>(wc);
             return Gateway.Default.From<Knowledge>().Where(wc).OrderBy(Knowledge._.Kn_CrtTime.Desc).ToArray<Knowledge>(size, (index - 1) * size);
         }
-        public Knowledge[] KnowledgePager(int couid, string kns, string searTxt, bool? isUse, int size, int index, out int countSum)
+        public Knowledge[] KnowledgePager(long couid, string kns, string searTxt, bool? isUse, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(Knowledge._.Cou_ID == couid);
@@ -281,7 +281,7 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.From<KnowledgeSort>().Where(KnowledgeSort._.Kns_UID == uid).ToFirst<KnowledgeSort>();
         }
-        public KnowledgeSort[] GetSortAll(int orgid, int couid, string search, bool? isUse)
+        public KnowledgeSort[] GetSortAll(int orgid, long couid, string search, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(KnowledgeSort._.Org_ID == orgid);
@@ -291,7 +291,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<KnowledgeSort>().Where(wc).OrderBy(KnowledgeSort._.Kns_Tax.Asc).ToArray<KnowledgeSort>();
         }
 
-        public KnowledgeSort[] GetSortAll(int orgid, int couid, int pid, bool? isUse)
+        public KnowledgeSort[] GetSortAll(int orgid, long couid, int pid, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(KnowledgeSort._.Org_ID == orgid);
@@ -301,7 +301,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<KnowledgeSort>().Where(wc).OrderBy(KnowledgeSort._.Kns_Tax.Asc).ToArray<KnowledgeSort>();
         }
 
-        public KnowledgeSort[] GetSortChilds(string pid, int couid, bool? isUse)
+        public KnowledgeSort[] GetSortChilds(string pid, long couid, bool? isUse)
         {
             WhereClip wc = KnowledgeSort._.Kns_PID == pid;
             if (couid >= 0) wc.And(KnowledgeSort._.Cou_ID == couid);

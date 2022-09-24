@@ -27,7 +27,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <returns></returns>
-        public Song.Entities.Message Add(string acc,string msg, int playtime, int couid, int olid)
+        public Song.Entities.Message Add(string acc,string msg, int playtime, long couid, int olid)
         {
             Song.Entities.Accounts account = null;
             if (!string.IsNullOrWhiteSpace(acc))

@@ -21,6 +21,9 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void CourseAdd(Course entity)
         {
+            if (entity.Cou_ID <= 0)           
+                entity.Cou_ID = WeiSha.Core.Request.SnowID();
+          
             entity.Cou_CrtTime = DateTime.Now;            
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null)
@@ -62,7 +65,7 @@ namespace Song.ServiceImpls
                 if (s.Trim() != "") listName.Add(s.Trim());
             }
             //
-            int pid = 0;
+            long pid = 0;
             Song.Entities.Course last = null;
             for (int i = 0; i < listName.Count; i++)
             {
@@ -99,7 +102,7 @@ namespace Song.ServiceImpls
         /// <param name="pid"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Course CourseIsExist(int orgid, int sbjid, int pid, string name)
+        public Course CourseIsExist(int orgid, int sbjid, long pid, string name)
         {
             WhereClip wc = new WhereClip();
             if(orgid>0) wc &= Course._.Org_ID == orgid;
@@ -176,7 +179,7 @@ namespace Song.ServiceImpls
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public bool CourseUpdate(int couid, Field[] fiels, object[] objs)
+        public bool CourseUpdate(long couid, Field[] fiels, object[] objs)
         {
             try
             {
@@ -193,7 +196,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="couid"></param>
         /// <returns></returns>
-        public bool IsLiveCourse(int couid)
+        public bool IsLiveCourse(long couid)
         {
             Course cou = this.CourseSingle(couid);
             if (cou == null) return false;
@@ -205,7 +208,7 @@ namespace Song.ServiceImpls
         /// <param name="couid"></param>
         /// <param name="check">校验，如果为true，则检索课程下所有章节，有直播章节，则课程为直播课程</param>
         /// <returns></returns>
-        public bool IsLiveCourse(int couid, bool check)
+        public bool IsLiveCourse(long couid, bool check)
         {
             if (!check) return this.IsLiveCourse(couid);
             Outline[] outs = Business.Do<IOutline>().OutlineCount(couid, -1, null, 0);
@@ -237,7 +240,7 @@ namespace Song.ServiceImpls
                 new object[] { entity.Cou_ViewNum++ }, Course._.Cou_ID == entity.Cou_ID);
             return entity.Cou_ViewNum;
         }
-        public int CourseViewNum(int couid, int num)
+        public int CourseViewNum(long couid, int num)
         {
             Course course = this.CourseSingle(couid);
             return CourseViewNum(course, num);
@@ -291,7 +294,7 @@ namespace Song.ServiceImpls
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        public void CourseDelete(int identify)
+        public void CourseDelete(long identify)
         {
             Song.Entities.Course ol = this.CourseSingle(identify);
             this.CourseDelete(ol);
@@ -301,7 +304,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        public Course CourseSingle(int identify)
+        public Course CourseSingle(long identify)
         {            
             return Gateway.Default.From<Course>().Where(Course._.Cou_ID == identify).ToFirst<Course>();
         }
@@ -317,11 +320,11 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 获取课程名称，如果为多级，则带上父级名称
         /// </summary>
-        /// <param name="identify"></param>
+        /// <param name="couid"></param>
         /// <returns></returns>
-        public string CourseName(int identify)
+        public string CourseName(long couid)
         {
-            Course entity = Gateway.Default.From<Course>().Where(Course._.Cou_ID == identify).ToFirst<Course>();
+            Course entity = Gateway.Default.From<Course>().Where(Course._.Cou_ID == couid).ToFirst<Course>();
             if (entity == null) return "";
             string xpath = entity.Cou_Name;
             Song.Entities.Course tm = Gateway.Default.From<Course>().Where(Course._.Cou_ID == entity.Cou_PID).ToFirst<Course>();
@@ -343,7 +346,7 @@ namespace Song.ServiceImpls
         /// <param name="stid">学员Id</param>
         /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
         /// <returns></returns>
-        public Course IsBuyCourse(int couid, int stid, int state)
+        public Course IsBuyCourse(long couid, int stid, int state)
         {
             WhereClip wc = Student_Course._.Cou_ID == couid && Student_Course._.Ac_ID == stid;
             wc.And(Student_Course._.Stc_IsTry == false);
@@ -362,7 +365,7 @@ namespace Song.ServiceImpls
         /// <param name="couid"></param>
         /// <param name="stid"></param>
         /// <returns></returns>
-        public bool IsBuy(int couid, int stid)
+        public bool IsBuy(long couid, int stid)
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null || !course.Cou_IsUse) return false;
@@ -414,7 +417,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="couid"></param>
         /// <returns></returns>
-        public decimal Income(int couid)
+        public decimal Income(long couid)
         {
             object obj = Gateway.Default.Sum<Student_Course>(Student_Course._.Stc_Money, Student_Course._.Cou_ID == couid);
             if (obj == null) return 0;
@@ -438,7 +441,7 @@ namespace Song.ServiceImpls
         /// <param name="couid">课程id</param>
         /// <param name="isAll">是否取全部值，如果为false，则仅取当前正在学习的</param>
         /// <returns></returns>
-        public int CourseStudentSum(int couid, bool? isAll)
+        public int CourseStudentSum(long couid, bool? isAll)
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(Student_Course._.Cou_ID == couid);
@@ -453,7 +456,7 @@ namespace Song.ServiceImpls
         /// 清除课程的内容
         /// </summary>
         /// <param name="identify"></param>
-        public void CourseClear(int identify)
+        public void CourseClear(long identify)
         {
             //删除章节
             List<Song.Entities.Outline> outline = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == identify).ToList<Outline>();
@@ -639,7 +642,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Course>().Where(wc)
                .OrderBy(wcOrder).ToList<Course>(count);
         }
-        public bool CourseIsChildren(int orgid, int couid, bool? isUse)
+        public bool CourseIsChildren(int orgid, long couid, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
@@ -924,7 +927,7 @@ namespace Song.ServiceImpls
         /// <param name="stid"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
-        public bool StudyIsCourse(int stid, int couid)
+        public bool StudyIsCourse(int stid, long couid)
         {
             Song.Entities.Student_Course sc = Gateway.Default.From<Student_Course>()
                    .Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid && Student_Course._.Stc_IsTry==false
@@ -938,7 +941,7 @@ namespace Song.ServiceImpls
         /// <param name="stid">学员Id</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public Student_Course StudentCourse(int stid, int couid)
+        public Student_Course StudentCourse(int stid, long couid)
         {
             return Gateway.Default.From<Student_Course>().Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid)
                 .ToFirst<Student_Course>();
@@ -951,7 +954,7 @@ namespace Song.ServiceImpls
         /// <param name="end">结束时间</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public int BeginCourse(int stid, DateTime start, DateTime end, int couid, int orgid)
+        public int BeginCourse(int stid, DateTime start, DateTime end, long couid, int orgid)
         {
             Student_Course sc = Gateway.Default.From<Student_Course>().Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid)
                 .ToFirst<Student_Course>();
@@ -1004,7 +1007,7 @@ namespace Song.ServiceImpls
         /// <param name="stid">学生Id</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public void CourseBuy(int stid, int couid, float money, DateTime startTime, DateTime endTime)
+        public void CourseBuy(int stid, long couid, float money, DateTime startTime, DateTime endTime)
         {
             Song.Entities.Student_Course sc = new Student_Course();
             sc.Ac_ID = stid;
@@ -1048,7 +1051,7 @@ namespace Song.ServiceImpls
         /// <param name="couid">课程id</param>
         /// <param name="price">价格项</param>
         /// <returns></returns>
-        public Student_Course Buy(int stid, int couid, Song.Entities.CoursePrice price)
+        public Student_Course Buy(int stid, long couid, Song.Entities.CoursePrice price)
         {
             Course course = Gateway.Default.From<Course>().Where(Course._.Cou_ID == couid).ToFirst<Course>();
             if (course == null) throw new Exception("要购买的课程不存在！");            
@@ -1119,7 +1122,7 @@ namespace Song.ServiceImpls
         /// <param name="stid">学习ID</param>
         /// <param name="couid">课程ID</param>
         /// <returns></returns>
-        public Student_Course FreeStudy(int stid, int couid)
+        public Student_Course FreeStudy(int stid, long couid)
         {
             return FreeStudy(stid, couid, DateTime.Now, DateTime.Now.AddYears(101));
         }
@@ -1131,7 +1134,7 @@ namespace Song.ServiceImpls
         /// <param name="start">免费时效的开始时间</param>
         /// <param name="end">免费时效的结束时间</param>
         /// <returns></returns>
-        public Student_Course FreeStudy(int stid, int couid, DateTime? start, DateTime end)
+        public Student_Course FreeStudy(int stid, long couid, DateTime? start, DateTime end)
         {
             Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
             if (sc == null)
@@ -1158,7 +1161,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="stid"></param>
         /// <param name="couid"></param>
-        public Student_Course Tryout(int stid, int couid)
+        public Student_Course Tryout(int stid, long couid)
         {
             //生成学员与课程的关联
             Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
@@ -1183,7 +1186,7 @@ namespace Song.ServiceImpls
         /// <param name="couid"></param>
         /// <param name="stid"></param>
         /// <returns></returns>
-        public bool IsTryout(int couid, int stid)
+        public bool IsTryout(long couid, int stid)
         {
             WhereClip wc = Student_Course._.Cou_ID == couid && Student_Course._.Ac_ID == stid;
             wc &= Student_Course._.Stc_IsTry == true;
@@ -1196,7 +1199,7 @@ namespace Song.ServiceImpls
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员id</param>
         /// <returns>如果是免费或限时免费、或试学的课程，可以学习并返回true，不可学习返回false</returns>
-        public bool Study(int couid, int stid)
+        public bool Study(long couid, int stid)
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null || !course.Cou_IsUse) return false;
@@ -1270,7 +1273,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="stid"></param>
         /// <param name="couid"></param>
-        public void DelteCourseBuy(int stid, int couid)
+        public void DelteCourseBuy(int stid, long couid)
         {
             //Gateway.Default.Delete<Student_Course>(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid);
             using (DbTrans tran = Gateway.Default.BeginTrans())
@@ -1329,7 +1332,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Accounts[] Student4Course(int couid, string stname, string stmobi, int size, int index, out int countSum)
+        public Accounts[] Student4Course(long couid, string stname, string stmobi, int size, int index, out int countSum)
         {
             WhereClip wc = Student_Course._.Cou_ID == couid;
 
@@ -1455,7 +1458,7 @@ namespace Song.ServiceImpls
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public CoursePrice[] PriceCount(int couid, string uid, bool? isUse, int count)
+        public CoursePrice[] PriceCount(long couid, string uid, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (isUse != null) wc &= CoursePrice._.CP_IsUse == (bool)isUse;
@@ -1517,7 +1520,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public DataTable StudentPager(int couid, string acc, string name, int size, int index, out int countSum)
+        public DataTable StudentPager(long couid, string acc, string name, int size, int index, out int countSum)
         {
             //计算总数的脚本
             //string sqlsum = @"select COUNT(*) from (

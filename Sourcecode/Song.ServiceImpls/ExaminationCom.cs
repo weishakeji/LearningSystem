@@ -1381,7 +1381,7 @@ namespace Song.ServiceImpls
         /// <param name="couid"></param>
         /// <param name="acid"></param>
         /// <returns>返回成绩记录</returns>
-        public ExamResults StudentForCourseExam(int couid, int acid)
+        public ExamResults StudentForCourseExam(long couid, int acid)
         {
             List<TestPaper> paper = _getCahceTestPaper(couid);
             if (paper == null || paper.Count < 1) return null;
@@ -1399,7 +1399,7 @@ namespace Song.ServiceImpls
         }
         //**临时方法
         //获取试卷信息，因为查询量大，把试卷信息放到缓存中读取
-        private List<TestPaper> _getCahceTestPaper(int couid)
+        private List<TestPaper> _getCahceTestPaper(long couid)
         {
             string cachekey = "Temporary_TestPaper_List";
             List<Song.Entities.TestPaper> list = null;

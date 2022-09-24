@@ -92,7 +92,7 @@ namespace Song.ServiceInterfaces
         /// <param name="courses"></param>
         /// <returns>LearningCardSet对象中的Lcs_RelatedCourses将记录关联信息</returns>
         LearningCardSet CoursesSet(LearningCardSet set, Course[] courses);
-        LearningCardSet CoursesSet(LearningCardSet set, int[] couid);
+        LearningCardSet CoursesSet(LearningCardSet set, long[] couid);
         /// <summary>
         /// 设置关联的课程
         /// </summary>

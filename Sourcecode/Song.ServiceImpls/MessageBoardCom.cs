@@ -73,7 +73,7 @@ namespace Song.ServiceImpls
         {
             return Gateway.Default.From<MessageBoard>().Where(MessageBoard._.Mb_IsTheme == true && MessageBoard._.Mb_Id == identify).ToFirst<MessageBoard>();
         }
-        public MessageBoard[] ThemeCount(int orgid, int couid, string searTxt, int count)
+        public MessageBoard[] ThemeCount(int orgid, long couid, string searTxt, int count)
         {
             WhereClip wc = MessageBoard._.Mb_IsTheme == true;
             if (orgid > 0) wc.And(MessageBoard._.Org_ID == orgid);
@@ -82,7 +82,7 @@ namespace Song.ServiceImpls
             count = count < 1 ? int.MaxValue : count;
             return Gateway.Default.From<MessageBoard>().Where(wc).OrderBy(MessageBoard._.Mb_CrtTime.Desc).ToArray<MessageBoard>(count);
         }
-        public MessageBoard[] ThemePager(int orgid, int couid, bool? isDel, bool? isShow, string searTxt, int size, int index, out int countSum)
+        public MessageBoard[] ThemePager(int orgid, long couid, bool? isDel, bool? isShow, string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = MessageBoard._.Mb_IsTheme == true;
             if (orgid > 0) wc.And(MessageBoard._.Org_ID == orgid);
@@ -93,7 +93,7 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<MessageBoard>(wc);
             return Gateway.Default.From<MessageBoard>().Where(wc).OrderBy(MessageBoard._.Mb_CrtTime.Desc).ToArray<MessageBoard>(size, (index - 1) * size);
         }
-        public MessageBoard[] ThemePager(int orgid, int couid, bool? isDel, bool? isShow, bool? isAns, string searTxt, int size, int index, out int countSum)
+        public MessageBoard[] ThemePager(int orgid, long couid, bool? isDel, bool? isShow, bool? isAns, string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = MessageBoard._.Mb_IsTheme == true;
             if (orgid > 0) wc.And(MessageBoard._.Org_ID == orgid);

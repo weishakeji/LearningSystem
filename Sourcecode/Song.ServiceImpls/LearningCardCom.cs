@@ -716,7 +716,7 @@ namespace Song.ServiceImpls
                 }
             }
         }
-        private void _cardRollback_clear(int acc,int couid)
+        private void _cardRollback_clear(int acc, long couid)
         {
             //Task task = new Task();
             System.Threading.Tasks.Task task = new System.Threading.Tasks.Task(()=>
@@ -959,13 +959,13 @@ namespace Song.ServiceImpls
                 set.Lcs_CoursesCount = 0;
                 return set;
             }
-            int[] couid = new int[courses.Length];
+            long[] couid = new long[courses.Length];
             for (int i = 0; i < courses.Length; i++)
                 couid[i] = courses[i].Cou_ID;
             return CoursesSet(set, couid);
         }
 
-        public LearningCardSet CoursesSet(LearningCardSet set, int[] couid)
+        public LearningCardSet CoursesSet(LearningCardSet set, long[] couid)
         {
             if (couid == null || couid.Length < 1)
             {
@@ -995,13 +995,13 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public LearningCardSet CoursesSet(LearningCardSet set, string couids)
         {
-            List<int> list = new List<int>();
+            List<long> list = new List<long>();
             foreach (string s in couids.Split(','))
             {
                 if (string.IsNullOrWhiteSpace(s)) continue;
                 if (s.Trim() == "") continue;
-                int id = 0;
-                int.TryParse(s, out id);
+                long id = 0;
+                long.TryParse(s, out id);
                 if (id == 0) continue;
                 list.Add(id);
             }

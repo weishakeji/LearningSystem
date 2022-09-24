@@ -171,7 +171,7 @@ namespace Song.ServiceImpls
         /// <param name="couid">课程id</param>
         /// <param name="use"></param>
         /// <returns></returns>
-        public TestPaper FinalPaper(int couid,bool? use)
+        public TestPaper FinalPaper(long couid,bool? use)
         {
             WhereClip wc = TestPaper._.Cou_ID == couid;
             wc.And(TestPaper._.Tp_IsFinal == true);
@@ -181,7 +181,7 @@ namespace Song.ServiceImpls
             }
             return Gateway.Default.From<TestPaper>().Where(wc).OrderBy(TestPaper._.Tp_Id.Desc).ToFirst<TestPaper>();
         }
-        public TestPaper[] PaperCount(int orgid, int sbjid, int couid, int diff, bool? isUse, int count)
+        public TestPaper[] PaperCount(int orgid, int sbjid, long couid, int diff, bool? isUse, int count)
         {
             WhereClip wc = TestPaper._.Tp_Id > -1;
             if (orgid > 0) wc.And(TestPaper._.Org_ID == orgid);
@@ -200,7 +200,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<TestPaper>().Where(wc).OrderBy(TestPaper._.Tp_CrtTime.Desc).ToArray<TestPaper>(count);
         }
 
-        public int PaperOfCount(int orgid, int sbjid, int couid, int diff, bool? isUse)
+        public int PaperOfCount(int orgid, int sbjid, long couid, int diff, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(TestPaper._.Org_ID == orgid);
@@ -218,7 +218,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<TestPaper>(wc);
         }
 
-        public TestPaper[] PaperCount(string search, int orgid, int sbjid, int couid, int diff, bool? isUse, int count)
+        public TestPaper[] PaperCount(string search, int orgid, int sbjid, long couid, int diff, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(TestPaper._.Org_ID == orgid);
@@ -238,7 +238,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<TestPaper>().Where(wc).OrderBy(TestPaper._.Tp_CrtTime.Desc).ToArray<TestPaper>(count);
         }
 
-        public TestPaper[] PaperPager(int orgid, int sbjid, int couid, int diff, bool? isUse, string sear, int size, int index, out int countSum)
+        public TestPaper[] PaperPager(int orgid, int sbjid, long couid, int diff, bool? isUse, string sear, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= TestPaper._.Org_ID == orgid;
@@ -685,7 +685,7 @@ namespace Song.ServiceImpls
         /// <param name="search"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public TestResults[] ResultsCount(int stid, int couid, string search, int count)
+        public TestResults[] ResultsCount(int stid, long couid, string search, int count)
         {
             WhereClip wc = TestResults._.Tr_ID > -1;
             if (stid > 0) wc.And(TestResults._.Ac_ID == stid);         
@@ -715,7 +715,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public TestResults[] ResultsPager(int stid, int sbjid, int couid, int size, int index, out int countSum)
+        public TestResults[] ResultsPager(int stid, int sbjid, long couid, int size, int index, out int countSum)
         {
             WhereClip wc = TestResults._.Tr_ID > -1;
             if (stid > 0) wc.And(TestResults._.Ac_ID == stid);
@@ -725,7 +725,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<TestResults>().Where(wc).OrderBy(TestResults._.Tr_CrtTime.Desc).ToArray<TestResults>(size, (index - 1) * size);
         }
 
-        public TestResults[] ResultsPager(int stid, long tpid, string tpname, int couid, int sbjid, int orgid,
+        public TestResults[] ResultsPager(int stid, long tpid, string tpname, long couid, int sbjid, int orgid,
             string acc, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
             int size, int index, out int countSum)
         {

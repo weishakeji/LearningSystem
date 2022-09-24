@@ -43,8 +43,8 @@ namespace Song.ServiceInterfaces
         /// <param name="searTxt"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        MessageBoard[] ThemeCount(int orgid, int couid, string searTxt, int count);
-        MessageBoard[] ThemePager(int orgid, int couid, bool? isDel, bool? isShow, string searTxt, int size, int index, out int countSum);
+        MessageBoard[] ThemeCount(int orgid, long couid, string searTxt, int count);
+        MessageBoard[] ThemePager(int orgid, long couid, bool? isDel, bool? isShow, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// ∑÷“≥ªÒ»°
         /// </summary>
@@ -57,7 +57,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        MessageBoard[] ThemePager(int orgid, int couid, bool? isDel, bool? isShow, bool? isAns, string searTxt, int size, int index, out int countSum);
+        MessageBoard[] ThemePager(int orgid, long couid, bool? isDel, bool? isShow, bool? isAns, string searTxt, int size, int index, out int countSum);
         #endregion
 
         MessageBoard GetSingle(int identify);

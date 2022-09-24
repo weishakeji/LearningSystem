@@ -41,7 +41,7 @@ namespace Song.ServiceInterfaces
         /// <param name="kns">分类uid</param>
         /// <param name="id"></param>
         /// <returns></returns>
-        Knowledge KnowledgePrev(int couid, string kns, int id);
+        Knowledge KnowledgePrev(long couid, string kns, int id);
         /// <summary>
         /// 当前知识的下一条知识
         /// </summary>
@@ -49,7 +49,7 @@ namespace Song.ServiceInterfaces
         /// <param name="kns">分类uid</param>
         /// <param name="id"></param>
         /// <returns></returns>
-        Knowledge KnowledgeNext(int couid, string kns, int id);
+        Knowledge KnowledgeNext(long couid, string kns, int id);
         /// <summary>
         /// 获取知识库
         /// </summary>
@@ -68,7 +68,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Knowledge[] KnowledgeCount(int orgid, int couid, string kns, string searTxt, bool? isUse, int count);
+        Knowledge[] KnowledgeCount(int orgid, long couid, string kns, string searTxt, bool? isUse, int count);
         /// <summary>
         /// 计算有多少条
         /// </summary>
@@ -77,7 +77,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <returns></returns>
         int KnowledgeOfCount(int orgid, string kns, bool? isUse);
-        int KnowledgeOfCount(int orgid, int couid, string kns, bool? isUse);
+        int KnowledgeOfCount(int orgid, long couid, string kns, bool? isUse);
         /// <summary>
         /// 分页获取
         /// </summary>
@@ -89,7 +89,7 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         Knowledge[] KnowledgePager(int orgid, bool? isUse, string kns, string searTxt, int size, int index, out int countSum);
-        Knowledge[] KnowledgePager(int orgid, int couid, string kns, bool? isUse, bool? isHot, bool? isRec, bool? isTop, string searTxt, int size, int index, out int countSum);
+        Knowledge[] KnowledgePager(int orgid, long couid, string kns, bool? isUse, bool? isHot, bool? isRec, bool? isTop, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// 当前课程的知识库
         /// </summary>
@@ -100,7 +100,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Knowledge[] KnowledgePager(int couid, string kns, string searTxt, bool? isUse, int size, int index, out int countSum);
+        Knowledge[] KnowledgePager(long couid, string kns, string searTxt, bool? isUse, int size, int index, out int countSum);
         #endregion
 
         #region 知识库分类管理
@@ -145,7 +145,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="IsUse"></param>
         /// <returns></returns>
-        KnowledgeSort[] GetSortAll(int orgid, int couid,string search, bool? isUse);
+        KnowledgeSort[] GetSortAll(int orgid, long couid,string search, bool? isUse);
         /// <summary>
         /// 获取所有分类
         /// </summary>
@@ -154,14 +154,14 @@ namespace Song.ServiceInterfaces
         /// <param name="pid">父id（多级分类）</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        KnowledgeSort[] GetSortAll(int orgid, int couid, int pid, bool? isUse);
+        KnowledgeSort[] GetSortAll(int orgid, long couid, int pid, bool? isUse);
         /// <summary>
         /// 获取当前对象的下一级子对象；
         /// </summary>
         /// <param name="couid">课程id，当小于0时取所有（等于0什么也不取）</param>
         /// <param name="pid">上级</param>
         /// <returns>当前对象的下一级子对象</returns>
-        KnowledgeSort[] GetSortChilds(string pid, int couid, bool? isUse);
+        KnowledgeSort[] GetSortChilds(string pid, long couid, bool? isUse);
         /// <summary>
         /// 更改排序
         /// </summary>

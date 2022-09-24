@@ -12,7 +12,7 @@ namespace Song.Entities {
     		
     		protected String _Gc_PID;
     		
-    		protected Int32 _Cou_ID;
+    		protected Int64 _Cou_ID;
     		
     		protected String _Cou_Name;
     		
@@ -60,7 +60,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Cou_ID {
+    		public Int64 Cou_ID {
     			get {
     				return this._Cou_ID;
     			}
@@ -279,7 +279,7 @@ namespace Song.Entities {
     				this._Gc_PID = reader.GetString(_.Gc_PID);
     			}
     			if ((false == reader.IsDBNull(_.Cou_ID))) {
-    				this._Cou_ID = reader.GetInt32(_.Cou_ID);
+    				this._Cou_ID = reader.GetInt64(_.Cou_ID);
     			}
     			if ((false == reader.IsDBNull(_.Cou_Name))) {
     				this._Cou_Name = reader.GetString(_.Cou_Name);
@@ -357,7 +357,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Gc_PID = new WeiSha.Data.Field<GuideColumns>("Gc_PID");
     			
     			/// <summary>
-    			/// 字段名：Cou_ID - 数据类型：Int32
+    			/// 字段名：Cou_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<GuideColumns>("Cou_ID");
     			

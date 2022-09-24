@@ -58,7 +58,7 @@ namespace Song.ServiceInterfaces
         /// <param name="gcuid">分类uid</param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Guide[] GuideCount(int orgid, int couid, string gcuid, int count);
+        Guide[] GuideCount(int orgid, long couid, string gcuid, int count);
         /// <summary>
         /// 分页获取
         /// </summary>
@@ -71,7 +71,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Guide[] GuidePager(int orgid, int couid, string gcuid, string searTxt, bool? isShow, int size, int index, out int countSum); 
+        Guide[] GuidePager(int orgid, long couid, string gcuid, string searTxt, bool? isShow, int size, int index, out int countSum); 
         #endregion
 
         #region 指南分类
@@ -106,7 +106,7 @@ namespace Song.ServiceInterfaces
         /// 获取对象；即所有分类；
         /// </summary>
         /// <returns></returns>
-        GuideColumns[] GetColumnsAll(int couid, string search, bool? isUse);
+        GuideColumns[] GetColumnsAll(long couid, string search, bool? isUse);
         /// <summary>
         /// 获取当前分类下的子分类
         /// </summary>
@@ -114,7 +114,7 @@ namespace Song.ServiceInterfaces
         /// <param name="pid"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        GuideColumns[] GetColumnsChild(int couid, string pid, bool? isUse);
+        GuideColumns[] GetColumnsChild(long couid, string pid, bool? isUse);
         /// <summary>
         /// 更改排序
         /// </summary>

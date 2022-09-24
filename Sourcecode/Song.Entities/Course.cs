@@ -8,8 +8,6 @@ namespace Song.Entities {
     	[SerializableAttribute()]
     	public partial class Course : WeiSha.Data.Entity {
     		
-    		protected Int32 _Cou_ID;
-    		
     		protected String _Cou_Name;
     		
     		protected String _Cou_Logo;
@@ -52,7 +50,7 @@ namespace Song.Entities {
     		
     		protected String _Th_Name;
     		
-    		protected Int32 _Cou_PID;
+    		protected Int64 _Cou_PID;
     		
     		protected Int32 _Cou_Level;
     		
@@ -86,15 +84,7 @@ namespace Song.Entities {
     		
     		protected Boolean _Cou_ExistExam;
     		
-    		public Int32 Cou_ID {
-    			get {
-    				return this._Cou_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Cou_ID, _Cou_ID, value);
-    				this._Cou_ID = value;
-    			}
-    		}
+    		protected Int64 _Cou_ID;
     		
     		public String Cou_Name {
     			get {
@@ -306,7 +296,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Cou_PID {
+    		public Int64 Cou_PID {
     			get {
     				return this._Cou_PID;
     			}
@@ -476,18 +466,21 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 Cou_ID {
+    			get {
+    				return this._Cou_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Cou_ID, _Cou_ID, value);
+    				this._Cou_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<Course>("Course");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Cou_ID;
     		}
     		
     		/// <summary>
@@ -503,7 +496,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Cou_ID,
     					_.Cou_Name,
     					_.Cou_Logo,
     					_.Cou_LogoSmall,
@@ -541,7 +533,8 @@ namespace Song.Entities {
     					_.Cou_FreeEnd,
     					_.Cou_ExistLive,
     					_.Cou_ExistQues,
-    					_.Cou_ExistExam};
+    					_.Cou_ExistExam,
+    					_.Cou_ID};
     		}
     		
     		/// <summary>
@@ -549,7 +542,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._Cou_ID,
     					this._Cou_Name,
     					this._Cou_Logo,
     					this._Cou_LogoSmall,
@@ -587,16 +579,14 @@ namespace Song.Entities {
     					this._Cou_FreeEnd,
     					this._Cou_ExistLive,
     					this._Cou_ExistQues,
-    					this._Cou_ExistExam};
+    					this._Cou_ExistExam,
+    					this._Cou_ID};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.Cou_ID))) {
-    				this._Cou_ID = reader.GetInt32(_.Cou_ID);
-    			}
     			if ((false == reader.IsDBNull(_.Cou_Name))) {
     				this._Cou_Name = reader.GetString(_.Cou_Name);
     			}
@@ -661,7 +651,7 @@ namespace Song.Entities {
     				this._Th_Name = reader.GetString(_.Th_Name);
     			}
     			if ((false == reader.IsDBNull(_.Cou_PID))) {
-    				this._Cou_PID = reader.GetInt32(_.Cou_PID);
+    				this._Cou_PID = reader.GetInt64(_.Cou_PID);
     			}
     			if ((false == reader.IsDBNull(_.Cou_Level))) {
     				this._Cou_Level = reader.GetInt32(_.Cou_Level);
@@ -711,6 +701,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Cou_ExistExam))) {
     				this._Cou_ExistExam = reader.GetBoolean(_.Cou_ExistExam);
     			}
+    			if ((false == reader.IsDBNull(_.Cou_ID))) {
+    				this._Cou_ID = reader.GetInt64(_.Cou_ID);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -736,11 +729,6 @@ namespace Song.Entities {
     			/// 表示选择所有列，与*等同
     			/// </summary>
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<Course>();
-    			
-    			/// <summary>
-    			/// 字段名：Cou_ID - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<Course>("Cou_ID");
     			
     			/// <summary>
     			/// 字段名：Cou_Name - 数据类型：String
@@ -848,7 +836,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Th_Name = new WeiSha.Data.Field<Course>("Th_Name");
     			
     			/// <summary>
-    			/// 字段名：Cou_PID - 数据类型：Int32
+    			/// 字段名：Cou_PID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Cou_PID = new WeiSha.Data.Field<Course>("Cou_PID");
     			
@@ -931,7 +919,11 @@ namespace Song.Entities {
     			/// 字段名：Cou_ExistExam - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Cou_ExistExam = new WeiSha.Data.Field<Course>("Cou_ExistExam");
+    			
+    			/// <summary>
+    			/// 字段名：Cou_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<Course>("Cou_ID");
     		}
     	}
     }
-    

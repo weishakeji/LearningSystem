@@ -27,9 +27,9 @@ namespace Song.ViewData.Attri
                 throw new Exception(msg + "学员账户登录后操作");
             }
             //获取章节或课程id
-            int couid = 0, olid = 0;
-            couid = letter["couid"].Int32 ?? 0;
-            olid = letter["olid"].Int32 ?? 0;
+            long couid = 0, olid = 0;
+            couid = letter["couid"].Int64 ?? 0;
+            olid = letter["olid"].Int64 ?? 0;
             Song.Entities.Outline outline = null;
             if (couid <= 0)
             {
@@ -53,9 +53,9 @@ namespace Song.ViewData.Attri
             Song.Entities.Accounts acc = LoginAccount.Status.User();
             if (acc == null) return false;
             //
-            int couid = 0, olid = 0;
-            couid = letter["couid"].Int32 ?? 0;
-            olid = letter["olid"].Int32 ?? 0;
+            long couid = 0, olid = 0;
+            couid = letter["couid"].Int64 ?? 0;
+            olid = letter["olid"].Int64 ?? 0;
             if (couid > 0) return IsPurchased(couid, acc.Ac_ID);
             //如果课程id不存在，通过章节id取课程
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
@@ -69,7 +69,7 @@ namespace Song.ViewData.Attri
         /// <param name="couid"></param>
         /// <param name="acid"></param>
         /// <returns></returns>
-        public static bool IsPurchased(int couid, int acid)
+        public static bool IsPurchased(long couid, int acid)
         {
             Song.Entities.Course couBuy = Business.Do<ICourse>().IsBuyCourse(couid, acid, 1);
             bool isBuy = couBuy != null;

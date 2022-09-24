@@ -34,9 +34,9 @@ namespace Song.ViewData.Attri
                 throw new Exception(msg + "学员账户登录后操作");
             }
             //获取章节或课程id
-            int couid = 0, olid = 0;
-            couid = letter["couid"].Int32 ?? 0;
-            olid = letter["olid"].Int32 ?? 0;
+            long couid = 0, olid = 0;
+            couid = letter["couid"].Int64 ?? 0;
+            olid = letter["olid"].Int64 ?? 0;
             Song.Entities.Outline outline = null;
             if (couid <= 0)
             {

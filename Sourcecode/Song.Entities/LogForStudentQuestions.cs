@@ -16,7 +16,7 @@ namespace Song.Entities {
     		
     		protected String _Ac_AccName;
     		
-    		protected Int32 _Cou_ID;
+    		protected Int64 _Cou_ID;
     		
     		protected Int64 _Ol_ID;
     		
@@ -68,7 +68,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Cou_ID {
+    		public Int64 Cou_ID {
     			get {
     				return this._Cou_ID;
     			}
@@ -201,7 +201,7 @@ namespace Song.Entities {
     				this._Ac_AccName = reader.GetString(_.Ac_AccName);
     			}
     			if ((false == reader.IsDBNull(_.Cou_ID))) {
-    				this._Cou_ID = reader.GetInt32(_.Cou_ID);
+    				this._Cou_ID = reader.GetInt64(_.Cou_ID);
     			}
     			if ((false == reader.IsDBNull(_.Ol_ID))) {
     				this._Ol_ID = reader.GetInt64(_.Ol_ID);
@@ -265,7 +265,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Ac_AccName = new WeiSha.Data.Field<LogForStudentQuestions>("Ac_AccName");
     			
     			/// <summary>
-    			/// 字段名：Cou_ID - 数据类型：Int32
+    			/// 字段名：Cou_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<LogForStudentQuestions>("Cou_ID");
     			

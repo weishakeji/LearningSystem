@@ -298,7 +298,7 @@ namespace Song.ServiceImpls
         /// <param name="money">消费的资金数</param>
         /// <param name="coupon">消费的卡数</param>
         /// <returns></returns>
-        public ProfitSharing[] Clac(int couid, double money, double coupon)
+        public ProfitSharing[] Clac(long couid, double money, double coupon)
         {
             Course cou = Business.Do<ICourse>().CourseSingle(couid);
             return Clac(cou, money, coupon);
