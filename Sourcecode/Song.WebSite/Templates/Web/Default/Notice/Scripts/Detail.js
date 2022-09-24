@@ -11,11 +11,12 @@ $ready(function () {
             sear_str: '',
 
             notices: [],         //通知公告列表
-            id: $api.dot(),
+            id: $api.dot(),         //通知公告的id
+            preview: $api.querystring('preview'),    //是否为预览内容，参数为true时预览
             data: {}
 
         },
-        mounted: function () {
+        mounted: function () {           
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
@@ -41,7 +42,8 @@ $ready(function () {
                 console.error(err);
             });
             //通知公告
-            $api.cache('Notice/ShowForID', { 'id': this.id }).then(function (req) {
+            var apiurl = this.preview == 'true' ? 'Notice/ForID' : 'Notice/ShowForID';
+            $api.cache(apiurl, { 'id': this.id }).then(function (req) {
                 if (req.data.success) {
                     vapp.data = req.data.result;
                 } else {

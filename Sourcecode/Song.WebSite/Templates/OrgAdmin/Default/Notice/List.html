@@ -23,7 +23,8 @@
             </div>
         </div>
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-            @selection-change="val=>selects = val" :row-class-name="data=>{return data.row.No_IsShow ? 'enable' : 'disabled';}"
+            @selection-change="val=>selects = val"
+            :row-class-name="data=>{return data.row.No_IsShow ? 'enable' : 'disabled';}"
             @row-dblclick="(row, column, event)=>{$refs.btngroup.modify(row[$refs.btngroup.idkey])}" row-key="No_Id">
             <el-table-column type="selection" width="35" show-overflow-tooltip>
             </el-table-column>
@@ -35,7 +36,15 @@
 
             <el-table-column label="主题">
                 <template slot-scope="scope">
-                    <span v-html="showInfo(scope.row.No_Ttl)">
+                    <span v-html="showInfo(scope.row.No_Ttl)"></span>
+
+                </template>
+            </el-table-column>
+            <el-table-column label="预览" width="80" align="center">
+                <template slot-scope="scope">
+                    <a :href="'/web/notice/detail.'+scope.row.No_Id+'?preview=true'" target="_blank" title="预览内容">
+                        <icon>&#xe668</icon>
+                    </a>
                 </template>
             </el-table-column>
             <el-table-column label="时间" width="150">
