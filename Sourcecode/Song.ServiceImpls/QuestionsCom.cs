@@ -1274,7 +1274,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="qid"></param>
         /// <returns></returns>
-        public Questions QuesSingle4Cache(int qid)
+        public Questions QuesSingle4Cache(long qid)
         {
             return QuestionsMethod.QuestionsCache.Singleton.GetSingle(qid);
         }

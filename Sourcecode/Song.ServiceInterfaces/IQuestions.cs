@@ -319,7 +319,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="qid"></param>
         /// <returns></returns>
-        Questions QuesSingle4Cache(int qid);
+        Questions QuesSingle4Cache(long qid);
         /// <summary>
         /// 从试题缓存中取试题
         /// </summary>

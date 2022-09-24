@@ -163,7 +163,7 @@ namespace Song.ServiceInterfaces
         /// <param name="tpid">试卷id</param>
         /// <param name="stid">考生id</param>
         /// <returns></returns>
-        ExamResultsTemp ExamResultsTempSingle(int examid, int tpid, int stid);
+        ExamResultsTemp ExamResultsTempSingle(int examid, long  tpid, int stid);
         /// <summary>
         /// 获取最新的答题信息（正式答题信息）
         /// </summary>

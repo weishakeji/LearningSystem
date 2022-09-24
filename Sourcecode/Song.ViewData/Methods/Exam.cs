@@ -271,8 +271,8 @@ namespace Song.ViewData.Methods
             resXml.LoadXml(xml, false);
             XmlNode xn = resXml.SelectSingleNode("results");
             //试卷id，考试id
-            int tpid;
-            int.TryParse(xn.Attributes["tpid"].Value, out tpid);
+            long tpid;
+            long.TryParse(xn.Attributes["tpid"].Value, out tpid);
             int examid;
             int.TryParse(xn.Attributes["examid"].Value, out examid);
 
@@ -565,7 +565,7 @@ namespace Song.ViewData.Methods
         /// <param name="tpid">试卷id</param>
         /// <param name="stid">学员id</param>
         /// <returns></returns>
-        public ExamResults Result(int examid,int tpid,int stid)
+        public ExamResults Result(int examid,long  tpid,int stid)
         {
             return Business.Do<IExamination>().ResultSingle(examid, tpid, stid);
         }

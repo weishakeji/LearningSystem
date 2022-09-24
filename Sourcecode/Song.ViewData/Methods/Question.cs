@@ -540,7 +540,7 @@ namespace Song.ViewData.Methods
         /// <param name="qid">试题id</param>
         /// <returns></returns>
         [HttpDelete]
-        public bool CollectDelete(int acid,int qid)
+        public bool CollectDelete(int acid,long qid)
         {
             try
             {
@@ -578,7 +578,7 @@ namespace Song.ViewData.Methods
         /// <param name="qid">试题id</param>
         /// <returns></returns>
         [HttpGet]
-        public bool CollectExist(int acid, int qid)
+        public bool CollectExist(int acid, long qid)
         {
             try
             {
@@ -617,7 +617,7 @@ namespace Song.ViewData.Methods
         /// <param name="note">笔记内容</param>
         /// <returns></returns>
         [HttpPost]
-        public bool NotesModify(int acid, int qid, string note)
+        public bool NotesModify(int acid, long qid, string note)
         {
             try
             {
@@ -678,7 +678,7 @@ namespace Song.ViewData.Methods
         /// <param name="qid">试题id</param>
         /// <returns></returns>
         [HttpGet]
-        public Song.Entities.Student_Notes NotesSingle(int acid, int qid)
+        public Song.Entities.Student_Notes NotesSingle(int acid, long qid)
         {
             try
             {
@@ -701,7 +701,7 @@ namespace Song.ViewData.Methods
         /// <returns>是否为错误试题，true为错误，false为正常</returns>
         [HttpPost]
         [Student]
-        public bool WrongModify(int qid, string error)
+        public bool WrongModify(long qid, string error)
         {
             try
             {
@@ -723,7 +723,7 @@ namespace Song.ViewData.Methods
         ///// <param name="qid"></param>
         ///// <returns></returns>
         //[HttpGet]
-        //public string WrongInfo(int qid)
+        //public string WrongInfo(long qid)
         //{
 
         //}
@@ -738,7 +738,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">试题所在课程的id</param>
         /// <returns></returns>
         [HttpPost]
-        public bool ErrorAdd(int acid,int qid,long couid)
+        public bool ErrorAdd(int acid,long qid,long couid)
         {
             //如果未设置学员id，则取当前登录的学员账号id
             if (acid <= 0)
@@ -835,7 +835,7 @@ namespace Song.ViewData.Methods
         /// <param name="acid">学员id</param>
         /// <param name="qid">试题id</param>
         /// <returns></returns>
-        public bool ErrorDelete(int acid,int qid)
+        public bool ErrorDelete(int acid,long qid)
         {
             try
             {

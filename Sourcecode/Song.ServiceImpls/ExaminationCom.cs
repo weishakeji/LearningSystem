@@ -548,7 +548,7 @@ namespace Song.ServiceImpls
         /// <param name="tpid">试卷id</param>
         /// <param name="accid">考生id</param>
         /// <returns></returns>
-        public ExamResultsTemp ExamResultsTempSingle(int examid, int tpid, int accid)
+        public ExamResultsTemp ExamResultsTempSingle(int examid, long  tpid, int accid)
         {
             WhereClip wc = ExamResultsTemp._.Exam_ID == examid && ExamResultsTemp._.Tp_Id == tpid && ExamResultsTemp._.Acc_Id == accid;
             Song.Entities.ExamResultsTemp exr = Gateway.Default.From<ExamResultsTemp>().Where(wc).ToFirst<ExamResultsTemp>();

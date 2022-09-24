@@ -288,7 +288,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="quesid">试题id</param>
         /// <param name="stid">学员id</param>
-        void QuesDelete(int quesid, int stid);
+        void QuesDelete(long quesid, int stid);
         /// <summary>
         /// 清空错题
         /// </summary>
@@ -385,7 +385,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="quesid"></param>
         /// <param name="stid"></param>
-        void CollectDelete(int quesid, int stid);
+        void CollectDelete(long quesid, int stid);
         /// <summary>
         /// 清空试题收藏
         /// </summary>
@@ -404,7 +404,7 @@ namespace Song.ServiceInterfaces
         /// <param name="acid"></param>
         /// <param name="qid"></param>
         /// <returns></returns>
-        Student_Collect CollectSingle(int acid,int qid);
+        Student_Collect CollectSingle(int acid,long qid);
         /// <summary>
         /// 当前学员收藏的试题
         /// </summary>
@@ -461,7 +461,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="quesid"></param>
         /// <param name="stid"></param>
-        void NotesDelete(int quesid, int stid);
+        void NotesDelete(long quesid, int stid);
         /// <summary>
         /// 清空试题笔记
         /// </summary>
@@ -480,7 +480,7 @@ namespace Song.ServiceInterfaces
         /// <param name="quesid">试题id</param>
         /// <param name="stid">学员id</param>
         /// <returns></returns>
-        Student_Notes NotesSingle(int quesid, int stid);
+        Student_Notes NotesSingle(long quesid, int stid);
         /// <summary>
         /// 当前学员的所有笔记
         /// </summary>
@@ -514,7 +514,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Student_Notes[] NotesPager(int stid, int quesid, string searTxt, int size, int index, out int countSum);
+        Student_Notes[] NotesPager(int stid, long quesid, string searTxt, int size, int index, out int countSum);
         #endregion
     }
 }

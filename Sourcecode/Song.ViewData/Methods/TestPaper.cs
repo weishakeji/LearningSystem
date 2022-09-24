@@ -278,7 +278,7 @@ namespace Song.ViewData.Methods
         /// 获取试题的大项
         /// </summary>
         /// <returns></returns>
-        public Song.Entities.TestPaperItem[] Types(int tpid)
+        public Song.Entities.TestPaperItem[] Types(long  tpid)
         {
             Song.Entities.TestPaper tp = Business.Do<ITestPaper>().PaperSingle(tpid);
             return Business.Do<ITestPaper>().GetItemForAny(tp);

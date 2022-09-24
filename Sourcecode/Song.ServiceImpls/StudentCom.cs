@@ -874,7 +874,7 @@ select * from course as c inner join
         /// </summary>
         /// <param name="quesid"></param>
         /// <param name="acid"></param>
-        public void QuesDelete(int quesid, int acid)
+        public void QuesDelete(long quesid, int acid)
         {
             Gateway.Default.Delete<Student_Ques>(Student_Ques._.Qus_ID == quesid && Student_Ques._.Ac_ID == acid);
         }
@@ -1076,7 +1076,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// </summary>
         /// <param name="quesid"></param>
         /// <param name="acid"></param>
-        public void CollectDelete(int quesid, int acid)
+        public void CollectDelete(long quesid, int acid)
         {
             Gateway.Default.Delete<Student_Collect>(Student_Collect._.Qus_ID == quesid && Student_Collect._.Ac_ID == acid);
         }
@@ -1098,7 +1098,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         {
             return Gateway.Default.From<Student_Collect>().Where(Student_Collect._.Stc_ID == identify).ToFirst<Student_Collect>();
         }
-        public Student_Collect CollectSingle(int acid, int qid)
+        public Student_Collect CollectSingle(int acid, long qid)
         {
             return Gateway.Default.From<Student_Collect>().Where(Student_Collect._.Ac_ID == acid && Student_Collect._.Qus_ID == qid).ToFirst<Student_Collect>();
         }
@@ -1226,7 +1226,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// </summary>
         /// <param name="quesid"></param>
         /// <param name="acid"></param>
-        public void NotesDelete(int quesid, int acid)
+        public void NotesDelete(long quesid, int acid)
         {
             Gateway.Default.Delete<Student_Notes>(Student_Notes._.Qus_ID == quesid && Student_Notes._.Ac_ID == acid);
         }
@@ -1254,7 +1254,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="quesid">试题id</param>
         /// <param name="acid">学员id</param>
         /// <returns></returns>
-        public Student_Notes NotesSingle(int quesid, int acid)
+        public Student_Notes NotesSingle(long quesid, int acid)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Notes._.Ac_ID == acid);
@@ -1320,7 +1320,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Student_Notes[] NotesPager(int acid, int quesid, string searTxt, int size, int index, out int countSum)
+        public Student_Notes[] NotesPager(int acid, long quesid, string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Notes._.Ac_ID == acid);
