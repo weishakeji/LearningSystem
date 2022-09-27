@@ -21,9 +21,10 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void CourseAdd(Course entity)
         {
+            //课程id为雪花后，需要自主分配数值
             if (entity.Cou_ID <= 0)           
                 entity.Cou_ID = WeiSha.Core.Request.SnowID();
-            //
+            //在改为雪花id前，为了创建表关联，用了uid
             if (string.IsNullOrWhiteSpace(entity.Cou_UID))
                 entity.Cou_UID = WeiSha.Core.Request.UniqueID();
 

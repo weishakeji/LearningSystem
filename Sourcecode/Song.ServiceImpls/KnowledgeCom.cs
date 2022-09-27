@@ -172,6 +172,9 @@ namespace Song.ServiceImpls
         #region 分类管理
         public int SortAdd(KnowledgeSort entity)
         {
+            if (string.IsNullOrWhiteSpace(entity.Kns_UID))
+                entity.Kns_UID = WeiSha.Core.Request.UniqueID();
+
             entity.Kns_CrtTime = DateTime.Now;
             //如果没有排序号，则自动计算
             if (entity.Kns_Tax < 1 )
