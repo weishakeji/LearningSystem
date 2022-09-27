@@ -244,7 +244,7 @@ namespace Song.ViewData.Methods
             return jo;
         }
 
-        public JObject ExcelExport(string types, string diffs, int part, int orgid, int sbjid, long couid, long olid)
+        public JObject ExcelExport(string types, string diffs, int part, int orgid, long sbjid, long couid, long olid)
         {
             //导出
             HSSFWorkbook hssfworkbook = null;
@@ -342,7 +342,7 @@ namespace Song.ViewData.Methods
         /// <param name="type">试题类型</param>
         /// <param name="use">启用中的试题，null取所有</param>
         /// <returns></returns>
-        public int Count(int orgid, int sbjid, long couid, long olid, int type, bool? use)
+        public int Count(int orgid, long sbjid, long couid, long olid, int type, bool? use)
         {
             return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, type, use);
         }
@@ -374,7 +374,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Pager(int orgid, int sbjid, long couid, int type, bool? use, bool? error, bool? wrong, string search, int size, int index)
+        public ListResult Pager(int orgid, long sbjid, long couid, int type, bool? use, bool? error, bool? wrong, string search, int size, int index)
         {
             if (orgid <= 0)
             {

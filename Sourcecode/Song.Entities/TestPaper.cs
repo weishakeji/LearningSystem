@@ -26,7 +26,7 @@ namespace Song.Entities {
     		
     		protected DateTime _Tp_Lasttime;
     		
-    		protected Int32 _Sbj_ID;
+    		protected Int64 _Sbj_ID;
     		
     		protected String _Sbj_Name;
     		
@@ -187,7 +187,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32 Sbj_ID {
+    		public Int64 Sbj_ID {
     			get {
     				return this._Sbj_ID;
     			}
@@ -551,7 +551,7 @@ namespace Song.Entities {
     				this._Tp_Lasttime = reader.GetDateTime(_.Tp_Lasttime);
     			}
     			if ((false == reader.IsDBNull(_.Sbj_ID))) {
-    				this._Sbj_ID = reader.GetInt32(_.Sbj_ID);
+    				this._Sbj_ID = reader.GetInt64(_.Sbj_ID);
     			}
     			if ((false == reader.IsDBNull(_.Sbj_Name))) {
     				this._Sbj_Name = reader.GetString(_.Sbj_Name);
@@ -688,7 +688,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Tp_Lasttime = new WeiSha.Data.Field<TestPaper>("Tp_Lasttime");
     			
     			/// <summary>
-    			/// -1 - 字段名：Sbj_ID - 数据类型：Int32
+    			/// -1 - 字段名：Sbj_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Sbj_ID = new WeiSha.Data.Field<TestPaper>("Sbj_ID");
     			

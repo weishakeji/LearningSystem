@@ -41,7 +41,7 @@ namespace Song.ViewData.Methods
         [Admin,Teacher]
         [HttpPost,HttpGet(Ignore =true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
-        public Song.Entities.Course Add(string name,int orgid, int sbjid,int thid)
+        public Song.Entities.Course Add(string name,int orgid, long sbjid,int thid)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace Song.ViewData.Methods
         /// <param name="orgid"></param>
         /// <param name="sbjid">专业id</param>  
         /// <returns></returns>
-        public bool NameExist(string name, int orgid, int sbjid)
+        public bool NameExist(string name, int orgid, long sbjid)
         {
             Song.Entities.Course cur = Business.Do<ICourse>().CourseIsExist(orgid, sbjid, -1, name);
             return cur != null;
@@ -523,7 +523,7 @@ namespace Song.ViewData.Methods
         /// <param name="order">排序方式,排序方式，def:默认，先推荐，然后按访问量倒序;flux：按访问量倒序;tax：按自定义排序要求;new:按创建时间，最新发布在前面;rec:按推荐，先推荐，然后按tax排序</param>
         /// <param name="count">取多少条记录</param>
         /// <returns></returns>
-        public List<Song.Entities.Course> ShowCount(int sbjid,int orgid, string search, string order, int count)
+        public List<Song.Entities.Course> ShowCount(long sbjid,int orgid, string search, string order, int count)
         {
             List<Song.Entities.Course> eas = null;
             if (string.IsNullOrWhiteSpace(order))
@@ -659,7 +659,7 @@ namespace Song.ViewData.Methods
         /// <param name="sbjid">专业id</param>
         /// <param name="count">取多少条记录</param>
         /// <returns></returns>
-        public DataTable MostHot(int orgid, int sbjid, int count)
+        public DataTable MostHot(int orgid, long sbjid, int count)
         {
             DataSet ds = Business.Do<ICourse>().CourseHot(orgid, sbjid, count);
             if (ds == null || ds.Tables.Count < 1) return null;

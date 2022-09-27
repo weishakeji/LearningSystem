@@ -155,6 +155,7 @@ execute sp_rename '[Course].Cou_SID','Cou_ID'
 go
 alter table [Course] add primary key ( Cou_ID );
 go
+alter table [Course] ALTER COLUMN Cou_PID  bigint not null
 /*课程关联表中的字段Cou_ID，转长整型*/
 alter table [TestResults] ALTER COLUMN Cou_ID  bigint not null
 alter table [TestPaper] ALTER COLUMN Cou_ID  bigint not null
@@ -215,3 +216,53 @@ execute sp_rename '[Notice].No_SId','No_Id'
 go
 alter table [Notice] add primary key ( No_Id );
 go
+
+
+
+/***************
+专业Id转为雪花id
+*/
+ALTER TABLE [Subject] ADD [Sbj_SID] bigint default 0 not null
+go
+update [Subject]  set Sbj_SID=Sbj_ID
+go
+/*删除原有主键，设置新的主建*/
+declare cursor_sbj  cursor scroll
+for SELECT idx.name AS pk FROM sys.indexes idx JOIN sys.tables tab ON (idx.object_id = tab.object_id) where tab.name='Subject'
+open cursor_sbj
+declare @pk nvarchar(500),@sql nvarchar(500)
+fetch First from cursor_sbj into @pk
+while @@fetch_status=0  
+ begin  
+   set @sql='alter table [Subject] drop constraint '+@pk   
+   exec sp_executesql @sql
+   fetch next from cursor_sbj into @pk 
+ end   
+--关闭并释放游标
+close cursor_sbj
+deallocate cursor_sbj
+go
+alter table [Subject] drop column Sbj_ID
+go
+execute sp_rename '[Subject].Sbj_SID','Sbj_ID'
+go
+alter table [Subject] add primary key ( Sbj_ID );
+go
+alter table [Subject] ALTER COLUMN Sbj_PID  bigint not null
+/*专业关联表中的字段Cou_ID，转长整型*/
+alter table [TrPlan] ALTER COLUMN Sbj_ID  bigint not null
+alter table [TestResults] ALTER COLUMN Sbj_ID  bigint not null
+alter table [TestPaper] ALTER COLUMN Sbj_ID  bigint not null
+alter table [Team] ALTER COLUMN Sbj_ID  bigint not null
+alter table [ExamResultsTemp] ALTER COLUMN Sbj_ID  bigint not null
+
+alter table [ExamResults] ALTER COLUMN Sbj_ID  bigint not null
+alter table [Examination] ALTER COLUMN Sbj_ID  bigint not null
+alter table [Student_Ques] ALTER COLUMN Sbj_ID  bigint not null
+alter table [Student_Collect] ALTER COLUMN Sbj_ID  bigint not null
+alter table [Depart_Subject] ALTER COLUMN Sbj_ID  bigint not null
+
+alter table [Course] ALTER COLUMN Sbj_ID  bigint not null
+alter table [Questions] ALTER COLUMN Sbj_ID  bigint not null
+alter table [Outline] ALTER COLUMN Sbj_ID  bigint not null
+

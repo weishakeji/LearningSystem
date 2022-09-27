@@ -249,7 +249,7 @@ namespace Song.ServiceImpls
                 .OrderBy(Questions._.Qus_Type.Asc && Questions._.Qus_Tax.Asc && Questions._.Qus_ID.Asc)
                 .ToArray<Questions>(count);
         }
-        public Questions[] QuesCount(int orgid, int sbjid, long couid, long olid, int type, int diff, bool? isUse, int count)
+        public Questions[] QuesCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
@@ -284,7 +284,7 @@ namespace Song.ServiceImpls
         /// <param name="index">起始索引</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public Questions[] QuesCount(int orgid, int sbjid, long couid, long olid, int type, int diff, bool? isUse, int index, int count)
+        public Questions[] QuesCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse, int index, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
@@ -316,7 +316,7 @@ namespace Song.ServiceImpls
         /// <param name="type">试题类型</param>
         /// <param name="isUse">是否使用</param>
         /// <returns></returns>
-        public int QuesOfCount(int orgid, int sbjid, long couid, long olid, int type, bool? isUse)
+        public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
@@ -335,7 +335,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Questions._.Qus_IsUse == (bool)isUse);
             return Gateway.Default.Count<Questions>(wc);
         }
-        public int QuesOfCount(int orgid, int sbjid, long couid, long olid, int type, int diff, bool? isUse)
+        public int QuesOfCount(int orgid, long sbjid, long couid, long olid, int type, int diff, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > -1) wc.And(Questions._.Org_ID == orgid);
@@ -368,7 +368,7 @@ namespace Song.ServiceImpls
         /// <param name="isUse">是否允许</param>
         /// <param name="count">取的数量</param>
         /// <returns></returns>
-        public Questions[] QuesRandom(int orgid, int sbjid, long couid, long olid, int type, int diff1, int diff2, bool? isUse, int count)
+        public Questions[] QuesRandom(int orgid, long sbjid, long couid, long olid, int type, int diff1, int diff2, bool? isUse, int count)
         {
             #region 
             //试题类型
@@ -441,9 +441,9 @@ namespace Song.ServiceImpls
             return sql;
         }
         
-        public Questions[] QuesRandom(int type, int sbjId, long couid, int diff1, int diff2, bool? isUse, int count)
+        public Questions[] QuesRandom(int type, long sbjid, long couid, int diff1, int diff2, bool? isUse, int count)
         {
-            return this.QuesRandom(-1, sbjId, couid, -1, type, diff1, diff2, isUse, count);           
+            return this.QuesRandom(-1, sbjid, couid, -1, type, diff1, diff2, isUse, count);           
         }
         public Questions[] QuesPager(int orgid, int type, bool? isUse, string searTxt, int size, int index, out int countSum)
         {
@@ -487,14 +487,14 @@ namespace Song.ServiceImpls
                 .ToArray<Questions>(size, (index - 1) * size);
         }
 
-        public Questions[] QuesPager(int orgid, int type, int sbjId, long couid, long olid, bool? isUse,
+        public Questions[] QuesPager(int orgid, int type, long sbjid, long couid, long olid, bool? isUse,
             bool? isError, bool? isWrong, int diff, string searTxt,
             int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > -1) wc.And(Questions._.Org_ID == orgid);
             if (type > 0) wc.And(Questions._.Qus_Type == type);
-            if (sbjId > 0) wc.And(Questions._.Sbj_ID == sbjId);
+            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
             if (couid > 0) wc.And(Questions._.Cou_ID == couid);
             //当前章节，以及当前章节之下的所有试题
             if (olid > 0)
@@ -533,12 +533,12 @@ namespace Song.ServiceImpls
         /// <param name="isError">是否包括错误的试题，如果为空，则不作判断</param>
         /// <param name="isWrong">是否包括学员反馈的试题，如果为空，则不作判断</param>
         /// <returns></returns>
-        public HSSFWorkbook QuestionsExport(int orgid, string type, int sbjId, long couid, long olid, string diff, bool? isError, bool? isWrong)
+        public HSSFWorkbook QuestionsExport(int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
         {
             HSSFWorkbook hssfworkbook = new HSSFWorkbook();
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Questions._.Org_ID == orgid);
-            if (sbjId > 0) wc.And(Questions._.Sbj_ID == sbjId);
+            if (sbjid > 0) wc.And(Questions._.Sbj_ID == sbjid);
             if (couid > 0) wc.And(Questions._.Cou_ID == couid);
             if (olid > 0) wc.And(Questions._.Ol_ID == olid);
             if (isError != null) wc.And(Questions._.Qus_IsError == (bool)isError);
@@ -572,9 +572,9 @@ namespace Song.ServiceImpls
             }
             return hssfworkbook;
         }
-        public string QuestionsExport4Excel(string path, int orgid, string type, int sbjId, long couid, long olid, string diff, bool? isError, bool? isWrong)
+        public string QuestionsExport4Excel(string path, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong)
         {
-            HSSFWorkbook hssfworkbook = this.QuestionsExport(orgid, type, sbjId, couid, olid, diff, isError, isWrong);
+            HSSFWorkbook hssfworkbook = this.QuestionsExport(orgid, type, sbjid, couid, olid, diff, isError, isWrong);
             FileStream file = new FileStream(path, FileMode.Create);
             hssfworkbook.Write(file);
             file.Close();
@@ -1073,18 +1073,18 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 计算当前试题的得分
         /// </summary>
-        /// <param name="id">试题的ID</param>
+        /// <param name="qid">试题的ID</param>
         /// <param name="ans">答案，选择题为id，判断题为数字，填空或简答为字符</param>
         /// <param name="num">该题的分数</param>
         /// <returns>正确返回true</returns>
-        public bool ClacQues(int id, string ans)
+        public bool ClacQues(long qid, string ans)
         {
             if (string.IsNullOrWhiteSpace(ans)) return false;
             if (ans.Trim() == "" || ans.Trim() == "undefined") return false;
             //
             Questions qus = null;
-            qus = this.QuesSingle4Cache(id);
-            if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == id).ToFirst<Questions>();
+            qus = this.QuesSingle4Cache(qid);
+            if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == qid).ToFirst<Questions>();
             if (qus == null) return false;
             if (qus.Qus_Type == 1) return _clacQues1(qus, ans);
             if (qus.Qus_Type == 2) return _clacQues2(qus, ans);

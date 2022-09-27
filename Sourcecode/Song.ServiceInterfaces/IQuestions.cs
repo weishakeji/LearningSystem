@@ -102,7 +102,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        Questions[] QuesCount(int orgid, int sbjid, long couid, long olid, int type, int diff, bool? isUse, int count);
+        Questions[] QuesCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse, int count);
         /// <summary>
         /// 获取某个课程或章节试题
         /// </summary>
@@ -116,7 +116,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index">起始索引</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        Questions[] QuesCount(int orgid, int sbjid, long couid, long olid, int type, int diff, bool? isUse, int index, int count);
+        Questions[] QuesCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse, int index, int count);
         /// <summary>
         /// 计算有多少道题
         /// </summary>
@@ -124,8 +124,8 @@ namespace Song.ServiceInterfaces
         /// <param name="type"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        int QuesOfCount(int orgid, int sbjid, long couid, long olid, int type, bool? isUse);
-        int QuesOfCount(int orgid, int sbjid, long couid, long olid, int type, int diff, bool? isUse);
+        int QuesOfCount(int orgid, long  sbjid, long couid, long olid, int type, bool? isUse);
+        int QuesOfCount(int orgid, long  sbjid, long couid, long olid, int type, int diff, bool? isUse);
         /// <summary>
         /// 获取随机试题
         /// </summary>
@@ -139,7 +139,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse">是否允许</param>
         /// <param name="count">取的数量</param>
         /// <returns></returns>
-        Questions[] QuesRandom(int orgid, int sbjid, long couid, long olid, int type, int diff1, int diff2, bool? isUse, int count);
+        Questions[] QuesRandom(int orgid, long  sbjid, long couid, long olid, int type, int diff1, int diff2, bool? isUse, int count);
         /// <summary>
         /// 获取随机试题
         /// </summary>
@@ -151,7 +151,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Questions[] QuesRandom(int type, int sbjId, long couid, int diff1, int diff2, bool? isUse, int count);
+        Questions[] QuesRandom(int type, long  sbjid, long couid, int diff1, int diff2, bool? isUse, int count);
         /// <summary>
         /// 分页获取所有的试题；
         /// </summary>
@@ -180,7 +180,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Questions[] QuesPager(int orgid, int type, int sbjId, long couid, long olid, bool? isUse, bool? isError, bool? isWrong, int diff, string searTxt, int size, int index, out int countSum);
+        Questions[] QuesPager(int orgid, int type, long sbjid, long couid, long olid, bool? isUse, bool? isError, bool? isWrong, int diff, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// 导出试题
         /// </summary>
@@ -193,7 +193,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isError">是否包括错误的试题，如果为空，则不作判断</param>
         /// <param name="isWrong">是否包括学员反馈的试题，如果为空，则不作判断</param>
         /// <returns></returns>
-        HSSFWorkbook QuestionsExport(int orgid, string type, int sbjId, long couid, long olid, string diff, bool? isError, bool? isWrong);
+        HSSFWorkbook QuestionsExport(int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
         /// <summary>
         /// 导出试题,生成文件
         /// </summary>
@@ -207,7 +207,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isError"></param>
         /// <param name="isWrong"></param>       
         /// <returns></returns>
-        string QuestionsExport4Excel(string path, int orgid, string type, int sbjId, long couid, long olid, string diff, bool? isError, bool? isWrong);
+        string QuestionsExport4Excel(string path, int orgid, string type, long sbjid, long couid, long olid, string diff, bool? isError, bool? isWrong);
         #endregion
 
         #region 题型管理（试题分类）
@@ -286,7 +286,7 @@ namespace Song.ServiceInterfaces
         /// <param name="ans">答案，选择题为id，判断题为数字，填空或简答为字符</param>
         /// <param name="num">该题的分数</param>
         /// <returns>正确返回true</returns>
-        bool ClacQues(int id, string ans);
+        bool ClacQues(long qid, string ans);
         #endregion
 
         #region 缓存管理

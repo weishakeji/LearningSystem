@@ -26,7 +26,7 @@ namespace Song.ServiceInterfaces
         /// <param name="sbjid">专业id</param>
         /// <param name="names">名称，可以是用逗号分隔的多个名称</param>
         /// <returns></returns>
-        Course CourseBatchAdd(Teacher teacher, int orgid, int sbjid, string names);
+        Course CourseBatchAdd(Teacher teacher, int orgid, long  sbjid, string names);
         /// <summary>
         /// 是否已经存在课程
         /// </summary>
@@ -35,7 +35,7 @@ namespace Song.ServiceInterfaces
         /// <param name="pid">上级id</param>
         /// <param name="name"></param>
         /// <returns></returns>
-        Course CourseIsExist(int orgid, int sbjid, long pid, string name);
+        Course CourseIsExist(int orgid, long  sbjid, long pid, string name);
         /// <summary>
         /// 修改课程
         /// </summary>
@@ -111,7 +111,7 @@ namespace Song.ServiceInterfaces
         /// <param name="thid">教师id</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        List<Course> CourseAll(int orgid, int sbjid, int thid, bool? isUse);
+        List<Course> CourseAll(int orgid, long  sbjid, int thid, bool? isUse);
         /// <summary>
         /// 某个课程的学习人数
         /// </summary>
@@ -134,8 +134,8 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count">取多少条记录，如果小于等于0，则取所有</param>
         /// <returns></returns>
-        List<Course> CourseCount(int orgid, int sbjid, int thid, int pid, string sear, bool? isUse, int count);
-        List<Course> CourseCount(int orgid, int sbjid, string sear, string order, bool? isUse, int count);
+        List<Course> CourseCount(int orgid, long  sbjid, int thid, int pid, string sear, bool? isUse, int count);
+        List<Course> CourseCount(int orgid, long  sbjid, string sear, string order, bool? isUse, int count);
         /// <summary>
         /// 获取指定个数的课程列表
         /// </summary>
@@ -147,7 +147,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        List<Course> CourseCount(int orgid, int sbjid, int thid, bool? islive, string sear, bool? isUse, int count);
+        List<Course> CourseCount(int orgid, long  sbjid, int thid, bool? islive, string sear, bool? isUse, int count);
         /// <summary>
         /// 获取指定个数的课程列表
         /// </summary>
@@ -158,7 +158,7 @@ namespace Song.ServiceInterfaces
         /// <param name="order">排序方式，def:默认，先推荐，然后按访问量倒序;flux：按访问量倒序;tax：按自定义排序要求;new:按创建时间，最新发布在前面;rec:按推荐，先推荐，然后按tax排序</param>
         /// <param name="count"></param>
         /// <returns></returns>
-        List<Course> CourseCount(int orgid, int sbjid, string sear, bool? isUse, string order, int count);
+        List<Course> CourseCount(int orgid, long  sbjid, string sear, bool? isUse, string order, int count);
         /// <summary>
         /// 课程数量
         /// </summary>
@@ -167,13 +167,13 @@ namespace Song.ServiceInterfaces
         /// <param name="thid">教师id</param>
         /// <param name="isuse">是否包括启用的课程,null取所有，true取启用的，false取未启用的</param>
         /// <returns></returns>
-        int CourseOfCount(int orgid, int sbjid, int thid, bool? isuse);
+        int CourseOfCount(int orgid, long  sbjid, int thid, bool? isuse);
         /// <summary>
         /// 专业下的课程数，包括启用、不启用的，所有课程
         /// </summary>
         /// <param name="sbjid"></param>
         /// <returns></returns>
-        int CourseOfCount(int sbjid);
+        int CourseOfCount(long  sbjid);
         /// <summary>
         /// 当前课程下是否有子级
         /// </summary>
@@ -196,7 +196,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        List<Course> CoursePager(int orgid, int sbjid, int thid, bool? isUse, string searTxt, string order, int size, int index, out int countSum);
+        List<Course> CoursePager(int orgid, long  sbjid, int thid, bool? isUse, string searTxt, string order, int size, int index, out int countSum);
         /// <summary>
         /// 分页获取
         /// </summary>
@@ -369,7 +369,7 @@ namespace Song.ServiceInterfaces
         /// <param name="sbjid">专业id</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        DataSet CourseHot(int orgid, int sbjid, int count);
+        DataSet CourseHot(int orgid, long  sbjid, int count);
         /// <summary>
         /// 某个学生是否正在学习某个课程
         /// </summary>

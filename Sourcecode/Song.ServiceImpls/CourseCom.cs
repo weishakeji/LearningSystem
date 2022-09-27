@@ -54,7 +54,7 @@ namespace Song.ServiceImpls
         /// <param name="orgid">机构id</param>
         /// <param name="names">名称，可以是用逗号分隔的多个名称</param>
         /// <returns></returns>
-        public Course CourseBatchAdd(Teacher teacher, int orgid, int sbjid, string names)
+        public Course CourseBatchAdd(Teacher teacher, int orgid, long sbjid, string names)
         {
             //整理名称信息
             names = names.Replace("，", ",");
@@ -102,7 +102,7 @@ namespace Song.ServiceImpls
         /// <param name="pid"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Course CourseIsExist(int orgid, int sbjid, long pid, string name)
+        public Course CourseIsExist(int orgid, long sbjid, long pid, string name)
         {
             WhereClip wc = new WhereClip();
             if(orgid>0) wc &= Course._.Org_ID == orgid;
@@ -431,7 +431,7 @@ namespace Song.ServiceImpls
         /// <param name="thid">教师id</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        public List<Course> CourseAll(int orgid, int sbjid, int thid, bool? isUse)
+        public List<Course> CourseAll(int orgid, long sbjid, int thid, bool? isUse)
         {
             return CourseCount(orgid, sbjid, thid, -1, null, isUse, -1);
         }
@@ -490,15 +490,15 @@ namespace Song.ServiceImpls
                     Business.Do<IQuestions>().QuesDelete(c.Qus_ID);
             }
         }
-        public int CourseOfCount(int orgid, int sbjid, int thid, bool? isuse)
+        public int CourseOfCount(int orgid, long sbjid, int thid, bool? isuse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
-                foreach (int l in list)
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
             }
@@ -511,7 +511,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="sbjid"></param>
         /// <returns></returns>
-        public int CourseOfCount(int sbjid)
+        public int CourseOfCount(long sbjid)
         {
             int count = this.CourseOfCount(-1, sbjid, -1, null);
             Gateway.Default.Update<Subject>(new Field[] { Subject._.Sbj_CouNumber }, new object[] { count }, Subject._.Sbj_ID == sbjid);
@@ -525,15 +525,15 @@ namespace Song.ServiceImpls
         /// <param name="isUse"></param>
         /// <param name="count">取多少条记录，如果小于等于0，则取所有</param>
         /// <returns></returns>
-        public List<Course> CourseCount(int orgid, int sbjid, int thid, int pid, string sear, bool? isUse, int count)
+        public List<Course> CourseCount(int orgid, long sbjid, int thid, int pid, string sear, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
-                foreach (int l in list)
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
             }
@@ -556,15 +556,15 @@ namespace Song.ServiceImpls
             //    .OrderBy(Course._.Cou_Tax.Desc).ToList<Course>();
 
         }
-        public List<Course> CourseCount(int orgid, int sbjid, string sear, string order, bool? isUse, int count)
+        public List<Course> CourseCount(int orgid, long sbjid, string sear, string order, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
-                foreach (int l in list)
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
             }
@@ -590,15 +590,15 @@ namespace Song.ServiceImpls
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public List<Course> CourseCount(int orgid, int sbjid, int thid, bool? islive, string sear, bool? isUse, int count)
+        public List<Course> CourseCount(int orgid, long sbjid, int thid, bool? islive, string sear, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
-                foreach (int l in list)
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
             }
@@ -619,15 +619,15 @@ namespace Song.ServiceImpls
         /// <param name="order">排序方式，默认null按排序顺序，flux流量最大优先,def推荐、流量，tax排序号，new最新,rec推荐</param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public List<Course> CourseCount(int orgid, int sbjid, string sear, bool? isUse, string order, int count)
+        public List<Course> CourseCount(int orgid, long sbjid, string sear, bool? isUse, string order, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Course._.Org_ID == orgid);
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
-                foreach (int l in list)
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
             }
@@ -651,14 +651,14 @@ namespace Song.ServiceImpls
             return count > 0;
         }
 
-        public List<Course> CoursePager(int orgid, int sbjid, int thid, bool? isUse, string searTxt, string order, int size, int index, out int countSum)
+        public List<Course> CoursePager(int orgid, long sbjid, int thid, bool? isUse, string searTxt, string order, int size, int index, out int countSum)
         {
             WhereClip wc = Course._.Org_ID == orgid;
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<int> list = Business.Do<ISubject>().TreeID(sbjid);
-                foreach (int l in list)
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
             }
@@ -720,8 +720,8 @@ namespace Song.ServiceImpls
                     if (sbj <= 0) continue;
                     wcSbjid.Or(Course._.Sbj_ID == sbj);
                     //当前专业的下级专业也包括
-                    List<int> list = Business.Do<ISubject>().TreeID(sbj);
-                    foreach (int l in list)
+                    List<long> list = Business.Do<ISubject>().TreeID(sbj);
+                    foreach (long l in list)
                         wcSbjid.Or(Course._.Sbj_ID == l);
                 }
                 wc.And(wcSbjid);
@@ -895,7 +895,7 @@ namespace Song.ServiceImpls
         /// <param name="sbjid">专业id</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public DataSet CourseHot(int orgid, int sbjid, int count)
+        public DataSet CourseHot(int orgid, long sbjid, int count)
         {
            
             string sql = @"select top {count} ISNULL(b.count,0) as 'count', c.* from course as c left join 
@@ -909,7 +909,7 @@ namespace Song.ServiceImpls
             string sbjWhere = string.Empty;
             if (sbjid > 0)
             {
-                List<int> sbjids = Business.Do<ISubject>().TreeID(sbjid);
+                List<long> sbjids = Business.Do<ISubject>().TreeID(sbjid);
                 
                 for (int i = 0; i < sbjids.Count; i++)
                 {

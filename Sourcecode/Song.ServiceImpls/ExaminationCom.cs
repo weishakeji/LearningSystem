@@ -419,7 +419,7 @@ namespace Song.ServiceImpls
             countSum = Gateway.Default.Count<Examination>(wc);
             return Gateway.Default.From<Examination>().Where(wc).OrderBy(Examination._.Exam_Date.Desc && Examination._.Exam_ID.Desc).ToArray<Examination>(size, (index - 1) * size);
         }
-        public ExamResults[] GetAttendPager(int stid, int sbjid, int orgid, string sear, int size, int index, out int countSum)
+        public ExamResults[] GetAttendPager(int stid, long sbjid, int orgid, string sear, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (stid > 0) wc.And(ExamResults._.Ac_ID == stid);
@@ -669,7 +669,7 @@ namespace Song.ServiceImpls
             for (int i = 0; i < s.Length; i++)
             {
                 if (s[i].Trim() == "") continue;
-                int id = Convert.ToInt32(s[i]);
+                long id = Convert.ToInt64(s[i]);
                 Song.Entities.Questions q = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == id).ToFirst<Questions>();
                 if (q == null) continue;
                 quesList.Add(q);
@@ -680,7 +680,7 @@ namespace Song.ServiceImpls
                 for (int i = 0; i < nodeList.Count; i++)
                 {
                     double num= Convert.ToDouble(nodeList[i].Attributes["num"].Value);
-                    int id = Convert.ToInt32(nodeList[i].Attributes["id"].Value);
+                    long id = Convert.ToInt64(nodeList[i].Attributes["id"].Value);
                     if (q.Qus_ID == id)
                     {
                         q.Qus_Number = (float)num;
@@ -734,12 +734,12 @@ namespace Song.ServiceImpls
             resXml.XmlResolver = null; 
             resXml.LoadXml(resultXML, false);
             XmlNode root = resXml.LastChild;
-            int sbjid = 0;
-            int.TryParse(root.Attributes["sbjid"] != null ? root.Attributes["sbjid"].Value : "0", out sbjid);
+            long sbjid = 0;
+            long.TryParse(root.Attributes["sbjid"] != null ? root.Attributes["sbjid"].Value : "0", out sbjid);
             var info = new
             {
-                examid = Convert.ToInt32(root.Attributes["examid"].Value == null ? "0" : root.Attributes["examid"].Value),
-                tpid = Convert.ToInt32(root.Attributes["tpid"].Value),
+                examid = Convert.ToInt64(root.Attributes["examid"].Value == null ? "0" : root.Attributes["examid"].Value),
+                tpid = Convert.ToInt64(root.Attributes["tpid"].Value),
                 stid = Convert.ToInt32(root.Attributes["stid"].Value),
                 stname = root.Attributes["stname"].Value,
                 sbjid = sbjid,
@@ -763,7 +763,7 @@ namespace Song.ServiceImpls
                     //当前试题的信息，id，分数，答案
                     var ques = new
                     {
-                        id = Convert.ToInt32(qnode[j].Attributes["id"].Value),
+                        id = Convert.ToInt64(qnode[j].Attributes["id"].Value),
                         num = Convert.ToDouble(qnode[j].Attributes["num"].Value),
                         ans = type == 1 || type == 2 || type == 3 ? qnode[j].Attributes["ans"].Value : qnode[j].InnerText
                     };

@@ -119,7 +119,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        ExamResults[] GetAttendPager(int stid, int sbjid, int orgid, string sear, int size, int index, out int countSum);
+        ExamResults[] GetAttendPager(int stid, long  sbjid, int orgid, string sear, int size, int index, out int countSum);
         #endregion
 
         #region 考试成绩提交等

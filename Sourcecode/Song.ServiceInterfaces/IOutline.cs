@@ -25,7 +25,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程（或课程）id</param>
         /// <param name="names">名称，可以是用逗号分隔的多个名称</param>
         /// <returns></returns>
-        Outline OutlineBatchAdd(int orgid, int sbjid, long couid, string names);
+        Outline OutlineBatchAdd(int orgid, long  sbjid, long couid, string names);
         /// <summary>
         /// 是否已经存在章节
         /// </summary>
@@ -35,7 +35,7 @@ namespace Song.ServiceInterfaces
         /// <param name="pid">上级id</param>
         /// <param name="name"></param>
         /// <returns></returns>
-        Outline OutlineIsExist(int orgid, int sbjid, long couid, long pid, string name);
+        Outline OutlineIsExist(int orgid, long  sbjid, long couid, long pid, string name);
         /// <summary>
         /// 修改章节
         /// </summary>
@@ -181,7 +181,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Outline[] OutlineCount(int orgid, int sbjid, long couid, long pid, bool? isUse, int count);
+        Outline[] OutlineCount(int orgid, long  sbjid, long couid, long pid, bool? isUse, int count);
         /// <summary>
         /// 当前课程下的章节数
         /// </summary>

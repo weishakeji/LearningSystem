@@ -19,6 +19,7 @@ namespace Song.ServiceImpls
     {
         public int SubjectAdd(Subject entity)
         {
+            if (entity.Sbj_ID <= 0) entity.Sbj_ID = WeiSha.Core.Request.SnowID();
             entity.Sbj_CrtTime = DateTime.Now;
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             //如果没有排序号，则自动计算
@@ -58,7 +59,7 @@ namespace Song.ServiceImpls
                 if (s.Trim() != "") listName.Add(s.Trim());
             }
             //
-            int pid = 0;
+            long pid = 0;
             Song.Entities.Subject last = null;
             for (int i = 0; i < listName.Count; i++)
             {
@@ -84,7 +85,7 @@ namespace Song.ServiceImpls
         /// <param name="pid"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Subject SubjectIsExist(int orgid, int pid, string name)
+        public Subject SubjectIsExist(int orgid, long pid, string name)
         {
             WhereClip wc = Subject._.Org_ID == orgid;
             if (pid >= 0) wc &= Subject._.Sbj_PID == pid;
@@ -140,7 +141,7 @@ namespace Song.ServiceImpls
             }
         }
 
-        public void SubjectDelete(int identify)
+        public void SubjectDelete(long identify)
         {
             //是否存在试题
             int count = Gateway.Default.Count<Questions>(Questions._.Sbj_ID == identify);
@@ -161,7 +162,7 @@ namespace Song.ServiceImpls
             }
         }
 
-        public void SubjectClear(int identify)
+        public void SubjectClear(long identify)
         {
             //清理课程
             Song.Entities.Course[] cous = Gateway.Default.From<Course>().Where(Course._.Sbj_ID == identify).ToArray<Course>();
@@ -179,7 +180,7 @@ namespace Song.ServiceImpls
             }
         }
 
-        public Subject SubjectSingle(int identify)
+        public Subject SubjectSingle(long identify)
         {
             return Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == identify).ToFirst<Subject>();
         }
@@ -188,9 +189,9 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="sbjid">当前专业id</param>
         /// <returns></returns>
-        public List<int> TreeID(int sbjid)
+        public List<long> TreeID(long sbjid)
         {
-            List<int> list = new List<int>();
+            List<long> list = new List<long>();
             Subject sbj = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == sbjid).ToFirst<Subject>();
             if (sbj == null) return list;  
             //取同一个机构下的所有章节
@@ -198,14 +199,14 @@ namespace Song.ServiceImpls
             list = _treeid(sbjid, sbjs);
             return list;
         }
-        private List<int> _treeid(int id, Subject[] sbjs)
+        private List<long> _treeid(long id, Subject[] sbjs)
         {
-            List<int> list = new List<int>();
+            List<long> list = new List<long>();
             if (id > 0) list.Add(id);
             foreach (Subject o in sbjs)
             {
                 if (o.Sbj_PID != id) continue;
-                List<int> tm = _treeid(o.Sbj_ID, sbjs);
+                List<long> tm = _treeid(o.Sbj_ID, sbjs);
                 foreach (int t in tm)
                     list.Add(t);
             }
@@ -216,7 +217,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public string SubjectName(int identify)
+        public string SubjectName(long identify)
         {
             Subject entity = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == identify).ToFirst<Subject>();
             if (entity == null) return "";
@@ -239,7 +240,7 @@ namespace Song.ServiceImpls
         /// <param name="orgid"></param>
         /// <param name="identify">当前专业Id</param>
         /// <returns></returns>
-        public bool SubjectIsChildren(int orgid, int identify, bool? isUse)
+        public bool SubjectIsChildren(int orgid, long identify, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid >= 0) wc.And(Subject._.Org_ID == orgid);
@@ -256,7 +257,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc).ToList<Subject>(count);
         }
 
-        public List<Subject> SubjectCount(int orgid, string sear, bool? isUse, int pid, int count)
+        public List<Subject> SubjectCount(int orgid, string sear, bool? isUse, long pid, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid >= 0) wc.And(Subject._.Org_ID == orgid);
@@ -265,7 +266,7 @@ namespace Song.ServiceImpls
             if (pid >= 0) wc.And(Subject._.Sbj_PID == pid);
             return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc).ToList<Subject>(count);
         }
-        public List<Subject> SubjectCount(int orgid, string sear, bool? isUse, int pid, string order, int index, int count)
+        public List<Subject> SubjectCount(int orgid, string sear, bool? isUse, long pid, string order, int index, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid >= 0) wc.And(Subject._.Org_ID == orgid);
@@ -288,7 +289,7 @@ namespace Song.ServiceImpls
         /// <param name="sbjid"></param>
         /// <param name="isself">是否包括自身</param>
         /// <returns></returns>
-        public List<Subject> Parents(int sbjid, bool isself)
+        public List<Subject> Parents(long sbjid, bool isself)
         {            
             Stack st = new Stack();
             Subject s = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == sbjid).ToFirst<Subject>();
@@ -307,7 +308,7 @@ namespace Song.ServiceImpls
             return list;
         }
 
-        public List<Subject> SubjectCount(int orgid, int depid, string sear, bool? isUse, int pid, int count)
+        public List<Subject> SubjectCount(int orgid, int depid, string sear, bool? isUse, long pid, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid >= 0) wc.And(Subject._.Org_ID == orgid);
@@ -318,7 +319,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc).ToList<Subject>(count);
         }
 
-        public int SubjectOfCount(int orgid, int pid, bool? isUse, bool children)
+        public int SubjectOfCount(int orgid, long pid, bool? isUse, bool children)
         {
             if (pid < 0)
             {
@@ -339,7 +340,7 @@ namespace Song.ServiceImpls
             else
             {
                 //包括子级，当前专业下的所有专业数
-                List<int> list = new List<int>();
+                List<long> list = new List<long>();
                 //取同一个机构下的所有章节
                 WhereClip wc = new WhereClip();
                 if (orgid > 0) wc.And(Subject._.Org_ID == orgid);
@@ -349,7 +350,7 @@ namespace Song.ServiceImpls
                 return list.Count;
             }
         }
-        public Subject[] SubjectPager(int orgid, int pid, bool? isUse, string searTxt, int size, int index, out int countSum)
+        public Subject[] SubjectPager(int orgid, long pid, bool? isUse, string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > -1) wc.And(Subject._.Org_ID == orgid);
@@ -360,7 +361,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc).ToArray<Subject>(size, (index - 1) * size);
         }
 
-        public Questions[] QusForSubject(int orgid, int sbjid, int qusType, bool? isUse, int count)
+        public Questions[] QusForSubject(int orgid, long sbjid, int qusType, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > -1) wc.And(Questions._.Org_ID == orgid);
@@ -370,7 +371,7 @@ namespace Song.ServiceImpls
             count = count < 0 ? int.MaxValue : count;
             return Gateway.Default.From<Questions>().Where(wc).ToArray<Questions>(count);
         }
-        public int QusCountForSubject(int orgid, int identify, int qusType, bool? isUse)
+        public int QusCountForSubject(int orgid, long identify, int qusType, bool? isUse)
         {
             WhereClip wc = new WhereClip();
             if (orgid > -1) wc.And(Questions._.Org_ID == orgid);

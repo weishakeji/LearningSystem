@@ -315,7 +315,7 @@ namespace Song.ViewData.Methods
         /// <param name="sbjid">当前专业id，为0时为顶级</param>
         /// <param name="use">是否包括启用的课程,null取所有，true取启用的，false取未启用的</param>
         /// <returns></returns>
-        public int CountOfChildren(int orgid,int sbjid, bool? use)
+        public int CountOfChildren(int orgid,long sbjid, bool? use)
         {
             return Business.Do<ISubject>().SubjectOfCount(orgid, sbjid, use, true);
         }

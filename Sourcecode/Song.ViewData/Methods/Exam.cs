@@ -300,8 +300,8 @@ namespace Song.ViewData.Methods
             int.TryParse(xn.Attributes["stsid"].Value, out stsid);
             string stcardid = xn.Attributes["stcardid"].Value.ToString();
             //学科Id,学科名称
-            int sbjid;
-            int.TryParse(xn.Attributes["sbjid"].Value, out sbjid);
+            long sbjid;
+            long.TryParse(xn.Attributes["sbjid"].Value, out sbjid);
             string sbjname = xn.Attributes["sbjname"].Value.ToString();
             //UID与考试主题
             string uid = xn.Attributes["uid"].Value.ToString();
@@ -648,7 +648,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Result4Student(int acid, int orgid, int sbjid, string search, int size, int index)
+        public ListResult Result4Student(int acid, int orgid, long sbjid, string search, int size, int index)
         {
             int count = 0;
             Song.Entities.ExamResults[] datas = null;

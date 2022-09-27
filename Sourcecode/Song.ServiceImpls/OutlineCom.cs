@@ -98,7 +98,7 @@ namespace Song.ServiceImpls
         /// <param name="couid">课程（或课程）id</param>
         /// <param name="names">名称，可以是用逗号分隔的多个名称</param>
         /// <returns></returns>
-        public Outline OutlineBatchAdd(int orgid, int sbjid, long couid, string names)
+        public Outline OutlineBatchAdd(int orgid, long sbjid, long couid, string names)
         {
             //整理名称信息
             names = names.Replace("，", ",");
@@ -140,7 +140,7 @@ namespace Song.ServiceImpls
         /// <param name="pid">上级id</param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Outline OutlineIsExist(int orgid, int sbjid, long couid, long pid, string name)
+        public Outline OutlineIsExist(int orgid, long sbjid, long couid, long pid, string name)
         {
             WhereClip wc = Outline._.Org_ID == orgid;
             if (sbjid > 0) wc &= Outline._.Sbj_ID == sbjid;
@@ -575,17 +575,17 @@ namespace Song.ServiceImpls
         /// <param name="level">层深</param>
         /// <param name="prefix">序号前缀</param>
         /// <returns></returns>
-        private DataTable buildOutlineTree(DataTable outlines, int pid, int level, string prefix)
+        private DataTable buildOutlineTree(DataTable outlines, long pid, int level, string prefix)
         {
             if (outlines == null) return null;
             int index = 1;
             foreach (DataRow ol in outlines.Rows)
             {
-                if (Convert.ToInt32(ol["Ol_PID"]) == pid)
+                if (Convert.ToInt64(ol["Ol_PID"]) == pid)
                 {
                     ol["Ol_XPath"] = prefix + index.ToString() + ".";
                     ol["Ol_Level"] = level;
-                    buildOutlineTree(outlines, Convert.ToInt32(ol["Ol_ID"]), level + 1, ol["Ol_XPath"].ToString());
+                    buildOutlineTree(outlines, Convert.ToInt64(ol["Ol_ID"]), level + 1, ol["Ol_XPath"].ToString());
                     index++;
                 }
             }
@@ -769,7 +769,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
             return Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToArray<Outline>(count);
         }
-        public Outline[] OutlineCount(int orgid, int sbjid, long couid, long pid, bool? isUse, int count)
+        public Outline[] OutlineCount(int orgid, long sbjid, long couid, long pid, bool? isUse, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Outline._.Org_ID == orgid;

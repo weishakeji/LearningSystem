@@ -60,8 +60,8 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        TestPaper[] PaperCount(int orgid, int sbjid, long couid, int diff, bool? isUse, int count);
-        TestPaper[] PaperCount(string search, int orgid, int sbjid, long couid, int diff, bool? isUse, int count);
+        TestPaper[] PaperCount(int orgid, long sbjid, long couid, int diff, bool? isUse, int count);
+        TestPaper[] PaperCount(string search, int orgid, long sbjid, long couid, int diff, bool? isUse, int count);
         /// <summary>
         /// 计算有多少个试卷
         /// </summary>
@@ -71,7 +71,7 @@ namespace Song.ServiceInterfaces
         /// <param name="diff"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        int PaperOfCount(int orgid, int sbjid, long couid, int diff, bool? isUse);
+        int PaperOfCount(int orgid, long sbjid, long couid, int diff, bool? isUse);
         /// <summary>
         /// 分页获取试卷
         /// </summary>
@@ -84,7 +84,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        TestPaper[] PaperPager(int orgid, int sbjid, long couid, int diff, bool? isUse, string sear, int size, int index, out int countSum);
+        TestPaper[] PaperPager(int orgid, long sbjid, long couid, int diff, bool? isUse, string sear, int size, int index, out int countSum);
 
         #endregion
 
@@ -226,8 +226,8 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        TestResults[] ResultsPager(int stid, int sbjid, long couid, int size, int index, out int countSum);
-        TestResults[] ResultsPager(int stid, long tpid, string tpname, long couid, int sbjid, int orgid,
+        TestResults[] ResultsPager(int stid, long sbjid, long couid, int size, int index, out int countSum);
+        TestResults[] ResultsPager(int stid, long tpid, string tpname, long couid, long sbjid, int orgid,
             string acc, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
             int size, int index, out int countSum);
         /// <summary>

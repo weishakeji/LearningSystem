@@ -256,7 +256,7 @@ namespace Song.ViewData.Methods
         /// <param name="size">每页几条</param>
         /// <param name="index">第几页</param>
         /// <returns></returns>
-        public ListResult Pager(int orgid, int sbjid, long couid, string search, bool? isuse, int diff, int size, int index)
+        public ListResult Pager(int orgid, long sbjid, long couid, string search, bool? isuse, int diff, int size, int index)
         {
             int count = 0;
             Song.Entities.TestPaper[] tps = null;
@@ -396,8 +396,8 @@ namespace Song.ViewData.Methods
             }
 
             //专业id,专业名称
-            int sbjid = 0;
-            int.TryParse(getAttr(xn, "sbjid"), out sbjid);
+            long sbjid = 0;
+            long.TryParse(getAttr(xn, "sbjid"), out sbjid);
             string sbjname = getAttr(xn, "sbjname");
 
             //UID与考试主题
@@ -499,7 +499,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult ResultsQueryPager(int stid, long tpid, string tpname, long couid, int sbjid,int orgid,
+        public ListResult ResultsQueryPager(int stid, long tpid, string tpname, long couid, long sbjid,int orgid,
             string stname, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
             int size, int index)
         {

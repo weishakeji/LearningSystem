@@ -32,7 +32,7 @@ namespace Song.Entities {
     		
     		protected Boolean _Qus_IsCorrect;
     		
-    		protected Int32 _Sbj_ID;
+    		protected Int64 _Sbj_ID;
     		
     		protected String _Qus_ErrorInfo;
     		
@@ -223,7 +223,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32 Sbj_ID {
+    		public Int64 Sbj_ID {
     			get {
     				return this._Sbj_ID;
     			}
@@ -509,7 +509,7 @@ namespace Song.Entities {
     				this._Qus_IsCorrect = reader.GetBoolean(_.Qus_IsCorrect);
     			}
     			if ((false == reader.IsDBNull(_.Sbj_ID))) {
-    				this._Sbj_ID = reader.GetInt32(_.Sbj_ID);
+    				this._Sbj_ID = reader.GetInt64(_.Sbj_ID);
     			}
     			if ((false == reader.IsDBNull(_.Qus_ErrorInfo))) {
     				this._Qus_ErrorInfo = reader.GetString(_.Qus_ErrorInfo);
@@ -643,7 +643,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Qus_IsCorrect = new WeiSha.Data.Field<Questions>("Qus_IsCorrect");
     			
     			/// <summary>
-    			/// -1 - 字段名：Sbj_ID - 数据类型：Int32
+    			/// -1 - 字段名：Sbj_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Sbj_ID = new WeiSha.Data.Field<Questions>("Sbj_ID");
     			

@@ -8,8 +8,6 @@ namespace Song.Entities {
     	[SerializableAttribute()]
     	public partial class Subject : WeiSha.Data.Entity {
     		
-    		protected Int32 _Sbj_ID;
-    		
     		protected String _Sbj_Name;
     		
     		protected String _Sbj_ByName;
@@ -28,7 +26,7 @@ namespace Song.Entities {
     		
     		protected String _Org_Name;
     		
-    		protected Int32 _Sbj_PID;
+    		protected Int64 _Sbj_PID;
     		
     		protected Int32 _Sbj_Level;
     		
@@ -48,18 +46,7 @@ namespace Song.Entities {
     		
     		protected String _Sbj_Details;
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public Int32 Sbj_ID {
-    			get {
-    				return this._Sbj_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Sbj_ID, _Sbj_ID, value);
-    				this._Sbj_ID = value;
-    			}
-    		}
+    		protected Int64 _Sbj_ID;
     		
     		/// <summary>
     		/// -1
@@ -169,7 +156,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Sbj_PID {
+    		public Int64 Sbj_PID {
     			get {
     				return this._Sbj_PID;
     			}
@@ -269,18 +256,21 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 Sbj_ID {
+    			get {
+    				return this._Sbj_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sbj_ID, _Sbj_ID, value);
+    				this._Sbj_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<Subject>("Subject");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Sbj_ID;
     		}
     		
     		/// <summary>
@@ -296,7 +286,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Sbj_ID,
     					_.Sbj_Name,
     					_.Sbj_ByName,
     					_.Sbj_Intro,
@@ -315,7 +304,8 @@ namespace Song.Entities {
     					_.Dep_Id,
     					_.Dep_CnName,
     					_.Sbj_IsRec,
-    					_.Sbj_Details};
+    					_.Sbj_Details,
+    					_.Sbj_ID};
     		}
     		
     		/// <summary>
@@ -323,7 +313,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._Sbj_ID,
     					this._Sbj_Name,
     					this._Sbj_ByName,
     					this._Sbj_Intro,
@@ -342,16 +331,14 @@ namespace Song.Entities {
     					this._Dep_Id,
     					this._Dep_CnName,
     					this._Sbj_IsRec,
-    					this._Sbj_Details};
+    					this._Sbj_Details,
+    					this._Sbj_ID};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.Sbj_ID))) {
-    				this._Sbj_ID = reader.GetInt32(_.Sbj_ID);
-    			}
     			if ((false == reader.IsDBNull(_.Sbj_Name))) {
     				this._Sbj_Name = reader.GetString(_.Sbj_Name);
     			}
@@ -380,7 +367,7 @@ namespace Song.Entities {
     				this._Org_Name = reader.GetString(_.Org_Name);
     			}
     			if ((false == reader.IsDBNull(_.Sbj_PID))) {
-    				this._Sbj_PID = reader.GetInt32(_.Sbj_PID);
+    				this._Sbj_PID = reader.GetInt64(_.Sbj_PID);
     			}
     			if ((false == reader.IsDBNull(_.Sbj_Level))) {
     				this._Sbj_Level = reader.GetInt32(_.Sbj_Level);
@@ -409,6 +396,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Sbj_Details))) {
     				this._Sbj_Details = reader.GetString(_.Sbj_Details);
     			}
+    			if ((false == reader.IsDBNull(_.Sbj_ID))) {
+    				this._Sbj_ID = reader.GetInt64(_.Sbj_ID);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -434,11 +424,6 @@ namespace Song.Entities {
     			/// 表示选择所有列，与*等同
     			/// </summary>
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<Subject>();
-    			
-    			/// <summary>
-    			/// -1 - 字段名：Sbj_ID - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Sbj_ID = new WeiSha.Data.Field<Subject>("Sbj_ID");
     			
     			/// <summary>
     			/// -1 - 字段名：Sbj_Name - 数据类型：String
@@ -486,7 +471,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Org_Name = new WeiSha.Data.Field<Subject>("Org_Name");
     			
     			/// <summary>
-    			/// 字段名：Sbj_PID - 数据类型：Int32
+    			/// 字段名：Sbj_PID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Sbj_PID = new WeiSha.Data.Field<Subject>("Sbj_PID");
     			
@@ -534,6 +519,11 @@ namespace Song.Entities {
     			/// 字段名：Sbj_Details - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Sbj_Details = new WeiSha.Data.Field<Subject>("Sbj_Details");
+    			
+    			/// <summary>
+    			/// 字段名：Sbj_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Sbj_ID = new WeiSha.Data.Field<Subject>("Sbj_ID");
     		}
     	}
     }

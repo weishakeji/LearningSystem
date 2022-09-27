@@ -30,7 +30,7 @@ namespace Song.ServiceInterfaces
         /// <param name="pid"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        Subject SubjectIsExist(int orgid, int pid, string name);
+        Subject SubjectIsExist(int orgid, long pid, string name);
         /// <summary>
         /// 修改
         /// </summary>
@@ -40,37 +40,37 @@ namespace Song.ServiceInterfaces
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        void SubjectDelete(int identify);
+        void SubjectDelete(long identify);
         /// <summary>
         /// 清空专业下的所有试题
         /// </summary>
         /// <param name="identify"></param>
-        void SubjectClear(int identify);
+        void SubjectClear(long identify);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        Subject SubjectSingle(int identify);
+        Subject SubjectSingle(long identify);
         /// <summary>
         /// 当前专业下的所有子专业id
         /// </summary>
         /// <param name="sbjid">当前专业id</param>
         /// <returns></returns>
-        List<int> TreeID(int sbjid);
+        List<long> TreeID(long sbjid);
         /// <summary>
         /// 获取专业名称，如果为多级，则带上父级名称
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        string SubjectName(int identify);
+        string SubjectName(long identify);
         /// <summary>
         /// 当前专业，是否有子专业
         /// </summary>
         /// <param name="orgid"></param>
         /// <param name="identify">当前专业Id</param>
         /// <returns>有子级，返回true</returns>
-        bool SubjectIsChildren(int orgid, int identify, bool? isUse);
+        bool SubjectIsChildren(int orgid, long identify, bool? isUse);
         /// <summary>
         /// 获取学科/专业
         /// </summary>
@@ -87,7 +87,7 @@ namespace Song.ServiceInterfaces
         /// <param name="pid">上级ID</param>
         /// <param name="count"></param>
         /// <returns></returns>
-        List<Subject> SubjectCount(int orgid, string sear, bool? isUse, int pid, int count);
+        List<Subject> SubjectCount(int orgid, string sear, bool? isUse, long pid, int count);
         /// <summary>
         /// 取指定个数的学科或专业
         /// </summary>
@@ -99,7 +99,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index">启始索引</param>
         /// <param name="size">取多少条</param>
         /// <returns></returns>
-        List<Subject> SubjectCount(int orgid, string sear, bool? isUse, int pid, string order, int index, int size);
+        List<Subject> SubjectCount(int orgid, string sear, bool? isUse, long pid, string order, int index, int size);
         /// <summary>
         /// 获取学科/专业
         /// </summary>
@@ -109,14 +109,14 @@ namespace Song.ServiceInterfaces
         /// <param name="pid">上级ID</param>
         /// <param name="count"></param>
         /// <returns></returns>
-        List<Subject> SubjectCount(int orgid, int depid, string sear, bool? isUse, int pid, int count);
+        List<Subject> SubjectCount(int orgid, int depid, string sear, bool? isUse, long pid, int count);
         /// <summary>
         /// 当前专业的上级父级
         /// </summary>
         /// <param name="sbjid"></param>
         /// <param name="isself">是否包括自身</param>
         /// <returns></returns>
-        List<Subject> Parents(int sbjid, bool isself);
+        List<Subject> Parents(long sbjid, bool isself);
         /// <summary>
         /// 计算专业数量
         /// </summary>
@@ -125,7 +125,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse">是否启用的，null取所有</param>
         /// <param name="children">是否包括子级</param>
         /// <returns></returns>
-        int SubjectOfCount(int orgid, int pid, bool? isUse,bool children);
+        int SubjectOfCount(int orgid, long pid, bool? isUse,bool children);
         /// <summary>
         /// 当前学科下的所有试题
         /// </summary>
@@ -135,7 +135,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Questions[] QusForSubject(int orgid, int sbjid, int qusType, bool? isUse, int count);
+        Questions[] QusForSubject(int orgid, long sbjid, int qusType, bool? isUse, int count);
         /// <summary>
         /// 获取专业的下的试题数量
         /// </summary>
@@ -144,7 +144,7 @@ namespace Song.ServiceInterfaces
         /// <param name="qusType">试题分类</param>
         /// <param name="isUse">是否启用的试题</param>
         /// <returns></returns>
-        int QusCountForSubject(int orgid, int sbjid, int qusType, bool? isUse);
+        int QusCountForSubject(int orgid, long sbjid, int qusType, bool? isUse);
         /// <summary>
         /// 分页获取
         /// </summary>
@@ -156,7 +156,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Subject[] SubjectPager(int orgid, int pid, bool? isUse, string searTxt, int size, int index, out int countSum);
+        Subject[] SubjectPager(int orgid, long pid, bool? isUse, string searTxt, int size, int index, out int countSum);
         /// <summary>
         /// 更改专业的排序
         /// </summary>

@@ -698,7 +698,7 @@ select * from course as c inner join
                         //课程的累计完成度
                         double complete = Convert.ToDouble(dr["complete"].ToString());
                         //课程id
-                        couid = Convert.ToInt32(dr["Cou_ID"].ToString());
+                        couid = Convert.ToInt64(dr["Cou_ID"].ToString());
                         int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true);
                         //完成度
                         double peracent = Math.Floor(complete / olnum * 100) / 100;
@@ -903,7 +903,7 @@ select * from course as c inner join
         /// <param name="sbjid">学科id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Questions[] QuesAll(int acid, int sbjid, long couid, int type)
+        public Questions[] QuesAll(int acid, long sbjid, long couid, int type)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
@@ -921,7 +921,7 @@ select * from course as c inner join
         /// <param name="sbjid">学科id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Questions[] QuesCount(int acid, int sbjid, long couid, int type, int count)
+        public Questions[] QuesCount(int acid, long sbjid, long couid, int type, int count)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
@@ -940,7 +940,7 @@ select * from course as c inner join
         /// <param name="couid">课程id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public int QuesOfCount(int stid, int sbjid, long couid, int type)
+        public int QuesOfCount(int stid, long sbjid, long couid, int type)
         {
             WhereClip wc = new WhereClip();
             if (stid > 0) wc.And(Student_Ques._.Ac_ID == stid);
@@ -976,7 +976,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Questions[] QuesPager(int acid, int sbjid, long couid, int type, int diff, int size, int index, out int countSum)
+        public Questions[] QuesPager(int acid, long sbjid, long couid, int type, int diff, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
@@ -1110,7 +1110,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="couid">课程id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Questions[] CollectAll4Ques(int acid, int sbjid, long couid, int type)
+        public Questions[] CollectAll4Ques(int acid, long sbjid, long couid, int type)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Collect._.Ac_ID == acid);
@@ -1121,7 +1121,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
                 .InnerJoin<Student_Collect>(Questions._.Qus_ID == Student_Collect._.Qus_ID)
                 .Where(wc).OrderBy(Student_Collect._.Stc_CrtTime.Desc).ToArray<Questions>();
         }
-        public Student_Collect[] CollectAll(int acid, int sbjid, long couid, int type)
+        public Student_Collect[] CollectAll(int acid, long sbjid, long couid, int type)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Collect._.Ac_ID == acid);
@@ -1137,7 +1137,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="sbjid">学科id</param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
-        public Questions[] CollectCount(int acid, int sbjid, long couid, int type, int count)
+        public Questions[] CollectCount(int acid, long sbjid, long couid, int type, int count)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Collect._.Ac_ID == acid);
@@ -1159,7 +1159,7 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Questions[] CollectPager(int acid, int sbjid, long couid, int type, int diff, int size, int index, out int countSum)
+        public Questions[] CollectPager(int acid, long sbjid, long couid, int type, int diff, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (acid > 0) wc.And(Student_Collect._.Ac_ID == acid);

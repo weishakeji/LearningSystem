@@ -41,7 +41,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_ID")
                 {
                     if (string.IsNullOrEmpty(column) || column.Trim() == "") continue;
-                    int ques = Convert.ToInt32(column);
+                    long ques = Convert.ToInt64(column);
                     Song.Entities.Questions isHavObj = Business.Do<IQuestions>().QuesSingle(ques);
                     if (isHavObj != null) obj = isHavObj;
                 }
@@ -143,7 +143,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_ID")
                 {
                     if (column == string.Empty || column.Trim() == "") continue;
-                    int ques = Convert.ToInt32(column);
+                    long ques = Convert.ToInt64(column);
                     Song.Entities.Questions isHavObj = Business.Do<IQuestions>().QuesSingle(ques);
                     if (isHavObj != null) obj = isHavObj;
                 }
@@ -248,7 +248,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_ID")
                 {
                     if (string.IsNullOrEmpty(column) || column.Trim() == "") continue;
-                    int ques = Convert.ToInt32(column);
+                    long ques = Convert.ToInt64(column);
                     Song.Entities.Questions isHavObj = Business.Do<IQuestions>().QuesSingle(ques);
                     if (isHavObj != null) obj = isHavObj;
                 }
@@ -323,7 +323,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_ID")
                 {
                     if (string.IsNullOrEmpty(column) || column.Trim() == "") continue;
-                    int ques = Convert.ToInt32(column);
+                    long ques = Convert.ToInt64(column);
                     Song.Entities.Questions isHavObj = Business.Do<IQuestions>().QuesSingle(ques);
                     if (isHavObj != null) obj = isHavObj;
                 }
@@ -393,7 +393,7 @@ namespace Song.ViewData.QuestionHandler
                 if (field == "Qus_ID")
                 {
                     if (column == string.Empty || column.Trim() == "") continue;
-                    int ques = Convert.ToInt32(column);
+                    long ques = Convert.ToInt64(column);
                     Song.Entities.Questions isHavObj = Business.Do<IQuestions>().QuesSingle(ques);
                     if (isHavObj != null) obj = isHavObj;
                 }
