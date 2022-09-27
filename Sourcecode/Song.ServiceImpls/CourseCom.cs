@@ -715,8 +715,8 @@ namespace Song.ServiceImpls
                 foreach (string tm in sbjid.Split(','))
                 {
                     if (string.IsNullOrWhiteSpace(tm)) continue;
-                    int sbj = 0;
-                    int.TryParse(tm, out sbj);
+                    long sbj = 0;
+                    long.TryParse(tm, out sbj);
                     if (sbj <= 0) continue;
                     wcSbjid.Or(Course._.Sbj_ID == sbj);
                     //当前专业的下级专业也包括

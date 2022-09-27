@@ -318,13 +318,14 @@ namespace Song.ViewData
                 }
                 else
                 {
-                    if (!pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
+                    //如果形参不是可以为空，且实参的确为空了
+                    if (string.IsNullOrWhiteSpace(val) && !pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        if (!pi.ParameterType.Name.Equals("int32", StringComparison.CurrentCultureIgnoreCase))
+                        if (pi.ParameterType.Name.Equals("Boolean", StringComparison.CurrentCultureIgnoreCase) ||
+                      pi.ParameterType.Name.Equals("DateTime", StringComparison.CurrentCultureIgnoreCase))
                         {
                             if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
                         }
-                        //if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
                     }
                 }
                 //如果形参是数据实体
@@ -361,7 +362,7 @@ namespace Song.ViewData
 
             }
             return objs;
-        }       
+        }
         /// <summary>
         /// 数据实体的转换
         /// </summary>

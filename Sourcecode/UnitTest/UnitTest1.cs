@@ -80,9 +80,15 @@ namespace UnitTest
         [TestMethod]
         public void encodeURIComponent_test()
         {
-            string tt = "http://localhost:2021/Pay/Weixin/PublicPay.aspx".ToLower();
-            string url = HttpUtility.UrlEncode(tt).ToLower();
-            Assert.AreEqual(url, "http%3A%2F%2Flocalhost%3A2021%2FPay%2FWeixin%2FPublicPay.aspx".ToLower());
+            float f = 0;
+            double d = 0;
+            decimal de = 0;
+            string ff = f.GetType().Name;
+            string dd = d.GetType().Name;
+            string ecc = de.GetType().Name;
+
+            char c = 'a';
+            string cccc = c.GetType().Name;
         }
     }
 }
