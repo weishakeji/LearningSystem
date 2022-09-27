@@ -23,7 +23,10 @@ namespace Song.ServiceImpls
         {
             if (entity.Cou_ID <= 0)           
                 entity.Cou_ID = WeiSha.Core.Request.SnowID();
-          
+            //
+            if (string.IsNullOrWhiteSpace(entity.Cou_UID))
+                entity.Cou_UID = WeiSha.Core.Request.UniqueID();
+
             entity.Cou_CrtTime = DateTime.Now;            
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null)
@@ -41,9 +44,7 @@ namespace Song.ServiceImpls
             entity.Cou_Tax = obj is int ? (int)obj + 1 : 0;
             //默认为免费课程
             entity.Cou_IsFree = true;
-            //
-            if (string.IsNullOrWhiteSpace(entity.Cou_UID))
-                entity.Cou_UID = WeiSha.Core.Request.UniqueID();
+           
             entity.Cou_Level = _ClacLevel(entity);
             entity.Cou_XPath = _ClacXPath(entity);
             Gateway.Default.Save<Course>(entity);
@@ -1364,6 +1365,7 @@ namespace Song.ServiceImpls
             //验证价格设置项所属的课程是否存在
             Course cou=Gateway.Default.From<Course>().Where(Course._.Cou_UID == entity.Cou_UID).ToFirst<Course>();
             if (cou == null) throw new Exception("价格设置项所属的课程不存在");
+            entity.Cou_ID = cou.Cou_ID;
 
             object obj = Gateway.Default.Max<CoursePrice>(CoursePrice._.CP_Tax, CoursePrice._.Cou_UID == entity.Cou_UID);
             entity.CP_Tax = obj is int ? (int)obj + 1 : 0;
