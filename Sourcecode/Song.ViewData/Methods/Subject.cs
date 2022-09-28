@@ -30,7 +30,7 @@ namespace Song.ViewData.Methods
         /// <param name="id">专业id</param>
         /// <returns></returns>
         [Cache(AdminDisable = true)]
-        public Song.Entities.Subject ForID(int id)
+        public Song.Entities.Subject ForID(long id)
         {
             Song.Entities.Subject sbj = Business.Do<ISubject>().SubjectSingle(id);
             return _tran(sbj);
@@ -161,8 +161,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {
@@ -282,7 +282,7 @@ namespace Song.ViewData.Methods
         /// <param name="index">页码，即第几页</param>
         /// <param name="size">每页多少条记录</param>
         /// <returns></returns>
-        public ListResult PagerFront(int orgid,int pid,int index, int size)
+        public ListResult PagerFront(int orgid,long pid,int index, int size)
         {
             int sum = 0;
             Song.Entities.Subject[] list = Business.Do<ISubject>().SubjectPager(orgid,pid,true,string.Empty, size, index, out sum);
@@ -303,7 +303,7 @@ namespace Song.ViewData.Methods
         /// <param name="use">是否包括启用的课程,null取所有，true取启用的，false取未启用的</param>
         /// <returns></returns>
         [Cache(AdminDisable = true)]
-        public int CountOfCourse(int sbjid, bool? use)
+        public int CountOfCourse(long sbjid, bool? use)
         {
             Business.Do<ICourse>().CourseOfCount(sbjid);
             return Business.Do<ICourse>().CourseOfCount(-1, sbjid, -1, use);
