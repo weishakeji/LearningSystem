@@ -67,7 +67,7 @@ namespace Song.ViewData.Methods
         /// <param name="list">章节列表，对像只有Ol_ID、Ol_PID、Ol_Tax、Ol_Level</param>
         /// <returns></returns>
         [HttpPost]
-        [Admin]
+        [Admin, Teacher]
         public bool ModifyTaxis(Song.Entities.Outline[] list)
         {
             try
