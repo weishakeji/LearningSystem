@@ -28,13 +28,13 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns>如果删除成功，返回0；如果组包括学员，返回-1；如果是默认组，返回-2</returns>
-        int SortDelete(int identify);
+        int SortDelete(long identify);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        StudentSort SortSingle(int identify);
+        StudentSort SortSingle(long identify);
         /// <summary>
         /// 获取默认学员组
         /// </summary>
@@ -47,7 +47,7 @@ namespace Song.ServiceInterfaces
         /// <param name="orgid"></param>
         /// <param name="identify"></param>
         /// <returns></returns>
-        void SortSetDefault(int orgid, int identify);
+        void SortSetDefault(int orgid, long identify);
         /// <summary>
         /// 获取对象；即所有学员组；
         /// </summary>
@@ -73,13 +73,13 @@ namespace Song.ServiceInterfaces
         /// <param name="sortid">分类id</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        Accounts[] Student4Sort(int sortid, bool? isUse);
+        Accounts[] Student4Sort(long sortid, bool? isUse);
         /// <summary>
         /// 学员组中的学员数量
         /// </summary>
         /// <param name="sortid"></param>
         /// <returns></returns>
-        int SortOfNumber(int sortid);
+        int SortOfNumber(long sortid);
         /// <summary>
         /// 当前对象名称是否重名
         /// </summary>
@@ -116,7 +116,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="interval">数据提交的间隔时间，也是每次提交的增加的在线时间数，单位秒</param>
         /// <param name="plat">设备名称，PC为电脑端，Mobi为手机端</param>
-        void LogForLoginFresh(Accounts st,int interval, string plat);
+        void LogForLoginFresh(Accounts st, int interval, string plat);
         /// <summary>
         /// 退出登录之前的记录更新
         /// </summary>
@@ -235,21 +235,21 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="stid"></param>
         /// <returns>datatable中LastTime列为学习时间；studyTime：学习时间</returns>
-        DataTable StudentStudyCourseLog(int stid);        
+        DataTable StudentStudyCourseLog(int stid);
         /// <summary>
         /// 学员指定学习课程的记录
         /// </summary>
         /// <param name="stid"></param>
         /// <param name="couids">课程id,逗号分隔</param>
         /// <returns></returns>
-        DataTable StudentStudyCourseLog(int stid,string couids);
+        DataTable StudentStudyCourseLog(int stid, string couids);
         /// <summary>
         /// 学员所有学习某一课程的记录
         /// </summary>
         /// <param name="stid">学员id</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        DataTable StudentStudyCourseLog(int stid,long couid);
+        DataTable StudentStudyCourseLog(int stid, long couid);
         /// <summary>
         /// 学员学习某一课程下所有章节的记录
         /// </summary>
@@ -337,7 +337,7 @@ namespace Song.ServiceInterfaces
         /// <param name="type">题型</param>
         /// <param name="count">取多少条</param>
         /// <returns>试题的完整结构+count列，取试题的错误次数</returns>
-        Questions[] QuesOftenwrong(long couid, int type, int count);            
+        Questions[] QuesOftenwrong(long couid, int type, int count);
         /// <summary>
         /// 分页获取学员的错误试题
         /// </summary>
@@ -360,7 +360,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Course[] QuesForCourse(int stid,string couname,int size, int index, out int countSum);
+        Course[] QuesForCourse(int stid, string couname, int size, int index, out int countSum);
         #endregion
 
         #region 学员的试题收藏
@@ -404,7 +404,7 @@ namespace Song.ServiceInterfaces
         /// <param name="acid"></param>
         /// <param name="qid"></param>
         /// <returns></returns>
-        Student_Collect CollectSingle(int acid,long qid);
+        Student_Collect CollectSingle(int acid, long qid);
         /// <summary>
         /// 当前学员收藏的试题
         /// </summary>

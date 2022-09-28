@@ -308,7 +308,7 @@ namespace Song.ViewData.Methods
         /// <param name="index">页码，即第几页</param>
         /// <param name="size">每页多少条记录</param>
         /// <returns></returns>
-        public ListResult Pager(int orgid, int sortid, bool? use, string acc, string name, string phone,string idcard, int index, int size)
+        public ListResult Pager(int orgid, long sortid, bool? use, string acc, string name, string phone,string idcard, int index, int size)
         {
             int sum = 0;
             Song.Entities.Accounts[] accs = Business.Do<IAccounts>().AccountsPager(orgid, sortid, use, acc, name, phone, idcard, size, index, out sum);
@@ -721,7 +721,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Song.Entities.StudentSort SortForID(int id)
+        public Song.Entities.StudentSort SortForID(long id)
         {
             return Business.Do<IStudent>().SortSingle(id);
         }
@@ -744,7 +744,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="sortid">学员组的id</param>
         /// <returns></returns>
-        public int SortOfNumber(int sortid)
+        public int SortOfNumber(long sortid)
         {
             return Business.Do<IStudent>().SortOfNumber(sortid);
         }
@@ -787,9 +787,9 @@ namespace Song.ViewData.Methods
         /// 设置默认学员组
         /// </summary>
         /// <param name="orgid"></param>
-        /// <param name="id"></param>
+        /// <param name="id">学员组id</param>
         /// <returns></returns>
-        public bool SortSetDefault(int orgid, int id)
+        public bool SortSetDefault(int orgid, long id)
         {
             if (orgid < 1)
             {
@@ -820,8 +820,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {
@@ -902,7 +902,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [HttpDelete]
-        public int SortRemoveStudent(int stsid, string id)
+        public int SortRemoveStudent(long stsid, string id)
         {
             int i = 0;
             if (string.IsNullOrWhiteSpace(id)) return i;
@@ -934,7 +934,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [HttpPost]
-        public int SortAddStudent(int stsid, string id)
+        public int SortAddStudent(long stsid, string id)
         {
             Song.Entities.StudentSort sort = Business.Do<IStudent>().SortSingle(stsid);
             if (sort == null) throw new Exception("Not found entity for StudentSort！");
@@ -1183,11 +1183,11 @@ namespace Song.ViewData.Methods
         /// <param name="org"></param>
         /// <param name="sortName"></param>
         /// <returns></returns>
-        private int _getSortsId(List<Song.Entities.StudentSort> sorts, Song.Entities.Organization org, string sortName)
+        private long _getSortsId(List<Song.Entities.StudentSort> sorts, Song.Entities.Organization org, string sortName)
         {
             try
             {
-                int sortId = 0;
+                long sortId = 0;
                 foreach (Song.Entities.StudentSort s in sorts)
                 {
                     if (sortName.Trim() == s.Sts_Name)

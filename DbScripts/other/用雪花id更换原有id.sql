@@ -266,3 +266,37 @@ alter table [Course] ALTER COLUMN Sbj_ID  bigint not null
 alter table [Questions] ALTER COLUMN Sbj_ID  bigint not null
 alter table [Outline] ALTER COLUMN Sbj_ID  bigint not null
 
+/***************
+学员组自增Id转为雪花id
+*/
+ALTER TABLE [StudentSort] ADD [Sts_SID] bigint default 0 not null
+go
+update [StudentSort]  set Sts_SID=Sts_ID
+go
+/*删除原有主键，设置新的主建*/
+declare cursor_ss  cursor scroll
+for SELECT idx.name AS pk FROM sys.indexes idx JOIN sys.tables tab ON (idx.object_id = tab.object_id) where tab.name='StudentSort'
+open cursor_ss
+declare @pk nvarchar(500),@sql nvarchar(500)
+fetch First from cursor_ss into @pk
+while @@fetch_status=0  
+ begin  
+   set @sql='alter table [StudentSort] drop constraint '+@pk   
+   exec sp_executesql @sql
+   fetch next from cursor_ss into @pk 
+ end   
+--关闭并释放游标
+close cursor_ss
+deallocate cursor_ss
+go
+alter table [StudentSort] drop column Sts_ID
+go
+execute sp_rename '[StudentSort].Sts_SID','Sts_ID'
+go
+alter table [StudentSort] add primary key ( Sts_ID );
+go
+alter table [TestResults] ALTER COLUMN Sts_ID  bigint not null
+alter table [ExamResults] ALTER COLUMN Sts_ID  bigint not null
+alter table [ExamGroup] ALTER COLUMN Sts_ID  bigint not null
+alter table [Student] ALTER COLUMN Sts_ID  bigint not null
+alter table [Accounts] ALTER COLUMN Sts_ID  bigint not null

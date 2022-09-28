@@ -296,8 +296,8 @@ namespace Song.ViewData.Methods
             //学生性别，分组，身份证号
             int stsex;
             int.TryParse(xn.Attributes["stsex"].Value, out stsex);
-            int stsid;
-            int.TryParse(xn.Attributes["stsid"].Value, out stsid);
+            long stsid;
+            long.TryParse(xn.Attributes["stsid"].Value, out stsid);
             string stcardid = xn.Attributes["stcardid"].Value.ToString();
             //学科Id,学科名称
             long sbjid;

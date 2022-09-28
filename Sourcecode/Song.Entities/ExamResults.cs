@@ -56,7 +56,7 @@ namespace Song.Entities {
     		
     		protected String _Org_Name;
     		
-    		protected Int32 _Sts_ID;
+    		protected Int64 _Sts_ID;
     		
     		protected Int32 _Ac_Sex;
     		
@@ -370,7 +370,7 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Int32 Sts_ID {
+    		public Int64 Sts_ID {
     			get {
     				return this._Sts_ID;
     			}
@@ -615,7 +615,7 @@ namespace Song.Entities {
     				this._Org_Name = reader.GetString(_.Org_Name);
     			}
     			if ((false == reader.IsDBNull(_.Sts_ID))) {
-    				this._Sts_ID = reader.GetInt32(_.Sts_ID);
+    				this._Sts_ID = reader.GetInt64(_.Sts_ID);
     			}
     			if ((false == reader.IsDBNull(_.Ac_Sex))) {
     				this._Ac_Sex = reader.GetInt32(_.Ac_Sex);
@@ -782,7 +782,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Org_Name = new WeiSha.Data.Field<ExamResults>("Org_Name");
     			
     			/// <summary>
-    			/// 字段名：Sts_ID - 数据类型：Int32
+    			/// 字段名：Sts_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Sts_ID = new WeiSha.Data.Field<ExamResults>("Sts_ID");
     			

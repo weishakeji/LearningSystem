@@ -8,8 +8,6 @@ namespace Song.Entities {
     	[SerializableAttribute()]
     	public partial class StudentSort : WeiSha.Data.Entity {
     		
-    		protected Int32 _Sts_ID;
-    		
     		protected String _Sts_Name;
     		
     		protected Int32 _Sts_Tax;
@@ -30,15 +28,7 @@ namespace Song.Entities {
     		
     		protected Boolean _Sts_SwitchPlay;
     		
-    		public Int32 Sts_ID {
-    			get {
-    				return this._Sts_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Sts_ID, _Sts_ID, value);
-    				this._Sts_ID = value;
-    			}
-    		}
+    		protected Int64 _Sts_ID;
     		
     		public String Sts_Name {
     			get {
@@ -140,18 +130,21 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 Sts_ID {
+    			get {
+    				return this._Sts_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_ID, _Sts_ID, value);
+    				this._Sts_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<StudentSort>("StudentSort");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Sts_ID;
     		}
     		
     		/// <summary>
@@ -167,7 +160,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Sts_ID,
     					_.Sts_Name,
     					_.Sts_Tax,
     					_.Sts_Intro,
@@ -177,7 +169,8 @@ namespace Song.Entities {
     					_.Org_Name,
     					_.Dep_CnName,
     					_.Dep_Id,
-    					_.Sts_SwitchPlay};
+    					_.Sts_SwitchPlay,
+    					_.Sts_ID};
     		}
     		
     		/// <summary>
@@ -185,7 +178,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._Sts_ID,
     					this._Sts_Name,
     					this._Sts_Tax,
     					this._Sts_Intro,
@@ -195,16 +187,14 @@ namespace Song.Entities {
     					this._Org_Name,
     					this._Dep_CnName,
     					this._Dep_Id,
-    					this._Sts_SwitchPlay};
+    					this._Sts_SwitchPlay,
+    					this._Sts_ID};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.Sts_ID))) {
-    				this._Sts_ID = reader.GetInt32(_.Sts_ID);
-    			}
     			if ((false == reader.IsDBNull(_.Sts_Name))) {
     				this._Sts_Name = reader.GetString(_.Sts_Name);
     			}
@@ -235,6 +225,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Sts_SwitchPlay))) {
     				this._Sts_SwitchPlay = reader.GetBoolean(_.Sts_SwitchPlay);
     			}
+    			if ((false == reader.IsDBNull(_.Sts_ID))) {
+    				this._Sts_ID = reader.GetInt64(_.Sts_ID);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -260,11 +253,6 @@ namespace Song.Entities {
     			/// 表示选择所有列，与*等同
     			/// </summary>
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<StudentSort>();
-    			
-    			/// <summary>
-    			/// 字段名：Sts_ID - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Sts_ID = new WeiSha.Data.Field<StudentSort>("Sts_ID");
     			
     			/// <summary>
     			/// 字段名：Sts_Name - 数据类型：String
@@ -315,6 +303,11 @@ namespace Song.Entities {
     			/// 字段名：Sts_SwitchPlay - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Sts_SwitchPlay = new WeiSha.Data.Field<StudentSort>("Sts_SwitchPlay");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_ID = new WeiSha.Data.Field<StudentSort>("Sts_ID");
     		}
     	}
     }

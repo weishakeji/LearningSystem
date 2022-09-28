@@ -21,7 +21,8 @@ namespace Song.ServiceImpls
 
         #region 学员分类
         public void SortAdd(StudentSort entity)
-        {           
+        {
+            if (entity.Sts_ID <= 0) entity.Sts_ID = WeiSha.Core.Request.SnowID();
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null)
             {
@@ -64,14 +65,14 @@ namespace Song.ServiceImpls
             }
         }
 
-        public int SortDelete(int identify)
+        public int SortDelete(long identify)
         {
             Accounts st = Gateway.Default.From<Accounts>().Where(Accounts._.Sts_ID == identify).ToFirst<Accounts>();
             if (st != null) throw new WeiSha.Core.ExceptionForAlert("当前学员分类下有学员信息");
             return Gateway.Default.Delete<StudentSort>(StudentSort._.Sts_ID == identify);
         }
 
-        public StudentSort SortSingle(int identify)
+        public StudentSort SortSingle(long identify)
         {
             return Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == identify).ToFirst<StudentSort>();
         }
@@ -81,7 +82,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<StudentSort>().Where(StudentSort._.Org_ID == orgid && StudentSort._.Sts_IsDefault == true).ToFirst<StudentSort>();
         }
 
-        public void SortSetDefault(int orgid, int identify)
+        public void SortSetDefault(int orgid, long identify)
         {
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
@@ -127,7 +128,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == st.Sts_ID).ToFirst<StudentSort>();
         }
 
-        public Accounts[] Student4Sort(int sortid, bool? isUse)
+        public Accounts[] Student4Sort(long sortid, bool? isUse)
         {
             WhereClip wc = Accounts._.Sts_ID == sortid;
             if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
@@ -138,7 +139,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="sortid"></param>
         /// <returns></returns>
-        public int SortOfNumber(int sortid)
+        public int SortOfNumber(long sortid)
         {
             return Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == sortid);
         }

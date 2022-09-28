@@ -705,8 +705,8 @@ namespace Song.ServiceImpls
                 foreach (string s in ids)
                 {
                     if (string.IsNullOrWhiteSpace(s)) continue;
-                    int stsid = 0;
-                    int.TryParse(s, out stsid);
+                    long stsid = 0;
+                    long.TryParse(s, out stsid);
                     if (stsid == 0) continue;
                     wcsts.Or(Accounts._.Sts_ID == stsid);
                 }
@@ -764,7 +764,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Accounts[] AccountsPager(int orgid, int sortid, bool? isUse, string acc, string name, string phone, string idcard, int size, int index, out int countSum)
+        public Accounts[] AccountsPager(int orgid, long sortid, bool? isUse, string acc, string name, string phone, string idcard, int size, int index, out int countSum)
         {
             return AccountsPager(orgid, sortid, -1, isUse, acc, name, phone, idcard, size, index, out countSum);
         }
@@ -782,7 +782,7 @@ namespace Song.ServiceImpls
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Accounts[] AccountsPager(int orgid, int sortid, int pid, bool? isUse, string acc, string name, string phone, string idcard, int size, int index, out int countSum)
+        public Accounts[] AccountsPager(int orgid, long sortid, int pid, bool? isUse, string acc, string name, string phone, string idcard, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Accounts._.Org_ID == orgid);
@@ -848,8 +848,8 @@ namespace Song.ServiceImpls
                 foreach (string s in sorts.Split(','))
                 {
                     if (string.IsNullOrWhiteSpace(s)) continue;
-                    int sortid=0;
-                    int.TryParse(s,out sortid);
+                    long sortid=0;
+                    long.TryParse(s,out sortid);
                     if(sortid==0)continue;
                     //
                     Song.Entities.StudentSort sts=Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == sortid).ToFirst<StudentSort>();
