@@ -68,3 +68,11 @@
 	height: calc(100% - 180px);
 }
 
+
+.footer{
+	display: flex;
+	justify-content: space-between;
+}
+.footer>span:first-child>*{
+	margin-right: 15px;
+}
