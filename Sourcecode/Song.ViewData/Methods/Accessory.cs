@@ -157,10 +157,11 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public Song.Entities.Accessory ForUID(string uid,string type)
         {
-            Song.Entities.Accessory entity = Business.Do<IAccessory>().GetSingle(uid, type);
-            if (entity.As_Extension == "flv") entity.As_FileName = Path.ChangeExtension(entity.As_FileName, ".mp4");
+            Song.Entities.Accessory entity = Business.Do<IAccessory>().GetSingle(uid, type);          
             if (entity != null)
             {
+                if (entity.As_Extension == "flv")
+                    entity.As_FileName = Path.ChangeExtension(entity.As_FileName, ".mp4");
                 if (!entity.As_IsOther && !entity.As_IsOuter)
                 {
                     //资源的虚拟路径和物理路径
@@ -329,7 +330,7 @@ namespace Song.ViewData.Methods
             //资源的虚拟路径和物理路径
             string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual;
             string phyPath = WeiSha.Core.Upload.Get[pathkey].Physics;
-            List<JObject> list = new List<JObject>();
+            JArray list = new JArray();
             System.IO.DirectoryInfo dir = new DirectoryInfo(phyPath);
             System.IO.FileInfo[] files;
             if (string.IsNullOrWhiteSpace(search))
