@@ -121,6 +121,9 @@ namespace Song.ServiceInterfaces
         /// 计算有多少道题
         /// </summary>
         /// <param name="orgid"></param>
+        /// <param name="sbjid"></param>
+        /// <param name="couid"></param>
+        /// <param name="olid"></param>
         /// <param name="type"></param>
         /// <param name="isUse"></param>
         /// <returns></returns>
@@ -186,7 +189,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid">所属机构</param>
         /// <param name="type">试题类型，如单选，多选等,如1,2这样的字符串来表示</param>
-        /// <param name="sbjId">专业id</param>
+        /// <param name="sbjid">专业id</param>
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <param name="diff">难度等级，如1,2这样的字符串</param>

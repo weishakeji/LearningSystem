@@ -222,6 +222,7 @@
     <Compile Include="Special_Article.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentSort.cs" />
+    <Compile Include="StudentSort_Course.cs" />
     <Compile Include="Student_Collect.cs" />
     <Compile Include="Student_Course.cs" />
     <Compile Include="Student_Notes.cs" />

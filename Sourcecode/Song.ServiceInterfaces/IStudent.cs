@@ -12,7 +12,7 @@ namespace Song.ServiceInterfaces
     /// </summary>
     public interface IStudent : WeiSha.Core.IBusinessInterface
     {
-        #region 学员分类管理
+        #region 学员分类（组）管理
         /// <summary>
         /// 添加学员分类
         /// </summary>
@@ -103,6 +103,51 @@ namespace Song.ServiceInterfaces
         /// <param name="countSum"></param>
         /// <returns></returns>
         StudentSort[] SortPager(int orgid, bool? isUse, string name, int size, int index, out int countSum);
+        #endregion
+
+        #region 学员组与课程
+        /// <summary>
+        /// 增加学员组与课程的关联
+        /// </summary>
+        /// <param name="sortid"></param>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        int SortCourseAdd(long sortid, long couid);
+        /// <summary>
+        /// 增加学员组与课程的关联
+        /// </summary>
+        /// <param name="ssc"></param>
+        /// <returns></returns>
+        int SortCourseAdd(StudentSort_Course ssc);
+        /// <summary>
+        /// 修改学员组与课程的关联
+        /// </summary>
+        /// <param name="ssc"></param>
+        /// <returns></returns>
+        int SortCourseSave(StudentSort_Course ssc);
+        /// <summary>
+        /// 学员组关联的课程数
+        /// </summary>
+        /// <param name="sortid"></param>
+        /// <returns></returns>
+        int SortCourseCount(long sortid);
+        /// <summary>
+        /// 删除学员组与课程的关联
+        /// </summary>
+        /// <param name="sortid"></param>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        bool SortCourseDelete(long sortid, long couid);
+        /// <summary>
+        /// 分页获取学员组关联的课程
+        /// </summary>
+        /// <param name="sortid"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        List<Course> SortCoursePager(long sortid, string name, int size, int index, out int countSum);
         #endregion
 
         #region 学员登录与在线记录

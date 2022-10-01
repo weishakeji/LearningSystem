@@ -204,6 +204,82 @@ namespace Song.ServiceImpls
         }
         #endregion
 
+        #region 学员组与课程
+        /// <summary>
+        /// 增加学员组与课程的关联
+        /// </summary>
+        /// <param name="sortid"></param>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public int SortCourseAdd(long sortid, long couid)
+        {
+            StudentSort_Course ssc = new StudentSort_Course();
+            ssc.Sts_ID = sortid;
+            ssc.Cou_ID = couid;
+            return this.SortCourseAdd(ssc);
+        }
+        /// <summary>
+        /// 增加学员组与课程的关联
+        /// </summary>
+        /// <param name="ssc"></param>
+        /// <returns></returns>
+        public int SortCourseAdd(StudentSort_Course ssc)
+        {
+            Gateway.Default.Save<StudentSort_Course>(ssc);
+            return ssc.Ssc_ID;
+        }
+        /// <summary>
+        /// 修改学员组与课程的关联
+        /// </summary>
+        /// <param name="ssc"></param>
+        /// <returns></returns>
+        public int SortCourseSave(StudentSort_Course ssc)
+        {
+            Gateway.Default.Save<StudentSort_Course>(ssc);
+            return ssc.Ssc_ID;
+        }
+        /// <summary>
+        /// 学员组关联的课程数
+        /// </summary>
+        /// <param name="sortid"></param>
+        /// <returns></returns>
+        public int SortCourseCount(long sortid)
+        {
+            return Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == sortid);
+        }
+        /// <summary>
+        /// 删除学员组与课程的关联
+        /// </summary>
+        /// <param name="sortid"></param>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        public bool SortCourseDelete(long sortid, long couid)
+        {
+            Gateway.Default.Delete<StudentSort_Course>(StudentSort_Course._.Sts_ID == sortid && StudentSort_Course._.Cou_ID == couid);
+            return true;
+        }
+        /// <summary>
+        /// 分页获取学员组关联的课程
+        /// </summary>
+        /// <param name="sortid"></param>
+        /// <param name="name"></param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
+        /// <returns></returns>
+        public List<Course> SortCoursePager(long sortid, string name, int size, int index, out int countSum)
+        {
+            WhereClip wc = new WhereClip();
+            if (sortid > 0) wc.And(StudentSort_Course._.Sts_ID == sortid);          
+
+            countSum = Gateway.Default.Count<StudentSort_Course>(wc);
+
+            return Gateway.Default.From<Course>()
+                .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)
+                .Where(wc).OrderBy(StudentSort_Course._.Ssc_ID.Desc).ToList<Course>(size, (index - 1) * size);          
+        }
+        #endregion
+
         #region 学员登录与在线记录
         /// <summary>
         /// 添加登录记录

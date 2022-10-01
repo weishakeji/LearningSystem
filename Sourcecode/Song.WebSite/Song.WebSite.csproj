@@ -427,9 +427,12 @@
     <Content Include="Templates\OrgAdmin\Default\Question\Styles\Import.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\BeginCourse.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\BeginCourse.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortCourse.js" />
     <Content Include="Templates\OrgAdmin\Default\Student\Scripts\SortAccount.js" />
+    <Content Include="Templates\OrgAdmin\Default\Student\SortCourse.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\SortAccount.html" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\BeginCourse.css" />
+    <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortCourse.css" />
     <Content Include="Templates\OrgAdmin\Default\Student\Styles\SortAccount.css" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Export.html" />
     <Content Include="Templates\OrgAdmin\Default\Teacher\Import.html" />

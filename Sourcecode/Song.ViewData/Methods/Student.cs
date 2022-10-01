@@ -70,5 +70,29 @@ namespace Song.ViewData.Methods
                 dt = Business.Do<IStudent>().StudentStudyCourseLog(stid);
             return dt;
         }
+
+        #region 学员组与课程
+
+        /// <summary>
+        /// 学员组关联的课程
+        /// </summary>
+        /// <param name="sortid">学员组id</param>
+        /// <param name="name">按课程名称检索</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public ListResult SortCoursePager(long sortid, string name, int size, int index)
+        {
+            int count = 0;
+            List<Song.Entities.Course> list = Business.Do<IStudent>().SortCoursePager(sortid, name, size, index, out count);
+
+            ListResult result = new ListResult(list);
+            result.Index = index;
+            result.Size = size;
+            result.Total = count;
+            return result;
+        }
+
+        #endregion
     }
 }

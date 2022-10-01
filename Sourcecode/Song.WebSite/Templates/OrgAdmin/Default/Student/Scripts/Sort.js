@@ -56,8 +56,10 @@ $ready(function () {
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
-                //每页多少条，通过界面高度自动计算
-                var area = document.documentElement.clientHeight - 100;
+                //每页多少条，通过界面高度自动计算        
+                var maxheight = document.documentElement.clientHeight;
+                maxheight = maxheight < 1 ? window.screen.availHeight - 200 : maxheight;
+                var area = maxheight - 100;
                 th.form.size = Math.floor(area / 42);
                 th.form.size = th.form.size <= 10 ? 10 : th.form.size;
                 th.form.size = th.form.size >= 100 ? 100 : th.form.size;
@@ -218,6 +220,12 @@ $ready(function () {
                 var title = '设置“' + item.Sts_Name + '”的成员';
                 var url = $api.url.set('SortAccount', { id: item.Sts_ID });
                 this.$refs.btngroup.pagebox(url, title, null, 800, 600);
+            },
+            //设置课程的按钮事件
+            setcourse: function (item) {
+                var title = '设置“' + item.Sts_Name + '”的关联课程';
+                var url = $api.url.set('SortCourse', { id: item.Sts_ID });
+                this.$refs.btngroup.pagebox(url, title, null, 800, '80%');
             }
         }
     });

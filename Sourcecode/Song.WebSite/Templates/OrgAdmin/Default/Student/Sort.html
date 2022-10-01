@@ -40,10 +40,17 @@
                     <span v-html="showInfo(scope.row.Sts_Name)" class="draghandle"></span>
                     <student_count :sort="scope.row"></student_count>
                 </template>
-            </el-table-column>    
+            </el-table-column>   
+            <el-table-column label="课程" width="100">
+                <template slot-scope="scope">
+                    <el-link type="primary" @click="setcourse(scope.row)">
+                        <icon>&#xe813</icon>设置课程</el-link>
+                </template>
+            </el-table-column> 
             <el-table-column label="成员" width="100">
                 <template slot-scope="scope">
-                    <el-link type="primary" @click="setaccount(scope.row)">设置成员</el-link>
+                    <el-link type="primary" @click="setaccount(scope.row)">
+                        <icon>&#xe7cd</icon>设置成员</el-link>
                 </template>
             </el-table-column>
             <el-table-column label="视频" width="120">

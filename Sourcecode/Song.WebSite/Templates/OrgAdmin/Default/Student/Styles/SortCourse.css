@@ -1,0 +1,10 @@
+﻿@charset "utf-8";
+
+.table_courses {
+    height: calc(100% - 85px);
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+}
