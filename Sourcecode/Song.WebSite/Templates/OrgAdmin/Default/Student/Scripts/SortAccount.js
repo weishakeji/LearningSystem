@@ -200,8 +200,10 @@ $ready(function () {
         watch: {
             'orgid': {
                 handler: function (nv, ov) {
-                    this.form.orgid = nv;
-                    this.getpaper();
+                    if (nv) {
+                        this.form.orgid = nv;
+                        this.getpaper();
+                    }
                 }, immediate: true
             }
 
