@@ -39,11 +39,13 @@
                 </el-table-column>
                 <el-table-column label="课程">
                     <div slot-scope="scope" class="title_box" :title="scope.row.Cou_Name">
-                        <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
-                        <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                        <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
+                            <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
+                            <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" /></a>
                         <div>
                             <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
-                            <span v-html="showInfo(scope.row.Cou_Name,form.name)" class="large"> </span>
+                            <a v-html="showInfo(scope.row.Cou_Name,form.name)" class="large"
+                                :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank"> </a>
                         </div>
                     </div>
                 </el-table-column>
