@@ -111,6 +111,7 @@ $ready(function () {
             addfinish: function (stsid, couid) {
                 console.log(couid);
                 this.handleCurrentChange();
+                this.operateSuccess();
             },
             //窗体右侧的移除，包括列上方的批量移除
             remove: function (item) {

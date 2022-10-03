@@ -72,7 +72,15 @@ namespace Song.ViewData.Methods
         }
 
         #region 学员组与课程
-
+        /// <summary>
+        /// 学员组下的课程数量
+        /// </summary>
+        /// <param name="sortid">学员组的id</param>
+        /// <returns></returns>
+        public int SortCoursOfNumber(long sortid)
+        {
+            return Business.Do<IStudent>().SortCourseCount(sortid);
+        }
         /// <summary>
         /// 学员组关联的课程
         /// </summary>

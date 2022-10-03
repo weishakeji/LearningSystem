@@ -37,20 +37,23 @@
             </el-table-column>
             <el-table-column label="组名称">
                 <template slot-scope="scope">
-                    <span v-html="showInfo(scope.row.Sts_Name)" class="draghandle"></span>
-                    <student_count :sort="scope.row"></student_count>
+                    <span v-html="showInfo(scope.row.Sts_Name)" class="draghandle"></span>                    
                 </template>
             </el-table-column>   
-            <el-table-column label="课程" width="100">
+            <el-table-column label="课程" width="160">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="setcourse(scope.row)">
-                        <icon>&#xe813</icon>设置课程</el-link>
+                        <icon>&#xe813</icon>设置课程
+                        <course_count :sort="scope.row"></course_count>
+                    </el-link>
                 </template>
             </el-table-column> 
-            <el-table-column label="成员" width="100">
+            <el-table-column label="成员" width="160">
                 <template slot-scope="scope">
                     <el-link type="primary" @click="setaccount(scope.row)">
-                        <icon>&#xe7cd</icon>设置成员</el-link>
+                        <icon>&#xe7cd</icon>设置成员
+                        <student_count :sort="scope.row"></student_count>
+                    </el-link>
                 </template>
             </el-table-column>
             <el-table-column label="视频" width="120">
