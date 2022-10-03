@@ -116,6 +116,7 @@ function ready(result) {
         $dom('panel#login').hide();
         $dom('panel#admin').show().css('opacity', 0);
         window.$skins.onchange();
+        //window.$skins.setup('Education')
         //右侧菜单信息
         window.usermenu.datas[0].title = result.Acc_Name;
         if (result.Acc_Photo != '')
@@ -124,7 +125,7 @@ function ready(result) {
     //树形菜单
     window.tree = $treemenu.create({
         target: '#treemenu-area',
-        width: 160,
+        width: 180,
         taghide: true
     }).onresize(function (s, e) { //当宽高变更时
         $dom('#tabs-area').width('calc(100% - ' + (e.width + 5) + 'px )');

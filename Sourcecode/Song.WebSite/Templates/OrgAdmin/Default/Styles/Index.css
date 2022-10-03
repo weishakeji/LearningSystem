@@ -40,7 +40,7 @@ panel#admin {
 }
 
 #logo {
-    width: 160px;
+    width: 180px;
     margin-right: 5px;
     box-sizing: border-box;
     height: 100%;
@@ -246,10 +246,22 @@ panel#admin {
 .treemenu tree_body {
     background-color: rgba(0, 0, 0, 0.2) !important;
 }
-
+.treemenu tree_area tree_tit{
+    font-size: 17px !important;
+}
+.treemenu tree_area tree_tit i{
+    font-size: 18px !important;
+}
+.treemenu tree-node{
+    font-size: 16px !important;
+    line-height: 35px !important;;
+    height: 35px !important;;
+    letter-spacing:3px;
+}
 .treemenu tree-node:hover:before {
     border: solid 1px rgba(255, 255, 255, 0.3) !important;
     box-shadow: none !important;
+   
 }
 
 #tabs-area tab_tag {
@@ -273,5 +285,5 @@ tabs_tagbox tab_tag ico {
 #pageboxcollect {
     bottom: -2px !important;
     right: -3px !important;
-    left: 128px !important;
+    left: 150px !important;
 }
