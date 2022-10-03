@@ -216,16 +216,22 @@ namespace Song.ServiceImpls
             StudentSort_Course ssc = new StudentSort_Course();
             ssc.Sts_ID = sortid;
             ssc.Cou_ID = couid;
+            ssc.Ssc_IsEnable = true;
+
+            ssc.Ssc_StartTime = DateTime.Now;
+            ssc.Ssc_EndTime = DateTime.Now.AddYears(200);
             return this.SortCourseAdd(ssc);
         }
         /// <summary>
         /// 增加学员组与课程的关联
         /// </summary>
         /// <param name="ssc"></param>
-        /// <returns></returns>
+        /// <returns>新增对象的id</returns>
         public int SortCourseAdd(StudentSort_Course ssc)
         {
-            Gateway.Default.Save<StudentSort_Course>(ssc);
+            int count = Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == ssc.Sts_ID && StudentSort_Course._.Cou_ID == ssc.Cou_ID);
+            if(count<1)
+                Gateway.Default.Save<StudentSort_Course>(ssc);
             return ssc.Ssc_ID;
         }
         /// <summary>
@@ -270,9 +276,12 @@ namespace Song.ServiceImpls
         public List<Course> SortCoursePager(long sortid, string name, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
-            if (sortid > 0) wc.And(StudentSort_Course._.Sts_ID == sortid);          
-
-            countSum = Gateway.Default.Count<StudentSort_Course>(wc);
+            if (sortid > 0) wc.And(StudentSort_Course._.Sts_ID == sortid);
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(Course._.Cou_Name.Like("%" + name.Trim() + "%"));
+            //countSum = Gateway.Default.Count<StudentSort_Course>(wc);
+            countSum = Gateway.Default.From<Course>()
+                .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)
+                .Where(wc).OrderBy(StudentSort_Course._.Ssc_ID.Desc).Count();
 
             return Gateway.Default.From<Course>()
                 .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)

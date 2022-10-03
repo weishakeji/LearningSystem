@@ -85,14 +85,80 @@ namespace Song.ViewData.Methods
         {
             int count = 0;
             List<Song.Entities.Course> list = Business.Do<IStudent>().SortCoursePager(sortid, name, size, index, out count);
-
+            for (int i = 0; i < list.Count; i++)
+            {
+                Song.Entities.Course c = Methods.Course._tran(list[i]);
+                c.Cou_Intro = c.Cou_Target = c.Cou_Content = "";
+                if (!string.IsNullOrWhiteSpace(c.Cou_Name))
+                    c.Cou_Name = c.Cou_Name.Replace("\"", "&quot;");
+                list[i] = c;
+            }
             ListResult result = new ListResult(list);
             result.Index = index;
             result.Size = size;
             result.Total = count;
             return result;
         }
-
+        /// <summary>
+        /// 增加学员组与课程的关联
+        /// </summary>
+        /// <param name="sortid">学员组id</param>
+        /// <param name="couid">课程id,多个id用逗号分隔</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Admin,Teacher]
+        public int SortCourseAdd(long sortid, string couid)
+        {
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(couid)) return i;
+            string[] arr = couid.Split(',');
+            foreach (string s in arr)
+            {
+                long idval = 0;
+                long.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+                    int n= Business.Do<IStudent>().SortCourseAdd(sortid, idval);
+                    if (n > 0) i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return i;
+        }
+        /// <summary>
+        /// 移除学员组与课程的关联
+        /// </summary>
+        /// <param name="sortid">学员组id</param>
+        /// <param name="couid">课程id,多个id用逗号分隔</param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Admin, Teacher]
+        public int SortCourseRemove(long sortid, string couid)
+        {
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(couid)) return i;
+            string[] arr = couid.Split(',');
+            foreach (string s in arr)
+            {
+                long idval = 0;
+                long.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+                    Business.Do<IStudent>().SortCourseDelete(sortid, idval);
+                    i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return i;
+        }
         #endregion
     }
 }

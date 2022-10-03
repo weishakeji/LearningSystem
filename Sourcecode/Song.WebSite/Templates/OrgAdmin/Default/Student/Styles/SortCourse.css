@@ -33,6 +33,7 @@
 
 .addcourse .course_row>*:last-child {
     margin-left: 10px;
+    display: flex;
 }
 
 .addcourse .courses {  
@@ -113,4 +114,50 @@
 }
 .subject icon{
 	font-size: 16px;
+}
+
+
+.tdcell, .tdcell * {
+	line-height: 20px !important;
+	max-height: 40px;
+}
+
+.tdcell a {
+	max-height: 20px !important;
+	line-height: 20px !important;
+}
+
+.title_box {
+	width: 100%;
+	display: flex;
+}
+
+.title_box img {
+	height: 40px;
+	margin-right: 10px;
+}
+
+.title_box div {
+	height: 40px;
+	overflow: hidden;
+	line-height: 20px;
+	line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+live {
+	background-image: url(/Utilities/Images/live-icon.gif);
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.title_box live {
+	width: 20px;
+	height: 16px;
+	display: inline-block;
+	margin-right: 2px;
 }
