@@ -402,7 +402,7 @@ $ready(function () {
                         <span class="rec" v-if="item.Cou_IsRec"></span>
                     </div>
                     <div class="cour_name">
-                        <span>{{i+1}}.</span>
+                        <span>{{(form.index - 1) * form.size + i+ 1}}.</span>
                         <a target="_blank" :href="'/web/course/detail.'+item.Cou_ID"> {{item.Cou_Name}}</a>
                         <div class="subject" title="课程专业">
                             <a :href="'/web/Course?sbjid='+item.Sbj_ID" target="_blank">

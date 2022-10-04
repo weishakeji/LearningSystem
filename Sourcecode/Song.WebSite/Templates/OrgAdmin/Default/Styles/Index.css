@@ -254,8 +254,8 @@ panel#admin {
 }
 .treemenu tree-node{
     font-size: 16px !important;
-    line-height: 35px !important;;
-    height: 35px !important;;
+    line-height: 35px !important;
+    height: 35px !important;
     letter-spacing:3px;
 }
 .treemenu tree-node:hover:before {
@@ -263,7 +263,9 @@ panel#admin {
     box-shadow: none !important;
    
 }
-
+.treemenu tree-node ico{
+    font-size: 19px !important;
+}
 #tabs-area tab_tag {
     width: 120px !important;
     padding: 0px 0px 0px 10px !important;
