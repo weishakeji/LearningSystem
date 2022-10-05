@@ -104,6 +104,7 @@ $ready(function () {
             },
             //综合得分 purchase：课程购买记录（记录中包含学习进度等信息）
             resultScore: function (purchase) {
+                if (JSON.stringify(purchase) == '{}' || purchase == null) return 0;
                 var th = this;
                 //视频得分
                 var weight_video = orgconfig('finaltest_weight_video', 33.3);

@@ -341,7 +341,7 @@ namespace Song.ServiceInterfaces
         /// <param name="couid"></param>
         void DelteCourseBuy(int stid, long couid);
         /// <summary>
-        /// 学员购买的该课程
+        /// 学员购买的该课程,以及学员组关联的课程
         /// </summary>
         /// <param name="stid">学员Id</param>
         /// <param name="sear">用于检索的字符</param>

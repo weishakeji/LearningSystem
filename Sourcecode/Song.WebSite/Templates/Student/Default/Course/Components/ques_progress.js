@@ -15,7 +15,7 @@ Vue.component('ques_progress', {
     watch: {
         'purchase': {
             handler: function (nv, ov) {
-                this.percent = nv.Stc_QuesScore;
+                this.percent = this.ispurchase ? nv.Stc_QuesScore : 0;
             }, immediate: true
         }
     },
@@ -32,6 +32,10 @@ Vue.component('ques_progress', {
         'progress': function () {
             return this.percent + this.tolerance >= 100 ? 100 : this.percent;
         },
+        //是否有购买记录
+        ispurchase: function () {
+            return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
+        }
     },
     mounted: function () { },
     methods: {

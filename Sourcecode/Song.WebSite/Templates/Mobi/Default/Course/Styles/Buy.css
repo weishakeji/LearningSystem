@@ -170,7 +170,7 @@ context {
 }
 
 .mprice::before {
-	content: '\e83e';
+	content: '\e624';
 	font-family: "webdesk_icon" !important;
 	display: inline-block;
 	font-size: 20px;

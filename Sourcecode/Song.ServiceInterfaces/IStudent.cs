@@ -70,16 +70,16 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 获取某个组的所有网站学员
         /// </summary>
-        /// <param name="sortid">分类id</param>
+        /// <param name="stsid">分类id</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        Accounts[] Student4Sort(long sortid, bool? isUse);
+        Accounts[] Student4Sort(long stsid, bool? isUse);
         /// <summary>
         /// 学员组中的学员数量
         /// </summary>
-        /// <param name="sortid"></param>
+        /// <param name="stsid"></param>
         /// <returns></returns>
-        int SortOfNumber(long sortid);
+        int SortOfNumber(long stsid);
         /// <summary>
         /// 当前对象名称是否重名
         /// </summary>
@@ -109,10 +109,10 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 增加学员组与课程的关联
         /// </summary>
-        /// <param name="sortid"></param>
+        /// <param name="stsid"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
-        int SortCourseAdd(long sortid, long couid);
+        int SortCourseAdd(long stsid, long couid);
         /// <summary>
         /// 增加学员组与课程的关联
         /// </summary>
@@ -128,16 +128,23 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 学员组关联的课程数
         /// </summary>
-        /// <param name="sortid"></param>
+        /// <param name="stsid"></param>
         /// <returns></returns>
-        int SortCourseCount(long sortid);
+        int SortCourseCount(long stsid);
         /// <summary>
         /// 删除学员组与课程的关联
         /// </summary>
-        /// <param name="sortid"></param>
+        /// <param name="stsid"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
-        bool SortCourseDelete(long sortid, long couid);
+        bool SortCourseDelete(long stsid, long couid);
+        /// <summary>
+        /// 判断某个课程是否存在于学员组
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stsid">学员组id</param>
+        /// <returns></returns>
+        bool SortExistCourse(long couid, long stsid);
         /// <summary>
         /// 分页获取学员组关联的课程
         /// </summary>
@@ -147,7 +154,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        List<Course> SortCoursePager(long sortid, string name, int size, int index, out int countSum);
+        List<Course> SortCoursePager(long stsid, string name, int size, int index, out int countSum);
         #endregion
 
         #region 学员登录与在线记录

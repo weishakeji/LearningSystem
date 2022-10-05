@@ -81,6 +81,7 @@ namespace Song.ViewData.Methods
         {
             return Business.Do<IStudent>().SortCourseCount(sortid);
         }
+         
         /// <summary>
         /// 学员组关联的课程
         /// </summary>

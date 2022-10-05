@@ -42,7 +42,7 @@
                 </div>
             </template>
             <template v-else>
-                <purchase_data v-for="(item,index) in datas" :couid="item.Cou_ID" :stid="account.Ac_ID" v-slot="scope">
+                <purchase_data v-for="(item,index) in datas" :couid="item.Cou_ID" :account="account"  v-slot="scope">
                     <el-card class="course">
                         <template slot="header">
                             <div>
@@ -67,18 +67,22 @@
                         </div>
                         <div class="info">
                             <div class="info_row datainfo">
-                                <template v-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
+                                <template v-if="scope.forever">
+                                    <el-tag type="success" class="free"><icon>&#xa048</icon>不限时</el-tag>
+                                </template>
+
+                                <template v-else-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
                                     <el-tag type="success" class="free">限时免</el-tag>
                                     <el-tag type="success" class="free">
                                         免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
                                     </el-tag>
-                                </template>                               
+                                </template>
                                 <el-tag type="success " class="free" v-else-if="item.Cou_IsFree">免费</el-tag>
                                 <el-tag type="warning" v-else>
                                     <icon>&#xe671</icon>{{scope.data.Stc_EndTime|date("yyyy-M-d ")}} 过期
                                     {{item.endtime|date("yyyy年M月d日")}}
                                 </el-tag>
-                              
+                                <!--课程中资源数量-->
                                 <course_data :couid="item.Cou_ID" :viewnum="item.Cou_ViewNum"></course_data>
                             </div>
                             <div class="info_row studyinfo">

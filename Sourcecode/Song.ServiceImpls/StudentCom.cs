@@ -128,20 +128,20 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == st.Sts_ID).ToFirst<StudentSort>();
         }
 
-        public Accounts[] Student4Sort(long sortid, bool? isUse)
+        public Accounts[] Student4Sort(long stsid, bool? isUse)
         {
-            WhereClip wc = Accounts._.Sts_ID == sortid;
+            WhereClip wc = Accounts._.Sts_ID == stsid;
             if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
             return Gateway.Default.From<Accounts>().Where(wc).ToArray<Accounts>();
         }
         /// <summary>
         /// 学员组中的学员数量
         /// </summary>
-        /// <param name="sortid"></param>
+        /// <param name="stsid"></param>
         /// <returns></returns>
-        public int SortOfNumber(long sortid)
+        public int SortOfNumber(long stsid)
         {
-            return Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == sortid);
+            return Gateway.Default.Count<Accounts>(Accounts._.Sts_ID == stsid);
         }
         public bool SortIsExist(StudentSort entity)
         {
@@ -208,13 +208,13 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 增加学员组与课程的关联
         /// </summary>
-        /// <param name="sortid"></param>
+        /// <param name="stsid"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
-        public int SortCourseAdd(long sortid, long couid)
+        public int SortCourseAdd(long stsid, long couid)
         {
             StudentSort_Course ssc = new StudentSort_Course();
-            ssc.Sts_ID = sortid;
+            ssc.Sts_ID = stsid;
             ssc.Cou_ID = couid;
             ssc.Ssc_IsEnable = true;
 
@@ -247,36 +247,48 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 学员组关联的课程数
         /// </summary>
-        /// <param name="sortid"></param>
+        /// <param name="stsid"></param>
         /// <returns></returns>
-        public int SortCourseCount(long sortid)
+        public int SortCourseCount(long stsid)
         {
-            return Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == sortid);
+            return Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == stsid);
         }
         /// <summary>
         /// 删除学员组与课程的关联
         /// </summary>
-        /// <param name="sortid"></param>
+        /// <param name="stsid"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
-        public bool SortCourseDelete(long sortid, long couid)
+        public bool SortCourseDelete(long stsid, long couid)
         {
-            Gateway.Default.Delete<StudentSort_Course>(StudentSort_Course._.Sts_ID == sortid && StudentSort_Course._.Cou_ID == couid);
+            Gateway.Default.Delete<StudentSort_Course>(StudentSort_Course._.Sts_ID == stsid && StudentSort_Course._.Cou_ID == couid);
             return true;
+        }
+        /// <summary>
+        /// 判断某个课程是否存在于学员组
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stsid">学员组id</param>
+        /// <returns></returns>
+        public bool SortExistCourse(long couid, long stsid)
+        {
+            if (stsid <= 0) return false;
+            int count = Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == stsid && StudentSort_Course._.Cou_ID == couid);
+            return count > 0;
         }
         /// <summary>
         /// 分页获取学员组关联的课程
         /// </summary>
-        /// <param name="sortid"></param>
+        /// <param name="stsid"></param>
         /// <param name="name"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public List<Course> SortCoursePager(long sortid, string name, int size, int index, out int countSum)
+        public List<Course> SortCoursePager(long stsid, string name, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
-            if (sortid > 0) wc.And(StudentSort_Course._.Sts_ID == sortid);
+            if (stsid > 0) wc.And(StudentSort_Course._.Sts_ID == stsid);
             if (!string.IsNullOrWhiteSpace(name)) wc.And(Course._.Cou_Name.Like("%" + name.Trim() + "%"));
             //countSum = Gateway.Default.Count<StudentSort_Course>(wc);
             countSum = Gateway.Default.From<Course>()

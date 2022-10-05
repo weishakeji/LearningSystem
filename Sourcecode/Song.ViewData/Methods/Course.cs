@@ -591,8 +591,7 @@ namespace Song.ViewData.Methods
             result.Index = index;
             result.Size = size;
             result.Total = count;
-            return result; ;
-                 
+            return result;                 
         }
         /// <summary>
         /// 试用的课程
@@ -646,8 +645,17 @@ namespace Song.ViewData.Methods
             result.Index = index;
             result.Size = size;
             result.Total = count;
-            return result; ;
-
+            return result;
+        }
+        /// <summary>
+        /// 判断课程是否存在于学员组的关联
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="stsid">学员组id</param>
+        /// <returns></returns>
+        public bool ExistStudentSort(long couid,long stsid)
+        {
+            return Business.Do<IStudent>().SortExistCourse(couid, stsid);
         }
         #endregion
 
@@ -936,7 +944,8 @@ namespace Song.ViewData.Methods
         public Student_Course Purchaselog(int stid, long couid)
         {
             Student_Course sc= Business.Do<ICourse>().StudentCourse(stid, couid);
-            sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;
+            if(sc!=null)
+                sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;
             return sc;
         }
         #endregion

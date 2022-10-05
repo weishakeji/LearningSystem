@@ -58,6 +58,10 @@ $ready(function () {
             //是否登录
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
+            },
+            //是否有购买记录
+            isnull: function () {
+                return JSON.stringify(this.purchase) == '{}' || this.purchase == null;
             }
         },
         watch: {
@@ -79,7 +83,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     th.loading = false;
-                    Vue.prototype.$alert(err);
+                    //Vue.prototype.$alert(err);
                     console.error(err);
                 });
             },
@@ -125,7 +129,7 @@ $ready(function () {
                 var th = this;
                 //更新视频学习进度
                 $api.cache('Course/LogForVideo:update', { 'couid': th.couid, 'stid': th.stid })
-                    .then(function (req) {                      
+                    .then(function (req) {
                         if (req.data.success) {
                             var result = req.data.result;
                             var videonum = result != null && result.length > 0 ? result[0].complete : 0;

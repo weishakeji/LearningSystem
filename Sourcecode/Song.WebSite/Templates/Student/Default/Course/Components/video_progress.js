@@ -15,7 +15,7 @@ Vue.component('video_progress', {
     watch: {
         'purchase': {
             handler: function (nv, ov) {
-                this.percent = nv.Stc_StudyScore;
+                this.percent = this.ispurchase ? nv.Stc_StudyScore : 0;
             }, immediate: true
         },
         'course': {
@@ -76,6 +76,10 @@ Vue.component('video_progress', {
         'progress': function () {
             return this.percent + this.tolerance >= 100 ? 100 : this.percent;
         },
+        //是否有购买记录
+        ispurchase: function () {
+            return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
+        }
     },
     mounted: function () { },
     methods: {

@@ -56,6 +56,10 @@ Vue.component('exam_test', {
         //是否存在结课考试
         final: function () {
             return JSON.stringify(this.finaltest) != '{}' && this.finaltest != null;
+        },
+        //是否有购买记录
+        ispurchase: function () {
+            return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
         }
     },
     mounted: function () { },
@@ -65,7 +69,7 @@ Vue.component('exam_test', {
             th.finaltest = {};
             var couid = this.course.Cou_ID;
             th.loading = true;
-            $api.get('TestPaper/ShowPager', { 'couid': couid, 'search': '', 'diff': '', 'size': Number.MAX_VALUE, 'index': 1 })
+            $api.get('TestPaper/ShowPager', { 'couid': couid, 'search': '', 'diff': '', 'size': 999999, 'index': 1 })
                 .then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
@@ -113,7 +117,7 @@ Vue.component('exam_test', {
                     }
                     th.highest = highest;
                     //如果结课成绩与课程购买记录中的不一致，更新购买记录中的结课成绩
-                    if (th.purchase && highest >= 0 && th.purchase.Stc_ExamScore != highest) {
+                    if (th.ispurchase && highest >= 0 && th.purchase.Stc_ExamScore != highest) {
                         var form = { 'acid': stid, 'couid': th.purchase.Cou_ID, 'score': highest }
                         $api.post('TestPaper/ResultLogRecord', form).then(function (req) {
                             if (req.data.success) {

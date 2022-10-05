@@ -383,36 +383,94 @@ namespace Song.ServiceImpls
         /// <param name="stid">学员Id</param>
         /// <param name="sear">用于检索课程的字符</param>
         /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
+        /// <param name="enable">是否启用</param>
+        /// <param name="istry">是否试用，为null时取所有</param>
+        /// <param name="size"></param>
+        /// <param name="index"></param>
+        /// <param name="countSum"></param>
         /// <returns></returns>
-        public List<Course> CourseForStudent(int stid, string sear, int state, bool? enable, bool? istry,int size, int index, out int countSum)
-        {           
-            WhereClip wc = Student_Course._.Ac_ID == stid;
-            if (enable != null) wc.And(Student_Course._.Stc_IsEnable == (bool)enable);
-            //Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            //if (org != null)
-            //{
-            //    wc.And(Student_Course._.Org_ID == org.Org_ID);
-            //}
-            if (istry != null) wc.And(Student_Course._.Stc_IsTry == (bool)istry);
+        public List<Course> CourseForStudent(int stid, string sear, int state, bool? enable, bool? istry, int size, int index, out int countSum)
+        {
+            //当前学员
+            Accounts student = Business.Do<IAccounts>().AccountsSingle(stid);
+            if (student == null) throw new Exception("学员账号不存在");
+
+            //试用课程，不包括学员组关联课程
+            if (istry != null && (bool)istry)
+            {
+                WhereClip wc = Student_Course._.Ac_ID == stid;
+                if (enable != null) wc.And(Student_Course._.Stc_IsEnable == (bool)enable);
+                wc.And(Student_Course._.Stc_IsTry == (bool)istry);           
+                if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+                countSum = Gateway.Default.From<Course>()
+                        .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                        .Where(wc).Count();
+                return Gateway.Default.From<Course>()
+                        .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                        .Where(wc).OrderBy(Student_Course._.Stc_StartTime.Desc).ToList<Course>(size, (index - 1) * size);
+            }
+            /* 
+             * 时效内课程和所有课程，包括了学员组关联课程，相对复杂，用了sql语句实现
+             */
+
+            //学员购买课程记录中的课程
+            string sql1 = @"select cou.* from Course as cou right join  Student_Course as sc 
+                            on cou.Cou_ID = sc.Cou_ID
+                            where sc.Ac_ID = {{acid}} and {{enable}} and {{istry}}
+                            and {{expired}}";
+            sql1 = sql1.Replace("{{acid}}", stid.ToString());
+            //是否查询禁用课程（在课程购买中的禁用，不是课程禁用）
+            if (enable != null) sql1 = sql1.Replace("{{enable}}", "sc.Stc_IsEnable = " + ((bool)enable ? 1 : 0));
+            else
+                sql1 = sql1.Replace("{{enable}}", "1=1");
+            //购买时间内的
             if (state == 1)
+                sql1 = sql1.Replace("{{expired}}", "(sc.Stc_StartTime < getdate() and  sc.Stc_EndTime > getdate())");
+            //过期的
+            else if (state == 2)
+                sql1 = sql1.Replace("{{expired}}", "sc.Stc_EndTime<getdate()");
+            else
+                sql1 = sql1.Replace("{{expired}}", "1=1");
+            //试用
+            sql1 = sql1.Replace("{{istry}}", istry != null ? "sc.Stc_IsTry = " + ((bool)istry ? 1 : 0) : "1=1");
+
+            //学员组关联的课程
+            if (student.Sts_ID > 0)
             {
-                WhereClip wc2 = new WhereClip();
-                wc2.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);
-                //wc2.Or(Student_Course._.Stc_IsFree == true);                
-                wc.And(wc2);
+                StudentSort sort = Business.Do<IStudent>().SortSingle(student.Sts_ID);
+                if (sort != null)
+                {
+                    string sql2 = @"select cou.* from Course as cou right join  StudentSort_Course as ssc
+                                    on cou.Cou_ID = ssc.Cou_ID
+                                    where ssc.Sts_ID = " + student.Sts_ID;
+                    //如果取过期课程，则去除学员组关联的课程
+                    if (state == 2)
+                        sql1 += "except " + sql2;
+                    //正常情况下，是学员购买课程+学员组关联课程
+                    else
+                        sql1 += "union " + sql2;
+                }
             }
-            if (state == 2)
-            {
-                //wc.And(Student_Course._.Stc_IsFree == false);
-                wc.And(Student_Course._.Stc_EndTime < DateTime.Now);
-            }
-            if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
-            countSum = Gateway.Default.From<Course>()
-                    .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
-                    .Where(wc).Count();
-            return Gateway.Default.From<Course>()
-                    .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
-                    .Where(wc).OrderBy(Student_Course._.Stc_StartTime.Desc).ToList<Course>(size, (index - 1) * size);
+            //综合sql1和sql2,主要是查询
+            string sql3 = @"select ROW_NUMBER() OVER(Order by Cou_ID) AS 'rowid',* from ({{sql}}) as r";
+            if (!string.IsNullOrWhiteSpace(sear)) sql3 += " where Cou_Name like '%" + sear + "%'";
+            sql3 = sql3.Replace("{{sql}}", sql1);
+            //计算总数
+            string sql_total = @"select count(*) from ({{sql}}) as r";
+            if (!string.IsNullOrWhiteSpace(sear)) sql_total += " where Cou_Name like '%" + sear + "%'";
+            sql_total = sql_total.Replace("{{sql}}", sql1);
+            object o = Gateway.Default.FromSql(sql_total).ToScalar();
+            countSum = Convert.ToInt32(o);
+            //分页
+            string sql4 = "select * from ({{sql}}) as t where rowid > {{start}} and rowid<={{end}}";
+            sql4 = sql4.Replace("{{sql}}", sql3);
+            int start = (index - 1) * size;
+            int end = (index - 1) * size + size;
+            sql4 = sql4.Replace("{{start}}", start.ToString());
+            sql4 = sql4.Replace("{{end}}", end.ToString());
+
+            return Gateway.Default.FromSql(sql4).ToList<Course>();            
+
         }
         /// <summary>
         /// 课程收益
