@@ -293,7 +293,7 @@ namespace Song.ViewData.Methods
             bool isStudy = false, isBuy = false, canStudy = false;
             if (acc != null)
             {
-                isStudy = Business.Do<ICourse>().Study(course.Cou_ID, acc.Ac_ID);
+                isStudy = Business.Do<ICourse>().AllowStudy(course, acc);
                 isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, acc.Ac_ID);
                 //学习记录
                 Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(acc.Ac_ID, outline.Ol_ID);

@@ -438,7 +438,7 @@ namespace Song.ServiceImpls
             if (student.Sts_ID > 0)
             {
                 StudentSort sort = Business.Do<IStudent>().SortSingle(student.Sts_ID);
-                if (sort != null)
+                if (sort != null && sort.Sts_IsUse)
                 {
                     string sql2 = @"select cou.* from Course as cou right join  StudentSort_Course as ssc
                                     on cou.Cou_ID = ssc.Cou_ID
@@ -987,7 +987,7 @@ namespace Song.ServiceImpls
         /// <param name="stid"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
-        public bool StudyIsCourse(int stid, long couid)
+        public bool StudyForCourse(int stid, long couid)
         {
             Song.Entities.Student_Course sc = Gateway.Default.From<Student_Course>()
                    .Where(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid && Student_Course._.Stc_IsTry==false
@@ -1259,10 +1259,30 @@ namespace Song.ServiceImpls
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员id</param>
         /// <returns>如果是免费或限时免费、或试学的课程，可以学习并返回true，不可学习返回false</returns>
-        public bool Study(long couid, int stid)
+        public bool AllowStudy(long couid, int stid)
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(stid);
+            return this.AllowStudy(course, acc);
+        }
+        /// <summary>
+        /// 是可以直接学习该课程
+        /// </summary>
+        /// <param name="course">课程对象</param>
+        /// <param name="acc">学员账号对象</param>
+        /// <returns></returns>
+        public bool AllowStudy(Course course, Accounts acc)
+        {          
             if (course == null || !course.Cou_IsUse) return false;
+            if(acc==null) return false;          
+
+            int stid = acc.Ac_ID;
+            long couid = course.Cou_ID;
+
+            //是否存在于学员组所关联的课程
+            bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
+            if (isExistSort) return true;
+
             //获取学员与课程的关联
             Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
             if (sc == null)

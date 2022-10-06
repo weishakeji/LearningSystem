@@ -833,15 +833,18 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 当前登录学员，是否在学习这门课程
         /// </summary>
-        /// <param name="couid"></param>
+        /// <param name="couid">课程id</param>
         /// <returns></returns>
         //[Student]
         public bool Studied(long couid)
         {
             Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
             if (acc == null) return false;
-            bool isBuy = Business.Do<ICourse>().StudyIsCourse(acc.Ac_ID, couid);
-            return isBuy;
+            //是否购买过该课程
+            bool isBuy = Business.Do<ICourse>().StudyForCourse(acc.Ac_ID, couid);
+            //是否存在于学员组所关联的课程
+            bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
+            return isBuy || isExistSort;
         }
         /// <summary>
         /// 当前登录学员，是否可以学习该课程（学员可能未购买，但课程可以试用）

@@ -298,12 +298,19 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         bool IsTryout(long couid, int stid);
         /// <summary>
-        /// 直接学习该课程
+        /// 是可以直接学习该课程
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员id</param>
         /// <returns>如果是免费或限时免费、或试学的课程，可以学习并返回true，不可学习返回false</returns>
-        bool Study(long couid, int stid);
+        bool AllowStudy(long couid, int stid);
+        /// <summary>
+        /// 是可以直接学习该课程
+        /// </summary>
+        /// <param name="course">课程对象</param>
+        /// <param name="acc">学员账号对象</param>
+        /// <returns></returns>
+        bool AllowStudy(Course course, Accounts acc);
         /// <summary>
         /// 学生购买课程的记录项
         /// </summary>
@@ -376,7 +383,7 @@ namespace Song.ServiceInterfaces
         /// <param name="stid"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
-        bool StudyIsCourse(int stid, long couid);
+        bool StudyForCourse(int stid, long couid);
         /// <summary>
         /// 购买
         /// </summary>

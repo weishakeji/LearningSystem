@@ -273,6 +273,8 @@ namespace Song.ServiceImpls
         public bool SortExistCourse(long couid, long stsid)
         {
             if (stsid <= 0) return false;
+            StudentSort sort = Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == stsid).ToFirst<StudentSort>();
+            if (sort == null || !sort.Sts_IsUse) return false;
             int count = Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == stsid && StudentSort_Course._.Cou_ID == couid);
             return count > 0;
         }
