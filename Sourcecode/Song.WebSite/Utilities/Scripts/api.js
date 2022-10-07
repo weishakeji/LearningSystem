@@ -408,6 +408,10 @@
                             tmpObj[d] = config.params[d].getTime();
                             continue;
                         }
+                        if (typeName == 'Undefined') {
+                            tmpObj[d] = '';
+                            continue;
+                        }
                         //json值，序列化为字符串
                         if (typeName === 'Object' || config.params[d] instanceof Array) {
                             try {
@@ -429,6 +433,10 @@
                         var typeName = methods.getType(config.data[d]);
                         if (typeName == 'Date') {
                             formData.append(d, config.data[d].getTime());
+                            continue;
+                        }
+                        if (typeName == 'Undefined') {
+                            formData.append(d, '');
                             continue;
                         }
                         //json值，序列化为字符串                       
