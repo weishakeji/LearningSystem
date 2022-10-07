@@ -1,4 +1,4 @@
-USE [examweisha_Dev_2022]
+
 GO
 /*删除所有外键约束*/
 declare cursor_drop  cursor scroll
