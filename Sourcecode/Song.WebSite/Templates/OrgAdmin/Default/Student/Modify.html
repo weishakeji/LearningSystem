@@ -81,36 +81,43 @@
 
                         </el-col>
                     </el-row>
+                    <el-row>
+                        <el-form-item label="拼音缩写" prop="Ac_Pinyin">
+                            <el-input v-model="account.Ac_Pinyin" style="width:100px"></el-input>
+                            <span v-show="accPingyin.length>1" class="pingyin">
+                                （多音：<span class="py" v-for="(d,i) in accPingyin" @click="account.Ac_Pinyin=d">{{d}}
+                                    <span v-show='i<accPingyin.length-1'>,</span>
+                                </span>）
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
+                        <el-form-item label="学员组">
 
-                    <el-form-item label="拼音缩写" prop="Ac_Pinyin">
-                        <el-input v-model="account.Ac_Pinyin" style="width:100px"></el-input>
-                        <span v-show="accPingyin.length>1" class="pingyin">
-                            （多音：<span class="py" v-for="(d,i) in accPingyin" @click="account.Ac_Pinyin=d">{{d}}
-                                <span v-show='i<accPingyin.length-1'>,</span>
-                            </span>）
-                    </el-form-item>
-                    <el-form-item label="学员组">
-
-                        <el-tooltip content="点击更改学员组" v-if="sortexist" effect="light" placement="right">
-                            <el-tag type="success" class="btnsort" @click="sortpanel=true"> {{accsort.Sts_Name}}
-                            </el-tag>
-                        </el-tooltip>
-                        <el-tooltip content="点击设置学员组" v-else effect="light" placement="right">
-                            <el-tag type="info" class="btnsort" @click="sortpanel=true"> 未设置学员组</el-tag>
-                        </el-tooltip>
-                    </el-form-item>
-                    <el-form-item label="性别">
-                        <el-radio-group v-model="account.Ac_Sex">
-                            <el-radio-button label="1">男</el-radio-button>
-                            <el-radio-button label="2">女</el-radio-button>
-                            <el-radio-button label="0">未知</el-radio-button>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="身份证" prop="Ac_IDCardNumber">
-                        <el-input v-model="account.Ac_IDCardNumber">
-                            <icon slot="prefix">&#xe68f</icon>
-                        </el-input>
-                    </el-form-item>
+                            <el-tooltip content="点击更改学员组" v-if="sortexist" effect="light" placement="right">
+                                <el-tag type="success" class="btnsort" @click="sortpanel=true"> {{accsort.Sts_Name}}
+                                </el-tag>
+                            </el-tooltip>
+                            <el-tooltip content="点击设置学员组" v-else effect="light" placement="right">
+                                <el-tag type="info" class="btnsort" @click="sortpanel=true"> 未设置学员组</el-tag>
+                            </el-tooltip>
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
+                        <el-form-item label="性别">
+                            <el-radio-group v-model="account.Ac_Sex">
+                                <el-radio-button label="1">男</el-radio-button>
+                                <el-radio-button label="2">女</el-radio-button>
+                                <el-radio-button label="0">未知</el-radio-button>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-row>
+                    <el-row>
+                        <el-form-item label="身份证" prop="Ac_IDCardNumber">
+                            <el-input v-model="account.Ac_IDCardNumber">
+                                <icon slot="prefix">&#xe68f</icon>
+                            </el-input>
+                        </el-form-item>
+                    </el-row>
 
                     <el-row>
                         <el-col :span="14">
