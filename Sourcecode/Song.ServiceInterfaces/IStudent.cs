@@ -24,6 +24,13 @@ namespace Song.ServiceInterfaces
         /// <param name="entity">业务实体</param>
         void SortSave(StudentSort entity);
         /// <summary>
+        /// 修改学员组的状态
+        /// </summary>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="use">是否启用</param>
+        /// <returns></returns>
+        bool SortUpdateUse(long stsid, bool use);
+        /// <summary>
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
@@ -146,9 +153,24 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         bool SortExistCourse(long couid, long stsid);
         /// <summary>
+        /// 将学员组关联的课程，创建到Student_Course表（学员与课程的关联）
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="acid">学员账号id</param>
+        /// <param name="orgid">机构id</param>
+        /// <returns></returns>
+        Student_Course SortCourseToStudent(int acid, long couid);
+        /// <summary>
+        /// 将学员组关联的课程，创建到Student_Course表（学员与课程的关联）
+        /// </summary>
+        /// <param name="acc">学员账号</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        Student_Course SortCourseToStudent(Accounts acc, long couid);
+        /// <summary>
         /// 分页获取学员组关联的课程
         /// </summary>
-        /// <param name="sortid"></param>
+        /// <param name="stsid"></param>
         /// <param name="name"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>

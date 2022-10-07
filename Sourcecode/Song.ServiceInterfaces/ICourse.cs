@@ -312,7 +312,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         bool AllowStudy(Course course, Accounts acc);
         /// <summary>
-        /// 学生购买课程的记录项
+        /// 学生与课程的关联记录项
         /// </summary>
         /// <param name="stid">学员Id</param>
         /// <param name="couid">课程id</param>

@@ -106,7 +106,7 @@ $ready(function () {
             changeState: function (row) {
                 var th = this;
                 this.loadingid = row.Sts_ID;
-                $api.post('Account/SortModify', { 'entity': row }).then(function (req) {
+                $api.post('Account/SortUpdateUse', { 'stsid': row.Sts_ID, 'use': row.Sts_IsUse }).then(function (req) {
                     if (req.data.success) {
                         vapp.$notify({
                             type: 'success',

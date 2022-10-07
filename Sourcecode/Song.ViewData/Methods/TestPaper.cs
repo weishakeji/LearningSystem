@@ -356,6 +356,7 @@ namespace Song.ViewData.Methods
             string couname = getAttr(xn, "couname");
             //***课程是否购买或过期
             Student_Course purchase = Business.Do<ICourse>().StudentCourse(stid, couid);
+            if (purchase == null) purchase = Business.Do<IStudent>().SortCourseToStudent(stid, couid);
             if (purchase == null || (!purchase.Stc_IsFree && purchase.Stc_EndTime < DateTime.Now && purchase.Stc_StartTime > DateTime.Now))
                 throw new Exception("未购买课程或已经过期");
 
@@ -614,6 +615,7 @@ namespace Song.ViewData.Methods
             if (acc.Ac_ID != acid) return false;
 
             Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
+            if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(acc, couid);
             if (sc == null) return false;
 
             if (sc.Stc_ExamScore != score)

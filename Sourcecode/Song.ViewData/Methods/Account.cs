@@ -784,6 +784,18 @@ namespace Song.ViewData.Methods
             return true;
         }
         /// <summary>
+        /// 修改学员组的使用状态
+        /// </summary>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="use">是否启用</param>
+        /// <returns></returns>
+        [Admin]
+        [HttpPost]
+        public bool SortUpdateUse(long stsid, bool use)
+        {
+            return Business.Do<IStudent>().SortUpdateUse(stsid, use);           
+        }
+        /// <summary>
         /// 设置默认学员组
         /// </summary>
         /// <param name="orgid"></param>

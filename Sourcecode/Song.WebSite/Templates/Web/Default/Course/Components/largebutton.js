@@ -22,6 +22,10 @@ Vue.component('largebutton', {
         //是否购买记录
         purchased: function () {
             return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
+        },
+        //可以学习
+        canstudy: function () {
+            return this.isbuy && (this.purchased && this.purchase.Stc_IsEnable);
         }
     },
     mounted: function () { },
@@ -40,10 +44,8 @@ Vue.component('largebutton', {
         }
     },
     template: ` <div class="couBtnBox">
-    <a v-if="!islogin" :href="url('login')">登录学习</a>
-    <span v-else-if="purchased && !purchase.Stc_IsEnable">你被禁止继续学习该课程</span>
-    <template v-else>
-        <template v-if="isbuy">
+        <a v-if="!islogin" :href="url('login')">登录学习</a> 
+        <template v-else-if="canstudy">
             <a :href="url('study')">开始学习</a>
             <a :href="url('test')" v-if="istest" class="finaltest"><icon>&#xe810</icon>结课考试</a>
         </template>      
@@ -56,8 +58,6 @@ Vue.component('largebutton', {
             <a :href="url('study')">试学</a>
             <a :href="url('buy')"  class="buy">选修该课程</a>
         </template>
-        <a v-else :href="url('buy')" class="buy">选修该课程</a>
-    </template>
-   
-</div>`
+        <a v-else :href="url('buy')" class="buy">选修该课程</a> 
+    </div>`
 });

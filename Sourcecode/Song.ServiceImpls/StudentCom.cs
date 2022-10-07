@@ -37,6 +37,13 @@ namespace Song.ServiceImpls
 
         public void SortSave(StudentSort entity)
         {
+            StudentSort original=Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == entity.Sts_ID).ToFirst<StudentSort>();
+            if (original == null) return;
+            //如果修改了使用状态
+            if (entity.Sts_IsUse != original.Sts_IsUse)
+            {
+                this.SortUpdateUse(entity.Sts_ID, entity.Sts_IsUse);
+            }
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
@@ -64,7 +71,48 @@ namespace Song.ServiceImpls
                 }
             }
         }
+        /// <summary>
+        /// 修改学员组的状态
+        /// </summary>
+        /// <param name="stsid">学员组id</param>
+        /// <param name="use">是否启用</param>
+        /// <returns></returns>
+        public bool SortUpdateUse(long stsid, bool use)
+        {
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
 
+                    tran.Update<StudentSort>(new Field[] { StudentSort._.Sts_IsUse }, new object[] { use }, StudentSort._.Sts_ID == stsid);
+
+                    List<Course> list = Gateway.Default.From<Course>()
+               .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)
+               .Where(StudentSort_Course._.Sts_ID == stsid).OrderBy(StudentSort_Course._.Ssc_ID.Desc).ToList<Course>();
+                    foreach (Course cou in list)
+                    {
+                        tran.Update<Student_Course>(
+                      new Field[] { Student_Course._.Stc_IsEnable },
+                      new object[] { use },
+                      Student_Course._.Stc_Type == 5 &&
+                      Student_Course._.Sts_ID == stsid && Student_Course._.Cou_ID == cou.Cou_ID);
+                    }
+
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
+            return true;
+        }
         public int SortDelete(long identify)
         {
             Accounts st = Gateway.Default.From<Accounts>().Where(Accounts._.Sts_ID == identify).ToFirst<Accounts>();
@@ -230,8 +278,33 @@ namespace Song.ServiceImpls
         public int SortCourseAdd(StudentSort_Course ssc)
         {
             int count = Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == ssc.Sts_ID && StudentSort_Course._.Cou_ID == ssc.Cou_ID);
-            if(count<1)
-                Gateway.Default.Save<StudentSort_Course>(ssc);
+            if (count < 1)
+            {   
+                using (DbTrans tran = Gateway.Default.BeginTrans())
+                {
+                    try
+                    {
+                        tran.Save<StudentSort_Course>(ssc);
+                        //在学员与课程的记录中，相关课程开启
+                        tran.Update<Student_Course>(
+                           new Field[] { Student_Course._.Stc_IsEnable },
+                           new object[] { true },
+                           Student_Course._.Stc_Type == 5 &&
+                           Student_Course._.Sts_ID == ssc.Sts_ID && Student_Course._.Cou_ID == ssc.Cou_ID);
+                        tran.Commit();                      
+                    }
+                    catch
+                    {
+                        tran.Rollback();
+                        throw;
+
+                    }
+                    finally
+                    {
+                        tran.Close();
+                    }
+                }
+            }
             return ssc.Ssc_ID;
         }
         /// <summary>
@@ -261,7 +334,30 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public bool SortCourseDelete(long stsid, long couid)
         {
-            Gateway.Default.Delete<StudentSort_Course>(StudentSort_Course._.Sts_ID == stsid && StudentSort_Course._.Cou_ID == couid);
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    tran.Delete<StudentSort_Course>(StudentSort_Course._.Sts_ID == stsid && StudentSort_Course._.Cou_ID == couid);
+                    //在学员与课程的记录中，相关课程禁用
+                    tran.Update<Student_Course>(
+                       new Field[] { Student_Course._.Stc_IsEnable },
+                       new object[] { false },
+                       Student_Course._.Stc_Type == 5 &&
+                       Student_Course._.Sts_ID == stsid && Student_Course._.Cou_ID == couid);
+                    tran.Commit();
+                }
+                catch
+                {
+                    tran.Rollback();
+                    throw;
+
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
             return true;
         }
         /// <summary>
@@ -277,6 +373,64 @@ namespace Song.ServiceImpls
             if (sort == null || !sort.Sts_IsUse) return false;
             int count = Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == stsid && StudentSort_Course._.Cou_ID == couid);
             return count > 0;
+        }
+        /// <summary>
+        /// 将学员组关联的课程，创建到Student_Course表（学员与课程的关联）
+        /// </summary>      
+        /// <param name="couid">课程id</param>
+        /// <param name="acid">学员账号id</param>
+        /// <returns></returns>
+        public Student_Course SortCourseToStudent(int acid, long couid)
+        {
+            Accounts acc = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acid).ToFirst<Accounts>();
+            if (acc == null) return null;
+            return this.SortCourseToStudent(acc, couid);
+        }
+        /// <summary>
+        /// 将学员组关联的课程，创建到Student_Course表（学员与课程的关联）
+        /// </summary>
+        /// <param name="acc">学员账号</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public Student_Course SortCourseToStudent(Accounts acc, long couid)
+        {
+            //判断学员组是否存在或被禁用
+            StudentSort sort = null;
+            if (acc.Sts_ID > 0)
+                sort = this.SortSingle(acc.Sts_ID);
+            if (sort == null || !sort.Sts_IsUse) return null;
+
+            //判断课程是否与当前学员组存在关联
+            bool isexist = this.SortExistCourse(couid, acc.Sts_ID);
+            if (!isexist) return null;
+
+            //如果已经存在，则直接返回
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(acc.Ac_ID, couid);
+            if (sc != null) return sc;
+
+            //创建学员与课程的记录
+            sc = new Entities.Student_Course();
+            sc.Stc_CrtTime = DateTime.Now;
+            sc.Sts_ID = acc.Sts_ID;
+
+            sc.Cou_ID = couid;
+            sc.Ac_ID = acc.Ac_ID;
+            sc.Stc_Money = 0;
+            sc.Stc_Coupon = 0;
+            sc.Stc_StartTime = DateTime.Now;
+            sc.Stc_EndTime = DateTime.Now.AddYears(200);
+            sc.Stc_IsFree = false;
+            sc.Stc_IsTry = false;
+            sc.Stc_IsEnable = true;
+            sc.Stc_Type = 5;    //免费为0，试用为1，购买为2，后台开课为3,学员组关联为5
+            sc.Org_ID = acc.Org_ID;
+            if (sc.Org_ID <= 0)
+            {
+                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+                sc.Org_ID = org.Org_ID;
+            }
+            Gateway.Default.Save<Student_Course>(sc);
+            return sc;
         }
         /// <summary>
         /// 分页获取学员组关联的课程

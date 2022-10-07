@@ -938,6 +938,7 @@ namespace Song.ViewData.Methods
             if (acc.Ac_ID != acid) return false;
 
             Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
+            if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(acc, couid);
             if (sc == null) return false;
 
             if (sc.Stc_QuesScore != rate)

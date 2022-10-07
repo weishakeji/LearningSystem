@@ -780,6 +780,7 @@ namespace Song.ViewData.Methods
             if (acc.Ac_ID != acid) return rate;
 
             Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
+            if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(acc, couid);
             if (sc == null) return rate;
             if (sc.Stc_StudyScore != rate)
             {
@@ -851,7 +852,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        [Student]
+        //[Student]
         public bool StudyAllow(long couid)
         {
             Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
@@ -866,6 +867,9 @@ namespace Song.ViewData.Methods
                     course.Cou_IsLimitFree = false;
             }
             if (course.Cou_IsFree || course.Cou_IsLimitFree || course.Cou_IsTry) return true;
+            //是否存在于学员组所关联的课程
+            bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
+            if (isExistSort) return true;
             //获取学员与课程的关联
             Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(acc.Ac_ID, couid);
             if (sc == null) return false;
@@ -947,7 +951,8 @@ namespace Song.ViewData.Methods
         public Student_Course Purchaselog(int stid, long couid)
         {
             Student_Course sc= Business.Do<ICourse>().StudentCourse(stid, couid);
-            if(sc!=null)
+            if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(stid, couid);
+            if (sc!=null)
                 sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;
             return sc;
         }

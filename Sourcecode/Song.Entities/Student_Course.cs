@@ -42,6 +42,8 @@ namespace Song.Entities {
     		
     		protected Int32 _Stc_Coupon;
     		
+    		protected Int64 _Sts_ID;
+    		
     		public Int32 Stc_ID {
     			get {
     				return this._Stc_ID;
@@ -212,6 +214,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 Sts_ID {
+    			get {
+    				return this._Sts_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Sts_ID, _Sts_ID, value);
+    				this._Sts_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -255,7 +267,8 @@ namespace Song.Entities {
     					_.Stc_ExamScore,
     					_.Stc_IsEnable,
     					_.Stc_Type,
-    					_.Stc_Coupon};
+    					_.Stc_Coupon,
+    					_.Sts_ID};
     		}
     		
     		/// <summary>
@@ -279,7 +292,8 @@ namespace Song.Entities {
     					this._Stc_ExamScore,
     					this._Stc_IsEnable,
     					this._Stc_Type,
-    					this._Stc_Coupon};
+    					this._Stc_Coupon,
+    					this._Sts_ID};
     		}
     		
     		/// <summary>
@@ -336,6 +350,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Stc_Coupon))) {
     				this._Stc_Coupon = reader.GetInt32(_.Stc_Coupon);
+    			}
+    			if ((false == reader.IsDBNull(_.Sts_ID))) {
+    				this._Sts_ID = reader.GetInt64(_.Sts_ID);
     			}
     		}
     		
@@ -447,7 +464,11 @@ namespace Song.Entities {
     			/// 字段名：Stc_Coupon - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Stc_Coupon = new WeiSha.Data.Field<Student_Course>("Stc_Coupon");
+    			
+    			/// <summary>
+    			/// 字段名：Sts_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Sts_ID = new WeiSha.Data.Field<Student_Course>("Sts_ID");
     		}
     	}
     }
-    

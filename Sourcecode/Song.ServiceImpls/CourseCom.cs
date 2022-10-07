@@ -428,7 +428,7 @@ namespace Song.ServiceImpls
                 sql1 = sql1.Replace("{{expired}}", "(sc.Stc_StartTime < getdate() and  sc.Stc_EndTime > getdate())");
             //过期的
             else if (state == 2)
-                sql1 = sql1.Replace("{{expired}}", "sc.Stc_EndTime<getdate()");
+                sql1 = sql1.Replace("{{expired}}", "sc.Stc_EndTime<getdate() and sc.Stc_Type!=5");
             else
                 sql1 = sql1.Replace("{{expired}}", "1=1");
             //试用
