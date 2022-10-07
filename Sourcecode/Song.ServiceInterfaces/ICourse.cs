@@ -383,14 +383,7 @@ namespace Song.ServiceInterfaces
         /// <param name="stid"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
-        bool StudyForCourse(int stid, long couid);
-        /// <summary>
-        /// 购买
-        /// </summary>
-        /// <param name="stid">学生Id</param>
-        /// <param name="couid">课程id</param>
-        /// <returns></returns>
-        void CourseBuy(int stid, long couid, float money, DateTime startTime, DateTime endTime);
+        bool StudyForCourse(int stid, long couid);       
         /// <summary>
         /// 获取某个教师关联的课程
         /// </summary>

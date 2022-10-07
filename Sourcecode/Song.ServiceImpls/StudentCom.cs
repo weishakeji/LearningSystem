@@ -116,7 +116,11 @@ namespace Song.ServiceImpls
         public int SortDelete(long identify)
         {
             Accounts st = Gateway.Default.From<Accounts>().Where(Accounts._.Sts_ID == identify).ToFirst<Accounts>();
-            if (st != null) throw new WeiSha.Core.ExceptionForAlert("当前学员分类下有学员信息");
+            if (st != null) throw new WeiSha.Core.ExceptionForAlert("当前学员组下有学员信息，不可删除");
+            //学员组关联的课程数
+            int count = this.SortCourseCount(identify);
+            if (count > 0) throw new WeiSha.Core.ExceptionForAlert("当前学员组关联有课程，不可删除");
+
             return Gateway.Default.Delete<StudentSort>(StudentSort._.Sts_ID == identify);
         }
 

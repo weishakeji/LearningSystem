@@ -417,7 +417,7 @@ namespace Song.ServiceImpls
             string sql1 = @"select cou.* from Course as cou right join  Student_Course as sc 
                             on cou.Cou_ID = sc.Cou_ID
                             where sc.Ac_ID = {{acid}} and {{enable}} and {{istry}}
-                            and {{expired}}";
+                            and {{expired}} ";
             sql1 = sql1.Replace("{{acid}}", stid.ToString());
             //是否查询禁用课程（在课程购买中的禁用，不是课程禁用）
             if (enable != null) sql1 = sql1.Replace("{{enable}}", "sc.Stc_IsEnable = " + ((bool)enable ? 1 : 0));
@@ -428,9 +428,9 @@ namespace Song.ServiceImpls
                 sql1 = sql1.Replace("{{expired}}", "(sc.Stc_StartTime < getdate() and  sc.Stc_EndTime > getdate())");
             //过期的
             else if (state == 2)
-                sql1 = sql1.Replace("{{expired}}", "sc.Stc_EndTime<getdate() and sc.Stc_Type!=5");
+                sql1 = sql1.Replace("{{expired}}", "(sc.Stc_EndTime<getdate() and sc.Stc_Type!=5)");
             else
-                sql1 = sql1.Replace("{{expired}}", "1=1");
+                sql1 = sql1.Replace("{{expired}}", "sc.Stc_Type=5");
             //试用
             sql1 = sql1.Replace("{{istry}}", istry != null ? "sc.Stc_IsTry = " + ((bool)istry ? 1 : 0) : "1=1");
 
@@ -1062,27 +1062,6 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<Student_Course>(sc);
         }
         /// <summary>
-        /// 课程学习
-        /// </summary>
-        /// <param name="stid">学生Id</param>
-        /// <param name="couid">课程id</param>
-        /// <returns></returns>
-        public void CourseBuy(int stid, long couid, float money, DateTime startTime, DateTime endTime)
-        {
-            Song.Entities.Student_Course sc = new Student_Course();
-            sc.Ac_ID = stid;
-            sc.Cou_ID = couid;
-            sc.Stc_Money = money;
-            sc.Stc_StartTime = startTime;
-            sc.Stc_EndTime = endTime;
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            sc.Org_ID = org.Org_ID;
-            sc.Stc_CrtTime = DateTime.Now;
-            sc.Stc_IsEnable = true;
-            sc.Stc_Type = 2;    //免费为0，试用为1，购买为2，后台开课为3
-            Gateway.Default.Save<Student_Course>(sc);
-        }
-        /// <summary>
         /// 购买课程
         /// </summary>
         /// <param name="stc">学生与课程的关联对象</param>
@@ -1100,6 +1079,7 @@ namespace Song.ServiceImpls
             stc.Stc_CrtTime = DateTime.Now;
             stc.Stc_IsTry = false;
             stc.Stc_IsEnable = true;
+            stc.Sts_ID = 0;
             stc.Stc_Type = 2;    //免费为0，试用为1，购买为2，后台开课为3
             Gateway.Default.Save<Student_Course>(stc);
             return stc;
@@ -1164,6 +1144,7 @@ namespace Song.ServiceImpls
             sc.Stc_IsFree = false;
             sc.Stc_IsTry = false;
             sc.Stc_IsEnable = true;
+            sc.Sts_ID = 0;
             sc.Stc_Type = 2;    //免费为0，试用为1，购买为2，后台开课为3
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             sc.Org_ID = org.Org_ID;
