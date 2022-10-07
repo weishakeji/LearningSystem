@@ -409,7 +409,6 @@
     <Content Include="Pay\Alipaywap\return_url.aspx" />
     <Content Include="Pay\Alipayweb\notify_url.aspx" />
     <Content Include="Pay\Alipayweb\return_url.aspx" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Templates\Manage\Default\Images\favicon.gif" />
     <Content Include="Templates\Mobi\Default\Account\Components\exam_test.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\course_menus.js" />
