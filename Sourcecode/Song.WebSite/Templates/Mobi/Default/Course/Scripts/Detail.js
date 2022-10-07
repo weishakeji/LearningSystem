@@ -16,7 +16,7 @@ $ready(function () {
             outlines: [],     //课程章节
             guides: [],          //课程通知
             prices: [],          //课程价格
-            isbuy: false,        //是否购买课程
+            studied: false,        //是否购买课程
             purchase: null,          //课程购买记录
             canStudy: false,     //是否能够学习
 
@@ -82,7 +82,7 @@ $ready(function () {
                     $api.cache('Guide/Guides', { 'couid': th.couid, 'count': 20 }),
                     $api.cache('Teacher/ForID', { 'id': th.course.Th_ID }),
                     $api.get('Course/Studied', { 'couid': th.couid })
-                ).then(axios.spread(function (outlines, prices, sum, guides, teacher, isbuy) {
+                ).then(axios.spread(function (outlines, prices, sum, guides, teacher, studied) {
                     th.loading_init = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -99,7 +99,7 @@ $ready(function () {
                     th.sum = sum.data.result;
                     th.guides = guides.data.result;
                     th.teacher = teacher.data.result;
-                    th.isbuy = isbuy.data.result;
+                    th.studied = studied.data.result;
                     //如果已经登录
                     if (th.islogin) {
                         $api.bat(

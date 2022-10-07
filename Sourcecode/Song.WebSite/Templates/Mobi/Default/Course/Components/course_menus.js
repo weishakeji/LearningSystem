@@ -1,13 +1,12 @@
 // 课程按钮组
 Vue.component('course_menus', {
-    props: ["account", "course", "canstudy", "isbuy", "loading", "purchase"],
+    props: ["account", "course", "canstudy", "studied", "loading", "purchase"],
     data: function () {
         return {
             loading_show: false,     //预载中
             login_show: false,          //登录
             try_show: false,
-            buy_show: false,
-            disabled_show: false,        //如果课程状态被禁用
+            buy_show: false,     
             menus: [
                 { name: '视频/直播', url: 'study', icon: '&#xe761', size: 30, show: true, evt: null },
                 { name: '试题练习', url: '../question/course', icon: '&#xe75e', size: 29, show: true, evt: null },
@@ -34,6 +33,10 @@ Vue.component('course_menus', {
         //是否购买记录
         purchased: function () {
             return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
+        },
+        //可以学习
+        canstudy: function () {
+            return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
         }
     },
     mounted: function () {
@@ -41,11 +44,7 @@ Vue.component('course_menus', {
     },
     methods: {
         //按钮事件，首先是状态判断
-        btnEvt: function (item, outline) {
-            if (this.purchased && !this.purchase.Stc_IsEnable) {
-                this.disabled_show = true;
-                return;
-            }
+        btnEvt: function (item, outline) {           
             this.outline = outline;
             this.curr_menus = item;
             var olid = outline != null ? outline.Ol_ID : 0;
@@ -68,7 +67,7 @@ Vue.component('course_menus', {
             }
 
             //可以学习，购买，或课程免费
-            if (this.course.Cou_IsFree || this.course.Cou_IsLimitFree || this.isbuy) {
+            if (this.course.Cou_IsFree || this.course.Cou_IsLimitFree || this.studied) {
                 this.gourl(item.url, this.course.Cou_ID, olid);
                 return;
             } else {
@@ -151,9 +150,6 @@ Vue.component('course_menus', {
             </van-popup> 
             <van-popup v-model="buy_show" class="buy" position="bottom" :style="{ height: '44px'}" >   
                 <van-button type="info" @click="gobuy"><span class="font_icon">&#xe84d</span>选修该课程</van-button>
-            </van-popup>
-            <van-popup v-model="disabled_show" class="buy" position="bottom" :style="{ height: '44px'}" >   
-                当前课程被禁止学习
-            </van-popup>
+            </van-popup>          
         </div> `
 });

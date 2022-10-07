@@ -39,7 +39,7 @@
         <van-sticky>
             <!--按钮组-->
             <course_menus ref='menus' :course="course" :account="account"
-                :canstudy="canStudy" :purchase="purchase" :isbuy="isbuy">
+                :canstudy="canStudy" :purchase="purchase" :studied="studied">
             </course_menus>          
             <!--选项卡-->
             <van-tabs v-model="tabActive">
@@ -84,7 +84,7 @@
                                     </van-tag>
                                 </template>
                                 <template v-else>
-                                    <span v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree"
+                                    <span v-if="studied || course.Cou_IsFree || course.Cou_IsLimitFree"
                                         @click="$refs.menus.btnEvt(null,o)">
                                         <progress_video :videolog="videolog" :outline="o" text="学习" v-if="o.Ol_IsVideo">
                                         </progress_video>
