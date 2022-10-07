@@ -16,7 +16,7 @@ $ready(function () {
             outlines: [],     //课程章节
             guideCol: [],          //课程通知的分类
             prices: [],          //课程价格
-            isbuy: false,        //是否购买课程
+            studied: false,        //是否可以学习课程
             purchase: {},          //课程购买记录
             canStudy: false,     //是否能够学习
 
@@ -54,6 +54,10 @@ $ready(function () {
             //是否购买记录
             purchased: function () {
                 return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
+            },
+            //可以学习
+            canstudy: function () {
+                return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
             }
         },
         created: function () {
@@ -111,7 +115,7 @@ $ready(function () {
                     $api.get('Guide/ColumnsTree', { 'couid': th.couid, 'search': '', 'isuse': '' }),
                     $api.get('Teacher/ForID', { 'id': th.course.Th_ID }),
                     $api.get('Course/Studied', { 'couid': th.couid })
-                ).then(axios.spread(function (outlines, paper, prices, sum, guideCol, teacher, isbuy) {
+                ).then(axios.spread(function (outlines, paper, prices, sum, guideCol, teacher, studied) {
                     th.loading_init = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -140,7 +144,7 @@ $ready(function () {
                     th.sum = sum.data.result;
                     th.guideCol = guideCol.data.result;
                     th.teacher = teacher.data.result;
-                    th.isbuy = isbuy.data.result;
+                    th.studied = studied.data.result;
                 })).catch(function (err) {
                     console.error(err);
                 });
@@ -212,7 +216,7 @@ $ready(function () {
     });
     // 课程内容选项
     Vue.component('course_tabs', {
-        props: ["account", "course", "canstudy", "isbuy", "loading"],
+        props: ["account", "course", "canstudy", "studied", "loading"],
         data: function () {
             return {
                 loading_show: false,     //预载中 

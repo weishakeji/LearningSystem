@@ -372,6 +372,7 @@ namespace Song.ServiceImpls
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null || !course.Cou_IsUse) return false;
             WhereClip wc = Student_Course._.Cou_ID == couid && Student_Course._.Ac_ID == stid;
+            wc.And(Student_Course._.Stc_IsEnable == true && Student_Course._.Stc_Type != 5);
             wc.And(Student_Course._.Stc_IsTry == false && Student_Course._.Stc_IsFree == false);
             wc.And(Student_Course._.Stc_StartTime < DateTime.Now && Student_Course._.Stc_EndTime > DateTime.Now);              
             Student_Course sc = Gateway.Default.From<Student_Course>().Where(wc).ToFirst<Student_Course>();
@@ -416,7 +417,7 @@ namespace Song.ServiceImpls
             //学员购买课程记录中的课程
             string sql1 = @"select cou.* from Course as cou right join  Student_Course as sc 
                             on cou.Cou_ID = sc.Cou_ID
-                            where sc.Ac_ID = {{acid}} and {{enable}} and {{istry}}
+                            where sc.Ac_ID = {{acid}} and sc.Stc_Type!=5 and {{enable}} and {{istry}}
                             and {{expired}} ";
             sql1 = sql1.Replace("{{acid}}", stid.ToString());
             //是否查询禁用课程（在课程购买中的禁用，不是课程禁用）
@@ -428,9 +429,9 @@ namespace Song.ServiceImpls
                 sql1 = sql1.Replace("{{expired}}", "(sc.Stc_StartTime < getdate() and  sc.Stc_EndTime > getdate())");
             //过期的
             else if (state == 2)
-                sql1 = sql1.Replace("{{expired}}", "(sc.Stc_EndTime<getdate() and sc.Stc_Type!=5)");
+                sql1 = sql1.Replace("{{expired}}", "sc.Stc_EndTime<getdate()");
             else
-                sql1 = sql1.Replace("{{expired}}", "sc.Stc_Type=5");
+                sql1 = sql1.Replace("{{expired}}", "1=1");
             //试用
             sql1 = sql1.Replace("{{istry}}", istry != null ? "sc.Stc_IsTry = " + ((bool)istry ? 1 : 0) : "1=1");
 

@@ -15,7 +15,8 @@
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
                 <el-breadcrumb-item><a href="/web/Course">课程中心</a></el-breadcrumb-item>
-                <el-breadcrumb-item><a :href="'/web/course/detail.'+course.Cou_ID">《{{course.Cou_Name}}》</a>
+                <el-breadcrumb-item v-if="isexist"><a
+                        :href="'/web/course/detail.'+course.Cou_ID">《{{course.Cou_Name}}》</a>
                 </el-breadcrumb-item>
                 <el-breadcrumb-item v-if="!final">模拟测试</el-breadcrumb-item>
                 <el-breadcrumb-item v-else>结课考试</el-breadcrumb-item>
@@ -28,6 +29,9 @@
 
 
             <div class="headRight">
+                <span class="name" v-if="!isexist">
+                    <icon>&#xe774</icon>试卷不存在
+                </span>
                 <span class="name" v-if="!final">
                     {{paper.Tp_Name}}
                 </span>
@@ -72,13 +76,15 @@
                     <final_condition ref="final_condition" :show="true" :config="config" :purchase="purchase"
                         :paperid="id" :account="account"></final_condition>
                 </div>
+
                 <div class="btnBox">
                     <loading v-if="loading"></loading>
-                    <template v-else-if="islogin">
+                    <el-tag type="info" v-else-if="!islogin">未登录</el-tag>
+                    <template v-else-if="isexist">
                         <div v-if="isoverdue" class="course_end">
                             <icon>&#xe671</icon>未选修当前课程，或已经过期
                         </div>
-                        <template v-else-if="purchase.Stc_IsEnable">
+                        <template v-else-if="studied">
                             <a @click="btn_test" v-if="!final" class="btn_test">
                                 <icon>&#xe810</icon>参加测试
                             </a>
@@ -87,10 +93,11 @@
                             </a>
                         </template>
                         <div v-else>
-                            你被禁止继续学习该课程
+                            <a @click="btn_buy" v-if="!final" class="buy">
+                                <icon>&#xe810</icon>选修当前课程
+                            </a>
                         </div>
                     </template>
-                    <el-tag type="info" v-else>未登录</el-tag>
                 </div>
             </div>
         </context>

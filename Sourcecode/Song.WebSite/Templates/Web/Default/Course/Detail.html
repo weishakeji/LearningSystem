@@ -57,7 +57,7 @@
                         {{purchase.Stc_StartTime|date('yyyy-M-d')}} 至 {{purchase.Stc_EndTime|date('yyyy-M-d HH:mm:ss')}}
                     </div>
                     <!--购买课程的按钮-->
-                    <largebutton :course="course" :purchase="purchase" :account="account" :isbuy="isbuy"
+                    <largebutton :course="course" :purchase="purchase" :account="account" :studied="studied"
                         :finaltest="finaltest">
                     </largebutton>
 
@@ -101,10 +101,7 @@
                         <template v-else>
                             <div v-for="o in outlines" :style="'padding-left:'+(o.Ol_Level*30)+'px'">
                                 <index>{{o.Ol_XPath}}</index>{{o.Ol_Name}}
-                                <el-tag type="danger" v-if="!o.Ol_IsFinish">未完结</el-tag>
-                                <template v-else-if="purchased && !purchase.Stc_IsEnable">
-                                      <el-tag type="info" title="禁止学习"><icon>&#xe7ad</icon>禁</el-tag>
-                                </template>
+                                <el-tag type="danger" v-if="!o.Ol_IsFinish">未完结</el-tag>                                
                                 <template v-else-if="course.Cou_IsTry && o.Ol_IsFree">
                                     <a type="success" v-if="o.Ol_IsVideo"
                                         :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">
@@ -112,7 +109,7 @@
                                     </a>
                                 </template>
                                 <template v-else>
-                                    <template v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree">
+                                    <template v-if="studied || course.Cou_IsFree || course.Cou_IsLimitFree">
                                         <a type="success" v-if="o.Ol_IsVideo"
                                             :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">
                                             <progress_video :videolog="videolog" :outline="o" text="学习"

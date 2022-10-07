@@ -17,6 +17,7 @@ $ready(function () {
             paper: {},      //试卷对象
             course: {},          //课程对象
 
+            studied: false,        //是否可以学习课程
             purchase: {},        //课程购买的记录
             purchase_query: { 'couid': -1, 'stid': -1 },
             //测试成绩
@@ -33,14 +34,47 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            $api.get('Platform/ServerTime').then(function (req) {
-                if (req.data.success) {
-                    th.servertime = req.data.result;
-                } else {
-                    console.error(req.data.exception);
-                    throw req.config.way + ' ' + req.data.message;
+            th.loading = true;
+            $api.bat(
+                $api.get('Platform/ServerTime'),
+                $api.get('TestPaper/ForID', { 'id': th.id })
+            ).then(axios.spread(function (time, paper) {
+                th.loading = false;
+                //判断结果是否正常
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i].status != 200)
+                        console.error(arguments[i]);
+                    var data = arguments[i].data;
+                    if (!data.success && data.exception != null) {
+                        console.error(data.exception);
+                        throw arguments[i].config.way + ' ' + data.message;
+                    }
                 }
-            }).catch(function (err) {
+                //服务器端时间
+                th.servertime = time.data.result;
+                //试卷
+                th.paper = paper.data.result;
+                document.title = th.paper.Tp_Name;
+                th.getcourse(th.paper.Cou_ID);
+                //购买记录查询参数中的课程id
+                th.purchase_query.couid = th.paper.Cou_ID;
+                //是否可以学习当前课程
+                $api.get('Course/Studied', { 'couid': th.paper.Cou_ID }).then(function (req) {
+                    if (req.data.success) {
+                        th.studied = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+
+            })).catch(function (err) {
+                th.loading = false;
+                Vue.prototype.$alert(err);
                 console.error(err);
             });
         },
@@ -51,6 +85,10 @@ $ready(function () {
             //是否登录
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
+            },
+            //试卷是否存在
+            isexist: function () {
+                return JSON.stringify(this.paper) != '{}' && this.paper != null;
             },
             //是否过期，过期返回true
             isoverdue: function () {
@@ -63,15 +101,13 @@ $ready(function () {
             //是否存在结课考试
             final: function () {
                 return JSON.stringify(this.paper) != '{}' && this.paper.Tp_IsFinal;
+            },
+            //可以学习
+            canstudy: function () {
+                return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
             }
         },
         watch: {
-            'id': {
-                handler: function (nv, ov) {
-                    this.gettestpaper();
-                },
-                immediate: true
-            },
             'organ': {
                 handler: function (nv, ov) {
                     console.log(nv);
@@ -100,28 +136,6 @@ $ready(function () {
             },
         },
         methods: {
-            //获取试卷
-            gettestpaper: function () {
-                var th = this;
-                th.loading = true;
-                $api.get('TestPaper/ForID', { 'id': th.id }).then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.paper = req.data.result;
-                        document.title = th.paper.Tp_Name;
-                        th.getcourse(th.paper.Cou_ID);
-                        //购买记录查询参数中的课程id
-                        th.purchase_query.couid = th.paper.Cou_ID;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.loading = false;
-                    Vue.prototype.$alert(err);
-                    console.error(err);
-                });
-            },
             //获取课程
             getcourse: function (couid) {
                 var th = this;
@@ -197,6 +211,11 @@ $ready(function () {
                     'tpid': this.id,
                     'couid': this.course.Cou_ID
                 });
+                window.location.href = url;
+            },
+            btn_buy: function () {
+                var url = "/web/course/buy.";
+                url = $api.dot(this.course.Cou_ID,url);
                 window.location.href = url;
             },
             //结课考试的按钮事件

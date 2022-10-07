@@ -842,10 +842,12 @@ namespace Song.ViewData.Methods
             Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
             if (acc == null) return false;
             //是否购买过该课程
-            bool isBuy = Business.Do<ICourse>().StudyForCourse(acc.Ac_ID, couid);
+            bool isBuy = Business.Do<ICourse>().IsBuy(couid, acc.Ac_ID);
+            //是否试用
+            bool isTry = Business.Do<ICourse>().IsTryout(couid, acc.Ac_ID);
             //是否存在于学员组所关联的课程
             bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
-            return isBuy || isExistSort;
+            return isBuy || isTry || isExistSort;
         }
         /// <summary>
         /// 当前登录学员，是否可以学习该课程（学员可能未购买，但课程可以试用）

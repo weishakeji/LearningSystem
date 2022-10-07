@@ -1,7 +1,7 @@
 //课程购买或学习的按钮
 Vue.component('largebutton', {
     //当前课程，当前学员
-    props: ["course", "account", "isbuy", "finaltest", "purchase"],
+    props: ["course", "account", "studied", "finaltest", "purchase"],
     data: function () {
         return {}
     },
@@ -25,7 +25,7 @@ Vue.component('largebutton', {
         },
         //可以学习
         canstudy: function () {
-            return this.isbuy && (this.purchased && this.purchase.Stc_IsEnable);
+            return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
         }
     },
     mounted: function () { },

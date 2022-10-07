@@ -37,10 +37,9 @@ Vue.component('courses', {
         //从指专业内获取课程列表
         getcourses: function (sbjid, count) {
             var th = this;
-            var orgid = th.org.Org_ID;
-           
+            var orgid = th.org.Org_ID;        
             $api.get('Course/ShowCount',
-                { 'sbjid': th.sbjid, 'orgid': orgid, 'search': '', 'order': 'rec', 'count': count })
+                { 'sbjid': sbjid, 'orgid': orgid, 'search': '', 'order': 'rec', 'count': count })
                 .then(function (req) {
                     if (req.data.success) {
                         th.datas = th.remove_self(req.data.result);

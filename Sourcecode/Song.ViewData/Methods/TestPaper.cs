@@ -38,6 +38,7 @@ namespace Song.ViewData.Methods
         public Song.Entities.TestPaper ForID(long id)
         {
             Song.Entities.TestPaper tp = Business.Do<ITestPaper>().PaperSingle(id);
+            if (tp == null) throw new Exception("试卷不存在！");
             tp.Tp_Logo = System.IO.File.Exists(PhyPath + tp.Tp_Logo) ? VirPath + tp.Tp_Logo : "";
             return tp;
         }
