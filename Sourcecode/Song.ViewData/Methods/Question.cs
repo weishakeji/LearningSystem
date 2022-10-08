@@ -366,6 +366,7 @@ namespace Song.ViewData.Methods
         /// <param name="orgid">机构id</param>
         /// <param name="sbjid"></param>
         /// <param name="couid"></param>
+        /// <param name="olid"></param>
         /// <param name="type">试题类型</param>
         /// <param name="use">是否启用</param>
         /// <param name="error">是否有错误</param>
@@ -374,7 +375,7 @@ namespace Song.ViewData.Methods
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Pager(int orgid, long sbjid, long couid, int type, bool? use, bool? error, bool? wrong, string search, int size, int index)
+        public ListResult Pager(int orgid, long sbjid, long couid, long olid, int type, bool? use, bool? error, bool? wrong, string search, int size, int index)
         {
             if (orgid <= 0)
             {
@@ -384,7 +385,7 @@ namespace Song.ViewData.Methods
             //总记录数
             int count = 0;
             Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesPager
-                (orgid, type, sbjid, couid, -1, use, error, wrong, -1, search, size, index, out count);
+                (orgid, type, sbjid, couid, olid, use, error, wrong, -1, search, size, index, out count);
             ListResult result = new ListResult(ques);
             result.Index = index;
             result.Size = size;

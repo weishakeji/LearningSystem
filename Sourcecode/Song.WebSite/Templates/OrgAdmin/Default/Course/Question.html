@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
     <include file="inc/head.inc" />
-    <title></title>
+    <title>课程试题</title>
 </head>
 
 <body>
@@ -16,9 +16,17 @@
                 :modal="true"></btngroup>
             <div class="search-box">
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
-
                     <el-form-item label="">
-                        <el-input v-model.trim="form.search" clearable style="width:245px" placeholder="搜索"></el-input>
+                        <el-cascader style="width: 200px;" ref="outlines" v-model="olSelects" :options="outlines"
+                            separator="／" :props="defaultProps" clearable filterable  placeholder=" -- 章节 -- ">
+                            <template slot-scope="{node,data}">
+                                {{data.Ol_Name}} 
+                                <outline_ques_count :outline="data"></outline_ques_count>
+                            </template>
+                        </el-cascader>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model.trim="form.search" clearable style="width:150px" placeholder="试题"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
@@ -93,7 +101,8 @@
         </div>
         <!-- 数据列表-->
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" stripe
-            @selection-change="val=>selects=val"@row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Qus_ID">
+            @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])"
+            row-key="Qus_ID">
             <div slot="empty">
                 <span v-if="!loading">未查询到数据</span>
             </div>
@@ -109,7 +118,7 @@
                 <template slot-scope="scope">
                     <ques_type :type="scope.row.Qus_Type" :types="types"></ques_type>
                     <alert v-if="scope.row.Qus_IsError" title="存在错误">存在错误</alert>
-                    <alert v-if="scope.row.Qus_IsWrong" title="学员反馈试题有错误">报错</alert>                   
+                    <alert v-if="scope.row.Qus_IsWrong" title="学员反馈试题有错误">报错</alert>
                     <span v-html="showInfo(scope.row.Qus_Title)">
                 </template>
             </el-table-column>
@@ -120,7 +129,7 @@
             </el-table-column>
             <el-table-column label="章节">
                 <template slot-scope="scope">
-                   <outline_name :olid="scope.row.Ol_ID"></outline_name>
+                    <outline_name :olid="scope.row.Ol_ID"></outline_name>
                 </template>
             </el-table-column>
             <el-table-column label="使用" width="70">

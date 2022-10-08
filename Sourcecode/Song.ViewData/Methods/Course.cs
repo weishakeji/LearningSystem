@@ -104,7 +104,7 @@ namespace Song.ViewData.Methods
         /// <param name="id"></param>
         /// <returns></returns>
         [Cache(Expires = 60, AdminDisable = true)]
-        public Song.Entities.Course ForID(int id)
+        public Song.Entities.Course ForID(long id)
         {
             Song.Entities.Course cur = Business.Do<ICourse>().CourseSingle(id);
             return _tran(cur);
@@ -210,7 +210,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Admin,Teacher]
-        public bool ModifyState(int id, bool use, bool rec)
+        public bool ModifyState(long id, bool use, bool rec)
         {
             try
             {

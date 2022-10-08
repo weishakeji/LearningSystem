@@ -8,8 +8,18 @@
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
 
+            outlines: [],     //所有章节数据
+            defaultProps: {
+                children: 'children',
+                label: 'Ol_Name',
+                value: 'Ol_ID',
+                expandTrigger: 'hover',
+                checkStrictly: true
+            },
+            olSelects: [],      //选择中的章节项
+
             form: {
-                'orgid': -1, 'sbjid': -1, 'couid': '',
+                'orgid': -1, 'sbjid': -1, 'couid': '', 'olid': '',
                 'type': '', 'use': '', 'error': '', 'wrong': '', 'search': '', 'size': 20, 'index': 1
             },
             querybox: false,     //更多查询的面板是否显示
@@ -46,6 +56,8 @@
                 th.form.orgid = th.organ.Org_ID;
                 th.config = $api.organ(th.organ).config;
                 th.types = types.data.result;
+                //获取章节
+                th.getOutlineTree();
                 th.handleCurrentChange(1);
             })).catch(function (err) {
                 th.loading_init = false;
@@ -59,9 +71,31 @@
         computed: {
         },
         watch: {
-
+            'olSelects': function (nv, ov) {
+                console.log(nv);
+                if (nv.length > 0) this.form.olid = nv[nv.length - 1];
+                //关闭级联菜单的浮动层
+                this.$refs["outlines"].dropDownVisible = false;
+            }
         },
         methods: {
+            //获取课程章节的数据
+            getOutlineTree: function () {
+                var th = this;
+                th.loading = true;
+                $api.get('Outline/Tree', { 'couid': th.couid, 'isuse': '' }).then(function (req) {
+                    if (req.data.success) {
+                        th.outlines = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                }).finally(function () {
+                    th.loading = false;
+                });;
+            },
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
@@ -236,7 +270,7 @@
                         th.loading = false;
                         console.error(err);
                     });
-                },immediate: true
+                }, immediate: true
             }
         },
         computed: {},
@@ -247,6 +281,47 @@
         template: `<span>
         <loading v-if="loading"></loading>
         <template v-else>{{oultine.Ol_Name}}</template>
+        </span>`
+    });
+    //章节下的试题数
+    Vue.component('outline_ques_count', {
+        props: ["outline"],
+        data: function () {
+            return {
+                count: 0,
+                loading: true
+            }
+        },
+        watch: {
+            'outline': {
+                handler: function (nv) {
+                    if (nv == null) return;
+                    var th = this;
+                    th.loading = true;
+                    $api.get('Question/Count', { 'orgid': '', 'sbjid': '', 'couid': '', 'olid': nv.Ol_ID, 'type': '', 'use': '' })
+                        .then(function (req) {
+                            th.loading = false;
+                            if (req.data.success) {
+                                th.count = req.data.result;
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(function (err) {
+                            th.loading = false;
+                            console.error(err);
+                        });
+                }, immediate: true
+            }
+        },
+        computed: {},
+        mounted: function () { },
+        methods: {
+
+        },
+        template: `<span class="ques_count">
+        <loading v-if="loading"></loading>
+        <template v-else-if="count>0">({{count}})</template>
         </span>`
     });
 }, ['../Question/Components/ques_type.js']);

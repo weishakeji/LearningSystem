@@ -21,7 +21,7 @@ $ready(function () {
             couid: '',
 
             form: {
-                'orgid': -1, 'sbjid': -1, 'couid': '',
+                'orgid': -1, 'sbjid': -1, 'couid': '', 'olid': '',
                 'type': '', 'use': '', 'error': '', 'wrong': '', 'search': '', 'size': 20, 'index': 1
             },
             querybox: false,     //更多查询的面板是否显示
