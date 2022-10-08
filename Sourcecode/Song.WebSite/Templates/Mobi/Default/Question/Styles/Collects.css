@@ -30,7 +30,9 @@ input, textarea {
 .van-overlay {
 	background-color: rgba(0, 0, 0, 0.3);
 }
-
+card-title.error a {
+	float: right;
+}
 .blur {
 	filter: url(blur.svg#blur);
 	/* FireFox, Chrome, Opera */

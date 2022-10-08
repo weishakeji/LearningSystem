@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -45,6 +46,10 @@ input, textarea {
 .van-loading {
 	text-align: center;
 	padding: 20px;
+}
+
+card-title.error a {
+	float: right;
 }
 
 /*课程信息*/
@@ -174,10 +179,12 @@ input, textarea {
 	font-size: 14px;
 	flex: 1;
 }
-.footer .correct-rate{
+
+.footer .correct-rate {
 	width: 80px;
 	flex: auto;
 }
+
 .footer .correct-rate:before {
 	content: "正确率：";
 	margin-left: 5px;
