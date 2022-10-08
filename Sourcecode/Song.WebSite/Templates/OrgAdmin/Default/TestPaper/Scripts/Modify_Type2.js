@@ -12,7 +12,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            id: $api.querystring('id'),
+            id: $api.querystring('id'),     //试卷id
             couid: $api.querystring('couid', 0),
 
             organ: {},
@@ -292,6 +292,7 @@ $ready(function () {
 
 }, ["/Utilities/editor/vue-html5-editor.js",
     '/Utilities/Components/sbj_cascader.js',
+    'Components/ques_count.js',
     'Components/fromtype0.js',
     'Components/fromtype1.js',
     '../Question/Components/ques_type.js']);

@@ -163,10 +163,12 @@ Vue.component('fromtype0', {
         <el-row :gutter="10" v-for="(m,i) in items" class="fromtype0">
             <el-col :span="12">
                 <el-input v-model.number="m.TPI_Count" type="number" :min="1">
-                    <template slot="prepend">
+                    <div slot="prepend" class="ques_type">
                         <ques_type :type="i+1" :types="types" :showname="true"></ques_type>                    
+                    </div>
+                    <template slot="append">道试题
+                        <ques_count :couid='testpaper.Cou_ID' :qtype='i+1' :olid='0'> </ques_count>
                     </template>
-                    <template slot="append">道试题</template>
                 </el-input>
             </el-col>
                 <el-col :span="12">

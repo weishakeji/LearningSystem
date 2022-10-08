@@ -269,14 +269,15 @@ Vue.component('fromtype1', {
                 <div slot="header" class="header">
                     {{i+1}}. {{o.Ol_Name}}             
                 </div>
-                <fromtype1_item  v-for="(t,j) in types" :item="getOutlineItem(o,j+1)" :types="types"></fromtype1_item>
+                <fromtype1_item  v-for="(t,j) in types" :item="getOutlineItem(o,j+1)" :types="types" 
+                :couid="-1"></fromtype1_item>
             </el-card>
         </div>
     </div> `
 });
 
 Vue.component('fromtype1_item', {
-    props: ['item', 'types'],
+    props: ['item', 'types','couid'],
     data: function () {
         return {
 
@@ -287,6 +288,8 @@ Vue.component('fromtype1_item', {
             <template slot="prepend">
                 <ques_type :type="item.TPI_Type" :types="types" :showname="true"></ques_type>                    
             </template>
-            <template slot="append">道</template>
+            <template slot="append">道
+                <ques_count :couid='couid' :qtype='item.TPI_Type' :olid='item.Ol_ID'> </ques_count>
+            </template>
         </el-input> `
 });
