@@ -10,6 +10,7 @@ using Song.ServiceInterfaces;
 using Song.Entities;
 using System.Data;
 using WeiSha.Data;
+using WeiSha.Core;
 
 namespace Song.WebSite
 {
@@ -33,6 +34,8 @@ namespace Song.WebSite
             {               
                 WeiSha.Core.Business.Do<ITemplate>().SetPlateOrganInfo();
             }
+            //初始化七牛云直播的值
+            Business.Do<ILive>().Initialization();
             //账号信息，加入内存缓存，方便后续查询
             //Song.ServiceImpls.AccountLogin.Buffer.Init();
         }

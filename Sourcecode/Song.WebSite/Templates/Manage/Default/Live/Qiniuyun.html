@@ -22,7 +22,8 @@
             </el-form-item>
             <el-form-item label="直播空间名：">
                 <el-input v-model="form.LiveSpace" style="width: 200px"></el-input>
-                <el-button type="info" v-on:click="btnTest" v-loading="loading">验 证 测 试</el-button>
+                <el-button type="primary" v-on:click="btnTest" v-loading="loading">
+                    <icon>&#xe634</icon>验 证 测 试</el-button>
             </el-form-item>
             <el-divider></el-divider>
             <el-form-item label="HTTPS配置：">
@@ -39,7 +40,8 @@
             </el-form-item>
 
             <el-form-item>
-                <el-button type="primary" v-on:click="btnEnter" v-loading="loading">确 定</el-button>
+                <el-button type="primary" v-on:click="btnEnter" v-loading="loading">
+                    <icon>&#xa048</icon>确 定</el-button>
 
             </el-form-item>
         </el-form>
