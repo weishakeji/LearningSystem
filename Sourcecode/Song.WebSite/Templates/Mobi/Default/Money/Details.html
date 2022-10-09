@@ -33,8 +33,9 @@
                         <div class="acc-name"><span v-html="account.Ac_Name"></span>
                             <span class="acc-acname" v-html="account.Ac_AccName"></span>
                         </div>
-                        <div class="acc-money">
-                            <icon>&#xe746</icon>余额<span v-html="account.Ac_Money"></span>元
+                        <div class="acc-money" @click.stop="toRecharge()">
+                            <span><icon>&#xe746</icon>余额<b v-html="account.Ac_Money"></b>元</span>
+                            <a href="/mobi/Recharge/index" class="income">充值</a>     
                         </div>
 
                     </div>

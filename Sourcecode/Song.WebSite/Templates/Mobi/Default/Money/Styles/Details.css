@@ -98,13 +98,26 @@ html, body, #vapp {
 .header .acc-money {
 	padding: 5px 0px;
 	font-size: 14px;
+	display: flex;
+	justify-content: space-between;
 }
 
-.header .acc-money span {
+.header .acc-money span b {
 	font-size: 16px;
 	margin: 0px 10px;
 	font-weight: bold;
-	color: #333;
+	color: rgb(250, 46, 46);
+}
+.header .acc-money a{	
+	font-size: 12px;
+    line-height: 1;
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 100px;
+    color: #fff;
+	height: 15px;
+    background-color: #007aff;
+	margin-top: 5px;
 }
 /*月份信息*/
 .month{

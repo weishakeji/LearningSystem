@@ -26,7 +26,7 @@ html, body, #vapp {
 }
 
 .header[login] {
-	height: 60px;
+	height: 80px;
 }
 
 .header_info {
@@ -49,6 +49,7 @@ html, body, #vapp {
 .logined .acc_photo {
 	width: 80px;
 	height: 80px;
+	margin-top: 18px;
 	text-align: center;
 }
 

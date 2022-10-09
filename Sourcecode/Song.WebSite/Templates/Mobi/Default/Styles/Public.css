@@ -232,16 +232,6 @@ a {
 	text-align: right;
 }
 
-.aside_menu .income {
-	font-size: 12px;
-	line-height: 1;
-	display: inline-block;
-	padding: 3px 6px;
-	border-radius: 100px;
-	color: #fff;
-	background-color: #007aff;
-}
-
 .aside_menu .aside_list {
 	height: calc(100% - 130px);
 	overflow-y: auto;
@@ -292,18 +282,18 @@ a {
 }
 
 .aside_menu .aside_foot {
-	height: 50px;
+	height: 40px;
 	width: 100%;
 	position: absolute;
 	bottom: 0px;
 	display: flex;
+	justify-content: space-between;
 }
 
 .aside_foot a {
 	display: block;
 	height: 30px;
 	padding: 10px 10px 10px 10px;
-	line-height: 10px;
 	font-size: 14px;
 	width: auto;
 	flex: auto;

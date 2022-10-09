@@ -91,6 +91,10 @@ $ready(function () {
             myself: function () {
                 window.location.href = "/mobi/account/myself";
             },
+            toRecharge: function () {
+                var url = "/mobi/Recharge/index";
+                window.location.href = url;
+            },
             onload: function () {
                 var th = this;
                 if (!th.islogin) {

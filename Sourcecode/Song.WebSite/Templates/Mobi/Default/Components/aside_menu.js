@@ -89,8 +89,7 @@ Vue.component('aside_menu', {
                         <span v-else>(没有名字)</span>                      
                     </div>                        
                     <div class="acc-money">
-                    <a href="/mobi/Money/Details">{{account.Ac_Money}}元</a>
-                    <a href="/mobi/Recharge/index" class="income">充值</a>      
+                        <a href="/mobi/Money/Details">{{account.Ac_Money}} 元</a>                   
                     </div>                                  
                  </div>
                 </div>
