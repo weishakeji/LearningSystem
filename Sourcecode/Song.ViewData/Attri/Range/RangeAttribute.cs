@@ -54,7 +54,7 @@ namespace Song.ViewData.Attri
                 if (ranges[i] is DomainAttribute) msg += "同域";
                 if (i < ranges.Count - 1) msg += ",";
             }
-            throw new Exception(string.Format("当前方法访问受限，仅限{0}访问", msg));
+            throw new Exception(string.Format("接口 '{0}/{1}' 仅限{0}访问", method.DeclaringType.Name, method.Name, msg));
         }
         /// <summary>
         /// 将执行结果写入日志

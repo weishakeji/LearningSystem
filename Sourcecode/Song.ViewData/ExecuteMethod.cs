@@ -217,16 +217,16 @@ namespace Song.ViewData
         private static MethodInfo getMethod(Type type, Letter p)
         {
             //1、先判断方法是否存在
-            List<MethodInfo> methods = new List<MethodInfo>();
+            List<MethodInfo> methods = new List<MethodInfo>();  //与$api请求的接口名称相同的所有方法
             foreach (MethodInfo mi in type.GetMethods())
             {
                 if (p.MethodName.Equals(mi.Name, StringComparison.CurrentCultureIgnoreCase))
                     methods.Add(mi);
             }
             if (methods.Count < 1)
-                throw new Exception(string.Format("调用方法'{0}.{1}'不存在", p.ClassName, p.MethodName));
+                throw new Exception(string.Format("接口 '{0}/{1}' 不存在", p.ClassName, p.MethodName));
             //2、判断方法的参数名称，是否与传递来的参数名称匹配，参数数量必须匹配  
-            //只有一个参数，且类型是Letter
+            //2-1 只有一个参数，且类型是Letter
             MethodInfo mbLetter = null;
             for (int i = 0; i < methods.Count; i++)
             {
@@ -238,15 +238,14 @@ namespace Song.ViewData
                     break;
                 }
             }
-            MethodInfo method = null;
+            //2-2 判断参数个数是否相同
+            MethodInfo method = null;       //当前$api请求的方法
             foreach (MethodInfo mi in methods)
             {
-                //2-1、判断参数个数是否相同
                 int paraCount = 0;
                 foreach (ParameterInfo pi in mi.GetParameters())
-                {
                     if (!pi.IsOut) paraCount++;
-                }
+
                 //方法的参数个数，和传参的参数个数，必须相等
                 if (paraCount == p.Params.Count)
                 {
@@ -254,28 +253,56 @@ namespace Song.ViewData
                     break;
                 }
             }
-            //2-2、判断参数名称与传递来的参数名称是否一致
-            if (method != null)
+            if (method == null)
             {
-                bool ismatch = true;    //是否匹配
-                foreach (ParameterInfo pi in method.GetParameters())
+                string tips = string.Empty;
+                for (int i = 0; i < methods.Count; i++)
                 {
-                    //如果参数是Parameter类型，则跳过匹配
-                    if (p.GetType().FullName.Equals(pi.ParameterType.FullName)) continue;
-                    //只要有一个参数不匹配，即中断
-                    if (!p.ExistParameter(pi.Name))
-                    {
-                        ismatch = false;
-                        break;
-                    }
+                    tips += methods[i].GetParameters().Length;
+                    tips += i < methods.Count - 1 ? "、" : "";
                 }
-                if (!ismatch) method = null;
+                throw new Exception(string.Format("接口 '{0}/{1}' 形参与实参的数量不符，接口形参所需：{3}，实标传参：{2}个。",
+                p.ClassName, methods.Count > 0 ? methods[0].Name : p.MethodName,
+                p.Params.Count, tips));
             }
+
+            //2-3、判断参数名称与传递来的参数名称是否一致
+            bool ismatch = true;    //是否匹配
+            foreach (ParameterInfo pi in method.GetParameters())
+            {
+                //如果参数是Parameter类型，则跳过匹配
+                if (p.GetType().FullName.Equals(pi.ParameterType.FullName)) continue;
+                //只要有一个参数不匹配，即中断
+                if (!p.ExistParameter(pi.Name))
+                {
+                    ismatch = false;
+                    break;
+                }
+            }
+            if (!ismatch) method = null;
+
             if (method == null) method = mbLetter;
-            if (method == null) throw new Exception(
-                string.Format("所调用方法'{0}.{1}'的参数名称与实际传参不匹配；实际传参：{2}",
-                type.FullName, p.MethodName,
-                p.ToString() == string.Empty ? "null" : p.ToString()));
+            if (method == null)
+            {
+                string tips = string.Empty;
+                for (int i = 0; i < methods.Count; i++)
+                {
+                    string pstr = string.Empty;
+                    ParameterInfo[] pis = methods[i].GetParameters();
+                    for (int j = 0; j < pis.Length; j++)
+                    {
+                        pstr += pis[j].Name;
+                        pstr += j < pis.Length - 1 ? "," : "";
+                    }
+                    tips += string.Format("{0}({1})", methods[i].Name, pstr);
+                    tips += i < methods.Count - 1 ? "、" : "";
+                }
+                throw new Exception(
+                        string.Format("接口 '{0}/{1}' 的形参名称与实参名称不匹配；形参：{2}，实际传参：{3}",
+                        type.Name, methods.Count > 0 ? methods[0].Name : p.MethodName,
+                        tips,
+                        p.ToString() == string.Empty ? "null" : p.ParamsNames()));
+            }
             return method;
         }
         #region 通过方法的参数（形参 formal parameter），匹配传递来的参数（实参 actual parameter）
@@ -322,9 +349,13 @@ namespace Song.ViewData
                     if (string.IsNullOrWhiteSpace(val) && !pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
                     {
                         if (pi.ParameterType.Name.Equals("Boolean", StringComparison.CurrentCultureIgnoreCase) ||
+                            pi.ParameterType.Name.Equals("Int32", StringComparison.CurrentCultureIgnoreCase) ||
+                            pi.ParameterType.Name.Equals("Int64", StringComparison.CurrentCultureIgnoreCase) ||
                       pi.ParameterType.Name.Equals("DateTime", StringComparison.CurrentCultureIgnoreCase))
                         {
-                            if (string.IsNullOrWhiteSpace(val)) throw new Exception("参数 " + pi.Name + " 的值为空");
+                            string tips = "接口 '{0}/{1}' 的参数 {2}({3}) ，实际传参的值为空";
+                            throw new Exception(string.Format(tips, method.DeclaringType.Name, method.Name,
+                                pi.Name, pi.ParameterType.Name.ToLower()));
                         }
                     }
                 }
@@ -357,7 +388,10 @@ namespace Song.ViewData
                 }
                 catch
                 {
-                    throw new Exception("参数 " + pi.Name + " 的值，数据格式不正确");
+                    string tips = "接口 '{0}/{1}' 的参数 {2}({3}) ，数据格式不正确; 实际传参：{4}";
+                    if (val.Length > 100) val = val.Substring(0, 100) + "...";
+                    throw new Exception(string.Format(tips, method.DeclaringType.Name, method.Name,
+                        pi.Name, pi.ParameterType.Name.ToLower(), val));
                 }
 
             }
@@ -416,6 +450,7 @@ namespace Song.ViewData
                 //如果为空，则设置初始值
                 if (ptype.Name == "DateTime") props[n].SetValue(entity, DateTime.Now, null);
                 if (ptype.Name == "Int32") props[n].SetValue(entity, 0, null);
+                if (ptype.Name == "Int64") props[n].SetValue(entity, 0, null);
             }
             return (T)entity;
         }

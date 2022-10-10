@@ -26,7 +26,7 @@ namespace Song.ViewData.Attri
             StudyAttribute study = StudyAttribute.GetAttr<StudyAttribute>(method);
             if (study == null) return true;
 
-            string msg = string.Format("当前方法 {0}.{1} 需要", method.DeclaringType.Name, method.Name);
+            string msg = string.Format("接口 '{0}/{1}' 需要", method.DeclaringType.Name, method.Name);
             //如果未登录，则直接返回false
             Song.Entities.Accounts acc = LoginAccount.Status.User();
             if (acc == null) throw new Exception(msg + "学员账户登录后操作");

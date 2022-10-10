@@ -53,7 +53,7 @@ namespace Song.ViewData.Attri
                 if (attr != null && admin.Ignore) attr.Ignore = admin.Ignore;
             }
             if (attr == null || attr.Ignore)
-                throw new Exception(string.Format("当前接口方法 {0}.{1} 禁止 HTTP {2} 请求",
+                throw new Exception(string.Format("接口 '{0}/{1}' 禁止 HTTP {2} 请求",
                     method.DeclaringType.Name, method.Name, httpmethod.ToUpper()));
             return attr;
         }

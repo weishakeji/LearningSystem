@@ -60,7 +60,7 @@ namespace Song.ViewData.Attri
             if (loginattr != null) return loginattr;
 
             //逐个验证
-            string msg = string.Format("当前方法 {0}.{1} 需要", method.DeclaringType.Name, method.Name);
+            string msg = string.Format("接口 '{0}/{1}' 需要", method.DeclaringType.Name, method.Name);
 
             List<string> list = new List<string>();
 

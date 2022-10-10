@@ -449,6 +449,32 @@ namespace Song.ViewData
             return false;
         }
         /// <summary>
+        /// 将参数名称串联
+        /// </summary>
+        /// <returns></returns>
+        public string ParamsNames()
+        {
+            return this.ParamsNames(string.Empty);
+        }
+        /// <summary>
+        /// 将参数名称串联
+        /// </summary>
+        /// <param name="separator">分隔符</param>
+        /// <returns></returns>
+        public string ParamsNames(string separator)
+        {
+            if (string.IsNullOrWhiteSpace(separator)) separator = ",";
+
+            string str = string.Empty;
+            List<string> list = new List<string>(_params.Keys);
+            for (int i = 0; i < list.Count; i++)
+            {
+                str += list[i];
+                str += i < list.Count - 1 ? separator : "";
+            }
+            return str;
+        }
+        /// <summary>
         /// 获取cookie值
         /// </summary>
         /// <param name="key">cookie名称</param>
@@ -494,7 +520,7 @@ namespace Song.ViewData
             }
         }
         #endregion
-
+        
         /// <summary>
         /// 将参数转换为其它类型，常见转换成实体
         /// </summary>

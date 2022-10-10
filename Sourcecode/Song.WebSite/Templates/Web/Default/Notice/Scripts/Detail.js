@@ -73,7 +73,7 @@ $ready(function () {
             getnotices: function () {
                 var orgid = this.organ.Org_ID;
                 var th = this;
-                $api.get('Notice/ShowItems', { 'orgid': orgid, 'type': -1, 'count': 10 }).then(function (req) {
+                $api.get('Notice/showItems', { 'orgid': orgid, 'type': -1, 'count': '10' }).then(function (req) {
                     if (req.data.success) {
                         th.notices = req.data.result;
                     } else {
