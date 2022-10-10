@@ -254,6 +254,20 @@ Vue.component('entity', {
                 message: '复制 “' + val + '” 到粘贴板',
                 type: 'success'
             });
+        },
+        //显示类型
+        showtype: function (ty, length) {
+            if (ty == 'nvarchar') {
+                var leng = Number(length);
+                if (leng < 0) return 'nvarchar(max)'
+                else
+                    return 'nvarchar(' + (leng / 2) + ')';
+            }
+            return ty;
+        },
+        //是否可空
+        shownull:function(v){
+
         }
     },
     filters: {
@@ -282,12 +296,12 @@ Vue.component('entity', {
         </span>
     </div>
     <table border="0">
-    <tr><th>序号</th><th>属性/字段</th><th>类型</th><th>可空</th><th>关联</th><th>备注</th><th>说明</th></tr>
+    <tr><th>序号</th><th>字段</th><th>类型</th><th>可空</th><th>关联</th><th>备注</th><th>说明</th></tr>
     <tr v-for="(v,k,i) in properties">
         <td>{{i+1}}</td>
-        <td v-html="$options.filters.show(k,search)" @dblclick="copy(k)" title="双击复制" class="field"></td>
-        <td>{{v.type}}</td>
-        <td>{{v.nullable ? v.nullable : ''}}</td>
+        <td v-html="$options.filters.show(k,search)+(v.primary=='1' ? ' (主键)' : '')" @dblclick="copy(k)" title="双击复制" class="field"></td>
+        <td>{{showtype(v.type,v.length)}}</td>
+        <td>{{Number(v.nullable)==0 ? '' : '√'}}</td>
         <td @dblclick="edit(k+'.relation')" mark="关联">
             <span v-if="!state(k+'.relation')">{{text(k,'relation')}}</span>
             <select  v-if="state(k+'.relation')" :id="k+'.relation'"

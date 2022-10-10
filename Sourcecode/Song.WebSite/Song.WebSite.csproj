@@ -2276,6 +2276,7 @@
     <Analyzer Include="..\Lib\Spring.Data.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Help\Datas\Entitiy\Purview.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>

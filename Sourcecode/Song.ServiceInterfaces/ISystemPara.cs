@@ -159,5 +159,16 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         DataTable ForSql(string sql);
 
+        /// <summary>
+        /// 数据库里所有的表
+        /// </summary>
+        /// <returns></returns>
+        List<string> DataTables();
+        /// <summary>
+        /// 获取数据字段
+        /// </summary>
+        /// <param name="tablename">表名称</param>
+        /// <returns>数据列包括：name,type,length,fulltype,isnullable</returns>
+        DataTable DataFields(string tablename);
     }
 }

@@ -390,6 +390,83 @@ namespace Song.ServiceImpls
             if (ds.Tables.Count > 0) return ds.Tables[0];
             return null;
         }
+
+        /// <summary>
+        /// 数据库里所有的表
+        /// </summary>
+        /// <returns></returns>
+        public List<string> DataTables()
+        {
+            string sql = "select name from sysobjects where type='U' order by name asc";
+            List<string> list = new List<string>();
+            using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
+            {
+                while (reader.Read())               
+                    list.Add(reader.GetValue<string>(0));
+                reader.Close();
+            }          
+            return list;
+        }
+        /// <summary>
+        /// 获取数据字段
+        /// </summary>
+        /// <param name="tablename">表名称</param>
+        /// <returns>数据列包括：name,type,length,fulltype,isnullable,primary(主键，非零为真)</returns>
+        public DataTable DataFields(string tablename)
+        {
+            if (string.IsNullOrWhiteSpace(tablename)) return null;
+            string sql = @"
+                    SELECT name,type_name(xtype) AS type,
+                    --长度，无限长为-1
+                    length,
+                    --是否可空，0为可空
+                    isnullable as nullable
+                    FROM syscolumns
+                    WHERE (id = OBJECT_ID('{{tablename}}'))
+                    order by name asc";
+            sql = sql.Replace("{{tablename}}", tablename.Trim());
+
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            if (ds.Tables.Count < 1) return null;
+            //获取主键
+            string sql2 = @"
+                SELECT distinct	
+	                COLUMN_NAME=stuff((
+		                SELECT '|'+COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+		                where TABLE_NAME ='{{tablename}}'
+                    FOR XML path('')
+                    ), 1, 1, '')
+                FROM
+	                INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+                where TABLE_NAME ='{{tablename}}'";
+            sql2 = sql2.Replace("{{tablename}}", tablename.Trim());
+            string primary = Gateway.Default.FromSql(sql2).ToScalar().ToString();
+            //将主键加到字段的表中
+            DataTable dt = ds.Tables[0];
+            dt.Columns.Add(new DataColumn("primary", typeof(int)));
+            DataRow parimaryDr = dt.NewRow();  //主键的行
+            int parimaryIndex = -1;     //主键的行索引，用以后面与第一行交换位置
+            for(int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+                if (dr["name"].ToString().Equals(primary, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    dr["primary"] = 1;
+                    parimaryDr.ItemArray = dr.ItemArray;
+                    parimaryIndex = i;
+                }
+                else
+                {
+                    dr["primary"] = 0;
+                }
+            }
+            if (parimaryIndex > 0)
+            {
+                dt.Rows[parimaryIndex].ItemArray = dt.Rows[0].ItemArray;
+                dt.Rows[0].ItemArray = parimaryDr.ItemArray;
+            }
+            return dt;
+        }
         #region IEnumerable 成员
 
         /// <summary>

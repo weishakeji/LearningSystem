@@ -1,5 +1,7 @@
 /*获取所有表*/
-select name from sysobjects where type='U'
+select name,crdate from sysobjects where type='U' order by name asc
+
+select * from sysobjects
 
 /* 表信息 */
 SELECT [TableName] = [Tables].name ,
