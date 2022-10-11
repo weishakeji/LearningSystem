@@ -165,6 +165,7 @@
                                     type: 'success'
                                 });
                                 th.getprices();
+                                th.fresh_course();
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
@@ -216,6 +217,7 @@
                                 });
                                 th.editobj = {};
                                 th.getprices();
+                                th.fresh_course();
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
@@ -256,6 +258,7 @@
                             center: true
                         });
                         th.editobj = {};
+                        th.fresh_course();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -312,11 +315,12 @@
                 $api.post('Course/PriceUpdateTaxis', { 'items': this.prices }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true
                         });
+                        th.fresh_course();
                     } else {
                         throw req.data.message;
                     }
@@ -333,12 +337,13 @@
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
                         th.getprices();
+                        th.fresh_course();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -388,6 +393,7 @@
                             message: '修改课程信息成功',
                             center: true
                         });
+                        th.fresh_course();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -417,6 +423,13 @@
                 }
                 console.log(obj);
                 return obj;
+            },
+            //刷新课程列表中的状态
+            fresh_course: function () {
+                var win = window.parent;
+                if (win && win.vapp) {
+                    win.vapp.close_fresh('vapp.handleCurrentChange()');
+                }
             }
         }
     });

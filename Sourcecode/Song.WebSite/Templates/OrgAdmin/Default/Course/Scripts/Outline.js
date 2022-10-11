@@ -277,6 +277,7 @@
                             'olid': outline.Ol_ID,
                             'uid': outline.Ol_UID
                         }),
+                    'pid': window.name,
                     'title': title, 'ico': 'e83a',
                     'width': '80%', 'height': '80%',
                     'min': false, 'full': false, 'showmask': true
