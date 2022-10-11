@@ -108,7 +108,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
+                    th.$alert(err, '错误');
                     console.error(err);
                 });
             },
@@ -127,6 +127,8 @@
             tableRowClassName: function ({ row, rowIndex }) {
                 if (row.CP_ID === this.editobj.CP_ID) {
                     return 'edit_row'
+                }else{
+                    return row.CP_IsUse ? 'enable' : 'disabled';
                 }
             },
             //添加价格
@@ -171,7 +173,7 @@
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            alert(err);
+                            th.$alert(err, '错误');
                             console.error(err);
                         });
                     }
@@ -223,7 +225,7 @@
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
-                            alert(err);
+                            th.$alert(err, '错误');
                             console.error(err);
                         });
                     }
@@ -264,7 +266,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
+                    th.$alert(err, '错误');
                     console.error(err);
                 });
             },
@@ -325,7 +327,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
+                    th.$alert(err, '错误');
                     console.error(err);
                 });
             },
@@ -399,7 +401,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
+                    th.$alert(err, '错误');
                     console.error(err);
                 });
             },
@@ -426,10 +428,10 @@
             },
             //刷新课程列表中的状态
             fresh_course: function () {
-                var couid=this.course.Cou_ID;
+                var couid = this.course.Cou_ID;
                 var win = window.parent;
                 if (win && win.vapp) {
-                    win.vapp.close_fresh('vapp.fressingle('+couid+')');
+                    win.vapp.close_fresh('vapp.fressingle(' + couid + ')');
                     //win.vapp.close_fresh('vapp.handleCurrentChange()');
                 }
             }

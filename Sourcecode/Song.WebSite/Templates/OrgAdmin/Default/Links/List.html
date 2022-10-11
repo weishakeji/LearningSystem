@@ -68,7 +68,7 @@
             </el-table-column>
             <el-table-column label="链接" show-overflow-tooltip>
                 <template slot-scope="scope">
-                    <a target="_blank" :href="scope.row.Lk_Url">{{scope.row.Lk_Url}}</a>
+                    <a target="_blank" :href="scope.row.Lk_Url" underline>{{scope.row.Lk_Url}}</a>
                 </template>
             </el-table-column>
             <el-table-column label="所属分类" show-overflow-tooltip width="120">
