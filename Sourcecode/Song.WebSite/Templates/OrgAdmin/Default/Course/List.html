@@ -47,11 +47,14 @@
 
             <el-table-column label="课程">
                 <div slot-scope="scope" class="title_box" :title="scope.row.Cou_Name">
-                    <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
-                    <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                    <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
+                        <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
+                        <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                    </a>
                     <div>
                         <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
-                        <span v-html="showInfo(scope.row.Cou_Name)" class="large"> </span>
+                        <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank" underline
+                            v-html="showInfo(scope.row.Cou_Name)" class="large"> </a>
                     </div>
                 </div>
             </el-table-column>
@@ -85,7 +88,9 @@
             </el-table-column>
             <el-table-column label="所属专业" show-overflow-tooltip width="120">
                 <template slot-scope="scope">
-                    <icon>&#xe83d</icon> {{scope.row.Sbj_Name}}
+                    <a :href="'/web/course/index?sbjid='+scope.row.Sbj_ID" target="_blank" underline>
+                        <icon>&#xe83d</icon> {{scope.row.Sbj_Name}}
+                    </a>
                 </template>
             </el-table-column>
             <el-table-column label="教师" show-overflow-tooltip width="90">
@@ -160,11 +165,14 @@
                 </div>
             </template>
             <div class="showDetail">
-                <img :src="curr.Cou_Logo" v-if="curr.Cou_Logo!=''" class="cou_logo" />
-                <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                <a :href="'/web/course/detail.'+curr.Cou_ID" target="_blank">
+                    <img :src="curr.Cou_Logo" v-if="curr.Cou_Logo!=''" class="cou_logo" />
+                    <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
+                </a>
                 <div class="showtitle">
                     <live v-if="curr.Cou_ExistLive" title="直播课"></live>
-                    <span v-html="curr.Cou_Name"> </span>
+                    <a :href="'/web/course/detail.'+curr.Cou_ID" target="_blank" underline v-html="curr.Cou_Name"></a>
+
                 </div>
                 <div class="showSubject">
                     <icon>&#xe83d</icon> 专业：

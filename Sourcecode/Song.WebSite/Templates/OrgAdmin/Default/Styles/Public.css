@@ -67,6 +67,9 @@ icon {
 	border-radius: 3px;
 }
 
+a[underline]:hover {
+	text-decoration: underline;
+}
 
 /*特殊字体*/
 

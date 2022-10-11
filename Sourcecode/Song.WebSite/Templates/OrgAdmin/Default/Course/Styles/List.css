@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -74,6 +75,7 @@ live {
 	padding: 0px 15px 20px 15px;
 }
 
+
 .showDetail .cou_logo {
 	width: 100%;
 	height: calc((400px - 30px) / 16 * 9);
@@ -89,9 +91,11 @@ live {
 	display: inline-block;
 	margin-right: 2px;
 }
+
 .showDetail .student {
 	cursor: pointer;
 }
+
 .showtitle {
 	margin: 0px 0px 10px 0px;
 }
@@ -139,11 +143,13 @@ live {
 	line-height: 30px;
 	font-size: 16px !important;
 }
+
 .showContext>div.showitems a {
 	line-height: 30px;
 	font-size: 16px !important;
 	color: #409EFF;
 }
+
 .showContext>div.showitems div:nth-child(odd) {
 	width: calc(50% - 10px);
 	margin-right: 10px;
