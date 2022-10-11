@@ -174,7 +174,7 @@
                                     message: '修改成功!',
                                     center: true
                                 });
-                                th.callparent();
+                                th.fresh_parent(result.Cou_ID);
                             } else {
                                 throw req.data.message;
                             }
@@ -196,10 +196,10 @@
                 return obj;
             },
             //调用父级方法
-            callparent: function () {
+            fresh_parent: function (id) {
                 var win = window.parent;
                 if (win && win.vapp) {
-                    win.vapp.close_fresh('vapp.handleCurrentChange()');
+                    win.vapp.close_fresh('vapp.fressingle(' + id + ')');
                 }
             }
         }

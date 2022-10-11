@@ -87,14 +87,14 @@
             //保存课程名称
             savename: function (name, course) {
                 this.course = course;
-                this.close_fresh('vapp.handleCurrentChange()');
+                this.close_fresh('vapp.fressingle('+course.Cou_ID+')');
 
             },
             //关闭自身窗体，并刷新父窗体列表
             close_fresh: function (func) {
                 //如果有选项卡组件，就处理选项卡页面中的事件
                 if (window.top.$tabs) {
-                    window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
+                    window.top.$pagebox.source.tab(window.name, func, false);
                 } else {
                     //如果处在学员或教师管理界面
                     var winname = window.name;

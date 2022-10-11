@@ -123,6 +123,7 @@
                                 type: 'success'
                             });
                             th.getaccessory();
+                            th.fresh_parent();
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
@@ -206,6 +207,7 @@
                             });
                             window.setTimeout(function () {
                                 th.getaccessory();
+                                th.fresh_parent();
                             }, 600);
                         } else {
                             console.error(req.data.exception);
@@ -232,6 +234,7 @@
                         if (req.data.success) {
                             var result = req.data.result;
                             th.getaccessory();
+                            th.fresh_parent();
                         } else {
                             console.error(req.data.exception);
                             throw req.config.way + ' ' + req.data.message;
@@ -258,6 +261,7 @@
                                 if (req.data.success) {
                                     var result = req.data.result;
                                     th.getaccessory();
+                                    th.fresh_parent();
                                 } else {
                                     console.error(req.data.exception);
                                     throw req.config.way + ' ' + req.data.message;
@@ -293,6 +297,7 @@
                                         type: 'success'
                                     });
                                     th.getaccessory();
+                                    th.fresh_parent();
                                 } else {
                                     console.error(req.data.exception);
                                     throw req.config.way + ' ' + req.data.message;
@@ -322,6 +327,20 @@
                     type: 'success'
                 });
             },
+            //刷新上级列表
+            fresh_parent: function () {
+                /*
+                 //如果处于课程编辑页，则刷新
+                 var pagebox = window.top.$pagebox;
+                 console.error(pagebox);
+                 if (pagebox && pagebox.source.box)
+                     pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.getTreeData")', true);
+                   */
+                //如果处于课程编辑页，则刷新
+                var pagebox = window.top.$pagebox;
+                if (pagebox && pagebox.source.box)
+                    pagebox.source.box(window.name, 'vapp.fresh_frame("vapp.getTreeData")', false);
+            }
         }
     });
 
