@@ -30,7 +30,7 @@ SELECT name,type_name(xtype) AS type,
 --长度，无限长为-1
 length,(type_name(xtype)+'('+CONVERT(varchar,length)+')') as fulltype,
 --是否可空，0为可空
-isnullable
+isnullable as nullable
 FROM syscolumns
 WHERE (id = OBJECT_ID('course'))
 order by name asc

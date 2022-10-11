@@ -349,8 +349,8 @@ namespace Song.ViewData
                     if (string.IsNullOrWhiteSpace(val) && !pi.ParameterType.Name.Equals("string", StringComparison.CurrentCultureIgnoreCase))
                     {
                         if (pi.ParameterType.Name.Equals("Boolean", StringComparison.CurrentCultureIgnoreCase) ||
-                            pi.ParameterType.Name.Equals("Int32", StringComparison.CurrentCultureIgnoreCase) ||
-                            pi.ParameterType.Name.Equals("Int64", StringComparison.CurrentCultureIgnoreCase) ||
+                            //pi.ParameterType.Name.Equals("Int32", StringComparison.CurrentCultureIgnoreCase) ||
+                            //pi.ParameterType.Name.Equals("Int64", StringComparison.CurrentCultureIgnoreCase) ||
                       pi.ParameterType.Name.Equals("DateTime", StringComparison.CurrentCultureIgnoreCase))
                         {
                             string tips = "接口 '{0}/{1}' 的参数 {2}({3}) ，实际传参的值为空";
