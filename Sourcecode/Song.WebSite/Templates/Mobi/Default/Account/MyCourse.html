@@ -69,7 +69,7 @@
         </van-sticky>
         <van-list v-model="loading" :finished="finished" v-if="islogin" finished-text="没有更多了" error-text="请求失败，点击重新加载"
             @load="onload">
-            <purchase_data v-for="(item,index) in datas" :couid="item.Cou_ID" :stid="account.Ac_ID" v-slot="scope">
+            <purchase_data v-for="(item,index) in datas" :couid="item.Cou_ID" :account="account" v-slot="scope">
                 <van-swipe-cell class="course" @open="cell_swipe">
                     <template #left>
 
@@ -93,8 +93,11 @@
                                 </div>
                                 <div class="cursubject"> {{item.Sbj_Name}}</div>
                                 <price>
+                                    <template v-if="scope.forever">
+                                        <van-tag type="success"><icon>&#xa048</icon>不限时</van-tag>
+                                    </template>
                                     <van-tag type="success " class="free"
-                                        v-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
+                                        v-else-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
                                         免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
                                     </van-tag>
                                     <van-tag type="warning" v-else-if="!item.Cou_IsFree">

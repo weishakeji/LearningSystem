@@ -23,14 +23,27 @@
             <div class="info"><span class="study" v-html="sum"></span> /<span class="view"
                     v-html="course.Cou_ViewNum"></span>
                 <template v-if="!config.IsMobileRemoveMoney">
-                    / <span class="moneyfree" v-if="course.Cou_IsFree || course.Cou_IsLimitFree">
+                    / <span class="moneyfree" v-if="!purchased && !forever">
                         <i class="free" v-if="course.Cou_IsFree">免费</i>
-                        <i class="free" v-if="course.Cou_IsLimitFree"> 限时免费</i>
-                        <span v-if="course.Cou_IsLimitFree">（{{course.Cou_FreeStart|date('yyyy/M/d')}}
-                            - {{course.Cou_FreeEnd|date('yyyy/M/d')}}）</span>
+                        <template v-if="course.Cou_IsLimitFree">
+                            <i class="free"> 限时免费</i>
+                            （{{course.Cou_FreeStart|date('yyyy/M/d')}}
+                            - {{course.Cou_FreeEnd|date('yyyy/M/d')}}）
+                        </template>
+                        <template v-else>
+                            <span class="money" v-if="prices && prices.length>0">                              
+                                {{prices[0].CP_Price}}元/{{prices[0].CP_Span}}{{prices[0].CP_Unit}}
+                            </span>
+                            <span class="money" v-else>未设置价格</span>
+                        </template>
                     </span>
-                    <span v-if="purchase!=null">
-                        期限： {{purchase.Stc_StartTime|date("yyyy/M/d")}}-{{purchase.Stc_EndTime|date("yyyy/M/d")}}
+                    <span v-else>
+                        <template v-if="forever">
+                            不限时
+                        </template>
+                        <template v-else>
+                            {{purchase.Stc_StartTime|date('yyyy-M-d')}} -- {{purchase.Stc_EndTime|date('yyyy-M-d')}}
+                        </template>
                     </span>
                 </template>
             </div>
@@ -38,9 +51,9 @@
         </div>
         <van-sticky>
             <!--按钮组-->
-            <course_menus ref='menus' :course="course" :account="account"
-                :canstudy="canStudy" :purchase="purchase" :studied="studied">
-            </course_menus>          
+            <course_menus ref='menus' :course="course" :account="account" :canstudy="canStudy" :purchase="purchase"
+                :studied="studied">
+            </course_menus>
             <!--选项卡-->
             <van-tabs v-model="tabActive">
                 <van-tab title="detail">

@@ -12,7 +12,7 @@ Vue.component('course_menus', {
                 { name: '试题练习', url: '../question/course', icon: '&#xe75e', size: 29, show: true, evt: null },
                 { name: '在线测试', url: '../Test/Index', icon: '&#xe84b', size: 29, show: true, evt: null },
                 { name: '知识库', url: 'Knowledges', icon: '&#xe76b', size: 30, show: true, evt: null },
-                { name: '结课考试', url: '../Test/Finality', icon: '&#xe810', size: 32, show: true, evt: this.goFinality },
+                { name: '结课考试', url: '../Test/Finality', icon: '&#xe810', size: 32, show: true, evt: null },
             ],
             curr_menus: {},  //当前点击的按钮项
             outline: {},     //当前点击的章节
@@ -85,14 +85,7 @@ Vue.component('course_menus', {
                     this.buy_show = true;
                 }
             }
-        },
-        //结课考试的事件
-        goFinality: function (item) {
-            var url = $api.url.set(item.url, {
-                'couid': this.course.Cou_ID
-            });
-            window.location.href = url;
-        },
+        },      
         //跳转，课程id和章节id
         gourl: function (url, couid, olid) {
             var url = $api.url.set(url, {

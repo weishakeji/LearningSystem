@@ -124,10 +124,13 @@ a.go-home:before {
 
 .info .study:before {
     content: "\e841";
+    margin-right: 5px;
 }
 
 .info .view:before {
     content: "\a03a";
+    margin-right: 5px;
+    margin-left: 5px;
 }
 .van-sticky{
     background: rgb(255, 255, 255);

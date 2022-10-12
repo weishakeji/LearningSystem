@@ -38,7 +38,8 @@
                         <div title="关注次数：" v-html="course.Cou_ViewNum"></div>
                         <div title="主讲老师：" v-html="course.Th_Name"></div>
                     </div>
-                    <div class="couMoney" title="学习费用：" v-if="!purchased">
+                   
+                    <div class="couMoney" title="学习费用：" v-if="!purchased && !forever">
                         <span class="moneyfree" v-if="course.Cou_IsFree">
                             <icon>&#xe746;</icon>免费
                         </span>

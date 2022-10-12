@@ -54,7 +54,7 @@ $ready(function () {
             //是否购买记录
             purchased: function () {
                 return JSON.stringify(this.purchase) != '{}' && this.purchase != null && this.purchase.Stc_Type != 5
-                && !this.course.Cou_IsFree;
+                    && !this.course.Cou_IsFree && this.purchase.Stc_IsEnable;
             },
             //可以学习
             canstudy: function () {
@@ -62,6 +62,9 @@ $ready(function () {
             },
             //是否可以永久学习
             forever: function () {
+                if (!this.purchase) return false;
+                if (!this.purchase.Stc_IsEnable) return false;
+                if (this.purchase.Stc_Type != 5) return false;
                 var time = this.purchase.Stc_EndTime;
                 if (time == '' || time == null) return false;
                 if ($api.getType(time) != 'Date') return false;

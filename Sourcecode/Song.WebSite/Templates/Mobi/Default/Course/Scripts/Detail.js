@@ -37,6 +37,30 @@ $ready(function () {
             //是否登录
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
+            },
+            //课程为空,或课程被禁用
+            nullcourse: function () {
+                return JSON.stringify(this.course) == '{}' || this.course == null || !this.course.Cou_IsUse;
+            },
+            //是否购买记录
+            purchased: function () {
+                return JSON.stringify(this.purchase) != '{}' && this.purchase != null && this.purchase.Stc_Type != 5
+                    && !this.course.Cou_IsFree && this.purchase.Stc_IsEnable;
+            },
+            //可以学习
+            canstudy: function () {
+                return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
+            },
+            //是否可以永久学习
+            forever: function () {
+                if (!this.purchase) return false;
+                if (!this.purchase.Stc_IsEnable) return false;
+                if (this.purchase.Stc_Type != 5) return false;
+                var time = this.purchase.Stc_EndTime;
+                if (time == '' || time == null) return false;
+                if ($api.getType(time) != 'Date') return false;
+                var year = time.getFullYear();
+                return time.getFullYear() - new Date().getFullYear() > 100;
             }
         },
         created: function () {
