@@ -1027,8 +1027,12 @@ namespace Song.ServiceImpls
                 sc.Cou_ID = couid;
                 sc.Org_ID = orgid;
             }
-            sc.Stc_StartTime = start;
-            sc.Stc_EndTime = end;
+            if (start > DateTime.Now) start = DateTime.Now;
+            sc.Stc_StartTime = start.Date;
+            //过期时间，为当天11：59：59结束
+            DateTime enddate = end.AddDays(1);
+            sc.Stc_EndTime = enddate.Date.AddSeconds(-1);
+
             sc.Stc_IsEnable = true;
             sc.Stc_Type = 3;    //免费为0，试用为1，购买为2，后台开课为3
             Gateway.Default.Save<Student_Course>(sc);
@@ -1141,7 +1145,10 @@ namespace Song.ServiceImpls
             sc.Stc_Money = mprice;
             sc.Stc_Coupon = cprice;
             sc.Stc_StartTime = DateTime.Now;
-            sc.Stc_EndTime = end;
+            //过期时间，为当天11：59：59结束
+            DateTime enddate = end.AddDays(1);
+            sc.Stc_EndTime = enddate.Date.AddSeconds(-1);
+           
             sc.Stc_IsFree = false;
             sc.Stc_IsTry = false;
             sc.Stc_IsEnable = true;
@@ -1188,7 +1195,10 @@ namespace Song.ServiceImpls
             sc.Cou_ID = couid;
             sc.Ac_ID = stid;
             sc.Stc_StartTime = start == null ? sc.Stc_StartTime : (DateTime)start;
-            sc.Stc_EndTime = end;
+            //过期时间，为当天11：59：59结束
+            DateTime enddate = end.AddDays(1);
+            sc.Stc_EndTime = enddate.Date.AddSeconds(-1);          
+
             sc.Stc_IsFree = true;
             sc.Stc_IsTry = false;
             sc.Stc_IsEnable = true;
@@ -1211,7 +1221,7 @@ namespace Song.ServiceImpls
             sc.Cou_ID = couid;
             sc.Ac_ID = stid;
             sc.Stc_StartTime = DateTime.Now;
-            sc.Stc_EndTime = DateTime.Now.AddYears(100);
+            sc.Stc_EndTime = DateTime.Now.AddYears(200);
             sc.Stc_IsFree = false;
             sc.Stc_IsTry = true;
             sc.Stc_IsEnable = true;

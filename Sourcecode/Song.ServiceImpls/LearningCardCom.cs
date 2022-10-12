@@ -535,6 +535,9 @@ namespace Song.ServiceImpls
                 if (set.Lcs_Unit == "周") end = start.AddDays(set.Lcs_Span * 7);
                 if (set.Lcs_Unit == "月") end = start.AddMonths(set.Lcs_Span);
                 if (set.Lcs_Unit == "年") end = start.AddYears(set.Lcs_Span);
+                //过期时间，为当天11：59：59结束
+                end = end.AddDays(1);
+                end= end.Date.AddSeconds(-1);
                 int span = (end - start).Days;
                 try
                 {

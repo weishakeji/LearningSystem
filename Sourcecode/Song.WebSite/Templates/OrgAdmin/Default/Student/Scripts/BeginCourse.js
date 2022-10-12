@@ -21,7 +21,15 @@ $ready(function () {
                         if (value == '') {
                             callback(new Error('请选择时间区!'));
                         } else {
-                            callback();
+                            var start = value[0];
+                            var y = start.getFullYear();
+                            var m = start.getMonth() + 1;//获取当前月份的日期 
+                            var d = start.getDate();
+                            start = new Date(y + '/' + m + '/' + d);
+                            if (start.getTime() > new Date().getTime())
+                                callback(new Error('开始时间不得大于当前时间!'));
+                            else
+                                callback();
                         }
                     }, trigger: 'blur'
                 }],
@@ -182,7 +190,7 @@ $ready(function () {
                 var sbjid = 0;
                 if (th.sbjids.length > 0) sbjid = th.sbjids[th.sbjids.length - 1];
                 th.courses = [];
-                $api.cache('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
+                $api.get('Course/Pager', { 'orgid': orgid, 'sbjids': sbjid, 'thid': '', 'search': '', 'order': '', 'size': -1, 'index': 1 }).then(function (req) {
                     if (req.data.success) {
                         th.courses = req.data.result;
                     } else {
@@ -208,8 +216,10 @@ $ready(function () {
             },
             btnEnter: function (formName) {
                 var th = this;
+
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        return;
                         var params = { 'stid': th.stid, 'start': th.formdata.limittime[0], 'end': th.formdata.limittime[1], 'couid': [] };
                         for (let i = 0; i < th.formdata.courses.length; i++) {
                             params.couid.push(th.formdata.courses[i].Cou_ID);
