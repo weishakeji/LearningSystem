@@ -28,7 +28,7 @@ $ready(function () {
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current'),
-                $api.cache('Course/ForID', { 'id': this.couid }),
+                $api.get('Course/ForID', { 'id': this.couid }),
                 $api.cache('Course/Datainfo', { 'couid': this.couid }),
                 $api.get('Course/Studied',{'couid':this.couid })
             ).then(axios.spread(function (account, platinfo, organ, course, info,studied) {

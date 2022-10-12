@@ -31,7 +31,7 @@ $ready(function () {
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
-                $api.post('Organization/Current')
+                $api.get('Organization/Current')
             ).then(axios.spread(function (account, platinfo, organ) {
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -50,7 +50,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.query.orgid = th.organ.Org_ID;
                 //获取专业
-                $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
+                $api.get('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
                     th.loading_init = false;
                     if (req.data.success) {
                         th.subjects = req.data.result;

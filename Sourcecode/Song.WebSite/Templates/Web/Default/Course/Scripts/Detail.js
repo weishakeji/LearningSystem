@@ -69,7 +69,7 @@ $ready(function () {
             //当前的机构、登录学员、课程
             $api.bat(
                 $api.post('Organization/Current'),
-                $api.cache('Course/ForID', { 'id': th.couid })
+                $api.get('Course/ForID', { 'id': th.couid })
             ).then(axios.spread(function (organ, course) {
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -84,7 +84,7 @@ $ready(function () {
                 th.organ = organ.data.result;
                 th.config = $api.organ(th.organ).config;
                 //获取专业
-                $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
+                $api.get('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
                     th.loading_init = false;
                     if (req.data.success) {
                         th.subjects = req.data.result;

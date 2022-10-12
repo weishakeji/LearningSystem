@@ -29,63 +29,7 @@ namespace Song.ViewData.Methods
         public static string VirPath = WeiSha.Core.Upload.Get[PathKey].Virtual;
         public static string PhyPath = WeiSha.Core.Upload.Get[PathKey].Physics;
 
-        #region 课程的获取、增删改查
-        ///<summary>
-        /// 创建课程
-        /// </summary>
-        /// <param name="name">课程名称</param>
-        /// <param name="orgid">机构id</param>
-        /// <param name="sbjid">所属专业的id</param>
-        /// <param name="thid">教师id</param>
-        /// <returns></returns>
-        [Admin,Teacher]
-        [HttpPost,HttpGet(Ignore =true)]
-        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
-        public Song.Entities.Course Add(string name,int orgid, long sbjid,int thid)
-        {
-            try
-            {
-                string filename = string.Empty, smallfile = string.Empty;
-                try
-                {
-                    //只保存第一张图片
-                    foreach (string key in this.Files)
-                    {
-                        HttpPostedFileBase file = this.Files[key];
-                        filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                        file.SaveAs(PhyPath + filename);
-                        //生成缩略图
-                        smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
-                        WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 320, 180, 0);
-                        break;
-                    }
-
-                    Song.Entities.Course entity = new Entities.Course();
-                    entity.Cou_Name = name;
-                    entity.Org_ID = orgid;
-                    entity.Th_ID = thid;
-                    if (thid > 0)
-                    {
-                        Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherSingle(thid);
-                        if (teacher != null) entity.Th_Name = teacher.Th_Name;
-                    }                   
-                    entity.Sbj_ID = sbjid;
-                    entity.Cou_Logo = filename;
-                    entity.Cou_LogoSmall = smallfile;
-
-                    Business.Do<ICourse>().CourseAdd(entity);
-                    return entity;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        #region 课程的获取、增删改查        
         /// <summary>
         /// 课程是否已经存在，用课程名称判断，只判断当前专业下的课程是否重名
         /// </summary>
@@ -120,12 +64,48 @@ namespace Song.ViewData.Methods
             Song.Entities.Course cur = Business.Do<ICourse>().CourseSingle(uid);
             return _tran(cur);
         }
+        ///<summary>
+        /// 创建课程
+        /// </summary>
+        /// <param name="name">课程名称</param>
+        /// <param name="orgid">机构id</param>
+        /// <param name="sbjid">所属专业的id</param>
+        /// <param name="thid">教师id</param>
+        /// <returns></returns>
+        [Admin, Teacher]
+        [HttpPost, HttpGet(Ignore = true)]
+        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        public Song.Entities.Course Add(string name, int orgid, long sbjid, int thid)
+        {
+            try
+            {
+                Song.Entities.Course entity = new Entities.Course();
+                entity.Cou_Name = name;
+                entity.Org_ID = orgid;
+                entity.Th_ID = thid;
+                if (thid > 0)
+                {
+                    Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherSingle(thid);
+                    if (teacher != null) entity.Th_Name = teacher.Th_Name;
+                }
+                entity.Sbj_ID = sbjid;
+                //接收上传的图片
+                entity = this._upload_photo(this.Files, entity);
+
+                Business.Do<ICourse>().CourseAdd(entity);
+                return entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         /// <summary>
         /// 修改课程信息
         /// </summary>
         /// <param name="course"></param>
         /// <returns></returns>
-        [Admin,Teacher]
+        [Admin, Teacher]
         [HttpPost, HttpGet(Ignore = true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
         [HtmlClear(Not = "course")]
@@ -133,48 +113,30 @@ namespace Song.ViewData.Methods
         {
             try
             {
-                string filename = string.Empty, smallfile = string.Empty;
-                try
+
+                Song.Entities.Course old = Business.Do<ICourse>().CourseSingle(course.Cou_ID);
+                if (old == null) throw new Exception("Not found entity for Course！");
+                //如果有上传文件
+                if (this.Files.Count > 0)
                 {
-                    Song.Entities.Course old = Business.Do<ICourse>().CourseSingle(course.Cou_ID);
-                    if (old == null) throw new Exception("Not found entity for Course！");
-                    //如果有上传文件
-                    if (this.Files.Count > 0)
-                    {
-                        //只保存第一张图片
-                        foreach (string key in this.Files)
-                        {
-                            HttpPostedFileBase file = this.Files[key];
-                            filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
-                            file.SaveAs(PhyPath + filename);
-                            //生成缩略图
-                            smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
-                            WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 320, 180, 0);
-                            break;
-                        }
-                        course.Cou_Logo = filename;
-                        course.Cou_LogoSmall = smallfile;
-                        if (!string.IsNullOrWhiteSpace(old.Cou_Logo))
-                            WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
-                    }
-                    //如果没有上传图片，且新对象没有图片，则删除旧图
-                    else if (string.IsNullOrWhiteSpace(course.Cou_Logo))
-                    {
+                    //接收上传的图片
+                    course = this._upload_photo(this.Files, course);
+                    if (!string.IsNullOrWhiteSpace(old.Cou_Logo))
                         WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
-                    }
-                    //某些字段将不同步修改                   
-                    string nomidfy = "Cou_CrtTime,Cou_StudentSum,Cou_UID,Th_ID,Th_Name,Org_ID,Org_Name";
-                    //如果名称为空，则不修改
-                    if (string.IsNullOrWhiteSpace(course.Cou_Name))                 
-                        nomidfy = "Cou_Name," + nomidfy;
-                    old.Copy<Song.Entities.Course>(course, nomidfy);
-                    Business.Do<ICourse>().CourseSave(old);
-                    return old;
                 }
-                catch (Exception ex)
+                //如果没有上传图片，且新对象没有图片，则删除旧图
+                else if (string.IsNullOrWhiteSpace(course.Cou_Logo))
                 {
-                    throw ex;
+                    WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
                 }
+                //某些字段将不同步修改                   
+                string nomidfy = "Cou_CrtTime,Cou_StudentSum,Cou_UID,Th_ID,Th_Name,Org_ID,Org_Name";
+                //如果名称为空，则不修改
+                if (string.IsNullOrWhiteSpace(course.Cou_Name))
+                    nomidfy = "Cou_Name," + nomidfy;
+                old.Copy<Song.Entities.Course>(course, nomidfy);
+                Business.Do<ICourse>().CourseSave(old);
+                return old;
             }
             catch (Exception ex)
             {
@@ -187,19 +149,56 @@ namespace Song.ViewData.Methods
         /// <param name="course">course的Json对象</param>
         /// <returns></returns>
         [Admin,Teacher]
-        [Student]
-        [HttpPost]
+        [HttpPost, HttpGet(Ignore = true)]
+        [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
         [HtmlClear(Not = "course")]
-        public bool ModifyJson(JObject course)
+        public Song.Entities.Course ModifyJson(JObject course)
         {
-            long id = 0;
-            long.TryParse(course["Cou_ID"].ToString(), out id);
-            Song.Entities.Course old = Business.Do<ICourse>().CourseSingle(id);
+            Song.Entities.Course cour = new Entities.Course();
+            cour.Copy<Song.Entities.Course>(course);          
+
+            Song.Entities.Course old = Business.Do<ICourse>().CourseSingle(cour.Cou_ID);
             if (old == null) throw new Exception("Not found entity for Course！");
+            if (this.Files.Count > 0)
+            {
+                //接收上传的图片
+                cour = this._upload_photo(this.Files, cour);
+                if (!string.IsNullOrWhiteSpace(old.Cou_Logo))
+                    WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
+            }
+            //如果没有上传图片，且新对象没有图片，则删除旧图
+            else if (string.IsNullOrWhiteSpace(cour.Cou_Logo))
+            {
+                WeiSha.Core.Upload.Get["Course"].DeleteFile(old.Cou_Logo);
+            }
+            //if (course.ContainsKey("Cou_Logo"))
+                course["Cou_Logo"] = cour.Cou_Logo;
+            //else
+            //    course.Add("Cou_Logo", cour.Cou_Logo);
+            course["Cou_LogoSmall"] = cour.Cou_LogoSmall;
+            //course.Add("Cou_LogoSmall", cour.Cou_LogoSmall);
 
             old.Copy<Song.Entities.Course>(course);
             Business.Do<ICourse>().CourseSave(old);
-            return true;
+            return old;
+        }
+        private Song.Entities.Course _upload_photo(HttpFileCollectionBase files,Song.Entities.Course course)
+        {
+            string filename = string.Empty, smallfile = string.Empty;
+            //只保存第一张图片
+            foreach (string key in this.Files)
+            {
+                HttpPostedFileBase file = this.Files[key];
+                filename = WeiSha.Core.Request.UniqueID() + Path.GetExtension(file.FileName);
+                file.SaveAs(PhyPath + filename);
+                //生成缩略图
+                smallfile = WeiSha.Core.Images.Name.ToSmall(filename);
+                WeiSha.Core.Images.FileTo.Thumbnail(PhyPath + filename, PhyPath + smallfile, 320, 180, 0);
+                break;
+            }
+            course.Cou_Logo = filename;
+            course.Cou_LogoSmall = smallfile;
+            return course;
         }
         /// <summary>
         /// 修改课程的状态

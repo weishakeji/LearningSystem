@@ -33,7 +33,7 @@ $ready(function () {
             //当前的机构、登录学员、课程
             $api.bat(
                 $api.post('Organization/Current'),
-                $api.cache('Course/ForID', { 'id': th.couid }),
+                $api.get('Course/ForID', { 'id': th.couid }),
                 $api.cache('Course/Datainfo', { 'couid': th.couid }),
             ).then(axios.spread(function (organ, course, info) {
                 //判断结果是否正常
@@ -50,7 +50,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.couinfo = info.data.result;
                 //获取专业
-                $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
+                $api.get('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
                     th.loading_init = false;
                     if (req.data.success) {
                         th.subjects = req.data.result;
@@ -73,11 +73,11 @@ $ready(function () {
                 if (!th.course) return;
                 //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）               
                 $api.bat(
-                    $api.cache('Outline/TreeList', { 'couid': th.couid }),
-                    $api.cache('Course/Prices', { 'uid': th.course.Cou_UID }),
+                    $api.cache('Outline/TreeList:3', { 'couid': th.couid }),
+                    $api.get('Course/Prices', { 'uid': th.course.Cou_UID }),
                     $api.get('Course/StudentSum', { 'couid': th.couid }),
                     $api.cache('Guide/Guides', { 'couid': th.couid, 'count': 20 }),
-                    $api.cache('Teacher/ForID', { 'id': th.course.Th_ID }),
+                    $api.get('Teacher/ForID', { 'id': th.course.Th_ID }),
                     $api.get('Course/Studied', { 'couid': th.couid })
                 ).then(axios.spread(function (outlines, prices, sum, guides, teacher, studied) {
                     th.loading_init = false;

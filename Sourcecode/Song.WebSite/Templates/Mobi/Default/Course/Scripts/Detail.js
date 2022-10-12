@@ -49,8 +49,8 @@ $ready(function () {
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
-                $api.post('Organization/Current'),
-                $api.cache('Course/ForID', { 'id': th.couid })
+                $api.get('Organization/Current'),
+                $api.get('Course/ForID', { 'id': th.couid })
             ).then(axios.spread(function (account, platinfo, organ, course) {
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -76,11 +76,11 @@ $ready(function () {
 
                 //课程章节，价格，购买人数,通知，教师，是否购买,购买的记录，是否可以学习（如果课程免费不购买也可以）               
                 $api.bat(
-                    $api.cache('Outline/TreeList', { 'couid': th.couid }),
-                    $api.cache('Course/Prices', { 'uid': th.course.Cou_UID }),
+                    $api.cache('Outline/TreeList:3', { 'couid': th.couid }),
+                    $api.get('Course/Prices', { 'uid': th.course.Cou_UID }),
                     $api.get('Course/StudentSum', { 'couid': th.couid }),
-                    $api.cache('Guide/Guides', { 'couid': th.couid, 'count': 20 }),
-                    $api.cache('Teacher/ForID', { 'id': th.course.Th_ID }),
+                    $api.cache('Guide/Guides:3', { 'couid': th.couid, 'count': 20 }),
+                    $api.get('Teacher/ForID', { 'id': th.course.Th_ID }),
                     $api.get('Course/Studied', { 'couid': th.couid })
                 ).then(axios.spread(function (outlines, prices, sum, guides, teacher, studied) {
                     th.loading_init = false;

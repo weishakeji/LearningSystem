@@ -157,15 +157,12 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var obj = th.clone(th.entity);
-                        obj.Cou_Name = '';
-
-                        th.loading = true;
                         //接口参数，如果有上传文件，则增加file
-                        var para = {};
-                        if (th.upfile == null) para = { 'course': obj };
-                        else
-                            para = { 'file': th.upfile, 'course': obj };
-                        $api.post('Course/Modify', para).then(function (req) {
+                        var para = { 'course': obj };
+                        if (th.upfile != null) para['file'] = th.upfile;
+                        console.log(obj);
+                        th.loading = true;
+                        $api.post('Course/ModifyJson', para).then(function (req) {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
@@ -189,8 +186,21 @@
             },
             //为上传数据作处理
             clone: function (entity) {
-                var obj = $api.clone(entity);
-                //上级专业
+                //获取表单项中的prop的值
+                var formitems = this.$refs['entity'].$children;
+                var props = [];
+                for (let i = 0; i < formitems.length; i++) {
+                    let prop = formitems[i].$options.propsData.prop;
+                    props.push(prop);
+                }
+                //通过prop，保留仅表单项的entity属性，以防止提交冗余数据
+                var obj = {};
+                for (let k in entity) {
+                    const index = props.findIndex(item => item == k);
+                    if (index >= 0) obj[k] = entity[k];
+                }
+                obj['Cou_ID'] = this.id;
+                //课程专业id
                 if (this.sbjSelects.length > 0)
                     obj.Sbj_ID = this.sbjSelects[this.sbjSelects.length - 1];
                 return obj;
