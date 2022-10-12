@@ -54,7 +54,14 @@
                         <span class="money" v-else>未设置价格（非免费课程）</span>
                     </div>
                     <div class="couMoney" title="已经选修：" v-else>
-                        {{purchase.Stc_StartTime|date('yyyy-M-d')}} 至 {{purchase.Stc_EndTime|date('yyyy-M-d HH:mm:ss')}}
+                        <template v-if="forever">
+                            <el-tag type="success" class="free">
+                                <icon>&#xa048</icon>不限时
+                            </el-tag>
+                        </template>
+                        <template v-else>
+                            {{purchase.Stc_StartTime|date('yyyy-M-d')}} 至 {{purchase.Stc_EndTime|date('yyyy-M-d')}}
+                        </template>
                     </div>
                     <!--购买课程的按钮-->
                     <largebutton :course="course" :purchase="purchase" :account="account" :studied="studied"
@@ -101,7 +108,7 @@
                         <template v-else>
                             <div v-for="o in outlines" :style="'padding-left:'+(o.Ol_Level*30)+'px'">
                                 <index>{{o.Ol_XPath}}</index>{{o.Ol_Name}}
-                                <el-tag type="danger" v-if="!o.Ol_IsFinish">未完结</el-tag>                                
+                                <el-tag type="danger" v-if="!o.Ol_IsFinish">未完结</el-tag>
                                 <template v-else-if="course.Cou_IsTry && o.Ol_IsFree">
                                     <a type="success" v-if="o.Ol_IsVideo"
                                         :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">

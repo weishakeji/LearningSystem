@@ -137,6 +137,10 @@ namespace Song.ServiceImpls
                 Subject sbj = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == entity.Sbj_ID).ToFirst<Subject>();
                 if (sbj != null) entity.Sbj_Name = sbj.Sbj_Name;
             }
+            //限时免费
+            entity.Cou_FreeStart = entity.Cou_FreeStart.Date;
+            DateTime freeEnd = entity.Cou_FreeEnd.AddDays(1).Date.AddSeconds(-1);
+            entity.Cou_FreeEnd = freeEnd;
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
