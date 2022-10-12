@@ -15,7 +15,7 @@ Vue.component('ques_progress', {
     watch: {
         'purchase': {
             handler: function (nv, ov) {
-                this.percent = nv.Stc_QuesScore;
+                this.percent = this.ispurchase ? nv.Stc_QuesScore : 0;
             }, immediate: true
         }
     },

@@ -15,7 +15,7 @@ Vue.component('video_progress', {
     watch: {
         'purchase': {
             handler: function (nv, ov) {
-                this.percent = nv.Stc_StudyScore;
+                this.percent = this.ispurchase ? nv.Stc_StudyScore : 0;
             }, immediate: true
         },
         'course': {

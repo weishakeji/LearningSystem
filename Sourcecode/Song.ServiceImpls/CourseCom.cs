@@ -268,20 +268,15 @@ namespace Song.ServiceImpls
             {
                 try
                 {
-                    this.CourseClear(entity.Cou_ID);
-                    tran.Delete<Course>(Course._.Cou_ID == entity.Cou_ID);
-                    foreach (Song.Entities.Outline ac in oul)
-                    {
-                        Business.Do<IOutline>().OutlineDelete(ac);
-                    }
-                    foreach (Song.Entities.GuideColumns gc in gcs)
-                    {
-                        Business.Do<IGuide>().ColumnsDelete(gc);
-                    }
+                    this.CourseClear(entity.Cou_ID);   
+
                     tran.Delete<CoursePrice>(CoursePrice._.Cou_UID == entity.Cou_UID);
-                    
+                    ////删除购买记录
+                    //tran.Delete<Student_Course>(Student_Course._.Cou_ID == entity.Cou_ID);
+
                     WeiSha.Core.Upload.Get["Course"].DeleteFile(entity.Cou_Logo);
-                   
+
+                    tran.Delete<Course>(Course._.Cou_ID == entity.Cou_ID);
                     tran.Commit();
 
                 }
@@ -419,7 +414,7 @@ namespace Song.ServiceImpls
              */
 
             //学员购买课程记录中的课程
-            string sql1 = @"select cou.* from Course as cou right join  Student_Course as sc 
+            string sql1 = @"select cou.* from Course as cou inner join  Student_Course as sc 
                             on cou.Cou_ID = sc.Cou_ID
                             where sc.Ac_ID = {{acid}} and sc.Stc_Type!=5 and {{enable}} and {{istry}}
                             and {{expired}} ";
