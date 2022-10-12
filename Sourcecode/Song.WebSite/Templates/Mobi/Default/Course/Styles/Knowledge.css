@@ -42,3 +42,6 @@ knl_context *{
 knl_context p{
 	text-indent:30px;
 }
+knl_context img{
+	max-width: 100% !important;
+}

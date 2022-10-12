@@ -271,8 +271,8 @@ namespace Song.ServiceImpls
                     this.CourseClear(entity.Cou_ID);   
 
                     tran.Delete<CoursePrice>(CoursePrice._.Cou_UID == entity.Cou_UID);
-                    ////删除购买记录
-                    //tran.Delete<Student_Course>(Student_Course._.Cou_ID == entity.Cou_ID);
+                    //删除购买记录
+                    tran.Delete<Student_Course>(Student_Course._.Cou_ID == entity.Cou_ID && Student_Course._.Stc_Type != 2);
 
                     WeiSha.Core.Upload.Get["Course"].DeleteFile(entity.Cou_Logo);
 
