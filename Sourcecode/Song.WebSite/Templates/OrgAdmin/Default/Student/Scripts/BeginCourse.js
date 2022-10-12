@@ -216,10 +216,8 @@ $ready(function () {
             },
             btnEnter: function (formName) {
                 var th = this;
-
                 this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        return;
+                    if (valid) {                       
                         var params = { 'stid': th.stid, 'start': th.formdata.limittime[0], 'end': th.formdata.limittime[1], 'couid': [] };
                         for (let i = 0; i < th.formdata.courses.length; i++) {
                             params.couid.push(th.formdata.courses[i].Cou_ID);
