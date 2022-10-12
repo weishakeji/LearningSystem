@@ -1236,11 +1236,11 @@ namespace Song.ViewData.Methods
         /// <param name="end"></param>
         /// <param name="couid"></param>
         /// <returns></returns>
-        public int BeginCourse(int stid,DateTime start,DateTime end,int[] couid)
+        public int BeginCourse(int stid, DateTime start, DateTime end, long[] couid)
         {
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             int i = 0;
-            foreach (int c in couid)
+            foreach (long c in couid)
             {
                 Business.Do<ICourse>().BeginCourse(stid, start, end, c, org.Org_ID);
                 i++;

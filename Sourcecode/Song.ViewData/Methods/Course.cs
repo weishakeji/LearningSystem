@@ -341,6 +341,7 @@ namespace Song.ViewData.Methods
         [Cache(Expires = 60)]
         public Song.Entities.CoursePrice[] Prices(string uid)
         {
+            if (string.IsNullOrWhiteSpace(uid)) return null;
             Song.Entities.CoursePrice[] prices = Business.Do<ICourse>().PriceCount(0, uid, true, 0);
             return prices;
         }
