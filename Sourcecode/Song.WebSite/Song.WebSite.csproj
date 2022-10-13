@@ -1186,6 +1186,8 @@
     <Content Include="Templates\Web\Default\Question\Components\Quesbuttons.js" />
     <Content Include="Templates\Web\Default\Question\Components\Question.js" />
     <Content Include="Templates\Web\Default\Question\Components\SetupMenu.js" />
+    <Content Include="Templates\Web\Default\Question\Components\Styles\Question.css" />
+    <Content Include="Templates\Web\Default\Question\Components\Styles\SetupMenu.css" />
     <Content Include="Templates\Web\Default\Question\Components\Styles\Quesbuttons.css" />
     <Content Include="Templates\Web\Default\Question\Components\Styles\AnswerCard.css" />
     <Content Include="Templates\Web\Default\Question\Components\Styles\OutlineList.css" />
