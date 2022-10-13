@@ -32,7 +32,10 @@ namespace Song.ServiceImpls
             if (entity.No_StartTime != null)            
                 entity.No_StartTime = ((DateTime)entity.No_StartTime).Date;
             if (entity.No_EndTime != null)
-                entity.No_EndTime = ((DateTime)entity.No_EndTime).Date;
+            {
+                DateTime end = ((DateTime)entity.No_EndTime).AddDays(1);
+                entity.No_EndTime = end.Date.AddSeconds(-1);
+            }
             Gateway.Default.Save<Notice>(entity);
             return entity.No_Id;
         }
@@ -42,7 +45,10 @@ namespace Song.ServiceImpls
             if (entity.No_StartTime != null)
                 entity.No_StartTime = ((DateTime)entity.No_StartTime).Date;
             if (entity.No_EndTime != null)
-                entity.No_EndTime = ((DateTime)entity.No_EndTime).Date;
+            {
+                DateTime end = ((DateTime)entity.No_EndTime).AddDays(1);
+                entity.No_EndTime = end.Date.AddSeconds(-1);
+            }
             Gateway.Default.Save<Notice>(entity);
         }
 

@@ -10,7 +10,7 @@ $ready(function () {
             loading: true,
             sear_str: '',
 
-            id: $api.querystring('id'),
+            id: $api.dot(),     //通知公告的id
             data: {}
 
         },

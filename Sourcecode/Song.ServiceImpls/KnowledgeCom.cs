@@ -262,15 +262,18 @@ namespace Song.ServiceImpls
             if (identify <= 0) return;
             KnowledgeSort sort = Gateway.Default.From<KnowledgeSort>().Where(KnowledgeSort._.Kns_ID == identify).ToFirst<KnowledgeSort>();
             if (sort == null) return;
+            this.SortDelete(sort);
+        }
+        public void SortDelete(KnowledgeSort sort)
+        {
             KnowledgeSort[] child = this.GetSortChilds(sort.Kns_UID, -1, null);
             foreach (KnowledgeSort n in child)
             {
                 SortDelete(n.Kns_ID);
-            }          
+            }
             Gateway.Default.Delete<Knowledge>(Knowledge._.Kns_UID == sort.Kns_UID);
-            Gateway.Default.Delete<KnowledgeSort>(KnowledgeSort._.Kns_ID == identify);
+            Gateway.Default.Delete<KnowledgeSort>(KnowledgeSort._.Kns_ID == sort.Kns_ID);
         }
-
         public KnowledgeSort SortSingle(int identify)
         {
             return Gateway.Default.From<KnowledgeSort>().Where(KnowledgeSort._.Kns_ID == identify).ToFirst<KnowledgeSort>();

@@ -124,6 +124,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="identify">实体的主键</param>
         void SortDelete(int identify);
+        void SortDelete(KnowledgeSort sort);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>

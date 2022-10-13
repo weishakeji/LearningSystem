@@ -106,7 +106,7 @@ $ready(function () {
             },
             //转向通知公告详情页
             gonotice: function (id) {
-                var url = 'Detail?id=' + id;
+                var url = 'Detail.' + id;
                 window.location.href = url;
             }
         }
