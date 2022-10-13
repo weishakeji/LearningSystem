@@ -273,6 +273,8 @@ namespace Song.ServiceImpls
                     tran.Delete<CoursePrice>(CoursePrice._.Cou_UID == entity.Cou_UID);
                     //删除购买记录
                     tran.Delete<Student_Course>(Student_Course._.Cou_ID == entity.Cou_ID && Student_Course._.Stc_Type != 2);
+                    //删除学员组与课程的关联
+                    tran.Delete<StudentSort_Course>(StudentSort_Course._.Cou_ID == entity.Cou_ID);
 
                     WeiSha.Core.Upload.Get["Course"].DeleteFile(entity.Cou_Logo);
 
@@ -542,6 +544,12 @@ namespace Song.ServiceImpls
                 foreach (Song.Entities.GuideColumns t in gcs)
                     Business.Do<IGuide>().ColumnsDelete(t);
             }
+            List<Song.Entities.KnowledgeSort> knlsoft = Gateway.Default.From<KnowledgeSort>().Where(KnowledgeSort._.Cou_ID == identify).ToList<KnowledgeSort>();
+            if (gcs != null && knlsoft.Count > 0)
+            {
+                foreach (Song.Entities.KnowledgeSort t in knlsoft)
+                    Business.Do<IKnowledge>().SortDelete(t);
+            }
             //清理试题
             List<Song.Entities.Questions> ques = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == identify).ToList<Questions>();
             if (ques != null && ques.Count > 0)
@@ -549,6 +557,9 @@ namespace Song.ServiceImpls
                 foreach (Song.Entities.Questions c in ques)
                     Business.Do<IQuestions>().QuesDelete(c.Qus_ID);
             }
+            //删除留言
+            Gateway.Default.Delete<Message>(Message._.Cou_ID == identify);
+            Gateway.Default.Delete<MessageBoard>(MessageBoard._.Cou_ID == identify);
         }
         public int CourseOfCount(int orgid, long sbjid, int thid, bool? isuse)
         {
