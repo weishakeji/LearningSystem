@@ -1,23 +1,47 @@
 ﻿//试题的展示
+$dom.load.css([$dom.pagepath() + 'Components/Styles/question.css']);
 Vue.component('question', {
     //state:答题状态
     //index:索引号，total:试题总数
     //types:试题类型，mode:0为练习模式，1为背题模式
     props: ['ques', 'state', 'index', 'total', 'types', 'mode'],
     data: function () {
-        return {}
+        return {
+            knowledge: {}        //试题关联的知识点
+        }
     },
     watch: {
         'ques': {
             handler(nv, ov) {
                 this.ques = this.parseAnswer(nv);
+                this.getKnowledge(nv);
             },
             immediate: true
         }
     },
-    computed: {},
+    computed: {
+          //是否存在知识点
+          existknl:function(){
+            return JSON.stringify(this.knowledge) != '{}' && this.knowledge != null;
+        }
+    },
     mounted: function () { },
     methods: {
+        //获取知识点
+        getKnowledge: function (ques) {
+            if (ques == null || ques.Kn_Uid == '') return;
+            var th = this
+            $api.get('Knowledge/ForUID', { 'uid': ques.Kn_Uid }).then(function (req) {
+                if (req.data.success) {
+                    th.knowledge = req.data.result;
+                } else {
+                    console.error(req.data.exception);
+                    throw req.config.way + ' ' + req.data.message;
+                }
+            }).catch(function (err) {
+                console.error(err);
+            });
+        },
         //将试题对象中的Qus_Items，解析为json
         parseAnswer: function (ques) {
             if (ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5) {
@@ -258,17 +282,24 @@ Vue.component('question', {
         </card-context>
     </card>
     <div v-show="mode==1 || (mode==0 && state.ans!='')">
-    <card class="answer">   
-    <card-title><span class="font_icon">&#xe816</span> 正确答案</card-title>
-    <card-context> <span v-html="sucessAnswer()"></span> </card-context>
-    </card>
-    <card v-if="ques.Qus_Explain!=''" class="explain">   
-        <card-title><span class="font_icon">&#xe85a</span> 试题解析</card-title>
-        <card-context>
-            <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
-            <span v-else>无</span> 
-        </card-context>
-    </card>
+        <card class="answer">   
+            <card-title><span class="font_icon">&#xe816</span> 正确答案</card-title>
+            <card-context> <span v-html="sucessAnswer()"></span> </card-context>
+        </card>
+        <card v-if="ques.Qus_Explain!=''" class="explain">   
+            <card-title><span class="font_icon">&#xe85a</span> 试题解析</card-title>
+            <card-context>
+                <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
+                <span v-else>无</span> 
+            </card-context>
+        </card>
+        <card class="knowledge" v-if="existknl" >   
+            <card-title><span class="font_icon">&#xe6b0</span> 相关知识点</card-title>
+            <card-context>
+                <div>{{knowledge.Kn_Title}}</div>
+                <div v-html="knowledge.Kn_Details"></div>
+            </card-context>
+        </card>
     </div>
 </dd>`
 });

@@ -3,16 +3,17 @@
 
 .quesCard {
 	width: 100%;
-	text-align: left;
 }
 
-.quesCard .el-drawer__header {
-	padding: 10px 15px;
-	margin-bottom: 10px;
+.quesCard .cardTit {
+	height: 50px;
+	background-color: rgb(212, 224, 206);
+	font-size: 16px;
+	line-height: 50px;
 }
 
 .quesCard .cardTit>span:first-child {
-	padding: 0px 20px 0px 0px;
+	padding: 0px 20px;
 }
 
 .quesCard .cardTit>span:first-child::before {
@@ -38,7 +39,6 @@
 
 .quesCard dl {
 	width: 100%;
-	height: auto;
 	display: table;
 	margin-bottom: 10px;
 }
@@ -59,7 +59,6 @@
 	border: solid 1px #666;
 	float: left;
 	position: relative;
-    overflow: hidden;
 }
 
 .quesCard dd[current] {

@@ -73,7 +73,8 @@
         </template>
         <!--答题卡 -->
         <van-popup v-model="showCard" position="left" closeable class="quesCard" :overlay="false" remark="答题卡">
-          <answercard ref='answercard' :questions="questions" :types="types"></answercard>
+          <answercard ref='answercard' :questions="questions" :types="types"  :ansstate="state"
+          @click="index=>swipeIndex = index"></answercard>
         </van-popup>
 
         <!--底部按钮区 -->

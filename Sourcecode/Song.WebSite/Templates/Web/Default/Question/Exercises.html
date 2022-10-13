@@ -49,7 +49,10 @@
             <span @click="swipeleft()">
               <icon>&#xe802</icon>下一题
             </span>
-          </div>         
+          </div>
+          <div @click="()=>{$refs['setupmenu'].show=true}">
+            <icon v-if="true">&#xa038</icon>
+          </div>
         </div>
         <setupmenu ref="setupmenu" :account="account"></setupmenu>
         <!--试题区域 -->
@@ -74,7 +77,7 @@
           </card>
         </template>
         <!--答题卡 -->
-        <answercard ref='answercard' :questions="questions" :types="types" :ansstate="state"
+        <answercard ref='answercard' :questions="questions" :types="types" :ansstate="state" :width="60"
           @click="index=>swipeIndex = index"></answercard>
 
         <!--底部按钮区 -->

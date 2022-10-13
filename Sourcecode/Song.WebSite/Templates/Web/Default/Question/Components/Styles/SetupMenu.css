@@ -1,0 +1,26 @@
+/*设置项面板*/
+.setup_show {
+	text-align: left;
+}
+
+.setup_show .el-drawer__body {
+	padding: 0px 10px;
+	box-sizing: border-box;
+}
+
+.setup_show .el-drawer__header {
+	margin-bottom: 0px;
+}
+
+.setup_show .el-drawer__body>div:not(.el-divider) {
+	padding: 10px;
+}
+.setup_show .el-drawer__body icon{
+	margin-right: 10px;
+	font-size: 18px;
+}
+/*视图模式*/
+
+.view_model[current] {
+	background-color: rgb(211, 255, 189) !important;
+}

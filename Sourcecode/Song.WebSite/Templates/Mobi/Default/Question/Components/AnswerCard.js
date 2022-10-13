@@ -1,4 +1,5 @@
 ﻿//答题卡
+$dom.load.css([$dom.pagepath() + 'Components/Styles/AnswerCard.css']);
 Vue.component('answercard', {
     //ansstate:答题的状态
     props: ['questions', 'types', 'ansstate'],
@@ -36,6 +37,7 @@ Vue.component('answercard', {
     methods: {
         //判断答题是否正确
         judge: function (q) {
+            //if (!this.ansstate) return false;
             var items = this.ansstate.data.items;
             var item = null;
             for (var j = 0; j < items.length; j++) {
@@ -49,7 +51,7 @@ Vue.component('answercard', {
             return item.correct;
         },
         //当点击试题标识时
-        clickEvent: function (index, q) {         
+        clickEvent: function (index, q) {
             this.$emit('click', index, q);
         }
     },

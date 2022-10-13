@@ -1,4 +1,5 @@
 ﻿//右上角的下拉菜单
+$dom.load.css([$dom.pagepath() + 'Components/Styles/setupmenu.css']);
 Vue.component('setupmenu', {
   props: ['account'],
   data: function () {
@@ -39,13 +40,16 @@ Vue.component('setupmenu', {
     updateQues: function () {
       var parent = this.$parent;
       if (parent != null) {
-        this.$dialog.confirm({
-          title: '更新试题',
-          message: '将试题保持与服务器端同步',
-        }).then(function () {
+        this.$confirm('将试题保持与服务器端同步?', '更新试题', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
           parent.setup_show = false;
           parent.getQuestion(true);
-        }).catch(function () { });
+        }).catch(() => {
+
+        });
       }
     },
     //清除学习记录
@@ -152,41 +156,31 @@ Vue.component('setupmenu', {
       }).catch(function () { });
     },
   },
-  template: `<van-popup v-model="show" class="setup_show" overlay-class="overlay" position="right" remark="右上角菜单项">
-        <van-cell-group>
-          <van-cell class="view_model">
-            <!-- 使用 title 插槽来自定义标题 -->
-            <template #title>
-            <div v-for="item in views" :current="view_model==item.val"  @click="view_model=item.val" >
+  template: `<el-drawer :visible.sync="show" class="setup_show"  direction="rtl" remark="右上角菜单项" noview append-to-body>
+          <span slot="title">
+            <icon>&#xa038</icon>设置项
+          </span>         
+          <el-divider></el-divider>      
+            <div v-for="item in views" class="view_model" :current="view_model==item.val"  @click="view_model=item.val" >
                 <icon v-html="item.icon" noview></icon>{{item.name}}
-            </div> 
-            </template>
-          </van-cell>
-
-          <van-cell>
-            <template #title>
+            </div>            
+            <el-divider></el-divider>          
+          <el-row>          
+              <span @click="updateQues"><icon>&#xe694</icon>更新试题</span>          
+          </el-row>
+          <el-row>           
+              <span @click="clearlog"><icon>&#xe737</icon>重新练习</span>           
+          </el-row>
+          <el-row v-for="menu in clearmenus" v-if="menu.val==page">          
+              <span @click="menu.event()"><icon v-html="menu.icon"></icon>{{menu.name}}</span>         
+          </el-row>    
+          <el-divider></el-divider>    
+          <el-row>          
               <icon>&#xe657</icon>字体
               <span style="float: right;font-size: 13px;">
                 <span @click="setFont(-1)"><icon>&#xe600</icon>缩小</span>
                 <span @click="setFont(1)"><icon>&#xe6ea</icon>放大</span>
-              </span>
-            </template>
-          </van-cell>
-          <van-cell>
-            <template #title>
-              <span @click="updateQues"><icon>&#xe694</icon>更新试题</span>
-            </template>
-          </van-cell>
-          <van-cell>
-            <template #title>
-              <span @click="clearlog"><icon>&#xe737</icon>重新练习</span>
-            </template>
-          </van-cell>
-          <van-cell v-for="menu in clearmenus" v-if="menu.val==page">
-            <template #title>
-              <span @click="menu.event()"><icon v-html="menu.icon"></icon>{{menu.name}}</span>
-            </template>
-          </van-cell>         
-        </van-cell-group>
-      </van-popup>`
+              </span>          
+          </el-row>    
+      </el-drawer>`
 });

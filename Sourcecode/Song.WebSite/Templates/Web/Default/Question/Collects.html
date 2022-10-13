@@ -34,6 +34,14 @@
             <span v-if="learnmode%2==0" class="weisha_icon" icon="&#xe657"> 练习模式 </span>
             <span v-if="learnmode%2==1" class="weisha_icon" icon="&#xe6da"> 背题模式 </span>
           </div>
+          <div class="move_btn">
+            <span @click="swiperight()">
+              <icon>&#xe803</icon>上一题
+            </span>
+            <span @click="swipeleft()">
+              <icon>&#xe802</icon>下一题
+            </span>
+          </div> 
           <div @click="()=>{$refs['setupmenu'].show=true}">
             <icon v-if="false">&#xa038</icon>
           </div>
@@ -44,7 +52,7 @@
           <loading size="24px" type="spinner">试题加载中...</loading>
         </template>
         <template v-else>
-          <section v-if="questions.length>0" :style="'width:'+questions.length*100+'vw'" v-swiperight="swiperight"
+          <section v-if="questions.length>0"  class="question" :style="'width:'+questions.length*100+'vw'" v-swiperight="swiperight"
             v-swipeleft="swipeleft" remark="试题区域">
             <dl>
               <question v-for="(q,i) in questions" :ques="q" :index="i" :total="questions.length" :types="types"
@@ -61,7 +69,7 @@
           </card>
         </template>
         <!--答题卡 -->
-        <answercard ref='answercard' :questions="questions" :types="types" :ansstate="state"
+        <answercard ref='answercard' :questions="questions" :types="types" :ansstate="state" :width="80"
           @click="index=>swipeIndex = index"></answercard>
 
         <!--底部按钮区 -->

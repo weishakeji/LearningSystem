@@ -1,0 +1,40 @@
+
+/*笔记面板*/
+
+.quesNote {
+	width: 80%;
+	left: 10%;
+}
+
+.quesNote button {
+	float: right;
+	width: 50%;
+}
+
+.quesNote button .van-button__text {
+	color: #fff !important;
+	font-size: 16px;
+}
+
+/*试题报错*/
+
+.quesError {
+	width: 70%;
+	left: calc((100% - 40px - 70%)/2);
+	padding: 20px 20px 20px 20px;
+}
+
+.quesError button {
+	float: right;
+	width: 50%;
+}
+
+.quesError div[role='checkbox'] {
+	line-height: 30px;
+	padding: 5px;
+}
+
+.quesError button .van-button__text {
+	color: #fff !important;
+	font-size: 16px;
+}

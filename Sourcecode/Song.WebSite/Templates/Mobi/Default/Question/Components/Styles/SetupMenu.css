@@ -1,0 +1,41 @@
+
+/*设置项的按钮*/
+
+.setup_show {
+	position: absolute;
+	width: 70%;
+	height: 100%;
+}
+
+.setup_show .van-cell::after {
+	display: none;
+}
+
+/*视图模式*/
+
+.overlay {
+	background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.view_model {
+	padding-top: 20px;
+}
+
+.view_model .van-cell__title {
+	display: flex;
+}
+
+.view_model .van-cell__title>div {
+	flex: 1;
+	text-align: center;
+	padding: 10px;
+}
+
+.view_model .van-cell__title icon {
+	display: block;
+	font-size: 25px;
+}
+
+.view_model *[current] {
+	background-color: rgb(211, 255, 189) !important;
+}

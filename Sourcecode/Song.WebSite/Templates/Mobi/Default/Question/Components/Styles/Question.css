@@ -1,0 +1,163 @@
+
+section dd {
+	width: 100vw;
+	overflow-y: auto;
+	line-height: 150%;
+}
+
+section dd info {
+	display: block;
+	padding: 15px 15px 0px 15px;
+	margin: 0px 0px 0px 10px;
+	font-size: 15px;
+}
+
+section dd info span {
+	font-size: 14px;
+	color: #999;
+}
+
+section dd info buttons {
+	display: flex;
+	float: right;
+	width: 50%;
+}
+
+section dd info buttons>* {
+	flex: 1;
+	text-align: center;
+	font-size: 12px;
+	color: #999;
+}
+
+section dd info buttons>btn i {
+	font-family: "webdesk_icon" !important;
+	margin-right: 1px;
+	font-style: normal;
+}
+
+section dd info buttons>btn.used {
+	color: #000;
+	font-weight: bold;
+}
+
+section dd * {
+	line-height: 150% !important;
+	font-size: 16px;
+}
+
+section dd card[correct="succ"] {
+	background-color: #E8FFE8 !important;
+}
+
+section dd card[correct="error"] {
+	background-color: #FFECE8 !important;
+}
+
+section dd img {
+	max-width: 100% !important;
+}
+
+/*试题选项*/
+
+.ans_area {
+	margin-left: 5px;
+}
+
+.ans_area>div {
+	position: relative;
+	margin: 10px;
+}
+
+.type1>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e85c';
+	font-style: normal;
+	font-size: 20px;
+	margin-right: 15px;
+}
+
+.type1>div[selected] i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e85b';
+	font-style: normal;
+}
+
+.ans_area>div[correct] {}
+
+.ans_area>div[correct]::before {
+	content: '\a048';
+	position: absolute;
+	left: -20px;
+	font-family: "webdesk_icon" !important;
+}
+
+.type2>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e603';
+	font-style: normal;
+	margin-right: 15px;
+	font-size: 20px;
+}
+
+.type2>div[selected] i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e78b';
+	font-style: normal;
+}
+
+.type4 button {
+	float: right;
+	height: 35px;
+	margin-bottom: 20px;
+	margin-right: 10px;
+}
+
+/*填空题*/
+
+.type5 {
+	counter-reset: section;
+}
+
+.type5 button {
+	float: right;
+	height: 35px;
+	margin-bottom: 20px;
+	margin-right: 10px;
+}
+
+.type5>div {
+	position: relative;
+	margin-left: 30px;
+}
+
+.type5>div::before {
+	counter-increment: section;
+	content: counter(section) ". ";
+	display: block;
+	position: absolute;
+	top: 5px;
+	width: 10px;
+	height: 40px;
+	left: -20px;
+}
+
+.type5>div input {
+	width: calc(100% - 30px);
+	padding: 5px 15px;
+}
+
+section textarea {
+	width: calc(100% - 22px);
+	padding: 10px;
+}
+
+#vapp[view='night'] *:not([noview]) {
+	background-color: #222222;
+	color: #cecece;
+}
+
+#vapp[view='cosy'] *:not([noview]) {
+	background-color: #eaf8ec;
+	color: #222222;
+}

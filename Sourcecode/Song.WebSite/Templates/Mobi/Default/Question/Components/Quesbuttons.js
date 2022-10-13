@@ -1,4 +1,5 @@
 ﻿//试题右侧的按钮组
+$dom.load.css([$dom.pagepath() + 'Components/Styles/quesbuttons.css']);
 Vue.component('quesbuttons', {
     props: ['question', 'account', 'couid'],
     data: function () {
