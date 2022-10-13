@@ -15,12 +15,28 @@
 .setup_show .el-drawer__body>div:not(.el-divider) {
 	padding: 10px;
 }
-.setup_show .el-drawer__body icon{
+
+.setup_show .el-drawer__body icon {
 	margin-right: 10px;
 	font-size: 18px;
 }
+
 /*视图模式*/
 
 .view_model[current] {
 	background-color: rgb(211, 255, 189) !important;
+}
+
+/*字体大小控制*/
+.setup_show .font_btn {
+	float: right;
+	font-size: 13px;
+	line-height: 20px;
+}
+.setup_show .font_btn>span:first-child{
+	margin-right: 10px;
+}
+.setup_show .font_btn icon {
+	font-size: 13px;
+	margin-right: 2px;
 }

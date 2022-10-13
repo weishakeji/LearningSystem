@@ -75,7 +75,7 @@ Vue.component('setupmenu', {
     setFont: function (num) {
       var size = 16;
       if (num == null) num == 0;
-      ergodic($dom("section"), num);
+      ergodic($dom("section.question"), num);
       function ergodic(dom, num) {
         var fontsize = parseInt(dom.css("font-size"));
         fontsize = isNaN(fontsize) ? size : fontsize + num;
@@ -175,9 +175,9 @@ Vue.component('setupmenu', {
               <span @click="menu.event()"><icon v-html="menu.icon"></icon>{{menu.name}}</span>         
           </el-row>    
           <el-divider></el-divider>    
-          <el-row>          
+          <el-row class="font">          
               <icon>&#xe657</icon>字体
-              <span style="float: right;font-size: 13px;">
+              <span class="font_btn">
                 <span @click="setFont(-1)"><icon>&#xe600</icon>缩小</span>
                 <span @click="setFont(1)"><icon>&#xe6ea</icon>放大</span>
               </span>          
