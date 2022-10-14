@@ -1633,6 +1633,7 @@ namespace Song.ServiceImpls
                     _addition(entity, tran);
                     tran.Save<MoneyAccount>(entity);
                     tran.Commit();
+
                     return entity;
                 }
                 catch (Exception ex)

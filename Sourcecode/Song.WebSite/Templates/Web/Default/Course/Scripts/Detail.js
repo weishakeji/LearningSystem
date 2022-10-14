@@ -80,7 +80,7 @@ $ready(function () {
             this.loading_init = true;
             //当前的机构、登录学员、课程
             $api.bat(
-                $api.post('Organization/Current'),
+                $api.get('Organization/Current'),
                 $api.get('Course/ForID', { 'id': th.couid })
             ).then(axios.spread(function (organ, course) {
                 //判断结果是否正常

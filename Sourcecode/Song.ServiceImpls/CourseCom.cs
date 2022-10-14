@@ -1108,10 +1108,15 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Student_Course Buy(int stid, long couid, Song.Entities.CoursePrice price)
         {
-            Course course = Gateway.Default.From<Course>().Where(Course._.Cou_ID == couid).ToFirst<Course>();
-            if (course == null) throw new Exception("要购买的课程不存在！");            
             Accounts st = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == stid).ToFirst<Accounts>();
             if (st == null) throw new Exception("当前学员不存在！");
+            return this.Buy(st, couid, price);
+        }
+        public Student_Course Buy(Accounts st, long couid, Song.Entities.CoursePrice price)
+        {
+            Course course = Gateway.Default.From<Course>().Where(Course._.Cou_ID == couid).ToFirst<Course>();
+            if (course == null) throw new Exception("要购买的课程不存在！");           
+         
             //余额是否充足
             decimal money = st.Ac_Money;    //资金余额
             int coupon = st.Ac_Coupon;      //卡券余额
@@ -1128,7 +1133,7 @@ namespace Song.ServiceImpls
             //*********************生成流水账的操作对象
             Song.Entities.MoneyAccount ma = new Song.Entities.MoneyAccount();
             Song.Entities.CouponAccount ca = new Song.Entities.CouponAccount();
-            ma.Ac_ID = ca.Ac_ID = stid;
+            ma.Ac_ID = ca.Ac_ID = st.Ac_ID;
             ma.Ma_Money = mprice;  //购买价格
             ca.Ca_Value = cprice;   //要扣除的卡券
             //购买结束时间
@@ -1144,28 +1149,27 @@ namespace Song.ServiceImpls
 
             //***************
             //生成学员与课程的关联
-            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
+            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(st.Ac_ID, couid);
             if (sc == null)
             {
                 sc = new Entities.Student_Course();
                 sc.Stc_CrtTime = DateTime.Now;
             }
             sc.Cou_ID = couid;
-            sc.Ac_ID = stid;
+            sc.Ac_ID = st.Ac_ID;
             sc.Stc_Money = mprice;
             sc.Stc_Coupon = cprice;
             sc.Stc_StartTime = DateTime.Now;
             //过期时间，为当天11：59：59结束
             DateTime enddate = end.AddDays(1);
             sc.Stc_EndTime = enddate.Date.AddSeconds(-1);
-           
+
             sc.Stc_IsFree = false;
             sc.Stc_IsTry = false;
             sc.Stc_IsEnable = true;
             sc.Sts_ID = 0;
-            sc.Stc_Type = 2;    //免费为0，试用为1，购买为2，后台开课为3
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            sc.Org_ID = org.Org_ID;
+            sc.Stc_Type = 2;    //免费为0，试用为1，购买为2，后台开课为3            
+            sc.Org_ID = st.Org_ID;
             //
             ma.Ma_IsSuccess = true;
             if (mprice > 0) Business.Do<IAccounts>().MoneyPay(ma);
@@ -1623,8 +1627,8 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(acc) || !string.IsNullOrWhiteSpace(name))
             {
                 where = "where {{acc}} and {{name}}";
-                where = where.Replace("{{acc}}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "c.Ac_AccName LIKE '%" + acc + "%'");
-                where = where.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : "c.Ac_Name='" + name + "'");               
+                where = where.Replace("{{acc}}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "a.Ac_AccName LIKE '%" + acc + "%'");
+                where = where.Replace("{{name}}", string.IsNullOrWhiteSpace(name) ? "1=1" : "a.Ac_Name LIKE '%" + name + "%'");               
             }
             //计算满足条件的记录总数
             sqlsum = sqlsum.Replace("{{couid}}", couid.ToString());

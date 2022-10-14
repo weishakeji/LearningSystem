@@ -254,6 +254,14 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Student_Course Buy(int stid, long couid, Song.Entities.CoursePrice price);
         /// <summary>
+        /// 购买课程
+        /// </summary>
+        /// <param name="account">学员账号</param>
+        /// <param name="couid">课程id</param>
+        /// <param name="price">价格项</param>
+        /// <returns></returns>
+        Student_Course Buy(Accounts account, long couid, Song.Entities.CoursePrice price);
+        /// <summary>
         /// 免费学习
         /// </summary>
         /// <param name="stid">学习ID</param>
