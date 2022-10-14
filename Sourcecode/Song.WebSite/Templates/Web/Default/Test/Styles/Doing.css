@@ -164,7 +164,8 @@ section dd * {
 }
 
 section dd card {
-	min-height: calc(100% - 20px - 40px);
+	height: calc(100% - 20px - 40px);	
+	overflow: auto;
 }
 
 section dd img {
