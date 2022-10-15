@@ -92,6 +92,7 @@ $ready(function () {
             },
             //是否过期，过期返回true
             isoverdue: function () {
+                //if(this.course.Cou_IsFree)return false;
                 var isbuy = JSON.stringify(this.purchase) != '{}' && this.purchase != null;
                 if (!isbuy) return true;
                 if (this.purchase.Stc_IsFree) return false;
@@ -104,7 +105,7 @@ $ready(function () {
             },
             //可以学习
             canstudy: function () {
-                return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
+                return this.studied || this.course.Cou_IsFree || this.course.Cou_IsLimitFree;
             }
         },
         watch: {
@@ -189,7 +190,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     th.loading = false;
-                    Vue.prototype.$alert(err);
+                    //Vue.prototype.$alert(err);
                     console.error(err);
                 });
             },

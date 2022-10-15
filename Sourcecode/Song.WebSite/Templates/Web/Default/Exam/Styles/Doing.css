@@ -373,7 +373,9 @@ section dd img {
 	font-style: normal;
 }
 
-.ans_area>div[correct] {}
+.ans_area>div[correct] {
+	/**/
+}
 
 .ans_area>div[correct]::before {
 	content: '\a048';

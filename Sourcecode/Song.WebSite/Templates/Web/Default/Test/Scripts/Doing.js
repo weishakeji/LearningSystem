@@ -9,7 +9,9 @@
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项        
+            course: {},          //课程对象
 
+            studied: false,        //是否可以学习课程
             purchase: {},        //课程购买的记录           
             results: [],        //测试成绩
 
@@ -65,6 +67,10 @@
             //是否可以进行模拟测试
             istest: function () {
 
+            },
+            //可以学习
+            canstudy: function () {
+                return this.studied || this.course.Cou_IsFree || this.course.Cou_IsLimitFree;
             },
             //试题总数
             questotal: function () {
@@ -164,14 +170,44 @@
                     th.types = type.data.result;
                     //试卷
                     th.paper = paper.data.result;
+                    th.getcourse(th.paper.Cou_ID);
                     //获取购买记录
                     if (th.islogin) {
                         th.getpurchase(th.account.Ac_ID, th.paper.Cou_ID);
                         th.getresults(th.account.Ac_ID);
+                        //是否可以学习当前课程
+                        $api.get('Course/Studied', { 'couid': th.paper.Cou_ID }).then(function (req) {
+                            if (req.data.success) {
+                                th.studied = req.data.result;
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(function (err) {
+                            //alert(err);
+                            Vue.prototype.$alert(err);
+                            console.error(err);
+                        });
                     }
                     if (!th.final_disable())
                         th.generatePaper();
                 })).catch(function (err) {
+                    console.error(err);
+                });
+            },
+            //获取课程
+            getcourse: function (couid) {
+                var th = this;
+                $api.get('Course/ForID', { 'id': couid }).then(function (req) {
+                    if (req.data.success) {
+                        th.course = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    Vue.prototype.$alert(err);
                     console.error(err);
                 });
             },
@@ -191,7 +227,7 @@
                     }
                 }).catch(function (err) {
                     th.loading = false;
-                    Vue.prototype.$alert(err);
+                    //Vue.prototype.$alert(err);
                     console.error(err);
                 });
             },
@@ -325,7 +361,7 @@
                         if (q.sucess) total += q.score;
                     }
                 }
-                return total;               
+                return total;
             },
             //试题向右滑动 
             swiperight: function (e) {
@@ -348,7 +384,7 @@
                     "stsid": this.account.Sts_ID,
                     "stsname": this.account.Sts_Name,
                     //课程
-                    "couid": this.paper.Cou_ID,                    
+                    "couid": this.paper.Cou_ID,
                     //试卷
                     "tpid": this.paper.Tp_Id,
                     "tpname": this.paper.Tp_Name,

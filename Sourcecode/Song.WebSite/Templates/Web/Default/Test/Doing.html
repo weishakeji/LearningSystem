@@ -26,7 +26,7 @@
             </el-breadcrumb>
         </context>
         <nologin v-if="!islogin" remark="未登录"></nologin>
-        <context v-else-if="isoverdue" class="course_end">
+        <context v-else-if="!canstudy && isoverdue" class="course_end">
             <icon>&#xe671</icon>未选修当前课程，或已经过期
         </context>
 
