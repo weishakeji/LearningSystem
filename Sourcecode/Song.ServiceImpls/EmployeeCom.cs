@@ -91,16 +91,7 @@ namespace Song.ServiceImpls
 
                     //当修改员工帐号时
                     tran.Save<EmpAccount>(entity);
-                    //tran.Update<Picture>(new Field[] { Picture._.Acc_Name }, new object[] { entity.Acc_Name }, Picture._.Acc_Id == entity.Acc_Id,tran);
-                    //Gateway.Default.Update<Product>(new Field[] { Product._.Acc_Name }, new object[] { entity.Acc_Name }, Product._.Acc_Id == entity.Acc_Id,tran);
-                    tran.Update<Article>(new Field[] { Article._.Acc_Name }, new object[] { entity.Acc_Name }, Article._.Acc_Id == entity.Acc_Id);
-                    //Gateway.Default.Update<Video>(new Field[] { Video._.Acc_Name }, new object[] { entity.Acc_Name }, Video._.Acc_Id == entity.Acc_Id);
-                    //Gateway.Default.Update<Download>(new Field[] { Download._.Acc_Name }, new object[] { entity.Acc_Name }, Download._.Acc_Id == entity.Acc_Id);
-                    //工作日志的信息
-                    tran.Update<DailyLog>(new Field[] { DailyLog._.Acc_Name }, new object[] { entity.Acc_Name }, DailyLog._.Acc_Id == entity.Acc_Id);
-                    //任务管理
-                    tran.Update<Task>(new Field[] { Task._.Acc_Name }, new object[] { entity.Acc_Name }, Task._.Acc_Id == entity.Acc_Id);
-                    tran.Update<Task>(new Field[] { Task._.Task_WorkerName }, new object[] { entity.Acc_Name }, Task._.Task_WorkerId == entity.Acc_Id);
+                    tran.Update<Article>(new Field[] { Article._.Acc_Name }, new object[] { entity.Acc_Name }, Article._.Acc_Id == entity.Acc_Id);                           
                     tran.Commit();
                 }
                 catch (Exception ex)

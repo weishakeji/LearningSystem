@@ -541,19 +541,7 @@ namespace Song.ServiceImpls
             if (examid > -1) wc.And(ExamResults._.Exam_ID == examid);
             Gateway.Default.Delete<ExamResults>(wc);
         }
-        /// <summary>
-        /// 获取最新的答题信息（临时信息）
-        /// </summary>
-        /// <param name="examid">考试id</param>
-        /// <param name="tpid">试卷id</param>
-        /// <param name="accid">考生id</param>
-        /// <returns></returns>
-        public ExamResultsTemp ExamResultsTempSingle(int examid, long  tpid, int accid)
-        {
-            WhereClip wc = ExamResultsTemp._.Exam_ID == examid && ExamResultsTemp._.Tp_Id == tpid && ExamResultsTemp._.Acc_Id == accid;
-            Song.Entities.ExamResultsTemp exr = Gateway.Default.From<ExamResultsTemp>().Where(wc).ToFirst<ExamResultsTemp>();
-            return exr;
-        }
+
         /// <summary>
         /// 获取最新的答题信息（正式答题信息），获取时并不进行计算状态的判断
         /// </summary>

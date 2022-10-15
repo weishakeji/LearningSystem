@@ -155,15 +155,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="stid">学员账号id</param>
         /// <param name="examid">考试id</param>
-        void ResultDelete(int stid, int examid);
-        /// <summary>
-        /// 获取最新的答题信息（临时信息）
-        /// </summary>
-        /// <param name="examid">考试id</param>
-        /// <param name="tpid">试卷id</param>
-        /// <param name="stid">考生id</param>
-        /// <returns></returns>
-        ExamResultsTemp ExamResultsTempSingle(int examid, long  tpid, int stid);
+        void ResultDelete(int stid, int examid);        
         /// <summary>
         /// 获取最新的答题信息（正式答题信息）
         /// </summary>

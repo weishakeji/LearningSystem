@@ -258,8 +258,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Delete<Organization>(Organization._.Org_ID == identify);
                     //删除机构下属组织
-                    tran.Delete<Depart>(Depart._.Org_ID == identify);
-                    tran.Delete<Team>(Team._.Org_ID == identify);
+                    tran.Delete<Depart>(Depart._.Org_ID == identify);               
                     tran.Delete<Position>(Position._.Org_ID == identify);
                     tran.Delete<EmpAccount>(EmpAccount._.Org_ID == identify);
                     tran.Delete<EmpGroup>(EmpGroup._.Org_ID == identify);

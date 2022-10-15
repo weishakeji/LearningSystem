@@ -1,0 +1,1 @@
+{"Ssc_ID":{"mark":"","intro":"","relation":""},"Ssc_StartTime":{"mark":"开始时间","intro":"暂时没有使用，学员组关联课程为“不限时”","relation":""},"Ssc_EndTime":{"mark":"结束时间","intro":"暂时没有使用，学员组关联课程为“不限时”","relation":""},"Ssc_IsEnable":{"mark":"是否启用","intro":"暂时没有使用","relation":""},"Cou_ID":{"mark":"课程id","intro":"","relation":"Course"},"Sts_ID":{"mark":"学员组id","intro":"","relation":"StudentSort"}}

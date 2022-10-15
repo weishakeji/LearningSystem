@@ -41,11 +41,8 @@ namespace Song.ServiceImpls
                 {
                     trans.Save<Columns>(entity);                    
                     //新闻，产品，图片，视频，下载
-                    trans.Update<Article>(new Field[] { Article._.Col_Name }, new object[] { entity.Col_Name }, Article._.Col_UID == entity.Col_UID);
-                    trans.Update<Product>(new Field[] { Product._.Col_Name }, new object[] { entity.Col_Name }, Product._.Col_Id == entity.Col_ID);
-                    trans.Update<Picture>(new Field[] { Picture._.Col_Name }, new object[] { entity.Col_Name }, Picture._.Col_Id == entity.Col_ID);
-                    trans.Update<Video>(new Field[] { Video._.Col_Name }, new object[] { entity.Col_Name }, Video._.Col_Id == entity.Col_ID);
-                    trans.Update<Download>(new Field[] { Download._.Col_Name }, new object[] { entity.Col_Name }, Download._.Col_Id == entity.Col_ID);
+                    trans.Update<Article>(new Field[] { Article._.Col_Name }, new object[] { entity.Col_Name }, Article._.Col_UID == entity.Col_UID);                                 
+                            
                     trans.Commit();
                 }
                 catch (Exception ex)
@@ -114,11 +111,8 @@ namespace Song.ServiceImpls
                 try
                 {
                     //如果是新闻栏目，则删除所有新闻
-                    if (col.Col_Type == "News") Business.Do<IContents>().ArticleDeleteAll(-1, col.Col_UID);
-                    if (col.Col_Type == "Product") Business.Do<IContents>().ProductDeleteAll(-1, identify); //删除当前栏目下的产品
-                    if (col.Col_Type == "Picture") Business.Do<IContents>().PictureDeleteAll(-1, identify); //删除图片
-                    if (col.Col_Type == "Video") Business.Do<IContents>().VideoDeleteAll(-1, identify);     //删除视频
-                    if (col.Col_Type == "Download") Business.Do<IContents>().DownloadDeleteAll(-1, identify);   //删除下载资料
+                    if (col.Col_Type == "News") Business.Do<IContents>().ArticleDeleteAll(-1, col.Col_UID); 
+                           
                     if (col.Col_Type == "Article") Business.Do<IContents>().ArticleDeleteAll(-1, col.Col_UID);
                     tran.Delete<Columns>(Columns._.Col_ID == identify);
                     tran.Commit();
