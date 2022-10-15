@@ -840,6 +840,8 @@ namespace Song.ViewData.Methods
         //[Student]
         public bool Studied(long couid)
         {
+            //Song.Entities.Course cur = Business.Do<ICourse>().CourseSingle(id);
+
             Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
             if (acc == null) return false;
             //是否购买过该课程
