@@ -13,7 +13,7 @@
         <el-form :inline="true" ref="addobj" :model="addobj" :rules="rules" class="demo-form-inline"
             v-on:submit.native.prevent>
             <el-form-item label="" prop="CP_Span">
-                <el-input tabindex="0" type="number" v-model="addobj.CP_Span" style="width:200px">
+                <el-input tabindex="0" type="number" v-model.number="addobj.CP_Span" style="width:200px">
                     <template slot="append">
                         <el-dropdown @command="cmd=>addobj.CP_Unit = cmd">
                             <span class="el-dropdown-link">
@@ -30,14 +30,14 @@
                 </el-input>
             </el-form-item>
             <el-form-item label="" prop="CP_Price">
-                <el-input tabindex="0" type="number" v-model="addobj.CP_Price" style="width:160px">
+                <el-input tabindex="0" type="number" v-model.number="addobj.CP_Price" style="width:160px">
                     <template slot="append">
                         元
                     </template>
                 </el-input>
             </el-form-item>
             <el-form-item label="" prop="CP_Coupon">
-                <el-input tabindex="0" type="number" v-model="addobj.CP_Coupon" style="width:300px">
+                <el-input tabindex="0" type="number" v-model.number="addobj.CP_Coupon" style="width:300px">
                     <template slot="prepend">
                         可以用
                     </template>
@@ -76,7 +76,7 @@
                             <el-form :inline="true" ref="editobj" :model="scope.row" :rules="rules" class="form-inline"
                                 v-on:submit.native.prevent>
                                 <el-form-item label="" prop="CP_Span">
-                                    <el-input tabindex="0" type="number" v-model="scope.row.CP_Span"
+                                    <el-input tabindex="0" type="number" v-model.number="scope.row.CP_Span"
                                         style="width:180px">
                                         <template slot="append">
                                             <el-dropdown @command="cmd=>scope.row.CP_Unit = cmd">
@@ -96,13 +96,13 @@
                                 </el-form-item>
 
                                 <el-form-item label="" prop="CP_Price">
-                                    <el-input tabindex="0" type="number" v-model="scope.row.CP_Price"
+                                    <el-input tabindex="0" type="number" v-model.number="scope.row.CP_Price"
                                         style="width:150px">
                                         <template slot="append"> 元 </template>
                                     </el-input>
                                 </el-form-item>
                                 <el-form-item label="" prop="CP_Coupon">
-                                    <el-input tabindex="0" type="number" v-model="scope.row.CP_Coupon"
+                                    <el-input tabindex="0" type="number" v-model.number="scope.row.CP_Coupon"
                                         style="width:230px">
                                         <template slot="prepend">
                                             用券抵
