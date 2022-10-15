@@ -76,6 +76,7 @@
                         if ($api.getType(arr) == 'Array') {
                             th.expanded = arr;
                         }
+                        th.total = 0;
                         th.calcSerial(null, '');
                     } else {
                         throw req.data.message;
