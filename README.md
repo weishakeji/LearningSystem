@@ -29,7 +29,7 @@
 * 多终端支持，电脑、手机、微信、APP、微信小程序，全都有；
 * 永久授权，一次购买，终身使用；<a href="http://www.weishakeji.net/price.html" target="_blank" size=12> [ 购买商业授权 ] </a>
 
-## 功能介绍：
+## 功能介绍
 * 视频教学，直播、录播
    > “直播”可以在线互动，“录播”可以时实记录学习进度
 
@@ -45,17 +45,13 @@
 
 
 
-## 开发环境：
+## 开发环境
 * 采用C#；基于.Net 4.6 <a href="https://www.microsoft.com/zh-CN/download/details.aspx?id=53344" target="_blank" size=12>[下载]</a>
 * 数据库采用Sqlserver2008或更高版本
 * 开发工具 Microsoft Visual Studio Community 2019
 
-## 开源地址：
+## 开源地址
 * GitHub ：<a href="https://github.com/weishakeji/LearningSystem" target="_blank">https://github.com/weishakeji/LearningSystem</a> 
 * Gitee（同步镜像）： <a href="https://gitee.com/weishakeji/LearningSystem" target="_blank">https://gitee.com/weishakeji/LearningSystem</a> 
 
-## 升级日志：
-<a href="http://www.weishakeji.net/download.html" target="_blank">http://www.weishakeji.net/download.html</a> 
 
-## 开发交流：
->QQ交流群：10237400
