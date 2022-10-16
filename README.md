@@ -18,10 +18,9 @@
  * 机构管理员： ~/orgadmin 账号admin 密码1
  * 超级管理员： ~/manage  账号super 密码1
 
-### 演示图片
- > 后台管理
+### 演示图片 - 后台管理
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/dev/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%864.png)
- > 学员中心（web端）
+### 演示图片 - 学员中心（web端）
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/dev/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-web.png)
 
 ## 产品特点：
