@@ -63,7 +63,7 @@ panel#admin {
 
 #menubar {
     position: static !important;
-    width: calc(100% - 110px - 160px);
+    width: calc(100% - 110px - 180px);
     opacity: 1 !important;
     height: 100% !important;
 }

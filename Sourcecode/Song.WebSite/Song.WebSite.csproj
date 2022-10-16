@@ -1896,14 +1896,11 @@
     <Content Include="db.config" />
     <Content Include="Help\Datas\Entitiy\Accessory.json" />
     <Content Include="Help\Datas\Entitiy\Accounts.json" />
-    <Content Include="Help\Datas\Entitiy\AddressList.json" />
-    <Content Include="Help\Datas\Entitiy\AddressSort.json" />
     <Content Include="Help\Datas\Entitiy\Article.json" />
     <Content Include="Help\Datas\Entitiy\Columns.json" />
     <Content Include="Help\Datas\Entitiy\CouponAccount.json" />
     <Content Include="Help\Datas\Entitiy\Course.json" />
     <Content Include="Help\Datas\Entitiy\CoursePrice.json" />
-    <Content Include="Help\Datas\Entitiy\DailyLog.json" />
     <Content Include="Help\Datas\Entitiy\Depart.json" />
     <Content Include="Help\Datas\Entitiy\Download.json" />
     <Content Include="Help\Datas\Entitiy\DownloadOS.json" />
@@ -2283,6 +2280,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Help\Datas\Entitiy\Purview.json" />
+    <Content Include="Help\Datas\Entitiy\TestPaperItem.json" />
+    <Content Include="Help\Datas\Entitiy\TestResults.json" />
+    <Content Include="Help\Datas\Entitiy\Teacher_Course.json" />
+    <Content Include="Help\Datas\Entitiy\StudentSort_Course.json" />
+    <Content Include="Help\Datas\Entitiy\EmpTitle.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>

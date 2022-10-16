@@ -6,7 +6,7 @@ select @count=0,@tatol=0
 fetch First from cursor_obj into @name
 while @@fetch_status=0  
  begin    
-    select @count=COUNT(*) from syscolumns Where ID=OBJECT_ID(@name) and name='Col_ID'
+    select @count=COUNT(*) from syscolumns Where ID=OBJECT_ID(@name) and name='Exam_ID'
     if @count>0
 	   begin
 		 set @tatol=@tatol+1;

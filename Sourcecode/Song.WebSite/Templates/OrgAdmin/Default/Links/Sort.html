@@ -10,12 +10,13 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="toolsbar">
-            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="SortModify" width="400" height="400"
+            <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="SortModify" width="640" height="480"
                 :selects='selects' idkey='Ls_Id' table="datatables"></btngroup>
         </div>
 
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
-            @selection-change="val=>selects=val" :row-class-name="data=>{return data.row.Ls_IsUse ? 'enable' : 'disabled';}"
+            @selection-change="val=>selects=val"
+            :row-class-name="data=>{return data.row.Ls_IsUse ? 'enable' : 'disabled';}"
             @row-dblclick="(row, column, event)=>$refs.btngroup.modify(row[$refs.btngroup.idkey])" row-key="Ls_Id"
             draggable>
             <el-table-column type="selection" width="35" show-overflow-tooltip>
@@ -41,7 +42,34 @@
                     {{scope.row.Ls_Tootip}}
                 </template>
             </el-table-column>
+            <el-table-column label="图片" width="80" align="center">
+                <template slot="header" slot-scope="scope">
+                    <el-tooltip content="该分类下的链接，在前端页面以图片形式展现" placement="bottom" effect="light">
+                        <help>图片</help>
+                    </el-tooltip>
+
+                </template>
+                <template slot-scope="scope">
+                    <icon v-if="scope.row.Ls_IsImg">&#xe628</icon>
+                </template>
+            </el-table-column>
+            <el-table-column label="文字" width="80" align="center">
+                <template slot="header" slot-scope="scope">
+
+                    <el-tooltip content="该分类下的链接，在前端页面显示文字链接" placement="bottom" effect="light">
+                        <help>文字</help>
+                    </el-tooltip>
+                </template>
+                <template slot-scope="scope">
+                    <icon v-if="scope.row.Ls_IsText">&#xa029</icon>
+                </template>
+            </el-table-column>
             <el-table-column label="启用" width="100">
+                <template slot="header" slot-scope="scope">
+                    <el-tooltip content="禁用后不仅无法在前端页面展示，在编辑链接时，也无法选择该分类" placement="bottom" effect="light">
+                        <help>启用</help>
+                    </el-tooltip>
+                </template>
                 <template slot-scope="scope">
                     <span class="el-icon-loading" v-show="loadingid==scope.row.Ls_Id"></span>
                     <div>
@@ -52,7 +80,13 @@
                     </div>
                 </template>
             </el-table-column>
+
             <el-table-column label="显示" width="120">
+                <template slot="header" slot-scope="scope">
+                    <el-tooltip content="是否在前端页面展示" placement="bottom" effect="light">
+                        <help>显示</help>
+                    </el-tooltip>
+                </template>
                 <template slot-scope="scope">
                     <span class="el-icon-loading" v-show="loadingid==scope.row.Ls_Id"></span>
                     <div>
