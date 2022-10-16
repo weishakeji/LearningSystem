@@ -13,11 +13,11 @@
 >适用行业：企业内训、成人教育、技能培训、继续教育
 
 ## 技术特点
->前后端分离（MVVM架构），C#、Sqlserver、Vue。
->web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI。
+ * 前后端分离（MVVM架构），C#、Sqlserver、Vue
+ * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
 
 ## 演示地址
-  * [ http://www.weisha100.cn]( http://www.weisha100.cn) 
+ * [ http://www.weisha100.cn]( http://www.weisha100.cn) 
  * 学员账号： tester 密码1
  * 机构管理员： ~/orgadmin 账号admin 密码1
  * 超级管理员： ~/manage  账号super 密码1
