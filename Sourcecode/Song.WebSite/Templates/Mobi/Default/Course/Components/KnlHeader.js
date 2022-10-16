@@ -5,7 +5,7 @@ Vue.component('knl_header', {
     data: function () {
         return {
             couid: $api.querystring("couid"),
-            sortid: $api.querystring("sortid", ''),  //分类id
+            sortid: $api.querystring("sortid", 0),  //分类id
             search: $api.querystring("s"),       //搜索字符  
             course: {},                  //课程信息
             sorts: [],                   //知识库分类
@@ -21,7 +21,7 @@ Vue.component('knl_header', {
                     var url = $api.url.set(file, {
                         's': encodeURIComponent(this.search),
                         'couid': $api.querystring("couid"),
-                        'sortid': $api.querystring("sortid", '')
+                        'sortid': $api.querystring("sortid", 0)
                     });
                     history.pushState({}, "", url);
                     window.location.href = url;
@@ -107,6 +107,7 @@ Vue.component('knl_header', {
             var url = $api.url.set("Knowledges", {
                 'couid': this.couid,
                 'sortid': item.Kns_ID,
+                'sortuid': item.Kns_UID,
                 's': this.search
             });
             return url;
@@ -121,7 +122,7 @@ Vue.component('knl_header', {
                 if (item.Kns_ID == this.sortid) {
                     return item.Kns_Name;
                 } else {
-                    if (item.children.length > 0) {
+                    if (item.children && item.children.length > 0) {
                         sort += this.sortname(item.children);
                     }
                 }
@@ -158,16 +159,16 @@ Vue.component('knl_header', {
     <icon @click="show_sort=true">&#xa00c</icon>
     </div>
     <van-popup v-model="show_sort" position="right" :style="{ height: '100%',width:'50%' }" id="menu">
-    <van-loading size="24px" v-if="loading">加载中...</van-loading>
-    <div class='cour-info'>
-        <img :src='course.Cou_Logo' v-if='course.Cou_Logo && course.Cou_Logo.length>0'/>
-        <img :src='defimg' class='no' v-else/>
-        <cour-name>{{course.Cou_Name}}</cour-name>
-        <sbj-name>{{course.Sbj_Name}}</sbj-name>        
-    </div>
-    <van-divider>知识分类</van-divider>    
-    <div v-if="sorts && sorts.length>0" v-html="buildTree(sorts,0,'')" class="sort_tree"></div>
-    <div v-else class="noSort">没有分类信息</div>
+        <van-loading size="24px" v-if="loading">加载中...</van-loading>
+        <div class='cour-info'>
+            <img :src='course.Cou_Logo' v-if='course.Cou_Logo && course.Cou_Logo.length>0'/>
+            <img :src='defimg' class='no' v-else/>
+            <cour-name>{{course.Cou_Name}}</cour-name>
+            <sbj-name>{{course.Sbj_Name}}</sbj-name>        
+        </div>
+        <van-divider>知识分类</van-divider>    
+        <div v-if="sorts && sorts.length>0" v-html="buildTree(sorts,0,'')" class="sort_tree"></div>
+        <div v-else class="noSort">没有分类信息</div>
     </van-popup>
     </div>`
 });

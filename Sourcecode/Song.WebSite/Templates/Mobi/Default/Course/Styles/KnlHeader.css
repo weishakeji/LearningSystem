@@ -105,13 +105,12 @@ html, body, #vapp {
 }
 
 .sort_tree {
-	margin: 10px;
+	margin: 0px 10px 10px 10px;
 }
-
-.sort_tree, .sort_tree a {
+.sort_tree a {
 	color: #999;
 	display: block;
-	padding: 5px 0px;
+	padding: 8px 5px;
 }
 .sortname{
 	float: left;

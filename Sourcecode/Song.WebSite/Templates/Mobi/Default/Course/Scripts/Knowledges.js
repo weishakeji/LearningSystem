@@ -4,6 +4,7 @@ $ready(function () {
         el: '#vapp',
         data: {
             sortid: $api.querystring("sortid"),
+            sortuid: $api.querystring("sortuid"),
             account: {},     //当前登录账号
             course: {},       //当前课程
             platinfo: {},
@@ -16,7 +17,7 @@ $ready(function () {
             finished: false,
             query: {
                 'couid': $api.querystring("couid"),
-                'uid': $api.querystring("sortid"),
+                'uid': $api.querystring("sortuid"),
                 'isuse': true,
                 'search': $api.querystring("s"),
                 'size': 6, 'index': 0
