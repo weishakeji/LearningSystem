@@ -4,6 +4,7 @@
  <a target="_blank" href="http://www.weishakeji.net/download.html">升级日志</a>  |  
 <a target="_blank" href="http://www.weisha100.net/">在线帮助</a> | 
 <a href="#">QQ群 10237400</a>
+[![](https://img.shields.io/badge/%E9%83%A8%E7%BD%B2%E6%96%87%E6%A1%A3-%E7%82%B9%E5%87%BB%E6%9F%A5%E7%9C%8B-yellow)](https://www.kancloud.cn/wanyuekaiyuan11/wanyue_education/2788919)
 
 >2.0仍在开发中，近期发布正式版，需要稳定版本的请下载1.0版本
 <br/><a href="https://gitee.com/weishakeji/learningsystem_v1" target="_blank">https://gitee.com/weishakeji/learningsystem_v1</a> 
