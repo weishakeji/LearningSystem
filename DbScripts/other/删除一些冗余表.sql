@@ -111,3 +111,10 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Team]') AND type in (N'U'))
 DROP TABLE [dbo].[Team]
 GO
+/*É¾³ýTeam¹ØÁªÄÚÈÝ*/
+ALTER TABLE ExamResults DROP COLUMN Team_ID 
+GO
+ALTER TABLE EmpAccount DROP COLUMN Team_ID 
+GO
+ALTER TABLE EmpAccount DROP COLUMN Team_Name 
+GO

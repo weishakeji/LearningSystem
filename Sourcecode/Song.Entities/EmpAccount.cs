@@ -78,10 +78,6 @@ namespace Song.Entities {
     		
     		protected Boolean _Acc_IsPartTime;
     		
-    		protected Int32 _Team_ID;
-    		
-    		protected String _Team_Name;
-    		
     		protected Int32 _Org_ID;
     		
     		protected String _Org_Name;
@@ -543,32 +539,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public Int32 Team_ID {
-    			get {
-    				return this._Team_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Team_ID, _Team_ID, value);
-    				this._Team_ID = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public String Team_Name {
-    			get {
-    				return this._Team_Name;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Team_Name, _Team_Name, value);
-    				this._Team_Name = value;
-    			}
-    		}
-    		
     		public Int32 Org_ID {
     			get {
     				return this._Org_ID;
@@ -661,8 +631,6 @@ namespace Song.Entities {
     					_.Title_Id,
     					_.Title_Name,
     					_.Acc_IsPartTime,
-    					_.Team_ID,
-    					_.Team_Name,
     					_.Org_ID,
     					_.Org_Name,
     					_.Acc_CheckUID};
@@ -708,8 +676,6 @@ namespace Song.Entities {
     					this._Title_Id,
     					this._Title_Name,
     					this._Acc_IsPartTime,
-    					this._Team_ID,
-    					this._Team_Name,
     					this._Org_ID,
     					this._Org_Name,
     					this._Acc_CheckUID};
@@ -823,12 +789,6 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Acc_IsPartTime))) {
     				this._Acc_IsPartTime = reader.GetBoolean(_.Acc_IsPartTime);
-    			}
-    			if ((false == reader.IsDBNull(_.Team_ID))) {
-    				this._Team_ID = reader.GetInt32(_.Team_ID);
-    			}
-    			if ((false == reader.IsDBNull(_.Team_Name))) {
-    				this._Team_Name = reader.GetString(_.Team_Name);
     			}
     			if ((false == reader.IsDBNull(_.Org_ID))) {
     				this._Org_ID = reader.GetInt32(_.Org_ID);
@@ -1039,16 +999,6 @@ namespace Song.Entities {
     			/// -1 - 字段名：Acc_IsPartTime - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Acc_IsPartTime = new WeiSha.Data.Field<EmpAccount>("Acc_IsPartTime");
-    			
-    			/// <summary>
-    			/// -1 - 字段名：Team_ID - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Team_ID = new WeiSha.Data.Field<EmpAccount>("Team_ID");
-    			
-    			/// <summary>
-    			/// -1 - 字段名：Team_Name - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Team_Name = new WeiSha.Data.Field<EmpAccount>("Team_Name");
     			
     			/// <summary>
     			/// 字段名：Org_ID - 数据类型：Int32

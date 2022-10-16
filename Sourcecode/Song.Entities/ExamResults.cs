@@ -46,8 +46,6 @@ namespace Song.Entities {
     		
     		protected Int32 _Dep_Id;
     		
-    		protected Int32 _Team_ID;
-    		
     		protected String _Exam_Title;
     		
     		protected DateTime _Exr_SubmitTime;
@@ -317,19 +315,6 @@ namespace Song.Entities {
     			}
     		}
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public Int32 Team_ID {
-    			get {
-    				return this._Team_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Team_ID, _Team_ID, value);
-    				this._Team_ID = value;
-    			}
-    		}
-    		
     		public String Exam_Title {
     			get {
     				return this._Exam_Title;
@@ -486,7 +471,6 @@ namespace Song.Entities {
     					_.Ac_ID,
     					_.Ac_Name,
     					_.Dep_Id,
-    					_.Team_ID,
     					_.Exam_Title,
     					_.Exr_SubmitTime,
     					_.Org_ID,
@@ -524,7 +508,6 @@ namespace Song.Entities {
     					this._Ac_ID,
     					this._Ac_Name,
     					this._Dep_Id,
-    					this._Team_ID,
     					this._Exam_Title,
     					this._Exr_SubmitTime,
     					this._Org_ID,
@@ -598,9 +581,6 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Dep_Id))) {
     				this._Dep_Id = reader.GetInt32(_.Dep_Id);
-    			}
-    			if ((false == reader.IsDBNull(_.Team_ID))) {
-    				this._Team_ID = reader.GetInt32(_.Team_ID);
     			}
     			if ((false == reader.IsDBNull(_.Exam_Title))) {
     				this._Exam_Title = reader.GetString(_.Exam_Title);
@@ -755,11 +735,6 @@ namespace Song.Entities {
     			/// -1 - 字段名：Dep_Id - 数据类型：Int32
     			/// </summary>
     			public static WeiSha.Data.Field Dep_Id = new WeiSha.Data.Field<ExamResults>("Dep_Id");
-    			
-    			/// <summary>
-    			/// -1 - 字段名：Team_ID - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Team_ID = new WeiSha.Data.Field<ExamResults>("Team_ID");
     			
     			/// <summary>
     			/// 字段名：Exam_Title - 数据类型：String
