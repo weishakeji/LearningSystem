@@ -11,7 +11,7 @@
 >适用行业：企业培训、教育机构、高等教育、基础教育
 
 ### 演示图片
-![http://www.weishakeji.net/Upload/KindFiles/image/20221016/20221016183229_7423.png]
+<img src="http://www.weishakeji.net/Upload/KindFiles/image/20221016/20221016183229_7423.png" alt="" style="max-width:100%">
 
 ## 产品特点：
 * 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
