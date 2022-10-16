@@ -392,7 +392,7 @@
     <Content Include="Help\API\Index.htm" />
     <Content Include="Help\API\Scripts\Index.js" />
     <Content Include="Help\API\Styles\Index.css" />
-    <Content Include="Help\Datas\entities.details.txt" />
+    <Content Include="Help\Datas\Entitiy\TestResults.json" />
     <Content Include="Help\Datas\Scripts\test.js" />
     <Content Include="Help\Datas\Styles\test.css" />
     <Content Include="Help\Datas\Test.htm" />
@@ -1902,13 +1902,9 @@
     <Content Include="Help\Datas\Entitiy\Course.json" />
     <Content Include="Help\Datas\Entitiy\CoursePrice.json" />
     <Content Include="Help\Datas\Entitiy\Depart.json" />
-    <Content Include="Help\Datas\Entitiy\Download.json" />
-    <Content Include="Help\Datas\Entitiy\DownloadOS.json" />
-    <Content Include="Help\Datas\Entitiy\DownloadType.json" />
     <Content Include="Help\Datas\Entitiy\EmpAccount.json" />
     <Content Include="Help\Datas\Entitiy\EmpAcc_Group.json" />
     <Content Include="Help\Datas\Entitiy\EmpGroup.json" />
-    <Content Include="Help\Datas\Entitiy\EmpInfo.json" />
     <Content Include="Help\Datas\Entitiy\entities.json" />
     <Content Include="Help\Datas\Entitiy\Examination.json" />
     <Content Include="Help\Datas\Entitiy\ManageMenu.json" />
@@ -2281,7 +2277,6 @@
   <ItemGroup>
     <Content Include="Help\Datas\Entitiy\Purview.json" />
     <Content Include="Help\Datas\Entitiy\TestPaperItem.json" />
-    <Content Include="Help\Datas\Entitiy\TestResults.json" />
     <Content Include="Help\Datas\Entitiy\Teacher_Course.json" />
     <Content Include="Help\Datas\Entitiy\StudentSort_Course.json" />
     <Content Include="Help\Datas\Entitiy\EmpTitle.json" />

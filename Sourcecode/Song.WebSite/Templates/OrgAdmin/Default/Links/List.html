@@ -26,7 +26,10 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-input v-model="form.search" clearable style="width:100px"></el-input>
+                        <el-input v-model="form.name" clearable placeholder="链接名" style="width:100px"></el-input>
+                    </el-form-item>
+                    <el-form-item label="">
+                        <el-input v-model="form.link" clearable placeholder="链接地址" style="width:150px"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
@@ -51,11 +54,11 @@
             <el-table-column label="链接名称">
                 <template slot-scope="scope">
                     <icon v-if="scope.row.Lk_Logo!=''" title="图片" style="font-size: 18px;">&#xe672</icon>
-                    <span v-html="showInfo(scope.row.Lk_Name)" class="large"></span>
-                    
+                    <span v-html="showInfo(scope.row.Lk_Name,form.name)" class="large"></span>
+
                 </template>
             </el-table-column>
-            <el-table-column label="序号" show-overflow-tooltip width="80"  align="center">
+            <el-table-column label="序号" show-overflow-tooltip width="80" align="center">
                 <template slot="header" slot-scope="scope">
                     <el-tooltip class="item" effect="dark" content="调整顺序的数值" placement="top">
                         <span>
@@ -69,7 +72,8 @@
             </el-table-column>
             <el-table-column label="链接" show-overflow-tooltip>
                 <template slot-scope="scope">
-                    <a target="_blank" :href="scope.row.Lk_Url" underline>{{scope.row.Lk_Url}}</a>
+                    <a target="_blank" :href="scope.row.Lk_Url" underline
+                        v-html="showInfo(scope.row.Lk_Url,form.link)"></a>
                 </template>
             </el-table-column>
             <el-table-column label="所属分类" show-overflow-tooltip width="120">

@@ -7,13 +7,9 @@ $ready(function () {
             config: {},      //当前机构配置项    
 
             form: {
-                orgid: '',
-                sortid: '',
-                use: '',
-                show: '',
-                search: '',
-                size: 20,
-                index: 1
+                orgid: '', sortid: '', use: '',
+                show: '', name: '', link: '',
+                size: 20, index: 1
             },
             sorts: [],       //友情链接分类
             datas: [],
@@ -142,10 +138,10 @@ $ready(function () {
                 });
             },
             //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.search != '') {
-                    var regExp = new RegExp(this.form.search, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.search}</red>`);
+            showInfo: function (txt, search) {
+                if (txt != '' && search != '') {
+                    var regExp = new RegExp(search, 'g');
+                    txt = txt.replace(regExp, `<red>${search}</red>`);
                 }
                 return txt;
             },

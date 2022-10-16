@@ -93,51 +93,28 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 分页获取所有链接项
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="sortId">分类id</param>
         /// <param name="isUse">是否使用</param>
         /// <param name="isShow">是否显示</param>
-        /// <param name="searTxt">检索字符</param>
+        /// <param name="name">按链接名称检索</param>
+        /// <param name="link">按链接地址检索</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        Links[] GetLinksPager(int orgid, int sortId, bool? isUse, bool? isShow, string searTxt, int size, int index, out int countSum);
-        /// <summary>
-        /// 分页获取所有链接项
-        /// </summary>
-        /// <param name="sortId"></param>
-        /// <param name="isUse"></param>
-        /// <param name="isShow"></param>
-        /// <param name="isVeri">是否通过审核</param>
-        /// <param name="isApply">是否是申请的</param>
-        /// <param name="searTxt"></param>
-        /// <param name="size"></param>
-        /// <param name="index"></param>
-        /// <param name="countSum"></param>
-        /// <returns></returns>
-        Links[] GetLinksPager(int orgid, int sortId, bool? isUse, bool? isShow, bool? isVeri, bool? isApply, string searTxt, int size, int index, out int countSum);
+        Links[] GetLinksPager(int orgid, int sortId, bool? isUse, bool? isShow, string name,string link, int size, int index, out int countSum);
+
         /// <summary>
         /// 分页获取所有的链接项；
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="isShow">是否显示</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
         Links[] GetLinksPager(int orgid, bool? isShow, int size, int index, out int countSum);
-        /// <summary>
-        /// 将当前项目向上移动；仅在当前对象的同层移动，即同一父节点下的对象这前移动；
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
-        bool LinksRemoveUp(int id);
-        /// <summary>
-        /// 将当前项目向下移动；仅在当前对象的同层移动，即同一父节点下的对象这前移动；
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>如果已经处于顶端，则返回false；移动成功，返回true</returns>
-        bool LinksRemoveDown(int id);
-
         #endregion
 
         #region 友情链接分类项

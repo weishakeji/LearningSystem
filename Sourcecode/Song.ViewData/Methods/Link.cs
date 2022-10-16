@@ -317,11 +317,12 @@ namespace Song.ViewData.Methods
         /// <param name="sortid">友情链接分类的id</param>
         /// <param name="use">是否显示启用，默认为null，即显示所有</param>
         /// <param name="show">是否在前端显示，默认为null，即显示所有</param>
-        /// <param name="search">检索字符</param>
+        /// <param name="name">按链接名称检索字符</param>
+        /// <param name="link">按链接地址检索</param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Pager(int orgid,int sortid, bool? use, bool? show, string search, int size, int index)
+        public ListResult Pager(int orgid, int sortid, bool? use, bool? show, string name, string link, int size, int index)
         {
             if (orgid <= 0)
             {
@@ -330,7 +331,7 @@ namespace Song.ViewData.Methods
             }
             //总记录数
             int count = 0;
-            Song.Entities.Links[] arr = Business.Do<ILinks>().GetLinksPager(orgid,sortid, use, show, search, size, index, out count);
+            Song.Entities.Links[] arr = Business.Do<ILinks>().GetLinksPager(orgid, sortid, use, show, name, link, size, index, out count);
             foreach (Song.Entities.Links l in arr)
                 _tran(l);
             ListResult result = new ListResult(arr);

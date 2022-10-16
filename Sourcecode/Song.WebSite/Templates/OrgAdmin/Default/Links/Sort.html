@@ -12,6 +12,21 @@
         <div class="toolsbar">
             <btngroup show="新增,修改,删除" ref='btngroup' @delete="deleteData" path="SortModify" width="640" height="480"
                 :selects='selects' idkey='Ls_Id' table="datatables"></btngroup>
+            <div class="search-box">
+
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                    <el-form-item label="">
+                        <el-input v-model="form.search" clearable placeholder="分类名称" style="width:100px"
+                            @clear="handleCurrentChange(1)"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
+                            native-type="submit" plain>
+                            查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
         </div>
 
         <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" v-loading="loading"
@@ -33,7 +48,7 @@
             </el-table-column>
             <el-table-column label="分类名称">
                 <template slot-scope="scope">
-                    <span v-html="scope.row.Ls_Name" class="draghandle large">
+                    <span v-html="showInfo(scope.row.Ls_Name,form.search)" class="draghandle large">
 
                 </template>
             </el-table-column>

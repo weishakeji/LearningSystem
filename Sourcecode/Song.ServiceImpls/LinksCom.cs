@@ -168,38 +168,28 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 分页获取所有链接项
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="sortId">分类id</param>
         /// <param name="isUse">是否使用</param>
         /// <param name="isShow">是否显示</param>
-        /// <param name="searTxt">检索字符</param>
+        /// <param name="name"></param>
+        /// <param name="link"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        public Links[] GetLinksPager(int orgid, int sortId, bool? isUse, bool? isShow, string searTxt, int size, int index, out int countSum)
+        public Links[] GetLinksPager(int orgid, int sortId, bool? isUse, bool? isShow, string name, string link, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc.And(Links._.Org_ID == orgid);
             if (sortId > 0) wc.And(Links._.Ls_Id == sortId);
             if (isUse != null) wc.And(Links._.Lk_IsUse == (bool)isUse);
             if (isShow != null) wc.And(Links._.Lk_IsShow == (bool)isShow);
-            if (searTxt != null || searTxt.Trim() != "") wc.And(Links._.Lk_Name.Like("%" + searTxt.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(Links._.Lk_Name.Like("%" + name.Trim() + "%"));
+            if (!string.IsNullOrWhiteSpace(link)) wc.And(Links._.Lk_Url.Like("%" + link.Trim() + "%"));
             countSum = Gateway.Default.Count<Links>(wc);
             return Gateway.Default.From<Links>().Where(wc).OrderBy(Links._.Lk_Tax.Asc).ToArray<Links>(size, (index - 1) * size);
-        }
-        public Links[] GetLinksPager(int orgid, int sortId, bool? isUse, bool? isShow, bool? isVeri, bool? isApply, string searTxt, int size, int index, out int countSum)
-        {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(Links._.Org_ID == orgid);
-            if (sortId > 0) wc.And(Links._.Ls_Id == sortId);
-            if (isUse != null) wc.And(Links._.Lk_IsUse == (bool)isUse);
-            if (isShow != null) wc.And(Links._.Lk_IsShow == (bool)isShow);
-            if (isVeri != null) wc.And(Links._.Lk_IsVerify == (bool)isVeri);
-            if (isApply != null) wc.And(Links._.Lk_IsApply == (bool)isApply);
-            if (searTxt != null || searTxt.Trim() != "") wc.And(Links._.Lk_Name.Like("%" + searTxt.Trim() + "%"));
-            countSum = Gateway.Default.Count<Links>(wc);
-            return Gateway.Default.From<Links>().Where(wc).OrderBy(Links._.Lk_Tax.Asc).ToArray<Links>(size, (index - 1) * size);
-        }
+        }       
         public Links[] GetLinksPager(int orgid, bool? isShow, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
@@ -207,88 +197,6 @@ namespace Song.ServiceImpls
             if (isShow != null) wc.And(Links._.Lk_IsShow == (bool)isShow);
             countSum = Gateway.Default.Count<Links>(wc);
             return Gateway.Default.From<Links>().Where(wc).OrderBy(Links._.Lk_Tax.Asc).ToArray<Links>(size, (index - 1) * size);
-        }
-
-        public bool LinksRemoveUp(int id)
-        {
-            //当前对象
-            Links current = Gateway.Default.From<Links>().Where(Links._.Lk_Id == id).ToFirst<Links>();
-            //当前对象父节点id;
-            int lsId = (int)current.Ls_Id;
-            //当前对象排序号
-            int orderValue = (int)current.Lk_Tax;
-            //上一个对象，即兄长对象；
-            Links up = Gateway.Default.From<Links>().Where(Links._.Org_ID == current.Org_ID && Links._.Ls_Id == lsId && Links._.Lk_Tax < orderValue).OrderBy(Links._.Lk_Tax.Desc).ToFirst<Links>();
-            if (up == null)
-            {
-                //如果兄长对象不存在，则表示当前节点在兄弟中是老大；即是最顶点；
-                return false;
-            }
-            //交换排序号
-            current.Lk_Tax = up.Lk_Tax;
-            up.Lk_Tax = orderValue;
-            using (DbTrans tran = Gateway.Default.BeginTrans())
-            {
-                try
-                {
-                    tran.Save<Links>(current);
-                    tran.Save<Links>(up);
-                    tran.Commit();
-                }
-                catch
-                {
-                    tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
-            }
-            return true;
-        }
-
-        public bool LinksRemoveDown(int id)
-        {
-            //当前对象
-            Links current = Gateway.Default.From<Links>().Where(Links._.Lk_Id == id).ToFirst<Links>();
-            //当前对象父节点id;
-            int lsId = (int)current.Ls_Id;
-            //当前对象排序号
-            int orderValue = (int)current.Lk_Tax;
-            //下一个对象，即弟弟对象；弟弟不存则直接返回false;
-            Links next = Gateway.Default.From<Links>()
-                .Where(Links._.Lk_Tax > orderValue && Links._.Org_ID == current.Org_ID && Links._.Ls_Id == lsId)
-                .OrderBy(Links._.Lk_Tax.Asc).ToFirst<Links>();
-            if (next == null)
-            {
-                //如果弟对象不存在，则表示当前节点在兄弟中是老幺；即是最底端；
-                return false;
-            }
-            //交换排序号
-            current.Lk_Tax = next.Lk_Tax;
-            next.Lk_Tax = orderValue;
-            using (DbTrans tran = Gateway.Default.BeginTrans())
-            {
-                try
-                {
-                    tran.Save<Links>(current);
-                    tran.Save<Links>(next);
-                    tran.Commit();
-                }
-                catch
-                {
-                    tran.Rollback();
-                    throw;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
-            }
-            return true;
         }
         #endregion
 
