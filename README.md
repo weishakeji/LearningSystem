@@ -12,6 +12,10 @@
 
 >适用行业：企业内训、成人教育、技能培训、继续教育
 
+## 技术特点
+前后端分离（MVVM架构），C#、Sqlserver、Vue。
+web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI。
+
 ## 演示地址
   * [ http://www.weisha100.cn]( http://www.weisha100.cn) 
  * 学员账号： tester 密码1
@@ -23,7 +27,7 @@
 ### 演示图片 - 学员中心（web端）
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/dev/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-web.png)
 
-## 产品特点：
+## 产品特点
 * 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
 * 多终端支持，电脑、手机、微信、APP、微信小程序，全都有；
 * 永久授权，一次购买，终身使用；<a href="http://www.weishakeji.net/price.html" target="_blank" size=12> [ 购买商业授权 ] </a>
