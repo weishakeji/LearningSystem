@@ -11,7 +11,7 @@
 >适用行业：企业培训、教育机构、高等教育、基础教育
 
 ### 演示图片
-![image](http://www.weishakeji.net/Upload/KindFiles/image/20221016/20221016183229_7423.png)
+![image](https://gitee.com/weishakeji/LearningSystem/raw/dev/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%864.png)
 <img src="http://www.weishakeji.net/Upload/KindFiles/image/20221016/20221016183229_7423.png" alt="" style="max-width:100%">
 
 ## 产品特点：
