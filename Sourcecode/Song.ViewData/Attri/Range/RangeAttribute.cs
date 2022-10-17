@@ -29,7 +29,7 @@ namespace Song.ViewData.Attri
             if (letter.Sever.IsIntranetIP)
             {
                 IntranetAttribute intranet = WeishaAttr.GetAttr<IntranetAttribute>(method);
-                if (any != null && !any.Ignore) return true;
+                if (intranet != null && !intranet.Ignore) return true;
             }
             //本机访问
             if (letter.Sever.IsLocalIP)
@@ -54,7 +54,7 @@ namespace Song.ViewData.Attri
                 if (ranges[i] is DomainAttribute) msg += "同域";
                 if (i < ranges.Count - 1) msg += ",";
             }
-            throw new Exception(string.Format("接口 '{0}/{1}' 仅限{0}访问", method.DeclaringType.Name, method.Name, msg));
+            throw new Exception(string.Format("接口 '{0}/{1}' 仅限{2}访问", method.DeclaringType.Name, method.Name, msg));
         }
         /// <summary>
         /// 将执行结果写入日志
