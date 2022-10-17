@@ -12,19 +12,22 @@
 * 适用类别：大学、中职中专、培训机构、企事业单位
 * 适用行业：企业内训、成人教育、技能培训、继续教育
 
+## 商务合作
+##### [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)
+
 ## 技术特点
  * 前后端分离（MVVM架构），C#、Sqlserver、Vue
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
 
-## 演示地址
+## 演示信息
  * [ http://www.weisha100.cn]( http://www.weisha100.cn) 
  * 学员账号： tester 密码1
  * 机构管理员： ~/orgadmin 账号admin 密码1
  * 超级管理员： ~/manage  账号super 密码1
 
-### 演示图片 - 后台管理
+### 后台管理
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/dev/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%864.png)
-### 演示图片 - 学员中心（web端）
+### 学员中心（web端）
 ![image](https://gitee.com/weishakeji/LearningSystem/raw/dev/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-web.png)
 
 ## 产品特点
