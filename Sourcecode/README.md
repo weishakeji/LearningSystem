@@ -13,7 +13,7 @@
 * Song.Entities
    > 实体，系统采用了ORM框架，这里是所有的数据实体，实体对应数据库表结构；
 
-   > 这里的代码全部由代码生成器生成，非常不建议手工更改；代码生成（WeiSha.Data.Generete.exe）可以在"/Sourcecode/Lib"文件夹获取到。
+   > 这里的代码全部由代码生成器生成，非常不建议手工更改；代码生成器（WeiSha.Data.Generete.exe）可以在"/Sourcecode/Lib"文件夹获取到。
 
 * Song.ServiceInterfaces
    > 业务层接口，系统由之前的三层架构升级而来，采用spring.net的IOC模块实现表现层与业务层的低耦合；
@@ -71,8 +71,14 @@
 
    > 例如，在/Templates/Web/Default/文件夹下创建test.html文件，则通过/web/test访问；只要有视图文件，即可通过路由访问。
 
-### 新增数据库表或字段
+   > 更多说明信息请进入 Song.WebSite 项目源码路径下查看 readme.rd 相应信息。
 
+### 新增数据库表或字段
+   > 在数据库新增或修改表和字段后，需要用代码生成器（WeiSha.Data.Generete.exe）重新生成 Song.Entities 项目的实体类。
+
+   > 代码生成器（WeiSha.Data.Generete.exe）可以在"/Sourcecode/Lib"文件夹获取到。
+
+   > 生成步骤：1、链接数据库；2、选择要生成的表；3、生成接口、4、生成实体；5、生成文件（路径选择Song.Entities 项目的文件夹）
 
 ## 初始信息
  * 学员账号： tester 密码1
