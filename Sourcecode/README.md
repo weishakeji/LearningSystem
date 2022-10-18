@@ -38,7 +38,9 @@
    > PostgreSQ：WeiSha.Data.PostgreSQL.PostgreSQLProvider, WeiSha.Data.PostgreSQL
 
 ### 接口查询（RESTFUL API）
+   > 所有前端所需接口都来自Song.ViewData项目的Methods命名空间下的对象；通过~/help/api/页面查询和调试；
 
+   > 出于安全考虑，~/help/api/页面只能在本机查询
 
 ### 数据库结构查询
 
