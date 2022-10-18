@@ -90,8 +90,4 @@
    > 生成步骤：1、链接数据库；2、选择要生成的表；3、生成接口、4、生成实体；5、生成文件（路径选择Song.Entities 项目的文件夹）
 
 
-## 开源地址
-* Gitee ： <a href="https://gitee.com/weishakeji/LearningSystem" target="_blank">https://gitee.com/weishakeji/LearningSystem</a> 
-* GitHub ：<a href="https://github.com/weishakeji/LearningSystem" target="_blank">https://github.com/weishakeji/LearningSystem</a> 
-* GitCode ：<a href="https://gitcode.net/songleiming/LearningSystem" target="_blank">https://gitcode.net/songleiming/LearningSystem</a> 
 
