@@ -16,7 +16,12 @@
    > 这里的代码全部由代码生成器生成，非常不建议手工更改；代码生成（WeiSha.Data.Generete.exe）可以在"/Sourcecode/Lib"文件夹获取到。
 
 * Song.ServiceInterfaces
-   > 业务层接口，
+   > 业务层接口，系统由之前的三层架构升级而来，采用spring.net的IOC模块实现表现层与业务层的低耦合；
+
+   > 调用接口的方法示例：Business.Do<IAccounts>().AccountsSingle(id); 其中IAccounts中接口名称，AccountsSingle为方法名；
+
+   > 在调用接口前，需要在web.config中的“configuration/spring/objects”节点配置 
+<object id="IAccounts" type="Song.ServiceImpls.AccountsCom,Song.ServiceImpls" />
 
 * Song.ServiceImpls
    > 业务层接口的实现，
