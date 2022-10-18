@@ -21,7 +21,7 @@
    > 调用接口的方法示例：Business.Do<IAccounts>().AccountsSingle(id); 其中IAccounts中接口名称，AccountsSingle为方法名；
 
    > 在调用接口前，需要在web.config中的“configuration/spring/objects”节点配置 
-<object id="IAccounts" type="Song.ServiceImpls.AccountsCom,Song.ServiceImpls" />
+&lt;object id="IAccounts" type="Song.ServiceImpls.AccountsCom,Song.ServiceImpls" /&gt; 
 
 * Song.ServiceImpls
    > 业务层接口的实现，
