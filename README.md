@@ -4,8 +4,8 @@
 
 >《微厦在线学习考试系统》将“ **视频学习、试题练习、在线考试** ”紧密相联，打造成为集 **“学、练、考”** 于一体的在线学习系统。“点播/直播”、“刷题/测试”、“组卷/考试”，根据学习内容的不同权重汇总综合成绩，生成学习证明。支持在线支付（微信支付、支付宝支付）；利用充值卡、学习卡配合线下营销；Web端、APP、小程序，多终端方便学习。
 
-* 适用类别：大学、中职中专、培训机构、企事业单位
-* 适用行业：企业内训、成人教育、技能培训、继续教育
+* 适用：大学、中职中专、培训机构、企事业单位
+* 行业：企业内训、成人教育、技能培训、继续教育
 
 ## 商务合作 - 承接定制开发 期待合作
 ##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-10522779-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=10522779)
