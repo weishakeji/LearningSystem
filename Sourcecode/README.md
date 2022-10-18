@@ -24,13 +24,24 @@
 &lt;object id="IAccounts" type="Song.ServiceImpls.AccountsCom,Song.ServiceImpls" /&gt; 
 
 * Song.ServiceImpls
-   > 业务层接口的实现，
+   > 业务层接口的实现
 
 ### 配置数据库链接
+   > 在Song.WebSite项目中的db.config填写，connectionString属性为数据库链接，可根据文档内提示填写；providerName属性为适配器名称，当前采用的是SqlServer的适配器；
+* 其它适配器
+   > Sqlserver：WeiSha.Data.SqlServer9.SqlServer9Provider
+
+   > Mysql：WeiSha.Data.MySql.MySqlProvider
+
+   > Oracle：WeiSha.Data.Oracle.OracleProvider
+
+   > PostgreSQ：WeiSha.Data.PostgreSQL.PostgreSQLProvider, WeiSha.Data.PostgreSQL
 
 ### 接口查询（RESTFUL API）
 
+
 ### 数据库结构查询
+
 
 ## 开发指引
 ### 创建RESTFUL API
