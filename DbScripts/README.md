@@ -1,5 +1,5 @@
 ﻿# 数据库 SQL 脚本说明
-
+##### [![](https://img.shields.io/badge/-%E5%AE%98%E6%96%B9%E7%BD%91%E7%AB%99-blue)](http://www.weishakeji.net) [![](https://img.shields.io/badge/help-%E5%9C%A8%E7%BA%BF%E5%B8%AE%E5%8A%A9-orange)](http://www.weisha100.net/) [![](https://img.shields.io/badge/upgrade-%E5%8D%87%E7%BA%A7%E6%97%A5%E5%BF%97-green)](http://www.weishakeji.net/download.html)  [![](https://img.shields.io/badge/QQ%E7%BE%A4-10237400-brightgreen)](https://qm.qq.com/cgi-bin/qm/qr?k=lL7qjJPXlfMnxo4cOd2xr-OMe-_4u8hW&jump_from=webapi&authKey=4vWIzSa9ceJ0Cn6/cDKp08SuOxv4xfGDfMn1ZI//1XG+p5nzeqW9v/PUVdI9gEh+)  [![](https://img.shields.io/badge/%E7%94%B5%E8%AF%9D-400%206015%20615-lightgrey)]()
 
 ## 完整SQL脚本 - 初始安装时使用
 > script.sql文件是当前程序版本对应的完整数据库脚本，用来初始安装时创建数据。
