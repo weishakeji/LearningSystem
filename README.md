@@ -18,7 +18,7 @@
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
 
 ## 源码库说明
- * “Sourcecode”文件夹为源码库，其中Song.WebSite项目为启动项目；
+ * “Sourcecode”文件夹为源码库，其中Song.WebSite项目为启动项目，更多说明请进入“Sourcecode”文件夹查看README.md；
  * “DbScripts”文件夹中是数据库脚本，其中script.sql为完整数据库脚本，第一次部署时使用；其它脚本多为升级脚本；
  * “Document”文件夹中是一些相关文档，例如演示PPT、建设方案等；
 >2.0仍在开发中，近期发布正式版，需要稳定版本的请下载1.0版本
