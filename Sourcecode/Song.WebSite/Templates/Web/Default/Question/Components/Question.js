@@ -20,8 +20,8 @@ Vue.component('question', {
         }
     },
     computed: {
-          //是否存在知识点
-          existknl:function(){
+        //是否存在知识点
+        existknl: function () {
             return JSON.stringify(this.knowledge) != '{}' && this.knowledge != null;
         }
     },
@@ -122,10 +122,13 @@ Vue.component('question', {
             }
         },
         //试题解答
-        ques_doing: function (ans, ques) {
+         //ans:某个选项
+        //items:当前试题的所有选项
+        //judge: 是否立判断对错，true为判断
+        ques_doing: function (ans, ques, judge) {
             var type = ques.Qus_Type;
             var func = eval('this.doing_type' + type);
-            var correct = func(ans, ques);
+            var correct = func(ans, ques, judge);
             if (!correct) {
                 $api.post('Question/ErrorAdd', { 'acid': 0, 'qid': ques.Qus_ID, 'couid': ques.Cou_ID }).then(function (req) {
                     if (req.data.success) {
@@ -144,7 +147,7 @@ Vue.component('question', {
         //单选题的解答
         //ans:某个选项
         //items:当前试题的所有选项
-        doing_type1: function (ans, ques) {
+        doing_type1: function (ans, ques, judge) {
             var items = ques.Qus_Items;
             for (let i = 0; i < items.length; i++) {
                 if (items[i].Ans_ID == ans.Ans_ID) continue;
@@ -160,15 +163,16 @@ Vue.component('question', {
             return this.state['correct'] == 'succ';
         },
         //多选题的选择
-        doing_type2: function (ans, ques) {
+        doing_type2: function (ans, ques, judge) {
             var items = ques.Qus_Items;
-            ans.selected = !ans.selected;
+            if (ans) ans.selected = !ans.selected;
             //选中的选项id,正确的选项
             var ans_ids = [], correct_arr = [];
             for (let i = 0; i < items.length; i++) {
                 if (items[i].selected) ans_ids.push(items[i].Ans_ID);
                 if (items[i].Ans_IsCorrect) correct_arr.push(items[i]);
             }
+            if (judge == null || !judge) return;
             //判断是否正确
             var correct = true;
             if (ans_ids.length == correct_arr.length) {
@@ -197,7 +201,7 @@ Vue.component('question', {
             return correct;
         },
         //判断题的选择,logic为true或false
-        doing_type3: function (logic, ques) {
+        doing_type3: function (logic, ques, judge) {
             if (ques.Qus_Answer == String(logic)) {
                 ques.Qus_Answer = '';
             } else {
@@ -212,7 +216,7 @@ Vue.component('question', {
             return this.state['correct'] == 'succ';
         },
         //简答题
-        doing_type4: function (ans, ques) {
+        doing_type4: function (ans, ques, judge) {
             var correct = this.state.ans == ques.Qus_Answer;
             this.state['ans'] = this.state.ans;
             this.state['correct'] = this.state.ans != '' ? (correct ? "succ" : "error") : "null";
@@ -221,7 +225,7 @@ Vue.component('question', {
             return this.state['correct'] == 'succ';
         },
         //填空题
-        doing_type5: function (ans, ques) {
+        doing_type5: function (ans, ques, judge) {
             var ansstr = [];
             var correct = true;
             for (let i = 0; i < ques.Qus_Items.length; i++) {
@@ -255,10 +259,11 @@ Vue.component('question', {
                 </div>
             </div>
             <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
-                <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="ques_doing(ans,ques)">
+                <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="ques_doing(ans,ques,false)">
                     <i></i>{{showIndex(i)}} .
                     <span v-html="ans.Ans_Context"></span>
                 </div>
+                <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>
             </div>
             <div  class="ans_area type2" v-if="ques.Qus_Type==3"  remark="判断题">
                 <div  :selected="state.ans=='true'"  @click="ques_doing(true,ques)">

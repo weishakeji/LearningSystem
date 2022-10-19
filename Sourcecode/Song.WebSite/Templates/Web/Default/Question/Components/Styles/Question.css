@@ -106,26 +106,10 @@ section.question dd img {
 	font-style: normal;
 }
 
-.type4 button {
-	float: right;
-	margin-bottom: 20px;
-	margin-right: 0px;
-}
-
-.type4 button icon {
-	font-size: 18px;
-}
-
 /*填空题*/
 
 .type5 {
 	counter-reset: section;
-}
-
-.type5 button {
-	float: right;
-	margin-bottom: 20px;
-	margin-right: 5px;
 }
 
 .type5 button icon {
@@ -151,6 +135,31 @@ section.question dd img {
 .type5>div input {
 	width: calc(100% - 30px);
 	padding: 5px 15px;
+}
+/*提交的按钮*/
+.type2 button, .type4 button, .type5 button {
+	float: right;
+	height: 35px;
+	color: #409eff;
+	background: #ecf5ff;
+	border-color: #b3d8ff;
+
+	display: inline-block;
+	white-space: nowrap;
+	cursor: pointer;
+
+	border: 1px solid #dcdfe6;
+
+	-webkit-appearance: none;
+	text-align: center;
+	box-sizing: border-box;
+	outline: none;
+	margin-bottom: 15px;
+	transition: .1s;
+	font-weight: 500;
+	padding: 6px 20px;
+	font-size: 14px;
+	border-radius: 4px;
 }
 
 section textarea {
