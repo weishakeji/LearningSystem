@@ -461,10 +461,30 @@ namespace Song.ServiceImpls
             countSum = Convert.ToInt32(o);
 
             //综合sql1和sql2,主要是查询
-            string sql3 = @"select ROW_NUMBER() OVER(Order by Cou_ID) AS 'rowid',* from ({{sql}}) as r";
+            string sql3 = @"select ROW_NUMBER() OVER(Order by  Stc_EndTime desc, Ssc_ID desc) AS 'rowid', * from 
+	                    (
+		                    select muster.*, sc.Stc_EndTime,ssc.Ssc_ID from 
+		                    (
+			                    {{sql}}
+		                    ) as muster 
+		                     left join 	
+		                     (
+			                    select * from  Student_Course as sc
+			                    where sc.Ac_ID={{acid}} and sc.Stc_IsEnable=1 and sc.Stc_Type!=5
+			                    and (sc.Stc_StartTime<getdate() and  sc.Stc_EndTime>getdate())
+			                    and sc.Cou_ID not in (select Cou_ID from  StudentSort_Course where Sts_ID={{stsid}})			
+		                     ) as sc on muster.Cou_ID = sc.Cou_ID
+		                     left join  
+		                     (
+			                    select * from  StudentSort_Course where Sts_ID={{stsid}}
+		                     ) as ssc  on muster.Cou_ID = ssc.Cou_ID
+		
+	                    )as t";
             if (!string.IsNullOrWhiteSpace(sear)) sql3 += " where Cou_Name like '%" + sear + "%'";
             sql3 = sql3.Replace("{{sql}}", sql1);
-           
+            sql3 = sql3.Replace("{{acid}}", stid.ToString());
+            sql3 = sql3.Replace("{{stsid}}", student.Sts_ID.ToString());
+
             //分页
             string sql4 = "select * from ({{sql}}) as p where rowid > {{start}} and rowid<={{end}}";
             sql4 = sql4.Replace("{{sql}}", sql3);
