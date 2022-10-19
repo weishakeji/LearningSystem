@@ -515,7 +515,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <returns></returns>
         [HttpPost]
-        public bool CollectAdd(int acid,int qid,long couid)
+        public bool CollectAdd(int acid, long qid, long couid)
         {
             try
             {
@@ -527,9 +527,10 @@ namespace Song.ViewData.Methods
                     stc.Qus_ID = qid;
                     stc.Cou_ID = couid;
                     Business.Do<IStudent>().CollectAdd(stc);
-                }              
+                }
                 return true;
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
