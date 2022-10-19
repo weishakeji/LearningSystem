@@ -118,19 +118,18 @@
                                     </template>
                                     <template v-else>
                                         <loading v-if="item.addtime_loading"></loading>
-                                        <template v-else>
+                                        <span v-if="!item.addtime_loading">
                                             <el-input placeholder="" v-model.number="item.addtime_value"
                                                 style="width: 200px;" type="number">
                                                 <template slot="prepend">续时</template>
                                                 <template slot="append">天</template>
                                             </el-input>
-
                                             <el-popconfirm title="确定增加课程选修时间吗？"
                                                 @confirm="purchaseAddTime(item.addtime_value,item)">
                                                 <el-button type="text" slot="reference">确定</el-button>
                                             </el-popconfirm>
                                             <el-button type="text" @click="item.addtime_show=false">返回</el-button>
-                                        </template>
+                                        </span>
                                     </template>
                                 </div>
                                 <course_data :couid="item.Cou_ID" :viewnum="item.Cou_ViewNum"></course_data>

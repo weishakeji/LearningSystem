@@ -158,6 +158,7 @@
             },
             //增加学员选修课程的时间
             purchaseAddTime: function (num, course) {
+                console.log(num);
                 if (num <= 0) return;
                 var th = this;
                 course['addtime_loading'] = true;

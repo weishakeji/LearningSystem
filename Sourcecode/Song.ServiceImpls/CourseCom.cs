@@ -453,18 +453,20 @@ namespace Song.ServiceImpls
                         sql1 += "union " + sql2;
                 }
             }
-            //综合sql1和sql2,主要是查询
-            string sql3 = @"select ROW_NUMBER() OVER(Order by Cou_ID) AS 'rowid',* from ({{sql}}) as r";
-            if (!string.IsNullOrWhiteSpace(sear)) sql3 += " where Cou_Name like '%" + sear + "%'";
-            sql3 = sql3.Replace("{{sql}}", sql1);
             //计算总数
             string sql_total = @"select count(*) from ({{sql}}) as r";
             if (!string.IsNullOrWhiteSpace(sear)) sql_total += " where Cou_Name like '%" + sear + "%'";
             sql_total = sql_total.Replace("{{sql}}", sql1);
             object o = Gateway.Default.FromSql(sql_total).ToScalar();
             countSum = Convert.ToInt32(o);
+
+            //综合sql1和sql2,主要是查询
+            string sql3 = @"select ROW_NUMBER() OVER(Order by Cou_ID) AS 'rowid',* from ({{sql}}) as r";
+            if (!string.IsNullOrWhiteSpace(sear)) sql3 += " where Cou_Name like '%" + sear + "%'";
+            sql3 = sql3.Replace("{{sql}}", sql1);
+           
             //分页
-            string sql4 = "select * from ({{sql}}) as t where rowid > {{start}} and rowid<={{end}}";
+            string sql4 = "select * from ({{sql}}) as p where rowid > {{start}} and rowid<={{end}}";
             sql4 = sql4.Replace("{{sql}}", sql3);
             int start = (index - 1) * size;
             int end = (index - 1) * size + size;
