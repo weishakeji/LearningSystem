@@ -45,11 +45,12 @@
                 <template v-if="courses && courses.length>0">
                     <course v-for="(c,i) in courses" :item="c" :class="{'fourth':(i+1)%4==0}"></course>
                 </template>
-                <div v-else class="nocourse">
+                <div v-else-if="!loading_cou" class="nocourse">
                     <icon>&#xe849</icon>
                     没有满足条件的课程
                 </div>
             </template>
+           <loading v-if="loading_cou" class="loading_cou">loading ...</loading>
         </context>
 
         <el-backtop target="#vapp" style="font-size: 12px;width: 20px;">返回顶部</el-backtop>

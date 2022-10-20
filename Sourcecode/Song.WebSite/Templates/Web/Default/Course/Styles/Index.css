@@ -10,6 +10,9 @@ html, body, #vapp {
 #vapp{
     overflow: auto;
 }
+.loading_cou{
+    margin: 0px auto;
+}
 context {
     display: block;
     width: 1200px;

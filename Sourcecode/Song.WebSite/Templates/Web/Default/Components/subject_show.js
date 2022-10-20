@@ -6,7 +6,9 @@ Vue.component('subject_show', {
     data: function () {
         return {
             path: $dom.path(),   //模板路径
-            show: false,         //是否显示，例如当前专业下没有课程       
+            show: false,         //是否显示，例如当前专业下没有课程   
+
+            loading: false,      //
             courses: []        //专业下的课程          
         }
     },
@@ -34,6 +36,8 @@ Vue.component('subject_show', {
     methods: {
         //获取课程
         getcourse: function (th) {
+            var th = this;
+            th.loading = true;
             var sbjid = th.subject == null ? 0 : th.subject.Sbj_ID;
             $api.cache('Course/ShowCount',
                 { 'sbjid': sbjid, 'orgid': '', 'search': '', 'order': th.order, 'count': th.count })
@@ -47,6 +51,8 @@ Vue.component('subject_show', {
                     }
                 }).catch(function (err) {
                     console.error(err);
+                }).finally(function () {
+                    th.loading = false;
                 });
         },
         //跳转
@@ -56,7 +62,7 @@ Vue.component('subject_show', {
         },
         //跳转到课程中心
         gocourses: function (sbj) {
-            var url = $api.url.set('/web/Course',{'sbjid':sbj.Sbj_ID});
+            var url = $api.url.set('/web/Course', { 'sbjid': sbj.Sbj_ID });
             window.location.href = url;
         }
     },
@@ -67,19 +73,22 @@ Vue.component('subject_show', {
             <img :src="path+'images/nosubject.jpg'" v-else />
         </subject>
         <courses>
-          <div v-for="cour in courses" @click="godetail(cour.Cou_ID)" :rec="cour.Cou_IsRec">
-            <img :src="cour.Cou_LogoSmall" v-if="cour.Cou_LogoSmall && cour.Cou_LogoSmall!=''"/>
-            <img :src="path+'images/cou_nophoto.jpg'" v-else />
-            <div class="name">{{ cour.Cou_Name }}</div>
-            <div class="price">
-                <span class="free" v-if="cour.Cou_IsFree">免费</span>
-                <span class="money" v-else>
-                    <icon>&#xe818;</icon>
-                    {{cour.Cou_Price}}元/{{cour.Cou_PriceSpan}}{{cour.Cou_PriceUnit}}             
-                </span>
-                <span class="view" title="访问量">{{cour.Cou_ViewNum}}</span>
-            </div>
-          </div>
+            <loading v-if="loading">loading ... </loading>
+            <template v-else>
+                <div v-for="cour in courses" @click="godetail(cour.Cou_ID)" :rec="cour.Cou_IsRec">
+                    <img :src="cour.Cou_LogoSmall" v-if="cour.Cou_LogoSmall && cour.Cou_LogoSmall!=''"/>
+                    <img :src="path+'images/cou_nophoto.jpg'" v-else />
+                    <div class="name">{{ cour.Cou_Name }}</div>
+                    <div class="price">
+                        <span class="free" v-if="cour.Cou_IsFree">免费</span>
+                        <span class="money" v-else>
+                            <icon>&#xe818;</icon>
+                            {{cour.Cou_Price}}元/{{cour.Cou_PriceSpan}}{{cour.Cou_PriceUnit}}             
+                        </span>
+                        <span class="view" title="访问量">{{cour.Cou_ViewNum}}</span>
+                    </div>
+                </div>
+            </template>
         </courses>
     </weisha>`
 });

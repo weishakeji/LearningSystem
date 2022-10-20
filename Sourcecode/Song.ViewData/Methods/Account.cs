@@ -680,40 +680,7 @@ namespace Song.ViewData.Methods
             return i;           
         }
         #endregion
-
-        #region 学习记录
-        /// <summary>
-        /// 从学习记录中获取学员记录
-        /// </summary>
-        /// <param name="acc">学员账号</param>
-        /// <param name="name">学员姓名</param>
-        /// <returns></returns>
-        public Song.Entities.LogForStudentStudy[] ForLogs(string acc, string name)
-        {
-            if (string.IsNullOrWhiteSpace(acc) && string.IsNullOrWhiteSpace(name)) return null;
-            string sql = @"select Ac_ID,Ac_AccName, Ac_Name from (
-                    select logs.* from Accounts right join 
-                    (select * from LogForStudentStudy where 
-                    {name} and {acc}) as logs
-                    on Accounts.Ac_ID=Logs.Ac_ID) as tm
-                     group by Ac_ID,Ac_AccName,Ac_Name";
-            sql = sql.Replace("{name}", string.IsNullOrWhiteSpace(name) ? "1=1" : "Ac_Name like '%" + name + "%'");
-            sql = sql.Replace("{acc}", string.IsNullOrWhiteSpace(acc) ? "1=1" : "Ac_AccName='" + acc + "'");
-
-            Song.Entities.LogForStudentStudy[] accs = Business.Do<ISystemPara>().ForSql<LogForStudentStudy>(sql).ToArray<LogForStudentStudy>();
-            return accs;
-        }
-        /// <summary>
-        /// 学员的视频学习记录
-        /// </summary>
-        /// <param name="acid">学员id</param>
-        /// <param name="couid">课程id</param>
-        /// <returns></returns>
-        public Song.Entities.LogForStudentStudy[] StudyLog(int acid, long couid)
-        {
-            return Business.Do<IStudent>().LogForStudyCount(-1, couid, -1, acid, null, 0);
-        }
-        #endregion
+        
 
         #region 学员组
         /// <summary>

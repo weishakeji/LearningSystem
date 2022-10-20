@@ -98,3 +98,6 @@ weisha.subject_rec .price .view::before {
     font-size: 16px;
     display: inline-block;
 }
+weisha.subject_rec courses loading{
+    margin: 30px auto;
+}

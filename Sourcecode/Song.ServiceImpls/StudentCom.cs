@@ -720,7 +720,7 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<LogForStudentStudy>(entity);
         }
         /// <summary>
-        /// 根据学员id与登录时生成的Uid返回实体
+        /// 根据学员id与章节id,返回学习记录
         /// </summary>
         /// <param name="acid">学员Id</param>
         /// <param name="olid">章节id</param>
@@ -1064,7 +1064,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                 }
                 TimeSpan span = sc.Stc_EndTime - sc.Stc_StartTime;
                 log.Lss_LastTime = sc.Stc_StartTime.AddSeconds(new Random().Next(0, (int)span.TotalSeconds));
-                Gateway.Default.Save<LogForStudentStudy>(log);
+                Gateway.Default.Save<LogForStudentStudy>(log);               
             }
         }
         #endregion
