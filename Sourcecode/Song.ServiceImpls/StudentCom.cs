@@ -12,7 +12,7 @@ using System.Net;
 using System.IO;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
-
+using System.Threading.Tasks;
 
 namespace Song.ServiceImpls
 {
@@ -660,13 +660,28 @@ namespace Song.ServiceImpls
         /// <param name="studyTime">学习时间，此为累计时间</param>
         /// <param name="totalTime">视频总长度</param>
         /// <returns>学习进度百分比（相对于总时长）</returns>
-        public double LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime)
+        public void LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime)
         {
-            if (st == null || olid <= 0) return -1;
+            if (st == null || olid <= 0) return;
+
+            string ip = WeiSha.Core.Browser.IP;
+            string os = WeiSha.Core.Browser.OS;
+            string name = WeiSha.Core.Browser.Name;
+            string ver = WeiSha.Core.Browser.Version;
+            bool ismobi = WeiSha.Core.Browser.IsMobile;
+
+            Task task = new Task(() =>
+            {               
+                _LogForStudyUpdate(couid, olid, st, playTime * 1000, studyTime, totalTime * 1000, ip, os, name, ver, ismobi);
+            });
+        }
+        protected void _LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime,
+            string ip, string os, string name, string ver, bool ismobi)
+        {
             if (couid <= 0)
             {
                 Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == olid).ToFirst<Outline>();
-                if (outline != null) couid = outline.Cou_ID;               
+                if (outline != null) couid = outline.Cou_ID;
             }
             //当前章节的学习记录
             //Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
@@ -675,15 +690,13 @@ namespace Song.ServiceImpls
             Song.Entities.LogForStudentStudy entity = Gateway.Default.FromSql(sql).ToFirst<LogForStudentStudy>();
             if (entity == null)
             {
-                //当前机构
-                Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
                 entity = new LogForStudentStudy();
-                if(string.IsNullOrWhiteSpace(entity.Lss_UID))
+                if (string.IsNullOrWhiteSpace(entity.Lss_UID))
                     entity.Lss_UID = WeiSha.Core.Request.UniqueID();
                 entity.Lss_CrtTime = DateTime.Now;
                 entity.Cou_ID = couid;
                 entity.Ol_ID = olid;
-                if (org != null) entity.Org_ID = org.Org_ID;
+                entity.Org_ID = st.Org_ID;
                 //学员信息
                 entity.Ac_ID = st.Ac_ID;
                 entity.Ac_AccName = st.Ac_AccName;
@@ -699,16 +712,12 @@ namespace Song.ServiceImpls
             entity.Lss_StudyTime = studyTime;
             if (entity.Lss_Duration < totalTime) entity.Lss_Duration = totalTime;
             //登录信息
-            entity.Lss_IP = WeiSha.Core.Browser.IP;
-            entity.Lss_OS = WeiSha.Core.Browser.OS;
-            entity.Lss_Browser = WeiSha.Core.Browser.Name + " " + WeiSha.Core.Browser.Version;
-            entity.Lss_Platform = WeiSha.Core.Browser.IsMobile ? "Mobi" : "PC";
+            entity.Lss_IP = ip;
+            entity.Lss_OS = os;
+            entity.Lss_Browser = name + " " + WeiSha.Core.Browser.Version;
+            entity.Lss_Platform = ismobi ? "Mobi" : "PC";
             //保存到数据库
             Gateway.Default.Save<LogForStudentStudy>(entity);
-            //计算完成度的百分比
-            double per = (double)studyTime*1000 / (double)totalTime;
-            per = Math.Floor(per * 10000) / 100;
-            return per;
         }
         /// <summary>
         /// 根据学员id与登录时生成的Uid返回实体
@@ -792,7 +801,6 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 学员的学习记录
         /// </summary>
-        /// <param name="orgid"></param>
         /// <param name="acid">学员id</param>
         /// <returns>datatable中,LastTime:最后学习时间； studyTime：累计学习时间，complete：完成度百分比</returns>
         public DataTable StudentStudyCourseLog(int acid)
@@ -844,7 +852,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                     //*****如果没有购买的，则去除
                     //购买的课程(含概试用的）
                     int count = 0;
-                    List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(acid, null, 0,null, null, int.MaxValue, 1, out count);
+                    List<Song.Entities.Course> cous = Business.Do<ICourse>().CourseForStudent(acid, null, 0,null, null);
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
                         bool isExist = false;
@@ -928,47 +936,34 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         public DataTable StudentStudyCourseLog(int acid,long couid)
         {
             //开始计算
-            string sql = @"
-select * from course as c inner join 
-	(select cou_id, max(lastTime) as 'lastTime',sum(studyTime) as 'studyTime',		
-		sum(case when complete>=100 then 100 else complete end) as 'complete'
-		from 
-			(SELECT top 90000 ol_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
-				 sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
-				 (case  when max(Lss_Duration)>0 then
-					 cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100
-					 else 0 end
-				  ) as 'complete'
-			 FROM [LogForStudentStudy]  where {couid} and  {acid}  group by ol_id 
-			 ) as s where s.totalTime>0 group by s.cou_id
-	) as tm on c.cou_id=tm.cou_id  ";
+            string sql = @"select * from course as c inner join 
+                        (
+	                        select Cou_ID, max(lastTime) as 'lastTime', SUM(studyTime) as 'studyTime'	
+	                        ,cast(convert(decimal(18,4), cast(sum(complete) as float)/COUNT(*)) as float) as 'complete'
+	                         from 
+	                        (	
+		                        select c.*, s.lastTime
+		                        ,CASE WHEN s.studyTime is null THEN 0 ELSE s.studyTime END as 'studyTime'
+		                        ,CASE WHEN s.complete is null THEN 0 WHEN s.complete>100  THEN 100 ELSE s.complete END as 'complete'
+		                        from 
+		                        (
+			                        (SELECT * from outline where {couid} and Ol_IsUse=1 and Ol_IsFinish=1 and Ol_IsVideo=1)  as c left join 
+				                        (SELECT ol_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
+							                         sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
+							                         (case  when max(Lss_Duration)>0 then
+							                         cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100
+							                         else 0 end
+						                          ) as 'complete'
+					                        FROM [LogForStudentStudy]  where {couid} and  {acid}  group by ol_id 
+				                        ) as s on c.Ol_ID=s.Ol_ID
+		                        ) 
+	                        ) as t group by Cou_ID
+                        ) as tm on c.Cou_ID=tm.Cou_ID";
             //sql = sql.Replace("{orgid}", orgid > 0 ? "org_id=" + orgid : "1=1");
             sql = sql.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
             sql = sql.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
-            try
-            {
-                DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-                DataTable dt = ds.Tables[0];
-                if (dt.Rows.Count > 0)
-                {
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        //课程的累计完成度
-                        double complete = Convert.ToDouble(dr["complete"].ToString());
-                        //课程id
-                        couid = Convert.ToInt64(dr["Cou_ID"].ToString());
-                        int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true);
-                        //完成度
-                        double peracent = Math.Floor(complete / olnum * 100) / 100;
-                        dr["complete"] = peracent;
-                    }
-                }
-                return dt;
-            }
-            catch
-            {
-                return null;
-            }
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];
         }
         /// <summary>
         /// 学员学习某一课程下所有章节的记录
@@ -986,8 +981,14 @@ select * from course as c inner join
             //容差，例如完成度小于5%，则默认100%
             int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
             //读取学员学习记录
-            string sql = @"select * from outline as c left join 
-                        (SELECT top 90000 ol_id, MAX(Lss_LastTime) as 'lastTime', 
+            string sql = @"select
+                        c.*,s.ol_id, s.lastTime,
+                        CASE WHEN s.studyTime is null THEN 0 ELSE s.studyTime END as 'studyTime',
+                        CASE WHEN s.totalTime is null THEN 0 ELSE s.totalTime END as 'totalTime',
+                        CASE WHEN s.playTime is null THEN 0 ELSE s.playTime END as 'playTime',
+                        CASE WHEN s.complete is null THEN 0 WHEN s.complete>100  THEN 100 ELSE s.complete END as 'complete'
+                        from outline as c left join 
+                        (SELECT ol_id, MAX(Lss_LastTime) as 'lastTime', 
 	                        sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
                             cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100 as 'complete'
 
@@ -996,25 +997,9 @@ select * from course as c inner join
                         on c.ol_id=s.ol_id where {couid} order by ol_tax asc";
             sql = sql.Replace("{couid}", "cou_id=" + couid);
             sql = sql.Replace("{acid}", "ac_id=" + acid);
-            try
-            {
-                DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-                //计算学习时度，因为没有学习的章节没有记录，也要计算进去
-                DataTable dt= ds.Tables[0];
-                //计算完成度                   
-                foreach (DataRow dr in dt.Rows)
-                {
-                    if (string.IsNullOrWhiteSpace(dr["complete"].ToString())) continue;
-                    //课程的累计完成度
-                    double complete = Convert.ToDouble(dr["complete"].ToString());                   
-                    dr["complete"] = complete >= (100 - tolerance) ? 100 : complete;
-                }
-                return ds.Tables[0];
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
+
+            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            return ds.Tables[0];           
         }
         /// <summary>
         /// 章节学习记录作弊，直接将学习进度设置为100

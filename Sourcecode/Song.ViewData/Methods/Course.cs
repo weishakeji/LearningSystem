@@ -699,7 +699,10 @@ namespace Song.ViewData.Methods
             //当前学员
             Song.Entities.Accounts student = LoginAccount.Status.User();
             if (student == null) return -1;
-            double per = Business.Do<IStudent>().LogForStudyUpdate(couid, olid, student, playTime*1000, studyTime, totalTime*1000);
+            //计算完成度的百分比
+            double per = (double)studyTime * 1000 / (double)totalTime;
+            per = Math.Floor(per * 10000) / 100;
+            Business.Do<IStudent>().LogForStudyUpdate(couid, olid, student, playTime, studyTime, totalTime);
             return per;
         }
         /// <summary>
@@ -730,23 +733,6 @@ namespace Song.ViewData.Methods
         public DataTable LogForVideo(int stid, long couid)
         {
             return Business.Do<IStudent>().StudentStudyCourseLog(stid, couid);
-        }
-        /// <summary>
-        /// 学员学习某个课程的视频的完成度
-        /// </summary>
-        /// <param name="stid">学员账号id</param>
-        /// <param name="couid">课程id</param>
-        /// <returns>仅课程的视频学习的完成度，与LogForVideo接口方法一致，但此仅返回完成度，没有详细信息</returns>
-        public double ProgressForVideo(int stid, long couid)
-        {
-            DataTable dt = Business.Do<IStudent>().StudentStudyCourseLog(stid, couid);
-            if (dt == null || dt.Rows.Count < 1) return 0;
-            double d = 0;
-            if (dt.Rows[0]["complete"] != null)
-            {
-                double.TryParse(dt.Rows[0]["complete"].ToString(),out d);
-            }
-            return d;
         }
         /// <summary>
         /// 学员学习某个课程所有章节的视频的完成信息，包括章节详细信息与完成信息

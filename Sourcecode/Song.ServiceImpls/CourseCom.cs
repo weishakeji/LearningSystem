@@ -497,6 +497,77 @@ namespace Song.ServiceImpls
 
         }
         /// <summary>
+        /// 学员购买的该课程,以及学员组关联的课程,不分页，不排序
+        /// </summary>
+        /// <param name="stid">学员id</param>
+        /// <param name="sear"></param>
+        /// <param name="state">0不管是否过期，1必须是购买时效内的，2必须是购买时效外的</param>
+        /// <param name="enable">是否启用</param>
+        /// <param name="istry"></param>
+        /// <returns></returns>
+        public List<Course> CourseForStudent(int stid, string sear, int state, bool? enable, bool? istry)
+        {
+            //当前学员
+            Accounts student = Business.Do<IAccounts>().AccountsSingle(stid);
+            if (student == null) throw new Exception("学员账号不存在");
+
+            //试用课程，不包括学员组关联课程
+            if (istry != null && (bool)istry)
+            {
+                WhereClip wc = Student_Course._.Ac_ID == stid;
+                if (enable != null) wc.And(Student_Course._.Stc_IsEnable == (bool)enable);
+                wc.And(Student_Course._.Stc_IsTry == (bool)istry);
+                if (!string.IsNullOrWhiteSpace(sear)) wc.And(Course._.Cou_Name.Like("%" + sear + "%"));
+              
+                return Gateway.Default.From<Course>()
+                        .InnerJoin<Student_Course>(Student_Course._.Cou_ID == Course._.Cou_ID)
+                        .Where(wc).OrderBy(Student_Course._.Stc_StartTime.Desc).ToList<Course>();
+            }
+            /* 
+             * 时效内课程和所有课程，包括了学员组关联课程，相对复杂，用了sql语句实现
+             */
+
+            //学员购买课程记录中的课程
+            string sql1 = @"select cou.* from Course as cou inner join  Student_Course as sc 
+                            on cou.Cou_ID = sc.Cou_ID
+                            where sc.Ac_ID = {{acid}} and sc.Stc_Type!=5 and {{enable}} and {{istry}}
+                            and {{expired}} ";
+            sql1 = sql1.Replace("{{acid}}", stid.ToString());
+            //是否查询禁用课程（在课程购买中的禁用，不是课程禁用）
+            if (enable != null) sql1 = sql1.Replace("{{enable}}", "sc.Stc_IsEnable = " + ((bool)enable ? 1 : 0));
+            else
+                sql1 = sql1.Replace("{{enable}}", "1=1");
+            //购买时间内的
+            if (state == 1)
+                sql1 = sql1.Replace("{{expired}}", "(sc.Stc_StartTime < getdate() and  sc.Stc_EndTime > getdate())");
+            //过期的
+            else if (state == 2)
+                sql1 = sql1.Replace("{{expired}}", "sc.Stc_EndTime<getdate()");
+            else
+                sql1 = sql1.Replace("{{expired}}", "1=1");
+            //试用
+            sql1 = sql1.Replace("{{istry}}", istry != null ? "sc.Stc_IsTry = " + ((bool)istry ? 1 : 0) : "1=1");
+
+            //学员组关联的课程
+            if (student.Sts_ID > 0)
+            {
+                StudentSort sort = Business.Do<IStudent>().SortSingle(student.Sts_ID);
+                if (sort != null && sort.Sts_IsUse)
+                {
+                    string sql2 = @"select cou.* from Course as cou right join  StudentSort_Course as ssc
+                                    on cou.Cou_ID = ssc.Cou_ID
+                                    where ssc.Sts_ID = " + student.Sts_ID;
+                    //如果取过期课程，则去除学员组关联的课程
+                    if (state == 2)
+                        sql1 += "except " + sql2;
+                    //正常情况下，是学员购买课程+学员组关联课程
+                    else
+                        sql1 += "union " + sql2;
+                }
+            }
+            return Gateway.Default.FromSql(sql1).ToList<Course>();
+        }
+        /// <summary>
         /// 课程收益
         /// </summary>
         /// <param name="couid"></param>

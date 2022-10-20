@@ -26,6 +26,7 @@ namespace Song.WebSite.Controllers
                 string url = this.Request.Url.ToString();
                 url = WeiSha.Core.Skip.WebToMobi(url);
                 this.Response.Redirect(url);
+                this.Response.Close();
                 return;
             }
             try

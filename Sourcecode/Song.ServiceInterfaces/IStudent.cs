@@ -266,7 +266,7 @@ namespace Song.ServiceInterfaces
         /// <param name="studyTime">学习时间，此为累计时间</param>
         /// <param name="totalTime">视频总长度</param>
         /// <returns>学习进度百分比（相对于总时长），如果为-1，则表示失败</returns>
-        double LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime);
+        void LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime);
         /// <summary>
         /// 根据学员id与登录时生成的Uid返回实体
         /// </summary>
