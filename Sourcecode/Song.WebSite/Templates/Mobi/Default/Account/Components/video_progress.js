@@ -78,24 +78,6 @@ Vue.component('video_progress', {
     },
     mounted: function () { },
     methods: {
-        /*
-        onload: function () {
-            var th = this;
-            th.loading = true;
-            $api.cache('Course/ProgressForVideo:5', { 'couid': this.couid, 'stid': this.stid })
-                .then(function (req) {
-                    th.loading = false;
-                    if (req.data.success) {
-                        th.percent = req.data.result;
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    th.percent = 0
-                    console.error(err);
-                });
-        },*/
         onload: function () {
             var th = this;
             th.loading = true;

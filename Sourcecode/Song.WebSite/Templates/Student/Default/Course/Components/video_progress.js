@@ -96,7 +96,7 @@ Vue.component('video_progress', {
                             th.data = result[0];
                             th.data.lastTime = new Date(th.data.lastTime);
                             th.percent = th.data.complete;
-                            console.log(th.data);
+                            //console.log(th.data);
                         } else {
                             th.data = null;
                             th.percent = 0;
@@ -156,12 +156,18 @@ Vue.component('video_progress', {
                 'height': '80%'
             }
             window.top.vapp.open(obj);
-
+        },
+        //判断是否是一个有效时间
+        judgmenttime: function (date) {            
+            if ($api.getType(date) != 'Date') return false;
+            date = date.setDate(date.getFullYear() + 100);
+            if (date < new Date()) return false;
+            return true;
         }
     },
     template: `<div class="video_progress">
        <div><span><icon>&#xe761</icon>视频学习</span>
-            <template v-if=" JSON.stringify(data) != '{}' && data != null">
+            <template v-if=" JSON.stringify(data) != '{}' && data != null && judgmenttime(data.lastTime)">
                 <el-tag type="success"><icon>&#xa039</icon>{{data.lastTime|date('yyyy-MM-dd HH:mm')}}</el-tag>               
             </template>   
         </div>

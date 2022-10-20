@@ -134,8 +134,8 @@ Vue.component('video_progress', {
         viewDetail: function (item) {
             var item = this.course;
             var url = $dom.routpath() + 'VideoProgress.' + item.Cou_ID;
-            url ='/orgadmin/Student/DetailsView.' + item.Cou_ID,
-            url = $api.url.set(url, 'stid', this.stid);
+            url = '/orgadmin/Student/DetailsView.' + item.Cou_ID,
+                url = $api.url.set(url, 'stid', this.stid);
             var obj = {
                 'url': url,
                 'ico': 'e6ef', 'min': false,
@@ -150,11 +150,18 @@ Vue.component('video_progress', {
                 pbox.open();
             }
 
+        },
+        //判断是否是一个有效时间
+        judgmenttime: function (date) {
+            if ($api.getType(date) != 'Date') return false;
+            date = date.setDate(date.getFullYear() + 100);
+            if (date < new Date()) return false;
+            return true;
         }
     },
     template: `<div class="video_progress">
        <div><span><icon>&#xe761</icon>视频学习</span>
-            <template v-if=" JSON.stringify(data) != '{}' && data != null">
+            <template v-if=" JSON.stringify(data) != '{}' && data != null && judgmenttime(data.lastTime)">
                 <el-tag type="success"><icon>&#xa039</icon>{{data.lastTime|date('yyyy-MM-dd HH:mm')}}</el-tag>               
             </template>   
         </div>
