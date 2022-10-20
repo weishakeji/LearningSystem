@@ -37,10 +37,9 @@ namespace Song.ViewData.Helper
         /// </summary>
         /// <param name="letter">类名</param>
         /// <param name="content">要写入的内容</param>
-        public static string Debug(Letter letter, string content)
+        public static void Debug(Letter letter, string content)
         {
-            if (LOG_LEVEL >= 3) return WriteLog("DEBUG", letter, content);
-            return string.Empty;
+            if (LOG_LEVEL >= 3) WriteLog("DEBUG", letter, content);
         }
 
         /// <summary>
@@ -48,29 +47,29 @@ namespace Song.ViewData.Helper
         /// </summary>
         /// <param name="letter">类名</param>
         /// <param name="content">要写入的内容</param>
-        public static string Info(Letter letter, string content)
+        public static void Info(Letter letter, string content)
         {
-            if (LOG_LEVEL >= 2) return WriteLog("INFO", letter, content);
-            return string.Empty;
+            if (LOG_LEVEL >= 2) WriteLog("INFO", letter, content);
+
         }
         /// <summary>
         /// 向日志文件出错信息
         /// </summary>
         /// <param name="letter">类名</param>
         /// <param name="content">要写入的内容</param>
-        public static string Error(Letter letter, string content)
+        public static void Error(Letter letter, string content)
         {
-            if (LOG_LEVEL >= 1) return WriteLog("ERROR", letter, content);
-            return string.Empty;
+            if (LOG_LEVEL >= 1) WriteLog("ERROR", letter, content);
+
         }
         /// <summary>
         /// 向日志文件出错信息
         /// </summary>
         /// <param name="letter">接口请求的对方</param>
         /// <param name="ex">错误信息</param>
-        public static bool Error(Letter letter, Exception ex)
+        public static void Error(Letter letter, Exception ex)
         {
-            if (LOG_LEVEL < 1) return false;
+            if (LOG_LEVEL < 1) return;
             StringBuilder sb = new StringBuilder();
             //输出异常，全部输出（子异常也输出）
             Exception except = ex;
@@ -91,16 +90,28 @@ namespace Song.ViewData.Helper
                 except = except.InnerException;
             }
             WriteLog("ERROR", letter, sb.ToString());
-            return true;
         }
         private static readonly object _lock = new object();
+        /// 实际写日志的方法
+        /// </summary>
+        /// <param name="logtype">日志类型</param>
+        /// <param name="letter">请求接口的对象方法</param>
+        /// <param name="content">实际内容</param>
+        public static void WriteLog(string logtype, Letter letter, string content)
+        {
+            Task task = new Task(() =>
+            {
+                Helper.Logs._writeLog(logtype, letter, content);
+            });
+            task.Start();
+        }
         /// <summary>
         /// 实际写日志的方法
         /// </summary>
         /// <param name="logtype">日志类型</param>
         /// <param name="letter">请求接口的对象方法</param>
         /// <param name="content">实际内容</param>
-        protected static string WriteLog(string logtype, Letter letter, string content)
+        protected static string _writeLog(string logtype, Letter letter, string content)
         {
             lock (_lock)
             {
@@ -158,6 +169,8 @@ namespace Song.ViewData.Helper
                             sb.AppendLine("Params:(null)");
                         }
                         sb.AppendLine("-------------------------------------");
+                        sb.AppendLine("online:" + LoginAccount.list.Count.ToString());
+                       
                         //学员，教师，管理员
                         Song.Entities.Accounts acc = LoginAccount.Status.User(letter);
                         if (acc == null)
@@ -201,6 +214,7 @@ namespace Song.ViewData.Helper
                 return filename;
             }
         }
+
         #endregion
     }
 }

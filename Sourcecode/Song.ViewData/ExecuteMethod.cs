@@ -173,7 +173,7 @@ namespace Song.ViewData
                     throw VExcept.System("The API is inconsistent with the weburi, so the request is restricted", 101);
                 if (!"weishakeji".Equals(letter.HTTP_Mark))
                     throw VExcept.System("The request id is incorrect", 100);
-                
+
                 //执行方法
                 object res = Exec(letter);
                 //计算耗时                
@@ -185,22 +185,33 @@ namespace Song.ViewData
                     ListResult list = (ListResult)res;
                     list.ExecSpan = span;
                     return list;
-                }
+                }               
+                //记录执行速度
+                if (span >= 2000)
+                    Helper.Logs.WriteLog("speed_2000", letter, span.ToString());
+                if (span >= 1000)
+                    Helper.Logs.WriteLog("speed_1000", letter, span.ToString());
+                else if (span >= 500)
+                    Helper.Logs.WriteLog("speed_500", letter, span.ToString());
+                else if (span >= 300)
+                    Helper.Logs.WriteLog("speed_300", letter, span.ToString());
+                else if (span >= 100)
+                    Helper.Logs.WriteLog("speed_100", letter, span.ToString());
+                else if (span >= 50)
+                    Helper.Logs.WriteLog("speed_50", letter, span.ToString());
+
                 return new Song.ViewData.DataResult(res, span);       //普通数据
             }
             catch (Exception ex)
             {
-                Task task = new Task(() => {
-                    Helper.Logs.Error(letter, ex);
-                });
-                task.Start();
+                Helper.Logs.Error(letter, ex);
                 //如果是自定义异常
                 if (ex.InnerException is VExcept)
                 {
-                    VExcept except = (VExcept)ex.InnerException;                   
+                    VExcept except = (VExcept)ex.InnerException;
                     return new Song.ViewData.DataResult(except, time);
                 }
-                if(ex.InnerException is WeiSha.Data.DataException)
+                if (ex.InnerException is WeiSha.Data.DataException)
                 {
                     WeiSha.Data.DataException except = (WeiSha.Data.DataException)ex.InnerException;
                     return new Song.ViewData.DataResult(except, time);
