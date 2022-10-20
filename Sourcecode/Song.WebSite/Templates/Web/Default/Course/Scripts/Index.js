@@ -181,8 +181,11 @@ $ready(function () {
                 if (this.sbjCurrent == null) this.sbj_children = this.subjects;
                 else
                     this.sbj_children = this.sbjCurrent.children;
-                if (sbj != '0') {
+                if (Number(sbj) != 0) {
                     var url = $api.url.set(window.location.href, 'sbjid', sbj);
+                    history.pushState({}, "", url);
+                } else {
+                    var url = $api.url.set(window.location.href, 'sbjid', "");
                     history.pushState({}, "", url);
                 }
             },

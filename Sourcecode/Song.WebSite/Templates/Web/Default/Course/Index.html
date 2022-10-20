@@ -29,7 +29,7 @@
                         :type="tag.Sbj_Name" v-if="sbj_children!=null && sbj_children.length>0">
                         {{tag.Sbj_Name}}
                     </el-tag>
-                    <el-tag type="danger" v-if="!sbj_children" @close="setSbjChilds(sbjCurrent.Sbj_PID)" closable>
+                    <el-tag type="info" v-if="!sbj_children" @close="setSbjChilds(sbjCurrent.Sbj_PID)" closable>
                         (没有下级专业)</el-tag>
                 </div>
             </div>
