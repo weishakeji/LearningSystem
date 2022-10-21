@@ -58,7 +58,7 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 var acid = th.account.Ac_ID;
-                $api.get('Course/LogForOutlineVideo', { 'stid': acid, 'couid': th.couid }).then(function (req) {
+                $api.cache('Course/LogForOutlineVideo', { 'stid': acid, 'couid': th.couid }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.logdatas = req.data.result;

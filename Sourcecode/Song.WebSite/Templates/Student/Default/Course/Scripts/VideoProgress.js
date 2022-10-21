@@ -69,10 +69,16 @@ $ready(function () {
                 var th = this;
                 th.loading = true;
                 var acid = th.account.Ac_ID;
-                $api.get('Course/LogForOutlineVideo', { 'stid': acid, 'couid': th.couid }).then(function (req) {
+                $api.cache('Course/LogForOutlineVideo:10', { 'stid': acid, 'couid': th.couid }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.logdatas = req.data.result;
+                        th.$message({
+                            message: '当前数据有10分钟的缓存',
+                            duration: 10000,
+                            showClose: true,
+                            type: 'success'
+                        });
                         console.log(th.logdatas);
                     } else {
                         console.error(req.data.exception);
