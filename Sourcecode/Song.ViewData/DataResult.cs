@@ -192,6 +192,11 @@ namespace Song.ViewData
                 str = Microsoft.JScript.GlobalObject.escape(str);
                 return string.Format("\"{0}\"", str);
             }
+            //长整型的处理
+            if (type.Name == "Int64")
+            {
+                return string.Format("\"{0}\"", obj.ToString());
+            }
             //日期类型转成js所需的格式
             if (typename == "DateTime")
             {
@@ -236,8 +241,6 @@ namespace Song.ViewData
                 jstr = Microsoft.JScript.GlobalObject.escape(jstr);
                 sb.Append(jstr);
                 return string.Format("\"{0}\"", jstr);
-                //sb.Append(obj.ToString());
-                return sb.ToString();
             }
             //如果是数组
             else if (type.IsArray)
