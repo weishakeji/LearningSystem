@@ -643,6 +643,13 @@
             'y': y
         };
     };
+    //是否是手机端
+    webdom.ismobi = function () {
+        var regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
+        var u = navigator.userAgent;
+        if (null == u) return true;
+        return regex_match.exec(u) != null;
+    };
     //当click事件时，如果有iframe时，添加iframe的点击事件
     webdom.IframeOnClick = {
         resolution: 10,
@@ -846,6 +853,18 @@
     //f:加载完成要执行的方法
     //source:要加载的资源
     window.$ready = function (f, source) {
+        var pathname = window.location.pathname.toLowerCase();     
+        //如果设备不是手机端，转向手机页面
+        if (!webdom.ismobi() && pathname.indexOf('/mobi/') >=0) {
+            var search = window.location.search;
+            if (pathname == '/') {
+                window.location.href = '/web/' + search;
+            } else {
+                var href = pathname.replace('/mobi', '/web');
+                window.location.href = href + search;
+            }
+            return;
+        }
         webdom.ready(function () {
             webdom.corejs(function () {
                 //设置ElementUI的一些参数
