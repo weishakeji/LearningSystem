@@ -66,12 +66,11 @@ Vue.component('footer_menu', {
             //左侧主菜单滑出
             window.vapp.$refs.aside_menu.show = true;
         },
-        btnDefault: function (item) {           
+        btnDefault: function (item) {
             if (!item.url || item.url == '') return;
             window.location.href = item.url;
         }
     },
-    // 同样也可以在 vm 实例中像 "this.message" 这样使用
     template: `<footer id="nav_menu">
        <div v-for="item in menus" @click="!!item.evt ? item.evt(item) : btnDefault(item)" v-if="item.show">
        <img :src="item.img" v-if="item.img!=''"/>
@@ -81,5 +80,7 @@ Vue.component('footer_menu', {
        </template>
        <span>{{item.name}}</span>
        </div>
+        <span v-html="organ.Org_Extracode" style="display:none"></span>     
+       </div>  
     </footer>`
 });
