@@ -674,6 +674,7 @@ namespace Song.ServiceImpls
             {               
                 _LogForStudyUpdate(couid, olid, st, playTime * 1000, studyTime, totalTime * 1000, ip, os, name, ver, ismobi);
             });
+            task.Start();
         }
         protected void _LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime,
             string ip, string os, string name, string ver, bool ismobi)
@@ -714,7 +715,7 @@ namespace Song.ServiceImpls
             //登录信息
             entity.Lss_IP = ip;
             entity.Lss_OS = os;
-            entity.Lss_Browser = name + " " + WeiSha.Core.Browser.Version;
+            entity.Lss_Browser = name + " " + ver;
             entity.Lss_Platform = ismobi ? "Mobi" : "PC";
             //保存到数据库
             Gateway.Default.Save<LogForStudentStudy>(entity);

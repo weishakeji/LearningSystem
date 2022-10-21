@@ -733,8 +733,8 @@ namespace Song.ServiceImpls
                 Gateway.Default.Delete<Student_Ques>(Student_Ques._.Ac_ID == acc && Student_Ques._.Cou_ID == couid);
                 //模拟测试
                 Gateway.Default.Delete<TestResults>(TestResults._.Ac_ID == acc && TestResults._.Cou_ID == couid);
-            });           
-           
+            });
+            task.Start();
         }
         /// <summary>
         /// 学习卡设置项下的所有学习卡
