@@ -18,7 +18,9 @@ $ready(function () {
             $api.get('ManageMenu/OrganPurviewSelect').then(function (req) {
                 if (req.data.success) {
                     th.datas = req.data.result;
+                    console.log(th.datas);
                     $api.get('ManageMenu/OrganPurviewUID', { 'lvid': th.id }).then(function (req) {
+                        th.loading = false;
                         if (req.data.success) {
                             var arr = req.data.result;
                             for (var i = 0; i < arr.length; i++) {
@@ -29,54 +31,56 @@ $ready(function () {
                                 for (var i = 0; i < trees.length; i++) {
                                     trees[i].setCheckedKeys(arr, true);
                                 }
-                                window.vue.loading = false;
+
                             }, 100);
+
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        alert(err);
-                        console.error(err);
+                        th.loading = false;
+                        Vue.prototype.$alert(err);
                     });
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                alert(err);
-                console.error(err);
+                Vue.prototype.$alert(err);
             });
         },
         methods: {
             btnEnter: function () {
-                if (this.loading) return;
-                this.loading = true;
+                var th = this;
+                if (th.loading) return;
+                th.loading = true;
                 //选中的菜单项
                 var arr = new Array();
-                var trees = this.$refs.tree;
+                var trees = th.$refs.tree;
                 for (var i = 0; i < trees.length; i++) {
-                    var nodes = trees[i].getCheckedNodes(true,false);
+                    var nodes = trees[i].getCheckedNodes(true, false);
                     for (var j = 0; j < nodes.length; j++)
                         arr.push(nodes[j].MM_UID);
                 }
-                $api.post('ManageMenu/OrganPurviewSelected', { 'lvid': this.id, 'mms': arr }).then(function (req) {
+                $api.post('ManageMenu/OrganPurviewSelected', { 'lvid': th.id, 'mms': arr }).then(function (req) {
+                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$message({
+                        th.$message({
                             type: 'success',
                             message: '操作成功!',
                             center: true
                         });
-                        window.vue.loading = false;
-                        vue.operateSuccess();
+
+                        th.operateSuccess();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
+                    th.loading = false;
+                    Vue.prototype.$alert(err);
                 });
                 //console.log(arr);                          
             },
@@ -91,6 +95,10 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
+                //更新后触发的事件
+                for (let i = 0; i < this.datas.length; i++) {
+                    $api.cache('ManageMenu/OrganMarkerMenus:update', { 'marker': this.datas[i].MM_Marker });
+                }
                 if (window.top && window.top.$pagebox)
                     window.top.$pagebox.source.tab(window.name, 'vue.handleCurrentChange', true);
             }

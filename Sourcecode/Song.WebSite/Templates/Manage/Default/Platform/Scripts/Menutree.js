@@ -144,12 +144,13 @@ $ready(function () {
                             th.curr.MM_Name = '_';
                             th.drawer = false;
                             th.MM_PatId = '';
-                            window.vapp.$notify({
+                            th.$notify({
                                 type: 'success',
                                 message: '菜单移动成功！',
                                 position: 'bottom-left',
                                 center: true
                             });
+                            th.updatedEvent();
                         } else {
                             console.error(req.data.exception);
                             throw req.data.message;
@@ -161,7 +162,7 @@ $ready(function () {
 
                 }).catch(function () {
                 });
-                console.log(uid);
+               
             },
             //字体颜色变化时
             colorChange: function (color) {
@@ -185,38 +186,43 @@ $ready(function () {
                 });
             },
             updateSave: function () {
-                this.loading = true;
+                var th=this;
+                th.loading = true;
                 $api.post('ManageMenu/FuncMenuUpdate', { 'uid': this.uid, 'tree': this.data }).then(function (req) {
+                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         $api.cache('ManageMenu/Menus:clear');
-                        window.vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '菜单保存成功！',
                             position: 'bottom-left',
                             center: true
                         });
+                        th.updatedEvent();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
-                    window.vapp.loading = false;
+                  
                 }).catch(function (err) {
-                    alert(err);
+                    th.loading = false;
                     console.error(err);
                 });
             },
             //更改完成状态
             changeComplete: function (val) {
+                var th = this;
                 $api.post('ManageMenu/UpdateComplete', { 'uid': this.curr.MM_UID, 'complete': val }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        window.vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '完成度修改完成！',
                             position: 'bottom-right',
                             center: true
                         });
+                        th.updatedEvent();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -225,6 +231,10 @@ $ready(function () {
                     alert(err);
                     console.error(err);
                 });
+            },
+            //更新后触发的事件
+            updatedEvent: function () {
+                $api.cache('ManageMenu/OrganMarkerMenus:update', { 'marker': this.rootMenu.MM_Marker });
             }
         }
     });
