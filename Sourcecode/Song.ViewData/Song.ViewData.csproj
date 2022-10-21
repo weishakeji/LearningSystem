@@ -196,6 +196,7 @@
     <Compile Include="Methods\ProfitSharing.cs" />
     <Compile Include="Methods\Pay.cs" />
     <Compile Include="Methods\Showpic.cs" />
+    <Compile Include="Methods\Snowflake.cs" />
     <Compile Include="Methods\Systempara .cs" />
     <Compile Include="Methods\Share.cs" />
     <Compile Include="Methods\TestPaper.cs" />
