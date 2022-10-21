@@ -63,7 +63,7 @@ Vue.component('study_outline', {
         var th = this;
         th.loading = true;
         $api.bat(
-            $api.get("Outline/tree", { 'couid': th.couid, 'isuse': true }),
+            $api.cache("Outline/tree", { 'couid': th.couid, 'isuse': true }),
             $api.get("Course/ForID", { id: th.couid })).then(axios.spread(function (ol, cur) {
                 th.loading = false;
                 if (cur.data.success) {

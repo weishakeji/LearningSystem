@@ -65,7 +65,7 @@ Vue.component('fromtype1', {
             var th = this;
             var couid = th.testpaper.Cou_ID;
             if (couid <= 0) return;
-            $api.get('Outline/Tree', { 'couid': couid, 'isuse': true }).then(function (req) {
+            $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }).then(function (req) {
                 if (req.data.success) {
                     th.outlines = req.data.result;
                     th.parseItemsXml();

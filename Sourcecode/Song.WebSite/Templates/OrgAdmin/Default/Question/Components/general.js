@@ -179,7 +179,7 @@ Vue.component('general', {
             var th = this;
             this.loading = true;
             var couid = th.question.Cou_ID && th.question.Cou_ID != '' ? th.question.Cou_ID : -1;
-            $api.get('Outline/Tree', { 'couid': couid, 'isuse': true }).then(function (req) {
+            $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
                     th.outlines = req.data.result;

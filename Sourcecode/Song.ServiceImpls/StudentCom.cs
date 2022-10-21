@@ -1077,6 +1077,14 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         /// <param name="entity">业务实体</param>
         public void QuesAdd(Student_Ques entity)
         {
+            Task task = new Task(() =>
+            {
+                _QuesAdd(entity);
+            });
+            task.Start();
+        }
+        private void _QuesAdd(Student_Ques entity)
+        {
             if (entity == null) return;
             Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == entity.Qus_ID).ToFirst<Questions>();
             if (qus == null) return;
@@ -1093,7 +1101,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             {
                 entity.Squs_ID = sc.Squs_ID;
                 entity.Attach();
-            }            
+            }
             Gateway.Default.Save<Student_Ques>(entity);
         }
         /// <summary>
@@ -1276,6 +1284,14 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// <param name="entity">业务实体</param>
         public void CollectAdd(Student_Collect entity)
         {
+            Task task = new Task(() =>
+            {
+                _collectAdd(entity);
+            });
+            task.Start();
+        }
+        private void _collectAdd(Student_Collect entity)
+        {
             if (entity == null) return;
             Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == entity.Qus_ID).ToFirst<Questions>();
             if (qus == null) return;
@@ -1424,6 +1440,13 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         /// </summary>
         /// <param name="entity">业务实体</param>
         public void NotesAdd(Student_Notes entity)
+        {
+            new Task(() =>
+            {
+                _notesAdd(entity);
+            }).Start();
+        }
+        private void _notesAdd(Student_Notes entity)
         {
             if (entity == null) return;
             Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == entity.Qus_ID).ToFirst<Questions>();

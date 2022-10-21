@@ -262,6 +262,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="marker"></param>
         /// <returns></returns>
+        [Cache(AdminDisable = true, Expires = 1440)]
         public JArray OrganMarkerMenus(string marker)
         {
             JArray ja = new JArray();

@@ -83,7 +83,7 @@
             getOutlineTree: function () {
                 var th = this;
                 th.loading = true;
-                $api.get('Outline/Tree', { 'couid': th.couid, 'isuse': '' }).then(function (req) {
+                $api.cache('Outline/Tree', { 'couid': th.couid, 'isuse': true }).then(function (req) {
                     if (req.data.success) {
                         th.outlines = req.data.result;
                     } else {

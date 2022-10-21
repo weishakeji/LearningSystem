@@ -438,7 +438,7 @@ $ready(function () {
             var couid = this.couid;
             var th = this;
             $api.bat(
-                $api.get("Outline/tree", { 'couid': couid, 'isuse': true }),
+                $api.cache("Outline/tree", { 'couid': couid, 'isuse': true }),
                 $api.get("Course/ForID", { id: couid })).then(axios.spread(function (ol, cur) {
                     if (ol.data.success && cur.data.success) {
                         if (ol.data.result.length < 1) throw "没有课程章节";

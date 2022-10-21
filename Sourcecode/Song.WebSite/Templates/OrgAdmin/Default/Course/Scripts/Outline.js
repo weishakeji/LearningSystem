@@ -67,7 +67,7 @@
             getTreeData: function () {
                 var th = this;
                 this.loading = true;
-                $api.get('Outline/Tree', { 'couid': th.id, 'isuse': null }).then(function (req) {
+                $api.cache('Outline/Tree:update', { 'couid': th.id, 'isuse': null }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.datas = req.data.result;
@@ -100,6 +100,7 @@
                             message: '更改排序成功!',
                             center: true
                         });
+                        th.updatedEvent();
                         th.getTreeData();
                     } else {
                         console.error(req.data.exception);
@@ -144,6 +145,7 @@
                             message: '修改状态成功!',
                             center: true
                         });
+                        th.updatedEvent();
                     } else {
                         throw req.data.message;
                     }
@@ -197,6 +199,7 @@
                             message: '删除成功!',
                             center: true
                         });
+                        th.updatedEvent();
                         th.getTreeData();
                     } else {
                         console.error(req.data.exception);
@@ -242,6 +245,7 @@
                                     message: '操作成功!',
                                     center: true
                                 });
+                                th.updatedEvent();
                                 th.getTreeData();
                                 th.modify_show = false;
                             } else {
@@ -283,6 +287,10 @@
                     'width': '80%', 'height': '80%',
                     'min': false, 'full': false, 'showmask': true
                 }).open();
+            },
+            //更新后触发的事件
+            updatedEvent:function(){
+                $api.cache('Outline/Tree:update', { 'couid': this.id, 'isuse': true });
             }
         }
     });

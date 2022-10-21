@@ -730,6 +730,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <returns>课程信息，额外增加属性："lastTime"最后记录时间,"studyTime"累计学习时长,"complete"课程完成度
         /// </returns>
+        [Cache(Expires = 5)]
         public DataTable LogForVideo(int stid, long couid)
         {
             return Business.Do<IStudent>().StudentStudyCourseLog(stid, couid);

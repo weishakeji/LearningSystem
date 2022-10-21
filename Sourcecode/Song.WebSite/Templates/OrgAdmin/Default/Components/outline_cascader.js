@@ -49,7 +49,7 @@ Vue.component('outline_cascader', {
         getOutlines: function () {
             var th = this;
             var form = { couid: th.couid, isuse: true };
-            $api.get('Outline/Tree', form).then(function (req) {
+            $api.cache('Outline/Tree', form).then(function (req) {
                 if (req.data.success) {
                     th.treedatas = req.data.result;
                 } else {

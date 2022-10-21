@@ -291,7 +291,7 @@ $ready(function () {
                 var th = this;
                 this.loading = true;
                 var couid = th.form.couid && th.form.couid != '' ? th.form.couid : -1;
-                $api.get('Outline/Tree', { 'couid': couid, 'isuse': true }).then(function (req) {
+                $api.cache('Outline/Tree', { 'couid': couid, 'isuse': true }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.outlines = req.data.result;
