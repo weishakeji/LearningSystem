@@ -16,6 +16,7 @@ using NPOI.SS.UserModel;
 using System.IO;
 using System.Threading;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace Song.ServiceImpls
 {
@@ -1075,22 +1076,30 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="acc">学员账户</param>
         /// <returns></returns>
-        public int PointAdd4Login(Accounts acc)
+        public void PointAdd4Login(Accounts acc)
         {
-            return PointAdd4Login(acc, null, null, null);
+            PointAdd4Login(acc, null, null, null);
         }
-        public int PointAdd4Login(Accounts acc, string source, string info, string remark)
+        public void PointAdd4Login(Accounts acc, string source, string info, string remark)
+        {
+            Task task = new Task(() =>
+            {
+                _pointAdd4Login(acc, source, info, remark);
+            });
+            task.Start();
+        }
+        private void _pointAdd4Login(Accounts acc, string source, string info, string remark)
         {
             //每次登录增加的积分；
             int loginPoint = Business.Do<ISystemPara>()["LoginPoint"].Int32 ?? 0;
-            if (loginPoint <= 0) return 0;
+            if (loginPoint <= 0) return;
             //每天最多的登录积分；
             int maxPoint = Business.Do<ISystemPara>()["LoginPointMax"].Int32 ?? 0;
-            if (loginPoint > maxPoint) return 0;
+            if (loginPoint > maxPoint) return;
             //当前学员今天的登录积分；            
             int todaySum = PointClac(acc.Ac_ID, 1, DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
             int surplus = maxPoint - todaySum;  //每天最多积分，减去已经得到的积分，获取剩余的加分空间
-            if (surplus <= 0) return 0;
+            if (surplus <= 0) return;
 
             //开始增加积分
             PointAccount pa = new PointAccount();
@@ -1101,61 +1110,67 @@ namespace Song.ServiceImpls
             pa.Pa_Info = info;
             pa.Pa_Remark = remark;
             this.PointAdd(pa);
-            return pa.Pa_Value;
         }
         /// <summary>
         /// 增加分享链接的访问积分
         /// </summary>
         /// <param name="acc"></param>
         /// <returns></returns>
-        public int PointAdd4Share(Accounts acc)
+        public void PointAdd4Share(Accounts acc)
         {
-            //每次访问增加的积分；
-            int loginPoint = Business.Do<ISystemPara>()["SharePoint"].Int32 ?? 0;
-            if (loginPoint <= 0) return 0;
-            //每天最多的登录积分；
-            int maxPoint = Business.Do<ISystemPara>()["SharePointMax"].Int32 ?? 0;
-            if (loginPoint > maxPoint) return 0;
-            //当前学员今天的访问积分；            
-            int todaySum = PointClac(acc.Ac_ID, 2, DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
-            int surplus = maxPoint - todaySum;  //每天最多积分，减去已经得到的积分，获取剩余的加分空间
-            if (surplus <= 0) return 0;
+            Task task = new Task(() =>
+            {
+                //每次访问增加的积分；
+                int loginPoint = Business.Do<ISystemPara>()["SharePoint"].Int32 ?? 0;
+                if (loginPoint <= 0) return;
+                //每天最多的登录积分；
+                int maxPoint = Business.Do<ISystemPara>()["SharePointMax"].Int32 ?? 0;
+                if (loginPoint > maxPoint) return;
+                //当前学员今天的访问积分；            
+                int todaySum = PointClac(acc.Ac_ID, 2, DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
+                int surplus = maxPoint - todaySum;  //每天最多积分，减去已经得到的积分，获取剩余的加分空间
+                if (surplus <= 0) return;
 
-            //开始增加积分
-            PointAccount pa = new PointAccount();
-            pa.Pa_Value = surplus > loginPoint ? loginPoint : surplus;   //当前登录要增加的积分数
-            pa.Ac_ID = acc.Ac_ID;
-            pa.Pa_From = 2;     //分享积分
-            pa.Pa_Info = "分享链接";
-            this.PointAdd(pa);
-            return pa.Pa_Value;
+                //开始增加积分
+                PointAccount pa = new PointAccount();
+                pa.Pa_Value = surplus > loginPoint ? loginPoint : surplus;   //当前登录要增加的积分数
+                pa.Ac_ID = acc.Ac_ID;
+                pa.Pa_From = 2;     //分享积分
+                pa.Pa_Info = "分享链接";
+                this.PointAdd(pa);
+            });
+            task.Start();           
+
         }
         /// <summary>
         /// 增加分享链接的注册积分
         /// </summary>
         /// <param name="acc"></param>
         /// <returns></returns>
-        public int PointAdd4Register(Accounts acc)
+        public void PointAdd4Register(Accounts acc)
         {
-            //每次分享注册增加的积分；
-            int loginPoint = Business.Do<ISystemPara>()["RegPoint"].Int32 ?? 0;
-            if (loginPoint <= 0) return 0;
-            //每天最多的登录积分；
-            int maxPoint = Business.Do<ISystemPara>()["RegPointMax"].Int32 ?? 0;
-            if (loginPoint > maxPoint) return 0;
-            //当前学员今天的分享注册积分；            
-            int todaySum = PointClac(acc.Ac_ID, 3, DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
-            int surplus = maxPoint - todaySum;  //每天最多积分，减去已经得到的积分，获取剩余的加分空间
-            if (surplus <= 0) return 0;
+            Task task = new Task(() =>
+            {
+                //每次分享注册增加的积分；
+                int loginPoint = Business.Do<ISystemPara>()["RegPoint"].Int32 ?? 0;
+                if (loginPoint <= 0) return;
+                //每天最多的登录积分；
+                int maxPoint = Business.Do<ISystemPara>()["RegPointMax"].Int32 ?? 0;
+                if (loginPoint > maxPoint) return;
+                //当前学员今天的分享注册积分；            
+                int todaySum = PointClac(acc.Ac_ID, 3, DateTime.Now.Date, DateTime.Now.AddDays(1).Date);
+                int surplus = maxPoint - todaySum;  //每天最多积分，减去已经得到的积分，获取剩余的加分空间
+                if (surplus <= 0) return;
 
-            //开始增加积分
-            PointAccount pa = new PointAccount();
-            pa.Pa_Value = surplus > loginPoint ? loginPoint : surplus;   //当前登录要增加的积分数
-            pa.Ac_ID = acc.Ac_ID;
-            pa.Pa_From = 3;     //分享注册
-            pa.Pa_Info = "新增下级会员";
-            this.PointAdd(pa);
-            return pa.Pa_Value;
+                //开始增加积分
+                PointAccount pa = new PointAccount();
+                pa.Pa_Value = surplus > loginPoint ? loginPoint : surplus;   //当前登录要增加的积分数
+                pa.Ac_ID = acc.Ac_ID;
+                pa.Pa_From = 3;     //分享注册
+                pa.Pa_Info = "新增下级会员";
+                this.PointAdd(pa);
+            });
+            task.Start();
         }
         /// <summary>
         /// 支出

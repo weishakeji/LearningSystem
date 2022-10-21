@@ -255,8 +255,9 @@ namespace Song.ViewData.Methods
         public int AddForLogin(string source, string info, string remark)
         {
             Song.Entities.Accounts st = this.User;
-            if (st == null) return 0;
-            return Business.Do<IAccounts>().PointAdd4Login(st, source, info, remark);
+            if (st == null) return 1;
+            Business.Do<IAccounts>().PointAdd4Login(st, source, info, remark);
+            return 1;
         }
         #endregion
     }

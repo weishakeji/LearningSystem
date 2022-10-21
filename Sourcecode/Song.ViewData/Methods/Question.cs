@@ -342,6 +342,7 @@ namespace Song.ViewData.Methods
         /// <param name="type">试题类型</param>
         /// <param name="use">启用中的试题，null取所有</param>
         /// <returns></returns>
+        [Cache]
         public int Count(int orgid, long sbjid, long couid, long olid, int type, bool? use)
         {
             return Business.Do<IQuestions>().QuesOfCount(orgid, sbjid, couid, olid, type, use);

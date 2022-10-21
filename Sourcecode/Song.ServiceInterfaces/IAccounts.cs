@@ -306,7 +306,7 @@ namespace Song.ServiceInterfaces
         /// <param name="acc">学员账户</param>
         /// <returns></returns>
         /// <returns>此次登录所增加的积分数</returns>
-        int PointAdd4Login(Accounts acc);
+        void PointAdd4Login(Accounts acc);
         /// <summary>
         /// 增加登录积分
         /// </summary>
@@ -315,19 +315,19 @@ namespace Song.ServiceInterfaces
         /// <param name="info">信息</param>
         /// <param name="remark">备注</param>
         /// <returns>此次登录所增加的积分数</returns>
-        int PointAdd4Login(Accounts acc,string source,string info,string remark);
+        void PointAdd4Login(Accounts acc,string source,string info,string remark);
         /// <summary>
         /// 增加分享链接的访问积分
         /// </summary>
         /// <param name="acc"></param>
         /// <returns></returns>
-        int PointAdd4Share(Accounts acc);
+        void PointAdd4Share(Accounts acc);
         /// <summary>
         /// 增加分享链接的注册积分
         /// </summary>
         /// <param name="acc"></param>
         /// <returns></returns>
-        int PointAdd4Register(Accounts acc);
+        void PointAdd4Register(Accounts acc);
         /// <summary>
         /// 支出
         /// </summary>

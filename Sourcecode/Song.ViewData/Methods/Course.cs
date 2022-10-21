@@ -302,6 +302,7 @@ namespace Song.ViewData.Methods
         /// "view":浏览数,
         /// "live":是否为直播课程
         /// </returns>
+        [Cache]
         public JObject Datainfo(long couid)
         {
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
