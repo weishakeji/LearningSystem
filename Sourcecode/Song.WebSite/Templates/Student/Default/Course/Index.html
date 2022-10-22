@@ -71,7 +71,7 @@
                                     <el-tag type="success" class="free"><icon>&#xa048</icon>不限时</el-tag>
                                 </template>
 
-                                <template v-else-if="item.Cou_IsLimitFree && item.Cou_FreeEnd>scope.data.Stc_EndTime">
+                                <template v-else-if="item.Cou_IsLimitFree && (scope.data && item.Cou_FreeEnd>scope.data.Stc_EndTime)">
                                     <el-tag type="success" class="free">限时免</el-tag>
                                     <el-tag type="success" class="free">
                                         免费至 {{item.Cou_FreeEnd|date('yyyy-MM-dd')}}
