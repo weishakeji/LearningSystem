@@ -19,7 +19,7 @@ $ready(function () {
             finished: false,
             query: {
                 'orgid': -1, 'sbjids': 0, 'search': '',
-                'order': 'rec', 'size': 6, 'index': 0
+                'order': 'rec', 'size': 2, 'index': 0
             },
             total: 0
         },

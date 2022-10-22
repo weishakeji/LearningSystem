@@ -32,9 +32,7 @@ Vue.component('knl_header', {
     },
     computed: {
         defimg: function () {
-            //默认图片
-            var img = document.getElementById("default-img");
-            return img.getAttribute("src");
+            return '/Utilities/Images/cou_nophoto.jpg';           
         }
     },
     mounted: function () {

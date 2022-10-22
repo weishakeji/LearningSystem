@@ -3,30 +3,23 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />   
+    <include file="../inc/meta.inc" />
     <title>知识库</title>
- </head>
+</head>
 
 <body>
-    <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
     <div id="vapp" v-cloak>
         <knl_header ref='knlheader'></knl_header>
 
-        <div class="context">
-            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载"
-                @load="onload">
-                <van-cell is-link v-for="(item,index) in datas" @click="detail(item.Kn_ID)">
-                    <!-- 使用 title 插槽来自定义标题 -->
-                    <template #title>
-                        <icon>&#xe667</icon>
-                        <span class="knTitle">{{index+1}}.{{item.Kn_Title}}</span>
-
-                    </template>
-                </van-cell>
-            </van-list>
-
-        </div>
-
+        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" error-text="请求失败，点击重新加载" @load="onload">
+            <van-cell is-link v-for="(item,index) in datas" @click="detail(item.Kn_ID)">
+                <!-- 使用 title 插槽来自定义标题 -->
+                <template #title>
+                    <icon>&#xe667</icon>
+                    <span class="knTitle">{{index+1}}.{{item.Kn_Title}}</span>
+                </template>
+            </van-cell>
+        </van-list>
 
     </div>
 </body>

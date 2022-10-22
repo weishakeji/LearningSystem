@@ -20,18 +20,19 @@ $ready(function () {
                 'uid': $api.querystring("sortuid"),
                 'isuse': true,
                 'search': $api.querystring("s"),
-                'size': 6, 'index': 0
+                'size': 2, 'index': 0
             },
             total: 0
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo:60'),
                 $api.get('Organization/Current'),
                 $api.cache('Course/ForID', { 'id': $api.querystring("couid", 0) })
             ).then(axios.spread(function (account, platinfo, organ, course) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -42,15 +43,15 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                vapp.course = course.data.result;
-                if (vapp.course)
-                    document.title = vapp.course.Cou_Name + ' - ' + document.title;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
+                th.course = course.data.result;
+                if (th.course)
+                    document.title = th.course.Cou_Name + ' - ' + document.title;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.onload();
+                th.config = $api.organ(th.organ).config;
+                th.onload();
             })).catch(function (err) {
                 console.error(err);
             });
