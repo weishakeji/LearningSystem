@@ -1,5 +1,7 @@
 ﻿
 //专业列表，显示课程
+//事件:
+//complete: //加载完成事件，参数为课程数
 Vue.component('subject_show', {
     //专业，取多少条记录，低于多少条不再显示,排序方式
     props: ["subject", 'count', 'mincount', 'order'],
@@ -45,6 +47,12 @@ Vue.component('subject_show', {
                     if (req.data.success) {
                         th.courses = req.data.result;
                         th.show = th.courses.length >= th.mincount;
+                        if(th.show){
+                            th.$nextTick(function(){
+                                //加载完成事件，参数为课程数
+                                th.$emit('complete',th.courses.length);
+                            });
+                        }
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -66,7 +74,6 @@ Vue.component('subject_show', {
             window.location.href = url;
         }
     },
-    // 同样也可以在 vm 实例中像 "this.message" 这样使用
     template: `<weisha class="subject_show" v-if="show">
         <subject :name="subject.Sbj_Name" v-if="subject!=null" @click="gocourses(subject)">           
             <img :src="subject.Sbj_logo" v-if="subject.Sbj_logo && subject.Sbj_logo!=''"/>

@@ -38,8 +38,13 @@
         <context v-infinite-scroll="load_infinite_datas" :class="issearch ? 'coursebox' : 'subjectbox'"
             :infinite-scroll-disabled="infinite_disabled()">
             <template v-if="!issearch">
-                <subject_show v-for="sbj in sbjcourses" :subject="sbj" :count="6" :mincount="1" order="rec">
-                </subject_show>
+                <subject_show v-for="sbj in sbjcourses" :subject="sbj" :count="6" :mincount="1" order="rec"
+                @complete="()=>sbj_load_count++">
+                </subject_show>              
+                <div v-if="sbj_load_count==0" class="nocourse">
+                    <icon>&#xe849</icon>
+                    没有满足条件的课程
+                </div>
             </template>
             <template v-else>
                 <template v-if="courses && courses.length>0">

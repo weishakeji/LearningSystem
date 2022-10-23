@@ -13,6 +13,7 @@ $ready(function () {
             sbj_children: [],       //子专业，用于顶部专业选择时的使用
             sbjcourses: [],          //用于显示课程的专业 
             sbjid: $api.querystring("sbjid", ""),        //当前专业id
+            sbj_load_count: 0,           //加载完成的专业数
 
             //search_str: $api.querystring("search"),      //搜索字符
 
