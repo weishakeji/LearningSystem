@@ -44,7 +44,7 @@ Vue.component('page_footer', {
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                alert(err);
+                //alert(err);
                 console.error(err);
             });
         },

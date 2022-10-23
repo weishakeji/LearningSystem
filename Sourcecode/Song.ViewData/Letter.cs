@@ -235,7 +235,7 @@ namespace Song.ViewData
             HttpContextWrapper _context = new HttpContextWrapper(context);
             this._files = _context.Request.Files;
 
-            this.ID = this["id"].Int32 ?? 0;
+            this.ID = this["id"].Int64 ?? 0;
             //获取cookies
             for (int i = 0; i < context.Request.Cookies.Count; i++)
             {
