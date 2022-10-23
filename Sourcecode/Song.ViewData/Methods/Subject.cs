@@ -259,6 +259,7 @@ namespace Song.ViewData.Methods
         /// <param name="orgid"></param>
         /// <param name="count"></param>
         /// <returns></returns>
+        [Cache]
         public List<Song.Entities.Subject> ShowRoot(int orgid, int count)
         {
             List<Song.Entities.Subject> sbjs = Business.Do<ISubject>().SubjectCount(orgid, string.Empty, true, 0, count);

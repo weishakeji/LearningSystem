@@ -75,8 +75,8 @@ Vue.component('subject_show', {
         }
     },
     template: `<weisha class="subject_show" v-if="show">
-        <subject :name="subject.Sbj_Name" v-if="subject!=null" @click="gocourses(subject)">           
-            <img :src="subject.Sbj_logo" v-if="subject.Sbj_logo && subject.Sbj_logo!=''"/>
+        <subject :name="subject.Sbj_Name" v-if="subject!=null" @click="gocourses(subject)">     
+            <img :src="subject.Sbj_Logo" v-if="subject.Sbj_Logo && subject.Sbj_Logo!=''"/>
             <img :src="path+'images/nosubject.jpg'" v-else />
         </subject>
         <courses>

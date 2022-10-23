@@ -118,6 +118,7 @@ $ready(function () {
                             message: '更改排序成功!',
                             center: true
                         });
+                        th.fresh_cache();
                         th.getTreeData();
                     } else {
                         console.error(req.data.exception);
@@ -175,6 +176,8 @@ $ready(function () {
                             message: '修改状态成功!',
                             center: true
                         });
+                        th.fresh_cache();
+                        $api.cache('Subject/ForID:clear', { 'id': data.Sbj_ID });
                     } else {
                         throw req.data.message;
                     }
@@ -237,6 +240,7 @@ $ready(function () {
                             message: '删除成功!',
                             center: true
                         });
+                        th.fresh_cache();
                         th.getTreeData();
                     } else {
                         console.error(req.data.exception);
@@ -262,6 +266,15 @@ $ready(function () {
             mouseleave: function () {
                 var img = $dom(".logoSmall");
                 img.hide();
+            },
+            //操作成功的刷新
+            fresh_operateSuccess: function () {
+                this.fresh_cache();
+                this.getTreeData();
+            },
+            //当专业数据更改时，刷新缓存数据
+            fresh_cache: function () {
+                $api.cache('Subject/TreeFront', { 'orgid': this.organ.Org_ID });                
             }
         }
     });
@@ -333,7 +346,7 @@ $ready(function () {
                 var count = sbj.children.length;
                 for (var i = 0; i < sbj.children.length; i++) {
                     count += this.calcChild(sbj.children[i]);
-                }               
+                }
                 return count;
             }
         },

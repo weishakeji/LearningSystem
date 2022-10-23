@@ -97,10 +97,10 @@ $ready(function () {
             //获取当前实体
             getEntity: function () {
                 var th = this;
-                if (th.id == '' || th.id == null){
+                if (th.id == '' || th.id == null) {
                     vapp.traversalUse(th.subjects);
                     return;
-                } 
+                }
                 th.loading = true;
                 $api.get('Subject/ForID', { 'id': th.id }).then(function (req) {
                     th.loading = false;
@@ -142,13 +142,13 @@ $ready(function () {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '修改成功!',
                                     center: true
                                 });
                                 window.setTimeout(function () {
-                                    vapp.operateSuccess();
+                                    th.operateSuccess();
                                 }, 600);
                             } else {
                                 throw req.data.message;
@@ -184,11 +184,12 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
-                window.top.$pagebox.source.tab(window.name, 'vapp.getTreeData', true);
+                $api.cache('Subject/ForID:clear', { 'id': this.id });
+                window.top.$pagebox.source.tab(window.name, 'vapp.fresh_operateSuccess', true);
             },
             //获取当前专业的上级路径
             getParentPath: function (entity, datas, arr) {
-               
+
                 var obj = this.traversalQuery(entity.Sbj_PID, datas);
                 if (obj == null) return arr;
                 arr.splice(0, 0, obj.Sbj_ID);

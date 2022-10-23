@@ -50,7 +50,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.couinfo = info.data.result;
                 //获取专业
-                $api.get('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
+                $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
                     th.loading_init = false;
                     if (req.data.success) {
                         th.subjects = req.data.result;

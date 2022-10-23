@@ -28,7 +28,10 @@ weisha.subject_show subject::before {
     font-size: 20px;
     text-shadow: 1px 1px 5px #fff, -1px -1px 5px #fff;
 }
-
+weisha.subject_show subject img{
+    width: 220px;
+    max-height: 420px;
+}
 /*课程*/
 
 weisha.subject_show courses {
