@@ -32,7 +32,9 @@ namespace Song.ViewData.Methods
             Song.Entities.ShowPicture[] shp = Business.Do<IStyle>().ShowPicAll(true, "mobi", orgid);
             foreach (Song.Entities.ShowPicture s in shp)
             {
-                s.Shp_File = WeiSha.Core.Images.FileTo.ToBase64Html(PhyPath + s.Shp_File);
+                s.Shp_File = System.IO.File.Exists(PhyPath + s.Shp_File) ? VirPath + s.Shp_File : "";              
+
+                //s.Shp_File = WeiSha.Core.Images.FileTo.ToBase64Html(PhyPath + s.Shp_File);
             }
             return shp;
         }
@@ -48,7 +50,9 @@ namespace Song.ViewData.Methods
             Song.Entities.ShowPicture[] shp = Business.Do<IStyle>().ShowPicAll(true, "web", orgid);
             foreach (Song.Entities.ShowPicture s in shp)
             {
-                 s.Shp_File = WeiSha.Core.Images.FileTo.ToBase64Html(PhyPath + s.Shp_File);
+                s.Shp_File = System.IO.File.Exists(PhyPath + s.Shp_File) ? VirPath + s.Shp_File : "";
+
+                //s.Shp_File = WeiSha.Core.Images.FileTo.ToBase64Html(PhyPath + s.Shp_File);
             }
             return shp;
         }

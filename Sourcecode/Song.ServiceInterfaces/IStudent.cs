@@ -168,6 +168,13 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Student_Course SortCourseToStudent(Accounts acc, long couid);
         /// <summary>
+        /// 学员组关联的所有课程
+        /// </summary>
+        /// <param name="stsid">学员组的id</param>
+        /// <param name="name">按名称检索</param>
+        /// <returns></returns>
+        List<Course> SortCourseList(long stsid, string name);
+        /// <summary>
         /// 分页获取学员组关联的课程
         /// </summary>
         /// <param name="stsid"></param>

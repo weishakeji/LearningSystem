@@ -295,7 +295,8 @@ namespace Song.ServiceImpls
                            new object[] { true },
                            Student_Course._.Stc_Type == 5 &&
                            Student_Course._.Sts_ID == ssc.Sts_ID && Student_Course._.Cou_ID == ssc.Cou_ID);
-                        tran.Commit();                      
+                        tran.Commit();
+                        this._update_cache(ssc.Sts_ID);
                     }
                     catch
                     {
@@ -350,6 +351,7 @@ namespace Song.ServiceImpls
                        Student_Course._.Stc_Type == 5 &&
                        Student_Course._.Sts_ID == stsid && Student_Course._.Cou_ID == couid);
                     tran.Commit();
+                    this._update_cache(stsid);
                 }
                 catch
                 {
@@ -375,8 +377,18 @@ namespace Song.ServiceImpls
             if (stsid <= 0) return false;
             StudentSort sort = Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == stsid).ToFirst<StudentSort>();
             if (sort == null || !sort.Sts_IsUse) return false;
-            int count = Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == stsid && StudentSort_Course._.Cou_ID == couid);
-            return count > 0;
+            //
+            object obj = Cache.EntitiesCache.Get<StudentSort_Course>(stsid);
+            if (obj == null) obj = this._update_cache(stsid);
+            if (obj == null) return false;
+
+            if (!(obj is List<Course>)) return false;
+            List<Course> list = (List<Course>)obj;
+            int index = list.FindIndex(e => e.Cou_ID == couid);
+            return index > 0;
+
+            //int count = Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == stsid && StudentSort_Course._.Cou_ID == couid);
+            //return count > 0;
         }
         /// <summary>
         /// 将学员组关联的课程，创建到Student_Course表（学员与课程的关联）
@@ -437,6 +449,20 @@ namespace Song.ServiceImpls
             return sc;
         }
         /// <summary>
+        /// 学员组关联的所有课程
+        /// </summary>
+        /// <param name="stsid">学员组的id</param>
+        /// <param name="name">按名称检索</param>
+        /// <returns></returns>
+        public List<Course> SortCourseList(long stsid, string name)
+        {
+            WhereClip wc = new WhereClip();
+            if (!string.IsNullOrWhiteSpace(name)) wc.And(Course._.Cou_Name.Like("%" + name.Trim() + "%"));
+            return Gateway.Default.From<Course>()
+                .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)
+                .Where(wc).OrderBy(StudentSort_Course._.Ssc_ID.Desc).ToList<Course>();
+        }
+        /// <summary>
         /// 分页获取学员组关联的课程
         /// </summary>
         /// <param name="stsid"></param>
@@ -458,6 +484,16 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Course>()
                 .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)
                 .Where(wc).OrderBy(StudentSort_Course._.Ssc_ID.Desc).ToList<Course>(size, (index - 1) * size);          
+        }
+        /// <summary>
+        /// 更新学员组与课程关联的缓存
+        /// </summary>
+        /// <param name="stsid"></param>
+        private List<Course> _update_cache(long stsid)
+        {
+            List<Course> list = this.SortCourseList(stsid, string.Empty);
+            Cache.EntitiesCache.Save<StudentSort_Course>(list, stsid);
+            return list;
         }
         #endregion
 
