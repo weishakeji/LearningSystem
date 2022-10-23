@@ -93,10 +93,8 @@
                 $api.get("Course/Pager", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
-                        for (var i = 0; i < d.data.result.length; i++) {
-                            d.data.result[i].isAdminPosi = false;
-                        }
                         th.datas = d.data.result;
+                        console.log(th.datas);
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                         //console.log(th.accounts);
@@ -174,6 +172,56 @@
                     });
                     th.loadingid = 0;
                 });
+            },
+            //批量修改状态
+            batchState: function (use) {
+                use = Boolean(use);
+                var th = this;
+                var num = 0;
+                for (let i = 0; i < th.datas.length; i++)
+                    if (th.datas[i].Cou_IsUse != use) num++;
+                if (num == 0) {
+                    this.$alert('当前页面所有课程均为“' + (use ? '启用' : '禁用') + '”状态，无须操作', '提示', {
+                        confirmButtonText: '确定'
+                    });
+                } else {
+                    var msg = '批量更改当前页面的<b>' + num + '</b>个课程为“' + (use ? '启用' : '禁用') + '”, 是否继续?';
+                    this.$confirm(msg, '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        dangerouslyUseHTMLString: true,
+                        type: 'warning'
+                    }).then(() => {
+                        var ids = '';
+                        for (var i = 0; i < th.datas.length; i++) {
+                            if (th.datas[i].Cou_IsUse != use)
+                                ids += th.datas[i].Cou_ID + ',';
+                        }
+                        th.loading = true;
+                        $api.post('Course/ModifyState', { 'id': ids, 'use': use, 'rec': null }).then(function (req) {
+                            th.loading = false;
+                            if (req.data.success) {
+                                var result = req.data.result;
+                                th.$message({
+                                    type: 'success',
+                                    message: '成功修改' + result + '个课程的状态!',
+                                    center: true
+                                });
+                                th.handleCurrentChange();
+                                th.$nextTick(function () {
+                                    loading.close();
+                                });
+                            } else {
+                                throw req.data.message;
+                            }
+                        }).catch(function (err) {
+                            th.loading = false;
+                            th.$alert(err, '错误');
+                        });
+                    }).catch(() => {
+
+                    });
+                }
             },
             //删除
             deleteData: function (datas) {

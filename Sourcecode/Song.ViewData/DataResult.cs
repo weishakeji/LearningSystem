@@ -180,10 +180,13 @@ namespace Song.ViewData
             //属性名（包括泛型名称）
             var nullableType = Nullable.GetUnderlyingType(type);
             string typename = nullableType != null ? nullableType.Name : type.Name;
-            //如果是值类型或字符串
+            //长整型作为字符串处理，否则在客户端的js解析时会丢失精度
+            if (type.Name == "Int64" || type.Name == "UInt64" || type.Name == "Decimal")           
+                return string.Format("\"{0}\"", obj.ToString());           
+            //如果是数值型或逻辑型
             if (type.IsNumeric() || type.Name == "Boolean")
                 return obj.ToString().ToLower();
-            //字符串的处理
+            //字符串作为url编码处理
             if (type.Name == "String")
             {
                 string str = obj.ToString();
@@ -192,11 +195,7 @@ namespace Song.ViewData
                 str = Microsoft.JScript.GlobalObject.escape(str);
                 return string.Format("\"{0}\"", str);
             }
-            //长整型的处理
-            if (type.Name == "Int64")
-            {
-                return string.Format("\"{0}\"", obj.ToString());
-            }
+           
             //日期类型转成js所需的格式
             if (typename == "DateTime")
             {
@@ -215,28 +214,6 @@ namespace Song.ViewData
             //如果是Newtonsoft.Json 的对象
             if (obj is JContainer)
             {
-                //if (obj is JArray)
-                //{
-                //    JArray jarr = obj as JArray;
-                //}
-                //if (obj is JObject)
-                //{
-                //    JObject jo = obj as JObject;
-                //    IEnumerable<JProperty> properties = jo.Properties();
-                //    foreach (JProperty item in properties)
-                //    {
-                //        sb.Append(_josn_object(item, false, ++level));
-                //        //var key = item.Name;//名称
-                //        //var type = item.Value.Type;//类型
-                //        //Debug.WriteLine(key + ":" + type);
-                //    }
-                //}
-                //if (obj is JProperty)
-                //{
-                //    JProperty jp = obj as JProperty;
-                //    jp.Name=Microsoft.JScript.GlobalObject.escape(str);
-                //    jp.Value
-                //}
                 string jstr = obj.ToString();
                 jstr = Microsoft.JScript.GlobalObject.escape(jstr);
                 sb.Append(jstr);
@@ -286,7 +263,6 @@ namespace Song.ViewData
                         }
                     }
                 }
-
                 string str = JsonConvert.SerializeObject(obj);
                 str = str.Replace(":\"True\"", ":true").Replace(":\"False\"", ":false");
                 sb.Append(str);

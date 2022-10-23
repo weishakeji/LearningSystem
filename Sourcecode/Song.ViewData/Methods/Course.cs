@@ -208,22 +208,41 @@ namespace Song.ViewData.Methods
         /// <param name="rec">是否推荐</param>
         /// <returns></returns>
         [HttpPost]
-        [Admin,Teacher]
-        public bool ModifyState(long id, bool use, bool rec)
+        [Admin, Teacher]
+        public int ModifyState(string id, bool? use, bool? rec)
         {
-            try
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(id)) return i;
+            if (use == null && rec == null) return i;
+            string[] arr = id.Split(',');
+            foreach (string s in arr)
             {
-                Business.Do<ICourse>().CourseUpdate(id,
-                    new WeiSha.Data.Field[] {
+                long idval = 0;
+                long.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+                    if (use != null && rec != null)
+                    {
+                        Business.Do<ICourse>().CourseUpdate(idval,
+                       new WeiSha.Data.Field[] {
                         Song.Entities.Course._.Cou_IsUse,
                         Song.Entities.Course._.Cou_IsRec },
-                    new object[] { use, rec });
-                return true;
+                       new object[] { (bool)use, (bool)rec });
+                    }
+                    else
+                    {
+                        if (use != null) Business.Do<ICourse>().CourseUpdate(idval, new WeiSha.Data.Field[] { Song.Entities.Course._.Cou_IsUse }, new object[] { (bool)use });
+                        else Business.Do<ICourse>().CourseUpdate(idval, new WeiSha.Data.Field[] { Song.Entities.Course._.Cou_IsRec }, new object[] { (bool)rec });
+                    }
+                    i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return i;
         }
         /// <summary>
         /// 修改课程的名称

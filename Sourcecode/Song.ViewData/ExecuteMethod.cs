@@ -272,7 +272,7 @@ namespace Song.ViewData
                     tips += methods[i].GetParameters().Length;
                     tips += i < methods.Count - 1 ? "、" : "";
                 }
-                throw new Exception(string.Format("接口 '{0}/{1}' 形参与实参的数量不符，接口形参所需：{3}，实标传参：{2}个。",
+                throw new Exception(string.Format("接口 '{0}/{1}' 形参与实参的数量不符，接口形参所需：{3}，实际传参：{2}个。",
                 p.ClassName, methods.Count > 0 ? methods[0].Name : p.MethodName,
                 p.Params.Count, tips));
             }
