@@ -12,7 +12,7 @@ $ready(function () {
             sbjCurrent: null,          //当前专业
             sbj_children: [],       //子专业，用于顶部专业选择时的使用
             sbjcourses: [],          //用于显示课程的专业 
-            sbjid: $api.querystring("sbjid", "0"),        //当前专业id
+            sbjid: $api.querystring("sbjid", ""),        //当前专业id
 
             //search_str: $api.querystring("search"),      //搜索字符
 
@@ -181,7 +181,7 @@ $ready(function () {
                 if (this.sbjCurrent == null) this.sbj_children = this.subjects;
                 else
                     this.sbj_children = this.sbjCurrent.children;
-                if (Number(sbj) != 0) {
+                if (sbj != '') {
                     var url = $api.url.set(window.location.href, 'sbjid', sbj);
                     history.pushState({}, "", url);
                 } else {

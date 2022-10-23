@@ -56,8 +56,8 @@ namespace Song.ServiceInterfaces
         /// 当前专业下的所有子专业id
         /// </summary>
         /// <param name="sbjid">当前专业id</param>
-        /// <returns></returns>
-        List<long> TreeID(long sbjid);
+        /// <param name="orgid">专业所属机构的ID,如果小于等于零，则取从数据库读取sbjid再取orgid，所以建议正确赋值，可以减少数据库读取次数</param>
+        List<long> TreeID(long sbjid, int orgid);
         /// <summary>
         /// 获取专业名称，如果为多级，则带上父级名称
         /// </summary>

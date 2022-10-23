@@ -3,16 +3,17 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />   
+    <include file="../inc/meta.inc" />
     <title>课程学习</title>
     <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
 </head>
 
-<body canstudy="{$canStudy}" olid="{$olid}">
+<body>
     <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
     <div id="vapp">
         <!--侧滑菜单部分-->
-        <menutree :course="course" :outlines="outlines" :videolog="videolog" :isbuy="isbuy" :menushow="menuShow"></menutree>
+        <outline_tree ref="outline_tree" :course="course" :outlines="outlines" :videolog="videolog" :studied="studied"
+            @change="n=>outline=n"></outline_tree>
         <div id="context-box">
             <div class="loading" v-if="loading_init">
                 <van-loading size="24px" type="spinner">加载中...</van-loading>
@@ -41,7 +42,7 @@
                             <span>附件</span>
                         </div>
                         <div class="card-content" v-if="islogin">
-                            <accessory :outline="outline" :account="account" ></accessory>
+                            <accessory :outline="outline" :account="account" :studied="studied"></accessory>
                         </div>
                         <div class="card-content" v-else>
                             （没有内容）

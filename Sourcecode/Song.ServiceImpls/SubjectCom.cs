@@ -188,14 +188,18 @@ namespace Song.ServiceImpls
         /// 当前专业下的所有子专业id
         /// </summary>
         /// <param name="sbjid">当前专业id</param>
-        /// <returns></returns>
-        public List<long> TreeID(long sbjid)
+        /// <param name="orgid">专业所属机构的ID,如果小于等于零，则取从数据库读取sbjid再取orgid，所以建议正确赋值，可以减少数据库读取次数</param>
+        public List<long> TreeID(long sbjid, int orgid)
         {
             List<long> list = new List<long>();
-            Subject sbj = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == sbjid).ToFirst<Subject>();
-            if (sbj == null) return list;  
+            if (orgid <= 0)
+            {
+                Subject sbj = Gateway.Default.From<Subject>().Where(Subject._.Sbj_ID == sbjid).ToFirst<Subject>();
+                if (sbj == null) return list;
+                orgid = sbj.Org_ID;
+            }
             //取同一个机构下的所有章节
-            Subject[] sbjs = Gateway.Default.From<Subject>().Where(Subject._.Org_ID == sbj.Org_ID).ToArray<Subject>();
+            Subject[] sbjs = Gateway.Default.From<Subject>().Where(Subject._.Org_ID == orgid).ToArray<Subject>();
             list = _treeid(sbjid, sbjs);
             return list;
         }
@@ -207,7 +211,7 @@ namespace Song.ServiceImpls
             {
                 if (o.Sbj_PID != id) continue;
                 List<long> tm = _treeid(o.Sbj_ID, sbjs);
-                foreach (int t in tm)
+                foreach (long t in tm)
                     list.Add(t);
             }
             return list;

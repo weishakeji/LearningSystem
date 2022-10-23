@@ -209,37 +209,6 @@ namespace Song.ViewData.Methods
             return jarr;
         }
         /// <summary>
-        /// 章节附件
-        /// </summary>
-        /// <param name="uid">章节的uid</param>
-        /// <param name="acid">学员账号</param>
-        /// <returns></returns>
-        [Cache(Expires = 20, AdminDisable = true)]
-        public Song.Entities.Accessory[] Accessory(string uid,int acid)
-        {
-            if (acid <= 0 || string.IsNullOrWhiteSpace(uid)) return null;
-            Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(uid);
-            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
-            //是否免费，或是限时免费
-            if (course.Cou_IsLimitFree)
-            {
-                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
-                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
-                    course.Cou_IsLimitFree = false;
-            }
-            //是否购买 （必须是免费或购买后才能查看附件，仅试学时，不可以查看附件）
-            bool isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, acid);
-            //if (!isBuy) throw new Exception("未购买课程，无法提供附件信息");
-            //获取附件
-            List<Song.Entities.Accessory> access = Business.Do<IAccessory>().GetAll(uid, "Course");
-            if (isBuy)
-            {
-                foreach (Entities.Accessory ac in access)
-                    ac.As_FileName = Upload.Get["Course"].Virtual + ac.As_FileName;
-            }
-            return access.ToArray<Song.Entities.Accessory>();
-        }
-        /// <summary>
         /// 视频事件
         /// </summary>
         /// <param name="olid"></param>

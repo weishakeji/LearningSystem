@@ -1,7 +1,7 @@
 $ready(function () {
 
-    //
     window.vdata = new Vue({
+        el: '#vapp',
         data: {
             couid: $api.querystring("couid") == "" ? $api.dot() : $api.querystring("couid"),
             account: {},		//当前登录学员
@@ -9,7 +9,7 @@ $ready(function () {
             outline: {},		//当前章节
             videolog: [],        //课程章节的视频学习记录
             outlines: [], 	//当前课程所有章节
-            isbuy: false,		//当前学员是否购买该课程
+            studied: false,		//当前学员是否购买该课程
             messages: [], //咨询留言
             menuShow: false,		//章节菜单是否显示
             isMessage: true,         //是否启用留言咨询
@@ -18,6 +18,14 @@ $ready(function () {
             loading_init: true
         },
         watch: {
+            //章节
+            'outline': {
+                deep: true, immediate: false,
+                handler: function (n, o) {
+                    if (JSON.stringify(n) != '{}' && n != null)
+                        this.getLogForOutlineVideo();
+                }
+            }
         },
         computed: {
             //是否登录
@@ -32,7 +40,7 @@ $ready(function () {
                 $api.cache("Course/ForID", { id: couid }),
                 $api.cache("Outline/TreeList", { couid: couid }),
                 $api.get('Course/Studied', { 'couid': couid })
-            ).then(axios.spread(function (cur, ol, isbuy) {
+            ).then(axios.spread(function (cur, ol, studied) {
                 th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -45,33 +53,38 @@ $ready(function () {
                     }
                 }
                 th.course = cur.data.result;
-                document.title = vdata.course.Cou_Name;
+                document.title = th.course.Cou_Name;
                 th.outlines = ol.data.result;
-                th.isbuy = isbuy.data.result;
+                //console.log(th.outlines);
+                th.studied = studied.data.result;
                 //获取学习记录
                 if (th.islogin) th.getLogForOutlineVideo();
             })).catch(function (err) {
                 alert(err);
             });
-            
+
             //当前登录学员
             $api.login.account().then(function (acc) {
                 th.account = acc;
                 $api.login.account_fresh(() => {
-                    alert('登录失效，同一账号不可以同时登录多个设备');                   
+                    alert('登录失效，同一账号不可以同时登录多个设备');
                 });
             }).catch(() => {
                 th.account = {};
             });
         },
         methods: {
+            outline_change: function (node) {
+                console.log(node);
+                this.outline = node;
+            },
             //记录或获取播放进度，包括播放时间与进度
             playinfo: function (olid, couid, time, percent) {
                 var play = $api.storage('weisha_playinfo');
                 if (play == null) play = [];
                 var obj = {};
                 var isexist = false;
-                if (olid != null) {
+                if (olid != '') {
                     for (var i = 0; i < play.length; i++) {
                         if (play[i].olid == olid) {
                             obj = play[i];
@@ -106,148 +119,8 @@ $ready(function () {
             }
         }
     });
-    vdata.$mount('#vapp');
-    //窗体失去焦点的事件
-    window.onblur = function () {
-        /*
-        if (vdata.playready()) {
-            if (!vdata.state.isLive)
-                vdata.player.pause();
-        }*/
-    }
-    window.onfocus = function () {
-        /*
-        if (vdata.playready()) {
-            !vdata.state.isLive ? vdata.player.play() : vdata.player.pause();
-        }*/
-    }
 
-    /*
-    //当点击视频播放区域时，显示控制条
-    mui('body').on('tap', '.videobox', function () {
-        //alert("点击视频");
-        vdata.msgBlur();
-        var nodes = document.getElementsByClassName("qplayer-controls");
-        if (nodes.length < 1) return;
-        nodes[0].style.bottom = "40px";
-        window.setTimeout(function () {
-            var nodes = document.getElementsByClassName("qplayer-controls");
-            if (nodes.length < 1) return;
-            nodes[0].style.bottom = "0px";
-        }, 5000);
-    });
-    */
-    // 章节列表组件
-    Vue.component('menutree', {
-        //章节列表，课程对象，菜单是否显示
-        //videolog:章节的学习记录
-        props: ['outlines', 'course', 'isbuy', 'menushow', 'videolog'],
-        data: function () {
-            return {
-                current: {}, //当前章节对象		
-                olid: 0,		//当前章节id
-                loading: true, //预载中
-                defimg: ''   //课程默认图片
-            }
-        },
-        watch: {
-            //当章节id变化时
-            olid: {
-                handler(nv, ov) {
-                    if (nv == 0 || nv == ov) return;
-                    var url = $api.setpara('olid', nv);
-                    history.pushState({}, null, url);
-                    vdata.menuShow = false;
-                },
-                immediate: true
-            }
-        },
-        created: function () {
-            //默认图片
-            var img = document.getElementById("default-img");
-            this.defimg = img.getAttribute("src");
-            //当前章节
-            this.olid = Number($api.querystring("olid", 0));
-            var current = this.current;
-            if (this.outlines && this.outlines.length > 0) {
-                if (this.olid == '' || this.olid == 0) {
-                    for (var i = 0; i < this.outlines.length; i++) {
-                        if (this.outlines[i].Ol_IsVideo) {
-                            current = this.outlines[i];
-                            this.olid = current.Ol_ID;
-                            break;
-                        }
-                    }
-                } else {
-                    for (var i = 0; i < this.outlines.length; i++) {
-                        if (this.outlines[i].Ol_ID == this.olid) {
-                            current = this.outlines[i];
-                            break;
-                        }
-                    }
-                }
-            }
-            vdata.outline = current;
-            this.current = current;
-        },
-        methods: {
-            //计算缩进
-            padding: function (level) {
-                return 'padding-left:' + (level * 20 + 15) + 'px';
-            },
-            //章节点击事件
-            click: function (node) {
-                //是否允许学习
-                var allow = false;
-                if (this.course.Cou_IsTry && node.Ol_IsFree) allow = true;
-                if (this.isbuy || this.course.Cou_IsFree || this.course.Cou_IsLimitFree) allow = true;
-                if (allow) {
-                    if (node.Ol_ID == this.olid) return;
-                    this.olid = node.Ol_ID;
-                    this.current = node;
-                    vdata.outline = node;
-                    vdata.getLogForOutlineVideo();
-                } else {
-                    var url = $api.url.set('/mobi/course/buy', {
-                        'couid': this.course.Cou_ID,
-                        'olid': this.olid,
-                        'link': encodeURIComponent(window.location.href)
-                    });
-                    window.location.href = url;
-                }
-            }
-        },
-        template: `<van-popup id='menu' position="left"  v-model="vdata.menuShow">
-		<div class='cour-info'>
-		<img :src='course.Cou_Logo' v-if='course.Cou_Logo.length>0'/>
-		<img :src='defimg' class='no' v-else/>
-		<div class='cour-info-right'>
-			<cour-name>{{course.Cou_Name}}</cour-name>
-			<sbj-name>{{course.Sbj_Name}}</sbj-name>
-			</div>
-		</div>
-		<van-cell-group v-if='outlines && outlines.length>0'>
-        <van-cell :current='o.Ol_ID==olid' v-for='o in outlines' :isvideo='o.Ol_IsVideo' :islive='o.Ol_IsLive'
-          :olid='o.Ol_ID' :style='padding(o.Ol_Level)' v-on:click='click(o)'>
-          <template #title>
-          <span>{{o.Ol_XPath}}{{o.Ol_Name}}</span>          
-                <template v-if="course.Cou_IsTry && o.Ol_IsFree">
-                    <van-tag type="success" v-if="o.Ol_IsVideo">免费</van-tag>
-                </template>
-                <template v-else>
-                    <span v-if="isbuy || course.Cou_IsFree || course.Cou_IsLimitFree">
-                          <progress_video :videolog="videolog" :outline="o" text="学习" v-if="o.Ol_IsVideo">
-                        </progress_video>
-                    </span>
-                    <template v-else>
-                        <van-tag type="warning">购买</van-tag>
-                    </template>
-                </template>            
-        </van-cell>
-      </van-cell-group>
-      <div class='mui-table-view-cell' v-else style='color: azure;'> 当前课程没有章节 </div>
-	</van-popup>`
-    });
+
     //底部按钮组件
     Vue.component('coursestudyfooter', {
         props: ['course'],
@@ -261,15 +134,12 @@ $ready(function () {
                     { label: '附件', id: 'accessory', icon: 'e853', show: true },
                     { label: '返回课程', id: 'goback', icon: 'f007c', show: true }
                 ],
-                loading: true, //预载中
-                defimg: ''   //课程默认图片
+                loading: true //预载中             
             }
         },
         computed: {},
         created: function () {
-            //默认图片
-            var img = document.getElementById("default-img");
-            this.defimg = img.getAttribute("src");
+
         },
         methods: {
             //事件
@@ -277,7 +147,8 @@ $ready(function () {
                 switch (item.id) {
                     //显示章节树形菜单
                     case 'outline':
-                        vdata.menuShow = true;
+                        var tree = this.$parent.$refs['outline_tree'];
+                        tree.show();
                         break;
                     case 'goback':
                         document.location.href = 'detail?id=' + this.course.Cou_ID;
@@ -298,77 +169,7 @@ $ready(function () {
             </div>
             </footer>`
     });
-    //附件列表
-    Vue.component('accessory', {
-        props: ['outline', 'account'],
-        data: function () {
-            return {
-                files: [],		//附件文件列表		
-                loading: true //预载中
-            }
-        },
-        watch: {
-            'outline': {
-                deep: true,
-                immediate: true,
-                handler: function (newV, oldV) {
-                    if (JSON.stringify(newV) == '{}' || newV == null) return;
-                    var th = this;
-                    $api.cache('Outline/Accessory', { 'uid': newV.Ol_UID, 'acid': th.account.Ac_ID }).then(function (req) {
-                        if (req.data.success) {
-                            th.files = req.data.result;
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.data.message;
-                        }
-                    }).catch(function (err) {
-                        alert(err);
-                        console.error(err);
-                    });
-                }
-            }
-        },
-        created: function () { },
-        methods: {
-            //是不是pdf格式
-            ispdf: function (href) {
-                var exist = "";
-                if (href.indexOf("?") > -1) href = href.substring(0, href.indexOf("?"));
-                if (href.indexOf(".") > -1) exist = href.substring(href.lastIndexOf(".") + 1).toLowerCase();
-                return exist == "pdf";
-            },
-            //附件击事件
-            openpdf: function (href) {
-                var tit = $.trim($(this).text());
-                var pdfview = $().PdfViewer(href);
-                var box = new PageBox(tit, pdfview, 100, 100);
-                if ($(".video-box").height() > 10) $(".video-box").hide();
-                $('video').trigger('pause');
-                box.CloseEvent = function () {
-                    if ($(".video-box").height() > 10) {
-                        $(".video-box").show();
-                    }
-                }
-                box.Open();
-                return false;
-            }
-        },
-        template: `<template>
-	<div class='mui-scroll'  v-if='account.Ac_ID'>
-		<dl id='access' v-if='files.length>0'>
-			<dd v-for='(f,i) in files'>
-				<a target='_blank' :href='f.As_FileName' v-if='ispdf(f.As_FileName)' 
-				:download='f.As_Name' @click.prevent ='openpdf(f.As_FileName)'>
-				{{i+1}}、{{f.As_Name}}</a>
-				<a target='_blank' :href='f.As_FileName' v-else
-				:download='f.As_Name'>{{i+1}}、{{f.As_Name}}</a>
-			</dd>
-		</dl>
-		<div class='noaccess' v-else>（没有附件）</div>
-	</div>
-	<div class='noaccess' v-else>（未登录或未购买）</div>
-	</template>`
-    });
+
     //留言咨询
     Vue.component('message', {
         props: ['outline', 'account'],
@@ -707,7 +508,7 @@ $ready(function () {
                         }, 2000);
                     }).catch(function (err) {
                         th.studylogState = -1;
-                        alert('登录失效，同一账号不可以同时登录多个设备');  
+                        alert('登录失效，同一账号不可以同时登录多个设备');
                         window.setTimeout(function () {
                             th.studylogState = 0;
                         }, 2000);
@@ -752,20 +553,8 @@ $ready(function () {
 
 
 }, ['/Utilities/Qiniuyun/qiniu-web-player-1.2.3.js',
+    'Components/outline_tree.js',
     'Components/progress_video.js',
+    'Components/accessory.js',
     'Components/study_video.js']);
 
-//学习资料内容中的超链接打开
-function details_a_click() {
-    var href = $(this).attr("href");
-    var tit = $.trim($(this).text());
-    var box = new PageBox(tit, href, 100, 100);
-    if ($(".video-box").height() > 10) $(".video-box").hide();
-    $('video').trigger('pause');
-    box.CloseEvent = function () {
-        if ($(".video-box").height() > 10) {
-            $(".video-box").show();
-        }
-    }
-    box.Open();
-}

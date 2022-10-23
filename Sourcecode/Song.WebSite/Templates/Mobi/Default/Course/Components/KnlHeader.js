@@ -1,5 +1,5 @@
 //搜索框
-$dom.load.css([$dom.pagepath() + 'Styles/KnlHeader.css']);
+$dom.load.css([$dom.pagepath() + 'Components/Styles/KnlHeader.css']);
 Vue.component('knl_header', {
     props: [],
     data: function () {

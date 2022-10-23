@@ -138,7 +138,7 @@ Vue.component('study_outline', {
             outlines = outlines ? outlines : this.outlines;
             var ol = null;
             for (var i = 0; i < outlines.length; i++) {
-                if (outlines[i].Ol_ID == Number(id)) {
+                if (outlines[i].Ol_ID == id) {
                     ol = outlines[i];
                     break;
                 }

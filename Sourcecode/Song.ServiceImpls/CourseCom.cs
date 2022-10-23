@@ -661,7 +661,7 @@ namespace Song.ServiceImpls
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
                 foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
@@ -696,7 +696,7 @@ namespace Song.ServiceImpls
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
                 foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
@@ -727,7 +727,7 @@ namespace Song.ServiceImpls
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
                 foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
@@ -761,7 +761,7 @@ namespace Song.ServiceImpls
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
                 foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
@@ -790,7 +790,7 @@ namespace Song.ServiceImpls
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
                 foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
@@ -821,7 +821,7 @@ namespace Song.ServiceImpls
             if (sbjid > 0)
             {
                 WhereClip wcSbjid = new WhereClip();
-                List<long> list = Business.Do<ISubject>().TreeID(sbjid);
+                List<long> list = Business.Do<ISubject>().TreeID(sbjid, orgid);
                 foreach (long l in list)
                     wcSbjid.Or(Course._.Sbj_ID == l);
                 wc.And(wcSbjid);
@@ -884,7 +884,7 @@ namespace Song.ServiceImpls
                     if (sbj <= 0) continue;
                     wcSbjid.Or(Course._.Sbj_ID == sbj);
                     //当前专业的下级专业也包括
-                    List<long> list = Business.Do<ISubject>().TreeID(sbj);
+                    List<long> list = Business.Do<ISubject>().TreeID(sbj, orgid);
                     foreach (long l in list)
                         wcSbjid.Or(Course._.Sbj_ID == l);
                 }
@@ -1073,7 +1073,7 @@ namespace Song.ServiceImpls
             string sbjWhere = string.Empty;
             if (sbjid > 0)
             {
-                List<long> sbjids = Business.Do<ISubject>().TreeID(sbjid);
+                List<long> sbjids = Business.Do<ISubject>().TreeID(sbjid, orgid);
                 
                 for (int i = 0; i < sbjids.Count; i++)
                 {

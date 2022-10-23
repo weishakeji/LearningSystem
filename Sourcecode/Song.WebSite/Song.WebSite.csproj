@@ -412,8 +412,12 @@
     <Content Include="Pay\Alipayweb\return_url.aspx" />
     <Content Include="Templates\Manage\Default\Images\favicon.gif" />
     <Content Include="Templates\Mobi\Default\Account\Components\exam_test.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\outline_tree.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\course_menus.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\Accessory.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\study_video.js" />
+    <Content Include="Templates\Mobi\Default\Course\Components\Styles\outline_tree.css" />
+    <Content Include="Templates\Mobi\Default\Course\Components\Styles\Accessory.css" />
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_video.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\AnswerCard.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\Quesbuttons.css" />
@@ -1014,7 +1018,7 @@
     <Content Include="Templates\Mobi\Default\Course\Scripts\Knowledge.js" />
     <Content Include="Templates\Mobi\Default\Course\Scripts\Knowledges.js" />
     <Content Include="Templates\Mobi\Default\Course\Styles\Buy.css" />
-    <Content Include="Templates\Mobi\Default\Course\Styles\KnlHeader.css" />
+    <Content Include="Templates\Mobi\Default\Course\Components\Styles\KnlHeader.css" />
     <Content Include="Templates\Mobi\Default\Course\Styles\Knowledge.css" />
     <Content Include="Templates\Mobi\Default\Course\Styles\Knowledges.css" />
     <Content Include="Templates\Mobi\Default\About.html" />
@@ -1165,11 +1169,8 @@
     <Content Include="Templates\Web\Default\Course\Images\LiveBg.jpg" />
     <Content Include="Templates\Web\Default\Course\Images\studyBg.jpg" />
     <Content Include="Templates\Web\Default\Course\Scripts\Buy.js" />
-    <Content Include="Templates\Web\Default\Course\Scripts\Study2.js" />
-    <Content Include="Templates\Web\Default\Course\Study2.html" />
     <Content Include="Templates\Web\Default\Course\Styles\guides.css" />
     <Content Include="Templates\Web\Default\Course\Styles\Buy.css" />
-    <Content Include="Templates\Web\Default\Course\Styles\Study2.css" />
     <Content Include="Templates\Web\Default\Exam\Doing.html" />
     <Content Include="Templates\Web\Default\Exam\Images\exam-banner.jpg" />
     <Content Include="Templates\Web\Default\Exam\Index.html" />

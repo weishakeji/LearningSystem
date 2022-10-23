@@ -1,0 +1,99 @@
+﻿
+/*侧滑菜单的章节列表*/
+
+#menu {
+	height: 100%;
+	width: 70%;
+	background-color: #333;
+}
+
+#menu .van-cell-group {
+	background-color: transparent !important;
+}
+
+#menu .cour-info {
+	margin: 10px;
+	display: flex;
+	width: calc(100% - 20px);
+}
+
+#menu .cour-info img {
+	height: 45px;
+	margin-right: 5%;
+	float: left;
+	box-shadow: 0 1px 2px #fff !important;
+}
+
+#menu ul {
+	margin: 0px;
+}
+
+#menu .van-cell {
+	background-color: transparent !important;
+	color: #999;
+	font-size: 14px;
+	position: relative;
+	padding: 8px 40px 8px 0px;
+}
+
+#menu .van-cell::after {
+	border-bottom: 1px solid #111;
+}
+
+#menu .van-cell>span:before {
+	content: "\e681";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 15px;
+	font-weight: normal;
+}
+
+#menu .van-cell[current] {
+	color: rgb(255, 192, 97) !important;
+	background-color: rgba(255, 255, 255, .3) !important;
+}
+
+#menu .van-tag {
+	position: absolute;
+	top: 12px;
+	right: 5px;
+}
+
+/*视频章节的图标*/
+
+#menu li[isvideo=true] a:before {
+	content: "\e66c";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 16px;
+	font-weight: normal;
+}
+
+/*直播章节的图标*/
+
+#menu li[islive=true] a:before {
+	content: "";
+	background-image: url(../Images/live-icon.gif);
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+}
+
+/*当前章节*/
+
+#menu .current {
+	color: #FF9;
+}
+
+#menu .current a:before {
+	content: "\e618";
+	font-family: iconfont;
+	margin-right: 5px;
+	font-size: 14px;
+	font-weight: normal;
+}
+
+#menu .noselect {
+	color: #666 !important;
+}

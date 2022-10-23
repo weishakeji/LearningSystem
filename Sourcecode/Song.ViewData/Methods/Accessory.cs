@@ -24,6 +24,7 @@ namespace Song.ViewData.Methods
         /// <param name="uid">这一类附件的uid</param>
         /// <param name="type"></param>
         /// <returns></returns>
+        [Cache(Expires = 20, AdminDisable = true)]
         public List<Song.Entities.Accessory> List(string uid, string type)
         {
             List<Song.Entities.Accessory> acs = Business.Do<IAccessory>().GetAll(uid,type);

@@ -455,7 +455,7 @@ namespace Song.ServiceImpls
             {
                 if (o.Ol_PID != id) continue;
                 List<long> tm = _treeid(o.Ol_ID, ols);
-                foreach (int t in tm)
+                foreach (long t in tm)
                     list.Add(t);
             }
             return list;
