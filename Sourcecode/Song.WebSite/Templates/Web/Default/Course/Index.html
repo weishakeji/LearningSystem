@@ -41,7 +41,7 @@
                 <subject_show v-for="sbj in sbjcourses" :subject="sbj" :count="6" :mincount="1" order="rec"
                 @complete="()=>sbj_load_count++">
                 </subject_show>              
-                <div v-if="sbj_load_count==0" class="nocourse">
+                <div v-if="!loading_init && sbj_load_count==0" class="nocourse">
                     <icon>&#xe849</icon>
                     没有满足条件的课程
                 </div>
