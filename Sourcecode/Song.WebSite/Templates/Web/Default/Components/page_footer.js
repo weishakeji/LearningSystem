@@ -1,5 +1,6 @@
 ﻿
 //顶部导航
+$dom.load.css([$dom.path() + 'Components/Styles/page_footer.css']);
 Vue.component('page_footer', {
     props: ["organ"],
     data: function () {
@@ -27,9 +28,8 @@ Vue.component('page_footer', {
     },
     computed: {
     },
-    mounted: function () {
-        //console.log($dom.path());
-        $dom.load.css([$dom.path() + 'Components/Styles/page_footer.css']);
+    mounted: function () {        
+       
     },
     methods: {
         //获取导航菜单
@@ -76,6 +76,7 @@ Vue.component('page_footer', {
             <img src="/Utilities/Images/ghs.png" />{{organ.Org_GonganBeian}}</a>        
         </div>   
         <div v-html="organ.Org_Extracode"></div>     
+        <iframe>{{organ.Org_Extracode}}</iframe>     
         </div>       
     </weisha_page_footer>`
 });

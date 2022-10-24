@@ -214,7 +214,6 @@
     <Compile Include="Methods\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Question\Import.cs" />
-    <Compile Include="ResultCache.cs" />
     <Compile Include="VExcept.cs" />
     <Compile Include="ViewMethod.cs" />
   </ItemGroup>

@@ -113,7 +113,7 @@ namespace Song.ServiceImpls
                 }
             }
             this.OrganBuildQrCode(entity);
-            this.OrganBuildCache();  //重新构建缓存           
+            this.OrganBuildCache();  //重新构建缓存    
         }
         public void OrganSetDefault(int identify)
         {
@@ -452,8 +452,11 @@ namespace Song.ServiceImpls
                         .OrderBy(Organization._.Org_RegTime.Desc).ToArray<Organization>();
                     WeiSha.Core.Cache<Song.Entities.Organization>.Data.Fill(org);
                 }
+                //刷新模板相关配置
+                WeiSha.Core.Business.Do<ITemplate>().SetPlateOrganInfo();
                 return WeiSha.Core.Cache<Organization>.Data.List;
             }
+
         }
         public Organization[] OrganPager(bool? isUse, int level, string searTxt, int size, int index, out int countSum)
         {
