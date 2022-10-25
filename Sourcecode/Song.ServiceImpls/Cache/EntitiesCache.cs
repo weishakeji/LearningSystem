@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Caching;
 
 namespace Song.ServiceImpls.Cache
 {
@@ -70,9 +71,9 @@ namespace Song.ServiceImpls.Cache
         /// <typeparam name="T"></typeparam>
         /// <param name="param"></param>
         /// <returns></returns>
-        public static object Get<T>(params object[] param) where T : WeiSha.Data.Entity
+        public static object GetObject<T>(params object[] param) where T : WeiSha.Data.Entity
         {
-            System.Web.Caching.Cache cache = System.Web.HttpRuntime.Cache;
+            System.Web.Caching.Cache cache = System.Web.HttpRuntime.Cache;          
             if (cache == null) return null;
 
             string tablename = typeof(T).Name;      
@@ -81,6 +82,31 @@ namespace Song.ServiceImpls.Cache
             object cachevalue = cache.Get(cachekey);
             if (cachevalue != null) return cachevalue;
             return null;
+        }
+        /// <summary>
+        /// 获取缓存的值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static T GetEntity<T>(params object[] param) where T : WeiSha.Data.Entity
+        {
+            object obj = GetObject<T>(param);
+            if (obj == null) return default(T);
+            return (T)obj;
+        }
+        /// <summary>
+        /// 获取缓存的值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static List<T> GetList<T>(params object[] param) where T : WeiSha.Data.Entity
+        {
+            object obj = GetObject<T>(param);
+            if (obj == null) return default;
+            if (obj is List<T>) return (List<T>)obj;
+            return default;
         }
     }
 }

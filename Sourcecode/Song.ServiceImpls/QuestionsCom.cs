@@ -1360,8 +1360,7 @@ namespace Song.ServiceImpls
                 Outline ol = Business.Do<IOutline>().OutlineSingle(ques.Ol_ID);
                 Outline olnew = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == ques.Ol_ID).ToFirst<Outline>();
                 olnew.Ol_QuesCount = count;
-                Gateway.Default.Save<Outline>(olnew);
-                WeiSha.Core.Cache<Song.Entities.Outline>.Data.Update(ol, olnew);
+                Gateway.Default.Save<Outline>(olnew);               
             }
             if (Add != null) Add(sender, e);
         }
@@ -1384,8 +1383,7 @@ namespace Song.ServiceImpls
                     Outline ol = Business.Do<IOutline>().OutlineSingle(ques.Ol_ID);
                     Outline olnew = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == ques.Ol_ID).ToFirst<Outline>();
                     olnew.Ol_QuesCount = count;
-                    Gateway.Default.Save<Outline>(olnew);
-                    WeiSha.Core.Cache<Song.Entities.Outline>.Data.Update(ol, olnew);
+                    Gateway.Default.Save<Outline>(olnew);                    
                 }
             }           
         }

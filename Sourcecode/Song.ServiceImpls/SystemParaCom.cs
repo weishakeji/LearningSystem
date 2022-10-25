@@ -105,21 +105,10 @@ namespace Song.ServiceImpls
         /// </summary>
         public List<SystemPara> Refresh()
         {
-            try
-            {
-                WeiSha.Core.Cache<Song.Entities.SystemPara>.Data.Clear();
-            }
-            catch
-            {
-            }
-            finally
-            {
-                SystemPara[] syspara = Gateway.Default.From<SystemPara>().OrderBy(SystemPara._.Sys_Key.Asc).ToArray<SystemPara>();
-                foreach (Song.Entities.SystemPara p in syspara)
-                    WeiSha.Core.Cache<Song.Entities.SystemPara>.Data.Add(p);
-                List<SystemPara> list = WeiSha.Core.Cache<SystemPara>.Data.List;                
-            }
-            return WeiSha.Core.Cache<SystemPara>.Data.List;
+            Cache.EntitiesCache.Clear<SystemPara>();
+            List<SystemPara> syspara = Gateway.Default.From<SystemPara>().OrderBy(SystemPara._.Sys_Key.Asc).ToList<SystemPara>();
+            Cache.EntitiesCache.Save<SystemPara>(syspara);
+            return syspara;
         }
         /// <summary>
         /// 删除
@@ -196,9 +185,8 @@ namespace Song.ServiceImpls
         {
             SystemPara curr = null;
             //从缓存中读取
-            List<SystemPara> list = WeiSha.Core.Cache<SystemPara>.Data.List;
-            if (list == null) list = this.Refresh();
-            if (list == null) return null;
+            List<SystemPara> list = Cache.EntitiesCache.GetList<SystemPara>();
+            if (list == null) list = this.Refresh();         
             List<SystemPara> tm = (from l in list
                                    where l.Sys_Key == key
                                    select l).ToList<SystemPara>();
@@ -476,7 +464,7 @@ namespace Song.ServiceImpls
         public IEnumerator GetEnumerator()
         {
             //从缓存中读取
-            List<SystemPara> list = WeiSha.Core.Cache<SystemPara>.Data.List;
+            List<SystemPara> list = Cache.EntitiesCache.GetList<SystemPara>();
             if (list == null) list = this.Refresh();
             for (int i = 0; i < list.Count; i++)
             {

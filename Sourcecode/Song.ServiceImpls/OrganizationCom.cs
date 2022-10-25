@@ -153,7 +153,7 @@ namespace Song.ServiceImpls
             //当前机构
             Organization curr = null;
             //从缓存中读取
-            List<Organization> list = WeiSha.Core.Cache<Organization>.Data.List;
+            List<Organization> list = Cache.EntitiesCache.GetList<Organization>();
             if (list == null || list.Count < 1) list = this.OrganBuildCache();
             List<Organization> tm = (from l in list
                                      where l.Org_IsUse == true && l.Org_IsPass == true && l.Org_IsShow == true && l.Org_IsDefault == true
@@ -179,7 +179,7 @@ namespace Song.ServiceImpls
             //当前机构
             Organization curr = null;
             //从缓存中读取
-            List<Organization> list = WeiSha.Core.Cache<Organization>.Data.List;
+            List<Organization> list = Cache.EntitiesCache.GetList<Organization>();
             if (list == null || list.Count < 1) list = this.OrganBuildCache();
             List<Organization> tm = (from l in list
                                      where l.Org_IsRoot == true
@@ -205,7 +205,7 @@ namespace Song.ServiceImpls
             wc &= Organization._.Org_IsUse == true;
             wc &= Organization._.Org_IsPass == true;
             wc &= Organization._.Org_IsShow == true;
-            List<Organization> list = WeiSha.Core.Cache<Organization>.Data.List;
+            List<Organization> list = Cache.EntitiesCache.GetList<Organization>();
             if (list == null || list.Count < 1) list = this.OrganBuildCache();
             //是否启用多机构，0为多机构，1为单机构
             int multi = Business.Do<ISystemPara>()["MultiOrgan"].Int32 ?? 0;
@@ -238,7 +238,7 @@ namespace Song.ServiceImpls
             //当前机构
             Organization curr = null;
             //从缓存中读取
-            List<Organization> list = WeiSha.Core.Cache<Organization>.Data.List;
+            List<Organization> list = Cache.EntitiesCache.GetList<Organization>();
             if (list == null || list.Count < 1) list = this.OrganBuildCache();
             List<Organization> tm = (from l in list
                                      where l.Org_ID == identify
@@ -306,7 +306,7 @@ namespace Song.ServiceImpls
         {
             this.OrganBuildCache();  //重新构建缓存  
             //批量生成二维码
-            List<Organization> orgs = WeiSha.Core.Cache<Organization>.Data.List;
+            List<Organization> orgs = Cache.EntitiesCache.GetList<Organization>();
             if (orgs != null)
             {
                 for (int i = 0; i < orgs.Count; i++)
@@ -350,7 +350,7 @@ namespace Song.ServiceImpls
         }
         public List<Organization> OrganAll(bool? isUse, int level, string search)
         {
-            List<Organization> list = WeiSha.Core.Cache<Organization>.Data.List;
+            List<Organization> list = Cache.EntitiesCache.GetList<Organization>();
             if (list == null || list.Count < 1) list = this.OrganBuildCache();
             //自定义查询条件
             Func<Organization, bool> exp = x =>
@@ -453,20 +453,20 @@ namespace Song.ServiceImpls
             {
                 try
                 {
-                    WeiSha.Core.Cache<Song.Entities.Organization>.Data.Clear();
+                    Cache.EntitiesCache.Clear<Organization>();
                 }
                 catch
                 {
                 }
                 finally
                 {
-                    Song.Entities.Organization[] org = Gateway.Default.From<Organization>()
-                        .OrderBy(Organization._.Org_ID.Desc).ToArray<Organization>();
-                    WeiSha.Core.Cache<Song.Entities.Organization>.Data.Fill(org);
+                    List<Organization> orgs = Gateway.Default.From<Organization>()
+                        .OrderBy(Organization._.Org_ID.Desc).ToList<Organization>();
+                    Cache.EntitiesCache.Save<Organization>(orgs);
                 }
                 //刷新模板相关配置
                 WeiSha.Core.Business.Do<ITemplate>().SetPlateOrganInfo();
-                return WeiSha.Core.Cache<Organization>.Data.List;
+                return Cache.EntitiesCache.GetList<Organization>();
             }
 
         }

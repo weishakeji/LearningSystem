@@ -378,7 +378,7 @@ namespace Song.ServiceImpls
             StudentSort sort = Gateway.Default.From<StudentSort>().Where(StudentSort._.Sts_ID == stsid).ToFirst<StudentSort>();
             if (sort == null || !sort.Sts_IsUse) return false;
             //
-            object obj = Cache.EntitiesCache.Get<StudentSort_Course>(stsid);
+            object obj = Cache.EntitiesCache.GetObject<StudentSort_Course>(stsid);
             if (obj == null) obj = this._update_cache(stsid);
             if (obj == null) return false;
 
