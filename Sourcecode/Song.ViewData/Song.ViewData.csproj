@@ -114,10 +114,6 @@
     <Reference Include="Tea, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Tea.1.0.2\lib\net45\Tea.dll</HintPath>
     </Reference>
-    <Reference Include="WeiSha.Core, Version=2.0.8166.41242, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\WeiSha.Core.dll</HintPath>
-    </Reference>
     <Reference Include="WeiSha.ORM">
       <HintPath>..\Lib\WeiSha.ORM.dll</HintPath>
     </Reference>
@@ -226,6 +222,10 @@
     <ProjectReference Include="..\Song.ServiceInterfaces\Song.ServiceInterfaces.csproj">
       <Project>{7CFB4DC1-8536-44A4-AF1D-2D7BDA8067C1}</Project>
       <Name>Song.ServiceInterfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WeiSha.Core\WeiSha.Core.csproj">
+      <Project>{b1a1d338-6329-41ee-bcc8-2a75c6c7a1ba}</Project>
+      <Name>WeiSha.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

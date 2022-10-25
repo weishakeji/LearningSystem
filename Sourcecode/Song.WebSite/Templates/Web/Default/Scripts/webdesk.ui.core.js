@@ -819,11 +819,16 @@
         var template = webdom('meta[template]');
         return template.attr("path");
     };
+    //页面路由，和地址栏Url有一定区别
+    webdom.route = function () {
+        var template = webdom('meta[view]');
+        return template.attr("route");
+    };
     //模版文件的路径
     webdom.pagepath = function () {
         var view = webdom('meta[view]');
         var page = view.attr("page");
-        return page.substring(0, page.lastIndexOf("/") + 1);
+        return page.substring(0, page.lastIndexOf("/") + 1);        
     };
     //加载所需的javascript文件
     webdom.corejs = function (f) {
@@ -860,16 +865,12 @@
     //f:加载完成要执行的方法
     //source:要加载的资源
     window.$ready = function (f, source) {
-        var pathname = window.location.pathname.toLowerCase();     
+        var route = webdom.route().toLowerCase();
         //如果设备是手机端，转向手机页面
-        if (webdom.ismobi() && pathname.indexOf('/mobi/') < 0) {
+        if (webdom.ismobi() && route.indexOf('/web/') > -1) {
             var search = window.location.search;
-            if (pathname == '/') {
-                window.location.href = '/mobi/' + search;
-            } else {
-                var href = pathname.replace('/web', '/mobi');
-                window.location.href = href + search;
-            }
+            var href = route.replace('/web/', '/mobi/');
+            window.location.href = href + search;
             return;
         }
         webdom.ready(function () {
@@ -902,9 +903,8 @@
     window.$dom.load.css(['/Utilities/ElementUi/index.css']);
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {
-        var file = webdom.file();
-        var view = webdom('meta[view]');
-        if (view.length > 0) file = view.attr("view");
+        var file = webdom('meta[view]').attr("view");
+        if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));
         window.$dom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
         window.$dom.load.js([webdom.pagepath() + 'Scripts/' + file + '.js']);
     }

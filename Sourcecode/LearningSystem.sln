@@ -52,6 +52,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Song.WebSite", "Song.WebSit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{ED02F2B1-2473-48CE-B376-1E9D5C031ABB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeiSha.Core", "WeiSha.Core\WeiSha.Core.csproj", "{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug x64|Any CPU = Debug x64|Any CPU
@@ -204,6 +206,30 @@ Global
 		{ED02F2B1-2473-48CE-B376-1E9D5C031ABB}.x64 Debug|x64.Build.0 = Debug|Any CPU
 		{ED02F2B1-2473-48CE-B376-1E9D5C031ABB}.x64 Debug|x86.ActiveCfg = Debug|Any CPU
 		{ED02F2B1-2473-48CE-B376-1E9D5C031ABB}.x64 Debug|x86.Build.0 = Debug|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|Any CPU.ActiveCfg = Debug x64|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|Any CPU.Build.0 = Debug x64|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|x64.ActiveCfg = Debug x64|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|x64.Build.0 = Debug x64|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|x86.ActiveCfg = Debug x64|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug x64|x86.Build.0 = Debug x64|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|x64.ActiveCfg = Debug|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|x64.Build.0 = Debug|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|x86.ActiveCfg = Debug|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Debug|x86.Build.0 = Debug|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|x64.ActiveCfg = Release|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|x64.Build.0 = Release|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|x86.ActiveCfg = Release|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.Release|x86.Build.0 = Release|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|Any CPU.ActiveCfg = x64 Debug|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|Any CPU.Build.0 = x64 Debug|Any CPU
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|x64.ActiveCfg = x64 Debug|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|x64.Build.0 = x64 Debug|x64
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|x86.ActiveCfg = x64 Debug|x86
+		{B1A1D338-6329-41EE-BCC8-2A75C6C7A1BA}.x64 Debug|x86.Build.0 = x64 Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -215,7 +241,7 @@ Global
 		{41D99603-4C27-4075-81D5-F56C553ACDC8} = {9E1AA0BC-6525-4FBD-940A-93AEF86188FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		SolutionGuid = {2C42F976-5DC7-4525-AD51-50BB9419A0D5}
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

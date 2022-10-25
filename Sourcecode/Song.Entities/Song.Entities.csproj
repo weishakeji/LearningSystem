@@ -131,9 +131,6 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WeiSha.Core">
-      <HintPath>..\Lib\WeiSha.Core.dll</HintPath>
-    </Reference>
     <Reference Include="WeiSha.ORM">
       <HintPath>..\Lib\WeiSha.ORM.dll</HintPath>
     </Reference>

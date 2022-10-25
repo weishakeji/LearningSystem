@@ -904,9 +904,8 @@
     window.$dom.load.css([webdom.path() + 'styles/public.css']);
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {
-        var file = webdom.file();
-        var view = webdom('meta[view]');
-        if (view.length > 0) file = view.attr("view");
+        var file = webdom('meta[view]').attr("view");
+        if (file.indexOf('/')) file = file.substring(file.lastIndexOf('/'));
         window.$dom.load.css([webdom.pagepath() + 'styles/' + file + '.css']);
         window.$dom.load.js([webdom.pagepath() + 'scripts/' + file + '.js']);
     }
