@@ -348,15 +348,27 @@ namespace Song.ServiceImpls
             entity.Org_QrCode = base64;
             Gateway.Default.Save<Organization>(entity);                    
         }
-        public Organization[] OrganAll(bool? isUse, int level, string search)
-        {          
-            //orm查询
-            WhereClip wc = new WhereClip();
-            if (isUse != null) wc.And(Organization._.Org_IsUse == (bool)isUse);
-            if (level > 0) wc.And(Organization._.Olv_ID == level);
-            if (!string.IsNullOrWhiteSpace(search)) wc.And(Organization._.Olv_ID == level);
-            return Gateway.Default.From<Organization>().Where(wc)
-                .OrderBy(Organization._.Org_RegTime.Desc).ToArray<Organization>();
+        public List<Organization> OrganAll(bool? isUse, int level, string search)
+        {
+            List<Organization> list = WeiSha.Core.Cache<Organization>.Data.List;
+            if (list == null || list.Count < 1) list = this.OrganBuildCache();
+            //自定义查询条件
+            Func<Organization, bool> exp = x =>
+            {
+                var use_exp = isUse != null ? x.Org_IsUse = (bool)isUse : true;
+                var level_exp = level > 0 ? x.Olv_ID == level : true;
+                var search_exp = !string.IsNullOrWhiteSpace(search) ? x.Org_Name.Contains(search) : true;
+                return use_exp && level_exp && search_exp;
+            };
+            List<Organization> result = list.Where(exp).ToList<Organization>();
+            return result;
+            ////orm查询
+            //WhereClip wc = new WhereClip();
+            //if (isUse != null) wc.And(Organization._.Org_IsUse == (bool)isUse);
+            //if (level > 0) wc.And(Organization._.Olv_ID == level);
+            //if (!string.IsNullOrWhiteSpace(search)) wc.And(Organization._.Org_Name.Like("%"+search+"%"));
+            //return Gateway.Default.From<Organization>().Where(wc)
+            //    .OrderBy(Organization._.Org_RegTime.Desc).ToArray<Organization>();
         }
 
         public Organization[] OrganCount(bool? isUse, bool? isShow, int level, int count)
@@ -449,7 +461,7 @@ namespace Song.ServiceImpls
                 finally
                 {
                     Song.Entities.Organization[] org = Gateway.Default.From<Organization>()
-                        .OrderBy(Organization._.Org_RegTime.Desc).ToArray<Organization>();
+                        .OrderBy(Organization._.Org_ID.Desc).ToArray<Organization>();
                     WeiSha.Core.Cache<Song.Entities.Organization>.Data.Fill(org);
                 }
                 //刷新模板相关配置

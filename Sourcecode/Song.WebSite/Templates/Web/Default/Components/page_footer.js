@@ -74,9 +74,7 @@ Vue.component('page_footer', {
             <a v-if="organ.Org_ICP!=''" href="http://beian.miit.gov.cn/" target="_blank">{{organ.Org_ICP}}</a> 
             <a v-if="organ.Org_GonganBeian!=''"  :href="'http://www.beian.gov.cn/portal/registerSystemInfo?recordcode='+organ.Org_GonganBeian" target="_blank">
             <img src="/Utilities/Images/ghs.png" />{{organ.Org_GonganBeian}}</a>        
-        </div>   
-        <div v-html="organ.Org_Extracode"></div>     
-        <iframe>{{organ.Org_Extracode}}</iframe>     
+        </div>         
         </div>       
     </weisha_page_footer>`
 });

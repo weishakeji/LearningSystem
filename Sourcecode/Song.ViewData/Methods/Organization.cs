@@ -37,10 +37,10 @@ namespace Song.ViewData.Methods
         /// 获取所有可用的机构
         /// </summary>
         /// <returns></returns>
-        public Ett.Organization[] AllUse()
+        public List<Ett.Organization> AllUse()
         {
-            Ett.Organization[] orgs = Business.Do<IOrganization>().OrganAll(true, -1, null);
-            for (int i = 0; i < orgs.Length; i++)
+            List<Ett.Organization> orgs = Business.Do<IOrganization>().OrganAll(true, -1, null);
+            for (int i = 0; i < orgs.Count; i++)
             {
                 orgs[i] = _trans(orgs[i]);
             }
@@ -49,12 +49,14 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 获取所有机构
         /// </summary>
+        /// <param name="use">是否启用</param>
         /// <param name="lv">机构等级id</param>
+        /// <param name="name">按机构名称检索</param>
         /// <returns></returns>
-        public Ett.Organization[] All(int lv)
+        public List<Ett.Organization> All(bool? use, int lv, string name)
         {
-            Ett.Organization[] orgs = Business.Do<IOrganization>().OrganAll(null, lv, null);
-            for (int i = 0; i < orgs.Length; i++)
+            List<Ett.Organization> orgs = Business.Do<IOrganization>().OrganAll(use, lv, name);
+            for (int i = 0; i < orgs.Count; i++)
             {
                 orgs[i] = _trans(orgs[i]);
             }

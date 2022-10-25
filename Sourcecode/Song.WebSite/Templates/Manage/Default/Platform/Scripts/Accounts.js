@@ -17,7 +17,7 @@
             selects: [] //数据表中选中的行
         },
         created: function () {
-            $api.get('Organization/All', { 'lv': 0 }).then(function (req) {
+            $api.get('Organization/All', { 'use': null, 'lv': 0, 'name': '' }).then(function (req) {
                 if (req.data.success) {
                     window.vue.organs = req.data.result;
                     window.vue.handleCurrentChange(1);

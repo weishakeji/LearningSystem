@@ -13,7 +13,7 @@ $ready(function () {
         },
         created: function () {
             $api.bat(
-                $api.get('Organization/All', { 'lv': '' }),
+                $api.get('Organization/All', { 'use': null, 'lv': 0, 'name': '' }),
                 $api.get('Platform/Domain')
             ).then(axios.spread(function (organs, domain) {
                 //判断结果是否正常

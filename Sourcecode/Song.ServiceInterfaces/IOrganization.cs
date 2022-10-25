@@ -63,7 +63,7 @@ namespace Song.ServiceInterfaces
         /// <param name="level">机构等级</param>
         /// <param name="search"></param>
         /// <returns></returns>
-        Organization[] OrganAll(bool? isUse, int level, string search);
+        List<Organization> OrganAll(bool? isUse, int level, string search);
         /// <summary>
         /// 获取指定数量的对象
         /// </summary>

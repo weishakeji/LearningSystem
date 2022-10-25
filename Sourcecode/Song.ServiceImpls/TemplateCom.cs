@@ -127,7 +127,7 @@ namespace Song.ServiceImpls
             WeiSha.Core.PlateOrganInfo.Clear();
             try
             {
-                Song.Entities.Organization[] org = WeiSha.Core.Business.Do<IOrganization>().OrganAll(true, -1, string.Empty);
+                List<Song.Entities.Organization> org = WeiSha.Core.Business.Do<IOrganization>().OrganAll(true, -1, string.Empty);
                 foreach (Song.Entities.Organization o in org)
                 {
                     WeiSha.Core.PlateOrganInfo info = new WeiSha.Core.PlateOrganInfo();
