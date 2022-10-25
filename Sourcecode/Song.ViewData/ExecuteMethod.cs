@@ -185,20 +185,13 @@ namespace Song.ViewData
                     ListResult list = (ListResult)res;
                     list.ExecSpan = span;
                     return list;
-                }               
+                }
                 //记录执行速度
-                if (span >= 2000)
-                    Helper.Logs.WriteLog("speed_2000", letter, span.ToString());
-                if (span >= 1000)
-                    Helper.Logs.WriteLog("speed_1000", letter, span.ToString());
-                else if (span >= 500)
-                    Helper.Logs.WriteLog("speed_500", letter, span.ToString());
-                else if (span >= 300)
-                    Helper.Logs.WriteLog("speed_300", letter, span.ToString());
-                else if (span >= 100)
-                    Helper.Logs.WriteLog("speed_100", letter, span.ToString());
-                else if (span >= 50)
-                    Helper.Logs.WriteLog("speed_50", letter, span.ToString());
+                int elapsedNumber = (int)Math.Floor(span / 1000) * 1000;
+                if (elapsedNumber >= 1000)
+                {
+                    Helper.Logs.WriteLog("speed_" + elapsedNumber, letter, span.ToString());
+                }
 
                 return new Song.ViewData.DataResult(res, span);       //普通数据
             }

@@ -160,7 +160,16 @@ namespace Song.ViewData
         /// <returns></returns>
         public virtual string ToJson()
         {
-           return this._josn_object(this, true,0);
+           return ObjectToJson(this);
+        }
+        /// <summary>
+        /// 将对象转为json
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string ObjectToJson(object obj)
+        {
+            return ObjectToJson(obj, true, 0);
         }
         /// <summary>
         /// 将对象转为json
@@ -169,7 +178,7 @@ namespace Song.ViewData
         /// <param name="islower">json的属性名是否转小写</param>
         /// <param name="level">输出的层深</param>
         /// <returns></returns>
-        private string _josn_object(object obj, bool islower, int level)
+        public static string ObjectToJson(object obj, bool islower, int level)
         {
             //当大于最大层深，则不再输出
             if (level >= max_level) return "\"\"";
@@ -227,7 +236,7 @@ namespace Song.ViewData
                 sb.Append("[");
                 for (int i = 0; i < array.Length; i++)
                 {
-                    sb.Append(_josn_object(array.GetValue(i), false, lv));
+                    sb.Append(ObjectToJson(array.GetValue(i), false, lv));
                     if (i < array.Length - 1) sb.Append(",");
                 }
                 sb.Append("]");
@@ -240,7 +249,7 @@ namespace Song.ViewData
                 sb.Append("[");
                 for (int i = 0; i < list.Count; i++)
                 {
-                    sb.Append(_josn_object(list[i], false, lv));
+                    sb.Append(ObjectToJson(list[i], false, lv));
                     if (i < list.Count - 1) sb.Append(",");
                 }
                 sb.Append("]");
@@ -284,7 +293,7 @@ namespace Song.ViewData
                     if (objAttrs.Length > 0) continue;
                     //json属性名
                     string attrname = isLower ? pi.Name.ToLower() : pi.Name;
-                    sb.Append(string.Format("\"{0}\":{1}", attrname, _josn_object(value, false, lv)));
+                    sb.Append(string.Format("\"{0}\":{1}", attrname, ObjectToJson(value, false, lv)));
                     if (j < properties.Length - 1) sb.Append(",");
                 }
                 sb.Append("}");

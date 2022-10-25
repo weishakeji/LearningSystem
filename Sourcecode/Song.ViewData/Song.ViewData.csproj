@@ -161,6 +161,7 @@
     <Compile Include="Helper\Browser.cs" />
     <Compile Include="Helper\Cache.cs" />
     <Compile Include="Helper\ConvertToAnyValue.cs" />
+    <Compile Include="Helper\DatabaseLog.cs" />
     <Compile Include="Helper\Excel.cs" />
     <Compile Include="Helper\ExceptionWeisha.cs" />
     <Compile Include="Helper\Html.cs" />
