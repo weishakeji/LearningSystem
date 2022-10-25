@@ -31,7 +31,7 @@ namespace Song.ViewData
 
         #region 创建并缓存实例对象
         //存储对象的键值对，key为对象的类名称（全名），value为对象自身
-        private Dictionary<string, object> _objects = new Dictionary<string, object>();
+        private static Dictionary<string, IViewAPI> _objects = new Dictionary<string, IViewAPI>();
         private static readonly object lock_obj = new object();
         /// <summary>
         /// 创建对象，如果存在，则直接返回；如果不存在，创建后返回
@@ -40,47 +40,33 @@ namespace Song.ViewData
         /// <returns></returns>
         public static IViewAPI CreateInstance(Letter letter)
         {
+            string assemblyName = "Song.ViewData";
+            string classFullName = String.Format("{0}.Methods.{1}", assemblyName, letter.ClassName);
+            //Dictionary
+            //由缓存中查找，是否存在
+            IViewAPI obj = null;
+            foreach (KeyValuePair<string, IViewAPI> kv in _objects)
+            {
+                if (classFullName.Trim().Equals(kv.Key, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    obj = kv.Value;
+                    break;
+                }
+            }
+            if (obj != null) return obj;
+
+            //如果之前未创建，则创建接口对象
+            Assembly assembly = Assembly.Load(assemblyName);
+            List<Type> types = assembly.GetExportedTypes().Where(t => t.GetInterfaces().Contains(typeof(IViewAPI))).ToList<Type>();
+            Type type = types.Find(t => t.FullName.Equals(classFullName, StringComparison.CurrentCultureIgnoreCase));
+            if (type == null) throw new Exception(string.Format("调用的接口'{0}'不存在, 可能是'{1}'拼写错误", letter.API_PATH, letter.ClassName));
+            obj = (IViewAPI)System.Activator.CreateInstance(type);
+            //记录到缓存
             lock (lock_obj)
             {
-                string assemblyName = "Song.ViewData";
-                string classFullName = String.Format("{0}.Methods.{1}", assemblyName, letter.ClassName);
-                IViewAPI obj = null;
-                //由缓存中查找，是否存在
-                ExecuteMethod curr = ExecuteMethod.GetInstance();
-                foreach (KeyValuePair<string, object> kv in curr._objects)
-                {
-                    if (classFullName.Trim().Equals(kv.Key, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        obj = (IViewAPI)kv.Value;
-                        break;
-                    }
-                }
-                if (obj != null) return obj;
-
-                //如果之前未创建，则重新创建
-                Type type = null;
-                Assembly assembly = Assembly.Load(assemblyName);
-                Type[] types = assembly.GetExportedTypes()
-                    .Where(t => t.GetInterfaces().Contains(typeof(IViewAPI)))
-                    .ToArray();
-                foreach (Type info in types)
-                {
-                    if (info.FullName.Equals(classFullName, StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        type = info;
-                        break;
-                    }
-                }
-                if (type == null) throw new Exception(
-                    string.Format("调用的接口'{0}'不存在, 可能是'{1}'拼写错误",
-                    letter.API_PATH, letter.ClassName));
-                //创建对象
-                obj = (IViewAPI)System.Activator.CreateInstance(type);
-                //记录到缓存
-                if (!ExecuteMethod.GetInstance()._objects.ContainsKey(type.FullName))
-                    ExecuteMethod.GetInstance()._objects.Add(type.FullName, obj);                
-                return obj;
+                if (!_objects.ContainsKey(type.FullName)) _objects.Add(type.FullName, obj);               
             }
+            return obj;
         }
         #endregion
 
