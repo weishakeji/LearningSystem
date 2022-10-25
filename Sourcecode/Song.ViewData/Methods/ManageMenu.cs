@@ -301,7 +301,7 @@ namespace Song.ViewData.Methods
         private JArray _MenuNode(Song.Entities.ManageMenu item, List<Song.Entities.ManageMenu> items)
         {
             JArray jarr = new JArray();
-
+            bool islocal = WeiSha.Core.Server.IsLocalIP;
             foreach (Song.Entities.ManageMenu m in items)
             {
 
@@ -313,7 +313,8 @@ namespace Song.ViewData.Methods
                 {
                     if (!m.MM_PatId.Equals(item.MM_UID,StringComparison.OrdinalIgnoreCase)) continue;
                 }
-                if (Business.Release) m.MM_Complete = 100;
+                //如果不是本机id，则显示项单项完成（因为完成度只是为了在开发时记录一下完成状态）
+                if (!islocal) m.MM_Complete = 100;
 
                 string j = m.ToJson();
 

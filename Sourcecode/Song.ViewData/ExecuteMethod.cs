@@ -42,7 +42,7 @@ namespace Song.ViewData
         {
             string assemblyName = "Song.ViewData";
             string classFullName = String.Format("{0}.Methods.{1}", assemblyName, letter.ClassName);
-            //Dictionary
+          
             //由缓存中查找，是否存在
             IViewAPI obj = null;
             foreach (KeyValuePair<string, IViewAPI> kv in _objects)
