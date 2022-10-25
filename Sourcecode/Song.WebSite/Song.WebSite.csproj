@@ -176,6 +176,9 @@
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
+    <Reference Include="WeiSha.Core">
+      <HintPath>..\Lib\WeiSha.Core.dll</HintPath>
+    </Reference>
     <Reference Include="WeiSha.ORM">
       <HintPath>..\Lib\WeiSha.ORM.dll</HintPath>
     </Reference>
@@ -2267,10 +2270,6 @@
     <ProjectReference Include="..\Song.ViewData\Song.ViewData.csproj">
       <Project>{41d99603-4c27-4075-81d5-f56c553acdc8}</Project>
       <Name>Song.ViewData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WeiSha.Core\WeiSha.Core.csproj">
-      <Project>{b1a1d338-6329-41ee-bcc8-2a75c6c7a1ba}</Project>
-      <Name>WeiSha.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
