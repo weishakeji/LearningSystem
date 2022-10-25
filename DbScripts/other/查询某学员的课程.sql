@@ -18,7 +18,7 @@ select * from
 
 			select cou.* from Course as cou right join  StudentSort_Course as ssc
 			on cou.Cou_ID = ssc.Cou_ID
-			where ssc.Sts_ID=2
+			where ssc.Sts_ID=15012714616000002
 
 		) as muster 
 		 left join 	

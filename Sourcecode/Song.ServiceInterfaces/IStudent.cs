@@ -252,7 +252,7 @@ namespace Song.ServiceInterfaces
         LogForStudentOnline[] LogForLoginPager(int orgid, int stid, string platform, DateTime? start, DateTime? end, string stname, string stmobi, int size, int index, out int countSum);
         #endregion
 
-        #region 学员在线学习的记录        
+        #region 学员视频学习的记录        
         /// <summary>
         /// 记录学员学习时间
         /// </summary>
@@ -275,7 +275,7 @@ namespace Song.ServiceInterfaces
         /// <returns>学习进度百分比（相对于总时长），如果为-1，则表示失败</returns>
         void LogForStudyUpdate(long couid, long olid, Accounts st, int playTime, int studyTime, int totalTime);
         /// <summary>
-        /// 根据学员id与登录时生成的Uid返回实体
+        /// 根据学员id与章节id
         /// </summary>
         /// <param name="stid">学员Id</param>
         /// <param name="olid">章节id</param>

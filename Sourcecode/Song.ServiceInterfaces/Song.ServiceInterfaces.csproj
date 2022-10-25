@@ -139,6 +139,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WeiSha.Core, Version=2.0.8333.33267, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Lib\WeiSha.Core.dll</HintPath>
+    </Reference>
     <Reference Include="WeiSha.ORM">
       <HintPath>..\Lib\WeiSha.ORM.dll</HintPath>
     </Reference>
@@ -188,10 +192,6 @@
     <ProjectReference Include="..\Song.Entities\Song.Entities.csproj">
       <Project>{985a8268-3a87-46b9-9744-650664719e67}</Project>
       <Name>Song.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WeiSha.Core\WeiSha.Core.csproj">
-      <Project>{b1a1d338-6329-41ee-bcc8-2a75c6c7a1ba}</Project>
-      <Name>WeiSha.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -19,15 +19,6 @@ namespace Song.WebSite.Controllers
             string action = this.RouteData.Values["action"].ToString();
             string id = this.RouteData.Values["id"]!=null ? this.RouteData.Values["id"].ToString() : string.Empty;
 
-            ////如果是web端，则跳转
-            //if (WeiSha.Core.Skip.Enable && !WeiSha.Core.Browser.IsMobile)
-            //{
-            //    string url = this.Request.Url.ToString();
-            //    url = WeiSha.Core.Skip.MobiToWeb(url);
-            //    this.Response.Redirect(url);
-            //    this.Response.Close();
-            //    return;
-            //}
             try
             {
                 //返回方法名为视图的对象，只要Views文件夹存在actionName.cshtml
