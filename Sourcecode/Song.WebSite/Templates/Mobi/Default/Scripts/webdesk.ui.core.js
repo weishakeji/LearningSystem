@@ -862,8 +862,10 @@
         //如果设备不是手机端，转向web端页面
         if (!webdom.ismobi() && route.indexOf('/mobi/') > -1) {
             var search = window.location.search;
-            var href = pathname.replace('/mobi/', '/web/');            
-            window.location.href = href + search;
+            var href = route.replace('/mobi/', '/web/');
+            var pathname = window.location.pathname;
+            var dot = pathname.indexOf('.') > -1 ? pathname.substring(pathname.lastIndexOf('.')) : '';
+            window.location.href = href + dot + search;
             return;
         }
         webdom.ready(function () {

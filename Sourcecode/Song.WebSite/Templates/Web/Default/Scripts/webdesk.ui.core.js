@@ -870,7 +870,9 @@
         if (webdom.ismobi() && route.indexOf('/web/') > -1) {
             var search = window.location.search;
             var href = route.replace('/web/', '/mobi/');
-            window.location.href = href + search;
+            var pathname = window.location.pathname;
+            var dot = pathname.indexOf('.') > -1 ? pathname.substring(pathname.lastIndexOf('.')) : '';
+            window.location.href = href + dot + search;
             return;
         }
         webdom.ready(function () {
