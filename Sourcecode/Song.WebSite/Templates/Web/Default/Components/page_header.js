@@ -238,7 +238,7 @@ Vue.component('page_header', {
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item command="/web/account"><icon style="font-size:19px;">&#xe687</icon>个人中心</el-dropdown-item>
                         <el-dropdown-item command="/web/teach" v-if="isteacher"><icon>&#xe650</icon>教学管理</el-dropdown-item>
-                        <el-dropdown-item command="money"><icon>&#xe81c</icon>余额: {{account.Ac_Money}} 元</el-dropdown-item>                          
+                        <el-dropdown-item command="money"><icon>&#xe81c</icon>余额: {{Math.floor(account.Ac_Money*100)/100}} 元</el-dropdown-item>                          
                         <el-dropdown-item divided  command="logout"><icon>&#xe739</icon>退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>

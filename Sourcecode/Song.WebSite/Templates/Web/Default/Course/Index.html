@@ -39,8 +39,8 @@
             :infinite-scroll-disabled="infinite_disabled()">
             <template v-if="!issearch">
                 <subject_show v-for="sbj in sbjcourses" :subject="sbj" :count="6" :mincount="1" order="rec"
-                @complete="()=>sbj_load_count++">
-                </subject_show>              
+                    @complete="()=>sbj_load_count++">
+                </subject_show>
                 <div v-if="!loading_init && sbj_load_count==0" class="nocourse">
                     <icon>&#xe849</icon>
                     没有满足条件的课程
@@ -55,11 +55,11 @@
                     没有满足条件的课程
                 </div>
             </template>
-           <loading v-if="loading_cou" class="loading_cou">loading ...</loading>
+            <loading v-if="loading_cou" class="loading_cou">loading ...</loading>
         </context>
 
         <el-backtop target="#vapp" style="font-size: 12px;width: 20px;">返回顶部</el-backtop>
-        
+
         <page_footer :organ="organ" :account="account">loading ...</page_footer>
     </div>
 
