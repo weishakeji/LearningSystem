@@ -155,12 +155,12 @@ namespace Song.ViewData.Methods
         public DataTable TreeList(long couid)
         {
             // 当前课程的所有章节
-            Song.Entities.Outline[] outlines = Business.Do<IOutline>().OutlineAll(couid, true);
-            if (outlines.Length > 0)
+            List<Song.Entities.Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, true);
+            if (outlines.Count > 0)
             {
-                foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;                
+                foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;
                 //树形章节输出
-                DataTable dt = Business.Do<IOutline>().OutlineTree(outlines);
+                DataTable dt = Business.Do<IOutline>().OutlineTree(outlines.ToArray<Song.Entities.Outline>());
                 return dt;
             }
             return null;
@@ -169,14 +169,13 @@ namespace Song.ViewData.Methods
         /// 课程章节，树形数据
         /// </summary>
         /// <param name="couid">所属课程的id</param>
-
         /// <param name="isuse">是否启用</param>
         /// <returns></returns>
         public JArray Tree(long couid, bool? isuse)
         {
             if (couid <= 0) return null;
-            Song.Entities.Outline[] list = Business.Do<IOutline>().OutlineAll(couid, isuse);           
-            return list.Length > 0 ? _outlineNode(null, list) : null;
+            List<Song.Entities.Outline> list = Business.Do<IOutline>().OutlineAll(couid, isuse);           
+            return list.Count > 0 ? _outlineNode(null, list) : null;
         }
         /// <summary>
         /// 生成菜单子节点
@@ -184,7 +183,7 @@ namespace Song.ViewData.Methods
         /// <param name="item">当前菜单项</param>
         /// <param name="items">所有菜单项</param>
         /// <returns></returns>
-        private JArray _outlineNode(Song.Entities.Outline item,Song.Entities.Outline[] items)
+        private JArray _outlineNode(Song.Entities.Outline item, List<Song.Entities.Outline> items)
         {
             JArray jarr = new JArray();
 

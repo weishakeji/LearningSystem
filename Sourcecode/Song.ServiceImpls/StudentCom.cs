@@ -915,7 +915,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                         double complete = Convert.ToDouble(dr["complete"].ToString());
                         //课程id
                         long couid = Convert.ToInt64(dr["Cou_ID"].ToString());
-                        int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true);
+                        int olnum = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true, null);
                         //完成度
                         double peracent = Math.Floor(complete / olnum * 100) / 100;
                         dr["complete"] = peracent >= (100 - tolerance) ? 100 : peracent;

@@ -262,7 +262,7 @@ namespace Song.ServiceImpls
             bool isExist = CourseIsChildren(entity.Org_ID, entity.Cou_ID, null);
             if (isExist) throw new Exception("当前课程下还有子课程，请先删除子课程。");
 
-            Song.Entities.Outline[] oul = Business.Do<IOutline>().OutlineAll(entity.Cou_ID, null);
+            List<Outline> oul = Business.Do<IOutline>().OutlineAll(entity.Cou_ID, null);
             Song.Entities.GuideColumns[] gcs = Business.Do<IGuide>().GetColumnsAll(entity.Cou_ID,string.Empty, null);
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {

@@ -327,11 +327,11 @@ namespace Song.ViewData.Methods
             Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             if (course == null) return null;
             //章节数
-            int outline = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, null, true);
+            int outline = Business.Do<IOutline>().OutlineOfCount(couid, -1, true);
             //试题数
             int qus = Business.Do<IQuestions>().QuesOfCount(-1, -1, couid, -1, 0, true);
             //视频数
-            int video = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true);
+            int video = Business.Do<IOutline>().OutlineOfCount(couid, -1, true, true, true, null);
             //学习人数
             int student = Business.Do<ICourse>().CourseStudentSum(couid, true);
             //试卷数

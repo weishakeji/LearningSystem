@@ -443,7 +443,7 @@ namespace Song.ServiceImpls
                 }
             }
         }
-        private static object lock_cache_build = new object();
+        private static readonly object lock_cache_build = new object();
         /// <summary>
         /// 构建缓存
         /// </summary>
@@ -451,24 +451,14 @@ namespace Song.ServiceImpls
         {
             lock (lock_cache_build)
             {
-                try
-                {
-                    Cache.EntitiesCache.Clear<Organization>();
-                }
-                catch
-                {
-                }
-                finally
-                {
-                    List<Organization> orgs = Gateway.Default.From<Organization>()
-                        .OrderBy(Organization._.Org_ID.Desc).ToList<Organization>();
-                    Cache.EntitiesCache.Save<Organization>(orgs);
-                }
+                Cache.EntitiesCache.Clear<Organization>();
+                List<Organization> orgs = Gateway.Default.From<Organization>()
+                    .OrderBy(Organization._.Org_ID.Desc).ToList<Organization>();
+                Cache.EntitiesCache.Save<Organization>(orgs);
                 //刷新模板相关配置
                 WeiSha.Core.Business.Do<ITemplate>().SetPlateOrganInfo();
                 return Cache.EntitiesCache.GetList<Organization>();
             }
-
         }
         public Organization[] OrganPager(bool? isUse, int level, string searTxt, int size, int index, out int countSum)
         {

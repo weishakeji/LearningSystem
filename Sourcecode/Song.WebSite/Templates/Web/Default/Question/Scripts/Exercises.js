@@ -37,8 +37,8 @@
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
-                $api.cache('Course/ForID', { 'id': this.couid }),
-                $api.cache('Outline/ForID', { 'id': this.olid })
+                $api.cache('Course/ForID', { 'id': th.couid }),
+                $api.cache('Outline/ForID', { 'id': th.olid })
             ).then(axios.spread(function (account, types, course, outline) {
                 vapp.loading_init = false;
                 //判断结果是否正常
@@ -137,7 +137,7 @@
                     }
                 }).catch(function (err) {
                     th.error = err;
-                    console.error(err);
+                    //console.error(err);
                 });
             },
             //清理本地缓存，但不刷新界面

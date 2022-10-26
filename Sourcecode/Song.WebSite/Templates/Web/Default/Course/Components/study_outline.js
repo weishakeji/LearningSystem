@@ -93,7 +93,16 @@ Vue.component('study_outline', {
                     } else {
                         th.outline = th.getOutline(th.olid, null);
                     }
-                    if (th.outline == null) throw "当前章节不存在";
+                    if (th.outline == null) {
+                        th.$alert('当前章节不存在', '提示', {
+                            confirmButtonText: '确定',
+                            callback: action => {
+                                var href = location.href;
+                                href = $api.url.set(href, 'olid', '');
+                                location.href = href;
+                            }
+                        });
+                    }
                     //课程与章节加载完成
                     th.$emit('init', th.course, th.outline);
                     th.outlineClick(th.outline, null);
@@ -105,7 +114,7 @@ Vue.component('study_outline', {
                     //if (!cur.data.success) throw "课程信息加载异常！详情：\r" + cur.data.message;
                 }
             })).catch(function (err) {
-                Vue.prototype.$alert(err);
+                //Vue.prototype.$alert(err);
                 th.outlines = [];
                 console.error(err);
             });

@@ -13,8 +13,8 @@ Vue.component('accessory', {
     },
     watch: {
         'uid': function (val, old) {
-            if (nv == null || $api.trim(val) == '') return;
-            this.getdatas(nv);
+            if (val == null || $api.trim(val) == '') return;
+            this.getdatas(val);
         },
         'outline': {
             handler: function (nv, ov) {

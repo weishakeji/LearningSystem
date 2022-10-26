@@ -576,7 +576,7 @@ namespace Song.ViewData.Methods
             if (cour == null) return null;
             if (cour.Th_ID != thid) return null;
             //
-            Song.Entities.Outline[] outls = Business.Do<IOutline>().OutlineCount(couid, true, null, true, 0);
+            Song.Entities.Outline[] outls = Business.Do<IOutline>().OutlineCount(couid, -1, true, null, true, 0);
             List<Outline_LiveInfo> list = new List<Outline_LiveInfo>();
             //直播截图的域名
             string snapshot = Business.Do<ILive>().GetSnapshot;

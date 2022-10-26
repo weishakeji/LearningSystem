@@ -64,18 +64,18 @@ namespace Song.ServiceInterfaces
         /// 删除章节
         /// </summary>
         /// <param name="entity">业务实体</param>
-        void OutlineDelete(Outline entity);
+        void OutlineDelete(Outline olid);
         /// <summary>
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        void OutlineDelete(long identify);
+        void OutlineDelete(long olid);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        Outline OutlineSingle(long identify);
+        Outline OutlineSingle(long olid);
         /// <summary>
         /// 获取单一实体对象，按唯一值，即UID；
         /// </summary>
@@ -88,33 +88,26 @@ namespace Song.ServiceInterfaces
         /// <param name="couid">课程ID</param>
         /// <param name="names">多级名称</param>
         /// <returns></returns>
-        Outline OutlineSingle(long couid, List<string> names);        
+        Outline OutlineSingle(long couid, List<string> names);
         /// <summary>
         /// 当前章节下的所有子章节id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="olid"></param>
         /// <returns></returns>
-        List<long> TreeID(long id);
-        /// <summary>
-        /// 获取某个课程下第一个章节
-        /// </summary>
-        /// <param name="couid">课程Id</param>
-        /// <param name="isUse">是否包括只是允许的章节,null取所有范围，true只是允许采用的章节,false反之</param>
-        /// <returns></returns>
-        Outline OutlineFirst(long couid, bool? isUse);
+        List<long> TreeID(long olid);
         /// <summary>
         /// 获取章节名称，如果为多级，则带上父级名称
         /// </summary>
-        /// <param name="identify"></param>
+        /// <param name="olid"></param>
         /// <returns></returns>
-        string OutlineName(long identify);
+        string OutlineName(long olid);
         /// <summary>
         /// 获取所有课程章节
         /// </summary>
         /// <param name="couid">所属课程id</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        Outline[] OutlineAll(long couid, bool? isUse);
+        List<Outline> OutlineAll(long couid, bool? isUse);
         /// <summary>
         /// 生成树形结构的章节列表
         /// </summary>
@@ -124,8 +117,8 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 清空章节下试题和附件
         /// </summary>
-        /// <param name="identify"></param>
-        void OutlineClear(long identify);
+        /// <param name="olid"></param>
+        void OutlineClear(long olid);
         /// <summary>
         /// 清理无效章节
         /// </summary>
@@ -141,27 +134,11 @@ namespace Song.ServiceInterfaces
         /// 获取指定个数的章节列表
         /// </summary>
         /// <param name="couid">所属课程id</param>
+        /// <param name="search"></param>
         /// <param name="isUse"></param>
         /// <param name="count">取多少条记录，如果小于等于0，则取所有</param>
         /// <returns></returns>
         Outline[] OutlineCount(long couid, string search, bool? isUse, int count);
-        /// <summary>
-        /// 获取指定个数的章节列表
-        /// </summary>
-        /// <param name="couid"></param>
-        /// <param name="islive">是否是直播章节</param>
-        /// <param name="search"></param>
-        /// <param name="isUse"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        Outline[] OutlineCount(long couid, bool? islive, string search, bool? isUse, int count);
-        /// <summary>
-        /// 直播中的章节
-        /// </summary>
-        /// <param name="orgid"></param>
-        /// <param name="count"></param>
-        /// <returns></returns>
-        List<Outline> OutlineLiving(int orgid, int count);
         /// <summary>
         /// 取指定数量的章节
         /// </summary>
@@ -172,6 +149,17 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         Outline[] OutlineCount(long couid, long pid, bool? isUse, int count);
         /// <summary>
+        /// 获取指定个数的章节列表
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="pid"></param>
+        /// <param name="islive">是否是直播章节</param>
+        /// <param name="search"></param>
+        /// <param name="isUse"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        Outline[] OutlineCount(long couid, long pid, bool? islive, string search, bool? isUse, int count);
+        /// <summary>
         /// 取指定数量的章节
         /// </summary>
         /// <param name="orgid">机构Id</param>
@@ -181,7 +169,14 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Outline[] OutlineCount(int orgid, long  sbjid, long couid, long pid, bool? isUse, int count);
+        Outline[] OutlineCount(int orgid, long sbjid, long couid, long pid, bool? islive, string search, bool? isUse, int count);
+        /// <summary>
+        /// 直播中的章节
+        /// </summary>
+        /// <param name="orgid"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        List<Outline> OutlineLiving(int orgid, int count);         
         /// <summary>
         /// 当前课程下的章节数
         /// </summary>
@@ -207,8 +202,9 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse">是否启用</param>
         /// <param name="isVideo">是否有视频</param>
         /// <param name="isFinish">章节是否完节</param>
+        /// <param name="children">是否含下级</param> 
         /// <returns></returns>
-        int OutlineOfCount(long couid, long pid, bool? isUse, bool? isVideo, bool? isFinish);
+        int OutlineOfCount(long couid, long pid, bool? isUse, bool? isVideo, bool? isFinish, bool? children);
         /// <summary>
         /// 是否有子级章节
         /// </summary>
