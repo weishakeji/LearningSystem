@@ -216,7 +216,7 @@ Vue.component('general', {
     template: `<div class="general">
         <el-form ref="question" :model="question" @submit.native.prevent label-width="80px">    
             <el-form-item label="难度" prop="Qus_Diff">
-                <el-rate  v-model="question.Qus_Diff" :max="5" show-score></el-rate>
+                <el-rate title="点击难度值" v-model="question.Qus_Diff" :max="5" show-score></el-rate>
             </el-form-item>
             <el-form-item label="排序号" prop="Qus_Tax">
                 <el-input-number v-model="question.Qus_Tax"></el-input-number>
