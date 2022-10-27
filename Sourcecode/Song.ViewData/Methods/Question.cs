@@ -224,6 +224,9 @@ namespace Song.ViewData.Methods
                     errorOjb.Add(ex);
                 }
             }
+            //试题导入有可能新增了章节，这里刷新一下章节的缓存
+            Business.Do<IOutline>().BuildCache(couid);
+
             JObject jo = new JObject();
             jo.Add("success", success);
             jo.Add("error", error);

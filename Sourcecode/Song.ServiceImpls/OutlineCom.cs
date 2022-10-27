@@ -130,8 +130,7 @@ namespace Song.ServiceImpls
                 }
                 last = current;
                 pid = current.Ol_ID;
-            }
-            this.BuildCache(couid);
+            }            
             return last;
         }
         /// <summary>

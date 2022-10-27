@@ -109,6 +109,10 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         List<Outline> OutlineAll(long couid, bool? isUse);
         /// <summary>
+        /// 构建缓存，章节缓存以课程为单位存储
+        /// </summary>
+        List<Outline> BuildCache(long couid);
+        /// <summary>
         /// 生成树形结构的章节列表
         /// </summary>
         /// <param name="outlines"></param>
