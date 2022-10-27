@@ -365,7 +365,8 @@ namespace Song.ServiceImpls
         /// 删除章节
         /// </summary>
         /// <param name="entity">业务实体</param>
-        public void OutlineDelete(Outline entity)
+        /// <param name="freshCache"></param>
+        public void OutlineDelete(Outline entity, bool freshCache)
         {
             if (entity == null) return;
             List<Song.Entities.Accessory> acs = Business.Do<IAccessory>().GetAll(entity.Ol_UID);
@@ -394,7 +395,9 @@ namespace Song.ServiceImpls
                         {
                         }
                     }
-                    this.BuildCache(entity.Cou_ID);
+                    //刷新缓存
+                    if(freshCache)
+                        this.BuildCache(entity.Cou_ID);
                 }
                 catch (Exception ex)
                 {
@@ -414,7 +417,7 @@ namespace Song.ServiceImpls
         public void OutlineDelete(long identify)
         {
             Song.Entities.Outline ol = this.OutlineSingle(identify);
-            this.OutlineDelete(ol);            
+            this.OutlineDelete(ol, true);        
         }
         /// <summary>
         /// 获取单一实体对象，按主键ID；
@@ -507,9 +510,11 @@ namespace Song.ServiceImpls
         /// 获取所有课程章节
         /// </summary>
         /// <param name="couid">所属课程id</param>
-        /// <param name="isUse"></param>
+        /// <param name="use">是否启用</param>
+        /// <param name="finish">章节是否完成</param>
+        /// <param name="video">是否为视频章节</param>
         /// <returns></returns>
-        public List<Outline> OutlineAll(long couid, bool? isUse)
+        public List<Outline> OutlineAll(long couid, bool? use, bool? finish, bool? video)
         {
             //从缓存中读取
             List<Outline> list = Cache.EntitiesCache.GetList<Outline>(couid);
@@ -517,8 +522,10 @@ namespace Song.ServiceImpls
             //自定义查询条件
             Func<Outline, bool> exp = x =>
             {
-                var use_exp = isUse != null ? x.Ol_IsUse == (bool)isUse : true; 
-                return use_exp;
+                var use_exp = use != null ? x.Ol_IsUse == (bool)use : true;
+                var finish_exp = finish != null ? x.Ol_IsFinish == (bool)finish : true;
+                var video_exp = video != null ? x.Ol_IsVideo == (bool)video : true;
+                return use_exp && finish_exp && video_exp;
             };
             List<Outline> result = list.Where(exp).ToList<Outline>();
             return result;           
@@ -594,16 +601,25 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="olid"></param>
         public void OutlineClear(long olid)
-        {
-            //清理试题
-            Gateway.Default.Delete<Questions>(Questions._.Ol_ID == olid);
+        {         
             //清理附件
             Outline ol = this.OutlineSingle(olid);
-            if (ol != null)
-            {
-                Business.Do<IAccessory>().Delete(ol.Ol_UID, string.Empty);
-                this.BuildCache(ol.Cou_ID);
-            }           
+            this.OutlineClear(ol, true);       
+        }
+        /// <summary>
+        /// 清空章节下试题和附件
+        /// </summary>
+        /// <param name="entity">章节对象</param>
+        /// <param name="freshCache"></param>
+        public void OutlineClear(Outline entity, bool freshCache)
+        {
+            //清理试题
+            Gateway.Default.Delete<Questions>(Questions._.Ol_ID == entity.Ol_ID);
+            //清理附件
+            Business.Do<IAccessory>().Delete(entity.Ol_UID, string.Empty);
+
+            if (freshCache)
+                this.BuildCache(entity.Cou_ID);
         }
         /// <summary>
         /// 清理无效章节
@@ -687,7 +703,7 @@ namespace Song.ServiceImpls
                 var org_exp = orgid > 0 ? x.Org_ID == orgid : true;
                 var sbj_exp = sbjid > 0 ? x.Sbj_ID == sbjid : true;
                 var cou_exp = couid > 0 ? x.Cou_ID == couid : true;
-                var pid_exp = pid > 0 ? x.Ol_PID == pid : true;
+                var pid_exp = pid > -1 ? x.Ol_PID == pid : true;
 
                 var live_exp = islive != null ? x.Ol_IsLive == (bool)islive : true;
                 var search_exp = string.IsNullOrWhiteSpace(search) ? x.Ol_Name.Contains(search) : true;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using System.Linq;
 
 using WeiSha.Core;
 using Song.Entities;
@@ -436,11 +437,15 @@ namespace Song.ServiceImpls
             tpi = _getItemCoutomOrder(list.ToArray());
             //***************  开始抽取试题
             List<Questions> listQus = new List<Questions>();
-            //1、获取章节
-            Outline[] outlines = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == tp.Cou_ID && Outline._.Ol_PID == 0).ToArray<Outline>();
+            //1、先取当前课程下的试题
+            List<Questions> questions = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == tp.Cou_ID
+                && Questions._.Qus_Diff >= tp.Tp_Diff && Questions._.Qus_Diff <= tp.Tp_Diff2).ToList<Questions>();
+            //2、获取章节，按章节配置项取试题
+            List<Outline> outlines = Business.Do<IOutline>().OutlineCount(tp.Cou_ID, -1, true, 0);
+
             foreach (Outline ol in outlines)
             {
-                //2、取当前章节的各题型数量
+                //3、取当前章节的各题型数量
                 TestPaperItem[] tpols = this.GetItemForOlCount(tp, ol.Ol_ID);
                 foreach (TestPaperItem it in tpols)
                 {
@@ -455,9 +460,18 @@ namespace Song.ServiceImpls
                         }
                     }
                     if (!isExist) continue;
-                    //3、抽取试题，并将抽到题汇集到一起，即到listQus列表中去
-                    Questions[] ques = Business.Do<IQuestions>().QuesRandom(tp.Org_ID, -1, tp.Cou_ID, ol.Ol_ID, it.TPI_Type, -1, -1, true, it.TPI_Count);
-                    foreach (Questions q in ques) listQus.Add(q);                    
+                    //4、抽取试题，并将抽到题汇集到一起，即到listQus列表中去
+                    List<Questions> ques = (from l in questions
+                                            where l.Ol_ID == ol.Ol_ID && l.Qus_Type == it.TPI_Type
+                                            select l).ToList<Questions>();
+
+                    for (int i = 0; i < it.TPI_Count && i < ques.Count; i++)
+                    {
+                        Random random = new Random(DateTime.Now.Millisecond + ques.Count);
+                        int rnd = random.Next(ques.Count);
+                        listQus.Add(ques[rnd]);
+                        ques.RemoveAt(rnd);
+                    }
                 }
             }
             //****************  开始出卷

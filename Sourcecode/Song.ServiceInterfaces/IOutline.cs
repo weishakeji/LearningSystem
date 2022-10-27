@@ -63,17 +63,18 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 删除章节
         /// </summary>
-        /// <param name="entity">业务实体</param>
-        void OutlineDelete(Outline olid);
+        /// <param name="entity">章节对象</param>
+        /// <param name="freshCache"></param>
+        void OutlineDelete(Outline entity, bool freshCache);
         /// <summary>
         /// 删除，按主键ID；
         /// </summary>
-        /// <param name="identify">实体的主键</param>
+        /// <param name="olid">实体的主键</param>
         void OutlineDelete(long olid);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
-        /// <param name="identify">实体的主键</param>
+        /// <param name="olid">实体的主键</param>
         /// <returns></returns>
         Outline OutlineSingle(long olid);
         /// <summary>
@@ -105,9 +106,11 @@ namespace Song.ServiceInterfaces
         /// 获取所有课程章节
         /// </summary>
         /// <param name="couid">所属课程id</param>
-        /// <param name="isUse"></param>
+        /// <param name="use">是否启用</param>
+        /// <param name="finish">章节是否完成</param>
+        /// <param name="video">是否为视频章节</param>
         /// <returns></returns>
-        List<Outline> OutlineAll(long couid, bool? isUse);
+        List<Outline> OutlineAll(long couid, bool? use, bool? finish, bool? video);
         /// <summary>
         /// 构建缓存，章节缓存以课程为单位存储
         /// </summary>
@@ -123,6 +126,12 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="olid"></param>
         void OutlineClear(long olid);
+        /// <summary>
+        /// 清空章节下试题和附件
+        /// </summary>
+        /// <param name="entity">章节对象</param>
+        /// <param name="freshCache"></param>
+        void OutlineClear(Outline entity, bool freshCache);
         /// <summary>
         /// 清理无效章节
         /// </summary>

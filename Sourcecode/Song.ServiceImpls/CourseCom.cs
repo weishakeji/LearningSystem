@@ -261,8 +261,7 @@ namespace Song.ServiceImpls
             //是否有下级
             bool isExist = CourseIsChildren(entity.Org_ID, entity.Cou_ID, null);
             if (isExist) throw new Exception("当前课程下还有子课程，请先删除子课程。");
-
-            List<Outline> oul = Business.Do<IOutline>().OutlineAll(entity.Cou_ID, null);
+          
             Song.Entities.GuideColumns[] gcs = Business.Do<IGuide>().GetColumnsAll(entity.Cou_ID,string.Empty, null);
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
@@ -610,49 +609,50 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 清除课程的内容
         /// </summary>
-        /// <param name="identify"></param>
-        public void CourseClear(long identify)
+        /// <param name="couid"></param>
+        public void CourseClear(long couid)
         {
             //删除章节
-            List<Song.Entities.Outline> outline = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == identify).ToList<Outline>();
+            List<Song.Entities.Outline> outline = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == couid).ToList<Outline>();
             if (outline != null && outline.Count > 0)
             {
                 foreach (Song.Entities.Outline ol in outline)
                 {
-                    Business.Do<IOutline>().OutlineClear(ol.Ol_ID);
-                    Business.Do<IOutline>().OutlineDelete(ol.Ol_ID);
+                    Business.Do<IOutline>().OutlineClear(ol, false);
+                    Business.Do<IOutline>().OutlineDelete(ol, false);
                 }
             }
-            //删除试卷
-            List<Song.Entities.TestPaper> tps = Gateway.Default.From<TestPaper>().Where(TestPaper._.Cou_ID == identify).ToList<TestPaper>();
+            Business.Do<IOutline>().BuildCache(couid);
+           //删除试卷
+           List <Song.Entities.TestPaper> tps = Gateway.Default.From<TestPaper>().Where(TestPaper._.Cou_ID == couid).ToList<TestPaper>();
             if (tps != null && tps.Count > 0)
             {
                 foreach (Song.Entities.TestPaper t in tps)
                     Business.Do<ITestPaper>().PaperDelete(t.Tp_Id);
             }
             //考试指南
-            List<Song.Entities.GuideColumns> gcs = Gateway.Default.From<GuideColumns>().Where(GuideColumns._.Cou_ID == identify).ToList<GuideColumns>();
+            List<Song.Entities.GuideColumns> gcs = Gateway.Default.From<GuideColumns>().Where(GuideColumns._.Cou_ID == couid).ToList<GuideColumns>();
             if (gcs != null && gcs.Count > 0)
             {
                 foreach (Song.Entities.GuideColumns t in gcs)
                     Business.Do<IGuide>().ColumnsDelete(t);
             }
-            List<Song.Entities.KnowledgeSort> knlsoft = Gateway.Default.From<KnowledgeSort>().Where(KnowledgeSort._.Cou_ID == identify).ToList<KnowledgeSort>();
+            List<Song.Entities.KnowledgeSort> knlsoft = Gateway.Default.From<KnowledgeSort>().Where(KnowledgeSort._.Cou_ID == couid).ToList<KnowledgeSort>();
             if (gcs != null && knlsoft.Count > 0)
             {
                 foreach (Song.Entities.KnowledgeSort t in knlsoft)
                     Business.Do<IKnowledge>().SortDelete(t);
             }
             //清理试题
-            List<Song.Entities.Questions> ques = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == identify).ToList<Questions>();
+            List<Song.Entities.Questions> ques = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == couid).ToList<Questions>();
             if (ques != null && ques.Count > 0)
             {
                 foreach (Song.Entities.Questions c in ques)
                     Business.Do<IQuestions>().QuesDelete(c.Qus_ID);
             }
             //删除留言
-            Gateway.Default.Delete<Message>(Message._.Cou_ID == identify);
-            Gateway.Default.Delete<MessageBoard>(MessageBoard._.Cou_ID == identify);
+            Gateway.Default.Delete<Message>(Message._.Cou_ID == couid);
+            Gateway.Default.Delete<MessageBoard>(MessageBoard._.Cou_ID == couid);
         }
         public int CourseOfCount(int orgid, long sbjid, int thid, bool? isuse)
         {

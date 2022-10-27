@@ -970,37 +970,90 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         /// <param name="acid">学员id</param>
         /// <param name="couid">课程id</param>
         /// <returns></returns>
-        public DataTable StudentStudyCourseLog(int acid,long couid)
+        public DataTable StudentStudyCourseLog(int acid, long couid)
         {
-            //开始计算
-            string sql = @"select * from course as c inner join 
-                        (
-	                        select Cou_ID, max(lastTime) as 'lastTime', SUM(studyTime) as 'studyTime'	
-	                        ,cast(convert(decimal(18,4), cast(sum(complete) as float)/COUNT(*)) as float) as 'complete'
-	                         from 
-	                        (	
-		                        select c.*, s.lastTime
-		                        ,CASE WHEN s.studyTime is null THEN 0 ELSE s.studyTime END as 'studyTime'
-		                        ,CASE WHEN s.complete is null THEN 0 WHEN s.complete>100  THEN 100 ELSE s.complete END as 'complete'
-		                        from 
-		                        (
-			                        (SELECT * from outline where {couid} and Ol_IsUse=1 and Ol_IsFinish=1 and Ol_IsVideo=1)  as c left join 
-				                        (SELECT ol_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
-							                         sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
-							                         (case  when max(Lss_Duration)>0 then
-							                         cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100
-							                         else 0 end
-						                          ) as 'complete'
-					                        FROM [LogForStudentStudy]  where {couid} and  {acid}  group by ol_id 
-				                        ) as s on c.Ol_ID=s.Ol_ID
-		                        ) 
-	                        ) as t group by Cou_ID
-                        ) as tm on c.Cou_ID=tm.Cou_ID";
-            //sql = sql.Replace("{orgid}", orgid > 0 ? "org_id=" + orgid : "1=1");
-            sql = sql.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
-            sql = sql.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
-            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            return ds.Tables[0];
+            //课程数据
+            DataSet ds = Gateway.Default.FromSql("select * from Course where Cou_ID=" + couid).ToDataSet();
+            DataTable dt = ds.Tables[0];
+            dt.Columns.Add("lastTime", typeof(DateTime));
+            dt.Columns.Add("studyTime", typeof(int));
+            dt.Columns.Add("complete", typeof(double));
+            if (dt.Rows.Count < 1) return dt;
+
+            //获取学习记录
+            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration FROM [LogForStudentStudy] where {couid} and {acid}";
+            sql_log = sql_log.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
+            sql_log = sql_log.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
+
+            //当前课程的所有视频章节
+            List<Song.Entities.Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, true, true, true);
+            //最后学习时间
+            DateTime lasttime = DateTime.MinValue;
+            //累计学习时间，累计完成度
+            double totalStudy = 0, totalComplete = 0;
+            int count = 0;
+            using (SourceReader reader = Gateway.Default.FromSql(sql_log).ToReader())
+            {
+                while (reader.Read())
+                {
+                    //章节id
+                    long olid = reader.GetValue<long>(0);
+                    Song.Entities.Outline outline = outlines.Find(x => x.Ol_ID == olid);
+                    if (outline == null) continue;
+                    count++;
+                    //时间
+                    DateTime time = reader.GetValue<DateTime>(1);
+                    if (time > lasttime) lasttime = time;
+                    //学习时长,单位秒
+                    double study = reader.GetValue<double>(2);
+                    totalStudy += study;
+                    //视频时长，单位秒
+                    int dura = reader.GetValue<int>(3) / 1000;
+                    //完成度
+                    double complete = study / dura * 100;
+                    totalComplete += complete > 100 ? 100 : complete;
+                }
+                reader.Close();
+            }
+            totalComplete = totalComplete / outlines.Count;
+            totalComplete = totalComplete > 100 ? 100 : totalComplete;
+            totalComplete = Math.Round(totalComplete * 100) / 100;
+            //合并数据
+            dt.Rows[0]["lastTime"] = lasttime;
+            dt.Rows[0]["studyTime"] = (int)totalStudy;
+            dt.Rows[0]["complete"] = totalComplete;
+            return dt;
+
+            ////开始计算
+            //string sql = @"select * from course as c inner join 
+            //            (
+            //             select Cou_ID, max(lastTime) as 'lastTime', SUM(studyTime) as 'studyTime'	
+            //             ,cast(convert(decimal(18,4), cast(sum(complete) as float)/COUNT(*)) as float) as 'complete'
+            //              from 
+            //             (	
+            //              select c.*, s.lastTime
+            //              ,CASE WHEN s.studyTime is null THEN 0 ELSE s.studyTime END as 'studyTime'
+            //              ,CASE WHEN s.complete is null THEN 0 WHEN s.complete>100  THEN 100 ELSE s.complete END as 'complete'
+            //              from 
+            //              (
+            //               (SELECT * from outline where {couid} and Ol_IsUse=1 and Ol_IsFinish=1 and Ol_IsVideo=1)  as c left join 
+            //                (SELECT ol_id,MAX(cou_id) as 'cou_id', MAX(Lss_LastTime) as 'lastTime', 
+            //                    sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
+            //                    (case  when max(Lss_Duration)>0 then
+            //                    cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100
+            //                    else 0 end
+            //                    ) as 'complete'
+            //                 FROM [LogForStudentStudy]  where {couid} and  {acid}  group by ol_id 
+            //                ) as s on c.Ol_ID=s.Ol_ID
+            //              ) 
+            //             ) as t group by Cou_ID
+            //            ) as tm on c.Cou_ID=tm.Cou_ID";
+            ////sql = sql.Replace("{orgid}", orgid > 0 ? "org_id=" + orgid : "1=1");
+            //sql = sql.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
+            //sql = sql.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
+            //DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            //return ds.Tables[0];
+
         }
         /// <summary>
         /// 学员学习某一课程下所有章节的记录

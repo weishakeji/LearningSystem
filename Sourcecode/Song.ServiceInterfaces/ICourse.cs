@@ -122,7 +122,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 清除课程的内容
         /// </summary>
-        /// <param name="identify"></param>
+        /// <param name="couid"></param>
         void CourseClear(long couid);
         /// <summary>
         /// 获取指定个数的课程列表

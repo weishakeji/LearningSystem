@@ -155,7 +155,7 @@ namespace Song.ViewData.Methods
         public DataTable TreeList(long couid)
         {
             // 当前课程的所有章节
-            List<Song.Entities.Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, true);
+            List<Song.Entities.Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, true, true, null);
             if (outlines.Count > 0)
             {
                 foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;
@@ -174,7 +174,7 @@ namespace Song.ViewData.Methods
         public JArray Tree(long couid, bool? isuse)
         {
             if (couid <= 0) return null;
-            List<Song.Entities.Outline> list = Business.Do<IOutline>().OutlineAll(couid, isuse);           
+            List<Song.Entities.Outline> list = Business.Do<IOutline>().OutlineAll(couid, isuse, null, null);           
             return list.Count > 0 ? _outlineNode(null, list) : null;
         }
         /// <summary>

@@ -378,8 +378,8 @@ namespace Song.ServiceImpls
             diff1 = diff1 < 1 ? 1 : diff1;
             diff2 = diff2 < 1 || diff2 > 5 ? 5 : diff2;
             //基本属性
-            string where = " Qus_IsError=false and org_id=" + orgid + " ";
-            where = string.Format(where, diff1, diff2);
+            string where = " Qus_IsError=false ";
+            if (orgid > 0) where += " and org_id=" + orgid; //试题类型
             if (type > 0) where += " and Qus_Type=" + type; //试题类型
             if (diff1 > 0) where += " and Qus_Diff>=" + diff1;  //最小难度等级
             if (diff2 > 0) where += " and Qus_Diff<=" + diff2;  //最大难度
@@ -387,7 +387,10 @@ namespace Song.ServiceImpls
             if (olid > 0)
             {
                 //章节id
-                string olstr = _quesRandom_buildOlid(olid);
+                List<long> list = Business.Do<IOutline>().TreeID(olid);
+                string olstr = string.Empty;
+                foreach(int id in list) olstr += " or Ol_ID=" + id;
+                //string olstr = _quesRandom_buildOlid(olid);
                 where += " and (Ol_ID=" + olid + olstr + ")";
             }
             else
@@ -403,20 +406,20 @@ namespace Song.ServiceImpls
             }
             //根据不同的数据库拼接SQL语句
             string sql = "";
-            string dataype = WeiSha.Core.Server.DatabaseType; //数据库类型
-            if (dataype != "access")
-            {
+            //string dataype = WeiSha.Core.Server.DatabaseType; //数据库类型
+            //if (dataype != "access")
+            //{
                 sql = "select top " + count + "  *, newid() as n from Questions where " + where + " order by n";
                 sql = sql.Replace("true", "1");
                 sql = sql.Replace("false", "0");
-            }
-            else
-            {
-                int rdid = new System.Random(unchecked((int)DateTime.Now.Ticks)).Next();
-                sql = "select top " + count + " * from Questions where " + where + " order by rnd(" + (-1 * rdid) + "*Qus_ID)";
-                sql = "select * from (" + sql + ") as t order by t.Qus_Type asc";
-                return Gateway.Default.FromSql(sql).ToArray<Questions>();
-            }
+            //}
+            //else
+            //{
+            //    int rdid = new System.Random(unchecked((int)DateTime.Now.Ticks)).Next();
+            //    sql = "select top " + count + " * from Questions where " + where + " order by rnd(" + (-1 * rdid) + "*Qus_ID)";
+            //    sql = "select * from (" + sql + ") as t order by t.Qus_Type asc";
+            //    return Gateway.Default.FromSql(sql).ToArray<Questions>();
+            //}
             sql = "select * from (" + sql + ") as t order by t.Qus_Type asc";
             #endregion
             //
