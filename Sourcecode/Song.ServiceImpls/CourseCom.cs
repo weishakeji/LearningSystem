@@ -217,11 +217,11 @@ namespace Song.ServiceImpls
         public bool IsLiveCourse(long couid, bool check)
         {
             if (!check) return this.IsLiveCourse(couid);
-            Outline[] outs = Business.Do<IOutline>().OutlineCount(couid, -1, null, 0);
+            List<Outline> outs = Business.Do<IOutline>().OutlineCount(couid, -1, null, 0);
             bool isExist = false;
             foreach (Outline o in outs)
             {
-                if (o.Ol_IsLive)
+                if (o.Ol_IsUse && o.Ol_IsLive)
                 {
                     isExist = true;
                     break;

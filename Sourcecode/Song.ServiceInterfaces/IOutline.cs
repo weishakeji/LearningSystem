@@ -138,7 +138,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count">取多少条记录，如果小于等于0，则取所有</param>
         /// <returns></returns>
-        Outline[] OutlineCount(long couid, string search, bool? isUse, int count);
+        List<Outline> OutlineCount(long couid, string search, bool? isUse, int count);
         /// <summary>
         /// 取指定数量的章节
         /// </summary>
@@ -147,7 +147,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Outline[] OutlineCount(long couid, long pid, bool? isUse, int count);
+        List<Outline> OutlineCount(long couid, long pid, bool? isUse, int count);
         /// <summary>
         /// 获取指定个数的章节列表
         /// </summary>
@@ -158,7 +158,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Outline[] OutlineCount(long couid, long pid, bool? islive, string search, bool? isUse, int count);
+        List<Outline> OutlineCount(long couid, long pid, bool? islive, string search, bool? isUse, int count);
         /// <summary>
         /// 取指定数量的章节
         /// </summary>
@@ -169,7 +169,7 @@ namespace Song.ServiceInterfaces
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        Outline[] OutlineCount(int orgid, long sbjid, long couid, long pid, bool? islive, string search, bool? isUse, int count);
+        List<Outline> OutlineCount(int orgid, long sbjid, long couid, long pid, bool? islive, string search, bool? isUse, int count);
         /// <summary>
         /// 直播中的章节
         /// </summary>

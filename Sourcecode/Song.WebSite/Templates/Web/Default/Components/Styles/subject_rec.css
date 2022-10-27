@@ -4,8 +4,17 @@ weisha.subject_rec {
     height: 420px;
     position: relative;
     margin-bottom: 120px;
+    cursor: pointer;
+    transition: all 0.5s;
 }
-
+weisha.subject_rec subject:hover{
+    transform: scale(1.02);
+}
+weisha.subject_rec subject img{
+    width: 220px;
+    max-height: 420px;
+    border-radius: 3px;
+}
 /*课程*/
 
 weisha.subject_rec courses {
@@ -46,6 +55,7 @@ weisha.subject_rec courses img:first-child {
     width: 260px;
     height: 146px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 weisha.subject_rec .name {

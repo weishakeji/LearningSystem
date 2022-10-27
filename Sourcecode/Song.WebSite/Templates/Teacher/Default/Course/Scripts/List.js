@@ -127,6 +127,32 @@ $ready(function () {
                     console.error(err);
                 });
             },
+             //刷新单一课程
+             fressingle: function (id) {
+                var th = this;
+                th.loadingid = id;
+                $api.get('Course/ForID', { 'id': id }).then(function (req) {
+                    th.loadingid = 0;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        var index = th.datas.findIndex(item => {
+                            return item.Cou_ID == result.Cou_ID;
+                        });
+                        th.$set(th.datas, index, result);
+                        th.$message({
+                            message: '刷新课程 “' + result.Cou_Name + '” 成功',
+                            type: 'success'
+                        });
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loadingid = 0;
+                    //Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            },
             //更改状态
             changeState: function (row) {
                 var th = this;

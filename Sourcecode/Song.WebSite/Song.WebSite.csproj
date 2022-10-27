@@ -1209,6 +1209,9 @@
     <Content Include="Templates\Web\Default\Question\Styles\Exercises.css" />
     <Content Include="Templates\Web\Default\Question\Styles\Notes.css" />
     <Content Include="Templates\Web\Default\Question\Styles\Often.css" />
+    <Content Include="Templates\Web\Default\Snow\Index.html" />
+    <Content Include="Templates\Web\Default\Snow\Scripts\Index.js" />
+    <Content Include="Templates\Web\Default\Snow\Styles\Index.css" />
     <Content Include="Templates\Web\Default\Teach\Index.html" />
     <Content Include="Templates\Web\Default\Teach\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Teach\Styles\Index.css" />
