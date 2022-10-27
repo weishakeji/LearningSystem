@@ -33,6 +33,7 @@ weisha_course img:first-child {
     width: 260px;
     height: 146px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 

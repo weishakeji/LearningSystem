@@ -128,7 +128,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpGet(Ignore = true)]
         [Cache(Expires = 20)]
-        public Song.Entities.Outline[] List(long couid, long pid)
+        public List<Song.Entities.Outline> List(long couid, long pid)
         {
             return Business.Do<IOutline>().OutlineCount(couid, pid, true, 0);
         }

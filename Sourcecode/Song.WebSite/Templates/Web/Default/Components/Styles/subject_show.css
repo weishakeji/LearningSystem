@@ -12,8 +12,12 @@ weisha.subject_show subject {
     position: relative;
     width: 220px;
     height: 420px;
+    cursor: pointer;
+    transition: all 0.5s;    
 }
-
+weisha.subject_show subject:hover{
+    transform: scale(1.02);
+}
 weisha.subject_show subject::before {
     content: attr(name);
     display: block;
@@ -31,6 +35,7 @@ weisha.subject_show subject::before {
 weisha.subject_show subject img{
     width: 220px;
     max-height: 420px;
+    border-radius: 3px;
 }
 /*课程*/
 
@@ -70,6 +75,8 @@ weisha.subject_show courses img:first-child {
     width: 260px;
     height: 146px;
     border-radius: 5px;
+    cursor: pointer;
+    
 }
 
 weisha.subject_show .name {

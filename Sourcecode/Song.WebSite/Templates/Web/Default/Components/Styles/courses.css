@@ -1,1 +1,4 @@
 
+weisha_courses courses>div img:first-child{
+    cursor: pointer;
+}

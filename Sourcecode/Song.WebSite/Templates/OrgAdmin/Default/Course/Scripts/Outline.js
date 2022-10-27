@@ -289,9 +289,25 @@
                 }).open();
             },
             //更新后触发的事件
-            updatedEvent:function(){
+            updatedEvent: function () {
+                this.close_fresh('vapp.fressingle(' + this.id + ')');
                 $api.cache('Outline/Tree:update', { 'couid': this.id, 'isuse': true });
-            }
+            },           
+            //关闭自身窗体，并刷新父窗体列表
+            close_fresh: function (func) {
+                //如果有选项卡组件，就处理选项卡页面中的事件
+                if (window.top.$tabs) {
+                    window.top.$pagebox.source.tab(window.name, func, false);
+                } else {
+                    //如果处在学员或教师管理界面
+                    var winname = window.name;
+                    if (winname.indexOf('_') > -1)
+                        winname = winname.substring(0, winname.lastIndexOf('_'));
+                    if (winname.indexOf('[') > -1)
+                        winname = winname.substring(0, winname.lastIndexOf('['));
+                    window.top.vapp.fresh(winname, func);
+                }
+            },
         }
     });
 }, ["/Utilities/editor/vue-html5-editor.js",

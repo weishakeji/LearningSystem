@@ -273,8 +273,8 @@ namespace Song.ServiceImpls
             xmldoc.Load(WeiSha.Core.Server.MapPath(confing));
             XmlNodeList nodes = xmldoc.GetElementsByTagName("item");
             //当前课程的所有章节
-            Song.Entities.Outline[] outls = this.OutlineCount(couid, -1, null, -1);
-            DataTable dt = WeiSha.Core.Tree.ObjectArrayToDataTable.To(outls);
+            List<Outline> outls = this.OutlineCount(couid, -1, null, -1);
+            DataTable dt = WeiSha.Core.Tree.ObjectArrayToDataTable.To(outls.ToArray());
             WeiSha.Core.Tree.DataTableTree tree = new WeiSha.Core.Tree.DataTableTree();
             tree.IdKeyName = "OL_ID";
             tree.ParentIdKeyName = "OL_PID";
@@ -656,7 +656,7 @@ namespace Song.ServiceImpls
         /// <param name="isUse"></param>
         /// <param name="count">取多少条记录，如果小于等于0，则取所有</param>
         /// <returns></returns>
-        public Outline[] OutlineCount(long couid, string search, bool? isUse, int count)
+        public List<Outline> OutlineCount(long couid, string search, bool? isUse, int count)
         {
             return OutlineCount(couid, -1, null, search, isUse, count);
         }        
@@ -669,15 +669,15 @@ namespace Song.ServiceImpls
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public Outline[] OutlineCount(long couid, long pid, bool? islive, string search, bool? isUse, int count)
+        public List<Outline> OutlineCount(long couid, long pid, bool? islive, string search, bool? isUse, int count)
         {
             return OutlineCount(-1, -1, couid, -1, null, search, isUse, count);           
         }
-        public Outline[] OutlineCount(long couid, long pid, bool? isUse, int count)
+        public List<Outline> OutlineCount(long couid, long pid, bool? isUse, int count)
         {
             return OutlineCount(-1, -1, couid, -1, null, string.Empty, isUse, count);            
         }
-        public Outline[] OutlineCount(int orgid, long sbjid, long couid, long pid, bool? islive, string search, bool? isUse, int count)
+        public List<Outline> OutlineCount(int orgid, long sbjid, long couid, long pid, bool? islive, string search, bool? isUse, int count)
         {
             //从缓存中读取
             List<Outline> list = Cache.EntitiesCache.GetList<Outline>(couid);
@@ -696,8 +696,12 @@ namespace Song.ServiceImpls
 
                 return org_exp && sbj_exp && cou_exp && pid_exp && live_exp && use_exp && search_exp;
             };
-            IEnumerable<Outline> result = list.Where(exp).Take<Outline>(count);
-            return result.ToArray();            
+            if (count > 0)
+            {
+                IEnumerable<Outline> result = list.Where(exp).Take<Outline>(count);
+                return result.ToList();
+            }
+            return list.Where(exp).ToList<Outline>();
         }
         /// <summary>
         /// 直播中的章节
