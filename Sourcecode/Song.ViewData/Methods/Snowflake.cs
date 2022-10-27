@@ -17,36 +17,24 @@ namespace Song.ViewData.Methods
     public class Snowflake : ViewMethod, IViewAPI
     {
         /// <summary>
-        /// 未经处理的课程
+        /// 生成雪花id
         /// </summary>
+        /// <param name="count"></param>
         /// <returns></returns>
-        public Song.Entities.Course[] CourseUntreated()
+        public string GenerateTest(int count)
         {
-            string sql = "SELECT *  FROM Course where Cou_ID<100000";
-            return WeiSha.Data.Gateway.Default.FromSql(sql).ToArray<Song.Entities.Course>();
+            for (int i = 0; i < count; i++)
+            {
+                long snowid = WeiSha.Core.Request.SnowID();
+               
+            }
+            return "生成 " + count + "个ID，这里仅是为了测试生成速度，请查看 execspan 值（单位 毫秒）";
         }
         /// <summary>
-        /// 将之前的课程，Cou_ID转为雪花id,原Cou_ID值记录到Cou_PID
+        /// 生成雪花id
         /// </summary>
+        /// <param name="count"></param>
         /// <returns></returns>
-        public int CourseGenerate()
-        {
-            string sql = "SELECT *  FROM Course where Cou_ID<100000";
-            Song.Entities.Course[] courses = WeiSha.Data.Gateway.Default.FromSql(sql).ToArray<Song.Entities.Course>();
-            int i = 0;
-            foreach(Song.Entities.Course c in courses)
-            {
-                long couid = c.Cou_ID;             
-                long snowid = WeiSha.Core.Request.SnowID();
-                Business.Do<ICourse>().CourseUpdate(couid,
-                    new WeiSha.Data.Field[] {
-                        Song.Entities.Course._.Cou_ID,
-                        Song.Entities.Course._.Cou_PID },
-                    new object[] { snowid, couid });
-                i++;
-            }
-            return i;
-        }
         public JObject Generate(int count)
         {
             JObject jo = new JObject();
