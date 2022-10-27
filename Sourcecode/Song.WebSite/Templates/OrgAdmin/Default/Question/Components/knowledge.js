@@ -125,6 +125,7 @@ Vue.component('knowledge', {
         },
         //设置知识点与试题的关联
         setcontact: function (knl) {
+            //if(knl==null)this.knowledge = null;
             this.question.Kn_Uid = knl == null ? '' : knl.Kn_Uid;
             this.knl_uid = this.question.Kn_Uid;
             if (this.knl_uid == '') this.knowledge = null;
@@ -136,12 +137,13 @@ Vue.component('knowledge', {
         }
     },
     template: `<div class="knowledge">
-        <div class="selected">
+        <div :class="knowledge ? 'selected' : 'knl_noselected'">
             <icon>&#xe84d</icon>
-            <span v-if="knowledge" @click="showKnl(knowledge)">{{knowledge.Kn_Title}}
-            <el-link type="danger" icon="el-icon-delete" @click="setcontact(null)">清除</el-link>
-            </span>
-            <span v-else class="knl_noselected">没有关联的知识点</span>
+            <template v-if="knowledge">               
+                <span @click="showKnl(knowledge)">{{knowledge ? knowledge.Kn_Title : ''}} </span>
+                <el-link type="danger" icon="el-icon-delete" @click="setcontact(null)">清除</el-link>
+            </template>
+            <span v-else>没有关联的知识点</span>
         </div>
         <div class="search">
             <el-cascader clearable v-model="sortuid" placeholder="请选择知识分类"

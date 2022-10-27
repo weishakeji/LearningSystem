@@ -9,7 +9,6 @@
 .knowledge .selected {
 	width: 100%;
 	line-height: 30px;
-	padding: 0px 15px;
 	box-sizing: border-box;
 	font-size: 16px;
 	color: #549c30;
@@ -18,8 +17,9 @@
 
 /*当前试题没有关联知识点的提示*/
 .knl_noselected {
-	font-size: 14px;
-	color: #999;
+	font-size: 16px;
+	color: #F56C6C;
+	line-height: 30px;
 }
 
 .knowledge .search {
