@@ -980,6 +980,12 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             dt.Columns.Add("complete", typeof(double));
             if (dt.Rows.Count < 1) return dt;
 
+            Organization org = Business.Do<IOrganization>().OrganCurrent();
+            if (org == null) throw new Exception("学员所在的机构不存在！");
+            WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
+            //容差，例如完成度小于5%，则默认100%
+            int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
+
             //获取学习记录
             string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration FROM [LogForStudentStudy] where {couid} and {acid}";
             sql_log = sql_log.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
@@ -1011,7 +1017,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                     int dura = reader.GetValue<int>(3) / 1000;
                     //完成度
                     double complete = study / dura * 100;
-                    totalComplete += complete > 100 ? 100 : complete;
+                    totalComplete += complete > 100 - tolerance ? 100 : complete;
                 }
                 reader.Close();
             }
@@ -1063,33 +1069,78 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         /// <returns>datatable中，LastTime：最后学习时间；totalTime：视频时间长；playTime：播放进度；studyTime：学习时间，complete：完成度百分比</returns>
         public DataTable StudentStudyOutlineLog(long couid, int acid)
         {
-            Accounts student = Gateway.Default.From<Accounts>().Where(Accounts._.Ac_ID == acid).ToFirst<Accounts>();
-            if (student == null) throw new Exception("当前学员不存在！");
-            Organization org = Gateway.Default.From<Organization>().Where(Organization._.Org_ID == student.Org_ID).ToFirst<Organization>();
+            //当前课程的所有视频章节
+            List<Song.Entities.Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, true, true, true);
+            if (outlines == null || outlines.Count < 1) return null;
+            DataTable dt = WeiSha.Core.DataConvert.ToDataTable<Song.Entities.Outline>(outlines, "Ol_ID");
+            dt.Columns.Add("lastTime", typeof(DateTime));
+            dt.Columns.Add("studyTime", typeof(int));
+            dt.Columns.Add("totalTime", typeof(int));
+            dt.Columns.Add("playTime", typeof(int));
+            dt.Columns.Add("complete", typeof(double));
+            if (dt.Rows.Count < 1) return dt;
+
+
+            Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org == null) throw new Exception("学员所在的机构不存在！");
             WeiSha.Core.CustomConfig config = CustomConfig.Load(org.Org_Config);
             //容差，例如完成度小于5%，则默认100%
             int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
-            //读取学员学习记录
-            string sql = @"select
-                        c.*,s.ol_id, s.lastTime,
-                        CASE WHEN s.studyTime is null THEN 0 ELSE s.studyTime END as 'studyTime',
-                        CASE WHEN s.totalTime is null THEN 0 ELSE s.totalTime END as 'totalTime',
-                        CASE WHEN s.playTime is null THEN 0 ELSE s.playTime END as 'playTime',
-                        CASE WHEN s.complete is null THEN 0 WHEN s.complete>100  THEN 100 ELSE s.complete END as 'complete'
-                        from outline as c left join 
-                        (SELECT ol_id, MAX(Lss_LastTime) as 'lastTime', 
-	                        sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
-                            cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100 as 'complete'
 
-                          FROM [LogForStudentStudy] where {acid} and  {couid}  and Lss_Duration>0
-                        group by ol_id ) as s
-                        on c.ol_id=s.ol_id where {couid} order by ol_tax asc";
-            sql = sql.Replace("{couid}", "cou_id=" + couid);
-            sql = sql.Replace("{acid}", "ac_id=" + acid);
+            //获取学习记录
+            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration,Lss_PlayTime FROM [LogForStudentStudy] where {couid} and {acid}";
+            sql_log = sql_log.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
+            sql_log = sql_log.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
+            using (SourceReader reader = Gateway.Default.FromSql(sql_log).ToReader())
+            {
+                while (reader.Read())
+                {
+                    //章节id
+                    long olid = reader.GetValue<long>(0);
+                    DataRow dr = dt.Rows.Find(olid);
+                    if (dr == null) continue;
+                    //最后时间
+                    DateTime lasttime = reader.GetValue<DateTime>(1);
+                    //学习时长,单位秒
+                    double study = reader.GetValue<double>(2);
+                    //视频时长，单位毫秒
+                    int dura = reader.GetValue<int>(3);
+                    //播放进度，单位毫秒
+                    int play = reader.GetValue<int>(4);
+                    //完成度
+                    double complete = study * 1000 / dura * 100;
+                    complete = complete > 100 - tolerance ? 100 : complete;
 
-            DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
-            return ds.Tables[0];           
+                    dr["lastTime"] = lasttime;
+                    dr["studyTime"] = study;
+                    dr["totalTime"] = dura;
+                    dr["playTime"] = play;
+                    dr["complete"] = complete;
+                }
+                reader.Close();
+            }
+            return dt;
+
+            ////读取学员学习记录
+            //string sql = @"select
+            //            c.*,s.ol_id, s.lastTime,
+            //            CASE WHEN s.studyTime is null THEN 0 ELSE s.studyTime END as 'studyTime',
+            //            CASE WHEN s.totalTime is null THEN 0 ELSE s.totalTime END as 'totalTime',
+            //            CASE WHEN s.playTime is null THEN 0 ELSE s.playTime END as 'playTime',
+            //            CASE WHEN s.complete is null THEN 0 WHEN s.complete>100  THEN 100 ELSE s.complete END as 'complete'
+            //            from outline as c left join 
+            //            (SELECT ol_id, MAX(Lss_LastTime) as 'lastTime', 
+	           //             sum(Lss_StudyTime) as 'studyTime', MAX(Lss_Duration) as 'totalTime', MAX([Lss_PlayTime]) as 'playTime',
+            //                cast(convert(decimal(18,4),1000* cast(sum(Lss_StudyTime) as float)/sum(Lss_Duration)) as float)*100 as 'complete'
+
+            //              FROM [LogForStudentStudy] where {acid} and  {couid}  and Lss_Duration>0
+            //            group by ol_id ) as s
+            //            on c.ol_id=s.ol_id where {couid} order by ol_tax asc";
+            //sql = sql.Replace("{couid}", "cou_id=" + couid);
+            //sql = sql.Replace("{acid}", "ac_id=" + acid);
+
+            //DataSet ds = Gateway.Default.FromSql(sql).ToDataSet();
+            //return ds.Tables[0];           
         }
         /// <summary>
         /// 章节学习记录作弊，直接将学习进度设置为100

@@ -186,7 +186,7 @@ namespace Song.ServiceImpls
             SystemPara curr = null;
             //从缓存中读取
             List<SystemPara> list = Cache.EntitiesCache.GetList<SystemPara>();
-            if (list == null) list = this.Refresh();         
+            if (list == null) list = this.Refresh();
             List<SystemPara> tm = (from l in list
                                    where l.Sys_Key == key
                                    select l).ToList<SystemPara>();
@@ -198,9 +198,12 @@ namespace Song.ServiceImpls
         /// 获取所有参数
         /// </summary>
         /// <returns></returns>
-        public SystemPara[] GetAll()
+        public List<SystemPara> GetAll()
         {
-            return Gateway.Default.From<SystemPara>().OrderBy(SystemPara._.Sys_Key.Asc).ToArray<SystemPara>();          ;
+            //从缓存中读取
+            List<SystemPara> list = Cache.EntitiesCache.GetList<SystemPara>();
+            if (list == null) list = this.Refresh();
+            return list;           
         }
         /// <summary>
         /// 查询获取参数

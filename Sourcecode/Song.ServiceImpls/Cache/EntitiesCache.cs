@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Caching;
@@ -106,6 +108,43 @@ namespace Song.ServiceImpls.Cache
             object obj = GetObject<T>(param);
             if (obj == null) return default;
             if (obj is List<T>) return (List<T>)obj;
+            return default;
+        }
+        /// <summary>
+        /// 获取缓存的值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static DataTable GetDataTable<T>(params object[] param) where T : WeiSha.Data.Entity
+        {
+            object obj = GetObject<T>(param);
+            if (obj == null) return null;
+            if (obj is List<T>)
+            {
+                List<T> list = (List<T>)obj;
+                if (list.Count < 1) return null;
+
+                //取出第一个实体的所有Propertie
+                Type entityType = list[0].GetType();
+                PropertyInfo[] properties = entityType.GetProperties();
+
+                DataTable dt = new DataTable(typeof(T).Name);
+                for (int i = 0; i < properties.Length; i++)              
+                    dt.Columns.Add(properties[i].Name, properties[i].PropertyType);
+                //将所有entity添加到DataTable中
+                foreach (object entity in list)
+                {
+                    //检查所有的的实体都为同一类型
+                    if (entity.GetType() != entityType)
+                        throw new Exception("要转换的集合元素类型不一致");
+                    object[] entityValues = new object[properties.Length];
+                    for (int i = 0; i < properties.Length; i++)                 
+                        entityValues[i] = properties[i].GetValue(entity, null);
+                    dt.Rows.Add(entityValues);
+                }
+                return dt;
+            }
             return default;
         }
     }

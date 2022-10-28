@@ -94,7 +94,7 @@ namespace Song.ServiceInterfaces
         /// 获取所有参数
         /// </summary>
         /// <returns></returns>
-        SystemPara[] GetAll();
+        List<SystemPara> GetAll();
         /// <summary>
         /// 查询获取参数
         /// </summary>

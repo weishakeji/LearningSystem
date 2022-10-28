@@ -444,7 +444,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [SuperAdmin]
         [HttpGet, HttpPost]
-        public SystemPara[] Parameters()
+        public List<SystemPara> Parameters()
         {
             return Business.Do<ISystemPara>().GetAll();
         }
