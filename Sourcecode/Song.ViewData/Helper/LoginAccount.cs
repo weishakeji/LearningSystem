@@ -19,8 +19,7 @@ namespace Song.ViewData
         public static string VirPath = WeiSha.Core.Upload.Get["Accounts"].Virtual;
         public static string PhyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
         //登录相关参数, 密钥，键，过期时间（分钟）
-        public static string secretkey = WeiSha.Core.Login.Get["Accounts"].Secretkey.String;
-        public static string keyname = WeiSha.Core.Login.Get["Accounts"].KeyName.String;
+        public static string secretkey = WeiSha.Core.Login.Get["Accounts"].Secretkey.String;      
         public static int expires = WeiSha.Core.Login.Get["Accounts"].Expires.Int32 ?? 0;
         /// <summary>
         /// 当前单件对象
@@ -116,7 +115,7 @@ namespace Song.ViewData
         {
             Song.Entities.Accounts acc = this.User(letter);
             if (acc == null) return string.Empty;
-            string code = Generate_checkcode(acc);
+            string code = Generate_checkcode(acc, letter);
             acc.Ac_CheckUID = code;
             LoginAccount.Fresh(acc);
             return code;
@@ -124,19 +123,30 @@ namespace Song.ViewData
         /// <summary>
         /// 生成登录校验码
         /// </summary>
-        /// <param name="accid"></param>
-        /// <param name="uid">登录校验码</param>
+        /// <param name="acc"></param>
         /// <returns></returns>
         public string Generate_checkcode(Song.Entities.Accounts acc)
         {
+            return Generate_checkcode(acc, null);
+        }
+        /// <summary>
+        /// 生成登录校验码
+        /// </summary>
+        /// <param name="acc"></param>
+        /// <param name="letter"></param>
+        /// <returns></returns>
+        public string Generate_checkcode(Song.Entities.Accounts acc, Letter letter)
+        {
             int accid = acc.Ac_ID;
             string uid = acc.Ac_CheckUID;
-            //校验码,依次为：标识,id,角色,时效,识别码
+            //校验码,依次为：id,角色,时效,识别码
             string checkcode = "{0},{1},{2},{3},{4}";
             string role = "student";      //角色
             //时效
             DateTime exp = DateTime.Now.AddMinutes(expires > 0 ? expires : 10);
-            checkcode = string.Format(checkcode, keyname, accid, role, exp.ToString("yyyy-MM-dd HH:mm:ss"), uid);
+            //userAgent
+            string ua = letter.UserAgent.Substring(letter.UserAgent.Length - 20);
+            checkcode = string.Format(checkcode, accid, role, exp.ToString("yyyy-MM-dd HH:mm:ss"), uid, ua);
             //加密         
             checkcode = WeiSha.Core.DataConvert.EncryptForDES(checkcode, secretkey);
             return checkcode;
@@ -228,28 +238,25 @@ namespace Song.ViewData
             {
                 string str = WeiSha.Core.DataConvert.DecryptForDES(s, secretkey);
                 if (string.IsNullOrWhiteSpace(str)) continue;
-                //解析后信息,依次为：标识,id,角色,时效,识别码
-                string[] arr = str.Split(',');
-                if (arr[0].Equals(keyname, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    status = arr;
-                    break;
-                }
+                //解析后信息,依次为：id,角色,时效,识别码,useragent
+                status = str.Split(',');             
             }
+            //判断浏览器
+            string ua = letter.UserAgent.Substring(letter.UserAgent.Length - 20);
+            if (status == null || status.Length < 4) return null;
+            if(!ua.Equals(status[4])) return null;
             //判断时效
-            if (status == null || status.Length < 3) return null;
-            DateTime time = Convert.ToDateTime(status[3]);
+            if (status == null || status.Length < 2) return null;
+            DateTime time = Convert.ToDateTime(status[2]);
             if (time < DateTime.Now) return null;
-            //判断登录码
-            int accid = Convert.ToInt32(status[1]);
+            //判断登录id
+            int accid = Convert.ToInt32(status[0]);
             //从内存中获取
             Song.Entities.Accounts acc = LoginAccount.GetCurrent(accid);
             //从数据库获取
             //Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(accid);
-            if (acc == null)
-                acc = Business.Do<IAccounts>().AccountsSingle(accid);
-
-            if (acc == null || string.IsNullOrWhiteSpace(acc.Ac_CheckUID) || !acc.Ac_CheckUID.Equals(status[4])) return null;
+            if (acc == null) acc = Business.Do<IAccounts>().AccountsSingle(accid);
+            if (acc == null || string.IsNullOrWhiteSpace(acc.Ac_CheckUID) || !acc.Ac_CheckUID.Equals(status[3])) return null;
             acc = acc.DeepClone<Song.Entities.Accounts>();
             acc.Ac_Photo = System.IO.File.Exists(PhyPath + acc.Ac_Photo) ? VirPath + acc.Ac_Photo : "";
             acc.Ac_Pw = string.Empty;

@@ -104,7 +104,7 @@ namespace Song.ViewData.Methods
             user.Ac_Photo = System.IO.File.Exists(PhyPath + user.Ac_Photo) ? VirPath + user.Ac_Photo : "";
             //登录，密码被设置成加密状态值
             user.Ac_CheckUID = account.Ac_CheckUID;
-            user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account);
+            user.Ac_Pw = LoginAccount.Status.Generate_checkcode(account, this.Letter);
             return user;
         }
         /// <summary>
@@ -169,7 +169,7 @@ namespace Song.ViewData.Methods
             {
                 int id = Business.Do<IAccounts>().AccountsAdd(tmp);
                 //登录，密码被设置成加密状态值
-                tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp);
+                tmp.Ac_Pw = LoginAccount.Status.Generate_checkcode(tmp, this.Letter);
             }
             catch (Exception ex)
             {

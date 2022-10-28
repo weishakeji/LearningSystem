@@ -134,6 +134,7 @@ namespace Song.ViewData
         /// 请求的来源，浏览器信息
         /// </summary>
         public string Browser { get; set; }
+        public string UserAgent { get; set; }
         /// <summary>
         /// 当前web请求
         /// </summary>
@@ -147,12 +148,12 @@ namespace Song.ViewData
         #region 构造方法
         public Letter(HttpContext context)
         {
-            //客户端信息
-            this.Browser = context.Request.Browser.Browser + " " + context.Request.Browser.Version;
-
             HttpRequest request = context.Request;//定义传统request对象
-            Referrer = request.UrlReferrer;
+            //客户端信息
+            this.Browser = request.Browser.Browser + " " + request.Browser.Version;           
+            UserAgent = request.UserAgent;
             //接口的所在页面
+            Referrer = request.UrlReferrer;          
             WEB_PAGE = Referrer.AbsolutePath;
             WEB_HOST = Referrer.Authority;
             API_PATH = request.Url.AbsolutePath;
@@ -251,7 +252,7 @@ namespace Song.ViewData
         /// <param name="httprequest">api控制器的访问对象</param>
         public Letter(HttpRequestMessage httprequest)
         {         
-            this.Request = httprequest;            
+            this.Request = httprequest; 
 
             API_PATH = httprequest.RequestUri.AbsolutePath;
             Referrer = httprequest.Headers.Referrer;
@@ -306,7 +307,7 @@ namespace Song.ViewData
             HttpRequestBase request = context.Request;//定义传统request对象
             //客户端信息
             this.Browser = request.Browser.Browser + " " + request.Browser.Version;
-
+            this.UserAgent = request.UserAgent;
             //获取get参数
             for (int i = 0; i < context.Request.QueryString.Count; i++)
             {
