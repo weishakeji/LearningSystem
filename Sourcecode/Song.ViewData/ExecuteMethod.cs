@@ -155,7 +155,8 @@ namespace Song.ViewData
             DateTime time = DateTime.Now;
             try
             {
-                if (!letter.HTTP_HOST.Equals(letter.WEB_HOST, StringComparison.OrdinalIgnoreCase))
+                if (!letter.HTTP_HOST.Equals(letter.WEB_HOST, StringComparison.OrdinalIgnoreCase) 
+                    || !letter.HTTP_HOST.Equals(letter.Referrer.Authority, StringComparison.OrdinalIgnoreCase))
                     throw VExcept.System("The API is inconsistent with the weburi, so the request is restricted", 101);
                 if (!"weishakeji".Equals(letter.HTTP_Mark))
                     throw VExcept.System("The request id is incorrect", 100);
@@ -176,7 +177,7 @@ namespace Song.ViewData
                 int elapsedNumber = (int)Math.Floor(span / 1000) * 1000;
                 if (elapsedNumber >= 1000)
                 {
-                    Helper.Logs.WriteLog("speed_" + elapsedNumber, letter, span.ToString());
+                    Helper.Logs.WriteLog(elapsedNumber + "_" + letter.ClassName + "_" + letter.MethodName, letter, span.ToString());
                 }
 
                 return new Song.ViewData.DataResult(res, span);       //普通数据

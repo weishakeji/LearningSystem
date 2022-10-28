@@ -42,8 +42,8 @@ namespace Song.ViewData.Attri
             if (domainAttr != null && !domainAttr.Ignore)
             {
                 string host = letter.Sever.Domain.ToLower();
-                if (letter.HTTP_REFERER.ToLower().StartsWith("http://" + host)) return true;
-                if (letter.HTTP_REFERER.ToLower().StartsWith("https://" + host)) return true;
+                if (letter.Referrer.AbsoluteUri.ToLower().StartsWith("http://" + host)) return true;
+                if (letter.Referrer.AbsoluteUri.ToLower().StartsWith("https://" + host)) return true;
             }
             //没有通过，则返回异常
             string msg = string.Empty;

@@ -1,4 +1,6 @@
 $ready(function () {
+    console.log(window.location);
+    return;
     var count = 2024;
     for (let i = 1; i <= count; i++) {
         document.write('<span>'+i + ' . ');

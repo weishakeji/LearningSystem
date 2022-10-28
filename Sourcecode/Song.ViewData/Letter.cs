@@ -21,6 +21,10 @@ namespace Song.ViewData
         /// </summary>
         public string API_PATH { get; set; }
         /// <summary>
+        /// 来源页，调用api方法时的所在页
+        /// </summary>
+        public Uri Referrer { get; private set; }
+        /// <summary>
         /// HTTP请求谓词，即Get、Post、Put等，且全部是符合http协议的请求方法
         /// </summary>
         public string HTTP_METHOD { get; set; }
@@ -32,10 +36,6 @@ namespace Song.ViewData
         /// 动作，即way冒号后面的关键字，一般用于cache方法的动作，例如clear清除缓存
         /// </summary>
         public string Custom_Action { get; set; }
-        /// <summary>
-        /// 来源页，一般是调用api方法时的所在页
-        /// </summary>
-        public string HTTP_REFERER { get; set; }
         /// <summary>
         /// http请求的域名
         /// </summary>
@@ -151,11 +151,14 @@ namespace Song.ViewData
             this.Browser = context.Request.Browser.Browser + " " + context.Request.Browser.Version;
 
             HttpRequest request = context.Request;//定义传统request对象
+            Referrer = request.UrlReferrer;
+            //接口的所在页面
+            WEB_PAGE = Referrer.AbsolutePath;
+            WEB_HOST = Referrer.Authority;
             API_PATH = request.Url.AbsolutePath;
-            HTTP_METHOD = request.HttpMethod;
-            //HTTP_HOST = request.Params["HTTP_HOST"];
+            HTTP_METHOD = request.HttpMethod;           
             HTTP_HOST = request.Url.Authority;      //等同Params["HTTP_HOST"]，但是由于Params["HTTP_HOST"]可以在客户端更改，不安全
-            HTTP_REFERER = request.Params["HTTP_REFERER"];
+           
             //Authorization的解析
             string auth = request.Params["HTTP_AUTHORIZATION"];
             if (!string.IsNullOrWhiteSpace(auth))
@@ -180,14 +183,7 @@ namespace Song.ViewData
                 //动作，即way冒号后面的关键字，一般用于cache方法的动作，例如clear清除缓存
                 if (users.Count > 2) Custom_Action = users[2];
                 //返回类型，Json或xml
-                if (users.Count > 3) ReturnType = users[3];
-                //接口的所在页面
-                if (users.Count > 4) WEB_PAGE = users[4];
-                if (!string.IsNullOrEmpty(WEB_PAGE))
-                {
-                    Uri uriAddress = new Uri(WEB_PAGE);
-                    WEB_HOST = uriAddress.Host;
-                }
+                if (users.Count > 3) ReturnType = users[3];               
 
                 //登录状态信息
                 string pwstr = auth.Substring(auth.LastIndexOf(":") + 1);
@@ -258,15 +254,12 @@ namespace Song.ViewData
             this.Request = httprequest;            
 
             API_PATH = httprequest.RequestUri.AbsolutePath;
-            //string Referrer = { http://localhost:2022/help/api/}
-
-            string referrer = httprequest.Headers.Referrer.Host;
-
-            HTTP_METHOD = httprequest.Method.Method; //请求方法
-            //HTTP_HOST = request.Params["HTTP_HOST"];
-            HTTP_HOST = httprequest.Headers.Host;
-            if (httprequest.Headers.Referrer != null)
-                HTTP_REFERER = httprequest.Headers.Referrer.AbsolutePath;
+            Referrer = httprequest.Headers.Referrer;
+            HTTP_METHOD = httprequest.Method.Method; //请求方法           
+            HTTP_HOST = httprequest.Headers.Host;          
+            //接口的所在页面
+            WEB_PAGE = Referrer.AbsolutePath;
+            WEB_HOST = Referrer.Authority;
             //Authorization的解析
             string auth = string.Empty;
             if (httprequest.Headers.Authorization != null)
@@ -294,14 +287,7 @@ namespace Song.ViewData
                 if (users.Count > 2) Custom_Action = users[2];
                 //返回类型，Json或xml
                 if (users.Count > 3) ReturnType = users[3];
-                //接口的所在页面
-                if (users.Count > 4) WEB_PAGE = users[4];
-                if (!string.IsNullOrEmpty(WEB_PAGE))
-                {
-                    Uri uriAddress = new Uri(WEB_PAGE);
-                    WEB_HOST = uriAddress.Authority;
-                }
-
+                
                 //登录状态信息
                 string pwstr = auth.Substring(auth.LastIndexOf(":") + 1);
                 if (!string.IsNullOrWhiteSpace(pwstr)) this.LoginStatus = pwstr.Split(',');
@@ -396,6 +382,7 @@ namespace Song.ViewData
             this.ID = this["id"].Int64 ?? 0;
             //获取cookies       
             System.Web.HttpContext context = System.Web.HttpContext.Current;
+            Referrer = context.Request.UrlReferrer;
             for (int i = 0; i < context.Request.Cookies.Count; i++)
             {
                 string key = context.Request.Cookies.Keys[i].ToString();
