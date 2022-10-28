@@ -1,10 +1,10 @@
 
 declare @snow_int_id bigint
-set @snow_int_id=10010714693000000
+set @snow_int_id=108326701601394689
 
 /*将专业关联表中的Sbj_ID转为雪花id*/
 declare cursor_obj  cursor scroll
-for SELECT Sbj_ID FROM [Subject] where Sbj_ID<100000 order by Sbj_ID
+for SELECT Sbj_ID FROM [Subject] where Sbj_ID<5000000 order by Sbj_ID
 open cursor_obj
 declare @sbjid bigint, @snowsbj bigint
 set @snowsbj=@snow_int_id + 1000000
@@ -33,7 +33,7 @@ deallocate cursor_obj
 
 /*将课程关联表中的Cou_ID转为雪花id*/
 declare cursor_obj  cursor scroll
-for SELECT Cou_ID FROM Course where Cou_ID<100000 order by Cou_ID
+for SELECT Cou_ID FROM Course where Cou_ID<5000000 order by Cou_ID
 open cursor_obj
 declare @couid bigint, @snowid bigint
 set @snowid=@snow_int_id + 2000000
@@ -82,7 +82,7 @@ deallocate cursor_obj
 
 /*将章节关联表中的Ol_ID转为雪花id*/
 declare cursor_obj  cursor scroll
-for SELECT Ol_ID FROM outline where Ol_ID<100000 order by Ol_ID
+for SELECT Ol_ID FROM outline where Ol_ID<5000000 order by Ol_ID
 open cursor_obj
 declare @olid bigint, @snowol bigint
 set @snowol=@snow_int_id + 3000000
@@ -111,7 +111,7 @@ deallocate cursor_obj
 
 /*将试卷关联表中的Tp_Id转为雪花id*/
 declare cursor_obj  cursor scroll
-for SELECT Tp_Id FROM TestPaper where Tp_Id<100000 order by Tp_Id
+for SELECT Tp_Id FROM TestPaper where Tp_Id<5000000 order by Tp_Id
 open cursor_obj
 declare @tpid bigint, @snowtp bigint
 set @snowtp=@snow_int_id + 4000000
@@ -136,7 +136,7 @@ deallocate cursor_obj
 
 /*试题关联表中的字段Qus_ID转为雪花id*/
 declare cursor_obj  cursor scroll
-for SELECT Qus_ID FROM Questions where Qus_ID<100000 order by Qus_ID
+for SELECT Qus_ID FROM Questions where Qus_ID<5000000 order by Qus_ID
 open cursor_obj
 declare @qid bigint, @snowqs bigint
 set @snowqs=@snow_int_id + 5000000
@@ -160,7 +160,7 @@ deallocate cursor_obj
 
 /*学员组的字段Sts_ID转为雪花id*/
 declare cursor_obj  cursor scroll
-for SELECT Sts_ID FROM [StudentSort] where Sts_ID<100000 order by Sts_ID
+for SELECT Sts_ID FROM [StudentSort] where Sts_ID<5000000 order by Sts_ID
 open cursor_obj
 declare @stsid bigint, @snowsts bigint
 set @snowsts=@snow_int_id + 6000000

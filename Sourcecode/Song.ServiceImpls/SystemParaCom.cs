@@ -388,15 +388,16 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<string> DataTables()
         {
-            string sql = "select name from sysobjects where type='U' order by name asc";
-            List<string> list = new List<string>();
+            string sql = "select name from sysobjects where type='U' order by name asc";            
             using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
             {
+                List<string> list = new List<string>();
                 while (reader.Read())               
                     list.Add(reader.GetValue<string>(0));
                 reader.Close();
-            }          
-            return list;
+                reader.Dispose();
+                return list;
+            } 
         }
         /// <summary>
         /// 获取数据字段

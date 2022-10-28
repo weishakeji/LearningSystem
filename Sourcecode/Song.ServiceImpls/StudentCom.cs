@@ -1020,6 +1020,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                     totalComplete += complete > 100 - tolerance ? 100 : complete;
                 }
                 reader.Close();
+                reader.Dispose();
             }
             totalComplete = totalComplete / outlines.Count;
             totalComplete = totalComplete > 100 ? 100 : totalComplete;
@@ -1118,6 +1119,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                     dr["complete"] = complete;
                 }
                 reader.Close();
+                reader.Dispose();
             }
             return dt;
 

@@ -258,6 +258,10 @@ namespace Song.ViewData
             this.Request = httprequest;            
 
             API_PATH = httprequest.RequestUri.AbsolutePath;
+            //string Referrer = { http://localhost:2022/help/api/}
+
+            string referrer = httprequest.Headers.Referrer.Host;
+
             HTTP_METHOD = httprequest.Method.Method; //请求方法
             //HTTP_HOST = request.Params["HTTP_HOST"];
             HTTP_HOST = httprequest.Headers.Host;

@@ -533,7 +533,7 @@ namespace Song.ViewData.Methods
                 Song.Entities.TestPaper pager = Business.Do<ITestPaper>().PaperSingle(exas.Tp_Id);
                 if (pager != null)
                 {
-                    Song.Entities.TestPaperItem[] items = Business.Do<ITestPaper>().GetItemForAny(pager);
+                    List<Song.Entities.TestPaperItem> items = Business.Do<ITestPaper>().GetItemForAny(pager);
                     foreach (Song.Entities.TestPaperItem ti in items)
                     {
                         if (ti.TPI_Type == 4) {

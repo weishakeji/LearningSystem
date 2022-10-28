@@ -259,19 +259,19 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<TestPaper>().Where(wc).OrderBy(TestPaper._.Tp_CrtTime.Desc).ToArray<TestPaper>(size, (index - 1) * size);
         }
 
-        public TestPaperItem[] GetItemForAll(TestPaper tp)
+        public List<TestPaperItem> GetItemForAll(TestPaper tp)
         {
-            TestPaperItem[] tpi = null;
+            List<TestPaperItem> tpi = new List<TestPaperItem>();
             if (tp != null && !string.IsNullOrWhiteSpace(tp.Tp_FromConfig))
             {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(tp.Tp_FromConfig, false);
                 XmlNodeList nodes = xmlDoc.SelectNodes("Config/All/Items/TestPaperItem");
-                tpi = new TestPaperItem[nodes.Count];
                 for (int i = 0; i < nodes.Count; i++)
                 {
-                    tpi[i] = new TestPaperItem();
-                    tpi[i].FromXML(nodes[i].OuterXml);
+                    TestPaperItem item = new TestPaperItem();
+                    item.FromXML(nodes[i].OuterXml);
+                    tpi.Add(item);
                 }
             }
             if (tpi == null)
@@ -279,7 +279,7 @@ namespace Song.ServiceImpls
                 tpi = Gateway.Default.From<TestPaperItem>()
                     .Where(TestPaperItem._.Tp_UID == tp.Tp_UID && TestPaperItem._.TPI_Count > 0)
                     .OrderBy(TestPaperItem._.TPI_Type.Asc)
-                    .ToArray<TestPaperItem>();
+                    .ToList<TestPaperItem>();
             }
             return _getItemCoutomOrder(tpi);
         }
@@ -288,19 +288,19 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="tp">试卷对象</param>
         /// <returns></returns>
-        public TestPaperItem[] GetItemForOlPercent(TestPaper tp)
+        public List<TestPaperItem> GetItemForOlPercent(TestPaper tp)
         {
-            TestPaperItem[] tpi = null;            
+            List<TestPaperItem> tpi = new List<TestPaperItem>();    
             if (tp != null && !string.IsNullOrWhiteSpace(tp.Tp_FromConfig))
             {
                 XmlDocument xmlDoc = new XmlDocument();
                 xmlDoc.LoadXml(tp.Tp_FromConfig, false);
                 XmlNodeList nodes = xmlDoc.SelectNodes("Config/Outline/Percent/TestPaperItem");
-                tpi = new TestPaperItem[nodes.Count];
                 for (int i = 0; i < nodes.Count; i++)
                 {
-                    tpi[i] = new TestPaperItem();
-                    tpi[i].FromXML(nodes[i].OuterXml);
+                    TestPaperItem item = new TestPaperItem();
+                    item.FromXML(nodes[i].OuterXml);
+                    tpi.Add(item);
                 }
             }
             return _getItemCoutomOrder(tpi);
@@ -311,7 +311,7 @@ namespace Song.ServiceImpls
         /// <param name="tp">试卷对象</param>
         /// <param name="olid">章节id，如果小于1，则取所有</param>
         /// <returns></returns>
-        public TestPaperItem[] GetItemForOlCount(TestPaper tp, long olid)
+        public List<TestPaperItem> GetItemForOlCount(TestPaper tp, long olid)
         {
             List<TestPaperItem> list = new List<TestPaperItem>();
             if (tp != null && !string.IsNullOrWhiteSpace(tp.Tp_FromConfig))
@@ -327,16 +327,16 @@ namespace Song.ServiceImpls
                     if (olid > 0 && tpi.Ol_ID == olid) list.Add(tpi);
                 }
             }
-            return _getItemCoutomOrder(list.ToArray());
+            return _getItemCoutomOrder(list);
         }
         /// <summary>
         /// 返回试卷的大项，不管是按课程，还是按章节
         /// </summary>
         /// <param name="tp"></param>
         /// <returns></returns>
-        public TestPaperItem[] GetItemForAny(TestPaper tp)
+        public List<TestPaperItem> GetItemForAny(TestPaper tp)
         {
-            Song.Entities.TestPaperItem[] tpi = null;
+            List<TestPaperItem> tpi = null;
             List<TestPaperItem> list = new List<TestPaperItem>();
             if (tp.Tp_FromType == 0)
             {
@@ -350,22 +350,21 @@ namespace Song.ServiceImpls
                 foreach (Song.Entities.TestPaperItem t in tpi)
                     if (t.TPI_Percent > 0) list.Add(t);
             }
-            return _getItemCoutomOrder(list.ToArray());
+            return _getItemCoutomOrder(list);
         }
         /// <summary>
         /// 自定义题型的出现顺序，方法比较弱智
         /// </summary>
         /// <param name="tpi"></param>
         /// <returns></returns>
-        private TestPaperItem[] _getItemCoutomOrder(TestPaperItem[] tpi)
-        {
-            if (tpi == null) return tpi;
+        private List<TestPaperItem> _getItemCoutomOrder(List<TestPaperItem> tpi)
+        {       
             //按照自己的思路排列顺序，方法有些笨            
             int[] order = { 1, 2, 5, 3, 4 };
             List<TestPaperItem> list = new List<TestPaperItem>();
             for (int i = 0; i < order.Length; i++)
             {
-                for (int j = 0; j < tpi.Length; j++)
+                for (int j = 0; j < tpi.Count; j++)
                 {
                     TestPaperItem t = tpi[j];
                     if (order[i] == t.TPI_Type)
@@ -375,7 +374,7 @@ namespace Song.ServiceImpls
                     }
                 }
             }
-            return list.ToArray();
+            return list;
         }
         #endregion
 
@@ -400,13 +399,11 @@ namespace Song.ServiceImpls
         private Dictionary<TestPaperItem, Questions[]> _putout_0(TestPaper tp)
         {
             //获取试题项,例如单选题、多选题
-            Song.Entities.TestPaperItem[] tpi = this.GetItemForAll(tp);           
+            List<Song.Entities.TestPaperItem> tpi = this.GetItemForAll(tp);           
             List<TestPaperItem> list = new List<TestPaperItem>();
-            foreach (Song.Entities.TestPaperItem t in tpi)
-            {
-                if (t.TPI_Count > 0) list.Add(t);
-            }
-            tpi = _getItemCoutomOrder(list.ToArray());
+            foreach (Song.Entities.TestPaperItem t in tpi)           
+                if (t.TPI_Count > 0) list.Add(t);           
+            tpi = _getItemCoutomOrder(list);
             //开始出卷
             Dictionary<TestPaperItem, Questions[]> dic = new Dictionary<TestPaperItem, Questions[]>();
             foreach (Song.Entities.TestPaperItem t in tpi)
@@ -431,36 +428,36 @@ namespace Song.ServiceImpls
         private Dictionary<TestPaperItem, Questions[]> _putout_1(TestPaper tp)
         {
             //获取试题项,例如单选题、多选题
-            Song.Entities.TestPaperItem[] tpi = this.GetItemForOlPercent(tp);
+            List<Song.Entities.TestPaperItem> tpi = this.GetItemForOlPercent(tp);
             List<TestPaperItem> list = new List<TestPaperItem>();
             foreach (Song.Entities.TestPaperItem t in tpi) if (t.TPI_Percent > 0) list.Add(t);
-            tpi = _getItemCoutomOrder(list.ToArray());
+            tpi = _getItemCoutomOrder(list);
             //***************  开始抽取试题
             List<Questions> listQus = new List<Questions>();
             //1、先取当前课程下的试题
-            List<Questions> questions = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == tp.Cou_ID
+            List<Questions>[] arr = new List<Questions>[5];
+            List<Questions> ques_course = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == tp.Cou_ID
                 && Questions._.Qus_Diff >= tp.Tp_Diff && Questions._.Qus_Diff <= tp.Tp_Diff2).ToList<Questions>();
+            for (int i = 0; i < arr.Length; i++)           
+                arr[i] = (from l in ques_course where l.Qus_Type == i + 1 select l).ToList<Questions>();            
+          
             //2、获取章节，按章节配置项取试题
             List<Outline> outlines = Business.Do<IOutline>().OutlineCount(tp.Cou_ID, -1, true, 0);
-
             foreach (Outline ol in outlines)
             {
                 //3、取当前章节的各题型数量
-                TestPaperItem[] tpols = this.GetItemForOlCount(tp, ol.Ol_ID);
+                List<TestPaperItem> tpols = this.GetItemForOlCount(tp, ol.Ol_ID);
+                if (tpols.Count < 1) continue;
                 foreach (TestPaperItem it in tpols)
                 {
                     if (it.TPI_Count < 1) continue;
-                    bool isExist = false;
-                    foreach (TestPaperItem t in tpi)
-                    {
-                        if (it.TPI_Type == t.TPI_Type)
-                        {
-                            isExist = true;
-                            continue;
-                        }
-                    }
-                    if (!isExist) continue;
-                    //4、抽取试题，并将抽到题汇集到一起，即到listQus列表中去
+                    List<Questions> questions = arr[it.TPI_Type - 1];
+                    if (questions == null || questions.Count < 1) continue;
+                    
+                    int isexist = tpi.FindIndex(t => it.TPI_Type == t.TPI_Type);
+                    if (isexist < 0) continue;
+
+                    //4、抽取试题，并将抽到题汇集到一起，即到listQus列表中去                    
                     List<Questions> ques = (from l in questions
                                             where l.Ol_ID == ol.Ol_ID && l.Qus_Type == it.TPI_Type
                                             select l).ToList<Questions>();
@@ -481,10 +478,8 @@ namespace Song.ServiceImpls
                 float num = (float)t.TPI_Number;    //当前题型占的分数
                 List<Questions> qusTm = new List<Questions>();
                 //当前类型的试题
-                foreach (Questions q in listQus)
-                {
-                    if (q.Qus_Type == t.TPI_Type) qusTm.Add(q);
-                }
+                foreach (Questions q in listQus)               
+                    if (q.Qus_Type == t.TPI_Type) qusTm.Add(q);               
                 if (qusTm.Count < 1) continue;
                 Questions[] ques = clacScore(qusTm.ToArray(), num);
                 dic.Add(t, ques);

@@ -94,26 +94,26 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="tp">试卷对象</param>
         /// <returns></returns>
-        TestPaperItem[] GetItemForAll(TestPaper tp);
+        List<TestPaperItem> GetItemForAll(TestPaper tp);
         /// <summary>
         /// 按章节抽题时，各题型占比
         /// </summary>
         /// <param name="tp">试卷对象</param>
         /// <returns></returns>
-        TestPaperItem[] GetItemForOlPercent(TestPaper tp);
+        List<TestPaperItem> GetItemForOlPercent(TestPaper tp);
         /// <summary>
         /// 按章节抽题时，各章节题型数量
         /// </summary>
         /// <param name="tp">试卷对象</param>
         /// <param name="olid">章节id，如果小于1，则取所有</param>
         /// <returns></returns>
-        TestPaperItem[] GetItemForOlCount(TestPaper tp, long olid);
+        List<TestPaperItem> GetItemForOlCount(TestPaper tp, long olid);
         /// <summary>
         /// 返回试卷的大项，不管是按课程，还是按章节
         /// </summary>
         /// <param name="tp"></param>
         /// <returns></returns>
-        TestPaperItem[] GetItemForAny(TestPaper tp);
+        List<TestPaperItem> GetItemForAny(TestPaper tp);
         #endregion
 
         #region 出卷
