@@ -35,14 +35,17 @@ icon::before {
     font-family: "webdesk_icon" !important;
     margin-right: 5px;
 }
+
 /*学员*/
 icon[student]::before {
     content: '\e804';
 }
+
 /*教师*/
 icon[tearch]::before {
     content: '\e650';
 }
+
 /*课程*/
 icon[course]::before {
     content: '\e813';
@@ -57,58 +60,71 @@ icon[subject]::before {
 icon[outline]::before {
     content: '\e841';
 }
+
 /*试题*/
 icon[question]::before {
     content: '\e75e';
 }
+
 /*试卷*/
 icon[test]::before {
     content: '\e63d';
 }
+
 /*考试*/
 icon[exam]::before {
     content: '\e810';
 }
+
 /*视频*/
 icon[video]::before {
     content: '\e83a';
 }
+
 /*关注，查看*/
 icon[view]::before {
     content: '\a03a';
 }
+
 /*设置*/
 icon[setup]::before {
     content: '\a038';
 }
+
 /*货币符号 人民币*/
 icon[money]::before {
     content: '\e624';
     font-size: 16px;
 }
+
 /*卡券*/
 icon[coupon]::before {
-    content: '\e847';   
+    content: '\e847';
     font-size: 16px;
 }
+
 /*积分*/
 icon[point]::before {
     content: '\e88a';
     font-size: 16px;
 }
+
 /*身份证*/
 icon[idcard]::before {
-    content: '\e68f';  
+    content: '\e68f';
 }
+
 /*固定电话*/
 icon[phone]::before {
     content: '\a047';
 }
+
 /*移动电话*/
 icon[mobile]::before {
     content: '\e677';
     font-size: 16px;
 }
+
 /*男性*/
 *[icon=man]::before {
     content: '\e645';
@@ -121,42 +137,6 @@ icon[mobile]::before {
     color: rgb(248, 87, 87);
 }
 
-/*预载*/
-loading {
-    color: #666;
-    font-size: 13px;
-}
-
-loading::before {
-    content: "\e621";
-    font-family: "webdesk_icon" !important;
-    display: inline-block;
-    font-size: 20px;
-    margin-right: 10px;
-    animation: rotate_360 0.6s infinite linear;
-}
-
-@keyframes rotate_360 {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    25% {
-        transform: rotate(90deg);
-    }
-
-    50% {
-        transform: rotate(180deg);
-    }
-
-    75% {
-        transform: rotate(270deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
 
 
 /*帮助、提示*/
@@ -199,4 +179,231 @@ help::before {
 
 alert::before {
     content: "\e74f";
+}
+
+/*预载*/
+loading {
+    color: #666;
+    font-size: 13px;  
+}
+
+loading::before {
+    font-family: "webdesk_icon" !important;
+    display: inline-block;
+    font-size: 20px;   
+    animation: rotate_360 0.6s infinite linear;
+}
+
+loading::before, loading[fish]::before {
+    content: "\e601";
+}
+
+loading[bubble]::before {
+    content: "\e621";
+}
+loading[fresh]::before {
+    content: "\e651";
+}
+loading[star]::before {
+    content: "\e68d";
+}
+@keyframes rotate_360 {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/*更多预载效果*/
+*[loading=p1] {
+    width: 120px;
+    height: 20px;
+    background:
+        linear-gradient(#000 0 0) 0/0% no-repeat #ddd;
+    animation: p1 2s infinite linear;
+}
+
+@keyframes p1 {
+    100% {
+        background-size: 100%
+    }
+}
+
+*[loading=p2] {
+    width: 120px;
+    height: 20px;
+    border-radius: 20px;
+    background:
+        linear-gradient(orange 0 0) 0/0% no-repeat lightblue;
+    animation: p2 2s infinite steps(10);
+}
+
+@keyframes p2 {
+    100% {
+        background-size: 110%
+    }
+}
+
+*[loading=p3] {
+    width: 120px;
+    height: 20px;
+    border-radius: 20px;
+    background:
+        repeating-linear-gradient(135deg, #f03355 0 10px, #ffa516 0 20px) 0/0% no-repeat,
+        repeating-linear-gradient(135deg, #ddd 0 10px, #eee 0 20px) 0/100%;
+    animation: p3 2s infinite;
+}
+
+@keyframes p3 {
+    100% {
+        background-size: 100%
+    }
+}
+
+*[loading=p4] {
+    width: 300px;
+    height: 30px;
+    border: 2px solid #999;
+    border-radius: inherit;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+*[loading=p4]::before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    display: block;
+    -webkit-mask: linear-gradient(90deg, #000 70%, #0000 0) 0/5%;
+    background:
+        linear-gradient(#666 0 0) 0/0% no-repeat #ddd;
+    animation: p4 1s infinite steps(30);
+
+}
+
+@keyframes p4 {
+    100% {
+        background-size: 120%
+    }
+}
+
+*[loading=p5] {
+    width: 80px;
+    height: 30px;
+    border: 2px solid #000;
+    padding: 3px;
+    background:
+        repeating-linear-gradient(90deg, #000 0 10px, #0000 0 16px) 0/0% no-repeat content-box content-box;
+    position: relative;
+    animation: p5 2s infinite steps(6);
+}
+
+*[loading=p5]::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: calc(100% - 0px);
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: #ffffff;
+    border: 2px solid #000;
+    border-left: none;
+    z-index: 10;
+}
+
+@keyframes p5 {
+    100% {
+        background-size: 120%
+    }
+}
+
+*[loading=p6] {
+    width: 120px;
+    height: 22px;
+    border-radius: 20px;
+    color: #d8d8d8;
+    border: 2px solid;
+    position: relative;
+    background: #67C23A;
+    background: rgba(248, 98, 98, 0.2);
+    background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+}
+
+*[loading=p6]::before {
+    content: "";
+    position: absolute;
+    margin: 2px;
+    inset: 0 100% 0 0;
+    border-radius: inherit;
+    background: rgba(55, 218, 15, 0.6);
+    animation: p6 2s infinite;
+}
+
+@keyframes p6 {
+    100% {
+        inset: 0
+    }
+}
+
+*[loading=p7] {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    -webkit-mask: linear-gradient(0deg, #000 55%, #0000 0) bottom/100% 18.18%;
+    background:
+        linear-gradient(#f03355 0 0) bottom/100% 0% no-repeat #ddd;
+    animation: p7 2s infinite steps(7);
+}
+
+@keyframes p7 {
+    100% {
+        background-size: 100% 115%
+    }
+}
+
+*[loading=p8] {
+    --r1: 154%;
+    --r2: 68.5%;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background:
+        radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%) center left,
+        radial-gradient(var(--r1) var(--r2) at bottom, #269af2 79.5%, #0000 80%) center center,
+        radial-gradient(var(--r1) var(--r2) at top, #0000 79.5%, #269af2 80%) center right,
+        #ccc;
+    background-size: 50.5% 220%;
+    background-position: -100% 0%, 0% 0%, 100% 0%;
+    background-repeat: no-repeat;
+    animation: p8 2s infinite linear;
+}
+
+@keyframes p8 {
+    33% {
+        background-position: 0% 33%, 100% 33%, 200% 33%
+    }
+
+    66% {
+        background-position: -100% 66%, 0% 66%, 100% 66%
+    }
+
+    100% {
+        background-position: 0% 100%, 100% 100%, 200% 100%
+    }
 }

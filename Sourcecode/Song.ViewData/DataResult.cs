@@ -190,8 +190,13 @@ namespace Song.ViewData
             var nullableType = Nullable.GetUnderlyingType(type);
             string typename = nullableType != null ? nullableType.Name : type.Name;
             //长整型作为字符串处理，否则在客户端的js解析时会丢失精度
-            if (type.Name == "Int64" || type.Name == "UInt64" || type.Name == "Decimal")           
-                return string.Format("\"{0}\"", obj.ToString());           
+            if (type.Name == "Int64" || type.Name == "UInt64")
+                return string.Format("\"{0}\"", obj.ToString());
+            if (type.Name == "Decimal") {
+                decimal dec= (decimal)obj;
+                dec = Math.Round(dec * 100) / 100;
+                return string.Format("\"{0}\"", dec.ToString()); 
+            }
             //如果是数值型或逻辑型
             if (type.IsNumeric() || type.Name == "Boolean")
                 return obj.ToString().ToLower();
