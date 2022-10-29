@@ -50,19 +50,6 @@ dl, dd {
 	margin: 0px;
 }
 
-.icon_man::before {
-	content: "\e645";
-	color: rgb(3, 71, 71);
-	font-family: "webdesk_icon" !important;
-}
-
-.icon_woman::before {
-	content: "\e647";
-	color: rgb(248, 87, 87);
-	font-family: "webdesk_icon" !important;
-}
-
-
 /*拖动柄*/
 
 .draghandle {

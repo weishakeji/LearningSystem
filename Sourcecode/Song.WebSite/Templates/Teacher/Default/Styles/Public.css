@@ -50,19 +50,6 @@ a {
 	text-decoration: none;
 	color: black;
 }
-
-.icon_man::before {
-	content: "\e645";
-	color: rgb(3, 71, 71);
-	font-family: "webdesk_icon" !important;
-}
-
-.icon_woman::before {
-	content: "\e647";
-	color: rgb(248, 87, 87);
-	font-family: "webdesk_icon" !important;
-}
-
 /*表格的内容滚动（标题栏固定）*/
 .el-table {
 	height: calc(100% - 63px);

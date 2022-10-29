@@ -69,10 +69,7 @@
 	text-align: left;
 }
 
-.courseBox:before {
-	content: "\e813";
-	font-family: "webdesk_icon";
-	margin-left: 5px;
+.courseBox icon[course]:before {
 	font-size: 16px;
 	font-weight: normal;
 }

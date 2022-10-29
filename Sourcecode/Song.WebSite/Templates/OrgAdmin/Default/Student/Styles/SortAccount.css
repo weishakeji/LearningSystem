@@ -9,9 +9,6 @@
     justify-content: space-between;
 }
 
-.weisha_icon {
-    font-size: 18px;
-}
 
 .man::before {
     color: rgb(3, 71, 71);

@@ -19,12 +19,12 @@
     <template v-else>
       <template v-if="error!=''">
         <card v-if="!islogin">
-          <card-title class="weisha_icon" icon="&#xa043">未登录！</card-title>
+          <card-title icon="&#xa043">未登录！</card-title>
           <card-context><a href="/mobi/sign/in">点击此处登录</a></card-context>
         </card>
         <card v-else>
-          <card-title class="weisha_icon error" icon="&#xe6fe">错误！
-            <a :href="'../course/Detail.'+couid" class="weisha_icon" icon="&#xe813">              
+          <card-title class="error" icon="&#xe6fe">错误！
+            <a :href="'../course/Detail.'+couid" icon="&#xe813">              
               返回课程
             </a>
           </card-title>
@@ -34,16 +34,16 @@
       <template v-else>
         <van-row class="topBox">
           <van-col span="6" class="btntop">
-            <a class="weisha_icon" icon="&#xe748" @click="window.history.back();"></a>
-            <a class="weisha_icon" icon="&#xa020" href="/mobi/"></a>
-            <a class="weisha_icon" icon="&#xe813" @click="showCourse=true"></a>
+            <a icon="&#xe748" @click="window.history.back();"></a>
+            <a icon="&#xa020" href="/mobi/"></a>
+            <a icon="&#xe813" @click="showCourse=true"></a>
           </van-col>
           <van-col span="7">
-            <span class="weisha_icon" icon="&#xe800" @click="deleteQues"> 删除笔记 </span>
+            <span icon="&#xe800" @click="deleteQues"> 删除笔记 </span>
           </van-col>
           <van-col span="8" @click="learnmode++">
-            <span v-if="learnmode%2==0" class="weisha_icon" icon="&#xe657"> 练习模式 </span>
-            <span v-if="learnmode%2==1" class="weisha_icon" icon="&#xe6da"> 背题模式 </span>
+            <span v-if="learnmode%2==0" icon="&#xe657"> 练习模式 </span>
+            <span v-if="learnmode%2==1" icon="&#xe6da"> 背题模式 </span>
           </van-col>
           <van-col span="3" @click="()=>{$refs['setupmenu'].show=true}">
             <icon>&#xa038</icon>
@@ -67,7 +67,7 @@
             </dl>
           </section>
           <card v-else>
-            <card-title class="weisha_icon" icon="&#xe839">没有试题！</card-title>
+            <card-title icon="&#xe839">没有试题！</card-title>
             <card-context>没有供学习的试题。</card-context>
           </card>
         </template>
@@ -93,7 +93,7 @@
       <div>
         <van-button type="default" @click="showCourse=false">取消</van-button>
         <van-button type="primary" :url="'../course/Detail.'+couid">
-          <span class="weisha_icon" icon="&#xe813"></span>
+          <span icon="&#xe813"></span>
           返回课程
         </van-button>
       </div>

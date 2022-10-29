@@ -785,7 +785,8 @@ namespace Song.ViewData.Methods
         public double LogForVideoRecord(int acid, long couid, double rate)
         {
             Song.Entities.Accounts acc = this.User;
-            if (acc.Ac_ID != acid) return rate;
+            if (acc == null) acc = Business.Do<IAccounts>().AccountsSingle(acid);
+            if (acc == null) return rate;
 
             Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
             if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(acc, couid);

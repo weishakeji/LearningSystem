@@ -20,8 +20,8 @@
 
             <span class="tree-node draghandle" :bold="data.Nav_IsBold" :color="data.Nav_Color"
               :style="'color:'+data.Nav_Color">
-              <span v-if="data.Nav_Icon==null || data.Nav_Icon==''" class="font_icon">&#xa038;</span>
-              <span v-else class="font_icon" v-html="'&#x'+data.Nav_Icon+';'"></span>
+                <icon v-if="data.Nav_Icon==null || data.Nav_Icon==''" setup>&#xa038;</icon>
+                <icon v-else v-html="'&#x'+data.Nav_Icon+';'"></icon>
               <img :src="data.Nav_Logo" v-if="data.Nav_Logo!=''" class="img_logo" @mouseover="hoverlogo(data.Nav_Logo)" @mouseout="mouseleave"/>
               {{ data.Nav_Name }}
               <span class="link" :title="data.Nav_Target">{{data.Nav_Url}}</span>
@@ -67,8 +67,8 @@
 
             <span class="tree-node draghandle" :bold="data.Nav_IsBold" :color="data.Nav_Color"
               :style="'color:'+data.Nav_Color">
-              <span v-if="data.Nav_Icon==null || data.Nav_Icon==''" class="font_icon">&#xa038;</span>
-              <span v-else class="font_icon" v-html="'&#x'+data.Nav_Icon+';'"></span>
+              <icon v-if="data.Nav_Icon==null || data.Nav_Icon==''" setup>&#xa038;</icon>
+              <icon v-else v-html="'&#x'+data.Nav_Icon+';'"></icon>
               {{ data.Nav_Name }}<span class="link" :title="data.Nav_Target">{{data.Nav_Url}}</span>
             </span>
             <span style="display: inline-block;width: 50px;" @click="data.Nav_IsShow=!data.Nav_IsShow">
@@ -116,9 +116,9 @@
           <el-col :span="4">
             <el-form-item label="" label-width="5px">
 
-              <el-link type="primary" @click="iconSelect=true" title="选择图标"> <span
-                  v-if="curr.Nav_Icon==null || curr.Nav_Icon==''" class="font_icon">&#xa038;</span>
-                <span v-else class="font_icon" v-html="'&#x'+curr.Nav_Icon+';'"></span>
+              <el-link type="primary" @click="iconSelect=true" title="选择图标"> <icon
+                  v-if="curr.Nav_Icon==null || curr.Nav_Icon==''" setup>&#xa038;</icon>
+                <icon v-else v-html="'&#x'+curr.Nav_Icon+';'"></icon>
               </el-link>
             </el-form-item>
           </el-col>

@@ -23,9 +23,8 @@
                 <el-col :span="12">
                     <el-form-item label="面额" prop="Lcs_Price">
                         <el-input v-model.number="entity.Lcs_Price" type="number">
-                            <template slot="prepend"><span class="weisha_icon money" icon="&#xe624"
-                                    style="font-size: 14px;"></span>
-                            </template> <template slot="append">元</template>
+                            <icon money slot="prepend"></icon>
+                            <template slot="append">元</template>
                         </el-input>
 
                     </el-form-item>

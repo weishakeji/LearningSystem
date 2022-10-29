@@ -1,5 +1,5 @@
 ﻿// 图标选择
-
+$dom.load.css(['/Utilities/Components/Styles/icons.css']);
 Vue.component('icons', {
     props: ['selected', 'show'],
     data: function () {

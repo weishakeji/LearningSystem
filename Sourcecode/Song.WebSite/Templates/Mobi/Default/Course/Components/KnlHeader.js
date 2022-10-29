@@ -161,8 +161,8 @@ Vue.component('knl_header', {
         <div class='cour-info'>
             <img :src='course.Cou_Logo' v-if='course.Cou_Logo && course.Cou_Logo.length>0'/>
             <img :src='defimg' class='no' v-else/>
-            <cour-name>{{course.Cou_Name}}</cour-name>
-            <sbj-name>{{course.Sbj_Name}}</sbj-name>        
+            <icon course>{{course.Cou_Name}}</icon>
+            <icon subject>{{course.Sbj_Name}}</icon>        
         </div>
         <van-divider>知识分类</van-divider>    
         <div v-if="sorts && sorts.length>0" v-html="buildTree(sorts,0,'')" class="sort_tree"></div>

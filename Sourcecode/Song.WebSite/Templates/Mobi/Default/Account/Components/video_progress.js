@@ -73,8 +73,13 @@ Vue.component('video_progress', {
         },
         //完成度，加了容差之后的
         'progress': function () {
+            this.percent = this.ispurchase ? this.purchase.Stc_StudyScore : 0;
             return this.percent + this.tolerance >= 100 ? 100 : this.percent;
         },
+        //是否有购买记录
+        ispurchase: function () {
+            return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
+        }
     },
     mounted: function () { },
     methods: {

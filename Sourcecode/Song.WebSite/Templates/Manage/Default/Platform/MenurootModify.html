@@ -31,12 +31,12 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="图标" prop="MM_IcoS">
-                        <el-link type="primary" @click="iconSelect=true"> <span v-if="entity.MM_IcoS==null || entity.MM_IcoS==''"
-                            class="font_icon">&#xa038;</span>
-                          <span v-else class="font_icon" style="font-size: 18px;" v-html="'&#x'+entity.MM_IcoS+';'"></span>&nbsp;点击选择
+                    <el-form-item label="图标" prop="MM_IcoS">                       
+                        <el-link type="primary" @click="iconSelect=true">
+                            <span v-if="entity.MM_IcoS==null || entity.MM_IcoS==''"> <icon setup></icon></span>
+                            <icon v-else style="font-size: 18px;" v-html="'&#x'+entity.MM_IcoS+';'"></icon>&nbsp;点击选择
                         </el-link>
-                </el-form-item>
+                    </el-form-item>
                 </el-col>
             </el-row>
            

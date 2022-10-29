@@ -12,8 +12,8 @@
         <div class="tree_area">
             <el-card class="box-card" v-for="(root,index) in datas" v-loading="loading">
                 <div slot="header" class="clearfix">
-                    <span v-if="root.ico==null || root.ico==''" class="font_icon">&#xa038;</span>
-                    <span v-else class="font_icon" v-html="'&#x'+root.ico+';'"></span>
+                    <icon v-if="root.ico==null || root.ico==''">&#xa038;</icon>
+                    <icon v-else v-html="'&#x'+root.ico+';'"></icon>
                     <span>{{root.MM_Name}}</span>
                     <span style="float: right;">
                         <el-checkbox v-model="root.MM_IsBold" @change="selected(root,index)">全选</el-checkbox>
@@ -24,8 +24,8 @@
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span class="tree-node" :uid="data.id" :bold="data.MM_IsBold" :italic="data.MM_IsItalic"
                             :color="data.MM_Color" :style="'color:'+data.MM_Color+';'">
-                            <span v-if="data.ico==null || data.ico==''" class="font_icon">&#xa038;</span>
-                            <span v-else class="font_icon" v-html="'&#x'+data.ico+';'"></span>
+                            <icon v-if="data.ico==null || data.ico==''">&#xa038;</icon>
+                            <icon v-else v-html="'&#x'+data.ico+';'"></icon>
                             {{ data.MM_Name }}
                         </span>
                     </span>

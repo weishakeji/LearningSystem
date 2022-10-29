@@ -54,10 +54,10 @@
                 <el-table-column label="机构名称">
                     <template slot-scope="scope">
                         <el-tooltip v-if='scope.row.Org_IsRoot' effect="light" content="根机构" placement="left-start">
-                            <span class="weisha_icon root" icon="&#xa003" style="font-size: 20px;"></span>
+                            <span class="root" icon="&#xa003" style="font-size: 20px;"></span>
                         </el-tooltip>
                         <el-tooltip v-if='scope.row.Org_IsDefault' effect="light" content="默认机构" placement="left-start">
-                            <span class="weisha_icon def" icon="&#xa006" style="font-size: 16px;"></span>
+                            <span class="def" icon="&#xa006" style="font-size: 16px;"></span>
                         </el-tooltip>
 
                         <span v-html='showInfo(scope.row.Org_Name)'></span>
@@ -67,7 +67,7 @@
                     <template slot-scope="scope">
                         <el-tooltip v-if='scope.row.Org_ID==current.Org_ID' effect="light" content="当前机构"
                             placement="left-start">
-                            <span class="weisha_icon root" icon="&#xa020" style="font-size: 16px;"></span>
+                            <span class="root" icon="&#xa020" style="font-size: 16px;"></span>
                         </el-tooltip>
                         <span v-html='scope.row.Org_PlatformName'></span>
                     </template>

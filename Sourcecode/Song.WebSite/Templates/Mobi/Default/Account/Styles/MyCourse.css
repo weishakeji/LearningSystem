@@ -212,7 +212,7 @@
     white-space: nowrap;
 }
 
-.cur_data>div span.font_icon {
+.cur_data>div icon {
     font-size: 16px;
     margin-right: 4px;
 }

@@ -11,7 +11,7 @@
     <div id="vapp" v-cloak>
         <div class="header">
             <icon @click="gohome()">&#xa020</icon>
-            <icon @click="gocourse()">&#xe813</icon>
+            <icon @click="gocourse()" course></icon>
             <span class="title">
                 <icon>&#xe810</icon>
                 结课考试
@@ -31,7 +31,7 @@
 
             <template v-else>
                 <card class="paper">
-                    <card-title class="weisha_icon" icon="&#xe731">{{paper.Tp_Name}}
+                    <card-title icon="&#xe731">{{paper.Tp_Name}}
                         <a class="btn btntest" @click="btnDoing" :disabled="final_disable()">参加考试</a>
 
                     </card-title>
@@ -55,7 +55,7 @@
                     </card-context>
                 </card>
                 <card class="paper">
-                    <card-title class="weisha_icon" icon="&#xe731">结课条件</card-title>
+                    <card-title icon="&#xe731">结课条件</card-title>
                     <card-context>
                         <final_condition ref="final_condition" :show="true" :config="config" :purchase="purchase"
                             :paperid="tpid" :account="account"></final_condition>

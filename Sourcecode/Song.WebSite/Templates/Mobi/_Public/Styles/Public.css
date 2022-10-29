@@ -1,43 +1,4 @@
 ﻿@charset "utf-8";
-/* CSS Document */
-
-@font-face {
-	font-family: 'webdesk_icon';
-	src: url("/Utilities/fonts/iconfont.woff") format("woff");
-	font-weight: normal;
-	font-style: normal;
-}
-
-.font_icon {
-	font-family: "webdesk_icon" !important;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-transition: font-size 0.25s ease-out 0s;
-	-moz-transition: font-size 0.25s ease-out 0s;
-	transition: font-size 0.25s ease-out 0s;
-}
-
-/*图标引用，
-	html标签中增加icon属性， 例如：<span class="weisha_icon" icon="&#xa038">内容</span>
-*/
-
-.weisha_icon::before, .webdesk_icon::before {
-	content: attr(icon);
-	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
-}
-
-icon {
-	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
-	display: inline-block;
-}
-
 *[v-cloak] {
 	display: none;
 }
@@ -88,65 +49,6 @@ html {
 .van-dialog {
 	border-radius: 3px;
 }
-/*预载*/
-loading {
-	color: #666;
-	font-size: 13px;
-}
-
-loading::before {
-	content: "\e621";
-	font-family: "webdesk_icon" !important;
-	display: inline-block;
-	font-size: 20px;
-	margin-right: 10px;
-	animation: rotate_360 0.6s infinite linear;
-}
-
-@keyframes rotate_360 {
-	0% {
-		transform: rotate(0deg);
-	}
-
-	25% {
-		transform: rotate(90deg);
-	}
-
-	50% {
-		transform: rotate(180deg);
-	}
-
-	75% {
-		transform: rotate(270deg);
-	}
-
-	100% {
-		transform: rotate(360deg);
-	}
-}
-
-help, alert {
-	color: #999;
-	font-size: 13px;
-}
-alert{
-	color: #F56C6C;
-}
-
-help::before, alert::before {
-	font-family: "webdesk_icon" !important;
-	display: inline-block;
-	margin-right: 8px;
-	font-size: 16px;
-}
-
-help::before {
-	content: "\a026";	
-}
-
-alert::before {
-	content: "\e74f";	
-}
 /*特殊字体*/
 
 red, .red {
@@ -157,18 +59,6 @@ red, .red {
 a {
 	text-decoration: none;
 	color: black;
-}
-
-.icon_man::before {
-	content: "\e645";
-	color: rgb(3, 71, 71);
-	font-family: "webdesk_icon" !important;
-}
-
-.icon_woman::before {
-	content: "\e647";
-	color: rgb(248, 87, 87);
-	font-family: "webdesk_icon" !important;
 }
 
 /*侧边菜单栏*/
@@ -370,7 +260,7 @@ footer#nav_menu>div {
 	background-color: #fff;
 }
 
-footer#nav_menu .font_icon {
+footer#nav_menu>div icon {
 	line-height: 26px;
 	height: 25px;
 	display: block;

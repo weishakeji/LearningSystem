@@ -57,7 +57,7 @@
 	border-radius: 50% !important;
 }
 
-.weisha_icon {
+icon:before,*[icon]:before {
 	font-size: 18px;
 }
 

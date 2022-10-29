@@ -36,11 +36,9 @@
                                 <span class="acc-acname" v-html="account.Ac_AccName"></span>
                             </div>
                             <div class="acc-money">
-                                <van-tag type="warning"><span class="weisha_icon"
-                                        icon="&#xe818"></span>{{account.Ac_Money}}元
+                                <van-tag type="warning"><icon money>{{account.Ac_Money}}元</icon>
                                 </van-tag>
-                                <van-tag type="primary" @click="gourl('../Point/index')"><span class="weisha_icon"
-                                        icon="&#xe847"></span>券{{account.Ac_Coupon}}
+                                <van-tag type="primary" @click="gourl('../Point/index')"><icon coupon>券{{account.Ac_Coupon}}</icon>
                                 </van-tag>
                             </div>
 

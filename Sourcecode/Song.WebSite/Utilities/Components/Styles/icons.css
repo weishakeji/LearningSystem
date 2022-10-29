@@ -1,0 +1,20 @@
+﻿/*菜单图标选择*/
+
+.icons_select_panel span {
+    font-family: "webdesk_icon" !important;
+    font-size: 30px !important;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    text-align: center;
+    transition: all .5s ease-out;
+}
+
+    .icons_select_panel span:hover {
+        transform: scale(1.3);
+        color: brown;
+    }
+    .icons_select_panel span[selected] {
+        color: brown;
+    }

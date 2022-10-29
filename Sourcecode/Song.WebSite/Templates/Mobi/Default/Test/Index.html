@@ -15,7 +15,7 @@
                 @load="onload">
 
                 <card v-for="(paper,index) in datas" @click="gopaper(paper)">
-                    <card-title class="weisha_icon" icon="&#xe731">{{index+1}}.{{paper.Tp_Name}}</card-title>
+                    <card-title icon="&#xe731">{{index+1}}.{{paper.Tp_Name}}</card-title>
                     <card-context>
                         <div class="row">
                             题 量：{{paper.Tp_Count}} 道

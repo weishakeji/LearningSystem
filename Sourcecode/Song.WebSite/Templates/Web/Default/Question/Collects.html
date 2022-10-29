@@ -19,20 +19,20 @@
     <template v-else>
       <template v-if="error!=''">
         <card v-if="!islogin">
-          <card-title class="weisha_icon" icon="&#xa043">未登录！</card-title>
+          <card-title icon="&#xa043">未登录！</card-title>
           <card-context><a href="/mobi/sign/in">点击此处登录</a></card-context>
         </card>
         <card v-else>
-          <card-title class="weisha_icon" icon="&#xe6fe">错误！</card-title>
+          <card-title icon="&#xe6fe">错误！</card-title>
           <card-context>{{error}}</card-context>
         </card>
       </template>
       <template v-else>
         <div class="topBox">
-          <a class="weisha_icon" icon="&#xe748" @click="window.history.back();"></a>
+          <a icon="&#xe748" @click="window.history.back();"></a>
           <div span="9" @click="learnmode++">
-            <span v-if="learnmode%2==0" class="weisha_icon" icon="&#xe657"> 练习模式 </span>
-            <span v-if="learnmode%2==1" class="weisha_icon" icon="&#xe6da"> 背题模式 </span>
+            <span v-if="learnmode%2==0" icon="&#xe657"> 练习模式 </span>
+            <span v-if="learnmode%2==1" icon="&#xe6da"> 背题模式 </span>
           </div>
           <div class="move_btn">
             <span @click="swiperight()">
@@ -64,7 +64,7 @@
             </dl>
           </section>
           <card v-else>
-            <card-title class="weisha_icon" icon="&#xe839">没有试题！</card-title>
+            <card-title icon="&#xe839">没有试题！</card-title>
             <card-context>没有收藏任何试题。</card-context>
           </card>
         </template>

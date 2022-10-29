@@ -108,8 +108,8 @@ Vue.component('outline_tree', {
         <img :src='course.Cou_LogoSmall' v-if="couexist && course.Cou_LogoSmall !='' "/>
         <img src='/Utilities/Images/cou_nophoto.jpg' v-else/>
         <div class='cour-info-right'>
-            <cour-name>{{course.Cou_Name}}</cour-name>
-            <sbj-name>{{course.Sbj_Name}}</sbj-name>
+            <icon course>{{course.Cou_Name}}</icon>
+            <icon subject>{{course.Sbj_Name}}</icon>
         </div>
     </div>
     <van-cell-group v-if='outlines && outlines.length>0'>

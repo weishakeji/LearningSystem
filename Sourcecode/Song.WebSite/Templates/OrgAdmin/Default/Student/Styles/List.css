@@ -8,9 +8,7 @@
 	height: 70px;
 }
 
-.weisha_icon {
-	font-size: 18px;
-}
+
 
 .large {
 	width: calc(100% - 50px);
@@ -30,22 +28,22 @@
 	margin: 0px;
 }
 
-.money {
+icon[money] {
 	font-size: 16px;
 	color: coral;
 	display: inline-block;
 	cursor: pointer;
 }
 
-.coupon {
+icon[coupon] {
 	margin-right: 10px;
 }
 
-.coupon, .point {
+icon[coupon], icon[point] {
 	cursor: pointer;
 }
 
-.coupon:hover, .point:hover {
+icon[coupon]:hover, icon[point]:hover {
 	text-decoration: underline;
 }
 

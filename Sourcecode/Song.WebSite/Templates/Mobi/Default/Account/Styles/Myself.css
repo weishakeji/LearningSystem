@@ -4,8 +4,8 @@
     overflow: hidden;
 }
 
-.weisha_icon::before {
-    font-size: 20px !important;
+icon,icon::before,*[icon]:before {
+    font-size: 18px !important;
 }
 .van-loading{
     text-align: center;

@@ -88,6 +88,7 @@ Vue.component('study_tabs', {
     },
     template: `<div id="study_tabs">    
         <div class="courseBox">
+            <icon course></icon>
             <template v-if="couexist && course.Cou_Name!=''" remark="课程名称">
                 课程：<a :href="'detail.'+course.Cou_ID">《{{course.Cou_Name}}》</a>
             </template>

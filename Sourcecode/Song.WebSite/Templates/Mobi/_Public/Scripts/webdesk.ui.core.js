@@ -871,9 +871,11 @@
     };
     //创建全局对象，方便调用
     window.$dom = webdom;
-    window.$dom.load.css(['/Utilities/Vant/Vant.css']);
-    //console.log(webdom.path());
-    window.$dom.load.css([webdom.path() + 'styles/public.css']);
+    window.$dom.load.css([
+        '/Utilities/Vant/Vant.css',
+        webdom.path() + 'styles/public.css', 
+        '/Utilities/Fonts/icon.css'
+    ]);
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {
         var file = webdom.file();

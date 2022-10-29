@@ -72,20 +72,17 @@
                 </el-table-column>
                 <el-table-column label="资金">
                     <template slot-scope="scope">
-                        <div class="weisha_icon money" icon="&#xe624" title="资金余额" style="font-size: 14px;">
-                            {{scope.row.Ac_Money}}</div>
+                        <icon  money title="资金余额"> {{scope.row.Ac_Money}}</icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="卡券">
                     <template slot-scope="scope">
-                        <span class="weisha_icon coupon" icon="&#xe847" title="卡券"
-                            style="font-size: 14px;">{{scope.row.Ac_Coupon}}</span>
+                        <icon coupon title="卡券">{{scope.row.Ac_Coupon}}</icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="积分">
                     <template slot-scope="scope">
-                        <span class="weisha_icon point" icon="&#xe88a" title="积分"
-                            style="font-size: 14px;">{{scope.row.Ac_Point}}</span>
+                        <icon point title="积分">{{scope.row.Ac_Point}}</icon>
                     </template>
                 </el-table-column>
             </el-table>

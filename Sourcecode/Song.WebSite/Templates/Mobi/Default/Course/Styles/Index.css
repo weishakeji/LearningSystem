@@ -81,7 +81,7 @@
     height: calc(100% - 45px);
 }
 
-.van-tabs .weisha_icon::before {
+.van-tabs *[icon]::before {
     font-size: 20px;
 }
 
@@ -218,7 +218,7 @@
     white-space: nowrap; 
 }
 
-.cur_data>div span.font_icon {
+.cur_data>div icon {
     font-size: 16px;
     margin-right: 4px;
 }

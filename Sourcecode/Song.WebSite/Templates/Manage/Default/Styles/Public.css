@@ -154,62 +154,6 @@ table.el-table__body tr.disabled td, table.el-table__body tr.disabled td * {
     background-color: rgba(255, 255, 255, .8);
 }
 
-/*顶部按钮条*/
-
-.toolsbar {
-    width: 100%;
-    background-color: rgba(255, 255, 255, .8);
-    border-bottom: 1px solid #DCDFE6;
-    height: 31px;
-    line-height: 31px;
-    overflow: hidden;
-}
-
-.toolsbar .el-button-group .el-button {
-    border: none !important;
-    bottom: 0px;
-    height: 32px;
-    margin: 1px 0px 0px 0px;
-}
-
-.btngroup {
-    display: table;
-    float: left;
-}
-
-/*搜索框*/
-
-.search-box {
-    float: right;
-}
-
-.search-box form {
-    margin: 0px;
-    padding: 0px;
-}
-
-.search-box .el-input {
-    margin: 0px !important;
-}
-
-.search-box input[type=text] {
-    height: 25px;
-    margin-top: 1px;
-}
-
-.search-box button {
-    height: 25px;
-    margin-top: 1px;
-    padding: 5px 10px 5px 10px;
-}
-
-.el-link {
-    font-size: 12px !important;
-}
-
-.el-card__header {
-    padding: 10px 20px !important;
-}
 
 /*下拉菜单的标题*/
 

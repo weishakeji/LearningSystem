@@ -14,9 +14,9 @@
   <div id="vapp" v-clock>
     <van-row class="topBox">
       <van-col span="7" class="btntop">
-        <a class="weisha_icon" icon="&#xe748" @click="window.history.back();"></a>
-        <a class="weisha_icon" icon="&#xe813" :href="'../course/Detail.'+couid"></a>
-        <a class="weisha_icon" icon="&#xa020" href="/mobi/"></a>
+        <a icon="&#xe748" @click="window.history.back();"></a>
+        <a :href="'../course/Detail.'+couid"><icon course></icon></a>
+        <a icon="&#xa020" href="/mobi/"></a>
       </van-col>
 
     </van-row>
@@ -35,7 +35,7 @@
     <div class="outline">
       <van-cell>
         <template #title>
-          <span class="weisha_icon" icon="&#xe841">按章节练习</span>
+          <span icon="&#xe841">按章节练习</span>
           <van-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</van-tag>
         </template>
       </van-cell>

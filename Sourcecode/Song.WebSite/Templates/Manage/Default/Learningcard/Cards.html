@@ -15,13 +15,13 @@
         <div class="toolsbar">
             <el-button-group>
                 <el-button type="info" size="small" :disabled="cardsetLoading" plain @click="cardsetVisible=true">
-                    <span class="weisha_icon" icon="&#xa022"></span>详情
+                    <span icon="&#xa022"></span>详情
                 </el-button>
                 <el-button type="primary" size="small" plain @click="OutputExcel">
-                    <span class="weisha_icon" icon="&#xa022"></span>导出Excel
+                    <span icon="&#xa022"></span>导出Excel
                 </el-button>
                 <el-button type="success" size="small" plain @click="OutputQrcode">
-                    <span class="weisha_icon" icon="&#xa053"></span>导出二维码
+                    <span icon="&#xa053"></span>导出二维码
                 </el-button>
                 <el-button type="danger" size="small" plain class="el-icon-refresh-left" @click="goback()">回滚
                 </el-button>
@@ -140,8 +140,7 @@
                 <el-row :gutter="20">
                     <el-col :span="6">面额</el-col>
                     <el-col :span="18">
-                        <span class="weisha_icon money" icon="&#xe624"
-                            style="font-size: 14px;">{{current.Lc_Price}}</span>
+                        <icon money>{{current.Lc_Price}}</icon>
                     </el-col>
                 </el-row>
                 <el-row :gutter="20">
@@ -165,15 +164,15 @@
                             <img v-else class="el-icon-plus avatar-uploader-icon avatar  photo"
                                 src="/Utilities/images/head2.jpg" />
                         </template>
-                        <span v-if="current.account.Ac_Sex=='1'" class="weisha_icon man" icon="&#xe645"
+                        <span v-if="current.account.Ac_Sex=='1'" class="man" icon="&#xe645"
                             title="男性"></span>
-                        <span v-if="current.account.Ac_Sex=='2'" class="weisha_icon woman" icon="&#xe647"
+                        <span v-if="current.account.Ac_Sex=='2'" class="woman" icon="&#xe647"
                             title="女性"></span>
                         {{current.account.Ac_Name}} ({{current.account.Ac_AccName}})
-                        <div class="weisha_icon" icon="&#xe60f" title="身份证">
+                        <div icon="&#xe60f" title="身份证">
                             {{current.account.Ac_IDCardNumber}}
                         </div>
-                        <div class="weisha_icon" icon="&#xa047" title="电话">
+                        <div icon="&#xa047" title="电话">
                             <span v-html='current.account.Ac_MobiTel1'></span>
                             <span
                                 v-if="current.account.Ac_MobiTel1!='' && current.account.Ac_MobiTel2!='' && current.account.Ac_MobiTel1!= current.account.Ac_MobiTel2 ">/</span>
@@ -249,8 +248,7 @@
                 <el-row :gutter="20">
                     <el-col :span="6">面额</el-col>
                     <el-col :span="18">
-                        <span class="weisha_icon money" icon="&#xe624"
-                            style="font-size: 14px;">{{cardset.Lcs_Price}}</span>
+                        <icon money>{{cardset.Lcs_Price}}</icon>
                         <span style="font-size: 13px;color: #606266;">(可用卡券抵扣 {{cardset.Lcs_Coupon}}元)</span>
                     </el-col>
 

@@ -16,7 +16,7 @@
             <img :src="course.Cou_Logo" v-else>
 
             <div class="couName">
-                <a class="weisha_icon" icon="&#xe72a" @click="window.history.go(-1); "></a>
+                <a icon="&#xe72a" @click="window.history.go(-1); "></a>
                 <span v-html="course.Cou_Name"></span>
             </div>
             <a class="go-home" href="/mobi/index"> </a>
@@ -58,19 +58,19 @@
             <van-tabs v-model="tabActive">
                 <van-tab title="detail">
                     <template #title>
-                        <span class="weisha_icon" icon="&#xe813">课程介绍
+                        <span icon="&#xe813">课程介绍
                     </template>
                 </van-tab>
                 <van-tab title="outline"> <template #title>
-                        <span class="weisha_icon" icon="&#xe841">章节
+                        <span icon="&#xe841">章节
                     </template>
                 </van-tab>
                 <van-tab title="target"> <template #title>
-                        <span class="weisha_icon" icon="&#xe816">学习目标
+                        <span icon="&#xe816">学习目标
                     </template>
                 </van-tab>
                 <van-tab title="notice"> <template #title>
-                        <span class="weisha_icon" icon="&#xe697">公告
+                        <span icon="&#xe697">公告
                     </template>
                 </van-tab>
             </van-tabs>

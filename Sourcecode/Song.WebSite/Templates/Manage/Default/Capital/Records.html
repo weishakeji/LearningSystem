@@ -102,8 +102,9 @@
                         <span :class="scope.row.Ma_Type==1 ? 'pay' : 'income'">
                             <span v-if="scope.row.Ma_Type==1">支出</span>
                             <span v-if="scope.row.Ma_Type==2">充值</span>
-                            <span class="weisha_icon" icon="&#xe624" style="font-size: 14px;">
-                                {{scope.row.Ma_Money}}元</span>
+                            <icon money style="font-size: 14px;">
+                                {{scope.row.Ma_Money}}元
+                            </icon>
                         </span><br />
                         <el-tag type="info"> {{scope.row.Ma_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}</el-tag>
                     </template>
@@ -118,8 +119,7 @@
                 <el-table-column label="学员/余额">
                     <template slot-scope="scope">
                        <span class="acname">{{scope.row.Ac_Name}}</span>
-                        <span class="weisha_icon money" icon="&#xe746"
-                            style="font-size: 14px;">{{scope.row.Ma_Total}}</span>
+                       <span class="money"> <icon money style="font-size: 14px;"></icon>{{Math.floor(scope.row.Ma_Total*100)/100}}</span>
                             <br/>
                             <el-tag type="info" title="学员账号"> {{scope.row.Ac_AccName}}</el-tag>   
                     </template>

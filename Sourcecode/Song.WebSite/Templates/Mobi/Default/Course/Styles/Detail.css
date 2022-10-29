@@ -153,7 +153,10 @@ a.go-home:before {
     text-align: center;
     padding: 10px 5px 0px 5px;
 }
-
+.mainmenuBox>div icon{
+    display: block;
+    margin-bottom: 4px;
+}
 .mainmenuBox span{  
     display: block;
     font-size: 30px;
@@ -255,7 +258,7 @@ a.go-home:before {
     font-size: 16px;
     letter-spacing:8px;
 }
-.mainmenu .van-popup .font_icon{
+.mainmenu .van-popup icon{
     font-size: 20px;
 }
 .login button{

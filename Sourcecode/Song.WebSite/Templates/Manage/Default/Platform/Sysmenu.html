@@ -14,7 +14,7 @@
 
   <div id="app" v-cloak>
     <div class="tree_root">
-      <span class="font_icon">&#xa00c;</span> <span>系统菜单（根节点）</span>
+      <span icon="&#xa00c;">系统菜单（根节点）</span>
       <el-button type="text" size="mini" @click="() => append()" v-loading="loading">
         新增下级
       </el-button>
@@ -27,8 +27,8 @@
 
         <span class="tree-node draghandle" :bold="data.MM_IsBold" :italic="data.MM_IsItalic" :color="data.MM_Color"
           :style="'color:'+data.MM_Color">
-          <span v-if="data.MM_IcoS==null || data.MM_IcoS==''" class="font_icon">&#xa038;</span>
-          <span v-else class="font_icon" v-html="'&#x'+data.MM_IcoS+';'"></span>
+          <icon v-if="data.MM_IcoS==null || data.MM_IcoS==''" setup></icon>
+          <icon v-else v-html="'&#x'+data.MM_IcoS+';'"></icon>
           {{ data.MM_Name }}<span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
         </span>
         <span class="tree-handle"> <span style="display: inline-block;width: 100px;">
@@ -74,9 +74,9 @@
           <el-col :span="4">
             <el-form-item label="" label-width="5px">
 
-              <el-link type="primary" @click="iconSelect=true" title="选择图标" v-if="curr.MM_Type!='hr'"> <span
-                  v-if="curr.MM_IcoS==null || curr.MM_IcoS==''" class="font_icon">&#xa038;</span>
-                <span v-else class="font_icon" v-html="'&#x'+curr.MM_IcoS+';'"></span>
+              <el-link type="primary" @click="iconSelect=true" title="选择图标" v-if="curr.MM_Type!='hr'"> <icon
+                  v-if="curr.MM_IcoS==null || curr.MM_IcoS==''" setup>&#xa038;</icon>
+                <icon v-else v-html="'&#x'+curr.MM_IcoS+';'"></icon>
               </el-link>
             </el-form-item>
           </el-col>

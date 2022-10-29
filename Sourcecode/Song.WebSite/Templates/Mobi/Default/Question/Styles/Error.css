@@ -84,10 +84,10 @@ card-title.error a {
 	text-align: center;
 }
 
-.topBox .weisha_icon::before, .topBox icon {
-	line-height: 45px;
-	font-size: 18px;
-}
+	.topBox *[icon]::before, .topBox icon {
+		line-height: 45px;
+		font-size: 18px;
+	}
 
 .topBox>.btntop {
 	display: flex;

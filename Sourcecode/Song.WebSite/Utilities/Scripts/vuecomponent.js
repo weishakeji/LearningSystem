@@ -262,7 +262,7 @@ Vue.component('btngroup', {
     <el-tooltip class="item" :content="btn.tips" placement="bottom" effect="light">\
         <el-button :key="index" :type="btn.type"  size="small" plain v-on:click="eventClick(btn)"\
         :class="!!btn.class && !btn.icon ? btn.class : false">\
-            <i v-if="btn.icon" class="font_icon" v-html="btnicon(btn)"></i>&nbsp; {{btn.text}}\
+            <icon v-if="btn.icon" v-html="btnicon(btn)"></icon>&nbsp; {{btn.text}}\
         </el-button>\
     </el-tooltip>\
     </template>\

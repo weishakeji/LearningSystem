@@ -75,8 +75,8 @@ Vue.component('footer_menu', {
        <div v-for="item in menus" @click="!!item.evt ? item.evt(item) : btnDefault(item)" v-if="item.show">
        <img :src="item.img" v-if="item.img!=''"/>
        <template v-else>
-            <div class="font_icon" :style="'font-size:'+item.size+'px;'" v-html="'&#x'+item.icon" v-if="!!item.icon && item.icon!=''"></div>
-            <div class="font_icon" v-else :style="'font-size:21px;'" v-html="'&#x'+deficon"></div>            
+            <icon :style="'font-size:'+item.size+'px;'" v-html="'&#x'+item.icon" v-if="!!item.icon && item.icon!=''"></icon>
+            <icon v-else :style="'font-size:21px;'" v-html="'&#x'+deficon"></icon>            
        </template>
        <span>{{item.name}}</span>
        </div>

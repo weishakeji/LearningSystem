@@ -1241,6 +1241,7 @@
     <Content Include="Templates\Web\Default\Viewport\Styles\Index.css" />
     <Content Include="Utilities\Components\sbj_cascader.js" />
     <Content Include="Utilities\Components\Styles\sbj_cascader.css" />
+    <Content Include="Utilities\Components\Styles\icons.css" />
     <Content Include="Utilities\Components\Styles\useicon.css" />
     <Content Include="Utilities\Components\useicon.js" />
     <Content Include="Utilities\Components\Styles\upload-chunked.css" />
@@ -1248,6 +1249,7 @@
     <Content Include="Utilities\Components\upload-chunked.js" />
     <Content Include="Utilities\Components\upload-excel.js" />
     <Content Include="Utilities\ElementUi\version.txt" />
+    <Content Include="Utilities\Fonts\iconfont.ico" />
     <Content Include="Utilities\Images\alpha.png" />
     <Content Include="Utilities\Images\def_logo.jpg" />
     <Content Include="Utilities\Images\head\head1.jpg" />
@@ -1462,7 +1464,6 @@
     <Content Include="Templates\Student\Default\Study\Styles\Certificate.css" />
     <Content Include="Templates\Student\Default\Styles\Index.css" />
     <Content Include="Templates\Student\Default\Styles\Public.css" />
-    <Content Include="Templates\Student\Default\Styles\webdesk.ui.core.css" />
     <Content Include="Templates\Student\Default\Test\Archives.html" />
     <Content Include="Templates\Student\Default\Test\Scripts\Archives.js" />
     <Content Include="Templates\Student\Default\Test\Styles\Archives.css" />
@@ -1523,7 +1524,6 @@
     <Content Include="Templates\Web\Default\Course\Study.html" />
     <Content Include="Templates\Web\Default\Course\Styles\Detail.css" />
     <Content Include="Templates\Web\Default\Course\Styles\Index.css" />
-    <Content Include="Templates\Web\Default\Course\Styles\KnlHeader.css" />
     <Content Include="Templates\Web\Default\Course\Styles\Knowledges.css" />
     <Content Include="Templates\Web\Default\Course\Styles\Study.css" />
     <Content Include="Templates\Web\Default\Images\alpha.png" />
@@ -1746,7 +1746,6 @@
     <Content Include="Templates\Manage\Default\Styles\Login.css" />
     <Content Include="Templates\Manage\Default\Panel\Styles\Skinsetup.css" />
     <Content Include="Templates\Manage\Default\Styles\Startpage.css" />
-    <Content Include="Templates\Manage\Default\Styles\webdesk.ui.core.css" />
     <Content Include="Templates\Manage\Default\_self.xml" />
     <Content Include="Templates\OrgAdmin\Default\Account\Logout.html" />
     <Content Include="Templates\OrgAdmin\Default\Account\Modify.html" />
@@ -1774,7 +1773,6 @@
     <Content Include="Templates\OrgAdmin\Default\Styles\Index.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Login.css" />
     <Content Include="Templates\OrgAdmin\Default\Styles\Startpage.css" />
-    <Content Include="Templates\OrgAdmin\Default\Styles\webdesk.ui.core.css" />
     <Content Include="Templates\OrgAdmin\Default\Template\Scripts\Select.js" />
     <Content Include="Templates\OrgAdmin\Default\Template\Select.html" />
     <Content Include="Templates\OrgAdmin\Default\Template\Styles\Select.css" />
@@ -1871,6 +1869,8 @@
     <Content Include="Utilities\Scripts\vuedraggable.min.js" />
     <Content Include="Utilities\scrollbar-thumb.gif" />
     <Content Include="Utilities\scrollbar-track.gif" />
+    <Content Include="Utilities\Fonts\icon.css" />
+    <Content Include="Utilities\Styles\Public.css" />
     <Content Include="Utilities\Vant\Vant.css" />
     <Content Include="Utilities\Vant\vant.min.js" />
     <Content Include="Utilities\Viewport\datav.map.vue.js" />
@@ -1894,7 +1894,6 @@
     <Folder Include="Templates\Pay\Default\Weixin\Scripts\" />
     <Folder Include="Templates\Pay\Default\Weixin\Styles\" />
     <Folder Include="Utilities\Images\Mobi\" />
-    <Folder Include="Utilities\Styles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="db.config" />

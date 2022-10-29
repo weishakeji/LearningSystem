@@ -14,7 +14,7 @@ $ready(function () {
             datas: [],           //课程列表
             finished: false,
             query: {
-                'acid': -1, 'search': '', 'enable': true,'size': 10, 'index': 0
+                'acid': -1, 'search': '', 'enable': true, 'size': 10, 'index': 0
             },
             method_name: 'purchased',      //接口名称，来自选项卡的名称
             total: 0
@@ -156,7 +156,7 @@ $ready(function () {
                 var th = this;
                 $api.cache('Course/Datainfo:20', { 'couid': this.couid }).then(function (req) {
                     if (req.data.success) {
-                        th.data = req.data.result;                      
+                        th.data = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -166,22 +166,22 @@ $ready(function () {
                     console.error(err);
                 });
             }
-        },      
+        },
         template: `  <div class="cur_data">
                     <div>
-                        <span  class="font_icon">&#xe841</span>
+                        <icon outline></icon>
                         章节 {{data.outline}} 
                     </div>
                     <div>
-                        <span  class="font_icon">&#xe6b0</span>
+                        <icon question></icon>
                         试题 {{data.question}} 
                     </div>
                     <div>
-                        <span  class="font_icon">&#xe83a</span>
+                        <icon video></icon>
                         视频 {{data.video}}
                     </div>
                     <div>
-                        <span  class="font_icon">&#xa03a</span>
+                        <icon view></icon>
                         关注 {{viewnum}}
                     </div>
                 </div>`

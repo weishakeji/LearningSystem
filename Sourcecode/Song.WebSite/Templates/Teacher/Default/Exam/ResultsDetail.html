@@ -65,8 +65,8 @@
                 </el-table-column>
                 <el-table-column label="姓名" width="120">
                     <span slot-scope="scope" :class="{'woman':scope.row.Ac_Sex=='2'}">
-                        <span v-if="scope.row.Ac_Sex!='2'" class="weisha_icon" icon="&#xe645" title="男性"></span>
-                        <span v-if="scope.row.Ac_Sex=='2'" class="weisha_icon" icon="&#xe647" title="女性"></span>
+                        <span v-if="scope.row.Ac_Sex!='2'" icon="&#xe645" title="男性"></span>
+                        <span v-if="scope.row.Ac_Sex=='2'" icon="&#xe647" title="女性"></span>
                         <span v-html='showInfo(scope.row.Ac_Name)' class="link" @click="getaccount(scope.row)"></span>
                     </span>
                 </el-table-column>
@@ -140,16 +140,16 @@
                         src="/Utilities/Images/head1.jpg" />
                     <img v-else class="el-icon-plus avatar-uploader-icon avatar  photo"
                         src="/Utilities/Images/head2.jpg" />
-                    <div><span v-if="account.Ac_Sex!='2'" class="weisha_icon man" icon="&#xe645" title="男性">
+                    <div><span v-if="account.Ac_Sex!='2'" class="man" icon="&#xe645" title="男性">
                         </span>
-                        <span v-if="account.Ac_Sex=='2'" class="weisha_icon woman" icon="&#xe647" title="女性">
+                        <span v-if="account.Ac_Sex=='2'" class="woman" icon="&#xe647" title="女性">
                         </span>
                         <b>{{account.Ac_Name}}</b> <span title="账号">({{account.Ac_AccName}})</span>
                     </div>
-                    <div class="weisha_icon" icon="&#xe60f" title="身份证">
+                    <div icon="&#xe60f" title="身份证">
                         {{account.Ac_IDCardNumber}}
                     </div>
-                    <div class="weisha_icon" icon="&#xa047" title="电话">
+                    <div icon="&#xa047" title="电话">
                         <span v-html='account.Ac_MobiTel1'></span>
                         <span
                             v-if="account.Ac_MobiTel1!='' && account.Ac_MobiTel2!='' && account.Ac_MobiTel1!= account.Ac_MobiTel2 ">/</span>

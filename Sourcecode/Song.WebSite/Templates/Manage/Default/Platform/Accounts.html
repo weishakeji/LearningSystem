@@ -57,8 +57,8 @@
                 </el-table-column>
                 <el-table-column label="姓名" width="120">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.Ac_Sex==1" class="weisha_icon man" icon="&#xe645" title="男性"></span>
-                        <span v-if="scope.row.Ac_Sex==2" class="weisha_icon woman" icon="&#xe647" title="女性"></span>
+                        <span v-if="scope.row.Ac_Sex==1" class="man" icon="&#xe645" title="男性"></span>
+                        <span v-if="scope.row.Ac_Sex==2" class="woman" icon="&#xe647" title="女性"></span>
 
                         <span v-html='showInfo(scope.row.Ac_Name)'
                             :class="{'woman':scope.row.Ac_Sex=='2','name':true}"></span>
@@ -67,7 +67,7 @@
                 </el-table-column>
                 <el-table-column label="账号">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.Ac_IsTeacher" class="weisha_icon tearch" icon="&#xe804" title="教师"></span>
+                        <icon v-if="scope.row.Ac_IsTeacher" tearch title="教师"></icon>
                         <span v-html='showInfo(scope.row.Ac_AccName)'></span>
                     </template>
                 </el-table-column>
@@ -82,8 +82,7 @@
                 </el-table-column>
                 <el-table-column label="资金" width="120">
                     <template slot-scope="scope">
-                        <span class="weisha_icon money" @click="moneyHandle(scope.row)" icon="&#xe624"
-                            style="font-size: 14px;">{{scope.row.Ac_Money}}</span>
+                        <icon money @click="moneyHandle(scope.row)">{{scope.row.Ac_Money}}</icon>
 
                     </template>
                 </el-table-column>

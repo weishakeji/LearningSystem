@@ -33,8 +33,16 @@ icon {
 */
 icon::before {
     font-family: "webdesk_icon" !important;
+    margin-right: 5px;
 }
-
+/*学员*/
+icon[student]::before {
+    content: '\e804';
+}
+/*教师*/
+icon[tearch]::before {
+    content: '\e650';
+}
 /*课程*/
 icon[course]::before {
     content: '\e813';
@@ -49,10 +57,68 @@ icon[subject]::before {
 icon[outline]::before {
     content: '\e841';
 }
-
 /*试题*/
 icon[question]::before {
     content: '\e75e';
+}
+/*试卷*/
+icon[test]::before {
+    content: '\e63d';
+}
+/*考试*/
+icon[exam]::before {
+    content: '\e810';
+}
+/*视频*/
+icon[video]::before {
+    content: '\e83a';
+}
+/*关注，查看*/
+icon[view]::before {
+    content: '\a03a';
+}
+/*设置*/
+icon[setup]::before {
+    content: '\a038';
+}
+/*货币符号 人民币*/
+icon[money]::before {
+    content: '\e624';
+    font-size: 16px;
+}
+/*卡券*/
+icon[coupon]::before {
+    content: '\e847';   
+    font-size: 16px;
+}
+/*积分*/
+icon[point]::before {
+    content: '\e88a';
+    font-size: 16px;
+}
+/*身份证*/
+icon[idcard]::before {
+    content: '\e68f';  
+}
+/*固定电话*/
+icon[phone]::before {
+    content: '\a047';
+}
+/*移动电话*/
+icon[mobile]::before {
+    content: '\e677';
+    font-size: 16px;
+}
+/*男性*/
+*[icon=man]::before {
+    content: '\e645';
+    color: rgb(3, 71, 71);
+}
+
+/*女性*/
+*[icon=woman]::before {
+    content: '\e647';
+    color: rgb(248, 87, 87);
 }
 
 /*预载*/

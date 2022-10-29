@@ -81,11 +81,6 @@ header {
 	z-index: 2;
 }
 
-header .weisha_icon::before {
-	font-size: 22px;
-	line-height: 45px;
-}
-
 header>div:first-child {
 	width: 44px;
 	height: 44px;

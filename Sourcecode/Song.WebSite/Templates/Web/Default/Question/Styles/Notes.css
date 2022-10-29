@@ -88,10 +88,10 @@ input, textarea {
 	width: 60px;
 	flex: none;
 }
-.topBox .weisha_icon::before, .topBox icon {
-	line-height: 45px;
-	font-size: 18px;
-}
+	.topBox *[icon]::before, .topBox icon {
+		line-height: 45px;
+		font-size: 18px;
+	}
 
 .topBox>* {
 	flex: 1;

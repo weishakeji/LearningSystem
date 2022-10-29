@@ -250,19 +250,19 @@ $ready(function () {
         // 同样也可以在 vm 实例中像 "this.message" 这样使用
         template: `  <div class="cur_data">
                         <div>
-                            <span  class="font_icon">&#xe841</span>
+                            <icon outline></icon>
                             章节 {{data.outline}} 
                         </div>
                         <div>
-                            <span  class="font_icon">&#xe6b0</span>
+                            <icon question></icon>
                             试题 {{data.question}} 
                         </div>
                         <div>
-                            <span  class="font_icon">&#xe83a</span>
+                            <icon  video></icon>
                             视频 {{data.video}}
                         </div>
                         <div>
-                            <span  class="font_icon">&#xa03a</span>
+                            <icon view></icon>
                             关注 {{viewnum}}
                         </div>
                     </div>`

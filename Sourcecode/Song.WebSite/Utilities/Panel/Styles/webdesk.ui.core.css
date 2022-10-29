@@ -23,7 +23,7 @@
 	transition: font-size 0.25s ease-out 0s;
 }
 	/*图标引用，
-	html标签中增加icon属性， 例如：<span class="weisha_icon" icon="&#xa038">内容</span>
+	html标签中增加icon属性， 例如：<span icon="&#xa038">内容</span>
 */
 .weisha_icon::before, .webdesk_icon::before{
 	content: attr(icon);

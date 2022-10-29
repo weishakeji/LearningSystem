@@ -72,23 +72,20 @@
                 </el-table-column>
                 <el-table-column label="资金/卡券/积分" width="180">
                     <template slot-scope="scope">
-                        <div class="weisha_icon money" @click="openSubpage('money',scope.row,'资金明细',800,600,'e818')"
-                            icon="&#xe624" title="资金余额" style="font-size: 14px;">{{scope.row.Ac_Money}}</div>
+                        <icon money @click="openSubpage('money',scope.row,'资金明细',800,600,'e818')" title="资金余额">
+                            {{scope.row.Ac_Money}}</icon>
                         <div>
-                            <span class="weisha_icon coupon"
-                                @click="openSubpage('Coupon',scope.row,'卡券操作',400,400,'e847')" icon="&#xe847" title="卡券"
-                                style="font-size: 14px;">{{scope.row.Ac_Coupon}}</span>
-                            <span class="weisha_icon point"
-                                @click="openSubpage('Point',scope.row,'积分操作',400,400,'e88a')" icon="&#xe88a" title="积分"
-                                style="font-size: 14px;">{{scope.row.Ac_Point}}</span>
+                            <icon coupon @click="openSubpage('Coupon',scope.row,'卡券操作',400,400,'e847')" title="卡券">
+                                {{scope.row.Ac_Coupon}}</icon>
+                            <icon point @click="openSubpage('Point',scope.row,'积分操作',400,400,'e88a')" title="积分">
+                                {{scope.row.Ac_Point}}</icon>
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column label="账号/学员组">
                     <template slot-scope="scope">
                         <div>
-                            <span v-if="scope.row.Ac_IsTeacher" class="weisha_icon tearch" icon="&#xe650"
-                                title="教师"></span>
+                            <icon v-if="scope.row.Ac_IsTeacher" tearch title="教师"></icon>
                             <span v-html='showInfo(scope.row.Ac_AccName,form.acc)'></span>
 
                         </div>
@@ -104,7 +101,7 @@
                 </el-table-column>
                 <el-table-column label="身份证">
                     <template slot-scope="scope">
-                        <div>                        
+                        <div>
                             <span v-html='showInfo(scope.row.Ac_IDCardNumber,form.idcard)'></span>
 
                         </div>

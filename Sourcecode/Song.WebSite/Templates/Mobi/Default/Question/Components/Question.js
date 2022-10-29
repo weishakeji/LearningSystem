@@ -292,18 +292,18 @@ Vue.component('question', {
     </card>
     <div v-show="mode==1 || (mode==0 && state.ans!='')">
         <card class="answer">   
-            <card-title><span class="font_icon">&#xe816</span> 正确答案</card-title>
+            <card-title><icon>&#xe816</icon> 正确答案</card-title>
             <card-context> <span v-html="sucessAnswer()"></span> </card-context>
         </card>
         <card v-if="ques.Qus_Explain!=''" class="explain">   
-            <card-title><span class="font_icon">&#xe85a</span> 试题解析</card-title>
+            <card-title><icon>&#xe85a</icon> 试题解析</card-title>
             <card-context>
                 <span v-if="ques.Qus_Explain!=''" v-html="ques.Qus_Explain"></span>
                 <span v-else>无</span> 
             </card-context>
         </card>
         <card class="knowledge" v-if="existknl" >   
-            <card-title><span class="font_icon">&#xe6b0</span> 相关知识点</card-title>
+            <card-title><icon>&#xe6b0</icon> 相关知识点</card-title>
             <card-context>
                 <div>{{knowledge.Kn_Title}}</div>
                 <div v-html="knowledge.Kn_Details"></div>

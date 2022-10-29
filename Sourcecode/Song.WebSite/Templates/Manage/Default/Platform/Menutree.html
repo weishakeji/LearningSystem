@@ -14,8 +14,8 @@
 
   <div id="app" v-cloak>
     <div class="tree_root">
-      <span v-if="rootMenu.MM_IcoS==null || rootMenu.MM_IcoS==''" class="font_icon">&#xa038;</span>
-      <span v-else class="font_icon" v-html="'&#x'+rootMenu.MM_IcoS+';'"></span>
+      <icon v-if="rootMenu.MM_IcoS==null || rootMenu.MM_IcoS==''" setup></icon>
+      <icon v-else v-html="'&#x'+rootMenu.MM_IcoS+';'"></icon>
       <span>{{rootMenu.MM_Name}}</span>
       <el-button type="text" size="mini" @click="() => append()" v-loading="loading">
         新增下级
@@ -29,8 +29,8 @@
 
         <span class="tree-node draghandle" :bold="data.MM_IsBold" :italic="data.MM_IsItalic" :color="data.MM_Color"
           :style="'color:'+data.MM_Color+'; background-image: linear-gradient(to right, rgb(255, 255, 255) '+(data.MM_IsUse ? data.MM_Complete : 100)+'%,rgb(255, 0, 0) '+(100-data.MM_Complete)+'%);'">
-          <span v-if="data.MM_IcoS==null || data.MM_IcoS==''" class="font_icon">&#xa038;</span>
-          <span v-else class="font_icon" v-html="'&#x'+data.MM_IcoS+';'"></span>
+          <icon v-if="data.MM_IcoS==null || data.MM_IcoS==''">&#xa038;</icon>
+          <icon v-else v-html="'&#x'+data.MM_IcoS+';'"></icon>
           {{ data.MM_Name }}
           <span class="mmlink" :title="data.MM_Link">{{data.MM_Link}}</span>
         </span>
@@ -77,9 +77,9 @@
           <el-col :span="4">
             <el-form-item label="" label-width="5px">
 
-              <el-link type="primary" @click="iconSelect=true" title="选择图标" class="setup_icon"> <span
-                  v-if="curr.MM_IcoS==null || curr.MM_IcoS==''" class="font_icon">&#xa038;</span>
-                <span v-else class="font_icon" v-html="'&#x'+curr.MM_IcoS+';'"></span>
+              <el-link type="primary" @click="iconSelect=true" title="选择图标" class="setup_icon">
+                  <icon setup v-if="curr.MM_IcoS==null || curr.MM_IcoS==''"></icon>
+                <icon v-else v-html="'&#x'+curr.MM_IcoS+';'"></icon>
               </el-link>
             </el-form-item>
           </el-col>
@@ -167,8 +167,8 @@
           <el-select v-model="MM_PatId" placeholder="请选择" @change="move2Root">
             <el-option v-for="(item,index) in rootdata" :key="item.MM_UID" :label="item.MM_Name" :value="item.MM_UID">
               <span style="float: left">
-                <span v-if="item.MM_IcoS==null || item.MM_IcoS==''" class="font_icon">&#xa038;</span>
-                <span v-else class="font_icon" v-html="'&#x'+item.MM_IcoS+';'"></span>
+                <icon v-if="item.MM_IcoS==null || item.MM_IcoS==''" setup></icon>
+                <icon v-else  v-html="'&#x'+item.MM_IcoS+';'"></icon>
                 {{ item.MM_Name }}</span>
             </el-option>
           </el-select>

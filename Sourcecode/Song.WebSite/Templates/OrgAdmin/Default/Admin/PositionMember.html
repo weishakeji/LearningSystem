@@ -29,9 +29,9 @@
                             <el-tag type="info" class="count" v-if="selects.length>0">选中 {{selects.length}} 个</el-tag>
                         </template>
                         <template slot-scope="scope">
-                            <span v-if="scope.row.Acc_Sex=='1'" class="weisha_icon man" icon="&#xe645"
+                            <span v-if="scope.row.Acc_Sex=='1'" class="man" icon="&#xe645"
                                 title="男性"></span>
-                            <span v-if="scope.row.Acc_Sex=='2'" class="weisha_icon woman" icon="&#xe647"
+                            <span v-if="scope.row.Acc_Sex=='2'" class="woman" icon="&#xe647"
                                 title="女性"></span>
                             <span v-html='showInfo(scope.row.Acc_Name)'></span>/ {{ scope.row.Acc_AccName }}
                         </template>
@@ -60,9 +60,9 @@
                             <el-tag type="info" class="count" v-if="posiselects.length>0">选中 {{posiselects.length}} 条</el-tag>
                         </template>
                         <template slot-scope="scope">
-                            <span v-if="scope.row.Acc_Sex=='1'" class="weisha_icon man" icon="&#xe645"
+                            <span v-if="scope.row.Acc_Sex=='1'" class="man" icon="&#xe645"
                                 title="男性"></span>
-                            <span v-if="scope.row.Acc_Sex=='2'" class="weisha_icon woman" icon="&#xe647"
+                            <span v-if="scope.row.Acc_Sex=='2'" class="woman" icon="&#xe647"
                                 title="女性"></span>
                             <span v-html='showInfo(scope.row.Acc_Name)'></span>/ {{ scope.row.Acc_AccName }}
                         </template>

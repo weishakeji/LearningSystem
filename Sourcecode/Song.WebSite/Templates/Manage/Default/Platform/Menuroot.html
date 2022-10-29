@@ -26,8 +26,8 @@
         <el-table-column label="菜单树名称" width="120">
           <template slot-scope="scope">
 
-            <span v-if="scope.row.MM_IcoS==null || scope.row.MM_IcoS==''" class="font_icon">&#xa038;</span>
-            <span v-else class="font_icon" v-html="'&#x'+scope.row.MM_IcoS+';'"></span>
+            <icon v-if="scope.row.MM_IcoS==null || scope.row.MM_IcoS==''">&#xa038;</icon>
+            <icon v-else v-html="'&#x'+scope.row.MM_IcoS+';'"></icon>
             <span v-html='scope.row.MM_Name' class="draghandle"></span> <span class="red" v-if="scope.row.MM_IsFixed"
               title="系统级菜单">*</span>
           </template>

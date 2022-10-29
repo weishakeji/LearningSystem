@@ -317,7 +317,7 @@ $ready(function () {
         },
         template: `<span title="课程数">
             <span class="el-icon-loading" v-if="loading"></span>
-            <span :class="{'count':true,'zero':count<=0}">{{count}}</span>
+            <icon course :class="{'count':true,'zero':count<=0}">{{count}}</icon>
         </span> `
     });
 

@@ -83,21 +83,15 @@
             </el-table-column>
             <el-table-column label="学习情况" width="260">
                 <div slot-scope="scope" class="progress">
-                    <div class="video weisha_icon" icon="&#xe83a">
-                        <el-tooltip class="item" effect="light" content="视频学习进度" placement="bottom-start">
-                            <span>{{showcomplete(scope.row.Stc_StudyScore)}} %</span>
-                        </el-tooltip>
-                    </div>
-                    <div class="ques weisha_icon" icon="&#xe75e">
-                        <el-tooltip class="item" effect="light" content="试题通过率" placement="bottom">
-                            <span>{{showcomplete(scope.row.Stc_QuesScore)}} %</span>
-                        </el-tooltip>
-                    </div>
-                    <div class="exam weisha_icon" icon="&#xe810">
-                        <el-tooltip class="item" effect="light" content="结课考试成绩" placement="bottom-end">
-                            <span>{{scope.row.Stc_ExamScore}} 分</span>
-                        </el-tooltip>
-                    </div>
+                    <el-tooltip class="item" effect="light" content="视频学习进度" placement="bottom-start">
+                        <icon video>{{showcomplete(scope.row.Stc_StudyScore)}} %</icon>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="light" content="试题通过率" placement="bottom">
+                        <icon quesion>{{showcomplete(scope.row.Stc_QuesScore)}} %</icon>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="light" content="结课考试成绩" placement="bottom-end">
+                        <icon exam>{{scope.row.Stc_ExamScore}} 分</icon>
+                    </el-tooltip>
                 </div>
             </el-table-column>
             <el-table-column label="综合成绩" width="100" align="center">

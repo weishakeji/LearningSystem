@@ -97,3 +97,57 @@
 #menu .noselect {
 	color: #666 !important;
 }
+
+
+/*+++++++左侧侧滑菜单*/
+
+#menu .cour-info .cour-info-right {
+	width: 60%;
+	margin-right: 5%;
+	float: left;
+}
+.cour-info-right icon[course]{
+	color: #eee;
+	display: block;
+	line-height: 22px;
+}
+.cour-info-right icon[course]:not(:fisrt-child) {	
+	
+	height: 40px;
+	line-clamp: 2;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.cour-info-right icon[course]:before {
+	font-size: 15px;
+	margin-right: 8px;
+}
+
+.cour-info-right icon[subject] {
+	display: block;
+	line-height: 22px;
+	color: #999;
+	font-size: 10px;
+}
+
+.cour-info-right icon[subject] :before {
+	content: "\e765";
+	font-size: 10px;
+	margin-right: 5px;
+	font-family: "webdesk_icon";
+}
+
+.try {
+	color: #eee !important;
+}
+
+.buy {
+	background-color: rgba(102, 102, 102, 0.15);
+	color: #FC0 !important;
+}
+
+/*-------左侧侧滑菜单*/

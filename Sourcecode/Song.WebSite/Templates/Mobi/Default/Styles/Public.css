@@ -61,19 +61,6 @@ a {
 	text-decoration: none;
 	color: black;
 }
-
-.icon_man::before {
-	content: "\e645";
-	color: rgb(3, 71, 71);
-	font-family: "webdesk_icon" !important;
-}
-
-.icon_woman::before {
-	content: "\e647";
-	color: rgb(248, 87, 87);
-	font-family: "webdesk_icon" !important;
-}
-
 /*侧边菜单栏*/
 
 #aside_menu.van-popup {
@@ -263,7 +250,7 @@ footer#nav_menu>div {
 	background-color: #fff;
 }
 
-footer#nav_menu .font_icon {
+footer#nav_menu icon {
 	line-height: 26px;
 	height: 25px;
 	display: block;

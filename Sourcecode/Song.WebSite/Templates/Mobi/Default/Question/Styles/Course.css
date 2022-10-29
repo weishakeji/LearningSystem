@@ -104,7 +104,10 @@
     text-align: center;
     padding: 10px 5px 0px 5px;
 }
-
+.mainmenu>div icon{
+	display:block;
+	margin-bottom: 3px;
+}
 .mainmenu span{  
     display: block;
     font-size: 30px;

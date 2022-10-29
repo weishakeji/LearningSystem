@@ -19,14 +19,14 @@
 .progress{
 	display: flex;
 }
-.progress>div{
+.progress>*{
 	flex: 1;
 	
 }
-.progress>div span{
+.progress>*{
 	cursor: default;
 }
-.progress>div::before{
+.progress icon::before{
 	font-size: 16px;
 }
 /*成绩得分的样式*/

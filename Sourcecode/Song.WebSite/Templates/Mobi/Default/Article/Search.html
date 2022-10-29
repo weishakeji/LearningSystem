@@ -10,8 +10,8 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="header">
-            <a class="weisha_icon" icon="&#xe748" @click="window.history.go(-1); "></a>
-            <a class="weisha_icon" icon="&#xa020" href="/mobi/index"> </a>
+            <a icon="&#xe748" @click="window.history.go(-1); "></a>
+            <a icon="&#xa020" href="/mobi/index"> </a>
             <search_input></search_input>
         </div>
         <div class="context">          
@@ -19,7 +19,7 @@
                 @load="onload">
                 <card>
                     <card-title v-if="search!=''">
-                        <span class="weisha_icon" icon="&#xa00b"></span>
+                        <span icon="&#xa00b"></span>
                         检索：“{{search}}”
                     </card-title>
                     <card-context>

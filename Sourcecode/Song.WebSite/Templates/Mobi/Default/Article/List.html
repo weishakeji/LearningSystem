@@ -10,14 +10,14 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="header">
-            <a class="weisha_icon" icon="&#xe748" @click="window.history.go(-1); "></a>
-            <a class="weisha_icon" icon="&#xa020" href="/mobi/index"> </a>
+            <a icon="&#xe748" @click="window.history.go(-1); "></a>
+            <a icon="&#xa020" href="/mobi/index"> </a>
             <search_input></search_input>
         </div>
         <div class="context">
             <card v-for="(item,index) in chilren">
                 <card-title arrow @click="window.location.href='list?colid='+item.Col_ID">
-                    <span class="weisha_icon" icon="&#xe75c"></span>
+                    <span icon="&#xe75c"></span>
                     {{item.Col_Name}}
                 </card-title>
                 <articles :column="item" :index="index"></articles>
@@ -26,7 +26,7 @@
                 @load="onload">
                 <card>
                     <card-title>
-                        <span class="weisha_icon" icon="&#xe75c"></span>
+                        <span icon="&#xe75c"></span>
                         {{column.Col_Name}}
                     </card-title>
                     <card-context>

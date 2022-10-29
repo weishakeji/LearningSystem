@@ -228,7 +228,7 @@ $ready(function () {
         },
         template: `<div class="mainmenu">           
                     <div v-for="(m,i) in menus" @click="!!m.evt ? item.evt(m) : btnEvt(m)">
-                        <span  class="font_icon" v-html="m.icon"  :style="'font-size: '+m.size+'px'"></span>
+                        <icon  v-html="m.icon"  :style="'font-size: '+m.size+'px'"></icon>
                         <name>{{m.name}}</name>
                     </div> 
                 </div> `

@@ -18,8 +18,8 @@
                 <img v-else-if="account.Ac_Sex==2" class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head2.jpg" />
                 <img v-else class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head1.jpg" />
                 <div>
-                    <span v-if="account.Ac_Sex==1" class="weisha_icon man" icon="&#xe645" title="男性"></span>
-                    <span v-if="account.Ac_Sex==2" class="weisha_icon woman" icon="&#xe647" title="女性"></span>
+                    <span v-if="account.Ac_Sex==1" class="man" icon="&#xe645" title="男性"></span>
+                    <span v-if="account.Ac_Sex==2" class="woman" icon="&#xe647" title="女性"></span>
                     <b>{{account.Ac_Name}}</b> &nbsp; <span title="账号">({{account.Ac_AccName}})</span>
 
 
@@ -33,14 +33,13 @@
                         证件：{{account.Ac_IDCardNumber}}</template>
                     <br />
                     机构：{{organ.Org_Name}}
-                </div>
-                </el-upload>
+                </div>                
             </el-form-item>
             <el-form-item label="">
                 <span :class="'money type'+entity.Ma_Type">
                     <span v-if="entity.Ma_Type==1">支出 >></span>
                     <span v-if="entity.Ma_Type==2">充值 >></span>
-                    <span class="weisha_icon" icon="&#xe624">{{entity.Ma_Money}} 元</span>
+                    <icon money>{{entity.Ma_Money}} 元</icon>
                 </span>
                 <span style="margin-left: 30px;">
                     <el-tag type="success" v-if="entity.Ma_IsSuccess" class="el-icon-circle-check"> 状态：操作成功</el-tag>
@@ -50,7 +49,7 @@
                 </span>
             </el-form-item>
             <el-form-item label="余额">
-                <span class="weisha_icon" icon="&#xe624">{{entity.Ma_Total}} 元</span>
+                <icon money>{{entity.Ma_Total}} 元</icon>
             </el-form-item>
             <el-form-item label="时间">
                 {{entity.Ma_CrtTime|date("yyyy-MM-dd HH:mm:ss")}}

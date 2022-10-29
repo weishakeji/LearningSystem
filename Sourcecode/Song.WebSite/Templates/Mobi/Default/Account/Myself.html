@@ -42,25 +42,25 @@
                 <card class="first">
                     <van-cell is-link @click="window.location.href='/mobi/Recharge/index'">
                         <template #title>
-                            <span class="weisha_icon" icon="&#xe73b">充值</span>
+                            <span icon="&#xe73b">充值</span>
                         </template>
                         <template #default>
-                            <span class="weisha_icon" icon="&#xe73c">{{account.Ac_Money}} 元</span>
+                            <icon money>{{account.Ac_Money}} 元</icon>
                         </template>
 
                     </van-cell>
                     <van-cell is-link @click="window.location.href='/mobi/Money/Details'">
                         <template #title>
-                            <span class="weisha_icon" icon="&#xe749">资金明细</span>
+                            <span icon="&#xe749">资金明细</span>
                         </template>
                         <template #default>
-                            <span class="weisha_icon" icon="&#xe847"> 券{{account.Ac_Coupon}} 个</span>
+                            <icon coupon> 券{{account.Ac_Coupon}} 个</icon>
                         </template>
                     </van-cell>
 
                     <van-cell is-link @click="window.location.href='Myfriends'">
                         <template #title>
-                            <span class="weisha_icon" icon="&#xe67d">我的朋友</span>
+                            <span icon="&#xe67d">我的朋友</span>
                         </template>
                         <template #default>
                             <span>累计 {{friendsAll}} 位</span>
@@ -71,7 +71,7 @@
                     <van-collapse v-model="activeNames">
                         <van-collapse-item name="1">
                             <template #title>
-                                <span class="weisha_icon" icon="&#xe804">姓名 </span>
+                                <span icon="&#xe804">姓名 </span>
                             </template>
                             <template #value>
                                 {{account.Ac_Name}}
@@ -83,7 +83,7 @@
                         </van-collapse-item>
                         <van-collapse-item name="2">
                             <template #title>
-                                <span class="weisha_icon" icon="&#xe685">身份证 </span>
+                                <span icon="&#xe685">身份证 </span>
                             </template>
                             <template #value>
                                 {{account.Ac_IDCardNumber}}
@@ -96,7 +96,7 @@
                         </van-collapse-item>
                         <van-collapse-item name="3">
                             <template #title>
-                                <span class="weisha_icon" icon="&#xe804">性别 </span>
+                                <span icon="&#xe804">性别 </span>
                             </template>
                             <template #value>
                                 <span v-if="account.Ac_Sex==1" class="icon_man">男</span>
@@ -119,7 +119,7 @@
                         </van-collapse-item>
                         <van-collapse-item name="4">
                             <template #title>
-                                <span class="weisha_icon" icon="&#xe82c">年龄 </span>
+                                <span icon="&#xe82c">年龄 </span>
                             </template>
                             <template #value>
                                 {{account.Ac_Age}} 岁
@@ -130,7 +130,7 @@
                         </van-collapse-item>
                         <van-collapse-item name="5">
                             <template #title>
-                                <span class="weisha_icon" icon="&#xe71a">联系方式 </span>
+                                <span icon="&#xe71a">联系方式 </span>
                             </template>
                             <template #value>
                                 {{account.Ac_MobiTel1}}
@@ -156,7 +156,7 @@
                         </van-collapse-item>
                         <van-collapse-item name="6">
                             <template #title>
-                                <span class="weisha_icon" icon="&#xe85b">个人签名 </span>
+                                <span icon="&#xe85b">个人签名 </span>
                             </template>
                             <template #value>
 
@@ -176,7 +176,7 @@
                     <van-collapse v-model="activeNames">
                         <van-collapse-item name="7">
                             <template #title>
-                                <span class="weisha_icon" icon="&#xe67b">安全问题 </span>
+                                <span icon="&#xe67b">安全问题 </span>
                             </template>
                             <van-cell-group>
                                 <van-cell>
@@ -195,7 +195,7 @@
                         </van-collapse-item>
                         <van-collapse-item name="8">
                             <template #title>
-                                <span class="weisha_icon" icon="&#xe76c">密码修改 </span>
+                                <span icon="&#xe76c">密码修改 </span>
                             </template>
                             <van-cell-group>
                                 <van-cell>
@@ -223,7 +223,7 @@
                 <card>
                     <van-cell title="退出登录" @click="logout">
                         <template #title>
-                            <span class="weisha_icon" icon="&#xe739">退出登录</span>
+                            <span icon="&#xe739">退出登录</span>
                         </template>
                     </van-cell>
 
@@ -232,7 +232,7 @@
             <card v-else>
                 <van-cell is-link>
                     <template #title>
-                        <a class="weisha_icon" icon="&#xe84d" href="../Sign/in">点击此处登录</a>
+                        <a icon="&#xe84d" href="../Sign/in">点击此处登录</a>
                     </template>
                 </van-cell>
 

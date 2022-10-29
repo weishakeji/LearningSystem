@@ -85,11 +85,6 @@ div[role=treeitem] {
     color: #ccc;
 }
 
-.column_count .count::before {
-    content: "\e813";
-    font-family: "webdesk_icon" !important;
-    margin-right: 5px;
-}
 
 .column_btn {
     width: 120px;

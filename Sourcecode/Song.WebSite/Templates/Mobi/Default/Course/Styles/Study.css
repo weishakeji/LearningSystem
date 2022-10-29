@@ -461,61 +461,6 @@ video::-webkit-media-controls-panel {
 
 /*-----底部图标*/
 
-/*+++++++左侧侧滑菜单*/
-
-#menu .cour-info .cour-info-right {
-	width: 60%;
-	margin-right: 5%;
-	float: left;
-}
-.cour-info-right cour-name{
-	color: #eee;
-	display: block;
-	line-height: 22px;
-}
-.cour-info-right cour-name:not(:fisrt-child) {	
-	
-	height: 40px;
-	line-clamp: 2;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-}
-
-.cour-info-right cour-name:before {
-	content: "\e813";
-	font-size: 15px;
-	font-family: "webdesk_icon";
-	margin-right: 8px;
-}
-
-.cour-info-right sbj-name {
-	display: block;
-	line-height: 22px;
-	color: #999;
-	font-size: 10px;
-}
-
-.cour-info-right sbj-name:before {
-	content: "\e765";
-	font-size: 10px;
-	margin-right: 5px;
-	font-family: "webdesk_icon";
-}
-
-.try {
-	color: #eee !important;
-}
-
-.buy {
-	background-color: rgba(102, 102, 102, 0.15);
-	color: #FC0 !important;
-}
-
-/*-------左侧侧滑菜单*/
-
 /*学习内容*/
 
 .card {
@@ -549,12 +494,9 @@ video::-webkit-media-controls-panel {
 	border-radius: 2px 2px 0 0;
 }
 
-.intro-box .card-header span:before {
-	content: "\e813";
-	font-family: "webdesk_icon";
+.intro-box .card-header icon[course]:before {	
 	margin-right: 5px;
 	font-size: 18px;
-	margin-top: 2px;
 	display: block;
 	float: left;
 }

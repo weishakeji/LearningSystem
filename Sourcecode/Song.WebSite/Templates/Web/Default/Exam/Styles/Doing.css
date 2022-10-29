@@ -181,7 +181,7 @@ header {
 	z-index: 2;
 }
 
-header .weisha_icon::before {
+header *[icon]::before {
 	font-size: 22px;
 	line-height: 45px;
 }

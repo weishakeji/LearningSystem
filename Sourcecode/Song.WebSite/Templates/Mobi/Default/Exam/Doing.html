@@ -14,7 +14,7 @@
             <template v-if="!examstate.islogin">
                 <card>
                     <card-title>
-                        <span class="weisha_icon" icon="&#xe748" @click="window.history.go(-1);"></span>
+                        <span icon="&#xe748" @click="window.history.go(-1);"></span>
                         学员登录后才能考试！
                     </card-title>
                     <card-context>
@@ -30,11 +30,11 @@
             <template v-else-if="!examstate.exist">
                 <card>
                     <card-title>
-                        <span class="weisha_icon" icon="&#xe748" @click="window.history.go(-1);"></span>
+                        <span icon="&#xe748" @click="window.history.go(-1);"></span>
                         当前考试不存在，或考试被禁！
                     </card-title>
                     <card-context>
-                        <div class="weisha_icon null_icon" icon="&#xe849">
+                        <div class="null_icon" icon="&#xe849">
                             没有内容
                         </div>
                     </card-context>
@@ -42,7 +42,7 @@
             </template>
             <template v-else-if="!loading.exam" remark="考试存在">
                 <card>
-                    <card-title><span class="weisha_icon" icon="&#xe748"
+                    <card-title><span icon="&#xe748"
                             @click="window.history.go(-1);"></span>《{{exam.Exam_Name}}》
                     </card-title>
                     <card-context>
@@ -66,10 +66,10 @@
                 <template v-if="!examstate.allow">
                     <card>
                         <card-title>
-                            <span class="weisha_icon" icon="&#xe6bd"></span> 不需要参加此次考试
+                            <span icon="&#xe6bd"></span> 不需要参加此次考试
                         </card-title>
                         <card-context>
-                            <div class="weisha_icon null_icon" icon="&#xe60e">
+                            <div class="null_icon" icon="&#xe60e">
                                 您不在考试人员范围内！
                             </div>
                         </card-context>
@@ -77,10 +77,10 @@
                 </template>
                 <template v-else-if="examstate.issubmit">
                     <card>
-                        <card-title> <span class="weisha_icon" icon="&#xe6bd"></span>您已经交过卷了
+                        <card-title> <span icon="&#xe6bd"></span>您已经交过卷了
                         </card-title>
                         <card-context>
-                            <div class="weisha_icon null_icon" icon="&#xe654" @click="goreviwe">
+                            <div class="null_icon" icon="&#xe654" @click="goreviwe">
                                 点击此处查看成绩！
                             </div>
                         </card-context>
@@ -89,10 +89,10 @@
                 <template v-else-if="examstate.isover">
                     <card>
                         <card-title>
-                            <span class="weisha_icon" icon="&#xe6bd"></span>考试时间已过
+                            <span icon="&#xe6bd"></span>考试时间已过
                         </card-title>
                         <card-context>
-                            <div class="weisha_icon null_icon" icon="&#xe854">
+                            <div class="null_icon" icon="&#xe854">
                                 好像错过了什么！
                             </div>
                         </card-context>
@@ -100,11 +100,11 @@
                 </template>
                 <template v-else-if="!examstate.isstart">
                     <card>
-                        <card-title> <span class="weisha_icon" icon="&#xe6bd"></span>还没有开始
+                        <card-title> <span icon="&#xe6bd"></span>还没有开始
                             <van-tag type="success" style="float:right">开始时间：{{starttime|date('HH:mm:ss')}}</van-tag>
                         </card-title>
                         <card-context>
-                            <div class="weisha_icon time_icon" icon="&#xe671">
+                            <div class="time_icon" icon="&#xe671">
                                 <van-tag type="primary">当前时间</van-tag> <br />{{nowtime|date('yyyy-MM-dd HH:mm:ss')}}
                                 <br />
                                 <van-tag type="danger">距离开考</van-tag> <br />{{howtime}}
@@ -117,17 +117,17 @@
 
         <template v-if="!loading.init && examstate.doing" mark="允许考试时，才输出">
             <header>
-                <div class="weisha_icon" icon="&#xe748" @click="window.history.go(-1);"></div>
+                <div icon="&#xe748" @click="window.history.go(-1);"></div>
                 <div class="title" @click="showExam=true">{{exam.Exam_Name}}</div>
-                <div class="weisha_icon" icon="&#xe81a" @click="showTime=true">
+                <div icon="&#xe81a" @click="showTime=true">
                     {{surplustime|surplus}}
                 </div>
             </header>
             <footer>
-                <div id="btnCard" class="weisha_icon" icon="&#xe75e" @click="showCard=true">
+                <div id="btnCard" icon="&#xe75e" @click="showCard=true">
                     <span>{{answertotal}}</span>/<span>{{questotal}}</span>
                 </div>
-                <div id="btnSubmit" class="weisha_icon" icon="&#xe6cf" @click="submitManual">
+                <div id="btnSubmit" icon="&#xe6cf" @click="submitManual">
                     交&nbsp;卷</div>
             </footer>
 
@@ -147,12 +147,12 @@
 
             <van-popup v-model="showCard" position="left" closeable class="quesCard" :overlay="false" remark="答题卡">
                 <div class="cardTit">
-                    <span class="weisha_icon" icon="&#xe75e">答题卡</span>
+                    <span icon="&#xe75e">答题卡</span>
                     <span>完成<b>{{answertotal}}</b>道 / 共<b>{{questotal}}</b>道</span>
                 </div>
                 <div class="cardBox">
                     <dl v-for="(group,i) in paperAnswer.ques">
-                        <dt class="weisha_icon" icon="&#xe6bd"> [ {{types[group.type - 1]}}题 ]
+                        <dt icon="&#xe6bd"> [ {{types[group.type - 1]}}题 ]
                             <span>每题{{Math.floor(group.number/group.count*100)/100}}分/共{{group.number}}分</span>
                         </dt>
                         <dd v-for="(q,n) in group.q" @click="swipe(calcIndex(n,i))" :ans="q.ans!=''">

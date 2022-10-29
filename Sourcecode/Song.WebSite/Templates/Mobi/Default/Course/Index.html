@@ -12,7 +12,7 @@
     <img id="default-img" src="../images/cou_nophoto.jpg" style="display: none;" />
     <div id="vapp" v-cloak>
         <div class="header">
-            <div class="weisha_icon" icon="&#xa00c" @click="show_subject=true"></div>
+            <div icon="&#xa00c" @click="show_subject=true"></div>
             <div class="sbjname" v-if="sbjname!=''">
                 <van-tag closeable size="medium" type="warning " @close="closeTag">
                     {{sbjname}}
@@ -33,19 +33,19 @@
         <van-tabs v-model="active" @change="tabChange">
             <van-tab title="rec">
                 <template #title>
-                    <span class="weisha_icon" icon="&#xe829">推荐
+                    <span icon="&#xe829">推荐
                 </template>
             </van-tab>
             <van-tab title="hot"> <template #title>
-                    <span class="weisha_icon" icon="&#xe856">热门
+                    <span icon="&#xe856">热门
                 </template>
             </van-tab>
             <van-tab title="live"> <template #title>
-                    <span class="weisha_icon" icon="&#xe6bf">直播
+                    <span icon="&#xe6bf">直播
                 </template>
             </van-tab>
             <van-tab title="free"> <template #title>
-                    <span class="weisha_icon" icon="&#xe72d">免费
+                    <span icon="&#xe72d">免费
                 </template>
             </van-tab>
         </van-tabs>
@@ -91,7 +91,7 @@
         </van-list>
         <van-popup v-model="show_subject" position="left" :style="{ height: '30%' }" closeable id="subject_panel"
             @open="popupSubject">
-            <div class="subject_title weisha_icon" icon="&#xe750">
+            <div class="subject_title" icon="&#xe750">
                 选择专业
             </div>
             <div id="treemenu-area" remark="树形菜单">

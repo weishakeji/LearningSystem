@@ -841,6 +841,11 @@
     };
     //创建全局对象，方便调用
     window.$dom = webdom;
+    window.$dom.load.css([
+        '/Utilities/ElementUi/index.css',
+        '/Utilities/styles/public.css',      
+        '/Utilities/Fonts/icon.css'
+    ]);
     window.$dom.load.css(['/Utilities/panel/styles/webdesk.ui.core.css']);
     window.$dom.load.css(['/Utilities/panel/styles/public.css']);
     //window.$dom.load.css(['/Utilities/styles/public.css']);

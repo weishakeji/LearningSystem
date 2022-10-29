@@ -46,11 +46,7 @@ html,body{
     border-bottom: #999 1px solid;
 }
 
-.icon {
-    font-family: "webdesk_icon" !important;
-    font-size: 16px;
-}
-.el-link .icon{
+.el-link icon{
     font-size: 20px;
     margin-right: 5px;
 }
@@ -89,30 +85,10 @@ html,body{
 .el-checkbox{
     margin-right: 10px;
 }
-.setup_icon .font_icon{
+.icon[setup]{
     font-size: 20px;
 }
-/*菜单图标选择*/
 
-#dialog_icons .el-dialog__body span {
-    font-family: "webdesk_icon" !important;
-    font-size: 30px !important;
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    text-align: center;
-    transition: all .5s ease-out;
-}
-
-#dialog_icons .el-dialog__body span:hover {
-    transform: scale(1.3);
-    color: brown;
-}
-
-#dialog_icons .el-dialog__body span[selected] {
-    color: brown;
-}
 .el-dialog{
     width: 80% !important;
     height: 70% !important;

@@ -32,9 +32,9 @@
       </van-row>
       <van-sticky>
         <div class="menu-box" v-if="islogin">
-          <div class="weisha_icon" icon="&#xe810" @click="tabmenu='my_exam'">我的考试</div>
-          <div class="weisha_icon" icon="&#xa023" @click="tabmenu='all_exam'">所有考试</div>
-          <div class="weisha_icon" icon="&#xe6ef" @click="tabmenu='score_exam'">成绩查看</div>
+          <div icon="&#xe810" @click="tabmenu='my_exam'">我的考试</div>
+          <div icon="&#xa023" @click="tabmenu='all_exam'">所有考试</div>
+          <div icon="&#xe6ef" @click="tabmenu='score_exam'">成绩查看</div>
         </div>
       </van-sticky>
     </div>
@@ -44,7 +44,7 @@
     <template v-else>
       <template v-if="tabmenu=='my_exam' && islogin">
         <card>
-          <card-title class="weisha_icon" icon="&#xe810">我的考试
+          <card-title icon="&#xe810">我的考试
             <div class="search"><input type="search" placeholder="搜索" v-model="search.my_exam"
                 @change="onsearch('my_exam')"></input></div>
           </card-title>
@@ -60,7 +60,7 @@
       <template v-if="tabmenu=='all_exam' || !islogin">
         <van-sticky>
           <card>
-            <card-title class="weisha_icon" icon="&#xa023">所有考试
+            <card-title icon="&#xa023">所有考试
               <div class="search"><input type="search" placeholder="搜索" v-model="search.all_exam"
                   @change="onsearch('all_exam')"></input></div>
             </card-title>
@@ -76,7 +76,7 @@
       </template>
       <template v-if="tabmenu=='score_exam'">
         <card>
-          <card-title class="weisha_icon" icon="&#xe6ef">成绩查看
+          <card-title icon="&#xe6ef">成绩查看
             <div class="search"><input type="search" placeholder="搜索" v-model="search.score_exam"
                 @change="onsearch('score_exam')"></input></div>
           </card-title>

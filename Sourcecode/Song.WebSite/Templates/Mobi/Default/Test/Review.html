@@ -10,8 +10,8 @@
 <body>
     <div id="vapp" v-cloak>
         <div class="header">
-            <a class="weisha_icon" icon="&#xe748" style="font-size: 22px;" @click="window.history.go(-1);"></a>
-            <a class="weisha_icon" icon="&#xa020" style="font-size: 18px;" href="/mobi/"></a>
+            <a icon="&#xe748" style="font-size: 22px;" @click="window.history.go(-1);"></a>
+            <a icon="&#xa020" style="font-size: 18px;" href="/mobi/"></a>
             <div class="header_info" v-if="!islogin" remark="未登录">
                 <div class="acc_photo nophoto"></div>
                 <a href="/mobi/sign/in">未登录 </a>
@@ -50,19 +50,19 @@
                     <van-tabs v-model="tabactive">
                         <van-tab name="all">
                             <template #title>
-                                <span class="weisha_icon" icon="&#xe75e">所有({{ques_all_count}})
+                                <span icon="&#xe75e">所有({{ques_all_count}})
                             </template>
                         </van-tab>
                         <van-tab name="success"> <template #title>
-                                <span class="weisha_icon" icon="&#xa048">正确({{ques_success_count}})
+                                <span icon="&#xa048">正确({{ques_success_count}})
                             </template>
                         </van-tab>
                         <van-tab name="error"> <template #title>
-                                <span class="weisha_icon" icon="&#xe6fe">错误({{ques_error_count}})
+                                <span icon="&#xe6fe">错误({{ques_error_count}})
                             </template>
                         </van-tab>
                         <van-tab name="unasnwered"> <template #title>
-                                <span class="weisha_icon" icon="&#xa01f">未做({{ques_unanswerd_count}})
+                                <span icon="&#xa01f">未做({{ques_unanswerd_count}})
                             </template>
                         </van-tab>
                     </van-tabs>

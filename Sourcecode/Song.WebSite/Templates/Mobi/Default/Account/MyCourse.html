@@ -36,14 +36,11 @@
                 </div>
             </van-row>
             <van-row style="margin-top: 20px;" v-if="islogin">
-                <van-tag type="warning" @click="gourl('../Recharge/index')"><span class="weisha_icon"
-                        icon="&#xe818"></span>{{account.Ac_Money}}元
+                <van-tag type="warning" @click="gourl('../Recharge/index')"><icon money>{{account.Ac_Money}}元</icon>
                 </van-tag>
-                <van-tag type="primary" @click="gourl('../Point/index')"><span class="weisha_icon"
-                        icon="&#xe847"></span>券{{account.Ac_Coupon}}
+                <van-tag type="primary" @click="gourl('../Point/index')"><icon coupon>券{{account.Ac_Coupon}}</icon>
                 </van-tag>
-                <van-tag type="primary" @click="gourl('../Point/index')" plain><span class="weisha_icon"
-                        icon="&#xe88a"></span>积分{{account.Ac_Point}}
+                <van-tag type="primary" @click="gourl('../Point/index')" plain><icon point>积分{{account.Ac_Point}}</icon>
                 </van-tag>
             </van-row>
         </div>
@@ -54,15 +51,15 @@
             <van-tabs v-model="active" v-if="islogin" @change="tabChange">
                 <van-tab title="purchased">
                     <template #title>
-                        <span class="weisha_icon" icon="&#xe813">我的课程</span>
+                        <span icon="&#xe813">我的课程</span>
                     </template>
                 </van-tab>
                 <van-tab title="overdue"> <template #title>
-                        <span class="weisha_icon" icon="&#xa039">过期课程</span>
+                        <span icon="&#xa039">过期课程</span>
                     </template>
                 </van-tab>
                 <van-tab title="ontrial"> <template #title>
-                        <span class="weisha_icon" icon="&#xe84d">试学课程</span>
+                        <span icon="&#xe84d">试学课程</span>
                     </template>
                 </van-tab>
             </van-tabs>

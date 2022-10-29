@@ -609,7 +609,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="score">结课考试的最高分</param>
         /// <returns></returns>
-        [Student][HttpPost]
+        [Student,Admin,Teacher][HttpPost]
         public bool ResultLogRecord(int acid, long couid, double score)
         {
             Song.Entities.Accounts acc = this.User;

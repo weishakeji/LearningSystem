@@ -70,28 +70,26 @@ html, body, #vapp {
 	float: left;
 }
 
-#menu cour-name {
+#menu icon[course]{
 	display: block;
 	line-height: 22px;
 	color: #eee;
 }
 
-#menu cour-name:before {
-	content: "\e813";
+#menu icon[course]:before {
 	font-size: 15px;
 	font-family: webdesk_icon;
 	margin-right: 8px;
 }
 
-#menu sbj-name {
+#menu icon[subject] {
 	display: block;
 	line-height: 22px;
 	color: #999;
 	font-size: 10px;
 }
 
-#menu sbj-name:before {
-	content: "\e765";
+#menu icon[subject]:before {
 	font-size: 10px;
 	margin-right: 5px;
 	font-family: webdesk_icon;

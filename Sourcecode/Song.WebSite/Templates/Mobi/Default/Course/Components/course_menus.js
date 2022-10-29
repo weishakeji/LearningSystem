@@ -127,22 +127,22 @@ Vue.component('course_menus', {
     template: `<div class="mainmenu">
                 <div class="mainmenuBox">
                      <div v-for="(m,i) in menus" @click="!!m.evt ? m.evt(m) : btnEvt(m)" v-if="m.show">
-                         <span  class="font_icon" v-html="m.icon"  :style="'font-size: '+m.size+'px'"></span>
+                         <icon  v-html="m.icon"  :style="'font-size: '+m.size+'px'"></icon>
                         <name>{{m.name}}</name>
                     </div>                                   
                 </div>
             <van-popup v-model="login_show" class="login" position="bottom" :style="{ height: '44px'}" >   
-                <van-button type="primary" @click="gologin"><span class="font_icon">&#xe639</span>请登录后学习</van-button>
+                <van-button type="primary" @click="gologin"><icon>&#xe639</icon>请登录后学习</van-button>
             </van-popup> 
             <van-popup v-model="loading_show" class="login" position="bottom" :style="{ height: '44px'}" >   
                 <van-loading size="24px" type="spinner" >数据正在初始化...</van-loading>
             </van-popup>             
             <van-popup v-model="try_show" class="try" position="bottom" :style="{ height: '44px'}" >   
-                <van-button type="primary" @click="gotry"><span class="font_icon">&#xe813</span>试学</van-button>
-                <van-button type="info" @click="gobuy"><span class="font_icon">&#xe84d</span>选修该课程</van-button>
+                <van-button type="primary" @click="gotry"><icon>&#xe813</icon>试学</van-button>
+                <van-button type="info" @click="gobuy"><icon>&#xe84d</icon>选修该课程</van-button>
             </van-popup> 
             <van-popup v-model="buy_show" class="buy" position="bottom" :style="{ height: '44px'}" >   
-                <van-button type="info" @click="gobuy"><span class="font_icon">&#xe84d</span>选修该课程</van-button>
+                <van-button type="info" @click="gobuy"><icon>&#xe84d</icon>选修该课程</van-button>
             </van-popup>          
         </div> `
 });
