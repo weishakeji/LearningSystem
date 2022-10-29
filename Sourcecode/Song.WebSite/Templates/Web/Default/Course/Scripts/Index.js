@@ -52,7 +52,7 @@ $ready(function () {
                 th.query.orgid = th.organ.Org_ID;
                 //获取专业
                 $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
-
+                    th.loading_init = false;       
                     if (req.data.success) {
                         th.subjects = req.data.result;
                         th.setSbjChilds(th.sbjid);

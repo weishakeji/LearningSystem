@@ -1716,12 +1716,12 @@ namespace Song.ServiceImpls
         {
             if (ma == null || ma.Ma_IsSuccess) return null;
             lock (_lockMoneyConfirm)
-            {
-                Song.Entities.MoneyAccount maccount = Gateway.Default.From<MoneyAccount>().Where(MoneyAccount._.Ma_ID == ma.Ma_ID).ToFirst<MoneyAccount>();
-                if (maccount.Ma_IsSuccess) return ma;
-                maccount.Copy<Song.Entities.MoneyAccount>(ma);
+            {               
                 using (DbTrans tran = Gateway.Default.BeginTrans())
                 {
+                    Song.Entities.MoneyAccount maccount = Gateway.Default.From<MoneyAccount>().Where(MoneyAccount._.Ma_ID == ma.Ma_ID).ToFirst<MoneyAccount>();
+                    if (maccount.Ma_IsSuccess) return ma;
+                    maccount.Copy<Song.Entities.MoneyAccount>(ma);
                     try
                     {
                         maccount.Ma_IsSuccess = true;

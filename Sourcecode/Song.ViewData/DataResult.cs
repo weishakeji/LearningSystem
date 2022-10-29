@@ -400,18 +400,16 @@ namespace Song.ViewData
                             }
                             catch
                             {
-
-                                XmlSerializer serializer = new XmlSerializer(value.GetType());
-                                string content = string.Empty;
                                 using (StringWriter writer = new StringWriter())
                                 {
+                                    XmlSerializer serializer = new XmlSerializer(value.GetType());
+                                    string content = string.Empty;
                                     serializer.Serialize(writer, value);
                                     content = writer.ToString();
+                                    XmlDocument xml = new XmlDocument();
+                                    xml.LoadXml(content);
+                                    str += xml.LastChild.InnerXml;
                                 }
-                                XmlDocument xml = new XmlDocument();
-                                xml.LoadXml(content);
-                                str += xml.LastChild.InnerXml;
-
                             }
                         }
                     }

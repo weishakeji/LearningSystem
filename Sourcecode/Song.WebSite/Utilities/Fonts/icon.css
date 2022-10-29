@@ -230,6 +230,9 @@ loading[star]::before {
 }
 
 /*更多预载效果*/
+*[loading]{
+    margin: 0px auto;
+}
 *[loading=p1] {
     width: 120px;
     height: 20px;
