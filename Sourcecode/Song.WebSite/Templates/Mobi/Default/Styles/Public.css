@@ -1,42 +1,4 @@
 ﻿@charset "utf-8";
-/* CSS Document */
-
-@font-face {
-	font-family: 'webdesk_icon';
-	src: url("/Utilities/fonts/iconfont.woff") format("woff");
-	font-weight: normal;
-	font-style: normal;
-}
-
-.font_icon {
-	font-family: "webdesk_icon" !important;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	-webkit-transition: font-size 0.25s ease-out 0s;
-	-moz-transition: font-size 0.25s ease-out 0s;
-	transition: font-size 0.25s ease-out 0s;
-}
-
-/*图标引用，
-	html标签中增加icon属性， 例如：<span class="weisha_icon" icon="&#xa038">内容</span>
-*/
-
-.weisha_icon::before, .webdesk_icon::before {
-	content: attr(icon);
-	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
-}
-
-icon {
-	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
-	display: inline-block;
-}
 
 *[v-cloak] {
 	display: none;
@@ -88,30 +50,6 @@ html {
 .van-dialog {
 	border-radius: 3px;
 }
-
-help, alert {
-	color: #999;
-	font-size: 13px;
-}
-alert{
-	color: #F56C6C;
-}
-
-help::before, alert::before {
-	font-family: "webdesk_icon" !important;
-	display: inline-block;
-	margin-right: 8px;
-	font-size: 16px;
-}
-
-help::before {
-	content: "\a026";	
-}
-
-alert::before {
-	content: "\e74f";	
-}
-
 /*特殊字体*/
 
 red, .red {

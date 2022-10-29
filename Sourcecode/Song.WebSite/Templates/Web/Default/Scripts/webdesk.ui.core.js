@@ -828,7 +828,7 @@
     webdom.pagepath = function () {
         var view = webdom('meta[view]');
         var page = view.attr("page");
-        return page.substring(0, page.lastIndexOf("/") + 1);        
+        return page.substring(0, page.lastIndexOf("/") + 1);
     };
     //加载所需的javascript文件
     webdom.corejs = function (f) {
@@ -899,10 +899,13 @@
     };
     //创建全局对象，方便调用
     window.$dom = webdom;
-    window.$dom.load.css(['/Utilities/panel/styles/webdesk.ui.core.css']);
-    window.$dom.load.css([webdom.path() + 'styles/public.css']);
-    window.$dom.load.css([webdom.path() + 'styles/dropmenu.css']);
-    window.$dom.load.css(['/Utilities/ElementUi/index.css']);
+    window.$dom.load.css([      
+        '/Utilities/ElementUi/index.css',
+        '/Utilities/styles/public.css',  
+        webdom.path() + 'styles/public.css',
+        webdom.path() + 'styles/dropmenu.css',  
+        '/Utilities/Fonts/icon.css'      
+    ]);
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {
         var file = webdom('meta[view]').attr("view");

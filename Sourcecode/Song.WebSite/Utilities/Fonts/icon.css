@@ -1,0 +1,136 @@
+﻿@font-face {
+    font-family: 'webdesk_icon';
+    src: url(iconfont.woff) format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*  图标引用方式一，显示Html标签内容的前面，但在在Vue组件代码中使用时，无法输出
+	html标签中增加icon属性， 例如：<span icon="&#xa038">内容</span>
+*/
+*[icon]::before {
+    content: attr(icon);
+    font-family: "webdesk_icon" !important;
+    margin-right: 5px;
+}
+
+/*  图标引用方式二，采用单独icon作为html标签，在Vue中输出不受影响，推荐使用
+	icon标签， 例如：<icon>&#xa038</icon>
+*/
+icon {
+    font-family: "webdesk_icon";
+    margin-right: 5px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+}
+
+/*  图标引用方式三，指定特定图标，用于统一的图标设定
+	课程图标 示例：<icon course></icon>
+*/
+icon::before {
+    font-family: "webdesk_icon" !important;
+}
+
+/*课程*/
+icon[course]::before {
+    content: '\e813';
+}
+
+/*专业*/
+icon[subject]::before {
+    content: '\e750';
+}
+
+/*章节*/
+icon[outline]::before {
+    content: '\e841';
+}
+
+/*试题*/
+icon[question]::before {
+    content: '\e75e';
+}
+
+/*预载*/
+loading {
+    color: #666;
+    font-size: 13px;
+}
+
+loading::before {
+    content: "\e621";
+    font-family: "webdesk_icon" !important;
+    display: inline-block;
+    font-size: 20px;
+    margin-right: 10px;
+    animation: rotate_360 0.6s infinite linear;
+}
+
+@keyframes rotate_360 {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/*帮助、提示*/
+help, alert {
+    color: #999;
+    font-size: 13px;
+    cursor: default;
+}
+
+help::before, alert::before {
+    font-family: "webdesk_icon" !important;
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+/*多行帮助信息*/
+help[multi], alert[multi] {
+    position: relative;
+    display: block;
+    padding-left: 30px;
+    box-sizing: border-box;
+    line-height: 25px;
+
+}
+
+help[multi]::before, alert[multi]::before {
+    position: absolute;
+    left: 0px;
+    top: 3px;
+}
+
+alert {
+    color: #F56C6C;
+}
+
+help::before {
+    content: "\a026";
+}
+
+alert::before {
+    content: "\e74f";
+}
