@@ -712,7 +712,7 @@ namespace Song.ViewData.Methods
         /// <param name="studyTime">学习时间，单位：秒</param>
         /// <param name="totalTime">视频总时长，单位：秒</param>
         /// <returns></returns>
-        [Student]
+        [Study]
         [HttpPost]
         public double StudyLog(long couid, long olid, int playTime, int studyTime, int totalTime)
         {
