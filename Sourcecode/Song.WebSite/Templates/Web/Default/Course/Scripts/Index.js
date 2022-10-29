@@ -52,7 +52,7 @@ $ready(function () {
                 th.query.orgid = th.organ.Org_ID;
                 //获取专业
                 $api.cache('Subject/TreeFront', { 'orgid': th.organ.Org_ID }).then(function (req) {
-                    th.loading_init = false;
+
                     if (req.data.success) {
                         th.subjects = req.data.result;
                         th.setSbjChilds(th.sbjid);
@@ -62,13 +62,13 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    th.loading_init = false;
                     Vue.prototype.$alert(err);
                     console.error(err);
+                }).finally(function () {
+                    th.loading_init = false;                  
                 });
 
             })).catch(function (err) {
-                th.loading_init = false;
                 Vue.prototype.$alert(err);
                 console.error(err);
             });
