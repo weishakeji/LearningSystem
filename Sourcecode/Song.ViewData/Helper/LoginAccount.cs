@@ -19,7 +19,8 @@ namespace Song.ViewData
         public static string VirPath = WeiSha.Core.Upload.Get["Accounts"].Virtual;
         public static string PhyPath = WeiSha.Core.Upload.Get["Accounts"].Physics;
         //登录相关参数, 密钥，键，过期时间（分钟）
-        public static string secretkey = WeiSha.Core.Login.Get["Accounts"].Secretkey.String;      
+        public static string secretkey = WeiSha.Core.Login.Get["Accounts"].Secretkey.String;
+        public static string key = WeiSha.Core.Login.Get["Accounts"].KeyName.String;
         public static int expires = WeiSha.Core.Login.Get["Accounts"].Expires.Int32 ?? 0;
         /// <summary>
         /// 当前单件对象
@@ -157,7 +158,7 @@ namespace Song.ViewData
             checkcode = string.Format(checkcode, accid, role, exp.ToString("yyyy-MM-dd HH:mm:ss"), uid, ua);
             //加密         
             checkcode = WeiSha.Core.DataConvert.EncryptForDES(checkcode, secretkey);
-            return checkcode;
+            return key + checkcode;
         }
 
         #region 内存数据管理
@@ -239,12 +240,12 @@ namespace Song.ViewData
         {
             if (letter.LoginStatus == null || letter.LoginStatus.Length < 1) return null;
             //解析状态码
-            //string domain = WeiSha.Core.Server.Domain;
             //string key = WeiSha.Core.Login.Get["Accounts"].KeyName.String;   //标识,来自web.config配置
             string[] status = null;
             foreach (string s in letter.LoginStatus)
             {
-                string str = WeiSha.Core.DataConvert.DecryptForDES(s, secretkey);
+                if (!s.StartsWith(key)) continue;
+                string str = WeiSha.Core.DataConvert.DecryptForDES(s.Substring(key.Length), secretkey);
                 if (string.IsNullOrWhiteSpace(str)) continue;
                 //解析后信息,依次为：id,角色,时效,识别码,useragent
                 status = str.Split(',');             
