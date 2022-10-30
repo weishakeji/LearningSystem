@@ -66,7 +66,7 @@
    > 由于系统是自主开发，从早期1.0版本的三层架构、WebForm视图方式升级而来，为了尽可能复用原有代码，架构层面的优化也自主编写了，这导致我们开发上有些区别于其它的成熟框架。例如我们虽然用了MVC，却摘除了Razor模板引擎；前端大量采用js，也用了Vue.js，却没有用npm的方式，仍然用页面引用的方式。
 
 ### 创建RESTFUL API
-   > 在Song.ViewData项目的Methods命名空间下的创建类，且继承IViewAPI接口，该接没没有任何方法，仅作为标识；也可以选择继承抽象类ViewMethod，该类用于接收客户端传递的数据。示例：public class Account : ViewMethod, IViewAPI
+   > 在Song.ViewData项目的Methods命名空间下的创建类，且继承IViewAPI接口，该接口没有任何方法，仅作为标识；也可以选择继承抽象类ViewMethod，该类用于接收客户端传递的数据。示例：`public class Account : ViewMethod, IViewAPI`
 
    * 命名规范
    > 接口名称需采用不同字符。由于在C#中是大小写敏感的，例如 TestApi和TestAPI是两个不同的名称，但是在前端调用接口时，url路径是大小写不敏感的，会导致系统无法区分是哪个接口，所以在编写接口时，不同接口请采用不同的单词，而不是仅靠大小写区分。
