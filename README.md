@@ -26,7 +26,7 @@
  * “DbScripts”文件夹中是数据库脚本，其中script.sql为完整数据库脚本，第一次部署时使用；其它脚本多为升级脚本；
  * “Document”文件夹中是一些相关文档，例如演示PPT、建设方案等；
 
-[![](https://img.shields.io/badge/version-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA-red)]
+![](https://img.shields.io/badge/version-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA-red)
 
 >2.0仍在开发中，近期发布正式版，需要稳定版本的请下载1.0版本
 <br/><a href="https://gitee.com/weishakeji/learningsystem_v1" target="_blank">https://gitee.com/weishakeji/learningsystem_v1</a> 
