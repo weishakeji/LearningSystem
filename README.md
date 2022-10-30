@@ -30,8 +30,7 @@
 
 >2.0仍在开发中，当前处于公测阶段，近期会发布正式版，需要稳定版本的请下载1.0版本
 <br/><a href="https://gitee.com/weishakeji/learningsystem_v1" target="_blank">https://gitee.com/weishakeji/learningsystem_v1</a> 
-<br/>
-（注意：2.0并不是1.0的升级，而是重构，1.0升级到2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
+<br/>注意：2.0并不是1.0的升级，而是重构，1.0升级到2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
 
 ## 演示信息
  * [ http://www.weisha100.cn]( http://www.weisha100.cn) 
