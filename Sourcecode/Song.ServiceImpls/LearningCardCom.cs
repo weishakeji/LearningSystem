@@ -47,31 +47,51 @@ namespace Song.ServiceImpls
         /// 修改学习卡设置项
         /// </summary>
         /// <param name="entity">业务实体</param>
-        public void SetSave(LearningCardSet entity)
+        /// <param name="scope">更改范围，1为更改使用的，已经使用的不改；2为更改全部，默认是1</param>
+        public void SetSave(LearningCardSet entity, int scope)
         {
+            LearningCardSet set = entity;
+            LearningCardSet old = this.SetSingle(set.Lcs_ID);
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
-                {                    
-                    LearningCard[] cards = CardGenerate(entity, tran);
+                {
+                    LearningCard[] cards = CardGenerate(set, tran);
                     if (cards != null)
                     {
                         foreach (LearningCard c in cards)
                             Gateway.Default.Save<LearningCard>(c);
                     }
                     //获取学习卡关联的课程数
-                    Course[] cours = this.CoursesGet(entity.Lcs_RelatedCourses);
-                    entity.Lcs_CoursesCount = cours == null ? 0 : cours.Length;
-
+                    Course[] cours = this.CoursesGet(set.Lcs_RelatedCourses);
+                    set.Lcs_CoursesCount = cours == null ? 0 : cours.Length;
+                    //更改学习卡卡号信息
+                    WhereClip wc = LearningCard._.Lcs_ID == set.Lcs_ID;
+                    if (scope == 2) wc.And(LearningCard._.Lc_IsUsed == false);
                     tran.Update<LearningCard>(new Field[] { LearningCard._.Lc_Price, LearningCard._.Lc_LimitStart, LearningCard._.Lc_LimitEnd },
-                        new object[] { entity.Lcs_Price, entity.Lcs_LimitStart, entity.Lcs_LimitEnd },
-                        LearningCard._.Lcs_ID == entity.Lcs_ID && LearningCard._.Lc_IsUsed == false);
-                    tran.Save<LearningCardSet>(entity);
+                        new object[] { set.Lcs_Price, set.Lcs_LimitStart, set.Lcs_LimitEnd },
+                        LearningCard._.Lcs_ID == set.Lcs_ID && LearningCard._.Lc_IsUsed == false);
+                    //更改已经使用过的学习卡卡号关联的学习记录，在Student_Course表
+                    if (scope == 2 && set.Lsc_UsedCount > 0)
+                    {
+                        List<LearningCard> list = Gateway.Default.From<LearningCard>().Where(LearningCard._.Lcs_ID == set.Lcs_ID && LearningCard._.Lc_IsUsed == true)
+                            .ToList<LearningCard>();
+                        //学习时间的更改
+                        int prevday = _getDay(old.Lcs_Span, old.Lcs_Unit);
+                        int currday = _getDay(set.Lcs_Span, set.Lcs_Unit);
+                        int relevant = prevday - currday;
+                        // tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_EndTime },
+                        //new object[] { old.Lcs_LimitEnd },
+                        //LearningCard._.Lcs_ID == set.Lcs_ID);
+                        //tran.FromSql("update Student_Course set Stc_EndTime=Stc_EndTime" + (relevant > 0 ? "-" + Math.Abs(relevant) : "+" + relevant) + " where Lcs_ID=" + set.Lcs_ID)
+                        //    .Execute();
+                    }
+                    tran.Save<LearningCardSet>(set);
                     tran.Commit();
                     //记算实际卡数
-                    int cardtotal=Gateway.Default.Count<LearningCard>(LearningCard._.Lcs_ID == entity.Lcs_ID);
-                    entity.Lcs_Count = cardtotal;
-                    Gateway.Default.Save<LearningCardSet>(entity);
+                    int cardtotal = Gateway.Default.Count<LearningCard>(LearningCard._.Lcs_ID == set.Lcs_ID);
+                    set.Lcs_Count = cardtotal;
+                    Gateway.Default.Save<LearningCardSet>(set);
                 }
                 catch (Exception ex)
                 {
@@ -84,6 +104,19 @@ namespace Song.ServiceImpls
                     tran.Close();
                 }
             }
+        }
+        /// <summary>
+        /// 计算天数
+        /// </summary>
+        /// <param name="span">数值</param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        private int _getDay(int span,string unit)
+        {
+            if (unit == "年") return span * 365;
+            if (unit == "月") return span * 30;
+            if (unit == "周") return span * 7;
+            return span;
         }
         #region 删除与获取
         /// <summary>
@@ -347,9 +380,10 @@ namespace Song.ServiceImpls
             return CardGenerate(set, null);
         }
         /// <summary>
+        ///  批量生成学习卡
         /// </summary>
-        /// <param name="set"></param>
-        /// <param name="tran"></param>
+        /// <param name="set">学习卡的设置项</param>
+        /// <param name="tran">事务</param>
         /// <returns></returns>
         public LearningCard[] CardGenerate(LearningCardSet set, DbTrans tran)
         {

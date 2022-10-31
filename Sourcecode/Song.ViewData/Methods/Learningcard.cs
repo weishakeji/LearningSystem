@@ -127,12 +127,13 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 修改学习卡设置
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">习卡设置项（或叫主题）的实体对象</param>
+        /// <param name="scope">更改范围，1为更改使用的，已经使用的不改；2为更改全部，默认是1</param>
         /// <returns></returns>
         [Admin]
         [HttpPost]
         [HtmlClear(Not = "entity")]
-        public bool SetModify(Song.Entities.LearningCardSet entity)
+        public bool SetModify(Song.Entities.LearningCardSet entity,int scope)
         {
             int min_len = entity.Lcs_Count.ToString().Length + 1 + this.MinLength();
             if (entity.Lcs_CodeLength < min_len) throw new Exception("学习码长度不得小于" + min_len);
@@ -140,7 +141,7 @@ namespace Song.ViewData.Methods
             Song.Entities.LearningCardSet old = Business.Do<ILearningCard>().SetSingle(entity.Lcs_ID);
             if (old == null) throw new Exception("Not found entity");
             old.Copy<Song.Entities.LearningCardSet>(entity);
-            Business.Do<ILearningCard>().SetSave(old);
+            Business.Do<ILearningCard>().SetSave(old, scope);
             return true;
         }
         /// <summary>

@@ -21,7 +21,8 @@ namespace Song.ServiceInterfaces
         /// 修改学习卡设置项
         /// </summary>
         /// <param name="entity">业务实体</param>
-        void SetSave(LearningCardSet entity);
+        /// <param name="scope">更改范围，1为更改使用的，已经使用的不改；2为更改全部，默认是1</param>
+        void SetSave(LearningCardSet entity, int scope);
         /// <summary>
         /// 删除学习卡设置项
         /// </summary>

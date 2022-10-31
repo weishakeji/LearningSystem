@@ -28,6 +28,7 @@ $ready(function () {
             return {
                 id: $api.querystring('id'),
                 minLength: 0,        //学习卡的卡号最小长度
+                //当前对象    
                 entity: {
                     Lcs_Count: 100,
                     Lcs_IsEnable: true,
@@ -36,11 +37,17 @@ $ready(function () {
                     Lcs_CodeLength: 16,
                     Lcs_PwLength: 3,
                     Lcs_RelatedCourses: ''
-                }, //当前对象    
+                },
                 courses: [],     //关联的课程
                 units: ['日', '周', '月', '年'],
                 introEdit: false,        //简介是否处于编辑状态
-                datespan: [],            //时间区间,内有两个值，一个开始，一个结束
+                datespan: [],            //有效期的时间区间,内有两个值，一个开始，一个结束
+                //学习时长记录,用于判断学习时长否被更改过
+                studyspan: {
+                    Lcs_Span: 0,
+                    Lcs_Unit: ''
+                },
+                studyspan_visible: false,        // 学习卡时长变更的提示面板
                 rules: {
                     Lcs_Theme: [
                         { required: true, message: '不得为空', trigger: ["blur", "change"] }
@@ -116,6 +123,7 @@ $ready(function () {
         created: function () {
             var th = this;
             th.loading = true;
+            //学习卡的最小长度,取机构id最大数、学习设置项id最大值
             $api.get('Learningcard/MinLength').then(function (req) {
                 if (req.data.success) {
                     th.minLength = req.data.result;
@@ -124,8 +132,13 @@ $ready(function () {
                             th.loading = false;
                             if (req.data.success) {
                                 th.entity = req.data.result;
+                                //学习有效期
                                 th.datespan.push(th.entity.Lcs_LimitStart);
                                 th.datespan.push(th.entity.Lcs_LimitEnd);
+                                //记录学习时长,用于判断学习时长否被更改过
+                                th.studyspan.Lcs_Span = th.entity.Lcs_Span;
+                                th.studyspan.Lcs_Unit = th.entity.Lcs_Unit;
+                                //获取学习卡关联的课程
                                 $api.get('Learningcard/SetCourses', { 'id': th.id }).then(function (req) {
                                     if (req.data.success) {
                                         vapp.courses = req.data.result;
@@ -149,8 +162,8 @@ $ready(function () {
                         th.entity.Lcs_Unit = '月';
                     }
                 } else {
-                    console.error(req.data.exception);
-                    throw req.data.message;
+                    console.error(req.data.exception);                  
+                    th.$alert(err, '错误');
                 }
             }).catch(function (err) {
                 console.error(err);
@@ -162,31 +175,72 @@ $ready(function () {
                 var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        console.log("验证通过！！");
-                        th.loading = true;
-                        var apipath = 'Learningcard/Set' + (th.id == '' ? api = 'add' : 'Modify');
-                        console.log(vapp.entity);
-                        $api.post(apipath, { 'entity': vapp.entity }).then(function (req) {
-                            th.loading = false;
-                            if (req.data.success) {
-                                var result = req.data.result;
-                                vapp.$message({
-                                    type: 'success',
-                                    message: '操作成功!',
-                                    center: true
-                                });
-                                vapp.operateSuccess();
-                            } else {
-                                throw req.data.message;
+                        //如果是修改
+                        if (th.id != '') {
+                            var studyspanIsChange = th.studyspan.Lcs_Span != th.entity.Lcs_Span
+                                || th.studyspan.Lcs_Unit != th.entity.Lcs_Unit;
+                            //如果学习时限有变化
+                            if (studyspanIsChange && th.entity.Lsc_UsedCount > 0) {
+                                th.studyspan_visible = true;
                             }
-                        }).catch(function (err) {
-                            th.loading = false;
-                            vapp.$alert(err, '错误');
-                        });
+                        } else {
+                            //新增
+                            th.sumbitEnter('Learningcard/Setadd', { 'entity': th.entity });
+                        }
                     } else {
                         console.log('error submit!!');
                         return false;
                     }
+                });
+            },
+            //学习时限的记录是否被更改
+            studyspanChangeCalc: function () {
+                var prev = calcday(this.studyspan.Lcs_Span, this.studyspan.Lcs_Unit);
+                var current = calcday(this.entity.Lcs_Span, this.entity.Lcs_Unit);
+                if (prev - current > 0) {
+                    return '减少了 ' + Math.abs(prev - current);
+                } else {
+                    return '增加了 ' + Math.abs(current - prev);
+                }
+                function calcday(span, unit) {
+                    if (unit == '年') return span * 365;
+                    if (unit == '月') return span * 30;
+                    if (unit == '周') return span * 7;
+                    return span;
+                }
+            },
+            //确认学习时限变更的选择,scope:1为更改使用的，已经使用的不改；2为更改全部
+            studyspanEnter: function (scope) {
+                this.$confirm('您选择了第 ' + scope + ' 项, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    var th = this;
+                    th.studyspan_visible = false;
+                    th.sumbitEnter('Learningcard/SetModify', { 'entity': th.entity, 'scope': scope });
+                }).catch(() => { });
+            },
+            //提交更改
+            sumbitEnter: function (apiurl, param) {
+                var th = this;
+                th.loading = true;
+                $api.post(apiurl, param).then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$message({
+                            type: 'success',
+                            message: '操作成功!',
+                            center: true
+                        });
+                        th.operateSuccess();
+                    } else {
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading = false;
+                    th.$alert(err, '错误');
                 });
             },
             //打开课程选择的窗体
@@ -198,19 +252,18 @@ $ready(function () {
                 //父窗体,通过父窗体生成当前窗体id
                 var parent = window.top.$ctrls.get(window.name).obj;
                 var boxid = parent.id + "_" + file;
-                //创建
+                //创建新窗体
                 var box = window.top.$pagebox.create({
-                    width: 800,
-                    height: 400,
-                    resize: true,
-                    max: false,
-                    min: false,
-                    id: boxid,
-                    pid: window.name,
-                    url: url
+                    width: 800, height: 400, resize: true, max: false,
+                    min: false, id: boxid, showmask: true,
+                    pid: window.name, url: url
                 });
-                parent.full = true;
+                parent.full = true;     //父窗体全屏显示
                 box.title = '学习卡“' + this.entity.Lcs_Theme + "”与课程的关联";
+                //当窗体关闭时，父窗体还原
+                box.onshut(function (sender, event) {
+                    sender.parent.full = false;
+                });
                 box.open();
             },
             //当更改学习关联的课程时

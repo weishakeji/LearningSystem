@@ -1,11 +1,27 @@
 ﻿#app {
-    height: calc(100% - 40px);
+    height: calc(100% - 45px);
     overflow-y: auto;
     width: 100%;
 }
 
-.el-card__body {
-   
+.el-form-item {
+    width: 100%;
+}
+
+.el-form .el-row {
+    display: flex;
+}
+
+.el-form .el-row .el-col:first-child {
+    margin-right: 10px;
+}
+
+.el-form .el-row .el-col:last-child {
+    margin-left: 10px;
+}
+
+.el-row textarea {
+    width: 100%;
 }
 
 .item {
@@ -22,16 +38,66 @@
     height: 60px;
     float: left;
     margin-right: 10px;
-   
+
 }
-.item>span{
+
+.item>span {
     line-height: 20px;
-    word-break:break-all;
+    word-break: break-all;
 }
-.tax{
+
+.tax {
     display: inline-block;
     font-weight: bold;
 }
-.name{
 
+/*学习时长的选择面板*/
+.studyspan .el-dialog {
+    width: 80% !important;
+}
+
+.btn_area {
+    margin: 10px 0px;
+}
+
+.btn_area>div {
+    margin: 10px 0px;
+    width: 100%;
+    font-size: 16px;
+    color: #409eff;
+    background: #ecf5ff;
+    border-color: #b3d8ff;
+    display: inline-block;
+    line-height: 30px;
+    cursor: pointer;
+    border: 1px solid #dcdfe6;
+    -webkit-appearance: none;
+    text-align: left;
+    box-sizing: border-box;
+    outline: none;
+    transition: .1s;
+    font-weight: 500;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    padding: 12px 20px 12px 30px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.btn_area>div:hover {
+    background: rgb(198, 226, 255);
+}
+
+.btn_area>div>span {
+    display: block;
+    position: absolute;
+    font-size: 18px;
+    top: 12px;
+    left: 10px;
+}
+
+.btn_area>div b {
+    font-weight: normal;
+    color: #F56C6C;
 }

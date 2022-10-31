@@ -14,10 +14,8 @@
 <body>
     <div id="app" v-cloak>
         <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="80px">
-
             <el-form-item label="主题" prop="Lcs_Theme">
                 <el-input v-model.trim="entity.Lcs_Theme"></el-input>
-
             </el-form-item>
             <el-row>
                 <el-col :span="12">
@@ -42,11 +40,13 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="数量" prop="Lcs_Count">
-                        <template>
-                            <el-input v-model.number="entity.Lcs_Count" type="number">
-                                <template slot="append">张</template>
-                            </el-input>
-                        </template>
+                        <el-input v-model.number="entity.Lcs_Count" type="number">
+                            <template slot="append">张
+                                <template v-if="entity.Lsc_UsedCount>0">,已用 {{entity.Lsc_UsedCount}}
+                                    张</template></template>
+                        </el-input>
+
+
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -144,6 +144,23 @@
                 确认修改</el-button>
             <el-button type='close'>取消</el-button>
         </div>
+        <el-dialog :visible.sync="studyspan_visible" class="studyspan">
+            <span slot="title">
+                学习卡的“学习时长”变更
+            </span>
+            <div>
+                学习时长由原来的“{{studyspan.Lcs_Span}} {{studyspan.Lcs_Unit}}”，变更为“{{entity.Lcs_Span}} {{entity.Lcs_Unit}}”，时长
+                {{studyspanChangeCalc()}} 天，且已经有 {{entity.Lsc_UsedCount}} 张卡号已经使用，于是您需要做出如下选择：
+            </div>
+            <div class="btn_area">
+                <div @click="studyspanEnter(1)">
+                    <span>1</span>仅针对<b>未使用的学习卡增加或减少时长</b>，对于已经使用过的学习卡不再更改学习时长
+                </div>
+                <div @click="studyspanEnter(2)">
+                    <span>2</span>当前学习卡设置项（或叫主题）下的<b>所有学习卡卡号变更学习时长</b>，包括已经使用过的卡号。
+                </div>
+            </div>
+        </el-dialog>
     </div>
 
 
