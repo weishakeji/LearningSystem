@@ -14,8 +14,7 @@ using NPOI.HSSF.UserModel;
 using System.Xml;
 using NPOI.SS.UserModel;
 using System.IO;
-
-
+using System.Threading.Tasks;
 
 namespace Song.ServiceImpls
 {
@@ -32,8 +31,8 @@ namespace Song.ServiceImpls
             Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
             if (org != null) entity.Org_ID = org.Org_ID;
             //获取学习卡关联的课程数
-            Course[] cours = this.CoursesGet(entity.Lcs_RelatedCourses);
-            entity.Lcs_CoursesCount = cours == null ? 0 : cours.Length;
+            List<Course> cours = this.CoursesGet(entity.Lcs_RelatedCourses);
+            entity.Lcs_CoursesCount = cours == null ? 0 : cours.Count;
             Gateway.Default.Save<LearningCardSet>(entity);
             //生成学习卡
             LearningCard[] cards = CardGenerate(entity);
@@ -57,41 +56,38 @@ namespace Song.ServiceImpls
                 try
                 {
                     LearningCard[] cards = CardGenerate(set, tran);
-                    if (cards != null)
+                    if (cards != null && cards.Length > 0)
                     {
                         foreach (LearningCard c in cards)
-                            Gateway.Default.Save<LearningCard>(c);
+                            tran.Save<LearningCard>(c);
                     }
                     //获取学习卡关联的课程数
-                    Course[] cours = this.CoursesGet(set.Lcs_RelatedCourses);
-                    set.Lcs_CoursesCount = cours == null ? 0 : cours.Length;
+                    List<Course> cours = this.CoursesGet(set.Lcs_RelatedCourses);
+                    set.Lcs_CoursesCount = cours == null ? 0 : cours.Count;
                     //更改学习卡卡号信息
                     WhereClip wc = LearningCard._.Lcs_ID == set.Lcs_ID;
                     if (scope == 2) wc.And(LearningCard._.Lc_IsUsed == false);
                     tran.Update<LearningCard>(new Field[] { LearningCard._.Lc_Price, LearningCard._.Lc_LimitStart, LearningCard._.Lc_LimitEnd },
-                        new object[] { set.Lcs_Price, set.Lcs_LimitStart, set.Lcs_LimitEnd },
-                        LearningCard._.Lcs_ID == set.Lcs_ID && LearningCard._.Lc_IsUsed == false);
-                    //更改已经使用过的学习卡卡号关联的学习记录，在Student_Course表
-                    if (scope == 2 && set.Lsc_UsedCount > 0)
-                    {
-                        List<LearningCard> list = Gateway.Default.From<LearningCard>().Where(LearningCard._.Lcs_ID == set.Lcs_ID && LearningCard._.Lc_IsUsed == true)
-                            .ToList<LearningCard>();
-                        //学习时间的更改
-                        int prevday = _getDay(old.Lcs_Span, old.Lcs_Unit);
-                        int currday = _getDay(set.Lcs_Span, set.Lcs_Unit);
-                        int relevant = prevday - currday;
-                        // tran.Update<Student_Course>(new Field[] { Student_Course._.Stc_EndTime },
-                        //new object[] { old.Lcs_LimitEnd },
-                        //LearningCard._.Lcs_ID == set.Lcs_ID);
-                        //tran.FromSql("update Student_Course set Stc_EndTime=Stc_EndTime" + (relevant > 0 ? "-" + Math.Abs(relevant) : "+" + relevant) + " where Lcs_ID=" + set.Lcs_ID)
-                        //    .Execute();
-                    }
+                        new object[] { set.Lcs_Price, set.Lcs_LimitStart, set.Lcs_LimitEnd }, wc);                  
+                   
+                    //记算实际卡数
+                    set.Lcs_Count = tran.Count<LearningCard>(LearningCard._.Lcs_ID == set.Lcs_ID);
                     tran.Save<LearningCardSet>(set);
                     tran.Commit();
-                    //记算实际卡数
-                    int cardtotal = Gateway.Default.Count<LearningCard>(LearningCard._.Lcs_ID == set.Lcs_ID);
-                    set.Lcs_Count = cardtotal;
-                    Gateway.Default.Save<LearningCardSet>(set);
+
+                    //更改已经使用过的学习卡卡号关联的学习记录，在Student_Course表
+                    if (scope == 2 && set.Lsc_UsedCount > 0)
+                    {                      
+                        new System.Threading.Tasks.Task(() =>
+                        {
+                            this._changeLimitDate(old, set);
+                        }).Start();
+                    }
+                    //联联的课程变更
+                    new System.Threading.Tasks.Task(() =>
+                    {
+                        this._changeSetCourses(old, set);
+                    }).Start();
                 }
                 catch (Exception ex)
                 {
@@ -117,6 +113,109 @@ namespace Song.ServiceImpls
             if (unit == "月") return span * 30;
             if (unit == "周") return span * 7;
             return span;
+        }
+        /// <summary>
+        /// 更改使用过学习卡的关联课程的时限
+        /// </summary>
+        /// <param name="old"></param>
+        /// <param name="curr"></param>
+        private void _changeLimitDate(LearningCardSet old, LearningCardSet curr)
+        {
+            //使用过的学习卡
+            List<LearningCard> list = Gateway.Default.From<LearningCard>().Where(LearningCard._.Lcs_ID == curr.Lcs_ID && LearningCard._.Lc_IsUsed == true)
+                .ToList<LearningCard>();
+            //学习时间的更改
+            int prevday = _getDay(old.Lcs_Span, old.Lcs_Unit);
+            int currday = _getDay(curr.Lcs_Span, curr.Lcs_Unit);
+            int relevant = prevday - currday;
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    foreach (LearningCard lc in list)
+                    {
+                        string sql = "update Student_Course set Stc_EndTime=Stc_EndTime{0} where Lc_Code='{1}' and Lc_Pw='{2}'";
+                        sql = string.Format(sql, relevant > 0 ? "-" + Math.Abs(relevant) : "+" + Math.Abs(relevant), lc.Lc_Code, lc.Lc_Pw);
+                        tran.FromSql(sql).Execute();
+                    }
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
+        }
+        /// <summary>
+        /// 学习卡的课程变更时
+        /// </summary>
+        /// <param name="old"></param>
+        /// <param name="curr"></param>
+        private void _changeSetCourses(LearningCardSet old, LearningCardSet curr)
+        {
+            //判断关联的课程是否有变动
+            List<Course> increased = new List<Course>();    //增加的课程
+            List<Course> reduced = new List<Course>();          //减少的课程
+
+            List<Course> old_cours = this.CoursesGet(old.Lcs_RelatedCourses);
+            List<Course> curr_cours = this.CoursesGet(curr.Lcs_RelatedCourses);
+            //获取减少的课程
+            foreach (Course o in old_cours)
+            {
+                bool exist = curr_cours.Exists(x => x.Cou_ID == o.Cou_ID);
+                if (!exist) reduced.Add(o);
+            }
+            //获取添加的课程
+            foreach (Course o in curr_cours)
+            {
+                bool exist = old_cours.Exists(x => x.Cou_ID == o.Cou_ID);
+                if (!exist) increased.Add(o);
+            }
+            //当前学习卡主题已经使用过的学习卡
+            List<LearningCard> cards = this.CardCount(-1, old.Lcs_ID, null, true, -1);
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    //删除的课程
+                    foreach (LearningCard card in cards)
+                    {
+                        foreach (Course c in reduced)
+                        {
+                            tran.Delete<Student_Course>(Student_Course._.Cou_ID == c.Cou_ID 
+                                && Student_Course._.Lc_Code == card.Lc_Code 
+                                && Student_Course._.Lc_Pw == card.Lc_Pw);
+                        }
+                    }
+                    //添加的课程
+                    foreach (LearningCard card in cards)
+                    {
+                        Accounts acc = Business.Do<IAccounts>().AccountsSingle(card.Ac_ID);
+                        if (acc == null) continue;
+                        foreach (Course c in increased)
+                        {
+                            this.CardUse(card, acc, curr, c);
+                        }                           
+                    }                       
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
+
         }
         #region 删除与获取
         /// <summary>
@@ -524,14 +623,10 @@ namespace Song.ServiceImpls
             LearningCard single = Gateway.Default.From<LearningCard>().Where(wc).ToFirst<LearningCard>();
             if (single == null) throw new Exception("该学习卡不存在，或已经过期！");
             //如果学习卡已经被领用
-            if (single.Ac_ID > 0)
+            if (single.Ac_ID > 0 || single.Lc_IsUsed || single.Lc_State != 0)
             {
-                if (single.Lc_IsUsed && single.Lc_State != 0) throw new Exception("该学习卡已经使用过！");
-            }
-            else
-            {
-                if (single.Lc_IsUsed) throw new Exception("该学习卡已经使用过！");
-            }           
+                throw new Exception("该学习卡已经使用过！");
+            }                  
             return single;
         }
         /// <summary>
@@ -549,8 +644,7 @@ namespace Song.ServiceImpls
         /// <param name="card">学习卡</param>
         /// <param name="acc">学员账号</param>
         public void CardUse(LearningCard card, Accounts acc)
-        {
-            if (card.Lc_State != 0) throw new Exception("该学习卡已经使用");
+        {        
             LearningCardSet set = this.SetSingle(card.Lcs_ID);
             if (set == null || set.Lcs_IsEnable == false) throw new Exception("该学习卡不可使用");
             //是否过期
@@ -575,8 +669,8 @@ namespace Song.ServiceImpls
                 int span = (end - start).Days;
                 try
                 {
-                    Course[] courses = this.CoursesGet(set.Lcs_RelatedCourses);
-                    if (courses != null || courses.Length > 0)
+                    List<Course> courses = this.CoursesGet(set.Lcs_RelatedCourses);
+                    if (courses != null || courses.Count > 0)
                     {
                         foreach (Course cou in courses)
                         {
@@ -593,11 +687,12 @@ namespace Song.ServiceImpls
                                 }
                                 else
                                 {
-                                    //已经过期，则重新设置时间
-                                    if (sc.Stc_EndTime < DateTime.Now)
+                                    //已经过期，则重新设置时间,或是学员组关联课程也重新设置时间
+                                    if (sc.Stc_EndTime < DateTime.Now || sc.Stc_Type == 5)
                                     {
                                         sc.Stc_StartTime = start;
                                         sc.Stc_EndTime = end;
+                                        sc.Stc_Type = 4;
                                     }
                                     else
                                     {
@@ -612,13 +707,15 @@ namespace Song.ServiceImpls
                                 sc.Stc_CrtTime = DateTime.Now;
                                 sc.Stc_StartTime = start;
                                 sc.Stc_EndTime = end;
+                                sc.Stc_Type = 4;
                             }
                             sc.Ac_ID = card.Ac_ID;
                             sc.Cou_ID = cou.Cou_ID;
-                            sc.Stc_IsEnable = true;
-                            sc.Stc_Type = 4;
+                            sc.Stc_IsEnable = true;                           
                             sc.Stc_Money = card.Lc_Price;
                             sc.Org_ID = card.Org_ID;
+                            sc.Lc_Code = card.Lc_Code;
+                            sc.Lc_Pw = card.Lc_Pw;
                             sc.Stc_IsFree = sc.Stc_IsTry = false;
                             tran.Save<Student_Course>(sc);
                         }
@@ -645,6 +742,63 @@ namespace Song.ServiceImpls
                     tran.Close();
                 }
             }
+        }
+
+        public void CardUse(LearningCard card, Accounts acc, LearningCardSet set, Course cou)
+        {
+            //学习时间的起始时间
+            DateTime start = DateTime.Now, end = DateTime.Now;
+            if (set.Lcs_Unit == "日" || set.Lcs_Unit == "天") end = start.AddDays(set.Lcs_Span);
+            if (set.Lcs_Unit == "周") end = start.AddDays(set.Lcs_Span * 7);
+            if (set.Lcs_Unit == "月") end = start.AddMonths(set.Lcs_Span);
+            if (set.Lcs_Unit == "年") end = start.AddYears(set.Lcs_Span);
+            //过期时间，为当天11：59：59结束
+            end = end.AddDays(1);
+            end = end.Date.AddSeconds(-1);
+            int span = (end - start).Days;
+            Song.Entities.Student_Course sc = Gateway.Default.From<Student_Course>().Where(Student_Course._.Ac_ID == card.Ac_ID
+                && Student_Course._.Cou_ID == cou.Cou_ID).ToFirst<Student_Course>();
+            if (sc != null)
+            {
+                //如果是免费或试用
+                if (sc.Stc_IsFree || sc.Stc_IsTry)
+                {
+                    sc.Stc_StartTime = start;
+                    sc.Stc_EndTime = end;
+                }
+                else
+                {
+                    //已经过期，则重新设置时间,或是学员组关联课程也重新设置时间
+                    if (sc.Stc_EndTime < DateTime.Now || sc.Stc_Type == 5)
+                    {
+                        sc.Stc_StartTime = start;
+                        sc.Stc_EndTime = end;
+                        sc.Stc_Type = 4;
+                    }
+                    else
+                    {
+                        //如果未过期，则续期                                
+                        sc.Stc_EndTime = sc.Stc_EndTime.AddDays(span);
+                    }
+                }
+            }
+            else
+            {
+                sc = new Student_Course();
+                sc.Stc_CrtTime = DateTime.Now;
+                sc.Stc_StartTime = start;
+                sc.Stc_EndTime = end;
+                sc.Stc_Type = 4;
+            }
+            sc.Ac_ID = card.Ac_ID;
+            sc.Cou_ID = cou.Cou_ID;
+            sc.Stc_IsEnable = true;
+            sc.Stc_Money = card.Lc_Price;
+            sc.Org_ID = card.Org_ID;
+            sc.Lc_Code = card.Lc_Code;
+            sc.Lc_Pw = card.Lc_Pw;
+            sc.Stc_IsFree = sc.Stc_IsTry = false;
+            Gateway.Default.Save<Student_Course>(sc);
         }
         /// <summary>
         /// 获取该学习卡，只是暂存在学员账户名下，并不使用
@@ -709,8 +863,8 @@ namespace Song.ServiceImpls
                     if (set.Lcs_Unit == "年") day = set.Lcs_Span * 365;
                 }
                 //关联的课程
-                Course[] courses = this.CoursesGet(set.Lcs_RelatedCourses);
-                if (courses == null) return;
+                List<Course> courses = this.CoursesGet(set.Lcs_RelatedCourses);
+                if (courses == null || courses.Count<1) return;
                 using (DbTrans tran = Gateway.Default.BeginTrans())
                 {
                     try
@@ -779,14 +933,14 @@ namespace Song.ServiceImpls
         /// <param name="isUsed">是否已经使用</param>
         /// <param name="isUse"></param>
         /// <returns></returns>
-        public LearningCard[] CardCount(int orgid, int lcsid, bool? isEnable, bool? isUsed, int count)
+        public List<LearningCard> CardCount(int orgid, int lcsid, bool? isEnable, bool? isUsed, int count)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= LearningCard._.Org_ID == orgid;
             if (lcsid > 0) wc &= LearningCard._.Lcs_ID == lcsid;
             if (isEnable != null) wc &= LearningCard._.Lc_IsEnable == isEnable;
             if (isUsed != null) wc &= LearningCard._.Lc_IsUsed == isUsed;
-            return Gateway.Default.From<LearningCard>().Where(wc).OrderBy(LearningCard._.Lc_CrtTime.Desc).ToArray<LearningCard>(count);
+            return Gateway.Default.From<LearningCard>().Where(wc).OrderBy(LearningCard._.Lc_CrtTime.Desc).ToList<LearningCard>(count);
         }
         /// <summary>
         /// 所有设置项数量
@@ -936,13 +1090,18 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 获取关联的课程
         /// </summary>
-        /// <param name="set"></param>
+        /// <param name="set">学习卡设置项</param>
         /// <returns></returns>
-        public Course[] CoursesGet(LearningCardSet set)
+        public List<Course> CoursesGet(LearningCardSet set)
         {
             return CoursesGet(set.Lcs_RelatedCourses);
         }
-        public Course[] CoursesGet(string xml)
+        /// <summary>
+        /// 获取关联的课程
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        public List<Course> CoursesGet(string xml)
         {
             if (string.IsNullOrWhiteSpace(xml)) return null;
             XmlDocument xmlDoc = new XmlDocument();
@@ -952,16 +1111,16 @@ namespace Song.ServiceImpls
             List<Course> list = new List<Course>();
             for (int i = 0; i < items.Count; i++)
             {
-                string couid = ((XmlElement)items[i]).GetAttribute("Cou_ID");
-                if (string.IsNullOrWhiteSpace(couid)) continue;
-                int id = 0;
-                int.TryParse(couid, out id);
-                if (id <= 0) continue;
-                Course cou = Business.Do<ICourse>().CourseSingle(id);
+                string cou_id = ((XmlElement)items[i]).GetAttribute("Cou_ID");
+                if (string.IsNullOrWhiteSpace(cou_id)) continue;
+                long couid = 0;
+                long.TryParse(cou_id, out couid);
+                if (couid <= 0) continue;
+                Course cou = Business.Do<ICourse>().CourseSingle(couid);
                 if (cou == null) continue;
                 list.Add(cou);                
             }
-            return list.ToArray();
+            return list;
         }
         /// <summary>
         /// 学习卡关联的课程
@@ -969,7 +1128,7 @@ namespace Song.ServiceImpls
         /// <param name="code">学习卡编码</param>
         /// <param name="pw">学习卡密码</param>
         /// <returns></returns>
-        public Course[] CoursesForCard(string code, string pw)
+        public List<Course> CoursesForCard(string code, string pw)
         {
             LearningCard card = this.CardSingle(code, pw);
             if (card != null)

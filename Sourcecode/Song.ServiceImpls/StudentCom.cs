@@ -434,7 +434,7 @@ namespace Song.ServiceImpls
             sc.Stc_Money = 0;
             sc.Stc_Coupon = 0;
             sc.Stc_StartTime = DateTime.Now;
-            sc.Stc_EndTime = DateTime.Now.AddYears(200);
+            sc.Stc_EndTime = DateTime.Now;
             sc.Stc_IsFree = false;
             sc.Stc_IsTry = false;
             sc.Stc_IsEnable = true;

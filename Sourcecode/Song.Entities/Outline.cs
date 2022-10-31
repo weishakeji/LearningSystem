@@ -58,6 +58,10 @@ namespace Song.Entities {
     		
     		protected Int64 _Ol_ID;
     		
+    		protected DateTime _Ol_ModifyTime;
+    		
+    		protected Boolean _Ol_IsChecked;
+    		
     		public String Ol_Name {
     			get {
     				return this._Ol_Name;
@@ -308,6 +312,26 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public DateTime Ol_ModifyTime {
+    			get {
+    				return this._Ol_ModifyTime;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ol_ModifyTime, _Ol_ModifyTime, value);
+    				this._Ol_ModifyTime = value;
+    			}
+    		}
+    		
+    		public Boolean Ol_IsChecked {
+    			get {
+    				return this._Ol_IsChecked;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ol_IsChecked, _Ol_IsChecked, value);
+    				this._Ol_IsChecked = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -352,7 +376,9 @@ namespace Song.Entities {
     					_.Ol_LiveTime,
     					_.Ol_LiveSpan,
     					_.Ol_LiveID,
-    					_.Ol_ID};
+    					_.Ol_ID,
+    					_.Ol_ModifyTime,
+    					_.Ol_IsChecked};
     		}
     		
     		/// <summary>
@@ -384,7 +410,9 @@ namespace Song.Entities {
     					this._Ol_LiveTime,
     					this._Ol_LiveSpan,
     					this._Ol_LiveID,
-    					this._Ol_ID};
+    					this._Ol_ID,
+    					this._Ol_ModifyTime,
+    					this._Ol_IsChecked};
     		}
     		
     		/// <summary>
@@ -465,6 +493,12 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ol_ID))) {
     				this._Ol_ID = reader.GetInt64(_.Ol_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Ol_ModifyTime))) {
+    				this._Ol_ModifyTime = reader.GetDateTime(_.Ol_ModifyTime);
+    			}
+    			if ((false == reader.IsDBNull(_.Ol_IsChecked))) {
+    				this._Ol_IsChecked = reader.GetBoolean(_.Ol_IsChecked);
     			}
     		}
     		
@@ -616,6 +650,16 @@ namespace Song.Entities {
     			/// 字段名：Ol_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Ol_ID = new WeiSha.Data.Field<Outline>("Ol_ID");
+    			
+    			/// <summary>
+    			/// 字段名：Ol_ModifyTime - 数据类型：DateTime
+    			/// </summary>
+    			public static WeiSha.Data.Field Ol_ModifyTime = new WeiSha.Data.Field<Outline>("Ol_ModifyTime");
+    			
+    			/// <summary>
+    			/// 字段名：Ol_IsChecked - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Ol_IsChecked = new WeiSha.Data.Field<Outline>("Ol_IsChecked");
     		}
     	}
     }

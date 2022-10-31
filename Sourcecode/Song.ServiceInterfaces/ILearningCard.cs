@@ -73,19 +73,24 @@ namespace Song.ServiceInterfaces
 
         #region 关联课程
         /// <summary>
-        /// 获取关联的课程
+        /// 获取学习卡主题所关联的课程
         /// </summary>
         /// <param name="set"></param>
         /// <returns></returns>
-        Course[] CoursesGet(LearningCardSet set);
-        Course[] CoursesGet(string xml);
+        List<Course> CoursesGet(LearningCardSet set);
+        /// <summary>
+        ///  获取学习卡主题所关联的课程
+        /// </summary>
+        /// <param name="xml"></param>
+        /// <returns></returns>
+        List<Course> CoursesGet(string xml);
         /// <summary>
         /// 学习卡关联的课程
         /// </summary>
         /// <param name="code">学习卡编码</param>
         /// <param name="pw">学习卡密码</param>
         /// <returns></returns>
-        Course[] CoursesForCard(string code, string pw);
+        List<Course> CoursesForCard(string code, string pw);
         /// <summary>
         /// 设置关联的课程
         /// </summary>
@@ -196,13 +201,11 @@ namespace Song.ServiceInterfaces
         /// 学习卡设置项下的所有学习卡
         /// </summary>
         /// <param name="orgid">所在机构id</param>
-        /// <param name="orgid">机构id</param>
         /// <param name="lcsid">学习卡设置项的id</param>
         /// <param name="isEnable">是否启用</param>
         /// <param name="isUsed">是否已经使用</param>
-        /// <param name="isUse"></param>
         /// <returns></returns>
-        LearningCard[] CardCount(int orgid, int lcsid, bool? isEnable, bool? isUsed, int count);
+        List<LearningCard> CardCount(int orgid, int lcsid, bool? isEnable, bool? isUsed, int count);
         /// <summary>
         /// 学习卡设置项下的学习卡数量
         /// </summary>

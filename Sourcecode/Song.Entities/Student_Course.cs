@@ -44,6 +44,10 @@ namespace Song.Entities {
     		
     		protected Int64 _Sts_ID;
     		
+    		protected String _Lc_Code;
+    		
+    		protected String _Lc_Pw;
+    		
     		public Int32 Stc_ID {
     			get {
     				return this._Stc_ID;
@@ -224,6 +228,26 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public String Lc_Code {
+    			get {
+    				return this._Lc_Code;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lc_Code, _Lc_Code, value);
+    				this._Lc_Code = value;
+    			}
+    		}
+    		
+    		public String Lc_Pw {
+    			get {
+    				return this._Lc_Pw;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lc_Pw, _Lc_Pw, value);
+    				this._Lc_Pw = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -268,7 +292,9 @@ namespace Song.Entities {
     					_.Stc_IsEnable,
     					_.Stc_Type,
     					_.Stc_Coupon,
-    					_.Sts_ID};
+    					_.Sts_ID,
+    					_.Lc_Code,
+    					_.Lc_Pw};
     		}
     		
     		/// <summary>
@@ -293,7 +319,9 @@ namespace Song.Entities {
     					this._Stc_IsEnable,
     					this._Stc_Type,
     					this._Stc_Coupon,
-    					this._Sts_ID};
+    					this._Sts_ID,
+    					this._Lc_Code,
+    					this._Lc_Pw};
     		}
     		
     		/// <summary>
@@ -353,6 +381,12 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Sts_ID))) {
     				this._Sts_ID = reader.GetInt64(_.Sts_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Lc_Code))) {
+    				this._Lc_Code = reader.GetString(_.Lc_Code);
+    			}
+    			if ((false == reader.IsDBNull(_.Lc_Pw))) {
+    				this._Lc_Pw = reader.GetString(_.Lc_Pw);
     			}
     		}
     		
@@ -469,6 +503,16 @@ namespace Song.Entities {
     			/// 字段名：Sts_ID - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field Sts_ID = new WeiSha.Data.Field<Student_Course>("Sts_ID");
+    			
+    			/// <summary>
+    			/// 字段名：Lc_Code - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lc_Code = new WeiSha.Data.Field<Student_Course>("Lc_Code");
+    			
+    			/// <summary>
+    			/// 字段名：Lc_Pw - 数据类型：String
+    			/// </summary>
+    			public static WeiSha.Data.Field Lc_Pw = new WeiSha.Data.Field<Student_Course>("Lc_Pw");
     		}
     	}
     }

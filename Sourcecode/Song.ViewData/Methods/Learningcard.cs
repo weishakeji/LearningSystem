@@ -71,8 +71,8 @@ namespace Song.ViewData.Methods
             Song.Entities.LearningCard card = Business.Do<ILearningCard>().CardCheck(code);
             Business.Do<ILearningCard>().CardUse(card, this.User);
             //输出关联的课程
-            Song.Entities.Course[] courses = Business.Do<ILearningCard>().CoursesForCard(card.Lc_Code, card.Lc_Pw);
-            for (int i = 0; i < courses.Length; i++)
+            List<Song.Entities.Course> courses = Business.Do<ILearningCard>().CoursesForCard(card.Lc_Code, card.Lc_Pw);
+            for (int i = 0; i < courses.Count; i++)
             {
                 Song.Entities.Course c = courses[i];
                 jarr.Add(c.Cou_Name);
@@ -218,13 +218,13 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">学习卡设置项的id</param>
         /// <returns></returns>
-        public Song.Entities.Course[] SetCourses(int id)
+        public List<Song.Entities.Course> SetCourses(int id)
         {
             Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(id);
             if (set == null) throw new Exception("设置项不存在");
-            Song.Entities.Course[] courses = Business.Do<ILearningCard>().CoursesGet(set);
+            List<Song.Entities.Course> courses = Business.Do<ILearningCard>().CoursesGet(set);
             if (courses == null) return null;
-            for (int i = 0; i < courses.Length; i++)
+            for (int i = 0; i < courses.Count; i++)
             {
                 courses[i] = _tran(courses[i]);
             }
@@ -285,10 +285,10 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="lsid">学习卡设置项的id</param>
         /// <returns></returns>
-        public Song.Entities.LearningCard[] Cards(int lsid)
+        public List<Song.Entities.LearningCard> Cards(int lsid)
         {
             //当前学习卡的编码
-            Song.Entities.LearningCard[] cards = Business.Do<ILearningCard>().CardCount(-1, lsid, null, null, -1);
+            List<Song.Entities.LearningCard> cards = Business.Do<ILearningCard>().CardCount(-1, lsid, null, null, -1);
             return cards;
         }
         /// <summary>

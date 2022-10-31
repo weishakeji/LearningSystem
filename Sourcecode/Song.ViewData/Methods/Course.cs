@@ -789,6 +789,7 @@ namespace Song.ViewData.Methods
             if (acc == null) return rate;
 
             Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);
+            //将学员组关联的课程，创建到Student_Course表（学员与课程的关联）
             if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(acc, couid);
             if (sc == null) return rate;
             if (sc.Stc_StudyScore != rate)

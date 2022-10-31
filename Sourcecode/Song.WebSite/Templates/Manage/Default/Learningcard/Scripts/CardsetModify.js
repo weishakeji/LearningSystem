@@ -162,7 +162,7 @@ $ready(function () {
                         th.entity.Lcs_Unit = '月';
                     }
                 } else {
-                    console.error(req.data.exception);                  
+                    console.error(req.data.exception);
                     th.$alert(err, '错误');
                 }
             }).catch(function (err) {
@@ -182,6 +182,8 @@ $ready(function () {
                             //如果学习时限有变化
                             if (studyspanIsChange && th.entity.Lsc_UsedCount > 0) {
                                 th.studyspan_visible = true;
+                            } else {
+                                th.sumbitEnter('Learningcard/SetModify', { 'entity': th.entity, 'scope': 1 });
                             }
                         } else {
                             //新增
