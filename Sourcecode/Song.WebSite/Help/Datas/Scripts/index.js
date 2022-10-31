@@ -165,7 +165,7 @@ Vue.component('entity', {
             this.loading = true;
             var th = this;
             $api.bat(
-                $api.post('Helper/EntityFields', { 'tablename': th.clname }), //获取字段（属性）
+                $api.get('Helper/EntityFields', { 'tablename': th.clname }), //获取字段（属性）
                 $api.get('Helper/EntityDetails', { 'name': th.clname })  //字段说明
             ).then(axios.spread(function (field, detal) {
                 if (field.data.success) th.properties = field.data.result;

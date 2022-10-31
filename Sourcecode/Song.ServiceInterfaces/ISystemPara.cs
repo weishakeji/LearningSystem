@@ -170,5 +170,11 @@ namespace Song.ServiceInterfaces
         /// <param name="tablename">表名称</param>
         /// <returns>数据列包括：name,type,length,fulltype,isnullable</returns>
         DataTable DataFields(string tablename);
+        // <summary>
+        /// 仅获取下的字段的名称，不包括类型等其它属性
+        /// </summary>
+        /// <param name="tablename">表</param>
+        /// <returns></returns>
+        List<string> DataFieldNames(string tablename);
     }
 }

@@ -280,44 +280,15 @@ namespace Song.ViewData.Methods
         /// 实体详细说明的获取
         /// </summary>       
         /// <param name="name">实体名称</param>
-        /// <param name="detail">实体的详情说明,json格式</param>
         /// <returns>返回实体详情</returns>
         [HttpGet]
         public JObject EntityDetails(string name)
         {
-            return this.EntityDetails(name, string.Empty);
-        }
-        /// <summary>
-        /// 实体详细说明的获取
-        /// </summary>       
-        /// <param name="name">实体名称</param>
-        /// <param name="detail">实体的详情说明,json格式</param>
-        /// <returns>返回实体详情</returns>
-        [Localhost]
-        [HttpPost]
-        public JObject EntityDetails(string name, string detail)
-        {
-            if (string.IsNullOrWhiteSpace(name)) return null;
-            Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
-            Type type = assembly.GetExportedTypes()
-               .Where(t => t.FullName.Substring(t.FullName.LastIndexOf(".") + 1).Equals(name, StringComparison.CurrentCultureIgnoreCase))
-                .FirstOrDefault();
-            if (type == null) return null;
-            //读取或写入
+            //return this.EntityDetails(name, string.Empty);
             string file = string.Format("{0}help\\datas\\Entitiy\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, name);
-            if (!string.IsNullOrWhiteSpace(detail))
-            {
-                using (System.IO.StreamWriter f = new System.IO.StreamWriter(file, false))
-                    f.Write(detail);
-            }
-            string details = string.Empty;
-            if (System.IO.File.Exists(file))
-                details = System.IO.File.ReadAllText(file);
-
+            string details = System.IO.File.ReadAllText(file, Encoding.UTF8);
             //获取实体和实体属性的名称
-            List<string> list = new List<string>();
-            foreach (PropertyInfo p in type.GetProperties())
-                list.Add(p.Name);
+            List<string> list = Business.Do<ISystemPara>().DataFieldNames(name);           
 
             JObject jitem = (JObject)JsonConvert.DeserializeObject(details);
             jitem = jitem == null ? new JObject() : jitem;
@@ -326,7 +297,7 @@ namespace Song.ViewData.Methods
                 bool isexist = false;
                 if (jitem.Count > 0)
                 {
-                    JToken record = jitem;
+                    JToken record = jitem;                    
                     foreach (JProperty jp in record)
                     {
                         if (jp.Name.Equals(entity, StringComparison.OrdinalIgnoreCase))
@@ -345,10 +316,27 @@ namespace Song.ViewData.Methods
                     jitem.Add(entity, obj);
                 }
             }
-            return jitem;
-            //details = JsonConvert.SerializeObject(jitem);
-            //return details;
+            return jitem;          
         }
+        /// <summary>
+        /// 实体详细说明的获取
+        /// </summary>       
+        /// <param name="name">实体名称</param>
+        /// <param name="detail">实体的详情说明,json格式</param>
+        /// <returns>返回实体详情</returns>
+        [Localhost]
+        [HttpPost]
+        public bool EntityDetails(string name, string detail)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return false;           
+            string file = string.Format("{0}help\\datas\\Entitiy\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, name);
+            if (!string.IsNullOrWhiteSpace(detail))
+            {
+                using (System.IO.StreamWriter f = new System.IO.StreamWriter(file, false))
+                    f.Write(detail);
+            }
+            return true;            
+       }
         #endregion
 
         #region 生成验证码

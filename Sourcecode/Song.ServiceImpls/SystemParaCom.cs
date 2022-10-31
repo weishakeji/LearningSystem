@@ -459,6 +459,26 @@ namespace Song.ServiceImpls
             }
             return dt;
         }
+        /// <summary>
+        /// 仅获取下的字段的名称，不包括类型等其它属性
+        /// </summary>
+        /// <param name="tablename">表</param>
+        /// <returns></returns>
+        public List<string> DataFieldNames(string tablename)
+        {
+            if (string.IsNullOrWhiteSpace(tablename)) return null;
+            string sql = @"SELECT name FROM syscolumns WHERE id = OBJECT_ID('{{tablename}}')";
+            sql = sql.Replace("{{tablename}}", tablename.Trim());
+            using (SourceReader reader = Gateway.Default.FromSql(sql).ToReader())
+            {
+                List<string> list = new List<string>();
+                while (reader.Read())
+                    list.Add(reader.GetValue<string>(0));
+                reader.Close();
+                reader.Dispose();
+                return list;
+            }           
+        }
         #region IEnumerable 成员
 
         /// <summary>
