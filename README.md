@@ -10,6 +10,8 @@
 ## 商务合作 - 承接定制开发 期待合作
 ##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-10522779-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=10522779)
 
+> “安装文件”是编译之后的程序，可以直接部署，存储在百度云盘，提取码：xekq。
+
 > “Document/商务文档”文件夹中提供了演示PPT、建设方案、功能清单等文档，方便大家在洽商项目时使用。
 
 >  **所有的版权信息都可以修改** ，程序中涉及版权的信息全部引用自“/Sourcecode/Song.WebSite/copyright.weisha”文件，也可以在超级管理员的管理界面的左上方“/帮助/版权信息”里通过可视化界面修改。
@@ -20,12 +22,15 @@
  * web端采用ElementUI，手机端采用VantUI，管理后台采用WebdeskUI
 
 ## 源码库说明
- * “Sourcecode”文件夹为源码库，其中Song.WebSite项目为启动项目，更多说明请进入“Sourcecode”文件夹查看README.md；
+ * “Sourcecode”文件夹为源码库，其中Song.WebSite项目为启动项目，更多说明请进入“[Sourcecode](https://gitee.com/weishakeji/LearningSystem/tree/master/Sourcecode) ”文件夹查看README.md；
  * “DbScripts”文件夹中是数据库脚本，其中script.sql为完整数据库脚本，第一次部署时使用；其它脚本多为升级脚本；
  * “Document”文件夹中是一些相关文档，例如演示PPT、建设方案等；
->2.0仍在开发中，近期发布正式版，需要稳定版本的请下载1.0版本
+
+![](https://img.shields.io/badge/version-%E9%87%8D%E8%A6%81%E6%8F%90%E7%A4%BA-red)
+
+>2.0仍在开发中，当前处于公测阶段，近期会发布正式版，需要稳定版本的请下载1.0版本
 <br/><a href="https://gitee.com/weishakeji/learningsystem_v1" target="_blank">https://gitee.com/weishakeji/learningsystem_v1</a> 
-（注意：2.0并不是1.0的升级，而是重构，1.0升级到2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
+<br/>注意：2.0并不是1.0的升级，而是重构，1.0升级到2.0后可以保留原有数据，但两者的代码差别非常大，如果要二次开发，请在2.0版本基础上开发）
 
 ## 演示信息
  * [ http://www.weisha100.cn]( http://www.weisha100.cn) 
