@@ -89,7 +89,7 @@ Vue.component('student_batch', {
         'query_valid': function () {
             var c = 0;
             for (var i = 0; i < this.datas.length; i++) {
-                if (this.datas[i].state == 1) {
+                if (this.datas[i].state == 1 && this.datas[i].account.Ac_IsUse) {
                     c++;
                 }
             }
@@ -110,11 +110,12 @@ Vue.component('student_batch', {
             this.$emit('addsingle', acc);
         },
         //批量添加
-        batch_add: function () {          
-            var list=[];
+        batch_add: function () {
+            var list = [];
             for (let i = 0; i < this.datas.length; i++) {
-                list.push(this.datas[i].account);                
-            }          
+                if (this.datas[i].account.Ac_IsUse)
+                    list.push(this.datas[i].account);
+            }
             this.$emit('addbatch', list);
         }
     },
@@ -253,6 +254,6 @@ Vue.component('student_batch_getaccount', {
             {{data.Ac_Name}}
             <span v-if="!data.Ac_IsUse">（已经禁用）</span>
         </span>
-        <icon v-html="'&#x'+add_icon" class="add_btn" @click="btnClick(data)"></icon>
+        <icon v-if="state==1 && data.Ac_IsUse" v-html="'&#x'+add_icon" class="add_btn" @click="btnClick(data)"></icon>
     </span> `
 });
