@@ -44,7 +44,7 @@
 
         },
         computed: {
-          
+
         },
         methods: {
             //删除
@@ -65,7 +65,7 @@
                 }).catch(function (err) {
                     alert(err);
                 });
-            },            
+            },
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
@@ -103,7 +103,7 @@
             changeUse: function (row) {
                 var th = this;
                 this.loadingid = row.Lcs_ID;
-                $api.post('Learningcard/SetModify', { 'entity': row }).then(function (req) {
+                $api.post('Learningcard/SetModify', { 'entity': row, 'scope': 1 }).then(function (req) {
                     if (req.data.success) {
                         vue.$notify({
                             type: 'success',

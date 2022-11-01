@@ -39,20 +39,21 @@
 
         },
         created: function () {
+            var th = this;
             this.form.lsid = $api.querystring('id');
-            this.cardsetLoading = true;
-            $api.get('Learningcard/SetForID', { 'id': this.form.lsid }).then(function (req) {
+            th.cardsetLoading = true;
+            $api.get('Learningcard/SetForID', { 'id': th.form.lsid }).then(function (req) {
+                th.cardsetLoading = false;
                 if (req.data.success) {
-                    vue.cardset = req.data.result;
-                    vue.cardset.courses = [];
+                    th.cardset = req.data.result;
+                    th.cardset.courses = [];
                     $api.get('Learningcard/SetCourses', { 'id': vue.form.lsid }).then(function (req) {
                         if (req.data.success) {
-                            vue.cardset.courses = [];
-                            vue.cardset['courses'] = req.data.result;
-                            vue.cardsetLoading = false;
+                            th.cardset.courses = [];
+                            th.cardset['courses'] = req.data.result;                           
                         }
                     }).catch(function (err) {
-                        alert(err);
+                        th.$alert(err);
                         console.error(err);
                     });
                 } else {
@@ -60,7 +61,8 @@
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                alert(err);
+                th.$alert(err);
+                th.cardsetLoading = false;
                 console.error(err);
             });
             this.handleCurrentChange();
@@ -175,7 +177,7 @@
                     full: true,
                     id: boxid,
                     pid: window.name,
-                    ico:'a053',
+                    ico: 'a053',
                     url: url + '?id=' + $api.querystring('id')
                 });
                 //parent.full = true;
@@ -199,7 +201,7 @@
                     resize: true,
                     id: boxid,
                     pid: window.name,
-                    ico:'e60f',
+                    ico: 'e60f',
                     url: url + '?id=' + $api.querystring('id')
                 });
                 box.title = '学习卡“' + this.cardset.Lcs_Theme + "”导出Excel";

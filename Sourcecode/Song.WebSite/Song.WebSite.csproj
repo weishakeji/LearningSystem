@@ -410,6 +410,9 @@
     <Content Include="Pay\Alipayweb\notify_url.aspx" />
     <Content Include="Pay\Alipayweb\return_url.aspx" />
     <Content Include="Templates\Manage\Default\Images\favicon.gif" />
+    <Content Include="Templates\Manage\Default\Learningcard\BatchDistribution.html" />
+    <Content Include="Templates\Manage\Default\Learningcard\Scripts\BatchDistribution.js" />
+    <Content Include="Templates\Manage\Default\Learningcard\Styles\BatchDistribution.css" />
     <Content Include="Templates\Mobi\Default\Account\Components\exam_test.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\outline_tree.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\course_menus.js" />
@@ -1239,7 +1242,9 @@
     <Content Include="Templates\Web\Default\Viewport\Index.html" />
     <Content Include="Templates\Web\Default\Viewport\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Viewport\Styles\Index.css" />
+    <Content Include="Utilities\Components\student_batch.js" />
     <Content Include="Utilities\Components\sbj_cascader.js" />
+    <Content Include="Utilities\Components\Styles\student_batch.css" />
     <Content Include="Utilities\Components\Styles\sbj_cascader.css" />
     <Content Include="Utilities\Components\Styles\icons.css" />
     <Content Include="Utilities\Components\Styles\useicon.css" />

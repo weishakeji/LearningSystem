@@ -193,6 +193,7 @@ namespace Song.ServiceImpls
                                 && Student_Course._.Lc_Pw == card.Lc_Pw);
                         }
                     }
+                    tran.Commit();
                     //添加的课程
                     foreach (LearningCard card in cards)
                     {
@@ -202,8 +203,7 @@ namespace Song.ServiceImpls
                         {
                             this.CardUse(card, acc, curr, c);
                         }                           
-                    }                       
-                    tran.Commit();
+                    } 
                 }
                 catch (Exception ex)
                 {

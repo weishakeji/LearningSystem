@@ -71,6 +71,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="数量" width="120">
+                    <div slot="header" style="text-align: center;">数量</div>
                     <template slot-scope="scope">
                         <span title="已经使用" class="usedCount">{{scope.row.Lsc_UsedCount}}</span> / <span title="总数"
                             class="sumCount">{{scope.row.Lcs_Count}}</span>
@@ -83,10 +84,42 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="有效期">
+                    <template slot="header">
+                        <el-tooltip placement="bottom" effect="light">
+                            <help>有效期</help>
+                            <div slot="content">
+                                有效期指学习卡可以使用的时限<br />
+                                在有效期内使用学习卡<br />即可从使用那一刻起拥课程的学习时长</div>
+
+                        </el-tooltip>
+                    </template>
                     <template slot-scope="scope">
                         {{scope.row.Lcs_LimitStart|date('yyyy-MM-dd')}}
                         至
                         {{scope.row.Lcs_LimitEnd|date('yyyy-MM-dd')}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="学习时长" width="100">
+                    <template slot="header">
+                        <el-tooltip placement="bottom" effect="light">
+                            <help>学习时长</help>
+                            <div slot="content">
+                                学习卡使后，其关联课程能够允许学习的时长<br />
+                                这个时长和学习卡的“有效期”没有关系</div>
+
+                        </el-tooltip>
+                    </template>
+                    <template slot-scope="scope">
+                        {{scope.row.Lcs_Span}}
+                        <span v-if="scope.row.Lcs_Unit=='月'">个</span>
+                        {{scope.row.Lcs_Unit}}
+                    </template>
+                </el-table-column>
+                <el-table-column label="启用" width="100">
+                    <template slot-scope="scope">
+                        <el-switch v-model="scope.row.Lcs_IsEnable" size="mini" active-text="启用"
+                            @change="changeUse(scope.row)" v-show="loadingid!=scope.row.Lcs_ID">
+                        </el-switch>
                     </template>
                 </el-table-column>
 
@@ -98,28 +131,35 @@
                                 管理<i class="el-icon-arrow-down el-icon--right"></i>
                             </span>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item icon="el-icon-view"> <span
+                                <el-dropdown-item>
+                                    <span icon="&#xe685"
                                         @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">
-                                        查看学习卡
+                                        卡号管理
                                     </span>
                                 </el-dropdown-item>
-                                <el-dropdown-item icon="el-icon-position" @click.native="outputExcel(scope.row)">导出Excel
+                                <el-dropdown-item>
+                                    <span icon="&#xa04d"
+                                        @click="$refs.btngroup.pagebox('BatchDistribution?id='+scope.row.Lcs_ID,' - 批量派发“'+scope.row.Lcs_Theme+'”的卡号',null,'900','80%')">
+                                        批量派发
+                                    </span>
                                 </el-dropdown-item>
-                                <el-dropdown-item icon="el-icon-position" @click.native="outputQrCode(scope.row)">导出二维码
+                                <el-divider></el-divider>
+                                <el-dropdown-item @click.native="outputExcel(scope.row)">
+                                    <span icon="&#xe85e">导出Excel</span>
                                 </el-dropdown-item>
-                                <el-dropdown-item icon="el-icon-refresh-left" @click.native="batGoback(scope.row)">
-                                    批量回滚
+                                <el-dropdown-item @click.native="outputQrCode(scope.row)">
+                                    <span icon="&#xa053">导出二维码</span>
                                 </el-dropdown-item>
-                                <el-dropdown-item icon="el-icon">
-                                    <el-switch v-model="scope.row.Lcs_IsEnable" size="mini" active-text="启用"
-                                        @change="changeUse(scope.row)" v-show="loadingid!=scope.row.Lcs_ID">
-                                    </el-switch>
+                                <el-dropdown-item @click.native="batGoback(scope.row)">
+                                    <span icon="&#xf007c"> 批量回滚 </span>
                                 </el-dropdown-item>
-
+                                <el-divider></el-divider>
                                 <el-dropdown-item divided type="danger" icon="el-icon-edit" style="color:#409EFF"
                                     @click.native='$refs.btngroup.modifyrow(scope.row)'>
                                     修改
                                 </el-dropdown-item>
+
+
                                 <el-dropdown-item type="danger" icon="el-icon-delete" style="color:#F56C6C"
                                     @click.native='$refs.btngroup.delete(scope.row.Lcs_ID,{})'>
                                     删除

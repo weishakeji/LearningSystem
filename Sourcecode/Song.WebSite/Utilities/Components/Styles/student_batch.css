@@ -1,0 +1,83 @@
+﻿@charset "utf-8";
+
+.student_batch {
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    min-width: 400px;
+    position: relative;
+}
+
+.student_batch .first_intro {
+    font-size: 16px;
+    line-height: 40px;
+    display: flex;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.student_batch .first_intro>*:first-child {
+    white-space: nowrap;
+}
+
+.student_batch .first_intro>*:last-child {
+    flex: 1;
+    display: flex;
+}
+
+.student_batch .first_intro>*:last-child>* {
+    flex: 1;
+}
+
+.student_batch .first_intro>*:last-child label span {
+    width: 100%;
+}
+
+.student_batch .el-radio-group icon {
+    font-size: 18px;
+}
+
+.student_batch .first_intro .is-disabled[aria-checked=true] span {
+    background-color: #66b1ff;
+}
+
+/*输入内容区*/
+.student_batch .inputText {
+    height: calc(100% - 95px);
+}
+
+.student_batch .inputText .el-textarea, .student_batch textarea {
+    height: 100%;
+    width: 100%;
+}
+
+.student_batch .el-table {
+    height: 100%;
+    width: 100%;
+}
+
+/*底部按钮区*/
+.student_batch .buttons_area {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+    box-sizing: border-box;
+    padding: 10px;
+    display: flex;
+}
+
+.student_batch .buttons_area>* {
+    flex: 1;
+}
+
+.student_batch .add_btn {
+    float: right;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 1s;
+}
+
+.student_batch .add_btn:hover {
+    font-size: 20px;
+}
