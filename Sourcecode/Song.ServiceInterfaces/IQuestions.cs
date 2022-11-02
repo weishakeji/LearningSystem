@@ -172,11 +172,12 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="orgid">所属机构id</param>
         /// <param name="type">试题类型</param>
-        /// <param name="sbjId">专业id</param>
+        /// <param name="sbjid"></param>
         /// <param name="couid">课程Id</param>
         /// <param name="olid">章节id</param>
         /// <param name="isUse"></param>
         /// <param name="isError"></param>
+        /// <param name="isWrong"></param>
         /// <param name="diff">难度等</param>
         /// <param name="searTxt"></param>
         /// <param name="size"></param>

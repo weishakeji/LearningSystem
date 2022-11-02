@@ -102,8 +102,6 @@ namespace Song.ServiceImpls
                 for (int i = 0; i < ansItem.Count; i++)
                 {
                     //添加随机的选择项id
-                    //Random rd = new Random((i + 1) * DateTime.Now.Millisecond);
-                    //ansItem[i].Ans_ID = rd.Next(1, 1000);
                     ansItem[i].Ans_ID = WeiSha.Core.Request.SnowID();
                     //如果有试题id，则加上，好像也无所谓
                     if (entity.Qus_ID > 0) ansItem[i].Qus_ID = entity.Qus_ID;
