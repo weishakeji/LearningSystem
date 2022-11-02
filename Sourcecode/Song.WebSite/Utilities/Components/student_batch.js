@@ -8,6 +8,11 @@ Vue.component('student_batch', {
     props: ['bathadd_text', 'add_icon', 'orgid'],
     data: function () {
         return {
+            /*查询完成后的数组，数组项                  
+            {account: Object学员对象
+            state: 1        状态，-1为初始，1为完成查询
+            text: '录入的信息，例如身份证号'}
+            */
             datas: [],
             search_type: 'card',    //检索类型，账号acc,身份证card，手机mobi
 
@@ -79,9 +84,7 @@ Vue.component('student_batch', {
         'query_complete': function () {
             var c = 0;
             for (var i = 0; i < this.datas.length; i++) {
-                if (this.datas[i].state != -1) {
-                    c++;
-                }
+                if (this.datas[i].state != -1) c++;
             }
             return c;
         },
@@ -95,28 +98,12 @@ Vue.component('student_batch', {
             }
             return c;
         },
-        //显示全屏Loading
-        showloading: function () {
-            return this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(255, 255, 255, 0.3)'
-            });
-        },
-        //单个学员的操作
-        single_add: function (acc) {
-            //console.log(acc);
-            this.$emit('addsingle', acc);
-        },
         //批量添加
         batch_add: function () {
             var list = [];
-            for (let i = 0; i < this.datas.length; i++) {
-                if (this.datas[i].account.Ac_IsUse)
-                    list.push(this.datas[i].account);
-            }
-            this.$emit('addbatch', list);
+            var arr = this.datas.filter(x => x.state == 1 && x.account.Ac_IsUse);
+            arr.forEach(el => { list.push(el.account); });
+            this.$emit('add', list);
         }
     },
     //
@@ -155,7 +142,7 @@ Vue.component('student_batch', {
                             查询完成{{query_complete()}}条，有效{{query_valid()}}条
                         </template>
                         <template slot-scope="scope">
-                            <student_batch_getaccount :item="scope.row" :text="scope.row.text" @add="single_add"
+                            <student_batch_getaccount :item="scope.row" :text="scope.row.text" @add="(s)=>{$emit('add', [s])}"
                             :type="search_type" :add_icon="add_icon">
                             </student_batch_getaccount>
                         </template>
@@ -170,7 +157,7 @@ Vue.component('student_batch', {
                     <el-button type="primary" plain  @click="operstatus=1">
                         <icon>&#xe727</icon>继续编辑内容
                     </el-button>
-                    <el-button type="primary" plain @click="batch_add()">
+                    <el-button type="primary" plain @click="batch_add()" :disabled="query_complete()!=datas.length || query_valid()<=0">
                         <icon>&#xa048</icon>
                         <span v-if="bathadd_text" v-html="bathadd_text"></span>
                         <span v-else>全部添加</span>
@@ -248,9 +235,9 @@ Vue.component('student_batch_getaccount', {
         <span v-if="state==-1" class="el-icon-loading"></span>
         <span v-if="state==0"><el-tag type="info">不存在</el-tag></span>
         <span v-if="state==1"  :class="{'woman': data.Ac_Sex==2,'disable':!data.Ac_IsUse}">
-            <icon v-if="data.Ac_Sex==2" title="女性">&#xe844</icon>
-            <icon v-if="data.Ac_Sex==1" title="男性">&#xe645</icon>
-            <icon v-if="data.Ac_Sex==0" title="性别未知">&#xa043</icon>
+            <icon v-if="data.Ac_Sex==2" woman title="女性"></icon>
+            <icon v-if="data.Ac_Sex==1"  man title="男性"></icon>
+            <icon v-if="data.Ac_Sex==0" man title="性别未知"></icon>
             {{data.Ac_Name}}
             <span v-if="!data.Ac_IsUse">（已经禁用）</span>
         </span>

@@ -47,7 +47,12 @@ a {
     text-decoration: none;
     color: black;
 }
-
+.large {
+	line-height: 24px;
+}
+.large a, .large span{
+    line-height: 24px !important;
+}
 /*拖动柄*/
 
 .draghandle {

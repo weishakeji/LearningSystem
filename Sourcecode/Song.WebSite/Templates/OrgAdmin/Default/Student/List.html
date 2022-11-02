@@ -51,15 +51,15 @@
                 <el-table-column label="姓名/电话" width="260">
                     <template slot-scope="scope">
                         <avatar :account="scope.row" circle="true" size="45"></avatar>
-                        <div :class="{'woman': scope.row.Ac_Sex==2,'large':true}">
-                            <icon v-if="scope.row.Ac_Sex==2" title="女性">&#xe844</icon>
-                            <icon v-if="scope.row.Ac_Sex==1" title="男性">&#xe645</icon>
-                            <icon v-if="scope.row.Ac_Sex==0" title="性别未知">&#xa043</icon>
-                            <span v-html='showInfo(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"></span>
-                            <span v-else class="noname">(没有名字)</span>
+                        <div :class="{'woman': scope.row.Ac_Sex==2,'large':true}">                          
+                            <icon :woman="scope.row.Ac_Sex==2" :man="scope.row.Ac_Sex!=2">
+                                <span v-html='showInfo(scope.row.Ac_Name,form.name)'
+                                    v-if="scope.row.Ac_Name!=''"></span>
+                                <span v-else class="noname">(没有名字)</span>
+                            </icon>
                             <el-tag type="warning" v-if="!scope.row.Ac_IsPass">未审核</el-tag>
                             <div remark="电话">
-                                <icon>&#xe677</icon>
+                                <icon mobile></icon>
                                 <span v-html='showInfo(scope.row.Ac_MobiTel1,form.phone)'></span>
                                 <span
                                     v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1">/</span>

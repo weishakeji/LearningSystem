@@ -125,15 +125,19 @@ icon[mobile]::before {
 }
 
 /*男性*/
-*[icon=man]::before {
-    content: '\e645';
-    color: rgb(3, 71, 71);
+icon[man] {
+    color: rgb(73 128 210);
 }
-
+icon[man]::before {
+    content: '\e645';
+    color: rgb(73 128 210);
+}
 /*女性*/
-*[icon=woman]::before {
-    content: '\e647';
+icon[woman] {
     color: rgb(248, 87, 87);
+}
+icon[woman]::before {
+    content: '\e647';  
 }
 
 

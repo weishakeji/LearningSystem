@@ -644,12 +644,12 @@ namespace Song.ServiceImpls
         /// <param name="card">学习卡</param>
         /// <param name="acc">学员账号</param>
         public void CardUse(LearningCard card, Accounts acc)
-        {        
+        {           
             LearningCardSet set = this.SetSingle(card.Lcs_ID);
             if (set == null || set.Lcs_IsEnable == false) throw new Exception("该学习卡不可使用");
             //是否过期
             if (!(DateTime.Now > card.Lc_LimitStart && DateTime.Now < card.Lc_LimitEnd.Date.AddDays(1)))
-                throw new Exception("该学习卡已经过期");
+                throw new Exception(string.Format("该学习卡已经过期 code:{0} - {1}", card.Lc_Code, card.Lc_Pw));
             //设置学习卡的使用信息
             card.Lc_UsedTime = DateTime.Now;
             card.Lc_State = 1;    //状态，0为初始，1为使用，-1为回滚
@@ -726,7 +726,8 @@ namespace Song.ServiceImpls
                     tran.Save<LearningCardSet>(set);
                     //标注学习卡已经使用
                     card.Lc_IsUsed = true;
-                    card.Lc_Span = span;  //记录学习卡使后，增加的学习时间（单位：天），方便回滚扣除                    
+                    card.Lc_Span = span;  //记录学习卡使后，增加的学习时间（单位：天），方便回滚扣除      
+                    card.Attach();
                     tran.Save<LearningCard>(card);
                     tran.Commit();
                 }

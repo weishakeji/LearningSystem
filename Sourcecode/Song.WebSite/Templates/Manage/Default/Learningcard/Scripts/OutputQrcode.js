@@ -50,7 +50,7 @@
             $api.bat(
                 $api.get('Learningcard/SetForID', { 'id': this.id }),
                 $api.get('Learningcard/SetCourses', { 'id': this.id }),
-                $api.get('Learningcard/Cards', { 'lsid': this.id })
+                $api.get('Learningcard/Cards', { 'lsid': this.id, 'enable': '', 'used': '' })
             ).then(axios.spread(function (cardset, courses, cards) {
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {

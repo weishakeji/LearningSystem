@@ -15,15 +15,12 @@
 	height: 48px;
 	float: left;
 	line-height: 24px;
-	overflow: hidden;
-	color: rgb(72, 127, 210);
+	overflow: hidden;	
 }
-
-.woman {
-	color: rgb(240, 104, 117);
+icon[mobile], icon[mobile]::before {
+	margin-right: 0px !important;
 }
-
-.tearch::before {
+icon[tearch]::before {
 	color: rgb(3, 167, 3);
 	margin: 0px;
 }

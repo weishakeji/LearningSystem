@@ -80,6 +80,19 @@ namespace Song.ViewData.Methods
             return jarr;
         }
         /// <summary>
+        /// 使用学习卡，指定学习卡实体和学员账号实体
+        /// </summary>
+        /// <param name="card">学习卡的数据实体</param>
+        /// <param name="account">账号的数据实体</param>
+        /// <returns></returns>
+        [HttpPost,HttpGet(Ignore =true) ]
+        [Admin]
+        public bool UseCode(LearningCard card, Accounts account)
+        {
+            Business.Do<ILearningCard>().CardUse(card, account);
+            return true;
+        }
+        /// <summary>
         /// 收下学习卡（可以暂时收入学习卡，之后再使用）
         /// </summary>
         /// <param name="code">卡号-密码</param>
@@ -248,6 +261,7 @@ namespace Song.ViewData.Methods
             jo.Add("used", used);
             jo.Add("rollbak", rollback);
             jo.Add("disable", disable);
+            jo.Add("usable", count - used - disable);
             return jo;
         }
         #endregion
@@ -283,12 +297,14 @@ namespace Song.ViewData.Methods
         /// <summary>
         /// 某个设置项下的所有学习卡
         /// </summary>
-        /// <param name="lsid">学习卡设置项的id</param>
+        /// <param name="lsid">学习卡设置项(或叫主题）的id</param>
+        /// <param name="enable">是否启用,null取所有</param>
+        /// <param name="used">是否是使用过的,null取所有</param>
         /// <returns></returns>
-        public List<Song.Entities.LearningCard> Cards(int lsid)
+        public List<Song.Entities.LearningCard> Cards(int lsid, bool? enable, bool? used)
         {
             //当前学习卡的编码
-            List<Song.Entities.LearningCard> cards = Business.Do<ILearningCard>().CardCount(-1, lsid, null, null, -1);
+            List<Song.Entities.LearningCard> cards = Business.Do<ILearningCard>().CardCount(-1, lsid, enable, used, -1);
             return cards;
         }
         /// <summary>

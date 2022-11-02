@@ -60,7 +60,7 @@
                         <el-link :type="scope.row.Lcs_IsEnable ? 'primary' :'info'" title="点击查看学习卡"
                             @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">
                             <span class="el-icon-open enable" v-if="scope.row.Lcs_IsEnable"></span>
-                            <span class="el-icon-turn-off disable" v-if="!scope.row.Lcs_IsEnable"></span> <span
+                            <span class="el-icon-turn-off disable" v-if="!scope.row.Lcs_IsEnable"></span> <span class="large"
                                 v-html="showInfo(scope.row.Lcs_Theme)"></span>
                         </el-link>
                     </template>
@@ -139,7 +139,7 @@
                                 </el-dropdown-item>
                                 <el-dropdown-item>
                                     <span icon="&#xa04d"
-                                        @click="$refs.btngroup.pagebox('BatchDistribution?id='+scope.row.Lcs_ID,' - 批量派发“'+scope.row.Lcs_Theme+'”的卡号',null,'900','80%')">
+                                        @click="$refs.btngroup.pagebox('BatchDistribution?id='+scope.row.Lcs_ID,' - 批量派发“'+scope.row.Lcs_Theme+'”的卡号',null,'1000','80%')">
                                         批量派发
                                     </span>
                                 </el-dropdown-item>

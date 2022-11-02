@@ -71,8 +71,9 @@
     flex: 1;
 }
 
-.student_batch .add_btn {
+.student_batch icon.add_btn {
     float: right;
+    margin-right: 8px;
     font-size: 18px;
     cursor: pointer;
     transition: all 1s;
