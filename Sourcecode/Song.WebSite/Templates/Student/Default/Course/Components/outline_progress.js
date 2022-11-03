@@ -29,7 +29,7 @@ Vue.component('outline_progress', {
             if (this.data.complete) {
                 var percent = Number(this.data.complete);
                 percent = isNaN(percent) ? 0 : percent;
-                //console.log(percent);
+                percent = Math.floor(percent * 100) / 100;
                 return percent;
             }
             return 0;

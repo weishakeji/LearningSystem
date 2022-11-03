@@ -784,8 +784,7 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public double LogForVideoRecord(int acid, long couid, double rate)
         {
-            Song.Entities.Accounts acc = this.User;
-            if (acc == null) acc = Business.Do<IAccounts>().AccountsSingle(acid);
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(acid);
             if (acc == null) return rate;
 
             Student_Course sc = Business.Do<ICourse>().StudentCourse(acid, couid);

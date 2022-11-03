@@ -278,7 +278,7 @@ price {
 	float: left;
 	margin-left: 10px;
 	color: #fff;
-
+	margin-top: 3px;
 }
 
 .el-progress-bar__inner {

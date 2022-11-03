@@ -146,15 +146,16 @@ namespace Song.ViewData
             //时效
             DateTime exp = DateTime.Now.AddMinutes(expires > 0 ? expires : 10);
             //userAgent
-            string ua = string.Empty;
-            if (WeiSha.Core.Server.IsLocalIP) { ua = letter.HTTP_HOST; }
-            else
-            {
-                if (exp.Millisecond / 2 == 0)
-                    ua = letter.UserAgent.Substring(letter.UserAgent.Length - 20);
-                if (exp.Millisecond / 2 == 1)
-                    ua = letter.Browser;
-            }       
+            string ua = letter.HTTP_HOST;
+            //string ua = string.Empty;
+            //if (WeiSha.Core.Server.IsLocalIP) { ua = letter.HTTP_HOST; }
+            //else
+            //{
+            //    if (exp.Millisecond / 2 == 0)
+            //        ua = letter.UserAgent.Substring(letter.UserAgent.Length - 20);
+            //    if (exp.Millisecond / 2 == 1)
+            //        ua = letter.Browser;
+            //}       
             checkcode = string.Format(checkcode, accid, role, exp.ToString("yyyy-MM-dd HH:mm:ss"), uid, ua);
             //加密         
             checkcode = WeiSha.Core.DataConvert.EncryptForDES(checkcode, secretkey);
@@ -255,15 +256,16 @@ namespace Song.ViewData
             DateTime exp = Convert.ToDateTime(status[2]);
             if (exp < DateTime.Now) return null;
             //判断浏览器userAgent
-            string ua = string.Empty;
-            if (WeiSha.Core.Server.IsLocalIP) { ua = letter.HTTP_HOST; }
-            else
-            {
-                if (exp.Millisecond / 2 == 0)
-                    ua = letter.UserAgent.Substring(letter.UserAgent.Length - 20);
-                if (exp.Millisecond / 2 == 1)
-                    ua = letter.Browser;
-            }
+            string ua = letter.HTTP_HOST;
+            //string ua = string.Empty;
+            //if (WeiSha.Core.Server.IsLocalIP) { ua = letter.HTTP_HOST; }
+            //else
+            //{
+            //    if (exp.Millisecond / 2 == 0)
+            //        ua = letter.UserAgent.Substring(letter.UserAgent.Length - 20);
+            //    if (exp.Millisecond / 2 == 1)
+            //        ua = letter.Browser;
+            //}
             if (status == null || status.Length < 4) return null;
             if (!ua.Equals(status[4])) return null;
 

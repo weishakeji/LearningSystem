@@ -37,7 +37,7 @@ Vue.component('video_progress', {
             handler: function (nv, ov) {
                 if (nv == null) return;
                 //如果实时计算的学习进度，大于购买记录中的，则记录在购买记录中
-                if (nv.complete > this.purchase.Stc_StudyScore) {
+                if (nv.complete && nv.complete != this.purchase.Stc_StudyScore) {
                     var th = this;
                     $api.get('Course/LogForVideoRecord', { 'acid': th.stid, 'couid': th.course.Cou_ID, 'rate': nv.complete })
                         .then(function (req) {
@@ -70,7 +70,8 @@ Vue.component('video_progress', {
         //完成度，加了容差之后的
         'progress': function () {
             this.percent = this.ispurchase ? this.purchase.Stc_StudyScore : 0;
-            return this.percent + this.tolerance >= 100 ? 100 : this.percent;
+            this.percent = (this.percent + this.tolerance) >= 100 ? 100 : this.percent;
+            return Math.round(this.percent * 100) / 100;
         },
         //是否有购买记录
         ispurchase: function () {

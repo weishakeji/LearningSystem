@@ -197,8 +197,16 @@ namespace Song.ViewData.Methods
                 {
                     if (m.Ol_PID != item.Ol_ID) continue;
                 }
-                string j = m.ToJson("", "Ol_LiveTime");
-                JObject jo = JObject.Parse(j);
+                string j = m.ToJson("", "Ol_LiveTime,Ol_ModifyTime");
+                JObject jo;
+                try
+                {
+                    jo = JObject.Parse(j);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
                 jarr.Add(jo);
                 //计算下级
                 JArray charray = _outlineNode(m, items);
