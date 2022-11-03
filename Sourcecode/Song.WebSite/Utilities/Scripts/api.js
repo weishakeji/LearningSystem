@@ -995,11 +995,11 @@
             new Promise(function (resolve, reject) {
                 var request = th.indexedDB.open(th.dbname);
                 if (request.readyState == "pending") {
-                    var err = th.error(-4, 'pending', request, '数据库"' + th.dbname + '"进行中(pending)', th.dbname, 1);
+                    var err = th.error(-4, 'pending', request, '本地数据库"' + th.dbname + '"进行中(pending)', th.dbname, 1);
                     //reject(err);
                 }
                 request.onerror = function (event) {
-                    var err = th.error(-2, 'onerror', event.target, '数据库"' + th.dbname + '"打开失败', th.dbname, 1);
+                    var err = th.error(-2, 'onerror', event.target, '本地数据库"' + th.dbname + '"打开失败', th.dbname, 1);
                     reject(err);
                 };
                 request.onblocked = function (event) {
@@ -1039,16 +1039,16 @@
                 var request = window.indexedDB.open(th.dbname);
                 if (request.readyState == "pending") {
                     var err = th.error(-4, 'pending', request,
-                        '数据库"' + th.dbname + '"进行中(pending),' + way + '没有获取到数据',
+                        '本地数据库"' + th.dbname + '"进行中(pending),' + way + '没有获取到数据',
                         th.dbname, 1);
                     //reject(err);
                 }
                 request.onerror = function (event) {
-                    var err = th.error(-2, 'onerror', event.target, '数据库"' + th.dbname + '"打开失败', th.dbname, p.store);
+                    var err = th.error(-2, 'onerror', event.target, '本地数据库"' + th.dbname + '"打开失败', th.dbname, p.store);
                     reject(err);
                 };
                 request.onblocked = function (event) {
-                    var err = th.error(-3, 'onblocked', '数据库"' + p.store + '"被占用', th.dbname, p.store);
+                    var err = th.error(-3, 'onblocked', '本地数据库"' + p.store + '"被占用', th.dbname, p.store);
                     reject(err);
                 };
                 request.onsuccess = function (event) {
@@ -1079,7 +1079,7 @@
                         transaction.oncomplete = function (event) {
                             if (!result) {
                                 var err = th.error(0, 'oncomplete',
-                                    event.target, '数据项"' + p.store + ':' + JSON.stringify(p.para) + '"不存在', db,
+                                    event.target, '本地数据库的数据项"' + p.store + ':' + JSON.stringify(p.para) + '"不存在', db,
                                     {
                                         store: p.store,
                                         keyid: p.valuekeyid
@@ -1096,9 +1096,9 @@
                     }
                 };
                 setTimeout(function () {
-                    var err = th.error(-3, 'timeout', '数据库"' + p.store + '"执行超时', th.dbname, p.store);
+                    var err = th.error(-3, 'timeout', p.store, '本地数据库"' + p.store + '"执行超时', th.dbname, p.store);
                     reject(err);
-                }, 500);
+                }, 200);
             });
         },
         del: function (way, para) {
@@ -1109,7 +1109,7 @@
                 request.onsuccess = function (event) {
                     var db = event.target.result;
                     if (!db.objectStoreNames.contains(p.store)) {
-                        var err = th.error(0, 'onsuccess', event.target, '存储空间"' + p.store + '"不存在', db, p.store);
+                        var err = th.error(0, 'onsuccess', event.target, '本地数据库的存储空间"' + p.store + '"不存在', db, p.store);
                         reject(err);
                         if (db) db.close();
                         return;
@@ -1123,7 +1123,7 @@
                     };
                     trans.onerror = function (event) {
                         var db = event.target.result;
-                        var err = th.error(1, 'onerror', event.target, '数据项"' + p.store + ':' + key + '"删除失败', db, {
+                        var err = th.error(1, 'onerror', event.target, '本地数据库的数据项"' + p.store + ':' + key + '"删除失败', db, {
                             store: p.store,
                             keyid: keyid
                         });
@@ -1229,7 +1229,7 @@
                     if (db) db.close();
                 };
                 request.onerror = function (event) {
-                    var err = th.error(0, 'onerror', event.target, '数据库"' + th.dbname + '"打开失败', th.dbname, null);
+                    var err = th.error(0, 'onerror', event.target, '本地数据库"' + th.dbname + '"打开失败', th.dbname, null);
                     reject(err);
                 };
             });

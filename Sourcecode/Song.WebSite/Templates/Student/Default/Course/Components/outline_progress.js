@@ -111,6 +111,6 @@ Vue.component('outline_progress', {
             <template v-if="percentage==100">{{percentage}} %</template>
             <a :href="gourl()" target="_blank" v-else>{{percentage}} %</a>
         </el-tag>
-        <el-tag type="info" v-else><loading></loading></el-tag>
+        <el-tag type="info" v-else><loading bubble></loading></el-tag>
     </div> `
 });

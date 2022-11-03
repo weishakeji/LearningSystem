@@ -1118,7 +1118,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public void PointAdd4Share(Accounts acc)
         {
-            Task task = new Task(() =>
+            new Task(() =>
             {
                 //每次访问增加的积分；
                 int loginPoint = Business.Do<ISystemPara>()["SharePoint"].Int32 ?? 0;
@@ -1138,8 +1138,7 @@ namespace Song.ServiceImpls
                 pa.Pa_From = 2;     //分享积分
                 pa.Pa_Info = "分享链接";
                 this.PointAdd(pa);
-            });
-            task.Start();           
+            }).Start();           
 
         }
         /// <summary>
@@ -1149,7 +1148,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public void PointAdd4Register(Accounts acc)
         {
-            Task task = new Task(() =>
+            new Task(() =>
             {
                 //每次分享注册增加的积分；
                 int loginPoint = Business.Do<ISystemPara>()["RegPoint"].Int32 ?? 0;
@@ -1169,8 +1168,7 @@ namespace Song.ServiceImpls
                 pa.Pa_From = 3;     //分享注册
                 pa.Pa_Info = "新增下级会员";
                 this.PointAdd(pa);
-            });
-            task.Start();
+            }).Start();
         }
         /// <summary>
         /// 支出

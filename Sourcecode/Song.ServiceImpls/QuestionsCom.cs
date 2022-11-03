@@ -15,6 +15,7 @@ using System.Xml;
 using System.Reflection;
 using System.Threading;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Song.ServiceImpls
 {
@@ -1392,7 +1393,6 @@ namespace Song.ServiceImpls
 
 
         #region 试题练习的记录
-        private static object locker_exerciseLog = new object();
         /// <summary>
         /// 记录试题练习记录
         /// </summary>
@@ -1405,7 +1405,7 @@ namespace Song.ServiceImpls
         public bool ExerciseLogSave(Accounts acc, int orgid, long couid, long olid, string json, int sum, int answer, int correct, int wrong, double rate)
         {
             if (olid <= 0 || acc == null) return false;
-            lock (locker_exerciseLog)
+            new Task(() =>
             {
                 if (orgid <= 0)
                 {
@@ -1443,8 +1443,8 @@ namespace Song.ServiceImpls
                 //答题信息的详情，以json方式存储
                 log.Lse_JsonData = json;
                 Gateway.Default.Save<LogForStudentExercise>(log);
-                return true;
-            }
+            }).Start();
+            return true;
         }
         /// <summary>
         /// 获取试题练习记录
@@ -1472,17 +1472,17 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public bool ExerciseLogDel(int acid, long couid, long olid)
         {
-            lock (locker_exerciseLog)
-            {
-                if (acid <= 0 || olid <= 0) return false;
+            if (acid <= 0 || olid <= 0) return false;
+            new Task(() =>
+            {               
                 WhereClip wc = new WhereClip();
                 wc.And(LogForStudentExercise._.Ac_ID == acid);
                 if (couid > 0)
                     wc.And(LogForStudentExercise._.Cou_ID == couid);
                 wc.And(LogForStudentExercise._.Ol_ID == olid);
                 Gateway.Default.Delete<LogForStudentExercise>(wc);
-                return true;
-            }
+            }).Start();          
+            return true;
         }
 
         #endregion

@@ -40,9 +40,10 @@ namespace Song.ViewData
         /// <returns></returns>
         public static IViewAPI CreateInstance(Letter letter)
         {
+
             string assemblyName = "Song.ViewData";
             string classFullName = String.Format("{0}.Methods.{1}", assemblyName, letter.ClassName);
-          
+
             //由缓存中查找，是否存在
             IViewAPI obj = null;
             foreach (KeyValuePair<string, IViewAPI> kv in _objects)
@@ -55,18 +56,18 @@ namespace Song.ViewData
             }
             if (obj != null) return obj;
 
-            //如果之前未创建，则创建接口对象
-            Assembly assembly = Assembly.Load(assemblyName);
-            List<Type> types = assembly.GetExportedTypes().Where(t => t.GetInterfaces().Contains(typeof(IViewAPI))).ToList<Type>();
-            Type type = types.Find(t => t.FullName.Equals(classFullName, StringComparison.CurrentCultureIgnoreCase));
-            if (type == null) throw new Exception(string.Format("调用的接口'{0}'不存在, 可能是'{1}'拼写错误", letter.API_PATH, letter.ClassName));
-            obj = (IViewAPI)System.Activator.CreateInstance(type);
-            //记录到缓存
             lock (lock_obj)
             {
-                if (!_objects.ContainsKey(type.FullName)) _objects.Add(type.FullName, obj);               
+                //如果之前未创建，则创建接口对象
+                Assembly assembly = Assembly.Load(assemblyName);
+                List<Type> types = assembly.GetExportedTypes().Where(t => t.GetInterfaces().Contains(typeof(IViewAPI))).ToList<Type>();
+                Type type = types.Find(t => t.FullName.Equals(classFullName, StringComparison.CurrentCultureIgnoreCase));
+                if (type == null) throw new Exception(string.Format("调用的接口'{0}'不存在, 可能是'{1}'拼写错误", letter.API_PATH, letter.ClassName));
+                obj = (IViewAPI)System.Activator.CreateInstance(type);
+                //记录到缓存
+                if (!_objects.ContainsKey(type.FullName)) _objects.Add(type.FullName, obj);
+                return obj;
             }
-            return obj;
         }
         #endregion
 

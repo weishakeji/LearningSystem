@@ -6,6 +6,7 @@ using Song.Entities;
 using System.Timers;
 using WeiSha.Core;
 using Song.ServiceInterfaces;
+using System.Threading.Tasks;
 
 namespace Song.ServiceImpls.QuestionsMethod
 {
@@ -267,21 +268,20 @@ namespace Song.ServiceImpls.QuestionsMethod
                     list.Remove(list[i]);
                 }
             }
-        }
-        private static readonly object savelock = new object();
+        }       
         /// <summary>
         /// 保存到数据库
         /// </summary>
         public void Save()
         {
-            lock (savelock)
+            new Task(() =>
             {
                 for (int i = 0; i < list.Count; i++)
                 {
                     if (list[i].Result == null) continue;
                     Business.Do<IExamination>().ResultAdd(list[i].Result);
                 }
-            }
+            }).Start();
         }
         private void myTimer_Elapsed(object source, ElapsedEventArgs e)
         {
