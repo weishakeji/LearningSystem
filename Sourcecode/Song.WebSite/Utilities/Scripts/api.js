@@ -1096,7 +1096,7 @@
                     }
                 };
                 setTimeout(function () {
-                    var err = th.error(-3, 'timeout', p.store, '本地数据库"' + p.store + '"执行超时', th.dbname, p.store);
+                    var err = th.error(-3, 'timeout', p, '本地数据库"' + p.store + '"执行超时', th.dbname, p.store);
                     reject(err);
                 }, 200);
             });
