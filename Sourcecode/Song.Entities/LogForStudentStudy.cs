@@ -42,6 +42,8 @@ namespace Song.Entities {
     		
     		protected String _Lss_OS;
     		
+    		protected Double _Lss_Complete;
+    		
     		public Int32 Lss_ID {
     			get {
     				return this._Lss_ID;
@@ -212,6 +214,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Double Lss_Complete {
+    			get {
+    				return this._Lss_Complete;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Lss_Complete, _Lss_Complete, value);
+    				this._Lss_Complete = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -255,7 +267,8 @@ namespace Song.Entities {
     					_.Lss_IP,
     					_.Lss_Browser,
     					_.Lss_Platform,
-    					_.Lss_OS};
+    					_.Lss_OS,
+    					_.Lss_Complete};
     		}
     		
     		/// <summary>
@@ -279,7 +292,8 @@ namespace Song.Entities {
     					this._Lss_IP,
     					this._Lss_Browser,
     					this._Lss_Platform,
-    					this._Lss_OS};
+    					this._Lss_OS,
+    					this._Lss_Complete};
     		}
     		
     		/// <summary>
@@ -336,6 +350,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Lss_OS))) {
     				this._Lss_OS = reader.GetString(_.Lss_OS);
+    			}
+    			if ((false == reader.IsDBNull(_.Lss_Complete))) {
+    				this._Lss_Complete = reader.GetDouble(_.Lss_Complete);
     			}
     		}
     		
@@ -447,7 +464,11 @@ namespace Song.Entities {
     			/// 字段名：Lss_OS - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Lss_OS = new WeiSha.Data.Field<LogForStudentStudy>("Lss_OS");
+    			
+    			/// <summary>
+    			/// 字段名：Lss_Complete - 数据类型：Double
+    			/// </summary>
+    			public static WeiSha.Data.Field Lss_Complete = new WeiSha.Data.Field<LogForStudentStudy>("Lss_Complete");
     		}
     	}
     }
-    

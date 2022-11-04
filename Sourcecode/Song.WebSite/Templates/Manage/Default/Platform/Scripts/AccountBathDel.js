@@ -28,7 +28,8 @@ $ready(function () {
         computed: {
             //剩余的时间，小时分
             'time_remaining': function () {
-                var time = this.timespan/(this.total - this.accounts.length) * this.accounts.length;
+                var time = this.timespan / (this.total - this.accounts.length) * this.accounts.length;
+                if (isNaN(time)) return ' - ';
                 var secondTime = parseInt(time / 1000);// 秒
                 var minuteTime = 0;// 分
                 var hourTime = 0;// 小时

@@ -18,7 +18,7 @@ namespace Song.Entities {
     		
     		protected DateTime _As_CrtTime;
     		
-    		protected Int32 _As_Size;
+    		protected Int64 _As_Size;
     		
     		protected String _As_Uid;
     		
@@ -106,7 +106,7 @@ namespace Song.Entities {
     		/// <summary>
     		/// -1
     		/// </summary>
-    		public Int32 As_Size {
+    		public Int64 As_Size {
     			get {
     				return this._As_Size;
     			}
@@ -295,7 +295,7 @@ namespace Song.Entities {
     				this._As_CrtTime = reader.GetDateTime(_.As_CrtTime);
     			}
     			if ((false == reader.IsDBNull(_.As_Size))) {
-    				this._As_Size = reader.GetInt32(_.As_Size);
+    				this._As_Size = reader.GetInt64(_.As_Size);
     			}
     			if ((false == reader.IsDBNull(_.As_Uid))) {
     				this._As_Uid = reader.GetString(_.As_Uid);
@@ -376,7 +376,7 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field As_CrtTime = new WeiSha.Data.Field<Accessory>("As_CrtTime");
     			
     			/// <summary>
-    			/// -1 - 字段名：As_Size - 数据类型：Int32
+    			/// -1 - 字段名：As_Size - 数据类型：Int64
     			/// </summary>
     			public static WeiSha.Data.Field As_Size = new WeiSha.Data.Field<Accessory>("As_Size");
     			
@@ -427,4 +427,3 @@ namespace Song.Entities {
     		}
     	}
     }
-    

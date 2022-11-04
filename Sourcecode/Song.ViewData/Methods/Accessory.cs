@@ -64,7 +64,7 @@ namespace Song.ViewData.Methods
             acc.As_Name = jo["name"].ToString();
             acc.As_Type = type;
             acc.As_CrtTime = DateTime.Now;
-            acc.As_Size = Convert.ToInt32(jo["size"].ToString());
+            acc.As_Size = Convert.ToInt64(jo["size"].ToString());
             acc.As_Uid = outline.Ol_UID;
             acc.As_Extension = jo["ext"].ToString();
             acc.As_IsOther = false;
@@ -97,7 +97,7 @@ namespace Song.ViewData.Methods
             acc.As_Name = jo["name"].ToString();
             acc.As_Type = type;
             acc.As_CrtTime = DateTime.Now;
-            acc.As_Size = Convert.ToInt32(jo["size"].ToString());
+            acc.As_Size = Convert.ToInt64(jo["size"].ToString());
             acc.As_Uid = outline.Ol_UID;
             acc.As_Extension = jo["ext"].ToString();
             acc.As_IsOther = false;

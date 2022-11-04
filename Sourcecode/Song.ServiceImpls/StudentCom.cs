@@ -724,37 +724,39 @@ namespace Song.ServiceImpls
             //Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
             string sql = "SELECT *  FROM [LogForStudentStudy] where Ol_ID={0} and Ac_ID={1}";
             sql = string.Format(sql, olid, st.Ac_ID);
-            Song.Entities.LogForStudentStudy entity = Gateway.Default.FromSql(sql).ToFirst<LogForStudentStudy>();
-            if (entity == null)
+            Song.Entities.LogForStudentStudy log = Gateway.Default.FromSql(sql).ToFirst<LogForStudentStudy>();
+            if (log == null)
             {
-                entity = new LogForStudentStudy();
-                if (string.IsNullOrWhiteSpace(entity.Lss_UID))
-                    entity.Lss_UID = WeiSha.Core.Request.UniqueID();
-                entity.Lss_CrtTime = DateTime.Now;
-                entity.Cou_ID = couid;
-                entity.Ol_ID = olid;
-                entity.Org_ID = st.Org_ID;
+                log = new LogForStudentStudy();
+                if (string.IsNullOrWhiteSpace(log.Lss_UID))
+                    log.Lss_UID = WeiSha.Core.Request.UniqueID();
+                log.Lss_CrtTime = DateTime.Now;
+                log.Cou_ID = couid;
+                log.Ol_ID = olid;
+                log.Org_ID = st.Org_ID;
                 //学员信息
-                entity.Ac_ID = st.Ac_ID;
-                entity.Ac_AccName = st.Ac_AccName;
-                entity.Ac_Name = st.Ac_Name;
+                log.Ac_ID = st.Ac_ID;
+                log.Ac_AccName = st.Ac_AccName;
+                log.Ac_Name = st.Ac_Name;
                 //视频长度
-                entity.Lss_Duration = totalTime;
+                log.Lss_Duration = totalTime;
             }
-            if (entity.Cou_ID == 0)
-                entity.Cou_ID = couid;
+            if (log.Cou_ID == 0)
+                log.Cou_ID = couid;
             //登录相关时间
-            entity.Lss_LastTime = DateTime.Now;
-            entity.Lss_PlayTime = playTime;
-            entity.Lss_StudyTime = studyTime;
-            if (entity.Lss_Duration < totalTime) entity.Lss_Duration = totalTime;
+            log.Lss_LastTime = DateTime.Now;
+            log.Lss_PlayTime = playTime;
+            log.Lss_StudyTime = studyTime;
+            if (log.Lss_Duration < totalTime) log.Lss_Duration = totalTime;
             //登录信息
-            entity.Lss_IP = ip;
-            entity.Lss_OS = os;
-            entity.Lss_Browser = name + " " + ver;
-            entity.Lss_Platform = ismobi ? "Mobi" : "PC";
+            log.Lss_IP = ip;
+            log.Lss_OS = os;
+            log.Lss_Browser = name + " " + ver;
+            log.Lss_Platform = ismobi ? "Mobi" : "PC";
+            log.Lss_Complete = Math.Floor((double)log.Lss_StudyTime * 1000 / (double)log.Lss_Duration * 10000) / 100;
+            log.Lss_Complete = log.Lss_Complete > 100 ? 100 : log.Lss_Complete;
             //保存到数据库
-            Gateway.Default.Save<LogForStudentStudy>(entity);
+            Gateway.Default.Save<LogForStudentStudy>(log);
         }
         /// <summary>
         /// 根据学员id与章节id,返回学习记录
@@ -987,7 +989,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
 
             //获取学习记录
-            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration FROM [LogForStudentStudy] where {couid} and {acid}";
+            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration,Lss_Complete FROM [LogForStudentStudy] where {couid} and {acid}";
             sql_log = sql_log.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
             sql_log = sql_log.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
 
@@ -1016,7 +1018,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                     //视频时长，单位秒
                     int dura = reader.GetValue<int>(3) / 1000;
                     //完成度
-                    double complete = study / dura * 100;
+                    double complete = reader.GetValue<double>(4);
                     totalComplete += complete > 100 - tolerance ? 100 : complete;
                 }
                 reader.Close();
@@ -1089,7 +1091,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
 
             //获取学习记录
-            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration,Lss_PlayTime FROM [LogForStudentStudy] where {couid} and {acid}";
+            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration,Lss_PlayTime,Lss_Complete FROM [LogForStudentStudy] where {couid} and {acid}";
             sql_log = sql_log.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
             sql_log = sql_log.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
             using (SourceReader reader = Gateway.Default.FromSql(sql_log).ToReader())
@@ -1109,7 +1111,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                     //播放进度，单位毫秒
                     int play = reader.GetValue<int>(4);
                     //完成度
-                    double complete = study * 1000 / dura * 100;
+                    double complete = reader.GetValue<double>(5);
                     complete = complete > 100 - tolerance ? 100 : complete;
 
                     dr["lastTime"] = lasttime;
@@ -1207,6 +1209,8 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                 }
                 TimeSpan span = sc.Stc_EndTime - sc.Stc_StartTime;
                 log.Lss_LastTime = sc.Stc_StartTime.AddSeconds(new Random().Next(0, (int)span.TotalSeconds));
+                log.Lss_Complete = Math.Floor((double)log.Lss_StudyTime * 1000 / (double)log.Lss_Duration * 10000) / 100;
+                log.Lss_Complete = log.Lss_Complete > 100 ? 100 : log.Lss_Complete;
                 Gateway.Default.Save<LogForStudentStudy>(log);               
             }
         }
