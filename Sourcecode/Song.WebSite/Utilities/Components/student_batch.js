@@ -5,7 +5,8 @@ $dom.load.css(['/Utilities/Components/Styles/student_batch.css']);
 Vue.component('student_batch', {
     //bathadd_text：批量添加的按钮文本
     //add_icon:单个按钮的图标
-    props: ['bathadd_text', 'add_icon', 'orgid'],
+    //isuse:是否仅限启用的,null或true为所有，默认为true
+    props: ['bathadd_text', 'add_icon', 'orgid', 'isuse'],
     data: function () {
         return {
             /*查询完成后的数组，数组项                  
@@ -40,7 +41,13 @@ Vue.component('student_batch', {
         }
 
     },
-    computed: {},
+    computed: {
+        //是否仅启用的，如果是false,返回数据时会返回所有账号，如果true，则仅返回启用的账号
+        'only_used': function () {
+            if (this.isuse == null) return true;
+            return this.isuse;
+        }
+    },
     mounted: function () { },
     methods: {
         //显示面板
@@ -92,16 +99,24 @@ Vue.component('student_batch', {
         'query_valid': function () {
             var c = 0;
             for (var i = 0; i < this.datas.length; i++) {
-                if (this.datas[i].state == 1 && this.datas[i].account.Ac_IsUse) {
+                /*
+                if (this.only_used) {
+                    if (this.datas[i].state == 1 && this.datas[i].account.Ac_IsUse) {
+                        c++;
+                    }
+                } else {
+                    if (this.datas[i].state == 1) c++;
+                }  */
+                if (this.datas[i].state == 1 && (!this.only_used || this.datas[i].account.Ac_IsUse)) {
                     c++;
-                }
+                }       
             }
             return c;
         },
         //批量添加
         batch_add: function () {
             var list = [];
-            var arr = this.datas.filter(x => x.state == 1 && x.account.Ac_IsUse);
+            var arr = this.datas.filter(x => x.state == 1 && (!this.only_used || x.account.Ac_IsUse));
             arr.forEach(el => { list.push(el.account); });
             this.$emit('add', list);
         }
@@ -143,7 +158,7 @@ Vue.component('student_batch', {
                         </template>
                         <template slot-scope="scope">
                             <student_batch_getaccount :item="scope.row" :text="scope.row.text" @add="(s)=>{$emit('add', [s])}"
-                            :type="search_type" :add_icon="add_icon">
+                            :type="search_type" :add_icon="add_icon" :only_used="only_used">
                             </student_batch_getaccount>
                         </template>
                     </el-table-column>
@@ -173,7 +188,8 @@ Vue.component('student_batch_getaccount', {
     //item:录入项,
     //text:录入的内容，可能是账号或身份证号
     //type:搜索类型
-    props: ["item", "text", "type", "add_icon"],
+    //only_used:是否只包含启用的
+    props: ["item", "text", "type", "add_icon","only_used"],
     data: function () {
         return {
             data: null,
@@ -234,13 +250,13 @@ Vue.component('student_batch_getaccount', {
     template: `<span title="学员信息">
         <span v-if="state==-1" class="el-icon-loading"></span>
         <span v-if="state==0"><el-tag type="info">不存在</el-tag></span>
-        <span v-if="state==1"  :class="{'woman': data.Ac_Sex==2,'disable':!data.Ac_IsUse}">
+        <span v-if="state==1"  :class="{'woman': data.Ac_Sex==2,'disable': this.only_used && !data.Ac_IsUse}">
             <icon v-if="data.Ac_Sex==2" woman title="女性"></icon>
             <icon v-if="data.Ac_Sex==1"  man title="男性"></icon>
             <icon v-if="data.Ac_Sex==0" man title="性别未知"></icon>
             {{data.Ac_Name}}
-            <span v-if="!data.Ac_IsUse">（已经禁用）</span>
+            <span v-if="this.only_used && !data.Ac_IsUse">（已经禁用）</span>
         </span>
-        <icon v-if="state==1 && data.Ac_IsUse" v-html="'&#x'+add_icon" class="add_btn" @click="btnClick(data)"></icon>
+        <icon v-if="state==1 && (!this.only_used || data.Ac_IsUse)" v-html="'&#x'+add_icon" class="add_btn" @click="btnClick(data)"></icon>
     </span> `
 });
