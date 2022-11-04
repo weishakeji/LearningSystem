@@ -651,17 +651,17 @@ namespace Song.ViewData.Methods
             //return false;
         }
         /// <summary>
-        /// 删除账户
+        /// 批量删除账户
         /// </summary>
-        /// <param name="id">账户id，可以是多个，用逗号分隔</param>
+        /// <param name="ids">账户id，可以是多个，用逗号分隔</param>
         /// <returns></returns>
         [Admin]
         [HttpDelete]
-        public int Delete(string id)
+        public int DeleteBatch(string ids)
         {         
             int i = 0;
-            if (string.IsNullOrWhiteSpace(id)) return i;
-            string[] arr = id.Split(',');
+            if (string.IsNullOrWhiteSpace(ids)) return i;
+            string[] arr = ids.Split(',');
             foreach (string s in arr)
             {
                 int idval = 0;
@@ -679,8 +679,20 @@ namespace Song.ViewData.Methods
             }
             return i;           
         }
+        /// <summary>
+        /// 按id删除账户
+        /// </summary>
+        /// <param name="id">账户id</param>
+        /// <returns></returns>
+        [Admin]
+        [HttpDelete]
+        public int Delete(int id)
+        {
+            Business.Do<IAccounts>().AccountsDelete(id);
+            return id;
+        }
         #endregion
-        
+
 
         #region 学员组
         /// <summary>

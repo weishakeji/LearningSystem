@@ -109,7 +109,7 @@ Vue.component('student_batch', {
                 }  */
                 if (this.datas[i].state == 1 && (!this.only_used || this.datas[i].account.Ac_IsUse)) {
                     c++;
-                }       
+                }
             }
             return c;
         },
@@ -189,7 +189,7 @@ Vue.component('student_batch_getaccount', {
     //text:录入的内容，可能是账号或身份证号
     //type:搜索类型
     //only_used:是否只包含启用的
-    props: ["item", "text", "type", "add_icon","only_used"],
+    props: ["item", "text", "type", "add_icon", "only_used"],
     data: function () {
         return {
             data: null,
@@ -250,12 +250,9 @@ Vue.component('student_batch_getaccount', {
     template: `<span title="学员信息">
         <span v-if="state==-1" class="el-icon-loading"></span>
         <span v-if="state==0"><el-tag type="info">不存在</el-tag></span>
-        <span v-if="state==1"  :class="{'woman': data.Ac_Sex==2,'disable': this.only_used && !data.Ac_IsUse}">
-            <icon v-if="data.Ac_Sex==2" woman title="女性"></icon>
-            <icon v-if="data.Ac_Sex==1"  man title="男性"></icon>
-            <icon v-if="data.Ac_Sex==0" man title="性别未知"></icon>
-            {{data.Ac_Name}}
-            <span v-if="this.only_used && !data.Ac_IsUse">（已经禁用）</span>
+        <span v-if="state==1">           
+            <icon :woman="data.Ac_Sex==2" :man="data.Ac_Sex!=2">{{data.Ac_Name}}</icon>
+            <span v-if="!data.Ac_IsUse">（已禁用）</span>
         </span>
         <icon v-if="state==1 && (!this.only_used || data.Ac_IsUse)" v-html="'&#x'+add_icon" class="add_btn" @click="btnClick(data)"></icon>
     </span> `

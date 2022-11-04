@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head resource>
+  <title>账户批量删除</title>
+  <include file="../inc/meta.inc" />
+
+</head>
+
+<body>
+  <div id="vapp" v-cloak>
+    <student_batch bathadd_text="全部选择" add_icon="e6c6" @add="selected" :isuse="false"></student_batch>
+    <div class="accounts">
+      <header>
+        <icon>&#xe687</icon>以下为供删除的账号
+      </header>
+      <dl class="list" v-if="accounts.length>=1">
+        <dd v-for="(acc,i) in accounts">
+          <span>{{i+1}} .</span>
+          <icon :woman="acc.Ac_Sex==2" :man="acc.Ac_Sex!=2">{{acc.Ac_Name}}</icon>
+          <loading star v-if="acc.Ac_ID==loadingid"></loading>
+          <el-link type="info" v-else @click="$delete(accounts,i)">移除</el-link>
+        </dd>
+      </dl>
+      <div v-else class="noaccount">
+        <icon>&#xe839</icon>没有选择的账号
+      </div>
+      <div class="btns_area">
+        <el-button type="primary" plain :disabled="accounts.length<1" @click="accounts=[]">
+          <icon>&#xe727</icon>全部移除
+        </el-button>
+        <el-button type="danger" :disabled="accounts.length<1" @click="btn_enter_event()">
+          <icon>&#xe800</icon>全部删除
+        </el-button>
+      </div>
+    </div>
+    <!--预载效果-->
+    <div class="loading_box" v-if="loading">
+      <div class="loading_content">
+        <div>总计 <b v-html="total"></b> 条数据，已经删除 <b v-html="total-accounts.length"></b> 条，
+          剩余 <b v-html="accounts.length"></b> 条</div>
+        <div loading="p4"></div>
+        <div>正在处理中... 预计用时 <b v-html="time_remaining"></b> ！</div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

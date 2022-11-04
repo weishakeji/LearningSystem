@@ -52,7 +52,7 @@
             deleteData: function (datas) {
                 var th = this;
                 th.loadingdel = true;
-                $api.delete('Account/Delete', { 'id': datas }).then(function (req) {
+                $api.delete('Account/DeleteBatch', { 'ids': datas }).then(function (req) {
                     th.loadingdel = false;
                     if (req.data.success) {
                         var result = req.data.result;

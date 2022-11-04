@@ -41,7 +41,7 @@ $ready(function () {
         methods: {
             //删除
             deleteData: function (datas) {
-                $api.delete('Account/Delete', { 'id': datas }).then(function (req) {
+                $api.delete('Account/DeleteBatch', { 'ids': datas }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         vue.$notify({
