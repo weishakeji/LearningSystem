@@ -218,25 +218,24 @@ namespace Song.ViewData
                 throw new Exception(string.Format("接口 '{0}/{1}' 不存在", p.ClassName, p.MethodName));
             //2、判断方法的参数名称，是否与传递来的参数名称匹配，参数数量必须匹配  
             //2-1 只有一个参数，且类型是Letter
-            MethodInfo mbLetter = null;
+            MethodInfo method = null;       //当前$api请求的方法
             for (int i = 0; i < methods.Count; i++)
             {
                 ParameterInfo[] pis = methods[i].GetParameters();
                 if (pis.Length == 1 && p.GetType().FullName.Equals(pis[0].ParameterType.FullName))
                 {
-                    mbLetter = methods[i];
+                    method = methods[i];
                     methods.Remove(methods[i]);
                     break;
                 }
             }
+            if (method != null) return method;
             //2-2 判断参数个数是否相同
-            MethodInfo method = null;       //当前$api请求的方法
             foreach (MethodInfo mi in methods)
             {
                 int paraCount = 0;
                 foreach (ParameterInfo pi in mi.GetParameters())
                     if (!pi.IsOut) paraCount++;
-
                 //方法的参数个数，和传参的参数个数，必须相等
                 if (paraCount == p.Params.Count)
                 {
@@ -272,7 +271,6 @@ namespace Song.ViewData
             }
             if (!ismatch) method = null;
 
-            if (method == null) method = mbLetter;
             if (method == null)
             {
                 string tips = string.Empty;

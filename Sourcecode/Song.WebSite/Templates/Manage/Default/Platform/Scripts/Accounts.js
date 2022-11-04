@@ -34,6 +34,16 @@
             });
 
         },
+        mounted: function () {
+            var btngroup = this.$refs['btngroup'];
+            console.log(btngroup);
+            btngroup.addbtn({
+                text: '批量删除', tips: '通过导入账号进行大批量的删除',
+                id: 'bathdelete', type: 'warning',
+                url: 'AccountBathDel',
+                icon: 'e800'
+            });
+        },
         computed: {
 
         },
@@ -123,6 +133,11 @@
             moneyHandle: function (row) {
                 var title = '“' + row.Ac_Name + '(' + row.Ac_AccName + ')”的资金操作'
                 this.$refs.btngroup.pagebox('AccountMoney?id=' + row.Ac_ID, title, null, '600', '400');
+            },
+            //批量删除的按钮事件
+            bathdel: function (btn) {
+                console.log(btn);
+                this.$refs.btngroup.pagebox(btn.url, btn.text, null, '80%', '80%');
             }
         }
     });

@@ -413,6 +413,9 @@
     <Content Include="Templates\Manage\Default\Learningcard\BatchDistribution.html" />
     <Content Include="Templates\Manage\Default\Learningcard\Scripts\BatchDistribution.js" />
     <Content Include="Templates\Manage\Default\Learningcard\Styles\BatchDistribution.css" />
+    <Content Include="Templates\Manage\Default\Platform\AccountBathDel.html" />
+    <Content Include="Templates\Manage\Default\Platform\Scripts\AccountBathDel.js" />
+    <Content Include="Templates\Manage\Default\Platform\Styles\AccountBathDel.css" />
     <Content Include="Templates\Mobi\Default\Account\Components\exam_test.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\outline_tree.js" />
     <Content Include="Templates\Mobi\Default\Course\Components\course_menus.js" />

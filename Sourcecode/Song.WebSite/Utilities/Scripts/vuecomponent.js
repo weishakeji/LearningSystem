@@ -7,7 +7,7 @@
 //modal:弹窗是否为模态窗（即窗口在最前面，不可切换，不可最小化）
 //disabled:是否按钮全禁用
 Vue.component('btngroup', {
-    props: ['show', 'selects', 'idkey', 'path', 'width', 'height', 'modal','disabled'],
+    props: ['show', 'selects', 'idkey', 'path', 'width', 'height', 'modal', 'disabled'],
     data: function () {
         // data 选项是一个函数，组件不相互影响
         return {
@@ -20,7 +20,7 @@ Vue.component('btngroup', {
                 id: 'modify', type: 'primary',
                 class: 'el-icon-edit'
             }, {
-                text: '删除', tips: '批量删除',
+                text: '删除', tips: '删除选中的数据项',
                 id: 'delete', type: 'danger',
                 class: 'el-icon-delete'
             }, {
