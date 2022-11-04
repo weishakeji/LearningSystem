@@ -5,8 +5,9 @@
 //idkey:数据对象中的ID的键名，用于取selects中的id值
 //path:要打开的窗体的页面路路，width和height即窗口宽高
 //modal:弹窗是否为模态窗（即窗口在最前面，不可切换，不可最小化）
+//disabled:是否按钮全禁用
 Vue.component('btngroup', {
-    props: ['show', 'selects', 'idkey', 'path', 'width', 'height', 'modal'],
+    props: ['show', 'selects', 'idkey', 'path', 'width', 'height', 'modal','disabled'],
     data: function () {
         // data 选项是一个函数，组件不相互影响
         return {
@@ -257,15 +258,18 @@ Vue.component('btngroup', {
             return "&#x" + btn.icon;
         }
     },
-    template: '<div class="btngroup"><el-button-group>\
-    <template v-for="(btn,index) in buttons">\
-    <el-tooltip class="item" :content="btn.tips" placement="bottom" effect="light">\
-        <el-button :key="index" :type="btn.type"  size="small" plain v-on:click="eventClick(btn)"\
-        :class="!!btn.class && !btn.icon ? btn.class : false">\
-            <icon v-if="btn.icon" v-html="btnicon(btn)"></icon>&nbsp; {{btn.text}}\
-        </el-button>\
-    </el-tooltip>\
-    </template>\
-    <slot></slot>\
-    </el-button-group></div>'
+    template: `<div class="btngroup">
+        <el-button-group>
+            <template v-for="(btn,index) in buttons">
+                <el-tooltip class="item" :content="btn.tips" placement="bottom" effect="light">
+                    <el-button :key="index" :type="btn.type"  size="small" plain 
+                    v-on:click="eventClick(btn)" :disabled="disabled"
+                    :class="!!btn.class && !btn.icon ? btn.class : false">
+                        <icon v-if="btn.icon" v-html="btnicon(btn)"></icon>&nbsp; {{btn.text}}
+                    </el-button>
+                </el-tooltip>
+            </template>
+            <slot></slot>
+        </el-button-group>
+    </div>`
 });

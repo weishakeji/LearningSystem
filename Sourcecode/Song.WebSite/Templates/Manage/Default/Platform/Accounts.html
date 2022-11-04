@@ -14,9 +14,11 @@
     <div id="app" v-cloak>
         <div class="toolsbar">
             <btngroup show="导出,修改,删除" ref='btngroup' @delete="deleteData" @output="output" path="AccountModify"
-                width="600" height="600" :selects='selects' idkey='Ac_ID' table="datatables"></btngroup>
+                :disabled="loading || loadingdel" width="600" height="600" :selects='selects' idkey='Ac_ID'
+                table="datatables"></btngroup>
             <div class="search-box">
-                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
+                <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent
+                    :disabled="loading || loadingdel">
                     <el-form-item label="">
                         <el-select v-model="form.orgid" placeholder="--所有机构--">
                             <el-option class="organs_option" v-for="(item,index) in organs" :key="item.Org_ID"
@@ -36,7 +38,7 @@
                         <el-input v-model="form.search" style="width:100px"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
+                        <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
                             native-type="submit" plain>
                             查询
                         </el-button>
@@ -46,7 +48,9 @@
         </div>
         <template>
             <el-table ref="datatables" :stripe="true" :data="accounts" tooltip-effect="dark" style="width: 100%"
-                @selection-change="val=>selects=val" @row-dblclick="rowdblclick"
+                @selection-change="val=>selects=val" @row-dblclick="rowdblclick" v-loading="loading || loadingdel"
+                element-loading-text="正在处理中..." element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(255, 255, 255, 0.8)"
                 :row-class-name="data=>{return data.row.Ac_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="35">
                 </el-table-column>
@@ -57,18 +61,14 @@
                 </el-table-column>
                 <el-table-column label="姓名" width="120">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.Ac_Sex==1" class="man" icon="&#xe645" title="男性"></span>
-                        <span v-if="scope.row.Ac_Sex==2" class="woman" icon="&#xe647" title="女性"></span>
-
-                        <span v-html='showInfo(scope.row.Ac_Name)'
-                            :class="{'woman':scope.row.Ac_Sex=='2','name':true}"></span>
-
+                        <icon :man="scope.row.Ac_Sex!=2" :woman="scope.row.Ac_Sex==2"
+                            v-html='showInfo(scope.row.Ac_Name)' class="large"></icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="账号">
                     <template slot-scope="scope">
-                        <icon v-if="scope.row.Ac_IsTeacher" tearch title="教师"></icon>
-                        <span v-html='showInfo(scope.row.Ac_AccName)'></span>
+                        <icon v-html='showInfo(scope.row.Ac_AccName)' :tearch="scope.row.Ac_IsTeacher"
+                            :title="scope.row.Ac_IsTeacher ? '教师' : ''"></icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="电话">
@@ -114,7 +114,8 @@
         </template>
         <div id="pager-box">
             <el-pagination v-on:current-change="handleCurrentChange" :current-page="form.index" :page-sizes="[1]"
-                :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
+                :disabled="loading || loadingdel" :page-size="form.size" :pager-count="12"
+                layout="total, prev, pager, next, jumper" :total="total">
             </el-pagination>
         </div>
     </div>

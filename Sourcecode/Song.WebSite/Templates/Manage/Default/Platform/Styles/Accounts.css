@@ -1,32 +1,20 @@
 ﻿@charset "utf-8";
+.el-table {
+    height: calc(100% - 120px);
+}
+
+.el-table__body-wrapper {
+    height: calc(100% - 40px);
+    overflow-y: auto;
+}
 .organs_option {
     height: 70px;
 }
 
-icon:before {
-    font-size: 18px;
-}
-
-.man::before {
-    color: rgb(3, 71, 71);
-}
-
-.woman {
-    color: rgb(240, 104, 117);
-}
-
-.tearch::before {
-    color: rgb(3, 167, 3);
-    margin: 0px;
-}
-
-.money {
+icon[money] {
     cursor: pointer;
 }
 
-.money:hover {
+icon[money]:hover {
     text-decoration: underline;
-}
-.name{
-    font-size: 16px;
 }
