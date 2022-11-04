@@ -48,8 +48,8 @@ $ready(function () {
                 var orgid = th.organ.Org_ID;
                 $api.bat(
                     $api.cache('Showpic/web:60', { 'orgid': orgid }),
-                    $api.get('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 4 }),
-                    $api.get('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' }),
+                    $api.cache('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 4 }),
+                    $api.cache('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' }),
                     $api.cache('Subject/ShowRoot:60', { 'orgid': orgid, 'count': 10 })
                 ).then(axios.spread(function (showpic, notice, articles, subject) {
                     th.loading = false;

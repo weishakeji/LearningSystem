@@ -49,7 +49,13 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="entity"></param>
         void TeacherDelete(Teacher entity);
-        void TeacherDelete(Teacher entity, DbTrans tran);
+        /// <summary>
+        /// 删除教师
+        /// </summary>
+        /// <param name="entity">教师数据实体</param>
+        /// <param name="tran">事务</param>
+        /// <param name="updateAccount">是否更新账号accounts表中的状态，true为更新，当教师删除后账号不具有教师角色</param>
+        void TeacherDelete(Teacher entity, DbTrans tran, bool updateAccount);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>

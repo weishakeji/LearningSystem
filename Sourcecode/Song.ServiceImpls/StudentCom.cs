@@ -501,7 +501,7 @@ namespace Song.ServiceImpls
         /// <summary>
         /// 添加登录记录
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="st"></param>
         /// <returns></returns>
         public void LogForLoginAdd(Accounts st)
         {

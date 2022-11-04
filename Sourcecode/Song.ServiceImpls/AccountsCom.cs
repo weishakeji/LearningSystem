@@ -309,8 +309,7 @@ namespace Song.ServiceImpls
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
-                {
-                    tran.Delete<Accounts>(Accounts._.Ac_ID == entity.Ac_ID);                   
+                {                                
                     //删除相关数据
                     tran.Delete<Student_Ques>(Student_Ques._.Ac_ID == entity.Ac_ID);
                     tran.Delete<Student_Notes>(Student_Notes._.Ac_ID == entity.Ac_ID);
@@ -323,17 +322,26 @@ namespace Song.ServiceImpls
                     tran.Delete<MoneyAccount>(MoneyAccount._.Ac_ID == entity.Ac_ID);
                     tran.Delete<PointAccount>(PointAccount._.Ac_ID == entity.Ac_ID);
                     tran.Delete<CouponAccount>(CouponAccount._.Ac_ID == entity.Ac_ID);
+                    //学习卡、充值卡
+                    tran.Delete<RechargeCode>(RechargeCode._.Ac_ID == entity.Ac_ID);
+                    tran.Delete<Message>(Message._.Ac_ID == entity.Ac_ID);
+                    //留言与咨询
+                    tran.Delete<MessageBoard>(MessageBoard._.Ac_ID == entity.Ac_ID);
+                    tran.Delete<LearningCard>(LearningCard._.Ac_ID == entity.Ac_ID);
                     //学习记录               
                     tran.Delete<LogForStudentOnline>(LogForStudentOnline._.Ac_ID == entity.Ac_ID);
                     tran.Delete<LogForStudentQuestions>(LogForStudentQuestions._.Ac_ID == entity.Ac_ID);
                     tran.Delete<LogForStudentStudy>(LogForStudentStudy._.Ac_ID == entity.Ac_ID);
-                    tran.Delete<LogForStudentStudy>(LogForStudentStudy._.Ac_ID == entity.Ac_ID);
+                    tran.Delete<LogForStudentExercise>(LogForStudentExercise._.Ac_ID == entity.Ac_ID);
                     //下级学员全部提升一级                    
                     tran.Update<Accounts>(new Field[] { Accounts._.Ac_PID }, new object[] { entity.Ac_PID }, Accounts._.Ac_PID == entity.Ac_ID);
-                    tran.Commit();
+
+                    tran.Delete<Accounts>(Accounts._.Ac_ID == entity.Ac_ID);                  
                     //删除教师
-                    Song.Entities.Teacher th = this.GetTeacher(entity.Ac_ID, null);
-                    if (th != null) Business.Do<ITeacher>().TeacherDelete(th, tran);
+                    Song.Entities.Teacher th = tran.From<Teacher>().Where(Teacher._.Ac_ID == entity.Ac_ID).ToFirst<Teacher>();
+                    if (th != null) Business.Do<ITeacher>().TeacherDelete(th, tran, false);
+
+                    tran.Commit();
 
                     WeiSha.Core.Upload.Get["Accounts"].DeleteFile(entity.Ac_Photo);                   
                 }

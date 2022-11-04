@@ -167,17 +167,26 @@ namespace Song.ServiceImpls
         {
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
-                TeacherDelete(entity, tran);
+                TeacherDelete(entity, tran, true);
             }
         }
-        public void TeacherDelete(Teacher entity, DbTrans tran)
+        /// <summary>
+        /// 删除教师
+        /// </summary>
+        /// <param name="entity">教师数据实体</param>
+        /// <param name="tran">事务</param>
+        /// <param name="updateAccount">是否更新账号accounts表中的状态，true为更新，当教师删除后账号不具有教师角色</param>
+        public void TeacherDelete(Teacher entity, DbTrans tran, bool updateAccount)
         {
             if (tran == null) tran = Gateway.Default.BeginTrans();
             try
             {
                 tran.Delete<Teacher>(Teacher._.Th_ID == entity.Th_ID);
                 tran.Delete<TeacherHistory>(TeacherHistory._.Th_ID == entity.Th_ID);
-                tran.Update<Accounts>(new Field[] { Accounts._.Ac_IsTeacher }, new object[] { false }, Accounts._.Ac_ID == entity.Ac_ID);
+                if (updateAccount)
+                {
+                    tran.Update<Accounts>(new Field[] { Accounts._.Ac_IsTeacher }, new object[] { false }, Accounts._.Ac_ID == entity.Ac_ID);
+                }
                 tran.Commit();
 
                 WeiSha.Core.Upload.Get["Teacher"].DeleteFile(entity.Th_Photo);
