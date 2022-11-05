@@ -51,7 +51,7 @@ namespace Song.ViewData.Attri
             bool islocal = WeiSha.Core.Server.IsLocalIP;
             if (islocal) return null;
             //获取缓存数据
-            string domain = WeiSha.Core.Request.Domain.TwoDomain;
+            string domain = letter.HTTP_HOST;
             string cacheName = string.Format(_cacheName, domain, method.DeclaringType.Name, method.Name, letter.ToString());
             return HttpRuntime.Cache.Get(cacheName);
         }
@@ -62,7 +62,7 @@ namespace Song.ViewData.Attri
         /// <param name="letter"></param>
         public static void Remove(MethodInfo method, Letter letter)
         {
-            string domain = WeiSha.Core.Request.Domain.TwoDomain;
+            string domain = letter.HTTP_HOST;
             string cacheName = string.Format(_cacheName, domain, method.DeclaringType.Name, method.Name, letter.ToString());
             HttpRuntime.Cache.Remove(cacheName);
         }
@@ -77,7 +77,7 @@ namespace Song.ViewData.Attri
         {
             if (result == null) return;
             //缓存名称
-            string domain = WeiSha.Core.Request.Domain.TwoDomain;
+            string domain = letter.HTTP_HOST;
             string cacheName = string.Format(_cacheName, domain, method.DeclaringType.Name, method.Name, letter.ToString());
             //过期时间
             DateTime expTime = DateTime.Now.AddMinutes(expires);            

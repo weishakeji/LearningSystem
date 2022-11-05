@@ -171,6 +171,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">所属课程的id</param>
         /// <param name="isuse">是否启用</param>
         /// <returns></returns>
+        [Cache]
         public JArray Tree(long couid, bool? isuse)
         {
             if (couid <= 0) return null;
@@ -237,14 +238,14 @@ namespace Song.ViewData.Methods
         }
         #region 章节的状态
         /// <summary>
-        /// 章节的状态
+        /// 章节相对学员的状态，例如是否可以学习，学习进度等
         /// </summary>
-        /// <param name="olid"></param>
+        /// <param name="olid">章节id</param>
         /// <returns></returns>        
         public JObject State(long olid)
         {
             JObject dic = new JObject();
-            Song.Entities.Accounts acc = LoginAccount.Status.User();
+            Song.Entities.Accounts acc = this.User;
             dic.Add("isLogin", acc != null);    //学员是否登录
             //
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
@@ -255,16 +256,16 @@ namespace Song.ViewData.Methods
             dic.Add("Course", course.Cou_Name);
             Song.Entities.Organization orgin;
             //是否限制在桌面应用中打开
-            dic.Add("DeskAllow", this.getDeskallow(course,outline,out orgin));
+            dic.Add("DeskAllow", this.getDeskallow(course, outline, out orgin));
             //是否在切换浏览器时继续播放
-            dic.Add("SwitchPlay", this.getSwitchPlay(course, acc, orgin));            
+            dic.Add("SwitchPlay", this.getSwitchPlay(course, acc, orgin));
             //是否免费，或是限时免费
             if (course.Cou_IsLimitFree)
             {
                 DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
                 if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
                     course.Cou_IsLimitFree = false;
-            }            
+            }
             //是否可以学习，是否购买
             bool isStudy = false, isBuy = false, canStudy = false;
             if (acc != null)
@@ -272,19 +273,35 @@ namespace Song.ViewData.Methods
                 isStudy = Business.Do<ICourse>().AllowStudy(course, acc);
                 isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, acc.Ac_ID);
                 //学习记录
-                Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(acc.Ac_ID, outline.Ol_ID);
+                Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(acc.Ac_ID, olid);
                 dic.Add("StudyTime", studyLog != null ? studyLog.Lss_StudyTime : 0);
                 dic.Add("PlayTime", studyLog != null ? studyLog.Lss_PlayTime : 0);
+                dic.Add("Complete", studyLog != null ? studyLog.Lss_Complete : 0);
             }
             dic.Add("isStudy", isStudy);
             dic.Add("isBuy", isBuy);
             //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
             canStudy = isStudy && outline.Ol_IsUse && outline.Ol_IsFinish;
             dic.Add("canStudy", canStudy);
+            return dic;
+        }
+        /// <summary>
+        /// 章节的相关信息，例如是否有视频，是否有附件
+        /// </summary>
+        /// <param name="olid"></param>
+        /// <returns></returns>
+        [Cache]
+        public JObject Info(long olid)
+        {
+            JObject dic = new JObject();
+            Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
+            if (outline == null) throw new Exception("章节不存在");
+            dic.Add("name", outline.Ol_Name);
+            dic.Add("couid", outline.Cou_ID);
+            dic.Add("id", outline.Ol_ID);          
             //是否有知识库
-            int knlCount = Business.Do<IKnowledge>().KnowledgeOfCount(-1, course.Cou_ID, null, true);
-            dic.Add("isKnl", knlCount > 0 && canStudy);
-
+            int knlCount = Business.Do<IKnowledge>().KnowledgeOfCount(-1, outline.Cou_ID, null, true);
+            dic.Add("isKnl", knlCount > 0);
             //是否有视频，是否为外链视频
 
             List<Song.Entities.Accessory> videos = Business.Do<IAccessory>().GetAll(outline.Ol_UID, "CourseVideo");
@@ -301,7 +318,7 @@ namespace Song.ViewData.Methods
                     string ext = System.IO.Path.GetExtension(videoUrl).ToLower();
                     if (ext == ".flv") videoUrl = Path.ChangeExtension(videoUrl, ".mp4");
                 }
-                dic.Add("urlVideo", canStudy ? videoUrl : string.Empty);
+                dic.Add("urlVideo", videoUrl);
                 outline.Ol_IsLive = false;
             }
             //直播  
@@ -309,42 +326,39 @@ namespace Song.ViewData.Methods
             if (outline.Ol_IsLive)
             {
                 string urlVideo = string.Empty;
-                if (canStudy)
+                //查询直播状态
+                pili_sdk.pili.StreamStatus status = Pili.API<IStream>().Status(outline.Ol_LiveID);
+                if (status != null)
                 {
-                    //查询直播状态
-                    pili_sdk.pili.StreamStatus status = Pili.API<IStream>().Status(outline.Ol_LiveID);
-                    if (status != null)
-                    {
-                        pili_sdk.pili.Stream stream = status.Stream;
-                        string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
-                        urlVideo = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
-                        isLiving = status.Status == "connected";  //正在直播
-                        existVideo = isLiving ? false : existVideo;
-                    }
+                    pili_sdk.pili.Stream stream = status.Stream;
+                    string proto = Business.Do<ILive>().GetProtocol;    //协议，http还是https
+                    urlVideo = string.Format("{0}://{1}/{2}/{3}.m3u8", proto, stream.LiveHlsHost, stream.HubName, stream.Title);
+                    isLiving = status.Status == "connected";  //正在直播
+                    existVideo = isLiving ? false : existVideo;
                 }
                 //直播播放地址
-                if(!dic.ContainsKey("urlVideo"))
+                if (!dic.ContainsKey("urlVideo"))
                     dic.Add("urlVideo", urlVideo);
                 //直播开始或结束
                 dic.Add("LiveStart", DateTime.Now > outline.Ol_LiveTime);
                 dic.Add("LiveOver", outline.Ol_LiveTime.AddMinutes(outline.Ol_LiveSpan) < DateTime.Now);
             }
             dic.Add("isLive", outline.Ol_IsLive);   //是否为直播章节
-            dic.Add("isLiving", isLiving && canStudy);  //是否在直播中
-            dic.Add("existVideo", existVideo && canStudy);
+            dic.Add("isLiving", isLiving);  //是否在直播中
+            dic.Add("existVideo", existVideo);
 
             //是否有课程内容
             bool isContext = !string.IsNullOrWhiteSpace(outline.Ol_Intro);
-            dic.Add("isContext", isContext && canStudy);
+            dic.Add("isContext", isContext);
             //是否有试题
             bool isQues = Business.Do<IOutline>().OutlineIsQues(outline.Ol_ID, true);
-            dic.Add("isQues", isQues && canStudy);
+            dic.Add("isQues", isQues);
             //是否有附件
             int accessCount = Business.Do<IAccessory>().OfCount(-1, outline.Ol_UID, "Course");
-            dic.Add("isAccess", accessCount > 0 && canStudy);
+            dic.Add("isAccess", accessCount > 0);
             //啥都没有（视频，内容，附件，试题，都没有）
             bool isNull = !(existVideo || isLive || isContext || isQues || isQues || accessCount > 0);
-            dic.Add("isNull",isNull || !canStudy);
+            dic.Add("isNull", isNull);
             return dic;
         }
         /// <summary>

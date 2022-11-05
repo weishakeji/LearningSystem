@@ -720,43 +720,61 @@ namespace Song.ServiceImpls
                 Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == olid).ToFirst<Outline>();
                 if (outline != null) couid = outline.Cou_ID;
             }
-            //当前章节的学习记录
-            //Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
-            string sql = "SELECT *  FROM [LogForStudentStudy] where Ol_ID={0} and Ac_ID={1}";
-            sql = string.Format(sql, olid, st.Ac_ID);
-            Song.Entities.LogForStudentStudy log = Gateway.Default.FromSql(sql).ToFirst<LogForStudentStudy>();
-            if (log == null)
+            using (DbTrans tran = Gateway.Default.BeginTrans())
             {
-                log = new LogForStudentStudy();
-                if (string.IsNullOrWhiteSpace(log.Lss_UID))
-                    log.Lss_UID = WeiSha.Core.Request.UniqueID();
-                log.Lss_CrtTime = DateTime.Now;
-                log.Cou_ID = couid;
-                log.Ol_ID = olid;
-                log.Org_ID = st.Org_ID;
-                //学员信息
-                log.Ac_ID = st.Ac_ID;
-                log.Ac_AccName = st.Ac_AccName;
-                log.Ac_Name = st.Ac_Name;
-                //视频长度
-                log.Lss_Duration = totalTime;
+                try
+                {
+                    //当前章节的学习记录
+                    //Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
+                    string sql = "SELECT *  FROM [LogForStudentStudy] where Ol_ID={0} and Ac_ID={1} order by Lss_CrtTime desc";
+                    sql = string.Format(sql, olid, st.Ac_ID);
+                    Song.Entities.LogForStudentStudy log = tran.FromSql(sql).ToFirst<LogForStudentStudy>();
+                    if (log == null)
+                    {
+                        log = new LogForStudentStudy();
+                        if (string.IsNullOrWhiteSpace(log.Lss_UID))
+                            log.Lss_UID = WeiSha.Core.Request.UniqueID();
+                        log.Lss_CrtTime = DateTime.Now;
+                        log.Cou_ID = couid;
+                        log.Ol_ID = olid;
+                        log.Org_ID = st.Org_ID;
+                        //学员信息
+                        log.Ac_ID = st.Ac_ID;
+                        log.Ac_AccName = st.Ac_AccName;
+                        log.Ac_Name = st.Ac_Name;
+                        //视频长度
+                        log.Lss_Duration = totalTime;
+                    }
+                    if (log.Cou_ID == 0)
+                        log.Cou_ID = couid;
+                    //登录相关时间
+                    log.Lss_LastTime = DateTime.Now;
+                    log.Lss_PlayTime = playTime;
+                    log.Lss_StudyTime = studyTime;
+                    if (log.Lss_Duration < totalTime) log.Lss_Duration = totalTime;
+                    //登录信息
+                    log.Lss_IP = ip;
+                    log.Lss_OS = os;
+                    log.Lss_Browser = name + " " + ver;
+                    log.Lss_Platform = ismobi ? "Mobi" : "PC";
+                    log.Lss_Complete = Math.Floor((double)log.Lss_StudyTime * 1000 / (double)log.Lss_Duration * 10000) / 100;
+                    log.Lss_Complete = log.Lss_Complete > 100 ? 100 : log.Lss_Complete;
+                    //保存到数据库
+                    tran.Save<LogForStudentStudy>(log);
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+
+                }
+                finally
+                {
+                    tran.Close();
+                }
             }
-            if (log.Cou_ID == 0)
-                log.Cou_ID = couid;
-            //登录相关时间
-            log.Lss_LastTime = DateTime.Now;
-            log.Lss_PlayTime = playTime;
-            log.Lss_StudyTime = studyTime;
-            if (log.Lss_Duration < totalTime) log.Lss_Duration = totalTime;
-            //登录信息
-            log.Lss_IP = ip;
-            log.Lss_OS = os;
-            log.Lss_Browser = name + " " + ver;
-            log.Lss_Platform = ismobi ? "Mobi" : "PC";
-            log.Lss_Complete = Math.Floor((double)log.Lss_StudyTime * 1000 / (double)log.Lss_Duration * 10000) / 100;
-            log.Lss_Complete = log.Lss_Complete > 100 ? 100 : log.Lss_Complete;
-            //保存到数据库
-            Gateway.Default.Save<LogForStudentStudy>(log);
+            
         }
         /// <summary>
         /// 根据学员id与章节id,返回学习记录
@@ -769,7 +787,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             wc &= LogForStudentStudy._.Ac_ID == acid;
             wc &= LogForStudentStudy._.Ol_ID == olid;
-            return Gateway.Default.From<LogForStudentStudy>().Where(wc).ToFirst<LogForStudentStudy>();
+            return Gateway.Default.From<LogForStudentStudy>().Where(wc).OrderBy(LogForStudentStudy._.Lss_CrtTime.Desc).ToFirst<LogForStudentStudy>();
         }
         /// <summary>
         /// 返回记录

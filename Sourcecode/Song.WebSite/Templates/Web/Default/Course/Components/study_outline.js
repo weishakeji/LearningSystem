@@ -64,7 +64,7 @@ Vue.component('study_outline', {
         th.loading = true;
         $api.bat(
             $api.cache("Outline/tree", { 'couid': th.couid, 'isuse': true }),
-            $api.get("Course/ForID", { id: th.couid })).then(axios.spread(function (ol, cur) {
+            $api.cache("Course/ForID", { id: th.couid })).then(axios.spread(function (ol, cur) {
                 th.loading = false;
                 if (cur.data.success) {
                     th.course = cur.data.result;
@@ -172,18 +172,31 @@ Vue.component('study_outline', {
             });
             th.outline = outline;
             th.loading = true;
-            //获取当前章节状态，和专业信息
-            $api.get('Outline/State', { 'olid': olid }).then(function (req) {
+            //获取章节相关信息
+            $api.bat(
+                $api.get('Outline/State', {'olid': olid  }),
+                $api.cache("Outline/Info", { 'olid': olid  })
+            ).then(axios.spread(function (state, info) {
                 th.loading = false;
-                if (req.data.success) {
-                    th.state = req.data.result;
-                    th.$emit('change', th.state, th.outline);
-                    console.log(th.state);
-                } else {
-                    console.error(req.data.exception);
-                    throw req.config.way + ' ' + req.data.message;
+                //判断结果是否正常
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i].status != 200)
+                        console.error(arguments[i]);
+                    var data = arguments[i].data;
+                    if (!data.success && data.exception != null) {
+                        console.error(data.exception);
+                        throw arguments[i].config.way + ' ' + data.message;
+                    }
                 }
-            }).catch(function (err) {
+                //获取结果
+                var result=info.data.result;
+                for (let key in state.data.result) {
+                    result[key]=state.data.result[key];                   
+                }
+                th.state = result;
+                th.$emit('change', th.state, th.outline);
+                //console.log(th.state);
+            })).catch(function (err) {
                 th.loading = false;
                 Vue.prototype.$alert(err);
                 console.error(err);

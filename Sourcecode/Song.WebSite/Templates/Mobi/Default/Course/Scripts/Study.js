@@ -321,26 +321,62 @@ $ready(function () {
                         this.player = null;
                     }
                     th.state_loading = true;
-                    $api.get('Outline/State', { 'olid': this.outline.Ol_ID }).then(function (req) {
+                    //获取章节相关信息
+                    $api.bat(
+                        $api.get('Outline/State', { 'olid': th.outline.Ol_ID }),
+                        $api.cache("Outline/Info", { 'olid': th.outline.Ol_ID })
+                    ).then(axios.spread(function (state, info) {
                         th.state_loading = false;
-                        if (req.data.success) {
-                            th.state = req.data.result;
-                            //视频播放记录
-                            var result = req.data.result;
-                            th.video.studytime = isNaN(result.StudyTime) ? 0 : result.StudyTime;
-                            th.video.playhistime = isNaN(result.PlayTime) ? 0 : result.PlayTime / 1000;
-                            window.setTimeout(function () {
-                                th.outlineLoaded = true;
-                            }, 100);
-                            console.log(th.state);
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.data.message;
+                        //判断结果是否正常
+                        for (var i = 0; i < arguments.length; i++) {
+                            if (arguments[i].status != 200)
+                                console.error(arguments[i]);
+                            var data = arguments[i].data;
+                            if (!data.success && data.exception != null) {
+                                console.error(data.exception);
+                                throw arguments[i].config.way + ' ' + data.message;
+                            }
                         }
-                    }).catch(function (err) {
-                        //alert(err);
+                        //获取结果
+                        var result = info.data.result;
+                        for (let key in state.data.result) {
+                            result[key] = state.data.result[key];
+                        }
+                        th.state = result;
+                        //视频播放记录                       
+                        th.video.studytime = isNaN(result.StudyTime) ? 0 : result.StudyTime;
+                        th.video.playhistime = isNaN(result.PlayTime) ? 0 : result.PlayTime / 1000;
+                        window.setTimeout(function () {
+                            th.outlineLoaded = true;
+                        }, 100);
+                        th.$emit('change', th.state, th.outline);
+                        //console.log(th.state);
+                    })).catch(function (err) {
+                        th.state_loading = false;
+                        Vue.prototype.$alert(err);
                         console.error(err);
                     });
+                    /*
+                                        $api.get('Outline/State', { 'olid': this.outline.Ol_ID }).then(function (req) {
+                                            th.state_loading = false;
+                                            if (req.data.success) {
+                                                th.state = req.data.result;
+                                                //视频播放记录
+                                                var result = req.data.result;
+                                                th.video.studytime = isNaN(result.StudyTime) ? 0 : result.StudyTime;
+                                                th.video.playhistime = isNaN(result.PlayTime) ? 0 : result.PlayTime / 1000;
+                                                window.setTimeout(function () {
+                                                    th.outlineLoaded = true;
+                                                }, 100);
+                                                console.log(th.state);
+                                            } else {
+                                                console.error(req.data.exception);
+                                                throw req.data.message;
+                                            }
+                                        }).catch(function (err) {
+                                            //alert(err);
+                                            console.error(err);
+                                        });*/
                 }
             },
             //课程状态
