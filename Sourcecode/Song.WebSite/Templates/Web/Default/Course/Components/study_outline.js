@@ -174,8 +174,8 @@ Vue.component('study_outline', {
             th.loading = true;
             //获取章节相关信息
             $api.bat(
-                $api.get('Outline/State', {'olid': olid  }),
-                $api.cache("Outline/Info", { 'olid': olid  })
+                $api.get('Outline/State', { 'olid': olid, 'acid': th.account.Ac_ID }),
+                $api.cache("Outline/Info", { 'olid': olid })
             ).then(axios.spread(function (state, info) {
                 th.loading = false;
                 //判断结果是否正常
@@ -189,9 +189,9 @@ Vue.component('study_outline', {
                     }
                 }
                 //获取结果
-                var result=info.data.result;
+                var result = info.data.result;
                 for (let key in state.data.result) {
-                    result[key]=state.data.result[key];                   
+                    result[key] = state.data.result[key];
                 }
                 th.state = result;
                 th.$emit('change', th.state, th.outline);

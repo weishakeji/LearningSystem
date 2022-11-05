@@ -241,48 +241,53 @@ namespace Song.ViewData.Methods
         /// 章节相对学员的状态，例如是否可以学习，学习进度等
         /// </summary>
         /// <param name="olid">章节id</param>
-        /// <returns></returns>        
-        public JObject State(long olid)
+        /// <param name="acid"></param>
+        /// <returns></returns>      
+        [Study]
+        public JObject State(long olid, int acid)
         {
             JObject dic = new JObject();
-            Song.Entities.Accounts acc = this.User;
-            dic.Add("isLogin", acc != null);    //学员是否登录
-            //
-            Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
-            if (outline == null) throw new Exception("章节不存在");
-            dic.Add("Name", outline.Ol_Name);
-            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
-            if (course == null) throw new Exception("课程不存在");
-            dic.Add("Course", course.Cou_Name);
-            Song.Entities.Organization orgin;
-            //是否限制在桌面应用中打开
-            dic.Add("DeskAllow", this.getDeskallow(course, outline, out orgin));
-            //是否在切换浏览器时继续播放
-            dic.Add("SwitchPlay", this.getSwitchPlay(course, acc, orgin));
-            //是否免费，或是限时免费
-            if (course.Cou_IsLimitFree)
-            {
-                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
-                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
-                    course.Cou_IsLimitFree = false;
-            }
-            //是否可以学习，是否购买
-            bool isStudy = false, isBuy = false, canStudy = false;
-            if (acc != null)
-            {
-                isStudy = Business.Do<ICourse>().AllowStudy(course, acc);
-                isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, acc.Ac_ID);
-                //学习记录
-                Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(acc.Ac_ID, olid);
-                dic.Add("StudyTime", studyLog != null ? studyLog.Lss_StudyTime : 0);
-                dic.Add("PlayTime", studyLog != null ? studyLog.Lss_PlayTime : 0);
-                dic.Add("Complete", studyLog != null ? studyLog.Lss_Complete : 0);
-            }
-            dic.Add("isStudy", isStudy);
-            dic.Add("isBuy", isBuy);
-            //是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
-            canStudy = isStudy && outline.Ol_IsUse && outline.Ol_IsFinish;
-            dic.Add("canStudy", canStudy);
+            dic.Add("isLogin", true);
+            //Song.Entities.Accounts acc = this.User;
+            //dic.Add("isLogin", acc != null);    //学员是否登录
+            ////
+            //Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
+            //if (outline == null) throw new Exception("章节不存在");
+            //dic.Add("Name", outline.Ol_Name);
+            //Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(outline.Cou_ID);
+            //if (course == null) throw new Exception("课程不存在");
+            //dic.Add("Course", course.Cou_Name);
+            //Song.Entities.Organization orgin;
+            ////是否限制在桌面应用中打开
+            //dic.Add("DeskAllow", this.getDeskallow(course, outline, out orgin));
+            ////是否在切换浏览器时继续播放
+            //dic.Add("SwitchPlay", this.getSwitchPlay(course, acc, orgin));
+            ////是否免费，或是限时免费
+            //if (course.Cou_IsLimitFree)
+            //{
+            //    DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+            //    if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+            //        course.Cou_IsLimitFree = false;
+            //}
+            ////是否可以学习，是否购买
+            //bool isStudy = false, isBuy = false, canStudy = false;
+            //if (acc != null)
+            //{
+            //    isStudy = Business.Do<ICourse>().AllowStudy(course, acc);
+            //    isBuy = course.Cou_IsFree || course.Cou_IsLimitFree ? true : Business.Do<ICourse>().IsBuy(course.Cou_ID, acc.Ac_ID);
+
+            //}
+            //学习记录
+            Song.Entities.LogForStudentStudy studyLog = Business.Do<IStudent>().LogForStudySingle(acid, olid);
+            dic.Add("StudyTime", studyLog != null ? studyLog.Lss_StudyTime : 0);
+            dic.Add("PlayTime", studyLog != null ? studyLog.Lss_PlayTime : 0);
+            dic.Add("Complete", studyLog != null ? studyLog.Lss_Complete : 0);
+
+            //dic.Add("isStudy", isStudy);
+            //dic.Add("isBuy", isBuy);
+            ////是否可以学习,如果是免费或已经选修便可以学习，否则当前课程允许试用且当前章节是免费的，也可以学习
+            //canStudy = isStudy && outline.Ol_IsUse && outline.Ol_IsFinish;
+            dic.Add("canStudy", true);
             return dic;
         }
         /// <summary>
@@ -294,6 +299,7 @@ namespace Song.ViewData.Methods
         public JObject Info(long olid)
         {
             JObject dic = new JObject();
+            if (olid <= 0) return dic;
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
             if (outline == null) throw new Exception("章节不存在");
             dic.Add("name", outline.Ol_Name);

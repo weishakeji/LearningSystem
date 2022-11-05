@@ -211,7 +211,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert("留言信息加载异常！详情：\r" + err);
+                    //alert("留言信息加载异常！详情：\r" + err);
                 });
             },
             //发送消息
@@ -323,7 +323,7 @@ $ready(function () {
                     th.state_loading = true;
                     //获取章节相关信息
                     $api.bat(
-                        $api.get('Outline/State', { 'olid': th.outline.Ol_ID }),
+                        $api.get('Outline/State', { 'olid': th.outline.Ol_ID, 'acid': th.account.Ac_ID  }),
                         $api.cache("Outline/Info", { 'olid': th.outline.Ol_ID })
                     ).then(axios.spread(function (state, info) {
                         th.state_loading = false;
@@ -356,27 +356,6 @@ $ready(function () {
                         Vue.prototype.$alert(err);
                         console.error(err);
                     });
-                    /*
-                                        $api.get('Outline/State', { 'olid': this.outline.Ol_ID }).then(function (req) {
-                                            th.state_loading = false;
-                                            if (req.data.success) {
-                                                th.state = req.data.result;
-                                                //视频播放记录
-                                                var result = req.data.result;
-                                                th.video.studytime = isNaN(result.StudyTime) ? 0 : result.StudyTime;
-                                                th.video.playhistime = isNaN(result.PlayTime) ? 0 : result.PlayTime / 1000;
-                                                window.setTimeout(function () {
-                                                    th.outlineLoaded = true;
-                                                }, 100);
-                                                console.log(th.state);
-                                            } else {
-                                                console.error(req.data.exception);
-                                                throw req.data.message;
-                                            }
-                                        }).catch(function (err) {
-                                            //alert(err);
-                                            console.error(err);
-                                        });*/
                 }
             },
             //课程状态
