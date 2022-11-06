@@ -25,12 +25,11 @@ var vapp = new Vue({
         entitylist: function () {
             this.entitysearch = this.entitysearch.toLowerCase();
             if (this.entitysearch == '') return this.entities;
-            var arr = [];
+            var arr = {};
             for (var item in this.entities) {
                 if (item.toLowerCase().indexOf(this.entitysearch) > -1
                     || this.entities[item]['mark'].indexOf(this.entitysearch) > -1) {
-                    arr[item] = this.entities[item];
-                    continue;
+                    arr[item] = this.entities[item];                   
                 }
             }
             return arr;
@@ -75,7 +74,7 @@ var vapp = new Vue({
             th.loading = false;
             th.error = err;
             console.error(err);
-            alert(err);
+            th.$alert(err);
         });
         //帮助信息隐藏
         window.setTimeout(function () {
@@ -89,8 +88,8 @@ var vapp = new Vue({
             $api.post('Helper/EntitiesUpdate', { 'detail': this.entities }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
-                    vapp.loading = false;
-                    vapp.$notify({
+                    th.loading = false;
+                    th.$notify({
                         title: '保存成功',
                         message: '数据实体的描述信息保存成功！',
                         type: 'success'
@@ -100,7 +99,7 @@ var vapp = new Vue({
                 }
             }).catch(function (err) {
                 th.loading = false;
-                alert(err);
+                th.$alert(err);
                 console.error(err);
             });
         },
@@ -141,7 +140,7 @@ Vue.component('entity', {
             this.getDetails(val);
         },
         'loading': function (val, old) {
-            vapp.mask(val);
+            this.$parent.mask(val);
         },
         'entity': function (nv, ov) {
             console.log(nv);
@@ -173,7 +172,7 @@ Vue.component('entity', {
                 Vue.set(th.states, 'update', false);
                 th.loading = false;
             })).catch(function (err) {
-                alert(err);
+                th.$alert(err);
                 console.error(err);
                 th.loading = false;
             });
@@ -195,9 +194,9 @@ Vue.component('entity', {
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                alert(err);
+                th.$alert(err);
                 console.error(err);
-                vapp.loading = false;
+                th.loading = false;
             });
         },
         //--------------------------------
@@ -278,49 +277,61 @@ Vue.component('entity', {
             return val.replace(regExp, `<b>${search}</b>`);
         }
     },
-    template: `<div><a :name="clname" class="anchor">&nbsp;</a>
-    <div class="name">
-        {{index+1}}. <span @dblclick="copy(clname)" title="双击复制">{{clname}}</span>
-        <span class="mark" v-show="!state('mark')" @click="edit('mark')">
-        <i class="el-icon-edit"></i><span>{{entity.mark}}</span></span>
-        <span v-show="state('mark')"><i class="el-icon-edit"></i>
-        <input type="text" :value="entity.mark" id="mark" @keyup.enter="leave('mark')" @blur="leave('mark')" />
-        </span>
-        <div class="psearch"><input type="text" v-model="search" /><i class="el-icon-search"></i></div>
+    template: `<div class="entity_area">
+    <div>
+        <a :name="clname" class="anchor">&nbsp;</a>
+        <div class="name">
+            {{index+1}}. <span @dblclick="copy(clname)" title="双击复制">{{clname}}</span>
+            <span class="mark" v-show="!state('mark')" @click="edit('mark')">
+            <i class="el-icon-edit"></i><span>{{entity.mark}}</span></span>
+            <span v-show="state('mark')"><i class="el-icon-edit"></i>
+            <input type="text" :value="entity.mark" id="mark" @keyup.enter="leave('mark')" @blur="leave('mark')" />
+            </span>
+            <div class="psearch"><input type="text" v-model="search" /><i class="el-icon-search"></i></div>
+        </div>
+        <div class="intro">
+            <span class="intro_text" v-show="!state('intro')" @click="edit('intro')">
+            <i class="el-icon-edit"></i>说明：<span v-html="entity.intro"></span></span>
+            <span v-show="state('intro')"><i class="el-icon-edit"></i> 说明：<br />
+            <textarea rows="3" style="width: 100%;"  id="intro" :value="entity.intro" @blur="leave('intro')"></textarea>
+            </span>
+        </div>
     </div>
-    <div class="intro">
-        <span class="intro_text" v-show="!state('intro')" @click="edit('intro')">
-        <i class="el-icon-edit"></i>说明：<span v-html="entity.intro"></span></span>
-        <span v-show="state('intro')"><i class="el-icon-edit"></i> 说明：<br />
-        <textarea rows="3" style="width: 100%;"  id="intro" :value="entity.intro" @blur="leave('intro')"></textarea>
-        </span>
+    <div>
+        <table border="0">
+            <thead>
+                <tr>
+                    <th>序号</th><th>字段</th><th>类型</th><th>可空</th><th>关联</th><th>备注</th><th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(v,k,i) in properties">
+                    <td>{{i+1}}</td>
+                    <td v-html="$options.filters.show(k,search)+(v.primary=='1' ? ' (主键)' : '')" @dblclick="copy(k)" title="双击复制" class="field"></td>
+                    <td>{{showtype(v.type,v.length)}}</td>
+                    <td>{{Number(v.nullable)==0 ? '' : '√'}}</td>
+                    <td @dblclick="edit(k+'.relation')" mark="关联">
+                        <span v-if="!state(k+'.relation')">{{text(k,'relation')}}</span>
+                        <select  v-if="state(k+'.relation')" :id="k+'.relation'"
+                            :value="text(k,'relation')" @blur="leave(k+'.relation')"
+                            @change="leave(k+'.relation')">
+                            <option value=""></option>
+                            <option :value="key" v-for="(val,key,index) in datas">{{key}}</option>
+                        </select>
+                    </td >
+                    <td @dblclick="edit(k+'.mark')"  mark="备注">
+                        <span v-if="!state(k+'.mark')" v-html="$options.filters.show(text(k,'mark',true),search)"></span>
+                        <textarea rows="3" v-if="state(k+'.mark')" :id="k+'.mark'"
+                        :value="text(k,'mark')" @blur="leave(k+'.mark')"></textarea>
+                    </td>
+                    <td @dblclick="edit(k+'.intro')"  mark="说明">
+                        <span v-if="!state(k+'.intro')" v-html="$options.filters.show(text(k,'intro',true),search)"></span>
+                        <textarea rows="3" v-if="state(k+'.intro')" :id="k+'.intro'"
+                        :value="text(k,'intro')" @blur="leave(k+'.intro')"></textarea>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <table border="0">
-    <tr><th>序号</th><th>字段</th><th>类型</th><th>可空</th><th>关联</th><th>备注</th><th>说明</th></tr>
-    <tr v-for="(v,k,i) in properties">
-        <td>{{i+1}}</td>
-        <td v-html="$options.filters.show(k,search)+(v.primary=='1' ? ' (主键)' : '')" @dblclick="copy(k)" title="双击复制" class="field"></td>
-        <td>{{showtype(v.type,v.length)}}</td>
-        <td>{{Number(v.nullable)==0 ? '' : '√'}}</td>
-        <td @dblclick="edit(k+'.relation')" mark="关联">
-            <span v-if="!state(k+'.relation')">{{text(k,'relation')}}</span>
-            <select  v-if="state(k+'.relation')" :id="k+'.relation'"
-                :value="text(k,'relation')" @blur="leave(k+'.relation')"
-                @change="leave(k+'.relation')">
-                <option value=""></option>
-                <option :value="key" v-for="(val,key,index) in datas">{{key}}</option>
-            </select>
-        </td >
-        <td @dblclick="edit(k+'.mark')"  mark="备注">
-            <span v-if="!state(k+'.mark')" v-html="$options.filters.show(text(k,'mark',true),search)"></span>
-            <textarea rows="3" v-if="state(k+'.mark')" :id="k+'.mark'"
-            :value="text(k,'mark')" @blur="leave(k+'.mark')"></textarea>
-        </td>
-        <td @dblclick="edit(k+'.intro')"  mark="说明">
-            <span v-if="!state(k+'.intro')" v-html="$options.filters.show(text(k,'intro',true),search)"></span>
-            <textarea rows="3" v-if="state(k+'.intro')" :id="k+'.intro'"
-            :value="text(k,'intro')" @blur="leave(k+'.intro')"></textarea>
-        </td>
-        </table >
     </div>`
 });

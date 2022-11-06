@@ -377,12 +377,8 @@ namespace Song.ServiceImpls
             diff1 = diff1 < 1 ? 1 : diff1;
             diff2 = diff2 < 1 || diff2 > 5 ? 5 : diff2;
             //基本属性
-            string where = " Qus_IsError=false ";
-            if (orgid > 0) where += " and org_id=" + orgid; //试题类型
-            if (type > 0) where += " and Qus_Type=" + type; //试题类型
-            if (diff1 > 0) where += " and Qus_Diff>=" + diff1;  //最小难度等级
-            if (diff2 > 0) where += " and Qus_Diff<=" + diff2;  //最大难度
-            if (isUse != null) where += " and Qus_IsUse=" + ((bool)isUse).ToString().ToLower(); //是否包括未使用的试题，true为只限启用的试题                     
+            string where = " Qus_IsError=false ";           
+                          
             if (olid > 0)
             {
                 //章节id
@@ -403,6 +399,11 @@ namespace Song.ServiceImpls
                     if (sbjid > 0) where += " and Sbj_ID=" + sbjid; //专业id   
                 }
             }
+            if (orgid > 0) where += " and org_id=" + orgid; //试题类型
+            if (type > 0) where += " and Qus_Type=" + type; //试题类型
+            if (diff1 > 0) where += " and Qus_Diff>=" + diff1;  //最小难度等级
+            if (diff2 > 0) where += " and Qus_Diff<=" + diff2;  //最大难度
+            if (isUse != null) where += " and Qus_IsUse=" + ((bool)isUse).ToString().ToLower(); //是否包括未使用的试题，true为只限启用的试题      
             //根据不同的数据库拼接SQL语句
             string sql = "";
             //string dataype = WeiSha.Core.Server.DatabaseType; //数据库类型
@@ -1458,9 +1459,9 @@ namespace Song.ServiceImpls
             if (acid <= 0 || olid <= 0) return null;
             WhereClip wc = new WhereClip();
             wc.And(LogForStudentExercise._.Ac_ID == acid);
-            if (couid > 0)           
-                wc.And(LogForStudentExercise._.Cou_ID == couid);
             wc.And(LogForStudentExercise._.Ol_ID == olid);
+            if (couid > 0)           
+                wc.And(LogForStudentExercise._.Cou_ID == couid);          
             return Gateway.Default.From<LogForStudentExercise>().Where(wc).ToFirst<LogForStudentExercise>();
         }
         /// <summary>
@@ -1477,9 +1478,9 @@ namespace Song.ServiceImpls
             {               
                 WhereClip wc = new WhereClip();
                 wc.And(LogForStudentExercise._.Ac_ID == acid);
-                if (couid > 0)
-                    wc.And(LogForStudentExercise._.Cou_ID == couid);
                 wc.And(LogForStudentExercise._.Ol_ID == olid);
+                if (couid > 0)
+                    wc.And(LogForStudentExercise._.Cou_ID == couid);              
                 Gateway.Default.Delete<LogForStudentExercise>(wc);
             }).Start();          
             return true;

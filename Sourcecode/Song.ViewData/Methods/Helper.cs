@@ -169,16 +169,7 @@ namespace Song.ViewData.Methods
         [HttpGet,Localhost]
         public JObject Entities()
         {
-            ////实体的列表（通过反射获取）
-            //Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
-            //Type[] types = assembly.GetExportedTypes()
-            //    .Where(t => t.BaseType.FullName.Equals("WeiSha.Data.Entity", StringComparison.CurrentCultureIgnoreCase))
-            //    .ToArray();
-            //List<string> entities = new List<string>();
-            //for (int i = 0; i < types.Length; i++) entities.Add(types[i].Name);
-
             List<string> entities = Business.Do<ISystemPara>().DataTables();
-
             //获取实体的原有记录项
             JObject details = null;
             string file = string.Format("{0}help\\datas\\entitiy\\entities.json", AppDomain.CurrentDomain.BaseDirectory);
@@ -237,44 +228,6 @@ namespace Song.ViewData.Methods
                 fields.Add(dr["name"].ToString(), pattr);
             }
             return fields;
-
-            //Assembly assembly = Assembly.LoadFrom(AppDomain.CurrentDomain.BaseDirectory + "\\bin\\Song.Entities.dll");
-            //Type type = assembly.GetExportedTypes()
-            //    .Where(t => t.FullName.Substring(t.FullName.LastIndexOf(".") + 1).Equals(tablename, StringComparison.CurrentCultureIgnoreCase))
-            //    .FirstOrDefault();
-            //if (type == null) return null;
-
-            //JObject fields = new JObject();
-            ////获取属性
-            //PropertyInfo[] properties = type.GetProperties();
-            //PropertyInfo temp = null;
-            //for (int i = 1; i < properties.Length; i++)
-            //{
-            //    for (int j = i + 1; j < properties.Length; j++)
-            //    {
-            //        if (string.Compare(properties[j].Name, properties[i].Name, true) == -1)
-            //        {
-            //            temp = properties[j];
-            //            properties[j] = properties[i];
-            //            properties[i] = temp;
-            //        }
-            //    }
-            //}
-            //for (int j = 0; j < properties.Length; j++)
-            //{
-            //    if (fields.ContainsKey(properties[j].Name)) continue;
-            //    Type ptype = properties[j].PropertyType;
-            //    JObject pattr = new JObject();
-            //    //属性的类型名称，包括泛型
-            //    if (ptype.IsGenericType && ptype.GetGenericTypeDefinition() == typeof(Nullable<>))
-            //        ptype = ptype.GetGenericArguments()[0];
-            //    pattr.Add("type", ptype.Name.ToLower());
-            //    //属性是否可以为空
-            //    pattr.Add("nullable", properties[j].PropertyType.Name.IndexOf("Nullable") >= 0);
-            //    //
-            //    fields.Add(properties[j].Name, pattr);
-            //}
-            //return fields;
         }
         /// <summary>
         /// 实体详细说明的获取
@@ -284,9 +237,9 @@ namespace Song.ViewData.Methods
         [HttpGet]
         public JObject EntityDetails(string name)
         {
-            //return this.EntityDetails(name, string.Empty);
             string file = string.Format("{0}help\\datas\\Entitiy\\{1}.json", AppDomain.CurrentDomain.BaseDirectory, name);
-            string details = System.IO.File.ReadAllText(file, Encoding.UTF8);
+            //if (!System.IO.File.Exists(file)) System.IO.File.Create(file);
+            string details = System.IO.File.Exists(file) ? System.IO.File.ReadAllText(file, Encoding.UTF8) : "";
             //获取实体和实体属性的名称
             List<string> list = Business.Do<ISystemPara>().DataFieldNames(name);           
 
@@ -326,6 +279,7 @@ namespace Song.ViewData.Methods
         /// <returns>返回实体详情</returns>
         [Localhost]
         [HttpPost]
+        [Admin]
         public bool EntityDetails(string name, string detail)
         {
             if (string.IsNullOrWhiteSpace(name)) return false;           

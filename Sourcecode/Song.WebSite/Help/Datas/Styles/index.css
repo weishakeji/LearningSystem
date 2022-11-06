@@ -319,11 +319,19 @@ footer a:hover {
 
 .entity_area {
     margin: 0px 5px 0px 20px;
-    padding: 0px 15px 10px 0px;
-    height: calc(100% - 50px);
-    overflow-y: auto;
+    padding: 0px 0px 10px 0px;
+    height: calc(100% - 40px);
+    box-sizing: border-box;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
 }
-
+.entity_area>div:last-child{
+    overflow-y: auto;
+    box-sizing: border-box;
+    padding-right: 10px;
+    position: relative;
+}
 .entity_area a.anchor {
     display: block;
     height: 10px;
@@ -411,8 +419,12 @@ table {
     border-collapse: separate;
     border: 2px solid #666;
     margin: 0px 10px 20px 0px;
+    position: relative;
+    overflow: auto;
 }
+table tr:first-child{
 
+}
 table td {
     font-size: 14px;
     line-height: 30px;

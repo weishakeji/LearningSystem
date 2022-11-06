@@ -726,7 +726,7 @@ namespace Song.ServiceImpls
                 {
                     //当前章节的学习记录
                     //Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
-                    string sql = "SELECT *  FROM [LogForStudentStudy] where Ol_ID={0} and Ac_ID={1} order by Lss_CrtTime desc";
+                    string sql = "SELECT *  FROM [LogForStudentStudy] where Ac_ID={1} and Ol_ID={0} order by Lss_CrtTime desc";
                     sql = string.Format(sql, olid, st.Ac_ID);
                     Song.Entities.LogForStudentStudy log = tran.FromSql(sql).ToFirst<LogForStudentStudy>();
                     if (log == null)
@@ -787,7 +787,7 @@ namespace Song.ServiceImpls
             WhereClip wc = new WhereClip();
             wc &= LogForStudentStudy._.Ac_ID == acid;
             wc &= LogForStudentStudy._.Ol_ID == olid;
-            return Gateway.Default.From<LogForStudentStudy>().Where(wc).OrderBy(LogForStudentStudy._.Lss_CrtTime.Desc).ToFirst<LogForStudentStudy>();
+            return Gateway.Default.From<LogForStudentStudy>().Where(wc).OrderBy(LogForStudentStudy._.Lss_ID.Desc).ToFirst<LogForStudentStudy>();
         }
         /// <summary>
         /// 返回记录
@@ -810,10 +810,11 @@ namespace Song.ServiceImpls
         public LogForStudentStudy[] LogForStudyCount(int orgid, long couid, long olid, int acid, string platform, int count)
         {
             WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(LogForStudentStudy._.Org_ID == orgid);
-            if (couid > 0) wc.And(LogForStudentStudy._.Cou_ID == couid);
-            if (olid > 0) wc.And(LogForStudentStudy._.Ol_ID == olid);
             if (acid > 0) wc.And(LogForStudentStudy._.Ac_ID == acid);
+            if (olid > 0) wc.And(LogForStudentStudy._.Ol_ID == olid);
+            if (couid > 0) wc.And(LogForStudentStudy._.Cou_ID == couid);
+            if (orgid > 0) wc.And(LogForStudentStudy._.Org_ID == orgid);
+         
             if (!string.IsNullOrWhiteSpace(platform))
             {
                 if (platform.ToLower().Trim() == "pc") platform = "PC";
@@ -840,9 +841,10 @@ namespace Song.ServiceImpls
         public LogForStudentStudy[] LogForStudyPager(int orgid, long couid, long olid, int acid, string platform, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
-            if (couid > 0) wc.And(LogForStudentStudy._.Cou_ID == couid);
-            if (olid > 0) wc.And(LogForStudentStudy._.Ol_ID == olid);
             if (acid > 0) wc.And(LogForStudentStudy._.Ac_ID == acid);
+            if (olid > 0) wc.And(LogForStudentStudy._.Ol_ID == olid);
+            if (couid > 0) wc.And(LogForStudentStudy._.Cou_ID == couid);         
+           
             if (!string.IsNullOrWhiteSpace(platform))
             {
                 if (platform.ToLower().Trim() == "pc") platform = "PC";
@@ -1007,7 +1009,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
 
             //获取学习记录
-            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration,Lss_Complete FROM [LogForStudentStudy] where {couid} and {acid}";
+            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration,Lss_Complete FROM [LogForStudentStudy] where {acid} and {couid}";
             sql_log = sql_log.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
             sql_log = sql_log.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
 
@@ -1109,7 +1111,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             int tolerance = config["VideoTolerance"].Value.Int32 ?? 5;
 
             //获取学习记录
-            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration,Lss_PlayTime,Lss_Complete FROM [LogForStudentStudy] where {couid} and {acid}";
+            string sql_log = @"SELECT ol_id,Lss_LastTime,Lss_StudyTime,Lss_Duration,Lss_PlayTime,Lss_Complete FROM [LogForStudentStudy] where  {acid} and {couid}";
             sql_log = sql_log.Replace("{acid}", acid > 0 ? "ac_id=" + acid : "1=1");
             sql_log = sql_log.Replace("{couid}", couid > 0 ? "Cou_ID=" + couid : "1=1");
             using (SourceReader reader = Gateway.Default.FromSql(sql_log).ToReader())
@@ -1328,7 +1330,7 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
             if (type > 0) wc.And(Student_Ques._.Qus_Type == type);
             return Gateway.Default.From<Questions>()
                 .InnerJoin<Student_Ques>(Questions._.Qus_ID == Student_Ques._.Qus_ID)
-                .Where(wc).OrderBy(Questions._.Qus_CrtTime.Desc).ToArray<Questions>();
+                .Where(wc).OrderBy(Questions._.Qus_ID.Desc).ToArray<Questions>();
         }
         /// <summary>
         /// 获取指定个数的对象
