@@ -10,12 +10,11 @@
 ## 商务合作 - 承接定制开发 期待合作
 ##### [![](https://img.shields.io/badge/down-%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6-blue)](https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg) [![](https://img.shields.io/badge/doc-%E9%A1%B9%E7%9B%AE%E6%96%87%E6%A1%A3-yellow)](https://gitee.com/weishakeji/LearningSystem/tree/master/Document)  [![](https://img.shields.io/badge/QQ-10522779-green)](tencent://AddContact/fromId=45&fromSubId=1&subcmd=all&uin=10522779)
 
-> “安装文件”是编译之后的程序，可以直接部署，存储在百度云盘，提取码：xekq。
+>  **所有的版权信息都可以修改** ，程序中涉及版权的信息全部引用自“/Sourcecode/Song.WebSite/copyright.weisha”文件，也可以在超级管理员的管理界面的左上方“/帮助/版权信息”里通过可视化界面修改。
 
 > “Document/商务文档”文件夹中提供了演示PPT、建设方案、功能清单等文档，方便大家在洽商项目时使用。
 
->  **所有的版权信息都可以修改** ，程序中涉及版权的信息全部引用自“/Sourcecode/Song.WebSite/copyright.weisha”文件，也可以在超级管理员的管理界面的左上方“/帮助/版权信息”里通过可视化界面修改。
-
+> “安装文件”是编译之后的程序，可以直接部署，存储在百度云盘，提取码：xekq。
 
 ## 技术特点
  * 前后端分离（MVVM架构），C#、Sqlserver、Vue
