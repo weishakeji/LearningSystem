@@ -165,7 +165,7 @@ namespace Song.ServiceImpls
         }
         public Accessory GetSingle(string uid, string type)
         {
-            return Gateway.Default.From<Accessory>().Where(Accessory._.As_Type == type && Accessory._.As_Uid == uid).ToFirst<Accessory>();
+            return Gateway.Default.From<Accessory>().Where(Accessory._.As_Uid == uid && Accessory._.As_Type == type).ToFirst<Accessory>();
         }
         /// <summary>
         ///附件列表

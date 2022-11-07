@@ -502,17 +502,21 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Accounts AccountsLogin(string acc, string pw, bool? isPass)
         {
-            WhereClip wc = Accounts._.Ac_IsUse == true;
+            Song.Entities.Accounts entity = null;
+           WhereClip wc = Accounts._.Ac_IsUse == true;
             if (isPass != null) wc.And(Accounts._.Ac_IsPass == (bool)isPass);
-            //密码
-            wc.And(Accounts._.Ac_Pw == new WeiSha.Core.Param.Method.ConvertToAnyValue(pw).MD5);
-            //账号、手机号、身份证，均可验证
-            WhereClip w2 = new WhereClip();
-            w2 |= Accounts._.Ac_AccName == acc;
-            w2 |= Accounts._.Ac_MobiTel1 == acc;
-            w2 |= Accounts._.Ac_MobiTel2 == acc;
-            w2 |= Accounts._.Ac_IDCardNumber == acc;
-            Song.Entities.Accounts entity = Gateway.Default.From<Accounts>().Where(wc && w2).ToFirst<Accounts>();
+            string md5pw = new WeiSha.Core.Param.Method.ConvertToAnyValue(pw).MD5;
+            entity = Gateway.Default.From<Accounts>().Where(wc && Accounts._.Ac_AccName == acc && Accounts._.Ac_Pw == md5pw).ToFirst<Accounts>();
+            if (entity == null)
+            {
+                //账号、手机号、身份证，均可验证
+                WhereClip w2 = new WhereClip();
+                w2 |= Accounts._.Ac_AccName == acc;
+                w2 |= Accounts._.Ac_MobiTel1 == acc;
+                w2 |= Accounts._.Ac_MobiTel2 == acc;
+                w2 |= Accounts._.Ac_IDCardNumber == acc;
+                entity = Gateway.Default.From<Accounts>().Where(wc && w2).ToFirst<Accounts>();
+            }
             if (entity != null)
             {
                 //识别码，记录到数据库

@@ -726,7 +726,7 @@ namespace Song.ServiceImpls
                 {
                     //当前章节的学习记录
                     //Song.Entities.LogForStudentStudy entity = this.LogForStudySingle(st.Ac_ID, olid);
-                    string sql = "SELECT *  FROM [LogForStudentStudy] where Ac_ID={1} and Ol_ID={0} order by Lss_CrtTime desc";
+                    string sql = "SELECT *  FROM [LogForStudentStudy] where Ac_ID={1} and Ol_ID={0} order by Lss_ID desc";
                     sql = string.Format(sql, olid, st.Ac_ID);
                     Song.Entities.LogForStudentStudy log = tran.FromSql(sql).ToFirst<LogForStudentStudy>();
                     if (log == null)
