@@ -1,0 +1,49 @@
+﻿html, body, #vapp {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    position: relative;
+}
+
+.header {
+    height: 44px;
+    background-color: rgb(212, 224, 206);
+    font-size: 14px;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    z-index: 2;
+}
+card-title{
+    font-size: 18px;
+}
+.header .van-search {
+    padding: 5px 6px !important;
+}
+
+.context {
+    width: 100%;
+    position: fixed;
+    top: 44px;
+    height: calc(100% - 44px - 50px);
+    overflow-y: auto;
+}
+
+
+row {
+    padding-right: 70px;
+}
+row span.van-tag{
+    display: block;
+    position: absolute;
+    top: 16px;
+    right: 0px;
+}
+.noarticle{
+    font-size: 12px;
+}
+row a{
+    font-size: 16px;
+}

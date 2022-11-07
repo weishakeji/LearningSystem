@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -26,6 +27,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <TypeScriptToolsVersion>4.0</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -968,20 +970,20 @@
     <Content Include="Templates\Mobi\Default\Account\Myfriends.html" />
     <Content Include="Templates\Mobi\Default\Account\Scripts\Myfriends.js" />
     <Content Include="Templates\Mobi\Default\Account\Styles\Myfriends.css" />
-    <Content Include="Templates\Mobi\Default\Article\Components\Articles.js" />
-    <Content Include="Templates\Mobi\Default\Article\Components\SearchInput.js" />
-    <Content Include="Templates\Mobi\Default\Article\Detail.html" />
-    <Content Include="Templates\Mobi\Default\Article\Index.html" />
-    <Content Include="Templates\Mobi\Default\Article\Search.html" />
-    <Content Include="Templates\Mobi\Default\Article\List.html" />
-    <Content Include="Templates\Mobi\Default\Article\Scripts\Detail.js" />
-    <Content Include="Templates\Mobi\Default\Article\Scripts\Index.js" />
-    <Content Include="Templates\Mobi\Default\Article\Scripts\Search.js" />
-    <Content Include="Templates\Mobi\Default\Article\Scripts\List.js" />
-    <Content Include="Templates\Mobi\Default\Article\Styles\Detail.css" />
-    <Content Include="Templates\Mobi\Default\Article\Styles\Index.css" />
-    <Content Include="Templates\Mobi\Default\Article\Styles\Search.css" />
-    <Content Include="Templates\Mobi\Default\Article\Styles\List.css" />
+    <Content Include="Templates\Mobi\Default\News\Components\Articles.js" />
+    <Content Include="Templates\Mobi\Default\News\Components\SearchInput.js" />
+    <Content Include="Templates\Mobi\Default\News\Article.html" />
+    <Content Include="Templates\Mobi\Default\News\Index.html" />
+    <Content Include="Templates\Mobi\Default\News\Search.html" />
+    <Content Include="Templates\Mobi\Default\News\List.html" />
+    <Content Include="Templates\Mobi\Default\News\Scripts\Article.js" />
+    <Content Include="Templates\Mobi\Default\News\Scripts\Index.js" />
+    <Content Include="Templates\Mobi\Default\News\Scripts\Search.js" />
+    <Content Include="Templates\Mobi\Default\News\Scripts\List.js" />
+    <Content Include="Templates\Mobi\Default\News\Styles\Article.css" />
+    <Content Include="Templates\Mobi\Default\News\Styles\Index.css" />
+    <Content Include="Templates\Mobi\Default\News\Styles\Search.css" />
+    <Content Include="Templates\Mobi\Default\News\Styles\List.css" />
     <Content Include="Templates\Mobi\Default\Account\MyCourse.html" />
     <Content Include="Templates\Mobi\Default\Account\Myself.html" />
     <Content Include="Templates\Mobi\Default\Account\Scripts\MyCourse.js" />
@@ -1070,11 +1072,11 @@
     <Content Include="Templates\Mobi\Default\Images\swipe\3.jpg" />
     <Content Include="Templates\Mobi\Default\Index.html" />
     <Content Include="Templates\Mobi\Default\Notice\Detail.html" />
-    <Content Include="Templates\Mobi\Default\Notice\List.html" />
+    <Content Include="Templates\Mobi\Default\Notice\Index.html" />
     <Content Include="Templates\Mobi\Default\Notice\Scripts\Detail.js" />
-    <Content Include="Templates\Mobi\Default\Notice\Scripts\List.js" />
+    <Content Include="Templates\Mobi\Default\Notice\Scripts\Index.js" />
     <Content Include="Templates\Mobi\Default\Notice\Styles\Detail.css" />
-    <Content Include="Templates\Mobi\Default\Notice\Styles\List.css" />
+    <Content Include="Templates\Mobi\Default\Notice\Styles\Index.css" />
     <Content Include="Templates\Mobi\Default\Question\Exercises.html" />
     <Content Include="Templates\Mobi\Default\Question\Scripts\Exercises.js" />
     <Content Include="Templates\Mobi\Default\Question\Styles\Collects.css" />
@@ -1880,6 +1882,75 @@
     <Content Include="Utilities\scrollbar-track.gif" />
     <Content Include="Utilities\Fonts\icon.css" />
     <Content Include="Utilities\Styles\Public.css" />
+    <Content Include="Utilities\TinyMCE\icons\default\icons.min.js" />
+    <Content Include="Utilities\TinyMCE\langs\zh_CN.js" />
+    <Content Include="Utilities\TinyMCE\license.txt" />
+    <Content Include="Utilities\TinyMCE\models\dom\model.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\advlist\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\anchor\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\autolink\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\autoresize\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\autosave\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\axupimgs\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\bdmap\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\charmap\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\codesample\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\code\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\directionality\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\emoticons\js\emojiimages.js" />
+    <Content Include="Utilities\TinyMCE\plugins\emoticons\js\emojiimages.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\emoticons\js\emojis.js" />
+    <Content Include="Utilities\TinyMCE\plugins\emoticons\js\emojis.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\emoticons\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\formatpainter\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\fullscreen\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\help\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\hr\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\imagetools\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\image\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\importcss\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\indent2em\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\insertdatetime\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\link\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\lists\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\media\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\nonbreaking\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\pagebreak\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\preview\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\print\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\quickbars\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\save\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\searchreplace\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\table\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\template\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\textpattern\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\visualblocks\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\visualchars\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\wordcount\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\skins\content\dark\content.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\content\default\content.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\content\document\content.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\content\tinymce-5-dark\content.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\content\tinymce-5\content.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\content\writer\content.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\oxide-dark\content.inline.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\oxide-dark\content.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\oxide-dark\skin.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\oxide-dark\skin.shadowdom.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\oxide\content.inline.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\oxide\content.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\oxide\skin.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\oxide\skin.shadowdom.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\tinymce-5-dark\content.inline.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\tinymce-5-dark\content.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\tinymce-5-dark\skin.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\tinymce-5-dark\skin.shadowdom.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\tinymce-5\content.inline.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\tinymce-5\content.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\tinymce-5\skin.min.css" />
+    <Content Include="Utilities\TinyMCE\skins\ui\tinymce-5\skin.shadowdom.min.css" />
+    <Content Include="Utilities\TinyMCE\themes\silver\theme.min.js" />
+    <Content Include="Utilities\TinyMCE\tinymce.min.js" />
     <Content Include="Utilities\Vant\Vant.css" />
     <Content Include="Utilities\Vant\vant.min.js" />
     <Content Include="Utilities\Viewport\datav.map.vue.js" />
@@ -2292,13 +2363,22 @@
     <Content Include="Help\Datas\Entitiy\Teacher_Course.json" />
     <Content Include="Help\Datas\Entitiy\StudentSort_Course.json" />
     <Content Include="Help\Datas\Entitiy\EmpTitle.json" />
+    <Content Include="Help\Datas\Entitiy\LogForStudentQuestions.json" />
     <None Include="packages.config" />
+    <Content Include="Utilities\TinyMCE\langs\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Utilities\TinyMCE\tinymce.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">

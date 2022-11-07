@@ -151,7 +151,7 @@ $ready(function () {
                         tree.show();
                         break;
                     case 'goback':
-                        document.location.href = 'detail?id=' + this.course.Cou_ID;
+                        document.location.href = 'detail.' + this.course.Cou_ID;
                         break;
                     default:
                         vdata.contextShow = item.id;

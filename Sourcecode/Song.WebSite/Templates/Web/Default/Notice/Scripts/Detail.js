@@ -66,7 +66,7 @@ $ready(function () {
         },
         methods: {
             onSearch: function () {
-                var url = '/mobi/Notice/list?search=' + encodeURIComponent(this.sear_str);
+                var url = '/mobi/Notice/index?search=' + encodeURIComponent(this.sear_str);
                 window.location.href = url;
             },
             //获取通知公告

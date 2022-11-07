@@ -16,8 +16,8 @@ Vue.component('aside_menu', {
                 { name: '学习卡', login: 0, url: 'Card/learn', icon: '&#xe60f', size: 18, evt: null },
                 { name: 'hr', login: 0 },
                 { name: '我的朋友', login: 0, url: 'Account/Myfriends', icon: '&#xe635', size: 20, evt: null },
-                { name: '新闻资讯', login: -1, url: 'Article/index', icon: '&#xe75c', size: 20, evt: null },
-                { name: '通知', login: -1, url: 'Notice/list', icon: '&#xe697', size: 20, evt: null },
+                { name: '新闻资讯', login: -1, url: 'News/index', icon: '&#xe75c', size: 20, evt: null },
+                { name: '通知', login: -1, url: 'Notice/index', icon: '&#xe697', size: 20, evt: null },
                 { name: 'hr', login: 0 },
                 { name: '缓存管理', login: -1, url: 'Cache/Index', icon: '&#xe6a4', size: 19, evt: null },
                 { name: '注销登录', login: 0, url: '', icon: '&#xe70a', size: 20, evt: this.logout }

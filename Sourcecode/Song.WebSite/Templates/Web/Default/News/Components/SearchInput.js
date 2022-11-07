@@ -16,7 +16,7 @@ Vue.component('search_input', {
         onSearch: function () {
             var file = $dom.file().toLowerCase();
             if (file != 'search' && this.search == '') return;
-            var url = "/mobi/Article/search?s=" + encodeURIComponent(this.search);
+            var url = "/mobi/News/search?s=" + encodeURIComponent(this.search);
             window.location.href = url;
         },
     },
