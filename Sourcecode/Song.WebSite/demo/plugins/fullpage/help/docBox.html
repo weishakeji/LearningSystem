@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /*公共样式*/
+
+* {
+	margin: 0;
+	box-sizing: border-box;
+	padding: 0;
+	-webkit-overflow-scrolling: touch;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+div,
+ul,
+li,
+ol,
+dl,
+dt,
+dd,
+span,
+i,
+em,
+strong,
+button,
+table,
+textarea,
+input,
+b,
+nav,
+footer,
+form,
+frame,
+img,
+select {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	box-sizing: border-box;
+	border: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	outline: none;
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	font-style: normal;
+	text-underline: none;
+}
+
+html {
+	-webkit-overflow-scrolling: touch;
+}
+
+body {
+	/*font-family: "Arial","Microsoft YaHei","黑体","宋体","sans-serif";*/
+	background: #fff;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	margin: 0 auto;
+	position: relative;
+}
+
+ul,
+ol {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	color: #666;
+	outline: none;
+	-webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+a:hover {
+	text-decoration: none
+}
+
+.fl {
+	float: left;
+}
+
+.fr {
+	float: right;
+}
+
+.clearfix:after,
+.clearfix:before {
+	display: block;
+	content: "";
+	height: 0;
+	clear: both;
+	width: 0;
+}
+
+.Container {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.flex {
+	display: -webkit-box;
+	display: -moz-box;
+	display: box;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+[v-cloak] {
+    display: none;
+}
+.inner{
+	width: 100%;
+	margin: 0 auto;
+}
+
+
+.custom_img{
+	width: 100%;
+	height: 3.4rem;
+	background-color: #fff;
+	padding: 0 0.4rem;
+}
+.custom_img_top{
+	font-size: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.custom_img_top p{
+	line-height: 1rem;
+}
+.custom_sub{
+	width: 3rem;
+    cursor: pointer;
+	height: 0.8rem;
+	background-color: #418BFB;
+	border-radius: 0.8rem;
+	font-size: 0.4rem;
+	color: #fff;
+	line-height: 0.8rem;
+	display: block;
+	margin: 0 auto;
+	margin-top: 0.6rem;
+}
+.upload_img{
+	width: 2.2rem;
+	height: 2.2rem;
+}
+.upload_img_wrap{
+	display: flex;
+	width: 100%;
+}
+#imgBox{
+	display: flex;
+	
+}
+.imgContainer {
+	display: inline-block;
+	width: 2.2rem;
+	height: 2.2rem;
+	margin-left: 1%;
+	border: 1px solid #666666;
+	position: relative;
+	box-sizing: border-box;
+    margin-right: 0.2rem;
+}
+
+.imgContainer img {
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	margin-right: 0.2rem;
+}
+.upload_img_wrap .imgDelete{
+    width: 0.6rem;
+    height: 0.6rem;
+    position: absolute;
+    top: -0.3rem;
+    right: -0.5rem;
+}
+.imgContainer p {
+	position: absolute;
+	bottom: -1px;
+	left: 0;
+	width: 100%;
+	height: 30px;
+	background: black;
+	text-align: center;
+	line-height: 30px;
+	color: white;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	display: none;
+}
+
+.imgContainer:hover p {
+	display: block;
+}
+.inner{
+    width: 100%;
+    margin: 0 auto;
+}
+.problem{
+    width:100%;
+}
+.textareaBox{
+    width: 100%;
+    min-height: 2rem;
+    background-color: #fff;
+    padding: 0 0.4rem;
+}
+.textareaBox textarea {
+    width: 100%;
+    height: 2rem;
+    font-size:18px;
+    color: #000;
+    border-radius:0.1rem ;
+    color: #333;
+    letter-spacing: 1px;
+    background-color: #fafafa;
+    padding: 0.2rem;
+    border: 1px solid #333;
+}
+.title p{line-height: 1rem;font-size: 20px;}
+    </style>
+</head>
+<body>
+  
+        <div class="inner">
+            <div class="problem">
+                    <div class="title">
+                        <p><h6 style="text-align: center;">反馈问题</h6></p>
+                            <div class="textareaBox" ><p>描述详情</p><textarea type="text" id="textareaID"></textarea></div>
+                    </div>
+                    <div class="custom_img">
+                        <div class="custom_img_top">
+                            <p>图片说明(点击图片可放大)</p>
+                            <p><span class="upload_img_length">0</span>/4</p>
+                        </div>
+                        
+                        <!--点击上传图片 触发下面的div 点击事件-->
+                        <div class="upload_img_wrap">
+                            <div id="imgBox"></div>
+                            <img class="upload_img" data-id="1" src="https://www.17sucai.com/preview/1393200/2019-04-28/%E4%B8%8A%E4%BC%A0%E5%A4%9A%E5%BC%A0%E5%9B%BE%E7%89%87/img/upload_img.png" />
+                            <img style="display:none" class="upload_img" data-id="2" src="https://www.17sucai.com/preview/1393200/2019-04-28/%E4%B8%8A%E4%BC%A0%E5%A4%9A%E5%BC%A0%E5%9B%BE%E7%89%87/img/upload_img.png" />
+                            <img style="display:none" class="upload_img" data-id="3" src="https://www.17sucai.com/preview/1393200/2019-04-28/%E4%B8%8A%E4%BC%A0%E5%A4%9A%E5%BC%A0%E5%9B%BE%E7%89%87/img/upload_img.png" />
+                            <img style="display:none" class="upload_img" data-id="4" src="https://www.17sucai.com/preview/1393200/2019-04-28/%E4%B8%8A%E4%BC%A0%E5%A4%9A%E5%BC%A0%E5%9B%BE%E7%89%87/img/upload_img.png" />
+                        </div>
+                        <div style="display: none;width: 100%;height: 100vh;position: relative;">
+                            <form id="upBox" class="upload_form" action="" method="post" enctype="multipart/form-data">
+                                <div style="display: none;" id="inputBox">
+                                    <input type="file" name="image[]" data-id="1" title="请选择图片" id="file1" accept="image/png,image/jpg,image/gif,image/JPEG" />
+                                    <input type="file" name="image[]" data-id="2" title="请选择图片" id="file2" accept="image/png,image/jpg,image/gif,image/JPEG" />
+                                    <input type="file" name="image[]" data-id="3" title="请选择图片" id="file3" accept="image/png,image/jpg,image/gif,image/JPEG" /> 
+                                    <input type="file" name="image[]" data-id="4" title="请选择图片" id="file4" accept="image/png,image/jpg,image/gif,image/JPEG" /> 点击选择图片
+                                </div>
+                                <input style="display:none" type="submit" id="sub" />
+                            </form>
+                        </div>
+                    </div>
+                    <button class="custom_sub" id="btnID" onclick="send()">意见反馈</button>
+                    <p style="font-size: 12px;" >&nbsp; </p>
+                    <p style="font-size: 16px; line-height: 1.3; text-align: center;letter-spacing: 1px; " >欢迎提供反馈建议，使该编辑器更加方便，友好使用。——网站建设部</p>
+                    <p style="font-size: 12px;text-align: center; color: rgb(226, 52, 52);" >注意：一分钟内只能提交一次反馈，一分钟内二次将会提交失败</p>
+                </div>
+     </div>
+     <script src="http://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+     <script>
+     (function(doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function() {
+                    var clientWidth = docEl.clientWidth;
+                    if(!clientWidth) return;
+                    docEl.style.fontSize = 100 * (clientWidth / 1125) + 'px';
+                };
+            if(!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+        </script>
+     <script>
+    var imgNum = 0;
+		$(".upload_img_wrap .upload_img").bind("click", function(ev) {
+			var index = ev.currentTarget.dataset.id;
+			var that = this;
+			if(index == 1) {
+				$("#file1").click();
+				$("#file1").unbind().change(function(e) {
+					var index = e.currentTarget.dataset.id;
+					if($('#file').val() == '') {
+						return false;
+					}
+					$(that).hide();
+					var filePath = $(this).val();
+					changeImg(e, filePath, index);
+					imgNum++;
+					if(imgNum<4){
+						$(".upload_img").eq(1).show();
+					}
+					$(".upload_img_length").html(imgNum);
+				})
+			} else if(index == 2) {
+				$("#file2").click();
+				$("#file2").unbind().change(function(e) {
+					var index = e.currentTarget.dataset.id;
+					if($('#file').val() == '') {
+						return false;
+					}
+					$(that).hide();
+					var filePath = $(this).val();
+					changeImg(e, filePath, index);
+					if(imgNum<4){
+						$(".upload_img").eq(2).show();
+					}
+					imgNum++;
+				
+					$(".upload_img_length").html(imgNum);
+				})
+			} else if(index == 3) {
+				$("#file3").click();
+				$("#file3").unbind().change(function(e) {
+					var index = e.currentTarget.dataset.id;
+					if($('#file').val() == '') {
+						return false;
+					}
+					var filePath = $(this).val();
+					changeImg(e, filePath, index);
+                    $(that).hide();
+                    if(imgNum<4){
+						$(".upload_img").eq(3).show();
+					}
+					imgNum++;
+					$(".upload_img_length").html(imgNum);
+				})
+            } else if(index == 4) {
+				$("#file4").click();
+				$("#file4").unbind().change(function(e) {
+					var index = e.currentTarget.dataset.id;
+					if($('#file').val() == '') {
+						return false;
+					}
+					var filePath = $(this).val();
+					changeImg(e, filePath, index);
+                    $(that).hide();
+					imgNum++;
+					$(".upload_img_length").html(imgNum);
+				})
+			}
+		})
+
+		function changeImg(e, filePath, index) {
+			fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase();
+			//检查后缀名
+			if(!fileFormat.match(/.png|.jpg|.jpeg/)) {
+				showError('文件格式必须为：png/jpg/jpeg');
+				return;
+            }
+			var data = new FormData();
+               data.append("file", e.target.files[0]);
+			$.ajax({
+				data: data,
+				type: 'post',
+				url: '/Home/GetFileUp',
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType: 'text',
+				success: function (data) {
+					var msg = data.split(":");
+					if (msg[0] == "ok") {
+						// succFun(msg[1]);
+						$("#imgBox").append('<div class="imgContainer" data-index=' + index + '><img   src=' + msg[1] + ' onclick="imgDisplay(this)"><img onclick="removeImg(this,' + index + ')"  class="imgDelete" src="https://www.17sucai.com/preview/1393200/2019-04-28/%E4%B8%8A%E4%BC%A0%E5%A4%9A%E5%BC%A0%E5%9B%BE%E7%89%87/img/del_img.png" /></div>');
+					} else {
+						// failFun(msg[1]);
+					}
+				}, error: function (xhr) {
+					// failFun(xhr);
+				}
+			})
+			// reader.onloadend = function() {
+			// 	// 图片的 base64 格式, 可以直接当成 img 的 src 属性值        
+			// 	var dataURL = reader.result;
+			// 	// console.log(dataURL)
+			// 	// 显示图片
+				
+			// };
+
+		}
+
+		function removeImg(obj, index) {
+			for(var i = 0; i < $(".imgContainer").length; i++) {
+				if($(".imgContainer").eq(i).attr("data-index") == index) {
+					$(".imgContainer").eq(i).remove();
+				}
+			}
+			for(var i = 0; i < $(".upload_img").length; i++) {
+				$(".upload_img").eq(i).hide();
+				if($(".upload_img").eq(i).attr("data-id") == index) {
+					console.log($(".upload_img").eq(i).attr("data-id"))
+					$(".upload_img").eq(i).show();
+				}
+			}
+			imgNum--;
+			$(".upload_img_length").html(imgNum);
+		}
+		
+		var AddInterValObj; //timer变量，控制时间
+var adcount = 60; //间隔函数，1秒执行
+var addCount;//当前剩余秒数
+		function send(){
+			addCount = adcount;
+            let _html = '<p>'+$("#textareaID").val()+'</p><div><p>图片说明</p>'+$("#imgBox").html()+'</div>';
+			// console.log(_html)
+			$("#btnID").css({"background-color":"#D1D4D3","pointer-events": "none"});
+			AddInterValObj = window.setInterval(SetAddnTime, 1000); //启动计时器，1秒执行一次
+           alert(addMsg('测试',_html ));
+		}
+		function SetAddnTime() {
+			if (addCount == 0) {                
+				window.clearInterval(AddInterValObj);//停止计时器
+				// $("#btnID").removeAttr("disabled");//启用按钮
+				$("#btnID").css({"background-color":"#0097a8","pointer-events": "all"});
+			}
+			else {
+				addCount--;
+				$("#btnID").css({"background-color":"#D1D4D3"});
+			}
+		}
+		function imgDisplay(obj) {
+			var src = $(obj).attr("src");
+			var imgHtml = '<div style="width: 100%;height: 100vh;overflow: auto;background: rgba(0,0,0,0.5);text-align: center;position: fixed;top: 0;left: 0;z-index: 1000;display: flex;justify-content: center;    align-items: center;"><img src=' + src + ' style="margin-top: 100px;width: 96%;margin-bottom: 100px;"/><p style="font-size: 50px;position: fixed;top: 30px;right: 30px;color: white;cursor: pointer;" onclick="closePicture(this)">×</p></div>'
+			$('body').append(imgHtml);
+		}
+		
+		function closePicture(obj) {
+			$(obj).parent("div").remove();
+		}
+
+   function addMsg(name,msg){
+         var GetData = null;
+            name = name || "匿名用户";
+            var Senddata = {
+                ColumnID: 2868,
+                Info: msg,
+                Target: '',
+                UserName: name
+            };
+            $.ajax({
+                type: "POST",
+                url: "http://base.hope55.com/API/WebAPI/addMsg",
+                async: false,
+                data: Senddata,
+                dataType: "json",
+                success: function (data) {
+                    GetData = data;
+                },
+            });
+            return GetData;
+    }
+     function calcPageHeight(doc) {
+        var cHeight = Math.max(doc.body.clientHeight, doc.documentElement.clientHeight)
+        var sHeight = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight)
+        var height  = Math.max(cHeight, sHeight)
+        return height
+     }
+     window.onload = function() {
+        var height = calcPageHeight(document)
+            parent.document.getElementById('feedBackID').style.height = height + 'px'  
+      } 
+     </script>
+</body>
+</html>

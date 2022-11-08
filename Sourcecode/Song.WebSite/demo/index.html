@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+  <script src="//cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
+  <!-- <script src='./api/api.js'></script> -->
+  
+  <script src='tinymce.js'></script><!-- 必要 -->
+
+  <style>
+    body{max-width: 1920px; min-width: 900px;width: 100%; margin: 0 auto;}
+   .demo,#showID{ margin-top:50px; border: 2px solid #dedede ;}
+   #showID{ padding: 20px;}
+   #tinymce-app .tinymce-box {padding-bottom: 0px!important;}
+   .text-center{ text-align: center;}
+   a{display: inline-block; padding: 20px;font-size: 20px; list-style: none; text-decoration: none;color: #333;}
+   .btn{ border-radius: 20px; outline: none; width: 300px;height: 60px; margin: 20px auto; display: block; background: #1488F5; text-align: center;line-height: 60px; font-size: 28px;letter-spacing: 2px; color: #dedede;}
+  </style>
+</head>
+
+<body>
+    <a href="https://github.com/Five-great/tinymce-plugins" target="_bank" style=" display:block;"><h1 class="text-center" >tinymce-plugins  demo</h1></a>
+     <h3> 因为项目 将编辑器魔改有点多，目前仅仅将部分魔改插件整理分享出来，后续将不定时更新 。。。(欢迎pr,点赞，提issues)<h3>
+       
+     <h1>插件demo展示区域</h1>
+     <div class="demo2">
+        <div id="tinymce-app2">
+            <div class="tinymce-box" style="color: #000;">
+                <div class="tinymce-cnt" id="mytextarea2"></div>
+            </div>
+        </div>
+      </div>
+   
+      <h1>全部魔改项目</h1>
+      <div class="demo">
+        <div id="tinymce-app">
+            <div class="tinymce-box" style="color: #000;">
+                <div class="tinymce-cnt" id="mytextarea"></div>
+            </div>
+        </div>
+      </div>
+      <a class="btn" onclick="savefun()" >点击保存显示</a>
+      <div>
+         <h1>展示区域</h1>
+         <div id="showID">
+             <h2 class="text-center" >点击保存后富文本框中内容将在此处显示</h2>
+         </div>
+     </div>
+     <div style="height: 60px;"></div>
+
+  <script>
+    function savefun(){
+      $("#showID").html(tinymceConfig.getHtml())
+    }
+  </script>
+  <script src="./config.js"></script>
+</body>
+</html>

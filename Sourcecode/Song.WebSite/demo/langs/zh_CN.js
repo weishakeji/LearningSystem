@@ -403,13 +403,6 @@ tinymce.addI18n('zh_CN',{
 "Alternative description": "替代说明文字",
 "Accessibility": "可访问性",
 "Image is decorative": "仅用于装饰",
-//5.6新增
-"Line height": "行高",
-"Cut column": "剪切列",
-"Copy column": "复制列",
-"Paste column before": "粘贴到前方",
-"Paste column after": "粘贴到后方",
-"Copy column": "复制列",
 //帮助窗口内的文字
 "Version": "版本",
 "Keyboard Navigation": "键盘导航",

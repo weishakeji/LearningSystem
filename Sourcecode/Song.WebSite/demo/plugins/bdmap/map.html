@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Baidu Maps</title>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        #search_box {
+            position: fixed;
+            top: 5px;
+            right: 5px;
+            z-index: 100;
+        }
+
+        #search_box input {
+            -webkit-appearance: none;
+            border-radius: 3px;
+            box-sizing: border-box;
+            outline: 0;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+        }
+
+        #search_box input[type="text"] {
+            background-color: #cccccc;
+            border: 1px solid #ccc;
+            color: #207ab7;
+            width: 180px;
+            padding: 5px;
+            font-weight: bold;
+            font-size: 16px;
+            opacity: 0.7;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+        }
+
+        #search_box input[type="button"] {
+            margin-left: 5px;
+            background-color: #207ab7;
+            border: 1px solid #207ab7;
+            color: #fff;
+            padding: 4px 6px;
+            font-size: 14px;
+        }
+
+        #div-show-list {
+            position: fixed;
+            top:37px;
+            right:57px;
+            z-index: 200;
+            background:white;
+            font-weight: 400;
+            width:178px;font-size: 14px;
+            color: #7274A7;border:1px solid #ccc;
+        }
+
+        #div-show-list .div-item:hover {
+            color: #009E94;
+            background-color: #ebcccc;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+<div id="search_box">
+    <input id="kw_input" class="kw_input" type="text" value="" autocomplete="off" placeholder="输入要搜索的地点"/>
+    <input type="button" value="搜索" onclick="searchMapByStationName()"></div>
+
+<div id="div-show-list" style="display:block;"></div>
+<div id="map_canvas" style="width:100%; height:100%"></div>
+</body>
+<script type="text/javascript" src="jquery.js"></script>
+<script charset="utf-8" src="http://api.map.baidu.com/api?v=3.0&ak=MBUg6BlQ9sowj5824cX1IKIG"></script>
+
+<script>
+
+    var map;
+    initialize();
+    /**
+     * 页面初始化加载
+     */
+    function initialize() {
+        map = new BMap.Map('map_canvas');
+        var point = new BMap.Point(116.331398, 39.897445);
+        map.centerAndZoom(point, 19);
+        map.addControl(new BMap.NavigationControl());
+        ////开启鼠标滚轮缩放
+        map.enableScrollWheelZoom(true);
+
+        //根据IP定位
+        var myCity = new BMap.LocalCity();
+        myCity.get(function (result) {
+            map.setCenter(result.name);
+        });
+
+        /**
+         * 百度地图 监听点击事件
+         */
+        map.addEventListener("click", function (e) {
+
+            var ponitE = e.point;
+            var marker = new BMap.Marker(new BMap.Point(ponitE.lng, ponitE.lat));
+            map.clearOverlays();
+            map.addOverlay(marker);
+            map.panTo(ponitE);
+            parent.tinymceLng = ponitE.lng;
+            parent.tinymceLat = ponitE.lat;
+            console.log('经纬度：',ponitE); // 经纬度数据
+            }
+        );
+    }
+
+    document.getElementById('kw_input').addEventListener('keypress', function (e) {
+        //回车键效果
+        if (e.keyCode == '13') {
+            e.preventDefault();
+            searchMapByStationName();
+        }
+    });
+    /**
+     * 关键字 搜索输入框触发事件，保证实时的数据刷新显示效果
+     */
+    $(".kw_input").bind("input propertychange", function () {
+        var val = $(".kw_input").val();
+        var options = {
+            onSearchComplete: function (results) {
+                if (localSearch.getStatus() == BMAP_STATUS_SUCCESS) {
+                    // 判断状态是否正确
+                    if (results.getCurrentNumPois() == 0) {
+                        console.log('搜索不到该地区');
+                        $("#div-show-list").css("display", "none");
+                    } else {
+                        var searchResHtml = "";
+                        for (var i = 0; i < results.getCurrentNumPois(); i++) {
+                            searchResHtml += "<div style='padding:5px;cursor:pointer' class='div-item'>" + results.getPoi(i).title + "</div>";
+                        }
+                        $("#div-show-list").html(searchResHtml);
+                        $("#div-show-list").css("display", "block");
+                    }
+                }
+            }
+        };
+        var localSearch = new BMap.LocalSearch(map, options);
+        localSearch.search(val);
+    });
+
+    /**
+     * js动态加载 html元素，html中绑定的click事件不生效的解决办法
+     * @param obj
+     */
+    $("body").on('click', '.div-item', function () {
+        //do sth...
+        $("#kw_input").val($(this).html());
+        $("#div-show-list").css("display", "none");
+        searchMapByStationName();
+    });
+
+    /**
+     * 根据输入的文字 搜索对应的百度地图信息
+     * @returns {boolean}
+     */
+    function searchMapByStationName() {
+        var keyword = document.getElementById("kw_input").value;
+        var local = new BMap.LocalSearch(map, {renderOptions: {map: map}});
+
+        local.setSearchCompleteCallback(function (searchResult) {
+            console.log(searchResult);
+            var poi = searchResult.getPoi(0);
+            if(poi){
+                var pointNew = poi.point;
+                map.centerAndZoom(pointNew, 19);
+                var marker = new BMap.Marker(new BMap.Point(pointNew.lng, pointNew.lat));
+                parent.tinymceLng = pointNew.lng;
+                parent.tinymceLat = pointNew.lat;
+                map.clearOverlays();
+                map.addOverlay(marker);
+                map.panTo(pointNew);
+            }else {
+                console.log('Sorry，未查到地址信息')
+            }
+        });
+        local.search(keyword);
+    }
+</script>
+</html>
