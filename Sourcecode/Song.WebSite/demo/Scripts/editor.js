@@ -15,7 +15,7 @@ tinymce.init({
     menubar:"file edit view insert format table tools help",
     min_height: 400,
     max_height: 700,
-    plugins: ' print preview clearhtml searchreplace autolink layout fullscreen image upfile link media code codesample table charmap hr pagebreak nonbreaking anchor advlist lists textpattern help emoticons autosave bdmap indent2em lineheight formatpainter axupimgs powerpaste letterspacing imagetools quickbars attachment wordcount autoresize importword',
+    plugins: 'kityformula-editor print preview clearhtml searchreplace autolink layout fullscreen image upfile link media code codesample table charmap hr pagebreak nonbreaking anchor advlist lists textpattern help emoticons autosave bdmap indent2em lineheight formatpainter axupimgs powerpaste letterspacing imagetools quickbars attachment wordcount autoresize importword',
     toolbar_groups: {
         formatting: {
             text: '文字格式',
@@ -28,7 +28,7 @@ tinymce.init({
             items: 'alignleft aligncenter alignright alignjustify',
         }
     },
-    toolbar: ['|code formatselect fontselect fontsizeselect forecolor backcolor bold italic underline strikethrough link alignment indent2em outdent indent lineheight letterspacing bullist numlist blockquote subscript superscript  layout removeformat table image media upfile attachment importword charmap  hr pagebreak  clearhtml    bdmap  formatpainter  cut copy undo redo restoredraft  searchreplace fullscreen help'],
+    toolbar: ['|code kityformula-editor formatselect fontselect fontsizeselect forecolor backcolor bold italic underline strikethrough link alignment indent2em outdent indent lineheight letterspacing bullist numlist blockquote subscript superscript  layout removeformat table image media upfile attachment importword charmap  hr pagebreak  clearhtml    bdmap  formatpainter  cut copy undo redo restoredraft  searchreplace fullscreen help'],
     table_style_by_css: true,
     OperationManualHtml: '',
     CommonProblemHtml: '',
