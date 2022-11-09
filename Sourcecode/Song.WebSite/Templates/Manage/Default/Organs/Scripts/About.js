@@ -49,12 +49,14 @@ $ready(function () {
                 this.organ.Org_Intro = data;
             },
             updateDetails: function () {
-                this.loading = true;
+                this.organ.Org_Intro = this.$refs.editor.getContent();         
+                var th=this;                
+                th.loading = true;
                 $api.post('Organization/Modify', { 'entity': this.organ }).then(function (req) {
-                    vue.loading = false;
+                    th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vue.$message({
+                        th.$message({
                             type: 'success',
                             message: '操作成功!',
                             center: true
@@ -64,7 +66,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
+                    th.$alert(err);
                     console.error(err);
                 });
             }

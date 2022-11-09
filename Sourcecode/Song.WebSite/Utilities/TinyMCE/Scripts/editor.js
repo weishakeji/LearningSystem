@@ -29,7 +29,11 @@ tinymce.init({
         }
     },
     //upfile attachment //上传文件、附件
-    toolbar: ['|code kityformula-editor formatselect fontselect fontsizeselect forecolor backcolor bold italic underline strikethrough link alignment indent2em outdent indent lineheight letterspacing bullist numlist blockquote subscript superscript  layout removeformat table image media  importword charmap  hr pagebreak  clearhtml  insertdatetime  bdmap  formatpainter  cut copy undo redo restoredraft  searchreplace fullscreen print preview '],
+    toolbar: [`|code kityformula-editor formatselect fontselect fontsizeselect forecolor backcolor bold italic 
+    underline strikethrough link alignment indent2em outdent indent lineheight letterspacing bullist numlist 
+    blockquote subscript superscript  layout removeformat table image media  importword charmap  hr pagebreak 
+     clearhtml  insertdatetime  bdmap  formatpainter  cut copy undo redo restoredraft  searchreplace 
+     fullscreen print preview `],
     table_style_by_css: true,
     OperationManualHtml: '',
     CommonProblemHtml: '',

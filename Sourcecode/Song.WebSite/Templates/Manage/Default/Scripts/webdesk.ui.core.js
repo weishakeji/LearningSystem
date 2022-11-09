@@ -828,6 +828,9 @@
             //图片上传组件
             arr2.push('/Utilities/Components/upload-img.js');
             arr2.push('/Utilities/Components/upload-file.js');
+            //编辑器
+            arr2.push('/Utilities/TinyMCE/tinymce.js');
+            arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
             window.$dom.load.js(arr2, f);
         });
     };

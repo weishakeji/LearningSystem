@@ -16,7 +16,10 @@ window.vapp = new Vue({
     watch: {
     },
     methods: {
-
+        getcontext: function () {
+            var txt = this.$refs.editor.getContent();
+            alert(txt);
+        }
     }
 });
 

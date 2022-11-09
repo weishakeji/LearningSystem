@@ -7,13 +7,14 @@
     <title>tinymce vue组件</title>
     <script src='../Scripts/vue.js'></script>
     <script src='tinymce.js'></script>
-    <script src='tinymce.vue.js'></script>   
+   
 </head>
 <body>
     <div id="vapp">
-        {{txt}}
+        <editor ref="editor" content="测试" :menubar="false" model="general"></editor>
+        <button @click="getcontext()">获取编写的内容</button>
     </div>
-    <div id="mytextarea"></div>
+    <script src='tinymce.vue.js'></script>   
     <script src='Scripts/index.js'></script>
 </body>
 </html>

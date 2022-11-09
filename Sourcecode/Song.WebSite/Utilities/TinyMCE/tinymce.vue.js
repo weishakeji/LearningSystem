@@ -1,25 +1,166 @@
 
 //编辑器
+//content:文本内容
+//model:模式，full全部按钮,general常用按钮,simple简化版，更少按钮; mini极少的按钮；inline内联模式，没有按钮
+//menubar:是否显示编辑上方的下拉菜单
+//id:编辑器的html标签id
+//placeholder: 空白显示内容
 Vue.component('editor', {
-    props: ['content', "model", "toolbar", 'mincount', 'order'],
+    props: ['content', "model", "menubar", 'id', 'placeholder'],
     data: function () {
         return {
-            path: $dom.path(),   //模板路径
-            show: false,         //是否显示，  
-            datas: []
+
         }
     },
     watch: {
+        'ctrid': {
+            handler: function (nv, ov) {
+                this.$nextTick(function () {
+                    this.init();
+                });
 
+            }, immediate: true
+        }
     },
     computed: {
+        //控件id
+        'ctrid': function () {
+            var id = this.id == null ? new Date().getTime() : this.id;
+            return 'tinymce_editor_' + id;
+        },
+        //
+
+    },
+    created: function () {
+
     },
     mounted: function () {
 
     },
     methods: {
-
+        //工具栏按钮设置
+        toolbar: function () {
+            var arr = [];
+            switch (this.model) {
+                //full全部按钮
+                case 'full':
+                    arr = [`cut copy formatpainter undo redo restoredraft | formatselect fontselect fontsizeselect forecolor backcolor outdent indent |                  
+                    bold italic underline strikethrough link anchor alignleft aligncenter alignright alignjustify indent2em 
+                    lineheight letterspacing bullist numlist blockquote subscript superscript  layout removeformat | 
+                    table image media  importword emoticons charmap kityformula-editor  hr pagebreak  clearhtml  insertdatetime  bdmap  
+                    searchreplace fullscreen print preview code `]
+                    break;
+                //general常用按钮
+                case 'general':
+                    arr = [`cut copy formatpainter undo redo  | formatselect fontselect fontsizeselect forecolor backcolor table importword 
+                    | formatting alignment indent_gr insert insertdatetime  lineheight letterspacing bullist numlist                       
+                    layout removeformat  hr pagebreak  clearhtml   bdmap link anchor searchreplace preview`]
+                    break;
+                //simple简化版，相较于general更少按钮
+                case 'simple':
+                default:
+                    arr = [`formatselect fontselect fontsizeselect forecolor 
+                        backcolor lineheight letterspacing | formatting alignment indent_gr insert`]
+                    break;
+                //mini极少的按钮
+                case 'mini':
+                    arr = [` forecolor  backcolor  lineheight letterspacing bullist numlist 
+                    | formatting  alignment indent_gr |  charmap  kityformula-editor `]
+                    break;
+                //inline内联模式，没有按钮
+                case 'inline':
+                    arr = [];
+                    break;
+            }
+            return arr;
+        },
+        init: function () {
+            var th = this;
+            tinymce.init({
+                selector: '#' + th.ctrid,
+                language: 'zh_CN',
+                menubar: th.menubar == false ? th.menubar : "file edit view insert format table tools",
+                branding: false,
+                inline: th.model == 'inline', //开启内联模式
+                min_height: 500,
+                max_height: 700,
+                plugins: `kityformula-editor insertdatetime print preview clearhtml searchreplace autolink layout 
+                fullscreen image upfile link media code codesample table charmap hr pagebreak nonbreaking anchor 
+                advlist lists textpattern help emoticons autosave bdmap indent2em lineheight formatpainter axupimgs 
+                powerpaste letterspacing imagetools quickbars attachment wordcount autoresize importword`,
+                toolbar_groups: {
+                    formatting: {
+                        text: '格式',
+                        tooltip: '粗体、斜体、下划线、上标、下标',
+                        items: 'bold italic underline strikethrough | blockquote superscript subscript',
+                    },
+                    alignment: {
+                        text: '对齐',
+                        tooltip: '文字对齐',
+                        items: 'alignleft aligncenter alignright alignjustify',
+                    },
+                    indent_gr: {
+                        text: '缩进',
+                        tooltip: '缩进、首行缩进',
+                        items: 'indent2em outdent indent',
+                    },
+                    insert: {
+                        text: '插入',
+                        tooltip: '插入图片、特殊字符、公式',
+                        items: 'image charmap  kityformula-editor',
+                    }
+                },
+                //upfile attachment //上传文件、附件
+                toolbar: th.toolbar(),
+                //选中时出现的快捷工具，与插件有依赖关系
+                quickbars_selection_toolbar: 'bold italic underline forecolor | link blockquote',
+                contextmenu: 'copy paste | link image inserttable | cell row column deletetable | code',
+                table_style_by_css: true,
+                OperationManualHtml: '',
+                CommonProblemHtml: '',
+                fixed_toolbar_container: '#tinymce-app .toolbar',
+                custom_ui_selector: '#tinymce-app',
+                placeholder: th.placeholder == null ? '' : th.placeholder,
+                file_picker_types: 'file',
+                powerpaste_word_import: "clean", // 是否保留word粘贴样式  clean | merge 
+                powerpaste_html_import: 'clean', // propmt, merge, clean
+                powerpaste_allow_local_images: true,//
+                powerpaste_keep_unsupported_src: true,
+                paste_data_images: true,
+                toolbar_sticky: false,
+                autosave_ask_before_unload: false,
+                fontsize_formats: '12px 14px 16px 18px 24px 36px 48px 56px 72px',
+                font_formats: '微软雅黑=Microsoft YaHei,Helvetica Neue,PingFang SC,sans-serif;苹果苹方=PingFang SC,Microsoft YaHei,sans-serif;宋体=simsun,serif;仿宋体=FangSong,serif;黑体=SimHei,sans-serif;Arial=arial,helvetica,sans-serif;Symbol=symbol;Tahoma=tahoma,arial,helvetica,sans-serif;Terminal=terminal,monaco;Times New Roman=times new roman,times;Verdana=verdana,geneva;Webdings=webdings;Wingdings=wingdings,zapf dingbats;',
+                images_upload_base_path: '',
+                //自定义插入图片函数  blobInfo: 本地图片blob对象, succFun(url|string)： 成功回调（插入图片链接到文本中）, failFun(string)：失败回调
+                images_upload_handler: function (blobInfo, succFun, failFun) {
+                    var file = blobInfo.blob();
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        succFun(e.target.result)
+                    }
+                    reader.readAsDataURL(file)
+                },
+                init_instance_callback: function (editor) {
+                    console.log(editor);
+                    editor.focus();
+                    editor.setContent(th.content);
+                    var html = editor.getContent();
+                    //alert(html);
+                    //tinyMCE.editors[tinymceConfig.tinyID+'2'].setContent(html2); 
+                    //$('#tinymce-app').fadeIn(1000);
+                    //    editor.execCommand('selectAll');
+                    //    editor.selection.getRng().collapse(false);
+                    //    editor.focus();
+                }
+            });
+        },
+        //获取内容
+        getContent: function () {
+            var html= tinyMCE.editors[this.ctrid].getContent();
+            return html.replace(/<script[^>]+>/g, "");
+        }
     },
 
-    template: ``
+    template: `<div class="editor"><div :id="ctrid"></div></div>`
 });
