@@ -6,16 +6,17 @@
     <include file="../inc/meta.inc" />
     <include file="inc/head.inc" />
     <title>课程公告-</title>
-    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-        <aside class="columns" v-if="columnsMofidy">
+        <loading v-if="loading_init"></loading>
+        <aside class="columns" style="display: none;" v-if="columnsMofidy">
             <div class="bar">
                 <div>
-                <el-button type="primary" icon="el-icon-edit" plain @click="columnsShow(true,null)">新增分类</el-button>
-                <help>拖动树形中的节点可以改变顺序</help></div>
+                    <el-button type="primary" icon="el-icon-edit" plain @click="columnsShow(true,null)">新增分类</el-button>
+                    <help>拖动树形中的节点可以改变顺序</help>
+                </div>
                 <el-button type=" text" icon="el-icon-back" @click="columnsMofidy=false">退出编辑</el-button>
             </div>
             <el-tree :data="columns" node-key="Gc_ID" ref="tree" :props="{children: 'children',label: 'Gc_Title'}"
@@ -56,24 +57,25 @@
             </el-dialog>
         </aside>
         <!--右侧内容列表-->
-        <section class="list" v-show="!columnsMofidy">
+        <section class="list" style="display: none;" v-show="!columnsMofidy">
             <div class="toolsbar">
                 <btngroup show="新增,删除" ref='btngroup' @add="guideShow(true,null)" @delete="deleteData"
-                    path="AccountModify" width="600" height="600" :selects='selects' idkey='Gu_Id' table="guides">
-                    <el-button type="primary" size="small" icon="el-icon-edit" plain @click="columnsMofidy=true">编辑公告的分类</el-button>
+                    width="600" height="600" :selects='selects' idkey='Gu_Id' table="guides">
+                    <el-button type="primary" size="small" icon="el-icon-edit" plain @click="columnsMofidy=true">编辑公告的分类
+                    </el-button>
                 </btngroup>
                 <div class="search-box">
                     <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
                         <el-form-item label="">
                             <el-cascader style="width: 100%;" v-model="form.uid" :options="columns" separator="／"
-                            :props="{
+                                :props="{
                                 children: 'children',
                                 label: 'Gc_Title',
                                 value: 'Gc_UID',
                                 expandTrigger: 'hover',
                                 checkStrictly: true
                             }" clearable placeholder="请选择公告的分类">
-                        </el-cascader>
+                            </el-cascader>
                         </el-form-item>
                         <el-form-item label="">
                             <el-input v-model="form.search" style="width:100px"></el-input>
@@ -111,8 +113,8 @@
                     </el-table-column>
                     <el-table-column label="操作" show-overflow-tooltip width="120" align="center">
                         <el-button-group slot-scope="scope">
-                            <el-link type="primary" plain icon="el-icon-edit"
-                                @click='guideShow(true,scope.row)'>修改</el-link>
+                            <el-link type="primary" plain icon="el-icon-edit" @click='guideShow(true,scope.row)'>修改
+                            </el-link>
                             <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                                 icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Gu_Id)">
                                 <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
@@ -130,13 +132,13 @@
                     :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
                 </el-pagination>
             </div>
-            <el-dialog :title="guide_title" :visible.sync="guideVisible" :before-close="()=>{}" :show-close="false" class="guide_form"
-                fullscreen>
-                <el-form :model="guide_form" ref="guide_form" :rules="guide_rules">
-                    <el-form-item label="标题" label-width="100px" prop="Gu_Title">
+            <el-dialog :title="guide_title" :visible.sync="guideVisible" :before-close="()=>{}" :show-close="false" :modal="false"
+                class="guide_form" fullscreen>
+                <el-form :model="guide_form" ref="guide_form" :rules="guide_rules" label-width="60px">
+                    <el-form-item label="标题" prop="Gu_Title">
                         <el-input v-model="guide_form.Gu_Title"></el-input>
                     </el-form-item>
-                    <el-form-item label="分类" label-width="100px" prop="Gc_UID">
+                    <el-form-item label="分类" prop="Gc_UID">
                         <el-cascader style="width: 100%;" v-model="guide_form.Gc_UID" :options="columns" separator="／"
                             :props="{
                                 children: 'children',
@@ -147,11 +149,13 @@
                             }" filterable>
                         </el-cascader>
                     </el-form-item>
-                    <el-form-item label="简介" label-width="100px" prop="Gu_Details">
-                        <vue-html5-editor :content="guide_form.Gu_Details" :show-module-name="false" ref="editor_intro"
-                            @change="text=>guide_form.Gu_Details = text">
-                        </vue-html5-editor>
-                    </el-form-item>
+                    <div class="Gu_Details">
+                        <el-form-item label="内容" prop="Gu_Details">
+                            <editor :content="guide_form.Gu_Details" model="general"
+                                @change="text=>guide_form.Gu_Details=text">
+                            </editor>
+                        </el-form-item>
+                    </div>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="guideVisible = false">取 消</el-button>

@@ -39,12 +39,28 @@ section.list {
 	flex: 1;
 	height: 100%;
 }
-
-.guide_form>div {
+.guide_form{
 	overflow: hidden;
+	z-index: 3 !important;
+}
+.guide_form>div {
+	overflow: hidden !important;
 }
 
 .guide_form .el-dialog__body {
-	height: calc(100% - 54px - 62px - 60px);
-	overflow-y: auto;
+	height: calc(100% - 54px - 42px - 30px);
+	padding: 10px 0px 10px 10px;
+	overflow-y: hidden;
+}
+.el-dialog__footer{
+	padding: 10px;
+}
+.guide_form .el-dialog__body .el-form{
+	height: 100%;
+}
+.Gu_Details{
+	height: calc(100% - 90px);
+}
+.Gu_Details>div,.Gu_Details>div>div{
+	height: 100%;
 }

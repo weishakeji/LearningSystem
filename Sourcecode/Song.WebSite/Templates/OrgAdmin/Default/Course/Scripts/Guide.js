@@ -1,14 +1,4 @@
 ﻿$ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 400,
-            quality: 80
-        }
-    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -63,8 +53,14 @@
                     if (th.course) {
                         document.title += th.course.Cou_Name;
                         th.getTreeData();
-                        th.handleCurrentChange(1);
+                        th.handleCurrentChange(1);                        
                     }
+                    th.$nextTick(function(){
+                        $dom('#vapp>div').show();
+                    });
+                    window.setTimeout(function(){
+                        th.loading_init=false;
+                    },500);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -93,6 +89,7 @@
                     th.loading = false;
                     if (req.data.success) {
                         th.columns = req.data.result;
+                        
                     } else {
                         th.columns = [];
                         throw req.data.message;
@@ -355,4 +352,4 @@
         }
     });
 
-}, ["/Utilities/editor/vue-html5-editor.js"]);
+});

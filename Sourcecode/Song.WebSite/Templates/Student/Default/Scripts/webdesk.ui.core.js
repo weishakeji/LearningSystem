@@ -851,6 +851,9 @@
             for (var c in comp) arr2.push('/Utilities/Components/' + comp[c] + '.js');
             //加载ElementUI
             arr2.push('/Utilities/ElementUi/index.js');
+             //编辑器
+             arr2.push('/Utilities/TinyMCE/tinymce.js');
+             arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
             window.$dom.load.js(arr2, f);
         });
     };

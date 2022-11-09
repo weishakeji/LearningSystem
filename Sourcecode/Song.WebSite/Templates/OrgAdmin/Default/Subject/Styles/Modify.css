@@ -3,9 +3,10 @@
     box-sizing: border-box;
     margin: 0px;
     height: calc(100% - 50px);
-    padding: 10px 5px 0px 0px;
+    padding: 10px 20px 0px 0px;
     overflow-y: auto;
     overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 /*没有图片*/

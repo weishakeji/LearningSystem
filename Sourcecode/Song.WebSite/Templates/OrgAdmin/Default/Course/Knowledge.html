@@ -6,12 +6,12 @@
     <include file="../inc/meta.inc" />
     <include file="inc/head.inc" />
     <title>知识点</title>
-    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
 </head>
 
 <body>
     <div id="vapp" v-cloak>
-        <aside class="sorts">
+        <loading v-if="loading_init"></loading>
+        <aside class="sorts" style="display: none;">
             <div class="bar">
                 <div>
                     <el-button type="primary" icon="el-icon-edit" plain @click="sortsShow(true,null)">新增分类</el-button>
@@ -72,7 +72,7 @@
             </el-dialog>
         </aside>
         <!--右侧内容列表-->
-        <section class="list">
+        <section class="list" style="display: none;">
             <div class="toolsbar">
                 <btngroup show="新增,删除" ref='btngroup' @add="knlShow(true,null)" @delete="deleteData"
                     path="AccountModify" width="600" height="600" :selects='selects' idkey='Kn_ID' table="knls">
@@ -146,13 +146,13 @@
                 </el-pagination>
             </div>
             <!--编辑内容-->
-            <el-dialog :title="knl_title" :visible.sync="knlVisible" :before-close="()=>{}" :show-close="false"
+            <el-dialog :title="knl_title" :visible.sync="knlVisible" :before-close="()=>{}" :show-close="false"  :modal="false"
                 class="knl_form" fullscreen>
-                <el-form :model="knl_form" ref="knl_form" :rules="knl_rules">
-                    <el-form-item label="标题" label-width="100px" prop="Kn_Title">
+                <el-form :model="knl_form" ref="knl_form" :rules="knl_rules" label-width="60px">
+                    <el-form-item label="标题" prop="Kn_Title">
                         <el-input v-model="knl_form.Kn_Title"></el-input>
                     </el-form-item>
-                    <el-form-item label="分类" label-width="100px" prop="Kns_UID">
+                    <el-form-item label="分类" prop="Kns_UID">
                         <el-cascader style="width: 100%;" v-model="knl_form.Kns_UID" :options="sorts" separator="／"
                             :props="{
                                 children: 'children',
@@ -163,11 +163,13 @@
                             }" filterable>
                         </el-cascader>
                     </el-form-item>
-                    <el-form-item label="简介" label-width="100px" prop="Kn_Details">
-                        <vue-html5-editor :content="knl_form.Kn_Details" :show-module-name="false" ref="editor_intro"
-                            @change="text=>knl_form.Kn_Details = text">
-                        </vue-html5-editor>
-                    </el-form-item>
+                    <div class="Kn_Details">
+                        <el-form-item label="内容" prop="Kn_Details">
+                            <editor :content="knl_form.Kn_Details" model="general"
+                                @change="text=>knl_form.Kn_Details=text">
+                            </editor>
+                        </el-form-item>
+                    </div>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="knlVisible = false">取 消</el-button>

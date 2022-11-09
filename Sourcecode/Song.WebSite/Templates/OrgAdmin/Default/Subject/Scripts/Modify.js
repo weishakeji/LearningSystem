@@ -1,15 +1,5 @@
 ﻿
 $ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 400,
-            quality: 80
-        }
-    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -35,9 +25,8 @@ $ready(function () {
             },
             sbjSelects: [],      //选择中的专业项
             //图片文件
-            upfile: null, //本地上传文件的对象   
-            //详情的内容
-            details: '',
+            upfile: null, //本地上传文件的对象  
+           
             rules: {
                 Sbj_Name: [{ required: true, message: '专业不得为空', trigger: 'blur' }]
             },
@@ -114,9 +103,7 @@ $ready(function () {
                         //将当前专业的上级专业，在控件中显示
                         var arr = [];
                         arr = vapp.getParentPath(vapp.entity, vapp.subjects, arr);
-                        vapp.sbjSelects = arr;
-                        //
-                        vapp.details = vapp.entity.Sbj_Details;
+                        vapp.sbjSelects = arr;                      
                     } else {
                         throw '未查询到数据';
                     }
@@ -178,10 +165,6 @@ $ready(function () {
 
                 return obj;
             },
-            //当编辑的内容变更时
-            changeIntro(data) {
-                this.entity.Sbj_Details = data;
-            },
             //操作成功
             operateSuccess: function () {
                 $api.cache('Subject/ForID:clear', { 'id': this.id });
@@ -225,4 +208,4 @@ $ready(function () {
         },
     });
 
-}, ["/Utilities/editor/vue-html5-editor.js"]);
+});

@@ -1,14 +1,4 @@
 $ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 350,
-            quality: 80
-        }
-    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -145,5 +135,4 @@ $ready(function () {
     });
 
 }, ["/Utilities/Scripts/hanzi2pinyin.js",
-    "/Utilities/editor/vue-html5-editor.js",
     "/Utilities/Components/education.js"]);

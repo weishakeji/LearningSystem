@@ -4,7 +4,6 @@
 <head resource>
     <include file="../inc/meta.inc" />
     <title>课程管理编辑</title>
-    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
 </head>
 
 <body>
@@ -61,9 +60,9 @@
             </el-row>
             <el-row :gutter="20">
                 <el-form-item label="详情">
-                    <vue-html5-editor :content="details" :show-module-name="false" ref="editor"
-                        @change="(text)=>entity.Sbj_Details = text">
-                    </vue-html5-editor>
+                    <editor ref="editor" :content="entity.Sbj_Details" :menubar="false" model="general" style="height: 400px;"
+                        @change="text=>entity.Sbj_Details=text"></editor>
+
                 </el-form-item>
             </el-row>
         </el-form>
@@ -72,7 +71,7 @@
                 <icon v-if="!loading">&#xa048</icon>修改
             </el-button>
             <el-button type='close'>
-               取消
+                取消
             </el-button>
         </div>
     </div>

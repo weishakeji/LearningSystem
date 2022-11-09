@@ -1,14 +1,4 @@
 $ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 350,
-            quality: 80
-        }
-    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -29,8 +19,8 @@ $ready(function () {
         watch: {
         },
         methods: {
-             //获取当前登录账号
-             getAccount: function () {
+            //获取当前登录账号
+            getAccount: function () {
                 var th = this;
                 th.loading_init = true;
                 $api.get('Account/Current').then(function (req) {
@@ -50,7 +40,7 @@ $ready(function () {
             btnEnter: function (formName) {
                 var th = this;
                 th.loading = true;
-                var obj = th.remove_redundance(th.account);    
+                var obj = th.remove_redundance(th.account);
                 var apipath = 'Account/ModifyJson';
                 $api.post(apipath, { 'acc': obj }).then(function (req) {
                     th.loading = false;
@@ -73,7 +63,7 @@ $ready(function () {
             //清理冗余的属性，仅保持当前form表单的属性，未在表单中的不提交到服务器
             remove_redundance: function (obj) {
                 //表单中的字段
-                var props = ['Ac_ID','Ac_Intro'];
+                var props = ['Ac_ID', 'Ac_Intro'];
                 //obj的属性字段,如果表单上没有，则删除               
                 for (let att in obj) {
                     var exist = false;
@@ -83,11 +73,11 @@ $ready(function () {
                             break;
                         }
                     }
-                    if(!exist)delete obj[att];
+                    if (!exist) delete obj[att];
                 }
                 return obj;
             }
         }
     });
 
-}, ["/Utilities/editor/vue-html5-editor.js"]);
+});

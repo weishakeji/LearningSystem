@@ -44,11 +44,36 @@ section.list {
     height: 100%;
 }
 
-.guide_form>div {
+.knl_form>div {
     overflow: hidden;
 }
 
-.guide_form .el-dialog__body {
+.knl_form .el-dialog__body {
     height: calc(100% - 54px - 62px - 60px);
     overflow-y: auto;
+}
+.knl_form{
+	overflow: hidden;
+	z-index: 3 !important;
+}
+.knl_form>div {
+	overflow: hidden !important;
+}
+
+.knl_form .el-dialog__body {
+	height: calc(100% - 54px - 42px - 30px);
+	padding: 10px 0px 10px 10px;
+	overflow-y: hidden;
+}
+.el-dialog__footer{
+	padding: 10px;
+}
+.knl_form .el-dialog__body .el-form{
+	height: 100%;
+}
+.Kn_Details{
+	height: calc(100% - 90px);
+}
+.Kn_Details>div,.Kn_Details>div>div{
+	height: 100%;
 }

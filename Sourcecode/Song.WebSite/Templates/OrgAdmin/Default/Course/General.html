@@ -6,7 +6,6 @@
     <include file="../inc/meta.inc" />
     <include file="inc/head.inc" />
     <title></title>
-    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
 </head>
 
 <body>
@@ -69,14 +68,15 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item label="学习目标" prop="Cou_Target">
-                    <vue-html5-editor :content="textual.target" style="height: 200px;z-index: 1001;"
-                        :show-module-name="false" ref="editor_target" @change="(text)=>entity.Cou_Target = text">
-                    </vue-html5-editor>
+                    <editor :content="textual.target" model="mini" id="target" style="height: 200px;z-index: 1001;"
+                        @change="text=>textual.target=text">
+                    </editor>
                 </el-form-item>
                 <el-form-item label="课程简介" prop="Cou_Intro">
-                    <vue-html5-editor :content="textual.intro" :show-module-name="false" ref="editor_intro"
-                        @change="(text)=>entity.Cou_Intro = text">
-                    </vue-html5-editor>
+                    <editor :content="textual.intro" model="general" id="intro" style="height: 400px;z-index: 1002;"
+                        @change="text=>textual.intro=text">
+                    </editor>
+
                 </el-form-item>
             </el-form>
         </div>

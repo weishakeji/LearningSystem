@@ -4,7 +4,6 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
     <title>教师信息编辑</title>
 </head>
 
@@ -174,9 +173,8 @@
                     </el-form-item>
                 </div>
                 <div v-show="activeName=='intro'" class="about_editor" remark="个人介绍">
-                    <vue-html5-editor :content="entity.Th_Intro" :show-module-name="false" ref="editor_intro"
-                        @change="text=>entity.Th_Intro = text">
-                    </vue-html5-editor>
+                    <editor :content="entity.Th_Intro" model="mini" :menubar="false" ref="editor"
+                    placeholder="请输入内容" @change="text=>entity.Th_Intro=text"> </editor>
                 </div>
             </el-form>
         </div>
