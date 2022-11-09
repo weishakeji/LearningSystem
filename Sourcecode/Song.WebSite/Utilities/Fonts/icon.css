@@ -41,7 +41,7 @@ icon[student]::before {
 }
 
 /*教师*/
-icon[tearch]::before {
+icon[teacher]::before {
     content: '\e650';
 }
 

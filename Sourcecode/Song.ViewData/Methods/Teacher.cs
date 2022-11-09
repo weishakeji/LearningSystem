@@ -202,6 +202,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost, Admin]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [HtmlClear(Not = "entity")]
         public bool Add(Song.Entities.Teacher entity)
         {
             try
@@ -259,6 +260,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost, Admin,Teacher]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
+        [HtmlClear(Not = "entity")]
         public bool Modify(Song.Entities.Teacher entity)
         {
             Song.Entities.Teacher old = Business.Do<ITeacher>().TeacherSingle(entity.Th_ID);

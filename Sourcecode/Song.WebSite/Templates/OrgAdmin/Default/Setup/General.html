@@ -4,7 +4,6 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=MBUg6BlQ9sowj5824cX1IKIG"></script>
     <title>基本信息配置管理</title>
 </head>
@@ -153,9 +152,7 @@
                 </el-dialog>
             </div>
             <div v-show="activeName=='about'" class="about_editor" remark="关于我们">
-                <vue-html5-editor :content="Org_Intro" :show-module-name="false" ref="editor_intro"
-                    @change="text=>organ.Org_Intro = text">
-                </vue-html5-editor>
+                <editor :content="organ.Org_Intro" model="simple" ref="editor"> </editor>               
             </div>
         </el-form>
         <div id="footer-box">

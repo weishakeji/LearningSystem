@@ -5,7 +5,6 @@
   <meta charset="utf-8">
   <title>注册协议</title>
   <include file="../inc/meta.inc" />
-  <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
 
 </head>
 
@@ -13,8 +12,9 @@
   <div id="app" v-cloak>
     <el-tabs v-model="activeName" type="border-card">
       <el-tab-pane label="学员注册" name="first">
-        <vue-html5-editor :content="accounts_details" @change="change_accounts" :show-module-name="false" ref="editor1">
-        </vue-html5-editor>
+       <icon student slot="label"> 学员注册</icon>
+        <editor :content="accounts_details" model="general" ref="editor" @change="text=>accounts_details=text">
+        </editor>      
         <div class="foot-btn">
           <p class="title">通配字符：
             <el-tag v-for="(val,key,index) in tooltip">
@@ -26,8 +26,10 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="教师申请" name="second">
-        <vue-html5-editor :content="teacher_details" @change="change_teacher" :show-module-name="false" ref="editor2">
-        </vue-html5-editor>
+        <icon teacher slot="label"> 教师申请</icon>
+        <editor :content="teacher_details" model="general" ref="editor" @change="text=>teacher_details=text">
+        </editor>  
+
         <div class="foot-btn">
           <p class="title">通配字符：
             <el-tag v-for="(val,key,index) in tooltip">

@@ -4,7 +4,6 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
     <title>教师信息编辑</title>
 </head>
 
@@ -42,7 +41,8 @@
                             <template v-if="entity.Th_Photo!='' || upfile!=null">
                                 <img v-if="upfile!=null && JSON.stringify(upfile) != '{}'" :src="upfile.base64" />
                                 <img v-else :src="entity.Th_Photo" />
-                                <el-link type="danger" class="photo-txt" @click.stop="{upfile=null;entity.Th_Photo='';}">清除图片</el-link>
+                                <el-link type="danger" class="photo-txt"
+                                    @click.stop="{upfile=null;entity.Th_Photo='';}">清除图片</el-link>
                             </template>
                             <div class="nophoto" v-else>
                                 <img class="photo" v-if="entity.Th_Sex==2" src="/Utilities/images/head2.jpg" />
@@ -56,7 +56,7 @@
                     <el-form-item label="账号" v-if="isexist">
                         <span class="el-form-item__label">{{entity.Th_AccName}}</span>
                     </el-form-item>
-                    <el-form-item label="账号" prop="Th_AccName" v-else>                   
+                    <el-form-item label="账号" prop="Th_AccName" v-else>
                         <el-input v-model="entity.Th_AccName" style="width:200px" :disabled="id!=''"></el-input>
                     </el-form-item>
                     <el-row>
@@ -201,9 +201,8 @@
                     </el-form-item>
                 </div>
                 <div v-show="activeName=='intro'" class="about_editor" remark="个人介绍">
-                    <vue-html5-editor :content="entity.Th_Intro" :show-module-name="false" ref="editor_intro"
-                        @change="text=>entity.Th_Intro = text">
-                    </vue-html5-editor>
+                    <editor :content="entity.Th_Intro" model="mini" ref="editor" @change="text=>entity.Th_Intro=text">
+                    </editor>
                 </div>
             </el-form>
         </div>

@@ -8,7 +8,7 @@ icon:before {
 .woman::before{
     color: rgb(248, 87, 87);
 }
-.tearch::before{
+.teacher::before{
     color: rgb(3, 167, 3);
     margin: 0px;
 }

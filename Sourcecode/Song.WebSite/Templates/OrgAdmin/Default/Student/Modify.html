@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>学员信息-修改信息</title>
     <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
-    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
 </head>
 
 
@@ -229,9 +228,7 @@
                     </el-form-item>
                 </div>
                 <div v-show="activeName=='intro'" class="about_editor" remark="个人介绍">
-                    <vue-html5-editor :content="account.Ac_Intro" :show-module-name="false" ref="editor_intro"
-                        @change="text=>account.Ac_Intro = text">
-                    </vue-html5-editor>
+                    <editor :content="account.Ac_Intro" model="mini" ref="editor"> </editor>
                 </div>
             </el-form>
         </div>

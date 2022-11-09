@@ -1,15 +1,5 @@
 
 $ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 400,
-            quality: 80
-        }
-    });
     window.vue = new Vue({
         el: '#app',
         data: {
@@ -78,5 +68,4 @@ $ready(function () {
             }
         }
     });
-
-}, ["/Utilities/editor/vue-html5-editor.js"]);
+});

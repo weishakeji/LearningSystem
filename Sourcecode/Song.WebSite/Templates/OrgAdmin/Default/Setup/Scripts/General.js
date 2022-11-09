@@ -1,14 +1,4 @@
 $ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 350,
-            quality: 80
-        }
-    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -22,7 +12,6 @@ $ready(function () {
                     { required: true, message: '平台名称不得为空', trigger: 'blur' }
                 ]
             },
-            Org_Intro:'',       //机构的简介
             //域名
             domain: {
                 two: '',        //二级域名
@@ -44,7 +33,7 @@ $ready(function () {
                 $api.get('Platform/Domain'),
                 $api.get('Platform/ServerPort')
             ).then(axios.spread(function (organ, domain, port) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -55,10 +44,9 @@ $ready(function () {
                     }
                 }
                 //获取结果             
-                th.organ = organ.data.result;
-                th.Org_Intro=th.organ.Org_Intro;
+                th.organ = organ.data.result;               
                 //机构配置信息
-                th.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
                 //域名
                 th.domain.two = th.organ.Org_TwoDomain;
                 th.domain.root = domain.data.result;
@@ -166,6 +154,7 @@ $ready(function () {
             },
             btnEnter: function (formName) {
                 var th = this;
+                th.organ.Org_Intro = th.$refs.editor.getContent();
                 this.$refs[formName].validate((valid, obj) => {
                     if (valid) {
                         th.error = '';
@@ -208,5 +197,4 @@ $ready(function () {
         }
     });
 
-}, ['/Utilities/baiduMap/convertor.js',
-    "/Utilities/editor/vue-html5-editor.js"]);
+}, ['/Utilities/baiduMap/convertor.js']);

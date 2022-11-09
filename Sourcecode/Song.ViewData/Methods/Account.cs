@@ -387,6 +387,7 @@ namespace Song.ViewData.Methods
         [HttpPost]
         [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = false)]
         [Admin, SuperAdmin]
+        [HtmlClear(Not = "acc")]
         public Accounts Add(Accounts acc)
         {
             acc.Ac_Photo = _uploadLogo();
@@ -403,7 +404,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Admin]
         [Student]
-        [HttpPost]
+        [HttpPost][HtmlClear(Not = "acc")]
         [Upload(Extension = "jpg,png,gif", MaxSize = 512, CannotEmpty = false)]
         public bool Modify(Accounts acc)
         {
@@ -460,6 +461,7 @@ namespace Song.ViewData.Methods
         [Admin]
         [Student]
         [HttpPost]
+        [HtmlClear(Not = "acc")]
         public bool ModifyJson(JObject acc)
         {
             int acid = 0;

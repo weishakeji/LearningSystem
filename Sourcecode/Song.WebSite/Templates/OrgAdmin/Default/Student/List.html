@@ -85,7 +85,7 @@
                 <el-table-column label="账号/学员组">
                     <template slot-scope="scope">
                         <div>
-                            <icon v-if="scope.row.Ac_IsTeacher" tearch title="教师"></icon>
+                            <icon v-if="scope.row.Ac_IsTeacher" teacher title="教师"></icon>
                             <span v-html='showInfo(scope.row.Ac_AccName,form.acc)'></span>
 
                         </div>
