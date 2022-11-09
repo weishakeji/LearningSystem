@@ -41,12 +41,6 @@ $ready(function () {
             });
         },
         methods: {
-            change_accounts(data) {
-                this.accounts_details = data;
-            },
-            change_teacher(data) {
-                this.teacher_details = data;
-            },
             updateDetails: function (data) {
                 var text = this[data + '_details'];
                 $api.post('Platform/ParamUpdate', { 'key': 'Agreement_' + data, 'val': text }).then(function (req) {

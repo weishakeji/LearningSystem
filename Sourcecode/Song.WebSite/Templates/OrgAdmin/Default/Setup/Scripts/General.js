@@ -153,8 +153,7 @@ $ready(function () {
                 console.log(val);
             },
             btnEnter: function (formName) {
-                var th = this;
-                th.organ.Org_Intro = th.$refs.editor.getContent();
+                var th = this;              
                 this.$refs[formName].validate((valid, obj) => {
                     if (valid) {
                         th.error = '';

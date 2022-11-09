@@ -101,8 +101,7 @@ $ready(function () {
                 });
             },
             btnEnter: function (formName) {
-                var th = this;
-                th.entity.Art_Details=th.$refs.editor.getContent();
+                var th = this;             
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
 

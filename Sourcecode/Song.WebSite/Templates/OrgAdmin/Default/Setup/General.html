@@ -152,7 +152,8 @@
                 </el-dialog>
             </div>
             <div v-show="activeName=='about'" class="about_editor" remark="关于我们">
-                <editor :content="organ.Org_Intro" model="simple" ref="editor"> </editor>               
+                <editor :content="organ.Org_Intro" model="simple" ref="editor" @change="text=>organ.Org_Intro=text">
+                </editor>
             </div>
         </el-form>
         <div id="footer-box">

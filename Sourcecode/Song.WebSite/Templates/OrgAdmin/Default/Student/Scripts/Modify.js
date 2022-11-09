@@ -155,8 +155,7 @@ $ready(function () {
                 this.account.Sts_Name = item.Sts_Name;
             },
             btnEnter: function (formName) {
-                var th = this;
-                th.account.Ac_Intro = th.$refs.editor.getContent();
+                var th = this;           
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;

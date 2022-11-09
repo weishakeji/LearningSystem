@@ -39,13 +39,14 @@
                         </template>
                         <el-col class="editor_row">
                             <el-form-item label="内容" prop="No_Context" style="height: 100%;">
-                                <editor :content="details" model="general" ref="editor"> </editor>
+                                <editor :content="formData.No_Context" model="general" ref="editor"
+                                    @change="text=>formData.No_Context=text"> </editor>
                             </el-form-item>
                         </el-col>
                         <template v-if="formData.No_Type==3">
                             <el-col :span="24">
                                 <el-form-item label="内容" prop="No_Context" style="margin-bottom: 0px;">
-                                    <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="details"
+                                    <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="formData.No_Context"
                                         @input="updateDetails">
                                     </el-input>
                                     <div>转义符：
@@ -211,7 +212,8 @@
             </el-form>
             <div class="footer">
                 <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('formData')">
-                    <icon v-if="!loading">&#xa048</icon>确认修改</el-button>
+                    <icon v-if="!loading">&#xa048</icon>确认修改
+                </el-button>
                 <el-button type='close'>取消</el-button>
             </div>
         </template>

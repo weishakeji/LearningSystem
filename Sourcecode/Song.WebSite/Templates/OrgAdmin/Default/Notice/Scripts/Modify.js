@@ -15,7 +15,6 @@ $ready(function () {
                 No_StudentSort: '',
                 No_BgImage: ''
             },
-            details: '',
             activeName: 'tab01',
             interval: '',       //有效时间段的添加时的值
             No_Interval: [],     //有效时间段的临时数组
@@ -89,8 +88,7 @@ $ready(function () {
                         th.loading = false;
                         if (req.data.success) {
                             var result = req.data.result;
-                            th.formData = result;
-                            th.details = th.formData.No_Context;
+                            th.formData = result;                        
                             th.imgWidth = th.formData.No_Width;
                             th.imgHeight = th.formData.No_Height;
                             if (th.formData.No_Page == '') th.formData.No_Page = 'mobi_home';
@@ -138,10 +136,7 @@ $ready(function () {
                 }
                 return data;
             },
-            btnEnter: function (formName) {
-                //获取富文本框的内容
-                var html = this.$refs.editor.getContent();
-                this.formData.No_Context = html;
+            btnEnter: function (formName) {             
                 var th = this;
                 this.$refs[formName].validate(function (valid) {
                     if (valid) {

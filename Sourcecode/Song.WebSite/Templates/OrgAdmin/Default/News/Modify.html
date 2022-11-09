@@ -61,7 +61,8 @@
                     </el-form-item>
                 </template>
                 <template v-if="activeName=='tab2'">
-                    <editor :content="entity.Art_Details" model="general" :menubar="false" ref="editor"  placeholder="请输入内容" > </editor>                  
+                    <editor :content="entity.Art_Details" model="general" :menubar="false" ref="editor"
+                        placeholder="请输入内容" @change="text=>entity.Art_Details=text"> </editor>
                 </template>
                 <template v-if="activeName=='tab3'">
                     <div class="art_logo">
