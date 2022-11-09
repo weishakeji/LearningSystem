@@ -1,15 +1,5 @@
 ﻿
 $ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 400,
-            quality: 80
-        }
-    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -91,7 +81,7 @@ $ready(function () {
             },
             //保存
             btnEnter: function (formName) {
-                var th = this;               
+                var th = this;
                 //考试场次
                 var exams = th.$refs['exam_items'].getexams();
                 //关联的学员组
@@ -133,7 +123,7 @@ $ready(function () {
                 var box = pagebox.get(window.name);
                 var pid = box.pid;
 
-                window.top.vapp.fresh(pid,'vapp.handleCurrentChange');
+                window.top.vapp.fresh(pid, 'vapp.handleCurrentChange');
 
                 window.setTimeout(function () {
                     pagebox.shut(window.name);
@@ -142,6 +132,5 @@ $ready(function () {
         },
     });
 
-}, ["/Utilities/editor/vue-html5-editor.js",
-    "Components/group_select.js",
+}, ["Components/group_select.js",
     "Components/exam_items.js"]);

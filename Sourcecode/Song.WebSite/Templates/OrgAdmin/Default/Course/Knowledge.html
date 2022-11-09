@@ -146,8 +146,8 @@
                 </el-pagination>
             </div>
             <!--编辑内容-->
-            <el-dialog :title="knl_title" :visible.sync="knlVisible" :before-close="()=>{}" :show-close="false"  :modal="false"
-                class="knl_form" fullscreen>
+            <el-dialog :title="knl_title" :visible.sync="knlVisible" :before-close="()=>{}" :show-close="false"
+                :modal="false" :destroy-on-close="true" class="knl_form" fullscreen>
                 <el-form :model="knl_form" ref="knl_form" :rules="knl_rules" label-width="60px">
                     <el-form-item label="标题" prop="Kn_Title">
                         <el-input v-model="knl_form.Kn_Title"></el-input>

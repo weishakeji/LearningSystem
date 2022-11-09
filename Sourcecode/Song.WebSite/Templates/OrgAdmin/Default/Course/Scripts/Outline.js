@@ -1,14 +1,4 @@
 ﻿$ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 400,
-            quality: 80
-        }
-    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -26,7 +16,10 @@
             total: 0,     //章节总数
 
             modify_show: false,        //编辑内容的面板是否显示
-            modify_obj: {},          //要编辑的对象
+             //要编辑的对象
+            modify_obj: {
+                Ol_Intro:''
+            },         
 
             accessory_show: false,       //附件的列表显示
             live_show: false,            //直播的编辑显示
@@ -292,7 +285,7 @@
             updatedEvent: function () {
                 this.close_fresh('vapp.fressingle(' + this.id + ')');
                 $api.cache('Outline/Tree:update', { 'couid': this.id, 'isuse': true });
-            },           
+            },
             //关闭自身窗体，并刷新父窗体列表
             close_fresh: function (func) {
                 //如果有选项卡组件，就处理选项卡页面中的事件
@@ -310,7 +303,6 @@
             },
         }
     });
-}, ["/Utilities/editor/vue-html5-editor.js",
-    'Components/accessory.js',           //章节附件
+}, ['Components/accessory.js',           //章节附件
     'Components/outline_live.js'                //章节直播的设置
 ]);

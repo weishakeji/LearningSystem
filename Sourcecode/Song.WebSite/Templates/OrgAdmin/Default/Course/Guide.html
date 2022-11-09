@@ -133,6 +133,7 @@
                 </el-pagination>
             </div>
             <el-dialog :title="guide_title" :visible.sync="guideVisible" :before-close="()=>{}" :show-close="false" :modal="false"
+                :destroy-on-close="true"
                 class="guide_form" fullscreen>
                 <el-form :model="guide_form" ref="guide_form" :rules="guide_rules" label-width="60px">
                     <el-form-item label="标题" prop="Gu_Title">
