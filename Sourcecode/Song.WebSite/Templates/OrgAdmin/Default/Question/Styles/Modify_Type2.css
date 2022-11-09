@@ -14,7 +14,10 @@ dl.ans dd {
     padding: 5px 10px 5px 0px;
     display: flex;
 }
-
+dl.ans p{
+    margin: 0px;
+    padding: 0px;
+}
 dl.ans dd:hover {
     background-color: #eee;
     box-shadow: 1px 1px 3px #eee, -1px -1px 3px #eee;
@@ -28,6 +31,12 @@ dl.ans dd index {
 }
 
 dl.ans dd .radio {
+    display: block;
+    width: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+dl.ans dd .itemcrt {
     display: block;
     width: 30px;
     text-align: center;

@@ -11,10 +11,13 @@ dl.ans dd {
     border: 1px solid #ddd;
     border-radius: 3px;
     margin-bottom: 8px;
-    padding: 5px 10px 5px 0px;
+    padding: 5px 2px 5px 0px;
     display: flex;
 }
-
+dl.ans p{
+    margin: 0px;
+    padding: 0px;
+}
 dl.ans dd:hover {
     background-color: #eee;
     box-shadow: 1px 1px 3px #eee, -1px -1px 3px #eee;
@@ -35,8 +38,8 @@ dl.ans dd .radio {
 }
 
 dl.ans dd .text {
-    width: calc(100% - 90px - 90px);
-    padding: 0px 15px 0px 10px;
+    width: calc(100% - 50px - 90px);
+    padding: 0px 5px 0px 10px;
     cursor: move;
 }
 .sortable-ghost{

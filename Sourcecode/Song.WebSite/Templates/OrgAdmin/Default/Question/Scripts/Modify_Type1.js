@@ -1,13 +1,5 @@
 ﻿
 $ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            quality: 80
-        }
-    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -15,7 +7,7 @@ $ready(function () {
             organ: {},           //当前机构
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
-            
+
             course: {},          //当前试题的课程
             entity: {},      //当前试题            
             ansitems: [],       //试题的选项
@@ -140,8 +132,7 @@ $ready(function () {
             }
         },
     });
-}, ["/Utilities/editor/vue-html5-editor.js",
-    'Components/ques_type.js',
+}, ['Components/ques_type.js',
     'Components/modify_main.js',
     'Components/knowledge.js',
     'Components/general.js',

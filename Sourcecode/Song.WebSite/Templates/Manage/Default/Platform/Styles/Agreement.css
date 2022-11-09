@@ -20,13 +20,6 @@ html, body, #app {
     width: calc(100% - 0px);
     height: calc(100% - 50px);
 }
-.vue-html5-editor{
-    width: calc(100% - 0px);
-    height: calc(100% - 0px);
-}
-.vue-html5-editor>.content{
-    height: calc(100% - 40px) !important;
-}
 .foot-btn{
     width: calc(100% - 30px);
     height:30px;   

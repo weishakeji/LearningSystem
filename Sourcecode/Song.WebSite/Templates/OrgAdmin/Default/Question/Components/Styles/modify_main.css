@@ -22,12 +22,12 @@
 	overflow: auto;
 }
 /*试题解析的编辑器*/
-.explain_editor{
+#explain.editor{
 	margin: 15px;
 	width: calc(100% - 30px);
 	height: calc(100% - 30px);
 
 }
-.explain_editor .content{
+#explain.editor .content{
 	height: calc(100% - 37px) !important;
 }

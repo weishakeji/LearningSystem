@@ -63,8 +63,7 @@ Vue.component('modify_main', {
         }
     },
     mounted: function () {
-        $dom.load.css([$dom.path() + 'Question/Components/Styles/modify_main.css']);
-        $dom.load.css(['/Utilities/editor/vue-html5-editor.css']);
+        $dom.load.css([$dom.path() + 'Question/Components/Styles/modify_main.css']);     
         //
         var th = this;
         th.getEntity();
@@ -182,7 +181,7 @@ Vue.component('modify_main', {
             this.activeName = index == 0 ? 'question' : this.tabs[index - 1].name;
         }
     },
-    template: `<div class="panel" v-if="!loading">
+    template: `<div class="panel" v-show="!loading">
         <el-tabs type="border-card" v-model="activeName">
             <el-tab-pane name="question" v-if="question && types">
                 <span slot="label">
@@ -200,9 +199,8 @@ Vue.component('modify_main', {
             <general :question="question" :organ="organ" :course="course"></general>
         </div>
         <div v-show="activeName=='explan'" remark="解析">
-            <vue-html5-editor :content="question.Qus_Explain" class="explain_editor" :show-module-name="false" ref="editor_intro"
-                @change="text=>question.Qus_Explain = text">
-            </vue-html5-editor>
+            <editor ref="editor" :content="question.Qus_Explain" id="explain" :menubar="false" model="general"
+            @change="text=>question.Qus_Explain=text"></editor>          
         </div>
         <div v-show="activeName=='knowledge'" remark="知识点">
             <knowledge :question="question"></knowledge>

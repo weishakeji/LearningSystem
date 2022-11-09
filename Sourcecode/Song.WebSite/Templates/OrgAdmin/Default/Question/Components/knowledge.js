@@ -103,7 +103,7 @@ Vue.component('knowledge', {
             //每页多少条，通过界面高度自动计算
             var area = $dom('.knl_list').height();
             area=area>0 ? area : $dom('body').height() - 130;
-            th.form.size = Math.floor(Number(area) / 33);
+            th.form.size = Math.floor(Number(area) / 35);
             th.form.size = th.form.size < 1 ? 1 : th.form.size;
             th.loading = true;
             console.log(th.form);

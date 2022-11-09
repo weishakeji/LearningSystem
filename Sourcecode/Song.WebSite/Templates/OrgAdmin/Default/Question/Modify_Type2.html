@@ -13,9 +13,8 @@
             <!-- 编辑区域-->
             <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
                 <el-form-item label="题干" prop="Qus_Title">
-                    <vue-html5-editor :content="entity.Qus_Title" :show-module-name="false" ref="editor_intro"
-                        style="height: 200px;" @change="text=>entity.Qus_Title = text">
-                    </vue-html5-editor>
+                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="general" style="height: 300px;"
+                    @change="text=>entity.Qus_Title=text"></editor> 
                 </el-form-item>
                 <el-form-item label="选项" prop="Qus_Items">
                     <dl class="ans" id="ansitems">
@@ -25,11 +24,12 @@
                                 <icon v-if="item.Ans_IsCorrect" style="font-size: 22px;">&#xe638</icon>
                                 <icon v-else style="font-size: 21px;">&#xe603</icon>
                             </div>
-                            <div class="text" v-html="item.Ans_Context">
-
+                            <div class="text">
+                                <editor :content="item.Ans_Context" :id="'Context'+index" :menubar="false" model="inline"
+                                @change="text=>item.Ans_Context=text"></editor> 
                             </div>
                             <div class="btns">
-                                <el-link type="primary" plain icon="el-icon-edit" @click='edit(item,index)'>修改</el-link>
+                                <el-link type="primary" plain icon="el-icon-edit" @click='edit(item,index)'>编辑</el-link>
                                 <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                                     title="确定删除吗？" @confirm="del(item,index)">
                                     <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除 </el-link>

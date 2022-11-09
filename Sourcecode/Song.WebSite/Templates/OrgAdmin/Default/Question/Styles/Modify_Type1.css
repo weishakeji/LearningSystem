@@ -45,6 +45,10 @@ dl.ans dd .text {
 dl.ans dd .btns {
     width: 90px;
 }
+dl.ans p{
+    margin: 0px;
+    padding: 0px;
+}
 /*选项编辑框*/
 .showitem{
     width: 80%;

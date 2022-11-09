@@ -1,14 +1,4 @@
 $ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 350,
-            quality: 80
-        }
-    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -290,8 +280,7 @@ $ready(function () {
         }
     });
 
-}, ["/Utilities/editor/vue-html5-editor.js",
-    '/Utilities/Components/sbj_cascader.js',
+}, ['/Utilities/Components/sbj_cascader.js',
     'Components/ques_count.js',
     'Components/fromtype0.js',
     'Components/fromtype1.js',

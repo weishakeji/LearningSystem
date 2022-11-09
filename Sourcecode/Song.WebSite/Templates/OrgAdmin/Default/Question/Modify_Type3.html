@@ -13,9 +13,8 @@
             <!-- 编辑区域-->
             <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
                 <el-form-item label="题干" prop="Qus_Title">
-                    <vue-html5-editor :content="entity.Qus_Title" :show-module-name="false" ref="editor_intro"
-                        style="height: 200px;" @change="text=>entity.Qus_Title = text">
-                    </vue-html5-editor>
+                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="general" style="height: 400px;"
+                    @change="text=>entity.Qus_Title=text"></editor> 
                 </el-form-item>
                 <el-form-item label="答案" prop="Qus_Items">
                     <el-tag type="primary" v-if="entity.Qus_IsCorrect">试题答案为：

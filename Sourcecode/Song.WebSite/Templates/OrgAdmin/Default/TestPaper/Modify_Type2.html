@@ -4,7 +4,6 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
     <title></title>
 </head>
 
@@ -137,14 +136,12 @@
                     </el-form-item>
                 </div>
                 <div v-show="activeName=='intro'" remark="简介" class="intro_editor">
-                    <vue-html5-editor :content="entity.Tp_Intro" :show-module-name="false" ref="editor_intro"
-                        @change="text=>entity.Tp_Intro = text">
-                    </vue-html5-editor>
+                    <editor :content="entity.Tp_Intro" id="intro" :menubar="false" model="general"
+                    @change="text=>entity.Tp_Intro=text"></editor>
                 </div>
                 <div v-show="activeName=='remind'" remark="注意事项" class="intro_editor">
-                    <vue-html5-editor :content="entity.Tp_Remind" :show-module-name="false" ref="editor_intro"
-                        @change="text=>entity.Tp_Remind = text">
-                    </vue-html5-editor>
+                    <editor :content="entity.Tp_Remind" id="remind" :menubar="false" model="general"
+                    @change="text=>entity.Tp_Remind=text"></editor>             
                 </div>
                 <div v-show="activeName=='other'" remark="其它">
                     <el-form-item label="试卷Logo">

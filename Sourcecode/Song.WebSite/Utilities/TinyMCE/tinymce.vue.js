@@ -65,7 +65,7 @@ Vue.component('editor', {
                 //mini极少的按钮
                 case 'mini':
                     arr = [` forecolor  backcolor  lineheight letterspacing bullist numlist 
-                    | formatting  alignment indent_gr |  image emoticons`]
+                    | formatting  alignment indent_gr insert`]
                     break;
                 //inline内联模式，没有按钮
                 case 'inline':
@@ -107,7 +107,7 @@ Vue.component('editor', {
                     insert: {
                         text: '插入',
                         tooltip: '插入图片、特殊字符、公式',
-                        items: 'image charmap  kityformula-editor',
+                        items: 'image emoticons charmap  kityformula-editor',
                     }
                 },
                 //upfile attachment //上传文件、附件
@@ -157,7 +157,7 @@ Vue.component('editor', {
                         //el.style.setProperty('height', '100%', 'important');
                     }, 500);
 
-                    editor.focus();
+                    //editor.focus();
                     editor.setContent(th.content);
                     var html = editor.getContent();
 
