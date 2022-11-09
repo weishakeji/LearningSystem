@@ -1,15 +1,5 @@
 ﻿
 $ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 400,
-            quality: 80
-        }
-    });
     window.vue = new Vue({
         el: '#app',
         data: {
@@ -44,10 +34,7 @@ $ready(function () {
             });
         },
         methods: {
-            //当编辑的内容变更时
-            changeIntro(data) {
-                this.organ.Org_Intro = data;
-            },
+            //提交更改
             updateDetails: function () {
                 this.organ.Org_Intro = this.$refs.editor.getContent();         
                 var th=this;                
@@ -72,5 +59,4 @@ $ready(function () {
             }
         }
     });
-
-}, ["/Utilities/editor/vue-html5-editor.js"]);
+});

@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
     <title>文章内容管理</title>
-    <link href="/Utilities/editor/vue-html5-editor.css" rel="stylesheet">
 </head>
 
 <body>
@@ -62,9 +61,7 @@
                     </el-form-item>
                 </template>
                 <template v-if="activeName=='tab2'">
-                    <vue-html5-editor :content="entity.Art_Details" :show-module-name="false" ref="editor_intro"
-                        @change="text=>entity.Art_Details = text">
-                    </vue-html5-editor>
+                    <editor :content="entity.Art_Details" model="general" :menubar="false" ref="editor"  placeholder="请输入内容" > </editor>                  
                 </template>
                 <template v-if="activeName=='tab3'">
                     <div class="art_logo">

@@ -2565,6 +2565,7 @@
     <Content Include="Utilities\TinyMCE\skins\ui\oxide\skin.min.css" />
     <Content Include="Utilities\TinyMCE\skins\ui\oxide\skin.mobile.css" />
     <Content Include="Utilities\TinyMCE\skins\ui\oxide\skin.mobile.min.css" />
+    <Content Include="Utilities\TinyMCE\Styles\tinymce.vue.css" />
     <Content Include="Utilities\TinyMCE\themes\mobile\theme.js" />
     <Content Include="Utilities\TinyMCE\themes\mobile\theme.min.js" />
     <Content Include="Utilities\TinyMCE\themes\silver\theme.js" />

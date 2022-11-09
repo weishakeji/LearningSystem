@@ -1,14 +1,4 @@
-$ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 350,
-            quality: 80
-        }
-    });
+$ready(function () {    
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -31,7 +21,7 @@ $ready(function () {
             No_Interval: [],     //有效时间段的临时数组
             accountSort: [],     //学员账号分组
             No_StudentSort: [],      //选中的学员账号分组
-            
+
             scale: true,         //等比例缩放
             imgWidth: 0,
             imgHeight: 0,
@@ -83,11 +73,12 @@ $ready(function () {
         created: function () {
             var th = this;
             th.id = $api.querystring('id');
+            th.loading = true;
             $api.get('Account/SortAll', { 'orgid': '-1', 'use': '' }).then(function (req) {
                 if (req.data.success) {
                     var results = req.data.result;
                     results.forEach(function (item, index) {
-                        vapp.accountSort.push({
+                        th.accountSort.push({
                             label: item.Sts_Name,
                             key: item.Sts_ID,
                             index: index
@@ -95,30 +86,32 @@ $ready(function () {
                     });
                     if (th.id == '') return;
                     $api.get('Notice/ForID', { 'id': th.id }).then(function (req) {
+                        th.loading = false;
                         if (req.data.success) {
                             var result = req.data.result;
-                            vapp.formData = result;
-                            vapp.details = vapp.formData.No_Context;
-                            vapp.imgWidth = vapp.formData.No_Width;
-                            vapp.imgHeight = vapp.formData.No_Height;
-                            if (vapp.formData.No_Page == '') vapp.formData.No_Page = 'mobi_home';
+                            th.formData = result;
+                            th.details = th.formData.No_Context;
+                            th.imgWidth = th.formData.No_Width;
+                            th.imgHeight = th.formData.No_Height;
+                            if (th.formData.No_Page == '') th.formData.No_Page = 'mobi_home';
                             //时间段的初始化
-                            if (vapp.formData.No_Interval != '') {
-                                var interval = JSON.parse(vapp.formData.No_Interval);
+                            if (th.formData.No_Interval != '') {
+                                var interval = JSON.parse(th.formData.No_Interval);
                                 for (var i = 0; i < interval.length; i++) {
                                     interval[i]['start'] = Date.parse(interval[i]['start']);
                                     interval[i]['end'] = Date.parse(interval[i]['end']);
                                 }
-                                vapp.No_Interval = interval;
+                                th.No_Interval = interval;
                             }
                             //学员分组信息
-                            if (vapp.formData.No_StudentSort != '')
-                                th.No_StudentSort = JSON.parse(vapp.formData.No_StudentSort);
+                            if (th.formData.No_StudentSort != '')
+                                th.No_StudentSort = JSON.parse(th.formData.No_StudentSort);
                         } else {
                             throw req.data.message;
                         }
                     }).catch(function (err) {
-                        alert(err);
+                        th.loading = false;
+                        th.$alert(err);
                         console.error(err);
                     });
                 } else {
@@ -127,7 +120,8 @@ $ready(function () {
                 //其它数据，随机学员、机构信息，用于短信的转义
 
             }).catch(function (err) {
-                alert(err);
+                th.loading = false;
+                th.$alert(err);
                 console.error(err);
             });
         },
@@ -145,27 +139,30 @@ $ready(function () {
                 return data;
             },
             btnEnter: function (formName) {
+                //获取富文本框的内容
+                var html = this.$refs.editor.getContent();
+                this.formData.No_Context = html;
                 var th = this;
                 this.$refs[formName].validate(function (valid) {
                     if (valid) {
                         var apipath = 'Notice/' + (th.id == '' ? 'add' : 'Modify');
-                        $api.post(apipath, { 'entity': vapp.formData }).then(function (req) {
+                        $api.post(apipath, { 'entity': th.formData }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
-                                vapp.$message({
+                                th.$message({
                                     type: 'success',
                                     message: '操作成功!',
                                     center: true
                                 });
                                 window.setTimeout(function () {
-                                    vapp.operateSuccess();
+                                    th.operateSuccess();
                                 }, 600);
                             } else {
                                 throw req.data.message;
                             }
                         }).catch(function (err) {
                             //window.top.ELEMENT.MessageBox(err, '错误');
-                            vapp.$alert(err, '错误');
+                            th.$alert(err, '错误');
                         });
                     } else {
                         console.log('error submit!!');
@@ -174,16 +171,16 @@ $ready(function () {
                 });
             },
             //图片文件上传
-            filechange: function (file) {   
+            filechange: function (file) {
                 this.upfile = file;
-                this.formData.No_BgImage = file.base64;  
+                this.formData.No_BgImage = file.base64;
             },
             //清除图片
             fileremove: function () {
                 this.upfile = null;
-                this.formData.No_BgImage = '';               
-            },           
-            
+                this.formData.No_BgImage = '';
+            },
+
             imgWidthChange: function (val) {
                 if (this.scale) {
                     var width = isNaN(Number(this.imgWidth)) ? 0 : Number(this.imgWidth);
@@ -255,4 +252,4 @@ $ready(function () {
             }
         }
     });
-}, ["/Utilities/editor/vue-html5-editor.js"]);
+});

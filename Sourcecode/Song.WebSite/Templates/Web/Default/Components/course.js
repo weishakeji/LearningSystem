@@ -19,8 +19,8 @@ Vue.component('course', {
     },
     computed: {},
     mounted: function () {
-        var css = $dom.path() + 'Components/Styles/course.css';
         
+        var css = $dom.path() + 'Components/Styles/course.css';
         $dom.load.css([css]);
     },
     methods: {

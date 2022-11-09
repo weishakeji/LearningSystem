@@ -32,7 +32,7 @@ Vue.component('editor', {
 
     },
     created: function () {
-
+        $dom.load.css(['/Utilities/TinyMCE/Styles/tinymce.vue.css']);
     },
     mounted: function () {
 
@@ -54,7 +54,7 @@ Vue.component('editor', {
                 case 'general':
                     arr = [`cut copy formatpainter undo redo  | formatselect fontselect fontsizeselect forecolor backcolor table importword 
                     | formatting alignment indent_gr insert insertdatetime  lineheight letterspacing bullist numlist                       
-                    layout removeformat  hr pagebreak  clearhtml   bdmap link anchor searchreplace preview`]
+                    layout removeformat  hr pagebreak  clearhtml   bdmap link fullscreen searchreplace preview`]
                     break;
                 //simple简化版，相较于general更少按钮
                 case 'simple':
@@ -79,10 +79,10 @@ Vue.component('editor', {
             tinymce.init({
                 selector: '#' + th.ctrid,
                 language: 'zh_CN',
-                menubar: th.menubar == false ? th.menubar : "file edit view insert format table tools",
+                menubar: th.menubar == null || th.menubar == false || th.menubar == 'false' ? false : "file edit view insert format table tools",
                 branding: false,
                 inline: th.model == 'inline', //开启内联模式
-                min_height: 500,
+                height: '100%',
                 max_height: 700,
                 plugins: `kityformula-editor insertdatetime print preview clearhtml searchreplace autolink layout 
                 fullscreen image upfile link media code codesample table charmap hr pagebreak nonbreaking anchor 
@@ -143,6 +143,11 @@ Vue.component('editor', {
                 },
                 init_instance_callback: function (editor) {
                     console.log(editor);
+                    window.setTimeout(function () {
+                        var el = editor.container;
+                        //el.style.setProperty('height', '100%', 'important');
+                    }, 500);
+
                     editor.focus();
                     editor.setContent(th.content);
                     var html = editor.getContent();
@@ -157,10 +162,10 @@ Vue.component('editor', {
         },
         //获取内容
         getContent: function () {
-            var html= tinyMCE.editors[this.ctrid].getContent();
+            var html = tinyMCE.editors[this.ctrid].getContent();
             return html.replace(/<script[^>]+>/g, "");
         }
     },
 
-    template: `<div class="editor"><div :id="ctrid"></div></div>`
+    template: `<div class="editor" :id="id"><div :id="ctrid"></div></div>`
 });

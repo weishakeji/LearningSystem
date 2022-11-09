@@ -8,9 +8,7 @@ html, body, #app {
 .editor{
     height: calc(100% - 55px);
 }
-.editor>div{
-    height: 100% !important;
-}
+
 .foot-btn {
     width: calc(100% - 30px);
     height: 30px;

@@ -1,15 +1,5 @@
 ﻿
 $ready(function () {
-    Vue.use(VueHtml5Editor, {
-        showModuleName: true,
-        image: {
-            sizeLimit: 512 * 1024,
-            compress: true,
-            width: 500,
-            height: 400,
-            quality: 80
-        }
-    });
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -112,6 +102,7 @@ $ready(function () {
             },
             btnEnter: function (formName) {
                 var th = this;
+                th.entity.Art_Details=th.$refs.editor.getContent();
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
 
@@ -248,4 +239,4 @@ $ready(function () {
         },
     });
 
-}, ["/Utilities/editor/vue-html5-editor.js"]);
+});
