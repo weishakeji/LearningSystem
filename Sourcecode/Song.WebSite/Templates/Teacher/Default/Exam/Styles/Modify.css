@@ -42,15 +42,7 @@
     box-sizing: border-box;
 }
 
-/*内容输入框*/
-.vue-html5-editor {
-    margin: 0px 0px 0px 20px;
-    height: calc(100% - 20px);
-}
 
-.vue-html5-editor .content {
-    height: calc(100% - 10px) !important;
-}
 
 /*图片上传*/
 .art_logo {

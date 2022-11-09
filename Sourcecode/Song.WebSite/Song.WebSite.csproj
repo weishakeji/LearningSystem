@@ -1840,8 +1840,6 @@
     <Content Include="Utilities\echarts\chart\wordCloud.js" />
     <Content Include="Utilities\echarts\echarts-all.js" />
     <Content Include="Utilities\echarts\echarts.js" />
-    <Content Include="Utilities\editor\vue-html5-editor.css" />
-    <Content Include="Utilities\editor\vue-html5-editor.js" />
     <Content Include="Utilities\ElementUi\index.css" />
     <Content Include="Utilities\ElementUi\index.html" />
     <Content Include="Utilities\ElementUi\index.js" />
@@ -2649,8 +2647,6 @@
     <Content Include="Templates\OrgAdmin\Default\web.config" />
     <Content Include="Templates\OrgAdmin\web.config" />
     <Content Include="Templates\web.config" />
-    <Content Include="Utilities\editor\fontawesome-webfont.woff" />
-    <Content Include="Utilities\editor\fontawesome-webfont.woff2" />
     <Content Include="Utilities\ElementUi\fonts\element-icons.ttf" />
     <Content Include="Utilities\ElementUi\fonts\element-icons.woff" />
     <Content Include="Utilities\Scripts\axios.min.map" />
