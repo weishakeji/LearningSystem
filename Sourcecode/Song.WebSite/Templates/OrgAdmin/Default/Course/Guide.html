@@ -11,7 +11,7 @@
 <body>
     <div id="vapp" v-cloak>
         <loading v-if="loading_init"></loading>
-        <aside class="columns" style="display: none;" v-if="columnsMofidy">
+        <aside class="columns" v-if="columnsMofidy">
             <div class="bar">
                 <div>
                     <el-button type="primary" icon="el-icon-edit" plain @click="columnsShow(true,null)">新增分类</el-button>
@@ -59,8 +59,8 @@
         <!--右侧内容列表-->
         <section class="list" style="display: none;" v-show="!columnsMofidy">
             <div class="toolsbar">
-                <btngroup show="新增,删除" ref='btngroup' @add="guideShow(true,null)" @delete="deleteData"
-                    width="600" height="600" :selects='selects' idkey='Gu_Id' table="guides">
+                <btngroup show="新增,删除" ref='btngroup' @add="guideShow(true,null)" @delete="deleteData" width="600"
+                    height="600" :selects='selects' idkey='Gu_Id' table="guides">
                     <el-button type="primary" size="small" icon="el-icon-edit" plain @click="columnsMofidy=true">编辑公告的分类
                     </el-button>
                 </btngroup>
@@ -132,37 +132,38 @@
                     :page-size="form.size" :pager-count="12" layout="total, prev, pager, next, jumper" :total="total">
                 </el-pagination>
             </div>
-            <el-dialog :title="guide_title" :visible.sync="guideVisible" :before-close="()=>{}" :show-close="false" :modal="false"
-                :destroy-on-close="true"
-                class="guide_form" fullscreen>
-                <el-form :model="guide_form" ref="guide_form" :rules="guide_rules" label-width="60px">
-                    <el-form-item label="标题" prop="Gu_Title">
-                        <el-input v-model="guide_form.Gu_Title"></el-input>
-                    </el-form-item>
-                    <el-form-item label="分类" prop="Gc_UID">
-                        <el-cascader style="width: 100%;" v-model="guide_form.Gc_UID" :options="columns" separator="／"
-                            :props="{
+            <div v-show="guideVisible">
+                <el-dialog :title="guide_title" :visible="true" :before-close="()=>{}" :show-close="false"
+                    :modal="false" :destroy-on-close="true" class="guide_form" fullscreen>
+                    <el-form :model="guide_form" ref="guide_form" :rules="guide_rules" label-width="60px">
+                        <el-form-item label="标题" prop="Gu_Title">
+                            <el-input v-model="guide_form.Gu_Title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="分类" prop="Gc_UID">
+                            <el-cascader style="width: 100%;" v-model="guide_form.Gc_UID" :options="columns"
+                                separator="／" :props="{
                                 children: 'children',
                                 label: 'Gc_Title',
                                 value: 'Gc_UID',
                                 expandTrigger: 'hover',
                                 checkStrictly: true
                             }" filterable>
-                        </el-cascader>
-                    </el-form-item>
-                    <div class="Gu_Details">
-                        <el-form-item label="内容" prop="Gu_Details">
-                            <editor :content="guide_form.Gu_Details" model="general"
-                                @change="text=>guide_form.Gu_Details=text">
-                            </editor>
+                            </el-cascader>
                         </el-form-item>
+                        <div class="Gu_Details">
+                            <el-form-item label="内容" prop="Gu_Details">
+                                <editor :content="guide_form.Gu_Details" model="general" ref="details_editor"
+                                    @change="text=>guide_form.Gu_Details=text">
+                                </editor>
+                            </el-form-item>
+                        </div>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="guideVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="guideEnter('guide_form')">确 定</el-button>
                     </div>
-                </el-form>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="guideVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="guideEnter('guide_form')">确 定</el-button>
-                </div>
-            </el-dialog>
+                </el-dialog>
+            </div>
         </section>
     </div>
 </body>

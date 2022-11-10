@@ -290,6 +290,8 @@
                 this.guideObject = obj;
                 this.guide_title = obj == null ? '新增课程公告' : '编辑课程公告';
                 this.guide_form = obj != null ? $api.clone(obj) : {};
+
+                this.$refs['details_editor'].setContent(this.guide_form.Gu_Details);
             },
             guideEnter: function (formName) {
                 var th = this;
