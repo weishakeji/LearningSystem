@@ -104,16 +104,16 @@
                         </template>
                     </el-table-column>
                     <el-table-column label="标题">
-                        <template slot-scope="scope">
+                        <span slot-scope="scope" class="large">
                             {{scope.row.Kn_Title}}
 
-                        </template>
+                        </span>
                     </el-table-column>
                     <el-table-column label="分类" v-if="false">
-                        <template slot-scope="scope">
+                        <span slot-scope="scope">
                             {{scope.row.Kns_Name}}
 
-                        </template>
+                        </span>
                     </el-table-column>
                     <el-table-column label="启用" align="center" width="60">
                         <template slot-scope="scope">
@@ -146,36 +146,38 @@
                 </el-pagination>
             </div>
             <!--编辑内容-->
-            <el-dialog :title="knl_title" :visible.sync="knlVisible" :before-close="()=>{}" :show-close="false"
-                :modal="false" :destroy-on-close="true" class="knl_form" fullscreen>
-                <el-form :model="knl_form" ref="knl_form" :rules="knl_rules" label-width="60px">
-                    <el-form-item label="标题" prop="Kn_Title">
-                        <el-input v-model="knl_form.Kn_Title"></el-input>
-                    </el-form-item>
-                    <el-form-item label="分类" prop="Kns_UID">
-                        <el-cascader style="width: 100%;" v-model="knl_form.Kns_UID" :options="sorts" separator="／"
-                            :props="{
+            <div v-show="knlVisible">
+                <el-dialog :title="knl_title" :visible="true" :before-close="()=>{}" :show-close="false"
+                    :modal="false" :destroy-on-close="true" class="knl_form" fullscreen>
+                    <el-form :model="knl_form" ref="knl_form" :rules="knl_rules" label-width="60px">
+                        <el-form-item label="标题" prop="Kn_Title">
+                            <el-input v-model="knl_form.Kn_Title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="分类" prop="Kns_UID">
+                            <el-cascader style="width: 100%;" v-model="knl_form.Kns_UID" :options="sorts" separator="／"
+                                :props="{
                                 children: 'children',
                                 label: 'Kns_Name',
                                 value: 'Kns_UID',
                                 expandTrigger: 'hover',
                                 checkStrictly: true
                             }" filterable>
-                        </el-cascader>
-                    </el-form-item>
-                    <div class="Kn_Details">
-                        <el-form-item label="内容" prop="Kn_Details">
-                            <editor :content="knl_form.Kn_Details" model="general"
-                                @change="text=>knl_form.Kn_Details=text">
-                            </editor>
+                            </el-cascader>
                         </el-form-item>
+                        <div class="Kn_Details">
+                            <el-form-item label="内容" prop="Kn_Details">
+                                <editor :content="knl_form.Kn_Details" model="general" ref="details_editor"
+                                    @change="text=>knl_form.Kn_Details=text">
+                                </editor>
+                            </el-form-item>
+                        </div>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click="knlVisible = false">取 消</el-button>
+                        <el-button type="primary" @click="knlEnter('knl_form')">确 定</el-button>
                     </div>
-                </el-form>
-                <div slot="footer" class="dialog-footer">
-                    <el-button @click="knlVisible = false">取 消</el-button>
-                    <el-button type="primary" @click="knlEnter('knl_form')">确 定</el-button>
-                </div>
-            </el-dialog>
+                </el-dialog>
+            </div>
         </section>
     </div>
 </body>

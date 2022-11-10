@@ -61,7 +61,7 @@
 .row_code {
     font-size: 18px;
     line-height: 30px;
-    cursor: pointer;
+    cursor:default;
 }
 .theme icon{
     margin-left: 10px;

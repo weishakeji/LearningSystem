@@ -300,6 +300,8 @@
                 this.knlObject = obj;
                 this.knl_title = obj == null ? '新增知识点' : '编辑知识点';
                 this.knl_form = obj != null ? $api.clone(obj) : {};
+
+                this.$refs['details_editor'].setContent(this.knl_form.Kn_Details);
             },
             knlEnter: function (formName) {
                 var th = this;
