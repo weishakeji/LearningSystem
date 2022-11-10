@@ -1,0 +1,16 @@
+﻿ //试题项的完整编辑功能
+Vue.component('ques_ansedit', {
+     //showname：是否显示题型名称
+    props: ["type", "types","showname"],
+    data: function () {
+        return {
+            //单选，多选，判断，简答，填空
+            icons: ['e85b', 'e78b', 'e634', 'e657', 'e823']
+        }
+    },
+    mounted: function () {
+        $dom.load.css([$dom.path() + 'Question/Components/Styles/ques_type.css']);
+    },
+    template: `<icon ques_type v-html="'&#x'+icons[Number(type)-1]" :title="types[Number(type)-1]+'题'" :showname="showname"></icon> `
+});
+$dom.load.css([$dom.path() + 'Question/Components/Styles/ques_ansedit.css']);

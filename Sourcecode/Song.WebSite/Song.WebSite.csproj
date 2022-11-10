@@ -434,6 +434,10 @@
     <Content Include="Templates\Mobi\_Public\Scripts\500.js" />
     <Content Include="Templates\Mobi\_Public\Styles\500.css" />
     <Content Include="Templates\OrgAdmin\Default\Images\favicon.gif" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_ansedit.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\ques_ansitem.js" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\ques_ansedit.css" />
+    <Content Include="Templates\OrgAdmin\Default\Question\Components\Styles\ques_ansitem.css" />
     <Content Include="Templates\OrgAdmin\Default\Question\Export.html" />
     <Content Include="Templates\OrgAdmin\Default\Question\Import.html" />
     <Content Include="Templates\OrgAdmin\Default\Question\Scripts\Export.js" />

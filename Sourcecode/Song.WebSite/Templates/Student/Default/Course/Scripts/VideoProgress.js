@@ -86,7 +86,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     th.loading = false;
-                    Vue.prototype.$alert(err);
+                    //Vue.prototype.$alert(err);
                     console.error(err);
                 });
             }

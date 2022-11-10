@@ -11,6 +11,7 @@ html, body, #vapp {
 #vapp {
 	position: relative;
 }
+
 *[v-cloak] {
 	display: none;
 }
@@ -85,7 +86,7 @@ dl, dd {
 }
 
 /*当表格行处理禁用状态时*/
-table.el-table__body tr.disabled td, table.el-table__body tr.disabled td * {
+table.el-table__body tr.disabled td, table.el-table__body tr.disabled td *:not(.el-tag, .el-link) {
 	color: #aaa !important;
 }
 

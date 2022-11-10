@@ -28,7 +28,7 @@
                         <el-checkbox v-model="form.isback">被回滚</el-checkbox>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-input v-model="form.code" clearable style="width:100px"></el-input>
+                        <el-input v-model="form.code" clearable style="width:150px" placeholder="卡号"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
@@ -47,7 +47,8 @@
         </template>
         <template v-else>
             <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
-                v-loading="loading" @selection-change="val=>selects=val" cell-class-name="tdcell">
+                v-loading="loading" @selection-change="val=>selects=val" cell-class-name="tdcell"
+                :row-class-name="data=>{return data.row.Lc_State==-1 ? 'disabled' : 'enable';}">
                 <el-table-column type="index" width="60" label="#" align="center">
                     <template slot-scope="scope">
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
@@ -76,9 +77,9 @@
                         <cardset :card="scope.row"></cardset>
                     </template>
                 </el-table-column>
-                <el-table-column label="面额" width="80">
+                <el-table-column label="课程数" width="80">
                     <template slot-scope="scope">
-                        <icon money>{{scope.row.Lc_Price}}</icon>
+                        <icon course>{{scope.row.count ? scope.row.count : 0}}</icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="状态" width="80" align="center">

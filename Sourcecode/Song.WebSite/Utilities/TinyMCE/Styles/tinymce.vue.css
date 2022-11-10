@@ -2,6 +2,18 @@
     width: 100%;
     height: 100%;
 }
-.editor > div {
-    height: 100% !important;
+.editor>div {
+    height: 100%;
+    width: 100%;
 }
+.editor>div>div.tox-tinymce {
+    height: 100% !important;
+    width: 100%;
+}
+
+    .editor[model='mini'] .tox .tox-toolbar {
+        background:none !important;        
+    }
+    .editor[model='mini'] .tox-statusbar {
+        border: none !important;
+    }

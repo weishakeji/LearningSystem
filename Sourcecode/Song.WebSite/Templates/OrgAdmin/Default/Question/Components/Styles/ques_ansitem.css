@@ -1,0 +1,18 @@
+﻿.ques_ansitem {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+}
+
+.ques_ansitem .editor_box {
+    border: solid 1px #fff;
+    position: absolute;
+    z-index: 2;
+    width: calc(100% - 10px);
+    box-sizing: border-box;
+   
+}

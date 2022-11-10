@@ -107,7 +107,19 @@ dl, dd {
 .el-radio {
 	margin-right: 10px !important;
 }
+/*当表格行处理禁用状态时*/
+table.el-table__body tr.disabled td, table.el-table__body tr.disabled td *:not(.el-tag,.el-link) {
+	color: #aaa !important;
+}
 
+table.el-table__body tr.disabled td img {
+	-webkit-filter: grayscale(100%);
+	-moz-filter: grayscale(100%);
+	-ms-filter: grayscale(100%);
+	-o-filter: grayscale(100%);
+	filter: grayscale(100%);
+	filter: gray;
+}
 /*底部栏*/
 .footer {
 	width: calc(100% - 2px);

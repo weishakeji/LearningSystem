@@ -3,16 +3,19 @@
 dl.ans {
     width: 100%;
 }
-dl.ans dt{
+
+dl.ans dt {
     padding: 5px 15px 5px 0px;
     text-align: right;
 }
+
 dl.ans dd {
     border: 1px solid #ddd;
     border-radius: 3px;
     margin-bottom: 8px;
     padding: 5px 10px 5px 0px;
     display: flex;
+    cursor: move;
 }
 
 dl.ans dd:hover {
@@ -26,48 +29,55 @@ dl.ans dd index {
     text-align: center;
     color: #999;
 }
-
-dl.ans dd .itemcrt {
-    display: block;
-    width: 30px;
-    text-align: center;
-    cursor: pointer;
-}
-
 dl.ans dd .text {
     width: calc(100% - 90px - 90px);
     padding: 0px 15px 0px 10px;
-    cursor: move;
 }
-.sortable-ghost{
+
+.sortable-ghost {
     background-color: rgb(225, 243, 216);
 }
+
 dl.ans dd .btns {
     width: 90px;
 }
-dl.ans p{
+
+dl.ans p {
     margin: 0px;
     padding: 0px;
 }
-/*选项编辑框*/
-.showitem{
-    width: 80%;
-    height: 80%;
-    margin-top: 8% !important;
-}
-.showitem .el-dialog__body{
-	height: calc(100% - 54px - 62px - 40px) !important;
-    padding: 20px;
-}
-.item_editor{
-    height: 100%;
-}
-.explain_editor{
-	margin: 15px;
-	width: calc(100% - 30px);
-	height: calc(100% - 30px);
 
+/*选项编辑框*/
+.showitem {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    background-color: #fff;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 10;
 }
-.item_editor .content{
-	height: calc(100% - 37px) !important;
+
+.showitem>div[slot='title'] {
+    box-sizing: border-box;
+    padding: 10px;
+    height: 50px;
+}
+.showitem>div[slot='title'] icon[close]{
+    float: right;
+    cursor: pointer;
+}
+.showitem>div[slot='title'] icon[close]::before{
+    font-size: 20px;
+}
+.showitem>div[slot='body'] {
+    height: calc(100% - 100px);
+}
+.showitem>div[slot='footer'] {
+    box-sizing: border-box;
+    padding: 10px;
+    height: 50px;
+    text-align: right;
 }

@@ -61,8 +61,12 @@
 .row_code {
     font-size: 18px;
     line-height: 30px;
+    cursor: pointer;
 }
-
+.theme icon{
+    margin-left: 10px;
+    font-size: 12px;
+}
 /*卡片详情*/
 .detailShow {
     width: 50% !important;

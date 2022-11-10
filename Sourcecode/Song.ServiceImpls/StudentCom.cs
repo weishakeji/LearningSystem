@@ -1045,6 +1045,9 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
                 reader.Dispose();
             }
             totalComplete = totalComplete / outlines.Count;
+            if (double.IsNaN(totalComplete))           
+                totalComplete = 0;
+          
             totalComplete = totalComplete > 100 ? 100 : totalComplete;
             totalComplete = Math.Round(totalComplete * 100) / 100;
             //合并数据

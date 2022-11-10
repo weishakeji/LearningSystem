@@ -13,8 +13,8 @@
             <!-- 编辑区域-->
             <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
                 <el-form-item label="题干" prop="Qus_Title">
-                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="general" style="height: 300px;"
-                    @change="text=>entity.Qus_Title=text"></editor> 
+                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="general"
+                        style="height: 300px;" @change="text=>entity.Qus_Title=text"></editor>
                 </el-form-item>
                 <el-form-item label="选项" prop="Qus_Items">
                     <dl class="ans" id="ansitems">
@@ -24,9 +24,8 @@
                                 <icon v-if="item.Ans_IsCorrect" style="font-size: 21px;">&#xe85b</icon>
                                 <icon v-else style="font-size: 22px;">&#xe85c</icon>
                             </div>
-                            <div class="text">
-                                <editor :content="item.Ans_Context" :id="'Context'+index" :menubar="false" model="inline"
-                                @change="text=>item.Ans_Context=text"></editor> 
+                            <div class="text" v-html="item.Ans_Context" :id="'ans_'+item.Ans_ID"
+                                @click="ansClick(item)">
                             </div>
                             <div class="btns">
                                 <el-link type="primary" plain icon="el-icon-edit" @click='edit(item,index)'>编辑</el-link>
@@ -37,25 +36,28 @@
                             </div>
                         </dd>
                         <dt>
-                            <el-link type="success" plain icon="el-icon-circle-plus-outline" @click='add()'>添加新项
+                            <el-link type="success" @click='add()'>
+                                <icon>&#xe6ea</icon>添加新项
                             </el-link>
                         </dt>
                     </dl>
                 </el-form-item>
             </el-form>
-            <el-dialog :visible.sync="showitem" :append-to-body="true" :close-on-click-modal="false"
-                custom-class="showitem">
-                <span slot="title">
+            <div v-show="showitem" class="showitem">
+                <div slot="title">
                     <icon>&#xe60d</icon>编辑“选项 {{edititem.index+1}}”
-                </span>
-                <vue-html5-editor :content="edititem.Ans_Context" class="item_editor" :show-module-name="false"
-                    ref="editor_intro" @change="text=>edititem.Ans_Context = text">
-                </vue-html5-editor>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="showitem = false">取 消</el-button>
+                    <icon close @click="showitem = false"></icon>
+                </div>
+                <div slot="body">
+                    <editor :content="edititem.Ans_Context" id="Ans_Context" ref="edititem" :menubar="true"
+                        model="general" @change="text=>edititem.Ans_Context=text"></editor>
+                </div>
+                <div slot="footer">
+                    <el-button @click="showitem = false">返 回</el-button>
                     <el-button type="primary" @click="editenter()">确 定</el-button>
-                </span>
-            </el-dialog>
+                </div>
+            </div>
+            <ques_ansitem ref="ques_ansitem" @close="ansClose"></ques_ansitem>
         </modify_main>
         <enter_button :question="entity" :verify="verify" :organ="organ"></enter_button>
     </div>

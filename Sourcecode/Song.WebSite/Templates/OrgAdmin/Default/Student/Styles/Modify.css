@@ -13,14 +13,29 @@
 }
 
 .el-form {
-    height: calc(100% - 60px);
-    width: calc(100% - 15px);
-    padding-right: 10px;
+    height: calc(100% - 40px);
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
 
     overflow: auto;
     box-sizing: border-box;
 }
 
+.el-form>div {
+    box-sizing: border-box;
+    padding: 15px;
+}
+
+.el-form>div.about_editor {
+    padding: 0px;
+}
+.el-form>div.about_editor .tox-tinymce {
+	border: none !important;
+}
+.el-form>div.about_editor .tox-statusbar{
+	border: none !important;
+}
 .el-tabs--border-card {
     box-shadow: none;
     border: none;
@@ -116,10 +131,12 @@
     box-sizing: border-box;
     cursor: pointer;
 }
-.sort:hover{
+
+.sort:hover {
     text-decoration: underline;
     background-color: #eee;
 }
+
 .sort span:first-child {
-    margin-right: 8px;   
+    margin-right: 8px;
 }

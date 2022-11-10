@@ -9,17 +9,30 @@ Vue.component('editor', {
     props: ['content', "model", "menubar", 'id', 'placeholder'],
     data: function () {
         return {
-
+            //编辑器的文本
+            text: '',
+            isinit: false,       //是否初始化
+            load: false       //预加载效果
         }
     },
     watch: {
         'ctrid': {
             handler: function (nv, ov) {
+                if (nv == ov) return;
                 this.$nextTick(function () {
-                    this.init();
+                    if (!this.load && !this.isinit)
+                        this.init();
                 });
 
             }, immediate: true
+        },
+        'content': {
+            handler: function (nv, ov) {
+                if (this.text == '') {
+                    this.text = nv;
+                    this.setContent(this.text);
+                }
+            }, immediate: false
         }
     },
     computed: {
@@ -32,6 +45,7 @@ Vue.component('editor', {
 
     },
     created: function () {
+
         if (window.$dom) $dom.load.css(['/Utilities/TinyMCE/Styles/tinymce.vue.css']);
     },
     mounted: function () {
@@ -76,6 +90,7 @@ Vue.component('editor', {
         },
         init: function () {
             var th = this;
+            th.load = true;
             tinymce.init({
                 selector: '#' + th.ctrid,
                 language: 'zh_CN',
@@ -134,9 +149,10 @@ Vue.component('editor', {
                 images_upload_base_path: '',
                 setup: function (ed) {
                     //当录入变动时
-                    ed.on('input change redo undo keydown',function(e) {
+                    ed.on('input change redo undo keydown', function (e) {
                         var content = tinyMCE.get(ed.id).getContent();
-                        th.$emit('change',content);
+                        //触发vue组件事件
+                        th.$emit('change', content);
                         //var escapedClassName = ed.id.replace(/(\[|\])/g, '\\$&');
                         //console.log(content);
                     });
@@ -152,16 +168,14 @@ Vue.component('editor', {
                 },
                 init_instance_callback: function (editor) {
                     console.log(editor);
-                    window.setTimeout(function () {
-                        var el = editor.container;
-                        //el.style.setProperty('height', '100%', 'important');
-                    }, 500);
-
-                    //editor.focus();
-                    editor.setContent(th.content);
+                    th.load = false;
+                    th.isinit = true;       //初始化功能
+                    //将来自组件参数的content,传给内部参数text，以免外部数据变化，影响组件状态
+                    th.text = th.content;
+                    editor.setContent(th.text);
                     var html = editor.getContent();
 
-                   
+
                     //alert(html);
                     //tinyMCE.editors[tinymceConfig.tinyID+'2'].setContent(html2); 
                     //$('#tinymce-app').fadeIn(1000);
@@ -175,8 +189,17 @@ Vue.component('editor', {
         getContent: function () {
             var html = tinyMCE.editors[this.ctrid].getContent();
             return html.replace(/<script[^>]+>/g, "");
+        },
+        //设置内容
+        setContent: function (text) {
+            tinyMCE.editors[this.ctrid].setContent(text);
         }
     },
 
-    template: `<div class="editor" :id="id"><div :id="ctrid"></div></div>`
+    template: `<div class="editor" :ctrid="id" :model="model">
+        <loading bubble v-if="load"></loading>
+        <div v-show="!load">
+            <div :id="ctrid"></div>
+        </div>
+    </div>`
 });

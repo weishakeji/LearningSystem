@@ -42,8 +42,8 @@ $ready(function () {
             account: {},
             totalCard: 0,           //学员所有的学习卡
 
-            detail:{},       //详情查看
-            detailShow:false,      //是否显示详情
+            detail: {},       //详情查看
+            detailShow: false,      //是否显示详情
 
             loading_init: true,
             loading: false,
@@ -88,7 +88,11 @@ $ready(function () {
                 $api.get("Learningcard/AccountCards", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
-                        th.datas = d.data.result;
+                        var result = d.data.result;
+                        for (let i = 0; i < result.length; i++) {
+                            result[i]['count'] = 0;
+                        }
+                        th.datas =result;
                         th.totalpages = Number(d.data.totalpages);
                         th.total = d.data.total;
                         //console.log(th.accounts);
@@ -304,7 +308,8 @@ $ready(function () {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.courses = result;
-                         th.card['courses'] = result;
+                        th.card['courses'] = result;
+                        th.card['count'] = result.length;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -316,8 +321,8 @@ $ready(function () {
             }
         },
         // 同样也可以在 vm 实例中像 "this.message" 这样使用
-        template: `<span>
-           {{cardset.Lcs_Theme}}
+        template: `<span class="theme">
+           {{cardset.Lcs_Theme}}          
         </span>`
     });
 });

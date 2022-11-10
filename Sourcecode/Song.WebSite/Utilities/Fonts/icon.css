@@ -123,7 +123,11 @@ icon[mobile]::before {
     content: '\e677';
     font-size: 16px;
 }
-
+/*关闭按钮*/
+    icon[close]::before {
+        content: '\e606';
+        font-size: 16px;
+    }
 /*男性*/
 icon[man] {
     color: rgb(73 128 210);
