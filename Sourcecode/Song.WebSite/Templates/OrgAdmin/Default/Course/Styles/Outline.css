@@ -27,6 +27,7 @@ html, body, #vapp {
 div[role=treeitem] {
     min-height: 30px;
 }
+
 /*节点行*/
 .custom-node {
     flex: 1;
@@ -40,20 +41,24 @@ div[role=treeitem] {
 .custom-node:hover {
     background-color: #eee;
 }
-.btns{
+
+.btns {
     display: flex;
     justify-content: space-between;
 }
-.btns>*{
+
+.btns>* {
     margin-left: 20px;
 }
+
 .el-tree-node__content {
     cursor: default !important;
 }
+
 /*节点名称*/
-.node_name{
+.node_name {
     display: inline-block;
-   
+
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -64,37 +69,52 @@ div[role=treeitem] {
 .node_name icon {
     margin: 0px;
 }
-.column_state{
+
+.column_state {
     width: 150px;
     text-align: right;
 }
-.column_state icon::after{
+
+.column_state icon::after {
     content: attr(title);
     margin-left: 3px;
 }
-.column_state .el-dropdown-link a:hover{
-   text-decoration: none !important;
-  
+
+.column_state .el-dropdown-link a:hover {
+    text-decoration: none !important;
+
 }
-.btn_dropdown a{
+
+.btn_dropdown a {
     display: block;
     width: 100%;
 }
-.btn_dropdown icon{
+
+.btn_dropdown icon {
     width: 15px;
 }
+
 /*编辑面板*/
 .modify_show {
-    width: 70%;
-    height: 80%;
-    margin-top: 10vh !important;
+    width: 100%;
+    height: 100%;
+    margin-top: 0vh !important;
 }
 
+.modify_show .el-checkbox {
+    margin-right: 5px;
+}
+
+.el-dialog__wrapper{
+    overflow: hidden;
+
+}
 .modify_show .el-dialog__body {
-    height: calc(100% - 160px);
+    height: calc(100% - 110px);
     overflow: auto;
-
+    padding: 0px 10px 10px 10px;
 }
-.el-dialog__footer{
+
+.el-dialog__footer {
     padding: 0px 20px !important;
 }

@@ -29,7 +29,8 @@ Vue.component('editor', {
         'content': {
             handler: function (nv, ov) {
                 if (this.text == '') {
-                    this.text = nv.replace(/[\r\n]/g, '');
+                    if (nv != '')
+                        this.text = nv.replace(/[\r\n]/g, '');
                     this.setContent(this.text);
                 }
             }, immediate: false

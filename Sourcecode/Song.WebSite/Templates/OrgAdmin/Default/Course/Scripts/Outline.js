@@ -16,10 +16,10 @@
             total: 0,     //章节总数
 
             modify_show: false,        //编辑内容的面板是否显示
-             //要编辑的对象
+            //要编辑的对象
             modify_obj: {
-                Ol_Intro:''
-            },         
+                Ol_Intro: ''
+            },
 
             accessory_show: false,       //附件的列表显示
             live_show: false,            //直播的编辑显示
@@ -210,6 +210,13 @@
                     Ol_IsFinish: true
                 };
                 this.modify_show = true;
+                this.$refs['intro_editor'].setContent('');
+            },
+            //编辑章节的按钮事件
+            modifyBtn: function (data) {
+                this.modify_obj = $api.clone(data);
+                this.modify_show = true;
+                this.$refs['intro_editor'].setContent(data.Ol_Intro);
             },
             //计算序号
             calcSerial: function (outline, lvl) {
