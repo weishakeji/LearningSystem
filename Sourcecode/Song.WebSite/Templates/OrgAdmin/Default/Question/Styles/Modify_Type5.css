@@ -48,25 +48,3 @@ dl.ans dd .text {
 dl.ans dd .btns {
     width: 90px;
 }
-/*选项编辑框*/
-.showitem{
-    width: 80%;
-    height: 80%;
-    margin-top: 8% !important;
-}
-.showitem .el-dialog__body{
-	height: calc(100% - 54px - 62px - 40px) !important;
-    padding: 20px;
-}
-.item_editor{
-    height: 100%;
-}
-.explain_editor{
-	margin: 15px;
-	width: calc(100% - 30px);
-	height: calc(100% - 30px);
-
-}
-.item_editor .content{
-	height: calc(100% - 37px) !important;
-}

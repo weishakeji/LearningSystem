@@ -56,29 +56,11 @@ $ready(function () {
             checkbox: function (item) {
                 item.Ans_IsCorrect = !item.Ans_IsCorrect;
             },
-            //编辑选项
-            edit: function (item, index) {
-                this.showitem = true;
-                this.edititem = $api.clone(item);
-                this.edititem.index = index;
-            },
-            //确认编辑
-            editenter: function () {
-                this.showitem = false;
-                var item = this.ansitems[this.edititem.index];
-                item.Ans_Context = this.edititem.Ans_Context;
-            },
-            //删除选项
-            del: function (item, index) {
-                console.log(index);
-                this.ansitems.splice(index, 1);
-            },
-            add: function () {
-                this.$set(this.ansitems, this.ansitems.length, this.newitem());
-            },
-            //清理Html标签
-            clearhtml: function (str) {
-                return str.replace(/(<([^>]+)>)/ig, "");
+            //选项的编辑后的确认编辑
+            ansEnter: function (ans) {
+                var index = this.ansitems.findIndex(x => x.Ans_ID == ans.Ans_ID);
+                var item = this.ansitems[index];
+                item.Ans_Context = ans.Ans_Context;
             },
             //行的拖动
             rowdrop: function () {
@@ -136,4 +118,6 @@ $ready(function () {
     'Components/general.js',
     'Components/ques_error.js',
     'Components/ques_wrong.js',
+    'Components/ques_ansitem.js',
+    'Components/ques_ansedit.js',
     'Components/enter_button.js']);

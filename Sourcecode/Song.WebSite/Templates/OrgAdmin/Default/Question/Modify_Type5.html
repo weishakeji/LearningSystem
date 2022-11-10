@@ -13,47 +13,37 @@
             <!-- 编辑区域-->
             <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
                 <el-form-item label="题干" prop="Qus_Title">
-                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="general" style="height: 300px;"
-                    @change="text=>entity.Qus_Title=text"></editor> 
+                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="general"
+                        style="height: 300px;" @change="text=>entity.Qus_Title=text"></editor>
                 </el-form-item>
                 <el-form-item label="选项" prop="Qus_Items">
                     <dl class="ans" id="ansitems">
                         <dd v-for="(item,index) in ansitems">
                             <index :title="'id:'+item.Ans_ID">{{index+1}}</index>
-                            <div class="text">
-                                <editor :content="item.Ans_Context" :id="'Context'+index" :menubar="false" model="inline"
-                                @change="text=>item.Ans_Context=text"></editor> 
+                            <div class="text" v-html="item.Ans_Context" :id="'ans_'+item.Ans_ID"
+                                @click="$refs['ques_ansitem'].set(item)">
                             </div>
                             <div class="btns">
-                                <el-link type="primary" plain icon="el-icon-edit" @click='edit(item,index)'>编辑</el-link>
+                                <el-link type="primary" plain icon="el-icon-edit"
+                                    @click="$refs['ques_ansedit'].set(item,index)">编辑</el-link>
                                 <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                                    title="确定删除吗？" @confirm="del(item,index)">
+                                    title="确定删除吗？" @confirm="ansitems.splice(index, 1)">
                                     <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除 </el-link>
                                 </el-popconfirm>
                             </div>
                         </dd>
                         <dt>
-                            <el-link type="success" plain icon="el-icon-circle-plus-outline" @click='add()'>添加新项
+                            <el-link type="success" plain icon="el-icon-circle-plus-outline"
+                                @click='$set(ansitems, ansitems.length, newitem())'>添加新项
                             </el-link>
                         </dt>
                     </dl>
                 </el-form-item>
             </el-form>
-            <el-dialog :visible.sync="showitem" :append-to-body="true" :close-on-click-modal="false"
-                custom-class="showitem">
-                <span slot="title">
-                    <icon>&#xe60d</icon>编辑“选项 {{edititem.index+1}}”
-                </span>
-                <vue-html5-editor :content="edititem.Ans_Context" class="item_editor" :show-module-name="false"
-                    ref="editor_intro" @change="text=>edititem.Ans_Context = text">
-                </vue-html5-editor>
-                <span slot="footer" class="dialog-footer">
-                    <el-button @click="showitem = false">取 消</el-button>
-                    <el-button type="primary" @click="editenter()">确 定</el-button>
-                </span>
-            </el-dialog>
+            <ques_ansitem ref="ques_ansitem" @close="ansEnter"></ques_ansitem>
         </modify_main>
-        <enter_button :question="entity" :verify="verify" :organ="organ"></enter_button>
+        <ques_ansedit ref="ques_ansedit" @enter="ansEnter"> </ques_ansedit>
+        <enter_button ref="enter_button" :question="entity" :verify="verify" :organ="organ"></enter_button>
     </div>
 </body>
 

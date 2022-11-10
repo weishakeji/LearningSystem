@@ -38,4 +38,6 @@ $ready(function () {
     'Components/general.js',
     'Components/ques_error.js',
     'Components/ques_wrong.js',
+    'Components/ques_ansitem.js',
+    'Components/ques_ansedit.js',
     'Components/enter_button.js']);
