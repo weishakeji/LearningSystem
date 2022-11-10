@@ -14,9 +14,6 @@ $ready(function () {
             ans_min: 4,          //选项最少几个
             ans_max_id: 0,       //答案项的最大id
 
-            showitem: false,        //显示选项编辑的面板
-            edititem: { Ans_Context: '' },        //当前要编辑的选项
-
             loading: false
         },
         watch: {
@@ -54,39 +51,12 @@ $ready(function () {
             },
             //选项的单选事件
             radio: function (item) {
-                for (let i = 0; i < this.ansitems.length; i++) {
+                for (let i = 0; i < this.ansitems.length; i++) 
                     this.ansitems[i].Ans_IsCorrect = false;
-                }
                 item.Ans_IsCorrect = true;
-            },
-            //编辑选项
-            edit: function (item,index) {
-                this.showitem = true;
-                this.edititem = $api.clone(item);
-                this.edititem.index = index;
-
-
-                this.$refs['ques_ansedit'].set(item,index);
-                //this.$refs['edititem'].setContent(item.Ans_Context);ques_ansedit
-            },
+            },       
+             //选项的编辑后的确认编辑
             ansEnter: function (ans) {
-                var index = this.ansitems.findIndex(x => x.Ans_ID == ans.Ans_ID);
-                var item = this.ansitems[index];
-                item.Ans_Context = ans.Ans_Context;
-            },
-            //确认编辑
-            editenter: function () {
-                this.showitem = false;
-                var item = this.ansitems[this.edititem.index];
-                item.Ans_Context = this.edititem.Ans_Context;
-                //this.$refs['ansitem'][this.edititem.index].setContent(item.Ans_Context);
-            },
-            //答题选项的进入简单编辑
-            ansClick: function (item) {
-                this.$refs['ques_ansitem'].set(item);
-            },
-            //选项的简单编辑关闭时
-            ansClose: function (ans) {
                 var index = this.ansitems.findIndex(x => x.Ans_ID == ans.Ans_ID);
                 var item = this.ansitems[index];
                 item.Ans_Context = ans.Ans_Context;

@@ -25,10 +25,11 @@
                                 <icon v-else style="font-size: 22px;">&#xe85c</icon>
                             </div>
                             <div class="text" v-html="item.Ans_Context" :id="'ans_'+item.Ans_ID"
-                                @click="ansClick(item)">
+                                @click="$refs['ques_ansitem'].set(item)">
                             </div>
                             <div class="btns">
-                                <el-link type="primary" plain icon="el-icon-edit" @click='edit(item,index)'>编辑</el-link>
+                                <el-link type="primary" plain icon="el-icon-edit"
+                                    @click="$refs['ques_ansedit'].set(item,index)">编辑</el-link>
                                 <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                                     title="确定删除吗？" @confirm="ansitems.splice(index, 1)">
                                     <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除 </el-link>
@@ -43,8 +44,7 @@
                     </dl>
                 </el-form-item>
             </el-form>
-            
-            <ques_ansitem ref="ques_ansitem" @close="ansClose"></ques_ansitem>
+            <ques_ansitem ref="ques_ansitem" @close="ansEnter"></ques_ansitem>
         </modify_main>
         <ques_ansedit ref="ques_ansedit" @enter="ansEnter"> </ques_ansedit>
         <enter_button ref="enter_button" :question="entity" :verify="verify" :organ="organ"></enter_button>
