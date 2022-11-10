@@ -14,9 +14,6 @@ $ready(function () {
             ans_min: 3,          //选项最少几个
             ans_max_id: 0,       //答案项的最大id
 
-            showitem: false,        //显示选项编辑的面板
-            edititem: {},        //当前要编辑的选项
-
             loading: false
         },
         watch: {
