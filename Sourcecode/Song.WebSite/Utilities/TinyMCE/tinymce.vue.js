@@ -29,7 +29,7 @@ Vue.component('editor', {
         'content': {
             handler: function (nv, ov) {
                 if (this.text == '') {
-                    this.text = nv;
+                    this.text = nv.replace(/[\r\n]/g, '');
                     this.setContent(this.text);
                 }
             }, immediate: false
@@ -192,6 +192,7 @@ Vue.component('editor', {
         },
         //设置内容
         setContent: function (text) {
+
             tinyMCE.editors[this.ctrid].setContent(text);
         }
     },

@@ -11,7 +11,7 @@ $ready(function () {
             course: {},          //当前试题的课程
             entity: {},      //当前试题            
             ansitems: [],       //试题的选项
-            ans_min: 8,          //选项最少几个
+            ans_min: 4,          //选项最少几个
             ans_max_id: 0,       //答案项的最大id
 
             showitem: false,        //显示选项编辑的面板
@@ -60,11 +60,19 @@ $ready(function () {
                 item.Ans_IsCorrect = true;
             },
             //编辑选项
-            edit: function (item, index) {
+            edit: function (item,index) {
                 this.showitem = true;
                 this.edititem = $api.clone(item);
                 this.edititem.index = index;
-                //this.$refs['edititem'].setContent(item.Ans_Context);
+
+
+                this.$refs['ques_ansedit'].set(item,index);
+                //this.$refs['edititem'].setContent(item.Ans_Context);ques_ansedit
+            },
+            ansEnter: function (ans) {
+                var index = this.ansitems.findIndex(x => x.Ans_ID == ans.Ans_ID);
+                var item = this.ansitems[index];
+                item.Ans_Context = ans.Ans_Context;
             },
             //确认编辑
             editenter: function () {
@@ -73,34 +81,15 @@ $ready(function () {
                 item.Ans_Context = this.edititem.Ans_Context;
                 //this.$refs['ansitem'][this.edititem.index].setContent(item.Ans_Context);
             },
-            //删除选项
-            del: function (item, index) {
-                this.ansitems.splice(index, 1);
-                for (let i = 0; i < this.ansitems.length; i++) {
-                    //this.$refs['ansitem'][i].setContent(this.ansitems[i].Ans_Context);
-                }
-            },
-            add: function () {
-                this.$set(this.ansitems, this.ansitems.length, this.newitem());
-            },
-            //答题选项的点击事件
+            //答题选项的进入简单编辑
             ansClick: function (item) {
-                this.$refs['ques_ansitem'].set(item, this.ansitems);
+                this.$refs['ques_ansitem'].set(item);
             },
+            //选项的简单编辑关闭时
             ansClose: function (ans) {
-                //console.error(ans);
                 var index = this.ansitems.findIndex(x => x.Ans_ID == ans.Ans_ID);
-                //var item = this.ansitems[index];
-                //item.Ans_Context = nv
                 var item = this.ansitems[index];
                 item.Ans_Context = ans.Ans_Context;
-
-                //Vue.set(this.ansitems, item, index);
-
-            },
-            //清理Html标签
-            clearhtml: function (str) {
-                return str.replace(/(<([^>]+)>)/ig, "");
             },
             //行的拖动
             rowdrop: function () {

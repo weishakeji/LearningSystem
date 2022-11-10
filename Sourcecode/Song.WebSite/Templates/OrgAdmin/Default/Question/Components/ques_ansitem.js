@@ -4,13 +4,16 @@ Vue.component('ques_ansitem', {
     props: ["ans"],
     data: function () {
         return {
-            show: false,     //是否显示   
-            ansitems: [],
+            show: false,     //是否显示              
             text: ''         //文本内容
         }
     },
     watch: {
         'show': function (nv, ov) {
+            //编辑框下面的按钮组是否禁用
+            var btnCrt = this.$parent.$parent.$refs['enter_button'];
+            if (btnCrt) btnCrt.disabled = nv;
+            //关闭的效果
             if (!nv) {
                 //其它答题项的高度还原
                 var rows = $dom('#ansitems .text');
@@ -27,24 +30,13 @@ Vue.component('ques_ansitem', {
             var panel = $dom('.panel>div[remark="试题"]');
             var area = $dom('.ques_ansitem .editor_box');
             var offset = panel.offset();
-            //area.left(row.left() - offset.left);
-            area.left(0)
             area.top(row.top() - offset.top + panel[0].scrollTop);
             area.height(row.height() < minheight ? minheight : row.height());
             area.css('padding-left', (row.left() - offset.left) + 'px');
-            //area.height(200).width(row.width() + 108);
             $dom('.ques_ansitem').height(panel[0].scrollHeight);
         },
         text: function (nv, ov) {
-            console.log(nv);
-            //if (!this.isnull) {
             this.ans.Ans_Context = nv;
-            //var index = this.ansitems.findIndex(x => x.Ans_ID == this.ans.Ans_ID);
-            //var item = this.ansitems[index];
-            //item.Ans_Context = nv
-            //Vue.set(this.ansitems, this.ans, index);
-            //this.$parent.ansitems[index] = this.ans;
-            //}
         }
     },
     computed: {
@@ -62,9 +54,8 @@ Vue.component('ques_ansitem', {
     },
     methods: {
         //设置试题选项
-        set: function (ans, items) {
-            this.ans = $api.clone(ans);
-            this.ansitems = items;
+        set: function (ans) {
+            this.ans = $api.clone(ans);     
             this.$refs['editor_ques_ansitem'].setContent(ans.Ans_Context);
             if (!this.isnull) this.show = true;
         }

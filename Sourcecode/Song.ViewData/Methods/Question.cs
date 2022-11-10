@@ -427,41 +427,24 @@ namespace Song.ViewData.Methods
         public static Song.Entities.Questions _tran(Song.Entities.Questions ques)
         {
             if (ques == null) return ques;
-            //ques = Extend.Questions.TranText(ques);
-            if (!string.IsNullOrWhiteSpace(ques.Qus_Title))
-            {
-                ques.Qus_Title = ques.Qus_Title.Replace("&lt;", "<");
-                ques.Qus_Title = ques.Qus_Title.Replace("&gt;", ">");
-                ques.Qus_Title = ques.Qus_Title.Replace("\n", "<br/>");
-                ques.Qus_Title = Html.ClearScript(ques.Qus_Title);
-                //ques.Qus_Title = Html.ClearHTML(ques.Qus_Title, "p", "div", "font");
-                ques.Qus_Title = Html.ClearAttr(ques.Qus_Title, "p", "div", "font", "span", "a");
-                ques.Qus_Title = TransformImagePath(ques.Qus_Title);
-            }
-
-            if (!string.IsNullOrWhiteSpace(ques.Qus_Answer))
-            {
-                ques.Qus_Answer = ques.Qus_Answer.Replace("&lt;", "<");
-                ques.Qus_Answer = ques.Qus_Answer.Replace("&gt;", ">");
-                ques.Qus_Answer = ques.Qus_Answer.Replace("\n", "<br/>");
-                ques.Qus_Answer = Html.ClearScript(ques.Qus_Answer);
-                ques.Qus_Answer = Html.ClearAttr(ques.Qus_Answer, "p", "div", "font", "span", "a");
-                ques.Qus_Answer = TransformImagePath(ques.Qus_Answer);
-                ques.Qus_Answer = ques.Qus_Answer.Replace("&nbsp;", " ");
-            }
-            if (!string.IsNullOrWhiteSpace(ques.Qus_Explain))
-            {
-                ques.Qus_Explain = ques.Qus_Explain.Replace("&lt;", "<");
-                ques.Qus_Explain = ques.Qus_Explain.Replace("&gt;", ">");
-                ques.Qus_Explain = ques.Qus_Explain.Replace("\n", "<br/>");
-                ques.Qus_Explain = Html.ClearScript(ques.Qus_Explain);
-                ques.Qus_Explain = Html.ClearAttr(ques.Qus_Explain, "p", "div", "font", "span", "a");
-                ques.Qus_Explain = TransformImagePath(ques.Qus_Explain);
-                ques.Qus_Explain = ques.Qus_Explain.Replace("&nbsp;", " ");
-            }
+            ques.Qus_Title = _tranText(ques.Qus_Title);
+            ques.Qus_Answer = _tranText(ques.Qus_Answer);
+            ques.Qus_Explain = _tranText(ques.Qus_Explain);          
             return ques;
         }
+        private static string _tranText(string txt)
+        {
+            if (string.IsNullOrWhiteSpace(txt)) return string.Empty;
 
+            txt = txt.Replace("&lt;", "<");
+            txt = txt.Replace("&gt;", ">");
+            txt = txt.Replace("\n", "<br/>");
+            txt = Html.ClearScript(txt);
+            txt = Html.ClearAttr(txt, "p", "div", "font", "span", "a");
+            txt = TransformImagePath(txt);
+            txt = txt.Replace("&nbsp;", " ");
+            return txt;
+        }
         /// <summary>
         /// 处理试题中的图片
         /// </summary>

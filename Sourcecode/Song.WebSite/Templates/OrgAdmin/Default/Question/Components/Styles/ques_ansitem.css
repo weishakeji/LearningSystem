@@ -12,6 +12,7 @@
     border: solid 1px #fff;
     position: absolute;
     z-index: 2;
+    left: 0px;
     width: calc(100% - 10px);
     box-sizing: border-box;
    

@@ -46,38 +46,3 @@ dl.ans p {
     margin: 0px;
     padding: 0px;
 }
-
-/*选项编辑框*/
-.showitem {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    padding: 10px;
-    background-color: #fff;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    z-index: 10;
-}
-
-.showitem>div[slot='title'] {
-    box-sizing: border-box;
-    padding: 10px;
-    height: 50px;
-}
-.showitem>div[slot='title'] icon[close]{
-    float: right;
-    cursor: pointer;
-}
-.showitem>div[slot='title'] icon[close]::before{
-    font-size: 20px;
-}
-.showitem>div[slot='body'] {
-    height: calc(100% - 100px);
-}
-.showitem>div[slot='footer'] {
-    box-sizing: border-box;
-    padding: 10px;
-    height: 50px;
-    text-align: right;
-}

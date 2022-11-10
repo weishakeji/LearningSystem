@@ -30,36 +30,24 @@
                             <div class="btns">
                                 <el-link type="primary" plain icon="el-icon-edit" @click='edit(item,index)'>编辑</el-link>
                                 <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                                    title="确定删除吗？" @confirm="del(item,index)">
+                                    title="确定删除吗？" @confirm="ansitems.splice(index, 1)">
                                     <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除 </el-link>
                                 </el-popconfirm>
                             </div>
                         </dd>
                         <dt>
-                            <el-link type="success" @click='add()'>
+                            <el-link type="success" @click='$set(ansitems, ansitems.length, newitem())'>
                                 <icon>&#xe6ea</icon>添加新项
                             </el-link>
                         </dt>
                     </dl>
                 </el-form-item>
             </el-form>
-            <div v-show="showitem" class="showitem">
-                <div slot="title">
-                    <icon>&#xe60d</icon>编辑“选项 {{edititem.index+1}}”
-                    <icon close @click="showitem = false"></icon>
-                </div>
-                <div slot="body">
-                    <editor :content="edititem.Ans_Context" id="Ans_Context" ref="edititem" :menubar="true"
-                        model="general" @change="text=>edititem.Ans_Context=text"></editor>
-                </div>
-                <div slot="footer">
-                    <el-button @click="showitem = false">返 回</el-button>
-                    <el-button type="primary" @click="editenter()">确 定</el-button>
-                </div>
-            </div>
+            
             <ques_ansitem ref="ques_ansitem" @close="ansClose"></ques_ansitem>
         </modify_main>
-        <enter_button :question="entity" :verify="verify" :organ="organ"></enter_button>
+        <ques_ansedit ref="ques_ansedit" @enter="ansEnter"> </ques_ansedit>
+        <enter_button ref="enter_button" :question="entity" :verify="verify" :organ="organ"></enter_button>
     </div>
 
 </body>

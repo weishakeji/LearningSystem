@@ -6,6 +6,7 @@ Vue.component('enter_button', {
     data: function () {
         return {
             loading: false,
+            disabled:false      //按钮是否禁用
         }
     },
     mounted: function () {
@@ -105,7 +106,7 @@ Vue.component('enter_button', {
         }
     },
     template: `<div class="footer">
-        <el-button type="primary" native-type="submit" :disabled="loading" :loading="loading" plain @click="btnEnter('entity')">
+        <el-button type="primary" native-type="submit" :disabled="loading || disabled" :loading="loading" plain @click="btnEnter('entity')">
             <icon v-if="!loading">&#xa048</icon>修改
         </el-button>
         <el-button type='close' :disabled="loading" >
