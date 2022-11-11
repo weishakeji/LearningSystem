@@ -173,8 +173,8 @@ Vue.component('editor', {
                     th.isinit = true;       //初始化功能
                     //将来自组件参数的content,传给内部参数text，以免外部数据变化，影响组件状态
                     th.text = th.content;
-                    editor.setContent(th.text);
-
+                    editor.setContent(th.text);                   
+                  
                     //var html = editor.getContent();                 
 
                     //alert(html);

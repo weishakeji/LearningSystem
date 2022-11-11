@@ -847,6 +847,9 @@
                 var arr2 = new Array();
                 //加载Vant
                 arr2.push('/Utilities/Vant/vant.min.js');
+                //mathjax，解析latex公式
+                arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
+                arr2.push('/Utilities/MathJax/globalVariable.js');
                 //加载vue组件
                 arr2.push(webdom.path() + 'Components/footer_menu.js');
                 arr2.push(webdom.path() + 'Components/aside_menu.js');
@@ -878,6 +881,13 @@
                         if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
                     });
                 }, 300);
+                //解析公式的方法，需要vue对象中updated中引用this.$mathjax()
+                Vue.prototype.$mathjax = function () {
+                    // 判断是否初始配置，若⽆则配置
+                    if (window.globalVariable.isMathjaxConfig)
+                        window.globalVariable.initMathjaxConfig();
+                    window.globalVariable.TypeSet();
+                }
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
                     for (var i = 0; i < source.length; i++) {
@@ -895,7 +905,7 @@
     window.$dom = webdom;
     window.$dom.load.css([
         '/Utilities/Vant/Vant.css',
-        '/Utilities/styles/public.css',  
+        '/Utilities/styles/public.css',
         webdom.path() + 'styles/public.css',
         '/Utilities/Fonts/icon.css'
     ]);

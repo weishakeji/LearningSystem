@@ -32,6 +32,9 @@
             showCard: false,         //答题卡是否显示
             showCourse: false,           //显示课程   
         },
+        updated: function () {
+            this.$mathjax();
+       },
         mounted: function () {
             var th = this;
             $api.bat(

@@ -39,6 +39,7 @@
       var encode = editor.dom.encode;
       var contentStyle = Settings.getContentStyle(editor);
       headHtml += '<base href="' + encode(editor.documentBaseURI.getURI()) + '">';
+      headHtml += '<script type="text/javascript" src="/Utilities/MathJax/tex-mml-chtml.js"></script>';
       if (contentStyle) {
         headHtml += '<style type="text/css">' + contentStyle + '</style>';
       }

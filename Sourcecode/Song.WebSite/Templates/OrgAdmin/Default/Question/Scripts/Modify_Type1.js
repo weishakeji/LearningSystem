@@ -36,6 +36,9 @@ $ready(function () {
                 }, immediate: false
             }
         },
+        updated: function () {
+            this.$mathjax();
+       },
         created: function () { },
         mounted: function () { },
         methods: {

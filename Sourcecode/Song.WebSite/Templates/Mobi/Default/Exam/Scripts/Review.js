@@ -21,6 +21,9 @@ $ready(function () {
             error: '',           //错误提示信息，例如不能查看考虑成绩时
             loading: false
         },
+        updated: function () {
+            this.$mathjax();
+        },
         mounted: function () {
             window.addEventListener('scroll', this.handleScroll, true)
             this.loading = true;
@@ -231,7 +234,7 @@ $ready(function () {
                     var q = this.item.ques[i];
                     if (q.success) num += q.score;
                 }
-                return Math.floor(num*100)/100;
+                return Math.floor(num * 100) / 100;
             }
         },
         template: `<div> 

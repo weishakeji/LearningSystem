@@ -335,7 +335,7 @@ section dd info span {
 	color: #999;
 }
 
-section dd * {
+section dd card-title * {
 	line-height: 150% !important;
 	font-size: 16px;
 }
@@ -360,42 +360,54 @@ section dd img {
 	margin: 10px;
 }
 
-.type1>div i::before {
-	font-family: "webdesk_icon" !important;
-	content: '\e85c';
+.ans_area>div[ansid] i {
 	font-style: normal;
-	margin-right: 15px;
+	margin-right: 15px !important;
+	display: inline-block;
 }
 
-.type1>div[selected] i::before {
+.ans_area>div[ansid] i::before {
 	font-family: "webdesk_icon" !important;
-	content: '\e85b';
 	font-style: normal;
-}
-
-.ans_area>div[correct] {
-	/**/
-}
-
-.ans_area>div[correct]::before {
-	content: '\a048';
-	position: absolute;
-	left: -20px;
-	font-family: "webdesk_icon" !important;
-}
-
-.type2>div i::before {
-	font-family: "webdesk_icon" !important;
-	content: '\e603';
-	font-style: normal;
+	font-size: 20px;
 	margin-right: 5px;
 }
 
-.type2>div[selected] i::before {
-	font-family: "webdesk_icon" !important;
-	content: '\e78b';
-	font-style: normal;
+.type1>div[ansid] i::before {	
+	content: '\e85c';	
 }
+
+.type1>div[selected] i::before {	
+	content: '\e85b';
+}
+
+.ans_area>div[ansid] {
+	display: flex;
+}
+
+.ans_area>div[ansid] * {
+	display: inline-block;
+	margin: 0px;
+	padding: 0px;
+}
+
+.ans_area>div[ansid] * {
+	line-height: auto !important;
+}
+
+
+.ans_area>div[correct]::before {
+	content: '\a048';
+}
+
+.type2>div i::before {	
+	content: '\e603';
+}
+
+.type2>div[selected] i::before {
+	content: '\e78b';
+}
+
 
 section textarea {
 	width: calc(100% - 22px);

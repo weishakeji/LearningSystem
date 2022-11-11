@@ -29,6 +29,9 @@
             showCourse: false,           //显示课程
             setup_show: false        //设置菜单是否显示
         },
+        updated: function () {
+            this.$mathjax();
+       },
         mounted: function () {
             var th = this;
             th.getAccount().then(function (d) {

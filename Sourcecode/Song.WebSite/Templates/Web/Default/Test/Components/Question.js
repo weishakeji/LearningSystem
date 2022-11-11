@@ -196,13 +196,13 @@ Vue.component('question', {
             <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
                 <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
                 :selected="ans.selected" @click="ques_doing(ans,ques)">
-                    <i></i>{{showIndex(i)}} .
+                    <i>{{showIndex(i)}} .</i>
                     <span v-html="ans.Ans_Context"></span>
                 </div>
             </div>
             <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
                 <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="ques_doing(ans,ques)">
-                    <i></i>{{showIndex(i)}} .
+                    <i>{{showIndex(i)}} .</i>
                     <span v-html="ans.Ans_Context"></span>
                 </div>
             </div>

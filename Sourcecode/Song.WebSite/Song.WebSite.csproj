@@ -1271,6 +1271,8 @@
     <Content Include="Utilities\Images\head\head2.jpg" />
     <Content Include="Utilities\Images\live-icon.gif" />
     <Content Include="Utilities\Images\testpaper.jpg" />
+    <Content Include="Utilities\MathJax\globalVariable.js" />
+    <Content Include="Utilities\MathJax\tex-mml-chtml.js" />
     <Content Include="Utilities\PdfViewer\debugger.js" />
     <Content Include="Utilities\PdfViewer\images\annotation-check.svg" />
     <Content Include="Utilities\PdfViewer\images\annotation-comment.svg" />

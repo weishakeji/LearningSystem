@@ -34,6 +34,9 @@ $ready(function () {
             loadingid: 0,
             loading_init: true
         },
+        updated: function () {
+            this.$mathjax();
+       },
         mounted: function () {
             var th = this;
             th.loading_init = true;

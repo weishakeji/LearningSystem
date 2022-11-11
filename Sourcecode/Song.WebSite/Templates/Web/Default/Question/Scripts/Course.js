@@ -25,6 +25,7 @@ $ready(function () {
 
             loading: true       //加载状态
         },
+        
         watch: {
             //所有的章节状态
             state: function (nv, ov) {

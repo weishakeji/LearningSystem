@@ -32,6 +32,9 @@ $ready(function () {
             loading_id: 0,           //单行的预载
             loading_result: true //加载成绩的预载
         },
+        updated: function () {
+            this.$mathjax();
+       },
         mounted: function () {
             var th = this;
             th.loading = true;

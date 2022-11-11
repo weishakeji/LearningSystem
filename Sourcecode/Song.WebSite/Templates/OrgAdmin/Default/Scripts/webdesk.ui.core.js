@@ -831,7 +831,7 @@
     webdom.routpath = function () {
         var path = webdom.route();
         if (path.indexOf('/') >= 0) {
-            path = path.substring(0, path.lastIndexOf('/')+1);
+            path = path.substring(0, path.lastIndexOf('/') + 1);
         }
         return path;
     };
@@ -847,9 +847,9 @@
             //TinyMCE编辑器
             arr2.push('/Utilities/TinyMCE/tinymce.js');
             arr2.push('/Utilities/TinyMCE/tinymce.vue.js');
-            //katex公式
-            arr2.push('/Utilities/katex/katex.min.js');
-            arr2.push('/Utilities/katex/auto-render.min.js');            
+            //mathjax，解析latex公式
+            arr2.push('/Utilities/MathJax/tex-mml-chtml.js');
+            arr2.push('/Utilities/MathJax/globalVariable.js');
             //加载ElementUI
             arr2.push('/Utilities/ElementUi/index.js');
             arr2.push('/Utilities/Scripts/vuecomponent.js');
@@ -863,8 +863,8 @@
             arr2.push('/Utilities/Components/upload-file.js');
             //头像组件
             arr2.push('/Utilities/Components/avatar.js');
-             //加载状态组件
-             arr2.push('/Utilities/Components/useicon.js');
+            //加载状态组件
+            arr2.push('/Utilities/Components/useicon.js');
             window.$dom.load.js(arr2, f);
         });
     };
@@ -890,6 +890,13 @@
                         if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
                     });
                 }, 1000);
+                //解析公式的方法，需要vue对象中updated中引用this.$mathjax()
+                Vue.prototype.$mathjax = function () {
+                    // 判断是否初始配置，若⽆则配置
+                    if (window.globalVariable.isMathjaxConfig)
+                        window.globalVariable.initMathjaxConfig();
+                    window.globalVariable.TypeSet();
+                }
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
                     for (var i = 0; i < source.length; i++) {
@@ -904,13 +911,13 @@
     };
     //创建全局对象，方便调用
     window.$dom = webdom;
-    window.$dom.load.css([      
-        '/Utilities/ElementUi/index.css',   
-        '/Utilities/styles/public.css',      
+    window.$dom.load.css([
+        '/Utilities/ElementUi/index.css',
+        '/Utilities/styles/public.css',
         webdom.path() + 'styles/public.css',
-        webdom.path() + 'styles/dropmenu.css',  
-        '/Utilities/katex/katex.min.css',      
-        '/Utilities/Fonts/icon.css'      
+        webdom.path() + 'styles/dropmenu.css',
+        '/Utilities/katex/katex.min.css',
+        '/Utilities/Fonts/icon.css'
     ]);
     //加载自身相关的js或css  
     if (webdom('head[resource]').length > 0) {

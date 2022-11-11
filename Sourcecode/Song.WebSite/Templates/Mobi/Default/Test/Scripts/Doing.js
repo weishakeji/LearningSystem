@@ -41,6 +41,9 @@
             //成绩得分
             resultTotal: 0
         },
+        updated: function () {
+            this.$mathjax();
+       },
         mounted: function () {
             $api.bat(
                 $api.get('Account/Current'),

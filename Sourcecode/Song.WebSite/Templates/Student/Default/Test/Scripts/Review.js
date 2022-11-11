@@ -69,6 +69,9 @@ $ready(function () {
                 console.error(err);
             });
         },
+        updated: function () {
+            this.$mathjax();
+       },
         created: function () {
 
         },

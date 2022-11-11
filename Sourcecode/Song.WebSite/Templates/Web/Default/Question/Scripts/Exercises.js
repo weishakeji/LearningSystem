@@ -1,16 +1,5 @@
 ﻿$ready(function () {
-    const renderOption = {
-        delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false},
-          {left: '\\(', right: '\\)', display: true},
-          {left: '\\[', right: '\\]', display: true}
-        ],
-        throwOnError : false
-      }
-    Vue.prototype.$formula = function (dom) {
-        renderMathInElement(dom, renderOption)
-      }
+
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -42,6 +31,9 @@
 
             showCourse: false,           //显示课程
             setup_show: false        //设置菜单是否显示
+        },
+        updated: function () {
+             this.$mathjax();
         },
         mounted: function () {
             var th = this;
@@ -75,7 +67,14 @@
                 th.error = err;
                 console.error(err);
             });
-
+            /*
+            window.addEventListener('scroll', this.handleScroll)
+            if (window.globalVariable.isMathjaxConfig) {
+                // 判断是否初始配置，若⽆则配置。
+                window.globalVariable.initMathjaxConfig()
+            }
+            window.globalVariable.TypeSet()
+            */
         },
         created: function () {
             window.onresize = function () {
@@ -104,7 +103,7 @@
                         this.state.last(ques.Qus_ID, nv);
                     }
                     this.state.update(false);
-                    
+
                     window.setTimeout(function () {
                         $dom("section[remark]").css('left', -($dom("#vapp").width() * nv) + 'px');
                     }, 100);
@@ -133,10 +132,6 @@
                             th.$nextTick(function () {
                                 var last = th.state.last();
                                 if (last != null) th.swipeIndex = last.index ? last.index : 0;
-                                window.setTimeout(function(){
-                                    th.$formula(document.getElementById('vapp')) 
-                                },2000);
-                               
                             });
                         }).catch(function (d) {
                             th.count = d.count;

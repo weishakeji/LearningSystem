@@ -24,6 +24,9 @@ $ready(function () {
             },
             total: 0
         },
+        updated: function () {
+            this.$mathjax();
+       },
         mounted: function () {
             var th = this;
             $api.bat(
