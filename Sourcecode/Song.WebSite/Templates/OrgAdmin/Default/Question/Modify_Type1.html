@@ -44,9 +44,10 @@
                     </dl>
                 </el-form-item>
             </el-form>
+
             <ques_ansitem ref="ques_ansitem" @close="ansEnter"></ques_ansitem>
         </modify_main>
-       
+        <ques_ansedit ref="ques_ansedit" @enter="ansEnter"> </ques_ansedit>
         <enter_button ref="enter_button" :question="entity" :verify="verify" :organ="organ"></enter_button>
     </div>
 
