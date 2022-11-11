@@ -69,7 +69,7 @@ Vue.component('editor', {
                 case 'general':
                     arr = [`cut copy formatpainter undo redo  | formatselect fontselect fontsizeselect forecolor backcolor table importword 
                     | formatting alignment indent_gr insert insertdatetime  lineheight letterspacing bullist numlist                       
-                    layout removeformat  hr pagebreak  clearhtml   bdmap link fullscreen searchreplace preview`]
+                    layout removeformat  hr pagebreak  clearhtml  link fullscreen searchreplace preview`]
                     break;
                 //simple简化版，相较于general更少按钮
                 case 'simple':
@@ -123,7 +123,7 @@ Vue.component('editor', {
                     insert: {
                         text: '插入',
                         tooltip: '插入图片、特殊字符、公式',
-                        items: 'image emoticons charmap  kityformula-editor',
+                        items: 'image emoticons charmap  kityformula-editor bdmap',
                     }
                 },
                 //upfile attachment //上传文件、附件
@@ -168,14 +168,14 @@ Vue.component('editor', {
                     reader.readAsDataURL(file)
                 },
                 init_instance_callback: function (editor) {
-                    console.log(editor);
+                    //console.log(editor);
                     th.load = false;
                     th.isinit = true;       //初始化功能
                     //将来自组件参数的content,传给内部参数text，以免外部数据变化，影响组件状态
                     th.text = th.content;
                     editor.setContent(th.text);
-                    var html = editor.getContent();
 
+                    //var html = editor.getContent();                 
 
                     //alert(html);
                     //tinyMCE.editors[tinymceConfig.tinyID+'2'].setContent(html2); 

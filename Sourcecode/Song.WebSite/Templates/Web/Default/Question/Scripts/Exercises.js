@@ -1,5 +1,16 @@
 ﻿$ready(function () {
-
+    const renderOption = {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: true},
+          {left: '\\[', right: '\\]', display: true}
+        ],
+        throwOnError : false
+      }
+    Vue.prototype.$formula = function (dom) {
+        renderMathInElement(dom, renderOption)
+      }
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -122,6 +133,10 @@
                             th.$nextTick(function () {
                                 var last = th.state.last();
                                 if (last != null) th.swipeIndex = last.index ? last.index : 0;
+                                window.setTimeout(function(){
+                                    th.$formula(document.getElementById('vapp')) 
+                                },2000);
+                               
                             });
                         }).catch(function (d) {
                             th.count = d.count;

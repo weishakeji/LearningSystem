@@ -58,8 +58,8 @@ Vue.component('ques_ansedit', {
                 model="general" @change="t=>text=t"></editor>
         </div>
         <div slot="footer">
-            <el-button @click="show = false">返 回</el-button>
-            <el-button type="primary" @click="editenter()">确认编辑</el-button>
+            <el-button type="cancel" @click="show = false">返 回</el-button>
+            <el-button type="primary" define="enter" @click="editenter()">确认编辑</el-button>
         </div>
     </div>`
 });

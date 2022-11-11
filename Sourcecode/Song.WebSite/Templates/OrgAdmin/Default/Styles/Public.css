@@ -118,7 +118,18 @@ table.el-table__body tr.disabled td img {
 	font-family: "webdesk_icon" !important;
 	margin-right: 5px;
 }
-
+.el-button--cancel::before {
+	content: '\e748';
+	font-size: 15px;
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+}
+.el-button[define="enter"]:not(.is-loading)::before {
+	content: '\a048';
+	font-size: 15px;
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+}
 .el-button icon {
 	font-size: 14px;
 }

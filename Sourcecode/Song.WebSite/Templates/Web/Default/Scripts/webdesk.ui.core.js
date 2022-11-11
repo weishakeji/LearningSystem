@@ -844,11 +844,14 @@
             arr2.push('/Utilities/ElementUi/index.js');
             arr2.push('/Utilities/Scripts/vuecomponent.js');
             arr2.push(webdom.path() + 'scripts/dropmenu.js');
-            arr2.push('/Utilities/TinyMCE/tinymce.min.js');
+            arr2.push('/Utilities/TinyMCE/tinymce.js');
             //页面的头部和底部
             arr2.push(webdom.path() + 'Components/page_header.js');
             arr2.push(webdom.path() + 'Components/page_footer.js');
             arr2.push(webdom.path() + 'Components/course.js');
+             //katex公式
+             arr2.push('/Utilities/katex/katex.min.js');
+             arr2.push('/Utilities/katex/auto-render.min.js');  
             //未登录的样式
             arr2.push(webdom.path() + 'Components/nologin.js');
             window.$dom.load.js(arr2, f);
@@ -886,6 +889,23 @@
                         if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
                     });
                 }, 300);
+                /*
+                //Katex公式的配置
+                window.formulaRenderOption = {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\\(', right: '\\)', display: false },
+                        { left: '\\[', right: '\\]', display: true }
+                    ],
+                    throwOnError: false
+                }
+                Vue.prototype.$formula = function (dom) {
+                    renderMathInElement(dom, renderOption)
+                }
+                Vue.nextTick(function(){
+                    Vue.$formula(document.getElementById('vapp'));
+                });*/
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
                     for (var i = 0; i < source.length; i++) {
@@ -905,6 +925,7 @@
         '/Utilities/styles/public.css',  
         webdom.path() + 'styles/public.css',
         webdom.path() + 'styles/dropmenu.css',  
+        '/Utilities/katex/katex.min.css',      
         '/Utilities/Fonts/icon.css'      
     ]);
     //加载自身相关的js或css  
