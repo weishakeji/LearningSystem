@@ -32,6 +32,9 @@
             loadingid: 0,
             loading_init: true
         },
+        updated: function () {
+            this.$mathjax();
+        },
         mounted: function () {
             var th = this;
             th.form.couid = this.couid;
