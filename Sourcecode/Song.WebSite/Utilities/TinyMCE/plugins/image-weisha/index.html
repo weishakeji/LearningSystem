@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片管理</title>
+    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/jquery.js"></script>
+    <script type="text/javascript" src="scripts/tabs.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Utilities/Fonts/icon.css" />
+    <link type="text/css" rel="stylesheet" href="styles/index.css" />
+</head>
+
+<body>
+    <div id="vapp" :editorid="editorid">
+        <tabs>
+            <template slot="region">
+                <div><help>当前所编辑内容的图片资源</help></div>
+                ddd-region
+            </template>
+            <template slot="upload">
+                ddd-upload
+            </template>
+            <template slot="outside">
+                ddd-outside
+            </template>
+        </tabs>      
+    </div>
+</body>
+<script type="text/javascript" src="scripts/index.js"></script>
+
+</html>

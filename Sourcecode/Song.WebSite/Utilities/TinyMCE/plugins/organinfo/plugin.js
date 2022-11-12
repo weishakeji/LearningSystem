@@ -8,7 +8,7 @@ tinymce.PluginManager.add('organinfo', function (editor, url) {
 		return editor.windowManager.openUrl({
 			title: '双击插入机构信息',
 			size: 'large',
-			width: 400,
+			width: 500,
 			height: 300,
 			url: iframe1,
 			buttons: [

@@ -71,7 +71,7 @@ Vue.component('editor', {
                     bold italic underline strikethrough link anchor alignleft aligncenter alignright alignjustify indent2em 
                     lineheight letterspacing bullist numlist blockquote subscript superscript  layout removeformat | 
                     table image media  importword emoticons charmap kityformula-editor  hr pagebreak  clearhtml  insertdatetime  bdmap  
-                    searchreplace fullscreen print preview code upfile imageupload organinfo`]
+                    searchreplace fullscreen print preview code upfile image-weisha organinfo`]
                     break;
                 //general常用按钮
                 case 'general':
@@ -112,7 +112,7 @@ Vue.component('editor', {
                 plugins: `kityformula-editor insertdatetime print preview clearhtml searchreplace autolink layout 
                 fullscreen image upfile link media code codesample table charmap hr pagebreak nonbreaking anchor 
                 advlist lists textpattern help emoticons autosave bdmap indent2em lineheight formatpainter axupimgs 
-                powerpaste letterspacing imagetools quickbars attachment wordcount autoresize importword imageupload organinfo`,
+                powerpaste letterspacing imagetools quickbars attachment wordcount autoresize importword image-weisha organinfo`,
                 toolbar_groups: {
                     formatting: {
                         text: '格式',

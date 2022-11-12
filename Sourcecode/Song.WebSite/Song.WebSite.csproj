@@ -1993,6 +1993,12 @@
     <Content Include="Utilities\TinyMCE\plugins\help\plugin.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\hr\plugin.js" />
     <Content Include="Utilities\TinyMCE\plugins\hr\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\image-weisha\index.html" />
+    <Content Include="Utilities\TinyMCE\plugins\image-weisha\plugin.js" />
+    <Content Include="Utilities\TinyMCE\plugins\image-weisha\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\image-weisha\Scripts\index.js" />
+    <Content Include="Utilities\TinyMCE\plugins\image-weisha\Scripts\tabs.js" />
+    <Content Include="Utilities\TinyMCE\plugins\image-weisha\Styles\index.css" />
     <Content Include="Utilities\TinyMCE\plugins\imagetools\index.js" />
     <Content Include="Utilities\TinyMCE\plugins\imagetools\plugin.js" />
     <Content Include="Utilities\TinyMCE\plugins\imagetools\plugin.min.js" />
@@ -2496,6 +2502,11 @@
     <Content Include="Utilities\TinyMCE\plugins\nonbreaking\plugin.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\noneditable\plugin.js" />
     <Content Include="Utilities\TinyMCE\plugins\noneditable\plugin.min.js" />
+    <Content Include="Utilities\TinyMCE\plugins\organinfo\index.css" />
+    <Content Include="Utilities\TinyMCE\plugins\organinfo\index.html" />
+    <Content Include="Utilities\TinyMCE\plugins\organinfo\index.js" />
+    <Content Include="Utilities\TinyMCE\plugins\organinfo\plugin.js" />
+    <Content Include="Utilities\TinyMCE\plugins\organinfo\plugin.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\pagebreak\plugin.js" />
     <Content Include="Utilities\TinyMCE\plugins\pagebreak\plugin.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\paste\plugin.js" />
