@@ -32,7 +32,7 @@ tinymce.init({
     plugins: `print preview clearhtml searchreplace autolink layout fullscreen image upfile link 
                  media code codesample table charmap hr pagebreak nonbreaking anchor advlist lists textpattern 
                  help emoticons autosave bdmap indent2em lineheight formatpainter axupimgs powerpaste letterspacing
-                 imagetools quickbars attachment wordcount autoresize importword`,
+                 imagetools quickbars attachment wordcount autoresize importword imagetools`,
     toolbar_groups: {
         formatting: {
             text: '文字格式',

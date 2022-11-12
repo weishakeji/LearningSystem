@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机构信息</title>
+    <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
+    <script type="text/javascript" src="/Utilities/Scripts/jquery.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Utilities/Fonts/icon.css" />
+    <link type="text/css" rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+    <div id="vapp" :editorid="editorid">
+        <loading bubble v-if="loading"></loading>
+        <template>
+            <div title="平台名称" icon="&#xa020" v-html="organ.Org_PlatformName"></div>
+            <div title="电话" icon="&#xe66c" v-html="organ.Org_Phone"></div>
+            <div title="传真" icon="&#xa046" v-html="organ.Org_Fax"></div>
+
+            <div title="电子邮箱" icon="&#xe76e" v-html="organ.Org_Email"></div>
+            <div title="微信" icon="&#xe730" v-html="organ.Org_Weixin"></div>
+            <div title="联系人" icon="&#xa043" v-html="organ.Org_Linkman"></div>
+            <div title="联系电话" icon="&#xa047" v-html="organ.Org_LinkmanPhone"></div>
+            <div title="邮编" icon="&#xe751" v-html="organ.Org_Zip"></div>
+            <div title="地址" icon="&#xe64f" v-html="organ.Org_Address"></div>
+
+
+            <div title="ICP备案" icon="&#xa04b" v-html="organ.Org_ICP"></div>
+            <div title="公案备案" icon="&#xa050" v-html="organ.Org_GonganBeian"></div>
+        </template>
+    </div>
+</body>
+<script type="text/javascript" src="index.js"></script>
+
+</html>

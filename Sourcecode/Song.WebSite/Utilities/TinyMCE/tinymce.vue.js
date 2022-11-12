@@ -5,8 +5,10 @@
 //menubar:是否显示编辑上方的下拉菜单
 //id:编辑器的html标签id
 //placeholder: 空白显示内容
+//upload:上传文件的路径key值，对应web.config中upload节点
+//dataid:数据id，例如编辑试题此处为试题的ID，编辑通知时此处为通知的id
 Vue.component('editor', {
-    props: ['content', 'model', 'menubar', 'id', 'placeholsder'],
+    props: ['content', 'model', 'menubar', 'id', 'placeholsder', 'upload', 'dataid'],
     data: function () {
         return {
             //编辑器的文本
@@ -24,6 +26,12 @@ Vue.component('editor', {
                         this.init();
                 });
 
+            }, immediate: true
+        },
+        'dataid': {
+            handler: function (nv, ov) {
+                if (tinyMCE.editors.length > 0 && tinyMCE.editors[this.ctrid])
+                    tinyMCE.editors[this.ctrid].settings['dataid'] = nv;
             }, immediate: true
         },
         'content': {
@@ -63,7 +71,7 @@ Vue.component('editor', {
                     bold italic underline strikethrough link anchor alignleft aligncenter alignright alignjustify indent2em 
                     lineheight letterspacing bullist numlist blockquote subscript superscript  layout removeformat | 
                     table image media  importword emoticons charmap kityformula-editor  hr pagebreak  clearhtml  insertdatetime  bdmap  
-                    searchreplace fullscreen print preview code upfile`]
+                    searchreplace fullscreen print preview code upfile imageupload organinfo`]
                     break;
                 //general常用按钮
                 case 'general':
@@ -95,6 +103,7 @@ Vue.component('editor', {
             tinymce.init({
                 selector: '#' + th.ctrid,
                 language: 'zh_CN',
+                upload_key: th.upload,
                 menubar: th.menubar == null || th.menubar == false || th.menubar == 'false' ? false : "file edit view insert format table tools",
                 branding: false,
                 inline: th.model == 'inline', //开启内联模式
@@ -103,7 +112,7 @@ Vue.component('editor', {
                 plugins: `kityformula-editor insertdatetime print preview clearhtml searchreplace autolink layout 
                 fullscreen image upfile link media code codesample table charmap hr pagebreak nonbreaking anchor 
                 advlist lists textpattern help emoticons autosave bdmap indent2em lineheight formatpainter axupimgs 
-                powerpaste letterspacing imagetools quickbars attachment wordcount autoresize importword `,
+                powerpaste letterspacing imagetools quickbars attachment wordcount autoresize importword imageupload organinfo`,
                 toolbar_groups: {
                     formatting: {
                         text: '格式',
@@ -123,7 +132,7 @@ Vue.component('editor', {
                     insert: {
                         text: '插入',
                         tooltip: '插入图片、特殊字符、公式',
-                        items: 'image emoticons charmap  kityformula-editor bdmap',
+                        items: 'image emoticons charmap  kityformula-editor bdmap organinfo',
                     }
                 },
                 //upfile attachment //上传文件、附件
@@ -173,8 +182,16 @@ Vue.component('editor', {
                     th.isinit = true;       //初始化功能
                     //将来自组件参数的content,传给内部参数text，以免外部数据变化，影响组件状态
                     th.text = th.content;
-                    editor.setContent(th.text);                   
-                  
+                    editor.setContent(th.text);
+
+                    editor.settings['dataid'] = th.dataid;
+                    var params = editor.settings;
+                    for (var k in params) {
+
+                        //console.log(k + ': ' + params[k]);
+                    }
+                    var d=editor.getParam('dataid', 123);
+                    console.log('dataid: ' + d);
                     //var html = editor.getContent();                 
 
                     //alert(html);
