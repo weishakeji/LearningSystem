@@ -62,7 +62,7 @@ namespace Song.ViewData
             acc = acc.DeepClone<Song.Entities.EmpAccount>();
             if (!string.IsNullOrWhiteSpace(acc.Acc_Photo))
             {
-                acc.Acc_Photo = string.IsNullOrWhiteSpace(acc.Acc_Photo) ? "" : Upload.Get["Employee"].Virtual + acc.Acc_Photo;
+                acc.Acc_Photo = string.IsNullOrWhiteSpace(acc.Acc_Photo) ? "" : WeiSha.Core.Upload.Get["Employee"].Virtual + acc.Acc_Photo;
                 if (!System.IO.File.Exists(WeiSha.Core.Server.MapPath(acc.Acc_Photo))) acc.Acc_Photo = "";
             }
             acc.Acc_Pw = string.Empty;

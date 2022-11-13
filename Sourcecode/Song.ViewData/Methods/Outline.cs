@@ -320,7 +320,7 @@ namespace Song.ViewData.Methods
                 //如果是内部链接
                 if (existVideo && !videos[0].As_IsOuter)
                 {
-                    videoUrl = Upload.Get[videos[0].As_Type].Virtual + videoUrl;
+                    videoUrl = WeiSha.Core.Upload.Get[videos[0].As_Type].Virtual + videoUrl;
                     string ext = System.IO.Path.GetExtension(videoUrl).ToLower();
                     if (ext == ".flv") videoUrl = Path.ChangeExtension(videoUrl, ".mp4");
                 }

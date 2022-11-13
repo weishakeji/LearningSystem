@@ -6,7 +6,7 @@ tinymce.PluginManager.add('organinfo', function (editor, url) {
 	var iframe1 = baseURL + '/plugins/organinfo/index.html?editorid=' + editorid;
 	var openDialog = function () {
 		return editor.windowManager.openUrl({
-			title: '双击插入机构信息',
+			title: '机构信息',
 			size: 'large',
 			width: 500,
 			height: 300,
@@ -60,6 +60,7 @@ window.organinfo_action = function (id, txt) {
 	if (txt != '') {
 		txt = '<span class="organinfo">' + txt + '</span>';
 		editor.insertContent(txt);		
+		editor.windowManager.close();
 	}
 	console.log(txt);
 }

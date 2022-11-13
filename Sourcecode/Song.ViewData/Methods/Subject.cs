@@ -263,7 +263,7 @@ namespace Song.ViewData.Methods
         public List<Song.Entities.Subject> ShowRoot(int orgid, int count)
         {
             List<Song.Entities.Subject> sbjs = Business.Do<ISubject>().SubjectCount(orgid, string.Empty, true, 0, count);
-            string path = Upload.Get["Subject"].Virtual;
+            string path = WeiSha.Core.Upload.Get["Subject"].Virtual;
             foreach (Song.Entities.Subject c in sbjs)
             {
                 c.Sbj_Logo = path + c.Sbj_Logo;

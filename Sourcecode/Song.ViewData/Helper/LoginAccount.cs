@@ -92,8 +92,8 @@ namespace Song.ViewData
             Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherForAccount(acc.Ac_ID);
             if (teacher != null)
             {
-                if (System.IO.File.Exists(Upload.Get["Teacher"].Physics + teacher.Th_Photo))
-                    teacher.Th_Photo = Upload.Get["Teacher"].Virtual + teacher.Th_Photo;
+                if (System.IO.File.Exists(WeiSha.Core.Upload.Get["Teacher"].Physics + teacher.Th_Photo))
+                    teacher.Th_Photo = WeiSha.Core.Upload.Get["Teacher"].Virtual + teacher.Th_Photo;
                 else
                     teacher.Th_Photo = "";
             }

@@ -26,24 +26,18 @@ namespace Song.ViewData.Methods
             for (int i = 0; i < count; i++)
             {
                 long snowid = WeiSha.Core.Request.SnowID();
-               
+
             }
             return "生成 " + count + "个ID，这里仅是为了测试生成速度，请查看 execspan 值（单位 毫秒）";
         }
         /// <summary>
         /// 生成雪花id
         /// </summary>
-        /// <param name="count"></param>
         /// <returns></returns>
-        public JObject Generate(int count)
+        public string Generate()
         {
-            JObject jo = new JObject();
-            for (int i = 0; i < count; i++)
-            {
-                long snowid = WeiSha.Core.Request.SnowID();             
-                jo.Add("snow_"+ snowid, snowid.ToString());               
-            }
-            return jo;
+            long snowid = WeiSha.Core.Request.SnowID();
+            return snowid.ToString();
         }
     }
 }

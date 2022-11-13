@@ -1161,7 +1161,7 @@ namespace Song.ViewData.Methods
         public JObject StudentsLogOutputExcel(long couid)
         {
             //导出文件的位置
-            string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
 
@@ -1183,7 +1183,7 @@ namespace Song.ViewData.Methods
             }
             JObject jo = new JObject();
             jo.Add("file", filename);
-            jo.Add("url", string.Format("{0}/{1}", Upload.Get["Temp"].Virtual + outputPath, filename));
+            jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, filename));
             jo.Add("date", date);
             return jo;
         }
@@ -1208,7 +1208,7 @@ namespace Song.ViewData.Methods
             }
             //开始生成
             //导出文件的位置
-            string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
             if (System.IO.Directory.Exists(rootpath))
             {
                 foreach (string file in System.IO.Directory.GetFiles(rootpath))
@@ -1245,7 +1245,7 @@ namespace Song.ViewData.Methods
             lock (_lock_StudentsLogBatExcelProgress)
             {
                 //导出文件的位置
-                string file = Upload.Get["Temp"].Physics + outputPath + "\\" + "progress.json";
+                string file = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\" + "progress.json";
                 if (System.IO.File.Exists(file))
                 {
                     string text = System.IO.File.ReadAllText(file);
@@ -1259,7 +1259,7 @@ namespace Song.ViewData.Methods
         private static void _studentsLogBatExcel_Mwthod(object courses)
         {
             //导出文件的位置
-            string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
             List<Song.Entities.Course> list = courses as List<Song.Entities.Course>;
             //记录执行状态
             JObject jo = new JObject();
@@ -1271,7 +1271,7 @@ namespace Song.ViewData.Methods
             jo.Add("couid", string.Empty);
             jo.Add("course", string.Empty);
             jo.Add("timespan", 0);
-            jo.Add("zipurl", Upload.Get["Temp"].Virtual + outputPath + "/" + outputPath + ".zip");
+            jo.Add("zipurl", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + outputPath + ".zip");
             jo.Add("zipfile", outputPath + ".zip");
             foreach (Song.Entities.Course c in list)
             {
@@ -1296,7 +1296,7 @@ namespace Song.ViewData.Methods
         [HttpDelete]
         public bool StudentsLogOutputDelete(long couid,string filename)
         {
-            string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
             string filePath = rootpath + couid + "." + filename;
@@ -1314,7 +1314,7 @@ namespace Song.ViewData.Methods
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
         public JArray StudentsLogOutputFiles(long couid)
         {
-            string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
@@ -1329,7 +1329,7 @@ namespace Song.ViewData.Methods
                 JObject jo = new JObject();
                 string name = f.Name.Substring(f.Name.IndexOf(".") + 1);
                 jo.Add("file", name);
-                jo.Add("url", string.Format("{0}/{1}", Upload.Get["Temp"].Virtual + outputPath, f.Name));
+                jo.Add("url", string.Format("{0}/{1}", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath, f.Name));
                 jo.Add("date", f.CreationTime);
                 jo.Add("size", f.Length);
                 jarr.Add(jo);

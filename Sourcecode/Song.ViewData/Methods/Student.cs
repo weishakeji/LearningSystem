@@ -39,7 +39,7 @@ namespace Song.ViewData.Methods
                 accounts = Business.Do<IAccounts>().AccountsCount(org.Org_ID, true, sts, -1);
             }
             //处理一些基础信息
-            string uppath = Upload.Get["Accounts"].Virtual;
+            string uppath = WeiSha.Core.Upload.Get["Accounts"].Virtual;
             foreach (Accounts acc in accounts)
             {
                 acc.Ac_Pw = string.Empty;

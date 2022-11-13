@@ -966,7 +966,7 @@ namespace Song.ViewData.Methods
         {
             string outputPath = "AccountsToExcelForOrgan";
             //导出文件的位置
-            string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
 
@@ -976,7 +976,7 @@ namespace Song.ViewData.Methods
             filePath = Business.Do<IAccounts>().AccountsExport4Excel(filePath, organs);
             JObject jo = new JObject();
             jo.Add("file", filename);
-            jo.Add("url", Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
+            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
             jo.Add("date", date);
             return jo;
         }
@@ -990,7 +990,7 @@ namespace Song.ViewData.Methods
         {
             string outputPath = "AccountsToExcelForSort";
             //导出文件的位置
-            string rootpath = Upload.Get["Temp"].Physics + outputPath + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + outputPath + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
 
@@ -1000,7 +1000,7 @@ namespace Song.ViewData.Methods
             filePath = Business.Do<IAccounts>().AccountsExport4Excel(filePath, orgid, sorts, false);
             JObject jo = new JObject();
             jo.Add("file", filename);
-            jo.Add("url", Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
+            jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + outputPath + "/" + filename);
             jo.Add("date", date);
             return jo;
         }
@@ -1013,7 +1013,7 @@ namespace Song.ViewData.Methods
         [HttpDelete]
         public bool ExcelDelete(string filename,string path)
         {
-            string rootpath = Upload.Get["Temp"].Physics + path + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
             string filePath = rootpath + filename;
@@ -1030,7 +1030,7 @@ namespace Song.ViewData.Methods
         /// <returns>file:文件名,url:下载地址,date:创建时间</returns>
         public JArray ExcelFiles(string path)
         {
-            string rootpath = Upload.Get["Temp"].Physics + path + "\\";
+            string rootpath = WeiSha.Core.Upload.Get["Temp"].Physics + path + "\\";
             if (!System.IO.Directory.Exists(rootpath))
                 System.IO.Directory.CreateDirectory(rootpath);
             JArray jarr = new JArray();
@@ -1039,7 +1039,7 @@ namespace Song.ViewData.Methods
             {
                 JObject jo = new JObject();
                 jo.Add("file", f.Name);
-                jo.Add("url", Upload.Get["Temp"].Virtual + path + "/" + f.Name);
+                jo.Add("url", WeiSha.Core.Upload.Get["Temp"].Virtual + path + "/" + f.Name);
                 jo.Add("date", f.CreationTime);
                 jo.Add("size", f.Length);
                 jarr.Add(jo);

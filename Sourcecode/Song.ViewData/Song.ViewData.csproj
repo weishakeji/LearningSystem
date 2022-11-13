@@ -213,6 +213,7 @@
     <Compile Include="Methods\Teacher.cs" />
     <Compile Include="Methods\Helper.cs" />
     <Compile Include="Methods\Student.cs" />
+    <Compile Include="Methods\Upload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Question\Import.cs" />
     <Compile Include="VExcept.cs" />

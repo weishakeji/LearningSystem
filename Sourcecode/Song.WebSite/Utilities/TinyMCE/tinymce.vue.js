@@ -67,7 +67,7 @@ Vue.component('editor', {
             switch (this.model) {
                 //full全部按钮
                 case 'full':
-                    arr = [`cut copy formatpainter undo redo restoredraft | formatselect fontselect fontsizeselect forecolor backcolor outdent indent |                  
+                    arr = [`undo redo restoredraft cut copy formatpainter | formatselect fontselect fontsizeselect forecolor backcolor outdent indent |                  
                     bold italic underline strikethrough link anchor alignleft aligncenter alignright alignjustify indent2em 
                     lineheight letterspacing bullist numlist blockquote subscript superscript  layout removeformat | 
                     table image media  importword emoticons charmap kityformula-editor  hr pagebreak  clearhtml  insertdatetime  bdmap  
@@ -75,7 +75,7 @@ Vue.component('editor', {
                     break;
                 //general常用按钮
                 case 'general':
-                    arr = [`cut copy formatpainter undo redo  | formatselect fontselect fontsizeselect forecolor backcolor table importword 
+                    arr = [`undo redo cut copy formatpainter  | formatselect fontselect fontsizeselect forecolor backcolor table importword 
                     | formatting alignment indent_gr insert insertdatetime  lineheight letterspacing bullist numlist                       
                     layout removeformat  hr pagebreak  clearhtml  link fullscreen searchreplace preview`]
                     break;
@@ -94,6 +94,20 @@ Vue.component('editor', {
                 case 'inline':
                     arr = [];
                     break;
+                 //试题编辑
+                case 'question':
+                    arr = [` undo redo cut copy formatpainter | fontsizeselect forecolor backcolor bold italic underline strikethrough | superscript subscript 
+                    indent2em outdent indent lineheight |  alignleft aligncenter alignright alignjustify
+                    letterspacing bullist numlist  | hr table  insertdatetime removeformat  link importword 
+                    image-weisha charmap  kityformula-editor  | fullscreen searchreplace preview `]
+                    break;
+                //试题的简单编辑
+                case 'ques':
+                    arr = [` forecolor  backcolor  bold italic underline strikethrough  superscript subscript 
+                    | alignleft aligncenter alignright alignjustify 
+                    |  image-weisha charmap  kityformula-editor
+                    `]
+                    break;          
             }
             return arr;
         },
@@ -110,9 +124,9 @@ Vue.component('editor', {
                 height: '100%',
                 max_height: 700,
                 plugins: `kityformula-editor insertdatetime print preview clearhtml searchreplace autolink layout 
-                fullscreen image upfile link media code codesample table charmap hr pagebreak nonbreaking anchor 
+                fullscreen upfile link media code codesample table charmap hr pagebreak nonbreaking anchor 
                 advlist lists textpattern help emoticons autosave bdmap indent2em lineheight formatpainter axupimgs 
-                powerpaste letterspacing imagetools quickbars attachment wordcount autoresize importword image-weisha organinfo`,
+                powerpaste letterspacing quickbars attachment wordcount autoresize importword image-weisha organinfo`,
                 toolbar_groups: {
                     formatting: {
                         text: '格式',

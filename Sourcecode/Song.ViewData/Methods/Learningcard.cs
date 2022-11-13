@@ -399,12 +399,12 @@ namespace Song.ViewData.Methods
             DateTime date = DateTime.Now;
             string item = "LearningCard";
             string filename = string.Format("{0}_{1}.xls", set.Lcs_ID.ToString(), date.ToString("yyyy-MM-dd hh-mm-ss"));
-            string filePath = Upload.Get[item].Physics + filename;
+            string filePath = WeiSha.Core.Upload.Get[item].Physics + filename;
             filePath = Business.Do<ILearningCard>().Card4Excel(filePath, set.Org_ID, id);
             JObject jo = new JObject();
             jo.Add("name", set.Lcs_Theme);
             jo.Add("file", filename);
-            jo.Add("url", Upload.Get[item].Virtual + filename);
+            jo.Add("url", WeiSha.Core.Upload.Get[item].Virtual + filename);
             jo.Add("date", date);
             return jo;
         }
@@ -417,7 +417,7 @@ namespace Song.ViewData.Methods
         public bool ExcelDelete(string filename)
         {
             string item = "LearningCard";
-            string filePath = Upload.Get[item].Physics + filename;
+            string filePath = WeiSha.Core.Upload.Get[item].Physics + filename;
             if (System.IO.File.Exists(filePath))
             {
                 System.IO.File.Delete(filePath);
@@ -435,7 +435,7 @@ namespace Song.ViewData.Methods
             string item = "LearningCard";
             Song.Entities.LearningCardSet set = Business.Do<ILearningCard>().SetSingle(id);
             List<System.IO.FileInfo> list = new List<System.IO.FileInfo>();
-            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(Upload.Get[item].Physics);
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(WeiSha.Core.Upload.Get[item].Physics);
             foreach (System.IO.FileInfo f in dir.GetFiles("*.xls"))
             {
                 if (f.Name.IndexOf("_") < 0) continue;
@@ -453,7 +453,7 @@ namespace Song.ViewData.Methods
                 JObject jo = new JObject();
                 jo.Add("name", set.Lcs_Theme);
                 jo.Add("file", file.Name);
-                jo.Add("url", Upload.Get[item].Virtual + file.Name);
+                jo.Add("url", WeiSha.Core.Upload.Get[item].Virtual + file.Name);
                 jo.Add("date", file.CreationTime);
                 jo.Add("size", file.Length);
                 jarr.Add(jo);

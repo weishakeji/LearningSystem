@@ -1,7 +1,8 @@
 ﻿//试题项的简单编辑
 Vue.component('ques_ansitem', {
     //ans:试题选项
-    props: ["ans"],
+    //question:试题
+    props: ["ans","question"],
     data: function () {
         return {
             show: false,     //是否显示              
@@ -62,8 +63,8 @@ Vue.component('ques_ansitem', {
     },
     template: `<div class="ques_ansitem" v-show="show" @click="show=false">
         <div class="editor_box">
-            <editor :content="context" ref="editor_ques_ansitem" :menubar="false" model="mini"
-                   @change='t=>text=t' ></editor>
+            <editor :content="context" ref="editor_ques_ansitem" :menubar="false" model="ques"
+            upload="ques" :dataid="question.Qus_ID"  @change='t=>text=t' ></editor>
         </div>
     </div>`
 });

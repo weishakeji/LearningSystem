@@ -26,8 +26,8 @@ $(function () {
         },
         updated: function () {
             var th=this;
-            $("#vapp>div").unbind('dblclick');
-            $("#vapp>div").dblclick(function (e) {
+            $("#vapp>div").unbind('click');
+            $("#vapp>div").click(function (e) {
                 var t = $(this);
                 var txt = t.attr('title') + ':' + t.text();
                 //var id=th.parent.attr('editorid');

@@ -63,7 +63,7 @@ Vue.component('modify_main', {
         }
     },
     mounted: function () {
-        $dom.load.css([$dom.path() + 'Question/Components/Styles/modify_main.css']);     
+        $dom.load.css([$dom.path() + 'Question/Components/Styles/modify_main.css']);
         //
         var th = this;
         th.getEntity();
@@ -100,7 +100,19 @@ Vue.component('modify_main', {
             var th = this;
             if (th.id == '') {
                 //th.$emit('load', th.question);
-                th.getCourse();
+                $api.get('Snowflake/Generate').then(function (req) {
+                    if (req.data.success) {
+                        th.question.Qus_ID = req.data.result;
+                        th.getCourse();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });              
                 return;
             }
             th.loading = true;
@@ -199,8 +211,8 @@ Vue.component('modify_main', {
             <general :question="question" :organ="organ" :course="course"></general>
         </div>
         <div v-show="activeName=='explan'" remark="解析">
-            <editor ref="editor" :content="question.Qus_Explain" id="explain" :menubar="false" model="general"
-            @change="text=>question.Qus_Explain=text"></editor>          
+            <editor ref="editor" :content="question.Qus_Explain" id="explain" upload="ques" :dataid="question.Qus_ID" 
+            :menubar="false" model="question" @change="text=>question.Qus_Explain=text"></editor>          
         </div>
         <div v-show="activeName=='knowledge'" remark="知识点">
             <knowledge :question="question"></knowledge>

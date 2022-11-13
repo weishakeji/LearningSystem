@@ -12,23 +12,14 @@ tinymce.PluginManager.add('image-weisha', function (editor, url) {
 
 	var openDialog = function (param) {
 		var url = openpage + '?uploadkey=' + uploadkey(editor) + '&dataid=' + dataid(editor) + '&editorid=' + editorid;
+		console.log(url);
 		return editor.windowManager.openUrl({
 			title: pluginName,
 			size: 'large',
 			width: 600,
 			height: 400,
 			url: param ? url + '&param=' + param : url,
-			buttons: [
-				{
-					type: 'cancel',
-					text: 'Close'
-				},
-				{
-					type: 'custom',
-					text: 'Save',
-					name: 'save',
-					primary: true
-				},
+			buttons: [				
 			],
 			onAction: function (api, details) {
 				switch (details.name) {

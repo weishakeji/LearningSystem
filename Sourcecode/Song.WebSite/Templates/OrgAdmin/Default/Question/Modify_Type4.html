@@ -13,12 +13,13 @@
             <!-- 编辑区域-->
             <el-form ref="entity" :model="entity" @submit.native.prevent label-width="60px">
                 <el-form-item label="题干" prop="Qus_Title">
-                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="general" style="height: 300px;"
-                    @change="text=>entity.Qus_Title=text"></editor> 
+                    <editor :content="entity.Qus_Title" id="title" :menubar="false" model="question"
+                        style="height: 300px;" upload="ques" :dataid="entity.Qus_ID"
+                        @change="text=>entity.Qus_Title=text"></editor>
                 </el-form-item>
                 <el-form-item label="答案" prop="Qus_Answer">
-                    <editor :content="entity.Qus_Answer" id="answer" :menubar="false" model="mini" style="height: 300px;"
-                    @change="text=>entity.Qus_Answer=text"></editor>                     
+                    <editor :content="entity.Qus_Answer" id="answer" :menubar="false" model="mini"
+                        style="height: 300px;" @change="text=>entity.Qus_Answer=text"></editor>
                 </el-form-item>
             </el-form>
         </modify_main>

@@ -1,7 +1,8 @@
 ﻿//试题项的详细编辑
 Vue.component('ques_ansedit', {
     //ans:试题选项
-    props: ["ans"],
+    //question:试题
+    props: ["ans","question"],
     data: function () {
         return {
             show: false,     //是否显示     
@@ -55,7 +56,7 @@ Vue.component('ques_ansedit', {
         </div>
         <div slot="body">
             <editor :content="context" id="editor_ques_ansedit" ref="editor_ques_ansedit" :menubar="true"
-                model="general" @change="t=>text=t"></editor>
+            upload="ques" :dataid="question.Qus_ID" model="question" @change="t=>text=t"></editor>
         </div>
         <div slot="footer">
             <el-button type="cancel" @click="show = false">返 回</el-button>

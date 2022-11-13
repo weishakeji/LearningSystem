@@ -190,7 +190,7 @@ namespace Song.ViewData.Methods
         {
             Song.Entities.EmpAccount acc = Business.Do<IEmployee>().GetSingle(id);
             acc.Acc_Pw = string.Empty;
-            acc.Acc_Photo = string.IsNullOrWhiteSpace(acc.Acc_Photo) ? "" : Upload.Get[PathKey].Virtual + acc.Acc_Photo;
+            acc.Acc_Photo = string.IsNullOrWhiteSpace(acc.Acc_Photo) ? "" : WeiSha.Core.Upload.Get[PathKey].Virtual + acc.Acc_Photo;
             if (!System.IO.File.Exists(WeiSha.Core.Server.MapPath(acc.Acc_Photo))) acc.Acc_Photo = "";
             return acc;
         }
