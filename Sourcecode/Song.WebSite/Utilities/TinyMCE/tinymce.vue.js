@@ -153,6 +153,7 @@ Vue.component('editor', {
                 toolbar: th.toolbar(),
                 //选中时出现的快捷工具，与插件有依赖关系
                 quickbars_selection_toolbar: 'bold italic underline forecolor | link blockquote',
+                quickbars_insert_toolbar: 'kityformula-editor quicktable',
                 contextmenu: 'copy paste | link image inserttable | cell row column deletetable | code',
                 table_style_by_css: true,
                 OperationManualHtml: '',
