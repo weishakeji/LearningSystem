@@ -27,21 +27,19 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public JArray Files(string pathkey,long dataid)
         {
-            string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual;
-            string phyPath = WeiSha.Core.Upload.Get[pathkey].Physics;
-            if (string.IsNullOrWhiteSpace(phyPath))
-            {
-                throw new Exception("pathkey的值不存在，请检查web.config中upload节点项");
-            }
-            if (Directory.Exists(phyPath + dataid.ToString()))
-                phyPath = phyPath + dataid.ToString();
-            DirectoryInfo dir = new DirectoryInfo(phyPath);
             JArray arr = new JArray();
+            if (string.IsNullOrWhiteSpace(pathkey)) return arr;
+            string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual + (dataid > 0 ? dataid.ToString()+"/" : "");
+            string phyPath = WeiSha.Core.Upload.Get[pathkey].Physics + (dataid > 0 ? dataid.ToString() : "");
+            if (!Directory.Exists(phyPath)) return arr;
+
+            DirectoryInfo dir = new DirectoryInfo(phyPath);           
             foreach(FileInfo f in dir.GetFiles())
             {
                 JObject jo = new JObject();
                 jo.Add("name",f.Name);
-                jo.Add("full", virPath + f.Name);              
+                jo.Add("path", virPath);
+                jo.Add("full", virPath + f.Name);
                 jo.Add("ext", string.IsNullOrWhiteSpace(f.Extension) ? "" : f.Extension.Replace(".", ""));
                 jo.Add("length", f.Length.ToString());
                 jo.Add("size", _filesize_convert(f.Length));
@@ -51,14 +49,12 @@ namespace Song.ViewData.Methods
         }
         public JArray Images(string pathkey, long dataid)
         {
-            string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual;
-            string phyPath = WeiSha.Core.Upload.Get[pathkey].Physics;
-            if (string.IsNullOrWhiteSpace(phyPath))
-            {
-                throw new Exception("pathkey的值不存在，请检查web.config中upload节点项");
-            }
-            if (Directory.Exists(phyPath + dataid.ToString()))
-                phyPath = phyPath + dataid.ToString();
+            JArray arr = new JArray();
+            if (string.IsNullOrWhiteSpace(pathkey)) return arr;
+            string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual + (dataid > 0 ? dataid.ToString() + "/" : "");
+            string phyPath = WeiSha.Core.Upload.Get[pathkey].Physics + (dataid > 0 ? dataid.ToString() : "");
+            if (!Directory.Exists(phyPath)) return arr;
+
             DirectoryInfo dir = new DirectoryInfo(phyPath);
             string[] exts = "jpg,jpeg,gif,png,bmp".Split(',');
             List<FileInfo> files = new List<FileInfo>();
@@ -73,12 +69,12 @@ namespace Song.ViewData.Methods
                     }
                 }
             }
-
-            JArray arr = new JArray();
+           
             foreach (FileInfo f in files)
             {
                 JObject jo = new JObject();
                 jo.Add("name", f.Name);
+                jo.Add("path", virPath);
                 jo.Add("full", virPath + f.Name);
                 jo.Add("ext", string.IsNullOrWhiteSpace(f.Extension) ? "" : f.Extension.Replace(".", ""));
                 jo.Add("length", f.Length.ToString());
@@ -86,9 +82,11 @@ namespace Song.ViewData.Methods
                 //图片格式
                 try
                 {
-                    System.Drawing.Image image = System.Drawing.Image.FromFile(f.FullName);
-                    jo.Add("width", image.Width);
-                    jo.Add("height", image.Height);
+                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(f.FullName))
+                    {
+                        jo.Add("width", image.Width);
+                        jo.Add("height", image.Height);                       
+                    }
                 }
                 catch { }
                 arr.Add(jo);

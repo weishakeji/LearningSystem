@@ -31,7 +31,7 @@ html, body {
     width: calc(100% - 20px);
     height: calc(100% - 20px);
     box-sizing: border-box;
-    overflow: auto; 
+    overflow: auto;
     margin: 10px;
 }
 
@@ -55,7 +55,7 @@ html, body {
     height: 40px;
     line-height: 40px;
     font-size: 16px;
-    box-sizing: border-box;    
+    box-sizing: border-box;
     padding-left: 10px;
     background-color: #ffffff;
     position: absolute;
@@ -88,10 +88,191 @@ html, body {
     width: 100%;
     height: calc(100% - 40px);
     box-sizing: border-box;
-    padding: 10px;
+    padding: 10px 0px 10px 10px;
 }
-.content>div{
+
+.content>div {
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
+}
+
+.content div.btn {
+    width: 100px;
+    border: solid 1px #ccc;
+    text-align: center;
+    margin-left: 10px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+}
+
+.content div.btn[type="primary"] {
+    color: #409eff;
+    background: #ecf5ff;
+    border-color: #b3d8ff;
+}
+
+.content div.btn[type="info"]:hover {
+    color: #fff;
+    background-color: #909399;
+    border-color: #909399;
+}
+
+.content div.btn[type="primary"]:hover {
+    background-color: #409eff;
+    color: #fff;
+}
+
+/*本私图片选择区*/
+div.region {}
+
+div.region>div {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.images {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.images>div {
+    display: flex;
+    box-sizing: border-box;
+    padding: 6px;
+    margin: 10px 10px 0px 0px;
+    border: solid 1px #ddd;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 160px;
+    height: 90px;
+    text-align: center;
+}
+
+.images>div img {
+    max-width: calc(160px - 12px);
+    max-height: calc(90px - 12px);
+    margin: 0px auto;
+}
+
+.images>div .info {
+    font-size: 14px;
+    line-height: 20px;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.0);
+    color: #666;
+    position: absolute;
+    left: 0px;
+    top: -100%;
+    box-sizing: border-box;
+    padding: 10px;
+    transition: all 0.3s;
+}
+
+.images>div:hover .info {
+    top: 0px;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+div.region .img_sel {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+}
+
+div.region .img_sel>* {
+    flex: 1;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 14px;
+}
+
+div.region .img_sel>div:first-child {
+    border: solid 1px #ccc;
+}
+
+div.region .img_sel>div:first-child img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+div.region .img_sel>div:last-child {
+    position: relative;
+}
+
+div.region .img_sel>div:last-child>div:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+div.region .img_sel>div:last-child .btns {
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    display: flex;
+    justify-content: right;
+    box-sizing: border-box;
+    padding: 0px 10px;
+}
+
+.input_size>div {
+    margin: 5px 0px;
+    border: solid 1px #ccc;
+    height: 35px;
+    position: relative;
+    box-sizing: border-box;
+    padding: 3px 60px 3px 30px;
+    background-color: #fff;
+}
+.input_size>div input{
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.input_size>div::before {
+    content: attr(prev);
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 30px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+}
+
+.input_size>div::after {
+    content: attr(after);
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 60px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+.input_alt>div{
+    border: solid 1px #ccc;
+    box-sizing: border-box;
+    padding: 5px;
+    margin-top: 5px;
+}
+.input_alt>div textarea{
+    width: calc(100% - 10px);
+    height: 100%;
+    border: solid 1px #eee;
 }

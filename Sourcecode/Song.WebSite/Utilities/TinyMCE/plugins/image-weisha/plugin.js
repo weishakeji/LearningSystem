@@ -16,10 +16,10 @@ tinymce.PluginManager.add('image-weisha', function (editor, url) {
 		return editor.windowManager.openUrl({
 			title: pluginName,
 			size: 'large',
-			width: 600,
+			width: 720,
 			height: 400,
 			url: param ? url + '&param=' + param : url,
-			buttons: [				
+			buttons: [
 			],
 			onAction: function (api, details) {
 				switch (details.name) {
@@ -61,3 +61,18 @@ tinymce.PluginManager.add('image-weisha', function (editor, url) {
 		}
 	};
 });
+//接收来自内容页的调用
+//id:编辑器的id
+//img:图片对象，包括路径、宽高、等信息
+window.image_weisha_action = function (id, img) {
+	var editor = tinyMCE.editors[id];
+	if (img != null) {
+		if (!img.wd) img.wd = img.width;
+		if (!img.hg) img.hg = img.height;
+		if (img.alt == null) img.alt = '';
+		var txt = '<img src="' + img.full + '" style="width:' + img.wd + 'px;height:' + img.hg + 'px;" alt="' + img.alt + '"/>';
+		editor.insertContent(txt);
+		editor.windowManager.close();
+	}
+	console.log(img);
+}

@@ -153,7 +153,7 @@ Vue.component('editor', {
                 toolbar: th.toolbar(),
                 //选中时出现的快捷工具，与插件有依赖关系
                 quickbars_selection_toolbar: 'bold italic underline forecolor | link blockquote',
-                quickbars_insert_toolbar: 'kityformula-editor quicktable',
+                quickbars_insert_toolbar: 'kityformula-editor importword quicktable',
                 contextmenu: 'copy paste | link image inserttable | cell row column deletetable | code',
                 table_style_by_css: true,
                 OperationManualHtml: '',
@@ -167,6 +167,7 @@ Vue.component('editor', {
                 powerpaste_allow_local_images: true,//
                 powerpaste_keep_unsupported_src: true,
                 paste_data_images: true,
+                convert_urls:false,     //当插入图片时，是否转换为相对路径
                 toolbar_sticky: false,
                 autosave_ask_before_unload: false,
                 fontsize_formats: '12px 14px 16px 18px 24px 36px 48px 56px 72px',

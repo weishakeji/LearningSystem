@@ -3,14 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>图片管理</title>
     <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/tabs.js"></script>
+    <script type="text/javascript" src="scripts/upload-img.js"></script>
     <link type="text/css" rel="stylesheet" href="/Utilities/Fonts/icon.css" />
     <link type="text/css" rel="stylesheet" href="styles/index.css" />
 </head>
@@ -18,17 +17,65 @@
 <body>
     <div id="vapp" :editorid="editorid">
         <tabs>
-            <template slot="region">
-                <div><help>当前所编辑内容的图片资源</help></div>
-                ddd-region
-            </template>
+            <div slot="region"
+                :style="'overflow:'+(JSON.stringify(img_sel) != '{}' && img_sel != null ? 'hidden' : 'auto')">
+                <template v-if="images.length>0">
+                    <div>
+                        <help>当前所编辑内容的图片资源</help>
+                    </div>
+                    <div class="images">
+                        <div v-for="(img,i) in images" @click="img_sel=$api.clone(img)">
+                            <img :src="img.full" />
+                            <div class="info">
+                                <div>宽: {{img.width}} px</div>
+                                <div>高: {{img.height}} px</div>
+                                <div>大小: {{img.size}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="img_sel" v-if="JSON.stringify(img_sel) != '{}' && img_sel != null">
+                        <div>
+                            <img :src="img_sel.full">
+                        </div>
+                        <div class="info">
+                            <div>原始宽高：{{img_sel.width}} 像素 × {{img_sel.height}} 像素</div>
+                            <div class="input_size">设置宽高：
+                                <div prev="宽" after="像素"><input type="number" v-model="img_sel.wd" /></div>
+                                <div prev="高" after="像素"><input type="number" v-model="img_sel.hg" /></div>
+                            </div>
+                            <div class="input_alt">替代文字：
+                                <div><textarea rows="2" v-model="img_sel.alt"></textarea></div>
+                            </div>
+                            <div class="btns">
+                                <div class="btn" type="info" @click="img_sel=null">
+                                    取消
+                                </div>
+                                <div class="btn" type="primary" @click="insert()">
+                                    插入
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+                <alert v-if="!loading && images.length<1">没有供选择的图片</alert>
+            </div>
             <template slot="upload">
-                ddd-upload
+                <upload-img @change="file=>upfile=file" :data="upimage" size="1024" height="100" ext="jpg,jpeg,png,gif">
+                    <template v-if="upfile!=null">
+                        <img v-if="upfile!=null && JSON.stringify(upfile) != '{}'" :src="upfile.base64" />
+                        <span type="danger" class="photo-txt" @click.stop="{upfile=null;}">清除图片</span>
+                    </template>
+                    <div class="nophoto" v-else>
+
+                        <span class="photo-txt">上传</span>
+
+                    </div>
+                </upload-img>
             </template>
             <template slot="outside">
                 ddd-outside
             </template>
-        </tabs>      
+        </tabs>
     </div>
 </body>
 <script type="text/javascript" src="scripts/index.js"></script>

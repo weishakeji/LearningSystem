@@ -10,7 +10,7 @@ Vue.component('tabs', {
 
             ],
             //当前选项卡
-            activeName: 'region',
+            activeName: 'upload',
 
             loading: false,
             loading_init: false

@@ -1998,6 +1998,7 @@
     <Content Include="Utilities\TinyMCE\plugins\image-weisha\plugin.min.js" />
     <Content Include="Utilities\TinyMCE\plugins\image-weisha\Scripts\index.js" />
     <Content Include="Utilities\TinyMCE\plugins\image-weisha\Scripts\tabs.js" />
+    <Content Include="Utilities\TinyMCE\plugins\image-weisha\Scripts\upload-img.js" />
     <Content Include="Utilities\TinyMCE\plugins\image-weisha\Styles\index.css" />
     <Content Include="Utilities\TinyMCE\plugins\imagetools\index.js" />
     <Content Include="Utilities\TinyMCE\plugins\imagetools\plugin.js" />

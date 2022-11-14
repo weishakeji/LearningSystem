@@ -24,14 +24,9 @@
     }
   }, ba = {
     setupButtons: function (a) {
-      /*
+      
       a.ui.registry.addButton("quickimage", {
         icon: "image", tooltip: "Insert image", onAction: function () { aa.pickFile(a).then(function (b) { if (0 < b.length) { var c = b[0]; X.blobToBase64(c).then(function (d) { H.insertBlob(a, d, c) }) } }) }
-      });*/
-      a.ui.registry.addButton("quicklink", {
-        icon: "link", tooltip: "Insert/Edit Link", onAction: function () {
-          //H.insertTable(a, 2, 2)
-        }
       });
       a.ui.registry.addButton("quicktable", {
         icon: "table", tooltip: "Insert table", onAction: function () {
