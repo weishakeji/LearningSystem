@@ -67,10 +67,12 @@ tinymce.PluginManager.add('image-weisha', function (editor, url) {
 window.image_weisha_action = function (id, img) {
 	var editor = tinyMCE.editors[id];
 	if (img != null) {
-		if (!img.wd) img.wd = img.width;
-		if (!img.hg) img.hg = img.height;
+		var style = '';
+		if (img.wd != null) style += 'width:' + img.wd + 'px;';
+		if (img.hg != null) style += 'height:' + img.hg + 'px;';
+		if (style != '') style = 'style="' + style + '" ';
 		if (img.alt == null) img.alt = '';
-		var txt = '<img src="' + img.full + '" style="width:' + img.wd + 'px;height:' + img.hg + 'px;" alt="' + img.alt + '"/>';
+		var txt = '<img src="' + img.full + '" ' + style + ' alt="' + img.alt + '"/>';
 		editor.insertContent(txt);
 		editor.windowManager.close();
 	}

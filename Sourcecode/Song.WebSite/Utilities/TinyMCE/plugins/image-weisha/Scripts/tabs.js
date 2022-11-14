@@ -4,13 +4,13 @@ Vue.component('tabs', {
         return {
             //选项卡
             tabs: [
-                { 'label': '私域图片', 'name': 'region', 'show': true, 'icon': 'e672', 'size': 20 },
+                { 'label': '资源图片', 'name': 'region', 'show': true, 'icon': 'e672', 'size': 20 },
                 { 'label': '上传本地图片', 'name': 'upload', 'show': true, 'icon': 'e84c', 'size': 16 },
                 { 'label': '外网图片', 'name': 'outside', 'show': true, 'icon': 'a03b', 'size': 17 }
 
             ],
             //当前选项卡
-            activeName: 'upload',
+            activeName: 'outside',
 
             loading: false,
             loading_init: false

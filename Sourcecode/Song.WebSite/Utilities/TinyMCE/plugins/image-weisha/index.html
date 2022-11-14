@@ -17,63 +17,93 @@
 <body>
     <div id="vapp" :editorid="editorid">
         <tabs>
-            <div slot="region"
-                :style="'overflow:'+(JSON.stringify(img_sel) != '{}' && img_sel != null ? 'hidden' : 'auto')">
-                <template v-if="images.length>0">
-                    <div>
-                        <help>当前所编辑内容的图片资源</help>
-                    </div>
-                    <div class="images">
-                        <div v-for="(img,i) in images" @click="img_sel=$api.clone(img)">
-                            <img :src="img.full" />
-                            <div class="info">
-                                <div>宽: {{img.width}} px</div>
-                                <div>高: {{img.height}} px</div>
-                                <div>大小: {{img.size}}</div>
-                            </div>
+            <template slot="region">
+                <div class="images" v-if="images.length>0">
+                    <div v-for="(img,i) in images" @click="img_sel=$api.clone(img)">
+                        <img :src="img.full" />
+                        <div class="showinfo">
+                            <div>宽: {{img.width}} px</div>
+                            <div>高: {{img.height}} px</div>
+                            <div>大小: {{img.size}}</div>
                         </div>
                     </div>
-                    <div class="img_sel" v-if="JSON.stringify(img_sel) != '{}' && img_sel != null">
-                        <div>
-                            <img :src="img_sel.full">
-                        </div>
-                        <div class="info">
-                            <div>原始宽高：{{img_sel.width}} 像素 × {{img_sel.height}} 像素</div>
-                            <div class="input_size">设置宽高：
-                                <div prev="宽" after="像素"><input type="number" v-model="img_sel.wd" /></div>
-                                <div prev="高" after="像素"><input type="number" v-model="img_sel.hg" /></div>
-                            </div>
-                            <div class="input_alt">替代文字：
-                                <div><textarea rows="2" v-model="img_sel.alt"></textarea></div>
-                            </div>
-                            <div class="btns">
-                                <div class="btn" type="info" @click="img_sel=null">
-                                    取消
-                                </div>
-                                <div class="btn" type="primary" @click="insert()">
-                                    插入
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
+                </div>
                 <alert v-if="!loading && images.length<1">没有供选择的图片</alert>
-            </div>
+                <div class="img_sel" v-if="JSON.stringify(img_sel) != '{}' && img_sel != null">
+                    <div>
+                        <img :src="img_sel.full">
+                    </div>
+                    <div class="info">
+                        <div>原始宽高：{{img_sel.width}} 像素 × {{img_sel.height}} 像素</div>
+                        <div class="input_size">设置宽高：
+                            <div prev="宽" after="像素"><input type="number" v-model="img_sel.wd" /></div>
+                            <div prev="高" after="像素"><input type="number" v-model="img_sel.hg" /></div>
+                        </div>
+                        <div class="input_alt">替代文字：
+                            <div><textarea rows="2" v-model="img_sel.alt"></textarea></div>
+                        </div>
+                        <div class="btns">
+                            <button type="button" define="info" @click="img_sel=null">
+                                取消
+                            </button>
+                            <button type="button" define="primary" @click="insert()">
+                                插入
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
             <template slot="upload">
-                <upload-img @change="file=>upfile=file" :data="upimage" size="1024" height="100" ext="jpg,jpeg,png,gif">
+                <upload-img @change="file=>upfile=file" size="1024" ext="jpg,jpeg,png,gif">
                     <template v-if="upfile!=null">
                         <img v-if="upfile!=null && JSON.stringify(upfile) != '{}'" :src="upfile.base64" />
-                        <span type="danger" class="photo-txt" @click.stop="{upfile=null;}">清除图片</span>
                     </template>
-                    <div class="nophoto" v-else>
-
-                        <span class="photo-txt">上传</span>
-
+                    <div class="nophoto" v-else icon="&#xe628">
+                        点击此处上传
                     </div>
                 </upload-img>
+                <div class="upload_img_right" v-if="upfile != null">
+                    <div class="info">
+                        <div class="input_size">设置宽高：
+                            <div prev="宽" after="像素"><input type="number" v-model="upfile.wd" /></div>
+                            <div prev="高" after="像素"><input type="number" v-model="upfile.hg" /></div>
+                        </div>
+                        <div class="input_alt">替代文字：
+                            <div><textarea rows="2" v-model="upfile.alt"></textarea></div>
+                        </div>
+                    </div>
+                    <div class="btns">
+                        <button type="button" define="info" @click="upfile=null;" :disabled="loading">
+                            取消
+                        </button>
+                        <button type="button" define="primary" @click="upload" :disabled="loading">
+                            上传并插入
+                        </button>
+                    </div>
+                </div>
             </template>
             <template slot="outside">
-                ddd-outside
+                <div class="info">
+                    <div prev="地址：" class="addr">
+                        <input type="text" v-model="outside.full" />
+                    </div>
+                    <div class="input_size">
+                        <span>设置宽高：</span>
+                        <div prev="宽" after="像素"><input type="number" v-model="outside.wd" /></div>
+                        <div prev="高" after="像素"><input type="number" v-model="outside.hg" /></div>
+                    </div>
+                    <div class="input_alt">替代文字：
+                        <div><textarea rows="2" v-model="outside.alt"></textarea></div>
+                    </div>
+                </div>
+                <div class="btns">
+                    <button type="button" define="primary" @click="outside_insert()">
+                        直接插入
+                    </button>
+                    <button type="button" define="primary" :disabled="loading" @click="load_insert()">
+                        转存到服务器后插入
+                    </button>
+                </div>
             </template>
         </tabs>
     </div>
