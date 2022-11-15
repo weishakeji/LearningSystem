@@ -1,5 +1,5 @@
 Vue.component('tabs', {
-    props: ['tabindex'],
+    props: ['tabindex', 'disabled'],
     data: function () {
         return {
             //选项卡
@@ -10,7 +10,7 @@ Vue.component('tabs', {
 
             ],
             //当前选项卡
-            activeName: 'outside',
+            activeName: 'region',
 
             loading: false,
             loading_init: false
@@ -25,11 +25,14 @@ Vue.component('tabs', {
 
     },
     methods: {
-
+        tabClick: function (item) {
+            if (this.disabled) return;
+            this.activeName = item.name;
+        }
     },
     template: `<div id="image-weisha" class="tabs-weisha">
         <div class="tabs">
-            <div v-for="(item,i) in tabs" @click="activeName=item.name" :current="activeName==item.name">
+            <div v-for="(item,i) in tabs" :disabled="disabled" @click="tabClick(item)" :current="activeName==item.name">
                 <icon v-html="'&#x'+item.icon" :style="'font-size:'+item.size+'px'"></icon>{{item.label}}
             </div>
         </div>

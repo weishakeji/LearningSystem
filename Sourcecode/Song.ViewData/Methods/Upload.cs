@@ -224,5 +224,21 @@ namespace Song.ViewData.Methods
                 throw ex;
             }
         }
+        /// <summary>
+        /// 删除文件
+        /// </summary>
+        /// <param name="file">文件所在完整虚拟路径</param>
+        /// <returns></returns>
+        [Admin, Teacher]
+        [HttpDelete, HttpGet(Ignore = true)]
+        public bool Delete(string file)
+        {
+            string phy = this.Context.Server.MapPath(file);
+            if (File.Exists(phy))
+                File.Delete(phy);
+            else
+                throw new Exception("文件不存在");
+            return true;
+        }
     }
 }

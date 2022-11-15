@@ -6,17 +6,19 @@
     <title>图片管理</title>
     <script type="text/javascript" src="/Utilities/Scripts/vue.min.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/axios_min.js"></script>
+    <script type="text/javascript" src="/Utilities/ElementUi/index.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/api.js"></script>
     <script type="text/javascript" src="/Utilities/Scripts/jquery.js"></script>
     <script type="text/javascript" src="scripts/tabs.js"></script>
     <script type="text/javascript" src="scripts/upload-img.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Utilities/ElementUi/index.css">
     <link type="text/css" rel="stylesheet" href="/Utilities/Fonts/icon.css" />
     <link type="text/css" rel="stylesheet" href="styles/index.css" />
 </head>
 
 <body>
     <div id="vapp" :editorid="editorid">
-        <tabs>
+        <tabs :disabled="loading">
             <template slot="region">
                 <div class="images" v-if="images.length>0">
                     <div v-for="(img,i) in images" @click="img_sel=$api.clone(img)">
@@ -25,6 +27,7 @@
                             <div>宽: {{img.width}} px</div>
                             <div>高: {{img.height}} px</div>
                             <div>大小: {{img.size}}</div>
+                            <div class="del"><span @click.stop="del(img)"><icon>&#xe6fe</icon>删除</span></div>
                         </div>
                     </div>
                 </div>
@@ -85,7 +88,7 @@
             <template slot="outside">
                 <div class="info">
                     <div prev="地址：" class="addr">
-                        <input type="text" v-model="outside.full" />
+                        <input type="text" v-model="outside.full" id="outside_full" />
                     </div>
                     <div class="input_size">
                         <span>设置宽高：</span>
@@ -106,7 +109,7 @@
                 </div>
             </template>
         </tabs>
-    </div>
+    </div>   
 </body>
 <script type="text/javascript" src="scripts/index.js"></script>
 

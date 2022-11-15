@@ -71,7 +71,11 @@ html, body {
     background-color: #ddd;
     cursor: pointer;
 }
-
+.tabs>div[disabled]{
+    color: #aaa;
+    cursor: not-allowed;
+    background-color: #eee;
+}
 .tabs>div:last-child {
     border-right: solid 1px #b9b9b9;
 }
@@ -139,13 +143,6 @@ button:disabled:hover{
 div.region {
     position: relative;
 }
-
-div.region>div {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
 .images {
     display: flex;
     width: 100%;
@@ -195,7 +192,13 @@ div.region>div {
     top: 0px;
     background-color: rgba(255, 255, 255, 0.6);
 }
-
+.showinfo .del{
+    text-align: right;
+}
+.showinfo .del span{
+    color: red;
+    cursor: pointer;
+}
 div.region .img_sel {
     width: 100%;
     height: 100%;

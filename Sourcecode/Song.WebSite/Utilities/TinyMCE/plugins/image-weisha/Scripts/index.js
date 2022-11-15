@@ -58,6 +58,35 @@ window.vapp = new Vue({
         insert: function () {
             window.parent.image_weisha_action(this.editorid, this.img_sel);
         },
+        del: function (img) {
+            this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                var th = this;
+                th.loading = true;
+                $api.delete('Upload/Delete', { 'file': img.full }).then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$message({
+                            type: 'success',
+                            message: '删除成功!'
+                        });
+                        th.getimages();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading = false;
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            }).catch(() => { });
+            return false;
+        },
         upload: function () {
             var th = this;
             th.loading = true;
@@ -83,11 +112,13 @@ window.vapp = new Vue({
             });
         },
         outside_insert: function () {
+            if (!this.outside_verify()) return;
             window.parent.image_weisha_action(this.editorid, this.outside);
         },
         //加载外网图片后插入到编辑器
         load_insert: function () {
             var th = this;
+            if (!this.outside_verify()) return;
             th.loading = true;
             $api.post('Upload/ImageLoad', {
                 'url': th.outside.full, 'pathkey': th.uploadkey, 'dataid': th.dataid,
@@ -109,6 +140,17 @@ window.vapp = new Vue({
                 Vue.prototype.$alert(err);
                 console.error(err);
             });
+        },
+        //验证是否为外部网址
+        outside_verify: function (url) {
+            var check = $api.url.check(this.outside.full);
+            if (!check) {
+                this.$alert('输入的网址不是合法的网络地址', {
+                    confirmButtonText: '确定'
+                });
+                document.getElementById('outside_full').focus();
+            }
+            return check;
         }
     }
 });
