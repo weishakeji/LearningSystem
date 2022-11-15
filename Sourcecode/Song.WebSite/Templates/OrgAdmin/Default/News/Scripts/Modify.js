@@ -7,6 +7,7 @@ $ready(function () {
             organ: {},
             //当前数据实体
             entity: {
+                Art_ID: 0,
                 Art_IsUse: true,
                 Art_IsShow: true,
                 Art_Details: '',
@@ -75,13 +76,26 @@ $ready(function () {
             //获取文章信息
             getAtricle: function () {
                 var th = this;
-                if (th.id == '') return;
+                if (th.id == '') {
+                    $api.get('Snowflake/Generate').then(function (req) {
+                        if (req.data.success) {
+                            th.entity.Art_ID =req.data.result;                       
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {    
+                        Vue.prototype.$alert(err);
+                        console.error(err);
+                    });
+                    return;
+                }
                 th.loading = true;
                 $api.get('News/Article', { 'id': th.id }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.entity = result;
+                        th.entity = result;
                         //将当前新闻文章的分类，在控件中显示
                         var arr = [];
                         arr.push(th.entity.Col_UID);

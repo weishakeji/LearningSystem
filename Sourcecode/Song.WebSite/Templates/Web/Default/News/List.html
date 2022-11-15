@@ -21,7 +21,7 @@
                         <el-breadcrumb-item v-else>(当前栏目不存在)</el-breadcrumb-item>
                     </el-breadcrumb>
                     <div class="articles">
-                        <a :href="'article.'+art.Art_Id" v-for="(art,i) in articles">
+                        <a :href="'article.'+art.Art_ID" v-for="(art,i) in articles">
                             <icon>&#xe649</icon>{{art.Art_Title}}
 
                             <date>{{art.Art_PushTime|date("yyyy-MM-dd")}} </date>

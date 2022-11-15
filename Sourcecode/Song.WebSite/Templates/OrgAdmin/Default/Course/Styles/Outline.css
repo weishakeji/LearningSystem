@@ -99,8 +99,21 @@ div[role=treeitem] {
     width: 100%;
     height: 100%;
     margin-top: 0vh !important;
+    z-index: 3 !important;
 }
-
+.modify_show>div {
+	overflow: hidden !important;
+}
+.modify_show .el-dialog{
+    width: 100%;
+    height: 100%;
+    margin-top: 0vh !important;
+}
+.modify_show .el-dialog__body {
+	height: calc(100% - 54px - 42px - 30px);
+	padding: 10px 0px 10px 10px;
+	overflow-y: hidden;
+}
 .modify_show .el-checkbox {
     margin-right: 5px;
 }

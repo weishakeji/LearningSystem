@@ -18,6 +18,8 @@ namespace Song.ServiceImpls
         private string _artUppath = "News";
         public int ArticleAdd(Article entity)
         {
+            if (entity.Art_ID <= 0)
+                entity.Art_ID = WeiSha.Core.Request.SnowID();
             //创建时间
             entity.Art_CrtTime = DateTime.Now;
             if (entity.Art_PushTime < DateTime.Now.AddYears(-100))
@@ -147,11 +149,11 @@ namespace Song.ServiceImpls
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        public bool ArticleUpdate(int artid, Field[] fiels, object[] objs)
+        public bool ArticleUpdate(long artid, Field[] fiels, object[] objs)
         {
             try
             {
-                Gateway.Default.Update<Article>(fiels, objs, Article._.Art_Id == artid);
+                Gateway.Default.Update<Article>(fiels, objs, Article._.Art_ID == artid);
                 return true;
             }
             catch (Exception ex)
@@ -160,9 +162,9 @@ namespace Song.ServiceImpls
             }
         }
 
-        public int ArticleAddNumber(int id, int addNum)
+        public int ArticleAddNumber(long id, int addNum)
         {
-            object obj = Gateway.Default.Max<Article>(Article._.Art_Number, Article._.Art_Id == id);
+            object obj = Gateway.Default.Max<Article>(Article._.Art_Number, Article._.Art_ID == id);
             int i = 0;
             try
             {
@@ -174,7 +176,7 @@ namespace Song.ServiceImpls
 
             //增加记数
             i += addNum;
-            Gateway.Default.Update<Article>(new Field[] { Article._.Art_Number }, new object[] { i }, Article._.Art_Id == id);
+            Gateway.Default.Update<Article>(new Field[] { Article._.Art_Number }, new object[] { i }, Article._.Art_ID == id);
             return i;
         }
 
@@ -192,13 +194,14 @@ namespace Song.ServiceImpls
             {
                 //删除附件
                 Business.Do<IAccessory>().Delete(entity.Art_Uid, string.Empty);
-                tran.Delete<Article>(Article._.Art_Id == entity.Art_Id);
+                tran.Delete<Article>(Article._.Art_ID == entity.Art_ID);
                 //删除图片文件
                 string img = WeiSha.Core.Upload.Get[_artUppath].Physics + entity.Art_Logo;
                 if (System.IO.File.Exists(img))
                     System.IO.File.Delete(img);
                 //删除文章
-                tran.Delete<Article>(Article._.Art_Id == entity.Art_Id);
+                tran.Delete<Article>(Article._.Art_ID == entity.Art_ID);
+                WeiSha.Core.Upload.Get[_artUppath].DeleteDirectory(entity.Art_ID.ToString());
                 tran.Commit();
             }
             catch (Exception ex)
@@ -212,7 +215,7 @@ namespace Song.ServiceImpls
                 tran.Close();
             }
         }
-        public void ArticleDelete(int identify)
+        public void ArticleDelete(long identify)
         {
             Article na = this.ArticleSingle(identify);
             this.ArticleDelete(na);
@@ -230,31 +233,31 @@ namespace Song.ServiceImpls
             }
         }
 
-        public void ArticleIsDelete(int identify)
+        public void ArticleIsDelete(long identify)
         {
-            Gateway.Default.Update<Article>(new Field[] { Article._.Art_IsDel }, new object[] { true }, Article._.Art_Id == identify);
+            Gateway.Default.Update<Article>(new Field[] { Article._.Art_IsDel }, new object[] { true }, Article._.Art_ID == identify);
         }
 
-        public void ArticleRecover(int identify)
+        public void ArticleRecover(long identify)
         {
-            Gateway.Default.Update<Article>(new Field[] { Article._.Art_IsDel }, new object[] { false }, Article._.Art_Id == identify);
+            Gateway.Default.Update<Article>(new Field[] { Article._.Art_IsDel }, new object[] { false }, Article._.Art_ID == identify);
         }
 
-        public void ArticlePassVerify(int identify, string verMan)
+        public void ArticlePassVerify(long identify, string verMan)
         {
-            Gateway.Default.Update<Article>(new Field[] { Article._.Art_IsVerify, Article._.Art_VerifyTime, Article._.Art_VerifyMan }, new object[] { true, DateTime.Now, verMan }, Article._.Art_Id == identify);
+            Gateway.Default.Update<Article>(new Field[] { Article._.Art_IsVerify, Article._.Art_VerifyTime, Article._.Art_VerifyMan }, new object[] { true, DateTime.Now, verMan }, Article._.Art_ID == identify);
         }
 
-        public Article ArticleSingle(int identify)
+        public Article ArticleSingle(long identify)
         {
-            return Gateway.Default.From<Article>().Where(Article._.Art_Id == identify).ToFirst<Article>();
+            return Gateway.Default.From<Article>().Where(Article._.Art_ID == identify).ToFirst<Article>();
         }
         /// <summary>
         /// 当前新闻的上一条新闻
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public Article ArticlePrev(int identify, int orgid)
+        public Article ArticlePrev(long identify, int orgid)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Article._.Org_ID == orgid;
@@ -269,7 +272,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        public Article ArticleNext(int identify, int orgid)
+        public Article ArticleNext(long identify, int orgid)
         {
             WhereClip wc = new WhereClip();
             if (orgid > 0) wc &= Article._.Org_ID == orgid;
@@ -279,7 +282,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.From<Article>().OrderBy(Article._.Art_PushTime.Desc)
                 .Where(wc && Article._.Art_PushTime < art.Art_PushTime).ToFirst<Article>();
         }
-        public Special[] Article4Special(int identify)
+        public Special[] Article4Special(long identify)
         {
             return Gateway.Default.From<Special>().InnerJoin<Special_Article>(Special_Article._.Sp_Id == Special._.Sp_Id)
                 .Where(Special_Article._.Art_Id == identify).ToArray<Special>();
@@ -377,7 +380,7 @@ namespace Song.ServiceImpls
             if (order == "rec") wcOrder = Article._.Art_IsRec.Desc;
             if (order == "flux") wcOrder = Article._.Art_Number.Desc;
             countSum = Gateway.Default.Count<Article>(wc);
-            return Gateway.Default.From<Article>().Where(wc).OrderBy(wcOrder && Article._.Art_Id.Desc).ToArray<Article>(size, (index - 1) * size);
+            return Gateway.Default.From<Article>().Where(wc).OrderBy(wcOrder && Article._.Art_ID.Desc).ToArray<Article>(size, (index - 1) * size);
         }
 
     }

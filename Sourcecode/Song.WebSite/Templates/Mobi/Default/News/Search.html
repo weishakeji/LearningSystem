@@ -23,7 +23,7 @@
                         检索：“{{search}}”
                     </card-title>
                     <card-context>
-                        <row v-for="(art,i) in articles" @click="window.location.href='article.'+art.Art_Id">
+                        <row v-for="(art,i) in articles" @click="window.location.href='article.'+art.Art_ID">
                             <a href="#">{{art.Art_Title}}
 
                                 <van-tag color="#eee" text-color="#666">{{art.Art_PushTime|date("yyyy-MM-dd")}}

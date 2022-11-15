@@ -93,7 +93,7 @@ namespace Song.ServiceImpls
             {
                 wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
             }
-            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc).ToArray<Article>();
+            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).ToArray<Article>();
  
         }
 
@@ -107,21 +107,21 @@ namespace Song.ServiceImpls
             if (num <= 1) num = int.MaxValue;
             if (type == null || type == "")
             {
-                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc).OrderBy(Article._.Art_IsTop.Desc).OrderBy(Article._.Art_IsHot.Desc).OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(num);
+                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).OrderBy(Article._.Art_IsTop.Desc).OrderBy(Article._.Art_IsHot.Desc).OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(num);
             }
             if (type == "hot")
             {
-                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc).OrderBy(Article._.Art_IsHot.Desc).OrderBy(Article._.Art_IsTop.Desc).OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(num);
+                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).OrderBy(Article._.Art_IsHot.Desc).OrderBy(Article._.Art_IsTop.Desc).OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(num);
             }
             if (type == "maxflux")
             {
-                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc).OrderBy(Article._.Art_Number.Desc).ToArray<Article>(num);
+                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).OrderBy(Article._.Art_Number.Desc).ToArray<Article>(num);
             }
             if (type == "new")
             {
-                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc).OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(num);
+                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(num);
             }
-            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc).OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(num);
+            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(num);
  
         }
 
@@ -252,7 +252,7 @@ namespace Song.ServiceImpls
                 wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
             }
             countSum = this.Special4Article(spId, searTxt).Length;
-            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc).ToArray<Article>(size, (index - 1) * size);
+            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).ToArray<Article>(size, (index - 1) * size);
         }
 
         public Article[] SpecialArticlePager(int spId, string searTxt, int size, int index, out int countSum, bool? isShow, bool? isUse)
@@ -262,7 +262,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Article._.Art_IsUse == isUse);
             if (searTxt != null && searTxt.Trim() != "")wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
             countSum = this.Special4Article(spId, searTxt).Length;
-            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc).ToArray<Article>(size, (index - 1) * size);
+            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).ToArray<Article>(size, (index - 1) * size);
         }
 
         public Article[] SpecialArticlePager(int spId, string searTxt, int size, int index, out int countSum, bool? isDel, bool? isShow, bool? isUse)
@@ -273,7 +273,7 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Article._.Art_IsUse == (bool)isUse);
             if (!string.IsNullOrEmpty(searTxt) && searTxt.Trim() != "") wc.And(Article._.Art_Title.Like("%" + searTxt + "%"));
             countSum = this.Special4Article(spId, searTxt).Length;
-            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id)
+            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID)
                 .Where(wc).ToArray<Article>(size, (index - 1) * size);
         }
 
@@ -286,10 +286,10 @@ namespace Song.ServiceImpls
             }
             if (count > 0)
             {
-                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc).ToArray<Article>(count);
+                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).ToArray<Article>(count);
             }
             //否则取所有记录
-            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc).ToArray<Article>();
+            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc).ToArray<Article>();
         }
 
         public Article[] SpecialArticle(int spId, string searTxt, bool? isDel, bool? isShow, bool? isUse, int count, string type)
@@ -303,21 +303,21 @@ namespace Song.ServiceImpls
             if (isUse != null) wc.And(Article._.Art_IsUse == (bool)isUse);
             if (type == "hot")
             {
-                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc)
+                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc)
                     .OrderBy(Article._.Art_IsHot.Desc).OrderBy(Article._.Art_IsTop.Desc).OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(count);
             }
             if (type == "maxflux")
             {
-                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc)
+                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc)
                     .OrderBy(Article._.Art_Number.Desc).ToArray<Article>(count);
             }
             if (type == "new")
             {
-                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc)
+                return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc)
                     .OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(count);
             }
             //否则取所有记录
-            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_Id).Where(wc)
+            return Gateway.Default.From<Article>().InnerJoin<Special_Article>(Special_Article._.Art_Id == Article._.Art_ID).Where(wc)
                 .OrderBy(Article._.Art_CrtTime.Desc).ToArray<Article>(count);
         }
 

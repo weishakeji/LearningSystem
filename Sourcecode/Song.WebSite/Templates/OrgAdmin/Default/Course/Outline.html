@@ -90,7 +90,7 @@
         <!--新增或编辑-->
         <div v-show="modify_show">
             <el-dialog :title="modify_obj.Ol_ID ? '编辑章节' : '新增章节'" :visible="true" :show-close="true" :modal="false"
-                :close-on-click-modal="false" custom-class="modify_show" :before-close="()=>modify_show=false">
+                :close-on-click-modal="false" class="modify_show" :before-close="()=>modify_show=false">
                 <el-form :model="modify_obj" ref="modify_obj" label-width="80px"
                     :rules="{'Ol_Name':[ { required: true, message: '不得为空', trigger: 'blur' }]}">
                     <el-form-item label="章节名称" prop="Ol_Name">
@@ -127,7 +127,7 @@
                     </template>
                     <el-form-item label="" label-width="0px" prop="Ol_Intro">
                         <editor :content="modify_obj.Ol_Intro" :menubar="false" model="general" ref="intro_editor"
-                            style="height: 500px;" @change="text=>modify_obj.Ol_Intro=text"></editor>
+                        upload="Outline" :dataid="modify_obj.Ol_ID"  style="height: 500px;" @change="text=>modify_obj.Ol_Intro=text"></editor>
                     </el-form-item>
 
                 </el-form>

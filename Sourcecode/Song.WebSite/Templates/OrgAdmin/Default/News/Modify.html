@@ -62,6 +62,7 @@
                 </template>
                 <template v-if="activeName=='tab2'">
                     <editor :content="entity.Art_Details" model="general" :menubar="false" ref="editor"
+                    upload="News" :dataid="entity.Art_ID" 
                         placeholder="请输入内容" @change="text=>entity.Art_Details=text"> </editor>
                 </template>
                 <template v-if="activeName=='tab3'">

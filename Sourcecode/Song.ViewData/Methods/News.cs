@@ -260,7 +260,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [Cache(Expires = 60 * 24, AdminDisable = true)]
         [HttpGet]
-        public Song.Entities.Article Article(int id)
+        public Song.Entities.Article Article(long id)
         {
             Song.Entities.Article art = Business.Do<IContents>().ArticleSingle(id);
             if (art == null) return null;
@@ -273,7 +273,7 @@ namespace Song.ViewData.Methods
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public int VisitPlusOne(int id)
+        public int VisitPlusOne(long id)
         {
             return Business.Do<IContents>().ArticleAddNumber(id, 1);
         }
@@ -354,7 +354,7 @@ namespace Song.ViewData.Methods
                 string filename = string.Empty, smallfile = string.Empty;
                 try
                 {
-                    Song.Entities.Article old = Business.Do<IContents>().ArticleSingle(entity.Art_Id);
+                    Song.Entities.Article old = Business.Do<IContents>().ArticleSingle(entity.Art_ID);
                     if (old == null) throw new Exception("Not found entity for Article！");
                     //如果有上传文件
                     if (this.Files.Count > 0)
@@ -404,7 +404,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Admin]
-        public bool ArticleModifyState(int id, bool use, bool verify)
+        public bool ArticleModifyState(long id, bool use, bool verify)
         {
             try
             {
@@ -434,8 +434,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {

@@ -3,12 +3,10 @@ namespace Song.Entities {
     	
     	
     	/// <summary>
-    	/// 表名：Article 主键列：Art_Id
+    	/// 表名：Article 主键列：Art_ID
     	/// </summary>
     	[SerializableAttribute()]
     	public partial class Article : WeiSha.Data.Entity {
-    		
-    		protected Int32 _Art_Id;
     		
     		protected String _Col_Name;
     		
@@ -96,18 +94,7 @@ namespace Song.Entities {
     		
     		protected String _Col_UID;
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public Int32 Art_Id {
-    			get {
-    				return this._Art_Id;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Art_Id, _Art_Id, value);
-    				this._Art_Id = value;
-    			}
-    		}
+    		protected Int64 _Art_ID;
     		
     		/// <summary>
     		/// -1
@@ -659,6 +646,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 Art_ID {
+    			get {
+    				return this._Art_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Art_ID, _Art_ID, value);
+    				this._Art_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -667,18 +664,11 @@ namespace Song.Entities {
     		}
     		
     		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Art_Id;
-    		}
-    		
-    		/// <summary>
     		/// 获取实体中的主键列
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetPrimaryKeyFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Art_Id};
+    					_.Art_ID};
     		}
     		
     		/// <summary>
@@ -686,7 +676,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Art_Id,
     					_.Col_Name,
     					_.Art_Title,
     					_.Art_TitleAbbr,
@@ -729,7 +718,8 @@ namespace Song.Entities {
     					_.OtherData,
     					_.Org_ID,
     					_.Org_Name,
-    					_.Col_UID};
+    					_.Col_UID,
+    					_.Art_ID};
     		}
     		
     		/// <summary>
@@ -737,7 +727,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._Art_Id,
     					this._Col_Name,
     					this._Art_Title,
     					this._Art_TitleAbbr,
@@ -780,16 +769,14 @@ namespace Song.Entities {
     					this._OtherData,
     					this._Org_ID,
     					this._Org_Name,
-    					this._Col_UID};
+    					this._Col_UID,
+    					this._Art_ID};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.Art_Id))) {
-    				this._Art_Id = reader.GetInt32(_.Art_Id);
-    			}
     			if ((false == reader.IsDBNull(_.Col_Name))) {
     				this._Col_Name = reader.GetString(_.Col_Name);
     			}
@@ -919,6 +906,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Col_UID))) {
     				this._Col_UID = reader.GetString(_.Col_UID);
     			}
+    			if ((false == reader.IsDBNull(_.Art_ID))) {
+    				this._Art_ID = reader.GetInt64(_.Art_ID);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -944,11 +934,6 @@ namespace Song.Entities {
     			/// 表示选择所有列，与*等同
     			/// </summary>
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<Article>();
-    			
-    			/// <summary>
-    			/// -1 - 字段名：Art_Id - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Art_Id = new WeiSha.Data.Field<Article>("Art_Id");
     			
     			/// <summary>
     			/// -1 - 字段名：Col_Name - 数据类型：String
@@ -1164,7 +1149,11 @@ namespace Song.Entities {
     			/// 字段名：Col_UID - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Col_UID = new WeiSha.Data.Field<Article>("Col_UID");
+    			
+    			/// <summary>
+    			/// 字段名：Art_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Art_ID = new WeiSha.Data.Field<Article>("Art_ID");
     		}
     	}
     }
-    

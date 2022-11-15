@@ -209,8 +209,24 @@
                     Ol_IsUse: true,
                     Ol_IsFinish: true
                 };
-                this.modify_show = true;
-                this.$refs['intro_editor'].setContent('');
+                var th = this;
+                $api.get('Snowflake/Generate').then(function (req) {
+                    if (req.data.success) {
+                        th.guide_form = {};
+                        th.modify_obj.Ol_ID = req.data.result;
+                        th.modify_show = true;
+                        th.$refs['intro_editor'].setContent('');
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+                //this.modify_show = true;
+                
             },
             //编辑章节的按钮事件
             modifyBtn: function (data) {

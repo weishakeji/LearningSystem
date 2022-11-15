@@ -44,7 +44,7 @@
                 </div>
                 <news :org="org" :count="10">
                     <template slot-scope="d">
-                        <a :href="'/web/news/article.'+d.item.Art_Id" target="_blank">
+                        <a :href="'/web/news/article.'+d.item.Art_ID" target="_blank">
                             <span>{{d.index+1}} . </span> 
                             {{d.item.Art_Title}}</a>
                     </template>

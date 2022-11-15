@@ -19,7 +19,7 @@ $ready(function () {
                     document.title = th.article.Art_Title;
                     $api.bat(
                         $api.cache('News/ColumnsForUID', { 'uid': th.article.Col_UID }),
-                        $api.cache('News/VisitPlusOne', { 'id': th.article.Art_Id }),
+                        $api.cache('News/VisitPlusOne', { 'id': th.article.Art_ID }),
                         $api.cache("News/Accessory", { 'uid': th.article.Art_Uid })
                     ).then(axios.spread(function (column, visit, accessory) {
                         //判断结果是否正常

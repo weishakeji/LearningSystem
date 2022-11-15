@@ -28,7 +28,7 @@ Vue.component('articles', {
     methods: {},
     template: `<card-context> 
         <div v-if="loading"><van-loading size="24px">加载中...</van-loading></div>      
-        <a :href="'/web/news/article.'+art.Art_Id"  v-for="(art,i) in datas">
+        <a :href="'/web/news/article.'+art.Art_ID"  v-for="(art,i) in datas">
             <icon>&#xe649</icon>{{art.Art_Title}}        
             <span v-if="false">{{art.Art_PushTime|date("yyyy-MM-dd")}}</span>
         </a>

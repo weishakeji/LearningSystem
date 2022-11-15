@@ -145,9 +145,9 @@ $ready(function () {
             //更改使用状态
             changeState: function (row) {
                 var th = this;
-                th.loadingid = row.Art_Id;
+                th.loadingid = row.Art_ID;
                 $api.post('News/ArticleModifyState',
-                    { 'id': row.Art_Id, 'use': row.Art_IsUse, 'verify': row.Art_IsVerify })
+                    { 'id': row.Art_ID, 'use': row.Art_IsUse, 'verify': row.Art_IsVerify })
                     .then(function (req) {
                         th.loadingid = -1;
                         if (req.data.success) {

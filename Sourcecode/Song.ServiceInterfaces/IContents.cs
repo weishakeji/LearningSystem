@@ -30,14 +30,14 @@ namespace Song.ServiceInterfaces
         /// <param name="fiels"></param>
         /// <param name="objs"></param>
         /// <returns></returns>
-        bool ArticleUpdate(int artid, Field[] fiels, object[] objs);
+        bool ArticleUpdate(long artid, Field[] fiels, object[] objs);
         /// <summary>
         /// 使当前文章浏览计数加一，仅传入id，返回浏览数，效率更高
         /// </summary>
         /// <param name="id">新闻文章的id</param>
         /// <param name="addNum">每次浏览增加几个数</param>
         /// <returns></returns>
-        int ArticleAddNumber(int id, int addNum);
+        int ArticleAddNumber(long artid, int addNum);
         /// <summary>
         /// 删除
         /// </summary>
@@ -53,7 +53,7 @@ namespace Song.ServiceInterfaces
         /// 彻底删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        void ArticleDelete(int identify);
+        void ArticleDelete(long identify);
         /// <summary>
         /// 删除所有新闻文章
         /// </summary>
@@ -64,42 +64,42 @@ namespace Song.ServiceInterfaces
         /// 标准文章是否处于删除状态，即进入回收站
         /// </summary>
         /// <param name="identify"></param>
-        void ArticleIsDelete(int identify);
+        void ArticleIsDelete(long identify);
         /// <summary>
         /// 文章还原，从回收站回到文章列表
         /// </summary>
         /// <param name="identify"></param>
-        void ArticleRecover(int identify);
+        void ArticleRecover(long identify);
         /// <summary>
         /// 通过审核
         /// </summary>
         /// <param name="identify">文章id</param>
         /// <param name="verMan">审核人</param>
-        void ArticlePassVerify(int identify, string verMan);
+        void ArticlePassVerify(long identify, string verMan);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        Article ArticleSingle(int identify);
+        Article ArticleSingle(long identify);
         /// <summary>
         /// 当前新闻的上一条新闻
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        Article ArticlePrev(int identify, int orgid);
+        Article ArticlePrev(long identify, int orgid);
         /// <summary>
         /// 当前新闻的下一条新闻
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        Article ArticleNext(int identify, int orgid);
+        Article ArticleNext(long identify, int orgid);
         /// <summary>
         /// 当前新闻所在的专题
         /// </summary>
         /// <param name="identify"></param>
         /// <returns></returns>
-        Special[] Article4Special(int identify);
+        Special[] Article4Special(long identify);
         /// <summary>
         /// 按新闻栏目获取新闻文章
         /// </summary>
