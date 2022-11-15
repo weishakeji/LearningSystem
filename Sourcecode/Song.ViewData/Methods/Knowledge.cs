@@ -59,11 +59,11 @@ namespace Song.ViewData.Methods
 
                 if (item == null)
                 {
-                    if (m.Kns_PID != "0") continue;
+                    if (m.Kns_PID != 0) continue;
                 }
                 else
                 {
-                    if (m.Kns_PID != item.Kns_UID) continue;
+                    if (m.Kns_PID != item.Kns_ID) continue;
                 }
 
                 string j = m.ToJson("", "Kns_CrtTime");
@@ -84,19 +84,9 @@ namespace Song.ViewData.Methods
         /// <param name="id">分类id</param>
         /// <returns></returns>
         [HttpGet]
-        public Song.Entities.KnowledgeSort SortForID(int id)
+        public Song.Entities.KnowledgeSort SortForID(long id)
         {
             return Business.Do<IKnowledge>().SortSingle(id);
-        }
-        /// <summary>
-        /// 获取知识库分类的对象
-        /// </summary>
-        /// <param name="uid">分类id</param>
-        /// <returns></returns>
-        [HttpGet]
-        public Song.Entities.KnowledgeSort SortForUID(string uid)
-        {
-            return Business.Do<IKnowledge>().SortSingle(uid);
         }
         /// <summary>
         /// 删除分类
@@ -105,7 +95,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpDelete]
         [Teacher, Admin]
-        public bool SortDelete(int id)
+        public bool SortDelete(long id)
         {
             try
             {
@@ -164,18 +154,18 @@ namespace Song.ViewData.Methods
         /// 分页获取知识内容
         /// </summary>
         /// <param name="couid">课程id</param>
-        /// <param name="uid">知识库分类id</param>
+        /// <param name="kns">知识库分类id</param>
         /// <param name="isuse">是否启用</param>
         /// <param name="search">用于检索的字符串</param>
         /// <param name="size">每页多少条</param>
         /// <param name="index">第几页</param>
         /// <returns></returns>
         [HttpGet]
-        public ListResult Pager(long couid, string uid, bool? isuse, string search, int size, int index)
+        public ListResult Pager(long couid, long kns, bool? isuse, string search, int size, int index)
         {
             int count = 0;
             Song.Entities.Knowledge[] kls = null;
-            kls = Business.Do<IKnowledge>().KnowledgePager(couid, uid, search, isuse, size, index, out count);
+            kls = Business.Do<IKnowledge>().KnowledgePager(couid, kns, search, isuse, size, index, out count);
             ListResult result = new ListResult(kls);
             result.Index = index;
             result.Size = size;
@@ -188,7 +178,7 @@ namespace Song.ViewData.Methods
         /// <param name="id">知识id</param>
         /// <returns></returns>
         [HttpGet]
-        public Song.Entities.Knowledge ForID(int id)
+        public Song.Entities.Knowledge ForID(long id)
         {
             return Business.Do<IKnowledge>().KnowledgeSingle(id);
         }
@@ -216,8 +206,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {

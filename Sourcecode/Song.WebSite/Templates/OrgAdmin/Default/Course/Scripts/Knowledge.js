@@ -23,7 +23,7 @@
             //知识内容
             selects: [],
             knls: [],
-            form: { 'couid': '', 'uid': '', 'isuse': '', 'search': '', 'size': 10, 'index': 1 },
+            form: { 'couid': '', 'kns': 0, 'isuse': '', 'search': '', 'size': 10, 'index': 1 },
             total: 1, //总记录数
             totalpages: 1, //总页数
             knlVisible: false,       //知识的编辑框是否显示
@@ -136,7 +136,7 @@
                         }
                         list.push(obj);
                         if (d.children && d.children.length > 0) {
-                            list = toarray(d.children, d.Kns_UID, ++level, list);
+                            list = toarray(d.children, d.Kns_ID, ++level, list);
                         }
                     }
                     return list;
@@ -160,9 +160,9 @@
                         var obj = th.sort_form;
                         obj['Cou_ID'] = th.id;
                         if (th.sortsObject == null) {
-                            obj['Kns_PID'] = '0';
+                            obj['Kns_PID'] = 0;
                             obj['Kns_IsUse'] = true;
-                            obj['Kns_UID'] = new Date().getTime();
+                            //obj['Kns_ID'] = new Date().getTime();
                         }
                         $api.post(apipath, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
@@ -258,12 +258,12 @@
             //分类节点击事件
             nodeclick: function (data) {
                 this.sort_current = data;
-                this.form.uid = data.Kns_UID;
+                this.form.kns = data.Kns_ID;
                 this.handleCurrentChange(1);
             },
             nodeclose: function () {
                 this.sort_current = null;
-                this.form.uid = '';
+                this.form.kns = 0;
                 this.handleCurrentChange(1);
             },
             /*
@@ -275,8 +275,8 @@
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 41);
-                if ($api.getType(th.form.uid) == "Array" && th.form.uid.length > 0) {
-                    th.form.uid = th.form.uid[th.form.uid.length - 1];
+                if ($api.getType(th.form.kns) == "Array" && th.form.kns.length > 0) {
+                    th.form.kns = th.form.kns[th.form.kns.length - 1];
                 }
                 $api.get("Knowledge/Pager", th.form).then(function (d) {
                     if (d.data.success) {
@@ -296,10 +296,28 @@
             //show：是否显示编辑面板
             //obj:要编辑的对象，如果是新增则为null
             knlShow: function (show, obj) {
-                this.knlVisible = show;
                 this.knlObject = obj;
                 this.knl_title = obj == null ? '新增知识点' : '编辑知识点';
                 this.knl_form = obj != null ? $api.clone(obj) : {};
+                var th = this;
+                if (obj == null) {                  
+                    $api.get('Snowflake/Generate').then(function (req) {
+                        if (req.data.success){
+                            th.knl_form={};
+                            th.knl_form.Kn_ID = req.data.result;
+                            th.knlVisible = show;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        Vue.prototype.$alert(err);
+                        console.error(err);
+                    });
+                }else{
+                    th.knl_form = $api.clone(obj) ;
+                    th.knlVisible = show;
+                }
 
                 this.$refs['details_editor'].setContent(this.knl_form.Kn_Details);
             },
@@ -312,9 +330,9 @@
                         if (th.knlObject == null) {
                             obj['Kn_IsUse'] = true;
                         }
-                        if (obj.Kns_UID && $api.getType(obj.Kns_UID) == "Array") {
-                            if (obj.Kns_UID.length > 0)
-                                obj.Kns_UID = obj.Kns_UID[obj.Kns_UID.length - 1];
+                        if (obj.Kns_ID && $api.getType(obj.Kns_ID) == "Array") {
+                            if (obj.Kns_ID.length > 0)
+                                obj.Kns_ID = obj.Kns_ID[obj.Kns_ID.length - 1];
                         }
                         if (!obj.Kn_Uid || obj.Kn_Uid == '') obj.Kn_Uid = new Date().getTime();
                         var apipath = 'Knowledge/' + (th.knlObject == null ? 'Add' : 'Modify');

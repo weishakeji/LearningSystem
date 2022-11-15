@@ -85,6 +85,7 @@ namespace Song.ServiceImpls
                             System.IO.File.Delete(img);
                     }
                     tran.Delete<Guide>(Guide._.Gu_ID == entity.Gu_ID);
+                    WeiSha.Core.Upload.Get["Guide"].DeleteDirectory(entity.Gu_ID.ToString());
                     tran.Commit();
                 }
                 catch (Exception ex)

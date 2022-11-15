@@ -104,8 +104,7 @@ Vue.component('knl_header', {
         buildLink: function (item) {
             var url = $api.url.set("Knowledges", {
                 'couid': this.couid,
-                'sortid': item.Kns_ID,
-                'sortuid': item.Kns_UID,
+                'sortid': item.Kns_ID,              
                 's': this.search
             });
             return url;

@@ -25,19 +25,19 @@ namespace Song.ViewData.Methods
         /// <param name="pathkey">路径配置项，来自web.config中的upload节点</param>
         /// <param name="dataid">数据id，为了保持资源的存放与数据对应，例如试题编辑时，试题相关联的图片等存放在试题id为命名的文件下，方便删除试题时一起删除相关资源</param>
         /// <returns></returns>
-        public new JArray  Files(string pathkey,long dataid)
+        public new JArray Files(string pathkey, long dataid)
         {
             JArray arr = new JArray();
             if (string.IsNullOrWhiteSpace(pathkey)) return arr;
-            string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual + (dataid > 0 ? dataid.ToString()+"/" : "");
+            string virPath = WeiSha.Core.Upload.Get[pathkey].Virtual + (dataid > 0 ? dataid.ToString() + "/" : "");
             string phyPath = WeiSha.Core.Upload.Get[pathkey].Physics + (dataid > 0 ? dataid.ToString() : "");
             if (!Directory.Exists(phyPath)) return arr;
 
-            DirectoryInfo dir = new DirectoryInfo(phyPath);           
-            foreach(FileInfo f in dir.GetFiles())
+            DirectoryInfo dir = new DirectoryInfo(phyPath);
+            foreach (FileInfo f in dir.GetFiles())
             {
                 JObject jo = new JObject();
-                jo.Add("name",f.Name);
+                jo.Add("name", f.Name);
                 jo.Add("path", virPath);
                 jo.Add("full", virPath + f.Name);
                 jo.Add("ext", string.IsNullOrWhiteSpace(f.Extension) ? "" : f.Extension.Replace(".", ""));

@@ -7,14 +7,14 @@ Vue.component('knowledge', {
             defaultSortsProps: {
                 children: 'children',
                 label: 'Kns_Name',
-                value: 'Kns_UID',
+                value: 'Kns_ID',
                 expandTrigger: 'hover',
                 checkStrictly: true
             },
             couid: 0,
             sorts: [],       //知识分类
             sortuid: [],
-            form: { 'couid': '', 'uid': '', 'isuse': true, 'search': '', 'size': 20, 'index': 1 },
+            form: { 'couid': '', 'kns': '', 'isuse': true, 'search': '', 'size': 20, 'index': 1 },
 
             knl_uid: '',            //当前选中的知识的id
             knowledge: null,       //当前选中的知识
@@ -94,7 +94,7 @@ Vue.component('knowledge', {
         //当知识点分类变更时,获取列表
         getList: function (data) {
             var sortid = data.length < 1 ? '' : data[data.length - 1];
-            this.form.uid = sortid;
+            this.form.kns = sortid;
             //console.log(sortid);
         },
         handleCurrentChange: function (index) {

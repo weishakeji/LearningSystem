@@ -4,7 +4,7 @@ $ready(function () {
         data: {
             couid: $api.querystring('couid'),
             sorts: [],         //课程知识库的分类      
-            form: { 'couid': '', 'uid': '', 'isuse': '', 'search': '', 'size': 10, 'index': 1 },
+            form: { 'couid': '', 'kns': '', 'isuse': '', 'search': '', 'size': 10, 'index': 1 },
             knls: [],           //知识点的集合
             total: 1, //总记录数
             totalpages: 1, //总页数
@@ -73,12 +73,12 @@ $ready(function () {
             //分类节点击事件
             nodeclick: function (data) {
                 this.sort_current = data;
-                this.form.uid = data.Kns_UID;
+                this.form.kns = data.Kns_ID;
                 this.handleCurrentChange(1);
             },
             nodeclose: function () {
                 this.sort_current = null;
-                this.form.uid = '';
+                this.form.kns = 0;
                 this.handleCurrentChange(1);
             },
         }

@@ -49,9 +49,6 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                         <b class="el-icon-loading" v-if="loadingid==data.Kns_ID"></b>
-
-
-
                     </span>
                 </span>
                 </span>
@@ -167,6 +164,7 @@
                         <div class="Kn_Details">
                             <el-form-item label="内容" prop="Kn_Details">
                                 <editor :content="knl_form.Kn_Details" model="general" ref="details_editor"
+                                upload="Knowledge" :dataid="knl_form.Kn_ID" 
                                     @change="text=>knl_form.Kn_Details=text">
                                 </editor>
                             </el-form-item>

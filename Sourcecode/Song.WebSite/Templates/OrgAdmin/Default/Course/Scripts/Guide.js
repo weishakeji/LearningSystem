@@ -288,8 +288,8 @@
             guideShow: function (show, obj) {              
                 this.guideObject = obj;
                 this.guide_title = obj == null ? '新增课程公告' : '编辑课程公告';
-                if (obj == null) {
-                    var th = this;
+                var th = this;
+                if (obj == null) {                  
                     $api.get('Snowflake/Generate').then(function (req) {
                         if (req.data.success){
                             th.guide_form={};
@@ -306,6 +306,7 @@
                     });
                 }else{
                     this.guide_form = $api.clone(obj) ;
+                    th.guideVisible = show;
                 }
                 this.$refs['details_editor'].setContent(this.guide_form.Gu_Details);
             },

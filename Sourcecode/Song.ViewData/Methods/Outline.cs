@@ -306,7 +306,7 @@ namespace Song.ViewData.Methods
             dic.Add("couid", outline.Cou_ID);
             dic.Add("id", outline.Ol_ID);          
             //是否有知识库
-            int knlCount = Business.Do<IKnowledge>().KnowledgeOfCount(-1, outline.Cou_ID, null, true);
+            int knlCount = Business.Do<IKnowledge>().KnowledgeOfCount(-1, outline.Cou_ID, 0, true);
             dic.Add("isKnl", knlCount > 0);
             //是否有视频，是否为外链视频
 

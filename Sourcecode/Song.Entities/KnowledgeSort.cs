@@ -8,13 +8,9 @@ namespace Song.Entities {
     	[SerializableAttribute()]
     	public partial class KnowledgeSort : WeiSha.Data.Entity {
     		
-    		protected Int32 _Kns_ID;
-    		
     		protected String _Kns_Name;
     		
     		protected String _Kns_ByName;
-    		
-    		protected String _Kns_PID;
     		
     		protected Int32 _Kns_Tax;
     		
@@ -32,20 +28,9 @@ namespace Song.Entities {
     		
     		protected Int64 _Cou_ID;
     		
-    		protected String _Kns_UID;
+    		protected Int64 _Kns_ID;
     		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public Int32 Kns_ID {
-    			get {
-    				return this._Kns_ID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Kns_ID, _Kns_ID, value);
-    				this._Kns_ID = value;
-    			}
-    		}
+    		protected Int64 _Kns_PID;
     		
     		/// <summary>
     		/// -1
@@ -70,19 +55,6 @@ namespace Song.Entities {
     			set {
     				this.OnPropertyValueChange(_.Kns_ByName, _Kns_ByName, value);
     				this._Kns_ByName = value;
-    			}
-    		}
-    		
-    		/// <summary>
-    		/// -1
-    		/// </summary>
-    		public String Kns_PID {
-    			get {
-    				return this._Kns_PID;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Kns_PID, _Kns_PID, value);
-    				this._Kns_PID = value;
     			}
     		}
     		
@@ -181,13 +153,23 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public String Kns_UID {
+    		public Int64 Kns_ID {
     			get {
-    				return this._Kns_UID;
+    				return this._Kns_ID;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Kns_UID, _Kns_UID, value);
-    				this._Kns_UID = value;
+    				this.OnPropertyValueChange(_.Kns_ID, _Kns_ID, value);
+    				this._Kns_ID = value;
+    			}
+    		}
+    		
+    		public Int64 Kns_PID {
+    			get {
+    				return this._Kns_PID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Kns_PID, _Kns_PID, value);
+    				this._Kns_PID = value;
     			}
     		}
     		
@@ -196,13 +178,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Table GetTable() {
     			return new WeiSha.Data.Table<KnowledgeSort>("KnowledgeSort");
-    		}
-    		
-    		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Kns_ID;
     		}
     		
     		/// <summary>
@@ -218,10 +193,8 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Kns_ID,
     					_.Kns_Name,
     					_.Kns_ByName,
-    					_.Kns_PID,
     					_.Kns_Tax,
     					_.Kns_IsUse,
     					_.Kns_Type,
@@ -230,7 +203,8 @@ namespace Song.Entities {
     					_.Org_ID,
     					_.Org_Name,
     					_.Cou_ID,
-    					_.Kns_UID};
+    					_.Kns_ID,
+    					_.Kns_PID};
     		}
     		
     		/// <summary>
@@ -238,10 +212,8 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._Kns_ID,
     					this._Kns_Name,
     					this._Kns_ByName,
-    					this._Kns_PID,
     					this._Kns_Tax,
     					this._Kns_IsUse,
     					this._Kns_Type,
@@ -250,24 +222,19 @@ namespace Song.Entities {
     					this._Org_ID,
     					this._Org_Name,
     					this._Cou_ID,
-    					this._Kns_UID};
+    					this._Kns_ID,
+    					this._Kns_PID};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.Kns_ID))) {
-    				this._Kns_ID = reader.GetInt32(_.Kns_ID);
-    			}
     			if ((false == reader.IsDBNull(_.Kns_Name))) {
     				this._Kns_Name = reader.GetString(_.Kns_Name);
     			}
     			if ((false == reader.IsDBNull(_.Kns_ByName))) {
     				this._Kns_ByName = reader.GetString(_.Kns_ByName);
-    			}
-    			if ((false == reader.IsDBNull(_.Kns_PID))) {
-    				this._Kns_PID = reader.GetString(_.Kns_PID);
     			}
     			if ((false == reader.IsDBNull(_.Kns_Tax))) {
     				this._Kns_Tax = reader.GetInt32(_.Kns_Tax);
@@ -293,8 +260,11 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Cou_ID))) {
     				this._Cou_ID = reader.GetInt64(_.Cou_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Kns_UID))) {
-    				this._Kns_UID = reader.GetString(_.Kns_UID);
+    			if ((false == reader.IsDBNull(_.Kns_ID))) {
+    				this._Kns_ID = reader.GetInt64(_.Kns_ID);
+    			}
+    			if ((false == reader.IsDBNull(_.Kns_PID))) {
+    				this._Kns_PID = reader.GetInt64(_.Kns_PID);
     			}
     		}
     		
@@ -323,11 +293,6 @@ namespace Song.Entities {
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<KnowledgeSort>();
     			
     			/// <summary>
-    			/// -1 - 字段名：Kns_ID - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Kns_ID = new WeiSha.Data.Field<KnowledgeSort>("Kns_ID");
-    			
-    			/// <summary>
     			/// -1 - 字段名：Kns_Name - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Kns_Name = new WeiSha.Data.Field<KnowledgeSort>("Kns_Name");
@@ -336,11 +301,6 @@ namespace Song.Entities {
     			/// -1 - 字段名：Kns_ByName - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Kns_ByName = new WeiSha.Data.Field<KnowledgeSort>("Kns_ByName");
-    			
-    			/// <summary>
-    			/// -1 - 字段名：Kns_PID - 数据类型：String
-    			/// </summary>
-    			public static WeiSha.Data.Field Kns_PID = new WeiSha.Data.Field<KnowledgeSort>("Kns_PID");
     			
     			/// <summary>
     			/// -1 - 字段名：Kns_Tax - 数据类型：Int32
@@ -383,10 +343,14 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<KnowledgeSort>("Cou_ID");
     			
     			/// <summary>
-    			/// 字段名：Kns_UID - 数据类型：String
+    			/// 字段名：Kns_ID - 数据类型：Int64
     			/// </summary>
-    			public static WeiSha.Data.Field Kns_UID = new WeiSha.Data.Field<KnowledgeSort>("Kns_UID");
+    			public static WeiSha.Data.Field Kns_ID = new WeiSha.Data.Field<KnowledgeSort>("Kns_ID");
+    			
+    			/// <summary>
+    			/// 字段名：Kns_PID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Kns_PID = new WeiSha.Data.Field<KnowledgeSort>("Kns_PID");
     		}
     	}
     }
-    

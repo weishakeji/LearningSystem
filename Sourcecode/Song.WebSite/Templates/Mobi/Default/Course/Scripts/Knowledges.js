@@ -3,8 +3,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            sortid: $api.querystring("sortid"),
-            sortuid: $api.querystring("sortuid"),
+            sortid: $api.querystring("sortid"),       
             account: {},     //当前登录账号
             course: {},       //当前课程
             platinfo: {},
@@ -17,7 +16,7 @@ $ready(function () {
             finished: false,
             query: {
                 'couid': $api.querystring("couid"),
-                'uid': $api.querystring("sortuid"),
+                'kns': $api.querystring("sortid"),
                 'isuse': true,
                 'search': $api.querystring("s"),
                 'size': 2, 'index': 0

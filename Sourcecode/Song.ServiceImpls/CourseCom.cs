@@ -276,7 +276,7 @@ namespace Song.ServiceImpls
                     tran.Delete<StudentSort_Course>(StudentSort_Course._.Cou_ID == entity.Cou_ID);
 
                     WeiSha.Core.Upload.Get["Course"].DeleteFile(entity.Cou_Logo);
-
+                    WeiSha.Core.Upload.Get["Course"].DeleteDirectory(entity.Cou_ID.ToString());
                     tran.Delete<Course>(Course._.Cou_ID == entity.Cou_ID);
                     tran.Commit();
 
