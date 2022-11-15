@@ -131,7 +131,8 @@ namespace Song.ServiceImpls
                     tran.Delete<QuesAnswer>(QuesAnswer._.Qus_UID == entity.Qus_UID);
                     tran.Delete<Student_Notes>(Student_Notes._.Qus_ID == entity.Qus_ID);
                     tran.Delete<Student_Collect>(Student_Collect._.Qus_ID == entity.Qus_ID);
-                    tran.Commit();
+                    WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(entity.Qus_ID.ToString());
+                    tran.Commit();                   
                 }
             }
             catch (Exception ex)
@@ -147,32 +148,13 @@ namespace Song.ServiceImpls
         }
         public void QuesDelete(string ids)
         {
-            using (DbTrans tran = Gateway.Default.BeginTrans())
+            foreach (string idstr in ids.Split(','))
             {
-                try
-                {
-                    foreach (string idstr in ids.Split(','))
-                    {
-                        long intid = 0;
-                        long.TryParse(idstr, out intid);
-                        if (intid < 1) continue;
-                        tran.Delete<Questions>(Questions._.Qus_ID == intid);
-                        tran.Delete<QuesAnswer>(QuesAnswer._.Qus_ID == intid);
-                    }
-                    tran.Commit();
-                }
-                catch (Exception ex)
-                {
-                    tran.Rollback();
-                    throw ex;
-
-                }
-                finally
-                {
-                    tran.Close();
-                }
+                long qusid = 0;
+                long.TryParse(idstr, out qusid);
+                if (qusid < 1) continue;
+                this.QuesDelete(qusid);
             }
-            this.OnDelete(null, null);
         }
         /// <summary>
         /// 修改课程的某些项

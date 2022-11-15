@@ -6,7 +6,7 @@
             course: {},     //当前课程
             //课程公告分类
             columns: [],         //课程公告的分类       
-            columnsMofidy:false,        //是否处于编辑状态
+            columnsMofidy: false,        //是否处于编辑状态
             columnsVisible: false,       //分类的编辑框是否显示
             columnsObject: null,         //当前要操作的分类的对象
             column_title: '',
@@ -53,14 +53,14 @@
                     if (th.course) {
                         document.title += th.course.Cou_Name;
                         th.getTreeData();
-                        th.handleCurrentChange(1);                        
+                        th.handleCurrentChange(1);
                     }
-                    th.$nextTick(function(){
+                    th.$nextTick(function () {
                         $dom('#vapp>div').show();
                     });
-                    window.setTimeout(function(){
-                        th.loading_init=false;
-                    },500);
+                    window.setTimeout(function () {
+                        th.loading_init = false;
+                    }, 500);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -89,7 +89,7 @@
                     th.loading = false;
                     if (req.data.success) {
                         th.columns = req.data.result;
-                        
+
                     } else {
                         th.columns = [];
                         throw req.data.message;
@@ -266,7 +266,7 @@
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 41);
                 if ($api.getType(th.form.uid) == "Array" && th.form.uid.length > 0) {
-                          th.form.uid = th.form.uid[th.form.uid.length - 1];
+                    th.form.uid = th.form.uid[th.form.uid.length - 1];
                 }
                 $api.get("Guide/Pager", th.form).then(function (d) {
                     if (d.data.success) {
@@ -285,12 +285,28 @@
             //公告的编辑状态
             //show：是否显示编辑面板
             //obj:要编辑的对象，如果是新增则为null
-            guideShow: function (show, obj) {
-                this.guideVisible = show;
+            guideShow: function (show, obj) {              
                 this.guideObject = obj;
                 this.guide_title = obj == null ? '新增课程公告' : '编辑课程公告';
-                this.guide_form = obj != null ? $api.clone(obj) : {};
+                if (obj == null) {
+                    var th = this;
+                    $api.get('Snowflake/Generate').then(function (req) {
+                        if (req.data.success){
+                            th.guide_form={};
+                            th.guide_form.Gu_ID = req.data.result;
+                            th.guideVisible = show;
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
 
+                        Vue.prototype.$alert(err);
+                        console.error(err);
+                    });
+                }else{
+                    this.guide_form = $api.clone(obj) ;
+                }
                 this.$refs['details_editor'].setContent(this.guide_form.Gu_Details);
             },
             guideEnter: function (formName) {

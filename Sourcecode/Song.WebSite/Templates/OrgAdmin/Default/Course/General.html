@@ -69,12 +69,12 @@
                 </el-form-item>
                 <el-form-item label="学习目标" prop="Cou_Target">
                     <editor :content="textual.target" model="mini" id="target" style="height: 200px;z-index: 1001;"
-                        @change="text=>textual.target=text">
+                        upload="Course" :dataid="entity.Cou_ID" @change="text=>textual.target=text">
                     </editor>
                 </el-form-item>
                 <el-form-item label="课程简介" prop="Cou_Intro">
                     <editor :content="textual.intro" model="general" id="intro" style="height: 400px;z-index: 1002;"
-                        @change="text=>textual.intro=text">
+                        upload="Course" :dataid="entity.Cou_ID" @change="text=>textual.intro=text">
                     </editor>
 
                 </el-form-item>

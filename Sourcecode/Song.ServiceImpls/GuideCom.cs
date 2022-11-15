@@ -24,6 +24,9 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public void GuideAdd(Guide entity)
         {
+            if (entity.Gu_ID <= 0)
+                entity.Gu_ID = WeiSha.Core.Request.SnowID();
+
             //创建时间
             entity.Gu_CrtTime = DateTime.Now;
             if (entity.Gu_PushTime < DateTime.Now.AddYears(-100))
@@ -81,7 +84,7 @@ namespace Song.ServiceImpls
                         if (System.IO.File.Exists(img))
                             System.IO.File.Delete(img);
                     }
-                    tran.Delete<Guide>(Guide._.Gu_Id == entity.Gu_Id);
+                    tran.Delete<Guide>(Guide._.Gu_ID == entity.Gu_ID);
                     tran.Commit();
                 }
                 catch (Exception ex)
@@ -100,7 +103,7 @@ namespace Song.ServiceImpls
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        public void GuideDelete(int identify)
+        public void GuideDelete(long identify)
         {
             Song.Entities.Guide guide = this.GuideSingle(identify);
             GuideDelete(guide);
@@ -138,9 +141,9 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        public Guide GuideSingle(int identify)
+        public Guide GuideSingle(long identify)
         {
-            return Gateway.Default.From<Guide>().Where(Guide._.Gu_Id == identify).ToFirst<Guide>();
+            return Gateway.Default.From<Guide>().Where(Guide._.Gu_ID == identify).ToFirst<Guide>();
         }
         public Guide[] GuideCount(int orgid, long couid, string gcuid, int count)
         {

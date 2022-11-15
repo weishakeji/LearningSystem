@@ -167,7 +167,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">课程公告的id</param>
         /// <returns></returns>
-        public Song.Entities.Guide ForID(int id)
+        public Song.Entities.Guide ForID(long id)
         {
             return Business.Do<IGuide>().GuideSingle(id);
         }
@@ -194,7 +194,7 @@ namespace Song.ViewData.Methods
         [HtmlClear(Not = "entity")]
         public Song.Entities.Guide Modify(Song.Entities.Guide entity)
         {
-            Song.Entities.Guide old = Business.Do<IGuide>().GuideSingle(entity.Gu_Id);
+            Song.Entities.Guide old = Business.Do<IGuide>().GuideSingle(entity.Gu_ID);
             if (old == null) throw new Exception("Not found entity for Guide！");
 
             old.Copy<Song.Entities.Guide>(entity);
@@ -215,8 +215,8 @@ namespace Song.ViewData.Methods
             string[] arr = id.Split(',');
             foreach (string s in arr)
             {
-                int idval = 0;
-                int.TryParse(s, out idval);
+                long idval = 0;
+                long.TryParse(s, out idval);
                 if (idval == 0) continue;
                 try
                 {

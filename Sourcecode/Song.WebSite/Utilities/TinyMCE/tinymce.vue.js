@@ -146,7 +146,7 @@ Vue.component('editor', {
                     insert: {
                         text: '插入',
                         tooltip: '插入图片、特殊字符、公式',
-                        items: 'image emoticons charmap  kityformula-editor bdmap organinfo',
+                        items: 'image-weisha  emoticons charmap  kityformula-editor bdmap organinfo',
                     }
                 },
                 //upfile attachment //上传文件、附件

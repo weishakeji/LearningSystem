@@ -60,7 +60,7 @@
         <section class="list" style="display: none;" v-show="!columnsMofidy">
             <div class="toolsbar">
                 <btngroup show="新增,删除" ref='btngroup' @add="guideShow(true,null)" @delete="deleteData" width="600"
-                    height="600" :selects='selects' idkey='Gu_Id' table="guides">
+                    height="600" :selects='selects' idkey='Gu_ID' table="guides">
                     <el-button type="primary" size="small" icon="el-icon-edit" plain @click="columnsMofidy=true">编辑公告的分类
                     </el-button>
                 </btngroup>
@@ -116,7 +116,7 @@
                             <el-link type="primary" plain icon="el-icon-edit" @click='guideShow(true,scope.row)'>修改
                             </el-link>
                             <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                                icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Gu_Id)">
+                                icon-color="red" title="确定删除吗？" @confirm="$refs.btngroup.delete(scope.row.Gu_ID)">
                                 <el-link type="danger" plain icon="el-icon-delete" slot="reference">删除
                                 </el-link>
                             </el-popconfirm>
@@ -153,7 +153,7 @@
                         <div class="Gu_Details">
                             <el-form-item label="内容" prop="Gu_Details">
                                 <editor :content="guide_form.Gu_Details" model="general" ref="details_editor"
-                                    @change="text=>guide_form.Gu_Details=text">
+                                upload="Guide" :dataid="guide_form.Gu_ID" @change="text=>guide_form.Gu_Details=text">
                                 </editor>
                             </el-form-item>
                         </div>

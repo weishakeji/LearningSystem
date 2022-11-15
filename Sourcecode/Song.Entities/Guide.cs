@@ -3,12 +3,10 @@ namespace Song.Entities {
     	
     	
     	/// <summary>
-    	/// 表名：Guide 主键列：Gu_Id
+    	/// 表名：Guide 主键列：Gu_ID
     	/// </summary>
     	[SerializableAttribute()]
     	public partial class Guide : WeiSha.Data.Entity {
-    		
-    		protected Int32 _Gu_Id;
     		
     		protected String _Gc_Title;
     		
@@ -100,15 +98,7 @@ namespace Song.Entities {
     		
     		protected String _Gc_UID;
     		
-    		public Int32 Gu_Id {
-    			get {
-    				return this._Gu_Id;
-    			}
-    			set {
-    				this.OnPropertyValueChange(_.Gu_Id, _Gu_Id, value);
-    				this._Gu_Id = value;
-    			}
-    		}
+    		protected Int64 _Gu_ID;
     		
     		public String Gc_Title {
     			get {
@@ -560,6 +550,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Int64 Gu_ID {
+    			get {
+    				return this._Gu_ID;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Gu_ID, _Gu_ID, value);
+    				this._Gu_ID = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -568,18 +568,11 @@ namespace Song.Entities {
     		}
     		
     		/// <summary>
-    		/// 获取实体中的标识列
-    		/// </summary>
-    		protected override WeiSha.Data.Field GetIdentityField() {
-    			return _.Gu_Id;
-    		}
-    		
-    		/// <summary>
     		/// 获取实体中的主键列
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetPrimaryKeyFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Gu_Id};
+    					_.Gu_ID};
     		}
     		
     		/// <summary>
@@ -587,7 +580,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override WeiSha.Data.Field[] GetFields() {
     			return new WeiSha.Data.Field[] {
-    					_.Gu_Id,
     					_.Gc_Title,
     					_.Cou_ID,
     					_.Cou_Name,
@@ -632,7 +624,8 @@ namespace Song.Entities {
     					_.OtherData,
     					_.Org_ID,
     					_.Org_Name,
-    					_.Gc_UID};
+    					_.Gc_UID,
+    					_.Gu_ID};
     		}
     		
     		/// <summary>
@@ -640,7 +633,6 @@ namespace Song.Entities {
     		/// </summary>
     		protected override object[] GetValues() {
     			return new object[] {
-    					this._Gu_Id,
     					this._Gc_Title,
     					this._Cou_ID,
     					this._Cou_Name,
@@ -685,16 +677,14 @@ namespace Song.Entities {
     					this._OtherData,
     					this._Org_ID,
     					this._Org_Name,
-    					this._Gc_UID};
+    					this._Gc_UID,
+    					this._Gu_ID};
     		}
     		
     		/// <summary>
     		/// 给当前实体赋值
     		/// </summary>
     		protected override void SetValues(WeiSha.Data.IRowReader reader) {
-    			if ((false == reader.IsDBNull(_.Gu_Id))) {
-    				this._Gu_Id = reader.GetInt32(_.Gu_Id);
-    			}
     			if ((false == reader.IsDBNull(_.Gc_Title))) {
     				this._Gc_Title = reader.GetString(_.Gc_Title);
     			}
@@ -830,6 +820,9 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Gc_UID))) {
     				this._Gc_UID = reader.GetString(_.Gc_UID);
     			}
+    			if ((false == reader.IsDBNull(_.Gu_ID))) {
+    				this._Gu_ID = reader.GetInt64(_.Gu_ID);
+    			}
     		}
     		
     		public override int GetHashCode() {
@@ -855,11 +848,6 @@ namespace Song.Entities {
     			/// 表示选择所有列，与*等同
     			/// </summary>
     			public static WeiSha.Data.AllField All = new WeiSha.Data.AllField<Guide>();
-    			
-    			/// <summary>
-    			/// 字段名：Gu_Id - 数据类型：Int32
-    			/// </summary>
-    			public static WeiSha.Data.Field Gu_Id = new WeiSha.Data.Field<Guide>("Gu_Id");
     			
     			/// <summary>
     			/// 字段名：Gc_Title - 数据类型：String
@@ -1085,7 +1073,11 @@ namespace Song.Entities {
     			/// 字段名：Gc_UID - 数据类型：String
     			/// </summary>
     			public static WeiSha.Data.Field Gc_UID = new WeiSha.Data.Field<Guide>("Gc_UID");
+    			
+    			/// <summary>
+    			/// 字段名：Gu_ID - 数据类型：Int64
+    			/// </summary>
+    			public static WeiSha.Data.Field Gu_ID = new WeiSha.Data.Field<Guide>("Gu_ID");
     		}
     	}
     }
-    

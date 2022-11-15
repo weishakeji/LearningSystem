@@ -31,13 +31,13 @@ namespace Song.ServiceInterfaces
         /// 删除，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
-        void GuideDelete(int identify);
+        void GuideDelete(long identify);
         /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>
         /// <returns></returns>
-        Guide GuideSingle(int identify);       
+        Guide GuideSingle(long identify);       
         /// <summary>
         /// 当前课程公告的上一条课程公告
         /// </summary>
