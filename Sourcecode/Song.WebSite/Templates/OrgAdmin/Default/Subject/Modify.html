@@ -61,7 +61,7 @@
             <el-row :gutter="20">
                 <el-form-item label="详情">
                     <editor ref="editor" :content="entity.Sbj_Details" :menubar="false" model="general" style="height: 400px;"
-                        @change="text=>entity.Sbj_Details=text"></editor>
+                    upload="Subject" :dataid="entity.Sbj_ID"  @change="text=>entity.Sbj_Details=text"></editor>
 
                 </el-form-item>
             </el-row>

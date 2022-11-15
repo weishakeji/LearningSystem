@@ -90,22 +90,32 @@ $ready(function () {
                         console.error(err);
                     });
                 } else {
-                    $api.get('Organization/Current').then(function (req) {
-                        if (req.data.success) {
-                            vapp.organ = req.data.result;
-                            vapp.config = $api.organ(vapp.organ).config;
-                        } else {
-                            console.error(req.data.exception);
-                            throw req.data.message;
+                    $api.bat(
+                        $api.post('Snowflake/Generate'),
+                        $api.get('Organization/Current')
+                    ).then(axios.spread(function (snowid, org) {
+                        //判断结果是否正常
+                        for (var i = 0; i < arguments.length; i++) {
+                            if (arguments[i].status != 200)
+                                console.error(arguments[i]);
+                            var data = arguments[i].data;
+                            if (!data.success && data.exception != null) {
+                                console.error(data.exception);
+                                throw arguments[i].config.way + ' ' + data.message;
+                            }
                         }
-                    }).catch(function (err) {
+                        //获取结果
+                        th.entity.Sbj_ID = snowid.data.result;
+                        th.organ = org.data.result;
+                        th.config = $api.organ(th.organ).config;
+                    })).catch(function (err) {
                         Vue.prototype.$alert(err);
                         console.error(err);
                     });
                 }
             },
             btnEnter: function (formName) {
-                var th = this;               
+                var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;

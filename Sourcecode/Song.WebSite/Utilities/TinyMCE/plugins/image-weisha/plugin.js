@@ -11,7 +11,7 @@ tinymce.PluginManager.add('image-weisha', function (editor, url) {
 	};
 
 	var openDialog = function (param) {
-		dataid = dataid == null ? 0 : dataid;
+		dataid = dataid == null || dataid == 'undefined' ? 0 : dataid;
 		var url = openpage + '?uploadkey=' + uploadkey(editor) + '&dataid=' + dataid(editor) + '&editorid=' + editorid;
 		console.log(url);
 		return editor.windowManager.openUrl({

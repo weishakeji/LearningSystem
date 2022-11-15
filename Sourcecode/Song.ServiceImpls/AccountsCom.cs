@@ -341,9 +341,12 @@ namespace Song.ServiceImpls
                     Song.Entities.Teacher th = tran.From<Teacher>().Where(Teacher._.Ac_ID == entity.Ac_ID).ToFirst<Teacher>();
                     if (th != null) Business.Do<ITeacher>().TeacherDelete(th, tran, false);
 
+                    WeiSha.Core.Upload.Get["Accounts"].DeleteFile(entity.Ac_Photo);
+                    WeiSha.Core.Upload.Get["Accounts"].DeleteDirectory(entity.Ac_ID.ToString());
+
                     tran.Commit();
 
-                    WeiSha.Core.Upload.Get["Accounts"].DeleteFile(entity.Ac_Photo);                   
+                   
                 }
                 catch (Exception ex)
                 {

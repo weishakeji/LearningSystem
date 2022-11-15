@@ -13,6 +13,26 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
+            if (th.id == '') {
+                $api.get('Snowflake/Generate').then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        th.id = req.data.result;
+                        //跳转
+                        window.setTimeout(function () {
+                            th.gourl();
+                        }, 100);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading = false;
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+                return;
+            }
             $api.get('TestPaper/ForID', { 'id': this.id }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
@@ -48,7 +68,8 @@ $ready(function () {
                 if (entity == null) {
                     var couid = $api.querystring('couid');
                     if (couid != '')
-                        url = $api.url.set(url, 'couid', couid);
+                        url = $api.url.set(url, { 'couid': couid, 'id': this.id });
+                    console.log(url);
                     window.location.href = url;
                 } else {
                     url = $api.url.set(url, 'id', entity.Tp_Id);

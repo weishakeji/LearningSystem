@@ -31,11 +31,6 @@ namespace Song.ServiceInterfaces
         /// <param name="identify">实体的主键</param>
         void Delete(long identify);
         /// <summary>
-        /// 删除，按公告名称
-        /// </summary>
-        /// <param name="name">公告名称</param>
-        void Delete(string name);
-        /// <summary>
         /// 获取单一实体对象，按主键ID；
         /// </summary>
         /// <param name="identify">实体的主键</param>

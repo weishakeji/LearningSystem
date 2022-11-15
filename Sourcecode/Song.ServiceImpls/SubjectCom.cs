@@ -159,6 +159,7 @@ namespace Song.ServiceImpls
                 WeiSha.Core.Upload.Get["Subject"].DeleteFile(subject.Sbj_Logo);
               
                 Gateway.Default.Delete<Subject>(Subject._.Sbj_ID == identify);
+                WeiSha.Core.Upload.Get["Subject"].DeleteDirectory(identify.ToString());
             }
         }
 

@@ -187,9 +187,10 @@ namespace Song.ServiceImpls
                 {
                     tran.Update<Accounts>(new Field[] { Accounts._.Ac_IsTeacher }, new object[] { false }, Accounts._.Ac_ID == entity.Ac_ID);
                 }
-                tran.Commit();
 
                 WeiSha.Core.Upload.Get["Teacher"].DeleteFile(entity.Th_Photo);
+                WeiSha.Core.Upload.Get["Teacher"].DeleteDirectory(entity.Th_ID.ToString());
+                tran.Commit();               
             }
             catch (Exception ex)
             {

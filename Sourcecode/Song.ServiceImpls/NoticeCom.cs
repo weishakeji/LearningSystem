@@ -53,18 +53,31 @@ namespace Song.ServiceImpls
         }
 
         public void Delete(Notice entity)
-        {
-            Gateway.Default.Delete<Notice>(entity);
+        {          
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    tran.Delete<Notice>(Notice._.No_Id == entity.No_Id);
+                    WeiSha.Core.Upload.Get["Notice"].DeleteDirectory(entity.No_Id.ToString());
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
         }
 
         public void Delete(long identify)
         {
-            Gateway.Default.Delete<Notice>(Notice._.No_Id == identify);
-        }
-
-        public void Delete(string name)
-        {
-            Gateway.Default.Delete<Notice>(Notice._.No_Ttl == name);
+            Notice notice = this.NoticeSingle(identify);
+            this.Delete(notice);
         }
 
         public Notice NoticeSingle(long identify)

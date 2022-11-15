@@ -1,4 +1,4 @@
-$ready(function () {    
+$ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
@@ -83,12 +83,27 @@ $ready(function () {
                             index: index
                         });
                     });
-                    if (th.id == '') return;
+                    if (th.id == '') {
+                        $api.get('Snowflake/Generate').then(function (req) {
+                            th.loading = false;
+                            if (req.data.success) {
+                                th.formData.No_Id = req.data.result;
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(function (err) {
+                            th.loading = false;
+                            Vue.prototype.$alert(err);
+                            console.error(err);
+                        });
+                        return;
+                    }
                     $api.get('Notice/ForID', { 'id': th.id }).then(function (req) {
                         th.loading = false;
                         if (req.data.success) {
                             var result = req.data.result;
-                            th.formData = result;                        
+                            th.formData = result;
                             th.imgWidth = th.formData.No_Width;
                             th.imgHeight = th.formData.No_Height;
                             if (th.formData.No_Page == '') th.formData.No_Page = 'mobi_home';
@@ -136,7 +151,7 @@ $ready(function () {
                 }
                 return data;
             },
-            btnEnter: function (formName) {             
+            btnEnter: function (formName) {
                 var th = this;
                 this.$refs[formName].validate(function (valid) {
                     if (valid) {

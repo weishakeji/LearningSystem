@@ -142,6 +142,7 @@ namespace Song.ServiceImpls
                     if (System.IO.File.Exists(img)) System.IO.File.Delete(img);
                     //删除成绩
                     tran.Delete<TestResults>(TestResults._.Tp_Id == identify);
+                    WeiSha.Core.Upload.Get["TestPaper"].DeleteDirectory(tp.Tp_Id.ToString());
                     tran.Commit();
                 }
                 catch

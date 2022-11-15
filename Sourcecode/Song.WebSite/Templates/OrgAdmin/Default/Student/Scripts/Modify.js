@@ -52,6 +52,22 @@ $ready(function () {
         created: function () {
             var th = this;
             th.loading = true;
+            if (th.id == '' || th.id == 0) {
+                $api.get('Snowflake/Generate').then(function (req) {
+                    th.loading = false;
+                    if (req.data.success) {
+                        th.account.Ac_ID = req.data.result;
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    th.loading = false;
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+                return;
+            }
             $api.get('Account/ForID', { 'id': th.id }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
@@ -155,7 +171,7 @@ $ready(function () {
                 this.account.Sts_Name = item.Sts_Name;
             },
             btnEnter: function (formName) {
-                var th = this;           
+                var th = this;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         th.loading = true;

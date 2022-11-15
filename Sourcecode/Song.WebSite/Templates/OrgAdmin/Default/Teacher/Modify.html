@@ -201,7 +201,8 @@
                     </el-form-item>
                 </div>
                 <div v-show="activeName=='intro'" class="about_editor" remark="个人介绍">
-                    <editor :content="entity.Th_Intro" model="mini" ref="editor" @change="text=>entity.Th_Intro=text">
+                    <editor :content="entity.Th_Intro" model="mini" ref="editor" upload="Teacher" :dataid="entity.Th_ID"
+                        @change="text=>entity.Th_Intro=text">
                     </editor>
                 </div>
             </el-form>

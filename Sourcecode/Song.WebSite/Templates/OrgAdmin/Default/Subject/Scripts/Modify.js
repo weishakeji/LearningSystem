@@ -86,29 +86,42 @@ $ready(function () {
             //获取当前实体
             getEntity: function () {
                 var th = this;
-                if (th.id == '' || th.id == null) {
-                    vapp.traversalUse(th.subjects);
-                    return;
-                }
                 th.loading = true;
+                if (th.id == '' || th.id == null) {
+                    $api.get('Snowflake/Generate').then(function (req) {
+                        th.loading = false;
+                        if (req.data.success) {
+                            th.entity.Sbj_ID = req.data.result;
+                            th.traversalUse(th.subjects);
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        th.loading = false;
+                        Vue.prototype.$alert(err);
+                        console.error(err);
+                    });
+                    return;
+                }              
                 $api.get('Subject/ForID', { 'id': th.id }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.entity = result;
+                        th.entity = result;
                         //设置当前节点禁用，防止选择自身
-                        var sbj = vapp.traversalQuery(result.Sbj_ID, vapp.subjects);
+                        var sbj = th.traversalQuery(result.Sbj_ID, th.subjects);
                         if (sbj != null) sbj.Sbj_IsUse = false;
-                        vapp.traversalUse(th.subjects);
+                        th.traversalUse(th.subjects);
                         //将当前专业的上级专业，在控件中显示
                         var arr = [];
-                        arr = vapp.getParentPath(vapp.entity, vapp.subjects, arr);
-                        vapp.sbjSelects = arr;                      
+                        arr = th.getParentPath(th.entity, th.subjects, arr);
+                        th.sbjSelects = arr;                      
                     } else {
                         throw '未查询到数据';
                     }
                 }).catch(function (err) {
-                    vapp.$alert(err, '错误');
+                    th.$alert(err, '错误');
                 });
             },
             btnEnter: function (formName) {

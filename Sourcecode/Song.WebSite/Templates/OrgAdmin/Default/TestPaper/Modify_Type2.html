@@ -37,7 +37,7 @@
                         </el-switch>
                         <el-switch v-model="entity.Tp_IsRec" active-color="#13ce66" active-text="推荐">
                         </el-switch>
-                     
+
                     </el-form-item>
 
                     <el-row :gutter="10">
@@ -136,12 +136,12 @@
                     </el-form-item>
                 </div>
                 <div v-show="activeName=='intro'" remark="简介" class="intro_editor">
-                    <editor :content="entity.Tp_Intro" id="intro" :menubar="false" model="general"
-                    @change="text=>entity.Tp_Intro=text"></editor>
+                    <editor :content="entity.Tp_Intro" id="intro" :menubar="false" model="general" upload="TestPaper"
+                        :dataid="entity.Tp_Id" @change="text=>entity.Tp_Intro=text"></editor>
                 </div>
                 <div v-show="activeName=='remind'" remark="注意事项" class="intro_editor">
-                    <editor :content="entity.Tp_Remind" id="remind" :menubar="false" model="general"
-                    @change="text=>entity.Tp_Remind=text"></editor>             
+                    <editor :content="entity.Tp_Remind" id="remind" :menubar="false" model="general" upload="TestPaper"
+                        :dataid="entity.Tp_Id" @change="text=>entity.Tp_Remind=text"></editor>
                 </div>
                 <div v-show="activeName=='other'" remark="其它">
                     <el-form-item label="试卷Logo">
