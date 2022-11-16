@@ -300,7 +300,7 @@ $ready(function () {
                     <van-cell title="" :value="cardset.Lcs_LimitEnd|date('yyyy-MM-dd')"> </van-cell>
                     <card>
                         <card-title>
-                            <icon>&#xe83d</icon>
+                            <icon>&#xe750</icon>
                             关联课程
                             <span>（{{courses.length}}）</span>
                         </card-title>

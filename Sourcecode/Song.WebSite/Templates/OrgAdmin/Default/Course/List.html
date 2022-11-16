@@ -89,7 +89,7 @@
             <el-table-column label="所属专业" show-overflow-tooltip width="120">
                 <template slot-scope="scope">
                     <a :href="'/web/course/index?sbjid='+scope.row.Sbj_ID" target="_blank" underline>
-                        <icon>&#xe83d</icon> {{scope.row.Sbj_Name}}
+                        <icon>&#xe750</icon> {{scope.row.Sbj_Name}}
                     </a>
                 </template>
             </el-table-column>
@@ -190,7 +190,7 @@
 
                 </div>
                 <div class="showSubject">
-                    <icon>&#xe83d</icon> 专业：
+                    <icon>&#xe750</icon> 专业：
                     <span v-html="subjectPath(curr.Sbj_ID,curr)"></span>
                 </div>
                 <div v-if="curr.Th_Name!=''">

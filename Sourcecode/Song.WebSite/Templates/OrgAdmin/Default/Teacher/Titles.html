@@ -51,7 +51,7 @@
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Ths_ID"></span>
                         <div>
                             <el-tag type="danger" v-if="scope.row.Ths_IsDefault">
-                                <icon>&#xe69e</icon>默认项
+                                <icon>&#xe747</icon>默认项
                             </el-tag>
                             <el-popconfirm v-else confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                                 icon-color="red" title="是否将当前项设置为默认？" @confirm="setDefault(scope.row.Ths_ID)">

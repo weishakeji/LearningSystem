@@ -151,7 +151,7 @@
 }
 
 .loginbox .login_body .login_pw:before {
-    content: '\a036';
+    content: '\e67b';
 }
 
 .loginbox .login_body .login_code:before {

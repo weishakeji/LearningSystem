@@ -80,7 +80,7 @@ Vue.component('study_tabs', {
         knlClick: function () {
             $pagebox.create({
                 'url': $api.url.set('Knowledges', { 'couid': this.course.Cou_ID }),
-                'title': '课程知识库', 'ico': 'f0085',
+                'title': '课程知识库', 'ico': 'e84d',
                 'width': '80%', 'height': '80%',
                 'min': false, 'full': true, 'showmask': true
             }).open();

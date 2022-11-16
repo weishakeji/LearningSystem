@@ -83,7 +83,7 @@
                     <span class="el-icon-loading" v-show="loadingid==scope.row.Sts_ID"></span>
                     <div>
                         <el-tag type="danger" v-if="scope.row.Sts_IsDefault">
-                            <icon>&#xe69e</icon>默认组
+                            <icon>&#xe747</icon>默认组
                         </el-tag>
                         <el-popconfirm v-else confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
                             icon-color="red" title="是否将当前组设置为默认组？" @confirm="setDefault(scope.row.Sts_ID)">
