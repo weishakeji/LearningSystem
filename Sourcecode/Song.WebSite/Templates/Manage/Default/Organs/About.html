@@ -8,7 +8,9 @@
 
 <body>
     <div id="app" v-cloak>
-        <editor ref="editor" :content="organ.Org_Intro" :menubar="false" model="general" @change="text=>organ.Org_Intro=text"></editor>
+        <editor ref="editor" :content="organ.Org_Intro" :menubar="false"
+        upload="Org" :dataid="organ.Org_ID"
+        model="general" @change="text=>organ.Org_Intro=text"></editor>
 
 
         <div class="foot-btn">

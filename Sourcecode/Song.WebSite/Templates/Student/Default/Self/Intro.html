@@ -11,6 +11,7 @@
     <div id="vapp" v-cloak>
         <div class="about_editor">
             <editor :content="account.Ac_Intro" model="mini" :menubar="false" ref="editor"
+            upload="Student" :dataid="account.Ac_ID"
              @change="text=>account.Ac_Intro=text"> </editor>
         </div>
         <div class="footer">

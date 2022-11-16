@@ -97,5 +97,30 @@ alter table Knowledge drop column Kns_UID
 go
 --alter table Knowledge drop column Kn_Uid
 
+/*新闻文章的id转雪花id*/
+ALTER TABLE [Article] ADD Art_SId bigint default 0 not null
+go
+update [Article]  set Art_SId=Art_Id
+/*删除原有主键，设置新的主建*/
+declare cursor_ol  cursor scroll
+for SELECT idx.name AS pk FROM sys.indexes idx JOIN sys.tables tab ON (idx.object_id = tab.object_id) where tab.name='Article'
+open cursor_ol
+declare @pk nvarchar(500),@sql nvarchar(500)
+fetch First from cursor_ol into @pk
+while @@fetch_status=0  
+ begin  
+   set @sql='alter table [Article] drop constraint '+@pk   
+   exec sp_executesql @sql
+   fetch next from cursor_ol into @pk 
+ end   
+--关闭并释放游标
+close cursor_ol
+deallocate cursor_ol
+go
+alter table [Article] drop column Art_ID
+execute sp_rename '[Article].Art_SId','Art_ID'
+go
+alter table [Article] add primary key ( Art_ID );
 
-select * from KnowledgeSort
+alter table Special_Article ALTER COLUMN Art_ID  bigint not null
+alter table NewsNote ALTER COLUMN Art_ID  bigint not null

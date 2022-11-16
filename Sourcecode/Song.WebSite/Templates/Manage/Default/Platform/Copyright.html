@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div id="app" v-cloak>
+  <div id="vapp" v-cloak>
     <dl class="view" v-show="!modify">
       <dd v-for="item in datas" :name="item.name" :type="item.type">
         <template v-if="item.type=='text' || item.type=='multi'">
@@ -28,7 +28,7 @@
     </dl>
     <div v-show="modify" class="modifyarea">
 
-      <editor :item="item" :index="index" v-for="(item,index) in datas"></editor>
+      <item_editor :item="item" :index="index" v-for="(item,index) in datas"></item_editor>
       <div class="addbtn">
         <el-link type="primary" class="el-icon-circle-plus-outline" @click="add"> &nbsp;添加信息项</el-link>
       </div>

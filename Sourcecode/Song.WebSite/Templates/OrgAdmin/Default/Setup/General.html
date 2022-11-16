@@ -152,7 +152,7 @@
                 </el-dialog>
             </div>
             <div v-show="activeName=='about'" class="about_editor" remark="关于我们">
-                <editor :content="organ.Org_Intro" model="simple" ref="editor" upload="Org" :dataid="0"
+                <editor :content="organ.Org_Intro" model="simple" ref="editor" upload="Org" :dataid="organ.Org_ID"
                     @change="text=>organ.Org_Intro=text">
                 </editor>
             </div>

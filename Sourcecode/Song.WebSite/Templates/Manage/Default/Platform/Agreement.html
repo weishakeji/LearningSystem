@@ -12,14 +12,15 @@
   <div id="app" v-cloak>
     <el-tabs v-model="activeName" type="border-card">
       <el-tab-pane label="学员注册" name="first">
-       <icon student slot="label"> 学员注册</icon>
-        <editor :content="accounts_details" model="general" ref="editor" @change="text=>accounts_details=text">
-        </editor>      
+        <icon student slot="label"> 学员注册</icon>
+        <editor :content="accounts_details" model="general" upload="Org" :dataid="0" ref="editor"
+          @change="text=>accounts_details=text">
+        </editor>
         <div class="foot-btn">
           <p class="title">通配字符：
             <el-tag v-for="(val,key,index) in tooltip">
-             {<span v-html="key"></span>}  {{val}} 
-            </el-tag>          
+              {<span v-html="key"></span>} {{val}}
+            </el-tag>
           </p>
           <el-button type="primary" @click="updateDetails('accounts')">
             保存“学员注册协议”的修改</el-button>
@@ -27,14 +28,15 @@
       </el-tab-pane>
       <el-tab-pane label="教师申请" name="second">
         <icon teacher slot="label"> 教师申请</icon>
-        <editor :content="teacher_details" model="general" ref="editor" @change="text=>teacher_details=text">
-        </editor>  
+        <editor :content="teacher_details" model="general" upload="Org" :dataid="0" ref="editor"
+          @change="text=>teacher_details=text">
+        </editor>
 
         <div class="foot-btn">
           <p class="title">通配字符：
             <el-tag v-for="(val,key,index) in tooltip">
-             {<span v-html="key"></span>}  {{val}} 
-            </el-tag>          
+              {<span v-html="key"></span>} {{val}}
+            </el-tag>
           </p>
           <el-button type="success" @click="updateDetails('teacher')">保存"教师申请协议"的修改</el-button>
         </div>

@@ -1,6 +1,6 @@
 ﻿$ready(function () {
     window.vapp = new Vue({
-        el: '#app',
+        el: '#vapp',
         data: {
             modify: false,     //状态，修改或查看
             datas: [],
@@ -125,7 +125,7 @@
             }
         },
         components: {
-            'editor': {
+            'item_editor': {
                 props: ['item', 'index'],
                 data: function () {
                     return {
