@@ -2,11 +2,13 @@
     font-family: "webdesk_icon";
     src: url("../iconfont.woff") format("woff");
 }
+
 html,
 body {
     width: 100%;
     overflow-x: hidden;
 }
+
 .icon {
     font-family: "webdesk_icon" !important;
     speak: none;
@@ -26,6 +28,7 @@ body {
     transition: font-size 0.25s ease-out 0s;
     cursor: pointer;
 }
+
 .icon:hover {
     font-size: 100px;
 }
@@ -54,26 +57,33 @@ li {
     text-align: center;
 }
 
-.iconfont-list{
+.iconfont-list {
     border-top: solid 1px #ccc;
     margin-top: 10px;
     padding-top: 20px;
 }
+
 .code {
     color: green;
     font-weight: bold;
     cursor: pointer;
 }
-#search{
+
+#search {
     display: inline-block;
     margin-left: 30px;
 }
 
-#search input[type='text']{
+#search input[type='text'] {
     font-size: 16px;
     width: 100px;
 }
-#result:not(:empty){
+
+#search span {
+    font-size: 14px;
+}
+
+#result:not(:empty) {
     width: 100%;
     display: table;
     box-sizing: border-box;

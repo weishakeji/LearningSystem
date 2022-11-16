@@ -13,20 +13,24 @@ $(function () {
         //结果显示区域，清空
         var result = $("#result");
         result.html("");
+        $(this).find('span').html('');
         //查询的字符
         var text = $(this).find("input[type='text']").val();
         if (text == '') return false;
-        console.log(text);
         //查询图标
         var items = $(".iconfont-list li");
         var html = "";
+        var count = 0;
         items.each(function () {
             var name = $(this).find("div.name").text();
             var code = $(this).find("div.code").text().replace('\\', '');
-            if (name.indexOf(text) > -1 || code.indexOf(text) > -1)
+            if (name.indexOf(text) > -1 || code.indexOf(text) > -1) {
                 html += $(this).prop("outerHTML");
+                count++;
+            }
         });
         result.html(html);
+        $(this).find('span').html('查询到 <b>' + count + '</b> 个图标');
         return false;
     });
 });
