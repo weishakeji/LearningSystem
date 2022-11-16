@@ -5,7 +5,7 @@
     data: function () {
         return {
             //单选，多选，判断，简答，填空
-            icons: ['e85b', 'e78b', 'e634', 'e657', 'e823']
+            icons: ['e85b', 'a057', 'e74c', 'a055', 'e823']
         }
     },
     mounted: function () {

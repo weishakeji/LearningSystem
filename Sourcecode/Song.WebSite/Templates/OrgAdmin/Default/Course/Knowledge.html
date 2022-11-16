@@ -144,18 +144,19 @@
             </div>
             <!--编辑内容-->
             <div v-show="knlVisible">
-                <el-dialog :title="knl_title" :visible="true" :before-close="()=>{}" :show-close="false"
-                    :modal="false" :destroy-on-close="true" class="knl_form" fullscreen>
+                <el-dialog :title="knl_title" :visible="true" :before-close="()=>{}" :show-close="false" :modal="false"
+                    :destroy-on-close="true" class="knl_form" fullscreen>
                     <el-form :model="knl_form" ref="knl_form" :rules="knl_rules" label-width="60px">
                         <el-form-item label="标题" prop="Kn_Title">
                             <el-input v-model="knl_form.Kn_Title"></el-input>
                         </el-form-item>
-                        <el-form-item label="分类" prop="Kns_UID">
-                            <el-cascader style="width: 100%;" v-model="knl_form.Kns_UID" :options="sorts" separator="／"
-                                :props="{
+                        <el-form-item label="分类" prop="Kns_ID">
+                            <el-cascader style="width: 100%;" ref="sort"
+                                @change="()=>$refs['sort'].dropDownVisible = false" v-model="knl_form.Kns_ID"
+                                :options="sorts" separator="／" :props="{
                                 children: 'children',
                                 label: 'Kns_Name',
-                                value: 'Kns_UID',
+                                value: 'Kns_ID',
                                 expandTrigger: 'hover',
                                 checkStrictly: true
                             }" filterable>
@@ -164,7 +165,7 @@
                         <div class="Kn_Details">
                             <el-form-item label="内容" prop="Kn_Details">
                                 <editor :content="knl_form.Kn_Details" model="general" ref="details_editor"
-                                upload="Knowledge" :dataid="knl_form.Kn_ID" 
+                                    upload="Knowledge" :dataid="knl_form.Kn_ID"
                                     @change="text=>knl_form.Kn_Details=text">
                                 </editor>
                             </el-form-item>

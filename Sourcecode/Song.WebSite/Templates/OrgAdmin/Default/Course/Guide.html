@@ -140,8 +140,8 @@
                             <el-input v-model="guide_form.Gu_Title"></el-input>
                         </el-form-item>
                         <el-form-item label="分类" prop="Gc_UID">
-                            <el-cascader style="width: 100%;" v-model="guide_form.Gc_UID" :options="columns"
-                                separator="／" :props="{
+                            <el-cascader style="width: 100%;" ref="columns" v-model="guide_form.Gc_UID"
+                                :options="columns" @change="()=>$refs['columns'].dropDownVisible = false" separator="／" :props="{
                                 children: 'children',
                                 label: 'Gc_Title',
                                 value: 'Gc_UID',
@@ -153,7 +153,8 @@
                         <div class="Gu_Details">
                             <el-form-item label="内容" prop="Gu_Details">
                                 <editor :content="guide_form.Gu_Details" model="general" ref="details_editor"
-                                upload="Guide" :dataid="guide_form.Gu_ID" @change="text=>guide_form.Gu_Details=text">
+                                    upload="Guide" :dataid="guide_form.Gu_ID"
+                                    @change="text=>guide_form.Gu_Details=text">
                                 </editor>
                             </el-form-item>
                         </div>
