@@ -26,10 +26,12 @@
             form: { 'couid': '', 'kns': 0, 'isuse': '', 'search': '', 'size': 10, 'index': 1 },
             total: 1, //总记录数
             totalpages: 1, //总页数
-            knlVisible: false,       //知识的编辑框是否显示
-            knlObject: null,         //当前要操作的知识的对象
+            knlVisible: false,       //知识的编辑框是否显示               
             knl_title: '',
-            knl_form: {},
+            //当前要操作的知识的对象
+            knl_form: {
+                Kn_IsUse: true
+            },
             knl_rules: {
                 Kn_Title: [
                     { required: true, message: '不得为空', trigger: 'blur' },
@@ -53,14 +55,14 @@
                     if (th.course) {
                         document.title += th.course.Cou_Name;
                         th.getTreeData();
-                        th.handleCurrentChange(1);                       
+                        th.handleCurrentChange(1);
                     }
-                    th.$nextTick(function(){
+                    th.$nextTick(function () {
                         $dom('#vapp>*').show();
                     });
-                    window.setTimeout(function(){
-                        th.loading_init=false;
-                    },500);
+                    window.setTimeout(function () {
+                        th.loading_init = false;
+                    }, 500);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -278,7 +280,9 @@
                 if ($api.getType(th.form.kns) == "Array" && th.form.kns.length > 0) {
                     th.form.kns = th.form.kns[th.form.kns.length - 1];
                 }
+                th.loading = true;
                 $api.get("Knowledge/Pager", th.form).then(function (d) {
+                    th.loading = false;
                     if (d.data.success) {
                         th.knls = d.data.result;
                         th.totalpages = Number(d.data.totalpages);
@@ -288,23 +292,23 @@
                         throw d.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
-
+                    th.$alert(err);
+                    th.loading = false;
                 });
             },
             //知识的编辑状态
             //show：是否显示编辑面板
             //obj:要编辑的对象，如果是新增则为null
             knlShow: function (show, obj) {
-                this.knlObject = obj;
                 this.knl_title = obj == null ? '新增知识点' : '编辑知识点';
                 this.knl_form = obj != null ? $api.clone(obj) : {};
                 var th = this;
-                if (obj == null) {                  
+                if (obj == null) {
                     $api.get('Snowflake/Generate').then(function (req) {
-                        if (req.data.success){
-                            th.knl_form={};
+                        if (req.data.success) {
+                            th.knl_form = {};
                             th.knl_form.Kn_ID = req.data.result;
+                            th.knl_form.state = 'add';
                             th.knlVisible = show;
                         } else {
                             console.error(req.data.exception);
@@ -314,8 +318,9 @@
                         Vue.prototype.$alert(err);
                         console.error(err);
                     });
-                }else{
-                    th.knl_form = $api.clone(obj) ;
+                } else {
+                    th.knl_form = $api.clone(obj);
+                    th.knl_form.state = 'modify';
                     th.knlVisible = show;
                 }
 
@@ -327,16 +332,12 @@
                     if (valid) {
                         var obj = th.knl_form;
                         obj['Cou_ID'] = th.id;
-                        if (th.knlObject == null) {
-                            obj['Kn_IsUse'] = true;
-                        }
                         if (obj.Kns_ID && $api.getType(obj.Kns_ID) == "Array") {
                             if (obj.Kns_ID.length > 0)
                                 obj.Kns_ID = obj.Kns_ID[obj.Kns_ID.length - 1];
                         }
                         if (!obj.Kn_Uid || obj.Kn_Uid == '') obj.Kn_Uid = new Date().getTime();
-                        var apipath = 'Knowledge/' + (th.knlObject == null ? 'Add' : 'Modify');
-                        $api.post(apipath, { 'entity': obj }).then(function (req) {
+                        $api.post('Knowledge/' + obj.state, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({

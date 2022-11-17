@@ -82,7 +82,7 @@
                             <el-input v-model="form.search" style="width:100px" clearable></el-input>
                         </el-form-item>
                         <el-form-item>
-                            <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
+                            <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
                                 native-type="submit" plain>
                                 查询
                             </el-button>

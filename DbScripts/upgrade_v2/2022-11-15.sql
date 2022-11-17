@@ -8,6 +8,7 @@ declare @dfname nvarchar(500), @sql nvarchar(500)
 SELECT @dfname = idx.name  FROM sys.sysobjects idx JOIN sys.tables tab ON (idx.parent_obj = tab.object_id) 
 	where idx.type='d' and idx.name like '%Guide%'
 set @sql='alter table [Guide] drop constraint '+@dfname   
+print @sql
    exec sp_executesql @sql	
 go
 ALTER TABLE [Guide] ADD Gu_SID bigint default 0 not null

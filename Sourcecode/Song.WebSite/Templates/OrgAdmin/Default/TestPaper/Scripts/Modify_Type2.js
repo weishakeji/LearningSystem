@@ -138,7 +138,7 @@ $ready(function () {
             //是否是编辑状态
             edit: function () {
                 if (!this.exist) return false;
-                if (this.entity.Tp_Id && this.entity.Tp_Id > 0) return true;
+                if (this.id != '') return true;
                 return false;
             },
             orgid: function () {

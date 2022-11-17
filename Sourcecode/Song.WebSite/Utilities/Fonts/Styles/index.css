@@ -10,8 +10,7 @@ body {
 }
 
 .icon {
-    font-family: "webdesk_icon" !important;
-    speak: none;
+    font-family: "webdesk_icon" !important; 
     font-style: normal;
     font-weight: normal;
     font-variant: normal;

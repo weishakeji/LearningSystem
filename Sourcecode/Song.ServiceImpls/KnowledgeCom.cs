@@ -151,7 +151,7 @@ namespace Song.ServiceImpls
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(Knowledge._.Cou_ID == couid);
-            wc.And(Knowledge._.Kn_IsUse == true);
+            if (isUse != null) wc.And(Knowledge._.Kn_IsUse == (bool)isUse);
             if (kns > 0)
             {
                 WhereClip wcSbjid = new WhereClip();

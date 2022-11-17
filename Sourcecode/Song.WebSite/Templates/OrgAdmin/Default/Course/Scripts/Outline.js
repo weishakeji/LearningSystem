@@ -214,6 +214,7 @@
                     if (req.data.success) {
                         th.guide_form = {};
                         th.modify_obj.Ol_ID = req.data.result;
+                        th.modify_obj.state = 'add';
                         th.modify_show = true;
                         th.$refs['intro_editor'].setContent('');
                     } else {
@@ -226,11 +227,12 @@
                     console.error(err);
                 });
                 //this.modify_show = true;
-                
+
             },
             //编辑章节的按钮事件
             modifyBtn: function (data) {
                 this.modify_obj = $api.clone(data);
+                th.modify_obj.state = 'modify';
                 this.modify_show = true;
                 this.$refs['intro_editor'].setContent(data.Ol_Intro);
             },
@@ -252,8 +254,7 @@
                         var obj = th.modify_obj;
                         obj['Cou_ID'] = th.id;
                         obj['Org_ID'] = th.course.Org_ID;
-                        var apipath = 'Outline/' + (th.modify_obj.Ol_ID ? 'Modify' : 'Add');
-                        $api.post(apipath, { 'entity': obj }).then(function (req) {
+                        $api.post('Outline/' + th.modify_obj.state, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({

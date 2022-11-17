@@ -26,10 +26,12 @@
             form: { 'couid': '', 'uid': '', 'show': '', 'search': '', 'size': 10, 'index': 1 },
             total: 1, //总记录数
             totalpages: 1, //总页数
-            guideVisible: false,       //公告的编辑框是否显示
-            guideObject: null,         //当前要操作的公告的对象
+            guideVisible: false,       //公告的编辑框是否显示      
             guide_title: '',
-            guide_form: {},
+            //当前要操作的公告的对象
+            guide_form: {
+                Gu_IsUse: true
+            },
             guide_rules: {
                 Gu_Title: [
                     { required: true, message: '不得为空', trigger: 'blur' },
@@ -286,14 +288,14 @@
             //show：是否显示编辑面板
             //obj:要编辑的对象，如果是新增则为null
             guideShow: function (show, obj) {              
-                this.guideObject = obj;
                 this.guide_title = obj == null ? '新增课程公告' : '编辑课程公告';
                 var th = this;
-                if (obj == null) {                  
+                if (obj == null) {
                     $api.get('Snowflake/Generate').then(function (req) {
-                        if (req.data.success){
-                            th.guide_form={};
+                        if (req.data.success) {
+                            th.guide_form = {};
                             th.guide_form.Gu_ID = req.data.result;
+                            th.guide_form.state = 'add';
                             th.guideVisible = show;
                         } else {
                             console.error(req.data.exception);
@@ -304,8 +306,9 @@
                         Vue.prototype.$alert(err);
                         console.error(err);
                     });
-                }else{
-                    this.guide_form = $api.clone(obj) ;
+                } else {
+                    this.guide_form = $api.clone(obj);
+                    th.guide_form.state = 'Modify';
                     th.guideVisible = show;
                 }
                 this.$refs['details_editor'].setContent(this.guide_form.Gu_Details);
@@ -316,15 +319,11 @@
                     if (valid) {
                         var obj = th.guide_form;
                         obj['Cou_ID'] = th.id;
-                        if (th.guideObject == null) {
-                            obj['Gu_IsUse'] = true;
-                        }
                         if (obj.Gc_UID && $api.getType(obj.Gc_UID) == "Array") {
                             if (obj.Gc_UID.length > 0)
                                 obj.Gc_UID = obj.Gc_UID[obj.Gc_UID.length - 1];
                         }
-                        var apipath = 'Guide/' + (th.guideObject == null ? 'Add' : 'Modify');
-                        $api.post(apipath, { 'entity': obj }).then(function (req) {
+                        $api.post('Guide/' + th.guide_form.state, { 'entity': obj }).then(function (req) {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$message({
@@ -333,7 +332,6 @@
                                     center: true
                                 });
                                 th.handleCurrentChange();
-
                                 th.guideShow(false, null);
                             } else {
                                 throw req.data.message;

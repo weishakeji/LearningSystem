@@ -6,11 +6,13 @@ Vue.component('enter_button', {
     data: function () {
         return {
             loading: false,
+            id: $api.dot(),          //来自地址栏的试题id
             disabled: false      //按钮是否禁用
         }
     },
     mounted: function () {
         $dom.load.css([$dom.path() + 'Question/Components/Styles/enter_button.css']);
+        console.log(this.id);
     },
     methods: {
         //常规验证，主要验证试题所属专业、课程等
@@ -42,11 +44,9 @@ Vue.component('enter_button', {
             }
             var th = this;
             th.loading = true;
-            var isadd = this.question.Qus_ID && this.question.Qus_ID > 0 ? false : true;
+            var isadd = this.id != '' ? false : true;
             var apipath = isadd ? api = 'add' : 'Modify';
-            if (isadd) {
-                th.question.Org_ID = th.organ.Org_ID;
-            }
+            if (isadd) th.question.Org_ID = th.organ.Org_ID;
             $api.post('Question/' + apipath, { 'entity': th.question }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
