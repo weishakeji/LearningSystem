@@ -166,7 +166,7 @@ input[type="number"] {
 }
 
 .loginbox .login_body .login_pw:before {
-    content: '\a036';
+    content: '\e76a';
 }
 
 .loginbox .login_body .login_code:before {

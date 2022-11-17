@@ -74,7 +74,7 @@
           <el-col :span="4">
             <el-form-item label="" label-width="5px">
 
-              <el-link type="primary" @click="iconSelect=true" title="选择图标" class="setup_icon">
+              <el-link type="primary" @click="$refs['icons'].show=true" title="选择图标" class="setup_icon">
                   <icon setup v-if="curr.MM_IcoS==null || curr.MM_IcoS==''"></icon>
                 <icon v-else v-html="'&#x'+curr.MM_IcoS+';'"></icon>
               </el-link>
@@ -175,9 +175,9 @@
         </el-form-item>
       </el-form>
     </el-drawer>
-    <el-dialog title="图标选择" :visible.sync="iconSelect" id="dialog_icons">
-      <icons @change='iconChange' :selected="curr.MM_IcoS"></icons>
-    </el-dialog>
+    
+    <icons @change='val=>{curr.MM_IcoS=val}' ref="icons" :selected="curr.MM_IcoS"></icons>
+   
     <div class="btnFooter">
       <el-button type="primary" v-loading="loading" @click="btnSave()">保存菜单树</el-button>
       <el-button type="close">关闭</el-button>

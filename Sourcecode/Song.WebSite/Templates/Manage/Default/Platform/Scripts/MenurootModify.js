@@ -14,8 +14,7 @@ $ready(function () {
                 MM_Marker: [
                     { required: true, message: '不得为空', trigger: 'blur' }
                 ]
-            },
-            iconSelect: false    //图标选择
+            }
         },
         created: function () {
             //如果是新增界面

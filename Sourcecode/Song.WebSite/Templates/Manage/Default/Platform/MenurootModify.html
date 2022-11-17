@@ -4,7 +4,7 @@
 <head resource>
     <include file="../inc/meta.inc" />
     <title>管理菜单的根节点编辑</title>
-  
+
 </head>
 
 <body>
@@ -29,15 +29,17 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="图标" prop="MM_IcoS">                       
-                        <el-link type="primary" @click="iconSelect=true">
-                            <span v-if="entity.MM_IcoS==null || entity.MM_IcoS==''"> <icon setup></icon></span>
+                    <el-form-item label="图标" prop="MM_IcoS">
+                        <el-link type="primary" @click="$refs['icons'].show=true">
+                            <span v-if="entity.MM_IcoS==null || entity.MM_IcoS==''">
+                                <icon setup></icon>
+                            </span>
                             <icon v-else style="font-size: 18px;" v-html="'&#x'+entity.MM_IcoS+';'"></icon>&nbsp;点击选择
                         </el-link>
                     </el-form-item>
                 </el-col>
             </el-row>
-           
+
             <el-row>
                 <el-form-item label="说明" prop="MM_Intro">
                     <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="entity.MM_Intro"></el-input>
@@ -45,8 +47,7 @@
             </el-row>
             <el-row>
                 <el-form-item label="状态">
-                    <el-switch v-model="entity.MM_IsShow" v-if="false"
-                        :active-text="entity.MM_IsShow ? '显示' : '隐藏'">
+                    <el-switch v-model="entity.MM_IsShow" v-if="false" :active-text="entity.MM_IsShow ? '显示' : '隐藏'">
                     </el-switch>
                     <el-switch v-model="entity.MM_IsUse" :active-text="entity.MM_IsUse ? '启用' : '禁用'">
                     </el-switch>
@@ -58,12 +59,9 @@
                 <el-button type='close'>取消</el-button>
             </el-form-item>
         </el-form>
-        <el-dialog title="图标选择" :visible.sync="iconSelect" id="dialog_icons">
-            <icons @change='val=>{entity.ico=val;entity.MM_IcoS=val;iconSelect=false;}' :selected="entity.MM_IcoS"></icons>
 
-           
-      
-          </el-dialog>
+        <icons @change='val=>{entity.MM_IcoS=val}' ref="icons" :selected="entity.MM_IcoS"></icons>
+
     </div>
 
 

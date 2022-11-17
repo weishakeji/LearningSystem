@@ -1,6 +1,48 @@
 ﻿/*菜单图标选择*/
+#dialog_icons .el-dialog__header {
+    height: 35px;
+    font-size: 18px;
+}
 
-.icons_select_panel span {
+#dialog_icons .el-dialog__header icon {
+    font-size: 22px;
+    margin: 0px;
+    line-height: 35px;
+}
+
+#dialog_icons .el-dialog__header>div:first-child {
+    display: flex;
+    margin-right: 60px;
+}
+
+#dialog_icons .el-dialog__header>div:first-child>*:first-child {
+    white-space: nowrap;
+    margin-right: 20px;
+}
+
+#dialog_icons .el-dialog__header .el-input {
+    width: 150px;
+}
+
+#dialog_icons .el-dialog__header .result_count {
+    font-size: 13px;
+    line-height: 35px;
+    margin-left: 15px;
+}
+
+#dialog_icons .el-dialog {
+    width: 80% !important;
+    height: 70% !important;
+}
+
+#dialog_icons .el-dialog__body {
+    width: calc(100% - 50px) !important;
+    height: calc(100% - 100px) !important;
+    padding: 10px 10px 10px 20px !important;
+    overflow-y: auto;
+}
+
+#dialog_icons .el-dialog__body span {
     font-family: "webdesk_icon" !important;
     font-size: 30px !important;
     display: inline-block;
@@ -11,10 +53,17 @@
     transition: all .5s ease-out;
 }
 
-    .icons_select_panel span:hover {
-        transform: scale(1.3);
-        color: brown;
-    }
-    .icons_select_panel span[selected] {
-        color: brown;
-    }
+#dialog_icons .el-dialog__body span:hover {
+    transform: scale(1.3);
+    color: brown;
+}
+
+#dialog_icons .el-dialog__body span[selected] {
+    color: brown;
+}
+#dialog_icons .query_result{
+    border-bottom: solid 1px #ccc;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+
+}

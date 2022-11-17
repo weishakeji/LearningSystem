@@ -19,8 +19,7 @@ $ready(function () {
             },
             MM_PatId: '',    //临时数据，用于移动菜单时的临时记录
             loading: false,  //预载
-            drawer: false,  //编辑的面板
-            iconSelect: false    //图标选择
+            drawer: false  //编辑的面板         
         },
         watch: {
             drawer: function (nl, ol) {

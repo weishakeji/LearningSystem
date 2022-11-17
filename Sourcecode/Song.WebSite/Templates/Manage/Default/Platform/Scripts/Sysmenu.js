@@ -14,8 +14,8 @@ $ready(function () {
                 ]
             },
             loading: false,  //预载
-            drawer: false,  //编辑的面板
-            iconSelect: false    //图标选择
+            drawer: false  //编辑的面板
+           
         },
         watch: {
             drawer: function (nl, ol) {

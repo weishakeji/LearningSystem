@@ -8,8 +8,7 @@ $ready(function () {
             config: {},      //当前机构配置项    
             site: $api.dot("web"),    //电脑端为web,手机端为mobi
             type: $api.querystring("type", "main"),   //主菜单为main,底部为foot
-
-            iconSelect: false,       //选择图标
+    
             drawer: false,       //是否显示详情
             curr: {},            //当前要显示的项           
             defaultProps: {
