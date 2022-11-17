@@ -3,7 +3,7 @@
 
 <head resource>
   <include file="../inc/meta.inc" />
-  <title>导航菜单</title> 
+  <title>导航菜单</title>
 </head>
 
 <body>
@@ -20,9 +20,10 @@
 
             <span class="tree-node draghandle" :bold="data.Nav_IsBold" :color="data.Nav_Color"
               :style="'color:'+data.Nav_Color">
-                <icon v-if="data.Nav_Icon==null || data.Nav_Icon==''" setup>&#xa038;</icon>
-                <icon v-else v-html="'&#x'+data.Nav_Icon+';'"></icon>
-              <img :src="data.Nav_Logo" v-if="data.Nav_Logo!=''" class="img_logo" @mouseover="hoverlogo(data.Nav_Logo)" @mouseout="mouseleave"/>
+              <icon v-if="data.Nav_Icon==null || data.Nav_Icon==''" setup></icon>
+              <icon v-else v-html="'&#x'+data.Nav_Icon+';'"></icon>
+              <img :src="data.Nav_Logo" v-if="data.Nav_Logo!=''" class="img_logo" @mouseover="hoverlogo(data.Nav_Logo)"
+                @mouseout="mouseleave" />
               {{ data.Nav_Name }}
               <span class="link" :title="data.Nav_Target">{{data.Nav_Url}}</span>
             </span>
@@ -116,8 +117,8 @@
           <el-col :span="4">
             <el-form-item label="" label-width="5px">
 
-              <el-link type="primary"  @click="$refs['icons'].show=true" title="选择图标"> <icon
-                  v-if="curr.Nav_Icon==null || curr.Nav_Icon==''" setup>&#xa038;</icon>
+              <el-link type="primary" @click="$refs['icons'].show=true" title="选择图标">
+                <icon v-if="curr.Nav_Icon==null || curr.Nav_Icon==''" setup></icon>
                 <icon v-else v-html="'&#x'+curr.Nav_Icon+';'"></icon>
               </el-link>
             </el-form-item>
@@ -160,21 +161,21 @@
         </el-form-item>
         <el-form-item label="图片">
           <template v-if="!loading_up">
-          <upload-img @change="fileupload" id="fileupload" :data="curr">
-            <img v-if="curr.Nav_Logo" :src="curr.Nav_Logo" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </upload-img>         
-          <el-link type="primary" v-if="curr.Nav_Logo!=''" :disabled="loading_sumbit" @click="clearlogo(curr)">清除图片
-          </el-link>
-        </template>
-        <template v-else>
-          <span class="el-icon-loading"></span>
-        </template>
+            <upload-img @change="fileupload" id="fileupload" :data="curr">
+              <img v-if="curr.Nav_Logo" :src="curr.Nav_Logo" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </upload-img>
+            <el-link type="primary" v-if="curr.Nav_Logo!=''" :disabled="loading_sumbit" @click="clearlogo(curr)">清除图片
+            </el-link>
+          </template>
+          <template v-else>
+            <span class="el-icon-loading"></span>
+          </template>
         </el-form-item>
       </el-form>
     </el-drawer>
 
-    <icons @change='val=>{curr.MM_IcoS=val}' ref="icons" :selected="curr.MM_IcoS"></icons>
+    <icons @change='val=>{curr.Nav_Icon=val}' ref="icons" :selected="curr.Nav_Icon"></icons>
   </div>
 </body>
 
