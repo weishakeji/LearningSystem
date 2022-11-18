@@ -31,19 +31,20 @@
         <template>
             <el-table ref="datatables" :data="accounts" :stripe="true" tooltip-effect="dark" style="width: 100%"
                 @selection-change="val=>selects=val" @row-dblclick="rowdblclick"
-                :row-class-name="data=>{return data.row.Acc_IsUse ? 'enable' : 'disabled';}" >
+                :row-class-name="data=>{return data.row.Acc_IsUse ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
-                <el-table-column type="index"  label="#" width="50" align="center">
+                <el-table-column type="index" label="#" width="50" align="center">
                     <template slot-scope="scope">
                         <span>{{(form.index - 1) * form.size + scope.$index + 1}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="姓名/账号">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.Acc_Sex=='1'" class="man" icon="&#xe645" title="男性"></span>
-                        <span v-if="scope.row.Acc_Sex=='2'" class="woman" icon="&#xe647" title="女性"></span>
-                        <span v-html='showInfo(scope.row.Acc_Name)'></span>/ {{ scope.row.Acc_AccName }}
+                        <icon :woman="scope.row.Acc_Sex==2" :man="scope.row.Acc_Sex==1" class="large">
+                            <span v-html='showInfo(scope.row.Acc_Name)'></span> / 
+                            <span class="accname" title="账号">{{ scope.row.Acc_AccName}}</span>
+                        </icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="电话" width="120">
@@ -59,14 +60,14 @@
                 <el-table-column label="启用" width="80" align="center">
                     <template slot-scope="scope">
                         <span class="el-icon-loading" v-show="loadingid==scope.row.Acc_Id"></span>
-                        <el-switch v-model="scope.row.Acc_IsUse" :disabled='scope.row.isAdminPosi' @change="changeUse(scope.row)"
-                            v-show="loadingid!=scope.row.Acc_Id">
+                        <el-switch v-model="scope.row.Acc_IsUse" :disabled='scope.row.isAdminPosi'
+                            @change="changeUse(scope.row)" v-show="loadingid!=scope.row.Acc_Id">
                         </el-switch>
                     </template>
                 </el-table-column>
                 <el-table-column label="密码" width="80" align="center">
                     <template slot-scope="scope">
-                        <el-link type="primary" plain icon="el-icon-edit"  :disabled='scope.row.isAdminPosi'
+                        <el-link type="primary" plain icon="el-icon-edit" :disabled='scope.row.isAdminPosi'
                             @click="$refs.btngroup.pagebox('Pwreset?id='+scope.row.Acc_Id,'密码重置','Pwreset_'+scope.row.Acc_Id)">
                             重置</el-link>
                     </template>

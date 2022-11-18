@@ -26,7 +26,7 @@
                 </el-table-column>
                 <el-table-column label="岗位名称">
                     <template slot-scope="scope">
-                        <span v-html='scope.row.Posi_Name' class="draghandle"></span>
+                        <span v-html='scope.row.Posi_Name' class="draghandle large" ></span>
                         <span class="el-icon-s-custom red" v-show='scope.row.Posi_IsAdmin' title="系统管理岗"></span>
                     </template>
                 </el-table-column>
