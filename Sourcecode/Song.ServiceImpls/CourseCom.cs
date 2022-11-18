@@ -1353,7 +1353,7 @@ namespace Song.ServiceImpls
             return sc != null;
         }
         /// <summary>
-        /// 直接学习该课程
+        /// 是否直接学习该课程
         /// </summary>
         /// <param name="couid">课程id</param>
         /// <param name="stid">学员id</param>
@@ -1365,7 +1365,7 @@ namespace Song.ServiceImpls
             return this.AllowStudy(course, acc);
         }
         /// <summary>
-        /// 是可以直接学习该课程
+        /// 是否可以直接学习该课程
         /// </summary>
         /// <param name="course">课程对象</param>
         /// <param name="acc">学员账号对象</param>

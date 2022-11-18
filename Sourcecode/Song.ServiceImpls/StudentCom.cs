@@ -1322,15 +1322,16 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         /// </summary>
         /// <param name="acid">学员id</param>
         /// <param name="sbjid">学科id</param>
+        /// <param name="couid"></param>
         /// <param name="type">试题类型</param>
         /// <returns></returns>
         public Questions[] QuesAll(int acid, long sbjid, long couid, int type)
         {
             WhereClip wc = new WhereClip();
-            if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
-            if (sbjid > 0) wc.And(Student_Ques._.Sbj_ID == sbjid);
-            if (couid > 0) wc.And(Questions._.Cou_ID == couid);
+            if (couid > 0) wc.And(Student_Ques._.Cou_ID == couid);
             if (type > 0) wc.And(Student_Ques._.Qus_Type == type);
+            if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
+            if (sbjid > 0) wc.And(Student_Ques._.Sbj_ID == sbjid);          
             return Gateway.Default.From<Questions>()
                 .InnerJoin<Student_Ques>(Questions._.Qus_ID == Student_Ques._.Qus_ID)
                 .Where(wc).OrderBy(Questions._.Qus_ID.Desc).ToArray<Questions>();
@@ -1345,10 +1346,10 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         public Questions[] QuesCount(int acid, long sbjid, long couid, int type, int count)
         {
             WhereClip wc = new WhereClip();
-            if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
-            if (sbjid > 0) wc.And(Student_Ques._.Sbj_ID == sbjid);
             if (couid > 0) wc.And(Student_Ques._.Cou_ID == couid);
             if (type > 0) wc.And(Student_Ques._.Qus_Type == type);
+            if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
+            if (sbjid > 0) wc.And(Student_Ques._.Sbj_ID == sbjid);           
             return Gateway.Default.From<Questions>()
                 .InnerJoin<Student_Ques>(Questions._.Qus_ID == Student_Ques._.Qus_ID)
                 .Where(wc).OrderBy(Questions._.Qus_CrtTime.Desc).ToArray<Questions>(count);
@@ -1364,10 +1365,10 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         public int QuesOfCount(int stid, long sbjid, long couid, int type)
         {
             WhereClip wc = new WhereClip();
-            if (stid > 0) wc.And(Student_Ques._.Ac_ID == stid);
-            if (sbjid > 0) wc.And(Student_Ques._.Sbj_ID == sbjid);
             if (couid > 0) wc.And(Student_Ques._.Cou_ID == couid);
             if (type > 0) wc.And(Student_Ques._.Qus_Type == type);
+            if (stid > 0) wc.And(Student_Ques._.Ac_ID == stid);
+            if (sbjid > 0) wc.And(Student_Ques._.Sbj_ID == sbjid);           
             return Gateway.Default.Count<Student_Ques>(wc);
         }
         /// <summary>
@@ -1400,10 +1401,10 @@ on c.qus_id=sq.qus_id order by sq.count desc";
         public Questions[] QuesPager(int acid, long sbjid, long couid, int type, int diff, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
-            if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
-            if (sbjid > 0) wc.And(Student_Ques._.Sbj_ID == sbjid);
             if (couid > 0) wc.And(Student_Ques._.Cou_ID == couid);
             if (type > 0) wc.And(Student_Ques._.Qus_Type == type);
+            if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
+            if (sbjid > 0) wc.And(Student_Ques._.Sbj_ID == sbjid);           
             if (diff > 0) wc.And(Student_Ques._.Qus_Diff == diff);
             countSum = Gateway.Default.Count<Student_Ques>(wc);
             return Gateway.Default.From<Questions>()

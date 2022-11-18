@@ -64,7 +64,7 @@
                         </template>
                     </div>
                     <!--购买课程的按钮-->
-                    <largebutton :course="course" :purchase="purchase" :account="account" :studied="studied"
+                    <largebutton :course="course" :purchase="purchase" :account="account" :studied="studied" :forever="forever"
                         :finaltest="finaltest">
                     </largebutton>
 
@@ -116,7 +116,7 @@
                                     </a>
                                 </template>
                                 <template v-else>
-                                    <template v-if="studied || course.Cou_IsFree || course.Cou_IsLimitFree">
+                                    <template v-if="studied || course.Cou_IsFree || course.Cou_IsLimitFree || forever">
                                         <a type="success" v-if="o.Ol_IsVideo"
                                             :href="'study.'+course.Cou_ID+'?olid='+o.Ol_ID">
                                             <progress_video :videolog="videolog" :outline="o" text="学习"

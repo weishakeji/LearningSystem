@@ -1,7 +1,7 @@
 //课程购买或学习的按钮
 Vue.component('largebutton', {
     //当前课程，当前学员
-    props: ["course", "account", "studied", "finaltest", "purchase"],
+    props: ["course", "account", "studied", "finaltest", "purchase","forever"],
     data: function () {
         return {}
     },
@@ -45,7 +45,7 @@ Vue.component('largebutton', {
     },
     template: ` <div class="couBtnBox">
         <a v-if="!islogin" :href="url('login')">登录学习</a> 
-        <template v-else-if="canstudy">
+        <template v-else-if="canstudy || forever">
             <a :href="url('study')">开始学习</a>
             <a :href="url('test')" v-if="istest" class="finaltest"><icon>&#xe810</icon>结课考试</a>
         </template>      
