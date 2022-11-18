@@ -254,6 +254,7 @@ footer#nav_menu icon {
 	line-height: 26px;
 	height: 25px;
 	display: block;
+	margin: 0px;
 }
 
 footer#nav_menu>div span {

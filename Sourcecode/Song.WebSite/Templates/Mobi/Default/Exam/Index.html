@@ -32,8 +32,8 @@
       </van-row>
       <van-sticky>
         <div class="menu-box" v-if="islogin">
-          <div icon="&#xe810" @click="tabmenu='my_exam'">我的考试</div>
-          <div icon="&#xa023" @click="tabmenu='all_exam'">所有考试</div>
+          <div icon="&#xe811" @click="tabmenu='my_exam'">我的考试</div>
+          <div icon="&#xe810" @click="tabmenu='all_exam'">所有考试</div>
           <div icon="&#xe6ef" @click="tabmenu='score_exam'">成绩查看</div>
         </div>
       </van-sticky>
@@ -44,7 +44,7 @@
     <template v-else>
       <template v-if="tabmenu=='my_exam' && islogin">
         <card>
-          <card-title icon="&#xe810">我的考试
+          <card-title icon="&#xe811">我的考试
             <div class="search"><input type="search" placeholder="搜索" v-model="search.my_exam"
                 @change="onsearch('my_exam')"></input></div>
           </card-title>
@@ -60,7 +60,7 @@
       <template v-if="tabmenu=='all_exam' || !islogin">
         <van-sticky>
           <card>
-            <card-title icon="&#xa023">所有考试
+            <card-title icon="&#xe810">所有考试
               <div class="search"><input type="search" placeholder="搜索" v-model="search.all_exam"
                   @change="onsearch('all_exam')"></input></div>
             </card-title>

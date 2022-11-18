@@ -42,7 +42,7 @@
 }
 
     .cour-card .cour-title more::before {
-        content: "\e67e";
+        content: "\e001";
         font-family: webdesk_icon;
         color: #888888;
     }

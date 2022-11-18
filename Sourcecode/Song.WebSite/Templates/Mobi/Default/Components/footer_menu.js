@@ -8,7 +8,7 @@ Vue.component('footer_menu', {
                 { name: '首页', url: '/mobi/', icon: 'a020', img: '', size: 22, show: true },
                 { name: '课程中心', url: '/mobi/course/index', icon: 'e765', img: '', size: 25, show: true },
                 { name: '我的课程', url: '/mobi/Account/MyCourse', icon: 'e813', img: '', size: 23, show: true },
-                { name: '考试', url: '/mobi/exam/index', icon: 'a023', img: '', size: 20, show: true },
+                { name: '考试', url: '/mobi/exam/index', icon: 'e810', img: '', size: 24, show: true },
                 { name: '我的..', url: '', icon: 'e804', img: '', size: 26, show: true, evt: this.btnMymenu }
             ],
             deficon: 'e72f',    //默认图标

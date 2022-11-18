@@ -10,7 +10,7 @@ body {
 }
 
 .icon {
-    font-family: "webdesk_icon" !important; 
+    font-family: "webdesk_icon" !important;
     font-style: normal;
     font-weight: normal;
     font-variant: normal;
@@ -56,6 +56,12 @@ li {
     text-align: center;
 }
 
+li.selected, li.selected * {
+    color: red !important;
+}
+li.selected i.icon{
+    font-size: 70px;
+}
 .iconfont-list {
     border-top: solid 1px #ccc;
     margin-top: 10px;

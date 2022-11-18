@@ -113,6 +113,7 @@ card-title.error a {
 	position: fixed;
 	width: 100%;
 	bottom: 0px;
+	right: 0px;	
 	z-index: 3;
 }
 
