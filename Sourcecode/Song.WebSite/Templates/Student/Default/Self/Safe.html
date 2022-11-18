@@ -26,7 +26,10 @@
                     <el-input v-model="formpw.newpw" show-password></el-input>
                 </el-form-item>
                 <el-form-item label="确认输入" prop="newpw2">
-                    <el-input v-model="formpw.newpw2" show-password></el-input>
+                    <el-input v-model="formpw.newpw2" show-password></el-input>                  
+                </el-form-item>
+                <el-form-item label="" v-if="false">                   
+                    <securitylevel></securitylevel>
                 </el-form-item>
 
                 <el-form-item class="footer">

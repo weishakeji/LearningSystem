@@ -384,8 +384,7 @@ namespace Song.ServiceImpls
 
             if (!(obj is List<Course>)) return false;
             List<Course> list = (List<Course>)obj;
-            int index = list.FindIndex(e => e.Cou_ID == couid);
-            return index > 0;
+            return list.Exists(e => e.Cou_ID == couid);           
 
             //int count = Gateway.Default.Count<StudentSort_Course>(StudentSort_Course._.Sts_ID == stsid && StudentSort_Course._.Cou_ID == couid);
             //return count > 0;
@@ -457,6 +456,7 @@ namespace Song.ServiceImpls
         public List<Course> SortCourseList(long stsid, string name)
         {
             WhereClip wc = new WhereClip();
+            wc.And(StudentSort_Course._.Sts_ID == stsid);
             if (!string.IsNullOrWhiteSpace(name)) wc.And(Course._.Cou_Name.Like("%" + name.Trim() + "%"));
             return Gateway.Default.From<Course>()
                 .InnerJoin<StudentSort_Course>(Course._.Cou_ID == StudentSort_Course._.Cou_ID)

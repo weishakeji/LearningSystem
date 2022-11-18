@@ -1258,8 +1258,12 @@
     <Content Include="Templates\Web\Default\Viewport\Index.html" />
     <Content Include="Templates\Web\Default\Viewport\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Viewport\Styles\Index.css" />
+    <Content Include="Utilities\Components\securitylevel.js" />
+    <Content Include="Utilities\Components\Question\Question.js" />
+    <Content Include="Utilities\Components\Question\Styles\Question.css" />
     <Content Include="Utilities\Components\student_batch.js" />
     <Content Include="Utilities\Components\sbj_cascader.js" />
+    <Content Include="Utilities\Components\Styles\securitylevel.css" />
     <Content Include="Utilities\Components\Styles\student_batch.css" />
     <Content Include="Utilities\Components\Styles\sbj_cascader.css" />
     <Content Include="Utilities\Components\Styles\icons.css" />

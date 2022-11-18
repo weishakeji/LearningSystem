@@ -157,4 +157,4 @@ $ready(function () {
         }
     });
 
-});
+}, ["/Utilities/Components/securitylevel.js"]);

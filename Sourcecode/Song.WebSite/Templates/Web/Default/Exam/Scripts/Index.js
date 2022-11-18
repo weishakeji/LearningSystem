@@ -156,8 +156,8 @@ $ready(function () {
             return {
                 //选项卡，search为搜索字符
                 tabs: [
-                    { 'name': '我的考试', 'tag': 'my_exam', 'icon': 'e810', 'curr': true, 'search': '', 'login': true },
-                    { 'name': '所有考试', 'tag': 'all_exam', 'icon': 'a023', 'curr': false, 'search': '', 'login': false },
+                    { 'name': '我的考试', 'tag': 'my_exam', 'icon': 'e811', 'curr': true, 'search': '', 'login': true },
+                    { 'name': '所有考试', 'tag': 'all_exam', 'icon': 'e810', 'curr': false, 'search': '', 'login': false },
                     { 'name': '成绩查看', 'tag': 'score_exam', 'icon': 'e6ef', 'curr': false, 'search': '', 'login': true },
                 ],
             }
