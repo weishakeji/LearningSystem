@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>成绩回顾</title>
+    <title>考试成绩回顾</title>
 </head>
 
 <body>
@@ -23,10 +23,20 @@
                         <span class="acc-name">{{student.Ac_Name}} </span>
                     </div>
                     <div class="exam_info">，于<span>
-                            {{result.Exr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span> 参加的考试，成绩详情
+                            {{result.Exr_CrtTime|date("yyyy-MM-dd HH:mm")}}</span> 考试
+                        <el-link type="primary" @click="window.print()" class="noprint">
+                            <icon>&#xa046</icon>打印
+                        </el-link>
                     </div>
+
                     <score :class="scoreStyle(scoreFinal)">{{scoreFinal}} 分</score>
                 </template>
+            </div>
+
+        </div>
+        <context v-if="!loading">
+            <div class="tp_name" >
+                《 <span v-html="exam.Exam_Title"></span>》
             </div>
             <div class="sticky">
                 <el-tabs v-model="tabactive">
@@ -51,18 +61,15 @@
                 <span class="score" v-if="paper">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
                 <alert v-else>试卷不存在</alert>
             </div>
-        </div>
-        <context v-if="!loading">
             <el-card v-if="error!=''" remark="如果考试未结束">
                 {{error}}
             </el-card>
             <template v-else>
-
                 <div class="question">
                     <group v-for="(type,index) in questions" :item="type" :index="index" :types="types"
                         :state="tabactive">
                         <question v-for="(q,i) in type.ques" :qans="q" :index="i" :state="tabactive" :groupindex="index"
-                            :questions="questions"></question>
+                            :questions="questions" :org="organ"></question>
                     </group>
                 </div>
             </template>

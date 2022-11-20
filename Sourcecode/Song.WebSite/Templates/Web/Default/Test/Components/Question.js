@@ -24,7 +24,7 @@ Vue.component('question', {
             },
             immediate: true
         }
-    },
+    },    
     computed: {},
     mounted: function () { },
     methods: {

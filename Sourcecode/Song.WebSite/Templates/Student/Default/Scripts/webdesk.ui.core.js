@@ -883,11 +883,11 @@
                     });
                 }, 300);
                 //解析公式的方法，需要vue对象中updated中引用this.$mathjax()
-                Vue.prototype.$mathjax = function () {
+                Vue.prototype.$mathjax = function (elementid) {
                     // 判断是否初始配置，若⽆则配置
                     if (window.globalVariable.isMathjaxConfig)
                         window.globalVariable.initMathjaxConfig();
-                    window.globalVariable.TypeSet();
+                    window.globalVariable.TypeSet(elementid);
                 }
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径

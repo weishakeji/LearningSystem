@@ -26,7 +26,7 @@ window.globalVariable = {
         }
         window.MathJax.startup.promise = window.MathJax.startup.promise
             .then(() => {
-                return window.MathJax.typesetPromise()
+                return window.MathJax.typesetPromise(elementId)
             })
             .catch((err) => console.log('Typeset failed: ' + err.message))
         return window.MathJax.startup.promise

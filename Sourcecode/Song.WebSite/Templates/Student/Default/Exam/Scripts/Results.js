@@ -96,7 +96,7 @@ $ready(function () {
                 var obj = {
                     'url': url,
                     'ico': 'e6ef', 'min': false,
-                    'title': '成绩查看 - ' + result.Exam_Name,
+                    'title': '成绩查看 - ' + result.Exam_Title,
                     'width': '80%',
                     'height': '80%'
                 }

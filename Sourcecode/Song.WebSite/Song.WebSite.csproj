@@ -1119,6 +1119,8 @@
     <Content Include="Templates\Student\Default\Study\Scripts\Print.js" />
     <Content Include="Templates\Student\Default\Study\Styles\Print.css" />
     <Content Include="Templates\Student\Default\Styles\Start.css" />
+    <Content Include="Templates\Student\Default\Test\Components\course_data.js" />
+    <Content Include="Templates\Student\Default\Test\Components\Styles\exam_test.css" />
     <Content Include="Templates\Student\Default\Test\Review.html" />
     <Content Include="Templates\Student\Default\Test\Scripts\Review.js" />
     <Content Include="Templates\Student\Default\Test\Styles\Review.css" />
@@ -1259,7 +1261,7 @@
     <Content Include="Templates\Web\Default\Viewport\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Viewport\Styles\Index.css" />
     <Content Include="Utilities\Components\securitylevel.js" />
-    <Content Include="Utilities\Components\Question\Question.js" />
+    <Content Include="Utilities\Components\Question\result.js" />
     <Content Include="Utilities\Components\Question\Styles\Question.css" />
     <Content Include="Utilities\Components\student_batch.js" />
     <Content Include="Utilities\Components\sbj_cascader.js" />

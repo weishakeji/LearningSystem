@@ -55,7 +55,7 @@ $ready(function () {
         },
         updated: function () {
             this.$mathjax();
-       },
+        },
         mounted: function () {
             $api.bat(
                 $api.get('Account/Current'),

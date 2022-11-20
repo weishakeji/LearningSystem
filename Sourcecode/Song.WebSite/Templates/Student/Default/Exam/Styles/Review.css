@@ -34,13 +34,15 @@
 	.resultBox {
 		font-size: 16px !important;
 	}
+
 	context .resultBox>div {
 		page-break-inside: avoid;
 	}
+
 	context .ans_area>div {
 		page-break-inside: avoid;
 	}
-	
+
 }
 
 #vapp {
@@ -185,109 +187,20 @@ context {
 	padding: 15px;
 	overflow-y: auto;
 }
-
-
-context card:first-child {
-	margin: 0px 0px 15px 0px;
-	width: 100%;
-}
-
-context card:first-child card-title {
+/*考试标题*/
+.tp_name {
+	font-size: 20px;
 	text-align: center;
+	box-sizing: border-box;
+	padding: 15px 0px 30px 0px;
 }
-
-.question img {
-	max-width: 100%;
-}
-
-.info {
-	padding: 10px;
-	font-size: 16px;
-	line-height: 25px;
-}
-
-span.tag {
-	color: #999;
-	font-size: 14px;
-}
-
-card[qid] card-title::before {
-	content: attr(index) ' . ';
-	float: left;
-}
-
-card[qid] card-title>* {
-	display: inline;
-}
-
-/*试题的题型*/
-
-.type_title {
-	padding: 10px;
-}
-
-.type_info {
-	float: right;
-}
-
-/*试题选项*/
-
-.ans_area {
-	margin-left: 20px;
-}
-
-.ans_area>div {
+.sticky {
 	position: relative;
-	line-height: 30px;
 }
 
-.type1>div i::before {
-	font-family: "webdesk_icon" !important;
-	content: '\e85c';
-	font-style: normal;
-	margin-right: 5px;
-}
-
-.type1>div[selected] i::before {
-	font-family: "webdesk_icon" !important;
-	content: '\e85b';
-	font-style: normal;
-}
-
-.ans_area>div[correct] {}
-
-.ans_area>div[correct]::before {
-	content: '\a048';
+.sticky .score {
 	position: absolute;
-	left: -20px;
-	font-family: "webdesk_icon" !important;
-}
-
-.type2>div i::before {
-	font-family: "webdesk_icon" !important;
-	content: '\e603';
-	font-style: normal;
-	margin-right: 5px;
-}
-
-.type2>div[selected] i::before {
-	font-family: "webdesk_icon" !important;
-	content: '\e78b';
-	font-style: normal;
-}
-
-/*答题与解析等*/
-.resultBox {
-	padding: 10px;
+	right: 0px;
+	top: 10px;
 	font-size: 14px;
-	line-height: 25px;
-
-}
-
-.resultBox>div.result_score {
-	color: #ff0000;
-}
-
-.resultBox>div.result_score[success] {
-	color: #1989fa;
 }

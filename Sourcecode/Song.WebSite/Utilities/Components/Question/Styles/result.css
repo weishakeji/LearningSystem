@@ -1,0 +1,211 @@
+@media print {
+	card {
+		box-shadow: none !important;
+		border: none !important;
+		background-color: transparent !important;
+	}
+
+	card-title {
+		border: none !important;
+	}
+
+	/*答题与解析等*/
+	.resultBox {
+		font-size: 16px !important;
+	}
+
+	context .resultBox>div {
+		page-break-inside: avoid;
+	}
+
+	context .ans_area>div {
+		page-break-inside: avoid;
+	}
+
+	card[qid] {
+		position: relative;
+	}
+
+	card[qid] .orgname {
+		position: absolute;
+		top: 30px;
+		right: 0px;
+		font-size: 50px;
+		font-weight: bold;
+		color: rgba(187, 187, 187, 0.3);
+		z-index: 1;
+		transform: rotate(-7deg);
+		cursor: default;
+	}
+
+	.noprint {
+		display: none;
+	}
+
+	.noview {
+		display: inline-block !important;
+	}
+}
+
+card[qid] .noview {
+	display: none;
+}
+
+card[qid]:first-child {
+	margin: 0px 0px 15px 0px;
+	width: 100%;
+}
+
+card[qid]:first-child card-title {
+	text-align: center;
+}
+
+card[qid] img {
+	max-width: 100%;
+}
+
+card[qid] span.tag {
+	color: #999;
+	font-size: 14px;
+}
+
+card[qid] card-title::before {
+	content: attr(index) ' . ';
+	float: left;
+	margin-right: 10px;
+}
+
+card[qid] card-title>* {
+	display: inline;
+	font-size: 16px;
+}
+
+card[qid] card-title .null {
+	font-size: 13px;
+	color: #ccc;
+	margin: 0px 15px;
+}
+
+/*试题的题型*/
+
+card[qid] .type_title {
+	padding: 10px;
+}
+
+card[qid] *:empty {
+	display: none;
+}
+
+card[qid] .type_info {
+	float: right;
+}
+
+/*试题选项*/
+
+card[qid] .ans_area {
+	margin-left: 20px;
+}
+
+card[qid] .ans_area>div {
+	position: relative;
+	line-height: 30px;
+}
+
+card[qid] .ans_area>div i {
+	font-style: normal;
+	margin-right: 10px;
+}
+
+card[qid] .ans_area>div P:first-child, card[qid] .ans_area>div div:first-child {
+	display: inline;
+}
+
+card[qid] .type1>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e85c';
+	font-style: normal;
+	margin-right: 5px;
+}
+
+card[qid] .type1>div[selected] i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e85b';
+	font-style: normal;
+}
+
+card[qid] .ans_area>div[correct], card[qid] .ans_area>div[correct] * {
+	color: #1989fa !important;
+}
+
+card[qid] .ans_area>div[correct]::before {
+	content: '\a048';
+	position: absolute;
+	left: -20px;
+	top: 2px;
+	font-size: 18px;
+	color: #1989fa;
+	font-family: "webdesk_icon" !important;
+}
+
+card[qid] .type2>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e603';
+	font-style: normal;
+	margin-right: 5px;
+}
+
+card[qid] .type2>div[selected] i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e78b';
+	font-style: normal;
+}
+
+/*判断题*/
+card[qid] .type3 {
+	display: flex;
+}
+
+card[qid] .type3>div:first-child {
+	margin-right: 40px;
+}
+
+card[qid] .type3>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e603';
+	font-style: normal;
+	margin-right: 5px;
+}
+
+card[qid] .type3>div[selected] i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e78b';
+	font-style: normal;
+}
+
+/*答题与解析等*/
+card[qid] .resultBox {
+	padding: 10px;
+	font-size: 14px;
+	line-height: 25px;
+
+}
+
+card[qid] .resultBox>div:first-child {
+	display: flex;
+}
+
+card[qid] .resultBox>div:first-child>div {
+	margin-right: 20px;
+}
+
+card[qid] .resultBox>div[mobi]:first-child {
+	display: block;
+}
+
+card[qid] .resultBox div.result_score {
+	color: #ff0000;
+}
+
+card[qid] .resultBox div.result_score[success] {
+	color: #1989fa;
+}

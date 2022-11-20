@@ -280,6 +280,13 @@
         isIE: function () {
             return !!window.ActiveXObject || "ActiveXObject" in window;
         },
+        //是否是手机端
+        ismobi: function () {
+            var regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
+            var u = navigator.userAgent;
+            if (null == u) return true;
+            return regex_match.exec(u) != null;
+        },
         //对象转Json
         toJson: function (value) {
             //将对象中为的DateTime对象转为数值
@@ -698,7 +705,7 @@
         },
         //验证是否是合法的网址
         check: function (url) {
-            var reg=/(http|ftp|https|mms):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;           
+            var reg = /(http|ftp|https|mms):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/;
             return reg.test(url);
         },
         //取地址的主机部分，例如 http://xxx.com/
@@ -1456,12 +1463,12 @@ Number.prototype.money = function (len) {
     var str = String(this);
     //小数部分
     var float_num = 0;
-    if (len == null) len = 2; 
+    if (len == null) len = 2;
     if (str.indexOf('.') > -1) {
         var f = str.substring(str.indexOf('.') + 1);
         var j = 0, s = '';
         while (len-- > 0) s += f.substring(j++, j);
-        float_num = isNaN(Number(s)) ? 0 : Number(s);       
+        float_num = isNaN(Number(s)) ? 0 : Number(s);
     }
     str = str.indexOf('.') > -1 ? str.substring(0, str.indexOf('.')) : str;
     //整数部分，每三位加一个逗号

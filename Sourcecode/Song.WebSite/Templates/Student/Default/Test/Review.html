@@ -4,7 +4,7 @@
 <head resource>
     <meta charset="utf-8">
     <include file="../inc/meta.inc" />
-    <title>成绩回顾</title>
+    <title>测试成绩回顾</title>
 </head>
 
 <body>
@@ -44,7 +44,7 @@
         </div>
         <context>
             <div v-if="!loading" class="tp_name">
-                《{{paper.Tp_Name}}》
+                《<span v-html="paper.Tp_Name"></span>》
             </div>
             <template v-if="error==''">
                 <div class="sticky">
@@ -66,7 +66,9 @@
                                 <span icon="&#xa01f">未做({{ques_unanswerd_count}})
                             </template>
                         </el-tab-pane>
-                    </el-tabs>                  
+                    </el-tabs>     
+                    <span class="score" v-if="paper">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
+                    <alert v-else>试卷不存在</alert>             
                 </div>
                 <div class="question">
                     <group v-for="(type,index) in questions" :item="type" :index="index" :types="types"
