@@ -30,13 +30,13 @@
             </el-form>
             <div>
                 <el-tag type="success" class="tatol_info">
-                    <icon>&#xe847</icon>{{account.Ac_Coupon}} 券
+                    <icon coupon></icon>{{account.Ac_Coupon}} 券
                 </el-tag>
                 <el-button type="primary" sizie="mini" plain @click="exchangeShow=true">
                     <icon>&#xe88a</icon>兑换
                 </el-button>
                 <el-button type="success" sizie="mini" plain @click="useCardShow=true">
-                    <icon>&#xe847</icon>充值
+                    <icon>&#xe771</icon>充值
                 </el-button>
 
             </div>
@@ -59,7 +59,12 @@
                         </span>
                     </template>
                 </el-table-column>
-
+                <el-table-column label="余额" width="100">
+                    <template slot-scope="scope">
+                       
+                        <icon coupon>{{scope.row.Ca_Total}}</icon>
+                    </template>
+                </el-table-column>
                 <el-table-column label="说明">
                     <template slot-scope="scope">
                         <span v-if="scope.row.Ca_Info!=''">{{scope.row.Ca_Info}}</span>

@@ -119,6 +119,22 @@ $ready(function () {
             }
         },
         methods: {
+             //获取当前登录账号
+             getAccount: function () {
+                var th=this;
+                $api.post('Account/Current').then(function (req) {
+                    if (req.data.success) {
+                        th.account  = req.data.result;                       
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                    th.$toast.success(err);                   
+                   
+                });
+            },
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
@@ -160,6 +176,7 @@ $ready(function () {
                                         th.useCardShow = false;
                                     }
                                 });
+                                th.getAccount();
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;
