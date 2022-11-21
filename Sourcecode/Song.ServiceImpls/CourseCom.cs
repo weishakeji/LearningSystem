@@ -1452,7 +1452,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="stid"></param>
         /// <param name="couid"></param>
-        public void DelteCourseBuy(int stid, long couid)
+        public void DeleteCourseBuy(int stid, long couid)
         {
             //Gateway.Default.Delete<Student_Course>(Student_Course._.Ac_ID == stid && Student_Course._.Cou_ID == couid);
             using (DbTrans tran = Gateway.Default.BeginTrans())

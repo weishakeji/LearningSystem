@@ -614,8 +614,8 @@ namespace Song.ServiceImpls
             code = code.Substring(0, code.IndexOf("-"));
             //验证是否正确
             WhereClip wc = new WhereClip();
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            wc &= LearningCard._.Org_ID == org.Org_ID;
+            //Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            //wc &= LearningCard._.Org_ID == org.Org_ID;
             wc &= LearningCard._.Lc_Code == code.Trim();
             wc &= LearningCard._.Lc_Pw == pw.Trim();
             wc &= LearningCard._.Lc_LimitStart < DateTime.Now;

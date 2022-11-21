@@ -354,7 +354,7 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="stid"></param>
         /// <param name="couid"></param>
-        void DelteCourseBuy(int stid, long couid);
+        void DeleteCourseBuy(int stid, long couid);
         /// <summary>
         /// 学员购买的该课程,以及学员组关联的课程，按到期时间倒序
         /// </summary>

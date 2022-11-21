@@ -839,57 +839,7 @@ namespace Song.ViewData.Methods
         public int StudySum(long couid)
         {
             return Business.Do<ICourse>().CourseStudentSum(couid, false);
-        }
-        /// <summary>
-        /// 当前登录学员，是否在学习这门课程
-        /// </summary>
-        /// <param name="couid">课程id</param>
-        /// <returns></returns>
-        //[Student]
-        public bool Studied(long couid)
-        {
-            //Song.Entities.Course cur = Business.Do<ICourse>().CourseSingle(id);
-
-            Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
-            if (acc == null) return false;
-            //是否购买过该课程
-            bool isBuy = Business.Do<ICourse>().IsBuy(couid, acc.Ac_ID);
-            //是否试用
-            bool isTry = Business.Do<ICourse>().IsTryout(couid, acc.Ac_ID);
-            //是否存在于学员组所关联的课程
-            bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
-            return isBuy || isTry || isExistSort;
-        }
-        /// <summary>
-        /// 当前登录学员，是否可以学习该课程（学员可能未购买，但课程可以试用）
-        /// </summary>
-        /// <param name="couid">课程id</param>
-        /// <returns></returns>
-        //[Student]
-        public bool StudyAllow(long couid)
-        {
-            Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
-            if (acc == null) return false;
-            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
-            if (course == null) return false;
-            //是否免费，或是限时免费
-            if (course.Cou_IsLimitFree)
-            {
-                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
-                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
-                    course.Cou_IsLimitFree = false;
-            }
-            if (course.Cou_IsFree || course.Cou_IsLimitFree || course.Cou_IsTry) return true;
-            //是否存在于学员组所关联的课程
-            bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
-            if (isExistSort) return true;
-            //获取学员与课程的关联
-            Song.Entities.Student_Course sc = Business.Do<ICourse>().StudentCourse(acc.Ac_ID, couid);
-            if (sc == null) return false;
-            if (sc.Stc_IsEnable == false) return false;
-
-            return sc.Stc_StartTime > DateTime.Now && sc.Stc_EndTime < DateTime.Now;         
-        }
+        }        
         /// <summary>
         /// 分页获取当前课程的学员（即学习该课程的学员），并计算出完成度
         /// </summary>
@@ -954,21 +904,7 @@ namespace Song.ViewData.Methods
                     jo.Add("state", "fine");
             }
             return jo;
-        }       
-        /// <summary>
-        /// 学生购买课程的记录项
-        /// </summary>
-        /// <param name="stid">学员Id</param>
-        /// <param name="couid">课程id</param>
-        /// <returns></returns>
-        public Student_Course Purchaselog(int stid, long couid)
-        {
-            Student_Course sc= Business.Do<ICourse>().StudentCourse(stid, couid);
-            if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(stid, couid);
-            if (sc!=null)
-                sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;
-            return sc;
-        }
+        }         
         #endregion
 
         #region 课程购买(或叫选修)
@@ -1035,7 +971,7 @@ namespace Song.ViewData.Methods
         [HttpDelete]
         public bool PurchaseDelete(int stid, long couid)
         {
-            Business.Do<ICourse>().DelteCourseBuy(stid, couid);  
+            Business.Do<ICourse>().DeleteCourseBuy(stid, couid);  
             return true;
         }
         /// <summary>
@@ -1147,7 +1083,101 @@ namespace Song.ViewData.Methods
                 throw ex;
             }
         }
+        /// <summary>
+        /// 学生课程的记录项
+        /// </summary>
+        /// <param name="stid">学员账号Id</param>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        public Student_Course Purchaselog(int stid, long couid)
+        {
+            Student_Course sc = Business.Do<ICourse>().StudentCourse(stid, couid);
+            if (sc == null) sc = Business.Do<IStudent>().SortCourseToStudent(stid, couid);
+            if (sc != null)
+                sc.Stc_StudyScore = sc.Stc_StudyScore >= 100 ? 100 : sc.Stc_StudyScore;
+            return sc;
+        }
+        /// <summary>
+        /// 当前登录学员，是否在学习这门课程
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        //[Student]
+        public bool Studied(long couid)
+        {
+            Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
+            if (acc == null) return false;
+            //是否购买过该课程
+            bool isBuy = Business.Do<ICourse>().IsBuy(couid, acc.Ac_ID);
+            //是否试用
+            bool isTry = Business.Do<ICourse>().IsTryout(couid, acc.Ac_ID);
+            //是否存在于学员组所关联的课程
+            bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
+            return isBuy || isTry || isExistSort;
+        }
+        /// <summary>
+        /// 当前登录学员，是否可以学习该课程（学员可能未购买，但课程可以试用）
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <returns></returns>
+        //[Student]
+        public bool StudyAllow(long couid)
+        {
+            Song.Entities.Accounts acc = LoginAccount.Status.User(this.Letter);
+            if (acc == null) return false;
 
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
+            if (course == null) return false;
+
+            //是否存在于学员组所关联的课程
+            bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
+            if (isExistSort) return true;
+
+            //是否购买过该课程
+            bool isBuy = Business.Do<ICourse>().IsBuy(couid, acc.Ac_ID);
+            if (isBuy) return true;
+
+            //是否免费，或是限时免费
+            if (course.Cou_IsLimitFree)
+            {
+                DateTime freeEnd = course.Cou_FreeEnd.AddDays(1).Date;
+                if (!(course.Cou_FreeStart <= DateTime.Now && freeEnd >= DateTime.Now))
+                    course.Cou_IsLimitFree = false;
+            }
+            if (course.Cou_IsFree || course.Cou_IsLimitFree || course.Cou_IsTry) return true;
+
+            return false;
+        }
+        /// <summary>
+        /// 学员是否可以学习该课程（学员可能未购买，但课程可以试用）
+        /// </summary>
+        /// <param name="couid">课程id</param>
+        /// <param name="acid">学员id</param>
+        /// <returns></returns>
+        public bool Allowlearn(long couid,int acid)
+        {
+            return Business.Do<ICourse>().AllowStudy(couid, acid); 
+        }
+        /// <summary>
+        /// 学员是否拥有这个课程，包括购买或学员组关联
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <param name="acid"></param>
+        /// <returns></returns>
+        public bool Owned(long couid, int acid)
+        {
+            //是否购买过该课程
+            bool isBuy = Business.Do<ICourse>().IsBuy(couid, acid);
+            if (isBuy) return true;
+
+            Song.Entities.Accounts acc = Business.Do<IAccounts>().AccountsSingle(acid);
+            if (acc == null || !acc.Ac_IsUse || !acc.Ac_IsPass) return false;
+            //是否存在于学员组所关联的课程
+            bool isExistSort = Business.Do<IStudent>().SortExistCourse(couid, acc.Sts_ID);
+            if (isExistSort) return true;
+
+            return false;
+        }
         #endregion
 
         #region 导出课程的学习记录

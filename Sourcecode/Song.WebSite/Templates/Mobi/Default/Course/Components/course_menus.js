@@ -34,6 +34,10 @@ Vue.component('course_menus', {
         purchased: function () {
             return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
         },
+        //是否为试学
+        istry:function(){
+            return JSON.stringify(this.purchase) != '{}' && this.purchase.Stc_IsTry;
+        },
         //可以学习
         canstudy: function () {
             return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
