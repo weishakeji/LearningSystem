@@ -105,11 +105,11 @@
                     console.error(err);
                 });
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.card != '') {
-                    var regExp = new RegExp(this.form.card, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.card}</red>`);
+             //在列中显示信息，包含检索
+             showInfo: function (txt, search) {
+                if (txt != '' && search != '') {
+                    var regExp = new RegExp(search, 'g');
+                    txt = txt.replace(regExp, `<red>${search}</red>`);
                 }
                 return txt;
             },

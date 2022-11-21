@@ -30,10 +30,12 @@
                         <el-checkbox label="禁用" v-model="form.isdisable"></el-checkbox>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-input v-model.trim="form.card" placeholder="卡号/不要带密码" clearable style="width:180px"></el-input>
+                        <el-input v-model.trim="form.card" placeholder="卡号/不要带密码" clearable style="width:180px">
+                        </el-input>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:160px"></el-input>
+                        <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:160px">
+                        </el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
@@ -46,7 +48,8 @@
         </div>
         <template>
             <el-table ref="datatable" :data="datas" tooltip-effect="dark" style="width: 100%"
-                @selection-change="val=>selects=val" row-key="Lc_ID">
+                @selection-change="val=>selects=val" row-key="Lc_ID"
+                :row-class-name="data=>{return data.row.Lc_IsEnable && !data.row.Lc_IsUsed ? 'enable' : 'disabled';}">
                 <el-table-column type="selection" width="40">
                 </el-table-column>
                 <el-table-column type="index" width="50">
@@ -57,7 +60,7 @@
                 <el-table-column label="卡号-密码">
                     <template slot-scope="scope">
                         <div title="双击复制学习卡信息" @dblclick="rowdblclick(scope.row)"> <span
-                                v-html='showInfo(scope.row.Lc_Code)'></span>
+                                v-html='showInfo(scope.row.Lc_Code,form.card)'></span>
                             - {{scope.row.Lc_Pw}}</div>
 
                     </template>
@@ -78,8 +81,8 @@
                     <template slot-scope="scope">
                         <el-tooltip class="item" effect="dark"
                             :content="scope.row.Lc_UsedTime|date('使用时间：yyyy-MM-dd HH:mm:ss')" placement="bottom">
-                            <el-link v-if="scope.row.Lc_IsUsed" @click="acccountInfo(scope.row)">
-                                {{scope.row.Ac_AccName}}</el-link>
+                            <el-link v-if="scope.row.Lc_IsUsed" @click="acccountInfo(scope.row)"
+                                v-html='showInfo(scope.row.Ac_AccName,form.account)'> </el-link>
                         </el-tooltip>
 
 
@@ -152,22 +155,22 @@
                 <el-row :gutter="20" v-if="current.account">
                     <el-col :span="6">使用人</el-col>
                     <el-col :span="18" class="accountInfo">
-                        <img v-if="current.account.Ac_Photo!=''" :src="current.account.Ac_Photo" class="avatar photo"/>
-                        <img v-else-if="current.account.Ac_Sex==2" class="el-icon-plus avatar-uploader-icon avatar  photo" src="/Utilities/images/head2.jpg" />
-                        <img v-else class="el-icon-plus avatar-uploader-icon avatar  photo" src="/Utilities/images/head1.jpg" />
-                        <span v-if="current.account.Ac_Sex=='1'" class="man" icon="&#xe645"
-                              title="男性"></span>
-                        <span v-if="current.account.Ac_Sex=='2'" class="woman" icon="&#xe647"
-                              title="女性"></span>
-                        {{current.account.Ac_Name}} ({{current.account.Ac_AccName}})
+                        <img v-if="current.account.Ac_Photo!=''" :src="current.account.Ac_Photo" class="avatar photo" />
+                        <img v-else-if="current.account.Ac_Sex==2"
+                            class="el-icon-plus avatar-uploader-icon avatar  photo" src="/Utilities/images/head2.jpg" />
+                        <img v-else class="el-icon-plus avatar-uploader-icon avatar  photo"
+                            src="/Utilities/images/head1.jpg" />
+                        <icon :man="current.account.Ac_Sex!='2'" :woman="current.account.Ac_Sex=='2'">
+                            {{current.account.Ac_Name}} ({{current.account.Ac_AccName}})</icon>
                         <div icon="&#xe60f" title="身份证">
                             {{current.account.Ac_IDCardNumber}}
                         </div>
                         <div icon="&#xa047" title="电话">
                             <span v-html='current.account.Ac_MobiTel1'></span>
-                            <span v-if="current.account.Ac_MobiTel1!='' && current.account.Ac_MobiTel2!='' && current.account.Ac_MobiTel1!= current.account.Ac_MobiTel2 ">/</span>
+                            <span
+                                v-if="current.account.Ac_MobiTel1!='' && current.account.Ac_MobiTel2!='' && current.account.Ac_MobiTel1!= current.account.Ac_MobiTel2 ">/</span>
                             <span v-if="current.account.Ac_MobiTel1!= current.account.Ac_MobiTel2 "
-                                  v-html='current.account.Ac_MobiTel2'></span>
+                                v-html='current.account.Ac_MobiTel2'></span>
                         </div>
 
                     </el-col>
