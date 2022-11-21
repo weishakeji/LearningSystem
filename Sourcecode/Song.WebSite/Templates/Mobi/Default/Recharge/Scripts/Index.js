@@ -29,7 +29,7 @@ $ready(function () {
                 $api.get('Organization/Current'),
                 $api.get('Pay/ListEnable', { 'platform': 'mobi' })
             ).then(axios.spread(function (account, platinfo, organ, payi) {
-                vapp.loading_init = false;
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -93,6 +93,22 @@ $ready(function () {
                 var url = $api.url.set(page, {});
                 window.location.href = url;
             },
+            //获取当前登录账号
+            getAccount: function () {
+                var th=this;
+                $api.post('Account/Current').then(function (req) {
+                    if (req.data.success) {
+                        th.account  = req.data.result;                       
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    console.error(err);
+                    th.$toast.success(err);                   
+                   
+                });
+            },
             //初始化充值卡号，当扫码时，会带参数跳转到这里
             init_code: function () {
                 var code = $api.querystring('code');
@@ -131,6 +147,9 @@ $ready(function () {
                             if (req.data.success) {
                                 var result = req.data.result;
                                 th.$toast.success('成功充值' + result.Ca_Value + '个卡券');
+                                th.getAccount();
+                                th.input_code = '';
+                                /*
                                 window.setTimeout(function () {
                                     th.input_code = '';
                                     var url = window.location.href;
@@ -139,7 +158,7 @@ $ready(function () {
                                         'pw': null
                                     });
                                     window.location.href = url;
-                                }, 3000);
+                                }, 1000);*/
                             } else {
                                 console.error(req.data.exception);
                                 throw req.data.message;

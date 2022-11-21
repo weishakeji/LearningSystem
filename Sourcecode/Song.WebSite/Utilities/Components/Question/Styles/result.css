@@ -37,7 +37,13 @@
 		transform: rotate(-7deg);
 		cursor: default;
 	}
-
+	card[qid] .resultBox>div:first-child>div {
+		flex: 1;
+	}
+	card[qid] .resultBox>div:first-child>div:last-child {
+		color: #000;
+		font-weight: bold;
+	}
 	.noprint {
 		display: none;
 	}
@@ -195,7 +201,7 @@ card[qid] .resultBox>div:first-child {
 }
 
 card[qid] .resultBox>div:first-child>div {
-	margin-right: 20px;
+	margin-right: 20px;	
 }
 
 card[qid] .resultBox>div[mobi]:first-child {

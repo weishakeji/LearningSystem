@@ -106,10 +106,10 @@
                 return set;
             },
             //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.code != '') {
-                    var regExp = new RegExp(this.form.code, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.code}</red>`);
+            showInfo: function (txt, search) {
+                if (txt != '' && search != '') {
+                    var regExp = new RegExp(search, 'g');
+                    txt = txt.replace(regExp, `<red>${search}</red>`);
                 }
                 return txt;
             },
@@ -156,12 +156,12 @@
                         row.account = req.data.result;
                         vue.currentVisible = true;
                     } else {
-                       throw req.data.message;
+                        throw req.data.message;
                     }
                 }).catch(function (err) {
                     vue.$alert(err, '提示', {
                         confirmButtonText: '确定',
-                        callback: action => {}
+                        callback: action => { }
                     });
                     console.error(err);
                 });

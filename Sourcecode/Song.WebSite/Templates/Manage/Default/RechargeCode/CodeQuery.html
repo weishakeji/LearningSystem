@@ -2,12 +2,8 @@
 <html lang="zh">
 
 <head resource>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <include file="../inc/meta.inc" />
     <title>学习卡</title>
-    <script type="text/javascript" src="../Scripts/webdesk.ui.core.js"></script>
-
 </head>
 
 <body>
@@ -22,10 +18,12 @@
                         <el-checkbox label="禁用" v-model="form.isdisable"></el-checkbox>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-input v-model.trim="form.code" placeholder="卡号/不带密码" clearable style="width:120px"></el-input>
+                        <el-input v-model.trim="form.code" placeholder="卡号/不带密码" clearable style="width:200px"
+                            @clear="handleCurrentChange(1)"></el-input>
                     </el-form-item>
                     <el-form-item label="">
-                        <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:160px"></el-input>
+                        <el-input v-model.trim="form.account" placeholder="使用人账号" clearable style="width:160px"
+                            @clear="handleCurrentChange(1)"> </el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" v-on:click="handleCurrentChange(1)" v-loading="loading"
@@ -49,14 +47,14 @@
                 <el-table-column label="卡号-密码">
                     <template slot-scope="scope">
                         <div title="双击复制卡号信息" @dblclick="rowdblclick(scope.row)"> <span
-                                v-html='showInfo(scope.row.Rc_Code)'></span>
+                                v-html='showInfo(scope.row.Rc_Code,form.code)'></span>
                             - {{scope.row.Rc_Pw}}</div>
 
                     </template>
                 </el-table-column>
                 <el-table-column label="面额" width="80">
                     <template slot-scope="scope">
-                        <icon  money>{{scope.row.Rc_Price}}</icon>
+                        <icon money>{{scope.row.Rc_Price}}</icon>
 
                     </template>
                 </el-table-column>
@@ -70,8 +68,8 @@
                     <template slot-scope="scope">
                         <el-tooltip class="item" effect="dark"
                             :content="scope.row.Rc_UsedTime|date('使用时间：yyyy-MM-dd HH:mm:ss')" placement="bottom">
-                            <el-link v-if="scope.row.Rc_IsUsed" @click="acccountInfo(scope.row)">
-                                {{scope.row.Ac_AccName}}</el-link>
+                            <el-link v-if="scope.row.Rc_IsUsed" @click="acccountInfo(scope.row)"
+                                v-html='showInfo(scope.row.Ac_AccName,form.account)'></el-link>
                         </el-tooltip>
 
 
@@ -134,12 +132,10 @@
                     <el-col :span="6">使用人</el-col>
                     <el-col :span="18" class="accountInfo">
                         <img v-if="current.account.Ac_Photo!=''" :src="current.account.Ac_Photo" class="avatar photo">
-                        <img v-else class="el-icon-plus avatar-uploader-icon avatar  photo" src="/Utilities/images/head1.jpg" />
-                        <span v-if="current.account.Ac_Sex=='1'" class="man" icon="&#xe645"
-                            title="男性"></span>
-                        <span v-if="current.account.Ac_Sex=='2'" class="woman" icon="&#xe647"
-                            title="女性"></span>
-                        {{current.account.Ac_Name}} ({{current.account.Ac_AccName}})
+                        <img v-else class="el-icon-plus avatar-uploader-icon avatar  photo"
+                            src="/Utilities/images/head1.jpg" />
+                        <icon :man="current.account.Ac_Sex!='2'" :woman="current.account.Ac_Sex=='2'">
+                            {{current.account.Ac_Name}} ({{current.account.Ac_AccName}})</icon>
                         <div icon="&#xe60f" title="身份证">
                             {{current.account.Ac_IDCardNumber}}
                         </div>

@@ -72,7 +72,8 @@
                             <span class="qrcode" @click="openqrcode">
                                 <van-icon name="qr"></van-icon>二维码
                             </span>
-                            <van-button type="info" size="small" :disabled="!islogin || loading_up" @click="usecode()">
+                            <van-button type="info" size="small" :disabled="!islogin || loading_up" @click="usecode()"
+                            :loading="loading_up">
                                 <icon>&#xe847</icon>充值卡券
                             </van-button>
 

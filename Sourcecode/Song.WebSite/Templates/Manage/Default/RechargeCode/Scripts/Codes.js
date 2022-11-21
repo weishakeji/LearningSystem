@@ -4,14 +4,14 @@
         data: {
             form: {
                 rsid: '',
-                isused: false,              
+                isused: false,
                 isdisable: false,
                 code: '',
                 account: '',
                 size: 20,
                 index: 1
             },
-            codeset: { },     //充值卡的设置项
+            codeset: {},     //充值卡的设置项
             datas: [],      //卡号列表数据
             current: {},     //查看当前行
             currentVisible: false,       //是否显示账号详情
@@ -43,7 +43,7 @@
             $api.get('RechargeCode/SetForID', { 'id': this.form.rsid }).then(function (req) {
                 vue.codesetLoading = false;
                 if (req.data.success) {
-                    vue.codeset = req.data.result; 
+                    vue.codeset = req.data.result;
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -93,10 +93,10 @@
                 });
             },
             //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.code != '') {
-                    var regExp = new RegExp(this.form.code, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.code}</red>`);
+            showInfo: function (txt, search) {
+                if (txt != '' && search != '') {
+                    var regExp = new RegExp(search, 'g');
+                    txt = txt.replace(regExp, `<red>${search}</red>`);
                 }
                 return txt;
             },
@@ -105,7 +105,7 @@
                 var title = "充值码：" + row.Rc_Code + " - " + row.Rc_Pw;
                 var txt = title;
                 txt += "\r\n有效时间：" + this.codeset.Rs_LimitStart.format("yyyy-MM-dd") + " 至 " + this.codeset.Rs_LimitEnd.format("yyyy-MM-dd");
-                txt += "\r\n面　　额：" + this.codeset.Rs_Price + "元";              
+                txt += "\r\n面　　额：" + this.codeset.Rs_Price + "元";
                 this.copy(txt, title, 'textarea');
             },
             //复制到粘贴板
@@ -143,8 +143,8 @@
                     console.error(err);
                     vue.$alert(err, '提示', {
                         confirmButtonText: '确定',
-                        callback: action => {}
-                      });                   
+                        callback: action => { }
+                    });
                 });
             },
             //导出二维码
@@ -189,8 +189,8 @@
                 });
                 box.title = '学习卡“' + this.codeset.Rs_Theme + "”导出Excel";
                 box.open();
-            },           
-            
+            },
+
             //更改启用禁用
             changeEnable: function (row) {
                 var th = this;

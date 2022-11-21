@@ -11,13 +11,6 @@ form.el-form{
 .el-input--suffix .el-input__inner {
     padding-right: 10px;
 }
-.man::before {
-    color: rgb(3, 71, 71);
-}
-
-.woman::before {
-    color: rgb(248, 87, 87);
-}
 .el-button-group button{
     margin: 0px !important;
     border-radius: 0px;

@@ -485,14 +485,14 @@ namespace Song.ServiceImpls
         public RechargeCode CouponCheckCode(string code)
         {
             code = Regex.Replace(code, @"[^\d-]", "", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace);
-            if (code.IndexOf("-") < 0) throw new Exception("该充值码不正确！");
+            if (code.IndexOf("-") < 0) throw new Exception("充值码不正确！缺少破折号");
             //取密码与充值码
             string pw = code.Substring(code.IndexOf("-") + 1);
             code = code.Substring(0, code.IndexOf("-"));
             //验证是否正确
             WhereClip wc = new WhereClip();
-            Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
-            wc &= RechargeCode._.Org_ID == org.Org_ID;
+            //Song.Entities.Organization org = Business.Do<IOrganization>().OrganCurrent();
+            //wc &= RechargeCode._.Org_ID == org.Org_ID;
             wc &= RechargeCode._.Rc_Code == code.Trim();
             wc &= RechargeCode._.Rc_Pw == pw.Trim();
             wc &= RechargeCode._.Rc_LimitStart < DateTime.Now;
