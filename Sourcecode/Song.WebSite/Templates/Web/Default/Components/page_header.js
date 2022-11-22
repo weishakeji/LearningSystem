@@ -6,7 +6,7 @@
 //search: 搜索
 //load: 加载成功，三个参数，机构、机构参数、平台参数
 Vue.component('page_header', {
-    props: ["organ"],
+    props: [],
     data: function () {
         return {
             show: false,
@@ -21,7 +21,7 @@ Vue.component('page_header', {
             //平台信息
             platinfo: {},           //平台信息
             config: {},             //当前机构的配置项
-            organization: {},        //当前机构
+            organ: {},        //当前机构
 
             visible_userdrop: false,     //用户登录后的菜单面板的显示与隐藏
 
@@ -42,10 +42,11 @@ Vue.component('page_header', {
                     });
                 });
                 this.getnavi();
-            }, immediate: true
+            }, immediate: true, deep: true
         },
         'menus': {
             handler: function (nv, ov) {
+                if (nv.length < 1) return;
                 this.$nextTick(function () {
                     //$dom(".menubar").text('ddd');
                     window.usermenu = window.$dropmenu.create({
@@ -57,7 +58,7 @@ Vue.component('page_header', {
                     }).onclick(this.menuClick);
                     window.usermenu.add(this.nodeconvert(nv));
                 });
-            }, immediate: true
+            }, immediate: true, deep: true
         },
         'account': {
             handler: function (nv, ov) {
@@ -82,32 +83,7 @@ Vue.component('page_header', {
     },
     mounted: function () {
         var th = this;
-        th.loading = true;
-        $api.bat(
-            $api.cache('Platform/PlatInfo:60'),
-            $api.get('Organization/Current')
-        ).then(axios.spread(function (platinfo, organ) {
-            th.loading = false;
-            //判断结果是否正常
-            for (var i = 0; i < arguments.length; i++) {
-                if (arguments[i].status != 200)
-                    console.error(arguments[i]);
-                var data = arguments[i].data;
-                if (!data.success && data.exception != null) {
-                    console.error(data.message);
-                }
-            }
-            //获取结果             
-            th.platinfo = platinfo.data.result;
-            th.organ = organ.data.result;
-            //机构配置信息
-            th.config = $api.organ(th.organ).config;
-            //加载成功的事件
-            th.$emit('load', th.organ, th.config, th.platinfo);
-        })).catch(function (err) {
-            th.loading = false;
-            console.error(err);
-        });
+        th.init();
         //学员登录
         th.loading_login = true;
         $api.login.account().then(function (acc) {
@@ -128,6 +104,35 @@ Vue.component('page_header', {
         this.$emit('search', this.search);
     },
     methods: {
+        init: function () {
+            var th = this;
+            th.loading = true;
+            $api.bat(
+                $api.cache('Platform/PlatInfo:60'),
+                $api.get('Organization/Current')
+            ).then(axios.spread(function (platinfo, organ) {
+                th.loading = false;
+                //判断结果是否正常
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i].status != 200)
+                        console.error(arguments[i]);
+                    var data = arguments[i].data;
+                    if (!data.success && data.exception != null) {
+                        console.error(data.message);
+                    }
+                }
+                //获取结果             
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
+                //机构配置信息
+                th.config = $api.organ(th.organ).config;
+                //加载成功的事件
+                th.$emit('load', th.organ, th.config, th.platinfo);
+            })).catch(function (err) {
+                th.loading = false;
+                console.error(err);
+            });
+        },
         //获取导航菜单
         getnavi: function () {
             if (!(this.organ && this.organ.Org_ID)) return;
@@ -207,7 +212,7 @@ Vue.component('page_header', {
             }).catch(function () { });
         },
     },
-    // 同样也可以在 vm 实例中像 "this.message" 这样使用
+    // 
     template: `<weisha_header_navi>
         <header v-if="loading"> <loading>... </loading></header>
         <header v-else-if="organ && JSON.stringify(organ) != '{}'">

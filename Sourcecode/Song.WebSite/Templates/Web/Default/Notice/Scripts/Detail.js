@@ -7,52 +7,35 @@ $ready(function () {
             platinfo: {},
             organ: {},
             config: {},      //当前机构配置项          
-            loading: true,
+
             sear_str: '',
 
             notices: [],         //通知公告列表
             id: $api.dot(),         //通知公告的id
             preview: $api.querystring('preview'),    //是否为预览内容，参数为true时预览
-            data: {}
+            data: {},
+
+            loading: true,
 
         },
-        mounted: function () {           
-            $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (account, platinfo, organ) {
-                //判断结果是否正常
-                for (var i = 0; i < arguments.length; i++) {
-                    if (arguments[i].status != 200)
-                        console.error(arguments[i]);
-                    var data = arguments[i].data;
-                    if (!data.success && data.exception != null) {
-                        console.error(data.message);
-                    }
-                }
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
-                vapp.getnotices();
-            })).catch(function (err) {
-                console.error(err);
-            });
+        mounted: function () {
+            var th = this;
+            th.loading = true;
             //通知公告
             var apiurl = this.preview == 'true' ? 'Notice/ForID' : 'Notice/ShowForID';
-            $api.cache(apiurl, { 'id': this.id }).then(function (req) {
+            var apiobj = this.preview == 'true' ? $api.get(apiurl, { 'id': this.id }) : $api.cache(apiurl, { 'id': this.id });
+            apiobj.then(function (req) {
+                th.loading = false;
                 if (req.data.success) {
-                    vapp.data = req.data.result;
+                    th.data = req.data.result;
                 } else {
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                //alert(err);
+                th.loading = false;
                 console.error(err);
             });
+            th.getnotices();
         },
         created: function () {
         },

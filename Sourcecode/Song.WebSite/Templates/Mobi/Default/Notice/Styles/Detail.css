@@ -88,8 +88,7 @@ nav .right{
 
 #artContext p{
 	margin-top: 10px;
-	margin-left: 10px;
-	text-indent: 2em;
+	margin-left: 10px;	
 }
 #artContext img{
 	margin-right: auto;
@@ -98,6 +97,7 @@ nav .right{
 	margin-bottom: 10px;
 	text-align:center;
 	max-width:100% !important;
+	height: auto;
 }
 .img-box{
 	text-align: center;
@@ -116,7 +116,7 @@ nav .right{
 }
 #artContext p
 {
-	margin-top: 0.5em;
+	margin: 0.5em 0px 0px 0px;
 }
 
 .nocontext{

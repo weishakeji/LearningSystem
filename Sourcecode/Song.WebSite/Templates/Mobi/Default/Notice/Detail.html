@@ -3,7 +3,7 @@
 
 <head resource>
     <meta charset="utf-8">
-    <include file="../inc/meta.inc" />    
+    <include file="../inc/meta.inc" />
     <title>公告</title>
 </head>
 
@@ -23,11 +23,12 @@
                 </template>
             </van-search>
         </div>
-        <div class="context" v-if="!isempty">
-            <div id="artBox">
-                <van-sticky  :offset-top="44" class="artTitle"> {{data.No_Ttl}}</van-sticky>
+        <div class="context">
+            <loading bubble v-if="loading">   ...</loading>
+            <div id="artBox" v-else-if="!isempty">
+                <van-sticky :offset-top="44" class="artTitle"> {{data.No_Ttl}}</van-sticky>
 
-                <div class="artAttrBar"> <span class="artTime">{{data.No_StartTime|date("yyyy-M-dd hh:m:s")}}</span>
+                <div class="artAttrBar"> <span class="artTime">{{data.No_CrtTime|date("yyyy-M-dd hh:m:s")}}</span>
                     <!--<span class="artSharp">分享 </span>  -->
                 </div>
                 <!--正文 -->
@@ -35,10 +36,11 @@
 
                 </div>
             </div>
+            <div class="context" v-else>
+                <div class="nocontext"> 没有内容</div>
+            </div>
         </div>
-        <div class="context" v-if="isempty">
-            <div class="nocontext"> 没有内容</div>
-        </div>
+
         <aside_menu ref='aside_menu' :account="account"></aside_menu>
         <footer_menu ref='footer_menu' :organ="organ"></footer_menu>
     </div>

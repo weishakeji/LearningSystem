@@ -80,6 +80,7 @@ context .right {
 	margin-bottom: 10px;
 	text-align: center;
 	max-width: 100% !important;
+	height: auto;
 }
 
 .img-box {

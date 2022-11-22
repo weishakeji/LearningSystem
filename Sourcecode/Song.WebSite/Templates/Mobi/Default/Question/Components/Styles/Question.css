@@ -55,6 +55,7 @@ section dd card[correct="error"] {
 
 section dd img {
 	max-width: 100% !important;
+	height: auto;
 }
 
 /*试题选项*/

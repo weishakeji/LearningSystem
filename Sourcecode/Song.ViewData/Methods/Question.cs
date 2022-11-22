@@ -426,11 +426,14 @@ namespace Song.ViewData.Methods
         #region 处理试题内容
         public static Song.Entities.Questions _tran(Song.Entities.Questions ques)
         {
-            if (ques == null) return ques;
-            ques.Qus_Title = _tranText(ques.Qus_Title);
-            ques.Qus_Answer = _tranText(ques.Qus_Answer);
-            ques.Qus_Explain = _tranText(ques.Qus_Explain);          
             return ques;
+
+            //if (ques == null) return ques;
+            //ques.Qus_Title = _tranText(ques.Qus_Title);
+            //ques.Qus_Answer = _tranText(ques.Qus_Answer);
+            //ques.Qus_Explain = _tranText(ques.Qus_Explain);   
+          
+            //return ques;
         }
         private static string _tranText(string txt)
         {
@@ -463,7 +466,11 @@ namespace Song.ViewData.Methods
                 foreach (Match m in new Regex(expr, options).Matches(tagContent))
                 {
                     string key = m.Groups["key"].Value.Trim();      //属性名称
-                    string val = m.Groups["value"].Value.Trim();    //属性值      
+                    string val = m.Groups["value"].Value.Trim();    //属性值    
+                    if (val.StartsWith("http://", StringComparison.OrdinalIgnoreCase)) continue;
+                    if (val.StartsWith("https://", StringComparison.OrdinalIgnoreCase)) continue;
+                    if (val.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase)) continue;
+
                     val = val.Replace("&apos;", "");
                     if (val.EndsWith("/")) val = val.Substring(0, val.Length - 1);
                     val = m.Groups[2].Value + "=\"" + val + "\"";

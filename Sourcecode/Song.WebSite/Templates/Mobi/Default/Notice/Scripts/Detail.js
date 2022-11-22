@@ -15,6 +15,8 @@ $ready(function () {
 
         },
         mounted: function () {
+            var th = this;
+            th.loading = true;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
@@ -30,23 +32,24 @@ $ready(function () {
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
                 //机构配置信息
-                vapp.config = $api.organ(vapp.organ).config;
+                th.config = $api.organ(th.organ).config;
             })).catch(function (err) {
                 console.error(err);
             });
             //通知公告
             $api.cache('Notice/ForID', { 'id': this.id }).then(function (req) {
+                th.loading = false;
                 if (req.data.success) {
                     vapp.data = req.data.result;
                 } else {
                     throw req.data.message;
                 }
             }).catch(function (err) {
-                //alert(err);
+                th.loading = false;
                 console.error(err);
             });
         },

@@ -1,6 +1,6 @@
 ﻿@font-face {
     font-family: 'webdesk_icon';
-    src: url('iconfont.woff?tt=1') format("woff");
+    src: url('iconfont.woff?tt=2') format("woff");
     font-weight: normal;
     font-style: normal;
 }
@@ -123,25 +123,30 @@ icon[mobile]::before {
     content: '\e677';
     font-size: 16px;
 }
+
 /*关闭按钮*/
-    icon[close]::before {
-        content: '\e606';
-        font-size: 16px;
-    }
+icon[close]::before {
+    content: '\e606';
+    font-size: 16px;
+}
+
 /*男性*/
 icon[man] {
     color: rgb(73 128 210);
 }
+
 icon[man]::before {
     content: '\e645';
     color: rgb(73 128 210);
 }
+
 /*女性*/
 icon[woman] {
     color: rgb(248, 87, 87);
 }
+
 icon[woman]::before {
-    content: '\e647';  
+    content: '\e647';
 }
 
 
@@ -191,13 +196,14 @@ alert::before {
 /*预载*/
 loading {
     color: #666;
-    font-size: 13px;  
+    font-size: 13px;
 }
 
 loading::before {
     font-family: "webdesk_icon" !important;
     display: inline-block;
-    font-size: 20px;   
+    font-size: 20px;
+    margin-right: 15px;
     animation: rotate_360 0.6s infinite linear;
 }
 
@@ -208,12 +214,15 @@ loading::before, loading[fish]::before {
 loading[bubble]::before {
     content: "\e621";
 }
+
 loading[fresh]::before {
     content: "\e651";
 }
+
 loading[star]::before {
-    content: "\e68d";
+    content: "\e747";
 }
+
 @keyframes rotate_360 {
     0% {
         transform: rotate(0deg);
@@ -237,9 +246,10 @@ loading[star]::before {
 }
 
 /*更多预载效果*/
-*[loading]{
+*[loading] {
     margin: 0px auto;
 }
+
 *[loading=p1] {
     width: 120px;
     height: 20px;
