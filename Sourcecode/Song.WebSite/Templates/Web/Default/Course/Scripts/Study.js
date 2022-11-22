@@ -3,7 +3,8 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-
+            couid: $api.dot() != "" ? $api.dot() : $api.querystring("couid"),
+            olid: $api.querystring("olid"),
             //数据实体
             account: {}, //当前账号信息
             course: {}, //当前课程
@@ -11,11 +12,8 @@ $ready(function () {
 
             //状态
             state: {}, //课程章节的状态       来自study_outline组件中的change事件传值
-
-            couid: $api.dot() != "" ? $api.dot() : $api.querystring("couid"),
-            olid: $api.querystring("olid"),
+           
             fold: false, //分隔线折叠状态
-
             titState: 'loading', //左侧选项卡的状态  
 
         },

@@ -55,9 +55,8 @@ Vue.component('study_outline', {
             return JSON.stringify(this.course) != '{}' && this.course != null;
         }
     },
-    mounted: function () {
-        var css = $dom.path() + 'course/Components/Styles/study_outline.css';
-        $dom.load.css([css]);
+    mounted: function () {       
+        $dom.load.css([$dom.pagepath() + 'Components/Styles/study_outline.css']);
 
         //
         var th = this;

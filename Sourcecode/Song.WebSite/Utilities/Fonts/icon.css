@@ -1,6 +1,6 @@
 ﻿@font-face {
     font-family: 'webdesk_icon';
-    src: url(iconfont.woff) format("woff");
+    src: url('iconfont.woff?tt=1') format("woff");
     font-weight: normal;
     font-style: normal;
 }
