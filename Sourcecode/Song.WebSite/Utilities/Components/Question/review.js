@@ -19,7 +19,7 @@ Vue.component('question', {
     watch: {},
     computed: {},
     mounted: function () {
-        $dom.load.css(['/Utilities/Components/Question/Styles/result.css']);
+        $dom.load.css(['/Utilities/Components/Question/Styles/review.css']);
         var th = this;
         th.loading = true;
         $api.cache('Question/ForID:60', { 'id': this.qans.id }).then(function (req) {

@@ -194,5 +194,5 @@ $ready(function () {
             }
         }
     });
-}, ['/Utilities/Components/question/result.js',
+}, ['/Utilities/Components/question/review.js',
     'Components/group.js']);

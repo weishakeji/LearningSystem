@@ -1266,9 +1266,11 @@
     <Content Include="Templates\Web\Default\Viewport\Index.html" />
     <Content Include="Templates\Web\Default\Viewport\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Viewport\Styles\Index.css" />
+    <Content Include="Utilities\Components\Question\test.js" />
+    <Content Include="Utilities\Components\Question\Styles\test.css" />
     <Content Include="Utilities\Components\securitylevel.js" />
-    <Content Include="Utilities\Components\Question\result.js" />
-    <Content Include="Utilities\Components\Question\Styles\result.css" />
+    <Content Include="Utilities\Components\Question\review.js" />
+    <Content Include="Utilities\Components\Question\Styles\review.css" />
     <Content Include="Utilities\Components\student_batch.js" />
     <Content Include="Utilities\Components\sbj_cascader.js" />
     <Content Include="Utilities\Components\Styles\securitylevel.css" />

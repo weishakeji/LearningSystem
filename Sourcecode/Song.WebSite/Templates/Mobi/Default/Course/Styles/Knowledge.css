@@ -44,4 +44,5 @@ knl_context p{
 }
 knl_context img{
 	max-width: 100% !important;
+	height: auto;
 }

@@ -77,7 +77,7 @@ Vue.component('editor', {
                 case 'general':
                     arr = [`undo redo cut copy formatpainter  | formatselect fontselect fontsizeselect forecolor backcolor table importword 
                     | formatting alignment indent_gr insert insertdatetime  lineheight letterspacing bullist numlist                       
-                    layout removeformat  hr pagebreak  clearhtml  link fullscreen searchreplace preview image`]
+                    layout removeformat  hr pagebreak  clearhtml  link fullscreen searchreplace preview`]
                     break;
                 //simple简化版，相较于general更少按钮
                 case 'simple':
@@ -99,7 +99,7 @@ Vue.component('editor', {
                     arr = [` undo redo cut copy formatpainter | fontsizeselect forecolor backcolor bold italic underline strikethrough | superscript subscript 
                     indent2em outdent indent lineheight |  alignleft aligncenter alignright alignjustify
                     letterspacing bullist numlist  | hr table  insertdatetime removeformat  link importword 
-                    image-weisha charmap  kityformula-editor  | fullscreen searchreplace preview image`]
+                    image-weisha charmap  kityformula-editor  | fullscreen searchreplace preview`]
                     break;
                 //试题的简单编辑
                 case 'ques':

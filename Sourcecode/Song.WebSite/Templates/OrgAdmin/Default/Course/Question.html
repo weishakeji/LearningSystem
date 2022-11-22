@@ -119,7 +119,7 @@
                     <ques_type :type="scope.row.Qus_Type" :types="types"></ques_type>
                     <alert v-if="scope.row.Qus_IsError" title="存在错误">存在错误</alert>
                     <alert v-if="scope.row.Qus_IsWrong" title="学员反馈试题有错误">报错</alert>
-                    <span v-html="showInfo(scope.row.Qus_Title)">
+                    <span v-html="showInfo(scope.row.Qus_Title)" class="large"></span>
                 </template>
             </el-table-column>
             <el-table-column label="难度" width="70">
