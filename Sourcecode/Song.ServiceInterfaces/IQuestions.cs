@@ -158,6 +158,7 @@ namespace Song.ServiceInterfaces
         /// <summary>
         /// 分页获取所有的试题；
         /// </summary>
+        /// <param name="orgid"></param>
         /// <param name="type">试题类型</param>
         /// <param name="isUse">是否显示</param>
         /// <param name="searTxt">查询字符</param>

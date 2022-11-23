@@ -101,7 +101,7 @@ $ready(function () {
                     "MM_Id": -1, "MM_Name": "", "MM_Type": "", "MM_Root": 0, "MM_Link": "",
                     "MM_Marker": "", "MM_Tax": 0, "MM_PatId": 0, "MM_Color": "",
                     "MM_Font": "", "MM_IsBold": false, "MM_IsItalic": false, "MM_IcoS": "",
-                    "MM_IcoB": "", "MM_IsUse": true, "MM_IsShow": false, "MM_Intro": "",
+                    "MM_IcoB": "", "MM_IsUse": true, "MM_IsShow": true, "MM_Intro": "",
                     "MM_IsChilds": false, "MM_Func": "func", "MM_WinWidth": 0, "MM_WinHeight": 0,
                     "MM_IcoX": 0, "MM_IcoY": 0, "MM_UID": "", "MM_WinMin": false,
                     "MM_WinMax": false, "MM_WinMove": false, "MM_WinResize": false, "MM_WinID": "",

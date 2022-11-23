@@ -45,15 +45,14 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public int RootSave(ManageMenu entity)
         {
-            int id = entity.MM_Id;
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
                 try
                 {
                     tran.Save<ManageMenu>(entity);
-                    tran.Update<ManageMenu>(new Field[] { ManageMenu._.MM_IsUse, ManageMenu._.MM_IsShow },
-                        new object[] { entity.MM_IsUse, entity.MM_IsShow },
-                        ManageMenu._.MM_Root == entity.MM_Id);
+                    //tran.Update<ManageMenu>(new Field[] { ManageMenu._.MM_IsUse, ManageMenu._.MM_IsShow },
+                    //    new object[] { entity.MM_IsUse, entity.MM_IsShow },
+                    //    ManageMenu._.MM_Root == entity.MM_Id);
                     tran.Commit();
                 }
                 catch
@@ -67,7 +66,7 @@ namespace Song.ServiceImpls
                     tran.Close();
                 }
             }
-            return id;
+            return entity.MM_Id;
         }
         /// <summary>
         /// 删除
@@ -167,6 +166,7 @@ namespace Song.ServiceImpls
         /// <param name="entity">业务实体</param>
         public int Add(ManageMenu entity)
         {
+            //if (entity.MM_Id <= 0) entity.MM_Id = WeiSha.Core.Request.SnowID();
             //如果没有排序号，则自动计算
             if (entity.MM_Tax < 1)
             {

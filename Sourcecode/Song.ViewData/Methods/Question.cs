@@ -8,7 +8,7 @@ using Song.ServiceInterfaces;
 using Song.ViewData.Attri;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+using System.Threading;
 using WeiSha.Data;
 using System.Data;
 using NPOI.HSSF.UserModel;
@@ -95,6 +95,9 @@ namespace Song.ViewData.Methods
         [HtmlClear(Not = "entity")]
         public bool Modify(Song.Entities.Questions entity)
         {
+            //Thread.Sleep(5000);
+            //return true;
+
             Song.Entities.Questions old = Business.Do<IQuestions>().QuesSingle(entity.Qus_ID);
             if (old == null) throw new Exception("Not found entity for Questions！");
 
@@ -615,6 +618,7 @@ namespace Song.ViewData.Methods
         [HttpPost]
         public bool NotesModify(int acid, long qid, string note)
         {
+            
             try
             {
                 //如果笔记内容为空，则删除记录

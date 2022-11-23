@@ -42,9 +42,13 @@
 	context .ans_area>div {
 		page-break-inside: avoid;
 	}
-
+	.noprint{
+		display: none;
+	}
 }
-
+.noview{
+	display: none;
+}
 #vapp {
 	display: flex;
 	flex-direction: column;

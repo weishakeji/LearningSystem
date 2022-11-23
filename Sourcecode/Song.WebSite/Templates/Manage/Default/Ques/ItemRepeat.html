@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head resource>
+      <include file="../inc/meta.inc" />
+      <title>试题选项id重复的处理</title>
+</head>
+
+<body>
+      <div id="vapp">
+
+            <header>试题选项id重复的处理</header>
+            <help multi>
+                  1、问题描述<br />
+                  单选题、多选题在答题时，偶尔会出现选中一个选项，另一个选项也同时选中的现象。
+                  <br />
+                  2、问题原因<br />
+                  在1.0版本的程序中，单选题、多选题、填空题在随机生成选项ID时未做校验，存在大约1-2‰的重复概率。
+            </help>
+            <el-card class="box-card">
+                  <div slot="header">
+                        <icon question>试题信息</icon>
+
+                  </div>
+                  <loading v-if="loading">正在加载</loading>
+                  <template v-else>
+                        <el-checkbox-group v-model="checkList" :disabled="load_check">
+                              <div>
+                                    <el-checkbox label="1">
+                                          <icon>&#xe85b</icon>单选题
+                                    </el-checkbox>
+                                    <div>
+                                          <el-tag>总计 {{total.type1}} 道</el-tag>
+                                    </div>
+                                    <el-tag type="danger" v-if="errshow(1)">错误 {{results.type1.err.length}} 道</el-tag>
+                              </div>
+                              <div>
+                                    <el-checkbox label="2">
+                                          <icon>&#xa057</icon>多选题
+                                    </el-checkbox>
+                                    <div>
+                                          <el-tag>总计 {{total.type2}} 道</el-tag>
+                                    </div>
+                                    <el-tag type="danger" v-if="errshow(2)">错误 {{results.type2.err.length}} 道</el-tag>
+                              </div>
+                              <div>
+                                    <el-checkbox label="5">
+                                          <icon>&#xe823</icon>填空题
+                                    </el-checkbox>
+                                    <div>
+                                          <el-tag>总计 {{total.type5}} 道</el-tag>
+                                    </div>
+                                    <el-tag type="danger" v-if="errshow(5)">错误 {{results.type5.err.length}} 道</el-tag>
+                              </div>
+                        </el-checkbox-group>
+                        <div class="btns">
+                              <el-button type="success" @click="check()" :loading="load_check"
+                                    :disabled="load_check || load_repair">
+                                    <icon v-if="!load_check">&#xa00b</icon>
+                                    检测
+                              </el-button>
+                              <el-button type="primary" :disabled="load_check || !error" @click="repair()"
+                                    :loading="load_repair">
+                                    <icon v-if="!load_repair">&#xa030</icon>处理
+                              </el-button>
+                              <loading star dot v-if="load_check">正在检测： {{checkinfo}}</loading>
+                              <loading bubble dot v-if="load_repair">修复中： {{repairinfo}}</loading>
+                        </div>
+
+                  </template>
+            </el-card>
+
+      </div>
+</body>
+
+</html>

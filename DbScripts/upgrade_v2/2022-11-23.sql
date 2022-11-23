@@ -1,0 +1,3 @@
+INSERT [ManageMenu] ([MM_Name], [MM_Type], [MM_Root], [MM_Link], [MM_Marker], [MM_Tax], [MM_PatId], [MM_Color], [MM_Font], [MM_IsBold], [MM_IsItalic], [MM_IcoS], [MM_IcoB], [MM_IsUse], [MM_IsShow], [MM_Intro], [MM_IsChilds], [MM_Func], [MM_WinWidth], [MM_WinHeight], [MM_IcoX], [MM_IcoY], [MM_UID], [MM_WinMin], [MM_WinMax], [MM_WinMove], [MM_WinResize], [MM_WinID], [MM_AbbrName], [MM_IsFixed], [MM_Help], [MM_Complete]) 
+VALUES 
+( N' ‘Ã‚–ﬁ∏¥', N'item', 651, N'/manage/ques/itemrepeat', NULL, 6, N'651', NULL, NULL, 0, 0, N'e755', NULL, 1, 1, NULL, 0, N'func', 0, 0, 0, 0, N'1669172453942', 0, 0, 0, 0, NULL, NULL, 0, NULL, 100)

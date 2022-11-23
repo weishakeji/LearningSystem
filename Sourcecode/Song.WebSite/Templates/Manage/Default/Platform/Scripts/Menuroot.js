@@ -123,9 +123,10 @@
                 for (var i = 0; i < arr.length; i++) {
                     delete arr[i]['childs'];
                 }
+                var th=this;
                 $api.post('ManageMenu/ModifyTaxis', { 'items': arr }).then(function (req) {
                     if (req.data.success) {
-                        vue.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改顺序成功!',
                             center: true
@@ -134,7 +135,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
+                    th.$alert(err);
                     console.error(err);
                 });
             }

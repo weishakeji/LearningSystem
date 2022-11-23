@@ -1,0 +1,102 @@
+#vapp {
+    box-sizing: border-box;
+    padding: 0px 10px;
+}
+
+header {
+    font-size: 22px;
+    box-sizing: border-box;
+    padding: 10px;
+    height: 50px;
+}
+
+help {
+    width: 100%;
+    margin: 10px 10px 20px 10px;
+
+}
+
+/**/
+.box-card .el-checkbox-group {
+    font-size: 16px !important;
+}
+
+.box-card .el-checkbox-group>div {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+.box-card .el-checkbox-group>div div {
+    width: 160px;
+}
+
+.box-card .el-checkbox-group>div icon {
+    width: 20px;
+    text-align: center;
+    margin-right: 0px;
+}
+
+.el-checkbox, .el-checkbox__label {
+    font-size: 16px !important;
+}
+
+.el-checkbox__inner {
+    width: 16px;
+    height: 16px;
+}
+
+.el-checkbox__inner::after {
+    left: 5px;
+}
+
+.box-card .el-checkbox-group label {
+    margin-right: 30px;
+}
+
+.el-card__body {
+    position: relative;
+}
+
+.btns {
+   
+    box-sizing: border-box;
+    padding: 15px 30px 0px 5px;
+    width: 100%;
+}
+
+.btns button {
+    min-width: 100px;
+}
+
+.btns button icon {
+    margin-right: 10px;
+}
+
+.btns loading{
+    float: right;
+}
+.btns loading::after{
+    margin-left: 20px;
+}
+/*检查的预载*/
+.check_loading {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.6);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    font-size: 14px;
+    line-height: 40px;
+    display: flex;
+   
+    flex-direction: column;
+}
+.check_loading>div{
+    align-items: center;
+    margin-top: 30px;
+}

@@ -19,6 +19,9 @@
 	context {
 		height: auto !important;
 	}	
+	.noprint{
+		display: none;
+	}
 }
 
 html, body, #vapp {
@@ -73,6 +76,9 @@ html, body, #vapp {
 
 .print {
 	margin: 0px 15px;
+}
+.noview{
+	display: none;
 }
 
 /*得分样式*/
