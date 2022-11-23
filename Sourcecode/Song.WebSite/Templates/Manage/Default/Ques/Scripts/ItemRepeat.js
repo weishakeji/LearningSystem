@@ -128,9 +128,14 @@ $ready(function () {
             },
             //检测
             check: function () {
-                console.log('check');
+                //要检查的试题总数
+                var total = 0
+                for (k in this.checkList) total += this.total['type' + this.checkList[k]];
+                if (total <= 0) {
+                    this.$alert('没有试题供检测', { showClose: false });
+                    return;
+                }
                 this.load_check = true;
-
                 for (k in this.results) {
                     this.results[k].num = 0;
                     this.results[k].repair = 0;
@@ -234,6 +239,14 @@ $ready(function () {
             },
             //修复试题
             repair: function () {
+                //错题总数
+                var total = 0;
+                for (k in this.results) total += this.results[k].err.length;
+                if (total <= 0) {
+                    this.$alert('没有试题供修复', { showClose: false });
+                    return;
+                }
+
                 this.load_repair = true;
                 for (k in this.results) {
                     var type = parseInt(k.substring(4));
@@ -275,7 +288,7 @@ $ready(function () {
             //是否显示错误题数
             errshow: function (type) {
                 var err = this.results['type' + type].err.length;
-                return err > 0 || this.checked;
+                return err > 0;
             }
         }
     });
