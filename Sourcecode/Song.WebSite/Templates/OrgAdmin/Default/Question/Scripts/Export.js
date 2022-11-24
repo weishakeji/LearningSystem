@@ -18,9 +18,10 @@ $ready(function () {
                 checkStrictly: true
             },
             subjects: [],       //专业
-            sbjids: [],
+            sbjids: [],         //当前选中的专业id集合
 
-            courses: [],     //课程列表      
+            courses: [],     //专业下的课程列表    
+            course: {},          //当前课程  
 
             outlines: [],     //章节
             outline_panel: false,        //显示章节选择的面板
@@ -62,10 +63,10 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.form.orgid = th.organ.Org_ID;
                 th.types = types.data.result;
-
-                th.getSubjects(th.organ);
                 if (th.couid > 0) {
-                    th.changeCourse(th.couid);
+                    th.getCourse(th.couid);
+                } else {
+                    th.getSubjects(th.organ);
                 }
             })).catch(function (err) {
                 Vue.prototype.$alert(err);
@@ -182,6 +183,23 @@ $ready(function () {
                     console.error(err);
                 });
             },
+            getCourse: function (couid) {
+                var th = this;
+                $api.get('Course/ForID', { 'id': couid }).then(function (req) {
+                    if (req.data.success) {
+                        th.course = req.data.result;
+                        th.form.sbjid = th.course.Sbj_ID;
+                        th.form.couid = th.course.Cou_ID;
+                        th.getSubjects(th.organ);
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    Vue.prototype.$alert(err);
+                    console.error(err);
+                });
+            },
             //获取课程专业的数据
             getSubjects: function (organ) {
                 if (organ == null || !organ || !organ.Org_ID) return;
@@ -202,8 +220,8 @@ $ready(function () {
                             }
                             arr = th.getParentPath(sbj, th.subjects, arr);
                             th.sbjids = arr;
-                        }
-                        th.getCourses();
+                        } 
+                        th.changeSbj(th.sbjids);
                     } else {
                         throw req.data.message;
                     }
