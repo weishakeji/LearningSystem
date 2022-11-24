@@ -144,8 +144,7 @@ a {
     height: 60px !important;
 }
 
-.loginbox .login_body>*:before {
-    text-align: right !important;
+.loginbox .login_body>*:before {  
     line-height: 65px !important;
     font-size: 28px !important;
 }
