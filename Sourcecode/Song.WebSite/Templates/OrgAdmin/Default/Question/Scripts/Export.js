@@ -35,7 +35,7 @@ $ready(function () {
             form: { 'types': [], 'diffs': [], 'part': 1, 'orgid': 0, 'sbjid': '', 'couid': '', 'olid': '' },
 
             loading: false,
-            loading_export: false,       //生成的预载
+            loading_export: true,       //生成的预载
 
             files: [],
             filepanel: false      //显示文件列表的面板
@@ -130,7 +130,9 @@ $ready(function () {
                     if (i < th.form.diffs.length - 1) form.diffs += ",";
                 }
                 console.log(form);
+                th.loading_export = true;
                 $api.get('Question/ExcelExport', form).then(function (req) {
+                    th.loading_export = false;
                     if (req.data.success) {
                         var result = req.data.result;
                         th.getFiles();
@@ -139,7 +141,7 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
+                    th.loading_export = false;
                     Vue.prototype.$alert(err);
                     console.error(err);
                 });
@@ -220,7 +222,8 @@ $ready(function () {
                             }
                             arr = th.getParentPath(sbj, th.subjects, arr);
                             th.sbjids = arr;
-                        } 
+                        }
+                        th.loading_export = false;
                         th.changeSbj(th.sbjids);
                     } else {
                         throw req.data.message;
@@ -345,4 +348,4 @@ $ready(function () {
         },
     });
 
-});
+}, ['Components/ques_type.js']);

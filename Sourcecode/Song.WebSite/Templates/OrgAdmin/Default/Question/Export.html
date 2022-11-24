@@ -9,10 +9,12 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <el-form ref="form" :model="form" @submit.native.prevent label-width="100px">
+        <el-form ref="form" :model="form" @submit.native.prevent label-width="100px" :disabled="loading_export || loading">
             <el-form-item label="题型" prop="types">
                 <el-checkbox-group v-model="form.types">
-                    <el-checkbox v-for="(t,i) in types" :label="i+1" checked>{{t}}题</el-checkbox>
+                    <el-checkbox-button v-for="(t,i) in types" :label="i+1" checked>
+                        <ques_type :type="i+1" :types="types" :showname="true"></ques_type>
+                    </el-checkbox-button>
                 </el-checkbox-group>
             </el-form-item>
             <el-form-item label="专业" prop="Sbj_ID">
@@ -40,7 +42,8 @@
             </el-form-item>
             <el-form-item label="章节" prop="Ol_ID">
 
-                <el-link icon="el-icon-folder-opened" type="primary" @click="outline_panel=true">选择章节
+                <el-link icon="el-icon-folder-opened" type="primary" @click="outline_panel=true"
+                    :disabled="loading_export">选择章节
                     <span v-if="selected_outline==''">（默认为全部）</span>
                     <span v-else>
                         （当前选择： {{selected_outline}}）
@@ -63,7 +66,9 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="">
-                <el-button type="primary" @click="enter">导出试题excel文件</el-button>
+                <el-button type="primary" @click="enter" :loading="loading_export"  :disabled="loading_export || loading">                  
+                        导出试题excel文件
+                </el-button>
             </el-form-item>
         </el-form>
         <div v-if="files.length>0" class="filepanel">
