@@ -104,8 +104,8 @@ Vue.component('upload-excel', {
         //匹配excel列名和数据库字段
         marry: function (column, field) {
             if (column == field) return true;
-            if (column.indexOf(field) > -1) return true;
-            if (field.indexOf(column) > -1) return true;
+            //if (column.indexOf(field) > -1) return true;
+            //if (field.indexOf(column) > -1) return true;
             return false;
         },
         //导入数据
@@ -197,7 +197,9 @@ Vue.component('upload-excel', {
                     <dd v-for="item in sheet.columns" :label="item.Name">
                         <select :label="item.Name" :disabled="loading" >
                             <option value=""></option>
-                            <option v-for="f in fields" :value ="f.Field" :selected="marry(item.Name,f.Column)">{{f.Column}}</option>                            
+                            <template v-for="f in fields"> 
+                                <option :value ="f.Field" :selected="marry(item.Name,f.Column)">{{f.Column}}</option>  
+                            </template>                          
                         </select>
                     </dd>
                 </dl>

@@ -21,7 +21,7 @@
 }
 
 .upload_excel_area .el-steps {
-   margin: 0px 50px 60px 50px;
+   margin: 0px 50px 30px 50px;
 
 }
 
@@ -43,6 +43,7 @@
    height: 35px;
    position: relative;
    padding-left: 40px;
+   font-size: 14px;
 }
 
 .upload_excel_area .file_btn icon {

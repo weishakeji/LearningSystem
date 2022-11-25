@@ -89,11 +89,6 @@ namespace Song.ServiceImpls
 
         public void QuesInput(Questions entity, List<Song.Entities.QuesAnswer> ansItem)
         {
-            if (entity.Qus_ID <= 0)
-            {
-                entity.Qus_ID = WeiSha.Core.Request.SnowID();
-                entity.Qus_CrtTime = DateTime.Now;
-            }
             entity.Qus_Title = _ClearString(entity.Qus_Title);
             entity.Qus_Answer = _ClearString(entity.Qus_Answer);
             entity.Qus_Explain = _ClearString(entity.Qus_Explain);
@@ -109,7 +104,21 @@ namespace Song.ServiceImpls
                 }
                 entity.Qus_Items = this.AnswerToItems(ansItem.ToArray());
             }
-            Gateway.Default.Save<Questions>(entity);
+            //判断是否存在
+            Questions old = null;
+            if (entity.Qus_ID > 0) old = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == entity.Qus_ID).ToFirst<Questions>();
+            if (old == null) old = Gateway.Default.From<Questions>().Where(Questions._.Qus_Title == entity.Qus_Title).ToFirst<Questions>();
+            if (old == null)
+            {
+                entity.Qus_ID = WeiSha.Core.Request.SnowID();
+                entity.Qus_CrtTime = DateTime.Now;
+                Gateway.Default.Save<Questions>(entity);
+            }
+            else
+            {
+                old.Copy<Song.Entities.Questions>(entity);
+                Gateway.Default.Save<Questions>(old);
+            }
         }
         public void QuesDelete(long identify)
         {
@@ -574,7 +583,7 @@ namespace Song.ServiceImpls
             //创建数据行对象
             IRow rowHead = sheet.CreateRow(0);
             //创建表头
-            string[] cells = new string[] { "ID", "题目", "专业", "课程", "章节", "难度", "答案选项1", "答案选项2", "答案选项3", "答案选项4", "答案选项5", "答案选项6", "正确答案", "试题讲解" };
+            string[] cells = new string[] { "ID", "题干", "专业", "课程", "章节", "难度", "答案选项1", "答案选项2", "答案选项3", "答案选项4", "答案选项5", "答案选项6", "正确答案", "试题讲解" };
             for (int h = 0; h < cells.Length; h++)
                 rowHead.CreateCell(h).SetCellValue(cells[h]);
             //生成数据行

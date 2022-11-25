@@ -360,7 +360,7 @@ namespace Song.ViewData.Methods
         /// <param name="id">试题id</param>
         /// <returns></returns>
         [Cache]
-        [HttpPut]
+        [HttpPut,HttpPost]
         public Song.Entities.Questions ForID(long id)
         {
             Song.Entities.Questions ques = Business.Do<IQuestions>().QuesSingle(id);

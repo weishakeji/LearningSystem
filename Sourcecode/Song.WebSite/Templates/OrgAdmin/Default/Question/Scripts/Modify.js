@@ -51,7 +51,7 @@ $ready(function () {
                 var th = this;
                 if (th.id == '') return;
                 th.loading = true;
-                $api.get('Question/ForID', { 'id': th.id }).then(function (req) {
+                $api.put('Question/ForID', { 'id': th.id }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
