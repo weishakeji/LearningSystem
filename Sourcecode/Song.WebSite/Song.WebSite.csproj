@@ -441,7 +441,6 @@
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\AnswerCard.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\Quesbuttons.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\SetupMenu.css" />
-    <Content Include="Templates\Mobi\Default\Question\Components\Styles\Question.css" />
     <Content Include="Templates\Mobi\Default\Test\Components\group.js" />
     <Content Include="Templates\Mobi\Default\Test\Components\Styles\group.css" />
     <Content Include="Templates\Mobi\_Public\500.html" />
@@ -1064,7 +1063,6 @@
     <Content Include="Templates\Mobi\Default\Question\Components\SetupMenu.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\AnswerCard.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\Quesbuttons.js" />
-    <Content Include="Templates\Mobi\Default\Question\Components\Question.js" />
     <Content Include="Templates\Mobi\Default\Question\Course.html" />
     <Content Include="Templates\Mobi\Default\Question\Collects.html" />
     <Content Include="Templates\Mobi\Default\Question\Notes.html" />
@@ -1215,9 +1213,7 @@
     <Content Include="Templates\Web\Default\Question\Components\ExerciseState.js" />
     <Content Include="Templates\Web\Default\Question\Components\OutlineList.js" />
     <Content Include="Templates\Web\Default\Question\Components\Quesbuttons.js" />
-    <Content Include="Templates\Web\Default\Question\Components\Question.js" />
     <Content Include="Templates\Web\Default\Question\Components\SetupMenu.js" />
-    <Content Include="Templates\Web\Default\Question\Components\Styles\Question.css" />
     <Content Include="Templates\Web\Default\Question\Components\Styles\SetupMenu.css" />
     <Content Include="Templates\Web\Default\Question\Components\Styles\Quesbuttons.css" />
     <Content Include="Templates\Web\Default\Question\Components\Styles\AnswerCard.css" />

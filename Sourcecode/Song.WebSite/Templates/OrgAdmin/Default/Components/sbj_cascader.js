@@ -2,7 +2,7 @@
 $dom.load.css([$dom.path() + 'Components/Styles/sbj_cascader.css']);
 Vue.component('sbj_cascader', {
     //sbjid:专业id
-    props: ['sbjid', 'orgid','disabled'],
+    props: ['sbjid', 'orgid', 'disabled'],
     data: function () {
         return {
             //专业树形下拉选择器的配置项
@@ -21,7 +21,7 @@ Vue.component('sbj_cascader', {
     watch: {
         'orgid': {
             handler: function (nv, ov) {
-                if (nv != null && nv!='' && (nv != ov))
+                if (nv != null && nv != '' && (nv != ov))
                     this.getSubjects(nv);
             }, immediate: true
         },
@@ -35,7 +35,7 @@ Vue.component('sbj_cascader', {
         var th = this;
         window.clac_sbjids_setInterval = window.setInterval(function () {
             if (th.sbjid != null && th.subjects.length > 0) {
-                th.sbjids = th.clac_sbjids();
+                th.sbjids = th.clac_sbjids(th.sbjid);
                 th.$nextTick(function () {
                     th.evetChange(th.sbjids);
                 });
@@ -44,6 +44,12 @@ Vue.component('sbj_cascader', {
         }, 100);
     },
     methods: {
+        //设置当前专业
+        setsbj: function (sbjid) {
+            var th = this;
+            th.sbjid = sbjid;
+            th.sbjids = th.clac_sbjids(sbjid);
+        },
         //获取课程专业的数据
         getSubjects: function () {
             var th = this;
@@ -59,11 +65,11 @@ Vue.component('sbj_cascader', {
             });
         },
         //计算当前选中项
-        clac_sbjids: function () {
+        clac_sbjids: function (sbjid) {
             var th = this;
             //将当前课程的专业，在控件中显示
             var arr = [];
-            arr.push(th.sbjid);
+            arr.push(sbjid);
             var sbj = th.traversalQuery(th.sbjid, th.subjects);
             if (sbj == null) {
                 throw '专业“' + th.sbjid + '”不存在，或该专业被禁用';
@@ -100,6 +106,7 @@ Vue.component('sbj_cascader', {
         evetChange: function (val) {
             var currid = '';
             if (val.length > 0) currid = val[val.length - 1];
+            this.$refs['subject_cascader'].dropDownVisible = false;
             this.$emit('change', currid, val);
         },
         //专业的路径，从子级上溯
@@ -140,8 +147,8 @@ Vue.component('sbj_cascader', {
         },
     },
     template: `<div class="sbj_cascader">
-        <el-cascader style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业" :disabled="disabled"
-            :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="evetChange">
+        <el-cascader ref="subject_cascader" style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业"
+            :disabled="disabled" :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="evetChange">
             <template slot-scope="{ node, data }">
                 <span>{{ data.Sbj_Name }}</span>
                 <span class="sbj_course" v-if="data.Sbj_CouNumber>0">

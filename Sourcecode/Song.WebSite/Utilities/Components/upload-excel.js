@@ -155,15 +155,16 @@ Vue.component('upload-excel', {
         </el-steps>        
         <div v-if="step==0" remark="上传excel文件">
             <div label="模板">
-                <a :href="templatePath+template" target="_blank">点击下载“{{title}}”模板</a>
+                <a :href="templatePath+template" target="_blank" class="template_load">点击下载“{{title}}”模板</a>
+
                 <help>（数据格式请按照模板整理）</hlep>
             </div>
             <div label="上传数据">
                 <loading v-if="loading">正在上传中....</loading>
                 <upload-file v-else @change="upload" height="30" ext="xls,xlsx" :size="size">
                     <el-tooltip content="允许的文件类型：xls,xlsx" placement="right" effect="light">
-                        <el-button type="primary" plain>
-                            <icon style="font-size:16px">&#xe6a7</icon>点击上传文件
+                        <el-button type="primary" plain class="file_btn">
+                            <icon>&#xe6a7</icon>点击上传文件
                         </el-button>
                     </el-tooltip>
                 </upload-file>                   

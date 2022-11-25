@@ -14,22 +14,37 @@
 }
 
 .selectType .btn_list {
-    display: flex;
-    padding: 10px 0px;
+    display: flex;   
     flex-wrap:wrap;
 }
 .selectType .btn_list button{
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 16px;
     min-width: 150px;
 }
 .selectType .btn_list button icon{
+    font-size: 18px;
+}
+.selectType .btn_list button icon::after{
     font-size: 16px;
 }
 .selectType .btn_list button:first-child{
-    margin-left: 10px;
+    margin-right: 10px;
+}
+.selectType .btn_list .el-button+.el-button {
+    margin-right: 10px;
+    margin-left: 0px;
 }
 /*试题类型选中后的区域*/
 .navibar{
-    margin-bottom: 10px;
+    margin-bottom: 25px;
+    box-sizing: border-box;
+    height: 25px;
+    display: flex;
+}
+.navibar>*{
+    margin-right: 6px;
+}
+.upload_excel_area{
+    height: calc(100% - 50px) !important;
 }

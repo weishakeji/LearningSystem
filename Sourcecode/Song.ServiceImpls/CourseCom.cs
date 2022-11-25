@@ -907,6 +907,7 @@ namespace Song.ServiceImpls
                 wc.And(Course._.Cou_IsFree == true);
                 wcOrder = Course._.Cou_IsFree.Desc & Course._.Cou_Tax.Desc;
             }
+            wcOrder = wcOrder & Course._.Cou_ID.Desc;
             //if (order == "live") wc.And();
             return Gateway.Default.From<Course>().Where(wc).OrderBy(wcOrder).ToList<Course>(size, (index - 1) * size);
         }
