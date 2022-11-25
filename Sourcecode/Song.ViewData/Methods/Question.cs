@@ -365,7 +365,7 @@ namespace Song.ViewData.Methods
         {
             Song.Entities.Questions ques = Business.Do<IQuestions>().QuesSingle(id);
             if (ques == null) return null;
-            return _tran(ques.Clone<Song.Entities.Questions>());
+            return _tran(ques);
         }
         /// <summary>
         /// 分页获取试题

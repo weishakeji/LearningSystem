@@ -116,7 +116,7 @@ namespace Song.ServiceImpls
             }
             else
             {
-                old.Copy<Song.Entities.Questions>(entity);
+                old.Copy<Song.Entities.Questions>(entity, "Qus_ID");
                 Gateway.Default.Save<Questions>(old);
             }
         }
@@ -186,11 +186,9 @@ namespace Song.ServiceImpls
         }
         public Questions QuesSingle(long identify)
         {
-            Song.Entities.Questions qus = QuestionsMethod.QuestionsCache.Singleton.GetSingle(identify);
-            if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == identify).ToFirst<Questions>();
-            if (qus == null) return qus;            
+            Song.Entities.Questions qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == identify).ToFirst<Questions>();       
             return qus;
-
+           
         }
         /// <summary>
         ///  获取单一实体对象，按主键ID；
@@ -206,9 +204,7 @@ namespace Song.ServiceImpls
         public Questions QuesSingle(string uid)
         {
             if (uid == string.Empty) return null;
-            Song.Entities.Questions qus = QuestionsMethod.QuestionsCache.Singleton.GetSingle(uid);
-            if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_UID == uid.Trim() && Questions._.Qus_IsTitle == true).ToFirst<Questions>();
-            if (qus == null) return qus;
+            Song.Entities.Questions qus =  Gateway.Default.From<Questions>().Where(Questions._.Qus_UID == uid.Trim() && Questions._.Qus_IsTitle == true).ToFirst<Questions>();
            
             return qus;
         }
