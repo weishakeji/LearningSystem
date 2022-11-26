@@ -331,31 +331,26 @@
       <div class="item">
         <div class="tit"> 文件说明</div>
         <div class="txt">
-          <p>1、系统部署文件是“部署文件yyyy-mm-dd.rar”；</p>
-          <p> 2、upload.rar是系统中的upload文件夹，是用来存放用户上传资料、图片等信息的
-            有些朋友在部署后反映没有图片（例如课程图片不显示），都是因为“程序发布.rar”中只是程序， 没有图片信息。</p>
-          <p> 3、script.sql是当前系统的数据库脚本；</p>
-          <p> 4、升级脚本文件夹中，是之前版本升到当前版时，所需要执行的数据库脚本。 如果是第一次安装，则不需要，因为script.sql是最新数据库脚本。</p>
-          <p> 5、可以由云盘下载最新版本
-            地址：<a href="http://pan.baidu.com/s/1bppzM15" target="_blank">http://pan.baidu.com/s/1bppzM15</a></p>
+          <p>1、系统部署文件是“部署文件yyyy-mm-dd.rar”；</p>        
+          <p>2、script.sql是当前系统的数据库脚本；</p>
+          <p>3、升级脚本文件夹中，是之前版本升到当前版时，所需要执行的数据库脚本。 如果是第一次安装，则不需要，因为script.sql是最新数据库脚本。</p>
+          <p>可以由云盘下载最新版本<br/>
+            地址：<a href="https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg" target="_blank">https://pan.baidu.com/s/1koQyvnb0YEutlQomjAwIjg</a> 提取码：xekq</p>
         </div>
       </div>
       <a id="a3"></a>
       <div class="item">
         <div class="tit"> 安装部署</div>
         <div class="txt">
-          <p>部署步骤为“数据库部署”-》“创建站点，部署程序”-》“配置程序中的web.config信息”-》“设置上传文件夹的读写权限”
+          <p>部署步骤为“数据库部署”->“创建站点，部署程序”->“配置db.config中数据库链接”->“设置上传文件夹的读写权限”
             以下为详细讲解。</p>
-          <p> 1、数据库部署 压缩包解压后，在系统根目录有数据库脚本文件：<br>
-            SQLscript.sql 默认数据库名称为:examweisha 请手工创建数据库examweisha；然后执行SQLscript.sql即可。
-            执行数据库脚本大约需要十分时间，请耐心等；</p>
+          <p> 1、数据库部署 <br>
+            手工创建数据库examweisha，然后执行script.sql即可。</p>
           <p> 2、程序部署 <br>
             A、将“部署文件（日期）.rar”文件解压。<br>
-            B、建设IIS站点； <br>
-            C、将网站“主目录”指向程序文件夹；<br>
-            D、设定"asp.net"版本为4.0；<br>
-            E、设置默认“文档”为default.ashx或default.htm<br>
-            F、如果IIS7以上版本，还要设置应用程序池。（选择当前站点的应用程序池，选“高级设值”，在“启用32位应用程序”中设置为“False”。）</p>
+            B、建设IIS站点, 将网站“主目录”指向程序文件夹；<br>
+            C、将站点的应用程序池设置为“.Net CLR 版本 4.0”，其余默认即可<br>         
+           </p>
           <p> 3、配置db.config文件 此处主要用于设置数据库链接 如下例
             :<br>
             &lt;!--数据库链接，以下是设置说明：
