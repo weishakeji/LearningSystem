@@ -14,6 +14,13 @@ Vue.component('enter_button', {
         $dom.load.css([$dom.path() + 'Question/Components/Styles/enter_button.css']);
         console.log(this.id);
     },
+    computed: {
+        //试题是否为空
+        'quesnull': function () {
+            var ques = JSON.stringify(this.question) != '{}' && this.question != null;
+            return !ques || this.question.Qus_ID  == 0;
+        }
+    },
     methods: {
         //常规验证，主要验证试题所属专业、课程等
         general_verify: function () {
@@ -106,7 +113,7 @@ Vue.component('enter_button', {
             }
         }
     },
-    template: `<div class="footer">
+    template: `<div class="footer" v-if="!quesnull">
         <el-button type="primary" define="enter" native-type="submit" :disabled="loading || disabled" 
         :loading="loading" plain @click="btnEnter('entity')">
             修改

@@ -50,6 +50,7 @@ Vue.component('modify_main', {
                 //如果试题类型不明确（例如新增试题），类型从路径中取
                 if (!nv.Qus_Type) {
                     let name = window.location.pathname;
+                    if (name.indexOf('.') > -1) name = name.substring(0, name.indexOf('.'));
                     let type = name.substring(name.length - 1);
                     nv['Qus_Type'] = Number(type);
                 }
@@ -60,6 +61,20 @@ Vue.component('modify_main', {
         //课程是否为空
         coursenull: function () {
             return JSON.stringify(this.course) != '{}' && this.course != null;
+        },
+        //试题是否为空
+        'quesnull': function () {
+            var ques = JSON.stringify(this.question) != '{}' && this.question != null;
+            return !ques || this.question.Qus_ID == 0;
+        },
+        //试题类型
+        'quesType': function () {
+            var ques = JSON.stringify(this.question) != '{}' && this.question != null;
+            if (ques && this.question.Qus_Type > 0) return this.question.Qus_Type;
+            //如果试题不存在，则取文件名
+            let name = window.location.pathname;
+            if (name.indexOf('.') > -1) name = name.substring(0, name.indexOf('.'));
+            return name.substring(name.length - 1);
         }
     },
     mounted: function () {
@@ -112,7 +127,7 @@ Vue.component('modify_main', {
                     //alert(err);
                     Vue.prototype.$alert(err);
                     console.error(err);
-                });              
+                });
                 return;
             }
             th.loading = true;
@@ -197,7 +212,7 @@ Vue.component('modify_main', {
         <el-tabs type="border-card" v-model="activeName">
             <el-tab-pane name="question" v-if="question && types">
                 <span slot="label">
-                    <ques_type :type="question.Qus_Type" :types="types" :showname="true"></ques_type>
+                    <ques_type :type="quesType" :types="types" :showname="true"></ques_type>
                 </span>
             </el-tab-pane>   
             <el-tab-pane v-for="(item,index) in tabs" :name="item.name" v-if="tabshow(item)">
@@ -206,12 +221,13 @@ Vue.component('modify_main', {
                 </span>
             </el-tab-pane>           
         </el-tabs>
-        <div v-show="activeName=='question'" remark="试题"><slot></slot></div>
+        <div v-show="activeName=='question'" remark="试题"><slot  v-if="!quesnull"></slot></div>
         <div v-show="activeName=='base'" class="base" remark="基本信息">
             <general :question="question" :organ="organ" :course="course"></general>
         </div>
         <div v-show="activeName=='explan'" remark="解析">
-            <editor ref="editor" :content="question.Qus_Explain" id="explain" upload="ques" :dataid="question.Qus_ID" 
+            <template v-if="quesnull"></template>
+            <editor v-else ref="editor" :content="question.Qus_Explain" id="explain" upload="ques" :dataid="question.Qus_ID" 
             :menubar="false" model="question" @change="text=>question.Qus_Explain=text"></editor>          
         </div>
         <div v-show="activeName=='knowledge'" remark="知识点">
