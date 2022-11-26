@@ -22,6 +22,7 @@ $ready(function () {
             sbj_loading: false
         },
         mounted: function () {
+            
             var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo:30'),

@@ -43,7 +43,7 @@ namespace Song.ViewData.Attri
 
             //判断课程
             if (cour == null) throw new Exception("课程不存在！");
-            if (!cour.Cou_IsUse) throw new Exception("课程被禁止学习！");
+            if (!cour.Cou_IsUse) throw new Exception("课程状态为“禁用”！");
             //判断课程是否可以学习
             bool allowStudy = Business.Do<ICourse>().AllowStudy(cour, acc);
             if (couid > 0 && olid <= 0)

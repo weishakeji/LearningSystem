@@ -289,7 +289,7 @@ $ready(function () {
         props: ['outline', 'account'],
         data: function () {
             return {
-                state: [],		//章节状态
+                state: {},		//章节状态
                 player: null,	//播放器
                 //当前章节的视频信息
                 video: {
@@ -307,6 +307,7 @@ $ready(function () {
                 studylogState: 0, //学习记录提交状态，1为成功，-1为失败
                 loading: true, 	//预载中
                 state_loading: true,     //章节状态加载的预载
+                error:''        //错误信息
             }
         },
         watch: {
@@ -323,7 +324,7 @@ $ready(function () {
                     th.state_loading = true;
                     //获取章节相关信息
                     $api.bat(
-                        $api.get('Outline/State', { 'olid': th.outline.Ol_ID, 'acid': th.account.Ac_ID  }),
+                        $api.get('Outline/State', { 'olid': th.outline.Ol_ID, 'acid': th.account.Ac_ID }),
                         $api.cache("Outline/Info", { 'olid': th.outline.Ol_ID })
                     ).then(axios.spread(function (state, info) {
                         th.state_loading = false;
@@ -353,7 +354,8 @@ $ready(function () {
                         //console.log(th.state);
                     })).catch(function (err) {
                         th.state_loading = false;
-                        Vue.prototype.$alert(err);
+                        th.error= err;
+                        window.alert(err);
                         console.error(err);
                     });
                 }
@@ -535,33 +537,38 @@ $ready(function () {
         <div class='loading' v-show='state_loading'>
             <van-loading size='24px' type='spinner'>加载中...</van-loading>
         </div>
-		<div remark='视频'  :video='state.urlVideo' v-show='state.isLogin && state.existVideo && !state.isLive'>
-			<div id='videoplayer' v-show='!outline.Ol_ID || (state.existVideo && !state.otherVideo && !state.isLive)'
-			remark='点播'></div>
-			<iframe remark='外部视频链接' id='vedioiframe' height='100%' width='100%'
-			v-if='state.outerVideo && state.otherVideo && !state.isLive' :src='state.urlVideo'
-			allowscriptaccess='always' allowfullscreen='true' wmode='opaque' allowtransparency='true'
-			frameborder='0' type='application/x-shockwave-flash'></iframe>
-			<div id='videoinfo' v-if='!state.otherVideo && !state.isLive' style='display: none;'>
-				<span style='display: none'>视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
-				<span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
-				<span style='cursor: pointer' v-on:click='videoSeek(video.playhistime)'>上次播放到{{video.playhistime}}秒</span>
-				<span class='videolog info' v-show='studylogState==1'> 学习进度提交成功!</span >
-				<span class='videolog error' v-show='studylogState==-1'>学习进度提交失败!</span>
+     
+            <div remark='视频'  :video='state.urlVideo' v-show='state.isLogin && state.existVideo && !state.isLive'>
+                <div id='videoplayer' v-show='!outline.Ol_ID || (state.existVideo && !state.otherVideo && !state.isLive)'
+                remark='点播'></div>
+                <iframe remark='外部视频链接' id='vedioiframe' height='100%' width='100%'
+                v-if='state.outerVideo && state.otherVideo && !state.isLive' :src='state.urlVideo'
+                allowscriptaccess='always' allowfullscreen='true' wmode='opaque' allowtransparency='true'
+                frameborder='0' type='application/x-shockwave-flash'></iframe>
+                <div id='videoinfo' v-if='!state.otherVideo && !state.isLive' style='display: none;'>
+                    <span style='display: none'>视频时长：{{video.total}}秒，播放进度：{{playtime}}秒，</span>
+                    <span>累计学习{{video.studytime}}秒，完成{{video.percent}}%，</span>
+                    <span style='cursor: pointer' v-on:click='videoSeek(video.playhistime)'>上次播放到{{video.playhistime}}秒</span>
+                    <span class='videolog info' v-show='studylogState==1'> 学习进度提交成功!</span >
+                    <span class='videolog error' v-show='studylogState==-1'>学习进度提交失败!</span>
+                </div>
             </div>
-		</div>
-		<div remark='直播' v-show='state.isLogin && state.isLive' :video='state.urlVideo'>
-			<div id='livebox' v-show='state.isLive && state.isLiving'></div>
-			<div id='liveStopbox' v-show='state.isLive && !state.isLiving' remark='直播未开始'>
-				<div class='liveStop_Tit' v-show='state.canStudy && !state.LiveStart'>直播未开始！</div>
-				<div class='liveStop_Tit' v-show='state.canStudy && state.LiveOver'>直播已经结束！</div>
-				<div class='liveStop_Tit' v-show='!state.canStudy'>无权阅览！</div>
+            <div remark='直播' v-show='state.isLogin && state.isLive' :video='state.urlVideo'>
+                <div id='livebox' v-show='state.isLive && state.isLiving'></div>
+                <div id='liveStopbox' v-show='state.isLive && !state.isLiving' remark='直播未开始'>
+                    <div class='liveStop_Tit' v-show='state.canStudy && !state.LiveStart'>直播未开始！</div>
+                    <div class='liveStop_Tit' v-show='state.canStudy && state.LiveOver'>直播已经结束！</div>
+                    <div class='liveStop_Tit' v-show='!state.canStudy'>无权阅览！</div>
+                </div>
             </div>
-		</div>
-		<div remark='没有视频' id='noVideo' v-if='!state.existVideo && !state.isLive'>
-				<span v-if='!state.isLogin'><a href='/mobi/sign/in'>未登录，点击此处登录！</a></span>
-				<span v-else-if='!state.canStudy'>不允许学习相关内容</span>
-        </div>
+            <div remark='没有视频' id='noVideo' v-if='!state.existVideo && !state.isLive'>
+                <div v-if="error!=null || error!='' ">{{error}}</div>
+                <template v-else>
+                    <span v-if='!state.isLogin'><a href='/mobi/sign/in'>未登录，点击此处登录！</a></span>
+                    <span v-else-if='!state.canStudy'>不允许学习相关内容</span> 
+                </template>
+            </div>
+      
 	</div>`
     });
 

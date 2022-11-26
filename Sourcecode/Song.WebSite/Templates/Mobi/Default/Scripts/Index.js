@@ -17,6 +17,7 @@ $ready(function () {
             loading_init: false
         },
         mounted: function () {
+            alert('测试alert');
             var th = this;
             th.loading_init = true;
             $api.bat(
