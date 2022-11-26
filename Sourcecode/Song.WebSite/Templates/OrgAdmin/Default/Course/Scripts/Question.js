@@ -153,6 +153,7 @@
                         throw req.data.message;
                     }
                 }).catch(function (err) {
+                    th.loading = false;
                     th.$alert(err, '错误');
                     console.error(err);
                 });

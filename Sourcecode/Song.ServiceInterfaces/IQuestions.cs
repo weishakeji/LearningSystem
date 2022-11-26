@@ -292,61 +292,7 @@ namespace Song.ServiceInterfaces
         /// <param name="num">该题的分数</param>
         /// <returns>正确返回true</returns>
         bool ClacQues(long qid, string ans);
-        #endregion
-
-        #region 缓存管理
-        /// <summary>
-        /// 添加试题缓存
-        /// </summary>
-        /// <param name="ques"></param>
-        /// <param name="expires"></param>
-        /// <returns></returns>
-        string CacheAdd(Questions[] ques, int expires);
-        string CacheAdd(Questions[] ques, int expires, string uid);
-        /// <summary>
-        /// 更新试题缓存
-        /// </summary>
-        /// <param name="ques"></param>
-        /// <param name="expires"></param>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        string CacheUpdate(Questions[] ques, int expires, string uid);
-        /// <summary>
-        /// 更新答题信息缓存
-        /// </summary>
-        /// <param name="exr"></param>
-        /// <param name="expires"></param>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        string CacheUpdate(ExamResults exr, int expires, string uid);
-        /// <summary>
-        /// 从试题缓存中取试题
-        /// </summary>
-        /// <param name="qid"></param>
-        /// <returns></returns>
-        Questions QuesSingle4Cache(long qid);
-        /// <summary>
-        /// 从试题缓存中取试题
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        Questions QuesSingle4Cache(string uid);
-        /// <summary>
-        /// 从缓存中获取试题集
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        Questions[] CacheQuestions(string uid);
-        /// <summary>
-        /// 强制刷新，清除过期的缓存（默认每十分钟清理一次）
-        /// </summary>
-        void CacheClear();
-        /// <summary>
-        /// 刷新缓存
-        /// </summary>
-        /// <param name="key">缓存名称</param>
-        void Refresh(string key);
-        #endregion
+        #endregion       
 
         #region 试题练习的记录
         /// <summary>

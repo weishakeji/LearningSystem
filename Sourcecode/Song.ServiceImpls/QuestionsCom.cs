@@ -71,8 +71,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Save<Questions>(entity);
                     tran.Update<QuesAnswer>(new Field[] { QuesAnswer._.Qus_ID }, new object[] { entity.Qus_ID }, QuesAnswer._.Qus_UID == entity.Qus_UID);
-                    tran.Commit();
-                    QuestionsMethod.QuestionsCache.Singleton.UpdateSingle(entity);
+                    tran.Commit();                   
                     this.OnSave(entity, EventArgs.Empty);
                 }
                 catch (Exception ex)
@@ -107,7 +106,13 @@ namespace Song.ServiceImpls
             //判断是否存在
             Questions old = null;
             if (entity.Qus_ID > 0) old = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == entity.Qus_ID).ToFirst<Questions>();
-            if (old == null) old = Gateway.Default.From<Questions>().Where(Questions._.Qus_Title == entity.Qus_Title).ToFirst<Questions>();
+            if (old == null)
+            {
+                WhereClip wc = new WhereClip();
+                if (entity.Cou_ID > 0) wc.And(Questions._.Cou_ID == entity.Cou_ID);
+                if (entity.Ol_ID > 0) wc.And(Questions._.Ol_ID == entity.Ol_ID);
+                old = Gateway.Default.From<Questions>().Where(wc && Questions._.Qus_Title == entity.Qus_Title).ToFirst<Questions>();
+            }
             if (old == null)
             {
                 entity.Qus_ID = WeiSha.Core.Request.SnowID();
@@ -140,8 +145,10 @@ namespace Song.ServiceImpls
                     tran.Delete<QuesAnswer>(QuesAnswer._.Qus_UID == entity.Qus_UID);
                     tran.Delete<Student_Notes>(Student_Notes._.Qus_ID == entity.Qus_ID);
                     tran.Delete<Student_Collect>(Student_Collect._.Qus_ID == entity.Qus_ID);
-                    WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(entity.Qus_ID.ToString());
+                    WeiSha.Core.Upload.Get["Ques"].DeleteDirectory(entity.Qus_ID.ToString()); 
                     tran.Commit();                   
+
+                    this.OnDelete(entity, null);
                 }
             }
             catch (Exception ex)
@@ -153,7 +160,7 @@ namespace Song.ServiceImpls
             {
                 tran.Close();
             }
-            this.OnDelete(entity, null);
+          
         }
         public void QuesDelete(string ids)
         {
@@ -1072,8 +1079,7 @@ namespace Song.ServiceImpls
             if (string.IsNullOrWhiteSpace(ans)) return false;
             if (ans.Trim() == "" || ans.Trim() == "undefined") return false;
             //
-            Questions qus = null;
-            qus = this.QuesSingle4Cache(qid);
+            Questions qus = null;           
             if (qus == null) qus = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == qid).ToFirst<Questions>();
             if (qus == null) return false;
             if (qus.Qus_Type == 1) return _clacQues1(qus, ans);
@@ -1222,94 +1228,6 @@ namespace Song.ServiceImpls
         }
         #endregion
 
-        #region 缓存管理
-        /// <summary>
-        /// 添加试题缓存
-        /// </summary>
-        /// <param name="ques"></param>
-        /// <param name="expires"></param>
-        /// <returns></returns>
-        public string CacheAdd(Questions[] ques, int expires)
-        {
-            return QuestionsMethod.QuestionsCache.Singleton.Add(ques,expires);
-        }
-        public string CacheAdd(Questions[] ques, int expires, string uid)
-        {
-            return QuestionsMethod.QuestionsCache.Singleton.Add(ques, expires, uid);
-        }
-        /// <summary>
-        /// 更新试题缓存
-        /// </summary>
-        /// <param name="ques"></param>
-        /// <param name="expires"></param>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public string CacheUpdate(Questions[] ques, int expires, string uid)
-        {
-            return QuestionsMethod.QuestionsCache.Singleton.Update(ques, expires, uid);
-        }
-        /// <summary>
-        /// 更新答题信息缓存
-        /// </summary>
-        /// <param name="exr"></param>
-        /// <param name="expires"></param>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public string CacheUpdate(ExamResults exr, int expires, string uid)
-        {
-            return QuestionsMethod.QuestionsCache.Singleton.Update(exr, expires, uid);
-        }
-        /// <summary>
-        /// 从试题缓存中取试题
-        /// </summary>
-        /// <param name="qid"></param>
-        /// <returns></returns>
-        public Questions QuesSingle4Cache(long qid)
-        {
-            return QuestionsMethod.QuestionsCache.Singleton.GetSingle(qid);
-        }
-        /// <summary>
-        /// 从试题缓存中取试题
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public Questions QuesSingle4Cache(string uid)
-        {
-            return QuestionsMethod.QuestionsCache.Singleton.GetSingle(uid);
-        }
-        /// <summary>
-        /// 从缓存中获取试题集
-        /// </summary>
-        /// <param name="uid"></param>
-        /// <returns></returns>
-        public Questions[] CacheQuestions(string uid)
-        {
-            List<Questions> ques= QuestionsMethod.QuestionsCache.Singleton.GetQuestions(uid);
-            //试题倒序排列
-            //ques = ques.OrderByDescending(x => x.Qus_ID).ToList<Questions>();
-            ques = ques.OrderBy(x => x.Qus_Tax).ToList<Questions>();
-            if (ques == null) return null;
-            return ques.ToArray<Questions>();
-        }
-        /// <summary>
-        /// 强制刷新，清除过期的缓存（默认每十分钟清理一次）
-        /// </summary>
-        public void CacheClear()
-        {
-            QuestionsMethod.QuestionsCache.Singleton.Clear();
-        }
-        /// <summary>
-        /// 刷新缓存
-        /// </summary>
-        /// <param name="key">缓存名称</param>
-        public void Refresh(string key)
-        {
-            if (string.IsNullOrWhiteSpace(key)) key = "all";
-            Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
-            Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete(key);
-            Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, key);
-        }
-        #endregion
 
         #region 事件
         public event EventHandler Save;
@@ -1317,65 +1235,32 @@ namespace Song.ServiceImpls
         public event EventHandler Delete;
         public void OnSave(object sender, EventArgs e)
         {
-            if (sender == null)
-            {
-                //取所有试题进缓存
-                new Thread(new ThreadStart(() =>
-                {
-                    Song.Entities.Questions[] ques = Business.Do<IQuestions>().QuesCount(-1, null, -1);
-                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Delete("all");
-                    Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.Add(ques, int.MaxValue, "all");
-                })).Start();
-            }
-            else
-            {
-                //单个试题的缓存刷新
-                if (!(sender is Questions)) return;
-                Questions ques = (Questions)sender;
-                if (ques == null) return;
-                Song.ServiceImpls.QuestionsMethod.QuestionsCache.Singleton.UpdateSingle(ques);
-            }
             if (Save != null) Save(sender, e);
         }
         public void OnAdd(object sender, EventArgs e)
-        {
-            this.OnSave(null, e);
+        {           
             //更新章节试题数量
             if (!(sender is Questions)) return;
             Questions ques = (Questions)sender;
             if (ques == null) return;
-            if (ques.Ol_ID > 0)
-            {
-                int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
-                Outline ol = Business.Do<IOutline>().OutlineSingle(ques.Ol_ID);
-                Outline olnew = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == ques.Ol_ID).ToFirst<Outline>();
-                olnew.Ol_QuesCount = count;
-                Gateway.Default.Save<Outline>(olnew);               
-            }
+
+            //更新章节试题数
+            int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
+            Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == ques.Ol_ID);
+
             if (Add != null) Add(sender, e);
         }
         public void OnDelete(object sender, EventArgs e)
         {
-            this.OnSave(null, e);
-            if (sender == null)
-            {
-                //Business.Do<IOutline>().OutlineBuildCache();
-            }
-            else
-            {
-                //更新章节试题数量
-                if (!(sender is Questions)) return;
-                Questions ques = (Questions)sender;
-                if (ques == null) return;
-                if (ques.Ol_ID > 0)
-                {
-                    int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
-                    Outline ol = Business.Do<IOutline>().OutlineSingle(ques.Ol_ID);
-                    Outline olnew = Gateway.Default.From<Outline>().Where(Outline._.Ol_ID == ques.Ol_ID).ToFirst<Outline>();
-                    olnew.Ol_QuesCount = count;
-                    Gateway.Default.Save<Outline>(olnew);                    
-                }
-            }           
+            //更新章节试题数量
+            if (!(sender is Questions)) return;
+            Questions ques = (Questions)sender;
+            if (ques == null) return;
+            //更新章节试题数
+            int count = Business.Do<IOutline>().QuesOfCount(ques.Ol_ID, -1, true, true);
+            Gateway.Default.Update<Outline>(Outline._.Ol_QuesCount, count, Outline._.Ol_ID == ques.Ol_ID);
+
+            if (Delete != null) Delete(sender, e);
         }
         #endregion
 

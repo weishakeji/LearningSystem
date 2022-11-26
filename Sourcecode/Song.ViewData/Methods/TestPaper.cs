@@ -47,7 +47,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="entity">试卷对象</param>
         /// <returns></returns>
-        [Admin]
+        [Admin,Teacher]
         [HttpPost, HttpGet(Ignore = true)]
         [Upload(Extension = "jpg,png,gif", MaxSize = 1024, CannotEmpty = false)]
         [HtmlClear(Not = "entity")]
@@ -139,7 +139,7 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="id">试卷id，可以是多个，用逗号分隔</param>
         /// <returns></returns>
-        [Admin]
+        [Admin, Teacher]
         [HttpDelete]
         public int Delete(string id)
         {
@@ -171,7 +171,7 @@ namespace Song.ViewData.Methods
         /// <param name="rec">是否推荐</param>
         /// <returns></returns>
         [HttpPost]
-        [Admin]
+        [Admin, Teacher]
         public int ModifyState(string id, bool use, bool? rec)
         {
             int i = 0;

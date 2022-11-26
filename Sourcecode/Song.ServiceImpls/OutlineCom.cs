@@ -102,6 +102,7 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public Outline OutlineBatchAdd(int orgid, long sbjid, long couid, string names)
         {
+            Song.Entities.Course course = Business.Do<ICourse>().CourseSingle(couid);
             //整理名称信息
             names = names.Replace("，", ",");
             List<string> listName = new List<string>();
@@ -115,14 +116,14 @@ namespace Song.ServiceImpls
             Song.Entities.Outline last = null;
             for (int i = 0; i < listName.Count; i++)
             {
-                Song.Entities.Outline current = OutlineIsExist(orgid, sbjid, couid, pid, listName[i]);
+                Song.Entities.Outline current = OutlineIsExist(-1, -1, couid, pid, listName[i]);
                 if (current == null)
                 {
                     current = new Outline();
                     current.Ol_Name = listName[i];
                     current.Ol_IsUse = true;
                     current.Org_ID = orgid;
-                    current.Sbj_ID = sbjid;
+                    current.Sbj_ID = course != null ? course.Sbj_ID : sbjid;
                     current.Cou_ID = couid;
                     current.Ol_PID = pid;
                     current.Ol_IsFinish = true;     //默认为完结

@@ -69,7 +69,8 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Ol_Name")
                 {
-                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, obj.Cou_ID, column);
+                    long couid = course != null ? course.Cou_ID : obj.Cou_ID;
+                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
                     if (outline != null) obj.Ol_ID = outline.Ol_ID;
                 }
                 if (field == "Qus_Explain") obj.Qus_Explain = column;
@@ -123,8 +124,7 @@ namespace Song.ViewData.QuestionHandler
         /// <summary>
         ///导入多选题，将某一行数据加入到数据库
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="dl"></param>
+        /// <param name="dr"></param>    
         public static void Type2(DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
@@ -170,7 +170,8 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Ol_Name")
                 {
-                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, obj.Cou_ID, column);
+                    long couid = course != null ? course.Cou_ID : obj.Cou_ID;
+                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
                     if (outline != null) obj.Ol_ID = outline.Ol_ID;
                 }
                 if (field == "Qus_Explain") obj.Qus_Explain = column;
@@ -232,8 +233,7 @@ namespace Song.ViewData.QuestionHandler
         /// <summary>
         /// 导入判断题，将某一行数据加入到数据库
         /// </summary>
-        /// <param name="dr"></param>
-        /// <param name="dl"></param>
+        /// <param name="dr"></param>    
         public static void Type3(DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
@@ -279,7 +279,8 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Ol_Name")
                 {
-                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, obj.Cou_ID, column);
+                    long couid = course != null ? course.Cou_ID : obj.Cou_ID;
+                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
                     if (outline != null) obj.Ol_ID = outline.Ol_ID;
                 }
                 if (field == "Qus_Explain") obj.Qus_Explain = column;
@@ -307,7 +308,6 @@ namespace Song.ViewData.QuestionHandler
         /// 导入简答题，将某一行数据加入到数据库
         /// </summary>
         /// <param name="dr"></param>
-        /// <param name="dl"></param>
         public static void Type4(DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
         {
 
@@ -350,7 +350,8 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Ol_Name")
                 {
-                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, obj.Cou_ID, column);
+                    long couid = course != null ? course.Cou_ID : obj.Cou_ID;
+                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
                     if (outline != null) obj.Ol_ID = outline.Ol_ID;
                 }
                 if (field == "Qus_Explain") obj.Qus_Explain = column;
@@ -378,7 +379,6 @@ namespace Song.ViewData.QuestionHandler
         /// 导入填空题，将某一行数据加入到数据库
         /// </summary>
         /// <param name="dr"></param>
-        /// <param name="dl"></param>
         public static void Type5(DataRow dr, int type, Song.Entities.Course course, Song.Entities.Organization org, JArray mathing)
         {
             Song.Entities.Questions obj = new Song.Entities.Questions();
@@ -420,7 +420,8 @@ namespace Song.ViewData.QuestionHandler
                 }
                 if (field == "Ol_Name")
                 {
-                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, obj.Cou_ID, column);
+                    long couid = course != null ? course.Cou_ID : obj.Cou_ID;
+                    Song.Entities.Outline outline = Business.Do<IOutline>().OutlineBatchAdd(org.Org_ID, obj.Sbj_ID, couid, column);
                     if (outline != null) obj.Ol_ID = outline.Ol_ID;
                 }
                 if (field == "Qus_Explain") obj.Qus_Explain = column;
