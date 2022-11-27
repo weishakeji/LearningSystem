@@ -49,7 +49,7 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         [HttpPost]
         [Admin, Teacher]
-        public bool SaveOutlineVideoFile(long olid, string type, JObject fileinfo)
+        public Song.Entities.Accessory SaveOutlineVideoFile(long olid, string type, JObject fileinfo)
         {
             Song.Entities.Outline outline = Business.Do<IOutline>().OutlineSingle(olid);
             if (outline == null)
@@ -71,7 +71,7 @@ namespace Song.ViewData.Methods
             acc.As_IsOuter = false;
             acc.As_FileName = filename;
             Business.Do<IAccessory>().Add(acc);
-            return true;
+            return acc;
         }
         /// <summary>
         /// 选择视频附件，其实已经上传到服务器，此处只是创建数据库记录
@@ -155,6 +155,7 @@ namespace Song.ViewData.Methods
         /// 获取附件记录
         /// </summary>
         /// <param name="uid">附件关联对象的Uid，例如章节视频，此处为章节的uid</param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public Song.Entities.Accessory ForUID(string uid,string type)
         {

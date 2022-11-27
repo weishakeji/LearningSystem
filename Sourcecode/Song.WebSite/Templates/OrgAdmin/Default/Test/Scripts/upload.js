@@ -101,7 +101,7 @@ $ready(function () {
                 var fail = 0;
                 for (let i = 0; i < chunkedArr.length; i++) {
                     var form = chunkedArr[i];
-                    $api.post('Platform/ChunkedUpload', form).then(function (req) {
+                    $api.post('Upload/Chunked', form).then(function (req) {
                         if (req == null) {
                             fail++;
                             console.log("失败：" + fail);

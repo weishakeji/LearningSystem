@@ -65,7 +65,7 @@
             //获取视频附件对象
             getaccessory: function () {
                 var th = this;
-                $api.get('Accessory/ForUID', { 'uid': th.uid, 'type': 'CourseVideo' }).then(function (req) {
+                $api.post('Accessory/ForUID', { 'uid': th.uid, 'type': 'CourseVideo' }).then(function (req) {
                     if (req.data.success) {
                         th.accessory = req.data.result;
                         th.initState();

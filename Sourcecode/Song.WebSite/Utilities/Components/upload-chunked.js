@@ -31,11 +31,11 @@ Vue.component('upload-chunked', {
         //上传文件
         upload: function (file) {
             //触发开始上传的事件
-            this.$emit('start', file);   
+            this.$emit('start', file);
             var th = this;
             th.filename = file.name;
             //md5的文件信息
-            var uid = $api.md5(file.name + file.size);
+            var uid = $api.md5(file.name + file.size + new Date().getTime());
             //分片数组
             var chunkarr = th.filechunked(file, th.chunk, uid);
             //线程数组
@@ -100,7 +100,7 @@ Vue.component('upload-chunked', {
                     }
                     continue;
                 }
-                $api.post('Platform/ChunkedUpload', items.list[i]).then(function (req) {
+                $api.post('Upload/Chunked', items.list[i]).then(function (req) {
                     if (req == null) return;
                     if (req.data.success) {
                         var result = req.data.result;
@@ -124,7 +124,7 @@ Vue.component('upload-chunked', {
                                 //删除记录的切片索引
                                 th.record_set(result.uid, null);
                                 //上传完成的事件
-                                th.$emit('success', result);                              
+                                th.$emit('success', result);
                             }
                         }
                     } else {

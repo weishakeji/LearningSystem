@@ -11,7 +11,7 @@
 <body>
     <div id="vapp" v-cloak>
         <el-tabs type="card" tab-position="top" v-model="tabName">
-            <el-tab-pane v-for="item in tabs" :name="item.tab" :disabled="item.disabled">
+            <el-tab-pane v-for="item in tabs" :name="item.tab" :disabled="item.disabled || loading_up">
                 <div slot="label">
                     <icon v-html="item.icon"></icon>{{item.name}}
                 </div>
