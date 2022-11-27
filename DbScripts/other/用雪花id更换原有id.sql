@@ -17,6 +17,25 @@ while @@fetch_status=0
 close cursor_drop
 deallocate cursor_drop
 
+/*删除所有非主键索引*/
+declare cursor_idx cursor scroll
+for SELECT idx.name, OBJECT_NAME(CAST(idx.object_id AS INT)) as 'table' FROM sys.tables tb
+    INNER JOIN sys.indexes idx ON idx.object_id = tb.object_id
+	WHERE tb.type = 'u' AND idx.is_unique = 0 AND idx.name IS NOT NULL 
+open cursor_idx
+declare @idx nvarchar(500), @tb2 nvarchar(500),@sqlidx nvarchar(500)
+fetch First from cursor_idx into @idx,@tb2
+while @@fetch_status=0  
+ begin  
+   set @sqlidx='drop index '+@idx+' on ' +@tb2 
+   --print @sqlidx
+   exec sp_executesql @sqlidx
+   fetch next from cursor_idx into  @idx,@tb2
+ end   
+--关闭并释放游标
+close cursor_idx
+deallocate cursor_idx
+
 /***********
 章节id转为雪花id*/
 ALTER TABLE [outline] ADD [Ol_SID] bigint default 0 not null
