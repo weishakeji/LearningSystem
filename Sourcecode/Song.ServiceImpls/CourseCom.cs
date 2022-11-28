@@ -623,8 +623,8 @@ namespace Song.ServiceImpls
                 }
             }
             Business.Do<IOutline>().BuildCache(couid);
-           //删除试卷
-           List <Song.Entities.TestPaper> tps = Gateway.Default.From<TestPaper>().Where(TestPaper._.Cou_ID == couid).ToList<TestPaper>();
+            //删除试卷
+            List<Song.Entities.TestPaper> tps = Gateway.Default.From<TestPaper>().Where(TestPaper._.Cou_ID == couid).ToList<TestPaper>();
             if (tps != null && tps.Count > 0)
             {
                 foreach (Song.Entities.TestPaper t in tps)

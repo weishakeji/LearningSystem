@@ -115,7 +115,7 @@ namespace Song.ViewData.Methods
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Cache(Expires = 20)]
+        [Cache(Expires = 20, AdminDisable = true)]
         public Song.Entities.Outline ForID(long id)
         {
             return Business.Do<IOutline>().OutlineSingle(id);
@@ -131,6 +131,23 @@ namespace Song.ViewData.Methods
         public List<Song.Entities.Outline> List(long couid, long pid)
         {
             return Business.Do<IOutline>().OutlineCount(couid, pid, true, 0);
+        }
+        /// <summary>
+        /// 刷新课程下的章节缓存
+        /// </summary>
+        /// <param name="couid"></param>
+        /// <returns></returns>
+        [HttpPut,HttpPost]
+        public bool FreshCache(long couid)
+        {
+            try
+            {
+                Business.Do<IOutline>().BuildCache(couid);
+                return true;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
 
@@ -158,7 +175,7 @@ namespace Song.ViewData.Methods
             List<Song.Entities.Outline> outlines = Business.Do<IOutline>().OutlineAll(couid, true, true, null);
             if (outlines.Count > 0)
             {
-                foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;
+                //foreach (Song.Entities.Outline ol in outlines) ol.Ol_Intro = string.Empty;
                 //树形章节输出
                 DataTable dt = Business.Do<IOutline>().OutlineTree(outlines.ToArray<Song.Entities.Outline>());
                 return dt;
@@ -171,7 +188,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">所属课程的id</param>
         /// <param name="isuse">是否启用</param>
         /// <returns></returns>
-        [Cache]
+        [Cache(AdminDisable =true)]
         public JArray Tree(long couid, bool? isuse)
         {
             if (couid <= 0) return null;

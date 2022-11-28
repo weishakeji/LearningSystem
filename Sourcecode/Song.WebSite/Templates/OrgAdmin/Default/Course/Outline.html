@@ -54,7 +54,7 @@
                         </span>
 
                         <span class="column_state">
-                            <loading v-if="loadingid==data.Ol_ID"></loading>
+                            <loading v-if="loadingid==data.Ol_ID" star></loading>
                             <template v-else>
                                 <el-link :type="data.Ol_IsUse ? 'success' : 'danger'"
                                     @click="changeState(data,'Ol_IsUse')">

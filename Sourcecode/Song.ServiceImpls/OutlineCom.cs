@@ -937,6 +937,7 @@ namespace Song.ServiceImpls
                             Outline._.Ol_ID == sbj.Ol_ID);
                     }
                     tran.Commit();
+                    //this.BuildCache(couid);
                     return true;
                 }
                 catch

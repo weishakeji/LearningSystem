@@ -60,7 +60,7 @@
             getTreeData: function () {
                 var th = this;
                 this.loading = true;
-                $api.cache('Outline/Tree:update', { 'couid': th.id, 'isuse': null }).then(function (req) {
+                $api.put('Outline/Tree:update', { 'couid': th.id, 'isuse': null }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.datas = req.data.result;
@@ -93,8 +93,7 @@
                             message: '更改排序成功!',
                             center: true
                         });
-                        th.updatedEvent();
-                        th.getTreeData();
+                        th.updatedEvent();                       
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -192,8 +191,7 @@
                             message: '删除成功!',
                             center: true
                         });
-                        th.updatedEvent();
-                        th.getTreeData();
+                        th.updatedEvent();                       
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -232,7 +230,7 @@
             //编辑章节的按钮事件
             modifyBtn: function (data) {
                 this.modify_obj = $api.clone(data);
-                th.modify_obj.state = 'modify';
+                this.modify_obj.state = 'modify';
                 this.modify_show = true;
                 this.$refs['intro_editor'].setContent(data.Ol_Intro);
             },
@@ -262,8 +260,8 @@
                                     message: '操作成功!',
                                     center: true
                                 });
-                                th.updatedEvent();
-                                th.getTreeData();
+                                $api.put('Outline/ForID', { 'id': obj.Ol_ID });
+                                th.updatedEvent();                            
                                 th.modify_show = false;
                             } else {
                                 throw req.data.message;
@@ -308,7 +306,22 @@
             //更新后触发的事件
             updatedEvent: function () {
                 this.close_fresh('vapp.fressingle(' + this.id + ')');
-                $api.cache('Outline/Tree:update', { 'couid': this.id, 'isuse': true });
+                $api.cache('Outline/Tree:clear', { 'couid': this.id, 'isuse': true });
+                var th=this;
+                th.getTreeData();
+                return;
+                $api.put('Outline/FreshCache', { 'couid': this.id  }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result; 
+                        th.getTreeData();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.config.way + ' ' + req.data.message;
+                    }
+                }).catch(function (err) {
+                    alert(err);
+                    console.error(err);
+                });
             },
             //关闭自身窗体，并刷新父窗体列表
             close_fresh: function (func) {
@@ -322,7 +335,8 @@
                         winname = winname.substring(0, winname.lastIndexOf('_'));
                     if (winname.indexOf('[') > -1)
                         winname = winname.substring(0, winname.lastIndexOf('['));
-                    window.top.vapp.fresh(winname, func);
+                    if (window.top.vapp && window.top.vapp.fresh)
+                        window.top.vapp.fresh(winname, func);
                 }
             },
         }
