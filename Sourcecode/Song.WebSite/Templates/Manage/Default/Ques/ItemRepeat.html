@@ -59,6 +59,9 @@
                                     <icon v-if="!load_check">&#xa00b</icon>
                                     检测
                               </el-button>
+                              <el-button type="primary" v-if="load_check" @click="load_check=false"                                    >
+                                    停止检测
+                              </el-button>
                               <el-button type="primary" :disabled="load_check || !error" @click="repair()"
                                     :loading="load_repair">
                                     <icon v-if="!load_repair">&#xa030</icon>处理

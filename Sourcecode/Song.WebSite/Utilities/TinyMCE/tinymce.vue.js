@@ -36,7 +36,7 @@ Vue.component('editor', {
         },
         'content': {
             handler: function (nv, ov) {
-                if (this.text == '') {
+                if (this.text == null || this.text == '') {
                     if (nv != '')
                         this.text = nv.replace(/[\r\n]/g, '');
                     this.setContent(this.text);
@@ -94,7 +94,7 @@ Vue.component('editor', {
                 case 'inline':
                     arr = [];
                     break;
-                 //试题编辑
+                //试题编辑
                 case 'question':
                     arr = [` undo redo cut copy formatpainter | fontsizeselect forecolor backcolor bold italic underline strikethrough | superscript subscript 
                     indent2em outdent indent lineheight |  alignleft aligncenter alignright alignjustify
@@ -107,7 +107,7 @@ Vue.component('editor', {
                     | alignleft aligncenter alignright alignjustify 
                     |  image-weisha charmap  kityformula-editor
                     `]
-                    break;          
+                    break;
             }
             return arr;
         },
@@ -167,7 +167,7 @@ Vue.component('editor', {
                 powerpaste_allow_local_images: true,//
                 powerpaste_keep_unsupported_src: true,
                 paste_data_images: true,
-                convert_urls:false,     //当插入图片时，是否转换为相对路径
+                convert_urls: false,     //当插入图片时，是否转换为相对路径
                 toolbar_sticky: false,
                 autosave_ask_before_unload: false,
                 fontsize_formats: '12px 14px 16px 18px 24px 36px 48px 56px 72px',
@@ -206,7 +206,7 @@ Vue.component('editor', {
 
                         //console.log(k + ': ' + params[k]);
                     }
-                    var d=editor.getParam('dataid', 123);
+                    var d = editor.getParam('dataid', 123);
                     console.log('dataid: ' + d);
                     //var html = editor.getContent();                 
 

@@ -20,11 +20,6 @@
             rules: {
                 Cou_Tax: [{ required: true, message: '不得为空', trigger: 'blur' }]
             },
-            //文本内容
-            textual: {
-                target: '',
-                intro: ''
-            },
             loading_obj: {},
             loading: false,
             loading_init: true   //初始加载
@@ -97,9 +92,7 @@
                     th.loading = false;
                     th.loading_obj.close();
                     if (req.data.success) {
-                        th.entity = req.data.result;
-                        th.textual.target = th.entity.Cou_Target;
-                        th.textual.intro = th.entity.Cou_Intro;
+                        th.entity = req.data.result;                      
                         //将当前课程的专业，在控件中显示
                         var arr = [];
                         arr.push(th.entity.Sbj_ID);

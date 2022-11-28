@@ -154,6 +154,7 @@ $ready(function () {
                     'size': 20, 'index': index
                 };
                 var th = this;
+                if (!th.load_check) return;
                 $api.get("Question/Pager", form).then(function (d) {
                     if (d.data.success) {
                         var result = d.data.result;
@@ -282,6 +283,7 @@ $ready(function () {
                     }
                 }).catch(function (err) {
                     alert(err);
+                    th.load_repair = false;
                     console.error(err);
                 });
             },
