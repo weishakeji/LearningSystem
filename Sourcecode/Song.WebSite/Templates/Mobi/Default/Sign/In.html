@@ -26,7 +26,14 @@
       <img class="photo" v-if="account.Ac_Sex==2" src="/Utilities/images/head2.jpg" />
       <img class="photo" v-else src="/Utilities/images/head1.jpg" />
     </template>
-    <div class="accname" v-if="!!account.Ac_Name" v-html="account.Ac_Name"></div>
+    <template v-if="islogin">
+      <div class="accname" v-if="account.Ac_Name!=''" v-html="account.Ac_Name">
+
+      </div>
+      <div class="accname" v-else>
+        (名称为空)
+      </div>
+    </template>
     <div class="nologin" v-else>(未登录或已失效)</div>
     <van-button type="info" @click="gourl('/mobi/account/myself')">个人信息</van-button>
     <van-button type="default" @click="logout">退出登录</van-button>

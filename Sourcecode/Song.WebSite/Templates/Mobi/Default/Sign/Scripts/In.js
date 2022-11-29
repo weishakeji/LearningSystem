@@ -1,4 +1,4 @@
-$ready(function () {    
+$ready(function () {
     window.vapp = new Vue({
         el: '#logged-area',
         data: {
@@ -8,8 +8,8 @@ $ready(function () {
             loading: false
         },
         mounted: function () {
-            var c=$api.loginstatus('account');
-    console.log(c);
+            var c = $api.loginstatus('account');
+            console.log(c);
             //判断是否登录
             $api.get('Account/Current', {}, function () {
                 window.login.loading = true;
@@ -47,11 +47,15 @@ $ready(function () {
                 vapp.config = $api.organ(vapp.organ).config;
             })).catch(function (err) {
                 console.error(err);
-            });           
+            });
         },
-        created: function () {          
+        created: function () {
         },
         computed: {
+             //是否登录
+             islogin: function () {
+                return JSON.stringify(this.account) != '{}' && this.account != null;
+            }
         },
         watch: {
             'account': function (nv, ov) {
@@ -193,5 +197,5 @@ $ready(function () {
 
 //登录成功
 function ready(result) {
-    window.vapp.logged(result);    
+    window.vapp.logged(result);
 }

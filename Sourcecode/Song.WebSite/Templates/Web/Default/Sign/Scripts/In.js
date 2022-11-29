@@ -52,6 +52,10 @@ $ready(function () {
         created: function () {
         },
         computed: {
+            //是否登录
+            islogin: function () {
+                return JSON.stringify(this.account) != '{}' && this.account != null;
+            }
         },
         watch: {
             'account': function (nv, ov) {

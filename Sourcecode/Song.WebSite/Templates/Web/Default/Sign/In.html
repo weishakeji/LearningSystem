@@ -10,7 +10,7 @@
 
 <body>
   <div id="vapp" v-cloak>
-    <page_header ref='header' :organ="organ" v-if="true">loading ...</page_header>
+    <page_header ref='header' :organ="organ" @login="acc=>account = acc" v-if="true">loading ...</page_header>
 
     <context class="first">
       <section>
@@ -32,7 +32,14 @@
             <img class="photo" v-if="account.Ac_Sex==2" src="/Utilities/Images/head2.jpg" />
             <img class="photo" v-else src="/Utilities/Images/head1.jpg" />
           </template>
-          <div class="accname" v-if="!!account.Ac_Name" v-html="account.Ac_Name"></div>
+          <template v-if="islogin">
+            <div class="accname" v-if="account.Ac_Name!=''" v-html="account.Ac_Name">
+
+            </div>
+            <div class="accname" v-else>
+              (名称为空)
+            </div>
+          </template>
           <div class="nologin" v-else>(未登录或已失效)</div>
           <div>
             <el-button type="primary" @click="gourl('/web/account')">

@@ -32,11 +32,10 @@ context.first section {
     width: 300px;
     height: 400px;
     left: calc((100% - 300px) / 2);
-    ;
     top: calc((100% - 400px) / 2);
-
     position: absolute;
     text-align: left;
+    background-color: rgba(255, 255, 255, .8) !important;
 }
 
 .box-title icon {
@@ -56,7 +55,10 @@ context.first section {
 .el-form-item icon {
     font-size: 25px;
 }
-
+.box-card .el-input--medium .el-input__inner {
+   height: 40px;
+    /* line-height: 36px; */
+}
 .el-input-group__prepend {
     width: 36px;
     padding: 0px 5px;
@@ -98,7 +100,7 @@ context.first section {
 
 img#vcode {
     width: 100px;
-    height: 30px;
+    height: 35px;
 }
 
 button.submit {

@@ -4,267 +4,368 @@
 <head>
   <meta charset="utf-8">
   <title>自述文件-微厦在线学习考试系统</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=yes" />
+  <meta name="format-detection" content="email=no" />
   <style type="text/css">
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      margin: 0px;
-      padding: 0px;
+    /*定义横屏 css*/
+
+    @media screen and (orientation:landscape) {
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0px;
+        padding: 0px;
+      }
+
+      * {
+        font-size: 18px;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      *::-webkit-scrollbar {
+        /*滚动条整体样式*/
+        width: 10px;
+        /*高宽分别对应横竖滚动条的尺寸*/
+        height: 1px;
+      }
+
+
+      *::-webkit-scrollbar-thumb {
+        /*滚动条里面小方块*/
+        border-radius: 3px;
+        -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
+        background: #888888;
+        background-image: -webkit-linear-gradient(45deg,
+            rgba(184, 164, 164, 0.2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0.2) 75%,
+            transparent 75%,
+            transparent);
+        background-repeat: no-repeat;
+      }
+
+
+      *::-webkit-scrollbar-track {
+        /*滚动条里面轨道*/
+        -webkit-box-shadow: inset 0 0 3px rgba(133, 131, 131, 0.2);
+        border-radius: 3px;
+        background: #EDEDED;
+        background-repeat: no-repeat;
+        background-position: bottom;
+      }
+
+      body>header {
+        background: #efefef;
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        font-size: 30px;
+        font-weight: bold;
+        box-sizing: border-box;
+        padding: 0px 0px 0px 20px;
+        color: #333;
+        box-shadow: 3px 3px 3px #ddd;
+        margin-bottom: 20px;
+      }
+
+      body>header a.logo {
+        float: right;
+        margin-right: 26px;
+        margin-top: 8px;
+      }
+
+      body>section {
+        width: 100%;
+        height: calc(100% - 80px);
+        display: flex;
+        position: relative;
+      }
+
+      /*左侧导航*/
+      body>section>nav {
+        width: 200px;
+        box-shadow: 2px 2px 2px 2px rgba(180, 180, 180, 0.3), -0px -0px 2px 2px rgba(180, 180, 180, 0.3);
+        box-sizing: border-box;
+        padding-top: 30px;
+        position: relative;
+        z-index: 1;
+      }
+
+      body>section>nav a {
+        color: #333;
+        box-sizing: border-box;
+        display: block;
+        position: relative;
+        z-index: 2;
+        padding: 0px;
+        line-height: 40px;
+        height: 40px;
+        text-indent: 40px;
+      }
+
+      body>section>nav a.curr {
+        font-weight: bold;
+      }
+
+      body>section>nav a.curr::before {
+        content: '';
+        display: block;
+        position: absolute;
+        line-height: 40px;
+        height: 40px;
+        width: calc(100% + 12px);
+        background-color: #d5e8fc !important;
+        z-index: -1;
+        border-radius: 0px 3px 0px 0px;
+        box-shadow: 2px 2px 2px 2px rgba(180, 180, 180, 0.3), -0px -0px 2px 2px rgba(180, 180, 180, 0.3);
+        background: linear-gradient(to right bottom, #eee 0%, #ffffff 100%);
+        background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
+
+      }
+
+      body>section>nav a.curr::after {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 0px;
+        width: 0px;
+        right: -12px;
+        z-index: 2;
+        overflow: hidden;
+        border: 6px solid;
+        border-color: rgba(180, 180, 180, 0.3) transparent transparent rgba(180, 180, 180, 0.3);
+      }
+
+      body>section>nav .weixin {
+        position: absolute;
+        bottom: 0;
+        width: 200px;
+        text-align: center;
+        z-index: 10;
+        font-size: 14px;
+      }
+
+      body>section>nav .weixin img {
+        height: 100px;
+        width: 100px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      /*右侧浮动栏*/
+      aside {
+        position: absolute;
+        right: 20px;
+        top: 0px;
+        width: 300px;
+        height: 100%;
+      }
+
+      aside>div {
+        line-height: 30px;
+        background: linear-gradient(to right bottom, #ffffff 0%, rgba(230, 230, 230, 0.3) 100%);
+        box-shadow: 2px 2px 2px 2px rgba(180, 180, 180, 0.3), -2px -2px 2px 2px rgba(180, 180, 180, 0.3);
+        box-sizing: border-box;
+        padding: 15px;
+        position: absolute;
+      }
+
+      aside>div:first-child {
+        top: 0px;
+        right: 0px;
+      }
+
+      aside>div:last-child {
+        bottom: 10px;
+        right: 0px;
+      }
+
+      aside h1 {
+        margin: 0px;
+        padding: 0px;
+        font-size: 16px;
+      }
+
+      aside h1::before {
+        content: '\2764';
+        margin-right: 8px;
+        color: #fff;
+        text-shadow: 1px 1px 1px rgba(51, 51, 51, 0.3), -1px -1px 1px rgba(51, 51, 51, 0.3), -1px 1px 1px rgba(51, 51, 51, 0.3), 1px -1px 1px rgba(51, 51, 51, 0.3);
+      }
+
+      aside h1+div {
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+
+      /*中间布局*/
+      body>section>section {
+        height: 100%;
+        width: calc(100% - 200px);
+        padding: 20px 300px 10px 50px;
+        box-sizing: border-box;
+        overflow: auto;
+      }
+
+      article {
+        min-height: 100%;
+        margin-bottom: 50%;
+      }
+
+      article header {
+        font-size: 25px;
+        line-height: 30px;
+        font-weight: bold;
+        box-sizing: border-box;
+        padding: 0px 35px;
+      }
+
+      article section {
+        font-size: 16px;
+        line-height: 30px;
+        font-weight: normal;
+        margin-top: 20px;
+        text-indent: 2em;
+      }
+
+      article section p {
+        margin-top: 5px;
+        margin-bottom: 2px;
+        font-size: 18px;
+        line-height: 35px;
+      }
+
+      article section a {
+        color: #09F;
+        text-decoration: underline;
+      }
+
+      article dl {
+        margin: 10px 0px 0px 30px;
+      }
+
+      article dl,
+      article dt,
+      article dd {
+        padding: 0px;
+        text-indent: 0px;
+      }
+
+      article dl dt {
+        font-size: 16px;
+      }
+
+      article dl dd {
+        margin: 0px 0px 5px 0px;
+        padding: 0px 0px 0px 30px;
+        text-indent: 0px;
+      }
+
+      article dl dd,
+      article dl dd * {
+        font-size: 15px;
+      }
     }
 
-    * {
-      font-size: 18px;
-    }
+    /*定义竖屏 css*/
+    @media screen and (orientation:portrait) {
 
-    a {
-      text-decoration: none;
-    }
+      /*左侧导航*/
+      body>section>nav {
+        display: none;
+      }
+      aside{
+        display: none;
+      }
+      body>header {
+        background: #efefef;
+        width: 100%;
+        height: 60px;
+        line-height: 30px;
+        font-size: 20px;
+        font-weight: bold;
+        box-sizing: border-box;
+        padding: 0px 94px 0px 0px;
+        color: #333;       
+        margin-bottom: 20px;
+        position: relative;
+      }
 
-    *::-webkit-scrollbar {
-      /*滚动条整体样式*/
-      width: 10px;
-      /*高宽分别对应横竖滚动条的尺寸*/
-      height: 1px;
-    }
+      body>header a.logo {
+        position: absolute;
+        top: 8px;
+        right: 8px;     
+        width: 78px;
+        height: 45px;
+      }
+      article {       
+        margin-bottom: 50px;
+      }
 
+      article header {
+        font-size: 25px;
+        line-height: 30px;
+        font-weight: bold;
+        box-sizing: border-box;
+        padding: 0px 35px;
+      }
 
-    *::-webkit-scrollbar-thumb {
-      /*滚动条里面小方块*/
-      border-radius: 3px;
-      -webkit-box-shadow: inset 0 0 5px rgba(133, 131, 131, 0.2);
-      background: #888888;
-      background-image: -webkit-linear-gradient(45deg,
-          rgba(184, 164, 164, 0.2) 25%,
-          transparent 25%,
-          transparent 50%,
-          rgba(255, 255, 255, 0.2) 50%,
-          rgba(255, 255, 255, 0.2) 75%,
-          transparent 75%,
-          transparent);
-      background-repeat: no-repeat;
-    }
+      article section {
+        font-size: 16px;
+        line-height: 30px;
+        font-weight: normal;
+        margin-top: 20px;      
+      }
 
+      article section p {
+        margin-top: 5px;
+        margin-bottom: 2px;
+        font-size: 18px;
+        line-height: 35px;
+      }
 
-    *::-webkit-scrollbar-track {
-      /*滚动条里面轨道*/
-      -webkit-box-shadow: inset 0 0 3px rgba(133, 131, 131, 0.2);
-      border-radius: 3px;
-      background: #EDEDED;
-      background-repeat: no-repeat;
-      background-position: bottom;
-    }
+      article section a {
+        color: #09F;
+        text-decoration: underline;
+      }
 
-    body>header {
-      background: #efefef;
-      width: 100%;
-      height: 60px;
-      line-height: 60px;
-      font-size: 30px;
-      font-weight: bold;
-      box-sizing: border-box;
-      padding: 0px 0px 0px 20px;
-      color: #333;
-      box-shadow: 3px 3px 3px #ddd;
-      margin-bottom: 20px;
-    }
+      article dl {
+        margin: 0px 0px 0px 0px;
+      }
 
-    body>header a.logo {
-      float: right;
-      margin-right: 26px;
-      margin-top: 8px;
-    }
+      article dl,
+      article dt,
+      article dd {
+        padding: 0px;
+        text-indent: 0px;
+      }
 
-    body>section {
-      width: 100%;
-      height: calc(100% - 80px);
-      display: flex;
-      position: relative;
-    }
+      article dl dt {
+        font-size: 16px;
+      }
 
-    /*左侧导航*/
-    body>section>nav {
-      width: 200px;
-      box-shadow: 2px 2px 2px 2px rgba(180, 180, 180, 0.3), -0px -0px 2px 2px rgba(180, 180, 180, 0.3);
-      box-sizing: border-box;
-      padding-top: 30px;
-      position: relative;
-      z-index: 1;
-    }
+      article dl dd {
+        margin: 0px 0px 5px 0px;
+        padding: 0px 0px 0px 20px;
+        text-indent: 0px;
+      }
 
-    body>section>nav a {
-      color: #333;
-      box-sizing: border-box;
-      display: block;
-      position: relative;
-      z-index: 2;
-      padding: 0px;
-      line-height: 40px;
-      height: 40px;
-      text-indent: 40px;
-    }
-
-    body>section>nav a.curr {
-      font-weight: bold;
-    }
-
-    body>section>nav a.curr::before {
-      content: '';
-      display: block;
-      position: absolute;
-      line-height: 40px;
-      height: 40px;
-      width: calc(100% + 12px);
-      background-color: #d5e8fc !important;
-      z-index: -1;
-      border-radius: 0px 3px 0px 0px;
-      box-shadow: 2px 2px 2px 2px rgba(180, 180, 180, 0.3), -0px -0px 2px 2px rgba(180, 180, 180, 0.3);
-      background: linear-gradient(to right bottom, #eee 0%, #ffffff 100%);
-      background-image: -webkit-linear-gradient(45deg, rgba(184, 164, 164, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
-
-    }
-
-    body>section>nav a.curr::after {
-      content: '';
-      display: block;
-      position: absolute;
-      height: 0px;
-      width: 0px;
-      right: -12px;
-      z-index: 2;
-      overflow: hidden;
-      border: 6px solid;
-      border-color: rgba(180, 180, 180, 0.3) transparent transparent rgba(180, 180, 180, 0.3);
-    }
-
-    body>section>nav .weixin {
-      position: absolute;
-      bottom: 0;
-      width: 200px;
-      text-align: center;
-      z-index: 10;
-      font-size: 14px;
-    }
-
-    body>section>nav .weixin img {
-      height: 100px;
-      width: 100px;
-      margin-right: auto;
-      margin-left: auto;
-    }
-
-    /*右侧浮动栏*/
-    aside {
-      position: absolute;
-      right: 20px;
-      top: 0px;
-      width: 300px;
-      height: 100%;
-    }
-
-    aside>div {
-      line-height: 30px;
-      background: linear-gradient(to right bottom, #ffffff 0%, rgba(230, 230, 230, 0.3) 100%);
-      box-shadow: 2px 2px 2px 2px rgba(180, 180, 180, 0.3), -2px -2px 2px 2px rgba(180, 180, 180, 0.3);
-      box-sizing: border-box;
-      padding: 15px;
-      position: absolute;
-    }
-
-    aside>div:first-child {
-      top: 0px;
-      right: 0px;
-    }
-
-    aside>div:last-child {
-      bottom: 10px;
-      right: 0px;
-    }
-
-    aside h1 {
-      margin: 0px;
-      padding: 0px;
-      font-size: 16px;
-    }
-
-    aside h1::before {
-      content: '\2764';
-      margin-right: 8px;
-      color: #fff;
-      text-shadow: 1px 1px 1px rgba(51, 51, 51, 0.3), -1px -1px 1px rgba(51, 51, 51, 0.3), -1px 1px 1px rgba(51, 51, 51, 0.3), 1px -1px 1px rgba(51, 51, 51, 0.3);
-    }
-
-    aside h1+div {
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    /*中间布局*/
-    body>section>section {
-      height: 100%;
-      width: calc(100% - 200px);
-      padding: 20px 300px 10px 50px;
-      box-sizing: border-box;
-      overflow: auto;
-    }
-
-    article {
-      min-height: 100%;
-      margin-bottom: 50%;
-    }
-
-    article header {
-      font-size: 25px;
-      line-height: 30px;
-      font-weight: bold;
-      box-sizing: border-box;
-      padding: 0px 35px;
-    }
-
-    article section {
-      font-size: 16px;
-      line-height: 30px;
-      font-weight: normal;
-      margin-top: 20px;
-      text-indent: 2em;
-    }
-
-    article section p {
-      margin-top: 5px;
-      margin-bottom: 2px;
-      font-size: 18px;
-      line-height: 35px;
-    }
-
-    article section a {
-      color: #09F;
-      text-decoration: underline;
-    }
-
-    article dl {
-      margin: 10px 0px 0px 30px;
-    }
-
-    article dl,
-    article dt,
-    article dd {
-      padding: 0px;
-      text-indent: 0px;
-    }
-
-    article dl dt {
-      font-size: 16px;
-    }
-
-    article dl dd {
-      margin: 0px 0px 5px 0px;
-      padding: 0px 0px 0px 30px;
-      text-indent: 0px;
-    }
-
-    article dl dd,
-    article dl dd * {
-      font-size: 15px;
+      article dl dd,
+      article dl dd * {
+        font-size: 15px;
+        word-wrap: break-word;
+      }
     }
   </style>
 </head>
@@ -387,21 +488,23 @@
             <dt>4、上传权限设置</dt>
             <dd>学习系统上传资料（例如课程图片、学员照片等）需要有文件写入权限。上传资料的默认文件夹是~/upload/，当然也可以在web.config中修改。</dd>
             <dd> 设置步骤： 在该文件夹上点鼠标右键->属性->安全（选项卡）->编辑（按钮)->添加（按钮 ）->高级（按钮）->立即查找
-            此时在查询结果中，找到NETWORK SERVICE，也可以用Everyone（安全性较低） ，建议用NETWORK SERVICE。 双击NETWORK
-            SERVICE->点击确定按钮->（回到了“安全”的界面）->设置权限
-            为“完全控制”，确定即可。</dd>
-          </dl>          
+              此时在查询结果中，找到NETWORK SERVICE，也可以用Everyone（安全性较低） ，建议用NETWORK SERVICE。 双击NETWORK
+              SERVICE->点击确定按钮->（回到了“安全”的界面）->设置权限
+              为“完全控制”，确定即可。</dd>
+          </dl>
         </section>
       </article>
       <article id="a4">
         <header> 升级指南</header>
-        <section> <p>
+        <section>
+          <p>
             系统升级分为程序升级与数据库结构升级，大多数升级会同时涉及这两部分。
             程序升级比较简单，可以通过覆盖原来的程序实现升级，数据库升级需要执行脚本，以修改数据库的结构。
             以下就两种升级进行说明。</p>
           <dl>
             <dt>如何获取升级包</dt>
-            <dd>可以在<a href="http://www.weishakeji.net" target="_blank">微厦科技官网</a>下载；或从云盘下载<a href="http://pan.baidu.com/s/1bppzM15" target="_blank">http://pan.baidu.com/s/1bppzM15</a> </dd>
+            <dd>可以在<a href="http://www.weishakeji.net" target="_blank">微厦科技官网</a>下载；或从云盘下载<a
+                href="http://pan.baidu.com/s/1bppzM15" target="_blank">http://pan.baidu.com/s/1bppzM15</a> </dd>
             <dd>请关注我们微信公众号(weishakeji)，发布新版本时会通知。</dd>
           </dl>
           <dl>
@@ -416,16 +519,17 @@
           <dl>
             <dt>2、数据库升级</dt>
             <dd>升级涉及数据库的更改，才会有相应SQL升级脚本，如果没有数据库更改，这一步可以省略。</dd>
-            <dd> A、升级脚本的文件存在<a href="https://gitee.com/weishakeji/LearningSystem/tree/master/DbScripts/upgrade_v2" target="_blank">upgrade_v2</a>文件夹，用时间命名，如“2015-05-14.sql”
-            表示该升级脚本写于2015年5月14日，在此之前的程序，都应该执行该脚本。</dd>
-            <dd>B、如何查看当前程序版本的发布时间<br/>
-            打开~/license界面，可以看到当前软件的信息，如version（内部版本号）、发布日期、商业授权等</dd>
-            <dd>C、查看数据库是否完整<br/>
+            <dd> A、升级脚本的文件存在<a href="https://gitee.com/weishakeji/LearningSystem/tree/master/DbScripts/upgrade_v2"
+                target="_blank">upgrade_v2</a>文件夹，用时间命名，如“2015-05-14.sql”
+              表示该升级脚本写于2015年5月14日，在此之前的程序，都应该执行该脚本。</dd>
+            <dd>B、如何查看当前程序版本的发布时间<br />
+              打开~/license界面，可以看到当前软件的信息，如version（内部版本号）、发布日期、商业授权等</dd>
+            <dd>C、查看数据库是否完整<br />
               打开~/help/datas/test.htm页面，查看数据库是否完整。
             </dd>
           </dl>
 
-          
+
         </section>
       </article>
       <article id="a5">
@@ -433,7 +537,9 @@
         <section>
           <dl>
             <dt>1、应用程序池中没有.Net CLR4.0的选项</dt>
-            <dd>没有安装.Net Framework 4.0，点这里 <a href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe" target="_blank" size=12>[下载]</a>，并安装</dd>
+            <dd>没有安装.Net Framework 4.0，点这里 <a
+                href="https://download.visualstudio.microsoft.com/download/pr/8e396c75-4d0d-41d3-aea8-848babc2736a/80b431456d8866ebe053eb8b81a168b3/ndp462-kb3151800-x86-x64-allos-enu.exe"
+                target="_blank" size=12>[下载]</a>，并安装</dd>
             <dd></dd>
             <dd></dd>
           </dl>
@@ -452,7 +558,7 @@
             <dd>超级管理员： ~/manage 账号 super 密码 1</dd>
           </dl>
 
-         <p>&nbsp;</p>
+          <p>&nbsp;</p>
           <p>（说明：机构管理员与超级管理员的区别）</p>
           <p>该系统是一款基于多机构的学习系统，每一个机构都相当于一个独立的网校系统，拥有不同的域名、界面风格、功能权限等等，由超级管理员进行全方位管理。
 
