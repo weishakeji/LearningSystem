@@ -68,6 +68,7 @@
                 $api.post('Accessory/ForUID', { 'uid': th.uid, 'type': 'CourseVideo' }).then(function (req) {
                     if (req.data.success) {
                         th.accessory = req.data.result;
+                        console.error(th.accessory);                       
                         th.initState();
                         if (th.tabName == 'video' || th.tabName == 'outer')
                             th.createplayer(th.accessory.As_FileName);

@@ -317,12 +317,12 @@ namespace Song.ViewData.Methods
                         string prefix = filename.IndexOf(".") > -1 ? filename.Substring(0, filename.LastIndexOf(".")) : filename;
                         finalfile = prefix + "_" + (serial++) + ext;
                     }
-                    new System.Threading.Tasks.Task(() =>
-                    {
+                    //new System.Threading.Tasks.Task(() =>
+                    //{
                         //await System.Threading.Tasks.Task.Delay(500);
-                        System.Threading.Thread.Sleep(2000);
+                        //System.Threading.Thread.Sleep(2000);
                         System.IO.File.Move(final, Path.Combine(folder, finalfile));
-                    }).Start();
+                    //}).Start();
                     jo.Add("success", true);
                     jo.Add("filename", finalfile);
                     jo.Add("ext", Path.GetExtension(filename).Replace(".", ""));

@@ -85,7 +85,7 @@
         <video_list ref="videos" @selected="selectfile"></video_list>
         <div class="footer">
             <span v-if="isexist">
-                <el-link type="primary" @click="copy(accessory.As_FileName)">
+                <el-link type="primary" @click="copy(window.location.origin+accessory.As_FileName)">
                     <icon>&#xa029</icon>复制视频链接
                 </el-link>
                 <el-link target="_blank" type="success" :href="accessory.As_FileName">
