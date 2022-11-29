@@ -39,16 +39,15 @@
                         </template>
                         <el-col class="editor_row">
                             <el-form-item label="内容" prop="No_Context" style="height: 100%;">
-                                <editor :content="formData.No_Context" model="general" ref="editor"
-                                upload="Notice" :dataid="formData.No_Id" 
-                                    @change="text=>formData.No_Context=text"> </editor>
+                                <editor :content="formData.No_Context" model="general" ref="editor" upload="Notice"
+                                    :dataid="formData.No_Id" @change="text=>formData.No_Context=text"> </editor>
                             </el-form-item>
                         </el-col>
                         <template v-if="formData.No_Type==3">
                             <el-col :span="24">
                                 <el-form-item label="内容" prop="No_Context" style="margin-bottom: 0px;">
-                                    <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="formData.No_Context"
-                                        @input="updateDetails">
+                                    <el-input type="textarea" :rows="4" placeholder="请输入内容"
+                                        v-model="formData.No_Context" @input="updateDetails">
                                     </el-input>
                                     <div>转义符：
                                         <el-tag>{name}学员名称</el-tag>

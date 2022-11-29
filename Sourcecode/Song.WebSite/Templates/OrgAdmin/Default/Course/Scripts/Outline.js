@@ -93,7 +93,7 @@
                             message: '更改排序成功!',
                             center: true
                         });
-                        th.updatedEvent();                       
+                        th.updatedEvent(true);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -191,7 +191,7 @@
                             message: '删除成功!',
                             center: true
                         });
-                        th.updatedEvent();                       
+                        th.updatedEvent();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -261,7 +261,7 @@
                                     center: true
                                 });
                                 $api.put('Outline/ForID', { 'id': obj.Ol_ID });
-                                th.updatedEvent();                            
+                                th.updatedEvent();
                                 th.modify_show = false;
                             } else {
                                 throw req.data.message;
@@ -304,24 +304,27 @@
                 }).open();
             },
             //更新后触发的事件
-            updatedEvent: function () {
+            //freshall:是否刷新所有章节
+            updatedEvent: function (freshall) {
                 this.close_fresh('vapp.fressingle(' + this.id + ')');
                 $api.cache('Outline/Tree:clear', { 'couid': this.id, 'isuse': true });
-                var th=this;
-                th.getTreeData();
-                return;
-                $api.put('Outline/FreshCache', { 'couid': this.id  }).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result; 
-                        th.getTreeData();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.config.way + ' ' + req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                var th = this;
+                if (freshall == null || freshall == false) {
+                    th.getTreeData();
+                } else {
+                    $api.put('Outline/FreshCache', { 'couid': this.id }).then(function (req) {
+                        if (req.data.success) {
+                            var result = req.data.result;
+                            th.getTreeData();
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.config.way + ' ' + req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                        console.error(err);
+                    });
+                }
             },
             //关闭自身窗体，并刷新父窗体列表
             close_fresh: function (func) {
