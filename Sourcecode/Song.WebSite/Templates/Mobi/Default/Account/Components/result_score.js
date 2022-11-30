@@ -33,7 +33,7 @@ Vue.component('result_score', {
             var weight_video = orgconfig('finaltest_weight_video', 33.3);
             //加上容差
             var video = purchase.Stc_StudyScore > 0 ? purchase.Stc_StudyScore + orgconfig('VideoTolerance', 0) : 0;
-            video = video >= 100 ? 100 : video; 
+            video = video >= 100 ? 100 : video;
             video = weight_video * video / 100;
             //试题得分
             var weight_ques = orgconfig('finaltest_weight_ques', 33.3);
@@ -41,8 +41,10 @@ Vue.component('result_score', {
             //结考课试分
             var weight_exam = orgconfig('finaltest_weight_exam', 33.3);
             var exam = weight_exam * purchase.Stc_ExamScore / 100;
-
-            return Math.round((video + ques + exam) * 100) / 100;
+            //最终得分
+            var score = Math.round((video + ques + exam) * 100) / 100;
+            score = score >= 100 ? 100 : score;
+            return score;
             //获取机构的配置参数
             function orgconfig(para, def) {
                 var val = Number(th.config[para]);

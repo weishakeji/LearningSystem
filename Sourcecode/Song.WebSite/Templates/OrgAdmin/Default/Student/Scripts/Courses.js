@@ -128,8 +128,10 @@
                 //结考课试分
                 var weight_exam = orgconfig('finaltest_weight_exam', 33.3);
                 var exam = weight_exam * purchase.Stc_ExamScore / 100;
-
-                return Math.round((video + ques + exam) * 100) / 100;
+                //最终得分
+                var score = Math.round((video + ques + exam) * 100) / 100;
+                score = score >= 100 ? 100 : score;
+                return score;
                 //获取机构的配置参数
                 function orgconfig(para, def) {
                     var val = Number(th.config[para]);
@@ -231,9 +233,9 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    var th=this;
+                    var th = this;
                     th.loading_id = purchase.Stc_ID;
-                    var params = { 'stid': purchase.Ac_ID, 'couid': purchase.Cou_ID};
+                    var params = { 'stid': purchase.Ac_ID, 'couid': purchase.Cou_ID };
                     $api.delete('Course/PurchaseDelete', params).then(function (req) {
                         th.loading_id = 0;
                         if (req.data.success) {
@@ -252,7 +254,7 @@
                         Vue.prototype.$alert(err);
                         console.error(err);
                     });
-                   
+
                 }).catch(() => { });
             }
         }

@@ -118,8 +118,10 @@ $ready(function () {
                 //结考课试分
                 var weight_exam = orgconfig('finaltest_weight_exam', 33.3);
                 var exam = weight_exam * purchase.Stc_ExamScore / 100;
-
-                return Math.round((video + ques + exam) * 100) / 100;
+                //最终得分
+                var score = Math.round((video + ques + exam) * 100) / 100;
+                score = score >= 100 ? 100 : score;
+                return score;
                 //获取机构的配置参数
                 function orgconfig(para, def) {
                     var val = Number(th.config[para]);

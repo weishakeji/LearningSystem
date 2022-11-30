@@ -1864,14 +1864,15 @@ namespace Song.ServiceImpls
                         }
                     }
                     //计算学员的课程综合成绩
-                    decimal result = 0, video = 0, ques = 0, exam = 0;
+                    decimal score = 0, video = 0, ques = 0, exam = 0;
                     video = Convert.ToDecimal(dr["Stc_StudyScore"]);
                     video = video > 0 ? video + (decimal)video_lerance : video;
+                    video = video >= 100 ? 100 : 100;
                     ques = Convert.ToDecimal(dr["Stc_QuesScore"]);
                     exam = Convert.ToDecimal(dr["Stc_ExamScore"]);
-                    result = (video * (decimal)weight_video / 100) + (ques * (decimal)weight_ques / 100) + (exam * (decimal)weight_exam / 100);
-                    result = Math.Round(result * 100) / 100;
-                    row.CreateCell(nodes.Count).SetCellValue((double)result);                    
+                    score = (video * (decimal)weight_video / 100) + (ques * (decimal)weight_ques / 100) + (exam * (decimal)weight_exam / 100);
+                    score = score>=100 ? 100 : Math.Round(score * 100) / 100;                   
+                    row.CreateCell(nodes.Count).SetCellValue((double)score);                    
                 }
                 index++;
             } while (index <= totalPage);

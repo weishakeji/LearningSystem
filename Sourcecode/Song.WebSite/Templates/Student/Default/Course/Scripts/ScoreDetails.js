@@ -110,6 +110,7 @@ $ready(function () {
                 var exam = weight_exam * purchase.Stc_ExamScore / 100;
                 //最终得分
                 var score = Math.round((video + ques + exam) * 100) / 100;
+                score = score >= 100 ? 100 : score;
                 return {
                     'video': video,
                     'ques': ques,

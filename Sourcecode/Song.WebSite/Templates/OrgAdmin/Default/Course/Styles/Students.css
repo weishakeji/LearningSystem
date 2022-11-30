@@ -3,14 +3,6 @@
 	float: left;
 	margin-right: 10px;
 }
-.info {
-	color: rgb(72, 127, 210);
-}
-
-.woman{
-	color: rgb(240, 104, 117);
-}
-
 .teacher::before {
 	color: rgb(3, 167, 3);
 	margin: 0px;
