@@ -169,8 +169,7 @@ Vue.component('question', {
                 childs.each(function () {
                     th.clearempty($dom(this));
                 });
-            }
-            //console.log(txt);
+            }           
         }
     },
     template: `<card :qid="qans.id" v-if="showQues()">

@@ -68,6 +68,7 @@ card[qid]:first-child card-title {
 
 card[qid] img {
 	max-width: 100%;
+	height: auto;
 }
 
 card[qid] span.tag {

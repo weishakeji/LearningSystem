@@ -163,7 +163,7 @@
             }
         }
     });
-}, ['/Utilities/Components/question/test.js',
+}, ['/Utilities/Components/question/exercise.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',
