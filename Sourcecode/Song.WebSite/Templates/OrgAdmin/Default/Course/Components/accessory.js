@@ -77,6 +77,7 @@ Vue.component('accessory', {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.getDatas(data.As_Uid);
+                    th.$emit('success', data.As_Uid);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;
@@ -96,6 +97,7 @@ Vue.component('accessory', {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.getDatas(uid);
+                    th.$emit('success', th.outline.Ol_UID);
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;

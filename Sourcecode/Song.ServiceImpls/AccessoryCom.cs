@@ -42,7 +42,7 @@ namespace Song.ServiceImpls
             Gateway.Default.Save<Accessory>(entity);
 
             //如果是视频,设置该视频所在的章节是否有视频
-            if (entity.As_Type == "CourseVideo")
+            if (entity.As_Type == "CourseVideo" || entity.As_Type == "Course")
             {
                 Song.Entities.Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == entity.As_Uid).ToFirst<Outline>();
                 if (outline != null) Business.Do<IOutline>().OutlineSave(outline);
@@ -69,7 +69,7 @@ namespace Song.ServiceImpls
             }
             Gateway.Default.Save<Accessory>(entity);
             //如果是视频,设置该视频所在的章节是否有视频
-            if (entity.As_Type == "CourseVideo")
+            if (entity.As_Type == "CourseVideo" || entity.As_Type == "Course")
             {
                 Song.Entities.Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == entity.As_Uid).ToFirst<Outline>();
                 if (outline != null) Business.Do<IOutline>().OutlineSave(outline);
@@ -119,7 +119,7 @@ namespace Song.ServiceImpls
             }
             Gateway.Default.Delete<Accessory>(Accessory._.As_Id == ac.As_Id);
             //如果是视频,设置该视频所在的章节是否有视频
-            if (ac.As_Type == "CourseVideo")
+            if (ac.As_Type == "CourseVideo" || ac.As_Type == "Course")
             {
                 Song.Entities.Outline outline = Gateway.Default.From<Outline>().Where(Outline._.Ol_UID == ac.As_Uid).ToFirst<Outline>();
                 if (outline != null) Business.Do<IOutline>().OutlineSave(outline);

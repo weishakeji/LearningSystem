@@ -178,6 +178,9 @@ namespace Song.ServiceImpls
             //如果有视频，设置视频节点
             int videoCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "CourseVideo" && Accessory._.As_Uid==entity.Ol_UID);
             entity.Ol_IsVideo = videoCount > 0;
+            //如果有附件
+            int accCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "Course" && Accessory._.As_Uid == entity.Ol_UID);
+            entity.Ol_IsAccessory = accCount > 0;
             //路径
             entity.Ol_Level = _ClacLevel(entity);
             entity.Ol_XPath = _ClacXPath(entity);
@@ -540,6 +543,26 @@ namespace Song.ServiceImpls
             Cache.EntitiesCache.Clear<Outline>(couid);
             List<Outline> list = Gateway.Default.From<Outline>().Where(Outline._.Cou_ID == couid)
                 .OrderBy(Outline._.Ol_Tax.Asc).ToList<Outline>();
+            foreach(Outline o in list)
+            {
+                if (!o.Ol_IsAccessory)
+                {
+                    //如果有视频，设置视频节点
+                    int videoCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "CourseVideo" && Accessory._.As_Uid == o.Ol_UID);
+                    o.Ol_IsVideo = videoCount > 0;
+                    //如果有附件
+                    int accCount = Gateway.Default.Count<Accessory>(Accessory._.As_Type == "Course" && Accessory._.As_Uid == o.Ol_UID);
+                    o.Ol_IsAccessory = accCount > 0;
+                    if (videoCount > 0 || accCount > 0)
+                    {
+                        new Task(() =>
+                        {
+                            Gateway.Default.Save<Outline>(o);                         
+                        }).Start();
+                    }
+
+                }
+            }
             Cache.EntitiesCache.Save<Outline>(list, couid);
             return Cache.EntitiesCache.GetList<Outline>(couid);
         }

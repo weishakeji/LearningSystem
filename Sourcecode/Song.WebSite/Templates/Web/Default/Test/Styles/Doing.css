@@ -21,6 +21,20 @@ context#scene div.testinfo {
 context#scene div.exam {
 	flex: 1;
 	overflow: hidden;
+	position: relative;
+}
+
+section {
+	height: calc(100%);
+	background-color: #f2f2f2;
+	font-size: 14px;
+	position: fixed;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	z-index: 4;
+	position: relative;
+	transition: left 0.5s;
 }
 
 /*课程未选择或过期*/
@@ -104,12 +118,11 @@ context#scene div.exam {
 /*上一题，下一题*/
 .move_btn {
 	position: absolute;
-	right: 80px;
-	top: 20px;
+	right: 10px;
+	top: 10px;
 	width: 180px;
 	z-index: 10;
-	display: flex;
-	background-color: #fff;
+	display: flex;	
 }
 
 .move_btn span {
@@ -221,4 +234,7 @@ score.praise::before {
 	bottom: 0px;
 	left: 0px;
 	width: 100%;
+}
+section dd{
+	width:800px !important
 }

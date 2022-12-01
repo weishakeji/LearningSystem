@@ -1,19 +1,6 @@
 
 /*试题区*/
 
-section {
-	height: calc(100% - 88px);
-	background-color: #f2f2f2;
-	font-size: 14px;
-	position: fixed;
-	width: 100%;
-	top: 44px;
-	left: 0px;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
-}
-
 section dl, section dd {
 	margin: 0px;
 	padding: 0px;
@@ -46,7 +33,7 @@ section dd * {
 }
 
 section dd card {
-	min-height: calc(100% - 20px - 40px);
+	min-height: calc(100% - 30px - 40px);
 }
 
 section dd img {

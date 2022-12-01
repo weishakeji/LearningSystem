@@ -62,6 +62,8 @@ namespace Song.Entities {
     		
     		protected Boolean _Ol_IsChecked;
     		
+    		protected Boolean _Ol_IsAccessory;
+    		
     		public String Ol_Name {
     			get {
     				return this._Ol_Name;
@@ -332,6 +334,16 @@ namespace Song.Entities {
     			}
     		}
     		
+    		public Boolean Ol_IsAccessory {
+    			get {
+    				return this._Ol_IsAccessory;
+    			}
+    			set {
+    				this.OnPropertyValueChange(_.Ol_IsAccessory, _Ol_IsAccessory, value);
+    				this._Ol_IsAccessory = value;
+    			}
+    		}
+    		
     		/// <summary>
     		/// 获取实体对应的表名
     		/// </summary>
@@ -378,7 +390,8 @@ namespace Song.Entities {
     					_.Ol_LiveID,
     					_.Ol_ID,
     					_.Ol_ModifyTime,
-    					_.Ol_IsChecked};
+    					_.Ol_IsChecked,
+    					_.Ol_IsAccessory};
     		}
     		
     		/// <summary>
@@ -412,7 +425,8 @@ namespace Song.Entities {
     					this._Ol_LiveID,
     					this._Ol_ID,
     					this._Ol_ModifyTime,
-    					this._Ol_IsChecked};
+    					this._Ol_IsChecked,
+    					this._Ol_IsAccessory};
     		}
     		
     		/// <summary>
@@ -499,6 +513,9 @@ namespace Song.Entities {
     			}
     			if ((false == reader.IsDBNull(_.Ol_IsChecked))) {
     				this._Ol_IsChecked = reader.GetBoolean(_.Ol_IsChecked);
+    			}
+    			if ((false == reader.IsDBNull(_.Ol_IsAccessory))) {
+    				this._Ol_IsAccessory = reader.GetBoolean(_.Ol_IsAccessory);
     			}
     		}
     		
@@ -660,7 +677,11 @@ namespace Song.Entities {
     			/// 字段名：Ol_IsChecked - 数据类型：Boolean
     			/// </summary>
     			public static WeiSha.Data.Field Ol_IsChecked = new WeiSha.Data.Field<Outline>("Ol_IsChecked");
+    			
+    			/// <summary>
+    			/// 字段名：Ol_IsAccessory - 数据类型：Boolean
+    			/// </summary>
+    			public static WeiSha.Data.Field Ol_IsAccessory = new WeiSha.Data.Field<Outline>("Ol_IsAccessory");
     		}
     	}
     }
-    

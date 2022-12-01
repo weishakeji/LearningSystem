@@ -48,7 +48,7 @@
                                 :type="data.Ol_IsLive ? 'success' : 'info'">
                                 <icon>&#xe6bf</icon> 直播
                             </el-tag>
-                            <el-tag @click="()=>{$refs['accessory'].setvalue(data);}" type="info" title="附件">
+                            <el-tag @click="()=>{$refs['accessory'].setvalue(data);}"  :type="data.Ol_IsAccessory ? 'success' : 'info'" title="附件">
                                 <icon>&#xe853</icon> 附件
                             </el-tag>
                         </span>
@@ -139,7 +139,7 @@
             </el-dialog>
         </div>
         <!--章节直播的设置-->
-        <accessory ref="accessory" remark="章节附件的管理"></accessory>
+        <accessory ref="accessory" remark="章节附件的管理" @success="getTreeData"></accessory>
         <outline_live ref="live" remark="章节直播的管理" @save="()=>{getTreeData()}"></outline_live>
     </div>
 
