@@ -14,7 +14,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 平台系统参数
     /// </summary>
-    [HttpPost]
+    [HttpPut, HttpGet,HttpPost]
     public class Systempara : ViewMethod, IViewAPI
     {
         /// <summary>

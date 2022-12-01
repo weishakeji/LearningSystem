@@ -24,7 +24,7 @@
         },
         mounted: function () {
             var th = this;
-            $api.get('Course/ForID', { 'id': this.id }).then(function (req) {
+            $api.put('Course/ForID', { 'id': this.id }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;

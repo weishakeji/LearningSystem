@@ -47,7 +47,7 @@
         mounted: function () {
             var th = this;
             th.form.couid = th.id;
-            $api.get('Course/ForID', { 'id': this.id }).then(function (req) {
+            $api.put('Course/ForID', { 'id': this.id }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
                     var result = req.data.result;
@@ -87,7 +87,7 @@
             getTreeData: function () {
                 var th = this;
                 this.loading = true;
-                $api.get('Guide/ColumnsTree', { 'couid': th.id, 'search': '', 'isuse': '' }).then(function (req) {
+                $api.put('Guide/ColumnsTree', { 'couid': th.id, 'search': '', 'isuse': '' }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         th.columns = req.data.result;

@@ -15,7 +15,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 岗位（或叫角色）管理
     /// </summary>
-    [HttpPost]
+    [HttpPut, HttpGet,HttpPost]
     public class Position : ViewMethod,IViewAPI
     {
         /// <summary>

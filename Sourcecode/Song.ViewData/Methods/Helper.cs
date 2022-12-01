@@ -21,7 +21,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 接口方法的帮助
     /// </summary> 
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Helper : ViewMethod, IViewAPI
     {
         #region 接口说明

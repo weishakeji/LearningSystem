@@ -1243,7 +1243,6 @@
     <Content Include="Templates\Web\Default\Teach\Styles\Index.css" />
     <Content Include="Templates\Web\Default\Test\Components\AnswerCard.js" />
     <Content Include="Templates\Web\Default\Test\Components\Quesbuttons.js" />
-    <Content Include="Templates\Web\Default\Test\Components\Question.js" />
     <Content Include="Templates\Web\Default\Test\Components\Styles\final_condition.css" />
     <Content Include="Templates\Web\Default\Test\Components\Styles\AnswerCard.css" />
     <Content Include="Templates\Web\Default\Test\Components\final_condition.js" />
@@ -1265,6 +1264,8 @@
     <Content Include="Templates\Web\Default\Viewport\Index.html" />
     <Content Include="Templates\Web\Default\Viewport\Scripts\Index.js" />
     <Content Include="Templates\Web\Default\Viewport\Styles\Index.css" />
+    <Content Include="Utilities\Components\Question\Styles\exercise.css" />
+    <Content Include="Utilities\Components\Question\exercise.js" />
     <Content Include="Utilities\Components\Question\test.js" />
     <Content Include="Utilities\Components\Question\Styles\test.css" />
     <Content Include="Utilities\Components\securitylevel.js" />
@@ -1412,7 +1413,6 @@
     <Content Include="Templates\Mobi\Default\Styles\treemenu.css" />
     <Content Include="Templates\Mobi\Default\Test\Components\AnswerCard.js" />
     <Content Include="Templates\Mobi\Default\Test\Components\Quesbuttons.js" />
-    <Content Include="Templates\Mobi\Default\Test\Components\Question.js" />
     <Content Include="Templates\Mobi\Default\Test\Components\TestHeader.js" />
     <Content Include="Templates\Mobi\Default\Test\Doing.html" />
     <Content Include="Templates\Mobi\Default\Test\Finality.html" />

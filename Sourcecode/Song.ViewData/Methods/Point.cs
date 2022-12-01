@@ -14,7 +14,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 学员积分管理
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Point : ViewMethod, IViewAPI
     {
         #region 设置项

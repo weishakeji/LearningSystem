@@ -27,7 +27,7 @@ $ready(function () {
         },
         mounted: function () {
             var th = this;
-            $api.get('Course/ForID', { 'id': this.couid }).then(function (req) {
+            $api.put('Course/ForID', { 'id': this.couid }).then(function (req) {
                 th.loading_init = true;
                 if (req.data.success) {
                     var result = req.data.result;

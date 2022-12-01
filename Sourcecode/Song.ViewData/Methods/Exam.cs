@@ -18,7 +18,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 考试管理
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Exam : ViewMethod, IViewAPI
     {
         #region 考试主题

@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 学习卡管理
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Learningcard : ViewMethod, IViewAPI
     {
         #region 卡片信息

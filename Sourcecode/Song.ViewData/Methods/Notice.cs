@@ -12,7 +12,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 通知公告
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Notice : ViewMethod, IViewAPI
     {
         /// <summary>

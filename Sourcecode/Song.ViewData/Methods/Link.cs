@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 友情链接的管理
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Link : ViewMethod, IViewAPI
     {
         //资源的虚拟路径和物理路径

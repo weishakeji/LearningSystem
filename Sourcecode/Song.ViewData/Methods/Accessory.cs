@@ -16,6 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 附件的管理
     /// </summary>
+    [HttpPut,HttpGet]
     public class Accessory : ViewMethod, IViewAPI
     {
         /// <summary>

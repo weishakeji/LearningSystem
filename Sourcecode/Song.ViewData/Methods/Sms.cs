@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 短信接口
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Sms : ViewMethod, IViewAPI
     {
         /// <summary>

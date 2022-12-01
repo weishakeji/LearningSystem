@@ -40,7 +40,7 @@ Vue.component('accessory', {
         getDatas: function (uid) {
             var th = this;
             th.loading = true;
-            $api.get("Accessory/List", { uid, 'type': 'Course' }).then(function (acc) {
+            $api.put("Accessory/List", { uid, 'type': 'Course' }).then(function (acc) {
                 th.loading = false;
                 if (acc.data.success) {
                     th.datas = acc.data.result;

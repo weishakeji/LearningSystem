@@ -13,7 +13,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 资金流水
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Money : ViewMethod, IViewAPI
     {
         /// <summary>

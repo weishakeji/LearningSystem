@@ -86,7 +86,7 @@
             getOutlineTree: function () {
                 var th = this;
                 th.loading = true;
-                $api.cache('Outline/Tree', { 'couid': th.couid, 'isuse': true }).then(function (req) {
+                $api.put('Outline/Tree', { 'couid': th.couid, 'isuse': true }).then(function (req) {
                     if (req.data.success) {
                         th.outlines = req.data.result;
                     } else {
@@ -108,7 +108,7 @@
                 th.form.size = Math.floor(area / 42);
                 th.loading = true;
                 var loading = this.showloading();
-                $api.get("Question/Pager", th.form).then(function (d) {
+                $api.put("Question/Pager", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
                         var result = d.data.result;

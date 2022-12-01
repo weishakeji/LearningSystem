@@ -55,7 +55,7 @@
         mounted: function () {
             var th = this;
             if (th.id == '' || th.id == null) return;
-            $api.get('Course/ForID', { 'id': th.id }).then(function (req) {
+            $api.put('Course/ForID', { 'id': th.id }).then(function (req) {
                 th.loading_init = false;
                 if (req.data.success) {
                     th.course = req.data.result;
@@ -97,7 +97,7 @@
             //获取价格列表
             getprices: function () {
                 var th = this;
-                $api.get('Course/PriceItems', { 'uid': th.course.Cou_UID }).then(function (req) {
+                $api.put('Course/PriceItems', { 'uid': th.course.Cou_UID }).then(function (req) {
                     if (req.data.success) {
                         th.prices = req.data.result;
                         th.$nextTick(function () {

@@ -14,6 +14,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 知识库
     /// </summary>
+    [HttpPut, HttpGet]
     public class Knowledge : ViewMethod, IViewAPI
     {
         #region 分类

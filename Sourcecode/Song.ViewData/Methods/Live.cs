@@ -21,7 +21,7 @@ namespace Song.ViewData.Methods
         /// 记录直播的各种设置项
         /// </summary>
         /// <param name="letter"></param>
-        [HttpPost]
+        [HttpPut, HttpGet,HttpPost]
         [Admin]
         public int Setup(Letter letter)
         {

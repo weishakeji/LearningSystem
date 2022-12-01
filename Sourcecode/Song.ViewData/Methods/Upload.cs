@@ -17,6 +17,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 上传文件管理，包括普通上传、大文件分上传、上传资源查看
     /// </summary>
+    [HttpPut, HttpGet]
     public class Upload : ViewMethod, IViewAPI
     {
         /// <summary>

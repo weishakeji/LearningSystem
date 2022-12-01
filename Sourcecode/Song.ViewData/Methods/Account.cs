@@ -24,7 +24,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 账号
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Account : ViewMethod, IViewAPI
     { 
         //资源的虚拟路径和物理路径

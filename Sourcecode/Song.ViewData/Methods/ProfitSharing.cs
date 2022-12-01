@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 分润管理
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class ProfitSharing : ViewMethod, IViewAPI
     {
         #region 分润方案

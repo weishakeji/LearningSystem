@@ -19,7 +19,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 试题
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Question : ViewMethod, IViewAPI
     {
         #region 题型

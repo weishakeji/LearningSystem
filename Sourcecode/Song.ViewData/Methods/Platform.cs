@@ -24,7 +24,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 平台参数
     /// </summary>
-    [HttpPost]
+    [HttpPut, HttpGet,HttpPost]
     public class Platform : ViewMethod, IViewAPI
     {
         #region 平台信息

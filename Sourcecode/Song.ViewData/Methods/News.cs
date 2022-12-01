@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 新闻
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class News : ViewMethod, IViewAPI
     {
         //课程资源的虚拟路径和物理路径

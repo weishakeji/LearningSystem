@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 模版管理
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Template : ViewMethod, IViewAPI
     {
         /// <summary>

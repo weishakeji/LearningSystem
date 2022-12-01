@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 课程公告（或叫学习指南）
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Guide : ViewMethod, IViewAPI
     {       
 

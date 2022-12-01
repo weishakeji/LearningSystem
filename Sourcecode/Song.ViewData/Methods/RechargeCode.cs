@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 充值码
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class RechargeCode : ViewMethod, IViewAPI
     {
         #region 卡片设置项

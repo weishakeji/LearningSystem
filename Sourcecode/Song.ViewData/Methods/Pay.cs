@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 支付接口
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Pay : ViewMethod, IViewAPI
     {
         #region 增删改查

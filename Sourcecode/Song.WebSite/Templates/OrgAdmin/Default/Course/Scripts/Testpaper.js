@@ -67,7 +67,7 @@
                 th.form.size = Math.floor(area / 64);
                 th.loading = true;
                 var loading = this.showloading();
-                $api.get("TestPaper/Pager", th.form).then(function (d) {
+                $api.put("TestPaper/Pager", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
                         var result = d.data.result;

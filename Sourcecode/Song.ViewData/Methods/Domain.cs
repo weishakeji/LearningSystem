@@ -12,7 +12,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 域名管理
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Domain : ViewMethod, IViewAPI
     {
         /// <summary>

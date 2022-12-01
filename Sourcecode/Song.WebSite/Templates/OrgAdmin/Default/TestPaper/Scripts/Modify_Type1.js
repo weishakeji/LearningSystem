@@ -13,7 +13,7 @@ $ready(function () {
         mounted: function () {
             var th = this;
             //当前试卷
-            $api.get('TestPaper/ForID', { 'id': this.id }).then(function (req) {
+            $api.put('TestPaper/ForID', { 'id': this.id }).then(function (req) {
                 if (req.data.success) {
                     var result = req.data.result;
                     th.entity = result;

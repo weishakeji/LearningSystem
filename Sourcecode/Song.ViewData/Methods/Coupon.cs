@@ -14,7 +14,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 卡券管理
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Coupon : ViewMethod, IViewAPI
     {
         #region 卡券增减

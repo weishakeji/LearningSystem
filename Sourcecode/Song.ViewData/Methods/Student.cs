@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 学员管理,主要是学习情况等
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Student : ViewMethod, IViewAPI
     {
         /// <summary>

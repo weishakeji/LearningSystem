@@ -23,7 +23,7 @@ Vue.component('course_prices', {
             if (cou.Cou_IsFree || cou.Cou_IsLimitFree) return;
             var th = this;
             th.loading = true;
-            $api.get('Course/Prices', { 'uid': cou.Cou_UID }).then(function (req) {
+            $api.put('Course/Prices', { 'uid': cou.Cou_UID }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
                     th.prices = req.data.result;

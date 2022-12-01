@@ -22,7 +22,7 @@ Vue.component('course_data', {
         getcount: function () {
             var th = this;
             th.loading = true;
-            $api.get('Course/Datainfo', { 'couid': th.course.Cou_ID }).then(function (req) {
+            $api.put('Course/Datainfo', { 'couid': th.course.Cou_ID }).then(function (req) {
                 th.loading = false;
                 if (req.data.success) {
                     th.data = req.data.result;

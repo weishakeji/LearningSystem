@@ -20,7 +20,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 管理员
     /// </summary> 
-    [HttpPost]
+    [HttpPost,HttpGet,HttpPut]
     public class Admin : ViewMethod, IViewAPI
     {
         //资源的虚拟路径和物理路径

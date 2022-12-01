@@ -16,6 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 轮换图片
     /// </summary>
+    [HttpPut, HttpGet]
     public class Showpic : ViewMethod, IViewAPI
     {
         //资源的虚拟路径和物理路径

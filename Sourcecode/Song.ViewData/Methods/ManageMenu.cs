@@ -17,6 +17,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 系统管理菜单的管理，包括后台管理、学员、教师等的菜单都在这里管理
     /// </summary>
+    [HttpPut, HttpGet]
     public class ManageMenu : ViewMethod, IViewAPI
     {
         /// <summary>

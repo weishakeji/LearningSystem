@@ -18,11 +18,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Song.ViewData.Methods
 {
-    
+
     /// <summary>
     /// 教师账号的相关操作
     /// </summary> 
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class Teacher : ViewMethod, IViewAPI
     {
         //资源的虚拟路径和物理路径

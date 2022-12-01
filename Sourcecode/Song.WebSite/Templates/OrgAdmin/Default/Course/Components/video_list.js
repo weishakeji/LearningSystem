@@ -56,7 +56,7 @@ Vue.component('video_list', {
             var maxheight = area.height();
             th.query.size = Math.floor(maxheight / 31);
             th.loading = true;
-            $api.get("Accessory/PagerForFiles", th.query).then(function (d) {
+            $api.put("Accessory/PagerForFiles", th.query).then(function (d) {
                 th.loading = false;
                 if (d.data.success) {
                     th.datas = d.data.result;

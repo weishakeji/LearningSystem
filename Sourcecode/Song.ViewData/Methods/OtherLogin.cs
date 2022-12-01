@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 第三方登录
     /// </summary>
-    [HttpGet]
+    [HttpPut, HttpGet]
     public class OtherLogin : ViewMethod, IViewAPI
     {
 
