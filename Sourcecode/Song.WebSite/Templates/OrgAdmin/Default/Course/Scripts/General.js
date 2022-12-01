@@ -87,7 +87,7 @@
             getEntity: function () {
                 var th = this;
                 if (th.id == '' || th.id == null) return;
-                $api.get('Course/ForID', { 'id': th.id }).then(function (req) {
+                $api.put('Course/ForID', { 'id': th.id }).then(function (req) {
                     th.loading_init = false;
                     th.loading = false;
                     th.loading_obj.close();

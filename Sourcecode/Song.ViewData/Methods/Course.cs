@@ -21,7 +21,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 课程管理
     /// </summary>
-    [HttpGet]
+    [HttpGet,HttpPut]
     public class Course : ViewMethod, IViewAPI
     {
         //资源的虚拟路径和物理路径
