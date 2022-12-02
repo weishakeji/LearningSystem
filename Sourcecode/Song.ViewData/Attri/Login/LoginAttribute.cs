@@ -89,7 +89,7 @@ namespace Song.ViewData.Attri
                     str += "“" + list[i] + "”";
                     if (i < list.Count - 1) str += "或";
                 }
-                throw new Exception(msg + str + "；登录后操作");
+                throw VExcept.Verify(msg + str + "；登录后操作", 100);                
             }
             return loginattr;
         }

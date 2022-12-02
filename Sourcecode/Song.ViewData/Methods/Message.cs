@@ -16,7 +16,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 课程学习中的咨询留言，可作为弹幕
     /// </summary>
-    [HttpPut, HttpGet]
+    [HttpPut, HttpGet,HttpPost]
     public class Message : ViewMethod, IViewAPI
     {
         /// <summary>
@@ -78,6 +78,7 @@ namespace Song.ViewData.Methods
         /// <param name="order">排序方式，desc或asc</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
+        [HttpPost]
         public Song.Entities.Message[] Count(long olid, string order,int count)
         {
             return Business.Do<IMessage>().GetCount(-1, olid, order, count);
@@ -88,6 +89,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <returns></returns>
+        [HttpPost]
         public int Count(long couid, long olid)
         {
             return Business.Do<IMessage>().GetOfCount(couid, olid);

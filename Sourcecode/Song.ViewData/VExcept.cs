@@ -32,7 +32,7 @@ namespace Song.ViewData
         }
 
         /// <summary>
-        /// 校验类，实始状态码为10000
+        /// 校验类，初始状态码为10000
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="state"></param>
@@ -41,6 +41,18 @@ namespace Song.ViewData
         {
             VExcept we = new VExcept(msg, state);
             we.State = 1000 + state;
+            return we;
+        }
+        /// <summary>
+        /// 登录校验，初始状态码为20000
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public static VExcept Login(string msg, int state)
+        {
+            VExcept we = new VExcept(msg, state);
+            we.State = 2000 + state;
             return we;
         }
         /// <summary>

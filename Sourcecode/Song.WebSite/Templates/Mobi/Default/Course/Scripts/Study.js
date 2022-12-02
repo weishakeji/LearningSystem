@@ -201,7 +201,7 @@ $ready(function () {
             msgGet: function () {
                 if (!this.outline) return;
                 var th = this;
-                $api.post("message/count", {
+                $api.get("message/count", {
                     olid: this.outline.Ol_ID, order: 'desc', count: 100
                 }).then(function (req) {
                     if (req.data.success) {

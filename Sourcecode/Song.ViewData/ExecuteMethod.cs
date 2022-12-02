@@ -184,7 +184,8 @@ namespace Song.ViewData
             }
             catch (Exception ex)
             {
-                Helper.Logs.Error(letter, ex);
+                if (!(ex.InnerException is VExcept))
+                    Helper.Logs.Error(letter, ex);
                 //如果是自定义异常
                 if (ex.InnerException is VExcept)
                 {
