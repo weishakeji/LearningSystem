@@ -108,9 +108,9 @@ namespace Song.ServiceImpls
             if (entity.Qus_ID > 0) old = Gateway.Default.From<Questions>().Where(Questions._.Qus_ID == entity.Qus_ID).ToFirst<Questions>();
             if (old == null)
             {
-                WhereClip wc = new WhereClip();
-                if (entity.Cou_ID > 0) wc.And(Questions._.Cou_ID == entity.Cou_ID);
+                WhereClip wc = Questions._.Qus_Type == entity.Qus_Type;
                 if (entity.Ol_ID > 0) wc.And(Questions._.Ol_ID == entity.Ol_ID);
+                if (entity.Cou_ID > 0) wc.And(Questions._.Cou_ID == entity.Cou_ID);
                 old = Gateway.Default.From<Questions>().Where(wc && Questions._.Qus_Title == entity.Qus_Title).ToFirst<Questions>();
             }
             if (old == null)
