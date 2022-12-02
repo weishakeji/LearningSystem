@@ -53,7 +53,7 @@
                         <course_prices :course="scope.row"></course_prices>
                         <course_data :course="scope.row" :show_student="true"></course_data>
                     </div>
-                    <div class="btns">
+                    <div class="btns" v-if="scope.row.Cou_Allowedit">
                         <span>
                             <span class="el-icon-loading" v-show="loadingid==scope.row.Cou_ID"></span>
                             <el-switch v-model="scope.row.Cou_IsUse" @change="changeState(scope.row)" active-color="#13ce66"

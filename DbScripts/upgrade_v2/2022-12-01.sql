@@ -2,7 +2,7 @@
 alter table [Outline] add [Ol_IsAccessory] bit default 0 NOT NULL
 
 /*增加课程中是否允许编辑*/
-alter table [Course] add [Ol_Allowedit] bit default 1 NOT NULL
+alter table [Course] add [Cou_Allowedit] bit default 1 NOT NULL
 
 
 

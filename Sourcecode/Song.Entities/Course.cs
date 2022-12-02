@@ -86,7 +86,7 @@ namespace Song.Entities {
     		
     		protected Int64 _Cou_ID;
     		
-    		protected Boolean _Ol_Allowedit;
+    		protected Boolean _Cou_Allowedit;
     		
     		public String Cou_Name {
     			get {
@@ -478,13 +478,13 @@ namespace Song.Entities {
     			}
     		}
     		
-    		public Boolean Ol_Allowedit {
+    		public Boolean Cou_Allowedit {
     			get {
-    				return this._Ol_Allowedit;
+    				return this._Cou_Allowedit;
     			}
     			set {
-    				this.OnPropertyValueChange(_.Ol_Allowedit, _Ol_Allowedit, value);
-    				this._Ol_Allowedit = value;
+    				this.OnPropertyValueChange(_.Cou_Allowedit, _Cou_Allowedit, value);
+    				this._Cou_Allowedit = value;
     			}
     		}
     		
@@ -547,7 +547,7 @@ namespace Song.Entities {
     					_.Cou_ExistQues,
     					_.Cou_ExistExam,
     					_.Cou_ID,
-    					_.Ol_Allowedit};
+    					_.Cou_Allowedit};
     		}
     		
     		/// <summary>
@@ -594,7 +594,7 @@ namespace Song.Entities {
     					this._Cou_ExistQues,
     					this._Cou_ExistExam,
     					this._Cou_ID,
-    					this._Ol_Allowedit};
+    					this._Cou_Allowedit};
     		}
     		
     		/// <summary>
@@ -718,8 +718,8 @@ namespace Song.Entities {
     			if ((false == reader.IsDBNull(_.Cou_ID))) {
     				this._Cou_ID = reader.GetInt64(_.Cou_ID);
     			}
-    			if ((false == reader.IsDBNull(_.Ol_Allowedit))) {
-    				this._Ol_Allowedit = reader.GetBoolean(_.Ol_Allowedit);
+    			if ((false == reader.IsDBNull(_.Cou_Allowedit))) {
+    				this._Cou_Allowedit = reader.GetBoolean(_.Cou_Allowedit);
     			}
     		}
     		
@@ -943,10 +943,9 @@ namespace Song.Entities {
     			public static WeiSha.Data.Field Cou_ID = new WeiSha.Data.Field<Course>("Cou_ID");
     			
     			/// <summary>
-    			/// 字段名：Ol_Allowedit - 数据类型：Boolean
+    			/// 字段名：Cou_Allowedit - 数据类型：Boolean
     			/// </summary>
-    			public static WeiSha.Data.Field Ol_Allowedit = new WeiSha.Data.Field<Course>("Ol_Allowedit");
+    			public static WeiSha.Data.Field Cou_Allowedit = new WeiSha.Data.Field<Course>("Cou_Allowedit");
     		}
     	}
     }
-    

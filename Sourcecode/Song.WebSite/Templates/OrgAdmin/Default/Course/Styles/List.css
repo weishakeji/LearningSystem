@@ -16,12 +16,14 @@ html, body, #vapp {
 
 .tdcell a {
 	max-height: 20px !important;
-	line-height: 20px !important;
+	line-height: 18px !important;
 }
 
 .title_box {
 	width: 100%;
 	display: flex;
+	position: relative;
+	padding: 2px 0px 0px 2px;
 }
 
 .title_box img {
@@ -39,6 +41,28 @@ html, body, #vapp {
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
+}
+
+/*推荐的图标*/
+icon.recicon{
+	display: block;
+	font-size: 30px;
+    position: absolute;
+	top: 9px;
+    left: 4px;
+	z-index: 1;
+	margin: -2px 0px 0px -4px;
+    color: rgb(255, 30, 30);
+    text-shadow: -1px -1px 2px #fff, -1px -1px 3px #fff;
+}
+icon.recbtn {
+	font-size: 20px;
+	cursor: pointer;
+	margin: 0px;
+}
+
+icon.rec {
+	color: #409eff;
 }
 
 live {

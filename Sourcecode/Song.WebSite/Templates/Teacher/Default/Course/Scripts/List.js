@@ -157,7 +157,7 @@ $ready(function () {
             changeState: function (row) {
                 var th = this;
                 this.loadingid = row.Cou_ID;
-                $api.post('Course/ModifyState', { 'id': row.Cou_ID, 'use': row.Cou_IsUse, 'rec': row.Cou_IsRec }).then(function (req) {
+                $api.post('Course/ModifyState', { 'id': row.Cou_ID, 'use': row.Cou_IsUse, 'rec': row.Cou_IsRec, 'edit': row.Cou_Allowedit}).then(function (req) {
                     this.loadingid = -1;
                     if (req.data.success) {
                         vapp.$notify({

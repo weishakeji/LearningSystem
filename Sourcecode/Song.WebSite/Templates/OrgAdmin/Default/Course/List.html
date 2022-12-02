@@ -48,10 +48,17 @@
             <el-table-column label="课程">
                 <div slot-scope="scope" class="title_box" :title="scope.row.Cou_Name">
                     <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
+                        <icon class="recicon" v-if="scope.row.Cou_IsRec">&#xe741</icon>
                         <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
                         <img src="/Utilities/Images/cou_nophoto.jpg" v-else class="cou_logo" />
                     </a>
                     <div>
+                        <template>
+                            <span class="el-icon-loading" v-if="loadingid==scope.row.Cou_ID"></span>
+                            <icon title="是否推荐" v-else :class="{'rec':scope.row.Cou_IsRec,'recbtn':true}"
+                                @click="()=>{scope.row.Cou_IsRec=!scope.row.Cou_IsRec;changeState(scope.row);}">&#xe81b
+                            </icon>
+                        </template>
                         <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
                         <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank" underline
                             v-html="showInfo(scope.row.Cou_Name)" class="large"> </a>
@@ -122,10 +129,17 @@
                     </el-switch>
                 </template>
             </el-table-column>
-            <el-table-column label="推荐" width="60">
+            <el-table-column label="修改" width="60">
+                <template slot="header" slot-scope="scope">
+                    <el-tooltip class="item" effect="light" content="禁用编辑后，教师无法编辑课程，只能管理员编辑" placement="bottom">
+                        <help>修改</help>
+                      </el-tooltip>
+
+                   
+                </template>
                 <template slot-scope="scope">
                     <span class="el-icon-loading" v-show="loadingid==scope.row.Cou_ID"></span>
-                    <el-switch v-model="scope.row.Cou_IsRec" @change="changeState(scope.row)" active-color="#409EFF"
+                    <el-switch v-model="scope.row.Cou_Allowedit" @change="changeState(scope.row)" active-color="#409EFF"
                         inactive-color="#ccc" v-show="loadingid!=scope.row.Cou_ID"> </el-switch>
                 </template>
             </el-table-column>

@@ -136,10 +136,10 @@
             changeState: function (row) {
                 var th = this;
                 this.loadingid = row.Cou_ID;
-                $api.post('Course/ModifyState', { 'id': row.Cou_ID, 'use': row.Cou_IsUse, 'rec': row.Cou_IsRec }).then(function (req) {
+                $api.post('Course/ModifyState', { 'id': row.Cou_ID, 'use': row.Cou_IsUse, 'rec': row.Cou_IsRec, 'edit': row.Cou_Allowedit }).then(function (req) {
                     this.loadingid = -1;
                     if (req.data.success) {
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '修改状态成功!',
                             center: true
@@ -198,7 +198,7 @@
                                 ids += th.datas[i].Cou_ID + ',';
                         }
                         th.loading = true;
-                        $api.post('Course/ModifyState', { 'id': ids, 'use': use, 'rec': null }).then(function (req) {
+                        $api.post('Course/ModifyState', { 'id': ids, 'use': use, 'rec': null,'edit':null }).then(function (req) {
                             th.loading = false;
                             if (req.data.success) {
                                 var result = req.data.result;

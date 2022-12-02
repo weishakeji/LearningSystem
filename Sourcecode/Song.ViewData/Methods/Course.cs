@@ -206,10 +206,11 @@ namespace Song.ViewData.Methods
         /// <param name="id">课程的id</param>
         /// <param name="use">是否启用</param>
         /// <param name="rec">是否推荐</param>
+        /// <param name="edit">是否允许编辑</param>
         /// <returns></returns>
         [HttpPost]
         [Admin, Teacher]
-        public int ModifyState(string id, bool? use, bool? rec)
+        public int ModifyState(string id, bool? use, bool? rec, bool? edit)
         {
             int i = 0;
             if (string.IsNullOrWhiteSpace(id)) return i;
@@ -226,9 +227,8 @@ namespace Song.ViewData.Methods
                     {
                         Business.Do<ICourse>().CourseUpdate(idval,
                        new WeiSha.Data.Field[] {
-                        Song.Entities.Course._.Cou_IsUse,
-                        Song.Entities.Course._.Cou_IsRec },
-                       new object[] { (bool)use, (bool)rec });
+                        Song.Entities.Course._.Cou_IsUse,Song.Entities.Course._.Cou_IsRec,Song.Entities.Course._.Cou_Allowedit },
+                       new object[] { (bool)use, (bool)rec, (bool)edit });
                     }
                     else
                     {
