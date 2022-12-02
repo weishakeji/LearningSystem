@@ -310,7 +310,7 @@ namespace Song.ViewData.Methods
                 try
                 {
                     string folder = WeiSha.Core.Upload.Get[pathkey].Physics;
-                    string finalfile = filename;    //最终要存储的文件名
+                    string finalfile = filename.Replace(" ","");    //最终要存储的文件名
                     int serial = 1;
                     while (System.IO.File.Exists(Path.Combine(folder, finalfile)))
                     {

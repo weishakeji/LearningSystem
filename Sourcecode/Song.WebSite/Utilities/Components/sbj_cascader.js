@@ -100,6 +100,7 @@ Vue.component('sbj_cascader', {
         evetChange: function (val) {
             var currid = '';
             if (val.length > 0) currid = val[val.length - 1];
+            this.$refs['subject_cascader'].dropDownVisible = false;
             this.$emit('change', currid, val);
         },
         //专业的路径，从子级上溯
@@ -140,7 +141,7 @@ Vue.component('sbj_cascader', {
         },
     },
     template: `<div class="sbj_cascader">
-        <el-cascader style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业" :disabled="disabled"
+        <el-cascader ref="subject_cascader"  style="width: 100%;" clearable v-model="sbjids" placeholder="请选择课程专业" :disabled="disabled"
             :options="subjects" separator="／" :props="defaultSubjectProps" filterable @change="evetChange">
             <template slot-scope="{ node, data }">
                 <span>{{ data.Sbj_Name }}</span>
