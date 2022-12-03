@@ -1,13 +1,14 @@
 ﻿use_icon {
     display: inline-block;
     box-sizing: border-box;
-    padding-top: 5px;
+    padding-top: 8px;
     line-height: 20px !important;
+    cursor: pointer;
 }
 
-    use_icon::before {
-        font-size: 22px;
-    }
+use_icon::before {
+    font-size: 22px;
+}
 
 .el-icon-open {
     color: #67C23A;

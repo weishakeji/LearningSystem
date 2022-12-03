@@ -16,7 +16,8 @@
                 </span>
             </el-tab-pane>
         </el-tabs>
-        <div class="context">
+        <loading v-if="loading || loading_init"></loading>
+        <div class="context" v-else>
             <el-form ref="entity" :model="entity" :rules="rules" @submit.native.prevent label-width="100px">
                 <div v-show="activeName=='general'">
                     <el-form-item label="考试主题" prop="Exam_Title">

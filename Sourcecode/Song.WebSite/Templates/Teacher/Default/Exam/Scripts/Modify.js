@@ -46,8 +46,8 @@ $ready(function () {
                     throw req.data.message;
                 }
 
-
             }).catch(function (err) {
+                th.loading_init = false;
                 console.error(err);
             });
         },
@@ -72,6 +72,7 @@ $ready(function () {
                         throw '未查询到数据';
                     }
                 }).catch(function (err) {
+                    th.loading = false;
                     th.$alert(err, '错误');
                 });
             },
