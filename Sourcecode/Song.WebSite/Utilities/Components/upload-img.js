@@ -69,12 +69,12 @@ Vue.component('upload-img', {
                 }
             }
             //验证,限制文件大小
-            var limitsize = this.size ? Number(this.size) : 0;
+            var limitsize = this.size || this.size != '' ? Number(this.size) : 0;
             limitsize = isNaN(limitsize) ? 0 : limitsize;
             if (limitsize > 0) {
-                if (this.size * 1024 < file.size) {
+                if (limitsize * 1024 < file.size) {
                     var txt = "文件：{0}，大于限定的{1}（实际大小{2})，被禁止上传";
-                    var limit = this.clacSize(this.size);
+                    var limit = this.clacSize(limitsize);
                     var actual = this.clacSize(file.size / 1024);
                     var msg = this.format(txt, file.name, limit, actual);
                     this.error.state = true;

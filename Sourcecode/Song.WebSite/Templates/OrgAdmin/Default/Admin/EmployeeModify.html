@@ -13,7 +13,7 @@
     <div id="vapp" v-cloak>
         <el-form ref="account" :model="account" :rules="rules" @submit.native.prevent label-width="80px">
             <el-form-item>
-                <upload-img @change="file=>upfile=file" :data="account" size="1024" height="100" ext="jpg,png,gif">
+                <upload-img @change="file=>upfile=file" :data="account" :size="1024" height="100" ext="jpg,png,gif">
                     <template v-if="account.Acc_Photo!='' || upfile!=null">
                         <img v-if="upfile!=null && JSON.stringify(upfile) != '{}'" :src="upfile.base64" />
                         <img v-else :src="account.Acc_Photo" />

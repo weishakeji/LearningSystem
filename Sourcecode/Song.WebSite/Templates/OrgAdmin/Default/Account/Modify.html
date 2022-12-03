@@ -13,7 +13,7 @@
     <div id="vapp" v-cloak>
         <el-form ref="account" :model="account" :rules="rules" @submit.native.prevent label-width="80px">
             <el-form-item>
-                <upload-img @change="filechange" :data="account" size="1024" height="100" ext="jpg,png,gif">
+                <upload-img @change="filechange" :data="account" :size="1024" height="100" ext="jpg,png,gif">
                     <img v-if="account.Acc_Photo!=''" :src="account.Acc_Photo" class="avatar photo">
                     <img v-else class="el-icon-plus avatar-uploader-icon photo" src="/Utilities/images/head1.jpg" />
                     <span class="avatar-uploader-icon photo-txt">上传头像</span>

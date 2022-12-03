@@ -2,7 +2,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            id: $api.querystring('id'),
+            id: $api.querystring('id', 0),
             organ: {},
             config: {},      //当前机构配置项      
             titles: [],          //教师职称  
@@ -37,7 +37,7 @@ $ready(function () {
         computed: {
             //是否存在账号
             isexist: function () {
-                return JSON.stringify(this.entity) != '{}' && this.entity != null && !!this.entity.Th_ID;
+                return JSON.stringify(this.entity) != '{}' && this.entity != null && this.id != 0;
             },
         },
         watch: {
@@ -105,7 +105,7 @@ $ready(function () {
                             }
                         }
                         //获取结果
-                        th.entity.Sbj_ID = snowid.data.result;
+                        //th.entity.Th_ID = snowid.data.result;
                         th.organ = org.data.result;
                         th.config = $api.organ(th.organ).config;
                     })).catch(function (err) {

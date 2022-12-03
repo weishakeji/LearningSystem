@@ -69,12 +69,13 @@ Vue.component('upload-file', {
                 }
             }
             //验证,限制文件大小
-            var limitsize = this.size ? Number(this.size) : 0;
+            var limitsize = this.size || this.size != '' ? Number(this.size) : 0;
             limitsize = isNaN(limitsize) ? 0 : limitsize;
+            console.log(limitsize);
             if (limitsize > 0) {
-                if (this.size * 1024 < file.size) {
-                    var txt = "文件：{0}，大于限定的{1}（实际大小{2})，被禁止上传";
-                    var limit = this.clacSize(this.size);
+                if (limitsize * 1024 < file.size) {
+                    var txt = "文件：{0}，限定上传的{1}（实际大小{2})，被禁止上传";
+                    var limit = this.clacSize(limitsize);
                     var actual = this.clacSize(file.size / 1024);
                     var msg = this.format(txt, file.name, limit, actual);
                     this.error.state = true;
@@ -94,7 +95,7 @@ Vue.component('upload-file', {
             }*/
             this.$emit('change', file, this.data, this.id);
         },
-        //计算文件大小的实际单位
+        //计算文件大小的实际单位,单位kb
         clacSize: function (size) {
             if (size < 1024) return Math.floor(size * 100) / 100 + "Kb";
             return Math.floor(size / 1024 * 100) / 100 + "Mb";

@@ -69,8 +69,7 @@ Vue.component('accessory', {
             return false;
         },
         //删除文件
-        deleteitem: function (data) {
-            console.error(data);
+        deleteitem: function (data) {         
             var th = this;
             var id = data.As_Id;
             $api.delete('Accessory/DeleteForID', { 'id': id }).then(function (req) {
@@ -114,7 +113,7 @@ Vue.component('accessory', {
             <icon>&#xe853</icon> {{title_panel()}}
         </template>
         <loading v-if="loading_upload" ></loading>
-        <upload-file v-else @change="uploadAccessory" :data="outline" size="102400" height="30"
+        <upload-file v-else @change="uploadAccessory" :data="outline" :size="102400" height="30"
             :ext="ext_limit">
             <el-tooltip :content="'允许的文件类型：'+ext_limit" placement="right"
                 effect="light">

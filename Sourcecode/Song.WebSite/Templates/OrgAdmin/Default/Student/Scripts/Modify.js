@@ -56,7 +56,7 @@ $ready(function () {
                 $api.get('Snowflake/Generate').then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
-                        th.account.Ac_ID = req.data.result;
+                        //th.account.Ac_ID = req.data.result;
                     } else {
                         console.error(req.data.exception);
                         throw req.config.way + ' ' + req.data.message;
@@ -112,7 +112,7 @@ $ready(function () {
         computed: {
             //是否存在账号
             isexist: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null && !!this.account.Ac_ID;
+                return JSON.stringify(this.account) != '{}' && this.account != null && this.id != 0;
             },
             //学员的组是否存在
             sortexist: function () {
