@@ -40,7 +40,7 @@ knl_context *{
 	font-size: 16px;
 }
 knl_context p{
-	text-indent:30px;
+	margin: 0.5em 0px 0px 0px;
 }
 knl_context img{
 	max-width: 100% !important;

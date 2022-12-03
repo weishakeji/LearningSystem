@@ -21,7 +21,8 @@
 }
 
 .upload_img_area>div, .upload_img_area img {
-	width: 100%;
+	max-width: 100%;
+	width: auto;
 	height: 100%;
 }
 
