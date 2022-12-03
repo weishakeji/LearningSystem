@@ -319,3 +319,5 @@ alter table [ExamResults] ALTER COLUMN Sts_ID  bigint not null
 alter table [ExamGroup] ALTER COLUMN Sts_ID  bigint not null
 alter table [Student] ALTER COLUMN Sts_ID  bigint not null
 alter table [Accounts] ALTER COLUMN Sts_ID  bigint not null
+
+
