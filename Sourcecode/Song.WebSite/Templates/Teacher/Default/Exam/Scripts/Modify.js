@@ -32,6 +32,20 @@ $ready(function () {
             loading_upload: false        //附件上传的预载
         },
         watch: {
+            //当考试时间方式更改时
+            'entity.Exam_DateType': function (nv, ov) {
+                if (nv == 2) {
+                    var date = this.entity.Exam_Date;
+                    var over = this.entity.Exam_DateOver;
+                    if (date.getFullYear() - 100 > new Date().getFullYear() || date.getFullYear() + 100 < new Date().getFullYear())
+                        date = new Date();
+                    if (over.getFullYear() - 100 > new Date().getFullYear() || over.getFullYear() + 100 < new Date().getFullYear())
+                        over = date.setMonth(date.getMonth() + 1);;
+                  this.dateRange[0]=this.entity.Exam_Date=date;
+                  this.dateRange[1]=this.entity.Exam_DateOver=over;
+                }
+                console.log(nv);
+            }
         },
         created: function () {
             console.log(this.entity);
