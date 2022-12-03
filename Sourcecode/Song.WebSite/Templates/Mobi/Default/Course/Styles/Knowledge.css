@@ -46,3 +46,7 @@ knl_context img{
 	max-width: 100% !important;
 	height: auto;
 }
+knl_context table{
+	max-width: 100% !important;
+	height: auto;
+}

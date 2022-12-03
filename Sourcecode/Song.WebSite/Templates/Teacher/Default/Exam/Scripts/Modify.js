@@ -41,8 +41,8 @@ $ready(function () {
                         date = new Date();
                     if (over.getFullYear() - 100 > new Date().getFullYear() || over.getFullYear() + 100 < new Date().getFullYear())
                         over = date.setMonth(date.getMonth() + 1);;
-                  this.dateRange[0]=this.entity.Exam_Date=date;
-                  this.dateRange[1]=this.entity.Exam_DateOver=over;
+                    this.dateRange[0] = this.entity.Exam_Date = date;
+                    this.dateRange[1] = this.entity.Exam_DateOver = over;
                 }
                 console.log(nv);
             }
@@ -134,15 +134,20 @@ $ready(function () {
             },
             //操作成功
             operateSuccess: function () {
+                //当处理教师管理状态时
                 var pagebox = window.top.$pagebox;
                 var box = pagebox.get(window.name);
                 var pid = box.pid;
-
-                window.top.vapp.fresh(pid, 'vapp.handleCurrentChange');
-
-                window.setTimeout(function () {
-                    pagebox.shut(window.name);
-                }, 1000);
+                if (window.top.vapp.fresh) {
+                    window.top.vapp.fresh(pid, 'vapp.handleCurrentChange');
+                    window.setTimeout(function () {
+                        pagebox.shut(window.name);
+                    }, 1000);
+                }
+                else {
+                    //当处于机构管理界面时
+                    window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', true);
+                }
             }
         },
     });

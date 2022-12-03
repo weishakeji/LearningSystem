@@ -80,12 +80,15 @@ Vue.component('exam_items', {
         },
         //创建场次
         createExam: function () {
+            var th = this;
             return {
                 Exam_ID: 0,
                 Exam_Name: '',
                 Tp_Id: '',
                 Cou_ID: '',      //临时字段，数据实体中并不存在
-                Exam_Date: '',
+                Exam_DateType: th.theme.Exam_DateType,
+                Exam_Date: th.theme.Exam_Date,
+                Exam_DateOver: th.theme.Exam_DateOver,
                 Exam_GroupType: this.theme.Exam_GroupType,
                 Exam_UID: this.theme.Exam_UID
             };
@@ -279,6 +282,17 @@ Vue.component('exam_item_modify', {
         }
     },
     watch: {
+        'theme': {
+            handler: function (nv, ov) {
+                if (nv != null && nv.Exam_ID > 0) {
+                    if (nv.Exam_DateType == 2) {
+                        this.exam.Exam_Date = nv.Exam_Date;
+                        this.exam.Exam_DateOver = nv.Exam_DateOver;
+                    }
+                }
+
+            }, immediate: true
+        },
         'exam': {
             handler: function (nv, ov) {
                 if (nv != null && nv.Exam_ID > 0) {
@@ -518,7 +532,7 @@ Vue.component('exam_item_modify', {
                 <span v-else>
                     <!--区间时间-->
                     {{theme.Exam_Date|date("yyyy-M-dd HH:mm")}} 至
-                    {{theme.Exam_DateOver|date("yyyy-M-dd HH:mm")}} 之间
+                    {{theme.Exam_DateOver|date("yyyy-M-dd HH:mm")}} 之间 
                 </span>
             </el-form-item>
             <el-form-item label="限时">
