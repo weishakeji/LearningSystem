@@ -225,13 +225,12 @@ Vue.component('question', {
                     <span v-html="ans.Ans_Context"></span>
                 </div>
             </div>
-            <div  class="ans_area type2" v-if="ques.Qus_Type==3"  remark="判断题">
-            {{ques.state.ans}}
+            <div  class="ans_area type3" v-if="ques.Qus_Type==3"  remark="判断题">
                 <div :selected="ques.Qus_Answer=='true'"  @click="ques_doing(true,ques)">
-                    <i></i> 正确
+                    <i>正确</i> 
                 </div>
                 <div :selected="ques.Qus_Answer=='false'"  @click="ques_doing(false,ques)">
-                    <i></i> 错误
+                    <i>错误</i> 
                 </div>
             </div>
             <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">

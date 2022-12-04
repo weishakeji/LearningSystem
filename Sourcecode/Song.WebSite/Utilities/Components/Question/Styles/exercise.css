@@ -1,6 +1,5 @@
 section dd {
 	width: 100vw;
-	overflow-y: auto;
 	line-height: 150%;
 }
 
@@ -68,7 +67,10 @@ section dd img {
 	position: relative;
 	margin: 10px;
 }
-
+card[qid] .ans_area i {
+	font-style: normal;
+	margin-right: 10px;
+}
 .ans_area>div[ansid] i {
 	font-style: normal;
 	margin-right: 15px !important;
@@ -116,7 +118,26 @@ section dd img {
 .type2>div[selected] i::before {
 	content: '\e78b';
 }
+/*判断题*/
+card[qid] .type3 {
+	display: flex;
+}
 
+card[qid] .type3>div:first-child {
+	margin-right: 40px;
+}
+
+card[qid] .type3>div i::before {
+	font-family: "webdesk_icon" !important;
+	content: '\e603';
+	font-style: normal;
+	margin-right: 5px;
+	font-size: 22px;
+}
+
+card[qid] .type3>div[selected] i::before {
+	content: '\e78b';
+}
 /*填空题*/
 
 .type5 {

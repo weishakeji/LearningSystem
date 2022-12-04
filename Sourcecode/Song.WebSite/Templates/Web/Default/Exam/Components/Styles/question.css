@@ -1,6 +1,4 @@
 
-/*试题区*/
-
 section dl, section dd {
 	margin: 0px;
 	padding: 0px;
@@ -9,8 +7,8 @@ section dl, section dd {
 }
 
 section dd {
-	width: 100vw;
-	overflow-y: auto;
+	width: 870px;
+	
 	line-height: 150%;
 }
 
@@ -27,18 +25,21 @@ section dd info span {
 	color: #999;
 }
 
-section dd * {
+section dd card-title * {
 	line-height: 150% !important;
 	font-size: 16px;
 }
 
 section dd card {
-	min-height: calc(100% - 30px - 40px);
+	height: calc(100% - 32px - 35px);
+	overflow: auto;
+}
+section dd card[qid] *:empty {
+	display: none;
 }
 
 section dd img {
 	max-width: 100% !important;
-	height: auto;
 }
 
 /*试题选项*/
@@ -53,16 +54,14 @@ section dd img {
 }
 card[qid] .ans_area i {
 	font-style: normal;
-	margin-right: 10px;
+	margin-right: 15px !important;
+	display: inline-block;
+	white-space: nowrap;
 }
 .ans_area div[selected] {
 	color: #409EFF !important;
 }
-.ans_area>div[ansid] i {
-	font-style: normal;
-	margin-right: 15px !important;
-	display: inline-block;
-}
+
 
 .ans_area>div[ansid] i::before {
 	font-family: "webdesk_icon" !important;
@@ -107,8 +106,7 @@ card[qid] .ans_area i {
 }
 /*判断题*/
 card[qid] .type3 {
-	display: flex;
-	
+	display: flex;	
 }
 card[qid] .type3>div:first-child {
 	margin-right: 40px;
@@ -126,9 +124,8 @@ card[qid] .type3>div i::before {
 card[qid] .type3>div[selected] i::before {	
 	content: '\e78b';	
 }
-.type4 button {
-	float: right;
-	height: 35px;
-	margin-bottom: 20px;
-	margin-right: 10px;
+
+section textarea {
+	width: calc(100% - 22px);
+	padding: 10px;
 }

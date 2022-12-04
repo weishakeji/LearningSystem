@@ -57,14 +57,12 @@ $ready(function () {
             this.$mathjax();
         },
         mounted: function () {
+            var th = this;
             $api.bat(
-                $api.get('Account/Current'),
-                $api.cache('Platform/PlatInfo'),
-                $api.get('Organization/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.get('Exam/State', { 'examid': this.examid }),
                 $api.post('Platform/ServerTime')
-            ).then(axios.spread(function (account, platinfo, organ, type, state, time) {
+            ).then(axios.spread(function (type, state, time) {
                 vapp.loading.init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -75,32 +73,27 @@ $ready(function () {
                         console.error(data.message);
                     }
                 }
-                //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                vapp.config = $api.organ(vapp.organ).config;
                 //考试相关
-                vapp.types = type.data.result;
-                vapp.examstate = state.data.result;
+                th.types = type.data.result;
+                th.examstate = state.data.result;
                 console.log(vapp.examstate);
                 //时间信息
-                vapp.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
-                vapp.time.client = new Date();
+                th.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
+                th.time.client = new Date();
                 window.setInterval(function () {
-                    vapp.time.now = new Date().getTime();
-                    vapp.paperAnswer.now = vapp.nowtime.getTime();
+                    th.time.now = new Date().getTime();
+                    th.paperAnswer.now = th.nowtime.getTime();
                 }, 1000);
-                if (!vapp.islogin || !vapp.examstate.exist) return;
+                if (!th.islogin || !th.examstate.exist) return;
                 //获取考试主题和专业、试卷
                 $api.bat(
-                    $api.cache('Exam/ForID', { 'id': vapp.examid }),
-                    $api.cache('Exam/ThemeForUID', { 'uid': vapp.examstate.uid }),
-                    $api.cache('Subject/ForID', { 'id': vapp.examstate.subject }),
-                    $api.get('TestPaper/ForID', { 'id': vapp.examstate.paper }),
-                    $api.get('Exam/Result', { 'examid': vapp.examid, 'tpid': vapp.examstate.paper, 'stid': vapp.account.Ac_ID })
+                    $api.cache('Exam/ForID', { 'id': th.examid }),
+                    $api.cache('Exam/ThemeForUID', { 'uid': th.examstate.uid }),
+                    $api.cache('Subject/ForID', { 'id': th.examstate.subject }),
+                    $api.get('TestPaper/ForID', { 'id': th.examstate.paper }),
+                    $api.get('Exam/Result', { 'examid': th.examid, 'tpid': th.examstate.paper, 'stid': th.account.Ac_ID })
                 ).then(axios.spread(function (exam, theme, sbj, paper, result) {
-                    vapp.loading.exam = false;
+                    th.loading.exam = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
                         if (arguments[i].status != 200)
@@ -111,16 +104,16 @@ $ready(function () {
                             throw data.message;
                         }
                     }
-                    vapp.exam = exam.data.result;
-                    vapp.time.span = vapp.exam.Exam_Span;
-                    vapp.theme = theme.data.result;
-                    vapp.subject = sbj.data.result;
-                    vapp.paper = paper.data.result;
+                    th.exam = exam.data.result;
+                    th.time.span = vapp.exam.Exam_Span;
+                    th.theme = theme.data.result;
+                    th.subject = sbj.data.result;
+                    th.paper = paper.data.result;
                     //是否已经交过卷
-                    vapp.result = result.data.result;
+                    th.result = result.data.result;
                     if (result.data.result == null || !result.data.result.Exr_IsSubmit) {
                         //生成试卷
-                        vapp.generatePaper();
+                        th.generatePaper();
                     }
                 })).catch(function (err) {
                     console.error(err);
@@ -175,7 +168,6 @@ $ready(function () {
             surplustime: function () {
                 var surplus = Math.floor((this.time.over.getTime() - this.time.now) / 1000);
                 return surplus > 0 ? surplus : 0;
-                return surplus;
             },
             //考试开始时间
             starttime: function () {
@@ -227,10 +219,11 @@ $ready(function () {
             'surplustime': {
                 handler(nv, ov) {
                     if (nv <= 0) {
+                        var th = this;
                         window.setTimeout(function () {
-                            if (vapp.examstate.isover) return;
-                            if (vapp.surplustime == 0 && !vapp.examstate.issubmit) {
-                                vapp.submit();
+                            if (th.examstate.isover) return;
+                            if (th.surplustime == 0 && !th.examstate.issubmit) {
+                                th.submit();
                             }
                         }, 2000);
                     }
@@ -330,20 +323,22 @@ $ready(function () {
             },
             //交卷
             submit: function () {
-                if (JSON.stringify(this.paperAnswer) == '{}') return;
-                if (this.examstate.issubmit) return;
-                this.submitState.show = true;
-                this.submitState.loading = true;
+                var th = this;
+                return;
+                if (JSON.stringify(th.paperAnswer) == '{}') return;
+                if (th.examstate.issubmit) return;
+                th.submitState.show = true;
+                th.submitState.loading = true;
                 //设置为交卷
-                this.paperAnswer.patter = 2;
-                var xml = this.generateAnswerXml(this.paperAnswer);
+                th.paperAnswer.patter = 2;
+                var xml = this.generateAnswerXml(th.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
                 $api.put('Exam/SubmitResult', { 'xml': xml, 'async': false }).then(function (req) {
-                    vapp.submitState.loading = false;
+                    th.submitState.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.submitState.result = result;
-                        $api.storage(vapp.recordname, null);
+                        th.submitState.result = result;
+                        $api.storage(th.recordname, null);
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -636,156 +631,6 @@ $ready(function () {
             }
         }
     });
-    //试题的展示
-    Vue.component('question', {
-        //groupindex:试题题型的分组，用于排序号
-        props: ['ques', 'index', 'groupindex', 'types'],
-        data: function () {
-            return {}
-        },
-        watch: {
-            'ques': {
-                handler(nv, ov) {
 
-                },
-                immediate: true
-            }
-        },
-        computed: {},
-        mounted: function () { },
-        methods: {
-            //计算序号，整个试卷采用一个序号，跨题型排序
-            calcIndex: function (index) {
-                var gindex = this.groupindex - 1;
-                var initIndex = 0;
-                while (gindex >= 0) {
-                    initIndex += vapp.paperQues[gindex].ques.length;
-                    gindex--;
-                };
-                return initIndex + index;
-            },
-            //选项的序号转字母
-            showIndex: function (index) {
-                return String.fromCharCode(65 + index);
-            },
-            //单选题的选择
-            type1_select: function (ans, items) {
-                for (let index = 0; index < items.length; index++) {
-                    const element = items[index];
-                    if (element.Ans_ID == ans.Ans_ID) continue;
-                    element.selected = false;
-                }
-                ans.selected = !ans.selected;
-            },
-            //多选题的选择
-            type2_select: function (ans) {
-                ans.selected = !ans.selected;
-            },
-            //判断题的选择,logic为true或false
-            type3_select: function (logic) {
-                this.ques.Qus_Answer = String(logic);
-            },
-            //填空题
-            type5_input: function (ques) {
-                var ansstr = '';
-                for (let index = 0; index < ques.Qus_Items.length; index++) {
-                    const element = ques.Qus_Items[index];
-                    ansstr += element.Ans_Context + ",";
-                }
-                this.ques.Qus_Answer = ansstr;
-            }
-        },
-        template: `<dd :qid="ques.Qus_ID">
-        <info>
-            {{calcIndex(index+1)}}/{{vapp.questotal}}
-            [ {{this.types[ques.Qus_Type - 1]}}题 ] 
-            <span>（{{ques.Qus_Number}} 分）</span>
-        </info>
-        <card :qid="ques.Qus_ID">   
-            <card-title v-html="ques.Qus_Title"></card-title>
-            <card-context>
-                <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
-                    <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
-                    :selected="ans.selected" @click="type1_select(ans,ques.Qus_Items)">
-                        <i>{{showIndex(i)}} .</i>
-                        <span v-html="ans.Ans_Context"></span>
-                    </div>
-                </div>
-                <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
-                    <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="type2_select(ans)">
-                        <i>{{showIndex(i)}} .</i>
-                        <span v-html="ans.Ans_Context"></span>
-                    </div>
-                </div>
-                <div  class="ans_area type2" v-if="ques.Qus_Type==3"  remark="判断题">
-                    <div  :selected="ques.Qus_Answer=='true'"  @click="type3_select(true)">
-                        <i></i> 正确
-                    </div>
-                    <div  :selected="ques.Qus_Answer=='false'"  @click="type3_select(false)">
-                        <i></i> 错误
-                    </div>
-                </div>
-                <div v-if="ques.Qus_Type==4" remark="答题题">
-                    <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.Qus_Answer"></textarea>
-                    </div>
-                <div  class="ans_area" v-if="ques.Qus_Type==5" remark="填空题">
-                    <div v-for="(ans,i) in ques.Qus_Items">
-                    <i></i>{{i+1}}.
-                    <input type="text" v-model="ans.Ans_Context"  @input="type5_input(ques)"></input>                
-                    </div>
-                </div>    
-            </card-context>
-        </card>
-    </dd>`
-    });
-    //成绩得分
-    Vue.component('result', {
-        props: ['state', 'exam', 'paper'],
-        data: function () {
-            return {}
-        },
-        computed: {},
-        mounted: function () { },
-        methods: {
-            //得分样式
-            scoreStyle: function (score) {
-                //总分和及格分
-                var total = this.exam.Exam_Total;
-                var passscore = this.paper.Tp_PassScore;
-                if (score == total) return "praise";
-                if (score < passscore) return "nopass";
-                if (score < total * 0.8) return "general";
-                if (score >= total * 0.8) return "fine";
-                return "";
-            },
-            //跳转页面
-            btnEnter: function () {
-                var url = "/student/Review?examid=" + this.state.result.examid + "&exrid=" + this.state.result.exrid;
-                window.location.href = url;
-            },
-            //返回
-            goback: function () {
-                window.location.reload();
-            }
-        },
-
-        template: ` <div v-if="!state.loading">
-            <card-title>
-                成绩递交成功 ！
-            </card-title>
-            <template v-if="!state.result.async">
-                <row>
-                得分：<score :class="scoreStyle(state.result.score)">{{Math.floor(state.result.score*100)/100}}</score>
-                </row>
-                <row>总分：{{exam.Exam_Total}}分（{{paper.Tp_PassScore}}分及格）</row>
-                <div class="btnEnter" @click="btnEnter">确 定</div>
-            </template>
-            <template v-else>
-                <row>
-                成绩计算需要时间，请稍后在成绩回顾中查看成绩信息。
-                </row>               
-                <div class="btnEnter" @click="goback">确 定</div>
-            </template>
-        </div>`
-    });
-});
+}, ['/Utilities/Components/avatar.js', 'Components/question.js',
+    'Components/result.js']);

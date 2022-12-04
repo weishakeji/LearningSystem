@@ -288,12 +288,12 @@ Vue.component('question', {
                 </div>
                 <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>
             </div>
-            <div  class="ans_area type2" v-if="ques.Qus_Type==3"  remark="判断题">
+            <div  class="ans_area type3" v-if="ques.Qus_Type==3"  remark="判断题">
                 <div  :selected="state.ans=='true'"  @click="ques_doing(true,ques)">
-                    <i></i> 正确
+                    <i>正确</i> 
                 </div>
                 <div  :selected="state.ans=='false'"  @click="ques_doing(false,ques)">
-                    <i></i> 错误
+                    <i>错误</i> 
                 </div>
             </div>
             <div v-if="ques.Qus_Type==4" class="type4" remark="简答题">

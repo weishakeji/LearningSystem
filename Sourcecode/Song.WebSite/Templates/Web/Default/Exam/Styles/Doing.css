@@ -1,79 +1,241 @@
 ﻿@charset "utf-8";
 
-html, body, #vapp {
+html, body {
 	width: 100%;
 	height: 100%;
 	margin: 0px;
 	padding: 0px;
 	overflow: hidden;
 	position: relative;
-	text-align: left;
+	text-align: center;
+	background-color: #666;		
 }
 
 #vapp {
-
+	width: 1200px;
+	height: calc(100% - 20px);
+	margin: 10px auto;
 	position: relative;
-}
-
-#vapp>* {
-	height: 100%;
-}
-
-/*学员信息的面板*/
-aside {
-	width: 30%;
-	float: right;
-	position: relative;
+	text-align: left;
+	background-color: #fff;
 	box-sizing: border-box;
-	padding: 15px;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(255, 255, 255, 1);
 }
-
-aside div.account {
-	height: 80px;
-	width: 100%;
+/*头部*/
+#vapp>header{
+	height: 100px;
+	box-sizing: border-box;
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+	box-shadow: #aaa;
+	border-bottom: 1px solid #e4e7f1;
+}
+header>div.title {	
+	font-size: 21px;	
+	line-height: 60px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: pointer;
+	font-weight: normal;
+	box-sizing: border-box;
+	padding: 0px 0px 0px 30px;
+}
+header>div.title icon{
+	font-size: 25px;
+}
+header>div.title .info{
+	font-size: 14px;
+	line-height: 20px;
+	color: #666;
+	margin-right: 20px;
+}
+header>div.title .info span{
+	margin-right: 20px;
+}
+/*学员信息的面板*/
+header div.account {
+	height: 100%;
+	max-width: 300px;
 	display: flex;
 }
 
-div.account>img:first-child {
+header div.account .ws_avatar {
 	width: 80px;
 	height: 80px;
 	display: block;
 	box-shadow: 1px 1px 2px #aaa, 1px 1px 8px #eee, -1px -1px 2px #fff, -1px -1px 8px #aaa;
 	border-radius: 50%;
+	margin-right: 20px;
 }
 
-aside div.account div:last-child {
+header div.account>div:last-child {
 	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
+content{
+	display: flex;
+	height: calc(100% - 100px);
+	justify-content: space-between;
+}
+/*右侧答题卡*/
 
-aside .name {
-	box-sizing: border-box;
-	display: block;
+.quesCard {
+	width: 320px;	
 	position: relative;
-	padding: 5px 10px;
-	margin: 0px 10px;
+	box-sizing: border-box;
+	padding: 15px 15px 65px 15px;
+	border-left: 1px solid #e4e7f1;
+}
+
+.quesCard .cardTit {
+	height: 50px;
 	font-size: 18px;
-	color: #333;
-	text-shadow: 1px 1px 2px #999;
-	border-radius: 5px;
-	cursor: pointer;
-	user-select: none;
-	text-align: left;
+	line-height: 50px;
+	display: flex;
+	justify-content: space-between;
 }
-
-aside .name:not(:first-child) {
-	color: #999;
+.quesCard .cardTit>span:last-child {
 	font-size: 14px;
-	padding: 0px 10px;
+	color: #999;	
 }
 
+.quesCard .cardBox {
+	height: calc(100% - 50px);
+	overflow-y: auto;	
+}
+
+.quesCard dl, .quesCard dt, .quesCard dd {
+	padding: 0px;
+	margin: 0px;
+}
+
+.quesCard dl {
+	width: 100%;
+	display: table;
+	margin-bottom: 10px;
+}
+
+.quesCard dt {
+	padding: 10px 10px 10px 15px;
+	box-sizing: border-box;	
+}
+
+.quesCard dt span {
+	float: right;
+	font-size: 14px;
+	color: #999;
+}
+
+.quesCard dd {
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	margin: 4px;
+	border-radius: 50%;
+	border: solid 1px #666;
+	float: left;
+	font-size: 13px;
+	cursor: pointer;
+	position: relative;
+}
+
+.quesCard dd[ans] {
+	background-color: rgb(25, 137, 250);
+	color: #fff;
+}
+
+.quesCard dd[current] {
+	border: solid 1px rgb(92, 180, 3);
+	color: rgb(255, 255, 255);
+	background-color: rgb(92, 180, 3) !important;
+}
+
+.quesCard dd[current]::after {
+	content: '\e777';
+	font-family: "webdesk_icon" !important;
+	font-size: 22px;
+	display: block;
+	position: absolute;
+	bottom: 1px;
+	right: -15px;
+	width: 20px;
+	height: 20px;
+	text-align: right;
+	color: rgb(92, 180, 3);
+}
+
+/*右侧页面底部*/
+
+.quesCard footer {
+	height: 44px;
+	background-color: rgb(212, 224, 206);	
+	position: absolute;
+	width: calc(100% - 30px);
+	display: flex;
+	bottom: 15px;
+	z-index: 3;	
+	border-radius: 3px;
+	line-height: 44px;	
+	font-size: 18px;
+	cursor: pointer;
+	text-align: center;
+	overflow: hidden;
+}
+
+.quesCard footer div:first-child {
+	flex: 2;
+}
+.quesCard  footer div:last-child {
+	flex: 3;
+	background-color: #009900;
+	color: #fff;	
+}
+
+/*试题区*/
 div.body {
 	display: block;
 	position: relative;
 	flex: 1;
-	width: 70%;
-	overflow: hidden;
-	float: left;
+	overflow: hidden;		
+}
+/*上一题，下一题*/
+.move_btn{
+	position: absolute;
+	right: 20px;
+	top: 15px;
+	z-index: 10;
+	background-color: #f2f2f2;
+}
+.move_btn span {
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.move_btn icon {
+	font-size: 20px;
+	margin: 0px;
+}
+
+.move_btn span:first-child {
+	margin-right: 15px;
+}
+
+section {
+	height: 100%;
+	background-color: #f2f2f2;
+	font-size: 16px;
+	z-index: 4;
+	position: relative;
+	transition: left 0.5s;
+}
+section dd {
+	width: 880px !important;	
 }
 
 row {
@@ -172,342 +334,11 @@ row[arrow]::before {
 	font-size: 16px;
 }
 
-/*头部*/
-
-header {
-	height: 44px;
-	font-size: 14px;
-	width: calc(100% - 15px);
-	z-index: 2;
-}
-
-header *[icon]::before {
-	font-size: 22px;
-	line-height: 45px;
-}
-
-header>div:first-child {
-	width: 44px;
-	height: 44px;
-	line-height: 45px;
-	text-align: center;
-	float: left;
-}
-
-header>div:last-child {
-	width: 180px;
-	height: 44px;
-	line-height: 45px;
-	text-align: center;
-	float: right;
-	font-size: 15px;
-	cursor: pointer;
-}
-
-header>div:last-child::before {
-	font-size: 18px;
-}
-
-header>div.title {
-	float: left;
-	width: calc(100% - 180px);
-	line-height: 45px;
-	font-size: 16px;
-	text-align: left;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	cursor: pointer;
-	box-sizing: border-box;
-	padding: 0px 15px;
-}
-
-/*上一题，下一题*/
-.move_btn span {
-	font-size: 13px;
-}
-
-.move_btn icon {
-	font-size: 20px;
-	margin: 0px;
-}
-
-.move_btn span:first-child {
-	margin-right: 15px;
-}
-
-/*页面底部*/
-
-footer {
-	height: 44px;
-	background-color: rgb(212, 224, 206);
-	font-size: 14px;
-	position: absolute;
-	width: calc(100% - 30px);
-	bottom: 25px;
-	z-index: 3;
-}
-
-footer>div {
-	float: left;
-	font-size: 16px;
-	text-align: center;
-	height: 100%;
-	cursor: pointer;
-}
-
-footer>div, footer>div * {
-	line-height: 44px;
-}
-
-footer>div::before {
-	font-size: 22px;
-}
-
-footer div#btnTime {
-	height: 100%;
-	line-height: 44px;
-	box-sizing: border-box;
-	font-weight: bold;
-	width: 40%;
-}
-
-footer div#btnSubmit {
-	width: 60%;
-	background-color: #009900;
-	color: #fff;
-	box-sizing: border-box;
-	text-align: center;
-}
-
-footer div#btnSubmit::before {
-	font-size: 20px;
-	margin-right: 15px;
-}
-
-attended {
-	display: block;
-	height: calc(100% - 88px);
-	background-color: #f2f2f2;
-	position: fixed;
-	width: 100%;
-	top: 44px;
-	left: 0px;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
-}
-
-/*试题区*/
-
-section {
-	height: calc(100% - 55px);
-	background-color: #f2f2f2;
-	font-size: 14px;
-	z-index: 4;
-	position: relative;
-	transition: left 0.5s;
-}
-
-section dl, section dd {
-	margin: 0px;
-	padding: 0px;
-	height: 100%;
-	float: left;
-}
-
-section dd {
-	width: 70vw;
-	overflow-y: auto;
-	line-height: 150%;
-}
-
-section dd info {
-	display: block;
-	padding: 15px 15px 0px 15px;
-	height: 20px;
-	margin: 0px 10px;
-	font-size: 15px;
-}
-
-section dd info span {
-	font-size: 14px;
-	color: #999;
-}
-
-section dd card-title * {
-	line-height: 150% !important;
-	font-size: 16px;
-}
-
-section dd card {
-	height: calc(100% - 32px - 35px);
-	overflow: auto;
-}
-
-section dd img {
-	max-width: 100% !important;
-}
-
-/*试题选项*/
-
-.ans_area {
-	margin-left: 5px;
-}
-
-.ans_area>div {
-	position: relative;
-	margin: 10px;
-}
-
-.ans_area>div[ansid] i {
-	font-style: normal;
-	margin-right: 15px !important;
-	display: inline-block;
-}
-
-.ans_area>div[ansid] i::before {
-	font-family: "webdesk_icon" !important;
-	font-style: normal;
-	font-size: 20px;
-	margin-right: 5px;
-}
-
-.type1>div[ansid] i::before {	
-	content: '\e85c';	
-}
-
-.type1>div[selected] i::before {	
-	content: '\e85b';
-}
-
-.ans_area>div[ansid] {
-	display: flex;
-}
-
-.ans_area>div[ansid] * {
-	display: inline-block;
-	margin: 0px;
-	padding: 0px;
-}
-
-.ans_area>div[ansid] * {
-	line-height: auto !important;
-}
 
 
-.ans_area>div[correct]::before {
-	content: '\a048';
-}
-
-.type2>div i::before {	
-	content: '\e603';
-}
-
-.type2>div[selected] i::before {
-	content: '\e78b';
-}
 
 
-section textarea {
-	width: calc(100% - 22px);
-	padding: 10px;
-}
 
-/*答题卡*/
-
-.quesCard {
-	width: 100%;
-	height: calc(100% - 130px);
-}
-
-.quesCard .cardTit {
-	height: 50px;
-	font-size: 16px;
-	line-height: 50px;
-}
-
-.quesCard .cardTit>span:first-child {
-	padding: 0px 0px;
-}
-
-.quesCard .cardTit>span:first-child::before {
-	font-size: 22px;
-	margin-right: 10px;
-}
-
-.quesCard .cardTit>span:last-child {
-	font-size: 14px;
-	color: #999;
-	float: right;
-}
-
-.quesCard .cardBox {
-	height: calc(100% - 50px - 15px);
-	overflow-y: auto;
-	width: calc(100% + 12px);
-
-}
-
-.quesCard dl, .quesCard dt, .quesCard dd {
-	padding: 0px;
-	margin: 0px;
-}
-
-.quesCard dl {
-	width: 100%;
-	display: table;
-	margin-bottom: 10px;
-}
-
-.quesCard dt {
-	padding: 10px 0px 10px 15px;
-	width: calc(100% - 15px);
-}
-
-.quesCard dt span {
-	float: right;
-	font-size: 14px;
-	color: #999;
-}
-
-.quesCard dd {
-	width: 30px;
-	height: 30px;
-	text-align: center;
-	line-height: 30px;
-	margin: 5px;
-	border-radius: 50%;
-	border: solid 1px #666;
-	float: left;
-	cursor: pointer;
-	position: relative;
-}
-
-.quesCard dd[ans] {
-	background-color: rgb(25, 137, 250);
-	color: #fff;
-}
-
-.quesCard dd[current] {
-	border: solid 1px rgb(92, 180, 3);
-	color: rgb(255, 255, 255);
-	background-color: rgb(92, 180, 3) !important;
-}
-
-.quesCard dd[current]::after {
-	content: '\e777';
-	font-family: "webdesk_icon" !important;
-	font-size: 22px;
-	display: block;
-	position: absolute;
-	bottom: 1px;
-	right: -15px;
-	width: 20px;
-	height: 20px;
-	text-align: right;
-	color: rgb(92, 180, 3);
-}
 
 /*一些面板*/
 
@@ -523,50 +354,6 @@ section textarea {
 	text-align: center;
 	color: darkgreen;
 	cursor: pointer;
-}
-
-/*得分样式*/
-
-score {
-	font-size: 16px;
-	line-height: 20px;
-	height: 20px;
-}
-
-score::before {
-	font-family: "webdesk_icon" !important;
-	margin-right: 5px;
-	font-size: 22px;
-}
-
-score.nopass::before {
-	content: '\e774';
-	color: #ff0000;
-}
-
-score.general::before {
-	content: '\e829';
-}
-
-score.fine::before {
-	content: '\e826';
-	color: #07c160;
-}
-
-score.praise::before {
-	content: '\e855';
-	font-size: 20px;
-	color: chocolate;
-}
-
-.scoreinfo {
-	padding: 10px;
-	color: chocolate;
-}
-
-.scoreinfo>span {
-	font-size: 13px;
-	color: #999;
 }
 
 /*预载*/
