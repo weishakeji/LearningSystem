@@ -121,6 +121,7 @@ card[qid] .ans_area>div {
 card[qid] .ans_area>div i {
 	font-style: normal;
 	margin-right: 10px;
+	white-space: nowrap;
 }
 
 card[qid] .ans_area>div P:first-child, card[qid] .ans_area>div div:first-child {

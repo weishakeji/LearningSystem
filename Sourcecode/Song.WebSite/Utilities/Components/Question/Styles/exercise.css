@@ -70,6 +70,7 @@ section dd img {
 card[qid] .ans_area i {
 	font-style: normal;
 	margin-right: 10px;
+	white-space: nowrap;
 }
 .ans_area>div[ansid] i {
 	font-style: normal;
