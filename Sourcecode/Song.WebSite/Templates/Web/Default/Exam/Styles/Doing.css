@@ -36,21 +36,21 @@ body{
 }
 header>div.title {	
 	font-size: 21px;	
-	line-height: 60px;
+	line-height: 50px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	cursor: pointer;
 	font-weight: normal;
 	box-sizing: border-box;
-	padding: 0px 0px 0px 30px;
+	padding: 0px 0px 0px 10px;
 }
 header>div.title icon{
 	font-size: 25px;
 }
 header>div.title .info{
 	font-size: 14px;
-	line-height: 20px;
+	line-height: 30px;
 	color: #666;
 	margin-right: 20px;
 }
@@ -95,9 +95,9 @@ content{
 }
 
 .quesCard .cardTit {
-	height: 50px;
+	height: 30px;
 	font-size: 18px;
-	line-height: 50px;
+	line-height: 25px;
 	display: flex;
 	justify-content: space-between;
 }
@@ -107,7 +107,7 @@ content{
 }
 
 .quesCard .cardBox {
-	height: calc(100% - 50px);
+	height: calc(100% - 30px);
 	overflow-y: auto;	
 }
 
