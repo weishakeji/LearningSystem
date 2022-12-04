@@ -1,0 +1,44 @@
+
+/*得分样式*/
+
+score {
+	font-size: 16px;
+	line-height: 20px;
+	height: 20px;
+}
+
+score::before {
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+	font-size: 22px;
+}
+
+score.nopass::before {
+	content: '\e774';
+	color: #ff0000;
+}
+
+score.general::before {
+	content: '\e829';
+}
+
+score.fine::before {
+	content: '\e826';
+	color: #07c160;
+}
+
+score.praise::before {
+	content: '\e855';
+	font-size: 20px;
+	color: chocolate;
+}
+
+.scoreinfo {
+	padding: 10px;
+	color: chocolate;
+}
+
+.scoreinfo>span {
+	font-size: 13px;
+	color: #999;
+}

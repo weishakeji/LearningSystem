@@ -73,16 +73,16 @@
 }
 
 .quesCard dd[ans] {
-	background-color: rgb(25, 137, 250);
+	background-color: rgb(102, 177, 255);
 	color: #fff;
+	border: solid 1px rgb(25, 137, 250);
 }
 
 .quesCard dd[current] {
-	border: solid 1px rgb(92, 180, 3);
-	color: rgb(255, 255, 255);
-	background-color: rgb(92, 180, 3) !important;
+	border: solid 1px #67C23A;
+	color: #67C23A;
+	background-color: rgb(193, 253, 132) !important;
 }
-
 .quesCard dl dd[current]::after {
 	content: '\e777';
 	font-family: "webdesk_icon" !important;
@@ -94,5 +94,5 @@
 	width: 20px;
 	height: 20px;
 	text-align: right;
-	color: rgb(92, 180, 3);
+	color: #67C23A;
 }
