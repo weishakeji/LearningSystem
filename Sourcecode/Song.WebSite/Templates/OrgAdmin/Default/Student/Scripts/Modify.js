@@ -53,7 +53,7 @@ $ready(function () {
             var th = this;
             th.loading = true;
             if (th.id == '' || th.id == 0) {
-                $api.get('Snowflake/Generate').then(function (req) {
+                $api.put('Snowflake/Generate').then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
                         //th.account.Ac_ID = req.data.result;

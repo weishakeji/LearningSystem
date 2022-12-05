@@ -125,7 +125,7 @@ Vue.component('editor', {
                 max_height: 700,
                 plugins: `kityformula-editor insertdatetime print preview clearhtml searchreplace autolink layout 
                 fullscreen upfile link media code codesample table charmap hr pagebreak nonbreaking anchor 
-                advlist lists textpattern help emoticons autosave bdmap indent2em lineheight formatpainter axupimgs 
+                advlist lists textpattern help emoticons bdmap indent2em lineheight formatpainter axupimgs 
                 powerpaste letterspacing quickbars attachment wordcount autoresize image importword image-weisha organinfo`,
                 toolbar_groups: {
                     formatting: {

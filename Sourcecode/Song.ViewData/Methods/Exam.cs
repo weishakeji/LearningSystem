@@ -157,15 +157,8 @@ namespace Song.ViewData.Methods
             return true;
         }
         #endregion
-        /// <summary>
-        /// 根据ID查询考试
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>    
-        public Song.Entities.Examination ForID(int id)
-        {
-            return Business.Do<IExamination>().ExamSingle(id);
-        }
+
+        #region 出卷与交卷
         /// <summary>
         /// 当前考试的状态
         /// </summary>
@@ -176,12 +169,12 @@ namespace Song.ViewData.Methods
             JObject jo = new JObject();
             //学员是否登录
             Song.Entities.Accounts acc = LoginAccount.Status.User();
-            jo.Add("islogin", acc != null);           
-            if (acc == null)return jo;
-            
+            jo.Add("islogin", acc != null);
+            if (acc == null) return jo;
+
             //是否可以考试
-            Song.Entities.Examination exam = Business.Do<IExamination>().ExamSingle(examid);           
-            
+            Song.Entities.Examination exam = Business.Do<IExamination>().ExamSingle(examid);
+
             if (exam == null || !exam.Exam_IsUse || exam.Exam_IsTheme)
                 jo.Add("exist", false);
             else
@@ -193,21 +186,21 @@ namespace Song.ViewData.Methods
                 jo.Add("paper", exam.Tp_Id);
             }
             else
-            {               
+            {
                 return jo;
             }
             //1为固定时间开始，2为限定时间区间考试
             if (exam != null) jo.Add("type", exam.Exam_DateType);
             //当前考生是否可以参加该场考试
             bool isAllow = Business.Do<IExamination>().ExamIsForStudent(examid, acc.Ac_ID);
-            jo.Add("allow", isAllow);             
+            jo.Add("allow", isAllow);
 
 
             //关于考试状态的一些时间
             bool isStart, isOver, isSubmit;
             DateTime startTime, overTime;
             //答题记录
-            Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingleForCache(examid, exam.Tp_Id, acc.Ac_ID);
+            Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultForCache(examid, exam.Tp_Id, acc.Ac_ID);
             //判断是否已经开始、是否已经结束
             if (exam.Exam_DateType == 1)
             {
@@ -252,9 +245,114 @@ namespace Song.ViewData.Methods
             jo.Add("issubmit", isSubmit);
             //正在考试
             bool doing = startTime <= DateTime.Now && overTime > DateTime.Now && !isSubmit;
-            jo.Add("doing", doing && !isOver);          
+            jo.Add("doing", doing && !isOver);
 
             return jo;
+        }
+        public JArray Generate(int exrid)
+        {
+            Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
+            return _putout(exr);
+        }
+        /// <summary>
+        /// 出卷
+        /// </summary>
+        /// <param name="examid">考试id</param>
+        /// <param name="tpid">试卷id</param>
+        /// <param name="stid">学员id</param>
+        /// <returns></returns>
+        public JArray MakeoutPaper(int examid, long tpid,int stid)
+        {
+            //获取答题信息
+            Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultForCache(examid, tpid, stid);
+            JArray array = new JArray();
+            if (exr == null)
+            {
+                //第一次，随机出题
+                array = _putout(tpid);
+            }
+            else
+            {
+                //如果已经交过卷
+                if (exr.Exr_IsSubmit)
+                {                   
+                    throw new Exception("已经交过卷");
+                }
+                array = _putout(exr); 
+            }
+            return array;
+        }
+        /// <summary>
+        /// 随机出题
+        /// </summary>
+        /// <returns></returns>
+        private JArray _putout(long tpid)
+        {
+            //取果是第一次打开，则随机生成试题，此为获取试卷
+            Song.Entities.TestPaper paper = Business.Do<ITestPaper>().PaperSingle(tpid);
+            if (paper == null) return null;
+            //生成试卷
+            Dictionary<TestPaperItem, Questions[]> dics = Business.Do<ITestPaper>().Putout(paper);
+            JArray jarr = new JArray();
+            foreach (var di in dics)
+            {
+                //按题型输出
+                Song.Entities.TestPaperItem pi = (Song.Entities.TestPaperItem)di.Key;   //试题类型                
+                Song.Entities.Questions[] ques = (Song.Entities.Questions[])di.Value;   //当前类型的试题
+                int type = (int)pi.TPI_Type;    //试题类型
+                int count = ques.Length;  //试题数目
+                float num = (float)pi.TPI_Number;   //占用多少分
+                if (count < 1) continue;
+                JObject jo = new JObject();
+                jo.Add("type", type);
+                jo.Add("count", count);
+                jo.Add("number", num);
+                jo.Add("ques", JArray.FromObject(ques));
+                jarr.Add(jo);
+            }
+            return jarr;
+        }
+        /// <summary>
+        /// 如果已经提交过答案，通过提交的答题返回试题
+        /// </summary>
+        /// <param name="exr"></param>
+        /// <returns></returns>
+        private JArray _putout(Song.Entities.ExamResults exr)
+        {
+            XmlDocument resXml = new XmlDocument();
+            resXml.XmlResolver = null;
+            resXml.LoadXml(exr.Exr_Results, false);
+            JArray jarr = new JArray();
+            XmlNodeList quesnodes = resXml.GetElementsByTagName("ques");
+            for (int i = 0; i < quesnodes.Count; i++)
+            {
+                XmlNode node = quesnodes[i];
+                string type = node.Attributes["type"].Value;
+                string count = node.Attributes["count"].Value;
+                string num = node.Attributes["number"].Value;
+                JObject quesObj = new JObject();
+                quesObj.Add("type", type);
+                quesObj.Add("count", count);
+                quesObj.Add("number", num);
+
+                //JArray ques = new JArray();
+                Song.Entities.Questions[] ques = new Questions[node.ChildNodes.Count];
+                for (int n = 0; n < node.ChildNodes.Count; n++)
+                {
+                    int id = Convert.ToInt32(node.ChildNodes[n].Attributes["id"].Value);
+                    Song.Entities.Questions q = Business.Do<IQuestions>().QuesSingle(id);
+                    if (q == null) continue;
+                    q.Qus_Number = (float)Convert.ToDouble(node.ChildNodes[n].Attributes["num"].Value);
+                    q.Qus_Explain = "";
+                    q.Qus_Answer = "";
+                    ques[n] = q;
+                    //ques.Add(q);
+                    //ques.Add(JObject.FromObject(q));
+                }
+                quesObj.Add("ques", JArray.FromObject(ques));
+                jarr.Add(quesObj);
+            }
+            return jarr;
         }
         /// <summary>
         /// 提交考试答题信息
@@ -341,6 +439,9 @@ namespace Song.ViewData.Methods
                 exr.Exr_CrtTime = startTime;
                 exr.Exr_LastTime = DateTime.Now;
 
+                string cacheUid = string.Format("ExamResults：{0}-{1}-{2}", examid, tpid, stid);    //缓存的uid
+                Business.Do<IExamination>().ResultCacheUpdate(exr, -1, cacheUid);
+
                 exr = Business.Do<IExamination>().ResultSubmit(exr);
                 //是否重复提交
                 jo.Add("resubmit", exr.Exr_IsCalc);
@@ -374,6 +475,18 @@ namespace Song.ViewData.Methods
             }
             return jo;
         }
+        #endregion
+
+
+        /// <summary>
+        /// 根据ID查询考试
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>    
+        public Song.Entities.Examination ForID(int id)
+        {
+            return Business.Do<IExamination>().ExamSingle(id);
+        }        
         /// <summary>
         /// 获取考试主题
         /// </summary>

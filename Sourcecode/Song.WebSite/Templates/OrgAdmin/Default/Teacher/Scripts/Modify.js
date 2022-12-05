@@ -91,7 +91,7 @@ $ready(function () {
                     });
                 } else {
                     $api.bat(
-                        $api.post('Snowflake/Generate'),
+                        $api.put('Snowflake/Generate'),
                         $api.get('Organization/Current')
                     ).then(axios.spread(function (snowid, org) {
                         //判断结果是否正常

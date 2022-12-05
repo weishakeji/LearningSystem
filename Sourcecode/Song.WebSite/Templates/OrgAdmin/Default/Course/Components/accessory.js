@@ -104,6 +104,7 @@ Vue.component('accessory', {
                 }
             }).catch(function (err) {
                 th.loading_upload = false;
+                alert(err);
                 console.error(err);
             });
         },

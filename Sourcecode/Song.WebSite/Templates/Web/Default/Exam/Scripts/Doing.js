@@ -63,7 +63,7 @@ $ready(function () {
                 $api.get('Exam/State', { 'examid': this.examid }),
                 $api.post('Platform/ServerTime')
             ).then(axios.spread(function (type, state, time) {
-                vapp.loading.init = false;
+                th.loading.init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -124,19 +124,21 @@ $ready(function () {
             });
         },
         created: function () {
+            /*
             window.onresize = function () {
                 $dom("section").hide();
                 $dom("section").css('left', -($dom("section dd").width() * vapp.swipeIndex) + 'px');
                 window.setTimeout(function () {
                     $dom("section").show();
                 }, 300);
-            }
+            }*/
         },
         computed: {
             //学员是否登录
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
             },
+            //是否存在考试
             isexam: function () {
                 return JSON.stringify(this.exam) != '{}' && this.exam != null;
             },
@@ -144,7 +146,7 @@ $ready(function () {
             questotal: function () {
                 var total = 0;
                 for (var i = 0; i < this.paperQues.length; i++) {
-                    total += this.paperQues[i].count;
+                    total += Number(this.paperQues[i].count);
                 }
                 return total;
             },
@@ -225,7 +227,7 @@ $ready(function () {
                         var th = this;
                         window.setTimeout(function () {
                             if (th.examstate.isover) return;
-                            if (th.surplustime == 0 && !th.examstate.issubmit) {
+                            if (!th.loading.paper && th.surplustime == 0 && !th.examstate.issubmit) {
                                 th.submit(2);
                             }
                         }, 2000);
@@ -245,11 +247,12 @@ $ready(function () {
             'paperAnswer': {
                 handler(nv, ov) {
                     //记录到本地
-                    if (!this.examstate.issubmit)
-                        $api.storage(this.recordname, nv);
+                    //if (!this.examstate.issubmit)
+                    // $api.storage(this.recordname, nv);
                     //生成xml，用于提交到数据库
-                    this.paperAnswerXml = this.generateAnswerXml(nv);
-                    //this.submit(1);
+                    //this.paperAnswerXml = this.generateAnswerXml(nv);
+                    if (!this.examstate.issubmit)
+                        this.submit(1);
                 },
                 deep: true
             }
@@ -261,34 +264,36 @@ $ready(function () {
                 if (this.paperQues.length > 0) return;
                 var th = this;
                 th.loading.paper = true;
-                //试卷缓存过期时间
-                var span = this.exam.Exam_Span;
-                $api.cache('TestPaper/GenerateRandom:+' + span * 2, { 'tpid': this.paper.Tp_Id }).then(function (req) {
-                    window.setTimeout(function () {
-                        th.loading.paper = false;
-                    }, 1000);
-                    if (req.data.success) {
-                        var paper = req.data.result;
-                        //将试题对象中的Qus_Items，解析为json
-                        for (let i = 0; i < paper.length; i++) {
-                            const group = paper[i];
-                            for (let j = 0; j < group.ques.length; j++) {
-                                group.ques[j] = vapp.parseAnswer(group.ques[j]);
+                $api.put('Exam/MakeoutPaper', { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
+                    .then(function (req) {
+                        window.setTimeout(function () {
+                            th.loading.paper = false;
+                        }, 1000);
+                        if (req.data.success) {
+                            var paper = req.data.result;
+                            //将试题对象中的Qus_Items，解析为json
+                            for (let i = 0; i < paper.length; i++) {
+                                const group = paper[i];
+                                for (let j = 0; j < group.ques.length; j++) {
+                                    group.ques[j] = th.parseAnswer(group.ques[j]);
+                                }
                             }
-                        }
-                        vapp.calcTime();
-                        //将本地记录的答题信息还原到界面
-                        paper = vapp.restoreAnswer(paper);
-                        vapp.paperQues = paper;
+                            th.calcTime();
+                            //将本地记录的答题信息还原到界面
+                            paper = th.restoreAnswer(paper);
+                            th.paperQues = paper;
+                            th.$nextTick(function () {
+                                th.submit(1);
+                            });
 
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    alert(err);
-                    console.error(err);
-                });
+                        } else {
+                            console.error(req.data.exception);
+                            throw req.data.message;
+                        }
+                    }).catch(function (err) {
+                        alert(err);
+                        console.error(err);
+                    });
             },
             //计算序号，整个试卷采用一个序号，跨题型排序
             calcIndex: function (index, groupindex) {
@@ -331,7 +336,7 @@ $ready(function () {
                 if (!th.islogin || !th.isexam) return;
                 if (JSON.stringify(th.paperAnswer) == '{}') return;
                 if (th.examstate.issubmit) return;
-                th.submitState.show = true;
+                //th.submitState.show = true;
                 th.submitState.loading = true;
                 //设置为交卷
                 th.paperAnswer.patter = patter;
@@ -636,5 +641,6 @@ $ready(function () {
         }
     });
 
-}, ['/Utilities/Components/avatar.js', 'Components/question.js',
+}, ['/Utilities/Components/avatar.js',
+    'Components/question.js',
     'Components/result.js']);

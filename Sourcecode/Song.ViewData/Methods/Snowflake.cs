@@ -14,7 +14,7 @@ namespace Song.ViewData.Methods
     /// <summary>
     /// 雪花id的相关处理，实际业务中用不到
     /// </summary>
-    [HttpPut, HttpGet]
+    [HttpPut, HttpGet,HttpPost]
     public class Snowflake : ViewMethod, IViewAPI
     {
         /// <summary>

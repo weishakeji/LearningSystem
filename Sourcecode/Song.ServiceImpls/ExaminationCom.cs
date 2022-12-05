@@ -565,12 +565,23 @@ namespace Song.ServiceImpls
         /// <param name="tpid"></param>
         /// <param name="acid"></param>
         /// <returns></returns>
-        public ExamResults ResultSingleForCache(int examid, long tpid, int acid)
+        public ExamResults ResultForCache(int examid, long tpid, int acid)
         {
             string uid = string.Format("ExamResults：{0}-{1}-{2}", examid, tpid, acid);    //缓存的uid
             ExamResults r = QuestionsMethod.QuestionsCache.Singleton.GetExamResults(uid);
             if (r == null) r = this.ResultSingle(examid, tpid, acid);
             return r;
+        }
+        /// <summary>
+        /// 更新答题信息缓存
+        /// </summary>
+        /// <param name="exr"></param>
+        /// <param name="expires"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public string ResultCacheUpdate(ExamResults exr, int expires, string uid)
+        {
+            return QuestionsMethod.QuestionsCache.Singleton.Update(exr, expires, uid);
         }
         /// <summary>
         /// 获取当前考试的所有考生答题信息

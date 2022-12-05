@@ -171,7 +171,15 @@ namespace Song.ServiceInterfaces
         /// <param name="tpid"></param>
         /// <param name="acid"></param>
         /// <returns></returns>
-        ExamResults ResultSingleForCache(int examid, long tpid, int acid);
+        ExamResults ResultForCache(int examid, long tpid, int acid);
+        /// <summary>
+        /// 更新答题信息缓存
+        /// </summary>
+        /// <param name="exr"></param>
+        /// <param name="expires"></param>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        string ResultCacheUpdate(ExamResults exr, int expires, string uid);
         /// <summary>
         /// 获取当前考试的所有考生答题信息
         /// </summary>
