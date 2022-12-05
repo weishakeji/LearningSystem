@@ -121,7 +121,7 @@ namespace Song.ViewData.Methods
         /// <param name="type">附件关联主题的类型，例如新闻是News</param>
         /// <returns></returns>
         [HttpPost]
-        [Admin, Teacher]
+        [Teacher, Admin]
         [Upload(Extension = "zip,rar,pdf,ppt,pptx,doc,docx,xls,xlsx", MaxSize = int.MaxValue, CannotEmpty = true)]
         public List<Song.Entities.Accessory> Upload(string uid, string type)
         {
@@ -129,7 +129,6 @@ namespace Song.ViewData.Methods
             string VirPath = WeiSha.Core.Upload.Get[type].Virtual;
             string PhyPath = WeiSha.Core.Upload.Get[type].Physics;
 
-            List<Song.Entities.Accessory> list = new List<Song.Entities.Accessory>();
             if (this.Files.Count > 0)
             {
                 foreach (string key in this.Files)
@@ -145,12 +144,9 @@ namespace Song.ViewData.Methods
                     entity.As_Uid = uid;
                     entity.As_Type = type;
                     Business.Do<IAccessory>().Add(entity);
-                    list.Add(entity);
                 }
-
             }
-
-            return list;
+            return this.List(uid, type);
         }
         /// <summary>
         /// 获取附件记录

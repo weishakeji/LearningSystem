@@ -19,10 +19,8 @@ namespace Song.ViewData.Attri
         /// </summary>
         /// <returns></returns>
         public override bool Logged(Letter letter)
-        {
-            Song.Entities.Accounts student = LoginAccount.Status.User();
-            if (student == null) return false;          
-            Song.Entities.Teacher th = Business.Do<IAccounts>().GetTeacher(student.Ac_ID, true);
+        {       
+            Song.Entities.Teacher th = LoginAccount.Status.Teacher();
             return th != null;
         }
     }

@@ -45,7 +45,8 @@ namespace Song.ServiceImpls
             entity.Cou_Tax = obj is int ? (int)obj + 1 : 0;
             //默认为免费课程
             entity.Cou_IsFree = true;
-           
+            entity.Cou_Allowedit = true;    //默认允许编辑
+
             entity.Cou_Level = _ClacLevel(entity);
             entity.Cou_XPath = _ClacXPath(entity);
             Gateway.Default.Save<Course>(entity);
@@ -82,6 +83,7 @@ namespace Song.ServiceImpls
                     current.Cou_PID = pid;
                     current.Cou_IsUse = true;
                     current.Cou_IsFree = true;
+                    current.Cou_Allowedit = true;
                     current.Cou_IsTry = true;
                     //所属老师
                     if (teacher != null)

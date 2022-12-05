@@ -94,8 +94,9 @@ Vue.component('accessory', {
             $api.post('Accessory/Upload', { 'uid': uid, 'type': 'Course', 'file': file }).then(function (req) {
                 th.loading_upload = false;
                 if (req.data.success) {
-                    var result = req.data.result;
-                    th.getDatas(uid);
+                   // var result = req.data.result;
+                    //th.getDatas(uid);
+                    th.datas = req.data.result;
                     th.$emit('success', th.outline.Ol_UID);
                 } else {
                     console.error(req.data.exception);

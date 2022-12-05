@@ -127,8 +127,8 @@ $ready(function () {
                     console.error(err);
                 });
             },
-             //刷新单一课程
-             fressingle: function (id) {
+            //刷新单一课程
+            fressingle: function (id) {
                 var th = this;
                 th.loadingid = id;
                 $api.get('Course/ForID', { 'id': id }).then(function (req) {
@@ -157,7 +157,7 @@ $ready(function () {
             changeState: function (row) {
                 var th = this;
                 this.loadingid = row.Cou_ID;
-                $api.post('Course/ModifyState', { 'id': row.Cou_ID, 'use': row.Cou_IsUse, 'rec': row.Cou_IsRec, 'edit': row.Cou_Allowedit}).then(function (req) {
+                $api.post('Course/ModifyState', { 'id': row.Cou_ID, 'use': row.Cou_IsUse, 'rec': row.Cou_IsRec, 'edit': row.Cou_Allowedit }).then(function (req) {
                     this.loadingid = -1;
                     if (req.data.success) {
                         vapp.$notify({
@@ -218,7 +218,7 @@ $ready(function () {
                 });
             },
             //打开编辑界面
-            btnmodify: function (id) {
+            btnmodify: function (id) {               
                 this.$refs.btngroup.modify(id);
             },
             //新增课程的按钮事件

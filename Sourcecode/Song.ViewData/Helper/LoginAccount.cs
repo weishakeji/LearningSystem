@@ -82,6 +82,16 @@ namespace Song.ViewData
         /// <summary>
         /// 当前登录的教师
         /// </summary>
+        /// <returns></returns>
+        public Song.Entities.Teacher Teacher()
+        {
+            System.Web.HttpContext _context = System.Web.HttpContext.Current;
+            Letter letter = new Letter(_context);
+            return this.Teacher(letter);
+        }
+        /// <summary>
+        /// 当前登录的教师
+        /// </summary>
         /// <param name="letter"></param>
         /// <returns></returns>
         public Song.Entities.Teacher Teacher(Letter letter)
@@ -90,14 +100,15 @@ namespace Song.ViewData
             if (acc == null) return null;
             if (!acc.Ac_IsTeacher) return null;
             Song.Entities.Teacher teacher = Business.Do<ITeacher>().TeacherForAccount(acc.Ac_ID);
-            if (teacher != null)
+            if (teacher != null && teacher.Th_IsPass && teacher.Th_IsUse)
             {
                 if (System.IO.File.Exists(WeiSha.Core.Upload.Get["Teacher"].Physics + teacher.Th_Photo))
                     teacher.Th_Photo = WeiSha.Core.Upload.Get["Teacher"].Virtual + teacher.Th_Photo;
                 else
                     teacher.Th_Photo = "";
+                return teacher;
             }
-            return teacher;
+            return null;
         }
         /// <summary>
         /// 退出登录

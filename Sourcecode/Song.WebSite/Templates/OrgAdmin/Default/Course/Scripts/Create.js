@@ -189,6 +189,7 @@
                     th.loading = false;
                     if (req.data.success) {
                         th.entity = req.data.result;
+                        //console.error('课程id:'+th.entity.Cou_ID);
                         th.operateSuccess();
                         th.success = true;
                         window.setInterval(function () {
@@ -206,6 +207,7 @@
             },
             //回调课程编辑（创建课程成功后，打开更详细的课程编辑界面）
             callback_modify: function (id) {
+                //console.error('callback_modify 课程id:'+id);
                 //打开编辑界面
                 if (window.top.$pagebox && window.top.$tabs) {
                     window.top.$pagebox.source.tab(window.name, 'vapp.btnmodify(' + id + ')', true);
@@ -217,7 +219,7 @@
                     if (winname.indexOf('[') > -1)
                         winname = winname.substring(0, winname.lastIndexOf('['));
 
-                    window.top.vapp.fresh(winname, 'vapp.btnmodify(' + id + ')');
+                    window.top.vapp.fresh(winname, 'vapp.btnmodify("' + id + '")');
                     window.setTimeout(function () {
                         window.top.$pagebox.shut(window.name);
                     }, 1000);
@@ -225,7 +227,7 @@
             },
             //操作成功
             operateSuccess: function () {
-                console.error('operateSuccess');
+                //console.error('operateSuccess');
                 //课程列表重新加载
                 if (window.top.$pagebox && window.top.$tabs) {
                     window.top.$pagebox.source.tab(window.name, 'vapp.handleCurrentChange', false);
