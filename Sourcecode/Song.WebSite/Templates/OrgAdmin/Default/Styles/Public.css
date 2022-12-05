@@ -90,13 +90,14 @@ table.el-table__body tr.disabled td, table.el-table__body tr.disabled td *:not(.
 	color: #aaa !important;
 }
 
-table.el-table__body tr.disabled td img {
+table.el-table__body tr.disabled td img, .disabled  * {
 	-webkit-filter: grayscale(100%);
 	-moz-filter: grayscale(100%);
 	-ms-filter: grayscale(100%);
 	-o-filter: grayscale(100%);
 	filter: grayscale(100%);
 	filter: gray;
+	color: #aaa !important;
 }
 
 /*底部栏*/

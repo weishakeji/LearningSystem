@@ -15,7 +15,8 @@
             <div class="search-box">
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
                     <el-form-item label="">
-                        <sbj_cascader ref="subject" :orgid="form.orgid" @change="id=>{form.sbjids=id;handleCurrentChange(1);}"> </sbj_cascader>
+                        <sbj_cascader ref="subject" :orgid="form.orgid"
+                            @change="id=>{form.sbjids=id;handleCurrentChange(1);}"> </sbj_cascader>
                     </el-form-item>
                     <el-form-item label="">
                         <el-checkbox v-model="checkRec">推荐</el-checkbox>
@@ -35,8 +36,7 @@
         <!--课程列表-->
         <el-table ref="datatables" :data="datas" :stripe="true" tooltip-effect="dark" style="width: 100%"
             v-loading="loading" @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row)"
-            row-key="Cou_ID" cell-class-name="tdcell"
-            :row-class-name="data=>{return data.row.Cou_IsUse ? 'enable' : 'disabled';}">
+            row-key="Cou_ID" cell-class-name="tdcell">
             <el-table-column type="selection" width="35" show-overflow-tooltip>
             </el-table-column>
             <el-table-column type="index" width="50" align="center">
@@ -46,7 +46,8 @@
             </el-table-column>
 
             <el-table-column label="课程">
-                <div slot-scope="scope" class="title_box" :title="scope.row.Cou_Name">
+                <div slot-scope="scope" :class="{'title_box':true,'disabled': !scope.row.Cou_IsUse}"
+                    :title="scope.row.Cou_Name">
                     <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank">
                         <icon class="recicon" v-if="scope.row.Cou_IsRec">&#xe741</icon>
                         <img :src="scope.row.Cou_LogoSmall" v-if="scope.row.Cou_LogoSmall!=''" class="cou_logo" />
@@ -133,9 +134,9 @@
                 <template slot="header" slot-scope="scope">
                     <el-tooltip class="item" effect="light" content="禁用编辑后，教师无法编辑课程，只能管理员编辑" placement="bottom">
                         <help>修改</help>
-                      </el-tooltip>
+                    </el-tooltip>
 
-                   
+
                 </template>
                 <template slot-scope="scope">
                     <span class="el-icon-loading" v-show="loadingid==scope.row.Cou_ID"></span>
