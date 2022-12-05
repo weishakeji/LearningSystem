@@ -32,7 +32,6 @@ Vue.component('exam_items', {
         getExamItems: function (val) {
             if (val == null || this.theme.Exam_ID <= 0)
                 return;
-
             var th = this;
             $api.get('Exam/exams', { 'uid': th.theme.Exam_UID }).then(function (req) {
                 if (req.data.success) {
@@ -90,7 +89,8 @@ Vue.component('exam_items', {
                 Exam_Date: th.theme.Exam_Date,
                 Exam_DateOver: th.theme.Exam_DateOver,
                 Exam_GroupType: this.theme.Exam_GroupType,
-                Exam_UID: this.theme.Exam_UID
+                Exam_UID: this.theme.Exam_UID,
+                Exam_Span:0
             };
         },
         //增加场次
@@ -470,7 +470,7 @@ Vue.component('exam_item_modify', {
                     if (th.exam.Exam_ID <= 0) {
                         this.$emit('add', th.exam, th.index);
                     } else {
-                        this.$emit('modify', th.exam, th.index);
+                        this.$emit('modify', th.exam, th.index+1);
                     }
                     th.show = false;
                 } else {
