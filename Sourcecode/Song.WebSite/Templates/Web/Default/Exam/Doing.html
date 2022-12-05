@@ -86,8 +86,6 @@
                                         {{exam.Exam_DateOver|date("yyyy-M-dd HH:mm")}} 之间
                                     </span>
                                 </row>
-                                <row v-if="paper">限时：{{exam.Exam_Span}}分钟 （共 {{paper.Tp_Count}} 道试题）</row>
-                                <row>总分：{{exam.Exam_Total}}分（{{paper.Tp_PassScore}}分及格）</row>
                                 <row>专业：{{subject.Sbj_Name}} </row>
                                 <row>课程：{{paper.Cou_Name}}</row>
                             </card-context>
@@ -130,11 +128,13 @@
                         <template v-else-if="!examstate.isstart">
                             <card>
                                 <card-title> <span icon="&#xe6bd"></span>还没有开始
-                                    <el-tag type="success" style="float:right">开始时间：{{starttime|date('HH:mm:ss')}}
+                                    <el-tag type="success" style="float:right">开始时间：
+                                        <!--开始时间-->
+                                        {{starttime|date('yyyy-MM-dd HH:mm:ss')}}
                                     </el-tag>
                                 </card-title>
                                 <card-context>
-                                    <div class="time_icon" icon="&#xe671">
+                                    <div class="time_icon" icon="&#xa039">
                                         <el-tag type="primary">当前时间</el-tag> <br />
                                         <!--当前时间-->
                                         {{nowtime|date('yyyy-MM-dd HH:mm:ss')}}
