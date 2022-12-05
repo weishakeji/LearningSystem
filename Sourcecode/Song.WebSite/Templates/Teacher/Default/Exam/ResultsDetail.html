@@ -64,11 +64,10 @@
                     </template>
                 </el-table-column>
                 <el-table-column label="姓名" width="120">
-                    <span slot-scope="scope" :class="{'woman':scope.row.Ac_Sex=='2'}">
-                        <span v-if="scope.row.Ac_Sex!='2'" icon="&#xe645" title="男性"></span>
-                        <span v-if="scope.row.Ac_Sex=='2'" icon="&#xe647" title="女性"></span>
-                        <span v-html='showInfo(scope.row.Ac_Name)' class="link" @click="getaccount(scope.row)"></span>
-                    </span>
+                    <template slot-scope="scope">
+                        <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
+                            v-html='showInfo(scope.row.Ac_Name)' class="link large" @click="getaccount(scope.row)"></icon>
+                    </template>
                 </el-table-column>
                 <el-table-column label="身份证">
                     <template slot-scope="scope">
@@ -135,16 +134,12 @@
             </div>
             <el-row :gutter="20">
                 <el-col :span="24" class="accountInfo">
-                    <img v-if="account.Ac_Photo!=''" :src="account.Ac_Photo" class="avatar photo">
-                    <img v-else-if="account.Ac_Sex!='2'" class="el-icon-plus avatar-uploader-icon avatar  photo"
-                        src="/Utilities/Images/head1.jpg" />
-                    <img v-else class="el-icon-plus avatar-uploader-icon avatar  photo"
-                        src="/Utilities/Images/head2.jpg" />
-                    <div><span v-if="account.Ac_Sex!='2'" class="man" icon="&#xe645" title="男性">
-                        </span>
-                        <span v-if="account.Ac_Sex=='2'" class="woman" icon="&#xe647" title="女性">
-                        </span>
-                        <b>{{account.Ac_Name}}</b> <span title="账号">({{account.Ac_AccName}})</span>
+                    <avatar :account="account" circle="true" size="80"></avatar>                    
+                    <div>
+                        <icon :woman="account.Ac_Sex=='2'" :man="account.Ac_Sex!='2'">
+                            <b>{{account.Ac_Name}}</b>
+                        </icon>
+                        <span title="账号">({{account.Ac_AccName}})</span>
                     </div>
                     <div icon="&#xe60f" title="身份证">
                         {{account.Ac_IDCardNumber}}

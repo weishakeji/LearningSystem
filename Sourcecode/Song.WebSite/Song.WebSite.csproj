@@ -1198,6 +1198,10 @@
     <Content Include="Templates\Web\Default\Course\Scripts\Buy.js" />
     <Content Include="Templates\Web\Default\Course\Styles\guides.css" />
     <Content Include="Templates\Web\Default\Course\Styles\Buy.css" />
+    <Content Include="Templates\Web\Default\Exam\Components\result.js" />
+    <Content Include="Templates\Web\Default\Exam\Components\question.js" />
+    <Content Include="Templates\Web\Default\Exam\Components\Styles\result.css" />
+    <Content Include="Templates\Web\Default\Exam\Components\Styles\question.css" />
     <Content Include="Templates\Web\Default\Exam\Doing.html" />
     <Content Include="Templates\Web\Default\Exam\Images\exam-banner.jpg" />
     <Content Include="Templates\Web\Default\Exam\Index.html" />

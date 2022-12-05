@@ -226,7 +226,7 @@ $ready(function () {
                         window.setTimeout(function () {
                             if (th.examstate.isover) return;
                             if (th.surplustime == 0 && !th.examstate.issubmit) {
-                                th.submit();
+                                th.submit(2);
                             }
                         }, 2000);
                     }
@@ -249,6 +249,7 @@ $ready(function () {
                         $api.storage(this.recordname, nv);
                     //生成xml，用于提交到数据库
                     this.paperAnswerXml = this.generateAnswerXml(nv);
+                    //this.submit(1);
                 },
                 deep: true
             }
@@ -325,7 +326,7 @@ $ready(function () {
                 }
             },
             //交卷
-            submit: function () {
+            submit: function (patter) {
                 var th = this;
                 if (!th.islogin || !th.isexam) return;
                 if (JSON.stringify(th.paperAnswer) == '{}') return;
@@ -333,7 +334,7 @@ $ready(function () {
                 th.submitState.show = true;
                 th.submitState.loading = true;
                 //设置为交卷
-                th.paperAnswer.patter = 2;
+                th.paperAnswer.patter = patter;
                 var xml = this.generateAnswerXml(th.paperAnswer);
                 //提交答题信息，async为异步，成绩计算在后台执行
                 $api.put('Exam/SubmitResult', { 'xml': xml, 'async': false }).then(function (req) {
@@ -368,7 +369,7 @@ $ready(function () {
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    th.submit();
+                    th.submit(2);
                 }).catch(() => {
                     // on cancel
                 });

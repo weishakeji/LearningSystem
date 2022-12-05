@@ -613,7 +613,7 @@ namespace Song.ViewData.Methods
                     isOver = DateTime.Now > overTime;
                 }
             }
-            if(!isOver) throw new Exception("考试尚未结束，不支持回顾");
+            if(!isOver) throw new Exception("考试时间尚未结束，为防止泄题，请稍后查看回顾");
 
             return result;
         }

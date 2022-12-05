@@ -4,13 +4,6 @@ body,html{
     width: 100%;
 }
 
-.man {
-    color: rgb(3, 71, 71);
-}
-
-.woman{
-    color: rgb(248, 87, 87);
-}
 .link{
     cursor: pointer;
 }
@@ -21,17 +14,11 @@ body,html{
     line-height: 30px;
     font-size: 18px;
 }
-.accountInfo img.photo {
-    width: 70px;
-    height: 70px;
-    display: block;
+.accountInfo .ws_avatar{
     
-    float: left;
-    border: 1px solid #eee;
-    margin-top: 5px;
-    border-radius: 35px;
-    margin-right: 10px;
-    float: left;
+    float: left;  
+    margin-top: 5px;  
+    margin-right: 10px;   
 }
 dl,dd{
     padding: 0px;
