@@ -210,7 +210,7 @@
                 //console.error('callback_modify 课程id:'+id);
                 //打开编辑界面
                 if (window.top.$pagebox && window.top.$tabs) {
-                    window.top.$pagebox.source.tab(window.name, 'vapp.btnmodify(' + id + ')', true);
+                    window.top.$pagebox.source.tab(window.name, 'vapp.btnmodify("' + id + '")', true);
                 } else {
                     //如果处在学员或教师管理界面
                     var winname = window.name;
