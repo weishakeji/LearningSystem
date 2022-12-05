@@ -290,7 +290,7 @@
                         var file = 'ResultsDetail';
                         var boxid = "ResultsDetail_" + row.Exam_ID + "_" + file;
                         var title = '  “' + row.Exam_Title + "”";
-                        window.vue.$refs.btngroup.pagebox(file + '?id=' + row.Exam_ID, title, boxid, '80%', '80%',
+                        window.vue.$refs.btngroup.pagebox(file + '?id=' + row.Exam_ID, title, boxid, 900, '80%',
                             { pid: window.name, resize: true, 'showmask': true, 'min': false, 'ico': 'e696' });
                     }
                 },

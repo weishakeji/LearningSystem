@@ -68,13 +68,12 @@
                         <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
                             v-html='showInfo(scope.row.Ac_Name)' class="link large" @click="getaccount(scope.row)"></icon>
                     </template>
-                </el-table-column>
+                </el-table-column>               
                 <el-table-column label="身份证">
                     <template slot-scope="scope">
                         <span v-html='scope.row.Ac_IDCardNumber' class="link" @click="getaccount(scope.row)"></span>
                     </template>
                 </el-table-column>
-
                 <el-table-column label="考试时间" align="center">
                     <template slot-scope="scope">
 
