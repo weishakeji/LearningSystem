@@ -257,7 +257,7 @@ context.body>section .el-tabs .el-tabs__content>div {
     transform: scale(1.01);
 }
 
-.outlines>div>span, .outlines>div>a {
+.outlines>div>a {
     position: absolute;
     right: 10px;
     top: -1px;

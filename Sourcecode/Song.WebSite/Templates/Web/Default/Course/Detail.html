@@ -107,7 +107,8 @@
                         </div>
                         <template v-else>
                             <div v-for="o in outlines" :style="'padding-left:'+(o.Ol_Level*30)+'px'">
-                                <index>{{o.Ol_XPath}}</index>{{o.Ol_Name}} -{{o.Ol_ID}}
+                                <index>{{o.Ol_XPath}}</index>
+                                <span :title="'ID: '+o.Ol_ID" v-html="o.Ol_Name"></span>
                                 <el-tag type="danger" v-if="!o.Ol_IsFinish">未完结</el-tag>
                                 <template v-else-if="course.Cou_IsTry && o.Ol_IsFree">
                                     <a type="success" v-if="o.Ol_IsVideo"
