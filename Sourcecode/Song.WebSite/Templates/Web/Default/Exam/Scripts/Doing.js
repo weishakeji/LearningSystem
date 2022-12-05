@@ -327,7 +327,7 @@ $ready(function () {
             //交卷
             submit: function () {
                 var th = this;
-                return;
+                if (!th.islogin || !th.isexam) return;
                 if (JSON.stringify(th.paperAnswer) == '{}') return;
                 if (th.examstate.issubmit) return;
                 th.submitState.show = true;
