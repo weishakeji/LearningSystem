@@ -13,12 +13,15 @@
             @load="(o,c,p)=>{organ=o;config=c;platinfo=p;}">loading ...
         </page_header>
         <header>
-            <div class="title" @click="showExam=true">
+            <div class="title" @click="showExam=true" v-if="isexam">
                 <icon>&#xe810</icon>{{exam.Exam_Name}}
                 <div class="info"><span v-if="paper">限时：{{exam.Exam_Span}}分钟</span>
                     <span>题量：{{paper.Tp_Count}}道</span>
                     <span>总分：{{exam.Exam_Total}}分（{{paper.Tp_PassScore}}分及格）</span>
                 </div>
+            </div>
+            <div class="title" v-else>
+                <icon>&#xe7ad</icon>考试不存在，或被禁用
             </div>
             <div class="account" v-if="islogin">
                 <avatar :account="account" circle="true" size="80"></avatar>
@@ -31,10 +34,13 @@
                     <div icon="&#xe68f" v-if="account.Ac_IDCardNumber!=''" v-html="account.Ac_IDCardNumber"></div>
                 </div>
             </div>
+            <div class="account" v-else>
+                学员未登录
+            </div>
         </header>
         <content>
             <div class="body">
-                <loading class="loading_init" v-if="loading.init">加载初始数据...</loading>
+                <loading class="loading_init" v-if="loading.init">正在加载初始数据...</loading>
                 <div v-if="!loading.init && !examstate.doing" class="context" remark="无法考试的各种原因">
                     <template v-if="!examstate.islogin">
                         <card>
@@ -162,7 +168,7 @@
                                 </question>
                             </dl>
                         </template>
-                        <loading class="loading_paper" v-else>试题加载中...</loading>
+                        <loading class="loading_paper" v-else>试卷生成中...</loading>
                     </section>
                 </template>
             </div>
@@ -190,6 +196,9 @@
                     <div icon="&#xe6cf" @click="submitManual"> 交&nbsp;卷</div>
                 </footer>
             </div>
+        </content>
+        <content v-else>
+
         </content>
 
         <el-dialog :visible.sync="showTime" class="showTime" title="时间信息">

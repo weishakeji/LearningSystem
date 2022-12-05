@@ -137,6 +137,9 @@ $ready(function () {
             islogin: function () {
                 return JSON.stringify(this.account) != '{}' && this.account != null;
             },
+            isexam: function () {
+                return JSON.stringify(this.exam) != '{}' && this.exam != null;
+            },
             //试题总数
             questotal: function () {
                 var total = 0;

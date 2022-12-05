@@ -363,4 +363,6 @@ row[arrow]::before {
 
 .loading_paper {
 	padding: 20px;
+	display: block;
+	width: 200px;
 }
