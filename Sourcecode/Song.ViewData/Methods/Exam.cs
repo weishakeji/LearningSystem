@@ -200,6 +200,7 @@ namespace Song.ViewData.Methods
             DateTime startTime, overTime;
             //答题记录
             Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultForCache(examid, exam.Tp_Id, acc.Ac_ID);
+            if (exr != null) jo.Add("exrid", exr.Exr_ID);
             //判断是否已经开始、是否已经结束
             if (exam.Exam_DateType == 1)
             {
@@ -292,9 +293,11 @@ namespace Song.ViewData.Methods
                     if (type == 4 || type == 5) ans = q.InnerText;
                     if (type == 5) file = q.Attributes["file"] != null ? q.Attributes["file"].Value : "";                   
                     jq.Add("id", q.Attributes["id"].Value);
-                    jq.Add("cls", q.Attributes["class"].Value);
+                    if (q.Attributes["class"] != null)
+                        jq.Add("cls", q.Attributes["class"].Value);
                     jq.Add("ans", ans);
-                    jq.Add("file", file);
+                    if (q.Attributes["file"] != null)
+                        jq.Add("file", file);
                     qarray.Add(jq);
                 }
                 ques.Add("q",qarray);
@@ -498,21 +501,21 @@ namespace Song.ViewData.Methods
                 float score = -1;
                 if (exr.Exr_IsSubmit && !exr.Exr_IsCalc)
                 {
-                    //实时计算成绩
-                    if (!async)
-                    {
-                        Business.Do<IExamination>().ClacScore(exr);
-                        score = exr.Exr_ScoreFinal;
-                    }
-                    else
+                    //异步计算成绩
+                    if (async)
                     {
                         //后台异步计算
                         Exam_Calc handler = new Exam_Calc(exr);
                         System.Threading.Tasks.Task task = new System.Threading.Tasks.Task(handler.Calc);
                         task.Start();
                     }
+                    else
+                    {
+                        //实时计算成绩
+                        Business.Do<IExamination>().ClacScore(exr);
+                    }
                 }
-
+                if(exr.Exr_IsCalc) score = exr.Exr_ScoreFinal;
                 jo.Add("examid", exr.Exam_ID);
                 jo.Add("exrid", exr.Exr_ID);
                 jo.Add("score", score);
