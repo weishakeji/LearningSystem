@@ -159,7 +159,7 @@
 
                     <section :style="'width:'+questotal*100+'%'" v-swiperight="swiperight" v-swipeleft="swipeleft"
                         remark="试题区域">
-                        <template v-if="loading.paper">
+                        <template v-if="!loading.paper">
                             <dl v-for="(group,i) in paperQues"
                                 :style="'width:'+group.count*parseInt($dom('section').parent().width())+'px'">
                                 <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i"

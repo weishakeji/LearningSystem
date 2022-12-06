@@ -18,7 +18,7 @@ $ready(function () {
             types: [],              //试题类型 
             paperQues: [],           //试卷内容（即试题信息）
             paperAnswer: {},          //答题信息
-            paperAnswerXml: '',          //答题信息的xml格式数据
+
             //++一些状态信息
             swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号    
             showTime: false,             //显示时间信息
@@ -45,7 +45,7 @@ $ready(function () {
             state: {
                 loading: false, //是否正在加载试卷               
             },*/
-       
+
             //加载中的状态
             loading: {
                 init: true,             //初始化主要参数
@@ -77,7 +77,7 @@ $ready(function () {
                 //考试相关
                 th.types = type.data.result;
                 th.examstate = state.data.result;   //考试的状态
-                th.paperAnswer=th.examstate.result;     //答题详情，也许不存在
+                th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
                 //时间信息
                 th.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
                 th.time.client = new Date();
@@ -108,7 +108,7 @@ $ready(function () {
                     th.time.span = th.exam.Exam_Span;
                     th.theme = theme.data.result;
                     th.subject = sbj.data.result;
-                    th.paper = paper.data.result;                    
+                    th.paper = paper.data.result;
                 })).catch(function (err) {
                     console.error(err);
                 });
@@ -117,7 +117,7 @@ $ready(function () {
                 console.error(err);
             });
         },
-        created: function () {},
+        created: function () { },
         computed: {
             //学员是否登录
             islogin: function () {
@@ -130,8 +130,8 @@ $ready(function () {
             //试题总数
             questotal: function () {
                 var total = 0;
-                for (var i = 0; i < this.paperQues.length; i++) 
-                    total += Number(this.paperQues[i].count);             
+                for (var i = 0; i < this.paperQues.length; i++)
+                    total += Number(this.paperQues[i].count);
                 return total;
             },
             //已经做的题数
@@ -188,7 +188,7 @@ $ready(function () {
                 this.time.wait = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = this.time.wait <= 0 ? 0 : Math.floor(this.time.wait / 1000);
                 if (!this.examstate.isover) {
-                    if (this.time.wait < this.time.requestlimit * 60 && JSON.stringify(this.exam) != '{}' && !this.loading.paper) {
+                    if (this.time.wait < this.time.requestlimit * 60 && JSON.stringify(this.exam) != '{}') {
                         //this.loading.paper = true;
                         this.generatePaper();
                     }
@@ -223,12 +223,7 @@ $ready(function () {
             //答题信息变更时
             'paperAnswer': {
                 handler(nv, ov) {
-                    //记录到本地
-                    //if (!this.examstate.issubmit)
-              
-                    //生成xml，用于提交到数据库
-                    //this.paperAnswerXml = this.generateAnswerXml(nv);
-                    if (this.loading.paper && !this.examstate.issubmit)
+                    if (!this.loading.paper && !this.examstate.issubmit)
                         this.submit(1);
                 },
                 deep: true
@@ -239,21 +234,26 @@ $ready(function () {
             generatePaper: function () {
                 if (JSON.stringify(this.paper) == '{}' && this.paper == null) return;
                 if (this.paperQues.length > 0) return;
+                if (this.loading.paper) return;
                 var th = this;
-                th.loading.paper = false;
+                th.loading.paper = true;
                 $api.put('Exam/MakeoutPaper', { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         if (req.data.success) {
                             var paper = req.data.result;
+                            //将试题对象中的Qus_Items，解析为json
+                            for (let i = 0; i < paper.length; i++) {
+                                for (let j = 0; j < paper[i].ques.length; j++)
+                                    paper[i].ques[j] = th.parseAnswer(paper[i].ques[j]);
+                            }
                             th.calcTime();
                             //将本地记录的答题信息还原到界面
-                            paper = th.restoreAnswer(paper);
                             window.setTimeout(function () {
-                                th.loading.paper = true;
+                                th.loading.paper = false;
                             }, 1000);
                             th.paperQues = paper;
                             th.$nextTick(function () {
-                                th.submit(1);
+                                //th.submit(1);
                             });
 
                         } else {
@@ -265,12 +265,37 @@ $ready(function () {
                         console.error(err);
                     });
             },
+            //将试题对象中的Qus_Items，解析为json
+            parseAnswer: function (ques) {
+                if (!(ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5))
+                    return ques;
+                if (typeof (ques.Qus_Items) != 'string') return ques;
+                var xml = $api.loadxml(ques.Qus_Items);
+                var arr = [];
+                var items = xml.getElementsByTagName("item");
+                for (var i = 0; i < items.length; i++) {
+                    var item = $dom(items[i]);
+                    var ansid = Number(item.find("Ans_ID").html());
+                    var uid = item.find("Qus_UID").text();
+                    var context = item.find("Ans_Context").text();
+                    arr.push({
+                        "Ans_ID": ansid,
+                        "Qus_ID": ques.Qus_ID,
+                        "Qus_UID": uid,
+                        "Ans_Context": ques.Qus_Type == 5 ? "" : context,
+                        "selected": false
+                    });
+                }
+                ques.Qus_Items = arr;
+                return ques;
+            },
             //计算序号，整个试卷采用一个序号，跨题型排序
             calcIndex: function (index, groupindex) {
                 var gindex = groupindex - 1;
                 var initIndex = 0;
                 while (gindex >= 0) {
-                    initIndex += vapp.paperQues[gindex].ques.length;
+                    if (this.paperQues && this.paperQues.length > 0)
+                        initIndex += this.paperQues[gindex].ques.length;
                     gindex--;
                 };
                 return initIndex + index;
@@ -304,7 +329,7 @@ $ready(function () {
             //patter:提交方式，1为自动提交，2为交卷
             submit: function (patter) {
                 var th = this;
-                return;
+
                 if (!th.islogin || !th.isexam) return;
                 if (JSON.stringify(th.paperAnswer) == '{}') return;
                 if (th.examstate.issubmit) return;
@@ -318,7 +343,7 @@ $ready(function () {
                     th.submitState.loading = false;
                     if (req.data.success) {
                         var result = req.data.result;
-                        th.submitState.result = result;                   
+                        th.submitState.result = result;
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -475,43 +500,10 @@ $ready(function () {
                 //console.log(results);
                 return results
             },
-            //解析考试的答题信息
-            parseResultRecord: function () {
-                if (this.result == null) return null;
-                //通过节点生成json对象，节点属性即json对象属性
-                var getobject = function (node) {
-                    var obj = {};
-                    for (let t in node.attributes) {
-                        let att = node.attributes[t];
-                        if (typeof (att.nodeName) != "undefined")
-                            obj[att.nodeName] = att.nodeValue;
-                    }
-                    return obj;
-                }
-                var parser = new DOMParser();
-                var xmlDoc = parser.parseFromString(this.result.Exr_Results, "text/xml");
-                //根节点
-                var result = getobject(xmlDoc.lastChild);
-                //试题信息（按题型分组）
-                var ques = [];
-                var groupsNodes = xmlDoc.lastChild.children;
-                for (var i = 0; i < groupsNodes.length; i++) {
-                    var group = getobject(groupsNodes[i]);
-                    var qlistnode = groupsNodes[i].children;
-                    var qarr = [];
-                    for (var j = 0; j < qlistnode.length; j++)
-                        qarr.push(getobject(qlistnode[j]));
-                    group['q'] = qarr;
-                    ques.push(group);
-                }
-                result['ques'] = ques;
-                console.log(result);
-                return result;
-            },
             //将本地记录本的答题信息还原到试卷，用于应对学员刷新页面或重新打开试卷时
-            restoreAnswer: function (paper) {              
-                var record = this.parseResultRecord();
-                if (record == null || record == "") {
+            restoreAnswer: function (paper) {
+                var record = this.paperAnswer;
+                if (record == null || JSON.stringify(record) == '{}' || !record.ques) {
                     //固定时间开始
                     if (this.examstate.type == 1) {
                         this.time.begin = new Date(this.examstate.startTime);
@@ -533,7 +525,7 @@ $ready(function () {
                 //开始时间与剩余时间
                 var begin = new Date(record.begin);
                 var over = new Date(record.overtime);
-                if (this.nowtime > over) {                   
+                if (this.nowtime > over) {
                     return paper;
                 } else {
                     this.time.begin = begin;
