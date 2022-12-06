@@ -195,7 +195,6 @@ namespace Song.ViewData.Methods
             bool isAllow = Business.Do<IExamination>().ExamIsForStudent(examid, acc.Ac_ID);
             jo.Add("allow", isAllow);
 
-
             //关于考试状态的一些时间
             bool isStart, isOver, isSubmit;
             DateTime startTime, overTime;
@@ -246,7 +245,8 @@ namespace Song.ViewData.Methods
             //正在考试
             bool doing = startTime <= DateTime.Now && overTime > DateTime.Now && !isSubmit;
             jo.Add("doing", doing && !isOver);
-
+            //答题详情
+            jo.Add("result", _resultJson(exr));
             return jo;
         }
         public JArray Generate(int exrid)
@@ -254,7 +254,55 @@ namespace Song.ViewData.Methods
             Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
             return _putout(exr);
         }
-       
+        public JObject ResultJson(int exrid)
+        {
+            Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
+            return _resultJson(exr);
+        }
+        private JObject _resultJson(Song.Entities.ExamResults exr)
+        {
+            JObject jo = new JObject();
+            if (exr == null || string.IsNullOrWhiteSpace(exr.Exr_Results)) return jo;
+            XmlDocument resXml = new XmlDocument();
+            resXml.XmlResolver = null;
+            resXml.LoadXml(exr.Exr_Results, false);
+            //           
+            XmlNode root = resXml.LastChild;
+            foreach (XmlAttribute attr in root.Attributes)
+                jo.Add(attr.Name, attr.Value);
+            JArray qgroup = new JArray();
+            XmlNodeList quesGroupNodes = resXml.GetElementsByTagName("ques");
+            for (int i = 0; i < quesGroupNodes.Count; i++)
+            {
+                XmlNode node = quesGroupNodes[i];
+                JObject ques = new JObject();
+                int type = Convert.ToInt32(node.Attributes["type"].Value);
+                ques.Add("type", type);
+                ques.Add("count", Convert.ToInt32(node.Attributes["count"].Value));
+                ques.Add("number", Convert.ToInt32(node.Attributes["number"].Value));               ;
+                JArray qarray = new JArray();
+                for (int n = 0; n < node.ChildNodes.Count; n++)
+                {
+                    JObject jq = new JObject();
+                    XmlNode q = node.ChildNodes[n];
+                    string ans = string.Empty, file = string.Empty;
+                    //如果是单选、多选、判断
+                    if (type == 1 || type == 2 || type == 3)
+                        ans = q.Attributes["ans"].Value;
+                    if (type == 4 || type == 5) ans = q.InnerText;
+                    if (type == 5) file = q.Attributes["file"] != null ? q.Attributes["file"].Value : "";                   
+                    jq.Add("id", q.Attributes["id"].Value);
+                    jq.Add("cls", q.Attributes["class"].Value);
+                    jq.Add("ans", ans);
+                    jq.Add("file", file);
+                    qarray.Add(jq);
+                }
+                ques.Add("q",qarray);
+                qgroup.Add(ques);
+            }
+            jo.Add("ques", qgroup);
+            return jo;
+        }
         /// <summary>
         /// 出卷
         /// </summary>
@@ -442,7 +490,7 @@ namespace Song.ViewData.Methods
 
                 string cacheUid = string.Format("ExamResults：{0}-{1}-{2}", examid, tpid, stid);    //缓存的uid
                 Business.Do<IExamination>().ResultCacheUpdate(exr, -1, cacheUid);
-
+                if (patter == 1) return jo;
                 exr = Business.Do<IExamination>().ResultSubmit(exr);
                 //是否重复提交
                 jo.Add("resubmit", exr.Exr_IsCalc);
@@ -662,6 +710,7 @@ namespace Song.ViewData.Methods
             jo.Add("manual", manual);
             return jo;
         }
+
         #region 考试成绩
         /// <summary>
         /// 通过考试成绩的id，获取成绩信息

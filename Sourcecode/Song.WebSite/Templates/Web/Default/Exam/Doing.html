@@ -72,7 +72,7 @@
                         </card>
                     </template>
                     <template v-else-if="!loading.exam" remark="考试存在">
-                        <card>                          
+                        <card>
                             <card-context>
                                 <row>时间：
                                     <span v-if="exam.Exam_DateType==1">
@@ -106,7 +106,7 @@
                                 <card-title> <span icon="&#xe6bd"></span>您已经交过卷了
                                 </card-title>
                                 <card-context>
-                                    <div class="null_icon" icon="&#xe654" @click="goreviwe">
+                                    <div class="null_icon" icon="&#xe654" @click="goreview">
                                         点击此处查看成绩！
                                     </div>
                                 </card-context>
@@ -162,8 +162,8 @@
                         <template v-if="loading.paper">
                             <dl v-for="(group,i) in paperQues"
                                 :style="'width:'+group.count*parseInt($dom('section').parent().width())+'px'">
-                                <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :total="questotal"
-                                    :types="types">
+                                <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i"
+                                    :total="questotal" :types="types">
                                 </question>
                             </dl>
                         </template>
@@ -172,8 +172,7 @@
                 </template>
             </div>
 
-            <div class="quesCard" remark="答题卡"
-                v-if="!loading.init && examstate.doing">
+            <div class="quesCard" remark="答题卡" v-if="!loading.init && examstate.doing">
                 <div class="cardTit">
                     <span icon="&#xe75e">答题卡</span>
                     <span>完成<b>{{answertotal}}</b>道 / 共<b>{{questotal}}</b>道</span>

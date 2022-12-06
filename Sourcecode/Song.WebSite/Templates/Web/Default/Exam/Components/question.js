@@ -71,6 +71,7 @@ Vue.component('question', {
                 element.selected = false;
             }
             ans.selected = !ans.selected;
+            this.$parent.swipeleft();
         },
         //多选题的选择
         type2_select: function (ans) {
@@ -79,6 +80,7 @@ Vue.component('question', {
         //判断题的选择,logic为true或false
         type3_select: function (logic) {
             this.ques.Qus_Answer = String(logic);
+            this.$parent.swipeleft();
         },
         //填空题
         type5_input: function (ques) {
