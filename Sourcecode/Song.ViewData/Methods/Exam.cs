@@ -254,6 +254,7 @@ namespace Song.ViewData.Methods
             Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
             return _putout(exr);
         }
+       
         /// <summary>
         /// 出卷
         /// </summary>
@@ -680,7 +681,9 @@ namespace Song.ViewData.Methods
         /// <returns></returns>
         public ExamResults Result(int examid,long  tpid,int stid)
         {
-            return Business.Do<IExamination>().ResultSingle(examid, tpid, stid);
+            Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultForCache(examid, tpid, stid);
+            //if(exr==null) exr= Business.Do<IExamination>().ResultSingle(examid, tpid, stid);
+            return exr;
         }
         /// <summary>
         /// 考试成绩回顾

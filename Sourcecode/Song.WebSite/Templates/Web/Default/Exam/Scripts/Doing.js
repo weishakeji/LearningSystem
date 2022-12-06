@@ -75,8 +75,7 @@ $ready(function () {
                 }
                 //考试相关
                 th.types = type.data.result;
-                th.examstate = state.data.result;
-                console.log(vapp.examstate);
+                th.examstate = state.data.result;             
                 //时间信息
                 th.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
                 th.time.client = new Date();
@@ -105,13 +104,14 @@ $ready(function () {
                         }
                     }
                     th.exam = exam.data.result;
-                    th.time.span = vapp.exam.Exam_Span;
+                    th.time.span = th.exam.Exam_Span;
                     th.theme = theme.data.result;
                     th.subject = sbj.data.result;
                     th.paper = paper.data.result;
                     //是否已经交过卷
                     th.result = result.data.result;
-                    if (result.data.result == null || !result.data.result.Exr_IsSubmit) {
+                    console.log(th.result);
+                    if (result.data.result == null || !th.result.Exr_IsSubmit) {
                         //生成试卷
                         th.generatePaper();
                     }
@@ -270,14 +270,7 @@ $ready(function () {
                             th.loading.paper = false;
                         }, 1000);
                         if (req.data.success) {
-                            var paper = req.data.result;
-                            //将试题对象中的Qus_Items，解析为json
-                            for (let i = 0; i < paper.length; i++) {
-                                const group = paper[i];
-                                for (let j = 0; j < group.ques.length; j++) {
-                                    group.ques[j] = th.parseAnswer(group.ques[j]);
-                                }
-                            }
+                            var paper = req.data.result;                          
                             th.calcTime();
                             //将本地记录的答题信息还原到界面
                             paper = th.restoreAnswer(paper);
@@ -294,16 +287,6 @@ $ready(function () {
                         alert(err);
                         console.error(err);
                     });
-            },
-            //计算序号，整个试卷采用一个序号，跨题型排序
-            calcIndex: function (index, groupindex) {
-                var gindex = groupindex - 1;
-                var initIndex = 0;
-                while (gindex >= 0) {
-                    initIndex += vapp.paperQues[gindex].ques.length;
-                    gindex--;
-                };
-                return initIndex + index;
             },
             //跳转到查看成绩
             goreviwe: function () {
@@ -400,30 +383,7 @@ $ready(function () {
                 this.swipeIndex = index;
                 $dom("section").css('left', -($dom("section dd").width() * this.swipeIndex) + 'px');
             },
-            //将试题对象中的Qus_Items，解析为json
-            parseAnswer: function (ques) {
-                if (!(ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5))
-                    return ques;
-                if (typeof (ques.Qus_Items) != 'string') return ques;
-                var xml = $api.loadxml(ques.Qus_Items);
-                var arr = [];
-                var items = xml.getElementsByTagName("item");
-                for (var i = 0; i < items.length; i++) {
-                    var item = $dom(items[i]);
-                    var ansid = Number(item.find("Ans_ID").html());
-                    var uid = item.find("Qus_UID").text();
-                    var context = item.find("Ans_Context").text();
-                    arr.push({
-                        "Ans_ID": ansid,
-                        "Qus_ID": ques.Qus_ID,
-                        "Qus_UID": uid,
-                        "Ans_Context": ques.Qus_Type == 5 ? "" : context,
-                        "selected": false
-                    });
-                }
-                ques.Qus_Items = arr;
-                return ques;
-            },
+            
             //生成答题信息
             generateAnswerJson: function (paper) {
                 var results = {
@@ -557,14 +517,14 @@ $ready(function () {
                 //开始时间与剩余时间
                 var begin = new Date(record.begin);
                 var over = new Date(record.overtime);
-                if (vapp.nowtime > over) {
+                if (this.nowtime > over) {
                     $api.storage(this.recordname, null);
                     return paper;
                 } else {
-                    vapp.time.begin = begin;
-                    vapp.time.over = over;
+                    this.time.begin = begin;
+                    this.time.over = over;
                 }
-                vapp.time.start = new Date(record.starttime);
+                this.time.start = new Date(record.starttime);
                 //console.log(begin);
                 this.paperAnswer = record;
                 //答题记录，转成一层数组，方便遍历

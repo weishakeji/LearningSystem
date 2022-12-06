@@ -162,7 +162,7 @@
                         <template v-if="loading.paper">
                             <dl v-for="(group,i) in paperQues"
                                 :style="'width:'+group.count*parseInt($dom('section').parent().width())+'px'">
-                                <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i"
+                                <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :total="questotal"
                                     :types="types">
                                 </question>
                             </dl>

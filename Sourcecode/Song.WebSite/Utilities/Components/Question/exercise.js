@@ -3,7 +3,8 @@ $dom.load.css(['/Utilities/Components/Question/Styles/exercise.css']);
 Vue.component('question', {
     //state:答题状态
     //index:索引号，total:试题总数
-    //types:试题类型，mode:0为练习模式，1为背题模式
+    //types:试题类型，
+    //mode:0为练习模式，1为背题模式
     props: ['ques', 'state', 'index', 'total', 'types', 'mode'],
     data: function () {
         return {
