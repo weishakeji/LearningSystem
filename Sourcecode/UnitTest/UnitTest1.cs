@@ -17,8 +17,13 @@ namespace UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            string tt = Song.ServiceImpls.AccountLogin.Buffer.GenerateName("123");
-            Assert.AreEqual(tt, "123456");
+            string path = WeiSha.Core.Server.ProgramPath;
+            string[] files = System.IO.Directory.GetFiles(path, "*.*");
+            foreach(string f in files)
+            {
+                System.IO.FileInfo file = new FileInfo(f);
+            }
+            //Assert.AreEqual(tt, "123456");
         }
        
         [TestMethod]
