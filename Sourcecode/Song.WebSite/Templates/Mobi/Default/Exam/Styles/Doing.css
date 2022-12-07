@@ -45,6 +45,7 @@ html, body, #vapp {
 	font-size: 65px;
 	display: block;
 	color: #999;
+	line-height: 70px;
 }
 
 .null_icon {

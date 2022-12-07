@@ -1869,7 +1869,7 @@ namespace Song.ServiceImpls
                     decimal score = 0, video = 0, ques = 0, exam = 0;
                     video = Convert.ToDecimal(dr["Stc_StudyScore"]);
                     video = video > 0 ? video + (decimal)video_lerance : video;
-                    video = video >= 100 ? 100 : 100;
+                    video = video >= 100 ? 100 : video;
                     ques = Convert.ToDecimal(dr["Stc_QuesScore"]);
                     exam = Convert.ToDecimal(dr["Stc_ExamScore"]);
                     score = (video * (decimal)weight_video / 100) + (ques * (decimal)weight_ques / 100) + (exam * (decimal)weight_exam / 100);
