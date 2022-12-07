@@ -64,7 +64,7 @@
                 </div>
             </template>
             <el-card v-if="error!=''" remark="如果考试未结束">
-                <alert>{{error}}</alert>
+                <alert v-html="error"></alert>
             </el-card>
             <template v-else>
                 <div class="question">
