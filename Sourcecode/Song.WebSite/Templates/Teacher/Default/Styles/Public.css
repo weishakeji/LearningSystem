@@ -104,6 +104,27 @@ table.el-table__body .disabled img {
     display: flex;
     justify-content:flex-end; 
 }
+.el-button--close::before {
+	content: '\e72c';
+	font-size: 15px;
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+}
+.el-button--cancel::before {
+	content: '\e748';
+	font-size: 15px;
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+}
+.el-button[define="enter"]:not(.is-loading)::before {
+	content: '\a048';
+	font-size: 15px;
+	font-family: "webdesk_icon" !important;
+	margin-right: 5px;
+}
+.el-button icon {
+	font-size: 14px;
+}
 /*专业下拉选择菜单中，点击标签响应选择*/
 .el-cascader-panel .el-radio {
     width: 100%;

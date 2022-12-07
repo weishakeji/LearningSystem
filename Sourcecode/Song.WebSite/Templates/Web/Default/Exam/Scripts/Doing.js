@@ -90,9 +90,9 @@ $ready(function () {
                 if (!th.islogin || !th.examstate.exist) return;
                 //获取考试主题和专业、试卷
                 $api.bat(
-                    $api.cache('Exam/ForID', { 'id': th.examid }),
-                    $api.cache('Exam/ThemeForUID', { 'uid': th.examstate.uid }),
-                    $api.cache('Subject/ForID', { 'id': th.examstate.subject }),
+                    $api.get('Exam/ForID', { 'id': th.examid }),
+                    $api.get('Exam/ThemeForUID', { 'uid': th.examstate.uid }),
+                    $api.get('Subject/ForID', { 'id': th.examstate.subject }),
                     $api.get('TestPaper/ForID', { 'id': th.examstate.paper })
                 ).then(axios.spread(function (exam, theme, sbj, paper) {
                     th.loading.exam = false;
@@ -192,7 +192,7 @@ $ready(function () {
                 this.time.wait = this.starttime.getTime() - this.nowtime.getTime();
                 this.time.wait = this.time.wait <= 0 ? 0 : Math.floor(this.time.wait / 1000);
                 if (!this.examstate.isover) {
-                    if (this.time.wait < this.time.requestlimit * 60 && JSON.stringify(this.exam) != '{}') {                       
+                    if (this.time.wait < this.time.requestlimit * 60 && JSON.stringify(this.exam) != '{}') {
                         this.generatePaper();
                     }
                     if (this.time.wait == 0 && !this.examstate.issubmit) {
@@ -240,6 +240,18 @@ $ready(function () {
                 if (this.loading.paper) return;
                 var th = this;
                 th.loading.paper = true;
+                //th.paper.Tp_Count = 0;
+                if (th.paper.Tp_Count < 1) {
+                    this.$alert("试卷题量为零，无法出卷", '错误', {
+                        confirmButtonText: '确定',
+                        showClose:false,
+                        callback: action => {
+                            window.location.href = '/web/exam';
+                        }
+                    });
+                    th.loading.paper = false;
+                    return;
+                }               
                 $api.put('Exam/MakeoutPaper', { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         if (req.data.success) {
@@ -306,9 +318,6 @@ $ready(function () {
                     "examid": this.exam.Exam_ID,
                     "exrid": this.examstate.exrid
                 });
-                return 
-                //var url = "Review?examid=" + this.exam.Exam_ID + "&exrid=" + this.result.Exr_ID;
-                window.location.href = url;
             },
             calcTime: function () {
                 //固定时间开始
@@ -330,7 +339,7 @@ $ready(function () {
             //patter:提交方式，1为自动提交，2为交卷
             submit: function (patter) {
                 var th = this;
-
+                if (th.paper.Tp_Count < 1) return;
                 if (!th.islogin || !th.isexam) return;
                 if (JSON.stringify(th.paperAnswer) == '{}') return;
                 if (th.examstate.issubmit || th.submitState.loading) return;
