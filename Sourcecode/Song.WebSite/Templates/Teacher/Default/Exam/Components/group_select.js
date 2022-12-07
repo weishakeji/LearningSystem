@@ -9,6 +9,8 @@ Vue.component('group_select', {
 
             examGroup: [],       //考试主题与学员组的关联对象
 
+            completed: 2,        //是否加载完成，每加载一个条件完成，减一，等于0时为完成
+
             loading: false
         }
     },
@@ -22,6 +24,10 @@ Vue.component('group_select', {
             handler: function (nv, ov) {
                 this.getSelectedSort();
             }, immediate: true
+        },
+        //每加载一个条件完成，减一，等于0时为完成
+        'completed': function (nv, ov) {
+            this.selectedObj(this.selectedSorts);
         }
 
     },
@@ -37,6 +43,7 @@ Vue.component('group_select', {
             $api.get('Account/SortAll', { 'orgid': th.organ.Org_ID, 'use': true }).then(function (req) {
                 if (req.data.success) {
                     th.studentSorts = req.data.result;
+                    th.completed--;
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
@@ -56,7 +63,7 @@ Vue.component('group_select', {
                     var result = req.data.result;
                     for (var i = 0; i < result.length; i++)
                         th.selectedSorts.push(result[i].Sts_ID);
-                    th.selectedObj(th.selectedSorts);
+                    th.completed--;                  
                 } else {
                     console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
@@ -95,6 +102,7 @@ Vue.component('group_select', {
                 });
             }
             this.examGroup = groups;
+            console.log(arr);
             return arr;
         }
 

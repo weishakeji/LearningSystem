@@ -84,36 +84,15 @@
                 </el-table-column>
                 <el-table-column label="管理" width="120" align="center">
                     <template slot-scope="scope">
-                        <el-dropdown>
-                            <span class="el-dropdown-link">
-                                <icon>&#xa030</icon><span style="font-size: 12px">管理</span><i
-                                    class="el-icon-arrow-down el-icon--right"></i>
-                            </span>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>
-                                    <el-switch v-model="scope.row.Exam_IsUse" @change="changeState(scope.row)"
-                                        active-color="#13ce66" inactive-color="#ff4949"
-                                        :disabled="loadingid==scope.row.Exam_ID"
-                                        :active-text="scope.row.Exam_IsUse ? '启用' : '禁用'">
-
-                                    </el-switch>
-                                </el-dropdown-item>
-                                <el-dropdown-item divided>
-                                    <el-link type="primary" plain icon="el-icon-edit"
-                                        @click.stop='$refs.btngroup.modify(scope.row.Exam_ID)'>
-                                        修改
-                                    </el-link>
-                                </el-dropdown-item>
-                                <el-dropdown-item>
-                                    <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
-                                        icon-color="red" title="确定删除吗？" @confirm="deleteExam(scope.row)">
-                                        <el-link type="danger" plain icon="el-icon-delete" slot="reference"
-                                            @click.native.stop>删除
-                                        </el-link>
-                                    </el-popconfirm>
-                                </el-dropdown-item>
-                            </el-dropdown-menu>
-                        </el-dropdown>
+                        <el-link type="primary" plain icon="el-icon-edit"
+                            @click.stop='$refs.btngroup.modify(scope.row.Exam_ID)'>
+                            修改
+                        </el-link>
+                        <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info"
+                            icon-color="red" title="确定删除吗？" @confirm="deleteExam(scope.row)">
+                            <el-link type="danger" plain icon="el-icon-delete" slot="reference" @click.native.stop>删除
+                            </el-link>
+                        </el-popconfirm>                     
                     </template>
                 </el-table-column>
             </el-table>

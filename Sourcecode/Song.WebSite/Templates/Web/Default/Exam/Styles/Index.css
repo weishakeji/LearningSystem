@@ -128,7 +128,7 @@ card-title .search::before{
 	padding: 15px;
 }
 
-card-title button {
+card-title a {
 	position: absolute;
 	top: 20px;
 	right: 5px;
@@ -137,6 +137,7 @@ card-title button {
 	border: 1px solid #07c160;
 	font-size: 12px;
 	line-height: 20px;
+	padding: 3px 10px;
 	height: 20px;
 }
 

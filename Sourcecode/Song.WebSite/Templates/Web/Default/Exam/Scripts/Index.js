@@ -285,12 +285,16 @@ $ready(function () {
         },
         methods: {
             goexaming: function (exam) {
-                window.location.href = "/web/exam/doing?id=" + exam.Exam_ID;
+                var url=$api.url.set("/web/exam/doing",{"id":exam.Exam_ID});
+                //window.location.href = "/web/exam/doing?id=" + exam.Exam_ID;
+                return url
             }
         },
         template: `<card>
         <card-title>{{index+1}}.《{{exam.Exam_Name}}》
-        <button type="button" :examid="exam.Exam_ID" @click="goexaming(exam)">参加考试</button>
+            <a type="button" :examid="exam.Exam_ID" :href="goexaming(exam)" target="_blank">
+                参加考试<icon>&#xe6c6</icon>
+            </a>
         </card-title>
         <card-context>
         <div class="item"> {{exam.Exam_Title}}</div>
