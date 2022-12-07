@@ -569,7 +569,7 @@ namespace Song.ServiceImpls
         {
             string uid = string.Format("ExamResults：{0}-{1}-{2}", examid, tpid, acid);    //缓存的uid
             ExamResults r = QuestionsMethod.QuestionsCache.Singleton.GetExamResults(uid);
-            if (r == null) r = this.ResultSingle(examid, tpid, acid);
+            if (r == null || r.Exr_IsSubmit) r = this.ResultSingle(examid, tpid, acid);
             return r;
         }
         /// <summary>

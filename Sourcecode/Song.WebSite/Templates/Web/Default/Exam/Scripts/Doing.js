@@ -302,10 +302,11 @@ $ready(function () {
             },
             //跳转到查看成绩
             goreview: function () {
-                var url = $api.url.set("/student/exam/review", {
+                return $api.url.set("/student/exam/review", {
                     "examid": this.exam.Exam_ID,
                     "exrid": this.examstate.exrid
                 });
+                return 
                 //var url = "Review?examid=" + this.exam.Exam_ID + "&exrid=" + this.result.Exr_ID;
                 window.location.href = url;
             },
