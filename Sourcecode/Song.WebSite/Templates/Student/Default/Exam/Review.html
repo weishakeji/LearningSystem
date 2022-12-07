@@ -9,7 +9,7 @@
 
 <body>
     <div id="vapp" v-cloak>
-        <div class="header">
+        <div class="header" v-if="error==''">
             <div class="header_top">
                 <loading v-if="loading">正在加载中...</loading>
                 <template v-else>
@@ -35,34 +35,36 @@
 
         </div>
         <context v-if="!loading">
-            <div class="tp_name" >
-                《 <span v-html="exam.Exam_Title"></span>》
-            </div>
-            <div class="sticky">
-                <el-tabs v-model="tabactive">
-                    <el-tab-pane name="all">
-                        <template slot="label">
-                            <span icon="&#xe75e">所有({{ques_all_count}})
-                        </template>
-                    </el-tab-pane>
-                    <el-tab-pane name="success"> <template slot="label">
-                            <span icon="&#xa048">正确({{ques_success_count}})
-                        </template>
-                    </el-tab-pane>
-                    <el-tab-pane name="error"> <template slot="label">
-                            <span icon="&#xe6fe">错误({{ques_error_count}})
-                        </template>
-                    </el-tab-pane>
-                    <el-tab-pane name="unasnwered"> <template slot="label">
-                            <span icon="&#xa01f">未做({{ques_unanswerd_count}})
-                        </template>
-                    </el-tab-pane>
-                </el-tabs>
-                <span class="score" v-if="paper">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
-                <alert v-else>试卷不存在</alert>
-            </div>
+            <template v-if="error==''">
+                <div class="tp_name" v-if="exam && !!exam.Exam_Title">
+                    《 <span v-html="exam.Exam_Title"></span>》
+                </div>
+                <div class="sticky">
+                    <el-tabs v-model="tabactive">
+                        <el-tab-pane name="all">
+                            <template slot="label">
+                                <span icon="&#xe75e">所有({{ques_all_count}})
+                            </template>
+                        </el-tab-pane>
+                        <el-tab-pane name="success"> <template slot="label">
+                                <span icon="&#xa048">正确({{ques_success_count}})
+                            </template>
+                        </el-tab-pane>
+                        <el-tab-pane name="error"> <template slot="label">
+                                <span icon="&#xe6fe">错误({{ques_error_count}})
+                            </template>
+                        </el-tab-pane>
+                        <el-tab-pane name="unasnwered"> <template slot="label">
+                                <span icon="&#xa01f">未做({{ques_unanswerd_count}})
+                            </template>
+                        </el-tab-pane>
+                    </el-tabs>
+                    <span class="score" v-if="paper">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
+                    <alert v-else>试卷不存在</alert>
+                </div>
+            </template>
             <el-card v-if="error!=''" remark="如果考试未结束">
-                {{error}}
+                <alert>{{error}}</alert>
             </el-card>
             <template v-else>
                 <div class="question">

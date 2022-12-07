@@ -87,13 +87,14 @@ $ready(function () {
                     vapp.paper = paper.data.result;
                 })).catch(function (err) {
                     th.loading = false;
-                    Vue.prototype.$alert(err);
+                    alert(err);
                     console.error(err);
                 });
 
             })).catch(function (err) {
                 th.loading = false;
-                Vue.prototype.$alert(err);
+                th.error=err;
+                alert(err);
                 console.error(err);
             });
         },
