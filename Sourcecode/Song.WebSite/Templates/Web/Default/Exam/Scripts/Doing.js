@@ -63,8 +63,9 @@ $ready(function () {
             $api.bat(
                 $api.cache('Question/Types:9999'),
                 $api.get('Exam/State', { 'examid': th.examid }),
+                $api.get('Exam/ForID', { 'id': th.examid }),
                 $api.post('Platform/ServerTime')
-            ).then(axios.spread(function (type, state, time) {
+            ).then(axios.spread(function (type, state, exam, time) {
                 th.loading.init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -78,23 +79,24 @@ $ready(function () {
                 }
                 //考试相关
                 th.types = type.data.result;
-                th.examstate = state.data.result;   //考试的状态
+                th.examstate = state.data.result;   //考试的状态               
                 th.paperAnswer = th.examstate.result;     //答题详情，也许不存在
+                th.exam = exam.data.result;
                 //时间信息
                 th.time.server = eval('new ' + eval('/Date(' + time.data.result + ')/').source);
                 th.time.client = new Date();
                 window.setInterval(function () {
                     th.time.now = new Date().getTime();
-                    th.paperAnswer.now = th.nowtime.getTime();
+                    if (th.paperAnswer)
+                        th.paperAnswer.now = th.nowtime.getTime();
                 }, 1000);
                 if (!th.islogin || !th.examstate.exist) return;
                 //获取考试主题和专业、试卷
                 $api.bat(
-                    $api.get('Exam/ForID', { 'id': th.examid }),
                     $api.get('Exam/ThemeForUID', { 'uid': th.examstate.uid }),
                     $api.get('Subject/ForID', { 'id': th.examstate.subject }),
                     $api.get('TestPaper/ForID', { 'id': th.examstate.paper })
-                ).then(axios.spread(function (exam, theme, sbj, paper) {
+                ).then(axios.spread(function (theme, sbj, paper) {
                     th.loading.exam = false;
                     //判断结果是否正常
                     for (var i = 0; i < arguments.length; i++) {
@@ -106,7 +108,7 @@ $ready(function () {
                             throw data.message;
                         }
                     }
-                    th.exam = exam.data.result;
+
                     th.time.span = th.exam.Exam_Span;
                     th.theme = theme.data.result;
                     th.subject = sbj.data.result;
@@ -244,14 +246,14 @@ $ready(function () {
                 if (th.paper.Tp_Count < 1) {
                     this.$alert("试卷题量为零，无法出卷", '错误', {
                         confirmButtonText: '确定',
-                        showClose:false,
+                        showClose: false,
                         callback: action => {
                             window.location.href = '/web/exam';
                         }
                     });
                     th.loading.paper = false;
                     return;
-                }               
+                }
                 $api.put('Exam/MakeoutPaper', { 'examid': th.exam.Exam_ID, 'tpid': th.paper.Tp_Id, 'stid': th.account.Ac_ID })
                     .then(function (req) {
                         if (req.data.success) {
