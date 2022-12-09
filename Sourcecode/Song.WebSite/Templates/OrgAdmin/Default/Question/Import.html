@@ -10,8 +10,11 @@
 <body>
     <div id="vapp" v-cloak>
         <div v-show="tname==''" class="selectType">
-            <div class="head">请选择要导入的课程和题型</div>
-            <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="60px">
+            <div class="head">
+                请选择要导入的课程和题型
+                <loading v-if="within && loading"></loading>
+            </div>
+            <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="60px" :disabled="within && loading">
                 <el-form-item label="专业" prop="Sbj_ID">
                     <sbj_cascader ref="subject" :orgid="organ.Org_ID" :disabled="within" @change="id=>{form.sbjids=id}">
                     </sbj_cascader>

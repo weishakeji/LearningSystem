@@ -20,7 +20,8 @@ $ready(function () {
             step: 0,         //步数
             qtype: 0,       //当前题型       
 
-            loading_init: true
+            loading_init: true,
+            loading: true
         },
         mounted: function () {
             var th = this;
@@ -78,7 +79,9 @@ $ready(function () {
                 var couid = this.couid;
                 if (couid == '' || couid == 0) return;
                 var th = this;
+                th.loading = true;
                 $api.get('Course/ForID', { 'id': couid }).then(function (req) {
+                    th.loading = false;
                     if (req.data.success) {
                         th.course = req.data.result;
                         th.courseChange(th.course.Cou_ID);
@@ -87,7 +90,7 @@ $ready(function () {
                         throw req.config.way + ' ' + req.data.message;
                     }
                 }).catch(function (err) {
-                    //alert(err);
+                    th.loading = false;
                     Vue.prototype.$alert(err);
                     console.error(err);
                 });

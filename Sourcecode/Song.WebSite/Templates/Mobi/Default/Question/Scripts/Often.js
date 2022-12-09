@@ -90,7 +90,7 @@
             getQuestion: function (update) {
                 var th = this;
                 th.loading = true;
-                var query = $api.get('Question/ErrorOftenQues', { 'couid': this.couid, 'type': '', 'count': 100 });
+                var query = $api.cache('Question/ErrorOftenQues', { 'couid': this.couid, 'type': '', 'count': 100 });
                 query.then(function (req) {
                     if (req.data.success) {
                         //获取练习记录

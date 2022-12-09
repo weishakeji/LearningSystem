@@ -766,8 +766,7 @@ namespace Song.ViewData.Methods
         /// <param name="acid">学员id</param>
         /// <param name="couid">试题id</param>
         /// <param name="type">试题类型</param>
-        /// <returns></returns>
-        [Cache]
+        /// <returns></returns>       
         public Song.Entities.Questions[] ErrorQues(int acid,long couid,int type)
         {
             Song.Entities.Questions[] ques = Business.Do<IStudent>().QuesAll(acid, 0, couid, type);
@@ -821,7 +820,8 @@ namespace Song.ViewData.Methods
         /// <param name="type">试题类型</param>
         /// <param name="count">取多少条</param>
         /// <returns></returns>
-        public Song.Entities.Questions[] ErrorOftenQues(long couid, int type,int count)
+        [Cache(Expires = 120)]
+        public Song.Entities.Questions[] ErrorOftenQues(long couid, int type, int count)
         {
             Song.Entities.Questions[] ques = Business.Do<IStudent>().QuesOftenwrong(couid, type, count);
             for (int i = 0; i < ques.Length; i++)

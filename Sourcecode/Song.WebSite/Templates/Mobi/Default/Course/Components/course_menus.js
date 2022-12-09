@@ -6,7 +6,7 @@ Vue.component('course_menus', {
             loading_show: false,     //预载中
             login_show: false,          //登录
             try_show: false,
-            buy_show: false,     
+            buy_show: false,
             menus: [
                 { name: '视频/直播', url: 'study', icon: '&#xe761', size: 30, show: true, evt: null },
                 { name: '试题练习', url: '../question/course', icon: '&#xe75e', size: 29, show: true, evt: null },
@@ -35,12 +35,17 @@ Vue.component('course_menus', {
             return JSON.stringify(this.purchase) != '{}' && this.purchase != null;
         },
         //是否为试学
-        istry:function(){
+        istry: function () {
             return JSON.stringify(this.purchase) != '{}' && this.purchase.Stc_IsTry;
         },
         //可以学习
         canstudy: function () {
             return this.studied && (this.purchased && this.purchase.Stc_IsEnable);
+        },
+        //下方弹出按钮区的高度
+        popup_height: function () {
+            var height = 60;
+            return '{ height: ' + height + 'px}';
         }
     },
     mounted: function () {
@@ -48,7 +53,7 @@ Vue.component('course_menus', {
     },
     methods: {
         //按钮事件，首先是状态判断
-        btnEvt: function (item, outline) {           
+        btnEvt: function (item, outline) {
             this.outline = outline;
             this.curr_menus = item;
             var olid = outline != null ? outline.Ol_ID : 0;
@@ -89,7 +94,7 @@ Vue.component('course_menus', {
                     this.buy_show = true;
                 }
             }
-        },      
+        },
         //跳转，课程id和章节id
         gourl: function (url, couid, olid) {
             var url = $api.url.set(url, {
@@ -135,17 +140,17 @@ Vue.component('course_menus', {
                         <name>{{m.name}}</name>
                     </div>                                   
                 </div>
-            <van-popup v-model="login_show" class="login" position="bottom" :style="{ height: '44px'}" >   
+            <van-popup v-model="login_show" class="login" position="bottom" :style="popup_height">   
                 <van-button type="primary" @click="gologin"><icon>&#xe639</icon>请登录后学习</van-button>
             </van-popup> 
-            <van-popup v-model="loading_show" class="login" position="bottom" :style="{ height: '44px'}" >   
+            <van-popup v-model="loading_show" class="login" position="bottom" :style="popup_height" >   
                 <van-loading size="24px" type="spinner" >数据正在初始化...</van-loading>
             </van-popup>             
-            <van-popup v-model="try_show" class="try" position="bottom" :style="{ height: '44px'}" >   
+            <van-popup v-model="try_show" class="try" position="bottom" :style="popup_height">   
                 <van-button type="primary" @click="gotry"><icon>&#xe813</icon>试学</van-button>
                 <van-button type="info" @click="gobuy"><icon>&#xe84d</icon>选修该课程</van-button>
             </van-popup> 
-            <van-popup v-model="buy_show" class="buy" position="bottom" :style="{ height: '44px'}" >   
+            <van-popup v-model="buy_show" class="buy" position="bottom" :style="popup_height">   
                 <van-button type="info" @click="gobuy"><icon>&#xe84d</icon>选修该课程</van-button>
             </van-popup>          
         </div> `
