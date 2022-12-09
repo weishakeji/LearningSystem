@@ -112,9 +112,9 @@
             getQuestion: function (update) {
                 var th = this;
                 th.loading = true;
-                var query = $api.get('Question/ErrorQues', { 'acid': this.account.Ac_ID, 'couid': this.couid, 'type': '' });
+                var query = $api.get('Question/ErrorQues', { 'acid': th.stid, 'couid': th.couid, 'type': '' });
                 query.then(function (req) {
-                    th.loading = false;
+                    //th.loading = false;
                     if (req.data.success) {
                         //获取练习记录
                         th.state.restore().then(function (d) {
@@ -142,6 +142,7 @@
                     }
                 }).catch(function (err) {
                     th.error = err;
+                    th.loading = false;
                     console.error(err);
                 });
             },
@@ -189,7 +190,7 @@
                 Vue.delete(this.questions, this.swipeIndex);
                 if (this.swipeIndex > 0)
                     this.swipeIndex--;
-                $api.get('Question/ErrorDelete', { 'acid': vapp.account.Ac_ID, 'qid': ques.Qus_ID }).then(function (req) {
+                $api.get('Question/ErrorDelete', { 'acid': th.account.Ac_ID, 'qid': ques.Qus_ID }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
                         th.$message.success('删除成功');

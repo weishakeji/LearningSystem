@@ -67,11 +67,13 @@ section dd img {
 	position: relative;
 	margin: 10px;
 }
+
 card[qid] .ans_area i {
 	font-style: normal;
 	margin-right: 10px;
 	white-space: nowrap;
 }
+
 .ans_area>div[ansid] i {
 	font-style: normal;
 	margin-right: 15px !important;
@@ -85,11 +87,11 @@ card[qid] .ans_area i {
 	margin-right: 5px;
 }
 
-.type1>div[ansid] i::before {	
-	content: '\e85c';	
+.type1>div[ansid] i::before {
+	content: '\e85c';
 }
 
-.type1>div[selected] i::before {	
+.type1>div[selected] i::before {
 	content: '\e85b';
 }
 
@@ -112,13 +114,14 @@ card[qid] .ans_area i {
 	content: '\a048';
 }
 
-.type2>div i::before {	
+.type2>div i::before {
 	content: '\e603';
 }
 
 .type2>div[selected] i::before {
 	content: '\e78b';
 }
+
 /*判断题*/
 card[qid] .type3 {
 	display: flex;
@@ -139,6 +142,7 @@ card[qid] .type3>div i::before {
 card[qid] .type3>div[selected] i::before {
 	content: '\e78b';
 }
+
 /*填空题*/
 
 .type5 {
@@ -206,4 +210,16 @@ section textarea {
 #vapp[view='cosy'] *:not([noview]) {
 	background-color: #eaf8ec;
 	color: #222222;
+}
+
+/*竖屏，手机端显示*/
+@media only screen and (orientation: portrait) {
+	section{
+		overflow: hidden;
+	}
+	section dd {
+		width: 100vw;	
+		height: 100%;
+		overflow: auto;
+	}
 }

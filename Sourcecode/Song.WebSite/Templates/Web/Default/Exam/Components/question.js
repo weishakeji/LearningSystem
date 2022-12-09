@@ -17,6 +17,7 @@ Vue.component('question', {
     },
     computed: {},
     updated: function () {
+        console.error(555);
         this.$mathjax();
         //没有内容的html元素，不显示
         var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
@@ -70,15 +71,18 @@ Vue.component('question', {
         },
         //清理空html元素，内容为空的html标签隐藏起来，免得占空间
         clearempty: function (dom) {
-            var txt = dom.text();
-            if (txt.length < 1) dom.hide();
+            if (dom.length < 1) return;
+            var exclude = "INPUT,IMG,BUTTON,BR,TEXTAREA".split(',');
+            if (exclude.includes(dom[0].tagName)) return;
+
             var childs = dom.childs();
+            if (childs.length < 1 && dom.text().length < 1) dom.hide();
             var th = this;
             if (childs.length > 0) {
                 childs.each(function () {
                     th.clearempty($dom(this));
                 });
-            }           
+            }     
         }
     },
     template: `<dd :qid="ques.Qus_ID">
@@ -111,13 +115,12 @@ Vue.component('question', {
                         <i> 错误</i>
                     </div>
                 </div>
-                <div v-if="ques.Qus_Type==4" remark="答题题">
+                <div v-if="ques.Qus_Type==4" class="ans_area type4"  remark="简答题">
                     <textarea rows="10" placeholder="这里输入文字" v-model.trim="ques.Qus_Answer"></textarea>
-                    </div>
-                <div  class="ans_area" v-if="ques.Qus_Type==5" remark="填空题">
+                </div>
+                <div  class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                     <div v-for="(ans,i) in ques.Qus_Items">
-                    <i></i>{{i+1}}.
-                    <input type="text" v-model="ans.Ans_Context"  @input="type5_input(ques)"></input>                
+                        <input type="text" v-model="ans.Ans_Context"  @input="type5_input(ques)"/>               
                     </div>
                 </div>    
             </card-context>

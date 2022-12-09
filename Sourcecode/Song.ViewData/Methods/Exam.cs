@@ -250,11 +250,11 @@ namespace Song.ViewData.Methods
             jo.Add("result", _resultJson(exr));
             return jo;
         }
-        public JArray Generate(int exrid)
-        {
-            Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
-            return _putout(exr);
-        }
+        //public JArray Generate(int exrid)
+        //{
+        //    Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
+        //    return _putout(exr);
+        //}
         public JObject ResultJson(int exrid)
         {
             Song.Entities.ExamResults exr = Business.Do<IExamination>().ResultSingle(exrid);
@@ -386,20 +386,22 @@ namespace Song.ViewData.Methods
                 quesObj.Add("type", type);
                 quesObj.Add("count", count);
                 quesObj.Add("number", num);
-
-                //JArray ques = new JArray();
+              
                 Song.Entities.Questions[] ques = new Questions[node.ChildNodes.Count];
                 for (int n = 0; n < node.ChildNodes.Count; n++)
                 {
-                    int id = Convert.ToInt32(node.ChildNodes[n].Attributes["id"].Value);
+                    long id = Convert.ToInt64(node.ChildNodes[n].Attributes["id"].Value);
                     Song.Entities.Questions q = Business.Do<IQuestions>().QuesSingle(id);
                     if (q == null) continue;
-                    q.Qus_Number = (float)Convert.ToDouble(node.ChildNodes[n].Attributes["num"].Value);
+                    float qnum = 0;
+                    if (node.ChildNodes[n].Attributes["num"] != null)
+                    {
+                        float.TryParse(node.ChildNodes[n].Attributes["num"].Value, out qnum);
+                    }
+                    q.Qus_Number = qnum;
                     q.Qus_Explain = "";
                     q.Qus_Answer = "";
-                    ques[n] = q;
-                    //ques.Add(q);
-                    //ques.Add(JObject.FromObject(q));
+                    ques[n] = q;                
                 }
                 quesObj.Add("ques", JArray.FromObject(ques));
                 jarr.Add(quesObj);

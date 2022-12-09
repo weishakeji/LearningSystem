@@ -192,15 +192,18 @@ Vue.component('question', {
         },
         //清理空html元素，内容为空的html标签隐藏起来，免得占空间
         clearempty: function (dom) {
-            var txt = dom.text();
-            if (txt.length < 1) dom.hide();
+            if (dom.length < 1) return;
+            var exclude = "INPUT,IMG,BUTTON,BR,TEXTAREA".split(',');
+            if (exclude.includes(dom[0].tagName)) return;
+
             var childs = dom.childs();
+            if (childs.length < 1 && dom.text().length < 1) dom.hide();
             var th = this;
             if (childs.length > 0) {
                 childs.each(function () {
                     th.clearempty($dom(this));
                 });
-            }           
+            }     
         }
     },
     template: `<dd :qid="ques.Qus_ID">
@@ -239,8 +242,8 @@ Vue.component('question', {
                 </div>
             <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
                 <div v-for="(ans,i) in ques.Qus_Items">
-                <i></i>
-                <input type="text" v-model="ans.answer"></input>                
+                    <i>{{i+1}}.</i>888
+                    <input type="text" v-model="ans.answer"></input>                
                 </div>
                 <van-button type="primary" @click="ques_doing(null,ques)">提交答案</van-button>
             </div>    

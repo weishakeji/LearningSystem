@@ -237,7 +237,7 @@ $ready(function () {
         methods: {
             //生成试卷内容
             generatePaper: function () {
-                if (JSON.stringify(this.paper) == '{}' && this.paper == null) return;
+                if (JSON.stringify(this.paper) == '{}' || this.paper == null) return;
                 if (this.paperQues.length > 0) return;
                 if (this.loading.paper) return;
                 var th = this;
@@ -281,7 +281,7 @@ $ready(function () {
             },
             //将试题对象中的Qus_Items，解析为json
             parseAnswer: function (ques) {
-                if (!(ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5))
+                if (ques == null && !(ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5))
                     return ques;
                 if (typeof (ques.Qus_Items) != 'string') return ques;
                 var xml = $api.loadxml(ques.Qus_Items);

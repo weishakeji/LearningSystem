@@ -702,23 +702,30 @@ namespace Song.ServiceImpls
         {
             //如果考试没有结束，且学员没有交卷，则不进行计算；
             if (DateTime.Now < result.Exr_OverTime && result.Exr_IsSubmit == false) return result;
-            string resultXML = result.Exr_Results;
-            result.Exr_Score = (float)_ClacScore(resultXML, out resultXML);
-            result.Exr_Results = resultXML;
+            try
+            {
+                string resultXML = result.Exr_Results;
+                result.Exr_Score = (float)_ClacScore(resultXML, out resultXML);
+                result.Exr_Results = resultXML;
+            }
+            catch (Exception ex)
+            {
+                WeiSha.Core.Log.Error(this.GetType().FullName, ex);
+            }
             //考试得分，加绘图得分，加综合评分
             result.Exr_ScoreFinal = result.Exr_Score + result.Exr_Draw + result.Exr_Colligate;
             result.Exr_IsCalc = true;
             result.Exr_CalcTime = DateTime.Now;
             //记录成绩
-            Field[] fields = new Field[] { 
+            Field[] fields = new Field[] {
                 ExamResults._.Exr_Score, ExamResults._.Exr_ScoreFinal, ExamResults._.Exr_IsCalc, ExamResults._.Exr_CalcTime,
                 ExamResults._.Exr_Results
             };
-            object[] objs = new object[] { 
-                result.Exr_Score, result.Exr_ScoreFinal, result.Exr_IsCalc, result.Exr_CalcTime,
-                resultXML
+            object[] objs = new object[] {
+                result.Exr_Score, result.Exr_ScoreFinal,
+                result.Exr_IsCalc, result.Exr_CalcTime,result.Exr_Results
             };
-            if (result.Exr_ID <= 0) result = ResultAdd(result);    
+            if (result.Exr_ID <= 0) result = ResultAdd(result);
             Gateway.Default.Update<ExamResults>(fields, objs, ExamResults._.Exr_ID == result.Exr_ID);
             return result;
         }

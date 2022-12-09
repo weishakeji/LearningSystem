@@ -43,11 +43,11 @@ Vue.component('question', {
                 if (req.data.success) {
                     th.knowledge = req.data.result;
                 } else {
-                    console.error(req.data.exception);
+                    //console.error(req.data.exception);
                     throw req.config.way + ' ' + req.data.message;
                 }
             }).catch(function (err) {
-                console.error(err);
+                //console.error(err);
             });
         },
         //将试题对象中的Qus_Items，解析为json
@@ -123,7 +123,7 @@ Vue.component('question', {
                 return this.ques.Qus_Answer;
             }
             if (this.ques.Qus_Type == 5) {
-                var ansStr = [];
+                var ansStr = [];                
                 for (var i = 0; i < this.ques.Qus_Items.length; i++)
                     ansStr.push((i + 1) + "、" + this.ques.Qus_Items[i].Ans_Context);
                 return ansStr.join("<br/>");
@@ -255,15 +255,18 @@ Vue.component('question', {
         },
         //清理空html元素，内容为空的html标签隐藏起来，免得占空间
         clearempty: function (dom) {
-            var txt = dom.text();
-            if (txt.length < 1) dom.hide();
+            if (dom.length < 1) return;
+            var exclude = "INPUT,IMG,BUTTON,BR,TEXTAREA".split(',');
+            if (exclude.includes(dom[0].tagName)) return;
+
             var childs = dom.childs();
+            if (childs.length < 1 && dom.text().length < 1) dom.hide();
             var th = this;
             if (childs.length > 0) {
                 childs.each(function () {
                     th.clearempty($dom(this));
                 });
-            }           
+            }
         }
     },
     template: `<dd :qid="ques.Qus_ID">
@@ -302,9 +305,8 @@ Vue.component('question', {
                  <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
                 </div>
             <div class="ans_area type5" v-if="ques.Qus_Type==5" remark="填空题">
-                <div v-for="(ans,i) in ques.Qus_Items">
-                <i></i>
-                <input type="text" v-model="ans.answer"></input>                
+                <div v-for="(ans,i) in ques.Qus_Items">                   
+                    <input type="text" v-model="ans.answer"></input>                
                 </div>
                 <button type="primary" @click="ques_doing(null,ques)">提交答案</button>
             </div>    
@@ -313,7 +315,7 @@ Vue.component('question', {
     <div v-show="mode==1 || (mode==0 && state.ans!='')">
         <card class="answer">   
             <card-title><icon>&#xe816</icon> 正确答案</card-title>
-            <card-context> <span v-html="sucessAnswer()"></span> </card-context>
+            <card-context v-html="sucessAnswer()"></card-context>
         </card>
         <card v-if="ques.Qus_Explain!=''" class="explain">   
             <card-title><icon>&#xe85a</icon> 试题解析</card-title>

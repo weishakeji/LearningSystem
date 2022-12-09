@@ -38,9 +38,7 @@ section dd card {
 	overflow: auto;
 	font-size: 20px;
 }
-section dd card[qid] *:empty {
-	display: none;
-}
+
 
 section dd img {
 	max-width: 100% !important;
@@ -128,8 +126,37 @@ card[qid] .type3>div i::before {
 card[qid] .type3>div[selected] i::before {	
 	content: '\e78b';	
 }
+/*填空题*/
+
+.type5 {
+	counter-reset: section;
+}
+
+.type5>div {
+	position: relative;
+	margin-left: 30px;
+}
+
+.type5>div::before {
+	counter-increment: section;
+	content: counter(section) ". ";
+	display: block;
+	position: absolute;
+	top: 5px;
+	width: 10px;
+	height: 40px;
+	left: -20px;
+}
+
+.type5>div input {
+	width: calc(100% - 30px);
+	padding: 5px 15px;
+	height: 30px;
+	font-size: 20px;
+}
 
 section textarea {
 	width: calc(100% - 22px);
 	padding: 10px;
+	font-size: 20px;
 }

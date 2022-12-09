@@ -161,15 +161,18 @@ Vue.component('question', {
         },
         //清理空html元素，内容为空的html标签隐藏起来，免得占空间
         clearempty: function (dom) {
-            var txt = dom.text();
-            if (txt.length < 1) dom.hide();
+            if (dom.length < 1) return;
+            var exclude = "INPUT,IMG,BUTTON,BR,TEXTAREA".split(',');
+            if (exclude.includes(dom[0].tagName)) return;
+
             var childs = dom.childs();
+            if (childs.length < 1 && dom.text().length < 1) dom.hide();
             var th = this;
             if (childs.length > 0) {
                 childs.each(function () {
                     th.clearempty($dom(this));
                 });
-            }           
+            }      
         }
     },
     template: `<card :qid="qans.id" v-if="showQues()">

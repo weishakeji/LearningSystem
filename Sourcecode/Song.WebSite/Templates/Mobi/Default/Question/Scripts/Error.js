@@ -95,7 +95,7 @@
                 th.loading = true;
                 var query = $api.get('Question/ErrorQues', { 'acid': this.account.Ac_ID, 'couid': this.couid, 'type': '' });
                 query.then(function (req) {
-                    th.loading = false;
+                   
                     if (req.data.success) {
                         //获取练习记录
                         th.state.restore().then(function (d) {
@@ -121,6 +121,7 @@
                     }
                 }).catch(function (err) {
                     th.error = err;
+                    th.loading = false;
                     console.error(err);
                 });
             },

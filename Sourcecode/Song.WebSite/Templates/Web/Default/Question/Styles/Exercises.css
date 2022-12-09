@@ -170,6 +170,7 @@ section.question {
 	left: 0px;
 	position: relative;
 	transition: left 0.5s;
+	overflow: hidden;
 }
 
 section.question dl, section dd {
@@ -178,7 +179,10 @@ section.question dl, section dd {
 	height: 100%;
 	float: left;
 }
-
+section dd {
+	height: 100%;
+	overflow: auto;
+}
 /*答题卡*/
 
 .quesCard {

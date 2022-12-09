@@ -1329,9 +1329,9 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         {
             WhereClip wc = new WhereClip();
             if (couid > 0) wc.And(Student_Ques._.Cou_ID == couid);
-            if (type > 0) wc.And(Student_Ques._.Qus_Type == type);
             if (acid > 0) wc.And(Student_Ques._.Ac_ID == acid);
-            if (sbjid > 0) wc.And(Student_Ques._.Sbj_ID == sbjid);          
+            if (type > 0) wc.And(Student_Ques._.Qus_Type == type);
+            if (sbjid > 0) wc.And(Student_Ques._.Sbj_ID == sbjid);
             return Gateway.Default.From<Questions>()
                 .InnerJoin<Student_Ques>(Questions._.Qus_ID == Student_Ques._.Qus_ID)
                 .Where(wc).OrderBy(Questions._.Qus_ID.Desc).ToArray<Questions>();
