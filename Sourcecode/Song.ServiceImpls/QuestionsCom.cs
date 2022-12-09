@@ -523,7 +523,7 @@ namespace Song.ServiceImpls
         /// </summary>
         /// <param name="orgid">所属机构</param>
         /// <param name="type">试题类型，如单选，多选等</param>
-        /// <param name="sbjId">专业id</param>
+        /// <param name="sbjid">专业id</param>
         /// <param name="couid">课程id</param>
         /// <param name="olid">章节id</param>
         /// <param name="diff">难度等级，如1,2这样的字符串</param>
@@ -607,7 +607,7 @@ namespace Song.ServiceImpls
                     if (c.Ans_IsCorrect)
                         ansIndex = j + 1;
                 }
-                row.CreateCell(0).SetCellValue(q.Qus_ID);
+                row.CreateCell(0).SetCellValue(q.Qus_ID.ToString());
                 row.CreateCell(1).SetCellValue(q.Qus_Title);
                 //专业,课程,章节
                 row.CreateCell(2).SetCellValue(Business.Do<ISubject>().SubjectName(q.Sbj_ID));                
@@ -657,7 +657,7 @@ namespace Song.ServiceImpls
                         ansIndex = ansIndex.Substring(0, ansIndex.Length - 1);
                 }
 
-                row.CreateCell(0).SetCellValue(q.Qus_ID);
+                row.CreateCell(0).SetCellValue(q.Qus_ID.ToString());
                 row.CreateCell(1).SetCellValue(q.Qus_Title);
                 //专业,课程,章节
                 row.CreateCell(2).SetCellValue(Business.Do<ISubject>().SubjectName(q.Sbj_ID));
@@ -692,7 +692,7 @@ namespace Song.ServiceImpls
                 string ans = "";
                 if (Convert.ToString(q.Qus_IsCorrect) == "False") { ans = "错误"; } else { ans = "正确"; }
                 IRow row = sheet.CreateRow(i + 1);
-                row.CreateCell(0).SetCellValue(q.Qus_ID);
+                row.CreateCell(0).SetCellValue(q.Qus_ID.ToString());
                 row.CreateCell(1).SetCellValue(q.Qus_Title);
                 //专业,课程,章节
                 row.CreateCell(2).SetCellValue(Business.Do<ISubject>().SubjectName(q.Sbj_ID));
@@ -724,7 +724,7 @@ namespace Song.ServiceImpls
             foreach (Song.Entities.Questions q in ques)
             {
                 IRow row = sheet.CreateRow(i + 1);
-                row.CreateCell(0).SetCellValue(q.Qus_ID);
+                row.CreateCell(0).SetCellValue(q.Qus_ID.ToString());
                 row.CreateCell(1).SetCellValue(q.Qus_Title);
                 //专业,课程,章节
                 row.CreateCell(2).SetCellValue(Business.Do<ISubject>().SubjectName(q.Sbj_ID));
@@ -766,7 +766,7 @@ namespace Song.ServiceImpls
                     row.CreateCell(6 + j).SetCellValue(tmpVal);
                 }
 
-                row.CreateCell(0).SetCellValue(q.Qus_ID);
+                row.CreateCell(0).SetCellValue(q.Qus_ID.ToString());
                 row.CreateCell(1).SetCellValue(q.Qus_Title);
                 //专业,课程,章节
                 row.CreateCell(2).SetCellValue(Business.Do<ISubject>().SubjectName(q.Sbj_ID));

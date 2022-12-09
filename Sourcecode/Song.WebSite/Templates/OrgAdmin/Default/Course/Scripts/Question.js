@@ -170,7 +170,7 @@
                 var title = btn.tips;
                 var url = "../Question/Import";
                 url = $api.url.set(url, { 'couid': this.couid });
-                this.$refs.btngroup.pagebox(url, title, null, 800, 600);
+                this.$refs.btngroup.pagebox(url, title, null, 900, 650);
             },
             //更改使用状态
             changeState: function (row) {

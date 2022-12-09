@@ -15,7 +15,7 @@
             questions: [],
             swipeIndex: 0,           //试题滑动时的索引，用于记录当前显示的试题索引号
             loading: true,
-            loading_init: true,         //初始信息加载
+            loading_init: false,         //初始信息加载
             learnmode: 0,            //练习模式，0为练习模式，1为背题模式
 
             //答题的状态
@@ -34,16 +34,16 @@
         },
         updated: function () {
             this.$mathjax();
-       },
+        },
         mounted: function () {
             var th = this;
+            th.loading_init = true;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': th.couid }),
                 $api.cache('Outline/ForID', { 'id': th.olid })
-            ).then(axios.spread(function (account, types, course, outline) {
-                vapp.loading_init = false;
+            ).then(axios.spread(function (account, types, course, outline) {             
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -56,7 +56,9 @@
                 th.account = account.data.result;
                 th.types = types.data.result;
                 th.course = course.data.result;
+                if (th.course == null) throw '课程不存在！';
                 th.outline = outline.data.result;
+                if (th.outline == null) throw '章节不存在！';
                 th.outline.Ol_XPath = $api.querystring('path');
                 document.title = th.outline.Ol_Name;
                 //创建试题练习状态的记录的操作对象
@@ -65,7 +67,10 @@
                 th.getQuestion(false);
             })).catch(function (err) {
                 th.error = err;
+                alert(err);
                 console.error(err);
+            }).finally(function () {
+                th.loading_init = false;
             });
 
         },

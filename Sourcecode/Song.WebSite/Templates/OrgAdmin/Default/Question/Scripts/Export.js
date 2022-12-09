@@ -4,7 +4,7 @@ $ready(function () {
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            couid: Number($api.querystring('couid', 0)),        //课程id
+            couid: $api.querystring('couid', '0'),        //课程id
             organ: {},
             config: {},      //当前机构配置项    
             types: [],        //试题类型，来自web.config中配置项
@@ -41,7 +41,7 @@ $ready(function () {
             filepanel: false      //显示文件列表的面板
         },
         created: function () {
-            this.couid = isNaN(this.couid) ? 0 : this.couid;
+            // this.couid = isNaN(this.couid) ? 0 : this.couid;
 
             var th = this;
             th.loading = true;
@@ -63,7 +63,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.form.orgid = th.organ.Org_ID;
                 th.types = types.data.result;
-                if (th.couid > 0) {
+                if (th.couid != '' || th.couid != '0') {
                     th.getCourse(th.couid);
                 } else {
                     th.getSubjects(th.organ);
@@ -84,9 +84,8 @@ $ready(function () {
         computed: {
             //禁止选择专业与课程，（例如在课程管理中的试题编辑）
             'disable_select': function () {
-                var couid = Number($api.querystring('couid', 0));
-                couid = isNaN(couid) ? 0 : couid;
-                return couid != 0;
+                var couid = $api.querystring('couid', '0');          
+                return couid != '0' || couid!='';
             },
             //选中的章节名称
             'selected_outline': function () {
@@ -151,16 +150,17 @@ $ready(function () {
                 var th = this;
                 $api.get('Question/ExcelFiles', { 'path': 'QuestionToExcel', 'couid': th.couid }).then(function (req) {
                     if (req.data.success) {
-                        th.files = req.data.result;
-                        th.loading = false;
+                        th.files = req.data.result;                      
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
                     }
                 }).catch(function (err) {
-                    alert(err);
+                    alert(err);                 
                     console.error(err);
-                });
+                }).finally(function () {
+                    th.loading = false;
+                });;
             },
             //删除文件
             deleteFile: function (file) {
@@ -181,6 +181,7 @@ $ready(function () {
                         throw req.data.message;
                     }
                 }).catch(function (err) {
+                    this.loading = false;
                     alert(err);
                     console.error(err);
                 });

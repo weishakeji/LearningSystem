@@ -121,7 +121,7 @@ namespace Song.ServiceImpls
                 {
                     current = new Outline();
                     current.Ol_Name = listName[i];
-                    current.Ol_IsUse = true;
+                    current.Ol_IsUse = true;        //默认为启用
                     current.Org_ID = orgid;
                     current.Sbj_ID = course != null ? course.Sbj_ID : sbjid;
                     current.Cou_ID = couid;

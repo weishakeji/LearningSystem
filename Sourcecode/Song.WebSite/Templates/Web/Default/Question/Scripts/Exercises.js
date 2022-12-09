@@ -33,7 +33,7 @@
             setup_show: false        //设置菜单是否显示
         },
         updated: function () {
-             this.$mathjax();
+            this.$mathjax();
         },
         mounted: function () {
             var th = this;
@@ -114,8 +114,10 @@
         methods: {
             //加载试题,update：否更新，true为更新，强制从服务器读取数据；false则读本地缓存       
             getQuestion: function (update) {
+                if (this.couid == 0 || this.couid == 'undefined') return;
                 var th = this;
                 th.loading = true;
+
                 var form = {
                     'couid': this.couid, 'olid': this.olid, 'type': -1, 'count': 0
                 }

@@ -186,7 +186,7 @@ $ready(function () {
             //导入
             input: function (btn) {
                 var title = btn.tips;
-                this.$refs.btngroup.pagebox('Import', title, null, 800, 600);
+                this.$refs.btngroup.pagebox('Import', title, null, 900, 650);
             },
             //更改使用状态
             changeState: function (row) {
