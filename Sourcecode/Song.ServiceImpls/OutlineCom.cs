@@ -155,7 +155,7 @@ namespace Song.ServiceImpls
                 var sbj_exp = sbjid > 0 ? x.Sbj_ID == sbjid : true;
                 var cou_exp = couid > 0 ? x.Cou_ID == couid : true;
                 var pid_exp = pid > 0 ? x.Ol_PID == pid : true;
-                var name_exp = !string.IsNullOrWhiteSpace(name) ? x.Ol_Name.Contains(name) : true;
+                var name_exp = !string.IsNullOrWhiteSpace(name) ? x.Ol_Name.Equals(name) : true;
                 return org_exp && sbj_exp && cou_exp && pid_exp && name_exp;
             };
             return list.Where(exp).FirstOrDefault<Outline>();            
