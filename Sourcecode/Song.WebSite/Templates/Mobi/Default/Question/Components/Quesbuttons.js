@@ -1,7 +1,8 @@
 ﻿//试题右侧的按钮组
 $dom.load.css([$dom.pagepath() + 'Components/Styles/quesbuttons.css']);
 Vue.component('quesbuttons', {
-    props: ['question', 'account', 'couid'],
+    //current:当前显示的试题，即滑动到这个试题
+    props: ['question', 'account', 'couid', 'current'],
     data: function () {
         return {
             //试题中的按钮，当used为true时，启用icon2图标
@@ -20,15 +21,15 @@ Vue.component('quesbuttons', {
             //是否显示笔记编辑的面板
             isShowNote: false,
             //是否显示报错界面
-            isShowError: false
+            isShowError: false,
+            //初始化
+            init: false
         }
     },
     watch: {
         'question': {
             handler(nv, ov) {
-                //console.log(nv);
-                this.collectState();
-                this.noteState();
+                //console.log(nv);               
                 if (nv.Qus_IsWrong) {
                     var btn = this.getbtn('error');
                     if (btn != null) btn.used = true;
@@ -39,6 +40,17 @@ Vue.component('quesbuttons', {
         },
         'errorSelect': function (nv, ov) {
             console.log(nv);
+        },
+        //是否是当前显示的试题
+        'current': {
+            handler(nv, ov) {
+                if (!ov && nv && !this.init) {
+                    this.init = true;
+                    this.collectState();
+                    this.noteState();
+                }
+            },
+            immediate: true
         }
     },
     mounted: function () {

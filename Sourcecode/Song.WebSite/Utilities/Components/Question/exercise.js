@@ -5,7 +5,8 @@ Vue.component('question', {
     //index:索引号，total:试题总数
     //types:试题类型，
     //mode:0为练习模式，1为背题模式
-    props: ['ques', 'state', 'index', 'total', 'types', 'mode'],
+    //current:当前显示的试题，即滑动到这个试题
+    props: ['ques', 'state', 'index', 'total', 'types', 'mode', 'current'],
     data: function () {
         return {
             knowledge: {}        //试题关联的知识点
@@ -15,9 +16,17 @@ Vue.component('question', {
         'ques': {
             handler(nv, ov) {
                 this.ques = this.parseAnswer(nv);
-                this.getKnowledge(nv);
+                if (this.current)
+                    this.getKnowledge(nv);
             },
             immediate: true
+        },
+        //是否是当前显示的试题
+        'current': {
+            handler(nv, ov) {
+                if (!ov && nv && !this.existknl) this.getKnowledge(this.ques);
+            },
+            immediate: false
         }
     },
     updated: function () {
@@ -37,6 +46,7 @@ Vue.component('question', {
     methods: {
         //获取知识点
         getKnowledge: function (ques) {
+            //console.log(ques.Qus_ID);
             if (ques == null || ques.Kn_Uid == '') return;
             var th = this
             $api.get('Knowledge/ForUID', { 'uid': ques.Kn_Uid }).then(function (req) {
@@ -123,7 +133,7 @@ Vue.component('question', {
                 return this.ques.Qus_Answer;
             }
             if (this.ques.Qus_Type == 5) {
-                var ansStr = [];                
+                var ansStr = [];
                 for (var i = 0; i < this.ques.Qus_Items.length; i++)
                     ansStr.push((i + 1) + "、" + this.ques.Qus_Items[i].Ans_Context);
                 return ansStr.join("<br/>");
@@ -269,11 +279,11 @@ Vue.component('question', {
             }
         }
     },
-    template: `<dd :qid="ques.Qus_ID">
+    template: `<dd :qid="ques.Qus_ID" :current="current">
     <info>
         {{index+1}}/{{total}}
         [ {{this.types[ques.Qus_Type - 1]}}题 ] 
-        <slot name="buttons"></slot>   
+        <slot name="buttons"></slot>          
     </info>
     <card :qid="ques.Qus_ID" :correct="state ? state.correct : ''" :ans="state.ans">   
         <card-title v-html="ques.Qus_Title"></card-title>          

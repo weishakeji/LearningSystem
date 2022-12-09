@@ -57,11 +57,11 @@
           <section v-if="questions.length>0" :style="'width:'+questions.length*100+'vw'" v-swiperight="swiperight"
             v-swipeleft="swipeleft" remark="试题区域">
             <dl>
-              <question ref="question" v-for="(q,i) in questions" :ques="q" :index="i"
+              <question ref="question" v-for="(q,i) in questions" :ques="q" :index="i" :current="i==swipeIndex"
                 :state="state.getitem(q.Qus_ID,i)" :total="questions.length" :types="types" :mode="learnmode%2"
                 @answer="answer">
                 <template v-slot:buttons>
-                  <quesbuttons :question="q" :account="account" :couid="couid"></quesbuttons>
+                  <quesbuttons :question="q" :account="account" :couid="couid" :current="i==swipeIndex"></quesbuttons>
                 </template>
               </question>
             </dl>

@@ -1,6 +1,7 @@
 ﻿//试题右侧的按钮组
 Vue.component('quesbuttons', {
-    props: ['question', 'account', 'couid'],
+     //current:当前显示的试题，即滑动到这个试题
+    props: ['question', 'account', 'couid', 'current'],
     data: function () {
         return {
             //试题中的按钮，当used为true时，启用icon2图标
