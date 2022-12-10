@@ -8,22 +8,35 @@
 	height: 70px;
 }
 
-
-
-.large {
-	width: calc(100% - 50px);
-	height: 48px;
-	float: left;
-	line-height: 24px;
-	overflow: hidden;	
+/*学员账号信息*/
+.account {
+	position: relative;
 }
-icon[mobile], icon[mobile]::before {
-	margin-right: 0px !important;
+
+icon[teacher] {
+	display: block;
+	position: absolute;
+	right: 10px;
+	top: 1px;
 }
+
 icon[teacher]::before {
 	color: rgb(3, 167, 3);
 	margin: 0px;
 }
+
+.account .large {
+	width: calc(100% - 50px);
+	height: 48px;
+	float: left;
+	line-height: 24px;
+	overflow: hidden;
+}
+
+icon[mobile], icon[mobile]::before {
+	margin-right: 0px !important;
+}
+
 
 icon[money] {
 	font-size: 16px;
@@ -43,7 +56,9 @@ icon[coupon], icon[point] {
 icon[coupon]:hover, icon[point]:hover {
 	text-decoration: underline;
 }
-
+icon[copy],icon[copy]::before {
+	margin-right: 0px;
+}
 /*头像组件*/
 
 .ws_avatar {

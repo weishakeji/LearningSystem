@@ -60,15 +60,12 @@
                         <photo :teacher="scope.row" circle="true" size="45"></photo>
                         <div class="info" :class="{'woman': scope.row.Th_Sex==2}">
                             <icon :woman="scope.row.Th_Sex==2" :man="scope.row.Th_Sex==1"></icon>
-                            <span v-html='showInfo(scope.row.Th_Name)' v-if="scope.row.Th_Name!=''"></span>
+                            <span v-html='showInfo(scope.row.Th_Name,form.search)' v-if="scope.row.Th_Name!=''"
+                                @dblclick.stop="copy(scope.row.Th_Name)"></span>
                             <span v-else class="noname">(没有名字)</span>
-                            <div remark="电话">
+                            <div remark="电话" @dblclick.stop="copy(showmobi(scope.row))">
                                 <icon>&#xe677</icon>
-                                <span v-html='scope.row.Th_PhoneMobi'></span>
-                                <span
-                                    v-if="scope.row.Th_PhoneMobi!='' && scope.row.Th_Phone!='' && scope.row.Th_Phone!=scope.row.Th_PhoneMobi">/</span>
-                                <span v-html='scope.row.Th_Phone'
-                                    v-if="scope.row.Th_PhoneMobi!='' && scope.row.Th_Phone!=scope.row.Th_PhoneMobi"></span>
+                                <span v-html='showInfo(showmobi(scope.row),form.phone)'></span>
                             </div>
                         </div>
 
@@ -76,9 +73,9 @@
                 </el-table-column>
                 <el-table-column label="身份证号">
                     <template slot-scope="scope">
-                        <div title="身份证号">
+                        <div title="身份证号" @dblclick.stop="copy(scope.row.Th_IDCardNumber)">
                             <icon>&#xe68f</icon>
-                            {{scope.row.Th_IDCardNumber}}
+                            <span v-html='showInfo(scope.row.Th_IDCardNumber,form.idcard)'></span>
                         </div>
                         <div title="民族">
                             <icon>&#xa04e</icon>
@@ -135,7 +132,7 @@
                         </el-tooltip>
                     </template>
                     <template slot-scope="scope">
-                        <div>{{scope.row.Th_AccName}}</div>
+                        <div @dblclick.stop="copy(scope.row.Th_AccName)">{{scope.row.Th_AccName}}</div>
                         <div>
                             <span class="el-icon-loading" v-if="loadingid==scope.row.Th_ID"></span>
                             <template v-else>

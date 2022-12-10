@@ -1,6 +1,6 @@
 ﻿@font-face {
     font-family: 'webdesk_icon';
-    src: url('iconfont.woff?tt=2') format("woff");
+    src: url('iconfont.woff?tt=3') format("woff");
     font-weight: normal;
     font-style: normal;
 }
@@ -148,7 +148,14 @@ icon[woman] {
 icon[woman]::before {
     content: '\e647';
 }
-
+/*复制*/
+icon[copy]::before {
+    content: '\a060';
+}
+/*粘贴*/
+icon[paste]::before {
+    content: '\a061';
+}
 
 
 /*帮助、提示*/

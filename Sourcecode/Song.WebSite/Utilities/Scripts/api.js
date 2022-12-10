@@ -330,7 +330,17 @@
         //克隆对象
         clone: function (obj) {
             return methods.parseJson(methods.toJson(obj));
-        }
+        },
+        //复制到粘贴板
+        copy: function (val, textbox) {
+            if (textbox == null) textbox = 'input';
+            var oInput = document.createElement(textbox);
+            oInput.value = val;
+            document.body.appendChild(oInput);
+            oInput.select(); // 选择对象
+            document.execCommand("Copy"); // 执行浏览器复制命令           
+            oInput.style.display = 'none';            
+        },
     };
     //api操作的具体对象和方法
     var apiObj = function (version) {

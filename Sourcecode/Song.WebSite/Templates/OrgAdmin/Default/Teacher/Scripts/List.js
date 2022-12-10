@@ -94,13 +94,27 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.search != '') {
-                    var regExp = new RegExp(this.form.search, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.search}</red>`);
+             //在列中显示信息，包含检索
+             showInfo: function (txt, search) {
+                if (search == null || search == '') return txt;
+                if (txt != '') {
+                    var regExp = new RegExp(search, 'gi');
+                    txt = txt.replace(regExp, `<red>${search}</red>`);
                 }
                 return txt;
+            },
+            //显示手机号
+            showmobi: function (row) {
+                var phone = row.Th_PhoneMobi;
+                return phone != '' ? phone : row.Th_Phone;
+            },
+             //复制到粘贴板
+             copy: function (val, textbox) {
+                $api.copy(val, textbox);
+                this.$message({
+                    message: '复制 “' + val + '” 到粘贴板',
+                    type: 'success'
+                });
             },
             //更改使用状态，包括使用、审核
             changeState: function (row) {

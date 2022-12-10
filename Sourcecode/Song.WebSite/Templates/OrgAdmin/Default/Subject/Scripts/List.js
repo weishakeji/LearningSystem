@@ -29,15 +29,16 @@ $ready(function () {
 
         },
         created: function () {
+            var th=this;
             $api.get('Organization/Current').then(function (req) {
                 vapp.loading_init = false;
                 if (req.data.success) {
-                    vapp.organ = req.data.result;
-                    vapp.form.orgid = vapp.organ.Org_ID;
+                    th.organ = req.data.result;
+                    th.form.orgid = th.organ.Org_ID;
                     //机构配置信息
-                    vapp.config = $api.organ(vapp.organ).config;
-                    vapp.getTreeData();
-                    vapp.getTotal();
+                    th.config = $api.organ(vapp.organ).config;
+                    th.getTreeData();
+                    th.getTotal();
                 } else {
                     console.error(req.data.exception);
                     throw req.data.message;

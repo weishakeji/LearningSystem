@@ -93,9 +93,22 @@ $ready(function () {
                 }
                 return txt;
             },
+            //显示手机号
+            showmobi: function (row) {
+                var phone = row.Ac_MobiTel1;
+                return phone != '' ? phone : row.Ac_MobiTel2;
+            },
             //双击事件
             rowdblclick: function (row, column, event) {
                 this.$refs.btngroup.modifyrow(row);
+            },
+            //复制到粘贴板
+            copy: function (val, textbox) {
+                $api.copy(val, textbox);
+                this.$message({
+                    message: '复制 “' + val + '” 到粘贴板',
+                    type: 'success'
+                });
             },
             //更改使用状态，包括使用、审核
             changeState: function (row) {
