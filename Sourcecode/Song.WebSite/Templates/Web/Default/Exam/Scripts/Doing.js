@@ -271,7 +271,7 @@ $ready(function () {
                             }, 100);
                             th.paperQues = paper;
                         } else {
-                            console.error(req.data.exception);
+                            console.error(req);
                             throw req.data.message;
                         }
                     }).catch(function (err) {
@@ -281,8 +281,14 @@ $ready(function () {
             },
             //将试题对象中的Qus_Items，解析为json
             parseAnswer: function (ques) {
-                if (ques == null && !(ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5))
-                    return ques;
+                try {
+                    if (ques == null || !(ques.Qus_Type == 1 || ques.Qus_Type == 2 || ques.Qus_Type == 5))
+                        return ques;
+                }
+                catch (e) {
+                    console.error(e);
+                    console.error(ques);
+                }
                 if (typeof (ques.Qus_Items) != 'string') return ques;
                 var xml = $api.loadxml(ques.Qus_Items);
                 var arr = [];
@@ -562,6 +568,7 @@ $ready(function () {
                     var group = paper[i];
                     for (let j = 0; j < group.ques.length; j++) {
                         const q = group.ques[j];
+                        if (q == null) continue;
                         //通过答题记录还原
                         for (var n = 0; n < reclist.length; n++) {
                             if (q.Qus_ID == reclist[n].id) {
