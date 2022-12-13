@@ -61,7 +61,8 @@
                     remark="试题区域">
                     <template v-if="!loading.paper">
                         <dl v-for="(group,i) in paperQues" :style="'width:'+group.count*800+'px'">
-                            <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :types="types">
+                            <question v-for="(q,n) in group.ques" :ques="q" :index="n" :groupindex="i" :types="types"
+                            :swipeindex="swipeIndex" :total="questotal" :groups="paperQues">
                             </question>
                         </dl>
                     </template>

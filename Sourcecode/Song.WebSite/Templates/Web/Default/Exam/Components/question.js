@@ -19,8 +19,8 @@ Vue.component('question', {
     updated: function () {
         //没有内容的html元素，不显示
         var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
-        this.clearempty(qbox.find('card-title'));
-        this.clearempty(qbox.find('.ans_area'));
+        window.ques.clearempty(qbox.find('card-title'));
+        window.ques.clearempty(qbox.find('.ans_area'));
     },
     mounted: function () { },
     methods: {
@@ -66,22 +66,7 @@ Vue.component('question', {
                 ansstr += element.Ans_Context + ",";
             }
             this.ques.Qus_Answer = ansstr;
-        },
-        //清理空html元素，内容为空的html标签隐藏起来，免得占空间
-        clearempty: function (dom) {
-            if (dom.length < 1) return;
-            var exclude = "INPUT,IMG,BUTTON,BR,TEXTAREA".split(',');
-            if (exclude.includes(dom[0].tagName)) return;
-
-            var childs = dom.childs();
-            if (childs.length < 1 && dom.text().length < 1) dom.hide();
-            var th = this;
-            if (childs.length > 0) {
-                childs.each(function () {
-                    th.clearempty($dom(this));
-                });
-            }     
-        }
+        } 
     },
     template: `<dd :qid="ques.Qus_ID">
         <info>

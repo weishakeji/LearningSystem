@@ -1,8 +1,10 @@
 ﻿//试题的练习
 $dom.load.css(['/Utilities/Components/Question/Styles/exercise.css']);
 Vue.component('question', {
+    //ques:当前试题
     //state:答题状态
-    //index:索引号，total:试题总数
+    //index:索引号，
+    //total:试题总数
     //types:试题类型，
     //mode:0为练习模式，1为背题模式
     //current:当前显示的试题，即滑动到这个试题
@@ -15,7 +17,7 @@ Vue.component('question', {
     },
     watch: {
         'ques': {
-            handler(nv, ov) {              
+            handler(nv, ov) {
             },
             immediate: true
         },
@@ -29,10 +31,10 @@ Vue.component('question', {
                     this.$nextTick(function () {
                         var dom = $dom("dd[qid='" + this.ques.Qus_ID + "']");
                         //清理空元素                
-                        this.clearempty(dom.find('card-title'));
-                        this.clearempty(dom.find('.ans_area'));
+                        window.ques.clearempty(dom.find('card-title'));
+                        window.ques.clearempty(dom.find('.ans_area'));
                         //公式渲染
-                        this.$mathjax([dom[0]]);                       
+                        this.$mathjax([dom[0]]);
                     });
                 }
             },
@@ -90,7 +92,7 @@ Vue.component('question', {
             return ques;
         },
         //选项的序号转字母
-        showIndex: function (index) {
+        toletter: function (index) {
             return String.fromCharCode(65 + index);
         },
         //试题的正确答案
@@ -99,7 +101,7 @@ Vue.component('question', {
                 var ansstr = '';
                 for (var j = 0; j < this.ques.Qus_Items.length; j++) {
                     if (this.ques.Qus_Items[j].Ans_IsCorrect) {
-                        ansstr += this.showIndex(j) + "、";
+                        ansstr += this.toletter(j) + "、";
                     }
                 }
                 if (ansstr.indexOf("、") > -1)
@@ -242,24 +244,9 @@ Vue.component('question', {
             this.state['time'] = new Date();
             this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
-        },
-        //清理空html元素，内容为空的html标签隐藏起来，免得占空间
-        clearempty: function (dom) {
-            if (dom.length < 1) return;
-            var exclude = "INPUT,IMG,BUTTON,BR,TEXTAREA".split(',');
-            if (exclude.includes(dom[0].tagName)) return;
-
-            var childs = dom.childs();
-            if (childs.length < 1 && dom.text().length < 1) dom.hide();
-            var th = this;
-            if (childs.length > 0) {
-                childs.each(function () {
-                    th.clearempty($dom(this));
-                });
-            }
         }
     },
-    template: `<dd :qid="ques.Qus_ID" :current="current">
+    template: `<dd :qid="ques.Qus_ID" :current="current" :render="init">
     <template v-if="init">
         <info>
             {{index+1}}/{{total}}
@@ -272,13 +259,13 @@ Vue.component('question', {
                 <div class="ans_area type1" v-if="ques.Qus_Type==1"  remark="单选题">
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" 
                     :selected="ans.selected" @click="ques_doing(ans,ques)">
-                        <i>{{showIndex(i)}} .</i>
+                        <i>{{toletter(i)}} .</i>
                         <span v-html="ans.Ans_Context"></span>
                     </div>
                 </div>
                 <div  class="ans_area type2" v-if="ques.Qus_Type==2"  remark="多选题">
                     <div v-for="(ans,i) in ques.Qus_Items" :ansid="ans.Ans_ID" :selected="ans.selected" @click="ques_doing(ans,ques,false)">
-                        <i>{{showIndex(i)}} .</i>
+                        <i>{{toletter(i)}} .</i>
                         <span v-html="ans.Ans_Context"></span>
                     </div>
                     <button type="primary" @click="ques_doing(null,ques,true)">提交答案</button>

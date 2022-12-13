@@ -17,8 +17,8 @@ Vue.component('question', {
                 this.$nextTick(function () {
                     var dom = $dom("card[qid='" + this.qans.id + "']");
                     //清理空元素                
-                    this.clearempty(dom.find('card-title'));
-                    this.clearempty(dom.find('.ans_area'));
+                    window.ques.clearempty(dom.find('card-title'));
+                    window.ques.clearempty(dom.find('.ans_area'));
                     //公式渲染
                     this.$mathjax([dom[0]]);
                 });
@@ -113,7 +113,7 @@ Vue.component('question', {
             return ques;
         },
         //选项的序号转字母
-        showIndex: function (index) {
+        toletter: function (index) {
             return String.fromCharCode(65 + index);
         },
         //正确答案
@@ -122,7 +122,7 @@ Vue.component('question', {
                 var ansstr = '';
                 for (var j = 0; j < this.ques.Qus_Items.length; j++) {
                     if (this.ques.Qus_Items[j].Ans_IsCorrect) {
-                        ansstr += this.showIndex(j) + "、";
+                        ansstr += this.toletter(j) + "、";
                     }
                 }
                 if (ansstr.indexOf("、") > -1)
@@ -154,7 +154,7 @@ Vue.component('question', {
                     for (var i = 0; i < answer.length; i++) {
                         if (answer[i] == '') continue;
                         if (answer[i] == this.ques.Qus_Items[j].Ans_ID) {
-                            ansstr += this.showIndex(j) + "、";
+                            ansstr += this.toletter(j) + "、";
                         }
                     }
                 }
@@ -171,21 +171,6 @@ Vue.component('question', {
             if (this.ques.Qus_Type == 5) {
                 return this.qans.ans;
             }
-        },
-        //清理空html元素，内容为空的html标签隐藏起来，免得占空间
-        clearempty: function (dom) {
-            if (dom.length < 1) return;
-            var exclude = "INPUT,IMG,BUTTON,BR,TEXTAREA".split(',');
-            if (exclude.includes(dom[0].tagName)) return;
-
-            var childs = dom.childs();
-            if (childs.length < 1 && dom.text().length < 1) dom.hide();
-            var th = this;
-            if (childs.length > 0) {
-                childs.each(function () {
-                    th.clearempty($dom(this));
-                });
-            }
         }
     },
     template: `<card :qid="qans.id" v-if="showQues()">
@@ -197,13 +182,13 @@ Vue.component('question', {
         <card-context>
         <div class="ans_area type1" v-if="ques.Qus_Type==1">
             <div v-for="(ans,i) in ques.Qus_Items" :correct="ans.Ans_IsCorrect" :selected="ans.selected">
-                <i>{{showIndex(i)}} .</i>
+                <i>{{toletter(i)}} .</i>
                 <span v-html="ans.Ans_Context"></span>
              </div>
         </div>
         <div  class="ans_area type2" v-if="ques.Qus_Type==2">
             <div v-for="(ans,i) in ques.Qus_Items" :correct="ans.Ans_IsCorrect" :selected="ans.selected">
-                <i>{{showIndex(i)}} .</i>
+                <i>{{toletter(i)}} .</i>
                 <span v-html="ans.Ans_Context"></span>
             </div>
         </div>

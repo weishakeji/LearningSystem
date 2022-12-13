@@ -42,6 +42,7 @@
             resultTotal: 0
         },
         mounted: function () {
+            var th=this;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Platform/PlatInfo'),
@@ -60,15 +61,15 @@
                     }
                 }
                 //获取结果
-                vapp.account = account.data.result;
-                vapp.platinfo = platinfo.data.result;
-                vapp.organ = organ.data.result;
-                vapp.config = $api.organ(vapp.organ).config;
+                th.account = account.data.result;
+                th.platinfo = platinfo.data.result;
+                th.organ = organ.data.result;
+                th.config = $api.organ(th.organ).config;
                 //考试相关
-                vapp.types = type.data.result;
-                vapp.paper = paper.data.result;
+                th.types = type.data.result;
+                th.paper = paper.data.result;
                 //生成试卷
-                vapp.generatePaper();
+                th.generatePaper();
             })).catch(function (err) {
                 console.error(err);
             });
@@ -132,7 +133,10 @@
                     console.log('交卷');
                     this.submit(1);
                 }
-                console.log(nv);
+                //console.log(nv);
+            },
+            'swipeIndex':function(nv,ov){
+                //console.log(nv);
             }
         },
         methods: {
@@ -150,12 +154,12 @@
                         var paper = req.data.result;
                         vapp.paperQues = paper;
                         window.setInterval(function () {
-                            vapp.time.now = new Date().getTime();
+                            th.time.now = new Date().getTime();
                             //var surplus = Math.floor((vapp.time.over.getTime() - vapp.time.now) / 1000 - 1);
                             //vapp.surplustime = surplus > 0 ? surplus : 0;
                         }, 1000);
                         th.$nextTick(function () {
-                            vapp.calcTime();
+                            th.calcTime();
                         });
 
                     } else {

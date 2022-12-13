@@ -270,12 +270,12 @@
                         var paper = req.data.result;
                         th.paperQues = paper;
                         window.setInterval(function () {
-                            vapp.time.now = new Date().getTime();
+                            th.time.now = new Date().getTime();
                             //var surplus = Math.floor((vapp.time.over.getTime() - vapp.time.now) / 1000 - 1);
                             //vapp.surplustime = surplus > 0 ? surplus : 0;
                         }, 1000);
                         th.$nextTick(function () {
-                            vapp.calcTime();
+                            th.calcTime();
                         });
 
                     } else {
