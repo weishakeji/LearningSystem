@@ -103,7 +103,10 @@
                                 if (last != null) th.swipeIndex = last.index ? last.index : 0;
                             });
                         }).catch(function (d) {
-                            th.questions = req.data.result;
+                             //如果没有历史练习记录
+                             th.questions = req.data.result;
+                             //显示操作指引的面板
+                             th.$refs['prompt'].show();
                         }).finally(function () {
                             th.loading = false;
                             if (th.questions.length > 0)
@@ -181,4 +184,5 @@
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',
+    'Components/PromptPanel.js',
     'Components/ExerciseState.js']);

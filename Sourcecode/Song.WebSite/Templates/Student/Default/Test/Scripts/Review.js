@@ -69,9 +69,6 @@ $ready(function () {
                 th.$alert(err);
             });
         },
-        updated: function () {
-            this.$mathjax();
-        },
         created: function () {
 
         },
@@ -98,7 +95,7 @@ $ready(function () {
                     var list = gruop.find('q');
                     for (var j = 0; j < list.length; j++) {
                         var q = $dom(list[j]);
-                        var qid = Number(q.attr('id'));
+                        var qid = q.attr('id');
                         var ans = q.attr('ans');
                         var success = q.attr('sucess');
                         var sucess = success == 'true' || success == 'True';
@@ -175,6 +172,6 @@ $ready(function () {
         }
     });
 
-
 }, ['/Utilities/Components/question/review.js',
+    '/Utilities/Components/question/function.js',
     'Components/group.js']);

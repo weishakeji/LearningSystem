@@ -1,0 +1,33 @@
+.ws_prompt_panel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(200, 200, 200, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 1s;
+}
+.ws_prompt_panel[fadeout]{   
+    opacity: 0;
+}
+.ws_prompt_panel>div {
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #fff,
+             0 0 10px #fff,
+             0 0 15px #fff,
+             0 0 20px #fff,
+             0 0 35px #fff,
+             0 0 40px #fff,
+             0 0 50px #fff,
+             0 0 75px #fff;
+
+}
+.ws_prompt_panel>div icon{
+    font-size: 50px;  
+}

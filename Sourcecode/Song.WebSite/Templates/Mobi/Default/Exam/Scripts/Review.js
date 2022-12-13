@@ -121,7 +121,7 @@ $ready(function () {
                     var list = gruop.find('q');
                     for (var j = 0; j < list.length; j++) {
                         var q = $dom(list[j]);
-                        var qid = Number(q.attr('id'));
+                        var qid = q.attr('id');
                         var ans = q.attr('ans');
                         var sucess = q.attr('sucess') == 'true';
                         var score = Number(q.attr('score'));

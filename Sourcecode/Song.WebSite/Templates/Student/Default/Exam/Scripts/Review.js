@@ -30,10 +30,7 @@ $ready(function () {
             tabactive: '',      //选项卡的状态
             error: '',           //错误提示信息，例如不能查看考虑成绩时
             loading: false
-        },
-        updated: function () {
-            this.$mathjax();
-        },
+        },     
         mounted: function () {
             window.addEventListener('scroll', this.handleScroll, true);
             var th = this;
@@ -120,7 +117,7 @@ $ready(function () {
                     var list = gruop.find('q');
                     for (var j = 0; j < list.length; j++) {
                         var q = $dom(list[j]);
-                        var qid = Number(q.attr('id'));
+                        var qid = q.attr('id');
                         var ans = q.attr('ans');
                         var sucess = q.attr('sucess') == 'true';
                         var score = Number(q.attr('score'));
@@ -196,4 +193,5 @@ $ready(function () {
         }
     });
 }, ['/Utilities/Components/question/review.js',
+    '/Utilities/Components/question/function.js',
     'Components/group.js']);

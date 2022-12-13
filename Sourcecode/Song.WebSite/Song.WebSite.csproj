@@ -438,8 +438,10 @@
     <Content Include="Templates\Mobi\Default\Course\Components\Styles\study_video.css" />
     <Content Include="Templates\Mobi\Default\Exam\Components\group.js" />
     <Content Include="Templates\Mobi\Default\Exam\Components\Styles\group.css" />
+    <Content Include="Templates\Mobi\Default\Question\Components\PromptPanel.js" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\AnswerCard.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\Quesbuttons.css" />
+    <Content Include="Templates\Mobi\Default\Question\Components\Styles\PromptPanel.css" />
     <Content Include="Templates\Mobi\Default\Question\Components\Styles\SetupMenu.css" />
     <Content Include="Templates\Mobi\Default\Test\Components\group.js" />
     <Content Include="Templates\Mobi\Default\Test\Components\Styles\group.css" />

@@ -107,8 +107,8 @@
                 query.then(function (req) {
                     if (req.data.success) {
                         //获取练习记录
-                        th.state.restore().then(function (d) {
-                            th.count = d.count;
+                        th.state.restore().then(function (d) {                          
+                            console.error(d);
                             //获取记录成功再赋值 
                             th.questions = req.data.result;
                             //初始显示第几条试题
@@ -117,7 +117,10 @@
                                 if (last != null) th.swipeIndex = last.index ? last.index : 0;
                             });
                         }).catch(function (d) {
+                            //如果没有历史练习记录
                             th.questions = req.data.result;
+                            //显示操作指引的面板
+                            th.$refs['prompt'].show();
                         }).finally(function () {
                             th.loading = false;
                             if (th.questions.length > 0)
@@ -176,4 +179,5 @@
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',
+    'Components/PromptPanel.js',
     'Components/ExerciseState.js']);

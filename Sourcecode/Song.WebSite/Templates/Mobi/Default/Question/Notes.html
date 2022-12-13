@@ -13,6 +13,7 @@
     document.body.onpaste = document.body.oncopy = function () { return false; };
   </script>
   <div id="vapp" v-cloak>
+    <prompt_panel ref="prompt"></prompt_panel>
     <template v-if="loading_init">
       <van-loading size="24px" type="spinner">加载中...</van-loading>
     </template>
