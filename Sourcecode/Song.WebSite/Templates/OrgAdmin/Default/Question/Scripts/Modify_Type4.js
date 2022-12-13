@@ -14,6 +14,9 @@ $ready(function () {
             loading: false
         },
         watch: {},
+        updated: function () {
+            this.$mathjax();
+        },
         created: function () { },
         mounted: function () { },
         methods: {

@@ -1,4 +1,5 @@
-﻿//试题的展示
+﻿//试题的展示,用于回顾
+$dom.load.css(['/Utilities/Components/Question/Styles/review.css']);
 Vue.component('question', {
     //groupindex:试题题型的分组，用于排序号
     props: ['qans', 'index', 'state', 'groupindex', 'questions', 'org'],
@@ -9,17 +10,29 @@ Vue.component('question', {
             loading: false
         }
     },
-    updated: function () {
-        this.$mathjax();
-        //没有内容的html元素，不显示
-        var qbox = $dom('card[qid="' + this.qans.id + '"]');
-        this.clearempty(qbox.find('card-title'));
-        this.clearempty(qbox.find('.ans_area'));
+    watch: {
+        'ques': {
+            handler(nv, ov) {
+                if (!this.existques) return;
+                this.$nextTick(function () {
+                    var dom = $dom("card[qid='" + this.qans.id + "']");
+                    //清理空元素                
+                    this.clearempty(dom.find('card-title'));
+                    this.clearempty(dom.find('.ans_area'));
+                    //公式渲染
+                    this.$mathjax([dom[0]]);
+                });
+            },
+            immediate: true
+        },
     },
-    watch: {},
-    computed: {},
+    computed: {
+        //是否试题加载完成
+        existques: function () {
+            return JSON.stringify(this.ques) != '{}' && this.ques != null;
+        }
+    },
     mounted: function () {
-        $dom.load.css(['/Utilities/Components/Question/Styles/review.css']);
         var th = this;
         th.loading = true;
         $api.cache('Question/ForID:60', { 'id': this.qans.id }).then(function (req) {
@@ -172,7 +185,7 @@ Vue.component('question', {
                 childs.each(function () {
                     th.clearempty($dom(this));
                 });
-            }      
+            }
         }
     },
     template: `<card :qid="qans.id" v-if="showQues()">

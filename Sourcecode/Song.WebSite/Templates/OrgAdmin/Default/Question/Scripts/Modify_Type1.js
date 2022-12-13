@@ -38,7 +38,7 @@ $ready(function () {
         },
         updated: function () {
             this.$mathjax();
-       },
+        },
         created: function () { },
         mounted: function () { },
         methods: {
@@ -54,11 +54,11 @@ $ready(function () {
             },
             //选项的单选事件
             radio: function (item) {
-                for (let i = 0; i < this.ansitems.length; i++) 
+                for (let i = 0; i < this.ansitems.length; i++)
                     this.ansitems[i].Ans_IsCorrect = false;
                 item.Ans_IsCorrect = true;
-            },       
-             //选项的编辑后的确认编辑
+            },
+            //选项的编辑后的确认编辑
             ansEnter: function (ans) {
                 var index = this.ansitems.findIndex(x => x.Ans_ID == ans.Ans_ID);
                 var item = this.ansitems[index];

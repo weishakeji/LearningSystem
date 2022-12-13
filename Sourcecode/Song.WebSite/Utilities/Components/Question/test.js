@@ -4,12 +4,24 @@ Vue.component('question', {
     //groupindex:试题题型的分组，用于排序号
     props: ['ques', 'index', 'groupindex', 'types'],
     data: function () {
-        return {}
+        return {
+            init: false,         //初始化完成    
+        }
     },
     watch: {
         'ques': {
             handler(nv, ov) {
-                this.ques = this.parseAnswer(nv);
+                if (this.existques && !this.init) {
+                    this.ques = this.parseAnswer(nv);
+                    this.init = true; this.$nextTick(function () {
+                        var dom = $dom("dd[qid='" + this.ques.Qus_ID + "']");
+                        //清理空元素                
+                        this.clearempty(dom.find('card-title'));
+                        this.clearempty(dom.find('.ans_area'));
+                        //公式渲染
+                        this.$mathjax([dom[0]]);
+                    });
+                }
                 //记录答题状态
                 if (!this.ques.state) {
                     this.ques['state'] = {
@@ -26,14 +38,12 @@ Vue.component('question', {
             immediate: true
         }
     },
-    updated: function () {
-        this.$mathjax();
-        //没有内容的html元素，不显示
-        var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
-        this.clearempty(qbox.find('card-title'));
-        this.clearempty(qbox.find('.ans_area'));
+    computed: {
+        //是否试题加载完成
+        existques: function () {
+            return JSON.stringify(this.ques) != '{}' && this.ques != null;
+        }
     },
-    computed: {},
     mounted: function () { },
     methods: {
         //计算序号，整个试卷采用一个序号，跨题型排序
@@ -203,7 +213,7 @@ Vue.component('question', {
                 childs.each(function () {
                     th.clearempty($dom(this));
                 });
-            }     
+            }
         }
     },
     template: `<dd :qid="ques.Qus_ID">

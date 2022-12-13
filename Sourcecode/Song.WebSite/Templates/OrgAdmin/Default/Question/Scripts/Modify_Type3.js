@@ -23,6 +23,9 @@ $ready(function () {
                 }, immediate: false, deep: true
             }
         },
+        updated: function () {
+            this.$mathjax();
+        },
         created: function () { },
         mounted: function () { },
         methods: {

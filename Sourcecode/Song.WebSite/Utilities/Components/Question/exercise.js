@@ -15,10 +15,7 @@ Vue.component('question', {
     },
     watch: {
         'ques': {
-            handler(nv, ov) {
-                //this.ques = this.parseAnswer(nv);
-                if (this.current)
-                    this.getKnowledge(nv);
+            handler(nv, ov) {              
             },
             immediate: true
         },
