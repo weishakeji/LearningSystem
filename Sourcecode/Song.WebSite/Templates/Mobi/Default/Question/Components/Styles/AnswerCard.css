@@ -29,7 +29,7 @@
 .quesCard .cardBox {
 	height: calc(100vh - 50px - 15px);
 	overflow-y: auto;
-	padding: 0px 15px 15px 15px;
+	padding: 0px 10px 15px 15px;
 }
 
 .quesCard dl, .quesCard dt, .quesCard dd {

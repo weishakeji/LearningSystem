@@ -496,31 +496,50 @@ namespace Song.ServiceImpls
         private Song.Entities.Questions[] clacScore(Song.Entities.Questions[] ques, float total)
         {
             if (ques.Length < 1) return ques;
+            //分配模式，1为按试题数分配总分; 2为按难度值分配总分
+            int distribution_model = 1;
+
             //总分数（当前试题类型）
             decimal surplus = (decimal)total;
             //最难的题，用于放置多余分数，默认是最后一道
             Song.Entities.Questions diffMax = ques[ques.Length - 1];
-            //按难度计算每道题的分数，算总难度值
-            decimal diffSum = 0, diffAvg = 0;
             for (int i = ques.Length - 1; i >= 0; i--)
             {
-                diffSum += ques[i].Qus_Diff;
+                ques[i].Qus_Explain = ques[i].Qus_Answer = ques[i].Qus_ErrorInfo = string.Empty;
                 if (ques[i].Qus_Diff > diffMax.Qus_Diff)
                     diffMax = ques[i];
             }
-            //每一个难度点，占用多少分数
-            diffAvg = (decimal)total / diffSum;
-            //计算每一道题的分数，用难度值乘以diffAvg
-            for (int j = 0; j < ques.Length; j++)
+            //按题数分配分数
+            if (distribution_model == 1)
             {
-                ques[j].Qus_Explain = ques[j].Qus_Answer = ques[j].Qus_ErrorInfo = "";               
-                decimal curr = ques[j].Qus_Diff * diffAvg;
-                curr = ((decimal)Math.Floor(curr * 100)) / 100;
-                ques[j].Qus_Number = (float)curr;
-                surplus = surplus - curr;               
+                decimal quesAvg = Math.Floor(surplus / ques.Length * 100) / 100;
+                for (int j = 0; j < ques.Length; j++)
+                {
+                    ques[j].Qus_Number = (float)quesAvg;
+                    surplus = surplus - quesAvg;
+                }
+                //将分不完的分数，添加到最难的题上
+                if (surplus > 0) diffMax.Qus_Number += (float)surplus;
             }
-            //将分不完的分数，添加到最难的题上
-            if (surplus > 0) diffMax.Qus_Number += (float)surplus;
+            //按难度计算每道题的分数
+            if (distribution_model == 2)
+            {
+                decimal diffSum = 0, diffAvg = 0;
+                for (int i = ques.Length - 1; i >= 0; i--)              
+                    diffSum += ques[i].Qus_Diff;
+                //每一个难度点，占用多少分数
+                diffAvg = (decimal)total / diffSum;
+                //计算每一道题的分数，用难度值乘以diffAvg
+                for (int j = 0; j < ques.Length; j++)
+                {                 
+                    decimal curr = ques[j].Qus_Diff * diffAvg;
+                    curr = ((decimal)Math.Floor(curr * 100)) / 100;
+                    ques[j].Qus_Number = (float)curr;
+                    surplus = surplus - curr;
+                }
+                //将分不完的分数，添加到最难的题上
+                if (surplus > 0) diffMax.Qus_Number += (float)surplus;
+            }
             return ques;
         }
         #endregion
