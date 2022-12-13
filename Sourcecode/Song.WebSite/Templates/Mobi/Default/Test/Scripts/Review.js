@@ -22,17 +22,17 @@ $ready(function () {
         },
         updated: function () {
             this.$mathjax();
-       },
+        },
         mounted: function () {
             window.addEventListener('scroll', this.handleScroll, true);
-            var th=this;
+            var th = this;
             th.loading = true;
             $api.bat(
                 $api.get('Account/Current'),
                 $api.cache('Question/Types:9999'),
                 $api.cache('TestPaper/ForID', { 'id': th.tpid }),
                 $api.get('TestPaper/ResultForID', { 'id': th.trid }),
-            ).then(axios.spread(function (account, types, paper,result) {
+            ).then(axios.spread(function (account, types, paper, result) {
                 th.loading = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
@@ -48,9 +48,9 @@ $ready(function () {
                 th.types = types.data.result;
                 th.paper = paper.data.result;
                 th.result = result.data.result;
-                th.scoreFinal=th.result.Tr_Score;
+                th.scoreFinal = th.result.Tr_Score;
                 th.exrxml = $api.loadxml(th.result.Tr_Results);
-              
+
             })).catch(function (err) {
                 console.error(err);
             });
@@ -156,6 +156,7 @@ $ready(function () {
                 return "";
             }
         }
-    });    
+    });
 }, ['/Utilities/Components/question/review.js',
-'Components/group.js']);
+    '/Utilities/Components/question/function.js',
+    'Components/group.js']);

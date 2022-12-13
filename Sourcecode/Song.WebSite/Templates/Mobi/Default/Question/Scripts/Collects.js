@@ -34,7 +34,7 @@
         },
         updated: function () {
             this.$mathjax();
-       },
+        },
         mounted: function () {
             var th = this;
             $api.bat(
@@ -168,6 +168,7 @@
         }
     });
 }, ['/Utilities/Components/question/exercise.js',
+    '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',

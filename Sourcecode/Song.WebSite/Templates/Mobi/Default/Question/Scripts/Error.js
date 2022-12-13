@@ -34,7 +34,7 @@
         },
         updated: function () {
             this.$mathjax();
-       },
+        },
         mounted: function () {
             var th = this;
             $api.bat(
@@ -95,7 +95,7 @@
                 th.loading = true;
                 var query = $api.get('Question/ErrorQues', { 'acid': this.account.Ac_ID, 'couid': this.couid, 'type': '' });
                 query.then(function (req) {
-                   
+
                     if (req.data.success) {
                         //获取练习记录
                         th.state.restore().then(function (d) {
@@ -160,7 +160,7 @@
                 var data = this.state.update(true);
                 this.count = data.count;
             },
-            
+
             //删除错题
             deleteQues: function () {
                 var ques = this.questions[this.swipeIndex];
@@ -183,6 +183,7 @@
         }
     });
 }, ['/Utilities/Components/question/exercise.js',
+    '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',

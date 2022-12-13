@@ -43,7 +43,7 @@
         },
         updated: function () {
             this.$mathjax();
-       },
+        },
         mounted: function () {
             $api.bat(
                 $api.get('Account/Current'),
@@ -270,8 +270,8 @@
                     "stcardid": this.account.Ac_IDCardNumber,
                     "stsid": this.account.Sts_ID,
                     "stsname": this.account.Sts_Name,
-                     //课程
-                     "couid": this.paper.Cou_ID,
+                    //课程
+                    "couid": this.paper.Cou_ID,
                     //试卷
                     "tpid": this.paper.Tp_Id,
                     "tpname": this.paper.Tp_Name,
@@ -394,5 +394,6 @@
         }
     });
 }, ['/Utilities/Components/question/test.js',
+    '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js']);

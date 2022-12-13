@@ -17,8 +17,8 @@
             loading_init: true,         //初始信息加载
             learnmode: 0,            //练习模式，0为练习模式，1为背题模式
 
-             //答题的状态
-             state: {},
+            //答题的状态
+            state: {},
             //一些数值         
             count: {
                 answer: 0,      //答题数量
@@ -33,7 +33,7 @@
         },
         updated: function () {
             this.$mathjax();
-       },
+        },
         mounted: function () {
             var th = this;
             $api.bat(
@@ -179,6 +179,7 @@
         }
     });
 }, ['/Utilities/Components/question/exercise.js',
+    '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',

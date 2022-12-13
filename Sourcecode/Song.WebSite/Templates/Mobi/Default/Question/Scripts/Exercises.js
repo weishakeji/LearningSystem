@@ -43,7 +43,7 @@
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': th.couid }),
                 $api.cache('Outline/ForID', { 'id': th.olid })
-            ).then(axios.spread(function (account, types, course, outline) {             
+            ).then(axios.spread(function (account, types, course, outline) {
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -109,11 +109,16 @@
                 if (update === true) query = $api.cache('Question/ForCourse:update', form);
                 query.then(function (req) {
                     if (req.data.success) {
+                        var questions= req.data.result;
+                        //console.error(questions);
+                        for (let i = 0; i < questions.length; i++) {
+                            //questions[i]=window.ques.parseAnswer(questions[i]);                                
+                        }
                         //获取练习记录
                         th.state.restore().then(function (d) {
                             th.count = d.count;
-                            //获取记录成功再赋值
-                            th.questions = req.data.result;
+                            //获取记录成功再赋值 
+                            th.questions = questions;
                             //初始显示第几条试题
                             th.$nextTick(function () {
                                 var last = th.state.last();
@@ -174,6 +179,7 @@
         }
     });
 }, ['/Utilities/Components/question/exercise.js',
+    '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',
