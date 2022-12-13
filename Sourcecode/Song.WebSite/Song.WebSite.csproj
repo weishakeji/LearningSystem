@@ -1271,6 +1271,8 @@
     <Content Include="Utilities\Components\Question\Styles\exercise.css" />
     <Content Include="Utilities\Components\Question\exercise.js" />
     <Content Include="Utilities\Components\Question\function.js" />
+    <Content Include="Utilities\Components\Question\learnmode.js" />
+    <Content Include="Utilities\Components\Question\Styles\learnmode.css" />
     <Content Include="Utilities\Components\Question\test.js" />
     <Content Include="Utilities\Components\Question\Styles\test.css" />
     <Content Include="Utilities\Components\securitylevel.js" />

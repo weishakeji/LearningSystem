@@ -41,9 +41,8 @@
           <van-col span="7">           
            
           </van-col>
-          <van-col span="8" @click="learnmode++">
-            <span v-if="learnmode%2==0" icon="&#xe657"> 练习模式 </span>
-            <span v-if="learnmode%2==1" icon="&#xe6da"> 背题模式 </span>
+          <van-col span="8">
+            <learnmode @change="v=>learnmode=v"></learnmode>
           </van-col>
           <van-col span="3" @click="()=>{$refs['setupmenu'].show=true}">
             <icon>&#xa038</icon>

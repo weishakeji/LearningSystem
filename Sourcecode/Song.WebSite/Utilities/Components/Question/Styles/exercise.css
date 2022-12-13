@@ -18,7 +18,8 @@ section dd info span {
 section dd info buttons {
 	display: flex;
 	float: right;
-	width: 50%;
+	max-width: 50%;
+    min-width: 180px;
 }
 
 section dd info buttons>* {

@@ -1,0 +1,44 @@
+.ws_ques_learnmode {
+    display: flex;
+    position: relative;
+    width: 100px;
+    height: 25px;
+    margin: 10px auto;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255,0.3) 50%);
+    transition: all 1s;
+    border-radius: 5px;
+    border: solid 1px rgba(255, 255, 255,0.3);
+}
+
+.ws_ques_learnmode[even] {
+    background: linear-gradient(90deg, rgba(255, 255, 255,0.3) 50%, rgba(255, 255, 255, 0) 50%);
+    transition: all 1s;
+}
+
+.ws_ques_learnmode>div {
+    flex: 1;
+    line-height: 21px;
+    box-sizing: border-box;
+    padding: 2px 8px;
+    font-size: 14px;
+    color: #666;
+    transition: all 0.5s;
+}
+.ws_ques_learnmode>div:first-child{
+    padding-right: 4px;
+}
+.ws_ques_learnmode>div:last-child{
+    padding-left: 4px;
+}
+.ws_ques_learnmode .btn_background {
+    position: absolute;
+    z-index: -1;
+    width: 50%;
+    height: 100%;
+    background-color: aquamarine;
+}
+
+.ws_ques_learnmode>div[current] {
+    font-size: 15px;
+    color: #333;
+}

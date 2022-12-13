@@ -38,9 +38,8 @@
               <icon>&#xe737</icon>重新练习
             </el-link>
           </div>
-          <div @click="learnmode++">
-            <span v-if="learnmode%2==0" icon="&#xe657"> 练习模式 </span>
-            <span v-if="learnmode%2==1" icon="&#xe6da"> 背题模式 </span>
+          <div>
+            <learnmode @change="v=>learnmode=v"></learnmode>
           </div>
           <div class="move_btn">
             <span @click="swiperight()">

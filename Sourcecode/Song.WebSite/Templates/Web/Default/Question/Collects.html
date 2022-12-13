@@ -30,9 +30,8 @@
       <template v-else>
         <div class="topBox">
           <a icon="&#xe748" @click="window.history.back();"></a>
-          <div span="9" @click="learnmode++">
-            <span v-if="learnmode%2==0" icon="&#xe657"> 练习模式 </span>
-            <span v-if="learnmode%2==1" icon="&#xe6da"> 背题模式 </span>
+          <div span="9">
+            <learnmode @change="v=>learnmode=v"></learnmode>
           </div>
           <div class="move_btn">
             <span @click="swiperight()">

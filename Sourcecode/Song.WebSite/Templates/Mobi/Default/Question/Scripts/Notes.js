@@ -177,6 +177,7 @@
     });
 }, ['/Utilities/Components/question/exercise.js',
     '/Utilities/Components/question/function.js',
+    '/Utilities/Components/question/learnmode.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',
