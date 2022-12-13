@@ -47,9 +47,6 @@
             //成绩得分
             resultTotal: 0
         },
-        updated: function () {
-            this.$mathjax();
-       },
         mounted: function () {
 
         },
@@ -508,6 +505,7 @@
         }
     });
 }, ['/Utilities/Components/question/test.js',
+    '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     "Components/final_condition.js"]);

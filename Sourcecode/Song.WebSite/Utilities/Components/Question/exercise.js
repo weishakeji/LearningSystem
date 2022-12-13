@@ -9,7 +9,7 @@ Vue.component('question', {
     props: ['ques', 'state', 'index', 'total', 'types', 'mode', 'current'],
     data: function () {
         return {
-            init: false,         //初始化完成
+            init: false,         //初始化完成        
             knowledge: {}        //试题关联的知识点
         }
     },
@@ -25,26 +25,22 @@ Vue.component('question', {
         //是否是当前显示的试题
         'current': {
             handler(nv, ov) {
-                if (!ov && nv && !this.existknl) {
-
-                }
                 if (!ov && nv && !this.init) {
-                    console.error(this.init);
                     this.getKnowledge(this.ques);
                     this.ques = this.parseAnswer(this.ques);
-                    //this.ques=window.ques.parseAnswer(this.ques);  
                     this.init = true;
+                    this.$nextTick(function () {
+                        var dom = $dom("dd[qid='" + this.ques.Qus_ID + "']");
+                        //清理空元素                
+                        this.clearempty(dom.find('card-title'));
+                        this.clearempty(dom.find('.ans_area'));
+                        //公式渲染
+                        this.$mathjax([dom[0]]);                       
+                    });
                 }
             },
             immediate: true
         }
-    },
-    updated: function () {
-        //this.$mathjax();
-        //没有内容的html元素，不显示
-        var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
-        //this.clearempty(qbox.find('card-title'));
-        //this.clearempty(qbox.find('.ans_area'));
     },
     computed: {
         //是否存在知识点

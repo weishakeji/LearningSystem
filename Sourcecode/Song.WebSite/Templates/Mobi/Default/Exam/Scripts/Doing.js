@@ -54,9 +54,6 @@ $ready(function () {
                 paper: false             //试卷生成中
             }
         },
-        updated: function () {
-            this.$mathjax();
-       },
         mounted: function () {
             $api.bat(
                 $api.get('Account/Current'),

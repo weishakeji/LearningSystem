@@ -30,9 +30,6 @@
 
             setup_show: false        //设置菜单是否显示
         },
-        updated: function () {
-            this.$mathjax();
-       },
         mounted: function () {
             var th = this;
             th.getAccount().then(function (d) {
@@ -43,7 +40,7 @@
             }).catch(function (err) {
                 Vue.prototype.$alert(err);
             });
-            $api.bat(            
+            $api.bat(
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': this.couid })
             ).then(axios.spread(function (types, course) {
@@ -206,6 +203,7 @@
         }
     });
 }, ['/Utilities/Components/question/exercise.js',
+    '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',

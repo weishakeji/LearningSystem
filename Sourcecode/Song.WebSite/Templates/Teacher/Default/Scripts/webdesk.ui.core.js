@@ -872,12 +872,13 @@
                         if (window.top.$pagebox) window.top.$pagebox.shut($dom.trim(window.name));
                     });
                 }, 300);
-                //解析公式的方法，需要vue对象中updated中引用this.$mathjax()
-                Vue.prototype.$mathjax = function (elementid) {
+                //渲染函数的方法，需要vue对象中updated中引用this.$mathjax()              
+                //elements可以是一个DOM节点的数组(注意getXXXsByYYY的结果是collection，必须手动转为数组才行)
+                Vue.prototype.$mathjax = function (elements) {
                     // 判断是否初始配置，若⽆则配置
                     if (window.globalVariable.isMathjaxConfig)
                         window.globalVariable.initMathjaxConfig();
-                    window.globalVariable.TypeSet(elementid);
+                    window.globalVariable.TypeSet(elements);
                 };
                 //重构alert
                 window.alert_base = window.alert;

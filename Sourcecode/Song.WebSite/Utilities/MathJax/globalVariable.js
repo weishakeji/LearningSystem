@@ -20,15 +20,12 @@ window.globalVariable = {
         });
         isMathjaxConfig = true; //配置完成，改为true
     },
-    TypeSet: async function (elementId) {
-        if (!window.MathJax) {
-            return
-        }
-        window.MathJax.startup.promise = window.MathJax.startup.promise
-            .then(() => {
-                return window.MathJax.typesetPromise(elementId)
-            })
-            .catch((err) => console.log('Typeset failed: ' + err.message))
-        return window.MathJax.startup.promise
+    //渲染函数，调用时会渲染指定节点elements，如果没有指定节点，渲染页面上所有公式
+    //elements可以是一个DOM节点的数组(注意getXXXsByYYY的结果是collection，必须手动转为数组才行)
+    TypeSet: async function (elements) {
+        if (!window.MathJax) return;
+        return window.MathJax.startup.promise.then(() => {
+            return window.MathJax.typesetPromise(elements)
+        }).catch((err) => console.log('Typeset failed: ' + err.message));
     }
 }

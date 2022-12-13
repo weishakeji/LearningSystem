@@ -28,12 +28,9 @@
                 wrong: 0,           //错误数
                 rate: 0         //正确率
             },
-         
+
             setup_show: false        //设置菜单是否显示
         },
-        updated: function () {
-            this.$mathjax();
-       },
         mounted: function () {
             var th = this;
             th.getAccount().then(function (d) {
@@ -44,7 +41,7 @@
             }).catch(function (err) {
                 Vue.prototype.$alert(err);
             });
-            $api.bat(              
+            $api.bat(
                 $api.cache('Question/Types:9999'),
                 $api.cache('Course/ForID', { 'id': this.couid })
             ).then(axios.spread(function (types, course) {
@@ -57,7 +54,7 @@
                     if (!data.success && data.exception != null) {
                         console.error(data.message);
                     }
-                }              
+                }
                 th.types = types.data.result;
                 th.course = course.data.result;
                 th.getQuestion(false);
@@ -133,7 +130,7 @@
                         }).finally(function () {
                             th.loading = false;
                             if (th.questions.length > 0)
-                                th.$message.success('试题加载成功');                            
+                                th.$message.success('试题加载成功');
                         });
 
                     } else {
@@ -190,6 +187,7 @@
         }
     });
 }, ['/Utilities/Components/question/exercise.js',
+    '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',

@@ -10,9 +10,6 @@ $ready(function () {
             datas: {},
             loading_init: true
         },
-        updated: function () {
-            this.$mathjax();
-       },
         mounted: function () {
             $api.bat(
                 $api.get('Account/Current'),

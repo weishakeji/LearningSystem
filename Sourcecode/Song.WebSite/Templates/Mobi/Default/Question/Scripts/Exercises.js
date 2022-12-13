@@ -32,9 +32,6 @@
             showCard: false,         //答题卡是否显示
             showCourse: false,           //显示课程   
         },
-        updated: function () {
-            this.$mathjax();
-        },
         mounted: function () {
             var th = this;
             th.loading_init = true;
@@ -109,16 +106,11 @@
                 if (update === true) query = $api.cache('Question/ForCourse:update', form);
                 query.then(function (req) {
                     if (req.data.success) {
-                        var questions= req.data.result;
-                        //console.error(questions);
-                        for (let i = 0; i < questions.length; i++) {
-                            //questions[i]=window.ques.parseAnswer(questions[i]);                                
-                        }
                         //获取练习记录
                         th.state.restore().then(function (d) {
                             th.count = d.count;
                             //获取记录成功再赋值 
-                            th.questions = questions;
+                            th.questions = req.data.result;
                             //初始显示第几条试题
                             th.$nextTick(function () {
                                 var last = th.state.last();

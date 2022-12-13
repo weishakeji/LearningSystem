@@ -17,8 +17,6 @@ Vue.component('question', {
     },
     computed: {},
     updated: function () {
-        console.error(555);
-        this.$mathjax();
         //没有内容的html元素，不显示
         var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
         this.clearempty(qbox.find('card-title'));

@@ -6,7 +6,7 @@
 	height: 180px;
 	display: flex;
 }
-.topbox>*{
+.topbox>*:last-child{
 	flex: 1;
 }
 .topbox .top_right{
@@ -19,6 +19,7 @@
 /*图片区*/
 .chart-area {
 	height: 180px;
+	width: 180px;
 	position: relative;
 	text-align: center;
 	padding-top: 10px;
@@ -96,7 +97,9 @@
     text-align: center;
     padding: 10px 5px 0px 5px;
 }
-
+.mainmenu>div icon{
+	display: block;
+}
 .mainmenu span{  
     display: block;
     font-size: 30px;

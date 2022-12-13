@@ -32,9 +32,6 @@
             showCourse: false,           //显示课程
             setup_show: false        //设置菜单是否显示
         },
-        updated: function () {
-            this.$mathjax();
-        },
         mounted: function () {
             var th = this;
             $api.bat(
@@ -67,14 +64,7 @@
                 th.error = err;
                 console.error(err);
             });
-            /*
-            window.addEventListener('scroll', this.handleScroll)
-            if (window.globalVariable.isMathjaxConfig) {
-                // 判断是否初始配置，若⽆则配置。
-                window.globalVariable.initMathjaxConfig()
-            }
-            window.globalVariable.TypeSet()
-            */
+
         },
         created: function () {
             window.onresize = function () {
@@ -219,6 +209,7 @@
         }
     });
 }, ['/Utilities/Components/question/exercise.js',
+    '/Utilities/Components/question/function.js',
     'Components/Quesbuttons.js',
     'Components/AnswerCard.js',
     'Components/SetupMenu.js',

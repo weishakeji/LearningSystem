@@ -21,9 +21,6 @@ $ready(function () {
             error: '',           //错误提示信息，例如不能查看考虑成绩时
             loading: false
         },
-        updated: function () {
-            this.$mathjax();
-        },
         mounted: function () {
             window.addEventListener('scroll', this.handleScroll, true)
             this.loading = true;

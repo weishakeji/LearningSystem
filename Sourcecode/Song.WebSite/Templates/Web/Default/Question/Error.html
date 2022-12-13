@@ -43,8 +43,8 @@
               <icon>&#xe802</icon>下一题
             </span>
           </div> 
-          <div @click="()=>{$refs['setupmenu'].show=true}">
-            <icon v-if="false">&#xa038</icon>
+          <div @click="()=>{$refs['setupmenu'].show=true}" v-if="false">
+            <icon>&#xa038</icon>
           </div>
         </div>
         <setupmenu ref="setupmenu" :account="account"></setupmenu>

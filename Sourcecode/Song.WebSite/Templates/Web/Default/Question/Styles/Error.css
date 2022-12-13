@@ -72,10 +72,7 @@ loading {
 	line-height: 45px;
 
 }
-.topBox>*:last-child{
-	width: 60px;
-	flex: none;
-}
+
 .topBox a {
 	text-decoration: none;
 }
