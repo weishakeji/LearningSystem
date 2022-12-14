@@ -358,10 +358,10 @@ namespace Song.ServiceImpls
         public Subject[] SubjectPager(int orgid, long pid, bool? isUse, string searTxt, int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();
-            if (orgid > -1) wc.And(Subject._.Org_ID == orgid);
-            if (pid > 0) wc.And(Subject._.Sbj_PID == pid);
-            if (isUse != null) wc.And(Subject._.Sbj_IsUse == isUse);
-            if (searTxt != string.Empty) wc.And(Subject._.Sbj_Name.Like("%" + searTxt + "%"));
+            if (orgid > 0) wc.And(Subject._.Org_ID == orgid);
+            if (pid >= 0) wc.And(Subject._.Sbj_PID == pid);
+            if (isUse != null) wc.And(Subject._.Sbj_IsUse == (bool)isUse);
+            if (string.IsNullOrWhiteSpace(searTxt)) wc.And(Subject._.Sbj_Name.Like("%" + searTxt + "%"));
             countSum = Gateway.Default.Count<Subject>(wc);
             return Gateway.Default.From<Subject>().Where(wc).OrderBy(Subject._.Sbj_Tax.Asc).ToArray<Subject>(size, (index - 1) * size);
         }

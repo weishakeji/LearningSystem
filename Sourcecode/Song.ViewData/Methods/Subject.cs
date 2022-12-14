@@ -286,7 +286,7 @@ namespace Song.ViewData.Methods
         public ListResult PagerFront(int orgid,long pid,int index, int size)
         {
             int sum = 0;
-            Song.Entities.Subject[] list = Business.Do<ISubject>().SubjectPager(orgid,pid,true,string.Empty, size, index, out sum);
+            Song.Entities.Subject[] list = Business.Do<ISubject>().SubjectPager(orgid, pid, true, string.Empty, size, index, out sum);
             for (int i = 0; i < list.Length; i++)
             {
                 list[i] = _tran(list[i]);

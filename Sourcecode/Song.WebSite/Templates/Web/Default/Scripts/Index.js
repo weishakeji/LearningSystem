@@ -50,8 +50,7 @@ $ready(function () {
                 $api.bat(
                     $api.cache('Showpic/web:60', { 'orgid': orgid }),
                     $api.cache('Notice/ShowItems', { 'orgid': orgid, 'type': 1, 'count': 4 }),
-                    $api.cache('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' }),
-                    $api.cache('Subject/ShowRoot:60', { 'orgid': orgid, 'count': 10 })
+                    $api.cache('News/ArticlesShow', { 'orgid': orgid, 'uid': '', 'count': 12, 'order': 'img' })
                 ).then(axios.spread(function (showpic, notice, articles, subject) {
                     th.loading = false;
                     //判断结果是否正常
@@ -73,7 +72,6 @@ $ready(function () {
                         }
                     }
                     th.articles = articles.data.result;
-
                     //th.subject = subject.data.result;
                 })).catch(function (err) {
                     th.loading = false;
