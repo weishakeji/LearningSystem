@@ -4,7 +4,7 @@
         el: '#vapp',
         data: {
             couid: $api.querystring("couid", 0),
-            stid: $api.querystring("stid", 0),
+            stid: $api.querystring("acid", 0),
             account: {},     //当前登录账号        
             types: [],          //试题类型
             course: {},         //当前课程

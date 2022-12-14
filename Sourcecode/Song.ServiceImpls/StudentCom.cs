@@ -1341,7 +1341,9 @@ select c.Cou_ID,Cou_Name,Sbj_ID,lastTime,studyTime,complete from course as c inn
         /// </summary>
         /// <param name="acid">学员id</param>
         /// <param name="sbjid">学科id</param>
+        /// <param name="couid"></param>
         /// <param name="type">试题类型</param>
+        /// <param name="count"></param>
         /// <returns></returns>
         public Questions[] QuesCount(int acid, long sbjid, long couid, int type, int count)
         {
