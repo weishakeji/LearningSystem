@@ -69,13 +69,13 @@
                 <el-table-column label="姓名" width="120">
                     <template slot-scope="scope">
                         <icon :woman="scope.row.Ac_Sex=='2'" :man="scope.row.Ac_Sex!='2'"
-                            v-html='showInfo(scope.row.Ac_Name,form.name)' class="link large" @click="getaccount(scope.row)">
+                            v-html='showsearch(scope.row.Ac_Name,form.name)' class="link large" @click="getaccount(scope.row)">
                         </icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="身份证">
                     <template slot-scope="scope">
-                        <span v-html='showInfo(scope.row.Ac_IDCardNumber,form.idcard)' class="link" @click="getaccount(scope.row)"></span>
+                        <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)' class="link" @click="getaccount(scope.row)"></span>
                     </template>
                 </el-table-column>
                 <el-table-column label="考试时间" align="center">

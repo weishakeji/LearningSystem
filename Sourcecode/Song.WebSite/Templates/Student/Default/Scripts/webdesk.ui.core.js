@@ -897,6 +897,22 @@
                         window.globalVariable.initMathjaxConfig();
                     window.globalVariable.TypeSet(elements);
                 };
+                //全屏的预载效果
+                Vue.prototype.$fulloading = function () {
+                    return this.$loading({
+                        lock: true,
+                        text: '正在处理...',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(255, 255, 255, 0.5)'
+                    });
+                };
+                //将查询结果高亮显示
+                Vue.prototype.showsearch = function (txt, search) {
+                    if (txt == null || txt == '') return '';
+                    if (search == null || search == '') return txt;
+                    var regExp = new RegExp(search, 'g');
+                    return txt.replace(regExp, `<red>${search}</red>`);
+                };
                 //重构alert
                 window.alert_base = window.alert;
                 window.alert = function (txt) {
