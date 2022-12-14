@@ -33,7 +33,7 @@
             <loading v-if="loading">正在加载...</loading>
             <template v-else-if="sorts.length>0">
                 <el-checkbox v-for="(item,i) in sorts" v-model="item.selected" @change="selectSingle(item)">
-                    {{i+1}}. <span v-html='showInfo(item.Sts_Name)'></span>
+                    {{i+1}}. <span v-html='showsearch(item.Sts_Name,form.search)'></span>
                     <student_count :sort="item"></student_count>
                 </el-checkbox>
             </template>

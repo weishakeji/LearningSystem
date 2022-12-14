@@ -60,7 +60,7 @@
                 <el-table-column label="充值码-密码">
                     <template slot-scope="scope">
                         <div title="双击复制充值码信息" @dblclick="rowdblclick(scope.row)"> <span
-                            v-html='showInfo(scope.row.Rc_Code,form.code)'></span>
+                            v-html='showsearch(scope.row.Rc_Code,form.code)'></span>
                             - {{scope.row.Rc_Pw}}</div>
 
                     </template>
@@ -74,7 +74,7 @@
                 <el-table-column label="使用人" align="center">
                     <template slot-scope="scope">
                         <el-link v-if="scope.row.Rc_IsUsed" @click="acccountInfo(scope.row)"
-                        v-html='showInfo(scope.row.Ac_AccName,form.account)'>/el-link>
+                        v-html='showsearch(scope.row.Ac_AccName,form.account)'>/el-link>
 
                     </template>
                 </el-table-column>

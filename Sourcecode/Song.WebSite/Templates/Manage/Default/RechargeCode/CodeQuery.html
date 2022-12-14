@@ -48,7 +48,7 @@
                 <el-table-column label="卡号-密码">
                     <template slot-scope="scope">
                         <div title="双击复制卡号信息" @dblclick="rowdblclick(scope.row)"> <span
-                                v-html='showInfo(scope.row.Rc_Code,form.code)'></span>
+                                v-html='showsearch(scope.row.Rc_Code,form.code)'></span>
                             - {{scope.row.Rc_Pw}}</div>
 
                     </template>
@@ -70,7 +70,7 @@
                         <el-tooltip class="item" effect="dark"
                             :content="scope.row.Rc_UsedTime|date('使用时间：yyyy-MM-dd HH:mm:ss')" placement="bottom">
                             <el-link v-if="scope.row.Rc_IsUsed" @click="acccountInfo(scope.row)"
-                                v-html='showInfo(scope.row.Ac_AccName,form.account)'></el-link>
+                                v-html='showsearch(scope.row.Ac_AccName,form.account)'></el-link>
                         </el-tooltip>
 
 

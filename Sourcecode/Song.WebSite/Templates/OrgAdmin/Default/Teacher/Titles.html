@@ -38,7 +38,7 @@
                 </el-table-column>
                 <el-table-column label="名称" show-overflow-tooltip width="150">
                     <template slot-scope="scope">
-                        <span v-html="showInfo(scope.row.Ths_Name)" class="draghandle"> </span>
+                        <span v-html="showsearch(scope.row.Ths_Name,form.name)" class="draghandle"> </span>
                     </template>
                 </el-table-column>
                 <el-table-column label="备注" show-overflow-tooltip >

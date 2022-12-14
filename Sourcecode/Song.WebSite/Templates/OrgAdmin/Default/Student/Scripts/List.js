@@ -84,15 +84,6 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt, search) {
-                if (search == null || search == '') return txt;
-                if (txt != '') {
-                    var regExp = new RegExp(search, 'gi');
-                    txt = txt.replace(regExp, `<red>${search}</red>`);
-                }
-                return txt;
-            },
             //显示手机号
             showmobi: function (row) {
                 var phone = row.Ac_MobiTel1;

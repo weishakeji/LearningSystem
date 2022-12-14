@@ -134,14 +134,6 @@ $ready(function () {
             rowdblclick: function (row, column, event) {
                 this.$refs.btngroup.modify(row[this.$refs.btngroup.idkey]);
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.search != '') {
-                    var regExp = new RegExp(this.form.search, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.search}</red>`);
-                }
-                return txt;
-            },
             //更改使用状态
             changeState: function (row) {
                 var th = this;

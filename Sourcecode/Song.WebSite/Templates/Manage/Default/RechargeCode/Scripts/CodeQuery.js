@@ -105,14 +105,6 @@
                 }
                 return set;
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt, search) {
-                if (txt != '' && search != '') {
-                    var regExp = new RegExp(search, 'g');
-                    txt = txt.replace(regExp, `<red>${search}</red>`);
-                }
-                return txt;
-            },
             //双击事件
             rowdblclick: function (row, column, event) {
                 let codeset = this.getTheme(row.Rs_ID);

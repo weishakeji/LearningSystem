@@ -60,12 +60,12 @@
                         <photo :teacher="scope.row" circle="true" size="45"></photo>
                         <div class="info" :class="{'woman': scope.row.Th_Sex==2}">
                             <icon :woman="scope.row.Th_Sex==2" :man="scope.row.Th_Sex==1"></icon>
-                            <span v-html='showInfo(scope.row.Th_Name,form.search)' v-if="scope.row.Th_Name!=''"
+                            <span v-html='showsearch(scope.row.Th_Name,form.search)' v-if="scope.row.Th_Name!=''"
                                 @dblclick.stop="copy(scope.row.Th_Name)"></span>
                             <span v-else class="noname">(没有名字)</span>
                             <div remark="电话" @dblclick.stop="copy(showmobi(scope.row))">
                                 <icon>&#xe677</icon>
-                                <span v-html='showInfo(showmobi(scope.row),form.phone)'></span>
+                                <span v-html='showsearch(showmobi(scope.row),form.phone)'></span>
                             </div>
                         </div>
 
@@ -75,7 +75,7 @@
                     <template slot-scope="scope">
                         <div title="身份证号" @dblclick.stop="copy(scope.row.Th_IDCardNumber)">
                             <icon>&#xe68f</icon>
-                            <span v-html='showInfo(scope.row.Th_IDCardNumber,form.idcard)'></span>
+                            <span v-html='showsearch(scope.row.Th_IDCardNumber,form.idcard)'></span>
                         </div>
                         <div title="民族">
                             <icon>&#xa04e</icon>

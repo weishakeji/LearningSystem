@@ -91,14 +91,6 @@ $ready(function () {
                     vapp.$alert(err, '错误');
                 });
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.name != '') {
-                    var regExp = new RegExp(this.form.name, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.name}</red>`);
-                }
-                return txt;
-            },
             //双击事件
             rowdblclick: function (row, column, event) {
                 this.$refs.btngroup.modifyrow(row);                

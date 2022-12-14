@@ -54,7 +54,7 @@
             <el-table-column label="链接名称">
                 <template slot-scope="scope">
                     <icon v-if="scope.row.Lk_Logo!=''" title="图片" style="font-size: 18px;">&#xe672</icon>
-                    <span v-html="showInfo(scope.row.Lk_Name,form.name)" class="large"></span>
+                    <span v-html="showsearch(scope.row.Lk_Name,form.name)" class="large"></span>
 
                 </template>
             </el-table-column>
@@ -73,7 +73,7 @@
             <el-table-column label="链接" show-overflow-tooltip>
                 <template slot-scope="scope">
                     <a target="_blank" :href="scope.row.Lk_Url" underline
-                        v-html="showInfo(scope.row.Lk_Url,form.link)"></a>
+                        v-html="showsearch(scope.row.Lk_Url,form.link)"></a>
                 </template>
             </el-table-column>
             <el-table-column label="所属分类" show-overflow-tooltip width="120">

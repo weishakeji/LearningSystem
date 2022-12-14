@@ -93,14 +93,6 @@
 
                 });
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.name != '') {
-                    var regExp = new RegExp(this.form.search, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.search}</red>`);
-                }
-                return txt;
-            },
             //二级域名的链接，
             domainLink: function (domain) {
                 return "http://" + domain + "." + this.domain;

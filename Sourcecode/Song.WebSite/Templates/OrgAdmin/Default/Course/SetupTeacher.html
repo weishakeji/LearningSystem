@@ -48,7 +48,7 @@
                             <icon v-if="scope.row.Th_Sex==2" title="女性">&#xe844</icon>
                             <icon v-if="scope.row.Th_Sex==1" title="男性">&#xe645</icon>
                             <icon v-if="scope.row.Th_Sex==0" title="性别未知">&#xa043</icon>
-                            <span v-html='showInfo(scope.row.Th_Name)' v-if="scope.row.Th_Name!=''"></span>
+                            <span v-html='showsearch(scope.row.Th_Name,query.search)' v-if="scope.row.Th_Name!=''"></span>
                             <span v-else class="noname">(没有名字)</span>
                         </span>
                     </el-tooltip>

@@ -117,15 +117,7 @@ $ready(function () {
                     vapp.$alert(err, '错误');
                     th.loadingid = 0;
                 });
-            },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.search != '') {
-                    var regExp = new RegExp(this.form.search, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.search}</red>`);
-                }
-                return txt;
-            },
+            }
         }
     });
 

@@ -45,7 +45,7 @@
             <el-table-column label="试卷">
                 <template slot-scope="scope">
                     <useicon :state="scope.row.Tp_IsUse"> </useicon>
-                    <span v-html="showInfo(scope.row.Tp_Name)" class="large"></span>
+                    <span v-html="showsearch(scope.row.Tp_Name,form.search)" class="large"></span>
                     <br />
                     <el-tag type="info" title="难度等级"> {{scope.row.Tp_Diff}} - {{scope.row.Tp_Diff2}}</el-tag>
                     <el-tag type="info" title="题量"> {{scope.row.Tp_Count}} 道题</el-tag>

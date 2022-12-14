@@ -80,7 +80,7 @@
                 <template slot-scope="scope">
                     <span class="index">{{(form.index - 1) * form.size + scope.$index + 1}}.</span>
                     <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
-                    <a v-html="showInfo(scope.row.Cou_Name)" class="large" target="_blank"
+                    <a v-html="showsearch(scope.row.Cou_Name,form.search)" class="large" target="_blank"
                         :href="'/web/course/detail.'+scope.row.Cou_ID"> </a>
 
                 </template>

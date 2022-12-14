@@ -62,7 +62,7 @@
                         </template>
                         <live v-if="scope.row.Cou_ExistLive" title="直播课"></live>
                         <a :href="'/web/course/detail.'+scope.row.Cou_ID" target="_blank" underline
-                            v-html="showInfo(scope.row.Cou_Name)" class="large"> </a>
+                            v-html="showsearch(scope.row.Cou_Name,form.search)" class="large"> </a>
                     </div>
                 </div>
             </el-table-column>

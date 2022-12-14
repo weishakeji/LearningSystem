@@ -120,14 +120,6 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.code != '') {
-                    var regExp = new RegExp(this.form.code, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.code}</red>`);
-                }
-                return txt;
-            },
             //双击事件
             rowdblclick: function (row, column, event) {
                 var cardset = row.cardset;

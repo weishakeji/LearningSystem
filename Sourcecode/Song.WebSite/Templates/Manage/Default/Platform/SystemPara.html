@@ -28,7 +28,7 @@
                 </el-table-column>
                 <el-table-column label="参数名" header-align="left">
                     <template slot-scope="scope">
-                        <span v-html='showInfo(scope.row.Sys_Key)'></span>
+                        <span v-html='showsearch(scope.row.Sys_Key,search)'></span>
                     </template>
                 </el-table-column>
                 <el-table-column label="参数值" header-align="left">

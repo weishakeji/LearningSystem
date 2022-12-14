@@ -207,14 +207,6 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.search != '') {
-                    var regExp = new RegExp(this.form.search, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.search}</red>`);
-                }
-                return txt;
-            },
             //设置成员的按钮事件
             setaccount: function (item) {
                 var title = '设置“' + item.Sts_Name + '”的成员';

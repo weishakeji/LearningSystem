@@ -181,15 +181,7 @@ $ready(function () {
                     alert(err);
                     console.error(err);
                 });
-            },
-            //在列中显示信息，包含检索
-            showInfo: function (txt, search) {
-                if (txt != '' && search != '') {
-                    var regExp = new RegExp(search, 'g');
-                    txt = txt.replace(regExp, `<red>${search}</red>`);
-                }
-                return txt;
-            },
+            }
         }
     });
 

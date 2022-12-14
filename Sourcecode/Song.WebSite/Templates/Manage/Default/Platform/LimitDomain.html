@@ -35,7 +35,7 @@
                 </el-table-column>
                 <el-table-column label="名称" header-align="left">
                     <template slot-scope="scope">
-                        <span v-html='showInfo(scope.row.LD_Name)'></span>
+                        <span v-html='showsearch(scope.row.LD_Name,form.search)'></span>
                     </template>
                 </el-table-column>
                 <el-table-column label="简介" header-align="left">

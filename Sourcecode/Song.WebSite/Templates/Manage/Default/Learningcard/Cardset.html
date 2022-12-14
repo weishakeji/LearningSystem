@@ -61,7 +61,7 @@
                             @click="$refs.btngroup.pagebox('cards?id='+scope.row.Lcs_ID,'“'+scope.row.Lcs_Theme+'”的卡片详情',null,'900','80%')">
                             <span class="el-icon-open enable" v-if="scope.row.Lcs_IsEnable"></span>
                             <span class="el-icon-turn-off disable" v-if="!scope.row.Lcs_IsEnable"></span> <span class="large"
-                                v-html="showInfo(scope.row.Lcs_Theme)"></span>
+                                v-html="showsearch(scope.row.Lcs_Theme,form.search)"></span>
                         </el-link>
                     </template>
                 </el-table-column>

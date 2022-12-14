@@ -60,12 +60,12 @@
                 <el-table-column label="姓名" width="120">
                     <template slot-scope="scope">
                         <icon :man="scope.row.Ac_Sex!=2" :woman="scope.row.Ac_Sex==2"
-                            v-html='showInfo(scope.row.Ac_Name)' class="large"></icon>
+                            v-html='showsearch(scope.row.Ac_Name,form.search)' class="large"></icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="账号">
                     <template slot-scope="scope">
-                        <icon v-html='showInfo(scope.row.Ac_AccName)' :teacher="scope.row.Ac_IsTeacher"
+                        <icon v-html='showsearch(scope.row.Ac_AccName,form.search)' :teacher="scope.row.Ac_IsTeacher"
                             :title="scope.row.Ac_IsTeacher ? '教师' : ''"></icon>
                     </template>
                 </el-table-column>

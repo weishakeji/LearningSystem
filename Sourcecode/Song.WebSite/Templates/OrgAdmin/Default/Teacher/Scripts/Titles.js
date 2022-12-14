@@ -193,15 +193,7 @@ $ready(function () {
                     th.loadingid = 0;
                     console.error(err);
                 });
-            },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.name != '') {
-                    var regExp = new RegExp(this.form.name, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.name}</red>`);
-                }
-                return txt;
-            },
+            }
         }
     });
 });

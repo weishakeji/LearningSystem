@@ -98,15 +98,6 @@ $ready(function () {
                     background: 'rgba(255, 255, 255, 0.3)'
                 });
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt, search) {
-                if (search == null || search == '') return txt;
-                if (txt != '') {
-                    var regExp = new RegExp(search, 'gi');
-                    txt = txt.replace(regExp, `<red>${search}</red>`);
-                }
-                return txt;
-            },
             //完成添加课程
             addfinish: function (stsid, couid) {
                 console.log(couid);

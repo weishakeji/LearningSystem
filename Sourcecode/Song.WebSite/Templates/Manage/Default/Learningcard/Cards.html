@@ -69,7 +69,7 @@
                 <el-table-column label="卡号-密码">
                     <template slot-scope="scope">
                         <div title="双击复制学习卡信息" @dblclick="rowdblclick(scope.row)"> <span
-                                v-html='showInfo(scope.row.Lc_Code,form.card)'></span>
+                                v-html='showsearch(scope.row.Lc_Code,form.card)'></span>
                             - {{scope.row.Lc_Pw}}</div>
 
                     </template>
@@ -94,7 +94,7 @@
                 <el-table-column label="使用人" align="center">
                     <template slot-scope="scope">
                         <el-link v-if="scope.row.Lc_IsUsed" @click="acccountInfo(scope.row)"
-                            v-html='showInfo(scope.row.Ac_AccName,form.account)'> </el-link>
+                            v-html='showsearch(scope.row.Ac_AccName,form.account)'> </el-link>
 
                     </template>
                 </el-table-column>

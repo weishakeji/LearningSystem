@@ -63,14 +63,6 @@ $ready(function () {
                 }
                 return arr;
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.search != '') {
-                    var regExp = new RegExp(this.search, 'g');
-                    txt = txt.replace(regExp, `<red>${this.search}</red>`);
-                }
-                return txt;
-            },
             //双击事件
             rowdblclick: function (row, column, event) {
                 this.$refs.btngroup.modifyrow(row);

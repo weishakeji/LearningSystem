@@ -131,7 +131,7 @@
                     <alert v-if="scope.row.Qus_IsError" title="存在错误">存在错误</alert>
                     <alert v-if="scope.row.Qus_IsWrong" title="学员反馈试题有错误">报错</alert>
 
-                    <span v-html="showInfo(scope.row.Qus_Title)" class="large">
+                    <span v-html="showsearch(scope.row.Qus_Title,form.search)" class="large">
                 </template>
             </el-table-column>
             <el-table-column label="难度" width="70">

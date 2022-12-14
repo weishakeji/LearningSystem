@@ -39,7 +39,7 @@ html, body, #vapp {
 /*特殊字体*/
 
 red, .red {
-    color: red;
+    color: red !important;
     font-weight: bold;
 }
 
@@ -89,7 +89,7 @@ a {
     --background-color: transparent !important;
 }
 
-table.el-table__body tr.disabled td, table.el-table__body tr.disabled td *:not(.el-tag) {
+table.el-table__body tr.disabled td, table.el-table__body tr.disabled td *:not(.el-tag,red) {
     color: #aaa !important;
 }
 table.el-table__body tr.disabled td img {

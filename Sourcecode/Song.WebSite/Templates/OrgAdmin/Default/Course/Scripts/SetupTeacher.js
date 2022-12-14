@@ -112,14 +112,6 @@ $ready(function () {
                     console.error(err);
                 });
             },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.query.search != '') {
-                    var regExp = new RegExp(this.query.search, 'g');
-                    txt = txt.replace(regExp, `<red>${this.query.search}</red>`);
-                }
-                return txt;
-            },
             //选择教师
             selected: function (teach) {
                 var th = this;

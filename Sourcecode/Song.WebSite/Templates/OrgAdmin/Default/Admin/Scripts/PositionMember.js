@@ -49,7 +49,7 @@ $ready(function () {
                 th.organ = organ.data.result;
                 //机构配置信息
                 th.config = $api.organ(vapp.organ).config;
-                th.getEmpAccountPager(1);
+                th.employelist(1);
                 th.getPosiAccount();
             })).catch(function (err) {
                 th.loading.init = false;
@@ -67,7 +67,7 @@ $ready(function () {
         },
         methods: {
             //加载人员列表
-            getEmpAccountPager: function (index) {
+            employelist: function (index) {
                 if (index != null) this.form.index = index;
                 var th = this;
                 //每页多少条，通过界面高度自动计算
@@ -90,14 +90,6 @@ $ready(function () {
                     th.loading.left = false;
                     console.error(err);
                 });
-            },
-            //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.name != '') {
-                    var regExp = new RegExp(this.form.name, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.name}</red>`);
-                }
-                return txt;
             },
             //加载当前岗位的人员
             getPosiAccount: function () {

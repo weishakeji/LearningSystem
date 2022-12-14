@@ -15,12 +15,13 @@
                     <span>
                         <icon>&#xe67d</icon>所有人员
                     </span>
-                    <el-input placeholder="查询" style="width:150px" v-model="form.name">
-                        <i class="el-icon-search el-input__icon" slot="suffix" @click="getEmpAccountPager(1)"> </i>
+                    <el-input placeholder="查询" style="width:150px" v-model="form.name" clearable
+                        @change="employelist(1)" @clear="employelist">
+                        <i class="el-icon-search el-input__icon" slot="suffix" @click="employelist(1)"> </i>
                     </el-input>
                 </div>
-                <el-table ref="accounts" :data="accounts"  v-loading="loading.left" tooltip-effect="dark" style="width: 100%"
-                    @selection-change="val=>selects=val">
+                <el-table ref="accounts" :data="accounts" v-loading="loading.left" tooltip-effect="dark"
+                    style="width: 100%" @selection-change="val=>selects=val">
                     <el-table-column type="selection" width="55">
                     </el-table-column>
                     <el-table-column label="">
@@ -29,20 +30,23 @@
                             <el-tag type="info" class="count" v-if="selects.length>0">选中 {{selects.length}} 个</el-tag>
                         </template>
                         <template slot-scope="scope">
-                            <span v-if="scope.row.Acc_Sex=='1'" class="man" icon="&#xe645"
-                                title="男性"></span>
-                            <span v-if="scope.row.Acc_Sex=='2'" class="woman" icon="&#xe647"
-                                title="女性"></span>
-                            <span v-html='showInfo(scope.row.Acc_Name)'></span>/ {{ scope.row.Acc_AccName }}
+
+                            <span v-if="scope.row.Acc_Sex=='1'" class="man" icon="&#xe645" title="男性"></span>
+                            <span v-if="scope.row.Acc_Sex=='2'" class="woman" icon="&#xe647" title="女性"></span>
+                            <span v-html='showsearch(scope.row.Acc_Name,form.name)'></span>/ {{ scope.row.Acc_AccName }}
                         </template>
                     </el-table-column>
                 </el-table>
 
             </div>
             <div class="center">
-                <el-button type="primary" plain @click="toRight"><icon>&#xe6c6</icon>选择</el-button>
-                <br/>
-                <el-button type="warning" plain @click="toLeft"><icon style="transform: rotate(180deg);">&#xe6c6</icon>取消</el-button>
+                <el-button type="primary" plain @click="toRight">
+                    <icon>&#xe6c6</icon>选择
+                </el-button>
+                <br />
+                <el-button type="warning" plain @click="toLeft">
+                    <icon style="transform: rotate(180deg);">&#xe6c6</icon>取消
+                </el-button>
             </div>
             <div class="right">
                 <div class="tit"> <span>
@@ -50,21 +54,20 @@
                     </span>
                     <el-tag type="info" class="count" v-if="posiacconts.length>0">共 {{posiacconts.length}} 人</el-tag>
                 </div>
-                <el-table ref="posiacconts" :data="posiacconts" v-loading="loading.right" tooltip-effect="dark" style="width: 100%"
-                    @selection-change="val=>posiselects=val">
+                <el-table ref="posiacconts" :data="posiacconts" v-loading="loading.right" tooltip-effect="dark"
+                    style="width: 100%" @selection-change="val=>posiselects=val">
                     <el-table-column type="selection" width="55">
                     </el-table-column>
                     <el-table-column label="">
                         <template slot="header" slot-scope="scope">
                             姓名/账号
-                            <el-tag type="info" class="count" v-if="posiselects.length>0">选中 {{posiselects.length}} 条</el-tag>
+                            <el-tag type="info" class="count" v-if="posiselects.length>0">选中 {{posiselects.length}} 条
+                            </el-tag>
                         </template>
                         <template slot-scope="scope">
-                            <span v-if="scope.row.Acc_Sex=='1'" class="man" icon="&#xe645"
-                                title="男性"></span>
-                            <span v-if="scope.row.Acc_Sex=='2'" class="woman" icon="&#xe647"
-                                title="女性"></span>
-                            <span v-html='showInfo(scope.row.Acc_Name)'></span>/ {{ scope.row.Acc_AccName }}
+                            <span v-if="scope.row.Acc_Sex=='1'" class="man" icon="&#xe645" title="男性"></span>
+                            <span v-if="scope.row.Acc_Sex=='2'" class="woman" icon="&#xe647" title="女性"></span>
+                            <span v-html='showsearch(scope.row.Acc_Name,form.name)'></span>/ {{ scope.row.Acc_AccName }}
                         </template>
                     </el-table-column>
 
@@ -73,7 +76,7 @@
             </div>
         </workarea>
         <div id="pager-box">
-            <el-pagination v-on:current-change="getEmpAccountPager" :current-page="form.index" :page-sizes="[1]"
+            <el-pagination v-on:current-change="employelist" :current-page="form.index" :page-sizes="[1]"
                 :page-size="form.size" :pager-count="5" layout="total, prev, pager, next" :total="total">
             </el-pagination>
         </div>
