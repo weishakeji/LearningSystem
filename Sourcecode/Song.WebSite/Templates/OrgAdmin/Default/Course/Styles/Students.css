@@ -3,9 +3,8 @@
 	float: left;
 	margin-right: 10px;
 }
-.teacher::before {
-	color: rgb(3, 167, 3);
-	margin: 0px;
+.acname::before{
+	content: '' !important;
 }
 /*完成度的各项值*/
 .progress{

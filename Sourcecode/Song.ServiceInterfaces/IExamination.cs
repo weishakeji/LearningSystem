@@ -298,13 +298,14 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="examid"></param>
         /// <param name="name">学员姓名</param>
+        /// <param name="idcard">身份证号</param>
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        ExamResults[] Results(int examid, string name, int min, int max, int size, int index, out int countSum);
+        ExamResults[] Results(int examid, string name, string idcard, int min, int max, int size, int index, out int countSum);
         ExamResults[] Results(string examuid, int size, int index, out int countSum);
         /// <summary>
         /// 当前考试场次下的所有人员成绩

@@ -802,15 +802,16 @@ namespace Song.ViewData.Methods
         /// </summary>
         /// <param name="examid">考试id</param>
         /// <param name="name">学员姓名<</param>
+        /// <param name="idcard">学员身份证号</param>
         /// <param name="min"></param>
         /// <param name="max"></param>
         /// <param name="size"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public ListResult Result4Exam(int examid, string name,int min,int max, int size, int index)
+        public ListResult Result4Exam(int examid, string name, string idcard, int min,int max, int size, int index)
         {
             int count = 0;
-            Song.Entities.ExamResults[] datas = Business.Do<IExamination>().Results(examid, name, min, max, size, index, out count);
+            Song.Entities.ExamResults[] datas = Business.Do<IExamination>().Results(examid, name, idcard, min, max, size, index, out count);
             ListResult result = new ListResult(datas);
             result.Index = index;
             result.Size = size;
@@ -839,13 +840,13 @@ namespace Song.ViewData.Methods
             return result;
         }
         /// <summary>
-        /// 删除考试成绩
+        /// 删除考试成绩，按学员id与考试id
         /// </summary>
         /// <param name="acid">学员id,可以为多个</param>
         /// <param name="examid">考试id</param>
         /// <returns></returns>
         [HttpDelete]
-        public int ResultDelete(string acid,int examid)
+        public int ResultDelete4Acc(string acid,int examid)
         {
             int i = 0;
             if (string.IsNullOrWhiteSpace(acid)) return i;
@@ -866,6 +867,34 @@ namespace Song.ViewData.Methods
                 }
             }
             return i; 
+        }
+        /// <summary>
+        /// 删除考试成绩，按成绩记录的id
+        /// </summary>
+        /// <param name="exrid">成绩记录的id,可以为多个</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public int ResultDelete(string exrid)
+        {
+            int i = 0;
+            if (string.IsNullOrWhiteSpace(exrid)) return i;
+            string[] arr = exrid.Split(',');
+            foreach (string s in arr)
+            {
+                int idval = 0;
+                int.TryParse(s, out idval);
+                if (idval == 0) continue;
+                try
+                {
+                    Business.Do<IExamination>().ResultDelete(idval);
+                    i++;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return i;
         }
         /// <summary>
         /// 计算考试成绩，通过考试成绩的记录计算，一般用于重新计算

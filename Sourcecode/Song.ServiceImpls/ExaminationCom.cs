@@ -1259,18 +1259,13 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == examid);
             
         }
-        public ExamResults[] Results(int examid, string name, int min, int max, int size, int index, out int countSum)
+        public ExamResults[] Results(int examid, string name, string idcard, int min, int max, int size, int index, out int countSum)
         {
-            WhereClip wc = ExamResults._.Exam_ID == examid;
+            WhereClip wc = ExamResults._.Exam_ID == examid;           
+            if (min >= 0) wc.And(ExamResults._.Exr_ScoreFinal >= min);         
+            if (max >= 0)wc.And(ExamResults._.Exr_ScoreFinal <= max);         
             if (!string.IsNullOrWhiteSpace(name)) wc.And(ExamResults._.Ac_Name.Like("%" + name + "%"));
-            if (min >= 0)
-            {
-                wc.And(ExamResults._.Exr_ScoreFinal >= min);
-            }
-            if (max >= 0)
-            {
-                wc.And(ExamResults._.Exr_ScoreFinal <= max);
-            }
+            if (!string.IsNullOrWhiteSpace(idcard)) wc.And(ExamResults._.Ac_IDCardNumber.Like("%" + idcard + "%"));
             countSum = Gateway.Default.Count<ExamResults>(wc);
             ExamResults[] exr = Gateway.Default.From<ExamResults>().Where(wc).OrderBy(ExamResults._.Exr_LastTime.Desc).ToArray<ExamResults>(size, (index - 1) * size);
             for (int i = 0; i < exr.Length; i++)

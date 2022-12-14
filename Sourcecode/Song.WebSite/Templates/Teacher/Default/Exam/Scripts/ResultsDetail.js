@@ -6,11 +6,9 @@ $ready(function () {
         data: {
             form: {
                 examid: $api.querystring('id'),
-                name: '',
-                min: -1,
-                max: -1,
-                size: 20,
-                index: 1
+                name: '', idcard: '',
+                min: -1, max: -1,
+                size: 20, index: 1
             },
             entity: {}, //当前考试对象
             results: [],     //成绩
@@ -114,10 +112,10 @@ $ready(function () {
                 });
             },
             //在列中显示信息，包含检索
-            showInfo: function (txt) {
-                if (txt != '' && this.form.name != '') {
-                    var regExp = new RegExp(this.form.name, 'g');
-                    txt = txt.replace(regExp, `<red>${this.form.name}</red>`);
+            showInfo: function (txt, search) {
+                if (txt != '' && search != '') {
+                    var regExp = new RegExp(search, 'g');
+                    txt = txt.replace(regExp, `<red>${search}</red>`);
                 }
                 return txt;
             },
@@ -130,15 +128,16 @@ $ready(function () {
             },
             //删除
             deleteData: function (datas) {
-                $api.delete('Exam/ResultDelete', { 'acid': datas, 'examid': this.form.examid }).then(function (req) {
+                var th=this;
+                $api.delete('Exam/ResultDelete', { 'exrid': datas}).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$notify({
+                        th.$notify({
                             type: 'success',
                             message: '成功删除' + result + '条数据',
                             center: true
                         });
-                        window.vapp.handleCurrentChange();
+                        th.handleCurrentChange();
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;
@@ -244,7 +243,6 @@ $ready(function () {
             },
             //打开考试回顾的窗口
             review: function (row) {
-
                 var boxid = "ResultsReview_" + row.Exr_ID + "_" + row.Exam_ID;
                 console.log(row);
                 var url = $api.url.set("/student/exam/review", {
@@ -252,13 +250,17 @@ $ready(function () {
                     "exrid": row.Exr_ID
                 });
                 //创建
+                if (!window.top.$pagebox) {
+                    alert('弹窗对象不存在');
+                    return;
+                }
                 var box = window.top.$pagebox.create({
                     width: '80%', height: '80%',
                     resize: true, id: boxid,
                     pid: window.name,
                     url: url,
                     id: boxid,
-                    'showmask': true, 'min': false,'ico':'e696'
+                    'showmask': true, 'min': false, 'ico': 'e696'
                 });
                 box.title = row.Ac_Name + '在“' + this.entity.Exam_Name + "”中的成绩回顾";
                 box.open();
