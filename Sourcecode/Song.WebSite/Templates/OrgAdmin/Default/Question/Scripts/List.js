@@ -128,7 +128,7 @@ $ready(function () {
                 th.form.size = Math.floor(area / 42);
                 th.form.size = th.form.size <= 10 ? 10 : th.form.size;
                 th.loading = true;
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 $api.get("Question/Pager", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
@@ -155,7 +155,7 @@ $ready(function () {
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 $api.delete('Question/Delete', { 'id': datas }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
@@ -223,7 +223,7 @@ $ready(function () {
                         ids += th.datas[i].Qus_ID;
                         if (i < th.datas.length - 1) ids += ',';
                     }
-                    var loading = this.showloading();
+                    var loading = this.$fulloading();
                     $api.post('Question/ChangeUse', { 'id': ids, 'use': use }).then(function (req) {
                         if (req.data.success) {
                             th.$notify({
@@ -243,15 +243,6 @@ $ready(function () {
                     });
                 }).catch(() => {
 
-                });
-            },
-            //显示全屏Loading
-            showloading: function () {
-                return this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.3)'
                 });
             }
         }

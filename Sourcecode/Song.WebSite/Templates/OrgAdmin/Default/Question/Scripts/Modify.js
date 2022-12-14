@@ -72,19 +72,10 @@ $ready(function () {
                     url = $api.url.set(url, params[i].key, params[i].val);
                 url = $api.url.set(url, 'id', '');
                 if (this.id != '') url = $api.url.dot(this.id, url);
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 window.setTimeout(function () {
                     window.location.href = url;
                 }, 500);               
-            },
-            //显示全屏Loading
-            showloading: function () {
-                return this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.8)'
-                });
             }
         },
 

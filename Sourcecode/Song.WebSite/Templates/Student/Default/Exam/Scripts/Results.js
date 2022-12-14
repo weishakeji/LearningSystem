@@ -64,7 +64,7 @@ $ready(function () {
                 var area = document.documentElement.clientHeight - 84;
                 th.form.size = Math.floor(area / 210);
                 th.loading = true;
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 $api.get("Exam/Result4Student", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
@@ -101,15 +101,6 @@ $ready(function () {
                     'height': '80%'
                 }
                 window.top.vapp.open(obj);
-            },
-            //显示全屏Loading
-            showloading: function () {
-                return this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.3)'
-                });
             }
         }
     });

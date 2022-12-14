@@ -66,7 +66,7 @@ $ready(function () {
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 64);
                 th.loading = true;
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 $api.get("TestPaper/Pager", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
@@ -90,7 +90,7 @@ $ready(function () {
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 $api.delete('TestPaper/Delete', { 'id': datas }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
@@ -153,7 +153,7 @@ $ready(function () {
                         ids += th.datas[i].Tp_Id;
                         if (i < th.datas.length - 1) ids += ',';
                     }
-                    var loading = this.showloading();
+                    var loading = this.$fulloading();
                     $api.post('TestPaper/ModifyState', { 'id': ids, 'use': use, 'rec': null }).then(function (req) {
                         if (req.data.success) {
                             th.$notify({
@@ -174,16 +174,7 @@ $ready(function () {
                 }).catch(() => {
 
                 });
-            },
-            //显示全屏Loading
-            showloading: function () {
-                return this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.3)'
-                });
-            },
+            },            
             btnadd: function (btn, ctr) {
                 let couid = $api.querystring('id');
                 var url = $api.url.set(ctr.path, 'couid', couid);

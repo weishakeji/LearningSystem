@@ -254,12 +254,7 @@ $ready(function () {
                 this.loading_up = t;
                 if (t == true) {
                     if (window.up_loading_full == null)
-                        window.up_loading_full = this.$loading({
-                            lock: true,
-                            text: 'Loading',
-                            spinner: 'el-icon-loading',
-                            background: 'rgba(255, 255, 255, 0.6)'
-                        });
+                        window.up_loading_full = this.$fulloading();
                 } else {
                     if (window.up_loading_full != null)
                         window.up_loading_full.close();

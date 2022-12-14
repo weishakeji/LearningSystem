@@ -118,7 +118,7 @@ $ready(function () {
             },
             remove_func: function (ids) {
                 var th = this;
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 $api.delete('Account/SortRemoveStudent', { 'stsid': this.id, 'id': ids }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -140,15 +140,6 @@ $ready(function () {
                     //alert(err);
                     Vue.prototype.$alert(err);
                     console.error(err);
-                });
-            },
-            //显示全屏Loading
-            showloading: function () {
-                return this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.3)'
                 });
             },
             //操作成功
@@ -425,7 +416,7 @@ $ready(function () {
             add_func: function (ids) {
                 console.log(ids);
                 var th = this;
-                var loading = th.showloading();
+                var loading = th.$fulloading();
                 $api.post('Account/SortAddStudent', { 'stsid': th.stsid, 'id': ids }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -446,16 +437,7 @@ $ready(function () {
                     loading.close();
                     console.error(err);
                 });
-            },
-            //显示全屏Loading
-            showloading: function () {
-                return this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.3)'
-                });
-            },
+            }
         },
         //
         template: `<el-drawer :visible.sync="showpanel" size="60%" direction="ltr" :show-close="true"

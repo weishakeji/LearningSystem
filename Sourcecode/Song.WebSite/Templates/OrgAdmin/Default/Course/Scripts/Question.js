@@ -207,7 +207,7 @@
                         ids += th.datas[i].Qus_ID;
                         if (i < th.datas.length - 1) ids += ',';
                     }
-                    var loading = this.showloading();
+                    var loading = this.$fulloading();
                     $api.post('Question/ChangeUse', { 'id': ids, 'use': use }).then(function (req) {
                         if (req.data.success) {
                             th.$notify({
@@ -227,15 +227,6 @@
                     });
                 }).catch(() => {
 
-                });
-            },
-            //显示全屏Loading
-            showloading: function () {
-                return this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.3)'
                 });
             }
         }

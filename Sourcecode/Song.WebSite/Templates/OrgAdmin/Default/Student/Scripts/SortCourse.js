@@ -89,15 +89,6 @@ $ready(function () {
                 var ctr = this.$refs['addcourse'];
                 if (ctr != null) ctr.show();
             },
-            //显示全屏Loading
-            showloading: function () {
-                return this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.3)'
-                });
-            },
             //完成添加课程
             addfinish: function (stsid, couid) {
                 console.log(couid);
@@ -132,7 +123,7 @@ $ready(function () {
             remove_func: function (ids) {
                 var th = this;
                 console.log(ids);
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 $api.delete('Student/SortCourseRemove', { 'sortid': this.id, 'couid': ids }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
@@ -292,7 +283,7 @@ $ready(function () {
             },
             //添加关联
             addCourse: function (cou) {
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 var th = this;
                 $api.post('Student/SortCourseAdd', { 'sortid': this.stsid, 'couid': cou }).then(function (req) {
                     if (req.data.success) {
@@ -344,16 +335,7 @@ $ready(function () {
                         idarr.push(this.datas[i].Cou_ID);
                     this.addCourse(idarr.join(','));
                 }).catch(() => { });
-            },
-            //显示全屏Loading
-            showloading: function () {
-                return this.$loading({
-                    lock: true,
-                    text: 'Loading',
-                    spinner: 'el-icon-loading',
-                    background: 'rgba(255, 255, 255, 0.3)'
-                });
-            },
+            }
         },
         //
         template: `<el-drawer :visible.sync="showpanel" size="60%" direction="ltr" :show-close="true"

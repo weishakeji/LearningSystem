@@ -26,12 +26,7 @@
         },
         mounted: function () {
             var th = this;
-            this.loading_obj = this.$loading({
-                lock: true,
-                text: 'Loading',
-                spinner: 'el-icon-loading',
-                background: 'rgba(255, 255, 255, 0.7)'
-            });
+            this.loading_obj = this.$fulloading();
             $api.get('Organization/Current').then(function (req) {
                 if (req.data.success) {
                     th.organ = req.data.result;
