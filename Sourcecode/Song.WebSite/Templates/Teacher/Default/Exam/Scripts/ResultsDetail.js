@@ -31,6 +31,13 @@ $ready(function () {
         watch: {
 
         },
+        mounted: function () {
+            this.$refs['btngroup'].addbtn({
+                text: '清空', tips: '清空当前考试下的所有成绩',
+                id: 'clear', type: 'warning',
+                icon: 'e839'
+            });
+        },
         created: function () {
             //获取考试信息
             $api.get('Exam/ForID', { 'id': this.form.examid }).then(function (req) {
@@ -126,27 +133,6 @@ $ready(function () {
                 var span = Math.floor(total / 60);
                 return span <= 0 ? "<1" : span;
             },
-            //删除
-            deleteData: function (datas) {
-                var th=this;
-                $api.delete('Exam/ResultDelete', { 'exrid': datas}).then(function (req) {
-                    if (req.data.success) {
-                        var result = req.data.result;
-                        th.$notify({
-                            type: 'success',
-                            message: '成功删除' + result + '条数据',
-                            center: true
-                        });
-                        th.handleCurrentChange();
-                    } else {
-                        console.error(req.data.exception);
-                        throw req.data.message;
-                    }
-                }).catch(function (err) {
-                    //alert(err);
-                    console.error(err);
-                });
-            },
             //计算考试成绩
             clacScore: function (exrid) {
                 var th = this;
@@ -164,6 +150,61 @@ $ready(function () {
                     Vue.prototype.$alert(err);
                     console.error(err);
                 });
+            },
+            //删除
+            deleteData: function (datas) {
+                var th = this;
+                $api.delete('Exam/ResultDelete', { 'exrid': datas }).then(function (req) {
+                    if (req.data.success) {
+                        var result = req.data.result;
+                        th.$notify({
+                            type: 'success',
+                            message: '成功删除' + result + '条数据',
+                            center: true
+                        });
+                        th.handleCurrentChange();
+                    } else {
+                        console.error(req.data.exception);
+                        throw req.data.message;
+                    }
+                }).catch(function (err) {
+                    //alert(err);
+                    console.error(err);
+                });
+            },
+            //清空
+            clear: function () {
+                this.$confirm('此操作将永久删除所有成绩，且无法恢复, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$confirm('删除所有成绩，是否继续?', '再次提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        var th=this;
+                        var loading=this.$fulloading();
+                        $api.delete('Exam/ResultClear', { 'examid': this.form.examid }).then(function (req) {
+                            if (req.data.success) {
+                                th.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                                loading.close();
+                                th.handleCurrentChange();
+                            } else {
+                                console.error(req.data.exception);
+                                throw req.config.way + ' ' + req.data.message;
+                            }
+                        }).catch(function (err) {
+                            alert(err);
+                            console.error(err);
+                        });
+                        
+                    }).catch(() => { });
+                }).catch(() => { });
             },
             //当查看学员信息时，获取当前学员信息
             getaccount: function (row) {

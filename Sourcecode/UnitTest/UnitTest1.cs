@@ -17,13 +17,12 @@ namespace UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            string path = WeiSha.Core.Server.ProgramPath;
-            string[] files = System.IO.Directory.GetFiles(path, "*.*");
-            foreach(string f in files)
-            {
-                System.IO.FileInfo file = new FileInfo(f);
-            }
-            //Assert.AreEqual(tt, "123456");
+            string uid = "ExamResults：{0}-{1}-{2}";
+            if (uid.IndexOf("：") > -1) uid = uid.Substring(uid.IndexOf("：") + 1);
+
+            if (uid.IndexOf("-") > -1) uid = uid.Substring(0,uid.IndexOf("-"));
+
+            Assert.AreEqual(uid, "123456");
         }
        
         [TestMethod]

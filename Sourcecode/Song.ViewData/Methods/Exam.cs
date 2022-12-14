@@ -897,6 +897,18 @@ namespace Song.ViewData.Methods
             return i;
         }
         /// <summary>
+        /// 删除考试下的所有成绩
+        /// </summary>
+        /// <param name="examid">考试id</param>
+        /// <returns></returns>
+        [HttpDelete]
+        public bool ResultClear(int examid)
+        {
+
+            Business.Do<IExamination>().ResultClear(examid);
+            return true;
+        }
+        /// <summary>
         /// 计算考试成绩，通过考试成绩的记录计算，一般用于重新计算
         /// </summary>
         /// <param name="exrid">考试记录的id</param>

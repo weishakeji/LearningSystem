@@ -155,7 +155,12 @@ namespace Song.ServiceInterfaces
         /// </summary>
         /// <param name="stid">学员账号id</param>
         /// <param name="examid">考试id</param>
-        void ResultDelete(int stid, int examid);        
+        void ResultDelete(int stid, int examid);
+        /// <summary>
+        /// 删除考试下的所有成绩
+        /// </summary>
+        /// <param name="examid">考试id</param>
+        void ResultClear(int examid);
         /// <summary>
         /// 获取最新的答题信息（正式答题信息）
         /// </summary>

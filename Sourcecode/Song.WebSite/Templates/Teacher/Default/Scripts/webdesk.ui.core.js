@@ -633,8 +633,8 @@
             'y': y
         };
     };
-     //是否是手机端
-     webdom.ismobi = function () {
+    //是否是手机端
+    webdom.ismobi = function () {
         var regex_match = /(nokia|iphone|android|motorola|^mot-|softbank|foma|docomo|kddi|up.browser|up.link|htc|dopod|blazer|netfront|helio|hosin|huawei|novarra|CoolPad|webos|techfaith|palmsource|blackberry|alcatel|amoi|ktouch|nexian|samsung|^sam-|s[cg]h|^lge|ericsson|philips|sagem|wellcom|bunjalloo|maui|symbian|smartphone|midp|wap|phone|windows ce|iemobile|^spice|^bird|^zte-|longcos|pantech|gionee|^sie-|portalmmm|jigs browser|hiptop|^benq|haier|^lct|operas*mobi|opera*mini|320x320|240x320|176x220)/i;
         var u = navigator.userAgent;
         if (null == u) return true;
@@ -879,6 +879,22 @@
                     if (window.globalVariable.isMathjaxConfig)
                         window.globalVariable.initMathjaxConfig();
                     window.globalVariable.TypeSet(elements);
+                };
+                //全屏的预载效果
+                Vue.prototype.$fulloading = function () {
+                    return this.$loading({
+                        lock: true,
+                        text: '正在处理...',
+                        spinner: 'el-icon-loading',
+                        background: 'rgba(255, 255, 255, 0.5)'
+                    });
+                };
+                //将查询结果高亮显示
+                Vue.prototype.showsearch = function (txt, search) {
+                    if (txt == null || txt == '') return '';
+                    if (search == null || search == '') return txt;
+                    var regExp = new RegExp(search, 'g');
+                    return txt.replace(regExp, `<red>${search}</red>`);
                 };
                 //重构alert
                 window.alert_base = window.alert;

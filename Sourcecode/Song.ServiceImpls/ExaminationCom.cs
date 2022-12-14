@@ -541,7 +541,36 @@ namespace Song.ServiceImpls
             if (examid > -1) wc.And(ExamResults._.Exam_ID == examid);
             Gateway.Default.Delete<ExamResults>(wc);
         }
+        /// <summary>
+        /// 删除考试下的所有成绩
+        /// </summary>
+        /// <param name="examid">考试id</param>
+        public void ResultClear(int examid)
+        {
+            using (DbTrans tran = Gateway.Default.BeginTrans())
+            {
+                try
+                {
+                    QuestionsMethod.QuestionsCache.Singleton.Delete(examid);
+                    tran.Delete<ExamResults>(ExamResults._.Exam_ID == examid);
 
+                    //删除上传的附件
+                    string filepath = Upload.Get["Exam"].Physics + examid;
+                    if (System.IO.Directory.Exists(filepath)) System.IO.Directory.Delete(filepath, true);
+                 
+                    tran.Commit();
+                }
+                catch (Exception ex)
+                {
+                    tran.Rollback();
+                    throw ex;
+                }
+                finally
+                {
+                    tran.Close();
+                }
+            }
+        }
         /// <summary>
         /// 获取最新的答题信息（正式答题信息），获取时并不进行计算状态的判断
         /// </summary>

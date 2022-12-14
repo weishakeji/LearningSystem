@@ -132,12 +132,33 @@ namespace Song.ServiceImpls.QuestionsMethod
             if (exr.Exr_IsSubmit && !exr.Exr_IsCalc)qci.Calculate();
             return qci.UID;
         }
+        /// <summary>
+        /// 删除缓存
+        /// </summary>
+        /// <param name="uid"></param>
         public void Delete(string uid)
         {
             for (int i = 0; i < list.Count; i++)
             {
                 if (list[i].UID == uid) list.Remove(list[i]);                
             }
+        }
+        /// <summary>
+        /// 删除当前考试的所有缓存
+        /// </summary>
+        /// <param name="examid"></param>
+        /// <returns></returns>
+        public int Delete(int examid)
+        {
+            int count = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                string uid = list[i].UID;
+                if (uid.IndexOf("：") > -1) uid = uid.Substring(uid.IndexOf("：") + 1);
+                if (uid.IndexOf("-") > -1) uid = uid.Substring(0, uid.IndexOf("-"));
+                if(examid.ToString().Equals(uid)) list.Remove(list[i]);              
+            }
+            return count;
         }
         /// <summary>
         /// 获取缓存对象

@@ -904,7 +904,7 @@
                     if (window.globalVariable.isMathjaxConfig)
                         window.globalVariable.initMathjaxConfig();
                     window.globalVariable.TypeSet(elements);
-                };
+                };               
                 //重构alert
                 window.alert_base = window.alert;
                 window.alert = function (txt) {
@@ -914,7 +914,7 @@
                     } else {
                         Vue.prototype.$alert ? Vue.prototype.$alert(txt) : window.alert_base(txt);
                     }
-                };
+                };                
                 if (source != null) {
                     //如果引用的js不是绝对路径，则默认取当前默认库的根路径
                     for (var i = 0; i < source.length; i++) {
