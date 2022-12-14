@@ -244,7 +244,7 @@ $ready(function () {
                     'url': url, 'ico': 'e6ef',
                     'pid': window.name,
                     'title': item.Tp_Name,
-                    'width': '80%',
+                    'width': 900,
                     'height': '80%'
                 }
                 obj['showmask'] = true; //始终显示遮罩

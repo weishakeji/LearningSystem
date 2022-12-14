@@ -97,13 +97,13 @@ $ready(function () {
                     'url': url,
                     'ico': 'e6ef', 'min': false,
                     'title': '成绩查看 - ' + result.Exam_Title,
-                    'width': '80%',
+                    'width': 900,
                     'height': '80%'
                 }
                 window.top.vapp.open(obj);
             },
-             //显示全屏Loading
-             showloading: function () {
+            //显示全屏Loading
+            showloading: function () {
                 return this.$loading({
                     lock: true,
                     text: 'Loading',
