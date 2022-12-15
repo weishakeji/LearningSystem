@@ -805,13 +805,14 @@ namespace Song.ServiceImpls
             if (sortid > 0) wc.And(Accounts._.Sts_ID == sortid);
             if (pid > 0) wc.And(Accounts._.Ac_PID == pid);
             if (isUse != null) wc.And(Accounts._.Ac_IsUse == isUse);
+            //
             if (!string.IsNullOrWhiteSpace(acc) && acc.Trim() != "") wc.And(Accounts._.Ac_AccName.Like("%" + acc.Trim() + "%"));
             if (!string.IsNullOrWhiteSpace(idcard) && idcard.Trim() != "") wc.And(Accounts._.Ac_IDCardNumber.Like("%" + idcard.Trim() + "%"));
             if (!string.IsNullOrWhiteSpace(name) && name.Trim() != "") wc.And(Accounts._.Ac_Name.Like("%" + name.Trim() + "%"));
 
             if (!string.IsNullOrWhiteSpace(phone) && phone.Trim() != "")
             {
-                WhereClip wc2 = new WhereClip();               
+                WhereClip wc2 = new WhereClip();                 
                 wc2.Or(Accounts._.Ac_MobiTel1.Like("%" + phone.Trim() + "%"));
                 wc2.Or(Accounts._.Ac_MobiTel2.Like("%" + phone.Trim() + "%"));
                 wc2.Or(Accounts._.Ac_AccName.Like("%" + phone.Trim() + "%"));

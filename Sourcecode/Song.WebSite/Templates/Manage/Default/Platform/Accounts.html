@@ -11,31 +11,27 @@
 <body>
     <div id="app" v-cloak>
         <div class="toolsbar">
-            <btngroup show="导出,修改,删除,批量删除" ref='btngroup' @delete="deleteData" @output="output" @bathdelete="bathdel"
+            <btngroup show="修改,删除,批量删除,导出" ref='btngroup' @delete="deleteData" @output="output" @bathdelete="bathdel"
                 path="AccountModify" :disabled="loading || loadingdel" width="600" height="600" :selects='selects'
                 idkey='Ac_ID' table="datatables"></btngroup>
             <div class="search-box">
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent
                     :disabled="loading || loadingdel">
                     <el-form-item label="">
-                        <el-select v-model="form.orgid" placeholder="--所有机构--">
+                        <el-select v-model="form.orgid" placeholder="所有机构" clearable style="width: 100px;">
                             <el-option class="organs_option" v-for="(item,index) in organs" :key="item.Org_ID"
                                 :label="item.Org_PlatformName" :value="item.Org_ID">
                                 <div>
                                     <span>{{index+1}}.</span>
-                                    <span>
-                                        {{ item.Org_PlatformName }}</span>
-
+                                    <span> {{ item.Org_PlatformName }}</span>
                                 </div>
                                 <div style="float: right; color: #8492a6; font-size: 13px">{{ item.Org_Name }}</div>
-
                             </el-option>
                         </el-select>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.search" style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item>
+                        <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
+                        <el-input v-model="form.acc" placeholder="账号" clearable style="width:100px"></el-input>
+                        <el-input v-model="form.phone" placeholder="电话" clearable style="width:100px"></el-input>
+                        <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:100px"></el-input>
                         <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
                             native-type="submit" plain>
                             查询
@@ -59,23 +55,31 @@
                 </el-table-column>
                 <el-table-column label="姓名" width="120">
                     <template slot-scope="scope">
-                        <icon :man="scope.row.Ac_Sex!=2" :woman="scope.row.Ac_Sex==2"
-                            v-html='showsearch(scope.row.Ac_Name,form.search)' class="large"></icon>
+                        <icon :man="scope.row.Ac_Sex!=2" :woman="scope.row.Ac_Sex==2" class="large">
+                            <span v-html='showsearch(scope.row.Ac_Name,form.name)' v-if="scope.row.Ac_Name!=''"
+                                @dblclick.stop="copy(scope.row.Ac_Name)"></span>
+                            <span v-else class="noname">(没有名字)</span>
+                        </icon>
                     </template>
                 </el-table-column>
                 <el-table-column label="账号">
                     <template slot-scope="scope">
-                        <icon v-html='showsearch(scope.row.Ac_AccName,form.search)' :teacher="scope.row.Ac_IsTeacher"
-                            :title="scope.row.Ac_IsTeacher ? '教师' : ''"></icon>
+                        <icon v-html='showsearch(scope.row.Ac_AccName,form.acc)' :teacher="scope.row.Ac_IsTeacher"
+                            @dblclick.stop="copy(scope.row.Ac_AccName)" :title="scope.row.Ac_IsTeacher ? '教师' : ''">
+                        </icon>
                     </template>
                 </el-table-column>
-                <el-table-column label="电话">
+                <el-table-column label="电话" width="100">
                     <template slot-scope="scope">
-                        <span v-html='scope.row.Ac_MobiTel1'></span>
-                        <span
-                            v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1">/</span>
-                        <span v-html='scope.row.Ac_MobiTel2'
-                            v-if="scope.row.Ac_MobiTel1!='' && scope.row.Ac_MobiTel2!=scope.row.Ac_MobiTel1"></span>
+                        <span v-html='showsearch(showmobi(scope.row),form.phone)'
+                            @dblclick.stop="copy(showmobi(scope.row))"></span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="身份证" width="160">
+                    <template slot-scope="scope">
+                        <span v-html='showsearch(scope.row.Ac_IDCardNumber,form.idcard)'
+                            @dblclick.stop="copy(scope.row.Ac_IDCardNumber)"></span>
+
                     </template>
                 </el-table-column>
                 <el-table-column label="资金" width="120">

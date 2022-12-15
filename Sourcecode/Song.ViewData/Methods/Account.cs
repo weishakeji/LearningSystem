@@ -305,6 +305,7 @@ namespace Song.ViewData.Methods
         /// <param name="acc">账号</param>
         /// <param name="name">姓名</param>
         /// <param name="phone">电话</param>
+        /// <param name="idcard">身份证号</param>
         /// <param name="index">页码，即第几页</param>
         /// <param name="size">每页多少条记录</param>
         /// <returns></returns>

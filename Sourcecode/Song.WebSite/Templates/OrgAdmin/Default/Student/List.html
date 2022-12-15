@@ -17,18 +17,10 @@
 
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
                     <el-form-item label="">
-                        <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.acc" placeholder="账号" clearable style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.phone" placeholder="电话" clearable style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item label="">
-                        <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:100px"></el-input>
-                    </el-form-item>
-                    <el-form-item>
+                        <el-input v-model="form.name" placeholder="姓名" clearable style="width:100px"></el-input>                 
+                        <el-input v-model="form.acc" placeholder="账号" clearable style="width:100px"></el-input>                 
+                        <el-input v-model="form.phone" placeholder="电话" clearable style="width:100px"></el-input>                   
+                        <el-input v-model="form.idcard" placeholder="身份证" clearable style="width:100px"></el-input>                 
                         <el-button type="primary" v-on:click="handleCurrentChange(1)" :loading="loading"
                             native-type="submit" plain>
                             查询

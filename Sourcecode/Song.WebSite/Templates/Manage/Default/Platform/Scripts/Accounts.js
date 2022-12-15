@@ -3,10 +3,8 @@
         el: '#app',
         data: {
             form: {
-                orgid: '',
-                search: '',
-                size: 20,
-                index: 1
+                'orgid': '', 'sortid': -1, 'use': null, 'acc': '', 'name': '', 'phone': '', 'idcard': '',
+                size: 20, index: 1
             },
             organs: [],
             accounts: [], //账号列表
@@ -78,7 +76,7 @@
                 //每页多少条，通过界面高度自动计算
                 var area = document.documentElement.clientHeight - 105;
                 th.form.size = Math.floor(area / 41);
-                $api.get("Account/PagerOfAll", th.form).then(function (d) {
+                $api.get("Account/Pager", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
                         th.accounts = d.data.result;
@@ -91,6 +89,19 @@
                 }).catch(function (err) {
                     th.loading = false;
                     th.$alert(err);
+                });
+            },
+            //显示手机号
+            showmobi: function (row) {
+                var phone = row.Ac_MobiTel1;
+                return phone != '' ? phone : row.Ac_MobiTel2;
+            },
+            //复制到粘贴板
+            copy: function (val, textbox) {
+                $api.copy(val, textbox);
+                this.$message({
+                    message: '复制 “' + val + '” 到粘贴板',
+                    type: 'success'
                 });
             },
             //双击事件

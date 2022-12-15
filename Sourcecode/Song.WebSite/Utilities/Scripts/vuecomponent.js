@@ -265,7 +265,7 @@ Vue.component('btngroup', {
                     <el-button :key="index" :type="btn.type"  size="small" plain 
                     v-on:click="eventClick(btn)" :disabled="disabled"
                     :class="!!btn.class && !btn.icon ? btn.class : false">
-                        <icon v-if="btn.icon" v-html="btnicon(btn)"></icon>&nbsp; {{btn.text}}
+                        <icon v-if="btn.icon" v-html="btnicon(btn)" style="margin-right:0px"></icon>&nbsp; {{btn.text}}
                     </el-button>
                 </el-tooltip>
             </template>
