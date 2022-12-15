@@ -207,9 +207,9 @@ $ready(function () {
         data: function () {
             return {
                 menus: [
-                    { name: '错题回顾', url: 'Error', icon: '&#xe731', size: 30, show: true, evt: null },
+                    { name: '错题回顾', url: 'Error', icon: '&#xe732', size: 30, show: true, evt: null },
                     { name: '我的收藏', url: 'Collects', icon: '&#xe747', size: 29, show: true, evt: null },
-                    { name: '我的笔记', url: 'Notes', icon: '&#xe72f', size: 29, show: true, evt: null },
+                    { name: '我的笔记', url: 'Notes', icon: '&#xa02e', size: 29, show: true, evt: null },
                     { name: '高频错题', url: 'Often', icon: '&#xe75e', size: 30, show: true, evt: null }
                 ]
             }
@@ -222,7 +222,7 @@ $ready(function () {
                 var url = $api.url.set(item.url,
                     {
                         'couid': this.couid,
-                        'stid': this.stid
+                        'acid': this.stid
                     });
                 window.location.href = url;
             }

@@ -96,9 +96,12 @@
     font-size: 13px;
     text-align: center;
     padding: 10px 5px 0px 5px;
+	cursor: pointer;
 }
 .mainmenu>div icon{
 	display: block;
+	text-align: center;
+	margin: 0px;
 }
 .mainmenu span{  
     display: block;

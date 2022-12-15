@@ -4,7 +4,7 @@
         el: '#vapp',
         data: {
             couid: $api.querystring("couid", 0),
-            stid: $api.querystring("stid", 0),
+            stid: $api.querystring("acid", 0),
 
             account: {},     //当前登录账号        
             types: [],          //试题类型
@@ -126,7 +126,7 @@
                         }).finally(function () {
                             th.loading = false;
                             if (th.questions.length > 0)
-                                th.$toast.success('试题加载成功');
+                                th.$message.success('试题加载成功');
                         });
                     } else {
                         console.error(req.data.exception);

@@ -4,7 +4,7 @@
         el: '#vapp',
         data: {
             couid: $api.querystring("couid", 0),
-            stid: $api.querystring("stid", 0),
+            stid: $api.querystring("acid", 0),
 
             account: {},     //当前登录账号        
             types: [],          //试题类型
@@ -111,7 +111,7 @@
             getQuestion: function (update) {
                 var th = this;
                 th.loading = true;
-                var query = $api.get('Question/NotesQues', { 'acid': this.account.Ac_ID, 'couid': this.couid, 'type': '' });
+                var query = $api.get('Question/NotesQues', { 'acid': th.stid, 'couid': this.couid, 'type': '' });
                 query.then(function (req) {
                     th.loading = false;
                     if (req.data.success) {
