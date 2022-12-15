@@ -13,8 +13,7 @@
             ...
         </page_header>
         <context>
-            <div class="left">
-                <div class="fixed"></div>
+            <div class="left">              
                 <div id="artBox">
                     <el-breadcrumb separator="/">
                         <el-breadcrumb-item><a href="/">首页</a></el-breadcrumb-item>
@@ -41,6 +40,7 @@
                             <icon>&#xe697</icon> 通知公告
                         </a>
                     </div>
+                    <hr />
                     <div class="noItem" v-for="(data,i) in notices">
                         <b :class="'order_'+i">{{i+1}}.</b>
                         <a :href="'detail.'+data.No_Id" :title="data.No_Ttl">

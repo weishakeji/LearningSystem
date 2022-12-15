@@ -42,8 +42,8 @@ img.logo {
 	text-align: left;
 	box-sizing: border-box;
 	background-color:#fff;
-	padding: 20px;
-	margin: 20px;
+	padding: 0px 20px 20px 20px;
+	margin: 0px 20px 20px 20px;
 	line-height: 30px;
 	font-size: 14px;
 	color: #323233;

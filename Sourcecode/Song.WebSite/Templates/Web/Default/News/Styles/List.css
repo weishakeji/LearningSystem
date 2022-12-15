@@ -1,30 +1,20 @@
 ﻿context {
-    display: block;
+    display: flex;
     width: 1200px;
-    min-height: 800px;
-    display: table;
+    min-height: 800px; 
     margin: 0px auto;
 }
 
-context .left {
-    margin-left: 10px;
-    width: 840px;
+context .left {    
     display: flex;
-    float: left;
+    flex: 1;   
 }
 
 context .right {
-    margin-right: 60px;
-    width: 260px;
-    float: right;
+    margin-left: 40px;
+    width: 260px;   
     margin-top: 60px;
     box-sizing: border-box;
-
-}
-
-.fixed {
-    width: 50px;
-    --background-color: chocolate;
 }
 
 #artBox {

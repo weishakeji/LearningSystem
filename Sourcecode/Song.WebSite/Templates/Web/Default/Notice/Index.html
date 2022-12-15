@@ -27,8 +27,7 @@
                         <dd>
                             <a :href="'/web/notice/detail.'+item.No_Id">
                                 <b>{{(form.index - 1) * form.size + i + 1}}.</b>{{item.No_Ttl}}</a>
-                            <span>
-                                {{clearhtml(item.No_Context,100)}}
+                            <span v-html="clearhtml(item.No_Context,100)">                              
                             </span>
                             <div class="nodate">
                                 <icon>&#xe81a</icon>{{item.No_StartTime|date("yyyy-MM-dd")}}

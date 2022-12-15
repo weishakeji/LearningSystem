@@ -4,18 +4,18 @@
 
 context {
 	display: flex;
-	width: 1000px;
+	width: 1200px;
 	min-height: 600px;
+	box-sizing: border-box;
+	padding: 0px 0px 0px 10px;
 	margin: 40px auto;
 	text-align: left;
 
 }
 
-.left {
-	width: 600px;
-
-	float: left;
+.left {	
 	padding-bottom: 80px;
+	flex: 1;
 }
 
 .left .el-breadcrumb {
@@ -99,10 +99,9 @@ hr {
 
 /*右侧区域*/
 .right {
-	float: right;
-	width: calc(100% - 600px);
-	margin-left: 40px;
-	padding-left: 40px;
+	width: 500px;
+	margin-left: 80px;
+	padding-left: 80px;
 	box-sizing: border-box;
 	border-left: dashed 1px #ddd;
 }

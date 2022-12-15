@@ -17,9 +17,9 @@
             <img :src="organ.Org_Logo" v-if="organ.Org_Logo!=''" class="logo" />
             <img src="Images/def_logo.gif" style="height: 32px;" class="logo" v-else />
             <div v-html="organ.Org_PlatformName" class="platinfo"></div>
-            <div v-html="editon.Edition" class="editon"></div>
+            <div v-html="editon.Edition" class="editon" v-if="false"></div>
 
-            <van-cell-group>
+            <van-cell-group v-if="false">
                 <van-cell title="Published version" :value="version.major+'.'+version.minor"></van-cell>
                 <van-cell title="Build version" :value="version.version"></van-cell>
                 <van-cell title="Release date" :value="version.release"></van-cell>

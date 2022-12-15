@@ -1,31 +1,24 @@
 ﻿context {
-	display: block;
+	display: flex;
 	width: 1200px;
 	min-height: 800px;
-	display: table;
 	margin: 0px auto;
 }
 
 context .left {
-	margin-left: 10px;
-	width: 840px;
 	display: flex;
-	float: left;
+	flex: 1;
 }
 
 context .right {
-	margin-right: 60px;
-	width: 260px;
-	float: right;
+	margin-left: 30px;
+	width: 260px;	
 	margin-top: 60px;
 	box-sizing: border-box;
 
 }
 
-.fixed {
-	width: 50px;
-	--background-color: chocolate;
-}
+
 
 #artBox {
     margin: 60px 20px 80px 20px;
@@ -87,16 +80,16 @@ context .right {
 	text-align: center;
 }
 
-.artIntro {
-	font-size: 18x !important;
-	line-height: 30px !important;
+.artIntro, .artIntro * {
+	font-size: 20px !important;
+	line-height: 40px !important;
 	background-color: transparent !important;
 	margin-bottom: 1em;
     text-align: left;
 }
 
 #artContext, #artContext p, #artContext font, #artContext div, #artContext span {
-	font-size: 18px !important;
+	font-size: 20px !important;
 	line-height: 35px !important;
 	background-color: transparent !important;
 }
@@ -108,7 +101,7 @@ context .right {
 .nocontext {
 	padding: 20px;
 	text-align: center;
-	font-size: 18px;
+	font-size: 20px;
 	margin: 80px;
 
 }
@@ -137,19 +130,19 @@ context .right {
 }
 
 #artAcc dt {
-    font-size: 18px;
+    font-size: 20px;
     line-height: 30px;
     font-weight: bold;
 }
 
 #artAcc dd, #artAcc dd a {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 30px;
     color: #069;
 }
 
 .filesize {
-    font-size: 14px;
+    font-size: 16px;
     color: #666666;
     margin-left: 10px;
 }

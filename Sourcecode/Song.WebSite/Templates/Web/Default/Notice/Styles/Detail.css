@@ -1,35 +1,33 @@
 ﻿context {
-	display: block;
+	display: flex;
 	width: 1200px;
 	min-height: 800px;
-	display: table;
-	margin: 0px auto;
+	margin: 50px auto 0px auto;	
 }
 
 context .left {
-	margin-left: 10px;
-	width: 800px;
-	display: flex;
-	float: left;
+	display: flex;	
+	flex: 1;
 }
 
 context .right {
 	margin-right: 60px;
-	width: 300px;
-	float: right;
-	margin-top: 60px;
+	width: 400px;
+	margin-left: 50px;
+	padding-left: 50px;
 	box-sizing: border-box;
-
+	border-left: dashed 1px #ddd;
 }
 
-.fixed {
-	width: 100px;
-	--background-color: chocolate;
+hr {
+	background-color: #ddd;
+	margin-bottom: 20px;
+	display: block;
 }
 
 #artBox {
-	margin: 60px 20px 80px 20px;
-	width: calc(100% - 100px);
+	margin: 0px 0px 80px 0px;
+	
 }
 #artBox loading{
 	margin: 50px auto;
