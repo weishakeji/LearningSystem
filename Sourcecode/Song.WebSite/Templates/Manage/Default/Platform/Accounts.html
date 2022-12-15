@@ -84,8 +84,9 @@
                 </el-table-column>
                 <el-table-column label="资金" width="120">
                     <template slot-scope="scope">
-                        <icon money @click="moneyHandle(scope.row)">{{scope.row.Ac_Money}}</icon>
-
+                        <el-tooltip content="增加或减扣金额" placement="bottom"  effect="light">
+                            <icon money @click="moneyHandle(scope.row)">{{scope.row.Ac_Money}}</icon>
+                          </el-tooltip>
                     </template>
                 </el-table-column>
                 <el-table-column label="启用" width="80" align="center">

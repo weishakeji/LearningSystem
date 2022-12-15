@@ -12,14 +12,18 @@
         <el-form ref="form" :model="form" :rules="rules" @submit.native.prevent label-width="80px">
             <el-row>
 
-                <el-form-item label="名称">
-                    {{entity.Ac_Name}} ({{entity.Ac_AccName}})
+                <el-form-item label="">
+                    <icon :man="entity.Ac_Sex!=2" :woman="entity.Ac_Sex==2" class="large">
+                        <span v-html='entity.Ac_Name' v-if="entity.Ac_Name!=''"></span>
+                        <span v-else class="noname">(没有名字)</span>
+                    </icon>
+                    ({{entity.Ac_AccName}})
                 </el-form-item>
 
             </el-row>
             <el-row>
                 <el-form-item label="余额" prop="Ac_Name">
-                    {{entity.Ac_Money}} 元
+                    <icon money> {{entity.Ac_Money}} 元</icon>                   
                 </el-form-item>
             </el-row>
             <el-row>
@@ -36,6 +40,7 @@
                         <el-input placeholder="请输入内容" v-model.number="form.money" width="120px" type="number">
                             <template slot="prepend"> <span v-if="form.type=='2'">+</span>
                                 <span v-if="form.type=='1'">-</span></template>
+                            <template slot="append">元</template>
                         </el-input>
                     </el-form-item>
                 </el-col>
@@ -49,15 +54,16 @@
             </el-row>
             <el-row>
                 <el-form-item label="备注">
-                    <el-input type="textarea" v-model="form.remark" :rows="4" placeholder="请输入内容"></el-input>
+                    <el-input type="textarea" v-model="form.remark" :rows="3" placeholder="请输入内容"></el-input>
                 </el-form-item>
             </el-row>
-            <el-form-item class="footer">
-                <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('form')">确认修改
-                </el-button>
-                <el-button type='close'>取消</el-button>
-            </el-form-item>
+
         </el-form>
+        <div class="footer">
+            <el-button type="primary" native-type="submit" :loading="loading" plain @click="btnEnter('form')">确认修改
+            </el-button>
+            <el-button type='close'>取消</el-button>
+        </div>
     </div>
 
 
