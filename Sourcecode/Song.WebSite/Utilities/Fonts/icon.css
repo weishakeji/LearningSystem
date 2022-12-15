@@ -282,10 +282,8 @@ loading[star]::before {
 }
 
 *[loading=p1] {
-    width: 120px;
-    height: 20px;
-    background:
-        linear-gradient(#000 0 0) 0/0% no-repeat #ddd;
+    height: 2px;
+    background: linear-gradient(#a5a5a5 0 0) 0/0% no-repeat #ddd;
     animation: p1 2s infinite linear;
 }
 

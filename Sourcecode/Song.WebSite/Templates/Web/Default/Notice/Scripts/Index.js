@@ -15,6 +15,7 @@ $ready(function () {
             loading: true,
         },
         mounted: function () {
+            var th = this;
             $api.bat(
                 $api.cache('Platform/PlatInfo'),
                 $api.get('Organization/Current')
@@ -29,12 +30,13 @@ $ready(function () {
                     }
                 }
                 //获取结果             
-                vapp.platinfo = platinfo.data.result;
-                vapp.org = org.data.result;
-                vapp.config = $api.organ(vapp.org).config;
-                vapp.form.orgid = vapp.org.Org_ID;
-                vapp.handleCurrentChange(1);
+                th.platinfo = platinfo.data.result;
+                th.org = org.data.result;
+                th.config = $api.organ(th.org).config;
+                th.form.orgid = th.org.Org_ID;
+                th.handleCurrentChange(1);
             })).catch(function (err) {
+                alert(err);
                 console.error(err);
             });
         },

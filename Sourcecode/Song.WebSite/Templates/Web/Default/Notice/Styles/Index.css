@@ -28,24 +28,32 @@ dl, dl dd {
 	text-align: left;
 }
 
+hr {
+	background-color: #ddd;
+	margin-bottom: 20px;
+	display: block;
+}
 
-
+*[loading=p1] {
+	margin-top: 7px;
+	margin-bottom: 30px;
+}
 .tit_bar {
-	font-family: "微软雅黑", "黑体", "Simplified Arabic Fixed";
 	font-size: 22px;
 	height: 40px;
 	line-height: 35px;
 	font-weight: bold;
 	color: #000000;
-	border-bottom: solid 1px #ddd;
-	margin: 0px 20px 20px 0px;
-	padding: 0px 0px 10px 0px;
+	margin: 0px;
+	padding: 0px;
 }
-.tit_bar icon{
+
+.tit_bar icon {
 	margin-right: 15px;
 	font-size: 25px;
 	font-weight: normal;
 }
+
 .tit_bar>div:last-child {
 	float: right;
 }
@@ -98,10 +106,12 @@ dl, dl dd {
 	box-sizing: border-box;
 	border-left: dashed 1px #ddd;
 }
-.right dl dd{
+
+.right dl dd {
 	font-size: 15px;
 	line-height: 35px;
 }
-.right dl dd a span{
+
+.right dl dd a span {
 	margin-right: 10px;
 }
