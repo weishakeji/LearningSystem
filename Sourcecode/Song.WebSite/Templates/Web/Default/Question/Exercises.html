@@ -29,6 +29,7 @@
       </template>
       <template v-else>
         <div class="topBox">
+          <a icon="&#xe748" @click="window.history.back();" v-if="back"></a>
           <div>
             <el-link type="info" :underline="false" @click="updateQues">
               <icon>&#xe651</icon>更新试题

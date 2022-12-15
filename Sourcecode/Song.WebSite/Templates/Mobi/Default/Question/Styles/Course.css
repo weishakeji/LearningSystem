@@ -107,6 +107,8 @@
 .mainmenu>div icon{
 	display:block;
 	margin-bottom: 3px;
+	text-align: center;
+	margin-right: 0px;
 }
 .mainmenu span{  
     display: block;

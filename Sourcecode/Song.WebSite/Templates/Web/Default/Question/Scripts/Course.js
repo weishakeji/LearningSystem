@@ -25,7 +25,7 @@ $ready(function () {
 
             loading: true       //加载状态
         },
-        
+
         watch: {
             //所有的章节状态
             state: function (nv, ov) {
@@ -195,7 +195,8 @@ $ready(function () {
                 if (last == null) return;
                 var url = $api.url.set('exercises', {
                     'couid': this.couid,
-                    'olid': last.olid
+                    'olid': last.olid,
+                    'back': true
                 });
                 window.location.href = url;
             }

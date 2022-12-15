@@ -1,4 +1,5 @@
 ﻿@charset "utf-8";
+
 html, body, #vapp {
 	width: 100%;
 	height: 100%;
@@ -57,14 +58,16 @@ loading {
 	text-align: center;
 	display: flex;
 }
-.topBox a:first-child{
+
+.topBox a:first-child {
 	width: 60px;
 	flex: none;
 }
-	.topBox *[icon]::before, .topBox icon {
-		line-height: 45px;
-		font-size: 18px;
-	}
+
+.topBox *[icon]::before, .topBox icon {
+	line-height: 45px;
+	font-size: 18px;
+}
 
 .topBox>* {
 	flex: 1;
@@ -90,6 +93,7 @@ loading {
 	right: 0px;
 	z-index: 3;
 	display: flex;
+	justify-content: space-between;
 }
 
 .footer>div {
@@ -169,4 +173,3 @@ section dl, section dd {
 	height: 100%;
 	float: left;
 }
-

@@ -4,7 +4,7 @@
 <head resource>
   <meta charset="utf-8">
   <include file="../inc/meta.inc" />
-  <title>个人信息</title> 
+  <title>个人信息</title>
 </head>
 
 <body>
@@ -30,20 +30,18 @@
     </div>
 
     <div class="outline">
-      <van-cell>
-        <template #title>
+      <loading v-if="loading"> 加载中.... </loading>
+      <template v-else>
+        <div>
           <span icon="&#xe841">按章节练习</span>
-          <van-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</van-tag>
+          <el-tag type="success" v-if="last!=null" class="continue" @click="gocontinue">继续练习</el-tag>
+        </div>
+        <template v-if="outlines && outlines.length>0">
+          <outlinelist ref="outlines" :outlines="outlines" :course="course" :acid="account.Ac_ID">
+          </outlinelist>
         </template>
-      </van-cell>
-      <template v-if="outlines && outlines.length>0">
-        <outlinelist ref="outlines" :outlines="outlines" :course="course" :acid="account.Ac_ID">
-        </outlinelist>
       </template>
-      <van-cell v-else-if="loading">
-        加载中.... </van-cell>
-      <van-cell v-else>
-        没有章节 </van-cell>
+
     </div>
 
   </div>

@@ -146,16 +146,13 @@
 	padding: 10px;
 	width: calc(100% - 20px);
 }
-.outline .van-cell {
-    padding: 8px 10px 8px 10px;
+.outline>div:first-child{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
 }
-.outline .van-cell__title{
-    font-size: 16px;
-}
-.outline .van-cell .tag{
-    position: absolute;
-    top:0px;
-    right: 0px;
+.el-tag{
+	cursor: pointer;
 }
 .olname{
 	font-size: 16px;

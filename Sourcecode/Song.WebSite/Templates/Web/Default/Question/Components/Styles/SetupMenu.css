@@ -1,6 +1,6 @@
 /*设置项面板*/
 .setup_show {
-	text-align: left;
+	text-align: left;	
 }
 
 .setup_show .el-drawer__body {
@@ -13,7 +13,8 @@
 }
 
 .setup_show .el-drawer__body>div:not(.el-divider) {
-	padding: 10px;
+	padding: 5px;
+	margin: 5px;
 }
 
 .setup_show .el-drawer__body icon {
@@ -24,7 +25,8 @@
 /*视图模式*/
 
 .view_model[current] {
-	background-color: rgb(211, 255, 189) !important;
+	background-color: rgb(179, 216, 255) !important;
+	border-radius: 5px;
 }
 
 /*字体大小控制*/

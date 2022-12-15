@@ -84,12 +84,18 @@ Vue.component('outline_row', {
         console.error(err);
       });
     },
-    //跳转到学习页
+    //生成跳转到学习页的网址
     gourl: function () {
-      var url = '/web/course/study.258?olid=3406';
-      url = $api.url.dot(this.outline.Cou_ID, url);
-      url = $api.url.set(url, { 'olid': this.outline.Ol_ID });
-      return url;
+      var url = '/web/question/Exercises';
+      return $api.url.set(url, {
+        'olid': this.outline.Ol_ID,
+        'couid': this.outline.Cou_ID,
+        'back': true
+      });
+    },
+    //跳转到学习页
+    skip: function () {
+      window.location.href = this.gourl();
     }
   },
   //
@@ -97,13 +103,12 @@ Vue.component('outline_row', {
     <div>
       <span v-html="outline.serial"></span>  
       <el-tag type="success" v-if="count.rate>0">{{count.rate}}%</el-tag>  
-      <a class="olname" v-html="outline.Ol_Name" :href="gourl()" target="_blank"></a>
+      <a class="olname" v-html="outline.Ol_Name" :href="gourl()"></a>
       <el-tag type="danger" v-if="!outline.Ol_IsFinish">未完结</el-tag>
     </div>
     <div class="tag">
-          <el-tag plain type="primary">{{count.answer}}/{{outline.Ol_QuesCount}}
-          </el-tag>       
+         <el-tag plain type="primary" @click="skip">{{count.answer}}/{{outline.Ol_QuesCount}}</el-tag>       
     </div> 
-  <outlinelist ref="outlines" :outlines="outline.children" :course="course" :acid="acid"></outlinelist>
-</div>`
+    <outlinelist ref="outlines" :outlines="outline.children" :course="course" :acid="acid"></outlinelist>
+  </div>`
 });

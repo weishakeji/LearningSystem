@@ -118,6 +118,7 @@ input, textarea {
 	right: 0px;
 	z-index: 3;
 	display: flex;
+	justify-content: space-between;
 }
 
 .footer>div {

@@ -55,6 +55,16 @@ input, textarea {
 	line-height: 45px;
 	text-align: center;
 	display: flex;
+	justify-content: space-between;
+}
+.topBox>a:first-child {
+	width: 50px;
+	flex: none;
+}
+
+.topBox *[icon]::before, .topBox icon {
+	line-height: 45px;
+	font-size: 18px;
 }
 .topBox a:hover {
     text-decoration: none;
@@ -98,6 +108,7 @@ input, textarea {
 	right: 0px;
 	z-index: 3;
 	display: flex;
+	justify-content: space-between;
 	
 }
 

@@ -179,7 +179,7 @@ $ready(function () {
                 }
                 //整体的通过率
                 var rate = Math.round(this.count.correct / this.count.sum * 10000) / 100;
-                this.rate = rate === Infinity ||  rate === -Infinity || isNaN(rate) ? 0 : rate;
+                this.rate = rate === Infinity || rate === -Infinity || isNaN(rate) ? 0 : rate;
                 return;
             },
             //最后练习的章节
@@ -201,7 +201,7 @@ $ready(function () {
                 if (last == null) return;
                 var url = $api.url.set('exercises', {
                     'couid': this.couid,
-                    'olid': last.olid
+                    'olid': last.olid                   
                 });
                 window.location.href = url;
             }

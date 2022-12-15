@@ -5,6 +5,7 @@
         data: {
             couid: $api.querystring("couid", 0),
             olid: $api.querystring("olid", 0),
+            back: Boolean($api.querystring("back", false)),  //是否显示返回图标
 
             account: {},     //当前登录账号        
             types: [],          //试题类型
