@@ -63,7 +63,7 @@ $ready(function () {
                 th.config = $api.organ(th.organ).config;
                 th.form.orgid = th.organ.Org_ID;
                 th.types = types.data.result;
-                if (th.couid != '' || th.couid != '0') {
+                if (th.couid != '' && th.couid != '0') {
                     th.getCourse(th.couid);
                 } else {
                     th.getSubjects(th.organ);
@@ -85,7 +85,7 @@ $ready(function () {
             //禁止选择专业与课程，（例如在课程管理中的试题编辑）
             'disable_select': function () {
                 var couid = $api.querystring('couid', '0');          
-                return couid != '0' || couid!='';
+                return couid != '0' && couid!='';
             },
             //选中的章节名称
             'selected_outline': function () {
