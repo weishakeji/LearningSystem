@@ -179,6 +179,8 @@ namespace Song.ServiceInterfaces
         /// <param name="sbjid">专业id</param>
         /// <param name="couid">课程id</param>
         /// <param name="pid">章节上级Id</param>
+        /// <param name="islive">是否是直播章节</param>
+        /// <param name="search">按章节名称检索</param>
         /// <param name="isUse"></param>
         /// <param name="count"></param>
         /// <returns></returns>

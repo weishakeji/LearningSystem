@@ -435,15 +435,15 @@ namespace Song.ServiceImpls
             tpi = _getItemCoutomOrder(list);
             //***************  开始抽取试题
             List<Questions> listQus = new List<Questions>();
-            //1、先取当前课程下的试题
+            //1、先取当前课程下的试题，按题型分好组
             List<Questions>[] arr = new List<Questions>[5];
             List<Questions> ques_course = Gateway.Default.From<Questions>().Where(Questions._.Cou_ID == tp.Cou_ID
                 && Questions._.Qus_Diff >= tp.Tp_Diff && Questions._.Qus_Diff <= tp.Tp_Diff2).ToList<Questions>();
             for (int i = 0; i < arr.Length; i++)           
-                arr[i] = (from l in ques_course where l.Qus_Type == i + 1 select l).ToList<Questions>();            
-          
+                arr[i] = (from l in ques_course where l.Qus_Type == i + 1 select l).ToList<Questions>();
+
             //2、获取章节，按章节配置项取试题
-            List<Outline> outlines = Business.Do<IOutline>().OutlineCount(tp.Cou_ID, -1, true, 0);
+            List<Outline> outlines = Business.Do<IOutline>().OutlineCount(tp.Cou_ID, 0, true, 0);
             foreach (Outline ol in outlines)
             {
                 //3、取当前章节的各题型数量
@@ -458,18 +458,27 @@ namespace Song.ServiceImpls
                     int isexist = tpi.FindIndex(t => it.TPI_Type == t.TPI_Type);
                     if (isexist < 0) continue;
 
-                    //4、抽取试题，并将抽到题汇集到一起，即到listQus列表中去                    
-                    List<Questions> ques = (from l in questions
-                                            where l.Ol_ID == ol.Ol_ID && l.Qus_Type == it.TPI_Type
-                                            select l).ToList<Questions>();
-
-                    for (int i = 0; i < it.TPI_Count && i < ques.Count; i++)
+                    //4、抽取试题，并将抽到题汇集到一起，即到listQus列表中去   
+                    List<long> treeid = Business.Do<IOutline>().TreeID(ol.Ol_ID);
+                    //自定义查询条件
+                    Func<Questions, bool> exp = x =>
+                    {
+                        var where_exp = false;
+                        foreach(long id in treeid)                     
+                            where_exp = where_exp || x.Ol_ID == id;                      
+                        return where_exp;
+                    };                 
+                    List<Questions> ques = questions.Where(exp).ToList<Questions>();                  
+                    //将选中的试题随机抽取到总的试题数组，类似洗牌算法
+                    int i = it.TPI_Count;
+                    while (i > 0 && ques.Count > 0)
                     {
                         Random random = new Random(DateTime.Now.Millisecond + ques.Count);
                         int rnd = random.Next(ques.Count);
                         listQus.Add(ques[rnd]);
                         ques.RemoveAt(rnd);
-                    }
+                        i--;
+                    }                   
                 }
             }
             //****************  开始出卷

@@ -698,11 +698,16 @@ namespace Song.ServiceImpls
         public List<Outline> OutlineCount(long couid, string search, bool? isUse, int count)
         {
             return OutlineCount(couid, -1, null, search, isUse, count);
-        }        
+        }
+        public List<Outline> OutlineCount(long couid, long pid, bool? isUse, int count)
+        {
+            return OutlineCount(couid, pid, null, string.Empty, isUse, count);
+        }
         /// <summary>
         /// 获取指定个数的章节列表
         /// </summary>
-        /// <param name="couid"></param>
+        /// <param name="couid">课程id</param>
+        /// <param name="pid">章节父id</param>
         /// <param name="islive">是否是直播章节</param>
         /// <param name="search"></param>
         /// <param name="isUse"></param>
@@ -710,30 +715,20 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public List<Outline> OutlineCount(long couid, long pid, bool? islive, string search, bool? isUse, int count)
         {
-            return OutlineCount(-1, -1, couid, -1, null, search, isUse, count);           
-        }
-        public List<Outline> OutlineCount(long couid, long pid, bool? isUse, int count)
-        {
-            return OutlineCount(-1, -1, couid, -1, null, string.Empty, isUse, count);            
-        }
-        public List<Outline> OutlineCount(int orgid, long sbjid, long couid, long pid, bool? islive, string search, bool? isUse, int count)
-        {
             //从缓存中读取
             List<Outline> list = Cache.EntitiesCache.GetList<Outline>(couid);
             if (list == null || list.Count < 1) list = this.BuildCache(couid);
             //自定义查询条件
             Func<Outline, bool> exp = x =>
-            {
-                var org_exp = orgid > 0 ? x.Org_ID == orgid : true;
-                var sbj_exp = sbjid > 0 ? x.Sbj_ID == sbjid : true;
+            {               
                 var cou_exp = couid > 0 ? x.Cou_ID == couid : true;
                 var pid_exp = pid > -1 ? x.Ol_PID == pid : true;
 
                 var live_exp = islive != null ? x.Ol_IsLive == (bool)islive : true;
-                var search_exp = string.IsNullOrWhiteSpace(search) ? x.Ol_Name.Contains(search) : true;
+                var search_exp = !string.IsNullOrWhiteSpace(search) ? x.Ol_Name.Contains(search) : true;
                 var use_exp = isUse != null ? x.Ol_IsUse == (bool)isUse : true;
 
-                return org_exp && sbj_exp && cou_exp && pid_exp && live_exp && use_exp && search_exp;
+                return cou_exp && pid_exp && live_exp && use_exp && search_exp;
             };
             if (count > 0)
             {
@@ -741,6 +736,19 @@ namespace Song.ServiceImpls
                 return result.ToList();
             }
             return list.Where(exp).ToList<Outline>();
+        }
+       
+        public List<Outline> OutlineCount(int orgid, long sbjid, long couid, long pid, bool? islive, string search, bool? isUse, int count)
+        {
+            WhereClip wc = new WhereClip();
+            if (pid >= 0) wc.And(Outline._.Ol_PID == pid);
+            if (couid > 0) wc.And(Outline._.Cou_ID == couid);
+            if (sbjid > 0) wc.And(Outline._.Sbj_ID == sbjid);
+            if (orgid > 0) wc.And(Outline._.Org_ID == orgid);
+            if (islive != null) wc.And(Outline._.Ol_IsLive == (bool)islive);
+            if (isUse != null) wc.And(Outline._.Ol_IsUse == (bool)isUse);
+            if(!string.IsNullOrWhiteSpace(search)) wc.And(Outline._.Ol_Name.Like("%" + search + "%"));
+            return Gateway.Default.From<Outline>().Where(wc).OrderBy(Outline._.Ol_Tax.Asc).ToList<Outline>(count);
         }
         /// <summary>
         /// 直播中的章节
