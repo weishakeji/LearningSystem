@@ -347,9 +347,10 @@ namespace Song.ViewData.Methods
             resXml.LoadXml(result, false);
             XmlNode xn = resXml.SelectSingleNode("results");
             //学员Id,学员名称
-            int stid = 0, stsid = 0;
+            int stid = 0, stsid = 0, stsex = 0;
             int.TryParse(getAttr(xn, "stid"), out stid);
             int.TryParse(getAttr(xn, "stsid"), out stsid);
+            int.TryParse(getAttr(xn, "stsex"), out stsex);
             string stname = getAttr(xn, "stname");
             string stsname = getAttr(xn, "stsname");
             string cardid= getAttr(xn, "stcardid"); //学员身份证
@@ -427,6 +428,7 @@ namespace Song.ViewData.Methods
             exr.St_IDCardNumber = cardid;
             exr.Sts_ID = stid;
             exr.Sts_Name = stsname;
+            exr.St_Sex = stsex;     //性别
             exr.Tr_IP = WeiSha.Core.Browser.IP;
             exr.Tr_Mac = "";
             exr.Tr_UID = uid;
