@@ -270,14 +270,13 @@ namespace Song.ServiceImpls
         /// <returns></returns>
         public EmpAccount EmpLogin(string acc, string pw, int orgid)
         {
-            WhereClip wc = new WhereClip();
-            if (orgid > 0) wc.And(EmpAccount._.Org_ID == orgid);
+            WhereClip wc = new WhereClip();        
+            wc.And(EmpAccount._.Acc_AccName == acc);
             string pwMd5= new WeiSha.Core.Param.Method.ConvertToAnyValue(pw).MD5;
             wc.And(EmpAccount._.Acc_Pw == pwMd5);
-            Song.Entities.EmpAccount entity = null;
-            if (entity == null) entity = Gateway.Default.From<EmpAccount>().Where(EmpAccount._.Acc_AccName == acc && wc).ToFirst<EmpAccount>();
-            if (entity == null) entity = Gateway.Default.From<EmpAccount>().Where(EmpAccount._.Acc_MobileTel == acc && wc).ToFirst<EmpAccount>();
-            if (entity == null) entity = Gateway.Default.From<EmpAccount>().Where(EmpAccount._.Acc_IDCardNumber == acc && wc).ToFirst<EmpAccount>();
+            Song.Entities.EmpAccount entity = null;         
+            if (entity == null) entity = Gateway.Default.From<EmpAccount>().Where(wc && EmpAccount._.Org_ID == orgid).ToFirst<EmpAccount>();
+            if (entity == null) entity = Gateway.Default.From<EmpAccount>().Where(wc).ToFirst<EmpAccount>();         
             return entity;
         }
         /// <summary>
