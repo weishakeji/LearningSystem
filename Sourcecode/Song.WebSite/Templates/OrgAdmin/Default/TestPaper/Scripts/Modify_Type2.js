@@ -18,8 +18,8 @@ $ready(function () {
                 { name: '基本信息', tab: 'general', icon: 'e72f' },
                 { name: '出题范围', tab: 'range', icon: 'e731' },
                 { name: '简介', tab: 'intro', icon: 'e6fd' },
-                { name: '注意事项', tab: 'remind', icon: 'e845' },
-                { name: '其它', tab: 'other', icon: 'e85a' }
+                { name: '注意事项', tab: 'remind', icon: 'e697' },
+                { name: '其它', tab: 'other', icon: 'e67e' }
             ],
             activeName: 'general',
 
