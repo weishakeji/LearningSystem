@@ -184,7 +184,7 @@
             //查看成绩
             viewResults: function (tpid) {
                 var url = $api.url.set('../TestPaper/Results', 'tpid', tpid);
-                this.$refs.btngroup.pagebox(url, '成绩管理', null, 800, 600, { 'ico': 'e696' });
+                this.$refs.btngroup.pagebox(url, '成绩', null, 800, 600, { 'ico': 'e696' });
             }
         }
     });

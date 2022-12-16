@@ -107,7 +107,7 @@
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 42);
                 th.loading = true;
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 $api.put("Question/Pager", th.form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
@@ -134,7 +134,7 @@
             deleteData: function (datas) {
                 var th = this;
                 th.loading = true;
-                var loading = this.showloading();
+                var loading = this.$fulloading();
                 $api.delete('Question/Delete', { 'id': datas }).then(function (req) {
                     th.loading = false;
                     if (req.data.success) {

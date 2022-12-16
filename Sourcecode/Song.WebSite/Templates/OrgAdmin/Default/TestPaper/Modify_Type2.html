@@ -76,7 +76,8 @@
 
                     <el-form-item label="难度范围" prop="Tp_Diff">
                         <el-row>
-                            <el-col :span="12">
+                            <el-col :span="1">&nbsp;</el-col>
+                            <el-col :span="10">
                                 <el-slider v-model="Tp_Diff" range show-stops :min="1" :max="5" @change="diffChange">
                                 </el-slider>
                             </el-col>

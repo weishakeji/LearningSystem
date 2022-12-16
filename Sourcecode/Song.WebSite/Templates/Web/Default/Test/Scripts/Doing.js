@@ -54,7 +54,7 @@
         computed: {
             //学员是否登录
             islogin: function () {
-                return JSON.stringify(this.account) != '{}' && this.account != null;
+                return this.account != null && JSON.stringify(this.account) != '{}' && this.account.Ac_ID > 0;
             },
             //是否过期，过期返回true
             isoverdue: function () {
@@ -103,7 +103,8 @@
             //当学员登录后
             'account': {
                 handler: function (nv, ov) {
-                    this.initialize();
+                    if (this.islogin)
+                        this.initialize();
                 },
                 immediate: true
             },
@@ -259,7 +260,7 @@
             //生成试卷内容
             generatePaper: function () {
                 if (JSON.stringify(this.paper) == '{}' && this.paper == null) return;
-                if (this.paperQues.length > 0) return;
+                if (this.paperQues.length > 0) return;             
                 var th = this;
                 th.loading.paper = true;
                 $api.get('TestPaper/GenerateRandom', { 'tpid': this.tpid }).then(function (req) {

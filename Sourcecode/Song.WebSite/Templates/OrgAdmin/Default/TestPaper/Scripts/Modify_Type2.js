@@ -27,13 +27,13 @@ $ready(function () {
                 Tp_Id: 0,        //主键
                 Tp_Type: 2,
                 Tp_Total: 100,
-                Tp_Diff: 2,
-                Tp_Diff2: 4,
+                Tp_Diff: 1,
+                Tp_Diff2: 5,
                 Tp_FromType: 0,
                 Sbj_ID: 0,
                 Cou_ID: 0           //所属课程的id
             },
-            Tp_Diff: [2, 4],     //难度范围
+            Tp_Diff: [1, 5],     //难度范围
             rules: {
                 Tp_Name: [
                     { required: true, message: '标题不得为空', trigger: 'blur' }
