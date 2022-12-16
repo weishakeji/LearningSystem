@@ -128,8 +128,7 @@ Vue.component('fromtype0', {
                     Tp_UID: ""
                 };
                 arr.push(obj);
-            }
-            console.log(arr);
+            }        
             return arr;
         },
         //当分数占比变更时

@@ -91,8 +91,7 @@ $ready(function () {
                     Vue.set(th.Tp_Diff, 0, th.entity.Tp_Diff);
                     Vue.set(th.Tp_Diff, 1, th.entity.Tp_Diff2);
                 } else {
-                    //th.entity = {};     
-                    console.log(333);
+                    //th.entity = {};
                     th.getCourse();
                 }
             }).catch(function (err) {

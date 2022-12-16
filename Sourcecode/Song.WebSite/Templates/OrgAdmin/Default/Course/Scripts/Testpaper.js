@@ -116,7 +116,9 @@
             //双击事件
             rowdblclick: function (row, column, event) {
                 //console.log(row);
-                this.$refs.btngroup.modify(row[this.$refs.btngroup.idkey]);
+                this.$refs.btngroup.modify(row[this.$refs.btngroup.idkey], null, {
+                    'ico': 'e810'
+                });
             },
             //更改使用状态
             changeState: function (row) {
@@ -178,8 +180,8 @@
             btnadd: function (btn, ctr) {
                 let couid = $api.querystring('id');
                 var url = $api.url.set(ctr.path, 'couid', couid);
-                console.log(url);
-                ctr.add(url);
+                //console.error(url);
+                ctr.add(url, { 'ico': 'e810' });
             },
             //查看成绩
             viewResults: function (tpid) {

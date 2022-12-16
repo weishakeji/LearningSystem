@@ -108,14 +108,14 @@ Vue.component('btngroup', {
             if (existEvent) return this.$emit(btnid, curr, this.getids());
         },
         //添加按钮事件
-        add: function (url) {
+        add: function (url, param) {
             if (url == null) url = this.path;
             if (!(top.$pagebox && url)) return;
             url = this.setParameter(url, '');
-            this.pagebox(url, '新增', window.name + '[add]', this.width, this.height);
+            this.pagebox(url, '新增', window.name + '[add]', this.width, this.height, param);
         },
         //修改事件
-        modify: function (id, title) {
+        modify: function (id, title, param) {
             //如果传进来的是对象
             if (id && typeof (id) == 'object') {
                 id = id[this.idkey];
@@ -137,12 +137,12 @@ Vue.component('btngroup', {
             }
             if (!(top.$pagebox && this.path)) return;
             var url = this.setParameter(this.path, id);
-            this.pagebox(url, title ? title : '修改', window.name + '_' + id + '[modify]', this.width, this.height);
+            this.pagebox(url, title ? title : '修改', window.name + '_' + id + '[modify]', this.width, this.height, param);
         },
-        modifyrow: function (row, title) {
+        modifyrow: function (row, title, param) {
             if (!this.idkey) return '';
             var id = !!row[this.idkey] ? row[this.idkey] : '';
-            this.modify(id, title);
+            this.modify(id, title, param);
         },
         //删除事件
         delete: function (ids, btn) {
