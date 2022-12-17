@@ -1288,7 +1288,7 @@ namespace Song.ServiceImpls
             return Gateway.Default.Count<ExamResults>(ExamResults._.Exam_ID == examid);
             
         }
-        public ExamResults[] Results(int examid, string name, string idcard, int min, int max, int size, int index, out int countSum)
+        public ExamResults[] Results(int examid, string name, string idcard, float min, float max, int size, int index, out int countSum)
         {
             WhereClip wc = ExamResults._.Exam_ID == examid;           
             if (min >= 0) wc.And(ExamResults._.Exr_ScoreFinal >= min);         

@@ -69,18 +69,18 @@ $ready(function () {
                     case 1:
                         this.form.min = Math.floor(this.entity.Exam_Total * 0.8);
                         this.form.max = this.entity.Exam_Total;
-                        this.scorerange = '优秀（' + vapp.form.min + '分以上)';
+                        this.scorerange = '优秀（' + this.form.min + '分以上)';
                         break;
                     //及格
                     case 2:
                         this.form.min = this.entity.Exam_PassScore;
                         this.form.max = this.entity.Exam_Total;
-                        this.scorerange = '及格（' + vapp.form.min + '分以上)';
+                        this.scorerange = '及格（' + this.form.min + '分以上)';
                         break;
                     //不及格
                     case 3:
                         this.form.min = 0;
-                        this.form.max = this.entity.Exam_PassScore - 1;
+                        this.form.max = this.entity.Exam_PassScore - 0.01;
                         this.scorerange = '不及格（' + this.entity.Exam_PassScore + '分以下)';
                         break;
                     //零分

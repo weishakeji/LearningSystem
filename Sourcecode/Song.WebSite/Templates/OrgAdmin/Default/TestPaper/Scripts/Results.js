@@ -3,13 +3,14 @@
     window.vapp = new Vue({
         el: '#vapp',
         data: {
-            couid: $api.querystring('id'),
+            tpid: $api.querystring('tpid'),       //试卷id
             org: {},
             config: {},      //当前机构配置项
+            testpaper: {},      //试卷对象
+            scorerange: '成绩',     //成绩范围选择的提示信息
 
             form: {
-                'stid': '', 'tpid': $api.querystring('tpid'), 'tpname': '', 'couid': $api.querystring('id'),
-                'sbjid': '', 'orgid': '',
+                'stid': '', 'tpid': '', 'tpname': '', 'couid': '', 'sbjid': '', 'orgid': '',
                 'stname': '', 'cardid': '', 'score_min': '', 'score_max': '', 'time_min': '', 'time_max': '',
                 'size': 20, 'index': 1
             },
@@ -31,9 +32,10 @@
             });
             var th = this;
             $api.bat(
-                $api.get('Organization/Current')
-            ).then(axios.spread(function (org) {
-                vapp.loading_init = false;
+                $api.get('Organization/Current'),
+                $api.get('TestPaper/ForID',{'id':th.tpid})
+            ).then(axios.spread(function (org,paper) {
+                th.loading_init = false;
                 //判断结果是否正常
                 for (var i = 0; i < arguments.length; i++) {
                     if (arguments[i].status != 200)
@@ -48,6 +50,7 @@
                 //机构配置信息
                 th.config = $api.organ(th.org).config;
                 th.form.orgid = th.org.Org_ID;
+                th.testpaper = paper.data.result;
                 th.handleCurrentChange(1);
             })).catch(function (err) {
                 console.error(err);
@@ -62,6 +65,43 @@
         watch: {
         },
         methods: {
+            //下拉菜单事件
+            dorphandle: function (command) {
+                switch (Number(command)) {
+                    //全部
+                    case -1:
+                        this.form.score_min = '';
+                        this.form.score_max = '';
+                        this.scorerange = '成绩';
+                        break;
+                    //优秀
+                    case 1:
+                        this.form.score_min = Math.floor(this.testpaper.Tp_Total * 0.8);
+                        this.form.score_max = this.testpaper.Tp_Total;
+                        this.scorerange = '优秀（' + this.form.score_min + '分以上)';
+                        break;
+                    //及格
+                    case 2:
+                        this.form.score_min = this.testpaper.Tp_PassScore;
+                        this.form.score_max = this.testpaper.Tp_Total;
+                        this.scorerange = '及格（' + this.form.score_min + '分以上)';
+                        break;
+                    //不及格
+                    case 3:
+                        this.form.score_min = 0;
+                        this.form.score_max = this.testpaper.Tp_PassScore - 0.01;
+                        this.scorerange = '不及格（' + this.testpaper.Tp_PassScore + '分以下)';
+                        break;
+                    //零分
+                    case 4:
+                        this.form.score_min = 0;
+                        this.form.score_max = 0;
+                        this.scorerange = '零分';
+                        break;
+                }
+                if (Number(command) <= 4)
+                    this.handleCurrentChange(1);
+            },
             //加载数据页
             handleCurrentChange: function (index) {
                 if (index != null) this.form.index = index;
@@ -73,6 +113,7 @@
                 var form = $api.clone(this.form);
                 if (form.score_min === '') form.score_min = -1;
                 if (form.score_max === '') form.score_max = -1;
+                form.tpid = this.tpid;
                 $api.get("TestPaper/ResultsQueryPager", form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
@@ -158,6 +199,34 @@
                 var title = data.Ac_Name + '-成绩回顾';
                 this.$refs.btngroup.pagebox(url, title, null, 800, 600, { 'ico': 'e6f1' });
                 return false;
+            }
+        },
+        components: {
+            //得分的输出，为了小数点对齐
+            'score': {
+                props: ['number'],
+                data: function () {
+                    return {
+                        prev: '',
+                        dot: '.',
+                        after: ''
+                    }
+                },
+                created: function () {
+                    var num = String(Math.round(this.number * 100) / 100);
+                    if (num.indexOf('.') > -1) {
+                        this.prev = num.substring(0, num.indexOf('.'));
+                        this.after = num.substring(num.indexOf('.') + 1);
+                    } else {
+                        this.prev = num;
+                        this.dot = '&nbsp;';
+                    }
+                },
+                template: `<div class="score">
+                <span class="prev">{{prev}}</span>
+                <span class="dot" v-html="dot"></span>
+                <span class="after">{{after}}</span>
+                </div>`
             }
         }
     });

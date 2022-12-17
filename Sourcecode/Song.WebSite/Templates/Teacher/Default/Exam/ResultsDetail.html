@@ -92,13 +92,12 @@
                 </el-table-column>
                 <el-table-column label="成绩" width="80" align="center">
                     <template slot-scope="scope">
-                        <el-tooltip content="点击查看成绩详情" placement="bottom" effect="light">
+                        <el-tooltip :content="scope.row.Exr_ScoreFinal<entity.Exam_PassScore ? '不及格' : '点击查看成绩详情'" placement="bottom" effect="light">
                             <span :class="{'red':scope.row.Exr_ScoreFinal<entity.Exam_PassScore,'link':true}"
                                 @click="review(scope.row)">
                                 <score :number="scope.row.Exr_ScoreFinal"></score>
                             </span>
                         </el-tooltip>
-
 
                     </template>
                 </el-table-column>

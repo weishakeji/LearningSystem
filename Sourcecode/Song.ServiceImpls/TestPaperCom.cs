@@ -764,7 +764,7 @@ namespace Song.ServiceImpls
         }
 
         public TestResults[] ResultsPager(int stid, long tpid, string tpname, long couid, long sbjid, int orgid,
-            string acc, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
+            string acc, string cardid, float score_min, float score_max, DateTime? time_min, DateTime? time_max,
             int size, int index, out int countSum)
         {
             WhereClip wc = new WhereClip();

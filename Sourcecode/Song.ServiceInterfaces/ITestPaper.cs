@@ -228,7 +228,7 @@ namespace Song.ServiceInterfaces
         /// <returns></returns>
         TestResults[] ResultsPager(int stid, long sbjid, long couid, int size, int index, out int countSum);
         TestResults[] ResultsPager(int stid, long tpid, string tpname, long couid, long sbjid, int orgid,
-            string acc, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
+            string acc, string cardid, float score_min, float score_max, DateTime? time_min, DateTime? time_max,
             int size, int index, out int countSum);
         /// <summary>
         /// ∞¥ ‘æÌ∑÷“≥∑µªÿ≤‚ ‘≥…º®

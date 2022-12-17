@@ -510,7 +510,7 @@ namespace Song.ViewData.Methods
         /// <param name="index"></param>
         /// <returns></returns>
         public ListResult ResultsQueryPager(int stid, long tpid, string tpname, long couid, long sbjid,int orgid,
-            string stname, string cardid, int score_min, int score_max, DateTime? time_min, DateTime? time_max,
+            string stname, string cardid, float score_min, float score_max, DateTime? time_min, DateTime? time_max,
             int size, int index)
         {
             int count = 0;

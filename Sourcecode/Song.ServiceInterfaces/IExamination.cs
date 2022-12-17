@@ -310,7 +310,7 @@ namespace Song.ServiceInterfaces
         /// <param name="index"></param>
         /// <param name="countSum"></param>
         /// <returns></returns>
-        ExamResults[] Results(int examid, string name, string idcard, int min, int max, int size, int index, out int countSum);
+        ExamResults[] Results(int examid, string name, string idcard, float min, float max, int size, int index, out int countSum);
         ExamResults[] Results(string examuid, int size, int index, out int countSum);
         /// <summary>
         /// 当前考试场次下的所有人员成绩
