@@ -778,8 +778,8 @@ namespace Song.ServiceImpls
             if (!string.IsNullOrWhiteSpace(acc)) wc.And(TestResults._.Ac_Name.Like("%" + acc + "%"));
             if (!string.IsNullOrWhiteSpace(cardid)) wc.And(TestResults._.St_IDCardNumber.Like("%" + cardid + "%"));
             //成绩区间
-            if (score_min > 0) wc.And(TestResults._.Tr_Score >= score_min);
-            if (score_max > 0) wc.And(TestResults._.Tr_Score <= score_max);
+            if (score_min >= 0) wc.And(TestResults._.Tr_Score >= score_min);
+            if (score_max >= 0) wc.And(TestResults._.Tr_Score <= score_max);
             //时间区间
             if (time_min!=null) wc.And(TestResults._.Tr_CrtTime >=(DateTime)time_min);
             if (time_max != null) wc.And(TestResults._.Tr_CrtTime <= (DateTime)time_max);

@@ -12,15 +12,15 @@
     <div id="vapp" v-cloak>
         <div class="toolsbar">
             <btngroup show="新增,修改,删除,导入,导出" ref='btngroup' @output="output" @input="input" @delete="deleteData"
-                path="../Question/Modify" width="900" height="80%"  :selects='selects' idkey='Qus_ID' table="datatables"
+                path="../Question/Modify" width="900" height="80%" :selects='selects' idkey='Qus_ID' table="datatables"
                 :modal="true"></btngroup>
             <div class="search-box">
                 <el-form :inline="true" :model="form" class="demo-form-inline" v-on:submit.native.prevent>
                     <el-form-item label="">
                         <el-cascader style="width: 200px;" ref="outlines" v-model="olSelects" :options="outlines"
-                            separator="／" :props="defaultProps" clearable filterable  placeholder=" -- 章节 -- ">
+                            separator="／" :props="defaultProps" clearable filterable placeholder=" -- 章节 -- ">
                             <template slot-scope="{node,data}">
-                                {{data.Ol_Name}} 
+                                {{data.Ol_Name}}
                                 <outline_ques_count :outline="data"></outline_ques_count>
                             </template>
                         </el-cascader>
@@ -100,7 +100,7 @@
             </el-form>
         </div>
         <!-- 数据列表-->
-        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" stripe 
+        <el-table ref="datatables" :data="datas" tooltip-effect="dark" style="width: 100%" stripe
             @selection-change="val=>selects=val" @row-dblclick="row=>$refs.btngroup.modify(row[$refs.btngroup.idkey])"
             row-key="Qus_ID" :row-class-name="data=>{return data.row.Qus_IsUse ? 'enable' : 'disabled';}">
             <div slot="empty">
@@ -161,7 +161,8 @@
             <el-table-column label="操作" show-overflow-tooltip width="120">
 
                 <el-button-group slot-scope="scope">
-                    <el-link type="primary" plain icon="el-icon-edit" @click='$refs.btngroup.modify(scope.row.Qus_ID)'>
+                    <el-link type="primary" plain icon="el-icon-edit"
+                        @click='$refs.btngroup.modify(scope.row.Qus_ID,null,{"ico":"e75e"})'>
                         修改
                     </el-link>
                     <el-popconfirm confirm-button-text='是的' cancel-button-text='不用' icon="el-icon-info" icon-color="red"

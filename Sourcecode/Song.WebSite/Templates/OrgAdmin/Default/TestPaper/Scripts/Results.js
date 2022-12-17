@@ -70,7 +70,10 @@
                 var area = document.documentElement.clientHeight - 100;
                 th.form.size = Math.floor(area / 42);
                 th.loading = true;
-                $api.get("TestPaper/ResultsQueryPager", th.form).then(function (d) {
+                var form = $api.clone(this.form);
+                if (form.score_min === '') form.score_min = -1;
+                if (form.score_max === '') form.score_max = -1;
+                $api.get("TestPaper/ResultsQueryPager", form).then(function (d) {
                     th.loading = false;
                     if (d.data.success) {
                         var result = d.data.result;
@@ -152,7 +155,9 @@
                     'couid': data.Cou_ID,
                     'stid': data.Ac_ID
                 });
-                return url;
+                var title = data.Ac_Name + '-成绩回顾';
+                this.$refs.btngroup.pagebox(url, title, null, 800, 600, { 'ico': 'e6f1' });
+                return false;
             }
         }
     });
