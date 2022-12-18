@@ -3,14 +3,21 @@ $dom.load.css([$dom.pagepath() + 'Components/Styles/question.css']);
 Vue.component('question', {
     //groupindex:试题题型的分组，用于排序号
     //total: 试题总数
-    props: ['ques', 'index', 'groupindex', 'types','total'],
+    props: ['ques', 'index', 'groupindex', 'types', 'total'],
     data: function () {
         return {}
     },
     watch: {
         'ques': {
             handler(nv, ov) {
-                //this.ques = this.parseAnswer(nv);
+                this.$nextTick(function () {
+                    //没有内容的html元素，不显示
+                    var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
+                    //window.ques.clearempty(qbox.find('card-title'));
+                    //window.ques.clearempty(qbox.find('.ans_area'));
+                    //公式渲染
+                    this.$mathjax([qbox[0]]);
+                });
             },
             immediate: true
         }
@@ -21,10 +28,12 @@ Vue.component('question', {
         var qbox = $dom('card[qid="' + this.ques.Qus_ID + '"]');
         window.ques.clearempty(qbox.find('card-title'));
         window.ques.clearempty(qbox.find('.ans_area'));
+        //公式渲染
+        this.$mathjax([qbox[0]]);
     },
     mounted: function () { },
     methods: {
-        
+
         //计算序号，整个试卷采用一个序号，跨题型排序
         calcIndex: function (index) {
             var gindex = this.groupindex - 1;
@@ -66,7 +75,7 @@ Vue.component('question', {
                 ansstr += element.Ans_Context + ",";
             }
             this.ques.Qus_Answer = ansstr;
-        } 
+        }
     },
     template: `<dd :qid="ques.Qus_ID">
         <info>
