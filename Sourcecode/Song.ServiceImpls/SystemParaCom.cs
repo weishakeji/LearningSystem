@@ -432,7 +432,7 @@ namespace Song.ServiceImpls
 	                INFORMATION_SCHEMA.KEY_COLUMN_USAGE
                 where TABLE_NAME ='{{tablename}}'";
             sql2 = sql2.Replace("{{tablename}}", tablename.Trim());
-            string primary = Gateway.Default.FromSql(sql2).ToScalar().ToString();
+            object primary = Gateway.Default.FromSql(sql2).ToScalar();
             //将主键加到字段的表中
             DataTable dt = ds.Tables[0];
             dt.Columns.Add(new DataColumn("primary", typeof(int)));
@@ -441,15 +441,18 @@ namespace Song.ServiceImpls
             for(int i = 0; i < dt.Rows.Count; i++)
             {
                 DataRow dr = dt.Rows[i];
-                if (dr["name"].ToString().Equals(primary, StringComparison.CurrentCultureIgnoreCase))
+                if (primary != null)
                 {
-                    dr["primary"] = 1;
-                    parimaryDr.ItemArray = dr.ItemArray;
-                    parimaryIndex = i;
-                }
-                else
-                {
-                    dr["primary"] = 0;
+                    if (dr["name"].ToString().Equals(primary.ToString(), StringComparison.CurrentCultureIgnoreCase))
+                    {
+                        dr["primary"] = 1;
+                        parimaryDr.ItemArray = dr.ItemArray;
+                        parimaryIndex = i;
+                    }
+                    else
+                    {
+                        dr["primary"] = 0;
+                    }
                 }
             }
             if (parimaryIndex > 0)

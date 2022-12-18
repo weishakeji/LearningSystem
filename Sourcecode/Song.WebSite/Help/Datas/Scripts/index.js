@@ -29,7 +29,7 @@ var vapp = new Vue({
             for (var item in this.entities) {
                 if (item.toLowerCase().indexOf(this.entitysearch) > -1
                     || this.entities[item]['mark'].indexOf(this.entitysearch) > -1) {
-                    arr[item] = this.entities[item];                   
+                    arr[item] = this.entities[item];
                 }
             }
             return arr;
@@ -167,8 +167,18 @@ Vue.component('entity', {
                 $api.get('Helper/EntityFields', { 'tablename': th.clname }), //获取字段（属性）
                 $api.get('Helper/EntityDetails', { 'name': th.clname })  //字段说明
             ).then(axios.spread(function (field, detal) {
-                if (field.data.success) th.properties = field.data.result;
-                if (detal.data.success) th.details = detal.data.result;
+                //判断结果是否正常
+                for (var i = 0; i < arguments.length; i++) {
+                    if (arguments[i].status != 200)
+                        console.error(arguments[i]);
+                    var data = arguments[i].data;
+                    if (!data.success && data.exception != null) {
+                        console.error(data.exception);
+                        throw arguments[i].config.way + ' ' + data.message;
+                    }
+                }
+                th.properties = field.data.result;
+                th.details = detal.data.result;
                 Vue.set(th.states, 'update', false);
                 th.loading = false;
             })).catch(function (err) {
@@ -265,7 +275,7 @@ Vue.component('entity', {
             return ty;
         },
         //是否可空
-        shownull:function(v){
+        shownull: function (v) {
 
         }
     },
