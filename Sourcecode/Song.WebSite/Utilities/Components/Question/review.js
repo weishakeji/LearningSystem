@@ -25,6 +25,12 @@ Vue.component('question', {
             },
             immediate: true
         },
+        'qans': {
+            handler(nv, ov) {
+                //console.log(nv);
+            },
+            immediate: true
+        }
     },
     computed: {
         //是否试题加载完成
@@ -136,10 +142,15 @@ Vue.component('question', {
                 return this.ques.Qus_Answer;
             }
             if (this.ques.Qus_Type == 5) {
-                var ansStr = [];
-                for (var i = 0; i < this.ques.Qus_Items.length; i++)
-                    ansStr.push((i + 1) + "." + this.ques.Qus_Items[i].Ans_Context);
-                return ansStr.join("；");
+                var arr = this.ques.Qus_Items;
+                if (arr.length == 0) return '';
+                if (arr.length == 1) return arr[0].Ans_Context;
+                var txt = '';
+                for (let i = 0; i < arr.length; i++) {
+                    txt += (i + 1) + "、" + arr[i].Ans_Context;
+                    if (i < arr.length - 1) txt += "；";
+                }
+                return txt;
             }
         },
         //实际答题
@@ -168,8 +179,24 @@ Vue.component('question', {
             if (this.ques.Qus_Type == 4) {
                 return this.qans.ans;
             }
+            //填空题
             if (this.ques.Qus_Type == 5) {
-                return this.qans.ans;
+                if (this.qans.ans == null || this.qans.ans == '') return '';
+                var arr = this.qans.ans.split(',');
+                for (let i = 0; i < arr.length; i++) {
+                    if (arr[i] == '') {
+                        arr.splice(i, 1);
+                        i--;
+                    }
+                }
+                if (arr.length == 0) return '';
+                if (arr.length == 1) return arr[0];
+                var txt = '';
+                for (let i = 0; i < arr.length; i++) {
+                    txt += (i + 1) + "、" + arr[i];
+                    if (i < arr.length - 1) txt += "；";
+                }
+                return txt;
             }
         }
     },
@@ -206,7 +233,7 @@ Vue.component('question', {
         <div v-if="ques.Qus_Type==5">
         
         </div>
-        <div class="resultBox">
+        <div class="resultBox" :qtype="ques.Qus_Type">
             <div :mobi="ismobi">
                 <div>正确答案：<span v-html="sucessAnswer()"></span></div>
                 <div>实际答题：<span v-html="actualAnswer()"></span></div>

@@ -97,6 +97,7 @@ $ready(function () {
                         var q = $dom(list[j]);
                         var qid = q.attr('id');
                         var ans = q.attr('ans');
+                        if (type == 4 || type == 5) ans = q.text();
                         var success = q.attr('sucess');
                         var sucess = success == 'true' || success == 'True';
                         var score = Number(q.attr('score'));

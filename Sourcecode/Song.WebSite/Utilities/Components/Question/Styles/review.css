@@ -198,10 +198,15 @@ card[qid] .resultBox {
 
 }
 
-card[qid] .resultBox>div:first-child {
+card[qid] .resultBox[qtype='1']>div:first-child {
 	display: flex;
 }
-
+card[qid] .resultBox[qtype='2']>div:first-child {
+	display: flex;
+}
+card[qid] .resultBox[qtype='3']>div:first-child {
+	display: flex;
+}
 card[qid] .resultBox>div:first-child>div {
 	margin-right: 20px;	
 }

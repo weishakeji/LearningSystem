@@ -45,7 +45,7 @@ namespace Song.ServiceImpls
             this.OnAdd(entity, EventArgs.Empty);
             return entity.Qus_ID;
         }
-        
+
         public void QuesSave(Questions entity)
         {
             entity.Qus_LastTime = DateTime.Now;
@@ -64,6 +64,11 @@ namespace Song.ServiceImpls
                     entity.Qus_ErrorInfo = "答案不得为空";
                 }
             }
+            if (entity.Qus_Type == 5)
+            {
+                //entity.Qus_Items
+                //HTML.ClearTag
+            }
             entity.Qus_Explain = _ClearString(entity.Qus_Explain);
             using (DbTrans tran = Gateway.Default.BeginTrans())
             {
@@ -71,7 +76,7 @@ namespace Song.ServiceImpls
                 {
                     tran.Save<Questions>(entity);
                     tran.Update<QuesAnswer>(new Field[] { QuesAnswer._.Qus_ID }, new object[] { entity.Qus_ID }, QuesAnswer._.Qus_UID == entity.Qus_UID);
-                    tran.Commit();                   
+                    tran.Commit();
                     this.OnSave(entity, EventArgs.Empty);
                 }
                 catch (Exception ex)
@@ -1177,11 +1182,16 @@ namespace Song.ServiceImpls
             {
                 if (ansText[j].Trim() == "") continue;
                 if (ans5.Length <= j || ans5[j] == null) continue;
-                string corentTxt = ans5[j].Ans_Context;
+                string corentTxt = WeiSha.Core.HTML.ClearTag(ans5[j].Ans_Context);
                 foreach (string tm in corentTxt.Split(','))
                 {
                     if (tm == string.Empty || tm.Trim() == "") continue;
-                    if (tm.Trim() == ansText[j].Trim())
+                    //if (tm.Trim() == ansText[j].Trim())
+                    //{
+                    //    corrNum++;
+                    //    break;
+                    //}
+                    if (tm.Equals(ansText[j],StringComparison.OrdinalIgnoreCase))
                     {
                         corrNum++;
                         break;

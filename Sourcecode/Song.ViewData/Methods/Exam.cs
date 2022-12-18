@@ -280,27 +280,28 @@ namespace Song.ViewData.Methods
                 int type = Convert.ToInt32(node.Attributes["type"].Value);
                 ques.Add("type", type);
                 ques.Add("count", Convert.ToInt32(node.Attributes["count"].Value));
-                ques.Add("number", Convert.ToInt32(node.Attributes["number"].Value));               ;
+                ques.Add("number", Convert.ToInt32(node.Attributes["number"].Value)); ;
                 JArray qarray = new JArray();
                 for (int n = 0; n < node.ChildNodes.Count; n++)
                 {
                     JObject jq = new JObject();
                     XmlNode q = node.ChildNodes[n];
+                    jq.Add("id", q.Attributes["id"].Value);
+
                     string ans = string.Empty, file = string.Empty;
                     //如果是单选、多选、判断
                     if (type == 1 || type == 2 || type == 3)
                         ans = q.Attributes["ans"].Value;
                     if (type == 4 || type == 5) ans = q.InnerText;
-                    if (type == 5) file = q.Attributes["file"] != null ? q.Attributes["file"].Value : "";                   
-                    jq.Add("id", q.Attributes["id"].Value);
-                    if (q.Attributes["class"] != null)
-                        jq.Add("cls", q.Attributes["class"].Value);
+                    if (type == 5) file = q.Attributes["file"] != null ? q.Attributes["file"].Value : "";                  
                     jq.Add("ans", ans);
-                    if (q.Attributes["file"] != null)
-                        jq.Add("file", file);
+                    if (q.Attributes["file"] != null) jq.Add("file", file);
+
+                    if (q.Attributes["class"] != null) jq.Add("cls", q.Attributes["class"].Value);                   
+                    if (q.Attributes["num"] != null) jq.Add("num", q.Attributes["num"].Value);
                     qarray.Add(jq);
                 }
-                ques.Add("q",qarray);
+                ques.Add("q", qarray);
                 qgroup.Add(ques);
             }
             jo.Add("ques", qgroup);

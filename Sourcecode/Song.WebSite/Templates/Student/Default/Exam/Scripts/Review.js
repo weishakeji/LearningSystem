@@ -30,7 +30,7 @@ $ready(function () {
             tabactive: '',      //选项卡的状态
             error: '',           //错误提示信息，例如不能查看考虑成绩时
             loading: false
-        },     
+        },
         mounted: function () {
             window.addEventListener('scroll', this.handleScroll, true);
             var th = this;
@@ -90,7 +90,7 @@ $ready(function () {
 
             })).catch(function (err) {
                 th.loading = false;
-                th.error=err;
+                th.error = err;
                 alert(err);
                 console.error(err);
             });
@@ -119,6 +119,7 @@ $ready(function () {
                         var q = $dom(list[j]);
                         var qid = q.attr('id');
                         var ans = q.attr('ans');
+                        if (type == 4 || type == 5) ans = q.text();
                         var sucess = q.attr('sucess') == 'true';
                         var score = Number(q.attr('score'));
                         qarr.push({

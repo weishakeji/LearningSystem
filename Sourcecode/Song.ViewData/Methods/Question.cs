@@ -130,12 +130,14 @@ namespace Song.ViewData.Methods
                         Song.Entities.QuesAnswer obj = ExecuteMethod.GetValueToEntity<Song.Entities.QuesAnswer>(null, jt.ToString());
                         if (string.IsNullOrWhiteSpace(obj.Ans_Context)) continue;                     
                         //生成答案项的id
-                        if (obj.Ans_ID <= 0)
-                        {
-                            obj.Ans_ID = new Random((i + 1) + DateTime.Now.Millisecond).Next(1, 1000);
-                        }
+                        if (obj.Ans_ID <= 0)                       
+                            obj.Ans_ID = WeiSha.Core.Request.SnowID();                     
                         //填空题，每项都是正确的
-                        if (entity.Qus_Type == 5) obj.Ans_IsCorrect = true;
+                        if (entity.Qus_Type == 5)
+                        {
+                            obj.Ans_IsCorrect = true;
+                            obj.Ans_Context = HTML.ClearTag(obj.Ans_Context);
+                        }
                         items.Add(obj);
                     }
                     catch { }
