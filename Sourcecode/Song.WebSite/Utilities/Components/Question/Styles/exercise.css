@@ -40,8 +40,8 @@ section dd info buttons>btn.used {
 	font-weight: bold;
 }
 
-section dd card-title * {
-	line-height: 150% !important;
+section dd card-title p, card-title span, card-title font{
+	line-height: 150%;
 	font-size: 16px;
 }
 
@@ -101,15 +101,9 @@ card[qid] .ans_area i {
 }
 
 .ans_area>div[ansid] * {
-	display: inline-block;
 	margin: 0px;
 	padding: 0px;
 }
-
-.ans_area>div[ansid] * {
-	line-height: auto !important;
-}
-
 
 .ans_area>div[correct]::before {
 	content: '\a048';

@@ -26,12 +26,10 @@ section dd info span {
 	font-size: 14px;
 	color: #999;
 }
-
-section dd * {
+section dd p, dd span, dd font{
 	line-height: 150% !important;
 	font-size: 16px;
 }
-
 section dd card {
 	min-height: calc(100% - 30px - 40px);
 }
@@ -84,8 +82,7 @@ card[qid] .ans_area i {
 	display: flex;
 }
 
-.ans_area>div[ansid] * {
-	display: inline-block;
+.ans_area>div[ansid] * {	
 	margin: 0px;
 	padding: 0px;
 }

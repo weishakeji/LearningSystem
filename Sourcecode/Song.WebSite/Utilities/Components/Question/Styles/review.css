@@ -92,11 +92,10 @@ card[qid] card-title::after {
 	border-radius: 5px;
 	white-space: nowrap;
 }
-card[qid] card-title>* {
-	display: inline;
+section dd card-title p, card-title span, card-title font{
+	line-height: 150%;
 	font-size: 16px;
 }
-
 card[qid] card-title .null {
 	font-size: 13px;
 	color: #ccc;

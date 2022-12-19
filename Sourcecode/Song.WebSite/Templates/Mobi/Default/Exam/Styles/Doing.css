@@ -217,8 +217,8 @@ section dd info span {
 	color: #999;
 }
 
-section dd * {
-	line-height: 150% !important;
+section dd card-title p, card-title span, card-title font{
+	line-height: 150%;
 	font-size: 16px;
 }
 
@@ -267,15 +267,9 @@ section dd img {
 }
 
 .ans_area>div[ansid] * {
-	display: inline-block;
 	margin: 0px;
 	padding: 0px;
 }
-
-.ans_area>div[ansid] * {
-	line-height: auto !important;
-}
-
 
 .ans_area>div[correct]::before {
 	content: '\a048';
