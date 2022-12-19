@@ -27,7 +27,7 @@ Vue.component('question', {
         },
         'qans': {
             handler(nv, ov) {
-                //console.log(nv);
+                console.log(nv);
             },
             immediate: true
         }
@@ -204,8 +204,10 @@ Vue.component('question', {
         <card-title :index="calcIndex(index+1)" v-if="loading">
             <loading type="spinner" size="24px" > 加载中...</loading>
         </card-title>
-        <card-title :index="calcIndex(index+1)" v-else-if="ques.Qus_Title" v-html="ques.Qus_Title"></card-title>
-        <card-title :index="calcIndex(index+1)" v-else><span class="null">(试题不存在)</span></card-title>
+        
+        <card-title :index="calcIndex(index+1)" :num="qans.num" v-else-if="ques.Qus_Title" v-html="ques.Qus_Title">           
+        </card-title>
+        <card-title :index="calcIndex(index+1)" :num="qans.num"  v-else><span class="null">(试题不存在)</span></card-title>
         <card-context>
         <div class="ans_area type1" v-if="ques.Qus_Type==1">
             <div v-for="(ans,i) in ques.Qus_Items" :correct="ans.Ans_IsCorrect" :selected="ans.selected">

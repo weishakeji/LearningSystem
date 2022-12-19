@@ -80,11 +80,12 @@ $ready(function () {
                         var q = $dom(list[j]);
                         var qid = q.attr('id');
                         var ans = q.attr('ans');
+                        var num = q.attr('num');
                         var success = q.attr('sucess');
                         var sucess = success == 'true' || success == 'True';
                         var score = Number(q.attr('score'));
                         qarr.push({
-                            'id': qid, 'type': type,
+                            'id': qid, 'type': type,'num': num,
                             'ans': ans, 'success': sucess, 'score': score
                         });
                     }

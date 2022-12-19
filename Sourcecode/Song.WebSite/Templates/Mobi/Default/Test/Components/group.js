@@ -41,7 +41,7 @@
     <div class="type_title">{{showIndex()}}、 {{showType()}}   
         <div class="type_info">               
             <van-tag type="warning">{{item.count}}道题，共{{item.number}}分</van-tag>    
-            <van-tag type="success" v-if="score()>0">得分{{score()}}</van-tag>           
+            <van-tag type="success">得分{{score()}}</van-tag>           
         </div>
     </div>
     <slot></slot>

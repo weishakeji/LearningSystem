@@ -102,7 +102,7 @@ $ready(function () {
             //试卷中的答题信息
             //返回结构：先按试题分类，分类下是答题信息
             questions: function () {
-                var exrxml = this.exrxml;
+                var exrxml = this.exrxml;              
                 var arr = [];
                 if (JSON.stringify(exrxml) === '{}') return arr;
                 var elements = exrxml.getElementsByTagName("ques");
@@ -119,11 +119,12 @@ $ready(function () {
                         var q = $dom(list[j]);
                         var qid = q.attr('id');
                         var ans = q.attr('ans');
+                        var num = q.attr('num');
                         if (type == 4 || type == 5) ans = q.text();
                         var sucess = q.attr('sucess') == 'true';
                         var score = Number(q.attr('score'));
                         qarr.push({
-                            'id': qid, 'type': type,
+                            'id': qid, 'type': type, 'num': num,
                             'ans': ans, 'success': sucess, 'score': score
                         });
                     }

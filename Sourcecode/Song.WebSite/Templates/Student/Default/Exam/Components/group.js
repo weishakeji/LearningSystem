@@ -41,7 +41,7 @@
     <div class="type_title">{{showIndex()}}、 {{showType()}}   
         <div class="type_info">               
             <el-tag type="warning">{{item.count}}道题，共{{item.number}}分</el-tag>    
-            <el-tag type="success" v-if="score()>0">得分{{score()}}</el-tag>           
+            <el-tag type="success">得分{{score()}}</el-tag>           
         </div>
     </div>
     <slot></slot>
