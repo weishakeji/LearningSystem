@@ -4,10 +4,11 @@
 //selects: 选中的数据，用于编辑或删除时
 //idkey:数据对象中的ID的键名，用于取selects中的id值
 //path:要打开的窗体的页面路路，width和height即窗口宽高
+//ico: 弹窗的图标值，不用带&#x
 //modal:弹窗是否为模态窗（即窗口在最前面，不可切换，不可最小化）
 //disabled:是否按钮全禁用
 Vue.component('btngroup', {
-    props: ['show', 'selects', 'idkey', 'path', 'width', 'height', 'modal', 'disabled'],
+    props: ['show', 'selects', 'idkey', 'path', 'ico', 'width', 'height', 'modal', 'disabled'],
     data: function () {
         // data 选项是一个函数，组件不相互影响
         return {
@@ -232,11 +233,12 @@ Vue.component('btngroup', {
             var node = this.getnode();
             var tit = node ? node.title : $dom('title').text();
             if ($dom('title').text() != '' && (!title || title != '')) tit += ' - ';
+            var ico = this.ico ? this.ico : (node && node.MM_IcoS != '' ? node.MM_IcoS : 'a021');
             var attrs = {
                 width: width ? width : 400,
                 height: height ? height : 300,
                 url: url,
-                ico: node && node.MM_IcoS != '' ? node.MM_IcoS : 'a021',
+                ico: ico,
                 pid: window.name,
                 id: boxid,
                 title: tit + title
