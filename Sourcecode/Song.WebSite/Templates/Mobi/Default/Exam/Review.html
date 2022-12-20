@@ -39,20 +39,21 @@
                         <span class="tag" v-if="exam">（满分{{exam.Exam_Total}}分，{{exam.Exam_PassScore}}分及格）</span>
                     </row>
                     <row> 回顾：{{error}}</row>
-
+                </card-context>
+                <card-context v-else>
+                    <div class="info"> 亲爱的
+                        <b v-if="student.Ac_Name" v-html="student.Ac_Name"></b>
+                        <b v-else> 匿名考生</b>，
+                        您于<b>{{result.Exr_CrtTime|date("yyyy-MM-dd HH:mm")}}</b>参考的考试，成绩详情
+                    </div>
+                    <div> 得分：
+                        <score :class="scoreStyle(result.Exr_ScoreFinal)">{{result.Exr_ScoreFinal}} 分</score>
+                        <span v-if="paper" class="scoreinfo">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
+                        <alert v-else>试卷不存在</alert>
+                    </div>
                 </card-context>
             </card>
-            <template v-if="error==''">
-                <div class="info"> 亲爱的
-                    <b v-if="student.Ac_Name" v-html="student.Ac_Name"></b>
-                    <b v-else> 匿名考生</b>，
-                    您于<b>{{result.Exr_CrtTime|date("yyyy-MM-dd HH:mm")}}</b>参考的考试，成绩详情
-                </div>
-                <div class="scoreinfo"> 得分：
-                    <score :class="scoreStyle(result.Exr_ScoreFinal)">{{result.Exr_ScoreFinal}} 分</score>
-                    <span v-if="paper">（满分{{paper.Tp_Total}}分，{{paper.Tp_PassScore}}分及格）</span>
-                    <alert v-else>试卷不存在</alert>
-                </div>
+            <template v-if="error==''">               
 
                 <van-sticky>
                     <van-tabs v-model="tabactive">
@@ -82,8 +83,7 @@
                             :questions="questions"></question>
                     </group>
                 </div>
-            </template>
-            </template>
+            </template>          
         </context>
     </div>
 </body>

@@ -89,7 +89,9 @@ score.praise::before {
 	color:coral;
 	font-weight: normal;	
 }
-
+.scoreinfo{
+	font-size: 12px;
+}
 /**/
 
 context {
