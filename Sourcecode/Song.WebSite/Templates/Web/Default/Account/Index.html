@@ -76,8 +76,9 @@
                         </el-tab-pane>
                     </el-tabs>
                     <div id="content_iframe" :class="{'one':select_menus.length<=1}">
-                        <div class="iframe_loading">
-                            <loading> loading ... </loading>
+                        <div class="iframe_loading" >
+                            <div loading="p1"></div>
+                            <loading bubble> loading ... </loading>
                         </div>
                         <iframe :name="node.MM_UID" frameborder="0" border="0" marginwidth="0" marginheight="0"
                             v-for="(node,index) in select_menus" :id="'node_'+node.MM_UID" v-if="isshow(node.MM_UID)"

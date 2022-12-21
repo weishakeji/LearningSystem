@@ -331,7 +331,7 @@ weisha_menu_node.current::after {
     height: 100%;
     background-color: #fff;
     box-sizing: border-box;
-    padding: 50px;
+    padding: 10px 0px 0px 0px;
 }
 
 .iframe_loading loading {
