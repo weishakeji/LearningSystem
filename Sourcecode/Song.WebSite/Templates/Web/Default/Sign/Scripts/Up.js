@@ -196,7 +196,7 @@ $ready(function () {
                                     th.$alert('注册成功！', '成功', {
                                         confirmButtonText: '确定',
                                         callback: () => {
-                                            window.location.href = '/web/';
+                                            window.location.href = '/';
                                         }
                                     });
                                 } else {
@@ -204,7 +204,7 @@ $ready(function () {
                                     th.$alert('注册成功，请等待审核！', '成功', {
                                         confirmButtonText: '确定',
                                         callback: () => {
-                                            window.location.href = '/web/';
+                                            window.location.href = '/';
                                         }
                                     });
                                 }
