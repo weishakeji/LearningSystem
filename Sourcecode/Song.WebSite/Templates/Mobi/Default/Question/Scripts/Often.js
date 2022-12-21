@@ -104,7 +104,7 @@
                             //如果没有历史练习记录
                             th.questions = req.data.result;
                             //显示操作指引的面板
-                            th.$refs['prompt'].show();
+                            //th.$refs['prompt'].show();
                         }).finally(function () {
                             th.loading = false;
                             if (th.questions.length > 0)
@@ -129,25 +129,26 @@
                     console.log(req);
                 });
             },
-            //试题向右滑动 
-            swiperight: function (e) {
+            //试题滑动 
+            swipe: function (e) {
                 if (e) {
                     if (e && e.preventDefault) e.preventDefault();
                     var node = $dom(e.target ? e.target : e.srcElement);
                     if (node.hasClass("van-overlay") || node.hasClass("van-popup"))
                         return;
                 }
-                if (this.swipeIndex > 0) this.swipeIndex--;
+                //向左滑动
+                if (e.direction == 2 && this.swipeIndex < this.questions.length - 1) this.swipeIndex++;
+                //向右滑动
+                if (e.direction == 4 && this.swipeIndex > 0) this.swipeIndex--;
             },
-            //试题向左滑动
-            swipeleft: function (e) {
-                if (e) {
-                    if (e && e.preventDefault) e.preventDefault();
-                    var node = $dom(e.target ? e.target : e.srcElement);
-                    if (node.hasClass("van-overlay") || node.hasClass("van-popup"))
-                        return;
-                }
-                if (this.swipeIndex < this.questions.length - 1) this.swipeIndex++;
+            pinchin: function (e) {
+                if (e && e.preventDefault) e.preventDefault();
+                this.$refs['setupmenu'].setFont(-1);
+            },
+            pinchout: function (e) {
+                if (e && e.preventDefault) e.preventDefault();
+                this.$refs['setupmenu'].setFont(1);
             },
             //试题答题状态变更时
             answer: function (state, ques) {

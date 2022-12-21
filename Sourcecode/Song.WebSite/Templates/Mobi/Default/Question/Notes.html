@@ -12,7 +12,7 @@
     document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
     document.body.onpaste = document.body.oncopy = function () { return false; };
   </script>
-  <div id="vapp" v-cloak>
+  <div id="vapp" v-cloak v-pinchin="pinchin" v-pinchout="pinchout">
     <prompt_panel ref="prompt"></prompt_panel>
     <template v-if="loading_init">
       <van-loading size="24px" type="spinner">加载中...</van-loading>
@@ -55,8 +55,7 @@
           <van-loading size="24px" type="spinner">试题加载中...</van-loading>
         </template>
         <template v-else>
-          <section v-if="questions.length>0" :style="'width:'+questions.length*100+'vw'" v-swiperight="swiperight"
-            v-swipeleft="swipeleft" remark="试题区域">
+          <section v-if="questions.length>0" :style="'width:'+questions.length*100+'vw'" v-swipe="swipe" remark="试题区域">
             <dl>
               <question v-for="(q,i) in questions" :ques="q" :index="i" :total="questions.length" :types="types"
                 :current="i==swipeIndex" :state="state.getitem(q.Qus_ID,i)" :mode="learnmode%2" @answer="answer">

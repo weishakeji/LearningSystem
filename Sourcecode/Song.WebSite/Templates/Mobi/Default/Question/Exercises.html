@@ -12,7 +12,7 @@
     document.body.onselectstart = document.body.oncontextmenu = function () { return false; };
     document.body.onpaste = document.body.oncopy = function () { return false; };
   </script>
-  <div id="vapp" v-cloak>
+  <div id="vapp" v-cloak v-pinchin="pinchin" v-pinchout="pinchout">
     <prompt_panel ref="prompt"></prompt_panel>
     <template v-if="loading_init">
       <van-loading size="24px" type="spinner">加载中...</van-loading>
@@ -42,7 +42,7 @@
           <van-col span="4">&nbsp;</van-col>
           <van-col span="10">
             <learnmode @change="v=>learnmode=v"></learnmode>
-          </van-col>       
+          </van-col>
           <van-col span="3" @click="()=>{$refs['setupmenu'].show=true}">
             <icon>&#xa038</icon>
           </van-col>
@@ -53,8 +53,7 @@
           <van-loading size="24px" type="spinner">试题加载中...</van-loading>
         </template>
         <template v-else>
-          <section v-if="questions.length>0" :style="'width:'+questions.length*100+'vw'" v-swiperight="swiperight"
-            v-swipeleft="swipeleft" remark="试题区域">
+          <section v-if="questions.length>0" :style="'width:'+questions.length*100+'vw'" v-swipe="swipe" remark="试题区域">
             <dl>
               <question ref="question" v-for="(q,i) in questions" :ques="q" :index="i" :current="i==swipeIndex"
                 :state="state.getitem(q.Qus_ID,i)" :total="questions.length" :types="types" :mode="learnmode%2"

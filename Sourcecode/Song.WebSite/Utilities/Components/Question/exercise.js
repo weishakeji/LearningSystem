@@ -248,7 +248,7 @@ Vue.component('question', {
     },
     template: `<dd :qid="ques.Qus_ID" :current="current" :render="init">
     <template v-if="init">
-        <info>
+        <info no-font-size>
             {{index+1}}/{{total}}
             [ {{this.types[ques.Qus_Type - 1]}}题 ] 
             <slot name="buttons"></slot>          

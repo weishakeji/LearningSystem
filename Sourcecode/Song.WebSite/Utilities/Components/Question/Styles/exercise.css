@@ -10,22 +10,18 @@ section dd info {
 	font-size: 15px;
 }
 
-section dd info span {
-	font-size: 14px;
-	color: #999;
-}
 
 section dd info buttons {
 	display: flex;
 	float: right;
 	max-width: 50%;
-    min-width: 180px;
+	min-width: 180px;
 }
 
 section dd info buttons>* {
 	flex: 1;
 	text-align: center;
-	font-size: 12px;
+	font-size: 13px;
 	color: #999;
 }
 
@@ -40,10 +36,17 @@ section dd info buttons>btn.used {
 	font-weight: bold;
 }
 
-section dd card-title p, card-title span, card-title font{
+section dd card-title, section dd card-title p, card-title span, card-title font {
 	line-height: 150%;
-	font-size: 16px;
+	font-size: 18px;
 }
+
+.explain, .explain p, .explain span, .explain font,
+.knowledge, .knowledge p, .knowledge span, .knowledge font {
+	line-height: 150%;
+	font-size: 18px;
+}
+
 
 section dd card[correct="succ"] {
 	background-color: #E8FFE8 !important;
@@ -62,6 +65,7 @@ section dd img {
 
 .ans_area {
 	margin-left: 5px;
+	font-size: 18px;
 }
 
 .ans_area>div {
@@ -209,11 +213,12 @@ section textarea {
 
 /*竖屏，手机端显示*/
 @media only screen and (orientation: portrait) {
-	section{
+	section {
 		overflow: hidden;
 	}
+
 	section dd {
-		width: 100vw;	
+		width: 100vw;
 		height: 100%;
 		overflow: auto;
 	}

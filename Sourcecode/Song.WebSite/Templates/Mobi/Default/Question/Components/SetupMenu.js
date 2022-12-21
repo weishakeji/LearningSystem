@@ -69,12 +69,14 @@ Vue.component('setupmenu', {
     },
     //设置字体大小，默认16px，num为增减数字，例如-1
     setFont: function (num) {
-      var size = 16;
+      var size = 16, min_size = 12, max_size = 30;
       if (num == null) num == 0;
       ergodic($dom("section"), num);
       function ergodic(dom, num) {
         var fontsize = parseInt(dom.css("font-size"));
-        fontsize = isNaN(fontsize) ? size : fontsize + num;
+        fontsize = isNaN(fontsize) ? size : fontsize;
+        if (num < 0 && fontsize + num > min_size) fontsize += num;
+        if (num > 0 && fontsize + num < max_size) fontsize += num;
         dom.css("font-size", fontsize + "px", true);
         var child = dom.childs();
         if (child.length < 1) return;
