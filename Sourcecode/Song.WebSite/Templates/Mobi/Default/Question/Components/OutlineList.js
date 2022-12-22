@@ -3,12 +3,14 @@
 Vue.component('outlinelist', {
   props: ["outlines", "course", "acid", "isbuy"],
   data: function () {
-    return {}
+    return {
+
+    }
   },
   watch: {},
   computed: {},
   mounted: function () {
-   
+
   },
   methods: {},
   template: `<div v-if="outlines && outlines.length>0" class="outlinelist">
@@ -23,6 +25,7 @@ Vue.component('outline_row', {
     return {
       state: null,
       count: {},       //练习记录的统计数据
+      preload: false,   //试题预加载是否完成
       loading: false
     }
   },
@@ -37,6 +40,7 @@ Vue.component('outline_row', {
           this.getprogress();
           this.getques_count();
         }
+        //if (this.init) this.getquestions(nv);
       }
     },
   },
@@ -62,7 +66,7 @@ Vue.component('outline_row', {
       }).finally(function () {
         var parent = window.vapp;
         th.state['olid'] = olid;
-        parent.statepush(th.state);       
+        parent.statepush(th.state);
       });
     },
     //获取章节的试题数量
@@ -74,13 +78,13 @@ Vue.component('outline_row', {
         if (req.data.success) {
           var result = req.data.result;
           th.outline.Ol_QuesCount = result;
+          th.getquestions(th.outline);
         } else {
           console.error(req.data.exception);
           throw req.config.way + ' ' + req.data.message;
         }
       }).catch(function (err) {
-        //alert(err);
-        Vue.prototype.$alert(err);
+        alert(err);
         console.error(err);
       });
     },
@@ -90,6 +94,10 @@ Vue.component('outline_row', {
       var course = this.course;
       //是否可以练习
       if ((course.Cou_IsTry && outline.Ol_IsFree) || this.isbuy || course.Cou_IsFree || course.Cou_IsLimitFree) {
+        if (outline.Ol_QuesCount < 1) {
+          alert('当前章节没有试题');
+          return;
+        }
         var couid = $api.url.get(null, 'couid');
         var uri = $api.url.set('exercises', {
           'path': outline.Ol_XPath,
@@ -108,15 +116,32 @@ Vue.component('outline_row', {
         window.location.href = url;
       }
     },
+    //获取试题，用于练习之前的预载
+    getquestions: function (outline) {
+      if (outline.Ol_QuesCount < 1) return;
+      var th = this;
+      var form = { 'couid': outline.Cou_ID, 'olid': outline.Ol_ID, 'type': -1, 'count': 0 };
+      $api.cache('Question/ForCourse:' + (60 * 24 * 30), form).then(function (req) {
+        if (req.data.success) {
+          var result = req.data.result;
+          th.preload = true;
+        } else {
+          console.error(req.data.exception);
+          throw req.data.message;
+        }
+      }).catch(function (err) {
+
+      });
+    }
   },
   //
   template: `<div class="outline_row">
-  <van-cell @click="goExercises()">
+  <van-cell @click="goExercises()" class="outline">
     <div>
       <span v-html="outline.serial"></span>
       <van-circle :rate="count.rate" v-model="count.rate" size="25px" layer-color="#ebedf0" :stroke-width="60"
         :text="count.rate<100 ? Math.round(count.rate) : '✔'" v-if="count.rate>0"></van-circle>
-      <span class="olname" v-html="outline.Ol_Name"></span>
+      <span class="olname" v-html="outline.Ol_Name" :preload="preload"></span>
       <van-tag type="danger" v-if="!outline.Ol_IsFinish">未完结</van-tag>
     </div>
     <div class="tag">

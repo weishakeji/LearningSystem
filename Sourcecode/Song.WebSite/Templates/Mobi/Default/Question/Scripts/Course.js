@@ -106,7 +106,6 @@ $ready(function () {
 
                     //章节
                     var outlines = outlines.data.result;
-
                     th.outlines = outlines;
                     th.calcSerial(null, '');
                     //th.outlines = th.setprogress(outlines.data.result);                              
@@ -150,7 +149,7 @@ $ready(function () {
                 var childarr = outline == null ? this.outlines : (outline.children ? outline.children : null);
                 if (childarr == null) return;
                 for (let i = 0; i < childarr.length; i++) {
-                    childarr[i].serial = lvl + (i + 1) + '.';
+                    childarr[i].serial = lvl + (i + 1) + '.';                   
                     this.total++;
                     this.calcSerial(childarr[i], childarr[i].serial);
                 }
@@ -195,16 +194,16 @@ $ready(function () {
                 }
                 return last;
             },
-            //继续练习
+            //继续练习的按纽事件
             gocontinue: function () {
                 var last = this.last;
                 if (last == null) return;
                 var url = $api.url.set('exercises', {
                     'couid': this.couid,
-                    'olid': last.olid                   
+                    'olid': last.olid
                 });
                 window.location.href = url;
-            }
+            }           
         }
     });
     // 中间的按钮组
