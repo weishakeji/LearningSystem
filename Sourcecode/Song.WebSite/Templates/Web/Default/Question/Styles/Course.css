@@ -154,8 +154,12 @@
 .el-tag{
 	cursor: pointer;
 }
-.olname{
+.olname {
 	font-size: 16px;
+	color: #666;
+}
+.olname[preload] {
+	color: #333;
 }
 /*正确率的百分比*/
 .van-circle{

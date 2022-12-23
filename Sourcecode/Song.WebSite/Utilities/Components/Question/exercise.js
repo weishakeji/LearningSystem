@@ -126,6 +126,10 @@ Vue.component('question', {
         //items:当前试题的所有选项
         //judge: 是否立判断对错，true为判断
         ques_doing: function (ans, ques, judge) {
+            if (this.mode % 2 == 1) {
+                alert('背题模式下不可以答题，请切到“答题模式”');   
+                return;
+            }
             var type = ques.Qus_Type;
             var func = eval('this.doing_type' + type);
             var correct = func(ans, ques, judge);
@@ -159,7 +163,7 @@ Vue.component('question', {
             this.state['ans'] = ans.selected ? ans.Ans_ID : 0;
             this.state['correct'] = ans.selected ? (ans.Ans_IsCorrect ? "succ" : "error") : "null";
             this.state['time'] = new Date();
-            if (ans.selected && ans.Ans_IsCorrect) vapp.swipeleft();
+            if (ans.selected && ans.Ans_IsCorrect) this.$parent.swipe({ 'direction': 2 });
             this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },
@@ -200,7 +204,7 @@ Vue.component('question', {
             this.state['ans'] = ans_ids.join(',');
             this.state['correct'] = ans_ids.length > 0 ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
-            if (correct) vapp.swipeleft();
+            if (correct) this.$parent.swipe({ 'direction': 2 });
             this.$emit('answer', this.state, this.ques);
             return correct;
         },
@@ -215,7 +219,7 @@ Vue.component('question', {
             this.state['ans'] = String(logic);
             this.state['correct'] = ques.Qus_Answer != '' ? (correct ? "succ" : "error") : "null";
             this.state['time'] = new Date();
-            if (correct && ques.Qus_Answer != '') vapp.swipeleft();
+            if (correct && ques.Qus_Answer != '') this.$parent.swipe({ 'direction': 2 });
             this.$emit('answer', this.state, this.ques);
             return this.state['correct'] == 'succ';
         },

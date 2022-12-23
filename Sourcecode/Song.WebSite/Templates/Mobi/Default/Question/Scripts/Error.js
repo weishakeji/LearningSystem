@@ -137,8 +137,8 @@
             },
             //试题滑动 
             swipe: function (e) {
-                if (e) {
-                    if (e && e.preventDefault) e.preventDefault();
+                if (e && e.preventDefault) {
+                    e.preventDefault();
                     var node = $dom(e.target ? e.target : e.srcElement);
                     if (node.hasClass("van-overlay") || node.hasClass("van-popup"))
                         return;

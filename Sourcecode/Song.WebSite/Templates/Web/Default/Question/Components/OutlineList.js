@@ -23,6 +23,7 @@ Vue.component('outline_row', {
     return {
       state: null,
       count: {},       //练习记录的统计数据
+      preload: false,   //试题预加载是否完成
       loading: false
     }
   },
@@ -74,6 +75,7 @@ Vue.component('outline_row', {
         if (req.data.success) {
           var result = req.data.result;
           th.outline.Ol_QuesCount = result;
+          th.getquestions(th.outline);
         } else {
           console.error(req.data.exception);
           throw req.config.way + ' ' + req.data.message;
@@ -84,12 +86,30 @@ Vue.component('outline_row', {
         console.error(err);
       });
     },
+    //获取试题，用于练习之前的预载
+    getquestions: function (outline) {
+      if (outline.Ol_QuesCount < 1) return;
+      var th = this;
+      var form = { 'couid': outline.Cou_ID, 'olid': outline.Ol_ID, 'type': -1, 'count': 0 };
+      $api.cache('Question/ForCourse:' + (60 * 24 * 30), form).then(function (req) {
+        if (req.data.success) {
+          var result = req.data.result;
+          th.preload = true;
+        } else {
+          console.error(req.data.exception);
+          throw req.data.message;
+        }
+      }).catch(function (err) {
+      });
+    },
     //生成跳转到学习页的网址
-    gourl: function () {
+    gourl: function () {   
+      var outline = this.outline;
+      if (outline.Ol_QuesCount < 1) return '#';
       var url = '/web/question/Exercises';
       return $api.url.set(url, {
-        'olid': this.outline.Ol_ID,
-        'couid': this.outline.Cou_ID,
+        'olid': outline.Ol_ID,
+        'couid': outline.Cou_ID,
         'back': true
       });
     },
@@ -103,7 +123,7 @@ Vue.component('outline_row', {
     <div>
       <span v-html="outline.serial"></span>  
       <el-tag type="success" v-if="count.rate>0">{{count.rate}}%</el-tag>  
-      <a class="olname" v-html="outline.Ol_Name" :href="gourl()"></a>
+      <a class="olname" :preload="preload" v-html="outline.Ol_Name" :href="gourl()"></a>
       <el-tag type="danger" v-if="!outline.Ol_IsFinish">未完结</el-tag>
     </div>
     <div class="tag">

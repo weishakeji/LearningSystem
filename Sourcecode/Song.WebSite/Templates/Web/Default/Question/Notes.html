@@ -35,13 +35,13 @@
             <learnmode @change="v=>learnmode=v"></learnmode>
           </div>
           <div class="move_btn">
-            <span @click="swiperight()">
+            <span @click="swipe({ 'direction': 4 })">
               <icon>&#xe803</icon>上一题
             </span>
-            <span @click="swipeleft()">
+            <span @click="swipe({ 'direction': 2 })">
               <icon>&#xe802</icon>下一题
             </span>
-          </div> 
+          </div>
           <div @click="()=>{$refs['setupmenu'].show=true}">
             <icon v-if="false">&#xa038</icon>
           </div>
@@ -52,8 +52,7 @@
           <loading size="24px" type="spinner">试题加载中...</loading>
         </template>
         <template v-else>
-          <section v-if="questions.length>0"  class="question" :style="'width:'+questions.length*100+'vw'" v-swiperight="swiperight"
-            v-swipeleft="swipeleft" remark="试题区域">
+          <section v-if="questions.length>0"  class="question" :style="'width:'+questions.length*100+'vw'" v-swipe="swipe" remark="试题区域">
             <dl>
               <question v-for="(q,i) in questions" :ques="q" :index="i" :total="questions.length" :types="types" :current="i==swipeIndex"
                 :state="state.getitem(q.Qus_ID,i)" :mode="learnmode%2" @answer="answer">
