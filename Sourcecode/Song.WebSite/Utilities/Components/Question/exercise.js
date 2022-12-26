@@ -127,12 +127,13 @@ Vue.component('question', {
         //judge: 是否立判断对错，true为判断
         ques_doing: function (ans, ques, judge) {
             if (this.mode % 2 == 1) {
-                alert('背题模式下不可以答题，请切到“答题模式”');   
+                alert('背题模式下不可以答题，请切到“答题模式”');
                 return;
             }
             var type = ques.Qus_Type;
             var func = eval('this.doing_type' + type);
             var correct = func(ans, ques, judge);
+            if (correct == null) return;
             if (!correct) {
                 $api.post('Question/ErrorAdd', { 'acid': 0, 'qid': ques.Qus_ID, 'couid': ques.Cou_ID })
                     .then(function (req) {
