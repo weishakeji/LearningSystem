@@ -12,7 +12,8 @@
  * 超级管理员： ~/manage  账号super 密码1
 
 ## 编译说明
- * 初次编译时由于缺少依的程序包而报错，提示编译无法通过；此时在“Nuget程序包管理器管制台”中 输入update-package -reinstall ，即可安装所需程序包
+ * 初次编译时由于缺少依的程序包而报错，提示编译无法通过；
+ * 此时在“Nuget程序包管理器管制台”中 输入update-package -reinstall ，即可安装所需程序包
 
 ## 项目文件说明
 * Song.WebSite
