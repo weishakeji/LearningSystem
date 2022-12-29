@@ -6,9 +6,13 @@
 * 数据库Sqlserver2008或更高版本
 
 ## 初始信息
- * 学员账号： tester 密码1
+ * 测试账号： tester 密码1 
+ * 教师账号： （与测试账号共用，教师只一个角色身份）
  * 机构管理员： ~/orgadmin 账号admin 密码1
  * 超级管理员： ~/manage  账号super 密码1
+
+## 编译说明
+ * 初次编译时由于缺少依的程序包而报错，提示编译无法通过；此时在“Nuget程序包管理器管制台”中 输入update-package -reinstall ，即可安装所需程序包
 
 ## 项目文件说明
 * Song.WebSite
