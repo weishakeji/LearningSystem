@@ -18,24 +18,22 @@ Vue.component('question', {
     watch: {
         'ques': {
             handler(nv, ov) {
+                //this.ques = this.parseAnswer(this.ques);
             },
             immediate: true
+        },
+        //试题总数变化时（例如删除错题），重新处理当前试题
+        'total': function (nv, ov) {
+            if (nv && this.current) {
+                this.initialization();
+            }
+            //console.log(nv);
         },
         //是否是当前显示的试题
         'current': {
             handler(nv, ov) {
                 if (!ov && nv && !this.init) {
-                    this.getKnowledge(this.ques);
-                    this.ques = this.parseAnswer(this.ques);
-                    this.init = true;
-                    this.$nextTick(function () {
-                        var dom = $dom("dd[qid='" + this.ques.Qus_ID + "']");
-                        //清理空元素                
-                        window.ques.clearempty(dom.find('card-title'));
-                        window.ques.clearempty(dom.find('.ans_area'));
-                        //公式渲染
-                        this.$mathjax([dom[0]]);
-                    });
+                    this.initialization();
                 }
             },
             immediate: true
@@ -49,6 +47,20 @@ Vue.component('question', {
     },
     mounted: function () { },
     methods: {
+        //始始化的方法
+        initialization: function () {
+            this.getKnowledge(this.ques);
+            this.ques = this.parseAnswer(this.ques);
+            this.init = true;
+            this.$nextTick(function () {
+                var dom = $dom("dd[qid='" + this.ques.Qus_ID + "']");
+                //清理空元素                
+                window.ques.clearempty(dom.find('card-title'));
+                window.ques.clearempty(dom.find('.ans_area'));
+                //公式渲染
+                this.$mathjax([dom[0]]);
+            });
+        },
         //获取知识点
         getKnowledge: function (ques) {
             if (ques == null || ques.Kn_Uid == '') return;

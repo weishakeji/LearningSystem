@@ -164,14 +164,15 @@
 
             //删除错题
             deleteQues: function () {
+                var th = this;
                 var ques = this.questions[this.swipeIndex];
-                Vue.delete(this.questions, this.swipeIndex);
-                if (this.swipeIndex > 0)
-                    this.swipeIndex--;
-                $api.get('Question/ErrorDelete', { 'acid': vapp.account.Ac_ID, 'qid': ques.Qus_ID }).then(function (req) {
+
+                $api.get('Question/ErrorDelete', { 'acid': th.account.Ac_ID, 'qid': ques.Qus_ID }).then(function (req) {
                     if (req.data.success) {
                         var result = req.data.result;
-                        vapp.$toast.success('删除成功');
+                        Vue.delete(th.questions, th.swipeIndex);
+                        if (th.swipeIndex > 0) th.swipeIndex--;
+                        th.$toast.success('删除成功');
                     } else {
                         console.error(req.data.exception);
                         throw req.data.message;

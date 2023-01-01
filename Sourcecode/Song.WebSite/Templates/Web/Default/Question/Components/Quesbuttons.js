@@ -1,7 +1,7 @@
 ﻿//试题右侧的按钮组
 $dom.load.css([$dom.pagepath() + 'Components/Styles/quesbuttons.css']);
 Vue.component('quesbuttons', {
-     //current:当前显示的试题，即滑动到这个试题
+    //current:当前显示的试题，即滑动到这个试题
     props: ['question', 'account', 'couid', 'current'],
     data: function () {
         return {
@@ -22,18 +22,21 @@ Vue.component('quesbuttons', {
             isShowNote: false,
             //是否显示报错界面
             isShowError: false,
-             //初始化
-             init: false
+            //初始化
+            init: false
         }
     },
     watch: {
         'question': {
-            handler(nv, ov) {               
+            handler(nv, ov) {
                 if (nv.Qus_IsWrong) {
                     var btn = this.getbtn('error');
                     if (btn != null) btn.used = true;
                 }
-
+                if (this.current) {
+                    this.collectState();
+                    this.noteState();
+                }
             },
             immediate: true
         },

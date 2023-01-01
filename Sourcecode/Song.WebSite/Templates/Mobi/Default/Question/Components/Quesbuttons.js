@@ -34,7 +34,11 @@ Vue.component('quesbuttons', {
                     var btn = this.getbtn('error');
                     if (btn != null) btn.used = true;
                 }
-
+                if(this.current){
+                    this.collectState();
+                    this.noteState();
+                }
+                //console.log(nv);
             },
             immediate: true
         },
