@@ -126,7 +126,7 @@ namespace Song.ViewData.Methods
         /// <param name="couid">所属课程的id</param>
         /// <param name="pid">上级id</param>
         /// <returns></returns>
-        [HttpGet(Ignore = true)]
+        //[HttpGet(Ignore = true)]
         [Cache(Expires = 20)]
         public List<Song.Entities.Outline> List(long couid, long pid)
         {
