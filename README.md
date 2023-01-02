@@ -38,9 +38,11 @@
  * 超级管理员： ~/manage  账号super 密码1
 
 ### 后台管理
-![image](https://gitee.com/weishakeji/LearningSystem/raw/dev/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%864.png)
+![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E6%9C%BA%E6%9E%84%E7%AE%A1%E7%90%864.png)
 ### 学员中心（web端）
-![image](https://gitee.com/weishakeji/LearningSystem/raw/dev/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-web.png)
+![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E5%AD%A6%E5%91%98%E4%B8%AD%E5%BF%83-web.png)
+### 试题练习（手机端）
+![image](https://gitee.com/weishakeji/LearningSystem/raw/master/Document/Images/%E8%AF%95%E9%A2%98%E7%BB%83%E4%B9%A0(mobi).png)
 
 ## 产品特点
 * 可私有化部署，对接支付宝支付、微信支付，收益全掌控；
