@@ -169,6 +169,7 @@ $ready(function () {
                     "Nav_IsShow": true,
                     "Nav_IsBold": false,
                     "Nav_Logo": "",
+                    "Nav_Icon":"",
                     "id": 0,
                     "label": "",
                     "ico": ""
