@@ -860,7 +860,7 @@
     //加载组件所需的javascript文件
     webdom.ctrljs = function (f) {
         webdom.corejs(function () {
-            var arr = ['pagebox', 'treemenu', 'dropmenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
+            var arr = ['pagebox', 'treemenu', 'tabs', 'verticalbar', 'timer', 'skins', 'login'];
             for (var t in arr) arr[t] = '/Utilities/Panel/Scripts/' + arr[t] + '.js';
             window.$dom.load.js(arr, f);
         });

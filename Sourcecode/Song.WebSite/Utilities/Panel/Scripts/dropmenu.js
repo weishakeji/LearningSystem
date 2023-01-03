@@ -10,12 +10,13 @@
  * 最后修订：2020年2月28日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
+
 (function (win) {
 	var dropmenu = function (param) {
 		if (param == null || typeof (param) != 'object') param = {};
 		this.attrs = {
-			target: '', //所在Html区域	
-			deftype: 'node',		//	默认标识类型		
+			target: '', //所在Html区域		
+			deftype: 'node',		//	默认标识类型
 			width: 0,
 			height: 30,
 			plwidth: 180, //子菜单面板的宽度
@@ -233,7 +234,7 @@
 			obj.domtit.find('drop-node').bind('mouseover', function (event) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
-				var node = $dom(n);
+				var node = $dom(n);				
 				var obj = dropmenu._getObj(n);
 				var nid = node.attr('nid');
 				//隐藏其它面板
@@ -252,6 +253,7 @@
 				var panel = $dom('drop-panel[pid=\'' + nid + '\']');
 				if (panel != null || panel.length > 0) {
 					panel.show();
+					panel.width(node.width());		//第一级面板宽度，与根菜单宽度相同
 					var maxwd = window.innerWidth;
 					var maxhg = window.innerHeight;
 					var left = offset.left + panel.width() > maxwd ? offset.left + node.width() - panel.width() : offset.left;
@@ -333,10 +335,9 @@
 			'line-height': this._height + 'px',
 			'height': this._height + 'px'
 		});
-
 		//节点类型
 		item.type = item.type ? item.type : this.deftype;
-		node.attr('type', item.type);		
+		node.attr('type', item.type);
 		var span = null;
 		if (item.type == 'link') {
 			var link = node.add('a');

@@ -96,11 +96,13 @@
     position: absolute;
     background-color: rgba(238,238,238,.96);
     min-width: 130px;
-    border-radius: 2px;
+    border-radius: 0px 0px 3px 3px;
     border: 1px solid #bbb;
     --box-shadow: 2px 2px 2px rgba(200, 200, 200, 0.6), -2px -2px 2px rgba(200, 200, 200, 0.6);
 }
-
+.dropmenu drop-panel:not(.level1) {
+    border-radius: 3px;
+}
 
 .dropmenu drop-panel>*:not(hr) {
 

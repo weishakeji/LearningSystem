@@ -10,6 +10,7 @@
  * 最后修订：2020年2月28日
  * github开源地址:https://github.com/weishakeji/WebdeskUI
  */
+
 (function (win) {
 	var dropmenu = function (param) {
 		if (param == null || typeof (param) != 'object') param = {};
@@ -192,6 +193,7 @@
 
 			function _childs(item, obj) {
 				var panel = $dom(document.createElement('drop-panel'));
+				panel.attr('root',obj.target);
 				panel.attr('pid', item.id).level(item.level + item.index + 1);
 				if (item.level == 1) panel.addClass('level1');
 				//计算高度
@@ -232,7 +234,7 @@
 			obj.domtit.find('drop-node').bind('mouseover', function (event) {
 				var n = event.target ? event.target : event.srcElement;
 				while (n.tagName.toLowerCase() != 'drop-node') n = n.parentNode;
-				var node = $dom(n);
+				var node = $dom(n);				
 				var obj = dropmenu._getObj(n);
 				var nid = node.attr('nid');
 				//隐藏其它面板
@@ -251,6 +253,7 @@
 				var panel = $dom('drop-panel[pid=\'' + nid + '\']');
 				if (panel != null || panel.length > 0) {
 					panel.show();
+					panel.width(node.width());		//第一级面板宽度，与根菜单宽度相同
 					var maxwd = window.innerWidth;
 					var maxhg = window.innerHeight;
 					var left = offset.left + panel.width() > maxwd ? offset.left + node.width() - panel.width() : offset.left;

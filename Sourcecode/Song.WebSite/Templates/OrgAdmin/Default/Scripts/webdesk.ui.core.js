@@ -949,7 +949,7 @@
         '/Utilities/ElementUi/index.css',
         '/Utilities/styles/public.css',
         webdom.path() + 'styles/public.css',
-        webdom.path() + 'styles/dropmenu.css',
+        //webdom.path() + 'styles/dropmenu.css',
         '/Utilities/katex/katex.min.css',
         '/Utilities/Fonts/icon.css'
     ]);

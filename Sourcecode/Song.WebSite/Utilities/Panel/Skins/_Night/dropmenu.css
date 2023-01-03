@@ -104,9 +104,12 @@
     position: absolute;
     background-color: rgba(180,180,180,.96);
     min-width: 120px;
-    border-radius: 2px;
+    border-radius: 0px 0px 3px 3px;
     border: 1px solid #333;
     --box-shadow: 2px 2px 2px rgba(200, 200, 200, 0.6), -2px -2px 2px rgba(200, 200, 200, 0.6);
+}
+.dropmenu drop-panel:not(.level1) {
+    border-radius: 3px;
 }
 
 

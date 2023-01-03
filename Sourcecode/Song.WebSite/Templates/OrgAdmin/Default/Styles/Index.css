@@ -82,7 +82,14 @@ panel#admin {
 #menubar.dropmenu drop-node a, [root='#menubar'] drop-node span, [root='#menubar'] drop-node ico {
     color: #ccc !important;
 }
+.dropmenu drop-panel>*:not(hr):hover *{   
+    color: #eee !important;    
+}
 
+.dropmenu drop-panel>*:not(hr):hover child:after,
+.dropmenu drop-panel>*:not(hr).hover child:after {
+    color: #eee !important;
+}
 drop-panel[root='#menubar'] ico {
     border-right: none !important;
 }
